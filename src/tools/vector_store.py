@@ -1,15 +1,15 @@
 """
 向量存储配置
-支持 PGVector 向量数据库
+支持 PGVector 向量数据库 + 豆包 Embedding API
 """
 import os
-from typing import Optional, Union
+from typing import Optional, Union, List
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
 
 # 全局变量
 _vector_store = None
-_embeddings = None
+_embeddings_client = None
 
 
 def __get_connection_string() -> str:
@@ -35,9 +35,80 @@ def __get_connection_string() -> str:
     return connection_string
 
 
+class DoubaoEmbeddings(Embeddings):
+    """豆包 Embedding API 封装（兼容 LangChain Embeddings 接口）"""
+
+    def __init__(
+        self,
+        model: str = "doubao-embedding-large-text-250515",
+        api_key: Optional[str] = None,
+        base_url: Optional[str] = None
+    ):
+        """
+        初始化豆包 Embedding
+
+        Args:
+            model: 模型名称
+            api_key: API Key（默认从环境变量读取）
+            base_url: Base URL（默认从环境变量读取）
+        """
+        self.model = model
+        self.api_key = api_key or os.getenv("COZE_WORKLOAD_IDENTITY_API_KEY")
+        self.base_url = base_url or os.getenv("COZE_INTEGRATION_MODEL_BASE_URL")
+
+        if not self.api_key:
+            raise ValueError("未找到 COZE_WORKLOAD_IDENTITY_API_KEY 环境变量")
+        if not self.base_url:
+            raise ValueError("未找到 COZE_INTEGRATION_MODEL_BASE_URL 环境变量")
+
+        # 动态导入 OpenAI 客户端
+        try:
+            from openai import OpenAI
+            self.client = OpenAI(
+                api_key=self.api_key,
+                base_url=self.base_url
+            )
+        except ImportError:
+            raise RuntimeError(
+                "未安装 openai 库，请运行: pip install openai"
+            )
+
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+        """
+        嵌入多个文本
+
+        Args:
+            texts: 文本列表
+
+        Returns:
+            向量列表
+        """
+        try:
+            response = self.client.embeddings.create(
+                model=self.model,
+                input=texts
+            )
+            embeddings = [item.embedding for item in response.data]
+            return embeddings
+        except Exception as e:
+            raise RuntimeError(f"调用 Embedding API 失败: {str(e)}")
+
+    def embed_query(self, text: str) -> List[float]:
+        """
+        嵌入单个查询
+
+        Args:
+            text: 查询文本
+
+        Returns:
+            向量
+        """
+        return self.embed_documents([text])[0]
+
+
 def __dynamic_import():
-    """动态导入 PGVector 和 embeddings"""
-    global _vector_store, _embeddings
+    """动态导入 PGVector"""
+    global _vector_store
 
     # 尝试导入 PGVector
     try:
@@ -46,63 +117,43 @@ def __dynamic_import():
     except ImportError:
         _vector_store = None
 
-    # 尝试导入 embeddings（使用 HuggingFace）
-    try:
-        from sentence_transformers import SentenceTransformer
-        _embeddings = SentenceTransformer
-    except ImportError:
-        try:
-            from langchain_huggingface import HuggingFaceEmbeddings
-            _embeddings = HuggingFaceEmbeddings
-        except ImportError:
-            _embeddings = None
-
-    return _vector_store, _embeddings
+    return _vector_store
 
 
-_VectorStoreClass, _EmbeddingsClass = __dynamic_import()
+_VectorStoreClass = __dynamic_import()
 
 
-def get_embeddings(model_name: str = "BAAI/bge-small-zh-v1.5"):
+def get_embeddings(
+    model: str = "doubao-embedding-large-text-250515",
+    api_key: Optional[str] = None,
+    base_url: Optional[str] = None
+) -> DoubaoEmbeddings:
     """
-    获取 embeddings 实例
+    获取豆包 Embeddings 实例
 
     Args:
-        model_name: embedding 模型名称
-            默认使用 BGE 中文小模型
+        model: 模型名称（默认使用豆包大模型）
+        api_key: API Key（可选，默认从环境变量读取）
+        base_url: Base URL（可选，默认从环境变量读取）
 
     Returns:
-        Embeddings 实例
+        DoubaoEmbeddings 实例
     """
-    global _embeddings
+    global _embeddings_client
 
-    # 如果已经实例化，直接返回
-    if hasattr(_embeddings, 'embed_documents'):
-        # 如果是 SentenceTransformer 实例
-        if _embeddings.__class__.__name__ == 'SentenceTransformer':
-            return _embeddings
-        # 如果是 HuggingFaceEmbeddings 实例
-        elif hasattr(_embeddings, 'model'):
-            return _embeddings
-
-    # 创建新的 embeddings 实例
-    if _embeddings is None:
-        raise RuntimeError(
-            "Embeddings 库未安装，请运行: "
-            "pip install sentence-transformers 或 pip install langchain-huggingface"
-        )
+    # 单例模式，避免重复创建
+    if _embeddings_client is not None:
+        return _embeddings_client
 
     try:
-        # 使用 HuggingFaceEmbeddings 包装
-        from langchain_huggingface import HuggingFaceEmbeddings
-        embeddings = HuggingFaceEmbeddings(
-            model_name=model_name,
-            model_kwargs={'device': 'cpu'},  # 可根据环境改为 'cuda'
-            encode_kwargs={'normalize_embeddings': True}
+        _embeddings_client = DoubaoEmbeddings(
+            model=model,
+            api_key=api_key,
+            base_url=base_url
         )
-        return embeddings
+        return _embeddings_client
     except Exception as e:
-        raise RuntimeError(f"创建 embeddings 失败: {str(e)}")
+        raise RuntimeError(f"创建 Embeddings 失败: {str(e)}")
 
 
 def get_vector_store(
@@ -115,7 +166,7 @@ def get_vector_store(
 
     Args:
         collection_name: 集合名称
-        embeddings: Embeddings 实例（如果为 None，使用默认）
+        embeddings: Embeddings 实例（如果为 None，使用豆包 Embedding）
         connection_string: 数据库连接字符串（如果为 None，使用默认）
 
     Returns:
@@ -135,11 +186,14 @@ def get_vector_store(
     if connection_string is None:
         connection_string = __get_connection_string()
 
+    # 使用豆包 Embedding 或用户提供的 embeddings
+    embeddings = embeddings or get_embeddings()
+
     try:
         vector_store = _vector_store(
             collection_name=collection_name,
             connection=connection_string,
-            embeddings=embeddings or get_embeddings(),
+            embeddings=embeddings,
             use_jsonb=True,  # 使用 JSONB 提高性能
         )
 
@@ -158,11 +212,14 @@ def check_vector_store_setup() -> str:
     """
     status = {
         "PGVector": "已安装" if _vector_store else "未安装",
-        "Embeddings": "已安装" if _embeddings else "未安装",
-        "数据库配置": __get_connection_string().replace(os.getenv("POSTGRES_PASSWORD", ""), "****"),
+        "豆包 Embedding": "已配置" if _embeddings_client else "未配置",
+        "数据库配置": __get_connection_string().replace(
+            os.getenv("POSTGRES_PASSWORD", ""), "****"
+        ),
+        "模型": "doubao-embedding-large-text-250515",
         "安装命令": [
             "pip install langchain-postgres",
-            "pip install sentence-transformers"
+            "pip install openai"
         ]
     }
 

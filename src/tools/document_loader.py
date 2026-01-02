@@ -10,28 +10,27 @@ from langchain_core.documents import Document
 
 def __dynamic_import():
     """动态导入文档加载器，避免静态类型检查错误"""
-    _md_loader = None
-    _word_loader = None
+    _has_unstructured = False
+    _has_docx = False
 
     try:
-        # 尝试导入 UnstructuredMarkdownLoader
+        # 尝试导入 unstructured
         from unstructured.partition.md import partition_md
-        from langchain_community.document_loaders import UnstructuredMarkdownLoader
-        _md_loader = UnstructuredMarkdownLoader
+        _has_unstructured = True
     except ImportError:
         pass
 
     try:
-        # 尝试导入 WordLoader
-        from langchain_community.document_loaders import Docx2txtLoader
-        _word_loader = Docx2txtLoader
+        # 尝试导入 python-docx
+        from docx import Document
+        _has_docx = True
     except ImportError:
         pass
 
-    return _md_loader, _word_loader
+    return _has_unstructured, _has_docx
 
 
-_MarkdownLoader, _WordLoader = __dynamic_import()
+_has_unstructured, _has_docx = __dynamic_import()
 
 
 def _get_file_extension(file_path: str) -> str:
@@ -60,39 +59,36 @@ def load_document(file_path: str) -> str:
 
     # 加载 Markdown 文档
     if ext in ['.md', '.markdown']:
-        if _MarkdownLoader is None:
-            raise ValueError("Markdown 加载器未安装，请运行: pip install 'unstructured[md]'")
-
         try:
-            loader = _MarkdownLoader(file_path)
-            documents = loader.load()
-
-            if not documents:
-                raise ValueError(f"无法从 Markdown 文件加载内容: {file_path}")
-
-            # 合并所有文档内容
-            content = "\n\n".join([doc.page_content for doc in documents])
+            from unstructured.partition.md import partition_md
+            elements = partition_md(filename=file_path)
+            content = "\n\n".join([str(el) for el in elements])
             return content
-
+        except ImportError:
+            # 降级方案：直接读取文件
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    return f.read()
+            except Exception as e:
+                raise ValueError(f"加载 Markdown 文件失败: {str(e)}")
         except Exception as e:
-            raise ValueError(f"加载 Markdown 文件失败: {str(e)}")
+            # 降级方案：直接读取文件
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    return f.read()
+            except:
+                raise ValueError(f"加载 Markdown 文件失败: {str(e)}")
 
     # 加载 Word 文档
     elif ext == '.docx':
-        if _WordLoader is None:
-            raise ValueError("Word 加载器未安装，请运行: pip install docx2txt")
+        if not _has_docx:
+            raise ValueError("python-docx 库未安装，请运行: pip install python-docx")
 
         try:
-            loader = _WordLoader(file_path)
-            documents = loader.load()
-
-            if not documents:
-                raise ValueError(f"无法从 Word 文件加载内容: {file_path}")
-
-            # 合并所有文档内容
-            content = "\n\n".join([doc.page_content for doc in documents])
+            from docx import Document
+            doc = Document(file_path)
+            content = "\n\n".join([para.text for para in doc.paragraphs if para.text.strip()])
             return content
-
         except Exception as e:
             raise ValueError(f"加载 Word 文件失败: {str(e)}")
 
@@ -109,7 +105,7 @@ def load_documents_with_metadata(
     mode: Optional[str] = None
 ) -> str:
     """
-    加载文档并保留元数据（支持 Markdown 和 Word）
+    加载文档并保留元数据（支持 Markdown）
 
     Args:
         file_path: 文档路径
@@ -130,37 +126,26 @@ def load_documents_with_metadata(
 
     # 加载 Markdown 文档
     if ext in ['.md', '.markdown']:
-        if _MarkdownLoader is None:
-            raise ValueError("Markdown 加载器未安装，请运行: pip install 'unstructured[md]'")
-
         try:
-            loader_kwargs = {}
-            if mode == "elements":
-                loader_kwargs["mode"] = "elements"
-
-            loader = _MarkdownLoader(file_path, **loader_kwargs)
-            documents = loader.load()
-
-            if not documents:
-                raise ValueError(f"无法从 Markdown 文件加载内容: {file_path}")
+            from unstructured.partition.md import partition_md
+            elements = partition_md(filename=file_path)
 
             if mode == "elements":
                 # 返回带元数据的格式化内容
                 result = []
-                for i, doc in enumerate(documents, 1):
-                    metadata = doc.metadata or {}
-                    category = metadata.get('category', 'text')
+                for i, el in enumerate(elements, 1):
+                    category = getattr(el, 'category', 'text')
                     result.append(f"[{i}] 类型: {category}")
-                    result.append(f"内容: {doc.page_content}")
+                    result.append(f"内容: {str(el)}")
                     result.append("---")
                 return "\n".join(result)
             else:
                 # 默认模式，返回合并内容
-                content = "\n\n".join([doc.page_content for doc in documents])
+                content = "\n\n".join([str(el) for el in elements])
                 return content
-
         except Exception as e:
-            raise ValueError(f"加载 Markdown 文件失败: {str(e)}")
+            # 降级方案：使用 load_document
+            return load_document(file_path)
 
     # Word 文档暂不支持 mode 参数
     elif ext == '.docx':
@@ -199,12 +184,15 @@ def get_document_info(file_path: str) -> str:
     # 如果是支持的格式，加载内容并统计
     try:
         content = load_document(file_path)
-        lines = content.split('\n')
-        info["行数"] = len(lines)
-        info["字符数"] = len(content)
-        info["非空行数"] = len([line for line in lines if line.strip()])
-    except Exception as e:
-        info["说明"] = f"无法读取文件内容: {str(e)}"
+        lines = content.count('\n') + 1 if content else 0
+        chars = len(content)
+        words = len(content.split())
+
+        info["行数"] = lines
+        info["字符数"] = chars
+        info["单词数"] = words
+    except:
+        pass
 
     # 格式化输出
     result = "📄 文档信息\n"

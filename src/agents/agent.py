@@ -44,9 +44,7 @@ from tools.text_splitter import (
     split_text_with_summary
 )
 from tools.reranker_tool import (
-    rerank_documents,
-    rerank_simple,
-    get_rerank_info
+    rerank_documents
 )
 from tools.vector_store import (
     check_vector_store_setup
@@ -129,16 +127,12 @@ def build_agent(ctx=None):
         split_document_optimized, # 优化文档分割
         split_text_with_summary,  # 文本分割并统计
         rerank_documents,        # 文档重排序
-        rerank_simple,          # 简单文本重排序
-        get_rerank_info,        # 获取 Rerank 信息
         check_vector_store_setup,  # 检查向量存储设置
         add_document_to_knowledge_base,  # 添加文档到知识库
         delete_documents_from_knowledge_base,  # 从知识库删除文档
         search_knowledge_base,   # 搜索知识库
         get_knowledge_base_stats, # 获取知识库统计
         rag_retrieve_with_rerank,  # RAG 检索（向量+Rerank）
-        hybrid_search,          # 混合搜索
-        format_docs_for_rag,    # 格式化文档用于 RAG
     ]
 
     return create_agent(

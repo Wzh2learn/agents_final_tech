@@ -29,9 +29,7 @@ from tools.text_splitter import (
     split_text_with_summary
 )
 from tools.reranker_tool import (
-    rerank_documents,
-    rerank_simple,
-    get_rerank_info
+    rerank_documents
 )
 from tools.vector_store import (
     check_vector_store_setup
@@ -72,16 +70,12 @@ ALL_TOOLS = [
     split_document_optimized,
     split_text_with_summary,
     rerank_documents,
-    rerank_simple,
-    get_rerank_info,
     check_vector_store_setup,
     add_document_to_knowledge_base,
     delete_documents_from_knowledge_base,
     search_knowledge_base,
     get_knowledge_base_stats,
     rag_retrieve_with_rerank,
-    hybrid_search,
-    format_docs_for_rag,
 ]
 
 __all__ = ['ALL_TOOLS']
