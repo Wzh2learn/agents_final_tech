@@ -10,14 +10,25 @@ from langchain_core.documents import Document
 
 def __dynamic_import():
     """动态导入文档加载器，避免静态类型检查错误"""
+    _md_loader = None
+    _word_loader = None
+
     try:
         # 尝试导入 UnstructuredMarkdownLoader
-        _md_loader = None
-        _word_loader = None
-        return _md_loader, _word_loader
-    except Exception as e:
-        print(f"导入文档加载器时出错: {e}")
-        return None, None
+        from unstructured.partition.md import partition_md
+        from langchain_community.document_loaders import UnstructuredMarkdownLoader
+        _md_loader = UnstructuredMarkdownLoader
+    except ImportError:
+        pass
+
+    try:
+        # 尝试导入 WordLoader
+        from langchain_community.document_loaders import Docx2txtLoader
+        _word_loader = Docx2txtLoader
+    except ImportError:
+        pass
+
+    return _md_loader, _word_loader
 
 
 _MarkdownLoader, _WordLoader = __dynamic_import()

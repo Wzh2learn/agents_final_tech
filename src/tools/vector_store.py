@@ -14,12 +14,17 @@ _embeddings = None
 
 def __get_connection_string() -> str:
     """获取 PostgreSQL 连接字符串"""
-    # 从环境变量读取数据库配置
-    db_user = os.getenv("POSTGRES_USER", "postgres")
-    db_password = os.getenv("POSTGRES_PASSWORD", "")
-    db_host = os.getenv("POSTGRES_HOST", "localhost")
-    db_port = os.getenv("POSTGRES_PORT", "5432")
-    db_name = os.getenv("POSTGRES_DB", "vector_db")
+    # 优先使用 PGDATABASE_URL 环境变量
+    pg_url = os.getenv("PGDATABASE_URL")
+    if pg_url:
+        return pg_url
+
+    # 否则使用单独的环境变量
+    db_user = os.getenv("POSTGRES_USER", os.getenv("PGUSER", "postgres"))
+    db_password = os.getenv("POSTGRES_PASSWORD", os.getenv("PGPASSWORD", ""))
+    db_host = os.getenv("POSTGRES_HOST", os.getenv("PGHOST", "localhost"))
+    db_port = os.getenv("POSTGRES_PORT", os.getenv("PGPORT", "5432"))
+    db_name = os.getenv("POSTGRES_DB", os.getenv("PGDATABASE", "vector_db"))
 
     # 使用 psycopg3 连接字符串
     connection_string = (
