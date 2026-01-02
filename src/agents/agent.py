@@ -31,6 +31,37 @@ from tools.file_writer import (
     read_from_storage,
     list_storage_files
 )
+# 导入 RAG 相关工具
+from tools.document_loader import (
+    load_document,
+    load_documents_with_metadata,
+    get_document_info
+)
+from tools.text_splitter import (
+    split_text_recursive,
+    split_text_by_markdown_structure,
+    split_document_optimized,
+    split_text_with_summary
+)
+from tools.reranker_tool import (
+    rerank_documents,
+    rerank_simple,
+    get_rerank_info
+)
+from tools.vector_store import (
+    check_vector_store_setup
+)
+from tools.knowledge_base import (
+    add_document_to_knowledge_base,
+    delete_documents_from_knowledge_base,
+    search_knowledge_base,
+    get_knowledge_base_stats
+)
+from tools.rag_retriever import (
+    rag_retrieve_with_rerank,
+    hybrid_search,
+    format_docs_for_rag
+)
 
 LLM_CONFIG = "config/agent_llm_config.json"
 
@@ -76,6 +107,7 @@ def build_agent(ctx=None):
 
     # 构建工具列表
     tools = [
+        # 原有工具
         document_processor,      # 文档处理工具
         validate_rules,          # 规则校验工具
         qa_agent,                # QA问答工具
@@ -87,7 +119,26 @@ def build_agent(ctx=None):
         save_rule_to_knowledge,   # 保存规则到知识库
         save_qa_answer,          # 保存问答对到知识库
         read_from_storage,       # 从对象存储读取
-        list_storage_files       # 列出对象存储文件
+        list_storage_files,       # 列出对象存储文件
+        # 新增 RAG 工具
+        load_document,           # 加载文档（Markdown/Word）
+        load_documents_with_metadata,  # 加载文档带元数据
+        get_document_info,       # 获取文档信息
+        split_text_recursive,   # 递归文本分割
+        split_text_by_markdown_structure,  # Markdown 结构分割
+        split_document_optimized, # 优化文档分割
+        split_text_with_summary,  # 文本分割并统计
+        rerank_documents,        # 文档重排序
+        rerank_simple,          # 简单文本重排序
+        get_rerank_info,        # 获取 Rerank 信息
+        check_vector_store_setup,  # 检查向量存储设置
+        add_document_to_knowledge_base,  # 添加文档到知识库
+        delete_documents_from_knowledge_base,  # 从知识库删除文档
+        search_knowledge_base,   # 搜索知识库
+        get_knowledge_base_stats, # 获取知识库统计
+        rag_retrieve_with_rerank,  # RAG 检索（向量+Rerank）
+        hybrid_search,          # 混合搜索
+        format_docs_for_rag,    # 格式化文档用于 RAG
     ]
 
     return create_agent(
