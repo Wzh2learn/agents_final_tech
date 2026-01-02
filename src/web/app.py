@@ -80,6 +80,12 @@ def index():
     return render_template('chat.html')
 
 
+@app.route('/collaboration')
+def collaboration():
+    """协作会话页面"""
+    return render_template('collaboration.html')
+
+
 @app.route('/api/chat', methods=['POST'])
 def chat():
     """聊天 API"""
@@ -157,13 +163,152 @@ def health():
     return jsonify({"status": "healthy"})
 
 
+# ==================== 协作会话 API ====================
+
+@app.route('/api/collaboration/sessions', methods=['GET', 'POST'])
+def manage_sessions():
+    """管理会话"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    if request.method == 'GET':
+        # 获取所有会话
+        sessions = service.get_all_sessions()
+        return jsonify({"status": "success", "sessions": sessions})
+
+    elif request.method == 'POST':
+        # 创建新会话
+        data = request.json
+        name = data.get('name')
+        description = data.get('description')
+
+        if not name:
+            return jsonify({"error": "会话名称不能为空"}), 400
+
+        session = service.create_session(name, description)
+        if session:
+            return jsonify({"status": "success", "session": session})
+        else:
+            return jsonify({"error": "创建会话失败"}), 500
+
+
+@app.route('/api/collaboration/sessions/<int:session_id>', methods=['GET', 'DELETE'])
+def manage_session(session_id):
+    """管理单个会话"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    if request.method == 'GET':
+        # 获取会话详情
+        session = service.get_session(session_id)
+        if session:
+            return jsonify({"status": "success", "session": session})
+        else:
+            return jsonify({"error": "会话不存在"}), 404
+
+    elif request.method == 'DELETE':
+        # 删除会话
+        success = service.delete_session(session_id)
+        if success:
+            return jsonify({"status": "success", "message": "会话已删除"})
+        else:
+            return jsonify({"error": "删除会话失败"}), 500
+
+
+@app.route('/api/collaboration/sessions/<int:session_id>/participants', methods=['GET', 'POST'])
+def manage_participants(session_id):
+    """管理会话参与者"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    if request.method == 'GET':
+        # 获取参与者列表
+        online_only = request.args.get('online_only', 'false').lower() == 'true'
+        participants = service.get_session_participants(session_id, online_only)
+        return jsonify({"status": "success", "participants": participants})
+
+    elif request.method == 'POST':
+        # 添加参与者
+        data = request.json
+        nickname = data.get('nickname')
+        avatar_color = data.get('avatar_color', '#667eea')
+
+        if not nickname:
+            return jsonify({"error": "昵称不能为空"}), 400
+
+        participant = service.add_participant(session_id, nickname, avatar_color)
+        if participant:
+            return jsonify({"status": "success", "participant": participant})
+        else:
+            return jsonify({"error": "添加参与者失败"}), 500
+
+
+@app.route('/api/collaboration/sessions/<int:session_id>/messages', methods=['GET'])
+def get_session_messages(session_id):
+    """获取会话消息"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    limit = request.args.get('limit', 100, type=int)
+    messages = service.get_session_messages(session_id, limit)
+    return jsonify({"status": "success", "messages": messages})
+
+
+# ==================== 协作聊天 API ====================
+
+@app.route('/api/collaboration/chat', methods=['POST'])
+def collaborative_chat():
+    """协作聊天 API（支持实时同步）"""
+    data = request.json
+    message = data.get('message', '')
+    session_id = data.get('session_id', None)
+    conversation_id = data.get('conversation_id', f'session_{session_id}')
+    participant_id = data.get('participant_id', None)
+
+    if not message:
+        return jsonify({"error": "消息不能为空"}), 400
+
+    def generate():
+        """生成流式响应"""
+        response_text = ""
+        try:
+            # 调用 Agent
+            for chunk in stream_agent_response(message, conversation_id):
+                if chunk:
+                    chunk_str = str(chunk) if chunk is not None else ""
+                    response_text += chunk_str
+                    yield f"data: {json.dumps({'content': chunk_str, 'done': False}, ensure_ascii=False)}\n\n"
+
+            # 发送完成信号
+            yield f"data: {json.dumps({'content': '', 'done': True}, ensure_ascii=False)}\n\n"
+
+            # 如果是协作会话，广播 AI 消息
+            if session_id:
+                asyncio.run_coroutine_threadsafe(
+                    broadcast_agent_message(session_id, response_text),
+                    asyncio.get_event_loop()
+                )
+
+        except Exception as e:
+            error_msg = f'错误: {str(e)}'
+            yield f"data: {json.dumps({'content': error_msg, 'done': True}, ensure_ascii=False)}\n\n"
+
+    return Response(generate(), mimetype='text/event-stream')
+
+
 if __name__ == '__main__':
+    # 启动 WebSocket 服务器
+    from web.collaboration_service import start_websocket_thread
+    start_websocket_thread(host='0.0.0.0', port=8765)
+    print("✓ WebSocket 服务器已启动 (端口: 8765)")
+
     # 从环境变量获取端口
     port = int(os.getenv('WEB_PORT', 5000))
     debug = os.getenv('WEB_DEBUG', 'false').lower() == 'true'
-    
+
     print(f"🚀 建账规则助手 Web 服务启动中...")
     print(f"📱 访问地址: http://localhost:{port}")
     print(f"🎯 角色选择: a=产品经理, b=技术开发, c=销售运营, d=默认工程师")
-    
+    print(f"🤝 协作模式: 支持实时协作会话")
+
     app.run(host='0.0.0.0', port=port, debug=debug)
