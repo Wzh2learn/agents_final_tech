@@ -56,9 +56,7 @@ from tools.knowledge_base import (
     get_knowledge_base_stats
 )
 from tools.rag_retriever import (
-    rag_retrieve_with_rerank,
-    hybrid_search,
-    format_docs_for_rag
+    rag_retrieve_with_rerank
 )
 
 LLM_CONFIG = "config/agent_llm_config.json"

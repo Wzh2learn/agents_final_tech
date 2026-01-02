@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>建账规则助手</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2>🏦 建账规则助手</h2>
+                <p class="subtitle">智能问答系统</p>
+            </div>
+            
+            <!-- 角色选择 -->
+            <div class="role-selector">
+                <h3>选择角色</h3>
+                <div class="role-buttons">
+                    <button class="role-btn" data-role="a" title="产品经理 - 关注业务流程和用户体验">
+                        <span class="emoji">👔</span>
+                        <span class="label">产品经理</span>
+                        <span class="key">A</span>
+                    </button>
+                    <button class="role-btn" data-role="b" title="技术开发 - 关注技术实现和系统架构">
+                        <span class="emoji">💻</span>
+                        <span class="label">技术开发</span>
+                        <span class="key">B</span>
+                    </button>
+                    <button class="role-btn" data-role="c" title="销售运营 - 关注客户价值和市场竞争">
+                        <span class="emoji">📊</span>
+                        <span class="label">销售运营</span>
+                        <span class="key">C</span>
+                    </button>
+                    <button class="role-btn" data-role="d" title="默认工程师 - 标准技术解释">
+                        <span class="emoji">🔧</span>
+                        <span class="label">默认工程师</span>
+                        <span class="key">D</span>
+                    </button>
+                </div>
+                <div class="current-role">
+                    当前角色: <span id="currentRoleText">未选择</span>
+                </div>
+            </div>
+            
+            <!-- 操作按钮 -->
+            <div class="actions">
+                <button class="action-btn" id="resetBtn">
+                    <span>🔄</span> 重置对话
+                </button>
+                <button class="action-btn" id="clearBtn">
+                    <span>🗑️</span> 清空聊天
+                </button>
+            </div>
+            
+            <!-- 信息 -->
+            <div class="info">
+                <p>💡 提示：首次使用请选择角色</p>
+                <p id="messageCount">消息数: 0</p>
+            </div>
+        </div>
+        
+        <!-- 主聊天区域 -->
+        <div class="main">
+            <!-- 聊天消息 -->
+            <div class="chat-container" id="chatContainer">
+                <!-- 欢迎消息 -->
+                <div class="message ai-message">
+                    <div class="avatar">🤖</div>
+                    <div class="message-content">
+                        <p>欢迎使用建账规则助手！👋</p>
+                        <p>请先选择你的角色，这将影响回答的重点和详细程度：</p>
+                        <ul>
+                            <li><strong>【A】产品经理</strong> - 关注业务流程和用户体验</li>
+                            <li><strong>【B】技术开发</strong> - 关注技术实现和系统架构</li>
+                            <li><strong>【C】销售运营</strong> - 关注客户价值和市场竞争</li>
+                            <li><strong>【D】默认工程师</strong> - 标准技术解释</li>
+                        </ul>
+                        <p>点击左侧按钮或按键盘快捷键选择角色 👆</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="输入你的问题... (Shift+Enter 换行，Enter 发送)"
+                        rows="3"
+                    ></textarea>
+                    <button class="send-btn" id="sendBtn">
+                        <span>发送</span>
+                    </button>
+                </div>
+                <div class="input-hint">
+                    按 Enter 发送消息，Shift+Enter 换行
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载状态 -->
+    <div class="loading" id="loadingIndicator">
+        <div class="spinner"></div>
+        <p>AI 正在思考...</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

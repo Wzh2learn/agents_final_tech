@@ -105,9 +105,10 @@
 │   └── agent_llm_config.json       # Agent 和模型配置
 ├── docs/                           # 文档
 │   └── RAG_API_GUIDE.md           # RAG API 方案详细指南
-├── scripts/                        # 脚本（内置，无需修改）
+├── scripts/                        # 脚本
 │   ├── local_run.sh               # 本地运行脚本
-│   └── http_run.sh                # HTTP 服务启动脚本
+│   ├── http_run.sh                # HTTP 服务启动脚本
+│   └── web_run.sh                 # Web 界面启动脚本
 ├── assets/                         # 资源与数据中心
 │   ├── data/                      # 测试数据文件
 │   ├── docs/                      # 文档资源
@@ -115,6 +116,13 @@
 ├── src/
 │   ├── agents/                    # Agent 代码
 │   │   └── agent.py               # 主 Agent（建账规则助手）
+│   ├── web/                       # Web 可视化界面
+│   │   ├── app.py                 # Flask Web 应用
+│   │   ├── templates/             # HTML 模板
+│   │   │   └── chat.html          # 聊天页面
+│   │   └── static/                # 静态资源
+│   │       ├── style.css          # 样式文件
+│   │       └── script.js          # 前端脚本
 │   ├── tools/                     # 工具定义
 │   │   ├── document_loader.py     # 文档加载工具
 │   │   ├── text_splitter.py       # 文本分割工具
@@ -186,6 +194,38 @@ assets/
 ```
 
 ### 4. 运行方式
+
+#### 🎨 启动 Web 可视化界面（推荐）
+
+```bash
+# 使用默认端口 5000 启动 Web 界面
+bash scripts/web_run.sh
+
+# 指定端口启动
+bash scripts/web_run.sh -p 8000
+
+# 启用调试模式
+bash scripts/web_run.sh -p 8000 -d
+
+# 查看帮助
+bash scripts/web_run.sh -h
+```
+
+启动成功后，在浏览器中访问 `http://localhost:5000`（或你指定的端口）。
+
+**Web 界面特性**：
+- 🎯 **角色选择**：通过点击或键盘快捷键（A/B/C/D）快速切换角色
+- 💬 **实时聊天**：流式输出 AI 响应，体验流畅
+- 🎨 **Markdown 渲染**：支持代码高亮、表格、列表等格式
+- 💡 **智能建议**：自动提取并展示后续问题建议
+- 📱 **响应式设计**：支持桌面和移动设备
+
+**使用步骤**：
+1. 打开浏览器访问 Web 界面
+2. 点击左侧角色按钮选择你的角色
+3. 在输入框中输入问题
+4. 按 Enter 发送（Shift+Enter 换行）
+5. 等待 AI 响应，可点击后续问题继续交流
 
 #### 本地运行
 
