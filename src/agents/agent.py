@@ -23,6 +23,14 @@ from storage.memory.memory_saver import get_memory_saver
 from tools.document_processor import document_processor, validate_rules
 from tools.qa_agent import qa_agent, classify_query
 from tools.feedback_handler import feedback_handler, generate_summary_report
+from tools.file_writer import (
+    write_to_file,
+    write_to_storage,
+    save_rule_to_knowledge,
+    save_qa_answer,
+    read_from_storage,
+    list_storage_files
+)
 
 LLM_CONFIG = "config/agent_llm_config.json"
 
@@ -73,7 +81,13 @@ def build_agent(ctx=None):
         qa_agent,                # QA问答工具
         classify_query,          # 查询分类工具
         feedback_handler,        # 反馈处理工具
-        generate_summary_report  # 反馈汇总工具
+        generate_summary_report,  # 反馈汇总工具
+        write_to_file,           # 写入本地文件
+        write_to_storage,        # 写入对象存储
+        save_rule_to_knowledge,   # 保存规则到知识库
+        save_qa_answer,          # 保存问答对到知识库
+        read_from_storage,       # 从对象存储读取
+        list_storage_files       # 列出对象存储文件
     ]
 
     return create_agent(
