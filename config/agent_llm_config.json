@@ -42,6 +42,14 @@
         "get_knowledge_base_stats",
         "rag_retrieve_with_rerank",
         "hybrid_search",
-        "format_docs_for_rag"
+        "format_docs_for_rag",
+        "classify_question_type",
+        "get_retrieval_strategy",
+        "bm25_retrieve",
+        "hybrid_retrieve",
+        "smart_retrieve",
+        "compare_retrieval_methods",
+        "batch_retrieve",
+        "get_retrieval_statistics"
     ]
 }

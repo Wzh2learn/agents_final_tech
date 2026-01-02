@@ -65,7 +65,8 @@ def rag_retrieve_with_rerank(
                 })
 
             # 调用 rerank 工具
-            rerank_json = rerank_documents.func(
+            from tools.reranker_tool import rerank_documents as rerank_func
+            rerank_json = rerank_func(
                 query=query,
                 documents=json.dumps(rerank_docs),
                 top_n=top_n

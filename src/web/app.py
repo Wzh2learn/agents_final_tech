@@ -296,6 +296,148 @@ def collaborative_chat():
     return Response(generate(), mimetype='text/event-stream')
 
 
+# ==================== RAG 策略配置 API ====================
+
+@app.route('/rag-config')
+def rag_config():
+    """RAG 策略配置页面"""
+    return render_template('rag_config.html')
+
+
+@app.route('/api/rag/classify', methods=['POST'])
+def classify_query():
+    """分类问题类型"""
+    data = request.json
+    query = data.get('query', '')
+
+    if not query:
+        return jsonify({"error": "查询不能为空"}), 400
+
+    try:
+        from tools.question_classifier import classify_question_type
+        result_str = classify_question_type.func(query)
+        result = json.loads(result_str)
+        return jsonify({"status": "success", "result": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/rag/strategy', methods=['POST'])
+def get_strategy():
+    """获取推荐的检索策略"""
+    data = request.json
+    question_type = data.get('question_type', 'general')
+
+    try:
+        from tools.question_classifier import get_retrieval_strategy
+        result_str = get_retrieval_strategy.func(question_type)
+        result = json.loads(result_str)
+        return jsonify({"status": "success", "result": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/rag/retrieve', methods=['POST'])
+def retrieve_documents():
+    """执行检索（支持所有策略）"""
+    data = request.json
+    query = data.get('query', '')
+    strategy = data.get('strategy', 'auto')
+    collection_name = data.get('collection_name', 'knowledge_base')
+    top_k = data.get('top_k', 5)
+
+    if not query:
+        return jsonify({"error": "查询不能为空"}), 400
+
+    try:
+        from tools.rag_router import smart_retrieve
+        result_str = smart_retrieve.func(
+            query=query,
+            collection_name=collection_name,
+            top_k=top_k,
+            override_strategy=strategy if strategy != 'auto' else None,
+            verbose=True
+        )
+        result = json.loads(result_str)
+        return jsonify({"status": "success", "result": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/rag/compare', methods=['POST'])
+def compare_retrieval():
+    """对比不同检索方法"""
+    data = request.json
+    query = data.get('query', '')
+    collection_name = data.get('collection_name', 'knowledge_base')
+    top_k = data.get('top_k', 5)
+
+    if not query:
+        return jsonify({"error": "查询不能为空"}), 400
+
+    try:
+        from tools.hybrid_retriever import compare_retrieval_methods
+        result_str = compare_retrieval_methods.func(
+            query=query,
+            collection_name=collection_name,
+            top_k=top_k
+        )
+        result = json.loads(result_str)
+        return jsonify({"status": "success", "result": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/rag/statistics', methods=['POST'])
+def get_statistics():
+    """获取检索统计信息"""
+    data = request.json
+    queries = data.get('queries', [])
+    collection_name = data.get('collection_name', 'knowledge_base')
+    top_k = data.get('top_k', 5)
+
+    if not queries:
+        return jsonify({"error": "查询列表不能为空"}), 400
+
+    try:
+        from tools.rag_router import get_retrieval_statistics
+        result_str = get_retrieval_statistics.func(
+            queries=json.dumps(queries),
+            collection_name=collection_name,
+            top_k=top_k
+        )
+        result = json.loads(result_str)
+        return jsonify({"status": "success", "result": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/rag/batch', methods=['POST'])
+def batch_retrieve():
+    """批量检索"""
+    data = request.json
+    queries = data.get('queries', [])
+    collection_name = data.get('collection_name', 'knowledge_base')
+    top_k = data.get('top_k', 5)
+    strategy = data.get('strategy', 'auto')
+
+    if not queries:
+        return jsonify({"error": "查询列表不能为空"}), 400
+
+    try:
+        from tools.rag_router import batch_retrieve
+        result_str = batch_retrieve.func(
+            queries=json.dumps(queries),
+            collection_name=collection_name,
+            top_k=top_k,
+            strategy=strategy
+        )
+        result = json.loads(result_str)
+        return jsonify({"status": "success", "result": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == '__main__':
     # 启动 WebSocket 服务器
     from web.collaboration_service import start_websocket_thread
