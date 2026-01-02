@@ -60,10 +60,8 @@ joblib==1.5.3
 jsonpatch==1.33
 jsonpointer==3.0.0
 langchain==1.0.3
-langchain-core==1.2.5
+langchain-core==1.0.2
 langchain-openai==1.0.1
-langchain-postgres==0.0.16
-langchain-text-splitters==1.1.0
 langdetect==1.0.9
 langgraph==1.0.2
 langgraph-checkpoint==3.0.0
@@ -145,7 +143,6 @@ s3transfer==0.14.0
 safetensors==0.7.0
 scikit-learn==1.8.0
 scipy==1.16.3
-sentence-transformers==5.2.0
 setuptools==68.1.2
 six==1.17.0
 smmap==5.0.2
@@ -160,7 +157,6 @@ threadpoolctl==3.6.0
 tiktoken==0.12.0
 tokenizers==0.22.1
 tomlkit==0.13.3
-torch==2.9.1
 tqdm==4.67.1
 transformers==4.57.3
 triton==3.5.1

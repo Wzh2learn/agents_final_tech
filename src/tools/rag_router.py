@@ -71,8 +71,8 @@ def smart_retrieve(
             result["reasoning"] = f"用户手动指定策略: {override_strategy}"
         else:
             # 自动分类问题
-            from tools.question_classifier import classify_question_type as classify_func
-            classification_str = classify_func(query)
+            from tools.question_classifier import classify_question_type
+            classification_str = classify_question_type.func(query)
             classification = json.loads(classification_str)
 
             question_type = classification.get("type", "general")
@@ -84,8 +84,8 @@ def smart_retrieve(
             result["classification_reason"] = reason
 
             # 步骤2: 获取推荐的检索策略
-            from tools.question_classifier import get_retrieval_strategy as strategy_func
-            strategy_str = strategy_func(question_type)
+            from tools.question_classifier import get_retrieval_strategy
+            strategy_str = get_retrieval_strategy.func(question_type)
             strategy_data = json.loads(strategy_str)
 
             strategy = strategy_data["strategy"]
@@ -103,8 +103,8 @@ def smart_retrieve(
 
         if strategy == "vector":
             # 向量检索
-            from tools.rag_retriever import rag_retrieve_with_rerank as rag_retrieve_func
-            retrieval_result_str = rag_retrieve_func(
+            from tools.rag_retriever import rag_retrieve_with_rerank
+            retrieval_result_str = rag_retrieve_with_rerank.func(
                 query=query,
                 collection_name=collection_name,
                 initial_k=top_k * 2,
@@ -116,8 +116,8 @@ def smart_retrieve(
 
         elif strategy == "bm25":
             # BM25检索
-            from tools.bm25_retriever import bm25_retrieve as bm25_func
-            retrieval_result_str = bm25_func(
+            from tools.bm25_retriever import bm25_retrieve
+            retrieval_result_str = bm25_retrieve.func(
                 query=query,
                 documents=documents,
                 collection_name=collection_name,
@@ -133,8 +133,8 @@ def smart_retrieve(
             vector_weight = result["strategy_details"].get("vector_weight", 0.5)
             bm25_weight = result["strategy_details"].get("bm25_weight", 0.5)
 
-            from tools.hybrid_retriever import hybrid_retrieve as hybrid_func
-            retrieval_result_str = hybrid_func(
+            from tools.hybrid_retriever import hybrid_retrieve
+            retrieval_result_str = hybrid_retrieve.func(
                 query=query,
                 documents=documents,
                 collection_name=collection_name,
@@ -153,8 +153,8 @@ def smart_retrieve(
             vector_weight = result["strategy_details"].get("vector_weight", 0.5)
             bm25_weight = result["strategy_details"].get("bm25_weight", 0.5)
 
-            from tools.hybrid_retriever import hybrid_retrieve as hybrid_func
-            retrieval_result_str = hybrid_func(
+            from tools.hybrid_retriever import hybrid_retrieve
+            retrieval_result_str = hybrid_retrieve.func(
                 query=query,
                 documents=documents,
                 collection_name=collection_name,
@@ -170,8 +170,8 @@ def smart_retrieve(
 
         else:
             # 默认使用向量检索
-            from tools.rag_retriever import rag_retrieve_with_rerank as rag_retrieve_func
-            retrieval_result_str = rag_retrieve_func(
+            from tools.rag_retriever import rag_retrieve_with_rerank
+            retrieval_result_str = rag_retrieve_with_rerank.func(
                 query=query,
                 collection_name=collection_name,
                 initial_k=top_k * 2,
@@ -232,8 +232,8 @@ def batch_retrieve(
 
     for i, query in enumerate(query_list, 1):
         try:
-            from tools.rag_router import smart_retrieve as smart_func
-            retrieval_result_str = smart_func(
+            from tools.rag_router import smart_retrieve
+            retrieval_result_str = smart_retrieve.func(
                 query=query,
                 collection_name=collection_name,
                 top_k=top_k,
@@ -315,8 +315,8 @@ def get_retrieval_statistics(
 
     for query in query_list:
         try:
-            from tools.rag_router import smart_retrieve as smart_func
-            result_str = smart_func(
+            from tools.rag_router import smart_retrieve
+            result_str = smart_retrieve.func(
                 query=query,
                 collection_name=collection_name,
                 top_k=top_k,

@@ -240,7 +240,7 @@ def search_knowledge_base(
         # 过滤低分数结果
         filtered_results = [
             (doc, score) for doc, score in results
-            if score >= score_threshold
+            if score >= (score_threshold if score_threshold is not None else 0.0)
         ]
 
         # 格式化输出

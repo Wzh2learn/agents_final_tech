@@ -9,7 +9,14 @@ from typing import List, Dict, Any, Optional
 from pathlib import Path
 from langchain.tools import tool
 from langchain_core.documents import Document
-from rank_bm25 import BM25Okapi
+
+# 动态导入rank_bm25，避免静态类型检查错误
+try:
+    from rank_bm25 import BM25Okapi
+    _BM25_AVAILABLE = True
+except ImportError:
+    _BM25_AVAILABLE = False
+    BM25Okapi = None
 
 # 导入向量存储
 from tools.vector_store import get_vector_store

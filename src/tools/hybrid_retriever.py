@@ -27,19 +27,20 @@ def _normalize_scores(scores: List[float], method: str = "minmax") -> List[float
     if not scores:
         return []
 
-    scores = np.array(scores)
+    # 转换为numpy数组
+    scores_array = np.array(scores, dtype=float)
 
     if method == "minmax":
         # 最小-最大归一化
-        min_score = scores.min()
-        max_score = scores.max()
+        min_score = float(np.min(scores_array))
+        max_score = float(np.max(scores_array))
         if max_score - min_score > 0:
-            normalized = (scores - min_score) / (max_score - min_score)
+            normalized = (scores_array - min_score) / (max_score - min_score)
         else:
-            normalized = np.ones_like(scores) * 0.5
+            normalized = np.ones_like(scores_array) * 0.5
     elif method == "sigmoid":
         # Sigmoid归一化（适合分数范围较大的情况）
-        normalized = 1 / (1 + np.exp(-scores))
+        normalized = 1 / (1 + np.exp(-scores_array))
     else:
         # 默认使用minmax
         return _normalize_scores(scores, "minmax")
@@ -287,7 +288,7 @@ def hybrid_retrieve(
         raise ValueError("查询不能为空")
 
     # 归一化权重
-    total_weight = vector_weight + bm25_weight
+    total_weight = (vector_weight if vector_weight is not None else 0.0) + (bm25_weight if bm25_weight is not None else 0.0)
     if total_weight > 0:
         vector_weight = vector_weight / total_weight
         bm25_weight = bm25_weight / total_weight
@@ -316,8 +317,8 @@ def hybrid_retrieve(
         results["vector_count"] = len(vector_docs)
 
         # 2. BM25检索
-        from tools.bm25_retriever import bm25_retrieve as bm25_retrieve_func
-        bm25_result_str = bm25_retrieve_func(
+        from tools.bm25_retriever import bm25_retrieve
+        bm25_result_str = bm25_retrieve.func(
             query=query,
             documents=documents,
             collection_name=collection_name,
@@ -457,8 +458,8 @@ def compare_retrieval_methods(
         }
 
         # 2. BM25检索
-        from tools.bm25_retriever import bm25_retrieve as bm25_func
-        bm25_result_str = bm25_func(
+        from tools.bm25_retriever import bm25_retrieve
+        bm25_result_str = bm25_retrieve.func(
             query=query,
             documents=documents,
             collection_name=collection_name,
@@ -472,7 +473,7 @@ def compare_retrieval_methods(
         }
 
         # 3. 混合检索（不使用Rerank）
-        hybrid_result_str = hybrid_retrieve(
+        hybrid_result_str = hybrid_retrieve.func(
             query=query,
             documents=documents,
             collection_name=collection_name,
@@ -489,7 +490,7 @@ def compare_retrieval_methods(
         }
 
         # 4. 混合检索+Rerank
-        hybrid_rerank_str = hybrid_retrieve(
+        hybrid_rerank_str = hybrid_retrieve.func(
             query=query,
             documents=documents,
             collection_name=collection_name,

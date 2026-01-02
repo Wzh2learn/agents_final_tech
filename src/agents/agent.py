@@ -58,6 +58,23 @@ from tools.knowledge_base import (
 from tools.rag_retriever import (
     rag_retrieve_with_rerank
 )
+# 导入 RAG 策略工具
+from tools.question_classifier import (
+    classify_question_type,
+    get_retrieval_strategy
+)
+from tools.bm25_retriever import (
+    bm25_retrieve
+)
+from tools.hybrid_retriever import (
+    hybrid_retrieve,
+    compare_retrieval_methods
+)
+from tools.rag_router import (
+    smart_retrieve,
+    batch_retrieve,
+    get_retrieval_statistics
+)
 
 LLM_CONFIG = "config/agent_llm_config.json"
 
@@ -131,6 +148,15 @@ def build_agent(ctx=None):
         search_knowledge_base,   # 搜索知识库
         get_knowledge_base_stats, # 获取知识库统计
         rag_retrieve_with_rerank,  # RAG 检索（向量+Rerank）
+        # RAG 策略工具
+        classify_question_type,  # 问题类型分类器
+        get_retrieval_strategy,  # 获取推荐检索策略
+        bm25_retrieve,           # BM25 全文检索
+        hybrid_retrieve,         # 混合检索（向量+BM25）
+        compare_retrieval_methods,  # 对比不同检索方法
+        smart_retrieve,          # 智能检索路由
+        batch_retrieve,          # 批量检索
+        get_retrieval_statistics,  # 获取检索统计信息
     ]
 
     return create_agent(

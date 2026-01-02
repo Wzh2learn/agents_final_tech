@@ -137,11 +137,8 @@ def split_text_by_markdown_structure(
             headers_to_split_on=headers_to_split_on
         )
 
-        # 将文本转换为 Document 对象
-        document = Document(page_content=text)
-
-        # 分割文档
-        chunks = splitter.split_documents([document])
+        # 分割文档（使用split_text方法）
+        chunks = splitter.split_text(text)
 
         # 格式化输出
         result = f"📝 Markdown 结构分割结果\n"
@@ -150,10 +147,8 @@ def split_text_by_markdown_structure(
         result += "=" * 50 + "\n\n"
 
         for i, chunk in enumerate(chunks, 1):
-            result += f"--- 块 {i} ({len(chunk.page_content)} 字符) ---\n"
-            if chunk.metadata:
-                result += f"元数据: {chunk.metadata}\n"
-            result += f"{chunk.page_content}\n\n"
+            result += f"--- 块 {i} ({len(chunk)} 字符) ---\n"
+            result += f"{chunk}\n\n"
 
         return result
 
