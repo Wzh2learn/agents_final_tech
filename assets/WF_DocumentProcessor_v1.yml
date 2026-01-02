@@ -1,0 +1,1164 @@
+app:
+  description: 文档处理智能体：解析→提取→审核→生成差异→人工确认→入库
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: WF_DocumentProcessor_v1
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: bowenliang123/md_exporter:2.2.0@9f39c2c2c1cd09180e2cc053090adc9886019483f502727467f136712b8b9639
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: hjlarry/knowledge:0.0.1@e7ae030ac64b673b258a77bf46510726326653195b646e85452303c9a84444ec
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/moonshot:0.0.9@02018dd44e2a5ece9a29028969025eee866758dfab1469b419b4a23ffba5edea
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .txt
+      - .md
+      - .pdf
+      - .docx
+      allowed_file_types:
+      - document
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: true
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 1
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1764589687949-source-extract_rules-target
+      selected: false
+      source: '1764589687949'
+      sourceHandle: source
+      target: extract_rules
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: extract_rules-source-1764589784457-target
+      selected: false
+      source: extract_rules
+      sourceHandle: source
+      target: '1764589784457'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1764590098038-true-audit_rules-target
+      selected: false
+      source: '1764590098038'
+      sourceHandle: 'true'
+      target: audit_rules
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1764590098038-false-generate_parse_error-target
+      selected: false
+      source: '1764590098038'
+      sourceHandle: 'false'
+      target: generate_parse_error
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: audit_rules--1764590624842-target
+      selected: false
+      source: audit_rules
+      sourceHandle: source
+      target: '1764590624842'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1764589687949-source-1764928226404-target
+      selected: false
+      source: '1764589687949'
+      sourceHandle: source
+      target: '1764928226404'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: if-else
+      id: 1764589784457-source-1764590098038-target
+      selected: false
+      source: '1764589784457'
+      sourceHandle: source
+      target: '1764590098038'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: tool
+      id: 1764928226404-source-1765176560730-target
+      selected: false
+      source: '1764928226404'
+      sourceHandle: source
+      target: '1765176560730'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1765176560730-source-1764928553547-target
+      selected: false
+      source: '1765176560730'
+      sourceHandle: source
+      target: '1764928553547'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: tool
+      id: generate_parse_error-source-1765180974687-target
+      selected: false
+      source: generate_parse_error
+      sourceHandle: source
+      target: '1765180974687'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1765180974687-source-1764590836204-target
+      selected: false
+      source: '1765180974687'
+      sourceHandle: source
+      target: '1764590836204'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: start-source-1765187080935-target
+      source: start
+      sourceHandle: source
+      target: '1765187080935'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: document-extractor
+      id: 1765187080935-source-1764589687949-target
+      source: '1765187080935'
+      sourceHandle: source
+      target: '1764589687949'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: user_files
+          max_length: 5
+          options: []
+          placeholder: ''
+          required: true
+          type: file-list
+          variable: user_files
+      height: 108
+      id: start
+      position:
+        x: 201.42335579681878
+        y: 282
+      positionAbsolute:
+        x: 201.42335579681878
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: moonshot-v1-8k
+          provider: langgenius/moonshot/moonshot
+        prompt_template:
+        - id: system
+          role: system
+          text: '从文档中提取业务规则。
+
+                        文档内容: {{#1764589687949.text#}}
+
+                        输出 JSON 数组: [{"rule_id": "...", "condition": "...", "action":
+            "..."}]'
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              approved:
+                description: 规则是否通过审核，true 表示通过，false 表示不通过
+                type: boolean
+              reason:
+                description: 简要说明审核通过或不通过的原因
+                type: string
+            required:
+            - approved
+            - reason
+            type: object
+        structured_output_enabled: false
+        title: 提取规则
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: extract_rules
+      position:
+        x: 1282
+        y: 303
+      positionAbsolute:
+        x: 1282
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - extract_rules
+          - text
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: moonshot-v1-8k
+          provider: langgenius/moonshot/moonshot
+        prompt_template:
+        - id: system
+          role: system
+          text: '{{#context#}}总结需要写入知识库的内容'
+        selected: false
+        title: 写入规则库
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: audit_rules
+      position:
+        x: 2359.983128193674
+        y: 303
+      positionAbsolute:
+        x: 2359.983128193674
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1764589784457'
+          - structured_output
+          - reason
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.3
+          mode: chat
+          name: moonshot-v1-8k
+          provider: langgenius/moonshot/moonshot
+        prompt_template:
+        - id: user
+          role: user
+          text: '【审核未通过】原因: {{#context#}}
+
+            规则内容: {{#extract_rules.text#}}
+
+
+            '
+        selected: false
+        title: 生成错误报告
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: generate_parse_error
+      position:
+        x: 2359.983128193674
+        y: 430
+      positionAbsolute:
+        x: 2359.983128193674
+        y: 430
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        is_array_file: true
+        selected: false
+        title: 文档提取器
+        type: document-extractor
+        variable_selector:
+        - start
+        - user_files
+      height: 103
+      id: '1764589687949'
+      position:
+        x: 940.141283808531
+        y: 303
+      positionAbsolute:
+        x: 940.141283808531
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - extract_rules
+          - text
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: moonshot-v1-8k
+          provider: langgenius/moonshot/moonshot
+        prompt_template:
+        - id: 1052d905-70a5-480f-8649-06b61ae6b16b
+          role: system
+          text: '你是规则安全与合理性审核助手。
+
+
+            【待审核规则】
+
+            {{#context#}}
+
+
+            审核要求：
+
+            1. 判断规则是否存在业务风险或合规风险。
+
+            2. 判断规则是否存在明显逻辑错误或自相矛盾。
+
+            3. 给出简短、明确的理由。
+
+
+            严格按照系统定义的 JSON 结构输出，不要添加任何多余字段或文字：
+
+            - approved: true 表示规则可以通过；false 表示规则存在风险或问题；
+
+            - reason: 用一两句话说明原因。
+
+            '
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              approved:
+                description: 规则是否通过审核，true 表示通过，false 表示不通过
+                type: string
+              reason:
+                description: 简要说明审核通过或不通过的原因
+                type: string
+            required:
+            - approved
+            - reason
+            type: object
+        structured_output_enabled: true
+        title: 智能审核
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1764589784457'
+      position:
+        x: 1626.5456892524346
+        y: 303
+      positionAbsolute:
+        x: 1626.5456892524346
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 994b7c87-b920-4741-b9eb-def9ebdbca55
+            value: 'true'
+            varType: string
+            variable_selector:
+            - '1764589784457'
+            - structured_output
+            - approved
+          id: 'true'
+          logical_operator: and
+        selected: true
+        title: 审核通过与否
+        type: if-else
+      height: 123
+      id: '1764590098038'
+      position:
+        x: 1982.3136502651132
+        y: 303
+      positionAbsolute:
+        x: 1982.3136502651132
+        y: 303
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - audit_rules
+          - text
+          value_type: string
+          variable: text
+        selected: false
+        title: 结束
+        type: end
+      height: 87
+      id: '1764590624842'
+      position:
+        x: 2741.7757468552672
+        y: 303
+      positionAbsolute:
+        x: 2741.7757468552672
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        desc: 【待人工确认】
+        outputs:
+        - value_selector:
+          - generate_parse_error
+          - text
+          value_type: string
+          variable: text
+        selected: false
+        title: 写入知识库
+        type: end
+      height: 115
+      id: '1764590836204'
+      position:
+        x: 3097.141116062223
+        y: 430
+      positionAbsolute:
+        x: 3097.141116062223
+        y: 430
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1764589687949'
+          - text
+        desc: 《托管估值辅助建账规则字典（业务版）》
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: moonshot-v1-8k
+          provider: langgenius/moonshot/moonshot
+        prompt_template:
+        - id: b4d5495c-88e8-4623-826a-fea6a3763f79
+          role: system
+          text: '# 角色 (Role)
+
+            你是一个专注于金融建账业务规则处理的“建账规则转换专家”。你的核心任务是精准地将一段非结构化的金融建账业务规则描述文本 ，转化为特定的标准化`规则字典`表格形式。
+
+
+            你犹如一位经验丰富的金融业务分析师，对金融建账领域知识了如指掌，能够迅速且准确地从文档中提炼出规则的ID、名称、触发条件、执行动作、配置参数等关键要素，并合理归类到相应表格位置。
+
+
+            # 任务 (Task)
+
+            我会提供一段关于金融建账业务规则的文本描述。你需要完成以下任务：
+
+            1. 仔细、全面地阅读并透彻理解文本中的所有信息，不放过任何细节。
+
+            2. 严格依据我给定的`规则字典`输出格式，生成一个规范的Markdown表格。
+
+            3. 尽最大努力把文本中的每一条有效信息，合理归纳到表格中最合适的字段里。对于源文本中确实不存在的字段（如规则ID、更新日期等），可以留空或使用占位符
+            `[待补充]`。
+
+
+            # 背景 (Context)
+
+            我正在搭建一个结构化的金融建账规则知识库。原始的业务文档采用自然语言撰写，格式缺乏统一规范，这给系统化的管理和查询带来了极大困难。我需要你助力完成从“非结构化文本”到“结构化数据”的关键转变，为后续的规则引擎、RAG系统或团队知识库奠定坚实基础。
+
+
+            # 输出格式 (Output Format) - 【强制】
+
+
+            你的唯一输出必须是以下格式的 Markdown 表格。严禁在表格前后添加任何额外的解释、问候或说明文字。
+
+
+            | 字段 | 说明 | 提取内容 |
+
+            | :--- | :--- | :--- |
+
+            | **规则ID** | 唯一标识 | `[从文本中提取的ID；没有就填[待补充]]` |
+
+            | **规则名称** | 业务描述 | `[从文本中精准提炼出的规则名称，例如：“辅助建账通用宏定义与基础默认规则”]` |
+
+            | **最后更新** | 生效日期 | `[从文本中提取的日期；没有就填[待补充]]` |
+
+            | **来源位置** | 文档位置 | `[文档章节/页码/标题，例如：“文档第2部分 宏定义”]` |
+
+            | **用户问题** | 典型的用户问法 | `[基于本条规则，构造一个最贴近实际的典型问法]` |
+
+            | **规则逻辑** | IF-THEN-ELSE结构 | `[使用 Phase 1 / Phase 2 / ... 的形式，完整描述规则逻辑，示例见你已有规则样式]`
+            |
+
+            | **数据来源** | 关键数据来源 | `[列出规则中用到的关键数据来源和去向，如系统日期、产品信息、接口表等]` |
+
+            | **业务示例** | 具体场景 | `[构造或复用一个完整业务场景，说明触发条件、系统行为和结果]` |
+
+
+            如果是多条规则，请按上述结构连续生成多个表格，每条规则对应一个表格。
+
+
+
+            ## 核心指令与原则 (Core Directives & Principles)
+
+            1. **精确提取**：你的主要任务是“提取和重组”信息，而非“创造”内容。表格中填入的所有信息都必须直接或间接来源于我提供的源文本。
+
+            2. **逻辑整合**：“规则逻辑”字段是重中之重。你必须深入理解文本中分散的逻辑线索（如“建账前”、“建账中”、“默认规则”等），并将其整合成一个连贯、有序、分阶段的`IF
+            - THEN - ELSE`流程，确保逻辑严谨、无漏洞。
+
+            3. **归纳与提炼**：对于“规则名称”和“用户问题”这类需要归纳总结的字段，要准确把握文本的核心意图，用简洁、恰当的语言进行表述。
+
+            4. **格式洁癖**：严格遵循输出格式要求，杜绝出现任何多余的字符。Markdown表格的语法必须准确无误。
+
+            5. **占位符使用**：对于源文本中明显缺失的信息（如ID、日期），务必使用 `[待补充]` 作为占位符，以便于我后续的数据清理工作。
+
+            如果是多条规则，我要多个表格的形式
+
+
+
+            【输入文本】
+
+            {{#context#}}
+
+            现在，请严格按照上面“输出格式 (Output Format)”的要求，只输出 Markdown 表格，不要输出任何多余说明。
+
+            【关键限制】
+
+            - 你必须直接输出一个或多个 Markdown 表格，表头为：字段｜说明｜提取内容。
+
+            - 表格前后不要有任何文字（包括说明、注释、输入文本复述等）。
+
+            - 如果你输出了非表格内容，将视为任务失败。'
+        selected: false
+        structured_output_enabled: false
+        title: 表格规则提取
+        type: llm
+        vision:
+          enabled: false
+      height: 131
+      id: '1764928226404'
+      position:
+        x: 1246
+        y: 430
+      positionAbsolute:
+        x: 1246
+        y: 430
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        desc: 《托管估值辅助建账规则字典（业务版）》
+        outputs:
+        - value_selector:
+          - '1764928226404'
+          - text
+          value_type: string
+          variable: doc
+        selected: false
+        title: 《托管估值辅助建账规则字典（业务版）》展示
+        type: end
+      height: 131
+      id: '1764928553547'
+      position:
+        x: 1924.497697074594
+        y: 430
+      positionAbsolute:
+        x: 1924.497697074594
+        y: 430
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Markdown text
+            ja_JP: Markdown text
+            pt_BR: Markdown text
+            zh_Hans: Markdown格式文本
+          label:
+            en_US: Markdown text
+            ja_JP: Markdown text
+            pt_BR: Markdown text
+            zh_Hans: Markdown格式文本
+          llm_description: ''
+          max: null
+          min: null
+          name: md_text
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Optional docx template file for styling。Use "Home"-"Styles Pane"
+              in Microsoft Word to edit styles of the docx file.
+            ja_JP: Optional docx template file for styling。Use "Home"-"Styles Pane"
+              in Microsoft Word to edit styles of the docx file.
+            pt_BR: Optional docx template file for styling。Use "Home"-"Styles Pane"
+              in Microsoft Word to edit styles of the docx file.
+            zh_Hans: 可选的docx模板文件，用于样式控制。使用Microsoft Word中“开始”-“样式窗格”对docx文件的样式进行编辑。
+          label:
+            en_US: DOCX Template File
+            ja_JP: DOCX Template File
+            pt_BR: DOCX Template File
+            zh_Hans: DOCX 模板文件
+          llm_description: An optional .pptx file that serves as a template for the
+            generated presentation
+          max: null
+          min: null
+          name: docx_template_file
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Optional custom output file name, and the filename suffix is not
+              required.
+            ja_JP: Optional custom output file name, and the filename suffix is not
+              required.
+            pt_BR: Optional custom output file name, and the filename suffix is not
+              required.
+            zh_Hans: 可选的自定义输出文件名，后缀名无需指定
+          label:
+            en_US: Output Filename
+            ja_JP: Output Filename
+            pt_BR: Output Filename
+            zh_Hans: 输出文件名
+          llm_description: ''
+          max: null
+          min: null
+          name: output_filename
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          docx_template_file: ''
+          md_text: ''
+          output_filename: ''
+        plugin_id: bowenliang123/md_exporter
+        plugin_unique_identifier: bowenliang123/md_exporter:2.2.0@9f39c2c2c1cd09180e2cc053090adc9886019483f502727467f136712b8b9639
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=192683d6-3d42-476e-9070-167da46b390e&filename=f0bad95cda1671b4e49f0e05df6122ef9ec5d554e138f128795d11d3806c00ef.svg
+        provider_id: bowenliang123/md_exporter/md_exporter
+        provider_name: bowenliang123/md_exporter/md_exporter
+        provider_type: builtin
+        selected: false
+        title: Markdown 转 DOCX 文件
+        tool_configurations: {}
+        tool_description: 将 Markdown 转换为 DOCX 文件的工具
+        tool_label: Markdown 转 DOCX 文件
+        tool_name: md_to_docx
+        tool_node_version: '2'
+        tool_parameters:
+          docx_template_file:
+            type: constant
+            value: null
+          md_text:
+            type: mixed
+            value: '{{#1764928226404.text#}}'
+          output_filename:
+            type: mixed
+            value: 《托管估值辅助建账规则字典（业务版）》
+        type: tool
+      height: 51
+      id: '1765176560730'
+      position:
+        x: 1626.5456892524346
+        y: 430
+      positionAbsolute:
+        x: 1626.5456892524346
+        y: 430
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: the content you want to add to knowledge base
+            ja_JP: the content you want to add to knowledge base
+            pt_BR: the content you want to add to knowledge base
+            zh_Hans: 你想要添加到知识库的内容
+          label:
+            en_US: Content
+            ja_JP: Content
+            pt_BR: Content
+            zh_Hans: 内容
+          llm_description: the content you want to add to knowledge base
+          max: null
+          min: null
+          name: text
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: which dataset you want to add to
+            ja_JP: which dataset you want to add to
+            pt_BR: which dataset you want to add to
+            zh_Hans: 你想要添加到哪个数据集
+          label:
+            en_US: Dataset ID
+            ja_JP: Dataset ID
+            pt_BR: Dataset ID
+            zh_Hans: 数据集 ID
+          llm_description: which dataset you want to add to
+          max: null
+          min: null
+          name: dataset_id
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: the name of the document
+            ja_JP: the name of the document
+            pt_BR: the name of the document
+            zh_Hans: 文档的名称
+          label:
+            en_US: Document Name
+            ja_JP: Document Name
+            pt_BR: Document Name
+            zh_Hans: 文档名称
+          llm_description: the name of the document
+          max: null
+          min: null
+          name: name
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: high_quality
+          form: form
+          human_description:
+            en_US: the indexing technique you want to use
+            ja_JP: the indexing technique you want to use
+            pt_BR: the indexing technique you want to use
+            zh_Hans: 你想要使用的索引方式
+          label:
+            en_US: Index Method
+            ja_JP: Index Method
+            pt_BR: Index Method
+            zh_Hans: 索引方式
+          llm_description: ''
+          max: null
+          min: null
+          name: indexing_technique
+          options:
+          - icon: ''
+            label:
+              en_US: High Quality
+              ja_JP: High Quality
+              pt_BR: High Quality
+              zh_Hans: 高质量
+            value: high_quality
+          - icon: ''
+            label:
+              en_US: Economy
+              ja_JP: Economy
+              pt_BR: Economy
+              zh_Hans: 经济
+            value: economy
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: text_model
+          form: form
+          human_description:
+            en_US: the chunk settings
+            ja_JP: the chunk settings
+            pt_BR: the chunk settings
+            zh_Hans: 分段方式
+          label:
+            en_US: Chunk Method
+            ja_JP: Chunk Method
+            pt_BR: Chunk Method
+            zh_Hans: 分段方式
+          llm_description: ''
+          max: null
+          min: null
+          name: doc_form
+          options:
+          - icon: ''
+            label:
+              en_US: General
+              ja_JP: General
+              pt_BR: General
+              zh_Hans: 通用
+            value: text_model
+          - icon: ''
+            label:
+              en_US: Parent-child
+              ja_JP: Parent-child
+              pt_BR: Parent-child
+              zh_Hans: 父子分段
+            value: hierarchical_model
+          - icon: ''
+            label:
+              en_US: Q&A
+              ja_JP: Q&A
+              pt_BR: Q&A
+              zh_Hans: Q&A分段
+            value: qa_model
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: only for Q&A Chunk Method
+            ja_JP: only for Q&A Chunk Method
+            pt_BR: only for Q&A Chunk Method
+            zh_Hans: 仅适用于 Q&A 分段方式
+          label:
+            en_US: Document Language
+            ja_JP: Document Language
+            pt_BR: Document Language
+            zh_Hans: 文档语言
+          llm_description: ''
+          max: null
+          min: null
+          name: doc_language
+          options:
+          - icon: ''
+            label:
+              en_US: English
+              ja_JP: English
+              pt_BR: English
+              zh_Hans: 英语
+            value: English
+          - icon: ''
+            label:
+              en_US: Chinese
+              ja_JP: Chinese
+              pt_BR: Chinese
+              zh_Hans: 中文
+            value: Chinese
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: '{"mode": "automatic"}
+
+            '
+          form: form
+          human_description:
+            en_US: 'Must be a valid JSON string, See plugin detail page for more details
+
+              '
+            ja_JP: 'Must be a valid JSON string, See plugin detail page for more details
+
+              '
+            pt_BR: 'Must be a valid JSON string, See plugin detail page for more details
+
+              '
+            zh_Hans: '必须是一个有效的 JSON 字符串，请参考插件详情页获取更多信息
+
+              '
+          label:
+            en_US: Process Rule
+            ja_JP: Process Rule
+            pt_BR: Process Rule
+            zh_Hans: 处理规则
+          llm_description: ''
+          max: null
+          min: null
+          name: process_rule
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          dataset_id: ''
+          doc_form: ''
+          doc_language: ''
+          indexing_technique: ''
+          name: ''
+          process_rule: ''
+          text: ''
+        plugin_id: hjlarry/knowledge
+        plugin_unique_identifier: hjlarry/knowledge:0.0.1@e7ae030ac64b673b258a77bf46510726326653195b646e85452303c9a84444ec
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=192683d6-3d42-476e-9070-167da46b390e&filename=8fa19727bdc381748bea850ee061cd18bd2b851bd61f53fc4ede2ccabd6a20ee.svg
+        provider_id: hjlarry/knowledge/knowledge
+        provider_name: hjlarry/knowledge/knowledge
+        provider_type: builtin
+        selected: false
+        title: 创建文档
+        tool_configurations:
+          doc_form:
+            type: constant
+            value: text_model
+          doc_language:
+            type: constant
+            value: Chinese
+          indexing_technique:
+            type: constant
+            value: high_quality
+          process_rule:
+            type: mixed
+            value: '{"mode": "automatic"}'
+        tool_description: 将dify的工作流生成的内容直接添加至其知识库
+        tool_label: 创建文档
+        tool_name: knowledge
+        tool_node_version: '2'
+        tool_parameters:
+          dataset_id:
+            type: mixed
+            value: 14cf9448-b904-4362-94bf-483325fc40da
+          name:
+            type: mixed
+            value: 规则错误临时
+          text:
+            type: mixed
+            value: '{{#generate_parse_error.text#}}{{#extract_rules.text#}}'
+        type: tool
+      height: 165
+      id: '1765180974687'
+      position:
+        x: 2733.041955861629
+        y: 430
+      positionAbsolute:
+        x: 2733.041955861629
+        y: 430
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: moonshot-v1-8k
+          provider: langgenius/moonshot/moonshot
+        prompt_template:
+        - id: 35cf5073-477d-4a5f-856e-7dd776549a0d
+          role: system
+          text: '收到的文件变量 user_files: {{#start.user_files#}}
+
+            收到的文件变量 doc_file: {{#sys.files#}}
+
+            '
+        selected: false
+        title: 调试
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1765187080935'
+      position:
+        x: 640.7946862276153
+        y: 303
+      positionAbsolute:
+        x: 640.7946862276153
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    viewport:
+      x: -689.7051845316896
+      y: 1.920804019113291
+      zoom: 0.711368113286303
+  rag_pipeline_variables: []

@@ -1,0 +1,947 @@
+app:
+  description: 反馈检测→分类→通知→记录
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: WF_Feedback_Handler_v1
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: hjlarry/knowledge:0.0.1@e7ae030ac64b673b258a77bf46510726326653195b646e85452303c9a84444ec
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/moonshot:0.0.9@02018dd44e2a5ece9a29028969025eee866758dfab1469b419b4a23ffba5edea
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 1
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: llm
+      id: start-classify
+      selected: false
+      source: start
+      sourceHandle: source
+      target: classify_feedback
+      targetHandle: target
+      type: custom
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1765113880149-false-generate_record-target
+      selected: false
+      source: '1765113880149'
+      sourceHandle: 'false'
+      target: generate_record
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1765113880149-true-1765113913390-target
+      selected: false
+      source: '1765113880149'
+      sourceHandle: 'true'
+      target: '1765113913390'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1765113913390-source-1765114169940-target
+      source: '1765113913390'
+      sourceHandle: source
+      target: '1765114169940'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: if-else
+      id: classify_feedback-source-1765113880149-target
+      source: classify_feedback
+      sourceHandle: source
+      target: '1765113880149'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: tool
+      id: generate_record-source-1765181709232-target
+      source: generate_record
+      sourceHandle: source
+      target: '1765181709232'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1765181709232-source-end-target
+      source: '1765181709232'
+      sourceHandle: source
+      target: end
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 用户反馈内容
+          max_length: 2000
+          options: []
+          required: true
+          type: paragraph
+          variable: user_feedback
+        - label: AI上次回答
+          max_length: 2000
+          options: []
+          required: true
+          type: paragraph
+          variable: last_answer
+        - label: 对话ID
+          max_length: 256
+          options: []
+          required: false
+          type: text-input
+          variable: conversation_id
+      height: 160
+      id: start
+      position:
+        x: 81.10530036636158
+        y: 282
+      positionAbsolute:
+        x: 81.10530036636158
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: moonshot-v1-8k
+          provider: langgenius/moonshot/moonshot
+        prompt_template:
+        - id: system
+          role: system
+          text: '你是反馈分类器。分析用户对AI回答的反馈。
+
+            AI回答: {{#start.last_answer#}}
+
+            用户反馈: {{#start.user_feedback#}}
+
+            严格按照系统定义的 JSON 结构输出，不要输出任何多余文本。'
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 1000
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              content:
+                description: 提取出来的反馈核心内容
+                type: string
+              reason:
+                description: 为什么这样分类的简短说明
+                type: string
+              type:
+                description: error=事实错误，supplement=用户补充信息，clarity=表达不清
+                enum:
+                - error
+                - supplement
+                - clarity
+                type: string
+            required:
+            - type
+            - content
+            type: object
+        structured_output_enabled: true
+        title: 反馈分类
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: classify_feedback
+      position:
+        x: 362.4880528405881
+        y: 303
+      positionAbsolute:
+        x: 362.4880528405881
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - classify_feedback
+          - structured_output
+          - content
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: moonshot-v1-8k
+          provider: langgenius/moonshot/moonshot
+        prompt_template:
+        - id: system
+          role: system
+          text: '{{#context#}}根据结果来总结格式化的反馈记录'
+        selected: false
+        title: 生成记录
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: generate_record
+      position:
+        x: 1316.367224499354
+        y: 407.4390205427007
+      positionAbsolute:
+        x: 1316.367224499354
+        y: 407.4390205427007
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - generate_record
+          - text
+          value_type: string
+          variable: feedback_record
+        selected: false
+        title: 结束
+        type: end
+      height: 87
+      id: end
+      position:
+        x: 2185.463732351074
+        y: 407.4390205427007
+      positionAbsolute:
+        x: 2185.463732351074
+        y: 407.4390205427007
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: contains
+            id: 86787e37-6a08-4ab5-af78-1b71ae58b21a
+            value: error
+            varType: string
+            variable_selector:
+            - classify_feedback
+            - structured_output
+            - type
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 123
+      id: '1765113880149'
+      position:
+        x: 700.3902071378043
+        y: 297.44276572958415
+      positionAbsolute:
+        x: 700.3902071378043
+        y: 297.44276572958415
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: the content you want to add to knowledge base
+            ja_JP: the content you want to add to knowledge base
+            pt_BR: the content you want to add to knowledge base
+            zh_Hans: 你想要添加到知识库的内容
+          label:
+            en_US: Content
+            ja_JP: Content
+            pt_BR: Content
+            zh_Hans: 内容
+          llm_description: the content you want to add to knowledge base
+          max: null
+          min: null
+          name: text
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: which dataset you want to add to
+            ja_JP: which dataset you want to add to
+            pt_BR: which dataset you want to add to
+            zh_Hans: 你想要添加到哪个数据集
+          label:
+            en_US: Dataset ID
+            ja_JP: Dataset ID
+            pt_BR: Dataset ID
+            zh_Hans: 数据集 ID
+          llm_description: which dataset you want to add to
+          max: null
+          min: null
+          name: dataset_id
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: the name of the document
+            ja_JP: the name of the document
+            pt_BR: the name of the document
+            zh_Hans: 文档的名称
+          label:
+            en_US: Document Name
+            ja_JP: Document Name
+            pt_BR: Document Name
+            zh_Hans: 文档名称
+          llm_description: the name of the document
+          max: null
+          min: null
+          name: name
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: high_quality
+          form: form
+          human_description:
+            en_US: the indexing technique you want to use
+            ja_JP: the indexing technique you want to use
+            pt_BR: the indexing technique you want to use
+            zh_Hans: 你想要使用的索引方式
+          label:
+            en_US: Index Method
+            ja_JP: Index Method
+            pt_BR: Index Method
+            zh_Hans: 索引方式
+          llm_description: ''
+          max: null
+          min: null
+          name: indexing_technique
+          options:
+          - icon: ''
+            label:
+              en_US: High Quality
+              ja_JP: High Quality
+              pt_BR: High Quality
+              zh_Hans: 高质量
+            value: high_quality
+          - icon: ''
+            label:
+              en_US: Economy
+              ja_JP: Economy
+              pt_BR: Economy
+              zh_Hans: 经济
+            value: economy
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: text_model
+          form: form
+          human_description:
+            en_US: the chunk settings
+            ja_JP: the chunk settings
+            pt_BR: the chunk settings
+            zh_Hans: 分段方式
+          label:
+            en_US: Chunk Method
+            ja_JP: Chunk Method
+            pt_BR: Chunk Method
+            zh_Hans: 分段方式
+          llm_description: ''
+          max: null
+          min: null
+          name: doc_form
+          options:
+          - icon: ''
+            label:
+              en_US: General
+              ja_JP: General
+              pt_BR: General
+              zh_Hans: 通用
+            value: text_model
+          - icon: ''
+            label:
+              en_US: Parent-child
+              ja_JP: Parent-child
+              pt_BR: Parent-child
+              zh_Hans: 父子分段
+            value: hierarchical_model
+          - icon: ''
+            label:
+              en_US: Q&A
+              ja_JP: Q&A
+              pt_BR: Q&A
+              zh_Hans: Q&A分段
+            value: qa_model
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: only for Q&A Chunk Method
+            ja_JP: only for Q&A Chunk Method
+            pt_BR: only for Q&A Chunk Method
+            zh_Hans: 仅适用于 Q&A 分段方式
+          label:
+            en_US: Document Language
+            ja_JP: Document Language
+            pt_BR: Document Language
+            zh_Hans: 文档语言
+          llm_description: ''
+          max: null
+          min: null
+          name: doc_language
+          options:
+          - icon: ''
+            label:
+              en_US: English
+              ja_JP: English
+              pt_BR: English
+              zh_Hans: 英语
+            value: English
+          - icon: ''
+            label:
+              en_US: Chinese
+              ja_JP: Chinese
+              pt_BR: Chinese
+              zh_Hans: 中文
+            value: Chinese
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: '{"mode": "automatic"}
+
+            '
+          form: form
+          human_description:
+            en_US: 'Must be a valid JSON string, See plugin detail page for more details
+
+              '
+            ja_JP: 'Must be a valid JSON string, See plugin detail page for more details
+
+              '
+            pt_BR: 'Must be a valid JSON string, See plugin detail page for more details
+
+              '
+            zh_Hans: '必须是一个有效的 JSON 字符串，请参考插件详情页获取更多信息
+
+              '
+          label:
+            en_US: Process Rule
+            ja_JP: Process Rule
+            pt_BR: Process Rule
+            zh_Hans: 处理规则
+          llm_description: ''
+          max: null
+          min: null
+          name: process_rule
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          dataset_id: ''
+          doc_form: ''
+          doc_language: ''
+          indexing_technique: ''
+          name: ''
+          process_rule: ''
+          text: ''
+        plugin_id: hjlarry/knowledge
+        plugin_unique_identifier: hjlarry/knowledge:0.0.1@e7ae030ac64b673b258a77bf46510726326653195b646e85452303c9a84444ec
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=192683d6-3d42-476e-9070-167da46b390e&filename=8fa19727bdc381748bea850ee061cd18bd2b851bd61f53fc4ede2ccabd6a20ee.svg
+        provider_id: hjlarry/knowledge/knowledge
+        provider_name: hjlarry/knowledge/knowledge
+        provider_type: builtin
+        selected: false
+        title: 错误反馈文档
+        tool_configurations:
+          doc_form:
+            type: constant
+            value: text_model
+          doc_language:
+            type: constant
+            value: Chinese
+          indexing_technique:
+            type: constant
+            value: high_quality
+          process_rule:
+            type: mixed
+            value: '{"mode": "automatic"}'
+        tool_description: 将dify的工作流生成的内容直接添加至其知识库
+        tool_label: 创建文档
+        tool_name: knowledge
+        tool_node_version: '2'
+        tool_parameters:
+          dataset_id:
+            type: mixed
+            value: cf347dc8-0a7d-4f0b-af31-f396c159ecad
+          name:
+            type: mixed
+            value: 错误反馈
+          text:
+            type: mixed
+            value: 【原始反馈】{{#start.user_feedback#}}\n【核心问题】{{#classify_feedback.structured_output.content#}}
+        type: tool
+      height: 165
+      id: '1765113913390'
+      position:
+        x: 1324.2702650735616
+        y: 138.70798172678167
+      positionAbsolute:
+        x: 1324.2702650735616
+        y: 138.70798172678167
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        desc: 待人工确认
+        outputs:
+        - value_selector:
+          - '1765113913390'
+          - text
+          value_type: string
+          variable: temp_fix_write_result
+        selected: false
+        title: 错误反馈
+        type: end
+      height: 115
+      id: '1765114169940'
+      position:
+        x: 1750.3354189893337
+        y: 138.70798172678167
+      positionAbsolute:
+        x: 1750.3354189893337
+        y: 138.70798172678167
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: the content you want to add to knowledge base
+            ja_JP: the content you want to add to knowledge base
+            pt_BR: the content you want to add to knowledge base
+            zh_Hans: 你想要添加到知识库的内容
+          label:
+            en_US: Content
+            ja_JP: Content
+            pt_BR: Content
+            zh_Hans: 内容
+          llm_description: the content you want to add to knowledge base
+          max: null
+          min: null
+          name: text
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: which dataset you want to add to
+            ja_JP: which dataset you want to add to
+            pt_BR: which dataset you want to add to
+            zh_Hans: 你想要添加到哪个数据集
+          label:
+            en_US: Dataset ID
+            ja_JP: Dataset ID
+            pt_BR: Dataset ID
+            zh_Hans: 数据集 ID
+          llm_description: which dataset you want to add to
+          max: null
+          min: null
+          name: dataset_id
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: the name of the document
+            ja_JP: the name of the document
+            pt_BR: the name of the document
+            zh_Hans: 文档的名称
+          label:
+            en_US: Document Name
+            ja_JP: Document Name
+            pt_BR: Document Name
+            zh_Hans: 文档名称
+          llm_description: the name of the document
+          max: null
+          min: null
+          name: name
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: high_quality
+          form: form
+          human_description:
+            en_US: the indexing technique you want to use
+            ja_JP: the indexing technique you want to use
+            pt_BR: the indexing technique you want to use
+            zh_Hans: 你想要使用的索引方式
+          label:
+            en_US: Index Method
+            ja_JP: Index Method
+            pt_BR: Index Method
+            zh_Hans: 索引方式
+          llm_description: ''
+          max: null
+          min: null
+          name: indexing_technique
+          options:
+          - icon: ''
+            label:
+              en_US: High Quality
+              ja_JP: High Quality
+              pt_BR: High Quality
+              zh_Hans: 高质量
+            value: high_quality
+          - icon: ''
+            label:
+              en_US: Economy
+              ja_JP: Economy
+              pt_BR: Economy
+              zh_Hans: 经济
+            value: economy
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: text_model
+          form: form
+          human_description:
+            en_US: the chunk settings
+            ja_JP: the chunk settings
+            pt_BR: the chunk settings
+            zh_Hans: 分段方式
+          label:
+            en_US: Chunk Method
+            ja_JP: Chunk Method
+            pt_BR: Chunk Method
+            zh_Hans: 分段方式
+          llm_description: ''
+          max: null
+          min: null
+          name: doc_form
+          options:
+          - icon: ''
+            label:
+              en_US: General
+              ja_JP: General
+              pt_BR: General
+              zh_Hans: 通用
+            value: text_model
+          - icon: ''
+            label:
+              en_US: Parent-child
+              ja_JP: Parent-child
+              pt_BR: Parent-child
+              zh_Hans: 父子分段
+            value: hierarchical_model
+          - icon: ''
+            label:
+              en_US: Q&A
+              ja_JP: Q&A
+              pt_BR: Q&A
+              zh_Hans: Q&A分段
+            value: qa_model
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: only for Q&A Chunk Method
+            ja_JP: only for Q&A Chunk Method
+            pt_BR: only for Q&A Chunk Method
+            zh_Hans: 仅适用于 Q&A 分段方式
+          label:
+            en_US: Document Language
+            ja_JP: Document Language
+            pt_BR: Document Language
+            zh_Hans: 文档语言
+          llm_description: ''
+          max: null
+          min: null
+          name: doc_language
+          options:
+          - icon: ''
+            label:
+              en_US: English
+              ja_JP: English
+              pt_BR: English
+              zh_Hans: 英语
+            value: English
+          - icon: ''
+            label:
+              en_US: Chinese
+              ja_JP: Chinese
+              pt_BR: Chinese
+              zh_Hans: 中文
+            value: Chinese
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: '{"mode": "automatic"}
+
+            '
+          form: form
+          human_description:
+            en_US: 'Must be a valid JSON string, See plugin detail page for more details
+
+              '
+            ja_JP: 'Must be a valid JSON string, See plugin detail page for more details
+
+              '
+            pt_BR: 'Must be a valid JSON string, See plugin detail page for more details
+
+              '
+            zh_Hans: '必须是一个有效的 JSON 字符串，请参考插件详情页获取更多信息
+
+              '
+          label:
+            en_US: Process Rule
+            ja_JP: Process Rule
+            pt_BR: Process Rule
+            zh_Hans: 处理规则
+          llm_description: ''
+          max: null
+          min: null
+          name: process_rule
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          dataset_id: ''
+          doc_form: ''
+          doc_language: ''
+          indexing_technique: ''
+          name: ''
+          process_rule: ''
+          text: ''
+        plugin_id: hjlarry/knowledge
+        plugin_unique_identifier: hjlarry/knowledge:0.0.1@e7ae030ac64b673b258a77bf46510726326653195b646e85452303c9a84444ec
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=192683d6-3d42-476e-9070-167da46b390e&filename=8fa19727bdc381748bea850ee061cd18bd2b851bd61f53fc4ede2ccabd6a20ee.svg
+        provider_id: hjlarry/knowledge/knowledge
+        provider_name: hjlarry/knowledge/knowledge
+        provider_type: builtin
+        selected: true
+        title: 创建文档
+        tool_configurations:
+          doc_form:
+            type: constant
+            value: text_model
+          doc_language:
+            type: constant
+            value: Chinese
+          indexing_technique:
+            type: constant
+            value: high_quality
+          process_rule:
+            type: mixed
+            value: '{"mode": "automatic"}'
+        tool_description: 将dify的工作流生成的内容直接添加至其知识库
+        tool_label: 创建文档
+        tool_name: knowledge
+        tool_node_version: '2'
+        tool_parameters:
+          dataset_id:
+            type: mixed
+            value: cf347dc8-0a7d-4f0b-af31-f396c159ecad
+          name:
+            type: mixed
+            value: 补充内容说明
+          text:
+            type: mixed
+            value: 【原始反馈】{{#start.user_feedback#}}补充记录：{{#generate_record.text#}}
+        type: tool
+      height: 165
+      id: '1765181709232'
+      position:
+        x: 1730.7216810604527
+        y: 407.4390205427007
+      positionAbsolute:
+        x: 1730.7216810604527
+        y: 407.4390205427007
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    viewport:
+      x: -265.7144687576405
+      y: 24.09152227361602
+      zoom: 0.5464982556647604
+  rag_pipeline_variables: []

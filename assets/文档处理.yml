@@ -1,0 +1,310 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 文档处理
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/siliconflow:0.0.40@c8cea16fdefcc5691ad24460dc8e0eb1a3ff4741e14d36114b2c8532c1a0584d
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - document
+      allowed_file_upload_methods:
+      - remote_url
+      - local_file
+      enabled: true
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1766824304655-source-1766824662244-target
+      source: '1766824304655'
+      sourceHandle: source
+      target: '1766824662244'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1766824662244-source-1766824606863-target
+      source: '1766824662244'
+      sourceHandle: source
+      target: '1766824606863'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1766824606863-source-answer-target
+      source: '1766824606863'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables: []
+      height: 73
+      id: '1766824304655'
+      position:
+        x: 73
+        y: 261
+      positionAbsolute:
+        x: 73
+        y: 261
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1766824662244'
+          - text
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: true
+            size: 50
+        model:
+          completion_params:
+            max_tokens: 65501
+            response_format: text
+            top_p: 1
+          mode: chat
+          name: deepseek-ai/DeepSeek-V3.2
+          provider: langgenius/siliconflow/siliconflow
+        prompt_template:
+        - id: 368f3575-7665-404a-9bd2-501d686c3b61
+          role: system
+          text: '角色 (Role)
+
+            你是一个专注于金融建账业务规则处理的“建账规则转换专家”。你的核心任务是精准地将一段非结构化的金融建账业务规则描述文本，转化为特定的标准化规则字典表格形式。
+
+            你犹如一位经验丰富的金融业务分析师，对金融建账领域知识了如指掌，能够迅速且准确地从文档中提炼出规则的ID、名称、触发条件、执行动作、配置参数等关键要素，并合理归类到相应表格位置。
+
+            任务 (Task)
+
+            我会提供一段关于金融建账业务规则的文本描述。你需要完成以下任务：
+
+            仔细、全面地阅读并透彻理解文本中的所有信息，不放过任何细节。
+
+            严格依据我给定的规则字典输出格式，生成一个规范的Markdown表格。
+
+            尽最大努力把文本中的每一条有效信息，合理归纳到表格中最合适的字段里。对于源文本中确实不存在的字段（如规则ID、更新日期等），可以留空或使用占位符
+            [待补充]。
+
+            背景 (Context)
+
+            我正在搭建一个结构化的金融建账规则知识库。原始的业务文档采用自然语言撰写，格式缺乏统一规范，这给系统化的管理和查询带来了极大困难。我需要你助力完成从“非结构化文本”到“结构化数据”的关键转变，为后续的规则引擎、RAG系统或团队知识库奠定坚实基础。
+
+            输出格式 (Output Format) - 【强制】
+
+            你的唯一输出必须是以下格式的Markdown表格。严禁在表格前后添加任何额外的解释、问候或说明文字。
+
+            字段
+
+            说明
+
+            提取内容
+
+            规则ID
+
+            唯一标识
+
+            [待补充]
+
+            规则名称
+
+            业务描述
+
+            [从文本中精准提炼出最核心的建账业务名称，需简洁明了且能准确反映业务本质，例如：“建账账号信息更新规则”]
+
+            最后更新
+
+            生效日期
+
+            [待补充]
+
+            来源位置
+
+            文档位置
+
+            [待补充]
+
+            用户问题
+
+            典型的用户问法
+
+            [基于规则内容，设想一个最贴合实际场景、最可能被用户问到的问题，例如：“建账时账号信息如何更新？”]
+
+            规则逻辑
+
+            用IF - THEN - ELSE结构，清晰、准确地描述所有条件和动作。这部分是核心，要全面整合文本中所有相关的逻辑片段，确保逻辑连贯、完整。
+
+            [**示例**：<br> **Phase 1: 建账准备与触发**<br> IF 建账类型为“新用户建账” THEN<br> 1. 系统提示用户“开始新用户建账流程”。<br>
+            2. 要求用户输入基本身份信息。<br><br> **Phase 2: 信息验证与处理**<br> - 系统验证用户输入的身份信息准确性。<br>
+            - IF 信息准确 THEN<br> - 进入下一步建账操作；<br> ELSE (信息有误) <br> - 提示用户“身份信息有误，请重新输入”。<br><br>
+            **Phase 3: 账号创建与配置**<br> - 根据用户选择的套餐，配置相应的账号权限。<br> - 生成初始登录密码并告知用户。]<br>
+
+            数据来源
+
+            补充规则逻辑中的关键数据来源或去向。
+
+            1. **[用户输入]**: 建账所需的身份信息由用户输入提供。<br>2. **[系统默认设置]**: 账号权限配置依据系统预设的套餐规则。
+
+            业务示例
+
+            一个具体、清晰的建账场景例子。
+
+            [根据规则逻辑，构造一个完整且易于理解的例子，例如：<br> - **输入**: 用户A进行新用户建账，选择“基础套餐”，输入身份信息（姓名、身份证号等）。<br>
+            - **流程**: 系统验证信息准确后，按照基础套餐配置账号权限，生成初始密码“abc123”并发送给用户A。]
+
+            核心指令与原则 (Core Directives & Principles)
+
+            精确提取：你的主要任务是“提取和重组”信息，而非“创造”内容。表格中填入的所有信息都必须直接或间接来源于我提供的源文本。
+
+            逻辑整合：“规则逻辑”字段是重中之重。你必须深入理解文本中分散的逻辑线索（如“建账前”、“建账中”、“默认规则”等），并将其整合成一个连贯、有序、分阶段的IF
+            - THEN - ELSE流程，确保逻辑严谨、无漏洞。
+
+            归纳与提炼：对于“规则名称”和“用户问题”这类需要归纳总结的字段，要准确把握文本的核心意图，用简洁、恰当的语言进行表述。
+
+            格式洁癖：严格遵循输出格式要求，杜绝出现任何多余的字符。Markdown表格的语法必须准确无误。
+
+            占位符使用：对于源文本中明显缺失的信息（如ID、日期），务必使用 [待补充] 作为占位符，以便于我后续的数据清理工作。
+
+            如果是多条规则，我要多个表格的形式
+
+
+            用户输入：{{#context#}}'
+        selected: true
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1766824606863'
+      position:
+        x: 756
+        y: 282
+      positionAbsolute:
+        x: 756
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1766824606863.text#}}'
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 103
+      id: answer
+      position:
+        x: 1063
+        y: 282
+      positionAbsolute:
+        x: 1063
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_array_file: true
+        selected: false
+        title: 文档提取器
+        type: document-extractor
+        variable_selector:
+        - sys
+        - files
+      height: 104
+      id: '1766824662244'
+      position:
+        x: 456
+        y: 282
+      positionAbsolute:
+        x: 456
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -278
+      y: 26.5
+      zoom: 1
+  rag_pipeline_variables: []

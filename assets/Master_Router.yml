@@ -1,0 +1,451 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: Master_Router
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/moonshot:0.0.9@02018dd44e2a5ece9a29028969025eee866758dfab1469b419b4a23ffba5edea
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - document
+      allowed_file_upload_methods:
+      - remote_url
+      - local_file
+      enabled: true
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: "欢迎使用建账规则助手！请选择你的角色：\n\n【a】产品经理 - 关注业务流程和用户体验\n【b】技术开发 - 关注技术实现和系统架构\
+      \  \n【c】销售运营 - 关注客户价值和市场竞争\n【d】默认工程师视角 - 标准技术解释\n\n请回复 a/b/c/d 选择你的角色，这将影响回答的重点和详细程度。"
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: true
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: true
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1764591706577-true-1764592236892-target
+      selected: false
+      source: '1764591706577'
+      sourceHandle: 'true'
+      target: '1764592236892'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1764591706577-false-1764592364982-target
+      selected: false
+      source: '1764591706577'
+      sourceHandle: 'false'
+      target: '1764592364982'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1764592236892-source-answer-target
+      selected: false
+      source: '1764592236892'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1764592364982-source-answer-target
+      selected: false
+      source: '1764592364982'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: if-else
+      id: llm-source-1764591706577-target
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: '1764591706577'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1764591537609-source-1764592364982-target
+      selected: false
+      source: '1764591537609'
+      sourceHandle: source
+      target: '1764592364982'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1764591537609-source-1764592236892-target
+      selected: false
+      source: '1764591537609'
+      sourceHandle: source
+      target: '1764592236892'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1764591537609-source-llm-target
+      source: '1764591537609'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables:
+        - hint: ''
+          label: roles
+          max_length: 48
+          options:
+          - a  产品经理，专注于业务需求和用户体验。请从产品角度解释建账规则，关注业务流程和用户痛点。
+          - b 技术开发，专注于技术实现和系统架构。请从技术角度解释建账规则，关注技术链路和数据库交互。
+          - c 销售运营者，专注于市场推广和客户价值。请从商业角度解释建账规则，关注客户价值和市场竞争力。
+          - d 金融建账自动化规则工程师，负责根据结构化规则字典，来回答用户问题。
+          placeholder: ''
+          required: false
+          type: select
+          variable: roles
+      height: 108
+      id: '1764591537609'
+      position:
+        x: 641.9972623551796
+        y: 42.571428571428584
+      positionAbsolute:
+        x: 641.9972623551796
+        y: 42.571428571428584
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: moonshot-v1-8k
+          provider: langgenius/moonshot/moonshot
+        prompt_template:
+        - id: 0023ba7e-dbff-451b-b5fe-8083fc27b30a
+          role: system
+          text: '你是意图分类器，根据用户输入内容判断意图。
+
+
+            用户输入：
+
+            {{#context#}}
+
+            - 如果用户是在提问题（咨询建账规则、业务场景），intent = "qa"
+
+            - 如果用户是在上传或更新规则文档、说“我要更新规则”、“上传规则文件”等，intent = "update"
+
+
+            严格按照系统定义的 JSON 结构输出，不要输出任何额外字段或文字。
+
+            '
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              intent:
+                description: 用户意图：qa 表示问答，update 表示规则文档更新
+                enum:
+                - qa
+                - update
+                type: string
+            required:
+            - intent
+            type: object
+        structured_output_enabled: true
+        title: 意图识别
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: llm
+      position:
+        x: 1288.1411568316441
+        y: 63.571428571428584
+      positionAbsolute:
+        x: 1288.1411568316441
+        y: 63.571428571428584
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1764592364982.text#}} '
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 102
+      id: answer
+      position:
+        x: 2362.285714285714
+        y: 94.28571428571429
+      positionAbsolute:
+        x: 2362.285714285714
+        y: 94.28571428571429
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: contains
+            id: 08348795-5d43-4af5-a706-deb5baa782cb
+            value: update
+            varType: string
+            variable_selector:
+            - llm
+            - structured_output
+            - intent
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 123
+      id: '1764591706577'
+      position:
+        x: 1745.4285714285713
+        y: 63.571428571428584
+      positionAbsolute:
+        x: 1745.4285714285713
+        y: 63.571428571428584
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: 待处理文档
+            ja_JP: 待处理文档
+            pt_BR: 待处理文档
+            zh_Hans: 待处理文档
+          llm_description: ''
+          max: null
+          min: null
+          name: doc_file
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        params:
+          doc_file: ''
+        plugin_id: null
+        plugin_unique_identifier: null
+        provider_icon:
+          background: '#FFEAD5'
+          content: 📄
+        provider_id: 9a9e28d0-6b25-444b-921e-12bed07280d6
+        provider_name: WF_DocumentProcessor_v1
+        provider_type: workflow
+        selected: false
+        title: WF_DocumentProcessor_v1
+        tool_configurations:
+          files:
+            type: variable
+            value:
+            - '1764591537609'
+            - files_update_rule
+        tool_description: 文档处理智能体：解析→提取→审核→生成差异→人工确认→入库
+        tool_label: WF_DocumentProcessor_v1
+        tool_name: WF_DocumentProcessor_v1
+        tool_node_version: '2'
+        tool_parameters:
+          doc_file:
+            type: variable
+            value: []
+          user_files:
+            type: variable
+            value:
+            - sys
+            - files
+        type: tool
+      height: 87
+      id: '1764592236892'
+      position:
+        x: 2018.857142857143
+        y: -225.71428571428572
+      positionAbsolute:
+        x: 2018.857142857143
+        y: -225.71428571428572
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: query
+            ja_JP: query
+            pt_BR: query
+            zh_Hans: query
+          llm_description: ''
+          max: null
+          min: null
+          name: query
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          query: ''
+        plugin_id: null
+        plugin_unique_identifier: null
+        provider_icon:
+          background: '#FFEAD5'
+          content: 🤖
+        provider_id: 1f864bba-07ea-4951-adc9-e73b2a7babe6
+        provider_name: WF_QA_Main
+        provider_type: workflow
+        selected: true
+        title: WF_QA_Main
+        tool_configurations: {}
+        tool_description: ''
+        tool_label: WF_QA_Main
+        tool_name: WF_QA_Main
+        tool_node_version: '2'
+        tool_parameters:
+          query:
+            type: mixed
+            value: '{{#sys.query#}}{{#1764591537609.roles#}}'
+        type: tool
+      height: 51
+      id: '1764592364982'
+      position:
+        x: 2049.1893289090945
+        y: 454.81067109090543
+      positionAbsolute:
+        x: 2049.1893289090945
+        y: 454.81067109090543
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -1407.807979754713
+      y: 68.25901442059052
+      zoom: 0.9120880498089267
+  rag_pipeline_variables: []
