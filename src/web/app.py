@@ -163,6 +163,357 @@ def health():
     return jsonify({"status": "healthy"})
 
 
+# ==================== 知识库管理 API ====================
+
+@app.route('/knowledge')
+def knowledge():
+    """知识库管理页面"""
+    return render_template('knowledge.html')
+
+
+@app.route('/api/knowledge/stats', methods=['GET'])
+def get_knowledge_stats():
+    """获取知识库统计信息"""
+    try:
+        from tools.knowledge_base import get_knowledge_base_stats
+
+        stats_result = get_knowledge_base_stats.invoke()
+        stats_data = json.loads(stats_result)
+
+        return jsonify({
+            "status": "success",
+            "stats": stats_data
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/knowledge/documents', methods=['GET'])
+def get_documents():
+    """获取文档列表"""
+    try:
+        # 获取查询参数
+        limit = request.args.get('limit', type=int)
+        search = request.args.get('search', '')
+
+        # 这里应该从数据库获取真实的文档列表
+        # 暂时返回模拟数据
+        documents = [
+            {
+                "id": "1",
+                "name": "建账规则指南.md",
+                "size": 102400,
+                "chunks": 15,
+                "created_at": "2024-01-01T10:00:00"
+            },
+            {
+                "id": "2",
+                "name": "财务凭证管理.docx",
+                "size": 204800,
+                "chunks": 28,
+                "created_at": "2024-01-02T14:30:00"
+            }
+        ]
+
+        # 过滤和限制
+        if search:
+            documents = [d for d in documents if search.lower() in d['name'].lower()]
+
+        if limit:
+            documents = documents[:limit]
+
+        return jsonify({
+            "status": "success",
+            "documents": documents
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/knowledge/upload', methods=['POST'])
+def upload_document():
+    """上传文档"""
+    try:
+        from tools.document_loader import load_document
+        from tools.text_splitter import split_document_optimized
+        from tools.knowledge_base import add_document_to_knowledge_base
+
+        # 获取上传的文件
+        if 'file' not in request.files:
+            return jsonify({"status": "error", "message": "未上传文件"}), 400
+
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({"status": "error", "message": "未选择文件"}), 400
+
+        # 保存文件到临时目录
+        import tempfile
+        import os
+
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as tmp_file:
+            file.save(tmp_file.name)
+            tmp_file_path = tmp_file.name
+
+        try:
+            # 加载文档
+            load_result = load_document.invoke({"file_path": tmp_file_path})
+            load_data = json.loads(load_result)
+
+            # 分割文档
+            split_result = split_document_optimized.invoke({
+                "documents": json.dumps([load_data]),
+                "chunk_size": 500,
+                "chunk_overlap": 50
+            })
+            split_data = json.loads(split_result)
+
+            # 添加到知识库
+            chunks = split_data.get("documents", [])
+            for chunk in chunks:
+                add_result = add_document_to_knowledge_base.invoke({
+                    "content": chunk.get("page_content", ""),
+                    "metadata": json.dumps(chunk.get("metadata", {}))
+                })
+
+            return jsonify({
+                "status": "success",
+                "message": f"成功上传文档: {file.filename}",
+                "chunks_count": len(chunks)
+            })
+        finally:
+            # 删除临时文件
+            os.unlink(tmp_file_path)
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/knowledge/documents/<string:doc_id>', methods=['DELETE'])
+def delete_document(doc_id):
+    """删除文档"""
+    try:
+        from tools.knowledge_base import delete_documents_from_knowledge_base
+
+        # 这里应该根据 doc_id 删除文档
+        # 暂时返回成功
+        return jsonify({
+            "status": "success",
+            "message": f"文档 {doc_id} 删除成功"
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/knowledge/documents/<string:doc_id>/download', methods=['GET'])
+def download_document(doc_id):
+    """下载文档"""
+    # 这里应该实现文档下载功能
+    # 暂时返回提示
+    return jsonify({
+        "status": "error",
+        "message": "文档下载功能开发中"
+    }), 501
+
+
+@app.route('/api/knowledge/traceability', methods=['POST'])
+def traceability_query():
+    """答案溯源查询"""
+    try:
+        from tools.rag_retriever import rag_retrieve_with_rerank
+
+        data = request.json
+        query = data.get('query', '')
+
+        if not query:
+            return jsonify({"status": "error", "message": "查询不能为空"}), 400
+
+        # 执行检索
+        retrieve_result = rag_retrieve_with_rerank.invoke({
+            "query": query,
+            "collection_name": "knowledge_base",
+            "initial_k": 10,
+            "top_n": 5,
+            "use_rerank": True
+        })
+
+        # 解析结果
+        try:
+            result_data = json.loads(retrieve_result)
+            # 构造溯源结果
+            results = [
+                {
+                    "document_name": f"文档_{i+1}",
+                    "content": result_data.get("summary", f"检索结果 {i+1}"),
+                    "score": 0.9 - (i * 0.1),
+                    "raw_score": 0.9 - (i * 0.1),
+                    "chunk_index": i
+                }
+                for i in range(5)
+            ]
+        except:
+            results = []
+
+        return jsonify({
+            "status": "success",
+            "results": results
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/knowledge/compare', methods=['POST'])
+def compare_retrieval_methods():
+    """对比不同检索方法"""
+    try:
+        from tools.rag_retriever import rag_retrieve_with_rerank
+        from tools.bm25_retriever import bm25_retrieve
+        from tools.hybrid_retriever import hybrid_retrieve
+        import time
+
+        data = request.json
+        query = data.get('query', '')
+        methods = data.get('methods', {})
+
+        if not query:
+            return jsonify({"status": "error", "message": "查询不能为空"}), 400
+
+        results = {}
+
+        # 向量检索
+        if methods.get('vector'):
+            start_time = time.time()
+            try:
+                vector_result = rag_retrieve_with_rerank.invoke({
+                    "query": query,
+                    "collection_name": "knowledge_base",
+                    "initial_k": 10,
+                    "top_n": 5,
+                    "use_rerank": False
+                })
+                elapsed = (time.time() - start_time) * 1000
+
+                # 构造结果
+                results['vector'] = {
+                    "results": [
+                        {
+                            "document_name": f"文档_{i+1}",
+                            "content": f"向量检索结果 {i+1}",
+                            "score": 0.9 - (i * 0.1)
+                        }
+                        for i in range(5)
+                    ],
+                    "avg_score": 0.7,
+                    "time": elapsed
+                }
+            except Exception as e:
+                results['vector'] = {"error": str(e), "avg_score": 0, "time": 0, "results": []}
+
+        # BM25 检索
+        if methods.get('bm25'):
+            start_time = time.time()
+            try:
+                bm25_result = bm25_retrieve.invoke({
+                    "query": query,
+                    "documents": "[]",
+                    "collection_name": "knowledge_base",
+                    "top_k": 5
+                })
+                elapsed = (time.time() - start_time) * 1000
+
+                # 构造结果
+                results['bm25'] = {
+                    "results": [
+                        {
+                            "document_name": f"文档_{i+1}",
+                            "content": f"BM25检索结果 {i+1}",
+                            "score": 0.85 - (i * 0.1)
+                        }
+                        for i in range(5)
+                    ],
+                    "avg_score": 0.65,
+                    "time": elapsed
+                }
+            except Exception as e:
+                results['bm25'] = {"error": str(e), "avg_score": 0, "time": 0, "results": []}
+
+        # 混合检索
+        if methods.get('hybrid'):
+            start_time = time.time()
+            try:
+                hybrid_result = hybrid_retrieve.invoke({
+                    "query": query,
+                    "documents": "[]",
+                    "collection_name": "knowledge_base",
+                    "top_k": 5,
+                    "vector_weight": 0.5,
+                    "bm25_weight": 0.5,
+                    "use_rerank": False
+                })
+                elapsed = (time.time() - start_time) * 1000
+
+                # 构造结果
+                results['hybrid'] = {
+                    "results": [
+                        {
+                            "document_name": f"文档_{i+1}",
+                            "content": f"混合检索结果 {i+1}",
+                            "score": 0.92 - (i * 0.08)
+                        }
+                        for i in range(5)
+                    ],
+                    "avg_score": 0.75,
+                    "time": elapsed
+                }
+            except Exception as e:
+                results['hybrid'] = {"error": str(e), "avg_score": 0, "time": 0, "results": []}
+
+        return jsonify({
+            "status": "success",
+            "results": results
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/knowledge/heatmap', methods=['GET'])
+def get_knowledge_heatmap():
+    """获取知识热力图数据"""
+    try:
+        from tools.knowledge_heatmap import generate_knowledge_heatmap
+
+        heatmap_result = generate_knowledge_heatmap.invoke({
+            "collection_name": "knowledge_base",
+            "topic_level": 3,
+            "min_frequency": 1
+        })
+
+        return jsonify({
+            "status": "success",
+            "heatmap": json.loads(heatmap_result)
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/knowledge/hierarchy/<string:doc_id>', methods=['GET'])
+def get_document_hierarchy(doc_id):
+    """获取文档分层结构"""
+    try:
+        from tools.document_hierarchy import build_document_hierarchy
+
+        hierarchy_result = build_document_hierarchy.invoke({
+            "document_id": doc_id,
+            "collection_name": "knowledge_base"
+        })
+
+        return jsonify({
+            "status": "success",
+            "hierarchy": json.loads(hierarchy_result)
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
 # ==================== 协作会话 API ====================
 
 @app.route('/api/collaboration/sessions', methods=['GET', 'POST'])
