@@ -250,8 +250,14 @@ function parseMarkdown(text) {
     html = html.replace(/^[-*] (.*)$/gm, '<li>$1</li>');
     html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
     
+    // 图片（在链接之前处理，避免被误识别为链接）
+    html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%; height:auto; margin:10px 0;">');
+    
     // 链接
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+    
+    // 文件引用（转换为下载链接）
+    html = html.replace(/File:\s+\[([^\]]+)\]/g, '<a href="$1" target="_blank" style="color:#007bff; text-decoration:none;">📄 $1</a>');
     
     // 换行
     html = html.replace(/\n/g, '<br>');
