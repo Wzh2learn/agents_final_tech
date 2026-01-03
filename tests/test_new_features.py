@@ -272,13 +272,14 @@ for name, result in test_results:
     status = "✓ 通过" if result else "✗ 失败"
     print(f"  {name}: {status}")
 
-if passed == total:
-    print("\n" + "=" * 80)
-    print("✓ 所有测试通过！")
-    print("=" * 80)
-    sys.exit(0)
-else:
-    print("\n" + "=" * 80)
-    print(f"⚠️  有 {total - passed} 个测试失败")
-    print("=" * 80)
-    sys.exit(1)
+if __name__ == "__main__":
+    if passed == total:
+        print("\n" + "=" * 80)
+        print("✓ 所有测试通过！")
+        print("=" * 80)
+        sys.exit(0)
+    else:
+        print("\n" + "=" * 80)
+        print(f"⚠️  有 {total - passed} 个测试失败")
+        print("=" * 80)
+        sys.exit(1)
