@@ -4,6 +4,14 @@
 let currentPage = 'overview';
 let deleteDocId = null;
 
+// 分页状态
+let paginationState = {
+    page: 1,
+    page_size: 10,
+    total: 0,
+    pages: 1
+};
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
     initPage();
@@ -230,19 +238,29 @@ async function loadRecentDocuments() {
 }
 
 // 加载所有文档
-async function loadAllDocuments() {
+async function loadAllDocuments(page = 1) {
     try {
         const searchTerm = document.getElementById('document-search')?.value || '';
-        let url = '/api/knowledge/documents';
+
+        let url = `/api/knowledge/documents?page=${page}&page_size=${paginationState.page_size}`;
         if (searchTerm) {
-            url += `?search=${encodeURIComponent(searchTerm)}`;
+            url += `&search=${encodeURIComponent(searchTerm)}`;
         }
 
         const response = await fetch(url);
         const data = await response.json();
 
         if (data.status === 'success') {
+            // 更新分页状态
+            paginationState = {
+                page: data.pagination.page,
+                page_size: data.pagination.page_size,
+                total: data.pagination.total,
+                pages: data.pagination.pages
+            };
+
             renderDocuments(data.documents, 'all-documents');
+            renderPagination('all-documents');
         } else {
             document.getElementById('all-documents').innerHTML =
                 '<div class="empty-state"><div class="icon">📭</div><p>暂无文档</p></div>';
@@ -284,6 +302,99 @@ function renderDocuments(documents, containerId) {
     `).join('');
 
     container.innerHTML = html;
+}
+
+// 渲染分页控件
+function renderPagination(containerId) {
+    const container = document.getElementById(containerId);
+
+    // 如果只有一页，不显示分页
+    if (paginationState.pages <= 1) {
+        const existingPagination = container.querySelector('.pagination');
+        if (existingPagination) {
+            existingPagination.remove();
+        }
+        return;
+    }
+
+    // 移除现有分页
+    const existingPagination = container.querySelector('.pagination');
+    if (existingPagination) {
+        existingPagination.remove();
+    }
+
+    // 生成分页HTML
+    let paginationHTML = '<div class="pagination">';
+
+    // 上一页按钮
+    paginationHTML += `
+        <button
+            class="pagination-btn"
+            onclick="goToPage(${paginationState.page - 1})"
+            ${paginationState.page === 1 ? 'disabled' : ''}
+        >上一页</button>
+    `;
+
+    // 页码按钮
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, paginationState.page - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(paginationState.pages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    if (startPage > 1) {
+        paginationHTML += `<button class="pagination-btn" onclick="goToPage(1)">1</button>`;
+        if (startPage > 2) {
+            paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+        }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        paginationHTML += `
+            <button
+                class="pagination-btn ${i === paginationState.page ? 'active' : ''}"
+                onclick="goToPage(${i})"
+            >${i}</button>
+        `;
+    }
+
+    if (endPage < paginationState.pages) {
+        if (endPage < paginationState.pages - 1) {
+            paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+        }
+        paginationHTML += `<button class="pagination-btn" onclick="goToPage(${paginationState.pages})">${paginationState.pages}</button>`;
+    }
+
+    // 下一页按钮
+    paginationHTML += `
+        <button
+            class="pagination-btn"
+            onclick="goToPage(${paginationState.page + 1})"
+            ${paginationState.page === paginationState.pages ? 'disabled' : ''}
+        >下一页</button>
+    `;
+
+    // 分页信息
+    paginationHTML += `
+        <span class="pagination-info">
+            第 ${paginationState.page} 页 / 共 ${paginationState.pages} 页
+            (总计 ${paginationState.total} 条记录)
+        </span>
+    `;
+
+    paginationHTML += '</div>';
+
+    container.insertAdjacentHTML('beforeend', paginationHTML);
+}
+
+// 跳转到指定页
+function goToPage(page) {
+    if (page < 1 || page > paginationState.pages || page === paginationState.page) {
+        return;
+    }
+    loadAllDocuments(page);
 }
 
 // 处理文件拖放
@@ -457,7 +568,9 @@ function setupEventListeners() {
         searchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
-                loadAllDocuments();
+                // 搜索时重置到第一页
+                paginationState.page = 1;
+                loadAllDocuments(1);
             }, 300);
         });
     }

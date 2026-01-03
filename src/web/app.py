@@ -5,10 +5,13 @@ Flask Web 应用 - 建账规则助手可视化界面
 import os
 import json
 import asyncio
-from flask import Flask, render_template, request, jsonify, Response
+from flask import Flask, render_template, request, jsonify, Response, send_file
 from langchain_core.messages import HumanMessage, AIMessage
 from agents.agent import build_agent
 from langgraph.types import RunnableConfig
+from functools import lru_cache
+from datetime import timedelta, datetime
+from utils.cache import cached, get_cache
 
 # 创建 Flask 应用
 app = Flask(__name__)
@@ -29,13 +32,13 @@ def get_agent():
 def stream_agent_response(message_text, conversation_id):
     """流式返回 agent 响应"""
     agent = get_agent()
-    
+
     # 构建消息列表
     messages = conversation_state.get("messages", [])
-    
+
     # 添加用户消息
     messages.append(HumanMessage(content=message_text))
-    
+
     # 创建配置
     config = RunnableConfig(
         configurable={
@@ -43,7 +46,7 @@ def stream_agent_response(message_text, conversation_id):
             "checkpoint_ns": ""
         }
     )
-    
+
     try:
         # 流式调用 agent
         response_text = ""
@@ -61,11 +64,11 @@ def stream_agent_response(message_text, conversation_id):
                         if hasattr(msg, 'content') and msg.content:
                             response_text += str(msg.content)
                             yield msg.content
-        
+
         # 保存 AI 消息到历史
         messages.append(AIMessage(content=response_text))
         conversation_state["messages"] = messages
-        
+
     except Exception as e:
         error_msg = f"抱歉，出现错误：{str(e)}"
         yield error_msg
@@ -92,10 +95,10 @@ def chat():
     data = request.json
     message = data.get('message', '')
     conversation_id = data.get('conversation_id', 'default')
-    
+
     if not message:
         return jsonify({"error": "消息不能为空"}), 400
-    
+
     def generate():
         """生成流式响应"""
         try:
@@ -104,12 +107,12 @@ def chat():
                     # 确保返回字符串
                     chunk_str = str(chunk) if chunk is not None else ""
                     yield f"data: {json.dumps({'content': chunk_str, 'done': False}, ensure_ascii=False)}\n\n"
-            
+
             # 发送完成信号
             yield f"data: {json.dumps({'content': '', 'done': True}, ensure_ascii=False)}\n\n"
         except Exception as e:
             yield f"data: {json.dumps({'content': f'错误: {str(e)}', 'done': True}, ensure_ascii=False)}\n\n"
-    
+
     return Response(generate(), mimetype='text/event-stream')
 
 
@@ -127,14 +130,14 @@ def set_role():
     global conversation_state
     data = request.json
     role = data.get('role', None)
-    
+
     role_map = {
         'a': 'product_manager',
         'b': 'tech_developer',
         'c': 'sales_operations',
         'd': 'default_engineer'
     }
-    
+
     if role and role in role_map:
         conversation_state["role"] = role_map[role]
         role_name = {
@@ -163,6 +166,36 @@ def health():
     return jsonify({"status": "healthy"})
 
 
+@app.route('/api/cache/stats', methods=['GET'])
+def get_cache_stats():
+    """获取缓存统计信息"""
+    try:
+        from utils.cache import get_cache
+        cache = get_cache()
+        stats = cache.get_stats()
+        return jsonify({
+            "status": "success",
+            "cache": stats
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/cache/clear', methods=['POST'])
+def clear_cache():
+    """清空所有缓存"""
+    try:
+        from utils.cache import get_cache
+        cache = get_cache()
+        cache.clear()
+        return jsonify({
+            "status": "success",
+            "message": "缓存已清空"
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
 # ==================== 知识库管理 API ====================
 
 @app.route('/knowledge')
@@ -172,71 +205,82 @@ def knowledge():
 
 
 @app.route('/api/knowledge/stats', methods=['GET'])
+@cached(ttl=60, key_prefix="kb_stats")
 def get_knowledge_stats():
-    """获取知识库统计信息"""
+    """获取知识库统计信息（带60秒缓存）"""
     try:
-        from tools.knowledge_base import get_knowledge_base_stats
+        from storage.database.document_manager import DocumentManager
+        from storage.database.db import get_session
 
-        stats_result = get_knowledge_base_stats.invoke()
-        stats_data = json.loads(stats_result)
+        db = get_session()
+        try:
+            doc_mgr = DocumentManager()
+            stats_data = doc_mgr.get_statistics(db)
 
-        return jsonify({
-            "status": "success",
-            "stats": stats_data
-        })
+            return jsonify({
+                "status": "success",
+                "stats": stats_data
+            })
+        finally:
+            db.close()
+
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/api/knowledge/documents', methods=['GET'])
 def get_documents():
-    """获取文档列表"""
+    """获取文档列表（支持分页和搜索）"""
     try:
+        from storage.database.document_manager import DocumentManager
+        from storage.database.db import get_session
+
         # 获取查询参数
-        limit = request.args.get('limit', type=int)
+        page = request.args.get('page', 1, type=int)
+        page_size = request.args.get('page_size', 10, type=int)
         search = request.args.get('search', '')
 
-        # 这里应该从数据库获取真实的文档列表
-        # 暂时返回模拟数据
-        documents = [
-            {
-                "id": "1",
-                "name": "建账规则指南.md",
-                "size": 102400,
-                "chunks": 15,
-                "created_at": "2024-01-01T10:00:00"
-            },
-            {
-                "id": "2",
-                "name": "财务凭证管理.docx",
-                "size": 204800,
-                "chunks": 28,
-                "created_at": "2024-01-02T14:30:00"
-            }
-        ]
+        # 计算偏移量
+        skip = (page - 1) * page_size
 
-        # 过滤和限制
-        if search:
-            documents = [d for d in documents if search.lower() in d['name'].lower()]
+        db = get_session()
+        try:
+            doc_mgr = DocumentManager()
+            documents = doc_mgr.get_documents(
+                db=db,
+                skip=skip,
+                limit=page_size,
+                search=search
+            )
 
-        if limit:
-            documents = documents[:limit]
+            # 获取总数用于分页
+            total = len(doc_mgr.get_documents(db=db, skip=0, limit=10000, search=search))
 
-        return jsonify({
-            "status": "success",
-            "documents": documents
-        })
+            return jsonify({
+                "status": "success",
+                "documents": documents,
+                "pagination": {
+                    "page": page,
+                    "page_size": page_size,
+                    "total": total,
+                    "pages": (total + page_size - 1) // page_size
+                }
+            })
+        finally:
+            db.close()
+
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/api/knowledge/upload', methods=['POST'])
 def upload_document():
-    """上传文档"""
+    """上传文档（持久化到对象存储和数据库）并清除缓存"""
     try:
         from tools.document_loader import load_document
         from tools.text_splitter import split_document_optimized
         from tools.knowledge_base import add_document_to_knowledge_base
+        from storage.document_storage import get_document_storage
 
         # 获取上传的文件
         if 'file' not in request.files:
@@ -246,12 +290,22 @@ def upload_document():
         if file.filename == '':
             return jsonify({"status": "error", "message": "未选择文件"}), 400
 
-        # 保存文件到临时目录
-        import tempfile
-        import os
+        # 读取文件内容
+        file_content = file.read()
+        file_name = file.filename
 
-        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[1]) as tmp_file:
-            file.save(tmp_file.name)
+        # 上传到对象存储
+        doc_storage = get_document_storage()
+        object_key = doc_storage.upload_document(
+            file_content=file_content,
+            file_name=file_name,
+            content_type=file.content_type
+        )
+
+        # 保存到临时文件进行处理
+        import tempfile
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file_name)[1]) as tmp_file:
+            tmp_file.write(file_content)
             tmp_file_path = tmp_file.name
 
         try:
@@ -267,17 +321,26 @@ def upload_document():
             })
             split_data = json.loads(split_result)
 
-            # 添加到知识库
+            # 添加到知识库（保存到向量数据库）
             chunks = split_data.get("documents", [])
             for chunk in chunks:
-                add_result = add_document_to_knowledge_base.invoke({
+                metadata = chunk.get("metadata", {})
+                metadata["object_key"] = object_key  # 保存对象存储key
+                metadata["created_at"] = datetime.now().isoformat()
+
+                add_document_to_knowledge_base.invoke({
                     "content": chunk.get("page_content", ""),
-                    "metadata": json.dumps(chunk.get("metadata", {}))
+                    "metadata": json.dumps(metadata)
                 })
+
+            # 清除缓存
+            cache = get_cache()
+            cache.delete("kb_stats:get_knowledge_stats:():{}")
 
             return jsonify({
                 "status": "success",
-                "message": f"成功上传文档: {file.filename}",
+                "message": f"成功上传文档: {file_name}",
+                "object_key": object_key,
                 "chunks_count": len(chunks)
             })
         finally:
@@ -290,34 +353,99 @@ def upload_document():
 
 @app.route('/api/knowledge/documents/<string:doc_id>', methods=['DELETE'])
 def delete_document(doc_id):
-    """删除文档"""
+    """删除文档（从数据库和对象存储）并清除缓存"""
     try:
-        from tools.knowledge_base import delete_documents_from_knowledge_base
+        from storage.database.document_manager import DocumentManager
+        from storage.database.db import get_session
+        from storage.document_storage import get_document_storage
 
-        # 这里应该根据 doc_id 删除文档
-        # 暂时返回成功
-        return jsonify({
-            "status": "success",
-            "message": f"文档 {doc_id} 删除成功"
-        })
+        db = get_session()
+        try:
+            doc_mgr = DocumentManager()
+            doc_storage = get_document_storage()
+
+            # 获取文档信息（包含object_key）
+            document = doc_mgr.get_document_by_name(db, doc_id)
+            if not document:
+                return jsonify({"status": "error", "message": "文档不存在"}), 404
+
+            # 获取文档块以获取object_key
+            chunks = doc_mgr.get_document_chunks(db, doc_id, limit=1)
+            if chunks:
+                object_key = chunks[0].get("metadata", {}).get("object_key")
+                if object_key:
+                    # 从对象存储删除
+                    doc_storage.delete_document(object_key)
+
+            # 从数据库删除
+            success = doc_mgr.delete_document(db, doc_id)
+
+            if success:
+                # 清除相关缓存
+                cache = get_cache()
+                cache.delete("kb_stats:get_knowledge_stats:():{}")
+
+                return jsonify({
+                    "status": "success",
+                    "message": f"文档 {doc_id} 删除成功"
+                })
+            else:
+                return jsonify({"status": "error", "message": "删除文档失败"}), 500
+
+        finally:
+            db.close()
+
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/api/knowledge/documents/<string:doc_id>/download', methods=['GET'])
 def download_document(doc_id):
-    """下载文档"""
-    # 这里应该实现文档下载功能
-    # 暂时返回提示
-    return jsonify({
-        "status": "error",
-        "message": "文档下载功能开发中"
-    }), 501
+    """下载文档（从对象存储）"""
+    try:
+        from storage.database.document_manager import DocumentManager
+        from storage.database.db import get_session
+        from storage.document_storage import get_document_storage
+
+        db = get_session()
+        try:
+            doc_mgr = DocumentManager()
+            doc_storage = get_document_storage()
+
+            # 获取文档块以获取object_key
+            chunks = doc_mgr.get_document_chunks(db, doc_id, limit=1)
+            if not chunks:
+                return jsonify({"status": "error", "message": "文档不存在"}), 404
+
+            object_key = chunks[0].get("metadata", {}).get("object_key")
+            if not object_key:
+                # 如果没有object_key，尝试使用doc_id
+                object_key = f"documents/{doc_id}"
+
+            # 下载文件内容
+            file_content = doc_storage.download_document(object_key)
+
+            # 获取Content-Type
+            content_type = doc_storage._guess_content_type(doc_id)
+
+            # 返回文件
+            return send_file(
+                file_content,
+                as_attachment=True,
+                download_name=doc_id,
+                mimetype=content_type
+            )
+
+        finally:
+            db.close()
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/api/knowledge/traceability', methods=['POST'])
 def traceability_query():
-    """答案溯源查询"""
+    """答案溯源查询（使用真实检索）"""
     try:
         from tools.rag_retriever import rag_retrieve_with_rerank
 
@@ -339,17 +467,20 @@ def traceability_query():
         # 解析结果
         try:
             result_data = json.loads(retrieve_result)
+
             # 构造溯源结果
-            results = [
-                {
-                    "document_name": f"文档_{i+1}",
-                    "content": result_data.get("summary", f"检索结果 {i+1}"),
-                    "score": 0.9 - (i * 0.1),
-                    "raw_score": 0.9 - (i * 0.1),
-                    "chunk_index": i
-                }
-                for i in range(5)
-            ]
+            results = []
+            if "documents" in result_data:
+                for i, doc in enumerate(result_data["documents"][:5]):
+                    metadata = doc.get("metadata", {})
+                    results.append({
+                        "document_name": metadata.get("source", f"文档_{i+1}"),
+                        "content": doc.get("page_content", ""),
+                        "score": doc.get("score", 0.0),
+                        "raw_score": doc.get("score", 0.0),
+                        "chunk_index": i
+                    })
+
         except:
             results = []
 
@@ -363,7 +494,7 @@ def traceability_query():
 
 @app.route('/api/knowledge/compare', methods=['POST'])
 def compare_retrieval_methods():
-    """对比不同检索方法"""
+    """对比不同检索方法（使用真实检索）"""
     try:
         from tools.rag_retriever import rag_retrieve_with_rerank
         from tools.bm25_retriever import bm25_retrieve
@@ -392,17 +523,27 @@ def compare_retrieval_methods():
                 })
                 elapsed = (time.time() - start_time) * 1000
 
-                # 构造结果
+                # 解析结果
+                result_data = json.loads(vector_result)
+                vector_results = []
+                avg_score = 0
+
+                if "documents" in result_data:
+                    for i, doc in enumerate(result_data["documents"][:5]):
+                        metadata = doc.get("metadata", {})
+                        score = doc.get("score", 0.0)
+                        avg_score += score
+                        vector_results.append({
+                            "document_name": metadata.get("source", f"文档_{i+1}"),
+                            "content": doc.get("page_content", ""),
+                            "score": score
+                        })
+
+                    avg_score /= len(vector_results)
+
                 results['vector'] = {
-                    "results": [
-                        {
-                            "document_name": f"文档_{i+1}",
-                            "content": f"向量检索结果 {i+1}",
-                            "score": 0.9 - (i * 0.1)
-                        }
-                        for i in range(5)
-                    ],
-                    "avg_score": 0.7,
+                    "results": vector_results,
+                    "avg_score": avg_score,
                     "time": elapsed
                 }
             except Exception as e:
@@ -420,17 +561,26 @@ def compare_retrieval_methods():
                 })
                 elapsed = (time.time() - start_time) * 1000
 
-                # 构造结果
-                results['bm25'] = {
-                    "results": [
-                        {
+                # 解析结果
+                result_data = json.loads(bm25_result)
+                bm25_results = []
+                avg_score = 0
+
+                if "documents" in result_data:
+                    for i, doc in enumerate(result_data["documents"][:5]):
+                        score = doc.get("score", 0.0)
+                        avg_score += score
+                        bm25_results.append({
                             "document_name": f"文档_{i+1}",
-                            "content": f"BM25检索结果 {i+1}",
-                            "score": 0.85 - (i * 0.1)
-                        }
-                        for i in range(5)
-                    ],
-                    "avg_score": 0.65,
+                            "content": doc.get("page_content", ""),
+                            "score": score
+                        })
+
+                    avg_score /= len(bm25_results) if bm25_results else 1
+
+                results['bm25'] = {
+                    "results": bm25_results,
+                    "avg_score": avg_score,
                     "time": elapsed
                 }
             except Exception as e:
@@ -451,17 +601,26 @@ def compare_retrieval_methods():
                 })
                 elapsed = (time.time() - start_time) * 1000
 
-                # 构造结果
-                results['hybrid'] = {
-                    "results": [
-                        {
+                # 解析结果
+                result_data = json.loads(hybrid_result)
+                hybrid_results = []
+                avg_score = 0
+
+                if "documents" in result_data:
+                    for i, doc in enumerate(result_data["documents"][:5]):
+                        score = doc.get("score", 0.0)
+                        avg_score += score
+                        hybrid_results.append({
                             "document_name": f"文档_{i+1}",
-                            "content": f"混合检索结果 {i+1}",
-                            "score": 0.92 - (i * 0.08)
-                        }
-                        for i in range(5)
-                    ],
-                    "avg_score": 0.75,
+                            "content": doc.get("page_content", ""),
+                            "score": score
+                        })
+
+                    avg_score /= len(hybrid_results) if hybrid_results else 1
+
+                results['hybrid'] = {
+                    "results": hybrid_results,
+                    "avg_score": avg_score,
                     "time": elapsed
                 }
             except Exception as e:
@@ -600,208 +759,9 @@ def get_session_messages(session_id):
     from web.collaboration_service import get_collaboration_service
     service = get_collaboration_service()
 
-    limit = request.args.get('limit', 100, type=int)
-    messages = service.get_session_messages(session_id, limit)
+    messages = service.get_session_messages(session_id)
     return jsonify({"status": "success", "messages": messages})
 
 
-# ==================== 协作聊天 API ====================
-
-@app.route('/api/collaboration/chat', methods=['POST'])
-def collaborative_chat():
-    """协作聊天 API（支持实时同步）"""
-    data = request.json
-    message = data.get('message', '')
-    session_id = data.get('session_id', None)
-    conversation_id = data.get('conversation_id', f'session_{session_id}')
-    participant_id = data.get('participant_id', None)
-
-    if not message:
-        return jsonify({"error": "消息不能为空"}), 400
-
-    def generate():
-        """生成流式响应"""
-        response_text = ""
-        try:
-            # 调用 Agent
-            for chunk in stream_agent_response(message, conversation_id):
-                if chunk:
-                    chunk_str = str(chunk) if chunk is not None else ""
-                    response_text += chunk_str
-                    yield f"data: {json.dumps({'content': chunk_str, 'done': False}, ensure_ascii=False)}\n\n"
-
-            # 发送完成信号
-            yield f"data: {json.dumps({'content': '', 'done': True}, ensure_ascii=False)}\n\n"
-
-            # 如果是协作会话，广播 AI 消息
-            if session_id:
-                asyncio.run_coroutine_threadsafe(
-                    broadcast_agent_message(session_id, response_text),
-                    asyncio.get_event_loop()
-                )
-
-        except Exception as e:
-            error_msg = f'错误: {str(e)}'
-            yield f"data: {json.dumps({'content': error_msg, 'done': True}, ensure_ascii=False)}\n\n"
-
-    return Response(generate(), mimetype='text/event-stream')
-
-
-# ==================== RAG 策略配置 API ====================
-
-@app.route('/rag-config')
-def rag_config():
-    """RAG 策略配置页面"""
-    return render_template('rag_config.html')
-
-
-@app.route('/api/rag/classify', methods=['POST'])
-def classify_query():
-    """分类问题类型"""
-    data = request.json
-    query = data.get('query', '')
-
-    if not query:
-        return jsonify({"error": "查询不能为空"}), 400
-
-    try:
-        from tools.question_classifier import classify_question_type
-        result_str = classify_question_type.func(query)
-        result = json.loads(result_str)
-        return jsonify({"status": "success", "result": result})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route('/api/rag/strategy', methods=['POST'])
-def get_strategy():
-    """获取推荐的检索策略"""
-    data = request.json
-    question_type = data.get('question_type', 'general')
-
-    try:
-        from tools.question_classifier import get_retrieval_strategy
-        result_str = get_retrieval_strategy.func(question_type)
-        result = json.loads(result_str)
-        return jsonify({"status": "success", "result": result})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route('/api/rag/retrieve', methods=['POST'])
-def retrieve_documents():
-    """执行检索（支持所有策略）"""
-    data = request.json
-    query = data.get('query', '')
-    strategy = data.get('strategy', 'auto')
-    collection_name = data.get('collection_name', 'knowledge_base')
-    top_k = data.get('top_k', 5)
-
-    if not query:
-        return jsonify({"error": "查询不能为空"}), 400
-
-    try:
-        from tools.rag_router import smart_retrieve
-        result_str = smart_retrieve.func(
-            query=query,
-            collection_name=collection_name,
-            top_k=top_k,
-            override_strategy=strategy if strategy != 'auto' else None,
-            verbose=True
-        )
-        result = json.loads(result_str)
-        return jsonify({"status": "success", "result": result})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route('/api/rag/compare', methods=['POST'])
-def compare_retrieval():
-    """对比不同检索方法"""
-    data = request.json
-    query = data.get('query', '')
-    collection_name = data.get('collection_name', 'knowledge_base')
-    top_k = data.get('top_k', 5)
-
-    if not query:
-        return jsonify({"error": "查询不能为空"}), 400
-
-    try:
-        from tools.hybrid_retriever import compare_retrieval_methods
-        result_str = compare_retrieval_methods.func(
-            query=query,
-            collection_name=collection_name,
-            top_k=top_k
-        )
-        result = json.loads(result_str)
-        return jsonify({"status": "success", "result": result})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route('/api/rag/statistics', methods=['POST'])
-def get_statistics():
-    """获取检索统计信息"""
-    data = request.json
-    queries = data.get('queries', [])
-    collection_name = data.get('collection_name', 'knowledge_base')
-    top_k = data.get('top_k', 5)
-
-    if not queries:
-        return jsonify({"error": "查询列表不能为空"}), 400
-
-    try:
-        from tools.rag_router import get_retrieval_statistics
-        result_str = get_retrieval_statistics.func(
-            queries=json.dumps(queries),
-            collection_name=collection_name,
-            top_k=top_k
-        )
-        result = json.loads(result_str)
-        return jsonify({"status": "success", "result": result})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route('/api/rag/batch', methods=['POST'])
-def batch_retrieve():
-    """批量检索"""
-    data = request.json
-    queries = data.get('queries', [])
-    collection_name = data.get('collection_name', 'knowledge_base')
-    top_k = data.get('top_k', 5)
-    strategy = data.get('strategy', 'auto')
-
-    if not queries:
-        return jsonify({"error": "查询列表不能为空"}), 400
-
-    try:
-        from tools.rag_router import batch_retrieve
-        result_str = batch_retrieve.func(
-            queries=json.dumps(queries),
-            collection_name=collection_name,
-            top_k=top_k,
-            strategy=strategy
-        )
-        result = json.loads(result_str)
-        return jsonify({"status": "success", "result": result})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
 if __name__ == '__main__':
-    # 启动 WebSocket 服务器
-    from web.collaboration_service import start_websocket_thread
-    start_websocket_thread(host='0.0.0.0', port=8765)
-    print("✓ WebSocket 服务器已启动 (端口: 8765)")
-
-    # 从环境变量获取端口
-    port = int(os.getenv('WEB_PORT', 5000))
-    debug = os.getenv('WEB_DEBUG', 'false').lower() == 'true'
-
-    print(f"🚀 建账规则助手 Web 服务启动中...")
-    print(f"📱 访问地址: http://localhost:{port}")
-    print(f"🎯 角色选择: a=产品经理, b=技术开发, c=销售运营, d=默认工程师")
-    print(f"🤝 协作模式: 支持实时协作会话")
-
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    app.run(host='0.0.0.0', port=5000, debug=True)
