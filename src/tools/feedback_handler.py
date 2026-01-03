@@ -9,24 +9,28 @@ import glob
 from langchain.tools import tool
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_openai import ChatOpenAI
-from coze_coding_utils.runtime_ctx.context import Context, default_headers
+from utils.runtime_ctx import Context, default_headers
 
 
 def _call_llm(ctx: Context, messages: list, config: dict) -> str:
     """调用大语言模型"""
-    api_key = os.getenv("COZE_WORKLOAD_IDENTITY_API_KEY")
-    base_url = os.getenv("COZE_INTEGRATION_MODEL_BASE_URL")
+    from utils.config_loader import get_config
+    app_cfg = get_config()
+    llm_cfg = app_cfg.get_llm_config()
+
+    api_key = os.getenv(llm_cfg.get("api_key_env", "SILICONFLOW_API_KEY"))
+    base_url = os.getenv(llm_cfg.get("base_url_env", "SILICONFLOW_BASE_URL"))
 
     llm = ChatOpenAI(
-        model=config.get("model", "doubao-seed-1-6-251015"),
+        model=llm_cfg.get("model", "deepseek-ai/DeepSeek-V3.2"),
         api_key=api_key,
         base_url=base_url,
         streaming=True,
-        temperature=config.get("temperature", 0.2),
-        max_completion_tokens=config.get("max_completion_tokens", 2048),
+        temperature=config.get("temperature", llm_cfg.get("temperature", 0.2)),
+        max_completion_tokens=config.get("max_completion_tokens", llm_cfg.get("max_tokens", 2048)),
         extra_body={
             "thinking": {
-                "type": config.get("thinking", "disabled")
+                "type": config.get("thinking", llm_cfg.get("thinking", "disabled"))
             }
         },
         default_headers=default_headers(ctx) if ctx else {}
@@ -153,14 +157,8 @@ AI上次回答：{last_answer}
 """)
     ]
 
-    config = {
-        "model": "doubao-seed-1-6-251015",
-        "temperature": 0.2,
-        "thinking": "disabled"
-    }
-
     try:
-        classification_result = _call_llm(ctx, messages, config)
+        classification_result = _call_llm(ctx, messages, {"temperature": 0.2})
     except Exception as e:
         classification_result = f"分类失败：{str(e)}"
 

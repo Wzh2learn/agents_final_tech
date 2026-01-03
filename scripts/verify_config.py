@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 # 添加项目路径到 Python 路径
-workspace_path = os.getenv("COZE_WORKSPACE_PATH", "/workspace/projects")
+workspace_path = os.getenv("WORKSPACE_PATH", "/workspace/projects")
 if workspace_path not in sys.path:
     sys.path.insert(0, workspace_path)
 if os.path.join(workspace_path, "src") not in sys.path:
@@ -102,8 +102,8 @@ def check_environment_variables():
 
     # 从配置中获取需要的环境变量
     env_vars = {
-        "COZE_WORKLOAD_IDENTITY_API_KEY": config.get("llm.api_key_env"),
-        "COZE_INTEGRATION_MODEL_BASE_URL": config.get("llm.base_url_env"),
+        "SILICONFLOW_API_KEY": config.get("llm.api_key_env"),
+        "SILICONFLOW_BASE_URL": config.get("llm.base_url_env"),
     }
 
     missing_envs = []
@@ -190,12 +190,16 @@ def check_file_paths():
     # 检查本地存储路径
     local_path = config.get("storage.local_path", "")
     if local_path:
-        path = Path(local_path)
+        # 处理路径中的占位符
+        workspace_path = os.getenv("WORKSPACE_PATH", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        actual_path = local_path.replace("/workspace/projects", workspace_path)
+        path = Path(actual_path)
         if path.exists():
-            print(f"✓ 本地存储路径存在: {local_path}")
+            print(f"✓ 本地存储路径存在: {actual_path}")
         else:
-            print(f"⚠️  本地存储路径不存在，将在使用时创建: {local_path}")
-            return False
+            print(f"⚠️  本地存储路径不存在，将在使用时创建: {actual_path}")
+            # 这是一个警告，不应导致整个验证失败，除非是生产环境
+            # results.append(("文件路径", False)) 
 
     # 检查BM25缓存目录
     bm25_cache_dir = config.get("bm25.cache_dir", "")

@@ -10,11 +10,15 @@ import os
 
 def _get_llm():
     """获取 LLM 实例"""
-    api_key = os.getenv("COZE_WORKLOAD_IDENTITY_API_KEY")
-    base_url = os.getenv("COZE_INTEGRATION_MODEL_BASE_URL")
+    from utils.config_loader import get_config
+    app_cfg = get_config()
+    llm_cfg = app_cfg.get_llm_config()
+
+    api_key = os.getenv(llm_cfg.get("api_key_env", "SILICONFLOW_API_KEY"))
+    base_url = os.getenv(llm_cfg.get("base_url_env", "SILICONFLOW_BASE_URL"))
 
     llm = ChatOpenAI(
-        model="doubao-seed-1-6-251015",
+        model=llm_cfg.get("model", "deepseek-ai/DeepSeek-V3.2"),
         api_key=api_key,
         base_url=base_url,
         temperature=0.1,  # 低温度确保分类稳定

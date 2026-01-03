@@ -31,10 +31,17 @@ class MemoryManager:
     def _connect_with_retry(self, db_url: str) -> Optional[psycopg.Connection]:
         """带重试的数据库连接，每次 15 秒超时，共尝试 2 次"""
         last_error = None
+        
+        # 兼容处理：psycopg (v3) 的 connect 函数不识别 postgresql+psycopg:// 
+        # 它只识别标准 libpq 格式 postgresql:// 或 DSN 格式
+        clean_url = db_url
+        if clean_url.startswith("postgresql+psycopg://"):
+            clean_url = clean_url.replace("postgresql+psycopg://", "postgresql://", 1)
+            
         for attempt in range(1, DB_MAX_RETRIES + 1):
             try:
                 logger.info(f"Attempting database connection (attempt {attempt}/{DB_MAX_RETRIES})")
-                conn = psycopg.connect(db_url, autocommit=True, connect_timeout=DB_CONNECTION_TIMEOUT)
+                conn = psycopg.connect(clean_url, autocommit=True, connect_timeout=DB_CONNECTION_TIMEOUT)
                 logger.info(f"Database connection established on attempt {attempt}")
                 return conn
             except Exception as e:
@@ -102,6 +109,10 @@ class MemoryManager:
             return self._create_fallback_checkpointer()
 
         # 3. 连接字符串加上 search_path
+        # 同样需要确保移除 postgresql+psycopg:// 前缀
+        if db_url.startswith("postgresql+psycopg://"):
+            db_url = db_url.replace("postgresql+psycopg://", "postgresql://", 1)
+            
         if "?" in db_url:
             db_url = f"{db_url}&options=-csearch_path%3Dmemory"
         else:
@@ -109,6 +120,7 @@ class MemoryManager:
 
         # 4. 尝试创建连接池和 checkpointer
         try:
+            # AsyncConnectionPool 同样需要标准 libpq 格式
             self._pool = AsyncConnectionPool(conninfo=db_url, timeout=DB_CONNECTION_TIMEOUT)
             self._checkpointer = AsyncPostgresSaver(self._pool)
             logger.info("AsyncPostgresSaver initialized successfully")

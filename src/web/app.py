@@ -5,88 +5,86 @@ Flask Web 应用 - 建账规则助手可视化界面
 import os
 import json
 import asyncio
+import logging
 from flask import Flask, render_template, request, jsonify, Response, send_file
 from langchain_core.messages import HumanMessage, AIMessage
-from agents.agent import build_agent
+from biz.agent_service import get_agent_service
+from biz.rag_service import get_rag_service
+from storage.provider import get_storage_provider
 from langgraph.types import RunnableConfig
 from functools import lru_cache
 from datetime import timedelta, datetime
 from utils.cache import cached, get_cache
+from utils.config_loader import get_config
+from web.collaboration_service import start_websocket_thread
+from web.websocket_server import broadcast_agent_message
 
 # 创建 Flask 应用
 app = Flask(__name__)
+logger = logging.getLogger(__name__)
 
-# 全局变量存储 agent 实例
-agent_instance = None
-conversation_state = {"role": None, "messages": []}
+_app_cfg = get_config()
+_ws_host = _app_cfg.get("websocket.host", "0.0.0.0")
+_ws_port = int(_app_cfg.get("websocket.port", 8765))
+_ws_started = False
 
-
-def get_agent():
-    """获取或创建 agent 实例"""
-    global agent_instance
-    if agent_instance is None:
-        agent_instance = build_agent()
-    return agent_instance
+# 会话角色缓存 (暂时存储在内存，生产环境建议存入数据库)
+# 格式: { thread_id: role_name }
+thread_roles = {}
 
 
-def stream_agent_response(message_text, conversation_id):
-    """流式返回 agent 响应"""
-    agent = get_agent()
+def ensure_websocket_server():
+    """启动协作 WebSocket 线程（幂等）"""
+    global _ws_started
+    if not _ws_started and _app_cfg.get("features", {}).get("realtime_collaboration", False):
+        started = start_websocket_thread(host=_ws_host, port=_ws_port)
+        _ws_started = started or _ws_started
 
-    # 构建消息列表
-    messages = conversation_state.get("messages", [])
 
-    # 添加用户消息
-    messages.append(HumanMessage(content=message_text))
-
-    # 创建配置
-    config = RunnableConfig(
-        configurable={
-            "thread_id": conversation_id,
-            "checkpoint_ns": ""
-        }
-    )
-
+def stream_agent_response(message_text, conversation_id, role="default"):
+    """流式返回 agent 响应 (通过 Biz 层)"""
+    agent_service = get_agent_service()
+    
     try:
-        # 流式调用 agent
-        response_text = ""
-        for chunk in agent.stream(
-            {"messages": messages},
-            config=config
-        ):
-            if "messages" in chunk:
-                for msg in chunk["messages"]:
-                    if isinstance(msg, AIMessage):
-                        if hasattr(msg, 'content') and msg.content:
-                            response_text += str(msg.content)
-                        yield msg.content
-                    elif msg.role == "assistant":
-                        if hasattr(msg, 'content') and msg.content:
-                            response_text += str(msg.content)
-                            yield msg.content
+        # 使用 biz 层提供的异步流式接口
+        # 注意：这里 Flask 是同步的，我们可能需要处理异步迭代
+        # 但既然原本也是直接在 generator 里迭代 agent.stream，
+        # 我们可以保持这种模式，或者在 biz 层提供同步包装。
+        
+        # 暂时保持简单调用，直接消费 agent_service.stream_chat
+        # 由于 agent_service.stream_chat 是 async generator，我们需要在协程中运行
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        
+        async def run_chat():
+            async for chunk in agent_service.stream_chat(message_text, conversation_id, role):
+                yield chunk
 
-        # 保存 AI 消息到历史
-        messages.append(AIMessage(content=response_text))
-        conversation_state["messages"] = messages
+        gen = run_chat()
+        while True:
+            try:
+                chunk = loop.run_until_complete(gen.__anext__())
+                yield chunk
+            except StopAsyncIteration:
+                break
 
     except Exception as e:
-        error_msg = f"抱歉，出现错误：{str(e)}"
-        yield error_msg
-        # 记录错误消息
-        messages.append(AIMessage(content=error_msg))
-        conversation_state["messages"] = messages
+        logger.error(f"Error in stream_agent_response: {e}")
+        yield f"抱歉，出现错误：{str(e)}"
 
 
 @app.route('/')
 def index():
     """首页 - 聊天界面"""
+    ensure_websocket_server()
     return render_template('chat.html')
 
 
 @app.route('/collaboration')
 def collaboration():
     """协作会话页面"""
-    return render_template('collaboration.html')
+    ensure_websocket_server()
+    return render_template('collaboration.html', ws_port=_ws_port)
 
 
 @app.route('/api/chat', methods=['POST'])
@@ -95,6 +93,9 @@ def chat():
     data = request.json
     message = data.get('message', '')
     conversation_id = data.get('conversation_id', 'default')
+    
+    # 从请求中获取角色，如果没有则尝试从缓存获取，最后回退到 default
+    role = data.get('role') or thread_roles.get(conversation_id, 'default')
 
     if not message:
         return jsonify({"error": "消息不能为空"}), 400
@@ -102,11 +103,10 @@ def chat():
     def generate():
         """生成流式响应"""
         try:
-            for chunk in stream_agent_response(message, conversation_id):
+            for chunk in stream_agent_response(message, conversation_id, role):
                 if chunk:
-                    # 确保返回字符串
-                    chunk_str = str(chunk) if chunk is not None else ""
-                    yield f"data: {json.dumps({'content': chunk_str, 'done': False}, ensure_ascii=False)}\n\n"
+                    # chunk 现在是 dict，包含 type 和 content
+                    yield f"data: {json.dumps({'content': chunk, 'done': False}, ensure_ascii=False)}\n\n"
 
             # 发送完成信号
             yield f"data: {json.dumps({'content': '', 'done': True}, ensure_ascii=False)}\n\n"
@@ -118,18 +118,22 @@ def chat():
 
 @app.route('/api/reset', methods=['POST'])
 def reset_conversation():
-    """重置对话"""
-    global conversation_state
-    conversation_state = {"role": None, "messages": []}
-    return jsonify({"status": "success", "message": "对话已重置"})
+    """重置特定会话"""
+    data = request.json
+    conversation_id = data.get('conversation_id', 'default')
+    
+    if conversation_id in thread_roles:
+        del thread_roles[conversation_id]
+        
+    return jsonify({"status": "success", "message": f"会话 {conversation_id} 已重置"})
 
 
 @app.route('/api/set_role', methods=['POST'])
 def set_role():
-    """设置角色"""
-    global conversation_state
+    """设置会话角色"""
     data = request.json
     role = data.get('role', None)
+    conversation_id = data.get('conversation_id', 'default')
 
     role_map = {
         'a': 'product_manager',
@@ -139,24 +143,43 @@ def set_role():
     }
 
     if role and role in role_map:
-        conversation_state["role"] = role_map[role]
-        role_name = {
+        target_role = role_map[role]
+        thread_roles[conversation_id] = target_role
+        
+        role_names = {
             'a': '产品经理',
             'b': '技术开发',
             'c': '销售运营',
             'd': '默认工程师'
-        }[role]
-        return jsonify({"status": "success", "role": role_name})
+        }
+        
+        role_greetings = {
+            'a': '👋 您好！我是**产品经理助手**，专注于需求分析、产品规划和用户体验设计。\n\n我可以帮您：\n- 📋 梳理产品需求和功能规划\n- 🎯 制定产品roadmap和迭代计划\n- 👥 分析用户痛点和使用场景\n- 📊 评估功能优先级和价值\n\n请告诉我您的需求，让我们一起打造优秀的产品！',
+            'b': '👨‍💻 您好！我是**技术开发助手**，精通系统架构、代码实现和技术方案设计。\n\n我可以帮您：\n- 🏗️ 设计技术架构和系统方案\n- 💻 解决编码问题和技术难题\n- 🔧 优化性能和代码质量\n- 📚 提供最佳实践和技术建议\n\n有任何技术问题，随时向我提问！',
+            'c': '📈 您好！我是**销售运营助手**，专注于业务分析、运营策略和数据洞察。\n\n我可以帮您：\n- 📊 分析业务数据和运营指标\n- 💰 制定销售策略和增长方案\n- 🎯 优化转化漏斗和客户旅程\n- 📈 提供市场洞察和竞争分析\n\n让我帮您提升业务表现，实现增长目标！',
+            'd': '🛠️ 您好！我是**默认工程师助手**，提供全方位的技术支持和问题解决方案。\n\n我可以帮您：\n- 🔍 快速定位和解决技术问题\n- 📖 提供技术文档和知识查询\n- ⚙️ 配置系统和工具使用指导\n- 💡 分享工程实践和经验总结\n\n无论遇到什么问题，我都会尽力为您解答！'
+        }
+        
+        return jsonify({
+            "status": "success", 
+            "role": role_names[role],
+            "role_key": target_role,
+            "greeting": role_greetings[role]
+        })
     else:
         return jsonify({"error": "无效的角色选择"}), 400
 
 
 @app.route('/api/status', methods=['GET'])
 def get_status():
-    """获取对话状态"""
+    """获取会话状态"""
+    conversation_id = request.args.get('conversation_id', 'default')
+    role = thread_roles.get(conversation_id)
+    
     return jsonify({
-        "role": conversation_state.get("role"),
-        "message_count": len(conversation_state.get("messages", []))
+        "status": "success",
+        "conversation_id": conversation_id,
+        "role": role
     })
 
 
@@ -238,9 +261,14 @@ def get_documents():
         # 获取查询参数
         page = request.args.get('page', 1, type=int)
         page_size = request.args.get('page_size', 10, type=int)
+        limit = request.args.get('limit', type=int)  # 供「最近文档」等简化场景使用
         search = request.args.get('search', '')
 
         # 计算偏移量
+        if limit is not None and limit > 0:
+            # 如果指定 limit，则使用 limit 覆盖分页大小，从第一页开始
+            page_size = limit
+            page = 1
         skip = (page - 1) * page_size
 
         db = get_session()
@@ -275,12 +303,9 @@ def get_documents():
 
 @app.route('/api/knowledge/upload', methods=['POST'])
 def upload_document():
-    """上传文档（持久化到对象存储和数据库）并清除缓存"""
+    """上传文档 (通过 RAGService 统一处理)"""
     try:
-        from tools.document_loader import load_document
-        from tools.text_splitter import split_document_optimized
-        from tools.knowledge_base import add_document_to_knowledge_base
-        from storage.document_storage import get_document_storage
+        rag_service = get_rag_service()
 
         # 获取上传的文件
         if 'file' not in request.files:
@@ -290,48 +315,24 @@ def upload_document():
         if file.filename == '':
             return jsonify({"status": "error", "message": "未选择文件"}), 400
 
-        # 读取文件内容
-        file_content = file.read()
         file_name = file.filename
-
-        # 上传到对象存储
-        doc_storage = get_document_storage()
-        object_key = doc_storage.upload_document(
-            file_content=file_content,
-            file_name=file_name,
-            content_type=file.content_type
-        )
-
+        
         # 保存到临时文件进行处理
         import tempfile
         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file_name)[1]) as tmp_file:
-            tmp_file.write(file_content)
+            tmp_file.write(file.read())
             tmp_file_path = tmp_file.name
 
         try:
-            # 加载文档
-            load_result = load_document.invoke({"file_path": tmp_file_path})
-            load_data = json.loads(load_result)
-
-            # 分割文档
-            split_result = split_document_optimized.invoke({
-                "documents": json.dumps([load_data]),
-                "chunk_size": 500,
-                "chunk_overlap": 50
-            })
-            split_data = json.loads(split_result)
-
-            # 添加到知识库（保存到向量数据库）
-            chunks = split_data.get("documents", [])
-            for chunk in chunks:
-                metadata = chunk.get("metadata", {})
-                metadata["object_key"] = object_key  # 保存对象存储key
-                metadata["created_at"] = datetime.now().isoformat()
-
-                add_document_to_knowledge_base.invoke({
-                    "content": chunk.get("page_content", ""),
-                    "metadata": json.dumps(metadata)
-                })
+            # 使用 RAGService 统一全流程入库 (加载、分割、持久化、向量化)
+            import asyncio
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            
+            ingest_result = loop.run_until_complete(rag_service.ingest_file(
+                file_path=tmp_file_path,
+                metadata={"original_name": file_name, "content_type": file.content_type}
+            ))
 
             # 清除缓存
             cache = get_cache()
@@ -339,15 +340,17 @@ def upload_document():
 
             return jsonify({
                 "status": "success",
-                "message": f"成功上传文档: {file_name}",
-                "object_key": object_key,
-                "chunks_count": len(chunks)
+                "message": f"成功上传并处理文档: {file_name}",
+                "object_key": ingest_result["object_key"],
+                "chunks_count": ingest_result["chunks"]
             })
         finally:
             # 删除临时文件
-            os.unlink(tmp_file_path)
+            if os.path.exists(tmp_file_path):
+                os.unlink(tmp_file_path)
 
     except Exception as e:
+        logger.error(f"Upload failed: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
@@ -401,106 +404,62 @@ def delete_document(doc_id):
 
 @app.route('/api/knowledge/documents/<string:doc_id>/download', methods=['GET'])
 def download_document(doc_id):
-    """下载文档（从对象存储）"""
+    """下载文档 (通过 StorageProvider)"""
     try:
-        from storage.database.document_manager import DocumentManager
-        from storage.database.db import get_session
-        from storage.document_storage import get_document_storage
+        provider = get_storage_provider()
+        
+        # 获取文档内容 (ACL 层处理路径逻辑)
+        # 注意: 这里的 doc_id 可能是文件名，StorageProvider.query_document 内部支持降级
+        file_content = provider.query_document(doc_id)
+        
+        if not file_content:
+            return jsonify({"status": "error", "message": "文档不存在或无法读取"}), 404
 
-        db = get_session()
-        try:
-            doc_mgr = DocumentManager()
-            doc_storage = get_document_storage()
+        # 获取 Content-Type (从 StorageProvider 内部的 doc_storage 访问)
+        content_type = provider.doc_storage._guess_content_type(doc_id)
 
-            # 获取文档块以获取object_key
-            chunks = doc_mgr.get_document_chunks(db, doc_id, limit=1)
-            if not chunks:
-                return jsonify({"status": "error", "message": "文档不存在"}), 404
-
-            object_key = chunks[0].get("metadata", {}).get("object_key")
-            if not object_key:
-                # 如果没有object_key，尝试使用doc_id
-                object_key = f"documents/{doc_id}"
-
-            # 下载文件内容
-            file_content = doc_storage.download_document(object_key)
-
-            # 获取Content-Type
-            content_type = doc_storage._guess_content_type(doc_id)
-
-            # 返回文件
-            return send_file(
-                file_content,
-                as_attachment=True,
-                download_name=doc_id,
-                mimetype=content_type
-            )
-
-        finally:
-            db.close()
+        # 包装为 BytesIO 以便 Flask 发送
+        import io
+        return send_file(
+            io.BytesIO(file_content),
+            as_attachment=True,
+            download_name=doc_id,
+            mimetype=content_type
+        )
 
     except Exception as e:
+        logger.error(f"Download failed: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/api/knowledge/traceability', methods=['POST'])
 def traceability_query():
-    """答案溯源查询（使用真实检索）"""
+    """答案溯源查询 (通过 RAGService)"""
     try:
-        from tools.rag_retriever import rag_retrieve_with_rerank
-
+        rag_service = get_rag_service()
         data = request.json
         query = data.get('query', '')
 
         if not query:
             return jsonify({"status": "error", "message": "查询不能为空"}), 400
 
-        # 执行检索
-        retrieve_result = rag_retrieve_with_rerank.invoke({
-            "query": query,
-            "collection_name": "knowledge_base",
-            "initial_k": 10,
-            "top_n": 5,
-            "use_rerank": True
-        })
-
-        # 解析结果
-        try:
-            result_data = json.loads(retrieve_result)
-
-            # 构造溯源结果
-            results = []
-            if "documents" in result_data:
-                for i, doc in enumerate(result_data["documents"][:5]):
-                    metadata = doc.get("metadata", {})
-                    results.append({
-                        "document_name": metadata.get("source", f"文档_{i+1}"),
-                        "content": doc.get("page_content", ""),
-                        "score": doc.get("score", 0.0),
-                        "raw_score": doc.get("score", 0.0),
-                        "chunk_index": i
-                    })
-
-        except:
-            results = []
+        # 执行检索与溯源
+        results = rag_service.get_traceability(query)
 
         return jsonify({
             "status": "success",
             "results": results
         })
     except Exception as e:
+        logger.error(f"Traceability query failed: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/api/knowledge/compare', methods=['POST'])
 def compare_retrieval_methods():
-    """对比不同检索方法（使用真实检索）"""
+    """对比不同检索方法 (通过 RAGService)"""
     try:
-        from tools.rag_retriever import rag_retrieve_with_rerank
-        from tools.bm25_retriever import bm25_retrieve
-        from tools.hybrid_retriever import hybrid_retrieve
-        import time
-
+        rag_service = get_rag_service()
         data = request.json
         query = data.get('query', '')
         methods = data.get('methods', {})
@@ -508,168 +467,44 @@ def compare_retrieval_methods():
         if not query:
             return jsonify({"status": "error", "message": "查询不能为空"}), 400
 
-        results = {}
-
-        # 向量检索
-        if methods.get('vector'):
-            start_time = time.time()
-            try:
-                vector_result = rag_retrieve_with_rerank.invoke({
-                    "query": query,
-                    "collection_name": "knowledge_base",
-                    "initial_k": 10,
-                    "top_n": 5,
-                    "use_rerank": False
-                })
-                elapsed = (time.time() - start_time) * 1000
-
-                # 解析结果
-                result_data = json.loads(vector_result)
-                vector_results = []
-                avg_score = 0
-
-                if "documents" in result_data:
-                    for i, doc in enumerate(result_data["documents"][:5]):
-                        metadata = doc.get("metadata", {})
-                        score = doc.get("score", 0.0)
-                        avg_score += score
-                        vector_results.append({
-                            "document_name": metadata.get("source", f"文档_{i+1}"),
-                            "content": doc.get("page_content", ""),
-                            "score": score
-                        })
-
-                    avg_score /= len(vector_results)
-
-                results['vector'] = {
-                    "results": vector_results,
-                    "avg_score": avg_score,
-                    "time": elapsed
-                }
-            except Exception as e:
-                results['vector'] = {"error": str(e), "avg_score": 0, "time": 0, "results": []}
-
-        # BM25 检索
-        if methods.get('bm25'):
-            start_time = time.time()
-            try:
-                bm25_result = bm25_retrieve.invoke({
-                    "query": query,
-                    "documents": "[]",
-                    "collection_name": "knowledge_base",
-                    "top_k": 5
-                })
-                elapsed = (time.time() - start_time) * 1000
-
-                # 解析结果
-                result_data = json.loads(bm25_result)
-                bm25_results = []
-                avg_score = 0
-
-                if "documents" in result_data:
-                    for i, doc in enumerate(result_data["documents"][:5]):
-                        score = doc.get("score", 0.0)
-                        avg_score += score
-                        bm25_results.append({
-                            "document_name": f"文档_{i+1}",
-                            "content": doc.get("page_content", ""),
-                            "score": score
-                        })
-
-                    avg_score /= len(bm25_results) if bm25_results else 1
-
-                results['bm25'] = {
-                    "results": bm25_results,
-                    "avg_score": avg_score,
-                    "time": elapsed
-                }
-            except Exception as e:
-                results['bm25'] = {"error": str(e), "avg_score": 0, "time": 0, "results": []}
-
-        # 混合检索
-        if methods.get('hybrid'):
-            start_time = time.time()
-            try:
-                hybrid_result = hybrid_retrieve.invoke({
-                    "query": query,
-                    "documents": "[]",
-                    "collection_name": "knowledge_base",
-                    "top_k": 5,
-                    "vector_weight": 0.5,
-                    "bm25_weight": 0.5,
-                    "use_rerank": False
-                })
-                elapsed = (time.time() - start_time) * 1000
-
-                # 解析结果
-                result_data = json.loads(hybrid_result)
-                hybrid_results = []
-                avg_score = 0
-
-                if "documents" in result_data:
-                    for i, doc in enumerate(result_data["documents"][:5]):
-                        score = doc.get("score", 0.0)
-                        avg_score += score
-                        hybrid_results.append({
-                            "document_name": f"文档_{i+1}",
-                            "content": doc.get("page_content", ""),
-                            "score": score
-                        })
-
-                    avg_score /= len(hybrid_results) if hybrid_results else 1
-
-                results['hybrid'] = {
-                    "results": hybrid_results,
-                    "avg_score": avg_score,
-                    "time": elapsed
-                }
-            except Exception as e:
-                results['hybrid'] = {"error": str(e), "avg_score": 0, "time": 0, "results": []}
+        results = rag_service.compare_methods(query, methods)
 
         return jsonify({
             "status": "success",
             "results": results
         })
     except Exception as e:
+        logger.error(f"Compare methods failed: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/api/knowledge/heatmap', methods=['GET'])
 def get_knowledge_heatmap():
-    """获取知识热力图数据"""
+    """获取知识热力图数据 (通过 RAGService)"""
     try:
-        from tools.knowledge_heatmap import generate_knowledge_heatmap
-
-        heatmap_result = generate_knowledge_heatmap.invoke({
-            "collection_name": "knowledge_base",
-            "topic_level": 3,
-            "min_frequency": 1
-        })
-
+        rag_service = get_rag_service()
+        heatmap_data = rag_service.get_heatmap(topic_level=3, min_frequency=1)
         return jsonify({
             "status": "success",
-            "heatmap": json.loads(heatmap_result)
+            "heatmap": heatmap_data
         })
     except Exception as e:
+        logger.error(f"Heatmap generation failed: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/api/knowledge/hierarchy/<string:doc_id>', methods=['GET'])
 def get_document_hierarchy(doc_id):
-    """获取文档分层结构"""
+    """获取文档分层结构 (通过 RAGService)"""
     try:
-        from tools.document_hierarchy import build_document_hierarchy
-
-        hierarchy_result = build_document_hierarchy.invoke({
-            "document_id": doc_id,
-            "collection_name": "knowledge_base"
-        })
-
+        rag_service = get_rag_service()
+        hierarchy_data = rag_service.get_hierarchy(doc_id)
         return jsonify({
             "status": "success",
-            "hierarchy": json.loads(hierarchy_result)
+            "hierarchy": hierarchy_data
         })
     except Exception as e:
+        logger.error(f"Hierarchy building failed: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
@@ -761,6 +596,46 @@ def get_session_messages(session_id):
 
     messages = service.get_session_messages(session_id)
     return jsonify({"status": "success", "messages": messages})
+
+
+@app.route('/api/collaboration/chat', methods=['POST'])
+def collaboration_chat():
+    """协作会话内调用 Agent，并通过 WebSocket 广播 AI 消息"""
+    ensure_websocket_server()
+    data = request.json or {}
+    message = data.get('message', '')
+    session_id = data.get('session_id')
+    conversation_id = data.get('conversation_id') or (f"session_{session_id}" if session_id else "collab_default")
+    role = data.get('role', 'default')
+
+    if not message:
+        return jsonify({"error": "消息不能为空"}), 400
+    if session_id is None:
+        return jsonify({"error": "session_id 不能为空"}), 400
+
+    agent_service = get_agent_service()
+
+    async def run_and_broadcast():
+        full_content = ""
+        async for chunk in agent_service.stream_chat(message, conversation_id, role):
+            if isinstance(chunk, dict) and chunk.get("type") == "content":
+                full_content += chunk.get("content", "")
+        # 广播聚合后的 AI 回复
+        if full_content:
+            await broadcast_agent_message(session_id=int(session_id), content=full_content)
+        return full_content
+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        content = loop.run_until_complete(run_and_broadcast())
+    except Exception as e:
+        logger.error(f"Collaboration chat failed: {e}")
+        return jsonify({"error": str(e)}), 500
+    finally:
+        loop.close()
+
+    return jsonify({"status": "success", "content": content})
 
 
 if __name__ == '__main__':

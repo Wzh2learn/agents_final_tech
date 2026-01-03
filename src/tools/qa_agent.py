@@ -2,72 +2,47 @@
 QA问答工具：知识检索 → 理解用户问题 → 生成答案
 对应 Dify 工作流：WF_QA_Main
 """
+from pydantic import BaseModel, Field
 import os
 import glob
 from typing import List, Optional
 from langchain.tools import tool
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_openai import ChatOpenAI
-from coze_coding_utils.runtime_ctx.context import Context, default_headers
-
-
-def _search_knowledge(query: str, knowledge_base_path: str = "assets") -> List[str]:
+from utils.runtime_ctx import Context, default_headers
+def _search_knowledge(query: str) -> List[dict]:
     """
-    在本地知识库中搜索相关文档
-    返回相关文档内容片段
+    通过 RAGService 检索知识库 (取代原有的本地 glob搜索)
     """
-    relevant_docs = []
-
-    # 支持的文件扩展名
-    extensions = ['*.txt', '*.md', '*.json', '*.yaml', '*.yml']
-
-    # 搜索所有匹配的文件
-    for ext in extensions:
-        for file_path in glob.glob(os.path.join(knowledge_base_path, '**', ext), recursive=True):
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    content = f.read()
-
-                    # 简单的关键词匹配（实际项目中可以使用向量搜索）
-                    query_keywords = query.lower().split()
-                    content_lower = content.lower()
-
-                    # 计算匹配度
-                    matches = sum(1 for keyword in query_keywords if keyword in content_lower)
-
-                    if matches > 0:
-                        # 限制每篇文档返回的内容长度
-                        excerpt = content[:2000] if len(content) > 2000 else content
-                        relevant_docs.append({
-                            'file': os.path.basename(file_path),
-                            'matches': matches,
-                            'content': excerpt
-                        })
-            except Exception as e:
-                continue
-
-    # 按匹配度排序
-    relevant_docs.sort(key=lambda x: x['matches'], reverse=True)
-
-    # 返回前3篇最相关的文档
-    return relevant_docs[:3]
+    try:
+        from biz.rag_service import get_rag_service
+        rag_service = get_rag_service()
+        results = rag_service.smart_retrieve(query=query, top_k=3)
+        return results
+    except Exception as e:
+        print(f"知识检索失败: {e}")
+        return []
 
 
 def _call_llm(ctx: Context, messages: list, config: dict) -> str:
     """调用大语言模型"""
-    api_key = os.getenv("COZE_WORKLOAD_IDENTITY_API_KEY")
-    base_url = os.getenv("COZE_INTEGRATION_MODEL_BASE_URL")
+    from utils.config_loader import get_config
+    app_cfg = get_config()
+    llm_cfg = app_cfg.get_llm_config()
+    
+    api_key = os.getenv(llm_cfg.get("api_key_env", "SILICONFLOW_API_KEY"))
+    base_url = os.getenv(llm_cfg.get("base_url_env", "SILICONFLOW_BASE_URL"))
 
     llm = ChatOpenAI(
-        model=config.get("model", "doubao-seed-1-6-251015"),
+        model=llm_cfg.get("model", "deepseek-ai/DeepSeek-V3.2"),
         api_key=api_key,
         base_url=base_url,
         streaming=True,
-        temperature=config.get("temperature", 0.7),
-        max_completion_tokens=config.get("max_completion_tokens", 4096),
+        temperature=config.get("temperature", llm_cfg.get("temperature", 0.7)),
+        max_completion_tokens=config.get("max_completion_tokens", llm_cfg.get("max_tokens", 4096)),
         extra_body={
             "thinking": {
-                "type": config.get("thinking", "disabled")
+                "type": config.get("thinking", llm_cfg.get("thinking", "disabled"))
             }
         },
         default_headers=default_headers(ctx) if ctx else {}
@@ -87,6 +62,11 @@ def _call_llm(ctx: Context, messages: list, config: dict) -> str:
     return full_response
 
 
+class QAInput(BaseModel):
+    query: str = Field(..., description="用户的问题")
+    role: str = Field("default", description="回答角色（product_manager/tech_developer/sales_engineer/default）")
+    use_knowledge: bool = Field(True, description="是否使用知识库检索")
+
 @tool
 def qa_agent(
     query: str,
@@ -105,6 +85,12 @@ def qa_agent(
     Returns:
         答案内容
     """
+    # I/O Guard 校验
+    validated = QAInput(query=query, role=role, use_knowledge=use_knowledge)
+    query = validated.query
+    role = validated.role
+    use_knowledge = validated.use_knowledge
+
     ctx = runtime.context if runtime else None
 
     # 角色定义
@@ -140,7 +126,9 @@ def qa_agent(
         if relevant_docs:
             knowledge_context = "\n\n--- 相关知识库内容 ---\n"
             for i, doc in enumerate(relevant_docs, 1):
-                knowledge_context += f"\n【文档{i} - {doc['file']}】\n{doc['content']}\n"
+                source = doc.get("metadata", {}).get("source", "未知文档")
+                content = doc.get("content", "")
+                knowledge_context += f"\n【文档{i} - {source}】\n{content}\n"
 
     # 2. 构建系统提示词（迁移自Dify WF_QA_Main）
     system_prompt = f"""# 角色定义
@@ -191,14 +179,8 @@ def qa_agent(
         HumanMessage(content=f"用户问题：{query}\n{knowledge_context}")
     ]
 
-    config = {
-        "model": "doubao-seed-1-6-251015",
-        "temperature": 0.7,
-        "thinking": "disabled"
-    }
-
     try:
-        result = _call_llm(ctx, messages, config)
+        result = _call_llm(ctx, messages, {})
         return result
     except Exception as e:
         return f"问答失败：{str(e)}"
@@ -241,14 +223,8 @@ def classify_query(
         HumanMessage(content=f"用户查询：{query}")
     ]
 
-    config = {
-        "model": "doubao-seed-1-6-251015",
-        "temperature": 0.3,
-        "thinking": "disabled"
-    }
-
     try:
-        result = _call_llm(ctx, messages, config)
+        result = _call_llm(ctx, messages, {"temperature": 0.3})
         return result.strip()
     except Exception as e:
         return "general_qa"  # 默认返回通用问答

@@ -11,15 +11,15 @@
 import os
 import json
 from typing import Annotated
-from langchain.agents import create_agent
+from langgraph.prebuilt import create_react_agent
 from langchain_openai import ChatOpenAI
 from langgraph.graph import MessagesState
 from langgraph.graph.message import add_messages
 from langchain_core.messages import AnyMessage
-from coze_coding_utils.runtime_ctx.context import default_headers
+from utils.runtime_ctx import default_headers
 from storage.memory.memory_saver import get_memory_saver
 
-# 导入工具
+# 导入核心业务工具
 from tools.document_processor import document_processor, validate_rules
 from tools.qa_agent import qa_agent, classify_query
 from tools.feedback_handler import feedback_handler, generate_summary_report
@@ -31,46 +31,7 @@ from tools.file_writer import (
     read_from_storage,
     list_storage_files
 )
-# 导入 RAG 相关工具
-from tools.document_loader import (
-    load_document,
-    load_documents_with_metadata,
-    get_document_info
-)
-from tools.text_splitter import (
-    split_text_recursive,
-    split_text_by_markdown_structure,
-    split_document_optimized,
-    split_text_with_summary
-)
-from tools.reranker_tool import (
-    rerank_documents
-)
-from tools.vector_store import (
-    check_vector_store_setup
-)
-from tools.knowledge_base import (
-    add_document_to_knowledge_base,
-    delete_documents_from_knowledge_base,
-    search_knowledge_base,
-    get_knowledge_base_stats
-)
-from tools.rag_retriever import (
-    rag_retrieve_with_rerank
-)
-# 导入 RAG 策略工具
-from tools.question_classifier import (
-    classify_question_type,
-    get_retrieval_strategy
-)
-from tools.bm25_retriever import (
-    bm25_retrieve
-)
-from tools.hybrid_retriever import (
-    hybrid_retrieve,
-    compare_retrieval_methods
-)
-from tools.rag_router import (
+from tools.rag_tools import (
     smart_retrieve,
     batch_retrieve,
     get_retrieval_statistics
@@ -94,14 +55,16 @@ class AgentState(MessagesState):
 
 
 def build_agent(ctx=None):
-    workspace_path = os.getenv("COZE_WORKSPACE_PATH", "/workspace/projects")
+    # 动态获取项目根目录
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    workspace_path = os.getenv("WORKSPACE_PATH", base_dir)
     config_path = os.path.join(workspace_path, LLM_CONFIG)
 
     with open(config_path, 'r', encoding='utf-8') as f:
         cfg = json.load(f)
 
-    api_key = os.getenv("COZE_WORKLOAD_IDENTITY_API_KEY")
-    base_url = os.getenv("COZE_INTEGRATION_MODEL_BASE_URL")
+    api_key = os.getenv("SILICONFLOW_API_KEY")
+    base_url = os.getenv("SILICONFLOW_BASE_URL")
 
     llm = ChatOpenAI(
         model=cfg['config'].get("model"),
@@ -118,50 +81,27 @@ def build_agent(ctx=None):
         default_headers=default_headers(ctx) if ctx else {}
     )
 
-    # 构建工具列表
+    # 构建工具列表 (精简后的核心工具集)
     tools = [
-        # 原有工具
-        document_processor,      # 文档处理工具
-        validate_rules,          # 规则校验工具
-        qa_agent,                # QA问答工具
-        classify_query,          # 查询分类工具
-        feedback_handler,        # 反馈处理工具
-        generate_summary_report,  # 反馈汇总工具
-        write_to_file,           # 写入本地文件
-        write_to_storage,        # 写入对象存储
-        save_rule_to_knowledge,   # 保存规则到知识库
-        save_qa_answer,          # 保存问答对到知识库
-        read_from_storage,       # 从对象存储读取
-        list_storage_files,       # 列出对象存储文件
-        # 新增 RAG 工具
-        load_document,           # 加载文档（Markdown/Word）
-        load_documents_with_metadata,  # 加载文档带元数据
-        get_document_info,       # 获取文档信息
-        split_text_recursive,   # 递归文本分割
-        split_text_by_markdown_structure,  # Markdown 结构分割
-        split_document_optimized, # 优化文档分割
-        split_text_with_summary,  # 文本分割并统计
-        rerank_documents,        # 文档重排序
-        check_vector_store_setup,  # 检查向量存储设置
-        add_document_to_knowledge_base,  # 添加文档到知识库
-        delete_documents_from_knowledge_base,  # 从知识库删除文档
-        search_knowledge_base,   # 搜索知识库
-        get_knowledge_base_stats, # 获取知识库统计
-        rag_retrieve_with_rerank,  # RAG 检索（向量+Rerank）
-        # RAG 策略工具
-        classify_question_type,  # 问题类型分类器
-        get_retrieval_strategy,  # 获取推荐检索策略
-        bm25_retrieve,           # BM25 全文检索
-        hybrid_retrieve,         # 混合检索（向量+BM25）
-        compare_retrieval_methods,  # 对比不同检索方法
-        smart_retrieve,          # 智能检索路由
-        batch_retrieve,          # 批量检索
-        get_retrieval_statistics,  # 获取检索统计信息
+        document_processor,      # 文档规则提取
+        validate_rules,          # 规则校验
+        qa_agent,                # 知识库问答 (内置检索)
+        classify_query,          # 查询分类
+        feedback_handler,        # 反馈处理
+        generate_summary_report, # 报告生成
+        write_to_file,           # 本地写入
+        write_to_storage,        # 存储写入 (ACL)
+        save_rule_to_knowledge,  # 规则持久化
+        save_qa_answer,          # QA持久化
+        read_from_storage,       # 存储读取
+        list_storage_files,      # 文件列表
+        smart_retrieve,          # 智能 RAG 检索 (Biz 驱动)
+        batch_retrieve,          # 批量检索 (Biz 驱动)
+        get_retrieval_statistics,# 检索统计 (Biz 驱动)
     ]
 
-    return create_agent(
+    return create_react_agent(
         model=llm,
-        system_prompt=cfg.get("sp"),
         tools=tools,
         checkpointer=get_memory_saver(),
         state_schema=AgentState,

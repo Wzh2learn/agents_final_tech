@@ -1,80 +1,34 @@
 # 📖 项目文档
 
-欢迎来到建账规则助手系统的文档中心。
+欢迎来到建账规则助手系统的文档中心。本系统已从 Dify 迁移至基于 LangChain + LangGraph 的自研架构。
 
 ---
 
-## 🚀 快速导航
+## 📖 快速导航
 
 ### 🆕 新手入门
 
-1. [项目总览](../README.md) - 了解项目功能和特性
-2. [快速开始](../README.md#-快速开始) - 5 分钟启动系统
-3. [文档索引](./INDEX.md) - 查找所有文档
+1. [项目部署与标准操作 (DEPLOYMENT_SOP.md)](docs/DEPLOYMENT_SOP.md) - **最先阅读**：从零开始启动项目。
+2. [技术规格与架构 (TECHNICAL_SPECS.md)](docs/TECHNICAL_SPECS.md) - 了解系统模块、Dify 迁移对照及数据流。
+3. [配置与 RAG 指南 (CONFIGURATION_RAG.md)](docs/CONFIGURATION_RAG.md) - 深入了解模型配置与检索策略调优。
 
-### 🛠️ 配置和部署
+### 📦 历史归档
 
-1. [配置说明](./CONFIGURATION.md) - 详细配置指南
-2. [部署指南](./DEPLOYMENT_GUIDE.md) - 部署到生产环境
-3. [环境变量](../.env.example) - 配置示例
-
-### 🤖 功能使用
-
-1. [RAG 指南](./RAG_GUIDE.md) - 知识检索使用
-2. [健康检查](./PROJECT_HEALTH_CHECK.md) - 项目状态评估
-
-### 📦 历史文档
-
-1. [归档目录](./archive/) - 历史文档和记录
+1. [归档目录](./archive/) - 迁移过程中的原始记录和旧版设计。
 
 ---
 
-## 📚 文档结构
+## 📚 文档目录树
 
 ```
 docs/
-├── INDEX.md                      # 文档导航索引
-├── CONFIGURATION.md              # 配置说明
-├── DEPLOYMENT_GUIDE.md           # 部署和协作指南
-├── RAG_GUIDE.md                  # RAG 功能指南
-├── PROJECT_HEALTH_CHECK.md       # 健康检查报告
-└── archive/                      # 历史文档归档
-    ├── README.md                 # 归档说明
-    └── *.md                      # 历史文档
+├── DEPLOYMENT_SOP.md      # 部署、运行、协作 SOP
+├── TECHNICAL_SPECS.md     # 技术架构、迁移对照、性能优化
+├── CONFIGURATION_RAG.md   # 配置管理、RAG 检索深度指南
+├── archive/               # 历史记录归档
+└── README.md              # 本文档入口
 ```
 
 ---
 
-## 💡 根据场景选择文档
-
-### 我想快速上手
-
-→ 阅读 [项目 README](../README.md)，运行 `./scripts/quick_start.sh`
-
-### 我想部署到生产环境
-
-→ 阅读 [部署指南](./DEPLOYMENT_GUIDE.md)，运行 `./scripts/init_db.sh`
-
-### 我想配置 RAG 功能
-
-→ 阅读 [RAG 指南](./RAG_GUIDE.md)，编辑 `config/app_config.json`
-
-### 我想参与开发
-
-→ 阅读 [部署指南 - 开发流程](./DEPLOYMENT_GUIDE.md#-日常开发流程)
-
-### 我想了解项目状态
-
-→ 阅读 [健康检查报告](./PROJECT_HEALTH_CHECK.md)
-
----
-
-## 🔗 相关资源
-
-- [GitHub 仓库](https://github.com/Wzh2learn/agents_final_tech)
-- [Issue 跟踪](https://github.com/Wzh2learn/agents_final_tech/issues)
-- [提交问题](https://github.com/Wzh2learn/agents_final_tech/issues/new)
-
----
-
-**最后更新**: 2025-01-03
+**最后更新**: 2026-01-03

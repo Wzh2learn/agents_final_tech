@@ -1,6 +1,6 @@
 """
 向量存储配置
-支持 PGVector 向量数据库 + 豆包 Embedding API
+支持 PGVector 向量数据库 + 硅基流动 (SiliconFlow) Embedding API
 """
 import os
 from typing import Optional, Union, List
@@ -17,6 +17,9 @@ def __get_connection_string() -> str:
     # 优先使用 PGDATABASE_URL 环境变量
     pg_url = os.getenv("PGDATABASE_URL")
     if pg_url:
+        # Ensure it uses psycopg (v3) driver
+        if pg_url.startswith("postgresql://"):
+            pg_url = pg_url.replace("postgresql://", "postgresql+psycopg://", 1)
         return pg_url
 
     # 否则使用单独的环境变量
@@ -35,17 +38,17 @@ def __get_connection_string() -> str:
     return connection_string
 
 
-class DoubaoEmbeddings(Embeddings):
-    """豆包 Embedding API 封装（兼容 LangChain Embeddings 接口）"""
+class SiliconFlowEmbeddings(Embeddings):
+    """硅基流动 Embedding API 封装（兼容 LangChain Embeddings 接口）"""
 
     def __init__(
         self,
-        model: str = "doubao-embedding-large-text-250515",
+        model: str = "BAAI/bge-m3",
         api_key: Optional[str] = None,
-        base_url: Optional[str] = None
+        base_url: Optional[str] = "https://api.siliconflow.cn/v1"
     ):
         """
-        初始化豆包 Embedding
+        初始化硅基流动 Embedding
 
         Args:
             model: 模型名称
@@ -53,13 +56,11 @@ class DoubaoEmbeddings(Embeddings):
             base_url: Base URL（默认从环境变量读取）
         """
         self.model = model
-        self.api_key = api_key or os.getenv("COZE_WORKLOAD_IDENTITY_API_KEY")
-        self.base_url = base_url or os.getenv("COZE_INTEGRATION_MODEL_BASE_URL")
+        self.api_key = api_key or os.getenv("SILICONFLOW_API_KEY")
+        self.base_url = base_url or os.getenv("SILICONFLOW_BASE_URL") or "https://api.siliconflow.cn/v1"
 
         if not self.api_key:
-            raise ValueError("未找到 COZE_WORKLOAD_IDENTITY_API_KEY 环境变量")
-        if not self.base_url:
-            raise ValueError("未找到 COZE_INTEGRATION_MODEL_BASE_URL 环境变量")
+            raise ValueError("未找到 API Key 环境变量 (SILICONFLOW_API_KEY)")
 
         # 动态导入 OpenAI 客户端
         try:
@@ -76,12 +77,6 @@ class DoubaoEmbeddings(Embeddings):
     def embed_documents(self, texts: List[str]) -> List[List[float]]:
         """
         嵌入多个文本
-
-        Args:
-            texts: 文本列表
-
-        Returns:
-            向量列表
         """
         try:
             response = self.client.embeddings.create(
@@ -91,17 +86,11 @@ class DoubaoEmbeddings(Embeddings):
             embeddings = [item.embedding for item in response.data]
             return embeddings
         except Exception as e:
-            raise RuntimeError(f"调用 Embedding API 失败: {str(e)}")
+            raise RuntimeError(f"调用硅基流动 Embedding API 失败: {str(e)}")
 
     def embed_query(self, text: str) -> List[float]:
         """
         嵌入单个查询
-
-        Args:
-            text: 查询文本
-
-        Returns:
-            向量
         """
         return self.embed_documents([text])[0]
 
@@ -124,20 +113,12 @@ _VectorStoreClass = __dynamic_import()
 
 
 def get_embeddings(
-    model: str = "doubao-embedding-large-text-250515",
+    model: str = "BAAI/bge-m3",
     api_key: Optional[str] = None,
     base_url: Optional[str] = None
-) -> DoubaoEmbeddings:
+) -> SiliconFlowEmbeddings:
     """
-    获取豆包 Embeddings 实例
-
-    Args:
-        model: 模型名称（默认使用豆包大模型）
-        api_key: API Key（可选，默认从环境变量读取）
-        base_url: Base URL（可选，默认从环境变量读取）
-
-    Returns:
-        DoubaoEmbeddings 实例
+    获取硅基流动 Embeddings 实例
     """
     global _embeddings_client
 
@@ -146,7 +127,7 @@ def get_embeddings(
         return _embeddings_client
 
     try:
-        _embeddings_client = DoubaoEmbeddings(
+        _embeddings_client = SiliconFlowEmbeddings(
             model=model,
             api_key=api_key,
             base_url=base_url
@@ -206,17 +187,14 @@ def get_vector_store(
 def check_vector_store_setup() -> str:
     """
     检查向量存储设置状态
-
-    Returns:
-        设置状态信息
     """
     status = {
         "PGVector": "已安装" if _vector_store else "未安装",
-        "豆包 Embedding": "已配置" if _embeddings_client else "未配置",
+        "SiliconFlow Embedding": "已配置" if _embeddings_client else "未配置",
         "数据库配置": __get_connection_string().replace(
             os.getenv("POSTGRES_PASSWORD", ""), "****"
         ),
-        "模型": "doubao-embedding-large-text-250515",
+        "模型": "Qwen/Qwen3-Embedding-0.6B",
         "安装命令": [
             "pip install langchain-postgres",
             "pip install openai"

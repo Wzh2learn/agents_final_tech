@@ -18,10 +18,10 @@ class DocumentStorage:
     def __init__(self):
         """初始化对象存储客户端"""
         self.storage = S3SyncStorage(
-            endpoint_url=os.getenv("COZE_BUCKET_ENDPOINT_URL"),
+            endpoint_url=os.getenv("BUCKET_ENDPOINT_URL"),
             access_key="",
             secret_key="",
-            bucket_name=os.getenv("COZE_BUCKET_NAME"),
+            bucket_name=os.getenv("BUCKET_NAME"),
             region="cn-beijing",
         )
         self.prefix = "documents/"  # 文档存储前缀

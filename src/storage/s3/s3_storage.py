@@ -24,7 +24,7 @@ class S3SyncStorage:
     """S3兼容存储实现"""
 
     def __init__(self, *, endpoint_url: Optional[str] = None, access_key: str, secret_key: str, bucket_name: str, region: str = "cn-beijing"):
-        self.endpoint_url = os.environ.get("COZE_BUCKET_ENDPOINT_URL") or endpoint_url or ''
+        self.endpoint_url = os.environ.get("BUCKET_ENDPOINT_URL") or endpoint_url or ''
         self.access_key = access_key
         self.secret_key = secret_key
         self.bucket_name = bucket_name
@@ -36,21 +36,20 @@ class S3SyncStorage:
             endpoint = self.endpoint_url
             if endpoint is None or endpoint == "":
                 try:
-                    from coze_workload_identity import Client as CozeEnvClient
-                    coze_env_client = CozeEnvClient()
-                    env_vars = coze_env_client.get_project_env_vars()
-                    coze_env_client.close()
+                    from coze_workload_identity import Client as EnvClient
+                    env_client = EnvClient()
+                    env_vars = env_client.get_project_env_vars()
+                    env_client.close()
                     for env_var in env_vars:
-                        if env_var.key == "COZE_BUCKET_ENDPOINT_URL":
+                        if env_var.key == "BUCKET_ENDPOINT_URL":
                             endpoint = env_var.value.replace("'", "'\\''")
                             self.endpoint_url = endpoint
                             break
                 except Exception as e:
-                    logger.error(f"Error loading COZE_BUCKET_ENDPOINT_URL: {e}")
-                    # 保持向下校验逻辑，避免在此处中断
+                    logger.debug(f"Optional workload identity lookup failed: {e}")
             if endpoint is None or endpoint == "":
-                logger.error("未配置存储端点：请设置endpoint_url")
-                raise ValueError("未配置存储端点：请设置endpoint_url")
+                logger.error("未配置存储端点：请设置endpoint_url 或 BUCKET_ENDPOINT_URL")
+                raise ValueError("未配置存储端点：请设置endpoint_url 或 BUCKET_ENDPOINT_URL")
 
             client = boto3.client(
                 "s3",
@@ -63,21 +62,21 @@ class S3SyncStorage:
             # 注册 before-call 钩子，发送前注入 x-storage-token 头
             def _inject_header(**kwargs):
                 try:
-                    from coze_workload_identity import Client as CozeClient
-                    coze_client = CozeClient()
+                    from coze_workload_identity import Client as IdentityClient
+                    identity_client = IdentityClient()
                     try:
-                        token = coze_client.get_access_token()
+                        token = identity_client.get_access_token()
                     except Exception as e:
-                        logger.error("Error loading COZE_WORKLOAD_IDENTITY_TOKEN: %s", e)
+                        logger.debug("Workload identity token lookup failed: %s", e)
                         token = None
-                        raise e
                     finally:
-                        coze_client.close()
-                    params = kwargs.get("params", {})
-                    headers = params.setdefault("headers", {})
-                    headers["x-storage-token"] = token
-                except Exception as e:
-                    logger.error("Error loading COZE_WORKLOAD_IDENTITY_TOKEN: %s", e)
+                        identity_client.close()
+                    
+                    if token:
+                        params = kwargs.get("params", {})
+                        headers = params.setdefault("headers", {})
+                        headers["x-storage-token"] = token
+                except Exception:
                     pass
             client.meta.events.register("before-call.s3", _inject_header)
             self._client = client
@@ -105,9 +104,9 @@ class S3SyncStorage:
 
     def _resolve_bucket(self, bucket: Optional[str]) -> str:
         """统一解析 bucket 来源，确保得到有效桶名。"""
-        target_bucket = bucket or os.environ.get("COZE_BUCKET_NAME") or self.bucket_name
+        target_bucket = bucket or os.environ.get("BUCKET_NAME") or self.bucket_name
         if not target_bucket:
-            raise ValueError("未配置 bucket：请传入 bucket 或设置 COZE_BUCKET_NAME，或在实例化时提供 bucket_name")
+            raise ValueError("未配置 bucket：请传入 bucket 或设置 BUCKET_NAME，或在实例化时提供 bucket_name")
         return target_bucket
 
     def _validate_file_name(self, name: str) -> None:
@@ -234,30 +233,31 @@ class S3SyncStorage:
         """通过 S3 Proxy 生成签名 URL。"""
         import json
         import urllib.request as urllib_request
+        token = None
         try:
-            from coze_workload_identity import Client as CozeClient
-            coze_client = CozeClient()
+            from coze_workload_identity import Client as IdentityClient
+            identity_client = IdentityClient()
             try:
-                token = coze_client.get_access_token()
+                token = identity_client.get_access_token()
             finally:
                 try:
-                    coze_client.close()
+                    identity_client.close()
                 except Exception:
-                    # 资源释放失败不影响后续流程
                     pass
         except Exception as e:
-            logger.error(f"Error loading x-storage-token: {e}")
-            raise RuntimeError(f"获取 x-storage-token 失败: {e}")
+            logger.debug(f"Optional token lookup failed: {e}")
+
         try:
-            sign_base = os.environ.get("COZE_BUCKET_ENDPOINT_URL") or self.endpoint_url
+            sign_base = os.environ.get("BUCKET_ENDPOINT_URL") or self.endpoint_url
             if not sign_base:
-                raise ValueError("未配置签名端点：请设置 COZE_BUCKET_ENDPOINT_URL 或传入 endpoint_url")
+                raise ValueError("未配置签名端点：请设置 BUCKET_ENDPOINT_URL 或传入 endpoint_url")
             sign_url_endpoint = sign_base.rstrip("/") + "/sign-url"
 
             headers = {
                 "Content-Type": "application/json",
-                "x-storage-token": token,
             }
+            if token:
+                headers["x-storage-token"] = token
 
             target_bucket = self._resolve_bucket(bucket)
             payload = {"bucket_name": target_bucket, "path": key, "expire_time": expire_time}

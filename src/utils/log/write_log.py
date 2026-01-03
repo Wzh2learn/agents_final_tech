@@ -6,7 +6,7 @@ from contextvars import ContextVar
 from typing import Optional
 from pathlib import Path
 
-from coze_coding_utils.runtime_ctx.context import Context
+from utils.runtime_ctx import Context
 from utils.log.config import LOG_DIR
 
 request_context: ContextVar[Optional[Context]] = ContextVar('request_context', default=None)
@@ -73,7 +73,7 @@ class JsonFormatter(logging.Formatter):
                           'thread', 'threadName', 'exc_info', 'exc_text', 'stack_info',
                           'log_id', 'run_id', 'space_id', 'project_id', 'method',
                           'x_tt_env', 'rpc_persist_rec_rec_biz_scene', 
-                          'rpc_persist_coze_record_root_id', 'rpc_persist_rec_root_entity_type',
+                          'rpc_persist_record_root_id', 'rpc_persist_rec_root_entity_type',
                           'rpc_persist_rec_root_entity_id']:
                 log_data[key] = value
         
@@ -108,7 +108,7 @@ class PlainTextFormatter(logging.Formatter):
                           'thread', 'threadName', 'exc_info', 'exc_text', 'stack_info',
                           'log_id', 'run_id', 'space_id', 'project_id', 'method',
                           'x_tt_env', 'rpc_persist_rec_rec_biz_scene', 
-                          'rpc_persist_coze_record_root_id', 'rpc_persist_rec_root_entity_type',
+                          'rpc_persist_record_root_id', 'rpc_persist_rec_root_entity_type',
                           'rpc_persist_rec_root_entity_id']:
                 log_data[key] = value
         
@@ -123,6 +123,13 @@ def setup_logging(
     use_json_format: bool = True,
     console_output: bool = True
 ):
+    
+    if log_file:
+        try:
+            log_dir = Path(log_file).parent
+            log_dir.mkdir(parents=True, exist_ok=True)
+        except Exception as e:
+            print(f"Warning: Could not create log directory {log_dir}: {e}", flush=True)
     
     if log_file is None:
         try:

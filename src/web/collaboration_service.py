@@ -6,8 +6,8 @@ import threading
 import time
 from typing import List, Optional
 import asyncio
-from src.storage.collaboration import get_collaboration_db
-from src.web.websocket_server import broadcast_agent_message
+from storage.collaboration import get_collaboration_db
+from web.websocket_server import broadcast_agent_message
 
 # 存储 WebSocket 服务线程
 websocket_server_thread = None
@@ -19,7 +19,7 @@ def start_websocket_thread(host='0.0.0.0', port=8765):
 
     if websocket_server_thread is None:
         def run_server():
-            from src.web.websocket_server import start_websocket_server
+            from web.websocket_server import start_websocket_server
             start_websocket_server(host, port)
 
         websocket_server_thread = threading.Thread(target=run_server, daemon=True)

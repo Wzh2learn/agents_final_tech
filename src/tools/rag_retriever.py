@@ -2,6 +2,7 @@
 RAG 检索工具
 整合向量检索和 LLM Rerank 重排
 """
+from pydantic import BaseModel, Field
 import json
 from typing import Optional, List
 from langchain.tools import tool
@@ -11,6 +12,13 @@ from langchain_core.documents import Document
 from tools.vector_store import get_vector_store
 from tools.reranker_tool import rerank_documents
 
+
+class RAGRetrieveInput(BaseModel):
+    query: str = Field(..., description="查询文本")
+    collection_name: str = Field("knowledge_base", description="向量集合名称")
+    initial_k: int = Field(20, description="初始检索文档数")
+    top_n: int = Field(5, description="最终返回的文档数")
+    use_rerank: bool = Field(True, description="是否使用 rerank")
 
 @tool
 def rag_retrieve_with_rerank(
@@ -32,13 +40,20 @@ def rag_retrieve_with_rerank(
 
     Returns:
         检索结果（带相似度分数和 rerank 分数）
-
-    Raises:
-        ValueError: 如果查询为空
-        RuntimeError: 如果检索失败
     """
-    if not query or not query.strip():
-        raise ValueError("查询不能为空")
+    # I/O Guard 校验
+    validated = RAGRetrieveInput(
+        query=query, 
+        collection_name=collection_name or "knowledge_base",
+        initial_k=initial_k or 20,
+        top_n=top_n or 5,
+        use_rerank=use_rerank if use_rerank is not None else True
+    )
+    query = validated.query
+    collection_name = validated.collection_name
+    initial_k = validated.initial_k
+    top_n = validated.top_n
+    use_rerank = validated.use_rerank
 
     try:
         # 第一步：向量检索

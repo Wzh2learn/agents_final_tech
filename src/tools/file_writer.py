@@ -2,6 +2,7 @@
 文件写入工具：将内容写入文件或对象存储
 对应 Dify 工作流：写入规则库
 """
+from pydantic import BaseModel, Field
 import os
 import json
 from datetime import datetime
@@ -13,10 +14,10 @@ from storage.s3.s3_storage import S3SyncStorage
 def _get_storage():
     """初始化对象存储"""
     return S3SyncStorage(
-        endpoint_url=os.getenv("COZE_BUCKET_ENDPOINT_URL"),
+        endpoint_url=os.getenv("BUCKET_ENDPOINT_URL"),
         access_key="",
         secret_key="",
-        bucket_name=os.getenv("COZE_BUCKET_NAME"),
+        bucket_name=os.getenv("BUCKET_NAME"),
         region="cn-beijing",
     )
 
@@ -55,6 +56,12 @@ def write_to_file(
         return f"❌ 写入文件失败：{str(e)}"
 
 
+class WriteToStorageInput(BaseModel):
+    content: str = Field(..., description="要写入的内容")
+    file_name: str = Field(..., description="文件名")
+    content_type: str = Field("text/plain", description="内容类型（text/plain, application/json等）")
+    folder: str = Field("knowledge_base", description="存储文件夹")
+
 @tool
 def write_to_storage(
     content: str,
@@ -75,21 +82,30 @@ def write_to_storage(
     Returns:
         写入结果
     """
+    # I/O Guard 校验
+    validated = WriteToStorageInput(
+        content=content,
+        file_name=file_name,
+        content_type=content_type,
+        folder=folder
+    )
+    content = validated.content
+    file_name = validated.file_name
+    content_type = validated.content_type
+    folder = validated.folder
+
     try:
-        storage = _get_storage()
-
-        # 构建对象key
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        key = f"{folder}/{timestamp}_{file_name}"
-
-        # 上传到对象存储
-        object_key = storage.upload_file(
+        from storage.provider import get_storage_provider
+        provider = get_storage_provider()
+        
+        # 统一由 Provider 处理持久化
+        object_key = provider.ingest_document(
             file_content=content.encode('utf-8'),
-            file_name=key,
-            content_type=content_type
+            file_name=file_name,
+            metadata={"content_type": content_type, "folder": folder}
         )
 
-        return f"""✅ 成功写入对象存储
+        return f"""✅ 成功写入对象存储 (via StorageProvider)
 📁 对象Key：{object_key}
 📄 文件名：{file_name}
 📝 类型：{content_type}

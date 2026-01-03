@@ -2,56 +2,24 @@
 文档处理工具：解析文档 → 提取规则 → 生成结构化表格
 对应 Dify 工作流：WF_DocumentProcessor_v1 + 文档处理.yml
 """
+from pydantic import BaseModel, Field, validator
 import os
+
 from typing import Optional
 from langchain.tools import tool
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_openai import ChatOpenAI
-from coze_coding_utils.runtime_ctx.context import Context, default_headers
+from utils.runtime_ctx import Context, default_headers
 
+
+from tools.document_loader import load_document
 
 def _read_document(file_path: str) -> str:
     """
-    读取文档内容
-    支持: .txt, .md, .csv, .json
+    读取文档内容 (通过统一的 load_document 工具)
     """
-    if not os.path.exists(file_path):
-        return f"错误：文件不存在 - {file_path}"
-
-    ext = os.path.splitext(file_path)[1].lower()
-
     try:
-        if ext in ['.txt', '.md', '.csv', '.json', '.yaml', '.yml']:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                return f.read()
-        elif ext == '.pdf':
-            # 简单处理：提示需要安装PyPDF2或pypdf
-            try:
-                import pypdf
-                with open(file_path, 'rb') as f:
-                    pdf_reader = pypdf.PdfReader(f)
-                    content = []
-                    for page in pdf_reader.pages:
-                        content.append(page.extract_text())
-                    return '\n'.join(content)
-            except ImportError:
-                return "错误：PDF 解析需要安装 pypdf 库。请运行: pip install pypdf"
-        elif ext in ['.docx']:
-            # 简单处理：提示需要安装python-docx
-            try:
-                doc_module = __import__('docx')
-                Document = doc_module.Document
-                doc = Document(file_path)
-                content = []
-                for para in doc.paragraphs:
-                    content.append(para.text)
-                return '\n'.join(content)
-            except ImportError:
-                return "错误：DOCX 解析需要安装 python-docx 库。请运行: pip install python-docx"
-            except Exception as e:
-                return f"读取DOCX文件失败：{str(e)}"
-        else:
-            return f"错误：不支持的文件格式 - {ext}"
+        return load_document.invoke({"file_path": file_path})
     except Exception as e:
         return f"读取文件失败：{str(e)}"
 
@@ -60,19 +28,23 @@ def _call_llm_with_thinking(ctx: Context, messages: list, config: dict) -> str:
     """
     调用大语言模型（支持深度思考）
     """
-    api_key = os.getenv("COZE_WORKLOAD_IDENTITY_API_KEY")
-    base_url = os.getenv("COZE_INTEGRATION_MODEL_BASE_URL")
+    from utils.config_loader import get_config
+    app_cfg = get_config()
+    llm_cfg = app_cfg.get_llm_config()
+
+    api_key = os.getenv(llm_cfg.get("api_key_env", "SILICONFLOW_API_KEY"))
+    base_url = os.getenv(llm_cfg.get("base_url_env", "SILICONFLOW_BASE_URL"))
 
     llm = ChatOpenAI(
-        model=config.get("model", "deepseek-v3-2-251201"),
+        model=llm_cfg.get("model", "deepseek-ai/DeepSeek-V3.2"),
         api_key=api_key,
         base_url=base_url,
         streaming=True,
-        temperature=config.get("temperature", 0.1),
-        max_completion_tokens=config.get("max_completion_tokens", 65501),
+        temperature=config.get("temperature", llm_cfg.get("temperature", 0.1)),
+        max_completion_tokens=config.get("max_completion_tokens", llm_cfg.get("max_tokens", 65501)),
         extra_body={
             "thinking": {
-                "type": config.get("thinking", "disabled")
+                "type": config.get("thinking", llm_cfg.get("thinking", "disabled"))
             }
         },
         default_headers=default_headers(ctx) if ctx else {}
@@ -92,6 +64,20 @@ def _call_llm_with_thinking(ctx: Context, messages: list, config: dict) -> str:
     return full_response
 
 
+class DocumentProcessorInput(BaseModel):
+    file_path: str = Field(..., description="文档文件路径（支持 .txt, .md, .pdf, .docx, .csv, .json）")
+    role: str = Field("default", description="处理角色（product_manager/tech_developer/sales_engineer/default）")
+
+    @validator('file_path')
+    def validate_path(cls, v):
+        if not os.path.exists(v):
+            raise ValueError(f"文件不存在: {v}")
+        allowed_exts = ['.txt', '.md', '.pdf', '.docx', '.csv', '.json', '.yaml', '.yml']
+        ext = os.path.splitext(v)[1].lower()
+        if ext not in allowed_exts:
+            raise ValueError(f"不支持的文件格式: {ext}")
+        return v
+
 @tool
 def document_processor(
     file_path: str,
@@ -108,6 +94,11 @@ def document_processor(
     Returns:
         结构化的规则表格（Markdown格式）
     """
+    # I/O Guard 校验
+    validated = DocumentProcessorInput(file_path=file_path, role=role)
+    file_path = validated.file_path
+    role = validated.role
+
     ctx = runtime.context if runtime else None
 
     # 1. 读取文档内容
@@ -184,15 +175,8 @@ def document_processor(
         HumanMessage(content=f"请将以下金融建账业务规则文本转换为标准化规则表格：\n\n{content}")
     ]
 
-    config = {
-        "model": "deepseek-v3-2-251201",  # 使用支持长上下文的模型
-        "temperature": 0.1,
-        "thinking": "disabled",
-        "max_completion_tokens": 65501
-    }
-
     try:
-        result = _call_llm_with_thinking(ctx, messages, config)
+        result = _call_llm_with_thinking(ctx, messages, {})
         return result
     except Exception as e:
         return f"文档处理失败：{str(e)}"
@@ -242,14 +226,8 @@ def validate_rules(
         HumanMessage(content=f"请审核以下规则表格：\n\n{rules_table}")
     ]
 
-    config = {
-        "model": "doubao-seed-1-6-251015",
-        "temperature": 0.2,
-        "thinking": "disabled"
-    }
-
     try:
-        result = _call_llm_with_thinking(ctx, messages, config)
+        result = _call_llm_with_thinking(ctx, messages, {"temperature": 0.2})
         return result
     except Exception as e:
         return f"规则校验失败：{str(e)}"

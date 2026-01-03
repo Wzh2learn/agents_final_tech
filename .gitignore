@@ -6,9 +6,17 @@ dist
 __pycache__/
 *.pyc
 .venv/*
+venv/
 *.o
 *.a
 /vendor
 *.egg-info/
 /.env
 .env
+*.log
+logs/
+tmp/
+.pytest_cache/
+.coverage
+htmlcov/
+.windsurf/

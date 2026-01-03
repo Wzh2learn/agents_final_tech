@@ -7,6 +7,19 @@ import json
 from typing import Any, Optional, Dict
 from pathlib import Path
 
+# Try to load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    # Find project root (3 levels up from src/utils/config_loader.py)
+    base_dir = Path(__file__).resolve().parent.parent.parent
+    env_path = base_dir / ".env"
+    if env_path.exists():
+        load_dotenv(dotenv_path=env_path)
+    else:
+        load_dotenv() # Fallback to default search
+except ImportError:
+    pass
+
 
 class AppConfig:
     """应用配置类"""
@@ -33,9 +46,14 @@ class AppConfig:
             config_path: 配置文件路径（可选，默认使用 app_config.json）
         """
         if config_path is None:
-            # 默认配置文件路径
-            workspace_path = os.getenv("COZE_WORKSPACE_PATH", "/workspace/projects")
-            config_path = os.path.join(workspace_path, "config/app_config.json")
+            # 优先尝试相对于 src/utils/config_loader.py 的路径
+            base_dir = Path(__file__).resolve().parent.parent.parent
+            config_path = base_dir / "config" / "app_config.json"
+            
+            if not config_path.exists():
+                # 降级尝试环境变量或默认路径
+                workspace_path = os.getenv("WORKSPACE_PATH", "/workspace/projects")
+                config_path = Path(workspace_path) / "config" / "app_config.json"
 
         config_file = Path(config_path)
 
@@ -49,26 +67,19 @@ class AppConfig:
 
     def get(self, key: str, default: Any = None) -> Any:
         """
-        获取配置值（支持嵌套key，使用点号分隔）
-
-        Args:
-            key: 配置键，支持嵌套（如 "database.host"）
-            default: 默认值（如果key不存在）
-
-        Returns:
-            配置值
-
-        Examples:
-            >>> config = AppConfig()
-            >>> config.get("database.host")
-            "localhost"
-            >>> config.get("database.port", 5432)
-            5432
+        获取配置值（优先从环境变量获取，然后从配置文件获取）
+        支持嵌套key，使用点号分隔
         """
+        # 1. 尝试从环境变量获取 (将点号替换为下划线并转大写)
+        env_key = key.replace('.', '_').upper()
+        env_value = os.getenv(env_key)
+        if env_value is not None:
+            return env_value
+
         if self._config_data is None:
             return default
 
-        # 支持嵌套key
+        # 2. 从配置文件获取
         keys = key.split('.')
         value = self._config_data
 
@@ -188,7 +199,7 @@ class AppConfig:
             config_path: 配置文件路径（可选，默认使用原路径）
         """
         if config_path is None:
-            workspace_path = os.getenv("COZE_WORKSPACE_PATH", "/workspace/projects")
+            workspace_path = os.getenv("WORKSPACE_PATH", "/workspace/projects")
             config_path = os.path.join(workspace_path, "config/app_config.json")
 
         config_file = Path(config_path)

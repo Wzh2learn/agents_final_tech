@@ -38,6 +38,22 @@ def _get_file_extension(file_path: str) -> str:
     return os.path.splitext(file_path)[1].lower()
 
 
+from pydantic import BaseModel, Field, validator
+import os
+
+class DocumentLoadInput(BaseModel):
+    file_path: str = Field(..., description="文档路径（支持 .txt, .md, .pdf, .docx, .csv, .json, .yaml, .yml 格式；.doc 需额外依赖或转换）")
+
+    @validator('file_path')
+    def validate_path(cls, v):
+        if not os.path.exists(v):
+            raise ValueError(f"文件不存在: {v}")
+        allowed_exts = ['.txt', '.md', '.markdown', '.pdf', '.docx', '.doc', '.csv', '.json', '.yaml', '.yml']
+        ext = os.path.splitext(v)[1].lower()
+        if ext not in allowed_exts:
+            raise ValueError(f"不支持的文件格式: {ext}。支持的格式: {allowed_exts}")
+        return v
+
 @tool
 def load_document(file_path: str) -> str:
     """
@@ -48,14 +64,43 @@ def load_document(file_path: str) -> str:
 
     Returns:
         文档的文本内容
-
-    Raises:
-        ValueError: 如果文件格式不支持或文件不存在
     """
-    if not os.path.exists(file_path):
-        raise ValueError(f"文件不存在: {file_path}")
+    # I/O Guard 校验
+    validated = DocumentLoadInput(file_path=file_path)
+    file_path = validated.file_path
 
     ext = _get_file_extension(file_path)
+
+    # 通用纯文本类（.txt/.csv/.json/.yaml/.yml）
+    if ext in ['.txt', '.csv', '.json', '.yaml', '.yml']:
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                return f.read()
+        except UnicodeDecodeError:
+            # Windows 环境常见的编码兜底
+            with open(file_path, 'r', encoding='gbk', errors='ignore') as f:
+                return f.read()
+
+    # 加载 PDF 文档
+    if ext == '.pdf':
+        # 优先使用 unstructured（如果已安装）
+        try:
+            from unstructured.partition.pdf import partition_pdf
+            elements = partition_pdf(filename=file_path)
+            content = "\n\n".join([str(el) for el in elements])
+            return content
+        except ImportError:
+            pass
+        # 兜底：pypdf
+        try:
+            from pypdf import PdfReader
+            reader = PdfReader(file_path)
+            pages = []
+            for page in reader.pages:
+                pages.append(page.extract_text() or "")
+            return "\n\n".join(pages).strip()
+        except ImportError:
+            raise ValueError("PDF 解析依赖缺失：请安装 unstructured 或 pypdf（pip install unstructured pypdf）")
 
     # 加载 Markdown 文档
     if ext in ['.md', '.markdown']:
@@ -65,13 +110,6 @@ def load_document(file_path: str) -> str:
             content = "\n\n".join([str(el) for el in elements])
             return content
         except ImportError:
-            # 降级方案：直接读取文件
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    return f.read()
-            except Exception as e:
-                raise ValueError(f"加载 Markdown 文件失败: {str(e)}")
-        except Exception as e:
             # 降级方案：直接读取文件
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
@@ -92,10 +130,21 @@ def load_document(file_path: str) -> str:
         except Exception as e:
             raise ValueError(f"加载 Word 文件失败: {str(e)}")
 
+    # 加载旧 Word 文档（.doc） - 尽力支持（需要 textract）
+    elif ext == '.doc':
+        try:
+            import textract
+            text_bytes = textract.process(file_path)
+            return text_bytes.decode('utf-8', errors='ignore')
+        except ImportError:
+            raise ValueError(".doc 解析需要额外依赖 textract，或请将文件转换为 .docx")
+        except Exception as e:
+            raise ValueError(f"加载 .doc 文件失败: {str(e)}")
+
     else:
         raise ValueError(
             f"不支持的文件格式: {ext}。"
-            f"支持的格式: .md, .markdown, .docx"
+            f"支持的格式: .txt, .md, .markdown, .pdf, .docx, .doc, .csv, .json, .yaml, .yml"
         )
 
 

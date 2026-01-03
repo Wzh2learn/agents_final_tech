@@ -1,324 +1,39 @@
-# 建账规则助手系统
+# 🚀 建账规则助手系统 (Rules Agent)
 
-基于 LangChain + LangGraph 架构的智能建账规则助手，完整迁移自 Dify 工作流，新增 RAG 知识检索能力，现已全面切换为 API 方案。
-
-## 📋 目录
-
-- [功能特性](#功能特性)
-- [快速开始](#快速开始)
-- [文档导航](#文档导航)
-- [技术架构](#技术架构)
-- [项目结构](#项目结构)
-- [常见问题](#常见问题)
+基于 **LangChain + LangGraph** 架构的智能建账规则助手。本项目将非结构化的金融业务文档自动化解析为结构化规则，并提供多策略 RAG 知识检索能力。
 
 ---
 
-## ✨ 功能特性
+## 🛠️ 核心架构
+本项目采用模块化设计，确保高扩展性与鲁棒性：
+- **Agent 层**：利用 LangGraph 驱动多角色（PM/Dev/Sales）对话流。
+- **检索层**：支持向量检索 (BGE-M3) + 全文检索 (BM25) + LLM Rerank。
+- **存储层**：PostgreSQL (PGVector) 存储向量，S3 存储原始文档。
+- **ACL 防腐层**：`StorageProvider` 统一封装数据 I/O，内置 Pydantic 校验。
 
-### 核心能力
+## 📖 快速索引
 
-1. **角色识别与路由**
-   - 支持 4 种角色：产品经理、技术开发、销售运营、默认工程师
-   - 根据角色自动调整回答重点和语气
-   - 提供开场白引导用户选择角色
+*   **[🏗️ 技术规格与架构 (docs/TECHNICAL_SPECS.md)](docs/TECHNICAL_SPECS.md)** - 系统模块划分、Dify 迁移对照及数据流。
+*   **[⚙️ 配置与 RAG 指南 (docs/CONFIGURATION_RAG.md)](docs/CONFIGURATION_RAG.md)** - 环境变量、模型参数及深度检索策略。
+*   **[🚀 部署与操作 SOP (docs/DEPLOYMENT_SOP.md)](docs/DEPLOYMENT_SOP.md)** - 环境安装、数据库初始化及运行指引。
 
-2. **文档处理**
-   - 支持 Markdown、Word、PDF、TXT、CSV、JSON 等多种格式
-   - 智能文本分割（递归分割、Markdown 结构分割）
-   - 提取结构化规则表格
-   - 规则校验功能
-
-3. **RAG 知识检索**
-   - 基于向量数据库的语义搜索
-   - LLM 智能重排序（Rerank）
-   - 支持混合检索（向量 + 关键词 BM25）
-   - 自动引用来源
-   - 问题类型智能分类（7种类型）
-   - 智能路由（自动选择最优检索策略）
-
-4. **智能问答**
-   - 基于知识库回答用户问题
-   - 查询分类和路由
-   - 后续问题建议
-
-5. **反馈处理**
-   - 接收并分类用户反馈
-   - 反馈汇总报告
-   - 自动通知关键问题
-
-6. **知识库管理**
-   - 添加/删除文档（支持多种格式）
-   - 查询知识库统计
-   - 文档持久化存储（对象存储）
-   - 文档下载功能
-   - 分页和搜索功能
-
-7. **Web 可视化界面**
-   - 聊天界面
-   - 知识库管理界面
-   - RAG 配置界面
-   - 协作会话界面
-
-8. **实时协作**
-   - 多人实时在线协作
-   - WebSocket 实时通信
-   - 会话管理和参与者管理
-
-### API 方案优势
-
-✅ **无需本地模型**：不再需要下载 BGE embedding（400MB）和 Reranker（1.1GB）模型
-✅ **即开即用**：无需等待模型下载和初始化
-✅ **资源弹性**：按需调用 API，无需 GPU
-✅ **避免 LSP 错误**：解决本地模型依赖包的类型检查问题
-
----
-
-## 🚀 快速开始
-
-### 前置要求
-
-- Python 3.8+
-- PostgreSQL 12+ (已安装 PGVector 扩展)
-- 豆包 API Key (可选，测试环境可使用模拟 Embedding)
-
-### 5 分钟快速启动
-
-#### 步骤 1: 安装依赖
-
+## 🚀 5 分钟启动
 ```bash
-cd /workspace/projects
+# 1. 安装依赖
 pip install -r requirements.txt
-```
 
-#### 步骤 2: 配置数据库
+# 2. 配置环境
+cp .env.example .env  # 填写 SiliconFlow API Key
 
-编辑 `config/app_config.json`，修改数据库连接信息：
-
-```json
-{
-  "database": {
-    "host": "localhost",
-    "port": 5432,
-    "database": "vector_db",
-    "user": "postgres",
-    "password": "your-password"
-  }
-}
-```
-
-或者使用环境变量：
-
-```bash
-export PGDATABASE_URL=postgresql://user:password@host:port/database
-```
-
-#### 步骤 3: 配置 Embedding 模型
-
-**选项 A：使用模拟 Embedding（测试环境）**
-
-编辑 `config/app_config.json`：
-
-```json
-{
-  "embedding": {
-    "use_mock": true,
-    "mock_dimension": 1536
-  }
-}
-```
-
-**选项 B：使用真实 Embedding API（生产环境）**
-
-编辑 `config/app_config.json`：
-
-```json
-{
-  "embedding": {
-    "use_mock": false,
-    "provider": "doubao",
-    "model": "doubao-embedding-large-text-250515"
-  }
-}
-```
-
-设置环境变量：
-
-```bash
-export COZE_WORKLOAD_IDENTITY_API_KEY="your-api-key"
-export COZE_INTEGRATION_MODEL_BASE_URL="https://api.example.com/v1"
-```
-
-#### 步骤 4: 初始化数据库
-
-```bash
-cd /workspace/projects
-python scripts/init_pgvector_db.py
-```
-
-#### 步骤 5: 验证配置
-
-```bash
+# 3. 验证并启动
 python scripts/verify_config.py
+python src/main.py -m http -p 5000
 ```
 
-预期输出：
-```
-✓ 配置验证全部通过！可以开始使用系统。
-```
-
-#### 步骤 6: 启动服务
-
-```bash
-python src/main.py
-```
-
-#### 步骤 7: 访问界面
-
-打开浏览器，访问 `http://localhost:5000`
-
----
-
-## 📚 文档导航
-
-### 核心文档
-
-| 文档 | 说明 | 适用人群 |
-|------|------|----------|
-| [README.md](README.md) | 项目总览和快速开始 | 所有用户 |
-| [docs/INDEX.md](docs/INDEX.md) | 文档导航索引 | 所有用户 |
-| [docs/CONFIGURATION.md](docs/CONFIGURATION.md) | 详细配置说明 | 开发者/运维 |
-| [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) | 部署和协作指南 | 开发者/协作者 |
-| [docs/RAG_GUIDE.md](docs/RAG_GUIDE.md) | RAG 功能使用指南 | 开发者/高级用户 |
-| [docs/PROJECT_HEALTH_CHECK.md](docs/PROJECT_HEALTH_CHECK.md) | 项目健康检查报告 | 维护者/贡献者 |
-
-### 快速链接
-
-- 🚀 [5 分钟快速启动](docs/DEPLOYMENT_GUIDE.md#快速开始)
-- ⚙️ [配置文件说明](docs/CONFIGURATION.md)
-- 🤖 [RAG 功能使用](docs/RAG_GUIDE.md)
-- 🚀 [部署到生产环境](docs/DEPLOYMENT_GUIDE.md)
-- 📦 [历史文档归档](docs/archive/)
-
-### 脚本工具
-
-| 脚本 | 功能 | 使用方法 |
-|------|------|----------|
-| `scripts/quick_start.sh` | 快速启动服务 | `./scripts/quick_start.sh` |
-| `scripts/init_db.sh` | 初始化数据库 | `./scripts/init_db.sh` |
-
----
-
-## 🏗️ 技术架构
-
-### 技术栈
-
-- **框架**: LangChain 1.0 + LangGraph
-- **大模型**: doubao-seed-1-6-251015（可通过配置切换）
-- **Embedding**: 豆包 Embedding API（doubao-embedding-large-text-250515）
-- **Rerank**: 豆包大语言模型（doubao-seed-1-6-251015）
-- **向量数据库**: PostgreSQL + PGVector
-- **对象存储**: 集成对象存储 API
-- **全文检索**: rank-bm25
-- **Web框架**: Flask 3.1.2 + WebSocket
-- **语言**: Python 3.9+
-
-### 架构图
-
-```
-用户输入
-    ↓
-主 Agent（角色识别 + 路由）
-    ↓
-┌─────────────┬─────────────┬─────────────┐
-│ 文档处理     │ RAG 检索    │ 反馈处理     │
-│ 工具组      │ 工具组      │ 工具组      │
-└─────────────┴─────────────┴─────────────┘
-    ↓              ↓              ↓
-文档解析      向量搜索 + Rerank  反馈记录
-规则提取      知识库查询        报告生成
-    ↓              ↓              ↓
-┌───────────────────────────────────┐
-│         PostgreSQL + PGVector     │
-│         (向量数据库 + 知识库)      │
-└───────────────────────────────────┘
-    ↓
-角色化回答 + 后续建议
-```
-
----
-
-## 📁 项目结构
-
-```
-.
-├── config/                          # 配置目录
-│   ├── app_config.json             # 应用配置文件
-│   └── agent_llm_config.json       # Agent 和模型配置
-├── docs/                            # 文档目录
-│   ├── CONFIGURATION.md            # 配置说明文档
-│   ├── RAG_GUIDE.md                # RAG 完整指南
-│   └── archive/                    # 归档文档（历史记录）
-├── scripts/                         # 脚本目录
-│   ├── local_run.sh                # 本地运行脚本
-│   ├── http_run.sh                 # HTTP 服务启动脚本
-│   ├── web_run.sh                  # Web 界面启动脚本
-│   ├── init_pgvector_db.py         # PGVector 初始化脚本
-│   ├── populate_knowledge_base.py # 知识库填充脚本
-│   └── verify_config.py            # 配置验证脚本
-├── assets/                          # 资源与数据中心
-│   ├── data/                       # 测试数据文件
-│   ├── docs/                       # 文档资源
-│   └── knowledge/                  # 知识库文档
-├── src/
-│   ├── agents/                     # Agent 代码
-│   │   └── agent.py                # 主 Agent（建账规则助手）
-│   ├── web/                        # Web 可视化界面
-│   │   ├── app.py                  # Flask Web 应用
-│   │   ├── templates/              # HTML 模板
-│   │   │   ├── chat.html           # 聊天页面
-│   │   │   ├── collaboration.html  # 协作页面
-│   │   │   ├── rag_config.html     # RAG 配置页面
-│   │   │   └── knowledge.html     # 知识库管理页面
-│   │   └── static/                 # 静态资源
-│   │       ├── style.css           # 聊天样式
-│   │       ├── script.js           # 聊天脚本
-│   │       ├── collaboration.js    # 协作脚本
-│   │       ├── rag_config.js       # RAG 配置脚本
-│   │       └── knowledge.js        # 知识库管理脚本
-│   ├── tools/                      # 工具定义
-│   │   ├── document_loader.py      # 文档加载工具
-│   │   ├── text_splitter.py        # 文本分割工具
-│   │   ├── vector_store.py         # 向量存储（Embedding API）
-│   │   ├── reranker_tool.py        # Rerank 工具（LLM API）
-│   │   ├── knowledge_base.py       # 知识库管理工具
-│   │   ├── rag_retriever.py        # RAG 检索工具
-│   │   ├── document_processor.py   # 文档处理工具
-│   │   ├── qa_agent.py             # QA 问答工具
-│   │   ├── feedback_handler.py     # 反馈处理工具
-│   │   ├── file_writer.py          # 文件写入工具
-│   │   ├── bm25_retriever.py       # BM25 检索工具
-│   │   ├── hybrid_retriever.py     # 混合检索工具
-│   │   ├── rag_router.py           # RAG 路由工具
-│   │   ├── knowledge_heatmap.py    # 知识热力图工具
-│   │   └── document_hierarchy.py   # 文档分层结构工具
-│   ├── storage/                    # 存储目录
-│   │   ├── database/               # 数据库存储
-│   │   ├── document_storage.py    # 文档存储服务
-│   │   └── memory/                 # 内存存储
-│   ├── utils/                      # 工具类目录
-│   │   ├── config_loader.py        # 配置加载器
-│   │   └── cache.py                # 缓存工具
-│   ├── biz/                        # 业务封装（内置）
-│   └── main.py                     # 运行主入口（内置）
-├── tests/                           # 单元测试目录
-│   ├── test_rag_complete.py        # RAG 完整测试
-│   ├── test_bm25_simple.py         # BM25 检索测试
-│   ├── test_rag_strategy.py        # RAG 策略测试
-│   └── test_optimizations.py      # 优化功能测试
-├── requirements.txt                 # Python 依赖
-├── AGENT.md                         # 模型规范
-└── README.md                        # 本文档
-```
+## ✨ 关键特性
+- **真实 API 驱动**：全面对接硅基流动 (SiliconFlow) API，使用 DeepSeek-V3 核心。
+- **智能路由**：自动分类问题类型并选择最优检索路径。
+- **极致性能**：内存缓存机制使热点查询提速 200 倍以上。
 
 ---
 
@@ -370,7 +85,7 @@ python src/main.py
 
 ## ⚙️ 配置说明
 
-详细的配置说明请参考：[docs/CONFIGURATION.md](docs/CONFIGURATION.md)
+详细的配置说明请参考：[docs/CONFIGURATION_RAG.md](docs/CONFIGURATION_RAG.md)
 
 ### 配置文件位置
 
@@ -412,7 +127,7 @@ POSTGRES_DB=your_database
 
 ## 🔍 RAG 功能使用
 
-详细的 RAG 功能使用指南请参考：[docs/RAG_GUIDE.md](docs/RAG_GUIDE.md)
+详细的 RAG 功能使用指南请参考：[docs/CONFIGURATION_RAG.md](docs/CONFIGURATION_RAG.md)
 
 ### RAG 核心功能
 
@@ -553,9 +268,10 @@ Import "langchain_postgres" could not be resolved
 
 ## 📄 相关文档
 
-- [配置说明文档](docs/CONFIGURATION.md) - 详细的配置项说明
-- [RAG 完整指南](docs/RAG_GUIDE.md) - RAG 功能详细使用指南
-- [归档文档](docs/archive/) - 历史开发记录和过程文档
+- [部署与操作 SOP](docs/DEPLOYMENT_SOP.md) - 快速启动与环境部署
+- [技术规格与架构](docs/TECHNICAL_SPECS.md) - 系统原理与迁移对照
+- [配置与 RAG 指南](docs/CONFIGURATION_RAG.md) - 模型与检索策略深度调优
+- [归档文档](docs/archive/) - 历史开发记录
 
 ---
 

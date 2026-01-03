@@ -1,7 +1,19 @@
 // 全局变量
 let currentRole = null;
+let currentRoleKey = null; // 存储 role_key 如 product_manager
 let isGenerating = false;
 let currentAiMessage = null;
+let conversationId = localStorage.getItem('conversationId') || generateUUID();
+
+// 存储当前会话 ID
+localStorage.setItem('conversationId', conversationId);
+
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 // DOM 元素
 const chatContainer = document.getElementById('chatContainer');
@@ -69,13 +81,17 @@ async function selectRole(role) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ role })
+            body: JSON.stringify({ 
+                role,
+                conversation_id: conversationId
+            })
         });
         
         const data = await response.json();
         
         if (data.status === 'success') {
             currentRole = data.role;
+            currentRoleKey = data.role_key;
             currentRoleText.textContent = data.role;
             
             // 更新按钮状态
@@ -86,8 +102,9 @@ async function selectRole(role) {
                 }
             });
             
-            // 显示角色确认消息
-            addMessage('ai', `✅ 已切换到 **${data.role}** 角色，现在开始对话吧！`);
+            // 显示角色个性化开场白
+            const greeting = data.greeting || `✅ 已切换到 **${data.role}** 角色，会话 ID: \`${conversationId.slice(0, 8)}...\`，现在开始对话吧！`;
+            addMessage('ai', greeting);
         } else {
             addMessage('ai', `❌ ${data.error}`);
         }
@@ -136,7 +153,8 @@ async function sendMessage() {
             },
             body: JSON.stringify({
                 message: message,
-                conversation_id: 'default'
+                conversation_id: conversationId,
+                role: currentRoleKey
             })
         });
         
@@ -166,8 +184,18 @@ async function sendMessage() {
                         break;
                     }
                     
+                    // 处理结构化数据 (AgentService 现在返回 {type, content})
+                    const chunkData = data.content;
+                    if (typeof chunkData === 'object' && chunkData.type === 'trace') {
+                        // 处理追踪信息
+                        renderTrace(chunkData.content);
+                        continue;
+                    }
+                    
+                    const textContent = (typeof chunkData === 'object') ? chunkData.content : chunkData;
+                    
                     // 追加内容
-                    fullContent += data.content;
+                    fullContent += textContent;
                     
                     // 解析并渲染 markdown
                     if (currentAiMessage) {
@@ -259,10 +287,39 @@ function parseMarkdown(text) {
     // 文件引用（转换为下载链接）
     html = html.replace(/File:\s+\[([^\]]+)\]/g, '<a href="$1" target="_blank" style="color:#007bff; text-decoration:none;">📄 $1</a>');
     
-    // 换行
-    html = html.replace(/\n/g, '<br>');
+    // 渲染追踪信息 (RAG 来源)
+function renderTrace(traceData) {
+    if (!traceData || !Array.isArray(traceData) || traceData.length === 0) return;
     
-    return html;
+    // 检查是否已经存在 trace 区域
+    let traceDiv = currentAiMessage.querySelector('.rag-trace');
+    if (!traceDiv) {
+        traceDiv = document.createElement('div');
+        traceDiv.className = 'rag-trace';
+        traceDiv.innerHTML = '<details><summary>🔍 知识溯源 (查看检索来源)</summary><div class="trace-list"></div></details>';
+        currentAiMessage.appendChild(traceDiv);
+    }
+    
+    const list = traceDiv.querySelector('.trace-list');
+    list.innerHTML = ''; // 清空旧的（如果是增量更新）
+    
+    traceData.forEach((item, index) => {
+        const metadata = item.metadata || {};
+        const source = metadata.source || metadata.original_name || `来源 ${index + 1}`;
+        const score = item.relevance_score || item.vector_score || 0;
+        const scoreText = score ? ` (匹配度: ${(score * 100).toFixed(1)}%)` : '';
+        
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'trace-item';
+        itemDiv.innerHTML = `
+            <div class="trace-header">
+                <span class="trace-source">📄 ${source}</span>
+                <span class="trace-score">${scoreText}</span>
+            </div>
+            <div class="trace-content">${item.content.slice(0, 200)}${item.content.length > 200 ? '...' : ''}</div>
+        `;
+        list.appendChild(itemDiv);
+    });
 }
 
 // 处理后续问题建议
@@ -309,17 +366,25 @@ async function resetConversation() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+                conversation_id: conversationId
+            })
         });
         
         const data = await response.json();
         
         if (data.status === 'success') {
+            // 生成新会话 ID
+            conversationId = generateUUID();
+            localStorage.setItem('conversationId', conversationId);
+            
             currentRole = null;
+            currentRoleKey = null;
             roleButtons.forEach(btn => btn.classList.remove('active'));
             currentRoleText.textContent = '未选择';
             
-            addMessage('ai', '🔄 对话已重置，请重新选择角色开始对话');
+            addMessage('ai', `🔄 已开启新会话！(ID: \`${conversationId.slice(0, 8)}...\`)，请重新选择角色。`);
         }
     } catch (error) {
         console.error('重置对话失败:', error);

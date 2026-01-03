@@ -76,16 +76,27 @@ def rerank_documents(
     top_n = min(top_n, len(doc_list))
 
     try:
-        # 获取环境变量
-        api_key = os.getenv("COZE_WORKLOAD_IDENTITY_API_KEY")
-        base_url = os.getenv("COZE_INTEGRATION_MODEL_BASE_URL")
+        from utils.config_loader import get_config
+        config = get_config()
+        
+        # 从配置中获取需要的环境变量
+        api_key_env = config.get("rerank.api_key_env", "SILICONFLOW_API_KEY")
+        base_url_env = config.get("rerank.base_url_env", "SILICONFLOW_BASE_URL")
+        
+        api_key = os.getenv(api_key_env)
+        base_url = os.getenv(base_url_env)
 
-        if not api_key or not base_url:
-            raise RuntimeError("未找到必要的环境变量")
+        if not api_key:
+            raise RuntimeError(f"未找到必要的环境变量: {api_key_env}")
+        
+        if not base_url:
+            base_url = "https://api.siliconflow.cn/v1"
 
-        # 创建 LLM
+        # 从配置中动态获取模型名称
+        model_name = config.get("rerank.llm_model", "Qwen/Qwen3-Reranker-0.6B")
+
         llm = ChatOpenAI(
-            model="doubao-seed-1-6-251015",
+            model=model_name,
             api_key=api_key,
             base_url=base_url,
             temperature=0.1,  # 低温度以获得稳定排序

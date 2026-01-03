@@ -504,6 +504,46 @@ function checkUploadQueue() {
     }
 }
 
+// 查看文档分层结构
+async function viewHierarchy(docId) {
+    const modal = document.getElementById('hierarchyModal');
+    const body = document.getElementById('hierarchy-body');
+    modal.classList.add('active');
+    body.innerHTML = '<div class="loading-state">加载中...</div>';
+
+    try {
+        const resp = await fetch(`/api/knowledge/hierarchy/${docId}`);
+        const result = await resp.json();
+        if (result.status === 'success') {
+            body.innerHTML = renderHierarchy(result.hierarchy || {});
+        } else {
+            body.innerHTML = `<div class="error-state">加载失败: ${result.message}</div>`;
+        }
+    } catch (e) {
+        console.error('加载分层结构失败:', e);
+        body.innerHTML = '<div class="error-state">加载失败</div>';
+    }
+}
+
+function renderHierarchy(node) {
+    if (!node || !node.title) {
+        return '<div class="empty-state"><div class="icon">🧭</div><p>暂无分层数据</p></div>';
+    }
+    const children = node.children || [];
+    const childHtml = children.map(renderHierarchy).join('');
+    return `
+        <div style="padding-left: 12px; border-left: 2px solid #ecf0f1; margin: 6px 0;">
+            <div style="font-weight: 600; color: #2c3e50;">${node.title}</div>
+            ${node.summary ? `<div style="color: #7f8c8d; margin: 4px 0;">${node.summary}</div>` : ''}
+            ${childHtml}
+        </div>
+    `;
+}
+
+function closeHierarchyModal() {
+    document.getElementById('hierarchyModal').classList.remove('active');
+}
+
 // 显示删除确认框
 function showDeleteModal(docId, docName) {
     deleteDocId = docId;
@@ -666,11 +706,15 @@ function renderTraceabilityResults(results) {
     }
 
     const html = results.map((result, index) => `
-        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
-            <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                <span style="background: #667eea; color: white; padding: 5px 10px; border-radius: 4px; margin-right: 10px;">#${index + 1}</span>
-                <span style="font-weight: 500; color: #2c3e50;">相关性: ${(result.score * 100).toFixed(1)}%</span>
-            </div>
+        <div style="margin-bottom: 30px;">
+            <h3 style="margin-bottom: 15px; color: #2c3e50; display: flex; align-items: center;">
+                <span style="background: #667eea; color: white; padding: 5px 15px; border-radius: 4px; margin-right: 10px;">
+                    #${index + 1}
+                </span>
+                <span style="font-size: 14px; color: #7f8c8d;">
+                    相关性: ${(result.score * 100).toFixed(1)}% | 原始分: ${result.raw_score.toFixed(4)}
+                </span>
+            </h3>
             <div style="color: #7f8c8d; margin-bottom: 10px;">📄 ${result.document_name}</div>
             <div style="background: white; padding: 15px; border-radius: 6px; border-left: 3px solid #667eea;">
                 ${result.content.substring(0, 200)}${result.content.length > 200 ? '...' : ''}
@@ -754,7 +798,7 @@ function renderCompareResults(results) {
                             <span style="background: #f39c12; color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px;">Top ${index + 1}</span>
                             <span style="font-weight: 500; color: #2c3e50;">${(item.score * 100).toFixed(1)}%</span>
                         </div>
-                        <div style="color: #7f8c8d; margin-bottom: 8px; font-size: 13px;">📄 ${item.document_name}</div>
+                        <div style="color: #7f8c8d; margin-bottom: 8px; font-size: 13px;">📄 ${item.document_name || item.metadata?.source || '文档'}</div>
                         <div style="color: #2c3e50; line-height: 1.6;">${item.content.substring(0, 100)}...</div>
                     </div>
                 `).join('')}

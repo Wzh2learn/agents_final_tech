@@ -2,6 +2,7 @@
 知识库管理工具
 支持文档上传、索引、删除和查询
 """
+from pydantic import BaseModel, Field, validator
 import os
 import json
 from typing import Optional, List, Dict
@@ -25,6 +26,19 @@ def __get_file_type(file_path: str) -> str:
         return "text"
 
 
+class AddDocumentInput(BaseModel):
+    file_path: str = Field(..., description="文档路径")
+    chunk_size: int = Field(1000, description="文本块大小")
+    chunk_overlap: int = Field(200, description="块重叠大小")
+    collection_name: str = Field("knowledge_base", description="向量集合名称")
+    metadata: Optional[str] = Field(None, description="文档元数据（JSON 字符串格式）")
+
+    @validator('file_path')
+    def validate_path(cls, v):
+        if not os.path.exists(v):
+            raise ValueError(f"文件不存在: {v}")
+        return v
+
 @tool
 def add_document_to_knowledge_base(
     file_path: str,
@@ -42,17 +56,23 @@ def add_document_to_knowledge_base(
         chunk_overlap: 块重叠大小（字符数，默认 200）
         collection_name: 向量集合名称（默认 knowledge_base）
         metadata: 文档元数据（JSON 字符串格式）
-            例如: '{"category": "建账规则", "version": "1.0"}'
 
     Returns:
-        处理结果摘要（包括文件信息、分割结果、存储状态）
-
-    Raises:
-        ValueError: 如果文件不存在或处理失败
+        处理结果摘要
     """
-    # 检查文件
-    if not os.path.exists(file_path):
-        raise ValueError(f"文件不存在: {file_path}")
+    # I/O Guard 校验
+    validated = AddDocumentInput(
+        file_path=file_path,
+        chunk_size=chunk_size or 1000,
+        chunk_overlap=chunk_overlap or 200,
+        collection_name=collection_name or "knowledge_base",
+        metadata=metadata
+    )
+    file_path = validated.file_path
+    chunk_size = validated.chunk_size
+    chunk_overlap = validated.chunk_overlap
+    collection_name = validated.collection_name
+    metadata = validated.metadata
 
     # 获取文件信息
     file_info = get_document_info(file_path)

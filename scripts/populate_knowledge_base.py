@@ -5,8 +5,7 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from tools.mock_embedding import get_mock_embeddings
-from tools.vector_store import get_vector_store
+from biz.rag_service import get_rag_service
 from langchain_core.documents import Document
 
 # 导入分割器
@@ -16,33 +15,13 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 def populate_knowledge_base():
     """添加示例文档到知识库"""
     print("=" * 60)
-    print("添加示例文档到知识库")
+    print("添加示例文档到知识库 (通过 RAGService)")
     print("=" * 60)
 
-    # 获取模拟Embedding
-    print("\n初始化模拟Embedding...")
-    embeddings = get_mock_embeddings()
-    print("✓ Embedding初始化成功")
-
-    # 获取向量存储实例
-    print("\n初始化向量存储...")
-    vector_store = get_vector_store(
-        collection_name="knowledge_base",
-        embeddings=embeddings
-    )
-    print("✓ 向量存储初始化成功")
-
-    # 创建文本分割器
-    print("\n初始化文本分割器...")
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200,
-        separators=["\n\n", "\n", " ", ""]
-    )
-    print("✓ 文本分割器初始化成功")
+    rag_service = get_rag_service()
 
     # 查找示例文档
-    workspace_path = os.getenv("COZE_WORKSPACE_PATH", "/workspace/projects")
+    workspace_path = os.getenv("WORKSPACE_PATH", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     assets_dir = os.path.join(workspace_path, "assets")
 
     print(f"\n搜索示例文档...")
@@ -65,47 +44,25 @@ def populate_knowledge_base():
     print(f"\n添加文档到知识库...")
     total_chunks = 0
 
+    import asyncio
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
     for i, file_path in enumerate(markdown_files, 1):
         print(f"\n[{i}/{len(markdown_files)}] 处理: {os.path.basename(file_path)}")
 
         try:
-            # 读取文件内容
-            with open(file_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-
-            print(f"  ✓ 文件读取成功，共 {len(content)} 字符")
-
-            # 分割文本
-            chunks = text_splitter.split_text(content)
-            print(f"  ✓ 文本分割成功，共 {len(chunks)} 个chunk")
-
-            # 创建Document对象
-            documents = []
-            for idx, chunk in enumerate(chunks, 1):
-                doc = Document(
-                    page_content=chunk,
-                    metadata={
-                        'source': os.path.basename(file_path),
-                        'chunk_index': idx,
-                        'total_chunks': len(chunks),
-                        'file_path': file_path
-                    }
-                )
-                documents.append(doc)
-
-            # 添加到向量存储
-            vector_store.add_documents(documents)
-            total_chunks += len(documents)
-            print(f"  ✓ 已添加到知识库")
+            # 使用 RAGService 统一全流程处理
+            res = loop.run_until_complete(rag_service.ingest_file(file_path))
+            total_chunks += res["chunks"]
+            print(f"  ✓ 处理完成: {res['chunks']} 个chunk, Key: {res['object_key']}")
 
         except Exception as e:
             print(f"  ✗ 处理失败: {e}")
-            import traceback
-            traceback.print_exc()
 
     # 测试检索
     print(f"\n{'='*60}")
-    print("测试检索功能")
+    print("测试检索功能 (Smart Retrieve)")
     print(f"{'='*60}")
 
     try:
@@ -117,11 +74,13 @@ def populate_knowledge_base():
 
         for query in test_queries:
             print(f"\n查询: {query}")
-            results = vector_store.similarity_search(query, k=2)
+            results = rag_service.smart_retrieve(query, top_k=2)
 
-            for i, doc in enumerate(results, 1):
-                print(f"  {i}. {doc.page_content[:80]}...")
-                print(f"     来源: {doc.metadata.get('source', 'unknown')}")
+            for i, item in enumerate(results, 1):
+                content = item.get("content", "")
+                metadata = item.get("metadata", {})
+                print(f"  {i}. {content[:80]}...")
+                print(f"     来源: {metadata.get('source', 'unknown')}")
 
     except Exception as e:
         print(f"\n检索测试失败: {e}")

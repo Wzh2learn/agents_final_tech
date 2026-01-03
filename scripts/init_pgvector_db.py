@@ -55,20 +55,10 @@ def test_embedding_api():
     print("=" * 50)
 
     try:
-        # 询问用户是否使用模拟Embedding
-        use_mock = input("使用模拟Embedding进行测试？(y/n): ").strip().lower()
-
-        if use_mock == 'y':
-            print("\n使用模拟Embedding（仅用于功能测试）...")
-            from tools.mock_embedding import get_mock_embeddings
-            embeddings = get_mock_embeddings()
-            print(f"✓ 模拟Embeddings 实例创建成功")
-            print(f"  模型: mock-embedding")
-        else:
-            print("\n尝试使用豆包Embedding API...")
-            embeddings = get_embeddings()
-            print(f"✓ Embeddings 实例创建成功")
-            print(f"  模型: doubao-embedding-large-text-250515")
+        print("\n尝试使用硅基流动 Embedding API...")
+        embeddings = get_embeddings()
+        print(f"✓ Embeddings 实例创建成功")
+        print(f"  模型: {embeddings.model}")
 
         # 测试嵌入单个文本
         test_text = "建账的基本原则"
@@ -104,16 +94,8 @@ def test_vector_store():
     print("=" * 50)
 
     try:
-        # 询问使用哪种Embedding
-        use_mock = input("\n使用模拟Embedding测试向量存储？(y/n): ").strip().lower()
-
-        if use_mock == 'y':
-            print("使用模拟Embedding...")
-            from tools.mock_embedding import get_mock_embeddings
-            embeddings = get_mock_embeddings()
-        else:
-            print("使用真实Embedding...")
-            embeddings = get_embeddings()
+        print("使用真实 Embedding (硅基流动)...")
+        embeddings = get_embeddings()
 
         # 获取向量存储实例
         vector_store = get_vector_store(
@@ -192,7 +174,7 @@ def test_with_real_document():
     print("=" * 50)
 
     # 查找assets目录下的测试文档
-    workspace_path = os.getenv("COZE_WORKSPACE_PATH", "/workspace/projects")
+    workspace_path = os.getenv("WORKSPACE_PATH", "/workspace/projects")
     test_docs_dir = os.path.join(workspace_path, "assets")
 
     # 查找Markdown文档

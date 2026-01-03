@@ -8,7 +8,6 @@ from typing import List, Dict, Any, Optional, Tuple
 from langchain.tools import tool
 
 # 导入相关工具
-from tools.rag_retriever import rag_retrieve_with_rerank
 from tools.bm25_retriever import _bm25_retrieve_internal as bm25_retrieve_func
 from tools.reranker_tool import rerank_documents
 
