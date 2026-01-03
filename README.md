@@ -6,11 +6,9 @@
 
 - [功能特性](#功能特性)
 - [快速开始](#快速开始)
+- [文档导航](#文档导航)
 - [技术架构](#技术架构)
 - [项目结构](#项目结构)
-- [核心功能使用](#核心功能使用)
-- [配置说明](#配置说明)
-- [开发指南](#开发指南)
 - [常见问题](#常见问题)
 
 ---
@@ -177,6 +175,36 @@ python src/main.py
 #### 步骤 7: 访问界面
 
 打开浏览器，访问 `http://localhost:5000`
+
+---
+
+## 📚 文档导航
+
+### 核心文档
+
+| 文档 | 说明 | 适用人群 |
+|------|------|----------|
+| [README.md](README.md) | 项目总览和快速开始 | 所有用户 |
+| [docs/INDEX.md](docs/INDEX.md) | 文档导航索引 | 所有用户 |
+| [docs/CONFIGURATION.md](docs/CONFIGURATION.md) | 详细配置说明 | 开发者/运维 |
+| [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) | 部署和协作指南 | 开发者/协作者 |
+| [docs/RAG_GUIDE.md](docs/RAG_GUIDE.md) | RAG 功能使用指南 | 开发者/高级用户 |
+| [docs/PROJECT_HEALTH_CHECK.md](docs/PROJECT_HEALTH_CHECK.md) | 项目健康检查报告 | 维护者/贡献者 |
+
+### 快速链接
+
+- 🚀 [5 分钟快速启动](docs/DEPLOYMENT_GUIDE.md#快速开始)
+- ⚙️ [配置文件说明](docs/CONFIGURATION.md)
+- 🤖 [RAG 功能使用](docs/RAG_GUIDE.md)
+- 🚀 [部署到生产环境](docs/DEPLOYMENT_GUIDE.md)
+- 📦 [历史文档归档](docs/archive/)
+
+### 脚本工具
+
+| 脚本 | 功能 | 使用方法 |
+|------|------|----------|
+| `scripts/quick_start.sh` | 快速启动服务 | `./scripts/quick_start.sh` |
+| `scripts/init_db.sh` | 初始化数据库 | `./scripts/init_db.sh` |
 
 ---
 

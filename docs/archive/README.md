@@ -26,6 +26,14 @@
 | `GUIDE_DOCUMENT_TESTING.md` | 文档解析测试指南 | 2025-01-02 |
 | `GUIDE_KNOWLEDGE_MIGRATION.md` | Dify 知识库迁移方案 | 2025-01-02 |
 
+### 临时和流程文档
+
+| 文档 | 说明 | 归档日期 |
+|------|------|----------|
+| `NEW_SSH_KEY.md` | SSH 密钥更新记录 | 2025-01-03 |
+| `DOCUMENT_REORGANIZATION_REPORT.md` | 文档整理报告（v1） | 2025-01-03 |
+| `SSH_SETUP_GUIDE.md` | SSH 配置指南（旧版） | 2025-01-03 |
+
 ### 快速开始与 RAG 指南（已合并）
 
 | 文档 | 说明 | 归档日期 | 合并到 |
@@ -47,30 +55,36 @@
 - 合并重复内容，避免信息分散
 
 ### 整理结果
-- **整理前**：13 个文档分散在多个位置
-- **整理后**：3 个核心文档 + 10 个归档文档
-- **精简率**：77%
+- **整理前（第1次）**：13 个文档分散在多个位置
+- **整理后（第1次）**：3 个核心文档 + 10 个归档文档，精简率 77%
+- **整理后（第2次）**：5 个核心文档 + 14 个归档文档，精简率 74%
 
----
-
-## 📖 核心文档位置
-
-整理后的核心文档：
+### 核心文档（最新）
 
 1. **README.md** - 项目主文档
-   - 包含项目介绍、快速开始、功能特性、技术架构等
-   - 适合新用户快速了解项目
+   - 包含项目介绍、快速开始、功能特性、技术架构、文档导航
 
-2. **docs/CONFIGURATION.md** - 配置说明文档
+2. **docs/INDEX.md** - 文档导航索引
+   - 快速查找所需文档
+
+3. **docs/CONFIGURATION.md** - 配置说明文档
    - 详细的配置项说明
    - 环境变量配置指南
-   - 常见问题解答
 
-3. **docs/RAG_GUIDE.md** - RAG 完整指南
+4. **docs/DEPLOYMENT_GUIDE.md** - 部署和协作指南
+   - Git 使用指南
+   - 部署到生产环境
+   - 日常开发流程
+
+5. **docs/RAG_GUIDE.md** - RAG 完整指南
    - RAG 功能使用指南
    - API 文档
    - 使用示例
-   - 高级配置
+
+6. **docs/PROJECT_HEALTH_CHECK.md** - 健康检查报告
+   - 项目健康度评估
+   - 测试结果
+   - 改进建议
 
 ---
 
@@ -101,10 +115,17 @@
 
 ## 📝 更新日志
 
-### 2025-01-03
+### 2025-01-03（第2次整理）
+- 创建 docs/INDEX.md 文档导航索引
+- 创建 docs/README.md 文档目录入口
+- 新增归档：NEW_SSH_KEY.md, DOCUMENT_REORGANIZATION_REPORT.md, SSH_SETUP_GUIDE.md
+- 优化 README.md，添加文档导航
+- 新增 docs/PROJECT_HEALTH_CHECK.md 健康检查报告
+- 归档文档总数：14 个
+
+### 2025-01-03（第1次整理）
 - 创建归档目录
 - 移动 10 个历史文档到归档目录
 - 合并 QUICK_START.md 到 README.md
 - 合并 RAG_API_GUIDE.md 和 RAG_USAGE_GUIDE.md 到 RAG_GUIDE.md
-- 删除临时文档 TODAY_SUMMARY.md
 - 创建本说明文档
