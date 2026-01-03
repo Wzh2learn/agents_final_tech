@@ -4,6 +4,7 @@ annotated-types==0.7.0
 anyio==4.12.0
 APScheduler==3.11.1
 astroid==3.1.0
+asyncpg==0.31.0
 Authlib==1.6.6
 beautifulsoup4==4.14.3
 boto3==1.40.61
@@ -44,8 +45,10 @@ jmespath==1.0.1
 jsonpatch==1.33
 jsonpointer==3.0.0
 langchain==1.0.3
-langchain-core==1.0.2
+langchain-core==1.2.6
 langchain-openai==1.0.1
+langchain-postgres==0.0.16
+langchain-text-splitters==1.1.0
 langgraph==1.0.2
 langgraph-checkpoint==3.0.0
 langgraph-checkpoint-postgres==3.0.1
@@ -66,6 +69,7 @@ ormsgpack==1.12.1
 packaging==25.0
 pandas==2.2.2
 paragraphs==1.0.1
+pgvector==0.3.6
 pillow==10.3.0
 platformdirs==4.5.1
 pluggy==1.6.0
@@ -117,6 +121,7 @@ typing_extensions==4.15.0
 tzdata==2025.3
 tzlocal==5.3.1
 urllib3==2.6.2
+uuid_utils==0.12.0
 uvicorn==0.38.0
 watchdog==6.0.0
 websockets==15.0.1

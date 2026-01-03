@@ -49,15 +49,26 @@ def create_pgvector_extension():
 
 
 def test_embedding_api():
-    """测试豆包 Embedding API"""
+    """测试Embedding API"""
     print("\n" + "=" * 50)
-    print("步骤 2: 测试豆包 Embedding API")
+    print("步骤 2: 测试 Embedding API")
     print("=" * 50)
 
     try:
-        embeddings = get_embeddings()
-        print(f"✓ Embeddings 实例创建成功")
-        print(f"  模型: doubao-embedding-large-text-250515")
+        # 询问用户是否使用模拟Embedding
+        use_mock = input("使用模拟Embedding进行测试？(y/n): ").strip().lower()
+
+        if use_mock == 'y':
+            print("\n使用模拟Embedding（仅用于功能测试）...")
+            from tools.mock_embedding import get_mock_embeddings
+            embeddings = get_mock_embeddings()
+            print(f"✓ 模拟Embeddings 实例创建成功")
+            print(f"  模型: mock-embedding")
+        else:
+            print("\n尝试使用豆包Embedding API...")
+            embeddings = get_embeddings()
+            print(f"✓ Embeddings 实例创建成功")
+            print(f"  模型: doubao-embedding-large-text-250515")
 
         # 测试嵌入单个文本
         test_text = "建账的基本原则"
@@ -93,8 +104,22 @@ def test_vector_store():
     print("=" * 50)
 
     try:
+        # 询问使用哪种Embedding
+        use_mock = input("\n使用模拟Embedding测试向量存储？(y/n): ").strip().lower()
+
+        if use_mock == 'y':
+            print("使用模拟Embedding...")
+            from tools.mock_embedding import get_mock_embeddings
+            embeddings = get_mock_embeddings()
+        else:
+            print("使用真实Embedding...")
+            embeddings = get_embeddings()
+
         # 获取向量存储实例
-        vector_store = get_vector_store(collection_name="test_collection")
+        vector_store = get_vector_store(
+            collection_name="test_collection",
+            embeddings=embeddings
+        )
         print("✓ 向量存储实例创建成功")
 
         # 创建测试文档
@@ -249,26 +274,21 @@ def main():
         print("\n✗ 初始化失败：无法创建 PGVector 扩展")
         return False
 
-    # 步骤 3: 测试Embedding API（可选）
-    test_embedding = input("\n是否测试豆包 Embedding API？(y/n): ").strip().lower()
-    if test_embedding == 'y':
-        if not test_embedding_api():
-            print("\n⚠️ Embedding API 测试失败，但继续执行...")
+    # 步骤 3: 测试Embedding API
+    if not test_embedding_api():
+        print("\n⚠️ Embedding API 测试失败，无法继续向量存储测试")
+        print("提示: 可以使用模拟Embedding进行功能测试")
+        return False
 
-    # 步骤 4: 测试向量存储（需要Embedding，如果跳过则跳过此步骤）
-    if test_embedding == 'y':
-        if not test_vector_store():
-            print("\n✗ 初始化失败：无法测试向量存储")
-            return False
-    else:
-        print("\n⚠️ 跳过向量存储测试（需要Embedding）")
+    # 步骤 4: 测试向量存储
+    if not test_vector_store():
+        print("\n✗ 初始化失败：无法测试向量存储")
+        return False
 
     # 步骤 5: 使用真实文档测试（可选）
     test_real = input("\n是否使用真实文档测试？(y/n): ").strip().lower()
-    if test_real == 'y' and test_embedding == 'y':
+    if test_real == 'y':
         test_with_real_document()
-    elif test_real == 'y' and test_embedding != 'y':
-        print("\n⚠️ 需要先测试Embedding API才能使用真实文档测试")
 
     # 完成
     print("\n" + "=" * 60)
