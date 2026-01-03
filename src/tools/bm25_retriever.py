@@ -187,6 +187,104 @@ def _build_bm25_index_from_documents(
     return index_data
 
 
+def _bm25_retrieve_internal(
+    query: str,
+    documents: str = "[]",
+    collection_name: Optional[str] = "knowledge_base",
+    top_k: Optional[int] = 5,
+    k1: Optional[float] = 1.5,
+    b: Optional[float] = 0.75
+) -> str:
+    """
+    BM25 全文检索（内部函数，供其他工具调用）
+
+    Args:
+        query: 查询文本
+        documents: 文档列表（JSON字符串），如果为空则尝试从向量数据库加载
+        collection_name: 向量集合名称（仅当documents为空时使用）
+        top_k: 返回的文档数量
+        k1: BM25参数k1（控制词频饱和度，默认1.5）
+        b: BM25参数b（控制文档长度归一化，默认0.75）
+
+    Returns:
+        JSON 格式的检索结果
+    """
+    if not query or not query.strip():
+        raise ValueError("查询不能为空")
+
+    # 解析文档列表
+    try:
+        docs_list = json.loads(documents) if documents else []
+    except json.JSONDecodeError:
+        docs_list = []
+
+    # 构建或加载BM25索引
+    if docs_list:
+        # 使用提供的文档构建索引
+        index_data = _build_bm25_index_from_documents(docs_list)
+    else:
+        # 尝试从向量数据库加载索引
+        index_data = _build_bm25_index(collection_name)
+
+    # 检查索引是否有效
+    if index_data.get("bm25") is None:
+        error_msg = index_data.get("error", "BM25索引未初始化")
+        return json.dumps({
+            "query": query,
+            "method": "bm25",
+            "results": [],
+            "error": error_msg,
+            "count": 0
+        }, ensure_ascii=False, indent=2)
+
+    try:
+        # 对查询进行分词
+        tokenized_query = _tokenize(query, language="zh")
+
+        # 执行BM25检索
+        bm25 = index_data["bm25"]
+        scores = bm25.get_scores(tokenized_query)
+
+        # 获取top_k结果
+        top_indices = scores.argsort()[-top_k:][::-1]
+
+        # 构建结果
+        results = []
+        for idx in top_indices:
+            if idx < len(index_data["documents"]):
+                doc = index_data["documents"][idx]
+                results.append({
+                    "document": doc.get("text", doc.get("page_content", "")),
+                    "metadata": doc.get("metadata", {}),
+                    "bm25_score": float(scores[idx]),
+                    "index": int(idx)
+                })
+
+        # 格式化输出
+        output = {
+            "query": query,
+            "method": "bm25",
+            "parameters": {
+                "k1": k1,
+                "b": b,
+                "top_k": top_k
+            },
+            "results": results,
+            "count": len(results)
+        }
+
+        return json.dumps(output, ensure_ascii=False, indent=2)
+
+    except Exception as e:
+        return json.dumps({
+            "query": query,
+            "method": "bm25",
+            "results": [],
+            "error": str(e),
+            "count": 0
+        }, ensure_ascii=False, indent=2)
+
+
 @tool
 def bm25_retrieve(
     query: str,
@@ -197,7 +295,7 @@ def bm25_retrieve(
     b: Optional[float] = 0.75
 ) -> str:
     """
-    BM25 全文检索
+    BM25 全文检索（工具函数，供Agent调用）
 
     Args:
         query: 查询文本

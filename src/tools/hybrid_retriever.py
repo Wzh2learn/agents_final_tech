@@ -9,7 +9,7 @@ from langchain.tools import tool
 
 # 导入相关工具
 from tools.rag_retriever import rag_retrieve_with_rerank
-from tools.bm25_retriever import bm25_retrieve
+from tools.bm25_retriever import _bm25_retrieve_internal as bm25_retrieve_func
 from tools.reranker_tool import rerank_documents
 
 
@@ -317,8 +317,8 @@ def hybrid_retrieve(
         results["vector_count"] = len(vector_docs)
 
         # 2. BM25检索
-        from tools.bm25_retriever import bm25_retrieve
-        bm25_result_str = bm25_retrieve.func(
+        from tools.bm25_retriever import _bm25_retrieve_internal as bm25_retrieve_func
+        bm25_result_str = bm25_retrieve_func(
             query=query,
             documents=documents,
             collection_name=collection_name,
@@ -458,8 +458,8 @@ def compare_retrieval_methods(
         }
 
         # 2. BM25检索
-        from tools.bm25_retriever import bm25_retrieve
-        bm25_result_str = bm25_retrieve.func(
+        from tools.bm25_retriever import _bm25_retrieve_internal as bm25_retrieve_func
+        bm25_result_str = bm25_retrieve_func(
             query=query,
             documents=documents,
             collection_name=collection_name,
@@ -473,7 +473,7 @@ def compare_retrieval_methods(
         }
 
         # 3. 混合检索（不使用Rerank）
-        hybrid_result_str = hybrid_retrieve.func(
+        hybrid_result_str = hybrid_retrieve.invoke(
             query=query,
             documents=documents,
             collection_name=collection_name,
@@ -490,7 +490,7 @@ def compare_retrieval_methods(
         }
 
         # 4. 混合检索+Rerank
-        hybrid_rerank_str = hybrid_retrieve.func(
+        hybrid_rerank_str = hybrid_retrieve.invoke(
             query=query,
             documents=documents,
             collection_name=collection_name,

@@ -72,7 +72,7 @@ def smart_retrieve(
         else:
             # 自动分类问题
             from tools.question_classifier import classify_question_type
-            classification_str = classify_question_type.func(query)
+            classification_str = classify_question_type.invoke(query)
             classification = json.loads(classification_str)
 
             question_type = classification.get("type", "general")
@@ -85,7 +85,7 @@ def smart_retrieve(
 
             # 步骤2: 获取推荐的检索策略
             from tools.question_classifier import get_retrieval_strategy
-            strategy_str = get_retrieval_strategy.func(question_type)
+            strategy_str = get_retrieval_strategy.invoke(question_type)
             strategy_data = json.loads(strategy_str)
 
             strategy = strategy_data["strategy"]
@@ -104,7 +104,7 @@ def smart_retrieve(
         if strategy == "vector":
             # 向量检索
             from tools.rag_retriever import rag_retrieve_with_rerank
-            retrieval_result_str = rag_retrieve_with_rerank.func(
+            retrieval_result_str = rag_retrieve_with_rerank.invoke(
                 query=query,
                 collection_name=collection_name,
                 initial_k=top_k * 2,
@@ -117,7 +117,7 @@ def smart_retrieve(
         elif strategy == "bm25":
             # BM25检索
             from tools.bm25_retriever import bm25_retrieve
-            retrieval_result_str = bm25_retrieve.func(
+            retrieval_result_str = bm25_retrieve.invoke(
                 query=query,
                 documents=documents,
                 collection_name=collection_name,
@@ -134,7 +134,7 @@ def smart_retrieve(
             bm25_weight = result["strategy_details"].get("bm25_weight", 0.5)
 
             from tools.hybrid_retriever import hybrid_retrieve
-            retrieval_result_str = hybrid_retrieve.func(
+            retrieval_result_str = hybrid_retrieve.invoke(
                 query=query,
                 documents=documents,
                 collection_name=collection_name,
@@ -154,7 +154,7 @@ def smart_retrieve(
             bm25_weight = result["strategy_details"].get("bm25_weight", 0.5)
 
             from tools.hybrid_retriever import hybrid_retrieve
-            retrieval_result_str = hybrid_retrieve.func(
+            retrieval_result_str = hybrid_retrieve.invoke(
                 query=query,
                 documents=documents,
                 collection_name=collection_name,
@@ -171,7 +171,7 @@ def smart_retrieve(
         else:
             # 默认使用向量检索
             from tools.rag_retriever import rag_retrieve_with_rerank
-            retrieval_result_str = rag_retrieve_with_rerank.func(
+            retrieval_result_str = rag_retrieve_with_rerank.invoke(
                 query=query,
                 collection_name=collection_name,
                 initial_k=top_k * 2,
@@ -233,7 +233,7 @@ def batch_retrieve(
     for i, query in enumerate(query_list, 1):
         try:
             from tools.rag_router import smart_retrieve
-            retrieval_result_str = smart_retrieve.func(
+            retrieval_result_str = smart_retrieve.invoke(
                 query=query,
                 collection_name=collection_name,
                 top_k=top_k,
@@ -316,7 +316,7 @@ def get_retrieval_statistics(
     for query in query_list:
         try:
             from tools.rag_router import smart_retrieve
-            result_str = smart_retrieve.func(
+            result_str = smart_retrieve.invoke(
                 query=query,
                 collection_name=collection_name,
                 top_k=top_k,
