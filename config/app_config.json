@@ -1,0 +1,181 @@
+{
+  "version": "1.0.0",
+  "description": "建账规则助手系统配置文件",
+  "last_updated": "2024-01-01",
+  "database": {
+    "enabled": true,
+    "type": "postgresql",
+    "host": "localhost",
+    "port": 5432,
+    "database": "vector_db",
+    "user": "postgres",
+    "password": "",
+    "connection_pool_size": 10,
+    "connection_timeout": 30,
+    "notes": "数据库连接配置，用于存储向量数据和协作会话数据"
+  },
+  "vector_store": {
+    "enabled": true,
+    "type": "pgvector",
+    "collection_name": "knowledge_base",
+    "embedding_dimension": 1024,
+    "use_jsonb": true,
+    "notes": "向量存储配置，支持PGVector和LangChain集成"
+  },
+  "embedding": {
+    "enabled": true,
+    "provider": "doubao",
+    "model": "doubao-embedding-large-text-250515",
+    "use_mock": false,
+    "mock_dimension": 1536,
+    "api_key_env": "COZE_WORKLOAD_IDENTITY_API_KEY",
+    "base_url_env": "COZE_INTEGRATION_MODEL_BASE_URL",
+    "batch_size": 100,
+    "timeout": 60,
+    "notes": "Embedding模型配置，支持豆包API或模拟实现（测试用）"
+  },
+  "llm": {
+    "model": "doubao-seed-1-6-251015",
+    "api_key_env": "COZE_WORKLOAD_IDENTITY_API_KEY",
+    "base_url_env": "COZE_INTEGRATION_MODEL_BASE_URL",
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "max_tokens": 10000,
+    "timeout": 600,
+    "thinking": "disabled",
+    "notes": "主LLM模型配置，用于Agent对话和Rerank"
+  },
+  "rerank": {
+    "enabled": true,
+    "method": "llm",
+    "llm_model": "doubao-seed-1-6-251015",
+    "temperature": 0.1,
+    "max_tokens": 1000,
+    "top_n": 5,
+    "notes": "Rerank重排序配置，支持LLM和API两种方式"
+  },
+  "rag": {
+    "enabled": true,
+    "default_top_k": 5,
+    "default_top_n": 5,
+    "use_rerank_by_default": false,
+    "question_classification": {
+      "enabled": true,
+      "types": ["concept", "process", "compare", "factual", "rule", "troubleshooting", "general"]
+    },
+    "retrieval_strategies": {
+      "concept": {
+        "method": "vector",
+        "use_rerank": true,
+        "vector_weight": 0.6,
+        "bm25_weight": 0.4,
+        "reason": "概念解释类问题适合语义匹配"
+      },
+      "process": {
+        "method": "hybrid",
+        "use_rerank": true,
+        "vector_weight": 0.5,
+        "bm25_weight": 0.5,
+        "reason": "流程类问题需要综合语义和关键词"
+      },
+      "compare": {
+        "method": "hybrid",
+        "use_rerank": true,
+        "vector_weight": 0.4,
+        "bm25_weight": 0.6,
+        "reason": "对比类问题依赖精确关键词"
+      },
+      "factual": {
+        "method": "bm25",
+        "use_rerank": false,
+        "vector_weight": 0.3,
+        "bm25_weight": 0.7,
+        "reason": "事实类问题适合精确匹配"
+      },
+      "rule": {
+        "method": "vector",
+        "use_rerank": true,
+        "vector_weight": 0.7,
+        "bm25_weight": 0.3,
+        "reason": "规则类问题适合语义理解"
+      },
+      "troubleshooting": {
+        "method": "hybrid_rerank",
+        "use_rerank": true,
+        "vector_weight": 0.5,
+        "bm25_weight": 0.5,
+        "reason": "故障排查需要综合检索"
+      },
+      "general": {
+        "method": "vector",
+        "use_rerank": false,
+        "vector_weight": 1.0,
+        "bm25_weight": 0.0,
+        "reason": "通用问题使用向量检索"
+      }
+    },
+    "notes": "RAG检索配置，包括策略路由和各种检索参数"
+  },
+  "bm25": {
+    "enabled": true,
+    "k1": 1.5,
+    "b": 0.75,
+    "cache_dir": "/tmp/bm25_cache",
+    "language": "zh",
+    "notes": "BM25全文检索配置"
+  },
+  "document_processing": {
+    "chunk_size": 500,
+    "chunk_overlap": 50,
+    "supported_formats": [".md", ".txt", ".pdf", ".docx", ".doc"],
+    "max_file_size_mb": 10,
+    "max_documents": 50,
+    "notes": "文档处理配置，包括分块和格式支持"
+  },
+  "web": {
+    "enabled": true,
+    "host": "0.0.0.0",
+    "port": 5000,
+    "debug": false,
+    "notes": "Web服务配置"
+  },
+  "websocket": {
+    "enabled": true,
+    "host": "0.0.0.0",
+    "port": 5001,
+    "notes": "WebSocket服务配置，用于实时协作"
+  },
+  "collaboration": {
+    "enabled": true,
+    "max_sessions": 100,
+    "max_messages_per_session": 1000,
+    "max_participants_per_session": 10,
+    "nickname_length_min": 1,
+    "nickname_length_max": 20,
+    "notes": "协作会话配置"
+  },
+  "storage": {
+    "type": "local",
+    "local_path": "/workspace/projects/assets",
+    "notes": "文件存储配置，支持本地存储或对象存储"
+  },
+  "memory": {
+    "enabled": true,
+    "max_messages": 40,
+    "notes": "对话记忆配置，滑动窗口保留最近20轮对话"
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "notes": "日志配置"
+  },
+  "features": {
+    "role_selection": true,
+    "smart_routing": true,
+    "hybrid_retrieval": true,
+    "realtime_collaboration": true,
+    "rerank": true,
+    "follow_up_questions": true,
+    "notes": "功能开关配置"
+  }
+}
