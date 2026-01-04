@@ -7,16 +7,15 @@ import logging
 import os
 from typing import List, Optional, Dict, Any
 from langchain_core.documents import Document
-from tools.vector_store import get_vector_store
-from tools.reranker_tool import rerank_documents
-from tools.bm25_retriever import bm25_retrieve
-from tools.question_classifier import classify_question_type, get_retrieval_strategy
+from ..tools.vector_store import get_vector_store
+from ..tools.reranker_tool import rerank_documents
+from ..tools.bm25_retriever import bm25_retrieve
+from ..tools.question_classifier import classify_question_type, get_retrieval_strategy
+from ..tools.document_loader import load_document, get_document_info
+from ..tools.text_splitter import split_text_recursive, split_text_by_markdown_structure
+from ..storage.provider import get_storage_provider
 
 logger = logging.getLogger(__name__)
-
-from tools.document_loader import load_document, get_document_info
-from tools.text_splitter import split_text_recursive, split_text_by_markdown_structure
-from storage.provider import get_storage_provider
 
 class RAGService:
     def __init__(self, collection_name: str = "knowledge_base"):
