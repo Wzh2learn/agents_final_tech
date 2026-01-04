@@ -349,8 +349,179 @@ items_with_related = db.query(Item).join(Related).all()
 - 使用合适的相似度阈值
 - 批量处理请求
 
+## 前端开发规范
+
+### 1. 配置管理 (config.js)
+
+所有前端配置统一在 `src/web/static/config.js` 中管理，**避免硬编码**。
+
+```javascript
+// ✅ 推荐：使用配置
+const wsUrl = APP_CONFIG.getWebSocketUrl();
+const maxRetries = APP_CONFIG.WS_RECONNECT_MAX_ATTEMPTS;
+
+// ❌ 不推荐：硬编码
+const wsUrl = 'ws://localhost:5001';
+const maxRetries = 5;
+```
+
+**常用配置项**:
+- `APP_CONFIG.WS_PORT` - WebSocket端口
+- `APP_CONFIG.WS_RECONNECT_MAX_ATTEMPTS` - 重连次数
+- `APP_CONFIG.API_TIMEOUT` - API超时时间
+- `APP_CONFIG.TOAST_DURATION` - Toast显示时长
+- `APP_CONFIG.DEBUG` - 调试模式开关
+
+### 2. API调用规范
+
+**必须使用 `apiCall()` 统一封装**，不要直接使用 `fetch`。
+
+```javascript
+// ✅ 推荐：使用apiCall
+async function loadData() {
+  try {
+    const data = await apiCall('/api/data', {
+      method: 'GET'
+    });
+    // 处理数据
+  } catch (error) {
+    // apiCall已经显示了错误提示和日志
+    console.error('加载失败:', error);
+  }
+}
+
+// ❌ 不推荐：直接使用fetch
+async function loadData() {
+  const response = await fetch('/api/data');
+  const data = await response.json();
+}
+```
+
+**apiCall 自动处理**:
+- HTTP状态码检查
+- 错误响应解析
+- 用户友好的Toast提示
+- 统一的日志输出
+
+### 3. 用户提示规范
+
+使用 `showToast()` 提供用户反馈，**类型要准确**。
+
+```javascript
+// 成功提示
+showToast('保存成功', 'success');
+
+// 错误提示
+showToast('保存失败', 'error');
+
+// 信息提示
+showToast('正在处理...', 'info');
+```
+
+**Toast使用原则**:
+- 操作成功/失败必须有提示
+- 错误信息要用户友好（避免技术术语）
+- 避免重复提示（apiCall已处理的错误不要再次提示）
+
+### 4. WebSocket连接规范
+
+WebSocket连接已实现自动重连，**遵循以下原则**:
+
+```javascript
+// ✅ 推荐：检查会话类型
+if (currentSessionType === 'collaborative') {
+  connectWebSocket(sessionId, nickname);
+}
+
+// ❌ 不推荐：无条件连接
+connectWebSocket(sessionId, nickname);
+```
+
+**注意事项**:
+- 只在协作会话时建立WebSocket连接
+- 不要手动实现重连逻辑（已内置）
+- 监听 `ws.onclose` 事件时注意重连计数器
+
+### 5. 代码注释规范
+
+**所有函数必须添加JSDoc注释**，包括用途、参数、返回值。
+
+```javascript
+/**
+ * 加载会话列表
+ * 从服务器获取所有会话并渲染到侧边栏
+ * @returns {Promise<void>}
+ */
+async function loadSessions() {
+  // 实现...
+}
+
+/**
+ * 切换会话
+ * 切换到指定的会话，加载会话历史并建立WebSocket连接（协作会话）
+ * @param {number} sessionId - 会话ID
+ */
+async function switchSession(sessionId) {
+  // 实现...
+}
+```
+
+**注释原则**:
+- 复杂逻辑必须有内联注释
+- 关键变量说明用途
+- 临时解决方案标注 `// TODO:` 或 `// FIXME:`
+
+### 6. HTML模板规范
+
+**引入脚本顺序很重要**，config.js必须在其他脚本之前。
+
+```html
+<!-- ✅ 正确顺序 -->
+<script src="{{ url_for('static', filename='config.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<!-- ❌ 错误顺序 -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('static', filename='config.js') }}"></script>
+```
+
+### 7. 错误处理最佳实践
+
+```javascript
+// ✅ 推荐：详细的错误处理
+try {
+  const result = await apiCall('/api/process', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  
+  if (result.status === 'success') {
+    showToast('处理成功', 'success');
+    updateUI(result.data);
+  } else {
+    // 业务错误，显示具体信息
+    showToast(result.message || '处理失败', 'error');
+  }
+} catch (error) {
+  // apiCall已经处理了网络错误和HTTP错误
+  // 这里只需要处理业务逻辑
+  console.error('处理失败:', error);
+}
+
+// ❌ 不推荐：吞掉错误
+try {
+  await apiCall('/api/process', options);
+} catch (error) {
+  // 什么都不做
+}
+```
+
+---
+
 ## 部署前检查清单
 
+### 后端
 - [ ] 所有测试通过
 - [ ] 代码已lint（无警告）
 - [ ] 环境变量已配置
@@ -358,7 +529,18 @@ items_with_related = db.query(Item).join(Related).all()
 - [ ] 日志配置正确
 - [ ] 依赖已更新到requirements.txt
 - [ ] API文档已更新
+
+### 前端
+- [ ] 所有fetch调用已替换为apiCall
+- [ ] 配置项已移至config.js（无硬编码）
+- [ ] 关键函数已添加JSDoc注释
+- [ ] Toast提示完整且友好
+- [ ] WebSocket连接逻辑正确
+
+### 文档
 - [ ] README已更新
+- [ ] API文档已更新
+- [ ] DEVELOPER_GUIDE已更新（如有新规范）
 
 ## 常用命令
 
