@@ -20,3 +20,7 @@ tmp/
 .coverage
 htmlcov/
 .windsurf/
+
+# Local database files
+sessions.db
+*.db

@@ -16,25 +16,180 @@
 
 ## 聊天与会话API
 
-### 1. 发送聊天消息
+### 1. 获取会话列表
+
+**端点**: `GET /api/chat/sessions`
+
+**描述**: 获取所有会话（包括个人会话和协作会话）
+
+**响应**:
+```json
+{
+  "status": "success",
+  "sessions": [
+    {
+      "id": 1,
+      "name": "新对话 23:54:59",
+      "type": "private",
+      "role_key": "default_engineer",
+      "created_at": "2026-01-05T15:54:59",
+      "updated_at": "2026-01-05T15:55:10"
+    },
+    {
+      "id": 2,
+      "name": "我的协作",
+      "type": "collaborative",
+      "role_key": "product_manager",
+      "created_at": "2026-01-05T16:00:00",
+      "updated_at": "2026-01-05T16:05:30"
+    }
+  ]
+}
+```
+
+---
+
+### 2. 创建新会话
+
+**端点**: `POST /api/chat/sessions`
+
+**描述**: 创建一个新的会话（个人或协作）
+
+**请求体**:
+```json
+{
+  "name": "新对话",
+  "type": "private",
+  "role_key": "default_engineer"
+}
+```
+
+**参数**:
+- `name` (string, 必需): 会话名称
+- `type` (string, 可选): 会话类型，"private" 或 "collaborative"，默认 "private"
+- `role_key` (string, 可选): 角色key，默认 "default_engineer"
+
+**响应**:
+```json
+{
+  "status": "success",
+  "session": {
+    "id": 3,
+    "name": "新对话",
+    "type": "private",
+    "role_key": "default_engineer"
+  }
+}
+```
+
+---
+
+### 3. 获取会话详情
+
+**端点**: `GET /api/chat/sessions/{session_id}`
+
+**描述**: 获取指定会话的详细信息
+
+**响应**:
+```json
+{
+  "status": "success",
+  "session": {
+    "id": 1,
+    "name": "新对话 23:54:59",
+    "type": "private",
+    "role_key": "default_engineer",
+    "created_at": "2026-01-05T15:54:59"
+  }
+}
+```
+
+---
+
+### 4. 更新会话
+
+**端点**: `PATCH /api/chat/sessions/{session_id}`
+
+**描述**: 更新会话信息（如角色）
+
+**请求体**:
+```json
+{
+  "role_key": "product_manager"
+}
+```
+
+**响应**:
+```json
+{
+  "status": "success"
+}
+```
+
+---
+
+### 5. 删除会话
+
+**端点**: `DELETE /api/chat/sessions/{session_id}`
+
+**描述**: 删除指定会话及其所有消息
+
+**响应**:
+```json
+{
+  "status": "success"
+}
+```
+
+---
+
+### 6. 获取会话历史消息
+
+**端点**: `GET /api/chat/sessions/{session_id}/history`
+
+**描述**: 获取指定会话的所有历史消息
+
+**响应**:
+```json
+{
+  "status": "success",
+  "messages": [
+    {
+      "role": "user",
+      "content": "你好",
+      "nickname": "我",
+      "timestamp": "2026-01-05T15:55:00"
+    },
+    {
+      "role": "agent",
+      "content": "您好！我是建账规则助手。",
+      "timestamp": "2026-01-05T15:55:02"
+    }
+  ]
+}
+```
+
+---
+
+### 7. 发送聊天消息
 
 **端点**: `POST /api/chat`
 
-**描述**: 向Agent发送消息并获取流式响应
+**描述**: 向Agent发送消息并获取流式响应，支持会话模式
 
 **请求体**:
 ```json
 {
   "message": "如何建账？",
-  "conversation_id": "default",
-  "stream": true
+  "conversation_id": "session_1",
+  "role": "default_engineer"
 }
 ```
 
 **参数**:
 - `message` (string, 必需): 用户消息
-- `conversation_id` (string, 可选): 会话ID，默认 "default"
-- `stream` (boolean, 可选): 是否流式响应，默认 true
+- `conversation_id` (string, 可选): 会话ID，格式为 "session_{id}" 或 "default"
+- `role` (string, 可选): 角色key，如果提供会覆盖会话默认角色
 
 **响应**: Server-Sent Events (SSE) 流式响应
 
@@ -42,16 +197,16 @@
 ```bash
 curl -X POST http://localhost:5000/api/chat \
   -H "Content-Type: application/json" \
-  -d '{"message": "如何建账？", "conversation_id": "user123"}'
+  -d '{"message": "如何建账？", "conversation_id": "session_1"}'
 ```
 
 ---
 
-### 2. 重置会话
+### 8. 重置会话
 
 **端点**: `POST /api/reset`
 
-**描述**: 清空指定会话的历史记录
+**描述**: 清空指定会话的历史记录（已废弃，建议使用删除会话）
 
 **请求体**:
 ```json
@@ -70,11 +225,11 @@ curl -X POST http://localhost:5000/api/chat \
 
 ---
 
-### 3. 设置会话角色
+### 9. 设置会话角色
 
 **端点**: `POST /api/set_role`
 
-**描述**: 为会话设置角色，触发角色化开场白
+**描述**: 为会话设置角色（已废弃，建议使用 PATCH /api/chat/sessions/{id}）
 
 **请求体**:
 ```json

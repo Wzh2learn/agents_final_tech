@@ -2,7 +2,7 @@
 文本分割工具
 支持递归分割和 Markdown 结构分割
 """
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from langchain.tools import tool
 from langchain_core.documents import Document
 
@@ -230,3 +230,113 @@ def split_text_with_summary(
     summary += f"平均块大小: {total_chars // max(len(result.split('---')) - 1, 1)} 字符\n"
 
     return result + summary
+
+
+def hierarchical_split(
+    text: str,
+    parent_chunk_size: int = 2000,
+    child_chunk_size: int = 500,
+    chunk_overlap: int = 100
+) -> List[Dict[str, any]]:
+    """
+    父子分段模式：两级分割，父块用于概览，子块用于详细检索
+    
+    Args:
+        text: 要分割的文本
+        parent_chunk_size: 父块大小（默认2000字符）
+        child_chunk_size: 子块大小（默认500字符）
+        chunk_overlap: 块之间重叠（默认100字符）
+    
+    Returns:
+        包含父子关系的Document列表
+        每个父Document包含metadata: {"parent_id": str, "is_parent": True}
+        每个子Document包含metadata: {"parent_id": str, "is_parent": False, "child_index": int}
+    """
+    if _RecursiveSplitter is None:
+        raise ValueError("文本分割器未安装")
+    
+    if not text or not text.strip():
+        return []
+    
+    # 第一步：创建父块
+    parent_splitter = _RecursiveSplitter(
+        chunk_size=parent_chunk_size,
+        chunk_overlap=chunk_overlap,
+        separators=["\n\n", "\n", " ", ""]
+    )
+    
+    parent_docs = parent_splitter.split_documents([Document(page_content=text)])
+    
+    # 第二步：为每个父块创建子块
+    all_chunks = []
+    
+    for parent_idx, parent_doc in enumerate(parent_docs):
+        parent_id = f"parent_{parent_idx}"
+        
+        # 添加父块（用于概览）
+        parent_doc.metadata.update({
+            "parent_id": parent_id,
+            "is_parent": True,
+            "chunk_index": parent_idx
+        })
+        all_chunks.append(parent_doc)
+        
+        # 创建子块分割器
+        child_splitter = _RecursiveSplitter(
+            chunk_size=child_chunk_size,
+            chunk_overlap=chunk_overlap // 2,
+            separators=["\n\n", "\n", "。", "；", " ", ""]
+        )
+        
+        # 从父块内容创建子块
+        child_docs = child_splitter.split_documents([parent_doc])
+        
+        # 为子块添加元数据
+        for child_idx, child_doc in enumerate(child_docs):
+            child_doc.metadata.update({
+                "parent_id": parent_id,
+                "is_parent": False,
+                "child_index": child_idx,
+                "chunk_index": f"{parent_idx}_{child_idx}"
+            })
+            all_chunks.append(child_doc)
+    
+    return all_chunks
+
+
+@tool
+def split_text_hierarchical(
+    text: str,
+    parent_chunk_size: int = 2000,
+    child_chunk_size: int = 500
+) -> str:
+    """
+    使用父子分段模式分割文本（工具包装）
+    
+    Args:
+        text: 要分割的文本
+        parent_chunk_size: 父块大小
+        child_chunk_size: 子块大小
+    
+    Returns:
+        格式化的分割结果
+    """
+    try:
+        chunks = hierarchical_split(text, parent_chunk_size, child_chunk_size)
+        
+        result = f"📝 父子分段结果\n"
+        result += f"父块大小: {parent_chunk_size} | 子块大小: {child_chunk_size}\n"
+        result += f"总块数: {len(chunks)}\n"
+        result += "=" * 50 + "\n\n"
+        
+        for chunk in chunks:
+            is_parent = chunk.metadata.get("is_parent", False)
+            chunk_type = "【父块】" if is_parent else "  【子块】"
+            chunk_id = chunk.metadata.get("chunk_index", "")
+            
+            result += f"{chunk_type} ID: {chunk_id} ({len(chunk.page_content)} 字符)\n"
+            result += f"{chunk.page_content[:100]}...\n\n"
+        
+        return result
+    except Exception as e:
+        raise ValueError(f"父子分段失败: {str(e)}")

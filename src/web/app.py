@@ -6,7 +6,7 @@ import os
 import json
 import asyncio
 import logging
-from flask import Flask, render_template, request, jsonify, Response, send_file
+from flask import Flask, render_template, request, jsonify, Response, send_file, redirect
 from langchain_core.messages import HumanMessage, AIMessage
 from biz.agent_service import get_agent_service
 from biz.rag_service import get_rag_service
@@ -75,27 +75,53 @@ def stream_agent_response(message_text, conversation_id, role="default"):
 
 @app.route('/')
 def index():
-    """首页 - 聊天界面"""
+    """主页 - 导航入口"""
+    return render_template('index.html')
+
+
+@app.route('/chat')
+def chat_page():
+    """聊天界面"""
     ensure_websocket_server()
     return render_template('chat.html')
 
 
 @app.route('/collaboration')
 def collaboration():
-    """协作会话页面"""
-    ensure_websocket_server()
-    return render_template('collaboration.html', ws_port=_ws_port)
+    """协作会话页面 (重定向到统一聊天页面)"""
+    return redirect('/chat')
+
+
+@app.route('/knowledge')
+def knowledge():
+    """知识库管理页面"""
+    return render_template('knowledge.html')
 
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
-    """聊天 API"""
+    """聊天 API (支持会话模式)"""
     data = request.json
     message = data.get('message', '')
     conversation_id = data.get('conversation_id', 'default')
     
-    # 从请求中获取角色，如果没有则尝试从缓存获取，最后回退到 default
-    role = data.get('role') or thread_roles.get(conversation_id, 'default')
+    # 获取角色：优先从请求获取，其次从会话记录获取
+    role = data.get('role')
+    
+    # 如果是 session_ 开头的 ID，从数据库加载角色
+    if conversation_id.startswith('session_'):
+        try:
+            session_id = int(conversation_id.split('_')[1])
+            from web.collaboration_service import get_collaboration_service
+            svc = get_collaboration_service()
+            session = svc.get_session(session_id)
+            if session and not role:
+                role = session.get('role_key')
+        except:
+            pass
+            
+    if not role:
+        role = thread_roles.get(conversation_id, 'default_engineer')
 
     if not message:
         return jsonify({"error": "消息不能为空"}), 400
@@ -103,14 +129,36 @@ def chat():
     def generate():
         """生成流式响应"""
         try:
+            full_content = ""
             for chunk in stream_agent_response(message, conversation_id, role):
                 if chunk:
-                    # chunk 现在是 dict，包含 type 和 content
-                    yield f"data: {json.dumps({'content': chunk, 'done': False}, ensure_ascii=False)}\n\n"
+                    # 处理 chunk 是 dict 的情况
+                    if isinstance(chunk, dict) and chunk.get("type") == "content":
+                        text = chunk.get("content", "")
+                        full_content += text
+                        yield f"data: {json.dumps({'content': text, 'done': False}, ensure_ascii=False)}\n\n"
+                    elif isinstance(chunk, str):
+                        full_content += chunk
+                        yield f"data: {json.dumps({'content': chunk, 'done': False}, ensure_ascii=False)}\n\n"
+
+            # 对话完成后，如果是数据库会话，存入历史记录
+            if conversation_id.startswith('session_'):
+                try:
+                    session_id = int(conversation_id.split('_')[1])
+                    from storage.collaboration import get_collaboration_db
+                    db = get_collaboration_db()
+                    # 存入用户消息
+                    db.add_message(session_id, 'user', message)
+                    # 存入 AI 消息
+                    if full_content:
+                        db.add_message(session_id, 'agent', full_content)
+                except Exception as e:
+                    logger.error(f"Failed to save message history: {e}")
 
             # 发送完成信号
             yield f"data: {json.dumps({'content': '', 'done': True}, ensure_ascii=False)}\n\n"
         except Exception as e:
+            logger.error(f"Chat generation error: {e}")
             yield f"data: {json.dumps({'content': f'错误: {str(e)}', 'done': True}, ensure_ascii=False)}\n\n"
 
     return Response(generate(), mimetype='text/event-stream')
@@ -221,12 +269,6 @@ def clear_cache():
 
 # ==================== 知识库管理 API ====================
 
-@app.route('/knowledge')
-def knowledge():
-    """知识库管理页面"""
-    return render_template('knowledge.html')
-
-
 @app.route('/api/knowledge/stats', methods=['GET'])
 @cached(ttl=60, key_prefix="kb_stats")
 def get_knowledge_stats():
@@ -315,6 +357,9 @@ def upload_document():
         if file.filename == '':
             return jsonify({"status": "error", "message": "未选择文件"}), 400
 
+        # 获取分段配置
+        use_hierarchical = request.form.get('use_hierarchical') == 'true'
+        
         file_name = file.filename
         
         # 保存到临时文件进行处理
@@ -324,14 +369,15 @@ def upload_document():
             tmp_file_path = tmp_file.name
 
         try:
-            # 使用 RAGService 统一全流程入库 (加载、分割、持久化、向量化)
+            # 使用 RAGService 统一全流程入库
             import asyncio
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
             
             ingest_result = loop.run_until_complete(rag_service.ingest_file(
                 file_path=tmp_file_path,
-                metadata={"original_name": file_name, "content_type": file.content_type}
+                metadata={"original_name": file_name, "content_type": file.content_type},
+                use_hierarchical=use_hierarchical
             ))
 
             # 清除缓存
@@ -342,7 +388,8 @@ def upload_document():
                 "status": "success",
                 "message": f"成功上传并处理文档: {file_name}",
                 "object_key": ingest_result["object_key"],
-                "chunks_count": ingest_result["chunks"]
+                "chunks_count": ingest_result["chunks"],
+                "hierarchical": use_hierarchical
             })
         finally:
             # 删除临时文件
@@ -508,7 +555,71 @@ def get_document_hierarchy(doc_id):
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
-# ==================== 协作会话 API ====================
+@app.route('/api/chat/sessions', methods=['GET', 'POST'])
+def manage_chat_sessions():
+    """管理对话会话 (支持个人和协作)"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    if request.method == 'GET':
+        # 获取所有活跃会话
+        sessions = service.get_all_sessions(active_only=True)
+        return jsonify({"status": "success", "sessions": sessions})
+
+    elif request.method == 'POST':
+        # 创建新会话
+        data = request.json or {}
+        name = data.get('name', '新对话')
+        role_key = data.get('role_key', 'default_engineer')
+        session_type = data.get('type', 'private')
+        
+        session = service.create_session(
+            name=name, 
+            session_type=session_type,
+            role_key=role_key
+        )
+        if session:
+            return jsonify({"status": "success", "session": session})
+        else:
+            return jsonify({"error": "创建会话失败"}), 500
+
+@app.route('/api/chat/sessions/<int:session_id>', methods=['GET', 'DELETE', 'PATCH'])
+def manage_chat_session(session_id):
+    """管理单个对话会话"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    if request.method == 'GET':
+        session = service.get_session(session_id)
+        if session:
+            return jsonify({"status": "success", "session": session})
+        return jsonify({"error": "会话不存在"}), 404
+
+    elif request.method == 'DELETE':
+        success = service.delete_session(session_id)
+        if success:
+            return jsonify({"status": "success", "message": "会话已删除"})
+        return jsonify({"error": "删除会话失败"}), 500
+    
+    elif request.method == 'PATCH':
+        # 更新会话（如重命名或切换角色）
+        data = request.json or {}
+        success = service.update_session(
+            session_id=session_id,
+            name=data.get('name'),
+            role_key=data.get('role_key')
+        )
+        if success:
+            return jsonify({"status": "success"})
+        return jsonify({"error": "更新失败"}), 500
+
+@app.route('/api/chat/sessions/<int:session_id>/history', methods=['GET'])
+def get_chat_history(session_id):
+    """获取会话历史消息"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+    messages = service.get_session_messages(session_id)
+    return jsonify({"status": "success", "messages": messages})
 
 @app.route('/api/collaboration/sessions', methods=['GET', 'POST'])
 def manage_sessions():

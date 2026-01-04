@@ -7,13 +7,13 @@ import logging
 import os
 from typing import List, Optional, Dict, Any
 from langchain_core.documents import Document
-from ..tools.vector_store import get_vector_store
-from ..tools.reranker_tool import rerank_documents
-from ..tools.bm25_retriever import bm25_retrieve
-from ..tools.question_classifier import classify_question_type, get_retrieval_strategy
-from ..tools.document_loader import load_document, get_document_info
-from ..tools.text_splitter import split_text_recursive, split_text_by_markdown_structure
-from ..storage.provider import get_storage_provider
+from tools.vector_store import get_vector_store
+from tools.reranker_tool import rerank_documents
+from tools.bm25_retriever import bm25_retrieve
+from tools.question_classifier import classify_question_type, get_retrieval_strategy
+from tools.document_loader import load_document, get_document_info
+from tools.text_splitter import split_text_recursive, split_text_by_markdown_structure, hierarchical_split
+from storage.provider import get_storage_provider
 
 logger = logging.getLogger(__name__)
 
@@ -22,32 +22,44 @@ class RAGService:
         self.collection_name = collection_name
         self.provider = get_storage_provider()
 
-    async def ingest_file(self, file_path: str, metadata: Dict[str, Any] = None) -> Dict[str, Any]:
-        """全流程入库：加载 -> 分割 -> 存储(S3) -> 向量化(DB)"""
+    async def ingest_file(self, file_path: str, metadata: Dict[str, Any] = None, use_hierarchical: bool = False) -> Dict[str, Any]:
+        """全流程入库：加载 -> 分割 -> 存储(S3) -> 向量化(DB)
+        
+        Args:
+            file_path: 文件路径
+            metadata: 元数据
+            use_hierarchical: 是否使用父子分段模式（默认False）
+        """
         # 1. 加载
         content = load_document.invoke({"file_path": file_path})
         
-        # 2. 分割 (统一返回清理后的文本块列表)
-        if file_path.endswith(('.md', '.markdown')):
-            chunks_str = split_text_by_markdown_structure.invoke({"text": content})
+        # 2. 分割
+        if use_hierarchical:
+            # 使用父子分段模式
+            chunks_docs = hierarchical_split(content, parent_chunk_size=2000, child_chunk_size=500)
+            chunks = [doc.page_content for doc in chunks_docs]
+            chunks_metadata_list = [doc.metadata for doc in chunks_docs]
         else:
-            chunks_str = split_text_recursive.invoke({"text": content})
-        
-        # 解析块 (移除工具生成的格式化 Header)
-        # 工具输出格式为: "--- 块 X (Y 字符) ---\n内容\n\n"
-        import re
-        raw_chunks = chunks_str.split("---")
-        chunks = []
-        for c in raw_chunks:
-            c = c.strip()
-            if not c: continue
-            # 过滤掉 "块 1 (123 字符) ---" 这种遗留模式
-            clean_c = re.sub(r'^块 \d+ \(.*?\)\s*---', '', c).strip()
-            # 过滤掉工具生成的标题行
-            if clean_c.startswith(("📝 文本分割结果", "📝 Markdown 结构分割结果", "总块数:", "块大小:", "重叠:", "分割规则:", "====")):
-                continue
-            if clean_c:
-                chunks.append(clean_c)
+            # 传统分割方式
+            if file_path.endswith(('.md', '.markdown')):
+                chunks_str = split_text_by_markdown_structure.invoke({"text": content})
+            else:
+                chunks_str = split_text_recursive.invoke({"text": content})
+            
+            # 解析块
+            import re
+            raw_chunks = chunks_str.split("---")
+            chunks = []
+            chunks_metadata_list = []
+            for c in raw_chunks:
+                c = c.strip()
+                if not c: continue
+                clean_c = re.sub(r'^块 \d+ \(.*?\)\s*---', '', c).strip()
+                if clean_c.startswith(("📝 文本分割结果", "📝 Markdown 结构分割结果", "总块数:", "块大小:", "重叠:", "分割规则:", "====")):
+                    continue
+                if clean_c:
+                    chunks.append(clean_c)
+                    chunks_metadata_list.append({})
         
         # 3. 持久化原始文件 (ACL)
         with open(file_path, "rb") as f:
@@ -55,10 +67,19 @@ class RAGService:
             
         # 4. 向量化入库
         vector_store = get_vector_store(collection_name=self.collection_name)
-        docs = [Document(page_content=c, metadata={**(metadata or {}), "source": os.path.basename(file_path), "object_key": object_key}) for c in chunks]
+        docs = []
+        for i, (chunk, chunk_meta) in enumerate(zip(chunks, chunks_metadata_list)):
+            combined_meta = {
+                **(metadata or {}),
+                **chunk_meta,
+                "source": os.path.basename(file_path),
+                "object_key": object_key,
+                "chunk_index": i
+            }
+            docs.append(Document(page_content=chunk, metadata=combined_meta))
         vector_store.add_documents(docs)
         
-        return {"object_key": object_key, "chunks": len(chunks)}
+        return {"object_key": object_key, "chunks": len(chunks), "hierarchical": use_hierarchical}
 
     def smart_retrieve(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
         """智能路由检索：分类 -> 策略选择 -> 执行检索 -> Rerank"""
@@ -189,20 +210,66 @@ class RAGService:
         return stats
 
     def get_traceability(self, query: str) -> List[Dict[str, Any]]:
-        """获取答案溯源信息"""
+        """获取答案溯源信息（增强版：包含精确位置和引用片段）"""
         results = self.smart_retrieve(query, top_k=5)
         trace_results = []
         for i, item in enumerate(results):
             metadata = item.get("metadata", {})
+            content = item.get("content", "")
             raw_score = metadata.get("relevance_score") or metadata.get("vector_score") or metadata.get("score") or 0.0
+            
+            # 提取位置信息
+            location = self._extract_location(metadata, content)
+            
+            # 提取引用片段（前100个字符作为引用）
+            quote = content[:100] + "..." if len(content) > 100 else content
+            
+            # 提取上下文（完整内容作为上下文）
+            context = content
+            
             trace_results.append({
                 "document_name": metadata.get("source") or metadata.get("original_name") or f"文档_{i+1}",
-                "content": item.get("content", ""),
+                "content": content,
+                "location": location,
+                "quote": quote,
+                "context": context,
                 "score": item.get("relevance_score", item.get("vector_score", raw_score)),
                 "raw_score": raw_score,
-                "chunk_index": i
+                "chunk_index": i,
+                "metadata": metadata
             })
         return trace_results
+    
+    def _extract_location(self, metadata: Dict[str, Any], content: str) -> str:
+        """从metadata中提取位置信息"""
+        location_parts = []
+        
+        # 尝试提取章节信息
+        if "section" in metadata:
+            location_parts.append(f"章节: {metadata['section']}")
+        elif "header" in metadata:
+            location_parts.append(f"标题: {metadata['header']}")
+        
+        # 尝试提取页码
+        if "page" in metadata:
+            location_parts.append(f"第{metadata['page']}页")
+        
+        # 尝试提取行号范围
+        if "start_line" in metadata and "end_line" in metadata:
+            location_parts.append(f"行{metadata['start_line']}-{metadata['end_line']}")
+        elif "chunk_index" in metadata:
+            location_parts.append(f"段落{metadata['chunk_index']}")
+        
+        # 如果没有任何位置信息，尝试从内容推断
+        if not location_parts:
+            # 检查内容是否以Markdown标题开头
+            lines = content.split('\n')
+            for line in lines[:3]:  # 检查前3行
+                if line.strip().startswith('#'):
+                    location_parts.append(f"章节: {line.strip('#').strip()}")
+                    break
+        
+        return " | ".join(location_parts) if location_parts else "未知位置"
 
     def compare_methods(self, query: str, methods: Dict[str, bool]) -> Dict[str, Any]:
         """对比不同检索方法的结果"""

@@ -3,103 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>建账规则助手</title>
+    <title>智能对话 - 建账规则助手</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin-right: 10px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .top-nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .top-nav .home-btn {
+            font-weight: 600;
+            margin-right: 20px;
+        }
+        .container {
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 侧边栏 -->
-        <div class="sidebar">
-            <div class="logo">
-                <h2>🏦 建账规则助手</h2>
-                <p class="subtitle">智能问答系统</p>
-            </div>
+    <div class="chat-layout">
+        <!-- 会话侧边栏 -->
+        <div class="session-sidebar">
+            <a href="/" class="home-link" style="text-decoration: none; color: #374151; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 20px;">🏦</span>
+                <span style="font-weight: 600;">建账助手</span>
+            </a>
             
-            <!-- 角色选择 -->
-            <div class="role-selector">
-                <h3>选择角色</h3>
-                <div class="role-buttons">
-                    <button class="role-btn" data-role="a" title="产品经理 - 关注业务流程和用户体验">
-                        <span class="emoji">👔</span>
-                        <span class="label">产品经理</span>
-                        <span class="key">A</span>
-                    </button>
-                    <button class="role-btn" data-role="b" title="技术开发 - 关注技术实现和系统架构">
-                        <span class="emoji">💻</span>
-                        <span class="label">技术开发</span>
-                        <span class="key">B</span>
-                    </button>
-                    <button class="role-btn" data-role="c" title="销售运营 - 关注客户价值和市场竞争">
-                        <span class="emoji">📊</span>
-                        <span class="label">销售运营</span>
-                        <span class="key">C</span>
-                    </button>
-                    <button class="role-btn" data-role="d" title="默认工程师 - 标准技术解释">
-                        <span class="emoji">🔧</span>
-                        <span class="label">默认工程师</span>
-                        <span class="key">D</span>
-                    </button>
-                </div>
-                <div class="current-role">
-                    当前角色: <span id="currentRoleText">未选择</span>
+            <button class="new-chat-btn" id="newChatBtn">
+                <span style="font-size: 18px;">+</span> 开启新对话
+            </button>
+
+            <button class="new-chat-btn" id="newCollabBtn" style="margin-top: -12px; background: #fef3c7; border-color: #fde68a; color: #92400e;">
+                <span style="font-size: 18px;">👥</span> 加入/创建协作
+            </button>
+            
+            <div class="session-list" id="sessionList">
+                <!-- 会话列表将由 JS 动态渲染 -->
+                <div class="loading-sessions" style="text-align: center; color: #9ca3af; font-size: 13px; margin-top: 20px;">
+                    加载会话中...
                 </div>
             </div>
-            
-            <!-- 操作按钮 -->
-            <div class="actions">
-                <button class="action-btn" id="resetBtn">
-                    <span>🔄</span> 重置对话
-                </button>
-                <button class="action-btn" id="clearBtn">
-                    <span>🗑️</span> 清空聊天
-                </button>
-            </div>
-            
-            <!-- 信息 -->
-            <div class="info">
-                <p>💡 提示：首次使用请选择角色</p>
-                <p id="messageCount">消息数: 0</p>
+
+            <div class="sidebar-footer" style="margin-top: auto; padding-top: 16px; border-top: 1px solid #e5e7eb;">
+                <a href="/knowledge" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #4b5563; text-decoration: none; font-size: 14px; border-radius: 8px;" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='transparent'">
+                    <span>📚</span> 知识库管理
+                </a>
             </div>
         </div>
-        
+
         <!-- 主聊天区域 -->
-        <div class="main">
-            <!-- 聊天消息 -->
-            <div class="chat-container" id="chatContainer">
-                <!-- 欢迎消息 -->
-                <div class="message ai-message">
-                    <div class="avatar">🤖</div>
-                    <div class="message-content">
-                        <p>欢迎使用建账规则助手！👋</p>
-                        <p>请先选择你的角色，这将影响回答的重点和详细程度：</p>
-                        <ul>
-                            <li><strong>【A】产品经理</strong> - 关注业务流程和用户体验</li>
-                            <li><strong>【B】技术开发</strong> - 关注技术实现和系统架构</li>
-                            <li><strong>【C】销售运营</strong> - 关注客户价值和市场竞争</li>
-                            <li><strong>【D】默认工程师</strong> - 标准技术解释</li>
-                        </ul>
-                        <p>点击左侧按钮或按键盘快捷键选择角色 👆</p>
+        <div class="chat-main">
+            <header class="chat-header">
+                <div class="bot-info">
+                    <div class="message-avatar" style="width: 36px; height: 36px;">🤖</div>
+                    <div>
+                        <div class="bot-name">建账规则助手</div>
+                        <div id="currentSessionName" style="font-size: 12px; color: #6b7280;">未选择会话</div>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="role-config-btn" id="openRoleModal">
+                        <span id="roleEmoji">🔧</span>
+                        <span id="roleName">默认工程师</span>
+                        <span style="font-size: 10px; color: #9ca3af;">▼</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="chat-messages" id="chatContainer">
+                <!-- 消息将由 JS 动态渲染 -->
+                <div class="empty-state" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #9ca3af;">
+                    <span style="font-size: 48px; margin-bottom: 16px;">💬</span>
+                    <p>选择一个会话或开启新对话开始交流</p>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="输入您的问题..."
+                        rows="1"
+                        disabled
+                    ></textarea>
+                    <div class="input-actions">
+                        <div style="font-size: 12px; color: #9ca3af; margin-right: auto;">
+                            Enter 发送，Shift+Enter 换行
+                        </div>
+                        <button class="send-btn-new" id="sendBtn" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- 角色选择弹窗 -->
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="role-modal" id="roleModal">
+        <h3 style="margin-bottom: 20px; font-size: 18px; color: #111827;">更改助手视角</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <button class="role-option" data-role="a" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; cursor: pointer; text-align: left; width: 100%;">
+                <span style="font-size: 24px;">👔</span>
+                <div>
+                    <div style="font-weight: 600; color: #111827;">产品经理</div>
+                    <div style="font-size: 12px; color: #6b7280;">关注业务流程和用户体验</div>
+                </div>
+            </button>
+            <button class="role-option" data-role="b" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; cursor: pointer; text-align: left; width: 100%;">
+                <span style="font-size: 24px;">💻</span>
+                <div>
+                    <div style="font-weight: 600; color: #111827;">技术开发</div>
+                    <div style="font-size: 12px; color: #6b7280;">关注技术实现和系统架构</div>
+                </div>
+            </button>
+            <button class="role-option" data-role="c" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; cursor: pointer; text-align: left; width: 100%;">
+                <span style="font-size: 24px;">📈</span>
+                <div>
+                    <div style="font-weight: 600; color: #111827;">销售运营</div>
+                    <div style="font-size: 12px; color: #6b7280;">关注客户价值和市场竞争</div>
+                </div>
+            </button>
+            <button class="role-option" data-role="d" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; cursor: pointer; text-align: left; width: 100%;">
+                <span style="font-size: 24px;">🔧</span>
+                <div>
+                    <div style="font-weight: 600; color: #111827;">默认工程师</div>
+                    <div style="font-size: 12px; color: #6b7280;">全方位技术支持和专业回答</div>
+                </div>
+            </button>
+        </div>
+        <button id="closeRoleModal" style="margin-top: 24px; width: 100%; padding: 10px; border: none; border-radius: 8px; background: #f3f4f6; color: #374151; font-weight: 500; cursor: pointer;">取消</button>
+    </div>
+
+    <!-- 协作对话弹窗 -->
+    <div class="modal-backdrop" id="collabModalBackdrop"></div>
+    <div class="role-modal" id="collabModal" style="width: 450px;">
+        <h3 style="margin-bottom: 20px; font-size: 18px; color: #111827;">🤝 协作对话</h3>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="form-group">
+                <label style="display: block; font-size: 13px; color: #374151; margin-bottom: 6px;">您的昵称</label>
+                <input type="text" id="nicknameInput" placeholder="输入昵称" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px;">
+            </div>
             
-            <!-- 输入区域 -->
-            <div class="input-area">
-                <div class="input-wrapper">
-                    <textarea 
-                        id="messageInput" 
-                        placeholder="输入你的问题... (Shift+Enter 换行，Enter 发送)"
-                        rows="3"
-                    ></textarea>
-                    <button class="send-btn" id="sendBtn">
-                        <span>发送</span>
-                    </button>
-                </div>
-                <div class="input-hint">
-                    按 Enter 发送消息，Shift+Enter 换行
-                </div>
+            <div style="border-top: 1px solid #f3f4f6; pt: 16px; margin-top: 8px;">
+                <label style="display: block; font-size: 13px; color: #374151; margin-bottom: 12px; font-weight: 600;">选择现有协作</label>
+                <select id="collabSessionSelect" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 12px;">
+                    <option value="">-- 请选择 --</option>
+                </select>
+                <button class="btn btn-primary" id="joinCollabBtn" style="width: 100%;">加入现有协作</button>
+            </div>
+
+            <div class="divider" style="text-align: center; color: #9ca3af; font-size: 12px; margin: 8px 0;">或者</div>
+
+            <div>
+                <label style="display: block; font-size: 13px; color: #374151; margin-bottom: 6px; font-weight: 600;">开启新协作</label>
+                <input type="text" id="newCollabNameInput" placeholder="协作会话名称" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 12px;">
+                <button class="btn btn-secondary" id="createCollabBtn" style="width: 100%; background: #667eea; color: white;">创建并加入</button>
             </div>
         </div>
+        <button id="closeCollabModal" style="margin-top: 24px; width: 100%; padding: 10px; border: none; border-radius: 8px; background: #f3f4f6; color: #374151; font-weight: 500; cursor: pointer;">关闭</button>
     </div>
 
     <!-- 加载状态 -->
@@ -108,6 +192,8 @@
         <p>AI 正在思考...</p>
     </div>
 
+    <!-- 配置文件必须在其他脚本之前加载 -->
+    <script src="{{ url_for('static', filename='config.js') }}"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

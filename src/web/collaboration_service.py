@@ -36,48 +36,41 @@ class CollaborationService:
 
     # ==================== 会话管理 ====================
 
-    def create_session(self, name: str, description: str = None) -> Optional[dict]:
+    def create_session(self, name: str, description: str = None, session_type: str = 'private', role_key: str = 'default_engineer') -> Optional[dict]:
         """创建新会话"""
-        session = self.db.create_session(name, description)
+        session = self.db.create_session(name, description, session_type, role_key)
         if session:
-            return {
-                'id': session.id,
-                'name': session.name,
-                'description': session.description,
-                'created_at': session.created_at.isoformat(),
-                'updated_at': session.updated_at.isoformat(),
-                'is_active': session.is_active
-            }
+            return self._serialize_session(session)
         return None
 
     def get_session(self, session_id: int) -> Optional[dict]:
         """获取会话信息"""
         session = self.db.get_session(session_id)
         if session:
-            return {
-                'id': session.id,
-                'name': session.name,
-                'description': session.description,
-                'created_at': session.created_at.isoformat(),
-                'updated_at': session.updated_at.isoformat(),
-                'is_active': session.is_active
-            }
+            return self._serialize_session(session)
         return None
 
-    def get_all_sessions(self) -> List[dict]:
+    def get_all_sessions(self, active_only: bool = True, session_type: str = None) -> List[dict]:
         """获取所有会话"""
-        sessions = self.db.get_all_sessions()
-        return [
-            {
-                'id': s.id,
-                'name': s.name,
-                'description': s.description,
-                'created_at': s.created_at.isoformat(),
-                'updated_at': s.updated_at.isoformat(),
-                'is_active': s.is_active
-            }
-            for s in sessions
-        ]
+        sessions = self.db.get_all_sessions(active_only, session_type)
+        return [self._serialize_session(s) for s in sessions]
+
+    def update_session(self, session_id: int, name: str = None, description: str = None, role_key: str = None) -> bool:
+        """更新会话"""
+        return self.db.update_session(session_id, name, description, role_key)
+
+    def _serialize_session(self, session) -> dict:
+        """序列化会话"""
+        return {
+            'id': session.id,
+            'name': session.name,
+            'description': session.description,
+            'type': session.type,
+            'role_key': session.role_key,
+            'created_at': session.created_at.isoformat(),
+            'updated_at': session.updated_at.isoformat(),
+            'is_active': session.is_active
+        }
 
     def delete_session(self, session_id: int) -> bool:
         """删除会话"""

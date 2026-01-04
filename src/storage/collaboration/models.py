@@ -11,12 +11,14 @@ Base = declarative_base()
 
 
 class Session(Base):
-    """协作会话表"""
+    """会话表 (支持个人和协作)"""
     __tablename__ = 'collaboration_sessions'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False, comment='会话名称')
     description = Column(Text, nullable=True, comment='会话描述')
+    type = Column(String(20), default='private', comment='类型: private/collaborative')
+    role_key = Column(String(50), default='default_engineer', comment='关联角色')
     created_at = Column(DateTime, default=datetime.utcnow, comment='创建时间')
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, comment='更新时间')
     is_active = Column(Boolean, default=True, comment='是否活跃')

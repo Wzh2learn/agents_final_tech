@@ -6,8 +6,38 @@
     <title>知识库管理 - 建账规则助手</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin-right: 10px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .top-nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .top-nav .home-btn {
+            font-weight: 600;
+            margin-right: 20px;
+        }
         /* 知识库管理页面样式 */
         .kb-container {
+            margin-top: 50px;
             display: grid;
             grid-template-columns: 250px 1fr;
             height: 100vh;
@@ -427,22 +457,26 @@
     </style>
 </head>
 <body>
+    <nav class="top-nav">
+        <a href="/" class="home-btn">🏠 返回主页</a>
+        <a href="/chat">💬 对话</a>
+    </nav>
     <div class="kb-container">
         <!-- 侧边栏 -->
         <div class="kb-sidebar">
-            <h2>📚 知识库管理</h2>
+            <a href="/" class="home-link" style="text-decoration: none; color: #fff; margin-bottom: 30px; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 20px;">📚</span>
+                <span style="font-weight: 600;">知识库管理</span>
+            </a>
 
             <div class="kb-nav-item active" data-page="overview">
                 <span class="icon">📊</span> 概览
             </div>
             <div class="kb-nav-item" data-page="documents">
-                <span class="icon">📄</span> 文档管理
+                <span class="icon">📄</span> 文档列表
             </div>
             <div class="kb-nav-item" data-page="upload">
                 <span class="icon">📤</span> 上传文档
-            </div>
-            <div class="kb-nav-item" data-page="heatmap">
-                <span class="icon">🔥</span> 知识热力图
             </div>
             <div class="kb-nav-item" data-page="traceability">
                 <span class="icon">🔍</span> 答案溯源
@@ -451,12 +485,9 @@
                 <span class="icon">⚖️</span> 智能对比
             </div>
 
-            <h3>快捷操作</h3>
-            <div class="kb-nav-item" onclick="location.href='/'">
-                <span class="icon">💬</span> 返回聊天
-            </div>
-            <div class="kb-nav-item" onclick="location.href='/collaboration'">
-                <span class="icon">👥</span> 协作会话
+            <h3 style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">快捷操作</h3>
+            <div class="kb-nav-item" onclick="location.href='/chat'">
+                <span class="icon">💬</span> 进入对话
             </div>
         </div>
 
@@ -467,7 +498,7 @@
                 <div class="kb-header">
                     <h1>知识库概览</h1>
                     <button class="btn btn-primary" onclick="switchPage('upload')">
-                        📤 上传文档
+                        📤 上传新文档
                     </button>
                 </div>
 
@@ -476,25 +507,21 @@
                         <div class="icon">📄</div>
                         <div class="label">文档总数</div>
                         <div class="value" id="stat-documents">0</div>
-                        <div class="change positive">+0 本周</div>
                     </div>
                     <div class="stat-card">
                         <div class="icon">📝</div>
                         <div class="label">文本块数量</div>
                         <div class="value" id="stat-chunks">0</div>
-                        <div class="change positive">+0 本周</div>
                     </div>
                     <div class="stat-card">
                         <div class="icon">🔍</div>
                         <div class="label">检索次数</div>
                         <div class="value" id="stat-retrievals">0</div>
-                        <div class="change positive">+0 本周</div>
                     </div>
                     <div class="stat-card">
                         <div class="icon">📊</div>
                         <div class="label">平均准确率</div>
                         <div class="value" id="stat-accuracy">0%</div>
-                        <div class="change positive">+0% 本周</div>
                     </div>
                 </div>
 
@@ -508,25 +535,77 @@
                 </div>
             </div>
 
-            <!-- 文档管理页面 -->
+            <!-- 文档列表页面 -->
             <div class="page" id="page-documents">
                 <div class="kb-header">
-                    <h1>文档管理</h1>
-                    <button class="btn btn-primary" onclick="switchPage('upload')">
-                        📤 上传新文档
-                    </button>
+                    <h1>文档列表</h1>
+                    <div class="header-actions" style="display: flex; gap: 12px;">
+                        <div class="search-box">
+                            <input type="text" id="document-search" placeholder="搜索文件名...">
+                            <span class="icon">🔍</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="switchPage('upload')">
+                            + 上传
+                        </button>
+                    </div>
                 </div>
 
                 <div class="documents-section">
-                    <div class="section-header">
-                        <h2>所有文档</h2>
-                        <div class="search-box">
-                            <input type="text" id="document-search" placeholder="搜索文档...">
-                            <span class="icon">🔍</span>
-                        </div>
-                    </div>
                     <div class="document-list" id="all-documents">
                         <div class="loading-state">加载中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 文档详情页面 (Dify 风格) -->
+            <div class="page" id="page-document-detail">
+                <div class="detail-layout" style="display: flex; height: 100%; gap: 20px;">
+                    <!-- 左侧分段列表 -->
+                    <div class="segment-container" style="flex: 1; display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div class="segment-header" style="padding: 16px 20px; border-bottom: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <button class="btn-back" onclick="switchPage('documents')" style="background: none; border: none; color: #6b7280; cursor: pointer; margin-right: 12px;">←</button>
+                                <span id="detail-doc-name" style="font-weight: 600; color: #111827;">文档名称</span>
+                            </div>
+                            <span id="detail-segment-count" style="font-size: 13px; color: #6b7280;">0 个分段</span>
+                        </div>
+                        <div class="segment-list" id="segment-list" style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                            <!-- 分段项 -->
+                        </div>
+                    </div>
+
+                    <!-- 右侧元数据与配置面板 -->
+                    <div class="config-panel" style="width: 320px; background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 20px; display: flex; flex-direction: column; gap: 24px;">
+                        <div>
+                            <h3 style="font-size: 14px; color: #374151; margin-bottom: 16px; font-weight: 600;">元数据</h3>
+                            <div id="detail-metadata" style="font-size: 13px; color: #6b7280; display: flex; flex-direction: column; gap: 8px;">
+                                <!-- 元数据项 -->
+                            </div>
+                        </div>
+
+                        <div style="border-top: 1px solid #f3f4f6; pt: 20px;">
+                            <h3 style="font-size: 14px; color: #374151; margin-bottom: 16px; font-weight: 600;">检索设置 (RAG)</h3>
+                            <div class="rag-settings" style="display: flex; flex-direction: column; gap: 16px;">
+                                <div class="setting-item">
+                                    <label style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">分段模式</label>
+                                    <select id="setting-split-mode" class="form-select" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
+                                        <option value="recursive">递归字符分割</option>
+                                        <option value="markdown">Markdown 结构分割</option>
+                                        <option value="hierarchical">父子分段 (推荐)</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <label style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">Top K (召回数量)</label>
+                                    <input type="number" id="setting-top-k" value="5" min="1" max="50" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
+                                </div>
+                                <div class="setting-item">
+                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer;">
+                                        <input type="checkbox" id="setting-use-rerank"> 启用 Rerank 重排序
+                                    </label>
+                                </div>
+                                <button class="btn btn-primary" onclick="saveDocSettings()" style="width: 100%; margin-top: 8px;">保存设置</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -537,37 +616,53 @@
                     <h1>上传文档</h1>
                 </div>
 
-                <div class="upload-area" id="uploadArea">
-                    <div class="icon">📤</div>
-                    <h3>拖拽文件到此处或点击上传</h3>
-                    <p>支持格式：.md, .txt, .pdf, .docx, .doc</p>
-                    <p>最大文件大小：10MB</p>
-                    <input type="file" id="fileInput" multiple accept=".md,.txt,.pdf,.docx,.doc">
-                </div>
+                <div style="display: grid; grid-template-columns: 1fr 300px; gap: 24px;">
+                    <div>
+                        <div class="upload-area" id="uploadArea" style="height: 300px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px dashed #e5e7eb; border-radius: 12px; background: #fff;">
+                            <div class="icon" style="font-size: 48px; margin-bottom: 16px;">📤</div>
+                            <h3 style="margin-bottom: 8px;">点击或拖拽文件到此处</h3>
+                            <p style="color: #9ca3af; font-size: 14px;">支持 PDF, DOCX, TXT, MD (最大 10MB)</p>
+                            <input type="file" id="fileInput" multiple accept=".md,.txt,.pdf,.docx,.doc">
+                        </div>
 
-                <div class="documents-section">
-                    <div class="section-header">
-                        <h2>上传队列</h2>
-                        <button class="btn btn-secondary" onclick="clearUploadQueue()">清空队列</button>
-                    </div>
-                    <div class="document-list" id="upload-queue">
-                        <div class="empty-state">
-                            <div class="icon">📭</div>
-                            <p>暂无上传任务</p>
+                        <div class="documents-section" style="margin-top: 24px;">
+                            <div class="section-header">
+                                <h2>上传队列</h2>
+                                <button class="btn btn-secondary" onclick="clearUploadQueue()">清空</button>
+                            </div>
+                            <div class="document-list" id="upload-queue">
+                                <div class="empty-state">
+                                    <div class="icon">📭</div>
+                                    <p>暂无上传任务</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 知识热力图页面 -->
-            <div class="page" id="page-heatmap">
-                <div class="kb-header">
-                    <h1>知识热力图</h1>
-                </div>
-                <div class="documents-section">
-                    <p style="color: #95a5a6;">知识热力图展示知识库中各主题的活跃程度和检索频率</p>
-                    <div id="heatmap-container" style="height: 400px; display: flex; align-items: center; justify-content: center;">
-                        <div class="loading-state">加载中...</div>
+                    <!-- 上传时默认配置 -->
+                    <div class="config-panel" style="background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <h3 style="font-size: 14px; color: #374151; margin-bottom: 16px; font-weight: 600;">默认处理配置</h3>
+                        <div class="rag-settings" style="display: flex; flex-direction: column; gap: 16px;">
+                            <div class="setting-item">
+                                <label style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">分段模式</label>
+                                <select id="default-split-mode" class="form-select" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
+                                    <option value="recursive">递归字符分割</option>
+                                    <option value="markdown">Markdown 结构分割</option>
+                                    <option value="hierarchical" selected>父子分段 (推荐)</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">父块大小 (字符)</label>
+                                <input type="number" id="default-parent-size" value="2000" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
+                            </div>
+                            <div class="setting-item">
+                                <label style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">子块大小 (字符)</label>
+                                <input type="number" id="default-child-size" value="500" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
+                            </div>
+                            <p style="font-size: 12px; color: #9ca3af; line-height: 1.4;">
+                                💡 <b>父子分段</b> 会同时存储用于检索的短片段和用于提供上下文的长片段，显著提升回答质量。
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -578,17 +673,13 @@
                     <h1>答案溯源</h1>
                 </div>
                 <div class="documents-section">
-                    <p style="color: #95a5a6;">查看 AI 回答的溯源信息，了解答案来源于哪些文档</p>
-                    <div style="padding: 20px; background: #f8f9fa; border-radius: 8px; margin-bottom: 20px;">
-                        <h3>查询示例</h3>
-                        <input type="text" id="traceability-query" placeholder="输入查询内容..." style="width: 100%; padding: 10px; border: 2px solid #ecf0f1; border-radius: 8px; margin: 10px 0;">
-                        <button class="btn btn-primary" onclick="performTraceability()">溯源查询</button>
+                    <p style="color: #95a5a6; margin-bottom: 20px;">输入查询问题，查看系统从知识库中检索到的精确片段和原文位置。</p>
+                    <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+                        <input type="text" id="traceability-query" placeholder="例如：建账的触发条件是什么？" style="flex: 1; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
+                        <button class="btn btn-primary" onclick="performTraceability()" style="padding: 0 24px;">开始溯源</button>
                     </div>
                     <div id="traceability-results">
-                        <div class="empty-state">
-                            <div class="icon">🔍</div>
-                            <p>输入查询后点击"溯源查询"按钮</p>
-                        </div>
+                        <!-- 溯源结果 -->
                     </div>
                 </div>
             </div>
@@ -596,31 +687,27 @@
             <!-- 智能对比页面 -->
             <div class="page" id="page-compare">
                 <div class="kb-header">
-                    <h1>智能对比模式</h1>
+                    <h1>检索策略对比</h1>
                 </div>
                 <div class="documents-section">
-                    <p style="color: #95a5a6;">对比不同检索策略的结果，选择最优方案</p>
-                    <div style="padding: 20px; background: #f8f9fa; border-radius: 8px; margin-bottom: 20px;">
-                        <h3>对比查询</h3>
-                        <input type="text" id="compare-query" placeholder="输入查询内容..." style="width: 100%; padding: 10px; border: 2px solid #ecf0f1; border-radius: 8px; margin: 10px 0;">
-                        <div style="margin: 10px 0;">
-                            <label>
+                    <p style="color: #95a5a6; margin-bottom: 20px;">同时运行多种检索策略（向量、BM25、混合检索），横向对比它们的召回效果和评分。</p>
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+                        <input type="text" id="compare-query" placeholder="输入测试问题..." style="width: 100%; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 15px; margin-bottom: 16px;">
+                        <div style="display: flex; gap: 24px; align-items: center;">
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
                                 <input type="checkbox" id="compare-vector" checked> 向量检索
                             </label>
-                            <label style="margin-left: 20px;">
-                                <input type="checkbox" id="compare-bm25" checked> BM25 检索
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
+                                <input type="checkbox" id="compare-bm25" checked> BM25 (关键词)
                             </label>
-                            <label style="margin-left: 20px;">
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
                                 <input type="checkbox" id="compare-hybrid" checked> 混合检索
                             </label>
+                            <button class="btn btn-primary" onclick="performCompare()" style="margin-left: auto;">开始对比测试</button>
                         </div>
-                        <button class="btn btn-primary" onclick="performCompare()">开始对比</button>
                     </div>
                     <div id="compare-results">
-                        <div class="empty-state">
-                            <div class="icon">⚖️</div>
-                            <p>输入查询后点击"开始对比"按钮</p>
-                        </div>
+                        <!-- 对比结果 -->
                     </div>
                 </div>
             </div>
@@ -661,6 +748,8 @@
         </div>
     </div>
 
+    <!-- 配置文件必须在其他脚本之前加载 -->
+    <script src="{{ url_for('static', filename='config.js') }}"></script>
     <script src="{{ url_for('static', filename='knowledge.js') }}"></script>
 </body>
 </html>

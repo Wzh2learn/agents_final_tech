@@ -24,10 +24,29 @@ class CollaborationDB:
         import os
 
         if database_url is None:
-            database_url = os.getenv('PGDATABASE_URL', 'postgresql://user:password@localhost:5432/database')
+            database_url = os.getenv('PGDATABASE_URL')
+            if not database_url or 'localhost' in database_url:
+                # 检查环境变量是否真的可用，如果不可用或连接本地失败，尝试回退到 SQLite
+                try:
+                    import psycopg2
+                    # 仅作为检查，不实际连接
+                except ImportError:
+                    print("[WARNING] psycopg2 not found, falling back to SQLite for sessions")
+                    database_url = 'sqlite:///./sessions.db'
+            
+            if not database_url:
+                database_url = 'sqlite:///./sessions.db'
 
-        # 创建引擎
-        self.engine = create_engine(database_url, pool_pre_ping=True)
+        # 检查是否需要回退到 SQLite (如果 PG 连接失败)
+        try:
+            self.engine = create_engine(database_url, pool_pre_ping=True)
+            # 尝试一个小查询验证连接
+            with self.engine.connect() as conn:
+                pass
+        except Exception as e:
+            print(f"[WARNING] Database connection failed: {e}. Falling back to SQLite.")
+            database_url = 'sqlite:///./sessions.db'
+            self.engine = create_engine(database_url)
         
         # 创建表
         create_tables(self.engine)
@@ -41,11 +60,16 @@ class CollaborationDB:
 
     # ==================== 会话管理 ====================
 
-    def create_session(self, name: str, description: str = None) -> Optional[Session]:
+    def create_session(self, name: str, description: str = None, session_type: str = 'private', role_key: str = 'default_engineer') -> Optional[Session]:
         """创建新会话"""
         with self.get_db_session() as db:
             try:
-                session = Session(name=name, description=description)
+                session = Session(
+                    name=name, 
+                    description=description, 
+                    type=session_type,
+                    role_key=role_key
+                )
                 db.add(session)
                 db.commit()
                 db.refresh(session)
@@ -60,15 +84,17 @@ class CollaborationDB:
         with self.get_db_session() as db:
             return db.query(Session).filter(Session.id == session_id).first()
 
-    def get_all_sessions(self, active_only: bool = True) -> List[Session]:
+    def get_all_sessions(self, active_only: bool = True, session_type: str = None) -> List[Session]:
         """获取所有会话"""
         with self.get_db_session() as db:
             query = db.query(Session)
             if active_only:
                 query = query.filter(Session.is_active == True)
+            if session_type:
+                query = query.filter(Session.type == session_type)
             return query.order_by(Session.updated_at.desc()).all()
 
-    def update_session(self, session_id: int, name: str = None, description: str = None) -> bool:
+    def update_session(self, session_id: int, name: str = None, description: str = None, role_key: str = None) -> bool:
         """更新会话"""
         with self.get_db_session() as db:
             try:
@@ -78,6 +104,8 @@ class CollaborationDB:
                         session.name = name
                     if description is not None:
                         session.description = description
+                    if role_key is not None:
+                        session.role_key = role_key
                     session.updated_at = datetime.utcnow()
                     db.commit()
                     return True
