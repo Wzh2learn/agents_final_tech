@@ -2,6 +2,7 @@
 配置加载器
 统一管理配置文件的加载和访问
 """
+
 import os
 import json
 from typing import Any, Optional, Dict
@@ -10,13 +11,14 @@ from pathlib import Path
 # Try to load environment variables from .env file
 try:
     from dotenv import load_dotenv
+
     # Find project root (3 levels up from src/utils/config_loader.py)
     base_dir = Path(__file__).resolve().parent.parent.parent
     env_path = base_dir / ".env"
     if env_path.exists():
         load_dotenv(dotenv_path=env_path)
     else:
-        load_dotenv() # Fallback to default search
+        load_dotenv()  # Fallback to default search
 except ImportError:
     pass
 
@@ -49,7 +51,7 @@ class AppConfig:
             # 优先尝试相对于 src/utils/config_loader.py 的路径
             base_dir = Path(__file__).resolve().parent.parent.parent
             config_path = base_dir / "config" / "app_config.json"
-            
+
             if not config_path.exists():
                 # 降级尝试环境变量或默认路径
                 workspace_path = os.getenv("WORKSPACE_PATH", "/workspace/projects")
@@ -60,10 +62,10 @@ class AppConfig:
         if not config_file.exists():
             raise FileNotFoundError(f"配置文件不存在: {config_path}")
 
-        with open(config_file, 'r', encoding='utf-8') as f:
+        with open(config_file, "r", encoding="utf-8") as f:
             self._config_data = json.load(f)
 
-        print(f"✓ 配置文件加载成功: {config_path}")
+        print(f"[OK] 配置文件加载成功: {config_path}")
 
     def get(self, key: str, default: Any = None) -> Any:
         """
@@ -71,7 +73,7 @@ class AppConfig:
         支持嵌套key，使用点号分隔
         """
         # 1. 尝试从环境变量获取 (将点号替换为下划线并转大写)
-        env_key = key.replace('.', '_').upper()
+        env_key = key.replace(".", "_").upper()
         env_value = os.getenv(env_key)
         if env_value is not None:
             return env_value
@@ -80,7 +82,7 @@ class AppConfig:
             return default
 
         # 2. 从配置文件获取
-        keys = key.split('.')
+        keys = key.split(".")
         value = self._config_data
 
         for k in keys:
@@ -204,10 +206,10 @@ class AppConfig:
 
         config_file = Path(config_path)
 
-        with open(config_file, 'w', encoding='utf-8') as f:
+        with open(config_file, "w", encoding="utf-8") as f:
             json.dump(self._config_data, f, indent=2, ensure_ascii=False)
 
-        print(f"✓ 配置文件保存成功: {config_path}")
+        print(f"[OK] 配置文件保存成功: {config_path}")
 
     def set(self, key: str, value: Any) -> None:
         """
@@ -223,7 +225,7 @@ class AppConfig:
             >>> config.get("database.port")
             5433
         """
-        keys = key.split('.')
+        keys = key.split(".")
         config = self._config_data
 
         # 导航到目标位置
@@ -361,7 +363,7 @@ if __name__ == "__main__":
     print("\n功能状态:")
     features = config.get_features_config()
     for feature, enabled in features.items():
-        status = "✓ 启用" if enabled else "✗ 禁用"
+        status = "[OK] 启用" if enabled else "[X] 禁用"
         print(f"  {feature}: {status}")
 
     print("\n配置获取测试:")

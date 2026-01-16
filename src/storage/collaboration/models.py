@@ -61,6 +61,16 @@ class SessionMessage(Base):
     participant = relationship("Participant", back_populates="messages")
 
 
+class ThreadSettings(Base):
+    """线程设置表 - 持久化会话角色"""
+    __tablename__ = 'thread_settings'
+
+    thread_id = Column(String(64), primary_key=True, comment='线程ID')
+    role_key = Column(String(32), default='default_engineer', comment='角色键')
+    created_at = Column(DateTime, default=datetime.utcnow, comment='创建时间')
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, comment='更新时间')
+
+
 def create_tables(engine):
     """创建所有表"""
     Base.metadata.create_all(bind=engine)

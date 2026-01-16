@@ -1,14 +1,19 @@
 """
-简单内存缓存工具
-用于缓存频繁访问的数据，减少数据库查询
+缓存工具 - 支持内存缓存和 Redis 分布式缓存
 """
 import time
 import threading
+import json
+import os
 from typing import Any, Optional, Callable
 from functools import wraps
 import logging
 
 logger = logging.getLogger(__name__)
+
+# Redis 配置
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+CACHE_TYPE = os.getenv("CACHE_TYPE", "memory")  # memory 或 redis
 
 
 class SimpleCache:
@@ -101,18 +106,104 @@ class SimpleCache:
         """获取缓存统计信息"""
         with self._lock:
             return {
+                "type": "memory",
                 "total_keys": len(self._cache),
                 "keys": list(self._cache.keys())
             }
 
 
+class RedisCache:
+    """Redis 分布式缓存实现"""
+
+    def __init__(self, redis_url: str = REDIS_URL):
+        self._redis = None
+        self._redis_url = redis_url
+        self._fallback = SimpleCache()
+        self._connect()
+
+    def _connect(self):
+        """连接 Redis"""
+        try:
+            import redis
+            self._redis = redis.from_url(self._redis_url)
+            self._redis.ping()
+            logger.info("Redis 连接成功")
+        except Exception as e:
+            logger.warning(f"Redis 连接失败，降级到内存缓存: {e}")
+            self._redis = None
+
+    def get(self, key: str) -> Optional[Any]:
+        """获取缓存值"""
+        if not self._redis:
+            return self._fallback.get(key)
+        try:
+            value = self._redis.get(key)
+            if value:
+                return json.loads(value)
+            return None
+        except Exception as e:
+            logger.error(f"Redis get 失败: {e}")
+            return self._fallback.get(key)
+
+    def set(self, key: str, value: Any, ttl: int = 300) -> None:
+        """设置缓存值"""
+        if not self._redis:
+            return self._fallback.set(key, value, ttl)
+        try:
+            self._redis.setex(key, ttl, json.dumps(value, default=str))
+        except Exception as e:
+            logger.error(f"Redis set 失败: {e}")
+            self._fallback.set(key, value, ttl)
+
+    def delete(self, key: str) -> bool:
+        """删除缓存"""
+        if not self._redis:
+            return self._fallback.delete(key)
+        try:
+            return bool(self._redis.delete(key))
+        except Exception as e:
+            logger.error(f"Redis delete 失败: {e}")
+            return self._fallback.delete(key)
+
+    def clear(self) -> None:
+        """清空缓存"""
+        if not self._redis:
+            return self._fallback.clear()
+        try:
+            self._redis.flushdb()
+        except Exception as e:
+            logger.error(f"Redis clear 失败: {e}")
+            self._fallback.clear()
+
+    def get_stats(self) -> dict:
+        """获取缓存统计"""
+        if not self._redis:
+            stats = self._fallback.get_stats()
+            stats["type"] = "memory (fallback)"
+            return stats
+        try:
+            info = self._redis.info()
+            return {
+                "type": "redis",
+                "total_keys": self._redis.dbsize(),
+                "used_memory": info.get("used_memory_human", "N/A")
+            }
+        except:
+            return {"type": "redis", "status": "error"}
+
+
 # 全局缓存实例
-_cache_instance = SimpleCache()
+_cache_instance = None
 
 
-def get_cache() -> SimpleCache:
-    """获取缓存实例"""
+def get_cache():
+    """获取缓存实例（根据配置选择类型）"""
     global _cache_instance
+    if _cache_instance is None:
+        if CACHE_TYPE == "redis":
+            _cache_instance = RedisCache()
+        else:
+            _cache_instance = SimpleCache()
     return _cache_instance
 
 
