@@ -1,26 +1,44 @@
-node_modules
-dist
-.DS_Store
-*.swp
-.git/*
-__pycache__/
-*.pyc
-.venv/*
+# Dependencies
+node_modules/
 venv/
+.venv/
+*.egg-info/
+/vendor
+
+# Build outputs
+dist/
 *.o
 *.a
-/vendor
-*.egg-info/
-/.env
+*.pyc
+__pycache__/
+
+# Environment and config
 .env
+/.env
+
+# IDE and editor
+.DS_Store
+*.swp
+.vscode/
+.idea/
+.windsurf/
+.ruff_cache/
+
+# Logs and temp files
 *.log
 logs/
 tmp/
+tmpclaude-*
+
+# Testing
 .pytest_cache/
 .coverage
 htmlcov/
-.windsurf/
 
 # Local database files
+data/*.db
 sessions.db
 *.db
+
+# Coze config (optional)
+.coze
