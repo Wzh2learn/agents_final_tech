@@ -117,8 +117,8 @@ def chat():
             session = svc.get_session(session_id)
             if session and not role:
                 role = session.get('role_key')
-        except:
-            pass
+        except (ValueError, IndexError) as e:
+            logger.warning(f"Failed to parse session_id from {conversation_id}: {e}")
             
     if not role:
         role = thread_roles.get(conversation_id, 'default_engineer')

@@ -3,11 +3,14 @@ import asyncio
 import json
 import traceback
 import logging
+import os
 from typing import Any, Dict, AsyncGenerator, Optional
 import uvicorn
 import time
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 from biz.agent_service import get_agent_service
 from biz.rag_service import get_rag_service
@@ -94,12 +97,34 @@ class GraphService:
         return {"input_schema": {"message": "string"}, "output_schema": {"content": "string"}}
 
 service = GraphService()
-app = FastAPI()
+app = FastAPI(title="JinRongAgents API", version="2.0.0")
+
+# CORS 配置
+# 生产环境应通过环境变量 CORS_ORIGINS 配置允许的源，多个源用逗号分隔
+_cors_origins = os.getenv("CORS_ORIGINS", "*")
+_allowed_origins = [origin.strip() for origin in _cors_origins.split(",")] if _cors_origins != "*" else ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=_allowed_origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allow_headers=["*"],
+)
+
+# 静态文件
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+# 整合路由
+from web.routers import api_router, include_routers
+include_routers()
+app.include_router(api_router)
 
 @app.post("/run")
 async def http_run(request: Request) -> Dict[str, Any]:
     ctx = new_context(method="run", headers=request.headers)
-    run_id = ctx.run_id
     request_context.set(ctx)
     try:
         payload = await request.json()
@@ -112,7 +137,6 @@ async def http_run(request: Request) -> Dict[str, Any]:
 @app.post("/stream_run")
 async def http_stream_run(request: Request):
     ctx = new_context(method="stream_run", headers=request.headers)
-    run_id = ctx.run_id
     request_context.set(ctx)
     try:
         payload = await request.json()

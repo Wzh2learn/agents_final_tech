@@ -88,7 +88,7 @@ class RAGService:
         try:
             q_type_data = json.loads(q_type_json)
             q_type = q_type_data.get("type", "general")
-        except:
+        except json.JSONDecodeError:
             q_type = "general"
         
         # 2. 获取推荐策略
@@ -138,7 +138,7 @@ class RAGService:
                 reranked_docs = json.loads(reranked_res)
                 # 转换格式为一致的字典列表
                 return [{"content": d.get("content", ""), "metadata": d.get("metadata", {}), "relevance_score": d.get("relevance_score", 0.0)} for d in reranked_docs]
-            except:
+            except json.JSONDecodeError:
                 logger.error("Failed to parse rerank results, falling back to original docs")
                 return [{"content": d.page_content, "metadata": d.metadata} for d in docs[:top_k]]
             
