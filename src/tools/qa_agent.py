@@ -3,6 +3,7 @@ QA问答工具：知识检索 → 理解用户问题 → 生成答案
 对应 Dify 工作流：WF_QA_Main
 """
 import json
+import logging
 import os
 import glob
 from typing import List, Optional
@@ -11,6 +12,10 @@ from langchain.tools import tool
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_openai import ChatOpenAI
 from utils.runtime_ctx import Context, default_headers
+
+logger = logging.getLogger(__name__)
+
+
 def _search_knowledge(query: str) -> List[dict]:
     """
     通过 RAGService 检索知识库 (取代原有的本地 glob搜索)
@@ -21,7 +26,7 @@ def _search_knowledge(query: str) -> List[dict]:
         results = rag_service.smart_retrieve(query=query, top_k=3)
         return results
     except Exception as e:
-        print(f"知识检索失败: {e}")
+        logger.warning(f"知识检索失败: {e}")
         return []
 
 

@@ -132,6 +132,52 @@ class DocumentManager:
 
         return documents
 
+    def count_documents(
+        self,
+        db: Session,
+        search: Optional[str] = None,
+        collection_name: str = "knowledge_base"
+    ) -> int:
+        """
+        获取文档总数（用于分页）
+
+        Args:
+            db: 数据库会话
+            search: 搜索关键词
+            collection_name: 集合名称
+
+        Returns:
+            文档总数
+        """
+        # 查询向量集合
+        collection = db.query(LangchainPgCollection).filter(
+            LangchainPgCollection.name == collection_name
+        ).first()
+
+        if not collection:
+            return 0
+
+        # 使用 DISTINCT 统计不同的 source 数量
+        if search:
+            # 使用子查询获取所有匹配的 source
+            from sqlalchemy import distinct
+
+            # 先获取所有唯一的 source，再在 Python 中过滤
+            sources = db.query(distinct(LangchainPgEmbedding.cmetadata['source'].astext)).filter(
+                LangchainPgEmbedding.collection_id == collection.uuid
+            ).all()
+
+            search_lower = search.lower()
+            count = sum(1 for (source,) in sources if source and search_lower in source.lower())
+            return count
+        else:
+            # 统计不同的 source 数量
+            from sqlalchemy import distinct
+            count = db.query(func.count(distinct(LangchainPgEmbedding.cmetadata['source'].astext))).filter(
+                LangchainPgEmbedding.collection_id == collection.uuid
+            ).scalar()
+            return count or 0
+
     def get_document_by_name(
         self,
         db: Session,
@@ -319,10 +365,13 @@ class DocumentManager:
         if not collection:
             return []
 
+        # 转义 SQL LIKE 特殊字符，避免用户输入的 % 和 _ 被当作通配符
+        escaped_query = query.replace('\\', '\\\\').replace('%', r'\%').replace('_', r'\_')
+
         # 搜索文档内容
         results = db.query(LangchainPgEmbedding).filter(
             LangchainPgEmbedding.collection_id == collection.uuid,
-            LangchainPgEmbedding.document.ilike(f'%{query}%')
+            LangchainPgEmbedding.document.ilike(f'%{escaped_query}%', escape='\\')
         ).order_by(LangchainPgEmbedding.id).offset(skip).limit(limit).all()
 
         # 转换为字典列表

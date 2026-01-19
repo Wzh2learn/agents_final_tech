@@ -41,6 +41,7 @@ def build_document_hierarchy(
         root_children: List[Dict[str, Any]] = []
 
         def prettify_text(text: str) -> str:
+            """清理和格式化文本内容"""
             if not text:
                 return ""
             clean = text.replace("\u3000", " ")
@@ -54,6 +55,7 @@ def build_document_hierarchy(
             return clean.strip()
 
         def parse_parent_order(parent_value: Any) -> int:
+            """解析父块顺序号"""
             if isinstance(parent_value, int):
                 return parent_value
             if isinstance(parent_value, str) and parent_value.startswith("parent_"):
@@ -64,6 +66,7 @@ def build_document_hierarchy(
             return 0
 
         def parse_child_order(child_value: Any, chunk_value: Any) -> int:
+            """解析子块顺序号"""
             if isinstance(child_value, int):
                 return child_value
             if isinstance(chunk_value, str) and "_" in chunk_value:
@@ -74,6 +77,7 @@ def build_document_hierarchy(
             return 0
 
         def build_display_title(prefix: str, major: int, minor: Optional[int]) -> str:
+            """构建显示标题"""
             if minor is None:
                 return f"{prefix} {major + 1}"
             return f"{prefix} {major + 1}.{minor + 1}"
