@@ -52,6 +52,7 @@ def _windowed_messages(old, new):
 
 class AgentState(MessagesState):
     messages: Annotated[list[AnyMessage], _windowed_messages]
+    remaining_steps: int = 25
 
 
 def build_agent(ctx=None):

@@ -61,6 +61,26 @@ class RAGService:
                     chunks.append(clean_c)
                     chunks_metadata_list.append({})
         
+        # 2.5 过滤空块，避免 embedding API 报参数错误
+        filtered_chunks = []
+        filtered_metadata = []
+        max_embed_chars = int(os.getenv("EMBED_MAX_CHARS", "4000"))
+        for chunk, meta in zip(chunks, chunks_metadata_list):
+            if chunk is None:
+                continue
+            text = str(chunk).replace("\x00", "").strip()
+            if not text:
+                continue
+            if max_embed_chars > 0 and len(text) > max_embed_chars:
+                text = text[:max_embed_chars]
+            filtered_chunks.append(text)
+            filtered_metadata.append(meta)
+        chunks = filtered_chunks
+        chunks_metadata_list = filtered_metadata
+
+        if not chunks:
+            raise ValueError("文档解析后没有有效文本块，请检查文件内容")
+
         # 3. 持久化原始文件 (ACL)
         with open(file_path, "rb") as f:
             object_key = self.provider.ingest_document(f.read(), os.path.basename(file_path), metadata or {})
@@ -124,22 +144,21 @@ class RAGService:
 
         # 4. Rerank
         if use_rerank and docs:
-            rerank_input = json.dumps([
-                {"content": d.page_content, "id": str(i), "metadata": d.metadata} 
-                for i, d in enumerate(docs)
-            ])
-            reranked_res = rerank_documents.invoke({
-                "query": query,
-                "documents": rerank_input,
-                "top_n": top_k
-            })
-            
             try:
+                rerank_input = json.dumps([
+                    {"content": d.page_content, "id": str(i), "metadata": d.metadata} 
+                    for i, d in enumerate(docs)
+                ])
+                reranked_res = rerank_documents.invoke({
+                    "query": query,
+                    "documents": rerank_input,
+                    "top_n": top_k
+                })
                 reranked_docs = json.loads(reranked_res)
                 # 转换格式为一致的字典列表
                 return [{"content": d.get("content", ""), "metadata": d.get("metadata", {}), "relevance_score": d.get("relevance_score", 0.0)} for d in reranked_docs]
-            except json.JSONDecodeError:
-                logger.error("Failed to parse rerank results, falling back to original docs")
+            except Exception as e:
+                logger.error(f"Rerank failed, fallback to original docs: {e}")
                 return [{"content": d.page_content, "metadata": d.metadata} for d in docs[:top_k]]
             
         return [{"content": d.page_content, "metadata": d.metadata} for d in docs[:top_k]]
@@ -172,7 +191,10 @@ class RAGService:
             if isinstance(data, list):
                 docs_data = data
             elif isinstance(data, dict):
-                docs_data = data.get("documents", data.get("results", data.get("final_results", [])))
+                if data.get("final_results"):
+                    docs_data = data.get("final_results", [])
+                else:
+                    docs_data = data.get("results", data.get("documents", []))
             else:
                 return []
 
@@ -211,12 +233,14 @@ class RAGService:
 
     def get_traceability(self, query: str) -> List[Dict[str, Any]]:
         """获取答案溯源信息（增强版：包含精确位置和引用片段）"""
-        results = self.smart_retrieve(query, top_k=5)
+        from tools.vector_store import get_vector_store
+        vector_store = get_vector_store(collection_name=self.collection_name)
+        vector_results = vector_store.similarity_search_with_score(query, k=5)
         trace_results = []
-        for i, item in enumerate(results):
-            metadata = item.get("metadata", {})
-            content = item.get("content", "")
-            raw_score = metadata.get("relevance_score") or metadata.get("vector_score") or metadata.get("score") or 0.0
+        for i, (doc, score) in enumerate(vector_results):
+            metadata = doc.metadata or {}
+            content = doc.page_content or ""
+            raw_score = float(score)
             
             # 提取位置信息
             location = self._extract_location(metadata, content)
@@ -233,7 +257,7 @@ class RAGService:
                 "location": location,
                 "quote": quote,
                 "context": context,
-                "score": item.get("relevance_score", item.get("vector_score", raw_score)),
+                "score": raw_score,
                 "raw_score": raw_score,
                 "chunk_index": i,
                 "metadata": metadata
@@ -294,6 +318,8 @@ class RAGService:
             normalized = []
             for d in docs:
                 sc = d.metadata.get("score") if hasattr(d, "metadata") and d.metadata else 0.0
+                if sc is None:
+                    sc = 0.0
                 scores.append(sc)
                 normalized.append({"content": d.page_content, "metadata": d.metadata, "score": sc})
             avg = sum(scores) / len(scores) if scores else 0.0
@@ -311,6 +337,8 @@ class RAGService:
             normalized = []
             for d in docs:
                 sc = d.metadata.get("score") if hasattr(d, "metadata") and d.metadata else 0.0
+                if sc is None:
+                    sc = 0.0
                 scores.append(sc)
                 normalized.append({"content": d.page_content, "metadata": d.metadata, "score": sc})
             avg = sum(scores) / len(scores) if scores else 0.0

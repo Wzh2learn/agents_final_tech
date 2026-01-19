@@ -12,18 +12,92 @@ from storage.s3.s3_storage import S3SyncStorage
 logger = logging.getLogger(__name__)
 
 
+class LocalSyncStorage:
+    """本地文件系统存储（替代 S3，用于开发/单机环境）"""
+
+    def __init__(self, root_dir: str):
+        self.root_dir = root_dir
+        os.makedirs(self.root_dir, exist_ok=True)
+
+    def _resolve_path(self, file_key: str) -> str:
+        """解析文件路径，确保路径在 root_dir 内（防止路径遍历攻击）"""
+        # 清理路径分隔符
+        safe_key = file_key.strip("/").replace("\\", "/")
+        # 构建并规范化完整路径
+        full_path = os.path.normpath(os.path.join(self.root_dir, safe_key))
+        # 确保路径在 root_dir 内，防止 "../../etc/passwd" 等路径遍历攻击
+        abs_root = os.path.abspath(self.root_dir)
+        if not full_path.startswith(abs_root):
+            raise ValueError(f"Invalid file key: path traversal detected")
+        return full_path
+
+    def upload_file(self, *, file_content: bytes, file_name: str, content_type: Optional[str] = None) -> str:
+        file_path = self._resolve_path(file_name)
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, "wb") as f:
+            f.write(file_content)
+        return file_name
+
+    def stream_upload_file(self, *, fileobj, file_name: str, content_type: Optional[str] = None) -> str:
+        file_path = self._resolve_path(file_name)
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, "wb") as f:
+            f.write(fileobj.read())
+        return file_name
+
+    def read_file(self, *, file_key: str) -> bytes:
+        file_path = self._resolve_path(file_key)
+        with open(file_path, "rb") as f:
+            return f.read()
+
+    def delete_file(self, *, file_key: str) -> bool:
+        file_path = self._resolve_path(file_key)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            return True
+        return False
+
+    def generate_presigned_url(self, *, key: str, expire_time: int = 3600) -> str:
+        file_path = self._resolve_path(key)
+        return f"file://{os.path.abspath(file_path)}"
+
+    def file_exists(self, *, file_key: str) -> bool:
+        return os.path.exists(self._resolve_path(file_key))
+
+    def list_files(self, *, prefix: str = "", max_keys: int = 100):
+        base_dir = self._resolve_path(prefix)
+        if not os.path.exists(base_dir):
+            return {"keys": [], "is_truncated": False, "next_continuation_token": None}
+        keys = []
+        for root, _, files in os.walk(base_dir):
+            for name in files:
+                full_path = os.path.join(root, name)
+                rel_path = os.path.relpath(full_path, self.root_dir).replace("\\", "/")
+                keys.append(rel_path)
+                if len(keys) >= max_keys:
+                    return {"keys": keys, "is_truncated": True, "next_continuation_token": None}
+        return {"keys": keys, "is_truncated": False, "next_continuation_token": None}
+
+
 class DocumentStorage:
     """文档存储服务，封装S3对象存储"""
 
     def __init__(self):
         """初始化对象存储客户端"""
-        self.storage = S3SyncStorage(
-            endpoint_url=os.getenv("BUCKET_ENDPOINT_URL"),
-            access_key="",
-            secret_key="",
-            bucket_name=os.getenv("BUCKET_NAME"),
-            region="cn-beijing",
-        )
+        endpoint_url = os.getenv("BUCKET_ENDPOINT_URL")
+        use_local = os.getenv("STORAGE_BACKEND", "").lower() == "local" or not endpoint_url
+        if use_local:
+            root_dir = os.getenv("BUCKET_LOCAL_ROOT", os.path.join("data", "local_bucket"))
+            logger.warning("BUCKET_ENDPOINT_URL 未配置，使用本地存储目录: %s", root_dir)
+            self.storage = LocalSyncStorage(root_dir=root_dir)
+        else:
+            self.storage = S3SyncStorage(
+                endpoint_url=endpoint_url,
+                access_key=os.getenv("BUCKET_ACCESS_KEY", ""),
+                secret_key=os.getenv("BUCKET_SECRET_KEY", ""),
+                bucket_name=os.getenv("BUCKET_NAME", ""),
+                region=os.getenv("BUCKET_REGION", "cn-beijing"),
+            )
         self.prefix = "documents/"  # 文档存储前缀
 
     def upload_document(

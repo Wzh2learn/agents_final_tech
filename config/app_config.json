@@ -57,6 +57,9 @@
   },
   "rag": {
     "enabled": true,
+    "default_method": "hybrid",
+    "force_method": true,
+    "force_rerank": true,
     "default_top_k": 5,
     "default_top_n": 5,
     "use_rerank_by_default": false,

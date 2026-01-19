@@ -187,7 +187,7 @@ class DocumentManager:
         # 删除指定文档的所有块
         deleted_count = db.query(LangchainPgEmbedding).filter(
             LangchainPgEmbedding.collection_id == collection.uuid,
-            LangchainPgEmbedding.cmetadata['source'] == document_name
+            LangchainPgEmbedding.cmetadata['source'].astext == document_name
         ).delete(synchronize_session='fetch')
 
         db.commit()
@@ -226,7 +226,7 @@ class DocumentManager:
         # 查询文档块
         chunks = db.query(LangchainPgEmbedding).filter(
             LangchainPgEmbedding.collection_id == collection.uuid,
-            LangchainPgEmbedding.cmetadata['source'] == document_name
+            LangchainPgEmbedding.cmetadata['source'].astext == document_name
         ).order_by(LangchainPgEmbedding.id).offset(skip).limit(limit).all()
 
         # 转换为字典列表

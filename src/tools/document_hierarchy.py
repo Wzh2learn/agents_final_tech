@@ -27,81 +27,123 @@ def build_document_hierarchy(
         JSON 格式的分层结构
     """
     try:
-        # 模拟文档分层结构
-        # 实际应该从向量数据库中检索该文档的所有chunk并构建结构
+        from storage.database.db import get_session
+        from storage.database.document_manager import DocumentManager
 
+        manager = DocumentManager()
+        db = get_session()
+        try:
+            chunks = manager.get_document_chunks(db, document_id, collection_name=collection_name, skip=0, limit=10000)
+        finally:
+            db.close()
+
+        parent_nodes: Dict[str, Dict[str, Any]] = {}
+        root_children: List[Dict[str, Any]] = []
+
+        def prettify_text(text: str) -> str:
+            if not text:
+                return ""
+            clean = text.replace("\u3000", " ")
+            clean = re.sub(r"[ \t]+", " ", clean)
+            clean = re.sub(r"(\d+)\s*\.\s*", r"\1. ", clean)
+            clean = re.sub(r"\s*\n\s*", "\n", clean)
+            clean = clean.replace(" · ", " | ")
+            clean = re.sub(r"(?<!\n)(\d+\.)", r"\n\1", clean)
+            clean = re.sub(r"(?<!\n)(Phase\s*\d+)", r"\n\1", clean, flags=re.IGNORECASE)
+            clean = re.sub(r"\n{2,}", "\n", clean)
+            return clean.strip()
+
+        def parse_parent_order(parent_value: Any) -> int:
+            if isinstance(parent_value, int):
+                return parent_value
+            if isinstance(parent_value, str) and parent_value.startswith("parent_"):
+                try:
+                    return int(parent_value.split("_", 1)[1])
+                except (ValueError, IndexError):
+                    return 0
+            return 0
+
+        def parse_child_order(child_value: Any, chunk_value: Any) -> int:
+            if isinstance(child_value, int):
+                return child_value
+            if isinstance(chunk_value, str) and "_" in chunk_value:
+                try:
+                    return int(chunk_value.split("_", 1)[1])
+                except (ValueError, IndexError):
+                    return 0
+            return 0
+
+        def build_display_title(prefix: str, major: int, minor: Optional[int]) -> str:
+            if minor is None:
+                return f"{prefix} {major + 1}"
+            return f"{prefix} {major + 1}.{minor + 1}"
+
+        for chunk in chunks:
+            content = prettify_text(chunk.get("content") or "")
+            meta = chunk.get("metadata") or {}
+            is_parent = bool(meta.get("is_parent"))
+            parent_id = meta.get("parent_id")
+            child_index = meta.get("child_index")
+            chunk_index = meta.get("chunk_index")
+            parent_order = parse_parent_order(parent_id or chunk_index)
+            child_order = parse_child_order(child_index, chunk_index)
+
+            display_title = build_display_title(
+                "父块" if is_parent else "子块",
+                parent_order,
+                None if is_parent else child_order
+            )
+
+            summary_lines = content.split("\n")[:4]
+            summary_text = "\n".join(summary_lines)
+            if len(summary_text) > 220:
+                summary_text = summary_text[:220] + "..."
+
+            node = {
+                "title": display_title,
+                "display_title": display_title,
+                "content": content,
+                "summary": summary_text,
+                "metadata": meta,
+                "children": [],
+                "order_key": (parent_order, child_order if not is_parent else -1)
+            }
+
+            if is_parent or not parent_id:
+                node_id = parent_id or f"parent_{chunk_index}"
+                parent_nodes[node_id] = node
+                root_children.append(node)
+            else:
+                parent_node = parent_nodes.get(parent_id)
+                if not parent_node:
+                    parent_node = {
+                        "title": f"父块 {parent_id}",
+                        "content": "",
+                        "summary": "",
+                        "metadata": {"parent_id": parent_id, "is_parent": True},
+                        "children": []
+                    }
+                    parent_nodes[parent_id] = parent_node
+                    root_children.append(parent_node)
+                parent_node["children"].append(node)
+
+        for parent in root_children:
+            parent["children"].sort(key=lambda c: c.get("order_key", (0, 0)))
+        root_children.sort(key=lambda n: n.get("order_key", (0, 0)))
+
+        first_meta = chunks[0].get("metadata") if chunks else {}
         result = {
             "document_id": document_id,
-            "title": "建账规则指南",
-            "structure": {
-                "level_1": {
-                    "title": "概述",
-                    "level": 1,
-                    "children": [
-                        {
-                            "level": 2,
-                            "title": "什么是建账规则",
-                            "children": [
-                                {
-                                    "level": 3,
-                                    "title": "定义",
-                                    "chunks": [0, 1]
-                                },
-                                {
-                                    "level": 3,
-                                    "title": "重要性",
-                                    "chunks": [2, 3]
-                                }
-                            ]
-                        },
-                        {
-                            "level": 2,
-                            "title": "应用场景",
-                            "chunks": [4, 5, 6]
-                        }
-                    ]
-                },
-                "level_2": {
-                    "title": "核心规则",
-                    "level": 1,
-                    "children": [
-                        {
-                            "level": 2,
-                            "title": "科目设置规则",
-                            "children": [
-                                {
-                                    "level": 3,
-                                    "title": "科目分类",
-                                    "chunks": [7, 8]
-                                },
-                                {
-                                    "level": 3,
-                                    "title": "科目编码",
-                                    "chunks": [9, 10, 11]
-                                }
-                            ]
-                        },
-                        {
-                            "level": 2,
-                            "title": "凭证处理规则",
-                            "children": [
-                                {
-                                    "level": 3,
-                                    "title": "凭证类型",
-                                    "chunks": [12, 13]
-                                },
-                                {
-                                    "level": 3,
-                                    "title": "凭证审批",
-                                    "chunks": [14, 15, 16]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            "total_chunks": 17,
-            "max_level": 3
+            "title": document_id,
+            "children": root_children,
+            "metadata": {
+                "total_chunks": len(chunks),
+                "collection_name": collection_name,
+                "content_type": first_meta.get("content_type"),
+                "object_key": first_meta.get("object_key"),
+                "original_name": first_meta.get("original_name"),
+                "source": first_meta.get("source")
+            }
         }
 
         return json.dumps(result, ensure_ascii=False, indent=2)

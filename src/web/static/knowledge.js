@@ -260,6 +260,7 @@ function renderDocuments(documents, containerId) {
             </div>
             <div class="document-actions" onclick="event.stopPropagation()">
                 <button class="action-icon download" onclick="downloadDocument('${doc.id}')" title="下载" style="background: none; border: none; cursor: pointer; padding: 8px;">📥</button>
+                <button class="action-icon download" onclick="exportDocumentDocx('${doc.id}')" title="导出 DOCX" style="background: none; border: none; cursor: pointer; padding: 8px;">📝</button>
                 <button class="action-icon delete" onclick="showDeleteModal('${doc.id}', '${doc.name}')" title="删除" style="background: none; border: none; cursor: pointer; padding: 8px;">🗑️</button>
             </div>
         </div>
@@ -308,6 +309,11 @@ function renderSegments(node, level = 0) {
     if (level === 0) listEl.innerHTML = '';
     
     if (!node) return;
+
+    if (level === 0 && node.children && node.children.length > 0) {
+        node.children.forEach(child => renderSegments(child, level));
+        return;
+    }
     
     const segmentItem = document.createElement('div');
     segmentItem.className = 'segment-item';
@@ -324,7 +330,7 @@ function renderSegments(node, level = 0) {
         <div style="font-weight: 600; color: #374151; margin-bottom: 8px; font-size: 14px;">
             ${node.title || '未命名分段'}
         </div>
-        <div style="font-size: 13px; color: #4b5563; line-height: 1.6;">
+        <div style="font-size: 13px; color: #4b5563; line-height: 1.6; white-space: pre-line;">
             ${node.summary || (node.content ? node.content.substring(0, 200) + '...' : '无内容')}
         </div>
     `;
@@ -451,13 +457,13 @@ async function performTraceability() {
         });
 
         if (result.status === 'success') {
-            renderTraceabilityResults(result.results);
+            renderTraceabilityResults(result.results || []);
         } else {
             resultsContainer.innerHTML = `<div class="error-state">检索失败: ${result.message}</div>`;
         }
     } catch (error) {
         console.error('溯源查询失败:', error);
-        resultsContainer.innerHTML = '<div class="error-state">检索失败</div>';
+        renderTraceabilityResults([]);
     }
 }
 
@@ -628,4 +634,8 @@ function setupEventListeners() {
 
 function downloadDocument(docId) {
     window.open(`/api/knowledge/documents/${docId}/download`, '_blank');
+}
+
+function exportDocumentDocx(docId) {
+    window.open(`/api/knowledge/documents/${docId}/export-docx`, '_blank');
 }

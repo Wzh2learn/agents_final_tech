@@ -395,8 +395,9 @@ const WS_RECONNECT_BASE_DELAY = 2000; // 毫秒
  * @param {string} nickname - 用户昵称
  */
 function connectWebSocket(sessionId, nickname) {
-    const wsUrl = `ws://${window.location.host.split(':')[0]}:5001`;
-    
+    // 使用配置文件中的 WebSocket URL
+    const wsUrl = typeof APP_CONFIG !== 'undefined' ? APP_CONFIG.getWebSocketUrl() : `ws://${window.location.hostname}:5001`;
+
     try {
         ws = new WebSocket(wsUrl);
 
@@ -652,22 +653,58 @@ async function sendMessage() {
         
         // 个人会话处理流式响应，协作会话由 WS 广播结果
         if (currentSessionType === 'private') {
+            if (!response.body || !response.body.getReader) {
+                const text = await response.text();
+                if (currentAiMessage) {
+                    currentAiMessage.innerHTML = parseMarkdown(text);
+                }
+                return;
+            }
+
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             let fullText = '';
-            
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                
-                const chunk = decoder.decode(value);
-                const lines = chunk.split('\n');
-                
-                for (const line of lines) {
-                    if (line.startsWith('data: ')) {
-                        const data = JSON.parse(line.slice(6));
-                        if (data.done) break;
-                        
+            let streamDone = false;  // 标志变量：是否收到 done 信号
+            let buffer = '';  // 缓冲区：处理跨块的不完整行
+
+            while (!streamDone) {
+                try {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    // 解码并拼接到缓冲区
+                    buffer += decoder.decode(value, { stream: true });
+                    const lines = buffer.split('\n');
+
+                    // 最后一行可能不完整，保留在缓冲区
+                    buffer = lines.pop() || '';
+
+                    for (const line of lines) {
+                        const trimmedLine = line.trim();
+                        if (!trimmedLine.startsWith('data: ')) {
+                            continue;
+                        }
+
+                        const payload = trimmedLine.slice(6).trim();
+                        if (!payload) {
+                            continue;
+                        }
+
+                        let data;
+                        try {
+                            data = JSON.parse(payload.replace(/\r$/, ''));
+                        } catch (e) {
+                            // JSON 解析失败，跳过此行
+                            continue;
+                        }
+
+                        // 检查 done 信号
+                        if (data.done) {
+                            streamDone = true;
+                            break;
+                        }
+
+                        // 处理内容
                         const contentChunk = typeof data.content === 'object' ? data.content.content : data.content;
                         if (contentChunk) {
                             fullText += contentChunk;
@@ -677,6 +714,9 @@ async function sendMessage() {
                             scrollToBottom();
                         }
                     }
+                } catch (readError) {
+                    console.error('[SSE] 读取流错误:', readError);
+                    break;
                 }
             }
         } else {
@@ -694,7 +734,12 @@ async function sendMessage() {
     } catch (error) {
         console.error('对话失败:', error);
         if (currentAiMessage) {
-            currentAiMessage.innerHTML = `<span style="color: #ef4444;">❌ 发送失败: ${error.message}</span>`;
+            // 使用 textContent 避免 XSS 风险
+            const errorSpan = document.createElement('span');
+            errorSpan.style.color = '#ef4444';
+            errorSpan.textContent = `❌ 发送失败: ${error.message}`;
+            currentAiMessage.innerHTML = '';
+            currentAiMessage.appendChild(errorSpan);
         }
     } finally {
         isGenerating = false;

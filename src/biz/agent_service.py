@@ -7,7 +7,7 @@ import json
 import os
 from typing import Any, Dict, List, Optional, AsyncGenerator
 from agents.agent import build_agent
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, ToolMessage
 from langgraph.types import RunnableConfig
 from storage.memory.memory_saver import get_memory_saver
 
@@ -38,6 +38,16 @@ class AgentService:
             self._agent = build_agent()
         return self._agent
 
+    async def _get_checkpoint(self, checkpointer, config):
+        """获取 checkpoint 状态，支持同步和异步 checkpointer"""
+        try:
+            if hasattr(checkpointer, "aget"):
+                return await checkpointer.aget(config)
+            return checkpointer.get(config)
+        except Exception as e:
+            logger.warning(f"Failed to get checkpoint: {e}")
+            return None
+
     async def chat(self, message: str, conversation_id: str, role: str = "default") -> Dict[str, Any]:
         """同步对话接口，返回内容与追踪信息"""
         config = RunnableConfig(
@@ -47,12 +57,11 @@ class AgentService:
             }
         )
         agent = self.get_agent()
-        
+
         # 从历史中获取已有消息，如果第一次对话则注入 system prompt
-        from storage.memory.memory_saver import get_memory_saver
         checkpointer = get_memory_saver()
-        state = checkpointer.get(config)
-        
+        state = await self._get_checkpoint(checkpointer, config)
+
         # 只在首次对话时添加 SystemMessage
         if state is None or not state.get("values", {}).get("messages"):
             messages = [
@@ -61,9 +70,9 @@ class AgentService:
             ]
         else:
             messages = [HumanMessage(content=message)]
-            
+
         result = await agent.ainvoke({"messages": messages}, config=config)
-        
+
         # 提取最后一条 AI 消息内容
         content = ""
         trace = []
@@ -72,11 +81,8 @@ class AgentService:
             for msg in messages:
                 if isinstance(msg, AIMessage):
                     content = msg.content
-                elif hasattr(msg, 'tool_outputs'): # 假设有某种方式获取工具输出
-                    pass 
-            
+
             # 搜索所有工具消息以获取检索结果
-            from langchain_core.messages import ToolMessage
             for msg in reversed(messages):
                 if isinstance(msg, ToolMessage):
                     try:
@@ -85,7 +91,8 @@ class AgentService:
                         if isinstance(output, list) and len(output) > 0 and 'content' in output[0]:
                             trace = output
                             break
-                    except:
+                    except (json.JSONDecodeError, TypeError) as e:
+                        logger.debug(f"Failed to parse tool output: {e}")
                         continue
 
         return {"content": content, "trace": trace}
@@ -99,12 +106,11 @@ class AgentService:
             }
         )
         agent = self.get_agent()
-        
+
         # 从历史中获取已有消息，如果第一次对话则注入 system prompt
-        from storage.memory.memory_saver import get_memory_saver
         checkpointer = get_memory_saver()
-        state = checkpointer.get(config)
-        
+        state = await self._get_checkpoint(checkpointer, config)
+
         # 只在首次对话时添加 SystemMessage
         if state is None or not state.get("values", {}).get("messages"):
             messages = [
@@ -113,7 +119,7 @@ class AgentService:
             ]
         else:
             messages = [HumanMessage(content=message)]
-        
+
         async for chunk in agent.astream({"messages": messages}, config=config):
             if "messages" in chunk:
                 for msg in chunk["messages"]:
@@ -123,17 +129,17 @@ class AgentService:
                 for msg in chunk["agent"]["messages"]:
                     if isinstance(msg, AIMessage) and msg.content:
                         yield {"type": "content", "content": msg.content}
-            
+
             # 捕获工具输出作为 trace
             if "tools" in chunk and "messages" in chunk["tools"]:
-                from langchain_core.messages import ToolMessage
                 for msg in chunk["tools"]["messages"]:
                     if isinstance(msg, ToolMessage):
                         try:
                             output = json.loads(msg.content)
                             if isinstance(output, list) and len(output) > 0 and 'content' in output[0]:
                                 yield {"type": "trace", "content": output}
-                        except:
+                        except (json.JSONDecodeError, TypeError) as e:
+                            logger.debug(f"Failed to parse tool output in stream: {e}")
                             continue
 
 _agent_service = None

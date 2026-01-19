@@ -125,8 +125,15 @@ def load_document(file_path: str) -> str:
         try:
             from docx import Document
             doc = Document(file_path)
-            content = "\n\n".join([para.text for para in doc.paragraphs if para.text.strip()])
-            return content
+            paragraphs = [para.text.strip() for para in doc.paragraphs if para.text.strip()]
+            table_texts = []
+            for table in doc.tables:
+                for row in table.rows:
+                    cells = [cell.text.strip() for cell in row.cells if cell.text.strip()]
+                    if cells:
+                        table_texts.append(" | ".join(cells))
+            content_parts = paragraphs + table_texts
+            return "\n\n".join(content_parts)
         except Exception as e:
             raise ValueError(f"加载 Word 文件失败: {str(e)}")
 

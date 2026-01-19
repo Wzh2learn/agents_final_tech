@@ -2,13 +2,17 @@
 协作会话数据库管理
 提供会话、参与者、消息的CRUD操作
 """
+import logging
+from contextlib import contextmanager
 from datetime import datetime
 from typing import Optional, List
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session as SQLAlchemySession, joinedload
 from sqlalchemy.exc import IntegrityError
 
-from .models import Base, Session, Participant, SessionMessage, create_tables
+from .models import Base, Session as SessionModel, Participant, SessionMessage, create_tables
+
+logger = logging.getLogger(__name__)
 
 
 class CollaborationDB:
@@ -31,9 +35,9 @@ class CollaborationDB:
                     import psycopg2
                     # 仅作为检查，不实际连接
                 except ImportError:
-                    print("[WARNING] psycopg2 not found, falling back to SQLite for sessions")
+                    logger.warning("psycopg2 not found, falling back to SQLite for sessions")
                     database_url = 'sqlite:///./sessions.db'
-            
+
             if not database_url:
                 database_url = 'sqlite:///./sessions.db'
 
@@ -44,29 +48,34 @@ class CollaborationDB:
             with self.engine.connect() as conn:
                 pass
         except Exception as e:
-            print(f"[WARNING] Database connection failed: {e}. Falling back to SQLite.")
+            logger.warning(f"Database connection failed: {e}. Falling back to SQLite.")
             database_url = 'sqlite:///./sessions.db'
             self.engine = create_engine(database_url)
-        
+
         # 创建表
         create_tables(self.engine)
-        
+
         # 创建会话工厂
         self.SessionLocal = sessionmaker(bind=self.engine)
 
-    def get_db_session(self) -> Session:
-        """获取数据库会话（SQLAlchemy）"""
-        return self.SessionLocal()
+    @contextmanager
+    def get_db_session(self):
+        """获取数据库会话（上下文管理器）"""
+        db = self.SessionLocal()
+        try:
+            yield db
+        finally:
+            db.close()
 
     # ==================== 会话管理 ====================
 
-    def create_session(self, name: str, description: str = None, session_type: str = 'private', role_key: str = 'default_engineer') -> Optional[Session]:
+    def create_session(self, name: str, description: str = None, session_type: str = 'private', role_key: str = 'default_engineer') -> Optional[SessionModel]:
         """创建新会话"""
         with self.get_db_session() as db:
             try:
-                session = Session(
-                    name=name, 
-                    description=description, 
+                session = SessionModel(
+                    name=name,
+                    description=description,
                     type=session_type,
                     role_key=role_key
                 )
@@ -76,29 +85,29 @@ class CollaborationDB:
                 return session
             except Exception as e:
                 db.rollback()
-                print(f"创建会话失败: {e}")
+                logger.error(f"创建会话失败: {e}")
                 return None
 
-    def get_session(self, session_id: int) -> Optional[Session]:
+    def get_session(self, session_id: int) -> Optional[SessionModel]:
         """获取会话"""
         with self.get_db_session() as db:
-            return db.query(Session).filter(Session.id == session_id).first()
+            return db.query(SessionModel).filter(SessionModel.id == session_id).first()
 
-    def get_all_sessions(self, active_only: bool = True, session_type: str = None) -> List[Session]:
+    def get_all_sessions(self, active_only: bool = True, session_type: str = None) -> List[SessionModel]:
         """获取所有会话"""
         with self.get_db_session() as db:
-            query = db.query(Session)
+            query = db.query(SessionModel)
             if active_only:
-                query = query.filter(Session.is_active == True)
+                query = query.filter(SessionModel.is_active == True)
             if session_type:
-                query = query.filter(Session.type == session_type)
-            return query.order_by(Session.updated_at.desc()).all()
+                query = query.filter(SessionModel.type == session_type)
+            return query.order_by(SessionModel.updated_at.desc()).all()
 
     def update_session(self, session_id: int, name: str = None, description: str = None, role_key: str = None) -> bool:
         """更新会话"""
         with self.get_db_session() as db:
             try:
-                session = db.query(Session).filter(Session.id == session_id).first()
+                session = db.query(SessionModel).filter(SessionModel.id == session_id).first()
                 if session:
                     if name is not None:
                         session.name = name
@@ -112,14 +121,14 @@ class CollaborationDB:
                 return False
             except Exception as e:
                 db.rollback()
-                print(f"更新会话失败: {e}")
+                logger.error(f"更新会话失败: {e}")
                 return False
 
     def delete_session(self, session_id: int) -> bool:
         """删除会话"""
         with self.get_db_session() as db:
             try:
-                session = db.query(Session).filter(Session.id == session_id).first()
+                session = db.query(SessionModel).filter(SessionModel.id == session_id).first()
                 if session:
                     db.delete(session)
                     db.commit()
@@ -127,7 +136,7 @@ class CollaborationDB:
                 return False
             except Exception as e:
                 db.rollback()
-                print(f"删除会话失败: {e}")
+                logger.error(f"删除会话失败: {e}")
                 return False
 
     # ==================== 参与者管理 ====================
@@ -150,7 +159,7 @@ class CollaborationDB:
                 return participant
             except Exception as e:
                 db.rollback()
-                print(f"添加参与者失败: {e}")
+                logger.error(f"添加参与者失败: {e}")
                 return None
 
     def get_participant(self, participant_id: int) -> Optional[Participant]:
@@ -180,7 +189,7 @@ class CollaborationDB:
                 return False
             except Exception as e:
                 db.rollback()
-                print(f"更新参与者状态失败: {e}")
+                logger.error(f"更新参与者状态失败: {e}")
                 return False
 
     def remove_participant(self, participant_id: int) -> bool:
@@ -195,7 +204,7 @@ class CollaborationDB:
                 return False
             except Exception as e:
                 db.rollback()
-                print(f"移除参与者失败: {e}")
+                logger.error(f"移除参与者失败: {e}")
                 return False
 
     # ==================== 消息管理 ====================
@@ -214,7 +223,7 @@ class CollaborationDB:
                 db.add(message)
                 
                 # 更新会话时间
-                session = db.query(Session).filter(Session.id == session_id).first()
+                session = db.query(SessionModel).filter(SessionModel.id == session_id).first()
                 if session:
                     session.updated_at = datetime.utcnow()
                 
@@ -223,13 +232,14 @@ class CollaborationDB:
                 return message
             except Exception as e:
                 db.rollback()
-                print(f"添加消息失败: {e}")
+                logger.error(f"添加消息失败: {e}")
                 return None
 
     def get_session_messages(self, session_id: int, limit: int = 100) -> List[SessionMessage]:
         """获取会话消息"""
         with self.get_db_session() as db:
             return db.query(SessionMessage)\
+                .options(joinedload(SessionMessage.participant))\
                 .filter(SessionMessage.session_id == session_id)\
                 .order_by(SessionMessage.created_at.asc())\
                 .limit(limit)\

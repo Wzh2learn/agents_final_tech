@@ -42,35 +42,60 @@ def ensure_websocket_server():
 
 
 def stream_agent_response(message_text, conversation_id, role="default"):
-    """流式返回 agent 响应 (通过 Biz 层)"""
+    """流式返回 agent 响应 (通过 Biz 层)
+
+    使用独立的 event loop 处理异步生成器，确保正确的资源管理。
+    """
     agent_service = get_agent_service()
-    
+    loop = None
+
     try:
-        # 使用 biz 层提供的异步流式接口
-        # 注意：这里 Flask 是同步的，我们可能需要处理异步迭代
-        # 但既然原本也是直接在 generator 里迭代 agent.stream，
-        # 我们可以保持这种模式，或者在 biz 层提供同步包装。
-        
-        # 暂时保持简单调用，直接消费 agent_service.stream_chat
-        # 由于 agent_service.stream_chat 是 async generator，我们需要在协程中运行
+        # 创建独立的 event loop（Flask 是同步框架）
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        
-        async def run_chat():
-            async for chunk in agent_service.stream_chat(message_text, conversation_id, role):
-                yield chunk
 
-        gen = run_chat()
+        # 创建异步生成器
+        async_gen = agent_service.stream_chat(message_text, conversation_id, role)
+
+        # 使用 anext() 逐个获取 chunk，确保正确处理
         while True:
             try:
-                chunk = loop.run_until_complete(gen.__anext__())
-                yield chunk
+                # 使用 asyncio.wait_for 添加超时保护
+                chunk = loop.run_until_complete(
+                    asyncio.wait_for(async_gen.__anext__(), timeout=120.0)
+                )
+                if chunk:
+                    yield chunk
             except StopAsyncIteration:
+                # 正常结束
+                break
+            except asyncio.TimeoutError:
+                logger.warning("Stream chunk timeout after 120s")
+                yield {"type": "content", "content": "\n[响应超时]"}
+                break
+            except Exception as e:
+                logger.error(f"Error getting chunk: {e}")
+                yield {"type": "content", "content": f"\n[错误: {str(e)}]"}
                 break
 
     except Exception as e:
-        logger.error(f"Error in stream_agent_response: {e}")
-        yield f"抱歉，出现错误：{str(e)}"
+        logger.error(f"Error in stream_agent_response: {e}", exc_info=True)
+        yield {"type": "content", "content": f"抱歉，出现错误：{str(e)}"}
+    finally:
+        # 确保关闭 event loop，释放资源
+        if loop is not None:
+            try:
+                # 关闭所有待处理的任务
+                pending = asyncio.all_tasks(loop)
+                for task in pending:
+                    task.cancel()
+                # 等待任务取消完成
+                if pending:
+                    loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
+            except Exception as e:
+                logger.debug(f"Error cleaning up tasks: {e}")
+            finally:
+                loop.close()
 
 
 @app.route('/')
@@ -479,6 +504,48 @@ def download_document(doc_id):
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
+@app.route('/api/knowledge/documents/<string:doc_id>/export-docx', methods=['GET'])
+def export_document_docx(doc_id):
+    """导出文档为 DOCX（基于分段内容生成）"""
+    try:
+        import io
+        from docx import Document
+        from storage.database.document_manager import DocumentManager
+        from storage.database.db import get_session
+
+        db = get_session()
+        try:
+            doc_mgr = DocumentManager()
+            chunks = doc_mgr.get_document_chunks(db, doc_id, limit=10000)
+            if not chunks:
+                return jsonify({"status": "error", "message": "文档不存在"}), 404
+
+            document = Document()
+            document.add_heading(doc_id, level=1)
+            for chunk in chunks:
+                content = chunk.get("content") or ""
+                if content:
+                    document.add_paragraph(content)
+
+            buffer = io.BytesIO()
+            document.save(buffer)
+            buffer.seek(0)
+
+            file_name = f"{os.path.splitext(doc_id)[0]}.docx"
+            return send_file(
+                buffer,
+                as_attachment=True,
+                download_name=file_name,
+                mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
+        finally:
+            db.close()
+
+    except Exception as e:
+        logger.error(f"Export docx failed: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
 @app.route('/api/knowledge/traceability', methods=['POST'])
 def traceability_query():
     """答案溯源查询 (通过 RAGService)"""
@@ -750,4 +817,5 @@ def collaboration_chat():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    debug_enabled = os.getenv("FLASK_DEBUG", "0") == "1"
+    app.run(host='0.0.0.0', port=5000, debug=debug_enabled)

@@ -2,10 +2,11 @@
 QA问答工具：知识检索 → 理解用户问题 → 生成答案
 对应 Dify 工作流：WF_QA_Main
 """
-from pydantic import BaseModel, Field
+import json
 import os
 import glob
 from typing import List, Optional
+from pydantic import BaseModel, Field
 from langchain.tools import tool
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_openai import ChatOpenAI
@@ -60,6 +61,85 @@ def _call_llm(ctx: Context, messages: list, config: dict) -> str:
                         full_response += item
 
     return full_response
+
+
+def _extract_json_block(text: str) -> Optional[dict]:
+    """从文本中提取 JSON 结构"""
+    try:
+        start_idx = text.find('{')
+        end_idx = text.rfind('}') + 1
+        if start_idx >= 0 and end_idx > start_idx:
+            return json.loads(text[start_idx:end_idx])
+    except Exception:
+        return None
+    return None
+
+
+def _quality_check(ctx: Context, query: str, answer: str, reference: str) -> Optional[dict]:
+    """智检：评估回答质量，返回结构化评分结果"""
+    system_prompt = """你是回答质检官。
+
+【用户问题】
+{query}
+
+【当前回答】
+{answer}
+
+【标准答案检索结果】
+{reference}
+
+如有标准答案，请对比当前回答与标准答案的一致性；如无标准答案，只做自检。
+
+严格按照系统定义的 JSON 结构输出，不要输出任何多余内容。
+
+字段含义：
+- has_standard_answer: 是否命中标准答案
+- similarity_to_gold: 与标准答案的相似度（0~1）
+- score: 整体得分（0~100）
+- critical_error: 是否存在严重事实错误或规则错误
+- suggestion: 对回答优化的简要建议
+"""
+    messages = [
+        SystemMessage(content=system_prompt.format(query=query, answer=answer, reference=reference or "无"))
+    ]
+    result = _call_llm(ctx, messages, {"temperature": 0.1})
+    return _extract_json_block(result)
+
+
+def _reflect_and_improve(ctx: Context, query: str, answer: str, suggestion: str, reference: str) -> str:
+    """反思优化：根据质检建议改写回答"""
+    system_prompt = """你是回答优化助手。请根据质检建议，对回答进行结构化改写。
+
+【用户问题】
+{query}
+
+【原回答】
+{answer}
+
+【质检建议】
+{suggestion}
+
+【参考内容】
+{reference}
+
+如果当前问题能够对应到某条标准规则（比如上下文中有显式的规则名称或“规则条件/执行动作/业务示例”结构），请尽量按下面结构输出回答：
+1. 简要结论（1~2 句话）
+2. 规则条件（IF 部分）
+3. 执行动作（THEN / ELSE 部分）
+4. 业务示例（结合典型场景说明）
+5. 异常处理（有则说明，没有可以省略）
+
+如果无法匹配到规则场景，就保留普通自然语言回答，但仍要保证准确、不编造。
+"""
+    messages = [
+        SystemMessage(content=system_prompt.format(
+            query=query,
+            answer=answer,
+            suggestion=suggestion or "无",
+            reference=reference or "无"
+        ))
+    ]
+    return _call_llm(ctx, messages, {"temperature": 0.2})
 
 
 class QAInput(BaseModel):
@@ -245,6 +325,20 @@ def qa_agent(
 
     try:
         result = _call_llm(ctx, messages, {})
+        quality = _quality_check(ctx, query, result, knowledge_context)
+        if quality:
+            score = float(quality.get("score", 100))
+            critical_error = bool(quality.get("critical_error", False))
+            if critical_error or score < 85:
+                improved = _reflect_and_improve(
+                    ctx,
+                    query,
+                    result,
+                    quality.get("suggestion", ""),
+                    knowledge_context
+                )
+                if improved:
+                    return improved
         return result
     except Exception as e:
         return f"问答失败：{str(e)}"

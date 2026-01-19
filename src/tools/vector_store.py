@@ -6,6 +6,7 @@ import os
 from typing import Optional, Union, List
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
+from utils.config_loader import get_config
 
 # 全局变量
 _vector_store = None
@@ -113,7 +114,7 @@ _VectorStoreClass = __dynamic_import()
 
 
 def get_embeddings(
-    model: str = "BAAI/bge-m3",
+    model: Optional[str] = None,
     api_key: Optional[str] = None,
     base_url: Optional[str] = None
 ) -> SiliconFlowEmbeddings:
@@ -127,10 +128,17 @@ def get_embeddings(
         return _embeddings_client
 
     try:
+        config = get_config()
+        embedding_model = model or config.get("embedding.model", "Qwen/Qwen3-Embedding-0.6B")
+        api_key_env = config.get("embedding.api_key_env", "SILICONFLOW_API_KEY")
+        base_url_env = config.get("embedding.base_url_env", "SILICONFLOW_BASE_URL")
+        embedding_api_key = api_key or os.getenv(api_key_env)
+        embedding_base_url = base_url or os.getenv(base_url_env) or "https://api.siliconflow.cn/v1"
+
         _embeddings_client = SiliconFlowEmbeddings(
-            model=model,
-            api_key=api_key,
-            base_url=base_url
+            model=embedding_model,
+            api_key=embedding_api_key,
+            base_url=embedding_base_url
         )
         return _embeddings_client
     except Exception as e:

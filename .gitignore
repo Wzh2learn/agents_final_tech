@@ -23,12 +23,15 @@ __pycache__/
 .idea/
 .windsurf/
 .ruff_cache/
+.claude/
 
 # Logs and temp files
 *.log
 logs/
 tmp/
 tmpclaude-*
+tmp_*.py
+nul
 
 # Testing
 .pytest_cache/
@@ -39,6 +42,10 @@ htmlcov/
 data/*.db
 sessions.db
 *.db
+
+# Data and storage (not for version control)
+data/
+dify/
 
 # Coze config (optional)
 .coze

@@ -239,6 +239,20 @@ def get_retrieval_strategy(question_type: str) -> str:
 
     strategy = strategies.get(question_type, strategies["general"])
 
+    try:
+        from utils.config_loader import get_config
+        config = get_config()
+        force_method = config.get("rag.force_method", False)
+        default_method = config.get("rag.default_method")
+        force_rerank = config.get("rag.force_rerank", False)
+
+        if force_method and default_method:
+            strategy = {**strategy, "method": default_method}
+        if force_rerank:
+            strategy = {**strategy, "use_rerank": True}
+    except Exception:
+        pass
+
     return json.dumps({
         "question_type": question_type,
         "strategy": strategy

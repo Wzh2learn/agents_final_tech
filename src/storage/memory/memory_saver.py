@@ -1,3 +1,5 @@
+import os
+import threading
 import psycopg
 from psycopg_pool import AsyncConnectionPool
 from langgraph.checkpoint.postgres import PostgresSaver
@@ -16,17 +18,31 @@ DB_MAX_RETRIES = 2
 
 
 class MemoryManager:
-    """Memory Manager 单例类"""
+    """Memory Manager 单例类（线程安全）"""
 
     _instance: Optional['MemoryManager'] = None
+    _lock = threading.Lock()  # 类级别锁，保证单例创建的线程安全
     _checkpointer: Optional[Union[AsyncPostgresSaver, MemorySaver]] = None
     _pool: Optional[AsyncConnectionPool] = None
     _setup_done: bool = False
 
     def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
+        with cls._lock:
+            if cls._instance is None:
+                cls._instance = super().__new__(cls)
         return cls._instance
+
+    def cleanup(self):
+        """清理资源（连接池等）"""
+        with self._lock:
+            if self._pool is not None:
+                try:
+                    self._pool.close()
+                except Exception as e:
+                    logger.debug(f"Error closing connection pool: {e}")
+                self._pool = None
+            self._checkpointer = None
+            self._setup_done = False
 
     def _connect_with_retry(self, db_url: str) -> Optional[psycopg.Connection]:
         """带重试的数据库连接，每次 15 秒超时，共尝试 2 次"""
@@ -98,6 +114,10 @@ class MemoryManager:
         """获取 checkpointer，优先使用 PostgresSaver，失败时退化为 MemorySaver"""
         if self._checkpointer is not None:
             return self._checkpointer
+
+        backend = os.getenv("MEMORY_BACKEND", "memory").lower()
+        if backend == "memory":
+            return self._create_fallback_checkpointer()
 
         # 1. 尝试获取 db_url
         db_url = self._get_db_url_safe()
