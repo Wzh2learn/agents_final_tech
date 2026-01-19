@@ -16,6 +16,9 @@ from functools import lru_cache
 from datetime import timedelta, datetime
 from utils.cache import cached, get_cache
 from utils.config_loader import get_config
+from utils.constants import (
+    ROLE_MAP, get_role_key, get_role_name, get_role_greeting, is_valid_role
+)
 from web.collaboration_service import start_websocket_thread
 from web.websocket_server import broadcast_agent_message
 
@@ -208,36 +211,15 @@ def set_role():
     role = data.get('role', None)
     conversation_id = data.get('conversation_id', 'default')
 
-    role_map = {
-        'a': 'product_manager',
-        'b': 'tech_developer',
-        'c': 'sales_operations',
-        'd': 'default_engineer'
-    }
-
-    if role and role in role_map:
-        target_role = role_map[role]
+    if is_valid_role(role):
+        target_role = get_role_key(role)
         thread_roles[conversation_id] = target_role
-        
-        role_names = {
-            'a': '产品经理',
-            'b': '技术开发',
-            'c': '销售运营',
-            'd': '默认工程师'
-        }
-        
-        role_greetings = {
-            'a': '👋 您好！我是**产品经理助手**，专注于需求分析、产品规划和用户体验设计。\n\n我可以帮您：\n- 📋 梳理产品需求和功能规划\n- 🎯 制定产品roadmap和迭代计划\n- 👥 分析用户痛点和使用场景\n- 📊 评估功能优先级和价值\n\n请告诉我您的需求，让我们一起打造优秀的产品！',
-            'b': '👨‍💻 您好！我是**技术开发助手**，精通系统架构、代码实现和技术方案设计。\n\n我可以帮您：\n- 🏗️ 设计技术架构和系统方案\n- 💻 解决编码问题和技术难题\n- 🔧 优化性能和代码质量\n- 📚 提供最佳实践和技术建议\n\n有任何技术问题，随时向我提问！',
-            'c': '📈 您好！我是**销售运营助手**，专注于业务分析、运营策略和数据洞察。\n\n我可以帮您：\n- 📊 分析业务数据和运营指标\n- 💰 制定销售策略和增长方案\n- 🎯 优化转化漏斗和客户旅程\n- 📈 提供市场洞察和竞争分析\n\n让我帮您提升业务表现，实现增长目标！',
-            'd': '🛠️ 您好！我是**默认工程师助手**，提供全方位的技术支持和问题解决方案。\n\n我可以帮您：\n- 🔍 快速定位和解决技术问题\n- 📖 提供技术文档和知识查询\n- ⚙️ 配置系统和工具使用指导\n- 💡 分享工程实践和经验总结\n\n无论遇到什么问题，我都会尽力为您解答！'
-        }
-        
+
         return jsonify({
-            "status": "success", 
-            "role": role_names[role],
+            "status": "success",
+            "role": get_role_name(role),
             "role_key": target_role,
-            "greeting": role_greetings[role]
+            "greeting": get_role_greeting(role, full=True)
         })
     else:
         return jsonify({"error": "无效的角色选择"}), 400
@@ -348,8 +330,8 @@ def get_documents():
                 search=search
             )
 
-            # 获取总数用于分页
-            total = len(doc_mgr.get_documents(db=db, skip=0, limit=10000, search=search))
+            # 使用 count_documents 获取总数，避免查询全部数据
+            total = doc_mgr.count_documents(db=db, search=search)
 
             return jsonify({
                 "status": "success",

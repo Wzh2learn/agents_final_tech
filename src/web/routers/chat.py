@@ -10,6 +10,9 @@ from pydantic import BaseModel
 
 from biz.agent_service import get_agent_service
 from storage.thread_settings import get_thread_settings_service
+from utils.constants import (
+    is_valid_role, get_role_key, get_role_name, get_role_greeting
+)
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -33,29 +36,6 @@ class ResetRequest(BaseModel):
     conversation_id: str = "default"
 
 
-# 角色映射
-ROLE_MAP = {
-    'a': 'product_manager',
-    'b': 'tech_developer',
-    'c': 'sales_operations',
-    'd': 'default_engineer'
-}
-
-ROLE_NAMES = {
-    'a': '产品经理',
-    'b': '技术开发',
-    'c': '销售运营',
-    'd': '默认工程师'
-}
-
-ROLE_GREETINGS = {
-    'a': '👋 您好！我是**产品经理助手**，专注于需求分析、产品规划和用户体验设计。',
-    'b': '👨‍💻 您好！我是**技术开发助手**，精通系统架构、代码实现和技术方案设计。',
-    'c': '📈 您好！我是**销售运营助手**，专注于业务分析、运营策略和数据洞察。',
-    'd': '🛠️ 您好！我是**默认工程师助手**，提供全方位的技术支持和问题解决方案。'
-}
-
-
 @router.post("/chat")
 async def chat(request: ChatRequest):
     """聊天 API（流式响应）"""
@@ -74,8 +54,10 @@ async def chat(request: ChatRequest):
             session = svc.get_session(session_id)
             if session and not role:
                 role = session.get('role_key')
-        except:
-            pass
+        except (ValueError, IndexError) as e:
+            logger.warning(f"Failed to parse session from conversation_id: {e}")
+        except Exception as e:
+            logger.warning(f"Failed to get session role: {e}")
 
     if not role:
         role = thread_settings.get_role(conversation_id) or 'default_engineer'
@@ -127,13 +109,13 @@ async def set_role(request: RoleRequest):
     role = request.role
     conversation_id = request.conversation_id
 
-    if role and role in ROLE_MAP:
-        thread_settings.set_role(conversation_id, ROLE_MAP[role])
+    if is_valid_role(role):
+        thread_settings.set_role(conversation_id, get_role_key(role))
         return {
             "status": "success",
-            "role": ROLE_NAMES[role],
-            "role_key": ROLE_MAP[role],
-            "greeting": ROLE_GREETINGS[role]
+            "role": get_role_name(role),
+            "role_key": get_role_key(role),
+            "greeting": get_role_greeting(role, full=False)
         }
     raise HTTPException(status_code=400, detail="无效的角色选择")
 
@@ -147,3 +129,91 @@ async def get_status(conversation_id: str = "default"):
         "conversation_id": conversation_id,
         "role": role
     }
+
+
+# ==================== 会话管理 API ====================
+
+class CreateSessionRequest(BaseModel):
+    name: str = "新对话"
+    role_key: str = "default_engineer"
+    type: str = "private"  # private 或 collaboration
+
+
+class UpdateSessionRequest(BaseModel):
+    name: Optional[str] = None
+    role_key: Optional[str] = None
+
+
+@router.get("/chat/sessions")
+async def get_chat_sessions():
+    """获取所有活跃会话"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+    sessions = service.get_all_sessions(active_only=True)
+    return {"status": "success", "sessions": sessions}
+
+
+@router.post("/chat/sessions")
+async def create_chat_session(request: CreateSessionRequest):
+    """创建新会话"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    session = service.create_session(
+        name=request.name,
+        session_type=request.type,
+        role_key=request.role_key
+    )
+    if session:
+        return {"status": "success", "session": session}
+    raise HTTPException(status_code=500, detail="创建会话失败")
+
+
+@router.get("/chat/sessions/{session_id}")
+async def get_chat_session(session_id: int):
+    """获取单个会话详情"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    session = service.get_session(session_id)
+    if session:
+        return {"status": "success", "session": session}
+    raise HTTPException(status_code=404, detail="会话不存在")
+
+
+@router.delete("/chat/sessions/{session_id}")
+async def delete_chat_session(session_id: int):
+    """删除会话"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    success = service.delete_session(session_id)
+    if success:
+        return {"status": "success", "message": "会话已删除"}
+    raise HTTPException(status_code=500, detail="删除会话失败")
+
+
+@router.patch("/chat/sessions/{session_id}")
+async def update_chat_session(session_id: int, request: UpdateSessionRequest):
+    """更新会话（如重命名或切换角色）"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    success = service.update_session(
+        session_id=session_id,
+        name=request.name,
+        role_key=request.role_key
+    )
+    if success:
+        return {"status": "success"}
+    raise HTTPException(status_code=500, detail="更新失败")
+
+
+@router.get("/chat/sessions/{session_id}/history")
+async def get_chat_session_history(session_id: int):
+    """获取会话历史消息"""
+    from web.collaboration_service import get_collaboration_service
+    service = get_collaboration_service()
+
+    messages = service.get_session_messages(session_id)
+    return {"status": "success", "messages": messages}

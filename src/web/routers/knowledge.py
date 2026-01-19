@@ -66,7 +66,8 @@ async def get_documents(
         try:
             doc_mgr = DocumentManager()
             documents = doc_mgr.get_documents(db=db, skip=skip, limit=page_size, search=search)
-            total = len(doc_mgr.get_documents(db=db, skip=0, limit=10000, search=search))
+            # 使用 count_documents 获取总数，避免查询全部数据
+            total = doc_mgr.count_documents(db=db, search=search)
 
             return {
                 "status": "success",
@@ -180,6 +181,47 @@ async def download_document(doc_id: str):
             headers={"Content-Disposition": f"attachment; filename={doc_id}"}
         )
     except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
+@router.get("/documents/{doc_id}/export-docx")
+async def export_document_docx(doc_id: str):
+    """导出文档为 DOCX（基于分段内容生成）"""
+    import io
+    try:
+        from docx import Document
+        from storage.database.document_manager import DocumentManager
+        from storage.database.db import get_session
+
+        db = get_session()
+        try:
+            doc_mgr = DocumentManager()
+            chunks = doc_mgr.get_document_chunks(db, doc_id, limit=10000)
+            if not chunks:
+                return {"status": "error", "message": "文档不存在"}
+
+            document = Document()
+            document.add_heading(doc_id, level=1)
+            for chunk in chunks:
+                content = chunk.get("content") or ""
+                if content:
+                    document.add_paragraph(content)
+
+            buffer = io.BytesIO()
+            document.save(buffer)
+            buffer.seek(0)
+
+            file_name = f"{os.path.splitext(doc_id)[0]}.docx"
+            return StreamingResponse(
+                buffer,
+                media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                headers={"Content-Disposition": f"attachment; filename={file_name}"}
+            )
+        finally:
+            db.close()
+
+    except Exception as e:
+        logger.error(f"Export docx failed: {e}")
         return {"status": "error", "message": str(e)}
 
 

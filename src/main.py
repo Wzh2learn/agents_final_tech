@@ -1,12 +1,10 @@
 import argparse
 import asyncio
 import json
-import traceback
 import logging
 import os
 from typing import Any, Dict, AsyncGenerator, Optional
 import uvicorn
-import time
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -121,6 +119,27 @@ if os.path.exists(static_dir):
 from web.routers import api_router, include_routers
 include_routers()
 app.include_router(api_router)
+
+# WebSocket 服务状态
+_ws_started = False
+
+
+@app.on_event("startup")
+async def startup_event():
+    """FastAPI 启动时初始化 WebSocket 服务"""
+    global _ws_started
+    from utils.config_loader import get_config
+    from web.collaboration_service import start_websocket_thread
+
+    cfg = get_config()
+    if not _ws_started and cfg.get("features", {}).get("realtime_collaboration", False):
+        ws_host = cfg.get("websocket.host", "0.0.0.0")
+        ws_port = int(cfg.get("websocket.port", 8765))
+        started = start_websocket_thread(host=ws_host, port=ws_port)
+        _ws_started = started or _ws_started
+        if _ws_started:
+            logger.info(f"WebSocket server started on {ws_host}:{ws_port}")
+
 
 @app.post("/run")
 async def http_run(request: Request) -> Dict[str, Any]:
