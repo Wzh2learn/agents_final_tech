@@ -106,12 +106,18 @@ class DocumentManager:
             chunks = data['chunks']
             # 获取创建时间（从第一个块的metadata）
             created_at = None
+            original_filename = None
             if chunks and chunks[0].cmetadata:
                 created_at = chunks[0].cmetadata.get('created_at')
+                original_filename = chunks[0].cmetadata.get('original_name') or chunks[0].cmetadata.get('original_filename') or chunks[0].cmetadata.get('filename')
+
+            # 使用原始文件名，如果不存在则使用source
+            display_name = original_filename if original_filename else source
 
             doc_info = {
                 'id': str(source),
-                'name': source,
+                'name': display_name,  # 显示原始文件名
+                'original_name': source,  # 保留原始source作为内部标识
                 'size': data['total_size'],
                 'chunks': len(chunks),
                 'created_at': created_at

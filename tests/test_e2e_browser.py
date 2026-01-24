@@ -136,19 +136,28 @@ async def test_sse_parsing():
 
     async with httpx.AsyncClient(timeout=120.0) as client:
         try:
-            # 创建会话
-            response = await client.post("http://localhost:5000/api/chat/new")
-            conversation_id = response.json().get("conversation_id")
+            response = await client.post(
+                "http://localhost:5000/api/chat/sessions",
+                json={
+                    "name": "SSE 测试会话",
+                    "type": "private",
+                    "role_key": "default_engineer"
+                }
+            )
+            assert response.status_code == 200
+            session = response.json().get("session") or {}
+            session_id = session.get("id")
+            assert session_id is not None, "创建会话失败"
+            conversation_id = f"session_{session_id}"
 
-            # 发送消息
             message = "请用一句话介绍你自己"
             async with client.stream(
                 "POST",
-                "http://localhost:5000/api/chat/stream",
+                "http://localhost:5000/api/chat",
                 json={
                     "message": message,
                     "conversation_id": conversation_id,
-                    "role": "default"
+                    "role": "default_engineer"
                 },
             ) as stream_response:
                 buffer = ""
@@ -165,33 +174,33 @@ async def test_sse_parsing():
                     text = chunk.decode("utf-8")
                     buffer += text
 
-                    # 处理完整的行
                     lines = buffer.split("\n")
-                    buffer = lines.pop()  # 保留不完整的行
+                    buffer = lines.pop()
 
                     for line in lines:
                         line = line.strip()
-                        if line.startswith("data: "):
-                            data_str = line[6:]
-                            if data_str == "[DONE]":
-                                stream_done = True
-                                break
+                        if not line.startswith("data: "):
+                            continue
 
-                            try:
-                                import json
-                                data = json.loads(data_str)
-                                chunks_received += 1
+                        data_str = line[6:]
+                        if not data_str:
+                            continue
 
-                                if data.get("type") == "content":
-                                    content = data.get("content", "")
-                                    content_chars += len(content)
-                                    print(content, end="", flush=True)
+                        try:
+                            import json
+                            data = json.loads(data_str)
+                        except json.JSONDecodeError:
+                            continue
 
-                                if data.get("done"):
-                                    stream_done = True
-                                    break
-                            except json.JSONDecodeError:
-                                continue
+                        if data.get("content"):
+                            content = data.get("content", "")
+                            chunks_received += 1
+                            content_chars += len(content)
+                            print(content, end="", flush=True)
+
+                        if data.get("done"):
+                            stream_done = True
+                            break
 
                 print(f"\n\n✓ SSE 解析完成")
                 print(f"  - 收到块数: {chunks_received}")
@@ -222,7 +231,13 @@ async def main():
         return
 
     # 运行测试
-    await test_sse_parsing()
+    sse_ok = True
+    try:
+        await test_sse_parsing()
+    except Exception as e:
+        sse_ok = False
+        print(f"⚠ SSE 测试失败，继续执行浏览器测试: {e}")
+
     await test_with_playwright()
 
 

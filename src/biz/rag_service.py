@@ -14,22 +14,58 @@ from tools.question_classifier import classify_question_type, get_retrieval_stra
 from tools.document_loader import load_document, get_document_info
 from tools.text_splitter import split_text_recursive, split_text_by_markdown_structure, hierarchical_split
 from storage.provider import get_storage_provider
+from utils.config_loader import get_config
 
 logger = logging.getLogger(__name__)
+
+# 从配置文件加载领域关键词
+def _get_domain_keywords() -> Dict[str, List[str]]:
+    """从配置文件加载领域关键词"""
+    try:
+        config = get_config()
+        return config.get("domain_keywords", {
+            "催收": ["催收", "逾期", "还款", "坏账"],
+            "风控": ["风控", "风险", "审核", "准入"],
+            "财务": ["财务", "会计", "账务", "建账"],
+            "贷款": ["贷款", "授信", "额度", "利息"],
+            "通用": []
+        })
+    except Exception:
+        # 配置加载失败时返回默认值
+        return {
+            "催收": ["催收", "逾期", "还款", "坏账"],
+            "风控": ["风控", "风险", "审核", "准入"],
+            "财务": ["财务", "会计", "账务", "建账"],
+            "贷款": ["贷款", "授信", "额度", "利息"],
+            "通用": []
+        }
 
 class RAGService:
     def __init__(self, collection_name: str = "knowledge_base"):
         self.collection_name = collection_name
         self.provider = get_storage_provider()
 
-    async def ingest_file(self, file_path: str, metadata: Dict[str, Any] = None, use_hierarchical: bool = False) -> Dict[str, Any]:
+    def get_collection_names(self) -> List[str]:
+        """获取所有集合名称"""
+        from storage.database.db import get_session
+        from storage.database.shared.model import LangchainPgCollection
+        db = get_session()
+        try:
+            collections = db.query(LangchainPgCollection).all()
+            return [c.name for c in collections]
+        finally:
+            db.close()
+
+    async def ingest_file(self, file_path: str, metadata: Dict[str, Any] = None, use_hierarchical: bool = False, collection_name: Optional[str] = None) -> Dict[str, Any]:
         """全流程入库：加载 -> 分割 -> 存储(S3) -> 向量化(DB)
         
         Args:
             file_path: 文件路径
             metadata: 元数据
             use_hierarchical: 是否使用父子分段模式（默认False）
+            collection_name: 目标集合名称，如果不指定则使用 self.collection_name
         """
+        target_collection = collection_name or self.collection_name
         # 1. 加载
         content = load_document.invoke({"file_path": file_path})
         
@@ -55,7 +91,7 @@ class RAGService:
                 c = c.strip()
                 if not c: continue
                 clean_c = re.sub(r'^块 \d+ \(.*?\)\s*---', '', c).strip()
-                if clean_c.startswith(("📝 文本分割结果", "📝 Markdown 结构分割结果", "总块数:", "块大小:", "重叠:", "分割规则:", "====")):
+                if clean_c.startswith(("文本分割结果", "Markdown 结构分割结果", "总块数:", "块大小:", "重叠:", "分割规则:", "====")):
                     continue
                 if clean_c:
                     chunks.append(clean_c)
@@ -82,86 +118,159 @@ class RAGService:
             raise ValueError("文档解析后没有有效文本块，请检查文件内容")
 
         # 3. 持久化原始文件 (ACL)
+        display_name = (metadata or {}).get("original_name", os.path.basename(file_path))
         with open(file_path, "rb") as f:
-            object_key = self.provider.ingest_document(f.read(), os.path.basename(file_path), metadata or {})
+            object_key = self.provider.ingest_document(f.read(), display_name, metadata or {})
             
         # 4. 向量化入库
-        vector_store = get_vector_store(collection_name=self.collection_name)
+        vector_store = get_vector_store(collection_name=target_collection)
         docs = []
         for i, (chunk, chunk_meta) in enumerate(zip(chunks, chunks_metadata_list)):
             combined_meta = {
                 **(metadata or {}),
                 **chunk_meta,
-                "source": os.path.basename(file_path),
+                "source": display_name,
                 "object_key": object_key,
                 "chunk_index": i
             }
             docs.append(Document(page_content=chunk, metadata=combined_meta))
         vector_store.add_documents(docs)
         
-        return {"object_key": object_key, "chunks": len(chunks), "hierarchical": use_hierarchical}
+        return {"object_key": object_key, "chunks": len(chunks), "hierarchical": use_hierarchical, "collection": target_collection}
 
-    def smart_retrieve(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
-        """智能路由检索：分类 -> 策略选择 -> 执行检索 -> Rerank"""
-        # 1. 问题分类
-        q_type_json = classify_question_type.invoke({"query": query})
-        try:
-            q_type_data = json.loads(q_type_json)
-            q_type = q_type_data.get("type", "general")
-        except json.JSONDecodeError:
-            q_type = "general"
+    def smart_retrieve(
+        self, 
+        query: str, 
+        top_k: int = 5, 
+        collection_names: Optional[List[str]] = None,
+        max_results: int = 10
+    ) -> List[Dict[str, Any]]:
+        """
+        固定检索：总是检索知识库，支持多知识库智能选择
         
-        # 2. 获取推荐策略
-        strategy_res = get_retrieval_strategy.invoke({"question_type": q_type})
-        strategy_data = json.loads(strategy_res)
+        Args:
+            query: 查询内容
+            top_k: 每个知识库返回结果数量
+            collection_names: 指定要检索的知识库列表，None则智能选择
+            max_results: 最大总返回结果数量（默认10）
+        """
+        # 限制 max_results 范围
+        max_results = max(1, min(max_results, 50))
+        top_k = max(1, min(top_k, 20))
         
-        # 修正: 从嵌套的 strategy 字典中获取配置
-        strategy = strategy_data.get("strategy", {})
-        method = strategy.get("method", "vector")
-        use_rerank = strategy.get("use_rerank", True)
+        # 1. 智能选择知识库（如果不指定）
+        if not collection_names:
+            collection_names = self._select_collections(query)
         
-        logger.info(f"Query: {query} | Type: {q_type} | Strategy: {method} | Rerank: {use_rerank}")
+        logger.info(f"Query: {query} | Collections: {collection_names} | TopK: {top_k} | MaxResults: {max_results}")
         
-        # 3. 执行基础检索
-        docs = []
-        if method == "vector":
-            vector_store = get_vector_store(collection_name=self.collection_name)
-            results = vector_store.similarity_search_with_score(query, k=top_k * 3)
-            for doc, score in results:
-                doc.metadata["vector_score"] = float(score)
-                docs.append(doc)
-        elif method == "bm25":
-            bm25_res = bm25_retrieve.invoke({"query": query, "top_k": top_k * 3})
-            docs = self._parse_json_docs(bm25_res)
-        else: # hybrid
-            from tools.hybrid_retriever import hybrid_retrieve
-            hybrid_res = hybrid_retrieve.invoke({
-                "query": query,
-                "collection_name": self.collection_name,
-                "top_k": top_k * 3
-            })
-            docs = self._parse_json_docs(hybrid_res)
-
-        # 4. Rerank
-        if use_rerank and docs:
+        # 2. 固定使用混合检索策略（向量 + BM25）
+        all_docs = []
+        
+        for collection_name in collection_names:
             try:
-                rerank_input = json.dumps([
-                    {"content": d.page_content, "id": str(i), "metadata": d.metadata} 
-                    for i, d in enumerate(docs)
-                ])
-                reranked_res = rerank_documents.invoke({
-                    "query": query,
-                    "documents": rerank_input,
-                    "top_n": top_k
+                # 向量检索
+                vector_store = get_vector_store(collection_name=collection_name)
+                results = vector_store.similarity_search_with_score(query, k=top_k)
+                for doc, score in results:
+                    doc.metadata["vector_score"] = float(score)
+                    doc.metadata["collection"] = collection_name
+                    all_docs.append(doc)
+                    
+                # BM25 检索
+                bm25_res = bm25_retrieve.invoke({
+                    "query": query, 
+                    "top_k": top_k,
+                    "collection_name": collection_name
                 })
-                reranked_docs = json.loads(reranked_res)
-                # 转换格式为一致的字典列表
-                return [{"content": d.get("content", ""), "metadata": d.get("metadata", {}), "relevance_score": d.get("relevance_score", 0.0)} for d in reranked_docs]
+                bm25_docs = self._parse_json_docs(bm25_res)
+                for doc in bm25_docs:
+                    doc.metadata["collection"] = collection_name
+                    all_docs.append(doc)
             except Exception as e:
-                logger.error(f"Rerank failed, fallback to original docs: {e}")
-                return [{"content": d.page_content, "metadata": d.metadata} for d in docs[:top_k]]
+                logger.error(f"检索知识库 {collection_name} 失败: {e}")
+                continue
+        
+        # 3. 去重并合并结果
+        unique_docs = self._deduplicate_docs(all_docs)
+        
+        # 4. 按相关性排序（综合向量分数和 BM25 分数）
+        sorted_docs = sorted(unique_docs, key=lambda x: x.metadata.get("vector_score", 0), reverse=True)
+        
+        # 5. 返回带引用信息的结果（限制总数量）
+        final_results = sorted_docs[:max_results]
+        logger.info(f"检索完成: 总候选={len(all_docs)}, 去重后={len(unique_docs)}, 最终返回={len(final_results)}")
+        
+        return [{
+            "content": d.page_content,
+            "metadata": d.metadata,
+            "relevance_score": d.metadata.get("vector_score", 0.0),
+            "source": d.metadata.get("source", "未知"),
+            "chunk_index": d.metadata.get("chunk_index", 0),
+            "collection": d.metadata.get("collection", self.collection_name)
+        } for d in final_results]
+    
+    def _select_collections(self, query: str) -> List[str]:
+        """
+        智能选择相关知识库
+        基于查询关键词与知识库名称的匹配度选择
+        """
+        try:
+            all_collections = self.get_collection_names()
+            if not all_collections:
+                return [self.collection_name]
             
-        return [{"content": d.page_content, "metadata": d.metadata} for d in docs[:top_k]]
+            # 如果只有一个知识库，直接返回
+            if len(all_collections) == 1:
+                return all_collections
+            
+            # 基于关键词匹配选择
+            selected = []
+            query_lower = query.lower()
+            
+            # 从配置文件加载领域关键词
+            domain_keywords = _get_domain_keywords()
+            
+            # 检查查询涉及的领域
+            involved_domains = []
+            for domain, keywords in domain_keywords.items():
+                for keyword in keywords:
+                    if keyword in query_lower:
+                        involved_domains.append(domain)
+                        break
+            
+            # 选择相关的知识库
+            for collection in all_collections:
+                collection_lower = collection.lower()
+                # 默认选择所有知识库
+                selected.append(collection)
+            
+            # 限制最多选择3个知识库以平衡性能和相关性
+            if len(selected) > 3:
+                selected = selected[:3]
+            
+            logger.info(f"智能选择知识库: {selected} (涉及领域: {involved_domains})")
+            return selected
+            
+        except Exception as e:
+            logger.error(f"智能选择知识库失败: {e}")
+            return [self.collection_name]
+    
+    def _deduplicate_docs(self, docs: List[Document]) -> List[Document]:
+        """去重文档（基于内容相似度）"""
+        if not docs:
+            return []
+        
+        unique = []
+        seen_contents = set()
+        
+        for doc in docs:
+            content = doc.page_content[:100]  # 使用前100字符作为去重依据
+            if content not in seen_contents:
+                seen_contents.add(content)
+                unique.append(doc)
+        
+        return unique
 
     def get_heatmap(self, topic_level: int = 3, min_frequency: int = 1) -> Dict[str, Any]:
         """获取知识热力图数据"""

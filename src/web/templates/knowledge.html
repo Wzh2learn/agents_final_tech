@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>知识库管理 - 建账规则助手</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
     <style>
         .top-nav {
             position: fixed;
@@ -478,11 +478,16 @@
             <div class="kb-nav-item" data-page="upload">
                 <span class="icon">📤</span> 上传文档
             </div>
-            <div class="kb-nav-item" data-page="traceability">
-                <span class="icon">🔍</span> 答案溯源
+            <div class="kb-nav-item" data-page="collection-detail">
+                <span class="icon">📁</span> 知识库详情
             </div>
-            <div class="kb-nav-item" data-page="compare">
-                <span class="icon">⚖️</span> 智能对比
+
+            <div class="kb-sidebar-section" style="margin-top: 20px;">
+                <h3 style="font-size: 12px; opacity: 0.7; margin-bottom: 10px;">选择知识库</h3>
+                <div id="collection-list" style="display: flex; flex-direction: column; gap: 4px;">
+                    <!-- 动态加载集合列表 -->
+                    <div class="loading-state" style="font-size: 12px; padding: 10px;">加载中...</div>
+                </div>
             </div>
 
             <h3 style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">快捷操作</h3>
@@ -497,9 +502,12 @@
             <div class="page active" id="page-overview">
                 <div class="kb-header">
                     <h1>知识库概览</h1>
-                    <button class="btn btn-primary" onclick="switchPage('upload')">
-                        📤 上传新文档
-                    </button>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <span id="current-collection-name" style="font-size: 14px; color: #6b7280; padding: 6px 12px; background: #f3f4f6; border-radius: 6px;">knowledge_base</span>
+                        <button class="btn btn-primary" onclick="switchPage('upload')">
+                            📤 上传新文档
+                        </button>
+                    </div>
                 </div>
 
                 <div class="stats-grid">
@@ -528,9 +536,72 @@
                 <div class="documents-section">
                     <div class="section-header">
                         <h2>最近上传</h2>
+                        <button class="btn btn-secondary" onclick="switchPage('documents')">查看全部 →</button>
                     </div>
                     <div class="document-list" id="recent-documents">
                         <div class="loading-state">加载中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 知识库详情页面 -->
+            <div class="page" id="page-collection-detail">
+                <div class="kb-header">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <button class="btn-back" onclick="switchPage('overview')" style="background: none; border: none; color: #6b7280; cursor: pointer; font-size: 18px;">←</button>
+                        <h1 id="collection-detail-title" style="margin: 0;">知识库详情</h1>
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn btn-secondary" onclick="showCollectionStats()">
+                            📊 统计信息
+                        </button>
+                        <button class="btn btn-primary" onclick="switchPage('upload')">
+                            📤 上传文档
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 知识库信息卡片 -->
+                <div id="collection-info-card" class="stats-grid" style="margin-bottom: 24px;">
+                    <div class="stat-card">
+                        <div class="icon">📄</div>
+                        <div class="label">文档数</div>
+                        <div class="value" id="col-stat-docs">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">📝</div>
+                        <div class="label">分段数</div>
+                        <div class="value" id="col-stat-chunks">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon">💾</div>
+                        <div class="label">存储大小</div>
+                        <div class="value" id="col-stat-size">0 KB</div>
+                    </div>
+                </div>
+
+                <!-- 文档分类展示 -->
+                <div class="documents-section">
+                    <div class="section-header">
+                        <h2>📁 文档分类</h2>
+                    </div>
+                    <div id="collection-documents" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+                        <!-- 动态加载 -->
+                        <div class="loading-state">加载中...</div>
+                    </div>
+                </div>
+
+                <!-- 分段预览 -->
+                <div class="documents-section" style="margin-top: 24px;">
+                    <div class="section-header">
+                        <h2>📋 分段预览</h2>
+                        <span style="font-size: 12px; color: #6b7280;">点击文档查看详细分段</span>
+                    </div>
+                    <div id="collection-chunks" class="document-list">
+                        <div class="empty-state">
+                            <div class="icon">📝</div>
+                            <p>选择一个文档查看分段详情</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -749,7 +820,7 @@
     </div>
 
     <!-- 配置文件必须在其他脚本之前加载 -->
-    <script src="{{ url_for('static', filename='config.js') }}"></script>
-    <script src="{{ url_for('static', filename='knowledge.js') }}"></script>
+    <script src="{{ url_for('static', path='config.js') }}"></script>
+    <script src="{{ url_for('static', path='knowledge.js') }}"></script>
 </body>
 </html>

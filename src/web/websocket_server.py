@@ -5,19 +5,72 @@ WebSocket 服务
 import json
 import asyncio
 import logging
-from typing import Dict, Set
+import time
+from typing import Dict, Set, Optional
 from datetime import datetime
 import websockets
 from websockets.server import WebSocketServerProtocol
 
 from storage.collaboration import get_collaboration_db
 
-logging.basicConfig(level=logging.INFO)
+# 配置日志编码
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
 
 # 存储连接：{session_id: {websocket: participant_info}}
 active_connections: Dict[int, Dict[WebSocketServerProtocol, dict]] = {}
+
+# 速率限制配置
+RATE_LIMIT_MESSAGES = 10  # 每秒最大消息数
+RATE_LIMIT_WINDOW = 1.0  # 滑动窗口时间（秒）
+MESSAGE_SIZE_LIMIT = 1024 * 1024  # 消息大小限制 1MB
+
+
+def _sanitize_error_message(error: str) -> str:
+    """脱敏错误信息，防止敏感信息泄露"""
+    # 移除可能的路径信息
+    sanitized = error.replace("\\", "/").replace("/", "\\")
+    # 移除可能的 API key 信息
+    sanitized = sanitized.replace("sk-", "***")
+    sanitized = sanitized.replace("api_key", "***")
+    # 限制长度
+    if len(sanitized) > 200:
+        sanitized = sanitized[:200] + "..."
+    return sanitized
+
+
+class RateLimiter:
+    """简单速率限制器"""
+
+    def __init__(self, max_messages: int = RATE_LIMIT_MESSAGES, window: float = RATE_LIMIT_WINDOW):
+        self.max_messages = max_messages
+        self.window = window
+        self.message_counts: Dict[str, list] = {}
+
+    async def check_rate_limit(self, client_id: str) -> bool:
+        """检查是否超过速率限制，返回 True 表示允许，False 表示被限制"""
+        now = time.time()
+        window_start = now - self.window
+
+        if client_id not in self.message_counts:
+            self.message_counts[client_id] = []
+
+        # 清理过期的时间戳
+        self.message_counts[client_id] = [
+            ts for ts in self.message_counts[client_id] if ts > window_start
+        ]
+
+        # 检查是否超过限制
+        if len(self.message_counts[client_id]) >= self.max_messages:
+            return False
+
+        # 记录消息
+        self.message_counts[client_id].append(now)
+        return True
+
+
+# 全局速率限制器
+rate_limiter = RateLimiter()
 
 
 class CollaborationWebSocketServer:
@@ -28,28 +81,52 @@ class CollaborationWebSocketServer:
         self.port = port
         self.db = get_collaboration_db()
 
-    async def handle_connection(self, websocket: WebSocketServerProtocol, path: str):
+    async def handle_connection(self, websocket: WebSocketServerProtocol):
         """处理 WebSocket 连接"""
+        client_info = f"{websocket.remote_address}"
+        logger.info(f"新连接: {client_info}")
+        
         try:
-            # 等待客户端发送握手消息
-            init_message = await websocket.recv()
-            init_data = json.loads(init_message)
+            # 设置更长的接收超时
+            try:
+                init_message = await asyncio.wait_for(websocket.recv(), timeout=10.0)
+            except asyncio.TimeoutError:
+                logger.warning(f"握手超时: {client_info}")
+                return
+
+            try:
+                init_data = json.loads(init_message)
+            except json.JSONDecodeError as e:
+                logger.warning(f"握手JSON解析失败: {client_info}, error: {e}")
+                await self.send_error(websocket, "Invalid handshake JSON")
+                return
 
             action = init_data.get('action')
-            session_id = init_data.get('session_id')
-            nickname = init_data.get('nickname')
+            try:
+                session_id = int(init_data.get('session_id'))
+            except (TypeError, ValueError):
+                logger.warning(f"无效的 session_id: {init_data.get('session_id')}")
+                await self.send_error(websocket, "Invalid session_id")
+                return
+                
+            nickname = init_data.get('nickname', 'Anonymous')
             avatar_color = init_data.get('avatar_color', '#667eea')
 
             if action != 'join':
                 await self.send_error(websocket, "Invalid action")
                 return
 
-            # 添加参与者
-            participant = self.db.add_participant(
-                session_id=session_id,
-                nickname=nickname,
-                avatar_color=avatar_color
-            )
+            # 添加参与者（带错误处理）
+            try:
+                participant = self.db.add_participant(
+                    session_id=session_id,
+                    nickname=nickname,
+                    avatar_color=avatar_color
+                )
+            except Exception as e:
+                logger.error(f"添加参与者失败: {e}")
+                await self.send_error(websocket, "Failed to join session")
+                return
 
             if not participant:
                 await self.send_error(websocket, "Failed to join session")
@@ -90,27 +167,57 @@ class CollaborationWebSocketServer:
             })
 
             # 发送历史消息
-            history_messages = self.db.get_session_messages(session_id, limit=50)
-            await self.send_message(websocket, {
-                'type': 'history',
-                'messages': [self._serialize_message(msg) for msg in history_messages]
-            })
+            try:
+                history_messages = self.db.get_session_messages(session_id, limit=50)
+                await self.send_message(websocket, {
+                    'type': 'history',
+                    'messages': [self._serialize_message(msg) for msg in history_messages]
+                })
+            except Exception as e:
+                logger.error(f"获取历史消息失败: {e}")
+                await self.send_message(websocket, {'type': 'history', 'messages': []})
 
             # 开始消息循环
             async for message in websocket:
+                # 检查消息大小
+                if len(message.encode('utf-8')) > MESSAGE_SIZE_LIMIT:
+                    logger.warning(f"消息过大: {client_info}")
+                    await self.send_error(websocket, "Message too large")
+                    continue
+                
+                # 速率限制检查
+                client_id = f"{session_id}_{participant.id}"
+                if not await rate_limiter.check_rate_limit(client_id):
+                    logger.warning(f"速率限制触发: {client_id}")
+                    await self.send_error(websocket, "Too many requests")
+                    continue
+                
                 try:
                     data = json.loads(message)
                     await self.handle_message(websocket, session_id, participant.id, data)
                 except json.JSONDecodeError:
+                    logger.warning(f"JSON解析错误: {message[:100]}")
                     await self.send_error(websocket, "Invalid JSON")
+                except websockets.exceptions.ConnectionClosed:
+                    logger.info(f"连接关闭: {client_info}")
+                    break
+                except websockets.exceptions.PayloadTooBig:
+                    await self.send_error(websocket, "Message too large")
                 except Exception as e:
                     logger.error(f"处理消息错误: {e}")
-                    await self.send_error(websocket, str(e))
+                    try:
+                        sanitized_error = _sanitize_error_message(str(e))
+                        await self.send_error(websocket, sanitized_error)
+                    except:
+                        pass
 
         except websockets.exceptions.ConnectionClosed:
-            logger.info(f"连接关闭")
+            logger.info(f"连接关闭: {client_info}")
+        except asyncio.CancelledError:
+            logger.info(f"连接被取消: {client_info}")
+            raise
         except Exception as e:
-            logger.error(f"连接错误: {e}")
+            logger.error(f"连接错误: {client_info}, error: {e}")
         finally:
             # 清理连接
             await self.cleanup(websocket)

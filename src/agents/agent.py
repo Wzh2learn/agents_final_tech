@@ -10,6 +10,8 @@
 """
 import os
 import json
+import httpx
+import warnings
 from typing import Annotated
 from langgraph.prebuilt import create_react_agent
 from langchain_openai import ChatOpenAI
@@ -18,6 +20,9 @@ from langgraph.graph.message import add_messages
 from langchain_core.messages import AnyMessage
 from utils.runtime_ctx import default_headers
 from storage.memory.memory_saver import get_memory_saver
+
+# 抑制 create_react_agent 弃用警告
+warnings.filterwarnings('ignore', message='.*create_react_agent.*', category=DeprecationWarning)
 
 # 导入核心业务工具
 from tools.document_processor import document_processor, validate_rules
@@ -65,22 +70,30 @@ def build_agent(ctx=None):
         cfg = json.load(f)
 
     api_key = os.getenv("SILICONFLOW_API_KEY")
-    base_url = os.getenv("SILICONFLOW_BASE_URL")
+    base_url = os.getenv("SILICONFLOW_BASE_URL", "https://api.siliconflow.cn/v1")
 
-    llm = ChatOpenAI(
-        model=cfg['config'].get("model"),
-        api_key=api_key,
-        base_url=base_url,
-        temperature=cfg['config'].get('temperature', 0.7),
-        streaming=True,
-        timeout=cfg['config'].get('timeout', 600),
-        extra_body={
+    thinking_type = cfg['config'].get('thinking', 'disabled')
+    
+    llm_kwargs = {
+        "model": cfg['config'].get("model", "deepseek-ai/DeepSeek-V3"),
+        "api_key": api_key,
+        "base_url": base_url,
+        "temperature": cfg['config'].get('temperature', 0.7),
+        "streaming": True,
+        "timeout": 300,
+        "max_tokens": cfg['config'].get('max_completion_tokens', 10000),
+        "default_headers": default_headers(ctx) if ctx else {},
+        "max_retries": 2
+    }
+    
+    if thinking_type != 'disabled':
+        llm_kwargs["extra_body"] = {
             "thinking": {
-                "type": cfg['config'].get('thinking', 'disabled')
+                "type": thinking_type
             }
-        },
-        default_headers=default_headers(ctx) if ctx else {}
-    )
+        }
+
+    llm = ChatOpenAI(**llm_kwargs)
 
     # 构建工具列表 (精简后的核心工具集)
     tools = [

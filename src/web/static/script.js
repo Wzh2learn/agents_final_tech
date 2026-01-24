@@ -461,12 +461,24 @@ function handleWebSocketMessage(data) {
         case 'join_success':
             participantId = data.participant_id;
             console.log(`成功加入协作，参与者ID: ${participantId}`);
+            updateConnectionStatus('connected');
+            break;
+        case 'online_users':
+            updateOnlineUsers(data.users);
             break;
         case 'user_joined':
             addMessageUI('ai', `👋 **${data.nickname}** 加入了协作。`, 'system');
+            updateOnlineUsersFromMessage(data);
             break;
         case 'user_left':
             addMessageUI('ai', `🚶 **${data.nickname}** 离开了协作。`, 'system');
+            updateOnlineUsersFromMessage(data);
+            break;
+        case 'typing':
+            showTypingIndicator(data.nickname);
+            break;
+        case 'stop_typing':
+            hideTypingIndicator();
             break;
         case 'chat':
             // 只有当消息不是自己发出的（或者我们想通过 WS 统一渲染）时处理
@@ -479,7 +491,124 @@ function handleWebSocketMessage(data) {
             break;
         case 'error':
             console.error('WS Error:', data.message);
+            showToast(`协作错误: ${data.message}`, 'error');
             break;
+        case 'pong':
+            // 心跳响应
+            break;
+    }
+}
+
+// 更新在线用户列表显示
+function updateOnlineUsers(users) {
+    // 创建或更新在线用户面板
+    let onlinePanel = document.getElementById('online-users-panel');
+    if (!onlinePanel) {
+        onlinePanel = document.createElement('div');
+        onlinePanel.id = 'online-users-panel';
+        onlinePanel.style.cssText = `
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            padding: 12px;
+            z-index: 1000;
+            min-width: 150px;
+        `;
+        document.body.appendChild(onlinePanel);
+    }
+    
+    if (!users || users.length === 0) {
+        onlinePanel.innerHTML = '<div style="font-size: 12px; color: #9ca3af;">暂无在线用户</div>';
+        return;
+    }
+    
+    onlinePanel.innerHTML = `
+        <div style="font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 8px;">
+            👥 在线用户 (${users.length})
+        </div>
+        ${users.map(u => `
+            <div style="display: flex; align-items: center; gap: 8px; padding: 4px 0;">
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: ${u.avatar_color || '#667eea'};"></div>
+                <span style="font-size: 13px; color: #374151;">${u.nickname}</span>
+            </div>
+        `).join('')}
+    `;
+}
+
+function updateOnlineUsersFromMessage(data) {
+    // 临时显示用户变动通知
+    // 实际列表通过 online_users 消息更新
+}
+
+// 显示typing指示器
+let typingTimeout = null;
+function showTypingIndicator(nickname) {
+    const typingEl = document.getElementById('typing-indicator');
+    if (!typingEl) {
+        const el = document.createElement('div');
+        el.id = 'typing-indicator';
+        el.style.cssText = `
+            padding: 8px 16px;
+            font-size: 12px;
+            color: #6b7280;
+            font-style: italic;
+        `;
+        chatContainer.appendChild(el);
+    }
+    
+    const typingIndicator = document.getElementById('typing-indicator');
+    typingIndicator.innerHTML = `💭 ${nickname} 正在输入...`;
+    typingIndicator.style.display = 'block';
+    scrollToBottom();
+    
+    // 5秒后自动隐藏
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+        hideTypingIndicator();
+    }, 5000);
+}
+
+function hideTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    if (typingIndicator) {
+        typingIndicator.style.display = 'none';
+    }
+}
+
+// 更新连接状态显示
+function updateConnectionStatus(status) {
+    const statusEl = document.getElementById('ws-status');
+    if (!statusEl) {
+        const el = document.createElement('div');
+        el.id = 'ws-status';
+        el.style.cssText = `
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            z-index: 1000;
+        `;
+        document.body.appendChild(el);
+    }
+    
+    const statusIndicator = document.getElementById('ws-status');
+    if (status === 'connected') {
+        statusIndicator.innerHTML = '🟢 协作已连接';
+        statusIndicator.style.background = '#dcfce7';
+        statusIndicator.style.color = '#166534';
+    } else if (status === 'disconnected') {
+        statusIndicator.innerHTML = '🔴 协作已断开';
+        statusIndicator.style.background = '#fee2e2';
+        statusIndicator.style.color = '#991b1b';
+    } else if (status === 'reconnecting') {
+        statusIndicator.innerHTML = '🟡 正在重连...';
+        statusIndicator.style.background = '#fef3c7';
+        statusIndicator.style.color = '#92400e';
     }
 }
 
@@ -611,10 +740,23 @@ async function sendMessage() {
     
     // 如果是协作会话，通过 WS 发送
     if (currentSessionType === 'collaborative' && ws && ws.readyState === WebSocket.OPEN) {
+        // 发送正在输入状态
+        ws.send(JSON.stringify({
+            type: 'typing'
+        }));
+        
+        // 发送聊天消息
         ws.send(JSON.stringify({
             type: 'chat',
             content: content
         }));
+        
+        // 停止输入状态
+        setTimeout(() => {
+            ws.send(JSON.stringify({
+                type: 'stop_typing'
+            }));
+        }, 500);
     }
 
     // 清空输入并禁用
@@ -651,85 +793,31 @@ async function sendMessage() {
         
         if (!response.ok) throw new Error('网络请求失败');
         
-        // 个人会话处理流式响应，协作会话由 WS 广播结果
-        if (currentSessionType === 'private') {
-            if (!response.body || !response.body.getReader) {
-                const text = await response.text();
-                if (currentAiMessage) {
-                    currentAiMessage.innerHTML = parseMarkdown(text);
-                }
-                return;
+        // 非流式响应处理
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            // 填充 AI 消息内容
+            if (currentAiMessage) {
+                currentAiMessage.innerHTML = parseMarkdown(data.content || '');
             }
-
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let fullText = '';
-            let streamDone = false;  // 标志变量：是否收到 done 信号
-            let buffer = '';  // 缓冲区：处理跨块的不完整行
-
-            while (!streamDone) {
-                try {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-
-                    // 解码并拼接到缓冲区
-                    buffer += decoder.decode(value, { stream: true });
-                    const lines = buffer.split('\n');
-
-                    // 最后一行可能不完整，保留在缓冲区
-                    buffer = lines.pop() || '';
-
-                    for (const line of lines) {
-                        const trimmedLine = line.trim();
-                        if (!trimmedLine.startsWith('data: ')) {
-                            continue;
-                        }
-
-                        const payload = trimmedLine.slice(6).trim();
-                        if (!payload) {
-                            continue;
-                        }
-
-                        let data;
-                        try {
-                            data = JSON.parse(payload.replace(/\r$/, ''));
-                        } catch (e) {
-                            // JSON 解析失败，跳过此行
-                            continue;
-                        }
-
-                        // 检查 done 信号
-                        if (data.done) {
-                            streamDone = true;
-                            break;
-                        }
-
-                        // 处理内容
-                        const contentChunk = typeof data.content === 'object' ? data.content.content : data.content;
-                        if (contentChunk) {
-                            fullText += contentChunk;
-                            if (currentAiMessage) {
-                                currentAiMessage.innerHTML = parseMarkdown(fullText);
-                            }
-                            scrollToBottom();
-                        }
-                    }
-                } catch (readError) {
-                    console.error('[SSE] 读取流错误:', readError);
-                    break;
+            scrollToBottom();
+            
+            // 显示引用来源
+            const messageDiv = currentAiMessage?.closest('.message');
+            if (messageDiv) {
+                if (data.sources && data.sources.length > 0) {
+                    const sourcesHtml = renderSources(data.sources);
+                    currentAiMessage.insertAdjacentHTML('afterend', sourcesHtml);
+                } else {
+                    // 无来源时显示提示
+                    const noSourcesHtml = renderNoSources();
+                    currentAiMessage.insertAdjacentHTML('afterend', noSourcesHtml);
                 }
+                scrollToBottom();
             }
         } else {
-            // 协作会话：AI 响应会通过 WebSocket 广播，这里只需要处理占位符
-            // 我们可以等待 WS 消息，或者简单地在 API 返回后处理
-            const data = await response.json();
-            if (data.status === 'success' && currentAiMessage) {
-                // 如果 WS 已经广播过了，这里可能已经有内容了
-                // 如果还没广播，可以先填入返回的内容（非流式）
-                if (currentAiMessage.textContent === '.') {
-                    currentAiMessage.innerHTML = parseMarkdown(data.content || '');
-                }
-            }
+            throw new Error(data.message || '请求失败');
         }
     } catch (error) {
         console.error('对话失败:', error);
@@ -744,11 +832,17 @@ async function sendMessage() {
     } finally {
         isGenerating = false;
         currentAiMessage = null;
+        
+        // 获取下一步建议
+        if (content) {
+            conversationHistory.push(content);
+            fetchSuggestions(content);
+        }
     }
 }
 
 // UI 辅助函数
-function addMessageUI(type, content, senderName = '') {
+function addMessageUI(type, content, senderName = '', sources = []) {
     if (!chatContainer) return;
     const msgDiv = document.createElement('div');
     msgDiv.className = `message ${type}`;
@@ -757,6 +851,44 @@ function addMessageUI(type, content, senderName = '') {
     const avatar = isAi ? '🤖' : (senderName ? senderName.charAt(0).toUpperCase() : '👤');
     const displaySender = (type === 'user' || senderName === 'system') ? `<div style="font-size: 11px; color: #9ca3af; margin-bottom: 4px;">${senderName}</div>` : '';
 
+    // 渲染引用来源
+    let sourcesHtml = '';
+    if (isAi && sources && sources.length > 0) {
+        sourcesHtml = `
+            <div class="message-sources" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e5e7eb;">
+                <div style="font-size: 11px; color: #6b7280; margin-bottom: 8px; display: flex; align-items: center; gap: 4px;">
+                    <span style="color: #667eea;">📚</span>
+                    <span>参考来源</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    ${sources.map((source, idx) => `
+                        <div class="source-item" style="
+                            padding: 8px 12px; 
+                            background: #f8fafc; 
+                            border-radius: 6px; 
+                            font-size: 12px;
+                            border-left: 3px solid #667eea;
+                            cursor: pointer;
+                            transition: all 0.2s;
+                        " onclick="showSourceDetail('${idx}', '${source.source || '未知'}', '${source.content?.substring(0, 100).replace(/'/g, "\\'") || ''}')"
+                        onmouseover="this.style.background='#f0f3ff'"
+                        onmouseout="this.style.background='#f8fafc'">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 500; color: #374151;">📄 ${source.source || '未知文档'}</span>
+                                <span style="font-size: 11px; color: #10b981; background: #ecfdf5; padding: 2px 6px; border-radius: 4px;">
+                                    ${(source.relevance_score * 100).toFixed(0)}% 相关
+                                </span>
+                            </div>
+                            <div style="color: #6b7280; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                ${source.content?.substring(0, 80)}...
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
     msgDiv.innerHTML = `
         <div class="message-avatar" style="${!isAi && senderName !== 'system' ? 'background: #10b981;' : ''}">${avatar}</div>
         <div class="message-content-wrapper">
@@ -764,10 +896,71 @@ function addMessageUI(type, content, senderName = '') {
             <div class="message-bubble">
                 ${parseMarkdown(content)}
             </div>
+            ${sourcesHtml}
         </div>
     `;
     
     chatContainer.appendChild(msgDiv);
+}
+
+// 显示来源详情
+function showSourceDetail(idx, sourceName, content) {
+    showToast(`来源: ${sourceName}`, 'info');
+    console.log('Source detail:', { idx, sourceName, content });
+}
+
+// 渲染引用来源 HTML
+function renderSources(sources) {
+    if (!sources || sources.length === 0) return '';
+    
+    return `
+        <div class="message-sources" style="margin: 12px 0; padding: 12px; background: #f8fafc; border-radius: 8px; border-left: 3px solid #667eea;">
+            <div style="font-size: 12px; color: #6b7280; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 14px;">📚</span>
+                <span style="font-weight: 500;">参考来源</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                ${sources.map((source, idx) => `
+                    <div class="source-item" style="
+                        padding: 10px 12px; 
+                        background: white; 
+                        border-radius: 6px; 
+                        font-size: 12px;
+                        border: 1px solid #e5e7eb;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                    " onclick="showSourceDetail('${idx}', '${source.source || '未知'}', '${source.content?.substring(0, 200).replace(/'/g, "\\'") || ''}')"
+                    onmouseover="this.style.borderColor='#667eea'; this.style.background='#f0f3ff'"
+                    onmouseout="this.style.borderColor='#e5e7eb'; this.style.background='white'">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-weight: 500; color: #374151; display: flex; align-items: center; gap: 6px;">
+                                <span>📄</span>
+                                <span>${source.source || '未知文档'}</span>
+                            </span>
+                            <span style="font-size: 11px; color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 4px;">
+                                ${(source.relevance_score * 100).toFixed(0)}% 相关
+                            </span>
+                        </div>
+                        <div style="color: #6b7280; line-height: 1.5;">
+                            ${source.content?.substring(0, 120)}...
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
+// 无来源时显示提示
+function renderNoSources() {
+    return `
+        <div class="message-sources" style="margin: 12px 0; padding: 12px; background: #f9fafb; border-radius: 8px; border-left: 3px solid #e5e7eb;">
+            <div style="font-size: 12px; color: #9ca3af; display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 14px;">📚</span>
+                <span>未检索到相关文档</span>
+            </div>
+        </div>
+    `;
 }
 
 function createAiMessagePlaceholder() {
@@ -790,20 +983,168 @@ function scrollToBottom() {
     if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-// Markdown 解析 (复用并优化)
+// Markdown 解析 - 增强版，支持更丰富的格式
 function parseMarkdown(text) {
     if (!text) return '';
+    
+    // 处理特殊字符
     let html = text
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
-        .replace(/`([^`]+)`/g, '<code>$1</code>')
-        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-        .replace(/^### (.*$)/gm, '<h3>$1</h3>')
-        .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-        .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-        .replace(/^[-*] (.*)$/gm, '<li>$1</li>')
-        .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+        .replace(/>/g, '&gt;');
+    
+    // 代码块
+    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
+        return `<pre><code class="language-${lang || 'text'}">${code.trim()}</code></pre>`;
+    });
+    
+    // 行内代码
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    
+    // 粗体
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    
+    // 斜体
+    html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    
+    // 标题
+    html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+    html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+    html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+    
+    // 列表
+    const listItems = html.match(/^[-*+] (.*)$/gm);
+    if (listItems) {
+        listItems.forEach(item => {
+            html = html.replace(item, `<li>${item.slice(2)}</li>`);
+        });
+        html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    }
+    
+    // 数字列表
+    const numItems = html.match(/^\d+\. (.*)$/gm);
+    if (numItems) {
+        numItems.forEach(item => {
+            html = html.replace(item, `<li>${item.replace(/^\d+\.\s*/, '')}</li>`);
+        });
+        html = html.replace(/(<li>.*<\/li>)+/s, '<ol>$&</ol>');
+    }
+    
+    // 链接
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    
+    // 引用块
+    html = html.replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>');
+    
+    // 分割线
+    html = html.replace(/^---$/gm, '<hr>');
+    
+    // 表格支持
+    const tableRegex = /\|(.+)\|\n\|[-|]+\|\n((?:\|.+\|\n?)+)/g;
+    html = html.replace(tableRegex, (match, header, rows) => {
+        const headers = header.split('|').map(h => `<th>${h.trim()}</th>`).join('');
+        const body = rows.split('\n').filter(r => r.trim()).map(row => {
+            const cells = row.split('|').map(c => `<td>${c.trim()}</td>`).join('');
+            return `<tr>${cells}</tr>`;
+        }).join('');
+        return `<table><thead><tr>${headers}</tr></thead><tbody>${body}</tbody></table>`;
+    });
+    
     return html;
+}
+
+// ==================== 下一步建议功能 ====================
+
+let conversationHistory = [];
+
+/**
+ * 获取并显示下一步建议
+ * @param {string} lastMessage - 最后一条用户消息
+ */
+async function fetchSuggestions(lastMessage) {
+    if (!lastMessage || lastMessage.trim().length < 2) {
+        hideSuggestions();
+        return;
+    }
+
+    try {
+        const data = await apiCall('/api/chat/suggestions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                conversation_id: currentSessionId ? `session_${currentSessionId}` : 'default',
+                last_message: lastMessage,
+                context: conversationHistory.slice(-6)
+            })
+        });
+
+        if (data.status === 'success' && data.suggestions && data.suggestions.length > 0) {
+            showSuggestions(data.suggestions);
+        } else {
+            hideSuggestions();
+        }
+    } catch (error) {
+        console.warn('获取建议失败:', error);
+        hideSuggestions();
+    }
+}
+
+/**
+ * 显示建议区域
+ * @param {Array} suggestions - 建议列表
+ */
+function showSuggestions(suggestions) {
+    const container = document.getElementById('suggestionsContainer');
+    const list = document.getElementById('suggestionsList');
+    
+    if (!container || !list) return;
+    
+    list.innerHTML = suggestions.map((suggestion, index) => `
+        <button class="suggestion-chip" onclick="useSuggestion('${suggestion.replace(/'/g, "\\'")}')" style="
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            margin: 4px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            color: #374151;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        " onmouseover="this.style.background='linear-gradient(135deg, #667eea 0%, #764ba2 100%)'; this.style.color='white'; this.style.borderColor='transparent'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.3)'"
+        onmouseout="this.style.background='linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)'; this.style.color='#374151'; this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.05)'">
+            <span style="font-size: 12px;">💡</span>
+            <span>${suggestion}</span>
+        </button>
+    `).join('');
+    
+    container.style.display = 'block';
+}
+
+/**
+ * 隐藏建议区域
+ */
+function hideSuggestions() {
+    const container = document.getElementById('suggestionsContainer');
+    if (container) {
+        container.style.display = 'none';
+    }
+}
+
+/**
+ * 使用建议的问题
+ * @param {string} suggestion - 建议的问题
+ */
+function useSuggestion(suggestion) {
+    if (!messageInput) return;
+    
+    messageInput.value = suggestion;
+    messageInput.focus();
+    hideSuggestions();
+    
+    // 触发发送
+    sendMessage();
 }

@@ -28,7 +28,7 @@ class CompareRequest(BaseModel):
 
 @router.get("/stats")
 @cached(ttl=60, key_prefix="kb_stats")
-async def get_knowledge_stats():
+async def get_knowledge_stats(collection_name: str = "knowledge_base"):
     """获取知识库统计信息（带60秒缓存）"""
     try:
         from storage.database.document_manager import DocumentManager
@@ -37,7 +37,7 @@ async def get_knowledge_stats():
         db = get_session()
         try:
             doc_mgr = DocumentManager()
-            stats_data = doc_mgr.get_statistics(db)
+            stats_data = doc_mgr.get_statistics(db, collection_name=collection_name)
             return {"status": "success", "stats": stats_data}
         finally:
             db.close()
@@ -50,9 +50,10 @@ async def get_documents(
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=100),
     limit: Optional[int] = None,
-    search: str = ""
+    search: str = "",
+    collection_name: str = "knowledge_base"
 ):
-    """获取文档列表（支持分页和搜索）"""
+    """获取文档列表（支持分页、搜索和集合切换）"""
     try:
         from storage.database.document_manager import DocumentManager
         from storage.database.db import get_session
@@ -65,9 +66,9 @@ async def get_documents(
         db = get_session()
         try:
             doc_mgr = DocumentManager()
-            documents = doc_mgr.get_documents(db=db, skip=skip, limit=page_size, search=search)
+            documents = doc_mgr.get_documents(db=db, skip=skip, limit=page_size, search=search, collection_name=collection_name)
             # 使用 count_documents 获取总数，避免查询全部数据
-            total = doc_mgr.count_documents(db=db, search=search)
+            total = doc_mgr.count_documents(db=db, search=search, collection_name=collection_name)
 
             return {
                 "status": "success",
@@ -81,6 +82,18 @@ async def get_documents(
             }
         finally:
             db.close()
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
+@router.get("/collections")
+async def list_collections():
+    """获取所有知识库集合列表"""
+    try:
+        from biz.rag_service import get_rag_service
+        rag_service = get_rag_service()
+        collections = rag_service.get_collection_names()
+        return {"status": "success", "collections": collections}
     except Exception as e:
         return {"status": "error", "message": str(e)}
 

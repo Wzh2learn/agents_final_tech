@@ -5,6 +5,7 @@ import time
 import threading
 import json
 import os
+import inspect
 from typing import Any, Optional, Callable
 from functools import wraps
 import logging
@@ -221,24 +222,35 @@ def cached(ttl: int = 300, key_prefix: str = ""):
             return heavy_computation()
     """
     def decorator(func: Callable) -> Callable:
+        if inspect.iscoroutinefunction(func):
+            @wraps(func)
+            async def async_wrapper(*args, **kwargs):
+                cache_key = f"{key_prefix}:{func.__name__}:{str(args)}:{str(kwargs)}"
+                cache = get_cache()
+                cached_value = cache.get(cache_key)
+                if cached_value is not None:
+                    return cached_value
+
+                result = await func(*args, **kwargs)
+                cache.set(cache_key, result, ttl)
+                return result
+
+            return async_wrapper
+
         @wraps(func)
         def wrapper(*args, **kwargs):
-            # 生成缓存键
             cache_key = f"{key_prefix}:{func.__name__}:{str(args)}:{str(kwargs)}"
-
-            # 尝试从缓存获取
             cache = get_cache()
             cached_value = cache.get(cache_key)
             if cached_value is not None:
                 return cached_value
 
-            # 执行函数并缓存结果
             result = func(*args, **kwargs)
             cache.set(cache_key, result, ttl)
-
             return result
 
         return wrapper
+
     return decorator
 
 
