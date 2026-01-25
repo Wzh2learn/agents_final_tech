@@ -34,14 +34,24 @@ def _create_engine_with_retry():
     if url is None or url == "":
         logger.error("PGDATABASE_URL is not set")
         raise ValueError("PGDATABASE_URL is not set")
-    size = 100
-    overflow = 100
+    
+    # 从环境变量读取连接池配置，默认使用合理值
+    import os
+    pool_size = int(os.getenv("DB_POOL_SIZE", "5"))
+    max_overflow = int(os.getenv("DB_MAX_OVERFLOW", "10"))
     recycle = 1800
     timeout = 30
+    
+    # 限制最小值，防止配置过小
+    pool_size = max(1, min(pool_size, 20))
+    max_overflow = max(0, min(max_overflow, 20))
+    
+    logger.info(f"Database pool config: pool_size={pool_size}, max_overflow={max_overflow}")
+    
     engine = create_engine(
         url,
-        pool_size=size,
-        max_overflow=overflow,
+        pool_size=pool_size,
+        max_overflow=max_overflow,
         pool_pre_ping=True,
         pool_recycle=recycle,
         pool_timeout=timeout,

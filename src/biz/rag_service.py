@@ -213,7 +213,7 @@ class RAGService:
     def _select_collections(self, query: str) -> List[str]:
         """
         智能选择相关知识库
-        基于查询关键词与知识库名称的匹配度选择
+        基于查询关键词与知识库名称的语义匹配选择
         """
         try:
             all_collections = self.get_collection_names()
@@ -224,32 +224,46 @@ class RAGService:
             if len(all_collections) == 1:
                 return all_collections
             
-            # 基于关键词匹配选择
-            selected = []
             query_lower = query.lower()
             
             # 从配置文件加载领域关键词
             domain_keywords = _get_domain_keywords()
             
             # 检查查询涉及的领域
-            involved_domains = []
+            involved_domains = set()
             for domain, keywords in domain_keywords.items():
                 for keyword in keywords:
                     if keyword in query_lower:
-                        involved_domains.append(domain)
+                        involved_domains.add(domain)
                         break
             
-            # 选择相关的知识库
+            # 基于领域匹配选择知识库
+            selected = []
             for collection in all_collections:
                 collection_lower = collection.lower()
-                # 默认选择所有知识库
-                selected.append(collection)
+                # 1. 如果查询涉及某领域，优先选择包含该领域关键词的知识库
+                matched = False
+                for domain in involved_domains:
+                    domain_kw = domain.lower()
+                    if domain_kw in collection_lower or any(kw in collection_lower for kw in domain_keywords.get(domain, [])):
+                        selected.append(collection)
+                        matched = True
+                        break
+                # 2. 如果没有领域匹配，选择默认知识库
+                if not matched:
+                    if collection == self.collection_name or "default" in collection_lower or "base" in collection_lower:
+                        if collection not in selected:
+                            selected.append(collection)
+            
+            # 如果没有匹配到任何知识库，返回默认
+            if not selected:
+                selected = [self.collection_name]
             
             # 限制最多选择3个知识库以平衡性能和相关性
             if len(selected) > 3:
                 selected = selected[:3]
             
-            logger.info(f"智能选择知识库: {selected} (涉及领域: {involved_domains})")
+            logger.info(f"智能选择知识库: {selected} (涉及领域: {list(involved_domains)})")
             return selected
             
         except Exception as e:

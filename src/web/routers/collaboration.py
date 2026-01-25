@@ -122,7 +122,7 @@ async def get_messages(session_id: int):
 
 @router.post("/chat")
 async def collaboration_chat(request: CollabChatRequest):
-    """协作聊天"""
+    """协作聊天 - 仅处理 AI 响应，不处理用户消息（用户消息由 WebSocket 直接广播）"""
     from biz.agent_service import get_agent_service
     from web.websocket_server import broadcast_agent_message
 
@@ -138,6 +138,7 @@ async def collaboration_chat(request: CollabChatRequest):
                 full_content += chunk.get("content", "")
 
         if full_content:
+            # 仅广播 AI 响应，不处理用户消息（用户消息由 WebSocket 客户端直接广播）
             await broadcast_agent_message(
                 session_id=request.session_id, content=full_content
             )

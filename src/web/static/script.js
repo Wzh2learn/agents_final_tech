@@ -79,33 +79,33 @@ function showToast(message, type = 'info') {
   }, 3000);
 }
 
-// DOM 元素
-const sessionList = document.getElementById('sessionList');
-const chatContainer = document.getElementById('chatContainer');
-const messageInput = document.getElementById('messageInput');
-const sendBtn = document.getElementById('sendBtn');
-const newChatBtn = document.getElementById('newChatBtn');
-const currentSessionName = document.getElementById('currentSessionName');
-const roleNameDisplay = document.getElementById('roleName');
-const roleEmojiDisplay = document.getElementById('roleEmoji');
-const loadingIndicator = document.getElementById('loadingIndicator');
+// DOM 元素 - 添加空值检查
+const sessionList = document.getElementById('sessionList') || null;
+const chatContainer = document.getElementById('chatContainer') || null;
+const messageInput = document.getElementById('messageInput') || null;
+const sendBtn = document.getElementById('sendBtn') || null;
+const newChatBtn = document.getElementById('newChatBtn') || null;
+const currentSessionName = document.getElementById('currentSessionName') || null;
+const roleNameDisplay = document.getElementById('roleName') || null;
+const roleEmojiDisplay = document.getElementById('roleEmoji') || null;
+const loadingIndicator = document.getElementById('loadingIndicator') || null;
 
-// 弹窗元素
-const roleModal = document.getElementById('roleModal');
-const modalBackdrop = document.getElementById('modalBackdrop');
-const openRoleModalBtn = document.getElementById('openRoleModal');
-const closeRoleModalBtn = document.getElementById('closeRoleModal');
-const roleOptions = document.querySelectorAll('.role-option');
+// 弹窗元素 - 添加空值检查
+const roleModal = document.getElementById('roleModal') || null;
+const modalBackdrop = document.getElementById('modalBackdrop') || null;
+const openRoleModalBtn = document.getElementById('openRoleModal') || null;
+const closeRoleModalBtn = document.getElementById('closeRoleModal') || null;
+const roleOptions = document.querySelectorAll('.role-option') || [];
 
-const collabModal = document.getElementById('collabModal');
-const collabModalBackdrop = document.getElementById('collabModalBackdrop');
-const openCollabModalBtn = document.getElementById('newCollabBtn');
-const closeCollabModalBtn = document.getElementById('closeCollabModal');
-const collabSessionSelect = document.getElementById('collabSessionSelect');
-const joinCollabBtn = document.getElementById('joinCollabBtn');
-const createCollabBtn = document.getElementById('createCollabBtn');
-const nicknameInput = document.getElementById('nicknameInput');
-const newCollabNameInput = document.getElementById('newCollabNameInput');
+const collabModal = document.getElementById('collabModal') || null;
+const collabModalBackdrop = document.getElementById('collabModalBackdrop') || null;
+const openCollabModalBtn = document.getElementById('newCollabBtn') || null;
+const closeCollabModalBtn = document.getElementById('closeCollabModal') || null;
+const collabSessionSelect = document.getElementById('collabSessionSelect') || null;
+const joinCollabBtn = document.getElementById('joinCollabBtn') || null;
+const createCollabBtn = document.getElementById('createCollabBtn') || null;
+const nicknameInput = document.getElementById('nicknameInput') || null;
+const newCollabNameInput = document.getElementById('newCollabNameInput') || null;
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
@@ -123,10 +123,10 @@ function initEventListeners() {
     if (newChatBtn) newChatBtn.addEventListener('click', createNewSession);
 
     // 开启协作弹窗
-    if (openCollabModalBtn) {
+    if (openCollabModalBtn && collabModal) {
         openCollabModalBtn.addEventListener('click', () => {
             collabModal.classList.add('show');
-            collabModalBackdrop.classList.add('show');
+            if (collabModalBackdrop) collabModalBackdrop.classList.add('show');
             loadCollabOptions();
         });
     }
