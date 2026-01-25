@@ -2,23 +2,43 @@
 
 ## 项目架构
 
-### 分层架构
+### ACL 分层架构
 
 ```
 src/
-├── web/          # 表示层 - Flask API + WebSocket
-├── biz/          # 业务逻辑层 - Service层
-├── agents/       # Agent层 - LangGraph Agent
-├── tools/        # 工具层 - Agent可用工具
-├── storage/      # 数据访问层 - DB/S3/Cache
-└── utils/        # 工具函数
+├── web/                # 表示层 - FastAPI routes + WebSocket (端口 5000/5001)
+│   ├── routers/        # API 路由模块 (chat, knowledge, collaboration)
+│   ├── static/         # 前端资源 (CSS/JS)
+│   ├── templates/      # HTML 模板
+│   ├── websocket_server.py  # WebSocket 服务
+│   └── collaboration_service.py  # 协作服务
+├── biz/                # 业务逻辑层 - Service 层
+│   ├── agent_service.py   # Agent 执行、会话管理
+│   └── rag_service.py     # RAG 检索、智能选择
+├── agents/             # Agent 层 - LangGraph ReAct Agent
+│   └── agent.py        # 主路由、17+ 工具集成
+├── tools/              # 工具层 - Agent 可调用工具
+│   ├── vector_store.py       # PGVector 封装
+│   ├── bm25_retriever.py     # 全文检索
+│   ├── hybrid_retriever.py   # 混合检索
+│   ├── reranker_tool.py      # 重排序
+│   ├── document_processor.py # 文档处理
+│   └── question_classifier.py # 问题分类
+├── storage/            # 数据访问层 - ACL 防腐层模式
+│   ├── database/       # SQLAlchemy 模型、DocumentManager
+│   ├── collaboration/  # 协作数据存储
+│   ├── memory/         # LangGraph checkpointer
+│   ├── s3/             # S3 对象存储
+│   └── provider.py    # StorageProvider 统一封装
+├── auth/               # 认证层 - JWT token
+└── utils/              # 工具函数 (Config Loader, Cache)
 ```
 
 ### 核心流程
 
 **用户请求流程**:
 ```
-用户 → Flask API → AgentService → Agent → Tools → Storage → Database
+用户 → FastAPI Route → AgentService → LangGraph Agent → Tools → Storage → Database
 ```
 
 **RAG检索流程**:
@@ -133,24 +153,29 @@ def my_tool(param: str) -> str:
 ### 1. 添加新的API端点
 
 **步骤**:
-1. 在 `src/web/app.py` 添加路由
+1. 在 `src/web/routers/` 创建路由文件
 2. 在 `src/biz/` 添加业务逻辑（如需要）
-3. 更新 `docs/API_REFERENCE.md`
+3. 在 `src/main.py` 注册路由
+4. 更新 `docs/API_REFERENCE.md`
 
 **示例**:
 ```python
-# src/web/app.py
-@app.route('/api/new_feature', methods=['POST'])
-def new_feature():
+# src/web/routers/new_feature.py
+from fastapi import APIRouter
+
+router = APIRouter()
+
+@router.post("/api/new_feature")
+async def new_feature(request: Request):
     """新功能接口"""
-    data = request.json
+    data = await request.json()
     
     # 调用业务层
     from biz.my_service import MyService
     service = MyService()
     result = service.process(data)
     
-    return jsonify(result)
+    return result
 ```
 
 ### 2. 添加新的Agent工具
@@ -317,6 +342,22 @@ logging.basicConfig(level=logging.DEBUG)
 const ws = new WebSocket('ws://localhost:5001');
 ws.onmessage = (e) => console.log('收到:', e.data);
 ws.onerror = (e) => console.error('错误:', e);
+```
+
+### 5. 手动测试
+
+```bash
+# 启动服务
+python src/main.py -m http -p 5000
+
+# 测试API (使用 scripts/test_web_ui.py)
+python scripts/test_web_ui.py
+
+# 测试数据库连接
+python scripts/test_db_conn.py
+
+# 验证配置
+python scripts/verify_config.py
 ```
 
 ## 性能优化
