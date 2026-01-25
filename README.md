@@ -6,23 +6,81 @@
 
 ---
 
-## 🛠️ 核心架构
-
-本项目采用分层模块化设计，确保高扩展性与鲁棒性：
+## 🏗️ 项目架构 (ACL 分层模式)
 
 ```
-src/
-├── web/          # 表示层 - FastAPI路由 + WebSocket
-├── biz/          # 业务逻辑层 - Services
-├── agents/       # Agent层 - LangGraph ReAct Agent
-├── tools/        # 工具层 - 17个Agent可调用工具
-├── storage/      # 数据访问层 - ACL防腐层模式
-└── utils/        # 工具函数
+JinRongAgents/
+├── src/                    # 核心源代码 (ACL 分层)
+│   ├── web/                # 表示层 - FastAPI routes + WebSocket (端口 5000/5001)
+│   │   ├── routers/        # API 路由模块 (chat, knowledge, collaboration)
+│   │   ├── static/          # 前端资源 (CSS/JS)
+│   │   ├── templates/       # HTML 模板
+│   │   ├── websocket_server.py  # WebSocket 服务
+│   │   └── collaboration_service.py  # 协作服务
+│   ├── biz/                # 业务逻辑层 - Service 层
+│   │   ├── agent_service.py   # Agent 执行、会话管理
+│   │   └── rag_service.py     # RAG 检索、智能选择
+│   ├── agents/             # Agent 层 - LangGraph ReAct Agent
+│   │   └── agent.py        # 主路由、17+ 工具集成
+│   ├── tools/              # 工具层 - Agent 可调用工具
+│   │   ├── vector_store.py       # PGVector 封装
+│   │   ├── bm25_retriever.py     # 全文检索
+│   │   ├── hybrid_retriever.py   # 混合检索
+│   │   ├── reranker_tool.py      # 重排序
+│   │   ├── document_processor.py # 文档处理
+│   │   └── question_classifier.py # 问题分类
+│   ├── storage/            # 数据访问层 - ACL 防腐层模式
+│   │   ├── database/       # SQLAlchemy 模型、DocumentManager
+│   │   ├── collaboration/  # 协作数据存储
+│   │   ├── memory/         # LangGraph checkpointer
+│   │   ├── s3/             # S3 对象存储
+│   │   └── provider.py    # StorageProvider 统一封装
+│   ├── auth/               # 认证层 - JWT token
+│   └── utils/              # 工具函数 (Config Loader, Cache)
+├── scripts/                # 初始化脚本
+│   ├── init_pgvector_db.py     # PGVector 初始化
+│   ├── init_collaboration_db.py # 协作数据库初始化
+│   ├── populate_knowledge_base.py # 知识库填充
+│   ├── verify_config.py        # 配置验证
+│   ├── test_web_ui.py          # Web UI 测试
+│   └── test_db_conn.py         # 数据库连接测试
+├── tests/                  # 测试脚本
+│   ├── test_core_service.py    # 核心服务测试
+│   ├── test_web_integration.py # API 集成测试
+│   └── test_e2e_browser.py     # E2E 浏览器测试
+├── config/                # 配置文件
+│   └── app_config.json     # 应用配置 (数据库、向量存储、LLM)
+├── docs/                  # 文档目录
+├── assets/                 # 静态资源
+├── data/                   # 数据存储
+│   ├── local_bucket/      # 本地文档存储
+│   └── sessions.db         # SQLite 会话存储
+├── CLAUDE.md              # Claude Code 指导文件
+├── README.md              # 项目说明文档
+├── requirements.txt        # Python 依赖
+└── .env.example            # 环境变量示例
 ```
 
-**关键特性**：
-- **Agent 层**：LangGraph ReAct Agent，支持4种角色（PM/Dev/Sales/Engineer），滑动窗口记忆管理（最近20轮对话）
-- **检索层**：向量检索 (Qwen3-Embedding-0.6B) + BM25全文检索 + 混合检索 + LLM Rerank (Qwen3-Reranker-0.6B)
+---
+
+## 📋 文件分类说明
+
+| 文件类型 | 位置 | 说明 |
+|----------|------|------|
+| 核心代码 | `src/` | ACL 分层架构 |
+| 初始化脚本 | `scripts/` | 数据库初始化、配置验证 |
+| 测试脚本 | `tests/` | 单元测试、集成测试 |
+| 配置文件 | `config/` | 应用配置 |
+| 文档 | `docs/` | 开发文档、API 文档 |
+| 数据存储 | `data/` | 文档、会话数据 |
+| 指导文件 | `CLAUDE.md` | AI 助手指导 |
+
+---
+
+## 🛠️ 核心特性
+
+- **Agent 层**：LangGraph ReAct Agent，支持4种角色（PM/Dev/Sales/Engineer），滑动窗口记忆管理
+- **检索层**：向量检索 (Qwen3-Embedding) + BM25全文检索 + 混合检索 + LLM Rerank
 - **存储层**：PostgreSQL + PGVector向量存储，S3对象存储（可选）
 - **ACL 防腐层**：`StorageProvider` 统一封装数据I/O，内置Pydantic校验，支持降级逻辑
 
