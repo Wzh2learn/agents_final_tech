@@ -247,12 +247,12 @@ class CollaborationWebSocketServer:
                 participant_id=participant_id
             )
 
-                if message:
-                    # 广播消息
-                    await self.broadcast(session_id, {
-                        'type': 'chat',
-                        'message': self._serialize_message(message)
-                    })
+            if message:
+                # 广播消息
+                await self.broadcast(session_id, {
+                    'type': 'chat',
+                    'message': self._serialize_message(message)
+                })
 
         elif message_type == 'typing':
             # 正在输入
