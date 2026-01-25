@@ -4,6 +4,7 @@
 import json
 import logging
 import re
+import asyncio
 from typing import Optional
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import StreamingResponse
@@ -24,6 +25,25 @@ thread_settings = get_thread_settings_service()
 # 输入验证常量
 MAX_MESSAGE_LENGTH = 4000  # 最大消息长度
 MAX_CONVERSATION_ID_LENGTH = 100  # 最大会话ID长度
+
+# 超时配置
+CHAT_TIMEOUT_SECONDS = 120  # 聊天请求超时时间 120秒
+
+
+def _sanitize_error_message(error: str) -> str:
+    """脱敏错误信息，防止敏感信息泄露"""
+    # 移除可能的路径信息
+    sanitized = error.replace("\\", "/").replace("/", "\\")
+    # 移除可能的 API key 信息
+    sanitized = sanitized.replace("sk-", "***")
+    sanitized = sanitized.replace("api_key", "***")
+    sanitized = sanitized.replace("API_KEY", "***")
+    sanitized = sanitized.replace("password", "***")
+    sanitized = sanitized.replace("token", "***")
+    # 限制长度
+    if len(sanitized) > 200:
+        sanitized = sanitized[:200] + "..."
+    return sanitized
 
 
 class ChatRequest(BaseModel):
@@ -156,24 +176,29 @@ async def chat(request: ChatRequest):
             except (ValueError, IndexError):
                 session_id = None
         
-        # 非流式调用 - 等待完整响应
+        # 非流式调用 - 等待完整响应 (带超时控制)
         full_content = ""
         sources = []
         
-        async for chunk in agent_service.stream_chat(
-            request.message, conversation_id, role
-        ):
-            if isinstance(chunk, dict) and chunk.get("type") == "content":
-                full_content += chunk.get("content", "")
-            elif isinstance(chunk, dict) and chunk.get("type") == "trace":
-                # 捕获检索结果作为引用来源
-                trace_content = chunk.get("content", [])
-                if isinstance(trace_content, list):
-                    for item in trace_content:
-                        if isinstance(item, dict) and 'content' in item:
-                            sources.append(item)
-            elif isinstance(chunk, str):
-                full_content += chunk
+        try:
+            async with asyncio.timeout(CHAT_TIMEOUT_SECONDS):
+                async for chunk in agent_service.stream_chat(
+                    request.message, conversation_id, role
+                ):
+                    if isinstance(chunk, dict) and chunk.get("type") == "content":
+                        full_content += chunk.get("content", "")
+                    elif isinstance(chunk, dict) and chunk.get("type") == "trace":
+                        # 捕获检索结果作为引用来源
+                        trace_content = chunk.get("content", [])
+                        if isinstance(trace_content, list):
+                            for item in trace_content:
+                                if isinstance(item, dict) and 'content' in item:
+                                    sources.append(item)
+                    elif isinstance(chunk, str):
+                        full_content += chunk
+        except asyncio.TimeoutError:
+            logger.warning(f"聊天请求超时: conversation_id={conversation_id}")
+            return {"status": "error", "message": f"请求超时，请稍后重试", "content": f"抱歉，请求超时了，请稍后重试"}
         
         logger.info(f"聊天请求完成: full_content length = {len(full_content)}, sources count = {len(sources)}")
 
@@ -196,7 +221,8 @@ async def chat(request: ChatRequest):
             "sources": sources
         }
     except Exception as e:
-        logger.error(f"Chat error: {e}")
+        sanitized_error = _sanitize_error_message(str(e))
+        logger.error(f"Chat error: {sanitized_error}")
         return {"status": "error", "message": f"抱歉发生了错误，请稍后重试", "content": f"抱歉发生了错误，请稍后重试"}
 
 

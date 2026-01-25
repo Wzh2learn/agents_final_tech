@@ -80,61 +80,83 @@ class DocumentManager:
         if not collection:
             return []
 
-        # 查询文档块（避免对JSONB使用max函数）
-        query = db.query(LangchainPgEmbedding).filter(
-            LangchainPgEmbedding.collection_id == collection.uuid
-        )
+        # 使用子查询获取文档级别的数据，避免加载所有块到内存
+        from sqlalchemy import func, distinct
+        
+        # 获取唯一的 source 列表（带分页）
+        if search:
+            # 搜索时先获取所有唯一 source，再过滤
+            sources_query = db.query(
+                LangchainPgEmbedding.cmetadata['source'].astext.label('source')
+            ).filter(
+                LangchainPgEmbedding.collection_id == collection.uuid
+            ).distinct().subquery()
+            
+            sources = db.query(sources_query.c.source).all()
+            search_lower = search.lower()
+            filtered_sources = [
+                (s[0],) for s in sources 
+                if s[0] and search_lower in s[0].lower()
+            ]
+            
+            # 分页
+            total = len(filtered_sources)
+            paginated_sources = filtered_sources[skip:skip + limit]
+        else:
+            # 直接统计唯一 source
+            count_result = db.query(
+                func.count(distinct(LangchainPgEmbedding.cmetadata['source'].astext))
+            ).filter(
+                LangchainPgEmbedding.collection_id == collection.uuid
+            ).scalar()
+            
+            total = count_result or 0
+            
+            # 获取分页的 source
+            sources_query = db.query(
+                LangchainPgEmbedding.cmetadata['source'].astext.label('source')
+            ).filter(
+                LangchainPgEmbedding.collection_id == collection.uuid
+            ).distinct().offset(skip).limit(limit).all()
+            
+            paginated_sources = sources_query
 
-        # 获取所有结果
-        all_results = query.all()
-
-        # 在Python中进行分组和聚合
-        from collections import defaultdict
-        doc_groups = defaultdict(lambda: {
-            'chunks': [],
-            'total_size': 0
-        })
-
-        for result in all_results:
-            source = result.cmetadata.get('source', 'unknown')
-            doc_groups[source]['chunks'].append(result)
-            doc_groups[source]['total_size'] += len(result.document) if result.document else 0
-
-        # 转换为文档列表
+        # 获取每个文档的详细信息
         documents = []
-        for source, data in doc_groups.items():
-            chunks = data['chunks']
+        for (source,) in paginated_sources:
+            if not source:
+                continue
+            
+            # 获取该文档的块信息
+            chunks_query = db.query(LangchainPgEmbedding).filter(
+                LangchainPgEmbedding.collection_id == collection.uuid,
+                LangchainPgEmbedding.cmetadata['source'].astext == source
+            ).all()
+            
+            if not chunks_query:
+                continue
+            
+            # 计算总大小
+            total_size = sum(len(c.document) if c.document else 0 for c in chunks_query)
+            
             # 获取创建时间（从第一个块的metadata）
             created_at = None
             original_filename = None
-            if chunks and chunks[0].cmetadata:
-                created_at = chunks[0].cmetadata.get('created_at')
-                original_filename = chunks[0].cmetadata.get('original_name') or chunks[0].cmetadata.get('original_filename') or chunks[0].cmetadata.get('filename')
-
-            # 使用原始文件名，如果不存在则使用source
+            if chunks_query[0].cmetadata:
+                created_at = chunks_query[0].cmetadata.get('created_at')
+                original_filename = chunks_query[0].cmetadata.get('original_name') or chunks_query[0].cmetadata.get('filename')
+            
             display_name = original_filename if original_filename else source
-
+            
             doc_info = {
                 'id': str(source),
-                'name': display_name,  # 显示原始文件名
-                'original_name': source,  # 保留原始source作为内部标识
-                'size': data['total_size'],
-                'chunks': len(chunks),
+                'name': display_name,
+                'original_name': source,
+                'size': total_size,
+                'chunks': len(chunks_query),
                 'created_at': created_at
             }
             documents.append(doc_info)
-
-        # 搜索过滤（在Python中执行）
-        if search:
-            search_lower = search.lower()
-            documents = [doc for doc in documents if search_lower in doc['name'].lower()]
-
-        # 按创建时间排序（降序）
-        documents.sort(key=lambda x: x['created_at'] or '', reverse=True)
-
-        # 分页
-        total = len(documents)
-        documents = documents[skip:skip + limit]
 
         return documents
 

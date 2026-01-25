@@ -227,16 +227,25 @@ class CollaborationWebSocketServer:
         message_type = data.get('type')
 
         if message_type == 'chat':
-            # 聊天消息
+            # 聊天消息 - 添加验证
             content = data.get('content')
-            if content:
-                # 保存消息到数据库
-                message = self.db.add_message(
-                    session_id=session_id,
-                    role='user',
-                    content=content,
-                    participant_id=participant_id
-                )
+            if not content:
+                await self.send_error(websocket, "消息内容不能为空")
+                return
+            if len(content) > 4000:
+                await self.send_error(websocket, "消息长度不能超过4000字符")
+                return
+            if "<script" in content.lower() or "javascript:" in content.lower():
+                await self.send_error(websocket, "消息包含不允许的内容")
+                return
+            
+            # 保存消息到数据库
+            message = self.db.add_message(
+                session_id=session_id,
+                role='user',
+                content=content,
+                participant_id=participant_id
+            )
 
                 if message:
                     # 广播消息

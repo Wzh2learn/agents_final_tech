@@ -8,6 +8,33 @@ let ws = null; // 新增：WebSocket 实例
 let participantId = null; // 新增：协作参与者 ID
 let wsReconnectAttempts = 0; // WebSocket 重连计数器
 
+// ==================== 防抖函数 ====================
+let suggestionDebounceTimer = null;
+let suggestionLastQuery = '';
+
+/**
+ * 防抖获取建议卡片
+ * @param {string} query - 查询内容
+ */
+function fetchSuggestionsDebounced(query) {
+    // 如果查询相同，忽略
+    if (query === suggestionLastQuery) {
+        return;
+    }
+    suggestionLastQuery = query;
+    
+    // 清除之前的定时器
+    if (suggestionDebounceTimer) {
+        clearTimeout(suggestionDebounceTimer);
+    }
+    
+    // 500ms 防抖
+    suggestionDebounceTimer = setTimeout(() => {
+        fetchSuggestions(query);
+        suggestionDebounceTimer = null;
+    }, 500);
+}
+
 // ==================== 工具函数 ====================
 
 /**
@@ -833,10 +860,10 @@ async function sendMessage() {
         isGenerating = false;
         currentAiMessage = null;
         
-        // 获取下一步建议
+        // 获取下一步建议 (使用防抖)
         if (content) {
             conversationHistory.push(content);
-            fetchSuggestions(content);
+            fetchSuggestionsDebounced(content);
         }
     }
 }
