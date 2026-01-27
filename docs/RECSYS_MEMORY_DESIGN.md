@@ -33,7 +33,79 @@ $$W_{final} = Score(q, m_i) \cdot e^{-\lambda \Delta t}$$
     2. 将摘要及原始片段向量化，存入 L2 (Episodic Memory)。
     3. 将提取出的静态事实（如：“我公司是做贷款业务的”）更新至 L3 (Profile Memory)。
 
-## 5. 深入设计：自适应检索与负采样策略 (Adaptive Retrieval & Hard Negative Mining)
+## 4. 实现细节与代码路径
+
+### 4.1 核心类设计
+
+```python
+# src/storage/memory/episodic_memory.py
+class EpisodicMemoryProvider:
+    """情景记忆存储层 (L2)"""
+    async def add_memory(session_id, content, metadata):
+        """向量化存储记忆片段"""
+        pass
+    
+    async def search_memory(query, session_id, top_k=5):
+        """Attention-based 检索"""
+        pass
+
+# src/tools/memory_reflector.py
+class MemoryReflector:
+    """记忆压缩与反射触发器"""
+    async def reflect(messages: List[Message]) -> ReflectionResult:
+        """LLM摘要 + 事实提取"""
+        pass
+
+# src/biz/agent_service.py
+class AgentService:
+    """HMM 核心编排层"""
+    async def _get_long_term_context(message, conversation_id):
+        """L2 检索"""
+        pass
+    
+    async def _check_and_trigger_reflection(conversation_id, messages):
+        """触发 L2 压缩"""
+        pass
+```
+
+### 4.2 数据流图
+
+```
+User Query → L1 Working Memory (滑动窗口)
+              ↓
+        [判断是否需要 L2 召回]
+              ↓
+    ┌───────┴───────┐
+    ↓               ↓
+  No             Yes
+    ↓               ↓
+  普通回复      L2 Attention 检索 (Top-3)
+              ↓
+        注入 L1 上下文
+              ↓
+    ┌───────┴───────┐
+    ↓               ↓
+  消息 < 15      消息 ≥ 15
+    ↓               ↓
+  返回          触发 Reflection
+                    ↓
+              LLM 摘要 → L2 存储
+                    ↓
+              更新 L3 Profile
+```
+
+### 4.3 关键配置参数
+
+| 参数 | 默认值 | 说明 |
+| :--- | :--- | :--- |
+| `reflection_threshold` | 15 | 触发记忆压缩的消息数阈值 |
+| `max_l1_messages` | 20 | L1 工作记忆最大轮数 |
+| `l2_top_k` | 3 | L2 检索返回条数 |
+| `memory_ttl_days` | 30 | L2 记忆过期时间 |
+
+---
+
+## 5. 自适应检索与负采样策略 (Adaptive Retrieval & Hard Negative Mining)
 
 ### 5.1 算法动机：解决“形似神异”的金融噪声
 在金融场景中，检索常面临 **“难负样本” (Hard Negatives)**：
@@ -55,7 +127,67 @@ $$W_{final} = Score(q, m_i) \cdot e^{-\lambda \Delta t}$$
 *   **对比学习 (Contrastive Learning)**：在训练检索器时，不仅要让正样本靠近，更要通过 **Hard Negative Mining** 让容易混淆的负样本（如旧版准则）原理。
 *   **多阶段过滤**：类比推荐系统的过滤逻辑（如黑名单、已读过滤），在此处转化为“版本一致性过滤”。
 
-### 5.4 代码实现路径
+### 5.4 冲突检测器详细设计
+
+#### 5.4.1 核心算法
+
+```python
+# src/tools/conflict_detector.py
+class ConflictDetector:
+    """
+    硬负样本检测器
+    核心思想：识别召回结果中的版本冲突、时间矛盾、金额冲突
+    """
+    
+    def detect(self, documents: List[Document]) -> List[Conflict]:
+        """
+        检测文档列表中的冲突
+        
+        Returns:
+            List[Conflict]: 冲突列表，每项包含:
+                - doc_a, doc_b: 冲突的双方
+                - type: CONTRADICTION / VERSION / TEMPORAL
+                - score: 冲突置信度 (0-1)
+        """
+        pass
+```
+
+#### 5.4.2 冲突类型分类
+
+| 类型 | 触发条件 | 示例 |
+| :--- | :--- | :--- |
+| **版本冲突** | 年份/版本号不一致 | "2024年贷款准入规则" vs "2023年贷款准入规则" |
+| **时间矛盾** | 时间范围重叠但结论相反 | "有效期至2024-12-31" vs "有效期至2024-06-30" |
+| **金额冲突** | 数值范围不兼容 | "贷款额度≤100万" vs "贷款额度≤50万" |
+
+#### 5.4.3 实现策略
+
+1. **规则匹配 (Rule-based)**
+   - 正则提取年份、金额、时间等关键实体
+   - 构建冲突规则库
+
+2. **语义对比 (LLM-based)**
+   - 使用 LLM 判断两段文本是否存在事实矛盾
+   - Prompt: "判断以下两段金融规则是否存在冲突，返回 JSON 格式"
+
+3. **向量空间分析**
+   - 计算两文档 embedding 的余弦相似度
+   - 相似度极高但关键实体不同 → 硬负样本
+
+#### 5.4.4 过滤策略
+
+```python
+def filter_hard_negatives(documents: List[Document]) -> List[Document]:
+    """
+    硬负样本过滤流程:
+    1. 按语义聚类 (Cosine Similarity > 0.85)
+    2. 每类只保留最新版本
+    3. 移除时间矛盾的条目
+    """
+    pass
+```
+
+### 5.5 代码实现路径
 *   **修改** `src/biz/rag_service.py`：实现 `AdaptiveRetriever` 类。
 *   **新增** `src/tools/conflict_detector.py`：利用规则匹配或小模型检测检索碎片间的版本冲突。
 
@@ -78,9 +210,79 @@ $$W_{final} = Score(q, m_i) \cdot e^{-\lambda \Delta t}$$
 3.  **Refinement Loop**：
     *   Actor 生成回答 -> Critic 指出错误 -> Actor 根据反馈重写。
 
+#### 6.2.1 LangGraph 拓扑结构
+
+```python
+# src/agents/debate_agent.py
+from langgraph import StateGraph
+
+def build_consensus_graph() -> StateGraph:
+    """
+    构建共识图:
+    START -> Actor -> Critic -> [共识?] -> END
+                              |
+                           [分歧] -> Actor (重写)
+    """
+    graph = StateGraph(AgentState)
+    
+    # 节点定义
+    graph.add_node("actor", actor_node)
+    graph.add_node("critic", critic_node)
+    graph.add_node("refine", refine_node)
+    
+    # 边定义
+    graph.add_edge("START", "actor")
+    graph.add_edge("actor", "critic")
+    graph.add_conditional_edges(
+        "critic",
+        check_consensus,
+        {"consensus": "END", "disagree": "actor"}
+    )
+    
+    return graph.compile()
+```
+
+#### 6.2.2 角色定义
+
+| Agent | System Prompt 摘要 | 职责 |
+| :--- | :--- | :--- |
+| **Actor** | "你是一个金融顾问，目标是提供完整、准确的回答" | 生成完整答案，整合所有检索信息 |
+| **Critic** | "你是一个严格的审计员，专门检查金融规则的准确性" | 验证事实一致性，标注错误 |
+| **Domain Expert** | "你是贷款/风控/会计领域的专家" | 针对特定领域提供专业意见 |
+
 ### 6.3 算法创新：基于博弈论的权重动态分配
-*   **MMoE (Multi-gate Mixture-of-Experts) 启发**：将不同的 Agent 视为不同的 Expert。针对“业务咨询”类任务，调高“产品 Agent”的权重；针对“技术配置”类任务，调高“技术 Agent”的权重。
-*   **Consensus Score**：当两个 Agent 的输出在语义嵌入空间（Embedding Space）的余弦相似度达到 0.95 以上时，判定为达成共识，输出最终结果。
+
+#### 6.3.1 MMoE 启发的 Expert 权重分配
+
+```python
+class MultiExpertRouter:
+    """
+    根据任务类型动态分配 Agent 权重
+    类似于 MMoE 中的 Gate 网络
+    """
+    
+    def compute_weights(self, query: str) -> Dict[str, float]:
+        """
+        输入: 用户查询
+        输出: 各 Expert 的权重分布
+        
+        示例:
+        - 查询"贷款准入条件" -> {"product": 0.7, "tech": 0.2, "risk": 0.1}
+        - 查询"科目余额表格式" -> {"accounting": 0.8, "product": 0.1, "tech": 0.1}
+        """
+        pass
+```
+
+#### 6.3.2 Consensus Score 计算
+
+$$Consensus = \frac{1}{N^2} \sum_{i=1}^{N} \sum_{j=1}^{N} \text{sim}(e_i, e_j)$$
+
+其中 $e_i$ 是第 $i$ 个 Agent 输出的 embedding，$\text{sim}$ 是余弦相似度。
+
+**判定规则**：
+- `Consensus ≥ 0.95` → 达成共识，输出结果
+- `Consensus < 0.95` → 触发重写循环（最多 3 次）
+- 3 次后仍未共识 → 返回最高权重 Agent 的答案 + 标注分歧点
 
 ### 6.4 论文切入点
 *   *“基于对抗性博弈的金融知识库问答可信度增强研究”*。
@@ -94,6 +296,6 @@ $$W_{final} = Score(q, m_i) \cdot e^{-\lambda \Delta t}$$
 3.  **Consensus Multi-Agent**：Actor-Critic 与 MMoE 思想解决 Agent 生成幻觉。
 
 ---
-**文档版本**：v1.2
+**文档版本**：v1.3
 **作者**：学硕算法研究小组 (Claude Assistant)
-**最后更新**：2026-01-26
+**最后更新**：2026-01-27
