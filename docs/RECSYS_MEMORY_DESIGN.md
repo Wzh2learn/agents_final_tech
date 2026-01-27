@@ -372,6 +372,10 @@ Critic 不只给自然语言意见，要求输出结构化 JSON，便于自动�
 
 ### 6.6 强化学习与工具调用的深度融合 (RL & Tool-Use)
 - **多步推理作为路径搜索**：在复杂的金融咨询中，工具调用（Tool-use）不再是单次操作，而是类似于推荐系统中的**路径发现（Path Finding）**。Agent 需要在工具空间中搜索最优的证据链条。
+- **Contextual Bandits 策略**：在多工具选择场景下，引入 **Contextual Multi-Armed Bandits (CMAB)** 模型。系统基于当前上下文特征（User Persona, Query Intent, History State）实时预估每个工具的“预期收益”（即该工具能提供的证据增益），动态调整调用优先级。
+- **用户反馈闭环 (RLHF)**：
+    - **显式反馈**：用户对回答的点赞/踩，直接作为 RL 训练的最终 Reward。
+    - **隐式反馈**：用户是否采纳了 Agent 建议的后续步骤（类似于推荐系统中的点击率 CTR）。
 - **Reward Shaping**：
   - **路径长度惩罚**：鼓励 Agent 用最少的工具调用步数解决问题。
   - **信息增益奖励**：每次工具调用后，如果新获取的信息能显著改变共识得分或减少幻觉，给予正向奖励。
@@ -417,7 +421,13 @@ Critic 不只给自然语言意见，要求输出结构化 JSON，便于自动�
 - RL 优化显著缩短了工具调用路径（提升效率），同时通过 Reward Shaping 减少了冗余信息。
 - 多 Agent 共识在高风险问题上提供了更坚实的准确度保障。
 
+### 8.5 环境模拟器设计 (Environment Simulator for RL)
+为了高效训练 RL 策略，我们设计了一套**金融咨询模拟环境**：
+- **User Simulator**：基于历史数据分布，模拟不同偏好和背景的用户（如“保守型投资者”、“技术导向型会计”）。
+- **Knowledge Environment**：模拟知识库的动态更新，包括注入相互冲突的规则，测试 Agent 的冲突检测能力。
+- **Reward Engine**：自动计算 RAG 指标（Faithfulness, Answer Relevance）并结合模拟用户的反馈。
+
 ---
-**文档版本**：v1.5
+**文档版本**：v1.6
 **作者**：学硕算法研究小组 (Claude Assistant)
 **最后更新**：2026-01-27
