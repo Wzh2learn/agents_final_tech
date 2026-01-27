@@ -191,6 +191,50 @@ def filter_hard_negatives(documents: List[Document]) -> List[Document]:
 *   **修改** `src/biz/rag_service.py`：实现 `AdaptiveRetriever` 类。
 *   **新增** `src/tools/conflict_detector.py`：利用规则匹配或小模型检测检索碎片间的版本冲突。
 
+### 5.6 在线链路：Adaptive-RAG 推理时序 (Serving Path)
+
+1.  **Candidate Recall**
+    - 向量召回 Top-K1（语义）
+    - BM25/关键词召回 Top-K2（符号/科目/规则编号）
+2.  **Hard Negative Filtering (Conflict Detector)**
+    - 对候选做冲突检测，输出 `conflict_score` 与 `conflict_type`
+    - 冲突样本不直接丢弃，而是进入“降权池”（避免误杀）
+3.  **Adaptive Rerank**
+    - 规则：根据 Query 类型/复杂度自适应调节 rerank 深度（Top-N）
+    - rerank feature：相似度、版本一致性、时间距离、来源可信度
+4.  **Context Packing**
+    - 将 Top-N 文档按“同版本聚类 + 去重”后拼接，减少 token 噪声
+
+### 5.7 训练视角：Hard Negative Mining 与对比学习构造
+
+#### 5.7.1 难负样本构造
+- **版本替换负样本**：同主题不同年份/版本（2024 vs 2023）
+- **实体替换负样本**：同模板不同科目/参数（1001 vs 1002）
+- **时间窗口负样本**：同规则不同有效期
+
+#### 5.7.2 对比学习目标 (InfoNCE 风格)
+设查询为 `q`，正样本为 `d+`，负样本集合为 `{d-}`：
+$$\mathcal{L} = -\log \frac{\exp(sim(q, d^+)/\tau)}{\exp(sim(q, d^+)/\tau)+\sum_{d^-}\exp(sim(q, d^-)/\tau)}$$
+其中负样本优先采样“冲突检测器判定为高冲突但高相似”的候选。
+
+### 5.8 评测指标与消融 (Offline Metrics)
+
+#### 5.8.1 检索/排序指标（RecSys 对齐）
+- **Recall@K**：K 候选覆盖正确规则片段的比例
+- **MRR@K**：首个正确片段的排名倒数
+- **nDCG@K**：多相关性标注下的排序质量
+
+#### 5.8.2 冲突过滤指标（Hard Negative 对齐）
+- **Conflict Precision**：被判定冲突的候选中，真实冲突占比
+- **Conflict Recall**：真实冲突中被检测出的比例
+- **Version Consistency Rate**：最终上下文中版本一致的比例
+
+#### 5.8.3 消融实验
+- **w/o Conflict Detector**：不做冲突检测
+- **w/o Adaptive Rerank**：固定 Top-N rerank
+- **w/o BM25 Recall**：只用向量召回
+- **w/o Context Packing**：不做聚类去重
+
 ---
 
 ## 6. 深入设计：多 Agent 协作博弈架构 (Multi-Agent Debate & Consensus)
@@ -284,7 +328,27 @@ $$Consensus = \frac{1}{N^2} \sum_{i=1}^{N} \sum_{j=1}^{N} \text{sim}(e_i, e_j)$$
 - `Consensus < 0.95` → 触发重写循环（最多 3 次）
 - 3 次后仍未共识 → 返回最高权重 Agent 的答案 + 标注分歧点
 
-### 6.4 论文切入点
+### 6.4 工程化实现要点 (Practical Considerations)
+
+#### 6.4.1 Critic 的结构化输出
+Critic 不只给自然语言意见，要求输出结构化 JSON，便于自动化循环：
+- `verdict`: pass / fail
+- `issues`: [{type, span, rationale, severity}]
+- `missing_citations`: [doc_id...]
+- `rewrite_suggestions`: ["...", "..."]
+
+#### 6.4.2 分歧聚合与回退策略
+- **分歧聚合**：当多 Critic/Expert 分歧时，聚合成“争议点列表”，要求 Actor 在重写时逐条回应
+- **回退策略**：
+  - 达不到共识但成本已超限：输出最高权重 Agent 的答案，并附带“争议点+不确定性声明”
+  - 检索证据不足：优先提示需要补充信息，而非编造
+
+#### 6.4.3 成本控制
+- 限制回合数：最多 3 次 refinement
+- Token 预算：超过预算时切换到轻量 Critic（只做一致性检查）
+- 触发式启用：仅在问题类型为“规则对比/最新/高风险”时启用多 Agent
+
+### 6.5 论文切入点
 *   *“基于对抗性博弈的金融知识库问答可信度增强研究”*。
 *   *“多任务专家网络架构下的跨角色金融 Agent 协作范式”*。
 
@@ -296,6 +360,34 @@ $$Consensus = \frac{1}{N^2} \sum_{i=1}^{N} \sum_{j=1}^{N} \text{sim}(e_i, e_j)$$
 3.  **Consensus Multi-Agent**：Actor-Critic 与 MMoE 思想解决 Agent 生成幻觉。
 
 ---
-**文档版本**：v1.3
+
+## 8. 实验评估与消融设计 (Experiment & Ablation)
+
+### 8.1 数据与标注
+- **Query 集合**：覆盖金融咨询常见意图（规则解释/对比/故障排查/流程）
+- **文档集合**：包含多版本规则文本、科目说明、流程文档
+- **相关性标注**：对每个 Query 标注 Top-20 文档相关性（0/1/2）并标注版本/时间冲突
+
+### 8.2 评测维度
+- **检索质量**：Recall@K、MRR@K、nDCG@K
+- **回答质量**：Answer-F1（有标准答案时）、人工评分（准确/完整/可执行）
+- **可信度**：引用覆盖率（回答中关键结论是否可被检索证据支持）
+- **一致性**：Version Consistency Rate、Conflict Precision/Recall
+- **效率**：平均延迟、平均 token 消耗
+
+### 8.3 消融设置
+- **Base**：滑动窗口 + 向量召回
+- **+ HMM**：加入 L2 记忆召回与反射压缩
+- **+ Adaptive Retrieval**：多通道召回 + 自适应 rerank
+- **+ Conflict Detector**：冲突检测与降权
+- **+ Multi-Agent**：Actor-Critic 共识
+
+### 8.4 预期结论（论文叙事）
+- HMM 提升长程一致性与跨窗口召回
+- 冲突检测显著降低“形似神异”的错误引用
+- 多 Agent 在高风险问题上提升事实准确度，但带来成本上升，需要触发式启用
+
+---
+**文档版本**：v1.4
 **作者**：学硕算法研究小组 (Claude Assistant)
 **最后更新**：2026-01-27
