@@ -112,12 +112,27 @@ async def get_documents(
 async def list_collections():
     """获取所有知识库集合列表"""
     try:
+        import asyncio
         from biz.rag_service import get_rag_service
+        
         rag_service = await get_rag_service()
-        collections = rag_service.get_collection_names()
-        return {"status": "success", "collections": collections}
+        
+        # 使用 asyncio.wait_for 添加超时保护，防止数据库连接阻塞
+        try:
+            collections = await asyncio.wait_for(
+                asyncio.get_event_loop().run_in_executor(None, rag_service.get_collection_names),
+                timeout=5.0  # 5秒超时
+            )
+            return {"status": "success", "collections": collections}
+        except asyncio.TimeoutError:
+            logger.error("获取知识库列表超时（数据库连接可能有问题）")
+            # 返回默认知识库，避免前端无限等待
+            return {"status": "success", "collections": ["knowledge_base"]}
+            
     except Exception as e:
-        return {"status": "error", "message": str(e)}
+        logger.error(f"获取知识库列表失败: {e}")
+        # 返回错误但保持API响应，避免前端卡住
+        return {"status": "error", "message": str(e), "collections": []}
 
 
 @router.get("/rag-settings")
