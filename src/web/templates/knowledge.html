@@ -512,7 +512,7 @@
     </nav>
     <!-- Tab 导航栏 -->
     <div class="tab-navigation">
-        <div class="tab-container">
+        <div class="kb-tabs">
             <button class="tab-btn active" data-tab="overview" onclick="switchTab('overview')">
                 <span class="icon">📊</span>概览
             </button>
@@ -521,6 +521,9 @@
             </button>
             <button class="tab-btn" data-tab="upload" onclick="switchTab('upload')">
                 <span class="icon">📤</span>上传
+            </button>
+            <button class="tab-btn" data-tab="settings" onclick="switchTab('settings')">
+                <span class="icon">⚙️</span>设置
             </button>
             <button class="tab-btn" data-tab="compare" onclick="switchTab('compare')">
                 <span class="icon">📊</span>对比
@@ -789,7 +792,198 @@
                 </div>
             </div>
 
-            <!-- 智能对比页面 -->
+            <!-- 知识库设置页面 -->
+            <div class="page" id="page-settings">
+                <div class="kb-header">
+                    <h1>📚 知识库设置</h1>
+                    <button class="btn btn-primary" onclick="saveKnowledgeBaseSettings()">💾 保存设置</button>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <!-- 左侧：分段设置 -->
+                    <div class="config-panel" style="background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <h3 style="font-size: 16px; color: #111827; margin-bottom: 20px; font-weight: 600; border-bottom: 2px solid #0f766e; padding-bottom: 10px;">
+                            📝 分段模式设置
+                        </h3>
+                        
+                        <div class="setting-group" style="margin-bottom: 24px;">
+                            <label style="display: block; font-size: 13px; color: #374151; margin-bottom: 8px; font-weight: 500;">
+                                分段模式 <span style="color: #ef4444;">*</span>
+                            </label>
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <label class="chunk-mode-option" style="flex: 1; min-width: 140px; cursor: pointer;">
+                                    <input type="radio" name="chunk-mode" value="general" id="mode-general" style="display: none;" onchange="updateChunkModeUI()">
+                                    <div class="mode-card" style="padding: 16px; border: 2px solid #e5e7eb; border-radius: 10px; text-align: center; transition: all 0.3s;">
+                                        <div style="font-size: 24px; margin-bottom: 8px;">📄</div>
+                                        <div style="font-weight: 600; color: #111827; margin-bottom: 4px;">通用模式</div>
+                                        <div style="font-size: 11px; color: #6b7280;">独立分段，简单直接</div>
+                                    </div>
+                                </label>
+                                <label class="chunk-mode-option" style="flex: 1; min-width: 140px; cursor: pointer;">
+                                    <input type="radio" name="chunk-mode" value="parent_child" id="mode-parent-child" checked style="display: none;" onchange="updateChunkModeUI()">
+                                    <div class="mode-card active" style="padding: 16px; border: 2px solid #0f766e; border-radius: 10px; text-align: center; transition: all 0.3s; background: #f0fdf4;">
+                                        <div style="font-size: 24px; margin-bottom: 8px;">👨‍👧</div>
+                                        <div style="font-weight: 600; color: #0f766e; margin-bottom: 4px;">父子模式 ⭐推荐</div>
+                                        <div style="font-size: 11px; color: #6b7280;">双层结构，精准+上下文</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 通用模式设置 -->
+                        <div id="general-settings" style="display: none;">
+                            <div class="setting-item" style="margin-bottom: 16px;">
+                                <label for="general-chunk-size" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">
+                                    分段大小 (字符)
+                                </label>
+                                <input type="number" id="general-chunk-size" value="1000" min="100" max="8000" 
+                                       style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 13px;">
+                            </div>
+                            <div class="setting-item" style="margin-bottom: 16px;">
+                                <label for="general-chunk-overlap" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">
+                                    分段重叠 (字符)
+                                </label>
+                                <input type="number" id="general-chunk-overlap" value="100" min="0" max="500" 
+                                       style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 13px;">
+                            </div>
+                        </div>
+
+                        <!-- 父子模式设置 -->
+                        <div id="parent-child-settings">
+                            <div class="setting-item" style="margin-bottom: 16px;">
+                                <label for="parent-chunk-size" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">
+                                    父分段大小 (字符) <span style="color: #0f766e;">上下文</span>
+                                </label>
+                                <input type="number" id="parent-chunk-size" value="2000" min="500" max="10000" 
+                                       style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 13px;">
+                                <div style="font-size: 11px; color: #9ca3af; margin-top: 4px;">提供丰富的上下文信息</div>
+                            </div>
+                            <div class="setting-item" style="margin-bottom: 16px;">
+                                <label for="child-chunk-size" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">
+                                    子分段大小 (字符) <span style="color: #0f766e;">精准匹配</span>
+                                </label>
+                                <input type="number" id="child-chunk-size" value="500" min="100" max="2000" 
+                                       style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 13px;">
+                                <div style="font-size: 11px; color: #9ca3af; margin-top: 4px;">用于精准检索匹配</div>
+                            </div>
+                            <div class="setting-item" style="margin-bottom: 16px;">
+                                <label for="parent-child-overlap" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">
+                                    分段重叠 (字符)
+                                </label>
+                                <input type="number" id="parent-child-overlap" value="100" min="0" max="500" 
+                                       style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 13px;">
+                            </div>
+                        </div>
+
+                        <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px; border-radius: 6px; margin-top: 16px;">
+                            <div style="font-size: 12px; color: #92400e; line-height: 1.5;">
+                                <strong>💡 父子模式说明：</strong><br>
+                                父分段提供完整上下文，子分段用于精准检索。系统会先搜索子分段，再返回对应的父分段内容，兼顾精准度和上下文完整性。
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧：检索设置 -->
+                    <div class="config-panel" style="background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <h3 style="font-size: 16px; color: #111827; margin-bottom: 20px; font-weight: 600; border-bottom: 2px solid #0f766e; padding-bottom: 10px;">
+                            🔍 检索设置
+                        </h3>
+
+                        <div class="setting-group" style="margin-bottom: 24px;">
+                            <label style="display: block; font-size: 13px; color: #374151; margin-bottom: 8px; font-weight: 500;">
+                                索引方式
+                            </label>
+                            <div style="display: flex; gap: 12px;">
+                                <label style="flex: 1; cursor: pointer;">
+                                    <input type="radio" name="index-mode" value="high_quality" checked style="display: none;">
+                                    <div style="padding: 12px; border: 2px solid #0f766e; border-radius: 8px; background: #f0fdf4; text-align: center;">
+                                        <div style="font-weight: 600; color: #0f766e;">⭐ 高质量</div>
+                                        <div style="font-size: 11px; color: #6b7280; margin-top: 4px;">向量+全文索引，更准确</div>
+                                    </div>
+                                </label>
+                                <label style="flex: 1; cursor: pointer; opacity: 0.6;">
+                                    <input type="radio" name="index-mode" value="economical" disabled style="display: none;">
+                                    <div style="padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; text-align: center;">
+                                        <div style="font-weight: 600; color: #6b7280;">💰 经济</div>
+                                        <div style="font-size: 11px; color: #9ca3af; margin-top: 4px;">关键词索引，省Token</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-group" style="margin-bottom: 24px;">
+                            <label style="display: block; font-size: 13px; color: #374151; margin-bottom: 8px; font-weight: 500;">
+                                默认检索模式
+                            </label>
+                            <select id="default-retrieval-mode" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 13px;">
+                                <option value="hybrid">🔀 混合检索 (推荐)</option>
+                                <option value="vector">🧠 向量检索</option>
+                                <option value="fulltext">📖 全文检索</option>
+                            </select>
+                            <div style="font-size: 11px; color: #9ca3af; margin-top: 6px;">
+                                混合检索结合语义理解和关键词匹配，适应性最强
+                            </div>
+                        </div>
+
+                        <div class="setting-item" style="margin-bottom: 16px;">
+                            <label for="kb-top-k" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">
+                                默认召回数量 (Top K)
+                            </label>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <input type="range" id="kb-top-k" value="5" min="1" max="20" 
+                                       style="flex: 1;" oninput="document.getElementById('kb-top-k-value').textContent = this.value">
+                                <span id="kb-top-k-value" style="font-weight: 600; color: #0f766e; min-width: 24px; text-align: center;">5</span>
+                            </div>
+                            <div style="font-size: 11px; color: #9ca3af; margin-top: 4px;">
+                                每次检索返回的文档片段数量
+                            </div>
+                        </div>
+
+                        <div class="setting-item" style="margin-bottom: 16px;">
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer;">
+                                <input type="checkbox" id="kb-use-rerank" checked> 
+                                <span>启用 Rerank 重排序</span>
+                                <span style="background: #dbeafe; color: #1d4ed8; padding: 2px 6px; border-radius: 4px; font-size: 10px;">推荐</span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item" style="margin-bottom: 16px; display: none;" id="rerank-top-n-container">
+                            <label for="kb-rerank-top-n" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">
+                                Rerank Top N
+                            </label>
+                            <input type="number" id="kb-rerank-top-n" value="5" min="1" max="20" 
+                                   style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 13px;">
+                            <div style="font-size: 11px; color: #9ca3af; margin-top: 4px;">
+                                Rerank 后保留的最相关结果数量
+                            </div>
+                        </div>
+
+                        <div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px; border-radius: 6px; margin-top: 16px;">
+                            <div style="font-size: 12px; color: #1e40af; line-height: 1.5;">
+                                <strong>🔍 检索说明：</strong><br>
+                                • <strong>向量检索</strong>：语义匹配，适合概念理解<br>
+                                • <strong>全文检索</strong>：关键词匹配，适合精确查找<br>
+                                • <strong>混合检索</strong>：结合两者优势，推荐日常使用<br>
+                                • <strong>Rerank</strong>：二次精排，提升结果相关性
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 底部：预览区域 -->
+                <div style="margin-top: 24px; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <h3 style="font-size: 16px; color: #111827; margin-bottom: 16px; font-weight: 600;">
+                        👁️ 分段预览
+                    </h3>
+                    <p style="font-size: 13px; color: #6b7280; margin-bottom: 16px;">
+                        上传文档后将在此显示分段效果预览
+                    </p>
+                    <div id="chunk-preview-area" style="background: #f9fafb; border: 2px dashed #e5e7eb; border-radius: 8px; padding: 40px; text-align: center; color: #9ca3af;">
+                        <div style="font-size: 36px; margin-bottom: 12px;">📄</div>
+                        <div>请在文档列表中选择文档查看分段预览</div>
+                    </div>
+                </div>
+            </div>
             <div class="page" id="page-compare">
                 <div class="kb-header">
                     <h1>检索策略对比</h1>

@@ -323,3 +323,92 @@ async def get_hierarchy(doc_id: str, collection_name: str = Query("knowledge_bas
         return {"status": "success", "hierarchy": data}
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+
+# ==================== Dify 风格知识库设置 API ====================
+
+class CollectionSettings(BaseModel):
+    """知识库设置模型"""
+    collection_name: str
+    chunk_mode: str = "parent_child"  # general 或 parent_child
+    index_mode: str = "high_quality"  # high_quality 或 economical
+    retrieval_mode: str = "hybrid"  # vector, fulltext, hybrid
+    top_k: int = 5
+    use_rerank: bool = True
+    rerank_top_n: int = 5
+    chunk_settings: dict = {}
+    updated_at: Optional[str] = None
+
+
+# 内存缓存知识库设置（生产环境应使用数据库或 Redis）
+_collection_settings_cache = {}
+
+
+@router.post("/collection-settings")
+async def save_collection_settings(settings: CollectionSettings):
+    """保存知识库设置
+    
+    支持 Dify 风格的配置：
+    - 分段模式：通用模式 / 父子模式
+    - 索引方式：高质量 / 经济
+    - 检索模式：向量 / 全文 / 混合
+    - Top K 和 Rerank 配置
+    """
+    try:
+        collection_name = settings.collection_name
+        
+        # 保存到内存缓存
+        _collection_settings_cache[collection_name] = settings.dict()
+        
+        # 同时更新运行时 RAG 设置
+        runtime_settings = {
+            "top_k": settings.top_k,
+            "use_rerank": settings.use_rerank,
+            "rerank_top_n": settings.rerank_top_n
+        }
+        set_runtime_rag_settings(runtime_settings)
+        
+        logger.info(f"知识库 [{collection_name}] 设置已保存: {settings.chunk_mode} 模式, "
+                   f"检索: {settings.retrieval_mode}, TopK: {settings.top_k}")
+        
+        return {
+            "status": "success",
+            "message": "知识库设置已保存",
+            "settings": _collection_settings_cache[collection_name]
+        }
+    except Exception as e:
+        logger.error(f"保存知识库设置失败: {e}")
+        return {"status": "error", "message": str(e)}
+
+
+@router.get("/collection-settings")
+async def get_collection_settings(collection_name: str = "knowledge_base"):
+    """获取知识库设置
+    
+    如果不存在，返回默认设置（父子分段 + 混合检索）
+    """
+    try:
+        if collection_name in _collection_settings_cache:
+            settings = _collection_settings_cache[collection_name]
+        else:
+            # 返回默认设置（Dify 推荐配置）
+            settings = {
+                "collection_name": collection_name,
+                "chunk_mode": "parent_child",
+                "index_mode": "high_quality",
+                "retrieval_mode": "hybrid",
+                "top_k": 5,
+                "use_rerank": True,
+                "rerank_top_n": 5,
+                "chunk_settings": {
+                    "parent_chunk_size": 2000,
+                    "child_chunk_size": 500,
+                    "chunk_overlap": 100
+                },
+                "is_default": True
+            }
+        
+        return {"status": "success", "settings": settings}
+    except Exception as e:
+        logger.error(f"获取知识库设置失败: {e}")
+        return {"status": "error", "message": str(e)}

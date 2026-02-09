@@ -1409,4 +1409,204 @@ function initBatchActions() {
     };
 })();
 
+// ==================== Dify 风格知识库设置功能 ====================
+
+/**
+ * 更新分段模式 UI 显示
+ */
+function updateChunkModeUI() {
+    const generalMode = document.getElementById('mode-general');
+    const parentChildMode = document.getElementById('mode-parent-child');
+    const generalSettings = document.getElementById('general-settings');
+    const parentChildSettings = document.getElementById('parent-child-settings');
+    
+    // 更新卡片样式
+    document.querySelectorAll('.mode-card').forEach(card => {
+        card.style.borderColor = '#e5e7eb';
+        card.style.background = 'white';
+        card.classList.remove('active');
+    });
+    
+    if (generalMode && generalMode.checked) {
+        generalSettings.style.display = 'block';
+        parentChildSettings.style.display = 'none';
+        const activeCard = generalMode.closest('.chunk-mode-option').querySelector('.mode-card');
+        if (activeCard) {
+            activeCard.style.borderColor = '#0f766e';
+            activeCard.style.background = '#f0fdf4';
+            activeCard.classList.add('active');
+        }
+    } else {
+        generalSettings.style.display = 'none';
+        parentChildSettings.style.display = 'block';
+        const activeCard = parentChildMode.closest('.chunk-mode-option').querySelector('.mode-card');
+        if (activeCard) {
+            activeCard.style.borderColor = '#0f766e';
+            activeCard.style.background = '#f0fdf4';
+            activeCard.classList.add('active');
+        }
+    }
+}
+
+/**
+ * 保存知识库设置
+ */
+async function saveKnowledgeBaseSettings() {
+    const chunkMode = document.querySelector('input[name="chunk-mode"]:checked')?.value || 'parent_child';
+    const indexMode = document.querySelector('input[name="index-mode"]:checked')?.value || 'high_quality';
+    const retrievalMode = document.getElementById('default-retrieval-mode')?.value || 'hybrid';
+    const topK = document.getElementById('kb-top-k')?.value || 5;
+    const useRerank = document.getElementById('kb-use-rerank')?.checked || false;
+    const rerankTopN = document.getElementById('kb-rerank-top-n')?.value || 5;
+    
+    // 分段大小设置
+    let chunkSettings = {};
+    if (chunkMode === 'general') {
+        chunkSettings = {
+            chunk_size: parseInt(document.getElementById('general-chunk-size')?.value || 1000),
+            chunk_overlap: parseInt(document.getElementById('general-chunk-overlap')?.value || 100)
+        };
+    } else {
+        chunkSettings = {
+            parent_chunk_size: parseInt(document.getElementById('parent-chunk-size')?.value || 2000),
+            child_chunk_size: parseInt(document.getElementById('child-chunk-size')?.value || 500),
+            chunk_overlap: parseInt(document.getElementById('parent-child-overlap')?.value || 100)
+        };
+    }
+    
+    const settings = {
+        collection_name: currentCollection,
+        chunk_mode: chunkMode,
+        index_mode: indexMode,
+        retrieval_mode: retrievalMode,
+        top_k: parseInt(topK),
+        use_rerank: useRerank,
+        rerank_top_n: parseInt(rerankTopN),
+        chunk_settings: chunkSettings,
+        updated_at: new Date().toISOString()
+    };
+    
+    try {
+        // 保存到 localStorage 作为本地缓存
+        localStorage.setItem(`kb_settings_${currentCollection}`, JSON.stringify(settings));
+        
+        // 调用后端 API 保存设置
+        const result = await apiCall('/api/knowledge/collection-settings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(settings)
+        });
+        
+        if (result.status === 'success') {
+            showToast('✅ 知识库设置已保存', 'success');
+        } else {
+            showToast('⚠️ 设置已本地保存，但同步到服务器失败', 'info');
+        }
+    } catch (error) {
+        console.error('保存知识库设置失败:', error);
+        // 即使 API 失败，本地设置仍然有效
+        showToast('⚠️ 设置已本地保存', 'info');
+    }
+}
+
+/**
+ * 加载知识库设置
+ */
+async function loadKnowledgeBaseSettings() {
+    // 首先尝试从 localStorage 加载
+    const cachedSettings = localStorage.getItem(`kb_settings_${currentCollection}`);
+    let settings = cachedSettings ? JSON.parse(cachedSettings) : null;
+    
+    try {
+        // 尝试从服务器加载
+        const result = await apiCall(`/api/knowledge/collection-settings?collection_name=${encodeURIComponent(currentCollection)}`);
+        if (result.status === 'success' && result.settings) {
+            settings = result.settings;
+            // 更新本地缓存
+            localStorage.setItem(`kb_settings_${currentCollection}`, JSON.stringify(settings));
+        }
+    } catch (error) {
+        console.warn('从服务器加载设置失败，使用本地设置:', error);
+    }
+    
+    if (!settings) {
+        // 使用默认设置
+        settings = {
+            chunk_mode: 'parent_child',
+            index_mode: 'high_quality',
+            retrieval_mode: 'hybrid',
+            top_k: 5,
+            use_rerank: true,
+            rerank_top_n: 5,
+            chunk_settings: {
+                parent_chunk_size: 2000,
+                child_chunk_size: 500,
+                chunk_overlap: 100
+            }
+        };
+    }
+    
+    // 应用设置到 UI
+    applyKnowledgeBaseSettings(settings);
+}
+
+/**
+ * 应用知识库设置到 UI
+ */
+function applyKnowledgeBaseSettings(settings) {
+    // 分段模式
+    const chunkMode = settings.chunk_mode || 'parent_child';
+    const modeGeneral = document.getElementById('mode-general');
+    const modeParentChild = document.getElementById('mode-parent-child');
+    
+    if (chunkMode === 'general' && modeGeneral) {
+        modeGeneral.checked = true;
+    } else if (modeParentChild) {
+        modeParentChild.checked = true;
+    }
+    updateChunkModeUI();
+    
+    // 分段大小设置
+    if (settings.chunk_settings) {
+        if (chunkMode === 'general') {
+            const generalSize = document.getElementById('general-chunk-size');
+            const generalOverlap = document.getElementById('general-chunk-overlap');
+            if (generalSize) generalSize.value = settings.chunk_settings.chunk_size || 1000;
+            if (generalOverlap) generalOverlap.value = settings.chunk_settings.chunk_overlap || 100;
+        } else {
+            const parentSize = document.getElementById('parent-chunk-size');
+            const childSize = document.getElementById('child-chunk-size');
+            const overlap = document.getElementById('parent-child-overlap');
+            if (parentSize) parentSize.value = settings.chunk_settings.parent_chunk_size || 2000;
+            if (childSize) childSize.value = settings.chunk_settings.child_chunk_size || 500;
+            if (overlap) overlap.value = settings.chunk_settings.chunk_overlap || 100;
+        }
+    }
+    
+    // 检索设置
+    const retrievalMode = document.getElementById('default-retrieval-mode');
+    if (retrievalMode) retrievalMode.value = settings.retrieval_mode || 'hybrid';
+    
+    const topK = document.getElementById('kb-top-k');
+    const topKValue = document.getElementById('kb-top-k-value');
+    if (topK) {
+        topK.value = settings.top_k || 5;
+        if (topKValue) topKValue.textContent = topK.value;
+    }
+    
+    const useRerank = document.getElementById('kb-use-rerank');
+    if (useRerank) useRerank.checked = settings.use_rerank !== false;
+    
+    const rerankTopN = document.getElementById('kb-rerank-top-n');
+    if (rerankTopN) rerankTopN.value = settings.rerank_top_n || 5;
+}
+
+// 初始化时加载设置
+document.addEventListener('DOMContentLoaded', () => {
+    // 延迟加载设置，确保元素已渲染
+    setTimeout(() => {
+        loadKnowledgeBaseSettings();
+    }, 500);
+});
+
 
