@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>知识库管理 - 建账规则助手</title>
     <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
     <style>
         .top-nav {
             position: fixed;
@@ -12,7 +13,7 @@
             left: 0;
             right: 0;
             height: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
             display: flex;
             align-items: center;
             padding: 0 20px;
@@ -37,56 +38,16 @@
         }
         /* 知识库管理页面样式 */
         .kb-container {
-            margin-top: 50px;
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            height: 100vh;
-        }
-
-        .kb-sidebar {
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .kb-sidebar h2 {
-            margin: 0 0 30px 0;
-            font-size: 24px;
-        }
-
-        .kb-sidebar h3 {
-            margin: 20px 0 10px 0;
-            font-size: 14px;
-            opacity: 0.8;
-            text-transform: uppercase;
-        }
-
-        .kb-nav-item {
+            margin-top: 110px;
             display: block;
-            padding: 12px 15px;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .kb-nav-item:hover,
-        .kb-nav-item.active {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateX(5px);
-        }
-
-        .kb-nav-item .icon {
-            margin-right: 10px;
+            height: calc(100vh - 110px);
+            overflow-y: auto;
+            padding: 20px 30px;
         }
 
         .kb-main {
-            padding: 30px;
-            overflow-y: auto;
-            background: #f5f7fa;
+            padding: 0;
+            background: transparent;
         }
 
         .kb-header {
@@ -166,8 +127,8 @@
 
         .upload-area:hover,
         .upload-area.dragover {
-            border-color: #667eea;
-            background: #f0f3ff;
+            border-color: #0f766e;
+            background: #e7f5f1;
         }
 
         .upload-area .icon {
@@ -420,12 +381,12 @@
         }
 
         .btn-primary {
-            background: #667eea;
+            background: #0f766e;
             color: white;
         }
 
         .btn-primary:hover {
-            background: #5568d3;
+            background: #0f9f8a;
         }
 
         .btn-danger {
@@ -446,7 +407,95 @@
             background: #bdc3c7;
         }
 
-        /* 页面切换 */
+        /* Tab 导航 */
+        .tab-navigation {
+            position: fixed;
+            top: 50px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 100;
+        }
+        .tab-container {
+            display: flex;
+            gap: 8px;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: #6b7280;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tab-btn:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            color: white;
+        }
+        .collection-selector select {
+            padding: 8px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+        /* 折叠面板 */
+        .collapsible-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .collapsible-header {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .collapsible-header:hover {
+            background: #f9fafb;
+        }
+        .collapsible-header h2 {
+            margin: 0;
+            font-size: 16px;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .collapse-icon {
+            font-size: 12px;
+            color: #9ca3af;
+            transition: transform 0.3s;
+        }
+        .collapsible-section.collapsed .collapse-icon {
+            transform: rotate(-90deg);
+        }
+        .collapsible-body {
+            padding: 0 24px 24px;
+            display: block;
+        }
+        .collapsible-section.collapsed .collapsible-body {
+            display: none;
+        }
         .page {
             display: none;
         }
@@ -456,48 +505,37 @@
         }
     </style>
 </head>
-<body>
+<body class="page-knowledge">
     <nav class="top-nav">
         <a href="/" class="home-btn">🏠 返回主页</a>
         <a href="/chat">💬 对话</a>
     </nav>
-    <div class="kb-container">
-        <!-- 侧边栏 -->
-        <div class="kb-sidebar">
-            <a href="/" class="home-link" style="text-decoration: none; color: #fff; margin-bottom: 30px; display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 20px;">📚</span>
-                <span style="font-weight: 600;">知识库管理</span>
-            </a>
-
-            <div class="kb-nav-item active" data-page="overview">
-                <span class="icon">📊</span> 概览
-            </div>
-            <div class="kb-nav-item" data-page="documents">
-                <span class="icon">📄</span> 文档列表
-            </div>
-            <div class="kb-nav-item" data-page="upload">
-                <span class="icon">📤</span> 上传文档
-            </div>
-            <div class="kb-nav-item" data-page="collection-detail">
-                <span class="icon">📁</span> 知识库详情
-            </div>
-
-            <div class="kb-sidebar-section" style="margin-top: 20px;">
-                <h3 style="font-size: 12px; opacity: 0.7; margin-bottom: 10px;">选择知识库</h3>
-                <div id="collection-list" style="display: flex; flex-direction: column; gap: 4px;">
-                    <!-- 动态加载集合列表 -->
-                    <div class="loading-state" style="font-size: 12px; padding: 10px;">加载中...</div>
-                </div>
-            </div>
-
-            <h3 style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">快捷操作</h3>
-            <div class="kb-nav-item" onclick="location.href='/chat'">
-                <span class="icon">💬</span> 进入对话
-            </div>
+    <!-- Tab 导航栏 -->
+    <div class="tab-navigation">
+        <div class="tab-container">
+            <button class="tab-btn active" data-tab="overview" onclick="switchTab('overview')">
+                <span class="icon">📊</span>概览
+            </button>
+            <button class="tab-btn" data-tab="documents" onclick="switchTab('documents')">
+                <span class="icon">📄</span>文档
+            </button>
+            <button class="tab-btn" data-tab="upload" onclick="switchTab('upload')">
+                <span class="icon">📤</span>上传
+            </button>
+            <button class="tab-btn" data-tab="compare" onclick="switchTab('compare')">
+                <span class="icon">📊</span>对比
+            </button>
         </div>
+        <div class="collection-selector">
+            <select id="collection-select" name="collection">
+                <option value="" disabled selected>加载中...</option>
+            </select>
+        </div>
+    </div>
 
-        <!-- 主内容区 -->
-        <div class="kb-main">
+    <div class="kb-container">
+        <!-- 主内容区 (移除侧边栏) -->
+        <div class="kb-main" style="padding: 0; background: transparent;">
             <!-- 概览页面 -->
             <div class="page active" id="page-overview">
                 <div class="kb-header">
@@ -530,6 +568,19 @@
                         <div class="icon">📊</div>
                         <div class="label">平均准确率</div>
                         <div class="value" id="stat-accuracy">0%</div>
+                    </div>
+                </div>
+
+                <div class="documents-section" style="margin-bottom: 24px;">
+                    <div class="section-header">
+                        <h2>知识库一览</h2>
+                        <span style="font-size: 12px; color: #6b7280;">共 <span id="collection-count">0</span> 个</span>
+                    </div>
+                    <div id="collection-grid" class="collection-grid">
+                        <div class="loading-state">加载中...</div>
+                    </div>
+                    <div class="trace-hint">
+                        溯源会在聊天回答中自动展示，回答下方会显示引用来源与片段。
                     </div>
                 </div>
 
@@ -612,7 +663,7 @@
                     <h1>文档列表</h1>
                     <div class="header-actions" style="display: flex; gap: 12px;">
                         <div class="search-box">
-                            <input type="text" id="document-search" placeholder="搜索文件名...">
+                            <input type="text" id="document-search" name="search" placeholder="搜索文件名...">
                             <span class="icon">🔍</span>
                         </div>
                         <button class="btn btn-primary" onclick="switchPage('upload')">
@@ -658,16 +709,16 @@
                             <h3 style="font-size: 14px; color: #374151; margin-bottom: 16px; font-weight: 600;">检索设置 (RAG)</h3>
                             <div class="rag-settings" style="display: flex; flex-direction: column; gap: 16px;">
                                 <div class="setting-item">
-                                    <label style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">分段模式</label>
-                                    <select id="setting-split-mode" class="form-select" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
+                                    <label for="setting-split-mode" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">分段模式</label>
+                                    <select id="setting-split-mode" name="split_mode" class="form-select" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
                                         <option value="recursive">递归字符分割</option>
                                         <option value="markdown">Markdown 结构分割</option>
                                         <option value="hierarchical">父子分段 (推荐)</option>
                                     </select>
                                 </div>
                                 <div class="setting-item">
-                                    <label style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">Top K (召回数量)</label>
-                                    <input type="number" id="setting-top-k" value="5" min="1" max="50" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
+                                    <label for="setting-top-k" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">Top K (召回数量)</label>
+                                    <input type="number" id="setting-top-k" name="top_k" value="5" min="1" max="50" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
                                 </div>
                                 <div class="setting-item">
                                     <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer;">
@@ -693,7 +744,7 @@
                             <div class="icon" style="font-size: 48px; margin-bottom: 16px;">📤</div>
                             <h3 style="margin-bottom: 8px;">点击或拖拽文件到此处</h3>
                             <p style="color: #9ca3af; font-size: 14px;">支持 PDF, DOCX, TXT, MD (最大 10MB)</p>
-                            <input type="file" id="fileInput" multiple accept=".md,.txt,.pdf,.docx,.doc">
+                            <input type="file" id="fileInput" name="files" multiple accept=".md,.txt,.pdf,.docx,.doc">
                         </div>
 
                         <div class="documents-section" style="margin-top: 24px;">
@@ -715,42 +766,25 @@
                         <h3 style="font-size: 14px; color: #374151; margin-bottom: 16px; font-weight: 600;">默认处理配置</h3>
                         <div class="rag-settings" style="display: flex; flex-direction: column; gap: 16px;">
                             <div class="setting-item">
-                                <label style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">分段模式</label>
-                                <select id="default-split-mode" class="form-select" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
+                                <label for="default-split-mode" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">分段模式</label>
+                                <select id="default-split-mode" name="default_split_mode" class="form-select" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
                                     <option value="recursive">递归字符分割</option>
                                     <option value="markdown">Markdown 结构分割</option>
                                     <option value="hierarchical" selected>父子分段 (推荐)</option>
                                 </select>
                             </div>
                             <div class="setting-item">
-                                <label style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">父块大小 (字符)</label>
-                                <input type="number" id="default-parent-size" value="2000" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
+                                <label for="default-parent-size" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">父块大小 (字符)</label>
+                                <input type="number" id="default-parent-size" name="parent_size" value="2000" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
                             </div>
                             <div class="setting-item">
-                                <label style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">子块大小 (字符)</label>
-                                <input type="number" id="default-child-size" value="500" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
+                                <label for="default-child-size" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">子块大小 (字符)</label>
+                                <input type="number" id="default-child-size" name="child_size" value="500" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
                             </div>
                             <p style="font-size: 12px; color: #9ca3af; line-height: 1.4;">
                                 💡 <b>父子分段</b> 会同时存储用于检索的短片段和用于提供上下文的长片段，显著提升回答质量。
                             </p>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 答案溯源页面 -->
-            <div class="page" id="page-traceability">
-                <div class="kb-header">
-                    <h1>答案溯源</h1>
-                </div>
-                <div class="documents-section">
-                    <p style="color: #95a5a6; margin-bottom: 20px;">输入查询问题，查看系统从知识库中检索到的精确片段和原文位置。</p>
-                    <div style="display: flex; gap: 12px; margin-bottom: 24px;">
-                        <input type="text" id="traceability-query" placeholder="例如：建账的触发条件是什么？" style="flex: 1; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
-                        <button class="btn btn-primary" onclick="performTraceability()" style="padding: 0 24px;">开始溯源</button>
-                    </div>
-                    <div id="traceability-results">
-                        <!-- 溯源结果 -->
                     </div>
                 </div>
             </div>
@@ -763,7 +797,7 @@
                 <div class="documents-section">
                     <p style="color: #95a5a6; margin-bottom: 20px;">同时运行多种检索策略（向量、BM25、混合检索），横向对比它们的召回效果和评分。</p>
                     <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
-                        <input type="text" id="compare-query" placeholder="输入测试问题..." style="width: 100%; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 15px; margin-bottom: 16px;">
+                        <input type="text" id="compare-query" name="compare_query" placeholder="输入测试问题..." style="width: 100%; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 15px; margin-bottom: 16px;">
                         <div style="display: flex; gap: 24px; align-items: center;">
                             <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
                                 <input type="checkbox" id="compare-vector" checked> 向量检索
@@ -820,7 +854,7 @@
     </div>
 
     <!-- 配置文件必须在其他脚本之前加载 -->
-    <script src="{{ url_for('static', path='config.js') }}"></script>
-    <script src="{{ url_for('static', path='knowledge.js') }}"></script>
+    <script src="{{ url_for('static', path='config.js') }}?v=3"></script>
+    <script src="{{ url_for('static', path='knowledge.js') }}?v=3"></script>
 </body>
 </html>

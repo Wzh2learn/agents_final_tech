@@ -141,7 +141,7 @@ class CollaborationDB:
 
     # ==================== 参与者管理 ====================
 
-    def add_participant(self, session_id: int, nickname: str, avatar_color: str = '#667eea') -> Optional[Participant]:
+    def add_participant(self, session_id: int, nickname: str, avatar_color: str = '#0f766e') -> Optional[Participant]:
         """添加参与者到会话"""
         with self.get_db_session() as db:
             try:

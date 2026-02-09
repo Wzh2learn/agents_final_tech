@@ -5,7 +5,8 @@ RAG 业务逻辑层
 import json
 import logging
 import os
-from typing import List, Optional, Dict, Any
+import asyncio
+from typing import List, Optional, Dict, Any, Tuple
 from langchain_core.documents import Document
 from tools.vector_store import get_vector_store
 from tools.reranker_tool import rerank_documents
@@ -14,9 +15,38 @@ from tools.question_classifier import classify_question_type, get_retrieval_stra
 from tools.document_loader import load_document, get_document_info
 from tools.text_splitter import split_text_recursive, split_text_by_markdown_structure, hierarchical_split
 from storage.provider import get_storage_provider
+from utils.cache import get_cache
 from utils.config_loader import get_config
 
 logger = logging.getLogger(__name__)
+
+# 单例锁，确保线程安全
+_rag_service_lock = asyncio.Lock()
+_rag_service = None
+
+_RUNTIME_RAG_SETTINGS_CACHE_KEY = "runtime_rag_settings"
+
+
+def _get_runtime_rag_settings() -> Dict[str, Any]:
+    try:
+        value = get_cache().get(_RUNTIME_RAG_SETTINGS_CACHE_KEY)
+        return value if isinstance(value, dict) else {}
+    except Exception:
+        return {}
+
+
+def get_runtime_rag_settings() -> Dict[str, Any]:
+    return _get_runtime_rag_settings()
+
+
+def set_runtime_rag_settings(settings: Dict[str, Any], ttl_seconds: int = 86400) -> Dict[str, Any]:
+    safe: Dict[str, Any] = {}
+    for key in ("top_k", "max_results", "use_rerank", "rerank_top_n"):
+        if key in settings and settings.get(key) is not None:
+            safe[key] = settings.get(key)
+
+    get_cache().set(_RUNTIME_RAG_SETTINGS_CACHE_KEY, safe, ttl=ttl_seconds)
+    return safe
 
 # 从配置文件加载领域关键词
 def _get_domain_keywords() -> Dict[str, List[str]]:
@@ -139,11 +169,13 @@ class RAGService:
         return {"object_key": object_key, "chunks": len(chunks), "hierarchical": use_hierarchical, "collection": target_collection}
 
     def smart_retrieve(
-        self, 
-        query: str, 
-        top_k: int = 5, 
+        self,
+        query: str,
+        top_k: Optional[int] = None,
         collection_names: Optional[List[str]] = None,
-        max_results: int = 10
+        max_results: Optional[int] = None,
+        use_rerank: Optional[bool] = None,
+        rerank_top_n: Optional[int] = None,
     ) -> List[Dict[str, Any]]:
         """
         固定检索：总是检索知识库，支持多知识库智能选择
@@ -154,9 +186,29 @@ class RAGService:
             collection_names: 指定要检索的知识库列表，None则智能选择
             max_results: 最大总返回结果数量（默认10）
         """
-        # 限制 max_results 范围
-        max_results = max(1, min(max_results, 50))
-        top_k = max(1, min(top_k, 20))
+        runtime_settings = _get_runtime_rag_settings()
+        config = get_config()
+
+        if top_k is None:
+            top_k = runtime_settings.get("top_k")
+            if top_k is None:
+                top_k = config.get("rag.default_top_k", 5)
+
+        if max_results is None:
+            max_results = runtime_settings.get("max_results")
+            if max_results is None:
+                max_results = 10
+
+        if use_rerank is None and "use_rerank" in runtime_settings:
+            use_rerank = bool(runtime_settings.get("use_rerank"))
+
+        if rerank_top_n is None:
+            runtime_top_n = runtime_settings.get("rerank_top_n")
+            if runtime_top_n is not None:
+                rerank_top_n = runtime_top_n
+
+        max_results = max(1, min(int(max_results), 50))
+        top_k = max(1, min(int(top_k), 20))
         
         # 1. 智能选择知识库（如果不指定）
         if not collection_names:
@@ -191,20 +243,35 @@ class RAGService:
                 logger.error(f"检索知识库 {collection_name} 失败: {e}")
                 continue
         
-        # 3. 去重并合并结果
+        # 3. 去重并合并结果（合并向量/BM25分数）
         unique_docs = self._deduplicate_docs(all_docs)
-        
-        # 4. 按相关性排序（综合向量分数和 BM25 分数）
-        sorted_docs = sorted(unique_docs, key=lambda x: x.metadata.get("vector_score", 0), reverse=True)
-        
-        # 5. 返回带引用信息的结果（限制总数量）
+
+        # 4. 计算综合分数（向量相似度 + BM25）
+        vector_weight, bm25_weight = self._get_score_weights()
+        max_bm25 = self._get_max_bm25_score(unique_docs)
+        for doc in unique_docs:
+            vector_sim = self._to_similarity(doc.metadata.get("vector_score"))
+            bm25_score = doc.metadata.get("bm25_score")
+            bm25_sim = 0.0
+            if bm25_score is not None and max_bm25 > 0:
+                bm25_sim = float(bm25_score) / max_bm25
+            combined = (vector_weight * (vector_sim or 0.0)) + (bm25_weight * (bm25_sim or 0.0))
+            doc.metadata["combined_score"] = combined
+
+        # 5. 先按综合分数排序
+        sorted_docs = sorted(unique_docs, key=lambda x: x.metadata.get("combined_score", 0), reverse=True)
+
+        # 6. 可选：Rerank 重排序
+        sorted_docs = self._maybe_rerank(query, sorted_docs, use_rerank=use_rerank, rerank_top_n=rerank_top_n)
+
+        # 7. 返回带引用信息的结果（限制总数量）
         final_results = sorted_docs[:max_results]
         logger.info(f"检索完成: 总候选={len(all_docs)}, 去重后={len(unique_docs)}, 最终返回={len(final_results)}")
-        
+
         return [{
             "content": d.page_content,
             "metadata": d.metadata,
-            "relevance_score": d.metadata.get("vector_score", 0.0),
+            "relevance_score": d.metadata.get("rerank_score") or d.metadata.get("combined_score", 0.0),
             "source": d.metadata.get("source", "未知"),
             "chunk_index": d.metadata.get("chunk_index", 0),
             "collection": d.metadata.get("collection", self.collection_name)
@@ -271,19 +338,22 @@ class RAGService:
             return [self.collection_name]
     
     def _deduplicate_docs(self, docs: List[Document]) -> List[Document]:
-        """去重文档（基于内容相似度）"""
+        """去重文档（基于内容相似度），并合并分数字段"""
         if not docs:
             return []
-        
-        unique = []
-        seen_contents = set()
-        
+
+        unique: List[Document] = []
+        seen_contents: Dict[str, Document] = {}
+
         for doc in docs:
-            content = doc.page_content[:100]  # 使用前100字符作为去重依据
-            if content not in seen_contents:
-                seen_contents.add(content)
+            content_key = doc.page_content[:100]  # 使用前100字符作为去重依据
+            if content_key not in seen_contents:
+                seen_contents[content_key] = doc
                 unique.append(doc)
-        
+            else:
+                existing = seen_contents[content_key]
+                self._merge_doc_metadata(existing, doc)
+
         return unique
 
     def get_heatmap(self, topic_level: int = 3, min_frequency: int = 1) -> Dict[str, Any]:
@@ -296,12 +366,12 @@ class RAGService:
         })
         return json.loads(res)
 
-    def get_hierarchy(self, doc_id: str) -> Dict[str, Any]:
+    def get_hierarchy(self, doc_id: str, collection_name: Optional[str] = None) -> Dict[str, Any]:
         """获取文档分层结构"""
         from tools.document_hierarchy import build_document_hierarchy
         res = build_document_hierarchy.invoke({
             "document_id": doc_id,
-            "collection_name": self.collection_name
+            "collection_name": collection_name or self.collection_name
         })
         return json.loads(res)
 
@@ -325,6 +395,12 @@ class RAGService:
             for d in docs_data:
                 content = d.get("content") or d.get("page_content") or d.get("document") or ""
                 metadata = d.get("metadata") or {}
+                bm25_score = d.get("bm25_score") or d.get("score")
+                if bm25_score is not None:
+                    try:
+                        metadata["bm25_score"] = float(bm25_score)
+                    except (TypeError, ValueError):
+                        pass
                 if content:
                     docs.append(Document(page_content=content, metadata=metadata))
             return docs
@@ -354,10 +430,10 @@ class RAGService:
         }
         return stats
 
-    def get_traceability(self, query: str) -> List[Dict[str, Any]]:
+    def get_traceability(self, query: str, collection_name: Optional[str] = None) -> List[Dict[str, Any]]:
         """获取答案溯源信息（增强版：包含精确位置和引用片段）"""
         from tools.vector_store import get_vector_store
-        vector_store = get_vector_store(collection_name=self.collection_name)
+        vector_store = get_vector_store(collection_name=collection_name or self.collection_name)
         vector_results = vector_store.similarity_search_with_score(query, k=5)
         trace_results = []
         for i, (doc, score) in enumerate(vector_results):
@@ -418,13 +494,14 @@ class RAGService:
         
         return " | ".join(location_parts) if location_parts else "未知位置"
 
-    def compare_methods(self, query: str, methods: Dict[str, bool]) -> Dict[str, Any]:
+    def compare_methods(self, query: str, methods: Dict[str, bool], collection_name: Optional[str] = None) -> Dict[str, Any]:
         """对比不同检索方法的结果"""
         comparison = {}
         top_k = 5
+        target_collection = collection_name or self.collection_name
         
         if methods.get('vector'):
-            vector_store = get_vector_store(collection_name=self.collection_name)
+            vector_store = get_vector_store(collection_name=target_collection)
             results = vector_store.similarity_search_with_score(query, k=top_k)
             scores = [float(s) for d, s in results] if results else []
             avg = sum(scores) / len(scores) if scores else 0.0
@@ -435,7 +512,7 @@ class RAGService:
             }
             
         if methods.get('bm25'):
-            bm25_res = bm25_retrieve.invoke({"query": query, "top_k": top_k})
+            bm25_res = bm25_retrieve.invoke({"query": query, "top_k": top_k, "collection_name": target_collection})
             docs = self._parse_json_docs(bm25_res)
             scores = []
             normalized = []
@@ -454,7 +531,7 @@ class RAGService:
             
         if methods.get('hybrid'):
             from tools.hybrid_retriever import hybrid_retrieve
-            hybrid_res = hybrid_retrieve.invoke({"query": query, "collection_name": self.collection_name, "top_k": top_k})
+            hybrid_res = hybrid_retrieve.invoke({"query": query, "collection_name": target_collection, "top_k": top_k})
             docs = self._parse_json_docs(hybrid_res)
             scores = []
             normalized = []
@@ -473,9 +550,177 @@ class RAGService:
             
         return comparison
 
-_rag_service = None
+    @staticmethod
+    def _to_similarity(score: Optional[float]) -> Optional[float]:
+        """将向量距离/分数转换为相似度（高分更好）"""
+        if score is None:
+            return None
+        try:
+            value = float(score)
+        except (TypeError, ValueError):
+            return None
+        if value < 0:
+            return -value
+        # 兼容距离分数：越小越相似
+        return 1.0 / (1.0 + value)
 
-def get_rag_service() -> RAGService:
+    @staticmethod
+    def _get_max_bm25_score(docs: List[Document]) -> float:
+        max_score = 0.0
+        for doc in docs:
+            try:
+                score = float(doc.metadata.get("bm25_score") or 0.0)
+                if score > max_score:
+                    max_score = score
+            except (TypeError, ValueError):
+                continue
+        return max_score
+
+    @staticmethod
+    def _get_score_weights() -> Tuple[float, float]:
+        """获取向量与BM25权重"""
+        try:
+            config = get_config()
+            vector_weight = float(config.get("rag.vector_weight", 0.6))
+            bm25_weight = float(config.get("rag.bm25_weight", 0.4))
+        except Exception:
+            vector_weight, bm25_weight = 0.6, 0.4
+        total = vector_weight + bm25_weight
+        if total <= 0:
+            return 0.6, 0.4
+        return vector_weight / total, bm25_weight / total
+
+    def _merge_doc_metadata(self, target: Document, incoming: Document) -> None:
+        """合并去重时的分数字段与关键信息"""
+        if not target.metadata:
+            target.metadata = {}
+        if not incoming.metadata:
+            return
+
+        # 合并 collection/source 等信息
+        for key in ("collection", "source", "object_key", "chunk_index"):
+            if key not in target.metadata and key in incoming.metadata:
+                target.metadata[key] = incoming.metadata[key]
+
+        # 合并向量分数（选择更优的相似度）
+        incoming_vector = incoming.metadata.get("vector_score")
+        target_vector = target.metadata.get("vector_score")
+        if incoming_vector is not None:
+            if target_vector is None:
+                target.metadata["vector_score"] = incoming_vector
+            else:
+                if (self._to_similarity(incoming_vector) or 0.0) > (self._to_similarity(target_vector) or 0.0):
+                    target.metadata["vector_score"] = incoming_vector
+
+        # 合并 BM25 分数（取更大）
+        incoming_bm25 = incoming.metadata.get("bm25_score")
+        target_bm25 = target.metadata.get("bm25_score")
+        if incoming_bm25 is not None:
+            if target_bm25 is None or float(incoming_bm25) > float(target_bm25):
+                target.metadata["bm25_score"] = incoming_bm25
+
+    def _maybe_rerank(
+        self,
+        query: str,
+        docs: List[Document],
+        use_rerank: Optional[bool] = None,
+        rerank_top_n: Optional[int] = None,
+    ) -> List[Document]:
+        """可选 Rerank（失败时回退原排序）"""
+        if not docs:
+            return docs
+
+        try:
+            config = get_config()
+            rerank_enabled = bool(config.get("rerank.enabled", False))
+            force_rerank = bool(config.get("rag.force_rerank", False))
+            default_rerank = bool(config.get("rag.use_rerank_by_default", False))
+            if not rerank_enabled:
+                return docs
+
+            # 显式覆盖：允许 UI/调用方强制开启/关闭 rerank（优先级最高）
+            if use_rerank is not None:
+                if not use_rerank:
+                    return docs
+            else:
+                if not (force_rerank or default_rerank):
+                    return docs
+        except Exception:
+            return docs
+
+        try:
+            payload = []
+            for i, doc in enumerate(docs):
+                payload.append({
+                    "id": str(i),
+                    "content": doc.page_content,
+                    "metadata": doc.metadata
+                })
+
+            if rerank_top_n is None:
+                runtime_settings = _get_runtime_rag_settings()
+                if "rerank_top_n" in runtime_settings and runtime_settings.get("rerank_top_n") is not None:
+                    rerank_top_n = int(runtime_settings.get("rerank_top_n"))
+                else:
+                    rerank_top_n = int(get_config().get("rag.default_top_n", 5))
+
+            reranked_str = rerank_documents.invoke({
+                "query": query,
+                "documents": json.dumps(payload, ensure_ascii=False),
+                "top_n": rerank_top_n
+            })
+
+            reranked_data = json.loads(reranked_str) if reranked_str else []
+            if isinstance(reranked_data, dict) and "ranked_docs" in reranked_data:
+                reranked_data = reranked_data["ranked_docs"]
+
+            if not isinstance(reranked_data, list) or not reranked_data:
+                return docs
+
+            ordered = []
+            used = set()
+            for item in reranked_data:
+                doc_id = item.get("id")
+                if doc_id is None:
+                    continue
+                try:
+                    idx = int(doc_id)
+                except (TypeError, ValueError):
+                    continue
+                if idx < 0 or idx >= len(docs) or idx in used:
+                    continue
+                doc = docs[idx]
+                rerank_score = item.get("relevance_score") or item.get("score")
+                if rerank_score is not None:
+                    doc.metadata["rerank_score"] = rerank_score
+                reason = item.get("reason")
+                if reason:
+                    doc.metadata["rerank_reason"] = reason
+                ordered.append(doc)
+                used.add(idx)
+
+            # 追加未出现的文档
+            for i, doc in enumerate(docs):
+                if i not in used:
+                    ordered.append(doc)
+
+            return ordered
+        except Exception as e:
+            logger.warning(f"Rerank failed, fallback to combined score: {e}")
+            return docs
+
+async def get_rag_service() -> RAGService:
+    """获取 RAGService 单例（线程安全）"""
+    global _rag_service
+    if _rag_service is None:
+        async with _rag_service_lock:
+            if _rag_service is None:
+                _rag_service = RAGService()
+    return _rag_service
+
+# 同步版本供非异步上下文使用
+def get_rag_service_sync() -> RAGService:
+    """同步获取 RAGService 单例（注意：可能非线程安全，仅在初始化阶段使用）"""
     global _rag_service
     if _rag_service is None:
         _rag_service = RAGService()

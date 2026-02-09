@@ -57,7 +57,8 @@ class DocumentManager:
         skip: int = 0,
         limit: int = 100,
         search: Optional[str] = None,
-        collection_name: str = "knowledge_base"
+        collection_name: str = "knowledge_base",
+        file_type: Optional[str] = None
     ) -> List[Dict[str, Any]]:
         """
         获取文档列表（支持分页和搜索）
@@ -81,45 +82,40 @@ class DocumentManager:
             return []
 
         # 使用子查询获取文档级别的数据，避免加载所有块到内存
-        from sqlalchemy import func, distinct
-        
-        # 获取唯一的 source 列表（带分页）
+        from sqlalchemy import distinct
+
+        # 统一获取所有唯一 source，再在 Python 中过滤（兼容 search 与 file_type）
+        sources = db.query(
+            distinct(LangchainPgEmbedding.cmetadata['source'].astext)
+        ).filter(
+            LangchainPgEmbedding.collection_id == collection.uuid
+        ).all()
+
+        # 搜索过滤
         if search:
-            # 搜索时先获取所有唯一 source，再过滤
-            sources_query = db.query(
-                LangchainPgEmbedding.cmetadata['source'].astext.label('source')
-            ).filter(
-                LangchainPgEmbedding.collection_id == collection.uuid
-            ).distinct().subquery()
-            
-            sources = db.query(sources_query.c.source).all()
             search_lower = search.lower()
-            filtered_sources = [
-                (s[0],) for s in sources 
+            sources = [
+                (s[0],) for s in sources
                 if s[0] and search_lower in s[0].lower()
             ]
-            
-            # 分页
-            total = len(filtered_sources)
-            paginated_sources = filtered_sources[skip:skip + limit]
-        else:
-            # 直接统计唯一 source
-            count_result = db.query(
-                func.count(distinct(LangchainPgEmbedding.cmetadata['source'].astext))
-            ).filter(
-                LangchainPgEmbedding.collection_id == collection.uuid
-            ).scalar()
-            
-            total = count_result or 0
-            
-            # 获取分页的 source
-            sources_query = db.query(
-                LangchainPgEmbedding.cmetadata['source'].astext.label('source')
-            ).filter(
-                LangchainPgEmbedding.collection_id == collection.uuid
-            ).distinct().offset(skip).limit(limit).all()
-            
-            paginated_sources = sources_query
+
+        # 文件类型过滤
+        if file_type and file_type.lower() != "all":
+            normalized = file_type.lower().lstrip(".")
+            extensions_map = {
+                "doc": [".doc", ".docx"],
+                "word": [".doc", ".docx"],
+                "md": [".md", ".markdown"],
+                "markdown": [".md", ".markdown"],
+            }
+            extensions = extensions_map.get(normalized, [f".{normalized}"])
+            sources = [
+                (s[0],) for s in sources
+                if s[0] and any(s[0].lower().endswith(ext) for ext in extensions)
+            ]
+
+        total = len(sources)
+        paginated_sources = sources[skip:skip + limit]
 
         # 获取每个文档的详细信息
         documents = []
@@ -164,7 +160,8 @@ class DocumentManager:
         self,
         db: Session,
         search: Optional[str] = None,
-        collection_name: str = "knowledge_base"
+        collection_name: str = "knowledge_base",
+        file_type: Optional[str] = None
     ) -> int:
         """
         获取文档总数（用于分页）
@@ -186,25 +183,30 @@ class DocumentManager:
             return 0
 
         # 使用 DISTINCT 统计不同的 source 数量
+        from sqlalchemy import distinct
+        sources = db.query(distinct(LangchainPgEmbedding.cmetadata['source'].astext)).filter(
+            LangchainPgEmbedding.collection_id == collection.uuid
+        ).all()
+
         if search:
-            # 使用子查询获取所有匹配的 source
-            from sqlalchemy import distinct
-
-            # 先获取所有唯一的 source，再在 Python 中过滤
-            sources = db.query(distinct(LangchainPgEmbedding.cmetadata['source'].astext)).filter(
-                LangchainPgEmbedding.collection_id == collection.uuid
-            ).all()
-
             search_lower = search.lower()
-            count = sum(1 for (source,) in sources if source and search_lower in source.lower())
-            return count
-        else:
-            # 统计不同的 source 数量
-            from sqlalchemy import distinct
-            count = db.query(func.count(distinct(LangchainPgEmbedding.cmetadata['source'].astext))).filter(
-                LangchainPgEmbedding.collection_id == collection.uuid
-            ).scalar()
-            return count or 0
+            sources = [s for s in sources if s[0] and search_lower in s[0].lower()]
+
+        if file_type and file_type.lower() != "all":
+            normalized = file_type.lower().lstrip(".")
+            extensions_map = {
+                "doc": [".doc", ".docx"],
+                "word": [".doc", ".docx"],
+                "md": [".md", ".markdown"],
+                "markdown": [".md", ".markdown"],
+            }
+            extensions = extensions_map.get(normalized, [f".{normalized}"])
+            sources = [
+                s for s in sources
+                if s[0] and any(s[0].lower().endswith(ext) for ext in extensions)
+            ]
+
+        return len(sources)
 
     def get_document_by_name(
         self,

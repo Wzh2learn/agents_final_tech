@@ -1,4 +1,20 @@
-// ==================== 全局变量 ====================
+// 全局错误处理 - 抑制浏览器扩展引起的无关警告
+window.addEventListener('error', (e) => {
+  if (e.message && e.message.includes('runtime.lastError')) {
+    e.preventDefault();
+    console.debug('[Suppressed] Browser extension runtime.lastError');
+    return false;
+  }
+});
+
+// 监听未处理的 Promise 错误
+window.addEventListener('unhandledrejection', (e) => {
+  if (e.reason && e.reason.message && e.reason.message.includes('runtime.lastError')) {
+    e.preventDefault();
+    console.debug('[Suppressed] Browser extension Promise error');
+    return false;
+  }
+});
 let currentSessionId = null;
 let currentSessionType = 'private'; // 新增：跟踪会话类型
 let currentRoleKey = 'default_engineer';
@@ -7,33 +23,6 @@ let currentAiMessage = null;
 let ws = null; // 新增：WebSocket 实例
 let participantId = null; // 新增：协作参与者 ID
 let wsReconnectAttempts = 0; // WebSocket 重连计数器
-
-// ==================== 防抖函数 ====================
-let suggestionDebounceTimer = null;
-let suggestionLastQuery = '';
-
-/**
- * 防抖获取建议卡片
- * @param {string} query - 查询内容
- */
-function fetchSuggestionsDebounced(query) {
-    // 如果查询相同，忽略
-    if (query === suggestionLastQuery) {
-        return;
-    }
-    suggestionLastQuery = query;
-    
-    // 清除之前的定时器
-    if (suggestionDebounceTimer) {
-        clearTimeout(suggestionDebounceTimer);
-    }
-    
-    // 500ms 防抖
-    suggestionDebounceTimer = setTimeout(() => {
-        fetchSuggestions(query);
-        suggestionDebounceTimer = null;
-    }, 500);
-}
 
 // ==================== 工具函数 ====================
 
@@ -860,10 +849,10 @@ async function sendMessage() {
         isGenerating = false;
         currentAiMessage = null;
         
-        // 获取下一步建议 (使用防抖)
+        // 获取下一步建议
         if (content) {
             conversationHistory.push(content);
-            fetchSuggestionsDebounced(content);
+            fetchSuggestions(content);
         }
     }
 }
@@ -931,12 +920,6 @@ function addMessageUI(type, content, senderName = '', sources = []) {
 }
 
 // 显示来源详情
-function showSourceDetail(idx, sourceName, content) {
-    showToast(`来源: ${sourceName}`, 'info');
-    console.log('Source detail:', { idx, sourceName, content });
-}
-
-// 渲染引用来源 HTML
 function renderSources(sources) {
     if (!sources || sources.length === 0) return '';
     
@@ -944,10 +927,30 @@ function renderSources(sources) {
         <div class="message-sources" style="margin: 12px 0; padding: 12px; background: #f8fafc; border-radius: 8px; border-left: 3px solid #667eea;">
             <div style="font-size: 12px; color: #6b7280; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
                 <span style="font-size: 14px;">📚</span>
-                <span style="font-weight: 500;">参考来源</span>
+                <span style="font-weight: 500;">参考来源 (${sources.length}个)</span>
             </div>
             <div style="display: flex; flex-direction: column; gap: 8px;">
-                ${sources.map((source, idx) => `
+                ${sources.map((source, idx) => {
+                    const meta = source.metadata || {};
+                    const collection = source.collection || meta.collection || '默认知识库';
+                    const isParent = meta.is_parent === true;
+                    const chunkType = isParent ? '父块' : (meta.is_parent === false ? '子块' : '段落');
+                    const chunkIndex = source.chunk_index !== undefined ? source.chunk_index : (meta.chunk_index ?? '-');
+                    const parentId = meta.parent_id || '';
+                    const childIndex = meta.child_index;
+                    const path = meta.path || meta.file_path || source.source || '未知文档';
+                    
+                    // 构建位置标签
+                    const locationTags = [];
+                    if (collection && collection !== 'knowledge_base') {
+                        locationTags.push(`<span style="font-size: 10px; color: #667eea; background: #eff6ff; padding: 1px 6px; border-radius: 4px;">${collection}</span>`);
+                    }
+                    locationTags.push(`<span style="font-size: 10px; color: #6b7280; background: #f3f4f6; padding: 1px 6px; border-radius: 4px;">${chunkType} #${chunkIndex}</span>`);
+                    if (parentId && !isParent) {
+                        locationTags.push(`<span style="font-size: 10px; color: #9ca3af;">隶属于 ${parentId}</span>`);
+                    }
+                    
+                    return `
                     <div class="source-item" style="
                         padding: 10px 12px; 
                         background: white; 
@@ -956,26 +959,81 @@ function renderSources(sources) {
                         border: 1px solid #e5e7eb;
                         cursor: pointer;
                         transition: all 0.2s;
-                    " onclick="showSourceDetail('${idx}', '${source.source || '未知'}', '${source.content?.substring(0, 200).replace(/'/g, "\\'") || ''}')"
+                    " onclick="showSourceDetail(${idx}, '${escapeJsString(path)}', '${escapeJsString(source.content?.substring(0, 200) || '')}')"
                     onmouseover="this.style.borderColor='#667eea'; this.style.background='#f0f3ff'"
                     onmouseout="this.style.borderColor='#e5e7eb'; this.style.background='white'">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                            <span style="font-weight: 500; color: #374151; display: flex; align-items: center; gap: 6px;">
-                                <span>📄</span>
-                                <span>${source.source || '未知文档'}</span>
-                            </span>
-                            <span style="font-size: 11px; color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 4px;">
-                                ${(source.relevance_score * 100).toFixed(0)}% 相关
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: 500; color: #374151; display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                                    <span>📄</span>
+                                    <span>${escapeHtml(path)}</span>
+                                </div>
+                                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                    ${locationTags.join('')}
+                                </div>
+                            </div>
+                            <span style="font-size: 11px; color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; margin-left: 8px;">
+                                ${((source.relevance_score || 0) * 100).toFixed(0)}% 相关
                             </span>
                         </div>
-                        <div style="color: #6b7280; line-height: 1.5;">
-                            ${source.content?.substring(0, 120)}...
+                        <div style="color: #6b7280; line-height: 1.5; border-top: 1px solid #f3f4f6; padding-top: 6px; margin-top: 6px;">
+                            ${escapeHtml(source.content?.substring(0, 100) || '无内容')}...
                         </div>
                     </div>
-                `).join('')}
+                `}).join('')}
             </div>
         </div>
     `;
+}
+
+// 显示来源详情弹窗 - 增强版
+function showSourceDetail(idx, sourceName, content) {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+        <div style="
+            background: white;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        ">
+            <div style="padding: 16px 20px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-size: 14px; font-weight: 600; color: #111827;">📄 来源详情</div>
+                    <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">${escapeHtml(sourceName)}</div>
+                </div>
+                <button onclick="this.closest('.source-modal').remove()" style="background: none; border: none; font-size: 20px; color: #9ca3af; cursor: pointer;">×</button>
+            </div>
+            <div style="padding: 20px; overflow-y: auto; flex: 1;">
+                <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border-left: 3px solid #667eea;">
+                    <div style="font-size: 12px; color: #6b7280; margin-bottom: 8px; font-weight: 500;">引用内容：</div>
+                    <div style="font-size: 13px; color: #374151; line-height: 1.7; white-space: pre-wrap;">${escapeHtml(content || '无内容')}</div>
+                </div>
+            </div>
+        </div>
+    `;
+    modal.className = 'source-modal';
+    
+    document.body.appendChild(modal);
+    
+    // 点击背景关闭
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
 }
 
 // 无来源时显示提示

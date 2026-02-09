@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>建账规则助手 - 主页</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏦</text></svg>">
     <style>
         * {
             margin: 0;
@@ -12,8 +14,10 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: var(--font-display, 'Space Grotesk', 'IBM Plex Sans', 'Segoe UI', sans-serif);
+            background: radial-gradient(1000px 500px at 12% -10%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 60%),
+                        radial-gradient(1000px 500px at 95% 0%, rgba(255, 231, 214, 0.35) 0%, rgba(255, 231, 214, 0) 60%),
+                        linear-gradient(140deg, #0f766e 0%, #14b8a6 45%, #f97316 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -60,7 +64,7 @@
             text-decoration: none;
             color: inherit;
             display: block;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16);
         }
 
         .card:hover {
@@ -69,12 +73,12 @@
         }
 
         .card.primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
             color: white;
         }
 
         .card.primary:hover {
-            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 24px rgba(15, 118, 110, 0.35);
         }
 
         .card-icon {
@@ -114,18 +118,18 @@
         }
 
         .badge-feature {
-            background: #ffeaa7;
-            color: #d63031;
+            background: #fed7aa;
+            color: #9a3412;
         }
 
         .badge-basic {
-            background: #74b9ff;
-            color: #0984e3;
+            background: #dbeafe;
+            color: #1d4ed8;
         }
 
         .badge-advanced {
-            background: #a29bfe;
-            color: #6c5ce7;
+            background: #fde68a;
+            color: #a16207;
         }
 
         .footer {
@@ -157,7 +161,7 @@
         }
     </style>
 </head>
-<body>
+<body class="page-home">
     <div class="main-container">
         <div class="header">
             <h1>🏦 建账规则助手系统</h1>

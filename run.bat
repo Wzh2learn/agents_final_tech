@@ -10,6 +10,23 @@ REM 设置项目根目录
 set PROJECT_ROOT=%CD%
 set PYTHONPATH=%PROJECT_ROOT%;%PROJECT_ROOT%\src
 
+REM 检查 Docker 容器状态
+echo [INFO] 检查 Docker 数据库容器...
+docker ps --filter "name=pgvector" --format "{{.Names}}" | findstr "pgvector" >nul 2>&1
+if errorlevel 1 (
+    echo [WARNING] pgvector 容器未运行，正在启动...
+    docker start pgvector 2>nul || (
+        echo [ERROR] 启动 pgvector 容器失败，请先运行：
+        echo     docker run -d --name pgvector -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=vector_db -p 5432:5432 ankane/pgvector:latest
+        pause
+        exit /b 1
+    )
+    echo [INFO] pgvector 容器已启动
+    timeout /t 3 /nobreak >nul
+) else (
+    echo [INFO] pgvector 容器运行正常
+)
+
 REM 激活虚拟环境
 if exist "venv\Scripts\activate.bat" (
     echo [INFO] 正在激活虚拟环境...
@@ -30,6 +47,7 @@ if "%SILICONFLOW_API_KEY%"=="" (
 REM 启动服务
 echo [INFO] 启动服务 (PYTHONPATH=%PYTHONPATH%)...
 echo [INFO] WebSocket 服务将自动在端口 5001 启动
+echo [INFO] 访问 http://localhost:5000
 echo.
 python src/main.py -m http -p 5000
 

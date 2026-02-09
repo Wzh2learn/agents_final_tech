@@ -30,8 +30,8 @@ def _multi_path_retrieval(query: str, top_k: int = 4) -> Tuple[List[dict], List[
         (规则库检索结果, 标准答案库检索结果)
     """
     try:
-        from biz.rag_service import get_rag_service
-        rag_service = get_rag_service()
+        from biz.rag_service import get_rag_service_sync
+        rag_service = get_rag_service_sync()
 
         # 路径1：规则库检索（主要知识来源）
         # 对应 Dify 的 "知识检索 - 多路召回" 节点

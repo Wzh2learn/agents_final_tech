@@ -17,11 +17,11 @@ def add_document_to_knowledge_base(
     """
     try:
         import asyncio
-        from biz.rag_service import get_rag_service
+        from biz.rag_service import get_rag_service_sync
         validated = AddDocumentInput(file_path=file_path, metadata=metadata)
         meta_dict = json.loads(validated.metadata) if validated.metadata else {}
         
-        rag_service = get_rag_service()
+        rag_service = get_rag_service_sync()
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         res = loop.run_until_complete(rag_service.ingest_file(validated.file_path, meta_dict))
@@ -42,8 +42,8 @@ def smart_retrieve(
         raise ValueError("查询不能为空")
 
     try:
-        from biz.rag_service import get_rag_service
-        rag_service = get_rag_service()
+        from biz.rag_service import get_rag_service_sync
+        rag_service = get_rag_service_sync()
         results = rag_service.smart_retrieve(query=query, top_k=top_k)
         
         return json.dumps({
@@ -58,9 +58,9 @@ def smart_retrieve(
 def batch_retrieve(queries: str, top_k: Optional[int] = 5) -> str:
     """批量对多个问题执行智能检索。"""
     try:
-        from biz.rag_service import get_rag_service
+        from biz.rag_service import get_rag_service_sync
         query_list = json.loads(queries)
-        rag_service = get_rag_service()
+        rag_service = get_rag_service_sync()
         result = rag_service.batch_retrieve(query_list, top_k)
         return json.dumps(result, ensure_ascii=False, indent=2)
     except Exception as e:
@@ -70,9 +70,9 @@ def batch_retrieve(queries: str, top_k: Optional[int] = 5) -> str:
 def get_retrieval_statistics(queries: str) -> str:
     """分析多条查询的检索效果统计。"""
     try:
-        from biz.rag_service import get_rag_service
+        from biz.rag_service import get_rag_service_sync
         query_list = json.loads(queries)
-        rag_service = get_rag_service()
+        rag_service = get_rag_service_sync()
         result = rag_service.get_statistics(query_list)
         return json.dumps(result, ensure_ascii=False, indent=2)
     except Exception as e:

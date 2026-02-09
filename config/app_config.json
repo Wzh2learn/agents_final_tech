@@ -9,7 +9,7 @@
     "port": 5432,
     "database": "vector_db",
     "user": "postgres",
-    "password": "",
+    "password": "postgres",
     "connection_pool_size": 10,
     "connection_timeout": 30,
     "notes": "数据库连接配置，用于存储向量数据和协作会话数据"

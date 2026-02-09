@@ -1,4 +1,4 @@
-// 知识库管理页面 JavaScript (Dify 风格)
+﻿// 知识库管理页面 JavaScript (Dify 风格)
 
 // ==================== 全局变量 ====================
 let currentPage = 'overview';
@@ -6,30 +6,283 @@ let deleteDocId = null;
 let currentDocId = null; // 当前正在查看详情的文档 ID
 let currentCollection = 'knowledge_base'; // 当前选中的集合名称
 
+// ==================== 安全与转义 ====================
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+async function loadRagSettings() {
+    try {
+        const data = await apiCall('/api/knowledge/rag-settings');
+        if (data.status !== 'success') {
+            console.warn('[loadRagSettings] 加载设置失败:', data.message);
+            return;
+        }
+        const settings = data.settings || {};
+
+        const topKEl = document.getElementById('setting-top-k');
+        const useRerankEl = document.getElementById('setting-use-rerank');
+        if (topKEl && settings.top_k != null) {
+            topKEl.value = String(settings.top_k);
+        }
+        if (useRerankEl && settings.use_rerank != null) {
+            useRerankEl.checked = Boolean(settings.use_rerank);
+        }
+        console.log('[loadRagSettings] 已应用设置:', settings);
+    } catch (e) {
+        console.warn('[loadRagSettings] 异常（非阻塞）:', e);
+        // 不阻塞后续加载
+    }
+}
+
+function escapeJsString(value) {
+    return String(value ?? '')
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '\\"')
+        .replace(/\r/g, '')
+        .replace(/\n/g, '\\n');
+}
+
+/**
+ * 查看文档详情 - 跳转到文档详情页
+ * @param {string} docId - 文档ID
+ * @param {string} docName - 文档名称
+ */
+function viewDocumentDetail(docId, docName) {
+    currentDocId = docId;
+    const detailDocName = document.getElementById('detail-doc-name');
+    if (detailDocName) detailDocName.textContent = docName || docId;
+    
+    switchPage('document-detail');
+    loadDocumentDetail(docId);
+}
+
+/**
+ * 加载文档详情
+ * @param {string} docId - 文档ID
+ */
+async function loadDocumentDetail(docId) {
+    const segmentList = document.getElementById('segment-list');
+    const segmentCount = document.getElementById('detail-segment-count');
+    const metadataContainer = document.getElementById('detail-metadata');
+    
+    if (segmentList) segmentList.innerHTML = '<div class="loading-state">加载中...</div>';
+    
+    try {
+        const data = await apiCall(`/api/knowledge/hierarchy/${docId}?collection_name=${encodeURIComponent(currentCollection)}`);
+        
+        if (data.status === 'success') {
+            const hierarchy = data.hierarchy || {};
+            const children = hierarchy.children || [];
+            
+            if (segmentCount) segmentCount.textContent = `${children.length} 个分段`;
+            
+            // 渲染分段列表
+            if (segmentList) {
+                if (children.length === 0) {
+                    segmentList.innerHTML = '<div class="empty-state">无分段内容</div>';
+                } else {
+                    segmentList.innerHTML = children.map((chunk, idx) => `
+                        <div class="segment-item" style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 8px;">
+                            <div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">分段 ${idx + 1}</div>
+                            <div style="font-size: 13px; color: #111827;">${escapeHtml(chunk.content?.substring(0, 200) || '无内容')}${chunk.content?.length > 200 ? '...' : ''}</div>
+                        </div>
+                    `).join('');
+                }
+            }
+            
+            // 渲染元数据
+            if (metadataContainer) {
+                const meta = hierarchy.metadata || {};
+                metadataContainer.innerHTML = `
+                    <div><strong>文档ID:</strong> ${escapeHtml(docId)}</div>
+                    <div><strong>集合:</strong> ${escapeHtml(currentCollection)}</div>
+                    <div><strong>分段数:</strong> ${children.length}</div>
+                    <div><strong>有父块:</strong> ${meta.is_parent ? '是' : '否'}</div>
+                `;
+            }
+        } else {
+            if (segmentList) segmentList.innerHTML = `<div class="error-state">加载失败: ${escapeHtml(data.message)}</div>`;
+        }
+    } catch (error) {
+        console.error('加载文档详情失败:', error);
+        if (segmentList) segmentList.innerHTML = '<div class="error-state">加载失败</div>';
+    }
+}
+
+/**
+ * 格式化日期为北京时间
+ * @param {string|number|Date} timestamp - 时间戳或日期字符串
+ * @returns {string} 格式化后的北京时间字符串
+ */
+function formatDate(timestamp) {
+    if (!timestamp || timestamp === '1970-01-01T00:00:00' || timestamp === 0) {
+        return '未知时间';
+    }
+    
+    try {
+        const date = new Date(timestamp);
+        // 检查是否有效日期
+        if (isNaN(date.getTime())) {
+            return '未知时间';
+        }
+        
+        // 转换为北京时间 (UTC+8)
+        const beijingTime = new Date(date.getTime() + 8 * 60 * 60 * 1000);
+        
+        const year = beijingTime.getUTCFullYear();
+        const month = String(beijingTime.getUTCMonth() + 1).padStart(2, '0');
+        const day = String(beijingTime.getUTCDate()).padStart(2, '0');
+        const hours = String(beijingTime.getUTCHours()).padStart(2, '0');
+        const minutes = String(beijingTime.getUTCMinutes()).padStart(2, '0');
+        
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    } catch (e) {
+        console.warn('日期格式化失败:', timestamp, e);
+        return '未知时间';
+    }
+}
+
+/**
+ * 获取文件图标
+ * @param {string} filename - 文件名
+ * @returns {string} 图标emoji
+ */
+function getFileIcon(filename) {
+    if (!filename) return '📄';
+    const ext = filename.split('.').pop()?.toLowerCase();
+    const iconMap = {
+        'pdf': '📕',
+        'doc': '📘',
+        'docx': '📘',
+        'txt': '📄',
+        'md': '📝',
+        'csv': '📊',
+        'json': '📋',
+        'xls': '📊',
+        'xlsx': '📊',
+        'ppt': '📊',
+        'pptx': '📊',
+        'jpg': '🖼️',
+        'jpeg': '🖼️',
+        'png': '🖼️',
+        'gif': '🖼️',
+        'zip': '📦',
+        'rar': '📦',
+        '7z': '📦'
+    };
+    return iconMap[ext] || '📄';
+}
+
+/**
+ * 格式化文件大小
+ * @param {number} bytes - 字节数
+ * @returns {string} 格式化后的大小
+ */
+function formatFileSize(bytes) {
+    if (!bytes || bytes === 0) return '0 B';
+    const units = ['B', 'KB', 'MB', 'GB'];
+    let size = bytes;
+    let unitIndex = 0;
+    while (size >= 1024 && unitIndex < units.length - 1) {
+        size /= 1024;
+        unitIndex++;
+    }
+    return `${size.toFixed(1)} ${units[unitIndex]}`;
+}
+
 // ==================== 初始化 ====================
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     initPage();
-    loadCollections(); // 加载集合列表
-    loadStatistics();
-    loadRecentDocuments();
     setupEventListeners();
+    await loadRagSettings();
+    await loadCollections();
 });
 
 /**
  * 加载所有知识库集合
  */
 async function loadCollections() {
-    const listEl = document.getElementById('collection-list');
-    if (!listEl) return;
+    const selectEl = document.getElementById('collection-select');
+    const gridEl = document.getElementById('collection-grid');
+    
+    // 防御：确保 grid 不为空，先置为加载中（避免旧数据残留）
+    if (gridEl) {
+        gridEl.innerHTML = '<div class="loading-state">加载中...</div>';
+    }
+    
+    if (!selectEl && !gridEl) {
+        console.warn('[loadCollections] 未找到 collection-select 和 collection-grid，停止加载');
+        return;
+    }
 
     try {
+        console.log('[loadCollections] 开始请求 /api/knowledge/collections');
         const data = await apiCall('/api/knowledge/collections');
-        if (data.status === 'success') {
-            renderCollections(data.collections);
+        console.log('[loadCollections] API 响应:', data);
+        
+        if (data.status !== 'success') {
+            const message = escapeHtml(data.message || '加载失败');
+            if (gridEl) {
+                gridEl.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>加载失败: ${message}</p></div>`;
+            }
+            if (selectEl) {
+                selectEl.innerHTML = '<option value="knowledge_base">knowledge_base</option>';
+            }
+            return;
+        }
+
+        const collections = Array.isArray(data.collections) ? data.collections : [];
+        console.log(`[loadCollections] 获取到 ${collections.length} 个集合:`, collections);
+        
+        if (!collections.length) {
+            if (selectEl) {
+                selectEl.innerHTML = '<option value="knowledge_base">knowledge_base</option>';
+            }
+            if (gridEl) {
+                gridEl.innerHTML = '<div class="empty-state"><div class="icon">📚</div><p>暂无知识库</p></div>';
+            }
+            currentCollection = 'knowledge_base';
+            await loadStatistics();
+            await loadRecentDocuments();
+            return;
+        }
+
+        // 确保当前选中的集合在列表中
+        if (!collections.includes(currentCollection)) {
+            currentCollection = collections[0];
+        }
+
+        // 渲染集合列表（这会覆盖掉 loading-state）
+        renderCollectionSelect(collections);
+        renderCollectionGrid(collections);
+        updateCollectionUI();
+        
+        // 异步加载统计
+        await refreshCollectionStats(collections);
+        await loadStatistics();
+        await loadRecentDocuments();
+        
+        if (currentPage === 'documents') {
+            await loadAllDocuments(1);
+        }
+        if (currentPage === 'collection-detail') {
+            await loadCollectionDetail(currentCollection);
         }
     } catch (error) {
-        console.error('加载集合列表失败:', error);
-        listEl.innerHTML = '<div style="font-size: 12px; color: #ef4444; padding: 10px;">加载失败</div>';
+        console.error('[loadCollections] 异常:', error);
+        if (gridEl) {
+            gridEl.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>加载异常: ${escapeHtml(error.message)}</p></div>`;
+        }
+        if (selectEl) {
+            selectEl.innerHTML = '<option value="knowledge_base">knowledge_base</option>';
+        }
     }
 }
 
@@ -46,9 +299,12 @@ function renderCollections(collections) {
         return;
     }
 
-    listEl.innerHTML = collections.map(name => `
+    listEl.innerHTML = collections.map(name => {
+        const safeName = escapeJsString(name);
+        const displayName = escapeHtml(name);
+        return `
         <div class="collection-item ${name === currentCollection ? 'active' : ''}" 
-             onclick="switchCollection('${name}')"
+             onclick="switchCollection('${safeName}')"
              style="padding: 8px 12px; font-size: 13px; border-radius: 6px; cursor: pointer; transition: all 0.2s; 
                     background: ${name === currentCollection ? 'rgba(255,255,255,0.2)' : 'transparent'};
                     color: ${name === currentCollection ? '#fff' : 'rgba(255,255,255,0.8)'}; display: flex; justify-content: space-between; align-items: center;"
@@ -56,14 +312,82 @@ function renderCollections(collections) {
              onmouseout="if(this.className.indexOf('active')===-1) this.style.background='transparent'">
             <span style="display: flex; align-items: center; gap: 8px;">
                 <span>📁</span>
-                <span>${name}</span>
+                <span>${displayName}</span>
             </span>
-            <span onclick="event.stopPropagation(); viewCollectionDetail('${name}')" 
+            <span onclick="event.stopPropagation(); viewCollectionDetail('${safeName}')" 
                   style="font-size: 10px; padding: 2px 6px; background: rgba(255,255,255,0.1); border-radius: 4px; cursor: pointer;">
                 查看 →
             </span>
         </div>
-    `).join('');
+    `}).join('');
+}
+
+function renderCollectionSelect(collections) {
+    const selectEl = document.getElementById('collection-select');
+    if (!selectEl) return;
+    selectEl.innerHTML = collections.map(name => {
+        const safeName = escapeHtml(name);
+        const selected = name === currentCollection ? 'selected' : '';
+        return `<option value="${safeName}" ${selected}>${safeName}</option>`;
+    }).join('');
+}
+
+function renderCollectionGrid(collections) {
+    const gridEl = document.getElementById('collection-grid');
+    if (!gridEl) return;
+
+    const countEl = document.getElementById('collection-count');
+    if (countEl) countEl.textContent = String(collections.length);
+
+    gridEl.innerHTML = collections.map(name => {
+        const safeName = escapeJsString(name);
+        const displayName = escapeHtml(name);
+        const isActive = name === currentCollection;
+        return `
+        <div class="collection-card ${isActive ? 'active' : ''}" data-collection="${displayName}" onclick="switchCollection('${safeName}')">
+            <div class="collection-title">${displayName}</div>
+            <div class="collection-meta">已接入知识库</div>
+            <div class="collection-stats">
+                <div class="collection-stat"><span>文档</span> <b data-stat="docs">--</b></div>
+                <div class="collection-stat"><span>分段</span> <b data-stat="chunks">--</b></div>
+            </div>
+            <button class="collection-action" onclick="event.stopPropagation(); viewCollectionDetail('${safeName}')">查看详情</button>
+        </div>
+        `;
+    }).join('');
+}
+
+async function refreshCollectionStats(collections) {
+    const gridEl = document.getElementById('collection-grid');
+    if (!gridEl) return;
+    const cards = Array.from(gridEl.querySelectorAll('.collection-card'));
+    await Promise.all(collections.map(async (name) => {
+        try {
+            const data = await apiCall(`/api/knowledge/stats?collection_name=${encodeURIComponent(name)}`);
+            if (data.status !== 'success') return;
+            const card = cards.find(c => c.dataset.collection === name);
+            if (!card) return;
+            const docsEl = card.querySelector('[data-stat="docs"]');
+            const chunksEl = card.querySelector('[data-stat="chunks"]');
+            if (docsEl) docsEl.textContent = data.stats?.total_documents ?? 0;
+            if (chunksEl) chunksEl.textContent = data.stats?.total_chunks ?? 0;
+        } catch (e) {
+            console.warn('加载集合统计失败:', name, e);
+        }
+    }));
+}
+
+function updateCollectionUI() {
+    const selectEl = document.getElementById('collection-select');
+    if (selectEl && selectEl.value !== currentCollection) {
+        selectEl.value = currentCollection;
+    }
+    const collectionNameEl = document.getElementById('current-collection-name');
+    if (collectionNameEl) collectionNameEl.textContent = currentCollection;
+
+    document.querySelectorAll('.collection-card').forEach(card => {
+        card.classList.toggle('active', card.dataset.collection === currentCollection);
+    });
 }
 
 /**
@@ -75,19 +399,8 @@ function switchCollection(name) {
     
     currentCollection = name;
     
-    // 更新 UI 状态
-    document.querySelectorAll('.collection-item').forEach(item => {
-        const isActive = item.textContent.includes(name);
-        item.classList.toggle('active', isActive);
-        item.style.background = isActive ? 'rgba(255,255,255,0.2)' : 'transparent';
-        item.style.color = isActive ? '#fff' : 'rgba(255,255,255,0.8)';
-    });
-
+    updateCollectionUI();
     showToast(`已切换到知识库: ${name}`, 'info');
-
-    // 更新当前知识库名称显示
-    const collectionNameEl = document.getElementById('current-collection-name');
-    if (collectionNameEl) collectionNameEl.textContent = name;
 
     // 重新加载当前页面的数据
     if (currentPage === 'overview') {
@@ -106,6 +419,7 @@ function switchCollection(name) {
  */
 async function viewCollectionDetail(name) {
     currentCollection = name;
+    updateCollectionUI();
     switchPage('collection-detail');
     await loadCollectionDetail(name);
 }
@@ -119,8 +433,7 @@ async function loadCollectionDetail(name) {
     if (titleEl) titleEl.textContent = `知识库: ${name}`;
     
     // 更新当前知识库名称
-    const collectionNameEl = document.getElementById('current-collection-name');
-    if (collectionNameEl) collectionNameEl.textContent = name;
+    updateCollectionUI();
 
     try {
         // 获取统计信息
@@ -172,13 +485,18 @@ function renderCollectionDocuments(documents, collectionName) {
         grouped[name].chunks = doc.chunks || grouped[name].chunks;
     });
 
-    container.innerHTML = Object.values(grouped).map(doc => `
-        <div class="collection-doc-card" onclick="viewDocumentInCollection('${doc.id}', '${doc.name}', '${collectionName}')"
+    container.innerHTML = Object.values(grouped).map(doc => {
+        const safeDocId = escapeJsString(doc.id);
+        const safeDocName = escapeJsString(doc.name);
+        const displayName = escapeHtml(doc.name);
+        const safeCollection = escapeJsString(collectionName);
+        return `
+        <div class="collection-doc-card" onclick="viewDocumentInCollection('${safeDocId}', '${safeDocName}', '${safeCollection}')"
              style="background: white; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; border: 1px solid #e5e7eb;">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
                 <div style="font-size: 32px;">${getFileIcon(doc.name)}</div>
                 <div style="flex: 1;">
-                    <div style="font-weight: 500; color: #111827; margin-bottom: 4px;">${doc.name}</div>
+                    <div style="font-weight: 500; color: #111827; margin-bottom: 4px;">${displayName}</div>
                     <div style="font-size: 12px; color: #6b7280;">
                         📝 ${doc.chunks} 个分段 | 💾 ${formatFileSize(doc.size)}
                     </div>
@@ -186,10 +504,10 @@ function renderCollectionDocuments(documents, collectionName) {
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-size: 11px; color: #9ca3af;">${formatDate(doc.created_at)}</span>
-                <span style="color: #667eea; font-size: 12px;">查看详情 →</span>
+                <span style="color: #0f766e; font-size: 12px;">查看详情 →</span>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
 
 /**
@@ -203,11 +521,12 @@ async function viewDocumentInCollection(docId, docName, collectionName) {
     chunksContainer.innerHTML = '<div class="loading-state">加载分段中...</div>';
 
     try {
-        const result = await apiCall(`/api/knowledge/hierarchy/${docId}`);
+        const result = await apiCall(`/api/knowledge/hierarchy/${docId}?collection_name=${encodeURIComponent(collectionName)}`);
         if (result.status === 'success') {
             renderCollectionChunks(result.hierarchy || {});
         } else {
-            chunksContainer.innerHTML = `<div class="error-state">加载失败: ${result.message}</div>`;
+            const safeMessage = escapeHtml(result.message || '未知错误');
+            chunksContainer.innerHTML = `<div class="error-state">加载失败: ${safeMessage}</div>`;
         }
     } catch (error) {
         console.error('加载分段失败:', error);
@@ -223,60 +542,45 @@ function renderCollectionChunks(hierarchy) {
     if (!container) return;
 
     if (!hierarchy || (!hierarchy.children && !hierarchy.content)) {
-        container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>无分段内容</p></div>';
+        container.innerHTML = '<div class="empty-state"><div class="icon">📥</div><p>无分段内容</p></div>';
         return;
     }
 
-    const chunks = [];
-    
-    function extractChunks(node, level = 0) {
-        if (node.content) {
-            chunks.push({
-                level,
-                title: node.title || '未命名',
-                content: node.content,
-                summary: node.summary || ''
-            });
-        }
-        if (node.children) {
-            node.children.forEach(child => extractChunks(child, level + 1));
-        }
-    }
-    
-    if (hierarchy.children) {
-        hierarchy.children.forEach(child => extractChunks(child));
-    } else if (hierarchy.content) {
-        chunks.push({
-            level: 0,
-            title: hierarchy.title || '内容',
-            content: hierarchy.content,
-            summary: hierarchy.summary || ''
-        });
-    }
-
-    if (chunks.length === 0) {
-        container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>无分段内容</p></div>';
+    const children = hierarchy.children || [];
+    if (!children.length && !hierarchy.content) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">📥</div><p>无分段内容</p></div>';
         return;
     }
 
-    container.innerHTML = chunks.map((chunk, idx) => `
-        <div class="chunk-item" style="padding: 16px; border-bottom: 1px solid #f3f4f6; ${idx === chunks.length - 1 ? 'border-bottom: none;' : ''}">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                <span style="font-size: 12px; color: #667eea; background: #eff6ff; padding: 2px 8px; border-radius: 4px;">
-                    层级 ${chunk.level + 1}
-                </span>
-                <span style="font-weight: 500; color: #374151;">${chunk.title}</span>
+    function renderNode(node, level = 0) {
+        const meta = node.metadata || {};
+        const isParent = meta.is_parent !== false;
+        const badge = isParent ? '父块' : '子块';
+        const title = escapeHtml(node.display_title || node.title || '未命名');
+        const content = escapeHtml(node.content || '');
+        const summary = escapeHtml(node.summary || (node.content ? node.content.substring(0, 160) + '...' : '无内容'));
+        const childrenHtml = (node.children || []).map(child => renderNode(child, level + 1)).join('');
+        const detailsHtml = content
+            ? `<details class="chunk-details"><summary>展开完整内容</summary><div class="chunk-content">${content}</div></details>`
+            : '';
+        return `
+        <div class="chunk-card" style="margin-left: ${level * 18}px;">
+            <div class="chunk-head">
+                <span class="chunk-badge">${badge}</span>
+                <span class="chunk-title">${title}</span>
             </div>
-            <div style="font-size: 13px; color: #6b7280; line-height: 1.6;">
-                ${chunk.content.substring(0, 200)}...
-            </div>
-            ${chunk.summary ? `
-                <div style="margin-top: 8px; padding: 8px; background: #f9fafb; border-radius: 6px; font-size: 12px; color: #4b5563;">
-                    💡 ${chunk.summary}
-                </div>
-            ` : ''}
+            <div class="chunk-summary">${summary}</div>
+            ${detailsHtml}
+            ${childrenHtml}
         </div>
-    `).join('');
+        `;
+    }
+
+    if (children.length > 0) {
+        container.innerHTML = children.map(node => renderNode(node, 0)).join('');
+    } else {
+        container.innerHTML = renderNode(hierarchy, 0);
+    }
 }
 
 /**
@@ -366,8 +670,17 @@ async function loadAllDocuments(page = 1) {
  * @throws {Error} 当请求失败或响应非OK状态时抛出错误
  */
 async function apiCall(url, options = {}) {
+  const controller = new AbortController();
+  const timeoutMs = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG && APP_CONFIG.API_TIMEOUT)
+    ? Number(APP_CONFIG.API_TIMEOUT)
+    : 30000;
+  const timeoutId = setTimeout(() => controller.abort(), Math.max(1000, timeoutMs));
+
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
     
     // 检查HTTP状态码
     if (!response.ok) {
@@ -386,12 +699,16 @@ async function apiCall(url, options = {}) {
     console.error(`[API Error] ${options.method || 'GET'} ${url}:`, error);
     
     // 显示用户友好的错误提示
-    const userMessage = error.message.includes('Failed to fetch') 
-      ? '网络连接失败，请检查网络' 
-      : error.message;
+    const userMessage = error.name === 'AbortError'
+      ? '请求超时，请稍后重试'
+      : (error.message.includes('Failed to fetch') 
+          ? '网络连接失败，请检查网络' 
+          : error.message);
     showToast(userMessage, 'error');
     
     throw error;
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
@@ -437,14 +754,20 @@ let paginationState = {
 
 // 初始化页面
 function initPage() {
-    // 页面切换事件
-    document.querySelectorAll('.kb-nav-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const page = this.dataset.page;
-            if (page) {
-                switchPage(page);
-            }
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab && activeTab.dataset.tab) {
+        currentPage = activeTab.dataset.tab;
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            if (tab) switchPage(tab);
         });
+    });
+
+    document.querySelectorAll('.collapsible-header').forEach(header => {
+        header.addEventListener('click', () => toggleCollapse(header));
     });
 
     // 文件上传事件
@@ -455,8 +778,8 @@ function initPage() {
         uploadArea.addEventListener('click', () => fileInput.click());
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
-            uploadArea.style.borderColor = '#667eea';
-            uploadArea.style.background = '#f0f3ff';
+            uploadArea.style.borderColor = '#0f766e';
+            uploadArea.style.background = '#e7f5f1';
         });
         uploadArea.addEventListener('dragleave', () => {
             uploadArea.style.borderColor = '#e5e7eb';
@@ -479,13 +802,11 @@ function initPage() {
 
 // 切换页面
 function switchPage(page) {
-    // 更新侧边栏导航状态
-    document.querySelectorAll('.kb-nav-item').forEach(item => {
-        item.classList.remove('active');
-        if (item.dataset.page === page) {
-            item.classList.add('active');
-        }
-    });
+    const targetTab = document.querySelector(`.tab-btn[data-tab="${page}"]`);
+    if (targetTab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        targetTab.classList.add('active');
+    }
 
     // 更新页面显示
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -498,11 +819,20 @@ function switchPage(page) {
 
     // 根据页面加载数据
     if (page === 'documents') {
-        loadAllDocuments();
+        loadAllDocuments(1);
     } else if (page === 'overview') {
         loadStatistics();
         loadRecentDocuments();
     }
+}
+
+function switchTab(tabName) {
+    switchPage(tabName);
+}
+
+function toggleCollapse(header) {
+    const section = header.parentElement;
+    section.classList.toggle('collapsed');
 }
 
 /**
@@ -511,15 +841,15 @@ function switchPage(page) {
  */
 async function loadStatistics() {
     try {
-        const data = await apiCall('/api/knowledge/stats');
+        const data = await apiCall(`/api/knowledge/stats?collection_name=${encodeURIComponent(currentCollection)}`);
 
         if (data.status === 'success') {
             const stats = data.stats;
             const elements = {
                 'stat-documents': stats.total_documents,
                 'stat-chunks': stats.total_chunks,
-                'stat-retrievals': stats.total_retrievals,
-                'stat-accuracy': (stats.accuracy * 100).toFixed(1) + '%'
+                'stat-retrievals': stats.total_retrievals || 0,
+                'stat-accuracy': ((stats.accuracy || 0) * 100).toFixed(1) + '%'
             };
             
             for (const [id, value] of Object.entries(elements)) {
@@ -538,7 +868,7 @@ async function loadStatistics() {
  */
 async function loadRecentDocuments() {
     try {
-        const data = await apiCall('/api/knowledge/documents?limit=5');
+        const data = await apiCall(`/api/knowledge/documents?limit=5&collection_name=${encodeURIComponent(currentCollection)}`);
 
         if (data.status === 'success') {
             renderDocuments(data.documents, 'recent-documents');
@@ -558,8 +888,11 @@ async function loadRecentDocuments() {
 async function loadAllDocuments(page = 1) {
     try {
         const searchTerm = document.getElementById('document-search')?.value || '';
-        let url = `/api/knowledge/documents?page=${page}&page_size=${paginationState.page_size}`;
+        let url = `/api/knowledge/documents?page=${page}&page_size=${paginationState.page_size}&collection_name=${encodeURIComponent(currentCollection)}`;
         if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
+        if (currentFileTypeFilter && currentFileTypeFilter !== 'all') {
+            url += `&file_type=${currentFileTypeFilter}`;
+        }
 
         const data = await apiCall(url);
 
@@ -571,6 +904,7 @@ async function loadAllDocuments(page = 1) {
                 pages: data.pagination.pages
             };
             renderDocuments(data.documents, 'all-documents');
+            renderPagination();
         } else {
             const el = document.getElementById('all-documents');
             if (el) el.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>暂无文档</p></div>';
@@ -610,123 +944,47 @@ function renderDocuments(documents, containerId) {
     `).join('');
 }
 
-/**
- * 查看文档详情 (Dify 风格)
- * 显示文档的分段层级结构和元数据
- * @param {string} docId - 文档ID
- * @param {string} docName - 文档名称
- */
-async function viewDocumentDetail(docId, docName) {
-    currentDocId = docId;
-    switchPage('document-detail');
-    
-    const nameEl = document.getElementById('detail-doc-name');
-    const countEl = document.getElementById('detail-segment-count');
-    const listEl = document.getElementById('segment-list');
-    const metaEl = document.getElementById('detail-metadata');
-    
-    if (nameEl) nameEl.textContent = docName;
-    if (listEl) listEl.innerHTML = '<div class="loading-state">加载分段中...</div>';
-    
-    try {
-        const result = await apiCall(`/api/knowledge/hierarchy/${docId}`);
-        
-        if (result.status === 'success') {
-            renderSegments(result.hierarchy); // 递归渲染分段
-            if (countEl) countEl.textContent = `${calculateSegmentCount(result.hierarchy)} 个分段`;
-            
-            // 渲染元数据
-            renderDetailMetadata(result.hierarchy.metadata || {});
-        } else {
-            if (listEl) listEl.innerHTML = `<div class="error-state">加载失败: ${result.message}</div>`;
-        }
-    } catch (e) {
-        console.error('获取文档详情失败:', e);
-        if (listEl) listEl.innerHTML = '<div class="loading-state">加载失败</div>';
-    }
-}
-
-// 递归渲染分段列表
-function renderSegments(node, level = 0) {
-    const listEl = document.getElementById('segment-list');
-    if (level === 0) listEl.innerHTML = '';
-    
-    if (!node) return;
-
-    if (level === 0 && node.children && node.children.length > 0) {
-        node.children.forEach(child => renderSegments(child, level));
-        return;
-    }
-    
-    const segmentItem = document.createElement('div');
-    segmentItem.className = 'segment-item';
-    segmentItem.style = `
-        padding: 16px;
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        margin-left: ${level * 20}px;
-        margin-bottom: 12px;
-    `;
-    
-    segmentItem.innerHTML = `
-        <div style="font-weight: 600; color: #374151; margin-bottom: 8px; font-size: 14px;">
-            ${node.title || '未命名分段'}
-        </div>
-        <div style="font-size: 13px; color: #4b5563; line-height: 1.6; white-space: pre-line;">
-            ${node.summary || (node.content ? node.content.substring(0, 200) + '...' : '无内容')}
-        </div>
-    `;
-    listEl.appendChild(segmentItem);
-    
-    if (node.children && node.children.length > 0) {
-        node.children.forEach(child => renderSegments(child, level + 1));
-    }
-}
-
-function calculateSegmentCount(node) {
-    let count = 1;
-    if (node.children) {
-        node.children.forEach(child => count += calculateSegmentCount(child));
-    }
-    return count;
-}
-
-function renderDetailMetadata(metadata) {
-    const metaEl = document.getElementById('detail-metadata');
-    if (!metaEl) return;
-    
-    const items = [
-        { label: '文件类型', value: metadata.content_type || '未知' },
-        { label: '存储键', value: metadata.object_key || '无' },
-        { label: '原始名称', value: metadata.original_name || '无' }
-    ];
-    
-    metaEl.innerHTML = items.map(item => `
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span style="color: #9ca3af;">${item.label}</span>
-            <span style="color: #374151; font-weight: 500;">${item.value}</span>
-        </div>
-    `).join('');
-}
-
 // 保存文档检索设置
 async function saveDocSettings() {
-    const splitMode = document.getElementById('setting-split-mode').value;
-    const topK = document.getElementById('setting-top-k').value;
-    const useRerank = document.getElementById('setting-use-rerank').checked;
-    
-    showToast('设置已保存 (模拟)', 'success');
+    const splitMode = document.getElementById('setting-split-mode')?.value;
+    const topK = document.getElementById('setting-top-k')?.value;
+    const useRerank = document.getElementById('setting-use-rerank')?.checked;
+
+    try {
+        const payload = {
+            top_k: topK != null ? Number(topK) : undefined,
+            use_rerank: useRerank != null ? Boolean(useRerank) : undefined
+        };
+
+        const result = await apiCall('/api/knowledge/rag-settings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (result.status === 'success') {
+            showToast('设置已保存', 'success');
+        } else {
+            showToast(result.message || '保存失败', 'error');
+        }
+    } catch (e) {
+        console.error('保存 RAG 设置失败:', e);
+    }
+
     console.log('Save settings for doc:', currentDocId, { splitMode, topK, useRerank });
 }
 
 // 处理上传
 async function processFiles(files) {
     const uploadQueue = document.getElementById('upload-queue');
-    const splitMode = document.getElementById('default-split-mode').value;
-    
+    const splitMode = document.getElementById('default-split-mode')?.value;
+
+    if (!uploadQueue) return;
+    if (!files || files.length === 0) return;
+
     for (const file of files) {
         const fileId = Date.now() + Math.random().toString(36).substr(2, 9);
+        const displayName = escapeHtml(file.name);
         const uploadItem = document.createElement('div');
         uploadItem.className = 'document-item';
         uploadItem.id = `upload-${fileId}`;
@@ -734,45 +992,44 @@ async function processFiles(files) {
         uploadItem.innerHTML = `
             <div class="document-icon" style="font-size: 24px; margin-right: 15px;">${getFileIcon(file.name)}</div>
             <div class="document-info" style="flex: 1;">
-                <div class="name" style="font-weight: 500; color: #111827;">${file.name}</div>
+                <div class="name" style="font-weight: 500; color: #111827;">${displayName}</div>
                 <div class="meta" style="font-size: 12px; color: #6b7280;">${formatFileSize(file.size)}</div>
                 <div class="progress-container" style="margin-top: 8px; height: 4px; background: #e5e7eb; border-radius: 2px; overflow: hidden; display: none;">
-                    <div class="progress-bar" style="height: 100%; background: #667eea; width: 0%; transition: width 0.3s;"></div>
+                    <div class="progress-bar" style="height: 100%; background: #0f766e; width: 0%; transition: width 0.3s;"></div>
                 </div>
             </div>
             <div class="document-actions">
                 <span class="upload-status" style="font-size: 12px; color: #2563eb;">等待中...</span>
             </div>
         `;
-        
+
         if (uploadQueue.querySelector('.empty-state')) {
             uploadQueue.innerHTML = '';
         }
         uploadQueue.appendChild(uploadItem);
 
-        // 显示进度条
         const progressContainer = uploadItem.querySelector('.progress-container');
         const progressBar = uploadItem.querySelector('.progress-bar');
         const statusSpan = uploadItem.querySelector('.upload-status');
-        
+
         try {
             const formData = new FormData();
             formData.append('file', file);
             formData.append('use_hierarchical', splitMode === 'hierarchical');
+            formData.append('collection_name', currentCollection);
 
-            // 使用 XMLHttpRequest 上传以支持进度
-            const result = await new Promise((resolve, reject) => {
+            await new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
-                
+
                 xhr.upload.addEventListener('progress', (e) => {
                     if (e.lengthComputable) {
                         const percent = Math.round((e.loaded / e.total) * 100);
-                        progressContainer.style.display = 'block';
-                        progressBar.style.width = percent + '%';
-                        statusSpan.textContent = `上传中 ${percent}%`;
+                        if (progressContainer) progressContainer.style.display = 'block';
+                        if (progressBar) progressBar.style.width = percent + '%';
+                        if (statusSpan) statusSpan.textContent = `上传中 ${percent}%`;
                     }
                 });
-                
+
                 xhr.addEventListener('load', () => {
                     try {
                         const response = JSON.parse(xhr.responseText);
@@ -785,21 +1042,21 @@ async function processFiles(files) {
                         reject(new Error('解析响应失败'));
                     }
                 });
-                
+
                 xhr.addEventListener('error', () => reject(new Error('网络错误')));
                 xhr.addEventListener('timeout', () => reject(new Error('上传超时')));
-                
+
                 xhr.open('POST', '/api/knowledge/upload');
                 xhr.send(formData);
             });
 
-            // 上传成功
-            statusSpan.textContent = '✓ 成功';
-            statusSpan.style.color = '#10b981';
-            progressBar.style.background = '#10b981';
+            if (statusSpan) {
+                statusSpan.textContent = '✓ 成功';
+                statusSpan.style.color = '#10b981';
+            }
+            if (progressBar) progressBar.style.background = '#10b981';
             showToast(`成功上传: ${file.name}`, 'success');
-            
-            // 3秒后移除
+
             setTimeout(() => {
                 uploadItem.style.opacity = '0';
                 uploadItem.style.transform = 'translateX(20px)';
@@ -809,147 +1066,24 @@ async function processFiles(files) {
                     if (uploadQueue.children.length === 0) clearUploadQueue();
                 }, 300);
             }, 2000);
-            
-            // 刷新文档列表
+
             loadRecentDocuments();
             loadStatistics();
-            
+            refreshCollectionStats([currentCollection]);
         } catch (error) {
             console.error('上传失败:', error);
-            statusSpan.textContent = '✗ 失败';
-            statusSpan.style.color = '#ef4444';
-            progressBar.style.background = '#ef4444';
-            
-            // 添加错误详情
+            if (statusSpan) {
+                statusSpan.textContent = '✗ 失败';
+                statusSpan.style.color = '#ef4444';
+            }
+            if (progressBar) progressBar.style.background = '#ef4444';
+
             const errorDetail = document.createElement('div');
             errorDetail.style.cssText = 'font-size: 11px; color: #ef4444; margin-top: 4px;';
             errorDetail.textContent = error.message || '未知错误';
-            uploadItem.querySelector('.document-info').appendChild(errorDetail);
+            uploadItem.querySelector('.document-info')?.appendChild(errorDetail);
         }
     }
-}
-
-/**
- * 答案溯源查询
- * 根据用户输入的问题检索相关文档并显示溯源信息
- */
-async function performTraceability() {
-    const query = document.getElementById('traceability-query').value;
-    if (!query.trim()) {
-        showToast('请输入查询内容', 'info');
-        return;
-    }
-
-    const resultsContainer = document.getElementById('traceability-results');
-    resultsContainer.innerHTML = '<div class="loading-state">正在检索...</div>';
-
-    try {
-        const result = await apiCall('/api/knowledge/traceability', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: query })
-        });
-
-        if (result.status === 'success') {
-            renderTraceabilityResults(result.results || []);
-        } else {
-            resultsContainer.innerHTML = `<div class="error-state">检索失败: ${result.message}</div>`;
-        }
-    } catch (error) {
-        console.error('溯源查询失败:', error);
-        renderTraceabilityResults([]);
-    }
-}
-
-// 渲染溯源结果
-function renderTraceabilityResults(results) {
-    const container = document.getElementById('traceability-results');
-    if (!results || results.length === 0) {
-        container.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>未找到相关文档</p></div>';
-        return;
-    }
-
-    container.innerHTML = results.map((result, index) => `
-        <div style="margin-bottom: 20px; border: 1px solid #e5e7eb; border-radius: 10px; padding: 16px; background: #fff;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <span style="font-weight: 600; color: #111827;">#${index + 1} ${result.document_name}</span>
-                <span style="font-size: 12px; color: #10b981; background: #ecfdf5; padding: 2px 8px; border-radius: 4px;">匹配度: ${(result.score * 100).toFixed(1)}%</span>
-            </div>
-            <div style="font-size: 13px; color: #6b7280; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-                <span>📍</span> ${result.location || '未知位置'}
-            </div>
-            <div style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 12px; font-size: 14px; color: #4b5563; line-height: 1.6;">
-                "${result.quote || result.content.substring(0, 100) + '...'}"
-            </div>
-            <details style="margin-top: 12px;">
-                <summary style="font-size: 12px; color: #2563eb; cursor: pointer; user-select: none;">查看完整上下文</summary>
-                <div style="margin-top: 8px; font-size: 13px; color: #374151; padding: 10px; background: #f9fafb; border-radius: 6px; max-height: 200px; overflow-y: auto;">
-                    ${result.context || result.content}
-                </div>
-            </details>
-        </div>
-    `).join('');
-}
-
-/**
- * 智能对比测试
- * 对比不同检索方法（向量、BM25、混合）的检索效果
- */
-async function performCompare() {
-    const query = document.getElementById('compare-query').value;
-    if (!query.trim()) {
-        showToast('请输入查询内容', 'info');
-        return;
-    }
-
-    const methods = {
-        vector: document.getElementById('compare-vector').checked,
-        bm25: document.getElementById('compare-bm25').checked,
-        hybrid: document.getElementById('compare-hybrid').checked
-    };
-
-    const resultsContainer = document.getElementById('compare-results');
-    resultsContainer.innerHTML = '<div class="loading-state">测试中...</div>';
-
-    try {
-        const result = await apiCall('/api/knowledge/compare', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query, methods })
-        });
-
-        if (result.status === 'success') {
-            renderCompareResults(result.results);
-        } else {
-            resultsContainer.innerHTML = `<div class="error-state">对比失败: ${result.message}</div>`;
-        }
-    } catch (error) {
-        console.error('对比失败:', error);
-        resultsContainer.innerHTML = '<div class="error-state">测试失败</div>';
-    }
-}
-
-function renderCompareResults(results) {
-    const container = document.getElementById('compare-results');
-    container.innerHTML = Object.entries(results).map(([method, data]) => `
-        <div style="margin-bottom: 24px;">
-            <h3 style="font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                <span style="background: #eff6ff; color: #2563eb; padding: 2px 8px; border-radius: 4px;">${method.toUpperCase()}</span>
-                <span>平均分数: ${data.avg_score.toFixed(4)}</span>
-            </h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px;">
-                ${data.results.map((item, i) => `
-                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; font-size: 13px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="color: #9ca3af;">Top ${i+1}</span>
-                            <span style="color: #10b981;">${(item.score * 100).toFixed(1)}%</span>
-                        </div>
-                        <div style="color: #374151; line-height: 1.5;">${item.content.substring(0, 120)}...</div>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-    `).join('');
 }
 
 // 辅助函数
@@ -984,11 +1118,12 @@ function showDeleteModal(docId, docName) {
 async function confirmDelete() {
     if (!deleteDocId) return;
     try {
-        const result = await apiCall(`/api/knowledge/documents/${deleteDocId}`, { method: 'DELETE' });
+        const result = await apiCall(`/api/knowledge/documents/${deleteDocId}?collection_name=${encodeURIComponent(currentCollection)}`, { method: 'DELETE' });
         if (result.status === 'success') {
             showToast('文档已删除', 'success');
             loadAllDocuments();
             loadStatistics();
+            refreshCollectionStats([currentCollection]);
         }
     } catch (error) {
         // apiCall已经显示了错误toast
@@ -1024,6 +1159,14 @@ function setupEventListeners() {
         });
     }
     
+    const collectionSelect = document.getElementById('collection-select');
+    if (collectionSelect) {
+        collectionSelect.addEventListener('change', (e) => {
+            const value = e.target.value;
+            if (value) switchCollection(value);
+        });
+    }
+
     // 文档类型筛选
     setupDocumentFilters();
 }
@@ -1054,7 +1197,7 @@ function setupDocumentFilters() {
                         b.style.background = '#fff';
                         b.style.color = '#374151';
                     });
-                    btn.style.background = '#667eea';
+                    btn.style.background = '#0f766e';
                     btn.style.color = '#fff';
                     currentFileTypeFilter = btn.dataset.filter;
                     loadAllDocuments(1);
@@ -1067,48 +1210,23 @@ function setupDocumentFilters() {
 // 当前文件类型筛选
 let currentFileTypeFilter = 'all';
 
-// 修改 loadAllDocuments 以支持筛选
-const originalLoadAllDocuments = loadAllDocuments;
-loadAllDocuments = async function(page = 1) {
-    try {
-        const searchTerm = document.getElementById('document-search')?.value || '';
-        let url = `/api/knowledge/documents?page=${page}&page_size=${paginationState.page_size}&collection_name=${encodeURIComponent(currentCollection)}`;
-        if (searchTerm) url += `&search=${encodeURIComponent(searchTerm)}`;
-        if (currentFileTypeFilter !== 'all') url += `&file_type=${currentFileTypeFilter}`;
-
-        const data = await apiCall(url);
-
-        if (data.status === 'success') {
-            paginationState = {
-                page: data.pagination.page,
-                page_size: data.pagination.page_size,
-                total: data.pagination.total,
-                pages: data.pagination.pages
-            };
-            renderDocuments(data.documents, 'all-documents');
-            renderPagination();
-        } else {
-            const el = document.getElementById('all-documents');
-            if (el) el.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>暂无文档</p></div>';
-        }
-    } catch (error) {
-        console.error('加载文档列表失败:', error);
-        const el = document.getElementById('all-documents');
-        if (el) el.innerHTML = '<div class="loading-state">加载失败</div>';
-    }
-};
-
 // 渲染分页控件
 function renderPagination() {
     const container = document.getElementById('all-documents');
     if (!container) return;
     
+    // 先移除旧的分页控件
+    const oldPagination = document.getElementById('document-pagination');
+    if (oldPagination) oldPagination.remove();
+    
     // 检查是否需要添加分页
     if (paginationState.pages <= 1) return;
     
-    let paginationHtml = `
-        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 20px; padding: 16px;">
-    `;
+    const paginationWrapper = document.createElement('div');
+    paginationWrapper.id = 'document-pagination';
+    paginationWrapper.style.cssText = 'display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 20px; padding: 16px;';
+    
+    let paginationHtml = '';
     
     // 上一页
     if (paginationState.page > 1) {
@@ -1123,7 +1241,7 @@ function renderPagination() {
     
     for (let i = startPage; i <= endPage; i++) {
         if (i === paginationState.page) {
-            paginationHtml += `<span style="padding: 8px 16px; border-radius: 6px; background: #667eea; color: #fff;">${i}</span>`;
+            paginationHtml += `<span style="padding: 8px 16px; border-radius: 6px; background: #0f766e; color: #fff;">${i}</span>`;
         } else {
             paginationHtml += `<button onclick="loadAllDocuments(${i})" style="padding: 8px 16px; border: 1px solid #e5e7eb; border-radius: 6px; background: #fff; cursor: pointer;">${i}</button>`;
         }
@@ -1136,20 +1254,18 @@ function renderPagination() {
         paginationHtml += `<span style="padding: 8px 16px; border: 1px solid #e5e7eb; border-radius: 6px; color: #9ca3af;">下一页</span>`;
     }
     
-    paginationHtml += `
-            <span style="margin-left: 12px; font-size: 12px; color: #6b7280;">共 ${paginationState.total} 个文档</span>
-        </div>
-    `;
+    paginationHtml += `<span style="margin-left: 12px; font-size: 12px; color: #6b7280;">共 ${paginationState.total} 个文档</span>`;
     
-    container.insertAdjacentHTML('afterend', paginationHtml);
+    paginationWrapper.innerHTML = paginationHtml;
+    container.after(paginationWrapper);
 }
 
 function downloadDocument(docId) {
-    window.open(`/api/knowledge/documents/${docId}/download`, '_blank');
+    window.open(`/api/knowledge/documents/${docId}/download?collection_name=${encodeURIComponent(currentCollection)}`, '_blank');
 }
 
 function exportDocumentDocx(docId) {
-    window.open(`/api/knowledge/documents/${docId}/export-docx`, '_blank');
+    window.open(`/api/knowledge/documents/${docId}/export-docx?collection_name=${encodeURIComponent(currentCollection)}`, '_blank');
 }
 
 // 批量操作功能
@@ -1161,7 +1277,7 @@ function toggleDocumentSelection(docId, element) {
         element.style.background = '#fff';
     } else {
         selectedDocuments.add(docId);
-        element.style.background = '#f0f3ff';
+        element.style.background = '#e7f5f1';
     }
     updateBatchActions();
 }
@@ -1188,7 +1304,7 @@ async function batchDelete() {
     
     for (const docId of selectedDocuments) {
         try {
-            const result = await apiCall(`/api/knowledge/documents/${docId}`, { method: 'DELETE' });
+            const result = await apiCall(`/api/knowledge/documents/${docId}?collection_name=${encodeURIComponent(currentCollection)}`, { method: 'DELETE' });
             if (result.status === 'success') {
                 successCount++;
             } else {
@@ -1236,7 +1352,7 @@ function initBatchActions() {
     if (sectionHeader && !document.getElementById('batch-actions')) {
         const batchActions = document.createElement('div');
         batchActions.id = 'batch-actions';
-        batchActions.style.cssText = 'display: none; align-items: center; gap: 12px; padding: 8px 16px; background: #667eea; border-radius: 8px; color: white;';
+        batchActions.style.cssText = 'display: none; align-items: center; gap: 12px; padding: 8px 16px; background: #0f766e; border-radius: 8px; color: white;';
         batchActions.innerHTML = `
             <span class="selected-count" style="font-size: 13px;">已选择 0 个文档</span>
             <button onclick="batchDelete()" style="padding: 6px 12px; background: rgba(255,255,255,0.2); border: none; border-radius: 4px; color: white; cursor: pointer; font-size: 12px;">批量删除</button>
@@ -1246,39 +1362,51 @@ function initBatchActions() {
     }
 }
 
-// 修改 renderDocuments 以支持选择
-const originalRenderDocuments = renderDocuments;
-renderDocuments = function(documents, containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
+// 修改原始 renderDocuments 以支持选择功能
+(function() {
+    const originalRender = renderDocuments;
+    renderDocuments = function(documents, containerId) {
+        // 如果不是 all-documents 容器，使用原始渲染
+        if (containerId !== 'all-documents') {
+            return originalRender(documents, containerId);
+        }
+        
+        const container = document.getElementById(containerId);
+        if (!container) return;
 
-    if (!documents || documents.length === 0) {
-        container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>暂无文档</p></div>';
-        return;
-    }
+        if (!documents || documents.length === 0) {
+            container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>暂无文档</p></div>';
+            return;
+        }
 
-    container.innerHTML = documents.map(doc => `
-        <div class="document-item" style="cursor: pointer; display: flex; align-items: center; padding: 12px; border-bottom: 1px solid #f3f4f6; transition: background 0.2s;" 
-             onclick="viewDocumentDetail('${doc.id}', '${doc.name}')"
-             ondblclick="toggleDocumentSelection('${doc.id}', this)">
-            <input type="checkbox" style="margin-right: 12px; width: 18px; height: 18px; cursor: pointer;" onclick="event.stopPropagation(); toggleDocumentSelection('${doc.id}', this.parentElement)">
-            <div class="document-icon" style="font-size: 24px; margin-right: 15px;">${getFileIcon(doc.name)}</div>
-            <div class="document-info" style="flex: 1;">
-                <div class="name" style="font-weight: 500; color: #111827; margin-bottom: 4px;">${doc.name}</div>
-                <div class="meta" style="font-size: 12px; color: #6b7280;">
-                    ${formatFileSize(doc.size)} | ${doc.chunks} 个分段 | ${formatDate(doc.created_at)}
+        container.innerHTML = documents.map(doc => {
+            const safeDocId = escapeJsString(doc.id);
+            const safeDocName = escapeJsString(doc.name);
+            const displayName = escapeHtml(doc.name);
+            return `
+            <div class="document-item" style="cursor: pointer; display: flex; align-items: center; padding: 12px; border-bottom: 1px solid #f3f4f6; transition: background 0.2s;" 
+                 onclick="viewDocumentDetail('${safeDocId}', '${safeDocName}')"
+                 ondblclick="toggleDocumentSelection('${safeDocId}', this)">
+                <input type="checkbox" style="margin-right: 12px; width: 18px; height: 18px; cursor: pointer;" onclick="event.stopPropagation(); toggleDocumentSelection('${safeDocId}', this.parentElement)">
+                <div class="document-icon" style="font-size: 24px; margin-right: 15px;">${getFileIcon(doc.name)}</div>
+                <div class="document-info" style="flex: 1;">
+                    <div class="name" style="font-weight: 500; color: #111827; margin-bottom: 4px;">${displayName}</div>
+                    <div class="meta" style="font-size: 12px; color: #6b7280;">
+                        ${formatFileSize(doc.size)} | ${doc.chunks} 个分段 | ${formatDate(doc.created_at)}
+                    </div>
+                </div>
+                <div class="document-actions" onclick="event.stopPropagation()">
+                    <button class="action-icon download" onclick="downloadDocument('${safeDocId}')" title="下载" style="background: none; border: none; cursor: pointer; padding: 8px;">📥</button>
+                    <button class="action-icon download" onclick="exportDocumentDocx('${safeDocId}')" title="导出 DOCX" style="background: none; border: none; cursor: pointer; padding: 8px;">📝</button>
+                    <button class="action-icon delete" onclick="showDeleteModal('${safeDocId}', '${safeDocName}')" title="删除" style="background: none; border: none; cursor: pointer; padding: 8px;">🗑️</button>
                 </div>
             </div>
-            <div class="document-actions" onclick="event.stopPropagation()">
-                <button class="action-icon download" onclick="downloadDocument('${doc.id}')" title="下载" style="background: none; border: none; cursor: pointer; padding: 8px;">📥</button>
-                <button class="action-icon download" onclick="exportDocumentDocx('${doc.id}')" title="导出 DOCX" style="background: none; border: none; cursor: pointer; padding: 8px;">📝</button>
-                <button class="action-icon delete" onclick="showDeleteModal('${doc.id}', '${doc.name}')" title="删除" style="background: none; border: none; cursor: pointer; padding: 8px;">🗑️</button>
-            </div>
-        </div>
-    `).join('');
-    
-    // 初始化批量操作
-    if (containerId === 'all-documents') {
+            `;
+        }).join('');
+        
+        // 初始化批量操作
         initBatchActions();
-    }
-}
+    };
+})();
+
+

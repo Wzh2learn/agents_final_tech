@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>智能对话 - 建账规则助手</title>
     <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
     <style>
         .top-nav {
             position: fixed;
@@ -12,7 +13,7 @@
             left: 0;
             right: 0;
             height: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
             display: flex;
             align-items: center;
             padding: 0 20px;
@@ -40,7 +41,7 @@
         }
     </style>
 </head>
-<body>
+<body class="page-chat">
     <div class="chat-layout">
         <!-- 会话侧边栏 -->
         <div class="session-sidebar">
@@ -171,13 +172,13 @@
         <h3 style="margin-bottom: 20px; font-size: 18px; color: #111827;">🤝 协作对话</h3>
         <div style="display: flex; flex-direction: column; gap: 16px;">
             <div class="form-group">
-                <label style="display: block; font-size: 13px; color: #374151; margin-bottom: 6px;">您的昵称</label>
-                <input type="text" id="nicknameInput" placeholder="输入昵称" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px;">
+                <label for="nicknameInput" style="display: block; font-size: 13px; color: #374151; margin-bottom: 6px;">您的昵称</label>
+                <input type="text" id="nicknameInput" name="nickname" placeholder="输入昵称" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px;">
             </div>
             
             <div style="border-top: 1px solid #f3f4f6; padding-top: 16px; margin-top: 8px;">
-                <label style="display: block; font-size: 13px; color: #374151; margin-bottom: 12px; font-weight: 600;">选择现有协作</label>
-                <select id="collabSessionSelect" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 12px;">
+                <label for="collabSessionSelect" style="display: block; font-size: 13px; color: #374151; margin-bottom: 12px; font-weight: 600;">选择现有协作</label>
+                <select id="collabSessionSelect" name="collab_session" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 12px;">
                     <option value="">-- 请选择 --</option>
                 </select>
                 <button class="btn btn-primary" id="joinCollabBtn" style="width: 100%;">加入现有协作</button>
@@ -186,9 +187,9 @@
             <div class="divider" style="text-align: center; color: #9ca3af; font-size: 12px; margin: 8px 0;">或者</div>
 
             <div>
-                <label style="display: block; font-size: 13px; color: #374151; margin-bottom: 6px; font-weight: 600;">开启新协作</label>
-                <input type="text" id="newCollabNameInput" placeholder="协作会话名称" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 12px;">
-                <button class="btn btn-secondary" id="createCollabBtn" style="width: 100%; background: #667eea; color: white;">创建并加入</button>
+                <label for="newCollabNameInput" style="display: block; font-size: 13px; color: #374151; margin-bottom: 6px; font-weight: 600;">开启新协作</label>
+                <input type="text" id="newCollabNameInput" name="new_collab_name" placeholder="协作会话名称" style="width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 12px;">
+                <button class="btn btn-secondary" id="createCollabBtn" style="width: 100%; background: #0f766e; color: white;">创建并加入</button>
             </div>
         </div>
         <button id="closeCollabModal" style="margin-top: 24px; width: 100%; padding: 10px; border: none; border-radius: 8px; background: #f3f4f6; color: #374151; font-weight: 500; cursor: pointer;">关闭</button>
@@ -201,7 +202,7 @@
     </div>
 
     <!-- 配置文件必须在其他脚本之前加载 -->
-    <script src="{{ url_for('static', path='config.js') }}"></script>
-    <script src="{{ url_for('static', path='script.js') }}"></script>
+    <script src="{{ url_for('static', path='config.js') }}?v=3"></script>
+    <script src="{{ url_for('static', path='script.js') }}?v=3"></script>
 </body>
 </html>

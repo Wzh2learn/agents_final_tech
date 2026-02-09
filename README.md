@@ -134,7 +134,19 @@ python src/main.py -m http -p 5000
    MEMORY_BACKEND=postgres  # 或 memory
    ```
 
-3. **初始化数据库**
+3. **启动 Docker 数据库容器**（必须步骤）
+   ```bash
+   # 启动 PostgreSQL + PGVector 容器（数据会持久化）
+   docker run -d --name pgvector -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=vector_db -p 5432:5432 ankane/pgvector:latest
+   
+   # 等待数据库就绪（约5-10秒）
+   docker logs pgvector | findstr "ready"
+   ```
+   
+   > **⚠️ 重要**：如果容器已存在，直接启动即可：`docker start pgvector`
+   > 数据存储在 Docker volume 中，重启容器不会丢失。
+
+4. **初始化数据库**
    ```bash
    # 创建数据库和PGVector扩展
    python scripts/init_pgvector_db.py
@@ -146,16 +158,32 @@ python src/main.py -m http -p 5000
    python scripts/populate_knowledge_base.py
    ```
 
-4. **启动服务**
+4. **启动服务（方式1：一键启动 - 推荐）**
    ```bash
+   # Windows 一键启动（自动检查Docker+虚拟环境+启动后端）
+   run.bat
+   ```
+   该脚本会自动：
+   - 检查并启动 pgvector Docker 容器
+   - 激活 Python 虚拟环境
+   - 检查 SILICONFLOW_API_KEY 配置
+   - 启动 Web 服务（端口 5000）和 WebSocket（端口 5001）
+
+5. **启动服务（方式2：手动启动）**
+   ```bash
+   # 启动 Docker 数据库
+   docker start pgvector
+   
+   # 激活虚拟环境并启动
+   venv\Scripts\activate
    python src/main.py -m http -p 5000
    ```
 
-5. **访问系统**
+6. **访问系统**
    - 主页: http://localhost:5000
    - 聊天界面: http://localhost:5000/chat
    - 知识库管理: http://localhost:5000/knowledge
-   - API文档: http://localhost:5000/docs (FastAPI自动生成)
+   - API文档: http://localhost:5000/docs
 
 ### 方式 3：验证配置
 

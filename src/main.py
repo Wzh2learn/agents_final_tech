@@ -10,8 +10,8 @@ from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from biz.agent_service import get_agent_service
-from biz.rag_service import get_rag_service
+from biz.agent_service import get_agent_service, get_agent_service_sync
+from biz.rag_service import get_rag_service, get_rag_service_sync
 from utils.log.write_log import setup_logging, request_context
 from utils.log.config import LOG_LEVEL, LOG_FILE
 from utils.runtime_ctx import new_context
@@ -33,9 +33,15 @@ TIMEOUT_SECONDS = 900  # 15分钟
 
 class GraphService:
     def __init__(self):
-        self.agent_service = get_agent_service()
+        self._agent_service = None
         # 用于跟踪正在运行的任务（使用asyncio.Task）
         self.running_tasks: Dict[str, asyncio.Task] = {}
+    
+    async def _get_agent_service(self):
+        """延迟加载 AgentService（线程安全）"""
+        if self._agent_service is None:
+            self._agent_service = await get_agent_service()
+        return self._agent_service
     
     @staticmethod
     def _sse_event(data: Any) -> str:
@@ -54,7 +60,8 @@ class GraphService:
                 # 兼容原有消息格式
                 message = message.get("content", {}).get("query", {}).get("prompt", [{}])[0].get("content", {}).get("text", "你好")
             
-            result = await self.agent_service.chat(message, conversation_id=run_id)
+            agent_service = await self._get_agent_service()
+            result = await agent_service.chat(message, conversation_id=run_id)
             return {"content": result, "run_id": run_id}
 
         except asyncio.CancelledError:
@@ -75,7 +82,8 @@ class GraphService:
 
         try:
             message = payload.get("message", "你好")
-            async for chunk in self.agent_service.stream_chat(message, conversation_id=run_id):
+            agent_service = await self._get_agent_service()
+            async for chunk in agent_service.stream_chat(message, conversation_id=run_id):
                 yield self._sse_event({"content": chunk, "run_id": run_id})
         finally:
             pass
@@ -87,7 +95,8 @@ class GraphService:
     async def run_node(self, node_id: str, payload: Dict[str, Any], ctx=None) -> Any:
         """运行单个节点 (通过 AgentService 代理)"""
         message = payload.get("message", "你好")
-        result = await self.agent_service.chat(message, conversation_id=f"node_{node_id}")
+        agent_service = await self._get_agent_service()
+        result = await agent_service.chat(message, conversation_id=f"node_{node_id}")
         return {"content": result, "node_id": node_id}
 
     def graph_inout_schema(self) -> Any:

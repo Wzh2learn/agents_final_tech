@@ -33,12 +33,25 @@ class CollaborationService:
 
     def __init__(self):
         self.db = get_collaboration_db()
+    
+    @staticmethod
+    def _normalize_session_type(session_type: Optional[str]) -> str:
+        """Normalize session type values for compatibility."""
+        if not session_type:
+            return "private"
+        normalized = str(session_type).strip().lower()
+        if normalized in {"collaboration", "collab", "team"}:
+            return "collaborative"
+        if normalized in {"private", "personal", "solo"}:
+            return "private"
+        return normalized
 
     # ==================== 会话管理 ====================
 
     def create_session(self, name: str, description: str = None, session_type: str = 'private', role_key: str = 'default_engineer') -> Optional[dict]:
         """创建新会话"""
-        session = self.db.create_session(name, description, session_type, role_key)
+        normalized_type = self._normalize_session_type(session_type)
+        session = self.db.create_session(name, description, normalized_type, role_key)
         if session:
             return self._serialize_session(session)
         return None
@@ -52,7 +65,8 @@ class CollaborationService:
 
     def get_all_sessions(self, active_only: bool = True, session_type: str = None) -> List[dict]:
         """获取所有会话"""
-        sessions = self.db.get_all_sessions(active_only, session_type)
+        normalized_type = self._normalize_session_type(session_type) if session_type else None
+        sessions = self.db.get_all_sessions(active_only, normalized_type)
         return [self._serialize_session(s) for s in sessions]
 
     def update_session(self, session_id: int, name: str = None, description: str = None, role_key: str = None) -> bool:
@@ -65,7 +79,7 @@ class CollaborationService:
             'id': session.id,
             'name': session.name,
             'description': session.description,
-            'type': session.type,
+            'type': self._normalize_session_type(session.type),
             'role_key': session.role_key,
             'created_at': session.created_at.isoformat(),
             'updated_at': session.updated_at.isoformat(),
@@ -78,7 +92,7 @@ class CollaborationService:
 
     # ==================== 参与者管理 ====================
 
-    def add_participant(self, session_id: int, nickname: str, avatar_color: str = '#667eea') -> Optional[dict]:
+    def add_participant(self, session_id: int, nickname: str, avatar_color: str = '#0f766e') -> Optional[dict]:
         """添加参与者"""
         participant = self.db.add_participant(session_id, nickname, avatar_color)
         if participant:

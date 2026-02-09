@@ -24,7 +24,7 @@ class SessionUpdate(BaseModel):
 
 class ParticipantCreate(BaseModel):
     nickname: str
-    avatar_color: str = "#667eea"
+    avatar_color: str = "#0f766e"
 
 
 class CollabChatRequest(BaseModel):
@@ -126,7 +126,7 @@ async def collaboration_chat(request: CollabChatRequest):
     from biz.agent_service import get_agent_service
     from web.websocket_server import broadcast_agent_message
 
-    agent_service = get_agent_service()
+    agent_service = await get_agent_service()
     conv_id = request.conversation_id or f"session_{request.session_id}"
 
     try:

@@ -14,6 +14,10 @@ from storage.memory.memory_saver import get_memory_saver
 
 logger = logging.getLogger(__name__)
 
+# 单例锁，确保线程安全
+_agent_service_lock = asyncio.Lock()
+_agent_service = None
+
 class AgentService:
     """Agent 业务服务类，提供同步和流式对话接口"""
     MAX_REFLECTION_INDEX_SIZE = 1000  # 最大保留的 conversation_id 数量
@@ -99,8 +103,11 @@ class AgentService:
                 if isinstance(m, (HumanMessage, AIMessage))
             ], ensure_ascii=False)
             
-            # 2. 调用反射工具
-            reflection_res_str = reflect_on_conversation.invoke(msgs_json)
+            # 2. 调用反射工具（避免阻塞事件循环）
+            if hasattr(reflect_on_conversation, "ainvoke"):
+                reflection_res_str = await reflect_on_conversation.ainvoke(msgs_json)
+            else:
+                reflection_res_str = await asyncio.to_thread(reflect_on_conversation.invoke, msgs_json)
             try:
                 reflection_res = json.loads(reflection_res_str)
             except json.JSONDecodeError:
@@ -261,9 +268,18 @@ class AgentService:
             logger.error(f"Stream chat error: {e}", exc_info=True)
             yield {"type": "content", "content": f"抱歉，发生了错误: {str(e)}"}
 
-_agent_service = None
+async def get_agent_service() -> AgentService:
+    """获取 AgentService 单例（线程安全）"""
+    global _agent_service
+    if _agent_service is None:
+        async with _agent_service_lock:
+            if _agent_service is None:
+                _agent_service = AgentService()
+    return _agent_service
 
-def get_agent_service() -> AgentService:
+# 同步版本供非异步上下文使用
+def get_agent_service_sync() -> AgentService:
+    """同步获取 AgentService 单例（注意：可能非线程安全，仅在初始化阶段使用）"""
     global _agent_service
     if _agent_service is None:
         _agent_service = AgentService()

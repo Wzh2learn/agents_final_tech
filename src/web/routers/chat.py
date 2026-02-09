@@ -11,6 +11,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, field_validator
 
 from biz.agent_service import get_agent_service
+from biz.rag_service import get_rag_service
 from storage.thread_settings import get_thread_settings_service
 from utils.constants import (
     is_valid_role, get_role_key, get_role_name, get_role_greeting
@@ -166,7 +167,7 @@ async def chat(request: ChatRequest):
         logger.info(f"开始处理聊天请求: conversation_id={conversation_id}, role={role}")
         
         # 获取 agent_service 实例
-        agent_service = get_agent_service()
+        agent_service = await get_agent_service()
         
         # 提取 session_id 用于保存消息
         session_id = None
@@ -182,6 +183,7 @@ async def chat(request: ChatRequest):
         
         try:
             async with asyncio.timeout(CHAT_TIMEOUT_SECONDS):
+                agent_service = await get_agent_service()
                 async for chunk in agent_service.stream_chat(
                     request.message, conversation_id, role
                 ):
@@ -200,6 +202,13 @@ async def chat(request: ChatRequest):
             logger.warning(f"聊天请求超时: conversation_id={conversation_id}")
             return {"status": "error", "message": f"请求超时，请稍后重试", "content": f"抱歉，请求超时了，请稍后重试"}
         
+        if not sources and needs_rag:
+            try:
+                rag_service = await get_rag_service()
+                sources = rag_service.smart_retrieve(message, top_k=None, max_results=5)
+            except Exception as e:
+                logger.warning(f"Fallback trace failed: {e}")
+
         logger.info(f"聊天请求完成: full_content length = {len(full_content)}, sources count = {len(sources)}")
 
         # 保存消息历史到协作数据库
@@ -342,7 +351,7 @@ async def get_suggestions(request: SuggestionsRequest):
 class CreateSessionRequest(BaseModel):
     name: str = "新对话"
     role_key: str = "default_engineer"
-    type: str = "private"  # private 或 collaboration
+    type: str = "private"  # private 或 collaborative
 
 
 class UpdateSessionRequest(BaseModel):
