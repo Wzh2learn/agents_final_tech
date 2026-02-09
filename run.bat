@@ -35,6 +35,18 @@ if exist "venv\Scripts\activate.bat" (
     echo [WARNING] 未找到 venv 虚拟环境，将使用系统 Python
 )
 
+REM 加载 .env 文件中的环境变量
+if exist ".env" (
+    echo [INFO] 正在加载 .env 文件...
+    for /f "usebackq tokens=*" %%a in (".env") do (
+        echo %%a | findstr "^#" >nul || (
+            for /f "tokens=1,2 delims==" %%b in ("%%a") do (
+                set "%%b=%%c"
+            )
+        )
+    )
+)
+
 REM 检查环境变量
 if "%SILICONFLOW_API_KEY%"=="" (
     echo [ERROR] 未设置 SILICONFLOW_API_KEY 环境变量
