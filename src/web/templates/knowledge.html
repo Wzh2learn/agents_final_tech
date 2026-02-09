@@ -37,29 +37,327 @@
             margin-right: 20px;
         }
         /* 知识库管理页面样式 */
-        .kb-container {
-            margin-top: 110px;
-            display: block;
-            height: calc(100vh - 110px);
-            overflow-y: auto;
-            padding: 20px 30px;
-        }
-
-        .kb-main {
-            padding: 0;
-            background: transparent;
-        }
-
-        .kb-header {
+        .kb-layout {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
+            min-height: 100vh;
+            background: #f8fafc;
         }
 
-        .kb-header h1 {
-            margin: 0;
-            color: #2c3e50;
+        /* 左侧边栏 - 知识库导航 */
+        .kb-sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 50px;
+            left: 0;
+            bottom: 0;
+            z-index: 90;
+        }
+
+        .kb-sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .kb-sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .kb-new-btn {
+            width: 100%;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .kb-new-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+        }
+
+        .kb-nav-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+
+        .kb-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .kb-nav-item:hover {
+            background: #f3f4f6;
+        }
+
+        .kb-nav-item.active {
+            background: #f0fdf4;
+            border: 1px solid #0f766e;
+        }
+
+        .kb-nav-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .kb-nav-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .kb-nav-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #111827;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .kb-nav-meta {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* 主内容区 */
+        .kb-main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 20px 30px;
+            min-height: calc(100vh - 50px);
+        }
+
+        /* 顶部导航栏简化 */
+        .kb-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .kb-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .kb-breadcrumb a {
+            color: #6b7280;
+            text-decoration: none;
+        }
+
+        .kb-breadcrumb a:hover {
+            color: #0f766e;
+        }
+
+        .kb-breadcrumb .current {
+            color: #111827;
+            font-weight: 500;
+        }
+
+        /* 知识库卡片网格 - Dify 风格 */
+        .kb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 24px;
+        }
+
+        .kb-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kb-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-color: #0f766e;
+        }
+
+        .kb-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0f766e 0%, #14b8a6 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .kb-card:hover::before {
+            opacity: 1;
+        }
+
+        .kb-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .kb-card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .kb-card-actions {
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .kb-card:hover .kb-card-actions {
+            opacity: 1;
+        }
+
+        .kb-card-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            background: #f3f4f6;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .kb-card-action-btn:hover {
+            background: #0f766e;
+            color: white;
+        }
+
+        .kb-card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .kb-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .kb-tag {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .kb-tag.parent-child {
+            background: #f0fdf4;
+            color: #166534;
+        }
+
+        .kb-tag.general {
+            background: #eff6ff;
+            color: #1e40af;
+        }
+
+        .kb-tag.retrieval {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .kb-card-stats {
+            display: flex;
+            gap: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .kb-stat {
+            text-align: center;
+        }
+
+        .kb-stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .kb-stat-label {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* 空状态 */
+        .kb-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .kb-empty-icon {
+            font-size: 80px;
+            margin-bottom: 24px;
+        }
+
+        .kb-empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .kb-empty-desc {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 24px;
+            max-width: 400px;
         }
 
         /* 统计卡片 */
@@ -510,47 +808,39 @@
         <a href="/" class="home-btn">🏠 返回主页</a>
         <a href="/chat">💬 对话</a>
     </nav>
-    <!-- Tab 导航栏 -->
-    <div class="tab-navigation">
-        <div class="kb-tabs">
-            <button class="tab-btn active" data-tab="overview" onclick="switchTab('overview')">
-                <span class="icon">📊</span>概览
-            </button>
-            <button class="tab-btn" data-tab="documents" onclick="switchTab('documents')">
-                <span class="icon">📄</span>文档
-            </button>
-            <button class="tab-btn" data-tab="upload" onclick="switchTab('upload')">
-                <span class="icon">📤</span>上传
-            </button>
-            <button class="tab-btn" data-tab="settings" onclick="switchTab('settings')">
-                <span class="icon">⚙️</span>设置
-            </button>
-            <button class="tab-btn" data-tab="compare" onclick="switchTab('compare')">
-                <span class="icon">📊</span>对比
-            </button>
-        </div>
-        <div class="collection-selector">
-            <select id="collection-select" name="collection">
-                <option value="" disabled selected>加载中...</option>
-            </select>
-        </div>
-    </div>
 
-    <div class="kb-container">
-        <!-- 主内容区 (移除侧边栏) -->
-        <div class="kb-main" style="padding: 0; background: transparent;">
-            <!-- 概览页面 -->
+    <!-- 新布局：左侧边栏 + 主内容区 -->
+    <div class="kb-layout">
+        <!-- 左侧边栏 - 知识库导航 -->
+        <aside class="kb-sidebar">
+            <div class="kb-sidebar-header">
+                <div class="kb-sidebar-title">� 知识库</div>
+                <button class="kb-new-btn" onclick="createKnowledgeBase()">
+                    <span>➕</span> 新建知识库
+                </button>
+            </div>
+            <div class="kb-nav-list" id="kb-nav-list">
+                <!-- 动态加载知识库列表 -->
+                <div class="loading-state" style="padding: 20px; text-align: center; color: #9ca3af;">
+                    加载中...
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="kb-main">
+            <!-- 概览页面 - 知识库卡片网格 -->
             <div class="page active" id="page-overview">
-                <div class="kb-header">
-                    <h1>知识库概览</h1>
+                <div class="kb-topbar">
+                    <div class="kb-breadcrumb">
+                        <span class="current">知识库</span>
+                    </div>
                     <div style="display: flex; gap: 12px; align-items: center;">
-                        <span id="current-collection-name" style="font-size: 14px; color: #6b7280; padding: 6px 12px; background: #f3f4f6; border-radius: 6px;">knowledge_base</span>
-                        <button class="btn btn-primary" onclick="switchPage('upload')">
-                            📤 上传新文档
-                        </button>
+                        <span id="kb-count" style="font-size: 14px; color: #6b7280;">共 0 个</span>
                     </div>
                 </div>
 
+                <!-- 统计卡片 -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="icon">📄</div>
@@ -574,53 +864,9 @@
                     </div>
                 </div>
 
-                <div class="documents-section" style="margin-bottom: 24px;">
-                    <div class="section-header">
-                        <h2>知识库一览</h2>
-                        <span style="font-size: 12px; color: #6b7280;">共 <span id="collection-count">0</span> 个</span>
-                    </div>
-                    <div id="collection-grid" class="collection-grid">
-                        <div class="loading-state">加载中...</div>
-                    </div>
-                    <div class="trace-hint">
-                        溯源会在聊天回答中自动展示，回答下方会显示引用来源与片段。
-                    </div>
-                </div>
-
-                <div class="documents-section">
-                    <div class="section-header">
-                        <h2>最近上传</h2>
-                        <button class="btn btn-secondary" onclick="switchPage('documents')">查看全部 →</button>
-                    </div>
-                    <div class="document-list" id="recent-documents">
-                        <div class="loading-state">加载中...</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 知识库详情页面 -->
-            <div class="page" id="page-collection-detail">
-                <div class="kb-header">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <button class="btn-back" onclick="switchPage('overview')" style="background: none; border: none; color: #6b7280; cursor: pointer; font-size: 18px;">←</button>
-                        <h1 id="collection-detail-title" style="margin: 0;">知识库详情</h1>
-                    </div>
-                    <div style="display: flex; gap: 12px;">
-                        <button class="btn btn-secondary" onclick="showCollectionStats()">
-                            📊 统计信息
-                        </button>
-                        <button class="btn btn-primary" onclick="switchPage('upload')">
-                            📤 上传文档
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 知识库信息卡片 -->
-                <div id="collection-info-card" class="stats-grid" style="margin-bottom: 24px;">
-                    <div class="stat-card">
-                        <div class="icon">📄</div>
-                        <div class="label">文档数</div>
-                        <div class="value" id="col-stat-docs">0</div>
+                <!-- 知识库卡片网格 -->
+                <div id="kb-grid" class="kb-grid">
+                    <!-- 动态加载 -->
                     </div>
                     <div class="stat-card">
                         <div class="icon">📝</div>

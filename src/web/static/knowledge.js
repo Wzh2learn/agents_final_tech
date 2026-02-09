@@ -5,6 +5,13 @@ let currentPage = 'overview';
 let deleteDocId = null;
 let currentDocId = null; // 当前正在查看详情的文档 ID
 let currentCollection = 'knowledge_base'; // 当前选中的集合名称
+let paginationState = {
+    page: 1,
+    page_size: 10,
+    total: 0,
+    pages: 0
+};
+let selectedDocuments = new Set();
 
 // ==================== 安全与转义 ====================
 function escapeHtml(value) {
@@ -206,9 +213,164 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 /**
- * 加载所有知识库集合
+ * 加载所有知识库集合 - 新布局
  */
 async function loadCollections() {
+    const navList = document.getElementById('kb-nav-list');
+    const gridEl = document.getElementById('kb-grid');
+    const countEl = document.getElementById('kb-count');
+    
+    try {
+        const result = await apiCall('/api/knowledge/collections');
+        if (result.status === 'success') {
+            const collections = result.collections || [];
+            
+            // 更新数量
+            if (countEl) countEl.textContent = `共 ${collections.length} 个`;
+            
+            // 渲染左侧导航
+            if (navList) {
+                if (collections.length === 0) {
+                    navList.innerHTML = `
+                        <div style="padding: 20px; text-align: center; color: #9ca3af;">
+                            <div style="font-size: 32px; margin-bottom: 8px;">📚</div>
+                            <div style="font-size: 12px;">暂无知识库</div>
+                        </div>
+                    `;
+                } else {
+                    navList.innerHTML = collections.map(kb => `
+                        <div class="kb-nav-item" data-kb="${escapeHtml(kb)}" onclick="enterKnowledgeBase('${escapeJsString(kb)}')">
+                            <div class="kb-nav-icon">📚</div>
+                            <div class="kb-nav-info">
+                                <div class="kb-nav-name">${escapeHtml(kb)}</div>
+                                <div class="kb-nav-meta">点击进入</div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+            
+            // 渲染卡片网格
+            if (gridEl) {
+                if (collections.length === 0) {
+                    gridEl.innerHTML = `
+                        <div class="kb-empty" style="grid-column: 1 / -1;">
+                            <div class="kb-empty-icon">📚</div>
+                            <div class="kb-empty-title">还没有知识库</div>
+                            <div class="kb-empty-desc">创建知识库，上传文档，构建你的 AI 知识助手</div>
+                            <button class="kb-new-btn" onclick="createKnowledgeBase()" style="width: auto; padding: 12px 24px;">
+                                <span>➕</span> 创建知识库
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    // 为每个知识库加载统计
+                    const kbStats = await Promise.all(
+                        collections.map(async (kb) => {
+                            try {
+                                const stats = await apiCall(`/api/knowledge/stats?collection_name=${encodeURIComponent(kb)}`);
+                                return { name: kb, stats: stats.status === 'success' ? stats.stats : null };
+                            } catch (e) {
+                                return { name: kb, stats: null };
+                            }
+                        })
+                    );
+                    
+                    gridEl.innerHTML = kbStats.map(({ name, stats }) => {
+                        const docCount = stats?.total_documents || 0;
+                        const chunkCount = stats?.total_chunks || 0;
+                        const chunkMode = 'parent_child'; // 从设置中获取
+                        const retrievalMode = 'hybrid';
+                        
+                        return `
+                        <div class="kb-card" onclick="enterKnowledgeBase('${escapeJsString(name)}')">
+                            <div class="kb-card-header">
+                                <div class="kb-card-icon">📚</div>
+                                <div class="kb-card-actions" onclick="event.stopPropagation()">
+                                    <button class="kb-card-action-btn" onclick="switchTab('settings')" title="设置">⚙️</button>
+                                    <button class="kb-card-action-btn" onclick="deleteKnowledgeBase('${escapeJsString(name)}')" title="删除">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="kb-card-title">${escapeHtml(name)}</div>
+                            <div class="kb-card-tags">
+                                <span class="kb-tag ${chunkMode === 'parent_child' ? 'parent-child' : 'general'}">
+                                    ${chunkMode === 'parent_child' ? '👨‍👧 父子分段' : '📄 通用分段'}
+                                </span>
+                                <span class="kb-tag retrieval">🔍 ${retrievalMode}</span>
+                            </div>
+                            <div class="kb-card-stats">
+                                <div class="kb-stat">
+                                    <div class="kb-stat-value">${docCount}</div>
+                                    <div class="kb-stat-label">文档</div>
+                                </div>
+                                <div class="kb-stat">
+                                    <div class="kb-stat-value">${chunkCount}</div>
+                                    <div class="kb-stat-label">分段</div>
+                                </div>
+                                <div class="kb-stat">
+                                    <div class="kb-stat-value">-</div>
+                                    <div class="kb-stat-label">更新</div>
+                                </div>
+                            </div>
+                        </div>
+                    `}).join('');
+                }
+            }
+        }
+    } catch (error) {
+        console.error('加载知识库失败:', error);
+        if (gridEl) {
+            gridEl.innerHTML = '<div class="error-state" style="grid-column: 1 / -1;">加载失败，请刷新重试</div>';
+        }
+    }
+}
+
+/**
+ * 进入知识库详情
+ */
+function enterKnowledgeBase(kbName) {
+    currentCollection = kbName;
+    switchPage('documents');
+    
+    // 更新面包屑
+    const breadcrumb = document.getElementById('doc-list-kb-name');
+    if (breadcrumb) breadcrumb.textContent = kbName;
+    
+    // 加载该知识库的文档
+    loadAllDocuments();
+}
+
+/**
+ * 创建知识库
+ */
+function createKnowledgeBase() {
+    // 显示创建对话框或跳转
+    showToast('创建知识库功能开发中...', 'info');
+}
+
+/**
+ * 删除知识库
+ */
+async function deleteKnowledgeBase(kbName) {
+    if (!confirm(`确定要删除知识库 "${kbName}" 吗？\n此操作将删除该知识库中的所有文档和分段，不可恢复！`)) {
+        return;
+    }
+    
+    showToast('删除知识库功能开发中...', 'info');
+}
+
+// ==================== 初始化 ====================
+document.addEventListener('DOMContentLoaded', async function() {
+    initPage();
+    setupEventListeners();
+    await loadRagSettings();
+    await loadCollections();
+});
+
+/**
+ * 加载所有知识库集合
+ */
+async function loadCollectionsOld() {
     const selectEl = document.getElementById('collection-select');
     const gridEl = document.getElementById('collection-grid');
     
