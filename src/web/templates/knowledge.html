@@ -39,7 +39,7 @@
         /* 知识库管理页面样式 */
         .kb-layout {
             display: flex;
-            min-height: 100vh;
+            min-height: calc(100vh - 50px);
             background: #f8fafc;
         }
 
@@ -96,6 +96,12 @@
             padding: 12px;
         }
 
+        .kb-overview-entry {
+            margin: 12px 12px 0 12px;
+            border: 1px solid #e5e7eb;
+            background: #ffffff;
+        }
+
         .kb-nav-item {
             display: flex;
             align-items: center;
@@ -150,8 +156,18 @@
         .kb-main {
             flex: 1;
             margin-left: 260px;
-            padding: 20px 30px;
-            min-height: calc(100vh - 50px);
+            margin-top: 50px;
+            padding: 20px 30px 28px;
+            height: calc(100vh - 50px);
+            overflow-y: auto;
+        }
+
+        .kb-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         /* 顶部导航栏简化 */
@@ -208,6 +224,11 @@
             transform: translateY(-4px);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
             border-color: #0f766e;
+        }
+
+        .kb-card.active {
+            border-color: #0f766e;
+            box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.18);
         }
 
         .kb-card::before {
@@ -801,6 +822,128 @@
         .page.active {
             display: block;
         }
+
+        .detail-layout {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .segment-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .segment-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-meta-card {
+            margin: 16px 20px 0 20px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .chunk-editor-panel {
+            margin: 12px 20px 0 20px;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #bae6fd;
+            background: #f0f9ff;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chunk-editor-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chunk-editor-input {
+            width: 100%;
+            min-height: 150px;
+            max-height: 360px;
+            resize: vertical;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 10px 12px;
+            line-height: 1.6;
+            font-size: 13px;
+            color: #1e293b;
+            background: #fff;
+            font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        .chunk-editor-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .chunk-edit-warning {
+            font-size: 12px;
+            color: #9a3412;
+            background: #ffedd5;
+            border: 1px solid #fed7aa;
+            border-radius: 6px;
+            padding: 6px 8px;
+            display: none;
+        }
+
+        .chunk-edit-btn {
+            padding: 4px 10px;
+            font-size: 12px;
+        }
+
+        .segment-list {
+            min-height: 0;
+            max-height: calc(100vh - 280px);
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        #page-collection-detail .document-list {
+            max-height: calc(100vh - 420px);
+        }
+
+        #page-document-detail {
+            height: calc(100vh - 140px);
+        }
+
+        #page-document-detail .detail-layout {
+            height: 100%;
+        }
+
+        #page-document-detail .segment-container {
+            height: 100%;
+        }
+
+        #page-document-detail .segment-list {
+            flex: 1;
+            max-height: none;
+        }
     </style>
 </head>
 <body class="page-knowledge">
@@ -814,10 +957,17 @@
         <!-- 左侧边栏 - 知识库导航 -->
         <aside class="kb-sidebar">
             <div class="kb-sidebar-header">
-                <div class="kb-sidebar-title">� 知识库</div>
+                <div class="kb-sidebar-title">📚 知识库</div>
                 <button class="kb-new-btn" onclick="createKnowledgeBase()">
                     <span>➕</span> 新建知识库
                 </button>
+            </div>
+            <div class="kb-nav-item kb-overview-entry active" id="kb-overview-entry" onclick="enterOverview()">
+                <div class="kb-nav-icon">🏠</div>
+                <div class="kb-nav-info">
+                    <div class="kb-nav-name">总览</div>
+                    <div class="kb-nav-meta">全部知识库</div>
+                </div>
             </div>
             <div class="kb-nav-list" id="kb-nav-list">
                 <!-- 动态加载知识库列表 -->
@@ -878,8 +1028,11 @@
                         <h1 id="collection-detail-title" style="margin: 0;">知识库详情</h1>
                     </div>
                     <div style="display: flex; gap: 12px;">
+                        <button class="btn btn-secondary" onclick="enterOverview()">
+                            🏠 返回总览
+                        </button>
                         <button class="btn btn-secondary" onclick="showCollectionStats()">
-                            � 统计信息
+                            📊 统计信息
                         </button>
                         <button class="btn btn-primary" onclick="switchPage('upload')">
                             📤 上传文档
@@ -890,7 +1043,7 @@
                 <!-- 知识库信息卡片 -->
                 <div id="collection-info-card" class="stats-grid" style="margin-bottom: 24px;">
                     <div class="stat-card">
-                        <div class="icon">�</div>
+                        <div class="icon">📄</div>
                         <div class="label">文档数</div>
                         <div class="value" id="col-stat-docs">0</div>
                     </div>
@@ -905,17 +1058,19 @@
                         <div class="value" id="col-stat-size">0 KB</div>
                     </div>
                 </div>
-                        <div class="search-box">
-                            <input type="text" id="document-search" name="search" placeholder="搜索文件名...">
-                            <span class="icon">🔍</span>
-                        </div>
-                        <button class="btn btn-primary" onclick="switchPage('upload')">
-                            + 上传
-                        </button>
-                    </div>
-                </div>
-
                 <div class="documents-section">
+                    <div class="section-header">
+                        <h2>文档列表</h2>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="search-box">
+                                <input type="text" id="document-search" name="search" placeholder="搜索文件名...">
+                                <span class="icon">🔍</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="switchPage('upload')">
+                                + 上传
+                            </button>
+                        </div>
+                    </div>
                     <div class="document-list" id="all-documents">
                         <div class="loading-state">加载中...</div>
                     </div>
@@ -924,52 +1079,34 @@
 
             <!-- 文档详情页面 (Dify 风格) -->
             <div class="page" id="page-document-detail">
-                <div class="detail-layout" style="display: flex; height: 100%; gap: 20px;">
-                    <!-- 左侧分段列表 -->
-                    <div class="segment-container" style="flex: 1; display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                        <div class="segment-header" style="padding: 16px 20px; border-bottom: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center;">
+                <div class="detail-layout">
+                    <div class="segment-container">
+                        <div class="segment-header">
                             <div>
-                                <button class="btn-back" onclick="switchPage('documents')" style="background: none; border: none; color: #6b7280; cursor: pointer; margin-right: 12px;">←</button>
+                                <button class="btn-back" onclick="switchPage('collection-detail')" style="background: none; border: none; color: #6b7280; cursor: pointer; margin-right: 12px;">←</button>
                                 <span id="detail-doc-name" style="font-weight: 600; color: #111827;">文档名称</span>
                             </div>
                             <span id="detail-segment-count" style="font-size: 13px; color: #6b7280;">0 个分段</span>
                         </div>
-                        <div class="segment-list" id="segment-list" style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                        <div id="detail-metadata" class="detail-meta-card">
+                            <div>加载中...</div>
+                        </div>
+                        <div id="chunk-edit-panel" class="chunk-editor-panel">
+                            <div class="chunk-editor-toolbar">
+                                <div style="font-size: 13px; color: #334155;">
+                                    <strong>在线编辑分段：</strong><span id="chunk-edit-target">-</span>
+                                </div>
+                                <button class="btn btn-secondary" onclick="closeChunkEditPanel()" style="padding: 6px 12px; font-size: 12px;">关闭</button>
+                            </div>
+                            <textarea id="chunk-edit-input" class="chunk-editor-input" placeholder="请输入分段内容..."></textarea>
+                            <div id="chunk-edit-warning" class="chunk-edit-warning"></div>
+                            <div class="chunk-editor-actions">
+                                <button class="btn btn-secondary" onclick="closeChunkEditPanel()">取消</button>
+                                <button class="btn btn-primary" id="chunk-edit-save-btn" onclick="saveChunkEdit()">保存修改</button>
+                            </div>
+                        </div>
+                        <div class="segment-list" id="segment-list">
                             <!-- 分段项 -->
-                        </div>
-                    </div>
-
-                    <!-- 右侧元数据与配置面板 -->
-                    <div class="config-panel" style="width: 320px; background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 20px; display: flex; flex-direction: column; gap: 24px;">
-                        <div>
-                            <h3 style="font-size: 14px; color: #374151; margin-bottom: 16px; font-weight: 600;">元数据</h3>
-                            <div id="detail-metadata" style="font-size: 13px; color: #6b7280; display: flex; flex-direction: column; gap: 8px;">
-                                <!-- 元数据项 -->
-                            </div>
-                        </div>
-
-                        <div style="border-top: 1px solid #f3f4f6; padding-top: 20px;">
-                            <h3 style="font-size: 14px; color: #374151; margin-bottom: 16px; font-weight: 600;">检索设置 (RAG)</h3>
-                            <div class="rag-settings" style="display: flex; flex-direction: column; gap: 16px;">
-                                <div class="setting-item">
-                                    <label for="setting-split-mode" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">分段模式</label>
-                                    <select id="setting-split-mode" name="split_mode" class="form-select" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
-                                        <option value="recursive">递归字符分割</option>
-                                        <option value="markdown">Markdown 结构分割</option>
-                                        <option value="hierarchical">父子分段 (推荐)</option>
-                                    </select>
-                                </div>
-                                <div class="setting-item">
-                                    <label for="setting-top-k" style="display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px;">Top K (召回数量)</label>
-                                    <input type="number" id="setting-top-k" name="top_k" value="5" min="1" max="50" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px;">
-                                </div>
-                                <div class="setting-item">
-                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #374151; cursor: pointer;">
-                                        <input type="checkbox" id="setting-use-rerank"> 启用 Rerank 重排序
-                                    </label>
-                                </div>
-                                <button class="btn btn-primary" onclick="saveDocSettings()" style="width: 100%; margin-top: 8px;">保存设置</button>
-                            </div>
                         </div>
                     </div>
                 </div>

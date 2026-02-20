@@ -2,11 +2,13 @@
 文档管理 Manager
 处理文档的增删改查，支持分页和统计
 """
+from datetime import datetime, timezone
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from sqlalchemy import func, desc
 import json
+import uuid as uuid_module
 
 from storage.database.shared.model import LangchainPgCollection, LangchainPgEmbedding
 from storage.database.db import get_session
@@ -415,3 +417,137 @@ class DocumentManager:
             chunk_list.append(chunk_info)
 
         return chunk_list
+
+    def collection_exists(self, db: Session, collection_name: str) -> bool:
+        collection = db.query(LangchainPgCollection).filter(
+            LangchainPgCollection.name == collection_name
+        ).first()
+        return collection is not None
+
+    def create_collection(
+        self,
+        db: Session,
+        collection_name: str,
+        metadata: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
+        if self.collection_exists(db, collection_name):
+            raise ValueError(f"集合已存在: {collection_name}")
+
+        collection = LangchainPgCollection(
+            uuid=uuid_module.uuid4(),
+            name=collection_name,
+            cmetadata=metadata or {}
+        )
+        db.add(collection)
+        db.commit()
+        return {"name": collection.name, "uuid": str(collection.uuid)}
+
+    def rename_collection(
+        self,
+        db: Session,
+        old_name: str,
+        new_name: str
+    ) -> bool:
+        if old_name == new_name:
+            return True
+
+        old_collection = db.query(LangchainPgCollection).filter(
+            LangchainPgCollection.name == old_name
+        ).first()
+        if not old_collection:
+            return False
+
+        new_collection = db.query(LangchainPgCollection).filter(
+            LangchainPgCollection.name == new_name
+        ).first()
+        if new_collection:
+            raise ValueError(f"集合已存在: {new_name}")
+
+        old_collection.name = new_name
+        db.commit()
+        return True
+
+    def delete_collection(self, db: Session, collection_name: str) -> bool:
+        collection = db.query(LangchainPgCollection).filter(
+            LangchainPgCollection.name == collection_name
+        ).first()
+        if not collection:
+            return False
+
+        db.delete(collection)
+        db.commit()
+        return True
+
+    def rename_document(
+        self,
+        db: Session,
+        old_name: str,
+        new_name: str,
+        collection_name: str = "knowledge_base"
+    ) -> int:
+        collection = db.query(LangchainPgCollection).filter(
+            LangchainPgCollection.name == collection_name
+        ).first()
+        if not collection:
+            return 0
+
+        chunks = db.query(LangchainPgEmbedding).filter(
+            LangchainPgEmbedding.collection_id == collection.uuid,
+            LangchainPgEmbedding.cmetadata['source'].astext == old_name
+        ).all()
+
+        if not chunks:
+            return 0
+
+        for chunk in chunks:
+            metadata = dict(chunk.cmetadata or {})
+            metadata["source"] = new_name
+            metadata["original_name"] = new_name
+            metadata["filename"] = new_name
+            chunk.cmetadata = metadata
+
+        db.commit()
+        return len(chunks)
+
+    def update_chunk_content(
+        self,
+        db: Session,
+        chunk_id: str,
+        document_name: str,
+        new_content: str,
+        collection_name: str = "knowledge_base",
+        embedding_vector: Optional[List[float]] = None,
+    ) -> Optional[Dict[str, Any]]:
+        collection = db.query(LangchainPgCollection).filter(
+            LangchainPgCollection.name == collection_name
+        ).first()
+        if not collection:
+            return None
+
+        chunk = db.query(LangchainPgEmbedding).filter(
+            LangchainPgEmbedding.collection_id == collection.uuid,
+            LangchainPgEmbedding.id == chunk_id,
+            LangchainPgEmbedding.cmetadata['source'].astext == document_name
+        ).first()
+        if not chunk:
+            return None
+
+        chunk.document = new_content
+        metadata = dict(chunk.cmetadata or {})
+        metadata["edited_manually"] = True
+        metadata["updated_at"] = datetime.now(timezone.utc).isoformat()
+        chunk.cmetadata = metadata
+
+        if embedding_vector is not None:
+            chunk.embedding = embedding_vector
+
+        db.commit()
+        return {
+            "id": chunk.id,
+            "document_name": document_name,
+            "collection_name": collection_name,
+            "content_length": len(new_content),
+            "updated_at": metadata["updated_at"],
+            "embedding_updated": embedding_vector is not None,
+            "metadata": metadata,
+        }
