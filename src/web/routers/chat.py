@@ -47,6 +47,20 @@ def _sanitize_error_message(error: str) -> str:
     return sanitized
 
 
+def _normalize_source_item(item: dict, default_collection: str = "knowledge_base") -> dict:
+    metadata = item.get("metadata") or {}
+    source_name = item.get("source") or metadata.get("source") or metadata.get("original_name") or "unknown"
+    content = item.get("content") or item.get("quote") or metadata.get("content") or ""
+    return {
+        "content": content,
+        "metadata": metadata,
+        "relevance_score": item.get("relevance_score") or item.get("score") or 0.0,
+        "source": source_name,
+        "chunk_index": item.get("chunk_index", metadata.get("chunk_index", 0)),
+        "collection": item.get("collection") or metadata.get("collection") or default_collection
+    }
+
+
 class ChatRequest(BaseModel):
     message: str
     conversation_id: str = "default"
@@ -194,8 +208,8 @@ async def chat(request: ChatRequest):
                         trace_content = chunk.get("content", [])
                         if isinstance(trace_content, list):
                             for item in trace_content:
-                                if isinstance(item, dict) and 'content' in item:
-                                    sources.append(item)
+                                if isinstance(item, dict):
+                                    sources.append(_normalize_source_item(item))
                     elif isinstance(chunk, str):
                         full_content += chunk
         except asyncio.TimeoutError:
@@ -206,6 +220,30 @@ async def chat(request: ChatRequest):
             try:
                 rag_service = await get_rag_service()
                 sources = rag_service.smart_retrieve(message, top_k=None, max_results=5)
+                if not sources:
+                    collections = [name for name in rag_service._select_collections(message) if name]
+                    try:
+                        available = rag_service.get_collection_names()
+                    except Exception:
+                        available = []
+                    if available:
+                        collections = [name for name in collections if name in available] or available[:3]
+                    if not collections:
+                        collections = [rag_service.collection_name]
+                    fallback_items = []
+                    for collection in collections:
+                        docs = rag_service._local_fallback_docs(query=message, collection_name=collection, limit=5)
+                        for doc in docs:
+                            fallback_items.append({
+                                "content": doc.page_content,
+                                "metadata": doc.metadata,
+                                "relevance_score": doc.metadata.get("bm25_score", 0.0),
+                                "source": doc.metadata.get("source", "unknown"),
+                                "chunk_index": doc.metadata.get("chunk_index", 0),
+                                "collection": doc.metadata.get("collection", collection),
+                                "fallback": True
+                            })
+                    sources = fallback_items[:5]
             except Exception as e:
                 logger.warning(f"Fallback trace failed: {e}")
 

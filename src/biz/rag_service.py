@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import asyncio
+import re
 from typing import List, Optional, Dict, Any, Tuple
 from langchain_core.documents import Document
 from tools.vector_store import get_vector_store
@@ -213,25 +214,56 @@ class RAGService:
         # 1. 智能选择知识库（如果不指定）
         if not collection_names:
             collection_names = self._select_collections(query)
+
+        # 1.1 归一化并校验集合名，避免无效集合导致检索全空
+        collection_names = [name for name in (collection_names or []) if name]
+        try:
+            available_collections = self.get_collection_names()
+        except Exception as e:
+            logger.warning(f"Get collection names failed during retrieval: {e}")
+            available_collections = []
+
+        if available_collections:
+            valid_names = [name for name in collection_names if name in available_collections]
+            if not valid_names:
+                valid_names = available_collections[:3]
+                logger.warning(
+                    "No valid target collection in %s, fallback to available collections: %s",
+                    collection_names,
+                    valid_names
+                )
+            collection_names = valid_names
+
+        if not collection_names:
+            collection_names = [self.collection_name]
         
         logger.info(f"Query: {query} | Collections: {collection_names} | TopK: {top_k} | MaxResults: {max_results}")
         
         # 2. 固定使用混合检索策略（向量 + BM25）
         all_docs = []
+        vector_total = 0
+        bm25_total = 0
+        fallback_total = 0
         
         for collection_name in collection_names:
+            vector_count = 0
+            bm25_count = 0
+            fallback_count = 0
+
             try:
-                # 向量检索
                 vector_store = get_vector_store(collection_name=collection_name)
                 results = vector_store.similarity_search_with_score(query, k=top_k)
                 for doc, score in results:
                     doc.metadata["vector_score"] = float(score)
                     doc.metadata["collection"] = collection_name
                     all_docs.append(doc)
-                    
-                # BM25 检索
+                    vector_count += 1
+            except Exception as e:
+                logger.warning(f"Vector retrieve failed on {collection_name}: {e}")
+
+            try:
                 bm25_res = bm25_retrieve.invoke({
-                    "query": query, 
+                    "query": query,
                     "top_k": top_k,
                     "collection_name": collection_name
                 })
@@ -239,9 +271,28 @@ class RAGService:
                 for doc in bm25_docs:
                     doc.metadata["collection"] = collection_name
                     all_docs.append(doc)
+                    bm25_count += 1
             except Exception as e:
-                logger.error(f"检索知识库 {collection_name} 失败: {e}")
-                continue
+                logger.warning(f"BM25 retrieve failed on {collection_name}: {e}")
+
+            if vector_count == 0 and bm25_count == 0:
+                fallback_docs = self._local_fallback_docs(
+                    query=query,
+                    collection_name=collection_name,
+                    limit=top_k
+                )
+                for doc in fallback_docs:
+                    doc.metadata["collection"] = collection_name
+                    doc.metadata["fallback"] = True
+                    all_docs.append(doc)
+                    fallback_count += 1
+
+            vector_total += vector_count
+            bm25_total += bm25_count
+            fallback_total += fallback_count
+            logger.info(
+                f"Retrieve path on {collection_name}: vector={vector_count}, bm25={bm25_count}, fallback={fallback_count}"
+            )
         
         # 3. 去重并合并结果（合并向量/BM25分数）
         unique_docs = self._deduplicate_docs(all_docs)
@@ -266,7 +317,15 @@ class RAGService:
 
         # 7. 返回带引用信息的结果（限制总数量）
         final_results = sorted_docs[:max_results]
-        logger.info(f"检索完成: 总候选={len(all_docs)}, 去重后={len(unique_docs)}, 最终返回={len(final_results)}")
+        logger.info(
+            "Retrieve finished: candidates=%s, unique=%s, returned=%s, vector=%s, bm25=%s, fallback=%s",
+            len(all_docs),
+            len(unique_docs),
+            len(final_results),
+            vector_total,
+            bm25_total,
+            fallback_total
+        )
 
         return [{
             "content": d.page_content,
@@ -407,6 +466,84 @@ class RAGService:
         except Exception as e:
             logger.error(f"Error parsing JSON docs: {e}")
             return []
+
+    @staticmethod
+    def _query_terms(query: str) -> List[str]:
+        normalized = (query or "").strip().lower()
+        if not normalized:
+            return []
+        latin_terms = [term for term in re.findall(r"[a-z0-9_]+", normalized) if len(term) > 1]
+        cjk_terms = re.findall(r"[\u4e00-\u9fff]", normalized)
+        merged = latin_terms + cjk_terms
+        unique_terms: List[str] = []
+        seen = set()
+        for term in merged:
+            if term not in seen:
+                seen.add(term)
+                unique_terms.append(term)
+        return unique_terms
+
+    def _local_fallback_docs(self, query: str, collection_name: str, limit: int = 5) -> List[Document]:
+        """本地兜底：向量/BM25均失败时，直接从数据库提取相关片段。"""
+        from storage.database.db import get_session
+        from storage.database.document_manager import DocumentManager
+
+        db = get_session()
+        try:
+            manager = DocumentManager()
+            candidate_docs = manager.get_documents(
+                db=db,
+                skip=0,
+                limit=max(limit * 3, 15),
+                collection_name=collection_name
+            )
+            if not candidate_docs:
+                return []
+
+            query_terms = self._query_terms(query)
+            lowered_query = (query or "").strip().lower()
+            scored_docs: List[Tuple[float, Document]] = []
+
+            for doc_info in candidate_docs:
+                source_name = doc_info.get("original_name") or doc_info.get("id") or doc_info.get("name")
+                if not source_name:
+                    continue
+                chunks = manager.get_document_chunks(
+                    db=db,
+                    document_name=source_name,
+                    collection_name=collection_name,
+                    skip=0,
+                    limit=5
+                )
+                for chunk in chunks:
+                    content = (chunk.get("content") or "").strip()
+                    if not content:
+                        continue
+                    lowered = content.lower()
+                    score_value = float(sum(1 for term in query_terms if term and term in lowered))
+                    if lowered_query and lowered_query in lowered:
+                        score_value += 1.0
+
+                    metadata = chunk.get("metadata") or {}
+                    metadata["source"] = metadata.get("source") or doc_info.get("name") or str(source_name)
+                    metadata["bm25_score"] = score_value
+                    metadata["retrieval_path"] = "local_fallback"
+                    metadata["collection"] = collection_name
+                    scored_docs.append((score_value, Document(page_content=content, metadata=metadata)))
+
+            if not scored_docs:
+                return []
+
+            scored_docs.sort(key=lambda item: item[0], reverse=True)
+            positive_docs = [doc for score_value, doc in scored_docs if score_value > 0]
+            if positive_docs:
+                return positive_docs[:limit]
+            return [doc for _score_value, doc in scored_docs[:limit]]
+        except Exception as e:
+            logger.warning(f"Local fallback retrieval failed on {collection_name}: {e}")
+            return []
+        finally:
+            db.close()
 
     def batch_retrieve(self, queries: List[str], top_k: int = 5) -> Dict[str, Any]:
         """批量检索"""
