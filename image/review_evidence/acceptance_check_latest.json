@@ -1,0 +1,17 @@
+{
+  "knowledge": {
+    "url": "/knowledge",
+    "kb_cards": 8,
+    "kb_nav_items": 8,
+    "screenshot": "image/review_evidence/acceptance_knowledge_overview_latest.png"
+  },
+  "chat": {
+    "url": "/chat",
+    "ai_messages": 2,
+    "source_items": 3,
+    "suggestions_visible": false,
+    "suggestion_chip_count": 0,
+    "last_ai_preview": "抱歉，发生了错误: Connection error.",
+    "screenshot": "image/review_evidence/acceptance_chat_sources_suggestions_latest.png"
+  }
+}

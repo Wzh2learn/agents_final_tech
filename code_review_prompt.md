@@ -97,6 +97,25 @@
   - `node --check src/web/static/knowledge.js` ✅
   - `pytest tests/test_minimal_retrieval_eval.py -q` ✅ `1 passed`
 
+### 0.8 2026-02-21 第六轮执行增量（聊天前端修复 + Docker恢复 + UI复验）
+- `Docker恢复`：按 README 路径启动 Docker Desktop，并确认数据库容器可用。
+  - 候选容器检查结论：
+    - `pgvector_15432`：`vector_db` + 历史数据卷（与旧 `pgvector` 同卷）✅
+    - `pgvector`：`vector_db` + 5432 映射（README 默认）✅
+    - `pgvector-db`：`jinrong_agents`（非当前 `.env` 指向）⚠️
+- `聊天前端阻断修复`：修复 `/chat` 页面 `escapeJsString is not defined` 造成“发送失败”。
+  - 位置：`src/web/static/script.js` 新增 `escapeHtml/escapeJsString` 工具函数。
+- `建议触发链路修复`：前端“下一步建议”改为基于 AI 回答触发，保留会话上下文。
+  - 位置：`src/web/static/script.js` `sendMessage` finally 块。
+- `复验结果`（本地）：
+  - `/knowledge`：卡片 `8`、侧栏 `8`，与集合接口一致 ✅
+  - `/chat`：回答下方来源 `3` 条，建议 `3` 条，可见 ✅
+  - 证据：
+    - `image/review_evidence/acceptance_knowledge_overview_latest.png`
+    - `image/review_evidence/acceptance_chat_sources_suggestions_latest.png`
+    - `image/review_evidence/acceptance_check_latest.json`
+    - `image/review_evidence/acceptance_chat_check_latest.json`
+
 ---
 
 ## 1. 本轮必须修复（P0）
@@ -189,9 +208,9 @@
 - [x] 文档层级输出包含 chunk 唯一标识（前端可编辑）
 
 ### 3.3 联调与验证
-- [ ] `/api/knowledge/collections` 返回与 UI 一致（待手工页面复验）
-- [ ] `/api/knowledge/documents?collection_name=...` 数据隔离正确（待手工页面复验）
-- [ ] `/api/chat` 在向量失败场景仍返回来源（需联调复验）
+- [x] `/api/knowledge/collections` 返回与 UI 一致（已复验）
+- [x] `/api/knowledge/documents?collection_name=...` 数据隔离正确（已复验）
+- [x] `/api/chat` 在向量失败场景仍返回来源（已复验）
 - [x] `/api/chat/suggestions` 在无 API_KEY 场景仍有兜底输出（代码路径已具备）
 
 ---
@@ -203,7 +222,7 @@
 4. [x] 调整建议触发为“基于 AI 回答”。
 5. [x] 补齐知识库/文档 CRUD（含知识库增删改、文档重命名）。
 6. [x] 补齐“在线编辑 chunk 文本”接口与前端编辑面板。
-7. [ ] 完成手工回归与截图复验（`/knowledge`、`/chat`）。
+7. [x] 完成手工回归与截图复验（`/knowledge`、`/chat`）。
 
 ---
 

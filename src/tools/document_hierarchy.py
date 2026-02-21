@@ -59,6 +59,50 @@ def _normalize_parent_id(value: Any) -> Optional[str]:
     return text
 
 
+def _infer_parent_child_from_chunk_index(value: Any) -> Tuple[Optional[str], Optional[int]]:
+    if value is None:
+        return None, None
+    text = str(value).strip()
+    if not text or "_" not in text:
+        return None, None
+    left, right = text.split("_", 1)
+    if not left.isdigit():
+        return None, None
+    child_index: Optional[int] = None
+    if right.isdigit():
+        child_index = int(right)
+    return f"parent_{int(left)}", child_index
+
+
+def _determine_node_role(metadata: Dict[str, Any], parent_id: Optional[str]) -> Tuple[bool, Optional[str], Optional[int]]:
+    inferred_parent_id, inferred_child_index = _infer_parent_child_from_chunk_index(metadata.get("chunk_index"))
+    normalized_parent_id = parent_id or inferred_parent_id
+
+    chunk_type = str(metadata.get("chunk_type") or metadata.get("node_type") or "").strip().lower()
+    if "parent" in chunk_type:
+        return True, normalized_parent_id, inferred_child_index
+    if "child" in chunk_type:
+        return False, normalized_parent_id, inferred_child_index
+
+    if metadata.get("is_parent") is not None:
+        return _safe_bool(metadata.get("is_parent")), normalized_parent_id, inferred_child_index
+
+    if normalized_parent_id and (
+        metadata.get("child_index") is not None
+        or inferred_child_index is not None
+    ):
+        return False, normalized_parent_id, inferred_child_index
+
+    if (
+        normalized_parent_id is None
+        and metadata.get("child_index") is None
+        and inferred_child_index is None
+    ):
+        return True, normalized_parent_id, inferred_child_index
+
+    return False, normalized_parent_id, inferred_child_index
+
+
 def _clean_text(text: str) -> str:
     if not text:
         return ""
@@ -106,10 +150,17 @@ def _build_hierarchy_data(document_id: str, collection_name: str) -> Dict[str, A
 
         chunk_index = metadata.get("chunk_index")
         parent_id = _normalize_parent_id(metadata.get("parent_id"))
-        is_parent = _safe_bool(metadata.get("is_parent"))
+        is_parent, parent_id, inferred_child_index = _determine_node_role(metadata, parent_id)
 
         parent_order = _safe_int(parent_id or chunk_index)
-        child_order = _safe_int(metadata.get("child_index"), default=_safe_int(chunk_index))
+        child_order = _safe_int(
+            metadata.get("child_index"),
+            default=inferred_child_index if inferred_child_index is not None else _safe_int(chunk_index),
+        )
+        normalized_node_parent = parent_id or f"parent_{parent_order}"
+        metadata["parent_id"] = normalized_node_parent
+        metadata["is_parent"] = is_parent
+        metadata["chunk_type"] = "parent" if is_parent else "child"
 
         if is_parent:
             display_title = f"父块 {parent_order + 1}"
@@ -128,13 +179,13 @@ def _build_hierarchy_data(document_id: str, collection_name: str) -> Dict[str, A
         }
 
         if is_parent:
-            node_key = parent_id or f"parent_{_safe_int(chunk_index)}"
+            node_key = normalized_node_parent
             parent_nodes[node_key] = node
             root_nodes.append(node)
             continue
 
-        if parent_id:
-            children_by_parent[parent_id].append(node)
+        if normalized_node_parent:
+            children_by_parent[normalized_node_parent].append(node)
         else:
             orphan_children.append(node)
 
@@ -150,7 +201,12 @@ def _build_hierarchy_data(document_id: str, collection_name: str) -> Dict[str, A
                 "display_title": f"父块 {parent_order + 1}",
                 "content": "",
                 "summary": "",
-                "metadata": {"is_parent": True, "parent_id": parent_key, "virtual_parent": True},
+                "metadata": {
+                    "is_parent": True,
+                    "parent_id": parent_key,
+                    "virtual_parent": True,
+                    "chunk_type": "parent",
+                },
                 "children": [],
                 "order_key": (parent_order, -1),
             }

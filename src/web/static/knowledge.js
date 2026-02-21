@@ -714,6 +714,7 @@ function toBoolean(value) {
 
 function isParentNode(node) {
     const metadata = node?.metadata || {};
+    if (Array.isArray(node?.children) && node.children.length > 0) return true;
     if (toBoolean(metadata.virtual_parent)) return true;
     const chunkType = String(metadata.chunk_type || metadata.node_type || "").trim().toLowerCase();
     if (chunkType.includes("child")) return false;
@@ -723,7 +724,10 @@ function isParentNode(node) {
         const normalized = String(parentId).trim().toLowerCase();
         if (normalized && !["none", "null", "nan"].includes(normalized)) return false;
     }
-    return toBoolean(metadata.is_parent);
+    if (metadata.is_parent != null) return toBoolean(metadata.is_parent);
+    const hasChildIndex = metadata.child_index != null && String(metadata.child_index).trim() !== "";
+    if (!hasChildIndex) return true;
+    return false;
 }
 
 function nodeOrderKey(node, fallback = 0) {

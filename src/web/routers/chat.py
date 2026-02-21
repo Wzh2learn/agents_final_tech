@@ -61,6 +61,25 @@ def _normalize_source_item(item: dict, default_collection: str = "knowledge_base
     }
 
 
+async def _collect_chat_response(agent_service, message: str, conversation_id: str, role: str):
+    full_content = ""
+    sources = []
+
+    async for chunk in agent_service.stream_chat(message, conversation_id, role):
+        if isinstance(chunk, dict) and chunk.get("type") == "content":
+            full_content += chunk.get("content", "")
+        elif isinstance(chunk, dict) and chunk.get("type") == "trace":
+            trace_content = chunk.get("content", [])
+            if isinstance(trace_content, list):
+                for item in trace_content:
+                    if isinstance(item, dict):
+                        sources.append(_normalize_source_item(item))
+        elif isinstance(chunk, str):
+            full_content += chunk
+
+    return full_content, sources
+
+
 class ChatRequest(BaseModel):
     message: str
     conversation_id: str = "default"
@@ -193,30 +212,21 @@ async def chat(request: ChatRequest):
         
         # 非流式调用 - 等待完整响应 (带超时控制)
         full_content = ""
-        sources = []
-        
-        try:
-            async with asyncio.timeout(CHAT_TIMEOUT_SECONDS):
-                agent_service = await get_agent_service()
-                async for chunk in agent_service.stream_chat(
-                    request.message, conversation_id, role
-                ):
-                    if isinstance(chunk, dict) and chunk.get("type") == "content":
-                        full_content += chunk.get("content", "")
-                    elif isinstance(chunk, dict) and chunk.get("type") == "trace":
-                        # 捕获检索结果作为引用来源
-                        trace_content = chunk.get("content", [])
-                        if isinstance(trace_content, list):
-                            for item in trace_content:
-                                if isinstance(item, dict):
-                                    sources.append(_normalize_source_item(item))
-                    elif isinstance(chunk, str):
-                        full_content += chunk
+        sources = []        try:
+            full_content, sources = await asyncio.wait_for(
+                _collect_chat_response(
+                    agent_service=agent_service,
+                    message=request.message,
+                    conversation_id=conversation_id,
+                    role=role,
+                ),
+                timeout=CHAT_TIMEOUT_SECONDS,
+            )
         except asyncio.TimeoutError:
             logger.warning(f"聊天请求超时: conversation_id={conversation_id}")
             return {"status": "error", "message": f"请求超时，请稍后重试", "content": f"抱歉，请求超时了，请稍后重试"}
         
-        if not sources and needs_rag:
+        if not sources and message.strip():
             try:
                 rag_service = await get_rag_service()
                 sources = rag_service.smart_retrieve(message, top_k=None, max_results=5)

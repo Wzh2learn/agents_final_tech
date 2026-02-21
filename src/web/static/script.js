@@ -26,6 +26,24 @@ let wsReconnectAttempts = 0; // WebSocket 重连计数器
 
 // ==================== 工具函数 ====================
 
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function escapeJsString(value) {
+  return String(value ?? '')
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '\\"')
+    .replace(/\r/g, '')
+    .replace(/\n/g, '\\n');
+}
+
 /**
  * 统一的API调用封装 - 提供错误处理、日志记录和用户友好的错误提示
  * @param {string} url - API端点
@@ -789,6 +807,8 @@ async function sendMessage() {
     currentAiMessage = createAiMessagePlaceholder();
     scrollToBottom();
     
+    let aiResponseForSuggestions = '';
+
     try {
         const endpoint = currentSessionType === 'collaborative' ? '/api/collaboration/chat' : '/api/chat';
         const body = {
@@ -817,6 +837,7 @@ async function sendMessage() {
             if (currentAiMessage) {
                 currentAiMessage.innerHTML = parseMarkdown(data.content || '');
             }
+            aiResponseForSuggestions = (data.content || '').trim();
             scrollToBottom();
             
             // 显示引用来源
@@ -849,10 +870,15 @@ async function sendMessage() {
         isGenerating = false;
         currentAiMessage = null;
         
-        // 获取下一步建议
+        // 获取下一步建议（基于 AI 回答）
         if (content) {
-            conversationHistory.push(content);
-            fetchSuggestions(content);
+            conversationHistory.push(`用户: ${content}`);
+        }
+        if (aiResponseForSuggestions) {
+            conversationHistory.push(`助手: ${aiResponseForSuggestions}`);
+            fetchSuggestions(aiResponseForSuggestions);
+        } else {
+            hideSuggestions();
         }
     }
 }
