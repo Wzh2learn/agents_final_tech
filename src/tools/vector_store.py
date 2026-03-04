@@ -3,10 +3,12 @@
 支持 PGVector 向量数据库 + 硅基流动 (SiliconFlow) Embedding API
 """
 import os
+import re
 from typing import Optional, Union, List
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
 from utils.config_loader import get_config
+from utils.openai_network import get_openai_sync_network_kwargs
 
 # 全局变量
 _vector_store = None
@@ -68,7 +70,8 @@ class SiliconFlowEmbeddings(Embeddings):
             from openai import OpenAI
             self.client = OpenAI(
                 api_key=self.api_key,
-                base_url=self.base_url
+                base_url=self.base_url,
+                **get_openai_sync_network_kwargs()
             )
         except ImportError:
             raise RuntimeError(
@@ -196,12 +199,22 @@ def check_vector_store_setup() -> str:
     """
     检查向量存储设置状态
     """
+    connection_string = __get_connection_string()
+    password = (
+        os.getenv("POSTGRES_PASSWORD")
+        or os.getenv("PGPASSWORD")
+        or ""
+    )
+    if password:
+        masked_connection = connection_string.replace(password, "****")
+    else:
+        # Fallback: mask password-like segment in URL
+        masked_connection = re.sub(r":([^:@/]+)@", ":****@", connection_string, count=1)
+
     status = {
         "PGVector": "已安装" if _vector_store else "未安装",
         "SiliconFlow Embedding": "已配置" if _embeddings_client else "未配置",
-        "数据库配置": __get_connection_string().replace(
-            os.getenv("POSTGRES_PASSWORD", ""), "****"
-        ),
+        "数据库配置": masked_connection,
         "模型": "Qwen/Qwen3-Embedding-0.6B",
         "安装命令": [
             "pip install langchain-postgres",
@@ -209,7 +222,7 @@ def check_vector_store_setup() -> str:
         ]
     }
 
-    result = "📊 向量存储状态检查\n"
+    result = "向量存储状态检查\n"
     result += "=" * 40 + "\n"
     for key, value in status.items():
         if isinstance(value, list):

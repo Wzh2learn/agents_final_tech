@@ -6,7 +6,7 @@
     "enabled": true,
     "type": "postgresql",
     "host": "localhost",
-    "port": 5432,
+    "port": 15432,
     "database": "vector_db",
     "user": "postgres",
     "password": "postgres",
@@ -44,6 +44,10 @@
     "timeout": 600,
     "thinking": "disabled",
     "notes": "对话默认使用 DeepSeek V3.2"
+  },
+  "network": {
+    "openai_trust_env": false,
+    "notes": "OpenAI/SiliconFlow 客户端是否继承系统代理，默认 false（直连）"
   },
   "rerank": {
     "enabled": true,

@@ -3,7 +3,7 @@
 ## 系统要求
 
 - Python 3.11+
-- PostgreSQL 14+ (with pgvector)
+- Docker Desktop（推荐）
 - 8GB+ RAM
 - 20GB 存储空间
 
@@ -36,17 +36,35 @@ pip install -r requirements.txt
 ```env
 SILICONFLOW_API_KEY=your_api_key_here
 SILICONFLOW_BASE_URL=https://api.siliconflow.cn/v1
-DATABASE_URL=postgresql://user:pass@localhost:5432/knowledge_base
+OPENAI_TRUST_ENV=false
+PGDATABASE_URL=postgresql://postgres:your_password_here@localhost:15432/vector_db
 ```
 
-### 4. 初始化数据库
+### 4. 启动 PGVector 容器
+
+```bash
+docker run -d --name pgvector_15432 \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=vector_db \
+  -p 15432:5432 \
+  ankane/pgvector:latest
+```
+
+容器已存在时直接执行：
+
+```bash
+docker start pgvector_15432
+```
+
+### 5. 初始化数据库
 
 ```bash
 python scripts/init_pgvector_db.py
 python scripts/init_collaboration_db.py
 ```
 
-### 5. 启动服务
+### 6. 启动服务
 
 ```bash
 # Windows
@@ -90,9 +108,10 @@ netstat -ano | findstr :5000  # Windows
 ```
 
 ### 数据库连接失败
-1. 确认 PostgreSQL 正在运行
-2. 检查 `.env` 配置
-3. 确认 pgvector 扩展已安装
+1. 确认 `pgvector_15432` 容器正在运行
+2. 使用 `docker logs pgvector_15432` 检查数据库是否 ready
+3. 检查 `.env` 的 `PGDATABASE_URL` 是否为 `localhost:15432/vector_db`
+4. 重新执行初始化脚本
 
 ### 依赖安装失败
 ```bash

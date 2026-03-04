@@ -13,6 +13,7 @@ from pydantic import BaseModel, field_validator
 from biz.agent_service import get_agent_service
 from biz.rag_service import get_rag_service
 from storage.thread_settings import get_thread_settings_service
+from utils.openai_network import get_chat_openai_network_kwargs
 from utils.constants import (
     is_valid_role, get_role_key, get_role_name, get_role_greeting
 )
@@ -344,7 +345,8 @@ async def get_suggestions(request: SuggestionsRequest):
             api_key=api_key,
             base_url=base_url,
             temperature=0.7,
-            max_tokens=200
+            max_tokens=200,
+            **get_chat_openai_network_kwargs()
         )
         
         context_str = ""

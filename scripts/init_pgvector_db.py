@@ -4,6 +4,7 @@
 """
 import sys
 import os
+import builtins
 
 # 添加项目路径
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
@@ -13,6 +14,33 @@ from storage.database.db import get_engine
 from tools.vector_store import get_embeddings, get_vector_store, check_vector_store_setup
 from tools.document_loader import load_document
 from langchain_core.documents import Document
+
+
+def _setup_console_output() -> None:
+    """Normalize status symbols for Windows GBK consoles."""
+    try:
+        if hasattr(sys.stdout, "reconfigure"):
+            sys.stdout.reconfigure(errors="replace")
+        if hasattr(sys.stderr, "reconfigure"):
+            sys.stderr.reconfigure(errors="replace")
+    except Exception:
+        pass
+
+
+def _safe_print(*args, **kwargs) -> None:
+    normalized = []
+    for arg in args:
+        text = str(arg)
+        text = text.replace("✓", "[OK]")
+        text = text.replace("✗", "[ERROR]")
+        text = text.replace("⚠️", "[WARN]")
+        text = text.replace("📊", "[INFO]")
+        normalized.append(text)
+    builtins.print(*normalized, **kwargs)
+
+
+_setup_console_output()
+print = _safe_print
 
 
 def create_pgvector_extension():

@@ -1,5 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
+chcp 65001 >nul
 
 echo ========================================
 echo 启动建账规则助手 Web 服务
@@ -12,19 +13,19 @@ set PYTHONPATH=%PROJECT_ROOT%;%PROJECT_ROOT%\src
 
 REM 检查 Docker 容器状态
 echo [INFO] 检查 Docker 数据库容器...
-docker ps --filter "name=pgvector" --format "{{.Names}}" | findstr "pgvector" >nul 2>&1
+docker ps --filter "name=pgvector_15432" --format "{{.Names}}" | findstr "pgvector_15432" >nul 2>&1
 if errorlevel 1 (
-    echo [WARNING] pgvector 容器未运行，正在启动...
-    docker start pgvector 2>nul || (
-        echo [ERROR] 启动 pgvector 容器失败，请先运行：
-        echo     docker run -d --name pgvector -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=vector_db -p 5432:5432 ankane/pgvector:latest
+    echo [WARNING] pgvector_15432 容器未运行，正在启动...
+    docker start pgvector_15432 2>nul || (
+        echo [ERROR] 启动 pgvector_15432 容器失败，请先运行：
+        echo     docker run -d --name pgvector_15432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=vector_db -p 15432:5432 ankane/pgvector:latest
         pause
         exit /b 1
     )
-    echo [INFO] pgvector 容器已启动
+    echo [INFO] pgvector_15432 容器已启动
     timeout /t 3 /nobreak >nul
 ) else (
-    echo [INFO] pgvector 容器运行正常
+    echo [INFO] pgvector_15432 容器运行正常
 )
 
 REM 激活虚拟环境

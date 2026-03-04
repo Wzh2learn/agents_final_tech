@@ -9,6 +9,7 @@ from langchain.tools import tool
 from langchain_core.documents import Document
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
+from utils.openai_network import get_chat_openai_network_kwargs
 
 
 def __parse_documents_input(documents_input: str) -> List[dict]:
@@ -101,6 +102,7 @@ def rerank_documents(
             base_url=base_url,
             temperature=0.1,  # 低温度以获得稳定排序
             max_tokens=1000,
+            **get_chat_openai_network_kwargs()
         )
 
         # 构建提示词

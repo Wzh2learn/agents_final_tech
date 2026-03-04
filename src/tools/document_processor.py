@@ -10,6 +10,7 @@ from langchain.tools import tool
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_openai import ChatOpenAI
 from utils.runtime_ctx import Context, default_headers
+from utils.openai_network import get_chat_openai_network_kwargs, get_thinking_kwargs
 
 
 from tools.document_loader import load_document
@@ -24,7 +25,7 @@ def _read_document(file_path: str) -> str:
         return f"读取文件失败：{str(e)}"
 
 
-def _call_llm_with_thinking(ctx: Context, messages: list, config: dict) -> str:
+def _call_llm(ctx: Context, messages: list, config: dict) -> str:
     """
     调用大语言模型（支持深度思考）
     """
@@ -35,19 +36,21 @@ def _call_llm_with_thinking(ctx: Context, messages: list, config: dict) -> str:
     api_key = os.getenv(llm_cfg.get("api_key_env", "SILICONFLOW_API_KEY"))
     base_url = os.getenv(llm_cfg.get("base_url_env", "SILICONFLOW_BASE_URL"))
 
+    llm_kwargs = {
+        "model": llm_cfg.get("model", "deepseek-ai/DeepSeek-V3.2"),
+        "api_key": api_key,
+        "base_url": base_url,
+        "streaming": True,
+        "temperature": config.get("temperature", llm_cfg.get("temperature", 0.1)),
+        "max_completion_tokens": config.get("max_completion_tokens", llm_cfg.get("max_tokens", 65501)),
+        "default_headers": default_headers(ctx) if ctx else {},
+    }
+    thinking_type = config.get("thinking", llm_cfg.get("thinking", "disabled"))
+    llm_kwargs.update(get_thinking_kwargs(thinking_type))
+    llm_kwargs.update(get_chat_openai_network_kwargs())
+
     llm = ChatOpenAI(
-        model=llm_cfg.get("model", "deepseek-ai/DeepSeek-V3.2"),
-        api_key=api_key,
-        base_url=base_url,
-        streaming=True,
-        temperature=config.get("temperature", llm_cfg.get("temperature", 0.1)),
-        max_completion_tokens=config.get("max_completion_tokens", llm_cfg.get("max_tokens", 65501)),
-        extra_body={
-            "thinking": {
-                "type": config.get("thinking", llm_cfg.get("thinking", "disabled"))
-            }
-        },
-        default_headers=default_headers(ctx) if ctx else {}
+        **llm_kwargs
     )
 
     full_response = ""
@@ -176,7 +179,7 @@ def document_processor(
     ]
 
     try:
-        result = _call_llm_with_thinking(ctx, messages, {})
+        result = _call_llm(ctx, messages, {})
         return result
     except Exception as e:
         return f"文档处理失败：{str(e)}"
@@ -227,7 +230,7 @@ def validate_rules(
     ]
 
     try:
-        result = _call_llm_with_thinking(ctx, messages, {"temperature": 0.2})
+        result = _call_llm(ctx, messages, {"temperature": 0.2})
         return result
     except Exception as e:
         return f"规则校验失败：{str(e)}"

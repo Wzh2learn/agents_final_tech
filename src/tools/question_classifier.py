@@ -6,6 +6,7 @@ import json
 from langchain.tools import tool
 from langchain_openai import ChatOpenAI
 import os
+from utils.openai_network import get_chat_openai_network_kwargs, get_thinking_kwargs
 
 
 def _get_llm():
@@ -17,19 +18,17 @@ def _get_llm():
     api_key = os.getenv(llm_cfg.get("api_key_env", "SILICONFLOW_API_KEY"))
     base_url = os.getenv(llm_cfg.get("base_url_env", "SILICONFLOW_BASE_URL"))
 
-    llm = ChatOpenAI(
-        model=llm_cfg.get("model", "deepseek-ai/DeepSeek-V3.2"),
-        api_key=api_key,
-        base_url=base_url,
-        temperature=0.1,  # 低温度确保分类稳定
-        timeout=60,
-        streaming=True,  # 必须为True
-        extra_body={
-            "thinking": {
-                "type": "disabled"  # 关闭思考模式
-            }
-        }
-    )
+    llm_kwargs = {
+        "model": llm_cfg.get("model", "deepseek-ai/DeepSeek-V3.2"),
+        "api_key": api_key,
+        "base_url": base_url,
+        "temperature": 0.1,  # 低温度确保分类稳定
+        "timeout": 60,
+        "streaming": True,  # 必须为True
+    }
+    llm_kwargs.update(get_thinking_kwargs("disabled"))
+    llm_kwargs.update(get_chat_openai_network_kwargs())
+    llm = ChatOpenAI(**llm_kwargs)
     return llm
 
 

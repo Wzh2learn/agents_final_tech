@@ -10,6 +10,7 @@ from typing import List, Dict, Any
 from langchain.tools import tool
 from langchain_openai import ChatOpenAI
 import os
+from utils.openai_network import get_chat_openai_network_kwargs
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,8 @@ def _get_llm():
         api_key=api_key,
         base_url=base_url,
         temperature=0.3,
-        request_timeout=30  # 30秒超时
+        request_timeout=30,  # 30秒超时
+        **get_chat_openai_network_kwargs()
     )
 
 @tool

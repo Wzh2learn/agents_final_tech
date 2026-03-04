@@ -89,6 +89,7 @@ JinRongAgents/
 *   **[📚 开发者指南 (docs/DEVELOPER_GUIDE.md)](docs/DEVELOPER_GUIDE.md)** - 项目架构、开发规范、新功能添加指南
 *   **[🔌 API 参考文档 (docs/API_REFERENCE.md)](docs/API_REFERENCE.md)** - 完整的 REST API 接口文档
 *   **[🚀 部署指南 (docs/DEPLOYMENT.md)](docs/DEPLOYMENT.md)** - 环境配置、数据库初始化、部署步骤
+*   **[🧭 业务流程与工作量评估 (docs/PROJECT_BUSINESS_FLOW_WORKLOAD_REPORT.md)](docs/PROJECT_BUSINESS_FLOW_WORKLOAD_REPORT.md)** - 对外汇报用流程、模块和工时评估
 *   **[🛠️ 工具使用说明 (TOOLS_USAGE.md)](TOOLS_USAGE.md)** - 所有工具的用途和调用路径
 
 ## 🚀 5分钟快速启动
@@ -125,10 +126,11 @@ python src/main.py -m http -p 5000
    ```bash
    # 必需环境变量
    SILICONFLOW_API_KEY=your_siliconflow_api_key
-   PGDATABASE_URL=postgresql://user:password@localhost:5432/jinrong_agents
+   PGDATABASE_URL=postgresql://postgres:postgres@localhost:15432/vector_db
 
    # 可选环境变量
    SILICONFLOW_BASE_URL=https://api.siliconflow.cn/v1
+   OPENAI_TRUST_ENV=false  # 推荐：不继承系统代理
    JWT_SECRET_KEY=your_jwt_secret
    CORS_ORIGINS=http://localhost:5000,http://localhost:3000
    MEMORY_BACKEND=postgres  # 或 memory
@@ -137,13 +139,13 @@ python src/main.py -m http -p 5000
 3. **启动 Docker 数据库容器**（必须步骤）
    ```bash
    # 启动 PostgreSQL + PGVector 容器（数据会持久化）
-   docker run -d --name pgvector -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=vector_db -p 5432:5432 ankane/pgvector:latest
+   docker run -d --name pgvector_15432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=vector_db -p 15432:5432 ankane/pgvector:latest
    
    # 等待数据库就绪（约5-10秒）
-   docker logs pgvector | findstr "ready"
+   docker logs pgvector_15432 | findstr "ready"
    ```
    
-   > **⚠️ 重要**：如果容器已存在，直接启动即可：`docker start pgvector`
+   > **⚠️ 重要**：如果容器已存在，直接启动即可：`docker start pgvector_15432`
    > 数据存储在 Docker volume 中，重启容器不会丢失。
 
 4. **初始化数据库**
@@ -158,7 +160,7 @@ python src/main.py -m http -p 5000
    python scripts/populate_knowledge_base.py
    ```
 
-4. **启动服务（方式1：一键启动 - 推荐）**
+5. **启动服务（方式1：一键启动 - 推荐）**
    ```bash
    # Windows 一键启动（自动检查Docker+虚拟环境+启动后端）
    run.bat
@@ -169,17 +171,17 @@ python src/main.py -m http -p 5000
    - 检查 SILICONFLOW_API_KEY 配置
    - 启动 Web 服务（端口 5000）和 WebSocket（端口 5001）
 
-5. **启动服务（方式2：手动启动）**
+6. **启动服务（方式2：手动启动）**
    ```bash
    # 启动 Docker 数据库
-   docker start pgvector
+   docker start pgvector_15432
    
    # 激活虚拟环境并启动
    venv\Scripts\activate
    python src/main.py -m http -p 5000
    ```
 
-6. **访问系统**
+7. **访问系统**
    - 主页: http://localhost:5000
    - 聊天界面: http://localhost:5000/chat
    - 知识库管理: http://localhost:5000/knowledge
@@ -190,6 +192,8 @@ python src/main.py -m http -p 5000
 在启动前验证所有配置是否正确：
 ```bash
 python scripts/verify_config.py
+# 验证默认模型为非思考模式（llm.thinking=disabled）
+python scripts/test_non_thinking_mode.py
 ```
 
 ## ✨ 关键特性
@@ -297,13 +301,14 @@ python scripts/verify_config.py
 **必需**:
 ```bash
 SILICONFLOW_API_KEY=your_siliconflow_api_key
-PGDATABASE_URL=postgresql://user:password@localhost:5432/jinrong_agents
+PGDATABASE_URL=postgresql://postgres:postgres@localhost:15432/vector_db
 ```
 
 **可选**:
 ```bash
 # SiliconFlow API配置
 SILICONFLOW_BASE_URL=https://api.siliconflow.cn/v1
+OPENAI_TRUST_ENV=false  # 推荐：不继承系统代理
 
 # JWT认证配置
 JWT_SECRET_KEY=your_random_secret_key
@@ -690,32 +695,34 @@ def my_tool(query: str, top_k: int = 5) -> str:
 
 **错误信息**:
 ```
-connection to server at "localhost" (::1), port 5432 failed
+connection to server at "localhost" (::1), port 15432 failed
 ```
 
 **解决方法**:
-1. 检查PostgreSQL服务是否启动
+1. 检查 Docker 容器是否启动
    ```bash
-   # Windows
-   net start postgresql-x64-14
-
-   # Linux/Mac
-   sudo systemctl status postgresql
+   docker ps --filter "name=pgvector_15432"
+   docker start pgvector_15432
    ```
 
-2. 检查 `.env` 或 `config/app_config.json` 中的连接信息
+2. 检查容器日志是否已就绪
+   ```bash
+   docker logs pgvector_15432 | findstr "ready"
+   ```
 
-3. 确认数据库已创建
+3. 检查 `.env` 或 `config/app_config.json` 中的连接信息（端口应为 `15432`）
+
+4. 确认数据库已创建
    ```sql
-   CREATE DATABASE jinrong_agents;
+   CREATE DATABASE vector_db;
    ```
 
-4. 安装PGVector扩展
+5. 安装PGVector扩展
    ```sql
    CREATE EXTENSION vector;
    ```
 
-5. 运行初始化脚本
+6. 运行初始化脚本
    ```bash
    python scripts/init_pgvector_db.py
    python scripts/init_collaboration_db.py
@@ -756,6 +763,37 @@ Import "langchain_postgres" could not be resolved
 ```
 
 **说明**: 这是LSP误报，不影响实际运行。这些包已在 `requirements.txt` 中声明并正确安装。
+
+### Q5: Windows 终端中文显示乱码/脚本输出异常
+
+**症状**:
+- 终端显示中文异常（如乱码或 `????`）
+- 初始化脚本输出因编码报错
+
+**解决方法**:
+1. 使用 UTF-8 代码页启动终端
+   ```powershell
+   chcp 65001
+   ```
+2. 通过 `run.bat` 启动（脚本已内置 UTF-8 设置）
+3. 确认文件编码为 UTF-8（推荐在 IDE 中统一保存为 UTF-8）
+
+### Q6: SiliconFlow API 连接失败（Connection error）
+
+**症状**:
+- 报错包含 `APIConnectionError: Connection error`
+- 或 `EOF occurred in violation of protocol`
+
+**常见原因**:
+- 系统代理（Windows 代理/TUN）劫持了 Python 请求链路
+
+**解决方法**:
+1. 在 `.env` 中设置：
+   ```bash
+   OPENAI_TRUST_ENV=false
+   ```
+2. 重启服务后重试（默认走直连，不继承系统代理）
+3. 如果必须走代理，确保代理地址使用 `http://127.0.0.1:端口` 格式
 
 **验证方法**:
 ```bash

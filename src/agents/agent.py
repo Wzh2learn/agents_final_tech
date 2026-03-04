@@ -10,7 +10,6 @@
 """
 import os
 import json
-import httpx
 import warnings
 from typing import Annotated
 from langgraph.prebuilt import create_react_agent
@@ -19,6 +18,7 @@ from langgraph.graph import MessagesState
 from langgraph.graph.message import add_messages
 from langchain_core.messages import AnyMessage
 from utils.runtime_ctx import default_headers
+from utils.openai_network import get_chat_openai_network_kwargs, get_thinking_kwargs
 from storage.memory.memory_saver import get_memory_saver
 
 # 抑制 create_react_agent 弃用警告
@@ -73,7 +73,7 @@ def build_agent(ctx=None):
     base_url = os.getenv("SILICONFLOW_BASE_URL", "https://api.siliconflow.cn/v1")
 
     thinking_type = cfg['config'].get('thinking', 'disabled')
-    
+
     llm_kwargs = {
         "model": cfg['config'].get("model", "deepseek-ai/DeepSeek-V3"),
         "api_key": api_key,
@@ -85,13 +85,8 @@ def build_agent(ctx=None):
         "default_headers": default_headers(ctx) if ctx else {},
         "max_retries": 2
     }
-    
-    if thinking_type != 'disabled':
-        llm_kwargs["extra_body"] = {
-            "thinking": {
-                "type": thinking_type
-            }
-        }
+    llm_kwargs.update(get_thinking_kwargs(thinking_type))
+    llm_kwargs.update(get_chat_openai_network_kwargs())
 
     llm = ChatOpenAI(**llm_kwargs)
 
