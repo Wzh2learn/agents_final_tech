@@ -10,8 +10,17 @@ OpenCode 运行在开发机，使用 GB10 上的本地 Qwen3-14B OpenAI-compatib
 - 14B 服务：`http://127.0.0.1:8004/v1`
 - MCP：`knowledge_search`、`knowledge_list_collections`、`knowledge_get_source`
 - OpenCode：`gb10/qwen3-14b` 能返回模型结果
+- 14B 上下文窗口：`16384`；8K 会导致项目默认提示词超出限制
 
 ## 启动方式
+
+如果模型服务未运行，先启动 14B 服务：
+
+```bash
+bash scripts/start_llamacpp_model.sh \
+  ~/wzh/models/gguf/qwen3-14b/Qwen3-14B-Q4_K_M.gguf \
+  8004 /tmp/qwen3-14b-8004.log 16384
+```
 
 在 VS Code Remote-SSH 连接开发机后的交互式终端执行：
 

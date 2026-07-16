@@ -9,7 +9,7 @@ fi
 MODEL_PATH="$1"
 PORT="$2"
 LOG_PATH="$3"
-CTX_SIZE="${4:-8192}"
+CTX_SIZE="${4:-${LLAMA_CTX_SIZE:-16384}}"
 LLAMA_SERVER="${LLAMA_SERVER:-$HOME/.lmstudio/extensions/backends/llama.cpp-linux-arm64-nvidia-cuda13-2.16.0/llama-server}"
 
 if [[ ! -x "$LLAMA_SERVER" ]]; then
