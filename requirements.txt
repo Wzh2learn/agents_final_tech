@@ -57,6 +57,7 @@ Mako==1.3.10
 MarkupSafe==3.0.3
 mccabe==0.7.0
 more-itertools==10.8.0
+mcp==1.28.1
 numpy==2.4.0
 openai==2.12.0
 opencv-python==4.8.0.74
