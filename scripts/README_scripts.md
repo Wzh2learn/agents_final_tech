@@ -21,6 +21,26 @@ bash scripts/start_mcp_server.sh
 
 建议后续由 Codex 生成以下脚本。
 
+## OpenCode + GB10
+
+在开发机的 VS Code Remote-SSH 终端中运行 OpenCode：
+
+```bash
+cd ~/wzh/projects/agents_final_tech
+export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
+bash scripts/run_opencode_gb10.sh
+```
+
+执行一次性任务时：
+
+```bash
+bash scripts/run_opencode_gb10.sh run --pure --auto --model gb10/qwen3-14b 'Reply with exactly OK.'
+```
+
+脚本默认设置 `OPENCODE_DISABLE_MODELS_FETCH=1`，避免开发机无法访问
+`models.dev` 时 OpenCode 启动等待网络；`JINRONG_MCP_PYTHON` 默认复用
+`wzh_vllm` 环境。OpenCode 应在 VS Code Remote-SSH 的交互式终端中运行。
+
 ## 1. check_gpu.sh
 
 用途：
