@@ -6,6 +6,7 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "Local GB10",
       "options": {
+        "apiKey": "local",
         "baseURL": "http://127.0.0.1:8004/v1",
         "timeout": 600000
       },
