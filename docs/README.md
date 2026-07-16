@@ -11,6 +11,7 @@
 1. **[部署指南 (DEPLOYMENT.md)](DEPLOYMENT.md)** - 从零开始部署项目：环境配置、数据库初始化、启动服务
 2. **[开发者指南 (DEVELOPER_GUIDE.md)](DEVELOPER_GUIDE.md)** - 项目架构、开发规范、添加新功能、测试指南
 3. **[API 参考 (API_REFERENCE.md)](API_REFERENCE.md)** - 完整的 REST API 接口文档
+4. **[OpenCode 与现有 RAG MCP 实施方案](09_OpenCode与现有RAG_MCP实施方案.md)** - M1/M2 多智能体、MCP 与 GB10 模型服务的正式路线
 
 ### 🛠️ 开发参考
 

@@ -1,0 +1,28 @@
+{
+  "knowledge_nav_count": 8,
+  "overview_entry_exists": true,
+  "traceability_controls_count": 0,
+  "first_collection": {
+    "name": "📚",
+    "docs_stat": "11",
+    "chunks_stat": "100",
+    "docs_list_count": 10,
+    "title": "knowledge_base - 文档"
+  },
+  "second_collection": {
+    "name": "📚",
+    "docs_stat": "1",
+    "chunks_stat": "9",
+    "docs_list_count": 1,
+    "title": "估值数据催收规则 - 文档"
+  },
+  "collection_switch_changes": true,
+  "document_detail": {
+    "segment_cards": 9,
+    "parent_badges": 0,
+    "child_badges": 0,
+    "expandable_details": 9,
+    "editable_chunks": 9,
+    "edit_panel_exists": true
+  }
+}

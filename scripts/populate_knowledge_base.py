@@ -5,7 +5,7 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from biz.rag_service import get_rag_service
+from biz.rag_service import get_rag_service, get_rag_service_sync
 from langchain_core.documents import Document
 
 # 导入分割器
@@ -18,7 +18,7 @@ def populate_knowledge_base():
     print("添加示例文档到知识库 (通过 RAGService)")
     print("=" * 60)
 
-    rag_service = get_rag_service()
+    rag_service = get_rag_service_sync()
 
     # 查找示例文档
     workspace_path = os.getenv("WORKSPACE_PATH", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

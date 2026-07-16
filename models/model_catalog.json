@@ -1,0 +1,113 @@
+{
+  "storage_root": "~/wzh/models",
+  "models": {
+    "qwen3-4b-gguf": {
+      "repo_id": "Qwen/Qwen3-4B-GGUF",
+      "include": ["Qwen3-4B-Q4_K_M.gguf"],
+      "target": "gguf/qwen3-4b",
+      "format": "gguf",
+      "task": ["m1_rule_extract", "m2_rag_qa"],
+      "priority": "p0",
+      "notes": "Downloaded on the development machine; lightweight latency and JSON baseline."
+    },
+    "qwen3-8b-gguf": {
+      "repo_id": "Qwen/Qwen3-8B-GGUF",
+      "include": ["*Q4_K_M.gguf"],
+      "target": "gguf/qwen3-8b",
+      "format": "gguf",
+      "task": ["m1_rule_extract", "m2_rag_qa"],
+      "priority": "p0",
+      "notes": "Main small-model baseline for M1/M2."
+    },
+    "qwen3-14b-gguf": {
+      "repo_id": "Qwen/Qwen3-14B-GGUF",
+      "include": ["*Q4_K_M.gguf"],
+      "target": "gguf/qwen3-14b",
+      "format": "gguf",
+      "task": ["m1_rule_extract", "m2_rag_qa"],
+      "priority": "p1",
+      "notes": "Quality/cost candidate; download after the 8B baseline is stable."
+    },
+    "minicpm5-1b": {
+      "repo_id": "openbmb/MiniCPM5-1B",
+      "include": ["*.json", "*.model", "*.safetensors", "*.bin", "*.txt", "*.py"],
+      "target": "hf/minicpm5-1b",
+      "format": "safetensors",
+      "task": ["m1_rule_extract", "m2_rag_qa", "tool_use_boundary"],
+      "priority": "p1",
+      "notes": "Ultra-light text model; validate license and runtime before serving."
+    },
+    "paddleocr-vl-1.6": {
+      "repo_id": "PaddlePaddle/PaddleOCR-VL-1.6",
+      "include": ["*.json", "*.safetensors", "*.bin", "*.txt", "*.py", "*.model", "*.yaml", "*.jinja", "*.md"],
+      "target": "hf/paddleocr-vl-1.6",
+      "format": "safetensors",
+      "task": ["ocr", "document_parsing", "m1_rule_extract"],
+      "priority": "p1",
+      "notes": "Document parsing/OCR model for PDFs, scanned pages, tables, formulas, and layout."
+    },
+    "minicpm-v-4.6": {
+      "repo_id": "openbmb/MiniCPM-V-4.6",
+      "include": ["*.json", "*.safetensors", "*.bin", "*.txt", "*.py", "*.model", "*.jinja", "*.md"],
+      "target": "hf/minicpm-v-4.6",
+      "format": "safetensors",
+      "task": ["vision_language", "ocr", "document_qa", "m1_rule_extract"],
+      "priority": "p1",
+      "notes": "Lightweight VLM comparison for OCR, document QA, and table-image understanding."
+    },
+    "bge-m3": {
+      "repo_id": "BAAI/bge-m3",
+      "include": ["*.json", "*.safetensors", "*.bin", "*.txt", "*.model"],
+      "target": "hf/bge-m3",
+      "format": "safetensors",
+      "task": ["embedding", "m2_retrieval"],
+      "priority": "p1",
+      "notes": "Dense/sparse/multi-vector retrieval baseline."
+    },
+    "bge-reranker-v2-m3": {
+      "repo_id": "BAAI/bge-reranker-v2-m3",
+      "include": ["*.json", "*.safetensors", "*.bin", "*.txt", "*.model"],
+      "target": "hf/bge-reranker-v2-m3",
+      "format": "safetensors",
+      "task": ["rerank", "m2_retrieval"],
+      "priority": "p1",
+      "notes": "Rerank baseline for source hit-rate experiments."
+    },
+    "qwen3-embedding-0.6b": {
+      "repo_id": "Qwen/Qwen3-Embedding-0.6B",
+      "include": ["*.json", "*.safetensors", "*.bin", "*.txt", "*.model"],
+      "target": "hf/qwen3-embedding-0.6b",
+      "format": "safetensors",
+      "task": ["embedding", "m2_retrieval"],
+      "priority": "p1",
+      "notes": "Lightweight embedding baseline."
+    },
+    "qwen3-reranker-0.6b": {
+      "repo_id": "Qwen/Qwen3-Reranker-0.6B",
+      "include": ["*.json", "*.safetensors", "*.bin", "*.txt", "*.model", "*.jinja", "*.md"],
+      "target": "hf/qwen3-reranker-0.6b",
+      "format": "safetensors",
+      "task": ["rerank", "m2_retrieval"],
+      "priority": "p1",
+      "notes": "Lightweight Qwen reranker paired with Qwen3-Embedding-0.6B."
+    },
+    "qwen3-vl-8b-instruct": {
+      "repo_id": "Qwen/Qwen3-VL-8B-Instruct",
+      "include": ["*.json", "*.safetensors", "*.bin", "*.txt", "*.py", "*.model", "*.jinja"],
+      "target": "hf/qwen3-vl-8b-instruct",
+      "format": "safetensors",
+      "task": ["vision_language", "ocr", "document_qa", "m1_rule_extract"],
+      "priority": "p2",
+      "notes": "General-purpose 8B vision-language comparison for document and image understanding."
+    },
+    "tabfm": {
+      "repo_id": "google/tabfm-1.0.0-pytorch",
+      "include": ["*.json", "*.safetensors", "*.txt", "*.py", "*.pkl", "*.pt"],
+      "target": "hf/tabfm-1.0.0-pytorch",
+      "format": "pytorch",
+      "task": ["tabular_classification", "tabular_regression", "research"],
+      "priority": "p1",
+      "notes": "Separate Python 3.11 experiment environment recommended; do not install into wzh_vllm first."
+    }
+  }
+}

@@ -147,8 +147,9 @@ def split_text_by_markdown_structure(
         result += "=" * 50 + "\n\n"
 
         for i, chunk in enumerate(chunks, 1):
-            result += f"--- 块 {i} ({len(chunk)} 字符) ---\n"
-            result += f"{chunk}\n\n"
+            chunk_text = chunk.page_content if hasattr(chunk, 'page_content') else str(chunk)
+            result += f"--- 块 {i} ({len(chunk_text)} 字符) ---\n"
+            result += f"{chunk_text}\n\n"
 
         return result
 

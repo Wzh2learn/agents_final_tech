@@ -1,0 +1,9 @@
+{
+  "chat_input_exists": true,
+  "send_btn_exists": true,
+  "suggestions_container_exists": true,
+  "sources_blocks_after_chat": 0,
+  "no_sources_hint_count": 0,
+  "suggestions_visible_after_chat": 1,
+  "suggestion_chip_count": 3
+}

@@ -98,12 +98,13 @@ class RAGService:
         """
         target_collection = collection_name or self.collection_name
         # 1. 加载
-        content = load_document.invoke({"file_path": file_path})
+        doc = load_document.invoke({"file_path": file_path})
+        content = doc.page_content if hasattr(doc, 'page_content') else str(doc)
         
         # 2. 分割
         if use_hierarchical:
             # 使用父子分段模式
-            chunks_docs = hierarchical_split(content, parent_chunk_size=2000, child_chunk_size=500)
+            chunks_docs = hierarchical_split(doc, parent_chunk_size=2000, child_chunk_size=500)
             chunks = [doc.page_content for doc in chunks_docs]
             chunks_metadata_list = [doc.metadata for doc in chunks_docs]
         else:
