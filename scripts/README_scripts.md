@@ -1,3 +1,22 @@
+# OpenCode / MCP
+
+初始化现有 PostgreSQL/PGVector 知识库：
+
+```bash
+export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
+python scripts/init_knowledge_backend.py
+```
+
+通过 stdio 启动只读 MCP 适配层：
+
+```bash
+export JINRONG_MCP_PYTHON="$HOME/miniconda3/envs/wzh_vllm/bin/python"
+export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
+bash scripts/start_mcp_server.sh
+```
+
+数据库密码和模型/API Token 只通过开发机环境变量提供，不提交到 Git。
+
 # scripts 目录说明
 
 建议后续由 Codex 生成以下脚本。
