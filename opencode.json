@@ -1,0 +1,67 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "gb10/qwen3-14b",
+  "provider": {
+    "gb10": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Local GB10",
+      "options": {
+        "baseURL": "http://127.0.0.1:8004/v1",
+        "timeout": 600000
+      },
+      "models": {
+        "qwen3-14b": {
+          "name": "Qwen3 14B Q4"
+        }
+      }
+    }
+  },
+  "mcp": {
+    "jinrong-rag": {
+      "type": "local",
+      "command": [
+        "bash",
+        "scripts/start_mcp_server.sh"
+      ],
+      "enabled": true,
+      "timeout": 30000
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": "ask",
+    "jinrong-rag_*": "allow"
+  },
+  "agent": {
+    "m2-qa": {
+      "description": "Retrieves business-rule evidence and answers M2 questions with citations or refusal.",
+      "mode": "subagent",
+      "model": "gb10/qwen3-14b",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "jinrong-rag_*": "allow"
+      }
+    },
+    "m1-extraction": {
+      "description": "Coordinates document parsing and structured M1 rule extraction.",
+      "mode": "subagent",
+      "model": "gb10/qwen3-14b",
+      "permission": {
+        "edit": "deny",
+        "bash": "ask",
+        "jinrong-rag_*": "allow"
+      }
+    },
+    "evidence-verifier": {
+      "description": "Checks whether M1/M2 outputs are supported by retrieved source evidence.",
+      "mode": "subagent",
+      "model": "gb10/qwen3-14b",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "jinrong-rag_*": "allow"
+      }
+    }
+  }
+}

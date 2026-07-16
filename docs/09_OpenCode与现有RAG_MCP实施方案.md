@@ -90,3 +90,24 @@ M2 顺序执行“查询分析 -> 混合召回 -> Rerank -> 有证据回答/无�
 - M1 输出通过统一 JSON Schema/Pydantic 校验。
 - 连续执行 20 个测试任务无进程崩溃、无明显工具调用漂移。
 - 所有模型、Prompt、检索参数和原始结果均可复现。
+
+## 7. 当前项目配置
+
+项目根目录 `opencode.json` 已配置 GB10 上的 Qwen3-14B OpenAI-compatible
+服务和 `jinrong-rag` 本地 MCP。启动 OpenCode 前需在开发机终端提供：
+
+```bash
+export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
+export JINRONG_MCP_PYTHON="$HOME/miniconda3/envs/wzh_vllm/bin/python"
+```
+
+协议级检查命令：
+
+```bash
+python scripts/smoke_test_mcp_server.py
+opencode mcp list
+```
+
+配置中首批建立 `m2-qa`、`m1-extraction` 和 `evidence-verifier` 三个逻辑
+子 Agent。它们暂时共用 14B 主模型，待单 Agent 工具闭环和任务评测稳定后，
+再根据数字结果决定是否为困难样例切换 35B。
