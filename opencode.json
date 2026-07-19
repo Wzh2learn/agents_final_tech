@@ -25,7 +25,7 @@
         "scripts/start_mcp_server.sh"
       ],
       "enabled": true,
-      "timeout": 30000
+      "timeout": 120000
     }
   },
   "permission": {

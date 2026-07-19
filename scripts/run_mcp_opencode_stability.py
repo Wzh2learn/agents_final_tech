@@ -21,8 +21,10 @@ from typing import Any
 PROMPT = (
     "Use the knowledge_list_collections MCP tool exactly once. "
     "This is a read-only connectivity check. Do not disclose collection names. "
-    "After a successful tool call, reply with exactly MCP_OK."
+    "Do not include collection names in the response."
 )
+EXPECTED_TOOL = "jinrong-rag_knowledge_list_collections"
+SUCCESSFUL_TOOL_STATES = {"completed", "success"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -39,6 +41,43 @@ def digest(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8", errors="replace")).hexdigest()
 
 
+def normalized_json_status(output: str) -> str:
+    """Classify an OpenCode JSON Lines transcript without retaining its content."""
+    parsed_event = False
+    expected_tool_seen = False
+    expected_tool_error = False
+
+    for line in output.splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(event, dict):
+            continue
+        parsed_event = True
+        part = event.get("part")
+        if not isinstance(part, dict):
+            continue
+        if part.get("type") not in {"tool", "tool_use"}:
+            continue
+        if part.get("tool") != EXPECTED_TOOL:
+            continue
+
+        expected_tool_seen = True
+        state = part.get("state")
+        status = state.get("status") if isinstance(state, dict) else None
+        if status in SUCCESSFUL_TOOL_STATES:
+            return "passed"
+        if status == "error":
+            expected_tool_error = True
+
+    if expected_tool_error:
+        return "tool_error"
+    if not parsed_event or not expected_tool_seen:
+        return "malformed"
+    return "malformed"
+
+
 def run_once(command: list[str], timeout: int) -> dict[str, Any]:
     started = time.perf_counter()
     process = subprocess.Popen(
@@ -53,7 +92,7 @@ def run_once(command: list[str], timeout: int) -> dict[str, Any]:
         output = stdout + stderr
         return {
             "elapsed_sec": round(time.perf_counter() - started, 3),
-            "status": "passed" if process.returncode == 0 and "MCP_OK" in stdout else "failed",
+            "status": normalized_json_status(output),
             "output_sha256": digest(output),
         }
     except subprocess.TimeoutExpired:
@@ -88,7 +127,16 @@ def main() -> None:
         raise SystemExit("PGDATABASE_URL must be exported; it is never read or logged by this script")
 
     args.output_dir.mkdir(parents=True, exist_ok=False)
-    command = ["bash", "scripts/run_opencode_gb10.sh", "run", "--model", args.model, PROMPT]
+    command = [
+        "bash",
+        "scripts/run_opencode_gb10.sh",
+        "run",
+        "--format",
+        "json",
+        "--model",
+        args.model,
+        PROMPT,
+    ]
     records = [{"run": number, **run_once(command, args.timeout)} for number in range(1, args.runs + 1)]
     summary = {
         "runs": args.runs,

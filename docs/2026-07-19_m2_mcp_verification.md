@@ -36,3 +36,12 @@ mapping, run the M2 evaluator and complete human answer-quality review.
 - One isolated OpenCode/MCP probe returned a nonzero status in 18.000 seconds,
   without timing out and without the success marker. Do not rerun the
   20-attempt stability sequence until this OpenCode end-to-end path succeeds.
+
+## OpenCode JSON-event follow-up
+
+- The stability runner now invokes OpenCode with `--format json` and records a
+  pass only when `jinrong-rag_knowledge_list_collections` reaches a successful
+  tool state. It does not inspect or persist model reply text.
+- MCP startup allowance is 120 seconds to accommodate the local service's
+  cold-start path. This is an OpenCode/MCP execution configuration change only;
+  it does not alter model, database, network, or authentication settings.
