@@ -64,7 +64,8 @@ M2 顺序执行“查询分析 -> 混合召回 -> Rerank -> 有证据回答/无�
 1. 新建独立 MCP 入口，复用 `RAGService`。
 2. 实现三个只读知识工具及单元测试。
 3. 在 OpenCode 中配置现有 OpenAI-compatible 模型和本地 MCP。
-4. 使用 10 份文档、20 个问题连续验证工具发现、调用、来源返回和错误处理。
+4. 以脱敏只读检查验证工具发现、调用、来源返回和错误处理；该稳定性验收已于
+   2026-07-19 完成 20/20 通过。
 
 ### 阶段 B：M2 基线
 
@@ -94,12 +95,8 @@ M2 顺序执行“查询分析 -> 混合召回 -> Rerank -> 有证据回答/无�
 ## 7. 当前项目配置
 
 项目根目录 `opencode.json` 已配置 GB10 上的 Qwen3-14B OpenAI-compatible
-服务和 `jinrong-rag` 本地 MCP。启动 OpenCode 前需在开发机终端提供：
-
-```bash
-export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
-export JINRONG_MCP_PYTHON="$HOME/miniconda3/envs/wzh_vllm/bin/python"
-```
+服务和 `jinrong-rag` 本地 MCP。启动前按受控本机配置提供所需环境变量，绝不在
+文档、终端记录或提交中写入其值。
 
 协议级检查命令：
 
@@ -120,17 +117,16 @@ opencode mcp list
 - `scripts/start_mcp_server.sh` 与 `scripts/init_knowledge_backend.py`；
 - `tests/test_mcp_server.py` 和协议级 smoke test；
 - `opencode.json` 中 GB10 Provider、MCP 权限和三个逻辑子 Agent。
-- Qwen3-14B 在 16K 上下文下完成 OpenCode 模型调用；
-- OpenCode 成功调用 `knowledge_list_collections` 并获得 `knowledge_base`。
+- Qwen3-14B 在 16K 上下文下完成 OpenCode 模型调用（服务验证不等于当前运行）；
+- OpenCode/MCP 正式只读稳定性验收 20/20 通过，生命周期问题已修复。
 
 尚未完成：
 
-- M2 正式评测集上的来源命中、拒答和稳定性验收；
-- 20 次连续 MCP/OpenCode 调用的稳定性记录；
+- M2 正式评测集上的来源命中、拒答和业务指标（受批准的标签—来源映射与人工标注阻塞）；
 - `m1_parse_document`、`m1_extract_rules` 和 `evaluation_run`；
 - OCR/VLM、Pydantic 校验与人工审核闭环；
 - 面向企业系统的生产权限、状态管理和异常降级。
 
-因此，当前状态是“只读 MCP 最小链路已联通，进入稳定性和 M2 正式基线阶段”，
-不是完整 M1/M2 多 Agent 系统已经交付。开发机 Codex CLI 从根目录
+因此，当前状态是“只读 MCP 已完成稳定性验收，M2 等待合规标注后才能形成正式
+指标”，不是完整 M1/M2 多 Agent 系统已经交付。开发机 Codex CLI 从根目录
 `HANDOFF.md` 继续工作。

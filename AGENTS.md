@@ -15,10 +15,12 @@ The existing Web application and `RAGService` remain the source of truth for doc
 - `knowledge_list_collections`
 - `knowledge_get_source`
 
-The model and one real MCP tool-call path have been validated on GB10. The
-20-call stability run, formal M2 dataset/evaluation, M1 OCR/rule tools, and full
-multi-agent orchestration remain planned work. Do not create a second vector
-store or bypass `RAGService` with ad hoc database queries.
+Qwen3-14B has been service-validated on this path, and the formal read-only
+20-call OpenCode/MCP stability run passed. This does not imply a service is
+currently running. Formal M2 business metrics remain blocked on an
+owner-approved label-to-source mapping and human annotations; M1 OCR/rule-tool
+metrics and full multi-agent orchestration remain planned work. Do not create a
+second vector store or bypass `RAGService` with ad hoc database queries.
 
 ## Development Commands
 
@@ -30,11 +32,10 @@ Use Python 3.11 and install `requirements.txt`. On Windows:
 $env:PYTHONPATH="src"; .\venv\Scripts\python.exe -m pytest tests -v
 ```
 
-On the GB10 Linux machine, initialize and test the MCP path with:
+On the GB10 Linux machine, provide the required local environment variables
+without recording their values, then initialize and test the MCP path with:
 
 ```bash
-export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
-export JINRONG_MCP_PYTHON="$HOME/miniconda3/envs/wzh_vllm/bin/python"
 python scripts/init_knowledge_backend.py
 python scripts/smoke_test_mcp_server.py
 opencode mcp list

@@ -3,6 +3,15 @@
 Model weights are stored on the development machine under `~/wzh/models` and
 must not be committed to Git.
 
+## Status convention — 2026-07-19
+
+“Downloaded” means local files were obtained; “smoke-tested” means a limited
+load/inference or format check passed; “service-validated” means a historical
+local API path was exercised. None of these labels means a service is running
+now or establishes M1/M2 business quality. Qwen3-14B is service-validated for
+the OpenCode/MCP path. M1 has no numeric baseline; formal M2 metrics remain
+blocked on approved source mapping and human annotations.
+
 ## First Batch
 
 | Priority | Model | Format | Purpose |
@@ -11,7 +20,7 @@ must not be committed to Git.
 | P0 | Qwen3-8B Q4_K_M | GGUF | General M1/M2 baseline |
 | P1 | Qwen3-14B | Safetensors or GGUF | Main quality/cost candidate |
 | Existing | Qwen3.5-35B-A3B Q4_K_M | GGUF | Large MoE comparison |
-| Existing | Qwen3.6-35B-A3B Q4_K_M | GGUF | Current project service |
+| Existing | Qwen3.6-35B-A3B Q4_K_M | GGUF | Downloaded comparison candidate; historical baseline only |
 
 ## Role B Candidate Pool
 

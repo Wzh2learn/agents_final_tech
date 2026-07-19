@@ -7,9 +7,11 @@
   with a 35.899-second average. The local sanitized result JSON remains
   gitignored.
 - `PGDATABASE_URL` was present without reading or recording its value.
-- The local Qwen3-14B health endpoint on port 8004 was reachable.
-- Focused unit tests passed: 12 tests covering the M2 fixture/evaluator,
-  stability-run sanitization, and MCP server contract.
+- Qwen3-14B completed the historical service checks used by this verification;
+  no current runtime state is implied.
+- Focused tests passed: 19 tests covering the M2 fixture/evaluator,
+  stability-run sanitization/lifecycle regression, and MCP server contract,
+  with 6 deprecation warnings.
 - Both evaluation scripts passed dry-run validation.
 - A clean sequence of 20 read-only OpenCode/MCP collection-list checks completed.
   The sanitized result is stored in `docs/experiments/results/2026-07-19_mcp_opencode_stability_clean/`.

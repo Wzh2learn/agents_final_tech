@@ -12,8 +12,9 @@
 2. `HANDOFF.md`
 3. `docs/AGENTS.md`
 4. `docs/05_开发任务清单.md`
-5. `docs/09_OpenCode与现有RAG_MCP实施方案.md`
-6. `docs/10_OpenCode开发机运行说明.md`
+5. `docs/12_阶段收尾与对外汇报.md`
+6. `docs/09_OpenCode与现有RAG_MCP实施方案.md`
+7. `docs/10_OpenCode开发机运行说明.md`
 
 然后检查 Git 状态、Conda 环境、PostgreSQL/PGVector、Qwen3-14B 服务、
 OpenCode 和 `jinrong-rag` MCP，不要先改代码。
@@ -38,10 +39,10 @@ OpenCode 和 `jinrong-rag` MCP，不要先改代码。
 ## 你的当前任务
 
 1. 核验开发机上 PostgreSQL/PGVector、14B 16K 服务、OpenCode 与 MCP；
-2. 完成 20 次只读 MCP/OpenCode 连续调用并保存脱敏结果；
-3. 建立第一版 20 条 M2 标注集，覆盖有答案、无答案、边界和冲突问题；
-4. 建立可重复 M2 基线，记录 Recall@5、来源命中率、拒答率、回答质量和延迟；
-5. 基线稳定后再单变量比较 Embedding 和 Reranker。
+2. 确认已完成的 20/20 只读 MCP/OpenCode 稳定性验收，不重复无必要运行；
+3. 取得负责人批准的 M2 标签—来源映射和人工答案质量标注；
+4. 使用已有 20 条合成脱敏夹具和评测器建立正式 M2 基线；
+5. 建立 M1 OCR/规则抽取数值基线后，再单变量比较检索与重排方案。
 
 ## 第一阶段优先任务
 

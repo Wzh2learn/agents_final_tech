@@ -1,92 +1,55 @@
 # Development Handoff
 
-## Snapshot
+## Snapshot — 2026-07-19
 
-This handoff reflects the repository and GB10 integration state on 2026-07-19.
-The repository extends the existing JinRongAgents FastAPI/LangGraph application
-with a loosely coupled OpenCode and local-model experiment path for:
+Start with the current external briefing: [docs/12_阶段收尾与对外汇报.md](docs/12_阶段收尾与对外汇报.md).
 
-- M1: document parsing and structured business-rule extraction;
-- M2: evidence-grounded knowledge-base question answering.
+The existing Web application and `RAGService` remain the sole source of truth
+for documents, collections, retrieval, and traceability.  The OpenCode path is
+a thin, read-only MCP adapter; do not create another vector store or bypass
+`RAGService` with direct database queries.
 
-The existing `RAGService`, PostgreSQL/PGVector data, source metadata, APIs, and
-Web pages remain the source of truth. Do not create a second vector database.
+## Completed and verified
 
-## Completed
+- The read-only MCP surface is implemented: `knowledge_search`,
+  `knowledge_list_collections`, and `knowledge_get_source`.
+- The OpenCode provider and logical M1/M2/verifier agent definitions are
+  configured. They are configuration, not a completed multi-agent workflow.
+- Qwen3-14B is the validated local generation-service path for OpenCode/MCP.
+  This is historical service validation, not evidence that a service is running
+  now.
+- Formal read-only OpenCode/MCP stability verification completed: **20/20
+  passed**. The inherited process-descriptor lifecycle bug was fixed.
+- Focused tests for MCP contract, stability runner, and M2 fixture/evaluator:
+  **19 passed, 6 deprecation warnings**.
+- A 20-case synthetic/sanitized M2 fixture and evaluator are committed.
 
-- Qwen3 4B, 8B, 14B, and Qwen3.6-35B-A3B GGUF service/format baselines.
-- Qwen3-14B llama.cpp service configured at `127.0.0.1:8004` with a 16K context.
-- Read-only MCP tools: `knowledge_search`, `knowledge_list_collections`, and
-  `knowledge_get_source`.
-- OpenCode provider, MCP permissions, and logical M1/M2/verifier subagents in
-  `opencode.json`.
-- Protocol smoke test and one end-to-end OpenCode tool call returning the
-  `knowledge_base` collection.
-- Retrieval, vision, and tabular model downloads/smoke tests documented under
-  `docs/experiments/`.
+## Current stopped/idle state and next work
 
-## Immediate Work
+No runtime state is assumed after this documentation closeout. Check services
+and Git state before any integration command; do not start a model merely to
+inspect documentation.
 
-1. Pull the latest `main` branch on the GB10 machine.
-2. Verify PostgreSQL/PGVector, Qwen3-14B, OpenCode, and MCP after the latest
-   machine/network state change.
-3. Run 20 consecutive read-only MCP/OpenCode tasks and save the raw results.
-4. Build the first M2 annotated set: start with 20 questions, then expand toward
-   100. Include answerable, unanswerable, boundary, and conflicting cases.
-5. Establish the Qwen3-14B M2 baseline with Recall@5, source hit rate, refusal
-   rate, answer quality, and latency.
-6. Only after the baseline is reproducible, compare BGE-M3/Qwen3-Embedding and
-   BGE/Qwen3 rerankers one variable at a time.
+1. Obtain an owner-approved local mapping from synthetic M2 labels to stable
+   source labels, plus human answer-quality annotations.
+2. Run the existing M2 evaluator only after that approval; report Recall@5,
+   source-hit/refusal metrics, latency, and human review. Until then, **formal
+   M2 business metrics are blocked**.
+3. Build an approved M1 OCR/rule-extraction dataset and complete its first
+   numeric baseline. No M1 numeric baseline exists today.
+4. After single-agent M1/M2 evidence loops are measured, hand the frozen API,
+   datasets, and results to the engineering teammate for orchestration,
+   permissions, state, and integration.
 
-Do not start LoRA/QLoRA, full multi-agent orchestration, or more model downloads
-before the M2 dataset and baseline are stable.
-
-## GB10 Runtime
-
-Remote repository:
-
-```bash
-~/wzh/projects/agents_final_tech
-```
-
-Expected environments:
-
-- `wzh_vllm`: project serving, llama.cpp support, MCP runtime;
-- `wzh_retrieval`: Qwen/BGE retrieval experiments;
-- `wzh_vision`: PaddleOCR-VL, MiniCPM-V, Qwen3-VL;
-- `wzh_tabular`: TabFM, TabPFN, XGBoost, LightGBM.
-
-Required shell variables:
-
-```bash
-export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
-export JINRONG_MCP_PYTHON="$HOME/miniconda3/envs/wzh_vllm/bin/python"
-```
-
-Start or verify the 14B/OpenCode path:
-
-```bash
-cd ~/wzh/projects/agents_final_tech
-bash scripts/start_llamacpp_model.sh \
-  ~/wzh/models/gguf/qwen3-14b/Qwen3-14B-Q4_K_M.gguf \
-  8004 /tmp/qwen3-14b-8004.log 16384
-curl -s http://127.0.0.1:8004/health
-python scripts/smoke_test_mcp_server.py
-bash scripts/run_opencode_gb10.sh mcp list
-```
-
-Model services are not assumed to survive a reboot. Check before restarting and
-keep only one large generation model active.
+Do not start LoRA/QLoRA, new model downloads, or full multi-agent orchestration
+before the approved datasets and reproducible baselines exist.
 
 ## Guardrails
 
-- Read `AGENTS.md`, `docs/AGENTS.md`, and this file before editing.
-- Preserve unrelated working-tree changes and inspect remote stashes before use.
-- Never commit `.env`, credentials, tokens, machine addresses, model weights,
-  local databases, logs, or private business data.
-- A legacy Anthropic token was redacted on 2026-07-19. Treat the historical
-  value as compromised and rotate/revoke it; do not copy it from Git history.
-- Ask before CUDA/driver/system-network changes or stopping another user's
-  process.
-- Put reproducible scripts in `scripts/` and sanitized result summaries in
-  `docs/experiments/`.
+- Read `AGENTS.md`, `docs/AGENTS.md`, and this file before changing work.
+- Keep model weights, environments, credentials, runtime logs, source mappings,
+  and private business samples outside Git.
+- Use the documented environment variables locally; never place their values in
+  docs, commits, terminal captures, or reports.
+- Preserve the read-only MCP boundary unless a reviewed task explicitly changes
+  it.

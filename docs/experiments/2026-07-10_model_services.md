@@ -21,7 +21,7 @@ Model storage root:
 | 8001 | Qwen3.6-35B-A3B-Q4_K_M.gguf | stopped | http://127.0.0.1:8001/v1 | Quality-ceiling comparison only |
 | 8002 | Qwen3-4B-Q4_K_M.gguf | stopped | http://127.0.0.1:8002/v1 | Lightweight JSON/speed baseline |
 | 8003 | Qwen3-8B-Q4_K_M.gguf | stopped | http://127.0.0.1:8003/v1 | Small-model M1/M2 baseline |
-| 8004 | Qwen3-14B-Q4_K_M.gguf | llama.cpp server | http://127.0.0.1:8004/v1 | Current single active generation-model service |
+| 8004 | Qwen3-14B-Q4_K_M.gguf | llama.cpp server | http://127.0.0.1:8004/v1 | Service active at the time of this 2026-07-10 record |
 
 On 2026-07-10, the Qwen3.6-35B-A3B service on port 8001 was stopped after the
 initial baseline. The model file remains available, but the 35B service should

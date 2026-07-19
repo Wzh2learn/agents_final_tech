@@ -1,21 +1,22 @@
 # OpenCode / MCP
 
-初始化现有 PostgreSQL/PGVector 知识库：
+初始化现有 PostgreSQL/PGVector 知识库（先在受控终端配置环境变量，勿记录其值）：
 
 ```bash
-export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
 python scripts/init_knowledge_backend.py
 ```
 
 通过 stdio 启动只读 MCP 适配层：
 
 ```bash
-export JINRONG_MCP_PYTHON="$HOME/miniconda3/envs/wzh_vllm/bin/python"
-export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
 bash scripts/start_mcp_server.sh
 ```
 
 数据库密码和模型/API Token 只通过开发机环境变量提供，不提交到 Git。
+
+截至 2026-07-19，只读 OpenCode/MCP 稳定性脚本的正式验收为 20/20 通过；这不
+表示任何服务当前运行。`run_m2_rag_eval.py` 的 20 条夹具是合成脱敏数据，真实
+运行必须先取得负责人批准的本地标签—来源映射和人工答案质量标注。
 
 # scripts 目录说明
 
@@ -27,7 +28,7 @@ bash scripts/start_mcp_server.sh
 
 ```bash
 cd ~/wzh/projects/agents_final_tech
-export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
+# Configure required local environment variables outside this document.
 bash scripts/run_opencode_gb10.sh
 ```
 

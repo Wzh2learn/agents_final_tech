@@ -30,15 +30,20 @@ Implemented:
 - read-only search, collection listing, and source retrieval tools;
 - MCP unit tests and protocol smoke test;
 - logical `m2-qa`, `m1-extraction`, and `evidence-verifier` subagent definitions.
+- formal read-only OpenCode/MCP stability verification: 20/20 passed, with the
+  inherited process-descriptor lifecycle issue fixed.
 
 Planned:
 
-- formal M2 evidence/refusal evaluation;
+- formal M2 business evaluation (blocked on an owner-approved synthetic-label
+  to stable-source mapping and human annotations);
 - M1 OCR/VLM parsing and Pydantic rule extraction tools;
 - evaluation MCP tools and full coordinator workflow;
 - production permissions, state management, and enterprise integration.
 
-Agent definitions are configuration, not proof that the complete workflow is implemented.
+Qwen3-14B is a service-validated generation path, not a claim of current
+runtime. Agent definitions are configuration, not proof that the complete
+workflow is implemented.
 
 ## Working Rules
 

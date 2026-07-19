@@ -11,6 +11,7 @@
 - [API 参考](API_REFERENCE.md)
 - [工具使用说明](TOOLS_USAGE.md)
 - [当前开发交接](../HANDOFF.md)
+- [阶段收尾与对外汇报（2026-07-19）](12_阶段收尾与对外汇报.md)
 - [开发机 Codex CLI 交接](11_开发机_Codex_CLI_交接.md)
 
 ## M1/M2 与 GB10 主线
@@ -28,10 +29,11 @@
 
 ## 当前实现状态
 
-截至 2026-07-19，GB10 Qwen3-14B 16K 服务、OpenCode Provider、只读
-`jinrong-rag` MCP Adapter 和一次真实工具调用已验证。下一步是 20 次连续调用
-稳定性验收和 M2 正式数据集/数字基线。M1 OCR/规则抽取工具与完整多 Agent
-编排仍在任务清单中。
+截至 2026-07-19，只读 OpenCode/MCP 正式稳定性验收已 **20/20 通过**，且
+进程生命周期问题已修复；Qwen3-14B 是已验证的本地生成服务路径，但不表示
+当前正在运行。M2 的 20 条合成脱敏夹具和评测器已具备，正式业务指标仍受制于
+负责人批准的标签—来源映射与人工标注。M1 数值基线和完整多 Agent 编排尚未完成。
+面向老师或协作同学请优先阅读[阶段收尾与对外汇报](12_阶段收尾与对外汇报.md)。
 
 模型下载、环境和冒烟测试记录位于 [`experiments/`](experiments/)，模型目录约定见 [`../models/README.md`](../models/README.md)，脚本说明见 [`../scripts/README_scripts.md`](../scripts/README_scripts.md)。
 
