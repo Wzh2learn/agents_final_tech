@@ -25,3 +25,14 @@ to reports.
 Restore a responsive OpenCode/Qwen3-14B completion path, then rerun the same
 20 isolated checks. After an owner supplies an approved local label-to-source
 mapping, run the M2 evaluator and complete human answer-quality review.
+
+## Follow-up diagnostic
+
+- `run_mcp_opencode_stability.py --dry-run` now validates without an output
+  directory; live runs still require one.
+- A direct Qwen3-14B completion completed successfully in 4.684 seconds.
+- The MCP protocol smoke completed successfully in 22.939 seconds when run
+  with the documented MCP Python environment.
+- One isolated OpenCode/MCP probe returned a nonzero status in 18.000 seconds,
+  without timing out and without the success marker. Do not rerun the
+  20-attempt stability sequence until this OpenCode end-to-end path succeeds.
