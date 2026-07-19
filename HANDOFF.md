@@ -24,11 +24,13 @@ a thin, read-only MCP adapter; do not create another vector store or bypass
   **19 passed, 6 deprecation warnings**.
 - A 20-case synthetic/sanitized M2 fixture and evaluator are committed.
 
-## Current stopped/idle state and next work
+## Current execution state and next work
 
-No runtime state is assumed after this documentation closeout. Check services
-and Git state before any integration command; do not start a model merely to
-inspect documentation.
+At the 2026-07-19 closeout, no evaluator or Codex execution task was active.
+The local generation listener and PostgreSQL/PGVector container were still
+running as reusable infrastructure. Runtime state can change independently of
+Git, so verify it before any integration command; do not restart a model merely
+to inspect documentation.
 
 1. Obtain an owner-approved local mapping from synthetic M2 labels to stable
    source labels, plus human answer-quality annotations.
