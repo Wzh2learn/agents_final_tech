@@ -1,0 +1,27 @@
+{
+  "version": "m2-eval-v1",
+  "classification": "sanitized-bootstrap",
+  "notes": "Questions and labels are synthetic. Map the stable document IDs to approved, sanitized knowledge_base documents before reporting a production baseline.",
+  "cases": [
+    {"id":"m2-001","category":"answerable","question":"个人信用贷款的申请年龄范围是什么？","expected_document_labels":["M2-DOC-001"],"required_keywords":["22","60"]},
+    {"id":"m2-002","category":"answerable","question":"连续逾期多少期会阻止个人信用贷款准入？","expected_document_labels":["M2-DOC-001"],"required_keywords":["3","逾期"]},
+    {"id":"m2-003","category":"answerable","question":"流动资金贷款的一般资产负债率上限是多少？","expected_document_labels":["M2-DOC-002"],"required_keywords":["70","资产负债率"]},
+    {"id":"m2-004","category":"answerable","question":"风险复核需要哪些身份材料？","expected_document_labels":["M2-DOC-003"],"required_keywords":["身份","材料"]},
+    {"id":"m2-005","category":"answerable","question":"客户投诉升级的第一步是什么？","expected_document_labels":["M2-DOC-004"],"required_keywords":["初步","分流"]},
+    {"id":"m2-006","category":"unanswerable","question":"个人信用贷款的最高授信额度是多少？","expected_document_labels":[],"required_keywords":[]},
+    {"id":"m2-007","category":"unanswerable","question":"流动资金贷款的固定年利率是多少？","expected_document_labels":[],"required_keywords":[]},
+    {"id":"m2-008","category":"unanswerable","question":"谁可以免除逾期记录？","expected_document_labels":[],"required_keywords":[]},
+    {"id":"m2-009","category":"unanswerable","question":"投诉必须在几小时内结案？","expected_document_labels":[],"required_keywords":[]},
+    {"id":"m2-010","category":"unanswerable","question":"风险复核人员的姓名是什么？","expected_document_labels":[],"required_keywords":[]},
+    {"id":"m2-011","category":"boundary","question":"战略客户能否超过一般资产负债率上限？","expected_document_labels":["M2-DOC-002"],"required_keywords":["风险管理","审批"]},
+    {"id":"m2-012","category":"boundary","question":"年龄刚好60周岁的申请人是否满足年龄条件？","expected_document_labels":["M2-DOC-001"],"required_keywords":["60","满足"]},
+    {"id":"m2-013","category":"boundary","question":"近12个月有两期连续逾期是否可以进入授信审批？","expected_document_labels":["M2-DOC-001"],"required_keywords":["3","逾期"]},
+    {"id":"m2-014","category":"boundary","question":"没有身份证明但有收入证明能完成风险复核吗？","expected_document_labels":["M2-DOC-003"],"required_keywords":["身份","证明"]},
+    {"id":"m2-015","category":"boundary","question":"投诉初步分流后下一步需要什么处理？","expected_document_labels":["M2-DOC-004"],"required_keywords":["调查"]},
+    {"id":"m2-016","category":"conflicting","question":"两份准入规则的年龄上限不一致时应采用哪一份？","expected_document_labels":["M2-DOC-001","M2-DOC-005"],"required_keywords":["冲突","确认"]},
+    {"id":"m2-017","category":"conflicting","question":"不同版本的逾期阈值不一致时系统应如何回答？","expected_document_labels":["M2-DOC-001","M2-DOC-005"],"required_keywords":["冲突","版本"]},
+    {"id":"m2-018","category":"conflicting","question":"一般规则和例外审批要求相矛盾时应如何处理？","expected_document_labels":["M2-DOC-002","M2-DOC-006"],"required_keywords":["例外","审批"]},
+    {"id":"m2-019","category":"conflicting","question":"两份投诉时限规定不同，能直接给出唯一结论吗？","expected_document_labels":["M2-DOC-004","M2-DOC-007"],"required_keywords":["冲突","确认"]},
+    {"id":"m2-020","category":"conflicting","question":"来源材料对身份复核要求不一致时应采取什么行动？","expected_document_labels":["M2-DOC-003","M2-DOC-008"],"required_keywords":["冲突","人工"]}
+  ]
+}
