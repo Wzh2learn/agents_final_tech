@@ -2,6 +2,10 @@
 
 ## Verified
 
+- The formal read-only OpenCode/MCP stability run completed successfully: 20/20
+  passed (`all_passed: true`). Elapsed time ranged from 22.133 to 79.839 seconds,
+  with a 35.899-second average. The local sanitized result JSON remains
+  gitignored.
 - `PGDATABASE_URL` was present without reading or recording its value.
 - The local Qwen3-14B health endpoint on port 8004 was reachable.
 - Focused unit tests passed: 12 tests covering the M2 fixture/evaluator,
