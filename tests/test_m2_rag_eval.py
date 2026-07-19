@@ -6,7 +6,14 @@ from types import SimpleNamespace
 
 import pytest
 
-from scripts.run_m2_rag_eval import aggregate, load_approved_id_map, score_case, source_id, tool_payload, validate_cases
+from scripts.run_m2_rag_eval import (
+    aggregate,
+    load_approved_source_map,
+    score_case,
+    source_label,
+    tool_payload,
+    validate_cases,
+)
 
 
 def dataset() -> dict:
@@ -17,13 +24,13 @@ def test_m2_dataset_has_twenty_balanced_synthetic_cases():
     cases = validate_cases(dataset())
     assert len(cases) == 20
     assert {case["category"] for case in cases} == {"answerable", "unanswerable", "boundary", "conflicting"}
-    assert all("expected_document_labels" in case for case in cases)
+    assert all("expected_source_labels" in case for case in cases)
 
 
-def test_source_id_matches_rag_service_schema():
-    assert source_id({"source": "stable-source", "metadata": {"source": "other"}}) == "stable-source"
-    assert source_id({"metadata": {"source": "stable-source"}}) == "stable-source"
-    assert source_id({"content": "private evidence"}) == ""
+def test_source_label_matches_rag_service_schema():
+    assert source_label({"source": "stable-source", "metadata": {"source": "other"}}) == "stable-source"
+    assert source_label({"metadata": {"source": "stable-source"}}) == "stable-source"
+    assert source_label({"document_id": "not-in-rag-service-schema"}) == ""
 
 
 def test_tool_payload_supports_structured_and_json_content():
@@ -31,12 +38,12 @@ def test_tool_payload_supports_structured_and_json_content():
     assert tool_payload(SimpleNamespace(structuredContent=None, content=[SimpleNamespace(text='{"status":"success"}')])) == {"status": "success"}
 
 
-def test_approved_id_map_must_match_all_synthetic_labels(tmp_path):
+def test_approved_source_map_must_match_all_synthetic_labels(tmp_path):
     cases = validate_cases(dataset())
     path = tmp_path / "map.json"
-    path.write_text('{"approved": true, "document_ids": {}}', encoding="utf-8")
+    path.write_text('{"approved": true, "source_labels": {}}', encoding="utf-8")
     with pytest.raises(ValueError, match="exactly"):
-        load_approved_id_map(path, cases)
+        load_approved_source_map(path, cases)
 
 
 def test_score_case_and_metrics():

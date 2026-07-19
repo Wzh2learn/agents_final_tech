@@ -1,7 +1,7 @@
 """Evaluate the existing read-only RAG MCP and local answer model on M2 labels.
 
 The committed fixture deliberately contains synthetic labels only.  A real run
-requires a separately approved, local label-to-source mapping; it is never
+requires a separately approved, local label-to-source-label mapping; it is never
 written to the report or to version control.
 """
 
@@ -27,12 +27,12 @@ REFUSAL_MARKERS = ("无法", "不足", "未提供", "没有提供", "没有说�
 VALID_CATEGORIES = {"answerable", "unanswerable", "boundary", "conflicting"}
 
 
-def source_id(item: dict[str, Any]) -> str:
-    """Return the stable document identifier exposed by the RAG result schema."""
+def source_label(item: dict[str, Any]) -> str:
+    """Return the stable source label exposed by the RAGService result schema."""
     metadata = item.get("metadata")
     metadata = metadata if isinstance(metadata, dict) else {}
-    # RAGService currently uses metadata.source as its DocumentManager ID.
-    for value in (item.get("document_id"), metadata.get("document_id"), item.get("source"), metadata.get("source")):
+    # RAGService returns metadata.source at both the top level and in metadata.
+    for value in (item.get("source"), metadata.get("source")):
         if isinstance(value, str) and value.strip():
             return value.strip()
     return ""
@@ -54,11 +54,11 @@ def validate_cases(dataset: dict[str, Any]) -> list[dict[str, Any]]:
         raise ValueError("Expected exactly 20 cases covering all four M2 categories")
     identifiers: set[str] = set()
     for case in cases:
-        labels = case.get("expected_document_labels")
+        labels = case.get("expected_source_labels")
         if not isinstance(case.get("id"), str) or not isinstance(case.get("question"), str):
             raise ValueError("Every case requires string id and question fields")
         if not isinstance(labels, list) or not all(isinstance(label, str) and label for label in labels):
-            raise ValueError("expected_document_labels must be a list of non-empty synthetic labels")
+            raise ValueError("expected_source_labels must be a list of non-empty synthetic labels")
         if case["category"] == "unanswerable" and labels:
             raise ValueError("Unanswerable cases must not have expected document labels")
         if case["category"] != "unanswerable" and not labels:
@@ -69,17 +69,17 @@ def validate_cases(dataset: dict[str, Any]) -> list[dict[str, Any]]:
     return cases
 
 
-def load_approved_id_map(path: Path, cases: list[dict[str, Any]]) -> dict[str, str]:
-    """Load an external approved mapping without putting stable IDs in reports."""
+def load_approved_source_map(path: Path, cases: list[dict[str, Any]]) -> dict[str, str]:
+    """Load an external approved mapping without putting source labels in reports."""
     payload = json.loads(path.read_text(encoding="utf-8"))
-    mapping = payload.get("document_ids") if isinstance(payload, dict) else None
+    mapping = payload.get("source_labels") if isinstance(payload, dict) else None
     if payload.get("approved") is not True or not isinstance(mapping, dict):
-        raise ValueError("ID map must contain approved: true and a document_ids object")
-    required = {label for case in cases for label in case["expected_document_labels"]}
+        raise ValueError("Source map must contain approved: true and a source_labels object")
+    required = {label for case in cases for label in case["expected_source_labels"]}
     if set(mapping) != required:
-        raise ValueError("ID map must contain exactly the fixture's synthetic document labels")
+        raise ValueError("Source map must contain exactly the fixture's synthetic source labels")
     if not all(isinstance(value, str) and value.strip() for value in mapping.values()):
-        raise ValueError("Every approved document ID must be a non-empty string")
+        raise ValueError("Every approved source label must be a non-empty string")
     return {label: value.strip() for label, value in mapping.items()}
 
 
@@ -149,7 +149,7 @@ async def search(session: ClientSession, question: str) -> list[dict[str, Any]]:
 
 
 def answer(base_url: str, model: str, question: str, evidence: list[dict[str, Any]], timeout: int) -> str:
-    safe_evidence = [{"source": source_id(item), "content": str(item.get("content", ""))} for item in evidence]
+    safe_evidence = [{"source": source_label(item), "content": str(item.get("content", ""))} for item in evidence]
     prompt = (
         "Answer only from evidence. Cite every conclusion as [source: SOURCE_ID]. "
         "If evidence is insufficient, say so explicitly. If sources conflict, state the conflict and request confirmation.\n"
@@ -168,7 +168,7 @@ def answer(base_url: str, model: str, question: str, evidence: list[dict[str, An
     return content
 
 
-async def run(args: argparse.Namespace, cases: list[dict[str, Any]], id_map: dict[str, str]) -> list[dict[str, Any]]:
+async def run(args: argparse.Namespace, cases: list[dict[str, Any]], source_map: dict[str, str]) -> list[dict[str, Any]]:
     server = StdioServerParameters(command="bash", args=["scripts/start_mcp_server.sh"], env=os.environ.copy())
     records: list[dict[str, Any]] = []
     async with stdio_client(server) as (read, write):
@@ -178,13 +178,13 @@ async def run(args: argparse.Namespace, cases: list[dict[str, Any]], id_map: dic
                 started = time.perf_counter()
                 evidence = await search(session, case["question"])
                 result = answer(args.base_url, args.model, case["question"], evidence, args.timeout)
-                expected_ids = {id_map[label] for label in case["expected_document_labels"]}
-                scores = score_case(case, expected_ids, [source_id(item) for item in evidence], result)
+                expected_ids = {source_map[label] for label in case["expected_source_labels"]}
+                scores = score_case(case, expected_ids, [source_label(item) for item in evidence], result)
                 records.append({
                     "case_id": case["id"], "category": case["category"],
                     "answerable": case["category"] != "unanswerable",
                     "latency_sec": round(time.perf_counter() - started, 3), **scores,
-                    "retrieved_source_hashes": [source_hash(source_id(item)) for item in evidence if source_id(item)],
+                    "retrieved_source_hashes": [source_hash(source_label(item)) for item in evidence if source_label(item)],
                     "answer_sha256": hashlib.sha256(result.encode("utf-8")).hexdigest(),
                 })
     return records
@@ -193,7 +193,7 @@ async def run(args: argparse.Namespace, cases: list[dict[str, Any]], id_map: dic
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cases", type=Path, default=Path("tests/fixtures/m2_eval_cases_v1.json"))
-    parser.add_argument("--id-map", type=Path, help="Local approved synthetic-label-to-stable-ID map; never committed or reported")
+    parser.add_argument("--source-map", type=Path, help="Local approved synthetic-label-to-stable-source-label map; never committed or reported")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--base-url", default="http://127.0.0.1:8004/v1")
     parser.add_argument("--model", default="Qwen3-14B-Q4_K_M.gguf")
@@ -206,15 +206,15 @@ def main() -> None:
     args = parse_args()
     cases = validate_cases(json.loads(args.cases.read_text(encoding="utf-8")))
     if args.dry_run:
-        print(json.dumps({"cases": len(cases), "fixture_valid": True, "requires_approved_id_map": True}))
+        print(json.dumps({"cases": len(cases), "fixture_valid": True, "requires_approved_source_map": True}))
         return
-    if args.id_map is None or args.output_dir is None:
-        raise SystemExit("--id-map and --output-dir are required for a real evaluation")
+    if args.source_map is None or args.output_dir is None:
+        raise SystemExit("--source-map and --output-dir are required for a real evaluation")
     if not os.getenv("PGDATABASE_URL"):
         raise SystemExit("PGDATABASE_URL must be exported; it is never read or logged by this script")
-    id_map = load_approved_id_map(args.id_map, cases)
+    source_map = load_approved_source_map(args.source_map, cases)
     args.output_dir.mkdir(parents=True, exist_ok=False)
-    records = asyncio.run(run(args, cases, id_map))
+    records = asyncio.run(run(args, cases, source_map))
     report = {
         "created_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "sanitized": True,
         "metric_definitions": {
