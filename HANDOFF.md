@@ -36,7 +36,7 @@ inspect documentation.
    source-hit/refusal metrics, latency, and human review. Until then, **formal
    M2 business metrics are blocked**.
 3. Build an approved M1 OCR/rule-extraction dataset and complete its first
-   numeric baseline. No M1 numeric baseline exists today.
+   numeric baseline. As of 2026-07-19, no M1 numeric baseline exists.
 4. After single-agent M1/M2 evidence loops are measured, hand the frozen API,
    datasets, and results to the engineering teammate for orchestration,
    permissions, state, and integration.
