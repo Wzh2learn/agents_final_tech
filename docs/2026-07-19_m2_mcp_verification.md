@@ -45,3 +45,23 @@ mapping, run the M2 evaluator and complete human answer-quality review.
 - MCP startup allowance is 120 seconds to accommodate the local service's
   cold-start path. This is an OpenCode/MCP execution configuration change only;
   it does not alter model, database, network, or authentication settings.
+- The post-change single JSON probe still reached an expected tool error. The
+  raw error was inspected locally and reduced only to a database-schema
+  compatibility category. No further attempts were run, and no private
+  database details were recorded.
+
+## Process-lifecycle follow-up
+
+- The stability runner now directs combined OpenCode output to an anonymous
+  temporary file, waits on the OpenCode parent, and then terminates only the
+  attempt's own process group. This prevents inherited MCP output descriptors
+  from making a completed parent appear to time out. Raw output is never
+  persisted; the runner retains only status, elapsed time, and SHA-256.
+- Focused tests passed, including a regression case where a child retains an
+  inherited output descriptor after its parent exits. The dry-run and Python
+  compile checks also passed.
+- One read-only JSON-format OpenCode/MCP probe passed in 40.170 seconds with
+  the expected collection-list tool event in a completed state. Its sanitized,
+  Git-ignored summary is under
+  `docs/experiments/results/2026-07-19_mcp_opencode_stability_lifecycle_probe/`.
+  Do not run the 20-attempt sequence yet.

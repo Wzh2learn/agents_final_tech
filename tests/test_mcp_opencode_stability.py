@@ -49,6 +49,25 @@ def test_timeout_has_a_normalized_status():
     assert set(record) == {"elapsed_sec", "status", "output_sha256"}
 
 
+def test_parent_exit_does_not_wait_for_child_inherited_output_descriptor():
+    event = (
+        '{"type":"tool_use","part":{"type":"tool","tool":'
+        '"jinrong-rag_knowledge_list_collections","state":{"status":"completed"}}}'
+    )
+    script = (
+        "import os, sys, time; "
+        "child = os.fork(); "
+        "child == 0 and (time.sleep(10) or os._exit(0)); "
+        f"print({event!r}, flush=True); "
+        "os._exit(0)"
+    )
+
+    record = run_once([sys.executable, "-c", script], 1)
+
+    assert record["status"] == "passed"
+    assert record["elapsed_sec"] < 2
+
+
 def test_dry_run_does_not_require_output_dir(monkeypatch, capsys):
     monkeypatch.setattr(sys, "argv", ["run_mcp_opencode_stability.py", "--dry-run"])
 

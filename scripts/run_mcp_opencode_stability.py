@@ -13,6 +13,7 @@ import json
 import os
 import signal
 import subprocess
+import tempfile
 import time
 from pathlib import Path
 from typing import Any
@@ -78,40 +79,62 @@ def normalized_json_status(output: str) -> str:
     return "malformed"
 
 
+def terminate_process_group(process_group_id: int, grace_period: float = 5.0) -> None:
+    """Terminate only the session/process group created for one attempt."""
+    try:
+        os.killpg(process_group_id, signal.SIGTERM)
+    except ProcessLookupError:
+        return
+
+    deadline = time.monotonic() + grace_period
+    while time.monotonic() < deadline:
+        try:
+            os.killpg(process_group_id, 0)
+        except ProcessLookupError:
+            return
+        time.sleep(0.05)
+
+    try:
+        os.killpg(process_group_id, signal.SIGKILL)
+    except ProcessLookupError:
+        pass
+
+
 def run_once(command: list[str], timeout: int) -> dict[str, Any]:
     started = time.perf_counter()
-    process = subprocess.Popen(
-        command,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        start_new_session=True,
-    )
-    try:
-        stdout, stderr = process.communicate(timeout=timeout)
-        output = stdout + stderr
-        return {
-            "elapsed_sec": round(time.perf_counter() - started, 3),
-            "status": normalized_json_status(output),
-            "output_sha256": digest(output),
-        }
-    except subprocess.TimeoutExpired:
-        # OpenCode starts MCP children.  Killing the new process group keeps each
-        # attempt isolated so a timed-out call cannot overlap the next one.
-        os.killpg(process.pid, signal.SIGTERM)
+    # A temporary file avoids waiting on inherited stdout/stderr pipe descriptors
+    # after OpenCode itself exits.  It is anonymous and never persisted as a result.
+    with tempfile.TemporaryFile(mode="w+b") as output_file:
+        process = subprocess.Popen(
+            command,
+            stdout=output_file,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+        timed_out = False
         try:
-            stdout, stderr = process.communicate(timeout=5)
+            process.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
-            os.killpg(process.pid, signal.SIGKILL)
-            stdout, stderr = process.communicate()
-        partial = (stdout or "") + (stderr or "")
-        if isinstance(partial, bytes):
-            partial = partial.decode("utf-8", errors="replace")
-        return {
-            "elapsed_sec": round(time.perf_counter() - started, 3),
-            "status": "timed_out",
-            "output_sha256": digest(partial),
-        }
+            timed_out = True
+        finally:
+            # OpenCode starts MCP children.  Clean up only this attempt's process
+            # group, including after normal parent exit when a child holds output.
+            terminate_process_group(process.pid)
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                # SIGKILL is only directed at the process group created above.
+                terminate_process_group(process.pid, grace_period=0)
+                process.wait()
+
+        output_file.seek(0)
+        output = output_file.read().decode("utf-8", errors="replace")
+
+    return {
+        "elapsed_sec": round(time.perf_counter() - started, 3),
+        "status": "timed_out" if timed_out else normalized_json_status(output),
+        "output_sha256": digest(output),
+    }
 
 
 def main() -> None:
