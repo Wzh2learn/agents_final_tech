@@ -1,5 +1,7 @@
 # OpenCode 开发机运行说明
 
+当前进度和下一任务以根目录 `HANDOFF.md` 为准。
+
 ## 当前已验证链路
 
 OpenCode 运行在开发机，使用 GB10 上的本地 Qwen3-14B OpenAI-compatible 服务；

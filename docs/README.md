@@ -1,60 +1,40 @@
-# 📖 项目文档
+# 项目文档导航
 
-欢迎来到建账规则助手系统的文档中心。本系统已从 Dify 迁移至基于 LangChain + LangGraph 的自研架构。
+本目录同时记录现有 JinRongAgents 系统、GB10 模型实验和 OpenCode/MCP 接入方案。代码现状以仓库实现为准，计划文档中的候选接口不等于已经完成。
 
----
+## 开发入口
 
-## 📖 快速导航
+- [仓库贡献指南](../AGENTS.md)
+- [Agent 开发指南](AGENTS.md)
+- [开发者指南](DEVELOPER_GUIDE.md)
+- [部署指南](DEPLOYMENT.md)
+- [API 参考](API_REFERENCE.md)
+- [工具使用说明](TOOLS_USAGE.md)
+- [当前开发交接](../HANDOFF.md)
+- [开发机 Codex CLI 交接](11_开发机_Codex_CLI_交接.md)
 
-### 🆕 新手入门
+## M1/M2 与 GB10 主线
 
-1. **[部署指南 (DEPLOYMENT.md)](DEPLOYMENT.md)** - 从零开始部署项目：环境配置、数据库初始化、启动服务
-2. **[开发者指南 (DEVELOPER_GUIDE.md)](DEVELOPER_GUIDE.md)** - 项目架构、开发规范、添加新功能、测试指南
-3. **[API 参考 (API_REFERENCE.md)](API_REFERENCE.md)** - 完整的 REST API 接口文档
-4. **[OpenCode 与现有 RAG MCP 实施方案](09_OpenCode与现有RAG_MCP实施方案.md)** - M1/M2 多智能体、MCP 与 GB10 模型服务的正式路线
+- [项目背景与目标](01_项目背景与目标.md)
+- [两阶段计划与分工](02_阶段计划与分工.md)
+- [技术架构与模块设计](03_技术架构与模块设计.md)
+- [服务器与模型部署计划](04_服务器与模型部署计划.md)
+- [开发任务清单](05_开发任务清单.md)
+- [Remote SSH 开发流程](06_Remote_SSH_开发流程.md)
+- [角色 B 模型调研与研究方向](07_角色B_模型调研与研究方向.md)
+- [老师汇报版两阶段计划](08_GB10模型服务两阶段计划_老师汇报版.md)
+- [OpenCode 与现有 RAG MCP 实施方案](09_OpenCode与现有RAG_MCP实施方案.md)
+- [OpenCode 开发机运行说明](10_OpenCode开发机运行说明.md)
 
-### 🛠️ 开发参考
+## 当前实现状态
 
-1. **[工具使用说明 (../TOOLS_USAGE.md)](../TOOLS_USAGE.md)** - 所有工具的用途、调用路径、使用示例
+截至 2026-07-19，GB10 Qwen3-14B 16K 服务、OpenCode Provider、只读
+`jinrong-rag` MCP Adapter 和一次真实工具调用已验证。下一步是 20 次连续调用
+稳定性验收和 M2 正式数据集/数字基线。M1 OCR/规则抽取工具与完整多 Agent
+编排仍在任务清单中。
 
-### 📦 历史归档
+模型下载、环境和冒烟测试记录位于 [`experiments/`](experiments/)，模型目录约定见 [`../models/README.md`](../models/README.md)，脚本说明见 [`../scripts/README_scripts.md`](../scripts/README_scripts.md)。
 
-1. **[归档目录](./archive/)** - 迁移过程中的原始记录、旧版设计、VibeCoding指南、架构审查报告、优化实施报告
+## 归档
 
----
-
-## 📚 文档目录树
-
-```
-docs/
-├── README.md              # 本文档（导航中心）
-├── DEVELOPER_GUIDE.md     # 开发者指南
-├── API_REFERENCE.md       # API 参考文档
-├── DEPLOYMENT.md          # 部署指南
-└── archive/               # 历史记录归档
-    ├── VibeCoding_Migration_Kit_Merged.md
-    └── [其他历史文档]
-```
-
----
-
-**最后更新**: 2026-01-05
-
----
-
-## 🆕 最新更新 (2026-01-05)
-
-### 架构优化与前端增强
-- ✅ 统一API错误处理封装 (apiCall + showToast)
-- ✅ WebSocket自动重连机制 (指数退避策略)
-- ✅ 配置外部化 (新增config.js)
-- ✅ 完善会话管理API (CRUD + 历史消息)
-- ✅ 为关键函数添加JSDoc注释
-- ✅ 代码质量提升：错误处理覆盖率95%，代码注释率40%
-
-### 代码清理
-- ✅ 删除废弃的collaboration和rag_config独立页面（已集成到chat和knowledge）
-- ✅ 清理临时行动记录文档
-- ✅ 归档架构审查和优化实施报告
-
-详见：[归档文档 - 优化实施报告](./archive/OPTIMIZATION_IMPLEMENTATION_REPORT.md)
+`archive/` 保存迁移包、旧设计和历史审查报告，仅用于追溯。若归档内容与当前代码、根目录 `AGENTS.md` 或编号计划文档冲突，以当前代码和现行指南为准。

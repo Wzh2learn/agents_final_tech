@@ -11,14 +11,14 @@
    - 临时（当前 PowerShell 会话）设置：
 
 ```powershell
-$env:ANTHROPIC_AUTH_TOKEN = "sk-mdNzHw36Xdido9tC5SzX6TKTue26K4WPhOtqsuIw3IeS1bSo"
+$env:ANTHROPIC_AUTH_TOKEN = "<PASTE_YOUR_KEY_HERE>"
 $env:ANTHROPIC_BASE_URL = "https://anyrouter.top"
 ```
 
    - 持久（将写入你的 PowerShell 用户配置文件 `$PROFILE`，以后打开 PowerShell 生效）：
 
 ```powershell
-'$env:ANTHROPIC_AUTH_TOKEN = "sk-mdNzHw36Xdido9tC5SzX6TKTue26K4WPhOtqsuIw3IeS1bSo"' >> $PROFILE
+'$env:ANTHROPIC_AUTH_TOKEN = "<PASTE_YOUR_KEY_HERE>"' >> $PROFILE
 '$env:ANTHROPIC_BASE_URL = "https://anyrouter.top"' >> $PROFILE
 # 然后重启 PowerShell 或 VS Code
 ```
@@ -26,7 +26,7 @@ $env:ANTHROPIC_BASE_URL = "https://anyrouter.top"
 2. 使用 Windows 的 setx（会在新会话生效）：
 
 ```powershell
-setx ANTHROPIC_AUTH_TOKEN "sk-mdNzHw36Xdido9tC5SzX6TKTue26K4WPhOtqsuIw3IeS1bSo"
+setx ANTHROPIC_AUTH_TOKEN "<PASTE_YOUR_KEY_HERE>"
 setx ANTHROPIC_BASE_URL "https://anyrouter.top"
 # 注意：setx 写入后需要重启终端或登出/登录才能在新会话看到变量
 ```
@@ -40,6 +40,7 @@ setx ANTHROPIC_BASE_URL "https://anyrouter.top"
 
 重要安全提示
 - 请不要把包含真实密钥的工作区设置提交到远端仓库。如果需要，我可以把 `.vscode/settings.json` 改为使用占位符，并把真实密钥放到你的本地 PowerShell profile 或提供一个不提交的 `.env.local` 文件。
+- 2026-07-19 已从当前版本移除历史明文 Token；旧 Token 应视为已泄露并在服务端撤销、重新创建。
 
 如果你希望我：
 

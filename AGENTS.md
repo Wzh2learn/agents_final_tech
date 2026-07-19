@@ -1,40 +1,49 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
+## Project Structure
 
-Application code lives in `src/` and follows a layered design: `web/` contains FastAPI routes, templates, and static assets; `biz/` holds application services; `agents/` defines LangGraph workflows; `tools/` implements retrieval and document utilities; `storage/` contains database, memory, and object-storage adapters; and `auth/` handles JWT authentication. Put automated tests in `tests/`, operational utilities in `scripts/`, configuration templates in `config/`, and design or deployment notes in `docs/`. Model manifests belong in `models/`; model weights and generated data must stay outside Git.
+`src/` uses a layered FastAPI architecture: `web/` contains routes, templates, and static assets; `biz/` owns application services; `agents/` contains the in-app LangGraph agent; `tools/` implements retrieval and document functions; `storage/` manages PostgreSQL/PGVector, memory, and files. The read-only OpenCode adapter is in `src/mcp_server/`. Put tests in `tests/`, operational and experiment commands in `scripts/`, model manifests in `models/`, and plans/results in `docs/`.
 
-## Build, Test, and Development Commands
+Read `HANDOFF.md` for the current GB10 state and immediate work before starting
+a new Codex CLI session.
 
-Create a Python 3.11 environment, then install dependencies:
+## Current Architecture Boundary
 
-```bash
-pip install -r requirements.txt
-python scripts/verify_config.py
-python src/main.py -m http -p 5000
+The existing Web application and `RAGService` remain the source of truth for documents, collections, retrieval, and traceability. `opencode.json` connects the GB10 OpenAI-compatible Qwen3-14B service to the local `jinrong-rag` MCP server. The implemented MCP surface is currently read-only:
+
+- `knowledge_search`
+- `knowledge_list_collections`
+- `knowledge_get_source`
+
+The model and one real MCP tool-call path have been validated on GB10. The
+20-call stability run, formal M2 dataset/evaluation, M1 OCR/rule tools, and full
+multi-agent orchestration remain planned work. Do not create a second vector
+store or bypass `RAGService` with ad hoc database queries.
+
+## Development Commands
+
+Use Python 3.11 and install `requirements.txt`. On Windows:
+
+```powershell
+.\venv\Scripts\python.exe scripts\verify_config.py
+.\venv\Scripts\python.exe src\main.py -m http -p 5000
+$env:PYTHONPATH="src"; .\venv\Scripts\python.exe -m pytest tests -v
 ```
 
-The service is available at `http://localhost:5000`; FastAPI documentation is at `/docs`. Start the local PostgreSQL/PGVector container before database-backed work. Run `python scripts/init_pgvector_db.py` when initializing a new database.
-
-## Coding Style & Naming Conventions
-
-Follow PEP 8 with four-space indentation. Use type annotations and concise docstrings for public functions. Name functions and variables `snake_case`, classes `PascalCase`, and constants `UPPER_CASE`. Keep imports ordered as standard library, third-party packages, then project modules. Route handlers belong in `src/web/routers/`; business logic should remain in `src/biz/` rather than handlers. Use `isort src tests` and `pylint src --disable=import-error` for local checks.
-
-## Testing Guidelines
-
-Tests use `pytest`, `pytest-asyncio`, and `pytest-mock`. Name files `test_*.py` and tests `test_<behavior>`. Run:
+On the GB10 Linux machine, initialize and test the MCP path with:
 
 ```bash
-pytest tests/ -v
-pytest tests/ --cov=src --cov-report=html
+export PGDATABASE_URL='postgresql://USER:PASSWORD@127.0.0.1:15432/vector_db'
+export JINRONG_MCP_PYTHON="$HOME/miniconda3/envs/wzh_vllm/bin/python"
+python scripts/init_knowledge_backend.py
+python scripts/smoke_test_mcp_server.py
+opencode mcp list
 ```
 
-Add focused unit tests for service changes and integration tests for API, storage, or retrieval behavior. Do not require live cloud credentials in ordinary test runs.
+## Style and Testing
 
-## Commit & Pull Request Guidelines
+Follow PEP 8, four-space indentation, type annotations, and `snake_case`/`PascalCase` naming. Keep route handlers thin and business logic in `src/biz/`. Tests use `pytest`; name files `test_*.py` and add focused coverage for service, retrieval, MCP contract, and API changes. Commands requiring live PostgreSQL, GB10 models, or cloud credentials must be identified as integration tests.
 
-History uses short imperative subjects and conventional prefixes such as `feat:`, `fix:`, `docs:`, and `chore:`. Keep each commit scoped to one concern. Pull requests should explain the behavior change, list verification commands, link relevant issues, and include screenshots for UI changes. Call out database migrations, configuration changes, and remaining risks.
+## Changes and Security
 
-## Security & Configuration Tips
-
-Never commit `.env`, API keys, passwords, server IPs, model weights, logs, or local databases. Use environment variables for secrets. Do not modify `config/` or perform destructive server/environment operations without explicit coordination.
+Use short, imperative commits scoped to one concern. PRs should state behavior, verification commands, configuration impact, and screenshots for UI changes. Never commit `.env`, credentials, server addresses, model weights, generated datasets, logs, or local databases. Preserve the read-only MCP boundary unless a reviewed task explicitly introduces a write operation.

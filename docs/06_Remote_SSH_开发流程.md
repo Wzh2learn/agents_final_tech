@@ -19,15 +19,23 @@
 远程开发机建议目录：
 
 ```bash
-mkdir -p ~/projects
-cd ~/projects
-git clone <REPO_URL> aimodel-udf-explorer
-cd aimodel-udf-explorer
+mkdir -p ~/wzh/projects
+cd ~/wzh/projects
+git clone <REPO_URL> agents_final_tech
+cd agents_final_tech
 ```
 
 ## 4. Python 环境
 
-建议使用 venv 或 conda。
+开发机优先复用已经验证的 Conda 环境，不重新创建通用环境：
+
+- `wzh_vllm`：项目服务、llama.cpp 与 MCP；
+- `wzh_retrieval`：Embedding/Reranker；
+- `wzh_vision`：OCR/VLM；
+- `wzh_tabular`：TabFM/TabPFN。
+
+只有依赖确实冲突时才创建新环境，且不得原地升级上述共享环境的 CUDA/Torch。
+以下命令仅供新机器从零搭建时参考。
 
 venv 示例：
 
@@ -41,8 +49,8 @@ pip install -r requirements.txt
 conda 示例：
 
 ```bash
-conda create -n aimodel-udf python=3.11 -y
-conda activate aimodel-udf
+conda create -n <new_environment_name> python=3.11 -y
+conda activate <new_environment_name>
 pip install -U pip
 pip install -r requirements.txt
 ```
@@ -141,6 +149,19 @@ npm run dev
 3. 运行模型服务；
 4. 执行 benchmark；
 5. 修复远程环境相关问题。
+
+当前后续开发采用方式二。第一次续接先执行：
+
+```bash
+cd ~/wzh/projects/agents_final_tech
+git status --short
+git stash list
+git fetch origin
+git pull --ff-only origin main
+codex
+```
+
+进入 Codex CLI 后按 `docs/11_开发机_Codex_CLI_交接.md` 的提示词续接。
 
 使用原则：
 

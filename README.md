@@ -87,10 +87,13 @@ JinRongAgents/
 ## 📖 快速索引
 
 *   **[📚 开发者指南 (docs/DEVELOPER_GUIDE.md)](docs/DEVELOPER_GUIDE.md)** - 项目架构、开发规范、新功能添加指南
+*   **[🤖 Agent 开发指南 (docs/AGENTS.md)](docs/AGENTS.md)** - LangGraph、OpenCode 与 MCP 的边界和当前实现状态
+*   **[📍 当前开发交接 (HANDOFF.md)](HANDOFF.md)** - GB10、Codex CLI、已完成事项和下一步
+*   **[🔗 OpenCode/MCP 实施方案](docs/09_OpenCode与现有RAG_MCP实施方案.md)** - GB10 本地模型、只读 RAG MCP 与 M1/M2 路线
 *   **[🔌 API 参考文档 (docs/API_REFERENCE.md)](docs/API_REFERENCE.md)** - 完整的 REST API 接口文档
 *   **[🚀 部署指南 (docs/DEPLOYMENT.md)](docs/DEPLOYMENT.md)** - 环境配置、数据库初始化、部署步骤
 *   **[🧭 业务流程与工作量评估 (docs/PROJECT_BUSINESS_FLOW_WORKLOAD_REPORT.md)](docs/PROJECT_BUSINESS_FLOW_WORKLOAD_REPORT.md)** - 对外汇报用流程、模块和工时评估
-*   **[🛠️ 工具使用说明 (TOOLS_USAGE.md)](TOOLS_USAGE.md)** - 所有工具的用途和调用路径
+*   **[🛠️ 工具使用说明 (docs/TOOLS_USAGE.md)](docs/TOOLS_USAGE.md)** - 所有工具的用途和调用路径
 
 ## 🚀 5分钟快速启动
 
@@ -919,13 +922,13 @@ pip list | grep langchain-postgres
 - **[📚 开发者指南](docs/DEVELOPER_GUIDE.md)** - 项目架构、开发规范、新功能添加、测试指南
 - **[🔌 API参考文档](docs/API_REFERENCE.md)** - 完整的REST API接口文档（34个端点）
 - **[🚀 部署指南](docs/DEPLOYMENT.md)** - 环境配置、数据库初始化、部署步骤、生产环境配置
-- **[🛠️ 工具使用说明](TOOLS_USAGE.md)** - 17个Agent工具的用途和调用路径
+- **[🛠️ 工具使用说明](docs/TOOLS_USAGE.md)** - 17个Agent工具的用途和调用路径
 - **[🤖 Agent设计文档](docs/AGENTS.md)** - LangGraph Agent架构、工具调用、记忆管理
 - **[🔧 Claude插件设置](docs/CLAUDE_PLUGIN_SETUP.md)** - Claude Code项目指南
 
 ### 架构与设计
-- **[📋 Dify vs 自建对比](DIFY_VS_TOOLS_COMPARISON.md)** - Dify工作流与自建工具对比分析
-- **[📝 CLAUDE.md](CLAUDE.md)** - Claude Code专用项目指南（技术栈、命令、架构）
+- **[📋 Dify vs 自建对比](docs/DIFY_VS_TOOLS_COMPARISON.md)** - Dify工作流与自建工具对比分析
+- **[📝 Claude Code 指南](docs/CLAUDE.md)** - Claude Code 的仓库入口和约束
 
 ### 归档文档
 - **[docs/archive/](docs/archive/)** - 历史开发记录、架构评审、代码审查报告、迁移指南

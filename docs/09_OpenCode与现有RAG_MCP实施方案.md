@@ -111,3 +111,26 @@ opencode mcp list
 配置中首批建立 `m2-qa`、`m1-extraction` 和 `evidence-verifier` 三个逻辑
 子 Agent。它们暂时共用 14B 主模型，待单 Agent 工具闭环和任务评测稳定后，
 再根据数字结果决定是否为困难样例切换 35B。
+
+## 8. 实现状态（2026-07-19）
+
+已完成：
+
+- `src/mcp_server/server.py` 中三个只读知识工具；
+- `scripts/start_mcp_server.sh` 与 `scripts/init_knowledge_backend.py`；
+- `tests/test_mcp_server.py` 和协议级 smoke test；
+- `opencode.json` 中 GB10 Provider、MCP 权限和三个逻辑子 Agent。
+- Qwen3-14B 在 16K 上下文下完成 OpenCode 模型调用；
+- OpenCode 成功调用 `knowledge_list_collections` 并获得 `knowledge_base`。
+
+尚未完成：
+
+- M2 正式评测集上的来源命中、拒答和稳定性验收；
+- 20 次连续 MCP/OpenCode 调用的稳定性记录；
+- `m1_parse_document`、`m1_extract_rules` 和 `evaluation_run`；
+- OCR/VLM、Pydantic 校验与人工审核闭环；
+- 面向企业系统的生产权限、状态管理和异常降级。
+
+因此，当前状态是“只读 MCP 最小链路已联通，进入稳定性和 M2 正式基线阶段”，
+不是完整 M1/M2 多 Agent 系统已经交付。开发机 Codex CLI 从根目录
+`HANDOFF.md` 继续工作。

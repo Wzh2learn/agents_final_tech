@@ -1,142 +1,60 @@
-# AGENTS.md - Development Guidelines for AI Agents
+# Agent Development Guide
 
-This file provides guidelines for AI coding agents working on this repository.
+## Source of Truth
 
-## Build/Lint/Test Commands
+All coding agents must read the root `AGENTS.md` first. For product scope and current plans, use:
 
-### Environment Setup
+1. `01_项目背景与目标.md`
+2. `02_阶段计划与分工.md`
+3. `03_技术架构与模块设计.md`
+4. `05_开发任务清单.md`
+5. `09_OpenCode与现有RAG_MCP实施方案.md`
+
+Historical reviews under `archive/` are reference material, not current implementation instructions.
+
+## Two Agent Surfaces
+
+The repository contains two related but distinct agent paths:
+
+- `src/agents/agent.py`: the existing LangGraph agent used by the FastAPI application.
+- `opencode.json`: OpenCode orchestration using the GB10 local model and `src/mcp_server/server.py`.
+
+Do not merge these paths casually. The OpenCode MCP adapter must reuse `RAGService` and existing business identifiers so the Web UI, API, and OpenCode see the same knowledge base.
+
+## Implemented vs Planned
+
+Implemented:
+
+- OpenCode provider for `gb10/qwen3-14b`;
+- local stdio MCP startup script;
+- read-only search, collection listing, and source retrieval tools;
+- MCP unit tests and protocol smoke test;
+- logical `m2-qa`, `m1-extraction`, and `evidence-verifier` subagent definitions.
+
+Planned:
+
+- formal M2 evidence/refusal evaluation;
+- M1 OCR/VLM parsing and Pydantic rule extraction tools;
+- evaluation MCP tools and full coordinator workflow;
+- production permissions, state management, and enterprise integration.
+
+Agent definitions are configuration, not proof that the complete workflow is implemented.
+
+## Working Rules
+
+- Keep MCP tools task-level, typed, traceable, and read-only by default.
+- Access data through `RAGService`, `DocumentManager`, or stable APIs.
+- Preserve `document_id`, chunk metadata, collection, score, and source fields.
+- Put model experiments under `scripts/` and results under `docs/experiments/`.
+- Keep GB10 model weights and Conda environments outside the repository.
+- Mark commands needing PostgreSQL, external APIs, or GPU services as integration steps.
+
+## Verification
+
 ```bash
-# Activate virtual environment (Windows)
-cd D:\AIRcommend\JinRongAgents\agents_final_tech
-venv\Scripts\activate.bat
-
-# Install dependencies
-pip install -r requirements.txt
+PYTHONPATH=src pytest tests/test_mcp_server.py -v
+python scripts/smoke_test_mcp_server.py
+opencode mcp list
 ```
 
-### Running the Application
-```bash
-# Using main.py with HTTP server on port 5000
-python src/main.py -m http -p 5000
-```
-
-### Running Tests
-```bash
-# Run the async test script
-python tests/test_core_service.py
-```
-
-### Linting and Formatting
-```bash
-# Sort imports
-isort src/ tests/
-
-# Lint with pylint
-pylint src/ --disable=import-error
-
-# Verify imports work
-python -c "from src.main import app; print('Import OK')"
-```
-
-## Code Style Guidelines
-
-### Import Conventions
-Use **relative imports** for internal modules, **absolute imports** for third-party libraries:
-```python
-# Internal modules (relative)
-from ..tools.vector_store import get_vector_store
-from ..storage.provider import get_storage_provider
-
-# Third-party libraries (absolute)
-from langchain.tools import tool
-from flask import Flask
-from typing import List, Dict, Optional, Any
-```
-
-### Formatting
-- No unnecessary comments unless explaining complex logic
-- Use blank lines to separate logical sections within functions
-- Keep lines under 120 characters
-- Use consistent indentation (4 spaces)
-
-### Type Annotations
-Use Python's `typing` module for type hints:
-```python
-from typing import List, Dict, Optional, Any, AsyncGenerator
-
-def smart_retrieve(query: str, top_k: int = 5) -> List[Dict[str, Any]]:
-    """Smart retrieval with type annotations."""
-    ...
-
-async def stream_chat(self, message: str, conversation_id: str) -> AsyncGenerator[Dict[str, Any], None]:
-    ...
-```
-
-### Naming Conventions
-- **Files/Functions/Variables**: `snake_case`
-- **Classes**: `PascalCase`
-- **Constants**: `UPPER_SNAKE_CASE`
-- **Private methods**: `_leading_underscore`
-
-### Error Handling
-Catch specific exceptions first, use logging, return user-friendly errors:
-```python
-try:
-    result = process()
-except ValueError as e:
-    logger.error(f"参数错误: {e}")
-    return {"error": "invalid_parameter"}
-except Exception as e:
-    logger.exception(f"未预期错误: {e}")
-    return {"error": "internal_error"}
-```
-
-### Logging
-Use `logging.getLogger(__name__)` for module-level loggers:
-```python
-import logging
-
-logger = logging.getLogger(__name__)
-```
-
-### Project Architecture
-```
-src/
-├── web/          # 表示层 - Flask API + WebSocket
-├── biz/          # 业务逻辑层 - Service层
-├── agents/       # Agent层 - LangGraph Agent
-├── tools/        # 工具层 - Agent可用工具
-├── storage/      # 数据访问层 - DB/S3/Cache
-└── utils/        # 工具函数
-```
-
-### Service Pattern
-Use singleton getters for services:
-```python
-def get_rag_service() -> RAGService:
-    """Get RAG service singleton."""
-    ...
-
-def get_agent_service() -> AgentService:
-    """Get Agent service singleton."""
-    ...
-```
-
-### Async Operations
-Use `async/await` for I/O-bound operations:
-```python
-async def stream_chat(self, message: str, conversation_id: str) -> AsyncGenerator[Dict[str, Any], None]:
-    """Stream chat responses asynchronously."""
-    async for chunk in agent.stream(message):
-        yield chunk
-```
-
-### API Response Format
-Return consistent JSON responses:
-```python
-return jsonify({
-    "status": "success",
-    "data": {...},
-    "message": "操作成功"
-})
-```
+The latter two commands require `PGDATABASE_URL`; the smoke test also requires the dependencies installed in `JINRONG_MCP_PYTHON`.
