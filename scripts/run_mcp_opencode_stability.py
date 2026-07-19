@@ -30,7 +30,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--runs", type=int, default=20)
     parser.add_argument("--timeout", type=int, default=90)
     parser.add_argument("--model", default="gb10/qwen3-14b")
-    parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
@@ -82,6 +82,8 @@ def main() -> None:
     if args.dry_run:
         print(json.dumps({"runs": args.runs, "valid": True, "writes_results": False, "read_only": True}))
         return
+    if args.output_dir is None:
+        raise SystemExit("--output-dir is required for a live stability run")
     if not os.getenv("PGDATABASE_URL"):
         raise SystemExit("PGDATABASE_URL must be exported; it is never read or logged by this script")
 

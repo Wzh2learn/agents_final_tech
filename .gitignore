@@ -33,6 +33,9 @@ tmpclaude-*
 tmp_*.py
 nul
 
+# Sanitized local GB10 runtime artifacts
+docs/experiments/results/
+
 # Testing
 .pytest_cache/
 .coverage
