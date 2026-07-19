@@ -15,6 +15,8 @@
   The sanitized result is stored in `docs/experiments/results/2026-07-19_mcp_opencode_stability_clean/`.
   All 20 checks timed out at the 30-second limit; pass count: 0/20. The result
   stores only run number, elapsed time, status, and output SHA-256 digest.
+  This is a resolved, superseded diagnostic result from before the
+  process-lifecycle fix; the formal 20/20 result above is the current status.
 
 ## M2 baseline blocker
 
@@ -26,11 +28,10 @@ to reports.
 
 ## Next action
 
-Restore a responsive OpenCode/Qwen3-14B completion path, then rerun the same
-20 isolated checks. After an owner supplies an approved local label-to-source
-mapping, run the M2 evaluator and complete human answer-quality review.
+Once an owner-approved local label-to-source mapping is supplied, run the
+documented M2 evaluator and complete human answer-quality review.
 
-## Follow-up diagnostic
+## Resolved/superseded diagnostics
 
 - `run_mcp_opencode_stability.py --dry-run` now validates without an output
   directory; live runs still require one.
@@ -38,8 +39,9 @@ mapping, run the M2 evaluator and complete human answer-quality review.
 - The MCP protocol smoke completed successfully in 22.939 seconds when run
   with the documented MCP Python environment.
 - One isolated OpenCode/MCP probe returned a nonzero status in 18.000 seconds,
-  without timing out and without the success marker. Do not rerun the
-  20-attempt stability sequence until this OpenCode end-to-end path succeeds.
+  without timing out and without the success marker. This is a superseded
+  diagnostic result; the successful formal 20/20 run above is the current
+  status.
 
 ## OpenCode JSON-event follow-up
 
@@ -68,4 +70,4 @@ mapping, run the M2 evaluator and complete human answer-quality review.
   the expected collection-list tool event in a completed state. Its sanitized,
   Git-ignored summary is under
   `docs/experiments/results/2026-07-19_mcp_opencode_stability_lifecycle_probe/`.
-  Do not run the 20-attempt sequence yet.
+  This probe predates and is superseded by the successful formal 20/20 run.
