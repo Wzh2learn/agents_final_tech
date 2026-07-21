@@ -1,6 +1,6 @@
 # Development Handoff
 
-## Snapshot — 2026-07-19
+## Snapshot — 2026-07-21
 
 Start with the current external briefing: [docs/12_阶段收尾与对外汇报.md](docs/12_阶段收尾与对外汇报.md).
 
@@ -23,10 +23,17 @@ a thin, read-only MCP adapter; do not create another vector store or bypass
 - Focused tests for MCP contract, stability runner, and M2 fixture/evaluator:
   **19 passed, 6 deprecation warnings**.
 - A 20-case synthetic/sanitized M2 fixture and evaluator are committed.
+- A separate read-only Vision MCP implementation exposes `vision_ocr_extract` through an
+  isolated vision interpreter. It restricts images to configured roots and model selection to
+  server-side keys; it does not change `jinrong-rag`, databases, or documents. This implementation
+  is not an OCR quality baseline or proof that an inference service is running. Discovery-only
+  protocol smoke passed on 2026-07-21; the required real call is blocked because the documented
+  public Chinese newspaper demo image is absent from the available filesystem. No OCR text or
+  fabricated resource result is recorded.
 
 ## Current execution state and next work
 
-At the 2026-07-19 closeout, no evaluator or Codex execution task was active.
+At the 2026-07-21 closeout, no evaluator or Codex execution task was active.
 The local generation listener and PostgreSQL/PGVector container were still
 running as reusable infrastructure. Runtime state can change independently of
 Git, so verify it before any integration command; do not restart a model merely
@@ -38,7 +45,8 @@ to inspect documentation.
    source-hit/refusal metrics, latency, and human review. Until then, **formal
    M2 business metrics are blocked**.
 3. Build an approved M1 OCR/rule-extraction dataset and complete its first
-   numeric baseline. As of 2026-07-19, no M1 numeric baseline exists.
+   numeric baseline. As of 2026-07-21, no M1 numeric baseline exists. The Vision MCP is only a
+   controlled OCR invocation boundary and must be integration-verified separately.
 4. After single-agent M1/M2 evidence loops are measured, hand the frozen API,
    datasets, and results to the engineering teammate for orchestration,
    permissions, state, and integration.

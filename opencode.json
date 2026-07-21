@@ -26,12 +26,22 @@
       ],
       "enabled": true,
       "timeout": 120000
+    },
+    "jinrong-vision": {
+      "type": "local",
+      "command": [
+        "bash",
+        "scripts/start_vision_mcp_server.sh"
+      ],
+      "enabled": true,
+      "timeout": 660000
     }
   },
   "permission": {
     "edit": "ask",
     "bash": "ask",
-    "jinrong-rag_*": "allow"
+    "jinrong-rag_*": "allow",
+    "jinrong-vision_*": "ask"
   },
   "agent": {
     "m2-qa": {
@@ -41,7 +51,8 @@
       "permission": {
         "edit": "deny",
         "bash": "deny",
-        "jinrong-rag_*": "allow"
+        "jinrong-rag_*": "allow",
+        "jinrong-vision_*": "deny"
       }
     },
     "m1-extraction": {
@@ -51,7 +62,8 @@
       "permission": {
         "edit": "deny",
         "bash": "ask",
-        "jinrong-rag_*": "allow"
+        "jinrong-rag_*": "allow",
+        "jinrong-vision_*": "allow"
       }
     },
     "evidence-verifier": {
@@ -61,7 +73,8 @@
       "permission": {
         "edit": "deny",
         "bash": "deny",
-        "jinrong-rag_*": "allow"
+        "jinrong-rag_*": "allow",
+        "jinrong-vision_*": "allow"
       }
     }
   }

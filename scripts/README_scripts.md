@@ -14,7 +14,7 @@ bash scripts/start_mcp_server.sh
 
 数据库密码和模型/API Token 只通过开发机环境变量提供，不提交到 Git。
 
-截至 2026-07-19，只读 OpenCode/MCP 稳定性脚本的正式验收为 20/20 通过；这不
+截至 2026-07-21，只读 OpenCode/MCP 稳定性脚本的正式验收为 20/20 通过；这不
 表示任何服务当前运行。`run_m2_rag_eval.py` 的 20 条夹具是合成脱敏数据，真实
 运行必须先取得负责人批准的本地标签—来源映射和人工答案质量标注。
 
@@ -173,6 +173,26 @@ authenticating the development machine.
   --image /path/to/document.png \
   --kind paddleocr
 ```
+
+## 6.6 Vision MCP server
+
+`start_vision_mcp_server.sh` 仅启动独立的只读 stdio MCP；它不需要
+`PGDATABASE_URL`，也不会在启动时导入视觉模型依赖。模型目录只由服务端固定映射
+选择，可由各模型对应的本地环境变量覆盖；调用者只能传受控根目录中的图片路径。
+
+```bash
+bash scripts/start_vision_mcp_server.sh
+python scripts/smoke_test_vision_mcp_server.py
+```
+
+第二条命令默认只验证工具发现，不运行推理。只有显式提供已批准图片时才调用 OCR：
+
+```bash
+python scripts/smoke_test_vision_mcp_server.py path/to/approved-image.png --model paddleocr
+```
+
+这是 2026-07-21 提交的实现说明，不是 OCR 质量指标或持续运行状态证明。真实推理的
+原始文本、图片路径和日志均不得提交。
 
 ## 7. run_rag_eval.py
 
