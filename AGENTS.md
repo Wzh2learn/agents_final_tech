@@ -2,25 +2,29 @@
 
 ## Project Structure
 
-`src/` uses a layered FastAPI architecture: `web/` contains routes, templates, and static assets; `biz/` owns application services; `agents/` contains the in-app LangGraph agent; `tools/` implements retrieval and document functions; `storage/` manages PostgreSQL/PGVector, memory, and files. The read-only OpenCode adapter is in `src/mcp_server/`. Put tests in `tests/`, operational and experiment commands in `scripts/`, model manifests in `models/`, and plans/results in `docs/`.
+`src/` uses a layered FastAPI architecture: `web/` contains routes, templates, and static assets; `biz/` owns application services; `agents/` contains the in-app LangGraph agent; `tools/` implements retrieval and document functions; `storage/` manages PostgreSQL/PGVector, memory, and files. Read-only OpenCode adapters live in `src/mcp_server/`, `src/vision_mcp_server/`, and `src/tabular_mcp_server/`. Put tests in `tests/`, operational and experiment commands in `scripts/`, model manifests in `models/`, and plans/results in `docs/`.
 
 Read `HANDOFF.md` for the current GB10 state and immediate work before starting
 a new Codex CLI session.
 
 ## Current Architecture Boundary
 
-The existing Web application and `RAGService` remain the source of truth for documents, collections, retrieval, and traceability. `opencode.json` connects the GB10 OpenAI-compatible Qwen3-14B service to the local `jinrong-rag` MCP server. The implemented MCP surface is currently read-only:
+The existing Web application and `RAGService` remain the source of truth for documents, collections, retrieval, and traceability. `opencode.json` connects the GB10 OpenAI-compatible Qwen3-14B service to three isolated local MCP servers. The implemented surface is read-only:
 
 - `knowledge_search`
 - `knowledge_list_collections`
 - `knowledge_get_source`
+- `vision_ocr_extract`
+- `tabular_classify`
 
 Qwen3-14B has been service-validated on this path, and the formal read-only
 20-call OpenCode/MCP stability run passed. This does not imply a service is
 currently running. Formal M2 business metrics remain blocked on an
-owner-approved label-to-source mapping and human annotations; M1 OCR/rule-tool
-metrics and full multi-agent orchestration remain planned work. Do not create a
-second vector store or bypass `RAGService` with ad hoc database queries.
+owner-approved label-to-source mapping and human annotations. Vision and
+tabular protocol/synthetic chain checks have passed, but M1 OCR quality,
+tabular business metrics, and full multi-agent orchestration remain unfinished.
+Do not create a second vector store or bypass `RAGService` with ad hoc database
+queries.
 
 ## Development Commands
 

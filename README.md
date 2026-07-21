@@ -89,7 +89,7 @@ JinRongAgents/
 *   **[📚 开发者指南 (docs/DEVELOPER_GUIDE.md)](docs/DEVELOPER_GUIDE.md)** - 项目架构、开发规范、新功能添加指南
 *   **[🤖 Agent 开发指南 (docs/AGENTS.md)](docs/AGENTS.md)** - LangGraph、OpenCode 与 MCP 的边界和当前实现状态
 *   **[📍 当前开发交接 (HANDOFF.md)](HANDOFF.md)** - GB10、Codex CLI、已完成事项和下一步
-*   **[阶段收尾与对外汇报](docs/12_阶段收尾与对外汇报.md)** - 2026-07-19 当前事实、边界、风险和交接入口
+*   **[阶段收尾与对外汇报](docs/12_阶段收尾与对外汇报.md)** - 2026-07-21 当前事实、边界、风险和交接入口
 *   **[🔗 OpenCode/MCP 实施方案](docs/09_OpenCode与现有RAG_MCP实施方案.md)** - GB10 本地模型、只读 RAG MCP 与 M1/M2 路线
 *   **[🔌 API 参考文档 (docs/API_REFERENCE.md)](docs/API_REFERENCE.md)** - 完整的 REST API 接口文档
 *   **[🚀 部署指南 (docs/DEPLOYMENT.md)](docs/DEPLOYMENT.md)** - 环境配置、数据库初始化、部署步骤

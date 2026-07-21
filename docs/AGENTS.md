@@ -17,9 +17,13 @@ Historical reviews under `archive/` are reference material, not current implemen
 The repository contains two related but distinct agent paths:
 
 - `src/agents/agent.py`: the existing LangGraph agent used by the FastAPI application.
-- `opencode.json`: OpenCode orchestration using the GB10 local model and `src/mcp_server/server.py`.
+- `opencode.json`: OpenCode orchestration using the GB10 local model and the
+  isolated knowledge, vision, and tabular MCP servers under `src/`.
 
-Do not merge these paths casually. The OpenCode MCP adapter must reuse `RAGService` and existing business identifiers so the Web UI, API, and OpenCode see the same knowledge base.
+Do not merge these paths casually. The knowledge MCP must reuse `RAGService`
+and existing business identifiers so the Web UI, API, and OpenCode see the
+same knowledge base. Vision and tabular MCPs remain isolated model-invocation
+boundaries and must not access or mutate that knowledge store.
 
 ## Implemented vs Planned
 
@@ -28,16 +32,22 @@ Implemented:
 - OpenCode provider for `gb10/qwen3-14b`;
 - local stdio MCP startup script;
 - read-only search, collection listing, and source retrieval tools;
+- isolated `vision_ocr_extract` and `tabular_classify` MCP tools with bounded,
+  server-controlled model invocation;
 - MCP unit tests and protocol smoke test;
-- logical `m2-qa`, `m1-extraction`, and `evidence-verifier` subagent definitions.
+- logical `m2-qa`, `m1-extraction`, `evidence-verifier`, and
+  `tabular-researcher` subagent definitions;
 - formal read-only OpenCode/MCP stability verification: 20/20 passed, with the
   inherited process-descriptor lifecycle issue fixed.
+- desensitized synthetic TabPFN v2 and TabFM MCP calls; these verify the
+  invocation path, not business accuracy.
 
 Planned:
 
 - formal M2 business evaluation (blocked on an owner-approved synthetic-label
   to stable-source mapping and human annotations);
-- M1 OCR/VLM parsing and Pydantic rule extraction tools;
+- approved M1 OCR/rule dataset, real OCR baseline, and Pydantic extraction
+  validation;
 - evaluation MCP tools and full coordinator workflow;
 - production permissions, state management, and enterprise integration.
 
