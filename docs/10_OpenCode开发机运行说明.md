@@ -47,6 +47,11 @@ python scripts/smoke_test_tabular_mcp_server.py --run-synthetic --model tabfm
 和 0.616 秒）。这些调用不构成业务效果或正式 M1/M2 指标。全局调用为 `ask`；`m2-qa` 与
 `evidence-verifier` 禁止，`m1-extraction` 保持 `ask`，专用 `tabular-researcher` 仅可调用该 MCP 工具。
 
+同日 `opencode mcp list` 显示知识、Vision、Tabular 三个 MCP 均已连接；但一次非交互
+`tabular-researcher` 自动调用在超过 3 分钟后仍未启动表格推理子进程，已主动终止。终止后无残留
+进程，Qwen3-14B 模型 API 仍健康。这意味着 MCP 连接和直接调用已验证，但 OpenCode 子 Agent 的
+自动工具选择、提示词与超时策略仍需单独调优，暂不得宣称完整端到端通过。
+
 ## 续接前检查
 
 在开发机交互终端中先执行只读检查：
