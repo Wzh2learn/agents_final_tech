@@ -30,6 +30,11 @@ a thin, read-only MCP adapter; do not create another vector store or bypass
   protocol smoke passed on 2026-07-21; the required real call is blocked because the documented
   public Chinese newspaper demo image is absent from the available filesystem. No OCR text or
   fabricated resource result is recorded.
+- A separate read-only Tabular MCP implementation exposes `tabular_classify` through an MCP
+  interpreter that never imports tabular model packages at startup and an isolated tabular child
+  interpreter. Protocol discovery and a desensitized synthetic TabPFN v2 chain call were verified
+  on 2026-07-21 (success; 8 training rows, 3 prediction rows, 3×2 output, 1.167 seconds); this
+  validates the controlled invocation path, not business accuracy or formal M1/M2 metrics.
 
 ## Current execution state and next work
 
@@ -50,6 +55,9 @@ to inspect documentation.
 4. After single-agent M1/M2 evidence loops are measured, hand the frozen API,
    datasets, and results to the engineering teammate for orchestration,
    permissions, state, and integration.
+5. Treat tabular protocol discovery and synthetic chain validation as operational checks only.
+   Formal business metrics require an approved tabular dataset, evaluation protocol, and human
+   review; none are available as of 2026-07-21.
 
 Do not start LoRA/QLoRA, new model downloads, or full multi-agent orchestration
 before the approved datasets and reproducible baselines exist.

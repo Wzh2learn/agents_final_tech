@@ -26,6 +26,25 @@
 协议发现通过只代表实现可启动；真实 OCR 调用、资源数据和效果结论须单独记录为受控
 集成验证，且原始识别文本不得进入 Git。
 
+## Tabular MCP（已实现，独立验证）
+
+`jinrong-tabular` 与知识、Vision MCP 分离，仅公开
+`tabular_classify(feature_names, train_rows, labels, predict_rows, model="tabpfn", model_version="v2")`。
+调用仅接受小型、矩形、有限数值的内存数据；不接收文件、路径、代码或调用者指定的模型 ID。
+MCP 进程使用 `JINRONG_MCP_PYTHON`（默认 `~/miniconda3/envs/wzh_vllm/bin/python`），启动时不导入
+TabPFN/TabFM；单次推理子进程使用 `JINRONG_TABULAR_PYTHON`（默认
+`~/miniconda3/envs/wzh_tabular/bin/python`）。TabFM checkpoint 是服务端固定映射，可仅由本地
+`JINRONG_TABFM_CHECKPOINT_PATH` 覆盖，且输出不含路径或环境细节。
+
+```bash
+python scripts/smoke_test_tabular_mcp_server.py
+python scripts/smoke_test_tabular_mcp_server.py --run-synthetic --model tabpfn
+```
+
+第一条只做协议发现；第二条才运行既有脱敏合成分类链路，并只打印状态、模型、行数、耗时和输出维度。
+两者均不构成业务效果或正式 M1/M2 指标。全局调用为 `ask`；`m2-qa` 与
+`evidence-verifier` 禁止，`m1-extraction` 保持 `ask`，专用 `tabular-researcher` 仅可调用该 MCP 工具。
+
 ## 续接前检查
 
 在开发机交互终端中先执行只读检查：

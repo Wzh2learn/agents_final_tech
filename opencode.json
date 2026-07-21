@@ -35,13 +35,20 @@
       ],
       "enabled": true,
       "timeout": 660000
+    },
+    "jinrong-tabular": {
+      "type": "local",
+      "command": ["bash", "scripts/start_tabular_mcp_server.sh"],
+      "enabled": true,
+      "timeout": 660000
     }
   },
   "permission": {
     "edit": "ask",
     "bash": "ask",
     "jinrong-rag_*": "allow",
-    "jinrong-vision_*": "ask"
+    "jinrong-vision_*": "ask",
+    "jinrong-tabular_*": "ask"
   },
   "agent": {
     "m2-qa": {
@@ -52,7 +59,8 @@
         "edit": "deny",
         "bash": "deny",
         "jinrong-rag_*": "allow",
-        "jinrong-vision_*": "deny"
+        "jinrong-vision_*": "deny",
+        "jinrong-tabular_*": "deny"
       }
     },
     "m1-extraction": {
@@ -63,7 +71,8 @@
         "edit": "deny",
         "bash": "ask",
         "jinrong-rag_*": "allow",
-        "jinrong-vision_*": "allow"
+        "jinrong-vision_*": "allow",
+        "jinrong-tabular_*": "ask"
       }
     },
     "evidence-verifier": {
@@ -74,7 +83,20 @@
         "edit": "deny",
         "bash": "deny",
         "jinrong-rag_*": "allow",
-        "jinrong-vision_*": "allow"
+        "jinrong-vision_*": "allow",
+        "jinrong-tabular_*": "deny"
+      }
+    },
+    "tabular-researcher": {
+      "description": "Runs bounded, read-only tabular model experiments on explicitly supplied numeric rows.",
+      "mode": "subagent",
+      "model": "gb10/qwen3-14b",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "jinrong-rag_*": "deny",
+        "jinrong-vision_*": "deny",
+        "jinrong-tabular_*": "allow"
       }
     }
   }

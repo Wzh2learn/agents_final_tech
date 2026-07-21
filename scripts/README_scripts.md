@@ -158,6 +158,22 @@ Run the same sample with TabFM:
 require accepting the corresponding gated-model terms on Hugging Face and
 authenticating the development machine.
 
+## 6.4.1 Tabular MCP server
+
+截至 2026-07-21，`start_tabular_mcp_server.sh` 启动独立、只读的 stdio MCP，公开唯一工具
+`tabular_classify`。服务进程使用 `JINRONG_MCP_PYTHON`（默认 `wzh_vllm`）；启动时不导入
+TabPFN/TabFM。重型推理子进程才使用 `JINRONG_TABULAR_PYTHON`（默认 `wzh_tabular`），并以
+固定服务端 TabFM checkpoint（可由本地 `JINRONG_TABFM_CHECKPOINT_PATH` 覆盖）加载。调用不接收文件、
+路径、代码或模型 ID，且输出不暴露环境与 checkpoint。
+
+```bash
+python scripts/smoke_test_tabular_mcp_server.py
+python scripts/smoke_test_tabular_mcp_server.py --run-synthetic --model tabpfn
+```
+
+第一条是协议发现，不运行推理。第二条显式运行既有脱敏合成分类数据，并只打印 pass/fail、模型、
+训练/预测行数、耗时和输出维度。二者都是链路验证，不是业务准确率或正式 M1/M2 指标；不要记录原始预测。
+
 ## 6.5 smoke_test_vision_model.py
 
 用途：
