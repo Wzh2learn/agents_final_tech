@@ -36,7 +36,8 @@ Implemented:
   server-controlled model invocation;
 - MCP unit tests and protocol smoke test;
 - logical `m2-qa`, `m1-extraction`, `evidence-verifier`, and
-  `tabular-researcher` subagent definitions;
+  `tabular-researcher` subagent definitions, plus the direct CLI
+  `tabular-runner` primary agent;
 - formal read-only OpenCode/MCP stability verification: 20/20 passed, with the
   inherited process-descriptor lifecycle issue fixed.
 - desensitized synthetic TabPFN v2 and TabFM MCP calls; these verify the

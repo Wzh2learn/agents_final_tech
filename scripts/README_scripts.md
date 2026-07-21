@@ -177,6 +177,19 @@ python scripts/smoke_test_tabular_mcp_server.py --run-synthetic --model tabfm
 预测、3×2 输出；推理分别为 0.912 秒和 0.616 秒）。这些都是链路验证，不是业务准确率或正式 M1/M2
 指标；不要记录原始预测。
 
+OpenCode CLI 演示使用专用入口，避免初始化无关的 RAG/Vision MCP：
+
+```bash
+bash scripts/run_opencode_tabular.sh run \
+  --agent tabular-runner --title tabular-demo \
+  'Call tabular_classify once with the supplied numeric training and prediction rows.'
+```
+
+`tabular-runner` 是 primary agent；`tabular-researcher` 保留为未来协调器调用的 subagent。前者在
+2026-07-21 的脱敏合成 TabPFN 样例中约 26 秒完成 OpenCode 整链路，推理 1.013 秒。该结果仍仅是
+工具链验证，不是业务指标。非交互 SSH 验收应使用 tmux 或带进程组清理的 runner，避免把 MCP
+子进程继承输出描述符误判成 OpenCode 超时。
+
 ## 6.5 smoke_test_vision_model.py
 
 用途：

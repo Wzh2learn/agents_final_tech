@@ -36,10 +36,11 @@ a thin, read-only MCP adapter; do not create another vector store or bypass
   verified on 2026-07-21 (success; each used 8 training rows, 3 prediction rows, and 3×2 output;
   0.912 and 0.616 seconds respectively); this validates the controlled invocation path, not
   business accuracy or formal M1/M2 metrics.
-- OpenCode lists all three MCP servers as connected. A 2026-07-21 non-interactive
-  `tabular-researcher` attempt was stopped after more than three minutes because Qwen3-14B had
-  not started the tabular child process. The model API remained healthy and no process was left
-  behind. Therefore OpenCode-to-subagent automatic tool selection is not yet end-to-end verified.
+- OpenCode lists all three MCP servers as connected. The dedicated `tabular-runner` primary agent
+  was verified end to end on 2026-07-21: it selected `tabular_classify`, supplied valid typed arrays,
+  and completed the sanitized TabPFN chain in about 26 seconds overall (1.013 seconds inference).
+  The earlier apparent three-minute hang was SSH waiting on inherited output descriptors. Automatic
+  delegation from a coordinator to the `tabular-researcher` subagent remains unverified.
 
 ## Current execution state and next work
 
