@@ -101,6 +101,21 @@
         "jinrong-vision_*": "deny",
         "jinrong-tabular_*": "allow"
       }
+    },
+    "tabular-runner": {
+      "description": "Runs one bounded tabular inference call from the CLI for demonstrations and smoke tests.",
+      "mode": "primary",
+      "model": "gb10/qwen3-14b",
+      "temperature": 0,
+      "steps": 2,
+      "prompt": "You are a deterministic tabular inference runner. Immediately call jinrong-tabular_tabular_classify exactly once. Pass feature_names as a JSON array of strings, train_rows and predict_rows as arrays of numeric arrays, and labels as a numeric array. Never convert arrays or numbers into objects. Do not inspect files, plan, explain before the call, or invent missing values. After the call, report only success or failure, the selected model, elapsed time, and output dimensions. Never print predictions, probabilities, paths, credentials, or raw tool output.",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "jinrong-rag_*": "deny",
+        "jinrong-vision_*": "deny",
+        "jinrong-tabular_*": "allow"
+      }
     }
   }
 }

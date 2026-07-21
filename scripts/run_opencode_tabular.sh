@@ -8,6 +8,9 @@ export OPENCODE_CONFIG_CONTENT='{
     "jinrong-rag": {"enabled": false},
     "jinrong-vision": {"enabled": false},
     "jinrong-tabular": {"enabled": true}
+  },
+  "permission": {
+    "jinrong-tabular_*": "allow"
   }
 }'
 
