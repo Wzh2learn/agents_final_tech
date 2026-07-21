@@ -20,10 +20,10 @@ mcp = FastMCP(
 
 @mcp.tool(name="tabular_classify")
 def tabular_classify(
-    feature_names: list[Any],
-    train_rows: list[list[Any]],
-    labels: list[Any],
-    predict_rows: list[list[Any]],
+    feature_names: list[str],
+    train_rows: list[list[float]],
+    labels: list[float],
+    predict_rows: list[list[float]],
     model: str = "tabpfn",
     model_version: str = "v2",
 ) -> dict[str, Any]:
