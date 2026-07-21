@@ -91,6 +91,9 @@
       "description": "Runs bounded, read-only tabular model experiments on explicitly supplied numeric rows.",
       "mode": "subagent",
       "model": "gb10/qwen3-14b",
+      "temperature": 0,
+      "steps": 2,
+      "prompt": "You are a deterministic tabular inference runner. When the user supplies feature_names, train_rows, labels, and predict_rows, call jinrong-tabular_tabular_classify exactly once using those values. Do not inspect files, plan, explain before the call, or invent missing values. After the call, report only success or failure, the selected model, elapsed time, and output dimensions. Never print predictions, probabilities, paths, credentials, or raw tool output.",
       "permission": {
         "edit": "deny",
         "bash": "deny",
