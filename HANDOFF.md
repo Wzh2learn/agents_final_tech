@@ -32,9 +32,10 @@ a thin, read-only MCP adapter; do not create another vector store or bypass
   fabricated resource result is recorded.
 - A separate read-only Tabular MCP implementation exposes `tabular_classify` through an MCP
   interpreter that never imports tabular model packages at startup and an isolated tabular child
-  interpreter. Protocol discovery and a desensitized synthetic TabPFN v2 chain call were verified
-  on 2026-07-21 (success; 8 training rows, 3 prediction rows, 3×2 output, 1.167 seconds); this
-  validates the controlled invocation path, not business accuracy or formal M1/M2 metrics.
+  interpreter. Protocol discovery and desensitized synthetic TabPFN v2 and TabFM chain calls were
+  verified on 2026-07-21 (success; each used 8 training rows, 3 prediction rows, and 3×2 output;
+  0.912 and 0.616 seconds respectively); this validates the controlled invocation path, not
+  business accuracy or formal M1/M2 metrics.
 
 ## Current execution state and next work
 

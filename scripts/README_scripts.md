@@ -169,10 +169,13 @@ TabPFN/TabFM。重型推理子进程才使用 `JINRONG_TABULAR_PYTHON`（默认 
 ```bash
 python scripts/smoke_test_tabular_mcp_server.py
 python scripts/smoke_test_tabular_mcp_server.py --run-synthetic --model tabpfn
+python scripts/smoke_test_tabular_mcp_server.py --run-synthetic --model tabfm
 ```
 
-第一条是协议发现，不运行推理。第二条显式运行既有脱敏合成分类数据，并只打印 pass/fail、模型、
-训练/预测行数、耗时和输出维度。二者都是链路验证，不是业务准确率或正式 M1/M2 指标；不要记录原始预测。
+第一条是协议发现，不运行推理；后两条显式运行既有脱敏合成分类数据，并只打印 pass/fail、模型、
+训练/预测行数、耗时和输出维度。2026-07-21 的 TabPFN v2 和 TabFM 调用均通过（各 8 条训练、3 条
+预测、3×2 输出；推理分别为 0.912 秒和 0.616 秒）。这些都是链路验证，不是业务准确率或正式 M1/M2
+指标；不要记录原始预测。
 
 ## 6.5 smoke_test_vision_model.py
 

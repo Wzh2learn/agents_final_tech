@@ -39,10 +39,12 @@ TabPFN/TabFM；单次推理子进程使用 `JINRONG_TABULAR_PYTHON`（默认
 ```bash
 python scripts/smoke_test_tabular_mcp_server.py
 python scripts/smoke_test_tabular_mcp_server.py --run-synthetic --model tabpfn
+python scripts/smoke_test_tabular_mcp_server.py --run-synthetic --model tabfm
 ```
 
-第一条只做协议发现；第二条才运行既有脱敏合成分类链路，并只打印状态、模型、行数、耗时和输出维度。
-两者均不构成业务效果或正式 M1/M2 指标。全局调用为 `ask`；`m2-qa` 与
+第一条只做协议发现；后两条运行既有脱敏合成分类链路，并只打印状态、模型、行数、耗时和输出维度。
+2026-07-21 的 TabPFN v2 与 TabFM 调用均通过（各 8 条训练、3 条预测、3×2 输出；推理分别为 0.912 秒
+和 0.616 秒）。这些调用不构成业务效果或正式 M1/M2 指标。全局调用为 `ask`；`m2-qa` 与
 `evidence-verifier` 禁止，`m1-extraction` 保持 `ask`，专用 `tabular-researcher` 仅可调用该 MCP 工具。
 
 ## 续接前检查

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import os
 import sys
@@ -82,7 +83,12 @@ def run_request(request: dict[str, Any]) -> dict[str, Any]:
 def main() -> int:
     """Read exactly one request and emit exactly one JSON result."""
     try:
-        print(json.dumps(run_request(_read_request()), separators=(",", ":")))
+        # TabFM writes its local checkpoint progress to stdout.  The parent
+        # treats stdout as a one-object JSON protocol, so keep model diagnostics
+        # on stderr and reserve stdout for the response contract.
+        with contextlib.redirect_stdout(sys.stderr):
+            result = run_request(_read_request())
+        print(json.dumps(result, separators=(",", ":")))
     except Exception:  # The parent intentionally receives no model/runtime details.
         _error_result()
         return 2

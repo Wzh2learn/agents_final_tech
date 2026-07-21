@@ -4,11 +4,19 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 from types import SimpleNamespace
 
 import pytest
 
 from tabular_mcp_server import service
+
+
+SCRIPTS_DIR = service.PROJECT_ROOT / "scripts"
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
+
+import run_tabular_inference
 
 
 REQUEST = {
@@ -108,3 +116,22 @@ def test_run_handles_timeout_and_nonzero_child() -> None:
         service.run_tabular_classify(
             **REQUEST, runner=lambda *args, **kwargs: SimpleNamespace(returncode=2, stdout="")
         )
+
+
+def test_child_reserves_stdout_for_one_json_result(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """Model initialization logs must not corrupt the parent JSON protocol."""
+    expected = success_payload()
+
+    def noisy_request(_: dict[str, object]) -> dict[str, object]:
+        print("Loading weights from local directory")
+        return expected
+
+    monkeypatch.setattr(run_tabular_inference, "_read_request", lambda: {})
+    monkeypatch.setattr(run_tabular_inference, "run_request", noisy_request)
+
+    assert run_tabular_inference.main() == 0
+    captured = capsys.readouterr()
+    assert json.loads(captured.out) == expected
+    assert captured.err == "Loading weights from local directory\n"
