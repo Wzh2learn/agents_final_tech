@@ -76,6 +76,25 @@ def test_subprocess_command_uses_fixed_mapping_and_not_caller_path(tmp_path: Pat
     assert "--kind" in command
 
 
+def test_vision_mcp_launcher_uses_mcp_python_not_inference_python() -> None:
+    script = service.PROJECT_ROOT / "scripts" / "start_vision_mcp_server.sh"
+    environment = {
+        "JINRONG_MCP_PYTHON": "/bin/echo",
+        "JINRONG_VISION_PYTHON": "/bin/false",
+    }
+
+    result = subprocess.run(
+        ["bash", str(script)],
+        env=environment,
+        capture_output=True,
+        check=False,
+        text=True,
+    )
+
+    assert result.returncode == 0
+    assert result.stdout.strip() == "-m vision_mcp_server.server"
+
+
 def test_parse_output_selects_safe_payload_only(tmp_path: Path) -> None:
     image = make_image(tmp_path)
     payload = {

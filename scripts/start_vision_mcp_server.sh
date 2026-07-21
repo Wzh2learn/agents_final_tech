@@ -2,10 +2,10 @@
 set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PYTHON_BIN="${JINRONG_VISION_PYTHON:-$HOME/miniconda3/envs/wzh_vision/bin/python}"
+PYTHON_BIN="${JINRONG_MCP_PYTHON:-$HOME/miniconda3/envs/wzh_vllm/bin/python}"
 
 if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "JINRONG_VISION_PYTHON must reference an executable Python interpreter." >&2
+  echo "JINRONG_MCP_PYTHON must reference an executable Python interpreter." >&2
   exit 2
 fi
 

@@ -177,7 +177,9 @@ authenticating the development machine.
 ## 6.6 Vision MCP server
 
 `start_vision_mcp_server.sh` 仅启动独立的只读 stdio MCP；它不需要
-`PGDATABASE_URL`，也不会在启动时导入视觉模型依赖。模型目录只由服务端固定映射
+`PGDATABASE_URL`，也不会在启动时导入视觉模型依赖。MCP 服务本身使用
+`JINRONG_MCP_PYTHON`（默认 `~/miniconda3/envs/wzh_vllm/bin/python`）；重型视觉推理子进程才使用
+`JINRONG_VISION_PYTHON`（默认 `~/miniconda3/envs/wzh_vision/bin/python`）。模型目录只由服务端固定映射
 选择，可由各模型对应的本地环境变量覆盖；调用者只能传受控根目录中的图片路径。
 
 ```bash

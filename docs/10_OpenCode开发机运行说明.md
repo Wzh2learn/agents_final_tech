@@ -16,8 +16,9 @@
 ## Vision MCP（已实现，独立验证）
 
 `jinrong-vision` 是与 `jinrong-rag` 分离的只读 stdio MCP，当前仅公开
-`vision_ocr_extract(image_path, model="paddleocr", max_new_tokens=256)`。它使用
-独立视觉解释器启动既有 smoke 脚本，服务启动不加载视觉权重，也不连接数据库。
+`vision_ocr_extract(image_path, model="paddleocr", max_new_tokens=256)`。MCP 服务使用
+`JINRONG_MCP_PYTHON`（默认 `~/miniconda3/envs/wzh_vllm/bin/python`）启动；只有它启动的重型推理子进程使用
+`JINRONG_VISION_PYTHON`（默认 `~/miniconda3/envs/wzh_vision/bin/python`）启动既有 smoke 脚本。服务启动不加载视觉权重，也不连接数据库。
 图片必须位于受控的 `assets/` 或 `data/` 根目录（可通过本地环境变量扩展）；模型键
 仅限 `paddleocr`、`minicpm`、`qwen3-vl`，模型目录始终由服务端选择。
 
