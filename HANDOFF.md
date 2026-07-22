@@ -1,8 +1,8 @@
 # Development Handoff
 
-## Snapshot — 2026-07-21
+## Snapshot — 2026-07-22
 
-Start with the current external briefing: [docs/12_阶段收尾与对外汇报.md](docs/12_阶段收尾与对外汇报.md).
+Start with the approved joint-data plan: [docs/13_M1_M2联合数据闭环计划.md](docs/13_M1_M2联合数据闭环计划.md), then read [docs/12_阶段收尾与对外汇报.md](docs/12_阶段收尾与对外汇报.md).
 
 The existing Web application and `RAGService` remain the sole source of truth
 for documents, collections, retrieval, and traceability.  The OpenCode path is
@@ -50,23 +50,25 @@ running as reusable infrastructure. Runtime state can change independently of
 Git, so verify it before any integration command; do not restart a model merely
 to inspect documentation.
 
-1. Obtain an owner-approved local mapping from synthetic M2 labels to stable
-   source labels, plus human answer-quality annotations.
-2. Run the existing M2 evaluator only after that approval; report Recall@5,
-   source-hit/refusal metrics, latency, and human review. Until then, **formal
-   M2 business metrics are blocked**.
-3. Build an approved M1 OCR/rule-extraction dataset and complete its first
-   numeric baseline. As of 2026-07-21, no M1 numeric baseline exists. The Vision MCP is only a
-   controlled OCR invocation boundary and must be integration-verified separately.
-4. After single-agent M1/M2 evidence loops are measured, hand the frozen API,
-   datasets, and results to the engineering teammate for orchestration,
-   permissions, state, and integration.
-5. Treat tabular protocol discovery and synthetic chain validation as operational checks only.
+1. Implement DATA-1 and DATA-2 from the task list: download and validate the CC BY 4.0 TAT-DQA
+   package outside Git, then create the deterministic `joint-v1` subset with 100 documents,
+   at most 500 questions, document-level 60/20/20 splits, and seed `20260722`.
+2. Commit only scripts, tests, the public-ID manifest, data card, and sanitized aggregate checks.
+   PDFs, converted JSON, rendered pages, indexes, logs, and raw outputs remain under
+   `~/wzh/datasets/tat-dqa/` or another approved external data root.
+3. Run the official converted JSON -> existing knowledge base -> M2 path first to establish an
+   upper bound. Then compare traditional PDF extraction and Vision MCP/OCR on the same manifest.
+4. Report M1, retrieval, answer, end-to-end, Agent, latency, and resource metrics without mixing
+   protocol smoke results with business quality.
+5. Freeze the untuned baseline before preparing SFT/DPO from the training split and real baseline
+   failures. Only after the single-agent joint loop is measured should automatic multi-agent
+   delegation be attempted.
+6. Treat tabular protocol discovery and synthetic chain validation as operational checks only.
    Formal business metrics require an approved tabular dataset, evaluation protocol, and human
    review; none are available as of 2026-07-21.
 
-Do not start LoRA/QLoRA, new model downloads, or full multi-agent orchestration
-before the approved datasets and reproducible baselines exist.
+Do not start LoRA/QLoRA, unrelated model/dataset downloads, or full multi-agent orchestration
+before `joint-v1` and its reproducible untuned baseline exist.
 
 ## Guardrails
 

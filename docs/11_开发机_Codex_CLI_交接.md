@@ -2,7 +2,7 @@
 
 ## 入口
 
-先阅读 [阶段收尾与对外汇报](12_阶段收尾与对外汇报.md)、根目录
+先阅读 [M1/M2 联合数据闭环计划](13_M1_M2联合数据闭环计划.md)、[阶段收尾与对外汇报](12_阶段收尾与对外汇报.md)、根目录
 [HANDOFF.md](../HANDOFF.md) 和 `AGENTS.md`。代码与文档通过 Git 同步；模型
 权重、环境、来源映射、运行日志和私有样本不进入 Git。
 
@@ -25,14 +25,22 @@ codex
 进入 Codex CLI 后可粘贴：
 
 ```text
-接手 JinRongAgents 的文档所述 M1/M2 工作。先阅读 AGENTS.md、HANDOFF.md、
-docs/12_阶段收尾与对外汇报.md、docs/AGENTS.md 和 docs/05_开发任务清单.md，
+接手 JinRongAgents 的 M1 -> M2 联合数据闭环。先阅读 AGENTS.md、HANDOFF.md、
+docs/13_M1_M2联合数据闭环计划.md、docs/12_阶段收尾与对外汇报.md、
+docs/AGENTS.md 和 docs/05_开发任务清单.md，
 然后只读检查 Git 与 tmux 状态。不要假定任何模型或数据库服务仍在运行，也不要
 输出或提交凭据、地址、私有来源、原始模型/工具输出。
 
 已完成：只读 OpenCode/MCP 正式稳定性为 20/20 通过，生命周期问题已修复。
-未完成：M2 正式业务指标（缺批准的标签—来源映射和人工标注）、M1 数值基线、
-完整多 Agent 编排。按批准的数据和责任边界继续，不启动无关实验、下载或服务。
+当前批准的下一步：以 CC BY 4.0 的 TAT-DQA 为主数据集，建立文档级 60/20/20、
+100 文档、最多 500 问题的 joint-v1 固定小样本。先完成 DATA-1 和 DATA-2：检查
+磁盘/网络，编写可测试的下载校验与确定性抽样脚本，再下载到
+~/wzh/datasets/tat-dqa/ 并生成不含正文的 manifest。不要先启动模型，不要下载
+PubTables-1M、FinTabNet、FinQA 等候选，也不要开始 SFT/DPO 或多 Agent 编排。
+
+执行完成后运行相关 pytest，记录文件大小、样本/问题/答案类型/split 数量、泄漏检查、
+命令和阻塞。原始 PDF、解析 JSON、渲染图片、索引、日志和模型输出不得进入 Git。
+若 Google Drive 配额、网络或空间阻塞，停止重复尝试，保留脱敏错误并报告下一条可行命令。
 ```
 
 ## 每次续接
