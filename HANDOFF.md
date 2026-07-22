@@ -50,9 +50,14 @@ running as reusable infrastructure. Runtime state can change independently of
 Git, so verify it before any integration command; do not restart a model merely
 to inspect documentation.
 
-1. Implement DATA-1 and DATA-2 from the task list: download and validate the CC BY 4.0 TAT-DQA
-   package outside Git, then create the deterministic `joint-v1` subset with 100 documents,
-   at most 500 questions, document-level 60/20/20 splits, and seed `20260722`.
+1. DATA-2 is complete and verified: `docs/datasets/tat-dqa-joint-v1-manifest.json` fixes 100
+   public documents and 500 public question IDs at seed `20260722`, with 60/20/20 document
+   splits, required answer-type coverage, and no document leakage. DATA-1 is partially complete:
+   the official JSON plus dev/test document archives are under the approved external data root;
+   the 1.09 GiB training archive was not downloaded after a single sanitized Google Drive proxy
+   disconnect. Do not retry until network/proxy access is restored. Then run
+   `python scripts/tat_dqa_data.py download --status-out /home/testuser/wzh/datasets/tat-dqa/download-status.json`,
+   followed by the documented validation command.
 2. Commit only scripts, tests, the public-ID manifest, data card, and sanitized aggregate checks.
    PDFs, converted JSON, rendered pages, indexes, logs, and raw outputs remain under
    `~/wzh/datasets/tat-dqa/` or another approved external data root.

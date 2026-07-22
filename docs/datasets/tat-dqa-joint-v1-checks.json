@@ -1,0 +1,23 @@
+{
+  "document_count": 100,
+  "document_leakage": false,
+  "documents_by_split": {
+    "test": 20,
+    "train": 60,
+    "validation": 20
+  },
+  "manifest_sha256": "2dffe4504109218b192c31d43484c45158376f1bbef0aefcd5c143d2beecbb84",
+  "question_count": 500,
+  "questions_by_answer_type": {
+    "arithmetic": 155,
+    "comparison": 54,
+    "counting": 54,
+    "span": 155,
+    "spans": 82
+  },
+  "questions_by_split": {
+    "test": 103,
+    "train": 298,
+    "validation": 99
+  }
+}
