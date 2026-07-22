@@ -1,23 +1,29 @@
 {
   "document_count": 100,
   "document_leakage": false,
+  "documents_by_source_split": {
+    "dev": 20,
+    "test_gold": 20,
+    "train": 60
+  },
   "documents_by_split": {
     "test": 20,
     "train": 60,
     "validation": 20
   },
-  "manifest_sha256": "2dffe4504109218b192c31d43484c45158376f1bbef0aefcd5c143d2beecbb84",
+  "manifest_sha256": "c211ae1b20b0e724592be9c2f02d197e348acdcdf405f170542b36f25fbdf072",
+  "official_split_leakage": false,
   "question_count": 500,
   "questions_by_answer_type": {
-    "arithmetic": 155,
-    "comparison": 54,
-    "counting": 54,
-    "span": 155,
-    "spans": 82
+    "arithmetic": 154,
+    "comparison": 59,
+    "counting": 55,
+    "span": 154,
+    "spans": 78
   },
   "questions_by_split": {
-    "test": 103,
-    "train": 298,
-    "validation": 99
+    "test": 100,
+    "train": 300,
+    "validation": 100
   }
 }

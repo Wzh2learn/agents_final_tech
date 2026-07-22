@@ -1,6 +1,6 @@
 # Development Handoff
 
-## Snapshot — 2026-07-22
+## Snapshot — 2026-07-23
 
 Start with the approved joint-data plan: [docs/13_M1_M2联合数据闭环计划.md](docs/13_M1_M2联合数据闭环计划.md), then read [docs/12_阶段收尾与对外汇报.md](docs/12_阶段收尾与对外汇报.md).
 
@@ -52,7 +52,9 @@ to inspect documentation.
 
 1. DATA-2 is complete and verified: `docs/datasets/tat-dqa-joint-v1-manifest.json` fixes 100
    public documents and 500 public question IDs at seed `20260722`, with 60/20/20 document
-   splits, required answer-type coverage, and no document leakage. DATA-1 is partially complete:
+   splits, required answer-type coverage, no document leakage, and preserved official boundaries
+   (`train -> train`, `dev -> validation`, `test_gold -> test`). Focused verification is 9/9.
+   DATA-1 is partially complete:
    the official JSON plus dev/test document archives are under the approved external data root;
    the 1.09 GiB training archive was not downloaded after a single sanitized Google Drive proxy
    disconnect. Do not retry until network/proxy access is restored. Then run

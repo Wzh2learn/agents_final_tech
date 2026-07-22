@@ -16,6 +16,7 @@ SEED = 20260722
 TARGET_DOCUMENTS = 100
 MAX_QUESTIONS = 500
 SPLIT_SIZES = {"train": 60, "validation": 20, "test": 20}
+SOURCE_TO_SPLIT = {"train": "train", "dev": "validation", "test_gold": "test"}
 TARGET_ANSWER_TYPES = ("span", "spans", "arithmetic", "counting", "comparison")
 LICENSE = "CC BY 4.0"
 
@@ -45,7 +46,7 @@ def _first(record: dict[str, Any], keys: Iterable[str], default: Any = None) -> 
     return default
 
 
-def normalize_documents(payloads: Iterable[Any]) -> list[dict[str, Any]]:
+def normalize_documents(payloads: Iterable[Any], source_split: str) -> list[dict[str, Any]]:
     """Normalize official split JSON without retaining questions or source text in output."""
     merged: dict[str, dict[str, Any]] = {}
     for payload in payloads:
@@ -55,7 +56,10 @@ def normalize_documents(payloads: Iterable[Any]) -> list[dict[str, Any]]:
             questions = _first(document, ("questions", "qa", "qas"), [])
             if not document_id or not isinstance(questions, list):
                 continue
-            target = merged.setdefault(document_id, {"document_id": document_id, "questions": []})
+            target = merged.setdefault(
+                document_id,
+                {"document_id": document_id, "source_split": source_split, "questions": []},
+            )
             for index, question in enumerate(questions):
                 if not isinstance(question, dict):
                     continue
@@ -92,9 +96,11 @@ def normalize_documents(payloads: Iterable[Any]) -> list[dict[str, Any]]:
     return sorted((doc for doc in merged.values() if doc["questions"]), key=lambda item: item["document_id"])
 
 
-def select_documents(documents: list[dict[str, Any]], seed: int = SEED) -> list[dict[str, Any]]:
-    if len(documents) < TARGET_DOCUMENTS:
-        raise ValueError(f"need at least {TARGET_DOCUMENTS} documents, found {len(documents)}")
+def select_documents(
+    documents: list[dict[str, Any]], target_count: int, seed: int = SEED
+) -> list[dict[str, Any]]:
+    if len(documents) < target_count:
+        raise ValueError(f"need at least {target_count} documents, found {len(documents)}")
     rng = random.Random(seed)
     shuffled = documents.copy()
     rng.shuffle(shuffled)
@@ -108,7 +114,7 @@ def select_documents(documents: list[dict[str, Any]], seed: int = SEED) -> list[
     # release. Reserve document slots for the two rarest families before filling
     # the sample, so question balancing is not defeated by a purely random draw.
     rare_types = sorted(TARGET_ANSWER_TYPES, key=lambda item: (len(candidates_by_type[item]), item))[:2]
-    per_rare_type = TARGET_DOCUMENTS // len(rare_types)
+    per_rare_type = target_count // len(rare_types)
     for answer_type in rare_types:
         selected_with_type = 0
         for candidate in candidates_by_type[answer_type]:
@@ -123,13 +129,15 @@ def select_documents(documents: list[dict[str, Any]], seed: int = SEED) -> list[
         candidates = [doc for doc in shuffled if any(q["answer_type"] == answer_type for q in doc["questions"])]
         if not candidates:
             raise ValueError(f"answer type is absent from source data: {answer_type}")
-        if not any(any(q["answer_type"] == answer_type for q in doc["questions"]) for doc in selected):
+        if len(selected) < target_count and not any(
+            any(q["answer_type"] == answer_type for q in doc["questions"]) for doc in selected
+        ):
             candidate = candidates[0]
             if candidate["document_id"] not in selected_ids:
                 selected.append(candidate)
                 selected_ids.add(candidate["document_id"])
     for document in shuffled:
-        if len(selected) == TARGET_DOCUMENTS:
+        if len(selected) == target_count:
             break
         if document["document_id"] not in selected_ids:
             selected.append(document)
@@ -137,57 +145,47 @@ def select_documents(documents: list[dict[str, Any]], seed: int = SEED) -> list[
     return selected
 
 
-def assign_splits(documents: list[dict[str, Any]], seed: int = SEED) -> dict[str, str]:
-    if len(documents) != TARGET_DOCUMENTS:
-        raise ValueError(f"joint-v1 requires exactly {TARGET_DOCUMENTS} documents")
-    ordered = documents.copy()
-    random.Random(seed + 1).shuffle(ordered)
-    assignments: dict[str, str] = {}
-    cursor = 0
-    for split, count in SPLIT_SIZES.items():
-        for document in ordered[cursor : cursor + count]:
-            assignments[document["document_id"]] = split
-        cursor += count
-    return assignments
-
-
-def select_questions(documents: list[dict[str, Any]], assignments: dict[str, str], seed: int = SEED) -> list[dict[str, Any]]:
-    grouped: dict[str, list[tuple[str, dict[str, Any]]]] = defaultdict(list)
-    for document in documents:
-        for question in document["questions"]:
-            grouped[question["answer_type"]].append((document["document_id"], question))
-    for values in grouped.values():
-        random.Random(seed + len(values)).shuffle(values)
-
+def select_questions(documents: list[dict[str, Any]], seed: int = SEED) -> list[dict[str, Any]]:
     selected: list[dict[str, Any]] = []
-    positions = {answer_type: 0 for answer_type in sorted(grouped)}
-    # The public test release has questions without answer-type labels. They are
-    # retained as candidate documents, but excluded from this typed baseline so
-    # answer-type coverage is auditable rather than inferred.
-    answer_types = [answer_type for answer_type in TARGET_ANSWER_TYPES if grouped.get(answer_type)]
-    while len(selected) < MAX_QUESTIONS:
-        added = False
-        for answer_type in answer_types:
-            position = positions[answer_type]
-            if position >= len(grouped[answer_type]) or len(selected) >= MAX_QUESTIONS:
+    for source_split, split in SOURCE_TO_SPLIT.items():
+        grouped: dict[str, list[tuple[dict[str, Any], dict[str, Any]]]] = defaultdict(list)
+        for document in documents:
+            if document["source_split"] != source_split:
                 continue
-            document_id, question = grouped[answer_type][position]
-            positions[answer_type] += 1
-            selected.append(
-                {
-                    "dataset_id": "tat-dqa",
-                    "document_id": document_id,
-                    "page_no": question["page_no"],
-                    "question_id": question["question_id"],
-                    "answer_type": question["answer_type"],
-                    "source_block_ids": question["source_block_ids"],
-                    "split": assignments[document_id],
-                    "license": LICENSE,
-                }
-            )
-            added = True
-        if not added:
-            break
+            for question in document["questions"]:
+                grouped[question["answer_type"]].append((document, question))
+        for answer_type, values in grouped.items():
+            random.Random(f"{seed}:{source_split}:{answer_type}").shuffle(values)
+
+        budget = SPLIT_SIZES[split] * (MAX_QUESTIONS // TARGET_DOCUMENTS)
+        positions = {answer_type: 0 for answer_type in TARGET_ANSWER_TYPES}
+        answer_types = [answer_type for answer_type in TARGET_ANSWER_TYPES if grouped.get(answer_type)]
+        split_selected = 0
+        while split_selected < budget:
+            added = False
+            for answer_type in answer_types:
+                position = positions[answer_type]
+                if position >= len(grouped[answer_type]) or split_selected >= budget:
+                    continue
+                document, question = grouped[answer_type][position]
+                positions[answer_type] += 1
+                selected.append(
+                    {
+                        "dataset_id": "tat-dqa",
+                        "document_id": document["document_id"],
+                        "page_no": question["page_no"],
+                        "question_id": question["question_id"],
+                        "answer_type": question["answer_type"],
+                        "source_block_ids": question["source_block_ids"],
+                        "source_split": source_split,
+                        "split": split,
+                        "license": LICENSE,
+                    }
+                )
+                split_selected += 1
+                added = True
+            if not added:
+                break
     return sorted(selected, key=lambda item: (item["split"], item["document_id"], item["question_id"]))
 
 
@@ -205,6 +203,13 @@ def validate_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
     leakage = [item["document_id"] for item in questions if document_splits.get(item["document_id"]) != item["split"]]
     if leakage:
         raise ValueError(f"document leakage or split mismatch: {sorted(set(leakage))}")
+    source_mismatches = [
+        item["document_id"]
+        for item in documents
+        if SOURCE_TO_SPLIT.get(item["source_split"]) != item["split"]
+    ]
+    if source_mismatches:
+        raise ValueError(f"official source split leakage: {sorted(set(source_mismatches))}")
     answer_types = Counter(item["answer_type"] for item in questions)
     missing = [item for item in TARGET_ANSWER_TYPES if not answer_types.get(item)]
     if missing:
@@ -213,23 +218,40 @@ def validate_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
         "document_count": len(documents),
         "question_count": len(questions),
         "documents_by_split": dict(sorted(split_counts.items())),
+        "documents_by_source_split": dict(
+            sorted(Counter(item["source_split"] for item in documents).items())
+        ),
         "questions_by_split": dict(sorted(Counter(item["split"] for item in questions).items())),
         "questions_by_answer_type": dict(sorted(answer_types.items())),
         "document_leakage": False,
+        "official_split_leakage": False,
     }
 
 
-def build_manifest(payloads: Iterable[Any], seed: int = SEED) -> tuple[dict[str, Any], dict[str, Any]]:
-    selected_documents = select_documents(normalize_documents(payloads), seed)
-    assignments = assign_splits(selected_documents, seed)
-    questions = select_questions(selected_documents, assignments, seed)
+def build_manifest(
+    split_payloads: dict[str, Iterable[Any]], seed: int = SEED
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    missing = set(SOURCE_TO_SPLIT) - set(split_payloads)
+    if missing:
+        raise ValueError(f"missing official source splits: {sorted(missing)}")
+    selected_documents: list[dict[str, Any]] = []
+    for offset, (source_split, split) in enumerate(SOURCE_TO_SPLIT.items()):
+        documents = normalize_documents(split_payloads[source_split], source_split)
+        selected_documents.extend(select_documents(documents, SPLIT_SIZES[split], seed + offset))
+    questions = select_questions(selected_documents, seed)
     manifest = {
         "manifest_version": "joint-v1",
         "dataset": "TAT-DQA",
         "license": LICENSE,
         "seed": seed,
         "documents": [
-            {"dataset_id": "tat-dqa", "document_id": doc["document_id"], "split": assignments[doc["document_id"]], "license": LICENSE}
+            {
+                "dataset_id": "tat-dqa",
+                "document_id": doc["document_id"],
+                "source_split": doc["source_split"],
+                "split": SOURCE_TO_SPLIT[doc["source_split"]],
+                "license": LICENSE,
+            }
             for doc in sorted(selected_documents, key=lambda item: item["document_id"])
         ],
         "questions": questions,
@@ -239,12 +261,18 @@ def build_manifest(payloads: Iterable[Any], seed: int = SEED) -> tuple[dict[str,
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", action="append", required=True, type=Path, help="Official TAT-DQA JSON file; repeat for each split.")
+    parser.add_argument("--train-input", required=True, type=Path)
+    parser.add_argument("--validation-input", required=True, type=Path)
+    parser.add_argument("--test-input", required=True, type=Path, help="Official test-gold JSON file.")
     parser.add_argument("--manifest-out", required=True, type=Path)
     parser.add_argument("--checks-out", required=True, type=Path)
     args = parser.parse_args()
-    payloads = [json.loads(path.read_text(encoding="utf-8")) for path in args.input]
-    manifest, checks = build_manifest(payloads)
+    split_payloads = {
+        "train": [json.loads(args.train_input.read_text(encoding="utf-8"))],
+        "dev": [json.loads(args.validation_input.read_text(encoding="utf-8"))],
+        "test_gold": [json.loads(args.test_input.read_text(encoding="utf-8"))],
+    }
+    manifest, checks = build_manifest(split_payloads)
     serialized = json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     checks["manifest_sha256"] = hashlib.sha256(serialized.encode("utf-8")).hexdigest()
     args.manifest_out.parent.mkdir(parents=True, exist_ok=True)
