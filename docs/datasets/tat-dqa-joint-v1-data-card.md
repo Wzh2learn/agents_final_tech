@@ -38,19 +38,20 @@ python scripts/prepare_tat_dqa_joint_v1.py \
   --checks-out docs/datasets/tat-dqa-joint-v1-checks.json
 ```
 
-The downloader performs no automatic retry. If Drive access, quota, content
-format, or disk capacity fails, it writes a sanitized external status and exits
-non-zero; inspect and resolve that condition before issuing a new download.
+The downloader performs no automatic retry within one invocation. A valid
+`.part` file is retained after interruption; the next explicit invocation sends
+an HTTP Range request and resumes only after validating `Content-Range`. If the
+server ignores Range it safely restarts that file. Drive access, quota, content
+format, and disk failures are written to a sanitized external status.
 
-## Acquisition status — 2026-07-23
+## Acquisition status — 2026-07-24
 
-The pre-download capacity check passed. One official download pass obtained all
-four JSON files and the dev/test document archives. The train document archive
-remains absent after a sanitized Google Drive proxy disconnect; the external
-validation status consequently reports that expected file as missing. This is a
-data-acquisition blocker only: the downloaded official JSON was sufficient to
-freeze the public-ID manifest, but it is not evidence that the complete raw
-package has been validated.
+The pre-download capacity check passed. After a controlled interruption at
+516,964,298 bytes, the Range-validated resume completed the train archive.
+All seven official files now match the cataloged 1,514,773,595 bytes. JSON
+parsing and ZIP CRC validation passed: the four JSON files contain 274, 277,
+277, and 2,207 records; the dev, test, and train archives contain 856, 892, and
+6,863 members. The raw package remains outside Git.
 
 ## Frozen sampling contract
 

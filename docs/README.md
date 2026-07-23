@@ -35,12 +35,14 @@
 进程生命周期问题已修复；Qwen3-14B 是已验证的本地生成服务路径，但不表示
 当前正在运行。M1/M2 已明确为“文档解析 -> 建库 -> 带证据问答”的联合任务，
 并选定 CC BY 4.0 的 TAT-DQA 固定小样本作为首个公共基线；公开 ID 子集已保留
-官方 split 完成冻结，训练 PDF archive 仍受网络阻塞。独立 Vision/Tabular MCP 已实现，且
+官方 split 完成冻结，7/7 官方数据文件已通过大小、JSON 和 ZIP CRC 校验。独立 Vision/Tabular MCP 已实现，且
 TabPFN v2、TabFM 脱敏合成链路已通过；这些不是业务质量指标。M1 数值基线和完整
-多 Agent 编排尚未完成。
+多 Agent 编排尚未完成。TAT-DQA 官方解析 JSON 的首个 validation M2 上限已经完成：
+文档 Recall@5 0.81、证据块 Recall@5 0.50、答案 EM 0.24；它不包含 OCR/PDF 误差。
 面向老师或协作同学请优先阅读[阶段收尾与对外汇报](12_阶段收尾与对外汇报.md)。
 
 模型下载、环境和冒烟测试记录位于 [`experiments/`](experiments/)，模型目录约定见 [`../models/README.md`](../models/README.md)，脚本说明见 [`../scripts/README_scripts.md`](../scripts/README_scripts.md)。
+首个公共 validation 指标见 [TAT-DQA M2 解析上限](experiments/2026-07-23_tat_dqa_m2_upper_bound.md)。
 
 ## 归档
 

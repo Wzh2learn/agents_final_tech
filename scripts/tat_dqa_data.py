@@ -73,7 +73,7 @@ def _download_url(drive_id: str) -> str:
 
 
 def download_package(data_root: Path) -> dict[str, object]:
-    """Download the exact official package once, refusing insufficient disk space."""
+    """Download the official package once per invocation, resuming valid partials."""
     plan = package_plan(data_root)
     if plan["available_bytes"] < plan["expected_archive_bytes"]:
         raise RuntimeError(
@@ -91,14 +91,37 @@ def download_package(data_root: Path) -> dict[str, object]:
                 results.append({"name": item.name, "status": "already_present", "bytes": item.expected_bytes})
                 continue
             partial = destination.with_suffix(destination.suffix + ".part")
-            response = session.get(_download_url(item.drive_id), stream=True, timeout=(15, 120))
+            partial_bytes = partial.stat().st_size if partial.exists() else 0
+            if partial_bytes > item.expected_bytes:
+                partial_bytes = 0
+            headers = {"Range": f"bytes={partial_bytes}-"} if partial_bytes else None
+            response = session.get(
+                _download_url(item.drive_id),
+                stream=True,
+                timeout=(15, 120),
+                headers=headers,
+            )
             response.raise_for_status()
             content_type = response.headers.get("Content-Type", "")
             if "text/html" in content_type.lower():
                 raise RuntimeError(f"download blocked for {item.name}: received HTML instead of file content")
             digest = hashlib.sha256()
-            received = 0
-            with partial.open("wb") as handle:
+            resumed = bool(partial_bytes and response.status_code == 206)
+            if resumed:
+                content_range = response.headers.get("Content-Range", "")
+                if not content_range.startswith(f"bytes {partial_bytes}-"):
+                    raise RuntimeError(
+                        f"invalid resume response for {item.name}: {content_range!r}"
+                    )
+                with partial.open("rb") as existing:
+                    for chunk in iter(lambda: existing.read(1024 * 1024), b""):
+                        digest.update(chunk)
+                received = partial_bytes
+                mode = "ab"
+            else:
+                received = 0
+                mode = "wb"
+            with partial.open(mode) as handle:
                 for chunk in response.iter_content(chunk_size=1024 * 1024):
                     if chunk:
                         handle.write(chunk)
@@ -109,7 +132,12 @@ def download_package(data_root: Path) -> dict[str, object]:
                     f"download size mismatch for {item.name}: expected {item.expected_bytes}, received {received}"
                 )
             partial.replace(destination)
-            results.append({"name": item.name, "status": "downloaded", "bytes": received, "sha256": digest.hexdigest()})
+            results.append({
+                "name": item.name,
+                "status": "resumed" if resumed else "downloaded",
+                "bytes": received,
+                "sha256": digest.hexdigest(),
+            })
     return {"plan": plan, "downloads": results}
 
 

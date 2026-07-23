@@ -9,7 +9,13 @@ from scripts.prepare_tat_dqa_joint_v1 import (
     build_manifest,
     validate_manifest,
 )
-from scripts.tat_dqa_data import PACKAGE_FILES, expected_package_bytes, package_plan
+from scripts.tat_dqa_data import (
+    PackageFile,
+    PACKAGE_FILES,
+    download_package,
+    expected_package_bytes,
+    package_plan,
+)
 
 
 def fixture_payload(prefix: str, document_count: int) -> list[dict]:
@@ -141,3 +147,42 @@ def test_manifest_excludes_question_answer_and_evidence_text():
             assert value != "public fixture text"
 
     walk(manifest)
+
+
+def test_downloader_resumes_a_partial_file(monkeypatch, tmp_path):
+    import scripts.tat_dqa_data as data_module
+
+    item = PackageFile("sample.zip", "drive-id", 6)
+    partial = tmp_path / "raw" / "sample.zip.part"
+    partial.parent.mkdir()
+    partial.write_bytes(b"abc")
+
+    class FakeResponse:
+        status_code = 206
+        headers = {
+            "Content-Type": "application/zip",
+            "Content-Range": "bytes 3-5/6",
+        }
+
+        def raise_for_status(self):
+            return None
+
+        def iter_content(self, chunk_size):
+            yield b"def"
+
+    class FakeSession:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return None
+
+        def get(self, url, **kwargs):
+            assert kwargs["headers"] == {"Range": "bytes=3-"}
+            return FakeResponse()
+
+    monkeypatch.setattr(data_module, "PACKAGE_FILES", (item,))
+    monkeypatch.setattr(data_module.requests, "Session", FakeSession)
+    result = download_package(tmp_path)
+    assert (tmp_path / "raw" / "sample.zip").read_bytes() == b"abcdef"
+    assert result["downloads"][0]["status"] == "resumed"

@@ -4,6 +4,7 @@
 """
 import os
 import re
+from pathlib import Path
 from typing import Optional, Union, List
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
@@ -99,6 +100,39 @@ class SiliconFlowEmbeddings(Embeddings):
         return self.embed_documents([text])[0]
 
 
+class LocalSentenceTransformerEmbeddings(Embeddings):
+    """Sentence Transformers adapter for an explicitly configured local model."""
+
+    def __init__(self, model_path: str, device: str = "cuda"):
+        path = Path(model_path).expanduser()
+        if not path.is_dir():
+            raise ValueError(f"本地 Embedding 模型目录不存在: {path}")
+        try:
+            from sentence_transformers import SentenceTransformer
+        except ImportError as exc:
+            raise RuntimeError("本地 Embedding 需要 sentence-transformers") from exc
+        self.model_path = str(path)
+        self.device = device
+        self.model = SentenceTransformer(
+            self.model_path,
+            trust_remote_code=True,
+            device=device,
+        )
+
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+        if not texts:
+            return []
+        vectors = self.model.encode(
+            texts,
+            normalize_embeddings=True,
+            show_progress_bar=False,
+        )
+        return vectors.tolist()
+
+    def embed_query(self, text: str) -> List[float]:
+        return self.embed_documents([text])[0]
+
+
 def __dynamic_import():
     """动态导入 PGVector"""
     global _vector_store
@@ -120,7 +154,7 @@ def get_embeddings(
     model: Optional[str] = None,
     api_key: Optional[str] = None,
     base_url: Optional[str] = None
-) -> SiliconFlowEmbeddings:
+) -> Embeddings:
     """
     获取硅基流动 Embeddings 实例
     """
@@ -131,6 +165,14 @@ def get_embeddings(
         return _embeddings_client
 
     try:
+        local_model_path = os.getenv("LOCAL_EMBEDDING_MODEL_PATH")
+        if local_model_path:
+            _embeddings_client = LocalSentenceTransformerEmbeddings(
+                model_path=local_model_path,
+                device=os.getenv("LOCAL_EMBEDDING_DEVICE", "cuda"),
+            )
+            return _embeddings_client
+
         config = get_config()
         embedding_model = model or config.get("embedding.model", "Qwen/Qwen3-Embedding-0.6B")
         api_key_env = config.get("embedding.api_key_env", "SILICONFLOW_API_KEY")

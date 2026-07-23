@@ -1,6 +1,6 @@
 # Development Handoff
 
-## Snapshot — 2026-07-23
+## Snapshot — 2026-07-24
 
 Start with the approved joint-data plan: [docs/13_M1_M2联合数据闭环计划.md](docs/13_M1_M2联合数据闭环计划.md), then read [docs/12_阶段收尾与对外汇报.md](docs/12_阶段收尾与对外汇报.md).
 
@@ -23,6 +23,12 @@ a thin, read-only MCP adapter; do not create another vector store or bypass
 - Focused tests for MCP contract, stability runner, and M2 fixture/evaluator:
   **19 passed, 6 deprecation warnings**.
 - A 20-case synthetic/sanitized M2 fixture and evaluator are committed.
+- The first public validation baseline is complete on TAT-DQA official converted JSON:
+  20 documents, 627 parsed blocks, and 100 questions were run through the existing
+  `RAGService` with local Qwen3-Embedding-0.6B and Qwen3-14B. Document Recall@5 is
+  0.81, evidence-block Recall@5 is 0.50, evidence MRR is 0.4132, answer exact match
+  is 0.24, correct evidence citation rate is 0.48, and mean end-to-end latency is
+  3.079 seconds. This is an M2 parsed-input upper bound, not an M1/PDF result.
 - A separate read-only Vision MCP implementation exposes `vision_ocr_extract` through an
   isolated vision interpreter. It restricts images to configured roots and model selection to
   server-side keys; it does not change `jinrong-rag`, databases, or documents. This implementation
@@ -54,17 +60,15 @@ to inspect documentation.
    public documents and 500 public question IDs at seed `20260722`, with 60/20/20 document
    splits, required answer-type coverage, no document leakage, and preserved official boundaries
    (`train -> train`, `dev -> validation`, `test_gold -> test`). Focused verification is 9/9.
-   DATA-1 is partially complete:
-   the official JSON plus dev/test document archives are under the approved external data root;
-   the 1.09 GiB training archive was not downloaded after a single sanitized Google Drive proxy
-   disconnect. Do not retry until network/proxy access is restored. Then run
-   `python scripts/tat_dqa_data.py download --status-out /home/testuser/wzh/datasets/tat-dqa/download-status.json`,
-   followed by the documented validation command.
+   DATA-1 is complete: all seven official files match 1,514,773,595 cataloged bytes,
+   all four JSON files parse, and all three ZIP CRC checks pass. A 516,964,298-byte
+   interrupted train archive was completed through the Range-validated resumable downloader.
 2. Commit only scripts, tests, the public-ID manifest, data card, and sanitized aggregate checks.
    PDFs, converted JSON, rendered pages, indexes, logs, and raw outputs remain under
    `~/wzh/datasets/tat-dqa/` or another approved external data root.
-3. Run the official converted JSON -> existing knowledge base -> M2 path first to establish an
-   upper bound. Then compare traditional PDF extraction and Vision MCP/OCR on the same manifest.
+3. The official converted JSON -> existing knowledge base -> M2 validation upper bound is frozen.
+   Next compare vector/BM25/hybrid/rerank as single variables, then compare traditional PDF
+   extraction and Vision MCP/OCR on the same manifest.
 4. Report M1, retrieval, answer, end-to-end, Agent, latency, and resource metrics without mixing
    protocol smoke results with business quality.
 5. Freeze the untuned baseline before preparing SFT/DPO from the training split and real baseline

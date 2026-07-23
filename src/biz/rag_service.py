@@ -170,6 +170,59 @@ class RAGService:
         
         return {"object_key": object_key, "chunks": len(chunks), "hierarchical": use_hierarchical, "collection": target_collection}
 
+    def ingest_parsed_blocks(
+        self,
+        document_id: str,
+        blocks: List[Dict[str, Any]],
+        metadata: Optional[Dict[str, Any]] = None,
+        collection_name: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Ingest trusted, pre-parsed document blocks through the RAG service."""
+        clean_document_id = document_id.strip()
+        if not clean_document_id:
+            raise ValueError("document_id must not be empty")
+        if not blocks:
+            raise ValueError("blocks must not be empty")
+
+        target_collection = collection_name or self.collection_name
+        base_metadata = dict(metadata or {})
+        source = str(base_metadata.pop("source", clean_document_id)).strip()
+        if not source:
+            source = clean_document_id
+
+        documents: List[Document] = []
+        for index, block in enumerate(blocks):
+            text = str(block.get("text") or "").replace("\x00", "").strip()
+            block_id = str(block.get("block_id") or "").strip()
+            if not text or not block_id:
+                continue
+            documents.append(
+                Document(
+                    page_content=text,
+                    metadata={
+                        **base_metadata,
+                        "source": source,
+                        "document_id": clean_document_id,
+                        "block_id": block_id,
+                        "page": block.get("page"),
+                        "bbox": block.get("bbox"),
+                        "order": block.get("order"),
+                        "chunk_index": index,
+                        "parsed_upper_bound": True,
+                    },
+                )
+            )
+
+        if not documents:
+            raise ValueError("blocks contain no valid text/block_id pairs")
+        get_vector_store(collection_name=target_collection).add_documents(documents)
+        return {
+            "document_id": clean_document_id,
+            "source": source,
+            "chunks": len(documents),
+            "collection": target_collection,
+        }
+
     def smart_retrieve(
         self,
         query: str,

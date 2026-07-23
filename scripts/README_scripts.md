@@ -235,6 +235,19 @@ python scripts/smoke_test_vision_mcp_server.py path/to/approved-image.png --mode
 - 批量运行 RAG 问答测试集；
 - 输出来源命中率、回答可追溯率、延迟。
 
+## 7.1 run_tat_dqa_m2_upper_bound.py
+
+用途：
+
+- 将 TAT-DQA 官方转换块通过 `RAGService` 写入隔离评测 collection；
+- 使用本地 Qwen3-Embedding 运行 validation 检索上限；
+- 可选调用 Qwen3-14B，输出不含原文的 Recall@5、MRR、EM、引用率和延迟；
+- 禁止在方案冻结前对 test split 运行答案评测。
+
+原始问题、答案、模型输出和逐题结果只写入开发机
+`~/wzh/datasets/tat-dqa/derived/`，不得提交 Git。完整命令和 2026-07-23
+基线见 `docs/experiments/2026-07-23_tat_dqa_m2_upper_bound.md`。
+
 ## 8. run_rule_extract_eval.py
 
 用途：
