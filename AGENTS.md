@@ -26,12 +26,27 @@ tabular business metrics, and full multi-agent orchestration remain unfinished.
 Do not create a second vector store or bypass `RAGService` with ad hoc database
 queries.
 
-As of 2026-07-27, the local worktree also contains an **unverified M1 display
-draft** (`m1_service.py`, `routers/m1.py`, and `templates/m1.html`). It is a
-deterministic text baseline for explaining the planned M1 -> M2 handoff, not a
-GB10 OCR/VLM experiment or a persistent production API. Finish its static
-assets and focused tests locally before synchronizing it to GB10; retain this
-distinction in code, docs, and teacher-facing material.
+As of 2026-07-28, the M1 display workbench is **complete and verified**:
+`src/biz/m1_service.py`, `src/web/routers/m1.py`, `src/web/templates/m1.html`,
+`src/web/static/m1.css`, `src/web/static/m1.js`, and `tests/test_m1_service.py`
+(18 tests passing on both Windows and Linux aarch64). It is a deterministic
+text-rule baseline for demonstrating the M1 -> M2 handoff flow, not an
+OCR/VLM result or a production API. The GB10 dev machine has pulled this code
+and verified tests pass.
+
+## GB10 Dev Machine (2026-07-28)
+
+Codex CLI 0.145.0 is configured with Token Plan:
+- Default model: `qwen3.8-max-preview` (direct, Responses API)
+- Chat-only models (`glm-5.2`, `deepseek-v4-pro`) via local proxy on `:8100`
+  (`scripts/responses2chat_proxy.py`)
+- tmux sessions for autonomous experiment loops
+- venv at `~/wzh/projects/agents_final_tech/venv` (pytest + pydantic)
+- PostgreSQL/PGVector Docker container on `:15432`
+- Qwen3-14B llama-server on `:8004` (16K context)
+
+Use `--dangerously-bypass-approvals-and-sandbox` for Codex CLI exec on GB10
+(bubblewrap user namespaces unavailable).
 
 ## Development Commands
 

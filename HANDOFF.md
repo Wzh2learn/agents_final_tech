@@ -1,6 +1,6 @@
 # Development Handoff
 
-## Snapshot — 2026-07-27
+## Snapshot — 2026-07-28
 
 Start with the approved joint-data plan: [docs/13_M1_M2联合数据闭环计划.md](docs/13_M1_M2联合数据闭环计划.md), then read [docs/12_阶段收尾与对外汇报.md](docs/12_阶段收尾与对外汇报.md).
 
@@ -58,20 +58,34 @@ to inspect documentation.
 
 ### Local M1 display draft (not yet verified)
 
-On 2026-07-27, work began in the local Windows checkout on a teacher-facing M1
-display workbench. The worktree contains a deterministic, text-only draft in
-`src/biz/m1_service.py`, `src/web/routers/m1.py`, `src/web/templates/m1.html`,
-and route registration updates. Its intended flow is source text -> structured
-rule candidates -> Pydantic validation -> non-persistent human-review decision
--> M2 handoff payload. It deliberately labels itself as a local rule baseline;
-it is not an OCR/VLM result, an OpenCode workflow, a persisted review system, or
-a GB10 validation.
+### M1 display workbench (complete, verified 2026-07-28)
 
-The draft was interrupted before CSS/JavaScript, focused tests, application
-startup, browser verification, Git commit, or GB10 synchronization. The
-candidate-block splitter also needs a small correction so a document preamble is
-not emitted as an extra rule. Treat these files as an in-progress local change,
-not a runnable feature or a result suitable for reporting.
+The M1 display workbench is complete and verified on both Windows and Linux
+aarch64 (GB10). Files: `src/biz/m1_service.py`, `src/web/routers/m1.py`,
+`src/web/templates/m1.html`, `src/web/static/m1.css`, `src/web/static/m1.js`,
+`tests/test_m1_service.py` (18 tests passing). The preamble bug was fixed
+(paragraphs before the first rule heading are no longer emitted as rules).
+Flow: source text -> structured rule candidates -> Pydantic validation ->
+non-persistent human-review decision -> M2 handoff payload. It remains a
+deterministic text-rule baseline, not an OCR/VLM result.
+
+### GB10 Codex CLI configuration (complete, verified 2026-07-28)
+
+Codex CLI 0.145.0 configured with Token Plan:
+- Default: `qwen3.8-max-preview` (direct Responses API, xhigh)
+- Chat-only models (`glm-5.2`, `deepseek-v4-pro`) via `responses2chat_proxy.py` on `:8100`
+- Model switch: `bash ~/switch_codex_model.sh <model|use-case>`
+- tmux launcher: `bash ~/start_codex_tmux.sh`
+- Sandbox bypass required: `--dangerously-bypass-approvals-and-sandbox`
+- neat-freak skill v3.0.0 installed at `~/.codex/skills/neat-freak/`
+
+### Overnight experiments (launched 2026-07-28)
+
+Two autonomous Codex CLI loops running in tmux on GB10:
+- `codex-overnight`: Retrieval strategy ablation (vector/BM25/hybrid/rerank/top-k)
+  on frozen TAT-DQA validation. Output: `docs/experiments/2026-07-28_retrieval_ablation.md`
+- `codex-m1`: M1 rule extraction baseline on TAT-DQA validation docs.
+  Output: `docs/experiments/2026-07-28_m1_baseline.md`
 
 1. DATA-2 is complete and verified: `docs/datasets/tat-dqa-joint-v1-manifest.json` fixes 100
    public documents and 500 public question IDs at seed `20260722`, with 60/20/20 document
