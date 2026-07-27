@@ -14,6 +14,7 @@
 - [阶段收尾与对外汇报（2026-07-23）](12_阶段收尾与对外汇报.md)
 - [角色 B 开发日志（老师汇报版）](14_角色B_开发日志_老师汇报版.md)
 - [开发机 Codex CLI 交接](11_开发机_Codex_CLI_交接.md)
+- [本机 M1 展示草稿状态](../HANDOFF.md#local-m1-display-draft-not-yet-verified)
 
 ## M1/M2 与 GB10 主线
 
@@ -40,6 +41,10 @@ TabPFN v2、TabFM 脱敏合成链路已通过；这些不是业务质量指标�
 多 Agent 编排尚未完成。TAT-DQA 官方解析 JSON 的首个 validation M2 上限已经完成：
 文档 Recall@5 0.81、证据块 Recall@5 0.50、答案 EM 0.24；它不包含 OCR/PDF 误差。
 面向老师或协作同学请优先阅读[阶段收尾与对外汇报](12_阶段收尾与对外汇报.md)。
+
+2026-07-27 在本机工作区开始起草确定性文本规则基线的 M1 展示页；该草稿未完成静态
+交互、测试、浏览器验证或 GB10 同步，因此不是新的模型实验结论。其精确状态以根目录
+`HANDOFF.md` 为准。
 
 模型下载、环境和冒烟测试记录位于 [`experiments/`](experiments/)，模型目录约定见 [`../models/README.md`](../models/README.md)，脚本说明见 [`../scripts/README_scripts.md`](../scripts/README_scripts.md)。
 首个公共 validation 指标见 [TAT-DQA M2 解析上限](experiments/2026-07-23_tat_dqa_m2_upper_bound.md)。

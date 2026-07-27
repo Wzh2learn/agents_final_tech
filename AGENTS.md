@@ -26,6 +26,13 @@ tabular business metrics, and full multi-agent orchestration remain unfinished.
 Do not create a second vector store or bypass `RAGService` with ad hoc database
 queries.
 
+As of 2026-07-27, the local worktree also contains an **unverified M1 display
+draft** (`m1_service.py`, `routers/m1.py`, and `templates/m1.html`). It is a
+deterministic text baseline for explaining the planned M1 -> M2 handoff, not a
+GB10 OCR/VLM experiment or a persistent production API. Finish its static
+assets and focused tests locally before synchronizing it to GB10; retain this
+distinction in code, docs, and teacher-facing material.
+
 ## Development Commands
 
 Use Python 3.11 and install `requirements.txt`. On Windows:

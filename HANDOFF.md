@@ -1,6 +1,6 @@
 # Development Handoff
 
-## Snapshot — 2026-07-24
+## Snapshot — 2026-07-27
 
 Start with the approved joint-data plan: [docs/13_M1_M2联合数据闭环计划.md](docs/13_M1_M2联合数据闭环计划.md), then read [docs/12_阶段收尾与对外汇报.md](docs/12_阶段收尾与对外汇报.md).
 
@@ -56,6 +56,23 @@ running as reusable infrastructure. Runtime state can change independently of
 Git, so verify it before any integration command; do not restart a model merely
 to inspect documentation.
 
+### Local M1 display draft (not yet verified)
+
+On 2026-07-27, work began in the local Windows checkout on a teacher-facing M1
+display workbench. The worktree contains a deterministic, text-only draft in
+`src/biz/m1_service.py`, `src/web/routers/m1.py`, `src/web/templates/m1.html`,
+and route registration updates. Its intended flow is source text -> structured
+rule candidates -> Pydantic validation -> non-persistent human-review decision
+-> M2 handoff payload. It deliberately labels itself as a local rule baseline;
+it is not an OCR/VLM result, an OpenCode workflow, a persisted review system, or
+a GB10 validation.
+
+The draft was interrupted before CSS/JavaScript, focused tests, application
+startup, browser verification, Git commit, or GB10 synchronization. The
+candidate-block splitter also needs a small correction so a document preamble is
+not emitted as an extra rule. Treat these files as an in-progress local change,
+not a runnable feature or a result suitable for reporting.
+
 1. DATA-2 is complete and verified: `docs/datasets/tat-dqa-joint-v1-manifest.json` fixes 100
    public documents and 500 public question IDs at seed `20260722`, with 60/20/20 document
    splits, required answer-type coverage, no document leakage, and preserved official boundaries
@@ -77,6 +94,10 @@ to inspect documentation.
 6. Treat tabular protocol discovery and synthetic chain validation as operational checks only.
    Formal business metrics require an approved tabular dataset, evaluation protocol, and human
    review; none are available as of 2026-07-21.
+7. Complete the local M1 display draft before touching GB10: finish the static assets, correct
+   preamble handling, add service/API tests, start the local FastAPI app, and capture a browser
+   check. Only then commit and let the development machine pull the same revision for an
+   integration check.
 
 Do not start LoRA/QLoRA, unrelated model/dataset downloads, or full multi-agent orchestration
 before `joint-v1` and its reproducible untuned baseline exist.
