@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M1规则抽取工作台</title>
+    <link rel="stylesheet" href="/static/m1.css">
+</head>
+<body>
+    <header class="topbar">
+        <div>
+            <p class="eyebrow">M1 Document Intelligence</p>
+            <h1>规则抽取与入库前校验</h1>
+        </div>
+        <nav class="nav">
+            <a href="/">首页</a>
+            <a href="/knowledge">知识库</a>
+            <a href="/chat">问答</a>
+        </nav>
+    </header>
+
+    <main class="workspace">
+        <section class="status-band" aria-label="pipeline status">
+            <div class="mode">
+                <span id="runMode">local-rule-baseline</span>
+                <strong id="overallStatus">待运行</strong>
+            </div>
+            <div id="stageRail" class="stage-rail"></div>
+        </section>
+
+        <section id="metricGrid" class="metric-grid"></section>
+
+        <section class="control-strip">
+            <label class="file-button" for="fileInput" title="导入txt/md/json/csv文本文件">
+                <span>Upload</span>
+            </label>
+            <input id="fileInput" type="file" accept=".txt,.md,.json,.csv">
+            <button id="sampleBtn" type="button" title="载入演示文档">Sample</button>
+            <button id="runBtn" type="button" title="运行M1抽取">Run</button>
+            <button id="copyBtn" type="button" title="复制M2载荷">Copy</button>
+            <button id="downloadBtn" type="button" title="下载M2载荷">Download</button>
+            <span id="notice" role="status"></span>
+        </section>
+
+        <section class="main-grid">
+            <div class="panel input-panel">
+                <div class="panel-head">
+                    <h2>输入文档</h2>
+                    <input id="documentName" type="text" value="financial_rules_m1_demo.txt" aria-label="document name">
+                </div>
+                <textarea id="sourceInput" spellcheck="false" aria-label="source document"></textarea>
+            </div>
+
+            <div class="panel source-panel">
+                <div class="panel-head">
+                    <h2>原文定位</h2>
+                    <span id="docId">未生成</span>
+                </div>
+                <div id="sourcePreview" class="source-preview"></div>
+            </div>
+
+            <div class="panel rules-panel">
+                <div class="panel-head">
+                    <h2>结构化规则</h2>
+                    <span id="validationStatus">未校验</span>
+                </div>
+                <div id="rulesList" class="rules-list"></div>
+            </div>
+
+            <div class="panel detail-panel">
+                <div class="panel-head">
+                    <h2>复核与M2载荷</h2>
+                    <div class="tabs" role="tablist">
+                        <button class="tab active" data-tab="detail" type="button">Detail</button>
+                        <button class="tab" data-tab="json" type="button">JSON</button>
+                    </div>
+                </div>
+                <div id="ruleDetail" class="tab-view active"></div>
+                <pre id="jsonOutput" class="tab-view json-output"></pre>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/m1.js"></script>
+</body>
+</html>
