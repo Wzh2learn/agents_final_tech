@@ -247,6 +247,8 @@ def evaluate(
     timeout: int,
     max_cases: int | None,
     with_answers: bool,
+    top_k: int = 5,
+    use_rerank: bool = False,
 ) -> dict[str, Any]:
     service = get_rag_service_sync()
     selected_cases = cases[:max_cases] if max_cases else cases
@@ -256,9 +258,9 @@ def evaluate(
         evidence = service.smart_retrieve(
             case["question"],
             collection_names=[collection_name],
-            top_k=5,
-            max_results=5,
-            use_rerank=False,
+            top_k=top_k,
+            max_results=top_k,
+            use_rerank=use_rerank,
         )
         retrieved_blocks = [
             str(item.get("metadata", {}).get("block_id", ""))
@@ -354,6 +356,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--base-url", default="http://127.0.0.1:8004/v1")
     parser.add_argument("--model", default="Qwen3-14B-Q4_K_M.gguf")
     parser.add_argument("--timeout", type=int, default=180)
+    parser.add_argument("--top-k", type=int, default=5)
+    parser.add_argument("--use-rerank", action="store_true", default=False)
     return parser.parse_args()
 
 
@@ -388,6 +392,8 @@ def main() -> int:
             args.timeout,
             args.max_cases,
             args.with_answers,
+            args.top_k,
+            args.use_rerank,
         )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
