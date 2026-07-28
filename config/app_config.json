@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "description": "建账规则助手系统配置文件",
-  "last_updated": "2024-01-01",
+  "last_updated": "2026-07-28",
   "database": {
     "enabled": true,
     "type": "postgresql",
@@ -51,25 +51,38 @@
   },
   "rerank": {
     "enabled": true,
-    "method": "api",
+    "method": "cross_encoder",
+    "model_name": "bge-reranker-v2-m3",
+    "local_model_path": "/home/testuser/wzh/models/hf/bge-reranker-v2-m3",
+    "device": "cuda",
     "provider": "siliconflow",
     "llm_model": "Qwen/Qwen3-Reranker-0.6B",
+    "api_key_env": "SILICONFLOW_API_KEY",
+    "base_url_env": "SILICONFLOW_BASE_URL",
     "temperature": 0.1,
     "max_tokens": 1000,
     "top_n": 5,
-    "notes": "使用硅基流动的 Qwen3-Reranker-0.6B 模型"
+    "notes": "G 策略精排：method=cross_encoder 使用本地 bge-reranker-v2-m3（无需 API Key，约 0.13s/问题）。method=api 回退到硅基流动 LLM reranker。精排后保留 top_n=5。"
   },
   "rag": {
     "enabled": true,
     "default_method": "hybrid",
     "force_method": true,
     "force_rerank": true,
-    "default_top_k": 5,
+    "default_top_k": 10,
     "default_top_n": 5,
-    "use_rerank_by_default": false,
+    "use_rerank_by_default": true,
     "question_classification": {
       "enabled": true,
-      "types": ["concept", "process", "compare", "factual", "rule", "troubleshooting", "general"]
+      "types": [
+        "concept",
+        "process",
+        "compare",
+        "factual",
+        "rule",
+        "troubleshooting",
+        "general"
+      ]
     },
     "retrieval_strategies": {
       "concept": {
@@ -122,7 +135,7 @@
         "reason": "通用问题使用向量检索"
       }
     },
-    "notes": "RAG检索配置，包括策略路由和各种检索参数"
+    "notes": "RAG检索配置。G 策略默认：初始召回 top_k=10，本地 cross-encoder 精排后保留 top-5。包括策略路由和各种检索参数"
   },
   "bm25": {
     "enabled": true,
@@ -135,7 +148,13 @@
   "document_processing": {
     "chunk_size": 500,
     "chunk_overlap": 50,
-    "supported_formats": [".md", ".txt", ".pdf", ".docx", ".doc"],
+    "supported_formats": [
+      ".md",
+      ".txt",
+      ".pdf",
+      ".docx",
+      ".doc"
+    ],
     "max_file_size_mb": 10,
     "max_documents": 50,
     "notes": "文档处理配置，包括分块和格式支持"
@@ -183,14 +202,35 @@
     "hybrid_retrieval": true,
     "realtime_collaboration": true,
     "rerank": true,
+    "enable_rerank": true,
     "follow_up_questions": true,
     "notes": "功能开关配置"
   },
   "domain_keywords": {
-    "催收": ["催收", "逾期", "还款", "坏账"],
-    "风控": ["风控", "风险", "审核", "准入"],
-    "财务": ["财务", "会计", "账务", "建账"],
-    "贷款": ["贷款", "授信", "额度", "利息"],
+    "催收": [
+      "催收",
+      "逾期",
+      "还款",
+      "坏账"
+    ],
+    "风控": [
+      "风控",
+      "风险",
+      "审核",
+      "准入"
+    ],
+    "财务": [
+      "财务",
+      "会计",
+      "账务",
+      "建账"
+    ],
+    "贷款": [
+      "贷款",
+      "授信",
+      "额度",
+      "利息"
+    ],
     "通用": []
   }
 }

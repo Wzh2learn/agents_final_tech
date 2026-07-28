@@ -4,7 +4,7 @@ Rerank 工具
 """
 import os
 import json
-from typing import List, Optional
+from typing import Any, List, Optional
 from langchain.tools import tool
 from langchain_core.documents import Document
 from langchain_openai import ChatOpenAI
@@ -36,6 +36,62 @@ def __parse_documents_input(documents_input: str) -> List[dict]:
             raise ValueError(f"无法解析 JSON 文档输入: {documents_input[:100]}...")
 
     raise ValueError(f"文档输入应该是 JSON 字符串，当前类型: {type(documents_input)}")
+
+
+
+# 本地 cross-encoder 模型缓存，避免每次 rerank 重复加载权重
+_cross_encoder_cache: dict[str, Any] = {}
+
+
+def __load_cross_encoder(model_path: str, device: Optional[str]) -> Any:
+    """按需加载本地 cross-encoder（如 bge-reranker-v2-m3），并缓存实例。"""
+    cache_key = f"{model_path}|{device or 'auto'}"
+    if cache_key in _cross_encoder_cache:
+        return _cross_encoder_cache[cache_key]
+    try:
+        from sentence_transformers import CrossEncoder
+    except ImportError as exc:
+        raise RuntimeError("本地 cross-encoder rerank 需要 sentence-transformers") from exc
+    model = CrossEncoder(model_path, device=device) if device else CrossEncoder(model_path)
+    _cross_encoder_cache[cache_key] = model
+    return model
+
+
+def __rerank_with_cross_encoder(
+    query: str,
+    doc_list: List[dict],
+    top_n: int,
+    config: Any,
+) -> str:
+    """使用本地 cross-encoder 对 (query, doc) 打分并返回 top_n（与 LLM 路径同构）。"""
+    model_path = config.get("rerank.local_model_path") or config.get("rerank.model_name")
+    if not model_path:
+        raise RuntimeError("cross_encoder rerank 需要配置 rerank.local_model_path")
+    model_path = os.path.expanduser(str(model_path))
+    if not os.path.isdir(model_path):
+        raise RuntimeError(f"本地 reranker 模型目录不存在: {model_path}")
+
+    device = os.getenv("RERANK_DEVICE") or config.get("rerank.device") or None
+    model = __load_cross_encoder(model_path, device)
+
+    pairs = [(query, doc.get("content", doc.get("text", ""))) for doc in doc_list]
+    scores = model.predict(pairs)
+
+    indexed = [
+        (doc.get("id", str(i)), float(scores[i]))
+        for i, doc in enumerate(doc_list)
+    ]
+    indexed.sort(key=lambda item: item[1], reverse=True)
+
+    top_results = [
+        {
+            "id": doc_id,
+            "relevance_score": score,
+            "reason": "cross-encoder 相关性分数",
+        }
+        for doc_id, score in indexed[:top_n]
+    ]
+    return json.dumps(top_results, ensure_ascii=False)
 
 
 @tool
@@ -79,6 +135,11 @@ def rerank_documents(
     try:
         from utils.config_loader import get_config
         config = get_config()
+
+        # G 策略：本地 cross-encoder 精排（无需 API Key，低延迟）
+        method = str(config.get("rerank.method", "api")).lower()
+        if method in ("cross_encoder", "local", "local_cross_encoder"):
+            return __rerank_with_cross_encoder(query, doc_list, top_n, config)
         
         # 从配置中获取需要的环境变量
         api_key_env = config.get("rerank.api_key_env", "SILICONFLOW_API_KEY")
