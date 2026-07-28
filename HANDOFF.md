@@ -159,3 +159,33 @@ before `joint-v1` and its reproducible untuned baseline exist.
   docs, commits, terminal captures, or reports.
 - Preserve the read-only MCP boundary unless a reviewed task explicitly changes
   it.
+## Real counterparty-statement business alignment (2026-07-28)
+
+The actual client M1 task is **counterparty-statement / report parsing + header
+synonym mapping**, not free-text rule extraction: each broker/fund uses different
+column headers, and M1 must parse the table, map source headers to standard fields
+via a synonym table (e.g. product name <-> fund name / account name / full name /
+security abbreviation), extract header-region key/value pairs, and emit standardized
+records for M2 data-analysis QA. Real samples + `m1_table_schema.json` live in
+`~/wzh/m1_samples/` on GB10 (outside the repo, never committed; reports desensitized).
+
+Prior M1 work is retained and remapped, not discarded:
+- Contract layer (`m1_service.py` schema / pipeline stages / M2 payload) -> validation layer.
+- Display layer (`m1.html`/`m1.css`/`m1.js` four-panel workbench, review buttons, M2 payload
+  copy/download) -> reuse as the statement-parsing workbench (data model ExtractedRule ->
+  StatementRecord; interaction paradigm unchanged).
+- LLM fallback (`m1_llm_extract_prototype.py`, zero-shot, /no_think) -> fallback for unmapped /
+  headerless / complex tables and cross-validation.
+- Multi-agent skeleton already in `opencode.json` (m1-extraction / m2-qa /
+  evidence-verifier / tabular-researcher with permissions) -> the multi-agent verification
+  backbone, now activatable with the real parser + real samples.
+
+Adopted architecture (layered parse): deterministic synonym mapping first pass -> LLM fallback
+second pass -> arithmetic-reconciliation + evidence verification third pass (financial
+statements give hard check constraints: detail market-value sum == total amount, currency
+consistency, date format) -> data-analysis QA over the standardized table (m2-qa / Tabular
+MCP) -> orchestration and final answer by the GB10 default model.
+
+Remote GB10 loops 2026-07-28 night: `codex-integrate` done (G strategy integrated, commit
+98bc82e), `codex-m1-batch` running (274-doc LLM batch), `codex-m1-real` finalizing the real
+statement-parser prototype + header mapping.
