@@ -178,7 +178,7 @@ Prior M1 work is retained and remapped, not discarded:
   headerless / complex tables and cross-validation.
 - Multi-agent skeleton already in `opencode.json` (m1-extraction / m2-qa /
   evidence-verifier / tabular-researcher with permissions) -> the multi-agent verification
-  backbone, now activatable with the real parser + real samples.
+  backbone, now activatable in principle (config + samples + engine present), but OpenCode multi-agent automatic delegation has NOT been verified end-to-end as of 2026-07-28; treat as 'ready to activate', not 'verified'.
 
 Adopted architecture (layered parse): deterministic synonym mapping first pass -> LLM fallback
 second pass -> arithmetic-reconciliation + evidence verification third pass (financial
@@ -187,5 +187,5 @@ consistency, date format) -> data-analysis QA over the standardized table (m2-qa
 MCP) -> orchestration and final answer by the GB10 default model.
 
 Remote GB10 loops 2026-07-28 night: `codex-integrate` done (G strategy integrated, commit
-98bc82e), `codex-m1-batch` running (274-doc LLM batch), `codex-m1-real` finalizing the real
+98bc82e), `codex-m1-batch` DONE but only 190/274 (hit 60-min budget wall; the report title 'full dev split' is misleading), company-name extraction 47.9% non-null (JSON-valid 100% != entity-usable). NOTE: TAT-DQA retrieval best EM 0.28 is retrieval-side and unrelated to counterparty-statement M1; do not conflate, `codex-m1-real` finalizing the real
 statement-parser prototype + header mapping.
