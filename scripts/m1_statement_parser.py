@@ -753,6 +753,69 @@ def process_sample(path: str, schema: Schema) -> dict[str, Any]:
 
 
 # =========================================================================
+# 只读诊断：收集 unmapped 源列（冷启动候选）
+# =========================================================================
+def collect_unmapped_columns(sample_paths: list[str], schema: Schema) -> dict[str, Any]:
+    """只读收集各样本 unmapped 源列 + 脱敏样本值，按 (归属 schema 表, 列名) 去重。
+
+    复用既有 PARSERS / best_schema_match / desensitize_value，不改动解析逻辑；
+    仅为未知表头冷启动提供候选清单（列名 + 前 3 个脱敏样本值 + 所属表）。
+    """
+    by_key: dict[tuple[str, str], dict[str, Any]] = {}
+    total_occurrences = 0
+    for path in sample_paths:
+        parser = PARSERS.get(os.path.splitext(path)[1].lower())
+        if parser is None:
+            continue
+        doc = parser(path)
+        if not doc.ok:
+            continue
+        fname = os.path.basename(path)
+        for t in doc.tables:
+            match = best_schema_match(t.headers, schema)
+            if not match.unmapped:
+                continue
+            col_idx = {h: i for i, h in enumerate(t.headers)}
+            for col in match.unmapped:
+                ci = col_idx.get(col)
+                vals: list[str] = []
+                if ci is not None:
+                    for row in t.rows:
+                        if ci < len(row) and (row[ci] or "").strip():
+                            raw = (row[ci] or "").replace("\n", "").strip()
+                            vals.append(desensitize_value(col, raw))
+                        if len(vals) >= 3:
+                            break
+                total_occurrences += 1
+                key = (match.schema_table, col)
+                entry = by_key.get(key)
+                if entry is None:
+                    entry = {
+                        "column": col,
+                        "matched_schema": match.schema_table,
+                        "tables": [],
+                        "files": [],
+                        "sample_values": [],
+                        "occurrence_count": 0,
+                    }
+                    by_key[key] = entry
+                entry["occurrence_count"] += 1
+                if t.name not in entry["tables"]:
+                    entry["tables"].append(t.name)
+                if fname not in entry["files"]:
+                    entry["files"].append(fname)
+                for v in vals:
+                    if v and v not in entry["sample_values"] and len(entry["sample_values"]) < 3:
+                        entry["sample_values"].append(v)
+    unique = sorted(by_key.values(), key=lambda e: (e["matched_schema"], e["column"]))
+    return {
+        "total_unmapped_occurrences": total_occurrences,
+        "unique_column_count": len(unique),
+        "unique_columns": unique,
+    }
+
+
+# =========================================================================
 # 报告打印
 # =========================================================================
 def _print_result(res: dict[str, Any]) -> None:
@@ -788,6 +851,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--samples-dir", default=DEFAULT_SAMPLES_DIR)
     ap.add_argument("--schema", default=DEFAULT_SCHEMA)
     ap.add_argument("--json", default="", help="把汇总结果(已脱敏)写入该 JSON 文件")
+    ap.add_argument("--dump-unmapped", default="",
+                        help="只读：把 unmapped 源列(带脱敏样本值)去重后写入该 JSON")
     args = ap.parse_args(argv)
 
     print(f"libs: fitz={_HAS_FITZ} openpyxl={_HAS_OPENPYXL} docx={_HAS_DOCX}")
@@ -810,6 +875,15 @@ def main(argv: list[str] | None = None) -> int:
         with open(args.json, "w", encoding="utf-8") as fh:
             json.dump(results, fh, ensure_ascii=False, indent=2)
         print(f"\n[json] 脱敏汇总已写入 {args.json}")
+
+    if args.dump_unmapped:
+        dump = collect_unmapped_columns(samples, schema)
+        dump["schema"] = args.schema
+        dump["samples_dir"] = args.samples_dir
+        with open(args.dump_unmapped, "w", encoding="utf-8") as fh:
+            json.dump(dump, fh, ensure_ascii=False, indent=2)
+        print(f"\n[dump-unmapped] {dump['unique_column_count']} 个去重 unmapped 列 "
+              f"({dump['total_unmapped_occurrences']} 次出现) 已写入 {args.dump_unmapped}")
 
     # 汇总表
     print("\n" + "=" * 78)
