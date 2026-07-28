@@ -189,3 +189,32 @@ MCP) -> orchestration and final answer by the GB10 default model.
 Remote GB10 loops 2026-07-28 night: `codex-integrate` done (G strategy integrated, commit
 98bc82e), `codex-m1-batch` DONE but only 190/274 (hit 60-min budget wall; the report title 'full dev split' is misleading), company-name extraction 47.9% non-null (JSON-valid 100% != entity-usable). NOTE: TAT-DQA retrieval best EM 0.28 is retrieval-side and unrelated to counterparty-statement M1; do not conflate, `codex-m1-real` finalizing the real
 statement-parser prototype + header mapping.
+## Strategic pivot + TAT-DQA freeze (2026-07-28, user-confirmed)
+
+User-confirmed strategic pivot: the four TAT-DQA rounds are a **general-methodology
+v0**; the priority now is to build the **client counterparty-statement M1** well first,
+and return to the more general methodology only in a later research phase. Therefore
+TAT-DQA retrieval / ablation / llm-batch experiments are **FROZEN** (paused, not
+deleted; numbers retained as a research baseline). Stop opening new TAT-DQA loops;
+spend remote Codex loops on counterparty M1. (Distinct from the older "frozen M2
+parsed-JSON upper bound", which is a frozen number, not a paused activity.)
+
+Re-ranked asset priority: m1-statement (parse + header mapping + reconciliation) =
+live client mainline; m1_service contract layer / m1 display workbench / LLM fallback
+= mainline components; TAT-DQA four rounds = frozen reserve. The integrated G
+retrieval strategy (TAT-DQA EM 0.28) is the live M2 retrieval default but orthogonal
+to client M1 -- report separately.
+
+Client M1 north-star metrics: column-alignment coverage, mismatch rate
+(reconciliation-falsifiable), unknown-header cold-start -- NOT TAT-DQA EM/Recall.
+LLM role in M1 repositioned to "suggest mappings / fill synonyms for unknown headers"
++ hard-case fallback (the 47.9% company-name figure is a 3000-char truncation design
+flaw, not a model verdict), with its own eval. Multi-agent auto-delegation remains a
+to-verify subtask inside the mainline (config+samples+engine present, never verified
+end-to-end; do not claim verified).
+
+Remote loop terminal state 2026-07-28: all three committed (281089b integrate /
+d42787f m1-real / dcfa161 m1-batch) and rebased onto the doc-correction commit; three
+empty tmux sessions (codex-integrate / codex-m1-batch / codex-m1-real) remain harmless;
+llama-server :8004, responses2chat proxy :8100 and FastAPI :5000 are reusable infra,
+left running. coding-jinrong tmux is the user's own session, untouched.

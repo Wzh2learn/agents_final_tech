@@ -74,3 +74,27 @@ Follow PEP 8, four-space indentation, type annotations, and `snake_case`/`Pascal
 ## Changes and Security
 
 Use short, imperative commits scoped to one concern. PRs should state behavior, verification commands, configuration impact, and screenshots for UI changes. Never commit `.env`, credentials, server addresses, model weights, generated datasets, logs, or local databases. Preserve the read-only MCP boundary unless a reviewed task explicitly introduces a write operation.
+## Current Work Mainline & Frozen Items (2026-07-28, user-confirmed)
+
+These are boundaries the next agent must respect or it will redo frozen work or
+mis-report status:
+
+- **Mainline / north star = client counterparty-statement M1** (table parse +
+  header synonym mapping + arithmetic reconciliation + statement workbench +
+  OpenCode skill multi-agent). New work and remote Codex loops prioritize this.
+- **TAT-DQA experiments are FROZEN** (paused, not deleted; numbers kept as a
+  research baseline). Do NOT open new TAT-DQA retrieval / ablation / llm-batch
+  loops or pile on volume. Resume the general methodology only in a later
+  research phase, after the client-facing M1 is solid.
+- The integrated G retrieval strategy (top_k=10 + bge-reranker-v2-m3 -> top-5,
+  TAT-DQA EM 0.28) is the live M2 retrieval default, but it is orthogonal to the
+  client M1; report the two separately, never conflate.
+- **Multi-agent automatic delegation is NOT verified end-to-end.** Config +
+  samples + engine are present (opencode.json agents/permissions), but no
+  OpenCode auto-delegation run has completed; docs and reports must say
+  "ready to activate", never "verified".
+- Real client samples live in `~/wzh/m1_samples/` on GB10 (outside the repo,
+  never committed; reports desensitized). `scripts/loop_*.md` are consumed
+  remote-loop task prompts, kept as audit archive.
+- Remote Codex CLI exec needs `--dangerously-bypass-approvals-and-sandbox`
+  (bubblewrap user namespaces unavailable on GB10).
