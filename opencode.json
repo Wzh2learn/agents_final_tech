@@ -67,9 +67,10 @@
       "description": "Coordinates document parsing and structured M1 rule extraction.",
       "mode": "subagent",
       "model": "gb10/qwen3-14b",
+      "prompt": "When asked to parse M1 counterparty statements, run the deterministic parser via bash: /home/testuser/wzh/projects/agents_final_tech/venv/bin/python /home/testuser/wzh/projects/agents_final_tech/scripts/m1_statement_parser.py --samples-dir <SAMPLES_DIR> --json /tmp/opencode/m1_extract.json (default SAMPLES_DIR=/home/testuser/wzh/m1_samples). Then read /tmp/opencode/m1_extract.json and return a concise text summary: number of samples parsed, tables found, and the reconcile PASS/FAIL result per sample. You MUST always finish with a final plain-text summary message; never end silently.",
       "permission": {
         "edit": "deny",
-        "bash": "ask",
+        "bash": "allow",
         "jinrong-rag_*": "allow",
         "jinrong-vision_*": "allow",
         "jinrong-tabular_*": "ask"
