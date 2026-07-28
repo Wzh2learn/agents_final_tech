@@ -504,6 +504,202 @@ def desensitize_record(rec: dict[str, str]) -> dict[str, str]:
     return {k: desensitize_value(k, v) for k, v in rec.items()}
 
 
+
+# =========================================================================
+# 勾稽校验
+# =========================================================================
+_NUM_RE = re.compile(r"[-+]?[\d,]+\.?\d*")
+
+
+def _parse_number(text: str) -> float | None:
+    """从字符串中提取数值（去逗号/空格），失败返回 None。"""
+    if not text:
+        return None
+    m = _NUM_RE.search(text.replace(",", "").replace("，", ""))
+    if m:
+        try:
+            return float(m.group())
+        except ValueError:
+            return None
+    return None
+
+
+_DATE_PATTERNS = [
+    (re.compile(r"^\d{8}$"), "YYYYMMDD"),
+    (re.compile(r"^\d{4}年\d{1,2}月\d{1,2}日$"), "YYYY年MM月DD日"),
+    (re.compile(r"^\d{4}-\d{2}-\d{2}$"), "YYYY-MM-DD"),
+    (re.compile(r"^\d{4}/\d{2}/\d{2}$"), "YYYY/MM/DD"),
+]
+
+
+def reconcile(table_reports: list[dict[str, Any]],
+              header_kv: dict[str, str],
+              schema: Schema) -> list[dict[str, Any]]:
+    """对解析结果做算术勾稽校验，返回 check 结果列表。
+
+    每项: {check, expected, actual, pass, note}
+    勾稽异常时 try/except 保护，记 mismatch=ERROR 继续。
+    """
+    checks: list[dict[str, Any]] = []
+
+    # 收集各 schema 表的标准化记录
+    detail_records: list[dict[str, str]] = []   # 证券持仓明细
+    summary_records: list[dict[str, str]] = []  # 资金资产汇总 / 交易对账单
+    detail_mappings: list[dict[str, str]] = []  # 明细表的 mapping
+    for tr in table_reports:
+        recs = tr.get("_records", [])
+        if tr["matched_schema"] == "证券持仓明细":
+            detail_records.extend(recs)
+            detail_mappings.append(tr["mapping"])
+        elif tr["matched_schema"] in ("资金资产汇总", "交易对账单"):
+            summary_records.extend(recs)
+
+    # ---- 1. 市值勾稽 ----
+    try:
+        mv_vals = [_parse_number(r.get("市值", "")) for r in detail_records]
+        mv_vals = [v for v in mv_vals if v is not None]
+        total_mv = sum(mv_vals) if mv_vals else None
+
+        summary_total = None
+        summary_field = None
+        for r in summary_records:
+            for fld in ("合计金额", "资产总值", "总资产"):
+                v = _parse_number(r.get(fld, ""))
+                if v is not None and v != 0:
+                    summary_total = v
+                    summary_field = fld
+                    break
+            if summary_total is not None:
+                break
+
+        if total_mv is not None and summary_total is not None and summary_total != 0:
+            tol = max(0.01, 0.005 * abs(summary_total))
+            diff = abs(total_mv - summary_total)
+            passed = diff <= tol
+            checks.append({
+                "check": "市值勾稽",
+                "expected": f"sum(市值)≈{summary_field}={summary_total:.2f}",
+                "actual": f"sum(市值)={total_mv:.2f}, diff={diff:.2f}, tol={tol:.2f}",
+                "pass": passed,
+                "note": "" if passed else f"差异 {diff:.2f} 超容差 {tol:.2f}",
+            })
+        else:
+            checks.append({
+                "check": "市值勾稽",
+                "expected": "明细市值 + 汇总合计同时存在",
+                "actual": f"明细市值={'有' if total_mv else '无'}, 汇总={'有' if summary_total else '无'}",
+                "pass": True,
+                "note": "数据不足，跳过",
+            })
+    except Exception as exc:
+        checks.append({"check": "市值勾稽", "expected": "", "actual": "",
+                       "pass": False, "note": f"ERROR: {exc}"})
+
+    # ---- 2. 币种一致 ----
+    try:
+        currencies = set()
+        for r in detail_records:
+            c = r.get("币种", "").strip()
+            if c:
+                currencies.add(c)
+        if currencies:
+            passed = len(currencies) == 1
+            note = ""
+            if not passed:
+                note = f"明细币种不唯一: {currencies}"
+            checks.append({
+                "check": "币种一致",
+                "expected": "明细币种去重=1",
+                "actual": f"去重={len(currencies)} {currencies}",
+                "pass": passed,
+                "note": note,
+            })
+        else:
+            checks.append({
+                "check": "币种一致",
+                "expected": "明细含币种列",
+                "actual": "无币种数据",
+                "pass": True,
+                "note": "数据不足，跳过",
+            })
+    except Exception as exc:
+        checks.append({"check": "币种一致", "expected": "", "actual": "",
+                       "pass": False, "note": f"ERROR: {exc}"})
+
+    # ---- 3. 日期格式 ----
+    try:
+        date_fields = ["对账日期", "统计日期", "开始日期", "结束日期", "打印时间"]
+        date_vals_found = []
+        for fld in date_fields:
+            v = header_kv.get(fld, "").strip()
+            if v:
+                date_vals_found.append((fld, v))
+        if date_vals_found:
+            all_ok = True
+            details = []
+            for fld, v in date_vals_found:
+                matched_fmt = None
+                for pat, fmt in _DATE_PATTERNS:
+                    if pat.match(v):
+                        matched_fmt = fmt
+                        break
+                if matched_fmt:
+                    details.append(f"{fld}={v}({matched_fmt})")
+                else:
+                    # 打印时间等含时分秒的也接受
+                    if re.search(r"\d{4}", v):
+                        details.append(f"{fld}={v}(含日期)")
+                    else:
+                        all_ok = False
+                        details.append(f"{fld}={v}(格式异常)")
+            checks.append({
+                "check": "日期格式",
+                "expected": "YYYYMMDD / YYYY年MM月DD日 / YYYY-MM-DD",
+                "actual": "; ".join(details),
+                "pass": all_ok,
+                "note": "" if all_ok else "存在非标准日期格式",
+            })
+        else:
+            checks.append({
+                "check": "日期格式",
+                "expected": "表头含日期字段",
+                "actual": "无日期KV",
+                "pass": True,
+                "note": "数据不足，跳过",
+            })
+    except Exception as exc:
+        checks.append({"check": "日期格式", "expected": "", "actual": "",
+                       "pass": False, "note": f"ERROR: {exc}"})
+
+    # ---- 4. 静默错配嫌疑 ----
+    try:
+        suspects: list[str] = []
+        # 检查明细表 mapping 中语义可疑的映射
+        _SUSPECT_SRC_KEYWORDS = ["在途", "配号", "冻结", "质押", "担保"]
+        for mapping in detail_mappings:
+            for std_field, src_col in mapping.items():
+                src_norm = normalize_header(src_col)
+                for kw in _SUSPECT_SRC_KEYWORDS:
+                    if kw in src_norm:
+                        suspects.append(f"{std_field}←{src_col}(含'{kw}')")
+        # 市值勾稽失败也标记为错配嫌疑
+        mv_check = next((c for c in checks if c["check"] == "市值勾稽"), None)
+        if mv_check and not mv_check["pass"] and "ERROR" not in mv_check.get("note", ""):
+            suspects.append("市值勾稽失败→明细/汇总映射可能错配")
+        checks.append({
+            "check": "静默错配嫌疑",
+            "expected": "映射列语义等价",
+            "actual": f"{len(suspects)} 项嫌疑" if suspects else "无可疑映射",
+            "pass": len(suspects) == 0,
+            "note": "; ".join(suspects) if suspects else "",
+        })
+    except Exception as exc:
+        checks.append({"check": "静默错配嫌疑", "expected": "", "actual": "",
+                       "pass": False, "note": f"ERROR: {exc}"})
+
+    return checks
+
+
 # =========================================================================
 # 单样本编排
 # =========================================================================
@@ -546,9 +742,13 @@ def process_sample(path: str, schema: Schema) -> dict[str, Any]:
             "hits": match.hits,
             "hit_rate": round(hit_rate, 1),
             "sample_record": sample,
+            "_records": std_rows,
         })
     result["tables"] = table_reports
     result["table_count"] = len(doc.tables)
+
+    # 勾稽校验
+    result["reconcile"] = reconcile(table_reports, meta, schema)
     return result
 
 
@@ -576,6 +776,11 @@ def _print_result(res: dict[str, Any]) -> None:
         print(f"     映射: {json.dumps(t['mapping'], ensure_ascii=False)}")
         if t["sample_record"]:
             print(f"     标准记录样例(脱敏): {json.dumps(t['sample_record'], ensure_ascii=False)}")
+    for chk in res.get("reconcile", []):
+        status = "PASS" if chk["pass"] else "FAIL"
+        print(f"  [勾稽] {chk['check']}: {status}  {chk.get('note','')}")
+        if not chk["pass"]:
+            print(f"         expected={chk['expected']}  actual={chk['actual']}")
 
 
 def main(argv: list[str] | None = None) -> int:
