@@ -81,11 +81,45 @@ Codex CLI 0.145.0 configured with Token Plan:
 
 ### Overnight experiments (launched 2026-07-28)
 
-Two autonomous Codex CLI loops running in tmux on GB10:
-- `codex-overnight`: Retrieval strategy ablation (vector/BM25/hybrid/rerank/top-k)
-  on frozen TAT-DQA validation. Output: `docs/experiments/2026-07-28_retrieval_ablation.md`
-- `codex-m1`: M1 rule extraction baseline on TAT-DQA validation docs.
+Four autonomous experiment rounds completed via Codex CLI on GB10:
+
+**Round 1 (completed):**
+- Retrieval ablation: vector/BM25/hybrid weights make no difference on 627-block set;
+  top_k is the only effective variable (10 -> 0.85 Doc R@5, 3 -> 0.77 down). LLM rerank timeout.
+  Output: `docs/experiments/2026-07-28_retrieval_ablation.md`
+- M1 baseline: deterministic Chinese regex produces 0 rules on English TAT-DQA (expected);
+  OCR not a bottleneck (99.9% char overlap on digital PDFs).
   Output: `docs/experiments/2026-07-28_m1_baseline.md`
+
+**Round 2 (completed):**
+- Cross-encoder rerank (bge-reranker-v2-m3): G strategy (top_k=10 -> rerank -> 5) is optimal:
+  Doc R@5 0.85, EM 0.28 (+17% over baseline), rerank latency 0.06-0.13s/q.
+  Output: `docs/experiments/2026-07-28_rerank_experiment.md`
+- M1 LLM extraction prototype: Qwen3-14B zero-shot structured extraction works on
+  English financial docs (4/5 company names, 18 metrics from QuickLogic 10-K).
+  Output: `docs/experiments/2026-07-28_m1_llm_extraction.md`
+
+**Round 3 (in progress):**
+- `codex-integrate`: Integrate G strategy into default config + chunking granularity ablation
+- `codex-m1-batch`: Full 274-doc dev split LLM batch extraction
+
+## Current best metrics (TAT-DQA validation, 20 docs, 100 questions)
+
+| Metric | Baseline | Best (G strategy) |
+|--------|----------|-------------------|
+| Doc Recall@5 | 0.81 | **0.85** |
+| Evidence Recall@5 | 0.50 | 0.50 (bottleneck) |
+| Evidence MRR | 0.4132 | 0.4098 |
+| Answer EM | 0.24 | **0.28** |
+| Citation Rate | 0.48 | 0.48 |
+| Latency | 3.5s | 3.55s |
+
+## Key findings and next steps
+
+1. Evidence block recall 0.50 is the main bottleneck; chunking granularity experiment running
+2. G strategy (top_k=10 + bge-reranker-v2-m3 -> top-5) recommended as new default
+3. M1 LLM extraction is viable for English docs; deterministic regex only for Chinese rules
+4. bge-reranker-v2-m3 rerank adds negligible latency (0.06-0.13s vs LLM >600s)
 
 1. DATA-2 is complete and verified: `docs/datasets/tat-dqa-joint-v1-manifest.json` fixes 100
    public documents and 500 public question IDs at seed `20260722`, with 60/20/20 document
