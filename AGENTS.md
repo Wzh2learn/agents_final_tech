@@ -43,7 +43,7 @@ Codex CLI 0.145.0 is configured with Token Plan:
 - tmux sessions for autonomous experiment loops
 - venv at `~/wzh/projects/agents_final_tech/venv` (pytest + pydantic)
 - PostgreSQL/PGVector Docker container on `:15432`
-- Qwen3-14B llama-server on `:8004` (16K context)
+- Qwen3.6-35B-A3B llama-server on `:8004` (64K context, MoE 3B active)
 
 Use `--dangerously-bypass-approvals-and-sandbox` for Codex CLI exec on GB10
 (bubblewrap user namespaces unavailable).
@@ -93,6 +93,11 @@ mis-report status:
   samples + engine are present (opencode.json agents/permissions), but no
   OpenCode auto-delegation run has completed; docs and reports must say
   "ready to activate", never "verified".
+  - 2026-07-29 update: with the model on 64K context, **explicitly-instructed
+    two-hop delegation IS verified** (`coordinator -> m1-extraction ->
+    evidence-verifier`, exit 0 / 58s; verifier verdict matches the deterministic
+    parser ground truth). See docs/experiments/2026-07-29_m1_verify_and_mcp.md.
+    This does NOT cover neutral-prompt auto-delegation, which stays unverified.
 - Real client samples live in `~/wzh/m1_samples/` on GB10 (outside the repo,
   never committed; reports desensitized). `scripts/loop_*.md` are consumed
   remote-loop task prompts, kept as audit archive.
