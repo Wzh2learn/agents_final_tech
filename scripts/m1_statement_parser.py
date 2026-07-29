@@ -123,6 +123,10 @@ class Schema:
                 list(t.get("header_region_keywords", [])),
                 fields,
             ))
+        # 客户端域同义词(内存层，不动冻结 schema 文件)：证券市值≈合计金额类总量
+        for t in tables:
+            if t.table_name == "资金资产汇总" and not any(f.standard == "证券市值" for f in t.fields):
+                t.fields.append(SchemaField("证券市值", ["证券市值", "证券总市值"]))
         # Build header_meta_fields: prefer kv-layout tables, fallback to legacy dict
         meta: dict[str, list[str]] = {}
         for t in tables:
@@ -152,6 +156,11 @@ def _best_field_for_header(header_norm: str, fields: list[SchemaField]):
     """为单个源列名找到最佳标准字段，返回 (standard, score, syn_len)。"""
     best = None  # (score, syn_len, standard)
     for fld in fields:
+        std_norm = normalize_header(fld.standard)
+        if std_norm and std_norm == header_norm:
+            key4 = (4, len(std_norm))
+            if best is None or key4 > (best[0], best[1]):
+                best = (4, len(std_norm), fld.standard)
         for syn in fld.synonyms:
             syn_norm = normalize_header(syn)
             if not syn_norm:
@@ -760,6 +769,26 @@ def process_sample(path: str, schema: Schema) -> dict[str, Any]:
     result.update(ok=doc.ok, needs_ocr=doc.needs_ocr, note=doc.note, error=doc.error)
     if not doc.ok:
         return result
+
+    # 路由伪网格表(表头信息区 kv 块)：从 doc.tables 移除，文本回流 doc.text，
+    # 使其被表头区 KV 提取捕获。这是路由不是隐藏；判定=无表头命中且含全角冒号 kv。
+    kept = []
+    extra = []
+    for t in doc.tables:
+        cells = [c for c in t.headers if c] + [c for r in t.rows for c in r if c]
+        n_fw = sum(1 for c in cells if "：" in c)
+        pre_match = best_schema_match(t.headers, schema)
+        if pre_match.hits == 0 and n_fw >= 2:
+            for r in ([t.headers] + t.rows):
+                line = " ".join(c for c in r if c and c.strip())
+                if line:
+                    extra.append(line)
+            result["note"] = (result.get("note") or "") + " [reclassified kv-block: " + t.name + "]"
+        else:
+            kept.append(t)
+    if extra:
+        doc.text = doc.text + chr(10) + chr(10).join(extra)
+    doc.tables = kept
 
     # 表头区 KV（优先用 kv 表字段）
     meta = extract_header_meta(doc.text, schema)
