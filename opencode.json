@@ -11,8 +11,8 @@
         "timeout": 600000
       },
       "models": {
-        "qwen3-14b": {
-          "name": "Qwen3 14B Q4"
+        "qwen3.6-35b-a3b": {
+          "name": "Qwen3.6-35B-A3B Q4"
         }
       }
     }
@@ -57,7 +57,7 @@
     "m2-qa": {
       "description": "Retrieves business-rule evidence and answers M2 questions with citations or refusal.",
       "mode": "subagent",
-      "model": "gb10/qwen3-14b",
+      "model": "gb10/qwen3.6-35b-a3b",
       "permission": {
         "edit": "deny",
         "bash": "deny",
@@ -67,35 +67,35 @@
       }
     },
     "m1-extraction": {
-      "description": "Coordinates document parsing and structured M1 rule extraction.",
+      "description": "Parses M1 statements via deterministic parser; returns reconcile summary.",
       "mode": "subagent",
-      "model": "gb10/qwen3-14b",
-      "prompt": "When asked to parse M1 counterparty statements, run the deterministic parser via bash: /home/testuser/wzh/projects/agents_final_tech/venv/bin/python /home/testuser/wzh/projects/agents_final_tech/scripts/m1_statement_parser.py --samples-dir <SAMPLES_DIR> --json /tmp/opencode/m1_extract.json (default SAMPLES_DIR=/home/testuser/wzh/m1_samples). Then read /tmp/opencode/m1_extract.json and return a concise text summary: number of samples parsed, tables found, and the reconcile PASS/FAIL result per sample. You MUST always finish with a final plain-text summary message; never end silently.",
+      "model": "gb10/qwen3.6-35b-a3b",
+      "prompt": "When asked to parse M1 counterparty statements, run the deterministic parser via bash: /home/testuser/wzh/projects/agents_final_tech/venv/bin/python /home/testuser/wzh/projects/agents_final_tech/scripts/m1_statement_parser.py --samples-dir <SAMPLES_DIR> --json /tmp/opencode/m1_extract.json --compact-summary /tmp/opencode/m1_compact_summary.json (default SAMPLES_DIR=/home/testuser/wzh/m1_samples). Then read /tmp/opencode/m1_extract.json and return a concise text summary: number of samples parsed, tables found, and the reconcile PASS/FAIL result per sample. You MUST always finish with a final plain-text summary message; never end silently. Keep reasoning very brief (under 80 words of thinking); do NOT analyze step-by-step. Your final answer MUST be short plain text (under 120 words).",
       "permission": {
         "edit": "deny",
         "bash": "allow",
         "jinrong-rag_*": "allow",
-        "jinrong-vision_*": "allow",
-        "jinrong-tabular_*": "ask"
+        "jinrong-vision_*": "deny",
+        "jinrong-tabular_*": "deny"
       }
     },
     "evidence-verifier": {
-      "description": "Checks whether M1/M2 outputs are supported by retrieved source evidence.",
+      "description": "Verifies M1 reconcile results against compact summary evidence.",
       "mode": "subagent",
-      "model": "gb10/qwen3-14b",
+      "model": "gb10/qwen3.6-35b-a3b",
       "permission": {
         "edit": "deny",
         "bash": "allow",
         "jinrong-rag_*": "allow",
-        "jinrong-vision_*": "allow",
+        "jinrong-vision_*": "deny",
         "jinrong-tabular_*": "deny"
       },
-      "prompt": "When asked to verify M1 extraction results, read the compact summary file at /tmp/opencode/m1_compact_summary.json via bash (cat or python json.load). Check each sample reconcile status and unmapped column count. Return a concise verdict: PASS if all reconcile checks pass and unmapped counts are reasonable (<10 per sample), otherwise FAIL with specifics. You MUST always finish with a final plain-text verdict message."
+      "prompt": "When asked to verify M1 extraction results, read the compact summary file at /tmp/opencode/m1_compact_summary.json via bash (cat or python json.load). Check each sample reconcile status and unmapped column count. Return a concise verdict: PASS if all reconcile checks pass and unmapped counts are reasonable (<10 per sample), otherwise FAIL with specifics. You MUST always finish with a final plain-text verdict message. Keep reasoning very brief (under 80 words of thinking); do NOT analyze step-by-step. Your final answer MUST be short plain text (under 120 words)."
     },
     "tabular-researcher": {
       "description": "Runs bounded, read-only tabular model experiments on explicitly supplied numeric rows.",
       "mode": "subagent",
-      "model": "gb10/qwen3-14b",
+      "model": "gb10/qwen3.6-35b-a3b",
       "temperature": 0,
       "steps": 2,
       "prompt": "You are a deterministic tabular inference runner. When the user supplies feature_names, train_rows, labels, and predict_rows, call jinrong-tabular_tabular_classify exactly once using those values. Do not inspect files, plan, explain before the call, or invent missing values. After the call, report only success or failure, the selected model, elapsed time, and output dimensions. Never print predictions, probabilities, paths, credentials, or raw tool output.",
@@ -110,7 +110,7 @@
     "tabular-runner": {
       "description": "Runs one bounded tabular inference call from the CLI for demonstrations and smoke tests.",
       "mode": "primary",
-      "model": "gb10/qwen3-14b",
+      "model": "gb10/qwen3.6-35b-a3b",
       "temperature": 0,
       "steps": 2,
       "prompt": "You are a deterministic tabular inference runner. Immediately call jinrong-tabular_tabular_classify exactly once. Pass feature_names as a JSON array of strings, train_rows and predict_rows as arrays of numeric arrays, and labels as a numeric array. Never convert arrays or numbers into objects. Do not inspect files, plan, explain before the call, or invent missing values. After the call, report only success or failure, the selected model, elapsed time, and output dimensions. Never print predictions, probabilities, paths, credentials, or raw tool output.",
