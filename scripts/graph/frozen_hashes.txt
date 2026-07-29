@@ -1,0 +1,11 @@
+# Graph Engineering - Frozen Node Hash Manifest
+# Loop B 使用此文件校验冻结节点是否被篡改
+# 格式: <md5>  <path_relative_to_project_or_absolute>
+# 更新此文件需要 Loop D (用户/指挥层) 授权
+#
+# 生成时间: 2026-07-30 00:43 CST
+# 授权说明: Loop D 授权刷新 - schema 经合法 synonyms 演进(unmapped 23->5),
+#           tests/test_m1_service.py 未改动。此为冻结清单的正常维护,非篡改。
+# 生成方式: md5sum tests/test_m1_service.py ~/wzh/m1_samples/m1_table_schema.json
+faa7565a2b83b5b593389000b7ed72d7  tests/test_m1_service.py
+73d4f46e20e8eeb03532f4b4a8e55c0d  /home/testuser/wzh/m1_samples/m1_table_schema.json
