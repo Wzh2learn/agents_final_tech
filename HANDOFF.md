@@ -241,3 +241,29 @@ but BLOCKED-auth (needs Qoder account PAT). commit 2d018a8.
 See docs/16 for migration plan; docs/experiments/2026-07-29_qoder_recon.md for full report.
 
 **Git reconciled**: local = remote = GitHub = 2d018a8 (2026-07-29 08:30 CST).
+
+
+## Client supplementary requirements (2026-07-29)
+
+From client screenshot and verbal feedback:
+
+1. **KV table as first-class table type**: The client system treats "表头信息"
+   (header info) as a standalone table with layout type `kv` (key-value), not just
+   a side-car `header_meta_fields` dict. It has its own table name ("表头信息"),
+   layout selector ("键值(kv)"), header-region keywords, and field synonym list
+   (same fields as grid tables: 产品名称/管理人/对账日期/券商/托管行/合计金额/单位净值).
+   Our schema should model this as a table entry with `layout: "kv"` rather than
+   a separate `header_meta_fields` section.
+
+2. **No-table-name fields**: Client asks "没表名的也可以想想怎么单独处理" — fields
+   like "风险等级到期时间" that appear in documents without belonging to any named
+   table. These need a fallback: either a catch-all "unattributed" table, or a
+   document-level field extraction pass that runs after table detection.
+
+3. **Expanded synonyms** (from updated screenshot): 对账日期 now includes
+   对账期间/打印日期/起止日期/开始日期/结束日期; 合计金额 now includes
+   总资产/净资产/资产市值/参考市值; 产品名称 now includes 姓名/客户姓名;
+   单位净值 now includes 份额净值.
+
+These are schema-level improvements for the next M1 iteration (after the current
+compact-summary loop completes). Not blocking the current loop.
