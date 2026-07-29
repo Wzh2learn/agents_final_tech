@@ -310,3 +310,7 @@
  # 单独跑一次 Loop B 验证
  ssh jinrong-dev "bash ~/wzh/projects/agents_final_tech/scripts/graph/loop_b_verify.sh"
  ```
+
+| 2026-07-30 | 过夜 Loop D 监督：M1 解析 unmapped 5→3（kv 路由+标准名优先）；switch 助手；72B vs 35B 有界对比（72B 跑完即 kill） | Loop D |
+| 2026-07-30 | 战略仲裁：未启动 Loop A 自主写代码；72B 不整夜常驻；严格 JSON 调优延后交互；客户原始数据不入库 | Loop D |
+| 2026-07-30 | Loop B 守护常驻 + Loop D 影子；Loop C 按需；详见 docs/18 | Loop D |
