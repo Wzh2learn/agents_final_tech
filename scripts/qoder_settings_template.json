@@ -1,0 +1,56 @@
+{
+  "providers": {
+    "local-llama": {
+      "displayName": "Local Qwen3-14B (llama-server :8004)",
+      "baseUrl": "http://127.0.0.1:8004/v1",
+      "apiKey": "local-no-key",
+      "model": "qwen3-14b",
+      "contextWindow": 16384,
+      "maxOutputTokens": 4096,
+      "firstPayloadTimeoutMs": 120000,
+      "streamIdleTimeoutMs": 60000,
+      "models": [
+        {
+          "modelId": "qwen3-14b",
+          "displayName": "Qwen3 14B Q4 Local",
+          "contextWindow": 16384,
+          "maxOutputTokens": 4096,
+          "capabilities": { "tools": true, "vision": false, "thinking": false }
+        }
+      ]
+    },
+    "token-plan-proxy": {
+      "displayName": "Token Plan via responses2chat proxy :8100",
+      "baseUrl": "http://127.0.0.1:8100/v1",
+      "apiKey": "from-env-OPENAI_API_KEY",
+      "model": "qwen3.8-max-preview",
+      "contextWindow": 983616,
+      "maxOutputTokens": 8192,
+      "firstPayloadTimeoutMs": 120000,
+      "streamIdleTimeoutMs": 60000,
+      "models": [
+        {
+          "modelId": "qwen3.8-max-preview",
+          "displayName": "Qwen3.8 Max Preview (Token Plan)",
+          "contextWindow": 983616,
+          "maxOutputTokens": 8192,
+          "capabilities": { "tools": true, "vision": true, "thinking": true }
+        },
+        {
+          "modelId": "glm-5.2",
+          "displayName": "GLM 5.2 (Token Plan via proxy)",
+          "contextWindow": 131072,
+          "maxOutputTokens": 8192,
+          "capabilities": { "tools": true, "vision": false, "thinking": true }
+        },
+        {
+          "modelId": "deepseek-v4-pro",
+          "displayName": "DeepSeek V4 Pro (Token Plan via proxy)",
+          "contextWindow": 131072,
+          "maxOutputTokens": 8192,
+          "capabilities": { "tools": true, "vision": false, "thinking": true }
+        }
+      ]
+    }
+  }
+}

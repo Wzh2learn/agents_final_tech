@@ -218,3 +218,26 @@ d42787f m1-real / dcfa161 m1-batch) and rebased onto the doc-correction commit; 
 empty tmux sessions (codex-integrate / codex-m1-batch / codex-m1-real) remain harmless;
 llama-server :8004, responses2chat proxy :8100 and FastAPI :5000 are reusable infra,
 left running. coding-jinrong tmux is the user's own session, untouched.
+
+
+## Overnight experiment results (2026-07-29 morning check)
+
+All four client-M1 loops completed via autonomous supervisor chain:
+
+- **A (schema+reconcile)**: headline hit rate 52.4%->66.7%; boshi KV 0->2; reconciliation
+  caught silent mismatches (持仓数量<-在途数量 now visible unmapped). commit b2c6ea7.
+- **B (OCR fallback)**: 0/7 real samples (PaddleOCR-VL ~14-18 char/s too slow for full-page
+  on GB10); synthetic self-check 7/7 proves pipeline works. Not a mapper defect.
+  commit 484f607.
+- **C (LLM header mapping)**: 32 unknown columns, 15 pass reconciliation gate, unmapped
+  39->23; counterfactual self-test proves gate is not rubber-stamp; rows=0 tables are
+  blind spot requiring human review. commit e83fb23.
+- **D (multi-agent delegation)**: single-hop verified correct (matches direct parser);
+  auto-delegation unreliable (neutral prompt -> direct tool call); two-hop BLOCKED
+  (verifier reads 215KB JSON > 16K context). commit 917e7c5.
+
+**Qoder CLI recon**: isolated install OK, protocol compatible with :8004/:8100,
+but BLOCKED-auth (needs Qoder account PAT). commit 2d018a8.
+See docs/16 for migration plan; docs/experiments/2026-07-29_qoder_recon.md for full report.
+
+**Git reconciled**: local = remote = GitHub = 2d018a8 (2026-07-29 08:30 CST).

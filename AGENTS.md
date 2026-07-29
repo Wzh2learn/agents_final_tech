@@ -98,3 +98,23 @@ mis-report status:
   remote-loop task prompts, kept as audit archive.
 - Remote Codex CLI exec needs `--dangerously-bypass-approvals-and-sandbox`
   (bubblewrap user namespaces unavailable on GB10).
+
+
+## Qoder CLI Recon (2026-07-29, recon only, no switch)
+
+Qoder CLI 1.1.7 isolated-installed at `~/.local/qoder` on GB10. Protocol analysis
+confirms full OpenAI chat-completions compatibility with llama-server :8004 (direct,
+no proxy needed) and responses2chat :8100 (forward path). Config via
+`~/.qoder/settings.json` providers field (reverse-engineered from bundle).
+
+**Hard gate**: Qoder requires account auth (PAT or browser OAuth) even for external
+providers. Phase 2 connectivity test BLOCKED-auth. User must register + provide PAT
+before any Qoder loop can execute.
+
+Coexistence with Codex CLI: zero conflict (separate binaries, config dirs, auth).
+All existing assets (AGENTS.md, SKILL.md, loop prompts, supervisors, proxy) are
+tool-agnostic and reusable under Qoder with only the invocation shell changed
+(`codex exec` -> `qodercli -p --dangerously-skip-permissions`).
+
+Migration decision: pending user PAT + Phase 2实测. See docs/16 and
+docs/experiments/2026-07-29_qoder_recon.md for full report.

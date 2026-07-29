@@ -57,3 +57,18 @@ codex
 
 每次交付应列出变更文件、验证命令、结果和未决依赖。涉及服务、GPU、网络、驱动、
 权限或真实业务数据前，先取得相应授权。
+
+
+## PowerShell -> SSH 远程命令的引号陷阱（2026-07-29 反复踩坑记录）
+
+通过本机 PowerShell 5 执行 `ssh host "command"` 时，**串内的双引号会被 PowerShell 吞掉**，
+导致远程 bash 收到的命令里双引号消失，连带使 `<()`、`grep "..."` 正则、甚至 echo 文本中
+的 `()` / `?` 裸露后触发远程 bash 语法错误（`未预期的记号 "(" 附近有语法错误`）。
+
+**铁律**：ssh 远程命令只要含双引号或 shell 元字符（`()`、`?`、`$()`、反引号），
+**一律写成 .sh 文件 → scp 到远程 → `ssh host "bash /tmp/xxx.sh"` 执行**，绝不内联。
+.sh 文件用 `[System.IO.File]::WriteAllText(path, content, UTF8Encoding($false))` 写入
+（避免 BOM 导致 `#!/usr/bin/env: 没有那个文件或目录`）。
+
+此教训在 2026-07-29 check 中踩了 4 次（grep 正则、echo 标签括号、awk 引号、process grep），
+每次都是同一个根因。写 .sh 文件后一次成功。
