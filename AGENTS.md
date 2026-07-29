@@ -123,3 +123,18 @@ tool-agnostic and reusable under Qoder with only the invocation shell changed
 
 Migration decision: pending user PAT + Phase 2实测. See docs/16 and
 docs/experiments/2026-07-29_qoder_recon.md for full report.
+
+## Codex CLI model switching on GB10 (2026-07-30)
+
+Codex CLI on GB10 reads ~/.codex/config.toml with two Token Plan providers:
+- Token_Plan (direct Responses API) -> qwen3.8-max-preview (default).
+- Token_Plan_Chat (local responses2chat proxy :8100, Responses->Chat) -> glm-5.2, deepseek-v4-pro.
+  glm/deepseek only speak Chat Completions on Qwen Token Plan; the proxy translates.
+Switch helper: bash scripts/switch_codex_model.sh [qwen|glm|deepseek]
+For glm/deepseek it also ensures the :8100 proxy is up. Verified 2026-07-30:
+codex exec end-to-end with glm-5.2 via the proxy returns a valid response.
+Manual equivalent (edit the two top-level lines of ~/.codex/config.toml):
+  model = "glm-5.2"                  # or qwen3.8-max-preview / deepseek-v4-pro
+  model_provider = "Token_Plan_Chat" # or Token_Plan for qwen
+then ensure the proxy is running for the *_Chat provider:
+  bash ~/start_proxy.sh   # fallback: nohup python3 ~/.local/bin/responses2chat_proxy.py &
