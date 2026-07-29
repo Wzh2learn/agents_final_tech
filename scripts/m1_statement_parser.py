@@ -816,6 +816,47 @@ def collect_unmapped_columns(sample_paths: list[str], schema: Schema) -> dict[st
 
 
 # =========================================================================
+# 紧凑摘要（供 evidence-verifier 复核，体积 << 16K tokens）
+# =========================================================================
+_RECONCILE_KEY_MAP = {
+    "市值勾稽": "market_value",
+    "币种一致": "currency",
+    "日期格式": "date",
+    "静默错配嫌疑": "silent_mismatch",
+}
+
+
+def build_compact_summary(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """从全量结果构建紧凑摘要：每样本仅保留勾稽结论 + unmapped 列名。"""
+    compact = []
+    for res in results:
+        entry: dict[str, Any] = {
+            "sample_id": res["file"],
+            "n_tables": res.get("table_count", 0),
+        }
+        if not res.get("ok"):
+            entry["error"] = res.get("error", "parse failed")
+            compact.append(entry)
+            continue
+        reconcile: dict[str, str] = {}
+        for chk in res.get("reconcile", []):
+            key = _RECONCILE_KEY_MAP.get(chk["check"], chk["check"])
+            if "数据不足" in chk.get("note", ""):
+                reconcile[key] = "SKIP"
+            else:
+                reconcile[key] = "PASS" if chk["pass"] else "FAIL"
+        entry["reconcile"] = reconcile
+        unmapped_cols: list[str] = []
+        for t in res.get("tables", []):
+            unmapped_cols.extend(t.get("unmapped", []))
+        entry["n_unmapped"] = len(unmapped_cols)
+        if unmapped_cols:
+            entry["unmapped_cols"] = unmapped_cols
+        compact.append(entry)
+    return compact
+
+
+# =========================================================================
 # 报告打印
 # =========================================================================
 def _print_result(res: dict[str, Any]) -> None:
@@ -853,6 +894,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--json", default="", help="把汇总结果(已脱敏)写入该 JSON 文件")
     ap.add_argument("--dump-unmapped", default="",
                         help="只读：把 unmapped 源列(带脱敏样本值)去重后写入该 JSON")
+    ap.add_argument("--compact-summary", default="",
+                        help="紧凑勾稽摘要 JSON（< 2KB），供 evidence-verifier 复核")
     args = ap.parse_args(argv)
 
     print(f"libs: fitz={_HAS_FITZ} openpyxl={_HAS_OPENPYXL} docx={_HAS_DOCX}")
@@ -884,6 +927,13 @@ def main(argv: list[str] | None = None) -> int:
             json.dump(dump, fh, ensure_ascii=False, indent=2)
         print(f"\n[dump-unmapped] {dump['unique_column_count']} 个去重 unmapped 列 "
               f"({dump['total_unmapped_occurrences']} 次出现) 已写入 {args.dump_unmapped}")
+
+    if args.compact_summary:
+        compact = build_compact_summary(results)
+        with open(args.compact_summary, "w", encoding="utf-8") as fh:
+            json.dump(compact, fh, ensure_ascii=False, separators=(",", ":"))
+        size = os.path.getsize(args.compact_summary)
+        print(f"\n[compact-summary] {len(compact)} 样本, {size} bytes -> {args.compact_summary}")
 
     # 汇总表
     print("\n" + "=" * 78)
