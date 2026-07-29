@@ -38,7 +38,10 @@
     },
     "jinrong-tabular": {
       "type": "local",
-      "command": ["bash", "scripts/start_tabular_mcp_server.sh"],
+      "command": [
+        "bash",
+        "scripts/start_tabular_mcp_server.sh"
+      ],
       "enabled": true,
       "timeout": 660000
     }
@@ -82,11 +85,12 @@
       "model": "gb10/qwen3-14b",
       "permission": {
         "edit": "deny",
-        "bash": "deny",
+        "bash": "allow",
         "jinrong-rag_*": "allow",
         "jinrong-vision_*": "allow",
         "jinrong-tabular_*": "deny"
-      }
+      },
+      "prompt": "When asked to verify M1 extraction results, read the compact summary file at /tmp/opencode/m1_compact_summary.json via bash (cat or python json.load). Check each sample reconcile status and unmapped column count. Return a concise verdict: PASS if all reconcile checks pass and unmapped counts are reasonable (<10 per sample), otherwise FAIL with specifics. You MUST always finish with a final plain-text verdict message."
     },
     "tabular-researcher": {
       "description": "Runs bounded, read-only tabular model experiments on explicitly supplied numeric rows.",

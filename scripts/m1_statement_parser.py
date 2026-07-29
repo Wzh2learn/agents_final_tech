@@ -123,8 +123,16 @@ class Schema:
                 list(t.get("header_region_keywords", [])),
                 fields,
             ))
-        meta = {k: list(v) for k, v in data.get("header_meta_fields", {}).items()
-                if not k.startswith("_")}
+        # Build header_meta_fields: prefer kv-layout tables, fallback to legacy dict
+        meta: dict[str, list[str]] = {}
+        for t in tables:
+            if t.layout == "kv" and t.table_name != "_unattributed":
+                for fld in t.fields:
+                    syns = list(fld.synonyms) if fld.synonyms else [fld.standard]
+                    meta[fld.standard] = syns
+        if not meta:
+            meta = {k: list(v) for k, v in data.get("header_meta_fields", {}).items()
+                    if not k.startswith("_")}
         return cls(tables, meta)
 
 
@@ -197,9 +205,11 @@ def map_headers(source_headers: list[str], schema_table: SchemaTable) -> tuple[d
 
 
 def best_schema_match(source_headers: list[str], schema: Schema) -> MatchResult:
-    """在所有 schema 表中选命中数最高者作为该源表的归属表。"""
+    """在所有 grid 布局 schema 表中选命中数最高者作为该源表的归属表。"""
     best: MatchResult | None = None
     for st in schema.tables:
+        if st.layout == "kv":
+            continue
         mapping, unmapped = map_headers(source_headers, st)
         hits = len(mapping)
         cand = MatchResult(st.table_name, mapping, unmapped, hits, list(source_headers))
@@ -701,6 +711,38 @@ def reconcile(table_reports: list[dict[str, Any]],
 
 
 # =========================================================================
+# _unattributed 兜底 KV 扫描
+# =========================================================================
+def scan_unattributed_kv(text: str, schema: Schema) -> dict[str, str]:
+    """对文档剩余文本做一轮 kv 扫描，匹配 _unattributed 表的字段。"""
+    ua_table = None
+    for t in schema.tables:
+        if t.table_name == "_unattributed" and t.layout == "kv":
+            ua_table = t
+            break
+    if ua_table is None or not ua_table.fields:
+        return {}
+    syn2std: dict[str, str] = {}
+    for fld in ua_table.fields:
+        for syn in (fld.synonyms or [fld.standard]):
+            syn2std[syn] = fld.standard
+        syn2std.setdefault(fld.standard, fld.standard)
+    keys = sorted(syn2std.keys(), key=len, reverse=True)
+    if not keys:
+        return {}
+    key_alt = "|".join(re.escape(k) for k in keys)
+    pattern = re.compile(rf"(?P<key>{key_alt})\s*[:：]\s*(?P<val>.+?)(?:\s|$)")
+    found: dict[str, str] = {}
+    for line in text.splitlines():
+        for m in pattern.finditer(line):
+            std = syn2std.get(m.group("key"), m.group("key"))
+            val = m.group("val").strip().strip(" \t,，;；")
+            if val and std not in found:
+                found[std] = val
+    return found
+
+
+# =========================================================================
 # 单样本编排
 # =========================================================================
 def process_sample(path: str, schema: Schema) -> dict[str, Any]:
@@ -719,8 +761,13 @@ def process_sample(path: str, schema: Schema) -> dict[str, Any]:
     if not doc.ok:
         return result
 
-    # 表头区 KV
+    # 表头区 KV（优先用 kv 表字段）
     meta = extract_header_meta(doc.text, schema)
+    # _unattributed 兜底扫描
+    ua_kv = scan_unattributed_kv(doc.text, schema)
+    for k, v in ua_kv.items():
+        if k not in meta:
+            meta[k] = v
     result["header_meta"] = desensitize_record(meta)
     result["header_meta_count"] = len(meta)
 

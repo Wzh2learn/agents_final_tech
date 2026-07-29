@@ -1,6 +1,7 @@
 /**
- * M1 Rule Extraction Workbench - frontend logic.
- * Calls /api/m1/* endpoints and renders pipeline results.
+ * M1 对账单解析工作台 - frontend logic.
+ * Three-panel result view: 标准化表格 / KV 表数据 / 复核面板.
+ * Calls /api/m1/parse-file (multipart upload) and renders results.
  */
 (function () {
   'use strict';
@@ -10,196 +11,202 @@
 
   // State
   let lastResponse = null;
-  let activeRuleIndex = -1;
+  let pendingFile = null;
 
   // Elements
-  const sourceInput = $('#sourceInput');
-  const documentName = $('#documentName');
-  const runBtn = $('#runBtn');
+  const fileInput = $('#fileInput');
   const sampleBtn = $('#sampleBtn');
+  const runBtn = $('#runBtn');
   const copyBtn = $('#copyBtn');
   const downloadBtn = $('#downloadBtn');
-  const fileInput = $('#fileInput');
   const notice = $('#notice');
   const stageRail = $('#stageRail');
   const metricGrid = $('#metricGrid');
   const overallStatus = $('#overallStatus');
-  const docId = $('#docId');
-  const sourcePreview = $('#sourcePreview');
-  const rulesList = $('#rulesList');
-  const ruleDetail = $('#ruleDetail');
-  const jsonOutput = $('#jsonOutput');
-  const validationStatus = $('#validationStatus');
-
-  // --- API helpers ---
-  async function api(path, options = {}) {
-    const res = await fetch(`/api/m1${path}`, {
-      headers: { 'Content-Type': 'application/json' },
-      ...options,
-    });
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`API ${res.status}: ${text.slice(0, 200)}`);
-    }
-    return res.json();
-  }
+  const tableCount = $('#tableCount');
+  const tablesContainer = $('#tablesContainer');
+  const kvCount = $('#kvCount');
+  const kvContainer = $('#kvContainer');
+  const reviewBadge = $('#reviewBadge');
+  const unmappedSection = $('#unmappedSection');
+  const reconcileSection = $('#reconcileSection');
+  const confirmBtn = $('#confirmBtn');
 
   // --- Notice ---
   function setNotice(msg, type = '') {
     notice.textContent = msg;
     notice.className = type;
-    if (msg) setTimeout(() => { notice.textContent = ''; notice.className = ''; }, 5000);
+    if (msg) setTimeout(() => { notice.textContent = ''; notice.className = ''; }, 6000);
   }
 
-  // --- Render stages ---
-  function renderStages(stages) {
+  // --- Stage rail (synthetic stages from parse result) ---
+  function renderStages(result) {
+    const stages = [];
+    const t0 = performance.now();
+    stages.push({ label: '文档解析', status: result.ok !== false ? 'passed' : 'failed', detail: result.kind || '' });
+    stages.push({ label: '表头映射', status: (result.metrics && result.metrics.hit_rate >= 70) ? 'passed' : 'warning', detail: `命中率 ${result.metrics ? result.metrics.hit_rate : 0}%` });
+    const reconPass = result.reconcile ? result.reconcile.filter(c => c.pass).length : 0;
+    const reconTotal = result.reconcile ? result.reconcile.length : 0;
+    stages.push({ label: '勾稽校验', status: reconPass === reconTotal ? 'passed' : 'warning', detail: `${reconPass}/${reconTotal} 通过` });
+    if (result.needs_ocr) {
+      stages.push({ label: 'OCR', status: 'failed', detail: '需要 OCR/Vision' });
+    }
     stageRail.innerHTML = stages.map((s) =>
-      `<span class="stage-chip ${s.status}" title="${s.detail}">` +
-      `${s.label} <span class="dur">${s.duration_ms}ms</span></span>`
+      `<span class="stage-chip ${s.status}" title="${esc(s.detail)}">${s.label}</span>`
     ).join('');
   }
 
-  // --- Render metrics ---
+  // --- Metrics ---
   function renderMetrics(metrics) {
-    const labels = {
-      chars: 'Chars',
-      paragraphs: 'Paragraphs',
-      rules: 'Rules',
-      schema_pass_rate: 'Schema Pass',
-      source_coverage_rate: 'Source Cov',
-      human_review_rate: 'Review Rate',
-    };
-    metricGrid.innerHTML = Object.entries(labels).map(([key, label]) => {
-      const val = metrics[key];
-      const display = typeof val === 'number' && val <= 1 && key.includes('rate')
-        ? (val * 100).toFixed(1) + '%'
-        : val;
-      return `<div class="metric-card"><div class="label">${label}</div><div class="value">${display ?? '-'}</div></div>`;
-    }).join('');
+    if (!metrics) { metricGrid.innerHTML = ''; return; }
+    const cards = [
+      { label: 'Tables', value: metrics.tables },
+      { label: 'Columns', value: metrics.columns },
+      { label: 'Hit Rate', value: metrics.hit_rate + '%' },
+      { label: 'KV Fields', value: metrics.kv_count },
+      { label: 'Unmapped', value: metrics.unmapped },
+      { label: 'Reconcile', value: metrics.reconcile_pass },
+    ];
+    metricGrid.innerHTML = cards.map(c =>
+      `<div class="metric-card"><div class="label">${c.label}</div><div class="value">${c.value ?? '-'}</div></div>`
+    ).join('');
   }
 
-  // --- Render source preview ---
-  function renderSource(text, rules) {
-    const paragraphs = text.replace(/\r\n/g, '\n').split(/\n\s*\n+/).filter(p => p.trim());
-    // Collect paragraph numbers referenced by rules
-    const ruleParas = new Set();
-    if (rules) rules.forEach(r => ruleParas.add(r.source.paragraph_no));
-
-    sourcePreview.innerHTML = paragraphs.map((p, i) => {
-      const no = i + 1;
-      const hl = ruleParas.has(no) ? ' highlight' : '';
-      const escaped = p.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
-      return `<div class="para${hl}"><span class="para-no">${no}</span>${escaped}</div>`;
-    }).join('');
-  }
-
-  // --- Render rules list ---
-  function renderRules(rules) {
-    if (!rules.length) {
-      rulesList.innerHTML = '<div class="empty-state">No rules extracted</div>';
+  // --- Panel 1: 标准化表格 ---
+  function renderTables(tables) {
+    if (!tables || !tables.length) {
+      tablesContainer.innerHTML = '<div class="empty-state">未检测到表格</div>';
+      tableCount.textContent = '0 表';
       return;
     }
-    rulesList.innerHTML = rules.map((r, i) => {
-      const badge = r.need_human_review
-        ? '<span class="badge review">review</span>'
-        : '<span class="badge ok">pass</span>';
-      return `<div class="rule-card" data-index="${i}">
-        <div class="rule-title">${badge} ${esc(r.rule_name)}</div>
-        <div class="rule-meta">
-          <span class="rule-id">${r.rule_id}</span>
-          <span>conf ${(r.confidence * 100).toFixed(0)}%</span>
-          <span>para ${r.source.paragraph_no}</span>
-        </div>
-      </div>`;
-    }).join('');
-
-    rulesList.querySelectorAll('.rule-card').forEach(card => {
-      card.addEventListener('click', () => selectRule(parseInt(card.dataset.index)));
-    });
-  }
-
-  // --- Select rule detail ---
-  function selectRule(index) {
-    activeRuleIndex = index;
-    rulesList.querySelectorAll('.rule-card').forEach((c, i) => {
-      c.classList.toggle('active', i === index);
-    });
-    const rule = lastResponse.rules[index];
-    if (!rule) return;
-    renderDetail(rule);
-    jsonOutput.textContent = JSON.stringify(rule, null, 2);
-  }
-
-  function renderDetail(rule) {
-    const params = rule.parameters.length
-      ? `<ul class="param-list">${rule.parameters.map(p => `<li>${esc(p)}</li>`).join('')}</ul>`
-      : '<span style="color:var(--muted)">none</span>';
-    const cautions = rule.cautions.length
-      ? `<ul class="param-list">${rule.cautions.map(c => `<li>${esc(c)}</li>`).join('')}</ul>`
-      : '<span style="color:var(--muted)">none</span>';
-
-    ruleDetail.innerHTML = `
-      <div class="detail-field"><div class="field-label">Rule ID</div><div class="field-value mono">${rule.rule_id}</div></div>
-      <div class="detail-field"><div class="field-label">Name</div><div class="field-value">${esc(rule.rule_name)}</div></div>
-      <div class="detail-field"><div class="field-label">Scenario</div><div class="field-value">${esc(rule.scenario)}</div></div>
-      <div class="detail-field"><div class="field-label">Trigger Condition</div><div class="field-value">${esc(rule.trigger_condition)}</div></div>
-      <div class="detail-field"><div class="field-label">Action</div><div class="field-value">${esc(rule.action)}</div></div>
-      <div class="detail-field"><div class="field-label">Parameters</div><div class="field-value">${params}</div></div>
-      <div class="detail-field"><div class="field-label">Cautions</div><div class="field-value">${cautions}</div></div>
-      <div class="detail-field"><div class="field-label">Source</div><div class="field-value mono">page ${rule.source.page_no}, para ${rule.source.paragraph_no}</div></div>
-      <div class="detail-field"><div class="field-label">Confidence</div><div class="field-value">${(rule.confidence * 100).toFixed(1)}%</div></div>
-      <div class="review-actions">
-        <button class="btn-approve" data-decision="approved">Approve</button>
-        <button class="btn-flag" data-decision="needs_review">Flag</button>
-      </div>
-    `;
-
-    ruleDetail.querySelectorAll('.review-actions button').forEach(btn => {
-      btn.addEventListener('click', () => submitReview(rule, btn.dataset.decision));
-    });
-  }
-
-  // --- Review ---
-  async function submitReview(rule, decision) {
-    try {
-      const res = await api('/review', {
-        method: 'POST',
-        body: JSON.stringify({ rule, decision, reviewer_note: '' }),
-      });
-      setNotice(`Review: ${decision}`, 'ok');
-      // Update local state
-      if (lastResponse && activeRuleIndex >= 0) {
-        lastResponse.rules[activeRuleIndex] = res.rule;
-        renderRules(lastResponse.rules);
-        selectRule(activeRuleIndex);
+    tableCount.textContent = `${tables.length} 表`;
+    let html = '';
+    for (const t of tables) {
+      html += `<div class="table-card">`;
+      html += `<div class="table-card-head">`;
+      html += `<strong>${esc(t.table)}</strong>`;
+      html += `<span class="schema-tag">${esc(t.matched_schema || '未匹配')}</span>`;
+      html += `<span class="hit-tag">${t.hits}/${t.cols} 命中 (${t.hit_rate}%)</span>`;
+      html += `</div>`;
+      // Mapping summary
+      const mappingEntries = Object.entries(t.mapping || {});
+      if (mappingEntries.length) {
+        html += `<div class="mapping-row"><span class="mapping-label">映射:</span> `;
+        html += mappingEntries.map(([std, src]) => `<span class="map-chip">${esc(std)}←${esc(src)}</span>`).join('');
+        html += `</div>`;
       }
-    } catch (err) {
-      setNotice(err.message, 'error');
+      // Data table (first 10 records)
+      const records = (t.records || []).slice(0, 10);
+      if (records.length) {
+        const cols = Object.keys(records[0]);
+        html += `<div class="data-table-wrap"><table class="data-table"><thead><tr>`;
+        html += cols.map(c => `<th>${esc(c)}</th>`).join('');
+        html += `</tr></thead><tbody>`;
+        for (const row of records) {
+          html += `<tr>` + cols.map(c => `<td>${esc(row[c] || '')}</td>`).join('') + `</tr>`;
+        }
+        html += `</tbody></table></div>`;
+        if (t.total_records > 10) {
+          html += `<div class="more-rows">… 共 ${t.total_records} 行，仅显示前 10 行</div>`;
+        }
+      } else {
+        html += `<div class="no-rows">无数据行${t.rows === 0 ? '（仅表头）' : ''}</div>`;
+      }
+      html += `</div>`;
     }
+    tablesContainer.innerHTML = html;
   }
 
-  // --- Run extraction ---
-  async function runExtraction() {
-    const text = sourceInput.value.trim();
-    if (text.length < 20) {
-      setNotice('Input too short (min 20 chars)', 'error');
+  // --- Panel 2: KV 表数据 ---
+  function renderKV(headerMeta) {
+    const entries = Object.entries(headerMeta || {});
+    kvCount.textContent = `${entries.length} 项`;
+    if (!entries.length) {
+      kvContainer.innerHTML = '<div class="empty-state">未提取到 KV 数据</div>';
       return;
     }
+    let html = '<table class="kv-table"><thead><tr><th>字段</th><th>值（脱敏）</th></tr></thead><tbody>';
+    for (const [key, val] of entries) {
+      html += `<tr><td class="kv-key">${esc(key)}</td><td class="kv-val">${esc(val)}</td></tr>`;
+    }
+    html += '</tbody></table>';
+    kvContainer.innerHTML = html;
+  }
+
+  // --- Panel 3: 复核面板 ---
+  function renderReview(result) {
+    // Unmapped
+    const unmapped = result.unmapped || [];
+    let uhtml = '<h3 class="review-h3">未映射列 (' + unmapped.length + ')</h3>';
+    if (unmapped.length) {
+      uhtml += '<ul class="unmapped-list">';
+      for (const item of unmapped) {
+        uhtml += `<li><span class="unmapped-col">${esc(item.column)}</span> <span class="unmapped-src">← ${esc(item.table)}</span></li>`;
+      }
+      uhtml += '</ul>';
+    } else {
+      uhtml += '<p class="all-mapped">✓ 全部列已映射</p>';
+    }
+    unmappedSection.innerHTML = uhtml;
+
+    // Reconcile
+    const checks = result.reconcile || [];
+    let rhtml = '<h3 class="review-h3">勾稽校验 (' + checks.length + ')</h3>';
+    for (const chk of checks) {
+      const cls = chk.pass ? 'pass' : 'fail';
+      const icon = chk.pass ? '✓' : '✗';
+      rhtml += `<div class="recon-item ${cls}">`;
+      rhtml += `<span class="recon-icon">${icon}</span>`;
+      rhtml += `<div class="recon-body"><strong>${esc(chk.check)}</strong>`;
+      if (chk.note) rhtml += `<div class="recon-note">${esc(chk.note)}</div>`;
+      rhtml += `<div class="recon-detail">${esc(chk.actual || '')}</div>`;
+      rhtml += `</div></div>`;
+    }
+    reconcileSection.innerHTML = rhtml;
+
+    // Review badge
+    const passCount = checks.filter(c => c.pass).length;
+    const allPass = passCount === checks.length && unmapped.length === 0;
+    reviewBadge.textContent = allPass ? 'PASS' : `${passCount}/${checks.length}`;
+    reviewBadge.className = allPass ? 'badge-ok' : 'badge-warn';
+
+    // Confirm button
+    confirmBtn.disabled = false;
+  }
+
+  // --- Render all ---
+  function renderAll(data) {
+    const result = data.result;
+    overallStatus.textContent = data.status === 'success' ? '解析完成' : '解析失败';
+    overallStatus.dataset.status = data.status === 'success' ? 'success' : 'failed';
+    renderStages(result);
+    renderMetrics(result.metrics);
+    renderTables(result.tables);
+    renderKV(result.header_meta);
+    renderReview(result);
+  }
+
+  // --- Parse file ---
+  async function parseFile(file) {
     runBtn.disabled = true;
-    runBtn.textContent = 'Running...';
+    runBtn.textContent = 'Parsing...';
     setNotice('');
+    const formData = new FormData();
+    formData.append('file', file);
     try {
-      const res = await api('/extract', {
-        method: 'POST',
-        body: JSON.stringify({
-          document_name: documentName.value || 'untitled',
-          text,
-          mode: 'local-rule-baseline',
-        }),
-      });
-      lastResponse = res;
-      renderAll(res);
-      setNotice(`Done: ${res.rules.length} rules, ${res.validation.failed} errors`, 'ok');
+      const res = await fetch('/api/m1/parse-file', { method: 'POST', body: formData });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`API ${res.status}: ${text.slice(0, 200)}`);
+      }
+      const data = await res.json();
+      if (data.status === 'error') {
+        throw new Error(data.error || data.result?.error || '解析失败');
+      }
+      lastResponse = data;
+      renderAll(data);
+      const m = data.result.metrics;
+      setNotice(`完成: ${m.tables} 表, 命中 ${m.hit_rate}%, ${m.unmapped} 未映射`, 'ok');
     } catch (err) {
       setNotice(err.message, 'error');
     } finally {
@@ -208,99 +215,81 @@
     }
   }
 
-  function renderAll(res) {
-    overallStatus.textContent = res.status === 'success' ? 'PASS' : 'NEEDS REVIEW';
-    overallStatus.dataset.status = res.status;
-    docId.textContent = res.document_id;
-    validationStatus.textContent = `${res.validation.passed} pass / ${res.validation.failed} fail / ${res.validation.warnings} warn`;
-    renderStages(res.stages);
-    renderMetrics(res.metrics);
-    renderSource(sourceInput.value, res.rules);
-    renderRules(res.rules);
-    jsonOutput.textContent = JSON.stringify(res.m2_payload, null, 2);
-    ruleDetail.innerHTML = '<div class="empty-state">Select a rule to inspect</div>';
-    activeRuleIndex = -1;
-    if (res.rules.length) selectRule(0);
-  }
-
-  // --- Load sample ---
-  async function loadSample() {
-    try {
-      const res = await api('/sample');
-      sourceInput.value = res.sample.text;
-      documentName.value = res.sample.document_name;
-      setNotice('Sample loaded', 'ok');
-    } catch (err) {
-      setNotice(err.message, 'error');
-    }
-  }
-
-  // --- File upload ---
-  function handleFile(e) {
+  // --- File input handler ---
+  fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      sourceInput.value = reader.result;
-      documentName.value = file.name;
-      setNotice(`Loaded: ${file.name}`, 'ok');
-    };
-    reader.readAsText(file);
+    pendingFile = file;
+    setNotice(`已选择: ${file.name}`, 'ok');
+    parseFile(file);
     e.target.value = '';
-  }
+  });
+
+  // --- Run button: re-run pending file ---
+  runBtn.addEventListener('click', () => {
+    if (pendingFile) {
+      parseFile(pendingFile);
+    } else {
+      setNotice('请先上传对账单文件', 'error');
+    }
+  });
+
+  // --- Sample: create a synthetic TXT statement and parse it ---
+  sampleBtn.addEventListener('click', () => {
+    const sampleText = [
+      '客户编号：88001234  资产账号：66005678',
+      '客户全称：示例基金管理有限公司',
+      '打印时间：2026-07-29  制表：张三',
+      '开始日期：2026-01-01  结束日期：2026-06-30',
+      '',
+      '产品名称  对账日期  合计金额  单位净值  累计净值',
+      '------------------------------------------------------------',
+      '示例成长混合  2026-06-30  1234567.89  1.2345  2.3456',
+      '示例价值股票  2026-06-30  987654.32  0.9876  1.8765',
+      '',
+      '风险等级：R3  到期时间：2027-12-31',
+    ].join('\n');
+    const blob = new Blob([sampleText], { type: 'text/plain' });
+    const file = new File([blob], 'sample_statement_demo.txt', { type: 'text/plain' });
+    pendingFile = file;
+    setNotice('已载入演示对账单', 'ok');
+    parseFile(file);
+  });
 
   // --- Copy / Download M2 payload ---
-  function copyPayload() {
-    if (!lastResponse) { setNotice('Run extraction first', 'error'); return; }
+  copyBtn.addEventListener('click', () => {
+    if (!lastResponse || !lastResponse.m2_payload) { setNotice('请先解析文件', 'error'); return; }
     const text = JSON.stringify(lastResponse.m2_payload, null, 2);
     navigator.clipboard.writeText(text).then(
-      () => setNotice('M2 payload copied', 'ok'),
-      () => setNotice('Clipboard failed', 'error')
+      () => setNotice('M2 载荷已复制', 'ok'),
+      () => setNotice('剪贴板写入失败', 'error')
     );
-  }
+  });
 
-  function downloadPayload() {
-    if (!lastResponse) { setNotice('Run extraction first', 'error'); return; }
+  downloadBtn.addEventListener('click', () => {
+    if (!lastResponse || !lastResponse.m2_payload) { setNotice('请先解析文件', 'error'); return; }
     const blob = new Blob([JSON.stringify(lastResponse.m2_payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${lastResponse.document_id}_m2_payload.json`;
+    a.download = `${lastResponse.result.file || 'm1'}_m2_payload.json`;
     a.click();
     URL.revokeObjectURL(url);
-    setNotice('Downloaded', 'ok');
-  }
+    setNotice('M2 载荷已下载', 'ok');
+  });
 
-  // --- Tabs ---
-  $$('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      $$('.tab').forEach(t => t.classList.remove('active'));
-      $$('.tab-view').forEach(v => v.classList.remove('active'));
-      tab.classList.add('active');
-      const target = tab.dataset.tab === 'json' ? jsonOutput : ruleDetail;
-      target.classList.add('active');
-    });
+  // --- Confirm button ---
+  confirmBtn.addEventListener('click', () => {
+    confirmBtn.textContent = '✓ 已确认';
+    confirmBtn.disabled = true;
+    confirmBtn.classList.add('confirmed');
+    setNotice('复核确认完成', 'ok');
   });
 
   // --- Utility ---
   function esc(str) {
     const d = document.createElement('div');
-    d.textContent = str;
+    d.textContent = String(str ?? '');
     return d.innerHTML;
   }
-
-  // --- Bind events ---
-  runBtn.addEventListener('click', runExtraction);
-  sampleBtn.addEventListener('click', loadSample);
-  copyBtn.addEventListener('click', copyPayload);
-  downloadBtn.addEventListener('click', downloadPayload);
-  fileInput.addEventListener('change', handleFile);
-
-  // Keyboard shortcut: Ctrl+Enter to run
-  sourceInput.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-      e.preventDefault();
-      runExtraction();
-    }
-  });
 })();
