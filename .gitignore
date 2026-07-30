@@ -52,3 +52,5 @@ dify/
 
 # Coze config (optional)
 .coze
+.agent-of-empires/
+.qoder/
