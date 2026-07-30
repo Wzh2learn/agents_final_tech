@@ -179,6 +179,11 @@ def _best_field_for_header(header_norm: str, fields: list[SchemaField]):
             elif len(syn_norm) >= 2 and (syn_norm in header_norm or header_norm in syn_norm):
                 # 包含匹配：更长的 synonym 命中更可信
                 score = 2
+                # 防止 "在途数量" 通过通用同义词 "数量" 错配到 "持仓数量"
+                _SUSPECT_KW = ("在途", "配号", "冻结", "质押", "担保")
+                std_norm_fld = normalize_header(fld.standard)
+                if any(kw in header_norm and kw not in std_norm_fld for kw in _SUSPECT_KW):
+                    continue
             elif min(len(syn_norm), len(header_norm)) >= 3 and edit_distance(syn_norm, header_norm) <= 1:
                 # 编辑距离兜底：仅对>=3字符且距离<=1，避免短列名误配（如 币种->券商）
                 score = 1
@@ -1011,13 +1016,12 @@ def reconcile(table_reports: list[dict[str, Any]],
         for mapping in detail_mappings:
             for std_field, src_col in mapping.items():
                 src_norm = normalize_header(src_col)
+                std_norm = normalize_header(std_field)
                 for kw in _SUSPECT_SRC_KEYWORDS:
-                    if kw in src_norm:
+                    if kw in src_norm and kw not in std_norm:
                         suspects.append(f"{std_field}←{src_col}(含'{kw}')")
-        # 市值勾稽失败也标记为错配嫌疑
-        mv_check = next((c for c in checks if c["check"] == "市值勾稽"), None)
-        if mv_check and not mv_check["pass"] and "ERROR" not in mv_check.get("note", ""):
-            suspects.append("市值勾稽失败→明细/汇总映射可能错配")
+        # 市值勾稽失败由独立检查项报告，不再作为错配嫌疑
+        # (市值差异可能源于数据本身而非映射错误)
         checks.append({
             "check": "静默错配嫌疑",
             "expected": "映射列语义等价",

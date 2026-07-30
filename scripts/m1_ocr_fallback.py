@@ -72,10 +72,11 @@ def main() -> int:
     prompt = PROMPTS[args.kind]
 
     t0 = time.perf_counter()
-    processor = AutoProcessor.from_pretrained(str(args.model_path))
+    processor = AutoProcessor.from_pretrained(str(args.model_path), trust_remote_code=True)
     model = AutoModelForImageTextToText.from_pretrained(
         str(args.model_path), dtype=dtype,
         device_map="auto" if device == "cuda" else None,
+        trust_remote_code=True,
     ).eval()
     if device == "cuda":
         torch.cuda.reset_peak_memory_stats()
