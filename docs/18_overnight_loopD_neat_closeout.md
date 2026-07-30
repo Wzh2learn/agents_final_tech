@@ -86,7 +86,43 @@
    （主引擎，不需 LLM）或 35B+enable_thinking=false（2s/样本，备选 LLM 路径）。
    72B 在结构化抽取任务退化不可用，不建议用于 M1。
 
-## 9. 常用操作速查
+
+
+## 9. Loop A 执行结果（2026-07-30 第三轮，用户授权后首次启动）
+
+Loop A（graph-loop-a，codex CLI + qwen3.8-max-preview）被授权启动，任务：在
+m1_statement_parser.py 中集成 LLM 兜底路径。
+
+### Loop A 的设计产出（未 commit，代码不在 git 中）
+
+Loop A 设计了完整的 LLM fallback 框架：
+- `llm_fallback_unmapped(text, unmapped_cols, schema_table_name)` 函数
+- `process_sample()` 加 `llm_fallback: bool = False` 参数
+- `--no-llm` CLI flag + `M1_LLM_FALLBACK` 环境变量控制
+- 在 table_reports 之后、reconcile 之前插入 LLM 兜底合并
+
+### Loop A 的诚实验证结论
+
+Loop A 在实施前做了 prompt 工程验证：35B（:8004，enable_thinking=false）对当前 3 个
+unmapped 列（财汇局征费/备注/配号日期）的**数据行为空**（表头存在但无值），35B 会幻觉
+相邻表头 token 作为值（如 备注→申购配号，配号日期→交易日期）。合并这些幻觉值会注入垃圾——
+正是本代码库防范的"静默错配"。
+
+因此 Loop A **正确地拒绝 commit**：没有为了降低 unmapped 数字而合并垃圾数据。
+这验证了事3 的决策（暂不建模）和事5 的结论（LLM 对空列无效）。
+
+### 框架价值
+
+LLM fallback 框架设计合理（gated、可关闭、graceful degrade），对未来**有数据行**的
+unmapped 列有价值。当甲方新样本带来有值但未建模的列时，此框架可直接启用。
+当前不实施的原因：对现有样本无效果，写进去只增代码量不改善指标。
+
+### Loop B 制衡验证
+
+Loop A 运行期间 Loop B 持续守护，最新一轮（22:56）overall=PASS——Loop A 未改坏
+冻结节点或 pytest。Graph Engineering 的制衡机制按设计工作。
+
+## 10. 常用操作速查
 
 - 看 Loop B 最新结论：ssh jinrong-dev "cat ~/wzh/projects/agents_final_tech/logs/graph/verify-report.json"
 - 看战略 dashboard：ssh jinrong-dev "cat /tmp/graph_dashboard.txt"
