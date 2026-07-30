@@ -76,9 +76,12 @@
    结论：35B+thinking-off 是可行 LLM 抽取路径；72B 在此任务不可用。commit a8f640f。
 3. **冷启动列** — 决策：暂不建模。3 列各仅 1 次出现且数据行空，建模边际价值低；保留为甲方
    "新增字段"候选，与 UI 工作流一致。登记 docs/m1_coldstart_candidates.md（commit 1472c6a）。
-4. **Loop A 自动执行** — 决策：不开。理由：无人监督整夜写代码是 Graph Engineering 文章警告的
-   反模式（古德哈特+向上盲视）；维持"Loop D 监督下有界增量"。若用户后续评估接受风险，
-   可用 graph_orchestrator.sh start 拉起 Loop A 并让 Loop B 制衡。
+4. **Loop A 自动执行** — 决策变更（2026-07-30 第二轮后）：用户明确"接受风险，继续行动指挥"，
+   授权开启 Loop A。任务：在 m1_statement_parser.py 中集成 LLM 兜底路径——当规则解析
+   unmapped > 0 时，调用 35B（:8004，enable_thinking=false via chat-template-kwargs）做
+   结构化抽取补充，形成"规则优先 + LLM 补充"双引擎。Loop B 制衡：若 Loop A 改坏冻结节点
+   或 pytest 回归，Loop B 下一轮 HALT。Loop A 使用 codex CLI + qwen3.8-max-preview（Token Plan
+   直连）作为编码模型，--dangerously-bypass-approvals-and-sandbox 给完全权限。
 5. **72B 策略** — 决策：按需临时加载、用完即 kill（v3 已验证此模式）。在线 M1 用规则解析器
    （主引擎，不需 LLM）或 35B+enable_thinking=false（2s/样本，备选 LLM 路径）。
    72B 在结构化抽取任务退化不可用，不建议用于 M1。
