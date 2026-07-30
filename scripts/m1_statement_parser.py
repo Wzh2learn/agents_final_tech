@@ -17,6 +17,7 @@ import json
 import os
 import re
 import sys
+import urllib.request
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -752,9 +753,105 @@ def scan_unattributed_kv(text: str, schema: Schema) -> dict[str, str]:
 
 
 # =========================================================================
+# LLM 兜底：对 unmapped 源列调用本地 35B 模型抽值
+# =========================================================================
+# 默认端点/模型可被环境变量覆盖；调用失败一律优雅降级为 {}（规则结果不受影响）。
+LLM_ENDPOINT = os.environ.get(
+    "M1_LLM_ENDPOINT", "http://127.0.0.1:8004/v1/chat/completions")
+LLM_MODEL = os.environ.get("M1_LLM_MODEL", "Qwen3.6-35B-A3B-Q4_K_M.gguf")
+LLM_TIMEOUT = float(os.environ.get("M1_LLM_TIMEOUT", "30"))
+# 送入 prompt 的文本上限，避免超长上下文（35B 服务 64K，留足余量）。
+_LLM_TEXT_LIMIT = 12000
+
+
+def _llm_extract_json(content: str) -> dict | None:
+    """从 LLM 输出里稳健地取出第一个 JSON 对象（容忍 ```json 围栏/前后缀）。"""
+    if not content:
+        return None
+    s = str(content).strip()
+    if s.startswith("```"):
+        s = re.sub(r"^```[a-zA-Z]*\s*", "", s)
+        s = re.sub(r"\s*```\s*$", "", s)
+    try:
+        obj = json.loads(s)
+        return obj if isinstance(obj, dict) else None
+    except Exception:
+        pass
+    start, end = s.find("{"), s.rfind("}")
+    if start != -1 and end > start:
+        try:
+            obj = json.loads(s[start:end + 1])
+            return obj if isinstance(obj, dict) else None
+        except Exception:
+            return None
+    return None
+
+
+def llm_fallback_unmapped(text: str, unmapped_cols: list[str],
+                          schema_table_name: str) -> dict[str, str]:
+    """对规则映射后仍未映射的源列，调用本地 35B 模型从文档文本中抽值。
+
+    - prompt 列出 unmapped 列名，要求按三态输出 JSON：
+      有数据->取第一个值 / 有表头无数据->"无" / 列名缺失->""；
+    - 通过 chat_template_kwargs.enable_thinking=false 关闭思考，temperature=0；
+    - 单次调用 30s 超时；任何异常/非法 JSON 一律返回 {}（规则结果兜底不变）。
+
+    返回 {col_name: extracted_value}（仅含非空值）。
+    """
+    cols = [c for c in (unmapped_cols or []) if c and str(c).strip()]
+    if not cols:
+        return {}
+    cols_desc = "\n".join(f"  * {c}" for c in cols)
+    snippet = (text or "")[:_LLM_TEXT_LIMIT]
+    prompt = (
+        "任务：在对账单/报表纯文本中，判断指定列是否有数据并抽取值。\n"
+        "背景：文本由表格压平而来，含「列名行」与「数据行」；很多明细表只有列名、没有数据行。"
+        "列名可能因排版被换行拆开（如\"财汇局征\"+\"费\"实为\"财汇局征费\"），请合并理解。\n"
+        f"归属表：{schema_table_name or '未知'}。\n\n"
+        "判定规则（对每个指定列）：\n"
+        "  A. 文本里有该列的【真实数据值】(数字/金额/日期/备注文字等) -> 抽取第一个非空值；\n"
+        "  B. 该列名出现、但所在表格没有数据行(只有表头) -> 输出\"无\"；\n"
+        "  C. 该列名在文本中完全找不到 -> 输出\"\"(空字符串)。\n"
+        "严禁把【其它列名/表头词】当作值输出；若某列名之后紧跟的仍是其它列名，说明无数据，判 B。\n\n"
+        f"指定列：\n{cols_desc}\n\n"
+        f"对账单文本：\n```\n{snippet}\n```\n\n"
+        "只输出一个 JSON 对象，键=列名，值=字符串(数据值/\"无\"/\"\")，不要解释或 markdown。\n"
+        "示例：{\"列名A\":\"123.45\",\"列名B\":\"无\",\"列名C\":\"\"}"
+    )
+    payload = {
+        "model": LLM_MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0,
+        "max_tokens": 1024,
+        "chat_template_kwargs": {"enable_thinking": False},
+    }
+    try:
+        req = urllib.request.Request(
+            LLM_ENDPOINT,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=LLM_TIMEOUT) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+        content = body["choices"][0]["message"]["content"]
+        data = _llm_extract_json(content)
+        if not isinstance(data, dict):
+            return {}
+        allowed = set(cols)
+        out: dict[str, str] = {}
+        for k, v in data.items():
+            if k in allowed and v is not None and str(v).strip():
+                out[k] = str(v).strip()
+        return out
+    except Exception:
+        return {}
+
+
+# =========================================================================
 # 单样本编排
 # =========================================================================
-def process_sample(path: str, schema: Schema) -> dict[str, Any]:
+def process_sample(path: str, schema: Schema, llm_fallback: bool = False) -> dict[str, Any]:
     ext = os.path.splitext(path)[1].lower()
     parser = PARSERS.get(ext)
     result: dict[str, Any] = {
@@ -822,6 +919,36 @@ def process_sample(path: str, schema: Schema) -> dict[str, Any]:
         })
     result["tables"] = table_reports
     result["table_count"] = len(doc.tables)
+
+    # LLM 兜底：对仍有 unmapped 列的表，调用本地 35B 抽值并合并（默认关闭，
+    # 由脚本入口显式开启；Web/实验脚本等直接调用方保持纯规则行为不变）。
+    if llm_fallback:
+        # 全文表头词表：拦截「把其它列名当值」的幻觉（unmapped 列本身也是表头）。
+        header_vocab = {normalize_header(h) for t in doc.tables for h in t.headers}
+        llm_total = 0
+        for tr in table_reports:
+            if not tr.get("unmapped"):
+                continue
+            extracted = llm_fallback_unmapped(doc.text, tr["unmapped"],
+                                              tr["matched_schema"])
+            if not extracted:
+                continue
+            still: list[str] = []
+            llm_vals: dict[str, str] = {}
+            for col in tr["unmapped"]:
+                val = extracted.get(col, "").strip()
+                # 空值=未抽到，保持 unmapped；值若是其它表头词，判为幻觉丢弃。
+                if not val or normalize_header(val) in header_vocab:
+                    still.append(col)
+                    continue
+                llm_vals[col] = desensitize_value(col, val)
+            if llm_vals:
+                tr["llm_extracted"] = llm_vals
+                tr["unmapped"] = still
+                llm_total += len(llm_vals)
+        if llm_total:
+            result["note"] = (result.get("note") or "") + \
+                f" [llm-fallback: {llm_total} cols extracted]"
 
     # 勾稽校验
     result["reconcile"] = reconcile(table_reports, meta, schema)
@@ -954,6 +1081,8 @@ def _print_result(res: dict[str, Any]) -> None:
               f"行x列={t['rows']}x{t['cols']} 命中={t['hits']}/{t['cols']} "
               f"({t['hit_rate']}%) unmapped={t['unmapped']}")
         print(f"     映射: {json.dumps(t['mapping'], ensure_ascii=False)}")
+        if t.get("llm_extracted"):
+            print(f"     LLM兜底抽取(脱敏): {json.dumps(t['llm_extracted'], ensure_ascii=False)}")
         if t["sample_record"]:
             print(f"     标准记录样例(脱敏): {json.dumps(t['sample_record'], ensure_ascii=False)}")
     for chk in res.get("reconcile", []):
@@ -972,6 +1101,8 @@ def main(argv: list[str] | None = None) -> int:
                         help="只读：把 unmapped 源列(带脱敏样本值)去重后写入该 JSON")
     ap.add_argument("--compact-summary", default="",
                         help="紧凑勾稽摘要 JSON（< 2KB），供 evidence-verifier 复核")
+    ap.add_argument("--no-llm", action="store_true",
+                        help="关闭 unmapped 列的本地 35B LLM 兜底（纯规则，离线可复现）")
     args = ap.parse_args(argv)
 
     print(f"libs: fitz={_HAS_FITZ} openpyxl={_HAS_OPENPYXL} docx={_HAS_DOCX}")
@@ -986,7 +1117,9 @@ def main(argv: list[str] | None = None) -> int:
     )
     samples = [s for s in samples if os.path.splitext(s)[1].lower() in PARSERS]
 
-    results = [process_sample(p, schema) for p in samples]
+    use_llm = (not args.no_llm) and os.environ.get("M1_LLM_FALLBACK", "1") != "0"
+    print(f"llm-fallback: {use_llm} (endpoint={LLM_ENDPOINT}, model={LLM_MODEL})")
+    results = [process_sample(p, schema, llm_fallback=use_llm) for p in samples]
     for res in results:
         _print_result(res)
 
