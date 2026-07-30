@@ -193,3 +193,32 @@ opencode
 | MCP 连接失败 | 检查 `PGDATABASE_URL`、`JINRONG_MCP_PYTHON`、Docker 容器状态 |
 | 显存不足 | `nvidia-smi`，关闭不需要的模型进程 |
 | SSH 断开后进程丢失 | 使用 `tmux` 或 `nohup`，不要直接在前台跑长任务 |
+
+
+## 模型切换 (2026-07-31 更新)
+
+Codex CLI 支持三个模型通道，通过 `scripts/switch_codex_model.sh` 一键切换：
+
+```bash
+# 切换到 qwen3.8-max-preview (默认，直连千问 Responses API)
+bash scripts/switch_codex_model.sh qwen
+
+# 切换到 glm-5.2 (经 :8100 代理，Responses→Chat 转换)
+bash scripts/switch_codex_model.sh glm
+
+# 切换到 deepseek-v4-pro (经 :8100 代理)
+bash scripts/switch_codex_model.sh deepseek
+```
+
+切换逻辑：
+- `qwen` → `model_provider = "Token_Plan"` (直连千问 Responses API)
+- `glm` / `deepseek` → `model_provider = "Token_Plan_Chat"` (经 :8100 代理)
+- glm/deepseek 切换时自动确保 :8100 代理在跑
+
+Claude Code 默认模型为 glm-5.2（千问 Anthropic 兼容端点），配置在 `~/.claude/settings.json`。
+其他工具默认 qwen3.8-max-preview。
+
+模型分配原则：
+- **日常执行层** (Loop A / Codex CLI): qwen3.8-max-preview，性价比最高
+- **审计层** (Loop C / Claude Code): glm-5.2，推理链更强
+- **硬骨头手动升级**: glm-5.2 或 deepseek-v4-pro，遇到 qwen 搞不定的任务时切
