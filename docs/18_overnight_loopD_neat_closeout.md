@@ -135,3 +135,34 @@ Loop A 运行期间 Loop B 持续守护，最新一轮（22:56）overall=PASS—
 
 ---
 收尾人：Loop D（本机 Codex），2026-07-30。
+
+## 10. 中间检查点 (2026-07-31 02:53 CST)
+
+### Loop A 任务完成记录
+
+| # | 任务 | commit | 结果 |
+|---|------|--------|------|
+| 1 | API LLM 兜底接通 + 博时 KV 修复 | 6f2f630/185cdf7 | 嘉兴 unmapped 0, 博时 hmc 6 |
+| 2 | OCR 回退 (PaddleOCR→vision-8004) | 4410f98/185cdf7 | LU 3表, xinhua 5表 |
+| 3 | 博时 grid 修复 + uvicorn workers=2 | ca0f3a0 | 博时 1表, /health 不阻塞 |
+| 4 | 静默错配修复 + PaddleOCR trust_remote_code | f08ef31 | 嘉兴静默错配 PASS |
+| 5 | 市值勾稽修复 (明细合计行重复计数) | 037e5a2 | 嘉兴 4/4 全 PASS |
+
+### M1 解析能力终态
+
+| 样本 | tables | hmc | unmapped | llm | ocr | reconcile |
+|------|--------|-----|----------|-----|-----|-----------|
+| fuxi TXT | 2 | 7 | 0 | F | F | 4/4 PASS |
+| jiaxing PDF | 6 | 5 | 0 | T | F | 4/4 PASS |
+| boshi PDF | 1 | 6 | 0 | T | F | 4/4 PASS |
+| LU PDF | 3 | 1 | 0 | T | T | 4/4 PASS |
+| xinhua DOCX | 5 | 0 | 0 | T | T | 4/4 PASS |
+
+**解析成功率: 5/5 = 100%** (从 20% 提升)
+**Reconcile: 全 PASS** (从 3/5 提升)
+**Loop B: 持续 PASS** (5 轮验证)
+**Loop C: 5 轮审计** (CONDITIONAL→ACCEPTED 演进)
+
+### 下一步 (Loop A #6)
+
+M2 RAG 集成: 将 M1 解析结果写入 PGVector, 验证端到端问答。
