@@ -64,17 +64,24 @@
 | 记忆 | not-applicable | 本作用域无获准长期记忆；结论均落入 docs |
 | 工作区 | verified-current | 三方 git 5ec81ab；远程仅 .qoder 未跟踪（qoder cli 配置，预期） |
 
-## 8. 待用户定夺 / 交互会话建议（按价值排序）
+## 8. 用户授权事项执行结果（2026-07-30 第二轮，用户授权"按排序行动"）
 
-1. M1 页面浏览器验收：三面板对账单工作台（m1.html/js/css + /api/m1/parse-file）已就位但
-   未浏览器实测；启动 :5000/:5050 打开 /m1 上传一份真实对账单看三面板渲染。
-2. 严格 JSON 调优（让 P2 变成真正的质量对比）：在 :8004/:8006 用 enable_thinking=false 或
-   解析 reasoning_content，重跑 2 样本，肉眼看 ~/wzh/p2_raw 判断 72B 是否"抽得更全"。
-3. 是否把 3 个冷启动列建模：若甲方希望 备注/财汇局征费/配号日期 进标准 schema，Loop D 授权
-   加字段 + 刷新冻结 hash；否则保留为"新增字段"候选。
-4. 是否开启 Loop A 自动执行：若接受"无人监督写代码"的风险，可用 graph_orchestrator.sh start
-   拉起 Loop A 并让 Loop B 制衡；否则维持"我监督下有界增量"。
-5. 72B 使用策略：仅在需要时临时加载（参考 P2 延迟），用完即 kill；在线 M1 用规则解析器或 35B。
+1. **M1 页面验收** — 已执行，发现并修复 gap：:5050 harness 原只挂 API router 未挂 /m1 页面路由，
+   三面板 HTML 在运行态 404。修复：m1_serve.sh 加 Jinja2Templates + /m1 路由（commit 1472c6a）。
+   修复后验收：/m1 → 200，TITLE/三面板/确认按钮全 1；/api/m1/parse-file 三样本全 success
+   （fuxi unmapped 0，jiaxing unmapped 3 + 2 真实勾稽捕获，xinxizha unmapped 0）。
+2. **严格 JSON 调优** — 已执行 v3：enable_thinking=false via --chat-template-kwargs。
+   35B：17s→2s，json_source=direct，non_null 5/3（修好）。72B：仍 249s 退化 loop，json_source=none
+   （enable_thinking=false 未修好 72B 的退化，系 Q4 量化+此 prompt 的已知退化模式）。
+   结论：35B+thinking-off 是可行 LLM 抽取路径；72B 在此任务不可用。commit a8f640f。
+3. **冷启动列** — 决策：暂不建模。3 列各仅 1 次出现且数据行空，建模边际价值低；保留为甲方
+   "新增字段"候选，与 UI 工作流一致。登记 docs/m1_coldstart_candidates.md（commit 1472c6a）。
+4. **Loop A 自动执行** — 决策：不开。理由：无人监督整夜写代码是 Graph Engineering 文章警告的
+   反模式（古德哈特+向上盲视）；维持"Loop D 监督下有界增量"。若用户后续评估接受风险，
+   可用 graph_orchestrator.sh start 拉起 Loop A 并让 Loop B 制衡。
+5. **72B 策略** — 决策：按需临时加载、用完即 kill（v3 已验证此模式）。在线 M1 用规则解析器
+   （主引擎，不需 LLM）或 35B+enable_thinking=false（2s/样本，备选 LLM 路径）。
+   72B 在结构化抽取任务退化不可用，不建议用于 M1。
 
 ## 9. 常用操作速查
 

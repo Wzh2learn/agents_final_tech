@@ -314,3 +314,4 @@
 | 2026-07-30 | 过夜 Loop D 监督：M1 解析 unmapped 5→3（kv 路由+标准名优先）；switch 助手；72B vs 35B 有界对比（72B 跑完即 kill） | Loop D |
 | 2026-07-30 | 战略仲裁：未启动 Loop A 自主写代码；72B 不整夜常驻；严格 JSON 调优延后交互；客户原始数据不入库 | Loop D |
 | 2026-07-30 | Loop B 守护常驻 + Loop D 影子；Loop C 按需；详见 docs/18 | Loop D |
+| 2026-07-30 | 第二轮：事1 修 /m1 页面路由 gap(1472c6a)；事2 v3 enable_thinking=false 35B 修好 72B 退化(a8f640f)；事3 冷启动列暂不建模(1472c6a)；事4 不开 Loop A；事5 72B 按需临时 | Loop D |
