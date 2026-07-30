@@ -561,6 +561,78 @@ def _parse_markdown_tables(text: str) -> list[ParsedTable]:
     return tables
 
 
+
+# =========================================================================
+# Fallback: text-line-based table detection for borderless PDFs
+# =========================================================================
+_KV_LINE_RE = re.compile(r"^(?P<key>[^\s：:]{2,30})\s*[：:]\s*(?P<val>.+)$")
+
+
+def _text_lines_to_tables(text: str) -> list[ParsedTable]:
+    """Regex fallback: extract tables from plain text when find_tables fails.
+
+    Two strategies tried in order:
+    1. Multi-space column detection: consecutive lines split by 2+ spaces
+       with consistent column count (>= 2) form a grid table.
+    2. Repeating KV-block detection: groups of key：value lines sharing a
+       repeated anchor key are pivoted into a grid table (one row per block).
+    """
+    tables: list[ParsedTable] = []
+
+    # --- Strategy 1: multi-space-separated columns ---
+    lines = text.splitlines()
+    run: list[list[str]] = []
+    tidx = 0
+    for line in lines:
+        cells = [c.strip() for c in re.split(r"\s{2,}", line.strip()) if c.strip()]
+        if len(cells) >= 2:
+            run.append(cells)
+        else:
+            if len(run) >= 3:
+                ncols = max(len(r) for r in run)
+                if min(len(r) for r in run) >= 2:
+                    padded = [r + [""] * (ncols - len(r)) for r in run]
+                    tidx += 1
+                    tables.append(ParsedTable(f"text_col_{tidx}", padded[0], padded[1:]))
+            run = []
+    if len(run) >= 3:
+        ncols = max(len(r) for r in run)
+        if min(len(r) for r in run) >= 2:
+            padded = [r + [""] * (ncols - len(r)) for r in run]
+            tidx += 1
+            tables.append(ParsedTable(f"text_col_{tidx}", padded[0], padded[1:]))
+
+    # --- Strategy 2: repeating KV blocks -> grid ---
+    kv_pairs: list[tuple[str, str]] = []
+    for line in lines:
+        m = _KV_LINE_RE.match(line.strip())
+        if m:
+            key = m.group("key").rstrip("为")
+            kv_pairs.append((key, m.group("val").strip()))
+    if len(kv_pairs) >= 4:
+        blocks: list[dict[str, str]] = []
+        current: dict[str, str] = {}
+        for key, val in kv_pairs:
+            if key in current:
+                if len(current) >= 2:
+                    blocks.append(current)
+                current = {}
+            current[key] = val
+        if len(current) >= 2:
+            blocks.append(current)
+        if len(blocks) >= 2:
+            common = list(blocks[0].keys())
+            for b in blocks[1:]:
+                common = [k for k in common if k in b]
+            if len(common) >= 2:
+                tidx += 1
+                headers = common
+                rows = [[b.get(k, "") for k in headers] for b in blocks]
+                tables.append(ParsedTable(f"kv_grid_{tidx}", headers, rows))
+
+    return tables
+
+
 def parse_pdf(path: str) -> ParsedDoc:
     """PyMuPDF：find_tables 取网格表 + get_text 取表头区文本。"""
     doc = ParsedDoc(path=path, kind="pdf")
@@ -574,12 +646,19 @@ def parse_pdf(path: str) -> ParsedDoc:
         total_images = 0
         for pno in range(pdf.page_count):
             page = pdf[pno]
-            all_text.append(page.get_text())
+            page_text = page.get_text()
+            all_text.append(page_text)
             total_images += len(page.get_images())
             try:
                 found = page.find_tables()
             except Exception:
                 found = None
+            # Fallback (a): text-based strategy for borderless tables
+            if (not found or not found.tables) and page_text.strip():
+                try:
+                    found = page.find_tables(strategy="text")
+                except Exception:
+                    found = None
             if not found:
                 continue
             for tb in found.tables:
@@ -596,6 +675,10 @@ def parse_pdf(path: str) -> ParsedDoc:
                 tidx += 1
                 doc.tables.append(ParsedTable(f"p{pno}_table_{tidx}", headers, rows))
         doc.text = "\n".join(all_text)
+        # Fallback (b): regex text-line parsing for borderless/KV tables
+        if doc.text.strip():
+            text_tables = _text_lines_to_tables(doc.text)
+            doc.tables.extend(text_tables)
         if not doc.text.strip() and total_images > 0 and not doc.tables:
             doc.needs_ocr = True
             doc.note = f"image-only PDF ({total_images} image(s), no text layer) -> needs OCR/vision"
