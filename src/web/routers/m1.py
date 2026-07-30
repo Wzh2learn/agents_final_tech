@@ -116,7 +116,9 @@ async def parse_file(
     total_hits = sum(t["hits"] for t in tables_out)
     hit_rate = round(total_hits / total_cols * 100, 1) if total_cols else 0.0
     reconcile = result.get("reconcile", [])
-    reconcile_pass = sum(1 for c in reconcile if c.get("pass"))
+    real_pass_count = sum(1 for c in reconcile if c.get("disposition") == "real_pass")
+    skipped_count = sum(1 for c in reconcile if c.get("disposition") == "skipped")
+    fail_count = sum(1 for c in reconcile if c.get("disposition") == "fail")
 
     metrics = {
         "tables": result.get("table_count", 0),
@@ -124,7 +126,10 @@ async def parse_file(
         "hit_rate": hit_rate,
         "kv_count": result.get("header_meta_count", 0),
         "unmapped": len(unmapped_all),
-        "reconcile_pass": f"{reconcile_pass}/{len(reconcile)}",
+        "reconcile_real_pass": real_pass_count,
+        "reconcile_skipped": skipped_count,
+        "reconcile_fail": fail_count,
+        "reconcile_pass": f"{real_pass_count}/{len(reconcile)}",
     }
 
     # M2 payload (compact, no raw records)

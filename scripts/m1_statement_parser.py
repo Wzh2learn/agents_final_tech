@@ -1092,6 +1092,16 @@ def reconcile(table_reports: list[dict[str, Any]],
         checks.append({"check": "静默错配嫌疑", "expected": "", "actual": "",
                        "pass": False, "note": f"ERROR: {exc}"})
 
+    # ---- disposition 标注 (Loop C Cycle 5: 区分真实通过 / 跳过 / 失败) ----
+    for chk in checks:
+        note = chk.get("note", "")
+        if "数据不足" in note or "跳过" in note:
+            chk["disposition"] = "skipped"
+        elif chk.get("pass"):
+            chk["disposition"] = "real_pass"
+        else:
+            chk["disposition"] = "fail"
+
     return checks
 
 

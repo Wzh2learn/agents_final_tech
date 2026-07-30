@@ -45,9 +45,11 @@
     const t0 = performance.now();
     stages.push({ label: '文档解析', status: result.ok !== false ? 'passed' : 'failed', detail: result.kind || '' });
     stages.push({ label: '表头映射', status: (result.metrics && result.metrics.hit_rate >= 70) ? 'passed' : 'warning', detail: `命中率 ${result.metrics ? result.metrics.hit_rate : 0}%` });
-    const reconPass = result.reconcile ? result.reconcile.filter(c => c.pass).length : 0;
+    const reconFail = result.reconcile ? result.reconcile.filter(c => c.disposition === 'fail').length : 0;
+    const reconReal = result.reconcile ? result.reconcile.filter(c => c.disposition === 'real_pass').length : 0;
+    const reconSkip = result.reconcile ? result.reconcile.filter(c => c.disposition === 'skipped').length : 0;
     const reconTotal = result.reconcile ? result.reconcile.length : 0;
-    stages.push({ label: '勾稽校验', status: reconPass === reconTotal ? 'passed' : 'warning', detail: `${reconPass}/${reconTotal} 通过` });
+    stages.push({ label: '勾稽校验', status: reconFail === 0 ? 'passed' : 'warning', detail: `${reconReal}✓ ${reconSkip}⊘ ${reconFail}✗` });
     if (result.needs_ocr) {
       stages.push({ label: 'OCR', status: 'failed', detail: '需要 OCR/Vision' });
     }
@@ -66,6 +68,7 @@
       { label: 'KV Fields', value: metrics.kv_count },
       { label: 'Unmapped', value: metrics.unmapped },
       { label: 'Reconcile', value: metrics.reconcile_pass },
+      { label: 'Skipped', value: metrics.reconcile_skipped ?? 0 },
     ];
     metricGrid.innerHTML = cards.map(c =>
       `<div class="metric-card"><div class="label">${c.label}</div><div class="value">${c.value ?? '-'}</div></div>`
@@ -149,12 +152,13 @@
     }
     unmappedSection.innerHTML = uhtml;
 
-    // Reconcile
+    // Reconcile (disposition-aware: real_pass / skipped / fail)
     const checks = result.reconcile || [];
     let rhtml = '<h3 class="review-h3">勾稽校验 (' + checks.length + ')</h3>';
     for (const chk of checks) {
-      const cls = chk.pass ? 'pass' : 'fail';
-      const icon = chk.pass ? '✓' : '✗';
+      const disp = chk.disposition || (chk.pass ? 'real_pass' : 'fail');
+      const cls = disp === 'real_pass' ? 'pass' : disp === 'skipped' ? 'skipped' : 'fail';
+      const icon = disp === 'real_pass' ? '✓' : disp === 'skipped' ? '⊘' : '✗';
       rhtml += `<div class="recon-item ${cls}">`;
       rhtml += `<span class="recon-icon">${icon}</span>`;
       rhtml += `<div class="recon-body"><strong>${esc(chk.check)}</strong>`;
@@ -164,10 +168,11 @@
     }
     reconcileSection.innerHTML = rhtml;
 
-    // Review badge
-    const passCount = checks.filter(c => c.pass).length;
-    const allPass = passCount === checks.length && unmapped.length === 0;
-    reviewBadge.textContent = allPass ? 'PASS' : `${passCount}/${checks.length}`;
+    // Review badge (disposition aware)
+    const realPassCount = checks.filter(c => (c.disposition || 'real_pass') === 'real_pass').length;
+    const failCount = checks.filter(c => c.disposition === 'fail').length;
+    const allPass = failCount === 0 && unmapped.length === 0;
+    reviewBadge.textContent = allPass ? 'PASS' : `${realPassCount}/${checks.length}`;
     reviewBadge.className = allPass ? 'badge-ok' : 'badge-warn';
 
     // Confirm button
