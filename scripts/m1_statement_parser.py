@@ -398,6 +398,16 @@ _OCR_VISION_PROMPT = (
     "Extract all text and tables from this document image. "
     "Preserve reading order; render tables as markdown.")
 _OCR_TIMEOUT = float(os.environ.get("M1_OCR_TIMEOUT", "120"))
+# Vision engine (:8004) concurrency. llama-server is started with 4 slots, so 4
+# parallel requests match its capacity; tune via env if the server config changes.
+_OCR_VISION_WORKERS = int(os.environ.get("M1_OCR_VISION_WORKERS", "4"))
+# Per-image vision timeout. Scanned pages can take ~60-70s each, so default above
+# the old hard-coded 60s to avoid silently dropping slow pages.
+_OCR_VISION_TIMEOUT = float(os.environ.get("M1_OCR_VISION_TIMEOUT", "120"))
+_PADDLEOCR_INCOMPATIBLE_MARKER = "PADDLEOCR_INCOMPATIBLE"
+# Set True after the PaddleOCR subprocess reports a permanent incompatibility
+# (e.g. transformers>=5.0), so later calls skip the subprocess entirely.
+_PADDLEOCR_UNAVAILABLE = False
 _MD_TABLE_SEP_RE = re.compile(r"^\s*\|[\s\-:|]+\|\s*$")
 
 
@@ -444,7 +454,15 @@ def _extract_docx_images(path: str) -> list[bytes]:
 
 
 def _try_paddleocr(images: list[bytes], source_name: str) -> str:
-    """PaddleOCR VL subprocess (scripts/m1_ocr_fallback.py manifest pattern)."""
+    """PaddleOCR VL subprocess (scripts/m1_ocr_fallback.py manifest pattern).
+
+    Returns "" on any failure so the caller falls back to the vision engine.
+    If the subprocess reports a permanent incompatibility (transformers>=5.0),
+    _PADDLEOCR_UNAVAILABLE is latched so later calls skip the spawn entirely.
+    """
+    global _PADDLEOCR_UNAVAILABLE
+    if _PADDLEOCR_UNAVAILABLE:
+        return ""
     if not os.path.isfile(_OCR_PADDLE_PYTHON) or not os.path.isfile(_OCR_PADDLE_SCRIPT):
         return ""
     import shutil
@@ -473,6 +491,9 @@ def _try_paddleocr(images: list[bytes], source_name: str) -> str:
             capture_output=True, text=True, timeout=_OCR_TIMEOUT,
         )
         if proc.returncode != 0 or not os.path.isfile(out_path):
+            signal_text = f"{proc.stdout or ''}\n{proc.stderr or ''}"
+            if _PADDLEOCR_INCOMPATIBLE_MARKER in signal_text:
+                _PADDLEOCR_UNAVAILABLE = True
             return ""
         with open(out_path, encoding="utf-8") as fh:
             payload = json.load(fh)
@@ -485,37 +506,55 @@ def _try_paddleocr(images: list[bytes], source_name: str) -> str:
         shutil.rmtree(tmpdir, ignore_errors=True)
 
 
-def _try_vision_ocr(images: list[bytes]) -> str:
-    """Fallback: base64 images -> :8004 /v1/chat/completions (mmproj vision)."""
+def _vision_ocr_one(img_bytes: bytes) -> str:
+    """OCR a single image via :8004 /v1/chat/completions (mmproj vision).
+
+    Returns extracted text or "" on any error. Runs inside a worker thread.
+    """
     import base64
-    texts: list[str] = []
-    for img_bytes in images:
-        b64 = base64.b64encode(img_bytes).decode("ascii")
-        payload = {
-            "model": _OCR_VISION_MODEL,
-            "messages": [{"role": "user", "content": [
-                {"type": "image_url",
-                 "image_url": {"url": f"data:image/png;base64,{b64}"}},
-                {"type": "text", "text": _OCR_VISION_PROMPT},
-            ]}],
-            "temperature": 0,
-            "max_tokens": 2048,
-        }
-        try:
-            req = urllib.request.Request(
-                _OCR_VISION_ENDPOINT,
-                data=json.dumps(payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
-                method="POST",
-            )
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                body = json.loads(resp.read().decode("utf-8"))
-            content = body["choices"][0]["message"]["content"]
-            if content and content.strip():
-                texts.append(content.strip())
-        except Exception:
-            continue
-    return "\n\n".join(texts)
+    b64 = base64.b64encode(img_bytes).decode("ascii")
+    payload = {
+        "model": _OCR_VISION_MODEL,
+        "messages": [{"role": "user", "content": [
+            {"type": "image_url",
+             "image_url": {"url": f"data:image/png;base64,{b64}"}},
+            {"type": "text", "text": _OCR_VISION_PROMPT},
+        ]}],
+        "temperature": 0,
+        "max_tokens": 2048,
+    }
+    try:
+        req = urllib.request.Request(
+            _OCR_VISION_ENDPOINT,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=_OCR_VISION_TIMEOUT) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+        content = body["choices"][0]["message"]["content"]
+        return content.strip() if content and content.strip() else ""
+    except Exception:
+        return ""
+
+
+def _try_vision_ocr(images: list[bytes]) -> str:
+    """Fallback: base64 images -> :8004 /v1/chat/completions (mmproj vision).
+
+    Images are processed concurrently (ThreadPoolExecutor, _OCR_VISION_WORKERS)
+    to cut multi-page DOCX/PDF OCR wall time. pool.map preserves input order so
+    the concatenated text keeps reading order.
+    """
+    if not images:
+        return ""
+    workers = max(1, min(_OCR_VISION_WORKERS, len(images)))
+    if workers == 1:
+        texts = [_vision_ocr_one(img) for img in images]
+    else:
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            texts = list(pool.map(_vision_ocr_one, images))
+    return "\n\n".join(t for t in texts if t.strip())
 
 
 def _ocr_fallback(path: str, kind: str) -> tuple[str, str]:

@@ -10,6 +10,17 @@
 用法（wzh_vision 环境）:
   ~/miniconda3/envs/wzh_vision/bin/python scripts/m1_ocr_fallback.py \
       --manifest /tmp/m1_ocr/manifest.json --out /tmp/m1_ocr/ocr_results.json
+
+transformers 版本要求:
+  PaddleOCR-VL 的随包远程代码 (modeling_paddleocr_vl.py / configuration_paddleocr_vl.py)
+  针对 transformers ~4.55.0 编写 (config.json: transformers_version=4.55.0)。
+  transformers 5.x 移除了其依赖的内部 API:
+    - ROPE_INIT_FUNCTIONS["default"] 键
+    - RotaryEmbedding.compute_default_rope_parameters mixin 方法
+    - AutoModelForImageTextToText 期望 composite config.text_config 布局
+  因此在 transformers>=5.0 环境下本脚本会在加载模型前快速失败 (exit 4,
+  输出 PADDLEOCR_INCOMPATIBLE 标记), 由调用方回退到 :8004 视觉引擎。
+  修复需将 wzh_vision 环境 transformers 降级到 ~4.55.x (会影响该环境其他模型, 暂不执行)。
 """
 from __future__ import annotations
 
@@ -25,6 +36,35 @@ PROMPTS = {
     "minicpm": "Extract all text and tables from this document image. Preserve reading order; render tables as markdown.",
     "qwen3-vl": "Extract all text and tables from this document image. Preserve reading order; render tables as markdown.",
 }
+
+# PaddleOCR-VL remote code targets transformers ~4.55.0; 5.x dropped its internal APIs.
+_TRANSFORMERS_MAX_EXCLUSIVE = (5, 0)
+
+
+def _transformers_incompatibility() -> str | None:
+    """Return a human-readable reason if the env transformers cannot load PaddleOCR-VL.
+
+    Returns None when compatible. Only checks the version (cheap, no model load),
+    so the caller can fail fast instead of hitting the 120s subprocess timeout.
+    """
+    try:
+        import transformers
+    except Exception as exc:  # noqa: BLE001
+        return f"transformers import failed: {exc}"
+    raw = getattr(transformers, "__version__", "0.0")
+    parts: list[int] = []
+    for chunk in str(raw).split(".")[:2]:
+        digits = "".join(ch for ch in chunk if ch.isdigit())
+        parts.append(int(digits) if digits else 0)
+    while len(parts) < 2:
+        parts.append(0)
+    if tuple(parts) >= _TRANSFORMERS_MAX_EXCLUSIVE:
+        return (
+            f"transformers {raw} >= 5.0 is incompatible with PaddleOCR-VL remote "
+            f"code (requires ~4.55.x; needs ROPE_INIT_FUNCTIONS['default'], "
+            f"RotaryEmbedding mixin, composite text_config)"
+        )
+    return None
 
 
 class _GenTimeout(Exception):
@@ -63,9 +103,21 @@ def main() -> int:
         print(f"BLOCKED: model dir missing: {args.model_path}")
         return 3
 
+    incompat = _transformers_incompatibility()
+    if incompat is not None:
+        # Stable marker so the caller (scripts/m1_statement_parser.py) can cache a
+        # permanent skip and fall back to the vision engine without re-spawning.
+        print(f"PADDLEOCR_INCOMPATIBLE: {incompat}")
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(
+            {"model": args.model_path.name, "kind": args.kind, "stopped": "INCOMPATIBLE",
+             "note": incompat, "n_images": len(images), "results": []},
+            ensure_ascii=False, indent=2), encoding="utf-8")
+        return 4
+
     import torch
     from PIL import Image
-    from transformers import AutoModelForImageTextToText, AutoProcessor
+    from transformers import AutoModel, AutoProcessor
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     dtype = torch.bfloat16 if device == "cuda" else torch.float32
@@ -73,7 +125,10 @@ def main() -> int:
 
     t0 = time.perf_counter()
     processor = AutoProcessor.from_pretrained(str(args.model_path), trust_remote_code=True)
-    model = AutoModelForImageTextToText.from_pretrained(
+    # AutoModel (not AutoModelForImageTextToText): config.json auto_map registers the
+    # bundled remote class only under AutoModel/AutoModelForCausalLM, so AutoModel loads
+    # the model's own 4.55-era code that matches its flat config (no composite text_config).
+    model = AutoModel.from_pretrained(
         str(args.model_path), dtype=dtype,
         device_map="auto" if device == "cuda" else None,
         trust_remote_code=True,
