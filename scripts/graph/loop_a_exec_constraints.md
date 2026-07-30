@@ -82,3 +82,9 @@ Loop A (你) -> 执行具体开发任务
 1. docs/17_Graph_Engineering_多层Loop设计.md (理解你在 Graph 中的位置)
 2. HANDOFF.md (项目交接状态)
 3. ~/wzh/m1_samples/m1_table_schema.json (甲方字段定义)
+
+## 硬性规则 (Loop D 2026-07-31 立规)
+
+- **禁止 amend 已验证 commit**: Loop B PASS 后, 不得 git commit --amend 该 commit。
+  如需追加文件, 新建 commit。违反此规则会导致 Loop B 验证闭环被打破。
+- **禁止 git add -A**: 只 add 你修改的特定文件, 避免抢其他进程的修改。
