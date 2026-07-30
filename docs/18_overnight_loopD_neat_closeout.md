@@ -93,12 +93,15 @@
 Loop A（graph-loop-a，codex CLI + qwen3.8-max-preview）被授权启动，任务：在
 m1_statement_parser.py 中集成 LLM 兜底路径。
 
-### Loop A 的设计产出（未 commit，代码不在 git 中）
+### Loop A 的产出（已 commit d209514，+135 行 m1_statement_parser.py）
 
-Loop A 设计了完整的 LLM fallback 框架：
+Loop A 实现并 commit 了完整的 LLM fallback 框架（d209514）：
 - `llm_fallback_unmapped(text, unmapped_cols, schema_table_name)` 函数
-- `process_sample()` 加 `llm_fallback: bool = False` 参数
+- `_llm_extract_json(content)` 稳健 JSON 提取（容忍围栏/前后缀）
+- `process_sample()` 加 `llm_fallback: bool = False` 参数（默认关闭，Web/实验不受影响）
 - `--no-llm` CLI flag + `M1_LLM_FALLBACK` 环境变量控制
+- **幻觉拦截**：构建全文表头词表 `header_vocab`，LLM 返回值若匹配某表头名则拒绝合并
+- enable_thinking=false 通过 chat_template_kwargs 传入
 - 在 table_reports 之后、reconcile 之前插入 LLM 兜底合并
 
 ### Loop A 的诚实验证结论
@@ -108,8 +111,9 @@ unmapped 列（财汇局征费/备注/配号日期）的**数据行为空**（�
 相邻表头 token 作为值（如 备注→申购配号，配号日期→交易日期）。合并这些幻觉值会注入垃圾——
 正是本代码库防范的"静默错配"。
 
-因此 Loop A **正确地拒绝 commit**：没有为了降低 unmapped 数字而合并垃圾数据。
-这验证了事3 的决策（暂不建模）和事5 的结论（LLM 对空列无效）。
+Loop A 最终 commit 了带幻觉拦截的版本（d209514）：框架就绪但默认关闭，
+对当前 3 个空数据行列，LLM 的幻觉值被 header_vocab 正确拦截，unmapped 不变——
+这正是正确行为（不注入垃圾）。框架对未来有数据行的 unmapped 列可直接启用。
 
 ### 框架价值
 
