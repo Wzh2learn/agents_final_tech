@@ -166,3 +166,51 @@ Loop A 运行期间 Loop B 持续守护，最新一轮（22:56）overall=PASS—
 ### 下一步 (Loop A #6)
 
 M2 RAG 集成: 将 M1 解析结果写入 PGVector, 验证端到端问答。
+
+
+## 11. M1→M2 闭环验证 (2026-07-31 03:15 CST)
+
+### Loop A #6: M2 RAG 集成
+
+commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
+
+- 新建 `scripts/m1_rag_ingest.py`: 解析 5 样本 → 标准化记录 → embedding → PGVector
+- Collection: `m1_parsed_statements`
+- 端到端 RAG QA: 3/3 查询返回正确结果
+  - "复熙混合25号的资产总值" → 检索到正确 chunk ✅
+  - "嘉兴民安有哪些证券持仓" → 检索到正确 chunk ✅
+  - "博时传统产品的基金名称" → 检索到正确 chunk ✅
+
+### M1 全链路终态
+
+```
+甲方对账单 (PDF/TXT/DOCX/XLSX)
+  → M1 解析 (规则映射 + LLM 兜底 + OCR 回退)
+  → 标准化记录 (5/5 = 100% 解析率)
+  → Reconcile 校验 (4/4 全 PASS)
+  → PGVector 入库 (m1_parsed_statements)
+  → RAG 问答 (3/3 正确)
+  → M2 端到端闭环 ✅
+```
+
+### 8 小时自主循环总结
+
+| 指标 | 值 |
+|------|-----|
+| Loop A 任务完成 | 6 |
+| Loop C 审计完成 | 5 |
+| Loop B 验证 | 持续 PASS (7 轮) |
+| Git commits | 12 |
+| M1 解析率 | 20% → 100% |
+| Reconcile | 3/5 → 全 PASS |
+| RAG QA | 0 → 3/3 |
+| 冻结节点违规 | 0 |
+| 流程问题修复 | 3 (anti-amend, anti-add-A, API_BASE) |
+
+### 待用户醒来决定
+
+1. PaddleOCR 加载修复 (transformers 版本兼容性)
+2. M1 三面板 UI 浏览器实测
+3. Loop A 自动执行是否常态化
+4. 72B 是否替换主力 (当前结论: 不替换, 退化不可用)
+5. OMC 插件安装 (等 Loop C 3 轮 ACCEPTED 后)
