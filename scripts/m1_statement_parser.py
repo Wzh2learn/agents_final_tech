@@ -128,6 +128,14 @@ class Schema:
         for t in tables:
             if t.table_name == "资金资产汇总" and not any(f.standard == "证券市值" for f in t.fields):
                 t.fields.append(SchemaField("证券市值", ["证券市值", "证券总市值"]))
+        # 内存层补充：交易帐号/交易账号 -> 资产账号 (甲方样本常见变体)
+        for t in tables:
+            if t.table_name == "表头信息":
+                for fld in t.fields:
+                    if fld.standard == "资产账号":
+                        for extra in ("交易帐号", "交易账号"):
+                            if extra not in fld.synonyms:
+                                fld.synonyms.append(extra)
         # Build header_meta_fields: prefer kv-layout tables, fallback to legacy dict
         meta: dict[str, list[str]] = {}
         for t in tables:
@@ -283,16 +291,30 @@ def extract_header_meta(text: str, schema: Schema) -> dict[str, str]:
     key_alt = "|".join(re.escape(k) for k in record_keys)
     bound_alt = "|".join(re.escape(k) for k in bound_keys)
     pattern = re.compile(
-        rf"(?P<key>{key_alt})\s*[:：]\s*(?P<val>.*?)"
-        rf"(?=\s+(?:{bound_alt})\s*[:：]|$)",
+        rf"(?P<key>{key_alt})\s*(?:为)?\s*[:：]\s*(?P<val>.*?)"
+        rf"(?=\s+(?:{bound_alt})\s*(?:为)?\s*[:：]|$)",
     )
     found: dict[str, str] = {}
-    for line in text.splitlines():
+    lines = text.splitlines()
+    # 用于下一行值fallback时排除"另一个键开头"的行
+    bound_prefix_set = set(bound_keys)
+    for idx, line in enumerate(lines):
         for m in pattern.finditer(line):
             std = syn2std.get(m.group("key"), m.group("key"))
             val = m.group("val").strip().strip(" \t,，;；")
             if val and std not in found:
                 found[std] = val
+            elif not val and std not in found:
+                # 值为空(键在行尾、值在下一行)：向下看最多2行
+                for j in range(idx + 1, min(idx + 3, len(lines))):
+                    nxt = lines[j].strip()
+                    if not nxt:
+                        continue
+                    # 如果下一行以已知键名开头，说明不是值，跳过
+                    if any(nxt.startswith(bk) for bk in bound_prefix_set):
+                        break
+                    found[std] = nxt.strip(" \t,，;；")
+                    break
     return found
 
 
@@ -743,12 +765,26 @@ def scan_unattributed_kv(text: str, schema: Schema) -> dict[str, str]:
     key_alt = "|".join(re.escape(k) for k in keys)
     pattern = re.compile(rf"(?P<key>{key_alt})\s*[:：]\s*(?P<val>.+?)(?:\s|$)")
     found: dict[str, str] = {}
-    for line in text.splitlines():
+    lines = text.splitlines()
+    # 用于下一行值fallback时排除"另一个键开头"的行
+    bound_prefix_set = set(keys)
+    for idx, line in enumerate(lines):
         for m in pattern.finditer(line):
             std = syn2std.get(m.group("key"), m.group("key"))
             val = m.group("val").strip().strip(" \t,，;；")
             if val and std not in found:
                 found[std] = val
+            elif not val and std not in found:
+                # 值为空(键在行尾、值在下一行)：向下看最多2行
+                for j in range(idx + 1, min(idx + 3, len(lines))):
+                    nxt = lines[j].strip()
+                    if not nxt:
+                        continue
+                    # 如果下一行以已知键名开头，说明不是值，跳过
+                    if any(nxt.startswith(bk) for bk in bound_prefix_set):
+                        break
+                    found[std] = nxt.strip(" \t,，;；")
+                    break
     return found
 
 

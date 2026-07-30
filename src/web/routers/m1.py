@@ -5,13 +5,17 @@ from __future__ import annotations
 import os
 import sys
 import tempfile
-from typing import Any
+import time
+from typing import Any, Optional
 
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, File, Query, UploadFile
 
 from biz.m1_service import M1ExtractionRequest, M1ReviewRequest, get_m1_service
 
 router = APIRouter()
+
+# LLM fallback: env-var controlled (consistent with CLI default=on)
+_LLM_FALLBACK_DEFAULT = os.environ.get("M1_LLM_FALLBACK", "1") != "0"
 
 # ---------------------------------------------------------------------------
 # Lazy-load the statement parser that lives in scripts/ (outside src/)
@@ -58,13 +62,21 @@ async def review_rule(request: M1ReviewRequest):
 # Statement parser endpoint (Phase 3)
 # ---------------------------------------------------------------------------
 @router.post("/parse-file")
-async def parse_file(file: UploadFile = File(...)):
+async def parse_file(
+    file: UploadFile = File(...),
+    llm_fallback: Optional[bool] = Query(
+        default=None,
+        description="启用/禁用 LLM 兜底抽取 (默认跟随 M1_LLM_FALLBACK 环境变量)",
+    ),
+):
     """Parse an uploaded statement file (TXT/PDF/XLSX/DOCX) via the M1 parser."""
     parser = _get_parser()
 
     suffix = os.path.splitext(file.filename or "upload.txt")[1].lower()
     if suffix not in parser.PARSERS:
         return {"status": "error", "error": f"不支持的文件类型: {suffix}"}
+
+    use_llm = llm_fallback if llm_fallback is not None else _LLM_FALLBACK_DEFAULT
 
     content = await file.read()
     with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
@@ -73,7 +85,11 @@ async def parse_file(file: UploadFile = File(...)):
 
     try:
         schema = parser.Schema.load(parser.DEFAULT_SCHEMA)
-        result: dict[str, Any] = parser.process_sample(tmp_path, schema)
+        t0 = time.perf_counter()
+        result: dict[str, Any] = parser.process_sample(
+            tmp_path, schema, llm_fallback=use_llm
+        )
+        parse_ms = int((time.perf_counter() - t0) * 1000)
     finally:
         os.unlink(tmp_path)
 
@@ -123,13 +139,25 @@ async def parse_file(file: UploadFile = File(...)):
         "metrics": metrics,
     }
 
+    # Detect whether LLM fallback was actually invoked
+    llm_used = any(t.get("llm_extracted") for t in tables_out)
+
+    # Explicit note for image-only files that cannot be structured yet
+    note = result.get("note", "")
+    if result.get("needs_ocr") and result.get("table_count", 0) == 0:
+        ocr_note = "暂不支持影像件（纯图片 PDF/DOCX），需 OCR 能力后方可结构化"
+        note = f"{note} {ocr_note}".strip() if note else ocr_note
+
     return {
         "status": "success",
         "result": {
             "file": result["file"],
             "kind": result["kind"],
             "needs_ocr": result.get("needs_ocr", False),
-            "note": result.get("note", ""),
+            "note": note,
+            "llm_used": llm_used,
+            "llm_fallback_enabled": use_llm,
+            "parse_duration_ms": parse_ms,
             "header_meta": result.get("header_meta", {}),
             "header_meta_count": result.get("header_meta_count", 0),
             "tables": tables_out,
