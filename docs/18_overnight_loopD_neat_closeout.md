@@ -214,3 +214,60 @@ commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
 3. Loop A 自动执行是否常态化
 4. 72B 是否替换主力 (当前结论: 不替换, 退化不可用)
 5. OMC 插件安装 (等 Loop C 3 轮 ACCEPTED 后)
+
+
+## 12. 最终状态 (2026-07-31 03:52 CST, 自主循环 ~3h)
+
+### Loop A 任务 #7-#8
+
+| # | 任务 | commit | 结果 |
+|---|------|--------|------|
+| 7 | PaddleOCR 快速失败 + 视觉 OCR 并行 | f966cf0 | DOCX 200s→74s (2.7x) |
+| 8 | Reconcile disposition 字段 | c8d7195 | real_pass/skipped/fail 区分 |
+
+### M1 全链路终态 (8 轮 Loop A)
+
+| 能力 | 状态 |
+|------|------|
+| 文本对账单解析 | ✅ 100% (规则映射) |
+| 有文本层 PDF 解析 | ✅ 100% (grid + borderless fallback) |
+| 影像件 PDF/DOCX 解析 | ✅ 100% (OCR 回退, vision-8004 并行) |
+| XLSX 解析 | ✅ 100% |
+| LLM 兜底 (unmapped 列) | ✅ 接通 API, 嘉兴 unmapped 0 |
+| 静默错配检测 | ✅ 修复误报, disposition 区分 |
+| 市值勾稽 | ✅ 修复重复计数, 全 PASS |
+| RAG 入库 + QA | ✅ 3/3 正确 |
+| Reconcile disposition | ✅ real_pass/skipped/fail |
+| OCR 并行化 | ✅ 200s→74s |
+
+### Loop C 审计演进
+
+| Cycle | 判定 | 连续 ACCEPTED |
+|-------|------|--------------|
+| 1 | CONDITIONAL | 0 |
+| 2 | CONDITIONAL | 0 |
+| 3 | ACCEPTED | 1 |
+| 4 | ACCEPTED | 2 |
+| 5 | ACCEPTED | 3 → 降频阈值达到 |
+| 6 | 待确认 | — |
+
+### 守护模式 (03:52 起)
+
+- Loop B daemon: 常驻, 每 30min 验证
+- Loop C: 降频至 12h (连续 3 ACCEPTED)
+- Loop A: 待命, 等用户醒来派任务
+- Loop D (本机): 守护模式, 不再自主派任务
+
+### 8h 自主循环总产出
+
+| 指标 | 值 |
+|------|-----|
+| Loop A 任务 | 8 |
+| Loop C 审计 | 6 |
+| Loop B 验证 | 8 轮 PASS |
+| Git commits | 15 |
+| M1 解析率 | 20% → 100% |
+| Reconcile | 全 PASS + disposition |
+| RAG QA | 3/3 |
+| OCR 延迟 | 200s → 74s |
+| 流程修复 | 5 (anti-amend, anti-add-A, API_BASE, disposition, parallel) |
