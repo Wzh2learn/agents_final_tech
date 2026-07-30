@@ -338,6 +338,8 @@ class ParsedDoc:
     text: str = ""
     tables: list[ParsedTable] = field(default_factory=list)
     note: str = ""
+    ocr_used: bool = False
+    ocr_engine: str = ""
 
 
 def _split_cells(line: str) -> list[str]:
@@ -374,6 +376,189 @@ def parse_txt(path: str) -> ParsedDoc:
             continue
         i += 1
     return doc
+
+
+# =========================================================================
+# OCR 兜底：影像件 PDF/DOCX -> 提取图片 -> PaddleOCR / :8004 视觉模型
+# =========================================================================
+_OCR_PADDLE_PYTHON = os.path.expanduser(
+    "~/miniconda3/envs/wzh_vision/bin/python")
+_OCR_PADDLE_SCRIPT = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "m1_ocr_fallback.py")
+_OCR_VISION_ENDPOINT = os.environ.get(
+    "M1_OCR_VISION_ENDPOINT", "http://127.0.0.1:8004/v1/chat/completions")
+_OCR_VISION_MODEL = os.environ.get(
+    "M1_OCR_VISION_MODEL", "Qwen3.6-35B-A3B-Q4_K_M.gguf")
+_OCR_VISION_PROMPT = (
+    "Extract all text and tables from this document image. "
+    "Preserve reading order; render tables as markdown.")
+_OCR_TIMEOUT = float(os.environ.get("M1_OCR_TIMEOUT", "120"))
+_MD_TABLE_SEP_RE = re.compile(r"^\s*\|[\s\-:|]+\|\s*$")
+
+
+def _extract_pdf_page_images(path: str) -> list[bytes]:
+    """Render each PDF page as a PNG (200 DPI) for OCR."""
+    images: list[bytes] = []
+    if not _HAS_FITZ:
+        return images
+    try:
+        pdf = fitz.open(path)
+        for page in pdf:
+            try:
+                pix = page.get_pixmap(dpi=200)
+                images.append(pix.tobytes("png"))
+            except Exception:
+                for img_info in page.get_images():
+                    try:
+                        xref = img_info[0]
+                        ipix = fitz.Pixmap(pdf, xref)
+                        if ipix.n > 4:
+                            ipix = fitz.Pixmap(fitz.csRGB, ipix)
+                        images.append(ipix.tobytes("png"))
+                    except Exception:
+                        pass
+        pdf.close()
+    except Exception:
+        pass
+    return images
+
+
+def _extract_docx_images(path: str) -> list[bytes]:
+    """Extract embedded images from DOCX word/media/ via zipfile."""
+    images: list[bytes] = []
+    _IMG_EXT = (".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".gif")
+    try:
+        import zipfile
+        with zipfile.ZipFile(path) as zf:
+            for name in sorted(zf.namelist()):
+                if name.startswith("word/media/") and name.lower().endswith(_IMG_EXT):
+                    images.append(zf.read(name))
+    except Exception:
+        pass
+    return images
+
+
+def _try_paddleocr(images: list[bytes], source_name: str) -> str:
+    """PaddleOCR VL subprocess (scripts/m1_ocr_fallback.py manifest pattern)."""
+    if not os.path.isfile(_OCR_PADDLE_PYTHON) or not os.path.isfile(_OCR_PADDLE_SCRIPT):
+        return ""
+    import shutil
+    import subprocess
+    import tempfile
+    tmpdir = tempfile.mkdtemp(prefix="m1_ocr_")
+    try:
+        manifest_images = []
+        for idx, img_bytes in enumerate(images):
+            png_name = f"img_{idx:03d}.png"
+            png_path = os.path.join(tmpdir, png_name)
+            with open(png_path, "wb") as fh:
+                fh.write(img_bytes)
+            manifest_images.append({
+                "sample": source_name, "unit": f"img_{idx:03d}",
+                "png": png_path, "png_basename": png_name,
+                "width": 0, "height": 0,
+            })
+        manifest_path = os.path.join(tmpdir, "manifest.json")
+        out_path = os.path.join(tmpdir, "ocr_results.json")
+        with open(manifest_path, "w", encoding="utf-8") as fh:
+            json.dump({"images": manifest_images}, fh)
+        proc = subprocess.run(
+            [_OCR_PADDLE_PYTHON, _OCR_PADDLE_SCRIPT,
+             "--manifest", manifest_path, "--out", out_path],
+            capture_output=True, text=True, timeout=_OCR_TIMEOUT,
+        )
+        if proc.returncode != 0 or not os.path.isfile(out_path):
+            return ""
+        with open(out_path, encoding="utf-8") as fh:
+            payload = json.load(fh)
+        texts = [r["text"] for r in payload.get("results", [])
+                 if r.get("status") == "ok" and r.get("text", "").strip()]
+        return "\n\n".join(texts)
+    except Exception:
+        return ""
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+
+
+def _try_vision_ocr(images: list[bytes]) -> str:
+    """Fallback: base64 images -> :8004 /v1/chat/completions (mmproj vision)."""
+    import base64
+    texts: list[str] = []
+    for img_bytes in images:
+        b64 = base64.b64encode(img_bytes).decode("ascii")
+        payload = {
+            "model": _OCR_VISION_MODEL,
+            "messages": [{"role": "user", "content": [
+                {"type": "image_url",
+                 "image_url": {"url": f"data:image/png;base64,{b64}"}},
+                {"type": "text", "text": _OCR_VISION_PROMPT},
+            ]}],
+            "temperature": 0,
+            "max_tokens": 2048,
+        }
+        try:
+            req = urllib.request.Request(
+                _OCR_VISION_ENDPOINT,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                body = json.loads(resp.read().decode("utf-8"))
+            content = body["choices"][0]["message"]["content"]
+            if content and content.strip():
+                texts.append(content.strip())
+        except Exception:
+            continue
+    return "\n\n".join(texts)
+
+
+def _ocr_fallback(path: str, kind: str) -> tuple[str, str]:
+    """OCR 兜底入口：提取图片 -> PaddleOCR -> :8004 视觉。
+
+    Returns (extracted_text, engine_name); engine_name="" if all failed.
+    """
+    if kind == "pdf":
+        images = _extract_pdf_page_images(path)
+    elif kind == "docx":
+        images = _extract_docx_images(path)
+    else:
+        return "", ""
+    if not images:
+        return "", ""
+    text = _try_paddleocr(images, os.path.basename(path))
+    if text.strip():
+        return text, "paddleocr-vl"
+    text = _try_vision_ocr(images)
+    if text.strip():
+        return text, "vision-8004"
+    return "", ""
+
+
+def _parse_markdown_tables(text: str) -> list[ParsedTable]:
+    """Parse markdown pipe-tables from OCR text into ParsedTable objects."""
+    tables: list[ParsedTable] = []
+    lines = text.splitlines()
+    i, tidx = 0, 0
+    while i < len(lines):
+        line = lines[i].strip()
+        if (line.startswith("|") and i + 1 < len(lines)
+                and _MD_TABLE_SEP_RE.match(lines[i + 1])):
+            headers = [c.strip() for c in line.strip("|").split("|") if c.strip()]
+            j = i + 2
+            rows: list[list[str]] = []
+            while j < len(lines) and lines[j].strip().startswith("|"):
+                cells = [c.strip() for c in lines[j].strip().strip("|").split("|")]
+                if any(c for c in cells):
+                    rows.append(cells)
+                j += 1
+            if headers:
+                tidx += 1
+                tables.append(ParsedTable(f"ocr_table_{tidx}", headers, rows))
+            i = j
+            continue
+        i += 1
+    return tables
 
 
 def parse_pdf(path: str) -> ParsedDoc:
@@ -414,6 +599,17 @@ def parse_pdf(path: str) -> ParsedDoc:
         if not doc.text.strip() and total_images > 0 and not doc.tables:
             doc.needs_ocr = True
             doc.note = f"image-only PDF ({total_images} image(s), no text layer) -> needs OCR/vision"
+            ocr_text, ocr_engine = _ocr_fallback(path, "pdf")
+            if ocr_text.strip():
+                doc.text = ocr_text
+                doc.tables = _parse_markdown_tables(ocr_text)
+                doc.ocr_used = True
+                doc.ocr_engine = ocr_engine
+                doc.note = (f"OCR applied ({ocr_engine}, "
+                            f"{len(doc.tables)} table(s) from OCR); "
+                            + doc.note)
+            else:
+                doc.note = f"OCR attempted but failed; {doc.note}"
     except Exception as exc:
         doc.ok, doc.error = False, f"pdf parse fail: {exc}"
     return doc
@@ -480,6 +676,17 @@ def parse_docx(path: str) -> ParsedDoc:
             if imgs:
                 doc.needs_ocr = True
                 doc.note = f"image-only DOCX ({len(imgs)} embedded image(s), no text) -> needs OCR/vision"
+                ocr_text, ocr_engine = _ocr_fallback(path, "docx")
+                if ocr_text.strip():
+                    doc.text = ocr_text
+                    doc.tables = _parse_markdown_tables(ocr_text)
+                    doc.ocr_used = True
+                    doc.ocr_engine = ocr_engine
+                    doc.note = (f"OCR applied ({ocr_engine}, "
+                                f"{len(doc.tables)} table(s) from OCR); "
+                                + doc.note)
+                else:
+                    doc.note = f"OCR attempted but failed; {doc.note}"
             else:
                 doc.note = "no text and no tables found"
     except Exception as exc:
@@ -900,6 +1107,7 @@ def process_sample(path: str, schema: Schema, llm_fallback: bool = False) -> dic
 
     doc = parser(path)
     result.update(ok=doc.ok, needs_ocr=doc.needs_ocr, note=doc.note, error=doc.error)
+    result.update(ocr_used=doc.ocr_used, ocr_engine=doc.ocr_engine)
     if not doc.ok:
         return result
 

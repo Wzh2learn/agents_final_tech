@@ -154,6 +154,8 @@ async def parse_file(
             "file": result["file"],
             "kind": result["kind"],
             "needs_ocr": result.get("needs_ocr", False),
+            "ocr_used": result.get("ocr_used", False),
+            "ocr_engine": result.get("ocr_engine", ""),
             "note": note,
             "llm_used": llm_used,
             "llm_fallback_enabled": use_llm,
