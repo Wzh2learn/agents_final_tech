@@ -869,6 +869,21 @@ _DATE_PATTERNS = [
 ]
 
 
+# 明细表的「合计/小计/总计」汇总行标记。若与数据行一起求和会重复计数。
+_TOTAL_ROW_MARKERS = ("合计", "小计", "总计")
+
+
+def _is_total_row(rec: dict[str, str]) -> bool:
+    """判断某标准化记录是否为汇总行（任一字段值含「合计/小计/总计」）。
+
+    标记只可能出现在标签类字段（证券名称/股东账号/摘要等），数值字段不会含这些词。
+    """
+    for v in rec.values():
+        if v and any(m in v for m in _TOTAL_ROW_MARKERS):
+            return True
+    return False
+
+
 def reconcile(table_reports: list[dict[str, Any]],
               header_kv: dict[str, str],
               schema: Schema) -> list[dict[str, Any]]:
@@ -893,14 +908,19 @@ def reconcile(table_reports: list[dict[str, Any]],
 
     # ---- 1. 市值勾稽 ----
     try:
-        mv_vals = [_parse_number(r.get("市值", "")) for r in detail_records]
+        # 明细表常含「合计/小计」汇总行；若与数据行一起求和会重复计数
+        # (jiaxing 案例: 1 数据行 + 1 合计行 -> sum 翻倍 -> 401M 假差异)。
+        detail_data = [r for r in detail_records if not _is_total_row(r)]
+        mv_vals = [_parse_number(r.get("市值", "")) for r in detail_data]
         mv_vals = [v for v in mv_vals if v is not None]
         total_mv = sum(mv_vals) if mv_vals else None
 
         summary_total = None
         summary_field = None
+        # 市值勾稽应对比「市值类」总量(资产市值/证券市值)，其次才是
+        # 合计/资产总值/总资产（总资产=市值+资金余额，含现金会引入偏差）。
         for r in summary_records:
-            for fld in ("合计金额", "资产总值", "总资产"):
+            for fld in ("资产市值", "证券市值", "合计金额", "资产总值", "总资产"):
                 v = _parse_number(r.get(fld, ""))
                 if v is not None and v != 0:
                     summary_total = v
