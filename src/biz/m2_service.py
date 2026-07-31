@@ -20,6 +20,9 @@ import os
 import sys
 import urllib.request
 from typing import Any, Optional
+import threading
+import time as _time
+import uuid
 
 # --- Generation config: :8004 Qwen3.6-35B-A3B (chat completions) ---
 LLM_ENDPOINT = os.environ.get(
@@ -30,6 +33,56 @@ LLM_MAX_TOKENS = int(os.environ.get("M2_LLM_MAX_TOKENS", "512"))
 
 # Max chars of each chunk fed into the generation prompt.
 _CONTEXT_CHUNK_LIMIT = 600
+
+# --- Session / conversation history ---
+_MAX_TURNS = 10          # max messages stored per session
+_CONTEXT_TURNS = 5       # last N messages injected into prompt
+_SESSION_TTL = 30 * 60   # 30 minutes inactivity expiry (seconds)
+
+_sessions_lock = threading.Lock()
+_sessions: dict[str, dict[str, Any]] = {}
+# Each entry: {"history": [{"role":..., "content":...}, ...], "last_active": float}
+
+
+def _get_session(session_id: str) -> dict[str, Any]:
+    """Get or create a session, performing lazy TTL cleanup."""
+    now = _time.time()
+    with _sessions_lock:
+        # Lazy cleanup of expired sessions
+        expired = [
+            sid for sid, s in _sessions.items()
+            if now - s["last_active"] > _SESSION_TTL
+        ]
+        for sid in expired:
+            del _sessions[sid]
+        # Get or create
+        if session_id not in _sessions:
+            _sessions[session_id] = {"history": [], "last_active": now}
+        session = _sessions[session_id]
+        session["last_active"] = now
+        return session
+
+
+def _append_history(session: dict[str, Any], role: str, content: str) -> None:
+    """Append a message and trim to _MAX_TURNS."""
+    session["history"].append({"role": role, "content": content})
+    if len(session["history"]) > _MAX_TURNS:
+        session["history"] = session["history"][-_MAX_TURNS:]
+
+
+def clear_session(session_id: str) -> bool:
+    """Clear conversation history for a session. Returns True if existed."""
+    with _sessions_lock:
+        if session_id in _sessions:
+            _sessions[session_id]["history"] = []
+            _sessions[session_id]["last_active"] = _time.time()
+            return True
+        return False
+
+
+def new_session_id() -> str:
+    """Generate a new session UUID."""
+    return str(uuid.uuid4())
 
 _rag_mod = None       # cached scripts/m1_rag_ingest.py module (env + RAGService)
 _rag_service = None   # cached RAGService instance (embedding model loaded once)
@@ -88,8 +141,12 @@ def retrieve(question: str, top_k: int = 3) -> list[dict[str, Any]]:
     return sources
 
 
-def _build_prompt(question: str, sources: list[dict[str, Any]]) -> str:
-    """Build a grounded RAG prompt from retrieved chunks."""
+def _build_prompt(
+    question: str,
+    sources: list[dict[str, Any]],
+    history: list[dict[str, str]] | None = None,
+) -> str:
+    """Build a grounded RAG prompt from retrieved chunks + conversation history."""
     ctx_blocks: list[str] = []
     for i, s in enumerate(sources, 1):
         text = (s.get("text") or "")[:_CONTEXT_CHUNK_LIMIT]
@@ -98,15 +155,36 @@ def _build_prompt(question: str, sources: list[dict[str, Any]]) -> str:
             f"相关度={s.get('score','')}\n{text}"
         )
     context = "\n\n".join(ctx_blocks) if ctx_blocks else "(无检索结果)"
-    return (
-        "你是金融对账单问答助手。只依据下面的【检索资料】回答用户问题，"
+
+    # Conversation history section
+    history_section = ""
+    if history:
+        recent = history[-_CONTEXT_TURNS:]
+        lines = []
+        for msg in recent:
+            role_label = "用户" if msg["role"] == "user" else "助手"
+            lines.append(f"{role_label}: {msg['content']}")
+        history_section = (
+            "\n【对话历史】\n"
+            + "\n".join(lines)
+            + "\n"
+        )
+
+    system_instruction = (
+        "你是金融对账单分析助手。以下是之前的对话历史，请结合历史上下文回答新问题。\n"
+        "只依据下面的【检索资料】回答用户问题，"
         "不要使用资料外的知识，不要编造数值。\n"
         "注意：资料中的数值可能已脱敏（如 4013****.83），请原样引用，不要还原或猜测。\n"
         "回答要求：\n"
         "  1. 先用一两句中文直接回答问题；\n"
         "  2. 若资料能支撑答案，在结尾用一行注明出处，格式：\n"
         "     出处: 样本=<sample_id>, 表=<table_name>；\n"
-        "  3. 若资料不足以回答，直接说明「检索资料中未找到相关数据」，不要编造。\n\n"
+        "  3. 若资料不足以回答，直接说明「检索资料中未找到相关数据」，不要编造。\n"
+    )
+
+    return (
+        f"{system_instruction}"
+        f"{history_section}\n"
         f"【检索资料】\n{context}\n\n"
         f"【用户问题】\n{question}\n\n"
         "【回答】"
@@ -135,28 +213,42 @@ def _generate(prompt: str) -> tuple[str, str]:
     return (content or "").strip(), model
 
 
-def ask(question: str, top_k: int = 3) -> dict[str, Any]:
-    """End-to-end M2 RAG QA: retrieve -> generate.
+def ask(
+    question: str,
+    top_k: int = 3,
+    session_id: str | None = None,
+) -> dict[str, Any]:
+    """End-to-end M2 RAG QA with multi-turn conversation support.
 
-    Returns ``{answer, sources, model, collection, top_k}``.
+    Returns ``{answer, sources, model, collection, top_k, session_id}``.
     On generation failure, still returns the retrieved sources with a
     fallback answer so the UI remains useful.
     """
     question = (question or "").strip()
     top_k = max(1, min(int(top_k or 3), 10))
 
+    # Session management
+    if not session_id:
+        session_id = new_session_id()
+    session = _get_session(session_id)
+    history = list(session["history"])  # snapshot before appending
+
     sources = retrieve(question, top_k=top_k)
 
     if not sources:
+        answer = "检索资料中未找到相关数据（集合可能为空或问题与已入库样本无关）。"
+        _append_history(session, "user", question)
+        _append_history(session, "assistant", answer)
         return {
-            "answer": "检索资料中未找到相关数据（集合可能为空或问题与已入库样本无关）。",
+            "answer": answer,
             "sources": [],
             "model": "",
             "collection": collection_name(),
             "top_k": top_k,
+            "session_id": session_id,
         }
 
-    prompt = _build_prompt(question, sources)
+    prompt = _build_prompt(question, sources, history=history)
     try:
         answer, model = _generate(prompt)
     except Exception as exc:  # generation failed -> retrieval-only fallback
@@ -170,10 +262,15 @@ def ask(question: str, top_k: int = 3) -> dict[str, Any]:
         )
         model = ""
 
+    # Store in conversation history
+    _append_history(session, "user", question)
+    _append_history(session, "assistant", answer)
+
     return {
         "answer": answer,
         "sources": sources,
         "model": model,
         "collection": collection_name(),
         "top_k": top_k,
+        "session_id": session_id,
     }

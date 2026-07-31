@@ -291,62 +291,129 @@
     setNotice('复核确认完成', 'ok');
   });
 
-  // --- M2 RAG QA ---
+
+  // --- M2 RAG QA (multi-turn chat) ---
   const m2Question = $('#m2Question');
   const m2AskBtn = $('#m2AskBtn');
-  const m2Result = $('#m2Result');
+  const m2ChatLog = $('#m2ChatLog');
   const m2Meta = $('#m2Meta');
+  const m2NewChatBtn = $('#m2NewChatBtn');
 
-  function renderM2Sources(sources) {
-    if (!sources || !sources.length) return '';
-    let html = '<div class="m2-sources-head">引用来源</div><ul class="m2-sources">';
-    for (const s of sources) {
-      html += '<li class="m2-source">';
-      html += `<span class="m2-src-tag">${esc(s.sample_id)}</span>`;
-      html += `<span class="m2-src-tag">${esc(s.table_name || '-')}</span>`;
-      html += `<span class="m2-src-score">score ${s.score}</span>`;
-      html += `<div class="m2-src-text">${esc(s.text)}</div>`;
-      html += '</li>';
+  let m2SessionId = crypto.randomUUID();
+
+  function m2ScrollToBottom() {
+    m2ChatLog.scrollTop = m2ChatLog.scrollHeight;
+  }
+
+  function m2ClearHint() {
+    const hint = m2ChatLog.querySelector('.m2-empty-hint');
+    if (hint) hint.remove();
+  }
+
+  function m2AddUserBubble(text) {
+    m2ClearHint();
+    const msg = document.createElement('div');
+    msg.className = 'm2-msg user';
+    msg.innerHTML = `<div class="m2-bubble">${esc(text)}</div>`;
+    m2ChatLog.appendChild(msg);
+    m2ScrollToBottom();
+  }
+
+  function m2AddAssistantBubble(answer, sources) {
+    const msg = document.createElement('div');
+    msg.className = 'm2-msg assistant';
+    let html = `<div class="m2-bubble">${esc(answer)}</div>`;
+    if (sources && sources.length) {
+      const detailId = 'src-' + Date.now();
+      html += `<span class="m2-sources-toggle" data-target="${detailId}">▸ ${sources.length} 条来源</span>`;
+      html += `<div class="m2-sources-detail" id="${detailId}" hidden>`;
+      for (const s of sources) {
+        html += '<div class="m2-src-item">';
+        html += `<span class="m2-src-tag">${esc(s.sample_id)}</span>`;
+        html += `<span class="m2-src-tag">${esc(s.table_name || '-')}</span>`;
+        html += `<span class="m2-src-score">score ${s.score}</span>`;
+        html += `<div class="m2-src-text">${esc(s.text)}</div>`;
+        html += '</div>';
+      }
+      html += '</div>';
     }
-    html += '</ul>';
-    return html;
+    msg.innerHTML = html;
+    m2ChatLog.appendChild(msg);
+    // Toggle sources
+    const toggle = msg.querySelector('.m2-sources-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        const detail = msg.querySelector('.m2-sources-detail');
+        const hidden = detail.hidden;
+        detail.hidden = !hidden;
+        toggle.textContent = (hidden ? '▾' : '▸') + ` ${sources.length} 条来源`;
+      });
+    }
+    m2ScrollToBottom();
+  }
+
+  function m2ShowThinking() {
+    m2ClearHint();
+    const el = document.createElement('div');
+    el.className = 'm2-thinking';
+    el.id = 'm2Thinking';
+    el.textContent = 'thinking...';
+    m2ChatLog.appendChild(el);
+    m2ScrollToBottom();
+  }
+
+  function m2HideThinking() {
+    const el = document.getElementById('m2Thinking');
+    if (el) el.remove();
   }
 
   async function m2Ask() {
     const question = (m2Question.value || '').trim();
     if (!question) { setNotice('请输入问题', 'error'); return; }
+    m2Question.value = '';
     m2AskBtn.disabled = true;
-    m2AskBtn.textContent = 'Thinking...';
-    m2Result.innerHTML = '<div class="empty-state">检索 + 生成中…</div>';
+    m2AddUserBubble(question);
+    m2ShowThinking();
     try {
       const res = await fetch('/api/m2/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, top_k: 3 }),
+        body: JSON.stringify({ question, top_k: 3, session_id: m2SessionId }),
       });
       if (!res.ok) {
         const text = await res.text();
         throw new Error(`API ${res.status}: ${text.slice(0, 200)}`);
       }
       const data = await res.json();
-      let html = `<div class="m2-answer">${esc(data.answer || '(无答案)')}</div>`;
-      html += renderM2Sources(data.sources);
-      m2Result.innerHTML = html;
+      m2HideThinking();
+      m2AddAssistantBubble(data.answer || '(无答案)', data.sources);
+      if (data.session_id) m2SessionId = data.session_id;
       m2Meta.textContent = `RAG · ${data.collection || 'm1_parsed_statements'} · ${data.model || 'n/a'} · ${data.duration_ms ?? 0}ms`;
-      setNotice(`M2 回答完成: ${(data.sources || []).length} 条来源`, 'ok');
     } catch (err) {
-      m2Result.innerHTML = `<div class="empty-state error">${esc(err.message)}</div>`;
+      m2HideThinking();
+      m2AddAssistantBubble(`⚠ ${err.message}`, []);
       setNotice(err.message, 'error');
     } finally {
       m2AskBtn.disabled = false;
-      m2AskBtn.textContent = 'Ask';
+      m2Question.focus();
     }
+  }
+
+  async function m2NewChat() {
+    try {
+      await fetch(`/api/m2/sessions/${m2SessionId}/clear`, { method: 'POST' });
+    } catch (_) { /* best effort */ }
+    m2SessionId = crypto.randomUUID();
+    m2ChatLog.innerHTML = '<div class="m2-empty-hint">输入问题开始对话，支持多轮追问。</div>';
+    m2Meta.textContent = 'RAG · m1_parsed_statements';
+    setNotice('新会话已开始', 'ok');
   }
 
   m2AskBtn.addEventListener('click', m2Ask);
   m2Question.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { e.preventDefault(); m2Ask(); }
   });
+  m2NewChatBtn.addEventListener('click', m2NewChat);
 
   // --- Utility ---
   function esc(str) {

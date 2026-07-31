@@ -81,27 +81,30 @@
             </div>
         </section>
 
-        <!-- M2 RAG QA panel -->
+        <!-- M2 RAG QA panel (multi-turn chat) -->
         <section class="panel m2-panel" aria-label="M2 knowledge QA">
             <div class="panel-head">
                 <h2>M2 知识问答</h2>
-                <span id="m2Meta" class="m2-meta">RAG · m1_parsed_statements</span>
+                <div class="m2-head-actions">
+                    <span id="m2Meta" class="m2-meta">RAG · m1_parsed_statements</span>
+                    <button id="m2NewChatBtn" type="button" class="m2-new-chat-btn" title="清空对话，开始新会话">New Chat</button>
+                </div>
             </div>
             <div class="panel-body m2-body">
+                <div id="m2ChatLog" class="m2-chat-log">
+                    <div class="m2-empty-hint">输入问题开始对话，支持多轮追问。</div>
+                </div>
                 <div class="m2-controls">
                     <input id="m2Question" type="text"
                         placeholder="提问，例如：嘉兴民安的总资产是多少？"
                         list="m2Examples" autocomplete="off">
                     <datalist id="m2Examples">
                         <option value="嘉兴民安的总资产是多少？"></option>
+                        <option value="其中证券市值占多少？"></option>
                         <option value="复熙混合25号的资产总值是多少？"></option>
-                        <option value="博时传统产品的基金名称是什么？"></option>
                         <option value="嘉兴民安有哪些证券持仓？"></option>
                     </datalist>
-                    <button id="m2AskBtn" type="button" title="基于 M1 解析结果检索问答">Ask</button>
-                </div>
-                <div id="m2Result" class="m2-result">
-                    <div class="empty-state">输入问题后点击 Ask，基于已入库的 M1 解析结果检索回答。</div>
+                    <button id="m2AskBtn" type="button" title="基于 M1 解析结果检索问答">Send</button>
                 </div>
             </div>
         </section>
