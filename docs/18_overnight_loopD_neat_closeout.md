@@ -377,3 +377,40 @@ commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
 - 服务: :5050(M1) :8100(proxy) :8004(35B+mmproj) :8005(14B) :8090(ZhikunCode) 全部健康
 - RAM: 82GB available / 121GB total
 - tmux: coding-jinrong / graph-loop-b / graph-loop-d / aoe_audit-claude / loop-a-task
+
+## 16. 2h Loop: UI 实测 + 72B 终判 + ZhikunCode (2026-07-31 23:00-01:00 CST)
+
+### P0: M1/M2 UI 浏览器实测
+
+| 截图 | 内容 | 状态 |
+|------|------|------|
+| 01_homepage.png | 三面板布局 + M2 QA 面板 | 渲染正确 |
+| 02_sample_parsed.png | Sample 按钮点击后数据填充 | 三面板均有数据 |
+| 03_m2_qa.png | M2 问答:  嘉兴民安的总资产是多少? | 正确回答 + 3 来源 |
+| 04_full_overview.png | 全页概览 | 布局完整 |
+| 05_jiaxing_upload.png | 嘉兴 PDF 上传解析 | 6 表 + 5 KV + reconcile |
+
+无 JS 报错, 无面板空白, 无按钮不响应。M1+M2 UI 端到端验证通过。
+
+### P1: 72B RAG QA 终判
+
+72B 在 RAG QA 场景同样退化:
+- 3/3 查询产生重复 token 循环 (逗号/零/空格)
+- 延迟 70s/query (35B 仅 5s, 14x 差距)
+- 与结构化提取退化模式一致
+- **最终结论: 72B 不适合任何角色, 建议删除 47GB 模型文件**
+
+### P2: ZhikunCode Web UI
+
+- React SPA 正常加载, 暗色主题
+- 4 个模型可选, 无认证页
+- 聊天界面可用
+- 截图: docs/experiments/2026-07-31_ui_screenshots/zhikuncode.png
+
+### 系统终态
+
+- Git: 三方对齐 66312d4
+- Loop B: 持续 PASS
+- 服务: :5050(M1+M2) :8004(35B) :8005(14B) :8100(proxy) :15432(PGVector) :8090(ZhikunCode)
+- :8006 已释放 (72B killed)
+- RAM: ~76GB available (72B 释放后)
