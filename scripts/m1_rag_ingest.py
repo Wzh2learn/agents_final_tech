@@ -100,7 +100,6 @@ def build_chunks_for_sample(res: dict[str, Any]) -> list[dict[str, Any]]:
         })
 
     # 逐表标准化记录（_records 为原始值，这里逐条脱敏后再渲染）
-    structured_chunk_count = 0
     for t in res.get("tables", []):
         table_name = t.get("table", "")
         schema_name = t.get("matched_schema", "")
@@ -118,52 +117,12 @@ def build_chunks_for_sample(res: dict[str, Any]) -> list[dict[str, Any]]:
                 "block_id": f"{table_name}:r{i}",
             })
         if blocks:
-            structured_chunk_count += len(blocks)
             groups.append({
                 "group": table_name,
                 "schema": schema_name,
                 "standard_fields": fields_seen,
                 "blocks": blocks,
             })
-
-    # OCR 兜底 chunks：当 ocr_used=True 且结构化记录产出 0 chunk 时，
-    # 从 _raw_rows（OCR 原始行）构建脱敏 chunks，确保 RAG 可检索。
-    if res.get("ocr_used") and structured_chunk_count == 0:
-        for t in res.get("tables", []):
-            table_name = t.get("table", "")
-            headers = t.get("headers") or []
-            raw_rows = t.get("_raw_rows") or []
-            if not raw_rows:
-                continue
-            blocks = []
-            for i, row in enumerate(raw_rows):
-                # 把 row 与 headers 对齐成 dict，逐字段脱敏
-                rec = {}
-                for j, cell in enumerate(row):
-                    col_name = headers[j] if j < len(headers) else f"col_{j}"
-                    rec[col_name] = (cell or "").strip()
-                safe = m1p.desensitize_record(rec)
-                if not any(v not in (None, "") for v in safe.values()):
-                    continue
-                fields_str = ", ".join(
-                    f"{k}={v}" for k, v in safe.items() if v not in (None, "")
-                )
-                text = (
-                    f"样本: {sample_id}\n"
-                    f"表: OCR层 ({table_name})\n"
-                    f"字段: {fields_str}"
-                )
-                blocks.append({
-                    "text": text,
-                    "block_id": f"ocr:{table_name}:r{i}",
-                })
-            if blocks:
-                groups.append({
-                    "group": "OCR层",
-                    "schema": "OCR层",
-                    "standard_fields": headers,
-                    "blocks": blocks,
-                })
     return groups
 
 
