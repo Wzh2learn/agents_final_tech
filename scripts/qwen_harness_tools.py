@@ -26,7 +26,7 @@ import urllib.error
 # Harness tools use the Responses API, NOT Chat Completions
 API_BASE = "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1/responses"
 MODEL = "qwen3.8-max-preview"
-TIMEOUT = 60  # code_interpreter may need more time
+TIMEOUT = 120  # web_search + enable_thinking can take 60-90s
 
 SUPPORTED_TOOLS = {"web_search", "code_interpreter", "web_extractor"}
 STUB_TOOLS = {"t2i_search", "i2i_search"}
@@ -38,10 +38,16 @@ def call_harness_tool(tool_name: str, user_input: str) -> str:
     if not api_key:
         return "ERROR: OPENAI_API_KEY environment variable not set."
 
+    # web_extractor requires web_search in the same request (Qwen API constraint)
+    if tool_name == "web_extractor":
+        tools = [{"type": "web_search"}, {"type": "web_extractor"}]
+    else:
+        tools = [{"type": tool_name}]
+
     payload = {
         "model": MODEL,
         "input": user_input,
-        "tools": [{"type": tool_name}],
+        "tools": tools,
         "enable_thinking": True,
     }
 
