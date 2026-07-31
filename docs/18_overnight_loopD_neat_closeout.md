@@ -271,3 +271,39 @@ commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
 | RAG QA | 3/3 |
 | OCR 延迟 | 200s → 74s |
 | 流程修复 | 5 (anti-amend, anti-add-A, API_BASE, disposition, parallel) |
+
+## 13. 第二轮自主循环 (2026-07-31 09:00-10:30 CST, Loop D 续)
+
+### P0: M1 三面板 UI 浏览器实测
+
+- 页面加载: GET /m1 -> 200, 三面板 HTML 结构完整 (tables/kv/review)
+- 静态资源: m1.css (549行) + m1.js (300行) 均 200
+- API 功能测试 5/5 样本通过:
+  - fuxi TXT: 2表 7KV 4/4 real_pass 19ms
+  - LU PDF: 3表 1KV OCR(vision-8004) 29s
+  - boshi PDF: 1表 6KV LLM 622ms
+  - jiaxing PDF: 6表 5KV LLM 930ms
+  - xinhua DOCX: 5表 OCR(vision-8004) 69s
+- 结论: P0 PASS
+
+### P1: PaddleOCR 修复尝试 + 解析质量
+
+- PaddleOCR 3.7.0 + PaddlePaddle 3.2.2 可安装在 aarch64
+- PaddlePaddle 推理引擎 SIGSEGV (PreparePirProgram C++ 层崩溃)
+- 已清理: 卸载 paddlepaddle/paddleocr/paddlex, 恢复 numpy 2.5.1
+- 结论: PaddleOCR 在 GB10 ARM64 上不可用, vision-8004 作为永久 OCR 引擎
+- 嘉兴 LLM 质量: unmapped=[] 全表, llm_extracted 非空 (KV 兜底), reconcile 3 real_pass + 1 skipped
+
+### P2: 端到端性能 + M2 RAG QA 扩展
+
+| 样本 | 大小 | 总延迟 | OCR | LLM |
+|------|------|--------|-----|-----|
+| fuxi TXT | 1.7KB | 30ms | F | F |
+| boshi PDF | 253KB | 639ms | F | T |
+| jiaxing PDF | 113KB | 951ms | F | T |
+| LU PDF | 650KB | 31.4s | T | T |
+| xinhua DOCX | 1.6MB | 73.5s | T | T |
+
+- RAG QA 扩展: 3/3 -> 8/10 (Q4/Q10 xinhua 预期 MISS, OCR-only DOCX 0 结构化记录)
+- 延迟: 首次 16.8s (BM25 索引), 后续 0.13-0.19s
+- 集合: m1_parsed_statements, 17 embeddings, 4/5 样本入库
