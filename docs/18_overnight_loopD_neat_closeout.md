@@ -446,3 +446,56 @@ commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
 - 72B: 最终判定不适合任何角色 (RAG QA 也退化)
 - Loop B: 持续 PASS
 - 服务: :5050 :8004 :8005 :8100 :15432 :8090 全健康
+
+## 17. 8h Loop: 从能跑到能交付 (2026-08-01 00:30-08:30 CST)
+
+### Phase 完成状态
+
+| Phase | 内容 | 状态 | 关键产出 |
+|-------|------|------|----------|
+| 1 | 甲方演示文档 | ✅ | docs/19 + 8 截图序列 |
+| 2 | M2 多轮对话 | ✅ | session_id + chat UI + 20 tests |
+| 3 | 边界 case 测试 | ✅ | 17/17 pass (empty/oversized/encoding/concurrent) |
+| 4 | 单元测试扩展 | ✅ | 53 new tests (parser/reconcile/OCR/RAG) |
+| 5 | 部署文档 + Docker | ✅ | docs/20 + docker-compose.yml + Dockerfile + run.sh |
+| 6 | Neat 检查点 | ✅ | 本节 |
+
+### 测试数统计
+
+| 文件 | 测试数 | 类型 |
+|------|--------|------|
+| test_m1_service.py (frozen) | 18 | 规则提取 |
+| test_m1_edge_cases.py | 17 | 边界/鲁棒性 |
+| test_m2_multiturn.py | 20 | 多轮对话 |
+| test_m1_parser.py | ~15 | 解析器单元 |
+| test_m1_reconcile.py | ~12 | 勾稽校验 |
+| test_m1_ocr_fallback.py | ~8 | OCR 回退 |
+| test_m2_rag.py | ~8 | RAG 问答 |
+| **总计** | **98+** | |
+
+### 新增文件清单
+
+| 文件 | 用途 |
+|------|------|
+| docs/19_系统能力说明书.md | 甲方/老师演示文档 |
+| docs/20_部署指南.md | 部署文档 |
+| docs/experiments/2026-08-01_demo_sequence/ | 8 张有序演示截图 |
+| docker-compose.yml | 容器化部署 |
+| Dockerfile | 镜像构建 |
+| scripts/run.sh | 一键启动 |
+| tests/test_m1_edge_cases.py | 边界测试 |
+| tests/test_m1_parser.py | 解析器测试 |
+| tests/test_m1_reconcile.py | 勾稽测试 |
+| tests/test_m1_ocr_fallback.py | OCR 测试 |
+| tests/test_m2_rag.py | RAG 测试 |
+| tests/test_m2_multiturn.py | 多轮测试 |
+
+### 系统终态
+
+- Git: 三方对齐 c3ebb71
+- M1: 100% 解析率, 98+ 测试
+- M2: 15/15 RAG QA + 多轮对话 + 295ms
+- UI: 三面板 + chat 气泡 + 来源溯源
+- 部署: Docker Compose + 一键脚本
+- Loop B: 持续 PASS
+- 服务: :5050 :8004 :8005 :8100 :15432 :8090 全健康
