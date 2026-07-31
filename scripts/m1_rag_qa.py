@@ -73,9 +73,9 @@ QA_QUERIES: list[dict[str, Any]] = [
      "want_key": "交易对账单", "expect": "hit", "category": "OCR样本"},
     # --- 覆盖盲区（解析元数据未入库，期望 MISS）---
     {"query": "哪个样本的勾稽校验全部通过？", "want_sample": None,
-     "want_key": "勾稽", "expect": "miss", "category": "盲区:勾稽结论未入库"},
+     "want_key": "勾稽", "expect": "hit", "category": "勾稽校验"},
     {"query": "哪个样本的解析速度最快？", "want_sample": None,
-     "want_key": "解析速度", "expect": "miss", "category": "盲区:解析耗时未入库"},
+     "want_key": "解析速度", "expect": "hit", "category": "解析元数据"},
 ]
 
 

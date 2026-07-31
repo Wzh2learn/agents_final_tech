@@ -19,6 +19,7 @@ import argparse
 import json
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -126,6 +127,62 @@ def build_chunks_for_sample(res: dict[str, Any]) -> list[dict[str, Any]]:
     return groups
 
 
+
+def build_meta_chunks(res: dict[str, Any], parse_ms: int) -> list[dict[str, Any]]:
+    """Build reconcile summary + parse metadata chunks for a sample."""
+    sample_id = res["file"]
+    groups: list[dict[str, Any]] = []
+
+    # --- Reconcile summary chunk ---
+    checks = res.get("reconcile") or []
+    if checks:
+        total = len(checks)
+        real_pass = sum(1 for c in checks if c.get("disposition") == "real_pass")
+        skipped = sum(1 for c in checks if c.get("disposition") == "skipped")
+        failed = sum(1 for c in checks if c.get("disposition") == "fail")
+        if failed == 0 and skipped == 0:
+            disposition = "全部通过"
+        elif failed == 0:
+            disposition = "通过(部分跳过)"
+        else:
+            disposition = "存在失败"
+        details = "; ".join(
+            f"{c['check']}={c.get('disposition', '?')}" for c in checks
+        )
+        text = (
+            f"样本: {sample_id}\n"
+            f"表: 勾稽校验\n"
+            f"字段: 勾稽结论={disposition}, 通过={real_pass}/{total}, "
+            f"跳过={skipped}, 失败={failed}, 明细=[{details}]"
+        )
+        groups.append({
+            "group": "勾稽校验",
+            "schema": "勾稽校验",
+            "standard_fields": ["勾稽结论", "通过", "跳过", "失败", "明细"],
+            "blocks": [{"text": text, "block_id": "reconcile:summary"}],
+        })
+
+    # --- Parse metadata chunk ---
+    ocr_used = res.get("ocr_used", False)
+    ocr_engine = res.get("ocr_engine", "")
+    table_count = res.get("table_count", 0)
+    engine_label = ocr_engine if ocr_used and ocr_engine else "规则解析"
+    text = (
+        f"样本: {sample_id}\n"
+        f"表: 解析元数据\n"
+        f"字段: 解析耗时={parse_ms}ms, 解析引擎={engine_label}, "
+        f"表数={table_count}, 解析速度={parse_ms}ms"
+    )
+    groups.append({
+        "group": "解析元数据",
+        "schema": "解析元数据",
+        "standard_fields": ["解析耗时", "OCR", "表数", "解析速度"],
+        "blocks": [{"text": text, "block_id": "parse_meta:0"}],
+    })
+
+    return groups
+
+
 def cmd_ingest(samples_dir: str, schema_path: str, append: bool) -> int:
     schema = m1p.Schema.load(schema_path)
     sample_files = _list_sample_files(samples_dir)
@@ -144,11 +201,14 @@ def cmd_ingest(samples_dir: str, schema_path: str, append: bool) -> int:
     total_chunks = 0
     summary = []
     for path in sample_files:
+        t0 = time.perf_counter()
         res = m1p.process_sample(path, schema, llm_fallback=False)
+        parse_ms = int((time.perf_counter() - t0) * 1000)
         if not res.get("ok"):
             print(f"[ingest] SKIP {res.get('file')}: parse not ok ({res.get('error')})")
             continue
         groups = build_chunks_for_sample(res)
+        groups.extend(build_meta_chunks(res, parse_ms))
         # Filter: skip samples with no financial structure (e.g. operational docs)
         if not groups and not res.get("header_meta"):
             print(f"[ingest] SKIP {res['file']}: no financial structure (0 tables, 0 header_meta)")
