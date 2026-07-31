@@ -1,6 +1,13 @@
 # Development Handoff
 
-## Snapshot — 2026-07-31 (updated 23:00 CST)
+## Snapshot — 2026-08-01 (8h delivery loop complete)
+
+### 8h Delivery Loop: Runnable -> Deliverable
+
+All 6 phases complete. System now has: client demo doc (docs/19), deployment
+guide (docs/20), Docker Compose, multi-turn M2 chat, 98+ tests, 11 demo
+screenshots. M1 100% parse rate, M2 15/15 RAG QA + multi-turn sessions.
+Git aligned at c0eb55e. Loop B continuous PASS. See docs/18 section 17.
 
 ### Latest: M2 RAG QA API + Harness Tools (2026-07-31 evening)
 

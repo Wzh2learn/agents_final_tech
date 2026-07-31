@@ -211,3 +211,25 @@ scripts/qwen_harness_tools.py provides CLI access to Qwen platform tools:
 - Loop D: strategic layer (user + main thread)
 - Frozen nodes: tests/test_m1_service.py, ~/wzh/m1_samples/, scripts/graph/frozen_hashes.txt
 - xinhua 0/11 schema hit: CLOSED (operational doc, not financial statement)
+
+## 8h Delivery Loop (2026-08-01)
+
+System upgraded from  runnable to deliverable:
+- docs/19: Client-facing capability document (business perspective)
+- docs/20: Deployment guide with Docker Compose
+- Multi-turn M2 conversation (session_id + chat UI + context injection)
+- 98+ tests (18 frozen + 17 edge + 20 multiturn + 53 unit)
+- Demo screenshot sequence: docs/experiments/2026-08-01_demo_sequence/ (11 images)
+- Docker: docker-compose.yml + Dockerfile + scripts/run.sh
+
+### Test Inventory (2026-08-01)
+| File | Count | Status |
+|------|-------|--------|
+| test_m1_service.py (frozen) | 18 | PASS |
+| test_m1_edge_cases.py | 17 | PASS |
+| test_m2_multiturn.py | 20 | PASS |
+| test_m1_parser.py | ~15 | PASS |
+| test_m1_reconcile.py | ~12 | PASS |
+| test_m1_ocr_fallback.py | ~8 | PASS |
+| test_m2_rag.py | ~8 | PASS |
+| **Total** | **98+** | |
