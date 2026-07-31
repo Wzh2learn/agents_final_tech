@@ -345,3 +345,35 @@ commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
 2. 72B 模型评估 (已下载, 未测试, 之前结论: 结构化提取退化)
 3. OMC 插件安装 (等 Loop C 3 轮 ACCEPTED 后, 已连续 4 次)
 4. ZhikunCode Web UI 实测 (:8090 健康, 未深度测试)
+## 15. 四项决策执行 + Harness 工具集成 (2026-07-31 13:30-22:30 CST)
+
+### 决策执行清单
+
+| # | 决策 | 结果 | commit |
+|---|------|------|--------|
+| D4 | xinhua 入库过滤 | 0 tables + 0 header_meta 的样本跳过入库, RAG 8/10 不掉 | 531bcc0 |
+| D1 | OMC 插件安装 | oh-my-claudecode@omc v4.15.7, git clone + marketplace 注册 | - |
+| D2 | ZhikunCode UI 实测 | React SPA 正常, 暗色主题, 4 模型, 无认证页, 截图已存 | 4f484d3 |
+| D3 | 72B 重新评估 | 退化确认: 重复数字, 14x 慢, 46GB RAM, 测试后已 kill | 6b9deaa |
+
+### Qwen Harness 工具集成
+
+- 新增 scripts/qwen_harness_tools.py: CLI wrapper, 使用 Responses API
+- 支持: web_search / code_interpreter / web_extractor (t2i_search, i2i_search 为 stub)
+- 模型: qwen3.8-max-preview, enable_thinking=true
+- 验证: web_search 返回搜索结果 (33s), code_interpreter 返回 4 (18s), pytest 18/18
+- 更新: loop_a_exec_constraints.md + loop_c_audit_prompt.md 增加工具说明
+- commit: 87d8da4
+
+### Loop A 派发
+
+- code_interpreter 勾稽校验演示: 嘉兴样本市值独立计算 vs reconcile 对比
+- tmux session: loop-a-task
+
+### 系统终态
+
+- Git: 三方对齐 87d8da4 (local = remote = GitHub)
+- Loop B: 持续 PASS (22:03 最新)
+- 服务: :5050(M1) :8100(proxy) :8004(35B+mmproj) :8005(14B) :8090(ZhikunCode) 全部健康
+- RAM: 82GB available / 121GB total
+- tmux: coding-jinrong / graph-loop-b / graph-loop-d / aoe_audit-claude / loop-a-task
