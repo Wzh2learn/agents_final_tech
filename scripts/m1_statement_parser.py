@@ -1316,6 +1316,7 @@ def process_sample(path: str, schema: Schema, llm_fallback: bool = False) -> dic
             "hit_rate": round(hit_rate, 1),
             "sample_record": sample,
             "_records": std_rows,
+            "_raw_rows": t.rows,
         })
     result["tables"] = table_reports
     result["table_count"] = len(doc.tables)
