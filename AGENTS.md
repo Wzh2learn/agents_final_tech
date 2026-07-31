@@ -138,3 +138,49 @@ Manual equivalent (edit the two top-level lines of ~/.codex/config.toml):
   model_provider = "Token_Plan_Chat" # or Token_Plan for qwen
 then ensure the proxy is running for the *_Chat provider:
   bash ~/start_proxy.sh   # fallback: nohup python3 ~/.local/bin/responses2chat_proxy.py &
+
+## M1 Parser Terminal State (2026-07-31, 8h autonomous loop)
+
+The M1 counterparty-statement parser (`scripts/m1_statement_parser.py`) achieved
+**100% parse rate** on all 5 real client samples after 8 rounds of Loop A:
+
+| Capability | Status |
+|------------|--------|
+| Text statement parse (TXT/XLSX) | 100% (rule mapping) |
+| Text-layer PDF parse | 100% (grid + borderless fallback) |
+| Image-only PDF/DOCX parse | 100% (OCR fallback, vision-8004 parallel) |
+| LLM fallback (unmapped cols) | Connected, jiaxing unmapped 0 |
+| Silent mismatch detection | Fixed, disposition field added |
+| Market-value reconciliation | All PASS |
+| RAG ingest + QA | 3/3 correct (PGVector m1_parsed_statements) |
+| Reconcile disposition | real_pass / skipped / fail |
+| OCR parallelization | 200s -> 74s (2.7x) |
+
+PaddleOCR-VL remains broken (transformers version incompatibility); vision-8004
+fallback handles all OCR needs. 72B model NOT replacing主力 (degenerate on
+structured extraction).
+
+## Graph Engineering Running Mode (2026-07-31)
+
+Four-layer loop architecture per `docs/17_Graph_Engineering_多层Loop设计.md`:
+
+| Layer | Role | Tool | Status |
+|-------|------|------|--------|
+| Loop D | Strategic oversight | Local Codex desktop | Active |
+| Loop A | Execution | Remote Codex CLI via tmux | Standby (dispatched per task) |
+| Loop B | Independent verification | graph-loop-b tmux daemon, 30min cycle | Running |
+| Loop C | Quality audit | Claude Code + glm-5.2 | 12h freq (after 3x ACCEPTED) |
+
+**AoE session management note**: AoE `send` does not work with `codex exec`
+(one-shot binary; respawn re-runs original command). Loop A tasks are dispatched
+via tmux direct launch:
+```bash
+tmux new-session -d -s loop-a-taskN "cd $PROJ && source ~/.bashrc && \
+  cat scripts/graph/loop_a_exec_constraints.md /tmp/task.md | \
+  codex exec --dangerously-bypass-approvals-and-sandbox 2>&1 | \
+  tee -a logs/graph/loop_a.log"
+```
+
+Frozen nodes (Loop B verifies every 30min): `tests/test_m1_service.py`,
+`~/wzh/m1_samples/m1_table_schema.json`, `scripts/graph/frozen_hashes.txt`.
+L5 git pre-commit hook blocks commits touching frozen paths.

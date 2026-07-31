@@ -1,6 +1,24 @@
 # Development Handoff
 
-## Snapshot — 2026-07-28
+## Snapshot — 2026-07-31
+
+### 8h Autonomous Loop Summary (2026-07-30 night → 2026-07-31 morning)
+
+Graph Engineering four-layer loop ran overnight: 8 Loop A tasks, 6 Loop C
+audits, Loop B continuous PASS. M1 parse rate went from 20% to **100%** on all
+5 real client samples. M1→M2 RAG closed loop verified (3/3 QA correct). OCR
+parallelized 200s→74s. Reconcile disposition field added. 15 git commits.
+Loop C reached 3x consecutive ACCEPTED, audit frequency reduced to 12h.
+72B model evaluated and rejected (degenerate on structured extraction).
+PaddleOCR-VL still broken (transformers compat); vision-8004 fallback handles
+all OCR. See `docs/18_overnight_loopD_neat_closeout.md` for full report.
+
+**Current state**: Loop B daemon running (30min cycle, all PASS). Loop A
+standby. Loop C 12h frequency. :5050 M1 harness healthy (workers=2). :8004
+and :8005 model services healthy. Git aligned at fe5d662 (local = remote =
+GitHub).
+
+### Previous snapshot — 2026-07-28
 
 Start with the approved joint-data plan: [docs/13_M1_M2联合数据闭环计划.md](docs/13_M1_M2联合数据闭环计划.md), then read [docs/12_阶段收尾与对外汇报.md](docs/12_阶段收尾与对外汇报.md).
 

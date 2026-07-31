@@ -315,3 +315,6 @@
 | 2026-07-30 | 战略仲裁：未启动 Loop A 自主写代码；72B 不整夜常驻；严格 JSON 调优延后交互；客户原始数据不入库 | Loop D |
 | 2026-07-30 | Loop B 守护常驻 + Loop D 影子；Loop C 按需；详见 docs/18 | Loop D |
 | 2026-07-30 | 第二轮：事1 修 /m1 页面路由 gap(1472c6a)；事2 v3 enable_thinking=false 35B 修好 72B 退化(a8f640f)；事3 冷启动列暂不建模(1472c6a)；事4 不开 Loop A；事5 72B 按需临时 | Loop D |
+| 2026-07-31 | 8h 自主循环完成：8 轮 Loop A + 6 轮 Loop C + Loop B 持续 PASS；M1 解析率 20%→100%；reconcile 全 PASS + disposition；M1→M2 RAG 闭环 3/3；OCR 并行 200s→74s；15 commits；Loop C 连续 3×ACCEPTED 降频至 12h | Loop D |
+| 2026-07-31 | Graph 运行模式确立：Loop B 常驻 30min 周期；Loop C 降频 12h；Loop A 待命派活；AoE send 不适用 codex exec（一次性），改用 tmux 直启 | Loop D |
+| 2026-07-31 | 流程修复 5 项：anti-amend 规则、anti-git-add-A、API_BASE :5050、disposition 字段、OCR 并行化 | Loop D |
