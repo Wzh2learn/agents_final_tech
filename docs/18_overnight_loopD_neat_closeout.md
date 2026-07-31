@@ -307,3 +307,41 @@ commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
 - RAG QA 扩展: 3/3 -> 8/10 (Q4/Q10 xinhua 预期 MISS, OCR-only DOCX 0 结构化记录)
 - 延迟: 首次 16.8s (BM25 索引), 后续 0.13-0.19s
 - 集合: m1_parsed_statements, 17 embeddings, 4/5 样本入库
+## 14. 第二轮自主循环总结 (2026-07-31 08:30-13:30 CST, 5h)
+
+### 产出清单
+
+| # | 项目 | 结果 | commit |
+|---|------|------|--------|
+| 1 | Neat-freak 收尾 | AGENTS.md + HANDOFF.md + docs/17 演进记录 | 880b8d7 |
+| 2 | P0 M1 UI 验证 | 5/5 样本 API 通过, 三面板 HTML 完整 | — |
+| 3 | P1 PaddleOCR 调查 | ARM64 SIGSEGV 不可用, vision-8004 永久引擎 | — |
+| 4 | P1 解析质量 | 嘉兴 unmapped=0, LLM 兜底正常, reconcile 3+1 | — |
+| 5 | P2 性能测量 | TXT 30ms / PDF <1s / OCR 31-73s | — |
+| 6 | P2 RAG QA 扩展 | 3/3 -> 8/10 (xinhua 2 预期 MISS) | — |
+| 7 | Loop A #9 | 派发+完成+REVERT (xinhua OCR 污染搜索) | fcce4a4->212f53c |
+| 8 | Proxy /health | 端点添加 + UTF-16->UTF-8 转换 | 3b5dfea |
+| 9 | PaddleOCR 报告 | docs/experiments/ 实验报告 | 4a937fe |
+| 10 | tmux 清理 | 8 个过期会话清理, 4 个保留 | — |
+
+### 关键决策
+
+1. **PaddleOCR 永久不可用**: PaddlePaddle 3.2.2 在 aarch64 上 SIGSEGV (PIR 引擎 C++ 层), 非配置问题
+2. **Loop A #9 REVERT**: xinhua DOCX 是操作流程文档而非金融对账单, OCR chunks 污染 BM25 搜索空间 (8/10->5/10), 0-chunk 是正确行为
+3. **Proxy UTF-16->UTF-8**: 原文件 UTF-16 编码导致 Python 3 无法直接运行, 转为 UTF-8 并添加 /health 端点
+
+### 系统终态
+
+- Git: 三方对齐 4a937fe (local = remote = GitHub)
+- Loop B: 持续 PASS (8 轮 30min 周期)
+- 服务: :5050(M1) :8100(proxy) :8004(35B+mmproj) :8005(14B) 全部健康
+- tmux: coding-jinrong / graph-loop-b / graph-loop-d / aoe_audit-claude
+- RAG: m1_parsed_statements 17 embeddings, 4/5 样本, verify 3/3
+- Loop C: 降频 12h, 下一轮预计 ~15:40
+
+### 待用户决定
+
+1. Loop C 第 7 轮审计 (~15:40 自动触发)
+2. 72B 模型评估 (已下载, 未测试, 之前结论: 结构化提取退化)
+3. OMC 插件安装 (等 Loop C 3 轮 ACCEPTED 后, 已连续 4 次)
+4. ZhikunCode Web UI 实测 (:8090 健康, 未深度测试)
