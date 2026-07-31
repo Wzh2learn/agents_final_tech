@@ -149,6 +149,18 @@ def cmd_ingest(samples_dir: str, schema_path: str, append: bool) -> int:
             print(f"[ingest] SKIP {res.get('file')}: parse not ok ({res.get('error')})")
             continue
         groups = build_chunks_for_sample(res)
+        # Filter: skip samples with no financial structure (e.g. operational docs)
+        if not groups and not res.get("header_meta"):
+            print(f"[ingest] SKIP {res['file']}: no financial structure (0 tables, 0 header_meta)")
+            summary.append({
+                "sample_id": res["file"],
+                "kind": res.get("kind"),
+                "groups": 0,
+                "chunks": 0,
+                "needs_ocr": res.get("needs_ocr", False),
+                "skipped": "no_financial_structure",
+            })
+            continue
         sample_chunks = 0
         for g in groups:
             metadata = {
