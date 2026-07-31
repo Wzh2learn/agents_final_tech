@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: m1_pgvector
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: m1_statements
+    ports:
+      - "15432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  m1-harness:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: m1_harness
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@pgvector:5432/m1_statements
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://host.docker.internal:8004/v1}
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-http://host.docker.internal:8004/v1}
+      M1_LLM_FALLBACK: "1"
+    ports:
+      - "5050:5050"
+    depends_on:
+      pgvector:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5050/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  responses-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: m1_proxy
+    command: python scripts/responses2chat_proxy.py
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      PROXY_PORT: "8100"
+    ports:
+      - "8100:8100"
+
+volumes:
+  pgdata:
