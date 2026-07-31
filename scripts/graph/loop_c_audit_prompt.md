@@ -116,3 +116,17 @@ git diff HEAD~3..HEAD -- src/
 3. 真实样本 (~/wzh/m1_samples/) 是只读的。不能修改、删除、替换。
 4. 如果 Loop A 修改了 tests/ 或 samples/, 这是最高级别告警, 必须立即标注并通知 Loop D。
 5. TAT-DQA 相关工作已冻结, 如果 Loop A 碰了这块代码, 直接驳回。
+
+## 千问平台工具 (审计辅助)
+
+审计过程中如需查阅最新规范或验证外部信息, 可使用:
+
+- `python scripts/qwen_harness_tools.py web_search "<query>"` — 联网搜索最新金融规范
+- `python scripts/qwen_harness_tools.py web_extractor "<url>"` — 抓取特定网页内容
+
+使用场景举例:
+- 审计字段映射时, 查最新的基金对账单信息披露规范
+- 验证某个金融术语的标准定义
+- 确认某个 API 的最新行为变更
+
+注意: 仅在审计判断确实需要外部信息时使用, 不要每轮审计都联网。

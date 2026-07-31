@@ -83,6 +83,22 @@ Loop A (你) -> 执行具体开发任务
 2. HANDOFF.md (项目交接状态)
 3. ~/wzh/m1_samples/m1_table_schema.json (甲方字段定义)
 
+## 千问平台工具 (通过 shell 调用)
+
+以下工具由千问云端沙箱执行, 通过 CLI wrapper 调用:
+
+- `python scripts/qwen_harness_tools.py web_search "<query>"` — 联网搜索
+- `python scripts/qwen_harness_tools.py code_interpreter "<code>"` — 代码执行/数值计算
+- `python scripts/qwen_harness_tools.py web_extractor "<url>"` — 网页内容抓取
+
+使用场景:
+- 需要查最新金融规范、会计准则时 → web_search
+- 需要做数值校验、勾稽计算时 → code_interpreter
+- 需要抓取外部文档内容时 → web_extractor
+
+注意: 不要滥用。简单的文本处理、本地文件操作不需要联网搜索。
+code_interpreter 适合多步数值计算 (如市值求和与 reconcile 对比), 不适合替代本地 python。
+
 ## 硬性规则 (Loop D 2026-07-31 立规)
 
 - **禁止 amend 已验证 commit**: Loop B PASS 后, 不得 git commit --amend 该 commit。
