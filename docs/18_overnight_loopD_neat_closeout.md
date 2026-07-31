@@ -414,3 +414,35 @@ commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
 - 服务: :5050(M1+M2) :8004(35B) :8005(14B) :8100(proxy) :15432(PGVector) :8090(ZhikunCode)
 - :8006 已释放 (72B killed)
 - RAM: ~76GB available (72B 释放后)
+
+### 续: RAG 盲区修复 + E2E 性能基准
+
+| # | 任务 | 结果 | commit |
+|---|------|------|--------|
+| 1 | RAG 盲区修复 | reconcile + parse metadata 入库, 15/15 = 100%, 0 盲区 | 93e001a |
+| 2 | E2E 性能基准 | 5 样本 x 3 轮, OCR 占 93.7% 总时间, M2 QA 295ms | 07e404d |
+
+#### E2E 性能摘要
+
+| 样本 | parse_ms | qa_ms | total_ms | 瓶颈 |
+|------|----------|-------|----------|------|
+| fuxi TXT | 12 | 1059 | 1071 | QA generate |
+| jiaxing PDF | 1064 | 978 | 2035 | 均衡 |
+| boshi PDF | 618 | 999 | 1604 | 均衡 |
+| LU PDF (OCR) | 26885 | 453 | 27527 | vision-8004 |
+| xinhua DOCX (OCR) | 69676 | 847 | 70868 | vision-8004 |
+
+- M2 QA 分段: retrieve 138ms + generate 157ms = 295ms
+- OCR 是绝对瓶颈 (93.7%), 已并行化, 分辨率降低不可靠
+- 非 OCR 路径全部 <2.1s
+
+### 2h Loop 终态
+
+- Git: 三方对齐 07e404d
+- M1: 100% 解析率 (5/5)
+- M2: 15/15 = 100% RAG QA, 0 盲区
+- M2 API: /api/m2/ask 端到端可用 (295ms QA)
+- UI: 5 截图验证通过, 无渲染问题
+- 72B: 最终判定不适合任何角色 (RAG QA 也退化)
+- Loop B: 持续 PASS
+- 服务: :5050 :8004 :8005 :8100 :15432 :8090 全健康
