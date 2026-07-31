@@ -1,6 +1,14 @@
 # Development Handoff
 
-## Snapshot — 2026-07-31
+## Snapshot — 2026-07-31 (updated 23:00 CST)
+
+### Latest: M2 RAG QA API + Harness Tools (2026-07-31 evening)
+
+M2 RAG QA endpoint live at :5050/api/m2/ask (1021ms response). QA suite
+expanded to 15 queries, 100% correct (13 answerable + 2 documented gaps).
+Qwen harness tools CLI (web_search, code_interpreter, web_extractor) integrated
+into Loop A/C workflows. Loop C R7 ACCEPTED (4th consecutive). Loop B PASS
+covering HEAD. Git aligned at 538fb08.
 
 ### 8h Autonomous Loop Summary (2026-07-30 night → 2026-07-31 morning)
 

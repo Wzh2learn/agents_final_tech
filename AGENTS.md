@@ -184,3 +184,30 @@ tmux new-session -d -s loop-a-taskN "cd $PROJ && source ~/.bashrc && \
 Frozen nodes (Loop B verifies every 30min): `tests/test_m1_service.py`,
 `~/wzh/m1_samples/m1_table_schema.json`, `scripts/graph/frozen_hashes.txt`.
 L5 git pre-commit hook blocks commits touching frozen paths.
+
+## M2 RAG QA Endpoint (2026-07-31)
+
+The M2 RAG QA endpoint is live at :5050/api/m2/ask:
+- POST { question: ..., top_k: 3} -> {answer: ..., sources: [...], model: ...}
+- Uses PGVector collection m1_parsed_statements (17 embeddings, 4/5 samples)
+- Embedding + generation via :8004 (Qwen3.6-35B-A3B)
+- QA test suite: scripts/m1_rag_qa.py (15 queries, 100% correct)
+- UI panel integrated into :5050/m1 page
+
+## Qwen Harness Tools (2026-07-31)
+
+scripts/qwen_harness_tools.py provides CLI access to Qwen platform tools:
+- web_search: internet search via Responses API
+- code_interpreter: cloud sandbox code execution
+- web_extractor: web page content extraction (requires web_search in same request)
+- Model: qwen3.8-max-preview, enable_thinking=true, timeout 120s
+- Used by Loop A (execution) and Loop C (audit) for external verification
+
+## Graph Engineering Loop Status (2026-07-31)
+
+- Loop B: daemon running (30min cycle, all PASS)
+- Loop C: 12h frequency (4x consecutive ACCEPTED), Claude Code + glm-5.2
+- Loop A: standby (tmux direct launch per task)
+- Loop D: strategic layer (user + main thread)
+- Frozen nodes: tests/test_m1_service.py, ~/wzh/m1_samples/, scripts/graph/frozen_hashes.txt
+- xinhua 0/11 schema hit: CLOSED (operational doc, not financial statement)
