@@ -233,7 +233,18 @@ def ask(
     session = _get_session(session_id)
     history = list(session["history"])  # snapshot before appending
 
-    sources = retrieve(question, top_k=top_k)
+    # Conversation-aware retrieval: augment query with recent context
+    # so follow-up questions like "其中债券类占比多少" still match
+    # the entity from turn 1 (e.g. "嘉兴民安").
+    retrieval_query = question
+    if history:
+        recent_user_qs = [
+            m["content"] for m in history[-4:] if m["role"] == "user"
+        ]
+        if recent_user_qs:
+            retrieval_query = " ".join(recent_user_qs[-2:] + [question])
+
+    sources = retrieve(retrieval_query, top_k=top_k)
 
     if not sources:
         answer = "检索资料中未找到相关数据（集合可能为空或问题与已入库样本无关）。"

@@ -14,6 +14,7 @@ def include_routers() -> None:
     from web.routers.collaboration import router as collaboration_router
     from web.routers.knowledge import router as knowledge_router
     from web.routers.m1 import router as m1_router
+    from web.routers.m2 import router as m2_router
     from web.routers.pages import router as pages_router
 
     api_router.include_router(pages_router, tags=["pages"])
@@ -23,3 +24,4 @@ def include_routers() -> None:
     api_router.include_router(collaboration_router, prefix="/api/collaboration", tags=["collaboration"])
     api_router.include_router(cache_router, prefix="/api/cache", tags=["cache"])
     api_router.include_router(m1_router, prefix="/api/m1", tags=["m1"])
+    api_router.include_router(m2_router, prefix="/api/m2", tags=["m2"])
