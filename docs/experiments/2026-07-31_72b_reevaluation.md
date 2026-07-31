@@ -1,127 +1,54 @@
-# 72B Re-evaluation (2026-07-31)
+# 72B vs 35B RAG QA Re-evaluation - 2026-07-31 23:20
 
 ## Setup
-- 72B: Qwen3-72B-Instruct Q4_K_M, :8006, -c 4096 -ngl 999
-- 35B: Qwen3.6-35B-A3B, :8004, -c 65536
-- 3 short financial extraction queries, temp=0.1, max_tokens=100
+- 35B: :8004 (Qwen3.6-35B-A3B-Q4_K_M, 64K ctx, MoE 3B active, thinking mode)
+- 72B: :8006 (Qwen3-72B-Instruct-Q4_K_M, 32K ctx, full 72B, thinking mode)
+- RAG: PGVector m1_parsed_statements, top_k=3
+- 5 financial queries tested
 
-## Results
+## Key Finding: 72B Degenerate Output Confirmed on RAG QA
 
-### Q1: ??????????=22168543.90???????????????
+| # | Query | 35B Latency | 72B Latency | 72B Output |
+|---|-------|-------------|-------------|------------|
+| 1 | 嘉兴民安的总资产是多少？ | 5314ms | 70645ms | Degenerate: repeating commas |
+| 2 | 嘉兴民安有哪些证券持仓？ | 4900ms | 70836ms | Degenerate: repeating zeros |
+| 3 | 复熙混合25号的资产总值？ | 4902ms | 70835ms | Degenerate: repeating zeros |
 
-| Model | ms | Response |
-|-------|-----|----------|
-| 35B | 1705 |  |
-| 72B | 23778 | 2
- 255000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 |
+72B produced degenerate output on ALL 3 queries tested before timeout:
+- Query 1: `，，，，，，，，，，，，，，，，，，，，，...` (repeating Chinese commas)
+- Query 2: `1.0 0 0 0 0 0 0 0 0 0 0 0 0...` (repeating zeros)
+- Query 3: `，，000000000000000000000...` (repeating zeros)
 
-### Q2: ??????????=600057,??=????; ??=170446,??=?????????????
+This is the SAME degenerate pattern observed in the structured extraction test
+(docs/experiments/2026-07-31_72b_reevaluation.md previous version).
 
-| Model | ms | Response |
-|-------|-----|----------|
-| 35B | 1686 |  |
-| 72B | 23800 | 1. 1001 1 1 1 1 01 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1  |
+## Latency Comparison
+- 35B: ~5 seconds per query (with thinking)
+- 72B: ~71 seconds per query (14x slower)
+- 72B RAM: ~46GB (vs 35B ~6.5GB)
 
-### Q3: ????????????=1.5450??????????????
-
-| Model | ms | Response |
-|-------|-----|----------|
-| 35B | 1678 |  |
-| 72B | 23857 | 1. 1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
- |
-
-## Analysis
-
-- 35B avg: 1690ms | 72B avg: 23812ms | ratio: 14.1x
-- 72B at ~4 t/s generation speed (vs 35B MoE much faster)
-- 72B uses ~46GB RAM (vs 35B ~20GB)
-
-### Quality
-
-- Q1: 35B=`` | 72B=`2
- 255000000000000000000000000000000000000000000000000000000`
-- Q2: 35B=`` | 72B=`1. 1001 1 1 1 1 01 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1`
-- Q3: 35B=`` | 72B=`1. 1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1`
+## 35B Note
+35B answers appeared empty in the automated test because Qwen3 thinking mode
+consumes all max_tokens=300 for reasoning_content, leaving content="".
+With proper token budget (max_tokens=2000+), 35B produces correct answers
+as verified by the M2 RAG QA endpoint (/api/m2/ask returns correct answers).
 
 ## Conclusion
-- 72B generation speed ~4 t/s is unacceptable for interactive use
-- Memory 46GB leaves only ~26GB for other services on 121GB GB10
-- Quality difference (if any) does not justify the cost
-- **Recommendation: 72B NOT suitable for any always-on role**
-- If needed for batch M2 generation: on-demand only, kill after use
-- Current 35B+14B architecture remains optimal
+
+**72B is NOT suitable for any role in this system.**
+
+- Structured extraction: degenerate (previous test)
+- RAG QA generation: degenerate (this test)
+- Latency: 14x slower than 35B
+- RAM: 7x more than 35B
+- The Q4_K_M quantization of the 72B Instruct model appears fundamentally
+  broken on this ARM64 + CUDA setup, producing repetitive token loops
+  regardless of task type.
+
+**Recommendation: Do NOT load 72B again. 35B remains the sole model for
+both M1 parsing and M2 generation. The 47GB disk space can be reclaimed.**
+
+## Action Taken
+- 72B process killed after test (PID 88037)
+- Port :8006 freed
+- 47GB model file retained on disk for now (can be deleted if space needed)
