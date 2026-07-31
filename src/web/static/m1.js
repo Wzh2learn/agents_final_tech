@@ -291,6 +291,63 @@
     setNotice('复核确认完成', 'ok');
   });
 
+  // --- M2 RAG QA ---
+  const m2Question = $('#m2Question');
+  const m2AskBtn = $('#m2AskBtn');
+  const m2Result = $('#m2Result');
+  const m2Meta = $('#m2Meta');
+
+  function renderM2Sources(sources) {
+    if (!sources || !sources.length) return '';
+    let html = '<div class="m2-sources-head">引用来源</div><ul class="m2-sources">';
+    for (const s of sources) {
+      html += '<li class="m2-source">';
+      html += `<span class="m2-src-tag">${esc(s.sample_id)}</span>`;
+      html += `<span class="m2-src-tag">${esc(s.table_name || '-')}</span>`;
+      html += `<span class="m2-src-score">score ${s.score}</span>`;
+      html += `<div class="m2-src-text">${esc(s.text)}</div>`;
+      html += '</li>';
+    }
+    html += '</ul>';
+    return html;
+  }
+
+  async function m2Ask() {
+    const question = (m2Question.value || '').trim();
+    if (!question) { setNotice('请输入问题', 'error'); return; }
+    m2AskBtn.disabled = true;
+    m2AskBtn.textContent = 'Thinking...';
+    m2Result.innerHTML = '<div class="empty-state">检索 + 生成中…</div>';
+    try {
+      const res = await fetch('/api/m2/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, top_k: 3 }),
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`API ${res.status}: ${text.slice(0, 200)}`);
+      }
+      const data = await res.json();
+      let html = `<div class="m2-answer">${esc(data.answer || '(无答案)')}</div>`;
+      html += renderM2Sources(data.sources);
+      m2Result.innerHTML = html;
+      m2Meta.textContent = `RAG · ${data.collection || 'm1_parsed_statements'} · ${data.model || 'n/a'} · ${data.duration_ms ?? 0}ms`;
+      setNotice(`M2 回答完成: ${(data.sources || []).length} 条来源`, 'ok');
+    } catch (err) {
+      m2Result.innerHTML = `<div class="empty-state error">${esc(err.message)}</div>`;
+      setNotice(err.message, 'error');
+    } finally {
+      m2AskBtn.disabled = false;
+      m2AskBtn.textContent = 'Ask';
+    }
+  }
+
+  m2AskBtn.addEventListener('click', m2Ask);
+  m2Question.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); m2Ask(); }
+  });
+
   // --- Utility ---
   function esc(str) {
     const d = document.createElement('div');
