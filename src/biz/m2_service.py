@@ -226,6 +226,60 @@ def _generate(prompt: str) -> tuple[str, str]:
     return (content or "").strip(), model
 
 
+
+# ---------------------------------------------------------------------------
+# Query rewriting for multi-turn follow-ups
+# ---------------------------------------------------------------------------
+_REWRITE_TRIGGERS = ["其中", "它的", "占比", "分别", "各自", "哪个", "多少", "呢", "吗", "那", "还有", "另外"]
+
+_REWRITE_PROMPT = """根据对话历史，将用户的追问改写为一个独立的、完整的检索查询。
+只输出改写后的查询，不要解释，不要加引号。
+
+对话历史:
+{history}
+
+用户追问: {query}
+
+改写后的独立查询:"""
+
+
+def _should_rewrite(query: str, history: list) -> bool:
+    if not history:
+        return False
+    return any(t in query for t in _REWRITE_TRIGGERS)
+
+
+def _rewrite_query(query: str, history: list) -> str:
+    if not _should_rewrite(query, history):
+        return query
+    history_str = "\n".join(
+        f"{'用户' if m['role'] == 'user' else '助手'}: {m['content'][:200]}"
+        for m in history[-4:]
+    )
+    prompt = _REWRITE_PROMPT.format(history=history_str, query=query)
+    payload = {
+        "model": LLM_MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0,
+        "max_tokens": 100,
+        "chat_template_kwargs": {"enable_thinking": False},
+    }
+    try:
+        req = urllib.request.Request(
+            LLM_ENDPOINT,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+        rewritten = body["choices"][0]["message"]["content"].strip()
+        if rewritten and len(rewritten) > 3:
+            return rewritten
+    except Exception:
+        pass
+    return query
+
 def ask(
     question: str,
     top_k: int = 3,
@@ -246,16 +300,8 @@ def ask(
     session = _get_session(session_id)
     history = list(session["history"])  # snapshot before appending
 
-    # Conversation-aware retrieval: augment query with recent context
-    # so follow-up questions like "其中债券类占比多少" still match
-    # the entity from turn 1 (e.g. "嘉兴民安").
-    retrieval_query = question
-    if history:
-        recent_user_qs = [
-            m["content"] for m in history[-4:] if m["role"] == "user"
-        ]
-        if recent_user_qs:
-            retrieval_query = " ".join(recent_user_qs[-2:] + [question])
+    # Query rewriting: use LLM to resolve follow-ups into standalone queries
+    retrieval_query = _rewrite_query(question, history)
 
     sources = retrieve(retrieval_query, top_k=top_k)
 
