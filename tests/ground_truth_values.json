@@ -37,12 +37,14 @@
   },
   "sample_boshi_chuantong.pdf": {
     "header_meta": {
-      "基金名称": "博时裕通混合A",
-      "基金代码": "004822"
+      "基金名称": "博时新策略混合A",
+      "基金代码": "001522"
     },
     "tables": {
       "证券持仓明细": {
-        "row_count_gte": 1
+        "row_count_gte": 2,
+        "has_001522": true,
+        "has_059155": true
       }
     }
   }
