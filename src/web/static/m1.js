@@ -39,6 +39,84 @@
     if (msg) setTimeout(() => { notice.textContent = ''; notice.className = ''; }, 6000);
   }
 
+  // --- Phase 4 UI polish: toasts, parse overlay, empty hero ---
+  const resultGrid = document.querySelector('.result-grid');
+
+  // Toast notifications (top-right, auto-dismiss: error 5s, others 3s)
+  let toastStack = null;
+  function showToast(msg, type = 'info') {
+    if (!toastStack) {
+      toastStack = document.createElement('div');
+      toastStack.className = 'toast-stack';
+      document.body.appendChild(toastStack);
+    }
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = msg;
+    toastStack.appendChild(toast);
+    const ttl = type === 'error' ? 5000 : 3000;
+    setTimeout(() => {
+      toast.classList.add('hide');
+      setTimeout(() => toast.remove(), 320);
+    }, ttl);
+  }
+
+  // Parse overlay: spinner first; after 5s assume OCR and show progress bar.
+  let parseOverlay = null;
+  let ocrTimer = null;
+  function ensureOverlay() {
+    if (parseOverlay || !resultGrid) return;
+    parseOverlay = document.createElement('div');
+    parseOverlay.className = 'parse-overlay';
+    parseOverlay.hidden = true;
+    parseOverlay.innerHTML =
+      '<div class="spinner"></div>' +
+      '<div class="overlay-text">解析中...</div>' +
+      '<div class="ocr-progress" hidden>' +
+      '<div class="ocr-hint">OCR 识别中，请稍候（约30-70秒）...</div>' +
+      '<div class="ocr-bar"><div class="ocr-bar-fill"></div></div>' +
+      '</div>';
+    resultGrid.appendChild(parseOverlay);
+  }
+  function showParseOverlay() {
+    ensureOverlay();
+    if (!parseOverlay) return;
+    parseOverlay.hidden = false;
+    const ocr = parseOverlay.querySelector('.ocr-progress');
+    if (ocr) ocr.hidden = true;
+    ocrTimer = setTimeout(() => { if (ocr) ocr.hidden = false; }, 5000);
+  }
+  function hideParseOverlay() {
+    if (ocrTimer) { clearTimeout(ocrTimer); ocrTimer = null; }
+    if (parseOverlay) parseOverlay.hidden = true;
+  }
+
+  // Empty hero: shown before any file is parsed.
+  let emptyHero = null;
+  function showEmptyHero() {
+    if (!resultGrid) return;
+    if (!emptyHero) {
+      emptyHero = document.createElement('div');
+      emptyHero.className = 'empty-hero';
+      emptyHero.innerHTML =
+        '<svg class="empty-hero-icon" viewBox="0 0 24 24" fill="none" ' +
+        'stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>' +
+        '<polyline points="17 8 12 3 7 8"></polyline>' +
+        '<line x1="12" y1="3" x2="12" y2="15"></line>' +
+        '</svg>' +
+        '<div class="empty-hero-title">尚未加载对账单</div>' +
+        '<div class="empty-hero-sub">上传对账单文件开始解析，或点击 Sample 加载示例数据</div>';
+      resultGrid.appendChild(emptyHero);
+    }
+    emptyHero.hidden = false;
+  }
+  function hideEmptyHero() {
+    if (emptyHero) emptyHero.hidden = true;
+  }
+  showEmptyHero();
+
+
   // --- Stage rail (synthetic stages from parse result) ---
   function renderStages(result) {
     const stages = [];
@@ -196,6 +274,8 @@
     runBtn.disabled = true;
     runBtn.textContent = 'Parsing...';
     setNotice('');
+    hideEmptyHero();
+    showParseOverlay();
     const formData = new FormData();
     formData.append('file', file);
     try {
@@ -212,9 +292,12 @@
       renderAll(data);
       const m = data.result.metrics;
       setNotice(`完成: ${m.tables} 表, 命中 ${m.hit_rate}%, ${m.unmapped} 未映射`, 'ok');
+      showToast('解析完成', 'success');
     } catch (err) {
       setNotice(err.message, 'error');
+      showToast(err.message, 'error');
     } finally {
+      hideParseOverlay();
       runBtn.disabled = false;
       runBtn.textContent = 'Run';
     }
@@ -393,6 +476,7 @@
       m2HideThinking();
       m2AddAssistantBubble(`⚠ ${err.message}`, []);
       setNotice(err.message, 'error');
+      showToast(err.message, 'error');
     } finally {
       m2AskBtn.disabled = false;
       m2Question.focus();
