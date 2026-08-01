@@ -233,3 +233,25 @@ System upgraded from  runnable to deliverable:
 | test_m1_ocr_fallback.py | ~8 | PASS |
 | test_m2_rag.py | ~8 | PASS |
 | **Total** | **98+** | |
+
+## 8h Production Sprint (2026-08-01)
+
+System upgraded from "deliverable" to "production-ready":
+- Phase 1: Cross-document comparison (4 APIs + NL routing)
+- Phase 2: Schema self-service config (CRUD + UI modal + admin token)
+- Phase 3: Auth + persistence + metrics + logging + deploy files
+- Phase 4: Edge case hardening (10 fixtures) + UI polish
+- Tests: 225 passed (was 164), 13 skipped, 0 failed
+- Ground truth: independence check found + fixed circular reasoning in boshi
+
+### New Endpoints (2026-08-01)
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| /api/m2/products | GET | Product list |
+| /api/m2/products/{name}/timeline | GET | Date snapshots |
+| /api/m2/compare | POST | Cross-date diff |
+| /api/m2/compare/positions | POST | Position ranking |
+| /api/m1/schema | GET/PUT | Schema CRUD |
+| /api/m1/schema/tables | POST | Add table |
+| /api/m1/schema/tables/{n}/fields | POST/DELETE | Field CRUD |
+| /api/metrics | GET | Prometheus metrics |

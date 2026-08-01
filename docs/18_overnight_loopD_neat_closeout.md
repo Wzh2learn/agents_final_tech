@@ -538,3 +538,42 @@ commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
 - RAM: 66GB available / 121GB
 - Loop B: PASS covering HEAD
 - 磁盘: 72B 已删, 释放 47GB
+
+## 19. 8h 自主循环: 从能交付到生产级 (2026-08-01 19:09-03:09 CST)
+
+### Ground Truth 独立性复核
+- Fuxi TXT: 7/7 独立验证 ✓
+- Jiaxing PDF: 9/9 独立验证 ✓
+- Boshi PDF: 发现循环论证 (desensitization 掩盖了错误值)
+  - 原 ground truth: "博时裕通混合A"/004822 (不存在于原始文档)
+  - 修正为: "博时新策略混合A"/001522 (从原始 PDF 独立读取)
+  - commit: cc6ad5b
+
+### Phase 完成状态
+
+| Phase | 内容 | 状态 | commit |
+|-------|------|------|--------|
+| 1 | 跨文档对比 (metadata + 4 APIs + NL routing + UI) | ✓ | 6dcc0f9 |
+| 2 | 规则配置 UI (CRUD API + modal editor + admin token) | ✓ | 1d7406b |
+| 3 | 生产化加固 (auth + persistence + metrics + logging + deploy) | ✓ | 1a105bf |
+| 4 | 演示打磨 (demo.sh + 10 edge fixtures + UI polish) | ✓ | fad19b5 |
+| 5 | Neat + 文档 | ✓ | (this commit) |
+
+### 测试数变化
+- 起始: 164 passed, 13 skipped
+- 结束: 225 passed, 13 skipped (+61 new tests)
+
+### 新增能力
+- 跨文档对比 API (4 endpoints)
+- Schema 自助配置 (6 CRUD endpoints + UI modal)
+- Bearer Token 认证
+- 对话持久化 (PG tables)
+- Prometheus 指标 (/api/metrics)
+- 结构化 JSON 日志
+- systemd/supervisord 部署文件
+- 10 边界样本压测
+- UI: 空状态/spinner/toast/OCR进度
+
+### 已知问题
+- Phase 1 数据提取: product_name 匹配逻辑需调优 (logged in blocked_questions.md)
+- 跨期对比: 需甲方提供多期对账单才能演示 (honest degradation in place)

@@ -1,6 +1,15 @@
 # Development Handoff
 
-## Snapshot — 2026-08-01 (8h delivery loop complete)
+## Snapshot — 2026-08-01 (8h production sprint complete)
+
+### 8h Production Sprint: Deliverable → Production-Ready
+
+5 phases complete. 225 tests (was 164). New: cross-doc comparison,
+schema self-service, bearer auth, PG persistence, Prometheus metrics,
+structured logging, systemd/supervisord, 10 edge fixtures, UI polish.
+Ground truth independence check found circular reasoning in boshi sample.
+Git aligned at fad19b5+. See docs/18 section 19.
+
 
 ### 8h Delivery Loop: Runnable -> Deliverable
 
