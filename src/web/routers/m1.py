@@ -8,7 +8,11 @@ import tempfile
 import time
 from typing import Any, Optional
 
-from fastapi import APIRouter, File, Query, UploadFile
+import json
+import logging
+
+from fastapi import APIRouter, File, Header, HTTPException, Query, Request, UploadFile
+from pydantic import BaseModel
 
 from biz.m1_service import M1ExtractionRequest, M1ReviewRequest, get_m1_service
 
@@ -88,7 +92,7 @@ async def parse_file(
         tmp_path = tmp.name
 
     try:
-        schema = parser.Schema.load(parser.DEFAULT_SCHEMA)
+        schema = parser.Schema.load(parser.resolve_schema_path())
         t0 = time.perf_counter()
         result: dict[str, Any] = parser.process_sample(
             tmp_path, schema, llm_fallback=use_llm
@@ -179,3 +183,192 @@ async def parse_file(
         },
         "m2_payload": m2_payload,
     }
+
+
+# ---------------------------------------------------------------------------
+# Schema CRUD API (Phase 2 - client self-service)
+# ---------------------------------------------------------------------------
+_logger = logging.getLogger("m1.schema")
+_ADMIN_TOKEN: Optional[str] = os.environ.get("M1_ADMIN_TOKEN") or None
+
+if not _ADMIN_TOKEN:
+    _logger.warning("M1_ADMIN_TOKEN not set, schema write endpoints unprotected")
+
+
+def _get_schema_path() -> str:
+    """Return the active schema file path (config/ override or frozen default)."""
+    parser = _get_parser()
+    return parser.resolve_schema_path()
+
+
+def _get_local_schema_path() -> str:
+    """Return the project-local writable schema path (config/m1_table_schema.json)."""
+    parser = _get_parser()
+    return parser.LOCAL_SCHEMA
+
+
+def _read_schema() -> dict:
+    path = _get_schema_path()
+    with open(path, encoding="utf-8-sig") as fh:
+        return json.load(fh)
+
+
+def _write_schema(data: dict) -> None:
+    """Write schema to the project-local config/ path (never touches frozen file)."""
+    local_path = _get_local_schema_path()
+    os.makedirs(os.path.dirname(local_path), exist_ok=True)
+    with open(local_path, "w", encoding="utf-8") as fh:
+        json.dump(data, fh, ensure_ascii=False, indent=2)
+
+
+def _check_admin(x_admin_token: Optional[str]) -> None:
+    """Validate admin token for write operations."""
+    if _ADMIN_TOKEN is None:
+        return  # unprotected mode (warning already logged at startup)
+    if x_admin_token != _ADMIN_TOKEN:
+        raise HTTPException(status_code=401, detail="Invalid or missing X-Admin-Token")
+
+
+def _validate_schema(data: dict) -> list[str]:
+    """Basic structural validation of schema JSON. Returns list of errors."""
+    errors = []
+    if not isinstance(data, dict):
+        return ["Schema must be a JSON object"]
+    tables = data.get("tables")
+    if tables is None:
+        errors.append("Missing 'tables' array")
+    elif not isinstance(tables, list):
+        errors.append("'tables' must be an array")
+    else:
+        seen_names = set()
+        for i, t in enumerate(tables):
+            if not isinstance(t, dict):
+                errors.append(f"tables[{i}] must be an object")
+                continue
+            name = t.get("table_name", "")
+            if not name:
+                errors.append(f"tables[{i}] missing 'table_name'")
+            elif name in seen_names:
+                errors.append(f"Duplicate table_name: {name}")
+            seen_names.add(name)
+            fields = t.get("fields", [])
+            if not isinstance(fields, list):
+                errors.append(f"tables[{i}].fields must be an array")
+            else:
+                seen_fields = set()
+                for j, fld in enumerate(fields):
+                    if not isinstance(fld, dict):
+                        errors.append(f"tables[{i}].fields[{j}] must be an object")
+                        continue
+                    std = fld.get("standard", "")
+                    if not std:
+                        errors.append(f"tables[{i}].fields[{j}] missing 'standard'")
+                    elif std in seen_fields:
+                        errors.append(f"tables[{i}] duplicate field: {std}")
+                    seen_fields.add(std)
+                    syns = fld.get("synonyms", [])
+                    if not isinstance(syns, list):
+                        errors.append(f"tables[{i}].fields[{j}].synonyms must be an array")
+    return errors
+
+
+class SchemaFieldBody(BaseModel):
+    standard: str
+    synonyms: list[str] = []
+
+
+class SchemaTableBody(BaseModel):
+    table_name: str
+    layout: str = "grid"
+    header_region_keywords: list[str] = []
+    fields: list[SchemaFieldBody] = []
+
+
+@router.get("/schema", summary="获取当前解析规则")
+async def get_schema():
+    """Return the current schema JSON (read-only, no auth required)."""
+    try:
+        data = _read_schema()
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Schema file not found")
+    return data
+
+
+@router.put("/schema", summary="更新完整解析规则")
+async def put_schema(request: Request, x_admin_token: Optional[str] = Header(None)):
+    """Replace the full schema. Validates structure before writing."""
+    _check_admin(x_admin_token)
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=422, detail="Invalid JSON body")
+    errors = _validate_schema(body)
+    if errors:
+        raise HTTPException(status_code=422, detail={"errors": errors})
+    _write_schema(body)
+    return {"status": "ok", "message": "Schema updated", "tables": len(body.get("tables", []))}
+
+
+@router.post("/schema/tables", summary="新增表定义", status_code=201)
+async def add_table(body: SchemaTableBody, x_admin_token: Optional[str] = Header(None)):
+    """Add a new table definition to the schema."""
+    _check_admin(x_admin_token)
+    data = _read_schema()
+    tables = data.setdefault("tables", [])
+    if any(t.get("table_name") == body.table_name for t in tables):
+        raise HTTPException(status_code=409, detail=f"Table '{body.table_name}' already exists")
+    tables.append({
+        "table_name": body.table_name,
+        "layout": body.layout,
+        "header_region_keywords": body.header_region_keywords,
+        "fields": [{"standard": f.standard, "synonyms": f.synonyms} for f in body.fields],
+    })
+    _write_schema(data)
+    return {"status": "ok", "message": f"Table '{body.table_name}' added"}
+
+
+@router.post("/schema/tables/{name}/fields", summary="新增字段", status_code=201)
+async def add_field(name: str, body: SchemaFieldBody, x_admin_token: Optional[str] = Header(None)):
+    """Add a field to an existing table."""
+    _check_admin(x_admin_token)
+    data = _read_schema()
+    table = next((t for t in data.get("tables", []) if t.get("table_name") == name), None)
+    if table is None:
+        raise HTTPException(status_code=404, detail=f"Table '{name}' not found")
+    fields = table.setdefault("fields", [])
+    if any(f.get("standard") == body.standard for f in fields):
+        raise HTTPException(status_code=409, detail=f"Field '{body.standard}' already exists in '{name}'")
+    fields.append({"standard": body.standard, "synonyms": body.synonyms})
+    _write_schema(data)
+    return {"status": "ok", "message": f"Field '{body.standard}' added to '{name}'"}
+
+
+@router.delete("/schema/tables/{name}/fields/{standard}", summary="删除字段")
+async def delete_field(name: str, standard: str, x_admin_token: Optional[str] = Header(None)):
+    """Remove a field from a table."""
+    _check_admin(x_admin_token)
+    data = _read_schema()
+    table = next((t for t in data.get("tables", []) if t.get("table_name") == name), None)
+    if table is None:
+        raise HTTPException(status_code=404, detail=f"Table '{name}' not found")
+    fields = table.get("fields", [])
+    original_len = len(fields)
+    table["fields"] = [f for f in fields if f.get("standard") != standard]
+    if len(table["fields"]) == original_len:
+        raise HTTPException(status_code=404, detail=f"Field '{standard}' not found in '{name}'")
+    _write_schema(data)
+    return {"status": "ok", "message": f"Field '{standard}' removed from '{name}'"}
+
+
+@router.delete("/schema/tables/{name}", summary="删除表定义")
+async def delete_table(name: str, x_admin_token: Optional[str] = Header(None)):
+    """Remove an entire table definition."""
+    _check_admin(x_admin_token)
+    data = _read_schema()
+    tables = data.get("tables", [])
+    original_len = len(tables)
+    data["tables"] = [t for t in tables if t.get("table_name") != name]
+    if len(data["tables"]) == original_len:
+        raise HTTPException(status_code=404, detail=f"Table '{name}' not found")
+    _write_schema(data)
+    return {"status": "ok", "message": f"Table '{name}' removed"}

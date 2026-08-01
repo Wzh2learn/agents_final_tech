@@ -43,6 +43,18 @@ except Exception:  # pragma: no cover
 DEFAULT_SAMPLES_DIR = os.path.expanduser("~/wzh/m1_samples")
 DEFAULT_SCHEMA = os.path.join(DEFAULT_SAMPLES_DIR, "m1_table_schema.json")
 
+# Project-local schema override (checked before frozen ~/wzh/m1_samples copy)
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOCAL_SCHEMA = os.path.join(_PROJECT_ROOT, "config", "m1_table_schema.json")
+
+
+def resolve_schema_path() -> str:
+    """Return the active schema path: config/ override first, then frozen default."""
+    if os.path.isfile(LOCAL_SCHEMA):
+        return LOCAL_SCHEMA
+    return DEFAULT_SCHEMA
+
+
 # 分隔线（--- / === / ___ 等）
 _SEP_RE = re.compile(r"^\s*[-=_\u2013\u2014]{4,}\s*$")
 # 归一化时要剔除的字符：空白 + 常见中英文标点

@@ -534,6 +534,172 @@
   cmpDiffBtn.addEventListener('click', cmpDoDiff);
   cmpLoadProducts();
 
+
+  // =====================================================================
+  // Schema Editor Modal
+  // =====================================================================
+  const schemaModal = $('#schemaModal');
+  const schemaBtn = $('#schemaBtn');
+  const schemaCloseBtn = $('#schemaCloseBtn');
+  const schemaCancelBtn = $('#schemaCancelBtn');
+  const schemaSaveBtn = $('#schemaSaveBtn');
+  const schemaTableList = $('#schemaTableList');
+  const schemaAddTableBtn = $('#schemaAddTableBtn');
+  const schemaFieldsTable = $('#schemaFieldsTable');
+  const schemaFieldsBody = $('#schemaFieldsBody');
+  const schemaAddFieldBtn = $('#schemaAddFieldBtn');
+  const schemaRightTitle = $('#schemaRightTitle');
+
+  let schemaData = null;
+  let schemaSelectedIdx = -1;
+
+  function getAdminHeaders() {
+    const headers = { 'Content-Type': 'application/json' };
+    const token = sessionStorage.getItem('m1_admin_token');
+    if (token) headers['X-Admin-Token'] = token;
+    return headers;
+  }
+
+  async function schemaApiRetry(fn) {
+    try {
+      const res = await fn();
+      if (res.status === 401) {
+        const token = prompt('请输入管理员令牌 (M1_ADMIN_TOKEN):');
+        if (token) {
+          sessionStorage.setItem('m1_admin_token', token);
+          return await fn();
+        }
+        return null;
+      }
+      return res;
+    } catch (err) {
+      setNotice('Schema API 错误: ' + err.message, 'error');
+      return null;
+    }
+  }
+
+  async function openSchemaModal() {
+    try {
+      const res = await fetch('/api/m1/schema');
+      if (!res.ok) { setNotice('加载 Schema 失败', 'error'); return; }
+      schemaData = await res.json();
+      schemaSelectedIdx = -1;
+      renderSchemaTables();
+      renderSchemaFields();
+      schemaModal.hidden = false;
+    } catch (err) {
+      setNotice('加载 Schema 失败: ' + err.message, 'error');
+    }
+  }
+
+  function closeSchemaModal() {
+    schemaModal.hidden = true;
+    schemaData = null;
+  }
+
+  function renderSchemaTables() {
+    if (!schemaData || !schemaData.tables) { schemaTableList.innerHTML = ''; return; }
+    schemaTableList.innerHTML = schemaData.tables.map((t, i) =>
+      `<li class="${i === schemaSelectedIdx ? 'selected' : ''}" data-idx="${i}">${esc(t.table_name)} <span class="schema-field-count">${(t.fields || []).length}</span></li>`
+    ).join('');
+    schemaTableList.querySelectorAll('li').forEach(li => {
+      li.addEventListener('click', () => {
+        schemaSelectedIdx = parseInt(li.dataset.idx);
+        renderSchemaTables();
+        renderSchemaFields();
+      });
+    });
+  }
+
+  function renderSchemaFields() {
+    if (schemaSelectedIdx < 0 || !schemaData || !schemaData.tables[schemaSelectedIdx]) {
+      schemaFieldsTable.hidden = true;
+      schemaAddFieldBtn.hidden = true;
+      schemaRightTitle.textContent = '选择左侧表查看字段';
+      return;
+    }
+    const table = schemaData.tables[schemaSelectedIdx];
+    schemaRightTitle.textContent = `表: ${table.table_name} (${table.layout || 'grid'})`;
+    schemaFieldsTable.hidden = false;
+    schemaAddFieldBtn.hidden = false;
+    const fields = table.fields || [];
+    schemaFieldsBody.innerHTML = fields.map((f, i) =>
+      `<tr data-fidx="${i}">
+        <td><input type="text" class="sf-standard" value="${esc(f.standard)}" data-fidx="${i}"></td>
+        <td><input type="text" class="sf-synonyms" value="${esc((f.synonyms || []).join(', '))}" data-fidx="${i}"></td>
+        <td><button type="button" class="sf-del" data-fidx="${i}">删除</button></td>
+      </tr>`
+    ).join('');
+    // Bind delete buttons
+    schemaFieldsBody.querySelectorAll('.sf-del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.fidx);
+        table.fields.splice(idx, 1);
+        renderSchemaFields();
+      });
+    });
+    // Bind input changes (live update to schemaData)
+    schemaFieldsBody.querySelectorAll('.sf-standard').forEach(inp => {
+      inp.addEventListener('change', () => { fields[parseInt(inp.dataset.fidx)].standard = inp.value.trim(); });
+    });
+    schemaFieldsBody.querySelectorAll('.sf-synonyms').forEach(inp => {
+      inp.addEventListener('change', () => {
+        fields[parseInt(inp.dataset.fidx)].synonyms = inp.value.split(',').map(s => s.trim()).filter(Boolean);
+      });
+    });
+  }
+
+  schemaAddFieldBtn.addEventListener('click', () => {
+    if (schemaSelectedIdx < 0) return;
+    const table = schemaData.tables[schemaSelectedIdx];
+    if (!table.fields) table.fields = [];
+    table.fields.push({ standard: '', synonyms: [] });
+    renderSchemaFields();
+  });
+
+  schemaAddTableBtn.addEventListener('click', () => {
+    const name = prompt('新表名称:');
+    if (!name || !name.trim()) return;
+    if (schemaData.tables.some(t => t.table_name === name.trim())) {
+      setNotice('表名已存在', 'error'); return;
+    }
+    schemaData.tables.push({ table_name: name.trim(), layout: 'grid', header_region_keywords: [], fields: [] });
+    schemaSelectedIdx = schemaData.tables.length - 1;
+    renderSchemaTables();
+    renderSchemaFields();
+  });
+
+  schemaSaveBtn.addEventListener('click', async () => {
+    if (!schemaData) return;
+    // Sync any unsaved input edits
+    schemaFieldsBody.querySelectorAll('.sf-standard').forEach(inp => {
+      const table = schemaData.tables[schemaSelectedIdx];
+      if (table && table.fields[parseInt(inp.dataset.fidx)]) table.fields[parseInt(inp.dataset.fidx)].standard = inp.value.trim();
+    });
+    schemaFieldsBody.querySelectorAll('.sf-synonyms').forEach(inp => {
+      const table = schemaData.tables[schemaSelectedIdx];
+      if (table && table.fields[parseInt(inp.dataset.fidx)]) table.fields[parseInt(inp.dataset.fidx)].synonyms = inp.value.split(',').map(s => s.trim()).filter(Boolean);
+    });
+    const res = await schemaApiRetry(() => fetch('/api/m1/schema', {
+      method: 'PUT',
+      headers: getAdminHeaders(),
+      body: JSON.stringify(schemaData),
+    }));
+    if (!res) return;
+    if (res.ok) {
+      setNotice('规则已保存，下次解析将使用新规则', 'success');
+      closeSchemaModal();
+    } else {
+      const err = await res.json().catch(() => ({}));
+      setNotice('保存失败: ' + JSON.stringify(err.detail || err), 'error');
+    }
+  });
+
+  schemaBtn.addEventListener('click', openSchemaModal);
+  schemaCloseBtn.addEventListener('click', closeSchemaModal);
+  schemaCancelBtn.addEventListener('click', closeSchemaModal);
+  schemaModal.addEventListener('click', (e) => { if (e.target === schemaModal) closeSchemaModal(); });
+
   // --- Utility ---
   function esc(str) {
     const d = document.createElement('div');

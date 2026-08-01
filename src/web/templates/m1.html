@@ -42,6 +42,7 @@
             <button id="runBtn" type="button" title="解析对账单">Run</button>
             <button id="copyBtn" type="button" title="复制M2载荷">Copy M2</button>
             <button id="downloadBtn" type="button" title="下载M2载荷">Download M2</button>
+            <button id="schemaBtn" type="button" title="编辑字段映射规则">规则配置</button>
             <span id="notice" role="status"></span>
         </section>
 
@@ -133,6 +134,39 @@
                 </div>
             </div>
         </section>
+
+        <!-- Schema Editor Modal -->
+        <div id="schemaModal" class="modal-overlay" hidden>
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <h2>规则配置 - 字段映射管理</h2>
+                    <button id="schemaCloseBtn" class="modal-close" type="button">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="schema-layout">
+                        <div class="schema-left">
+                            <h3>表定义</h3>
+                            <ul id="schemaTableList" class="schema-table-list"></ul>
+                            <button id="schemaAddTableBtn" type="button" class="btn-sm">+ 新增表</button>
+                        </div>
+                        <div class="schema-right">
+                            <h3 id="schemaRightTitle">选择左侧表查看字段</h3>
+                            <div id="schemaFieldsWrap">
+                                <table class="schema-fields-table" id="schemaFieldsTable" hidden>
+                                    <thead><tr><th>标准字段名</th><th>近义词 (逗号分隔)</th><th></th></tr></thead>
+                                    <tbody id="schemaFieldsBody"></tbody>
+                                </table>
+                                <button id="schemaAddFieldBtn" type="button" class="btn-sm" hidden>+ 新增字段</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="schemaSaveBtn" type="button" class="btn-primary">保存</button>
+                    <button id="schemaCancelBtn" type="button" class="btn-secondary">取消</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script src="/static/m1.js"></script>
