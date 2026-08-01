@@ -499,3 +499,42 @@ commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
 - 部署: Docker Compose + 一键脚本
 - Loop B: 持续 PASS
 - 服务: :5050 :8004 :8005 :8100 :15432 :8090 全健康
+
+## 18. 精度提升专项 (2026-08-01 02:10-03:00 CST)
+
+### 任务清单
+
+| # | 任务 | 结果 | commit |
+|---|------|------|--------|
+| G4 | 72B 模型文件删除 | 47GB 释放, 已终判退化 | (rm, no commit) |
+| G1 | Loop C 审计 prompt 升级 | 加 code_interpreter 工具说明 | 21ce760 |
+| G2 | Loop A 约束文件 | 已有完整工具说明, 无需修改 | (skip) |
+| G3.1 | Rerank 接入 M2 | bge-reranker-v2-m3 CUDA, 15/15 保持 | 33c8a82 |
+| G3.2 | Few-shot 升级 | 3 详细示例 + 回答规则 + 千分位 | 8f36aab |
+| G3.3 | Query rewriting | LLM 改写, 3/3 vs 1/3 without (100% vs 33%) | 0e09ff5 |
+| G3.4 | 字段值正确率 | 19/19 = 100% (desensitization-aware) | 4d3d2f1 |
+| G3.5 | Q5 评估 | SKIPPED: HuggingFace ConnectTimeout | (skip) |
+| +1 | OCR 缓存 | 27s → 964ms (27x speedup) | b4b9b58 |
+| +2 | 全局错误处理 | X-Request-ID + 统一错误格式 | f76675c |
+| +3 | API 文档 | 中文标题 + 描述 + 示例 | e8cc043 |
+| +4 | Test fix | 千分位兼容 | daddcab |
+
+### 精度变化
+
+| 指标 | 之前 | 之后 | 变化 |
+|------|------|------|------|
+| RAG QA | 15/15 (100%) | 15/15 (100%) | 保持 (rerank 不降分) |
+| 多轮追问命中率 | 3/3 (100%, 简单拼接) | 3/3 (100%, LLM 改写) | 质量提升 (无 context 时 33%→100%) |
+| 字段值正确率 | 未度量 | 19/19 = 100% | 新增度量 |
+| OCR 重复解析 | 27-70s | 964ms (cached) | 27x 加速 |
+| M2 延迟 (warm) | 295ms | 689ms | +394ms (rerank 代价, 可接受) |
+| 答案格式 | 无千分位 | 有千分位 + 来源引用 | 专业度提升 |
+
+### 系统终态
+
+- Git: daddcab (three-way aligned)
+- Tests: 164 passed, 13 skipped, 0 failed
+- Services: :5050 :8004 :8005 :8100 :15432 全健康
+- RAM: 66GB available / 121GB
+- Loop B: PASS covering HEAD
+- 磁盘: 72B 已删, 释放 47GB
