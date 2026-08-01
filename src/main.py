@@ -211,3 +211,37 @@ if __name__ == "__main__":
     args = parse_args()
     if args.m == "http":
         start_http_server(args.p)
+
+
+# ---------------------------------------------------------------------------
+# Request ID middleware
+# ---------------------------------------------------------------------------
+@app.middleware("http")
+async def add_request_id(request: Request, call_next):
+    import uuid as _uuid_mid
+    request_id = request.headers.get("X-Request-ID", str(_uuid_mid.uuid4())[:8])
+    response = await call_next(request)
+    response.headers["X-Request-ID"] = request_id
+    return response
+
+
+# ---------------------------------------------------------------------------
+# Global exception handler: unified error format, no stack traces
+# ---------------------------------------------------------------------------
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    import uuid as _uuid_err
+    import logging
+    import traceback as _tb
+    from fastapi.responses import JSONResponse
+
+    _logger = logging.getLogger("m1.error")
+    request_id = getattr(request.state, "request_id", str(_uuid_err.uuid4())[:8])
+    _logger.error(f"[{request_id}] {request.method} {request.url.path}: {type(exc).__name__}: {exc}")
+
+    status = getattr(exc, "status_code", 500)
+    return JSONResponse(
+        status_code=status,
+        content={"error": {"code": type(exc).__name__, "message": str(exc)[:200], "request_id": request_id}},
+        headers={"X-Request-ID": request_id},
+    )
