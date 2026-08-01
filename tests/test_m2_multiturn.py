@@ -315,7 +315,7 @@ class TestMultiTurnIntegration:
         # Turn 1
         r1 = svc.ask("嘉兴民安的总资产是多少？", top_k=3)
         sid = r1["session_id"]
-        assert "4013" in r1["answer"]  # partial match (may be masked)
+        assert "4013" in r1["answer"].replace(",", "") or "4,013" in r1["answer"]  # handle thousands sep
 
         # Turn 2: follow-up referencing previous context
         r2 = svc.ask("其中证券市值占多少？", top_k=3, session_id=sid)
