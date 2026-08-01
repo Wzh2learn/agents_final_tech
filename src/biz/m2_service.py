@@ -23,6 +23,7 @@ from typing import Any, Optional
 import threading
 import time as _time
 import uuid
+import re as _re
 
 # --- Generation config: :8004 Qwen3.6-35B-A3B (chat completions) ---
 LLM_ENDPOINT = os.environ.get(
@@ -313,6 +314,20 @@ def ask(
     session = _get_session(session_id)
     history = list(session["history"])  # snapshot before appending
 
+    # Comparison intent routing: detect and handle comparison queries
+    if detect_compare_intent(question):
+        try:
+            cmp_result = handle_compare_query(question)
+            cmp_answer = cmp_result.get("answer", "")
+            _append_history(session, "user", question)
+            _append_history(session, "assistant", cmp_answer)
+            cmp_result["collection"] = collection_name()
+            cmp_result["top_k"] = top_k
+            cmp_result["session_id"] = session_id
+            return cmp_result
+        except Exception:
+            pass  # fall through to regular RAG on comparison failure
+
     # Query rewriting: use LLM to resolve follow-ups into standalone queries
     retrieval_query = _rewrite_query(question, history)
 
@@ -356,4 +371,368 @@ def ask(
         "collection": collection_name(),
         "top_k": top_k,
         "session_id": session_id,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Cross-document comparison (Phase 1)
+# ---------------------------------------------------------------------------
+
+_COMPARE_TRIGGERS = ["对比", "变化", "比上月", "差异", "增减", "比较", "vs", "VS"]
+
+
+def _get_db_session():
+    """Get a SQLAlchemy session for metadata queries (same PGVector DB)."""
+    from storage.database.db import get_session
+    return get_session()
+
+
+def _query_collection_chunks(product_name: str | None = None,
+                             statement_date: str | None = None,
+                             table_name: str | None = None) -> list[dict[str, Any]]:
+    """Query chunk documents + metadata from the M2 collection.
+
+    Read-only metadata aggregation on the existing PGVector collection —
+    does NOT create a second vector store or bypass RAGService for retrieval.
+    """
+    from storage.database.shared.model import LangchainPgCollection, LangchainPgEmbedding
+    db = _get_db_session()
+    try:
+        col_name = collection_name()
+        query = (
+            db.query(LangchainPgEmbedding.document, LangchainPgEmbedding.cmetadata)
+            .join(LangchainPgCollection,
+                  LangchainPgEmbedding.collection_id == LangchainPgCollection.uuid)
+            .filter(LangchainPgCollection.name == col_name)
+        )
+        if product_name:
+            query = query.filter(
+                LangchainPgEmbedding.cmetadata["product_name"].astext == product_name)
+        if statement_date:
+            query = query.filter(
+                LangchainPgEmbedding.cmetadata["statement_date"].astext == statement_date)
+        if table_name:
+            query = query.filter(
+                LangchainPgEmbedding.cmetadata["table_name"].astext == table_name)
+        rows = query.all()
+        return [{"document": r[0], "metadata": r[1] or {}} for r in rows]
+    finally:
+        db.close()
+
+
+def list_products() -> list[str]:
+    """Return distinct product_name values from the M2 collection metadata."""
+    from storage.database.shared.model import LangchainPgCollection, LangchainPgEmbedding
+    from sqlalchemy import distinct
+    db = _get_db_session()
+    try:
+        col_name = collection_name()
+        rows = (
+            db.query(distinct(LangchainPgEmbedding.cmetadata["product_name"].astext))
+            .join(LangchainPgCollection,
+                  LangchainPgEmbedding.collection_id == LangchainPgCollection.uuid)
+            .filter(LangchainPgCollection.name == col_name)
+            .filter(LangchainPgEmbedding.cmetadata["product_name"].astext != "")
+            .all()
+        )
+        return sorted([r[0] for r in rows if r[0]])
+    finally:
+        db.close()
+
+
+def _parse_chunk_fields(text: str) -> dict[str, str]:
+    """Parse 'key=value' pairs from a chunk text line."""
+    fields: dict[str, str] = {}
+    for line in (text or "").split("\n"):
+        if line.startswith("字段:") or line.startswith("字段: "):
+            pairs_str = line.split(":", 1)[-1].strip()
+            if pairs_str.startswith(" "):
+                pairs_str = pairs_str[1:]
+            for pair in pairs_str.split(", "):
+                if "=" in pair:
+                    k, v = pair.split("=", 1)
+                    fields[k.strip()] = v.strip()
+    return fields
+
+
+def get_product_timeline(product: str) -> dict[str, Any]:
+    """Return snapshots for a product sorted by statement_date.
+
+    Each snapshot: {date, total_assets, position_count, currency}.
+    """
+    chunks = _query_collection_chunks(product_name=product)
+    if not chunks:
+        return {"product": product, "timeline": []}
+
+    dates_seen: dict[str, dict[str, Any]] = {}
+    for chunk in chunks:
+        meta = chunk["metadata"]
+        date = meta.get("statement_date", "")
+        if not date:
+            continue
+        if date not in dates_seen:
+            dates_seen[date] = {
+                "date": date,
+                "total_assets": "",
+                "position_count": 0,
+                "currency": "人民币",
+            }
+        text = chunk["document"] or ""
+        table = meta.get("table_name", "")
+        fields = _parse_chunk_fields(text)
+        if "资产汇总" in table or "资金资产" in table:
+            for key in ("总资产", "资产总值", "资产合计"):
+                if key in fields and fields[key]:
+                    dates_seen[date]["total_assets"] = fields[key]
+                    break
+            for key in ("币种", "货币"):
+                if key in fields and fields[key]:
+                    dates_seen[date]["currency"] = fields[key]
+                    break
+        if "持仓" in table:
+            dates_seen[date]["position_count"] += 1
+
+    timeline = sorted(dates_seen.values(), key=lambda x: x["date"])
+    return {"product": product, "timeline": timeline}
+
+
+def compare_dates(product: str, date_a: str, date_b: str,
+                  fields: list[str] | None = None) -> dict[str, Any]:
+    """Field-level diff between two statement dates for a product.
+
+    If the product has fewer than 2 dates, returns insufficient_data status.
+    """
+    timeline = get_product_timeline(product)
+    available_dates = [s["date"] for s in timeline["timeline"]]
+    if len(available_dates) < 2:
+        return {
+            "product": product,
+            "date_a": date_a,
+            "date_b": date_b,
+            "status": "insufficient_data",
+            "message": "该产品仅有一期对账单，跨期对比需甲方提供多期数据",
+            "available_dates": available_dates,
+        }
+
+    chunks_a = _query_collection_chunks(product_name=product, statement_date=date_a)
+    chunks_b = _query_collection_chunks(product_name=product, statement_date=date_b)
+
+    def _collect_fields(chunks: list[dict]) -> dict[str, str]:
+        all_fields: dict[str, str] = {}
+        for c in chunks:
+            all_fields.update(_parse_chunk_fields(c["document"] or ""))
+        return all_fields
+
+    fa = _collect_fields(chunks_a)
+    fb = _collect_fields(chunks_b)
+    target_fields = fields or sorted(set(fa.keys()) | set(fb.keys()))
+
+    diffs = []
+    for field in target_fields:
+        va = fa.get(field, "")
+        vb = fb.get(field, "")
+        change = ""
+        change_pct = ""
+        na = _try_float(va)
+        nb = _try_float(vb)
+        if na is not None and nb is not None:
+            delta = nb - na
+            change = f"{delta:+,.2f}"
+            if na != 0:
+                change_pct = f"{(delta / na) * 100:+.2f}%"
+        diffs.append({
+            "field": field,
+            "value_a": va,
+            "value_b": vb,
+            "change": change,
+            "change_pct": change_pct,
+        })
+
+    return {
+        "product": product,
+        "date_a": date_a,
+        "date_b": date_b,
+        "status": "ok",
+        "diffs": diffs,
+    }
+
+
+def _try_float(val: str) -> float | None:
+    """Try to parse a numeric value from a (possibly desensitized) string."""
+    if not val or "****" in val:
+        return None
+    try:
+        return float(val.replace(",", "").replace("，", ""))
+    except (ValueError, AttributeError):
+        return None
+
+
+def compare_positions(product: str, date: str) -> dict[str, Any]:
+    """Compare positions within a single statement.
+
+    Returns all positions sorted by market value with percentage of total.
+    """
+    chunks = _query_collection_chunks(product_name=product, statement_date=date)
+    if not chunks:
+        chunks = _query_collection_chunks(product_name=product)
+
+    positions: list[dict[str, str]] = []
+    total_mv = 0.0
+    for chunk in chunks:
+        meta = chunk["metadata"]
+        table = meta.get("table_name", "")
+        if "持仓" not in table:
+            continue
+        fields = _parse_chunk_fields(chunk["document"] or "")
+        if not fields:
+            continue
+        name = ""
+        for k in ("证券名称", "证券简称", "名称", "股票名称"):
+            if k in fields and fields[k]:
+                name = fields[k]
+                break
+        mv_str = ""
+        for k in ("市值", "证券市值", "持仓市值", "最新市值"):
+            if k in fields and fields[k]:
+                mv_str = fields[k]
+                break
+        mv = _try_float(mv_str)
+        positions.append({
+            "name": name or "(未知)",
+            "market_value": mv_str,
+            "market_value_num": mv,
+            "fields": fields,
+        })
+        if mv is not None:
+            total_mv += mv
+
+    positions.sort(key=lambda p: p.get("market_value_num") or 0, reverse=True)
+    for p in positions:
+        mv = p.get("market_value_num")
+        if mv is not None and total_mv > 0:
+            p["pct_of_total"] = f"{(mv / total_mv) * 100:.2f}%"
+        else:
+            p["pct_of_total"] = "-"
+        del p["market_value_num"]
+
+    return {
+        "product": product,
+        "date": date,
+        "total_market_value": f"{total_mv:,.2f}" if total_mv > 0 else "-",
+        "position_count": len(positions),
+        "positions": positions,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Natural-language comparison routing
+# ---------------------------------------------------------------------------
+
+def detect_compare_intent(question: str) -> bool:
+    """Return True if the question looks like a comparison query."""
+    return any(t in question for t in _COMPARE_TRIGGERS)
+
+
+def _extract_compare_params(question: str) -> dict[str, Any]:
+    """Extract product name, dates, and fields from a comparison question.
+
+    Uses keyword matching against known products + regex for dates.
+    Falls back to LLM extraction when keyword matching is insufficient.
+    """
+    params: dict[str, Any] = {"product": None, "date_a": None, "date_b": None, "fields": None}
+
+    try:
+        products = list_products()
+    except Exception:
+        products = []
+    for p in products:
+        if p in question:
+            params["product"] = p
+            break
+
+    dates = _re.findall(r"\d{8}", question)
+    if len(dates) >= 2:
+        params["date_a"] = dates[0]
+        params["date_b"] = dates[1]
+    elif len(dates) == 1:
+        params["date_a"] = dates[0]
+
+    known_fields = ["总资产", "资产总值", "资金余额", "市值", "证券市值", "份额", "净值"]
+    found = [f for f in known_fields if f in question]
+    if found:
+        params["fields"] = found
+
+    return params
+
+
+def _format_compare_answer(result: dict[str, Any]) -> str:
+    """Format a comparison result dict as a natural-language answer."""
+    if result.get("status") == "insufficient_data":
+        msg = result.get("message", "数据不足，无法对比。")
+        dates = result.get("available_dates", [])
+        extra = f"（现有日期: {', '.join(dates)}）" if dates else ""
+        return f"⚠ {msg}{extra}"
+
+    if "positions" in result:
+        lines = [f"📊 {result['product']} 持仓对比（{result['date']}）"]
+        lines.append(f"持仓数: {result['position_count']}  总市值: {result['total_market_value']}")
+        lines.append("")
+        for i, p in enumerate(result["positions"], 1):
+            lines.append(f"{i}. {p['name']}  市值={p['market_value']}  占比={p['pct_of_total']}")
+        return "\n".join(lines)
+
+    if "diffs" in result:
+        lines = [f"📊 {result['product']} 跨期对比: {result['date_a']} vs {result['date_b']}"]
+        lines.append("")
+        for d in result["diffs"]:
+            change_str = f"  变化={d['change']}" if d["change"] else ""
+            pct_str = f" ({d['change_pct']})" if d["change_pct"] else ""
+            lines.append(f"- {d['field']}: {d['value_a']} → {d['value_b']}{change_str}{pct_str}")
+        return "\n".join(lines)
+
+    return json.dumps(result, ensure_ascii=False, indent=2)
+
+
+def handle_compare_query(question: str) -> dict[str, Any]:
+    """Handle a comparison-intent question end-to-end.
+
+    Returns the same shape as ask(): {answer, sources, model, ...}.
+    """
+    params = _extract_compare_params(question)
+    product = params.get("product")
+
+    if not product:
+        try:
+            products = list_products()
+        except Exception:
+            products = []
+        if products:
+            product = products[0]
+        else:
+            return {
+                "answer": "未找到可对比的产品。请先确认 M1 解析结果已入库。",
+                "sources": [],
+                "model": "",
+                "compare_mode": True,
+            }
+
+    if params.get("date_a") and params.get("date_b"):
+        result = compare_dates(product, params["date_a"], params["date_b"],
+                               params.get("fields"))
+    else:
+        timeline = get_product_timeline(product)
+        dates = [s["date"] for s in timeline["timeline"]]
+        if len(dates) >= 2:
+            result = compare_dates(product, dates[0], dates[-1], params.get("fields"))
+        else:
+            date = dates[0] if dates else ""
+            result = compare_positions(product, date)
+
+    answer = _format_compare_answer(result)
+    return {
+        "answer": answer,
+        "sources": [],
+        "model": "rule-based-compare",
+        "compare_mode": True,
+        "compare_result": result,
     }

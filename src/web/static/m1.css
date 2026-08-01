@@ -715,3 +715,93 @@ body {
 #m2AskBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .empty-state.error { color: var(--danger); }
+
+/* =====================================================================
+   Cross-document comparison panel
+   ===================================================================== */
+.cmp-panel {
+    margin-top: 16px;
+}
+.cmp-body {
+    padding: 12px 16px;
+}
+.cmp-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+.cmp-controls label {
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+}
+.cmp-controls select {
+    padding: 6px 10px;
+    font-size: 13px;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    outline: none;
+    max-width: 260px;
+}
+.cmp-controls select:focus { border-color: var(--brand); }
+.cmp-controls button {
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    border: none;
+    border-radius: var(--radius);
+    background: var(--brand);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+}
+.cmp-controls button:hover { background: #0d5f58; }
+
+.cmp-result {
+    min-height: 60px;
+}
+.cmp-summary {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+}
+.cmp-notice {
+    padding: 12px;
+    font-size: 13px;
+    color: var(--warning);
+    background: var(--warning-light);
+    border-radius: var(--radius);
+}
+.cmp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    font-family: var(--font-mono);
+}
+.cmp-table th {
+    text-align: left;
+    padding: 6px 10px;
+    background: var(--surface-2);
+    color: var(--muted);
+    font-weight: 600;
+    border-bottom: 2px solid var(--line);
+    white-space: nowrap;
+}
+.cmp-table td {
+    padding: 5px 10px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    word-break: break-word;
+}
+.cmp-table tr:hover td {
+    background: var(--brand-light);
+}

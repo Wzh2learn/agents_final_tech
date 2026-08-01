@@ -20,6 +20,12 @@ from pydantic import BaseModel, Field
 
 from biz.m2_service import ask as m2_ask
 from biz.m2_service import clear_session, collection_name
+from biz.m2_service import (
+    list_products,
+    get_product_timeline,
+    compare_dates,
+    compare_positions,
+)
 
 router = APIRouter()
 
@@ -28,6 +34,18 @@ class M2AskRequest(BaseModel):
     question: str = Field(..., description="自然语言问题")
     top_k: int = Field(default=3, ge=1, le=10, description="检索条数")
     session_id: Optional[str] = Field(default=None, description="会话ID，不传则自动生成")
+
+
+class M2CompareRequest(BaseModel):
+    product: str = Field(..., description="产品名称")
+    date_a: str = Field(..., description="日期A (YYYYMMDD)")
+    date_b: str = Field(..., description="日期B (YYYYMMDD)")
+    fields: Optional[list[str]] = Field(default=None, description="对比字段列表")
+
+
+class M2PositionsRequest(BaseModel):
+    product: str = Field(..., description="产品名称")
+    date: str = Field(default="", description="对账单日期 (YYYYMMDD)")
 
 
 @router.get("/health")
@@ -61,3 +79,32 @@ async def m2_clear_session(session_id: str):
     """Clear conversation history for a session."""
     clear_session(session_id)
     return {"status": "cleared"}
+
+
+# ---------------------------------------------------------------------------
+# Cross-document comparison endpoints (Phase 1)
+# ---------------------------------------------------------------------------
+
+@router.get("/products", summary="产品列表")
+async def m2_products():
+    """Return distinct product names from the M2 collection metadata."""
+    products = list_products()
+    return {"products": products}
+
+
+@router.get("/products/{name}/timeline", summary="产品时间线")
+async def m2_product_timeline(name: str):
+    """Return statement snapshots for a product sorted by date."""
+    return get_product_timeline(name)
+
+
+@router.post("/compare", summary="跨期对比")
+async def m2_compare(request: M2CompareRequest):
+    """Field-level diff between two statement dates for a product."""
+    return compare_dates(request.product, request.date_a, request.date_b, request.fields)
+
+
+@router.post("/compare/positions", summary="组合内持仓对比")
+async def m2_compare_positions(request: M2PositionsRequest):
+    """Compare positions within a single statement (ranked by market value)."""
+    return compare_positions(request.product, request.date)

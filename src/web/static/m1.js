@@ -415,6 +415,125 @@
   });
   m2NewChatBtn.addEventListener('click', m2NewChat);
 
+  // =====================================================================
+  // Cross-document comparison panel
+  // =====================================================================
+  const cmpProduct = $('#cmpProduct');
+  const cmpDateWrap = $('#cmpDateWrap');
+  const cmpDateA = $('#cmpDateA');
+  const cmpDateB = $('#cmpDateB');
+  const cmpDiffBtn = $('#cmpDiffBtn');
+  const cmpPosBtn = $('#cmpPosBtn');
+  const cmpResult = $('#cmpResult');
+  const cmpMeta = $('#cmpMeta');
+
+  async function cmpLoadProducts() {
+    try {
+      const res = await fetch('/api/m2/products');
+      const data = await res.json();
+      const products = data.products || [];
+      cmpProduct.innerHTML = products.length
+        ? products.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join('')
+        : '<option value="">无产品数据</option>';
+      if (products.length) cmpOnProductChange();
+    } catch (err) {
+      cmpProduct.innerHTML = '<option value="">加载失败</option>';
+    }
+  }
+
+  async function cmpOnProductChange() {
+    const product = cmpProduct.value;
+    if (!product) return;
+    try {
+      const res = await fetch(`/api/m2/products/${encodeURIComponent(product)}/timeline`);
+      const data = await res.json();
+      const timeline = data.timeline || [];
+      if (timeline.length >= 2) {
+        cmpDateWrap.hidden = false;
+        cmpDateA.innerHTML = timeline.map(t => `<option value="${esc(t.date)}">${esc(t.date)}</option>`).join('');
+        cmpDateB.innerHTML = timeline.map(t => `<option value="${esc(t.date)}">${esc(t.date)}</option>`).join('');
+        cmpDateB.selectedIndex = timeline.length - 1;
+        cmpMeta.textContent = `M2 · ${timeline.length} 期`;
+      } else {
+        cmpDateWrap.hidden = true;
+        cmpMeta.textContent = 'M2 · 单期 (组合内对比)';
+      }
+    } catch (_) {
+      cmpDateWrap.hidden = true;
+    }
+  }
+
+  function cmpRenderPositions(data) {
+    if (!data.positions || !data.positions.length) {
+      cmpResult.innerHTML = '<div class="m2-empty-hint">无持仓数据。</div>';
+      return;
+    }
+    let html = `<div class="cmp-summary">产品: ${esc(data.product)}  日期: ${esc(data.date)}  持仓数: ${data.position_count}  总市值: ${esc(data.total_market_value)}</div>`;
+    html += '<table class="cmp-table"><thead><tr><th>#</th><th>证券名称</th><th>市值</th><th>占比</th></tr></thead><tbody>';
+    data.positions.forEach((p, i) => {
+      html += `<tr><td>${i + 1}</td><td>${esc(p.name)}</td><td>${esc(p.market_value)}</td><td>${esc(p.pct_of_total)}</td></tr>`;
+    });
+    html += '</tbody></table>';
+    cmpResult.innerHTML = html;
+  }
+
+  function cmpRenderDiffs(data) {
+    if (data.status === 'insufficient_data') {
+      cmpResult.innerHTML = `<div class="cmp-notice">${esc(data.message)}</div>`;
+      return;
+    }
+    if (!data.diffs || !data.diffs.length) {
+      cmpResult.innerHTML = '<div class="m2-empty-hint">无对比数据。</div>';
+      return;
+    }
+    let html = `<div class="cmp-summary">${esc(data.product)}: ${esc(data.date_a)} → ${esc(data.date_b)}</div>`;
+    html += '<table class="cmp-table"><thead><tr><th>字段</th><th>日期A</th><th>日期B</th><th>变化</th><th>变化%</th></tr></thead><tbody>';
+    data.diffs.forEach(d => {
+      html += `<tr><td>${esc(d.field)}</td><td>${esc(d.value_a)}</td><td>${esc(d.value_b)}</td><td>${esc(d.change)}</td><td>${esc(d.change_pct)}</td></tr>`;
+    });
+    html += '</tbody></table>';
+    cmpResult.innerHTML = html;
+  }
+
+  async function cmpDoPositions() {
+    const product = cmpProduct.value;
+    if (!product) { setNotice('请先选择产品', 'error'); return; }
+    cmpResult.innerHTML = '<div class="m2-thinking">加载中…</div>';
+    try {
+      const res = await fetch('/api/m2/compare/positions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product, date: '' }),
+      });
+      const data = await res.json();
+      cmpRenderPositions(data);
+    } catch (err) {
+      cmpResult.innerHTML = `<div class="cmp-notice">⚠ ${esc(err.message)}</div>`;
+    }
+  }
+
+  async function cmpDoDiff() {
+    const product = cmpProduct.value;
+    if (!product) { setNotice('请先选择产品', 'error'); return; }
+    cmpResult.innerHTML = '<div class="m2-thinking">加载中…</div>';
+    try {
+      const res = await fetch('/api/m2/compare', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product, date_a: cmpDateA.value, date_b: cmpDateB.value }),
+      });
+      const data = await res.json();
+      cmpRenderDiffs(data);
+    } catch (err) {
+      cmpResult.innerHTML = `<div class="cmp-notice">⚠ ${esc(err.message)}</div>`;
+    }
+  }
+
+  cmpProduct.addEventListener('change', cmpOnProductChange);
+  cmpPosBtn.addEventListener('click', cmpDoPositions);
+  cmpDiffBtn.addEventListener('click', cmpDoDiff);
+  cmpLoadProducts();
+
   // --- Utility ---
   function esc(str) {
     const d = document.createElement('div');

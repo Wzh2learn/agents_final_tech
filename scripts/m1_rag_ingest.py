@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -54,6 +55,70 @@ VERIFY_QUERIES: list[tuple[str, str, str]] = [
     ("嘉兴民安有哪些证券持仓？", "sample_jiaxing_minan", "证券持仓"),
     ("博时传统产品的基金名称是什么？", "sample_boshi_chuantong", "基金名称"),
 ]
+
+
+# --- Product metadata extraction (raw, non-desensitized) --------------------
+# process_sample() desensitizes header_meta before returning, but metadata
+# enrichment needs actual product names / dates for PGVector filtering.
+_PRODUCT_NAME_KEYS = ["客户全称", "客户名称", "产品名称", "基金名称", "客户姓名"]
+_STATEMENT_DATE_KEYS = ["开始日期", "对账日期", "统计日期", "结束日期", "打印时间"]
+_FILENAME_DATE_RE = re.compile(r"(\d{8})")
+
+
+def _extract_raw_header_meta(path: str, schema) -> dict[str, str]:
+    """Re-parse file to get raw (non-desensitized) header_meta."""
+    ext = os.path.splitext(path)[1].lower()
+    parser = m1p.PARSERS.get(ext)
+    if parser is None:
+        return {}
+    doc = parser(path)
+    if not doc.ok:
+        return {}
+    meta = m1p.extract_header_meta(doc.text, schema)
+    ua_kv = m1p.scan_unattributed_kv(doc.text, schema)
+    for k, v in ua_kv.items():
+        if k not in meta:
+            meta[k] = v
+    return meta
+
+
+def extract_product_name(meta: dict[str, str]) -> str:
+    """Extract product name from raw header_meta (first non-empty key hit)."""
+    for key in _PRODUCT_NAME_KEYS:
+        val = (meta.get(key) or "").strip()
+        if val:
+            return val
+    return ""
+
+
+def extract_statement_date(meta: dict[str, str]) -> str:
+    """Extract statement date from raw header_meta.
+
+    For date ranges like ``20231101 - 20231101``, takes the first date.
+    """
+    for key in _STATEMENT_DATE_KEYS:
+        val = (meta.get(key) or "").strip()
+        if val:
+            for sep in (" - ", " ~ ", " 至 ", " — "):
+                if sep in val:
+                    val = val.split(sep)[0].strip()
+                    break
+            # Normalise Chinese date format: "2023年11月02日 ..." -> "20231102"
+            m = re.match(r"(\d{4})年(\d{1,2})月(\d{1,2})日", val)
+            if m:
+                return f"{m.group(1)}{int(m.group(2)):02d}{int(m.group(3)):02d}"
+            # Already YYYYMMDD?
+            m2 = re.match(r"^(\d{8})", val)
+            if m2:
+                return m2.group(1)
+            return val
+    return ""
+
+
+def extract_date_from_filename(filename: str) -> str:
+    """Fallback: extract YYYYMMDD date from the sample filename."""
+    m = _FILENAME_DATE_RE.search(filename)
+    return m.group(1) if m else ""
 
 
 def _list_sample_files(samples_dir: str) -> list[str]:
@@ -207,6 +272,12 @@ def cmd_ingest(samples_dir: str, schema_path: str, append: bool) -> int:
         if not res.get("ok"):
             print(f"[ingest] SKIP {res.get('file')}: parse not ok ({res.get('error')})")
             continue
+        # Extract raw (non-desensitized) product metadata for PGVector filtering
+        raw_meta = _extract_raw_header_meta(path, schema)
+        product_name = extract_product_name(raw_meta)
+        statement_date = extract_statement_date(raw_meta)
+        if not statement_date:
+            statement_date = extract_date_from_filename(os.path.basename(path))
         groups = build_chunks_for_sample(res)
         groups.extend(build_meta_chunks(res, parse_ms))
         # Filter: skip samples with no financial structure (e.g. operational docs)
@@ -230,6 +301,8 @@ def cmd_ingest(samples_dir: str, schema_path: str, append: bool) -> int:
                 "matched_schema": g["schema"],
                 "standard_fields": ",".join(g["standard_fields"]),
                 "source": res["file"],
+                "product_name": product_name,
+                "statement_date": statement_date,
             }
             out = rag.ingest_parsed_blocks(
                 document_id=res["file"],

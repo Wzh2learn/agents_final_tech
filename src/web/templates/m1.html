@@ -108,6 +108,31 @@
                 </div>
             </div>
         </section>
+
+        <!-- Cross-document comparison panel -->
+        <section class="panel cmp-panel" aria-label="Cross-document comparison">
+            <div class="panel-head">
+                <h2>对比分析</h2>
+                <span id="cmpMeta" class="m2-meta">M2 · cross-document</span>
+            </div>
+            <div class="panel-body cmp-body">
+                <div class="cmp-controls">
+                    <label for="cmpProduct">产品:</label>
+                    <select id="cmpProduct"><option value="">加载中…</option></select>
+                    <span id="cmpDateWrap" hidden>
+                        <label for="cmpDateA">日期A:</label>
+                        <select id="cmpDateA"></select>
+                        <label for="cmpDateB">日期B:</label>
+                        <select id="cmpDateB"></select>
+                        <button id="cmpDiffBtn" type="button">对比</button>
+                    </span>
+                    <button id="cmpPosBtn" type="button">持仓对比</button>
+                </div>
+                <div id="cmpResult" class="cmp-result">
+                    <div class="m2-empty-hint">选择产品后点击「持仓对比」查看组合内持仓排名。</div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script src="/static/m1.js"></script>
