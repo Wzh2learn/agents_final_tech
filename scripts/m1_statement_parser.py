@@ -510,8 +510,23 @@ def _vision_ocr_one(img_bytes: bytes) -> str:
     """OCR a single image via :8004 /v1/chat/completions (mmproj vision).
 
     Returns extracted text or "" on any error. Runs inside a worker thread.
+    Results are cached by image hash to avoid redundant vision calls.
     """
     import base64
+    import hashlib
+
+    # --- OCR cache: skip vision call for previously-seen images ---
+    _OCR_CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".ocr_cache")
+    img_hash = hashlib.sha256(img_bytes).hexdigest()[:16]
+    cache_path = os.path.join(_OCR_CACHE_DIR, f"{img_hash}.txt")
+    if os.path.isfile(cache_path):
+        try:
+            cached = open(cache_path, "r", encoding="utf-8").read()
+            if cached.strip():
+                return cached
+        except Exception:
+            pass
+
     b64 = base64.b64encode(img_bytes).decode("ascii")
     payload = {
         "model": _OCR_VISION_MODEL,
@@ -533,7 +548,15 @@ def _vision_ocr_one(img_bytes: bytes) -> str:
         with urllib.request.urlopen(req, timeout=_OCR_VISION_TIMEOUT) as resp:
             body = json.loads(resp.read().decode("utf-8"))
         content = body["choices"][0]["message"]["content"]
-        return content.strip() if content and content.strip() else ""
+        result = content.strip() if content and content.strip() else ""
+        # Write to cache
+        if result:
+            try:
+                os.makedirs(_OCR_CACHE_DIR, exist_ok=True)
+                open(cache_path, "w", encoding="utf-8").write(result)
+            except Exception:
+                pass
+        return result
     except Exception:
         return ""
 
