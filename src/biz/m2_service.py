@@ -25,6 +25,18 @@ import time as _time
 import uuid
 import re as _re
 
+# --- PG persistence (graceful fallback if PG unavailable) ---
+try:
+    from storage.chat_persistence import (
+        persist_session_create,
+        persist_message,
+        load_messages as pg_load_messages,
+        clear_messages as pg_clear_messages,
+    )
+    _HAS_PERSISTENCE = True
+except Exception:
+    _HAS_PERSISTENCE = False
+
 # --- Generation config: :8004 Qwen3.6-35B-A3B (chat completions) ---
 LLM_ENDPOINT = os.environ.get(
     "M2_LLM_ENDPOINT", "http://127.0.0.1:8004/v1/chat/completions")
@@ -46,7 +58,11 @@ _sessions: dict[str, dict[str, Any]] = {}
 
 
 def _get_session(session_id: str) -> dict[str, Any]:
-    """Get or create a session, performing lazy TTL cleanup."""
+    """Get or create a session, performing lazy TTL cleanup.
+
+    On first access for a session not in memory, attempts to load history
+    from PostgreSQL (lazy load). New sessions are persisted to PG.
+    """
     now = _time.time()
     with _sessions_lock:
         # Lazy cleanup of expired sessions
@@ -58,27 +74,37 @@ def _get_session(session_id: str) -> dict[str, Any]:
             del _sessions[sid]
         # Get or create
         if session_id not in _sessions:
-            _sessions[session_id] = {"history": [], "last_active": now}
+            # Try loading from PG first
+            history: list[dict[str, str]] = []
+            if _HAS_PERSISTENCE:
+                history = pg_load_messages(session_id)
+            _sessions[session_id] = {"history": history, "last_active": now}
+            if not history and _HAS_PERSISTENCE:
+                persist_session_create(session_id)
         session = _sessions[session_id]
         session["last_active"] = now
         return session
 
 
-def _append_history(session: dict[str, Any], role: str, content: str) -> None:
-    """Append a message and trim to _MAX_TURNS."""
+def _append_history(session: dict[str, Any], role: str, content: str, session_id: str | None = None) -> None:
+    """Append a message and trim to _MAX_TURNS. Persists to PG if available."""
     session["history"].append({"role": role, "content": content})
     if len(session["history"]) > _MAX_TURNS:
         session["history"] = session["history"][-_MAX_TURNS:]
+    if _HAS_PERSISTENCE and session_id:
+        persist_message(session_id, role, content)
 
 
 def clear_session(session_id: str) -> bool:
     """Clear conversation history for a session. Returns True if existed."""
     with _sessions_lock:
-        if session_id in _sessions:
+        existed = session_id in _sessions
+        if existed:
             _sessions[session_id]["history"] = []
             _sessions[session_id]["last_active"] = _time.time()
-            return True
-        return False
+    if _HAS_PERSISTENCE:
+        pg_clear_messages(session_id)
+    return existed
 
 
 def new_session_id() -> str:
@@ -319,8 +345,8 @@ def ask(
         try:
             cmp_result = handle_compare_query(question)
             cmp_answer = cmp_result.get("answer", "")
-            _append_history(session, "user", question)
-            _append_history(session, "assistant", cmp_answer)
+            _append_history(session, "user", question, session_id)
+            _append_history(session, "assistant", cmp_answer, session_id)
             cmp_result["collection"] = collection_name()
             cmp_result["top_k"] = top_k
             cmp_result["session_id"] = session_id
@@ -335,8 +361,8 @@ def ask(
 
     if not sources:
         answer = "检索资料中未找到相关数据（集合可能为空或问题与已入库样本无关）。"
-        _append_history(session, "user", question)
-        _append_history(session, "assistant", answer)
+        _append_history(session, "user", question, session_id)
+        _append_history(session, "assistant", answer, session_id)
         return {
             "answer": answer,
             "sources": [],
@@ -361,8 +387,8 @@ def ask(
         model = ""
 
     # Store in conversation history
-    _append_history(session, "user", question)
-    _append_history(session, "assistant", answer)
+    _append_history(session, "user", question, session_id)
+    _append_history(session, "assistant", answer, session_id)
 
     return {
         "answer": answer,

@@ -1,0 +1,18 @@
+[Unit]
+Description=M1 Financial Statement Harness
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=testuser
+WorkingDirectory=/home/testuser/wzh/projects/agents_final_tech
+Environment=PYTHONPATH=src
+Environment=PGDATABASE_URL=postgresql://postgres:postgres@127.0.0.1:15432/vector_db
+Environment=M1_API_TOKEN=change_me
+Environment=M1_ADMIN_TOKEN=change_me
+ExecStart=/home/testuser/wzh/projects/agents_final_tech/venv/bin/python -m uvicorn main:app --host 0.0.0.0 --port 5050 --workers 2
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

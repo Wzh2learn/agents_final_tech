@@ -9,6 +9,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from web.middleware import BearerAuthMiddleware, RequestLoggingMiddleware
 
 from biz.agent_service import get_agent_service, get_agent_service_sync
 from biz.rag_service import get_rag_service, get_rag_service_sync
@@ -146,6 +147,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# --- Production middleware (auth + request logging) ---
+app.add_middleware(RequestLoggingMiddleware)
+app.add_middleware(BearerAuthMiddleware)
+
 # 静态文件
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", "static")
 if os.path.exists(static_dir):
@@ -157,6 +162,10 @@ else:
 from web.routers import api_router, include_routers
 include_routers()
 app.include_router(api_router)
+
+# Metrics endpoint (registered directly, not under api_router prefix)
+from web.routers.metrics import router as metrics_router
+app.include_router(metrics_router)
 
 # WebSocket 服务状态
 _ws_started = False

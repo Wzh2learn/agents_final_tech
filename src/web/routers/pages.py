@@ -1,6 +1,7 @@
 """HTML page routes."""
 
 import os
+import time as _time
 
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -46,9 +47,18 @@ async def collaboration_redirect():
 # ---------------------------------------------------------------------------
 # Comprehensive health check (for demos + monitoring)
 # ---------------------------------------------------------------------------
+# Health check cache (30s TTL)
+_health_cache: dict = {"result": None, "ts": 0.0}
+_HEALTH_CACHE_TTL = 30.0
+
+
 @router.get("/api/health/full")
 async def health_full():
-    """Check all system components. Returns status of each dependency."""
+    """Check all system components. Returns status of each dependency. Cached 30s."""
+    now = _time.time()
+    if _health_cache["result"] is not None and (now - _health_cache["ts"]) < _HEALTH_CACHE_TTL:
+        return _health_cache["result"]
+
     import urllib.request
     import json as _json
 
@@ -100,7 +110,10 @@ async def health_full():
 
     # Overall
     all_ok = all(c.get("status") in ("ok", "unavailable") for c in checks.values())
-    return {
+    result = {
         "overall": "healthy" if all_ok else "degraded",
         "components": checks,
     }
+    _health_cache["result"] = result
+    _health_cache["ts"] = _time.time()
+    return result

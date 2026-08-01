@@ -15,6 +15,7 @@ from fastapi import APIRouter, File, Header, HTTPException, Query, Request, Uplo
 from pydantic import BaseModel
 
 from biz.m1_service import M1ExtractionRequest, M1ReviewRequest, get_m1_service
+from utils.metrics import m1_parse_total, m1_parse_duration_seconds
 
 router = APIRouter()
 
@@ -91,6 +92,7 @@ async def parse_file(
         tmp.write(content)
         tmp_path = tmp.name
 
+    fmt_label = suffix.lstrip(".")
     try:
         schema = parser.Schema.load(parser.resolve_schema_path())
         t0 = time.perf_counter()
@@ -102,7 +104,12 @@ async def parse_file(
         os.unlink(tmp_path)
 
     if not result.get("ok"):
+        m1_parse_total.inc({"format": fmt_label, "status": "error"})
+        m1_parse_duration_seconds.observe(parse_ms / 1000.0, {"format": fmt_label})
         return {"status": "error", "result": result}
+
+    m1_parse_total.inc({"format": fmt_label, "status": "ok"})
+    m1_parse_duration_seconds.observe(parse_ms / 1000.0, {"format": fmt_label})
 
     # Prepare tables: expose records (capped), strip internal key
     tables_out: list[dict[str, Any]] = []

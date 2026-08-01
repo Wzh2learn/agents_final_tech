@@ -30,6 +30,14 @@ class TestSessionManagement:
         import biz.m2_service as svc
         with svc._sessions_lock:
             svc._sessions.clear()
+        # Disable PG persistence for unit test isolation
+        self._orig_persistence = svc._HAS_PERSISTENCE
+        svc._HAS_PERSISTENCE = False
+
+    def teardown_method(self):
+        """Restore PG persistence flag."""
+        import biz.m2_service as svc
+        svc._HAS_PERSISTENCE = self._orig_persistence
 
     def test_new_session_id_is_uuid(self):
         import biz.m2_service as svc
@@ -158,6 +166,12 @@ class TestAskFunction:
         import biz.m2_service as svc
         with svc._sessions_lock:
             svc._sessions.clear()
+        self._orig_persistence = svc._HAS_PERSISTENCE
+        svc._HAS_PERSISTENCE = False
+
+    def teardown_method(self):
+        import biz.m2_service as svc
+        svc._HAS_PERSISTENCE = self._orig_persistence
 
     @patch("biz.m2_service._generate")
     @patch("biz.m2_service.retrieve")

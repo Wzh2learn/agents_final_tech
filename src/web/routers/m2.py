@@ -19,6 +19,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel, Field
 
 from biz.m2_service import ask as m2_ask
+from utils.metrics import m2_qa_total, m2_qa_duration_seconds
 from biz.m2_service import clear_session, collection_name
 from biz.m2_service import (
     list_products,
@@ -65,13 +66,22 @@ async def m2_health():
 async def m2_ask_endpoint(request: M2AskRequest):
     """Retrieve grounded chunks and generate an answer over M1-parsed statements."""
     t0 = time.perf_counter()
-    result = m2_ask(
-        request.question,
-        top_k=request.top_k,
-        session_id=request.session_id,
-    )
-    result["duration_ms"] = int((time.perf_counter() - t0) * 1000)
-    return result
+    try:
+        result = m2_ask(
+            request.question,
+            top_k=request.top_k,
+            session_id=request.session_id,
+        )
+        elapsed = time.perf_counter() - t0
+        result["duration_ms"] = int(elapsed * 1000)
+        m2_qa_total.inc({"status": "ok"})
+        m2_qa_duration_seconds.observe(elapsed)
+        return result
+    except Exception:
+        elapsed = time.perf_counter() - t0
+        m2_qa_total.inc({"status": "error"})
+        m2_qa_duration_seconds.observe(elapsed)
+        raise
 
 
 @router.post("/sessions/{session_id}/clear")
