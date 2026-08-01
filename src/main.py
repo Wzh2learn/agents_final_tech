@@ -104,7 +104,34 @@ class GraphService:
         return {"input_schema": {"message": "string"}, "output_schema": {"content": "string"}}
 
 service = GraphService()
-app = FastAPI(title="JinRongAgents API", version="2.0.0")
+app = FastAPI(
+    title="金融对账单智能解析与问答系统",
+    version="2.0.0",
+    description="""
+## 核心能力
+
+- **M1 解析**: 上传对账单 (PDF/TXT/DOCX)，返回结构化表格 + 勾稽校验
+- **M2 问答**: 自然语言查询已解析数据，支持多轮对话 + 答案溯源
+- **健康检查**: 全组件状态监控
+
+## 快速测试
+
+```bash
+# 解析
+curl -X POST /api/m1/parse-file -F "file=@statement.pdf"
+
+# 问答
+curl -X POST /api/m2/ask -H "Content-Type: application/json" \
+  -d '{"question": "嘉兴民安的总资产是多少？"}'
+
+# 多轮追问
+curl -X POST /api/m2/ask -H "Content-Type: application/json" \
+  -d '{"question": "其中证券市值呢？", "session_id": "<上轮返回的id>"}'
+```
+""",
+    docs_url="/docs",
+    redoc_url="/redoc",
+)
 
 # CORS 配置
 # 生产环境应通过环境变量 CORS_ORIGINS 配置允许的源，多个源用逗号分隔

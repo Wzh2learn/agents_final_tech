@@ -36,7 +36,14 @@ async def m2_health():
     return {"status": "ok", "collection": collection_name()}
 
 
-@router.post("/ask")
+@router.post(
+    "/ask",
+    summary="M2 智能问答",
+    description="基于 RAG 的自然语言问答。支持多轮对话（通过 session_id）。返回答案 + 来源溯源。",
+    responses={
+        200: {"description": "问答结果", "example": {"answer": "嘉兴民安的总资产为401,383,291.83元。", "sources": [{"sample_id": "sample_jiaxing_minan_20231031.pdf", "table_name": "p0_table_2", "score": 0.42}], "session_id": "uuid", "model": "Qwen3.6-35B-A3B"}},
+    },
+)
 async def m2_ask_endpoint(request: M2AskRequest):
     """Retrieve grounded chunks and generate an answer over M1-parsed statements."""
     t0 = time.perf_counter()

@@ -61,7 +61,11 @@ async def review_rule(request: M1ReviewRequest):
 # ---------------------------------------------------------------------------
 # Statement parser endpoint (Phase 3)
 # ---------------------------------------------------------------------------
-@router.post("/parse-file")
+@router.post(
+    "/parse-file",
+    summary="M1 对账单解析",
+    description="上传对账单文件 (PDF/TXT/DOCX/XLSX)，返回结构化表格、字段映射、勾稽校验结果。支持 LLM 兜底映射。",
+)
 async def parse_file(
     file: UploadFile = File(...),
     llm_fallback: Optional[bool] = Query(
