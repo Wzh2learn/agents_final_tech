@@ -232,5 +232,11 @@
       "利息"
     ],
     "通用": []
-  }
+  },
+  "rerank.enabled": true,
+  "rerank.method": "cross_encoder",
+  "rerank.local_model_path": "/home/testuser/wzh/models/hf/bge-reranker-v2-m3",
+  "rerank.device": "cpu",
+  "rerank.top_n": 5,
+  "rag.force_rerank": true
 }

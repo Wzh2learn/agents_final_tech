@@ -116,7 +116,7 @@ def collection_name() -> str:
     return _rag_mod.COLLECTION
 
 
-def retrieve(question: str, top_k: int = 3) -> list[dict[str, Any]]:
+def retrieve(question: str, top_k: int = 10) -> list[dict[str, Any]]:
     """Retrieve relevant desensitized chunks for a question.
 
     Returns a list of ``{sample_id, table_name, score, text}`` dicts.
@@ -127,7 +127,7 @@ def retrieve(question: str, top_k: int = 3) -> list[dict[str, Any]]:
         top_k=top_k,
         collection_names=[_rag_mod.COLLECTION],
         max_results=top_k,
-        use_rerank=False,
+        use_rerank=True,
     )
     sources: list[dict[str, Any]] = []
     for d in docs:
