@@ -1,0 +1,28 @@
+{
+  "overall_accuracy": 100.0,
+  "total_checks": 19,
+  "passed": 19,
+  "per_sample": {
+    "sample_fuxi_hunhe25_20231101.txt": {
+      "parse_ms": 11,
+      "checks": 7,
+      "passed": 7,
+      "accuracy": 100.0,
+      "failures": []
+    },
+    "sample_jiaxing_minan_20231031.pdf": {
+      "parse_ms": 104,
+      "checks": 9,
+      "passed": 9,
+      "accuracy": 100.0,
+      "failures": []
+    },
+    "sample_boshi_chuantong.pdf": {
+      "parse_ms": 28,
+      "checks": 3,
+      "passed": 3,
+      "accuracy": 100.0,
+      "failures": []
+    }
+  }
+}
