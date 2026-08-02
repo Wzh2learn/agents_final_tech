@@ -384,7 +384,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="M1->M2 RAG 闭环：入库 + QA 验证")
     ap.add_argument("mode", choices=["ingest", "verify", "all"])
     ap.add_argument("--samples-dir", default=m1p.DEFAULT_SAMPLES_DIR)
-    ap.add_argument("--schema", default=m1p.DEFAULT_SCHEMA)
+    ap.add_argument("--schema", default=m1p.resolve_schema_path())
     ap.add_argument("--append", action="store_true", help="ingest 前不清空集合")
     ap.add_argument("--top-k", type=int, default=5)
     args = ap.parse_args(argv)

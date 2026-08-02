@@ -117,7 +117,7 @@ def main():
     with open(GROUND_TRUTH) as f:
         gt = json.load(f)
     
-    schema = m1p.Schema.load(m1p.DEFAULT_SCHEMA)
+    schema = m1p.Schema.load(m1p.resolve_schema_path())
     
     total_checks = 0
     total_pass = 0
