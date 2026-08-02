@@ -854,6 +854,130 @@ def _text_lines_to_tables(text: str) -> list[ParsedTable]:
     return tables
 
 
+
+def _coordinate_table_reconstruction(path: str) -> list[ParsedTable]:
+    """Reconstruct tables from PDF text span coordinates.
+
+    Fallback for PDFs where find_tables() fails (e.g. vertical layout,
+    no grid lines). Groups text spans by y-coordinate into rows,
+    detects header row by matching known schema field names,
+    then assigns data spans to columns by x-overlap.
+    """
+    try:
+        import fitz
+    except ImportError:
+        return []
+
+    # Load schema for header detection
+    schema_path = resolve_schema_path()
+    try:
+        schema = Schema.load(schema_path)
+    except Exception:
+        return []
+
+    # Collect all known header names from schema
+    known_headers: set[str] = set()
+    for st in schema.tables:
+        for fld in st.fields:
+            known_headers.add(fld.standard)
+            for syn in fld.synonyms:
+                known_headers.add(syn)
+
+    doc = fitz.open(path)
+    tables: list[ParsedTable] = []
+
+    for page_idx in range(len(doc)):
+        page = doc[page_idx]
+        blocks = page.get_text("dict")["blocks"]
+
+        # Collect spans with coordinates
+        spans = []
+        for block in blocks:
+            if "lines" not in block:
+                continue
+            for line in block["lines"]:
+                for span in line["spans"]:
+                    text = span["text"].strip()
+                    if text:
+                        bbox = span["bbox"]
+                        spans.append({
+                            "text": text,
+                            "x0": bbox[0], "y0": bbox[1],
+                            "x1": bbox[2], "y1": bbox[3],
+                            "cy": (bbox[1] + bbox[3]) / 2,
+                        })
+
+        if not spans:
+            continue
+
+        # Group by y-coordinate into rows
+        spans.sort(key=lambda s: (s["cy"], s["x0"]))
+        rows: list[list[dict]] = []
+        current_row = [spans[0]]
+        row_y = spans[0]["cy"]
+        for s in spans[1:]:
+            if abs(s["cy"] - row_y) < 5:
+                current_row.append(s)
+            else:
+                rows.append(current_row)
+                current_row = [s]
+                row_y = s["cy"]
+        if current_row:
+            rows.append(current_row)
+
+        # Find header rows (rows where multiple cells match known headers)
+        for hi, row in enumerate(rows):
+            texts = [s["text"] for s in row]
+            matches = sum(1 for t in texts if t in known_headers or any(t in kh or kh in t for kh in known_headers if len(kh) >= 2))
+            if matches < 3 or len(row) < 3:
+                continue
+
+            # This looks like a header row
+            header_spans = sorted(row, key=lambda s: s["x0"])
+            headers = [s["text"] for s in header_spans]
+            col_ranges = [(s["x0"] - 10, s["x1"] + 10) for s in header_spans]
+
+            # Extract data rows
+            data_rows: list[list[str]] = []
+            for di in range(hi + 1, len(rows)):
+                drow = rows[di]
+                drow_texts = [s["text"] for s in drow]
+
+                # Stop if we hit another header row or footer
+                drow_matches = sum(1 for t in drow_texts if t in known_headers)
+                if drow_matches >= 3 and len(drow) >= 3:
+                    break  # next table header
+                if any("温馨提示" in t or "本账单" in t or "友情提示" in t for t in drow_texts):
+                    break
+                if len(drow) < 2:
+                    continue
+
+                # Assign spans to columns by x-overlap
+                cells = [""] * len(headers)
+                for s in sorted(drow, key=lambda s: s["x0"]):
+                    best_col = 0
+                    best_overlap = 0
+                    for ci, (cx0, cx1) in enumerate(col_ranges):
+                        overlap = max(0, min(s["x1"], cx1) - max(s["x0"], cx0))
+                        if overlap > best_overlap:
+                            best_overlap = overlap
+                            best_col = ci
+                    if cells[best_col]:
+                        cells[best_col] += " " + s["text"]
+                    else:
+                        cells[best_col] = s["text"]
+
+                if any(c.strip() for c in cells):
+                    data_rows.append(cells)
+
+            if data_rows:
+                tidx = len(tables) + 1
+                tables.append(ParsedTable(f"coord_table_{tidx}", headers, data_rows))
+
+    doc.close()
+    return tables
+
+
 def parse_pdf(path: str) -> ParsedDoc:
     """PyMuPDF：find_tables 取网格表 + get_text 取表头区文本。"""
     doc = ParsedDoc(path=path, kind="pdf")
@@ -900,6 +1024,11 @@ def parse_pdf(path: str) -> ParsedDoc:
         if doc.text.strip():
             text_tables = _text_lines_to_tables(doc.text)
             doc.tables.extend(text_tables)
+        # Coordinate reconstruction fallback for vertical-layout PDFs
+        if not doc.tables:
+            coord_tables = _coordinate_table_reconstruction(path)
+            if coord_tables:
+                doc.tables = coord_tables
         if not doc.text.strip() and total_images > 0 and not doc.tables:
             doc.needs_ocr = True
             doc.note = f"image-only PDF ({total_images} image(s), no text layer) -> needs OCR/vision"
