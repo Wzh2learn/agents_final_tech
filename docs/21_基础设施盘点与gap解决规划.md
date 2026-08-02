@@ -323,3 +323,72 @@ gap 的核心瓶颈是"模型能力" (VLM 表格理解) 和"数据格式" (HTML 
 | D3 | MCP 修复是否值得投入 | A: 修 / B: 跳过, 直接用 Python 脚本调模型 | 3h vs 0h |
 | D4 | OpenCode 是否启用 | A: 现在启用 / B: gap 解决后再说 / C: 用 LangGraph 替代 | 架构方向 |
 | D5 | :8005 14B 是否还需要 | A: 保留 / B: 停掉释放内存 | 8GB RAM |
+---
+
+## 七、执行结果 (2026-08-02 实际)
+
+### Gap 解决状态
+
+| Gap | 规划推荐路径 | 实际执行路径 | 结果 |
+|-----|-------------|-------------|------|
+| NCAMC 垂直布局 | B (Qwen3-VL-8B) | **A (pymupdf 坐标重建)** | **SOLVED** 75% hit |
+| 华泰 OCR 纯文本 | D (VLM 替代) | **A (OCR prompt 增强)** | **SOLVED** 0→1 table |
+| Email body | D (HTML body) | **D (HTML body + BS4)** | **SOLVED** 0→9 tables |
+
+### VLM 部署结果
+
+| 步骤 | 结果 | 备注 |
+|------|------|------|
+| GGUF 搜索 | HF API timeout | 同 P4 网络问题 |
+| safetensors 加载 | OK (105s, bf16, 130GB VRAM) | Qwen3VLForConditionalGeneration |
+| 推理 | **FAIL** | Triton JIT 编译失败 (ARM64 gcc) |
+| 尝试 eager/sdpa | 均失败 | Triton 在 attention 外也被使用 |
+| 服务器代码 | 已提交 | scripts/vlm_server_8007.py |
+
+**结论**: VLM 路径 (B/D) 在 ARM64 GB10 上被 Triton 阻塞。
+坐标重建 (路径 A) 作为替代方案成功解决 NCAMC gap，无需 VLM。
+
+### 坐标重建技术细节
+
+`_coordinate_table_reconstruction()` 工作原理:
+1. `page.get_text("dict")` 获取每个文本 span 的 bbox 坐标
+2. 按 y 坐标聚类成行 (5pt 容差)
+3. 用已知 schema 字段名匹配 header 行 (>=3 匹配)
+4. 按 x 坐标重叠分配数据 span 到列
+5. 集成到 `parse_pdf()`: find_tables → text_lines → **coordinates** → OCR
+
+Junk 检测: find_tables() 对 NCAMC 返回 35 行 x 16 列的垃圾表
+(水印文本, 15/16 header 为 None)。通过 "non-empty header <= 2" 启发式识别。
+
+### 最终 Scenario 1 数据
+
+| 指标 | 改进前 | 改进后 |
+|------|--------|--------|
+| 总表数 | ~17 | **30** |
+| 总行数 | ~30 | **74** |
+| NCAMC | 0 表 | **1 表 (75%)** |
+| 华泰 | 0 表 | **1 表 (35.7%)** |
+| TraFax | 0 表 | **3 表 (65.1%)** |
+| Email body | 0 表 | **9 表 (24-70%)** |
+| 嘉合 | 31.2% | **93.8%** |
+| RAG chunks | 88 | **132** (+44 HTML) |
+
+### 推荐执行顺序 (更新)
+
+Phase 1 (HTML + synonyms): **DONE** (d7049b5)
+Phase 2a (VLM): **BLOCKED** - 等 Triton 修复或 GGUF 可用
+Phase 2b (VLM 集成): **DONE** - 代码就绪, 优雅回退 (701eae2)
+Phase 2c (MCP 路由): **DONE** (9abf67b)
+Phase 2-alt (坐标重建): **DONE** - 替代 VLM 解决 NCAMC (b927efe)
+Phase 3 (MCP 修复): 跳过 (用户决策 D3=B)
+Phase 4 (OpenCode): 跳过 (用户决策 D4=B)
+
+### 未打出的牌 (更新)
+
+| 资源 | 状态变化 |
+|------|----------|
+| Qwen3-VL-8B | 部署失败 (Triton), 代码就绪 |
+| MiniCPM-V-4.6 | 仍未使用 (VLM 路径阻塞) |
+| MCP Server x3 | vision_mcp 路由已更新, 但 env 问题未修 |
+| 坐标重建 | **NEW: 已打出, 解决 NCAMC** |
+| HTML body 提取 | **NEW: 已打出, 解决 email gap** |
