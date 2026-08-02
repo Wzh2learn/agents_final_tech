@@ -1025,7 +1025,9 @@ def parse_pdf(path: str) -> ParsedDoc:
             text_tables = _text_lines_to_tables(doc.text)
             doc.tables.extend(text_tables)
         # Coordinate reconstruction fallback for vertical-layout PDFs
-        if not doc.tables:
+        # Also try when existing tables have no data rows (junk from find_tables)
+        has_real_tables = any(len(t.rows) > 0 for t in doc.tables)
+        if not has_real_tables:
             coord_tables = _coordinate_table_reconstruction(path)
             if coord_tables:
                 doc.tables = coord_tables
