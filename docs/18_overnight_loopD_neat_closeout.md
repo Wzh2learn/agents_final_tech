@@ -577,3 +577,85 @@ commit `2212244`: M1 解析结果写入 PGVector + 端到端 RAG QA 验证。
 ### 已知问题
 - Phase 1 数据提取: product_name 匹配逻辑需调优 (logged in blocked_questions.md)
 - 跨期对比: 需甲方提供多期对账单才能演示 (honest degradation in place)
+
+## 20. Scenario 1 对账单处理 (2026-08-02)
+
+### 输入
+- 9 个 .msg 文件 (Outlook 邮件, 含对账单附件或正文数据)
+- 1 个 xlsx 映射表 (674 行, 234 证券代码-名称对)
+- 来源: 甲方场景1对账单压缩包
+
+### 预处理结果
+- 13 个 PDF 附件提取 (含 8 嘉合 + 华泰 + TraFax + WaveFax + NCAMC + LU重复)
+- 3 封邮件正文含对账单数据 (国金/南华/财通)
+- LU 重复确认 (MD5 一致, 跳过)
+- 12 个 URL 全为品牌 logo, 无下载链接
+
+### 解析结果 (15 次 parse, 0 崩溃)
+
+| 来源 | 类型 | Tables | Hit% | 备注 |
+|------|------|--------|------|------|
+| 嘉合 x8 | PDF | 2/份 | 93.8% | schema synonyms 补全后 |
+| WaveFax | OCR | 1 | 71.4% | 传真扫描, OCR prompt 增强后提升 |
+| 华泰紫金 | OCR | 1 | 35.7% | OCR prompt 增强: 0->1 表 |
+| TraFax | OCR | 3 | 0-100% | OCR prompt 增强: 0->3 表 |
+| NCAMC | PDF | 0 | - | known_gap: 垂直布局 |
+| 国金/南华/财通 | body | 0 | - | known_gap: email_body_format |
+
+### Schema 扩展
+- config/m1_table_schema.json: +38 synonyms (嘉合基金格式)
+- 嘉合命中率: 31.2% -> 93.8% (commit de7336b)
+
+### OCR Prompt 增强
+- 添加 markdown 表格格式示例到 vision prompt
+- 华泰: 0->1 表, TraFax: 0->3 表 (commit 97b8b9e)
+- 根因: 旧 OCR 缓存掩盖了 prompt 改进效果
+
+### RAG 扩展
+- 11 个 scenario1 文件 ingest, +61 chunks
+- 集合: 27 -> 88 embeddings
+- QA 验证: 3/3 新样本查询命中
+
+### 交叉验证
+- Parser 提取 3 证券代码 + 6 基金名 vs XLSX 234 对
+- 匹配率 0%: 数据源不交叉 (scenario1 来自不同组合), 非 parser 问题
+
+### Loop C 审计 (deepseek-v4-flash-0731)
+- 首次使用 deepseek-v4-flash-0731 做审计
+- 判定: ACCEPTED
+- tool_use 验证通过 (code_interpreter)
+- 确认 schema 变更纯增量, frozen tests 18/18
+
+### Known Gaps (记录, 不投入)
+1. NCAMC 垂直布局: pymupdf get_text 按阅读顺序提取, 表格拆成单列
+2. email body 格式: HTML 表格转纯文本, 列名值交替排列
+3. 交叉验证需同组合数据
+EOF
+echo docs/18 updated
+
+## 20. Scenario 1 对账单处理 (2026-08-02)
+
+### 输入
+- 9 个 .msg 文件 (Outlook 邮件, 含对账单附件或正文数据)
+- 1 个 xlsx 映射表 (674 行, 234 证券代码-名称对)
+
+### 解析结果 (15 次 parse, 0 崩溃)
+| 来源 | 类型 | Tables | Hit% | 备注 |
+|------|------|--------|------|------|
+| 嘉合 x8 | PDF | 2/份 | 93.8% | schema synonyms 补全 |
+| WaveFax | OCR | 1 | 71.4% | prompt 增强后提升 |
+| 华泰紫金 | OCR | 1 | 35.7% | prompt 增强: 0->1 表 |
+| TraFax | OCR | 3 | 0-100% | prompt 增强: 0->3 表 |
+| NCAMC | PDF | 0 | - | known_gap: 垂直布局 |
+| 国金/南华/财通 | body | 0 | - | known_gap: email_body |
+
+### 关键改进
+- Schema: +38 synonyms, 嘉合 31.2%->93.8% (de7336b)
+- OCR prompt: markdown 表格格式示例, 华泰 0->1, TraFax 0->3 (97b8b9e)
+- RAG: +61 chunks, 集合 27->88, QA 3/3 新查询命中
+- Loop C: deepseek-v4-flash-0731 首次审计 ACCEPTED, tool_use 验证通过
+
+### Known Gaps (不投入)
+1. NCAMC 垂直布局 (pymupdf 阅读顺序问题)
+2. email body 格式 (HTML 表格转纯文本)
+3. 交叉验证需同组合数据
