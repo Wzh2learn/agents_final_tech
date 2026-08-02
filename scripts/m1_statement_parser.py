@@ -407,8 +407,15 @@ _OCR_VISION_ENDPOINT = os.environ.get(
 _OCR_VISION_MODEL = os.environ.get(
     "M1_OCR_VISION_MODEL", "Qwen3.6-35B-A3B-Q4_K_M.gguf")
 _OCR_VISION_PROMPT = (
-    "Extract all text and tables from this document image. "
-    "Preserve reading order; render tables as markdown.")
+    "Extract all text and tables from this financial document image. "
+    "IMPORTANT: For any tabular data, you MUST output it as a markdown table "
+    "with | column separators and a header row separated by |---|. "
+    "Example:\n"
+    "| Column1 | Column2 | Column3 |\n"
+    "|---------|---------|---------|\n"
+    "| value1  | value2  | value3  |\n\n"
+    "Preserve all numbers exactly as shown. Do not summarize or omit any rows. "
+    "For non-table text, preserve reading order.")
 _OCR_TIMEOUT = float(os.environ.get("M1_OCR_TIMEOUT", "120"))
 # Vision engine (:8004) concurrency. llama-server is started with 4 slots, so 4
 # parallel requests match its capacity; tune via env if the server config changes.
