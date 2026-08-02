@@ -688,7 +688,54 @@ def _text_lines_to_tables(text: str) -> list[ParsedTable]:
             tidx += 1
             tables.append(ParsedTable(f"text_col_{tidx}", padded[0], padded[1:]))
 
-    # --- Strategy 2: repeating KV blocks -> grid ---
+    # --- Strategy 1.5: single-space separated columns (loose) ---
+    # For OCR text where columns are separated by single spaces but have
+    # consistent column counts >= 3 (e.g. Huatai OCR output)
+    run15: list[list[str]] = []
+    tidx15 = 0
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            if len(run15) >= 3:
+                ncols = max(len(r) for r in run15)
+                if ncols >= 3 and min(len(r) for r in run15) >= 3:
+                    # Check column count consistency: at least 80% of rows have same count
+                    from collections import Counter
+                    counts = Counter(len(r) for r in run15)
+                    most_common_count, most_common_freq = counts.most_common(1)[0]
+                    if most_common_count >= 3 and most_common_freq >= len(run15) * 0.7:
+                        padded = [r + [""] * (most_common_count - len(r)) if len(r) < most_common_count else r[:most_common_count] for r in run15]
+                        tidx15 += 1
+                        tables.append(ParsedTable(f"text_loose_{tidx15}", padded[0], padded[1:]))
+            run15 = []
+            continue
+        cells = [c.strip() for c in re.split(r"\s+", stripped) if c.strip()]
+        if len(cells) >= 3:
+            run15.append(cells)
+        else:
+            if len(run15) >= 3:
+                ncols = max(len(r) for r in run15)
+                if ncols >= 3 and min(len(r) for r in run15) >= 3:
+                    from collections import Counter
+                    counts = Counter(len(r) for r in run15)
+                    most_common_count, most_common_freq = counts.most_common(1)[0]
+                    if most_common_count >= 3 and most_common_freq >= len(run15) * 0.7:
+                        padded = [r + [""] * (most_common_count - len(r)) if len(r) < most_common_count else r[:most_common_count] for r in run15]
+                        tidx15 += 1
+                        tables.append(ParsedTable(f"text_loose_{tidx15}", padded[0], padded[1:]))
+            run15 = []
+    if len(run15) >= 3:
+        ncols = max(len(r) for r in run15)
+        if ncols >= 3 and min(len(r) for r in run15) >= 3:
+            from collections import Counter
+            counts = Counter(len(r) for r in run15)
+            most_common_count, most_common_freq = counts.most_common(1)[0]
+            if most_common_count >= 3 and most_common_freq >= len(run15) * 0.7:
+                padded = [r + [""] * (most_common_count - len(r)) if len(r) < most_common_count else r[:most_common_count] for r in run15]
+                tidx15 += 1
+                tables.append(ParsedTable(f"text_loose_{tidx15}", padded[0], padded[1:]))
+
+        # --- Strategy 2: repeating KV blocks -> grid ---
     kv_pairs: list[tuple[str, str]] = []
     for line in lines:
         m = _KV_LINE_RE.match(line.strip())
