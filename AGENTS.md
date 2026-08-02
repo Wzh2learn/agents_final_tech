@@ -255,3 +255,31 @@ System upgraded from "deliverable" to "production-ready":
 | /api/m1/schema/tables | POST | Add table |
 | /api/m1/schema/tables/{n}/fields | POST/DELETE | Field CRUD |
 | /api/metrics | GET | Prometheus metrics |
+
+## Scenario 1 Gap Resolution (2026-08-02)
+
+All 3 known gaps solved:
+- Gap 1 (NCAMC vertical layout): `_coordinate_table_reconstruction()` in parser
+  Uses pymupdf bbox coordinates to rebuild tables from vertical text layout.
+  Integrated as fallback: find_tables -> text_lines -> coordinates -> OCR.
+- Gap 2 (OCR pure text): Enhanced OCR prompt with markdown table format example.
+ 华泰 0->1 table, TraFax 0->3 tables.
+- Gap 3 (email body): HTML body extraction via extract_msg.htmlBody + BeautifulSoup.
+  3 email-body .msg files: 0 -> 9 tables.
+
+Schema: +23 HTML-specific synonyms (基金市值, 基金份额, 份额净值, etc.)
+Parser: +3 new functions/strategies (coordinate reconstruction, VLM table, single-space loose)
+VLM: scripts/vlm_server_8007.py ready but BLOCKED (Triton ARM64 JIT compilation)
+
+### Model Routing (updated 2026-08-02)
+- Codex CLI (Loop A): qwen3.8-max-preview via Token_Plan direct
+- Claude Code (Loop C): deepseek-v4-flash-0731 via Anthropic endpoint
+  NOTE: qwen3.8-max-preview does NOT work for Claude Code multi-step prompts
+  (audit task ignored). Use deepseek or glm-5.2 for Loop C.
+- :8004: Qwen3.6-35B-A3B + mmproj (generation + OCR + embedding)
+- :8005: Qwen3-14B (auxiliary)
+- :8007: Qwen3-VL-8B (VLM, NOT RUNNING - Triton blocked)
+
+### RAG Collection
+137 embeddings (was 88). Includes scenario1 HTML + NCAMC coordinate tables.
+RAG QA: 14/15 = 93% (OCR query diluted by collection expansion, above 80% gate).

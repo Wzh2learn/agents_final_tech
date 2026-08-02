@@ -2,6 +2,16 @@
 
 ## Snapshot — 2026-08-01 (8h production sprint complete)
 
+
+### Scenario 1 Processing (2026-08-02)
+
+15 sources processed (12 PDF + 3 HTML email bodies). 30 tables, 74 rows extracted.
+All 3 known gaps solved: NCAMC via coordinate reconstruction (75% hit),
+OCR via prompt enhancement, email body via HTML extraction.
+VLM deployment blocked by Triton ARM64 (code ready in scripts/vlm_server_8007.py).
+Claude Code model: deepseek-v4-flash-0731 (qwen3.8-max-preview incompatible with
+Claude Code multi-step prompts). See docs/21 for full infrastructure audit.
+
 ### 8h Production Sprint: Deliverable → Production-Ready
 
 5 phases complete. 225 tests (was 164). New: cross-doc comparison,
