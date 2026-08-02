@@ -1024,12 +1024,15 @@ def parse_pdf(path: str) -> ParsedDoc:
         if doc.text.strip():
             text_tables = _text_lines_to_tables(doc.text)
             doc.tables.extend(text_tables)
-        # Coordinate reconstruction fallback for vertical-layout PDFs
-        # Also try when existing tables have no data rows (junk from find_tables)
-        has_real_tables = any(len(t.rows) > 0 for t in doc.tables)
-        if not has_real_tables:
-            coord_tables = _coordinate_table_reconstruction(path)
-            if coord_tables:
+        # Coordinate reconstruction: always try, prefer if better than find_tables
+        coord_tables = _coordinate_table_reconstruction(path)
+        if coord_tables:
+            # Use coordinate tables if find_tables produced junk (low column count
+            # or single-column tables from watermark/vertical text)
+            find_tables_junk = all(
+                len(t.headers) <= 2 or len(t.rows) == 0 for t in doc.tables
+            ) if doc.tables else True
+            if find_tables_junk:
                 doc.tables = coord_tables
         if not doc.text.strip() and total_images > 0 and not doc.tables:
             doc.needs_ocr = True
