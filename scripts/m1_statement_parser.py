@@ -580,6 +580,89 @@ def _vision_ocr_one(img_bytes: bytes) -> str:
         return ""
 
 
+
+# ---------------------------------------------------------------------------
+# VLM table extraction (:8007 Qwen3-VL-8B, falls back to :8004 mmproj)
+# ---------------------------------------------------------------------------
+_VLM_ENDPOINT = os.environ.get(
+    "M1_VLM_ENDPOINT", "http://127.0.0.1:8007/v1/chat/completions")
+_VLM_MODEL = os.environ.get("M1_VLM_MODEL", "Qwen3-VL-8B-Instruct")
+_VLM_PROMPT = (
+    "请识别图片中的表格，以 markdown 表格格式输出。"
+    "保留所有列名和数据值，不要省略任何行。"
+    "如果图片中有多个表格，分别输出。"
+    "如果图片中没有表格，输出图片中的所有文字。")
+_VLM_TIMEOUT = float(os.environ.get("M1_VLM_TIMEOUT", "60"))
+_vlm_available: bool | None = None  # cached health check
+
+
+def _check_vlm_available() -> bool:
+    """Check if :8007 VLM server is running (cached)."""
+    global _vlm_available
+    if _vlm_available is not None:
+        return _vlm_available
+    try:
+        req = urllib.request.Request(
+            _VLM_ENDPOINT.replace("/v1/chat/completions", "/health"),
+            method="GET",
+        )
+        with urllib.request.urlopen(req, timeout=3) as resp:
+            _vlm_available = resp.status == 200
+    except Exception:
+        _vlm_available = False
+    return _vlm_available
+
+
+def _vlm_ocr_one(img_bytes: bytes) -> str:
+    """Send image to VLM (:8007) for table-aware OCR. Returns text or empty."""
+    import base64
+    b64 = base64.b64encode(img_bytes).decode("ascii")
+    payload = {
+        "model": _VLM_MODEL,
+        "messages": [{"role": "user", "content": [
+            {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{b64}"}},
+            {"type": "text", "text": _VLM_PROMPT},
+        ]}],
+        "temperature": 0,
+        "max_tokens": 4096,
+    }
+    try:
+        req = urllib.request.Request(
+            _VLM_ENDPOINT,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=_VLM_TIMEOUT) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+        content = body["choices"][0]["message"]["content"]
+        return content.strip() if content and content.strip() else ""
+    except Exception:
+        return ""
+
+
+def _try_vlm_table(images: list[bytes]) -> str:
+    """Try VLM (:8007) for table-aware OCR. Falls back to empty string.
+
+    If VLM is not available, returns "" immediately (caller will use mmproj).
+    If VLM output contains markdown table markers (|), returns the text
+    which can be parsed by _parse_markdown_tables.
+    """
+    if not _check_vlm_available():
+        return ""
+    if not images:
+        return ""
+    # Process images concurrently (same pattern as _try_vision_ocr)
+    workers = max(1, min(4, len(images)))
+    if workers == 1:
+        texts = [_vlm_ocr_one(img) for img in images]
+    else:
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            texts = list(pool.map(_vlm_ocr_one, images))
+    return "\n\n".join(t for t in texts if t.strip())
+
+
 def _try_vision_ocr(images: list[bytes]) -> str:
     """Fallback: base64 images -> :8004 /v1/chat/completions (mmproj vision).
 
@@ -615,6 +698,11 @@ def _ocr_fallback(path: str, kind: str) -> tuple[str, str]:
     text = _try_paddleocr(images, os.path.basename(path))
     if text.strip():
         return text, "paddleocr-vl"
+    # Try VLM (:8007) first - outputs markdown tables directly
+    vlm_text = _try_vlm_table(images)
+    if vlm_text.strip():
+        return vlm_text, "vlm-8007"
+    # Fall back to mmproj vision OCR (:8004)
     text = _try_vision_ocr(images)
     if text.strip():
         return text, "vision-8004"
