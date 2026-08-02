@@ -190,6 +190,65 @@ def parse_inference_output(stdout: str, model: str, image: Path) -> dict[str, An
     }
 
 
+def _vlm_api_call(image: Path, max_new_tokens: int) -> dict[str, Any] | None:
+    """Try calling :8007 VLM API. Returns result dict or None if unavailable."""
+    import base64
+    import time
+    import urllib.request
+
+    vlm_endpoint = os.environ.get("M1_VLM_ENDPOINT", "http://127.0.0.1:8007/v1/chat/completions")
+    vlm_model = os.environ.get("M1_VLM_MODEL", "Qwen3-VL-8B-Instruct")
+
+    # Quick health check
+    try:
+        health_url = vlm_endpoint.replace("/v1/chat/completions", "/health")
+        req = urllib.request.Request(health_url, method="GET")
+        with urllib.request.urlopen(req, timeout=3) as resp:
+            if resp.status != 200:
+                return None
+    except Exception:
+        return None
+
+    # Read and encode image
+    img_bytes = image.read_bytes()
+    b64 = base64.b64encode(img_bytes).decode("ascii")
+
+    payload = {
+        "model": vlm_model,
+        "messages": [{"role": "user", "content": [
+            {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{b64}"}},
+            {"type": "text", "text": "Extract all text and tables from this image. Output tables as markdown."},
+        ]}],
+        "temperature": 0,
+        "max_tokens": max_new_tokens * 4,  # VLM tokens != subprocess tokens
+    }
+
+    t0 = time.time()
+    try:
+        req = urllib.request.Request(
+            vlm_endpoint,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+        elapsed = time.time() - t0
+        text = body["choices"][0]["message"]["content"]
+        usage = body.get("usage", {})
+        return {
+            "status": "success",
+            "model_key": "qwen3-vl",
+            "image": {"basename": image.name, "size": [0, 0]},
+            "device": "vlm-api-8007",
+            "elapsed_sec": round(elapsed, 2),
+            "peak_cuda_memory_gib": None,
+            "text": text[:MAX_EXTRACTED_TEXT_CHARS],
+        }
+    except Exception:
+        return None
+
+
 def run_vision_ocr(
     image_path: str,
     model: str = "paddleocr",
@@ -198,10 +257,22 @@ def run_vision_ocr(
     environment: Mapping[str, str] | None = None,
     runner: Any = subprocess.run,
 ) -> dict[str, Any]:
-    """Execute a single read-only OCR inference in the isolated vision environment."""
+    """Execute a single read-only OCR inference.
+
+    For qwen3-vl model: tries :8007 VLM API first, falls back to subprocess.
+    For other models: uses subprocess (PaddleOCR-VL / MiniCPM-V).
+    """
     key = validate_model_key(model)
     token_limit = validate_max_new_tokens(max_new_tokens)
     image = resolve_image_path(image_path, environment)
+
+    # Try VLM API for qwen3-vl model
+    if key == "qwen3-vl":
+        vlm_result = _vlm_api_call(image, token_limit)
+        if vlm_result is not None:
+            return vlm_result
+
+    # Subprocess fallback (original path)
     command = build_inference_command(image, key, token_limit, environment)
     try:
         completed = runner(
