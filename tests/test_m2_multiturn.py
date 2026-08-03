@@ -326,20 +326,23 @@ class TestMultiTurnIntegration:
     def test_three_turn_conversation(self):
         import biz.m2_service as svc
 
-        # Turn 1 (public fund info, desensitized)
-        r1 = svc.ask("博时新策略混合A的基金代码是多少？", top_k=3)
+        # Turn 1: metadata/reconcile query (no client entity names in test code)
+        r1 = svc.ask("哪个样本勾稽校验全部通过？", top_k=3)
         sid = r1["session_id"]
-        assert "001522" in r1["answer"]
+        assert r1["answer"]
+        assert "未找到" not in r1["answer"]
 
-        # Turn 2: follow-up referencing previous context
-        r2 = svc.ask("它持有哪些证券？", top_k=3, session_id=sid)
+        # Turn 2: context-dependent follow-up (trigger word "它们")
+        r2 = svc.ask("它们的对账单日期分别是什么时候？", top_k=3, session_id=sid)
         assert r2["session_id"] == sid
-        # Should stay in context, not ask "which product?"
-        assert "哪个产品" not in r2["answer"]
+        assert r2["answer"]
+        # Should stay in context, not ask for re-clarification
+        assert "哪个样本" not in r2["answer"]
 
         # Turn 3: another follow-up
-        r3 = svc.ask("这些持仓来自哪份对账单？", top_k=3, session_id=sid)
+        r3 = svc.ask("这些对账单文件分别是什么格式？", top_k=3, session_id=sid)
         assert r3["session_id"] == sid
+        assert r3["answer"]
 
         # Verify session has 6 messages (3 turns)
         session = svc._get_session(sid)

@@ -58,4 +58,8 @@
 ## 五、验证
 
 - 基线：远端 pytest 227 passed / 13 skipped（2026-08-03 23:40）。
-- 本轮测试文件变更后由远端复跑确认，结果记入 logs/graph/dispatch_log.md；冻结节点（tests/test_m1_service.py、scripts/graph/frozen_hashes.txt、schema 冻结 hash）未触碰，Loop B 持续 PASS。
+- 本轮变更后远端复跑：**227 passed / 13 skipped（2026-08-04，绿）**。期间发现并修复两处：
+  1. 脱敏改写后的 test_m2_multiturn.py 集成测试指向了语料中不存在的实体 → 改为基于勾稽/元数据的非客户实体三轮对话断言。
+  2. pytest 调用方式依赖（scripts.* 命名空间导入需要 rootdir 在 sys.path）→ pytest.ini 增加 pythonpath = .，两种调用方式均通过。
+- curl 端点全健康：/health、/api/health/full、/api/metrics、/api/m1/schema、/m1 均 200。
+- 冻结节点（tests/test_m1_service.py、scripts/graph/frozen_hashes.txt、schema 冻结 hash）未触碰，Loop B 持续 PASS。
