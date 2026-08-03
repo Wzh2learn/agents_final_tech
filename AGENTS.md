@@ -271,11 +271,10 @@ Schema: +23 HTML-specific synonyms (基金市值, 基金份额, 份额净值, et
 Parser: +3 new functions/strategies (coordinate reconstruction, VLM table, single-space loose)
 VLM: scripts/vlm_server_8007.py ready but BLOCKED (Triton ARM64 JIT compilation)
 
-### Model Routing (updated 2026-08-02)
-- Codex CLI (Loop A): qwen3.8-max-preview via Token_Plan direct
-- Claude Code (Loop C): deepseek-v4-flash-0731 via Anthropic endpoint
-  NOTE: qwen3.8-max-preview does NOT work for Claude Code multi-step prompts
-  (audit task ignored). Use deepseek or glm-5.2 for Loop C.
+### Model Routing (updated 2026-08-03)
+- Codex CLI (Loop A): qwen3.8-max via Token_Plan direct (Responses API)
+- Claude Code (Loop C): qwen3.8-max via Anthropic-compatible endpoint
+  (tool_use verified 2026-08-03; earlier incompatibility was qwen3.8-max-preview only)
 - :8004: Qwen3.6-35B-A3B + mmproj (generation + OCR + embedding)
 - :8005: Qwen3-14B (auxiliary)
 - :8007: Qwen3-VL-8B (VLM, NOT RUNNING - Triton blocked)
@@ -283,3 +282,34 @@ VLM: scripts/vlm_server_8007.py ready but BLOCKED (Triton ARM64 JIT compilation)
 ### RAG Collection
 137 embeddings (was 88). Includes scenario1 HTML + NCAMC coordinate tables.
 RAG QA: 14/15 = 93% (OCR query diluted by collection expansion, above 80% gate).
+
+## Skill 武库注册表 (Phase 0, 2026-08-03)
+
+**Source of truth**: 仓库 `skills/` 目录；`scripts/graph/sync_skills.sh` 幂等分发到各 harness。
+
+**三层分发架构**:
+- 仓库 `skills/` (版本化 source of truth) → sync_skills.sh → 各 harness skill 目录
+- Loop A (Codex CLI): `~/.codex/skills/` — 执行层武库 (+ 既有 neat-freak)
+- Loop C (Claude Code): `~/.claude/skills/` — 审计层武库
+- Loop B 为纯 bash 验证层, 无 AI, 不配 skill; Loop D (指挥层) 使用本地全套 skill
+
+**配属注册表**:
+
+| Loop | Harness | skill | 用途 |
+|---|---|---|---|
+| A | Codex CLI | systematic-debugging | bug 卡住时根因追溯 |
+| A | Codex CLI | executing-plans | 多步计划按 checkpoint 执行 |
+| A | Codex CLI | subagent-driven-development | 独立子任务并行分发 |
+| A | Codex CLI | verification-before-completion | 交付前证据验证 |
+| C | Claude Code | review-codebase | 全库体检 |
+| C | Claude Code | differential-review | 增量 diff 审查 |
+| C | Claude Code | spec-to-code-compliance | 文档-代码一致性 |
+| C | Claude Code | requesting-code-review | 结构化审查请求 |
+| C | Claude Code | receiving-code-review | 反馈的技术性验证 |
+| C | Claude Code | security-best-practices | 安全专项 (按需) |
+
+**治理规则**:
+1. 仅 Loop D 可安装新 skill: 搜索 → 克隆审计 → 安装 → 注册本表与 skills/ → sync_skills.sh 分发。
+2. skill-doctor / skill-map 定期体检 (每次 neat 收尾时), 核对 metadata 与交叉引用一致性。
+3. 自定义 skill 按 skills-best-practices 规范放仓库 skills/ (SKILL.md frontmatter + 附属文件), 不放个人目录。
+4. 弃用只标记不删除: 注册表标 DEPRECATED 并在 SKILL.md 头部注明, 目录保留审计痕迹。

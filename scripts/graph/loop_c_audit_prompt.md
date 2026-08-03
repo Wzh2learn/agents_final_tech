@@ -130,3 +130,19 @@ git diff HEAD~3..HEAD -- src/
 - 审计金融规范合规性时, 用 web_search 查最新监管要求
 - 需要抓取外部文档内容时, 用 web_extractor
 - 不要滥用: 简单的代码审查不需要联网
+
+## Skill 武库 (Loop C, Phase 0 注册)
+
+以下 skill 已同步到 ~/.claude/skills（source of truth = 仓库 skills/，分发 = scripts/graph/sync_skills.sh）。
+触发时按各自 SKILL.md 执行，此处只登记引用与触发条件，不复制正文。
+
+| skill | 触发条件 |
+|---|---|
+| review-codebase | 全库体检 / 架构与模式审查（定期全面审计时） |
+| differential-review | 增量审查：Loop A 新 commit / diff，聚焦安全回归与影响范围 |
+| spec-to-code-compliance | 审计文档与代码一致性（如 docs/17/19/20 与实现的差距） |
+| requesting-code-review | 需要以结构化模板发起审查（界定范围与上下文）时 |
+| receiving-code-review | 评估被审计方申辩/解释时：技术性验证，不表演性采纳 |
+| security-best-practices | 仅当审计明确要求安全视角时触发安全专项 |
+
+约束: skill 只提供方法论；审计判定 (ACCEPTED/REJECTED/CONDITIONAL) 与冻结节点红线仍以本 prompt 为准。

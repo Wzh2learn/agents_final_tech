@@ -104,3 +104,17 @@ code_interpreter 适合多步数值计算 (如市值求和与 reconcile 对比),
 - **禁止 amend 已验证 commit**: Loop B PASS 后, 不得 git commit --amend 该 commit。
   如需追加文件, 新建 commit。违反此规则会导致 Loop B 验证闭环被打破。
 - **禁止 git add -A**: 只 add 你修改的特定文件, 避免抢其他进程的修改。
+
+## Skill 武库 (Loop A, Phase 0 注册)
+
+以下 skill 已同步到 ~/.codex/skills（source of truth = 仓库 skills/，分发 = scripts/graph/sync_skills.sh）。
+触发时按各自 SKILL.md 执行，此处只登记引用与触发条件，不复制正文。
+
+| skill | 触发条件 |
+|---|---|
+| systematic-debugging | 同一 bug/报错连续 2 轮未解决，或原因不明时；先取证追根因，禁止猜测式打补丁 |
+| executing-plans | 收到带明确计划文档的多步任务时，按 checkpoint 执行并汇报 |
+| subagent-driven-development | 任务可拆分为相互独立的子任务时，按其流程分发与复审 |
+| verification-before-completion | 宣称"完成/修复/通过"之前，必须跑验证命令并给出输出证据，先证据后结论 |
+
+约束: skill 只提供方法论；冻结节点 / API key / 72B 等红线仍以本文件与 AGENTS.md 为准。
