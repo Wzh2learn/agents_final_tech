@@ -67,7 +67,7 @@
                         │ 目标 + 约束 + 冻结指令
  ┌──────────────────────▼──────────────────────────────────┐
  │  Loop C: 质量审计 (慢)                                   │
- │  载体: 远端 tmux codex-audit + Codex CLI (:8005 14B)     │
+ │  载体: Claude Code + qwen3.8-max (2026-08-03 起)          │
  │  频率: 每轮执行完成后 / 每 4-6 小时                       │
  │  职责:                                                   │
  │    - 用真实甲方样本 (~/wzh/m1_samples/) 端到端验证        │
@@ -113,7 +113,7 @@
 
  | 锚点 | 验证方式 | 说明 |
  |------|----------|------|
- | API 端点真的能用 | `curl -s http://127.0.0.1:5000/api/m1/parse-file` 返回 200 + 有效 JSON | 不是日志写一句"成功" |
+ | API 端点真的能用 | `curl -s http://127.0.0.1:5050/health` 返回 200 (Loop B 实际锚点: GET /health, GET /api/m1/sample) | 不是日志写一句"成功" |
  | pytest 真的跑过 | Loop B 独立执行, 捕获完整输出 | 不是被标记 skip/xfail |
  | 甲方样本解析正确 | 真实 PDF/TXT/DOCX 解析结果 vs 人工标注 golden 值 | 不是合成数据自测 |
  | 模型服务真的在跑 | `curl http://127.0.0.1:8004/health` 返回 ok | 不是 ps aux 看到进程就算 |
@@ -124,7 +124,7 @@
  |----------|------|----------|
  | 合约测试 | `tests/test_m1_service.py` | git diff --name-only 检查 |
  | 甲方真实样本 | `~/wzh/m1_samples/` (repo 外) | md5sum 清单比对 |
- | 字段定义 | `docs/m1_schema/*.json` | git diff 检查 |
+ | 字段定义 (冻结基准) | `~/wzh/m1_samples/m1_table_schema.json` | md5sum 与 scripts/graph/frozen_hashes.txt 比对 (config/m1_table_schema.json 为可写覆盖层, 非冻结) |
  | 评测基准 | `docs/experiments/` 下已归档报告 | 只增不改 |
 
  Loop B 在每次验证前执行冻结检查。如果发现被篡改:
@@ -154,16 +154,16 @@
  | :8004 | Qwen3.6-35B-A3B Q4_K_M + **mmproj 视觉** | 主力 (Loop A/C) | 运行中, capabilities: [completion, multimodal] |
  | :8005 | Qwen3-14B Q4_K_M (20层GPU卸载) | 辅助 (Loop C 审计) | 运行中 |
  | :8100 | responses2chat proxy | 流式代理 | 运行中 |
- | :5000 | FastAPI 应用 | M1/M2 业务 API | 运行中 |
+ | :5050 | FastAPI 应用 | M1/M2 业务 API | 运行中 (2026-07-31 自 :5000 迁移) |
  | :15432 | PGVector | 向量数据库 | 运行中 |
 
  内存: 44GB / 121GB 已用, 77GB 可用。
 
- ### 4.2 待下载模型
+ ### 4.2 待下载模型 (历史快照, 2026-07-29)
 
  | 模型 | 大小 | 下载位置 | 状态 |
  |------|------|----------|------|
- | **Qwen3-72B-Instruct Q4_K_M** | 44.1 GB | `~/wzh/models/gguf/qwen3-72b/` | 下载中 (tmux: download-72b), ~12% @ 9.7MB/s, 预计 ~77min |
+ | ~~Qwen3-72B-Instruct Q4_K_M~~ | 44.1 GB | 已删除 | 2026-07-31 评估否决 (结构化提取退化), 2026-08-03 文件删除, 此节为历史快照 |
 
  下载完成后需要 Loop D 决定: 替换 35B-A3B 做主力, 还是作为第三模型并存。
  72B 加载后预计占用 ~46GB, 与 14B 辅助共存后总占用 ~60GB, 仍剩余 ~60GB。
@@ -233,7 +233,7 @@
  ```
  你是 Graph 中的执行层 Loop A。
  - 你的产出会被 Loop B (独立脚本) 验证, 被 Loop C (审计 Agent) 审查。
- - 你不能修改: tests/, ~/wzh/m1_samples/, docs/m1_schema/。
+ - 你不能修改: tests/test_m1_service.py, ~/wzh/m1_samples/, scripts/graph/frozen_hashes.txt (完整清单见该文件)。
  - 每次完成任务必须 git commit, commit message 写清楚做了什么。
  - 你不能自行调整优先级或冻结/解冻工作流。
  - 如果 Loop B 验证失败, 根据 verify-report.json 修复后重新提交。
@@ -249,7 +249,7 @@
  - 检查代码变更是否引入不必要的复杂度或架构漂移。
  - 检查冻结文件是否被篡改 (配合 Loop B 的 hash 校验)。
  - 你的审计报告写入 docs/experiments/, 格式: YYYY-MM-DD_audit_*.md。
- - 你使用 :8005 (Qwen3-14B) 作为推理引擎, 不占用 :8004 主力。
+ - 你的载体是 Claude Code (qwen3.8-max, Anthropic 兼容端点, 2026-08-03 起); 审计 prompt 见 scripts/graph/loop_c_audit_prompt.md。
  - 你可以驳回 Loop A 的产出, 但不能自行修改代码。
  ```
 
@@ -281,6 +281,9 @@
  | `scripts/graph/loop_a_exec_constraints.md` | Loop A | 执行层约束指令 + 冻结规则 |
  | `scripts/graph/loop_d_monitor.sh` | Loop D | 战略层状态监控 (可 SSH 远程调用) |
  | `scripts/graph/graph_orchestrator.sh` | 全局 | 编排器: start/stop/status/logs |
+| `scripts/graph/loop_d_daemon.sh` | Loop D | 战略层守护进程 |
+| `scripts/graph/write_report.py` | Loop B | verify-report.json 写入 |
+| `scripts/graph/sync_skills.sh` | 全局 | 仓库 skills/ → 各 harness 幂等分发 |
 
  ### 快速启动
 
@@ -303,6 +306,12 @@
 
  ### 从本机 (Loop D) 远程监控
 
+
+> **Loop A / Loop C 派活说明 (2026-08-04)**: Loop A 与 Loop C 均为一次性派活, 非常驻进程。
+> - Loop A: `tmux new-session -d -s loop-a-taskN "cd $PROJ && source ~/.bashrc && cat scripts/graph/loop_a_exec_constraints.md /tmp/task.md | codex exec --dangerously-bypass-approvals-and-sandbox 2>&1 | tee -a logs/graph/loop_a.log"`
+> - Loop C: `claude -p "<审计指令>"` (模型 qwen3.8-max, 2026-08-03 验证 tool_use 正常)
+> 完整口径见根 AGENTS.md 与 memory/CORE.md「分发通道」。
+
  ```powershell
  # 战略层状态一览
  ssh jinrong-dev "bash ~/wzh/projects/agents_final_tech/scripts/graph/loop_d_monitor.sh"
@@ -318,3 +327,5 @@
 | 2026-07-31 | 8h 自主循环完成：8 轮 Loop A + 6 轮 Loop C + Loop B 持续 PASS；M1 解析率 20%→100%；reconcile 全 PASS + disposition；M1→M2 RAG 闭环 3/3；OCR 并行 200s→74s；15 commits；Loop C 连续 3×ACCEPTED 降频至 12h | Loop D |
 | 2026-07-31 | Graph 运行模式确立：Loop B 常驻 30min 周期；Loop C 降频 12h；Loop A 待命派活；AoE send 不适用 codex exec（一次性），改用 tmux 直启 | Loop D |
 | 2026-07-31 | 流程修复 5 项：anti-amend 规则、anti-git-add-A、API_BASE :5050、disposition 字段、OCR 并行化 | Loop D |
+
+| 2026-08-04 | Phase 3 文档漂移修复: 端口 :5050、Loop C 载体 Claude Code + qwen3.8-max、冻结路径对齐 frozen_hashes.txt、72B 终态、§8 索引补全、Loop A/C 派活说明 | Loop D |

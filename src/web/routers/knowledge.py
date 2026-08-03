@@ -352,6 +352,7 @@ async def upload_document(
     collection_name: str = Form("knowledge_base"),
 ):
     try:
+        collection_name = _validate_collection_name(collection_name)
         rag_service = await get_rag_service()
         if not file.filename:
             return {"status": "error", "message": "未选择文件"}
@@ -391,6 +392,7 @@ async def upload_document(
 @router.delete("/documents/{doc_id}")
 async def delete_document(doc_id: str, collection_name: str = Query("knowledge_base")):
     try:
+        collection_name = _validate_collection_name(collection_name)
         from storage.database.db import get_session
         from storage.database.document_manager import DocumentManager
         from storage.document_storage import get_document_storage

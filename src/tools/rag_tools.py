@@ -18,13 +18,12 @@ def add_document_to_knowledge_base(
     try:
         import asyncio
         from biz.rag_service import get_rag_service_sync
-        validated = AddDocumentInput(file_path=file_path, metadata=metadata)
-        meta_dict = json.loads(validated.metadata) if validated.metadata else {}
+        meta_dict = json.loads(metadata) if metadata else {}
         
         rag_service = get_rag_service_sync()
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        res = loop.run_until_complete(rag_service.ingest_file(validated.file_path, meta_dict))
+        res = loop.run_until_complete(rag_service.ingest_file(file_path, meta_dict))
         
         return f"✅ 文档已成功入库: {file_path}\n对象Key: {res['object_key']}\n分割块数: {res['chunks']}"
     except Exception as e:

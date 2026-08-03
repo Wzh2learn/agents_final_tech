@@ -22,14 +22,14 @@ import biz.m2_service as m2
 
 class TestCompareIntentDetection:
     def test_detect_compare_keywords(self):
-        assert m2.detect_compare_intent("复熙混合25号和博时的对比") is True
+        assert m2.detect_compare_intent("测试产品A和博时的对比") is True
         assert m2.detect_compare_intent("资产有什么变化？") is True
         assert m2.detect_compare_intent("两个产品的差异") is True
         assert m2.detect_compare_intent("持仓增减情况") is True
         assert m2.detect_compare_intent("A vs B") is True
 
     def test_no_compare_intent(self):
-        assert m2.detect_compare_intent("嘉兴民安的总资产是多少？") is False
+        assert m2.detect_compare_intent("测试产品B的总资产是多少？") is False
         assert m2.detect_compare_intent("有哪些证券持仓？") is False
 
 
@@ -39,9 +39,9 @@ class TestCompareIntentDetection:
 
 class TestParseChunkFields:
     def test_parse_kv_line(self):
-        text = "样本: s1\n表: 资金资产汇总\n字段: 总资产=401383291.83, 币种=人民币"
+        text = "样本: s1\n表: 资金资产汇总\n字段: 总资产=100000001.01, 币种=人民币"
         fields = m2._parse_chunk_fields(text)
-        assert fields["总资产"] == "401383291.83"
+        assert fields["总资产"] == "100000001.01"
         assert fields["币种"] == "人民币"
 
     def test_parse_empty(self):
@@ -78,12 +78,12 @@ class TestTryFloat:
 # ---------------------------------------------------------------------------
 
 class TestExtractCompareParams:
-    @patch.object(m2, "list_products", return_value=["复熙混合25号", "嘉兴民安"])
+    @patch.object(m2, "list_products", return_value=["测试产品A", "测试产品B"])
     def test_extracts_product_name(self, mock_lp):
-        params = m2._extract_compare_params("复熙混合25号的对比分析")
-        assert params["product"] == "复熙混合25号"
+        params = m2._extract_compare_params("测试产品A的对比分析")
+        assert params["product"] == "测试产品A"
 
-    @patch.object(m2, "list_products", return_value=["复熙混合25号"])
+    @patch.object(m2, "list_products", return_value=["测试产品A"])
     def test_extracts_dates(self, mock_lp):
         params = m2._extract_compare_params("20231031和20231130对比")
         assert params["date_a"] == "20231031"
@@ -202,7 +202,7 @@ class TestCompareService:
             "model": "rule-based-compare",
             "compare_mode": True,
         }
-        result = m2.ask("复熙混合25号的持仓对比")
+        result = m2.ask("测试产品A的持仓对比")
         assert result.get("compare_mode") is True
         assert "对比结果" in result["answer"]
         mock_cmp.assert_called_once()
@@ -223,23 +223,23 @@ class TestCompareAPI:
         app.include_router(router, prefix="/api/m2")
         return TestClient(app)
 
-    @patch("web.routers.m2.list_products", return_value=["复熙混合25号", "嘉兴民安"])
+    @patch("web.routers.m2.list_products", return_value=["测试产品A", "测试产品B"])
     def test_products_list(self, mock_lp, client):
         resp = client.get("/api/m2/products")
         assert resp.status_code == 200
         data = resp.json()
         assert "products" in data
         assert len(data["products"]) == 2
-        assert "复熙混合25号" in data["products"]
+        assert "测试产品A" in data["products"]
 
     @patch("web.routers.m2.get_product_timeline")
     def test_timeline_single_date(self, mock_tl, client):
         mock_tl.return_value = {
-            "product": "复熙混合25号",
+            "product": "测试产品A",
             "timeline": [{"date": "20231031", "total_assets": "4013****91.83",
                           "position_count": 1, "currency": "人民币"}],
         }
-        resp = client.get("/api/m2/products/复熙混合25号/timeline")
+        resp = client.get("/api/m2/products/测试产品A/timeline")
         assert resp.status_code == 200
         data = resp.json()
         assert len(data["timeline"]) == 1
@@ -248,7 +248,7 @@ class TestCompareAPI:
     @patch("web.routers.m2.compare_dates")
     def test_compare_insufficient_data(self, mock_cmp, client):
         mock_cmp.return_value = {
-            "product": "复熙混合25号",
+            "product": "测试产品A",
             "date_a": "20231031",
             "date_b": "20231130",
             "status": "insufficient_data",
@@ -256,7 +256,7 @@ class TestCompareAPI:
             "available_dates": ["20231031"],
         }
         resp = client.post("/api/m2/compare", json={
-            "product": "复熙混合25号",
+            "product": "测试产品A",
             "date_a": "20231031",
             "date_b": "20231130",
         })
@@ -267,7 +267,7 @@ class TestCompareAPI:
     @patch("web.routers.m2.compare_positions")
     def test_positions_compare(self, mock_pos, client):
         mock_pos.return_value = {
-            "product": "复熙混合25号",
+            "product": "测试产品A",
             "date": "20231031",
             "total_market_value": "1,000.00",
             "position_count": 2,
@@ -277,7 +277,7 @@ class TestCompareAPI:
             ],
         }
         resp = client.post("/api/m2/compare/positions", json={
-            "product": "复熙混合25号",
+            "product": "测试产品A",
             "date": "20231031",
         })
         assert resp.status_code == 200
@@ -295,7 +295,7 @@ class TestCompareAPI:
             "compare_mode": True,
         }
         resp = client.post("/api/m2/ask", json={
-            "question": "复熙混合25号的持仓对比",
+            "question": "测试产品A的持仓对比",
         })
         assert resp.status_code == 200
         data = resp.json()

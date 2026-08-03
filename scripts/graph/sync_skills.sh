@@ -10,8 +10,8 @@ set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 SRC="$PROJECT_ROOT/skills"
 
-A_SKILLS=(systematic-debugging executing-plans subagent-driven-development verification-before-completion)
-C_SKILLS=(requesting-code-review receiving-code-review review-codebase differential-review spec-to-code-compliance security-best-practices)
+A_SKILLS=(systematic-debugging executing-plans subagent-driven-development verification-before-completion jinrong-docs-sync)
+C_SKILLS=(requesting-code-review receiving-code-review review-codebase differential-review spec-to-code-compliance security-best-practices jinrong-docs-sync)
 
 sync_one() {
   local name=$1 dest_root=$2

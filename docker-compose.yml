@@ -6,7 +6,7 @@ services:
     container_name: m1_pgvector
     environment:
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: m1_statements
+      POSTGRES_DB: vector_db
     ports:
       - "15432:5432"
     volumes:
@@ -23,10 +23,10 @@ services:
       dockerfile: Dockerfile
     container_name: m1_harness
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@pgvector:5432/m1_statements
+      PGDATABASE_URL: postgresql://postgres:postgres@pgvector:5432/vector_db
       OPENAI_API_KEY: ${OPENAI_API_KEY}
-      LLM_BASE_URL: ${LLM_BASE_URL:-http://host.docker.internal:8004/v1}
-      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-http://host.docker.internal:8004/v1}
+      M2_LLM_ENDPOINT: ${M2_LLM_ENDPOINT:-http://host.docker.internal:8004/v1/chat/completions}
+      # LOCAL_EMBEDDING_MODEL_PATH: /models/bge-m3  # 可选: 挂载本地 embedding 模型
       M1_LLM_FALLBACK: "1"
     ports:
       - "5050:5050"

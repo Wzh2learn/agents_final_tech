@@ -312,9 +312,31 @@ RAG QA: 14/15 = 93% (OCR query diluted by collection expansion, above 80% gate).
 | C | Claude Code | requesting-code-review | 结构化审查请求 |
 | C | Claude Code | receiving-code-review | 反馈的技术性验证 |
 | C | Claude Code | security-best-practices | 安全专项 (按需) |
+| A+C | Codex CLI + Claude Code | jinrong-docs-sync | 文档四层结构治理 + INDEX.md 单一入口维护 (Phase 4 自定义, 2026-08-04) |
 
 **治理规则**:
 1. 仅 Loop D 可安装新 skill: 搜索 → 克隆审计 → 安装 → 注册本表与 skills/ → sync_skills.sh 分发。
 2. skill-doctor / skill-map 定期体检 (每次 neat 收尾时), 核对 metadata 与交叉引用一致性。
 3. 自定义 skill 按 skills-best-practices 规范放仓库 skills/ (SKILL.md frontmatter + 附属文件), 不放个人目录。
 4. 弃用只标记不删除: 注册表标 DEPRECATED 并在 SKILL.md 头部注明, 目录保留审计痕迹。
+
+## 记忆系统协议 (Phase 5 L1, 2026-08-04)
+
+仓库 `memory/` 是蒸馏记忆层；`logs/graph/dispatch_log.md` 是原始事件流。两轨并行，不互替。
+
+**文件结构**:
+- `memory/CORE.md` — 永久事实（<100 行，始终加载）：系统拓扑（端口/服务/模型路由）、目录约定、冻结红线、分发通道命令。
+- `memory/DECISIONS.md` — 只追加决策日志（ADR 风格）：日期 + 决策 + 理由，不删改。
+- `memory/STATE.md` — 当前快照（覆写式）：各 Loop 状态、进行中任务、下一步、阻塞项。
+- `memory/THREADS.md` — 未决线索：blocked_questions 蒸馏 + 甲方待确认项。
+- `memory/archive/` — STATE.md 旧版压缩归档（按日期命名）。
+
+**读取协议（新会话/新 Loop）**: `memory/CORE.md` → `STATE.md` → `THREADS.md`（约 2KB，替代读 HANDOFF.md 全文；HANDOFF.md 冻结于 2026-08-03 快照，是历史文档）。
+
+**写入职责**:
+- Loop A: 任务交付后更新 `STATE.md` 任务进度段。
+- Loop B: 验证 PASS/FAIL 写入 `STATE.md` 验证段。
+- Loop C: 审计判定与关键发现写入 `DECISIONS.md`。
+- Loop D: 每次 neat/收尾覆写 `STATE.md`（旧版移入 `memory/archive/`）；从 dispatch_log 提炼重要决策进 `DECISIONS.md`。
+
+L2 语义记忆层（mem0 自托管 + pgvector :15432 + MCP）见 docs/18 第 10 节，排在 OpenCode 交付链路打通后执行，今晚不装。

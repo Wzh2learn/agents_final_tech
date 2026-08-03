@@ -32,33 +32,28 @@ start_loop_b() {
   echo "[Loop B] Started (tmux: graph-loop-b)"
 }
 
-# ---- Loop A: Execution Layer (Codex CLI) ----
+# ---- Loop A: Execution Layer (一次性派活模式, 2026-08-04 更新) ----
 start_loop_a() {
-  if tmux has-session -t graph-loop-a 2>/dev/null; then
-    echo "[Loop A] Already running"
-    return
-  fi
-  echo "[Loop A] Starting execution agent..."
-  tmux new-session -d -s graph-loop-a \
-    "cd $PROJECT_DIR && $CODEX_BIN --full-auto \
-      -q 'Read scripts/graph/loop_a_exec_constraints.md and docs/17_Graph_Engineering_多层Loop设计.md first. You are Loop A. Follow all constraints. Current task: continue M1 development per priority list. Check logs/graph/verify-report.json before starting.' \
-      2>&1 | tee -a $LOG_DIR/loop_a.log"
-  echo "[Loop A] Started (tmux: graph-loop-a)"
+  cat <<'EOF_LOOPA'
+[Loop A] Loop A 为一次性派活 (codex exec), 非常驻进程。派活方式:
+  1) 任务写入 /tmp/task.md (目标/步骤/约束/验收标准)
+  2) tmux new-session -d -s loop-a-taskN "cd $PROJ && source ~/.bashrc && \
+       cat scripts/graph/loop_a_exec_constraints.md /tmp/task.md | \
+       codex exec --dangerously-bypass-approvals-and-sandbox 2>&1 | tee -a logs/graph/loop_a.log"
+     (PROJ=~/wzh/projects/agents_final_tech)
+详见 docs/17 §8 与 memory/CORE.md「分发通道」。
+EOF_LOOPA
 }
 
-# ---- Loop C: Quality Audit (Codex CLI on :8005) ----
+# ---- Loop C: Quality Audit (Claude Code + qwen3.8-max, 2026-08-04 更新) ----
 start_loop_c() {
-  if tmux has-session -t graph-loop-c 2>/dev/null; then
-    echo "[Loop C] Already running"
-    return
-  fi
-  echo "[Loop C] Starting quality audit agent..."
-  tmux new-session -d -s graph-loop-c \
-    "cd $PROJECT_DIR && $CODEX_BIN --full-auto \
-      -q 'Read scripts/graph/loop_c_audit_prompt.md first. You are Loop C. Execute a full audit cycle now. Write report to docs/experiments/.' \
-      2>&1 | tee -a $LOG_DIR/loop_c.log"
-  echo "[Loop C] Started (tmux: graph-loop-c)"
+  cat <<'EOF_LOOPC'
+[Loop C] Loop C 载体为 Claude Code (qwen3.8-max, Anthropic 兼容端点), 非常驻进程。派活方式:
+  cd $PROJ && claude -p "$(cat scripts/graph/loop_c_audit_prompt.md)" > docs/experiments/<audit_report>.md
+详见 docs/17 §6 与 memory/CORE.md「分发通道」。
+EOF_LOOPC
 }
+
 
 # ---- Status ----
 show_status() {
@@ -91,8 +86,8 @@ show_status() {
   # App service
   echo "--- App service ---"
   local app_health
-  app_health=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:5000/health" 2>/dev/null || echo "000")
-  echo "  :5000 -> HTTP $app_health"
+  app_health=$(curl -s -o /dev/null -w '%{http_code}' "${M1_API_BASE:-http://127.0.0.1:5050}/health" 2>/dev/null || echo "000")
+  echo "  ${M1_API_BASE:-http://127.0.0.1:5050} -> HTTP $app_health"
   echo
 
   # Latest verify report
@@ -129,18 +124,7 @@ show_status() {
   free -h | head -2
   echo
 
-  # Download progress
-  echo "--- 72B Download ---"
-  if tmux has-session -t download-72b 2>/dev/null; then
-    tmux capture-pane -t download-72b -p 2>/dev/null | tail -2
-  else
-    local f="$HOME/wzh/models/gguf/qwen3-72b/Qwen3-72B-Instruct.Q4_K_M.gguf"
-    if [[ -f "$f" ]]; then
-      echo "  Downloaded: $(ls -lh "$f" | awk '{print $5}')"
-    else
-      echo "  Not started or session ended"
-    fi
-  fi
+  # 72B download probe removed 2026-08-04 (model evaluated, rejected and deleted 2026-08-03)
 }
 
 # ---- Logs ----

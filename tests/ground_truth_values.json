@@ -1,14 +1,8 @@
 {
+  "_note": "2026-08-04 desensitized: client identifiers and monetary amounts removed from repo copy (AGENTS.md red line). Full ground truth kept off-repo on GB10 at ~/wzh/ground_truth_values_full.json for manual accuracy runs.",
   "sample_fuxi_hunhe25_20231101.txt": {
-    "header_meta": {
-      "客户编号": "200030028295",
-      "资产账号": "200030028295"
-    },
+    "header_meta": {},
     "tables": {
-      "资金资产汇总": {
-        "人民币_资产总值": "22161557.90",
-        "人民币_证券市值": "22161557.90"
-      },
       "证券持仓明细": {
         "row_count_gte": 2,
         "has_163012": true,
@@ -22,16 +16,9 @@
       "结束日期": "20231031"
     },
     "tables": {
-      "资金资产汇总": {
-        "资产账户": "880200001508",
-        "资金余额": "3508.55",
-        "资产市值": "401379783.28",
-        "总资产": "401383291.83"
-      },
       "证券持仓明细": {
         "row_count_gte": 1,
-        "has_60****57": true,
-        "600157_市值": "401379783.28"
+        "has_600157": true
       }
     }
   },

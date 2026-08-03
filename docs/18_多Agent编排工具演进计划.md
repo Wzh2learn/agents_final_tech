@@ -318,3 +318,20 @@ AoE sessions:
 - ZhikunCode Web UI 浏览器实测
 - Claude Code 作为 Loop C 审计的实际效果
 - OMC 插件安装 (需 Claude Code 交互)
+
+## 10. 记忆系统 (2026-08-04 Loop D 调研结论)
+
+**应用位置优先级**: 主战场 = Graph × Skills 多 agent loop 的记忆层（解决跨会话、跨 Loop 信息同步；L1 文件协议 2026-08-04 落地，见根 AGENTS.md「记忆系统协议」）。次要 = OpenCode 侧——OpenCode 自带成熟的流程记忆机制（类 skill），交付链路中对接其现有机制即可，不重复造；未来如需语义记忆，通过 L2 的 mem0 MCP 接入。
+
+**L1 文件协议层（已落地）**: `memory/` 目录四文件 + archive/（CORE / DECISIONS / STATE / THREADS），读取顺序 CORE → STATE → THREADS，替代 19KB HANDOFF.md 全文。
+
+**L2 语义记忆层（排期项，OpenCode 交付链路打通后执行）**:
+
+| 框架 | 结论 | 理由 |
+|---|---|---|
+| mem0（自托管 server） | **选用** | LLM/embedding 支持 OpenAI 兼容端点（可接 :8004 或 Token Plan）；向量库支持 pgvector（复用现成 :15432）；官方 MCP server（recall/save/forget）可直接暴露给 OpenCode/Claude/Codex；新增基建最少 |
+| Letta (MemGPT) | 不选 | 完整 agent 运行时，引入等于换 harness，与 Graph 架构冲突 |
+| Graphiti (Zep) | 升级候选 | 时序知识图谱，当"何时因何改了什么"类查询成为强需求再评估；需 Neo4j/FalkorDB 新增基建 |
+| LangMem | 不选 | LangGraph 生态原语，适合嵌入 M2 代码，不适合做系统级记忆框架 |
+
+**交付项**: mem0 部署 + MCP 接入，列入交付排期，OpenCode 交付链路验证后执行。

@@ -133,13 +133,13 @@ class TestContextInjection:
         import biz.m2_service as svc
         sources = [{"sample_id": "s1", "table_name": "t1", "score": 0.9, "text": "data"}]
         history = [
-            {"role": "user", "content": "嘉兴民安的总资产是多少？"},
-            {"role": "assistant", "content": "总资产为401383291.83元。"},
+            {"role": "user", "content": "测试产品甲的总资产是多少？"},
+            {"role": "assistant", "content": "总资产为100000001.01元。"},
         ]
         prompt = svc._build_prompt("其中证券市值占多少？", sources, history=history)
         assert "【对话历史】" in prompt
-        assert "嘉兴民安的总资产是多少？" in prompt
-        assert "401383291.83" in prompt
+        assert "测试产品甲的总资产是多少？" in prompt
+        assert "100000001.01" in prompt
         assert "其中证券市值占多少？" in prompt
         assert "金融对账单分析助手" in prompt
 
@@ -179,14 +179,14 @@ class TestAskFunction:
     def test_ask_returns_session_id(self, mock_col, mock_ret, mock_gen):
         import biz.m2_service as svc
         mock_ret.return_value = [
-            {"sample_id": "jiaxing", "table_name": "asset", "score": 0.95, "text": "总资产 401383291.83"}
+            {"sample_id": "jiaxing", "table_name": "asset", "score": 0.95, "text": "总资产 100000001.01"}
         ]
-        mock_gen.return_value = ("总资产为401383291.83元。", "test-model")
+        mock_gen.return_value = ("总资产为100000001.01元。", "test-model")
 
-        result = svc.ask("嘉兴民安的总资产是多少？", top_k=3)
+        result = svc.ask("测试产品甲的总资产是多少？", top_k=3)
         assert "session_id" in result
         assert len(result["session_id"]) == 36
-        assert result["answer"] == "总资产为401383291.83元。"
+        assert result["answer"] == "总资产为100000001.01元。"
 
     @patch("biz.m2_service._generate")
     @patch("biz.m2_service.retrieve")
@@ -326,19 +326,19 @@ class TestMultiTurnIntegration:
     def test_three_turn_conversation(self):
         import biz.m2_service as svc
 
-        # Turn 1
-        r1 = svc.ask("嘉兴民安的总资产是多少？", top_k=3)
+        # Turn 1 (public fund info, desensitized)
+        r1 = svc.ask("博时新策略混合A的基金代码是多少？", top_k=3)
         sid = r1["session_id"]
-        assert "4013" in r1["answer"].replace(",", "") or "4,013" in r1["answer"]  # handle thousands sep
+        assert "001522" in r1["answer"]
 
         # Turn 2: follow-up referencing previous context
-        r2 = svc.ask("其中证券市值占多少？", top_k=3, session_id=sid)
+        r2 = svc.ask("它持有哪些证券？", top_k=3, session_id=sid)
         assert r2["session_id"] == sid
-        # Should reference 嘉兴 context, not ask "which sample?"
-        assert "哪个" not in r2["answer"] or "嘉兴" in r2["answer"]
+        # Should stay in context, not ask "which product?"
+        assert "哪个产品" not in r2["answer"]
 
-        # Turn 3: arithmetic follow-up
-        r3 = svc.ask("和资金余额加起来对吗？", top_k=3, session_id=sid)
+        # Turn 3: another follow-up
+        r3 = svc.ask("这些持仓来自哪份对账单？", top_k=3, session_id=sid)
         assert r3["session_id"] == sid
 
         # Verify session has 6 messages (3 turns)

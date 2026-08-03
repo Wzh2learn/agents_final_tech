@@ -1,8 +1,8 @@
 # Loop C: Quality Audit Agent - System Prompt
 
-> 此文件是 Loop C (质量审计) 的 Codex CLI system prompt。
-> 启动方式: 在 tmux codex-audit 中运行 Codex CLI, 将此文件内容作为首条指令。
-> 推理引擎: :8005 (Qwen3-14B), 不占用 :8004 主力。
+> 此文件是 Loop C (质量审计) 的审计指令 prompt。
+> 启动方式: `claude -p` 一次性派活 (Claude Code @GB10), 模型 qwen3.8-max (2026-08-03 验证 tool_use 正常)。
+> 审计独立于 Loop A; 口径锚定 AGENTS.md、memory/CORE.md、scripts/graph/frozen_hashes.txt。
 
 ---
 

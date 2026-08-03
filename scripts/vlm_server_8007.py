@@ -65,17 +65,17 @@ def _decode_image(image_url: str) -> Image.Image:
         img_bytes = base64.b64decode(b64data)
         return Image.open(io.BytesIO(img_bytes)).convert("RGB")
     else:
-        # Assume URL - download
+        # Only http(s) URLs allowed (block file:// and other schemes: SSRF/local-read guard)
+        if not (image_url.startswith("http://") or image_url.startswith("https://")):
+            raise ValueError("unsupported image_url scheme; only http(s) allowed")
         import urllib.request
         with urllib.request.urlopen(image_url, timeout=30) as resp:
             return Image.open(io.BytesIO(resp.read())).convert("RGB")
-
-
 @app.post("/v1/chat/completions")
 async def chat_completions(request: dict):
     """OpenAI-compatible chat completions with vision support."""
     messages = request.get("messages", [])
-    max_tokens = request.get("max_tokens", 2048)
+    max_tokens = min(int(request.get("max_tokens", 2048) or 2048), 8192)  # cap to prevent GPU exhaustion
     temperature = request.get("temperature", 0.0)
 
     # Convert OpenAI format to Qwen VL format
@@ -156,8 +156,8 @@ async def chat_completions(request: dict):
         }
     except Exception as e:
         log.error("Generation error: %s", e, exc_info=True)
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        return JSONResponse(status_code=500, content={"error": "generation failed"})
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8007, log_level="info")
+    uvicorn.run(app, host="127.0.0.1", port=8007, log_level="info")  # internal-only: no auth on this service
