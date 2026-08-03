@@ -1,0 +1,31 @@
+# memory/THREADS.md — 未决线索
+
+## 技术未决（来自 blocked_questions.md 现存条目）
+
+### Phase 1 数据抽取 (2026-08-01 19:45) — RESOLVED 带遗留
+- 问题: /api/m2/compare/positions 对 jiaxing 返回空; PGVector metadata product_name 与查询不匹配。
+- 状态: 2026-08-03 23:35 双根因已修 (服务进程缺 PGDATABASE_URL + 表类型判断改用 table_name+matched_schema 联合); positions 0→2, 24 tests passed。
+- 遗留: 110/137 chunk 的 product_name 为空或正则碎片 (OCR 样本), 记录不修。
+- 下一步: 若跨文档对比出现实质错漏, 再重做 ingest metadata 注入。
+
+### OCR meta-query (2026-08-03 23:36) — ACCEPTED
+- 问题: "哪个样本通过 OCR 解析了交易对账单" 被 scenario1 caitong HTML chunk 抢占排序 (0.4385)。
+- 状态: OCR 溯源元数据已入库 (解析引擎=vision-8004) 但查询词"交易对账单"主导排序; 14/15=93% 高于 80% gate, 接受。
+- 下一步(暂不做): ingest 时给解析元数据 chunk 加 "OCR=是" 字面量; 注意 --reset 重灌会丢 scenario1 chunk (ingest 只扫顶层目录)。
+
+## 其他技术线索
+
+- VLM 恢复条件 (2026-08-03 关闭): 待国内镜像同步 Qwen3-VL-8B-Instruct GGUF, 下载 Q4_K_M + mmproj-Q8_0 后用 LM Studio llama-server 起 :8007; _try_vlm_table 集成代码已就位。
+- MCP server x3 未运行 (docs/21 §1.3): start 脚本硬编码 wzh_vllm conda env; 用户决策 D3=B 跳过, 重启多 agent 工具化时再修。
+- OpenCode 多 agent (docs/21 §1.4): 中性 prompt 自动委派仍未端到端验证, 对外口径只写 "ready to activate"; 显式指令两跳已验证 (2026-07-29)。
+- Qoder CLI (2026-07-29 侦察): BLOCKED-auth, 等用户注册并提供 PAT 后再做 Phase 2 连通性实测。
+- ZhikunCode 重建 (2026-08-03): 官方 Dockerfile pip 直连 pypi.org 极慢, 需临时 aliyun 镜像源 (已还原) 或向上游提 PR。
+- codex CLI 对 qwen3.8-max 报 "model metadata not found" 警告: 无功能影响, 记录不修 (2026-08-03)。
+- .msg→htmlBody 预处理仍是临时脚本未入库; parse_html 已入库覆盖解析环节 (T3 遗留)。
+
+## 甲方侧待确认
+
+- 跨期对比: 需甲方提供多期对账单数据才能解锁 (现仅单期/单文档内对比)。
+- email body 格式: 列为 known_gap — HTML body 路径已验证 (3 封邮件 0→9 表), 如甲方要求再投入扩展。
+- M2 正式业务指标: 阻塞于甲方批准的 label-to-source 映射与人工标注 (AGENTS.md 架构边界)。
+- 部署加固: M1_API_TOKEN/M1_ADMIN_TOKEN 启用、systemd 进程守护、Prometheus 接入, 待甲方运维确认。
