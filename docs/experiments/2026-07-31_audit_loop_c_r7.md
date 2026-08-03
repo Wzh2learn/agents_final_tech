@@ -19,7 +19,7 @@
 - `scripts/graph/loop_c_audit_prompt.md` (+14, `87d8da4`): 新增"千问平台工具(审计辅助)"节, 授权 Loop C 用 `web_search`/`web_extractor` 联网。
 - `scripts/graph/loop_a_exec_constraints.md` (+16, `87d8da4`): 加 harness tools 使用约束节。
 - `docs/experiments/2026-07-31_72b_reevaluation.md` (+127, `6b9deaa`): 72B 复评报告 (退化确认)。
-- `docs/18_overnight_loopD_neat_closeout.md` (+34, `264f30a`): section 15, 4 项决策 + harness tools 集成 + Loop A demo。
+- `docs/22_overnight_loopD_neat_closeout.md` (+34, `264f30a`): section 15, 4 项决策 + harness tools 集成 + Loop A demo。
 - `git diff HEAD~3..HEAD -- src/` = **空** (无 src/ 代码改动)。
 
 ### 是否服务于甲方需求: **PARTIAL (间接)**

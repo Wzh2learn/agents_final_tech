@@ -1,5 +1,7 @@
 # Codex 使用说明
 
+> **历史快照 (2026-07-19)**: 本文的 MCP/进度描述停留在 7 月中旬。现行实况以 `AGENTS.md` (Model Routing / Skill 武库) 与 `HANDOFF.md` 顶部快照为准；MCP 现为 5 工具，M1 解析已达成 scenario1 100%。
+
 ## 启动方式
 
 Codex 在本仓库开始工作前，应依次阅读：

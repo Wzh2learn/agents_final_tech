@@ -215,7 +215,7 @@ bash scripts/switch_codex_model.sh deepseek
 - `glm` / `deepseek` → `model_provider = "Token_Plan_Chat"` (经 :8100 代理)
 - glm/deepseek 切换时自动确保 :8100 代理在跑
 
-Claude Code 默认模型为 glm-5.2（千问 Anthropic 兼容端点），配置在 `~/.claude/settings.json`。
+Claude Code 默认模型为 qwen3.8-max（千问 Anthropic 兼容端点，2026-08-03 切换并验证 tool_use），配置在 `~/.claude/settings.json`。glm-5.2 / deepseek-v4-flash-0731 为可选回退。
 其他工具默认 qwen3.8-max-preview。
 
 模型分配原则：

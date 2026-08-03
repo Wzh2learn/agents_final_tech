@@ -50,7 +50,7 @@ Use `--dangerously-bypass-approvals-and-sandbox` for Codex CLI exec on GB10
 
 ## Development Commands
 
-Use Python 3.11 and install `requirements.txt`. On Windows:
+Use Python 3.12 and install `requirements.txt`. On Windows:
 
 ```powershell
 .\venv\Scripts\python.exe scripts\verify_config.py
@@ -157,8 +157,7 @@ The M1 counterparty-statement parser (`scripts/m1_statement_parser.py`) achieved
 | OCR parallelization | 200s -> 74s (2.7x) |
 
 PaddleOCR-VL remains broken (transformers version incompatibility); vision-8004
-fallback handles all OCR needs. 72B model NOT replacing主力 (degenerate on
-structured extraction).
+fallback handles all OCR needs. 72B model evaluated, rejected and deleted (degenerate on structured extraction; files removed, 47GB freed).
 
 ## Graph Engineering Running Mode (2026-07-31)
 
@@ -169,7 +168,7 @@ Four-layer loop architecture per `docs/17_Graph_Engineering_多层Loop设计.md`
 | Loop D | Strategic oversight | Local Codex desktop | Active |
 | Loop A | Execution | Remote Codex CLI via tmux | Standby (dispatched per task) |
 | Loop B | Independent verification | graph-loop-b tmux daemon, 30min cycle | Running |
-| Loop C | Quality audit | Claude Code + glm-5.2 | 12h freq (after 3x ACCEPTED) |
+| Loop C | Quality audit | Claude Code + qwen3.8-max | 12h freq (after 3x ACCEPTED) |
 
 **AoE session management note**: AoE `send` does not work with `codex exec`
 (one-shot binary; respawn re-runs original command). Loop A tasks are dispatched
@@ -189,9 +188,9 @@ L5 git pre-commit hook blocks commits touching frozen paths.
 
 The M2 RAG QA endpoint is live at :5050/api/m2/ask:
 - POST { question: ..., top_k: 3} -> {answer: ..., sources: [...], model: ...}
-- Uses PGVector collection m1_parsed_statements (17 embeddings, 4/5 samples)
+- Uses PGVector collection m1_parsed_statements (137 embeddings, scenario1 included)
 - Embedding + generation via :8004 (Qwen3.6-35B-A3B)
-- QA test suite: scripts/m1_rag_qa.py (15 queries, 100% correct)
+- QA test suite: scripts/m1_rag_qa.py (15 queries, 14/15 = 93% after 2026-08-02 collection expansion; gate 80%)
 - UI panel integrated into :5050/m1 page
 
 ## Qwen Harness Tools (2026-07-31)
@@ -200,13 +199,13 @@ scripts/qwen_harness_tools.py provides CLI access to Qwen platform tools:
 - web_search: internet search via Responses API
 - code_interpreter: cloud sandbox code execution
 - web_extractor: web page content extraction (requires web_search in same request)
-- Model: qwen3.8-max-preview, enable_thinking=true, timeout 120s
+- Model: qwen3.8-max-preview, enable_thinking=true, timeout 120s (independent of Loop A/C routing; preview supports all 5 harness tools)
 - Used by Loop A (execution) and Loop C (audit) for external verification
 
 ## Graph Engineering Loop Status (2026-07-31)
 
 - Loop B: daemon running (30min cycle, all PASS)
-- Loop C: 12h frequency (4x consecutive ACCEPTED), Claude Code + glm-5.2
+- Loop C: 12h frequency (4x consecutive ACCEPTED), Claude Code + qwen3.8-max (switched from glm-5.2 on 2026-08-03)
 - Loop A: standby (tmux direct launch per task)
 - Loop D: strategic layer (user + main thread)
 - Frozen nodes: tests/test_m1_service.py, ~/wzh/m1_samples/, scripts/graph/frozen_hashes.txt
@@ -233,6 +232,8 @@ System upgraded from  runnable to deliverable:
 | test_m1_ocr_fallback.py | ~8 | PASS |
 | test_m2_rag.py | ~8 | PASS |
 | **Total** | **98+** | |
+
+2026-08-04 current: 227 passed / 13 skipped (table above is the 2026-08-01 snapshot).
 
 ## 8h Production Sprint (2026-08-01)
 
@@ -275,6 +276,10 @@ VLM: scripts/vlm_server_8007.py ready but BLOCKED (Triton ARM64 JIT compilation)
 - Codex CLI (Loop A): qwen3.8-max via Token_Plan direct (Responses API)
 - Claude Code (Loop C): qwen3.8-max via Anthropic-compatible endpoint
   (tool_use verified 2026-08-03; earlier incompatibility was qwen3.8-max-preview only)
+
+### ZhikunCode (GB10)
+- v1.2.1+7 (upgraded 2026-08-03), docker container `zhikuncode`, port :8090
+- Self-hosted Multi-Agent platform; source-built via docker compose (~/wzh/tools/zhikuncode)
 - :8004: Qwen3.6-35B-A3B + mmproj (generation + OCR + embedding)
 - :8005: Qwen3-14B (auxiliary)
 - :8007: Qwen3-VL-8B (VLM, NOT RUNNING - Triton blocked)

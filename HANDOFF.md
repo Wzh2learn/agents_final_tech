@@ -1,5 +1,18 @@
 # Development Handoff
 
+## Snapshot — 2026-08-04 (current)
+
+- Model routing: Loop A (Codex CLI) + Loop C (Claude Code) both qwen3.8-max
+  (Loop C via Anthropic-compatible endpoint, tool_use verified 2026-08-03).
+- Tests: 227 passed / 13 skipped. RAG QA: 14/15 = 93% (gate 80%).
+- M2 collection m1_parsed_statements: 137 embeddings (scenario1 included).
+- M1 parse: 100% on scenario1 (15 sources / 30 tables; OCR via vision-8004,
+  HTML email bodies via parse_html, NCAMC via coordinate reconstruction).
+- ZhikunCode v1.2.1+7 (docker, :8090, upgraded 2026-08-03).
+- VLM line CLOSED (Triton ARM64 + GGUF CDN unreachable); 72B deleted.
+- Skill armory Phase 0 registered (repo skills/ + sync_skills.sh; see AGENTS.md).
+- Doc entry point: docs/INDEX.md. Loop B daemon: 30min cycle, PASS.
+
 ## Snapshot — 2026-08-01 (8h production sprint complete)
 
 
@@ -9,8 +22,9 @@
 All 3 known gaps solved: NCAMC via coordinate reconstruction (75% hit),
 OCR via prompt enhancement, email body via HTML extraction.
 VLM deployment blocked by Triton ARM64 (code ready in scripts/vlm_server_8007.py).
-Claude Code model: deepseek-v4-flash-0731 (qwen3.8-max-preview incompatible with
-Claude Code multi-step prompts). See docs/21 for full infrastructure audit.
+Claude Code model: qwen3.8-max via Anthropic-compatible endpoint (switched + tool_use
+verified 2026-08-03; earlier incompatibility was qwen3.8-max-preview only).
+See docs/21 for full infrastructure audit.
 
 ### 8h Production Sprint: Deliverable → Production-Ready
 
@@ -25,13 +39,13 @@ Git aligned at fad19b5+. See docs/18 section 19.
 
 All 6 phases complete. System now has: client demo doc (docs/19), deployment
 guide (docs/20), Docker Compose, multi-turn M2 chat, 98+ tests, 11 demo
-screenshots. M1 100% parse rate, M2 15/15 RAG QA + multi-turn sessions.
+screenshots. M1 100% parse rate, M2 15/15 RAG QA + multi-turn sessions. (snapshot 2026-08-01; current: 14/15 = 93% after collection expansion)
 Git aligned at c0eb55e. Loop B continuous PASS. See docs/18 section 17.
 
 ### Latest: M2 RAG QA API + Harness Tools (2026-07-31 evening)
 
 M2 RAG QA endpoint live at :5050/api/m2/ask (1021ms response). QA suite
-expanded to 15 queries, 100% correct (13 answerable + 2 documented gaps).
+expanded to 15 queries, 100% correct at the time (13 answerable + 2 documented gaps); current 14/15 = 93%.
 Qwen harness tools CLI (web_search, code_interpreter, web_extractor) integrated
 into Loop A/C workflows. Loop C R7 ACCEPTED (4th consecutive). Loop B PASS
 covering HEAD. Git aligned at 538fb08.
@@ -45,7 +59,7 @@ parallelized 200s→74s. Reconcile disposition field added. 15 git commits.
 Loop C reached 3x consecutive ACCEPTED, audit frequency reduced to 12h.
 72B model evaluated and rejected (degenerate on structured extraction).
 PaddleOCR-VL still broken (transformers compat); vision-8004 fallback handles
-all OCR. See `docs/18_overnight_loopD_neat_closeout.md` for full report.
+all OCR. See `docs/22_overnight_loopD_neat_closeout.md` for full report.
 
 **Current state**: Loop B daemon running (30min cycle, all PASS). Loop A
 standby. Loop C 12h frequency. :5050 M1 harness healthy (workers=2). :8004

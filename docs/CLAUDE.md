@@ -7,9 +7,10 @@ Claude Code must follow the repository-wide instructions in [`../AGENTS.md`](../
 Before changing code, read:
 
 1. `README.md`
-2. `docs/02_阶段计划与分工.md`
-3. `docs/05_开发任务清单.md`
-4. `docs/09_OpenCode与现有RAG_MCP实施方案.md`
+2. `HANDOFF.md` (current snapshot at top)
+3. `docs/17_Graph_Engineering_多层Loop设计.md`
+4. `docs/21_基础设施盘点与gap解决规划.md`
+5. `docs/INDEX.md` (doc map)
 
 ## Project-Specific Notes
 
@@ -19,4 +20,4 @@ Before changing code, read:
 - The first MCP version is read-only. Write, delete, re-index, OCR, and evaluation operations require an explicit reviewed task.
 - `opencode.json` points to a GB10-local OpenAI-compatible endpoint; credentials and machine-specific overrides must remain outside Git.
 
-Use Python 3.11. Because this repository uses a `src/` layout, set `PYTHONPATH=src` when running tests directly.
+Use Python 3.12. Because this repository uses a `src/` layout, set `PYTHONPATH=src` when running tests directly.

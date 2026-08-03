@@ -2,9 +2,9 @@
 
 基于 AI 的金融对账单智能解析与问答系统：上传对账单，秒级提取结构化数据，自然语言追问即得答案。
 
-[![Tests](https://img.shields.io/badge/tests-164%20passed-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-227%20passed-brightgreen)]()
 [![Parse Rate](https://img.shields.io/badge/parse%20rate-100%25-blue)]()
-[![RAG QA](https://img.shields.io/badge/RAG%20QA-15%2F15-blue)]()
+[![RAG QA](https://img.shields.io/badge/RAG%20QA-14%2F15-blue)]()
 
 ---
 
@@ -12,10 +12,10 @@
 
 | 能力 | 说明 | 指标 |
 |------|------|------|
-| 多格式解析 | PDF / TXT / DOCX，含扫描件 OCR | 5/5 = 100% |
+| 多格式解析 | PDF / TXT / DOCX / XLSX / HTML，含扫描件 OCR + 坐标重建 | scenario1: 15 源 / 30 表 = 100% |
 | 智能字段映射 | 表头近义词 + LLM 兜底 | 60+ 同义词 |
 | 勾稽校验 | 市值/币种/日期/错配 4 项自动校验 | real_pass/skipped 标注 |
-| RAG 问答 | 自然语言查询 + 答案溯源 | 15/15 = 100%, 295ms |
+| RAG 问答 | 自然语言查询 + 答案溯源 | 14/15 = 93%, 295ms |
 | 多轮对话 | 连续追问，上下文感知检索 | session 管理 |
 
 ## 快速开始
@@ -81,7 +81,7 @@ scripts/
 ├── qwen_harness_tools.py    # 千问平台工具 CLI
 └── run.sh                   # 一键启动
 
-tests/                       # 164 tests (0 failures)
+tests/                       # 227 tests (0 failures)
 docs/
 ├── 19_系统能力说明书.md      # 甲方演示文档
 ├── 20_部署指南.md            # 部署文档
@@ -95,7 +95,7 @@ docs/
 - **检索**: PGVector + BM25 混合检索
 - **生成**: Qwen3.6-35B-A3B (llama.cpp)
 - **嵌入**: Qwen3-Embedding-0.6B
-- **测试**: pytest (164 passed, 13 skipped)
+- **测试**: pytest (227 passed, 13 skipped)
 
 ## 性能
 
