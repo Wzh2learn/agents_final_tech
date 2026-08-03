@@ -143,6 +143,36 @@ def collection_name() -> str:
     return _rag_mod.COLLECTION
 
 
+def embedding_count() -> int:
+    """Count embedding rows in the M2 collection (real PG count).
+
+    Used by /api/health/full. RAGService has no `.collection` attribute,
+    so the count must come from the langchain PG tables directly.
+    """
+    _load_rag()
+    try:
+        from storage.database.db import get_session
+        from storage.database.shared.model import (
+            LangchainPgCollection,
+            LangchainPgEmbedding,
+        )
+        db = get_session()
+        try:
+            return int(
+                db.query(LangchainPgEmbedding)
+                .join(
+                    LangchainPgCollection,
+                    LangchainPgEmbedding.collection_id == LangchainPgCollection.uuid,
+                )
+                .filter(LangchainPgCollection.name == _rag_mod.COLLECTION)
+                .count()
+            )
+        finally:
+            db.close()
+    except Exception:
+        return 0
+
+
 def retrieve(question: str, top_k: int = 10) -> list[dict[str, Any]]:
     """Retrieve relevant desensitized chunks for a question.
 
@@ -504,7 +534,9 @@ def get_product_timeline(product: str) -> dict[str, Any]:
                 "currency": "人民币",
             }
         text = chunk["document"] or ""
-        table = meta.get("table_name", "")
+        # table_name may be a raw id (p0_table_3); matched_schema carries the
+        # schema table name (证券持仓明细/资金资产汇总) needed for detection.
+        table = f'{meta.get("table_name", "")} {meta.get("matched_schema", "")}'
         fields = _parse_chunk_fields(text)
         if "资产汇总" in table or "资金资产" in table:
             for key in ("总资产", "资产总值", "资产合计"):
@@ -606,7 +638,7 @@ def compare_positions(product: str, date: str) -> dict[str, Any]:
     total_mv = 0.0
     for chunk in chunks:
         meta = chunk["metadata"]
-        table = meta.get("table_name", "")
+        table = f'{meta.get("table_name", "")} {meta.get("matched_schema", "")}'
         if "持仓" not in table:
             continue
         fields = _parse_chunk_fields(chunk["document"] or "")

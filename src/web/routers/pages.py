@@ -66,10 +66,10 @@ async def health_full():
 
     # 1. PGVector
     try:
-        from biz.m2_service import _load_rag, collection_name
-        rag = _load_rag()
+        from biz.m2_service import _load_rag, collection_name, embedding_count
+        _load_rag()
         col = collection_name()
-        count = rag.collection.count() if hasattr(rag, "collection") and rag.collection else 0
+        count = embedding_count()
         checks["pgvector"] = {"status": "ok", "collection": col, "embeddings": count}
     except Exception as e:
         checks["pgvector"] = {"status": "error", "detail": str(e)[:100]}

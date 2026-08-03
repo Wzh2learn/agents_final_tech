@@ -1135,11 +1135,50 @@ def parse_docx(path: str) -> ParsedDoc:
     return doc
 
 
+def parse_html(path: str) -> ParsedDoc:
+    """Parse HTML (email bodies) into tables via BeautifulSoup.
+
+    Each <table> becomes a ParsedTable whose first non-empty row is the
+    header row. Free text outside tables is kept so header_meta KV
+    extraction still runs in process_sample.
+    """
+    try:
+        from bs4 import BeautifulSoup
+    except ImportError:
+        return ParsedDoc(path=path, kind="html", ok=False, error="bs4 not installed")
+    try:
+        raw = read_text_autoenc(path)
+    except Exception as e:
+        return ParsedDoc(path=path, kind="html", ok=False, error=str(e)[:200])
+    soup = BeautifulSoup(raw, "html.parser")
+    for tag in soup(["script", "style"]):
+        tag.decompose()
+    tables: list[ParsedTable] = []
+    for idx, tbl in enumerate(soup.find_all("table"), start=1):
+        rows: list[list[str]] = []
+        for tr in tbl.find_all("tr"):
+            cells = [c.get_text(" ", strip=True) for c in tr.find_all(["td", "th"])]
+            cells = [c for c in cells if c != ""]
+            if cells:
+                rows.append(cells)
+        if not rows:
+            continue
+        width = max(len(r) for r in rows)
+        if width < 2:
+            continue
+        padded = [r + [""] * (width - len(r)) for r in rows]
+        tables.append(ParsedTable(f"html_table_{idx}", padded[0], padded[1:]))
+    text = soup.get_text("\n")
+    return ParsedDoc(path=path, kind="html", ok=True, text=text, tables=tables)
+
+
 PARSERS = {
     ".txt": parse_txt,
     ".pdf": parse_pdf,
     ".xlsx": parse_xlsx,
     ".docx": parse_docx,
+    ".html": parse_html,
+    ".htm": parse_html,
 }
 
 

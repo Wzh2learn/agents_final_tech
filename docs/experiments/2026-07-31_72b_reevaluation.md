@@ -52,3 +52,35 @@ both M1 parsing and M2 generation. The 47GB disk space can be reclaimed.**
 - 72B process killed after test (PID 88037)
 - Port :8006 freed
 - 47GB model file retained on disk for now (can be deleted if space needed)
+| 5 | 哪个样本通过OCR解析了交易对账单？... |   | ERROR  | 4890ms | 2962107ms | TBD |
+
+### Query 5: 哪个样本通过OCR解析了交易对账单？
+
+**35B (4890ms):**
+
+
+**72B (2962107ms):**
+ERROR
+
+---
+
+
+## Summary
+- 35B avg latency: computed above
+- 72B avg latency: computed above
+- Quality assessment: see per-query details
+
+---
+
+## Multi-turn Retrieval Quality Comparison (2026-08-01)
+
+| Case | Follow-up Query | With Context | Without Context |
+|------|----------------|--------------|-----------------|
+| 1 | 其中证券市值呢？ | ✓ jiaxing | ✗ fuxi (wrong) |
+| 2 | 证券市值占多少？ | ✓ fuxi | ✓ fuxi (lucky) |
+| 3 | 基金代码呢？ | ✓ boshi | ✗ fuxi (wrong) |
+
+**Result: 3/3 (100%) with conversation-aware retrieval vs 1/3 (33%) without.**
+
+Method: retrieval query augmented with last 2 user turns from session history.
+This carries entity names (e.g.  嘉兴民安) into the embedding search for follow-ups.
