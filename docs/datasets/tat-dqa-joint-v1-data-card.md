@@ -1,5 +1,7 @@
 # TAT-DQA `joint-v1` data card
 
+> 状态: 活跃（研究线规范性冻结契约） | 更新: 2026-08-05 | 取代/被取代: 无
+
 `joint-v1` is the approved public starting point for the JinRongAgents M1 → M2
 baseline. It is not an M1, M2, OCR, retrieval, or model-quality result.
 

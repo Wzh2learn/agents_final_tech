@@ -1,5 +1,7 @@
 # Codebase Map (2026-08-04, Phase 1)
 
+> 状态: 活跃 | 更新: 2026-08-05 | 取代/被取代: 无
+
 按 codebase-map skill 生成。仓库: agents_final_tech — 基于 AI 的金融对账单智能解析与问答系统 (M1 解析 / M2 RAG 问答 / Graph 多层 Loop)。
 
 ## Structure Overview

@@ -1,6 +1,6 @@
 # Development Handoff
 
-## Snapshot — 2026-08-04 (current)
+## Snapshot — 2026-08-04 (frozen historical snapshot; live state = memory/STATE.md)
 
 - Model routing: Loop A (Codex CLI) + Loop C (Claude Code) both qwen3.8-max
   (Loop C via Anthropic-compatible endpoint, tool_use verified 2026-08-03).
@@ -59,7 +59,7 @@ parallelized 200s→74s. Reconcile disposition field added. 15 git commits.
 Loop C reached 3x consecutive ACCEPTED, audit frequency reduced to 12h.
 72B model evaluated and rejected (degenerate on structured extraction).
 PaddleOCR-VL still broken (transformers compat); vision-8004 fallback handles
-all OCR. See `docs/22_overnight_loopD_neat_closeout.md` for full report.
+all OCR. See `docs/archive/22_overnight_loopD_neat_closeout.md` for full report.
 
 **Current state**: Loop B daemon running (30min cycle, all PASS). Loop A
 standby. Loop C 12h frequency. :5050 M1 harness healthy (workers=2). :8004

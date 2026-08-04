@@ -1,5 +1,7 @@
 # 远程开发机配置：Codex CLI + OpenCode
 
+> 状态: 活跃 | 更新: 2026-08-05 | 取代/被取代: 无
+
 **日期：2026-07-27。** 本文覆盖 GB10 开发机上两套工具的安装与验证。
 
 ## 1. 两套工具的定位
@@ -220,5 +222,5 @@ Claude Code 默认模型为 qwen3.8-max（千问 Anthropic 兼容端点，2026-0
 
 模型分配原则：
 - **日常执行层** (Loop A / Codex CLI): qwen3.8-max-preview，性价比最高
-- **审计层** (Loop C / Claude Code): glm-5.2，推理链更强
+- **审计层** (Loop C / Claude Code): qwen3.8-max（2026-08-03 定版切换，tool_use 已验证）
 - **硬骨头手动升级**: glm-5.2 或 deepseek-v4-pro，遇到 qwen 搞不定的任务时切

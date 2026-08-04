@@ -1,5 +1,7 @@
 # Skill 体系体检报告 (2026-08-04, Phase 1)
 
+> 补注 (2026-08-05): 本报告扫描时仓库 skills/ 为 10 个；2026-08-04 新增第 11 个 jinrong-docs-sync（Phase 4 自定义 skill，已注册进 AGENTS.md Skill 武库），未经本轮 doctor/map 扫描。
+
 工具: skill-doctor + skill-map (均 uv run; Windows 需 PYTHONUTF8=1 规避 GBK 解码崩溃 — skill-map 的已知平台 bug)。
 扫描根: 本机 `C:\Users\王中华\.codex\skills` (Loop D 工作区) + 仓库 `skills/` (source of truth)。
 

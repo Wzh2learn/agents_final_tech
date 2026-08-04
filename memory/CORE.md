@@ -40,7 +40,7 @@
 
 - tests/test_m1_service.py（冻结节点）；scripts/graph/frozen_hashes.txt（冻结基准）；schema 冻结 hash
 - 不碰 API key；不加载 72B；归档用 git mv 不用 rm；不 enable systemd；审查意见不照单全收
-- OpenCode/MCP 交付物三件（docs/09、docs/10、docs/2026-07-19_m2_mcp_verification.md）永不归档/删除
+- OpenCode/MCP 交付物三件（09/10/2026-07-19_m2_mcp_verification）2026-08-05 归档至 docs/archive/：可归档、永不删除，INDEX 归档组保留条目
 - HANDOFF.md 冻结为历史文档；现状写 memory/STATE.md
 
 ## 质量基线（2026-08-04）

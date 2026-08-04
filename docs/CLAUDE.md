@@ -1,13 +1,15 @@
 # Claude Code Project Guide
 
-Claude Code must follow the repository-wide instructions in [`../AGENTS.md`](../AGENTS.md). The detailed Agent architecture and implementation status are maintained in [`AGENTS.md`](AGENTS.md); do not duplicate or override those facts here.
+> 状态: 活跃（Loop C 阅读指引，薄指针，以根 AGENTS.md 为准） | 更新: 2026-08-05 | 取代/被取代: 无
+
+Claude Code must follow the repository-wide instructions in [`../AGENTS.md`](../AGENTS.md). The detailed Agent architecture and implementation status are maintained in [`AGENTS.md`](../AGENTS.md); do not duplicate or override those facts here.
 
 ## Required Reading
 
 Before changing code, read:
 
 1. `README.md`
-2. `HANDOFF.md` (current snapshot at top)
+2. `memory/STATE.md` (current snapshot; HANDOFF.md is frozen history)
 3. `docs/17_Graph_Engineering_多层Loop设计.md`
 4. `docs/21_基础设施盘点与gap解决规划.md`
 5. `docs/INDEX.md` (doc map)

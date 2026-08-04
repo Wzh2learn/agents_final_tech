@@ -4,8 +4,7 @@
 
 `src/` uses a layered FastAPI architecture: `web/` contains routes, templates, and static assets; `biz/` owns application services; `agents/` contains the in-app LangGraph agent; `tools/` implements retrieval and document functions; `storage/` manages PostgreSQL/PGVector, memory, and files. Read-only OpenCode adapters live in `src/mcp_server/`, `src/vision_mcp_server/`, and `src/tabular_mcp_server/`. Put tests in `tests/`, operational and experiment commands in `scripts/`, model manifests in `models/`, and plans/results in `docs/`.
 
-Read `HANDOFF.md` and `docs/13_M1_M2联合数据闭环计划.md` for the current GB10 state,
-approved public dataset, split policy, and immediate work before starting a new Codex CLI session.
+Read `memory/STATE.md` for the current GB10 state and immediate work, and `docs/13_M1_M2联合数据闭环计划.md` for the approved public dataset and split policy (frozen research line), before starting a new Codex CLI session.
 
 ## Current Architecture Boundary
 

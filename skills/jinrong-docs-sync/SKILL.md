@@ -26,7 +26,7 @@ description: JinRongAgents 项目文档四层结构（活文档/当前/实验/�
 
 ## 红线
 
-1. OpenCode/MCP 交付物三件永不归档或删除：`docs/09_OpenCode与现有RAG_MCP实施方案.md`、`docs/10_OpenCode开发机运行说明.md`、`docs/2026-07-19_m2_mcp_verification.md`。
+1. OpenCode/MCP 交付物三件永不删除；2026-08-05 起归档至 docs/archive/（INDEX 归档组保留条目），交付链路启动时从 archive 读取：`docs/archive/09_OpenCode与现有RAG_MCP实施方案.md`、`docs/archive/10_OpenCode开发机运行说明.md`、`docs/archive/2026-07-19_m2_mcp_verification.md`。
 2. `HANDOFF.md` 冻结于 2026-08-03 快照，不再更新；现状快照写 `memory/STATE.md`。
 3. 归档用 `git mv` 不用 `rm`。
 4. 带日期的历史快照保留原文，加"历史快照"标注，不改写数值。
