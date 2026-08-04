@@ -69,3 +69,11 @@
 ## [2026-08-04] Skill 武库: 仓库 skills/ 为唯一 source of truth
 结论: 10 个 skill 入库 skills/, sync_skills.sh 幂等分发到 Loop A/C harness; 仅 Loop D 可安装新 skill, 弃用只标记不删除。
 理由: dispatch 00:05 Phase 0 完成 (78ec44a/e86ff07); AGENTS.md 注册表 + 三层分发架构 + 治理规则四条。
+
+## [2026-08-04] glm-5.2 × Codex CLI 端到端验证: PASS, 保留为备选模型
+结论: 云端 glm-5.2 经 :8100 responses2chat 代理 (Token_Plan_Chat provider) 由 codex exec 端到端跑通 (exit=0, marker 命中, 连通性测试耗 14.5k tokens); 验证后配置逐字节回滚 qwen3.8-max 并复验 PASS。glm-5.2 保留为 Loop A 备选, 不作默认。
+理由: thinking 常开消耗不可控, 与 2026-08-03 deepseek-v4-flash 裁定一致; codex 无 glm-5.2 metadata (fallback) 且代理 /v1/models 返回格式触发 models-manager 刷新错误, 均无功能影响, 记录不修。
+
+## [2026-08-04] 记忆漂移案例: 已解决 3 gap 被误报挂起, THREADS 台账定基线
+结论: Loop D 状态汇报将 NCAMC 垂直布局 / 华泰 OCR 纯文本 / email body 误报为"挂起 known_gap"; 实际 scenario1 已全部解决 (docs/21, 9ea3754: NCAMC pymupdf 坐标重建 0→1 表 75% b927efe, 华泰 markdown OCR prompt 0→1 / TraFax 0→3, email HTML 提取 3 封 0→9 表; nanhua 经 T3 再提升 24%→65.7%, parse_html 入库)。THREADS.md 补 scenario1 gap 台账。
+理由: 蒸馏层未收录 gap 关闭信息, 新会话凭过时上下文口径即产生漂移——这正是记忆系统要防的场景; 今后 gap 状态变化必须同步更新 THREADS.md 台账。

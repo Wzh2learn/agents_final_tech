@@ -23,9 +23,15 @@
 - codex CLI 对 qwen3.8-max 报 "model metadata not found" 警告: 无功能影响, 记录不修 (2026-08-03)。
 - .msg→htmlBody 预处理仍是临时脚本未入库; parse_html 已入库覆盖解析环节 (T3 遗留)。
 
+### scenario1 gap 台账（2026-08-04 审计定基线，漂移校准）
+- NCAMC 垂直布局: **CLOSED** — pymupdf 坐标重建, 0→1 表 75% 命中 (b927efe; 见 docs/21 执行结果节)
+- 华泰/TraFax OCR 纯文本: **CLOSED** — OCR prompt 增强 markdown 表格输出, 华泰 0→1 (35.7%) / TraFax 0→3 (9ea3754)
+- email body: **CLOSED (有界)** — HTML body 提取, 3 封 0→9 表 (国金 70% / 财通 42% / 南华初值 24%)
+- 南华 HTML: **遗留 (低优先)** — T3 已提升 24%→65.7%, parse_html(bs4) 入 PARSERS + synonyms 扩展 (html_table_4 88.9%), 不再恋战
+- OCR meta-query: **ACCEPTED** — 14/15=93% 高于 80% gate (见本文件上条)
 ## 甲方侧待确认
 
 - 跨期对比: 需甲方提供多期对账单数据才能解锁 (现仅单期/单文档内对比)。
-- email body 格式: 列为 known_gap — HTML body 路径已验证 (3 封邮件 0→9 表), 如甲方要求再投入扩展。
+- email body 格式: 已解决 (有界) — HTML body 路径已验证 (3 封邮件 0→9 表), 仅在甲方要求时扩展。
 - M2 正式业务指标: 阻塞于甲方批准的 label-to-source 映射与人工标注 (AGENTS.md 架构边界)。
 - 部署加固: M1_API_TOKEN/M1_ADMIN_TOKEN 启用、systemd 进程守护、Prometheus 接入, 待甲方运维确认。

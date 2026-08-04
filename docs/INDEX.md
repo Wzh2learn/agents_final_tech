@@ -1,6 +1,6 @@
 # docs/INDEX.md — 文档导航唯一入口
 
-- 更新: 2026-08-03 (Phase 2 整理专项) | 维护: Loop D 每次 neat/收尾时同步本文件
+- 更新: 2026-08-04 (验收审计补登记 README/data-card) | 维护: Loop D 每次 neat/收尾时同步本文件
 - 新会话阅读顺序: 根 AGENTS.md → memory/STATE.md → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -28,6 +28,8 @@
 - `RECSYS_MEMORY_DESIGN.md` — 记忆子系统设计依据（L2 情景记忆已实现并在用）
 - `22_overnight_loopD_neat_closeout.md` — 8 小时自主循环收尾记录
 - `architecture/` — codebase map、skill 体检报告、Phase 2 盘点报告
+- `README.md` — docs 目录指针文件（导航以本 INDEX.md 为准）
+- `datasets/tat-dqa-joint-v1-data-card.md` — TAT-DQA 公开数据集 data card（研究线冻结起点）
 
 ## 实验（experiments/，只追加不重写）
 
