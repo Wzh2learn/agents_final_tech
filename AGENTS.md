@@ -331,6 +331,8 @@ RAG QA: 14/15 = 93% (OCR query diluted by collection expansion, above 80% gate).
 - `memory/THREADS.md` — 未决线索：blocked_questions 蒸馏 + 甲方待确认项。
 - `memory/archive/` — STATE.md 旧版压缩归档（按日期命名）。
 
+**单一信源规则**: gap/遗留项台账唯一存放于 `memory/THREADS.md`；其他文档（CORE/STATE/docs 等）只引用不复述，更新只改 THREADS.md。
+
 **读取协议（新会话/新 Loop）**: `memory/CORE.md` → `STATE.md` → `THREADS.md`（约 2KB，替代读 HANDOFF.md 全文；HANDOFF.md 冻结于 2026-08-03 快照，是历史文档）。
 
 **写入职责**:
