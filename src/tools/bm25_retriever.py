@@ -1,3 +1,4 @@
+import sys
 """
 BM25 全文检索工具
 基于关键词的全文检索，与向量检索互补
@@ -125,7 +126,7 @@ def _build_bm25_index(collection_name: str, force_rebuild: bool = False) -> Dict
         }
 
     except Exception as e:
-        print(f"构建BM25索引失败: {e}")
+        print(f"构建BM25索引失败: {e}", file=sys.stderr)
         return {
             "bm25": None,
             "documents": [],

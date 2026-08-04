@@ -1,3 +1,4 @@
+import sys
 """
 配置加载器
 统一管理配置文件的加载和访问
@@ -65,7 +66,7 @@ class AppConfig:
         with open(config_file, "r", encoding="utf-8") as f:
             self._config_data = json.load(f)
 
-        print(f"[OK] 配置文件加载成功: {config_path}")
+        print(f"[OK] 配置文件加载成功: {config_path}", file=sys.stderr)
 
     def get(self, key: str, default: Any = None) -> Any:
         """

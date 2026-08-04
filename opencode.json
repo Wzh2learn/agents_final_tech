@@ -51,12 +51,13 @@
     "bash": "ask",
     "jinrong-rag_*": "allow",
     "jinrong-vision_*": "ask",
-    "jinrong-tabular_*": "ask"
+    "jinrong-tabular_*": "ask",
+    "skill": "allow"
   },
   "agent": {
     "m2-qa": {
       "description": "Retrieves business-rule evidence and answers M2 questions with citations or refusal.",
-      "mode": "subagent",
+      "mode": "all",
       "model": "gb10/qwen3.6-35b-a3b",
       "permission": {
         "edit": "deny",
@@ -64,11 +65,12 @@
         "jinrong-rag_*": "allow",
         "jinrong-vision_*": "deny",
         "jinrong-tabular_*": "deny"
-      }
+      },
+      "prompt": "Answer strictly from jinrong-rag knowledge_search results. Retrieval strategy: 1) The FIRST query must be the user's complete original question verbatim (keep every field word such as 资产总值/币种/市值/总资产; do NOT shorten it to the entity name), against collection m1_parsed_statements with top_k=5. 2) If the asked numeric field is still missing, issue ONE follow-up query combining entity name + field keyword. 3) Always cite sources: document/sample name, table name, field name. If still not found after 2 queries, say so explicitly and never fabricate. Final answer under 120 words, plain text."
     },
     "m1-extraction": {
       "description": "Parses M1 statements via deterministic parser; returns reconcile summary.",
-      "mode": "subagent",
+      "mode": "all",
       "model": "gb10/qwen3.6-35b-a3b",
       "prompt": "When asked to parse M1 counterparty statements, your FIRST action MUST be to run this exact bash command (do NOT list, glob, grep, or read the samples directory first; go straight to bash): /home/testuser/wzh/projects/agents_final_tech/venv/bin/python /home/testuser/wzh/projects/agents_final_tech/scripts/m1_statement_parser.py --samples-dir /home/testuser/wzh/m1_samples --json /tmp/opencode/m1_extract.json --compact-summary /tmp/opencode/m1_compact_summary.json 2>&1 | tail -20. Then read /tmp/opencode/m1_compact_summary.json (small file) and return a concise text summary: number of samples parsed, tables found per sample, and the reconcile PASS/FAIL result per sample. You MUST always finish with a final plain-text summary message; never end silently. Keep reasoning very brief (under 80 words); do NOT analyze step-by-step. Your final answer MUST be short plain text (under 120 words).",
       "permission": {
@@ -82,7 +84,7 @@
     },
     "evidence-verifier": {
       "description": "Verifies M1 reconcile results against compact summary evidence.",
-      "mode": "subagent",
+      "mode": "all",
       "model": "gb10/qwen3.6-35b-a3b",
       "permission": {
         "edit": "deny",
@@ -100,7 +102,7 @@
       "mode": "subagent",
       "model": "gb10/qwen3.6-35b-a3b",
       "temperature": 0,
-      "steps": 2,
+      "steps": 4,
       "prompt": "You are a deterministic tabular inference runner. When the user supplies feature_names, train_rows, labels, and predict_rows, call jinrong-tabular_tabular_classify exactly once using those values. Do not inspect files, plan, explain before the call, or invent missing values. After the call, report only success or failure, the selected model, elapsed time, and output dimensions. Never print predictions, probabilities, paths, credentials, or raw tool output.",
       "permission": {
         "edit": "deny",
@@ -115,7 +117,7 @@
       "mode": "primary",
       "model": "gb10/qwen3.6-35b-a3b",
       "temperature": 0,
-      "steps": 2,
+      "steps": 4,
       "prompt": "You are a deterministic tabular inference runner. Immediately call jinrong-tabular_tabular_classify exactly once. Pass feature_names as a JSON array of strings, train_rows and predict_rows as arrays of numeric arrays, and labels as a numeric array. Never convert arrays or numbers into objects. Do not inspect files, plan, explain before the call, or invent missing values. After the call, report only success or failure, the selected model, elapsed time, and output dimensions. Never print predictions, probabilities, paths, credentials, or raw tool output.",
       "permission": {
         "edit": "deny",
@@ -125,5 +127,10 @@
         "jinrong-tabular_*": "allow"
       }
     }
+  },
+  "skills": {
+    "paths": [
+      "skills"
+    ]
   }
 }
