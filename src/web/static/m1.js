@@ -9,6 +9,11 @@
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => document.querySelectorAll(sel);
 
+  function newSessionId() {
+    if (window.crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    return 'sid-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+  }
+
   // State
   let lastResponse = null;
   let pendingFile = null;
@@ -382,7 +387,7 @@
   const m2Meta = $('#m2Meta');
   const m2NewChatBtn = $('#m2NewChatBtn');
 
-  let m2SessionId = crypto.randomUUID();
+  let m2SessionId = newSessionId();
 
   function m2ScrollToBottom() {
     m2ChatLog.scrollTop = m2ChatLog.scrollHeight;
@@ -487,7 +492,7 @@
     try {
       await fetch(`/api/m2/sessions/${m2SessionId}/clear`, { method: 'POST' });
     } catch (_) { /* best effort */ }
-    m2SessionId = crypto.randomUUID();
+    m2SessionId = newSessionId();
     m2ChatLog.innerHTML = '<div class="m2-empty-hint">输入问题开始对话，支持多轮追问。</div>';
     m2Meta.textContent = 'RAG · m1_parsed_statements';
     setNotice('新会话已开始', 'ok');
