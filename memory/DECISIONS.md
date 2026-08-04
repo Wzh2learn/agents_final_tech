@@ -77,3 +77,7 @@
 ## [2026-08-04] 记忆漂移案例: 已解决 3 gap 被误报挂起, THREADS 台账定基线
 结论: Loop D 状态汇报将 NCAMC 垂直布局 / 华泰 OCR 纯文本 / email body 误报为"挂起 known_gap"; 实际 scenario1 已全部解决 (docs/21, 9ea3754: NCAMC pymupdf 坐标重建 0→1 表 75% b927efe, 华泰 markdown OCR prompt 0→1 / TraFax 0→3, email HTML 提取 3 封 0→9 表; nanhua 经 T3 再提升 24%→65.7%, parse_html 入库)。THREADS.md 补 scenario1 gap 台账。
 理由: 蒸馏层未收录 gap 关闭信息, 新会话凭过时上下文口径即产生漂移——这正是记忆系统要防的场景; 今后 gap 状态变化必须同步更新 THREADS.md 台账。
+
+## [2026-08-04] 夜间验收审计: CORE.md 基线漂移修复 + INDEX 重复登记 + 审计 prompt 端口残留
+结论: 验收审计发现并修复 3 处漂移: ① CORE.md 质量基线仍将 NCAMC/华泰/email body 列为 known_gap（实际已 CLOSED，THREADS.md 已于 5545fde 校准）→ 改为实况; ② docs/INDEX.md 中 23/24 条目重复登记 4 次 → 去重; ③ scripts/graph/loop_c_audit_prompt.md 残留 :5000 端口 → 修正 :5050。
+理由: 记忆系统要防的就是"台账类信息漂移"，本次为第二例（首例见 5545fde），校准依据同为 docs/21 执行结果节与 commit b927efe/9ea3754。

@@ -29,7 +29,7 @@ agents_final_tech/
 │   └── graph/                   # Graph Engineering: loop_a/c 约束与 prompt, loop_b/d 脚本, sync_skills.sh
 ├── config/                   # m1_table_schema.json (可演进的表规则, 非冻结副本) 等
 ├── tests/                    # 28 个测试文件, 227 passed / 13 skipped (2026-08-03)
-├── skills/                   # Skill source of truth (10 个, Phase 0), sync_skills.sh 分发
+├── skills/                   # Skill source of truth (11: Phase 0 ×10 + Phase 4 jinrong-docs-sync), sync_skills.sh 分发
 ├── docs/                     # 38 篇文档 + experiments/ 36 篇 + architecture/ (本节)
 ├── deploy/                   # systemd/supervisord 配置 (仅文档化, 未 enable)
 └── data/ models/ assets/ image/ dify/   # 数据/模型引用/静态资源/历史实验

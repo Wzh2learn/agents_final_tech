@@ -45,6 +45,6 @@
 
 ## 质量基线（2026-08-04）
 
-- M1 解析: 100%（scenario1 15 源 30 表）；known_gap 3 个: NCAMC 垂直布局、华泰 OCR 纯文本、email body 格式
+- M1 解析: 100%（scenario1 15 源 30 表）；known_gap 已全部关闭（NCAMC 坐标重建 / 华泰+TraFax markdown OCR / email HTML 提取）；遗留仅南华 HTML 65.7%（低优先）与 OCR meta-query（14/15=93%，ACCEPTED）
 - M2 RAG QA: 14/15 = 93%（门槛 80%）；embeddings 137
 - pytest: 227 passed / 13 skipped；Loop B 30min 一轮持续 PASS

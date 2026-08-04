@@ -60,7 +60,7 @@ git diff HEAD~3..HEAD -- src/
 字段定义: ~/wzh/m1_samples/m1_table_schema.json
 
 验证方法:
-1. 调用 API 解析每个样本: curl -X POST http://127.0.0.1:5000/api/m1/parse-file -F "file=@<sample>"
+1. 调用 API 解析每个样本: curl -X POST http://127.0.0.1:5050/api/m1/parse-file -F "file=@<sample>"
 2. 检查返回的 JSON 是否包含 schema 中定义的标准字段
 3. 检查是否有明显的字段遗漏或错误映射
 4. 记录每个样本的解析质量评分 (0-100)
