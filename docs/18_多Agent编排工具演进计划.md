@@ -337,3 +337,20 @@ AoE sessions:
 | LangMem | 不选 | LangGraph 生态原语，适合嵌入 M2 代码，不适合做系统级记忆框架 |
 
 **交付项**: mem0 部署 + MCP 接入，列入交付排期，OpenCode 交付链路验证后执行。
+
+## 11. A2 灰度上线与生产化加固夜战 (2026-08-06)
+
+**模型分工调整**: Loop A (Codex CLI) → deepseek-v4-flash-0731（Token_Plan_Chat, 经 :8100 responses2chat 代理 v3.2——代理新增 codex 0.145.0 unified-exec exec_command/write_stdin round-trip 映射）。冒烟 PASS: 34s / 30.8K tokens（prompt 缓存 14.3K）, 最终响应 reasoning_tokens=0。回滚标准与命令固化于 DECISIONS.md。Loop D 子代理默认 flash（集成 review/多模态仍 max）。
+
+**A2 灰度（/api/m2/ask → opencode m2-qa sidecar）上线**, 过程排除三个根因:
+1. `m2_service` 会话锁自死锁: get_history 持 threading.Lock 调 _get_session 再取同锁, 首个 opencode 路由请求冻结双 worker（连 /health 都挂）→ 改 RLock + 4 条回归测试。
+2. 对比类查询被灰度路由劫持: 规则对比只在进程内 → 路由顺序修复, detect_compare_intent 命中绕过 opencode 分支（此 bug 由既有测试 test_nl_routing_compare_via_ask 捕获——测试资产价值的实例）。
+3. 代理 env 毒化: GB10 登录环境 all_proxy=socks://（clash）使无 socks extra 的 httpx 构造即 ValueError, sidecar_health 恒 False 静默降级 → opencode_adapter 全部调用 trust_env=False。
+
+验证: route=opencode 两轮（18s / 70s, 回答带出处）; **回滚演练实测 23s**（B4 要求 ≤30s PASS）。已知限制: m2-qa agent 对 FORMAT_HINT 的 sources JSON 遵从度不稳定（偶发 sources=[] 但答案内嵌出处）。
+
+**L5 hook 收窄**: ^tests/ → tests/test_m1_service.py$（+ 原冻结集 + manifest 路径）, hook 入库 scripts/graph/hooks/pre-commit; 新单测不再需要 --no-verify。
+
+**tmux 盘点**: 6 pane → 保留 4 / 吸收 1 / 关闭 2, 清单 docs/experiments/2026-08-06_tmux_inventory.md; 期间发现并修复 GB10 两个 skill 的 SKILL.md 分发漂移（sync_skills.sh 重跑）。
+
+质量基线: pytest 254 passed / 14 skipped; RAG QA 15/15（含 :5050 端 OCR meta-query 复验）。

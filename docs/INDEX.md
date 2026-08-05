@@ -47,6 +47,7 @@
 
 | 文件/目录 | 状态 | 一句话摘要 |
 |---|---|---|
+| `2026-08-06_tmux_inventory.md` | 存活-当前 | tmux 会话盘点: 6 pane 处置 + skill 分发漂移修复 + 安全台账 | 2026-08-06 |
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
 | `2026-08-04_rehearsal/` | 活跃 | 彩排截图 7 张 + demo 日志（docs/23 引用，勿动） |
