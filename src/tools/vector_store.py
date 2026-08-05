@@ -169,7 +169,7 @@ def get_embeddings(
         if local_model_path:
             _embeddings_client = LocalSentenceTransformerEmbeddings(
                 model_path=local_model_path,
-                device=os.getenv("LOCAL_EMBEDDING_DEVICE", "cuda"),
+                device=os.getenv("LOCAL_EMBEDDING_DEVICE", "cpu"),  # GB10 ARM64: CUDA Triton JIT 不可用，缺省必须 cpu
             )
             return _embeddings_client
 

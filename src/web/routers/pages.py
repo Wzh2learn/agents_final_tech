@@ -82,15 +82,29 @@ async def health_full():
     except Exception as e:
         checks["llm_8004"] = {"status": "error", "detail": str(e)[:80]}
 
-    # 3. Embedding (same as :8004 usually, but check /v1/models)
-    try:
-        req = urllib.request.Request("http://127.0.0.1:8004/v1/models")
-        with urllib.request.urlopen(req, timeout=3) as resp:
-            models = _json.loads(resp.read())
-            model_ids = [m["id"] for m in models.get("data", [])]
-            checks["embedding"] = {"status": "ok", "models": model_ids[:3]}
-    except Exception as e:
-        checks["embedding"] = {"status": "error", "detail": str(e)[:80]}
+    # 3. Embedding provider: local SentenceTransformer if configured, else :8004 endpoint
+    _local_emb = os.getenv("LOCAL_EMBEDDING_MODEL_PATH")
+    if _local_emb:
+        _expanded = os.path.expanduser(_local_emb)
+        _exists = os.path.isdir(_expanded)
+        checks["embedding"] = {
+            "status": "ok" if _exists else "error",
+            "provider": "local",
+            "model_path": _local_emb,
+            "path_exists": _exists,
+            "device": os.getenv("LOCAL_EMBEDDING_DEVICE", "cpu"),
+        }
+        if not _exists:
+            checks["embedding"]["detail"] = f"LOCAL_EMBEDDING_MODEL_PATH 目录不存在: {_expanded}"
+    else:
+        try:
+            req = urllib.request.Request("http://127.0.0.1:8004/v1/models")
+            with urllib.request.urlopen(req, timeout=3) as resp:
+                models = _json.loads(resp.read())
+                model_ids = [m["id"] for m in models.get("data", [])]
+                checks["embedding"] = {"status": "ok", "provider": "endpoint", "models": model_ids[:3]}
+        except Exception as e:
+            checks["embedding"] = {"status": "error", "provider": "endpoint", "detail": str(e)[:80]}
 
     # 4. Proxy :8100
     try:

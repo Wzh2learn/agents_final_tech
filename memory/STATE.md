@@ -1,25 +1,22 @@
-# memory/STATE.md — 当前快照（覆写式）
-快照: 2026-08-05 晚 | 写入: Loop D（embedding 切本地第一步 + A0 sidecar + 决策固化）
-
-## 本轮产出
-- ① embedding 切本地（用户拍板，不恢复 SILICONFLOW key）：
-  - .env 加 LOCAL_EMBEDDING_MODEL_PATH=~/wzh/models/hf/qwen3-embedding-0.6b + DEVICE=cpu（同模型 drop-in，存量 764 向量零迁移；对齐实测 top-1 全对 0.564/0.587）
-  - **MCP 链已生效**：knowledge_search vector=3 命中（复熙/嘉兴/OCR 三查询，正确来源 + product_name metadata）；BEFORE 复现 = ValueError 未找到 SILICONFLOW_API_KEY（与 e2e 文档降级记录一致）
-  - 机制说明：utils/config_loader.py 的 load_dotenv() 使 .env 变量对 MCP stdio 进程即时生效；:5050 需重启载入（第二步，等用户批窗口）
-  - QA 脚本层 14/15 前后不变：唯一失败 OCR meta-query 是内容碰撞（email_caitong.html 含"交易对账单"字样），与 embedding 层无关
-- ② A0 sidecar PASS：opencode serve :4096 起于 tmux opencode-serve；GET /app + /session OK；POST /session + /message 完整往返 OK（gb10 qwen3.6-35b-a3b，15.5s，finish=stop）。注意：存量会话已 100 个，A1 需做会话清理
-- 决策固化（memory/DECISIONS.md 四条 + docs/25 §3/§4 修订）：A 保底+B 目标；M1 热路径永不走 agent；LoRA 三条件门槛；B4 对等验收清单 16 项（功能/延迟/并发/回滚）已列 docs/25 §4.2 待用户过目
-- P2: skills/m1-gap-triage/SKILL.md 草稿完成（未注册未 sync），等用户审阅
+# memory/STATE.md — 当前快照（覆写式）| 快照: 2026-08-06 00:10 | 写入: Loop D（OCR meta-query 收口 + A1 集成 + Loop C 审计闭环）
 
 ## 系统状态
-- **Loop A 任务交付 (2026-08-05 深夜)**: OCR meta-query 修复完成 — RAG QA 14/15 -> **15/15**; 非破坏性 doc_type 标记 (scripts/m1_rag_tag_doctype.py 已执行, 幂等) + smart_retrieve 过滤召回/重排; 未 --reset/未删灌 chunk/未重启 :5050; pytest 242 passed / 13 skipped。待办: Loop D 择窗重启 :5050 后 curl 复验。详见 logs/graph/loop_a_ocr_metaquery_result.md
-- git: 本机与 GB10 对齐（本轮 docs/memory/skills 变更待 commit）
-- 服务: :8004 up; :5050 up 未动（重启等用户批窗口）; :4096 opencode-serve up（新）; docker zhikuncode+pgvector; tmux coding-jinrong/graph-loop-b/graph-loop-d/opencode-serve
-- pytest: 242 passed / 13 skipped（2026-08-05 Loop A 交付后实测; 含新增 15 个 doc_type/rescore 单测）
-- 红线: 冻结节点/API key/72B 未触碰; Loop B 未扰动
+- git: 三方对齐（本机 / GB10 / GitHub），链: a438f0d A1 → 6787509 skill sync 补漏 → 04477ab OCR meta 修复 → dca0bdd 台账 → 9f3e655 doctype 测试 → dcbe5fb 审计报告 → 本收口 commit
+- RAG QA: **15/15 = 100%**（OCR meta-query RESOLVED: doc_type 标记 + 过滤召回 + 重排; Loop B 独立复跑 scripts/m1_rag_qa.py 确认 exit 0; 04477ab）
+- pytest: **251 passed / 13 skipped**（GB10 rebase 后全量复跑: 242 基线 + 9 adapter）
+- 服务: :8004 up; :5050 up（23:09 重启, 本地 embedding 已载入 provider=local, 137 chunks, 非 fallback）; :4096 opencode-serve up（tmux）; docker zhikuncode + pgvector
+- A1 完成: src/biz/opencode_adapter.py + M2_OPENCODE_ROUTE 开关（默认 off）+ /api/m2/opencode/cleanup + scripts/opencode_session_cleanup.py, 9 单测; 存量 130 sidecar 会话已清零
+- A2 待办: 等用户确认 :5050 重启窗口 → .env 加 M2_OPENCODE_ROUTE=on → 冒烟 + :5050 端 OCR meta-query 复验（进程内旧代码, 重启即生效）
+- 彩排: 8/8 全绿, 0 JS 错误, 0 演示前必修项（docs/experiments/2026-08-05_rehearsal_post_embedding/）
+- Loop A/C: 本轮任务完成（A session 已回收; C 审计 CONDITIONAL → 3 项闭环全部落地 + 建议实现: DEVICE 缺省 cpu / .env.example LOCAL_EMBEDDING 段 / health/full 暴露 embedding provider）
+- Skill 武库: m1-gap-triage + graph-loop-rules 已分发 GB10 ~/.codex/skills; sync_skills.sh A 列表 + AGENTS.md 注册表已补齐（6787509）
+- 红线: 冻结节点零触碰（test_m1_service.py md5 faa7565a 独立复算一致）/ API key / 72B 未碰; Loop B 未扰动; B 阶段未启动
 
 ## 下一步（闸门顺序）
-1. 用户审阅 m1-gap-triage skill 草稿 + B4 清单 → 注册/修订
-2. A1 FastAPI 薄适配层（可继续）；A2 灰度开关等 embedding 第二步落地后开
-3. :5050 重启窗口（用户确认后执行；重启后 /api/health/full + parse 冒烟 + 2 条 QA）
-4. 遗留台账唯一入口: memory/THREADS.md
+1. 用户确认 :5050 重启窗口 → A2 开关打开 → 冒烟验证 + OCR meta-query :5050 端复验
+2. B4 对等验收（清单见 docs/25 §4.2; 条目 3 前置 = supervisord 增配 [program:opencode-serve]）
+3. B 阶段（docs/25 路线 B）不启动, 等甲方/用户拍板
+
+## 台账规则
+- gap/遗留项台账唯一存放于 memory/THREADS.md, 其他文档只引用不复述
+- STATE/THREADS 的 "已 X" 断言以 dispatch_log 验证条目时间戳为准回写（漂移案例 3 教训, 见 DECISIONS.md）

@@ -116,5 +116,6 @@ code_interpreter 适合多步数值计算 (如市值求和与 reconcile 对比),
 | executing-plans | 收到带明确计划文档的多步任务时，按 checkpoint 执行并汇报 |
 | subagent-driven-development | 任务可拆分为相互独立的子任务时，按其流程分发与复审 |
 | verification-before-completion | 宣称"完成/修复/通过"之前，必须跑验证命令并给出输出证据，先证据后结论 |
+| m1-gap-triage | M1 解析返回 0 表或字段命中率 <80% 时：读原文诊断 → 补 synonyms → 重跑 → 报 delta；image-only PDF 先看 OCR/vision 输出再诊断；schema 只改 config/m1_table_schema.json（docs/m1_schema/ 冻结基线不碰） |
 
 约束: skill 只提供方法论；冻结节点 / API key / 72B 等红线仍以本文件与 AGENTS.md 为准。
