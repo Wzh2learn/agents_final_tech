@@ -107,6 +107,18 @@ def clear_session(session_id: str) -> bool:
     return existed
 
 
+def get_history(session_id: str) -> list[dict[str, str]]:
+    """Public read-only view of a session's conversation history."""
+    with _sessions_lock:
+        return list(_get_session(session_id)["history"])
+
+
+def append_turn(session_id: str, role: str, content: str) -> None:
+    """Record one conversation turn (used by alternate routes, e.g. OpenCode)."""
+    with _sessions_lock:
+        _append_history(_get_session(session_id), role, content, session_id)
+
+
 def new_session_id() -> str:
     """Generate a new session UUID."""
     return str(uuid.uuid4())

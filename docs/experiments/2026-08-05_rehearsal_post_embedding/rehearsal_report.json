@@ -1,0 +1,66 @@
+{
+  "steps": {
+    "01_home": {
+      "ok": true,
+      "load_ms": 3168,
+      "overallStatus": "待运行",
+      "tableCount": "-",
+      "notice": ""
+    },
+    "02_sample_parsed": {
+      "ok": true,
+      "http_status": 200,
+      "table_count": null,
+      "latency_ms": null,
+      "ui": {
+        "overallStatus": "解析完成",
+        "tableCount": "1 表",
+        "notice": "完成: 1 表, 命中 80%, 0 未映射"
+      }
+    },
+    "03_reconcile": {
+      "ok": true,
+      "reconcile_section_visible": true
+    },
+    "04_upload_jiahe": {
+      "ok": true,
+      "http_status": 200,
+      "table_count": null,
+      "latency_ms": null,
+      "ui": {
+        "overallStatus": "解析完成",
+        "tableCount": "2 表",
+        "notice": ""
+      }
+    },
+    "05_reconcile_jiahe": {
+      "ok": true,
+      "reconcile_section_visible": true
+    },
+    "06_m2_q1": {
+      "ok": true,
+      "http_status": 200,
+      "question": "嘉兴民安的总资产是多少？",
+      "answer_preview": "嘉兴民安的总资产为 4,013****.83 元。\n出处: 样本=sample_jiaxing_minan_20231031.pdf, 表=p0_table_2",
+      "sources": 3,
+      "session_id": "sid-msg8hib5-31pr7qou"
+    },
+    "07_m2_q2": {
+      "ok": true,
+      "http_status": 200,
+      "question": "复熙混合25号的资产总值是多少？",
+      "answer_preview": "复熙混合25号的资产总值为 2,216****.90 元（人民币）。\n出处: 样本=sample_fuxi_hunhe25_20231101.txt, 表=table_1",
+      "sources": 3,
+      "session_id": "sid-msg8hib5-31pr7qou"
+    },
+    "08_m2_q3_followup": {
+      "ok": true,
+      "http_status": 200,
+      "question": "其中证券市值占多少？",
+      "answer_preview": "根据复熙混合25号对账单（sample_fuxi_hunhe25_20231101.txt），在资金资产汇总表中，人民币和港币币种的证券市值均为 0.00。\n\n出处: 样本=sample_fuxi_hunhe25_20231101.txt, 表=table_1",
+      "sources": 3,
+      "session_id": "sid-msg8hib5-31pr7qou"
+    }
+  },
+  "console": []
+}

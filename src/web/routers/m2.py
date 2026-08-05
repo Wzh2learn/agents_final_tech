@@ -12,12 +12,16 @@ generation runs on the :8004 Qwen3.6-35B chat model. See ``biz.m2_service``.
 """
 from __future__ import annotations
 
+import logging
+import os
 import time
 from typing import Optional
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel, Field
 
+from biz import opencode_adapter
+from biz.m2_service import append_turn, get_history, new_session_id
 from biz.m2_service import ask as m2_ask
 from utils.metrics import m2_qa_total, m2_qa_duration_seconds
 from biz.m2_service import clear_session, collection_name
@@ -29,6 +33,18 @@ from biz.m2_service import (
 )
 
 router = APIRouter()
+
+logger = logging.getLogger("m1.m2_router")
+
+_ADMIN_TOKEN: Optional[str] = os.environ.get("M1_ADMIN_TOKEN") or None
+
+
+def _check_admin(x_admin_token: Optional[str]) -> None:
+    """Validate admin token for sensitive ops (mirrors m1.py pattern)."""
+    if _ADMIN_TOKEN is None:
+        return
+    if x_admin_token != _ADMIN_TOKEN:
+        raise HTTPException(status_code=401, detail="Invalid or missing X-Admin-Token")
 
 
 class M2AskRequest(BaseModel):
@@ -66,6 +82,21 @@ async def m2_health():
 async def m2_ask_endpoint(request: M2AskRequest):
     """Retrieve grounded chunks and generate an answer over M1-parsed statements."""
     t0 = time.perf_counter()
+    if opencode_adapter.route_enabled():
+        sid = request.session_id or new_session_id()
+        oc = opencode_adapter.ask_via_opencode(
+            request.question, history=get_history(sid)
+        )
+        if oc is not None:
+            append_turn(sid, "user", request.question)
+            append_turn(sid, "assistant", oc["answer"])
+            elapsed = time.perf_counter() - t0
+            oc["session_id"] = sid
+            oc["duration_ms"] = int(elapsed * 1000)
+            m2_qa_total.inc({"status": "ok"})
+            m2_qa_duration_seconds.observe(elapsed)
+            return oc
+        logger.warning("opencode route enabled but unavailable; served by direct path")
     try:
         result = m2_ask(
             request.question,
@@ -89,6 +120,17 @@ async def m2_clear_session(session_id: str):
     """Clear conversation history for a session."""
     clear_session(session_id)
     return {"status": "cleared"}
+
+
+@router.post("/opencode/cleanup", summary="Sidecar 会话清理")
+async def m2_opencode_cleanup(
+    purge_all: bool = False,
+    max_keep: int = 50,
+    x_admin_token: Optional[str] = Header(None),
+):
+    """Purge orphaned OpenCode sidecar sessions (capped or full purge)."""
+    _check_admin(x_admin_token)
+    return opencode_adapter.cleanup_sessions(max_keep=max_keep, purge_all=purge_all)
 
 
 # ---------------------------------------------------------------------------
