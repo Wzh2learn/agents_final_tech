@@ -236,6 +236,7 @@ class Handler(BaseHTTPRequestHandler):
         chat, shell_names = responses_to_chat(body)
         _debug("REQUEST", {"model": model, "stream": is_stream, "chat": chat})
         headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+        chat["stream"] = False  # upstream always non-stream; proxy emits SSE itself
         try:
             req = urllib.request.Request(f"{UPSTREAM}/chat/completions",
                                          data=json.dumps(chat).encode(), headers=headers, method="POST")
