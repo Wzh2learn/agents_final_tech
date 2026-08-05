@@ -22,7 +22,7 @@
 - ZhikunCode 重建 (2026-08-03): 官方 Dockerfile pip 直连 pypi.org 极慢, 需临时 aliyun 镜像源 (已还原) 或向上游提 PR。
 - codex CLI 对 qwen3.8-max 报 "model metadata not found" 警告: 无功能影响, 记录不修 (2026-08-03)。
 - .msg→htmlBody 预处理仍是临时脚本未入库; parse_html 已入库覆盖解析环节 (T3 遗留)。
-- SILICONFLOW_API_KEY 缺失 (2026-08-05 S3 发现, 等人决策): key 不在 :5050 environ/.env/仓库 → vector+BM25 系统级降级, :5050 与 MCP 检索均走 fallback+本地 bge-reranker (RAG QA 14/15 为降级态成绩); 恢复与否由用户定, agent 红线不碰 key。
+- embedding 本地切换 (2026-08-05 用户拍板: 不恢复 SILICONFLOW key): .env 已加 LOCAL_EMBEDDING_MODEL_PATH=qwen3-embedding-0.6b + DEVICE=cpu, 同模型 drop-in 无需 re-ingest (实测 top-1 对齐全对)。**MCP 链已生效** (knowledge_search vector=3 命中实测); **:5050 待用户批重启窗口后生效** (load_dotenv 需重启注入)。QA 脚本层 14/15 前后不变 — 唯一失败是 OCR meta-query 内容碰撞 (email_caitong.html 含"交易对账单"字样), 与 embedding 层无关 (见下方台账 ACCEPTED)。
 
 ### scenario1 gap 台账（2026-08-04 审计定基线，漂移校准）
 - NCAMC 垂直布局: **CLOSED** — pymupdf 坐标重建, 0→1 表 75% 命中 (b927efe; 见 docs/21 执行结果节)

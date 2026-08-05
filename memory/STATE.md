@@ -1,27 +1,24 @@
 # memory/STATE.md — 当前快照（覆写式）
-快照: 2026-08-05 | 写入: Loop D（交付链激活专项 S1-S5 完成）
+快照: 2026-08-05 晚 | 写入: Loop D（embedding 切本地第一步 + A0 sidecar + 决策固化）
 
-## 本轮产出（交付链激活，commit 06623d3）
-- S1 MCP 启动修复 PASS: 3 个 start_*.sh + run_opencode_gb10.sh 改 venv-first（conda 留 fallback）; smoke 3/3 过; vision 实测走 :8004 mmproj（M1_VLM_ENDPOINT=:8004，5.7s 出 markdown 表）; :8007 保持停摆
-- S2 OpenCode 运行时 PASS: 二进制 1.18.3; 单轮 QA 7.9s; stability 20/20 all_passed; 挂起根因 = opencode run 等 stdin EOF，非交互调用必须 </dev/null
-- S3 多 agent e2e（证据: docs/experiments/2026-08-05_opencode_e2e.md）:
-  - opencode.json 修复: m1-extraction/evidence-verifier/m2-qa mode subagent→all; tabular steps 2→4; m2-qa 首查逐字用用户完整问题
-  - M1 链 PASS: m1-extraction 47.4s（6 样本 100% 解析）+ evidence-verifier 31.2s verdict PASS
-  - M2 Q1 PASS（带引用，与 :5050/api/m2/ask 交叉一致）; Q2 PARTIAL（诚实拒答，未编造）
-  - tabular-runner PASS: tabpfn v2 1.685s
-  - 关键发现: SILICONFLOW_API_KEY 缺失 → vector+BM25 系统级降级，:5050 与 MCP 检索均走 fallback+本地 bge-reranker（0.989 是 rerank 分）; 探针确认 MCP≡API，Q2 差距在查询措辞+35B 提取能力
-  - stdout 污染修复: config_loader/bm25_retriever print→stderr（此前污染 MCP JSON-RPC 流）
-- S4 skill 层 PASS: opencode.json 加 skills.paths=["skills"] + permission.skill=allow; 新增 skills/graph-loop-rules/SKILL.md; opencode 枚举出 13 个 skill（含 jinrong-docs-sync、graph-loop-rules）
-- S5 决策文档 docs/25_交付架构决策.md: 路线 A（FastAPI 网关）vs 路线 B（OpenCode 原生入口），推荐先 A 后 B，待用户/甲方拍板，未实施
+## 本轮产出
+- ① embedding 切本地（用户拍板，不恢复 SILICONFLOW key）：
+  - .env 加 LOCAL_EMBEDDING_MODEL_PATH=~/wzh/models/hf/qwen3-embedding-0.6b + DEVICE=cpu（同模型 drop-in，存量 764 向量零迁移；对齐实测 top-1 全对 0.564/0.587）
+  - **MCP 链已生效**：knowledge_search vector=3 命中（复熙/嘉兴/OCR 三查询，正确来源 + product_name metadata）；BEFORE 复现 = ValueError 未找到 SILICONFLOW_API_KEY（与 e2e 文档降级记录一致）
+  - 机制说明：utils/config_loader.py 的 load_dotenv() 使 .env 变量对 MCP stdio 进程即时生效；:5050 需重启载入（第二步，等用户批窗口）
+  - QA 脚本层 14/15 前后不变：唯一失败 OCR meta-query 是内容碰撞（email_caitong.html 含"交易对账单"字样），与 embedding 层无关
+- ② A0 sidecar PASS：opencode serve :4096 起于 tmux opencode-serve；GET /app + /session OK；POST /session + /message 完整往返 OK（gb10 qwen3.6-35b-a3b，15.5s，finish=stop）。注意：存量会话已 100 个，A1 需做会话清理
+- 决策固化（memory/DECISIONS.md 四条 + docs/25 §3/§4 修订）：A 保底+B 目标；M1 热路径永不走 agent；LoRA 三条件门槛；B4 对等验收清单 16 项（功能/延迟/并发/回滚）已列 docs/25 §4.2 待用户过目
+- P2: skills/m1-gap-triage/SKILL.md 草稿完成（未注册未 sync），等用户审阅
 
 ## 系统状态
-- git: 本机 ≡ GB10 ≡ origin @ 06623d3（三方对齐）
-- pytest: 227 passed / 13 skipped（commit 后远端复跑全绿）
-- 服务: :8004 up（Qwen3.6-35B-A3B + mmproj）; :8007 down（预期）; :5050 up 未动（甲方演示随时可用）; docker zhikuncode+pgvector; tmux coding-jinrong/graph-loop-b/graph-loop-d
-- 红线: 冻结节点未触碰; API key 未触碰; 72B 未加载; 未对外发送; Loop B 未扰动
+- git: 本机与 GB10 对齐（本轮 docs/memory/skills 变更待 commit）
+- 服务: :8004 up; :5050 up 未动（重启等用户批窗口）; :4096 opencode-serve up（新）; docker zhikuncode+pgvector; tmux coding-jinrong/graph-loop-b/graph-loop-d/opencode-serve
+- pytest: 227 passed / 13 skipped（上轮基线，本轮未动代码）
+- 红线: 冻结节点/API key/72B 未触碰; Loop B 未扰动
 
-## 下一步
-- 等人决策①: SILICONFLOW_API_KEY 是否恢复（决定检索能否回到 vector+BM25；红线约束我们不碰 key）
-- 等人决策②: docs/25 路线 A/B 拍板（页面后端切 OpenCode 链）
-- 甲方交付仍待: 审阅 docs/23 + 发送版 docx（路由见 docs/24）
-- 遗留线索唯一台账: memory/THREADS.md
+## 下一步（闸门顺序）
+1. 用户审阅 m1-gap-triage skill 草稿 + B4 清单 → 注册/修订
+2. A1 FastAPI 薄适配层（可继续）；A2 灰度开关等 embedding 第二步落地后开
+3. :5050 重启窗口（用户确认后执行；重启后 /api/health/full + parse 冒烟 + 2 条 QA）
+4. 遗留台账唯一入口: memory/THREADS.md

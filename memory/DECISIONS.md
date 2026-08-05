@@ -81,3 +81,19 @@
 ## [2026-08-04] 夜间验收审计: CORE.md 基线漂移修复 + INDEX 重复登记 + 审计 prompt 端口残留
 结论: 验收审计发现并修复 3 处漂移: ① CORE.md 质量基线仍将 NCAMC/华泰/email body 列为 known_gap（实际已 CLOSED，THREADS.md 已于 5545fde 校准）→ 改为实况; ② docs/INDEX.md 中 23/24 条目重复登记 4 次 → 去重; ③ scripts/graph/loop_c_audit_prompt.md 残留 :5000 端口 → 修正 :5050。
 理由: 记忆系统要防的就是"台账类信息漂移"，本次为第二例（首例见 5545fde），校准依据同为 docs/21 执行结果节与 commit b927efe/9ea3754。
+
+## [2026-08-05] embedding 切本地, 不恢复 SILICONFLOW_API_KEY
+结论: .env 加 LOCAL_EMBEDDING_MODEL_PATH=~/wzh/models/hf/qwen3-embedding-0.6b + DEVICE=cpu; 同模型 drop-in, 存量 764 向量无需 re-ingest; MCP 链当日实测生效, :5050 重启后生效 (窗口需用户批准)。
+理由: 用户决策"用本地的"; 实测 top-1 对齐全对 (0.564/0.587); CUDA 在 ARM64 不可用 (Triton gcc JIT 失败), CPU 226ms/2 条可接受。详见 docs/25 §4.0。
+
+## [2026-08-05] 交付路线: A 保底 + B 目标, 先 A 后 B
+结论: 路线 A (FastAPI 网关, 首灰端点 /api/m2/ask) 保底, 路线 B (OpenCode 原生入口) 为目标, A 稳后启动 B; A2 灰度开关须待 embedding 两步 (MCP + :5050 重启) 都落地再开。
+理由: 用户拍板; 执行路径 A0-A3 / B0-B4 + B4 对等验收清单见 docs/25 §4。
+
+## [2026-08-05] M1 解析热路径永远不走 agent
+结论: /api/m1/parse-file 永远保持确定性进程内直调, 不接 agent 链; agent 只承接解释/复核/审计类增量能力。
+理由: 用户明示指令; 解析是性能敏感确定性路径 (<2.1s), agent 链秒级延迟且引入不确定性。
+
+## [2026-08-05] LoRA 微调不做, 重议需三条件同时满足
+结论: 拒绝 LoRA; 仅当 ① 本地 embedding 稳定上线 ② 甲方标注数据成规模 ③ 存在 prompt/schema 手段修不掉的可度量失败 三条同时成立才重议。
+理由: 用户决策; prompt+schema 扩展路线仍有空间 (嘉合 31.2%→93.8% 为例), 微调成本高且可控性差。
