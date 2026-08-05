@@ -51,9 +51,15 @@ def _debug(label, obj):
     if not DEBUG:
         return
     try:
+        if isinstance(obj, dict) and "chat" in obj:
+            obj = json.loads(json.dumps(obj))
+            for m in obj.get("chat", {}).get("messages", []):
+                c = m.get("content")
+                if isinstance(c, str) and len(c) > 300:
+                    m["content"] = c[:300] + f"...[+{len(c) - 300} chars]"
         with open(DEBUG_LOG, "a") as f:
             f.write(f"===== {label} {time.strftime('%H:%M:%S')} =====\n")
-            f.write(json.dumps(obj, ensure_ascii=False)[:20000] + "\n")
+            f.write(json.dumps(obj, ensure_ascii=False) + "\n")
     except Exception:
         pass
 
@@ -234,7 +240,9 @@ class Handler(BaseHTTPRequestHandler):
             req = urllib.request.Request(f"{UPSTREAM}/chat/completions",
                                          data=json.dumps(chat).encode(), headers=headers, method="POST")
             with urllib.request.urlopen(req, timeout=300) as resp:
-                cr = json.loads(resp.read().decode())
+                raw = resp.read().decode()
+                _debug("UPSTREAM_RAW", {"status": resp.status, "len": len(raw), "head": raw[:800]})
+                cr = json.loads(raw)
         except urllib.error.HTTPError as e:
             err = e.read().decode() if e.fp else str(e)
             _debug("UPSTREAM_ERROR", {"code": e.code, "err": err[:2000]})
