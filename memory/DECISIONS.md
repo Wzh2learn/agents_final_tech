@@ -101,3 +101,10 @@
 ## [2026-08-05] 台账漂移案例 3: STATE.md 21:00 快照未随状态变化覆写（:5050 重启 / skill 注册误报未做）
 结论: Loop C 审计发现 STATE.md 仍写 "m1-gap-triage 未注册未 sync 等用户审阅" 与 ":5050 up 未动（重启等用户批窗口）"，与事实不符（:5050 已于 23:09 重启载入本地 embedding、skill 已于 c5fd7c0 注册）。已覆写 STATE.md 闭环。补防漂移规则: STATE/THREADS 的 "已 X" 类断言必须以 dispatch_log 验证条目时间戳为准回写，写入前先对照。
 理由: 第三例台账漂移（先例 5545fde/db6572b）；根因同前——快照型文档未在状态变化后复核，由审计层交叉核对 ps/dispatch 发现。
+
+## [2026-08-06] 模型分工调整: Loop A → deepseek-v4-flash-0731, Loop D 子代理默认 flash (含回滚标准)
+结论: Loop A (Codex CLI) 切换 deepseek-v4-flash-0731 (Token_Plan_Chat provider, 经 :8100 responses2chat 代理 v3.2; 备份 ~/.codex/config.toml.bak-20260806-flash); Loop D 子代理默认 flash (override 列表无则选最便宜可用并记录), 集成 review 与多模态仍用 qwen3.8-max; Claude Code 全槽位 (qwen3.8-max)、qwen_harness_tools.py (max-preview)、Loop D 主线程 (max)、reasoning effort xhigh 均不动。冒烟 PASS: codex exec 两数之和, 34s / 30.8K tokens (prompt 缓存 14.3K), exec_command 工具 round-trip 成立 (debug REQUEST 2 含完整 tool_calls + role=tool 历史), 最终响应 reasoning_tokens=0。
+理由: 用户决策 (定价 ¥1/¥2/¥0.2 每 M); 模型 Chat-only 不支持 Responses API, 必须走代理。实测事实: 1M 上下文 / 393K 输出上限 / 纯文本; thinking 默认开启且先吃 completion 预算 (trivial prompt 16/17 token 为 reasoning; 探针 enable_thinking:false → completion=1/reasoning=0, 默认 → 47/44), token 估算须带推理开销。代理依赖: v3.2 (696dcbb/d0056a5/ad56ae2) 处理 codex 0.145.0 unified-exec exec_command/write_stdin ↔ chat function round-trip 与工具历史还原, 且强制 stream=False, 是本分工成立的前提; 代理回退 v2 及以下必失败。
+回滚标准 (任一触发立即回滚, 无需确认): ① Loop A 连续两次任务失败 (空输出 / 工具调用循环 / 异常退出) ② 冻结节点异常 ③ 实测成本不降 (含 reasoning 开销后 ≥ max 同任务)。
+回滚命令: sed -i 's/^model = "deepseek-v4-flash-0731"$/model = "qwen3.8-max"/; s/^model_provider = "Token_Plan_Chat"$/model_provider = "Token_Plan"/' ~/.codex/config.toml
+派遣纪律: 即日起子代理默认 flash; 切换后首个 Loop A 正式任务完成时 Loop C 重点审计该 diff (用户明示)。已知非阻塞噪音: proxy WARNING unknown tool format external_web_access (codex 内置 web 工具, 丢弃); codex models-manager slug 报错 (cosmetic); rmcp chatgpt.com MCP 连接失败 (codex 尝试云端 MCP, 忽略)。
