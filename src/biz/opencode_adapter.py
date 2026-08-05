@@ -40,13 +40,13 @@ def route_enabled() -> bool:
 
 def sidecar_health(timeout: float = 3.0) -> bool:
     try:
-        return httpx.get(f"{SIDECAR_URL}/session", timeout=timeout).status_code == 200
+        return httpx.get(f"{SIDECAR_URL}/session", timeout=timeout, trust_env=False).status_code == 200
     except Exception:
         return False
 
 
 def list_sessions() -> list[dict[str, Any]]:
-    r = httpx.get(f"{SIDECAR_URL}/session", timeout=10)
+    r = httpx.get(f"{SIDECAR_URL}/session", timeout=10, trust_env=False)
     r.raise_for_status()
     data = r.json()
     return data if isinstance(data, list) else []
@@ -54,7 +54,7 @@ def list_sessions() -> list[dict[str, Any]]:
 
 def delete_session(session_id: str) -> bool:
     try:
-        return httpx.delete(f"{SIDECAR_URL}/session/{session_id}", timeout=10).status_code < 300
+        return httpx.delete(f"{SIDECAR_URL}/session/{session_id}", timeout=10, trust_env=False).status_code < 300
     except Exception:
         return False
 
@@ -120,15 +120,15 @@ def ask_via_opencode(
         return None
     session_id: Optional[str] = None
     try:
-        session_id = httpx.post(f"{SIDECAR_URL}/session", json={}, timeout=10).json()["id"]
+        session_id = httpx.post(f"{SIDECAR_URL}/session", json={}, timeout=10, trust_env=False).json()["id"]
         body: dict[str, Any] = {
             "parts": [{"type": "text", "text": _history_block(history) + question + _FORMAT_HINT}],
             "agent": M2_AGENT,
         }
-        r = httpx.post(f"{SIDECAR_URL}/session/{session_id}/message", json=body, timeout=timeout_s)
+        r = httpx.post(f"{SIDECAR_URL}/session/{session_id}/message", json=body, timeout=timeout_s, trust_env=False)
         if r.status_code == 400:  # older serve builds may reject the agent field
             body.pop("agent", None)
-            r = httpx.post(f"{SIDECAR_URL}/session/{session_id}/message", json=body, timeout=timeout_s)
+            r = httpx.post(f"{SIDECAR_URL}/session/{session_id}/message", json=body, timeout=timeout_s, trust_env=False)
         r.raise_for_status()
         payload = r.json()
         answer, sources = _parse_structured(_extract_text(payload))

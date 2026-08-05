@@ -47,7 +47,7 @@ def test_ask_success_parses_json_and_cleans_session(monkeypatch):
     def fake_get(*a, **k):
         return FakeResp(200, [])
 
-    def fake_post(url, json=None, timeout=None):
+    def fake_post(url, json=None, timeout=None, **k):
         posts.append((url, json))
         if url.endswith("/session"):
             return FakeResp(200, {"id": "ses_t1"})
@@ -68,7 +68,7 @@ def test_ask_success_parses_json_and_cleans_session(monkeypatch):
     monkeypatch.setattr(oc.httpx, "get", fake_get)
     monkeypatch.setattr(oc.httpx, "post", fake_post)
     monkeypatch.setattr(
-        oc.httpx, "delete", lambda url, timeout=None: deleted.append(url) or FakeResp(200, {})
+        oc.httpx, "delete", lambda url, timeout=None, **k: deleted.append(url) or FakeResp(200, {})
     )
 
     res = oc.ask_via_opencode("总资产是多少？")
@@ -84,7 +84,7 @@ def test_ask_success_parses_json_and_cleans_session(monkeypatch):
 def test_ask_retries_without_agent_on_400(monkeypatch):
     calls = []
 
-    def fake_post(url, json=None, timeout=None):
+    def fake_post(url, json=None, timeout=None, **k):
         if url.endswith("/session"):
             return FakeResp(200, {"id": "ses_t2"})
         calls.append(json)
@@ -111,7 +111,7 @@ def test_cleanup_caps_oldest(monkeypatch):
     monkeypatch.setattr(
         oc.httpx,
         "delete",
-        lambda url, timeout=None: deleted.append(url.rsplit("/", 1)[-1]) or FakeResp(200, {}),
+        lambda url, timeout=None, **k: deleted.append(url.rsplit("/", 1)[-1]) or FakeResp(200, {}),
     )
     out = oc.cleanup_sessions(max_keep=1)
     assert out == {"before": 3, "deleted": 2, "kept": 1}
