@@ -22,7 +22,7 @@
 - ZhikunCode 重建 (2026-08-03): 官方 Dockerfile pip 直连 pypi.org 极慢, 需临时 aliyun 镜像源 (已还原) 或向上游提 PR。
 - codex CLI 对 qwen3.8-max 报 "model metadata not found" 警告: 无功能影响, 记录不修 (2026-08-03)。
 - .msg→htmlBody 预处理仍是临时脚本未入库; parse_html 已入库覆盖解析环节 (T3 遗留)。
-- embedding 本地切换 (2026-08-05 用户拍板: 不恢复 SILICONFLOW key): .env 已加 LOCAL_EMBEDDING_MODEL_PATH=qwen3-embedding-0.6b + DEVICE=cpu, 同模型 drop-in 无需 re-ingest (实测 top-1 对齐全对)。**MCP 链已生效** (knowledge_search vector=3 命中实测); **:5050 待用户批重启窗口后生效** (load_dotenv 需重启注入)。QA 脚本层 14/15 前后不变 — 唯一失败是 OCR meta-query 内容碰撞 (email_caitong.html 含"交易对账单"字样), 与 embedding 层无关 (见下方台账 ACCEPTED)。
+- embedding 本地切换: **RESOLVED** (2026-08-05, 用户拍板不恢复 SILICONFLOW key): .env 加 LOCAL_EMBEDDING_MODEL_PATH=qwen3-embedding-0.6b + DEVICE=cpu, 同模型 drop-in 无需 re-ingest。MCP 链实测生效 (knowledge_search vector=3); :5050 已重启载入 (重启验证见 dispatch_log 2026-08-05)。**口径更正**: "RAG QA 14/15" 从来不是降级态成绩 — QA 脚本 (m1_rag_qa.py) 经 setdefault 从未降级; 曾降级的仅 :5050/MCP 端点进程 (缺 env 走 fallback)。14/15 唯一失败 = OCR meta-query 内容碰撞 (email_caitong.html 含"交易对账单"字样), 已派 Loop A 正式任务修 (禁 --reset)。
 
 ### scenario1 gap 台账（2026-08-04 审计定基线，漂移校准）
 - NCAMC 垂直布局: **CLOSED** — pymupdf 坐标重建, 0→1 表 75% 命中 (b927efe; 见 docs/21 执行结果节)

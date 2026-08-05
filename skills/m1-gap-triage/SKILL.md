@@ -5,7 +5,7 @@ description: M1 解析失败分诊（0 表 / unmapped 过高）：嘉合 playboo
 
 # M1 Gap Triage（嘉合 playbook）
 
-> 状态: DRAFT（2026-08-05 Loop D 起草，待用户审阅后注册进 AGENTS.md Skill 武库 + sync_skills.sh）
+> 状态: 已注册（2026-08-05 用户批准，Loop D 补两处修订后入 AGENTS.md Skill 武库，sync_skills.sh 分发至 Loop A）
 
 ## 触发条件
 
@@ -17,7 +17,7 @@ description: M1 解析失败分诊（0 表 / unmapped 过高）：嘉合 playboo
 - 不碰冻结节点：`tests/test_m1_service.py`、`scripts/graph/frozen_hashes.txt`、schema 冻结 hash
 - **schema 优先，代码靠后**：不为单一样本改 parser 逻辑；先穷尽 synonyms 扩展
 - M1 解析热路径永远不走 agent（见 memory/DECISIONS.md 2026-08-05 条目）
-- schema 写操作走 `/api/m1/schema/*` API 需 X-Admin-Token；或直接编辑 `config/m1_table_schema.json`（非冻结文件，可 commit）后热加载
+- schema 写操作走 `/api/m1/schema/*` API 需 X-Admin-Token；或直接编辑 `config/m1_table_schema.json`（**非冻结**运行时 schema，可 commit）后热加载。**冻结澄清：`docs/m1_schema/` 是冻结基线目录，永远不碰**（与 tests/test_m1_service.py、frozen_hashes.txt 同级红线）
 
 ## 分诊决策树
 
@@ -29,7 +29,7 @@ description: M1 解析失败分诊（0 表 / unmapped 过高）：嘉合 playboo
 
 ## 步骤
 
-1. **读原文诊断**：PDF 用 pymupdf/pdfplumber 提取原始文本与表头（前 500 字足够定性）；txt/html 直接读（注意编码）。确定是列名问题还是布局问题。
+1. **读原文诊断**：PDF 用 pymupdf/pdfplumber 提取原始文本与表头（前 500 字足够定性）；txt/html 直接读（注意编码）。**image-only PDF 无文本层时，先读 OCR/vision 输出再诊断**（`_try_vision_ocr` 产物；vision 端点 :8004 mmproj，参考 scripts/m1_ocr_fallback.py 路径），不要拿空文本硬猜。确定是列名问题还是布局问题。
 2. **人工映射**：把 unmapped 列名与 `m1_table_schema.json` 标准字段对照；有甲方映射表（xlsx）时优先用它做 (代码,名称) 交叉参照。
 3. **补 synonyms**：通过 schema API 或直接编辑 schema 文件，给目标表的 standard 字段追加近义词；一次改完一类表。
 4. **重跑验证**：先重跑触发样本确认命中率 ≥80%，再重跑同格式全量样本确认一致性。
