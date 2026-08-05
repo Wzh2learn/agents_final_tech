@@ -49,6 +49,41 @@ import m1_statement_parser as m1p  # noqa: E402
 from biz.rag_service import RAGService  # noqa: E402
 
 
+# --- doc_type 标记（2026-08-05, OCR meta-query 修复任务）------------------------
+# chunk 类型标记，供 RAGService._apply_doc_type_rescore 在 OCR 溯源类查询中重排。
+# 存量 chunks 由 scripts/m1_rag_tag_doctype.py 非破坏性补标（同一规则，幂等）；
+# 此处保证后续 ingest 产出的 chunks 自带 doc_type，不再漂移。
+_NOTICE_MARKERS = (
+    "特别提示", "风险提示", "最终解释权", "反洗钱", "投资有风险",
+    "注册登记机构", "客服电话", "邮编", "公司地址", "传真", "决策须谨慎",
+)
+
+
+def compute_doc_type(sample_id: str, table_name: str, document: str) -> str:
+    """计算 chunk 的 doc_type 标记。
+
+    - ocr_table    : table_name 以 "ocr_" 开头（OCR 提取的表）
+    - parse_meta   : table_name == "解析元数据"
+    - reconcile    : table_name == "勾稽校验"
+    - header_meta  : table_name == "表头信息"
+    - email_notice : email_ 样本正文含提示/免责样板标记词
+    - statement    : 其余
+    """
+    tn = str(table_name or "")
+    if tn.startswith("ocr_"):
+        return "ocr_table"
+    if tn == "解析元数据":
+        return "parse_meta"
+    if tn == "勾稽校验":
+        return "reconcile"
+    if tn == "表头信息":
+        return "header_meta"
+    doc = document or ""
+    if str(sample_id or "").startswith("email_") and any(m in doc for m in _NOTICE_MARKERS):
+        return "email_notice"
+    return "statement"
+
+
 # 三条验证查询：(query, 期望样本前缀, 期望命中的字段/表关键词)
 VERIFY_QUERIES: list[tuple[str, str, str]] = [
     ("复熙混合25号的资产总值是多少？", "sample_fuxi_hunhe25", "资产总值"),
@@ -303,6 +338,7 @@ def cmd_ingest(samples_dir: str, schema_path: str, append: bool) -> int:
                 "source": res["file"],
                 "product_name": product_name,
                 "statement_date": statement_date,
+                "doc_type": compute_doc_type(res["file"], g["group"], ""),
             }
             out = rag.ingest_parsed_blocks(
                 document_id=res["file"],

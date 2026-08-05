@@ -28,6 +28,20 @@ _rag_service = None
 _RUNTIME_RAG_SETTINGS_CACHE_KEY = "runtime_rag_settings"
 
 
+# --- doc_type 感知重排（OCR 溯源类查询, 2026-08-05）---------------------------------
+# 背景: m1_parsed_statements 中 email 正文的"特别提示"类 chunk 含表名字面量
+# (如"交易对账单"), 纯向量检索下会压过真正的 OCR 解析证据 chunk。
+# 对 OCR 溯源类查询(含"ocr"), 按 chunk metadata 的 doc_type 重排:
+#   - ocr_table(OCR 提取的表): 加权; matched_schema 命中 query 时加权更多
+#   - email_notice(邮件提示/免责样板文本): 降权
+# doc_type 由 scripts/m1_rag_tag_doctype.py 非破坏性写入 PGVector cmetadata;
+# 无 doc_type 的 chunk(如 knowledge_base) 不受影响。
+_OCR_PROVENANCE_TRIGGER = "ocr"
+_DOCTYPE_FACTOR_OCR_TABLE_SCHEMA_MATCH = 1.35
+_DOCTYPE_FACTOR_OCR_TABLE = 1.15
+_DOCTYPE_FACTOR_EMAIL_NOTICE = 0.70
+
+
 def _get_runtime_rag_settings() -> Dict[str, Any]:
     try:
         value = get_cache().get(_RUNTIME_RAG_SETTINGS_CACHE_KEY)
@@ -315,6 +329,25 @@ class RAGService:
             except Exception as e:
                 logger.warning(f"Vector retrieve failed on {collection_name}: {e}")
 
+            # 2.5 OCR 溯源类查询: 补一路 doc_type=ocr_table 的过滤检索。
+            # OCR 提取表 chunk 在全局向量排序中可能被邮件样板文本 chunk 挤出
+            # top_k 候选池，这里按 metadata 过滤直接召回，再交给 4.5 步重排。
+            if _OCR_PROVENANCE_TRIGGER in query.lower():
+                try:
+                    ocr_store = get_vector_store(collection_name=collection_name)
+                    ocr_results = ocr_store.similarity_search_with_score(
+                        query, k=top_k, filter={"doc_type": "ocr_table"}
+                    )
+                    for doc, score in ocr_results:
+                        doc.metadata["vector_score"] = float(score)
+                        doc.metadata["collection"] = collection_name
+                        all_docs.append(doc)
+                        vector_count += 1
+                except Exception as e:
+                    logger.warning(
+                        f"OCR doc_type filtered retrieve failed on {collection_name}: {e}"
+                    )
+
             try:
                 bm25_res = bm25_retrieve.invoke({
                     "query": query,
@@ -362,6 +395,9 @@ class RAGService:
                 bm25_sim = float(bm25_score) / max_bm25
             combined = (vector_weight * (vector_sim or 0.0)) + (bm25_weight * (bm25_sim or 0.0))
             doc.metadata["combined_score"] = combined
+
+        # 4.5 doc_type 感知重排（仅 OCR 溯源类查询触发, 见模块常量说明）
+        self._apply_doc_type_rescore(query, unique_docs)
 
         # 5. 先按综合分数排序
         sorted_docs = sorted(unique_docs, key=lambda x: x.metadata.get("combined_score", 0), reverse=True)
@@ -766,6 +802,38 @@ class RAGService:
             except (TypeError, ValueError):
                 continue
         return max_score
+
+    @staticmethod
+    def _apply_doc_type_rescore(query: str, docs: List[Document]) -> None:
+        """对 OCR 溯源类查询按 chunk doc_type 重排 combined_score（就地修改）。
+
+        仅当 query 含 "ocr" 时触发；无 doc_type metadata 的 chunk 保持原分。
+        规则见模块常量 _DOCTYPE_FACTOR_* 的注释。
+        """
+        if _OCR_PROVENANCE_TRIGGER not in (query or "").lower():
+            return
+        query_lower = query.lower()
+        for doc in docs:
+            metadata = doc.metadata or {}
+            doc_type = str(metadata.get("doc_type") or "")
+            if not doc_type:
+                continue
+            factor = 1.0
+            if doc_type == "email_notice":
+                factor = _DOCTYPE_FACTOR_EMAIL_NOTICE
+            elif doc_type == "ocr_table":
+                schema = str(metadata.get("matched_schema") or "")
+                if schema and schema.lower() in query_lower:
+                    factor = _DOCTYPE_FACTOR_OCR_TABLE_SCHEMA_MATCH
+                else:
+                    factor = _DOCTYPE_FACTOR_OCR_TABLE
+            if factor != 1.0:
+                try:
+                    combined = float(metadata.get("combined_score") or 0.0)
+                except (TypeError, ValueError):
+                    combined = 0.0
+                metadata["combined_score"] = combined * factor
+                metadata["doc_type_rescore_factor"] = factor
 
     @staticmethod
     def _get_score_weights() -> Tuple[float, float]:
