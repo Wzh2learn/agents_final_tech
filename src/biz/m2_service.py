@@ -52,7 +52,7 @@ _MAX_TURNS = 10          # max messages stored per session
 _CONTEXT_TURNS = 5       # last N messages injected into prompt
 _SESSION_TTL = 30 * 60   # 30 minutes inactivity expiry (seconds)
 
-_sessions_lock = threading.Lock()
+_sessions_lock = threading.RLock()  # reentrant: get_history/append_turn wrap _get_session which re-acquires (deadlock fix 2026-08-06)
 _sessions: dict[str, dict[str, Any]] = {}
 # Each entry: {"history": [{"role":..., "content":...}, ...], "last_active": float}
 

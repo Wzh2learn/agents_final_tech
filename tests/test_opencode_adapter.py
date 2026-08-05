@@ -140,6 +140,7 @@ def _load_router_with_stub(monkeypatch, oc_result):
     stub.get_product_timeline = lambda n: {}
     stub.compare_dates = lambda *a, **k: {}
     stub.compare_positions = lambda *a, **k: {}
+    stub.detect_compare_intent = lambda q: False
     stub.get_history = lambda sid: []
     stub.append_turn = lambda sid, role, content: state["appended"].append((role, content))
     stub.new_session_id = lambda: "sid-new"

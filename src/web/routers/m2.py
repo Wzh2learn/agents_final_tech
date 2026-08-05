@@ -26,6 +26,7 @@ from biz.m2_service import ask as m2_ask
 from utils.metrics import m2_qa_total, m2_qa_duration_seconds
 from biz.m2_service import clear_session, collection_name
 from biz.m2_service import (
+    detect_compare_intent,
     list_products,
     get_product_timeline,
     compare_dates,
@@ -82,7 +83,7 @@ async def m2_health():
 async def m2_ask_endpoint(request: M2AskRequest):
     """Retrieve grounded chunks and generate an answer over M1-parsed statements."""
     t0 = time.perf_counter()
-    if opencode_adapter.route_enabled():
+    if opencode_adapter.route_enabled() and not detect_compare_intent(request.question):
         sid = request.session_id or new_session_id()
         oc = opencode_adapter.ask_via_opencode(
             request.question, history=get_history(sid)

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -uo pipefail
+# L5 frozen-node guard (scope narrowed 2026-08-06 by Loop D directive):
+#   - tests/test_m1_service.py        (contract tests; NOT the whole tests/ dir)
+#   - docs/m1_schema/                 (schema baseline docs)
+#   - scripts/graph/frozen_hashes.txt (hash manifest itself)
+#   - every path listed in frozen_hashes.txt (md5-verified freeze list)
+CHANGED=$(git diff --cached --name-only --diff-filter=ACMR 2>/dev/null)
+[ -z "$CHANGED" ] && exit 0
+MANIFEST="scripts/graph/frozen_hashes.txt"
+VIOLATIONS=$(echo "$CHANGED" | grep -E '^tests/test_m1_service\.py$|^docs/m1_schema/|^scripts/graph/frozen_hashes\.txt$' || true)
+if [ -f "$MANIFEST" ]; then
+  while IFS= read -r line; do
+    case "$line" in ''|\#*) continue ;; esac
+    p=$(echo "$line" | awk '{print $2}')
+    [ -z "$p" ] && continue
+    if echo "$CHANGED" | grep -qxF "$p"; then
+      VIOLATIONS="${VIOLATIONS:+${VIOLATIONS}
+}${p} (listed in frozen_hashes.txt)"
+    fi
+  done < "$MANIFEST"
+fi
+if [ -n "$VIOLATIONS" ]; then
+  echo "BLOCKED: commit modifies frozen nodes:"
+  echo "$VIOLATIONS"
+  echo ""
+  echo "Frozen nodes (narrowed 2026-08-06):"
+  echo "  tests/test_m1_service.py        contract tests (this file only, not tests/)"
+  echo "  docs/m1_schema/                 schema baseline docs"
+  echo "  scripts/graph/frozen_hashes.txt hash manifest"
+  echo "  + paths listed in frozen_hashes.txt"
+  echo ""
+  echo "To override (Loop D only): git commit --no-verify"
+  exit 1
+fi
+exit 0
