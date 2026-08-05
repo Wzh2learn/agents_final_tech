@@ -8,10 +8,10 @@
 - 遗留: 110/137 chunk 的 product_name 为空或正则碎片 (OCR 样本), 记录不修。
 - 下一步: 若跨文档对比出现实质错漏, 再重做 ingest metadata 注入。
 
-### OCR meta-query (2026-08-03 23:36) — ACCEPTED
-- 问题: "哪个样本通过 OCR 解析了交易对账单" 被 scenario1 caitong HTML chunk 抢占排序 (0.4385)。
-- 状态: OCR 溯源元数据已入库 (解析引擎=vision-8004) 但查询词"交易对账单"主导排序; 14/15=93% 高于 80% gate, 接受。
-- 下一步(暂不做): ingest 时给解析元数据 chunk 加 "OCR=是" 字面量; 注意 --reset 重灌会丢 scenario1 chunk (ingest 只扫顶层目录)。
+### OCR meta-query (2026-08-03 23:36) — RESOLVED (2026-08-05, Loop A)
+- 问题: "哪个样本通过 OCR 解析了交易对账单" 被 scenario1 caitong HTML 特别提示样板 chunk 抢占排序 (0.4385)。
+- 状态: **已修, QA 15/15=100%**。根因三层: 样板 chunk 含"交易对账单"字面量 (内容碰撞) + BM25 stub 未实现 (混合检索退化纯向量) + 正确证据 chunk (ocr_table_1:r0, dist 0.4420 ~第35名) 被 top_k 候选池截断。修法: 137 chunks 非破坏性 cmetadata 标记 doc_type (email_notice=15/ocr_table=11/parse_meta=17/reconcile=17/header_meta=15/statement=62, 工具 scripts/m1_rag_tag_doctype.py 幂等) + smart_retrieve 对含 "ocr" 查询补一路 doc_type=ocr_table 过滤召回 + 重排 (ocr_table schema 命中 x1.35 / 其余 x1.15 / email_notice x0.70)。未 --reset、未删灌 chunk、未重启 :5050。
+- 遗留: :5050 重启后 curl 复验 (Loop D 择窗); BM25 stub 未实现为既有系统问题, 记录不修; coord_table 未纳入 ocr_table 语义 (见交付说明 §6)。详见 logs/graph/loop_a_ocr_metaquery_result.md。
 
 ## 其他技术线索
 
@@ -29,7 +29,7 @@
 - 华泰/TraFax OCR 纯文本: **CLOSED** — OCR prompt 增强 markdown 表格输出, 华泰 0→1 (35.7%) / TraFax 0→3 (9ea3754)
 - email body: **CLOSED (有界)** — HTML body 提取, 3 封 0→9 表 (国金 70% / 财通 42% / 南华初值 24%)
 - 南华 HTML: **遗留 (低优先)** — T3 已提升 24%→65.7%, parse_html(bs4) 入 PARSERS + synonyms 扩展 (html_table_4 88.9%), 不再恋战
-- OCR meta-query: **ACCEPTED** — 14/15=93% 高于 80% gate (见本文件上条)
+- OCR meta-query: **RESOLVED** (2026-08-05 Loop A) — 15/15=100%, doc_type 标记 + smart_retrieve 过滤召回/重排 (见本文件上条)
 ## 甲方侧待确认
 
 - 跨期对比: 需甲方提供多期对账单数据才能解锁 (现仅单期/单文档内对比)。

@@ -12,9 +12,10 @@
 - P2: skills/m1-gap-triage/SKILL.md 草稿完成（未注册未 sync），等用户审阅
 
 ## 系统状态
+- **Loop A 任务交付 (2026-08-05 深夜)**: OCR meta-query 修复完成 — RAG QA 14/15 -> **15/15**; 非破坏性 doc_type 标记 (scripts/m1_rag_tag_doctype.py 已执行, 幂等) + smart_retrieve 过滤召回/重排; 未 --reset/未删灌 chunk/未重启 :5050; pytest 242 passed / 13 skipped。待办: Loop D 择窗重启 :5050 后 curl 复验。详见 logs/graph/loop_a_ocr_metaquery_result.md
 - git: 本机与 GB10 对齐（本轮 docs/memory/skills 变更待 commit）
 - 服务: :8004 up; :5050 up 未动（重启等用户批窗口）; :4096 opencode-serve up（新）; docker zhikuncode+pgvector; tmux coding-jinrong/graph-loop-b/graph-loop-d/opencode-serve
-- pytest: 227 passed / 13 skipped（上轮基线，本轮未动代码）
+- pytest: 242 passed / 13 skipped（2026-08-05 Loop A 交付后实测; 含新增 15 个 doc_type/rescore 单测）
 - 红线: 冻结节点/API key/72B 未触碰; Loop B 未扰动
 
 ## 下一步（闸门顺序）
