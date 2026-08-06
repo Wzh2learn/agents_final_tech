@@ -311,6 +311,8 @@ RAG QA: 14/15 = 93% (OCR query diluted by collection expansion, above 80% gate).
 | C | Claude Code | requesting-code-review | 结构化审查请求 |
 | C | Claude Code | receiving-code-review | 反馈的技术性验证 |
 | C | Claude Code | security-best-practices | 安全专项 (按需) |
+| A | Codex CLI | agent-prompt-contracts | 编写/修改 agent prompt 与输出契约时必读 |
+| C | Claude Code | agent-prompt-contracts | 审计 prompt 类改动的契约遵从基线 |
 | A | Codex CLI | m1-gap-triage | M1 解析失败分诊：0 表/高 unmapped → 读原文诊断 → 补 synonyms → 重跑 → 报 delta（嘉合 playbook） |
 | A | Codex CLI | graph-loop-rules | Graph Loop 红线与运行约束（冻结节点/生产后端/API key/72B），OpenCode agent 通用 |
 | A+C | Codex CLI + Claude Code | jinrong-docs-sync | 文档四层结构治理 + INDEX.md 单一入口维护 (Phase 4 自定义, 2026-08-04) |
@@ -320,6 +322,7 @@ RAG QA: 14/15 = 93% (OCR query diluted by collection expansion, above 80% gate).
 2. skill-doctor / skill-map 定期体检 (每次 neat 收尾时), 核对 metadata 与交叉引用一致性。
 3. 自定义 skill 按 skills-best-practices 规范放仓库 skills/ (SKILL.md frontmatter + 附属文件), 不放个人目录。
 4. 弃用只标记不删除: 注册表标 DEPRECATED 并在 SKILL.md 头部注明, 目录保留审计痕迹。
+5. 修复失败的 prompt 改动必须同 commit 在 skills/agent-prompt-contracts/ 补录/更新对应契约 (失败模式 → 对策 → 验证方式 + 证据链接); 无契约补录的 prompt 修复合并前须说明理由。
 
 ## 记忆系统协议 (Phase 5 L1, 2026-08-04)
 
