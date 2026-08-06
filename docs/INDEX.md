@@ -51,6 +51,7 @@
 | `2026-08-05_audit_embedding_skill.md` | 活跃 | Loop C 审计: embedding 切换 + skill 注册 CONDITIONAL→闭环 | 2026-08-05 |
 | `2026-08-06_audit_loop_c_flash_fixes.md` | 活跃 | Loop C 审计: flash 首任务+三修复+A2 灰度 CONDITIONAL（后转 ACCEPTED） | 2026-08-06 |
 | `2026-08-06_differential_phase3_to_head.md` | 活跃 | Loop C differential 4a151dd..HEAD: ACCEPTED, 33 findings (0C/1H/8M) | 2026-08-07 |
+| `2026-08-07_full_system_inventory.md` | 活跃 | 全系统工具盘点: skills 三端 diff + doctor 实跑 + MCP/CLI/harness 证据与建议 | 2026-08-07 |
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
 | `2026-08-04_rehearsal/` | 活跃 | 彩排截图 7 张 + demo 日志（docs/23 引用，勿动） |

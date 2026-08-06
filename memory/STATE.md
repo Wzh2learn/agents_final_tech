@@ -1,21 +1,30 @@
-# memory/STATE.md — 当前快照（覆写式）| 快照: 2026-08-06 23:00 | 写入: Loop D（日间队列 1-5 执行中: A2 稳态化）
+# memory/STATE.md — 现状快照（唯一现状信源）
 
-## 系统状态
-- git: 三方对齐, 链: 100b025 → 62d21e3（Loop A flash 首任务: sources 遵从度）→ dbd9b09（B4 排期提案）→ 本快照
-- 模型分工: Loop A = deepseek-v4-flash-0731（Token_Plan_Chat, :8100 代理 v3.2）; flash 首个正式任务 PASS（817s, 62d21e3, pytest 261/0 failed）; 其余槽位不变（见 DECISIONS.md）
-- A2 灰度: route=on + OPENCODE_ASK_TIMEOUT=18（.env）; sources 遵从度修复实测 10/10 零空 sources; agent 路 p95=17.2s ✓; 发现争用尾部 42.8s（被弃 agent run 的 prefill 干扰直连回落, :8004 为 4 slot）→ B4 p95<20s 暂不达标, 修复选项见 docs/25 §4.3（abort 语义验证 或 :8005 隔离）
-- 服务: :5050 up（22:3x 重启, 载入 timeout=18 + adapter 修复）; :4096 sidecar 重建（日间曾停摆, :5050 按设计静默降级无损）; :8004/:8005 LM Studio up; :8100 代理 v3.2 up; docker zhikuncode + pgvector_15432
-- 质量: pytest 261 passed / 13 skipped / 0 failed（基线更新: +6 adapter 测试）; RAG QA 15/15
-- Loop C: 审计进行中（62d21e3 + cf5df3d + a9ddfc4 + A2 配置）, claude -p 活跃, 判定将落 logs/graph/loop_c_audit_20260806_flash_fixes.md
-- 数据集: TAT-DQA 7/7 文件完整 validate 通过（train.zip 1.17GB 已就位, 阻塞解除）
-- 红线: 冻结节点零触碰; API key / 72B 未碰; Loop B 未扰动（22:06 PASS）
+> 覆写: 2026-08-07 ~01:20 CST (夜间 2h 全面盘点 loop 收口)
 
-## 下一步（闸门顺序）
-1. Loop C 审计判定落账 → 如有 CONDITIONAL 项按 receiving-code-review 分诊
-2. 争用尾部修复拍板（abort 语义 vs :8005 隔离）→ 修复后灰度积累 ≥100 ask / 3 天 → B4 验收（docs/25 §4.3）
-3. JSON 解析鲁棒性小修（嵌套引号, Loop A 候选任务）
-4. B 阶段不启动, 等甲方/用户拍板
+## 模式
+守护模式 (2h 盘点 loop 已完成; 等待用户下一步指令)。
 
-## 台账规则
-- gap/遗留项台账唯一存放于 memory/THREADS.md, 其他文档只引用不复述
-- STATE/THREADS 的 "已 X" 断言以 dispatch_log 验证条目时间戳为准回写（漂移案例 3 教训, 见 DECISIONS.md）
+## Git
+- HEAD: 见 git log (本地/远端/GitHub 三方对齐); 昨夜以来关键 commit: c5a8ecf (审计闭环 F1-F6) → 912099d (differential ACCEPTED + agent-prompt-contracts skill) → 9bc0f93 (文档漂移修复 15/15 口径) → 本轮盘点 commit。
+- 审计状态: Loop C 双 ACCEPTED (T1 复核 + T2 differential 4a151dd..HEAD, 33 findings: 0 CRITICAL / 1 HIGH[E1 已闭环] / 8 MEDIUM)。
+
+## 服务
+- :5050 FastAPI (08-07 00:23 重启, 已载入 c5a8ecf PG 超时加固): overall=healthy, embeddings=137, embedding provider=local (qwen3-embedding-0.6b CPU), M2_OPENCODE_ROUTE=on + OPENCODE_ASK_TIMEOUT=18
+- :4096 OpenCode sidecar (tmux opencode-serve), MCP 三件套为其 stdio 子进程
+- :8004 Qwen3.6-35B (4 slots) / :8005 14B / :8100 responses2chat proxy v3.2
+- docker: zhikuncode + pgvector_15432
+- Loop A (codex CLI): deepseek-v4-flash-0731 via Token_Plan_Chat; Loop C: qwen3.8-max 全槽位 (claude -p 需 --dangerously-skip-permissions)
+
+## 质量基线
+- pytest: 266 passed / 13 skipped / 0 failed (2026-08-07 01:10 复跑)
+- RAG QA: 15/15 (两口径: rerank=False 08-05 + 生产 force_rerank=True 08-07 复验)
+- demo.sh: 6 步全绿 (08-07 01:00 实跑)
+- Loop B: PASS 00:36 (30min 周期)
+- 冻结节点: tests/test_m1_service.py md5 faa7565a 完好
+
+## 演示就绪
+GO (条件): 正式演示前建议关 M2_OPENCODE_ROUTE 切直连 (~2s/轮, 回滚 23s 实测); agent 路保留则按 docs/23 附录 C 话术解释 15-20s 延迟。
+
+## 待办（唯一台账 → memory/THREADS.md）
+E4 一行修 / P1-P3 随手修 / 会话 delete-list 断言缺口 / :5050 重启后 PG 超时已生效无需再启 / opencode_m1_extract.sh 封装待批 / Loop C MCP 接线观望 / B4 灰度数据积累中 (目标 ~08-11)
