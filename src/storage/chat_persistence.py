@@ -28,6 +28,13 @@ CREATE TABLE IF NOT EXISTS chat_messages (
 CREATE INDEX IF NOT EXISTS idx_chat_messages_session ON chat_messages(session_id);
 """
 
+# Bounded PG I/O when held under m2_service._sessions_lock (Loop C audit F1).
+# connect_timeout bounds the TCP/SSL establish; statement_timeout bounds each
+# query so a stalled PG cannot hang the :5050 worker indefinitely. Aligns with
+# the memory_saver.py connect_timeout precedent. Values are env-tunable.
+_CONNECT_TIMEOUT = int(os.environ.get("M2_PG_CONNECT_TIMEOUT", "5"))   # seconds
+_STATEMENT_TIMEOUT = int(os.environ.get("M2_PG_STATEMENT_TIMEOUT", "10000"))  # ms
+
 _conn_lock = threading.Lock()
 _conn = None
 _tables_created = False
@@ -43,7 +50,12 @@ def _get_conn():
         if _conn is None or _conn.closed:
             try:
                 import psycopg
-                _conn = psycopg.connect(url, autocommit=True)
+                _conn = psycopg.connect(
+                    url,
+                    autocommit=True,
+                    connect_timeout=_CONNECT_TIMEOUT,
+                    options=f"-c statement_timeout={_STATEMENT_TIMEOUT}",
+                )
             except Exception as e:
                 logger.warning(f"Chat persistence: cannot connect to PG: {e}")
                 _conn = None

@@ -115,7 +115,7 @@ def _extract_cited_sources(text: str) -> list[dict[str, Any]]:
         fm = re.search(r"(?:字段[:：]\s*|field[:：]\s*|字段=\s*)([A-Za-z0-9_\u4e00-\u9fa5.\-]+)", seg)
         if fm:
             field = fm.group(1)
-        entry: dict[str, Any] = {"sample_id": m.group("sample")}
+        entry: dict[str, Any] = {"sample_id": m.group("sample").rstrip(".")}
         if table or field:
             entry["source_text"] = seg.strip()
         if table:

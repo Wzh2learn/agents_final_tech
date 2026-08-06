@@ -48,6 +48,7 @@ def test_ask_success_parses_json_and_cleans_session(monkeypatch):
         return FakeResp(200, [])
 
     def fake_post(url, json=None, timeout=None, **k):
+        assert k.get("trust_env") is False, "sidecar calls must not honor env proxy (a9ddfc4)"
         posts.append((url, json))
         if url.endswith("/session"):
             return FakeResp(200, {"id": "ses_t1"})
@@ -85,6 +86,7 @@ def test_ask_retries_without_agent_on_400(monkeypatch):
     calls = []
 
     def fake_post(url, json=None, timeout=None, **k):
+        assert k.get("trust_env") is False, "sidecar calls must not honor env proxy (a9ddfc4)"
         if url.endswith("/session"):
             return FakeResp(200, {"id": "ses_t2"})
         calls.append(json)
@@ -116,6 +118,24 @@ def test_cleanup_caps_oldest(monkeypatch):
     out = oc.cleanup_sessions(max_keep=1)
     assert out == {"before": 3, "deleted": 2, "kept": 1}
     assert sorted(deleted) == ["a", "c"]
+
+
+def test_all_httpx_calls_opt_out_of_env_proxy(monkeypatch):
+    """Guard: every sidecar httpx call passes trust_env=False (a9ddfc4)."""
+    calls = []
+
+    def spy(*a, **k):
+        calls.append(k)
+        return FakeResp(200, {})
+
+    monkeypatch.setattr(oc.httpx, "get", spy)
+    monkeypatch.setattr(oc.httpx, "post", spy)
+    monkeypatch.setattr(oc.httpx, "delete", spy)
+    oc.sidecar_health()
+    oc.ask_via_opencode("q")
+    assert calls, "expected at least one httpx call"
+    for k in calls:
+        assert k.get("trust_env") is False, f"httpx call missing trust_env=False: {k}"
 
 
 def test_parse_structured_fallback():
@@ -197,6 +217,26 @@ def test_router_switch_on_fallback_when_sidecar_fails(monkeypatch):
     assert state["direct"] == 1
 
 
+def test_router_compare_intent_bypasses_opencode_route(monkeypatch):
+    """Loop C audit F2: a compare-intent question must take the direct path even
+    when the opencode route is on, and must NOT call ask_via_opencode."""
+    monkeypatch.setenv("M2_OPENCODE_ROUTE", "on")
+    mod, state = _load_router_with_stub(
+        monkeypatch,
+        {"answer": "oc", "sources": [], "model": "x", "route": "opencode"},
+    )
+
+    called = []
+    monkeypatch.setattr(mod.opencode_adapter, "ask_via_opencode", lambda *a, **k: called.append(1) or None)
+    # Stub detect_compare_intent -> True for the compare question.
+    mod.detect_compare_intent = lambda q: True
+
+    r = _client_for(mod).post("/api/m2/ask", json={"question": "比较两个产品差异"})
+    assert r.json()["answer"] == "direct"
+    assert state["direct"] == 1
+    assert called == [], "compare intent must bypass opencode route"
+
+
 # --- M2 sources compliance fallback (2026-08-06) ---
 
 
@@ -231,6 +271,48 @@ def test_parse_structured_fallback_multiple_samples():
     assert len(sources) == 2
     assert sources[0]["sample_id"] == "sample_jiaxing_minan"
     assert sources[1]["sample_id"] == "sample_fuxi_hunhe25"
+
+
+def test_parse_structured_fallback_strips_trailing_dot(monkeypatch):
+    """Loop C audit F3: echo trailing-dot sample_id must not leak '.' into citation."""
+    text = "样本: sample_fuxi_hunhe25. 表: 交易对账单 字段: 资产总值"
+    answer, sources = oc._parse_structured(text)
+    assert sources[0]["sample_id"] == "sample_fuxi_hunhe25"
+    # internal dots are preserved (real ids may contain them)
+    answer2, sources2 = oc._parse_structured("样本: sample_a.b 表: 交易对账单 字段: 资产总值")
+    assert sources2[0]["sample_id"] == "sample_a.b"
+
+
+def test_parse_structured_passthrough_explicit_empty_json_sources():
+    """Loop C audit F4: model returns {\"answer\": ..., \"sources\": []} exactly."""
+    text = '{"answer": "未检索到证据。", "sources": []}'
+    answer, sources = oc._parse_structured(text)
+    assert answer == "未检索到证据。"
+    assert sources == []
+
+
+def test_parse_structured_echo_does_not_treat_prompt_example_as_citation():
+    """Loop C audit F3/F4: the prompt's example JSON (echoed verbatim) must not
+    be treated as a real citation by the fallback extractor. The example uses
+    the JSON key form (\"sample_id\": \"...\"), which the plain-form fallback
+    regex deliberately does not match."""
+    example = (
+        '{"answer": "您好，复熙混合25号的资产总值为 1,234,567.89 元。", '
+        '"sources": [{"sample_id": "sample_fuxi_hunhe25", "table_name": "交易对账单", "field": "资产总值"}]}'
+    )
+    answer, sources = oc._parse_structured(example)
+    # The example IS a well-formed JSON object with answer + sources; structured
+    # parse passes it through verbatim (that is the intended contract shape).
+    assert sources == [{"sample_id": "sample_fuxi_hunhe25", "table_name": "交易对账单", "field": "资产总值"}]
+    assert answer == "您好，复熙混合25号的资产总值为 1,234,567.89 元。"
+
+    # Negative boundary: the fallback extractor must NOT invent a citation from
+    # the example's sample_id when the answer is plain prose around the example.
+    prose = (
+        "请严格按照以下示例输出（不要复制值）: "
+        '先输出 {"answer": "...", "sources": [{"sample_id": "sample_fuxi_hunhe25"}]}'
+    )
+    assert oc._extract_cited_sources(prose) == []
 
 
 def test_parse_structured_fallback_never_invents_without_citation():

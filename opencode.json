@@ -62,6 +62,10 @@
       "permission": {
         "edit": "deny",
         "bash": "deny",
+        "read": "deny",
+        "grep": "deny",
+        "glob": "deny",
+        "webfetch": "deny",
         "jinrong-rag_*": "allow",
         "jinrong-vision_*": "deny",
         "jinrong-tabular_*": "deny"
