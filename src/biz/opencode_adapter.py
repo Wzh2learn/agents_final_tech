@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 from typing import Any, Optional
 
 import httpx
@@ -27,9 +28,12 @@ MAX_SESSIONS = int(os.environ.get("OPENCODE_MAX_SESSIONS", "50"))
 M2_AGENT = os.environ.get("OPENCODE_M2_AGENT", "m2-qa")
 
 _FORMAT_HINT = (
-    "\n\n输出格式（机器解析, 必须遵守）: 只输出一个 JSON 对象, 不要其他文字: "
+    "\n\n输出格式（机器解析, 必须遵守）: 只输出一个 JSON 对象, 不要其他文字、"
+    "markdown 代码块或列表: "
     '{"answer": "自然语言回答, 注明出处文档/表/字段", '
     '"sources": [{"sample_id": "...", "table_name": "...", "field": "..."}]}'
+    " sources 必须与 answer 中的每个结论一一对应；凡从检索命中回答, "
+    "sources 必须非空, 不得返回 []。"
 )
 
 
@@ -86,6 +90,43 @@ def _extract_text(payload: Any) -> str:
     return json.dumps(payload, ensure_ascii=False)[:2000]
 
 
+_SAMPLE_RE = re.compile(
+    r"(?:样本[:：]\s*|sample_id[:：]\s*|样本=\s*)"
+    r"(?P<sample>sample_[A-Za-z0-9_\u4e00-\u9fa5.\-]+)",
+    re.IGNORECASE,
+)
+
+
+def _extract_cited_sources(text: str) -> list[dict[str, Any]]:
+    """Conservative fallback: parse explicit 样本/表/字段 citations already
+    present in the answer text. Never invents sources not stated in the text.
+    """
+    sources: list[dict[str, Any]] = []
+    segments = re.split(r"(?=[\u4e00-\u9fa5]*样本[:：]|sample_id[:：]|\b样本=\b)", text)
+    for seg in segments:
+        m = _SAMPLE_RE.search(seg)
+        if not m:
+            continue
+        table = None
+        tm = re.search(r"(?:表[:：]\s*|table_name[:：]\s*|表=\s*)([A-Za-z0-9_\u4e00-\u9fa5.\-]+)", seg)
+        if tm:
+            table = tm.group(1)
+        field = None
+        fm = re.search(r"(?:字段[:：]\s*|field[:：]\s*|字段=\s*)([A-Za-z0-9_\u4e00-\u9fa5.\-]+)", seg)
+        if fm:
+            field = fm.group(1)
+        entry: dict[str, Any] = {"sample_id": m.group("sample")}
+        if table or field:
+            entry["source_text"] = seg.strip()
+        if table:
+            entry["table_name"] = table
+        if field:
+            entry["field"] = field
+        if entry not in sources:
+            sources.append(entry)
+    return sources
+
+
 def _parse_structured(text: str) -> tuple[str, list[dict[str, Any]]]:
     start, end = text.find("{"), text.rfind("}")
     if start != -1 and end > start:
@@ -96,7 +137,8 @@ def _parse_structured(text: str) -> tuple[str, list[dict[str, Any]]]:
                 return str(obj["answer"]), [s for s in sources if isinstance(s, dict)]
         except Exception:
             pass
-    return text.strip(), []
+    answer = text.strip()
+    return answer, _extract_cited_sources(answer)
 
 
 def _history_block(history: Optional[list[dict[str, str]]]) -> str:

@@ -195,3 +195,78 @@ def test_router_switch_on_fallback_when_sidecar_fails(monkeypatch):
     r = _client_for(mod).post("/api/m2/ask", json={"question": "q"})
     assert r.json()["answer"] == "direct"
     assert state["direct"] == 1
+
+
+# --- M2 sources compliance fallback (2026-08-06) ---
+
+
+def test_format_hint_requires_nonempty_sources_when_answering():
+    hint = oc._FORMAT_HINT
+    assert "只输出一个 JSON 对象" in hint
+    assert "不得返回 []" in hint
+    assert "sources" in hint
+
+
+def test_parse_structured_fallback_extracts_cited_sources():
+    text = (
+        "复熙混合25号的资产总值为 1,234,567.89 元。\n"
+        "样本: sample_fuxi_hunhe25\n"
+        "表: 交易对账单\n"
+        "字段: 资产总值"
+    )
+    answer, sources = oc._parse_structured(text)
+    assert answer == text
+    assert len(sources) == 1
+    assert sources[0]["sample_id"] == "sample_fuxi_hunhe25"
+    assert sources[0]["table_name"] == "交易对账单"
+    assert sources[0]["field"] == "资产总值"
+
+
+def test_parse_structured_fallback_multiple_samples():
+    text = (
+        "样本: sample_jiaxing_minan 表: 证券持仓明细 字段: 证券代码 | "
+        "样本: sample_fuxi_hunhe25 表: 交易对账单 字段: 资产总值"
+    )
+    answer, sources = oc._parse_structured(text)
+    assert len(sources) == 2
+    assert sources[0]["sample_id"] == "sample_jiaxing_minan"
+    assert sources[1]["sample_id"] == "sample_fuxi_hunhe25"
+
+
+def test_parse_structured_fallback_never_invents_without_citation():
+    text = "复熙混合25号的资产总值为 1,234,567.89 元。"
+    answer, sources = oc._parse_structured(text)
+    assert answer == text
+    assert sources == []
+
+
+def test_parse_structured_fallback_no_fabrication_on_plain_sample():
+    # A bare sample_ token with no source context must not fabricate a source.
+    text = "请参考 sample_fuxi_hunhe25 相关内容。"
+    answer, sources = oc._parse_structured(text)
+    assert sources == []
+
+
+def test_ask_still_parses_json_when_present_ignores_fallback(monkeypatch):
+    posts = []
+    text = (
+        'noise {"answer": "总资产为 1 元", '
+        '"sources": [{"sample_id": "sample_x", '
+        '"table_name": "table_1", "field": "总资产"}]}'
+    )
+    monkeypatch.setattr(oc.httpx, "get", lambda *a, **k: FakeResp(200, []))
+    monkeypatch.setattr(
+        oc.httpx,
+        "post",
+        lambda url, json=None, timeout=None, **k: posts.append(json)
+        or (
+            FakeResp(200, {"id": "s"})
+            if url.endswith("/session")
+            else FakeResp(200, {"parts": [{"type": "text", "text": text}]})
+        ),
+    )
+    monkeypatch.setattr(oc.httpx, "delete", lambda *a, **k: FakeResp(200, {}))
+    res = oc.ask_via_opencode("总资产是多少？")
+    assert res is not None
+    assert res["sources"] == [{"sample_id": "sample_x", "table_name": "table_1", "field": "总资产"}]
+    assert "不得返回 []" in posts[1]["parts"][0]["text"]
