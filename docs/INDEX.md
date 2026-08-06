@@ -2,7 +2,7 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-05（全量文档普查 + 目录表格化；本轮归档 26 件） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-07（登记 3 份新审计/实验报告） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -48,6 +48,9 @@
 | 文件/目录 | 状态 | 一句话摘要 |
 |---|---|---|
 | `2026-08-06_tmux_inventory.md` | 存活-当前 | tmux 会话盘点: 6 pane 处置 + skill 分发漂移修复 + 安全台账 | 2026-08-06 |
+| `2026-08-05_audit_embedding_skill.md` | 活跃 | Loop C 审计: embedding 切换 + skill 注册 CONDITIONAL→闭环 | 2026-08-05 |
+| `2026-08-06_audit_loop_c_flash_fixes.md` | 活跃 | Loop C 审计: flash 首任务+三修复+A2 灰度 CONDITIONAL（后转 ACCEPTED） | 2026-08-06 |
+| `2026-08-06_differential_phase3_to_head.md` | 活跃 | Loop C differential 4a151dd..HEAD: ACCEPTED, 33 findings (0C/1H/8M) | 2026-08-07 |
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
 | `2026-08-04_rehearsal/` | 活跃 | 彩排截图 7 张 + demo 日志（docs/23 引用，勿动） |
