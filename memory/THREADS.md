@@ -67,3 +67,4 @@
 | opencode.json tabular-researcher/runner | prompt 描述"对显式提供的数值行做有界实验", 未发现内联命令 | 下轮复核确认 |
 - 收益: prompt 缩短 (省 token + 减漂移)、脚本入口可独立 smoke test、路径/参数变更只改脚本不改 prompt。
 - 风险: 封装后 agent 对参数的临场调适能力下降 (如换样本目录) — 脚本留 --samples-dir 透传参数即可。
+- ripgrep 缺失 (GB10): skill-map 无法运行 (硬依赖 rg); 08-08 尝试下载 GitHub release aarch64 静态包失败。处置: 记录不阻塞, 三端 skill 一致性由 skill-doctor + sync 清单人工核验覆盖; 有内网镜像或用户提供 rg 二进制时再装。

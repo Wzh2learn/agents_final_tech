@@ -1,7 +1,8 @@
 # 2026-08-07 全系统工具盘点（T1）
 
 > 状态: 活跃 | 更新: 2026-08-07 | 取代/被取代: 无（docs/21 为 08-02 基础设施盘点, 本文是其工具层续篇）
-> 方法: skill-doctor/skill-map 实跑 + 三端安装 diff + 进程/端口实测 + dispatch_log 使用证据 grep
+> 方法: skill-doctor 实跑 + 三端安装 diff + 进程/端口实测 + dispatch_log 使用证据 grep
+> 口径更正 (2026-08-08): skill-map 未实跑 — GB10 无 ripgrep (其硬依赖), GitHub release 下载 rg 失败 (08-08 实测); 三端分发一致性由 skill-doctor + sync 清单人工核验覆盖。
 
 ## 1. Skills 体系
 
