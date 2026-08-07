@@ -109,3 +109,6 @@
 回滚命令: sed -i 's/^model = "deepseek-v4-flash-0731"$/model = "qwen3.8-max"/; s/^model_provider = "Token_Plan_Chat"$/model_provider = "Token_Plan"/' ~/.codex/config.toml
 派遣纪律: 即日起子代理默认 flash; 切换后首个 Loop A 正式任务完成时 Loop C 重点审计该 diff (用户明示)。
 分工边界 (2026-08-07 用户补充): **flash = 代码执行/有界任务** (写码、修 bug、补测试、改配置, 目标明确 + 验收可机检); **长文读取/文档研读类子代理任务用 qwen3.8-max 或主线程直做**。依据: 2026-08-07 T2 文档审计事故 — 3 个 flash 级只读子代理在大范围读取任务上 1 个报错 (repetitive tool calls)、1 个输出复读退化、1 个跑偏, 全部由主线程重做; flash 在长上下文多轮只读场景的指令跟随不稳。已知非阻塞噪音: proxy WARNING unknown tool format external_web_access (codex 内置 web 工具, 丢弃); codex models-manager slug 报错 (cosmetic); rmcp chatgpt.com MCP 连接失败 (codex 尝试云端 MCP, 忽略)。
+## [2026-08-08] 交付架构原则: 确定性→CLI, prompt 知识→skill/workflow, M2 远期 agent-loop
+结论 (用户拍板): ① 能用确定性处理的环节一律用确定性 CLI 工具执行 (M1 解析链为该模式范本: opencode_m1_extract.sh 稳定入口 + parser 进程内直调, agent 只做调度与摘要); ② 需要 prompt 处理的知识规范成 skill 或 workflow 形式 (agent-prompt-contracts 契约库 + skills/ 版本化分发即为承载); ③ M2 当前保留灰度观察 (直连为主力, agent 路超时回落), 后续尝试以 agent loop 形式增强 RAG 任务 (多步检索/自检/查询改写迭代)。
+理由: M1 已验证确定性链路的价值 (快路径 <2.1s 永久保留, 演示可复现); M2 的 agent 路价值在溯源遵从度与多步检索, 但延迟与方差仍需 B4 数据裁决, 故先观察后演进。本原则是 docs/25 路线 B 的落地取舍准绳。
