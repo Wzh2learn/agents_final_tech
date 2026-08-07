@@ -20,6 +20,28 @@ if [ -f "$MANIFEST" ]; then
     fi
   done < "$MANIFEST"
 fi
+# Absolute-path (runtime, outside repo) manifest entries: verify on-disk md5
+# still matches at commit time (guards out-of-band tampering; Loop B also
+# checks every 30 min). Turns former dead entries into live protection.
+if [ -f "$MANIFEST" ]; then
+  while IFS= read -r line; do
+    case "$line" in ""|\#*) continue ;; esac
+    h=$(echo "$line" | awk "{print \$1}")
+    fp=$(echo "$line" | awk "{print \$2}")
+    case "$fp" in
+      /*)
+        if [ -f "$fp" ]; then
+          actual=$(md5sum "$fp" 2>/dev/null | awk "{print \$1}")
+          if [ -n "$actual" ] && [ "$h" != "$actual" ]; then
+            VIOLATIONS="${VIOLATIONS:+${VIOLATIONS}
+}${fp} (frozen runtime file md5 mismatch: expected $h, got $actual)"
+          fi
+        fi
+        ;;
+    esac
+  done < "$MANIFEST"
+fi
+
 if [ -n "$VIOLATIONS" ]; then
   echo "BLOCKED: commit modifies frozen nodes:"
   echo "$VIOLATIONS"
