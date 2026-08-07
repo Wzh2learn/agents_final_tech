@@ -99,7 +99,7 @@ def _build_bm25_index(collection_name: str, force_rebuild: bool = False) -> Dict
             with open(cache_path, 'rb') as f:
                 return pickle.load(f)
         except Exception as e:
-            print(f"加载BM25缓存失败: {e}, 将重建索引")
+            print(f"加载BM25缓存失败: {e}, 将重建索引", file=sys.stderr)
 
     # 从向量数据库获取所有文档
     try:
@@ -113,8 +113,8 @@ def _build_bm25_index(collection_name: str, force_rebuild: bool = False) -> Dict
         # 尝试获取文档（简化实现）
         # 实际应该通过vector_store的API获取所有文档
         # 这里先返回空索引，实际使用时需要完善
-        print(f"警告: BM25索引构建需要访问向量数据库中的所有文档")
-        print(f"当前集合: {collection_name}")
+        print(f"警告: BM25索引构建需要访问向量数据库中的所有文档", file=sys.stderr)
+        print(f"当前集合: {collection_name}", file=sys.stderr)
 
         # 返回空索引
         return {
@@ -183,7 +183,7 @@ def _build_bm25_index_from_documents(
             with open(cache_path, 'wb') as f:
                 pickle.dump(index_data, f)
         except Exception as e:
-            print(f"缓存BM25索引失败: {e}")
+            print(f"缓存BM25索引失败: {e}", file=sys.stderr)
 
     return index_data
 

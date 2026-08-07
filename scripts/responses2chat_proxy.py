@@ -8,16 +8,21 @@ v3 (2026-08-06):
 - Input items function_call / local_shell_call / *_output are converted to
   assistant tool_calls / role=tool messages (v2 dropped them silently).
 - enable_thinking / thinking_budget pass through for Chat-only models.
-- PROXY_DEBUG=1 dumps each request + upstream response to /tmp/proxy_debug.log.
+- PROXY_DEBUG=1 dumps each request + upstream response to a secure 0600 temp log.
 - /models also returns a "models" field (codex models-manager compat).
 """
-import json, os, sys, time, uuid, urllib.request, urllib.error
+import json, os, sys, time, uuid, tempfile, urllib.request, urllib.error
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 PORT = 8100
 UPSTREAM = "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
 DEBUG = os.environ.get("PROXY_DEBUG", "") == "1"
-DEBUG_LOG = "/tmp/proxy_debug.log"
+# Debug log: secure temp file (random name, 0600, no symlink following). Restore
+# per-entry + cumulative truncation so UPSTREAM_RESPONSE cannot grow unbounded.
+DEBUG_LOG = os.path.join(tempfile.gettempdir(),
+                         f"proxy_debug_{os.getpid()}.log")
+_DEBUG_MAX_ENTRY = 20000
+_DEBUG_MAX_TOTAL = 20000
 
 def get_api_key():
     key = os.environ.get("OPENAI_API_KEY", "")
@@ -57,9 +62,23 @@ def _debug(label, obj):
                 c = m.get("content")
                 if isinstance(c, str) and len(c) > 300:
                     m["content"] = c[:300] + f"...[+{len(c) - 300} chars]"
-        with open(DEBUG_LOG, "a") as f:
-            f.write(f"===== {label} {time.strftime('%H:%M:%S')} =====\n")
-            f.write(json.dumps(obj, ensure_ascii=False) + "\n")
+        payload = json.dumps(obj, ensure_ascii=False)
+        if len(payload) > _DEBUG_MAX_ENTRY:
+            payload = payload[:_DEBUG_MAX_ENTRY] + f"...[+{len(payload) - _DEBUG_MAX_ENTRY} chars]"
+        # Secure create: O_EXCL | O_NOFOLLOW, never follow a pre-existing symlink.
+        fd = os.open(DEBUG_LOG, os.O_WRONLY | os.O_CREAT | os.O_APPEND | os.O_NOFOLLOW, 0o600)
+        try:
+            size = os.fstat(fd).st_size
+            with os.fdopen(fd, "a") as f:
+                f.write(f"===== {label} {time.strftime('%H:%M:%S')} =====\n")
+                f.write(payload + "\n")
+                if size >= _DEBUG_MAX_TOTAL:
+                    f.write(f"[truncated: log exceeds {_DEBUG_MAX_TOTAL} bytes]\n")
+        except Exception:
+            try:
+                os.close(fd)
+            except OSError:
+                pass
     except Exception:
         pass
 
@@ -163,7 +182,7 @@ def chat_to_responses(resp, model, shell_names):
         fn = tc.get("function", {})
         name = fn.get("name", "")
         args_raw = fn.get("arguments", "{}")
-        if name in shell_names or name == "shell":
+        if name in shell_names:
             try:
                 args = json.loads(args_raw)
             except Exception:

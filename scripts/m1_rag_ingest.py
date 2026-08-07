@@ -329,6 +329,9 @@ def cmd_ingest(samples_dir: str, schema_path: str, append: bool) -> int:
             continue
         sample_chunks = 0
         for g in groups:
+            chunk_text = "\n".join(
+                str(b.get("text") or "") for b in g["blocks"] if b.get("text")
+            )
             metadata = {
                 "sample_id": res["file"],
                 "kind": res.get("kind", ""),
@@ -338,7 +341,7 @@ def cmd_ingest(samples_dir: str, schema_path: str, append: bool) -> int:
                 "source": res["file"],
                 "product_name": product_name,
                 "statement_date": statement_date,
-                "doc_type": compute_doc_type(res["file"], g["group"], ""),
+                "doc_type": compute_doc_type(res["file"], g["group"], chunk_text),
             }
             out = rag.ingest_parsed_blocks(
                 document_id=res["file"],
