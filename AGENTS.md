@@ -8,7 +8,7 @@ Read `memory/STATE.md` for the current GB10 state and immediate work, and `docs/
 
 ## Current Architecture Boundary
 
-The existing Web application and `RAGService` remain the source of truth for documents, collections, retrieval, and traceability. `opencode.json` connects the GB10 OpenAI-compatible Qwen3-14B service to three isolated local MCP servers. The implemented surface is read-only:
+The existing Web application and `RAGService` remain the source of truth for documents, collections, retrieval, and traceability. `opencode.json` connects the GB10 OpenAI-compatible Qwen3.6-35B-A3B service (gb10/qwen3.6-35b-a3b) to three isolated local MCP servers. The implemented surface is read-only:
 
 - `knowledge_search`
 - `knowledge_list_collections`
@@ -232,7 +232,7 @@ System upgraded from  runnable to deliverable:
 | test_m2_rag.py | ~8 | PASS |
 | **Total** | **98+** | |
 
-2026-08-04 current: 227 passed / 13 skipped (table above is the 2026-08-01 snapshot).
+2026-08-04 current: 227 passed / 13 skipped (table above is the 2026-08-01 snapshot). 2026-08-07 current: 266 passed / 13 skipped.
 
 ## 8h Production Sprint (2026-08-01)
 
@@ -271,10 +271,12 @@ Schema: +23 HTML-specific synonyms (基金市值, 基金份额, 份额净值, et
 Parser: +3 new functions/strategies (coordinate reconstruction, VLM table, single-space loose)
 VLM: scripts/vlm_server_8007.py ready but BLOCKED (Triton ARM64 JIT compilation)
 
-### Model Routing (updated 2026-08-03)
-- Codex CLI (Loop A): qwen3.8-max via Token_Plan direct (Responses API)
-- Claude Code (Loop C): qwen3.8-max via Anthropic-compatible endpoint
-  (tool_use verified 2026-08-03; earlier incompatibility was qwen3.8-max-preview only)
+### Model Routing (updated 2026-08-07)
+- Codex CLI (Loop A): deepseek-v4-flash-0731 via Token_Plan_Chat (:8100 responses2chat proxy v3.2; since 2026-08-06)
+  - Boundary: flash = code execution / bounded tasks only; long-read / doc-study sub-agent tasks use qwen3.8-max or the main thread (memory/DECISIONS.md 2026-08-06/08-07, rollback commands included)
+- Claude Code (Loop C): qwen3.8-max via Anthropic-compatible endpoint, all slots
+  (tool_use verified 2026-08-03; claude -p dispatch needs --dangerously-skip-permissions, 2026-08-06 lesson)
+- Loop D sub-agents: deepseek-v4-flash-0731 default; integration review / multimodal stay qwen3.8-max
 
 ### ZhikunCode (GB10)
 - v1.2.1+7 (upgraded 2026-08-03), docker container `zhikuncode`, port :8090
@@ -285,7 +287,7 @@ VLM: scripts/vlm_server_8007.py ready but BLOCKED (Triton ARM64 JIT compilation)
 
 ### RAG Collection
 137 embeddings (was 88). Includes scenario1 HTML + NCAMC coordinate tables.
-RAG QA: 14/15 = 93% (OCR query diluted by collection expansion, above 80% gate).
+RAG QA: 15/15 = 100% (OCR meta-query fixed 2026-08-05; production force_rerank=True caliber re-verified 2026-08-07).
 
 ## Skill 武库注册表 (Phase 0, 2026-08-03)
 

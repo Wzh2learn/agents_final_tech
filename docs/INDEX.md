@@ -2,7 +2,7 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-07（登记 3 份新审计/实验报告） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-08（模型分工口径同步 15/17/codebase_map） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -12,7 +12,7 @@
 | `INDEX.md` | 活跃 | 本目录表 | 2026-08-05 |
 | `README.md` | 活跃 | docs 入口指针 | 2026-08-05 |
 | `CLAUDE.md` | 活跃 | Claude Code (Loop C) 阅读指引（薄指针，以根 AGENTS.md 为准） | 2026-08-05 |
-| `17_Graph_Engineering_多层Loop设计.md` | 活跃 | 四层 Loop（A 执行 / B 验证 / C 审计 / D 战略）设计与安全机制 | 2026-08-04 |
+| `17_Graph_Engineering_多层Loop设计.md` | 活跃 | 四层 Loop（A 执行 / B 验证 / C 审计 / D 战略）设计与安全机制 | 2026-08-08 |
 | `18_多Agent编排工具演进计划.md` | 活跃 | 编排工具选型 + §10 记忆系统排期（mem0 L2） | 2026-08-04 |
 | `m1_coldstart_candidates.md` | 活跃 | 冻结 schema 之外的候选列台账，随甲方样本扩充更新 | 2026-07-30 |
 | `RECSYS_MEMORY_DESIGN.md` | 设计依据 | 层次化记忆设计 v1.8；L2 情景记忆已实现并在用；§8/§9 为研究议程 | 2026-02-20 |
@@ -34,9 +34,9 @@
 | `20_部署指南.md` | 活跃 | 部署方式、环境要求、Docker Compose | 2026-08-01 |
 | `21_基础设施盘点与gap解决规划.md` | 活跃（规划已全部执行） | 资源盘点 + 3 个 gap 解决路径（NCAMC/华泰/email 均已 CLOSED） | 2026-08-02 |
 | `25_交付架构决策.md` | 活跃（决策已拍板，待执行） | 页面后端切 OpenCode 链：路线 A 保底 + B 目标 + 本地 embedding 前置梳理 | 2026-08-05 |
-| `15_远程开发机_Codex_CLI_与_OpenCode_配置.md` | 活跃 | GB10 开发机配置与模型切换指南（Loop A/C 均 qwen3.8-max） | 2026-08-03 |
+| `15_远程开发机_Codex_CLI_与_OpenCode_配置.md` | 活跃 | GB10 开发机配置与模型切换指南（Loop A flash / Loop C qwen3.8-max） | 2026-08-08 |
 | `13_M1_M2联合数据闭环计划.md` | 历史-政策依据 | 公开数据集 / split 政策唯一依据（研究线冻结配套，根 AGENTS.md 指定必读） | 2026-07-22 |
-| `architecture/codebase_map.md` | 活跃 | 代码库结构 + 依赖图 + 端口拓扑（普查抽查与实况一致） | 2026-08-04 |
+| `architecture/codebase_map.md` | 活跃 | 代码库结构 + 依赖图 + 端口拓扑（含 :4096 sidecar） | 2026-08-08 |
 | `architecture/skill_system_health.md` | 历史-参考 | Skill 体检报告（头部补注：第 11 个 skill 未经该轮扫描） | 2026-08-04 |
 | `architecture/phase2_docs_inventory.md` | 历史-参考 | docs 00-16 盘点过程记录（2026-08-03） | 2026-08-03 |
 | `architecture/phase2_root_md_conflicts.md` | 历史-参考 | 根目录 MD 一致性审查与修复记录 | 2026-08-03 |

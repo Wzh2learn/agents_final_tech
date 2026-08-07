@@ -1,6 +1,6 @@
 # 远程开发机配置：Codex CLI + OpenCode
 
-> 状态: 活跃 | 更新: 2026-08-05 | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-07（Loop A 模型分工更新） | 取代/被取代: 无
 
 **日期：2026-07-27。** 本文覆盖 GB10 开发机上两套工具的安装与验证。
 
@@ -221,6 +221,6 @@ Claude Code 默认模型为 qwen3.8-max（千问 Anthropic 兼容端点，2026-0
 其他工具默认 qwen3.8-max-preview。
 
 模型分配原则：
-- **日常执行层** (Loop A / Codex CLI): qwen3.8-max-preview，性价比最高
+- **日常执行层** (Loop A / Codex CLI): deepseek-v4-flash-0731（2026-08-06 起, 经 :8100 代理; 分工边界见 memory/DECISIONS.md——flash 只做代码执行/有界任务）
 - **审计层** (Loop C / Claude Code): qwen3.8-max（2026-08-03 定版切换，tool_use 已验证）
 - **硬骨头手动升级**: glm-5.2 或 deepseek-v4-pro，遇到 qwen 搞不定的任务时切

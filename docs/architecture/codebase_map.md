@@ -70,9 +70,10 @@ flowchart TD
 
 ## Service Topology (GB10)
 
-| 端口 | 服务 | 状态 (2026-08-03) |
+| 端口 | 服务 | 状态 (2026-08-07) |
 |---|---|---|
 | :5050 | M1/M2 FastAPI | healthy |
+| :4096 | OpenCode serve sidecar (A0/A2 灰度, MCP 三件套为其 stdio 子进程) | healthy |
 | :8004 | Qwen3.6-35B-A3B + mmproj (生成/OCR/embedding) | healthy |
 | :8005 | Qwen3-14B 辅助 | healthy |
 | :8007 | Qwen3-VL-8B VLM | 未运行 (Triton ARM64 阻塞; GGUF 路径已关闭) |
@@ -82,7 +83,7 @@ flowchart TD
 
 ## Graph Engineering (多层 Loop)
 
-- Loop A 执行层: Codex CLI (qwen3.8-max), 约束 `scripts/graph/loop_a_exec_constraints.md`
+- Loop A 执行层: Codex CLI (deepseek-v4-flash-0731, 2026-08-06 起), 约束 `scripts/graph/loop_a_exec_constraints.md`
 - Loop B 验证层: 纯 bash `loop_b_verify.sh` (冻结节点 + pytest + API 锚点), 常驻
 - Loop C 审计层: Claude Code (qwen3.8-max), prompt `scripts/graph/loop_c_audit_prompt.md`
 - Loop D 战略层: 主线程, `dispatch_log.md` 记录分发与验收

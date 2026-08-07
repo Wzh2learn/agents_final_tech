@@ -1,5 +1,5 @@
 
-> 状态: 活跃 | 更新: 2026-08-05 | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-08（Loop A 载体口径更新） | 取代/被取代: 无
 
  # 17 - Graph Engineering: 多层 Loop 协同设计
 
@@ -205,7 +205,7 @@
  **后续方向**:
  - 升级 Codex CLI 到最新版本后重试
  - 或确认千问平台 Token Plan 对 GLM 5.2 的支持状态
- - 当前 Codex CLI 使用 qwen3.8-max-preview 作为替代, 功能正常
+ - 当前 Codex CLI 使用 deepseek-v4-flash-0731 (2026-08-06 切换, 经 :8100 代理; 详见 memory/DECISIONS.md), 功能正常
 
  ### 5.2 [P2] Qwen3-72B 下载完成后的评估
 
@@ -332,3 +332,4 @@
 | 2026-07-31 | 流程修复 5 项：anti-amend 规则、anti-git-add-A、API_BASE :5050、disposition 字段、OCR 并行化 | Loop D |
 
 | 2026-08-04 | Phase 3 文档漂移修复: 端口 :5050、Loop C 载体 Claude Code + qwen3.8-max、冻结路径对齐 frozen_hashes.txt、72B 终态、§8 索引补全、Loop A/C 派活说明 | Loop D |
+| 2026-08-08 | 漂移修复: Loop A 载体更新为 deepseek-v4-flash-0731 (08-06 起); 模型分工边界见 memory/DECISIONS.md | Loop D |

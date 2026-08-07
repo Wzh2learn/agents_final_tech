@@ -347,7 +347,7 @@ AoE sessions:
 2. 对比类查询被灰度路由劫持: 规则对比只在进程内 → 路由顺序修复, detect_compare_intent 命中绕过 opencode 分支（此 bug 由既有测试 test_nl_routing_compare_via_ask 捕获——测试资产价值的实例）。
 3. 代理 env 毒化: GB10 登录环境 all_proxy=socks://（clash）使无 socks extra 的 httpx 构造即 ValueError, sidecar_health 恒 False 静默降级 → opencode_adapter 全部调用 trust_env=False。
 
-验证: route=opencode 两轮（18s / 70s, 回答带出处）; **回滚演练实测 23s**（B4 要求 ≤30s PASS）。已知限制: m2-qa agent 对 FORMAT_HINT 的 sources JSON 遵从度不稳定（偶发 sources=[] 但答案内嵌出处）。
+验证: route=opencode 两轮（18s / 70s, 回答带出处）; **回滚演练实测 23s**（B4 要求 ≤30s PASS）。已知限制: m2-qa agent 对 FORMAT_HINT 的 sources JSON 遵从度不稳定（偶发 sources=[] 但答案内嵌出处）。（2026-08-07 注: 该限制已由 62d21e3 修复 — JSON 契约 + 保守兜底提取, 实测 10/10 sources 非空, Loop C 审计 ACCEPTED。）
 
 **L5 hook 收窄**: ^tests/ → tests/test_m1_service.py$（+ 原冻结集 + manifest 路径）, hook 入库 scripts/graph/hooks/pre-commit; 新单测不再需要 --no-verify。
 
