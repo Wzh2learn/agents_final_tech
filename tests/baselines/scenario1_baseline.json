@@ -113,7 +113,7 @@
       "ocr_expected": true,
       "table_count": 1,
       "hit_rates": [
-        42.9
+        100.0
       ]
     },
     {
@@ -125,7 +125,7 @@
       "hit_rates": [
         50.0,
         81.8,
-        63.6
+        81.8
       ]
     },
     {
@@ -135,7 +135,7 @@
       "ocr_expected": true,
       "table_count": 1,
       "hit_rates": [
-        71.4
+        85.7
       ]
     },
     {
@@ -146,7 +146,7 @@
       "table_count": 5,
       "hit_rates": [
         72.7,
-        14.3,
+        28.6,
         50.0,
         72.7,
         0.0
@@ -159,7 +159,7 @@
       "ocr_expected": false,
       "table_count": 1,
       "hit_rates": [
-        80.0
+        90.0
       ]
     },
     {

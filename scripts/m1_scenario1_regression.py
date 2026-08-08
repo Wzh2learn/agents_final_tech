@@ -8,7 +8,8 @@
 - 确定性样本 (嘉合×8 / NCAMC / HTML×3): table_count 与逐表命中率精确一致
 - OCR 样本 (华泰紫金/TraFax/WaveFax): vision 输出非确定性, 逐表命中率容差
   ±tolerance.ocr_hit_rate_pp (默认 10pp), 表数容差 ±ocr_table_count_delta;
-  容差内表数差异记 WARN 不判 FAIL, 命中率超差判 FAIL。
+  容差内表数差异记 WARN 不判 FAIL, 命中率下降超差判 FAIL;
+  命中率上升超差记 WARN(改善, 建议 --rebuild 重建基线), 非 OCR 样本同理。
 
 用法:
   python scripts/m1_scenario1_regression.py            # 全量 (~2-4min, 含 OCR)
@@ -83,20 +84,27 @@ def compare_case(case: dict, hit_rates: list[float], table_count: int,
             diffs.append(f"表数 {exp_tc} -> {table_count} (容差内, WARN)")
             status = "WARN"
         for i in range(min(len(exp_hits), len(hit_rates))):
-            d = abs(exp_hits[i] - hit_rates[i])
-            if d > pp:
+            d = hit_rates[i] - exp_hits[i]
+            if d < -pp:
                 diffs.append(f"表{i + 1} 命中率 {exp_hits[i]}% -> {hit_rates[i]}% "
-                             f"(Δ{round(d, 1)}pp > {pp}pp)")
+                             f"(下降 {round(-d, 1)}pp > {pp}pp)")
                 status = "FAIL"
-            elif d > 0:
+            elif d > pp:
+                diffs.append(f"表{i + 1} 命中率 {exp_hits[i]}% -> {hit_rates[i]}% "
+                             f"(提升 {round(d, 1)}pp, 建议 --rebuild 更新基线)")
+                if status != "FAIL":
+                    status = "WARN"
+            elif d != 0:
                 diffs.append(f"表{i + 1} 命中率 {exp_hits[i]}% -> {hit_rates[i]}% (容差内)")
     else:
         if table_count != exp_tc:
             diffs.append(f"表数 {exp_tc} -> {table_count}")
             status = "FAIL"
         if hit_rates != exp_hits:
-            diffs.append(f"命中率 {exp_hits} -> {hit_rates}")
-            status = "FAIL"
+            dropped = any(a < e for e, a in zip(exp_hits, hit_rates))
+            diffs.append(f"命中率 {exp_hits} -> {hit_rates}"
+                         + (" (下降)" if dropped else " (提升, 建议 --rebuild 更新基线)"))
+            status = "FAIL" if dropped else "WARN"
     return status, diffs
 
 
