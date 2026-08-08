@@ -114,8 +114,7 @@ def _build_bm25_index(collection_name: str, force_rebuild: bool = False) -> Dict
                 "cache_path": cache_path
             }
         index_data = _build_bm25_index_from_documents(all_docs, cache_path)
-        print(f"BM25: 索引构建完成, 集合={collection_name}, 文档数={index_data.get('doc_count', 0)}",
-              file=sys.stderr)
+        print(f"BM25: 索引构建完成, 集合={collection_name}, 文档数={index_data.get('doc_count', 0)}", file=sys.stderr)
         return index_data
     except Exception as e:
         print(f"构建BM25索引失败: {e}", file=sys.stderr)
