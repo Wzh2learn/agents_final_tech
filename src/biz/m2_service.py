@@ -473,16 +473,30 @@ def _query_collection_chunks(product_name: str | None = None,
                   LangchainPgEmbedding.collection_id == LangchainPgCollection.uuid)
             .filter(LangchainPgCollection.name == col_name)
         )
-        if product_name:
-            query = query.filter(
-                LangchainPgEmbedding.cmetadata["product_name"].astext == product_name)
         if statement_date:
             query = query.filter(
                 LangchainPgEmbedding.cmetadata["statement_date"].astext == statement_date)
         if table_name:
             query = query.filter(
                 LangchainPgEmbedding.cmetadata["table_name"].astext == table_name)
-        rows = query.all()
+
+        def _run(prod_filter):
+            q = query
+            if prod_filter is not None:
+                q = q.filter(prod_filter)
+            return q.all()
+
+        if product_name:
+            exact = LangchainPgEmbedding.cmetadata["product_name"].astext == product_name
+            rows = _run(exact)
+            if not rows:
+                # Fuzzy fallback: users query short names ("嘉兴民安") while
+                # metadata stores full names ("嘉兴民安投资合伙企业（有限合伙）").
+                fuzzy = LangchainPgEmbedding.cmetadata["product_name"].astext.like(
+                    f"%{product_name}%")
+                rows = _run(fuzzy)
+        else:
+            rows = _run(None)
         return [{"document": r[0], "metadata": r[1] or {}} for r in rows]
     finally:
         db.close()
@@ -503,9 +517,26 @@ def list_products() -> list[str]:
             .filter(LangchainPgEmbedding.cmetadata["product_name"].astext != "")
             .all()
         )
-        return sorted([r[0] for r in rows if r[0]])
+        return sorted(p for p in (_clean_product_name(r[0]) for r in rows) if p)
     finally:
         db.close()
+
+
+def _clean_product_name(value: str | None) -> str:
+    """Filter obvious non-product noise out of product_name metadata.
+
+    Ingest occasionally stores markdown fragments or label lines as
+    product_name (e.g. "| ****金 |", "账　****　号：", "一、****1日）").
+    These are dropped here rather than mutating stored metadata.
+    """
+    if not value:
+        return ""
+    v = value.strip()
+    if len(v) < 2:
+        return ""
+    if "|" in v or v.endswith("：") or v.endswith(":") or v.startswith("一、"):
+        return ""
+    return v
 
 
 def _parse_chunk_fields(text: str) -> dict[str, str]:
