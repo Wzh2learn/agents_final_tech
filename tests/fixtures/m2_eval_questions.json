@@ -1,0 +1,249 @@
+{
+  "version": 3,
+  "_comment": "M2 端到端确定性检验问题集 (P2.1, 定标 2026-08-09, v3)。期望值为脱敏口径 (exact_numeric 的 * 为通配)。契约检查只保留必要事实; agent 路两项已知质量缺口移交 AI judge 追踪: (a) q01 agent 路答案省略币种 (direct 路包含); (b) q03 agent 路曾将脱敏的 博时****混合A 补全为 博时新策略混合A (超出检索证据的幻觉补全, faithfulness 风险)。对抗题: adv_refusal(不可回答必须拒答) / adv_cross_doc(跨文档聚合; 计数受 top_k 截断, 只校验来源检索) / adv_ocr_meta(08-07 已修 case 回归哨兵) / adv_multiturn(其中...占多少 追问)。",
+  "endpoint": "http://127.0.0.1:5050/api/m2/ask",
+  "questions": [
+    {
+      "id": "q01_fuxi_total_assets",
+      "category": "资金资产汇总",
+      "question": "复熙混合25号的资产总值是多少？",
+      "checks": [
+        {
+          "type": "exact_numeric",
+          "expect": "2216****.90"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_fuxi_hunhe25"
+        }
+      ]
+    },
+    {
+      "id": "q02_minan_positions",
+      "category": "证券持仓明细",
+      "question": "嘉兴民安有哪些证券持仓？",
+      "checks": [
+        {
+          "type": "contains_keyword",
+          "expect": "60****57"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_jiaxing_minan"
+        }
+      ]
+    },
+    {
+      "id": "q03_boshi_fund_name",
+      "category": "表头KV",
+      "question": "博时传统产品的基金名称是什么？",
+      "checks": [
+        {
+          "type": "contains_keyword",
+          "expect": "博时"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_boshi_chuantong"
+        }
+      ]
+    },
+    {
+      "id": "q04_minan_total_assets",
+      "category": "跨表汇总",
+      "question": "嘉兴样本的总资产是多少？",
+      "checks": [
+        {
+          "type": "exact_numeric",
+          "expect": "4013****.83"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_jiaxing_minan"
+        }
+      ]
+    },
+    {
+      "id": "q05_fuxi_securities_value",
+      "category": "跨表汇总",
+      "question": "复熙混合25号的证券市值是多少？",
+      "checks": [
+        {
+          "type": "exact_numeric",
+          "expect": "2216****.90"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_fuxi_hunhe25"
+        }
+      ]
+    },
+    {
+      "id": "q06_minan_cash_balance",
+      "category": "资金资产汇总",
+      "question": "嘉兴民安的资金余额是多少？",
+      "checks": [
+        {
+          "type": "exact_numeric",
+          "expect": "3508.55"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_jiaxing_minan"
+        }
+      ]
+    },
+    {
+      "id": "q07_boshi_fund_code",
+      "category": "表头KV",
+      "question": "博时传统产品的基金代码是什么？",
+      "checks": [
+        {
+          "type": "contains_keyword",
+          "expect": "00****22"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_boshi_chuantong"
+        }
+      ]
+    },
+    {
+      "id": "q08_fuxi_customer_name",
+      "category": "表头KV",
+      "question": "复熙混合25号的客户全称是什么？",
+      "checks": [
+        {
+          "type": "contains_keyword",
+          "expect": "上海"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_fuxi_hunhe25"
+        }
+      ]
+    },
+    {
+      "id": "q09_minan_end_date",
+      "category": "表头KV",
+      "question": "嘉兴民安的对账结束日期是什么时候？",
+      "checks": [
+        {
+          "type": "contains_keyword",
+          "expect": "20231031"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_jiaxing_minan"
+        }
+      ]
+    },
+    {
+      "id": "q10_boshi_fund_total",
+      "category": "表头KV",
+      "question": "博时传统产品的基金资产总额是多少？",
+      "checks": [
+        {
+          "type": "exact_numeric",
+          "expect": "1382****.82"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_boshi_chuantong"
+        }
+      ]
+    },
+    {
+      "id": "q11_fuxi_security_names",
+      "category": "证券持仓明细",
+      "question": "复熙混合25号持有哪些证券名称？",
+      "checks": [
+        {
+          "type": "contains_keyword",
+          "expect": "证券名称"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_fuxi_hunhe25"
+        }
+      ]
+    },
+    {
+      "id": "q12_minan_pnl",
+      "category": "证券持仓明细",
+      "question": "嘉兴民安持仓的盈亏金额是多少？",
+      "checks": [
+        {
+          "type": "exact_numeric",
+          "expect": "-7524****.71"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_jiaxing_minan"
+        }
+      ]
+    },
+    {
+      "id": "adv_ocr_meta",
+      "category": "OCR样本哨兵",
+      "question": "哪个样本通过OCR解析了交易对账单？",
+      "checks": [
+        {
+          "type": "contains_keyword",
+          "expect": "sample_20260506_233222LU"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_20260506"
+        }
+      ]
+    },
+    {
+      "id": "adv_cross_doc",
+      "category": "跨文档聚合",
+      "question": "嘉合基金的对账单一共入库了几份？",
+      "checks": [
+        {
+          "type": "contains_keyword",
+          "expect": "份"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "嘉合基金"
+        }
+      ]
+    },
+    {
+      "id": "adv_refusal",
+      "category": "unanswerable",
+      "question": "华夏成长混合基金的持仓明细有哪些？",
+      "checks": [
+        {
+          "type": "refusal_expected"
+        }
+      ]
+    },
+    {
+      "id": "adv_multiturn",
+      "category": "多轮追问",
+      "turns": [
+        "嘉兴民安的总资产是多少？",
+        "其中证券市值占多少？"
+      ],
+      "checks": [
+        {
+          "type": "exact_numeric",
+          "expect": "4013****.28"
+        },
+        {
+          "type": "contains_keyword",
+          "expect": "市值"
+        },
+        {
+          "type": "source_required",
+          "sample_id_contains": "sample_jiaxing_minan"
+        }
+      ]
+    }
+  ]
+}
