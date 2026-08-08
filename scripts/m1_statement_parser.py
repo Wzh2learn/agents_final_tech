@@ -17,6 +17,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.request
 from dataclasses import dataclass, field
 from typing import Any
@@ -357,6 +358,7 @@ class ParsedDoc:
     note: str = ""
     ocr_used: bool = False
     ocr_engine: str = ""
+    ocr_engine_log: list = field(default_factory=list)
 
 
 def _split_cells(line: str) -> list[str]:
@@ -682,11 +684,21 @@ def _try_vision_ocr(images: list[bytes]) -> str:
     return "\n\n".join(t for t in texts if t.strip())
 
 
-def _ocr_fallback(path: str, kind: str) -> tuple[str, str]:
-    """OCR 兜底入口：提取图片 -> PaddleOCR -> :8004 视觉。
+_OCR_BUDGET_SECONDS = float(os.environ.get("M1_OCR_BUDGET_SECONDS", "240"))
+_OCR_MIN_ENGINE_SLICE = 5.0  # 剩余预算低于此值则跳过后续引擎
+_ocr_engine_log: list = []   # 最近一次 _ocr_fallback 的引擎级记录（预算/超时/回退留痕）
 
-    Returns (extracted_text, engine_name); engine_name="" if all failed.
+
+def _ocr_fallback(path: str, kind: str) -> tuple[str, str]:
+    """OCR 兜底入口：提取图片 -> PaddleOCR -> :8007 VLM -> :8004 视觉。
+
+    预算政策 (2026-08-08 沉淀): 每文件总预算 M1_OCR_BUDGET_SECONDS (默认 240s)，
+    每个引擎调用前检查剩余预算，不足则跳过；引擎结果(empty/timeout/error/
+    skipped-budget)逐条记入 _ocr_engine_log，调用方经 ParsedDoc.ocr_engine_log
+    透出。Returns (extracted_text, engine_name); engine_name="" if all failed.
     """
+    global _ocr_engine_log
+    _ocr_engine_log = []
     if kind == "pdf":
         images = _extract_pdf_page_images(path)
     elif kind == "docx":
@@ -695,17 +707,47 @@ def _ocr_fallback(path: str, kind: str) -> tuple[str, str]:
         return "", ""
     if not images:
         return "", ""
-    text = _try_paddleocr(images, os.path.basename(path))
-    if text.strip():
-        return text, "paddleocr-vl"
-    # Try VLM (:8007) first - outputs markdown tables directly
-    vlm_text = _try_vlm_table(images)
-    if vlm_text.strip():
-        return vlm_text, "vlm-8007"
-    # Fall back to mmproj vision OCR (:8004)
-    text = _try_vision_ocr(images)
-    if text.strip():
-        return text, "vision-8004"
+    start = time.monotonic()
+
+    def _log(engine: str, status: str, t0: float) -> None:
+        _ocr_engine_log.append({"engine": engine, "status": status,
+                                "elapsed_s": round(time.monotonic() - t0, 1)})
+
+    t0 = time.monotonic()
+    try:
+        text = _try_paddleocr(images, os.path.basename(path))
+        if text.strip():
+            _log("paddleocr-vl", "ok", t0)
+            return text, "paddleocr-vl"
+        _log("paddleocr-vl", "empty", t0)
+    except Exception:
+        _log("paddleocr-vl", "error", t0)
+
+    if _OCR_BUDGET_SECONDS - (time.monotonic() - start) >= _OCR_MIN_ENGINE_SLICE:
+        t0 = time.monotonic()
+        try:
+            vlm_text = _try_vlm_table(images)
+            if vlm_text.strip():
+                _log("vlm-8007", "ok", t0)
+                return vlm_text, "vlm-8007"
+            _log("vlm-8007", "empty", t0)
+        except Exception:
+            _log("vlm-8007", "error", t0)
+    else:
+        _log("vlm-8007", "skipped-budget", time.monotonic())
+
+    if _OCR_BUDGET_SECONDS - (time.monotonic() - start) >= _OCR_MIN_ENGINE_SLICE:
+        t0 = time.monotonic()
+        try:
+            text = _try_vision_ocr(images)
+            if text.strip():
+                _log("vision-8004", "ok", t0)
+                return text, "vision-8004"
+            _log("vision-8004", "empty", t0)
+        except Exception:
+            _log("vision-8004", "error", t0)
+    else:
+        _log("vision-8004", "skipped-budget", time.monotonic())
     return "", ""
 
 
@@ -1046,6 +1088,7 @@ def parse_pdf(path: str) -> ParsedDoc:
                 doc.tables = _parse_markdown_tables(ocr_text)
                 doc.ocr_used = True
                 doc.ocr_engine = ocr_engine
+                doc.ocr_engine_log = list(_ocr_engine_log)
                 doc.note = (f"OCR applied ({ocr_engine}, "
                             f"{len(doc.tables)} table(s) from OCR); "
                             + doc.note)
@@ -1123,6 +1166,7 @@ def parse_docx(path: str) -> ParsedDoc:
                     doc.tables = _parse_markdown_tables(ocr_text)
                     doc.ocr_used = True
                     doc.ocr_engine = ocr_engine
+                    doc.ocr_engine_log = list(_ocr_engine_log)
                     doc.note = (f"OCR applied ({ocr_engine}, "
                                 f"{len(doc.tables)} table(s) from OCR); "
                                 + doc.note)
@@ -1515,6 +1559,13 @@ LLM_TIMEOUT = float(os.environ.get("M1_LLM_TIMEOUT", "30"))
 # 送入 prompt 的文本上限，避免超长上下文（35B 服务 64K，留足余量）。
 _LLM_TEXT_LIMIT = 12000
 
+# Schema 自学习：LLM 兜底产出的同义词建议沉淀到仓库 config/（去重、可批量应用）
+SCHEMA_SUGGESTIONS_PATH = os.environ.get(
+    "M1_SCHEMA_SUGGESTIONS",
+    os.path.normpath(os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "config",
+        "schema_suggestions.json")))
+
 
 def _llm_extract_json(content: str) -> dict | None:
     """从 LLM 输出里稳健地取出第一个 JSON 对象（容忍 ```json 围栏/前后缀）。"""
@@ -1539,8 +1590,75 @@ def _llm_extract_json(content: str) -> dict | None:
     return None
 
 
+_CONF_RANK = {"high": 3, "medium": 2, "low": 1}
+
+
+def _sanitize_suggestions(raw, allowed_cols: set) -> list:
+    """清洗 LLM 给出的 schema 同义词建议：只保留结构合法且列名在 unmapped 集合内的条目。"""
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        col = str(item.get("column", "")).strip()
+        std = str(item.get("standard_field", "")).strip()
+        conf = str(item.get("confidence", "")).strip().lower()
+        if col in allowed_cols and std and conf in _CONF_RANK:
+            out.append({"raw_column": col, "standard_field": std,
+                        "confidence": conf,
+                        "reason": str(item.get("reason", "")).strip()[:200]})
+    return out
+
+
+def _append_schema_suggestions(items: list) -> int:
+    """把 LLM 兜底产出的同义词建议去重合并进 schema_suggestions.json（原子写）。
+
+    去重键 = (table, raw_column, standard_field)；重复出现累计 count 并刷新 last_seen，
+    置信度只升不降。任何 I/O 异常静默降级（建议沉淀不得影响解析主流程）。
+    注意：落库到冻结的运行时 schema 需 Loop D 授权 + frozen_hashes.txt 刷新，见
+    scripts/m1_apply_schema_suggestions.py。
+    """
+    if not items:
+        return 0
+    try:
+        existing: list = []
+        if os.path.isfile(SCHEMA_SUGGESTIONS_PATH):
+            with open(SCHEMA_SUGGESTIONS_PATH, encoding="utf-8") as fh:
+                loaded = json.load(fh)
+            existing = loaded.get("suggestions", []) if isinstance(loaded, dict) else []
+        index = {(e.get("table"), e.get("raw_column"), e.get("standard_field")): e
+                 for e in existing}
+        added = 0
+        now = time.strftime("%Y-%m-%d %H:%M")
+        for it in items:
+            key = (it.get("table"), it.get("raw_column"), it.get("standard_field"))
+            if key in index:
+                e = index[key]
+                e["count"] = int(e.get("count", 1)) + 1
+                e["last_seen"] = now
+                if _CONF_RANK.get(it.get("confidence"), 0) > _CONF_RANK.get(
+                        e.get("confidence"), 0):
+                    e["confidence"] = it["confidence"]
+                    e["reason"] = it.get("reason", e.get("reason", ""))
+            else:
+                e = dict(it)
+                e.update({"count": 1, "first_seen": now, "last_seen": now})
+                existing.append(e)
+                index[key] = e
+                added += 1
+        tmp = SCHEMA_SUGGESTIONS_PATH + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump({"suggestions": existing}, fh, ensure_ascii=False, indent=2)
+        os.replace(tmp, SCHEMA_SUGGESTIONS_PATH)
+        return added
+    except Exception:
+        return 0
+
+
 def llm_fallback_unmapped(text: str, unmapped_cols: list[str],
-                          schema_table_name: str) -> dict[str, str]:
+                          schema_table_name: str,
+                          std_fields_desc: str = "") -> tuple[dict, list]:
     """对规则映射后仍未映射的源列，调用本地 35B 模型从文档文本中抽值。
 
     - prompt 列出 unmapped 列名，要求按三态输出 JSON：
@@ -1552,7 +1670,7 @@ def llm_fallback_unmapped(text: str, unmapped_cols: list[str],
     """
     cols = [c for c in (unmapped_cols or []) if c and str(c).strip()]
     if not cols:
-        return {}
+        return {}, []
     cols_desc = "\n".join(f"  * {c}" for c in cols)
     snippet = (text or "")[:_LLM_TEXT_LIMIT]
     prompt = (
@@ -1570,6 +1688,15 @@ def llm_fallback_unmapped(text: str, unmapped_cols: list[str],
         "只输出一个 JSON 对象，键=列名，值=字符串(数据值/\"无\"/\"\")，不要解释或 markdown。\n"
         "示例：{\"列名A\":\"123.45\",\"列名B\":\"无\",\"列名C\":\"\"}"
     )
+    if std_fields_desc:
+        prompt += (
+            "\n\n附加任务（与值抽取并列，放在同一个 JSON 对象里）：候选标准字段如下——\n"
+            f"{std_fields_desc}\n"
+            "若某指定列实际上是某个候选标准字段的同义表达，请额外给出键 \"_suggestions\"，"
+            "值为数组：[{\"column\": 原列名, \"standard_field\": 标准名, "
+            "\"confidence\": \"high|medium|low\", \"reason\": \"一句话理由\"}]。"
+            "不确定就不要给该列。"
+        )
     payload = {
         "model": LLM_MODEL,
         "messages": [{"role": "user", "content": prompt}],
@@ -1589,20 +1716,31 @@ def llm_fallback_unmapped(text: str, unmapped_cols: list[str],
         content = body["choices"][0]["message"]["content"]
         data = _llm_extract_json(content)
         if not isinstance(data, dict):
-            return {}
+            return {}, []
+        sugg_raw = data.pop("_suggestions", None)
         allowed = set(cols)
         out: dict[str, str] = {}
         for k, v in data.items():
             if k in allowed and v is not None and str(v).strip():
                 out[k] = str(v).strip()
-        return out
+        return out, _sanitize_suggestions(sugg_raw, allowed)
     except Exception:
-        return {}
+        return {}, []
 
 
 # =========================================================================
 # 单样本编排
 # =========================================================================
+def _std_fields_desc(schema: Schema, table_name: str) -> str:
+    """候选标准字段描述（供 LLM 兜底做同义词建议），只取目标 schema 表。"""
+    for st in schema.tables:
+        if st.table_name == table_name:
+            return "\n".join(
+                f"  * {f.standard} | {'、'.join(list(f.synonyms)[:6])}"
+                for f in st.fields)
+    return ""
+
+
 def process_sample(path: str, schema: Schema, llm_fallback: bool = False) -> dict[str, Any]:
     ext = os.path.splitext(path)[1].lower()
     parser = PARSERS.get(ext)
@@ -1616,7 +1754,8 @@ def process_sample(path: str, schema: Schema, llm_fallback: bool = False) -> dic
 
     doc = parser(path)
     result.update(ok=doc.ok, needs_ocr=doc.needs_ocr, note=doc.note, error=doc.error)
-    result.update(ocr_used=doc.ocr_used, ocr_engine=doc.ocr_engine)
+    result.update(ocr_used=doc.ocr_used, ocr_engine=doc.ocr_engine,
+                  ocr_engine_log=doc.ocr_engine_log)
     if not doc.ok:
         return result
 
@@ -1682,8 +1821,14 @@ def process_sample(path: str, schema: Schema, llm_fallback: bool = False) -> dic
         for tr in table_reports:
             if not tr.get("unmapped"):
                 continue
-            extracted = llm_fallback_unmapped(doc.text, tr["unmapped"],
-                                              tr["matched_schema"])
+            extracted, suggs = llm_fallback_unmapped(
+                doc.text, tr["unmapped"], tr["matched_schema"],
+                _std_fields_desc(schema, tr["matched_schema"]))
+            if suggs:
+                for sg in suggs:
+                    sg.update({"sample": os.path.basename(path),
+                               "table": tr["matched_schema"]})
+                _append_schema_suggestions(suggs)
             if not extracted:
                 continue
             still: list[str] = []
@@ -1848,7 +1993,13 @@ def _print_result(res: dict[str, Any]) -> None:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="M1 对账单解析原型（表头近义词映射）")
     ap.add_argument("--samples-dir", default=DEFAULT_SAMPLES_DIR)
-    ap.add_argument("--schema", default=DEFAULT_SCHEMA)
+    # 口径一致性 (2026-08-09): CLI 默认与 :5050 服务同源 — config/ override 优先,
+    # 冻结运行时 schema 仅作 fallback。此前 CLI 默认直取 DEFAULT_SCHEMA,
+    # 与 resolve_schema_path() 分叉, 导致同一样本两侧命中率不一致 (嘉合 93.8% vs 25%)。
+    ap.add_argument("--schema", default=resolve_schema_path())
+    ap.add_argument("--files", nargs="+", default=None,
+                        help="显式文件列表（绕过 sample_/mapping_ 前缀过滤），"
+                             "相对 --samples-dir 或绝对路径")
     ap.add_argument("--json", default="", help="把汇总结果(已脱敏)写入该 JSON 文件")
     ap.add_argument("--dump-unmapped", default="",
                         help="只读：把 unmapped 源列(带脱敏样本值)去重后写入该 JSON")
@@ -1863,11 +2014,27 @@ def main(argv: list[str] | None = None) -> int:
     print(f"schema: {len(schema.tables)} tables, "
           f"{len(schema.header_meta_fields)} header_meta fields")
 
-    samples = sorted(
-        os.path.join(args.samples_dir, f)
-        for f in os.listdir(args.samples_dir)
-        if f.startswith("sample_") or f.startswith("mapping_")
-    )
+    if args.files:
+        samples = []
+        for f in args.files:
+            cand = f if os.path.isabs(f) else os.path.join(args.samples_dir, f)
+            if not os.path.isfile(cand):
+                print(f"[warn] --files 文件不存在, 跳过: {cand}", file=sys.stderr)
+                continue
+            samples.append(cand)
+    else:
+        all_files = sorted(
+            f for f in os.listdir(args.samples_dir)
+            if os.path.isfile(os.path.join(args.samples_dir, f)))
+        kept = [f for f in all_files
+                if f.startswith("sample_") or f.startswith("mapping_")]
+        skipped = [f for f in all_files
+                   if f not in kept and not f.startswith(".")]
+        if skipped:
+            shown = ", ".join(skipped[:10]) + (" ..." if len(skipped) > 10 else "")
+            print(f"[warn] 跳过 {len(skipped)} 个无 sample_/mapping_ 前缀的文件"
+                  f"（可用 --files 显式指定绕过过滤）: {shown}", file=sys.stderr)
+        samples = sorted(os.path.join(args.samples_dir, f) for f in kept)
     samples = [s for s in samples if os.path.splitext(s)[1].lower() in PARSERS]
 
     use_llm = (not args.no_llm) and os.environ.get("M1_LLM_FALLBACK", "1") != "0"

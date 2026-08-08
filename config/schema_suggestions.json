@@ -1,0 +1,103 @@
+{
+  "suggestions": [
+    {
+      "raw_column": "产品代码",
+      "standard_field": "产品名称",
+      "confidence": "low",
+      "reason": "产品代码与产品名称虽相关但语义不同，代码非名称本身",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00"
+    },
+    {
+      "raw_column": "分红方式",
+      "standard_field": "分红方式",
+      "confidence": "high",
+      "reason": "列名与候选标准字段完全一致",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 2,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00"
+    },
+    {
+      "raw_column": "销售机构",
+      "standard_field": "券商",
+      "confidence": "high",
+      "reason": "销售机构在基金对账单语境下通常指代代销或直销的券商/渠道机构",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 2,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00"
+    },
+    {
+      "raw_column": "产品份额①",
+      "standard_field": "合计金额",
+      "confidence": "low",
+      "reason": "份额是数量概念，非金额概念",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00"
+    },
+    {
+      "raw_column": "净值日期",
+      "standard_field": "对账日期",
+      "confidence": "medium",
+      "reason": "净值日期是估值日，对账日期是账单生成日，二者可能不同但常有关联",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00"
+    },
+    {
+      "raw_column": "产品总值①x②",
+      "standard_field": "合计金额",
+      "confidence": "high",
+      "reason": "产品总值即该产品的资产总额，属于合计金额的一种具体形式",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00"
+    },
+    {
+      "raw_column": "成交基金份额",
+      "standard_field": "合计金额",
+      "confidence": "low",
+      "reason": "成交基金份额是数量指标，非金额指标，但在某些简化报表中可能作为核心交易数据被关注，此处仅为语义关联建议，实际值类型不同",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00"
+    },
+    {
+      "raw_column": "交易费用",
+      "standard_field": "财汇局征费",
+      "confidence": "medium",
+      "reason": "交易费用包含规费，财汇局征费是交易费用的一种，二者在广义上属于费用类字段",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00"
+    },
+    {
+      "raw_column": "权益登记日",
+      "standard_field": "对账日期",
+      "confidence": "low",
+      "reason": "权益登记日属于特定交易日期，与通用的对账日期概念不同，且表中无数据",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00"
+    }
+  ]
+}

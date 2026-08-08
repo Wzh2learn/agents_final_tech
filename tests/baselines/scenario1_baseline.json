@@ -1,0 +1,178 @@
+{
+  "_comment": "scenario1 回归门禁基线 (P1.2)。口径=resolve_schema_path() (config/ 优先, 与 :5050 生产一致)。OCR 样本 vision 输出非确定性, 容差见 tolerance。重建: 见 scripts/m1_scenario1_regression.py --rebuild。",
+  "created": "2026-08-09",
+  "attachments_dir": "~/wzh/m1_samples/scenario1/attachments",
+  "html_extracted_dir": "~/wzh/m1_samples/scenario1/html_extracted",
+  "tolerance": {
+    "ocr_hit_rate_pp": 10.0,
+    "ocr_table_count_delta": 1
+  },
+  "cases": [
+    {
+      "label": "NCAMC",
+      "kind": "pdf",
+      "file": "转发 1L8023341752证件类型营业执照证件号码91110000789957546R-10_对账单_2026年05月06日_att0_1L8023341752证件类型营业执照证件号码91110000789957546R-10_对账单_2026年05月06日.pdf",
+      "ocr_expected": false,
+      "table_count": 1,
+      "hit_rates": [
+        75.0
+      ]
+    },
+    {
+      "label": "嘉合#0",
+      "kind": "pdf",
+      "file": "转发 嘉合基金客户对账单_att0_3R8006587045_客户对帐单_2026年04月01日.pdf",
+      "ocr_expected": false,
+      "table_count": 2,
+      "hit_rates": [
+        87.5,
+        100.0
+      ]
+    },
+    {
+      "label": "嘉合#1",
+      "kind": "pdf",
+      "file": "转发 嘉合基金客户对账单_att1_3R8006587034_客户对帐单_2026年04月01日.pdf",
+      "ocr_expected": false,
+      "table_count": 2,
+      "hit_rates": [
+        87.5,
+        100.0
+      ]
+    },
+    {
+      "label": "嘉合#2",
+      "kind": "pdf",
+      "file": "转发 嘉合基金客户对账单_att2_3R8007208776_客户对帐单_2026年04月01日.pdf",
+      "ocr_expected": false,
+      "table_count": 2,
+      "hit_rates": [
+        87.5,
+        100.0
+      ]
+    },
+    {
+      "label": "嘉合#3",
+      "kind": "pdf",
+      "file": "转发 嘉合基金客户对账单_att3_3R8010402833_客户对帐单_2026年04月01日.pdf",
+      "ocr_expected": false,
+      "table_count": 2,
+      "hit_rates": [
+        87.5,
+        100.0
+      ]
+    },
+    {
+      "label": "嘉合#4",
+      "kind": "pdf",
+      "file": "转发 嘉合基金客户对账单_att4_3R8010412238_客户对帐单_2026年04月01日.pdf",
+      "ocr_expected": false,
+      "table_count": 2,
+      "hit_rates": [
+        87.5,
+        100.0
+      ]
+    },
+    {
+      "label": "嘉合#5",
+      "kind": "pdf",
+      "file": "转发 嘉合基金客户对账单_att5_3R8010412227_客户对帐单_2026年04月01日.pdf",
+      "ocr_expected": false,
+      "table_count": 2,
+      "hit_rates": [
+        87.5,
+        100.0
+      ]
+    },
+    {
+      "label": "嘉合#6",
+      "kind": "pdf",
+      "file": "转发 嘉合基金客户对账单_att6_3R8010412216_客户对帐单_2026年04月01日.pdf",
+      "ocr_expected": false,
+      "table_count": 2,
+      "hit_rates": [
+        87.5,
+        100.0
+      ]
+    },
+    {
+      "label": "嘉合#7",
+      "kind": "pdf",
+      "file": "转发 嘉合基金客户对账单_att7_3R8011855162_客户对帐单_2026年04月01日.pdf",
+      "ocr_expected": false,
+      "table_count": 2,
+      "hit_rates": [
+        87.5,
+        100.0
+      ]
+    },
+    {
+      "label": "华泰紫金",
+      "kind": "pdf",
+      "file": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
+      "ocr_expected": true,
+      "table_count": 1,
+      "hit_rates": [
+        42.9
+      ]
+    },
+    {
+      "label": "TraFax",
+      "kind": "pdf",
+      "file": "转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf",
+      "ocr_expected": true,
+      "table_count": 3,
+      "hit_rates": [
+        50.0,
+        81.8,
+        63.6
+      ]
+    },
+    {
+      "label": "WaveFax",
+      "kind": "pdf",
+      "file": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+      "ocr_expected": true,
+      "table_count": 1,
+      "hit_rates": [
+        71.4
+      ]
+    },
+    {
+      "label": "caitong(HTML)",
+      "kind": "html",
+      "file": "html_extracted/caitong_tables.json",
+      "ocr_expected": false,
+      "table_count": 5,
+      "hit_rates": [
+        72.7,
+        14.3,
+        50.0,
+        72.7,
+        0.0
+      ]
+    },
+    {
+      "label": "guojin(HTML)",
+      "kind": "html",
+      "file": "html_extracted/guojin_tables.json",
+      "ocr_expected": false,
+      "table_count": 1,
+      "hit_rates": [
+        80.0
+      ]
+    },
+    {
+      "label": "nanhua(HTML)",
+      "kind": "html",
+      "file": "html_extracted/nanhua_tables.json",
+      "ocr_expected": false,
+      "table_count": 3,
+      "hit_rates": [
+        33.3,
+        75.0,
+        0.0
+      ]
+    }
+  ]
+}
