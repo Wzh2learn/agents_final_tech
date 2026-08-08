@@ -615,9 +615,37 @@ def _check_vlm_available() -> bool:
     return _vlm_available
 
 
+def _vlm_downsample(img_bytes: bytes, max_px: int) -> bytes:
+    """Downscale image so the longest side <= max_px (cuts VLM latency).
+
+    No-op when PIL is unavailable, max_px <= 0, or image already small.
+    """
+    if max_px <= 0:
+        return img_bytes
+    try:
+        from PIL import Image
+        import io
+        im = Image.open(io.BytesIO(img_bytes))
+        w, h = im.size
+        scale = max_px / max(w, h)
+        if scale >= 1.0:
+            return img_bytes
+        im = im.resize((max(1, int(w * scale)), max(1, int(h * scale))))
+        buf = io.BytesIO()
+        fmt = "JPEG" if im.mode in ("RGB", "L") else "PNG"
+        if fmt == "JPEG" and im.mode not in ("RGB", "L"):
+            im = im.convert("RGB")
+        im.save(buf, format=fmt, quality=85)
+        return buf.getvalue()
+    except Exception:
+        return img_bytes
+
+
 def _vlm_ocr_one(img_bytes: bytes) -> str:
     """Send image to VLM (:8007) for table-aware OCR. Returns text or empty."""
     import base64
+    img_bytes = _vlm_downsample(
+        img_bytes, int(os.environ.get("M1_VLM_MAX_PX", "1600")))
     b64 = base64.b64encode(img_bytes).decode("ascii")
     payload = {
         "model": _VLM_MODEL,

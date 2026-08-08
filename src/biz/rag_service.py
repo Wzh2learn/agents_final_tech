@@ -348,19 +348,20 @@ class RAGService:
                         f"OCR doc_type filtered retrieve failed on {collection_name}: {e}"
                     )
 
-            try:
-                bm25_res = bm25_retrieve.invoke({
-                    "query": query,
-                    "top_k": top_k,
-                    "collection_name": collection_name
-                })
-                bm25_docs = self._parse_json_docs(bm25_res)
-                for doc in bm25_docs:
-                    doc.metadata["collection"] = collection_name
-                    all_docs.append(doc)
-                    bm25_count += 1
-            except Exception as e:
-                logger.warning(f"BM25 retrieve failed on {collection_name}: {e}")
+            if os.environ.get("M2_ENABLE_BM25", "false").lower() == "true":
+                try:
+                    bm25_res = bm25_retrieve.invoke({
+                        "query": query,
+                        "top_k": top_k,
+                        "collection_name": collection_name
+                    })
+                    bm25_docs = self._parse_json_docs(bm25_res)
+                    for doc in bm25_docs:
+                        doc.metadata["collection"] = collection_name
+                        all_docs.append(doc)
+                        bm25_count += 1
+                except Exception as e:
+                    logger.warning(f"BM25 retrieve failed on {collection_name}: {e}")
 
             if vector_count == 0 and bm25_count == 0:
                 fallback_docs = self._local_fallback_docs(

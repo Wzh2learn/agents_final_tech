@@ -101,30 +101,22 @@ def _build_bm25_index(collection_name: str, force_rebuild: bool = False) -> Dict
         except Exception as e:
             print(f"加载BM25缓存失败: {e}, 将重建索引", file=sys.stderr)
 
-    # 从向量数据库获取所有文档
+    # 从向量数据库(PGVector)获取集合全量文档并构建索引
     try:
-        vector_store = get_vector_store(collection_name=collection_name)
-
-        # 获取所有文档
-        # 注意：这里需要根据具体的向量存储实现调整
-        # 暂时使用简化的方法，实际可能需要调用底层API
-        all_docs = []
-
-        # 尝试获取文档（简化实现）
-        # 实际应该通过vector_store的API获取所有文档
-        # 这里先返回空索引，实际使用时需要完善
-        print(f"警告: BM25索引构建需要访问向量数据库中的所有文档", file=sys.stderr)
-        print(f"当前集合: {collection_name}", file=sys.stderr)
-
-        # 返回空索引
-        return {
-            "bm25": None,
-            "documents": [],
-            "tokenized_docs": [],
-            "doc_count": 0,
-            "cache_path": cache_path
-        }
-
+        all_docs = _fetch_collection_documents(collection_name)
+        if not all_docs:
+            print(f"BM25: 集合 {collection_name} 无文档, 返回空索引", file=sys.stderr)
+            return {
+                "bm25": None,
+                "documents": [],
+                "tokenized_docs": [],
+                "doc_count": 0,
+                "cache_path": cache_path
+            }
+        index_data = _build_bm25_index_from_documents(all_docs, cache_path)
+        print(f"BM25: 索引构建完成, 集合={collection_name}, 文档数={index_data.get('doc_count', 0)}",
+              file=sys.stderr)
+        return index_data
     except Exception as e:
         print(f"构建BM25索引失败: {e}", file=sys.stderr)
         return {
@@ -135,6 +127,28 @@ def _build_bm25_index(collection_name: str, force_rebuild: bool = False) -> Dict
             "error": str(e),
             "cache_path": cache_path
         }
+
+
+def _fetch_collection_documents(collection_name: str) -> List[Dict[str, Any]]:
+    """Fetch every chunk document+metadata of a PGVector collection.
+
+    Same read-only pattern as biz.m2_service._query_collection_chunks.
+    """
+    from storage.database.db import get_session
+    from storage.database.shared.model import (
+        LangchainPgCollection, LangchainPgEmbedding)
+    db = get_session()
+    try:
+        rows = (
+            db.query(LangchainPgEmbedding.document, LangchainPgEmbedding.cmetadata)
+            .join(LangchainPgCollection,
+                  LangchainPgEmbedding.collection_id == LangchainPgCollection.uuid)
+            .filter(LangchainPgCollection.name == collection_name)
+            .all()
+        )
+        return [{"text": (r[0] or ""), "metadata": (r[1] or {})} for r in rows]
+    finally:
+        db.close()
 
 
 def _build_bm25_index_from_documents(
