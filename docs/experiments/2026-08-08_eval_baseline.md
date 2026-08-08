@@ -39,3 +39,14 @@ Lowlights（≤2 分或有指示性的扣分）:
 - tests/fixtures/m2_eval_questions.json — 16 题问题集 v3（含 4 道对抗题，脱敏口径定标）
 - scripts/m2_eval_judge.py — AI judge 四维 rubric（judge 不见期望答案防泄漏，多轮上下文拼接检索）
 - scripts/run_eval.sh — 一键 eval 入口（judge 分数不阻塞门禁）
+
+
+## 2026-08-09 复测（Phase 3 prompt 去内联 + skill 化后）
+
+口径：run_eval.sh 全量（M1 门禁 quick + M2 确定性 16 题 + AI judge），sidecar 已重启载入新 opencode.json（m2-qa prompt 收缩为最小硬契约 + skill 工具加载 m2-rag-playbook）。
+
+- M1 scenario1 门禁: PASS（quick: 12 pass / 3 skip-OCR 样本）
+- M2 确定性检验: **16/16 PASS**（与基线持平）
+- AI judge: faithfulness **4.81→4.94**（q07 mask 幻觉修复后 fait 3→5）, numeric 5.0→5.0, citation 4.81→4.69, refusal 5.0→5.0
+  - citation 微降原因: judge 对 adv_refusal 拒答给 0 分（要求拒答也解释来源矛盾），确定性层 refusal_expected 仍 PASS，判为 judge 边界口径非回归
+- 结论: prompt 去内联语义零损失，playbook 经 skill 工具加载生效，基线维持。

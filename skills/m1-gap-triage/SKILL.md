@@ -42,6 +42,21 @@ description: M1 解析失败分诊（0 表 / unmapped 过高）：嘉合 playboo
 剩余 unmapped: [...]（可接受 | 需 parser 能力 | known_gap）
 ```
 
+## Schema 演进 SOP（补词后必跑, 2026-08-09 沉淀）
+
+补 synonyms 后**必须**走完以下链路再报 delta，否则 delta 无效：
+1. 确定性重跑：`--no-llm`（纯规则，可复现口径）
+2. 回归门禁：`python scripts/m1_scenario1_regression.py`（quick ~1s；`--full-m1` 语境下全量含 OCR）——PASS 才允许报 delta
+3. 自学习闭环（可选）：LLM 兜底开启时 unmapped 列自动沉淀到 `config/schema_suggestions.json`；`python scripts/m1_apply_schema_suggestions.py` 验证后批量落库（先临时 schema 复跑，回归不写回；冻结运行时 schema 默认拒写，需 Loop D 授权 + manifest 刷新）
+
+## M1 CLI 确定性合同（scripts/m1_statement_parser.py, 2026-08-09 沉淀）
+
+- 文件发现：默认只认 `sample_*` / `mapping_*` 前缀；跳过的文件 **stderr 显式警告**（无静默丢弃）；`--files` 显式列表绕过过滤（相对 --samples-dir 或绝对路径）
+- schema 口径：默认 `resolve_schema_path()` — config/m1_table_schema.json 优先（与 :5050 生产一致），冻结运行时 schema 仅 fallback；`--schema` 显式覆盖
+- 可复现性：`--no-llm` = 纯规则确定性复现；LLM 兜底开启时 :8004 抽值 + 沉淀同义词建议（副作用仅 suggestions 文件）
+- OCR 预算：`M1_OCR_BUDGET_SECONDS`（默认 240s/文件）；引擎顺序 paddle → :8007 VLM（如在）→ :8004 vision；每引擎结果（ok/empty/error/skipped-budget）记入结果 `ocr_engine_log`，回退留痕
+- 输出：`--json` 脱敏汇总（tables[hit_rate,unmapped]/header_meta/reconcile）；`--dump-unmapped` 只读诊断；`--compact-summary` 供 evidence-verifier 复核
+
 ## 历史案例参照
 
 | 案例 | 诊断归类 | 动作 | 结果 |

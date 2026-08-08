@@ -307,12 +307,14 @@ RAG QA: 15/15 = 100% (OCR meta-query fixed 2026-08-05; production force_rerank=T
 | A | Codex CLI | executing-plans | 多步计划按 checkpoint 执行 |
 | A | Codex CLI | subagent-driven-development | 独立子任务并行分发 |
 | A | Codex CLI | verification-before-completion | 交付前证据验证 |
+| A | Codex CLI | m2-rag-playbook | M2 RAG 问答失败模式契约（m2-qa agent 经 skill 工具加载）|
 | C | Claude Code | review-codebase | 全库体检 |
 | C | Claude Code | differential-review | 增量 diff 审查 |
 | C | Claude Code | spec-to-code-compliance | 文档-代码一致性 |
 | C | Claude Code | requesting-code-review | 结构化审查请求 |
 | C | Claude Code | receiving-code-review | 反馈的技术性验证 |
 | C | Claude Code | security-best-practices | 安全专项 (按需) |
+| C | Claude Code | m2-rag-playbook | 审计 M2 问答行为的对照基线 |
 | A | Codex CLI | agent-prompt-contracts | 编写/修改 agent prompt 与输出契约时必读 |
 | C | Claude Code | agent-prompt-contracts | 审计 prompt 类改动的契约遵从基线 |
 | A | Codex CLI | m1-gap-triage | M1 解析失败分诊：0 表/高 unmapped → 读原文诊断 → 补 synonyms → 重跑 → 报 delta（嘉合 playbook） |
