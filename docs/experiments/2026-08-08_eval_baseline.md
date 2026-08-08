@@ -50,3 +50,11 @@ Lowlights（≤2 分或有指示性的扣分）:
 - AI judge: faithfulness **4.81→4.94**（q07 mask 幻觉修复后 fait 3→5）, numeric 5.0→5.0, citation 4.81→4.69, refusal 5.0→5.0
   - citation 微降原因: judge 对 adv_refusal 拒答给 0 分（要求拒答也解释来源矛盾），确定性层 refusal_expected 仍 PASS，判为 judge 边界口径非回归
 - 结论: prompt 去内联语义零损失，playbook 经 skill 工具加载生效，基线维持。
+
+
+### 2026-08-09 二次复测（judge rubric 拒答豁免后，run_eval.sh 全量）
+
+- M1 门禁 PASS（quick），M2 确定性 **16/16**
+- AI judge 四维均分: faithfulness **5.0** / numeric **5.0** / citation **5.0** / refusal **5.0**
+  - rubric 修正: 预期不可回答且明确拒答时, citation 按拒答说明清晰度评分, 来源为空不扣分（消除 adv_refusal cita=0 的口径伪影）
+- **当前正式基线**: 确定性 16/16 + judge 四维 5.0 + scenario1 回归 15/15（含华泰 100%/TraFax [50,81.8,81.8]/WaveFax 85.7/guojin 90）
