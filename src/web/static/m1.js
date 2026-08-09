@@ -284,7 +284,9 @@
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const res = await fetch('/api/m1/parse-file', { method: 'POST', body: formData });
+      const preciseChk = document.getElementById('preciseParseChk');
+      const preciseQs = (preciseChk && preciseChk.checked) ? '?llm_fallback=0' : '';
+      const res = await fetch('/api/m1/parse-file' + preciseQs, { method: 'POST', body: formData });
       if (!res.ok) {
         const text = await res.text();
         throw new Error(`API ${res.status}: ${text.slice(0, 200)}`);

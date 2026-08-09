@@ -38,6 +38,9 @@
                 <span>Upload</span>
             </label>
             <input id="fileInput" type="file" accept=".txt,.pdf,.xlsx,.docx">
+            <label style="font-size:12px;color:#6b7280;cursor:pointer" title="只使用已沉淀的映射规则（确定性），不借助 AI 即时推断。用于验证建议映射应用前后的命中率变化。">
+                <input type="checkbox" id="preciseParseChk"> 精确解析(纯规则)
+            </label>
             <button id="sampleBtn" type="button" title="载入演示文本">Sample</button>
             <button id="runBtn" type="button" title="解析对账单">Run</button>
             <button id="copyBtn" type="button" title="复制M2载荷">Copy M2</button>
