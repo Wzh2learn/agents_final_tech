@@ -354,3 +354,20 @@ AoE sessions:
 **tmux 盘点**: 6 pane → 保留 4 / 吸收 1 / 关闭 2, 清单 docs/experiments/2026-08-06_tmux_inventory.md; 期间发现并修复 GB10 两个 skill 的 SKILL.md 分发漂移（sync_skills.sh 重跑）。
 
 质量基线: pytest 254 passed / 14 skipped; RAG QA 15/15（含 :5050 端 OCR meta-query 复验）。
+
+
+## 12. 沉淀专项与文档刷新 (2026-08-08 ~ 08-09)
+
+**主题：从"做过"到"沉淀"**——每个任务的产出必须是仓库资产。
+
+**Phase 1-2（parser 稳定性 + eval 体系）**: schema 自学习闭环（LLM 兜底映射 → config/schema_suggestions.json 结构化建议 → scripts/m1_apply_schema_suggestions.py 批量应用 + 回归验证）；scenario1 回归门禁（scripts/m1_scenario1_regression.py + tests/baselines/scenario1_baseline.json，15 源命中率固化，方向感知：下降超差 FAIL / 提升 WARN）；CLI 健壮性（前缀过滤静默失败 → stderr 警告 + --files 绕过；M1_OCR_BUDGET_SECONDS 预算 + 引擎级日志）；M2 eval 确定性检验（16 题四类检查：exact_numeric/contains_keyword/source_required/refusal_expected）+ AI judge 四维 rubric（本地 35B, temp=0）+ scripts/run_eval.sh 一键。
+
+**Phase 3（skill 化 + 交付链 S4）**: skills/m2-rag-playbook 入武库（A/C 双端分发）；opencode.json m2-qa prompt 去内联（最小硬契约 + skill 工具加载指令——m2-qa 权限收紧读不了文件，skill 工具是正确通道）；S4 机制验证：OpenCode 原生加载仓库 skills/ 目录（sidecar /skill API 可见 16 skill）；中性 prompt 自动委派结论 CLOSED（默认 build agent 不委派专职 agent，但直接调 MCP 作答）。
+
+**Phase 4（清扫 7 项）**: preprocess_msg.py 入库；VLM 降采样实验（≤1600px 延迟达标 9.6-22.9s/文件，但 TraFax 命中率劣化 → :8007 维持 VERIFIED-CLOSED）；**华泰紫金 42.9%→100%**（schema +8 账号上下文标准字段，--no-llm 纯确定性验证，fax/HTML 普涨：TraFax 63.6→81.8 / WaveFax 71.4→85.7 / guojin 80→90）；compare/positions 模糊匹配（短名查询 0→2 持仓，闭环 08-01 blocked question）+ products 噪声过滤；BM25 真实现（PG 全量取 137 chunks + rank_bm25 + 缓存）+ A/B 零增益 → M2_ENABLE_BM25 flag 默认关，决策不修；GB10 装 rg 15.1.0（pip ripgrep，无 sudo）。
+
+**Phase 5（沉淀透镜）**: scripts/restart_opencode_sidecar.sh（sidecar 不热加载配置，改 opencode.json/skills 后必须重启——本轮实测踩到 26h stale-config）；scripts/graph/check_skill_sync.sh（仓库 skills/ 与分发列表漂移检查）；judge rubric 拒答 citation 豁免。
+
+**质量基线定稿（2026-08-09）**: pytest 300 passed / 13 skipped；M2 eval 确定性 16/16 + judge 四维全 5.0；scenario1 回归门禁 15/15。
+
+**2026-08-09 :5050 经批准重启**: 四步验证全过（health/full embeddings=137 provider=local / parse 冒烟 / QA 2/2 含 OCR meta-query / compare 模糊匹配生产生效）。

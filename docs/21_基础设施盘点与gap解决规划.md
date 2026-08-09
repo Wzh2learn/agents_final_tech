@@ -394,3 +394,11 @@ Phase 4 (OpenCode): 跳过 (用户决策 D4=B)
 | MCP Server x3 | vision_mcp 路由已更新, 但 env 问题未修 |
 | 坐标重建 | **NEW: 已打出, 解决 NCAMC** |
 | HTML body 提取 | **NEW: 已打出, 解决 email gap** |
+
+
+## 八、2026-08-09 更新（沉淀专项）
+
+- **VLM 降采样实验（Gap 1/2 后续）**: `_vlm_downsample` 送图前缩至 ≤1600px（`M1_VLM_MAX_PX`），延迟从 3-8min 降至 9.6-22.9s/文件（达标）；但 TraFax 命中率 [50,81.8,81.8]→[0,0,100] 显著劣化（8B Q4 对乱版传真输出退化表格）→ **:8007 维持 VERIFIED-CLOSED**，下采样代码保留为未来更强 VLM 的复用资产。
+- **BM25**: 原 stub 已实现为真 BM25（PG 全量取 137 chunks + rank_bm25 + /tmp 缓存），flag `M2_ENABLE_BM25` 默认 false；A/B 16 题 hit@10 持平（15/16=15/16，排名零变化）→ 决策不修，留 flag 备语料扩大。
+- **rg**: GB10 已装 ripgrep 15.1.0（pip ripgrep → ~/bin/rg，无 sudo；GitHub 直链不可达）。
+- **工具链新增**: scripts/restart_opencode_sidecar.sh（sidecar 不热加载配置，改 opencode.json/skills 后必须重启）、scripts/graph/check_skill_sync.sh（skill 分发漂移检查）。

@@ -287,7 +287,7 @@ VLM: scripts/vlm_server_8007.py ready but BLOCKED (Triton ARM64 JIT compilation)
 
 ### RAG Collection
 137 embeddings (was 88). Includes scenario1 HTML + NCAMC coordinate tables.
-RAG QA: 15/15 = 100% (OCR meta-query fixed 2026-08-05; production force_rerank=True caliber re-verified 2026-08-07).
+RAG QA: eval 基线定稿 2026-08-09 = 确定性 16/16 + AI judge 四维全 5.0（15/15 为一轮口径, OCR meta-query fixed 08-05, 生产复验 08-07/08-09）; pytest 300 passed / 13 skipped; scenario1 回归门禁 15/15（华泰 100%, 嘉合 93.8%）。
 
 ## Skill 武库注册表 (Phase 0, 2026-08-03)
 
