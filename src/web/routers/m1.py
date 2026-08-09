@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import subprocess
 import sys
 import tempfile
 import time
@@ -379,3 +380,159 @@ async def delete_table(name: str, x_admin_token: Optional[str] = Header(None)):
         raise HTTPException(status_code=404, detail=f"Table '{name}' not found")
     _write_schema(data)
     return {"status": "ok", "message": f"Table '{name}' removed"}
+
+
+# ---------------------------------------------------------------------------
+# Schema mapping suggestions (选择题体验 场景 A, docs/26)
+# ---------------------------------------------------------------------------
+
+def _suggestions_path() -> str:
+    return os.path.join(os.path.dirname(_get_schema_path()),
+                        "schema_suggestions.json")
+
+
+def _read_suggestions() -> dict:
+    path = _suggestions_path()
+    if not os.path.isfile(path):
+        return {"suggestions": [], "applied": [], "rejected": []}
+    with open(path, encoding="utf-8") as fh:
+        data = json.load(fh)
+    data.setdefault("suggestions", [])
+    data.setdefault("applied", [])
+    data.setdefault("rejected", [])
+    return data
+
+
+def _write_suggestions(data: dict) -> None:
+    path = _suggestions_path()
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(data, fh, ensure_ascii=False, indent=2)
+    os.replace(tmp, path)
+
+
+class SuggestionItem(BaseModel):
+    raw_column: str
+    standard_field: str
+    table: str
+
+
+class SuggestionsActionBody(BaseModel):
+    items: list[SuggestionItem]
+
+
+def _match_key(sg: dict, it: SuggestionItem) -> bool:
+    """Match on (raw_column, table) only: the UI lets the user retarget the
+    standard_field via a select, so the requested target may differ from the
+    stored suggestion."""
+    return (sg.get("raw_column") == it.raw_column
+            and sg.get("table") == it.table)
+
+
+@router.get("/schema-suggestions", summary="获取待确认的映射建议（选择题面板）")
+async def get_schema_suggestions():
+    """Return pending mapping suggestions for the 建议映射 panel."""
+    data = _read_suggestions()
+    return {"suggestions": data["suggestions"],
+            "applied_count": len(data["applied"]),
+            "rejected_count": len(data["rejected"])}
+
+
+@router.post("/schema-suggestions/apply", summary="应用所选映射建议（写 schema + 回归门禁）")
+async def apply_schema_suggestions(body: SuggestionsActionBody,
+                                   x_admin_token: Optional[str] = Header(None)):
+    """Apply selected suggestions: merge synonyms into schema, gate with the
+    quick scenario1 regression; roll back on regression."""
+    _check_admin(x_admin_token)
+    data = _read_suggestions()
+    chosen: list[dict] = []
+    for it in body.items:
+        for sg in data["suggestions"]:
+            if _match_key(sg, it):
+                item = dict(sg)
+                item["standard_field"] = it.standard_field  # user may retarget
+                chosen.append(item)
+                break
+    if not chosen:
+        raise HTTPException(status_code=404, detail="No matching pending suggestions")
+
+    apply_mod = _get_apply_mod()
+    schema_path = _get_schema_path()
+    backup = json.dumps(json.load(open(schema_path, encoding="utf-8")),
+                        ensure_ascii=False)
+    merged_path = schema_path + ".merged"
+    added, skips = apply_mod.merge_into_schema(schema_path, chosen, merged_path)
+    if added == 0:
+        if os.path.isfile(merged_path):
+            os.remove(merged_path)
+        raise HTTPException(status_code=409,
+                            detail=f"No new synonyms merged: {skips}")
+    # write merged schema live, then gate with quick regression
+    merged = open(merged_path, encoding="utf-8").read()
+    with open(schema_path, "w", encoding="utf-8") as fh:
+        fh.write(merged)
+    try:
+        proc = subprocess.run(
+            [sys.executable,
+             os.path.join(os.path.dirname(schema_path), "..", "scripts",
+                          "m1_scenario1_regression.py"), "--quick"],
+            capture_output=True, text=True, timeout=300,
+            cwd=os.path.abspath(os.path.join(os.path.dirname(schema_path), "..")))
+        gate_ok = "[scenario1-regression] PASS" in proc.stdout
+    except Exception as exc:  # noqa: BLE001
+        gate_ok = False
+        proc = None
+        skips.append(f"regression gate error: {exc}")
+    if not gate_ok:
+        with open(schema_path, "w", encoding="utf-8") as fh:
+            fh.write(backup)
+        if os.path.isfile(merged_path):
+            os.remove(merged_path)
+        raise HTTPException(status_code=409,
+                            detail="Regression gate failed; schema rolled back. "
+                                   + (proc.stdout[-400:] if proc else ""))
+    if os.path.isfile(merged_path):
+        os.remove(merged_path)
+    import datetime as _dt
+    now = _dt.datetime.now().strftime("%Y-%m-%d %H:%M")
+    for sg in chosen:
+        sg["applied_at"] = now
+        data["applied"].append(sg)
+    data["suggestions"] = [sg for sg in data["suggestions"]
+                           if not any(_match_key(sg, it) for it in body.items)]
+    _write_suggestions(data)
+    return {"status": "ok", "applied": len(chosen), "added_synonyms": added,
+            "skips": skips,
+            "hint": "规则已热加载，重新解析相关样本即可看到命中率提升"}
+
+
+@router.post("/schema-suggestions/reject", summary="拒绝所选建议（不再重复推荐）")
+async def reject_schema_suggestions(body: SuggestionsActionBody):
+    """Move selected suggestions to the rejected list (no schema change)."""
+    data = _read_suggestions()
+    import datetime as _dt
+    now = _dt.datetime.now().strftime("%Y-%m-%d %H:%M")
+    moved = [sg for sg in data["suggestions"]
+             if any(_match_key(sg, it) for it in body.items)]
+    for sg in moved:
+        sg["rejected_at"] = now
+        data["rejected"].append(sg)
+    data["suggestions"] = [sg for sg in data["suggestions"]
+                           if not any(_match_key(sg, it) for it in body.items)]
+    _write_suggestions(data)
+    return {"status": "ok", "rejected": len(moved)}
+
+
+_apply_mod = None
+
+
+def _get_apply_mod():
+    global _apply_mod
+    if _apply_mod is None:
+        scripts_dir = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "..", "..", "..", "scripts"))
+        if scripts_dir not in sys.path:
+            sys.path.insert(0, scripts_dir)
+        import m1_apply_schema_suggestions as mod  # noqa: E402
+        _apply_mod = mod
+    return _apply_mod

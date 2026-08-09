@@ -43,6 +43,7 @@
             <button id="copyBtn" type="button" title="复制M2载荷">Copy M2</button>
             <button id="downloadBtn" type="button" title="下载M2载荷">Download M2</button>
             <button id="schemaBtn" type="button" title="编辑字段映射规则">规则配置</button>
+            <button id="suggBtn" type="button" title="查看并确认系统自动发现的映射建议">建议映射 <span id="suggCount" class="badge-warn" hidden></span></button>
             <span id="notice" role="status"></span>
         </section>
 
@@ -136,6 +137,25 @@
         </section>
 
         <!-- Schema Editor Modal -->
+        
+        <!-- 建议映射 modal (选择题体验 场景 A) -->
+        <div id="suggModal" class="modal-overlay" hidden>
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <h2>建议映射 - 系统自动发现，等待您确认</h2>
+                    <button id="suggCloseBtn" class="modal-close" type="button">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p style="margin:0 0 10px;color:#6b7280">解析新版式时未识别的列名会由系统给出映射建议。勾选并应用后即沉淀为规则，同版式样本后续自动受益；建议有误可拒绝或改选目标字段。</p>
+                    <div id="suggEmpty" hidden>当前无待确认建议。</div>
+                    <div id="suggList"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="suggApplyBtn" type="button">应用所选</button>
+                    <button id="suggRejectBtn" type="button" class="btn-sm">拒绝所选</button>
+                </div>
+            </div>
+        </div>
         <div id="schemaModal" class="modal-overlay" hidden>
             <div class="modal-dialog">
                 <div class="modal-header">

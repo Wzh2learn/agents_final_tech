@@ -297,6 +297,7 @@
       renderAll(data);
       const m = data.result.metrics;
       setNotice(`完成: ${m.tables} 表, 命中 ${m.hit_rate}%, ${m.unmapped} 未映射`, 'ok');
+      refreshSuggBadge();
       showToast('解析完成', 'success');
     } catch (err) {
       setNotice(err.message, 'error');
@@ -788,6 +789,118 @@
   schemaCloseBtn.addEventListener('click', closeSchemaModal);
   schemaCancelBtn.addEventListener('click', closeSchemaModal);
   schemaModal.addEventListener('click', (e) => { if (e.target === schemaModal) closeSchemaModal(); });
+
+  // -------------------------------------------------------------------
+  // 建议映射面板（选择题体验 场景 A, docs/26）
+  // -------------------------------------------------------------------
+  const suggBtn = $('#suggBtn');
+  const suggCount = $('#suggCount');
+  const suggModal = $('#suggModal');
+  const suggList = $('#suggList');
+  const suggEmpty = $('#suggEmpty');
+  let _suggCache = [];
+  let _suggFieldsByTable = {};
+
+  async function refreshSuggBadge() {
+    try {
+      const res = await fetch('/api/m1/schema-suggestions');
+      if (!res.ok) return;
+      const d = await res.json();
+      const n = (d.suggestions || []).length;
+      suggCount.hidden = n === 0;
+      suggCount.textContent = n;
+    } catch (e) { /* silent */ }
+  }
+
+  async function openSuggModal() {
+    suggModal.hidden = false;
+    try {
+      const [sRes, schemaRes] = await Promise.all([
+        fetch('/api/m1/schema-suggestions'), fetch('/api/m1/schema')]);
+      const d = await sRes.json();
+      _suggCache = d.suggestions || [];
+      const schema = await schemaRes.json();
+      _suggFieldsByTable = {};
+      (schema.tables || []).forEach((t) => {
+        _suggFieldsByTable[t.table_name] = (t.fields || []).map((f) => f.standard);
+      });
+      renderSuggList();
+    } catch (e) {
+      setNotice('加载建议失败: ' + e, 'error');
+    }
+  }
+
+  function renderSuggList() {
+    suggList.innerHTML = '';
+    suggEmpty.hidden = _suggCache.length > 0;
+    _suggCache.forEach((sg, i) => {
+      const conf = sg.confidence || 'low';
+      const checked = conf === 'high' ? 'checked' : '';
+      const fields = _suggFieldsByTable[sg.table] || [];
+      const opts = fields.map((f) =>
+        `<option ${f === sg.standard_field ? 'selected' : ''}>${esc(f)}</option>`).join('');
+      const vals = (sg.sample_values || []).join(', ');
+      const row = document.createElement('div');
+      row.style.cssText = 'border:1px solid #e5e7eb;border-radius:8px;padding:10px 12px;margin-bottom:10px';
+      row.innerHTML = `
+        <label style="display:flex;gap:8px;align-items:flex-start;cursor:pointer">
+          <input type="checkbox" data-idx="${i}" ${checked} style="margin-top:4px">
+          <div style="flex:1">
+            <div><b>${esc(sg.raw_column)}</b> →
+              <select data-idx="${i}" class="sugg-target" style="margin:0 6px">${opts}</select>
+              <span class="badge-${conf === 'high' ? 'ok' : 'warn'}">${esc(conf)}</span>
+            </div>
+            <div style="color:#6b7280;font-size:12px;margin-top:4px">
+              理由: ${esc(sg.reason || '')}<br>
+              出现于: ${esc(sg.sample || '')} · ${esc(sg.table || '')}${vals ? ' · 样本值: ' + esc(vals) : ''}
+            </div>
+          </div>
+        </label>`;
+      suggList.appendChild(row);
+    });
+  }
+
+  function collectSuggSel() {
+    const sel = [];
+    suggList.querySelectorAll('input[type=checkbox]').forEach((cb) => {
+      if (!cb.checked) return;
+      const sg = _suggCache[+cb.dataset.idx];
+      const target = suggList.querySelector(
+        `select.sugg-target[data-idx="${cb.dataset.idx}"]`).value;
+      sel.push({ raw_column: sg.raw_column, table: sg.table, standard_field: target });
+    });
+    return sel;
+  }
+
+  async function suggAction(kind) {
+    const items = collectSuggSel();
+    if (!items.length) { setNotice('请先勾选至少一条建议', 'error'); return; }
+    const headers = { 'Content-Type': 'application/json' };
+    const token = sessionStorage.getItem('m1_admin_token');
+    if (token) headers['X-Admin-Token'] = token;
+    const res = await fetch(`/api/m1/schema-suggestions/${kind}`, {
+      method: 'POST', headers, body: JSON.stringify({ items }) });
+    const d = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      setNotice('操作失败: ' + String(d.detail || res.status).slice(0, 300), 'error');
+      return;
+    }
+    if (kind === 'apply') {
+      setNotice(`已应用 ${d.applied} 条（新增 ${d.added_synonyms} 个同义词），规则已热加载——重新解析相关样本即可看到命中率提升`, 'ok');
+      suggModal.hidden = true;
+    } else {
+      setNotice(`已拒绝 ${d.rejected} 条，不再重复推荐`, 'ok');
+    }
+    refreshSuggBadge();
+    if (!suggModal.hidden) openSuggModal();
+  }
+
+  suggBtn.addEventListener('click', openSuggModal);
+  $('#suggCloseBtn').addEventListener('click', () => { suggModal.hidden = true; });
+  $('#suggApplyBtn').addEventListener('click', () => suggAction('apply'));
+  $('#suggRejectBtn').addEventListener('click', () => suggAction('reject'));
+  suggModal.addEventListener('click', (e) => { if (e.target === suggModal) suggModal.hidden = true; });
+  refreshSuggBadge();
 
   // --- Utility ---
   function esc(str) {
