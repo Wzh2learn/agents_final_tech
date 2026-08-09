@@ -56,3 +56,6 @@ dify/
 .qoder/
 .ocr_cache/
 .omc/
+docs/experiments/2026-08-09_demo_video/*.webm
+docs/experiments/2026-08-09_demo_video/*.mp4
+docs/experiments/2026-08-09_demo_video/_frames/

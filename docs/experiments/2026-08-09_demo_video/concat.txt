@@ -1,0 +1,5 @@
+file 'seg1_direct.webm'
+file 'seg2_agent.webm'
+file 'seg3_jiahe_upload.webm'
+file 'seg4_wavefax_ocr.webm'
+file 'seg5_review_multiturn.webm'
