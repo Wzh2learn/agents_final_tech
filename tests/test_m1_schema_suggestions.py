@@ -90,7 +90,7 @@ def _setup(tmp_path, monkeypatch):
     test_config = tmp_path / "config"
     test_config.mkdir()
     schema_file = test_config / "m1_table_schema.json"
-    schema_file.write_text(json.dumps(_TEST_SCHEMA, ensure_ascii=False),
+    schema_file.write_text(json.dumps(_TEST_SCHEMA, ensure_ascii=False, indent=2),
                            encoding="utf-8")
 
     monkeypatch.setattr(parser_mod, "LOCAL_SCHEMA", str(schema_file))
@@ -248,3 +248,49 @@ class TestAdminGate:
                                             "table": "交易对账单",
                                             "standard_field": "券商"}]})
         assert resp.status_code == 200
+
+    def test_reject_requires_token_when_set(self, _setup, monkeypatch):
+        """F2 (audit 2026-08-10): reject 是状态破坏操作，与 apply 同门禁。"""
+        monkeypatch.setattr(_setup["router"], "_ADMIN_TOKEN", "sekrit")
+        _seed_suggestions(_setup, [_sg("销售机构", "券商")])
+        resp = client.post("/api/m1/schema-suggestions/reject", json={
+            "items": [{"raw_column": "销售机构", "table": "交易对账单",
+                       "standard_field": "券商"}]})
+        assert resp.status_code == 401
+        resp = client.post("/api/m1/schema-suggestions/reject",
+                           headers={"X-Admin-Token": "sekrit"},
+                           json={"items": [{"raw_column": "销售机构",
+                                            "table": "交易对账单",
+                                            "standard_field": "券商"}]})
+        assert resp.status_code == 200
+
+
+# ---------------------------------------------------------------------------
+# 红线防御（audit 2026-08-10: F1 冻结守卫 / F4 single-flight）
+# ---------------------------------------------------------------------------
+class TestRedlineGuards:
+    def test_apply_refuses_write_outside_config(self, _setup, monkeypatch):
+        """F1: schema 解析到 config/ 之外（如冻结运行时 schema）→ 403 拒写。"""
+        import m1_statement_parser as parser_mod
+        monkeypatch.setattr(parser_mod, "resolve_schema_path",
+                            lambda: str(_setup["schema_file"]) + ".frozen_runtime")
+        _seed_suggestions(_setup, [_sg("销售机构", "券商")])
+        resp = client.post("/api/m1/schema-suggestions/apply", json={
+            "items": [{"raw_column": "销售机构", "table": "交易对账单",
+                       "standard_field": "券商"}]})
+        assert resp.status_code == 403
+        assert "冻结" in resp.json()["detail"]
+
+    def test_single_flight_blocks_concurrent_apply(self, _setup):
+        """F4: 门禁同时只跑一个，第二个 apply 直接 409。"""
+        router = _setup["router"]
+        assert router._apply_lock.acquire(blocking=False)
+        try:
+            _seed_suggestions(_setup, [_sg("销售机构", "券商")])
+            resp = client.post("/api/m1/schema-suggestions/apply", json={
+                "items": [{"raw_column": "销售机构", "table": "交易对账单",
+                           "standard_field": "券商"}]})
+            assert resp.status_code == 409
+            assert "另一个 apply" in resp.json()["detail"]
+        finally:
+            router._apply_lock.release()

@@ -154,6 +154,10 @@ def main(argv: list[str] | None = None) -> int:
     report = {"suggestions": len(suggestions), "synonyms_added": added,
               "skips": skips, "samples": {}}
     if not files:
+        if args.apply and not args.force:
+            print("[blocked] 无可复验样本时 --apply 需显式 --force（F10 门禁盲区防护）。",
+                  file=sys.stderr)
+            return 4
         print("[warn] 无可复验样本，仅合并 schema（不验证）。")
         if args.apply:
             shutil.copyfile(merged, target)

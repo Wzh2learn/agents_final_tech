@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
+import threading
 import tempfile
 import time
 from typing import Any, Optional
@@ -444,6 +445,21 @@ async def apply_schema_suggestions(body: SuggestionsActionBody,
     """Apply selected suggestions: merge synonyms into schema, gate with the
     quick scenario1 regression; roll back on regression."""
     _check_admin(x_admin_token)
+    # F1 (audit 2026-08-10): 拒绝写穿冻结 schema — 写入目标必须是可写 config/ 副本
+    if os.path.abspath(_get_schema_path()) != os.path.abspath(_get_local_schema_path()):
+        raise HTTPException(status_code=403,
+                            detail="schema 解析到不可写路径（冻结节点保护），拒绝写入")
+    # F4: single-flight — 回归门禁同时只跑一个
+    if not _apply_lock.acquire(blocking=False):
+        raise HTTPException(status_code=409,
+                            detail="另一个 apply 正在进行（回归门禁运行中），请稍候重试")
+    try:
+        return await _apply_locked(body)
+    finally:
+        _apply_lock.release()
+
+
+async def _apply_locked(body: SuggestionsActionBody):
     data = _read_suggestions()
     chosen: list[dict] = []
     for it in body.items:
@@ -458,8 +474,8 @@ async def apply_schema_suggestions(body: SuggestionsActionBody,
 
     apply_mod = _get_apply_mod()
     schema_path = _get_schema_path()
-    backup = json.dumps(json.load(open(schema_path, encoding="utf-8")),
-                        ensure_ascii=False)
+    with open(schema_path, "rb") as fh:  # F5: 字节级备份（格式/BOM 安全）
+        backup = fh.read()
     merged_path = schema_path + ".merged"
     added, skips = apply_mod.merge_into_schema(schema_path, chosen, merged_path)
     if added == 0:
@@ -484,7 +500,7 @@ async def apply_schema_suggestions(body: SuggestionsActionBody,
         proc = None
         skips.append(f"regression gate error: {exc}")
     if not gate_ok:
-        with open(schema_path, "w", encoding="utf-8") as fh:
+        with open(schema_path, "wb") as fh:
             fh.write(backup)
         if os.path.isfile(merged_path):
             os.remove(merged_path)
@@ -501,14 +517,20 @@ async def apply_schema_suggestions(body: SuggestionsActionBody,
     data["suggestions"] = [sg for sg in data["suggestions"]
                            if not any(_match_key(sg, it) for it in body.items)]
     _write_suggestions(data)
+    hint = "规则已热加载，重新解析相关样本即可看到命中率提升"
+    ocr_hit = _ocr_samples_in_baseline() & {sg.get("sample") for sg in chosen}
+    if ocr_hit:  # F3: quick 门禁盲区如实提示
+        hint += ("；注意: 本次含 OCR 来源建议，quick 门禁不含 OCR 样本，"
+                 "请手动重解析对应样本复核")
     return {"status": "ok", "applied": len(chosen), "added_synonyms": added,
-            "skips": skips,
-            "hint": "规则已热加载，重新解析相关样本即可看到命中率提升"}
+            "skips": skips, "hint": hint}
 
 
 @router.post("/schema-suggestions/reject", summary="拒绝所选建议（不再重复推荐）")
-async def reject_schema_suggestions(body: SuggestionsActionBody):
+async def reject_schema_suggestions(body: SuggestionsActionBody,
+                                    x_admin_token: Optional[str] = Header(None)):
     """Move selected suggestions to the rejected list (no schema change)."""
+    _check_admin(x_admin_token)  # F2: reject 是状态破坏操作，与 apply 同门禁
     data = _read_suggestions()
     import datetime as _dt
     now = _dt.datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -524,6 +546,20 @@ async def reject_schema_suggestions(body: SuggestionsActionBody):
 
 
 _apply_mod = None
+_apply_lock = threading.Lock()  # F4: single-flight gate
+
+
+def _ocr_samples_in_baseline() -> set:
+    """F3: OCR 样本文件名集合（门禁盲区提示用），读取失败静默降级。"""
+    try:
+        path = os.path.join(os.path.dirname(_get_schema_path()), "..",
+                            "tests", "baselines", "scenario1_baseline.json")
+        with open(path, encoding="utf-8") as fh:
+            cases = json.load(fh).get("cases", [])
+        return {os.path.basename(c.get("file", "")) for c in cases
+                if c.get("ocr_expected")}
+    except Exception:
+        return set()
 
 
 def _get_apply_mod():

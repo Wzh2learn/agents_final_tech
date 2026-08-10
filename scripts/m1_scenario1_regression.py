@@ -152,8 +152,12 @@ def collect_actual(cases: list[dict], baseline: dict, tmpdir: str,
 
 def do_rebuild(args) -> int:
     """重跑全部 15 源, 以实跑结果覆写基线 (OCR 漂移确认后使用)。"""
-    with open(args.baseline, encoding="utf-8") as fh:
-        baseline = json.load(fh)
+    try:
+        with open(args.baseline, encoding="utf-8") as fh:
+            baseline = json.load(fh)
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"[env] 基线文件不可读: {exc}", file=sys.stderr)
+        return 2  # F11: 环境缺失与真 FAIL 分开（契约: 0=PASS 1=FAIL 2=env）
     attach_dir = _expand(baseline["attachments_dir"])
     html_dir = _expand(baseline["html_extracted_dir"])
     with tempfile.TemporaryDirectory(prefix="scenario1_rebuild_") as tmpdir:
@@ -196,8 +200,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.rebuild:
         return do_rebuild(args)
 
-    with open(args.baseline, encoding="utf-8") as fh:
-        baseline = json.load(fh)
+    try:
+        with open(args.baseline, encoding="utf-8") as fh:
+            baseline = json.load(fh)
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"[env] 基线文件不可读: {exc}", file=sys.stderr)
+        return 2  # F11: 契约 0=PASS 1=FAIL 2=env
     cases = baseline["cases"]
     t0 = time.time()
 
