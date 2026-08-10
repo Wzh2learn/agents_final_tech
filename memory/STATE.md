@@ -2,7 +2,7 @@
 更新: 2026-08-10（自主巡检轮 + Loop C differential 审计 + 修复批 A/B）
 
 ## 模式
-守护模式。等用户: ① 批 :5050 重启窗口（载入审计修复批 A 端点加固，与 walkthrough 合并）② 亲自走场景 A walkthrough ③ 审看修正后 docx + 视频 → 发甲方 → B4 时钟启动。
+守护模式（walkthrough 就绪）。:5050 已重启载入批 A 加固并验证全过；等用户开浏览器走场景 A walkthrough。
 
 ## Git
 - HEAD: 见 git log（三方对齐，本轮 push 后同步）
@@ -17,7 +17,8 @@
 - docs/23 + docx 已按工件校正重生成（发送以此版为准）
 
 ## 服务
-- :5050 PID 3290556（00:2x 重启）: 建议映射端点+精确解析开关已载入；**审计批 A 加固未载入（需重启）**；health/embeddings=137/provider=local/route=on 已验证
+- :5050 PID 4086502（2026-08-11 00:07 重启）: 建议映射端点 + 精确解析开关 + 审计批 A 加固全部载入; health/embeddings=137/provider=local/route=on 验证 PASS
+- ⚠ agent 路延迟退化 39-55s（口径 15-20s）, 18s 超时优雅回落直连正常工作; 排查项见 THREADS; 演示以直连路为主
 - :4096/:8004/:8005/:8100 up; :8007 down (VERIFIED-CLOSED); docker zhikunCode+pgvector; Loop B 未扰动
 
 ## 质量基线

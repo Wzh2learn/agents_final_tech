@@ -89,3 +89,10 @@
 - **台账遗留**: F6 同(raw,table)多目标策略(当前重复数=0, 无实害); F7 M1_SCHEMA_SUGGESTIONS 双轨(CLI-only 用途, 文档注明即可); F8 上传临时文件名建议不可复验(UI 标注为后续); judge 结构性隔离(双 prompt, 后续项); F3 中期: OCR 来源建议 apply 前定向 before/after
 - **F4 结构项**: async 端点同步阻塞又一新实例, 归 B 阶段(网关化)处理 — 既有 F5 known_risk 同源; 本轮已加 single-flight 缓解
 - **待办**: :5050 重启载入批 A 端点加固 (等用户批窗口, 与 walkthrough 合并执行)
+
+## 2026-08-11 agent 路延迟退化（排查项, 不阻塞演示）
+- 现象: :5050 重启+sidecar 重建后, m2-qa 手测冷 39s / 热 55s（08-09 口径 15-20s）; OPENCODE_ASK_TIMEOUT=18 下全部走设计内直连回落（回落路 2-4s 正常, QA 结果正确带引用）。
+- 已排除: :8004 本体探针 1.2s 无争用; sidecar 进程/配置正常（16 skills 载入）。
+- 假设: ① 08-09 skill 注册（m2-rag-playbook/agent-prompt-contracts）后 m2-qa 上下文/工具循环增长 ② 35B reasoning token 开销 ③ MCP 检索多轮。
+- 排查路径: opencode session 消息 trace（轮数/每轮耗时/token）对比 08-09 e2e 记录; 必要时临时摘 skill 复测定位。
+- 处置: 演示用直连路为主（2-4s）; agent 路保留（超时回落兜底）; 根因修复列入下一队列。
