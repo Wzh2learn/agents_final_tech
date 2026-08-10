@@ -112,3 +112,12 @@
 ## [2026-08-08] 交付架构原则: 确定性→CLI, prompt 知识→skill/workflow, M2 远期 agent-loop
 结论 (用户拍板): ① 能用确定性处理的环节一律用确定性 CLI 工具执行 (M1 解析链为该模式范本: opencode_m1_extract.sh 稳定入口 + parser 进程内直调, agent 只做调度与摘要); ② 需要 prompt 处理的知识规范成 skill 或 workflow 形式 (agent-prompt-contracts 契约库 + skills/ 版本化分发即为承载); ③ M2 当前保留灰度观察 (直连为主力, agent 路超时回落), 后续尝试以 agent loop 形式增强 RAG 任务 (多步检索/自检/查询改写迭代)。
 理由: M1 已验证确定性链路的价值 (快路径 <2.1s 永久保留, 演示可复现); M2 的 agent 路价值在溯源遵从度与多步检索, 但延迟与方差仍需 B4 数据裁决, 故先观察后演进。本原则是 docs/25 路线 B 的落地取舍准绳。
+
+## [2026-08-10] 场景 A 建议映射面板: 键匹配 + 用户 retarget 优先 + 回归门禁自动回滚
+结论: apply/reject 按 (raw_column, table) 键匹配存储建议, standard_field 采纳请求侧值——UI 允许甲方改选目标字段, 后端不拒绝改选 (修复三元组精确匹配导致改选即 404 的 bug); apply 写 schema 后自动跑 scenario1 回归门禁 (--quick), FAIL 自动回滚 schema 并返 409, PASS 才落库 + 移入 applied。精确解析开关 (?llm_fallback=0, UI 勾选框) 作为确定性验证契约: AI 模式产生建议, 精确模式验证规则生效的命中率 delta。
+理由: 甲方视角是"选择题"——改选是合法操作而非错误; 门禁保证任何沉淀规则不让既有命中率回归 (华泰 35.7%→100% 故事的防退化机制)。测试: tests/test_m1_schema_suggestions.py 10 case (含 retarget 与回滚)。
+回滚: 面板为增量端点, 关闭不影响既有 /m1 功能; schema 误改可 git revert config/m1_table_schema.json。
+
+## [2026-08-10] 台账漂移案例 4: "华泰紫金一轮 42.9%" 系样本张冠李戴（实为 233222LU 的数字）
+结论: Loop C differential 审计 (docs/experiments/2026-08-10_audit_loop_c_differential.md F18) 查出 docs/23 等 6 处文档把华泰紫金一轮命中率写成 42.9%（实为 LU 样本某表数字），工件 final_results.json 实测 35.7%；同批国金 80%→70%、TraFax 单表值代表整份、30 表 vs 现行基线 31 表共 4 类漂移，已全部按工件校正并重生成发送版 docx。
+理由: 第四例漂移（先例 5545fde/db6572b/2026-08-05 案例3）；本次根因是"故事性数字"在多文档间复制传播而无人回对原始工件。防御: 对外数字必须以 final_results.json / baseline JSON 为准, 文档修订时 grep 交叉核对; Loop C 发送前数字审计列为 docs/23 类文档的固定闸门。

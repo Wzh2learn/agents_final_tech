@@ -49,7 +49,7 @@ compute_doc_type = ing.compute_doc_type
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description="非破坏性标记 m1_parsed_statements chunks 的 doc_type")
+    ap = argparse.ArgumentParser(description="按规则重算 m1_parsed_statements chunks 的 doc_type（会覆盖既有标签值；不触碰 document/embedding 列）")
     ap.add_argument("--dry-run", action="store_true", help="只报告将发生的变更，不写库")
     args = ap.parse_args(argv)
 

@@ -5,7 +5,7 @@
 - 真实样本只在内存中解析，绝不把原始值落库/落盘；写入向量库前对每条标准化
   记录调用解析器自带的 desensitize_record 脱敏（字段名/表名保留，值打码）。
 - 入库走 RAGService.ingest_parsed_blocks（不绕过 RAGService、不另建向量库）。
-- 检索走 RAGService.smart_retrieve（向量 + BM25 混合），验证 M1 结果可被问答命中。
+- 检索走 RAGService.smart_retrieve（默认纯向量；BM25 由 M2_ENABLE_BM25 控制, 默认关闭——A/B 零增益决策, 见 DECISIONS）。
 
 用法:
     ./venv/bin/python scripts/m1_rag_ingest.py ingest   # 解析+脱敏+入库

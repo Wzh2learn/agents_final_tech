@@ -2,7 +2,7 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-09（沉淀专项战绩入账 + docs/23 二轮更新 + docs/26 选择题设计） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-10（docs/26 登记入表 + T4 场景 A 实现 + 对账表） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -34,6 +34,7 @@
 | `20_部署指南.md` | 活跃 | 部署方式、环境要求、Docker Compose | 2026-08-01 |
 | `21_基础设施盘点与gap解决规划.md` | 活跃（规划已全部执行） | 资源盘点 + 3 个 gap 解决路径（NCAMC/华泰/email 均已 CLOSED） | 2026-08-02 |
 | `25_交付架构决策.md` | 活跃（决策已拍板，待执行） | 页面后端切 OpenCode 链：路线 A 保底 + B 目标 + 本地 embedding 前置梳理 | 2026-08-05 |
+| `26_选择题体验设计.md` | 活跃（场景 A 已实现待 walkthrough） | 映射候选选择题面板设计 + 场景 B 设计 + 能力暴露度清单 + 甲方问答对账表附录 | 2026-08-10 |
 | `15_远程开发机_Codex_CLI_与_OpenCode_配置.md` | 活跃 | GB10 开发机配置与模型切换指南（Loop A flash / Loop C qwen3.8-max） | 2026-08-08 |
 | `13_M1_M2联合数据闭环计划.md` | 历史-政策依据 | 公开数据集 / split 政策唯一依据（研究线冻结配套，根 AGENTS.md 指定必读） | 2026-07-22 |
 | `architecture/codebase_map.md` | 活跃 | 代码库结构 + 依赖图 + 端口拓扑（含 :4096 sidecar） | 2026-08-08 |
@@ -52,9 +53,13 @@
 | `2026-08-06_audit_loop_c_flash_fixes.md` | 活跃 | Loop C 审计: flash 首任务+三修复+A2 灰度 CONDITIONAL（后转 ACCEPTED） | 2026-08-06 |
 | `2026-08-06_differential_phase3_to_head.md` | 活跃 | Loop C differential 4a151dd..HEAD: ACCEPTED, 33 findings (0C/1H/8M) | 2026-08-07 |
 | `2026-08-07_full_system_inventory.md` | 活跃 | 全系统工具盘点: skills 三端 diff + doctor 实跑 + MCP/CLI/harness 证据与建议 | 2026-08-07 |
+| `2026-08-08_eval_baseline.md` | 活跃 | eval 首份基线: M1 门禁 15/15 + M2 确定性 16/16 + judge 四维（含两次复测演化） | 2026-08-09 |
+| `2026-08-09_demo_script.md` | 活跃 | 演示脚本 9 步（双链路快与准叙事） | 2026-08-09 |
+| `2026-08-09_demo_video/steps.md` | 活跃 | 演示视频（5:10）步骤清单；视频文件不入 git（scp 取回，路径见 steps.md） | 2026-08-10 |
+| `2026-08-10_audit_loop_c_differential.md` | 活跃 | Loop C differential a7f8282..HEAD: CONDITIONAL, 20 findings (0C/1H/6M)，T4 端点/门禁/RAG/docs/23 数字 | 2026-08-10 |
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
-| `2026-08-04_rehearsal/` | 活跃 | 彩排截图 7 张 + demo 日志（docs/23 引用，勿动） |
+| `2026-08-04_rehearsal/` | 活跃 | 彩排截图 7 张（docs/23 引用，勿动；demo 日志实测缺失，见 2026-08-10 审计 F19） |
 | `2026-08-01_demo_sequence/` | 活跃 | 演示截图序列 11 张（AGENTS.md、docs/19 引用） |
 | `2026-07-31_ui_screenshots/` | 活跃 | UI 截图 6 张（docs/19 引用） |
 | `2026-07-31_e2e_benchmark.md` | 活跃 | 唯一 e2e 性能基线 |

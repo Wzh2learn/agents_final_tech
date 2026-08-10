@@ -2,7 +2,7 @@
 """M2 AI judge 层 (P2.2 沉淀, 2026-08-09)。
 
 用本地 :8004 35B (temperature=0) 对 /api/m2/ask 的答案做四维 rubric 打分：
-- faithfulness           忠实度：答案只使用检索到的内容（judge 不看期望答案，防泄漏）
+- faithfulness           忠实度：答案只使用检索到的内容（期望答案随 prompt 注入，指令级隔离限定仅 numeric_correctness 可用；结构性隔离为后续项，见 audit 2026-08-10 F13）
 - numeric_correctness    数值正确性：答案数值与参考期望一致（唯一允许看期望值的维度）
 - citation_quality       引用质量：来源非空、具体、与答案一致
 - refusal_appropriateness 拒绝恰当性：应拒答题明确拒绝；可答题不错误拒答
