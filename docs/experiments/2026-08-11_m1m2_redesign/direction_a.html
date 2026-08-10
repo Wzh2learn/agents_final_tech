@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>方向 A · 三栏任务工作台（草图）</title>
+<style>
+:root{
+  --primary:#2563EB; --primary-soft:#EFF4FF; --bg:#F5F7FA; --card:#FFFFFF;
+  --border:#E5E9F0; --text:#1F2937; --muted:#6B7280; --ok:#16A34A; --ok-soft:#ECFDF3;
+  --warn:#D97706; --warn-soft:#FFFBEB; --err:#DC2626; --err-soft:#FEF2F2; --radius:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;font-size:13px;color:var(--text);background:var(--bg);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+/* ---------- topbar ---------- */
+.topbar{height:48px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;padding:0 16px;flex:none}
+.brand{font-weight:700;font-size:14px;color:var(--primary);white-space:nowrap}
+.brand small{color:var(--muted);font-weight:400;margin-left:6px;font-size:11px}
+.task-title{font-size:13px;font-weight:600;color:var(--text);border-left:1px solid var(--border);padding-left:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.spacer{flex:1}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff}
+.seg button{border:0;background:transparent;padding:5px 10px;font-size:12px;color:var(--muted);cursor:pointer;border-right:1px solid var(--border)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--primary-soft);color:var(--primary);font-weight:600}
+.seg.readonly{opacity:.92;cursor:help}
+.health{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block}
+/* ---------- layout ---------- */
+.body{flex:1;display:flex;min-height:0}
+/* left rail */
+.rail{width:240px;flex:none;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.rail .search{margin:10px;padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:12px;color:var(--muted);background:#fff}
+.rail h4{font-size:11px;color:var(--muted);padding:8px 12px 4px;letter-spacing:.5px}
+.tlist{overflow-y:auto;flex:1;padding-bottom:10px}
+.titem{padding:8px 12px;cursor:pointer;border-left:3px solid transparent}
+.titem:hover{background:var(--bg)}
+.titem.active{background:var(--primary-soft);border-left-color:var(--primary)}
+.titem .t1{display:flex;align-items:center;gap:6px;font-weight:600;font-size:12.5px}
+.titem .t2{font-size:11px;color:var(--muted);margin-top:2px}
+.badge{font-size:10.5px;padding:1px 7px;border-radius:10px;font-weight:600;white-space:nowrap}
+.b-ok{background:var(--ok-soft);color:var(--ok)} .b-run{background:var(--primary-soft);color:var(--primary)}
+.b-err{background:var(--err-soft);color:var(--err)} .b-wait{background:#F3F4F6;color:var(--muted)}
+.b-warn{background:var(--warn-soft);color:var(--warn)}
+.pulse{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+/* center stream */
+.stream{flex:1;display:flex;flex-direction:column;min-width:0}
+.stream-head{padding:12px 20px 8px;display:flex;align-items:center;gap:10px}
+.stream-head h2{font-size:15px}
+.stream-body{flex:1;overflow-y:auto;padding:0 20px 12px}
+.step{display:flex;gap:10px;margin-bottom:8px}
+.step .ico{width:26px;height:26px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:2px}
+.ico.done{background:var(--ok-soft);color:var(--ok)} .ico.run{background:var(--primary-soft);color:var(--primary)}
+.step .scard{flex:1;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px}
+.step .scard .h{display:flex;gap:8px;align-items:baseline;font-weight:600}
+.step .scard .d{font-size:12px;color:var(--muted);margin-top:2px}
+.chip{font-size:11px;padding:1px 8px;border-radius:10px;background:var(--warn-soft);color:var(--warn);font-weight:600;cursor:pointer}
+.qa{margin:14px 0}
+.qa .q{display:flex;justify-content:flex-end;margin-bottom:8px}
+.qa .q .bub{background:var(--primary);color:#fff;padding:8px 12px;border-radius:var(--radius);max-width:70%}
+.qa .a .bub{background:var(--card);border:1px solid var(--border);padding:10px 12px;border-radius:var(--radius)}
+.src-chip{display:inline-block;font-size:11px;background:var(--primary-soft);color:var(--primary);border-radius:6px;padding:1px 8px;margin:6px 6px 0 0;cursor:pointer}
+/* agent verify bar */
+.vbar{display:flex;gap:0;margin:8px 0 10px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;flex-wrap:wrap}
+.vstep{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);white-space:nowrap}
+.vstep.done{color:var(--ok)} .vstep.run{color:var(--primary);font-weight:600}
+.vstep .vi{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;border:1.5px solid currentColor}
+.spin{width:14px;height:14px;border:2px solid var(--primary-soft);border-top-color:var(--primary);border-radius:50%;display:inline-block;animation:rot .9s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.arrow{color:#C9D2E0;margin:0 8px}
+/* input */
+.inputbar{flex:none;padding:10px 20px;border-top:1px solid var(--border);display:flex;gap:8px;background:var(--card)}
+.inputbar input{flex:1;border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;font-size:13px}
+.btn{border:0;background:var(--primary);color:#fff;border-radius:var(--radius);padding:8px 16px;font-size:13px;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--text);border:1px solid var(--border)}
+/* right panel */
+.artifacts{width:380px;flex:none;background:var(--card);border-left:1px solid var(--border);display:flex;flex-direction:column}
+.tabs{display:flex;border-bottom:1px solid var(--border);flex:none}
+.tabs button{flex:1;border:0;background:transparent;padding:10px 4px;font-size:12px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;position:relative}
+.tabs button.on{color:var(--primary);font-weight:600;border-bottom-color:var(--primary)}
+.tabs .n{position:absolute;top:4px;right:8px;background:var(--warn);color:#fff;font-size:10px;border-radius:8px;padding:0 5px}
+.art-body{flex:1;overflow-y:auto;padding:12px}
+.sugg{border:1px solid var(--border);border-radius:var(--radius);padding:10px;margin-bottom:10px;background:#fff}
+.sugg .row1{display:flex;align-items:center;gap:8px;font-weight:600}
+.sugg .row1 .raw{color:var(--text)}
+.sugg .row1 .to{color:var(--muted);font-weight:400}
+.sugg .row1 .tgt{color:var(--primary)}
+.confbar{height:4px;background:#EDF0F5;border-radius:2px;margin:6px 0 4px;overflow:hidden}
+.confbar i{display:block;height:100%;background:var(--primary)}
+.sugg .why{font-size:11.5px;color:var(--muted)}
+.sugg .foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:11.5px;color:var(--muted)}
+.toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:var(--ok-soft);border:1px solid #BBE7CD;color:#14713D;padding:8px 16px;border-radius:var(--radius);font-size:12.5px;box-shadow:0 4px 14px rgba(0,0,0,.08);z-index:99}
+table.mini{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+table.mini th,table.mini td{border:1px solid var(--border);padding:4px 8px;text-align:left}
+table.mini th{background:var(--bg);font-weight:600}
+.note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6}
+input[type=checkbox]{accent-color:var(--primary)}
+select{border:1px solid var(--border);border-radius:6px;padding:2px 6px;font-size:11.5px;color:var(--text)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">金蓉 · 对账单智能<small>M1 解析 / M2 问答</small></div>
+  <div class="task-title">嘉合基金 2026-05 对账单解析</div>
+  <div class="spacer"></div>
+  <div class="seg readonly" title="链路由服务端配置（M2_OPENCODE_ROUTE）。当前：验证链路开；每请求切换需 API 变更，未启用">
+    <button>直连 ~2s</button><button class="on">验证链路 15-20s</button>
+  </div>
+  <div class="seg">
+    <button>精确解析</button><button class="on">AI 辅助</button>
+  </div>
+  <div class="health"><span class="dot"></span>服务正常</div>
+</div>
+
+<div class="body">
+  <!-- ============ 左：任务列表 ============ -->
+  <aside class="rail">
+    <div class="search">🔍 搜索任务…</div>
+    <div class="tlist">
+      <h4>解析任务</h4>
+      <div class="titem active">
+        <div class="t1">嘉合基金 2026-05 对账单 <span class="badge b-ok">已完成</span></div>
+        <div class="t2">93.8% 命中 · 5 表 · 刚刚</div>
+      </div>
+      <div class="titem">
+        <div class="t1">华泰紫金对账单 <span class="badge b-ok">已完成</span></div>
+        <div class="t2">100% 命中 · 昨天</div>
+      </div>
+      <div class="titem">
+        <div class="t1">TraFax 传真扫描件 <span class="badge b-warn">待确认建议</span></div>
+        <div class="t2">81.8% · 2 条映射建议 · 昨天</div>
+      </div>
+      <div class="titem">
+        <div class="t1"><span class="spin" style="width:10px;height:10px"></span> sample_20260506_LU.pdf <span class="badge b-run pulse">进行中</span></div>
+        <div class="t2">OCR 读图中…</div>
+      </div>
+      <h4>QA 会话</h4>
+      <div class="titem">
+        <div class="t1">嘉合持仓问答 <span class="badge b-ok">3 轮</span></div>
+        <div class="t2">带引用 · 10 分钟前</div>
+      </div>
+      <div class="titem">
+        <div class="t1">跨产品持仓对比 <span class="badge b-wait">已归档</span></div>
+        <div class="t2">08-09</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ 中：执行流 ============ -->
+  <main class="stream">
+    <div class="stream-head">
+      <h2>嘉合基金 2026-05 对账单解析</h2>
+      <span class="badge b-ok">已完成</span>
+      <span style="font-size:12px;color:var(--muted)">总耗时 2.4s · 解析任务</span>
+    </div>
+    <div class="stream-body">
+      <div class="step"><div class="ico done">✓</div><div class="scard"><div class="h">① 上传与预处理 <span style="color:var(--muted);font-weight:400;font-size:11.5px">0.3s</span></div><div class="d">PDF · 2 页 · 文本层完整</div></div></div>
+      <div class="step"><div class="ico done">✓</div><div class="scard"><div class="h">② 版面分析 <span style="color:var(--muted);font-weight:400;font-size:11.5px">0.6s</span></div><div class="d">无需 OCR（文本层可用）</div></div></div>
+      <div class="step"><div class="ico done">✓</div><div class="scard"><div class="h">③ 表格检测 <span style="color:var(--muted);font-weight:400;font-size:11.5px">0.4s</span></div><div class="d">检出 5 张表（证券持仓明细 ×1、KV 摘要 ×4）</div></div></div>
+      <div class="step"><div class="ico done">✓</div><div class="scard"><div class="h">④ 字段映射 <span style="color:var(--muted);font-weight:400;font-size:11.5px">0.5s</span> · 命中率 93.8% <span class="chip" onclick="switchTab(4)">2 条建议 →</span></div><div class="d">30/32 列命中标准字段；未映射 2 列已生成映射建议，等待确认</div></div></div>
+      <div class="step"><div class="ico done">✓</div><div class="scard"><div class="h">⑤ 勾稽校验 <span style="color:var(--muted);font-weight:400;font-size:11.5px">0.2s</span></div><div class="d">4 通过 · 0 跳过 · 0 失败</div></div></div>
+      <div class="step"><div class="ico done">✓</div><div class="scard"><div class="h">⑥ RAG 入库 <span style="color:var(--muted);font-weight:400;font-size:11.5px">0.4s</span></div><div class="d">12 chunks · embeddings 已写入 m1_parsed_statements</div></div></div>
+
+      <div class="qa">
+        <div class="q"><div class="bub">嘉合基金的总资产是多少？</div></div>
+        <div class="a">
+          <div class="vbar">
+            <span class="vstep done"><span class="vi">✓</span>问题理解 0.3s</span><span class="arrow">→</span>
+            <span class="vstep done"><span class="vi">✓</span>RAG 检索 1.1s</span><span class="arrow">→</span>
+            <span class="vstep done"><span class="vi">✓</span>重排 0.3s</span><span class="arrow">→</span>
+            <span class="vstep done"><span class="vi">✓</span>答案生成 5.8s</span><span class="arrow">→</span>
+            <span class="vstep run"><span class="spin"></span>独立复核 · 已 12s…</span>
+          </div>
+          <div class="bub">
+            <div>嘉合基金 2026-05 对账单的<b>总资产为 1,284,506,332.17 元</b>（其中银行存款 96,412,008.84 元，证券市值 1,188,094,323.33 元）。独立 agent 正在复核本答案与引用来源…</div>
+            <span class="src-chip">📄 jiahe_202605.pdf · p1 · KV摘要</span>
+            <span class="src-chip">📄 jiahe_202605.pdf · p2 · 持仓明细</span>
+          </div>
+        </div>
+      </div>
+      <p class="note">步骤耗时为过程示意（前端按实测基线标定）；引用 chips 点击可在右栏定位来源段。</p>
+    </div>
+    <div class="inputbar">
+      <input placeholder="追问，例如：其中股票持仓市值是多少？">
+      <button class="btn">发送</button>
+    </div>
+  </main>
+
+  <!-- ============ 右：产物面板 ============ -->
+  <aside class="artifacts">
+    <div class="tabs" id="tabs">
+      <button onclick="switchTab(0)">表格</button>
+      <button onclick="switchTab(1)">KV</button>
+      <button onclick="switchTab(2)">勾稽</button>
+      <button onclick="switchTab(3)">引用</button>
+      <button onclick="switchTab(4)" class="on">建议映射<span class="n">2</span></button>
+    </div>
+    <div class="art-body" id="artBody">
+      <!-- 建议映射 tab（激活态演示） -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <input type="checkbox" checked id="ckall" style="accent-color:var(--primary)">
+        <label for="ckall" style="font-size:12px;color:var(--muted)">全选</label>
+        <div class="spacer" style="flex:1"></div>
+        <button class="btn" style="padding:5px 12px;font-size:12px">应用所选</button>
+        <button class="btn ghost" style="padding:5px 12px;font-size:12px">拒绝所选</button>
+      </div>
+      <div class="sugg">
+        <div class="row1"><input type="checkbox" checked><span class="raw">收费方式</span><span class="to">→</span>
+          <select><option class="tgt">费用类型</option><option>分红方式</option><option>交易类型</option></select>
+        </div>
+        <div class="confbar"><i style="width:86%"></i></div>
+        <div class="why">置信度 0.86 · 该列取值集合 {前端收费,后端收费} 与既有「费用类型」枚举一致（来源：TraFax 持仓明细表）</div>
+        <div class="foot"><span>样本: trafax_202604.pdf · 表 2</span><span>来自 LLM 兜底映射</span></div>
+      </div>
+      <div class="sugg">
+        <div class="row1"><input type="checkbox" checked><span class="raw">交易净值</span><span class="to">→</span>
+          <select><option class="tgt">成交金额</option><option>资产净值</option><option>交易净值(新增)</option></select>
+        </div>
+        <div class="confbar"><i style="width:78%"></i></div>
+        <div class="why">置信度 0.78 · 数值列，与「成交金额」量纲一致；如需保留原义可选"新增标准字段"</div>
+        <div class="foot"><span>样本: trafax_202604.pdf · 表 2</span><span>来自 LLM 兜底映射</span></div>
+      </div>
+      <table class="mini" style="display:none">
+        <thead><tr><th>证券代码</th><th>证券名称</th><th>持仓数量</th><th>市值</th></tr></thead>
+        <tbody>
+          <tr><td>600519</td><td>贵州茅台</td><td>12,000</td><td>20,412,000.00</td></tr>
+          <tr><td>000858</td><td>五粮液</td><td>45,000</td><td>6,885,000.00</td></tr>
+        </tbody>
+      </table>
+      <p class="note">应用后自动运行 scenario1 回归门禁：命中率下降将自动回滚并在此显示回滚原因；成功则显示命中率 delta。回归结果同时以消息形式进入中间执行流。</p>
+    </div>
+  </aside>
+</div>
+
+<div class="toast">✓ 已应用 2 条映射 · scenario1 回归门禁通过 · TraFax 命中率 71.2% → 79.5%</div>
+
+<script>
+function switchTab(i){
+  const btns=document.querySelectorAll('#tabs button');
+  btns.forEach((b,j)=>b.classList.toggle('on',j===i));
+}
+</script>
+</body>
+</html>

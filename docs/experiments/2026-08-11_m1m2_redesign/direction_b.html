@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>方向 B · 流水线画布控制台（草图）</title>
+<style>
+:root{
+  --primary:#1677FF; --primary-soft:#E8F2FF; --bg:#F5F7FA; --canvas:#F7F9FC; --card:#FFFFFF;
+  --border:#E5E9F0; --text:#1F2937; --muted:#6B7280; --ok:#16A34A; --ok-soft:#ECFDF3;
+  --warn:#D97706; --warn-soft:#FFFBEB; --err:#DC2626; --err-soft:#FEF2F2; --radius:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;font-size:13px;color:var(--text);background:var(--bg)}
+/* topbar */
+.topbar{height:44px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;padding:0 14px;position:sticky;top:0;z-index:10}
+.brand{font-weight:700;font-size:14px;color:var(--primary);white-space:nowrap}
+.taskdrop{border:1px solid var(--border);border-radius:var(--radius);padding:5px 10px;font-size:12.5px;font-weight:600;background:#fff;cursor:pointer;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.spacer{flex:1}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff}
+.seg button{border:0;background:transparent;padding:4px 10px;font-size:12px;color:var(--muted);cursor:pointer;border-right:1px solid var(--border)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--primary-soft);color:var(--primary);font-weight:600}
+.health{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.iconbtn{border:1px solid var(--border);background:#fff;border-radius:var(--radius);padding:4px 10px;font-size:12px;cursor:pointer;position:relative}
+.iconbtn .n{position:absolute;top:-6px;right:-6px;background:var(--warn);color:#fff;font-size:10px;border-radius:8px;padding:0 5px}
+/* canvas */
+.canvas{background:var(--canvas);background-image:radial-gradient(#DCE3EC 1px,transparent 1px);background-size:18px 18px;border-bottom:1px solid var(--border);padding:22px 20px 18px}
+.canvas h3{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:14px;letter-spacing:.5px}
+.pipe{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:4px}
+.node{width:148px;flex:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:10px;cursor:pointer;position:relative}
+.node:hover{box-shadow:0 2px 10px rgba(22,119,255,.12)}
+.node.active{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary-soft)}
+.node .nh{display:flex;align-items:center;gap:6px;font-weight:600;font-size:12.5px}
+.node .ni{width:20px;height:20px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:var(--ok-soft);color:var(--ok)}
+.node .nm{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.5}
+.node .nm b{color:var(--text)}
+.node .warnchip{position:absolute;top:-9px;right:8px;background:var(--warn);color:#fff;font-size:10.5px;border-radius:9px;padding:1px 8px;font-weight:600}
+.conn{width:34px;flex:none;height:2px;background:linear-gradient(90deg,var(--ok),var(--ok));margin-top:24px;border-radius:1px}
+.conn.pending{background:#D7DEE8}
+.spin{width:12px;height:12px;border:2px solid var(--primary-soft);border-top-color:var(--primary);border-radius:50%;display:inline-block;animation:rot .9s linear infinite;vertical-align:-2px}
+@keyframes rot{to{transform:rotate(360deg)}}
+/* node drawer */
+.drawer{margin:12px 20px 0;background:var(--card);border:1px solid var(--primary);border-radius:var(--radius);padding:12px 14px;box-shadow:0 4px 16px rgba(22,119,255,.08)}
+.drawer h4{font-size:12.5px;margin-bottom:8px}
+.cand{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;margin-bottom:8px;font-size:12.5px}
+.cand .raw{font-weight:600}
+.cand .conf{color:var(--muted);font-size:11.5px}
+.cand select{border:1px solid var(--border);border-radius:6px;padding:2px 6px;font-size:12px;color:var(--primary)}
+.drawer .acts{display:flex;gap:8px;align-items:center;margin-top:4px}
+.btn{border:0;background:var(--primary);color:#fff;border-radius:var(--radius);padding:6px 14px;font-size:12.5px;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--text);border:1px solid var(--border)}
+.regress{font-size:11.5px;color:var(--ok);margin-left:6px}
+/* lower split */
+.split{display:flex;gap:0;padding:14px 20px 20px}
+.console{flex:55;margin-right:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.artifacts{flex:45;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);display:flex;flex-direction:column;min-width:0}
+.drop{border:1.5px dashed #C9D5E8;border-radius:var(--radius);background:var(--card);padding:14px;text-align:center;color:var(--muted);font-size:12.5px}
+.drop b{color:var(--primary)}
+.logbox{background:#0F172A;color:#D7E2F0;border-radius:var(--radius);padding:10px 12px;font-family:ui-monospace,Consolas,monospace;font-size:11.5px;line-height:1.7;height:150px;overflow-y:auto}
+.logbox .t{color:#7C8DA6}
+.logbox .ok{color:#4ADE80} .logbox .wn{color:#FBBF24}
+.qarow{display:flex;gap:8px}
+.qarow input{flex:1;border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;font-size:13px}
+.tabs{display:flex;border-bottom:1px solid var(--border)}
+.tabs button{flex:1;border:0;background:transparent;padding:9px 4px;font-size:12px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
+.tabs button.on{color:var(--primary);font-weight:600;border-bottom-color:var(--primary)}
+.art-body{padding:12px;overflow-y:auto}
+table.mini{width:100%;border-collapse:collapse;font-size:12px}
+table.mini th,table.mini td{border:1px solid var(--border);padding:4px 8px;text-align:left}
+table.mini th{background:var(--bg);font-weight:600}
+.recon{display:flex;gap:8px;margin-top:10px;font-size:12px}
+.recon span{padding:3px 10px;border-radius:10px}
+.r-ok{background:var(--ok-soft);color:var(--ok)} .r-skip{background:#F3F4F6;color:var(--muted)} .r-fail{background:var(--err-soft);color:var(--err)}
+.section-title{font-size:12px;color:var(--muted);margin:6px 20px 0;font-weight:600}
+.note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6}
+input[type=checkbox]{accent-color:var(--primary)}
+.badge{font-size:10.5px;padding:1px 7px;border-radius:10px;font-weight:600}
+.b-run{background:var(--primary-soft);color:var(--primary)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">金蓉 · 对账单智能</div>
+  <div class="taskdrop">📄 嘉合基金 2026-05 对账单 ▾</div>
+  <div class="spacer"></div>
+  <div class="seg" title="验证链路由服务端配置；此处为当前状态指示">
+    <button>直连 ~2s</button><button class="on">验证链路 15-20s</button>
+  </div>
+  <div class="seg"><button>精确解析</button><button class="on">AI 辅助</button></div>
+  <div class="health"><span class="dot"></span>服务正常</div>
+  <button class="iconbtn" title="任务列表（解析任务 + QA 会话）">🗂 任务<span class="n">4</span></button>
+</div>
+
+<!-- ===== 流水线画布：M1 六步 ===== -->
+<div class="canvas">
+  <h3>M1 解析流水线 · 嘉合基金 2026-05 对账单 · 总耗时 2.4s</h3>
+  <div class="pipe">
+    <div class="node"><div class="nh"><span class="ni">✓</span>① 上传预处理</div><div class="nm"><b>0.3s</b><br>PDF · 2页 · 文本层完整</div></div>
+    <div class="conn"></div>
+    <div class="node"><div class="nh"><span class="ni">✓</span>② 版面/OCR</div><div class="nm"><b>0.6s</b><br>无需 OCR</div></div>
+    <div class="conn"></div>
+    <div class="node"><div class="nh"><span class="ni">✓</span>③ 表格检测</div><div class="nm"><b>0.4s</b><br>检出 <b>5</b> 表</div></div>
+    <div class="conn"></div>
+    <div class="node active"><span class="warnchip">2 条映射建议</span><div class="nh"><span class="ni" style="background:var(--warn-soft);color:var(--warn)">!</span>④ 字段映射</div><div class="nm">命中率 <b>93.8%</b><br>30/32 列 · <b>2 列待确认</b></div></div>
+    <div class="conn"></div>
+    <div class="node"><div class="nh"><span class="ni">✓</span>⑤ 勾稽校验</div><div class="nm"><b>0.2s</b><br>4✓ 0⊘ 0✗</div></div>
+    <div class="conn"></div>
+    <div class="node"><div class="nh"><span class="ni">✓</span>⑥ RAG 入库</div><div class="nm"><b>0.4s</b><br>12 chunks 已入库</div></div>
+  </div>
+</div>
+
+<!-- 节点抽屉：④ 字段映射（点击节点展开，内嵌建议映射选择题） -->
+<div class="drawer">
+  <h4>④ 字段映射 · 未映射列的映射建议（勾选后应用，沉淀为规则；应用后自动跑回归门禁）</h4>
+  <div class="cand"><input type="checkbox" checked><span class="raw">收费方式</span> →
+    <select><option>费用类型</option><option>分红方式</option></select>
+    <span class="conf">置信度 0.86 · 取值枚举与既有字段一致</span></div>
+  <div class="cand"><input type="checkbox" checked><span class="raw">交易净值</span> →
+    <select><option>成交金额</option><option>新增标准字段…</option></select>
+    <span class="conf">置信度 0.78 · 数值列量纲一致</span></div>
+  <div class="acts">
+    <button class="btn">应用所选</button><button class="btn ghost">拒绝所选</button>
+    <span class="regress">✓ 上次应用：华泰紫金 +8 字段 · 回归门禁通过 · 命中率 42.9%→100%… 见台账</span>
+  </div>
+</div>
+
+<!-- ===== 下半区：控制台 + 产物 ===== -->
+<div class="split">
+  <div class="console">
+    <div class="drop">拖拽对账单文件到此处，或 <b>点击上传</b>（TXT / PDF / XLSX / DOCX）　<label style="cursor:pointer"><input type="checkbox"> 精确解析(纯规则)</label>　<button class="btn" style="margin-left:8px">Run</button>　<button class="btn ghost">Sample</button></div>
+    <div class="logbox">
+      <div><span class="t">00:41:02</span> parse-file 接收 sample_jiahe_202605.pdf (214 KB)</div>
+      <div><span class="t">00:41:02</span> 文本层提取成功，跳过 OCR</div>
+      <div><span class="t">00:41:03</span> <span class="ok">table_detect: 5 tables</span> (持仓明细×1, KV×4)</div>
+      <div><span class="t">00:41:03</span> field_mapping: hit_rate=93.8% unmapped=2</div>
+      <div><span class="t">00:41:03</span> <span class="wn">schema_suggestion: 2 candidates → 待确认</span></div>
+      <div><span class="t">00:41:04</span> reconcile: 4 pass / 0 skip / 0 fail</div>
+      <div><span class="t">00:41:04</span> <span class="ok">rag_ingest: 12 chunks embedded (local, cpu)</span></div>
+    </div>
+    <div class="qarow">
+      <input placeholder="M2 提问：嘉合基金的总资产是多少？（直连 ~2s；验证链路显示 agent 步骤条）">
+      <button class="btn">提问</button>
+    </div>
+    <p class="note">控制台 = 微观日志；画布 = 宏观进度，两者互补。QA 选验证链路时，下方出现 M2 画布。</p>
+  </div>
+
+  <div class="artifacts">
+    <div class="tabs">
+      <button class="on">表格</button><button>KV</button><button>勾稽</button><button>引用</button>
+    </div>
+    <div class="art-body">
+      <table class="mini">
+        <thead><tr><th>证券代码</th><th>证券名称</th><th>市场</th><th>数量</th><th>市值</th></tr></thead>
+        <tbody>
+          <tr><td>600519</td><td>贵州茅台</td><td>上海</td><td>12,000</td><td>20,412,000.00</td></tr>
+          <tr><td>000858</td><td>五粮液</td><td>深圳</td><td>45,000</td><td>6,885,000.00</td></tr>
+          <tr><td>601318</td><td>中国平安</td><td>上海</td><td>88,000</td><td>4,127,200.00</td></tr>
+        </tbody>
+      </table>
+      <div class="recon"><span class="r-ok">勾稽 4 通过</span><span class="r-skip">0 跳过</span><span class="r-fail">0 失败</span></div>
+      <p class="note">产物面板 tab 与现有一致（表格/KV/勾稽/引用）；引用 tab 展示答案来源 chunks，点击高亮。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== M2 验证链路画布（QA 选验证链路时显示） ===== -->
+<div class="section-title">M2 验证链路画布 · 问题："嘉合基金的总资产是多少？" · 已耗时 14.2s</div>
+<div class="canvas" style="border-top:1px solid var(--border);margin-top:8px">
+  <div class="pipe">
+    <div class="node"><div class="nh"><span class="ni">✓</span>① 问题理解</div><div class="nm"><b>0.3s</b><br>意图=数值查询</div></div>
+    <div class="conn"></div>
+    <div class="node"><div class="nh"><span class="ni">✓</span>② RAG 检索</div><div class="nm"><b>1.1s</b><br>top_k=3 命中</div></div>
+    <div class="conn"></div>
+    <div class="node"><div class="nh"><span class="ni">✓</span>③ 重排</div><div class="nm"><b>0.3s</b><br>rerank 完成</div></div>
+    <div class="conn"></div>
+    <div class="node"><div class="nh"><span class="ni">✓</span>④ 答案生成</div><div class="nm"><b>6.2s</b><br>35B 本地生成</div></div>
+    <div class="conn pending"></div>
+    <div class="node" style="border-color:var(--primary)"><div class="nh"><span class="ni" style="background:var(--primary-soft);color:var(--primary)"><span class="spin"></span></span>⑤ 独立复核</div><div class="nm"><span class="spin"></span> <b>已 6.3s</b><br>独立 agent 核对答案与引用…</div></div>
+  </div>
+  <p class="note" style="padding:0 2px">验证链路的等待 = 看 agent 链推进；"独立复核"节点讲清为什么慢（答案经第二个 agent 核对来源后才交付）。过程时长为示意。</p>
+</div>
+
+</body>
+</html>
