@@ -90,9 +90,15 @@
 - **F4 结构项**: async 端点同步阻塞又一新实例, 归 B 阶段(网关化)处理 — 既有 F5 known_risk 同源; 本轮已加 single-flight 缓解
 - **待办**: :5050 重启载入批 A 端点加固 (等用户批窗口, 与 walkthrough 合并执行)
 
-## 2026-08-11 agent 路延迟退化（排查项, 不阻塞演示）
-- 现象: :5050 重启+sidecar 重建后, m2-qa 手测冷 39s / 热 55s（08-09 口径 15-20s）; OPENCODE_ASK_TIMEOUT=18 下全部走设计内直连回落（回落路 2-4s 正常, QA 结果正确带引用）。
-- 已排除: :8004 本体探针 1.2s 无争用; sidecar 进程/配置正常（16 skills 载入）。
-- 假设: ① 08-09 skill 注册（m2-rag-playbook/agent-prompt-contracts）后 m2-qa 上下文/工具循环增长 ② 35B reasoning token 开销 ③ MCP 检索多轮。
-- 排查路径: opencode session 消息 trace（轮数/每轮耗时/token）对比 08-09 e2e 记录; 必要时临时摘 skill 复测定位。
-- 处置: 演示用直连路为主（2-4s）; agent 路保留（超时回落兜底）; 根因修复列入下一队列。
+## 2026-08-11 agent 路延迟退化 — 根因定位（A/B 闭环, 修复待批）
+- 排查方法: adapter 为 throwaway session（ask 完即删）, 旧 39/55s transcript 不可追溯; 改直连 sidecar 计量会话 + SQLite trace 取活证据。
+- 基线（原配置, warm）: 31.5s = 轮1 12.0s（in 512 + cache.read 10454, out 459, tool=knowledge_search）+ 轮2 19.5s（out 1017）。**skill tool 从未被调用**（playbook 未加载）。
+- 变体 A（摘 m2-qa「首答前加载 m2-rag-playbook」指令）: 冷 43.1s（轮1 prefill 37.3s = 10.9k skill 元数据上下文冷 prefill）/ 热 22.8s（out 903）。
+- 根因分解: ① **~11k skill 元数据上下文冷 prefill ≈ 37s**（「冷 39s」真身, 每次 sidecar 重启后首问承担） ② **输出端 reasoning tokens ~1-1.5k ≈ 19-30s（warm）**（qwen3.6 thinking 默认开） ③ playbook 指令本身未执行但诱发额外推理（摘除 warm 31.5→22.8s）。
+- 现状: warm 22.8s 仍 > OPENCODE_ASK_TIMEOUT=18 → route=on 当前多回落直连; 回落路 2-4s 正常, 演示以直连为主不受影响。
+- 修复候选（待批, 未动手）: a) restart_opencode_sidecar.sh 加一次 warm-up ask 预热缓存（消 37s 冷启动, 最小改动） b) m2-qa 禁 thinking（adapter hint 或 provider 层, 需 :5050 重启窗口） c) skill 上下文瘦身（m2-qa 仅注册必需 skill）。测后配置已还原（opencode.json 无净变化）。
+
+## 2026-08-11 任务2 M1/M2 页面改版设计稿（待拍板, 未动代码）
+- docs/27_M1M2页面改版_两个设计方向.md + 草图 docs/experiments/2026-08-11_m1m2_redesign/{direction_a,direction_b}.html（浏览器直接打开）。
+- A 三栏任务工作台（WorkBuddy 正传, 2.5-3 人天） vs B 流水线画布控制台（演进式, 1.5-2 人天）; 推荐先 B 后 A。
+- 公共规范: 模式切换只读指示（/api/m2/ask 无每请求 route 覆盖, 诚实设计）/ 选择器保留映射表（record_demo_video + tests 命脉）/ m1v2 并行灰度 / 视频重录与 walkthrough 刷新预案。
