@@ -36,6 +36,7 @@
 | `25_交付架构决策.md` | 活跃（决策已拍板，待执行） | 页面后端切 OpenCode 链：路线 A 保底 + B 目标 + 本地 embedding 前置梳理 | 2026-08-05 |
 | `26_选择题体验设计.md` | 活跃（场景 A 已实现待 walkthrough） | 映射候选选择题面板设计 + 场景 B 设计 + 能力暴露度清单 + 甲方问答对账表附录 | 2026-08-10 |
 | `27_M1M2页面改版_两个设计方向.md` | 待决策（设计稿） | M1/M2 页面改版两方向：A 三栏任务工作台 vs B 流水线画布控制台 + 公共规范（模式切换诚实设计/选择器保留表）+ 红线合规迁移预案 + 两个 HTML 草图 | 2026-08-11 |
+| `28_业界对标与优化菜单.md` | 活跃（菜单待拍板） | 四类对标(WorkBuddy/Manus/Devin/Cursor, Perplexity/NotebookLM/Dify, Docling/MinerU/LlamaParse/TextIn, RAGAS/DeepEval/TruLens) + Top5 优化菜单 + 四维审计清单附录 | 2026-08-11 |
 | `15_远程开发机_Codex_CLI_与_OpenCode_配置.md` | 活跃 | GB10 开发机配置与模型切换指南（Loop A flash / Loop C qwen3.8-max） | 2026-08-08 |
 | `13_M1_M2联合数据闭环计划.md` | 历史-政策依据 | 公开数据集 / split 政策唯一依据（研究线冻结配套，根 AGENTS.md 指定必读） | 2026-07-22 |
 | `architecture/codebase_map.md` | 活跃 | 代码库结构 + 依赖图 + 端口拓扑（含 :4096 sidecar） | 2026-08-08 |
@@ -60,6 +61,7 @@
 | `2026-08-10_audit_loop_c_differential.md` | 活跃 | Loop C differential a7f8282..HEAD: CONDITIONAL, 20 findings (0C/1H/6M)，T4 端点/门禁/RAG/docs/23 数字 | 2026-08-10 |
 | `2026-08-11_low_hit_attribution.md` | 活跃 | 低分归因三类（规则覆盖/OCR 识别/统计口径）——甲方问答依据 | 2026-08-11 |
 | `2026-08-11_m1m2_redesign/` | 待决策 | 页面改版两方向 HTML 草图（direction_a/b.html，静态可直接浏览器打开，配套 docs/27） | 2026-08-11 |
+| `2026-08-11_agent_latency_diagnosis.md` | 活跃 | agent 路延迟根因诊断(冷 prefill 37s + 输出 reasoning) + 修复方案菜单(待拍板) | 2026-08-11 |
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
 | `2026-08-04_rehearsal/` | 活跃 | 彩排截图 7 张（docs/23 引用，勿动；demo 日志实测缺失，见 2026-08-10 审计 F19） |

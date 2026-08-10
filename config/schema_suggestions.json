@@ -230,8 +230,50 @@
       "count": 5,
       "first_seen": "2026-08-09 23:19",
       "last_seen": "2026-08-09 23:59"
+    },
+    {
+      "raw_column": "财汇局征费",
+      "standard_field": "其他费用",
+      "confidence": "high",
+      "reason": "财汇局征费是证券交易中的特定规费，属于其他费用的子集或同义表达",
+      "sample": "tmpxg_59j0t.pdf",
+      "table": "证券持仓明细",
+      "count": 1,
+      "first_seen": "2026-08-11 01:22",
+      "last_seen": "2026-08-11 01:22"
+    },
+    {
+      "raw_column": "备注",
+      "standard_field": "摘要",
+      "confidence": "medium",
+      "reason": "在'场外基金对账单'表头中'备注'与'摘要'相邻出现，且'摘要'是更通用的业务描述字段，但此处'备注'作为独立列名存在却无数据，故判定为空。",
+      "sample": "tmpxg_59j0t.pdf",
+      "table": "证券持仓明细",
+      "count": 1,
+      "first_seen": "2026-08-11 01:22",
+      "last_seen": "2026-08-11 01:22"
+    },
+    {
+      "raw_column": "配号日期",
+      "standard_field": "配号",
+      "confidence": "low",
+      "reason": "配号日期通常指配号生成的日期，而标准字段'配号'通常指具体的号码序列，二者概念不同，但在某些语境下可能混淆，此处仅做低置信度关联。",
+      "sample": "tmpxg_59j0t.pdf",
+      "table": "证券持仓明细",
+      "count": 1,
+      "first_seen": "2026-08-11 01:22",
+      "last_seen": "2026-08-11 01:22"
+    },
+    {
+      "raw_column": "配号数量",
+      "standard_field": "成交数量",
+      "confidence": "medium",
+      "reason": "配号数量代表申购获得的配号个数，在功能上类似于申购的'数量'，与'成交数量'概念相近。",
+      "sample": "tmpxg_59j0t.pdf",
+      "table": "证券持仓明细",
+      "count": 1,
+      "first_seen": "2026-08-11 01:22",
+      "last_seen": "2026-08-11 01:22"
     }
-  ],
-  "applied": [],
-  "rejected": []
+  ]
 }
