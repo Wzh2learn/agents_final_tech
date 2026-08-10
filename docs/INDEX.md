@@ -57,6 +57,7 @@
 | `2026-08-09_demo_script.md` | 活跃 | 演示脚本 9 步（双链路快与准叙事） | 2026-08-09 |
 | `2026-08-09_demo_video/steps.md` | 活跃 | 演示视频（5:10）步骤清单；视频文件不入 git（scp 取回，路径见 steps.md） | 2026-08-10 |
 | `2026-08-10_audit_loop_c_differential.md` | 活跃 | Loop C differential a7f8282..HEAD: CONDITIONAL, 20 findings (0C/1H/6M)，T4 端点/门禁/RAG/docs/23 数字 | 2026-08-10 |
+| `2026-08-11_low_hit_attribution.md` | 活跃 | 低分归因三类（规则覆盖/OCR 识别/统计口径）——甲方问答依据 | 2026-08-11 |
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
 | `2026-08-04_rehearsal/` | 活跃 | 彩排截图 7 张（docs/23 引用，勿动；demo 日志实测缺失，见 2026-08-10 审计 F19） |
