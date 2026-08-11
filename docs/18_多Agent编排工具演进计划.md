@@ -364,7 +364,7 @@ AoE sessions:
 
 **Phase 3（skill 化 + 交付链 S4）**: skills/m2-rag-playbook 入武库（A/C 双端分发）；opencode.json m2-qa prompt 去内联（最小硬契约 + skill 工具加载指令——m2-qa 权限收紧读不了文件，skill 工具是正确通道）；S4 机制验证：OpenCode 原生加载仓库 skills/ 目录（sidecar /skill API 可见 16 skill）；中性 prompt 自动委派结论 CLOSED（默认 build agent 不委派专职 agent，但直接调 MCP 作答）。
 
-**Phase 4（清扫 7 项）**: preprocess_msg.py 入库；VLM 降采样实验（≤1600px 延迟达标 9.6-22.9s/文件，但 TraFax 命中率劣化 → :8007 维持 VERIFIED-CLOSED）；**华泰紫金 35.7%→100%**（schema +8 账号上下文标准字段，--no-llm 纯确定性验证，fax/HTML 普涨：TraFax 逐表均值 65.1→71.2 / WaveFax 71.4→85.7 / guojin 70→90）；compare/positions 模糊匹配（短名查询 0→2 持仓，闭环 08-01 blocked question）+ products 噪声过滤；BM25 真实现（PG 全量取 137 chunks + rank_bm25 + 缓存）+ A/B 零增益 → M2_ENABLE_BM25 flag 默认关，决策不修；GB10 装 rg 15.1.0（pip ripgrep，无 sudo）。
+**Phase 4（清扫 7 项）**: preprocess_msg.py 入库；VLM 降采样实验（≤1600px 延迟达标 9.6-22.9s/文件，但 TraFax 命中率劣化 → :8007 维持 VERIFIED-CLOSED）；**华泰紫金 35.7%→100%**（schema +8 账号上下文标准字段，--no-llm 纯确定性验证，fax/HTML 普涨：TraFax 逐表均值 65.1→71.2 / WaveFax 71.4→85.7→**100**（08-11 辅助线 walkthrough 验收 apply 5 干净建议）/ guojin 70→90）；compare/positions 模糊匹配（短名查询 0→2 持仓，闭环 08-01 blocked question）+ products 噪声过滤；BM25 真实现（PG 全量取 137 chunks + rank_bm25 + 缓存）+ A/B 零增益 → M2_ENABLE_BM25 flag 默认关，决策不修；GB10 装 rg 15.1.0（pip ripgrep，无 sudo）。
 
 **Phase 5（沉淀透镜）**: scripts/restart_opencode_sidecar.sh（sidecar 不热加载配置，改 opencode.json/skills 后必须重启——本轮实测踩到 26h stale-config）；scripts/graph/check_skill_sync.sh（仓库 skills/ 与分发列表漂移检查）；judge rubric 拒答 citation 豁免。
 
