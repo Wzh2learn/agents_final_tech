@@ -1,27 +1,30 @@
 # memory/STATE.md
-更新: 2026-08-11 夜（块 A: 原子提交 + neat 收口）
+更新: 2026-08-12 凌晨（发送前自审计专项 T1-T4 收口）
 
 ## 模式
-守护模式。等用户人工复审 docs/23 后亲发甲方; 不对外发送。
+守护模式。等用户"已发送"信号; 信号前不开新战线、不对外发送。docs/23 md/docx 冻结 (504810c, 不重生成)。
 
 ## Git
-- HEAD: 270c686（三方对齐）+ neat commit
-- 块 A: 270c686 辅助线 walkthrough 验收原子提交 (schema +5 近义词 / suggestions applied5+rejected14+hold6 / 基线 WaveFax 100)
+- HEAD: 60f5d4e + 本 commit（T1-T4 专项: 审计报告×2 / schema 沉淀 / eval 接线 / 台账）
+- 三方对齐（GB10 push → GitHub → 本机 fetch+merge）
 
-## 今夜战绩（walkthrough 验收后）
-- 场景 A 验收: apply 5 / reject 14 / hold 6; WaveFax 85.7→100; 门禁 quick 12 pass/3 skip
-- docx + 视频预审 PASS; 等用户复审 docs/23 亲发
-- 已批待窗口: 延迟 a+b（warm-up ask + 禁 thinking, 需 :5050 重启窗口）; 任务二先 B 后 A（代码等发送后）; docs/28 顺序 #2→#1→#4
-- 遗留: 交易对账单表缺「分红方式」标准字段; admin token fail-open = B 阶段延期项（本次 apply 无 token 执行, 风险已知）
+## 专项战绩（T1-T4, 2026-08-12 凌晨）
+- T1 甲方体验审计: 15 步全过 / 0 console 错误 / 无演示前必修; 口头解释×4 + 可接受×3 → docs/experiments/2026-08-12_client_experience_audit.md
+- T2 声明复测: 16/16 生产口径 PASS; 漂移×2 入账（默认路延迟当晚 T4① 修复 RESOLVED; OCR 冷/热口径列口头解释）; docs/23 冻结未改
+- T3 Loop C 差分审计 = CONDITIONAL: FC-1 已修; FC-4 fail-open/FC-5 async 阻塞复评 HIGH 存量; FC-7/8/9 合规 → docs/experiments/2026-08-12_audit_loop_c_differential.md
+- T4① schema 沉淀: +分红方式/可用份额 标准字段 + FC-1 碰撞修复 → 嘉合×8 87.5→100 / TraFax表3 81.8→100 / NCAMC 75→87.5 / nanhua 75→87.5; 基线 rebuild 门禁 15 pass/0 warn; 嘉合默认路 3.3-9s→63ms; 自学习写入器丢 applied/rejected bug 修复+区段恢复
+- T4②: 数值忠实度 eval 接入 run_eval.sh [3/4] 计退出码; .env.example 补 M1_API_TOKEN
 
 ## 服务
-- :5050 未重启（schema 已热加载）; health 137 embeddings/provider=local/route=on
-- :4096/:8004/:8005/:8100 up; :8007 down; Loop B 30min 周期 PASS
+- :5050 未重启（schema 热加载生效）; health 137 embeddings/provider=local/route=on
+- :4096/:8004/:8005/:8100 up; :8007 down; Loop B 30min 周期不扰
+- tmux: graph-loop-b(禁杀)/opencode-serve/coding-jinrong; audit-t3+t2eval 一次性会话已关闭
 
 ## 质量基线
-- pytest 313 passed / 13 skipped; scenario1 基线含 WaveFax 100; 冻结节点未动
+- pytest 313 passed / 13 skipped; scenario1 门禁 15 pass/0 warn/0 fail（含 OCR 全量口径）
+- 冻结节点 md5 未动（test_m1_service.py / frozen_hashes.txt / docs/m1_schema/）
 
 ## 下一步（等用户）
-1. docs/23+docx 定稿 504810c（复审通过, 双方不再改）; 用户终读后亲发 → 发后按序: B4 时钟(≥100ask/≥3天) → 延迟 a+b(给窗口) → docs/28 #2→#1→#4(Docling 探针独立 venv)
-2. :5050 重启窗口（载入延迟 a+b）
-3. 任务二 B 一期启动排期
+1. docs/23 用户终读后亲发甲方 → 发后按序: ①B4 观察时钟(≥100 ask/≥3天) ②延迟 a+b(用户给重启窗口) ③docs/28 #2数值claim产品化→#1检索透明面板→#4 Docling 探针(独立 venv)
+2. walkthrough 反馈处置（T1 报告口头解释/可接受项是否升级, 用户拍板）
+3. 任务二 B 一期启动排期（先 B 后 A 已批, 代码等发送后）

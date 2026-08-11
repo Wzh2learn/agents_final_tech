@@ -1,6 +1,6 @@
 {
   "_comment": "scenario1 回归门禁基线 (P1.2)。口径=resolve_schema_path() (config/ 优先, 与 :5050 生产一致)。OCR 样本 vision 输出非确定性, 容差见 tolerance。重建: 见 scripts/m1_scenario1_regression.py --rebuild。",
-  "created": "2026-08-11",
+  "created": "2026-08-12",
   "attachments_dir": "~/wzh/m1_samples/scenario1/attachments",
   "html_extracted_dir": "~/wzh/m1_samples/scenario1/html_extracted",
   "tolerance": {
@@ -15,7 +15,7 @@
       "ocr_expected": false,
       "table_count": 1,
       "hit_rates": [
-        75.0
+        87.5
       ]
     },
     {
@@ -25,7 +25,7 @@
       "ocr_expected": false,
       "table_count": 2,
       "hit_rates": [
-        87.5,
+        100.0,
         100.0
       ]
     },
@@ -36,7 +36,7 @@
       "ocr_expected": false,
       "table_count": 2,
       "hit_rates": [
-        87.5,
+        100.0,
         100.0
       ]
     },
@@ -47,7 +47,7 @@
       "ocr_expected": false,
       "table_count": 2,
       "hit_rates": [
-        87.5,
+        100.0,
         100.0
       ]
     },
@@ -58,7 +58,7 @@
       "ocr_expected": false,
       "table_count": 2,
       "hit_rates": [
-        87.5,
+        100.0,
         100.0
       ]
     },
@@ -69,7 +69,7 @@
       "ocr_expected": false,
       "table_count": 2,
       "hit_rates": [
-        87.5,
+        100.0,
         100.0
       ]
     },
@@ -80,7 +80,7 @@
       "ocr_expected": false,
       "table_count": 2,
       "hit_rates": [
-        87.5,
+        100.0,
         100.0
       ]
     },
@@ -91,7 +91,7 @@
       "ocr_expected": false,
       "table_count": 2,
       "hit_rates": [
-        87.5,
+        100.0,
         100.0
       ]
     },
@@ -102,7 +102,7 @@
       "ocr_expected": false,
       "table_count": 2,
       "hit_rates": [
-        87.5,
+        100.0,
         100.0
       ]
     },
@@ -125,7 +125,7 @@
       "hit_rates": [
         50.0,
         81.8,
-        81.8
+        100.0
       ]
     },
     {
@@ -170,7 +170,7 @@
       "table_count": 3,
       "hit_rates": [
         33.3,
-        75.0,
+        87.5,
         0.0
       ]
     }

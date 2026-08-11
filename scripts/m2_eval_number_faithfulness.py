@@ -98,7 +98,7 @@ def main() -> int:
     json.dump({"top_k": args.top_k, "n_fail": n_fail, "results": results},
               open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"FAIL={n_fail}/{len(results)} ->", OUT)
-    return 0
+    return 1 if n_fail else 0
 
 
 if __name__ == "__main__":

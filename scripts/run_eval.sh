@@ -5,8 +5,10 @@
 #   bash scripts/run_eval.sh --full-m1   # M1 全量门禁 (含 OCR 样本)
 # 产出: logs/graph/eval/{scenario1_regression_report,m2_deterministic_report,
 #       m2_judge_report,eval_summary}.{json,md}
-# 退出码: M1 门禁或 M2 确定性检验失败 -> 1; judge 分数不阻塞 (参考性)。
+# 退出码: M1 门禁 / M2 确定性检验 / 数值忠实度任一失败 -> 1; judge 分数不阻塞 (参考性)。
 set -uo pipefail
+# 数值忠实检验需直连 PG (RAGService), 载入 .env 兜底
+if [ -f .env ]; then set -a; . ./.env; set +a; fi
 PROJ="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJ"
 PY=./venv/bin/python
@@ -16,17 +18,22 @@ mkdir -p "$EVAL_DIR"
 M1_MODE="--quick"
 [ "${1:-}" = "--full-m1" ] && M1_MODE=""
 
-echo "== [1/3] M1 scenario1 回归门禁 ${M1_MODE:-full} =="
+echo "== [1/4] M1 scenario1 回归门禁 ${M1_MODE:-full} =="
 $PY scripts/m1_scenario1_regression.py $M1_MODE \
     --report "$EVAL_DIR/scenario1_regression_report.json"
 M1_RC=$?
 
-echo "== [2/3] M2 确定性检验 =="
+echo "== [2/4] M2 确定性检验 =="
 $PY scripts/m2_eval_deterministic.py \
     --report "$EVAL_DIR/m2_deterministic_report.json"
 M2_RC=$?
 
-echo "== [3/3] AI judge (:8004, temperature=0) =="
+echo "== [3/4] M2 数值忠实度核验 (生产口径检索, 去 LLM 化) =="
+$PY scripts/m2_eval_number_faithfulness.py \
+    --top-k 5
+NF_RC=$?
+
+echo "== [4/4] AI judge (:8004, temperature=0) =="
 $PY scripts/m2_eval_judge.py \
     --input "$EVAL_DIR/m2_deterministic_report.json" \
     --report "$EVAL_DIR/m2_judge_report.json"
@@ -44,6 +51,7 @@ def load(name):
         return {}
 m1 = load("scenario1_regression_report.json")
 m2 = load("m2_deterministic_report.json")
+nf = load("number_faithfulness_report.json")
 jd = load("m2_judge_report.json")
 lines = [f"# Eval Summary — {time.strftime('%Y-%m-%d %H:%M:%S')}", ""]
 lines.append(f"- M1 scenario1 门禁: **{m1.get('overall', 'N/A')}** "
@@ -57,6 +65,13 @@ for r in m2.get("results", []):
     if not r.get("all_pass"):
         bad = [c["type"] for c in r.get("checks", []) if not c["pass"]]
         lines.append(f"  - FAIL {r['id']}: {bad}")
+if nf:
+    n_nf = len(nf.get("results", []))
+    lines.append(f"- M2 数值忠实度: **{nf.get('n_fail', '?')}/{n_nf} 条数值未落地** "
+                 f"(top_k={nf.get('top_k')})")
+    for r in nf.get("results", []):
+        if not r.get("pass"):
+            lines.append(f"  - [ungrounded] {r['id']}: {r.get('ungrounded', [])}")
 s = jd.get("summary", {})
 if s:
     dims = ", ".join(f"{k}={v.get('avg')}" for k, v in s.items())
@@ -73,6 +88,6 @@ print("\n" + "\n".join(lines))
 print(f"\n[summary] {out}")
 PYEOF
 
-echo "[run_eval] M1_RC=$M1_RC M2_RC=$M2_RC JUDGE_RC=$JD_RC"
-[ $M1_RC -ne 0 ] || [ $M2_RC -ne 0 ] && exit 1
+echo "[run_eval] M1_RC=$M1_RC M2_RC=$M2_RC NF_RC=$NF_RC JUDGE_RC=$JD_RC"
+[ $M1_RC -ne 0 ] || [ $M2_RC -ne 0 ] || [ $NF_RC -ne 0 ] && exit 1
 exit 0

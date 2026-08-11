@@ -12,17 +12,6 @@
       "last_seen": "2026-08-09 00:00"
     },
     {
-      "raw_column": "交易费用",
-      "standard_field": "财汇局征费",
-      "confidence": "medium",
-      "reason": "交易费用包含规费，财汇局征费是交易费用的一种，二者在广义上属于费用类字段",
-      "sample": "sample_20260506_233222LU.pdf",
-      "table": "交易对账单",
-      "count": 1,
-      "first_seen": "2026-08-09 00:00",
-      "last_seen": "2026-08-09 00:00"
-    },
-    {
       "raw_column": "权益登记日",
       "standard_field": "对账日期",
       "confidence": "low",
@@ -65,6 +54,17 @@
       "count": 1,
       "first_seen": "2026-08-09 01:33",
       "last_seen": "2026-08-09 01:33"
+    },
+    {
+      "raw_column": "累计净值",
+      "standard_field": "单位净值",
+      "confidence": "low",
+      "reason": "累计净值与单位净值虽同属净值指标，但含义不同，通常不视为同义表达，此处仅为相关字段提示",
+      "sample": "tmpdv0fl4r0.txt",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-11 23:58",
+      "last_seen": "2026-08-11 23:58"
     }
   ],
   "applied": [
@@ -297,6 +297,32 @@
       "first_seen": "2026-08-11 01:22",
       "last_seen": "2026-08-11 01:22",
       "rejected_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "交易费用",
+      "standard_field": "财汇局征费",
+      "confidence": "medium",
+      "reason": "交易费用包含规费，财汇局征费是交易费用的一种，二者在广义上属于费用类字段",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00",
+      "rejected_at": "2026-08-12 00:16",
+      "reject_reason": "交易费用 已存在于 财汇局征费 synonyms(存量), 建议与现状重复, 作废"
+    },
+    {
+      "raw_column": "可用份额",
+      "standard_field": "持仓数量",
+      "confidence": "high",
+      "reason": "可用份额直接对应持仓数量中的可用部分，属于同义表达。",
+      "sample": "tmputk0z2yr.pdf",
+      "table": "交易对账单",
+      "count": 3,
+      "first_seen": "2026-08-11 23:58",
+      "last_seen": "2026-08-12 00:00",
+      "rejected_at": "2026-08-12 00:16",
+      "reject_reason": "T4①手工新增 可用份额 标准字段(交易对账单+证券持仓明细), 嘉合 基金份额/可用份额 双列冲突已解, 建议作废"
     }
   ]
 }

@@ -113,7 +113,16 @@
 
 ## 2026-08-11 辅助线 walkthrough 验收入账（块 A）
 - **验收结论**: 场景 A 建议映射面板 walkthrough 通过; apply 5 干净建议 / reject 14 / hold 6; WaveFax 85.7→**100** 入基线 (270c686, --rebuild + quick 门禁 12 pass/3 skip)。schema +5 近义词 (基金资产总额→资产总额类 / 交易账号→资产账号 等)。
-- **遗留①**: schema「交易对账单」表缺 **分红方式** 标准字段 — 恒等映射建议被跳过, 后续补字段定义 (补后跑回归门禁再报 delta, 走 m1-gap-triage SOP)。
+- **遗留①**: ~~schema「交易对账单」表缺 分红方式 标准字段~~ **RESOLVED (2026-08-12 T4①)**: 交易对账单+证券持仓明细 新增 分红方式/可用份额 两标准字段 (m1-gap-triage SOP: 诊断→补字段→回归门禁→报 delta); 嘉合×8 87.5→100、TraFax 表3 81.8→100、NCAMC 75→87.5、nanhua 75→87.5, 基线 rebuild 后门禁 15 pass/0 warn; 附带修复嘉合默认路 3.3-9s LLM 兜底延迟 (根因=基金份额/可用份额 双列争用 持仓数量 单槽位) → 63ms。详见 docs/experiments/2026-08-12_client_experience_audit.md §三。
 - **遗留②**: admin token **fail-open 仍为 B 阶段延期项** — 本次 apply 即在无 M1_ADMIN_TOKEN 下执行, 风险已知 (与 knowledge 写端点无 token 同源, 台账不重复开条目)。
 - **决策入账**: 延迟修复 a(warm-up ask)+b(禁 thinking) 已批, 等 :5050 重启窗口一并载入; 任务二「先 B 后 A」已批, 代码启动等 docs/23 发送; docs/28 顺序 #2→#1→#4; docx+视频预审 PASS, 等用户人工复审 docs/23 后亲发甲方。
 - **口径提醒**: 已决 — 表下加注(定稿后 WaveFax 100 以实况为准) + docx 重生成, 504810c 定稿, 双方不再改/不再重生成, 用户终读后亲发。
+
+## 2026-08-12 发送前自审计专项 (T1-T4) 入账
+- **T1 甲方体验审计**: 15 步全过 / 0 console 错误 / 无演示前必修项; 口头解释 4 条 (QA 20-25s=route 回落 / thinking 提示 / 持仓对比(未知)=掩码样本如实呈现 / OCR 冷热口径) + 可接受 3 条 (下载文件名 F8 / 开关无 toast / hold 不显示按设计)。报告 docs/experiments/2026-08-12_client_experience_audit.md。
+- **T2 声明复测漂移案例** (docs/23 冻结不改文, 只入账): ① "非扫描 <2.1s" 默认路实测 3.3-9s ✗ → 根因定位后 T4① 当晚修复复测 63ms ✅ RESOLVED; ② "OCR 16-71s" 复测 536ms = .ocr_cache 内容哈希磁盘缓存 (冷启 08-09 证据 9.6-22.9s), 漂移方向更快, 口头解释级不修。教训: 声明数字必须标注口径 (路径/冷热/题集), 复测时口径不一致即记漂移。
+- **T2 16/16 生产口径**: deterministic eval 打 :5050 → 16/16 PASS (题集含对抗题; 感知延迟 20-30s 为 route=on 回落, 正确性不受影响)。
+- **T3 Loop C 差分审计 (5535bdf..504810c) = CONDITIONAL**: 报告 docs/experiments/2026-08-12_audit_loop_c_differential.md。FC-1 (MEDIUM, diff 引入: 资产账号 下 交易账号 同义词与 交易账号 字段表内碰撞) **当晚已修** (删同义词 + 门禁复验); FC-4 fail-open auth 复评 **HIGH 暴露** (0.0.0.0 + 无 token 写操作已实发生, B 阶段最高优先, token 落地前不扩大暴露面; .env.example 已补 M1_API_TOKEN 条目); FC-5 async 端点同步调用复评 HIGH-可用性 (route=on 在跑, 匿名低成本 DoS 面, B 阶段网关化处理); FC-3 (LOW): 多表 100.0 基线进入零容差粒度区, OCR 容差仍是唯一缓冲, 门禁健壮性改进入下迭代; 范围外观察: 冻结清单表述应统一为 scripts/graph/frozen_hashes.txt (任务书"docs/m1_schema/frozen_hashes"与实物不符, 文档引用时注意)。
+- **T4① 附带修复 (自学习写入器 bug)**: scripts/m1_statement_parser.py `_append_schema_suggestions` 重写文件时只写 {suggestions}, 丢失 applied/rejected 审计区 (T2 复测默认路实跑于 00:00:56 触发) → 修复为保留原有顶层键; 丢失区段已从 HEAD 恢复; 2 条陈旧建议 (可用份额→持仓数量 / 交易费用→财汇局征费, 均已被存量或新字段覆盖) 移入 rejected 防碰撞复发。
+- **T4② eval 接线**: m2_eval_number_faithfulness.py 失败计退出码 (原恒 0), run_eval.sh 增步 [3/4] 数值忠实度 + 退出码联动 + summary 段落。
+- **遗留 (小)**: scripts/t1_client_experience_audit.py 上传步等待条件命中过早 (03/04 ms 无效, 已用 API curl 补偿), 下次维护窗修; FC-3 门禁健壮性; 审计建议"token 落地时同步收紧 CORS_ORIGINS" (随 FC-4 处理)。

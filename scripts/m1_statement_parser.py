@@ -1651,10 +1651,13 @@ def _append_schema_suggestions(items: list) -> int:
         return 0
     try:
         existing: list = []
+        loaded: dict = {}
         if os.path.isfile(SCHEMA_SUGGESTIONS_PATH):
             with open(SCHEMA_SUGGESTIONS_PATH, encoding="utf-8") as fh:
-                loaded = json.load(fh)
-            existing = loaded.get("suggestions", []) if isinstance(loaded, dict) else []
+                raw = json.load(fh)
+            if isinstance(raw, dict):
+                loaded = raw
+                existing = list(raw.get("suggestions", []))
         index = {(e.get("table"), e.get("raw_column"), e.get("standard_field")): e
                  for e in existing}
         added = 0
@@ -1676,8 +1679,10 @@ def _append_schema_suggestions(items: list) -> int:
                 index[key] = e
                 added += 1
         tmp = SCHEMA_SUGGESTIONS_PATH + ".tmp"
+        out = dict(loaded)  # 保留 applied/rejected 等审计区, 只刷新 suggestions
+        out["suggestions"] = existing
         with open(tmp, "w", encoding="utf-8") as fh:
-            json.dump({"suggestions": existing}, fh, ensure_ascii=False, indent=2)
+            json.dump(out, fh, ensure_ascii=False, indent=2)
         os.replace(tmp, SCHEMA_SUGGESTIONS_PATH)
         return added
     except Exception:

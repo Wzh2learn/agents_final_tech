@@ -1,0 +1,95 @@
+{
+ "results": [
+  {
+   "step": "01 首屏空态",
+   "ok": true,
+   "ms": 115,
+   "note": "tableCount='-' m2hint='输入问题开始对话，支持多轮追问。'"
+  },
+  {
+   "step": "02 Sample 解析",
+   "ok": true,
+   "ms": 1833,
+   "note": "tables=1 表 review=PASS"
+  },
+  {
+   "step": "03 上传 PDF(嘉合)",
+   "ok": true,
+   "ms": 21,
+   "note": "tables=1 表 review=PASS"
+  },
+  {
+   "step": "04 上传 TXT(复熙)",
+   "ok": true,
+   "ms": 14,
+   "note": "tables=1 表"
+  },
+  {
+   "step": "05 精确解析开关",
+   "ok": true,
+   "ms": 162,
+   "note": "notice=''"
+  },
+  {
+   "step": "06 建议映射面板",
+   "ok": true,
+   "ms": 159,
+   "note": "pending_items=0"
+  },
+  {
+   "step": "07 规则配置模态",
+   "ok": true,
+   "ms": 700,
+   "note": "field_rows=14"
+  },
+  {
+   "step": "08 Copy/Download M2",
+   "ok": true,
+   "ms": 499,
+   "note": "clip_len=1916 download=tmpveipzmga.txt_m2_payload.json"
+  },
+  {
+   "step": "09 QA 基础",
+   "ok": true,
+   "ms": 822,
+   "note": "tail='复熙混合25号的资产总值是多少？\\nthinking...'"
+  },
+  {
+   "step": "10 QA 追问",
+   "ok": true,
+   "ms": 20879,
+   "note": "tail='复熙混合25号的资产总值是多少？\\n复熙混合25号的资产总值为 2216****.90 元（人民币）。\\n出处: 样本=sample_fuxi_hunhe25_20231101.txt, 表=table_1\\n▸ 3 条来源\\n那它的证券市值呢？\\nthinking...'"
+  },
+  {
+   "step": "11 QA 简称",
+   "ok": true,
+   "ms": 21428,
+   "note": "tail='5号的资产总值是多少？\\n复熙混合25号的资产总值为 2216****.90 元（人民币）。\\n出处: 样本=sample_fuxi_hunhe25_20231101.txt, 表=table_1\\n▸ 3 条来源\\n那它的证券市值呢？\\n复熙混合25号的证券市值为 0.00 元。\\n出处: 样本=sample'"
+  },
+  {
+   "step": "12 QA 无数据",
+   "ok": true,
+   "ms": 25157,
+   "note": "tail='\\n那它的证券市值呢？\\n复熙混合25号的证券市值为 0.00 元。\\n出处: 样本=sample_fuxi_hunhe25_20231101.txt, 表=table_1\\n▸ 3 条来源\\n嘉兴民安的总资产是多少？\\n嘉兴民安的总资产为 4013****.83 元。\\n出处: 样本=sample_jiaxin'"
+  },
+  {
+   "step": "13 QA OCR溯源",
+   "ok": true,
+   "ms": 21965,
+   "note": "tail='sample_fuxi_hunhe25_20231101.txt, 表=table_1\\n▸ 3 条来源\\n嘉兴民安的总资产是多少？\\n嘉兴民安的总资产为 4013****.83 元。\\n出处: 样本=sample_jiaxing_minan_20231031.pdf, 表=p0_table_2\\n▸ 3 条'"
+  },
+  {
+   "step": "14 持仓对比",
+   "ok": true,
+   "ms": 1615,
+   "note": "result_len=55 head='产品: 博时新策略混合A  日期:   持仓数: 2  总市值: -#证券名称市值占比1(未知)-2(未知)-'"
+  },
+  {
+   "step": "15 New Chat",
+   "ok": true,
+   "ms": 584,
+   "note": "after_reset='输入问题开始对话，支持多轮追问。'"
+  }
+ ],
+ "console_errors": []
+}

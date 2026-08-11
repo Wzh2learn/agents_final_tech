@@ -2,7 +2,7 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-11（docs/27 页面改版两方向 + 草图登记） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-12（T1-T4 发送前自审计: 体验审计 + Loop C 差分报告登记） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -62,6 +62,9 @@
 | `2026-08-11_low_hit_attribution.md` | 活跃 | 低分归因三类（规则覆盖/OCR 识别/统计口径）——甲方问答依据 | 2026-08-11 |
 | `2026-08-11_m1m2_redesign/` | 待决策 | 页面改版两方向 HTML 草图（direction_a/b.html，静态可直接浏览器打开，配套 docs/27） | 2026-08-11 |
 | `2026-08-11_agent_latency_diagnosis.md` | 活跃 | agent 路延迟根因诊断(冷 prefill 37s + 输出 reasoning) + 修复方案菜单(待拍板) | 2026-08-11 |
+| `2026-08-12_client_experience_audit.md` | 活跃 | 甲方发送前自体验审计(15 步/0 错误/无必修项, 口头解释×4) + docs/23 声明复测表(漂移×2 入账, 其一当晚 T4① 修复) | 2026-08-12 |
+| `2026-08-12_client_experience_audit/` | 活跃 | T1 原始数据 audit_raw.json + 截图 6 张（配套上条） | 2026-08-12 |
+| `2026-08-12_audit_loop_c_differential.md` | 活跃 | Loop C differential 5535bdf..504810c: CONDITIONAL, FC-1 已修/FC-4 FC-5 复评 HIGH 存量/FC-7 8 9 合规 | 2026-08-12 |
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
 | `2026-08-04_rehearsal/` | 活跃 | 彩排截图 7 张（docs/23 引用，勿动；demo 日志实测缺失，见 2026-08-10 审计 F19） |
