@@ -2,7 +2,7 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-12（T1-T4 发送前自审计: 体验审计 + Loop C 差分报告登记） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-12（Q1-Q4: 资产摸排/映射表别名/docs_lint/graph 路线图登记） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -32,11 +32,12 @@
 | 文件 | 状态 | 一句话摘要 | 最后更新 |
 |---|---|---|---|
 | `20_部署指南.md` | 活跃 | 部署方式、环境要求、Docker Compose | 2026-08-01 |
-| `21_基础设施盘点与gap解决规划.md` | 活跃（规划已全部执行） | 资源盘点 + 3 个 gap 解决路径（NCAMC/华泰/email 均已 CLOSED） | 2026-08-02 |
+| `21_基础设施盘点与gap解决规划.md` | 历史-参考（规划已全部执行） | 资源盘点 + 3 个 gap 解决路径（NCAMC/华泰/email 均已 CLOSED） | 2026-08-02 |
 | `25_交付架构决策.md` | 活跃（决策已拍板，待执行） | 页面后端切 OpenCode 链：路线 A 保底 + B 目标 + 本地 embedding 前置梳理 | 2026-08-05 |
 | `26_选择题体验设计.md` | 活跃（场景 A 已 walkthrough 验收 08-11; 场景 B 待触发） | 映射候选选择题面板设计 + 场景 B 设计 + 能力暴露度清单 + 甲方问答对账表附录 | 2026-08-10 |
 | `27_M1M2页面改版_两个设计方向.md` | 方向已批（先 B 后 A, 代码等发送后） | M1/M2 页面改版两方向：A 三栏任务工作台 vs B 流水线画布控制台 + 公共规范（模式切换诚实设计/选择器保留表）+ 红线合规迁移预案 + 两个 HTML 草图 | 2026-08-11 |
 | `28_业界对标与优化菜单.md` | 活跃（顺序已批 #2→#1→#4, 其余待拍板） | 四类对标(WorkBuddy/Manus/Devin/Cursor, Perplexity/NotebookLM/Dify, Docling/MinerU/LlamaParse/TextIn, RAGAS/DeepEval/TruLens) + Top5 优化菜单 + 四维审计清单附录 | 2026-08-11 |
+| `29_graph_engineering_roadmap.md` | 活跃（菜单待拍板） | 人肉环节盘点 + 分级菜单 L1 status.sh / L2 任务卡模板 / L3 自动编排前提（暂缓） | 2026-08-12 |
 | `15_远程开发机_Codex_CLI_与_OpenCode_配置.md` | 活跃 | GB10 开发机配置与模型切换指南（Loop A flash / Loop C qwen3.8-max） | 2026-08-08 |
 | `13_M1_M2联合数据闭环计划.md` | 历史-政策依据 | 公开数据集 / split 政策唯一依据（研究线冻结配套，根 AGENTS.md 指定必读） | 2026-07-22 |
 | `architecture/codebase_map.md` | 活跃 | 代码库结构 + 依赖图 + 端口拓扑（含 :4096 sidecar） | 2026-08-08 |
@@ -65,6 +66,8 @@
 | `2026-08-12_client_experience_audit.md` | 活跃 | 甲方发送前自体验审计(15 步/0 错误/无必修项, 口头解释×4) + docs/23 声明复测表(漂移×2 入账, 其一当晚 T4① 修复) | 2026-08-12 |
 | `2026-08-12_client_experience_audit/` | 活跃 | T1 原始数据 audit_raw.json + 截图 6 张（配套上条） | 2026-08-12 |
 | `2026-08-12_audit_loop_c_differential.md` | 活跃 | Loop C differential 5535bdf..504810c: CONDITIONAL, FC-1 已修/FC-4 FC-5 复评 HIGH 存量/FC-7 8 9 合规 | 2026-08-12 |
+| `2026-08-12_asset_activation_sweep.md` | 活跃 | Q1 休眠资产摸排: 8 资产探针证据 + Top3 激活建议(:8005 judge 分流/vision MCP 接样本目录/status.sh) | 2026-08-12 |
+| `2026-08-12_mapping_table_reuse.md` | 活跃 | Q2 甲方映射表再挖掘: 别名表 56 产品/234 证券/61 机构 + compare 三级解析链(45 tests) + schema 差集=0 | 2026-08-12 |
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
 | `2026-08-04_rehearsal/` | 活跃 | 彩排截图 7 张（docs/23 引用，勿动；demo 日志实测缺失，见 2026-08-10 审计 F19） |

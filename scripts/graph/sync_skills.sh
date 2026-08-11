@@ -7,6 +7,11 @@
 #   Loop C (Claude Code): C-list -> ~/.claude/skills/
 set -euo pipefail
 
+# 用法: sync_skills.sh          # 同步 (幂等)
+#       sync_skills.sh --check  # 只检查 repo 与两端安装一致性, 漂移 exit 1 (Q3)
+CHECK_MODE=0
+[ "${1:-}" = "--check" ] && CHECK_MODE=1
+
 PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 SRC="$PROJECT_ROOT/skills"
 
@@ -25,6 +30,35 @@ sync_one() {
   cp -r "$src" "$dest"
   echo "synced: $name -> $dest"
 }
+
+check_one() {
+  local name=$1 dest_root=$2
+  local src="$SRC/$name" dest="$dest_root/$name"
+  if [ ! -f "$src/SKILL.md" ]; then
+    echo "DRIFT: source missing: $name (expected $src/SKILL.md)"; return 1
+  fi
+  if [ ! -d "$dest" ]; then
+    echo "DRIFT: not installed: $name -> $dest_root"; return 1
+  fi
+  if ! diff -rq "$src" "$dest" >/dev/null 2>&1; then
+    echo "DRIFT: content differs: $name vs $dest"; return 1
+  fi
+  return 0
+}
+
+if [ "$CHECK_MODE" = "1" ]; then
+  DRIFT=0; TOTAL=0
+  echo "== --check: repo skills/ vs 两端安装 =="
+  for s in "${A_SKILLS[@]}"; do TOTAL=$((TOTAL+1)); check_one "$s" "$HOME/.codex/skills" || DRIFT=$((DRIFT+1)); done
+  for s in "${C_SKILLS[@]}"; do TOTAL=$((TOTAL+1)); check_one "$s" "$HOME/.claude/skills" || DRIFT=$((DRIFT+1)); done
+  if [ "$DRIFT" = "0" ]; then
+    echo "[sync_skills --check] PASS: $TOTAL skill 安装项与 repo 一致"
+  else
+    echo "[sync_skills --check] FAIL: $DRIFT/$TOTAL 项漂移 (上方 DRIFT 行)"
+    exit 1
+  fi
+  exit 0
+fi
 
 echo "== Loop A (Codex CLI) -> ~/.codex/skills =="
 for s in "${A_SKILLS[@]}"; do sync_one "$s" "$HOME/.codex/skills"; done

@@ -455,6 +455,56 @@ def _get_db_session():
     return get_session()
 
 
+# --- Q2 (2026-08-12): 甲方映射表确定性别名表 --------------------------------
+# config/product_aliases.json 由 scripts/build_product_aliases.py 从甲方映射表
+# xlsx 生成 (基金名称/证券代码/发行公司 ground truth, 无 LLM)。产品名解析顺序:
+# 精确 -> 别名表确定性解析 -> LIKE 启发式兜底。
+_PRODUCT_ALIASES_CACHE: dict | None = None
+_PRODUCT_ALIASES_LOCK = threading.Lock()
+
+
+def _product_aliases_path() -> str:
+    return os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), "config", "product_aliases.json")
+
+
+def _load_product_aliases() -> dict:
+    """载入别名表 (进程级缓存); 文件缺失/损坏时返回 {} 优雅降级。"""
+    global _PRODUCT_ALIASES_CACHE
+    if _PRODUCT_ALIASES_CACHE is None:
+        with _PRODUCT_ALIASES_LOCK:
+            if _PRODUCT_ALIASES_CACHE is None:
+                try:
+                    with open(_product_aliases_path(), encoding="utf-8") as fh:
+                        _PRODUCT_ALIASES_CACHE = json.load(fh)
+                except Exception:
+                    _PRODUCT_ALIASES_CACHE = {}
+    return _PRODUCT_ALIASES_CACHE
+
+
+def _normalize_product(value: str) -> str:
+    """NFKC + 去空白, 与 build_product_aliases.normalize 同口径。"""
+    import unicodedata
+    s = unicodedata.normalize("NFKC", str(value or "")).strip()
+    return _re.sub(r"\s+", "", s)
+
+
+def resolve_product_query(query: str) -> tuple[str, str]:
+    """确定性别名解析: 返回 (resolved, via), via ∈ alias-exact/alias-normalized/unchanged。"""
+    aliases = _load_product_aliases()
+    products = aliases.get("products", {})
+    if not query or not products:
+        return query, "unchanged"
+    if _normalize_product(query) in products:
+        return products[_normalize_product(query)].get("canonical", query), "alias-exact"
+    qn = _normalize_product(query)
+    for key, entry in products.items():
+        for alias in entry.get("aliases", []):
+            if _normalize_product(alias) == qn:
+                return entry.get("canonical", alias), "alias-normalized"
+    return query, "unchanged"
+
+
 def _query_collection_chunks(product_name: str | None = None,
                              statement_date: str | None = None,
                              table_name: str | None = None) -> list[dict[str, Any]]:
@@ -489,6 +539,12 @@ def _query_collection_chunks(product_name: str | None = None,
         if product_name:
             exact = LangchainPgEmbedding.cmetadata["product_name"].astext == product_name
             rows = _run(exact)
+            if not rows:
+                # Q2: 甲方映射表确定性别名表 (优先于启发式 LIKE)。
+                resolved, via = resolve_product_query(product_name)
+                if resolved != product_name:
+                    rows = _run(LangchainPgEmbedding.cmetadata["product_name"].astext
+                                == resolved)
             if not rows:
                 # Fuzzy fallback: users query short names ("嘉兴民安") while
                 # metadata stores full names ("嘉兴民安投资合伙企业（有限合伙）").

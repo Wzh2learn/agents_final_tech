@@ -1,5 +1,5 @@
 # memory/STATE.md
-更新: 2026-08-12 凌晨（发送前自审计专项 T1-T4 收口）
+更新: 2026-08-12 午间（T1-T4 + Q1-Q4 双专项收口）
 
 ## 模式
 守护模式。等用户"已发送"信号; 信号前不开新战线、不对外发送。docs/23 md/docx 冻结 (504810c, 不重生成)。
@@ -24,7 +24,14 @@
 - pytest 313 passed / 13 skipped; scenario1 门禁 15 pass/0 warn/0 fail（含 OCR 全量口径）
 - 冻结节点 md5 未动（test_m1_service.py / frozen_hashes.txt / docs/m1_schema/）
 
+## 日间追加战绩（Q1-Q4, 2026-08-12）
+- Q1 资产摸排: Top3 = :8005 judge 分流(实测 no-think 4.4s) / vision MCP 接样本目录(真调 PASS) / status.sh; 详见 sweep 文档
+- Q2 映射表别名资产: product_aliases.json + compare 三级解析链 (45 tests, 诚实 delta=0, 重启窗口生效); schema 差集 0 缺口
+- Q3 docs_lint.py + sync_skills --check + AGENTS.md "neat 必跑 docs_lint"; 首跑 0 fail/0 warn
+- Q4 docs/29 路线图菜单 (L1 status.sh / L2 任务卡 / L3 暂缓), 等拍板
+- pytest 325 passed / 13 skipped (+12 alias 测试)
+
 ## 下一步（等用户）
-1. docs/23 用户终读后亲发甲方 → 发后按序: ①B4 观察时钟(≥100 ask/≥3天) ②延迟 a+b(用户给重启窗口) ③docs/28 #2数值claim产品化→#1检索透明面板→#4 Docling 探针(独立 venv)
-2. walkthrough 反馈处置（T1 报告口头解释/可接受项是否升级, 用户拍板）
-3. 任务二 B 一期启动排期（先 B 后 A 已批, 代码等发送后）
+1. docs/23 用户终读后亲发甲方 → 发后按序: ①B4 观察时钟(≥100 ask/≥3天) ②延迟 a+b(用户给重启窗口, 同时载入 Q2 别名链) ③docs/28 #2数值claim产品化→#1检索透明面板→#4 Docling 探针(独立 venv, Q1 web_search 情报已备)
+2. Q1 Top3 + Q4 菜单拍板（:8005 judge 分流 / vision roots / status.sh / 任务卡模板）
+3. walkthrough 反馈处置 + 任务二 B 一期排期（先 B 后 A 已批, 代码等发送后）

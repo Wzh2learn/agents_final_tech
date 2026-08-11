@@ -350,3 +350,7 @@ RAG QA: eval 基线定稿 2026-08-09 = 确定性 16/16 + AI judge 四维全 5.0�
 - Loop D: 每次 neat/收尾覆写 `STATE.md`（旧版移入 `memory/archive/`）；从 dispatch_log 提炼重要决策进 `DECISIONS.md`。
 
 L2 语义记忆层（mem0 自托管 + pgvector :15432 + MCP）见 docs/18 第 10 节，排在 OpenCode 交付链路打通后执行，今晚不装。
+
+## 文档治理（docs_lint）
+
+**neat 收尾必跑 `scripts/docs_lint.py`**（退出码 0 才可收口）。四项机器检查：INDEX 覆盖率+死链、存活文档状态头时效、**台账防漂移**（gap/遗留关键词只允许出现在 memory/THREADS.md，其他文档只引用不复述——08-11 漂移案的固化）、skill 注册表 vs 两端安装 diff（`scripts/graph/sync_skills.sh --check`）。
