@@ -1,6 +1,6 @@
 {
   "_comment": "scenario1 回归门禁基线 (P1.2)。口径=resolve_schema_path() (config/ 优先, 与 :5050 生产一致)。OCR 样本 vision 输出非确定性, 容差见 tolerance。重建: 见 scripts/m1_scenario1_regression.py --rebuild。",
-  "created": "2026-08-09",
+  "created": "2026-08-11",
   "attachments_dir": "~/wzh/m1_samples/scenario1/attachments",
   "html_extracted_dir": "~/wzh/m1_samples/scenario1/html_extracted",
   "tolerance": {
@@ -135,7 +135,7 @@
       "ocr_expected": true,
       "table_count": 1,
       "hit_rates": [
-        85.7
+        100.0
       ]
     },
     {

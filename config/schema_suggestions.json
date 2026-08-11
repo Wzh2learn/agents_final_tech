@@ -1,76 +1,10 @@
 {
   "suggestions": [
     {
-      "raw_column": "产品代码",
-      "standard_field": "产品名称",
-      "confidence": "low",
-      "reason": "产品代码与产品名称虽相关但语义不同，代码非名称本身",
-      "sample": "sample_20260506_233222LU.pdf",
-      "table": "交易对账单",
-      "count": 1,
-      "first_seen": "2026-08-09 00:00",
-      "last_seen": "2026-08-09 00:00"
-    },
-    {
-      "raw_column": "分红方式",
-      "standard_field": "分红方式",
-      "confidence": "high",
-      "reason": "列名与候选标准字段完全一致",
-      "sample": "sample_20260506_233222LU.pdf",
-      "table": "交易对账单",
-      "count": 2,
-      "first_seen": "2026-08-09 00:00",
-      "last_seen": "2026-08-09 00:00"
-    },
-    {
-      "raw_column": "销售机构",
-      "standard_field": "券商",
-      "confidence": "high",
-      "reason": "销售机构在基金对账单语境下通常指代代销或直销的券商/渠道机构",
-      "sample": "sample_20260506_233222LU.pdf",
-      "table": "交易对账单",
-      "count": 2,
-      "first_seen": "2026-08-09 00:00",
-      "last_seen": "2026-08-09 00:00"
-    },
-    {
-      "raw_column": "产品份额①",
-      "standard_field": "合计金额",
-      "confidence": "low",
-      "reason": "份额是数量概念，非金额概念",
-      "sample": "sample_20260506_233222LU.pdf",
-      "table": "交易对账单",
-      "count": 1,
-      "first_seen": "2026-08-09 00:00",
-      "last_seen": "2026-08-09 00:00"
-    },
-    {
       "raw_column": "净值日期",
       "standard_field": "对账日期",
       "confidence": "medium",
       "reason": "净值日期是估值日，对账日期是账单生成日，二者可能不同但常有关联",
-      "sample": "sample_20260506_233222LU.pdf",
-      "table": "交易对账单",
-      "count": 1,
-      "first_seen": "2026-08-09 00:00",
-      "last_seen": "2026-08-09 00:00"
-    },
-    {
-      "raw_column": "产品总值①x②",
-      "standard_field": "合计金额",
-      "confidence": "high",
-      "reason": "产品总值即该产品的资产总额，属于合计金额的一种具体形式",
-      "sample": "sample_20260506_233222LU.pdf",
-      "table": "交易对账单",
-      "count": 1,
-      "first_seen": "2026-08-09 00:00",
-      "last_seen": "2026-08-09 00:00"
-    },
-    {
-      "raw_column": "成交基金份额",
-      "standard_field": "合计金额",
-      "confidence": "low",
-      "reason": "成交基金份额是数量指标，非金额指标，但在某些简化报表中可能作为核心交易数据被关注，此处仅为语义关联建议，实际值类型不同",
       "sample": "sample_20260506_233222LU.pdf",
       "table": "交易对账单",
       "count": 1,
@@ -100,65 +34,10 @@
       "last_seen": "2026-08-09 00:00"
     },
     {
-      "raw_column": "交易账号",
-      "standard_field": "资产账号",
-      "confidence": "high",
-      "reason": "交易账号通常对应资产账号，且文本中明确存在该列",
-      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
-      "table": "证券持仓明细",
-      "count": 1,
-      "first_seen": "2026-08-09 01:21",
-      "last_seen": "2026-08-09 01:21"
-    },
-    {
-      "raw_column": "客户类别",
-      "standard_field": "其他费用",
-      "confidence": "low",
-      "reason": "客户类别不属于标准字段，此处仅为排除法，实际无匹配",
-      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
-      "table": "证券持仓明细",
-      "count": 1,
-      "first_seen": "2026-08-09 01:21",
-      "last_seen": "2026-08-09 01:21"
-    },
-    {
       "raw_column": "交易账户名称",
       "standard_field": "产品名称",
       "confidence": "medium",
       "reason": "交易账户名称有时与产品名称或账户名称重合，但此处更偏向账户名",
-      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
-      "table": "证券持仓明细",
-      "count": 1,
-      "first_seen": "2026-08-09 01:21",
-      "last_seen": "2026-08-09 01:21"
-    },
-    {
-      "raw_column": "证件类型",
-      "standard_field": "登记机构",
-      "confidence": "low",
-      "reason": "证件类型与登记机构不同，无直接同义关系",
-      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
-      "table": "证券持仓明细",
-      "count": 1,
-      "first_seen": "2026-08-09 01:21",
-      "last_seen": "2026-08-09 01:21"
-    },
-    {
-      "raw_column": "证件号码",
-      "standard_field": "股东账号",
-      "confidence": "low",
-      "reason": "证件号码通常指身份证号等，与股东账号不同",
-      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
-      "table": "证券持仓明细",
-      "count": 1,
-      "first_seen": "2026-08-09 01:21",
-      "last_seen": "2026-08-09 01:21"
-    },
-    {
-      "raw_column": "网点",
-      "standard_field": "基金公司",
-      "confidence": "low",
-      "reason": "网点是销售机构或营业部，与基金公司不同",
       "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
       "table": "证券持仓明细",
       "count": 1,
@@ -177,17 +56,6 @@
       "last_seen": "2026-08-09 01:21"
     },
     {
-      "raw_column": "净值日期",
-      "standard_field": "基金净值",
-      "confidence": "low",
-      "reason": "净值日期是日期字段，基金净值是数值字段，不匹配",
-      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
-      "table": "证券持仓明细",
-      "count": 1,
-      "first_seen": "2026-08-09 01:21",
-      "last_seen": "2026-08-09 01:21"
-    },
-    {
       "raw_column": "客户基本信息",
       "standard_field": "客户名称",
       "confidence": "high",
@@ -197,17 +65,56 @@
       "count": 1,
       "first_seen": "2026-08-09 01:33",
       "last_seen": "2026-08-09 01:33"
+    }
+  ],
+  "applied": [
+    {
+      "raw_column": "分红方式",
+      "standard_field": "分红方式",
+      "confidence": "high",
+      "reason": "列名与候选标准字段完全一致",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 2,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00",
+      "applied_at": "2026-08-11 23:30"
     },
     {
-      "raw_column": "账户交易明细",
-      "standard_field": "客户名称",
-      "confidence": "low",
-      "reason": "该列位于客户基本信息下方，虽无具体交易数据，但紧邻客户名称字段，可能用于标识当前对账主体。",
-      "sample": "转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf",
+      "raw_column": "销售机构",
+      "standard_field": "券商",
+      "confidence": "high",
+      "reason": "销售机构在基金对账单语境下通常指代代销或直销的券商/渠道机构",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 2,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00",
+      "applied_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "产品总值①x②",
+      "standard_field": "合计金额",
+      "confidence": "high",
+      "reason": "产品总值即该产品的资产总额，属于合计金额的一种具体形式",
+      "sample": "sample_20260506_233222LU.pdf",
       "table": "交易对账单",
       "count": 1,
-      "first_seen": "2026-08-09 01:33",
-      "last_seen": "2026-08-09 01:33"
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00",
+      "applied_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "交易账号",
+      "standard_field": "资产账号",
+      "confidence": "high",
+      "reason": "交易账号通常对应资产账号，且文本中明确存在该列",
+      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
+      "table": "证券持仓明细",
+      "count": 1,
+      "first_seen": "2026-08-09 01:21",
+      "last_seen": "2026-08-09 01:21",
+      "applied_at": "2026-08-11 23:30"
     },
     {
       "raw_column": "基金资产总额",
@@ -218,7 +125,118 @@
       "table": "证券持仓明细",
       "count": 3,
       "first_seen": "2026-08-09 01:33",
-      "last_seen": "2026-08-09 23:59"
+      "last_seen": "2026-08-09 23:59",
+      "applied_at": "2026-08-11 23:30"
+    }
+  ],
+  "rejected": [
+    {
+      "raw_column": "产品代码",
+      "standard_field": "产品名称",
+      "confidence": "low",
+      "reason": "产品代码与产品名称虽相关但语义不同，代码非名称本身",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00",
+      "rejected_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "产品份额①",
+      "standard_field": "合计金额",
+      "confidence": "low",
+      "reason": "份额是数量概念，非金额概念",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00",
+      "rejected_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "成交基金份额",
+      "standard_field": "合计金额",
+      "confidence": "low",
+      "reason": "成交基金份额是数量指标，非金额指标，但在某些简化报表中可能作为核心交易数据被关注，此处仅为语义关联建议，实际值类型不同",
+      "sample": "sample_20260506_233222LU.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 00:00",
+      "last_seen": "2026-08-09 00:00",
+      "rejected_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "客户类别",
+      "standard_field": "其他费用",
+      "confidence": "low",
+      "reason": "客户类别不属于标准字段，此处仅为排除法，实际无匹配",
+      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
+      "table": "证券持仓明细",
+      "count": 1,
+      "first_seen": "2026-08-09 01:21",
+      "last_seen": "2026-08-09 01:21",
+      "rejected_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "证件类型",
+      "standard_field": "登记机构",
+      "confidence": "low",
+      "reason": "证件类型与登记机构不同，无直接同义关系",
+      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
+      "table": "证券持仓明细",
+      "count": 1,
+      "first_seen": "2026-08-09 01:21",
+      "last_seen": "2026-08-09 01:21",
+      "rejected_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "证件号码",
+      "standard_field": "股东账号",
+      "confidence": "low",
+      "reason": "证件号码通常指身份证号等，与股东账号不同",
+      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
+      "table": "证券持仓明细",
+      "count": 1,
+      "first_seen": "2026-08-09 01:21",
+      "last_seen": "2026-08-09 01:21",
+      "rejected_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "网点",
+      "standard_field": "基金公司",
+      "confidence": "low",
+      "reason": "网点是销售机构或营业部，与基金公司不同",
+      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
+      "table": "证券持仓明细",
+      "count": 1,
+      "first_seen": "2026-08-09 01:21",
+      "last_seen": "2026-08-09 01:21",
+      "rejected_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "净值日期",
+      "standard_field": "基金净值",
+      "confidence": "low",
+      "reason": "净值日期是日期字段，基金净值是数值字段，不匹配",
+      "sample": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
+      "table": "证券持仓明细",
+      "count": 1,
+      "first_seen": "2026-08-09 01:21",
+      "last_seen": "2026-08-09 01:21",
+      "rejected_at": "2026-08-11 23:30"
+    },
+    {
+      "raw_column": "账户交易明细",
+      "standard_field": "客户名称",
+      "confidence": "low",
+      "reason": "该列位于客户基本信息下方，虽无具体交易数据，但紧邻客户名称字段，可能用于标识当前对账主体。",
+      "sample": "转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-09 01:33",
+      "last_seen": "2026-08-09 01:33",
+      "rejected_at": "2026-08-11 23:30"
     },
     {
       "raw_column": "可用份额",
@@ -229,7 +247,8 @@
       "table": "交易对账单",
       "count": 5,
       "first_seen": "2026-08-09 23:19",
-      "last_seen": "2026-08-09 23:59"
+      "last_seen": "2026-08-09 23:59",
+      "rejected_at": "2026-08-11 23:30"
     },
     {
       "raw_column": "财汇局征费",
@@ -240,7 +259,8 @@
       "table": "证券持仓明细",
       "count": 1,
       "first_seen": "2026-08-11 01:22",
-      "last_seen": "2026-08-11 01:22"
+      "last_seen": "2026-08-11 01:22",
+      "rejected_at": "2026-08-11 23:30"
     },
     {
       "raw_column": "备注",
@@ -251,7 +271,8 @@
       "table": "证券持仓明细",
       "count": 1,
       "first_seen": "2026-08-11 01:22",
-      "last_seen": "2026-08-11 01:22"
+      "last_seen": "2026-08-11 01:22",
+      "rejected_at": "2026-08-11 23:30"
     },
     {
       "raw_column": "配号日期",
@@ -262,7 +283,8 @@
       "table": "证券持仓明细",
       "count": 1,
       "first_seen": "2026-08-11 01:22",
-      "last_seen": "2026-08-11 01:22"
+      "last_seen": "2026-08-11 01:22",
+      "rejected_at": "2026-08-11 23:30"
     },
     {
       "raw_column": "配号数量",
@@ -273,7 +295,8 @@
       "table": "证券持仓明细",
       "count": 1,
       "first_seen": "2026-08-11 01:22",
-      "last_seen": "2026-08-11 01:22"
+      "last_seen": "2026-08-11 01:22",
+      "rejected_at": "2026-08-11 23:30"
     }
   ]
 }
