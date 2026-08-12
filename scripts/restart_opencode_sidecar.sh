@@ -54,12 +54,12 @@ if [ "$COUNT" -lt 10 ]; then
   exit 1
 fi
 # --- warm-up ask (latency fix a, 2026-08-12): 预热 sidecar+模型 prefill, 冷启 43s→~23s ---
-echo "[sidecar] warm-up ask (latency fix a)"
+echo "[sidecar] warm-up ask (latency fix a; 真实检索题以预热 jinrong-rag MCP + embedding)"
 WARM_T0=$(date +%s)
 WARM_SID=$(curl -s -m 15 -X POST "$BASE/session" -H "Content-Type: application/json" -d "{}" | python3 -c "import json,sys; print(json.load(sys.stdin).get('id',''))" 2>/dev/null)
 if [ -n "${WARM_SID:-}" ]; then
   curl -s -m 240 -X POST "$BASE/session/$WARM_SID/message" -H "Content-Type: application/json" \
-    -d '{"parts":[{"type":"text","text":"就绪确认: 请只回复 OK。/no_think"}],"agent":"m2-qa"}' > /tmp/sidecar_warmup_reply.json 2>&1 \
+    -d '{"parts":[{"type":"text","text":"嘉兴民安的总资产是多少？/no_think"}],"agent":"m2-qa"}' > /tmp/sidecar_warmup_reply.json 2>&1 \
     && echo "[sidecar] warm-up reply received" \
     || echo "[sidecar] warm-up ask 失败 (不阻塞, 首问会冷一些)"
   curl -s -m 10 -X DELETE "$BASE/session/$WARM_SID" > /dev/null 2>&1
