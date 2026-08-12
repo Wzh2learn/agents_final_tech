@@ -2,7 +2,7 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-12（Q1-Q4: 资产摸排/映射表别名/docs_lint/graph 路线图登记） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-12（Q1-Q4 登记 + 文档精简: 归档 18 实验记录 + 16 一次性脚本 + README_Codex，见归档组 2026-08-12 批） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -52,7 +52,6 @@
 | 文件/目录 | 状态 | 一句话摘要 |
 |---|---|---|
 | `2026-08-06_tmux_inventory.md` | 存活-当前 | tmux 会话盘点: 6 pane 处置 + skill 分发漂移修复 + 安全台账 | 2026-08-06 |
-| `2026-08-05_audit_embedding_skill.md` | 活跃 | Loop C 审计: embedding 切换 + skill 注册 CONDITIONAL→闭环 | 2026-08-05 |
 | `2026-08-06_audit_loop_c_flash_fixes.md` | 活跃 | Loop C 审计: flash 首任务+三修复+A2 灰度 CONDITIONAL（后转 ACCEPTED） | 2026-08-06 |
 | `2026-08-06_differential_phase3_to_head.md` | 活跃 | Loop C differential 4a151dd..HEAD: ACCEPTED, 33 findings (0C/1H/8M) | 2026-08-07 |
 | `2026-08-07_full_system_inventory.md` | 活跃 | 全系统工具盘点: skills 三端 diff + doctor 实跑 + MCP/CLI/harness 证据与建议 | 2026-08-07 |
@@ -75,22 +74,11 @@
 | `2026-08-04_rehearsal/` | 历史-参考 | 彩排截图 7 张（发送版已改用 08-12 重拍，本目录留档；demo 日志实测缺失，见 2026-08-10 审计 F19） |
 | `2026-08-01_demo_sequence/` | 活跃 | 演示截图序列 11 张（AGENTS.md、docs/19 引用） |
 | `2026-07-31_ui_screenshots/` | 活跃 | UI 截图 6 张（docs/19 引用） |
-| `2026-07-31_e2e_benchmark.md` | 活跃 | 唯一 e2e 性能基线 |
-| `2026-07-31_m2_rag_integration.md` | 活跃 | M2 RAG 闭环记录 |
 | `2026-08-01_field_accuracy.json` | 活跃 | 字段级准确率评测产物（21 checks / 100%） |
 | `2026-07-31_paddleocr_arm64_investigation.md` | 活跃 | PaddleOCR ARM64 永久不可用结论的依据（fast-fail 门控） |
-| `2026-07-31_paddleocr_vl_transformers_compat.md` | 活跃 | PaddleOCR-VL transformers 兼容性调查 |
 | `2026-07-23_tat_dqa_m2_upper_bound.md` | 活跃（研究线冻结） | TAT-DQA M2 上限基线 |
 | `2026-07-29_qoder_recon.md` | 活跃 | Qoder 迁移侦察（决策 pending，等 PAT） |
-| `2026-07-14_vision_smoke_test.md` | 历史-参考 | PaddleOCR-VL 不兼容根因的环境依据 |
-| `2026-07-28_m1_baseline.md` | 历史-参考 | M1 parser 基线 |
-| `2026-07-28_chunking_and_integration.md` | 历史-参考 | chunking 与集成实验 |
-| `2026-07-28_rerank_experiment.md` | 历史-参考 | rerank 实验 |
-| `2026-07-28_retrieval_ablation.md` | 历史-参考 | 检索消融实验 |
-| `2026-07-29_m1_schema_reconcile.md` | 历史-参考 | schema 与勾稽实验 |
 | `2026-07-29_m1_verify_and_mcp.md` | 历史-参考 | 验证与 MCP 实验 |
-| `2026-08-03_code_review_dedup.md` | 完成-证据链 | Phase 3 审查总报告（7 份分报告 + 分诊） |
-| `phase3_loop_c_differential.md` / `phase3_loop_c_review_codebase.md` / `phase3_loop_c_spec_compliance.md` / `phase3_review_config_tests.md` / `phase3_review_deadcode.md` / `phase3_review_scripts.md` / `phase3_review_src.md` | 完成-证据链 | Phase 3 各分报告 |
 
 ## 归档（archive/，只读历史，不得作为现状依据）
 
@@ -102,11 +90,19 @@
 | `archive/22_overnight_loopD_neat_closeout.md` | 2026-08-05 | 过夜 8h 自主循环收尾记录（现状记录职能由 memory/ 接管） |
 | `archive/experiments/`（22 件） | 2026-08-05 | 见下方清单 |
 | 既有归档（34 件） | 2026-08-03 | 见下方清单 |
+| `archive/experiments/`（2026-08-12 批，18 件） | 2026-08-12 | 七月实验 + Phase 3 审查集群 + embedding 审计；现状性能/eval 基线以 2026-08-08_eval_baseline.md 为准 |
+| `archive/README_Codex_使用说明.md` | 2026-08-12 | 历史快照（文内自声明），现行以根 AGENTS.md / HANDOFF.md 为准 |
 
 <details>
 <summary>archive/experiments/ 22 件清单（2026-08-05 归档；审计分轮报告内容已归并入 SUMMARY_audit_loop_c.md）</summary>
 
 2026-07-10_model_services.md / 2026-07-10_tabular_smoke_test.md / 2026-07-28_m1_llm_batch.md / 2026-07-28_m1_llm_extraction.md / 2026-07-28_m1_statement_parser.md / 2026-07-29_m1_compact_and_patch.md / 2026-07-29_m1_header_mapping_llm.md / 2026-07-29_m1_multiagent_delegation.md / 2026-07-29_m1_next_iteration.md / 2026-07-29_m1_ocr_fallback.md / 2026-07-30_72b_vs_35b_summary.md / 2026-07-31_72b_reevaluation.md / 2026-07-31_zhikuncode_ui_screenshot.png / 2026-07-31_audit_loop_c.md / 2026-07-31_audit_loop_c_2.md / 2026-07-31_audit_loop_c_3.md / 2026-07-31_audit_loop_c_4.md / 2026-07-31_audit_loop_c_5.md / 2026-07-31_audit_loop_c_6.md / 2026-07-31_audit_loop_c_r7.md / 2026-08-02_audit_loop_c_deepseek.md / 2026-08-02_audit_loop_c_qwen38.md
+</details>
+
+<details>
+<summary>archive/experiments/ 18 件清单（2026-08-12 归档；性能/检索基线已由 eval 基线取代，Phase 3 审查集群结论已闭环）</summary>
+
+2026-07-14_vision_smoke_test.md / 2026-07-28_chunking_and_integration.md / 2026-07-28_m1_baseline.md / 2026-07-28_rerank_experiment.md / 2026-07-28_retrieval_ablation.md / 2026-07-29_m1_schema_reconcile.md / 2026-07-31_e2e_benchmark.md / 2026-07-31_m2_rag_integration.md / 2026-07-31_paddleocr_vl_transformers_compat.md / 2026-08-03_code_review_dedup.md / 2026-08-05_audit_embedding_skill.md / phase3_loop_c_differential.md / phase3_loop_c_review_codebase.md / phase3_loop_c_spec_compliance.md / phase3_review_config_tests.md / phase3_review_deadcode.md / phase3_review_scripts.md / phase3_review_src.md
 </details>
 
 <details>
