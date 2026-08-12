@@ -319,7 +319,8 @@ RAG QA: eval 基线定稿 2026-08-09 = 确定性 16/16 + AI judge 四维全 5.0�
 | C | Claude Code | agent-prompt-contracts | 审计 prompt 类改动的契约遵从基线 |
 | A | Codex CLI | m1-gap-triage | M1 解析失败分诊：0 表/高 unmapped → 读原文诊断 → 补 synonyms → 重跑 → 报 delta（嘉合 playbook） |
 | A | Codex CLI | graph-loop-rules | Graph Loop 红线与运行约束（冻结节点/生产后端/API key/72B），OpenCode agent 通用 |
-| A+C | Codex CLI + Claude Code | jinrong-docs-sync | 文档四层结构治理 + INDEX.md 单一入口维护 (Phase 4 自定义, 2026-08-04) |
+| A | Codex CLI | jinrong-docs-sync | 文档四层结构治理 + INDEX.md 单一入口维护 (Phase 4 自定义, 2026-08-04) |
+| C | Claude Code | jinrong-docs-sync | 审计后文档时效/一致性复核的同套规则基线 |
 
 **治理规则**:
 1. 仅 Loop D 可安装新 skill: 搜索 → 克隆审计 → 安装 → 注册本表与 skills/ → sync_skills.sh 分发。
@@ -353,4 +354,4 @@ L2 语义记忆层（mem0 自托管 + pgvector :15432 + MCP）见 docs/18 第 10
 
 ## 文档治理（docs_lint）
 
-**neat 收尾必跑 `scripts/docs_lint.py`**（退出码 0 才可收口）。四项机器检查：INDEX 覆盖率+死链、存活文档状态头时效、**台账防漂移**（gap/遗留关键词只允许出现在 memory/THREADS.md，其他文档只引用不复述——08-11 漂移案的固化）、skill 注册表 vs 两端安装 diff（`scripts/graph/sync_skills.sh --check`）。
+**neat 收尾必跑 `scripts/docs_lint.py`**（退出码 0 才可收口）。五项机器检查：INDEX 覆盖率+死链、存活文档状态头时效、**台账防漂移**（gap/遗留关键词只允许出现在 memory/THREADS.md，其他文档只引用不复述——08-11 漂移案的固化）、skill 注册表 vs 两端安装 diff（`scripts/graph/sync_skills.sh --check`）、**配属注册表 vs 分发列表 diff**（AGENTS.md 注册表与 sync_skills.sh A/C_SKILLS 双向对账，治理体检 2026-08-12 新增）。

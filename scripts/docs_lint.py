@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """docs 治理 lint (Q3, 2026-08-12) — 把踩过的漂移变成机器检查。
 
-四项检查:
+五项检查:
   [1] INDEX 覆盖率 + 死链: docs/ 所有被跟踪 md (archive 除外) 必须在 INDEX.md
       登记 (按 basename); INDEX.md 内所有相对链接必须可解析。
   [2] 存活文档状态头: docs/ 顶层活文档须有 "状态:" 头行; 状态=活跃 但 更新
@@ -10,6 +10,8 @@
       gap/遗留 关键词复述 (而非引用 THREADS) -> flag。治理规则: gap/遗留项台账
       唯一存放于 memory/THREADS.md, 其他文档只引用不复述。
   [4] skill 注册表 vs 两端安装 diff: 调 scripts/graph/sync_skills.sh --check。
+  [5] AGENTS.md 配属注册表 vs sync_skills.sh 分发列表双向 diff:
+      注册了但未分发 / 分发了但未注册 -> FAIL (治理体检, 2026-08-12)。
 
 用法: venv/bin/python scripts/docs_lint.py [--json PATH]
 退出码: 0 = 无 FAIL (WARN 允许) / 1 = 有 FAIL / 2 = 环境错误
@@ -149,6 +151,79 @@ def check_skill_sync() -> tuple[list, list]:
     return fails, warns
 
 
+# --- check 5: AGENTS.md 注册表 vs sync_skills.sh 分发列表 -------------------
+
+def _parse_sync_skill_lists() -> tuple[dict, list]:
+    """解析 sync_skills.sh 的 A_SKILLS / C_SKILLS (与 check_skill_sync.sh 同口径)。"""
+    sync = os.path.join(REPO_ROOT, "scripts", "graph", "sync_skills.sh")
+    lists = {"A": [], "C": []}
+    errs = []
+    try:
+        sync_text = open(sync, encoding="utf-8").read()
+    except OSError as e:
+        return lists, [f"无法读取 sync_skills.sh: {e}"]
+    for loop in ("A", "C"):
+        m = re.search(rf"^{loop}_SKILLS=\(([^)]*)\)", sync_text, re.M)
+        if not m:
+            errs.append(f"sync_skills.sh 缺 {loop}_SKILLS 定义")
+            continue
+        lists[loop] = m.group(1).split()
+    return lists, errs
+
+
+def _parse_agents_registry() -> tuple[dict, list]:
+    """解析 AGENTS.md 配属注册表 (| Loop | Harness | skill | 用途 |)。"""
+    agents = os.path.join(REPO_ROOT, "AGENTS.md")
+    reg = {"A": set(), "C": set()}
+    errs = []
+    try:
+        lines = open(agents, encoding="utf-8").read().splitlines()
+    except OSError as e:
+        return reg, [f"无法读取 AGENTS.md: {e}"]
+    in_section = False
+    for line in lines:
+        stripped = line.strip()
+        if not in_section:
+            if "配属注册表" in line and (stripped.startswith("#")
+                                       or stripped.startswith("**")):
+                in_section = True
+            continue
+        if stripped.startswith("#"):
+            break  # 注册表段落结束
+        if not stripped.startswith("|"):
+            continue
+        cells = [c.strip() for c in stripped.strip("|").split("|")]
+        if len(cells) < 3:
+            continue
+        loop, skill = cells[0], cells[2]
+        if (not loop or set(loop) <= set("-: ") or loop == "Loop"
+                or skill in ("", "skill")):
+            continue
+        for part in loop.replace("+", " ").split():
+            if part in reg:
+                reg[part].add(skill)
+    if not in_section:
+        errs.append("AGENTS.md 未找到配属注册表段落")
+    return reg, errs
+
+
+def check_registry_distribution() -> tuple[list, list]:
+    fails, warns = [], []
+    lists, errs1 = _parse_sync_skill_lists()
+    reg, errs2 = _parse_agents_registry()
+    for e in errs1 + errs2:
+        fails.append(f"[5] {e}")
+    if fails:
+        return fails, warns
+    for loop in ("A", "C"):
+        dist, registered = set(lists[loop]), reg[loop]
+        for s in sorted(registered - dist):
+            fails.append(f"[5] 注册表已登记但 {loop}_SKILLS 未分发: {s}")
+        for s in sorted(dist - registered):
+            fails.append(f"[5] {loop}_SKILLS 分发但注册表未登记: {s}")
+    return fails, warns
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--json", default=os.path.join(
@@ -156,7 +231,8 @@ def main() -> int:
     args = ap.parse_args()
 
     all_fails, all_warns = [], []
-    for fn in (check_index, check_status_headers, check_gap_restating, check_skill_sync):
+    for fn in (check_index, check_status_headers, check_gap_restating,
+               check_skill_sync, check_registry_distribution):
         f, w = fn()
         all_fails.extend(f)
         all_warns.extend(w)

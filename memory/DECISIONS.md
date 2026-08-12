@@ -53,14 +53,17 @@
 ## [2026-08-03] VLM(:8007/Triton/GGUF) 线彻底关闭
 结论: Qwen3-VL-8B safetensors 被 Triton ARM64 JIT 阻塞, GGUF 国内不可得; 关闭此线, _try_vlm_table 代码保留作恢复路径。
 理由: dispatch [04:35] eager/sdpa/TORCHDYNAMO_DISABLE 全失败; 22:50 T1 侦察: hf-mirror 302 海外 CDN ~1.5KB/s 断流, ModelScope 无仓库。
+> SUPERSEDED 注 (2026-08-12 治理体检): "GGUF 不可得" 结论已被 2026-08-08 推翻并闭环 — hf-mirror 同步官方 GGUF 成功, :8007 一次点亮完成降采样实验; 终态 VERIFIED-CLOSED (命中率持平+延迟不达标), 见 memory/THREADS.md VLM 条。本条仅作历史轨迹保留。
 
 ## [2026-08-03] Loop A/C 模型路由收敛 qwen3.8-max
 结论: Loop A (Codex CLI) 与 Loop C (Claude Code) 统一 qwen3.8-max; deepseek-v4-flash 试用结束; qwen3.8-max-preview 判不兼容 Claude Code。
 理由: 22:28 双端验证通过 (codex exec / claude tool_use); preview 不跟随多步指令, 05:25 曾切回 deepseek-v4-flash-0731 (8e466ee 有其审计报告)。
+> SUPERSEDED 注 (2026-08-12 治理体检): Loop A 部分被 [2026-08-06] 模型分工调整取代 (Loop A → deepseek-v4-flash-0731, 含回滚标准与派遣纪律); Loop C 全槽位 qwen3.8-max 仍有效。
 
 ## [2026-08-03] 遗留问题"记录不修"裁定
 结论: OCR meta-query 接受 14/15=93% (高于 80% gate); 110/137 chunk product_name 元数据垃圾不修; .msg→htmlBody 预处理脚本暂不入库。
 理由: T4 (23:36): 修复需 --reset 重灌 (会丢 scenario1 chunks) 或重做 ingest 注入, 风险>收益; 详见 blocked_questions.md。
+> SUPERSEDED 注 (2026-08-12 治理体检): 部分取代 — OCR meta-query 08-05 已修 (15/15→08-09 扩库 16/16, THREADS OCR 条); .msg→htmlBody 08-09 已入库 (c863235 preprocess_msg.py); 仅 product_name 元数据 "记录不修" 仍有效。
 
 ## [2026-08-04] HANDOFF.md 冻结, 现状权威移交 memory/ 蒸馏层
 结论: HANDOFF.md 冻结于 2026-08-03 快照不再更新; 现状快照一律写 memory/STATE.md; 阅读顺序 AGENTS.md → memory/STATE.md → docs/INDEX.md。
