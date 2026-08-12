@@ -138,3 +138,12 @@
 - **待审（低优先）**: 本机 agents_final_tech/image/.env/ 7 张时间戳 PNG (~2026-02, gitignored), 旧时代遗留, 下轮 neat 判定去留。
 - **禁动确认**: 本机工作区 3 个 .bundle (tat-dqa×2 + joint-m1-m2-plan) 为相关工作唯一载体, GB10 无 tat-dqa 仓库, 不得删除。
 - **check[4] 本机 FAIL 定性 (辅助线复核更正)**: 根因非缺 skill 目录 (本机 ~/.codex/skills 37 目录 / ~/.claude/skills 均在), 而是本机 CRLF checkout 使 sync_skills.sh 行尾带 \r, WSL bash 执行 `set -o pipefail\r` 即错 exit 2 (git ls-files --eol = i/lf w/crlf 为证); 属环境差异非真漂移, 结论维持 docs_lint 以 GB10 为准 (0 fail/0 warn); 本机如需跑: `bash <(sed 's/\r$//' scripts/graph/sync_skills.sh) --check`, 不强制。
+
+
+## 2026-08-12 "已发送"信号 → S1/S2 执行入账
+- **docs/23 已发送甲方**（用户亲发, 2026-08-12）; **B4 观察时钟启动**: 目标 ≥100 asks / ≥3 天; 仪表 = /api/m2/ask JSONL (logs/graph/b4_ask_log.jsonl: ts/route/latency_ms/sources_count/fell_back/status) + status.sh B4 段; eval 套件每天经 :5050 生产端点跑一遍积累真实样本; 数字不许造。
+- **S2 重启载入** (窗口 23:24-23:41): 延迟 a(sidecar warm-up ask; 首版用"就绪确认"题不触发检索→MCP 冷启动未预热, 修正 d8504fb 为真实检索题, 冷路 45s 预付) + b(FORMAT_HINT /no_think, 契约 C-1) + Q2 别名链 + 批 A 端点加固 + vision MCP allowed_roots=/home/testuser/wzh/m1_samples(opencode.json mcp env); B4 仪表 + status.sh(Q4 L1) 同窗载入 (cab17b9)。
+- **六步验证**: ①health/full healthy(137/local)✓ ②parse 冒烟 sample_20260506_233222LU.pdf 3 表(OCR+LLM 路 16.4s)✓ ③QA×2 正确带 sources(含 OCR meta-query 命中)✓ ④compare 嘉兴民安短名 2 持仓✓ ⑤route=on✓ ⑥agent 路 warm 实测: **最佳 13.5s 成功(单检索题), 3/4 次尝试 >18s 回落**——目标 <18s 部分达成, 如实记账。
+- **延迟实测台账**: a+b 后 agent 路 1 成 3 落; 回落与多轮检索耗时 + :8004 slot 争用(与 Loop B 23:38 循环时间窗重叠)疑似相关, 根因诊断入 A2 稳态化遗留; 直连路 warm 2.7-3s, 重启后首请求冷加载 ~17-20s(embedding 懒加载, B4 验收口径: 热身或从 p95 排除)。
+- **回滚演练**: kill→health200(route=off) 实测 **10s** (B4 ≤30s 达标, 前次实测 23s); route=off 直连验证正常; 甲方临时演示第一动作 = M2_OPENCODE_ROUTE=off 重启(10s)。
+- **B4 数据卫生**: pytest m2 端点测试会写 latency_ms=0 的 mock 条目进 B4 日志, 统计时过滤 latency_ms=0。
