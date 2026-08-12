@@ -1118,3 +1118,14 @@ body {
     from { opacity: 0; transform: translateX(24px); }
     to   { opacity: 1; transform: none; }
 }
+
+/* G6 检索透明面板 (S3③, 2026-08-12): top_k 选择器 */
+#m2TopK {
+    padding: 7px 8px;
+    font-size: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #fff;
+    color: #1f2937;
+    cursor: pointer;
+}

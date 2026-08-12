@@ -389,6 +389,7 @@
   const m2ChatLog = $('#m2ChatLog');
   const m2Meta = $('#m2Meta');
   const m2NewChatBtn = $('#m2NewChatBtn');
+  const m2TopK = $('#m2TopK');
 
   let m2SessionId = newSessionId();
 
@@ -422,8 +423,14 @@
         html += '<div class="m2-src-item">';
         html += `<span class="m2-src-tag">${esc(s.sample_id)}</span>`;
         html += `<span class="m2-src-tag">${esc(s.table_name || '-')}</span>`;
-        html += `<span class="m2-src-score">score ${s.score}</span>`;
-        html += `<div class="m2-src-text">${esc(s.text)}</div>`;
+        if (typeof s.score === 'number') {
+          html += `<span class="m2-src-score">score ${s.score.toFixed(2)}</span>`;
+        } else if (s.field) {
+          html += `<span class="m2-src-score">field ${esc(s.field)}</span>`;
+        } else {
+          html += `<span class="m2-src-score">score -</span>`;
+        }
+        if (s.text) html += `<div class="m2-src-text">${esc(s.text)}</div>`;
         html += '</div>';
       }
       html += '</div>';
@@ -461,6 +468,7 @@
   async function m2Ask() {
     const question = (m2Question.value || '').trim();
     if (!question) { setNotice('请输入问题', 'error'); return; }
+    const topK = parseInt(m2TopK ? m2TopK.value : '3', 10);
     m2Question.value = '';
     m2AskBtn.disabled = true;
     m2AddUserBubble(question);
@@ -469,7 +477,7 @@
       const res = await fetch('/api/m2/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, top_k: 3, session_id: m2SessionId }),
+        body: JSON.stringify({ question, top_k: topK, session_id: m2SessionId }),
       });
       if (!res.ok) {
         const text = await res.text();
@@ -479,7 +487,8 @@
       m2HideThinking();
       m2AddAssistantBubble(data.answer || '(无答案)', data.sources);
       if (data.session_id) m2SessionId = data.session_id;
-      m2Meta.textContent = `RAG · ${data.collection || 'm1_parsed_statements'} · ${data.model || 'n/a'} · ${data.duration_ms ?? 0}ms`;
+      const routeTxt = data.route === 'opencode' ? '验证链路' : '直连';
+      m2Meta.textContent = `RAG · ${data.collection || 'm1_parsed_statements'} · top_k=${topK} · ${routeTxt} · ${data.model || 'n/a'} · ${data.duration_ms ?? 0}ms`;
     } catch (err) {
       m2HideThinking();
       m2AddAssistantBubble(`⚠ ${err.message}`, []);
