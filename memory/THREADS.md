@@ -134,7 +134,7 @@
 
 ## 2026-08-12 仓库精简收尾入账（主线程清扫）
 - **精简落地**: c4f6a5a (git mv 归档 18 实验记录 + 16 一次性脚本 + README_Codex 历史快照, 零 rm 可逆); 主线程执行沙箱拦截的删除: sessions.db / scripts tmp_*.py×7 / 工作区 PNG×6 / tmpclaude-cwd×2 / _staging_task2 / D:\tmp_doc23_pages×2 — 全部先移备份 D:\AIRcommend\JinRongAgents\_cleanup_backup_20260812 (45 文件) 再清源; _staging_task2 删前核验内容已在库 (设计文档=docs/27@8e5fd92, html/png=experiments/2026-08-11_m1m2_redesign 在库, 仅 _shot.py 一次性); pytest 325 passed/13 skipped 零回归; 冻结 docx bc3785cb 复验未动。
-- **机会项（等拍板）**: 本机 agents_final_tech/dify/ (gitignored, GB10 无此目录) 存 5 份甲方规则 docx（电子对账规则0108 / 估值数据催收规则 / 完整性监控与一键估值规则 / 管理人估值进度查询规则 / 自定义对账规则）+ 4 份 Dify workflow yml — 七月 Dify 原型遗留, 正是 docs/23"需要您支持"所列字段规则素材; 建议走 Q2 同款确定性流程挖 schema synonyms, 批准前先不动。
+- **机会项（等拍板）**: 本机 agents_final_tech/dify/ (gitignored, GB10 无此目录) 存 5 份甲方规则 docx（电子对账规则0108 / 估值数据催收规则 / 完整性监控与一键估值规则 / 管理人估值进度查询规则 / 自定义对账规则）+ 5 份 Dify workflow yml — 七月 Dify 原型遗留, 正是 docs/23"需要您支持"所列字段规则素材; 建议走 Q2 同款确定性流程挖 schema synonyms, 批准前先不动。
 - **待审（低优先）**: 本机 agents_final_tech/image/.env/ 7 张时间戳 PNG (~2026-02, gitignored), 旧时代遗留, 下轮 neat 判定去留。
 - **禁动确认**: 本机工作区 3 个 .bundle (tat-dqa×2 + joint-m1-m2-plan) 为相关工作唯一载体, GB10 无 tat-dqa 仓库, 不得删除。
-- **check[4] 本机 FAIL 定性**: 本机 (Windows/WSL) 无对应 harness skill 安装目录, 属环境差异非真漂移; docs_lint 以 GB10 为准 (0 fail/0 warn), 不用 WSL 侧安装凑数。
+- **check[4] 本机 FAIL 定性 (辅助线复核更正)**: 根因非缺 skill 目录 (本机 ~/.codex/skills 37 目录 / ~/.claude/skills 均在), 而是本机 CRLF checkout 使 sync_skills.sh 行尾带 \r, WSL bash 执行 `set -o pipefail\r` 即错 exit 2 (git ls-files --eol = i/lf w/crlf 为证); 属环境差异非真漂移, 结论维持 docs_lint 以 GB10 为准 (0 fail/0 warn); 本机如需跑: `bash <(sed 's/\r$//' scripts/graph/sync_skills.sh) --check`, 不强制。
