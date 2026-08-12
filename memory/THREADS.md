@@ -147,3 +147,12 @@
 - **延迟实测台账**: a+b 后 agent 路 1 成 3 落; 回落与多轮检索耗时 + :8004 slot 争用(与 Loop B 23:38 循环时间窗重叠)疑似相关, 根因诊断入 A2 稳态化遗留; 直连路 warm 2.7-3s, 重启后首请求冷加载 ~17-20s(embedding 懒加载, B4 验收口径: 热身或从 p95 排除)。
 - **回滚演练**: kill→health200(route=off) 实测 **10s** (B4 ≤30s 达标, 前次实测 23s); route=off 直连验证正常; 甲方临时演示第一动作 = M2_OPENCODE_ROUTE=off 重启(10s)。
 - **B4 数据卫生**: pytest m2 端点测试会写 latency_ms=0 的 mock 条目进 B4 日志, 统计时过滤 latency_ms=0。
+
+
+## 2026-08-13 S3 队列收口入账（发送后队列 ①-⑤ 全部完成）
+- **S3① G12 数值核验产品化**: 原型核心抽入 src/biz/number_grounding.py (行为逐字一致) + eval 脚本改 import + 6 单测; NF 复跑 0/9 与基线一致 (bda88f4)。
+- **S3② dify 5 docx synonyms 挖掘**: scripts/mine_dify_rule_terms.py (确定性无 LLM, 可复用); 5 docx 性质判定 = 估值工作流业务规则(非字段映射表); covered=4/candidates 28(真实 3)/unknown 978; 补词 3 (交易日→交易日期 / 下层基金净值→基金净值 / 手续费支出→手续费, 均证券持仓明细, 碰撞检查过); 门禁 15 pass; **诚实 delta=0** (语料无新词, 为未来估值表类文档强化) (6dd189b)。
+- **S3③ G6 检索透明面板**: top_k 选择器(3/5/8/10) + sources score/field/text 优雅降级(agent 路无 score 不再显示 undefined) + meta 显示 route(直连/验证链路); 纯前端零 API 改动, 既有选择器未动 (61d2fd2)。
+- **S3④ Docling ARM64 探针**: 独立 venv 零编译安装 (torch 2.13 aarch64 wheel, 模型走 hf-mirror, HF 直连超时); **GPU 路 triton gcc JIT 失败 (与 Qwen3-VL safetensors 同类故障)**; CPU 路: NCAMC 垂直行提取优于坐标重建(完整 1×8 数据行) / TraFax 表数同基线但退化表 / 嘉合弱于确定性 parser; 定位 = 离线 second-opinion 候选, 不入热路径 (f86a876)。
+- **S3⑤ :8005 judge 分流**: M2_JUDGE_ENDPOINT/MODEL flag 原生在位(默认 :8004); :8005 Qwen3-14B 交叉一致性 **63/64 = 98.4%** 平均差 0.03 (唯一分歧 adv_multiturn citation A=5/B=3); crosscheck 脚本入库; :8005 可作 eval judge 分流端点给 :8004 腾 slot (ceec4ab)。
+- **B4 观察进行中**: asks 积累见 status.sh (测试 mock 条目 latency_ms=0 统计时过滤)。

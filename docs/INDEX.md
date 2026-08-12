@@ -2,7 +2,7 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-12（Q1-Q4 登记 + 文档精简: 归档 18 实验记录 + 16 一次性脚本 + README_Codex，见归档组 2026-08-12 批） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-13（S3 队列实验登记: dify 术语挖掘 + Docling 探针） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -68,6 +68,8 @@
 | `2026-08-12_asset_activation_sweep.md` | 活跃 | Q1 休眠资产摸排: 8 资产探针证据 + Top3 激活建议(:8005 judge 分流/vision MCP 接样本目录/status.sh) | 2026-08-12 |
 | `2026-08-12_mapping_table_reuse.md` | 活跃 | Q2 甲方映射表再挖掘: 别名表 56 产品/234 证券/61 机构 + compare 三级解析链(45 tests) + schema 差集=0 | 2026-08-12 |
 | `2026-08-12_docs23_screenshots/` | 活跃 | docs/23 重写版 10 张实拍截图（含建议映射选择题面板 6 候选）+ shots_meta.json | 2026-08-12 |
+| `2026-08-12_dify_rule_terms_mining.md` | 活跃 | S3② dify 甲方规则 docx 术语挖掘: 确定性脚本 + 3 synonyms 补词(证券持仓明细), 诚实 delta=0 | 2026-08-13 |
+| `2026-08-13_docling_probe.md` | 活跃 | S3④ Docling ARM64 探针: CPU 路可用, NCAMC 垂直行提取优于坐标重建, 定位离线 second-opinion | 2026-08-13 |
 | `2026-08-12_demo_talk_track.md` | 活跃（内部, 不进发送版） | 演示话术清单（取代 docs/23 旧附录 C）: 双链路/递进故事/7 条口头解释 | 2026-08-12 |
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
