@@ -131,3 +131,10 @@
 - 用户终审结论: 旧版不达交付标准 → 授权解冻重写。新结构: 30s 执行摘要(头部仅 4 数字: 嘉合100% / 35.7→100% / 16-16带溯源 / 电子件毫秒级) / 场景化能力 / 递进故事 / 诚实限制 / 需要您支持; 口径演化(14/15→16/16, OCR 冷热)移脚注; 去 23_ 编号与待审阅元行; 附录 B 业务化; 附录 C 话术拆至 docs/experiments/2026-08-12_demo_talk_track.md。
 - 截图 08-12 重拍 10 张 (docs/experiments/2026-08-12_docs23_screenshots/, 含建议映射面板 6 候选实拍); 08-04 目录转历史留档。
 - **新发送版 docx md5 冻结: bc3785cb4237dcda316120251fab8472** (封面含呈报/汇报方行+10图内嵌+页码, 12 页; 图7 单独占页放大, 8/9 放大) — 等用户终审; 终审通过前双方不再改/不再重生成。旧 504810c / 141b092b 冻结约定作废。打磨五处: ①封面署名+呈报行 ②图7 独占页放大 ③TraFax(逐表命中率) ④页码 ⑤支持清单项目符号+附录B全量。
+
+## 2026-08-12 仓库精简收尾入账（主线程清扫）
+- **精简落地**: c4f6a5a (git mv 归档 18 实验记录 + 16 一次性脚本 + README_Codex 历史快照, 零 rm 可逆); 主线程执行沙箱拦截的删除: sessions.db / scripts tmp_*.py×7 / 工作区 PNG×6 / tmpclaude-cwd×2 / _staging_task2 / D:\tmp_doc23_pages×2 — 全部先移备份 D:\AIRcommend\JinRongAgents\_cleanup_backup_20260812 (45 文件) 再清源; _staging_task2 删前核验内容已在库 (设计文档=docs/27@8e5fd92, html/png=experiments/2026-08-11_m1m2_redesign 在库, 仅 _shot.py 一次性); pytest 325 passed/13 skipped 零回归; 冻结 docx bc3785cb 复验未动。
+- **机会项（等拍板）**: 本机 agents_final_tech/dify/ (gitignored, GB10 无此目录) 存 5 份甲方规则 docx（电子对账规则0108 / 估值数据催收规则 / 完整性监控与一键估值规则 / 管理人估值进度查询规则 / 自定义对账规则）+ 4 份 Dify workflow yml — 七月 Dify 原型遗留, 正是 docs/23"需要您支持"所列字段规则素材; 建议走 Q2 同款确定性流程挖 schema synonyms, 批准前先不动。
+- **待审（低优先）**: 本机 agents_final_tech/image/.env/ 7 张时间戳 PNG (~2026-02, gitignored), 旧时代遗留, 下轮 neat 判定去留。
+- **禁动确认**: 本机工作区 3 个 .bundle (tat-dqa×2 + joint-m1-m2-plan) 为相关工作唯一载体, GB10 无 tat-dqa 仓库, 不得删除。
+- **check[4] 本机 FAIL 定性**: 本机 (Windows/WSL) 无对应 harness skill 安装目录, 属环境差异非真漂移; docs_lint 以 GB10 为准 (0 fail/0 warn), 不用 WSL 侧安装凑数。
