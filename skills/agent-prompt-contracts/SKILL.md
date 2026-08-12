@@ -60,3 +60,10 @@ description: JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首�
 1. 修复任何 prompt 相关失败的改动, 必须同 commit 在本 skill 补录/更新对应契约 (失败模式 → 对策 → 验证方式)。
 2. 契约条目必须附证据链接 (commit hash / 实验报告路径); 无证据不入库。
 3. 新增 agent 前先扫本库: 涉及检索→契约 1, 涉及机器解析→契约 2, 涉及验证→契约 3/4。
+
+
+## C-1 /no_think 思考开关（agent 路延迟）— 2026-08-12
+- **失败模式**: m2-qa 经 sidecar 走 :8004 时默认开 thinking, reasoning token 先吃 completion 预算, warm 延迟 22-55s, 超 OPENCODE_ASK_TIMEOUT=18s 全量回落直连, "快与准"菜单名存实亡 (08-11 延迟事故)。
+- **对策**: opencode_adapter._FORMAT_HINT 尾部追加 `/no_think` (Qwen3 user-message 开关), 模型层关思考; 不动 sidecar/provider 配置。判 :8005 已有 enable_thinking=False 先例 (m2_eval_judge.py)。
+- **验证方式**: ① 重启后 warm 单问实测 <18s 记台账; ② 16 题确定性 eval + judge 质量不降 (关思考≠降质, 需复验); ③ status.sh B4 段 fallback 占比趋 0。
+- **证据**: docs/experiments/2026-08-11_agent_latency_diagnosis.md; dispatch 2026-08-12 #S2。

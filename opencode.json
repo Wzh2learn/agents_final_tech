@@ -1,140 +1,143 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "model": "gb10/qwen3.6-35b-a3b",
-  "provider": {
-    "gb10": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Local GB10",
-      "options": {
-        "apiKey": "local",
-        "baseURL": "http://127.0.0.1:8004/v1",
-        "timeout": 600000
-      },
-      "models": {
-        "qwen3.6-35b-a3b": {
-          "name": "Qwen3.6-35B-A3B Q4"
-        }
-      }
+ "$schema": "https://opencode.ai/config.json",
+ "model": "gb10/qwen3.6-35b-a3b",
+ "provider": {
+  "gb10": {
+   "npm": "@ai-sdk/openai-compatible",
+   "name": "Local GB10",
+   "options": {
+    "apiKey": "local",
+    "baseURL": "http://127.0.0.1:8004/v1",
+    "timeout": 600000
+   },
+   "models": {
+    "qwen3.6-35b-a3b": {
+     "name": "Qwen3.6-35B-A3B Q4"
     }
-  },
-  "mcp": {
-    "jinrong-rag": {
-      "type": "local",
-      "command": [
-        "bash",
-        "scripts/start_mcp_server.sh"
-      ],
-      "enabled": true,
-      "timeout": 120000
-    },
-    "jinrong-vision": {
-      "type": "local",
-      "command": [
-        "bash",
-        "scripts/start_vision_mcp_server.sh"
-      ],
-      "enabled": true,
-      "timeout": 660000
-    },
-    "jinrong-tabular": {
-      "type": "local",
-      "command": [
-        "bash",
-        "scripts/start_tabular_mcp_server.sh"
-      ],
-      "enabled": true,
-      "timeout": 660000
-    }
-  },
-  "permission": {
-    "edit": "ask",
-    "bash": "ask",
-    "jinrong-rag_*": "allow",
-    "jinrong-vision_*": "ask",
-    "jinrong-tabular_*": "ask",
-    "skill": "allow"
-  },
-  "agent": {
-    "m2-qa": {
-      "description": "Retrieves business-rule evidence and answers M2 questions with citations or refusal.",
-      "mode": "all",
-      "model": "gb10/qwen3.6-35b-a3b",
-      "permission": {
-        "edit": "deny",
-        "bash": "deny",
-        "read": "deny",
-        "grep": "deny",
-        "glob": "deny",
-        "webfetch": "deny",
-        "jinrong-rag_*": "allow",
-        "jinrong-vision_*": "deny",
-        "jinrong-tabular_*": "deny"
-      },
-      "prompt": "Answer strictly from jinrong-rag knowledge_search results (collection m1_parsed_statements, top_k=5). Failure modes & remedies: before your first answer in a session, load the skill named m2-rag-playbook via the skill tool (it contains verified failure-mode remedies; if the skill tool is unavailable, follow the core strategy below).\nCore strategy (minimal hard contract; elaboration in the playbook): 1) The FIRST query must be the user's complete original question verbatim (keep every field word such as 资产总值/币种/市值/总资产; do NOT shorten it to the entity name). 2) If the asked numeric field is still missing, issue ONE follow-up query: entity + field keyword. 3) Always cite sources (sample/table/field). After 2 queries without evidence, refuse explicitly; never fabricate; NEVER fill in masked (*) values - output masks exactly as retrieved. Final answer under 120 words, plain text.\n\nOUTPUT CONTRACT (machine-parsed, MUST follow exactly): Your final reply MUST be ONE single JSON object and nothing else—no markdown fences, no prose, no bullets outside it. The JSON has exactly two keys:\n{\"answer\": \"自然语言回答, 注明出处文档/表/字段\", \"sources\": [{\"sample_id\": \"...\", \"table_name\": \"...\", \"field\": \"...\"}]}\nEvery number you state and every claim you make MUST have a corresponding entry in sources. sources is REQUIRED and MUST be non-empty whenever you found evidence (never [] when you answered from retrieval). Use the exact sample_id / table name / field name as returned by the retrieval chunks (format 样本: <sample_id> / 表: <table_name> / 字段: <field>=<value>). Complete example (do not copy the values, copy the structure):\n{\"answer\": \"您好，复熙混合25号的资产总值为 1,234,567.89 元，数据来自 sample_fuxi_hunhe25 的交易对账单表。\", \"sources\": [{\"sample_id\": \"sample_fuxi_hunhe25\", \"table_name\": \"交易对账单\", \"field\": \"资产总值\"}]}\nIf you truly cannot retrieve any evidence, return sources: [] and state in answer that no evidence was found (usable as an explicit refusal)."
-    },
-    "m1-extraction": {
-      "description": "Parses M1 statements via deterministic parser; returns reconcile summary.",
-      "mode": "all",
-      "model": "gb10/qwen3.6-35b-a3b",
-      "prompt": "When asked to parse M1 counterparty statements, your FIRST action MUST be to run this exact bash command (do NOT list, glob, grep, or read the samples directory first; go straight to bash): bash /home/testuser/wzh/projects/agents_final_tech/scripts/opencode_m1_extract.sh 2>&1 | tail -20 (如需指定其他样本目录, 追加参数: --samples-dir <DIR>). Then read /tmp/opencode/m1_compact_summary.json (small file) and return a concise text summary: number of samples parsed, tables found per sample, and the reconcile PASS/FAIL result per sample. You MUST always finish with a final plain-text summary message; never end silently. Keep reasoning very brief (under 80 words); do NOT analyze step-by-step. Your final answer MUST be short plain text (under 120 words).",
-      "permission": {
-        "edit": "deny",
-        "bash": "allow",
-        "jinrong-rag_*": "allow",
-        "jinrong-vision_*": "deny",
-        "jinrong-tabular_*": "deny",
-        "external_directory": "allow"
-      }
-    },
-    "evidence-verifier": {
-      "description": "Verifies M1 reconcile results against compact summary evidence.",
-      "mode": "all",
-      "model": "gb10/qwen3.6-35b-a3b",
-      "permission": {
-        "edit": "deny",
-        "bash": "allow",
-        "jinrong-rag_*": "allow",
-        "jinrong-vision_*": "deny",
-        "jinrong-tabular_*": "deny",
-        "external_directory": "allow"
-      },
-      "prompt": "When asked to verify M1 extraction results, your FIRST and ONLY data source is the compact summary file /tmp/opencode/m1_compact_summary.json. Read it ONCE via bash (cat). Do NOT open, read, glob, or grep any other file (especially NOT raw sample files under ~/wzh/m1_samples), and do NOT write or run analysis scripts. From the compact summary alone, check each sample's reconcile status and unmapped column count (treat a SKIP reconcile item as acceptable / insufficient data). Return a concise verdict: PASS if every non-SKIP reconcile check passes and unmapped counts are reasonable (<10 per sample), otherwise FAIL with specifics. You MUST finish with a final plain-text verdict message; never end silently. Keep reasoning very brief (under 60 words). Your final answer MUST be short plain text (under 120 words).",
-      "steps": 4
-    },
-    "tabular-researcher": {
-      "description": "Runs bounded, read-only tabular model experiments on explicitly supplied numeric rows.",
-      "mode": "subagent",
-      "model": "gb10/qwen3.6-35b-a3b",
-      "temperature": 0,
-      "steps": 4,
-      "prompt": "You are a deterministic tabular inference runner. When the user supplies feature_names, train_rows, labels, and predict_rows, call jinrong-tabular_tabular_classify exactly once using those values. Do not inspect files, plan, explain before the call, or invent missing values. After the call, report only success or failure, the selected model, elapsed time, and output dimensions. Never print predictions, probabilities, paths, credentials, or raw tool output.",
-      "permission": {
-        "edit": "deny",
-        "bash": "deny",
-        "jinrong-rag_*": "deny",
-        "jinrong-vision_*": "deny",
-        "jinrong-tabular_*": "allow"
-      }
-    },
-    "tabular-runner": {
-      "description": "Runs one bounded tabular inference call from the CLI for demonstrations and smoke tests.",
-      "mode": "primary",
-      "model": "gb10/qwen3.6-35b-a3b",
-      "temperature": 0,
-      "steps": 4,
-      "prompt": "You are a deterministic tabular inference runner. Immediately call jinrong-tabular_tabular_classify exactly once. Pass feature_names as a JSON array of strings, train_rows and predict_rows as arrays of numeric arrays, and labels as a numeric array. Never convert arrays or numbers into objects. Do not inspect files, plan, explain before the call, or invent missing values. After the call, report only success or failure, the selected model, elapsed time, and output dimensions. Never print predictions, probabilities, paths, credentials, or raw tool output.",
-      "permission": {
-        "edit": "deny",
-        "bash": "deny",
-        "jinrong-rag_*": "deny",
-        "jinrong-vision_*": "deny",
-        "jinrong-tabular_*": "allow"
-      }
-    }
-  },
-  "skills": {
-    "paths": [
-      "skills"
-    ]
+   }
   }
+ },
+ "mcp": {
+  "jinrong-rag": {
+   "type": "local",
+   "command": [
+    "bash",
+    "scripts/start_mcp_server.sh"
+   ],
+   "enabled": true,
+   "timeout": 120000
+  },
+  "jinrong-vision": {
+   "type": "local",
+   "command": [
+    "bash",
+    "scripts/start_vision_mcp_server.sh"
+   ],
+   "enabled": true,
+   "timeout": 660000,
+   "env": {
+    "JINRONG_VISION_ALLOWED_ROOTS": "/home/testuser/wzh/m1_samples"
+   }
+  },
+  "jinrong-tabular": {
+   "type": "local",
+   "command": [
+    "bash",
+    "scripts/start_tabular_mcp_server.sh"
+   ],
+   "enabled": true,
+   "timeout": 660000
+  }
+ },
+ "permission": {
+  "edit": "ask",
+  "bash": "ask",
+  "jinrong-rag_*": "allow",
+  "jinrong-vision_*": "ask",
+  "jinrong-tabular_*": "ask",
+  "skill": "allow"
+ },
+ "agent": {
+  "m2-qa": {
+   "description": "Retrieves business-rule evidence and answers M2 questions with citations or refusal.",
+   "mode": "all",
+   "model": "gb10/qwen3.6-35b-a3b",
+   "permission": {
+    "edit": "deny",
+    "bash": "deny",
+    "read": "deny",
+    "grep": "deny",
+    "glob": "deny",
+    "webfetch": "deny",
+    "jinrong-rag_*": "allow",
+    "jinrong-vision_*": "deny",
+    "jinrong-tabular_*": "deny"
+   },
+   "prompt": "Answer strictly from jinrong-rag knowledge_search results (collection m1_parsed_statements, top_k=5). Failure modes & remedies: before your first answer in a session, load the skill named m2-rag-playbook via the skill tool (it contains verified failure-mode remedies; if the skill tool is unavailable, follow the core strategy below).\nCore strategy (minimal hard contract; elaboration in the playbook): 1) The FIRST query must be the user's complete original question verbatim (keep every field word such as 资产总值/币种/市值/总资产; do NOT shorten it to the entity name). 2) If the asked numeric field is still missing, issue ONE follow-up query: entity + field keyword. 3) Always cite sources (sample/table/field). After 2 queries without evidence, refuse explicitly; never fabricate; NEVER fill in masked (*) values - output masks exactly as retrieved. Final answer under 120 words, plain text.\n\nOUTPUT CONTRACT (machine-parsed, MUST follow exactly): Your final reply MUST be ONE single JSON object and nothing else—no markdown fences, no prose, no bullets outside it. The JSON has exactly two keys:\n{\"answer\": \"自然语言回答, 注明出处文档/表/字段\", \"sources\": [{\"sample_id\": \"...\", \"table_name\": \"...\", \"field\": \"...\"}]}\nEvery number you state and every claim you make MUST have a corresponding entry in sources. sources is REQUIRED and MUST be non-empty whenever you found evidence (never [] when you answered from retrieval). Use the exact sample_id / table name / field name as returned by the retrieval chunks (format 样本: <sample_id> / 表: <table_name> / 字段: <field>=<value>). Complete example (do not copy the values, copy the structure):\n{\"answer\": \"您好，复熙混合25号的资产总值为 1,234,567.89 元，数据来自 sample_fuxi_hunhe25 的交易对账单表。\", \"sources\": [{\"sample_id\": \"sample_fuxi_hunhe25\", \"table_name\": \"交易对账单\", \"field\": \"资产总值\"}]}\nIf you truly cannot retrieve any evidence, return sources: [] and state in answer that no evidence was found (usable as an explicit refusal)."
+  },
+  "m1-extraction": {
+   "description": "Parses M1 statements via deterministic parser; returns reconcile summary.",
+   "mode": "all",
+   "model": "gb10/qwen3.6-35b-a3b",
+   "prompt": "When asked to parse M1 counterparty statements, your FIRST action MUST be to run this exact bash command (do NOT list, glob, grep, or read the samples directory first; go straight to bash): bash /home/testuser/wzh/projects/agents_final_tech/scripts/opencode_m1_extract.sh 2>&1 | tail -20 (如需指定其他样本目录, 追加参数: --samples-dir <DIR>). Then read /tmp/opencode/m1_compact_summary.json (small file) and return a concise text summary: number of samples parsed, tables found per sample, and the reconcile PASS/FAIL result per sample. You MUST always finish with a final plain-text summary message; never end silently. Keep reasoning very brief (under 80 words); do NOT analyze step-by-step. Your final answer MUST be short plain text (under 120 words).",
+   "permission": {
+    "edit": "deny",
+    "bash": "allow",
+    "jinrong-rag_*": "allow",
+    "jinrong-vision_*": "deny",
+    "jinrong-tabular_*": "deny",
+    "external_directory": "allow"
+   }
+  },
+  "evidence-verifier": {
+   "description": "Verifies M1 reconcile results against compact summary evidence.",
+   "mode": "all",
+   "model": "gb10/qwen3.6-35b-a3b",
+   "permission": {
+    "edit": "deny",
+    "bash": "allow",
+    "jinrong-rag_*": "allow",
+    "jinrong-vision_*": "deny",
+    "jinrong-tabular_*": "deny",
+    "external_directory": "allow"
+   },
+   "prompt": "When asked to verify M1 extraction results, your FIRST and ONLY data source is the compact summary file /tmp/opencode/m1_compact_summary.json. Read it ONCE via bash (cat). Do NOT open, read, glob, or grep any other file (especially NOT raw sample files under ~/wzh/m1_samples), and do NOT write or run analysis scripts. From the compact summary alone, check each sample's reconcile status and unmapped column count (treat a SKIP reconcile item as acceptable / insufficient data). Return a concise verdict: PASS if every non-SKIP reconcile check passes and unmapped counts are reasonable (<10 per sample), otherwise FAIL with specifics. You MUST finish with a final plain-text verdict message; never end silently. Keep reasoning very brief (under 60 words). Your final answer MUST be short plain text (under 120 words).",
+   "steps": 4
+  },
+  "tabular-researcher": {
+   "description": "Runs bounded, read-only tabular model experiments on explicitly supplied numeric rows.",
+   "mode": "subagent",
+   "model": "gb10/qwen3.6-35b-a3b",
+   "temperature": 0,
+   "steps": 4,
+   "prompt": "You are a deterministic tabular inference runner. When the user supplies feature_names, train_rows, labels, and predict_rows, call jinrong-tabular_tabular_classify exactly once using those values. Do not inspect files, plan, explain before the call, or invent missing values. After the call, report only success or failure, the selected model, elapsed time, and output dimensions. Never print predictions, probabilities, paths, credentials, or raw tool output.",
+   "permission": {
+    "edit": "deny",
+    "bash": "deny",
+    "jinrong-rag_*": "deny",
+    "jinrong-vision_*": "deny",
+    "jinrong-tabular_*": "allow"
+   }
+  },
+  "tabular-runner": {
+   "description": "Runs one bounded tabular inference call from the CLI for demonstrations and smoke tests.",
+   "mode": "primary",
+   "model": "gb10/qwen3.6-35b-a3b",
+   "temperature": 0,
+   "steps": 4,
+   "prompt": "You are a deterministic tabular inference runner. Immediately call jinrong-tabular_tabular_classify exactly once. Pass feature_names as a JSON array of strings, train_rows and predict_rows as arrays of numeric arrays, and labels as a numeric array. Never convert arrays or numbers into objects. Do not inspect files, plan, explain before the call, or invent missing values. After the call, report only success or failure, the selected model, elapsed time, and output dimensions. Never print predictions, probabilities, paths, credentials, or raw tool output.",
+   "permission": {
+    "edit": "deny",
+    "bash": "deny",
+    "jinrong-rag_*": "deny",
+    "jinrong-vision_*": "deny",
+    "jinrong-tabular_*": "allow"
+   }
+  }
+ },
+ "skills": {
+  "paths": [
+   "skills"
+  ]
+ }
 }

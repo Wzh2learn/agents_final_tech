@@ -33,7 +33,7 @@ _FORMAT_HINT = (
     '{"answer": "自然语言回答, 注明出处文档/表/字段", '
     '"sources": [{"sample_id": "...", "table_name": "...", "field": "..."}]}'
     " sources 必须与 answer 中的每个结论一一对应；凡从检索命中回答, "
-    "sources 必须非空, 不得返回 []。"
+    "sources 必须非空, 不得返回 []。\n/no_think"
 )
 
 

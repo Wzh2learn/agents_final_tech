@@ -12,6 +12,8 @@ generation runs on the :8004 Qwen3.6-35B chat model. See ``biz.m2_service``.
 """
 from __future__ import annotations
 
+import datetime as dt
+import json
 import logging
 import os
 import time
@@ -38,6 +40,31 @@ router = APIRouter()
 logger = logging.getLogger("m1.m2_router")
 
 _ADMIN_TOKEN: Optional[str] = os.environ.get("M1_ADMIN_TOKEN") or None
+
+
+# --- B4 观察窗口结构化日志 (S1, 2026-08-12; 发送后 ≥100 ask / ≥3 天统计) ---
+_B4_LOG = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))),
+    "logs", "graph", "b4_ask_log.jsonl",
+)
+
+
+def _b4_log(route: str, latency_ms: int, sources_count: int, fell_back: bool,
+            status: str = "ok") -> None:
+    """每次 /api/m2/ask 追加一行 JSONL: ts/route/latency_ms/sources_count/fell_back/status。"""
+    try:
+        os.makedirs(os.path.dirname(_B4_LOG), exist_ok=True)
+        with open(_B4_LOG, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps({
+                "ts": dt.datetime.now().isoformat(timespec="seconds"),
+                "route": route,
+                "latency_ms": latency_ms,
+                "sources_count": sources_count,
+                "fell_back": fell_back,
+                "status": status,
+            }, ensure_ascii=False) + "\n")
+    except OSError:
+        logger.debug("b4 log write failed", exc_info=True)
 
 
 def _check_admin(x_admin_token: Optional[str]) -> None:
@@ -83,6 +110,7 @@ async def m2_health():
 async def m2_ask_endpoint(request: M2AskRequest):
     """Retrieve grounded chunks and generate an answer over M1-parsed statements."""
     t0 = time.perf_counter()
+    fell_back_from_agent = False
     if opencode_adapter.route_enabled() and not detect_compare_intent(request.question):
         sid = request.session_id or new_session_id()
         oc = opencode_adapter.ask_via_opencode(
@@ -96,8 +124,10 @@ async def m2_ask_endpoint(request: M2AskRequest):
             oc["duration_ms"] = int(elapsed * 1000)
             m2_qa_total.inc({"status": "ok"})
             m2_qa_duration_seconds.observe(elapsed)
+            _b4_log("agent", int(elapsed * 1000), len(oc.get("sources") or []), False)
             return oc
         logger.warning("opencode route enabled but unavailable; served by direct path")
+        fell_back_from_agent = True
     try:
         result = m2_ask(
             request.question,
@@ -108,11 +138,13 @@ async def m2_ask_endpoint(request: M2AskRequest):
         result["duration_ms"] = int(elapsed * 1000)
         m2_qa_total.inc({"status": "ok"})
         m2_qa_duration_seconds.observe(elapsed)
+        _b4_log("direct", int(elapsed * 1000), len(result.get("sources") or []), fell_back_from_agent)
         return result
     except Exception:
         elapsed = time.perf_counter() - t0
         m2_qa_total.inc({"status": "error"})
         m2_qa_duration_seconds.observe(elapsed)
+        _b4_log("direct", int(elapsed * 1000), 0, fell_back_from_agent, status="error")
         raise
 
 
