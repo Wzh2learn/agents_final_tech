@@ -106,13 +106,14 @@ def run_checks(checks: list[dict], answer: str, resp: dict) -> list[dict]:
     return out
 
 
-def run_question(endpoint: str, q: dict, session_id: str | None) -> dict:
+def run_question(endpoint: str, q: dict, session_id: str | None,
+                 timeout: int = 120) -> dict:
     turns = q.get("turns") or [q["question"]]
     sid = session_id
     resp = {}
     answers = []
     for turn in turns:
-        resp = ask(endpoint, turn, sid)
+        resp = ask(endpoint, turn, sid, timeout=timeout)
         sid = resp.get("session_id", sid)
         answers.append(resp.get("answer", ""))
     final_answer = answers[-1]
@@ -141,6 +142,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--calibrate", action="store_true",
                     help="只跑并打印答案, 不判分 (定标用)")
     ap.add_argument("--only", default="", help="只跑指定 id (逗号分隔)")
+    ap.add_argument("--timeout", type=int, default=120,
+                    help="每题 HTTP 超时秒数 (默认 120; Loop B canary 用 45)")
     args = ap.parse_args(argv)
 
     with open(args.fixture, encoding="utf-8") as fh:
@@ -161,7 +164,7 @@ def main(argv: list[str] | None = None) -> int:
 
     results = []
     for q in questions:
-        r = run_question(endpoint, q, None)
+        r = run_question(endpoint, q, None, timeout=args.timeout)
         results.append(r)
         if args.calibrate:
             print(f"--- {q['id']} ({r['route']}, {r['duration_ms']}ms)")
