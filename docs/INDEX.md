@@ -38,6 +38,7 @@
 | `27_M1M2页面改版_两个设计方向.md` | 方向已批（先 B 后 A, 代码等发送后） | M1/M2 页面改版两方向：A 三栏任务工作台 vs B 流水线画布控制台 + 公共规范（模式切换诚实设计/选择器保留表）+ 红线合规迁移预案 + 两个 HTML 草图 | 2026-08-11 |
 | `28_业界对标与优化菜单.md` | 活跃（顺序已批 #2→#1→#4, 其余待拍板） | 四类对标(WorkBuddy/Manus/Devin/Cursor, Perplexity/NotebookLM/Dify, Docling/MinerU/LlamaParse/TextIn, RAGAS/DeepEval/TruLens) + Top5 优化菜单 + 四维审计清单附录 | 2026-08-11 |
 | `29_graph_engineering_roadmap.md` | 活跃（菜单待拍板） | 人肉环节盘点 + 分级菜单 L1 status.sh / L2 任务卡模板 / L3 自动编排前提（暂缓） | 2026-08-12 |
+| `30_科研线规划.md` | 活跃 | 科研线规划: VGMC 验证门控记忆固化 (三条素材线 / M0-M4 路线图 / 甲方数据零进入; 文末附 M0 文献调研任务卡) | 2026-08-13 |
 | `15_远程开发机_Codex_CLI_与_OpenCode_配置.md` | 活跃 | GB10 开发机配置与模型切换指南（Loop A flash / Loop C qwen3.8-max） | 2026-08-08 |
 | `13_M1_M2联合数据闭环计划.md` | 历史-政策依据 | 公开数据集 / split 政策唯一依据（研究线冻结配套，根 AGENTS.md 指定必读） | 2026-07-22 |
 | `architecture/codebase_map.md` | 活跃 | 代码库结构 + 依赖图 + 端口拓扑（含 :4096 sidecar） | 2026-08-08 |

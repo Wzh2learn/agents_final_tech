@@ -321,6 +321,9 @@ RAG QA: eval 基线定稿 2026-08-09 = 确定性 16/16 + AI judge 四维全 5.0�
 | A | Codex CLI | graph-loop-rules | Graph Loop 红线与运行约束（冻结节点/生产后端/API key/72B），OpenCode agent 通用 |
 | A | Codex CLI | jinrong-docs-sync | 文档四层结构治理 + INDEX.md 单一入口维护 (Phase 4 自定义, 2026-08-04) |
 | C | Claude Code | jinrong-docs-sync | 审计后文档时效/一致性复核的同套规则基线 |
+| A | Codex CLI | research-writing-skill | 科研线 (docs/30): 论文正文/摘要/回复审稿人写作与润色, 中文优先 |
+| A | Codex CLI | office-academic-skill | 科研线 (docs/30): 学术 Word/PPT 生成 (文献报告/组会/答辩 PPT) |
+| A | Codex CLI | scientific-toolkit-skill | 科研线 (docs/30): 科研计算/统计/配图 (含 paper-lookup 与 citation-management 子技能) |
 
 **治理规则**:
 1. 仅 Loop D 可安装新 skill: 搜索 → 克隆审计 → 安装 → 注册本表与 skills/ → sync_skills.sh 分发。
