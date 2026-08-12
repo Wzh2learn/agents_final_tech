@@ -12,11 +12,11 @@
 import argparse, json, os, re, sys, urllib.request
 sys.path.insert(0, os.path.dirname(__file__))
 import m1_rag_ingest as ing
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
+from biz.number_grounding import check_answer  # noqa: E402
 
 BASE = "http://localhost:5050"
 OUT = "logs/graph/eval/number_faithfulness_report.json"
-NUM = re.compile(r"\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+\.\d+|\d+")
-EXEMPT = {"2026", "2023", "2024", "2025", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "25", "31", "15", "16"}
 
 ADVERSARIAL = [
     {"id": "adv_june_cross_period", "q": "嘉合基金2026年6月的总资产是多少？",
@@ -28,10 +28,6 @@ ADVERSARIAL = [
 ]
 
 
-def norm(s: str) -> str:
-    return s.replace(",", "").replace(" ", "")
-
-
 def ask(q: str) -> dict:
     req = urllib.request.Request(
         BASE + "/api/m2/ask",
@@ -41,27 +37,6 @@ def ask(q: str) -> dict:
         return json.loads(resp.read().decode("utf-8"))
 
 
-MASK = re.compile(r"\d[\d,]*\*[\d*]*(?:\.\d+)?")
-DATE8 = re.compile(r"20\d{6}")
-
-
-def check_answer(answer: str, chunk_blob: str) -> dict:
-    # 出处行是 sources 元数据(sample_id 含日期), 不是数值 claim, 先剥离
-    answer = re.sub(r"出处[::].*$", "", answer, flags=re.S)
-    nums, masked, ungrounded = [], [], []
-    for m in MASK.finditer(answer):  # 整段掩码(含尾部小数)记 masked 后剔除
-        masked.append(m.group(0))
-    scrubbed = MASK.sub(" ", answer)
-    scrubbed = DATE8.sub(" ", scrubbed)  # 20231031 类日期豁免
-    for m in NUM.finditer(scrubbed):
-        tok = m.group(0)
-        if tok in EXEMPT:
-            continue
-        nums.append(tok)
-        if norm(tok) not in norm(chunk_blob):
-            ungrounded.append(tok)
-    return {"numbers": nums, "masked": masked, "ungrounded": ungrounded,
-            "pass": not ungrounded}
 
 
 def main() -> int:
