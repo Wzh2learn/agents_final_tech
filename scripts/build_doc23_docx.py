@@ -31,6 +31,31 @@ def add_md_runs(par, text: str) -> None:
         par.add_run(text[pos:])
 
 
+COVER_TITLE = "AI 金融对账单智能解析与问答系统"
+COVER_SUB = "阶段汇报"
+
+
+def add_cover(doc: Document) -> None:
+    for _ in range(6):
+        doc.add_paragraph()
+    t = doc.add_paragraph()
+    t.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r = t.add_run(COVER_TITLE)
+    r.bold = True
+    r.font.size = Pt(26)
+    s = doc.add_paragraph()
+    s.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r = s.add_run(COVER_SUB)
+    r.font.size = Pt(16)
+    r.font.color.rgb = RGBColor(0x40, 0x40, 0x40)
+    d = doc.add_paragraph()
+    d.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r = d.add_run("2026 年 8 月")
+    r.font.size = Pt(12)
+    r.font.color.rgb = RGBColor(0x70, 0x70, 0x70)
+    doc.add_page_break()
+
+
 def main() -> None:
     doc = Document()
     doc.styles["Normal"].font.name = "Microsoft YaHei"
@@ -38,6 +63,10 @@ def main() -> None:
 
     lines = open(SRC, encoding="utf-8").read().split("\n")
     i = 0
+    # 封面独立成页; md 首行 H1 与封面标题重复, 跳过
+    if lines and lines[0].startswith("# "):
+        lines = lines[1:]
+    add_cover(doc)
     while i < len(lines):
         ln = lines[i]
         stripped = ln.strip()

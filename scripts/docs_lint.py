@@ -91,6 +91,9 @@ def check_status_headers() -> tuple[list, list]:
         name = os.path.basename(path)
         if name in ("INDEX.md", "README.md"):
             continue
+        # 交付件 (甲方发送版源文) 不带内部状态头, 状态由 INDEX 管理
+        if name.startswith("23_"):
+            continue
         head = open(path, encoding="utf-8").read(2000)
         m = re.search(r"状态[:：]\s*(\S+)", head)
         if not m:

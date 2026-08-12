@@ -1,0 +1,15 @@
+{
+ "shots": [
+  "01_home",
+  "02_sample",
+  "03_upload_jiahe",
+  "04_reconcile",
+  "05_suggestions",
+  "06_schema_rules",
+  "07_qa_with_sources",
+  "08_qa_followup",
+  "09_qa_no_fabrication",
+  "10_compare_positions"
+ ],
+ "date": "2026-08-12 21:00"
+}
