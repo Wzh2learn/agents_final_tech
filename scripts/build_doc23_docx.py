@@ -31,6 +31,7 @@ def add_md_runs(par, text: str) -> None:
         par.add_run(text[pos:])
 
 
+_FIG_STATE: dict = {}
 COVER_TITLE = "AI 金融对账单智能解析与问答系统"
 COVER_SUB = "阶段汇报"
 
@@ -53,7 +54,33 @@ def add_cover(doc: Document) -> None:
     r = d.add_run("2026 年 8 月")
     r.font.size = Pt(12)
     r.font.color.rgb = RGBColor(0x70, 0x70, 0x70)
+    for _ in range(4):
+        doc.add_paragraph()
+    for text in ("呈报对象：甲方单位 / 指导老师", "汇报方：金融对账单智能解析与问答项目组"):
+        ln = doc.add_paragraph()
+        ln.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        r = ln.add_run(text)
+        r.font.size = Pt(12)
     doc.add_page_break()
+
+
+def add_page_numbers(doc: Document) -> None:
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+    footer = doc.sections[0].footer
+    p = footer.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run()
+    el = OxmlElement("w:fldChar")
+    el.set(qn("w:fldCharType"), "begin")
+    run._r.append(el)
+    it = OxmlElement("w:instrText")
+    it.set(qn("xml:space"), "preserve")
+    it.text = "PAGE"
+    run._r.append(it)
+    el = OxmlElement("w:fldChar")
+    el.set(qn("w:fldCharType"), "end")
+    run._r.append(el)
 
 
 def main() -> None:
@@ -94,14 +121,25 @@ def main() -> None:
             add_md_runs(h, m.group(2))
             i += 1
             continue
+        m = re.match(r"^\*\*图 ([789])｜", stripped)
+        if m:
+            global _FIG_STATE
+            _FIG_STATE = {"wide": True, "page7": m.group(1) == "7"}
+            if _FIG_STATE["page7"]:
+                doc.add_page_break()
+
         m = re.match(r"^!\[([^\]]*)\]\(([^)]+)\)", stripped)
         if m:
             alt, path = m.groups()
             full = os.path.join(ROOT, "docs", path)
             if os.path.exists(full):
+                width = 6.5 if _FIG_STATE.get("wide") else 6.0
                 p = doc.add_paragraph()
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                p.add_run().add_picture(full, width=Inches(6.0))
+                p.add_run().add_picture(full, width=Inches(width))
+                if _FIG_STATE.get("page7"):
+                    doc.add_page_break()
+                _FIG_STATE = {}
                 cap = doc.add_paragraph()
                 cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 r = cap.add_run(alt)
@@ -112,7 +150,10 @@ def main() -> None:
             i += 1
             continue
         if stripped.startswith("- "):
-            add_md_runs(doc.add_paragraph(style="List Bullet"), stripped[2:])
+            bp = doc.add_paragraph()
+            bp.paragraph_format.left_indent = Pt(14)
+            bp.add_run("•  ")
+            add_md_runs(bp, stripped[2:])
             i += 1
             continue
         if stripped.startswith("> "):
@@ -127,6 +168,7 @@ def main() -> None:
             add_md_runs(doc.add_paragraph(), stripped)
         i += 1
 
+    add_page_numbers(doc)
     doc.save(OUT)
     print("saved:", OUT)
 
