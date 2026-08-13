@@ -5,8 +5,9 @@
 守护模式。**docs/23 已发送甲方（08-12, 用户亲发）; B4 观察时钟运行中** — asks=120（08-13 08:27 实测, ≥100 数量维度已达标）, 继续等 ≥3 天, 两条件同时满足为达标。缓至甲方首轮反馈: 任务二 B 一期 / 场景 B / _cleanup_backup 删除 / Qoder PAT。
 
 ## Git
-- HEAD: 本 commit（T2/T3 收口）; 本轮链: 6e345df(R3 科研线) → 0d938d7(T1 建议数据入账) → 本 commit
-- 三方对齐（GB10 push → GitHub → 本机 fetch+merge）
+- HEAD: 299f77d（导师包发送前终审闭环; STATE/dispatch 覆写随收口 commit）; 链: 3d51e7d(远程演示通道) → 299f77d
+- 三方对齐（GB10 push → GitHub → 本机 fetch+merge）08-14 验证
+- 导师版 docx 冻结: bd3daed4948af81cb5dcea5ef2814882（5707fcea/567c7fe7 作废）; 甲方版 docx 仍冻结 bc3785cb
 
 ## 本轮战绩（08-13 T1/T2/T3）
 - T1: schema_suggestions 08-12 23:33 批次入账（walkthrough 上传 tmp2s004xv5.pdf 7 条建议）; 产品份额①→持仓数量(high) 列下轮 apply 候选（走 SOP, 本次不 apply）
