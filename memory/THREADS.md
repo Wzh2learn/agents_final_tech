@@ -164,3 +164,14 @@
 - **R2② OpenAI4S 探针结论**: PKU-YuanGroup/OpenAI4S (MIT, Code-as-Action 科研 agent, 纯 stdlib 核心) **最小循环验证通过**: ~/wzh/research/openai4s_probe + 独立 venv ~/wzh/venvs/openai4s_probe; BYOK 直连 Token Plan 上游 (OPENAI4S_CHATGPT_BASE_URL; :8100 因 /responses-only 不可用); `openai4s run` 输出结构化结果 + kernel 验证 + metrics (RUN_EXIT=0); serve Web UI :8760 未启动; **未接生产**, 可作 docs/30 科研线执行器。
 - **R3 学术 skill 审计安装 COMPLETE**: zLanqing/codex-claude-academic-skills (MIT) GB10 克隆 ~/wzh/research/academic_skills_audit (本机 clone 被沙箱拦截, 转 GB10 成功); 审计 = 3 顶层 skill (research-writing/office-academic/scientific-toolkit 含 21 子技能), frontmatter 规范, 无恶意模式; **唯一 caveat**: literature-review 子技能含 `curl|bash` 第三方安装引用 (parallel.ai), 未经审阅勿执行。安装 = repo skills/ + sync_skills.sh A 列表 + AGENTS.md 注册表 (A 配属 科研线) + 本机 Loop D; sync --check PASS 21/21。
 - **R3 docs/30 入账**: docs/30_科研线规划.md (VGMC 验证门控记忆固化) 登记 INDEX 状态=活跃; M0 文献调研任务卡已附文末 (只读 2h 隔离执行), 待用户排期。
+
+## 2026-08-13 早 T1/T3 收尾小队列入账
+- **T1 schema_suggestions 脏改动入账** (0d938d7): 自学习闭环 08-12 23:33 批次 (walkthrough 上传 tmp2s004xv5.pdf) 7 条新建议 + 权益登记日 count 1→2; **产品份额①→持仓数量(high) 列下轮 apply 候选** (走既有 SOP: 回归门禁 + delta 报告, 等明确窗口, 本次不 apply); tmp2s004xv5.pdf 定性 = 场景 A walkthrough 上传临时件 (时间戳落在 23:24-23:41 重启+walkthrough 窗口), 磁盘搜索 (/tmp + 项目目录) 未见残留, 无需清理动作。
+- **T3 B4 分布记账** (辅助线 08-13 08:27 实测): asks=120 (agent=15 / fallback=92 / error=0) — route=on 下 **77% 流量经 18s 超时回落走直连**, "快与准菜单"的准路径当前被超时吞掉大半。定性: ① 作为 **A2 遗留 (:8004 slot 争用/延迟方差) 的量化证据**, 修复优先级随甲方反馈定; ② **B4 时钟口径确认**: ≥100 asks 数量维度已达标, 继续等 ≥3 天, 达标判定 = 两条件同时满足; ③ 该分布同时是 docs/30 B 模块 (记忆感知路由) 的实证动机 — 引用不重复复述 (台账唯一存放规则)。
+
+## 2026-08-13 夜 T2 M0 文献调研结论入账
+- **M0 差异化判定 = 差异化成立（附条件）**: 报告 docs/experiments/2026-08-13_m0_literature_survey.md。精读/补扫 5 篇可核验文献（RecMem ACL26 Findings = 最近邻但只解"何时固化"且记忆仍 NL / Q-Evolve 进化权重不进化记忆工件 / Evo-Memory 与 MemoryAgentBench 为基准类可借鉴评估方法 / self-evolving coding agents 综述 §3.2 确认记忆自进化全线 NL 轨迹形态且明言需 validation+rollback）。VGMC 三要素组合（可执行规则工件 + 回归验证门 + LLM 介入衰减）未见覆盖。
+- **重要发现（检索可靠性）**: docs/30 两个锚点 CAIS 2026（episodic critique→semantic guidance）与 STATE-Bench（微软）经 arXiv/OpenAlex/Crossref 多渠道**无法核验存在**, 疑似首轮 web_search 检索幻觉——写作前人工核验前不得引用（入 blocked_questions）。
+- **可吸收**: Evo-Memory 流式评估协议→实验 3; MemoryAgentBench 四能力→评测对照; 综述分类学→相关工作定位; 真实门控数据 (apply 5/reject 14/hold 6) 为稀缺实证资产。
+- **NLPCC/CCIR 截稿日未获得**（DNS/502/JS 渲染全挡）, 入 blocked_questions 待人工浏览器查。
+- 约束遵守: parallel.ai curl|bash 引用全程未执行; 物料在 ~/wzh/research/m0_lit/（GB10 本地不入 git）。

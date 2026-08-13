@@ -72,6 +72,7 @@
 | `2026-08-12_dify_rule_terms_mining.md` | 活跃 | S3② dify 甲方规则 docx 术语挖掘: 确定性脚本 + 3 synonyms 补词(证券持仓明细), 诚实 delta=0 | 2026-08-13 |
 | `2026-08-13_docling_probe.md` | 活跃 | S3④ Docling ARM64 探针: CPU 路可用, NCAMC 垂直行提取优于坐标重建, 定位离线 second-opinion | 2026-08-13 |
 | `2026-08-12_demo_talk_track.md` | 活跃（内部, 不进发送版） | 演示话术清单（取代 docs/23 旧附录 C）: 双链路/递进故事/7 条口头解释 | 2026-08-12 |
+| `2026-08-13_m0_literature_survey.md` | 历史-参考（结论活跃） | M0 文献调研: VGMC 差异化成立(附条件); CAIS/STATE-Bench 锚点未核验入台账; 可吸收清单 |
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
 | `2026-08-04_rehearsal/` | 历史-参考 | 彩排截图 7 张（发送版已改用 08-12 重拍，本目录留档；demo 日志实测缺失，见 2026-08-10 审计 F19） |
