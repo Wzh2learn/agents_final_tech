@@ -14,13 +14,13 @@
     {
       "raw_column": "权益登记日",
       "standard_field": "对账日期",
-      "confidence": "low",
-      "reason": "权益登记日属于特定交易日期，与通用的对账日期概念不同，且表中无数据",
+      "confidence": "medium",
+      "reason": "权益登记日是分红业务的具体日期，属于对账日期的一种，但通常对账日期指账单统计截止日或打印日，此处仅为同义关联。",
       "sample": "sample_20260506_233222LU.pdf",
       "table": "交易对账单",
-      "count": 1,
+      "count": 2,
       "first_seen": "2026-08-09 00:00",
-      "last_seen": "2026-08-09 00:00"
+      "last_seen": "2026-08-12 23:33"
     },
     {
       "raw_column": "交易账户名称",
@@ -65,6 +65,83 @@
       "count": 4,
       "first_seen": "2026-08-11 23:58",
       "last_seen": "2026-08-12 20:59"
+    },
+    {
+      "raw_column": "产品代码",
+      "standard_field": "产品代码",
+      "confidence": "high",
+      "reason": "列名完全匹配标准字段",
+      "sample": "tmp2s004xv5.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-12 23:33",
+      "last_seen": "2026-08-12 23:33"
+    },
+    {
+      "raw_column": "产品份额①",
+      "standard_field": "持仓数量",
+      "confidence": "high",
+      "reason": "在基金对账单语境下，'产品份额'即指代'基金份额'，属于持仓数量的同义表达",
+      "sample": "tmp2s004xv5.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-12 23:33",
+      "last_seen": "2026-08-12 23:33"
+    },
+    {
+      "raw_column": "申请日期",
+      "standard_field": "对账日期",
+      "confidence": "medium",
+      "reason": "申请日期属于交易发生的具体日期，与对账日期/交易日期概念相近，但通常对账日期指账单统计截止日或打印日，此处表头明确为申请日期，故置信度中等。",
+      "sample": "tmp2s004xv5.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-12 23:33",
+      "last_seen": "2026-08-12 23:33"
+    },
+    {
+      "raw_column": "交易类型",
+      "standard_field": "摘要",
+      "confidence": "medium",
+      "reason": "交易类型描述了业务性质（如申购、赎回），与摘要（收费方式/业务描述）在语义上有一定重叠，但摘要更侧重费用或操作细节，故置信度中等。",
+      "sample": "tmp2s004xv5.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-12 23:33",
+      "last_seen": "2026-08-12 23:33"
+    },
+    {
+      "raw_column": "单位分红每份分红金额(元)①",
+      "standard_field": "单位净值",
+      "confidence": "low",
+      "reason": "两者均为金额数值，但单位分红金额特指分红派息额，与单位净值概念不同，仅在数值抽取场景下可能混淆。",
+      "sample": "tmp2s004xv5.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-12 23:33",
+      "last_seen": "2026-08-12 23:33"
+    },
+    {
+      "raw_column": "现金分红金额①x参与分红份额 适用现金分红客户",
+      "standard_field": "合计金额",
+      "confidence": "low",
+      "reason": "该列表示现金分红总额，属于金额类字段，与合计金额在数值类型上相似，但业务含义不同。",
+      "sample": "tmp2s004xv5.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-12 23:33",
+      "last_seen": "2026-08-12 23:33"
+    },
+    {
+      "raw_column": "分红转投资份额 ①x参与分红份额÷② 适用红利再投资客户",
+      "standard_field": "持仓数量",
+      "confidence": "low",
+      "reason": "该列表示份额数量，与持仓数量在数值类型上相似，但特指分红再投资产生的份额，非当前总持仓。",
+      "sample": "tmp2s004xv5.pdf",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-12 23:33",
+      "last_seen": "2026-08-12 23:33"
     }
   ]
 }
