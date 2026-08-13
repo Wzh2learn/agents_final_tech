@@ -12,6 +12,7 @@
 - T1: schema_suggestions 08-12 23:33 批次入账（walkthrough 上传 tmp2s004xv5.pdf 7 条建议）; 产品份额①→持仓数量(high) 列下轮 apply 候选（走 SOP, 本次不 apply）
 - T2: **M0 文献调研完成, 差异化判定 = 差异化成立（附条件）**; 报告 docs/experiments/2026-08-13_m0_literature_survey.md; 意外发现: CAIS/STATE-Bench 锚点无法公开核验（疑似检索幻觉）入 blocked_questions
 - T3: B4 分布入账 — agent=15/fallback=92/error=0（77% 经 18s 超时回落）= A2 遗留量化证据 + docs/30 B 模块实证动机
+- C1/C2 更正（辅助线直连核验反转）: CAIS/STATE-Bench **VERIFIED**（渠道覆盖缺口非幻觉, 渠道规则入 M0 报告 §六, docs/30 恢复必引）; GB10 SSH 推送瞬时故障已自愈, 直推主路径恢复
 
 ## 服务
 - :5050 UP (route=on, provider=local, embeddings=137, tmux coding-jinrong:api5050)
@@ -27,5 +28,5 @@
 ## 下一步（等用户/甲方）
 1. 甲方首轮反馈 → 解锁: 任务二 B 一期 / 场景 B / 多期数据 / 字段规则表; A2 延迟修复优先级随反馈定
 2. B4 继续积累（status.sh 可查）; eval 每天经生产端点跑一遍
-3. 科研线: M0 完成 → M1 前置 = 人工核验 CAIS/STATE-Bench + 查 NLPCC/CCIR 截稿日（blocked_questions）; 产品份额① apply 候选等窗口
+3. 科研线: M0 完成 + C1 更正（CAIS/STATE-Bench 直连复验 VERIFIED）→ M1 前置 = 查 NLPCC/CCIR 截稿日（人工, pending）+ CAIS 全文精读; 产品份额① apply 候选等窗口
 4. 菜单待拍板: Docling NCAMC 增强 / :8005 judge 分流常态化 / OpenAI4S 接入科研线 / docs/28 #2→#1→#4

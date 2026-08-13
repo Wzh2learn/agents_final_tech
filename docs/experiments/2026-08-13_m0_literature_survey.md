@@ -4,6 +4,7 @@
 > 方法: arXiv API 全文（HTML）+ OpenAlex/Crossref 元数据检索; GB10 隔离执行, 未动生产代码。
 > 硬约束遵守: literature-review 子技能中 parallel.ai 的 curl|bash 引用**未执行**; 检索全程走 arXiv/OpenAlex/Crossref REST API。
 > 原始物料: ~/wzh/research/m0_lit/（batch1-4.json + 5 篇全文 txt, GB10 本地不入 git）
+> 更正: 2026-08-13 夜 C1 — CAIS/STATE-Bench 两锚点经直连 URL 复验 **VERIFIED**（辅助线首验 + GB10 复验, HTTP 200）; 根因为渠道覆盖缺口非幻觉; 详见 §六 渠道规则。
 
 ## 一、逐篇精读（4 篇主读 + 3 篇补扫, 按任务卡）
 
@@ -15,10 +16,14 @@
 - 验证机制: **无**。固化触发 = 相似度/重现已启发式; 质量把关靠 LLM 自身; 评测 = LoCoMo 对话记忆 QA（F1 + LLM judge）
 - **vs VGMC**: RecMem 回答"何时固化省成本", 记忆仍是 NL 检索件; VGMC 回答"固化成什么 + 如何防漂移"——确定性可执行规则（schema/synonyms）+ 回归验证门 + LLM 介入随记忆库衰减。互补不重叠, **差异化成立**
 
-### 2. CAIS 2026 episodic critique → semantic guidance（最近邻 2）——**未能验证存在**
-- arXiv 站内检索（"episodic critique"+"semantic guidance" 多种组合）、OpenAlex、Crossref 均 0 命中; Semantic Scholar 持续 429（共享 IP 池限流）未能复核
-- 判定: docs/30 中该锚点来自 08-13 凌晨首轮快速检索（经 web_search）, **无法在公开数据库复现**, 疑似检索幻觉或极新/未公开条目。若按原描述（episodic critique 蒸馏为 semantic guidance）存在, 其 semantic memory 仍是 NL 提示, 与 VGMC 的可执行规则+验证门仍有差异——但此判断**待作者人工核验**（OpenReview/CAIS 官网）后才能算数
-- 处置: 入 blocked_questions 台账; 论文写作前必须人工确认, 不能引用不可核验的文献
+### 2. CAIS 2026 — Learning from Supervision with Semantic and Episodic Memory（最近邻 2）【C1 更正: VERIFIED】
+- 出处: ACM CAIS 2026, session "Architectural Patterns & Composition"; https://www.caisconf.org/program/2026/papers/ （2026-08-13 直连 HTTP 200）
+- 作者: Jackson Hassell, Dan Zhang, Hannah Kim, Tom Mitchell, Estevam Hruschka（均 Megagon Labs）
+- 问题/方法（会议页摘要）: A memory-augmented agent framework that enables LLM agents to learn new classification functions from labeled examples at inference time, without any parameter updates. It uses LLM-generated episodic critiques of specific past mistakes and distills them into reusable semantic task-level guidance, outperforming few-shot prompting and matching fine-tuned baselines on diverse tasks. Architectural Patterns &amp; Composition FORGE: Self-Evolving Agent Memory With No Weight Updates via Population Broadcast Ig
+- 记忆形态: episodic critique（对具体错误的 LLM 生成情节批评）→ 蒸馏为 reusable semantic task-level guidance; 无参数更新, 推理时学习; 学习信号来自带标签样例的监督
+- 验证机制: 会议页摘要未提及验证门/回归门禁（全文获取后复核）; 评估口径 = 对比 few-shot prompting 与 fine-tuned 基线
+- **vs VGMC**: CAIS 的 semantic guidance 仍是 NL 任务级提示、服务于 agent 内部适应（匹配 fine-tuning 效果是亮点）; VGMC 固化物是外部确定性规则工件 + 回归验证门 + LLM 介入衰减度量。episodic critique→semantic guidance 管线与 VGMC 的 episodic 经验→规则建议管线结构呼应, 是差异化论证的关键对照行。**全文到手后复核**
+- 更正说明: 初版"未能验证存在"系渠道覆盖缺口（文献 API 不索引 ACM 会议页）, 非文献不存在; 见 §六
 
 ### 3. Q-Evolve — Self-evolving LLM agents with in-distribution Optimization
 - 出处: arXiv 2606.07367（2026-06-05）; TU Eindhoven + Liverpool + MIT-IBM Watson
@@ -28,9 +33,11 @@
 - 验证机制: in-distribution 约束（RL 稳定性意义）, 非知识固化防漂移
 - **vs VGMC**: 进化目标正交（权重 vs 外部规则记忆）; Q-Evolve 可作相关工作区隔, 其 critic 思路与 VGMC 的"固化门控小模型"（docs/30 §2.2）有方法论呼应, 可引为对照。**差异化成立**
 
-### 4. STATE-Bench（微软, 场景最贴）——**未能验证存在**
-- arXiv/OpenAlex/Crossref 以多组关键词（STATE-Bench / enterprise tasks / improve with experience）检索均无对应条目; 最接近命中为 Agent-Diff（2602.11224, 企业 API 任务基准）与 MEMTRACK（2510.01353, 多平台状态追踪）, 均非目标
-- 处置同 CAIS: 入台账, 人工核验前不得引用。若存在且为"agent 随经验在企业任务上变好"的基准/场景论文, 则是 VGMC 的**动机引用**而非机制竞争者
+### 4. STATE-Bench（微软, 场景最贴）【C1 更正: VERIFIED】
+- 出处: "Introducing STATE-Bench: A benchmark for AI agent memory", Microsoft Open Source Blog, 2026-05-19; https://opensource.microsoft.com/blog/2026/05/19/introducing-state-bench/ （2026-08-13 直连 HTTP 200）
+- 定位（博客摘录）: 面向 agent 开发者（加记忆是否提升可靠性/任务完成/效率）、研究者（可复现开放基准对比记忆架构）、平台方（记忆组件可插拔评测）三类受众; 完全开源, 450 任务起
+- **vs VGMC**: 基准/场景类产出 = 动机引用而非机制竞争者; 其"记忆提升 agent 企业任务表现"叙事与本项目 B4 灰度观测（记忆覆盖→路选择）同向, 可作生态效度背书; 450+ 开源任务亦可能作为 VGMC 实验 3 的补充语料（M1 阶段评估）
+- 更正说明: 同上, 工业博客不在文献 API 索引内; 见 §六
 
 ### 补扫三篇
 - **Self-Evolving Coding Agents 综述**（arXiv 2608.03392, 2026-08-04）: 对象中心分类学（框架/记忆/技能工具/模型/工作流进化）+ 进化时机与证据两维。§3.2 Memory Self-Evolution 综述的形态 = 经验库/轨迹记忆/仓库记忆（SWE-Exp、EvoCoder、EvoRepair 等）, **全部为 NL/轨迹形态的检索复用, 无一固化为确定性可执行规则**; 综述明言框架级自进化"需要 validation、rollback 与 robustness checks"——为 VGMC 验证门提供领域共识背书。§6 开放问题含"长期记忆/技能/协同"与"超越短基准的评估"。**差异化成立且有空隙佐证**
@@ -44,9 +51,9 @@
 可核验文献中无一覆盖 VGMC 的三要素组合: ① 语义记忆固化为**确定性可执行规则工件**（非 NL）; ② 固化前**回归验证门**（防漂移/反误进化）; ③ **LLM 介入随记忆库增长衰减**的学习曲线度量。最接近的 RecMem 只解决"何时固化"的成本问题且记忆仍为 NL; 综述确认 coding-agent 记忆自进化全线停留在轨迹/NL 检索复用; Q-Evolve 进化权重不进化记忆工件。
 
 **条件/风险**:
-1. CAIS 2026 与 STATE-Bench 两个锚点**未能在公开数据库核验**（疑似首轮检索幻觉）——写作前必须人工确认, 否则不得引用。这是本次 M0 的意外收获: 检索型 agent 产出的文献锚点本身需要验证门（与 VGMC 主题同构）。
+1. 【C1 更正 2026-08-13】CAIS 2026 与 STATE-Bench 已直连 URL 复验 **VERIFIED**（§1.2/§1.4）, 恢复为必引文献; CAIS 全文精读待补（当前为会议页摘要级判断, 差异化初步保持）。
 2. 该方向 2026 年 6-8 月论文密度极高（综述 08-04 才发布）, 投稿前需再做一次增量扫描。
-3. S2 API 全程 429, 覆盖面受限; OpenReview/会议官网渠道未覆盖, CAIS 若为 workshop paper 可能漏检。
+3. S2 API 全程 429 + 文献 API 不索引会议页/工业博客 → 渠道规则已固化（§六）: 任何"查不到"结论必须补直连 URL + web search 才可定性。
 
 ## 三、可吸收清单（论文写作时用）
 1. Evo-Memory 流式评估方法 → 实验 3（学习曲线/LLM 介入衰减）的基准形态
@@ -54,11 +61,18 @@
 3. 综述分类学 → 相关工作定位图（VGMC = memory self-evolution 分支下"可执行工件+验证门控"新格）
 4. RecMem 的认知科学动机（multi-store/CLS）→ 可平行引用支撑"选择性固化"直觉
 5. 真实门控数据（apply 5/reject 14/hold 6, 华泰 35.7→100）在已查文献中未见同类报告, 是稀缺实证资产
+6. 【C1 新增】STATE-Bench（微软）450+ 开源任务 → 实验 3 补充语料候选 + motivation 生态效度背书; CAIS 2026 episodic critique→semantic guidance 管线 → 差异化论证关键对照行（监督样例 + NL guidance vs 验证门控 + 可执行规则）
 
 ## 四、NLPCC / CCIR 截稿日
 - nlpcc.com.cn DNS 解析失败、ccir.org.cn 502、ccfddl 聚合站 JS 渲染 + GitHub 仓库 404, **API 渠道未获得**。入台账: 需作者浏览器人工查（NLPCC 通常年中截稿, CCIR 通常春季, 以官网为准）。
 
 ## 五、对 docs/30 的修订建议
-1. §3 相关工作锚点中 CAIS 2026 / STATE-Bench 标注"待核验", 人工确认前不作为差异化论据
+1. 【C1 已执行 08-13】§3 锚点 CAIS 2026 / STATE-Bench 直连复验 VERIFIED, 恢复必引并补出处注记（docs/30 已同步更新）
 2. §2.1 差异点表述维持（验证门 + 可执行规则 + 介入衰减三要素）, 补"检索记忆全线 NL 形态（综述佐证）"
 3. 实验 3 评估方法直接对齐 Evo-Memory 流式协议
+
+## 六、渠道规则（C1 更正沉淀, 2026-08-13）
+1. **文献 API 查不到 ≠ 不存在**。arXiv / OpenAlex / Crossref / S2 不索引: ACM/IEEE 会议 program 页、部分 OpenReview 条目、工业博客（微软/谷歌开源博客等）、GitHub README 形态的 benchmark 发布。
+2. 任何"未找到 / 疑似不存在"结论, 定性前必须补两个渠道: ① 直连候选 URL（会议官网/博客/仓库）验 HTTP 200 + 内容匹配; ② web search 关键词复核。两者皆负才可写"未核验"。
+3. **元洞察（记账）**: 本轮验证门抓到的是自己渠道的假阳性——验证机制本身需要多渠道化, 单渠道验证的置信度必须显式降级。此案例与 VGMC 主题同构（验证门也要防自身误进化）, 可在论文 motivation 引用。
+4. 本案证据: CAIS → https://www.caisconf.org/program/2026/papers/; STATE-Bench → https://opensource.microsoft.com/blog/2026/05/19/introducing-state-bench/。均 HTTP 200, 访问日期 2026-08-13（辅助线首验 + GB10 复验）。

@@ -171,9 +171,9 @@
 
 ## 2026-08-13 夜 T2 M0 文献调研结论入账
 - **M0 差异化判定 = 差异化成立（附条件）**: 报告 docs/experiments/2026-08-13_m0_literature_survey.md。精读/补扫 5 篇可核验文献（RecMem ACL26 Findings = 最近邻但只解"何时固化"且记忆仍 NL / Q-Evolve 进化权重不进化记忆工件 / Evo-Memory 与 MemoryAgentBench 为基准类可借鉴评估方法 / self-evolving coding agents 综述 §3.2 确认记忆自进化全线 NL 轨迹形态且明言需 validation+rollback）。VGMC 三要素组合（可执行规则工件 + 回归验证门 + LLM 介入衰减）未见覆盖。
-- **重要发现（检索可靠性）**: docs/30 两个锚点 CAIS 2026（episodic critique→semantic guidance）与 STATE-Bench（微软）经 arXiv/OpenAlex/Crossref 多渠道**无法核验存在**, 疑似首轮 web_search 检索幻觉——写作前人工核验前不得引用（入 blocked_questions）。
+- **重要发现（检索可靠性）→ C1 更正 VERIFIED（08-13 夜）**: CAIS 2026 与 STATE-Bench 经直连 URL 复验存在——CAIS: "Learning from Supervision with Semantic and Episodic Memory"（Megagon Labs, episodic critique→semantic guidance 管线坐实）@ caisconf.org/program/2026/papers; STATE-Bench: Microsoft Open Source Blog 2026-05-19（开源 450+ 任务 agent-memory 基准）。初判"疑似检索幻觉"系 **M0 渠道覆盖缺口**（文献 API 不索引 ACM 会议页/工业博客）, 非幻觉。渠道规则 + 元洞察（验证门需多渠道化, 与 VGMC 主题同构, 可入论文 motivation）入 M0 报告 §六; docs/30 两锚点恢复必引。
 - **可吸收**: Evo-Memory 流式评估协议→实验 3; MemoryAgentBench 四能力→评测对照; 综述分类学→相关工作定位; 真实门控数据 (apply 5/reject 14/hold 6) 为稀缺实证资产。
 - **NLPCC/CCIR 截稿日未获得**（DNS/502/JS 渲染全挡）, 入 blocked_questions 待人工浏览器查。
 - 约束遵守: parallel.ai curl|bash 引用全程未执行; 物料在 ~/wzh/research/m0_lit/（GB10 本地不入 git）。
 
-- **运维待办 (08-13 夜)**: GB10→GitHub SSH 推送失效 — id_ed25519_wzh_github 无密码短语但被 GitHub publickey 拒绝 (约 21h 前同配置成功); 本轮经本机 HTTPS 代推成功 (中途遭遇 GitHub 500 瞬断 x2 后恢复, 三方对齐 ab57fa5)。**需用户到 GitHub 检查/重添该 SSH key**, 恢复前提交走"GB10 commit → 本机 fetch gb10 → 本机 push origin"代推路径。
+- **运维 (08-13 夜, C2 更正)**: GB10→GitHub SSH publickey 拒绝 = **GitHub 侧瞬时故障, 已自愈** — 辅助线实测 ssh -T git@github.com 认证成功 (Hi Wzh2learn!) + ls-remote SSH 路正常 + key 文件在位; 同时段 HTTPS 500 瞬断 x2 为旁证。主路径恢复 **GB10 直推**（C1/C2 收口实测确认）; "GB10 commit → 本机代推"保留为兜底预案; 用户侧 GitHub key 检查降级为可选。
