@@ -39,6 +39,7 @@
 | `28_业界对标与优化菜单.md` | 活跃（顺序已批 #2→#1→#4, 其余待拍板） | 四类对标(WorkBuddy/Manus/Devin/Cursor, Perplexity/NotebookLM/Dify, Docling/MinerU/LlamaParse/TextIn, RAGAS/DeepEval/TruLens) + Top5 优化菜单 + 四维审计清单附录 | 2026-08-11 |
 | `29_graph_engineering_roadmap.md` | 活跃（菜单待拍板） | 人肉环节盘点 + 分级菜单 L1 status.sh / L2 任务卡模板 / L3 自动编排前提（暂缓） | 2026-08-12 |
 | `30_科研线规划.md` | 活跃 | 科研线规划: VGMC 验证门控记忆固化 (三条素材线 / M0-M4 路线图 / 甲方数据零进入; 文末附 M0 文献调研任务卡) | 2026-08-13 |
+| `31_导师进展汇报.md` | 活跃 | 导师预审包: 定位+架构/功能清单/前端重点节(12 图配看点)/战绩表/限制与下一步/请导师把关清单; 附录取回命令 | 2026-08-13 |
 | `15_远程开发机_Codex_CLI_与_OpenCode_配置.md` | 活跃 | GB10 开发机配置与模型切换指南（Loop A flash / Loop C qwen3.8-max） | 2026-08-08 |
 | `13_M1_M2联合数据闭环计划.md` | 历史-政策依据 | 公开数据集 / split 政策唯一依据（研究线冻结配套，根 AGENTS.md 指定必读） | 2026-07-22 |
 | `architecture/codebase_map.md` | 活跃 | 代码库结构 + 依赖图 + 端口拓扑（含 :4096 sidecar） | 2026-08-08 |
@@ -69,6 +70,7 @@
 | `2026-08-12_asset_activation_sweep.md` | 活跃 | Q1 休眠资产摸排: 8 资产探针证据 + Top3 激活建议(:8005 judge 分流/vision MCP 接样本目录/status.sh) | 2026-08-12 |
 | `2026-08-12_mapping_table_reuse.md` | 活跃 | Q2 甲方映射表再挖掘: 别名表 56 产品/234 证券/61 机构 + compare 三级解析链(45 tests) + schema 差集=0 | 2026-08-12 |
 | `2026-08-12_docs23_screenshots/` | 活跃 | docs/23 重写版 10 张实拍截图（含建议映射选择题面板 6 候选）+ shots_meta.json | 2026-08-12 |
+| `2026-08-13_advisor_package/` | 活跃 | 导师包新拍 8 张（检索透明面板 top_k/score/路由 meta + sources 特写 + 建议面板）+ shots_meta.json | 2026-08-13 |
 | `2026-08-12_dify_rule_terms_mining.md` | 活跃 | S3② dify 甲方规则 docx 术语挖掘: 确定性脚本 + 3 synonyms 补词(证券持仓明细), 诚实 delta=0 | 2026-08-13 |
 | `2026-08-13_docling_probe.md` | 活跃 | S3④ Docling ARM64 探针: CPU 路可用, NCAMC 垂直行提取优于坐标重建, 定位离线 second-opinion | 2026-08-13 |
 | `2026-08-12_demo_talk_track.md` | 活跃（内部, 不进发送版） | 演示话术清单（取代 docs/23 旧附录 C）: 双链路/递进故事/7 条口头解释 | 2026-08-12 |

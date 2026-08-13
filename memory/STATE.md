@@ -13,6 +13,7 @@
 - T2: **M0 文献调研完成, 差异化判定 = 差异化成立（附条件）**; 报告 docs/experiments/2026-08-13_m0_literature_survey.md; 意外发现: CAIS/STATE-Bench 锚点无法公开核验（疑似检索幻觉）入 blocked_questions
 - T3: B4 分布入账 — agent=15/fallback=92/error=0（77% 经 18s 超时回落）= A2 遗留量化证据 + docs/30 B 模块实证动机
 - C1/C2 更正（辅助线直连核验反转）: CAIS/STATE-Bench **VERIFIED**（渠道覆盖缺口非幻觉, 渠道规则入 M0 报告 §六, docs/30 恢复必引）; GB10 SSH 推送瞬时故障已自愈, 直推主路径恢复
+- 导师预审包: docs/31_导师进展汇报.md + 31_导师进展汇报_预审版.docx（图全内嵌 13 页, LibreOffice 目检过）+ 新拍 8 张截图（检索透明面板等）; builder = scripts/build_doc31_docx.py（甲方版 builder 未动）
 
 ## 服务
 - :5050 UP (route=on, provider=local, embeddings=137, tmux coding-jinrong:api5050)
