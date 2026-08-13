@@ -175,3 +175,5 @@
 - **可吸收**: Evo-Memory 流式评估协议→实验 3; MemoryAgentBench 四能力→评测对照; 综述分类学→相关工作定位; 真实门控数据 (apply 5/reject 14/hold 6) 为稀缺实证资产。
 - **NLPCC/CCIR 截稿日未获得**（DNS/502/JS 渲染全挡）, 入 blocked_questions 待人工浏览器查。
 - 约束遵守: parallel.ai curl|bash 引用全程未执行; 物料在 ~/wzh/research/m0_lit/（GB10 本地不入 git）。
+
+- **运维待办 (08-13 夜)**: GB10→GitHub SSH 推送失效 — id_ed25519_wzh_github 无密码短语但被 GitHub publickey 拒绝 (约 21h 前同配置成功); 本轮经本机 HTTPS 代推成功 (中途遭遇 GitHub 500 瞬断 x2 后恢复, 三方对齐 ab57fa5)。**需用户到 GitHub 检查/重添该 SSH key**, 恢复前提交走"GB10 commit → 本机 fetch gb10 → 本机 push origin"代推路径。
