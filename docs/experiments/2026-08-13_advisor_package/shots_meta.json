@@ -1,27 +1,12 @@
 [
  {
-  "file": "01_home.png",
-  "note": "首页三面板（解析结果/表头信息/复核校验）+ M2 问答面板（含 top_k 选择器）",
-  "m2Meta": "RAG · m1_parsed_statements"
- },
- {
-  "file": "02_qa_direct_sources.png",
-  "note": "问答带溯源: sources 含样本/表名/score 标签; 耗时 15.3s",
-  "m2Meta": "RAG · m1_parsed_statements · top_k=3 · 验证链路 · opencode:qwen3.6-35b-a3b · 12318ms"
- },
- {
-  "file": "03_sources_closeup.png",
-  "note": "sources 证据块特写（sample_id/表名/score/原文片段）",
-  "m2Meta": "RAG · m1_parsed_statements · top_k=3 · 验证链路 · opencode:qwen3.6-35b-a3b · 12318ms"
- },
- {
   "file": "04_qa_topk5_route.png",
-  "note": "top_k=5 选择器生效 + meta 路由标识; 耗时 2.7s（补拍: meta 变化确认应答到达）",
+  "note": "top_k=5 选择器生效 + meta 路由标识; 本图 meta 为冷态首请求 20542ms（热态复测 2.7s, 战绩表口径）",
   "m2Meta": "RAG · m1_parsed_statements · top_k=5 · 直连 · Qwen3.6-35B-A3B-Q4_K_M.gguf · 20542ms"
  },
  {
   "file": "05_meta_closeup.png",
-  "note": "检索透明 meta 特写: RAG·集合·top_k·直连/验证链路·模型·耗时（补拍: meta 变化确认应答到达）",
+  "note": "检索透明 meta 特写: RAG·集合·top_k·直连/验证链路·模型·耗时（冷态 20542ms）",
   "m2Meta": "RAG · m1_parsed_statements · top_k=5 · 直连 · Qwen3.6-35B-A3B-Q4_K_M.gguf · 20542ms"
  },
  {
@@ -30,13 +15,33 @@
   "m2Meta": "RAG · m1_parsed_statements"
  },
  {
-  "file": "07_reconcile.png",
-  "note": "复核面板: 勾稽校验 + 未映射列清单",
-  "m2Meta": "RAG · m1_parsed_statements"
- },
- {
   "file": "08_suggestions_modal.png",
   "note": "建议映射选择题面板（LLM 建议 + 置信度 + 勾选应用/拒绝/改选）",
   "m2Meta": "RAG · m1_parsed_statements"
+ },
+ {
+  "file": "01_home.png",
+  "note": "首页解析完成态：三面板渲染 + M2 问答面板；top_k 选择器入镜见图 1'/图 9（08-13 批）",
+  "m2Meta": "RAG · m1_parsed_statements"
+ },
+ {
+  "file": "07_reconcile.png",
+  "note": "复核面板元素级截图：勾稽校验项完整；未映射列清单见图 1/图 4（08-13 批）",
+  "m2Meta": "RAG · m1_parsed_statements"
+ },
+ {
+  "file": "02_qa_direct_sources.png",
+  "note": "问答带溯源：答案 + sources 证据块展开态（样本/表名/score/原文片段）",
+  "m2Meta": "RAG · m1_parsed_statements · top_k=3 · 直连 · Qwen3.6-35B-A3B-Q4_K_M.gguf · 20538ms"
+ },
+ {
+  "file": "03_sources_closeup.png",
+  "note": "sources 证据块特写（样本编号/表名/score/原文片段）",
+  "m2Meta": "RAG · m1_parsed_statements · top_k=3 · 直连 · Qwen3.6-35B-A3B-Q4_K_M.gguf · 20538ms"
+ },
+ {
+  "file": "09_qa_no_fabrication.png",
+  "note": "诚实拒答完成态：无数据明确说未找到，不编造",
+  "m2Meta": "RAG · m1_parsed_statements · top_k=3 · 直连 · Qwen3.6-35B-A3B-Q4_K_M.gguf · 19714ms"
  }
 ]

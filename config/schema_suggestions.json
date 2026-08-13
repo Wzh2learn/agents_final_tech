@@ -142,6 +142,17 @@
       "count": 1,
       "first_seen": "2026-08-12 23:33",
       "last_seen": "2026-08-12 23:33"
+    },
+    {
+      "raw_column": "累计净值",
+      "standard_field": "累计净值",
+      "confidence": "high",
+      "reason": "列名完全匹配标准字段名",
+      "sample": "tmpbogalgsp.txt",
+      "table": "交易对账单",
+      "count": 1,
+      "first_seen": "2026-08-14 00:24",
+      "last_seen": "2026-08-14 00:24"
     }
   ]
 }
