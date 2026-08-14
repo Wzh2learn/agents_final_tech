@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Regenerate docs/31_导师进展汇报_预审版.docx (self-contained, images embedded).
 
+Audience switch: --audience advisor (default, strips internal appendices A/B) | full.
+
 Same markdown subset as build_doc23_docx.py + fenced code blocks.
 Does NOT touch the client-version builder (build_doc23_docx.py).
 """
+import argparse
 import os
 import re
 
@@ -16,7 +19,7 @@ SRC = os.path.join(ROOT, "docs", "31_导师进展汇报.md")
 OUT = os.path.join(ROOT, "docs", "31_导师进展汇报_预审版.docx")
 
 COVER_TITLE = "AI 金融对账单智能解析与问答系统"
-COVER_SUB = "科研进展汇报（导师预审版）"
+COVER_DATE = "2026 年 8 月 14 日"
 
 
 def add_md_runs(par, text: str) -> None:
@@ -34,7 +37,7 @@ def add_md_runs(par, text: str) -> None:
         par.add_run(text[pos:])
 
 
-def add_cover(doc: Document) -> None:
+def add_cover(doc: Document, sub: str) -> None:
     for _ in range(6):
         doc.add_paragraph()
     t = doc.add_paragraph()
@@ -44,12 +47,12 @@ def add_cover(doc: Document) -> None:
     r.font.size = Pt(26)
     s = doc.add_paragraph()
     s.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = s.add_run(COVER_SUB)
+    r = s.add_run(sub)
     r.font.size = Pt(16)
     r.font.color.rgb = RGBColor(0x40, 0x40, 0x40)
     d = doc.add_paragraph()
     d.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = d.add_run("2026 年 8 月 13 日")
+    r = d.add_run(COVER_DATE)
     r.font.size = Pt(12)
     r.font.color.rgb = RGBColor(0x70, 0x70, 0x70)
     for _ in range(4):
@@ -82,6 +85,12 @@ def add_page_numbers(doc: Document) -> None:
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser(description="docs/31 导师汇报 docx 生成器")
+    ap.add_argument("--audience", choices=["advisor", "full"], default="advisor",
+                    help="advisor=发送版(裁掉内部附录 A/B, 默认); full=内部全量")
+    ap.add_argument("--out", default=None, help="输出路径覆盖")
+    args = ap.parse_args()
+
     doc = Document()
     doc.styles["Normal"].font.name = "Microsoft YaHei"
     doc.styles["Normal"].font.size = Pt(10.5)
@@ -90,9 +99,14 @@ def main() -> None:
     # 跳过状态头与首行 H1（封面已含标题）
     while lines and (lines[0].startswith("状态:") or lines[0].startswith("# ")):
         lines = lines[1:]
+    if args.audience == "advisor":
+        # 受众分离: 附录 A(取回命令)/B(隧道速查)为内部操作卡, 不进发送版
+        cut = [i for i, l in enumerate(lines) if l.startswith("## 附录 A")]
+        if cut:
+            lines = lines[:cut[0]]
     i = 0
     in_fence = False
-    add_cover(doc)
+    add_cover(doc, "科研进展汇报（导师版）" if args.audience == "advisor" else "科研进展汇报（导师预审版·内部全量）")
     while i < len(lines):
         ln = lines[i]
         stripped = ln.strip()
@@ -169,8 +183,9 @@ def main() -> None:
         i += 1
 
     add_page_numbers(doc)
-    doc.save(OUT)
-    print("saved:", OUT)
+    out = args.out or OUT
+    doc.save(out)
+    print("saved:", out)
 
 
 if __name__ == "__main__":

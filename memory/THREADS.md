@@ -182,5 +182,6 @@
 - **导师版 docx 重冻结**: 5707fcea397c384d21e35ba72023cee0（R1 口径修正后重生成; 旧版 3d80d27 内 docx hash 作废）。修正内容: 图 1' 看点补"冷态首请求 20.5s / 热态复测 2.7s（战绩表口径）" + shots_meta 04/05 note 更正 + 附录 B 故障表补双端口占用行（R4 实测 exit 1 不静默）。
 - **导师版 docx 重冻结（二次，08-14）**: 567c7fe732b8b2993396c6cc2d32a172（Loop C 发送前终审 R2 FAIL 后换图重生成；5707fcea 作废）。修正: 图 1 改解析完成态+选择器位置改输入行右侧；图 2/3 改直连路+sources 展开态（旧图为 agent 路拒答误拍）；图 7 元素级截图无裁切；图 9 拒答完成态并改指 08-13 目录。误拍根因: 旧截图脚本等待条件对整 chatlog 全局匹配且无 sources 非空重试，重拍脚本 /tmp/reshoot_fix.py 已修。待 Loop C 复验。
 - **导师版 docx 重冻结（三次，08-14）**: bd3daed4948af81cb5dcea5ef2814882（Loop C 复验残差 2 处改图注后重生成；567c7fe7 作废）。修正: 图 1 图注选择器改互指图 1'/图 9；图 5 图注未映射列改互指图 1/图 4；图 2 看点补冷态说明；shots_meta 01/07 note 同步。待 Loop C 三验。
+- **导师版 docx 重冻结（四次，08-14 受众分离）**: d31fe5c3f49f81202a9a03f08c9983ed（build_doc31_docx.py 加 --audience 开关，advisor 默认裁附录 A/B；bd3daed4 作废）。md 保持全量源；清单入审查报告受众分离轮。
 - **R3 附录 A 实测**: 五条 scp 临时目录逐条跑通（23 文件 6.33MB, 未覆盖已取回文件）。
 - Loop C 独立复审进行中, 报告 docs/experiments/2026-08-13_advisor_package_review.md。
