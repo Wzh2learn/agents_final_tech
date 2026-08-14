@@ -71,6 +71,7 @@
 | `2026-08-12_mapping_table_reuse.md` | 活跃 | Q2 甲方映射表再挖掘: 别名表 56 产品/234 证券/61 机构 + compare 三级解析链(45 tests) + schema 差集=0 | 2026-08-12 |
 | `2026-08-12_docs23_screenshots/` | 活跃 | docs/23 重写版 10 张实拍截图（含建议映射选择题面板 6 候选）+ shots_meta.json | 2026-08-12 |
 | `2026-08-13_advisor_package/` | 活跃 | 导师包新拍 8 张（检索透明面板 top_k/score/路由 meta + sources 特写 + 建议面板）+ shots_meta.json | 2026-08-13 |
+| `2026-08-15_demo_video_v2/steps.md` | 活跃 | 演示视频 v2（3:48）分段清单；视频文件不入 git（scp 取回，路径见台账） | 2026-08-16 |
 | `2026-08-12_dify_rule_terms_mining.md` | 活跃 | S3② dify 甲方规则 docx 术语挖掘: 确定性脚本 + 3 synonyms 补词(证券持仓明细), 诚实 delta=0 | 2026-08-13 |
 | `2026-08-13_docling_probe.md` | 活跃 | S3④ Docling ARM64 探针: CPU 路可用, NCAMC 垂直行提取优于坐标重建, 定位离线 second-opinion | 2026-08-13 |
 | `2026-08-12_demo_talk_track.md` | 活跃（内部, 不进发送版） | 演示话术清单（取代 docs/23 旧附录 C）: 双链路/递进故事/7 条口头解释 | 2026-08-12 |
@@ -78,6 +79,7 @@
 | `SUMMARY_audit_loop_c.md` | 活跃 | 9 轮 Loop C 审计汇总（审计历史先读这个） |
 | `2026-08-05_opencode_e2e.md` | 活跃 | 交付链 S1-S5 端到端验证证据（OpenCode+MCP+多 agent，含检索降级根因） |
 | `2026-08-04_rehearsal/` | 历史-参考 | 彩排截图 7 张（发送版已改用 08-12 重拍，本目录留档；demo 日志实测缺失，见 2026-08-10 审计 F19） |
+| `2026-08-13_advisor_package_review.md` | 历史-参考 | 导师包发送前终审报告（Loop C 初审/复验/三验 + 受众分离轮，三轮达标） | 2026-08-16 |
 | `2026-08-01_demo_sequence/` | 活跃 | 演示截图序列 11 张（AGENTS.md、docs/19 引用） |
 | `2026-07-31_ui_screenshots/` | 活跃 | UI 截图 6 张（docs/19 引用） |
 | `2026-08-01_field_accuracy.json` | 活跃 | 字段级准确率评测产物（21 checks / 100%） |
