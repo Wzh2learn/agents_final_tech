@@ -59,3 +59,8 @@ dify/
 docs/experiments/2026-08-09_demo_video/*.webm
 docs/experiments/2026-08-09_demo_video/*.mp4
 docs/experiments/2026-08-09_demo_video/_frames/
+
+# 演示视频 v2 中间产物与视频本体（不入 git，取回见台账/汇报）
+docs/experiments/2026-08-15_demo_video_v2/segs/
+docs/experiments/2026-08-15_demo_video_v2/work/
+docs/experiments/2026-08-15_demo_video_v2/demo_v2.mp4

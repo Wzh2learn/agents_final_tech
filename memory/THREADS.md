@@ -184,5 +184,6 @@
 - **导师版 docx 重冻结（三次，08-14）**: bd3daed4948af81cb5dcea5ef2814882（Loop C 复验残差 2 处改图注后重生成；567c7fe7 作废）。修正: 图 1 图注选择器改互指图 1'/图 9；图 5 图注未映射列改互指图 1/图 4；图 2 看点补冷态说明；shots_meta 01/07 note 同步。待 Loop C 三验。
 - **导师版 docx 重冻结（四次，08-14 受众分离）**: d31fe5c3f49f81202a9a03f08c9983ed（build_doc31_docx.py 加 --audience 开关，advisor 默认裁附录 A/B；bd3daed4 作废）。md 保持全量源；清单入审查报告受众分离轮。
 - **导师版 docx 重冻结（五次，08-15 视频 v2 轮）**: ab2fed4310487d5f4136f6546780d057（d31fe5c3 作废）。配套: 视频 v2 demo_v2.mp4 3:48（V1-V7 全消解: 开场解析态/等待段倍速+字幕/横幅数字对齐/透明面板+建议面板新分段/结束卡）；D1 H1 导师版；D2 §3.7 按 v2 重写；D3 §6 视频条同步；D4 战绩表 pytest 口径注（334/15 无 PG 环境，PG 依赖 2 项随环境翻转）。
+- **导师版 docx 重冻结（六次，08-16 微修轮）**: 929a8c65fbdea1bd672f5d8d5ea1fd16（ab2fed43 作废）。配套交付行改 demo_v2.mp4；扫描全 0 + 第 2 页目检过。视频治理: cards/ 入库，segs//work//demo_v2.mp4 入 .gitignore。视频取回: scp jinrong-dev:~/wzh/projects/agents_final_tech/docs/experiments/2026-08-15_demo_video_v2/demo_v2.mp4（+ 同目录 steps.md）。
 - **R3 附录 A 实测**: 五条 scp 临时目录逐条跑通（23 文件 6.33MB, 未覆盖已取回文件）。
 - Loop C 独立复审进行中, 报告 docs/experiments/2026-08-13_advisor_package_review.md。
