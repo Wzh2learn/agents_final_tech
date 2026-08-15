@@ -188,3 +188,11 @@
 - **治理规则（08-16）**: STATE 覆写绑定收口 commit——每次收口 commit 必须同步覆写 memory/STATE.md 至当前 HEAD，杜绝 HEAD 漂移（起因: STATE 曾停 299f77d 三轮）。
 - **R3 附录 A 实测**: 五条 scp 临时目录逐条跑通（23 文件 6.33MB, 未覆盖已取回文件）。
 - Loop C 独立复审进行中, 报告 docs/experiments/2026-08-13_advisor_package_review.md。
+
+## 2026-08-16 模型升级专项 (Qwen3.8-27B + vLLM) — P2 完成, 闸门触发, 待用户拍板 (A/B 路线)
+- P0 完成: :8004/:8005 完整 llama-server cmdline 已录 (回滚依据, 见 dispatch_log 08-15/16 + DECISIONS.md 模型卡); 内存 121GB 统一内存 / 磁盘 2.8T 空闲; :8006/:8007 空闲。
+- P1 资产落盘: Qwen/Qwen3.8-27B-FP8 (29GB, 66 shards) → ~/wzh/models/hf/Qwen3.8-27B-FP8 (hf-mirror, 独立 dl_venv); 镜像 timothystewart6/vllm-gb10:v0.27.1-gb10.1 (vLLM 0.27.2.dev0+20260815, 22.1GB, dockerproxy.net; daocloud 白名单拒绝/1ms.run 大层卡死为过程事实)。
+- **关键实测 (GB10 统一内存)**: ① CUDA mem_get_info 不计 page cache — 模型+镜像下载后 CUDA free 仅 15.6GB, vLLM init 即 cudaErrorMemoryAllocation; 无 sudo 不能 drop_caches, 用 CPU 分配压力法回收干净缓存 (scripts/gb10_reclaim_page_cache.sh, 15.6→38GB), 生产栈实测无感 (:5050 healthy / :8004 200)。② 回收后 GMEM=0.30 启动成功 (0.27 差 0.44GiB 失败); --max-num-seqs ≤78 (Mamba 状态块约束)。③ 思考控制实证: enable_thinking=false 零推理; reasoning_effort 合法集 xhigh(默认)/medium/low (prompt 引导式非硬上限); thinking_budget 模板不支持传入被忽略; "high" 非法→400; vLLM 0.27 reasoning 存 message.reasoning。
+- P2 基准 (全实测, 报告 logs/graph/eval/model_probe_*.json @GB10): 三档矩阵 A_off p50=10.31s/p95=15.76s (49 tok), B_effort_low p50=23.82s, C_effort_xhigh p50=60.60s (431 tok); 确定性 16/16 PASS (旧栈对照 16/16, 1.3-1.9s/题); 并发 3 流 makespan 70.6s vs 串行 207.1s 但单请求劣化 7x (带宽受限); judge 交叉评 5.0×4 (基线 4.94), 自评 5.0×4; 视觉转写质量平手但候选 72-76s vs 旧栈 mmproj 29-31s。NF 未对候选重跑 (脚本锁 :5050, 红线不重启), 留 P3。
+- **闸门判定: 质量 GO + 快路 FAIL (A_off p50 10.31s > 8s) → 不全量替换**。切换菜单 = 路线 A 双模型分工 (推荐先行) vs 路线 B Qwen3.8-35B-A3B MoE 探针, 见 docs/32 §2.4, **待用户拍板**。
+- 状态: 探针 :8006 保持运行 (tmux vllserve), 拍板前不动生产。旧 GGUF+llama-server 保留 48h (至 08-17 18:00)。附注: P2 视觉对照占用 :8004 期间 (18:16) Loop B qa_canary 一次超时 FAIL, 属探针负载扰动, 非代码回归, 观察下轮翻转。

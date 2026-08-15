@@ -124,3 +124,11 @@
 ## [2026-08-10] 台账漂移案例 4: "华泰紫金一轮 42.9%" 系样本张冠李戴（实为 233222LU 的数字）
 结论: Loop C differential 审计 (docs/experiments/2026-08-10_audit_loop_c_differential.md F18) 查出 docs/23 等 6 处文档把华泰紫金一轮命中率写成 42.9%（实为 LU 样本某表数字），工件 final_results.json 实测 35.7%；同批国金 80%→70%、TraFax 单表值代表整份、30 表 vs 现行基线 31 表共 4 类漂移，已全部按工件校正并重生成发送版 docx。
 理由: 第四例漂移（先例 5545fde/db6572b/2026-08-05 案例3）；本次根因是"故事性数字"在多文档间复制传播而无人回对原始工件。防御: 对外数字必须以 final_results.json / baseline JSON 为准, 文档修订时 grep 交叉核对; Loop C 发送前数字审计列为 docs/23 类文档的固定闸门。
+
+## [2026-08-16] 模型升级专项 P0-P2: Qwen3.8-27B-FP8 探针闸门触发, 全量替换不通过 (模型卡)
+结论: Qwen3.8-27B-FP8 + vLLM (vllm-gb10 v0.27.1) 探针 :8006 完成 P0-P2: 质量 GO (确定性 16/16 零回归, judge 交叉评 5.0≥基线 4.94, 视觉平手), 快路 FAIL (A_off p50=10.31s > 8s 闸门; 27B dense FP8 单流解码实测 ~4.8 tok/s) → **不做全量替换**。切换菜单 = 路线 A 双模型分工 (推荐先行: A3B 留快路+视觉, 27B 接 agent 验证链/judge/深度问答) vs 路线 B Qwen3.8-35B-A3B MoE 并行探针, 均待用户拍板; 详见 docs/32 §2.4。
+模型卡 (候选): Qwen/Qwen3.8-27B-FP8 (hf-mirror, Apache); model_type qwen3_5 混合 linear+full attention, 原生 VLM, MTP, 262k ctx; 探针容器 vllm-probe: served-name qwen38-27b-fp8, GMEM=0.30, max-num-seqs 32, max-model-len 32768, reasoning-parser qwen3, tool-call-parser hermes。
+思考档位实证: enable_thinking=false 零推理 (A 档); reasoning_effort 合法集 xhigh(默认)/medium/low (prompt 引导式); thinking_budget 模板不支持、传入被忽略; "high" 非法→400; vLLM 0.27 reasoning 存 message.reasoning 字段。
+启动 SOP: scripts/gb10_reclaim_page_cache.sh 35 回收 page cache → GMEM=0.30 (0.27 差 0.44GiB) → --max-num-seqs ≤78 (Mamba 状态块约束) → 挂持久编译缓存; 冷启动 ~7min。
+回滚 SOP (旧栈零损失): :8004 = LM Studio llama-server Qwen3.6-35B-A3B-Q4_K_M+mmproj (-c 65536 -ngl 999 --flash-attn on, pid 2642808); :8005 = llama-server Qwen3-14B-Q4_K_M (-c 32768 -ngl 20, pid 2645844); 完整 cmdline 见 dispatch_log 08-15 P0 条目; 旧 GGUF + llama-server 保留 48h (至 2026-08-17 18:00); 回滚 = docker stop vllm-probe + 按上述参数重启 llama-server, 预计 <2min。
+理由: P2 闸门规则为用户预设 (A 档 p50>8s → 不全量替换, 出对比菜单); GB10 273GB/s 带宽是 dense 27B 快路的硬约束, 并发 3 流实测单请求劣化 7x 进一步坐实带宽受限。NF 未对候选重跑 (脚本锁 :5050 生产端点, 红线不重启), 留 P3 切换验证。

@@ -148,9 +148,13 @@ def main(argv: list[str] | None = None) -> int:
     try:
         urllib.request.urlopen(JUDGE_ENDPOINT.replace("/chat/completions", "/health"),
                                timeout=5).close()
-    except Exception as e:
-        print(f"[fatal] judge 端点不可用 {JUDGE_ENDPOINT}: {e}", file=sys.stderr)
-        return 2
+    except Exception:
+        try:  # vLLM 只在根路径挂 /health (/v1/health 为 404), 回退一次
+            base = JUDGE_ENDPOINT.split("/v1/")[0]
+            urllib.request.urlopen(base + "/health", timeout=5).close()
+        except Exception as e:
+            print(f"[fatal] judge 端点不可用 {JUDGE_ENDPOINT}: {e}", file=sys.stderr)
+            return 2
 
     det = json.load(open(args.input, encoding="utf-8"))
     fx = json.load(open(args.fixture, encoding="utf-8"))
