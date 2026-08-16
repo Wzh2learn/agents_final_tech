@@ -1129,3 +1129,13 @@ body {
     color: #1f2937;
     cursor: pointer;
 }
+
+/* 甲方问题清单 chips + 字段规则总览 (2026-08-17 演示) */
+.m2-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 8px; }
+.m2-chip { border: 1px solid var(--accent-light); background: var(--accent-light); color: var(--accent); border-radius: 999px; padding: 3px 10px; font-size: 12px; cursor: pointer; line-height: 1.5; }
+.m2-chip:hover { background: var(--accent); color: #fff; }
+.rules-list { display: flex; flex-direction: column; gap: 14px; max-height: 60vh; overflow: auto; }
+.rules-table-block h4 { margin: 0 0 6px; font-size: 13px; }
+.rules-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.rules-table th, .rules-table td { border: 1px solid #e5e7eb; padding: 4px 8px; text-align: left; vertical-align: top; }
+.rules-table th { background: #f8fafc; }

@@ -510,6 +510,33 @@
     setNotice('新会话已开始', 'ok');
   }
 
+  // --- 甲方问题清单 chips (2026-08-17 演示: 一键填充常见问题, 不自动发送) ---
+  const M2_PRESET_QUESTIONS = [
+    '复熙混合25号的资产总值是多少？',
+    '嘉兴民安有哪些证券持仓？',
+    '博时传统产品的基金名称是什么？',
+    '博时传统产品的基金代码是什么？',
+    '复熙混合25号的客户全称是什么？',
+    '嘉兴民安的对账结束日期是什么时候？',
+    '嘉兴民安持仓的盈亏金额是多少？',
+    '嘉合基金的对账单一共入库了几份？',
+    '哪个样本通过OCR解析了交易对账单？',
+    '嘉兴民安的总资产是多少？',
+    '华夏成长混合基金的持仓明细有哪些？',
+  ];
+  const chipsWrap = $('#m2PresetChips');
+  if (chipsWrap) {
+    for (const q of M2_PRESET_QUESTIONS) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'm2-chip';
+      b.textContent = q;
+      b.title = '点击填入问题（不自动发送）';
+      b.addEventListener('click', () => { m2Question.value = q; m2Question.focus(); });
+      chipsWrap.appendChild(b);
+    }
+  }
+
   m2AskBtn.addEventListener('click', m2Ask);
   m2Question.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { e.preventDefault(); m2Ask(); }
@@ -797,6 +824,47 @@
   });
 
   schemaBtn.addEventListener('click', openSchemaModal);
+
+  // --- 字段规则总览 (只读; 2026-08-17 甲方演示) ---
+  const rulesBtn = $('#rulesViewBtn');
+  const rulesModal = $('#rulesModal');
+  async function openRulesModal() {
+    if (!rulesModal) return;
+    rulesModal.hidden = false;
+    const list = $('#rulesList');
+    const sum = $('#rulesSummary');
+    list.innerHTML = '<div class="m2-empty-hint">加载中…</div>';
+    try {
+      const res = await fetch('/api/m1/schema');
+      const d = await res.json();
+      const tables = d.tables || [];
+      let nFields = 0, nSyns = 0;
+      list.innerHTML = '';
+      for (const t of tables) {
+        const fields = t.fields || [];
+        nFields += fields.length;
+        const sec = document.createElement('div');
+        sec.className = 'rules-table-block';
+        const rows = fields.map((f) => {
+          const syns = f.synonyms || [];
+          nSyns += syns.length;
+          return `<tr><td>${esc(f.standard)}</td><td>${esc(syns.join('、'))}</td></tr>`;
+        }).join('');
+        sec.innerHTML = `<h4>${esc(t.table_name)} <span class="m2-meta">${fields.length} 字段</span></h4>
+          <table class="rules-table"><thead><tr><th>标准字段</th><th>同义词/变体（命中即映射）</th></tr></thead><tbody>${rows}</tbody></table>`;
+        list.appendChild(sec);
+      }
+      sum.textContent = `共 ${tables.length} 类表 · ${nFields} 个标准字段 · ${nSyns} 条同义词/变体 —— 源自甲方 674 行映射表与逐样本递进沉淀，同版式样本自动受益。`;
+    } catch (e) {
+      list.innerHTML = '<div class="m2-empty-hint">规则加载失败，请重试。</div>';
+    }
+  }
+  if (rulesBtn) rulesBtn.addEventListener('click', openRulesModal);
+  if (rulesModal) {
+    $('#rulesCloseBtn').addEventListener('click', () => { rulesModal.hidden = true; });
+    $('#rulesOkBtn').addEventListener('click', () => { rulesModal.hidden = true; });
+    rulesModal.addEventListener('click', (e) => { if (e.target === rulesModal) rulesModal.hidden = true; });
+  }
   schemaCloseBtn.addEventListener('click', closeSchemaModal);
   schemaCancelBtn.addEventListener('click', closeSchemaModal);
   schemaModal.addEventListener('click', (e) => { if (e.target === schemaModal) closeSchemaModal(); });

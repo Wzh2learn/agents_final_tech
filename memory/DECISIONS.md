@@ -136,3 +136,21 @@
 ## [2026-08-16] 思考控制操作契约 (Qwen3.8 + vLLM 0.27, S1 沉淀补强)
 结论: Qwen3.8 系开源模型 + vLLM 的思考深度唯一有效旋钮是 reasoning_effort, 合法集 {low, medium, xhigh} (默认 xhigh); "high" 为非法值→400, 需要高档必须写 xhigh; thinking_budget 被 chat template 忽略, 行为等同 xhigh (不得依赖它做封顶); enable_thinking=false = 零推理 token (快路)。vLLM 0.27 的 reasoning 输出内联于 message.reasoning 字段 (不在 content)。请求级经 chat_template_kwargs 传递; 探针/benchmark/judge 脚本均按本契约。
 理由: P2 三档矩阵实测 (A_off 零推理 / effort low / xhigh 行为与契约一致); 本条为 08-16 模型卡"思考档位实证"的操作化表述, 防下次启动/接线时把 "high" 当合法值或误信 thinking_budget。详见 docs/architecture/gb10_vllm_startup_sop.md 与 docs/32 §2.2。
+
+## [2026-08-16] 模型升级 S4: 双模型拓扑接线完成 (A3B 守快路 + 27B 接验证链/judge)
+结论: 路线 A 接线完成 (配置层 only, 零重启)。opencode.json 增 gb10v provider
+(经 thinking_inject_proxy :8008 → vLLM :8006), m2-qa + evidence-verifier 切
+qwen38-27b-fp8 (服务器模板默认 thinking off + 代理注入兜底); m1-extraction /
+tabular-* 保持 :8004 A3B (M1 热路径红线); judge 经 .env M2_JUDGE_ENDPOINT 指
+:8006 (显式 enable_thinking=false 透传, 与 4.94/5.0 实测口径行为对等)。
+实测发现: ① vLLM 0.27 reasoning-parser 按请求级显式 enable_thinking 键控
+(FM5), 服务器模板默认不能替代 → 注入代理为必需件 (详见 SOP FM5); ② 27B agent
+验证会话实测 首轮 ~30s / 热态 72s / 个别 >120s 超时, 慢于 A3B 的 39-55s
+(dense 解码多轮累积), OPENCODE_ASK_TIMEOUT=18 下继续全回落 — 用户可见行为与
+切换前一致 (零回归); ③ 接线验证 = 会话 modelID=qwen38-27b-fp8 坐实 + 代理
+三态测试通过。
+超时重议: OPENCODE_ASK_TIMEOUT 为模块级 env, 调整需 :5050 重启窗口; 与 M2
+菜单项 (skill 预载/降轮次/档位感知超时) 合并待用户拍板。
+回滚: opencode.json gb10v baseURL 与 m2-qa/evidence-verifier model 回指
+gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
+48h 旧栈回滚窗口 2026-08-17 18:00 到期 (不变)。

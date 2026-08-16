@@ -208,3 +208,9 @@
 - 48h 回滚窗口: 旧栈 (GGUF+llama-server) 保留至 **2026-08-17 18:00**, 窗口内回滚 <2min (DECISIONS 08-16 模型卡 SOP); S4 接线在窗口内完成。
 - 路线 B 门槛: Qwen3.8-35B-A3B 权重两通道未发布 (08-16 22:00 实测, 证据链见 docs/32 §2.4); routeb-watch 自动探测下载中; S3 顺延, blocked_questions 有同步条目。
 - PG 泄漏处置见本日 22:20 条目 (known_risk, B 阶段候选)。
+
+## [2026-08-16 23:35] S4 双模型接线完成 + OPENCODE_ASK_TIMEOUT 重议待拍板
+- 接线: gb10v provider (经 :8008 注入代理 → :8006) 承载 m2-qa + evidence-verifier; judge → :8006; A3B 守快路+视觉+M1 热路径。详见 DECISIONS 当日条目与 docs/32 §4 S4 执行记录。
+- agent 路实测: 首轮 ~30s / 热态 72s / >120s 超时, 18s 预算全回落 → 用户可见行为不变 (零回归)。
+- 重议需要: :5050 重启窗口 (OPENCODE_ASK_TIMEOUT 模块级读取) + M2 菜单项 (skill 预载/降轮次/档位感知超时) 组合。等用户拍板, 与 48h 旧栈窗口 (08-17 18:00) 时序上互不阻塞。
+- B4 台账切换点: 2026-08-16 ~23:35 双模型接线 (ask 结构化日志按 timestamp 分段; 接线不改变回落行为, 计数连续累计)。

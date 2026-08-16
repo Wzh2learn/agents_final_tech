@@ -18,10 +18,20 @@ GMEM="${GMEM:-0.30}"
 MAXLEN="${MAXLEN:-32768}"
 SERVED_NAME="${SERVED_NAME:-qwen38-27b-fp8}"
 MAXSEQS="${MAXSEQS:-32}"
+# CHAT_TEMPLATE: 自定义 jinja 模板路径 (可选); 用于服务器级思考默认值改造,
+# 例: ~/wzh/vllm_cache/qwen38_think_off_default.jinja (默认 thinking off)
+CHAT_TEMPLATE="${CHAT_TEMPLATE:-}"
 
 if [[ ! -f "$MODEL_DIR/config.json" ]]; then
   echo "model dir not ready: $MODEL_DIR" >&2
   exit 1
+fi
+
+TEMPLATE_MOUNT=()
+TEMPLATE_VLLM=()
+if [[ -n "$CHAT_TEMPLATE" ]]; then
+  TEMPLATE_MOUNT=(-v "$CHAT_TEMPLATE:/models/chat_template_custom.jinja:ro")
+  TEMPLATE_VLLM=(--chat-template /models/chat_template_custom.jinja)
 fi
 
 exec docker run --rm --name vllm-probe \
@@ -30,6 +40,7 @@ exec docker run --rm --name vllm-probe \
   -p "$PORT:8000" \
   -v "$MODEL_DIR:/models/model:ro" \
   -v "$HOME/wzh/vllm_cache:/root/.cache/vllm" \
+  "${TEMPLATE_MOUNT[@]}" \
   "$IMAGE" \
   vllm serve /models/model \
   --served-model-name "$SERVED_NAME" \
@@ -40,4 +51,5 @@ exec docker run --rm --name vllm-probe \
   --enable-auto-tool-choice \
   --tool-call-parser hermes \
   --limit-mm-per-prompt '{"image":2}' \
+  "${TEMPLATE_VLLM[@]}" \
   --trust-remote-code

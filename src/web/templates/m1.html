@@ -46,6 +46,7 @@
             <button id="copyBtn" type="button" title="复制M2载荷">Copy M2</button>
             <button id="downloadBtn" type="button" title="下载M2载荷">Download M2</button>
             <button id="schemaBtn" type="button" title="编辑字段映射规则">规则配置</button>
+            <button id="rulesViewBtn" type="button" title="只读查看已沉淀的字段映射规则（源自甲方映射表与递进沉淀）">字段规则</button>
             <button id="suggBtn" type="button" title="查看并确认系统自动发现的映射建议">建议映射 <span id="suggCount" class="badge-warn" hidden></span></button>
             <span id="notice" role="status"></span>
         </section>
@@ -99,6 +100,7 @@
                 <div id="m2ChatLog" class="m2-chat-log">
                     <div class="m2-empty-hint">输入问题开始对话，支持多轮追问。</div>
                 </div>
+                <div id="m2PresetChips" class="m2-chips" aria-label="常见问题清单"></div>
                 <div class="m2-controls">
                     <input id="m2Question" type="text"
                         placeholder="提问，例如：嘉兴民安的总资产是多少？"
@@ -193,6 +195,23 @@
                 <div class="modal-footer">
                     <button id="schemaSaveBtn" type="button" class="btn-primary">保存</button>
                     <button id="schemaCancelBtn" type="button" class="btn-secondary">取消</button>
+                </div>
+            </div>
+        </div>
+        <!-- 字段规则总览 modal (只读, 甲方演示 2026-08-17) -->
+        <div id="rulesModal" class="modal-overlay" hidden>
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <h2>字段规则总览（只读）</h2>
+                    <button id="rulesCloseBtn" class="modal-close" type="button">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="rulesSummary" style="margin:0 0 10px;color:#6b7280"></p>
+                    <div id="rulesList" class="rules-list"></div>
+                </div>
+                <div class="modal-footer">
+                    <span style="color:#6b7280;font-size:12px">规则维护请使用「规则配置」；本页仅作展示。</span>
+                    <button id="rulesOkBtn" type="button" class="btn-primary">关闭</button>
                 </div>
             </div>
         </div>

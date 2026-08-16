@@ -128,6 +128,20 @@ M2_JUDGE_ENDPOINT 指向不变) -> 六步验证 -> B4 台账记切换时间点�
 回滚: 旧 GGUF + llama-server 保留 48h (至 2026-08-17 18:00); 回滚 = docker stop
 vllm-probe + 按 DECISIONS.md 模型卡命令行重启 llama-server, 预计 <2min。
 
+**S4 执行记录 (2026-08-16 夜, 配置层 only 零重启)**:
+- opencode.json: gb10v provider (经 :8008 thinking 注入代理 → :8006), m2-qa +
+  evidence-verifier → qwen38-27b-fp8; m1-extraction/tabular-* 不动 (:8004 A3B)。
+- .env: M2_JUDGE_ENDPOINT/M2_JUDGE_MODEL → :8006 (judge 显式 enable_thinking=false
+  透传, 与 4.94/5.0 实测基线行为对等)。
+- FM5 发现: vLLM 0.27 reasoning-parser 按请求级显式 enable_thinking 键控,
+  服务器模板默认不能替代 → scripts/thinking_inject_proxy.py (详见 SOP FM5)。
+- agent 路实测: 会话 首轮 ~30s / 热态 72s / 个别 >120s 超时, 慢于 A3B 39-55s;
+  OPENCODE_ASK_TIMEOUT=18 (模块级 env, 调整需 :5050 重启) 下全回落, 用户可见
+  行为与切换前一致 (零回归)。超时重议 = M2 菜单项, 证据已闭环, 待重启窗口。
+- 六步验证: health/full ✓ (137/local/healthy) / parse 冒烟 ✓ (15ms 确定性) /
+  QA 2 条 ✓ (OCR meta-query + 掩码值, 回落直连答案正确) / compare 嘉兴民安 ✓
+  (2 持仓) / route env ✓ (on+18s) / agent 路接线验证 ✓ (modelID 坐实)。
+
 ## 5. 附录: 工件索引
 - 探针基准脚本: scripts/m2_model_probe_benchmark.py (thinking-probe/matrix/deterministic/concurrency/vision)
 - 探针启动脚本: scripts/vllm_probe_serve.sh; P2 一键: scripts/m2_model_probe_p2_run.sh

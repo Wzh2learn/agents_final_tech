@@ -61,3 +61,21 @@ PORT=8006 GMEM=0.30 bash scripts/vllm_probe_serve.sh      # 第二步: 启动探
 - 探针 :8006 (Qwen3.8-27B-FP8, GMEM=0.30) ≈ 39GB
 - 新增实例前先算: 121 − 生产常驻 − 已有探针 − 系统余量(≥10GB); 权重 > 可分配预算时
   换更小量化 (GGUF Q4) 或先停旧探针再上 (停探针不影响生产)。
+
+### FM5 reasoning parser 按请求级显式 enable_thinking 键控（S4 发现, 2026-08-16）
+- 症状: 改造模板把服务器默认改为 thinking off (jinja2 本地渲染逐字节一致) 后,
+  不携带 chat_template_kwargs 的请求仍被整体归入 reasoning 字段 (content=null);
+  显式传 enable_thinking=false 则正常。空 kwargs {} 同样失败。
+- 根因: vLLM 0.27 (vllm-gb10) reasoning-parser 按请求级 chat_template_kwargs
+  enable_thinking 的**显式值**决定是否启用 reasoning 抽取; 服务器级模板默认
+  不能替代请求级显式值。
+- 对策: scripts/thinking_inject_proxy.py (:8008, tmux thinking-proxy) 对未携带
+  显式值的 /v1/chat/completions 注入 enable_thinking=false; 显式值原样透传
+  (judge 的 false / 未来 thinking-on 实验不受影响)。opencode gb10v provider
+  baseURL 指 :8008/v1; judge 直连 :8006 (自带显式 false)。
+  注意: 脚本内自清 socks 代理环境变量 + trust_env=False (SOP §2 同款陷阱,
+  tmux 环境 ALL_PROXY 会致 httpx 启动崩溃)。
+- 验证: 代理三态测试 (注入 off / 显式 true 透传思考 / 显式 false 透传) 全过;
+  opencode m2-qa 会话 modelID=qwen38-27b-fp8 坐实。
+- 模板改造告诫: jinja 替换必须逐字节保留原缩进与块结构; 排障时先用 jinja2
+  本地渲染 diff 隔离"模板渲染差异 vs 服务端行为差异", 再下结论。
