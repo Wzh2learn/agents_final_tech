@@ -173,8 +173,13 @@ def ask_via_opencode(
             r = httpx.post(f"{SIDECAR_URL}/session/{session_id}/message", json=body, timeout=timeout_s, trust_env=False)
         r.raise_for_status()
         payload = r.json()
-        answer, sources = _parse_structured(_extract_text(payload))
         info = payload.get("info", {}) if isinstance(payload, dict) else {}
+        # Compaction guard: a session-compaction summary is not an answer.
+        # Fall back to direct RAG instead of surfacing the raw info blob.
+        if str(info.get("agent", "")) == "compaction" or str(info.get("mode", "")) == "compaction":
+            logger.warning("opencode final message is a compaction summary; fallback")
+            return None
+        answer, sources = _parse_structured(_extract_text(payload))
         return {
             "answer": answer,
             "sources": sources,

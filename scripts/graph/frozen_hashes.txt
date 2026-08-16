@@ -9,3 +9,10 @@
 # 生成方式: md5sum tests/test_m1_service.py ~/wzh/m1_samples/m1_table_schema.json
 faa7565a2b83b5b593389000b7ed72d7  tests/test_m1_service.py
 73d4f46e20e8eeb03532f4b4a8e55c0d  /home/testuser/wzh/m1_samples/m1_table_schema.json
+#
+# [2026-08-17] Loop D 授权扩充 (夜间 loop T4): 门禁级基线资产入冻。
+# 原则: 基线诞生即入冻结; 活配置 (opencode.json 等) 不进冻结。
+# 生成方式: md5sum tests/baselines/scenario1_baseline.json tests/fixtures/m2_eval_questions.json tests/fixtures/m1_m2_baseline_cases.json
+f617e3563ff661574049a702ca01cc04  tests/baselines/scenario1_baseline.json
+d3e9644dc7b2a65460de388cfddb1242  tests/fixtures/m2_eval_questions.json
+6c2712706eea8fa5be6c079d519dd5fd  tests/fixtures/m1_m2_baseline_cases.json

@@ -130,7 +130,7 @@
 模型卡 (候选): Qwen/Qwen3.8-27B-FP8 (hf-mirror, Apache); model_type qwen3_5 混合 linear+full attention, 原生 VLM, MTP, 262k ctx; 探针容器 vllm-probe: served-name qwen38-27b-fp8, GMEM=0.30, max-num-seqs 32, max-model-len 32768, reasoning-parser qwen3, tool-call-parser hermes。
 思考档位实证: enable_thinking=false 零推理 (A 档); reasoning_effort 合法集 xhigh(默认)/medium/low (prompt 引导式); thinking_budget 模板不支持、传入被忽略; "high" 非法→400; vLLM 0.27 reasoning 存 message.reasoning 字段。
 启动 SOP: scripts/gb10_reclaim_page_cache.sh 35 回收 page cache → GMEM=0.30 (0.27 差 0.44GiB) → --max-num-seqs ≤78 (Mamba 状态块约束) → 挂持久编译缓存; 冷启动 ~7min。
-回滚 SOP (旧栈零损失): :8004 = LM Studio llama-server Qwen3.6-35B-A3B-Q4_K_M+mmproj (-c 65536 -ngl 999 --flash-attn on, pid 2642808); :8005 = llama-server Qwen3-14B-Q4_K_M (-c 32768 -ngl 20, pid 2645844); 完整 cmdline 见 dispatch_log 08-15 P0 条目; 旧 GGUF + llama-server 保留 48h (至 2026-08-17 18:00); 回滚 = docker stop vllm-probe + 按上述参数重启 llama-server, 预计 <2min。
+回滚 SOP (旧栈零损失): :8004 = LM Studio llama-server Qwen3.6-35B-A3B-Q4_K_M+mmproj (-c 65536 -ngl 999 --flash-attn on, pid 2642808); :8005 = llama-server Qwen3-14B-Q4_K_M (-c 32768 -ngl 20, pid 2645844); 完整 cmdline 见 dispatch_log 08-15 P0 条目; 旧 GGUF + llama-server 保留 48h (至 2026-08-17 18:00) **[2026-08-17 作废: A3B 长期驻守生产组件, 非回滚候选]**; 回滚 = docker stop vllm-probe + 按上述参数重启 llama-server, 预计 <2min。
 理由: P2 闸门规则为用户预设 (A 档 p50>8s → 不全量替换, 出对比菜单); GB10 273GB/s 带宽是 dense 27B 快路的硬约束, 并发 3 流实测单请求劣化 7x 进一步坐实带宽受限。NF 未对候选重跑 (脚本锁 :5050 生产端点, 红线不重启), 留 P3 切换验证。
 
 ## [2026-08-16] 思考控制操作契约 (Qwen3.8 + vLLM 0.27, S1 沉淀补强)
@@ -154,3 +154,27 @@ tabular-* 保持 :8004 A3B (M1 热路径红线); judge 经 .env M2_JUDGE_ENDPOIN
 回滚: opencode.json gb10v baseURL 与 m2-qa/evidence-verifier model 回指
 gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 48h 旧栈回滚窗口 2026-08-17 18:00 到期 (不变)。
+
+## [2026-08-17] 红线修订: 模型准入预算门 + 模型退位政策 + M1 热路径口径更新
+- "72B 不碰"条目作废 → 改为**模型准入预算门**: 任何新模型加载必须先出内存算术 (按 docs/architecture/gb10_vllm_startup_sop.md: 273GB/s 带宽解码上限 + GMEM/KV 预算) + 经用户批准窗口; 未经批准不加载。原 72B 终判 (2026-07-31, 结构化抽取退化) 保留为历史证据, 不再是硬禁令。
+- **模型退位政策**: 退位后权重默认保留; 磁盘不足可删, 先记台账再删 (名称/路径/大小/理由四项必备)。
+- **M1 热路径口径更新**: 解析热路径不走 agent, 模型锁定 :8004 Qwen3.6-35B-A3B; :8006 Qwen3.8-27B-FP8 仅服务 M2 agent 验证链/judge/深度问答, 不得承接 M1 流量 (双重防御: 防 agent 侵入 + 防慢模型侵入)。
+- 其余红线照旧: 冻结节点 / API key 不打印 / 不对外发送 / 归档 git mv / STATE 覆写绑定收口 commit; "Loop B 不扰"指日常不扰周期, 升级型变更需用户授权窗口。
+
+## [2026-08-17] 模型拓扑定型: :8004 A3B 长期驻守 + Route B CLOSED + 演示 UI 追认
+- :8004 Qwen3.6-35B-A3B (Q4_K_M+mmproj, LM Studio llama-server, -c 65536 -ngl 999 --flash-attn on) 定型为快路+视觉双角色**长期驻守**; 08-16 模型卡中"旧 GGUF 保留 48h (至 08-17 18:00)"期限条款作废——它是生产组件, 非回滚候选。
+- **Route B (Qwen3.8-35B-A3B) 转 CLOSED**: 用户人工查证 + 辅助线 HF 枚举双坐实无官方开源权重 (Qwen org 3.8 系仅 27B/27B-FP8/2.4T-A95B); routeb-watch tmux 退役 (探测脚本 scripts/routeb_watch.sh 留仓库资产); 重开前提 = 官方权重发布。
+- 演示 UI (M2 问题清单 chips ×11 + 字段规则只读总览 modal) 追认为模型升级专项范围内工作, 做完做稳, 不扩展到任务二改版。
+- :8005 Qwen3-14B 辅助模型退位 (依赖盘点零生产引用 → 停服), 见 THREADS 退位记录; 权重保留。
+
+## [2026-08-17] OPENCODE_ASK_TIMEOUT 重议: 18s → 45s (数据定值)
+- 数据依据: B4 934 条中 88 条 agent 路干净完成 (A3B 时代) 全部 ≤18.1s; adapter 模型 = 每 ask 一个 throwaway session (create→use→delete), API 路无多轮累积 → S4 手动会话 72.1s/>120s 不代表 API 路; 27B 新鲜会话实测 29.6s (S4) / 30.0s (08-17 真实承载)。
+- 候选预算完成率 (实测分布): 18s = 0% (27B 时代全回落) / 30s = 贴边 / **45s** = 覆盖 A3B 全分布 (2.5x 余量) + 27B 新鲜会话 (1.5x 余量) / 75-90s 只多覆盖手动多轮场景 (API 路不适用, 且 UX 恶化)。
+- 定值 45s。如实口径: 个别高方差请求仍会超时回落 (08-17 实测 1 条 47s→fallback), 最坏 UX = 45s 等待 + 直连 ≈ 60s 封顶; 完成率非 100%, 回落机制兜底, 不为抬而抬。
+- 真实承载验收 PASS: 08-17 00:13 OCR meta-query 经 agent 路完成 (route=agent, fell_back=false, latency=30.0s) — 双模型切换后首次真实完成。
+- reasoning_effort 探针 (直连 :8006, n=1): off 5.7s/45tok vs low 19.8s/155tok vs xhigh 12.2s/95tok — thinking 开启任何档位均加延迟且非单调, 无结构化 reasoning 输出; "准路高思考"方向在 dense 27B 不成立, 维持 thinking off。
+
+## [2026-08-17] 冻结原则: 基线诞生即入冻结, 活配置不入冻结
+- 门禁级基线资产一律入冻结清单 (scripts/graph/frozen_hashes.txt): scenario1 回归基线 (tests/baselines/scenario1_baseline.json) / M2 确定性检验题集 (tests/fixtures/m2_eval_questions.json) / 基准 case 集 (tests/fixtures/m1_m2_baseline_cases.json) 已入冻。
+- 活配置 (opencode.json / .env 等) 不进冻结——它们是拓扑演进的合法变更面, 靠 diff 审计而非 hash 冻结治理。
+- 新基线 (eval/回归/性能) 诞生即入冻结, 不等下一轮治理; 更新冻结清单需 Loop D 授权 + commit message 注明。

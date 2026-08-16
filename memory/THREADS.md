@@ -214,3 +214,27 @@
 - agent 路实测: 首轮 ~30s / 热态 72s / >120s 超时, 18s 预算全回落 → 用户可见行为不变 (零回归)。
 - 重议需要: :5050 重启窗口 (OPENCODE_ASK_TIMEOUT 模块级读取) + M2 菜单项 (skill 预载/降轮次/档位感知超时) 组合。等用户拍板, 与 48h 旧栈窗口 (08-17 18:00) 时序上互不阻塞。
 - B4 台账切换点: 2026-08-16 ~23:35 双模型接线 (ask 结构化日志按 timestamp 分段; 接线不改变回落行为, 计数连续累计)。
+
+## [2026-08-17 00:30] 红线修订 + T1 决策入账 (Route B CLOSED / :8004 定型 / 演示 UI 追认)
+- 红线修订三条落 DECISIONS [2026-08-17]: 72B 硬禁 → 模型准入预算门; 模型退位政策 (权重默认保留, 删必先记台账); M1 热路径模型锁定 :8004 A3B, :8006 仅 M2 验证链/judge/深度问答。
+- Route B → **CLOSED**: Qwen3.8-35B-A3B 无官方开源权重 (用户人工查证 + 辅助线 HF 枚举双坐实); routeb-watch tmux 退役, 探测脚本入库 scripts/routeb_watch.sh, 日志 ~/wzh/routeb_watch.log 留 GB10; 重开前提 = 官方权重发布。
+- :8004 A3B 快路+视觉长期驻守; DECISIONS 08-16 模型卡"GGUF 保留至 08-17 18:00"条款已标注作废。
+- 演示 UI (chips ×11 + 规则 modal) 追认为范围内工作, 不扩展任务二改版。
+
+## [2026-08-17 00:35] T2 辅助 Qwen 退位: :8005 Qwen3-14B 停服
+- 依赖盘点: .env/src/opencode.json 零引用 (judge 已于 S4 切 :8006); 仅治理脚本/文档引用, 已更新: graph_orchestrator.sh (8004/8006 http_code 检查) / loop_d_monitor.sh (:8006 vLLM + :8005 RETIRED 行) / loop_a_exec_constraints.md / loop_c_audit_prompt.md; status.sh 端口表保留 (快照如实反映 down); loop_b MODEL_AUX_PORT 由 T5 升级为期望关闭态。
+- 停服: kill llama-server pid 2645844 (LM Studio 后端, -c 32768 -ngl 20); 端口关闭确认, 无自动拉起 (无 LM Studio daemon)。
+- 权重保留 (退位政策): /home/testuser/wzh/models/gguf/qwen3-14b/Qwen3-14B-Q4_K_M.gguf; 磁盘 2.8T 空闲, 不删。
+- 端口快照: :5050=200 :4096=200 :8004=404 :8005=000000 :8006=404 :8008=404 :8100=404 (8005 关闭为预期)
+
+## [2026-08-17 00:45] T3 重启窗口执行: 超时 18→45 落地 + 真实承载 PASS + compaction 缺陷处置
+- 重启 :5050 (12s UP, 周期 29s): OPENCODE_ASK_TIMEOUT=45 进程 env 生效坐实; 六步验证全过 (health/full 137/local/healthy / parse 冒烟 6ms 确定性 / QA 2 条 / compare 嘉兴民安 2 持仓 / route=on)。
+- 真实承载验收: OCR meta-query 经 agent 路完成 route=agent fell_back=false latency=30040ms (b4_ask_log 08-17 00:13:13); 同批第 2 问 47s 超时→回落直连正常 (最坏 UX 封顶成立)。
+- **新发现缺陷 (已修)**: agent 路返回 opencode compaction 摘要消息被 adapter 透传为 answer (info blob 垃圾答案) → src/biz/opencode_adapter.py 加 compaction guard (遇压缩摘要即回落直连), 随本轮重启载入。深层问题 (throwaway session 为何触发 compaction, 疑与 27B context 预算/skill 加载相关) 记为观察项, 甲方反馈期不动。
+- QA 口径: OCR meta-query 走 agent 路时 sources_count=0 (compaction 案例), 修复后复验见下。
+
+## [2026-08-17 00:40] T5 Loop B 升级完成 (授权例外) + 破坏演练通过
+- 三项: STEP 8 双模型拓扑断言 (:8004 health + :8006/:8008 model ID qwen38-27b-fp8 + :8005 期望 down) / STEP 9 B4 agent 完成率看门狗 (窗口 30 asks 计数制: agent_clean==0 且 fell_back>=25 报警; 低流量不误报; route 主动 off 时 fell_back=false 亦不误报) / LOOP_B_PYTEST=0 演练跳过 flag (增量, 默认行为不变)。
+- 首周期实战抓 2 缺陷即修: ① 拓扑检查 curl -w 与 || echo 双拼 → "000000" 误判 ② canary 客户端超时 45s < 新最坏情况 (45s 回落等待 + 直连) → CANARY_TIMEOUT 默认 45→75, CANARY_BUDGET 240→360。
+- 验收: 完整周期无误报 PASS (00:34, 含 pytest 336/13 + docs_lint 0/0); 破坏演练 kill :8008 → FAIL 报警 + flip 记录 → 恢复 → PASS (flip 机制 4 条记录)。
+- write_report.py 报告 JSON 增 model_topology / agent_watchdog 两项 (向后兼容旧 5/8 参数调用)。

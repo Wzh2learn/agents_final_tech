@@ -22,7 +22,10 @@ VENV_PYTHON="$PROJECT_DIR/venv/bin/python"
 
 API_BASE="${M1_API_BASE:-http://127.0.0.1:5050}"
 MODEL_MAIN_PORT=8004
-MODEL_AUX_PORT=8005
+MODEL_AUX_PORT=8005          # RETIRED 2026-08-17: 仅用于 down 断言
+MODEL_VERIFY_PORT=8006       # vLLM Qwen3.8-27B-FP8 (agent 验证链/judge/深度问答)
+MODEL_PROXY_PORT=8008        # thinking_inject_proxy -> :8006
+MODEL_ID_27B="qwen38-27b-fp8"
 
 POLL_INTERVAL=1800
 
@@ -32,9 +35,17 @@ POLL_INTERVAL=1800
 LOOP_B_CANARY="${LOOP_B_CANARY:-1}"
 LOOP_B_GIT_ALIGN="${LOOP_B_GIT_ALIGN:-1}"
 LOOP_B_DOCS_LINT="${LOOP_B_DOCS_LINT:-1}"
+
+# ---- T5 升级开关 (2026-08-17, 授权例外) ----
+LOOP_B_MODEL_TOPO="${LOOP_B_MODEL_TOPO:-1}"
+LOOP_B_AGENT_WATCHDOG="${LOOP_B_AGENT_WATCHDOG:-1}"
+LOOP_B_PYTEST="${LOOP_B_PYTEST:-1}"
+AGENT_WATCHDOG_WINDOW="${AGENT_WATCHDOG_WINDOW:-30}"
+AGENT_WATCHDOG_MIN_FALLBACKS="${AGENT_WATCHDOG_MIN_FALLBACKS:-25}"
+B4_LOG="$REPORT_DIR/b4_ask_log.jsonl"
 CANARY_IDS="${LOOP_B_CANARY_IDS:-adv_ocr_meta,adv_refusal,q06_minan_cash_balance,adv_cross_doc}"
-CANARY_TIMEOUT="${LOOP_B_CANARY_TIMEOUT:-45}"
-CANARY_BUDGET=240
+CANARY_TIMEOUT="${LOOP_B_CANARY_TIMEOUT:-75}"  # T5: 45s ask 超时 + 回落直连最坏 ~60s, 45 不够
+CANARY_BUDGET=360  # T5: 4 题 x 最坏 ~75s 余量
 STATE_FILE="$REPORT_DIR/loop_b_last_status"
 DISPATCH_LOG="$REPORT_DIR/dispatch_log.md"
 
@@ -163,8 +174,8 @@ check_api_anchors() {
     log "  FAIL: /api/m1/extract -> $code"
   fi
 
-  # 3d. Model services
-  for port in $MODEL_MAIN_PORT $MODEL_AUX_PORT; do
+  # 3d. Model services (T5: aux 已退位; 双模型拓扑断言见 STEP 8)
+  for port in $MODEL_MAIN_PORT; do
     local mh
     mh=$(curl -s --max-time 5 "http://127.0.0.1:${port}/health" 2>/dev/null || echo "")
     if echo "$mh" | grep -q "ok"; then
@@ -276,6 +287,87 @@ run_docs_lint() {
   fi
 }
 
+# ---- Step 8: 双模型拓扑断言 (T5, 2026-08-17) ----
+# Returns: violation count
+check_model_topology() {
+  log "STEP 8: dual-model topology assertions..."
+  local violations=0 code models
+
+  code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 "http://127.0.0.1:${MODEL_MAIN_PORT}/health" 2>/dev/null)
+  code=${code:-000}
+  if [[ "$code" == "200" ]]; then
+    log "  OK: :${MODEL_MAIN_PORT} A3B healthy"
+  else
+    violations=$((violations + 1)); log "  FAIL: :${MODEL_MAIN_PORT} A3B down (code=$code)"
+  fi
+
+  models=$(curl -s --max-time 5 "http://127.0.0.1:${MODEL_VERIFY_PORT}/v1/models" 2>/dev/null || echo "")
+  if echo "$models" | grep -q "$MODEL_ID_27B"; then
+    log "  OK: :${MODEL_VERIFY_PORT} serves $MODEL_ID_27B"
+  else
+    violations=$((violations + 1)); log "  FAIL: :${MODEL_VERIFY_PORT} missing $MODEL_ID_27B"
+  fi
+
+  models=$(curl -s --max-time 5 "http://127.0.0.1:${MODEL_PROXY_PORT}/v1/models" 2>/dev/null || echo "")
+  if echo "$models" | grep -q "$MODEL_ID_27B"; then
+    log "  OK: :${MODEL_PROXY_PORT} proxy passes $MODEL_ID_27B"
+  else
+    violations=$((violations + 1)); log "  FAIL: :${MODEL_PROXY_PORT} proxy missing $MODEL_ID_27B"
+  fi
+
+  code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 3 "http://127.0.0.1:${MODEL_AUX_PORT}/health" 2>/dev/null)
+  code=${code:-000}
+  if [[ "$code" == "000" ]]; then
+    log "  OK: :${MODEL_AUX_PORT} retired (down as expected)"
+  else
+    violations=$((violations + 1)); log "  FAIL: :${MODEL_AUX_PORT} should be retired but responds (code=$code)"
+  fi
+
+  echo "$violations"
+}
+
+# ---- Step 9: B4 agent 完成率看门狗 (T5, 2026-08-17) ----
+# 滚动窗口: route=on 但 agent 路持续零完成 (全回落) => 灰度路静默死亡。
+# 计数窗口 (非时间窗), 低流量不误报; route 主动 off 时 fell_back=false, 亦不误报。
+# Returns: 0=PASS, 1=alarm
+check_b4_agent_watchdog() {
+  log "STEP 9: B4 agent completion watchdog (window=$AGENT_WATCHDOG_WINDOW)..."
+  if [[ ! -f "$B4_LOG" ]]; then
+    log "  SKIP: no b4 log yet"
+    echo 0
+    return
+  fi
+  local verdict
+  verdict=$("$VENV_PYTHON" - "$B4_LOG" "$AGENT_WATCHDOG_WINDOW" "$AGENT_WATCHDOG_MIN_FALLBACKS" <<'PYCHK'
+import json, sys
+path, window, min_fb = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+rows = []
+for line in open(path, encoding="utf-8"):
+    line = line.strip()
+    if line:
+        try:
+            rows.append(json.loads(line))
+        except Exception:
+            pass
+rows = rows[-window:]
+if len(rows) < window:
+    print("SKIP"); sys.exit(0)
+agent_clean = sum(1 for r in rows if r.get("route") == "agent" and not r.get("fell_back"))
+fell_back = sum(1 for r in rows if r.get("fell_back"))
+if agent_clean == 0 and fell_back >= min_fb:
+    print("ALARM"); sys.exit(0)
+print("OK")
+PYCHK
+  )
+  if [[ "$verdict" == "ALARM" ]]; then
+    log "  FAIL: last $AGENT_WATCHDOG_WINDOW asks: 0 agent completions, >=$AGENT_WATCHDOG_MIN_FALLBACKS fallbacks — agent route not carrying traffic"
+    echo 1
+  else
+    log "  $verdict: agent-route watchdog"
+    echo 0
+  fi
+}
+
 # ---- Write Report ----
 write_report() {
   local frozen_violations=$1
@@ -285,16 +377,20 @@ write_report() {
   local canary_failures=$5   # -1 = SKIP
   local git_violations=$6    # -1 = SKIP
   local lint_failures=$7     # -1 = SKIP
+  local topo_violations=${8:-0}    # -1 = SKIP (T5)
+  local watchdog_violations=${9:-0} # -1 = SKIP (T5)
 
   local overall="PASS"
   if [[ "$frozen_violations" -gt 0 ]] || [[ "$pytest_exit" -ne 0 ]] || [[ "$api_failures" -gt 0 ]] \
-     || [[ "$canary_failures" -gt 0 ]] || [[ "$git_violations" -gt 0 ]] || [[ "$lint_failures" -gt 0 ]]; then
+     || [[ "$canary_failures" -gt 0 ]] || [[ "$git_violations" -gt 0 ]] || [[ "$lint_failures" -gt 0 ]] \
+     || [[ "$topo_violations" -gt 0 ]] || [[ "$watchdog_violations" -gt 0 ]]; then
     overall="FAIL"
   fi
 
   python3 "$GRAPH_DIR/write_report.py" \
     "$frozen_violations" "$pytest_exit" "$api_failures" "$head_commit" "$REPORT_FILE" \
     "$canary_failures" "$git_violations" "$lint_failures" \
+    "$topo_violations" "$watchdog_violations" \
     2>/dev/null || log "  WARNING: report write failed"
 
   log "REPORT: overall=$overall -> $REPORT_FILE"
@@ -331,9 +427,15 @@ run_verification() {
   # Each function logs to stderr, returns a single value on stdout
   local frozen_violations pytest_exit api_failures head_commit overall
   local canary_failures=-1 git_violations=-1 lint_failures=-1
+  local topo_violations=-1 watchdog_violations=-1
 
   frozen_violations=$(check_frozen_nodes)
-  pytest_exit=$(run_pytest)
+  if [[ "$LOOP_B_PYTEST" == "1" ]]; then
+    pytest_exit=$(run_pytest)
+  else
+    pytest_exit=0
+    log "STEP 2: pytest SKIPPED (LOOP_B_PYTEST=0)"
+  fi
   api_failures=$(check_api_anchors)
   if [[ "$LOOP_B_CANARY" == "1" ]]; then
     canary_failures=$(run_qa_canary)
@@ -350,10 +452,20 @@ run_verification() {
   else
     log "STEP 7: docs_lint SKIPPED (LOOP_B_DOCS_LINT=0)"
   fi
+  if [[ "$LOOP_B_MODEL_TOPO" == "1" ]]; then
+    topo_violations=$(check_model_topology)
+  else
+    log "STEP 8: model topology SKIPPED (LOOP_B_MODEL_TOPO=0)"
+  fi
+  if [[ "$LOOP_B_AGENT_WATCHDOG" == "1" ]]; then
+    watchdog_violations=$(check_b4_agent_watchdog)
+  else
+    log "STEP 9: agent watchdog SKIPPED (LOOP_B_AGENT_WATCHDOG=0)"
+  fi
   head_commit=$(check_git_state)
 
   overall=$(write_report "$frozen_violations" "$pytest_exit" "$api_failures" "$head_commit" \
-    "$canary_failures" "$git_violations" "$lint_failures")
+    "$canary_failures" "$git_violations" "$lint_failures" "$topo_violations" "$watchdog_violations")
 
   record_status_flip "$overall"
 

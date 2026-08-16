@@ -24,11 +24,12 @@ echo
 echo "[1] SYSTEM HEALTH"
 
 m8004=$(curl -s http://127.0.0.1:8004/health 2>/dev/null | grep -c ok || echo 0)
-m8005=$(curl -s http://127.0.0.1:8005/health 2>/dev/null | grep -c ok || echo 0)
+m8006=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 http://127.0.0.1:8006/health 2>/dev/null || echo 000)
 app=$(curl -s -o /dev/null -w '%{http_code}' "${M1_API_BASE:-http://127.0.0.1:5050}/health" 2>/dev/null || echo 000)
 
 [[ "$m8004" -ge 1 ]] && echo "  :8004 main model    [OK]" || echo "  :8004 main model    [DOWN]"
-[[ "$m8005" -ge 1 ]] && echo "  :8005 aux model     [OK]" || echo "  :8005 aux model     [DOWN] (non-critical)"
+[[ "$m8006" == "200" ]] && echo "  :8006 vllm 27B      [OK]" || echo "  :8006 vllm 27B      [DOWN]"
+echo "  :8005 aux model     [RETIRED 2026-08-17]"
 [[ "$app" == "200" ]] && echo "  :5000 FastAPI       [OK]" || echo "  :5000 FastAPI       [DOWN: $app]"
 echo
 

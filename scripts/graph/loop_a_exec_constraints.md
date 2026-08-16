@@ -70,7 +70,7 @@ Loop A (你) -> 执行具体开发任务
 ## 技术约束
 
 - 主力模型: http://127.0.0.1:8004 (Qwen3.6-35B-A3B, 64K context, multimodal)
-- 辅助模型: http://127.0.0.1:8005 (Qwen3-14B, 32K context)
+- 辅助模型: :8005 Qwen3-14B 已退位 (2026-08-17); M2 验证链/judge 用 :8006 Qwen3.8-27B-FP8 (仅 M2, 不接 M1 热路径)
 - OCR 为主, 视觉 (mmproj) 为辅。PaddleOCR 在 conda env wzh_vision。
 - FastAPI 在 :5000, PGVector 在 :15432
 - 项目路径: ~/wzh/projects/agents_final_tech

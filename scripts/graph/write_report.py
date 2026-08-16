@@ -25,10 +25,13 @@ def main():
     canary_f = int(sys.argv[6]) if len(sys.argv) > 6 else -1
     git_v = int(sys.argv[7]) if len(sys.argv) > 7 else -1
     lint_f = int(sys.argv[8]) if len(sys.argv) > 8 else -1
+    topo_v = int(sys.argv[9]) if len(sys.argv) > 9 else -1
+    watchdog_v = int(sys.argv[10]) if len(sys.argv) > 10 else -1
 
     overall = "PASS"
     if (frozen_v > 0 or pytest_e != 0 or api_f > 0
-            or canary_f > 0 or git_v > 0 or lint_f > 0):
+            or canary_f > 0 or git_v > 0 or lint_f > 0
+            or topo_v > 0 or watchdog_v > 0):
         overall = "FAIL"
 
     report = {
@@ -61,6 +64,14 @@ def main():
             "docs_lint": {
                 "status": _status(lint_f),
                 "failures": lint_f,
+            },
+            "model_topology": {
+                "status": _status(topo_v),
+                "violations": topo_v,
+            },
+            "agent_watchdog": {
+                "status": _status(watchdog_v),
+                "violations": watchdog_v,
             },
         },
         "action": (

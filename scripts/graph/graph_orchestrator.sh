@@ -76,11 +76,12 @@ show_status() {
 
   # Model services
   echo "--- Model services ---"
-  for port in 8004 8005; do
+  for port in 8004 8006; do
     local health
-    health=$(curl -s "http://127.0.0.1:$port/health" 2>/dev/null | grep -o '"ok"' || echo "DOWN")
-    echo "  :$port -> $health"
+    health=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 "http://127.0.0.1:$port/health" 2>/dev/null || echo "000")
+    echo "  :$port -> HTTP $health"
   done
+  echo "  :8005 -> RETIRED (2026-08-17, Qwen3-14B 退位)" 
   echo
 
   # App service
