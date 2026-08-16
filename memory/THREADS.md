@@ -196,3 +196,15 @@
 - P2 基准 (全实测, 报告 logs/graph/eval/model_probe_*.json @GB10): 三档矩阵 A_off p50=10.31s/p95=15.76s (49 tok), B_effort_low p50=23.82s, C_effort_xhigh p50=60.60s (431 tok); 确定性 16/16 PASS (旧栈对照 16/16, 1.3-1.9s/题); 并发 3 流 makespan 70.6s vs 串行 207.1s 但单请求劣化 7x (带宽受限); judge 交叉评 5.0×4 (基线 4.94), 自评 5.0×4; 视觉转写质量平手但候选 72-76s vs 旧栈 mmproj 29-31s。NF 未对候选重跑 (脚本锁 :5050, 红线不重启), 留 P3。
 - **闸门判定: 质量 GO + 快路 FAIL (A_off p50 10.31s > 8s) → 不全量替换**。切换菜单 = 路线 A 双模型分工 (推荐先行) vs 路线 B Qwen3.8-35B-A3B MoE 探针, 见 docs/32 §2.4, **待用户拍板**。
 - 状态: 探针 :8006 保持运行 (tmux vllserve), 拍板前不动生产。旧 GGUF+llama-server 保留 48h (至 08-17 18:00)。附注: P2 视觉对照占用 :8004 期间 (18:16) Loop B qa_canary 一次超时 FAIL, 属探针负载扰动, 非代码回归, 观察下轮翻转。
+
+## [2026-08-16 22:20] PG 连接泄漏: Loop B 周期跑遗留 idle 连接打满 max_connections=100 (known_risk)
+- 现象: NF 候选侧首跑全程 "too many clients already" (结果无效已重跑); pg_stat_activity 95 idle/100, 最老 1d21h, 增长速率 ~30min/个, last_q 含 chat_sessions 心跳与 ROLLBACK, 判定 Loop B 周期跑每轮漏 1 连接。
+- 临时处置: pg_terminate_backend 清 >60min idle (95→20), :5050 health 全程 healthy 无感。
+- 根治选项 (待窗口): a) Loop B 脚本补连接关闭 (Loop B 本体不扰, 需用户批) b) PG 设 idle_session_timeout (需 PG 重启窗口) c) max_connections 调大 (同需重启)。
+- 状态: OPEN (B 阶段候选); 再现特征: NF/eval 报 too many clients → 先查 pg_stat_activity。
+
+## [2026-08-16 22:30] S2 台账同步 (模型升级后半场)
+- NF 候选侧遗余项: 已执行 (S1 参数化后首跑, 结果见 dispatch_log 与 logs/graph/eval/number_faithfulness_report_candidate_8006.json)。
+- 48h 回滚窗口: 旧栈 (GGUF+llama-server) 保留至 **2026-08-17 18:00**, 窗口内回滚 <2min (DECISIONS 08-16 模型卡 SOP); S4 接线在窗口内完成。
+- 路线 B 门槛: Qwen3.8-35B-A3B 权重两通道未发布 (08-16 22:00 实测, 证据链见 docs/32 §2.4); routeb-watch 自动探测下载中; S3 顺延, blocked_questions 有同步条目。
+- PG 泄漏处置见本日 22:20 条目 (known_risk, B 阶段候选)。

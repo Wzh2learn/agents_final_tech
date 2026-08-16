@@ -132,3 +132,7 @@
 启动 SOP: scripts/gb10_reclaim_page_cache.sh 35 回收 page cache → GMEM=0.30 (0.27 差 0.44GiB) → --max-num-seqs ≤78 (Mamba 状态块约束) → 挂持久编译缓存; 冷启动 ~7min。
 回滚 SOP (旧栈零损失): :8004 = LM Studio llama-server Qwen3.6-35B-A3B-Q4_K_M+mmproj (-c 65536 -ngl 999 --flash-attn on, pid 2642808); :8005 = llama-server Qwen3-14B-Q4_K_M (-c 32768 -ngl 20, pid 2645844); 完整 cmdline 见 dispatch_log 08-15 P0 条目; 旧 GGUF + llama-server 保留 48h (至 2026-08-17 18:00); 回滚 = docker stop vllm-probe + 按上述参数重启 llama-server, 预计 <2min。
 理由: P2 闸门规则为用户预设 (A 档 p50>8s → 不全量替换, 出对比菜单); GB10 273GB/s 带宽是 dense 27B 快路的硬约束, 并发 3 流实测单请求劣化 7x 进一步坐实带宽受限。NF 未对候选重跑 (脚本锁 :5050 生产端点, 红线不重启), 留 P3 切换验证。
+
+## [2026-08-16] 思考控制操作契约 (Qwen3.8 + vLLM 0.27, S1 沉淀补强)
+结论: Qwen3.8 系开源模型 + vLLM 的思考深度唯一有效旋钮是 reasoning_effort, 合法集 {low, medium, xhigh} (默认 xhigh); "high" 为非法值→400, 需要高档必须写 xhigh; thinking_budget 被 chat template 忽略, 行为等同 xhigh (不得依赖它做封顶); enable_thinking=false = 零推理 token (快路)。vLLM 0.27 的 reasoning 输出内联于 message.reasoning 字段 (不在 content)。请求级经 chat_template_kwargs 传递; 探针/benchmark/judge 脚本均按本契约。
+理由: P2 三档矩阵实测 (A_off 零推理 / effort low / xhigh 行为与契约一致); 本条为 08-16 模型卡"思考档位实证"的操作化表述, 防下次启动/接线时把 "high" 当合法值或误信 thinking_budget。详见 docs/architecture/gb10_vllm_startup_sop.md 与 docs/32 §2.2。

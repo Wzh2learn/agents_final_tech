@@ -44,6 +44,7 @@
 | `15_远程开发机_Codex_CLI_与_OpenCode_配置.md` | 活跃 | GB10 开发机配置与模型切换指南（Loop A flash / Loop C qwen3.8-max） | 2026-08-08 |
 | `13_M1_M2联合数据闭环计划.md` | 历史-政策依据 | 公开数据集 / split 政策唯一依据（研究线冻结配套，根 AGENTS.md 指定必读） | 2026-07-22 |
 | `architecture/codebase_map.md` | 活跃 | 代码库结构 + 依赖图 + 端口拓扑（含 :4096 sidecar） | 2026-08-08 |
+| `architecture/gb10_vllm_startup_sop.md` | 活跃 | GB10 vLLM 启动 SOP: page cache 回收→GMEM=0.30→Mamba 并发上限→编译缓存; FM1-FM4 失败模式对策 + 基建通道台账 + 多实例内存算术 | 2026-08-16 |
 | `architecture/skill_system_health.md` | 历史-参考 | Skill 体检报告（头部补注：第 11 个 skill 未经该轮扫描） | 2026-08-04 |
 | `architecture/phase2_docs_inventory.md` | 历史-参考 | docs 00-16 盘点过程记录（2026-08-03） | 2026-08-03 |
 | `architecture/phase2_root_md_conflicts.md` | 历史-参考 | 根目录 MD 一致性审查与修复记录 | 2026-08-03 |

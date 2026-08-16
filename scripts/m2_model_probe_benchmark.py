@@ -329,6 +329,9 @@ def mode_concurrency(args) -> dict:
 # mode: vision
 # ---------------------------------------------------------------------------
 def mode_vision(args) -> dict:
+    if not args.compare_endpoint:
+        raise SystemExit("vision 模式必须提供 --compare-endpoint (新旧栈双端点对照; "
+                         "jiahe 首轮漏传教训, S1 固化)")
     if not args.image or not os.path.exists(args.image):
         raise SystemExit("vision 模式需要 --image <png/jpg 路径>")
     ext = os.path.splitext(args.image)[1].lstrip(".").lower() or "png"
