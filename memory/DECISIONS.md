@@ -153,7 +153,7 @@ tabular-* 保持 :8004 A3B (M1 热路径红线); judge 经 .env M2_JUDGE_ENDPOIN
 菜单项 (skill 预载/降轮次/档位感知超时) 合并待用户拍板。
 回滚: opencode.json gb10v baseURL 与 m2-qa/evidence-verifier model 回指
 gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
-48h 旧栈回滚窗口 2026-08-17 18:00 到期 (不变)。
+48h 旧栈回滚窗口 2026-08-17 18:00 到期 (本条款作废: 见 08-17 模型拓扑定型条目, :8004 为长期驻守生产组件, 非回滚候选)。
 
 ## [2026-08-17] 红线修订: 模型准入预算门 + 模型退位政策 + M1 热路径口径更新
 - "72B 不碰"条目作废 → 改为**模型准入预算门**: 任何新模型加载必须先出内存算术 (按 docs/architecture/gb10_vllm_startup_sop.md: 273GB/s 带宽解码上限 + GMEM/KV 预算) + 经用户批准窗口; 未经批准不加载。原 72B 终判 (2026-07-31, 结构化抽取退化) 保留为历史证据, 不再是硬禁令。
@@ -178,3 +178,12 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 - 门禁级基线资产一律入冻结清单 (scripts/graph/frozen_hashes.txt): scenario1 回归基线 (tests/baselines/scenario1_baseline.json) / M2 确定性检验题集 (tests/fixtures/m2_eval_questions.json) / 基准 case 集 (tests/fixtures/m1_m2_baseline_cases.json) 已入冻。
 - 活配置 (opencode.json / .env 等) 不进冻结——它们是拓扑演进的合法变更面, 靠 diff 审计而非 hash 冻结治理。
 - 新基线 (eval/回归/性能) 诞生即入冻结, 不等下一轮治理; 更新冻结清单需 Loop D 授权 + commit message 注明。
+
+## [2026-08-17] P0-1 修复三层根因定案: 显式 limit + tool parser qwen3_xml + APC 强制开
+- 背景: 辅助线核验发现 agent 路 116/116 全回落 ("compaction summary; fallback" 刷屏)。逐层查明三因并修复:
+  1. **opencode 默认 max_tokens**: 对未定义 limit 的自定义模型发送 max_tokens=32000; vLLM :8006 max-model-len=32768 → 400 (32000+prompt>32768) → opencode 压缩循环, assistant 0 parts。修: opencode.json gb10v 模型显式 limit {context:32768, output:4096} (4096 = 120 词答案契约 + 工具调用余量; 同时给输入留 ~28k 预算防 compaction 再现)。
+  2. **tool parser 不匹配**: Qwen3.8 工具调用输出 XML 标签格式, hermes 不识别 → tool_calls=null, 答案被吞。修: --tool-call-parser qwen3_xml (SOP FM6)。
+  3. **APC 默认关闭**: 本构建 prefix cache 从未启用, 逐轮全量 prefill → warm 45-85s 超 45s 门。修: --enable-prefix-caching (SOP FM7)。
+- 验收 (生产 :5050 真实承载, 两次): 23:15:04 OCR 邻题 route=agent fell_back=false 30200ms sources=1; 23:20:49 33663ms sources=1。compaction guard 保留——行为正确, 非误杀 (P0 初判反转)。
+- 边界案例如实口径: OCR meta-query 类三轮问题 warm ~48-50s 超 45s 门 → 回落直连; 45s 门完成率按题型分层 (两轮题 ~30-34s 通过 / 三轮题贴边超)。抬超时或降轮次归 M2 菜单项, 待拍板, 本轮不动。
+- 治理新规: a) opencode 自定义模型注册必须显式 limit (防默认 max_tokens 吃满 context); b) Qwen3.8 系模型 vLLM tool parser 必须 qwen3_xml; c) vLLM 探针启动必须带 --enable-prefix-caching。

@@ -18,6 +18,12 @@ GMEM="${GMEM:-0.30}"
 MAXLEN="${MAXLEN:-32768}"
 SERVED_NAME="${SERVED_NAME:-qwen38-27b-fp8}"
 MAXSEQS="${MAXSEQS:-32}"
+# FM7 (2026-08-17): APC was OFF in this build (prefix_cache_queries=0):
+# every call re-prefilled ~15-19k tokens -> 45-85s agent turns.
+# --enable-prefix-caching restores cross-call/session prefix reuse.
+# FM6 (2026-08-17): Qwen3.8 emits tool calls as XML tags; hermes parser
+# misses them (tool_calls=null, answer swallowed into content). Use qwen3_xml.
+TOOL_PARSER="${TOOL_PARSER:-qwen3_xml}"
 # CHAT_TEMPLATE: 自定义 jinja 模板路径 (可选); 用于服务器级思考默认值改造,
 # 例: ~/wzh/vllm_cache/qwen38_think_off_default.jinja (默认 thinking off)
 CHAT_TEMPLATE="${CHAT_TEMPLATE:-}"
@@ -47,9 +53,10 @@ exec docker run --rm --name vllm-probe \
   --gpu-memory-utilization "$GMEM" \
   --max-num-seqs "$MAXSEQS" \
   --max-model-len "$MAXLEN" \
+  --enable-prefix-caching \
   --reasoning-parser qwen3 \
   --enable-auto-tool-choice \
-  --tool-call-parser hermes \
+  --tool-call-parser "$TOOL_PARSER" \
   --limit-mm-per-prompt '{"image":2}' \
   "${TEMPLATE_VLLM[@]}" \
   --trust-remote-code

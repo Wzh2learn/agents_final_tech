@@ -26,7 +26,11 @@
    },
    "models": {
     "qwen38-27b-fp8": {
-     "name": "Qwen3.8-27B-FP8 (vLLM, thinking off 默认)"
+     "name": "Qwen3.8-27B-FP8 (vLLM, thinking off 默认)",
+     "limit": {
+      "context": 32768,
+      "output": 4096
+     }
     }
    }
   }

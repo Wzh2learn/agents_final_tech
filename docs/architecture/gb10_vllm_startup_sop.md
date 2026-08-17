@@ -79,3 +79,27 @@ PORT=8006 GMEM=0.30 bash scripts/vllm_probe_serve.sh      # 第二步: 启动探
   opencode m2-qa 会话 modelID=qwen38-27b-fp8 坐实。
 - 模板改造告诫: jinja 替换必须逐字节保留原缩进与块结构; 排障时先用 jinja2
   本地渲染 diff 隔离"模板渲染差异 vs 服务端行为差异", 再下结论。
+
+### FM6 Qwen3.8 工具调用为 XML 标签格式, hermes parser 不识别 (2026-08-17)
+- 症状: m2-qa 走 27B 时答案恒空: finish_reason=stop, tool_calls=null;
+  模型把工具调用以 XML 标签 (tool_call/function/parameter) 写进 content,
+  opencode 收到空答案 → 每 ask 触发 compaction/回落。
+- 根因: Qwen3.8 工具调用输出格式是 XML 标签而非 hermes 风格; vLLM 0.27
+  (vllm-gb10) 自带 qwen3_engine_tool_parser.py, 注册名 qwen3_xml
+  (别名 mimo/qwen3_coder)。
+- 对策: vllm_probe_serve.sh 增 TOOL_PARSER env (默认 qwen3_xml),
+  --tool-call-parser "$TOOL_PARSER"。
+- 验证: 带 tools 直连 :8008 → finish_reason=tool_calls + 结构化 tool_calls;
+  m2-qa 全链路答案带 sources。
+
+### FM7 本构建 APC 默认关闭, 必须显式 --enable-prefix-caching (2026-08-17)
+- 症状: agent 链 warm ask 45-85s; 逐轮 prefill 14.8k/15.9k/18.7k 全量重算,
+  45s 预算完成率趋零 (00:13 曾实测 30s 完成, 重启后不复现)。
+- 根因: vllm-gb10 v0.27.1 构建 prefix_cache_queries_total=0 — APC 从未开启,
+  vLLM 每轮全量 prefill。
+- 对策: vllm_probe_serve.sh 加 --enable-prefix-caching。
+- 验证: 重启后 prefix_cache queries/hits >0 (实测命中率 ~78%); warm ask
+  47s→30-34s; :5050 真实承载 agent 完成 30.2s/33.7s (route=agent,
+  fell_back=false)。
+- 告诫: --enable-prefix-caching 改变 torch.compile 图 → 首次启动冷重编译
+  (本次 ~4min 额外), 后续启动命中编译缓存。

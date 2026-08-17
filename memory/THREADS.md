@@ -238,3 +238,21 @@
 - 首周期实战抓 2 缺陷即修: ① 拓扑检查 curl -w 与 || echo 双拼 → "000000" 误判 ② canary 客户端超时 45s < 新最坏情况 (45s 回落等待 + 直连) → CANARY_TIMEOUT 默认 45→75, CANARY_BUDGET 240→360。
 - 验收: 完整周期无误报 PASS (00:34, 含 pytest 336/13 + docs_lint 0/0); 破坏演练 kill :8008 → FAIL 报警 + flip 记录 → 恢复 → PASS (flip 机制 4 条记录)。
 - write_report.py 报告 JSON 增 model_topology / agent_watchdog 两项 (向后兼容旧 5/8 参数调用)。
+
+## [2026-08-17 23:25] P0-1 三层根因修复 + 真实承载验收 PASS
+- 修复链: opencode.json gb10v 显式 limit (32768/4096, 消 compaction) → vLLM parser hermes→qwen3_xml (工具调用可解析) → --enable-prefix-caching (warm 47s→30-34s)。细节入 DECISIONS 当日条目 + SOP FM6/FM7。
+- 验收: 生产 :5050 两次 agent 路真实完成 (23:15:04 30.2s / 23:20:49 33.7s, route=agent fell_back=false sources=1)。compaction guard 保留 (行为正确)。
+- 边界: OCR meta-query 三轮题型 warm ~48-50s 超 45s 门回落 (题型相关完成率分层, 如实记账)。
+- B4 流量标注: 本轮验收+演练在 b4_ask_log 增 ~14 条, 其中 8 条 fallback 为 P1-2 故意破坏演练流量 (题面"演练问题/演练补问"), 统计时按题面可过滤。
+
+## [2026-08-17 23:25] P0-2/P1-1 Loop B daemon 重载 + T5 措辞更正
+- 根因: bash --daemon 启动时脚本整体载入内存; 08-13 01:00 启动的 daemon 一直跑 T5 升级前旧脚本——旧 STEP 3 查 :8005 健康 (已退位) → api_anchors FAIL 自 00:48 持续 ~22h 无人接; 旧脚本 8 参调新 write_report.py → STEP 8/9 恒 SKIP (看门狗等于没装)。
+- 修复: kill 旧 daemon (pid 1661919) → graph-loop-b pane 重启 --daemon; 新周期 STEP 8/9 出判定, :8005 退位断言 (响应即 FAIL) 生效。
+- **T5 措辞更正**: 台账 08-17 00:40 "验收: 完整周期无误报 PASS" 实为新脚本前台运行结果; daemon 当时从未重载, 其后 22h 静默 FAIL。
+- **治理规则**: Loop 脚本升级必须重启 daemon 载入新版; 验收以 verify-report 中对应 STEP 实际出现判定为准, 前台运行 PASS 不替代 daemon 载入。
+
+## [2026-08-17 23:25] P1-2 回归演练 PASS (组合故障复现)
+- 复现本次事故组合: kill :8008 proxy + 连续 fallback → 升级后 Loop B 双报警: STEP 8 FAIL (:8008 missing qwen38-27b-fp8) + STEP 9 FAIL (0 agent completions / ≥5 fallbacks); 恢复 proxy + 1 条 agent 完成 → overall PASS + flip 自动入账。本次被漏 22h 的组合故障模式现有哨兵覆盖。
+
+## [2026-08-17 23:25] 回滚 31s 口径备案 (B4 闸门 ≤30s 边界案例)
+- T3 回滚演练实测 31s = 含 8s 保守等待 (health 稳定观察窗); 紧等待口径收敛 ~23s (08-09 首测)。闸门 ≤30s 在保守口径下超限 1s, 记为边界案例; 后续演练注明口径。
