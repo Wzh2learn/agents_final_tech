@@ -63,7 +63,7 @@ README（"How It Works"）三段对应：
 
 ## 6 独立判断与质疑（供 Loop D / 用户复核）
 
-1. **"金融文档领域首个 evaluation harness 落地"主张的强度**: 这是文献调研主张, 无检索证据支撑 "首个" — 建议在论文 B 中表述为 "将 evaluation harness 范式引入金融文档智能体领域" , 并在一轮 targeted 检索后决定是否保留 "首个"。任务纪律要求只做快查对照, 已如实标注。
+1. **"金融文档领域首个 evaluation harness 落地"主张的强度**: 这是文献调研主张, 无检索证据支撑 "首个" — 建议在论文 B 中表述为 "将 evaluation harness 范式引入金融文档智能体领域" , 并在一轮 targeted 检索后决定是否保留 "首个"。任务纪律要求只做快查对照, 已如实标注。**[08-19 定稿]** 用户批复 ④: "首个"措辞正式降级为"引入范式"; FORCE-Bench（arXiv 2607.19409, 企业金融 agent 评测 harness）补入 related work 作工业先行证据。
 2. **HarnessEval 与我们的本质差异**: 它是"诊断系统" — 评测终结于分数与证据树, 供研究者改进模型; 我们是"闭环执行器" — 评测产出直接驱动 schema 规则固化进回归门禁（GTA-2/Judge 精读已证路线）。这个差异是论文 B 真正的立足点, 不是 "我们也有 agent 评测" 这种附属叙事。
 3. **四阶段命名差异**: 机器之心用 Plan/Route/Decompose/Verify 四阶段; README 用三步骤（routing → sub-agent reasoning → validated aggregation）+ 明确 "case card" 交付。论文 B 引用时以 README 为准（四阶段源自文章转述）, 避免引用错位。
 4. **可借鉴度最高项 = per-case evidence card**: 我们已有全部原料（checkpoint report + judge report + B4 日志）, 缺的是把它们合成为结构化卡片与 leaderboard 页。这是 K2 第三层之外最便宜的增量, 建议单独立项。

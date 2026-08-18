@@ -258,4 +258,8 @@
 - T3 回滚演练实测 31s = 含 8s 保守等待 (health 稳定观察窗); 紧等待口径收敛 ~23s (08-09 首测)。闸门 ≤30s 在保守口径下超限 1s, 记为边界案例; 后续演练注明口径。
 
 [08-18 20:24] TODO(科研, 待批): per-case evidence card 立项 — K1.5 对照文档 §6.4: checkpoint report+judge report+B4 日志合成结构化卡片+leaderboard, 现有原料齐全, 低成本高价值增量
+  → [08-19 CLOSED, 批复 ⑤]: 批准并**并入评测协议 v1 产出**（不单独立项）; scripts/eval_evidence_cards.py 随 v1 交付; 演示冻结窗内不碰前端（UI 展示层另行排期）
 [08-18 20:24] TODO(科研, 待批): '金融文档领域首个 evaluation harness' 主张 targeted 检索验证 — 论文 B 投稿前必须定稿措辞(首个 vs 引入范式)
+  → [08-19 CLOSED, 批复 ④]: 措辞定稿降级为"引入范式"（docs/33 §2.1 差异化第 3 条已改）; related work 补 FORCE-Bench（arXiv 2607.19409, Microsoft, 企业金融 agent 评测 harness; 对照口径=它评 agent QA 工作流 / 我们评解析管线+schema 漂移+勾稽+自学习闭环; 引用细节以 github.com/microsoft/FinanceBenchmark README 为准, 其 ~300 问与 arXiv 摘要 251 不一致已记录）
+[08-19 00:42] 批复 ③ 入账: PSO 落点实现缓办 — 缓至 v1 + evidence card 交付之后, 且需与导师对齐专利申请时间表再定优先级; docs/33 §8 第 5 行已标 ⏸
+[08-19 00:42] 批复 ⑥ 入账: 投稿节点定稿 — NLPCC 2026 已于 06-20 截稿、CCIR 2026 已开会 → 论文 A/B 节点改 NLPCC 2027 / CCIR 2027, 中间产出 arXiv 预印本占位; NLPCC 2026 workshop 窗口用户人工核实中（台账保持 pending 至核实回话）
