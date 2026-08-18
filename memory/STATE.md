@@ -1,52 +1,53 @@
 # memory/STATE.md
-更新: 2026-08-18 晚（科研探索队列 K1-K6 收口 + K1.5 HarnessEval 对标; 导师演示已于 08-18 白天完成并获三层指导）
+更新: 2026-08-19 凌晨（六项批复执行收口: 评测协议 v1 交付 + 小模型矩阵首批 C1/C2）
 
 ## 模式
-导师演示已完成（docs/33 = 演示后指导吸收）。冻结窗实质解除（K 队列全程
-以"不跑生产推理/不动运行时"约束执行完毕）; kiosk 展示循环仍在本机播放
-（隧道+控制器+loop 三会话, 演示用）。等: ① 甲方首轮反馈 ② 导师后续意见
-③ 用户对 docs/33 §8 倒排计划中"待拍板"项的批准。
+守护模式。本轮队列清空: v1（批复 ①⑤）交付完毕, 矩阵首批（批复 ②）C1/C2
+执行完毕。等: ① 甲方首轮反馈（B4 时钟 08-12 启动, asks 已 ≥100, 天数累计中）
+② 导师专利时间表对齐（PSO 批复 ③ 缓办前提）③ 用户 NLPCC 2026 workshop
+窗口人工核实回话（批复 ⑥）。
 
 ## Git
-- HEAD: 本收口 commit（其前为 884221e）; 三方对齐 GB10=GitHub=本机
-- K 队列提交链: 807e810(docs/33) → 48255f7(K1) → 9befc93(K2) → 49a4ec2(K3)
-  → 0250624(K4) → 884221e(K5) → +本收口(K6)
-- 冻结工件未动（甲方 docx bc3785cb / 导师 docx 929a8c65）;
-  config/schema_suggestions.json 的 modified = kiosk 自学习新数据, 待下轮 apply 窗口
+- HEAD: 本收口 commit; 三方对齐 GB10=GitHub=本机
+- 本轮提交链: 13d3f57(治理: 六批复入账) → 0f2b63f(v1 代码+测试) →
+  4fc251c(GB10 直推: kiosk 计数+Loop B flip) → f8f0a07(判别力分级判据) →
+  e350ba8(v1 报告+矩阵 runner) → +本收口(矩阵结果+INDEX+STATE)
+- 冻结工件未动（甲方 docx bc3785cb / 导师 docx 929a8c65 / 冻结四文件 md5 复验一致）
 
-## 本轮战绩（科研探索队列 K1-K6, graph loop 全程: D 发卡 → A(flash) 执行 → D 验收）
-- K1 ✅ 48255f7: hbkeyan 两篇精读 — GTA-2 检查点树 SOP(Steps 0-6+Algorithm 1)
-  + 本项目解析/QA 四层映射 + Judge 技巧 T1-T14 逐条适用性(防漂移: k=3-5 均值化优先)
-- K2 ✅ 9befc93: 评测协议 v0 — 树定义 20 叶 + Algorithm 1 聚合脚本 + 首份分层
-  报告(Root 10.0/10.0, 口径对照 16/16/judge/NF 零漂移) + 20 测试
-- K3 ✅ 49a4ec2: 漂移注入器 v0 — TAT-QA 2479 表 6 类注入/95 样本表/确定性 sha256
-  契约, 独立 venv; VGMC 实验 1 输入就位; pytest 全库 364 passed/1 skipped
-- K4 ✅ 0250624: 小模型矩阵设计 — 6 候选(5 磁盘零下载)全过内存预算门,
-  K2 协议固定题库 + Score/Cost Pareto; 执行待批准窗口
-- K5 ✅ 884221e: PSO 落点一页方案 — 权重分配+最小判别题集, 三要素齐全,
-  专利权利要求逐条对应; 只出方案
-- K6 ✅: docs/33 §8 带日期倒排计划 + INDEX 登记 7 行 + docs_lint 0 warn
-- K1.5 ✅ b562186 (补充): HarnessEval 对标 — 四阶段/evidence tree/Skill Library 逐项对照
-  + docs/33 §2.1 混合三层升级(确定性→检查点树→按需 agent 深挖; 核心实验=成本 vs 判别力曲线)
-  + 术语决议 evaluation harness; 独立质疑 5 条("首个"主张待 targeted 检索已入台账)
-- 治理沉淀: GB10 codex exec 需 --dangerously-bypass-approvals-and-sandbox
-  (bwrap 失败) + apply_patch 不可用需 heredoc + 大 PDF 预提取分块读 (任务卡模板化)
+## 本轮战绩（六项批复执行）
+- 治理（③④⑥）: THREADS 两项 CLOSED; FORCE-Bench 直连核验入 related work
+  (arXiv 2607.19409, README ~300 问 vs 摘要 251 差异如实, README 为准);
+  "首个"主张降级"引入范式"; 投稿节点定 NLPCC 2027 / CCIR 2027 + arXiv 预印本
+- v1（①⑤）: 冻版前后对照零漂移（20 叶/SR/STABLE 与 v0 逐项一致 + judge k=1
+  跨日逐题一致）; 判别力 9/9 mutants PASS（标定洞察: rate 叶分级敏感、
+  hit_rate 叶灾难态仅 -4.6 钝感 → PSO 输入）; judge --runs k A/B: k1=k3 全 5.0
+  (64/64 std=0, 天花板效应如实, 机制验证成立, 生产维持 k=1); evidence cards
+  16A; rubric 版本 v_k1 预注册; 报告 docs/experiments/2026-08-19_eval_protocol_v1.md
+- 矩阵首批（②, 错峰 :8007）: C1 14B off 11/16·xhigh 14/16; C2 8B off 14/16·
+  xhigh 15/16; 基线 A3B 16/16 守擂 → 双双 NO-GO 替换; 三洞察（档位效应实锤/
+  8B>14B 异常待复测/q08 掩码姓名共性难题）; 报告 docs/experiments/
+  2026-08-19_small_model_matrix_c1c2.md; :8007 探针用毕已停
+- pytest 口径更正: GB10 全库 379 passed / 13 skipped（13 项 = 08-10 起 conftest
+  显式策略, 非环境抖动; 08-18 "364/1" 口径异常, 以本轮为准）
 
 ## 服务
 - :5050 UP (route=on, timeout=45, embeddings=137); :8004 A3B UP; :8006 27B UP;
-  :8008 proxy UP; :8005 DOWN(退位); :8100 UP; :4096 sidecar UP; :15432 PG UP
-- Loop B: 照常周期观察（K 队列未扰）
-- 本机: 演示隧道+demo 控制器+kiosk loop 播放中（本地未提交, 演示资产）
+  :8008 proxy UP; :8007 空闲（矩阵探针已停）; :8005 DOWN(退位); :8100 UP;
+  :4096 sidecar UP; :15432 PG UP
+- Loop B: 00:01/00:34 FAIL = STEP 4 脏文件检测（GB10 本地两文件, 随 4fc251c
+  入账清除）, 非服务退化; 周期照常
+- 本机: kiosk 已恢复播放（pid 158600 loop_demo + 150708 demo_controller;
+  01:55-02:32 曾暂停为 judge A/B 测量纯净, 已入账）
 
 ## 质量基线
-- pytest 364 passed / 1 skipped（K3 后全库口径; 含 K2 20 测试 + K3 8 测试）
+- eval: 确定性 16/16 + NF 0/9 fail + judge 四维 5.0（k=1 与 k=3 零差, 08-19 复验）
+- pytest: 379 passed / 13 skipped（GB10, HEAD f8f0a07+; 口径见上）
 - docs_lint: GB10 为准（本机 check[4] = CRLF 已知误报）; INDEX 覆盖 0 warn
-- eval v2 08-16 口径仍为最新（演示日未重跑; P0 修复后重跑列下一步第 1 项）
 
-## 下一步（docs/33 §8 倒排, 待拍板项标注）
-1. 08-19~20 评测协议 v1: 缺陷样本判别力 + judge --runs k A/B（K1 T2/T3/T10 并行; 需解冻确认）
-2. 08-20~22 VGMC 实验 1: 95 注入表门控闭环（论文 A 主图; :8006 错峰）
-3. 拟 08-21~24 小模型矩阵执行（**待用户批准窗口**; K4 设计已就绪）
-4. PSO 实现 08-23 后（待拍板; 依赖 1/2 判别力数据）
-5. eval 重跑（P0 修复后口径）— 演示后积压第 1 项
-6. 用户侧 pending: 甲方会谈排期 / NLPCC-CCIR 截稿日浏览器查询 / 矩阵窗口批准
+## 下一步
+1. 矩阵 C3 4B / C4 VL-8B + 14B 异常复测 + 候选答案 judge 四维 + NF --input
+   参数化（下个错峰窗, 逐个 go/no-go 续行）
+2. 甲方反馈到达 → B4 分布分析（08-19 00:39 起含 kiosk 夜间样本, 注意
+   fallback 污染段 01:37-01:55 已如实入账）
+3. PSO 等批复 ③ 前提（v1+evidence card 已交付, 剩导师专利时间表）
+4. 台账 pending: NLPCC 2026 workshop 窗口用户人工核实

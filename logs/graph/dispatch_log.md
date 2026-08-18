@@ -743,3 +743,10 @@ echo dispatch_log updated
 [08-19 01:00] #V1-IMPL 评测协议 v1 实现批: judge --runs k (K1 T2 均值化+T10 unusable 计数+T11 方差留档, rubric 版本 v_k1 预注册元数据) + eval_checkpoint_discrimination.py (8 mutants 判别力测试床: 目标叶下降判据/非目标局部性/control 零漂移) + eval_evidence_cards.py (批复⑤ per-case 证据卡+leaderboard) + run_eval.sh [5/5] evidence cards 与 JUDGE_RUNS 透传 + 3 新测试文件 (本地 35 passed 含 K2 原 8); 冻结文件零触碰, 纯增量
 
 [08-19 01:55] #KIOSK-PAUSE 临时暂停演示 kiosk (loop_demo.py pid145176 + demo_controller.py pid145536, _rehearsal_files/): 凌晨持续 /api/m2/ask 与 judge --runs3 A/B 争用 :8006 slot (B4 日志 01:37 105s/01:38 47s fallback 污染样本); B4 >=100 已达标不受影响; 收口前恢复
+
+[08-19 02:30] #V1-EXEC GB10 执行批全过: 冻版前后对照零漂移(20叶/SR/STABLE 与 v0 逐项一致; judge k=1 跨日逐题一致) + 判别力 9/9 PASS(标定洞察: rate叶分级敏感/hit_rate叶灾难态仅-4.6钝感→PSO输入) + judge A/B k1=k3=全5.0(64/64 std=0, 天花板效应如实记录, 机制验证成立) + evidence cards 16A + pytest 口径更正 379 passed/13 skipped(13项=08-10起conftest显式策略, 08-18口径异常更正)
+[08-19 02:32] #KIOSK-RESUME kiosk 恢复(pid 158600 loop_demo + 150708 demo_controller); 暂停窗口 01:55-02:32 纯为 judge A/B 测量纯净
+[08-19 02:40] #MATRIX-C1 Qwen3-14B Q4 @:8007 全量: thinking OFF 11/16 (48.5s, 失败=富熙系4题+伯仕基金名1题, 均亚秒拒答) / thinking XHIGH 14/16 (6m23s, 失败=q08富熙客户名+adv_ocr_meta); 对照基线 A3B 16/16 → **NO-GO 替换**, 收获=档位效应量化(11→14)与失败模式; 报告 logs/graph/eval/matrix/
+
+[08-19 03:00] #MATRIX-C2 Qwen3-8B Q4 @:8007 全量: thinking OFF 14/16 (1m28s, 失败=q07伯仕代码+adv_multiturn) / thinking XHIGH 15/16 (3m44s, 失败=q08富熙客户名); 8B 两档均胜 14B(异常, 疑权重批次/模板, 复测入账) → **NO-GO 替换**(基线 A3B 16/16); :8007 探针停, 内存归位; 报告 docs/experiments/2026-08-19_small_model_matrix_c1c2.md
+[08-19 03:10] #CLOSEOUT 收口: INDEX 登记 2 份新文档 + docs_lint 0warn(本机check4=CRLF已知误报) + STATE 覆写终态 + 三方对齐; 六项批复全部执行完毕, 回守护模式
