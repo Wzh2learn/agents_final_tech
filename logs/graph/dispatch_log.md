@@ -741,3 +741,5 @@ echo dispatch_log updated
 [08-19 00:29] #APPROVALS-6 用户六项批复入账: ①评测协议 v1 解冻 GO(08-19~20, 增量/基线零漂移/冻版对照) ②小模型矩阵 GO(错峰/:8007/先14B后8B/逐个go-no-go) ③PSO 缓至 v1+evidence card 后且需导师专利时间表对齐 ④台账两项 CLOSED(首个→引入范式; 补 FORCE-Bench arXiv 2607.19409, 对照口径=评 agent QA workflow vs 评解析管线+schema漂移+勾稽+自学习闭环; HarnessEval 引用以 README 为准) ⑤evidence card 批准并入 v1 不单独立项, 冻结窗不碰前端 ⑥§8 投稿节点改 NLPCC 2027/CCIR 2027 + arXiv 预印本, NLPCC 2026 workshop 用户核实中
 
 [08-19 01:00] #V1-IMPL 评测协议 v1 实现批: judge --runs k (K1 T2 均值化+T10 unusable 计数+T11 方差留档, rubric 版本 v_k1 预注册元数据) + eval_checkpoint_discrimination.py (8 mutants 判别力测试床: 目标叶下降判据/非目标局部性/control 零漂移) + eval_evidence_cards.py (批复⑤ per-case 证据卡+leaderboard) + run_eval.sh [5/5] evidence cards 与 JUDGE_RUNS 透传 + 3 新测试文件 (本地 35 passed 含 K2 原 8); 冻结文件零触碰, 纯增量
+
+[08-19 01:55] #KIOSK-PAUSE 临时暂停演示 kiosk (loop_demo.py pid145176 + demo_controller.py pid145536, _rehearsal_files/): 凌晨持续 /api/m2/ask 与 judge --runs3 A/B 争用 :8006 slot (B4 日志 01:37 105s/01:38 47s fallback 污染样本); B4 >=100 已达标不受影响; 收口前恢复
