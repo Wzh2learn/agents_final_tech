@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "name": "jinrong-gta-cp-trees",
+    "version": "0.1.0",
+    "caliber": "GTA-2 K1 SOP Step 5/6 厘定 2026-08-18",
+    "source": "docs/experiments/2026-08-18_hbkeyan_close_read/gta2_checkpoint_tree_sop.md",
+    "baseline_ref": "docs/experiments/2026-08-08_eval_baseline.md",
+    "generated": "2026-08-18",
+    "root_scale": "0-10",
+    "leaf_scale": "0-10",
+    "weights_range": "1-3",
+    "normalization": "siblings normalized (Algorithm 1 line 12)",
+    "aggregation": "weighted average via sibling-normalized weights (Algorithm 1 lines 10-16)",
+    "success_rates": {
+      "root_sr": "Root SR = share of samples with Root Score > k (default k=7; K2 reports k=5/7/8)",
+      "leaf_sr": "Leaf SR = share of leaves above threshold k; STABLE = 0.9 (18/20 leaves pass)" 
+    },
+    "notes": [
+      "read-only formalization; existing eval scripts and baselines untouched",
+      "leaves mapped deterministically from live artifacts in logs/graph/eval/",
+      "hinge nodes (parse_ok / exact_numeric / number_grounding) are hard gates: score 0 on failure (Algorithm 1 sibling normalization)",
+      "refusal/cross-check threshold: k=9 chosen to separate borderline (score 9) from solid pass (score 10)"
+    ]
+  },
+  "trees": [
+    {
+      "id": "parse",
+      "label": "M1 解析树 (文档->表->字段->勾稽)",
+      "requirement": "客户对账单端到端可解析: 文档读入、表边界/表头识别、字段映射命中、勾稽恒等式通过",
+      "weight": 3,
+      "children": [
+        {
+          "id": "parse.doc",
+          "label": "文档级",
+          "requirement": "文档能读入并产出结构化解析产物 (ok + kind + tables)",
+          "weight": 3,
+          "children": [
+            {"id": "parse.doc.ok", "label": "解析成功", "requirement": "解析产物 ok=true 且存在 tables 列表 (evidence: m1_scenario1_regression overall=PASS)", "weight": 3, "source": "m1_regression", "mapping": "overall_status_binary", "missing_score": 0},
+            {"id": "parse.doc.throughput", "label": "解析吞吐", "requirement": "回归门禁按时完成 (evidence: quick run 完成, rows 无超时/异常)", "weight": 1, "source": "m1_regression", "mapping": "run_completed", "missing_score": 0}
+          ]
+        },
+        {
+          "id": "parse.table",
+          "label": "表级",
+          "requirement": "表边界识别及表头识别与基线表结构一致",
+          "weight": 2,
+          "children": [
+            {"id": "parse.table.regression", "label": "表结构回归通过率", "requirement": "参与本次回归的行 status=PASS (table_count + per-table hit_rate 逐项与基线一致)", "weight": 2, "source": "m1_regression", "mapping": "row_pass_rate", "missing_score": 0}
+          ]
+        },
+        {
+          "id": "parse.field",
+          "label": "字段级",
+          "requirement": "字段映射命中率按基线口径达标 (确定性样本精确; OCR 样本在容差内)",
+          "weight": 3,
+          "children": [
+            {"id": "parse.field.hit_rate", "label": "逐表命中率达成", "requirement": "实际命中率与基线命中率一致/在容差内 (evidence: regression rows diffs=[] 或 WARN)", "weight": 3, "source": "m1_regression", "mapping": "hit_rate_achievement", "missing_score": 0}
+          ]
+        },
+        {
+          "id": "parse.reconcile",
+          "label": "勾稽级",
+          "requirement": "恒等式校验无矛盾 (市值勾稽/币种/日期/静默错配嫌疑)",
+          "weight": 3,
+          "children": [
+            {"id": "parse.reconcile.equations", "label": "恒等式通过", "requirement": "reconcile 四类 check 无 fail; 工程期全样本 market-value reconciliation ALL PASS", "weight": 3, "source": "m1_regression", "mapping": "reconcile_derived", "missing_score": 0}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qa",
+      "label": "QA 树 (检索->忠实->数值->引用->拒答)",
+      "requirement": "M2 RAG 问答满足: 检索命中、答案忠实、数值落地、引用清晰、拒答恰当",
+      "weight": 3,
+      "children": [
+        {
+          "id": "qa.retrieval",
+          "label": "检索质量",
+          "requirement": "检索命中应命中的样本/表 (source_required 确定性契约)",
+          "weight": 2,
+          "children": [
+            {"id": "qa.retrieval.source_required", "label": "来源命中率", "requirement": "每题 source_required 契约通过: sources 含期望样本片段", "weight": 2, "source": "m2_deterministic", "mapping": "pass_rate_contract", "contract": "source_required", "missing_score": 5}
+          ]
+        },
+        {
+          "id": "qa.faithfulness",
+          "label": "忠实度",
+          "requirement": "答案只使用检索上下文, 不补全脱敏掩码/不编造",
+          "weight": 3,
+          "children": [
+            {"id": "qa.faithfulness.judge", "label": "judge faithfulness", "requirement": "judge 维平均分 (0-5), 掩码补全猜测视为扣分", "weight": 3, "source": "m2_judge", "mapping": "judge_dim_0_5", "dim": "faithfulness", "missing_score": 5}
+          ]
+        },
+        {
+          "id": "qa.numeric",
+          "label": "数值正确性",
+          "requirement": "关键数值与参考一致 (exact_numeric 确定性) 且每个 claim 可落地于检索",
+          "weight": 3,
+          "children": [
+            {"id": "qa.numeric.exact", "label": "exact_numeric 确定性", "requirement": "含数值契约题全部 exact_numeric 通过 (含掩码通配)", "weight": 3, "source": "m2_deterministic", "mapping": "pass_rate_contract", "contract": "exact_numeric", "missing_score": 5},
+            {"id": "qa.numeric.number_grounding", "label": "NF 数值忠实度", "requirement": "答案数值 claim 全部在 top_k 检索 chunk 里落地 (ungrounded 排除)", "weight": 3, "source": "m2_number_faithfulness", "mapping": "nf_pass_rate", "missing_score": 5}
+          ]
+        },
+        {
+          "id": "qa.citation",
+          "label": "引用质量",
+          "requirement": "答案指明出处且与来源列表一致 (拒答题豁免)",
+          "weight": 2,
+          "children": [
+            {"id": "qa.citation.judge", "label": "judge citation_quality", "requirement": "judge 维平均分 (0-5), 拒答豁免规则生效", "weight": 2, "source": "m2_judge", "mapping": "judge_dim_0_5", "dim": "citation_quality", "missing_score": 5}
+          ]
+        },
+        {
+          "id": "qa.refusal",
+          "label": "拒答恰当性",
+          "requirement": "应拒答明确拒答, 可答不误拒",
+          "weight": 2,
+          "children": [
+            {"id": "qa.refusal.judge", "label": "judge refusal_appropriateness", "requirement": "judge 维平均分 (0-5)", "weight": 1, "source": "m2_judge", "mapping": "judge_dim_0_5", "dim": "refusal_appropriateness", "missing_score": 5},
+            {"id": "qa.refusal.deterministic", "label": "refusal_expected 契约", "requirement": "预期拒答题含拒答标记 (refusal_expected 契约通过)", "weight": 2, "source": "m2_deterministic", "mapping": "pass_rate_contract", "contract": "refusal_expected", "missing_score": 5}
+          ]
+        }
+      ]
+    }
+  ]
+}
