@@ -70,6 +70,10 @@ rubric:
 DIMS = ("faithfulness", "numeric_correctness", "citation_quality",
         "refusal_appropriateness")
 
+# rubric 预注册版本号 (K1 T3, v1 批复 ①): 版本元数据只进报告, 不改 prompt
+# 文本; 任何 rubric 语义改动必须升版本并同步 docs/18 记录 + 重跑基线。
+RUBRIC_VERSION = "v_k1"
+
 
 def _extract_json(content: str) -> dict | None:
     if not content:
@@ -93,8 +97,8 @@ def _extract_json(content: str) -> dict | None:
     return None
 
 
-def judge_one(question: str, context: str, answer: str, sources: str,
-              expected: str, unanswerable: bool) -> dict:
+def _judge_once(question: str, context: str, answer: str, sources: str,
+                expected: str, unanswerable: bool) -> dict:
     prompt = JUDGE_PROMPT.format(
         question=question, context=context[:6000], answer=answer[:1500],
         sources=sources[:1500], expected=expected or "（无）",
@@ -130,6 +134,42 @@ def judge_one(question: str, context: str, answer: str, sources: str,
     return out
 
 
+def judge_one(question: str, context: str, answer: str, sources: str,
+              expected: str, unanswerable: bool, runs: int = 1) -> dict:
+    """runs=1 与历史行为逐字节一致; runs>1 = K1 T2 ensemble 均值化打分。
+
+    聚合口径: score = k 次有效分均值 (保留 2 位), std = 总体标准差,
+    runs 留档每次原始分 (含 None), reason 取最接近均分那次的理由。
+    全部失败时保持历史 error 形状 (score=None)。
+    """
+    if runs <= 1:
+        return _judge_once(question, context, answer, sources,
+                           expected, unanswerable)
+    collected = []
+    for _ in range(runs):
+        collected.append(_judge_once(question, context, answer, sources,
+                                     expected, unanswerable))
+    n_unusable = sum(1 for c in collected if c.get("error"))
+    out = {}
+    for d in DIMS:
+        pairs = [(c[d].get("score"), c[d].get("reason", ""))
+                 for c in collected if c[d].get("score") is not None]
+        if not pairs:
+            out[d] = {"score": None, "reason": "all runs unusable",
+                      "runs": [c[d].get("score") for c in collected],
+                      "std": None, "n_unusable": n_unusable}
+            continue
+        vals = [p[0] for p in pairs]
+        mean = sum(vals) / len(vals)
+        std = (sum((v - mean) ** 2 for v in vals) / len(vals)) ** 0.5
+        nearest = min(pairs, key=lambda p: abs(p[0] - mean))
+        out[d] = {"score": round(mean, 2), "std": round(std, 3),
+                  "runs": [c[d].get("score") for c in collected],
+                  "reason": str(nearest[1])[:200],
+                  "n_unusable": n_unusable}
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--input", required=True,
@@ -138,6 +178,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--top-k", type=int, default=5)
     ap.add_argument("--report", default=REPORT_DEFAULT)
     ap.add_argument("--only", default="")
+    ap.add_argument("--runs", type=int, default=1,
+                    help="K1 T2: 每题重复打分次数, >1 时取均值+方差 "
+                         "(默认 1 = 历史行为零漂移)")
     args = ap.parse_args(argv)
 
     import m1_rag_ingest as ing
@@ -186,8 +229,14 @@ def main(argv: list[str] | None = None) -> int:
         unanswerable = any(c["type"] == "refusal_expected"
                            for c in fxq.get("checks", []))
         scores = judge_one(q, context, r["answers"][-1], sources,
-                           " ; ".join(e for e in expects if e), unanswerable)
-        judged.append({"id": r["id"], "route": r.get("route"), "scores": scores})
+                           " ; ".join(e for e in expects if e), unanswerable,
+                           runs=args.runs)
+        unusable = [d for d in DIMS if scores[d]["score"] is None]
+        if unusable:
+            print(f'  [unusable] {r["id"]} dims={unusable} '
+                  f'(runs={args.runs})', file=sys.stderr)
+        judged.append({"id": r["id"], "route": r.get("route"),
+                       "scores": scores})
         line = " ".join(
             f"{d[:4]}={scores[d]['score']}" for d in DIMS)
         print(f'{r["id"]:28s} {line}')
@@ -208,6 +257,10 @@ def main(argv: list[str] | None = None) -> int:
     with open(args.report, "w", encoding="utf-8") as fh:
         json.dump({"timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
                    "judge_model": JUDGE_MODEL, "judge_endpoint": JUDGE_ENDPOINT,
+                   "rubric_version": RUBRIC_VERSION, "judge_runs": args.runs,
+                   "n_unusable": sum(
+                       1 for j in judged
+                       if any(j["scores"][d]["score"] is None for d in DIMS)),
                    "summary": summary, "results": judged},
                   fh, ensure_ascii=False, indent=2)
     print(f"[report] {args.report}")

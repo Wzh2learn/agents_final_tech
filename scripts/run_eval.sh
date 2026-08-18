@@ -18,26 +18,30 @@ mkdir -p "$EVAL_DIR"
 M1_MODE="--quick"
 [ "${1:-}" = "--full-m1" ] && M1_MODE=""
 
-echo "== [1/4] M1 scenario1 回归门禁 ${M1_MODE:-full} =="
+echo "== [1/5] M1 scenario1 回归门禁 ${M1_MODE:-full} =="
 $PY scripts/m1_scenario1_regression.py $M1_MODE \
     --report "$EVAL_DIR/scenario1_regression_report.json"
 M1_RC=$?
 
-echo "== [2/4] M2 确定性检验 =="
+echo "== [2/5] M2 确定性检验 =="
 $PY scripts/m2_eval_deterministic.py \
     --report "$EVAL_DIR/m2_deterministic_report.json"
 M2_RC=$?
 
-echo "== [3/4] M2 数值忠实度核验 (生产口径检索, 去 LLM 化) =="
+echo "== [3/5] M2 数值忠实度核验 (生产口径检索, 去 LLM 化) =="
 $PY scripts/m2_eval_number_faithfulness.py \
     --top-k 5
 NF_RC=$?
 
-echo "== [4/4] AI judge (:8004, temperature=0) =="
+echo "== [4/5] AI judge (:8004, temperature=0; JUDGE_RUNS=${JUDGE_RUNS:-1}) =="
 $PY scripts/m2_eval_judge.py \
     --input "$EVAL_DIR/m2_deterministic_report.json" \
-    --report "$EVAL_DIR/m2_judge_report.json"
+    --report "$EVAL_DIR/m2_judge_report.json" \
+    --runs "${JUDGE_RUNS:-1}"
 JD_RC=$?
+
+echo "== [5/5] Evidence cards (v1, 确定性聚合, 非阻塞) =="
+$PY scripts/eval_evidence_cards.py --eval-dir "$EVAL_DIR" || echo "[warn] evidence cards 生成失败 (不影响 eval 退出码)"
 
 $PY - "$EVAL_DIR" <<'PYEOF'
 import json, os, sys, time
