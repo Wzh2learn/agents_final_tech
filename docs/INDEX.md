@@ -85,6 +85,7 @@
 | `2026-08-18_checkpoint_protocol_v0.md` | 活跃 | K2 评测协议 v0: 检查点树定义(20叶) + Algorithm 1 聚合 + 首份分层报告(Root 10.0/10.0, 口径对照零漂移) | 2026-08-18 |
 | `2026-08-18_small_model_matrix_design.md` | 活跃 | K4 小模型矩阵设计: 6 候选内存算术(5 零下载) + K2 协议固定题库 + Score/Cost Pareto + 执行窗口建议 | 2026-08-18 |
 | `2026-08-18_pso_landing_proposal.md` | 活跃 | K5 PSO 落点一页方案: 权重分配 + 最小判别题集, 粒子编码/fitness/约束三要素 + 专利权利要求对应 | 2026-08-18 |
+| `2026-08-18_harnesseval_alignment.md` | 活跃 | K1.5 HarnessEval 对标: 四阶段协议证据提取 + evidence tree/Skill Library 提取 + 与 run_eval.sh/K2 检查点树逐项对照表 | 2026-08-18 |
 | `2026-08-15_demo_video_v2/steps.md` | 活跃 | 演示视频 v2（3:48）分段清单；视频文件不入 git（scp 取回，路径见台账） | 2026-08-16 |
 | `2026-08-12_dify_rule_terms_mining.md` | 活跃 | S3② dify 甲方规则 docx 术语挖掘: 确定性脚本 + 3 synonyms 补词(证券持仓明细), 诚实 delta=0 | 2026-08-13 |
 | `2026-08-13_docling_probe.md` | 活跃 | S3④ Docling ARM64 探针: CPU 路可用, NCAMC 垂直行提取优于坐标重建, 定位离线 second-opinion | 2026-08-13 |
