@@ -64,3 +64,9 @@ docs/experiments/2026-08-09_demo_video/_frames/
 docs/experiments/2026-08-15_demo_video_v2/segs/
 docs/experiments/2026-08-15_demo_video_v2/work/
 docs/experiments/2026-08-15_demo_video_v2/demo_v2.mp4
+
+# K3 科研: 漂移注入原始大表 (gitignored 整个 data/, 此处显式防误加)
+/data/research/drift_v0/output/*
+/data/research/drift_v0/input/*
+!/data/research/drift_v0/output/report.json
+!/data/research/drift_v0/sample_injected_tables.json
