@@ -1,5 +1,5 @@
 # memory/STATE.md
-更新: 2026-08-18 晚（科研探索队列 K1-K6 收口; 导师演示已于 08-18 白天完成并获三层指导）
+更新: 2026-08-18 晚（科研探索队列 K1-K6 收口 + K1.5 HarnessEval 对标; 导师演示已于 08-18 白天完成并获三层指导）
 
 ## 模式
 导师演示已完成（docs/33 = 演示后指导吸收）。冻结窗实质解除（K 队列全程
@@ -26,6 +26,9 @@
 - K5 ✅ 884221e: PSO 落点一页方案 — 权重分配+最小判别题集, 三要素齐全,
   专利权利要求逐条对应; 只出方案
 - K6 ✅: docs/33 §8 带日期倒排计划 + INDEX 登记 7 行 + docs_lint 0 warn
+- K1.5 ✅ b562186 (补充): HarnessEval 对标 — 四阶段/evidence tree/Skill Library 逐项对照
+  + docs/33 §2.1 混合三层升级(确定性→检查点树→按需 agent 深挖; 核心实验=成本 vs 判别力曲线)
+  + 术语决议 evaluation harness; 独立质疑 5 条("首个"主张待 targeted 检索已入台账)
 - 治理沉淀: GB10 codex exec 需 --dangerously-bypass-approvals-and-sandbox
   (bwrap 失败) + apply_patch 不可用需 heredoc + 大 PDF 预提取分块读 (任务卡模板化)
 

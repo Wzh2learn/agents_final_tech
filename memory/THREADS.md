@@ -256,3 +256,6 @@
 
 ## [2026-08-17 23:25] 回滚 31s 口径备案 (B4 闸门 ≤30s 边界案例)
 - T3 回滚演练实测 31s = 含 8s 保守等待 (health 稳定观察窗); 紧等待口径收敛 ~23s (08-09 首测)。闸门 ≤30s 在保守口径下超限 1s, 记为边界案例; 后续演练注明口径。
+
+[08-18 20:24] TODO(科研, 待批): per-case evidence card 立项 — K1.5 对照文档 §6.4: checkpoint report+judge report+B4 日志合成结构化卡片+leaderboard, 现有原料齐全, 低成本高价值增量
+[08-18 20:24] TODO(科研, 待批): '金融文档领域首个 evaluation harness' 主张 targeted 检索验证 — 论文 B 投稿前必须定稿措辞(首个 vs 引入范式)
