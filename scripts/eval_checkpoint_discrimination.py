@@ -93,14 +93,26 @@ def mut_delete_artifact(d: str, key: str) -> None:
         os.remove(p)
 
 
+def mut_m1_all_rows_fail(d: str) -> None:
+    p = os.path.join(d, ARTIFACTS["m1_regression"])
+    rep = _load_json(p)
+    for row in rep.get("rows", []):
+        if not str(row.get("status", "")).startswith("SKIP"):
+            row["status"] = "FAIL"
+            row["diffs"] = row.get("diffs") or [
+                {"field": "mutated_field", "expected": "1", "actual": "2"}]
+    rep["overall"] = "FAIL"
+    json.dump(rep, open(p, "w", encoding="utf-8"), ensure_ascii=False)
+
+
 def build_mutants() -> list[dict]:
     return [
         {"id": "M1_m1_rows_fail", "desc": "scenario1 两行 PASS->FAIL (带 diffs)",
-         "targets": ["parse.doc.ok", "parse.table.regression",
-                     "parse.field.hit_rate",
-                     # reconcile_derived 从回归状态派生, FAIL 行必连带 ->
-                     # 属真实依赖而非串扰, 列入目标
-                     "parse.reconcile.equations"],
+         # hinge 叶(binary)要求 >=2 分下降; rate 叶在大基数上只降
+         # 失败占比幅度 -> graded 只判方向, 幅度如实记录 (08-19 GB10
+         # 实测: -1.7/-0.8, 属分级敏感性而非串扰)
+         "targets": ["parse.doc.ok", "parse.reconcile.equations"],
+         "graded": ["parse.table.regression", "parse.field.hit_rate"],
          "tree": "parse", "mutate": mut_m1_rows_fail},
         {"id": "M2_exact_numeric_fail", "desc": "exact_numeric 契约全部失败",
          "targets": ["qa.numeric.exact"], "tree": "qa",
@@ -124,6 +136,10 @@ def build_mutants() -> list[dict]:
          "targets": ["qa.faithfulness.judge", "qa.citation.judge",
                      "qa.refusal.judge"], "tree": "qa",
          "mutate": lambda d: mut_delete_artifact(d, "m2_judge")},
+        {"id": "M9_m1_all_rows_fail", "desc": "scenario1 全部非SKIP行 FAIL (灾难态)",
+         "targets": ["parse.doc.ok", "parse.table.regression",
+                     "parse.field.hit_rate", "parse.reconcile.equations"],
+         "tree": "parse", "mutate": mut_m1_all_rows_fail},
     ]
 
 
@@ -203,15 +219,25 @@ def main(argv=None) -> int:
             d_val = deltas.get(t, 0.0)
             target_hits.append({"leaf": t, "delta": d_val,
                                 "hit": d_val <= -DROP_THRESHOLD})
+        graded = spec.get("graded", [])
+        graded_hits = []
+        for g in graded:
+            d_val = deltas.get(g, 0.0)
+            graded_hits.append({"leaf": g, "delta": d_val,
+                                "hit": d_val < 0})
+        watched = set(spec["targets"]) | set(graded)
         non_target_moves = {k: v for k, v in deltas.items()
-                            if k not in spec["targets"] and abs(v) > 1e-6}
+                            if k not in watched and abs(v) > 1e-6}
         stable_now = all(r["stable"]["stable"] for r in res.values())
         stable_live = all(r["stable"]["stable"] for r in live.values())
-        ok = all(h["hit"] for h in target_hits) and not non_target_moves
+        ok = (all(h["hit"] for h in target_hits)
+              and all(h["hit"] for h in graded_hits)
+              and not non_target_moves)
         n_pass += 1 if ok else 0
         report_mutants.append({
             "id": spec["id"], "desc": spec["desc"], "tree": spec["tree"],
-            "target_hits": target_hits, "non_target_moves": non_target_moves,
+            "target_hits": target_hits, "graded_hits": graded_hits,
+            "non_target_moves": non_target_moves,
             "root_scores": {t: r["subtree_score"] for t, r in res.items()},
             "stable": stable_now, "stable_flip": stable_live and not stable_now,
             "verdict": "PASS" if ok else "FAIL"})
@@ -260,7 +286,9 @@ def _format_md(p: dict) -> str:
     for m in p["mutants"]:
         deltas = " ".join(f"{h['leaf']} {h['delta']:+.1f}"
                           for h in m["target_hits"])
-        L.append(f"| {m['id']} | {m['verdict']} | {deltas} | "
+        graded = " ".join(f"{h['leaf']} {h['delta']:+.1f}(graded)"
+                          for h in m.get("graded_hits", []))
+        L.append(f"| {m['id']} | {m['verdict']} | {deltas} {graded} | "
                  f"{'是' if m['stable_flip'] else '否'} |")
     L += ["", f"总计: {p['summary']['n_pass']}/{p['summary']['n_mutants']} "
           f"mutant 判别性质通过", ""]
