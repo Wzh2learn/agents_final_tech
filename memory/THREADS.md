@@ -263,3 +263,5 @@
   → [08-19 CLOSED, 批复 ④]: 措辞定稿降级为"引入范式"（docs/33 §2.1 差异化第 3 条已改）; related work 补 FORCE-Bench（arXiv 2607.19409, Microsoft, 企业金融 agent 评测 harness; 对照口径=它评 agent QA 工作流 / 我们评解析管线+schema 漂移+勾稽+自学习闭环; 引用细节以 github.com/microsoft/FinanceBenchmark README 为准, 其 ~300 问与 arXiv 摘要 251 不一致已记录）
 [08-19 00:42] 批复 ③ 入账: PSO 落点实现缓办 — 缓至 v1 + evidence card 交付之后, 且需与导师对齐专利申请时间表再定优先级; docs/33 §8 第 5 行已标 ⏸
 [08-19 00:42] 批复 ⑥ 入账: 投稿节点定稿 — NLPCC 2026 已于 06-20 截稿、CCIR 2026 已开会 → 论文 A/B 节点改 NLPCC 2027 / CCIR 2027, 中间产出 arXiv 预印本占位; NLPCC 2026 workshop 窗口用户人工核实中（台账保持 pending 至核实回话）
+
+[08-19 03:15] 治理决策项(待拍板): kiosk 播放持续写 config/schema_suggestions.json 计数 → Loop B STEP 4 脏文件报警周期性复发(本轮 00:01/00:34 即此因, 4fc251c 入账清除后 kiosk 又会写脏)。候选: a) Loop B STEP 4 对该文件 count-only 变更白名单(小改+演练) b) 定时入账清扫(治标) c) kiosk 停播(演示已结束, 但 B4 样本积累仍在用)。拍板前维持现状, 报警出现即按先例 commit 入账。
