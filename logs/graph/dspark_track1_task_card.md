@@ -24,14 +24,20 @@
      for f in .gitattributes README.md config.json dflash.py dspark.py model.safetensors; do curl -fL --retry 3 -o "$f" "$BASE/$f"; done
      下完复验 sha256; 仍不过 → 停, 记 blocked
 
-## Step 1: 起探针容器 (~15min)
+## Step 0.5: 启动前内存回收 (SOP 必做, ~2min)
+    cd ~/wzh/projects/agents_final_tech
+    bash scripts/gb10_reclaim_page_cache.sh 35
+- SOP (docs/architecture/gb10_vllm_startup_sop.md) §0 第一步: 统一内存 page cache 不被 CUDA 计为可用, 不回收必撞 FM1
+- free -g available 应升至 35GB+ (08-16 实测 15.6→38); 记录前后值入报告
+- 回收对生产栈实测无感; 若期间 :5050/:8004 出现异常 → 立即停止并汇报
+## Step 1: 起探针容器 (~7-15min, 冷启动约 7min)
     cd ~/wzh/projects/agents_final_tech
     CONTAINER_NAME=vllm-dspark-v PORT=8007 \
     DRAFTER_DIR=$HOME/wzh/models/hf/Qwen3.8-27B-DSpark-vLLM \
     CHAT_TEMPLATE=$HOME/wzh/vllm_cache/qwen38_think_off_default.jinja \
     nohup bash scripts/vllm_probe_serve.sh > /tmp/dspark_v_serve.log 2>&1 &
 - tail /tmp/dspark_v_serve.log 等 "Application startup complete" (超时 20min, 记实际耗时)
-- GMEM 默认 0.30; 若启动因 KV 预算不足失败 → GMEM=0.32 重试 (硬上限 0.34, 勿用 0.35), 记实际值+原因入报告
+- GMEM=0.30 固定 (SOP 红线: 只许调低不许调高)。drafter 多占 ~2.7GB 会挤 KV 预算, 若启动报 KV 预算负/不足 → 加 MAXLEN=16384 重试 (GMEM 不动, KV 需求减半); 仍失败 → 记 blocked 停, 不擅抬 GMEM (生产栈在跑)
 - 仍失败: tail -100 启动日志入报告, 停, 记 blocked
 
 ## Step 2: 冒烟 + 投机解码激活验证 (~10min)
