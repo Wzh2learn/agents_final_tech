@@ -199,10 +199,15 @@ check_git_state() {
   head_commit=$(git rev-parse --short HEAD 2>/dev/null || echo "UNKNOWN")
   local branch
   branch=$(git branch --show-current 2>/dev/null || echo "UNKNOWN")
-  local dirty
-  dirty=$(git status --porcelain 2>/dev/null | wc -l)
+  # [2026-08-19 用户批准: STEP4 白名单] 运行时状态文件豁免清单 —
+  # config/schema_suggestions.json 是自学习闭环的合法写入目标
+  # (kiosk 播放期间持续写观察计数), 不计入报警 dirty;
+  # 其余脏文件照常计数报警。清单变更需 Loop D 批准。
+  local dirty whitelisted_dirty
+  dirty=$(git status --porcelain 2>/dev/null | grep -v ' config/schema_suggestions\.json$' | wc -l)
+  whitelisted_dirty=$(git status --porcelain 2>/dev/null | grep -c ' config/schema_suggestions\.json$' || true)
 
-  log "  HEAD=$head_commit branch=$branch dirty_files=$dirty"
+  log "  HEAD=$head_commit branch=$branch dirty_files=$dirty whitelisted=$whitelisted_dirty (schema_suggestions 运行时状态豁免)"
 
   # Check if tests/ was modified in last commit
   local test_modified
