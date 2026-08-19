@@ -1,0 +1,380 @@
+{
+  "timestamp": "2026-08-19 22:58:21",
+  "judge_model": "qwen38-27b-fp8",
+  "judge_endpoint": "http://127.0.0.1:8006/v1/chat/completions",
+  "rubric_version": "v_k1",
+  "judge_runs": 1,
+  "n_unusable": 0,
+  "summary": {
+    "faithfulness": {
+      "avg": 5.0,
+      "n": 16
+    },
+    "numeric_correctness": {
+      "avg": 5.0,
+      "n": 16
+    },
+    "citation_quality": {
+      "avg": 5.0,
+      "n": 16
+    },
+    "refusal_appropriateness": {
+      "avg": 5.0,
+      "n": 16
+    }
+  },
+  "results": [
+    {
+      "id": "q01_fuxi_total_assets",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案完全基于检索上下文中 sample_fuxi_hunhe25_20231101.txt 的 table_1 数据，未编造任何事实或补全掩码。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的数值 22,16****.90 与参考期望 2216****.90 一致，仅存在千分位格式差异，不扣分。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "明确指出了样本文件和表名，且与来源列表中的高置信度来源完全一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答，未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q02_minan_positions",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案仅使用了检索上下文中关于嘉兴民安证券持仓的信息，未编造或补全脱敏数据。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中提到的证券代码 60****57 与参考期望一致，且未编造其他数值。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "明确指出了样本文件和表格名称，且与来源列表中的高相关度条目完全一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答并提供了具体信息，未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q03_boshi_fund_name",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案完全基于检索上下文中的表头信息，未编造任何事实或补全脱敏掩码。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的基金名称前缀'博时'与参考期望一致，且未编造其他数值。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "明确指出了样本ID和表名，且与来源列表中的高置信度来源完全一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答，未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q04_minan_total_assets",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案完全基于检索上下文中的 p0_table_2 数据，未编造任何事实或补全掩码。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的数值 4013****.83 与参考期望完全一致。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "明确指出了样本 ID 和表名，且与来源列表中的高相关度条目一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答，未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q05_fuxi_securities_value",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案完全基于检索上下文中 table_1 人民币行的数据，未编造或补全脱敏信息。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的数值 2216****.90 与参考期望完全一致。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "明确指出了样本文件和表名，且与来源列表中的高相关度条目一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答，未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q06_minan_cash_balance",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案准确提取了检索上下文中 sample_jiaxing_minan_20231031.pdf 表 p0_table_2 的资金余额数值，未包含任何上下文之外的信息。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的数值 3,508.55 与参考期望 3508.55 一致，仅存在千分位格式差异，符合评分标准。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "答案明确指出了样本 ID 和表名，且与来源列表中的高置信度来源完全一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答且未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q07_boshi_fund_code",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案完全基于检索上下文中的信息，未编造任何事实或补全脱敏掩码。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的基金代码 00****22 与参考期望完全一致。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "明确指出了样本和表名，且与来源列表中的高置信度来源一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答，未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q08_fuxi_customer_name",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案完全基于检索上下文中 sample_fuxi_hunhe25_20231101.txt 的表头信息，未编造或补全脱敏掩码。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的客户全称前缀“上海”与参考期望一致，且未编造其他数值。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "明确指出了样本ID和表名，且与来源列表中的高置信度来源完全一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答，未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q09_minan_end_date",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案准确提取了检索上下文中样本 sample_jiaxing_minan_20231031.pdf 的结束日期字段，未包含任何上下文之外的信息。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的日期 20231031 与参考期望完全一致。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "答案明确指出了具体的样本文件名和表名，且与来源列表中的高置信度来源完全一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答且未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q10_boshi_fund_total",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案完全基于检索上下文中的字段值，未编造或补全脱敏信息。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的数值 1382****.82 与参考期望完全一致。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "明确指出了样本和表名，且与来源列表中的高置信度来源一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答，未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q11_fuxi_security_names",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案直接引用了检索上下文中 sample_fuxi_hunhe25_20231101.txt 的 table_2 字段值，未编造或补全脱敏信息。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的证券名称 '2****0' 与参考期望及上下文中的字段值完全一致，无编造数值。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "明确指出了样本 ID 和表名，且与来源列表中的高相关度条目完全一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答并提供了正确信息，未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "q12_minan_pnl",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案完全基于检索上下文中 sample_jiaxing_minan_20231031.pdf 的 p0_table_3 数据，未引入任何外部事实或猜测。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的数值 -7,524,****.71 与参考期望 -7524****.71 在脱敏掩码和千分位格式上完全一致。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "答案明确指出了样本文件名和表名，且与来源列表中的高相关度条目完全一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答并提供了正确信息，未出现错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "adv_ocr_meta",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案准确引用了检索上下文中 sample_20260506_233222LU.pdf 对应 ocr_table_1 (交易对账单) 的信息，未包含任何上下文之外的虚构事实。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中识别的样本 ID 与参考期望 sample_20260506_233222LU 完全一致，无编造数值。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "答案明确指出了具体的样本文件和表名，且与来源列表中的第一条记录完全一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答且未错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "adv_cross_doc",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案基于检索上下文中列出的5个不同样本文件得出数量结论，未引入任何外部事实或编造信息。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的数值“5”与检索上下文中实际存在的样本数量一致，且参考期望仅提示单位“份”，数值逻辑正确。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "答案明确列出了所有5个来源样本的文件名和表名，与来源列表完全一致，引用具体且准确。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答并给出了正确结论，未出现错误拒答。"
+        }
+      }
+    },
+    {
+      "id": "adv_refusal",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案准确反映了检索上下文中确实不包含华夏成长混合基金持仓明细的事实，未编造任何信息。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "该题预期不可回答，答案未编造任何数值，符合无期望值时的评分标准。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "题目预期不可回答，答案明确拒答且说明清晰，符合豁免条款中关于拒答清晰度的评分要求。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "题目预期不可回答，模型明确说明未找到相关信息，拒绝恰当。"
+        }
+      }
+    },
+    {
+      "id": "adv_multiturn",
+      "route": "direct:8007@m2_service",
+      "scores": {
+        "faithfulness": {
+          "score": 5,
+          "reason": "答案中的数值 4013****.28 和来源样本/表名均直接提取自检索上下文，未包含任何上下文之外的信息或猜测。"
+        },
+        "numeric_correctness": {
+          "score": 5,
+          "reason": "答案中的数值 4013****.28 与参考期望完全一致。"
+        },
+        "citation_quality": {
+          "score": 5,
+          "reason": "答案明确指出了样本 ID 和表名，且该引用存在于来源列表中，具体且一致。"
+        },
+        "refusal_appropriateness": {
+          "score": 5,
+          "reason": "该题可回答，模型正常作答，未错误拒答。"
+        }
+      }
+    }
+  ]
+}

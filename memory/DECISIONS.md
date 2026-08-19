@@ -187,3 +187,12 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 - 验收 (生产 :5050 真实承载, 两次): 23:15:04 OCR 邻题 route=agent fell_back=false 30200ms sources=1; 23:20:49 33663ms sources=1。compaction guard 保留——行为正确, 非误杀 (P0 初判反转)。
 - 边界案例如实口径: OCR meta-query 类三轮问题 warm ~48-50s 超 45s 门 → 回落直连; 45s 门完成率按题型分层 (两轮题 ~30-34s 通过 / 三轮题贴边超)。抬超时或降轮次归 M2 菜单项, 待拍板, 本轮不动。
 - 治理新规: a) opencode 自定义模型注册必须显式 limit (防默认 max_tokens 吃满 context); b) Qwen3.8 系模型 vLLM tool parser 必须 qwen3_xml; c) vLLM 探针启动必须带 --enable-prefix-caching。
+
+## [2026-08-19] DSpark Route V 切换政策 (用户批复)
+- 切换内容: :8006 vllm-probe 容器以 DSpark 投机解码参数重起 (k=7, probabilistic, drafter=/models/drafter); 消费者 (:5050/opencode/JUDGE_ENDPOINT) 零配置变更
+- 思考档位: xhigh 起步不降档 (medium 无质量数据); B4 2-3 天 + medium 16 题矩阵对照后再议
+- 回滚预案: 原参数重起现容器 (启动命令在 SOP); 切换前后 docker inspect 各存档一份 (logs/graph/eval/)
+- 镜像: 同一 dockerproxy.net/timothystewart6/vllm-gb10:v0.27.1-gb10.1, 切换不换镜像
+- 六步验证: health/full (137/local/healthy) + parse 冒烟 + QA 2 条含 OCR meta-query + compare 嘉兴民安 2 持仓 + route=on + agent 路 warm 延迟实测
+- 守护: 切换后 B4 回落率首要信号 (content=null 边界为首要怀疑对象), 回落率异常即回滚; Loop B 双模型断言相应更新
+- 切换后优化台账: num_speculative_tokens=5 A/B (k=7 pos6/7 接受率 14.3%/5.7% 近乎白算)

@@ -1,0 +1,823 @@
+{
+ "timestamp": "2026-08-19 22:22:56",
+ "overall": "PASS",
+ "n_questions": 16,
+ "n_pass": 16,
+ "meta": {
+  "candidate": "baseline_8006_think_off",
+  "endpoint": "http://127.0.0.1:8006/v1/chat/completions",
+  "model": "qwen38-27b-fp8",
+  "thinking": "off",
+  "top_k": 5,
+  "fixture": "/home/testuser/wzh/projects/agents_final_tech/tests/fixtures/m2_eval_questions.json",
+  "caliber": "K4 矩阵: 生产同口径检索 + 候选回答者 + 同判分"
+ },
+ "results": [
+  {
+   "id": "q01_fuxi_total_assets",
+   "category": "资金资产汇总",
+   "turns": [
+    "复熙混合25号的资产总值是多少？"
+   ],
+   "answers": [
+    "根据检索上下文，复熙混合25号（样本: sample_fuxi_hunhe25_20231101.txt）的资产总值数据如下：\n\n1.  **人民币账户**：资产总值为 **2216****.90** 元。\n    *   出处：样本 `sample_fuxi_hunhe25_20231101.txt`，表 `table_1 (资金资产汇总)`，字段 `资产总值`。\n2.  **美元账户**：资产总值为 **0.00** 元。\n    *   出处：样本 `sample_fuxi_hunhe25_20231101.txt`，表 `table_1 (资金资产汇总)`，字段 `资产总值`。\n3.  **港币账户**：资产总值为 **0.00** 元。\n    *   出处：样本 `sample_fuxi_hunhe25_20231101.txt`，表 `table_1 (资金资产汇总)`，字段 `资产总值`。\n\n注：上下文中未提供该账户所有币种合并后的单一“总资产”数值，仅提供了分币种的资产总值。"
+   ],
+   "checks": [
+    {
+     "type": "exact_numeric",
+     "expect": "2216****.90",
+     "pass": true,
+     "evidence": "matched '**'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_fuxi_hunhe25",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_fuxi_hunhe25'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 51423,
+   "sources": [
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_1 (资金资产汇总)\n字段: 资金余额=0.00, 资产总值=2216****.90, 证券市值=2216****.90, 币种=人民币, 资产市值"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_1 (资金资产汇总)\n字段: 资金余额=元, 资产总值=0.00, 证券市值=0.00, 币种=美, 资产市值=0.00"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_1 (资金资产汇总)\n字段: 资金余额=币, 资产总值=0.00, 证券市值=0.00, 币种=港, 资产市值=0.00"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_2 (资金资产汇总)\n字段: 资产账户=8802****, 资金余额=3508.55, 资金可用=3508.55, 资产市值=4013***"
+    },
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=博时****混合A, 基金净值=1.9140元, 股东账号"
+    }
+   ],
+   "completion_tokens": 275
+  },
+  {
+   "id": "q02_minan_positions",
+   "category": "证券持仓明细",
+   "turns": [
+    "嘉兴民安有哪些证券持仓？"
+   ],
+   "answers": [
+    "根据【检索上下文】，嘉兴民安（样本: sample_jiaxing_minan_20231031.pdf）的证券持仓信息如下：\n\n*   **证券名称**：永****源\n*   **证券代码**：60****57\n*   **持仓数量**：2929****.00\n*   **市值**：4013****.2800\n*   **成本价**：1153****.9900\n*   **最新价**：1.3700\n*   **盈亏金额**：-7524****.71\n*   **股东账号**：B880****5298\n\n**出处**：\n*   样本: sample_jiaxing_minan_20231031.pdf\n*   表: p0_table_3 (证券持仓明细)\n*   字段: 证券代码, 证券名称, 持仓数量, 市值, 成本价, 最新价, 盈亏金额, 股东账号"
+   ],
+   "checks": [
+    {
+     "type": "contains_keyword",
+     "expect": "60****57",
+     "pass": true,
+     "evidence": "keyword '60****57'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_jiaxing_minan",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_jiaxing_minan'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 64882,
+   "sources": [
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_3 (证券持仓明细)\n字段: 证券代码=60****57, 证券名称=永****源, 在途数量=0, 持仓数量=2929****.00, 成"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_3 (证券持仓明细)\n字段: 在途数量=0, 持仓数量=2929****, 成本价=1153****.99, 市值=4013****.28,"
+    },
+    {
+     "doc": "email_caitong.html",
+     "snippet": "样本: email_caitong.html\n表: html_table_1 (证券持仓明细)\n字段: 确认日期=5.本公司对本账单内容拥有最终解释权。如您对对账单内容有任何疑问，请联系本公司客服。"
+    },
+    {
+     "doc": "email_caitong.html",
+     "snippet": "样本: email_caitong.html\n表: html_table_1 (证券持仓明细)\n字段: 确认日期=1.投资有风险，决策须谨慎。本公司承诺以诚实信用、勤勉尽责的原则管理和运用基金资产，但不保证基金一定盈利，也不保证最低收益。产"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_2 (证券持仓明细)\n字段: 证券代码=19****55, 盈亏金额=1552****.50, 最新价=98.536, 成本价=92.411, 市值"
+    }
+   ],
+   "completion_tokens": 238
+  },
+  {
+   "id": "q03_boshi_fund_name",
+   "category": "表头KV",
+   "turns": [
+    "博时传统产品的基金名称是什么？"
+   ],
+   "answers": [
+    "根据检索上下文，博时传统产品（客户姓名显示为“新华****统产品”）的基金名称是**博时****混合A**。\n\n**出处：**\n*   **样本**: sample_boshi_chuantong.pdf\n*   **表**: 表头信息\n*   **字段**: 基金名称=博时****混合A"
+   ],
+   "checks": [
+    {
+     "type": "contains_keyword",
+     "expect": "博时",
+     "pass": true,
+     "evidence": "keyword '博时'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_boshi_chuantong",
+     "pass": true,
+     "evidence": "4 sources, frag 'sample_boshi_chuantong'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 9653,
+   "sources": [
+    {
+     "doc": "sample_boshi_chuantong.pdf",
+     "snippet": "样本: sample_boshi_chuantong.pdf\n表: 表头信息\n字段: 客户姓名=新华****统产品, 资产账号=0042****0128, 基金名称=博时****混合A, 基金代码=00****22, 基金份额净值=1.54"
+    },
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=博时****债券A, 基金净值=1.1967元, 股东账号"
+    },
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=博时****混合A, 基金净值=1.9140元, 股东账号"
+    },
+    {
+     "doc": "sample_boshi_chuantong.pdf",
+     "snippet": "样本: sample_boshi_chuantong.pdf\n表: kv_grid_1 (证券持仓明细)\n字段: 产品名称=博时****混合A, 股东账号=89,5****.76份, 证券代码=00****22"
+    }
+   ],
+   "completion_tokens": 74
+  },
+  {
+   "id": "q04_minan_total_assets",
+   "category": "跨表汇总",
+   "turns": [
+    "嘉兴样本的总资产是多少？"
+   ],
+   "answers": [
+    "根据检索上下文，嘉兴样本的总资产为 **4013****.83**。\n\n**出处：**\n*   **样本**: sample_jiaxing_minan_20231031.pdf\n*   **表**: p0_table_2 (资金资产汇总)\n*   **字段**: 总资产"
+   ],
+   "checks": [
+    {
+     "type": "exact_numeric",
+     "expect": "4013****.83",
+     "pass": true,
+     "evidence": "matched '**4013****.83**'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_jiaxing_minan",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_jiaxing_minan'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 9128,
+   "sources": [
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_2 (资金资产汇总)\n字段: 资产账户=8802****, 资金余额=3508.55, 资金可用=3508.55, 资产市值=4013***"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: 表头信息\n字段: 开始日期=20231031, 结束日期=20231031, 客户姓名=嘉兴****合伙）, 证件类型=工商****执照, 证件号码=9133"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_3 (证券持仓明细)\n字段: 证券代码=60****57, 证券名称=永****源, 在途数量=0, 持仓数量=2929****.00, 成"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_3 (证券持仓明细)\n字段: 在途数量=0, 持仓数量=2929****, 成本价=1153****.99, 市值=4013****.28,"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_1 (资金资产汇总)\n字段: 资金余额=币, 资产总值=0.00, 证券市值=0.00, 币种=港, 资产市值=0.00"
+    }
+   ],
+   "completion_tokens": 70
+  },
+  {
+   "id": "q05_fuxi_securities_value",
+   "category": "跨表汇总",
+   "turns": [
+    "复熙混合25号的证券市值是多少？"
+   ],
+   "answers": [
+    "根据【检索上下文】，复熙混合25号（样本：sample_fuxi_hunhe25_20231101.txt）的证券市值数据如下：\n\n1.  **人民币账户**：证券市值为 **2216****.90** 元。\n    *   出处：样本 `sample_fuxi_hunhe25_20231101.txt`，表 `table_1 (资金资产汇总)`，字段 `证券市值`。\n2.  **美元账户**：证券市值为 **0.00** 元。\n    *   出处：样本 `sample_fuxi_hunhe25_20231101.txt`，表 `table_1 (资金资产汇总)`，字段 `证券市值`。\n3.  **港币账户**：证券市值为 **0.00** 元。\n    *   出处：样本 `sample_fuxi_hunhe25_20231101.txt`，表 `table_1 (资金资产汇总)`，字段 `证券市值`。\n\n注：上下文中未提供所有币种证券市值的合计总值，仅提供了分币种的数据。"
+   ],
+   "checks": [
+    {
+     "type": "exact_numeric",
+     "expect": "2216****.90",
+     "pass": true,
+     "evidence": "matched '**'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_fuxi_hunhe25",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_fuxi_hunhe25'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 35459,
+   "sources": [
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_1 (资金资产汇总)\n字段: 资金余额=0.00, 资产总值=2216****.90, 证券市值=2216****.90, 币种=人民币, 资产市值"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_1 (资金资产汇总)\n字段: 资金余额=元, 资产总值=0.00, 证券市值=0.00, 币种=美, 资产市值=0.00"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_1 (资金资产汇总)\n字段: 资金余额=币, 资产总值=0.00, 证券市值=0.00, 币种=港, 资产市值=0.00"
+    },
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=博时****混合A, 基金净值=1.9140元, 股东账号"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_2 (证券持仓明细)\n字段: 证券代码=19****55, 盈亏金额=1552****.50, 最新价=98.536, 成本价=92.411, 市值"
+    }
+   ],
+   "completion_tokens": 271
+  },
+  {
+   "id": "q06_minan_cash_balance",
+   "category": "资金资产汇总",
+   "turns": [
+    "嘉兴民安的资金余额是多少？"
+   ],
+   "answers": [
+    "嘉兴民安的资金余额是 **3508.55**。\n\n**出处：**\n*   **样本**: sample_jiaxing_minan_20231031.pdf\n*   **表**: p0_table_2 (资金资产汇总)\n*   **字段**: 资金余额"
+   ],
+   "checks": [
+    {
+     "type": "exact_numeric",
+     "expect": "3508.55",
+     "pass": true,
+     "evidence": "matched '**3508.55**'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_jiaxing_minan",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_jiaxing_minan'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 9448,
+   "sources": [
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_2 (资金资产汇总)\n字段: 资产账户=8802****, 资金余额=3508.55, 资金可用=3508.55, 资产市值=4013***"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_3 (证券持仓明细)\n字段: 证券代码=60****57, 证券名称=永****源, 在途数量=0, 持仓数量=2929****.00, 成"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_1 (资金资产汇总)\n字段: 资金余额=0.00, 资产总值=2216****.90, 证券市值=2216****.90, 币种=人民币, 资产市值"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_1 (资金资产汇总)\n字段: 资金余额=元, 资产总值=0.00, 证券市值=0.00, 币种=美, 资产市值=0.00"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_3 (证券持仓明细)\n字段: 在途数量=0, 持仓数量=2929****, 成本价=1153****.99, 市值=4013****.28,"
+    }
+   ],
+   "completion_tokens": 67
+  },
+  {
+   "id": "q07_boshi_fund_code",
+   "category": "表头KV",
+   "turns": [
+    "博时传统产品的基金代码是什么？"
+   ],
+   "answers": [
+    "根据检索上下文，博时传统产品（基金名称：博时****混合A）的基金代码是 **00****22**。\n\n**出处：**\n*   **样本**: sample_boshi_chuantong.pdf\n*   **表**: 表头信息\n*   **字段**: 基金代码=00****22"
+   ],
+   "checks": [
+    {
+     "type": "contains_keyword",
+     "expect": "00****22",
+     "pass": true,
+     "evidence": "keyword '00****22'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_boshi_chuantong",
+     "pass": true,
+     "evidence": "4 sources, frag 'sample_boshi_chuantong'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 9388,
+   "sources": [
+    {
+     "doc": "sample_boshi_chuantong.pdf",
+     "snippet": "样本: sample_boshi_chuantong.pdf\n表: 表头信息\n字段: 客户姓名=新华****统产品, 资产账号=0042****0128, 基金名称=博时****混合A, 基金代码=00****22, 基金份额净值=1.54"
+    },
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=博时****债券A, 基金净值=1.1967元, 股东账号"
+    },
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=博时****混合A, 基金净值=1.9140元, 股东账号"
+    },
+    {
+     "doc": "sample_boshi_chuantong.pdf",
+     "snippet": "样本: sample_boshi_chuantong.pdf\n表: kv_grid_1 (证券持仓明细)\n字段: 产品名称=博时****混合A, 股东账号=89,5****.76份, 证券代码=00****22"
+    }
+   ],
+   "completion_tokens": 72
+  },
+  {
+   "id": "q08_fuxi_customer_name",
+   "category": "表头KV",
+   "turns": [
+    "复熙混合25号的客户全称是什么？"
+   ],
+   "answers": [
+    "根据检索上下文，复熙混合25号（对应样本 `sample_fuxi_hunhe25_20231101.txt`）的客户全称是 **上海****资基金**。\n\n**出处：**\n*   **样本**: sample_fuxi_hunhe25_20231101.txt\n*   **表**: 表头信息\n*   **字段**: 客户全称"
+   ],
+   "checks": [
+    {
+     "type": "contains_keyword",
+     "expect": "上海",
+     "pass": true,
+     "evidence": "keyword '上海'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_fuxi_hunhe25",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_fuxi_hunhe25'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 12148,
+   "sources": [
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: 表头信息\n字段: 客户全称=新华****统产品, 资产账号=0560****4677"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: 表头信息\n字段: 打印时间=2023年11月02日 08:54:20 AM, 制表=20000231, 客户编号=2000****8295, 资产账号=2000"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: 勾稽校验\n字段: 勾稽结论=全部通过, 通过=4/4, 跳过=0, 失败=0, 明细=[市值勾稽=real_pass; 币种一致=real_pass; 日期格式"
+    },
+    {
+     "doc": "转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf",
+     "snippet": "样本: 转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf\n表: 表头信息\n字段: 客户全称=| ****金 |, 资产账号=|240****113|"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: 表头信息\n字段: 开始日期=20231031, 结束日期=20231031, 客户姓名=嘉兴****合伙）, 证件类型=工商****执照, 证件号码=9133"
+    }
+   ],
+   "completion_tokens": 93
+  },
+  {
+   "id": "q09_minan_end_date",
+   "category": "表头KV",
+   "turns": [
+    "嘉兴民安的对账结束日期是什么时候？"
+   ],
+   "answers": [
+    "根据检索上下文，嘉兴民安的对账结束日期是 **20231031**。\n\n**出处：**\n*   **样本**: sample_jiaxing_minan_20231031.pdf\n*   **表**: 表头信息\n*   **字段**: 结束日期=20231031"
+   ],
+   "checks": [
+    {
+     "type": "contains_keyword",
+     "expect": "20231031",
+     "pass": true,
+     "evidence": "keyword '20231031'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_jiaxing_minan",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_jiaxing_minan'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 10257,
+   "sources": [
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: 表头信息\n字段: 开始日期=20231031, 结束日期=20231031, 客户姓名=嘉兴****合伙）, 证件类型=工商****执照, 证件号码=9133"
+    },
+    {
+     "doc": "转发 嘉合基金客户对账单_att7_3R8011855162_客户对帐单_2026年04月01日.pdf",
+     "snippet": "样本: 转发 嘉合基金客户对账单_att7_3R8011855162_客户对帐单_2026年04月01日.pdf\n表: 表头信息\n字段: 资产账号=3R80****5162, 客户全称=一、****1日）"
+    },
+    {
+     "doc": "转发 嘉合基金客户对账单_att2_3R8007208776_客户对帐单_2026年04月01日.pdf",
+     "snippet": "样本: 转发 嘉合基金客户对账单_att2_3R8007208776_客户对帐单_2026年04月01日.pdf\n表: 表头信息\n字段: 资产账号=3R80****8776, 客户全称=一、****1日）"
+    },
+    {
+     "doc": "转发 嘉合基金客户对账单_att1_3R8006587034_客户对帐单_2026年04月01日.pdf",
+     "snippet": "样本: 转发 嘉合基金客户对账单_att1_3R8006587034_客户对帐单_2026年04月01日.pdf\n表: 表头信息\n字段: 资产账号=3R80****7034, 客户全称=一、****1日）"
+    },
+    {
+     "doc": "转发 嘉合基金客户对账单_att5_3R8010412227_客户对帐单_2026年04月01日.pdf",
+     "snippet": "样本: 转发 嘉合基金客户对账单_att5_3R8010412227_客户对帐单_2026年04月01日.pdf\n表: 表头信息\n字段: 资产账号=3R80****2227, 客户全称=一、****1日）"
+    }
+   ],
+   "completion_tokens": 77
+  },
+  {
+   "id": "q10_boshi_fund_total",
+   "category": "表头KV",
+   "turns": [
+    "博时传统产品的基金资产总额是多少？"
+   ],
+   "answers": [
+    "根据检索上下文，博时传统产品的基金资产总额为 **1382****.82** 元。\n\n**出处：**\n*   **样本**: sample_boshi_chuantong.pdf\n*   **表**: 表头信息\n*   **字段**: 基金资产总额"
+   ],
+   "checks": [
+    {
+     "type": "exact_numeric",
+     "expect": "1382****.82",
+     "pass": true,
+     "evidence": "matched '**1382****.82**'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_boshi_chuantong",
+     "pass": true,
+     "evidence": "4 sources, frag 'sample_boshi_chuantong'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 8166,
+   "sources": [
+    {
+     "doc": "sample_boshi_chuantong.pdf",
+     "snippet": "样本: sample_boshi_chuantong.pdf\n表: 表头信息\n字段: 客户姓名=新华****统产品, 资产账号=0042****0128, 基金名称=博时****混合A, 基金代码=00****22, 基金份额净值=1.54"
+    },
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=博时****债券A, 基金净值=1.2466元, 股东账号"
+    },
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=博时****混合A, 基金净值=1.9140元, 股东账号"
+    },
+    {
+     "doc": "sample_boshi_chuantong.pdf",
+     "snippet": "样本: sample_boshi_chuantong.pdf\n表: kv_grid_1 (证券持仓明细)\n字段: 产品名称=博时****混合A, 股东账号=89,5****.76份, 证券代码=00****22"
+    }
+   ],
+   "completion_tokens": 62
+  },
+  {
+   "id": "q11_fuxi_security_names",
+   "category": "证券持仓明细",
+   "turns": [
+    "复熙混合25号持有哪些证券名称？"
+   ],
+   "answers": [
+    "根据检索上下文，复熙混合25号（对应样本 `sample_fuxi_hunhe25_20231101.txt`）持有的证券名称为：**2****0**。\n\n**出处：**\n*   **样本**: `sample_fuxi_hunhe25_20231101.txt`\n*   **表**: `table_2` (证券持仓明细)\n*   **字段**: `证券名称`"
+   ],
+   "checks": [
+    {
+     "type": "contains_keyword",
+     "expect": "证券名称",
+     "pass": true,
+     "evidence": "keyword '证券名称'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_fuxi_hunhe25",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_fuxi_hunhe25'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 13813,
+   "sources": [
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=博时****混合A, 基金净值=1.9140元, 股东账号"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: 勾稽校验\n字段: 勾稽结论=全部通过, 通过=4/4, 跳过=0, 失败=0, 明细=[市值勾稽=real_pass; 币种一致=real_pass; 日期格式"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_2 (证券持仓明细)\n字段: 证券代码=19****55, 盈亏金额=1552****.50, 最新价=98.536, 成本价=92.411, 市值"
+    },
+    {
+     "doc": "sample_boshi_chuantong.pdf",
+     "snippet": "样本: sample_boshi_chuantong.pdf\n表: kv_grid_1 (证券持仓明细)\n字段: 产品名称=博时****混合A, 股东账号=89,5****.76份, 证券代码=00****22"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: 表头信息\n字段: 打印时间=2023年11月02日 08:54:20 AM, 制表=20000231, 客户编号=2000****8295, 资产账号=2000"
+    }
+   ],
+   "completion_tokens": 102
+  },
+  {
+   "id": "q12_minan_pnl",
+   "category": "证券持仓明细",
+   "turns": [
+    "嘉兴民安持仓的盈亏金额是多少？"
+   ],
+   "answers": [
+    "根据检索上下文，嘉兴民安持仓的盈亏金额为 **-7524****.71**。\n\n**出处：**\n*   **样本**: sample_jiaxing_minan_20231031.pdf\n*   **表**: p0_table_3 (证券持仓明细)\n*   **字段**: 盈亏金额"
+   ],
+   "checks": [
+    {
+     "type": "exact_numeric",
+     "expect": "-7524****.71",
+     "pass": true,
+     "evidence": "matched '**'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_jiaxing_minan",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_jiaxing_minan'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 9773,
+   "sources": [
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_3 (证券持仓明细)\n字段: 在途数量=0, 持仓数量=2929****, 成本价=1153****.99, 市值=4013****.28,"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_3 (证券持仓明细)\n字段: 证券代码=60****57, 证券名称=永****源, 在途数量=0, 持仓数量=2929****.00, 成"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_2 (证券持仓明细)\n字段: 证券代码=17****46, 盈亏金额=1640****.40, 最新价=99.479, 成本价=99.510, 市值"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_2 (证券持仓明细)\n字段: 证券代码=19****55, 盈亏金额=1552****.50, 最新价=98.536, 成本价=92.411, 市值"
+    },
+    {
+     "doc": "转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf",
+     "snippet": "样本: 转发 华泰紫金丰泰智盈对账单331_att0_华泰紫金智盈_华泰紫金丰泰对账单.pdf.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=华泰****发起A, 持仓数量=2650****.25, 证券代码=0"
+    }
+   ],
+   "completion_tokens": 73
+  },
+  {
+   "id": "adv_ocr_meta",
+   "category": "OCR样本哨兵",
+   "turns": [
+    "哪个样本通过OCR解析了交易对账单？"
+   ],
+   "answers": [
+    "根据【检索上下文】，通过OCR解析了交易对账单的样本是：\n\n**sample_20260506_233222LU.pdf**\n\n**出处：**\n*   **样本**: sample_20260506_233222LU.pdf\n*   **表**: ocr_table_1 (交易对账单)\n*   **字段**: 产品名称=中银****债券A, 单位净值=1.60610000000000\n\n*(注：虽然 `email_caitong.html` 中也包含名为“交易对账单”的表 `html_table_3`，但该表来源于 HTML 解析而非 OCR 解析，且字段内容显示为乱码或无关信息，不符合“通过OCR解析”的条件。)*"
+   ],
+   "checks": [
+    {
+     "type": "contains_keyword",
+     "expect": "sample_20260506_233222LU",
+     "pass": true,
+     "evidence": "keyword 'sample_20260506_233222LU'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_20260506",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_20260506'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 23299,
+   "sources": [
+    {
+     "doc": "sample_20260506_233222LU.pdf",
+     "snippet": "样本: sample_20260506_233222LU.pdf\n表: ocr_table_1 (交易对账单)\n字段: 产品名称=中银****债券A, 单位净值=1.60610000000000"
+    },
+    {
+     "doc": "转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf",
+     "snippet": "样本: 转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf\n表: ocr_table_3 (证券持仓明细)\n字段: 资金余额=截止日期"
+    },
+    {
+     "doc": "转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf",
+     "snippet": "样本: 转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf\n表: ocr_table_3 (证券持仓明细)\n字段: 资金余额=暂无基金余额信息"
+    },
+    {
+     "doc": "转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf",
+     "snippet": "样本: 转发 来自：(WaveFax Fax Device)_att0_20260506_132650IU.pdf\n表: ocr_table_1 (证券持仓明细)\n字段: 产品名称=博时****债券A, 基金净值=1.2466元, 股东账号"
+    },
+    {
+     "doc": "email_caitong.html",
+     "snippet": "样本: email_caitong.html\n表: html_table_3 (交易对账单)\n字段: 客户名称：=证****：, 新华人寿保险股份有限公司传统产品=营****照"
+    }
+   ],
+   "completion_tokens": 181
+  },
+  {
+   "id": "adv_cross_doc",
+   "category": "跨文档聚合",
+   "turns": [
+    "嘉合基金的对账单一共入库了几份？"
+   ],
+   "answers": [
+    "根据【检索上下文】，嘉合基金的对账单共入库了 **5** 份。\n\n具体出处如下：\n1. 样本: 转发 嘉合基金客户对账单_att5_3R8010412227_客户对帐单_2026年04月01日.pdf\n2. 样本: 转发 嘉合基金客户对账单_att3_3R8010402833_客户对帐单_2026年04月01日.pdf\n3. 样本: 转发 嘉合基金客户对账单_att7_3R8011855162_客户对帐单_2026年04月01日.pdf\n4. 样本: 转发 嘉合基金客户对账单_att1_3R8006587034_客户对帐单_2026年04月01日.pdf\n5. 样本: 转发 嘉合基金客户对账单_att2_3R8007208776_客户对帐单_2026年04月01日.pdf"
+   ],
+   "checks": [
+    {
+     "type": "contains_keyword",
+     "expect": "份",
+     "pass": true,
+     "evidence": "keyword '份'"
+    },
+    {
+     "type": "source_required",
+     "expect": "嘉合基金",
+     "pass": true,
+     "evidence": "5 sources, frag '嘉合基金'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 34726,
+   "sources": [
+    {
+     "doc": "转发 嘉合基金客户对账单_att5_3R8010412227_客户对帐单_2026年04月01日.pdf",
+     "snippet": "样本: 转发 嘉合基金客户对账单_att5_3R8010412227_客户对帐单_2026年04月01日.pdf\n表: 表头信息\n字段: 资产账号=3R80****2227, 客户全称=一、****1日）"
+    },
+    {
+     "doc": "转发 嘉合基金客户对账单_att3_3R8010402833_客户对帐单_2026年04月01日.pdf",
+     "snippet": "样本: 转发 嘉合基金客户对账单_att3_3R8010402833_客户对帐单_2026年04月01日.pdf\n表: 表头信息\n字段: 资产账号=3R80****2833, 客户全称=一、****1日）"
+    },
+    {
+     "doc": "转发 嘉合基金客户对账单_att7_3R8011855162_客户对帐单_2026年04月01日.pdf",
+     "snippet": "样本: 转发 嘉合基金客户对账单_att7_3R8011855162_客户对帐单_2026年04月01日.pdf\n表: 表头信息\n字段: 资产账号=3R80****5162, 客户全称=一、****1日）"
+    },
+    {
+     "doc": "转发 嘉合基金客户对账单_att1_3R8006587034_客户对帐单_2026年04月01日.pdf",
+     "snippet": "样本: 转发 嘉合基金客户对账单_att1_3R8006587034_客户对帐单_2026年04月01日.pdf\n表: 表头信息\n字段: 资产账号=3R80****7034, 客户全称=一、****1日）"
+    },
+    {
+     "doc": "转发 嘉合基金客户对账单_att2_3R8007208776_客户对帐单_2026年04月01日.pdf",
+     "snippet": "样本: 转发 嘉合基金客户对账单_att2_3R8007208776_客户对帐单_2026年04月01日.pdf\n表: 表头信息\n字段: 资产账号=3R80****8776, 客户全称=一、****1日）"
+    }
+   ],
+   "completion_tokens": 266
+  },
+  {
+   "id": "adv_refusal",
+   "category": "unanswerable",
+   "turns": [
+    "华夏成长混合基金的持仓明细有哪些？"
+   ],
+   "answers": [
+    "未找到相关数据。\n\n**说明：**\n在提供的【检索上下文】中，仅包含以下基金的持仓明细：\n1.  **国金****混合C**（样本: email_guojin.html, 表: html_table_1）\n2.  **国金****混合A**（样本: email_guojin.html, 表: html_table_1）\n\n上下文中没有提及“华夏成长混合基金”的任何信息。"
+   ],
+   "checks": [
+    {
+     "type": "refusal_expected",
+     "expect": "",
+     "pass": true,
+     "evidence": "refusal marker found"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 12591,
+   "sources": [
+    {
+     "doc": "email_caitong.html",
+     "snippet": "样本: email_caitong.html\n表: html_table_1 (证券持仓明细)\n字段: 确认日期=3.本对账单为客户服务信息，仅证明基金账户在查询日的余额情况，并不构成持有产品的权利凭证。本对账单不构成管理人对投资者的任何保"
+    },
+    {
+     "doc": "转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf",
+     "snippet": "样本: 转发 来自：(TraFax Server)_att0_20260506_074508KS.pdf\n表: ocr_table_3 (证券持仓明细)\n字段: 资金余额=暂无基金余额信息"
+    },
+    {
+     "doc": "email_caitong.html",
+     "snippet": "样本: email_caitong.html\n表: html_table_1 (证券持仓明细)\n字段: 确认日期=2.本对账单仅根据注册登记机构的相应记录向上述基金账户所对应的持有人出具，全部内容均为截止发布日的信息，如有变更，请以最新信息"
+    },
+    {
+     "doc": "email_guojin.html",
+     "snippet": "样本: email_guojin.html\n表: html_table_1 (证券持仓明细)\n字段: 基金账号=7680****8914, 基金名称=国金****混合C, 基金代码=01****06, 份额净值（元）=2.1640, 基金份"
+    },
+    {
+     "doc": "email_guojin.html",
+     "snippet": "样本: email_guojin.html\n表: html_table_1 (证券持仓明细)\n字段: 基金账号=7680****8914, 基金名称=国金****混合A, 基金代码=01****18, 份额净值（元）=1.6064, 基金份"
+    }
+   ],
+   "completion_tokens": 96
+  },
+  {
+   "id": "adv_multiturn",
+   "category": "多轮追问",
+   "turns": [
+    "嘉兴民安的总资产是多少？",
+    "其中证券市值占多少？"
+   ],
+   "answers": [
+    "根据检索上下文，嘉兴民安的总资产为 **4013****.83**。\n\n**出处：**\n*   **样本**: sample_jiaxing_minan_20231031.pdf\n*   **表**: p0_table_2 (资金资产汇总)\n*   **字段**: 总资产",
+    "根据检索上下文，不同样本中的“证券市值”数据如下：\n\n1.  **样本: sample_jiaxing_minan_20231031.pdf**\n    *   在表 `p0_table_2` (资金资产汇总) 中，字段 **资产市值** 为 **4013****.28**。\n    *   在表 `p0_table_3` (证券持仓明细) 中，字段 **市值** 为 **4013****.2800**。\n    *   *注：该样本中未直接出现名为“证券市值”的字段，但“资产市值”和持仓“市值”数值一致，通常代表证券部分的市值。*\n\n2.  **样本: sample_fuxi_hunhe25_20231101.txt**\n    *   在表 `table_1` (资金资产汇总) 中，字段 **证券市值** 为 **2216****.90**。\n\n**回答：**\n*   若指 **sample_fuxi_hunhe25_20231101.txt** 样本，证券市值为 **2216****.90**（出处：样本 sample_fuxi_hunhe25_20231101.txt，表 table_1，字段 证券市值）。\n*   若指 **sample_jiaxing_minan_20231031.pdf** 样本，对应的资产市值/证券市值为 **4013****.28**（出处：样本 sample_jiaxing_minan_20231031.pdf，表 p0_table_2，字段 资产市值；或表 p0_table_3，字段 市值）。\n\n由于问题未指定具体样本，以上列出两个样本中对应的数据。"
+   ],
+   "checks": [
+    {
+     "type": "exact_numeric",
+     "expect": "4013****.28",
+     "pass": true,
+     "evidence": "matched '**'"
+    },
+    {
+     "type": "contains_keyword",
+     "expect": "市值",
+     "pass": true,
+     "evidence": "keyword '市值'"
+    },
+    {
+     "type": "source_required",
+     "expect": "sample_jiaxing_minan",
+     "pass": true,
+     "evidence": "5 sources, frag 'sample_jiaxing_minan'"
+    }
+   ],
+   "all_pass": true,
+   "route": "matrix:baseline_8006_think_off",
+   "model": "qwen38-27b-fp8",
+   "duration_ms": 59231,
+   "sources": [
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_2 (资金资产汇总)\n字段: 资产账户=8802****, 资金余额=3508.55, 资金可用=3508.55, 资产市值=4013***"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_3 (证券持仓明细)\n字段: 在途数量=0, 持仓数量=2929****, 成本价=1153****.99, 市值=4013****.28,"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: p0_table_3 (证券持仓明细)\n字段: 证券代码=60****57, 证券名称=永****源, 在途数量=0, 持仓数量=2929****.00, 成"
+    },
+    {
+     "doc": "sample_jiaxing_minan_20231031.pdf",
+     "snippet": "样本: sample_jiaxing_minan_20231031.pdf\n表: 表头信息\n字段: 开始日期=20231031, 结束日期=20231031, 客户姓名=嘉兴****合伙）, 证件类型=工商****执照, 证件号码=9133"
+    },
+    {
+     "doc": "sample_fuxi_hunhe25_20231101.txt",
+     "snippet": "样本: sample_fuxi_hunhe25_20231101.txt\n表: table_1 (资金资产汇总)\n字段: 资金余额=0.00, 资产总值=2216****.90, 证券市值=2216****.90, 币种=人民币, 资产市值"
+    }
+   ],
+   "completion_tokens": 479
+  }
+ ]
+}
