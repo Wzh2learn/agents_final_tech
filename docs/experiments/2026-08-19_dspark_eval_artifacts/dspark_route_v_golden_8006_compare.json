@@ -1,0 +1,86 @@
+{
+ "endpoint": "http://127.0.0.1:8006/v1/chat/completions",
+ "timestamp": "2026-08-19 22:15:08",
+ "all_match": false,
+ "rows": [
+  {
+   "name": "lossless_zh_price",
+   "status": 200,
+   "content": "由于您没有提供具体的**嘉合基金对账单文件**（如 PDF、Excel 或图片），我无法直接读取特定某一份对账单的数据。\n\n但是，我可以告诉您**如何在对账单中找到该数据**，以及**通常所在的表格名称**：\n\n### ✅ 标准答案（通用情况）：\n- **数字位置**：在“**期末持仓明细**”或“**资产组合**”部分的**合计行**。\n- **出处表名**：通常为  \n  **`期末持仓市值合计`**  \n  或  \n  **`持仓市值合计`**  \n  或  \n  **`资产净值构成 - 股票/债券/其他投资 - 合计`**\n\n### 📌 如何自行查找：\n1. 打开嘉合基金对账单（PDF 或 Excel）。\n2. 查找标题为 **“期末持仓明细”**、**“资产组合”** 或 **“持仓情况”** 的表格。\n3. 在该表格的**最后一行**，找到列名为 **“市值”** 或 **“期末市值”** 的**合计值**。\n4. 该数值即为“期末持仓市值合计”。\n\n### ⚠️ 注意：\n- ",
+   "reasoning": null,
+   "tool_calls": null,
+   "latency_ms": 40316,
+   "match_content": false,
+   "match_reasoning": true,
+   "match_tool_calls": true,
+   "match": false
+  },
+  {
+   "name": "lossless_en_custodian",
+   "status": 200,
+   "content": "A custodian bank acts as a secure agent that holds and safeguards clients' financial assets, such as stocks, bonds, and cash, on their behalf. It also manages the administrative and operational aspects of these investments, including processing settlements, collecting dividends and interest, and providing detailed reporting.",
+   "reasoning": null,
+   "tool_calls": null,
+   "latency_ms": 7948,
+   "match_content": false,
+   "match_reasoning": true,
+   "match_tool_calls": true,
+   "match": false
+  },
+  {
+   "name": "thinking_xhigh_zh",
+   "status": 200,
+   "content": null,
+   "reasoning": "用户询问“嘉合基金对账单中期末持仓市值合计是多少? 请给出数字和出处表名”。需要回答具体数字和出处表名。我们没有上下文文件，但可能问题来自某个文档/表格。需要推断或说明无法确定？作为AI，应基于已知信息。若没有提供对账单，不能凭空编造。需要可能回答：无法确定，请提供对账单或表名。但用户要求给出数字和出处表名，可能期望从某个已知数据集中查询。我们需要尽量满足。也许“嘉合基金对账单”是某个测试数据中的表，期末持仓市值合计在“持仓明细”或“期末持仓”表中。需要谨慎。\n\n我们需要分析：中文问题：“嘉合基金对账单中期末持仓市值合计是多少? 请给出数字和出处表名”。可能来自金融文档问答，要求从“嘉合基金对账单”中找“期末持仓市值合计”。出处表名可能是“期末持仓明细表”或“持仓市值表”。数字未知。\n\n是否可以通过常识？嘉合基金（Jiahe Fund?）对账单，期末持仓市值合计。没有具体基金名称/日期。无法回答。\n\n但也许在某个公开案例中：嘉合基金对账单，期末持仓市值合计为 1,234,567.89？不能猜。\n\n应回答：当前未提供对账单内容，无法核实；如果表名为“期末持仓明细表”，合计字段为“市值合计”。但用户要求数字，不能编造。可以请求提供文件/表。\n\n不过，也许系统期望我们调用工具？没有工具。只能回答。\n\n需要最终中文。要简洁但说明不足。可以说：我无法在缺少对账单原文/表数据的情况下给出可靠数字；请提供“嘉合基金对账单”或相关表（如“期末持仓明细表”）截图/数据。若你指的是某张表中的“期末持仓市值合计”，请确认表名。\n\n但用户可能不满意。有没有可能从问题本身“嘉合基金对账单中期末持仓市值合计”是某个表名？ “出处表名”可能要求回答“嘉合基金对账单”表名？ 数字？ 也许“期末持仓市值合计”是字段，表名是“嘉合基金对账单”。数字仍未知。\n\n考虑是否应该给出“无法确定”而不是编造。最终：无法确定，需原始对账单",
+   "tool_calls": null,
+   "latency_ms": 89171,
+   "match_content": false,
+   "match_reasoning": false,
+   "match_tool_calls": true,
+   "match": false
+  },
+  {
+   "name": "thinking_low_zh",
+   "status": 200,
+   "content": "\n\n抱歉，我目前没有看到您提到的\"嘉合基金对账单\"文件。我无法访问外部系统或数据库，也没有收到您上传的任何文件。\n\n**请您通过以下方式提供信息：**\n\n1. **直接粘贴**对账单中的相关表格内容（如持仓明细表）\n2. **上传文件**（如果平台支持文件上传）\n\n提供后，我可以帮您找到\"期末持仓市值合计\"的具体数字及出处表名。",
+   "reasoning": "用户询问的是\"嘉合基金对账单中期末持仓市值合计是多少\"，并要求给出数字和出处表名。\n\n这个问题涉及到一个具体的基金对账单文件。我并没有看到用户上传任何文件或提供具体的对账单内容。我无法访问任何外部数据库或文件。\n\n我需要诚实地告诉用户，我没有看到相关的对账单文件，无法回答这个问题。请用户提供相关文件内容。\n",
+   "tool_calls": null,
+   "latency_ms": 26838,
+   "match_content": false,
+   "match_reasoning": false,
+   "match_tool_calls": true,
+   "match": false
+  },
+  {
+   "name": "thinking_effort_without_enable",
+   "status": 400,
+   "error_body": "{\"error\":{\"message\":\"Unexpected reasoning effort high. Supported types are xhigh (default), medium, and low.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}",
+   "latency_ms": 12,
+   "match_content": true,
+   "match_reasoning": true,
+   "match_tool_calls": true,
+   "match": true
+  },
+  {
+   "name": "tool_get_weather",
+   "status": 200,
+   "content": null,
+   "reasoning": null,
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-8578ec956b39cb50",
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "arguments": "{\"city\": \"北京\"}"
+     }
+    }
+   ],
+   "latency_ms": 4382,
+   "match_content": true,
+   "match_reasoning": true,
+   "match_tool_calls": false,
+   "match": false
+  }
+ ]
+}

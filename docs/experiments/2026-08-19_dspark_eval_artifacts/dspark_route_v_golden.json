@@ -1,0 +1,158 @@
+[
+ {
+  "name": "lossless_zh_price",
+  "request": {
+   "model": "qwen38-27b-fp8",
+   "messages": [
+    {
+     "role": "user",
+     "content": "嘉合基金对账单中期末持仓市值合计是多少? 请给出数字和出处表名"
+    }
+   ],
+   "temperature": 0,
+   "max_tokens": 256,
+   "chat_template_kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "response_text": "由于您没有提供具体的**嘉合基金对账单文件**（如 PDF、Excel 或图片），我无法直接读取特定某一份对账单的数据。\n\n但是，我可以告诉您**如何在对账单中找到该数据**，以及**通常所在的表格名称**：\n\n### ✅ 标准答案（通用指引）：\n- **数字位置**：在“**期末持仓明细**”或“**资产组合**”部分的表格底部，查找“**合计**”行中“**市值**”或“**期末市值**”列对应的数值。\n- **出处表名**：通常为 **“期末持仓明细表”**、**“资产组合表”** 或 **“持仓明细表”**。\n\n---\n\n### 📌 如何自行查找（步骤）：\n1. 打开嘉合基金对账单（PDF 或 Excel）。\n2. 查找标题为 **“期末持仓明细”**、**“资产组合”** 或 **“持仓情况”** 的表格。\n3. 在该表格中，找到最后一行 **“合计”** 或 **“总计”**。\n4. 查看该行的 **“市值”**、**“期末市值”** 或 **“公允价值”** 列，该数值即为“期末持仓市值合计”。\n\n---\n\n",
+  "reasoning": null,
+  "tool_calls": null,
+  "latency_ms": 18182
+ },
+ {
+  "name": "lossless_en_custodian",
+  "request": {
+   "model": "qwen38-27b-fp8",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Explain in two sentences what a custodian bank does."
+    }
+   ],
+   "temperature": 0,
+   "max_tokens": 256,
+   "chat_template_kwargs": {
+    "enable_thinking": false
+   }
+  },
+  "response_text": "A custodian bank acts as a secure agent that holds and safeguards clients' financial assets, such as stocks, bonds, and cash, on their behalf. It also handles the administrative tasks associated with these assets, including processing settlements, collecting dividends and interest, and managing corporate actions.",
+  "reasoning": null,
+  "tool_calls": null,
+  "latency_ms": 4547
+ },
+ {
+  "name": "thinking_xhigh_zh",
+  "request": {
+   "model": "qwen38-27b-fp8",
+   "messages": [
+    {
+     "role": "user",
+     "content": "嘉合基金对账单中期末持仓市值合计是多少? 请给出数字和出处表名"
+    }
+   ],
+   "temperature": 0,
+   "max_tokens": 512,
+   "chat_template_kwargs": {
+    "enable_thinking": true
+   },
+   "reasoning_effort": "xhigh"
+  },
+  "response_text": "\n\n未提供“嘉合基金对账单”的具体文件或表格内容，无法确认“期末持仓市值合计”的数字及出处表名。请上传对账单或提供相关表名/截图，我可以据此提取准确数值。",
+  "reasoning": "用户询问“嘉合基金对账单中期末持仓市值合计是多少? 请给出数字和出处表名”。需要回答具体数字和出处表名。我们没有外部文档访问，除非上下文中有文件？当前对话没有提供文件内容。可能这是一个基于某个文档/表格的问题，但用户没有上传。需要判断是否可回答。也许“嘉合基金对账单”是常见样例？需要谨慎。可以说未提供对账单/表，无法确定；如果指某张表，请提供表名或上传。但用户要求给出数字和出处表名，可能期望从某个已知数据集中查询。我们只能基于已有信息。没有信息，不能编造。需要中文回答，说明缺少材料。也可以请求提供对账单或表名。最终应简洁。\n",
+  "tool_calls": null,
+  "latency_ms": 15990
+ },
+ {
+  "name": "thinking_low_zh",
+  "request": {
+   "model": "qwen38-27b-fp8",
+   "messages": [
+    {
+     "role": "user",
+     "content": "嘉合基金对账单中期末持仓市值合计是多少? 请给出数字和出处表名"
+    }
+   ],
+   "temperature": 0,
+   "max_tokens": 512,
+   "chat_template_kwargs": {
+    "enable_thinking": true
+   },
+   "reasoning_effort": "low"
+  },
+  "response_text": "\n\n抱歉，我目前没有看到您提到的\"嘉合基金对账单\"文件。我无法在没有实际数据的情况下给出具体数字。\n\n请您：\n1. **上传该对账单文件**（如 PDF、Excel、图片等），或\n2. **粘贴相关表格内容**\n\n这样我才能帮您找到\"期末持仓市值合计\"的具体数值及其所在的表名。",
+  "reasoning": "用户询问的是\"嘉合基金对账单中期末持仓市值合计是多少\"，并要求给出数字和出处表名。\n\n这个问题涉及到一个具体的基金对账单文件。我并没有看到用户上传任何文件或提供具体的对账单内容。我没有关于\"嘉合基金对账单\"的具体数据。\n\n我需要诚实地告诉用户，我目前没有看到相关的对账单文件，无法回答这个问题。请用户提供相关文件。\n",
+  "tool_calls": null,
+  "latency_ms": 12560
+ },
+ {
+  "name": "thinking_effort_without_enable",
+  "request": {
+   "model": "qwen38-27b-fp8",
+   "messages": [
+    {
+     "role": "user",
+     "content": "嘉合基金对账单中期末持仓市值合计是多少? 请给出数字和出处表名"
+    }
+   ],
+   "temperature": 0,
+   "max_tokens": 128,
+   "reasoning_effort": "high"
+  },
+  "response_text": "",
+  "reasoning": null,
+  "tool_calls": null,
+  "latency_ms": null,
+  "expected_400": 400,
+  "error_body": "{\"error\":{\"message\":\"Unexpected reasoning effort high. Supported types are xhigh (default), medium, and low.\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}}"
+ },
+ {
+  "name": "tool_get_weather",
+  "request": {
+   "model": "qwen38-27b-fp8",
+   "messages": [
+    {
+     "role": "user",
+     "content": "北京今天天气怎么样"
+    }
+   ],
+   "temperature": 0,
+   "max_tokens": 256,
+   "tools": [
+    {
+     "type": "function",
+     "function": {
+      "name": "get_weather",
+      "description": "查询指定城市的当前天气。",
+      "parameters": {
+       "type": "object",
+       "properties": {
+        "city": {
+         "type": "string",
+         "description": "城市名"
+        }
+       },
+       "required": [
+        "city"
+       ]
+      }
+     }
+    }
+   ],
+   "tool_choice": "auto"
+  },
+  "response_text": "",
+  "reasoning": null,
+  "tool_calls": [
+   {
+    "id": "chatcmpl-tool-bb7b5a40d83878d4",
+    "type": "function",
+    "function": {
+     "name": "get_weather",
+     "arguments": "{\"city\": \"北京\"}"
+    }
+   }
+  ],
+  "latency_ms": 1635
+ }
+]

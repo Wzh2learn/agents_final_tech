@@ -36,3 +36,9 @@
 - 复核命令: curl -s https://hf-mirror.com/api/models/Doopeworld/Qwen3.8-27B-DSpark-vLLM 取 "sha" 字段 (上游同步看 RadixArk/Qwen3.8-27B-DSpark)。
 - sha 变化 → 本表加行 (新 sha/日期/来源) + 重新下载锁 revision + 重跑等价性三验。
 - 每次探针/切换窗口前复核一次; 平时无需轮询。
+
+## Revision 关系补注 (2026-08-19, Route S 解锁后)
+- 本项目锁定: Doopeworld/Qwen3.8-27B-DSpark-vLLM @ ebaa091 (= RadixArk 上游权重 + config 一行 vLLM 适配)。
+- RadixArk/Qwen3.8-27B-DSpark 上游 head: 85ef153 (08-16, 本项目下载时 latest)。
+- Route S recipe (github.com/hasso5703/dgx-spark-qwen38, install.sh 2026-08-15 pin) 用 DRAFT_REV=923ed3a — 早于上游 head 85ef153; 两臂 drafter revision 不同, 对照报告须注明 (若 Route S 接受率与本臂不可直接比, 此为干扰因子之一)。
+- 监控: 上游若出 v2 drafter (Koopah 先例 +6.8%), 三处 revision 一并更新评估。

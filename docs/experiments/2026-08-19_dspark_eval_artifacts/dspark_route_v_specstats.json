@@ -1,0 +1,83 @@
+{
+ "timestamp": "2026-08-19 22:01:58",
+ "windows": [
+  {
+   "window": "off_load1",
+   "drafts": 35.0,
+   "draft_tokens": 245.0,
+   "tokens_per_draft": 7.0,
+   "acceptance_accepted_per_draft": 3.3143,
+   "per_pos_acceptance": {
+    "0": 0.943,
+    "1": 0.943,
+    "2": 0.571,
+    "3": 0.371,
+    "4": 0.286,
+    "5": 0.143,
+    "6": 0.057
+   },
+   "note": "acceptance = accepted/drafts_counter (draft 序列), k=7 probabilistic; 兼容 vLLM 口径 (avg accepted per draft 序列)"
+  },
+  {
+   "window": "off_load2",
+   "drafts": 35.0,
+   "draft_tokens": 245.0,
+   "tokens_per_draft": 7.0,
+   "acceptance_accepted_per_draft": 3.3143,
+   "per_pos_acceptance": {
+    "0": 0.943,
+    "1": 0.943,
+    "2": 0.571,
+    "3": 0.371,
+    "4": 0.286,
+    "5": 0.143,
+    "6": 0.057
+   },
+   "note": "acceptance = accepted/drafts_counter (draft 序列), k=7 probabilistic; 兼容 vLLM 口径 (avg accepted per draft 序列)"
+  }
+ ],
+ "counters_raw": {
+  "pre": {
+   "drafts": 7250.0,
+   "draft_tokens": 50750.0,
+   "accepted": 20840.0,
+   "pos": {
+    "0": 5395.0,
+    "1": 4270.0,
+    "2": 3446.0,
+    "3": 2717.0,
+    "4": 2160.0,
+    "5": 1620.0,
+    "6": 1232.0
+   }
+  },
+  "post1": {
+   "drafts": 7285.0,
+   "draft_tokens": 50995.0,
+   "accepted": 20956.0,
+   "pos": {
+    "0": 5428.0,
+    "1": 4303.0,
+    "2": 3466.0,
+    "3": 2730.0,
+    "4": 2170.0,
+    "5": 1625.0,
+    "6": 1234.0
+   }
+  },
+  "post2": {
+   "drafts": 7320.0,
+   "draft_tokens": 51240.0,
+   "accepted": 21072.0,
+   "pos": {
+    "0": 5461.0,
+    "1": 4336.0,
+    "2": 3486.0,
+    "3": 2743.0,
+    "4": 2180.0,
+    "5": 1630.0,
+    "6": 1236.0
+   }
+  }
+ }
+}

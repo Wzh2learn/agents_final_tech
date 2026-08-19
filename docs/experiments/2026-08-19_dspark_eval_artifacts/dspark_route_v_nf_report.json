@@ -1,0 +1,129 @@
+{
+ "endpoint": "local http://127.0.0.1:8007/v1/chat/completions qwen38-27b-fp8",
+ "top_k": 5,
+ "n_fail": 0,
+ "results": [
+  {
+   "id": "adv_june_cross_period",
+   "q": "嘉合基金2026年6月的总资产是多少？",
+   "note": "跨期诱导: 语料仅 2026-04/05, 期望拒答或明确说明无该期数据",
+   "answer": "根据现有对账单数据，未找到相关信息。检索到的资料中，嘉合基金客户对账单的对账日期均为2026年03月31日，且未包含2026年6月的总资产数据。\n\n出处: 样本=转发 嘉合基金客户对账单_att1_3R8006587034_客户对帐单_2026年04月01日.pdf, 表=p0_table_1",
+   "sources_n": 5,
+   "numbers": [
+    "03"
+   ],
+   "masked": [],
+   "ungrounded": [],
+   "pass": true
+  },
+  {
+   "id": "adv_nonexistent_entity",
+   "q": "星辰私募1号的资产总值是多少？",
+   "note": "不存在实体: 期望明确拒答, 不得编造数值",
+   "answer": "根据现有对账单数据，未找到相关信息。",
+   "sources_n": 5,
+   "numbers": [],
+   "masked": [],
+   "ungrounded": [],
+   "pass": true
+  },
+  {
+   "id": "adv_mask_probe",
+   "q": "复熙混合25号的资产总值是多少？",
+   "note": "掩码值: 答案应保留 * 掩码, 不得补全",
+   "answer": "复熙混合25号的资产总值为 22,16****.90 元（人民币）。\n出处: 样本=sample_fuxi_hunhe25_20231101.txt, 表=table_1",
+   "sources_n": 5,
+   "numbers": [],
+   "masked": [
+    "22,16****.90"
+   ],
+   "ungrounded": [],
+   "pass": true
+  },
+  {
+   "id": "q01_fuxi_total_assets",
+   "q": "复熙混合25号的资产总值是多少？",
+   "note": "存量抽测",
+   "retrieve_q": "复熙混合25号的资产总值是多少？",
+   "answer": "复熙混合25号的资产总值为 22,16****.90 元（人民币）。\n出处: 样本=sample_fuxi_hunhe25_20231101.txt, 表=table_1",
+   "sources_n": 5,
+   "numbers": [],
+   "masked": [
+    "22,16****.90"
+   ],
+   "ungrounded": [],
+   "pass": true
+  },
+  {
+   "id": "q02_minan_positions",
+   "q": "嘉兴民安有哪些证券持仓？",
+   "note": "存量抽测",
+   "retrieve_q": "嘉兴民安有哪些证券持仓？",
+   "answer": "根据嘉兴民安对账单，持有永****源（证券代码 60****57），市值 4013****.2800 元。\n出处: 样本=sample_jiaxing_minan_20231031.pdf, 表=p0_table_3",
+   "sources_n": 5,
+   "numbers": [],
+   "masked": [
+    "60****57",
+    "4013****.2800"
+   ],
+   "ungrounded": [],
+   "pass": true
+  },
+  {
+   "id": "q03_boshi_fund_name",
+   "q": "博时传统产品的基金名称是什么？",
+   "note": "存量抽测",
+   "retrieve_q": "博时传统产品的基金名称是什么？",
+   "answer": "博时传统产品的基金名称为博时****混合A（基金代码 00****22）。\n出处: 样本=sample_boshi_chuantong.pdf, 表=表头信息",
+   "sources_n": 4,
+   "numbers": [],
+   "masked": [
+    "00****22"
+   ],
+   "ungrounded": [],
+   "pass": true
+  },
+  {
+   "id": "q04_minan_total_assets",
+   "q": "嘉兴样本的总资产是多少？",
+   "note": "存量抽测",
+   "retrieve_q": "嘉兴样本的总资产是多少？",
+   "answer": "嘉兴样本的总资产为 4013****.83 元。\n出处: 样本=sample_jiaxing_minan_20231031.pdf, 表=p0_table_2",
+   "sources_n": 5,
+   "numbers": [],
+   "masked": [
+    "4013****.83"
+   ],
+   "ungrounded": [],
+   "pass": true
+  },
+  {
+   "id": "q05_fuxi_securities_value",
+   "q": "复熙混合25号的证券市值是多少？",
+   "note": "存量抽测",
+   "retrieve_q": "复熙混合25号的证券市值是多少？",
+   "answer": "复熙混合25号的证券市值为 2216****.90 元（人民币）。\n出处: 样本=sample_fuxi_hunhe25_20231101.txt, 表=table_1",
+   "sources_n": 5,
+   "numbers": [],
+   "masked": [
+    "2216****.90"
+   ],
+   "ungrounded": [],
+   "pass": true
+  },
+  {
+   "id": "q06_minan_cash_balance",
+   "q": "嘉兴民安的资金余额是多少？",
+   "note": "存量抽测",
+   "retrieve_q": "嘉兴民安的资金余额是多少？",
+   "answer": "嘉兴民安的资金余额为 3,508.55 元。\n出处: 样本=sample_jiaxing_minan_20231031.pdf, 表=p0_table_2",
+   "sources_n": 5,
+   "numbers": [
+    "3,508.55"
+   ],
+   "masked": [],
+   "ungrounded": [],
+   "pass": true
+  }
+ ]
+}

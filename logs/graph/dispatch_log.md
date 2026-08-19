@@ -775,3 +775,10 @@ echo dispatch_log updated
 
 [08-19 21:21] #DSPARK-T1-READY 探针 READY (启动 21:11→21:21, ~10min 冷启动): KV 5.96GiB/42,372 tokens + 冒烟 PASS + spec_decode 激活坐实 (drafts 计数器 0→26→52, 每问 ~26 drafts); 行为发现: bare 请求答案落 reasoning 字段(content=null) —— 显式 chat_template_kwargs enable_thinking=false 后 content 正常(模板默认未对 bare 生效), 生产消费者均显式传参故不受影响, 等价性对比须两端同参数; 另 torch.compile 74.7s 未命中缓存(spec 图签名不同)
 [08-19 21:22] #DSPARK-T1-DISPATCH2 派 Loop A v2 (tmux loop-a-dspark2): 容器已 READY, 任务卡 v2 从激活验证直接进测量 — golden 采集(两阶段等价)/16题矩阵×off+xhigh/并发3/接受率按档/Track3 run_eval 门禁/报告; 不停容器(收尾归主线程); :8006 停机窗口持续中
+
+[08-19 22:03] #DSPARK-T1-RESULT Route V :8007 测量完成 (531d2b6): spec 激活 PASS + det 16/16 + NF 0/9, off p50 4.29s / xhigh p50 19.5s, 接受率 3.3143 (逐位 0.943/0.943/0.571/0.371/0.286/0.143/0.057); PG 连接泄漏 7/16 伪失败清理后复跑全过
+[08-19 22:20] #DSPARK-T1-GOLDEN 等价性对照补跑 (fa41a1a): golden 6 条 :8006 重放 (工件 22:15) — 语义等价 PASS / 逐字不成立归因 FP8 跨引擎不确定性 (近平手 argmax 分叉); 单流探针 1.8-5.6x (:8006 prefix cache 冷态, 不作系统结论)
+[08-19 22:35] #DSPARK-APPROVAL 用户批复①-⑦入账 THREADS/DECISIONS: GO 流程+回滚预案 / xhigh 起步不降档 / content=null 已知边界+watchdog 首要怀疑对象 / k=5 A/B 切换后台账 / Route S 解锁(归因更正: token 在 GB10, recipe 在 GitHub 非 HF) / 46-48s=回落常态非退化(timeout=45 era n=791: agent-complete 124 p50 37.8s, fallback 509 p50 49.7s, 预算内完成率 ~20%) / 镜像口径同 v0.27.1-gb10.1 不换镜像
+[08-19 22:39] #DSPARK-ROUTES Route S 对照臂下载启动 (tmux routes-dl): docker pull lmsysorg/sglang@sha256:febfb97 (dockerproxy ~39GB) + 待下 RadixArk NVFP4@52d1adc + DSpark drafter@923ed3a; HF token 只引用路径不打印
+[08-19 22:44] #DSPARK-BASELINE :8006 基线矩阵补跑完成 (off 22:22 / xhigh 22:44): off p50 12.6s 16/16 → 加速 2.9x; xhigh p50 68.8s 15/16 (q02 adversarial 波动, 探针侧过) → 3.5x; 工件 matrix/baseline_8006_think_{off,xhigh}_report.json, 已回填探针报告
+[08-19 22:58] #DSPARK-TRACKC Track C 审计 (主线程): P0 judge 5.0 声明无执行记录 → 首次重跑 22:45 全 404 (JUDGE_MODEL 默认 :8004 名与 :8006 不配对) → 补 M2_JUDGE_MODEL 二次重跑 22:48-22:58 = 四维 5.0 n=16 坐实 (数字碰巧一致); P1 xhigh report JSON 缺失从 log 重建; P1b "均已 git add" 不实 (logs/ gitignored) → 8 工件坐实副本入 docs/experiments/2026-08-19_dspark_eval_artifacts/; 报告 2026-08-19_dspark_track_c_audit.md, GO 维持

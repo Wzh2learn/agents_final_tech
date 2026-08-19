@@ -268,3 +268,12 @@
   → [08-19 20:05 CLOSED, 用户拍板选 a]: STEP4 白名单落地 25d2bec — 只豁免 config/schema_suggestions.json(运行时状态文件, 自学习闭环合法写入目标), 其余脏文件照常计数报警; 豁免清单写入脚本注释。不停 kiosk、不搞定时清扫; kiosk 建议计数继续观察, 单晚增量 41 条可接受(面板演示素材), 过大再议。daemon 已重启载入新版(治理规则), 首轮 20:04:53 验证 dirty_files=1 whitelisted=1 格式生效。
   [08-19 20:05 根因更正]: 本条原归因"STEP 4 脏文件报警"**有误** — 代码核查证实 STEP 4 只记数不判 FAIL(13:53 FAIL 与 14:26 PASS 同为 dirty_files=2 即反证); 00:01/00:34 两次 FAIL 实为 STEP 5 canary 在 judge --runs3 重负载窗口的超时误报(既有已知模式)。STATE.md 对应行同步更正。
 [08-19 20:10] 新台账: Loop B canary 间歇 FAIL = kiosk wavefax 重传 ingest 竞态（证据链: ① 18:51 起 STEP 5 持续 3/4, 失败题恒为 adv_ocr_meta, 直连答案错引嘉合 PDF 而非 sample_20260506 ② 19:35 手动复现同题 PASS(50.9s, 答案与 sources 全对) ③ loop_demo.py L33 每轮 demo 循环重传 wavefax.pdf 触发重解析 ④ embeddings=137 未涨, 排除累积, 属瞬时竞态窗）。处置: 不停 kiosk(用户决定), 该模式记为已知干扰源; 后续若 canary FAIL 与 kiosk 上传窗口时间相关即按此归因, 不升级为服务退化; 根治候选(演示后议): ingest 原子化/去重幂等, 或 kiosk 上传段加节流。
+
+## [2026-08-19 23:xx] DSpark 批复批量入账 (用户)
+- ① GO 流程: :8006 基线矩阵回填 + Track C 审计 → 切换窗口申请(用户另行给窗); 回滚预案 = 原参数重起现容器(--rm, 启动命令已入 SOP), 切换前后各留一份 docker inspect 存档
+- ② 思考档位 xhigh 起步不降档: medium 无质量数据, 降档 = 无依据质量回归; 切换后 B4 跑 2-3 天 + 同步补 medium 档 16 题矩阵, 数据说话再议
+- ③ content=null 偶发 (xhigh 多轮 adv_multiturn 第二轮) = **已知边界**入台账: 切换后 B4 回落率 watchdog 的首要怀疑对象; 回落率异常即回滚
+- ④ num_speculative_tokens=5 A/B → 切换后优化台账 (现 k=7 第 6/7 位接受率 14.3%/5.7% 近乎白算)
+- ⑤ Route S 解除阻塞 + 归因更正: token 一直在 GB10 (~/.cache/huggingface/token, whoami wpxxqzh111, 有效至 2026-09-11); 原归因"GB10 无 HF token"有误 — 实为查找路径遗漏 (recipe 仓库在 GitHub 不在 HF: github.com/hasso5703/dgx-spark-qwen38)。**红线: token 只引用路径, 任何场合不打印值, 不入 git**。对照臂恢复执行, 时序不阻塞 Route V 切换
+- ⑥ 生产 ask 46-48s 与 B4 交叉核对结论: **回落常态非退化** — timeout=45 era (08-19 01:00 起 n=791): agent-complete n=124 p50 37.8s (p95 44.6, max 45.2 贴门) / fallback n=509 p50 49.7s (=45s 超时+直连 ~5s) / pure-direct p50 23ms; 预算内完成率 ~20% (124/633) 即 DSpark 加速的直接动机; 停机窗口 (21:10-22:48) kiosk 全回落 46-55s 为 :8006 down 预期副作用
+- ⑦ 镜像口径: 探针与生产同一镜像 dockerproxy.net/timothystewart6/vllm-gb10:v0.27.1-gb10.1 — tag 为 recipe 版本, 内含 vLLM 0.27.2.dev0+g6e448d0ea.d20260815; 切换不换镜像 (详见探针报告)

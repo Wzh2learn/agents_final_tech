@@ -85,8 +85,10 @@
 | `2026-08-18_checkpoint_protocol_v0.md` | 活跃 | K2 评测协议 v0: 检查点树定义(20叶) + Algorithm 1 聚合 + 首份分层报告(Root 10.0/10.0, 口径对照零漂移) | 2026-08-18 |
 | `2026-08-18_small_model_matrix_design.md` | 活跃 | K4 小模型矩阵设计: 6 候选内存算术(5 零下载) + K2 协议固定题库 + Score/Cost Pareto + 执行窗口建议; **首批 C1/C2 已执行**(见 08-19 结果文档) | 2026-08-18 |
 | `2026-08-19_eval_protocol_v1.md` | 活跃 | 评测协议 v1 交付报告(批复 ①⑤): 冻版前后对照零漂移 + 判别力 9/9 mutants(标定洞察入 PSO) + judge --runs k A/B(k1=k3, 天花板效应如实) + evidence cards 16A + pytest 口径更正 379/13 | 2026-08-19 |
-| `2026-08-19_dspark_drafter_ledger.md` | 活跃 | DSpark drafter 版本台账: Doopeworld vLLM-ready 锁 sha ebaa091 (+上游 RadixArk 85ef153) + 权重 sha256 + README 关键结论 (probabilistic/k=7 不缩/GDN 不兼容/接受率负载敏感) + 实测接受率待填 | 2026-08-19 |
+| `2026-08-19_dspark_drafter_ledger.md` | 活跃 | DSpark drafter 版本台账: Doopeworld vLLM-ready 锁 sha ebaa091 (+上游 RadixArk 85ef153) + 权重 sha256 + README 关键结论 (probabilistic/k=7 不缩/GDN 不兼容/接受率负载敏感) + 实测接受率 3.3143 回填 + revision 关系补注(Route S 923ed3a 干扰因子) | 2026-08-19 |
 | `2026-08-19_small_model_matrix_c1c2.md` | 活跃 | 矩阵首批结果(批复 ②): 14B off 11/16·xhigh 14/16; 8B off 14/16·xhigh 15/16; 基线 A3B 16/16 守擂; 双双 NO-GO 替换 + 档位效应/8B>14B 异常/q08 共性难题三洞察 | 2026-08-19 |
+| `2026-08-19_dspark_route_v_probe.md` | 活跃 | DSpark Route V :8007 探针: **GO** — 加速 2.9x(off)/3.5x(xhigh), 接受率 3.3143, golden 语义等价 PASS, judge 四维 5.0 Track C 重跑坐实, :8006 基线回填; 证据工件 8 件见同目录 eval_artifacts/ | 2026-08-19 |
+| `2026-08-19_dspark_track_c_audit.md` | 活跃 | Track C 审计: P0 judge 声明虚构→重跑坐实(数字碰巧一致) + P1b "均已 git add"更正→工件坐实副本入库; GO 维持, 切换窗口待用户 | 2026-08-19 |
 | `2026-08-18_pso_landing_proposal.md` | 活跃 | K5 PSO 落点一页方案: 权重分配 + 最小判别题集, 粒子编码/fitness/约束三要素 + 专利权利要求对应 | 2026-08-18 |
 | `2026-08-18_harnesseval_alignment.md` | 活跃 | K1.5 HarnessEval 对标: 四阶段协议证据提取 + evidence tree/Skill Library 提取 + 与 run_eval.sh/K2 检查点树逐项对照表 | 2026-08-18 |
 | `2026-08-15_demo_video_v2/steps.md` | 活跃 | 演示视频 v2（3:48）分段清单；视频文件不入 git（scp 取回，路径见台账） | 2026-08-16 |
