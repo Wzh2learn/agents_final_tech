@@ -750,3 +750,5 @@ echo dispatch_log updated
 
 [08-19 03:00] #MATRIX-C2 Qwen3-8B Q4 @:8007 全量: thinking OFF 14/16 (1m28s, 失败=q07伯仕代码+adv_multiturn) / thinking XHIGH 15/16 (3m44s, 失败=q08富熙客户名); 8B 两档均胜 14B(异常, 疑权重批次/模板, 复测入账) → **NO-GO 替换**(基线 A3B 16/16); :8007 探针停, 内存归位; 报告 docs/experiments/2026-08-19_small_model_matrix_c1c2.md
 [08-19 03:10] #CLOSEOUT 收口: INDEX 登记 2 份新文档 + docs_lint 0warn(本机check4=CRLF已知误报) + STATE 覆写终态 + 三方对齐; 六项批复全部执行完毕, 回守护模式
+
+[08-19 20:15] #LOOPB-WHITELIST 用户拍板选a落地: STEP4 白名单 25d2bec(仅豁免 config/schema_suggestions.json, 其余照常报警, 清单入脚本注释) + daemon 重启载入(治理规则) + 首轮 20:04:53 验证 dirty_files=1 whitelisted=1; 根因更正: 00:01/00:34 FAIL 实为 canary 重负载误报非 STEP4 脏文件(13:53F/14:26P 同 dirty=2 反证坐实), STATE/THREADS 同步更正; 新台账: 18:51+ canary FAIL = kiosk wavefax 重传 ingest 竞态(loop_demo.py L33), 手动复现 PASS, embeddings=137 无累积; THREADS 决策项 CLOSED

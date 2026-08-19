@@ -265,3 +265,6 @@
 [08-19 00:42] 批复 ⑥ 入账: 投稿节点定稿 — NLPCC 2026 已于 06-20 截稿、CCIR 2026 已开会 → 论文 A/B 节点改 NLPCC 2027 / CCIR 2027, 中间产出 arXiv 预印本占位; NLPCC 2026 workshop 窗口用户人工核实中（台账保持 pending 至核实回话）
 
 [08-19 03:15] 治理决策项(待拍板): kiosk 播放持续写 config/schema_suggestions.json 计数 → Loop B STEP 4 脏文件报警周期性复发(本轮 00:01/00:34 即此因, 4fc251c 入账清除后 kiosk 又会写脏)。候选: a) Loop B STEP 4 对该文件 count-only 变更白名单(小改+演练) b) 定时入账清扫(治标) c) kiosk 停播(演示已结束, 但 B4 样本积累仍在用)。拍板前维持现状, 报警出现即按先例 commit 入账。
+  → [08-19 20:05 CLOSED, 用户拍板选 a]: STEP4 白名单落地 25d2bec — 只豁免 config/schema_suggestions.json(运行时状态文件, 自学习闭环合法写入目标), 其余脏文件照常计数报警; 豁免清单写入脚本注释。不停 kiosk、不搞定时清扫; kiosk 建议计数继续观察, 单晚增量 41 条可接受(面板演示素材), 过大再议。daemon 已重启载入新版(治理规则), 首轮 20:04:53 验证 dirty_files=1 whitelisted=1 格式生效。
+  [08-19 20:05 根因更正]: 本条原归因"STEP 4 脏文件报警"**有误** — 代码核查证实 STEP 4 只记数不判 FAIL(13:53 FAIL 与 14:26 PASS 同为 dirty_files=2 即反证); 00:01/00:34 两次 FAIL 实为 STEP 5 canary 在 judge --runs3 重负载窗口的超时误报(既有已知模式)。STATE.md 对应行同步更正。
+[08-19 20:10] 新台账: Loop B canary 间歇 FAIL = kiosk wavefax 重传 ingest 竞态（证据链: ① 18:51 起 STEP 5 持续 3/4, 失败题恒为 adv_ocr_meta, 直连答案错引嘉合 PDF 而非 sample_20260506 ② 19:35 手动复现同题 PASS(50.9s, 答案与 sources 全对) ③ loop_demo.py L33 每轮 demo 循环重传 wavefax.pdf 触发重解析 ④ embeddings=137 未涨, 排除累积, 属瞬时竞态窗）。处置: 不停 kiosk(用户决定), 该模式记为已知干扰源; 后续若 canary FAIL 与 kiosk 上传窗口时间相关即按此归因, 不升级为服务退化; 根治候选(演示后议): ingest 原子化/去重幂等, 或 kiosk 上传段加节流。

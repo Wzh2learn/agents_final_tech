@@ -34,8 +34,10 @@
 - :5050 UP (route=on, timeout=45, embeddings=137); :8004 A3B UP; :8006 27B UP;
   :8008 proxy UP; :8007 空闲（矩阵探针已停）; :8005 DOWN(退位); :8100 UP;
   :4096 sidecar UP; :15432 PG UP
-- Loop B: 00:01/00:34 FAIL = STEP 4 脏文件检测（GB10 本地两文件, 随 4fc251c
-  入账清除）, 非服务退化; 周期照常
+- Loop B: STEP 4 白名单生效（25d2bec, 用户批准; schema_suggestions 运行时状态
+  豁免, daemon 重启载入, 20:04 首轮验证 whitelisted=1）; 00:01/00:34 与 18:51+
+  FAIL 均为 STEP 5 canary（前者=benchmark 重负载误报, 后者=kiosk wavefax 重传
+  ingest 竞态, 证据链入台账）, 非服务退化; 其余步骤全绿
 - 本机: kiosk 已恢复播放（pid 158600 loop_demo + 150708 demo_controller;
   01:55-02:32 曾暂停为 judge A/B 测量纯净, 已入账）
 
