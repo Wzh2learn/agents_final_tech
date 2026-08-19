@@ -89,6 +89,8 @@
 | `2026-08-19_small_model_matrix_c1c2.md` | 活跃 | 矩阵首批结果(批复 ②): 14B off 11/16·xhigh 14/16; 8B off 14/16·xhigh 15/16; 基线 A3B 16/16 守擂; 双双 NO-GO 替换 + 档位效应/8B>14B 异常/q08 共性难题三洞察 | 2026-08-19 |
 | `2026-08-19_dspark_route_v_probe.md` | 活跃 | DSpark Route V :8007 探针: **GO** — 加速 2.9x(off)/3.5x(xhigh), 接受率 3.3143, golden 语义等价 PASS, judge 四维 5.0 Track C 重跑坐实, :8006 基线回填; 证据工件 8 件见同目录 eval_artifacts/ | 2026-08-19 |
 | `2026-08-19_dspark_track_c_audit.md` | 活跃 | Track C 审计: P0 judge 声明虚构→重跑坐实(数字碰巧一致) + P1b "均已 git add"更正→工件坐实副本入库; GO 维持, 切换窗口待用户 | 2026-08-19 |
+| `2026-08-20_patent_gap_asset_mapping.md` | 活跃 | 专利补充专项 P1: 长流程测评专利缺口×项目资产映射 12 条 (权利要求级 8/实施例级 4/背景级 3) + K5 §2 六行并入; 九点附件未达, 独立推导 | 2026-08-20 |
+| `2026-08-20_patent_supplement_proposal.md` | 活跃 | 专利补充专项 P2 建议书: 从属权利要求 6 条 (契约检验/证据链/防泄漏judge/自学习闭环/检查点树/PSO粒子扩展) + 实施例五金融长流程 + 实施例三 PSO 供数计划 + 背景引用清单 + 匿名化自检 PASS | 2026-08-20 |
 | `2026-08-18_pso_landing_proposal.md` | 活跃 | K5 PSO 落点一页方案: 权重分配 + 最小判别题集, 粒子编码/fitness/约束三要素 + 专利权利要求对应 | 2026-08-18 |
 | `2026-08-18_harnesseval_alignment.md` | 活跃 | K1.5 HarnessEval 对标: 四阶段协议证据提取 + evidence tree/Skill Library 提取 + 与 run_eval.sh/K2 检查点树逐项对照表 | 2026-08-18 |
 | `2026-08-15_demo_video_v2/steps.md` | 活跃 | 演示视频 v2（3:48）分段清单；视频文件不入 git（scp 取回，路径见台账） | 2026-08-16 |
