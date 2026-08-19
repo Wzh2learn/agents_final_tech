@@ -789,3 +789,6 @@ echo dispatch_log updated
 
 [08-19 22:58] #DSPARK-TRACKC Track C 审计 (主线程): P0 judge 5.0 声明无执行记录 → 首次重跑 22:45 全 404 (JUDGE_MODEL 默认 :8004 名与 :8006 不配对) → 补 M2_JUDGE_MODEL 二次重跑 22:48-22:58 = 四维 5.0 n=16 坐实 (数字碰巧一致); P1 xhigh report JSON 缺失从 log 重建; P1b "均已 git add" 不实 (logs/ gitignored) → 8 工件坐实副本入 docs/experiments/2026-08-19_dspark_eval_artifacts/; 报告 2026-08-19_dspark_track_c_audit.md, GO 维持
 [08-19 23:09] #DSPARK-ROUTES-RETRY Route S 下载首批失败处置: docker pull unexpected EOF(临时断流) + HF 阶段 socks 代理污染(httpx 不支持 socks scheme, 根因=旧会话 env 残留) → v2 脚本(代理 unset + pull 3 次续传重试) 重派 tmux routes-dl2; hf-mirror 直连两仓库 revision 预检 OK(52d1adc/923ed3a)
+[08-19 23:28] #DSPARK-SWITCH-START 切换窗口开启: kiosk 暂停(PID 158600) + B4 标记 2304 行 + 切换前 inspect 存档 (logs/graph/eval/dspark_switch_inspect_before_8006.json)
+[08-20 00:05] #DSPARK-SWITCH-FAIL DSpark 启动 4 连败: KV 预算不足 (需 4.6G / 可用 2.57→3.09→1.86→0.56G 逐次恶化); 根因=下载 page cache 残留 ~28-30G (CUDA 不计可用) + reclaim 上限 ~50G free (探针窗口 69.46G) + DSpark 较原配置多耗 ~3.4G (drafter 2.53G + spec 增量); 对策 reclaim×5/下载暂停/末次干净启动均不足
+[08-20 00:13] #DSPARK-ROLLBACK 回滚原参数: 00:12 READY + health/full 全绿 (137/local) + 快问正常 (冷 26.9s, thinking off 生效); kiosk 恢复 (PID 143516); B4 无切换点统计连续; 重试菜单四项入 THREADS 等拍板; Route S HF 权重已 DONE, sglang 镜像 3 次 pull 失败缓议
