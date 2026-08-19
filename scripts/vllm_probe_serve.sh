@@ -9,6 +9,14 @@
 #   PORT=8006 GMEM=0.30 MAXLEN=32768 bash scripts/vllm_probe_serve.sh
 #   换模型 (如 35B-A3B 探针): MODEL_DIR + SERVED_NAME + PORT 覆写,
 #   容器内路径固定 /models/model, 无需改脚本。
+# DSpark 投机解码探针 (2026-08-19, Track 1 Route V):
+#   CONTAINER_NAME=vllm-dspark-v PORT=8007 \
+#   DRAFTER_DIR=$HOME/wzh/models/hf/Qwen3.8-27B-DSpark-vLLM \
+#   CHAT_TEMPLATE=$HOME/wzh/vllm_cache/qwen38_think_off_default.jinja \
+#   bash scripts/vllm_probe_serve.sh
+#   DRAFTER_K=7 / DRAFTER_SAMPLE=probabilistic 可覆写。README 结论:
+#   probabilistic 比 greedy 快 ~23%, k 不可缩减 —— 详见
+#   docs/experiments/2026-08-19_dspark_drafter_ledger.md
 set -euo pipefail
 
 IMAGE="${VLLM_IMAGE:-dockerproxy.net/timothystewart6/vllm-gb10:v0.27.1-gb10.1}"
@@ -18,6 +26,7 @@ GMEM="${GMEM:-0.30}"
 MAXLEN="${MAXLEN:-32768}"
 SERVED_NAME="${SERVED_NAME:-qwen38-27b-fp8}"
 MAXSEQS="${MAXSEQS:-32}"
+CONTAINER_NAME="${CONTAINER_NAME:-vllm-probe}"
 # FM7 (2026-08-17): APC was OFF in this build (prefix_cache_queries=0):
 # every call re-prefilled ~15-19k tokens -> 45-85s agent turns.
 # --enable-prefix-caching restores cross-call/session prefix reuse.
@@ -40,13 +49,26 @@ if [[ -n "$CHAT_TEMPLATE" ]]; then
   TEMPLATE_VLLM=(--chat-template /models/chat_template_custom.jinja)
 fi
 
-exec docker run --rm --name vllm-probe \
+# DSpark drafter (可选, 2026-08-19): 设置后挂载 /models/drafter 并追加 --speculative-config
+DRAFTER_MOUNT=()
+DRAFTER_VLLM=()
+if [[ -n "${DRAFTER_DIR:-}" ]]; then
+  if [[ ! -f "$DRAFTER_DIR/model.safetensors" ]]; then
+    echo "drafter dir not ready: $DRAFTER_DIR" >&2
+    exit 1
+  fi
+  DRAFTER_MOUNT=(-v "$DRAFTER_DIR:/models/drafter:ro")
+  DRAFTER_VLLM=(--speculative-config "{\"method\":\"dspark\",\"model\":\"/models/drafter\",\"num_speculative_tokens\":${DRAFTER_K:-7},\"draft_sample_method\":\"${DRAFTER_SAMPLE:-probabilistic}\"}")
+fi
+
+exec docker run --rm --name "$CONTAINER_NAME" \
   --device nvidia.com/gpu=all \
   --ipc host \
   -p "$PORT:8000" \
   -v "$MODEL_DIR:/models/model:ro" \
   -v "$HOME/wzh/vllm_cache:/root/.cache/vllm" \
   "${TEMPLATE_MOUNT[@]}" \
+  "${DRAFTER_MOUNT[@]}" \
   "$IMAGE" \
   vllm serve /models/model \
   --served-model-name "$SERVED_NAME" \
@@ -59,4 +81,5 @@ exec docker run --rm --name vllm-probe \
   --tool-call-parser "$TOOL_PARSER" \
   --limit-mm-per-prompt '{"image":2}' \
   "${TEMPLATE_VLLM[@]}" \
+  "${DRAFTER_VLLM[@]}" \
   --trust-remote-code
