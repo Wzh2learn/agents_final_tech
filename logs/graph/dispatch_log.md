@@ -772,3 +772,6 @@ echo dispatch_log updated
 [08-19 21:08] #DSPARK-T1-CRASH1 首启崩溃根因坐实(手动复诊, -d 无 --rm 留现场): CUDA free 33.92GiB < 0.30×121.63=36.49GiB 预检直接拒 — 生产栈满载(:8006 33.4G + llama.cpp :8004 23.7G + :5050 5G + MCP 2.6G)下双 27B 并行不成立, 内存算术首次入账(SOP 将补); 受限参数(0.275+fp8KV)备选未采用
 [08-19 21:10] #DSPARK-WINDOW 用户批准临时停生产栈 → :8006(vllm-probe) 已停, available 36→72GB; 窗口副作用入账: Loop B topology FAIL 预期内 / kiosk agent 路回落直连(B4 记 fallback); 恢复 SOP = tmux vllserve: PORT=8006 GMEM=0.30 CHAT_TEMPLATE=/home/testuser/wzh/vllm_cache/qwen38_think_off_default.jinja bash scripts/vllm_probe_serve.sh
 [08-19 21:11] #DSPARK-T1-RELAUNCH 全规格探针 vllm-dspark-v@:8007 启动中: GMEM=0.30 / MAXLEN=32768 / seqs=32 / dsaprk k=7 probabilistic / chat template 与 :8006 同源; tmux dsaprk-serve, 日志 /tmp/dspark_v_serve.log; Loop A 待 READY 后按 v2 任务卡重派(两阶段等价验证: 窗口内收 golden, 恢复后对比)
+
+[08-19 21:21] #DSPARK-T1-READY 探针 READY (启动 21:11→21:21, ~10min 冷启动): KV 5.96GiB/42,372 tokens + 冒烟 PASS + spec_decode 激活坐实 (drafts 计数器 0→26→52, 每问 ~26 drafts); 行为发现: bare 请求答案落 reasoning 字段(content=null) —— 显式 chat_template_kwargs enable_thinking=false 后 content 正常(模板默认未对 bare 生效), 生产消费者均显式传参故不受影响, 等价性对比须两端同参数; 另 torch.compile 74.7s 未命中缓存(spec 图签名不同)
+[08-19 21:22] #DSPARK-T1-DISPATCH2 派 Loop A v2 (tmux loop-a-dspark2): 容器已 READY, 任务卡 v2 从激活验证直接进测量 — golden 采集(两阶段等价)/16题矩阵×off+xhigh/并发3/接受率按档/Track3 run_eval 门禁/报告; 不停容器(收尾归主线程); :8006 停机窗口持续中
