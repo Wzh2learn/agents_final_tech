@@ -100,3 +100,25 @@ vs drafter README 参考 (Intel XPU): 通用文本 2.18 / 数学推理 4.79 (gre
 2. :5050 /api/m2/ask 46s+ 异常慢 (经 app.log 确认为我方只读触发, 服务器 200; 疑似 embedding/生成路径慢) — 建议复核。
 3. xhigh 档偶发 content=null (adv_multiturn 第二轮) — vLLM 或模板行为, 建议记录为已知边界。
 4. `run_eval.sh` 对非 /api/ 端点直连需手工注入 (脚本 probe 硬编码 /health) — 已绕行, 未改仓库。
+
+
+## 等价性对照 (:8006 恢复侧补跑, 主线程, 2026-08-19 ~22:50)
+
+Golden 6 条重放 :8006 (temp=0, 热态), 工件 logs/graph/eval/dspark_route_v_golden_8006_compare.json:
+
+| name | :8007 延迟 | :8006 延迟 | content | reasoning | tool_calls | 判定 |
+|---|---|---|---|---|---|---|
+| lossless_zh_price | 18.2s | 40.3s | 中段起措辞分叉 | 一致(空) | — | 语义等价 |
+| lossless_en_custodian | 4.5s | 7.9s | ~40 token 后分叉 | 一致(空) | — | 语义等价 |
+| thinking_xhigh_zh | 16.0s | 89.2s | 拒答说明同义 | 措辞不同结论同 | — | 语义等价 |
+| thinking_low_zh | 12.6s | 26.8s | 同上 | 措辞不同结论同 | — | 语义等价 |
+| thinking_effort_without_enable | 400 | 400 | 错误体一致 | — | — | PASS(high 非法行为两端一致) |
+| tool_get_weather | 1.6s | 4.4s | 一致(空) | 一致 | name/arguments 全同, 仅唯一 id 不同(预期) | PASS |
+
+**判定**: 语义等价 PASS; 逐字一致不成立 —— 归因 FP8 跨引擎批次/内核不确定性
+(近平手 token  argmax 分叉后传播, 非质量差异; 投机解码无损是分布级性质, 跨引擎
+逐字比对本就不是有效判据)。质量门在探针侧全过: 确定性 16/16 + NF 0/9 + judge 四维 5.0。
+
+**顺带发现**: 单流 golden 探针延迟全面低于 :8006, 1.8~5.6x (xhigh 16.0 vs 89.2s;
+:8006 侧受 prefix cache 冷态/单流影响, 不作系统结论) —— 系统口径以 16 题矩阵
+:8006 基线补跑为准 (tmux matrix-8006 进行中, 完成后回填本节)。
