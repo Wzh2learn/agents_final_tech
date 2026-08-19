@@ -775,3 +775,4 @@ echo dispatch_log updated
 
 [08-19 21:21] #DSPARK-T1-READY 探针 READY (启动 21:11→21:21, ~10min 冷启动): KV 5.96GiB/42,372 tokens + 冒烟 PASS + spec_decode 激活坐实 (drafts 计数器 0→26→52, 每问 ~26 drafts); 行为发现: bare 请求答案落 reasoning 字段(content=null) —— 显式 chat_template_kwargs enable_thinking=false 后 content 正常(模板默认未对 bare 生效), 生产消费者均显式传参故不受影响, 等价性对比须两端同参数; 另 torch.compile 74.7s 未命中缓存(spec 图签名不同)
 [08-19 21:22] #DSPARK-T1-DISPATCH2 派 Loop A v2 (tmux loop-a-dspark2): 容器已 READY, 任务卡 v2 从激活验证直接进测量 — golden 采集(两阶段等价)/16题矩阵×off+xhigh/并发3/接受率按档/Track3 run_eval 门禁/报告; 不停容器(收尾归主线程); :8006 停机窗口持续中
+[08-19 22:18] #LOOP-B-FLIP overall FAIL -> PASS (head=06e6546; 详见 logs/graph/verify-report.json + loop_b.log)
