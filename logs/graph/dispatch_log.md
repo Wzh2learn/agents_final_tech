@@ -796,3 +796,4 @@ echo dispatch_log updated
 [08-20 00:05] #DSPARK-SWITCH-FAIL DSpark 启动 4 连败: KV 预算不足 (需 4.6G / 可用 2.57→3.09→1.86→0.56G 逐次恶化); 根因=下载 page cache 残留 ~28-30G (CUDA 不计可用) + reclaim 上限 ~50G free (探针窗口 69.46G) + DSpark 较原配置多耗 ~3.4G (drafter 2.53G + spec 增量); 对策 reclaim×5/下载暂停/末次干净启动均不足
 
 [08-20 00:13] #DSPARK-ROLLBACK 回滚原参数: 00:12 READY + health/full 全绿 (137/local) + 快问正常 (冷 26.9s, thinking off 生效); kiosk 恢复 (PID 143516); B4 无切换点统计连续; 重试菜单四项入 THREADS 等拍板; Route S HF 权重已 DONE, sglang 镜像 3 次 pull 失败缓议
+[08-20 00:31] #LOOP-B-FLIP overall FAIL -> PASS (head=565b425; 详见 logs/graph/verify-report.json + loop_b.log)
