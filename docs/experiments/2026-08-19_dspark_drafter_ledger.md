@@ -30,7 +30,7 @@
 
 | 日期 | 臂 | 端点 | k | sample | 负载 | 接受率 | 延迟对照 :8006 | 备注 |
 |---|---|---|---|---|---|---|---|---|
-| 待填 | Route V (vLLM dsaprk) | :8007 | 7 | probabilistic | 固定题库 off/xhigh + 并发3 | — | — | Track 1 (tmux loop-a-dspark1) |
+| 2026-08-19 | Route V (vLLM dsaprk) | :8007 | 7 | probabilistic | 固定题库 off/xhigh + 并发3 + golden 6 条 | **3.3143 accepted/draft** (off 短答负载); 逐位 0.943/0.943/0.571/0.371/0.286/0.143/0.057 | off 16题 p50 4.29s / xhigh p50 19.5s (adv_multiturn xhigh 90.9s) | Track 1 (tmux loop-a-dspark1) — 报告 docs/experiments/2026-08-19_dspark_route_v_probe.md; :8006 等价性对照待主线程恢复后补跑 |
 
 ## 监控规则
 - 复核命令: curl -s https://hf-mirror.com/api/models/Doopeworld/Qwen3.8-27B-DSpark-vLLM 取 "sha" 字段 (上游同步看 RadixArk/Qwen3.8-27B-DSpark)。
