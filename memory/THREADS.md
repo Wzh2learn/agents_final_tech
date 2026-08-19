@@ -277,3 +277,12 @@
 - ⑤ Route S 解除阻塞 + 归因更正: token 一直在 GB10 (~/.cache/huggingface/token, whoami wpxxqzh111, 有效至 2026-09-11); 原归因"GB10 无 HF token"有误 — 实为查找路径遗漏 (recipe 仓库在 GitHub 不在 HF: github.com/hasso5703/dgx-spark-qwen38)。**红线: token 只引用路径, 任何场合不打印值, 不入 git**。对照臂恢复执行, 时序不阻塞 Route V 切换
 - ⑥ 生产 ask 46-48s 与 B4 交叉核对结论: **回落常态非退化** — timeout=45 era (08-19 01:00 起 n=791): agent-complete n=124 p50 37.8s (p95 44.6, max 45.2 贴门) / fallback n=509 p50 49.7s (=45s 超时+直连 ~5s) / pure-direct p50 23ms; 预算内完成率 ~20% (124/633) 即 DSpark 加速的直接动机; 停机窗口 (21:10-22:48) kiosk 全回落 46-55s 为 :8006 down 预期副作用
 - ⑦ 镜像口径: 探针与生产同一镜像 dockerproxy.net/timothystewart6/vllm-gb10:v0.27.1-gb10.1 — tag 为 recipe 版本, 内含 vLLM 0.27.2.dev0+g6e448d0ea.d20260815; 切换不换镜像 (详见探针报告)
+
+## [2026-08-20 00:15] DSpark :8006 切换窗口执行 — 4 连败回滚, 生产已恢复
+- 窗口 23:28-00:13: kiosk 暂停(本机 PID 158600 killed)→恢复(00:13, 新 PID 143516); B4 前置标记 2304 行 @23:28 — **窗口内无切换点, B4 统计连续不分段**
+- DSpark 规格启动 4 连败, 同一根因: **KV 预算不足** (maxlen 32768 需 4.6 GiB; 实测可用逐次恶化 2.57→3.09→1.86→0.56 GiB; profiling peak 31.26 GiB vs 原配置 ~27.9)
+- 根因链: ① Route S 下载 (sglang 镜像 3 次尝试 + HF 24GB NVFP4) 灌入 ~28-30GB page cache, CUDA mem_get_info 不计为可用 (reclaim 脚本注释同款机制); ② reclaim 35G×5 次上限只能到 ~50 GiB CUDA free (探针成功窗口为 69.46 GiB 干净 free); ③ DSpark drafter 2.53G + spec graph/activation 增量 ~3.4G 把 KV 挤过红线。下载停止后第 4 次尝试仍败 → page cache 残留层需比 reclaim 更强的驱逐手段 (无 sudo, 无法 drop_caches)
+- 已执行对策(均不足): reclaim SOP ×5 / 下载暂停后重试 / 第 4 次在全部下载结束后启动
+- 回滚: 原参数重起 00:12 READY → health/full 全绿 (137/local/healthy/llm_8004 ok/m2_rag ok) + :8006 快问正常 (冷态 26.9s, thinking off reasoning=null 生效); inspect 存档 dsaprk_switch_inspect_before_8006.json (切换前); 回滚后未做 after 存档 (容器=原配置, 与 22:06 恢复态一致)
+- **重试菜单 (入台账等用户拍板)**: ① 干净窗口重试 — 切换前 24h 无大下载 + 多次 reclaim + 单次启动 (探针先例: 69.46G free 时全规格成功); ② MAXLEN=16384 (KV 需 ~2.3G 可容; 任务卡明示退路; 代价: agent 路 15-19k 长 prompt 截断风险, 需先评估 opencode 实际 context 分布); ③ GMEM 抬升 (SOP 明禁"只许调低不许调高", 需用户特批 + 内存算术); ④ 维持 Route V 探针结论 (GO 数据有效) 待条件成熟再切
+- Route S 下载状态: HF 双权重 **DONE** (NVFP4@52d1adc / DSpark drafter@923ed3a, 坐实 ~/.cache/huggingface/hub); sglang 镜像 docker pull 3 次失败 (unexpected EOF + 502 Bad Gateway, dockerproxy 通道不稳), 重试缓至下次窗口合并
