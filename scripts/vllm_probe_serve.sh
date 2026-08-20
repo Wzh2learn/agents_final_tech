@@ -4,6 +4,10 @@
 # 内存预算: 机器 121GB 统一内存, llama.cpp 生产模型常驻 ~30GB+,
 #   gpu-memory-utilization 默认 0.30 (~39GB); 只许调低不许调高
 #   (0.27 差 0.44GiB 失败; 0.35 为理论上限无余量, 勿用)。
+#   [08-21 窗口 v3 用户授权覆写] DSpark 规格需 KV ≥4.6GiB, GMEM 0.30 预算仅
+#   3.0-3.1G (08-20/21 五连败 2.13-3.08G; 探针 08-19 偶得 5.96G 为贴边侥幸),
+#   提至 0.34 (上限 41.35G; 探针峰值实测 37.07G, 余量 4.2G)。覆写仅适用于
+#   用户批准窗口; 此后 GMEM 上调一律需用户窗口批准 + 内存算术, 默认仍只降不升。
 # 用法:
 #   bash scripts/vllm_probe_serve.sh            # 前台运行 (Ctrl-C 停)
 #   PORT=8006 GMEM=0.30 MAXLEN=32768 bash scripts/vllm_probe_serve.sh
@@ -36,6 +40,10 @@ TOOL_PARSER="${TOOL_PARSER:-qwen3_xml}"
 # CHAT_TEMPLATE: 自定义 jinja 模板路径 (可选); 用于服务器级思考默认值改造,
 # 例: ~/wzh/vllm_cache/qwen38_think_off_default.jinja (默认 thinking off)
 CHAT_TEMPLATE="${CHAT_TEMPLATE:-}"
+# KV_CACHE_MEMORY (可选, 08-21 窗口 v3): 显式钉死 KV 预算 (字节), 绕过 GMEM
+#   预算自动切分的 profiling 噪声轮盘 (vllm#48140 同族 MemFree 口径问题)。
+#   例: KV_CACHE_MEMORY=6442450944 (6.0 GiB, DSpark 硬门槛 4.6G 留余量)。
+KV_CACHE_MEMORY="${KV_CACHE_MEMORY:-}"
 
 if [[ ! -f "$MODEL_DIR/config.json" ]]; then
   echo "model dir not ready: $MODEL_DIR" >&2
@@ -52,6 +60,10 @@ fi
 # DSpark drafter (可选, 2026-08-19): 设置后挂载 /models/drafter 并追加 --speculative-config
 DRAFTER_MOUNT=()
 DRAFTER_VLLM=()
+KV_VLLM=()
+if [[ -n "$KV_CACHE_MEMORY" ]]; then
+  KV_VLLM=(--kv-cache-memory "$KV_CACHE_MEMORY")
+fi
 if [[ -n "${DRAFTER_DIR:-}" ]]; then
   if [[ ! -f "$DRAFTER_DIR/model.safetensors" ]]; then
     echo "drafter dir not ready: $DRAFTER_DIR" >&2
@@ -81,5 +93,6 @@ exec docker run --rm --name "$CONTAINER_NAME" \
   --tool-call-parser "$TOOL_PARSER" \
   --limit-mm-per-prompt '{"image":2}' \
   "${TEMPLATE_VLLM[@]}" \
+  "${KV_VLLM[@]}" \
   "${DRAFTER_VLLM[@]}" \
   --trust-remote-code

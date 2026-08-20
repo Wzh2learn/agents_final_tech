@@ -1,46 +1,52 @@
 # memory/STATE.md
-更新: 2026-08-20 22:35（DSpark 切换窗口预检闸未过当晚放弃, :8006 原配置已恢复; 前情: context 测量定论 → MAXLEN 退路作废）
+更新: 2026-08-21 00:00（DSpark 切换窗口 v3 成功 — :8006 生产已切 DSpark 投机解码）
 
 ## 模式
-守护模式。队列: DSpark 切换窗 08-20 夜已执行 — 预检闸 52.08<60 GiB 未过, 当晚放弃（无二次尝试）, 原配置恢复验证全过; 等用户下一次窗口指令; 17G 内存缺口为待评估开放项。两道闸已载入 SOP:
-纯窗口禁大 I/O + 预检 CUDA free ≥60G 不达标当晚放弃）。等: ① 甲方首轮反馈
-（B4 时钟 08-12 启动, asks ≥100, 天数累计中）② 导师专利时间表对齐（P3 进行中:
-权 10 锚定注记已落 P2; 实施例三供数等 K7）③ NLPCC 2026 workshop 窗口用户人工核实。
+守护模式。本轮: 窗口 v2 闸过启动败 (KV 结构缺口) → 窗口 v3 批准参数变更
+(GMEM 0.34 + kv-cache-memory 6.0G 钉死) 成功, DSpark 在生产。等: ① 甲方首轮
+反馈（B4 时钟 08-12 启动）② 导师专利时间表对齐 ③ B4 数日观察 agent 路完成率
+(DSpark 收益以生产数据为准, 不以探针外推)。
 
 ## Git
-- HEAD: 本收口 commit; 三方对齐 GB10=GitHub=本机（前点 84f54f9）
-- 本轮: SOP FM9 + THREADS + dispatch_log（context 测量定论作废方案 2）+ STATE 覆写
+- HEAD: 本收口 commit; 三方对齐 GB10=GitHub=本机
+- 本轮: 实验文档 (窗口 v2/v3 全程) + SOP FM8 对策③ (sudo drop_caches) + FM10
+  (GMEM 0.34 + KV 钉死 + 行续反斜杠教训) + vllm_probe_serve.sh KV_CACHE_MEMORY
+  透传 + THREADS + dispatch + STATE
 - 冻结工件未动（甲方 docx bc3785cb / 导师 docx 冻结 hash 见台账）
 
-## 本轮战绩（context 测量定论, 批复②）
-- 生产 :8006 回滚后 21.2h n=1920 真实请求: ≤1k 30.3%（=title 调用, 与
-  opencode.log 580 次 1:1）/ 10k–20k 63.2%（m2-qa 多轮）/ >20k 6.6%; 平均
-  prompt 11,719; 累计秩法 p95/p99 均 >20k
-- 历史佐证: 07-28 evidence-verifier 26,090 vs 16,384 硬失败; 07-16 build
-  8,675 vs 8,192 硬失败（16k 上限杀自家负载有真实先例）
-- 判定: 批复规则触发 → **方案 2 (MAXLEN=16384) 正式作废**（决策不修, SOP FM9）;
-  重试 KV 防线 = 预检闸 ≥60G 唯一防线, 不达标或启动再败即当晚放弃（k=5 为延迟优化项非 KV 救援, 切换成功后跑）
-- 附带观察（记账不行动）: message=failed 556/586 会话 ≈ fallback kill 模式;
-  adapter ask 后删会话, DB 不留 27B 时代样本, 分布以 metrics 直方图为准
+## 本轮战绩（DSpark 窗口 v3）
+- v2 教训: 闸过 (drop_caches 后 76.05G) 但 GMEM 0.30 预算结构性不足 (KV 3.08 vs
+  需 4.6 GiB); 回滚两败 = 权重加载吃 MemFree + #48140 机制 → drop_caches 每次
+  启动前必须重做
+- v3 成功: GMEM 0.34 (用户授权覆写, 上限 41.35G) + --kv-cache-memory=6442450944
+  (6.0G 钉死, 跳过 profiling 结构性消除噪声); READY 23:48, SpeculativeConfig
+  (dspark k=7) + KV 42,711 tokens + spec 计数器随请求增长 (drafts 117)
+- 验证组全过: health/full (137/local) / parse 65ms / QA 2/2 / compare 嘉兴民安
+  2 持仓 / route=on / spec 激活
+- **如实数据**: 生产接受率 1.26 tokens/round vs 探针 3.31 (探针高估); agent 路
+  切换点以来完成 0 次 (B4 全 fell_back) — 收益待 B4 数日观察
+- 事故: 首启因脚本行续反斜杠丢失静默失败 (speculative_config=None), spec 计数
+  器为 0 暴露; 教训入 SOP FM10
 
 ## 服务
-- :5050 UP（route=on, timeout=45, embeddings=137, health/full 全绿）; :8004 A3B UP;
-  :8006 27B UP（vllm-probe Up 21h = 回滚后原配置, maxlen 32768 / GMEM 0.30）;
-  :8008 proxy UP; :8007 空闲; :8005 DOWN（退位断言生效）; :8100 UP; :15432 PG UP
-- Loop B: 21:08 周期 overall=PASS（STEP 8 双模型断言 / STEP 9 agent watchdog /
-  STEP 4 dirty_files=1 whitelisted=1 白名单正常）
-- 本机: kiosk 播放中（建议计数 326, 08-20 入账）
+- :5050 UP (route=on, timeout=45, embeddings=137); :8004 A3B UP (M1 热路径锁定);
+  **:8006 = DSpark 生产** (GMEM 0.34 / KV 6.0G 钉死 / k=7 probabilistic /
+  maxlen 32768, 23:48 READY); :8008 proxy UP; :8007 空闲; :8005 DOWN (退位);
+  :8100 UP; :15432 PG UP
+- Loop B: 窗口内周期只记台账; 切换后周期验证恢复态 (STEP 8 模型 ID 断言不受
+  DSpark 影响, served-name 不变)
+- 本机: kiosk 播放中 (PID 23036 controller / 151364 loop_demo)
+- B4: 切换点 **3092 行** (窗口开始 3081); 统计按 3092 分段, DSpark 收益观察窗口开启
 
 ## 质量基线
-- eval: 确定性 16/16 + NF 0/9 + judge 四维 5.0（08-19 v1 冻版基线）
-- pytest: 379 passed / 13 skipped（GB10 口径; 本收口复验见 dispatch_log）
-- docs_lint: GB10 为准 0/0（本机 check[4] = CRLF 已知误报）
+- eval: 确定性 16/16 + NF 0/9 + judge 四维 5.0 (08-19 v1 冻版基线)
+- pytest: 379 passed / 13 skipped (GB10 口径)
+- docs_lint: GB10 为准 0/0 (本机 check[4] = CRLF 已知误报)
 
 ## 下一步
-1. DSpark 重试等用户下一次窗口指令: 先解决 ~17G 缺口（52.08 vs 60G 闸值, 候选: 更强驱逐/窗口内停非必要消费者, 均需批准）; 过闸后纯窗口 + 单发起动; 六步验证
-   + 两项追加（/metrics spec 计数器随请求增长 + 生产负载接受率对照探针 3.31）;
-   回滚 = 原参数重起（/tmp/rollback_launch.sh 与启动脚本在位）
-2. 切换成功后: B4 分段统计 + medium 16 题矩阵 + k=5 A/B（2-3 天后）; K7 PSO
-   实现（实施例三供数 + 论文 B 章 4 前置, 切换后第一周）
-3. Route S: HF 双权重 DONE; sglang 镜像 pull 三连败, 缓至将来合并窗口
-4. 台账 pending: NLPCC 2026 workshop 窗口人工核实; 专利发明人/时间表待导师确认
+1. B4 观察 (≥2-3 天): agent 路完成率 / 回落率 / 接受率趋势; watchdog 守护,
+   异常即按回滚预案 (原参数重起, /tmp/rollback_launch.sh + drop_caches)
+2. 切换稳定后: k=5 A/B + medium 16 题矩阵 (延迟优化项, 非 KV 救援)
+3. 待审项: ask 日期对比产品解析错配; eval 中间行 route 标签异常
+4. 长期台账: vLLM 版本升级评估 (#46932/#49760/#48140, 不动版本)
+5. 缓办: 甲方反馈 → B4 分布分析; K7 PSO (专利实施例三供数); NLPCC workshop 核实

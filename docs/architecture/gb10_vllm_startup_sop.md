@@ -120,6 +120,16 @@ PORT=8006 GMEM=0.30 bash scripts/vllm_probe_serve.sh      # 第二步: 启动探
      杜绝连败 (不恋战)。测量: venv python torch.cuda.mem_get_info 一行 (见 §0)。
 - 验证: 切换窗内无活跃 pull/下载进程; 启动前 CUDA free ≥60 GiB; 启动日志 KV 可用
   ≥ 需求 + 1 GiB 余量 (DSpark 全规格需求 ≈4.6 GiB @maxlen 32768)。
+- 对策 ③ (08-21 窗口 v2/v3 补, 用户批准): **sudo drop_caches = 预检闸前置手段** —
+  每次启动 (含回滚) 前 sync && echo 3 | sudo tee /proc/sys/vm/drop_caches 再量 CUDA free。
+  依据: vllm#48140 (closed not_planned) — GB10 mem_get_info 读 MemFree 不读 MemAvailable,
+  page cache 计为已用; drop_caches 恢复 MemFree 为真实可用。v2 实测: reclaim only
+  52.08G → drop_caches 后 76.05G (buff/cache 24→2G)。权重每加载一次 MemFree 即被吃回,
+  故每次启动前必须重做, 不一劳永逸。
+  授权条目: /etc/sudoers.d/drop-caches, 窄口径 NOPASSWD 仅 tee /proc/sys/vm/drop_caches
+  一项; 窗前 sudo -ln | grep drop_caches 验证, 不生效则不开窗。
+- 误判更正 (08-21 用户确认): ① PID 2104425/2104426 是 :5050 uvicorn workers (父 2104416),
+  **永不杀**; ② zhikuncode 常驻仅 220MiB, 非内存嫌疑。
 
 ### FM9 MAXLEN 缩减退路作废: context 分布实测 p99>20k (2026-08-20, 批复②测量定论)
 - 背景: DSpark 重试菜单方案 2 (MAXLEN 32768→16384, KV 需 ~2.3 GiB) 以"先量 opencode
@@ -139,3 +149,27 @@ PORT=8006 GMEM=0.30 bash scripts/vllm_probe_serve.sh      # 第二步: 启动探
   (4.6 GiB @32768), 降 num_speculative_tokens 省不了 GiB 级缺口 — k=7→5 是延迟/接受率优化项
   (第 6/7 位接受率 14.3%/5.7% 近乎白算), 切换成功后与 medium 矩阵同批跑, 非 KV 救援项。
   GMEM 抬升为 SOP 红线所禁, 不在菜单。
+### FM10 DSpark KV 预算: GMEM 0.30 贴边 + profiling 噪声 → kv-cache-memory 显式钉死 (08-21 窗口 v3, 用户批准)
+- 症状: 08-20/21 五连败 — DSpark 启动 KV 可用 2.57/3.09/1.86/0.56/3.08 GiB vs 需 4.6 GiB;
+  原配置回滚也两败 (2.13/2.47 vs 2.3 + mamba padding 至多 25% 浪费); 而 08-19 探针偶得
+  5.96 GiB 成功 — 同系统同参数 KV 漂 2.88G, 启动 = 轮盘。
+- 根因: ① GMEM 0.30 预算 (36.49G) − 权重 28.5 − peak ~2.5-3.3 − graph ~0.2 ≈ KV 3.0±0.5G,
+  对 DSpark 需求 4.6G 结构性不足; ② profiling peak 受 MemFree 口径噪声影响 (vllm#48140 同族)
+  ±1.5G; ③ mamba padding layers 至多 25% KV 浪费。
+- 对策 (窗口 v3 用户批准, 两项变更):
+  ① GMEM 0.30 → **0.34** (上限 41.35G; 探针峰值实测 37.07G, 余量 4.2G)。"只许调低不许调高"
+     此后仅对无投机配置生效; GMEM 上调一律需用户窗口批准 + 内存算术。
+  ② **--kv-cache-memory=6442450944** (6.0 GiB 显式钉死, ≥4.6G 硬门槛; vLLM 报错自带建议参数,
+     探针成功值 5.24G 留余量)。vllm_probe_serve.sh 以 KV_CACHE_MEMORY 环境变量透传。
+     机制: 钉死即跳过 memory profiling (启动日志 "skipped memory profiling"),
+     结构性消除 profiling 噪声漂移 — 2.88G 漂移之谜的机制解答。
+- 验证: 启动日志三查 — SpeculativeConfig(method='dspark'...) 存在 + "reserved 6.0 GiB ...
+  kv_cache_memory_bytes" + GPU KV cache size 42,711 tokens ≥32768; 服务就绪后 /metrics
+  spec_decode 计数器随请求增长 (计数器为 0 = 投机配置没进容器, 一票否决)。
+- 教训 (窗口 v3 首启失败): vllm_probe_serve.sh 编辑丢失 exec 块行续反斜杠 → docker run
+  命令截断, speculative-config/kv-cache-memory/trust-remote-code 全部丢失, 容器以
+  "GMEM 0.34 原配置"静默运行, 无报错。暴露手段 = /metrics spec_decode 计数器为 0。
+  此后凡改启动脚本: 启动后第一件事查引擎配置行 (Initializing a V1 LLM engine ...
+  speculative_config=...) 与 cache_config_info, 不只看端口 200。
+- 观察项: 生产负载接受率 1.26 tokens/round vs 探针 3.31 (逐位 51/34/19/10/7/3/2%) —
+  xhigh reasoning + 工具 XML 流量接受率显著低于探针基准集; agent 路完成率以 B4 观察为准。

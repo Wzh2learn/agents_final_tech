@@ -827,3 +827,6 @@ echo dispatch_log updated
 [08-20 21:50] #CTX-MEASUREMENT opencode context 分布测量定论: 生产 :8006 回滚后 21.2h n=1920 真实请求 — ≤1k 30.3% (title 调用 1:1) / 10k–20k 63.2% (m2-qa 多轮) / >20k 6.6%; p95/p99 均 >20k; 07-28 evidence-verifier 26k vs 16k 硬失败历史佐证 → 按批复规则方案 2 (MAXLEN=16384) 正式作废, SOP FM9 落地; 重试 KV 杠杆序 = 预检闸 ≥60G → k=7→5 A/B → 当晚放弃
 [08-20 22:35] #AUX-CORRECTIONS 辅助线抽验更正入账×2: ① pytest_latest.txt 陈旧(18 子集)→收口全量重定向已执行 ② k=7→5 定位更正=延迟/接受率优化项非 KV 救援(KV 需求由 maxlen×seqs 决定), 重试窗唯一防线=60G 预检闸, 不过闸或启动再败即当晚放弃; SOP FM9/THREADS/STATE 误述同批更正
 [08-20 22:35] #DSPARK-WINDOW-ABORT DSpark 切换窗口预检闸未过当晚放弃: CUDA free 52.08G < 60G (规则: 不二次尝试); 原配置恢复 READY 22:32 + health/full 全绿 + canary PASS; kiosk 恢复 + B4 间隙 3064→3065 无切换点; 52 vs 69.46G 缺口 ~17G 记开放问题待明日评估
+[08-21 00:00] #DSPARK-V2-ABORT 窗口 v2 闸过(76.05G)启动败: KV 3.08 vs 需 4.6 GiB; 回滚两败(权重加载吃 MemFree, #48140 机制再现); drop_caches 须每次启动前重做入账
+
+[08-21 00:00] #DSPARK-V3-SUCCESS 窗口 v3 成功: GMEM 0.34 + kv-cache-memory 6.0G 钉死(跳 profiling); 首启因脚本行续反斜杠丢失静默失败, spec 计数器为 0 暴露, 修复后 READY 23:48; 验证组全过 + 生产接受率 1.26 vs 探针 3.31 如实入账 + agent 完成 0 次待 B4 观察; B4 切换点 3092

@@ -318,3 +318,21 @@
 - **开放问题 (明日评估, 今晚不擅动)**: 52.08 vs 探针成功窗 69.46 GiB 缺口 ~17G — reclaim 已执行, 候选方向: 更强驱逐手段 (无 sudo 无法 drop_caches) / 窗口内暂停非必要内存消费者 (zhikuncode docker 等, 需用户批准) / 实测各组件常驻内存定位占用源
 - 存档路径 (GB10 本地, 不入 git): logs/graph/eval/dspark_switch_inspect_before_8006_0821.json + dsark_switch_inspect_after_rollback_8006_0821.json; 启动日志 /tmp/rollback_0821.log
 - 重试: 等用户下一次窗口指令; 闸规则不变 (纯窗口 + reclaim 后 ≥60G + 单发起动 + 不达标即弃)
+## [2026-08-21 00:00] DSpark 切换窗口 v2/v3 全程 — v3 成功, DSpark 在生产
+### v2 (~22:5x): 闸过启动败 + 回滚两败 (当晚放弃)
+- drop_caches 首次实战: buff/cache 24→2G, CUDA free 76.05G ≥60G 闸通过 (sudoers.d 窄授权生效)
+- DSpark 启动败: KV 3.08 vs 需 4.6 GiB (GMEM 0.30 预算结构性不足 + padding 25% 浪费)
+- 回滚两败 (2.13/2.47 vs 2.3): 权重加载吃回 MemFree → vLLM 预算截断 (#48140 机制) → **drop_caches 每次启动前必须重做**
+- 误判更正入账: :5050 uvicorn workers (2104425/2104426) 永不杀; zhikuncode 220MiB 非嫌疑
+### v3 (23:2x-23:5x): 批准参数变更 GMEM 0.34 + kv-cache-memory 6.0G 钉死 → 成功
+- 首启失败 = 脚本编辑丢行续反斜杠, speculative_config=None 静默原配置运行; /metrics spec 计数器为 0 暴露 (追加验证①立功); 修复重起 23:41:20 → READY 23:48:08
+- 引擎核验: SpeculativeConfig(dspark, /models/drafter, k=7) + trust_remote_code=True + reserved 6.0G KV (skipped profiling) + KV 42,711 tokens
+- 验证组全过: health/full (137/local) / parse 冒烟 65ms / QA canary 2/2 (回落 direct 答案正确) / compare 嘉兴民安 2 持仓 / route=on timeout=45 / spec 计数器随请求增长 (drafts 117)
+- **生产接受率 1.26 tokens/round vs 探针 3.31** (逐位 51/34/19/10/7/3/2%) — 探针高估生产收益, 如实入账
+- **agent 路完成切换点以来 0 次** (B4 权威, 全 fell_back); eval 中间行 route=agent 标签 (35850/38677ms) 与 B4/报告 JSON 矛盾, 以 B4 为准, 异常记账待审
+- B4 分段: 窗口开始 3081 → 切换点 **3092**; kiosk 恢复 (PID 23036/151364)
+- 存档: inspect before_8006_0821v2 (0 spec) / after_dspark_8006_0821v3 (4 spec) 配对; 实验文档 docs/experiments/2026-08-20_dspark_switch_windows_v2v3.md; SOP FM8 对策③ + FM10
+### 长期台账
+- vLLM 版本升级评估: #46932 / #49760 / #48140 三项 issue 入账, 今晚不动版本
+- 待审: ask 自然语言日期对比产品解析错配 (嘉兴民安→复熙, 规则路径与切换无关)
+- 观察: agent 路完成率以 B4 数日数据为准 (watchdog 守护); k=5 A/B + medium 16 题矩阵仍排切换稳定后
