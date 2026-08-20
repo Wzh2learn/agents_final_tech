@@ -837,3 +837,7 @@ echo dispatch_log updated
 [08-21 00:50] #N1 B4 interim+24h 布防: 真实 7 条全回落, 3098 重分类测试污染; M1_B4_LOG_PATH+conftest 隔离修复(验证过); 接受率 1.33; cron 23:50; b4_checkpoint.py 入库
 [08-21 01:00] #N2 PSO 落点①v0: 验证门 PASS, 分离度 1.2560->1.4326(+14.06%), 5 轮收敛; research/pso/ 独立 venv; 回填专利 5.3.3/5.5.5
 [08-21 01:45] #N3 C3 4B 探针: off 14/16 + xhigh 13/16 → NO-GO 双档; 4B 思考负增益与 q08 反转洞察入账; 预算门 36G→GO, :8007 用毕即停
+[08-21 01:05] #D1 B4 checkpoint interim 定论: 真实 9/9 全超时回落, agent 完成 0, content=null 0, 接受率累计 1.29/段 1.18 → 观察档(归因明确); 23:50 cron 终判
+[08-21 01:50] #D2 接受率分段: agent 路 1.09-1.29 / XML-xhigh 1.517 / freeform 1.76, 全段均匀低无 >2.5 段, 探针 3.31 离群; kiosk 背景窗 0 流量; d2_segments.py 入库
+[08-21 01:52] #D3 k=5 A/B 方案就绪(只方案不执行): 末两位合计 5-7% 判据边际成立, 净估计 +3-8%, 推荐度中低, 等 :8006 窗口
+[08-21 01:55] #D4 DFlash 探针臂 NO-GO: D2 判据后半不成立 + rwmacy drafter 需 fork(stock 下 24%) + B70 调优; DFlash2 PR#52816 open 盯梢入 ledger
