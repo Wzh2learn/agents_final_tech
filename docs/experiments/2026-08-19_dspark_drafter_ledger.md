@@ -48,3 +48,9 @@
 - **DFlash / DFlash2** = 同技术族内**相互独立**的方法, 不得与 DSpark 混用或互相指代。
 - 证据两条: ① 生产镜像 vLLM 源码 speculative.py L62-63 将 dspark/dflash 并列注册为不同 method; ② 上游 issue vllm-project/vllm#52816 对两者明确区分。
 - 口径落点: 2026-08-21_patent_full_revised.md 全文统一 DSpark (§3.2.7 起草注记 + 附录 B 术语注记), 该专利件不出现 DFlash 指代本项目方法的情形。
+
+## DFlash / DFlash2 盯梢 (2026-08-21, D4 备忘配套)
+
+- **DFlash2** (vllm-project/vllm PR #52816 "[Spec Decode] DFlash2: local convolution + candidate selector"): 08-21 GitHub API 实测 state=open / merged=false (updated 08-20)。无公开权重。**盯梢**: 合入 + 权重出现 → 重开探针评估（与 vLLM 版本升级长期台账联动）。
+- **rwmacy/qwen3.8-27b-dflash-drafter-fp8-b70** (sha 94f8b9cc, 08-16, Apache-2.0): 现存唯一 27B DFlash drafter, RadixArk DSpark drafter warm-start 微调; **不可直接探针**——README 自证需 rmacy/vllm fork 的 dflash 采样 off-by-one 修复, stock vLLM 下接受率崩至 ~24%; Intel Arc B70 调优。D4 结论 NO-GO (2026-08-21_dflash_probe_decision_memo.md)。
+- 复核命令: `curl -s https://api.github.com/repos/vllm-project/vllm/pulls/52816`（state/merged）; hf-mirror API 查官方 Qwen3.8 DFlash drafter 新仓库。

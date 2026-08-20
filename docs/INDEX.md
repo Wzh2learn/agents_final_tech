@@ -95,6 +95,9 @@
 | `2026-08-21_b4_switch_checkpoint_interim.md` | 活跃 | N1 B4 切换点 interim: 真实流量 7 条全 45-50s 回落, pytest 污染发现+修复(M1_B4_LOG_PATH+conftest), 生产接受率 1.33, 24h checkpoint cron 23:50 布防 | 2026-08-21 |
 | `2026-08-21_pso_weight_search_v0.md` | 活跃 | N2 PSO 落点①v0 首批实测: 验证门 PASS, 分离度 1.2560→1.4326(+14.06%), 5 轮收敛, 均值目标压缩低频缺陷的取舍如实入账; 专利实施例三供数激活 | 2026-08-21 |
 | `2026-08-21_small_model_matrix_c3.md` | 活跃 | N3 小模型矩阵 C3 4B 探针: off 14/16 / xhigh 13/16 → NO-GO 双档; 4B 思考负增益 + q08 掩码题 4B 双档全过洞察 | 2026-08-21 |
+| `2026-08-21_d2_acceptance_segmentation.md` | 活跃 | D2 DSpark 接受率流量分段: 生产 agent 路 1.09-1.29 / XML-xhigh 1.517 / freeform 1.76, 全段均匀低无 >2.5 段; 探针 3.31 为 thinking-off 离群值; sidecar 轨迹是接受率洼地 | 2026-08-21 |
+| `2026-08-21_dspark_k5_ab_plan.md` | 待批 | D3 k=7→5 A/B 方案(只方案不执行): 末两位 4.2%/2.6% 判据边际成立, 净估计 +3-8%, 推荐度中低, 需 :8006 重启窗口 | 2026-08-21 |
+| `2026-08-21_dflash_probe_decision_memo.md` | 终稿 | D4 DFlash 探针臂 NO-GO: D2 判据后半不成立 + rwmacy drafter 需 rmacy/vllm fork(stock 下 24%) + B70 调优; DFlash2 PR#52816 盯梢 | 2026-08-21 |
 | `2026-08-18_pso_landing_proposal.md` | 活跃 | K5 PSO 落点一页方案: 权重分配 + 最小判别题集, 粒子编码/fitness/约束三要素 + 专利权利要求对应 | 2026-08-18 |
 | `2026-08-18_harnesseval_alignment.md` | 活跃 | K1.5 HarnessEval 对标: 四阶段协议证据提取 + evidence tree/Skill Library 提取 + 与 run_eval.sh/K2 检查点树逐项对照表 | 2026-08-18 |
 | `2026-08-15_demo_video_v2/steps.md` | 活跃 | 演示视频 v2（3:48）分段清单；视频文件不入 git（scp 取回，路径见台账） | 2026-08-16 |
