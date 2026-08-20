@@ -336,3 +336,4 @@
 - vLLM 版本升级评估: #46932 / #49760 / #48140 三项 issue 入账, 今晚不动版本
 - 待审: ask 自然语言日期对比产品解析错配 (嘉兴民安→复熙, 规则路径与切换无关)
 - 观察: agent 路完成率以 B4 数日数据为准 (watchdog 守护); k=5 A/B + medium 16 题矩阵仍排切换稳定后
+[08-21 01:30] #NIGHT-LOOP-CLOSEOUT ① P4 专利完整修订版待用户终审 (docs/experiments/2026-08-21_patent_full_revised.md, 权 7-12 + 权 10 双锚定 + PSO 实测回填) ② B4 污染修复: M1_B4_LOG_PATH env 覆盖 + conftest 隔离 (生产行为不变无需重启); 24h checkpoint cron 一次性 23:50 (跑完人工删除); 真实 agent 完成维持 0, 接受率 1.33 ③ PSO 落点①v0: 分离度 +14.06%, research/pso/ 独立 venv ④ docs/33 §8 状态对齐

@@ -1,4 +1,15 @@
 """Test configuration: auto-skip tests with missing runtime dependencies."""
+import os
+import tempfile
+
+# N1 (2026-08-21): redirect B4 structured ask-log to scratch for in-process test traffic,
+# so TestClient calls never pollute production B4 stats (logs/graph/b4_ask_log.jsonl).
+# Must run before app modules are imported (m2.py reads the env at import time).
+os.environ.setdefault(
+    "M1_B4_LOG_PATH",
+    os.path.join(tempfile.gettempdir(), "b4_ask_log_tests.jsonl"),
+)
+
 import importlib
 import pytest
 import shutil

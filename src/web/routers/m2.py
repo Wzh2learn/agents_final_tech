@@ -43,7 +43,10 @@ _ADMIN_TOKEN: Optional[str] = os.environ.get("M1_ADMIN_TOKEN") or None
 
 
 # --- B4 观察窗口结构化日志 (S1, 2026-08-12; 发送后 ≥100 ask / ≥3 天统计) ---
-_B4_LOG = os.path.join(
+# M1_B4_LOG_PATH env override: test processes (conftest) point this at a scratch file so
+# TestClient traffic does not pollute production B4 stats (2026-08-21 N1 incident: pytest
+# rows leaked into lines 3097-3100). Production has no such env var -> unchanged, no restart.
+_B4_LOG = os.environ.get("M1_B4_LOG_PATH") or os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))),
     "logs", "graph", "b4_ask_log.jsonl",
 )

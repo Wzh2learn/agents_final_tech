@@ -832,3 +832,7 @@ echo dispatch_log updated
 [08-21 00:00] #DSPARK-V2-ABORT 窗口 v2 闸过(76.05G)启动败: KV 3.08 vs 需 4.6 GiB; 回滚两败(权重加载吃 MemFree, #48140 机制再现); drop_caches 须每次启动前重做入账
 
 [08-21 00:00] #DSPARK-V3-SUCCESS 窗口 v3 成功: GMEM 0.34 + kv-cache-memory 6.0G 钉死(跳 profiling); 首启因脚本行续反斜杠丢失静默失败, spec 计数器为 0 暴露, 修复后 READY 23:48; 验证组全过 + 生产接受率 1.26 vs 探针 3.31 如实入账 + agent 完成 0 次待 B4 观察; B4 切换点 3092
+[08-21 00:35] #PATENT-P4 完整修订版交底书完成(本机制稿): 2026-08-21_patent_full_revised.md 724行, 权1-6保留+权7-12新增(权10双要素锚定), 实施例五+PSO供数占位, 匿名化扫描0命中, DSpark/DFlash口径入台账; 待用户终审
+[08-21 00:45] #N0 实况对账: K2 v1 已交付状态对齐(docs/33 漂移已修); K3 注入器就绪批跑未启; C1/C2 NO-GO 入状态列
+[08-21 00:50] #N1 B4 interim+24h 布防: 真实 7 条全回落, 3098 重分类测试污染; M1_B4_LOG_PATH+conftest 隔离修复(验证过); 接受率 1.33; cron 23:50; b4_checkpoint.py 入库
+[08-21 01:00] #N2 PSO 落点①v0: 验证门 PASS, 分离度 1.2560->1.4326(+14.06%), 5 轮收敛; research/pso/ 独立 venv; 回填专利 5.3.3/5.5.5
