@@ -42,3 +42,9 @@
 - RadixArk/Qwen3.8-27B-DSpark 上游 head: 85ef153 (08-16, 本项目下载时 latest)。
 - Route S recipe (github.com/hasso5703/dgx-spark-qwen38, install.sh 2026-08-15 pin) 用 DRAFT_REV=923ed3a — 早于上游 head 85ef153; 两臂 drafter revision 不同, 对照报告须注明 (若 Route S 接受率与本臂不可直接比, 此为干扰因子之一)。
 - 监控: 上游若出 v2 drafter (Koopah 先例 +6.8%), 三处 revision 一并更新评估。
+## 术语口径: DSpark vs DFlash (2026-08-21, 专利修订版同步)
+
+- **DSpark** = DeepSeek 半自回归投机解码 (本项目生产 :8006 采用, drafter 验证目标模型输出, 无损)。
+- **DFlash / DFlash2** = 同技术族内**相互独立**的方法, 不得与 DSpark 混用或互相指代。
+- 证据两条: ① 生产镜像 vLLM 源码 speculative.py L62-63 将 dspark/dflash 并列注册为不同 method; ② 上游 issue vllm-project/vllm#52816 对两者明确区分。
+- 口径落点: 2026-08-21_patent_full_revised.md 全文统一 DSpark (§3.2.7 起草注记 + 附录 B 术语注记), 该专利件不出现 DFlash 指代本项目方法的情形。
