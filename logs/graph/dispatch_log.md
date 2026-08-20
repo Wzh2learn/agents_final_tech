@@ -798,3 +798,6 @@ echo dispatch_log updated
 [08-20 00:13] #DSPARK-ROLLBACK 回滚原参数: 00:12 READY + health/full 全绿 (137/local) + 快问正常 (冷 26.9s, thinking off 生效); kiosk 恢复 (PID 143516); B4 无切换点统计连续; 重试菜单四项入 THREADS 等拍板; Route S HF 权重已 DONE, sglang 镜像 3 次 pull 失败缓议
 [08-20 00:31] #LOOP-B-FLIP overall FAIL -> PASS (head=565b425; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-20 00:41] #PATENT-SUPPLEMENT 专利补充专项 P1+P2 完成: 映射表 12 条(权利要求级 8/实施例级 4/背景级 3, K5 §2 六行并入, 九点附件未随卡到达→独立推导+对账注记) + 补充建议书(从属权利要求 6 条 + 实施例五金融文档长流程全抽象化 + 实施例三 PSO 供数计划映射表 + 背景引用 GTA-2/HarnessEval/FORCE-Bench/RAGAS系/dsh + 匿名化检查表自检 PASS: 甲方实体零进入); PSO 供数依赖 K7 实现(排切换后第一周, docs/33 §8 提优先级); P3 评审流等导师+用户
+[08-20 21:14] #DSPARK-RETRY-APPROVAL 用户批复: 方案 1 干净窗口重试(明晚候选) + 两道闸入 SOP (纯窗口禁下载 / 预检 CUDA free≥60G 不达标当晚放弃); 方案 2 后备先量 opencode context p99; 方案 3 不批; 时序教训入账(下载与切换同窗=失误更正)
+[08-20 21:14] #B4-2357-SOLVED 23:56-58 窗内 4 条 B4 查明 = Loop B STEP 5 QA canary (23:52 周期), 四题与 CANARY_IDS 逐一吻合, 非 kiosk/浏览器残留; kiosk 暂停有效; 悬案 CLOSED
+[08-20 21:14] #PATENT-P3 P3 启动: 权 10 措辞锚定"确定性规则工件+回归验证门"防 Mem0/Letta 在先技术(锚定注记入 P2); 实施例三供数等 K7(切换后第一周, 与 DSpark 重试互不阻塞); 发明人/时间表待用户与导师确认
