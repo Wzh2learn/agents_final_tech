@@ -310,3 +310,11 @@
 - 抽验结论: 三方 d778521 实测对齐; 分布结论 live 复验稳健 (n=1964, >20k 6.57%, p95/p99>20k 复算成立); Loop B 双周期 PASS; FM9/台账/dispatch 落位确认
 - ① **pytest_latest.txt 工件陈旧** (内容为 18 passed 子集) → 本轮起每次收口将 GB10 全量 pytest 结果重定向入 logs/graph/pytest_latest.txt (GB10 本地工件, 不入 git, 与 benchmark_run.log 同级); 本轮已执行
 - ② **k=7→5 定位更正**: 是延迟/接受率优化项, **非 KV 救援项** — 4.6 GiB KV 需求由 maxlen×max_num_seqs 决定, 降 k 省不了 GiB 级缺口; 重试窗唯一防线 = 60G 预检闸, 不过闸或启动再败即当晚放弃; k=5 A/B 留作切换成功后与 medium 矩阵同批跑。本日 THREADS/SOP FM9/STATE 中"KV 杠杆序"误述已同批更正
+## [2026-08-20 22:35] DSpark :8006 切换窗口 (08-20 夜, 用户批准) — 预检闸未过, 当晚放弃, 原配置已恢复
+- 窗口 22:16-22:35: kiosk 暂停 (本机 PID 143516/150708 killed, :5051 释放) → B4 前置标记 3064 行 → 切换前 inspect 存档 → docker stop (--rm 移除) → reclaim (buff/cache 降至 22G) → **预检闸: CUDA free 52.08 GiB < 60 GiB → 当晚放弃 (批复规则: 不二次尝试, 不恋战)**
+- 恢复: 原参数重起 (/tmp/rollback_launch.sh) 22:23 启动 → 22:32 READY (编译缓存热; 权重 66 分片 @2.3s/片 + profiling) → 验证全过: /v1/models qwen38-27b-fp8 maxlen 32768 无 spec / health/full 全绿 (137/local/healthy) / canary adv_ocr_meta PASS (B4 22:34:41 direct fell_back=true 45162ms = 45s 超时+直连, 当前常态模式) / inspect 存档配对 (before 17797B / after-rollback 17796B, 均 0 处 speculative-config)
+- kiosk 恢复 (PID 159568 controller + 159996 loop_demo, :5051 OK); B4 窗口间隙 3064→3065 (仅 canary 1 条, kiosk 零流量, 暂停有效); **无切换点, B4 统计连续不分段**
+- Loop B: 22:15 周期 PASS (恰在停止前); 窗口内无周期触发, 无翻转; ~22:45 周期复验恢复态
+- **开放问题 (明日评估, 今晚不擅动)**: 52.08 vs 探针成功窗 69.46 GiB 缺口 ~17G — reclaim 已执行, 候选方向: 更强驱逐手段 (无 sudo 无法 drop_caches) / 窗口内暂停非必要内存消费者 (zhikuncode docker 等, 需用户批准) / 实测各组件常驻内存定位占用源
+- 存档路径 (GB10 本地, 不入 git): logs/graph/eval/dspark_switch_inspect_before_8006_0821.json + dsark_switch_inspect_after_rollback_8006_0821.json; 启动日志 /tmp/rollback_0821.log
+- 重试: 等用户下一次窗口指令; 闸规则不变 (纯窗口 + reclaim 后 ≥60G + 单发起动 + 不达标即弃)
