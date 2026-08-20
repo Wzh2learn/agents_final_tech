@@ -94,6 +94,7 @@
 | `2026-08-21_patent_full_revised.md` | 活跃 | 专利专项 P4 完整修订版交底书: 权1-6保留+权7-12新增(权10锚定确定性规则工件+回归验证门), 实施例五全抽象化+基线回填, PSO 实测回填(1.2560→1.4326), 附录A对照19条+附录B匿名化0命中+导师呈递说明; 待用户终审后发导师 | 2026-08-21 |
 | `2026-08-21_b4_switch_checkpoint_interim.md` | 活跃 | N1 B4 切换点 interim: 真实流量 7 条全 45-50s 回落, pytest 污染发现+修复(M1_B4_LOG_PATH+conftest), 生产接受率 1.33, 24h checkpoint cron 23:50 布防 | 2026-08-21 |
 | `2026-08-21_pso_weight_search_v0.md` | 活跃 | N2 PSO 落点①v0 首批实测: 验证门 PASS, 分离度 1.2560→1.4326(+14.06%), 5 轮收敛, 均值目标压缩低频缺陷的取舍如实入账; 专利实施例三供数激活 | 2026-08-21 |
+| `2026-08-21_small_model_matrix_c3.md` | 活跃 | N3 小模型矩阵 C3 4B 探针: off 14/16 / xhigh 13/16 → NO-GO 双档; 4B 思考负增益 + q08 掩码题 4B 双档全过洞察 | 2026-08-21 |
 | `2026-08-18_pso_landing_proposal.md` | 活跃 | K5 PSO 落点一页方案: 权重分配 + 最小判别题集, 粒子编码/fitness/约束三要素 + 专利权利要求对应 | 2026-08-18 |
 | `2026-08-18_harnesseval_alignment.md` | 活跃 | K1.5 HarnessEval 对标: 四阶段协议证据提取 + evidence tree/Skill Library 提取 + 与 run_eval.sh/K2 检查点树逐项对照表 | 2026-08-18 |
 | `2026-08-15_demo_video_v2/steps.md` | 活跃 | 演示视频 v2（3:48）分段清单；视频文件不入 git（scp 取回，路径见台账） | 2026-08-16 |
