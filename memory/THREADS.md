@@ -305,4 +305,8 @@
   ③ 历史错误: 07-28 evidence-verifier 26,090 tokens vs 16,384 上限硬失败; 07-16 build 8,675 vs 8,192 硬失败; DB 残留旧时代样本 (thinking off) build max 19.1k
 - **判定: p99 > 16k (实为 >20k) → 方案 2 正式作废**, 记 SOP FM9; [08-20 00:15] 重试菜单 ② 与批复 21:14 ② "待执行"  hereby CLOSED
 - 附带观察 (记账不行动): a) message=failed 556 ≈ 每会话 1 次失败, 与 fallback kill 模式一致 (B4 回落主导的旁证), 非新问题; b) 现时代会话被 adapter ask 后删除, DB 不留 27B 时代样本, 分布测量以 metrics 直方图为准
-- DSpark 重试 (08-21 晚候选) KV 杠杆序确认: 预检闸 ≥60G (不达标当晚放弃) → 若过闸仍差 KV 则 k=7→5 A/B → MAXLEN 缩减不再列入菜单
+- DSpark 重试 (08-21 晚候选) KV 防线确认 (08-20 辅助线更正): **预检闸 ≥60G 为唯一防线** — KV 需求由 maxlen×seqs 决定, 降 k 省不了 GiB 级缺口; 不过闸或启动再败即当晚放弃; k=7→5 A/B 定位更正为延迟/接受率优化项 (切换成功后与 medium 矩阵同批); MAXLEN 缩减不再列入菜单
+## [2026-08-20 22:35] 辅助线抽验更正入账 (两项)
+- 抽验结论: 三方 d778521 实测对齐; 分布结论 live 复验稳健 (n=1964, >20k 6.57%, p95/p99>20k 复算成立); Loop B 双周期 PASS; FM9/台账/dispatch 落位确认
+- ① **pytest_latest.txt 工件陈旧** (内容为 18 passed 子集) → 本轮起每次收口将 GB10 全量 pytest 结果重定向入 logs/graph/pytest_latest.txt (GB10 本地工件, 不入 git, 与 benchmark_run.log 同级); 本轮已执行
+- ② **k=7→5 定位更正**: 是延迟/接受率优化项, **非 KV 救援项** — 4.6 GiB KV 需求由 maxlen×max_num_seqs 决定, 降 k 省不了 GiB 级缺口; 重试窗唯一防线 = 60G 预检闸, 不过闸或启动再败即当晚放弃; k=5 A/B 留作切换成功后与 medium 矩阵同批跑。本日 THREADS/SOP FM9/STATE 中"KV 杠杆序"误述已同批更正

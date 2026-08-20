@@ -825,3 +825,4 @@ echo dispatch_log updated
 [08-20 21:14] #PATENT-P3 P3 启动: 权 10 措辞锚定"确定性规则工件+回归验证门"防 Mem0/Letta 在先技术(锚定注记入 P2); 实施例三供数等 K7(切换后第一周, 与 DSpark 重试互不阻塞); 发明人/时间表待用户与导师确认
 
 [08-20 21:50] #CTX-MEASUREMENT opencode context 分布测量定论: 生产 :8006 回滚后 21.2h n=1920 真实请求 — ≤1k 30.3% (title 调用 1:1) / 10k–20k 63.2% (m2-qa 多轮) / >20k 6.6%; p95/p99 均 >20k; 07-28 evidence-verifier 26k vs 16k 硬失败历史佐证 → 按批复规则方案 2 (MAXLEN=16384) 正式作废, SOP FM9 落地; 重试 KV 杠杆序 = 预检闸 ≥60G → k=7→5 A/B → 当晚放弃
+[08-20 22:35] #AUX-CORRECTIONS 辅助线抽验更正入账×2: ① pytest_latest.txt 陈旧(18 子集)→收口全量重定向已执行 ② k=7→5 定位更正=延迟/接受率优化项非 KV 救援(KV 需求由 maxlen×seqs 决定), 重试窗唯一防线=60G 预检闸, 不过闸或启动再败即当晚放弃; SOP FM9/THREADS/STATE 误述同批更正

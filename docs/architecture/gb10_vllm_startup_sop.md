@@ -134,6 +134,8 @@ PORT=8006 GMEM=0.30 bash scripts/vllm_probe_serve.sh      # 第二步: 启动探
   DB 残留旧时代样本 (thinking off): build 子 agent max 19.1k。
 - 结论: p99 > 16k (实为 p99 > 20k) → **方案 2 作废** (批复规则触发, 决策不修)。
   即使 24576 仍会切掉 20-26k 尾部。MAXLEN 不是重试窗可用的 KV 节省杠杆。
-- 剩余 KV 余量杠杆 (优先序): ① 预检闸 (FM8②, ≥60 GiB, 不达标当晚放弃)
-  ② num_speculative_tokens 7→5 A/B (台账项, k=7 第 6/7 位接受率 14.3%/5.7% 近乎白算)
-  ③ 当晚放弃。GMEM 抬升为 SOP 红线所禁, 不在菜单。
+- 重试窗 KV 防线 (08-20 辅助线定位更正): **唯一防线 = 预检闸** (FM8②, reclaim 后 CUDA free ≥60 GiB,
+  不达标当晚放弃; 过闸后启动再败同样当晚放弃, 不连战)。KV 需求由 maxlen×max_num_seqs 决定
+  (4.6 GiB @32768), 降 num_speculative_tokens 省不了 GiB 级缺口 — k=7→5 是延迟/接受率优化项
+  (第 6/7 位接受率 14.3%/5.7% 近乎白算), 切换成功后与 medium 矩阵同批跑, 非 KV 救援项。
+  GMEM 抬升为 SOP 红线所禁, 不在菜单。
