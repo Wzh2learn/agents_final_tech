@@ -798,3 +798,13 @@ echo dispatch_log updated
 [08-20 00:13] #DSPARK-ROLLBACK 回滚原参数: 00:12 READY + health/full 全绿 (137/local) + 快问正常 (冷 26.9s, thinking off 生效); kiosk 恢复 (PID 143516); B4 无切换点统计连续; 重试菜单四项入 THREADS 等拍板; Route S HF 权重已 DONE, sglang 镜像 3 次 pull 失败缓议
 [08-20 00:31] #LOOP-B-FLIP overall FAIL -> PASS (head=565b425; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-20 00:41] #PATENT-SUPPLEMENT 专利补充专项 P1+P2 完成: 映射表 12 条(权利要求级 8/实施例级 4/背景级 3, K5 §2 六行并入, 九点附件未随卡到达→独立推导+对账注记) + 补充建议书(从属权利要求 6 条 + 实施例五金融文档长流程全抽象化 + 实施例三 PSO 供数计划映射表 + 背景引用 GTA-2/HarnessEval/FORCE-Bench/RAGAS系/dsh + 匿名化检查表自检 PASS: 甲方实体零进入); PSO 供数依赖 K7 实现(排切换后第一周, docs/33 §8 提优先级); P3 评审流等导师+用户
+[08-20 03:18] #LOOP-B-FLIP overall PASS -> FAIL (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-20 04:26] #LOOP-B-FLIP overall FAIL -> PASS (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-20 06:05] #LOOP-B-FLIP overall PASS -> FAIL (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-20 06:38] #LOOP-B-FLIP overall FAIL -> PASS (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-20 11:40] #LOOP-B-FLIP overall PASS -> FAIL (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-20 12:13] #LOOP-B-FLIP overall FAIL -> PASS (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-20 12:47] #LOOP-B-FLIP overall PASS -> FAIL (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-20 13:20] #LOOP-B-FLIP overall FAIL -> PASS (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-20 17:48] #LOOP-B-FLIP overall PASS -> FAIL (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-20 18:21] #LOOP-B-FLIP overall FAIL -> PASS (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
