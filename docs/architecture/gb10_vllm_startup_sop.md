@@ -120,3 +120,20 @@ PORT=8006 GMEM=0.30 bash scripts/vllm_probe_serve.sh      # 第二步: 启动探
      杜绝连败 (不恋战)。测量: venv python torch.cuda.mem_get_info 一行 (见 §0)。
 - 验证: 切换窗内无活跃 pull/下载进程; 启动前 CUDA free ≥60 GiB; 启动日志 KV 可用
   ≥ 需求 + 1 GiB 余量 (DSpark 全规格需求 ≈4.6 GiB @maxlen 32768)。
+
+### FM9 MAXLEN 缩减退路作废: context 分布实测 p99>20k (2026-08-20, 批复②测量定论)
+- 背景: DSpark 重试菜单方案 2 (MAXLEN 32768→16384, KV 需 ~2.3 GiB) 以"先量 opencode
+  实际 context 分布"为前提; 批复规则: p99>16k 则放弃该退路。
+- 测量 (生产 :8006, 08-20 00:12 回滚重启起 21.2h, n=1920 真实请求, vLLM /metrics 直方图):
+  ≤1k 581 (30.3%, = title agent 调用, 与 opencode.log 同窗 580 次 title stream 1:1) /
+  10k–20k 1213 (63.2%, m2-qa agent 路多轮) / >20k 126 (6.6%, m2-qa 后段轮次);
+  平均 prompt 11,719 tokens; 累计秩计算 p95/p99 均落入 >20k 区间 (≤20k 累计 1794 < 秩 1824/1901)。
+  同窗 opencode.log: m2-qa stream 1757 次 / 586 会话; 417 次调用未达 vLLM (超时早杀)。
+  历史佐证: 07-28 evidence-verifier 26,090 token 请求 vs 16,384 上限 → 硬失败;
+  07-16 build 8,675 vs 8,192 → 硬失败 (均 opencode.log error 行)。
+  DB 残留旧时代样本 (thinking off): build 子 agent max 19.1k。
+- 结论: p99 > 16k (实为 p99 > 20k) → **方案 2 作废** (批复规则触发, 决策不修)。
+  即使 24576 仍会切掉 20-26k 尾部。MAXLEN 不是重试窗可用的 KV 节省杠杆。
+- 剩余 KV 余量杠杆 (优先序): ① 预检闸 (FM8②, ≥60 GiB, 不达标当晚放弃)
+  ② num_speculative_tokens 7→5 A/B (台账项, k=7 第 6/7 位接受率 14.3%/5.7% 近乎白算)
+  ③ 当晚放弃。GMEM 抬升为 SOP 红线所禁, 不在菜单。

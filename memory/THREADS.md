@@ -296,3 +296,13 @@
 - ⑤ **23:57/58 B4 悬案已查清**: 实为 23:56-23:58 共 4 条 (此前目测 2 条为少计), 全部是 **Loop B STEP 5 QA canary 哨兵** (23:52 周期跑到 STEP 5): q06_minan_cash_balance 23:56:13 / adv_ocr_meta 23:57:01 / adv_cross_doc 23:57:52 / adv_refusal 23:58:38, 与 CANARY_IDS 四项逐一吻合 (app.log Query 行 + loop_b_verify.sh L46 互证); **非 kiosk 残留非浏览器残留页**, kiosk 暂停有效; 后续切换窗内 canary 照常跑 (属预期治理流量), 如需静默可临时 LOOP_B_CANARY=0 (本轮不动 Loop B)
 ### 专利专项
 - P1/P2 质量确认; **P3 启动**: 权 10 措辞差异化锚定"**确定性规则工件 + 回归验证门**", 防 Mem0/Letta 类通用记忆框架在先技术 (已写入 P2 权 10 锚定注记); 实施例三供数等 K7 (切换后第一周, 与 DSpark 重试互不阻塞); 发明人与时间表用户与导师确认后回
+
+## [2026-08-20 21:50] opencode context 分布测量定论 → 方案 2 (MAXLEN=16384) 作废
+- 触发: 批复② "先量 opencode 实际 context 分布, p99>16k 则放弃该退路" (DSpark 重试后备评估)
+- 数据 (三源交叉, 全部生产真实流量, 数字未修饰):
+  ① vLLM :8006 /metrics (08-20 00:12 回滚重启起 21.2h, n=1920): ≤1k 581 (30.3%) / 10k–20k 1213 (63.2%) / >20k 126 (6.6%); 平均 prompt 11,719; 累计秩计算 p95/p99 均 >20k
+  ② opencode.log 同窗: 2337 stream 调用 (m2-qa 1757 + title 580) / 586 会话 / message=failed 556; ≤1k 桶与 title 调用 1:1 吻合; 417 次调用未达 vLLM (超时早杀)
+  ③ 历史错误: 07-28 evidence-verifier 26,090 tokens vs 16,384 上限硬失败; 07-16 build 8,675 vs 8,192 硬失败; DB 残留旧时代样本 (thinking off) build max 19.1k
+- **判定: p99 > 16k (实为 >20k) → 方案 2 正式作废**, 记 SOP FM9; [08-20 00:15] 重试菜单 ② 与批复 21:14 ② "待执行"  hereby CLOSED
+- 附带观察 (记账不行动): a) message=failed 556 ≈ 每会话 1 次失败, 与 fallback kill 模式一致 (B4 回落主导的旁证), 非新问题; b) 现时代会话被 adapter ask 后删除, DB 不留 27B 时代样本, 分布测量以 metrics 直方图为准
+- DSpark 重试 (08-21 晚候选) KV 杠杆序确认: 预检闸 ≥60G (不达标当晚放弃) → 若过闸仍差 KV 则 k=7→5 A/B → MAXLEN 缩减不再列入菜单

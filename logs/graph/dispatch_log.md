@@ -823,3 +823,5 @@ echo dispatch_log updated
 [08-20 21:14] #B4-2357-SOLVED 23:56-58 窗内 4 条 B4 查明 = Loop B STEP 5 QA canary (23:52 周期), 四题与 CANARY_IDS 逐一吻合, 非 kiosk/浏览器残留; kiosk 暂停有效; 悬案 CLOSED
 
 [08-20 21:14] #PATENT-P3 P3 启动: 权 10 措辞锚定"确定性规则工件+回归验证门"防 Mem0/Letta 在先技术(锚定注记入 P2); 实施例三供数等 K7(切换后第一周, 与 DSpark 重试互不阻塞); 发明人/时间表待用户与导师确认
+
+[08-20 21:50] #CTX-MEASUREMENT opencode context 分布测量定论: 生产 :8006 回滚后 21.2h n=1920 真实请求 — ≤1k 30.3% (title 调用 1:1) / 10k–20k 63.2% (m2-qa 多轮) / >20k 6.6%; p95/p99 均 >20k; 07-28 evidence-verifier 26k vs 16k 硬失败历史佐证 → 按批复规则方案 2 (MAXLEN=16384) 正式作废, SOP FM9 落地; 重试 KV 杠杆序 = 预检闸 ≥60G → k=7→5 A/B → 当晚放弃
