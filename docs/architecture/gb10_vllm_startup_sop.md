@@ -12,6 +12,8 @@
 ```bash
 cd ~/wzh/projects/agents_final_tech
 bash scripts/gb10_reclaim_page_cache.sh 35                # 第一步: 回收 page cache (必做)
+# 第一步半: 预检闸 (08-20 新增, FM8): 量 CUDA free, ≥60 GiB 才许启动, 不达标当晚放弃:
+#   ./venv/bin/python -c "import torch; f,_=torch.cuda.mem_get_info(); print('%.1f GiB' % (f/2**30))"
 PORT=8006 GMEM=0.30 bash scripts/vllm_probe_serve.sh      # 第二步: 启动探针
 ```
 
@@ -103,3 +105,18 @@ PORT=8006 GMEM=0.30 bash scripts/vllm_probe_serve.sh      # 第二步: 启动探
   fell_back=false)。
 - 告诫: --enable-prefix-caching 改变 torch.compile 图 → 首次启动冷重编译
   (本次 ~4min 额外), 后续启动命中编译缓存。
+
+### FM8 大 I/O page cache 污染: 切换窗 = 纯窗口 (DSpark 四连败教训, 2026-08-19→20, 用户批复立闸)
+- 症状: Route S 下载 (docker pull 39GB 镜像 ×3 尝试 + HF 24GB 权重) 之后, :8006 DSpark
+  投机切换启动 4 连败, KV 可用逐次恶化 2.57→3.09→1.86→0.56 GiB (maxlen 32768 需 4.6 GiB);
+  reclaim×5 上限 ~50 GiB CUDA free, 达不到探针成功窗口的 69.46 GiB 干净 free。
+- 根因: 大 I/O (镜像拉取/权重下载) 持续灌 page cache; CUDA mem_get_info 不计 page cache
+  为可用 (FM1 同机制, 但规模更大且边下载边回填); reclaim CPU 压力法追不上"下载中持续灌入"
+  与残留脏层; DSpark drafter 2.53G + spec 增量 ~3.4G 把 KV 挤过红线。
+- 对策 (两道闸, 08-20 用户批复):
+  ① **纯窗口**: 切换窗内禁止任何 download/pull — 任何大 I/O 必须提前完成或推后。
+     此前"下载与切换同窗"的批复已由用户更正为失误, 此后切换窗 = 纯窗口。
+  ② **预检闸**: reclaim 后量 CUDA free, **≥60 GiB 才许启动**; 不达标当晚放弃,
+     杜绝连败 (不恋战)。测量: venv python torch.cuda.mem_get_info 一行 (见 §0)。
+- 验证: 切换窗内无活跃 pull/下载进程; 启动前 CUDA free ≥60 GiB; 启动日志 KV 可用
+  ≥ 需求 + 1 GiB 余量 (DSpark 全规格需求 ≈4.6 GiB @maxlen 32768)。

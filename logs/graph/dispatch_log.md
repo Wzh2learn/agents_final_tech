@@ -799,12 +799,27 @@ echo dispatch_log updated
 [08-20 00:31] #LOOP-B-FLIP overall FAIL -> PASS (head=565b425; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-20 00:41] #PATENT-SUPPLEMENT 专利补充专项 P1+P2 完成: 映射表 12 条(权利要求级 8/实施例级 4/背景级 3, K5 §2 六行并入, 九点附件未随卡到达→独立推导+对账注记) + 补充建议书(从属权利要求 6 条 + 实施例五金融文档长流程全抽象化 + 实施例三 PSO 供数计划映射表 + 背景引用 GTA-2/HarnessEval/FORCE-Bench/RAGAS系/dsh + 匿名化检查表自检 PASS: 甲方实体零进入); PSO 供数依赖 K7 实现(排切换后第一周, docs/33 §8 提优先级); P3 评审流等导师+用户
 [08-20 03:18] #LOOP-B-FLIP overall PASS -> FAIL (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+
 [08-20 04:26] #LOOP-B-FLIP overall FAIL -> PASS (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+
 [08-20 06:05] #LOOP-B-FLIP overall PASS -> FAIL (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+
 [08-20 06:38] #LOOP-B-FLIP overall FAIL -> PASS (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+
 [08-20 11:40] #LOOP-B-FLIP overall PASS -> FAIL (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+
 [08-20 12:13] #LOOP-B-FLIP overall FAIL -> PASS (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+
 [08-20 12:47] #LOOP-B-FLIP overall PASS -> FAIL (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+
 [08-20 13:20] #LOOP-B-FLIP overall FAIL -> PASS (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+
 [08-20 17:48] #LOOP-B-FLIP overall PASS -> FAIL (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+
 [08-20 18:21] #LOOP-B-FLIP overall FAIL -> PASS (head=9fbab89; 详见 logs/graph/verify-report.json + loop_b.log)
+
+[08-20 21:14] #DSPARK-RETRY-APPROVAL 用户批复: 方案 1 干净窗口重试(明晚候选) + 两道闸入 SOP (纯窗口禁下载 / 预检 CUDA free≥60G 不达标当晚放弃); 方案 2 后备先量 opencode context p99; 方案 3 不批; 时序教训入账(下载与切换同窗=失误更正)
+
+[08-20 21:14] #B4-2357-SOLVED 23:56-58 窗内 4 条 B4 查明 = Loop B STEP 5 QA canary (23:52 周期), 四题与 CANARY_IDS 逐一吻合, 非 kiosk/浏览器残留; kiosk 暂停有效; 悬案 CLOSED
+
+[08-20 21:14] #PATENT-P3 P3 启动: 权 10 措辞锚定"确定性规则工件+回归验证门"防 Mem0/Letta 在先技术(锚定注记入 P2); 实施例三供数等 K7(切换后第一周, 与 DSpark 重试互不阻塞); 发明人/时间表待用户与导师确认

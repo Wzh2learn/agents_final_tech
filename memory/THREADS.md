@@ -286,3 +286,13 @@
 - 回滚: 原参数重起 00:12 READY → health/full 全绿 (137/local/healthy/llm_8004 ok/m2_rag ok) + :8006 快问正常 (冷态 26.9s, thinking off reasoning=null 生效); inspect 存档 dsaprk_switch_inspect_before_8006.json (切换前); 回滚后未做 after 存档 (容器=原配置, 与 22:06 恢复态一致)
 - **重试菜单 (入台账等用户拍板)**: ① 干净窗口重试 — 切换前 24h 无大下载 + 多次 reclaim + 单次启动 (探针先例: 69.46G free 时全规格成功); ② MAXLEN=16384 (KV 需 ~2.3G 可容; 任务卡明示退路; 代价: agent 路 15-19k 长 prompt 截断风险, 需先评估 opencode 实际 context 分布); ③ GMEM 抬升 (SOP 明禁"只许调低不许调高", 需用户特批 + 内存算术); ④ 维持 Route V 探针结论 (GO 数据有效) 待条件成熟再切
 - Route S 下载状态: HF 双权重 **DONE** (NVFP4@52d1adc / DSpark drafter@923ed3a, 坐实 ~/.cache/huggingface/hub); sglang 镜像 docker pull 3 次失败 (unexpected EOF + 502 Bad Gateway, dockerproxy 通道不稳), 重试缓至下次窗口合并
+
+## [2026-08-20 21:14] DSpark 重试批复 + 专利 P3 批复入账 (用户)
+### DSpark
+- ① **选方案 1 干净窗口重试** (明晚 08-21 候选), 加两道闸 (已入 SOP FM8 + §0): a) 切换窗 = **纯窗口**, 禁止任何 download/pull — 大 I/O page cache 污染 GB10 内存预算 (CUDA 不计 page cache 为可用) 教训入 SOP; b) **预检闸**: reclaim 后 CUDA free ≥60 GiB 才许启动, 不达标当晚放弃, 杜绝连败
+- ② 方案 2 (MAXLEN=16384) 为后备: 先量 opencode 实际 context 分布 (sidecar transcript / B4 token 数), **p99>16k 则放弃该退路** — 待执行
+- ③ 方案 3 (GMEM 抬升) **不批** — SOP 红线 (只许调低不许调高), 探针已证 0.30 够用
+- ④ **时序教训入账**: 上轮批复允许"下载与切换同窗"为失误, 此后切换窗 = 纯窗口, 任何大 I/O 提前完成或推后
+- ⑤ **23:57/58 B4 悬案已查清**: 实为 23:56-23:58 共 4 条 (此前目测 2 条为少计), 全部是 **Loop B STEP 5 QA canary 哨兵** (23:52 周期跑到 STEP 5): q06_minan_cash_balance 23:56:13 / adv_ocr_meta 23:57:01 / adv_cross_doc 23:57:52 / adv_refusal 23:58:38, 与 CANARY_IDS 四项逐一吻合 (app.log Query 行 + loop_b_verify.sh L46 互证); **非 kiosk 残留非浏览器残留页**, kiosk 暂停有效; 后续切换窗内 canary 照常跑 (属预期治理流量), 如需静默可临时 LOOP_B_CANARY=0 (本轮不动 Loop B)
+### 专利专项
+- P1/P2 质量确认; **P3 启动**: 权 10 措辞差异化锚定"**确定性规则工件 + 回归验证门**", 防 Mem0/Letta 类通用记忆框架在先技术 (已写入 P2 权 10 锚定注记); 实施例三供数等 K7 (切换后第一周, 与 DSpark 重试互不阻塞); 发明人与时间表用户与导师确认后回
