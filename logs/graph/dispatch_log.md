@@ -843,3 +843,4 @@ echo dispatch_log updated
 [08-21 01:55] #D4 DFlash 探针臂 NO-GO: D2 判据后半不成立 + rwmacy drafter 需 fork(stock 下 24%) + B70 调优; DFlash2 PR#52816 open 盯梢入 ledger
 [08-21 01:35] #LOOP-B-FLIP overall PASS -> FAIL (head=d22d39a; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-21 22:48] #B4-CALIBER-FIX b4_checkpoint.py 两列口径修复(辅助线审计): attempted=完成+≥45s超时回落; 冒烟 n=191 尝试186/完成0/回落率100%; 23:50 cron 照旧
+[08-21 23:24] #B4-24H-FINAL 24h 终判(提前, 用户批准): 尝试 190/完成 0/回落率 100%(全超时型 p50=46.6s, content=null=0); 归因明确(xhigh 轨迹>45s 预算 + D2 接受率全段均匀低 + 对照切换前 45s era 完成率 ~20%→0%) → 报用户拍板回滚/保留; cron 条目已删; 菜单 a/b/c 入 THREADS
