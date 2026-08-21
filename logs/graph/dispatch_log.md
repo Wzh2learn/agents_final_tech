@@ -854,3 +854,4 @@ echo dispatch_log updated
 [08-22 01:45] #T3-STATUS-ENHANCE status.sh 增强(docs/29 L1 补全): 端口补 8006/8007/8008 + loop_b.log 最近 PASS 行 + B4 两列口径实时输出(回滚点 3295 起+全量, 复用 b4_checkpoint.compute 只读); b4_checkpoint.py 抽 compute()/pct() main 输出逐字不变
 [08-22 01:48] #T4-L3-CHECKLIST docs/29 附录 A→B→C 自动分发前置清单(8 项现状/差距, 只列不实施) + 头部状态同步(L1 已补全/L2 已落地/L3 只列)
 [08-22 02:05] #CLOSEOUT-0822 收口: pytest 379 passed/13 skipped 全量重跑入 pytest_latest.txt; 拍板 a/A 终态 STATE 覆写; commit+push 三方对齐; 本轮零运行时配置变更, 回守护模式
+[08-22 02:10] #EOL-AUDIT 顺带发现: 仓库 CRLF committed 漂移——b233732 版 THREADS.md 347 行带 CR(本轮 commit 随编辑修复归 LF); 残留 docs/INDEX.md 与 src/web/routers/chat.py 两处; 记待清理项, 未来窗口机械归一无内容变更
