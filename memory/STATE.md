@@ -1,67 +1,34 @@
 # memory/STATE.md
-更新: 2026-08-21 23:55（DSpark 回滚执行完毕六步全 PASS; 准路根治三杠杆 L1/L2/L3 排队）
+更新: 2026-08-22 00:55（L2/L3 批复只读执行完毕, 收口三方对齐, 回守护模式）
 
 ## 模式
-守护模式。本轮两大块: ① 专利 P4 完整修订版完成（待用户终审发导师）+ N0-N3
-科研队列; ② D1-D4 DSpark 实效诊断——接受率分段定论（全段均匀低）, k=5 方案
-就绪等窗口, DFlash 探针臂 NO-GO。
-等: ① 甲方首轮反馈（B4 时钟 08-12 启动）② 用户专利终审 + 导师时间表
-③ B4 24h 终判→用户拍板 a, 回滚已执行（23:46 READY, 六步全 PASS）④ 准路根治: L1 medium 矩阵 (08-23/24) / L2 瘦身测量 / L3 DFlash2 镜像评估
+守护模式。本轮: L2 sidecar context 测量 + L3 DFlash2 镜像可行性（均纯只读, 零配置变更, 未拉镜像未重建）。
+等拍板: ① **L1 基线口径**（生产 thinking 实际 OFF, 现接线 medium vs xhigh = off vs off; 08-23 跑前须裁定, 详见 THREADS 08-22 条）② **L3 路径选择**（A 等新 tag 推荐 / B 自建后备 / C 缓议）③ 甲方首轮反馈（B4 时钟 08-12 启动）④ 用户专利终审 + 导师时间表（专利件冻结, 用户亲发）⑤ kiosk A1 方案窗口
+已关闭: D3 k=5 随 DSpark 退出作废; cron 24h 条目已删
 
 ## Git
 - HEAD: 本收口 commit; 三方对齐 GB10=GitHub=本机
-- 本轮资产: P4 专利修订版 / N1 B4 checkpoint 报告 + b4_checkpoint.py / N2 PSO
-  原型 (research/pso/) / N3 C3 报告 / D2 分段报告 + d2_segments.py / D3 k5 方案 /
-  D4 决策备忘 / B4 日志隔离修复 (m2.py env + conftest) / drafter ledger 双注 /
-  INDEX/THREADS/dispatch/STATE
+- 本轮资产: L2 报告 + JSON 工件 / L3 可行性备忘 / drafter ledger L3 复核节 / INDEX 两行 / THREADS/dispatch/STATE
 
 ## 本轮战绩
-- P4 专利: 权 1-6 保留 + 权 7-12 新增（权 10 锚定"确定性规则工件+回归验证门"）;
-  实施例五 + PSO 实测回填（分离度 1.2560→1.4326, +14.06%）; 匿名化 0 命中
-- N1: B4 污染修复（生产零改动）; 真实 agent 完成维持 0; 接受率观察入 D 队列
-- N2: PSO 落点①v0 首批实测（专利实施例三供数激活）
-- N3: C3 4B NO-GO + 4B 思考负增益/q08 反转洞察
-- **D1 判定=观察档**: 切换点后真实流量 9/9 全 45-50s 超时回落（归因明确=预算<
-  轨迹长度, 非归因不明）, agent 完成 0, content=null 0; **24h 终判完成: 尝试 190/完成 0/回落率 100%; 用户拍板 a → 回滚已执行（六步全 PASS, agent 路实测 45931ms 超时回落）**
-- **D2 核心定论**: 接受率全段均匀低——生产 agent 路 1.09-1.29 / XML-xhigh 1.517 /
-  freeform 1.76, 无 >2.5 段; 探针 3.31 是 thinking-off 短答离群值不作生产预期;
-  sidecar 真实轨迹（长上下文+skill 元数据+45s 截断）是接受率洼地
-- **D3**: k=7→5 方案就绪——末两位贡献 4.2%/2.6%, 净估计 +3-8%, 推荐度中低
-  （主矛盾是接受率非草稿长度）, 需 :8006 窗口, 未批不执行
-- **D4**: DFlash 探针臂 NO-GO——判据后半不成立 + rwmacy drafter 需 rmacy/vllm
-  fork（stock 下接受率崩 24%, README 自证）+ B70 调优; DFlash2 PR#52816 open
-  （08-20 更新）+ 权重盯梢入 ledger
+- **L2 定论**: 单调用 decode 60-70%（仅 ~45tok/请求, 带宽墙）/ prefill 30-40%（~10k, TTFT 0.5-5s）; attempt 级主导项 = 串行 step 数（p50=3/p95=5/max=15）× 每步 7-15s（与 B4 实测 46-50s 吻合）; prefill 主项 = opencode 内置 system prompt + 工具 schema（残差 8-10.5k 占 70-80%）
+- **L2 关键更正**: 生产 m2-qa thinking 实际 OFF（证据四条）→ "xhigh 轨迹超预算"更正为"串行多步 × 每步 7-15s"; L1 矩阵基线口径须先拍板
+- **L2 顺带记账**: 孤儿会话续跑（p95=133s, slot 白占）入 L2 方案菜单; opencode.db transcript 持久化损坏（08-14 起 5187 次插入失败）
+- **L3 定论**: #52816 MERGED（08-21T05:27Z, b389ac2）但现镜像（0.27.2.dev0+g6e448d0ea.d20260815, 22.1GB, DFlash2DraftModel 全库零命中）与 v0.27.1 release（08-11）均不含; incoai 权重 3.85GB k=8 只查未下; 路径 A（等 timothystewart6 新 tag, 其 tag 实为 main 快照）推荐 / B（自建 0.5-1d）后备; 零动作报拍板
 
 ## 服务
-- :5050 UP（route=on, timeout=45, embeddings=137）; :8004 A3B UP（M1 热路径锁定）;
-  :8006 = 非 DSpark 生产（GMEM 0.30, 无 spec config, 08-21 23:46 回滚完成）; :8008 UP;
-  :8007 空闲（D 队列未开臂）; :8005 DOWN; :8100 UP; :15432 PG UP
-- Loop B: watchdog 预期持续 ALARM 至 agent 完成恢复（已知信号）; 本机 kiosk 播放中（已恢复）
-- B4: 切换点 3092 / 回滚点 3294（统计分段）; DSpark era 3093-3287 尝试 190/完成 0/回落率 100%; 回滚后自 3295 观察
+- :5050 UP（route=on, timeout=45, embeddings=137, 不重启）; :8004 A3B UP（M1 热路径锁定）; :8006 非 DSpark 生产 UP（GMEM 0.30, 观察期配置不动）; :8008 UP; :8007 空闲; :8005 DOWN（退位断言）; :8100 UP; :15432 PG UP
+- Loop B 30min 周期: 00:17 overall=FAIL = agent_watchdog ALARM（**设计内信号**, agent 完成未恢复前预期持续, 记台账不当事故）
+- kiosk 播放中; B4: 回滚点 3294（08-21 23:51）, 现 3298; 分段: DSpark era 3093-3287 / 验证期 3288-3294 / 回滚后自 3295
 
 ## 质量基线
 - eval: 确定性 16/16 + NF 0/9 + judge 四维 5.0
-- pytest: 379 passed / 13 skipped（01:00 前后全量复测）
+- pytest: 379 passed / 13 skipped（08-22 00:40 全量, 171s, logs/graph/pytest_latest.txt）
 - docs_lint: GB10 为准
 
-## 本轮追记（08-21 晚）
-- B4 口径修复（辅助线审计）: route 记最终路径 → b4_checkpoint.py 两列口径
-  （尝试=完成+≥45s 超时回落）; 冒烟 n=191: 尝试 186/完成 0/回落率 100%;
-  23:50 cron 用修正口径终判; 口径注记入 THREADS
-- kiosk 决策 A 方案已出（per-request route 参数, 待批; 需一次 :5050 重启窗口）:
-  docs/experiments/2026-08-21_kiosk_agent_route_proposal.md
-- B4 24h 终判（23:22 提前, 用户批准）: 尝试 190/完成 0/回落率 100%（全超时型）, content=null=0;
-  归因明确（对照切换前 45s era 完成率 ~20%→0%, DSpark 对 agent 路净效应为负）→ 报用户拍板;
-  菜单: a 回滚非 DSpark（SOP ~31s）/ b 超时抬 60s / c 保留+kiosk A1; cron 已删
-- 专利终审补遗落地（附录 A 15/16 行 + 呈递说明 + §5.3.3 口径澄清, 001d04b）
-- DSpark 回滚执行（用户拍板 a）: 原参数重起 23:46 READY + 六步全 PASS + B4 回滚点 3294 +
-  inspect 存档配对 + drafter 权重留盘生产退出 + Loop B spec 计数器项实查不存在
-
 ## 下一步
-1. 准路根治三杠杆: L1 medium 16 题矩阵（08-23/24 错峰, go=质量不降+agent 路进 45s 预算）→
-   L2 sidecar 上下文瘦身（先量 p50/p95/p99+构成, 后方案）→ L3 DFlash2（镜像评估先行,
-   #52816 已合并 + incoai 权重在位, Phase 3 复核）; 抬超时不在选项内
-2. 用户专利终审（补遗 001d04b 已入）→ 导师; D3 k=5 窗口批复 → 执行
-3. 优化方向记账（不动手）: drafter v2 盯梢 / sidecar 上下文瘦身（skill 元数据）/
-  思考档位路由维度 / DFlash2+权重盯梢
-4. 缓办: 甲方反馈 → B4 分布分析; C4 VL-8B 探针; K3 门控闭环批跑; NLPCC 核实
+1. 08-23/24 错峰: L1 medium 矩阵——**前提 = 用户拍板基线口径**（off 现状 vs 显式注入 medium/xhigh; 08-16 数据 dense 27B 开 thinking 无结构化收益, 08-19 批复"xhigh 起步"与接线实况有口径落差）
+2. L1 基线后: L3 探针（路径 A 批准 + 新 tag 就位时）→ :8007 等价性三连 + D2 口径分段接受率 → GO/NO-GO → 申请 :8006 窗口
+3. L2 方案菜单（报批后动）: step 数削减 / 孤儿取消 / context 瘦身（残差 8-10k 为靶）
+4. 盯梢: timothystewart6 新 tag（DFlash2）/ drafter v2 / incoai 权重镜像; 复核命令入 ledger
+5. 缓办: 甲方反馈 → B4 分布分析; kiosk A1 窗口; C4 VL-8B; K3 批跑; NLPCC 核实

@@ -345,3 +345,20 @@
 [08-21 23:24] #B4-24H-FINAL DSpark 切换 24h 终判（提前至 23:22 跑, 用户批准; cron 条目已删, 报告 logs/graph/b4_checkpoint_20260821_2322.md）: 切换点 3092 起 n=195（剔 5 疑似测试行）, **agent 尝试 190 / 完成 0 / 回落率 100%**, 全部超时型回落（p50=46.6s / p95=49.9s, 预算 45s）, content=null=0（status 全 ok）。归因明确: ① xhigh agent 轨迹长度 > 45s 预算; ② D2 坐实接受率全段均匀低（agent 段 1.09-1.29）, 投机解码对 agent 流量无增益; ③ 对照切换前 45s era（n=791）完成率 ~20%（124 条 p50=37.8s / 509 回落 p50=49.7s）→ 切换后 0%, DSpark 对 agent 路净效应为负（草稿开销无接受率收益）。判定: 回落率 >60% 但 content=null 排除且归因明确 → 不属"查无解释", 按批复报用户拍板, 不擅自回滚。菜单: a) 回滚 :8006 非 DSpark 参数（SOP 就绪 ~31s, 预期恢复 ~20% 完成率） b) 保留 DSpark + 超时抬至 60s（覆盖 p95, 但 kiosk 更慢且接受率根因未解） c) 保留 DSpark + kiosk A1 路由分离（待批）+ 等 k=5/medium 矩阵数据。
 
 [08-21 23:54] #DSPARK-ROLLBACK 准路根治合并卡 Phase 0 执行完毕: :8006 回滚非 DSpark 原参数 (GMEM 0.30, 无 spec config, 23:46 READY ~5min)。六步验证全 PASS: health/full (137/local/healthy) + parse 冒烟 latin1.txt 5ms + QA 2 条含 OCR meta 确定性 2/2 + compare 嘉兴民安 2 持仓 + route=on env 确认 + agent 路单题实测 45931ms (45s 超时回落, 单条不构成结论, 不二次折腾)。**B4 回滚点 = 3294 行 (23:51:43)**, 统计分段: DSpark era 3093-3287 / 回滚验证期 3288-3294 / 回滚后自 3295。Loop B: topology 断言实查无 spec 计数器项 (仅 health+模型 ID) 无需改动; agent_watchdog 持续守护。drafter 权重留盘不删, ledger 记生产退出; kiosk 已恢复。根治三杠杆排队: L1 medium 矩阵 08-23/24 → L2 sidecar 瘦身先量 → L3 DFlash2 镜像评估先行; 抬超时不在选项内。
+
+## [2026-08-22 00:35] L2/L3 批复执行（纯只读: 测量 + 评估, 零配置变更）
+### L2 sidecar context 测量定论（报告 docs/experiments/2026-08-22_l2_sidecar_context_measurement.md + JSON 工件）
+- 单调用: decode 占 ~60-70%（但仅 ~45 tok/请求, 带宽墙非 token 量）/ prefill ~30-40%（~10k context, TTFT 0.5-5s）; **attempt 级主导项 = 串行 step 数（p50=3/p95=5/max=15）× 每步 ~7-15s**——与 B4 实测 46-50s 吻合。
+- prefill 构成: 可测小计 ~2.6k（agent prompt 494 + playbook 1030 + skill 清单 1011 + 工具 docstring 47）; 残差 ~8-10.5k = opencode 内置 system prompt + 工具 JSON schema（主项 ~70-80%）——08-13 "skill 全量装载膨胀"假设部分修正（实为清单 + 单 skill 全文）。
+- **关键更正: 生产 m2-qa thinking 实际 OFF**（证据四条: opencode.json 无 reasoning_effort / proxy 默认注入 enable_thinking:false / 生成 45tok/请求与 off 档逐 token 吻合 + DB reasoning 全 0 / DECISIONS 08-16 结论）。"xhigh 轨迹超预算"表述更正为"串行多步 × 每步 7-15s（thinking off）"。
+- **L1 矩阵 08-23 基线口径须先拍板**: 现接线下 medium vs xhigh = off vs off; 选项 a) L1 改测 off（现状）vs 显式注入 medium/xhigh b) 先裁定准路要不要开 thinking（08-16 数据: dense 27B 开 thinking 加延迟无结构化收益; 08-19 批复"xhigh 起步"与接线实况存在口径落差, 一并报用户）。
+- 杠杆排序（对 45s 预算, 实测拼接）: ① step 数削减（3→2 省 1/3）② 孤儿续跑终结 ③ decode 提速（接受率是前提）④ context 瘦身（10k→6k 每步省 ~1-2s × 3 步）。
+- 顺带发现（记账不动手）: a) 孤儿会话续跑（45s 超时回落后 sidecar 继续跑 p95=133s/max=69min, slot 白占）→ 入 L2 方案菜单; b) opencode.db transcript 持久化损坏（08-14 起 5187 次插入失败, message 表仅存 08-07/08 六会话）根因待查; c) Loop B 08-21 23:43 model_topology FAIL = 回滚窗内 :8006 停机抓取, 设计内预期; d) log permission 行不带 session.id → skill/rag 归属计数偏低（方法学注记）。
+### L3 DFlash2 镜像可行性（报告 docs/experiments/2026-08-22_l3_dflash2_image_feasibility.md）
+- PR #52816 直连复核: **MERGED**（08-21T05:27Z, b389ac2, base main）——DFlash2 = DFlash2DraftModel 新架构类, method 仍 dflash, 旧 DFlash checkpoint 不受影响。
+- 现镜像坐实不含: 0.27.2.dev0+g6e448d0ea.d20260815（22.1GB）全库 grep DFlash2DraftModel 零命中; 构建 commit 与合并点 diverged（ahead 792/behind 21）; v0.27.1 release（08-11）早于合并 → 无官方 release 含 DFlash2。
+- 权重 incoai/Qwen3.8-27B-DFlash2 3.85GB apache-2.0 k=8（block_size=8）只查未下; 磁盘空闲 2.7T。
+- 路径 A（推荐）: 等 timothystewart6 新 tag（可复现构建, tag 实为 main 快照, 节奏数天级）→ pull → :8007 探针（L1 基线后）→ 等价性三连 + 分段接受率 → 申请窗口; 注意新 tag 含 ~800 commit 跨度, 等价性三连 + SOP 重标定必跑。路径 B（后备）: 自建（Dockerfile+versions.env 在位, 0.5-1d, 破碎前科风险）, 仅 A 超一周无 tag 启用。**未拉镜像未重建, 报用户拍板。**
+### 其他记账
+- Loop B agent_watchdog 持续 ALARM = 设计内信号（agent 完成未恢复, 00:17 周期 overall=FAIL 属此）, 记台账不当事故。
+- 专利完整修订版冻结等用户终审、用户亲发导师, 主线程不碰; kiosk A1 方案窗口另行给。

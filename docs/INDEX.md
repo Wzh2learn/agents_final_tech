@@ -99,6 +99,8 @@
 | `2026-08-21_dspark_k5_ab_plan.md` | 待批 | D3 k=7→5 A/B 方案(只方案不执行): 末两位 4.2%/2.6% 判据边际成立, 净估计 +3-8%, 推荐度中低, 需 :8006 重启窗口 | 2026-08-21 |
 | `2026-08-21_dflash_probe_decision_memo.md` | 终稿 | D4 DFlash 探针臂 NO-GO: D2 判据后半不成立 + rwmacy drafter 需 rmacy/vllm fork(stock 下 24%) + B70 调优; DFlash2 PR#52816 盯梢 | 2026-08-21 |
 | `2026-08-21_kiosk_agent_route_proposal.md` | 待批 | kiosk 决策 A 方案: per-request route 参数(服务端+前端+kiosk 三点), 附带快与准菜单 UI 落点; 需一次 :5050 重启窗口, M2_OPENCODE_ROUTE 不动 | 2026-08-21 |
+| `2026-08-22_l2_sidecar_context_measurement.md` | 活跃 | L2 sidecar context 测量: 单调用 decode 60-70%/prefill 30-40%（带宽墙）, attempt 级主导项=串行 step 数（p50=3/p95=5）×每步 7-15s; **生产 thinking 实际 OFF**（L1 基线口径须先拍板）; 孤儿续跑+opencode.db 持久化损坏记账 | 2026-08-22 |
+| `2026-08-22_l3_dflash2_image_feasibility.md` | 待批 | L3 DFlash2 镜像可行性: #52816 已合并（08-21）但现镜像（08-15 构建）与 v0.27.1 release 均不含; 权重 3.85GB k=8 只查未下; 路径 A=等 timothystewart6 新 tag（推荐）/ B=自建（后备）, 未拉未建报拍板 | 2026-08-22 |
 | `2026-08-18_pso_landing_proposal.md` | 活跃 | K5 PSO 落点一页方案: 权重分配 + 最小判别题集, 粒子编码/fitness/约束三要素 + 专利权利要求对应 | 2026-08-18 |
 | `2026-08-18_harnesseval_alignment.md` | 活跃 | K1.5 HarnessEval 对标: 四阶段协议证据提取 + evidence tree/Skill Library 提取 + 与 run_eval.sh/K2 检查点树逐项对照表 | 2026-08-18 |
 | `2026-08-15_demo_video_v2/steps.md` | 活跃 | 演示视频 v2（3:48）分段清单；视频文件不入 git（scp 取回，路径见台账） | 2026-08-16 |

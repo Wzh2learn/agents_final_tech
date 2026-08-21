@@ -1,0 +1,202 @@
+{
+ "generated_utc": "2026-08-21T16:12:05.286455",
+ "log_lines_total": 86172,
+ "components_tokens": {
+  "m2qa_agent_prompt": 494,
+  "playbook_fulltext": 1030,
+  "skill_listing_all18_name_desc": 1011,
+  "mcp_tool_docstrings_3": 47,
+  "representative_question": 7
+ },
+ "sessions_since_0817": 1913,
+ "m2qa_llm_calls": {
+  "n": 1913,
+  "p50": 3,
+  "p95": 5,
+  "max": 15
+ },
+ "sidecar_duration_s": {
+  "p50": 46.8,
+  "p95": 132.8,
+  "max": 4161.8
+ },
+ "gap_step0_step1_s": {
+  "p50": 7.1,
+  "p95": 35.9
+ },
+ "rag_calls_p50": 0,
+ "sessions_detail_last10": [
+  {
+   "sid": "ses_fdb226ed",
+   "created": "2026-08-21T15:08:15.520Z",
+   "m2qa_llm_calls": 2,
+   "title_calls": 1,
+   "skill_loads": 0,
+   "rag_calls": 0,
+   "insert_err": 1,
+   "sidecar_duration_s": 129.7,
+   "first_stream": "2026-08-21T15:08:15.586Z",
+   "gap_step0_to_step1_s": 4.0
+  },
+  {
+   "sid": "ses_fdb21b85",
+   "created": "2026-08-21T15:09:02.253Z",
+   "m2qa_llm_calls": 2,
+   "title_calls": 1,
+   "skill_loads": 0,
+   "rag_calls": 0,
+   "insert_err": 1,
+   "sidecar_duration_s": 132.1,
+   "first_stream": "2026-08-21T15:09:02.337Z",
+   "gap_step0_to_step1_s": 5.5
+  },
+  {
+   "sid": "ses_fdb20f52",
+   "created": "2026-08-21T15:09:52.222Z",
+   "m2qa_llm_calls": 2,
+   "title_calls": 1,
+   "skill_loads": 0,
+   "rag_calls": 0,
+   "insert_err": 1,
+   "sidecar_duration_s": 133.4,
+   "first_stream": "2026-08-21T15:09:52.286Z",
+   "gap_step0_to_step1_s": 5.6
+  },
+  {
+   "sid": "ses_fdb04b92",
+   "created": "2026-08-21T15:40:42.582Z",
+   "m2qa_llm_calls": 10,
+   "title_calls": 1,
+   "skill_loads": 0,
+   "rag_calls": 0,
+   "insert_err": 1,
+   "sidecar_duration_s": 537.4,
+   "first_stream": "2026-08-21T15:40:42.668Z",
+   "gap_step0_to_step1_s": 6.6
+  },
+  {
+   "sid": "ses_fdb04042",
+   "created": "2026-08-21T15:41:28.925Z",
+   "m2qa_llm_calls": 9,
+   "title_calls": 1,
+   "skill_loads": 0,
+   "rag_calls": 0,
+   "insert_err": 1,
+   "sidecar_duration_s": 510.7,
+   "first_stream": "2026-08-21T15:41:29.044Z",
+   "gap_step0_to_step1_s": 2.0
+  },
+  {
+   "sid": "ses_fdb034c2",
+   "created": "2026-08-21T15:42:16.017Z",
+   "m2qa_llm_calls": 8,
+   "title_calls": 1,
+   "skill_loads": 0,
+   "rag_calls": 0,
+   "insert_err": 1,
+   "sidecar_duration_s": 281.2,
+   "first_stream": "2026-08-21T15:42:16.067Z",
+   "gap_step0_to_step1_s": 2.0
+  },
+  {
+   "sid": "ses_fdb02851",
+   "created": "2026-08-21T15:43:06.978Z",
+   "m2qa_llm_calls": 8,
+   "title_calls": 1,
+   "skill_loads": 0,
+   "rag_calls": 0,
+   "insert_err": 1,
+   "sidecar_duration_s": 254.8,
+   "first_stream": "2026-08-21T15:43:07.056Z",
+   "gap_step0_to_step1_s": 2.0
+  },
+  {
+   "sid": "ses_fdafd626",
+   "created": "2026-08-21T15:48:43.538Z",
+   "m2qa_llm_calls": 2,
+   "title_calls": 1,
+   "skill_loads": 0,
+   "rag_calls": 0,
+   "insert_err": 1,
+   "sidecar_duration_s": 136.4,
+   "first_stream": "2026-08-21T15:48:43.628Z",
+   "gap_step0_to_step1_s": 4.9
+  },
+  {
+   "sid": "ses_fdafcacb",
+   "created": "2026-08-21T15:49:30.056Z",
+   "m2qa_llm_calls": 2,
+   "title_calls": 1,
+   "skill_loads": 0,
+   "rag_calls": 0,
+   "insert_err": 1,
+   "sidecar_duration_s": 138.6,
+   "first_stream": "2026-08-21T15:49:30.113Z",
+   "gap_step0_to_step1_s": 5.2
+  },
+  {
+   "sid": "ses_fdafba69",
+   "created": "2026-08-21T15:50:37.159Z",
+   "m2qa_llm_calls": 2,
+   "title_calls": 1,
+   "skill_loads": 0,
+   "rag_calls": 0,
+   "insert_err": 1,
+   "sidecar_duration_s": 134.7,
+   "first_stream": "2026-08-21T15:50:37.228Z",
+   "gap_step0_to_step1_s": 4.9
+  }
+ ],
+ "metrics": {
+  "prompt_tokens_sum": 94125.0,
+  "generation_tokens_sum": 406.0,
+  "success_stop": 9.0,
+  "ttft_buckets": {
+   "0.001": 0.0,
+   "0.005": 0.0,
+   "0.01": 0.0,
+   "0.02": 0.0,
+   "0.04": 0.0,
+   "0.06": 0.0,
+   "0.08": 0.0,
+   "0.1": 0.0,
+   "0.25": 0.0,
+   "0.5": 1.0,
+   "0.75": 4.0,
+   "1.0": 7.0,
+   "2.5": 9.0,
+   "5.0": 12.0,
+   "7.5": 12.0,
+   "10.0": 12.0,
+   "20.0": 12.0,
+   "40.0": 13.0,
+   "80.0": 13.0,
+   "160.0": 13.0,
+   "640.0": 13.0,
+   "2560.0": 13.0
+  },
+  "e2e_buckets": {
+   "0.3": 0.0,
+   "0.5": 0.0,
+   "0.8": 0.0,
+   "1.0": 0.0,
+   "1.5": 0.0,
+   "2.0": 0.0,
+   "2.5": 0.0,
+   "5.0": 3.0,
+   "10.0": 5.0,
+   "15.0": 9.0,
+   "20.0": 9.0,
+   "30.0": 9.0,
+   "40.0": 9.0,
+   "50.0": 9.0,
+   "60.0": 9.0,
+   "120.0": 9.0,
+   "240.0": 9.0,
+   "480.0": 9.0,
+   "960.0": 9.0,
+   "1920.0": 9.0,
+   "7680.0": 9.0
+  }
+ }
+}

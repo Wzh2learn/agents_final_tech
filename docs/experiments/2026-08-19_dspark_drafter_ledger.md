@@ -61,3 +61,10 @@
 - **drafter 权重留盘不删**: ~/wzh/models/hf/Qwen3.8-27B-DSpark-vLLM (revision 与接受率记录见本台账 08-19/08-20 条目); 生产退出, 等 drafter v2 或 medium 矩阵/DFlash2 基线就绪再议。
 - num_speculative_tokens=5 A/B (切换后优化台账项) 随 DSpark 退出作废——主矛盾是接受率非草稿长度 (D2 定论)。
 - **DFlash2 盯梢状态更新** (准路根治合并卡 08-21 实测事实): vllm-project/vllm#52816 已合并; incoai/Qwen3.8-27B-DFlash2 权重在位 (method=dflash, k=8, 无损, Qwen3.8-27B 官方配对)。本条取代 08-21 白天 "state=open / 无权重" 快照; Phase 3 (L3) 评估时再直连复核。
+
+## L3 可行性复核（2026-08-22 凌晨, 直连复核 08-21 夜快照项, 只读）
+
+- PR #52816 复核坐实: state=closed / merged=true（merged_at 2026-08-21T05:27:22Z, merge_sha b389ac29465b, base main）; 08-21 白天 "open" 条作废。
+- 权重复核: incoai/Qwen3.8-27B-DFlash2 3.85GB apache-2.0, architectures=["DFlash2DraftModel"], block_size=8（k=8）, 镜像源 z-lab; **只查未下**。
+- 镜像侧坐实: 生产镜像 vllm-gb10:v0.27.1-gb10.1（vLLM 0.27.2.dev0+g6e448d0ea.d20260815, 22.1GB）全库 grep DFlash2DraftModel 零命中 → 不含; method dflash/dspark 均在位（registry L616/L618）; 构建 commit 与合并点 diverged, v0.27.1 release（08-11）早于合并 → 无官方 release 含 DFlash2。
+- **新盯梢项**: timothystewart6/vllm-gb10 含 DFlash2 的新 tag（versioned 或 sha-*; 复核命令 curl -s https://dockerproxy.net/v2/timothystewart6/vllm-gb10/tags/list）。出现后 → pull → :8007 探针（L1 基线后）→ 等价性三连 + D2 口径分段接受率 → GO/NO-GO → 申请 :8006 窗口。详见 2026-08-22_l3_dflash2_image_feasibility.md。
