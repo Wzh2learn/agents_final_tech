@@ -5,6 +5,20 @@ Computes segment stats from logs/graph/b4_ask_log.jsonl starting at a given
 line (1-indexed, default: DSpark switch point 3092). Used for the 24h
 post-switch checkpoint and periodic B4 reviews.
 
+Caliber (2026-08-21 audit fix, THREADS 口径注记):
+  B4 `route` field records the FINAL serving path. Agent-route attempts that
+  time out are logged as route=direct + fell_back=true. Agent-path stats must
+  therefore always use the two-column attempted/completed caliber:
+    attempted = completed + timeout-fallbacks
+      completed        := route=agent (latency>=100ms; <100ms rows are test
+                          fabrications and excluded)
+      timeout_fallback := route=direct AND fell_back=true AND latency>=45000ms
+                          (full OPENCODE_ASK_TIMEOUT burned before fallback)
+    fast_fallback (informational, NOT counted as attempts):
+                          route=direct AND fell_back=true AND latency<45000ms
+                          (sidecar unhealthy / instant fallback)
+    fallback_rate = 1 - completed / attempted
+
 Output: prints summary + writes logs/graph/b4_checkpoint_<stamp>.md
 Pure read-only; no service interaction.
 """
@@ -12,12 +26,13 @@ import json, sys, datetime, pathlib
 
 REPO = pathlib.Path(__file__).resolve().parents[2]
 LOG = REPO / "logs" / "graph" / "b4_ask_log.jsonl"
+TIMEOUT_MS = 45000  # OPENCODE_ASK_TIMEOUT; rows at/above this burned the full agent budget
 
 def main():
     start = int(sys.argv[1]) if len(sys.argv) > 1 else 3092
     lines = LOG.read_text(encoding="utf-8").splitlines()
     seg = lines[start:]
-    total = ok = fb = agent_completed = agent_fb = direct = 0
+    total = agent_completed = agent_timeout_fb = fast_fallback = pure_direct = 0
     suspect = []
     statuses = {}
     lat_real = []
@@ -33,42 +48,47 @@ def main():
         fell = bool(d.get("fell_back"))
         st = d.get("status", "ok")
         statuses[st] = statuses.get(st, 0) + 1
-        if route == "agent" and not fell:
-            agent_completed += 1
-        if route == "agent" and fell:
-            agent_fb += 1
-        if route == "direct":
-            direct += 1
-        if fell:
-            fb += 1
         # test-traffic heuristic: sub-100ms wall time cannot be a real LLM roundtrip
         if lat < 100:
-            suspect.append((lineno, d.get("ts"), route, lat))
-        else:
-            lat_real.append(lat)
-        if st == "ok":
-            ok += 1
+            suspect.append((lineno, d.get("ts"), route, lat, fell))
+            continue
+        lat_real.append(lat)
+        if route == "agent" and not fell:
+            agent_completed += 1
+        elif route == "direct" and fell and lat >= TIMEOUT_MS:
+            agent_timeout_fb += 1
+        elif route == "direct" and fell:
+            fast_fallback += 1
+        elif route == "direct":
+            pure_direct += 1
+    attempted = agent_completed + agent_timeout_fb
+    fb_rate = round(100.0 * (1 - agent_completed / attempted), 1) if attempted else None
     lat_real.sort()
     def pct(p):
         return lat_real[min(len(lat_real) - 1, int(len(lat_real) * p))] if lat_real else 0
-    fb_rate = round(100.0 * fb / total, 1) if total else 0.0
     stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
     out = REPO / "logs" / "graph" / f"b4_checkpoint_{stamp}.md"
-    real_agent = [s for s in [] ]  # placeholder kept simple
     report = [
         f"# B4 checkpoint {stamp}",
-        f"",
+        "",
+        "## agent 路两列口径（判定主口径; route 字段记最终路径, 尝试=完成+超时回落）",
+        f"- agent 尝试总数 (attempted): {attempted}",
+        f"- agent 完成数 (无回落): {agent_completed}",
+        f"- 回落率: {fb_rate}%  (= 1 - 完成/尝试)" if fb_rate is not None else "- 回落率: N/A (无尝试)",
+        f"  - 超时回落 (latency>={TIMEOUT_MS}ms): {agent_timeout_fb}",
+        f"  - 快速回落 (<{TIMEOUT_MS}ms, sidecar 不可用等, 不计入尝试): {fast_fallback}",
+        "",
+        "## 全量分布",
         f"- segment: line {start + 1} .. {len(lines)} (n={total})",
-        f"- route distribution: direct={direct}, agent-completed(no-fallback)={agent_completed}, agent-fell-back={agent_fb}",
-        f"- fallback rows: {fb} ({fb_rate}% of segment)",
+        f"- 最终路径分布: direct={pure_direct + agent_timeout_fb + fast_fallback} (其中回落 {agent_timeout_fb + fast_fallback}), agent={agent_completed}",
         f"- status: {statuses}",
         f"- latency (rows >=100ms): p50={pct(0.5)}ms p95={pct(0.95)}ms n={len(lat_real)}",
-        f"- suspect test/cache rows (<100ms): {len(suspect)}",
+        f"- suspect test/cache rows (<100ms, 已排除出统计): {len(suspect)}",
     ]
     for s in suspect[:20]:
-        report.append(f"  - line {s[0]} {s[1]} route={s[2]} lat={s[3]}ms")
+        report.append(f"  - line {s[0]} {s[1]} route={s[2]} lat={s[3]}ms fell={s[4]}")
     report.append("")
-    report.append("Judgment rule (user approval 08-20 #3): fallback rate >60% -> first suspect content=null; investigate before rollback decision.")
+    report.append("Judgment rule (user approval 08-20 #3): 回落率 >60% -> 第一怀疑 content=null; 查无解释报用户拍板。")
     out.write_text("\n".join(report), encoding="utf-8")
     print("\n".join(report))
     print(f"\nreport written: {out}")
