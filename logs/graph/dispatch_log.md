@@ -848,3 +848,9 @@ echo dispatch_log updated
 
 [08-22 00:20] #L2-CONTEXT-MEASURE sidecar context 测量定论(只读): 单调用 decode 60-70%(仅~45tok, 带宽墙)/prefill 30-40%, attempt 级主导项=串行 step 数 p50=3/p95=5 ×每步 7-15s; 生产 thinking 实际 OFF(证据四条) → L1 08-23 基线口径须先拍板; 孤儿续跑+opencode.db 持久化损坏记账; 报告 2026-08-22_l2_sidecar_context_measurement.md
 [08-22 00:35] #L3-DFLASH2-FEASIBILITY DFlash2 镜像可行性(只读, 未拉未建): #52816 MERGED(08-21T05:27Z b389ac2)但现镜像(0.27.2.dev0+g6e448d0ea.d20260815)与 v0.27.1 release 均不含(DFlash2DraftModel 全库零命中); incoai 权重 3.85GB k=8 只查未下; 路径 A 等 timothystewart6 新 tag(推荐)/B 自建(后备) → 报用户拍板; 报告 2026-08-22_l3_dflash2_image_feasibility.md
+
+[08-22 01:35] #T1-CALIBER-SWEEP 漂移修正扫荡(拍板一入账): "xhigh 轨迹超预算"归因作废→更正为串行多步(p50=3/p95=5/max=15)×每步 7-15s; THREADS×3 加注+拍板章节 / DECISIONS×1 加注 / d2 §4 / dflash 备忘 §6 / drafter ledger L3 拍板 A 章 / docs/32 §6 杠杆序备忘录 / GB10 b4_checkpoint 报告加注; 08-19 xhigh 批复标前提失效待矩阵复测; 修正必带证据无静默改写
+[08-22 01:42] #T2-TEMPLATES 任务卡+验收清单模板固化(docs/29 L2 落地): templates/task_card_template.md(七节, 前提假设清单必填) + templates/acceptance_checklist_template.md(声明→命令→实测三列 + 范例二 c9b2b07/f8898c9)
+[08-22 01:45] #T3-STATUS-ENHANCE status.sh 增强(docs/29 L1 补全): 端口补 8006/8007/8008 + loop_b.log 最近 PASS 行 + B4 两列口径实时输出(回滚点 3295 起+全量, 复用 b4_checkpoint.compute 只读); b4_checkpoint.py 抽 compute()/pct() main 输出逐字不变
+[08-22 01:48] #T4-L3-CHECKLIST docs/29 附录 A→B→C 自动分发前置清单(8 项现状/差距, 只列不实施) + 头部状态同步(L1 已补全/L2 已落地/L3 只列)
+[08-22 02:05] #CLOSEOUT-0822 收口: pytest 379 passed/13 skipped 全量重跑入 pytest_latest.txt; 拍板 a/A 终态 STATE 覆写; commit+push 三方对齐; 本轮零运行时配置变更, 回守护模式

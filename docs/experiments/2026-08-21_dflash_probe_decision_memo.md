@@ -44,3 +44,8 @@ D2 分段数据（2026-08-21_d2_acceptance_segmentation.md）：xhigh+XML 段接
 
 - 盯 PR #52816 合入状态 + 官方权重出现；复核命令：GitHub API pulls/52816（state/merged 字段）；
 - 合入且权重出现 → 重开 DFlash2 探针评估（届时引擎版本升级一并评估，见 vLLM 版本升级长期台账）。
+
+## 6 口径更正注记（2026-08-22, T1 漂移扫荡）
+
+- 本备忘文中"xhigh"均指受控直打探针段（显式传 reasoning_effort=xhigh 直打 :8006）, 非生产接线口径; 生产 m2-qa thinking 当时实际 OFF（见 2026-08-22_l2_sidecar_context_measurement.md §7）。
+- NO-GO 结论不受本更正影响（基于镜像事实判定: 现镜像不含 DFlash2DraftModel + 权重事实）。

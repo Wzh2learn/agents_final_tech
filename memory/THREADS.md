@@ -271,7 +271,7 @@
 
 ## [2026-08-19 23:xx] DSpark 批复批量入账 (用户)
 - ① GO 流程: :8006 基线矩阵回填 + Track C 审计 → 切换窗口申请(用户另行给窗); 回滚预案 = 原参数重起现容器(--rm, 启动命令已入 SOP), 切换前后各留一份 docker inspect 存档
-- ② 思考档位 xhigh 起步不降档: medium 无质量数据, 降档 = 无依据质量回归; 切换后 B4 跑 2-3 天 + 同步补 medium 档 16 题矩阵, 数据说话再议
+- ② 思考档位 xhigh 起步不降档: medium 无质量数据, 降档 = 无依据质量回归; 切换后 B4 跑 2-3 天 + 同步补 medium 档 16 题矩阵, 数据说话再议 【08-22 L2 更正注: 前提失效, 待 L1 矩阵复测——接线实况 thinking 当时实际 OFF, "xhigh 起步"从未在生产生效（不撤销不涂改, 让数据裁定）; 证据: docs/experiments/2026-08-22_l2_sidecar_context_measurement.md §7; L1 已更名"thinking 档位裁定矩阵"（用户拍板 a, 08-22）。】
 - ③ content=null 偶发 (xhigh 多轮 adv_multiturn 第二轮) = **已知边界**入台账: 切换后 B4 回落率 watchdog 的首要怀疑对象; 回落率异常即回滚
 - ④ num_speculative_tokens=5 A/B → 切换后优化台账 (现 k=7 第 6/7 位接受率 14.3%/5.7% 近乎白算)
 - ⑤ Route S 解除阻塞 + 归因更正: token 一直在 GB10 (~/.cache/huggingface/token, whoami wpxxqzh111, 有效至 2026-09-11); 原归因"GB10 无 HF token"有误 — 实为查找路径遗漏 (recipe 仓库在 GitHub 不在 HF: github.com/hasso5703/dgx-spark-qwen38)。**红线: token 只引用路径, 任何场合不打印值, 不入 git**。对照臂恢复执行, 时序不阻塞 Route V 切换
@@ -338,11 +338,11 @@
 - 观察: agent 路完成率以 B4 数日数据为准 (watchdog 守护); k=5 A/B + medium 16 题矩阵仍排切换稳定后
 [08-21 01:30] #NIGHT-LOOP-CLOSEOUT ① P4 专利完整修订版待用户终审 (docs/experiments/2026-08-21_patent_full_revised.md, 权 7-12 + 权 10 双锚定 + PSO 实测回填) ② B4 污染修复: M1_B4_LOG_PATH env 覆盖 + conftest 隔离 (生产行为不变无需重启); 24h checkpoint cron 一次性 23:50 (跑完人工删除); 真实 agent 完成维持 0, 接受率 1.33 ③ PSO 落点①v0: 分离度 +14.06%, research/pso/ 独立 venv ④ docs/33 §8 状态对齐
 [08-21 01:45] #N3 C3 4B 探针 NO-GO(off 14/16, xhigh 13/16): 4B 思考负增益 + q08 在 4B 双档全过(小模型非必败)入账; :8007 已停; 报告 2026-08-21_small_model_matrix_c3.md
-[08-21 01:05] #D1 B4 checkpoint interim 定论(切换+75min): 段 n=14(5 测试疑似行剔除→9 真实), 真实流量 9/9 全为 agent 路 45-50s 超时回落, agent 完成 0; content=null 计数 0(status 全 ok, 回落均为超时型非空答型); 接受率累计 1.29(1556/1207), 近 27min 段 1.18 → **判定=观察档**(回落率 100%>60% 但归因明确=45s 预算<xhigh 轨迹长度, 非归因不明不触发回滚; n=9 样本不足续看 2 天); 今晚 23:50 cron 复核终判; D2 分段诊断接续
+[08-21 01:05] #D1 B4 checkpoint interim 定论(切换+75min): 段 n=14(5 测试疑似行剔除→9 真实), 真实流量 9/9 全为 agent 路 45-50s 超时回落, agent 完成 0; content=null 计数 0(status 全 ok, 回落均为超时型非空答型); 接受率累计 1.29(1556/1207), 近 27min 段 1.18 → **判定=观察档**(回落率 100%>60% 但归因明确=45s 预算<xhigh 轨迹长度, 非归因不明不触发回滚; n=9 样本不足续看 2 天); 今晚 23:50 cron 复核终判; D2 分段诊断接续 【08-22 L2 更正注: "xhigh 轨迹"归因作废——生产 m2-qa thinking 当时实际 OFF（opencode.json 无 reasoning_effort + thinking_inject_proxy 默认注入 enable_thinking:false + 生成 45tok/请求 + DB reasoning 全 0）, 正解 = 串行多步（p50=3）× 7-15s/步。证据: docs/experiments/2026-08-22_l2_sidecar_context_measurement.md §7。】
 [08-21 01:55] #D2-D4 DSpark 实效诊断定论: D2 分段接受率=生产 agent 路 1.09-1.29 / XML-xhigh 1.517 / freeform 1.76 — 全段均匀低, 无 >2.5 段, 探针 3.31 为 thinking-off 离群值; D3 k=5 方案就绪(推荐度中低, 等窗口); D4 DFlash 探针臂 NO-GO(判据后半不成立 + rwmacy drafter 需 rmacy/vllm fork 否则接受率崩 24% + B70 调优), DFlash2 PR#52816 open 入盯梢; 报告 2026-08-21_d2_acceptance_segmentation.md / dsprk_k5_ab_plan.md / dflash_probe_decision_memo.md
 [08-21 22:48] #B4-CALIBER-FIX 口径注记: B4 route 字段记录**最终路径**（agent 尝试超时回落记 route=direct+fell_back=true）, 今后 agent 路统计一律用"尝试/完成"两列口径（尝试=完成+≥45s 超时回落; 快速回落<45s 不计入尝试）; b4_checkpoint.py 已修 (c9b2b07) + 冒烟: 切换点 3092 起 n=191, 尝试 186/完成 0/回落率 100%
 
-[08-21 23:24] #B4-24H-FINAL DSpark 切换 24h 终判（提前至 23:22 跑, 用户批准; cron 条目已删, 报告 logs/graph/b4_checkpoint_20260821_2322.md）: 切换点 3092 起 n=195（剔 5 疑似测试行）, **agent 尝试 190 / 完成 0 / 回落率 100%**, 全部超时型回落（p50=46.6s / p95=49.9s, 预算 45s）, content=null=0（status 全 ok）。归因明确: ① xhigh agent 轨迹长度 > 45s 预算; ② D2 坐实接受率全段均匀低（agent 段 1.09-1.29）, 投机解码对 agent 流量无增益; ③ 对照切换前 45s era（n=791）完成率 ~20%（124 条 p50=37.8s / 509 回落 p50=49.7s）→ 切换后 0%, DSpark 对 agent 路净效应为负（草稿开销无接受率收益）。判定: 回落率 >60% 但 content=null 排除且归因明确 → 不属"查无解释", 按批复报用户拍板, 不擅自回滚。菜单: a) 回滚 :8006 非 DSpark 参数（SOP 就绪 ~31s, 预期恢复 ~20% 完成率） b) 保留 DSpark + 超时抬至 60s（覆盖 p95, 但 kiosk 更慢且接受率根因未解） c) 保留 DSpark + kiosk A1 路由分离（待批）+ 等 k=5/medium 矩阵数据。
+[08-21 23:24] #B4-24H-FINAL DSpark 切换 24h 终判（提前至 23:22 跑, 用户批准; cron 条目已删, 报告 logs/graph/b4_checkpoint_20260821_2322.md）: 切换点 3092 起 n=195（剔 5 疑似测试行）, **agent 尝试 190 / 完成 0 / 回落率 100%**, 全部超时型回落（p50=46.6s / p95=49.9s, 预算 45s）, content=null=0（status 全 ok）。归因明确: ① xhigh agent 轨迹长度 > 45s 预算; ② D2 坐实接受率全段均匀低（agent 段 1.09-1.29）, 投机解码对 agent 流量无增益; ③ 对照切换前 45s era（n=791）完成率 ~20%（124 条 p50=37.8s / 509 回落 p50=49.7s）→ 切换后 0%, DSpark 对 agent 路净效应为负（草稿开销无接受率收益）。判定: 回落率 >60% 但 content=null 排除且归因明确 → 不属"查无解释", 按批复报用户拍板, 不擅自回滚。菜单: a) 回滚 :8006 非 DSpark 参数（SOP 就绪 ~31s, 预期恢复 ~20% 完成率） b) 保留 DSpark + 超时抬至 60s（覆盖 p95, 但 kiosk 更慢且接受率根因未解） c) 保留 DSpark + kiosk A1 路由分离（待批）+ 等 k=5/medium 矩阵数据。 【08-22 L2 更正注: "xhigh 轨迹"归因作废——生产 m2-qa thinking 当时实际 OFF（opencode.json 无 reasoning_effort + thinking_inject_proxy 默认注入 enable_thinking:false + 生成 45tok/请求 + DB reasoning 全 0）, 正解 = 串行多步（p50=3）× 7-15s/步。证据: docs/experiments/2026-08-22_l2_sidecar_context_measurement.md §7。】
 
 [08-21 23:54] #DSPARK-ROLLBACK 准路根治合并卡 Phase 0 执行完毕: :8006 回滚非 DSpark 原参数 (GMEM 0.30, 无 spec config, 23:46 READY ~5min)。六步验证全 PASS: health/full (137/local/healthy) + parse 冒烟 latin1.txt 5ms + QA 2 条含 OCR meta 确定性 2/2 + compare 嘉兴民安 2 持仓 + route=on env 确认 + agent 路单题实测 45931ms (45s 超时回落, 单条不构成结论, 不二次折腾)。**B4 回滚点 = 3294 行 (23:51:43)**, 统计分段: DSpark era 3093-3287 / 回滚验证期 3288-3294 / 回滚后自 3295。Loop B: topology 断言实查无 spec 计数器项 (仅 health+模型 ID) 无需改动; agent_watchdog 持续守护。drafter 权重留盘不删, ledger 记生产退出; kiosk 已恢复。根治三杠杆排队: L1 medium 矩阵 08-23/24 → L2 sidecar 瘦身先量 → L3 DFlash2 镜像评估先行; 抬超时不在选项内。
 
@@ -362,3 +362,17 @@
 ### 其他记账
 - Loop B agent_watchdog 持续 ALARM = 设计内信号（agent 完成未恢复, 00:17 周期 overall=FAIL 属此）, 记台账不当事故。
 - 专利完整修订版冻结等用户终审、用户亲发导师, 主线程不碰; kiosk A1 方案窗口另行给。
+
+### [2026-08-22 01:25] 用户拍板: L1 口径=a, L3 路径=A（夜间 graph engineering loop）
+
+**拍板一 · L1 口径（选 a）**: L2 更正坐实——生产 m2-qa thinking 实际 OFF（证据链: opencode.json 无 reasoning_effort + thinking_inject_proxy 默认注入 enable_thinking:false + 生成 45tok/请求 + DB reasoning 全 0, 见 docs/experiments/2026-08-22_l2_sidecar_context_measurement.md §7）。处置三条:
+- ① "xhigh 轨迹超预算"归因作废, 正解 = 串行多步（p50=3/p95=5/max=15）× 7-15s/步; 08-19 "xhigh 起步"批复标注"前提失效, 待 L1 矩阵复测"（不撤销不涂改, 让数据裁定）; B4 终判条目 / docs/32 / drafter ledger / D2 报告 / DFlash 备忘中旧归因处已同步加注（08-22 T1 扫荡）。
+- ② L1 更名 **"thinking 档位裁定矩阵"**: off 腿有生产数据不重跑, 只补 medium/xhigh 两腿（各 16 确定性题 + NF 9 题 + judge 四维抽样 + 端到端延迟与 thinking token 分布）; reasoning_effort 显式注入（探针直打 :8006 或 sidecar 临时配置, 实现路径自定）, 生产默认口径不动, 矩阵跑完即还原, 还原动作写入验收清单（templates/acceptance_checklist_template.md）。
+- ③ 杠杆序重排备忘录入 docs/32 §6: 主导项 = step 数, "减 step（3→2 省 1/3）+ 终结孤儿续跑"升第一梯队, thinking 档位降为质量维度（由矩阵裁定）; 只记账不动手, 实施排矩阵之后。
+- 教训入账: 声称的决策状态与运行实况脱节整整一周无人发现 → 任务卡"前提假设清单"成为必填项（T2 模板已体现, templates/task_card_template.md）。
+
+**拍板二 · L3 路径（选 A）**: 等 timothystewart6/vllm-gb10 新 tag（含 DFlash2）, 不自建。追加四条:
+- ① 新 tag 出现后探针默认排入 L1 基线之后, 前置条件 = L1 基线完成 / pull 避开任何预留窗口（22GB 大 I/O 不与矩阵同夜）/ :8007 探针走既有协议 / GO-NO-GO 报用户后才许申请生产窗口。
+- ② checkpoint: 2026-08-29 仍无 tag → 出路径 B（自建）再评估报告, 不自动启建。
+- ③ 新 tag 带 ~800 commit 跨度, 等价性三连（thinking 各档 / qwen3_xml 工具解析 / chat template）+ GB10 启动 SOP 重标定为探针卡必跑项。
+- ④ 盯梢命令维持 drafter ledger 现状（curl dockerproxy.net tags/list）。

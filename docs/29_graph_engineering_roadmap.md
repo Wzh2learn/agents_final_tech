@@ -1,6 +1,6 @@
 # Graph Engineering 路线图（Q4: 只出菜单, 等拍板）
 
-> 状态: 活跃（菜单待拍板, 未实施） | 更新: 2026-08-12 | 取代/被取代: 无
+> 状态: 活跃（L1 已补全 08-22 / L2 已落地 templates/ / L3 只列清单未实施） | 更新: 2026-08-22 | 取代/被取代: 无
 > 复盘范围: 近两周 dispatch_log (197 条) / blocked_questions / 08-11 延迟事故 / 08-12 辅助线核验
 
 ## 一、人肉环节盘点（现状）
@@ -55,3 +55,20 @@ redlines: [冻结节点, API key, ...]
 1. **L1 status.sh**（发送后第一个窗口, 0.5d）
 2. L2 模板先在下一个 risk=high 任务 (延迟 a+b 重启窗口) 试用
 3. L3 暂缓实施, 每两周 neat 时重评前提条件
+
+## 附录: A→B→C 自动分发前置清单（2026-08-22 T4, 只列不实施）
+
+> 背景: §2 L3 暂缓; 本附录把每个前提落成"现状 → 差距"条目, 供重评使用。**只列不实施**, 不改任何分发默认行为。
+
+| # | 前提项 | 现状（2026-08-22） | 落地差距 |
+|---|---|---|---|
+| 1 | 任务卡机可读化 | templates/task_card_template.md 已带 YAML frontmatter（08-22 T2）, 但无解析器; acceptance 命令人读人跑 | ① frontmatter schema 校验脚本（id/loop/model/risk/acceptance/rollback/redlines 字段）; ② 任务卡存放与命名约定; ③ acceptance cmds 必须一次性可执行（无交互/无 sudo）, expect 可机器判定（grep/regex/JSON 字段断言） |
+| 2 | 验收项可自动执行 | templates/acceptance_checklist_template.md 三列表（声明→验证命令→实测值）, 人工执行 | 验收 runner: 读任务卡 acceptance → 逐条执行 → 输出 PASS/FAIL JSON; 范例已二（c9b2b07 B4 口径修复 / f8898c9 Phase 0 回滚） |
+| 3 | 回滚点机可读 | 任务卡 rollback 字段为自由文本; B4/DSpark 窗口实践 = docker inspect 存档配对 + rollback_launch.sh | ① rollback 字段格式约定（一次性可执行命令）; ② 存档路径约定 logs/graph/inspect_<taskid>_{before,after}.json; ③ 回滚前置校验（存档存在性检查） |
+| 4 | 失败升级路径 | 全人工: 失败 → 对话汇报 → 用户拍板 | 升级分级: L0 自动重试（幂等操作）/ L1 自动回滚（执行 rollback 字段 + 记台账）/ L2 停手 + dispatch_log + 等用户; 任务卡中止条件机可读; Loop B ALARM 已是机器信号（08-22 watchdog 设计内先例）, 可作升级触发源 |
+| 5 | 健康事实源（L1 稳定） | status.sh 08-22 补全（端口 +8006/8007/8008、Loop B log 最近 PASS、B4 两列口径）, 输出为人读文本 | ① 稳定运行 2 周积累记录; ② 加 --json 输出模式供编排器消费; verify-report.json（Loop B）已是 JSON 可直接用 |
+| 6 | Loop C dispatch 模板固化 | claude -p + 权限参数 + 报告路径约定已跑顺（08-12）, 但长字符串每次现场手拼 | dispatch 模板文件化（任务卡 → claude -p 命令生成器）, 与任务卡 id 关联 |
+| 7 | 成本护栏 | 未实现 | 任务卡加 budget 字段（flash reasoning token 估算）; 当前 flash/max 选型靠人判断 |
+| 8 | 人在环保留 | 设计原则, 无需实现 | risk=high 永远人确认, 编排器只备料——此项为约束不是待办 |
+
+落地顺序建议（L3 重评时）: 1 schema 校验 → 2 验收 runner → 3 存档约定 → 5 --json → 6 dispatch 模板 → 4 升级路径 → 7 成本护栏。每步 flag 增量, 不改分发默认行为; 与 §2 L3 "不实施理由"（分发量 <5 次/天 ROI 为负）一并重评。

@@ -34,3 +34,9 @@
 - 段 B 流量经 :5050 生产端点（用户既定口径"eval 经生产端点积累真实样本"）, B4 计入 16 行；段 D 直打 :8006 不经 :5050, 不污染 B4；
 - kiosk 未暂停（D2 为观测, 背景窗实测其 :8006 贡献≈0）；
 - 未改任何配置；逐位分布与全部原始计数入 JSON 工件。
+
+## 4 口径更正注记（2026-08-22, T1 漂移扫荡）
+
+- 本报告 B/C 段口径中出现的"生产 agent xhigh"标签系 08-19 批复措辞; 当时生产实况为 thinking OFF（opencode.json 无 reasoning_effort + thinking_inject_proxy 默认注入 enable_thinking:false, 见 2026-08-22_l2_sidecar_context_measurement.md §7）。
+- 接受率数字不受影响: 全部为 /metrics spec_decode 计数器差值实测, 与 thinking 标签无关。
+- D1/D2 受控段（直打 :8006、显式传参）不受本更正影响。

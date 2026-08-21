@@ -68,3 +68,10 @@
 - 权重复核: incoai/Qwen3.8-27B-DFlash2 3.85GB apache-2.0, architectures=["DFlash2DraftModel"], block_size=8（k=8）, 镜像源 z-lab; **只查未下**。
 - 镜像侧坐实: 生产镜像 vllm-gb10:v0.27.1-gb10.1（vLLM 0.27.2.dev0+g6e448d0ea.d20260815, 22.1GB）全库 grep DFlash2DraftModel 零命中 → 不含; method dflash/dspark 均在位（registry L616/L618）; 构建 commit 与合并点 diverged, v0.27.1 release（08-11）早于合并 → 无官方 release 含 DFlash2。
 - **新盯梢项**: timothystewart6/vllm-gb10 含 DFlash2 的新 tag（versioned 或 sha-*; 复核命令 curl -s https://dockerproxy.net/v2/timothystewart6/vllm-gb10/tags/list）。出现后 → pull → :8007 探针（L1 基线后）→ 等价性三连 + D2 口径分段接受率 → GO/NO-GO → 申请 :8006 窗口。详见 2026-08-22_l3_dflash2_image_feasibility.md。
+
+## L3 路径拍板 A（2026-08-22, 用户拍板）
+
+- 路径定案: 等 timothystewart6/vllm-gb10 新 tag（含 DFlash2）, 不自建; 盯梢命令维持本台账"新盯梢项"现状不变。
+- 新 tag 出现后探针默认排入 L1 基线之后: 前置 = L1 基线完成 / pull 避开任何预留窗口（大 I/O 不与矩阵同夜）/ :8007 走既有探针协议 / GO-NO-GO 报用户后才许申请生产窗口。
+- checkpoint: 2026-08-29 仍无 tag → 出路径 B（自建）再评估报告, 不自动启建。
+- 新 tag 带 ~800 commit 跨度: 等价性三连（thinking 各档 / qwen3_xml 工具解析 / chat template）+ GB10 启动 SOP 重标定（GMEM / KV 预算 / drop_caches 流程）为探针卡必跑项。

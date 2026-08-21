@@ -190,7 +190,7 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 
 ## [2026-08-19] DSpark Route V 切换政策 (用户批复)
 - 切换内容: :8006 vllm-probe 容器以 DSpark 投机解码参数重起 (k=7, probabilistic, drafter=/models/drafter); 消费者 (:5050/opencode/JUDGE_ENDPOINT) 零配置变更
-- 思考档位: xhigh 起步不降档 (medium 无质量数据); B4 2-3 天 + medium 16 题矩阵对照后再议
+- 思考档位: xhigh 起步不降档 (medium 无质量数据); B4 2-3 天 + medium 16 题矩阵对照后再议 【08-22 L2 更正注: 前提失效, 待 L1 矩阵复测——接线实况 thinking 当时实际 OFF, "xhigh 起步"从未在生产生效（不撤销不涂改, 让数据裁定）; 证据: docs/experiments/2026-08-22_l2_sidecar_context_measurement.md §7; L1 已更名"thinking 档位裁定矩阵"（用户拍板 a, 08-22）。】
 - 回滚预案: 原参数重起现容器 (启动命令在 SOP); 切换前后 docker inspect 各存档一份 (logs/graph/eval/)
 - 镜像: 同一 dockerproxy.net/timothystewart6/vllm-gb10:v0.27.1-gb10.1, 切换不换镜像
 - 六步验证: health/full (137/local/healthy) + parse 冒烟 + QA 2 条含 OCR meta-query + compare 嘉兴民安 2 持仓 + route=on + agent 路 warm 延迟实测

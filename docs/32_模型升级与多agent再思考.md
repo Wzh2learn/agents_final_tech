@@ -1,4 +1,4 @@
-状态: 活跃 | 更新: 2026-08-16 | 取代/被取代: 无
+状态: 活跃 | 更新: 2026-08-22（§6 杠杆序重排备忘; 正文主体为 2026-08-16 口径） | 取代/被取代: 无
 
 # 32 模型升级与多 Agent 再思考
 
@@ -106,6 +106,7 @@ GGUF-Q4_K_M 至 ~/wzh/models/ (日志 ~/wzh/routeb_watch.log); S3 探针顺延�
 
 ## 3. 可重开的多 Agent 设计菜单 (只出菜单, 等拍板)
 
+> [08-22 语义更新注] "思考档位作为一等路由维度"条目前提更正: 生产接线 thinking 实际 OFF、从未开启（见 §6 与 docs/experiments/2026-08-22_l2_sidecar_context_measurement.md §7）; 该条目以"thinking 档位裁定矩阵"裁定开启有质量收益后才生效。
 | # | 菜单项 | 内容 | 工作量 | 风险 | 推荐 |
 |---|---|---|---|---|---|
 | M1 | 思考档位作为一等路由维度 | "快与准"菜单从"两个后端"变为"一个模型两档思考": A_off 快路 + C_xhigh 准路; 路由开关 = chat_template_kwargs, 秒级切换无进程动作 | 0.5d | 低 | 推荐 (路线 A 核心; 注意 A 档 10.3s 基线, 只适用 agent 验证路, 交互快路仍归 A3B) |
@@ -147,3 +148,12 @@ vllm-probe + 按 DECISIONS.md 模型卡命令行重启 llama-server, 预计 <2mi
 - 探针启动脚本: scripts/vllm_probe_serve.sh; P2 一键: scripts/m2_model_probe_p2_run.sh
 - page cache 回收: scripts/gb10_reclaim_page_cache.sh (生产安全, 无 sudo)
 - 原始报告 (GB10, gitignored): logs/graph/eval/model_probe_{thinking-probe,matrix,deterministic,deterministic_OLD,concurrency,judge_by_old,judge_by_new,vision_wavefax,vision_jiahe}.json
+
+## 6. 杠杆序重排备忘（2026-08-22, L2 测量更正后; 只记账不动手）
+
+> 来源: L2 sidecar context 测量（docs/experiments/2026-08-22_l2_sidecar_context_measurement.md）+ 用户拍板 a（08-22）。实施排在"thinking 档位裁定矩阵"之后。
+
+- 准路延迟（对 45s 预算）主导项 = **串行 step 数**（p50=3 / p95=5 / max=15, 每步 7-15s）, 不是 thinking 档位: 生产 m2-qa thinking 实际 OFF, "xhigh 轨迹超预算"归因作废（证据链见 L2 报告 §7）。
+- 杠杆序重排（实测拼接）: **第一梯队 = 减 step（3→2 省 1/3）+ 孤儿续跑终结**（超时回落后 sidecar 续跑 p95=133s/max=69min, slot 白占）; 第二梯队 = 投机解码提速（接受率是前提, 见 drafter ledger: DSpark 已退出, DFlash2 等新 tag）; 第三梯队 = context 瘦身（10k→6k 每步省 ~1-2s × 3 步, L2 判定 prefill 非主导项）。
+- thinking 档位降为**质量维度**问题: 开不开、开哪档由"thinking 档位裁定矩阵"（L1 更名）裁定——off/medium/xhigh 三腿, off 腿用生产数据不重跑, medium/xhigh 显式注入跑 16 确定性题 + NF + judge 四维 + 延迟与 thinking token 分布。
+- §3 菜单语义已在对应条目下加注（见 §3 标题后注）。
