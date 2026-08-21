@@ -1,5 +1,5 @@
 # memory/STATE.md
-更新: 2026-08-21 01:58（夜间 loop P4+N0-N3 收口 + D1-D4 DSpark 实效诊断定论）
+更新: 2026-08-21 22:58（B4 口径修复 + kiosk 方案待批; 前轮: P4 专利修订版 + D1-D4 诊断定论）
 
 ## 模式
 守护模式。本轮两大块: ① 专利 P4 完整修订版完成（待用户终审发导师）+ N0-N3
@@ -43,6 +43,13 @@
 - eval: 确定性 16/16 + NF 0/9 + judge 四维 5.0
 - pytest: 379 passed / 13 skipped（01:00 前后全量复测）
 - docs_lint: GB10 为准
+
+## 本轮追记（08-21 晚）
+- B4 口径修复（辅助线审计）: route 记最终路径 → b4_checkpoint.py 两列口径
+  （尝试=完成+≥45s 超时回落）; 冒烟 n=191: 尝试 186/完成 0/回落率 100%;
+  23:50 cron 用修正口径终判; 口径注记入 THREADS
+- kiosk 决策 A 方案已出（per-request route 参数, 待批; 需一次 :5050 重启窗口）:
+  docs/experiments/2026-08-21_kiosk_agent_route_proposal.md
 
 ## 下一步
 1. 今晚 23:50 B4 24h checkpoint（cron 一次性）→ 终判 D1; 跑完删 cron 条目

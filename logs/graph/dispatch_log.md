@@ -841,3 +841,5 @@ echo dispatch_log updated
 [08-21 01:50] #D2 接受率分段: agent 路 1.09-1.29 / XML-xhigh 1.517 / freeform 1.76, 全段均匀低无 >2.5 段, 探针 3.31 离群; kiosk 背景窗 0 流量; d2_segments.py 入库
 [08-21 01:52] #D3 k=5 A/B 方案就绪(只方案不执行): 末两位合计 5-7% 判据边际成立, 净估计 +3-8%, 推荐度中低, 等 :8006 窗口
 [08-21 01:55] #D4 DFlash 探针臂 NO-GO: D2 判据后半不成立 + rwmacy drafter 需 fork(stock 下 24%) + B70 调优; DFlash2 PR#52816 open 盯梢入 ledger
+[08-21 01:35] #LOOP-B-FLIP overall PASS -> FAIL (head=d22d39a; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-21 22:48] #B4-CALIBER-FIX b4_checkpoint.py 两列口径修复(辅助线审计): attempted=完成+≥45s超时回落; 冒烟 n=191 尝试186/完成0/回落率100%; 23:50 cron 照旧
