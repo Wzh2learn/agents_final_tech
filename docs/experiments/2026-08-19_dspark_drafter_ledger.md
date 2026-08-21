@@ -54,3 +54,10 @@
 - **DFlash2** (vllm-project/vllm PR #52816 "[Spec Decode] DFlash2: local convolution + candidate selector"): 08-21 GitHub API 实测 state=open / merged=false (updated 08-20)。无公开权重。**盯梢**: 合入 + 权重出现 → 重开探针评估（与 vLLM 版本升级长期台账联动）。
 - **rwmacy/qwen3.8-27b-dflash-drafter-fp8-b70** (sha 94f8b9cc, 08-16, Apache-2.0): 现存唯一 27B DFlash drafter, RadixArk DSpark drafter warm-start 微调; **不可直接探针**——README 自证需 rmacy/vllm fork 的 dflash 采样 off-by-one 修复, stock vLLM 下接受率崩至 ~24%; Intel Arc B70 调优。D4 结论 NO-GO (2026-08-21_dflash_probe_decision_memo.md)。
 - 复核命令: `curl -s https://api.github.com/repos/vllm-project/vllm/pulls/52816`（state/merged）; hf-mirror API 查官方 Qwen3.8 DFlash drafter 新仓库。
+
+## DSpark 生产退出 (2026-08-21 深夜回滚窗, 用户拍板 a)
+
+- B4 24h 终判: 尝试 190 / 完成 0 / 回落率 100% (全超时型) → :8006 回滚非 DSpark 原参数 (GMEM 0.30, 无 spec config)。
+- **drafter 权重留盘不删**: ~/wzh/models/hf/Qwen3.8-27B-DSpark-vLLM (revision 与接受率记录见本台账 08-19/08-20 条目); 生产退出, 等 drafter v2 或 medium 矩阵/DFlash2 基线就绪再议。
+- num_speculative_tokens=5 A/B (切换后优化台账项) 随 DSpark 退出作废——主矛盾是接受率非草稿长度 (D2 定论)。
+- **DFlash2 盯梢状态更新** (准路根治合并卡 08-21 实测事实): vllm-project/vllm#52816 已合并; incoai/Qwen3.8-27B-DFlash2 权重在位 (method=dflash, k=8, 无损, Qwen3.8-27B 官方配对)。本条取代 08-21 白天 "state=open / 无权重" 快照; Phase 3 (L3) 评估时再直连复核。

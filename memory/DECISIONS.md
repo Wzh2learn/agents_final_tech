@@ -196,3 +196,12 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 - 六步验证: health/full (137/local/healthy) + parse 冒烟 + QA 2 条含 OCR meta-query + compare 嘉兴民安 2 持仓 + route=on + agent 路 warm 延迟实测
 - 守护: 切换后 B4 回落率首要信号 (content=null 边界为首要怀疑对象), 回落率异常即回滚; Loop B 双模型断言相应更新
 - 切换后优化台账: num_speculative_tokens=5 A/B (k=7 pos6/7 接受率 14.3%/5.7% 近乎白算)
+
+## [2026-08-21] DSpark 生产退出回滚 (B4 24h 终判 → 用户拍板 a)
+- 依据: 切换后 B4 24h 终判 尝试 190 / 完成 0 / 回落率 100% (全超时型, content=null=0); D2 坐实接受率全段均匀低 (agent 段 1.09-1.29, 探针 3.31 为 thinking-off 离群值); 对照切换前 45s era 完成率 ~20% → DSpark 对 agent 路净效应为负
+- 回滚内容: :8006 vllm-probe 按切换前原参数重起 (GMEM 0.30, 无 --kv-cache-memory, 无 speculative-config, chat template qwen38_think_off_default.jinja 不变); 不混用 v3 的 0.34/6G 参数; 23:46 READY (~5min 冷启动)
+- 回滚后六步验证 (全 PASS): health/full (137/local/healthy) + parse 冒烟 (latin1.txt, 5ms) + QA 2 条含 OCR meta-query (确定性判分 2/2) + compare 嘉兴民安 2 持仓 + route=on (进程 env 确认) + agent 路单题实测 45931ms (45s 超时+直连回落; 单条不构成结论)
+- drafter 处置: 权重留盘不删 (~/wzh/models/hf/Qwen3.8-27B-DSpark-vLLM), ledger 记"生产退出, 等 drafter v2 或 medium 矩阵/DFlash2 基线再议"; num_speculative_tokens=5 A/B 台账项随退出作废
+- Loop B: topology 断言实查无 spec 计数器项 (仅 health+模型 ID), 无需改动; agent_watchdog 持续守护至 agent 完成恢复
+- 存档: logs/graph/eval/dspark_rollback_inspect_before/after_8006_0821night.json (与 v3 配对)
+- 准路根治三杠杆 (合并卡): L1 medium 矩阵 (08-23/24 错峰, 第一杠杆) → L2 sidecar 上下文瘦身 (先量后方案) → L3 DFlash2 (镜像评估先行); **抬超时不在选项内**; 每杠杆独立 go/no-go, 组合方案报用户拍板

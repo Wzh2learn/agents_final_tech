@@ -844,3 +844,4 @@ echo dispatch_log updated
 [08-21 01:35] #LOOP-B-FLIP overall PASS -> FAIL (head=d22d39a; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-21 22:48] #B4-CALIBER-FIX b4_checkpoint.py 两列口径修复(辅助线审计): attempted=完成+≥45s超时回落; 冒烟 n=191 尝试186/完成0/回落率100%; 23:50 cron 照旧
 [08-21 23:24] #B4-24H-FINAL 24h 终判(提前, 用户批准): 尝试 190/完成 0/回落率 100%(全超时型 p50=46.6s, content=null=0); 归因明确(xhigh 轨迹>45s 预算 + D2 接受率全段均匀低 + 对照切换前 45s era 完成率 ~20%→0%) → 报用户拍板回滚/保留; cron 条目已删; 菜单 a/b/c 入 THREADS
+[08-21 23:54] #DSPARK-ROLLBACK Phase 0 执行: :8006 恢复非 DSpark 原参数 (23:46 READY); 六步全 PASS + agent 路实测 45931ms (超时回落); B4 回滚点 3294; inspect before/after 存档配对; Loop B spec 计数器项实查不存在; drafter 权重留盘生产退出入 ledger; 根治三杠杆 L1/L2/L3 排队
