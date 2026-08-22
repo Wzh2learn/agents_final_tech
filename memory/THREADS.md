@@ -15,12 +15,13 @@
 
 ## 其他技术线索
 
-### 专利文档终态三件套冻结台账 (2026-08-22, 用户终审后亲发导师)
+### 专利文档终态三件套冻结台账 (2026-08-22, 已发导师 08-22 晚, 等五项定夺反馈)
 - 背景: 08-22 13:48 worktree 回退为用户有意操作(v1 docx 文末嵌呈递说明不宜随文档发出); 侧线重放修复并完成文档/邮件分离。
 - ① 交底书 md: docs/experiments/2026-08-21_patent_full_revised.md (737 行=§1-§8+附录A/B) sha256=F8A4B0CDF2BC0A503CA7DEED060C999425CA86082DB6740857C5F61F931635A6
 - ② docx v2: docs/experiments/《大模型长流程智能测评装置及方法》技术交底书_完整修订版_2026-08-21_v2.docx sha256=48FF2A450707B3038581B164E426C6D9ECBCFBFC2B1CDF951B8034CA45DC01BC (docx 内"老师好/呈递说明/请您定夺"零命中)
 - ③ 邮件草稿: docs/experiments/2026-08-22_patent_advisor_email.md sha256=7E39CFFC5F5CBD306C6617A250ECC4DAF61C3B06B67439F4662470EE84E109A6
 - v1 docx(hash 7954BB...)含嵌呈递说明, 不入库不发送, 留本地作废。
+- 状态更新 (08-22 晚): 用户已亲发三件给导师, 等导师五项定夺反馈(权利要求范围/发明人排序等, 见邮件草稿呈递说明); 主线程不碰。
 
 ### opencode 侧车交付链楔死 (2026-08-22 #B4-DIAGNOSIS) — 已修复 + 完整验收通过(08-22 15:11), 拍板 c 维持现状
 - 现象: B4 行 3075 (08-20 22:47:06) 起 agent 路 0 完成, 全部 45s 超时回落; 回滚点 3295 起 128 尝试/0 完成 (kiosk 94 / eval 窗 30 / 手工 4, 三段回落率均 100%; 08-22 三段核查 #B4-SEGMENT)。
@@ -31,8 +32,18 @@
 - 判定更正 + 拍板 (08-22 22:14): 验收①实已达成于 15:11:59——修复后 58 尝试 / 11 完成 = 19.0% (31.4-45.0s 全在预算内), 与楔死前 45s era 基线 ~20% 吻合; Loop B overall 15:14 FAIL→PASS (#LOOP-B-FLIP)。此前 14:53 "0 完成"判定 = 时点采样不足。**拍板 c 维持现状(不抬超时)**: ① 修复目标=恢复楔死前基线已达成, 无需动 :5050 ② 明晚 L1 矩阵需"生产配置未动"基线, 超时变更污染可比性 ③ "60s 完成率 >50%"属外推无数据, 不为外推花重启窗口 ④ 真正完成率提升走减 step (M4 34s→19s) + L2 context 瘦身 (27k→8-10k, 预热 2 overflow 为现成动机)。(a) 抬超时保留为后备: 48h 观察期(至 08-24 晚)完成率 <10% 或甲方要求更高 agent 完成率 → 届时与减 step 数据一起拍。
 - FK 竞争 (超时删 session vs 在途运行): 08-11 以来已知结构性问题 (adapter 超时删 session → 在途运行 FK 错), 新库亦复现非旧库腐烂; 记 **adapter 修复候选项, 不阻塞**当前任何事项。
 - B4 统计分段: 08-22 14:37 起记"侧车修复后段", 48h 观察以 b4_checkpoint.py 两列口径(尝试/完成)为准。
-- xargs 陷阱备忘: `xargs -0 -a ENVFILE env -i CMD` 会把变量追加到 CMD 参量尾 → yargs 未知位置参量打 help 退出; 正确姿势 = mapfile -d "" 重建数组(启动器 /tmp/sidecar_launch.sh)。
+- xargs 陷阱备忘: `xargs -0 -a ENVFILE env -i CMD` 会把变量追加到 CMD 参量尾 → yargs 未知位置参量打 help 退出; 正确姿势 = mapfile -d "" 重建数组(启动器 scripts/sidecar_launch.sh, 08-22 夜间审计入库, 原 /tmp 版同内容)。
 - 关联: L1 thinking 档位裁定矩阵 (08-23 晚窗口, runbook 已就位) 走直连不受影响; 减 step 菜单 (2026-08-22_step_reduction_menu.md) 在楔死修复前收益为零; B4 agent_watchdog ALARM 为该现象的设计内信号。
+
+### kiosk 进程停摆 (08-22 夜间审计发现) — 报用户拍板, 未擅自重建
+- 事实: B4 末条 kiosk-era 行 08-20 23:55:19; 08-21/22 全天 ~8 行/时 = 纯 Loop B 金丝雀(30min 周期 3-5 题); ps 无 kiosk 进程; 仓库内无 kiosk runner 脚本(仅 08-21 方案文档 2026-08-21_kiosk_agent_route_proposal.md)。
+- 停点与侧车楔死起点(08-20 22:46)同时段, 疑楔死期连续超时致 kiosk 退出未复活。
+- 影响: ① 演示观感无自动播放 ② 48h 观察期样本 = 纯金丝雀题型(见元认知快照 §四) ③ 台账/汇报"播放中"声称持续 2 天与实况脱节(漂移实例存档)。
+- 处置: 报用户拍板(重建 runner / 维持); 证据 = docs/experiments/2026-08-22_metacognition_snapshot.md 漂移 D1。
+
+### :5050 运行代码滞后 (08-22 夜间审计发现) — 记台账, 待重启窗
+- 事实: uvicorn 父进程 2104416 lstart 08-18 16:44:49; fb94824(08-21, src/web/routers/m2.py M1_B4_LOG_PATH B4 日志隔离修复)未生效——进程跑旧代码。
+- 处置: 生效需 :5050 重启窗口(红线不擅动); 下次重启窗顺带激活; 运行中行为未见异常(日志隔离缺失期 B4 行已验证无 M1 污染)。
 
 - Schema 口径 (2026-08-09 P1): 冻结运行时 schema (~/wzh/m1_samples, 07-30 版) 已落后 config/m1_table_schema.json (嘉合/卢样本 synonyms 演进)。CLI 与 :5050 已统一走 resolve_schema_path() (config/ 优先)。是否把运行时副本同步到 config 版 = 待 Loop D 决策 (需刷新 frozen_hashes.txt manifest)。
 - HTML 邮件链路 (2026-08-09 P1): 匹配步已复活 (scripts/m1_html_email_parse.py), 但 .msg -> HTML -> 表格的提取步脚本未入库 (仅存产物 html_extracted/*_tables.json); 重提取需重写 (4.1 一并)。
