@@ -100,7 +100,6 @@
 | `2026-08-21_d2_acceptance_segmentation.md` | 活跃 | D2 DSpark 接受率流量分段: 生产 agent 路 1.09-1.29 / XML-xhigh 1.517 / freeform 1.76, 全段均匀低无 >2.5 段; 探针 3.31 为 thinking-off 离群值; sidecar 轨迹是接受率洼地 | 2026-08-21 |
 | `2026-08-21_dspark_k5_ab_plan.md` | 待批 | D3 k=7→5 A/B 方案(只方案不执行): 末两位 4.2%/2.6% 判据边际成立, 净估计 +3-8%, 推荐度中低, 需 :8006 重启窗口 | 2026-08-21 |
 | `2026-08-21_dflash_probe_decision_memo.md` | 终稿 | D4 DFlash 探针臂 NO-GO: D2 判据后半不成立 + rwmacy drafter 需 rmacy/vllm fork(stock 下 24%) + B70 调优; DFlash2 PR#52816 盯梢 | 2026-08-21 |
-| `2026-08-21_kiosk_agent_route_proposal.md` | 待批 | kiosk 决策 A 方案: per-request route 参数(服务端+前端+kiosk 三点), 附带快与准菜单 UI 落点; 需一次 :5050 重启窗口, M2_OPENCODE_ROUTE 不动 | 2026-08-21 |
 | `2026-08-22_l2_sidecar_context_measurement.md` | 活跃 | L2 sidecar context 测量: 单调用 decode 60-70%/prefill 30-40%（带宽墙）, attempt 级主导项=串行 step 数（p50=3/p95=5）×每步 7-15s; **生产 thinking 实际 OFF**（L1 基线口径须先拍板）; 孤儿续跑+opencode.db 持久化损坏记账 | 2026-08-22 |
 | `2026-08-22_l3_dflash2_image_feasibility.md` | 待批 | L3 DFlash2 镜像可行性: #52816 已合并（08-21）但现镜像（08-15 构建）与 v0.27.1 release 均不含; 权重 3.85GB k=8 只查未下; 路径 A=等 timothystewart6 新 tag（推荐）/ B=自建（后备）, 未拉未建报拍板 | 2026-08-22 |
 | `2026-08-22_b4_agent_route_diagnosis.md` | 待批 | B4 agent 路 0 完成根因=opencode 侧车交付链楔死: 轨迹形态 step0 skill+search ~5s→step1 最终流→静默~40s→45s 超时(n=112, p50 steps=2); vLLM 侧无过错; "exiting loop" 末次 08-20 22:46:16 与最后完成逐秒吻合, 故障起点早于 DSpark v3 切换; 处置①重启侧车②重建 opencode.db③维持现状 报拍板 | 2026-08-22 |
@@ -137,6 +136,7 @@
 | 既有归档（34 件） | 2026-08-03 | 见下方清单 |
 | `archive/experiments/`（2026-08-12 批，18 件） | 2026-08-12 | 七月实验 + Phase 3 审查集群 + embedding 审计；现状性能/eval 基线以 2026-08-08_eval_baseline.md 为准 |
 | `archive/README_Codex_使用说明.md` | 2026-08-12 | 历史快照（文内自声明），现行以根 AGENTS.md / HANDOFF.md 为准 |
+| `archive/experiments/2026-08-21_kiosk_agent_route_proposal.md` | 2026-08-22 | kiosk 决策 A 方案（per-request route 提案）; kiosk 08-22 用户终判选项 B 正式关闭, 提案作废归档留审计 |
 
 <details>
 <summary>archive/experiments/ 22 件清单（2026-08-05 归档；审计分轮报告内容已归并入 SUMMARY_audit_loop_c.md）</summary>
