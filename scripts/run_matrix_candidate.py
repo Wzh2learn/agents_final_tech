@@ -62,7 +62,8 @@ def _sources_of(docs: list[dict]) -> list[dict]:
 
 
 def ask_candidate(endpoint: str, model: str, question: str,
-                  context: str, thinking: str, timeout: int) -> dict:
+                  context: str, thinking: str, timeout: int,
+                  max_tokens: int = 1024) -> dict:
     payload = {
         "model": model,
         "messages": [
@@ -71,7 +72,7 @@ def ask_candidate(endpoint: str, model: str, question: str,
              "content": f"【检索上下文】\n{context[:6000]}\n\n"
                         f"【问题】\n{question}"}],
         "temperature": 0,
-        "max_tokens": 1024,
+        "max_tokens": max_tokens,
     }
     if thinking in ("off", "low", "medium", "xhigh"):
         payload["chat_template_kwargs"] = {
@@ -87,10 +88,12 @@ def ask_candidate(endpoint: str, model: str, question: str,
     wall = round((time.monotonic() - t0) * 1000)
     msg = body["choices"][0]["message"]
     usage = body.get("usage", {})
+    details = usage.get("completion_tokens_details") or {}
     return {"answer": msg.get("content", ""),
             "reasoning": msg.get("reasoning") or msg.get("reasoning_content"),
             "wall_ms": wall,
             "completion_tokens": usage.get("completion_tokens"),
+            "reasoning_tokens": details.get("reasoning_tokens"),
             "prompt_tokens": usage.get("prompt_tokens")}
 
 
@@ -105,6 +108,8 @@ def main(argv=None) -> int:
     ap.add_argument("--fixture", default=FIXTURE)
     ap.add_argument("--top-k", type=int, default=5)
     ap.add_argument("--timeout", type=int, default=180)
+    ap.add_argument("--max-tokens", type=int, default=1024,
+                    help="每轮 max_tokens; xhigh 腿建议 4096 防 reasoning 截断 (默认 1024 零漂移)")
     ap.add_argument("--only", default="")
     ap.add_argument("--out", default=None)
     args = ap.parse_args(argv)
@@ -139,7 +144,7 @@ def main(argv=None) -> int:
     for q in questions:
         turns = q.get("turns") or [q["question"]]
         history = ""
-        answers, walls, toks = [], [], 0
+        answers, walls, toks, rtoks = [], [], 0, 0
         sources = []
         for turn in turns:
             q_ret = f"{history} {turn}".strip()
@@ -149,15 +154,19 @@ def main(argv=None) -> int:
             sources = _sources_of(docs)
             try:
                 r = ask_candidate(args.endpoint, args.model, turn, context,
-                                  args.thinking, args.timeout)
+                                  args.thinking, args.timeout,
+                                  max_tokens=args.max_tokens)
             except Exception as e:
                 r = {"answer": f"[candidate error] {type(e).__name__}: {e}",
                      "reasoning": None, "wall_ms": None,
-                     "completion_tokens": None, "prompt_tokens": None}
+                     "completion_tokens": None, "reasoning_tokens": None,
+                     "prompt_tokens": None}
             answers.append(r["answer"])
             walls.append(r["wall_ms"])
             if r.get("completion_tokens"):
                 toks += r["completion_tokens"]
+            if r.get("reasoning_tokens"):
+                rtoks += r["reasoning_tokens"]
             history = f"{history} 问:{turn} 答:{r['answer'][:200]}"
         final = answers[-1]
         resp = {"sources": sources, "route": f"matrix:{args.label}"}
@@ -169,6 +178,7 @@ def main(argv=None) -> int:
             "route": resp["route"], "model": args.model,
             "duration_ms": walls[-1], "sources": sources,
             "completion_tokens": toks,
+            "reasoning_tokens": rtoks,
         }
         results.append(row)
         mark = "PASS" if row["all_pass"] else "FAIL"
@@ -181,7 +191,8 @@ def main(argv=None) -> int:
         "n_questions": len(results), "n_pass": n_pass,
         "meta": {"candidate": args.label, "endpoint": args.endpoint,
                  "model": args.model, "thinking": args.thinking,
-                 "top_k": args.top_k, "fixture": args.fixture,
+                 "top_k": args.top_k, "max_tokens": args.max_tokens,
+                 "fixture": args.fixture,
                  "caliber": "K4 矩阵: 生产同口径检索 + 候选回答者 + 同判分"},
         "results": results,
     }

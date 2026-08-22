@@ -855,3 +855,13 @@ echo dispatch_log updated
 [08-22 01:48] #T4-L3-CHECKLIST docs/29 附录 A→B→C 自动分发前置清单(8 项现状/差距, 只列不实施) + 头部状态同步(L1 已补全/L2 已落地/L3 只列)
 [08-22 02:05] #CLOSEOUT-0822 收口: pytest 379 passed/13 skipped 全量重跑入 pytest_latest.txt; 拍板 a/A 终态 STATE 覆写; commit+push 三方对齐; 本轮零运行时配置变更, 回守护模式
 [08-22 02:10] #EOL-AUDIT 顺带发现: 仓库 CRLF committed 漂移——b233732 版 THREADS.md 347 行带 CR(本轮 commit 随编辑修复归 LF); 残留 docs/INDEX.md 与 src/web/routers/chat.py 两处; 记待清理项, 未来窗口机械归一无内容变更
+
+[08-22 12:58] #B4-EVAL-START-0822 每日 eval 启动(经 :5050 生产端点, 混合题型, M1 门禁+确定性16+NF9+judge)
+[08-22 13:27] #B4-EVAL-END-0822 eval 完成: M1 PASS / 确定性 16/16 PASS 但全部 PASS direct ~46-50s(=eval 段 16 次 agent 尝试全超时回落, 0 完成) / NF 0/9 过 / judge 四维均 5.0; "kiosk 题难度分层"假设在 eval 段被证伪 → 判定升级系统诊断(侧车楔死, 见 #B4-DIAGNOSIS)
+[08-22 13:33] #NF-PATCH m2_eval_number_faithfulness.py 参数化(+--thinking 直连 HTTP 注入仅非默认端点 +--det-report; 默认 :5050 端点行为零漂移) COMPILE-OK+--help 验证通过, L1 矩阵备战
+[08-22 13:35] #B4-MANUAL-0822 手工验证行×2(轻量单跳题, 非 fixture 原题): Q1 伏熙对账期间起始日 13:32:32→13:33:18 46s 超时回落; Q2 博时期末日期 13:33:48→13:34:34 46s 超时回落; 0 完成, 与 eval 段一致 → 三段全 0, 侧车楔死诊断(#B4-DIAGNOSIS)覆盖全部流量类型
+[08-22 13:36] #B4-DIAGNOSIS agent 路 0 完成根因定论=opencode 侧车交付链楔死(非模型栈/step 数/超时值): 轨迹形态 step0 skill+search ~5s→step1 最终答案流开始→静默~40s→45s 超时(回滚后 n=112 steps p50=2); vLLM 侧最终流开始后 ≤20s Running→0+200OK 不背锅; "exiting loop" 计数 08-18:117/08-19:81/08-20:27/08-21:0/08-22:0, 最后完成 08-20 22:46:16(行 3074)逐秒吻合, 行 3075 起全超时; 故障起点早于 DSpark v3 切换(23:48 READY)→切换/回滚均非病因; 侧车进程 08-17 22:49 启动未重启; :5050 现回落原因全部 timed out(非 compaction 守卫); opencode.db 持久化慢性病(session 表 7 行/FK 插入失败自 08-11)为背景噪声非直接病因。报告 2026-08-22_b4_agent_route_diagnosis.md。处置报用户拍板: ①重启 opencode 侧车进程(低风险, 非 :5050/:8004/:8006) ②仍 0 完成则备份重建 opencode.db ③不批则维持现状(直连兜底可用)
+[08-22 13:37] #B4-SEGMENT 三段核查(回滚点 3295 起 128 行): kiosk 94 尝试/0 完成, eval 窗(12:58:41-13:27:00) 30 尝试/0 完成(全部 46-50s 超时回落), 手工窗 4 尝试/0 完成(含 2 手工行+2 kiosk 穿插); 三段回落率均 100% → 判定: 难度分层假设证伪, 升级系统诊断报用户拍板(#B4-DIAGNOSIS), 未擅自变更; 数据喂明日 L1 矩阵解读与减 step 杠杆
+[08-22 13:48] #L1-RUNBOOK L1 thinking 档位裁定矩阵 runbook 就位: docs/experiments/2026-08-22_l1_matrix_runbook.md(任务卡体例+机读头, sha256 531fb1f4 两端一致); 两腿命令+NF+judge+三方对照表口径; 还原清单第一项=生产配置未动验证(opencode.json/opencode.jsonc sha256 前后快照+:5050 health/full); 前提 P1/P2/P4 已预验坐实(:8006 健康/生产 thinking OFF/fixture 冻结), P3 注入冒烟留窗口第 0 步; 窗口 pending(08-23 晚另批, 错峰)
+[08-22 13:50] #INDEX-CRLF docs/INDEX.md CRLF 残留机械归一 LF(154 行仅去 CR 零内容变更, #EOL-AUDIT 遗留项清偿; chat.py 代码层留将来窗口) + 登记今日 3 份实验文档(诊断/减step菜单/runbook)
+[08-22 13:52] #CLOSEOUT-0822-DAY 白天队列收口: pytest 379 passed/13 skipped 全量(168.7s, pytest_latest.txt 修复为全量工件); STATE 覆写(侧车楔死拍板项置顶); THREADS 侧车条目; 三段核查+诊断+runbook+NF 补丁+eval 全部入账; commit+push 三方对齐; 回守护模式

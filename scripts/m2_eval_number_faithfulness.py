@@ -10,6 +10,7 @@
   候选侧 (不走 :5050): --endpoint http://127.0.0.1:8006/v1/chat/completions \
     --model qwen38-27b-fp8 --out logs/graph/eval/number_faithfulness_report_candidate.json
 产出: logs/graph/eval/number_faithfulness_report.json (生产基线; 候选侧必须 --out 独立路径)
+  L1 矩阵腿 (thinking 注入): --endpoint ... --model ... --thinking medium|xhigh --det-report <该腿 matrix report> --out 独立路径
 """
 import argparse, json, os, re, sys, urllib.request
 sys.path.insert(0, os.path.dirname(__file__))
@@ -49,15 +50,49 @@ def main() -> int:
     ap.add_argument("--endpoint", default=BASE,
                     help="默认 = :5050 生产端点(HTTP); 其余值走本地 m2_service 直连(需同时 --model)")
     ap.add_argument("--model", default="", help="直连模式模型名(M2_LLM_MODEL)")
+    ap.add_argument("--thinking", default="",
+                    choices=["", "off", "low", "medium", "xhigh"],
+                    help="L1 矩阵候选腿 thinking 注入(仅非默认端点, 直连 HTTP 注入); 默认空=旧行为零漂移")
+    ap.add_argument("--det-report", default="logs/graph/eval/m2_deterministic_report.json",
+                    help="存量抽测答案源路径; 矩阵腿指向该腿 matrix report (默认=生产路径零漂移)")
     ap.add_argument("--out", default=OUT,
                     help="报告输出路径; 候选侧必须独立路径, 禁覆盖生产基线")
     args = ap.parse_args()
 
+    rag = ing.RAGService(collection_name=ing.COLLECTION)
     is_prod = args.endpoint.rstrip("/") == BASE
     if is_prod:
         def ask(q):
             return ask_http(args.endpoint, q)
         route = "http " + args.endpoint
+    elif args.thinking:
+        if not args.model:
+            raise SystemExit("非默认端点必须同时提供 --model")
+        # L1 矩阵腿: 直连 HTTP 注入口径(同 run_matrix_candidate.py), 不走 m2_service
+        # (其 payload 硬编码 enable_thinking=False); 检索与核验 blob 同口径现取
+        def ask(q):
+            docs = rag.smart_retrieve(query=q, top_k=args.top_k,
+                                      collection_names=[ing.COLLECTION],
+                                      max_results=args.top_k, use_rerank=True)
+            context = "\n".join((d.get("content") or d.get("text") or "")[:600]
+                                for d in docs)
+            payload = {"model": args.model,
+                       "messages": [{"role": "user",
+                                     "content": f"【检索上下文】\n{context[:6000]}\n\n"
+                                                f"【问题】\n{q}"}],
+                       "temperature": 0, "max_tokens": 1024}
+            payload["chat_template_kwargs"] = {
+                "enable_thinking": args.thinking != "off"}
+            if args.thinking != "off":
+                payload["reasoning_effort"] = args.thinking
+            req = urllib.request.Request(
+                args.endpoint, data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"}, method="POST")
+            with urllib.request.urlopen(req, timeout=180) as resp:
+                body = json.loads(resp.read().decode("utf-8"))
+            return {"answer": body["choices"][0]["message"].get("content") or "",
+                    "sources": []}
+        route = f"http-direct {args.endpoint} {args.model} thinking={args.thinking}"
     else:
         if not args.model:
             raise SystemExit("非默认端点必须同时提供 --model")
@@ -71,10 +106,9 @@ def main() -> int:
             return m2s.ask(q, top_k=args.top_k, session_id=m2s.new_session_id())
         route = f"local {args.endpoint} {args.model}"
 
-    rag = ing.RAGService(collection_name=ing.COLLECTION)
     cases = list(ADVERSARIAL)
     if args.existing:
-        det = json.load(open("logs/graph/eval/m2_deterministic_report.json", encoding="utf-8"))
+        det = json.load(open(args.det_report, encoding="utf-8"))
         for r in det["results"][:args.existing]:
             cases.append({"id": r["id"], "q": r["turns"][-1], "note": "存量抽测",
                           "retrieve_q": " ".join(r["turns"])})

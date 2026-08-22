@@ -15,6 +15,12 @@
 
 ## 其他技术线索
 
+### opencode 侧车交付链楔死 (2026-08-22 #B4-DIAGNOSIS) — 待用户拍板
+- 现象: B4 行 3075 (08-20 22:47:06) 起 agent 路 0 完成, 全部 45s 超时回落; 回滚点 3295 起 128 尝试/0 完成 (kiosk 94 / eval 窗 30 / 手工 4, 三段回落率均 100%; 08-22 三段核查 #B4-SEGMENT)。
+- 根因 (证据链: docs/experiments/2026-08-22_b4_agent_route_diagnosis.md): 轨迹形态 step0 skill+search ~5s → step1 最终答案流开始 → 静默 ~40s → 客户端超时 (回滚后 n=112, p50 steps=2); vLLM 侧最终流开始后 ≤20s Running→0 + 200 OK 不背锅; "exiting loop" 计数 08-18:117/08-19:81/08-20:27/08-21:0/08-22:0, 末次 08-20 22:46:16 与最后完成(行 3074)逐秒吻合; **故障起点早于 DSpark v3 切换 (23:48 READY)** → 切换/回滚均非病因; 侧车进程 08-17 22:49 启动未重启; :5050 回落原因全部 "opencode ask failed (timed out)" (非 compaction 守卫); opencode.db 持久化慢性病 (session 表仅 7 行 / message·part FK 插入失败自 08-11 每日都有, 08-19 峰值 570) 为背景噪声非直接病因。
+- 拍板选项: ① 重启 opencode 侧车进程 (低风险, 非 :5050/:8004/:8006 红线项) ② 仍 0 完成则备份重建 opencode.db ③ 维持现状 (直连兜底可用, 准路菜单名存实亡, kiosk 每条 46-50s 回落)。
+- 关联: L1 thinking 档位裁定矩阵 (08-23 晚窗口, runbook 已就位) 走直连不受影响; 减 step 菜单 (2026-08-22_step_reduction_menu.md) 在楔死修复前收益为零; B4 agent_watchdog ALARM 为该现象的设计内信号。
+
 - Schema 口径 (2026-08-09 P1): 冻结运行时 schema (~/wzh/m1_samples, 07-30 版) 已落后 config/m1_table_schema.json (嘉合/卢样本 synonyms 演进)。CLI 与 :5050 已统一走 resolve_schema_path() (config/ 优先)。是否把运行时副本同步到 config 版 = 待 Loop D 决策 (需刷新 frozen_hashes.txt manifest)。
 - HTML 邮件链路 (2026-08-09 P1): 匹配步已复活 (scripts/m1_html_email_parse.py), 但 .msg -> HTML -> 表格的提取步脚本未入库 (仅存产物 html_extracted/*_tables.json); 重提取需重写 (4.1 一并)。
 
