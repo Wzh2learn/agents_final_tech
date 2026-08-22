@@ -210,6 +210,8 @@ AoE sessions:
 
 ### 5.1 Loop 到工具的映射
 
+> **历史快照（08-11）**: 本节模型/载体表为当时拓扑口径; 现拓扑见根 AGENTS.md / memory/CORE.md（:8005 退位 / :8006 Qwen3.8-27B / 72B 否决删除）。
+
 | Loop | 当前载体 | 演进后载体 | 变化 |
 |------|----------|------------|------|
 | Loop A (执行) | tmux + codex cli | AoE session + codex cli / zhikuncode | 编排层统一管理 |
@@ -223,7 +225,7 @@ AoE sessions:
 |------|------|------|
 | Qwen3.6-35B-A3B + mmproj | :8004 | Loop A 主力 (本地推理) |
 | Qwen3-14B | :8005 | Loop C 辅助审计 (本地推理) |
-| Qwen3-72B (待评估) | :8006 | 可能替换主力 |
+| ~~Qwen3-72B~~（07-31 评估否决, 08-03 删除） | — | 结构化抽取退化, 见 archive/experiments 72b 两件 |
 | qwen3.8-max (云端) | 千问 API | Codex CLI / ZhikunCode 默认 |
 | glm-5.2 (云端) | 千问 API via 代理 v2 | Codex CLI 可选 |
 | deepseek-v4-pro (云端) | 千问 API via 代理 v2 | Codex CLI 可选 |

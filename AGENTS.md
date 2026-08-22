@@ -282,12 +282,14 @@ VLM: scripts/vlm_server_8007.py ready but BLOCKED (Triton ARM64 JIT compilation)
 - v1.2.1+7 (upgraded 2026-08-03), docker container `zhikuncode`, port :8090
 - Self-hosted Multi-Agent platform; source-built via docker compose (~/wzh/tools/zhikuncode)
 - :8004: Qwen3.6-35B-A3B + mmproj (generation + OCR + embedding)
-- :8005: Qwen3-14B (auxiliary)
-- :8007: Qwen3-VL-8B (VLM, NOT RUNNING - Triton blocked)
+- :8005: RETIRED (Qwen3-14B 退位 2026-08-17; Loop B 断言 down)
+- :8007: free probe port (VLM/Triton 线已关闭)
+- :8006/:8008: Qwen3.8-27B-FP8 (vLLM GB10 镜像) — M2 agent 验证链 / judge / 深度问答; thinking 经 reasoning_effort low/medium/xhigh（生产 m2-qa thinking 现为 OFF, proxy 默认; judge xhigh）
+- :4096: opencode 侧车 (M2 agent 路交付链; 启动器 scripts/sidecar_launch.sh)
 
 ### RAG Collection
 137 embeddings (was 88). Includes scenario1 HTML + NCAMC coordinate tables.
-RAG QA: eval 基线定稿 2026-08-09 = 确定性 16/16 + AI judge 四维全 5.0（15/15 为一轮口径, OCR meta-query fixed 08-05, 生产复验 08-07/08-09）; pytest 300 passed / 13 skipped; scenario1 回归门禁 15/15（华泰 100%, 嘉合 93.8%）。
+RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 0/9 + judge 四维 5.0, 经 :5050） = 确定性 16/16 + AI judge 四维全 5.0（15/15 为一轮口径, OCR meta-query fixed 08-05, 生产复验 08-07/08-09）; pytest 379 passed / 13 skipped (08-22); scenario1 回归门禁 15/15（华泰 100%, 嘉合 93.8%）。
 
 ## Skill 武库注册表 (Phase 0, 2026-08-03)
 
