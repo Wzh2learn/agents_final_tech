@@ -2,7 +2,7 @@
 # 机读元信息（面向未来 A→B→C 自动分发, 见 docs/29 附录前置清单 ①）
 id: TASK-20260823-01
 risk: low
-window: pending          # 矩阵窗口 08-23 晚另行批给, 错峰执行
+window: 2026-08-22 晚已执行（23:30-00:53）  # 裁定与数据见 docs/experiments/2026-08-23_l1_thinking_matrix.md
 premises:
   - id: P1
     claim: ":8006 qwen38-27b-fp8 健康(非 DSpark 回滚栈, GMEM 0.30 观察期)"
@@ -53,11 +53,11 @@ go 判据(沿用队列口径): 质量不降(16/16, NF 0/9, judge ≥4.9)且延�
 |---|------|----------------|----------------------|
 | P1 | :8006 qwen38-27b-fp8 健康 | curl -sS http://127.0.0.1:8006/v1/models | ✅ 08-22 13:38 坐实(max_model_len 32768) |
 | P2 | 生产默认 thinking=OFF | grep reasoning_effort opencode.json ~/.config/opencode/opencode.jsonc | ✅ 08-22 13:38 坐实(双配置 0 命中) |
-| P3 | 注入格式被 :8006 接受 | 动作序第 0 步冒烟 1 问 | ⬜ 窗口内第 0 步验证 |
+| P3 | 注入格式被 :8006 接受 | 动作序第 0 步冒烟 1 问 | ✅ 08-22 23:49 冒烟复跑 PASS（首冒烟命中测量盲区: details.reasoning_tokens 本 build 不产, runner 补丁 fallback=len(reasoning), 报告 §三） |
 | P4 | fixture 冻结只读 | ls -la tests/fixtures/m2_eval_questions.json | ✅ 08-22 13:38 坐实(6767B, 08-09) |
-| P5 | 注入不影响生产默认口径 | sha256 前后对比 + health/full 前后对比 | ⬜ 窗前快照, 窗末复验 |
+| P5 | 注入不影响生产默认口径 | sha256 前后对比 + health/full 前后对比 | ✅ sha256 前后窗一致（8cb44e40…/4e901f9e…）, health/full 137 一致 |
 | P6 | 侧车状态不污染矩阵结论 | 动作序命令 --endpoint 均为 :8006 直连 | ✅ 08-22 实证: 侧车重启+DB 重建后直连探针照常; 腿不经侧车, 依赖不成立 |
-| P7 | 窗口起点侧车状态已记录 | 第 0 步记侧车健康+agent 路状况入验收表 | ⬜ 窗口内填 |
+| P7 | 窗口起点侧车状态已记录 | 第 0 步记侧车健康+agent 路状况入验收表 | ✅ 08-22 23:30 侧车 :4096=200; B4 段 3429 口径 65 尝试/11 完成 回落率 83.1% |
 
 > 规则: P3/P5 未验证不许进腿; 冒烟失败 = 停下报用户, 不带假设硬跑。
 
@@ -90,12 +90,12 @@ go 判据(沿用队列口径): 质量不降(16/16, NF 0/9, judge ≥4.9)且延�
 
 | 声明 | 验证命令 | 实测值 |
 |------|----------|--------|
-| 生产配置未动(还原第一项) | sha256sum opencode.json ~/.config/opencode/opencode.jsonc 对比窗前快照 | ⬜ |
-| :5050 未受影响 | curl -sS http://127.0.0.1:5050/api/health/full | ⬜ |
-| medium 腿完成 | jq '.overall' logs/graph/eval/l1_medium_report.json | ⬜ |
-| xhigh 腿完成 | jq '.overall' logs/graph/eval/l1_xhigh_report.json | ⬜ |
-| NF/judge 四工件在位 | ls logs/graph/eval/l1_nf_*.json logs/graph/eval/l1_judge_*.json | ⬜ |
-| 注入冒烟证据 | 冒烟响应 reasoning_tokens 值 | ⬜ |
+| 生产配置未动(还原第一项) | sha256sum opencode.json ~/.config/opencode/opencode.jsonc 对比窗前快照 | ✅ 一致（8cb44e40…/4e901f9e…） |
+| :5050 未受影响 | curl -sS http://127.0.0.1:5050/api/health/full | ✅ healthy 137/local 一致 |
+| medium 腿完成 | jq '.overall' logs/graph/eval/l1_medium_report.json | FAIL 13/16（3 例未过构成见报告 §四） |
+| xhigh 腿完成 | jq '.overall' logs/graph/eval/l1_xhigh_report.json | ✅ PASS 16/16 |
+| NF/judge 四工件在位 | ls logs/graph/eval/l1_nf_*.json logs/graph/eval/l1_judge_*.json | ✅ 四工件在位 |
+| 注入冒烟证据 | 冒烟响应 reasoning_tokens 值 | medium 606 / xhigh 517 字符（len fallback 口径） |
 
 ## 6. 汇报格式
 

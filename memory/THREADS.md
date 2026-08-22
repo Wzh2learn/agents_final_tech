@@ -44,6 +44,26 @@
 - **教训入账**: 收口清单必含消费者复活核验(暂停/恢复必须成对, 以进程级证据为准, 口头声称不算), 与"声明必须带证据"同账。
 - **规则入账 (08-22)**: 今后任何常驻演示资产必须 runner 入库 + Loop B 健康断言, 不允许无册运行。
 
+### L3 DFlash2 侦查结论 (08-22 晚, N2 记账) — 维持路线 A 等新 tag
+- 事实: vLLM #52816 已合入上游(08-21); 权重在位 incoai/Qwen3.8-27B-DFlash2; 我们镜像 vllm-gb10:v0.27.1-gb10.1 构建 08-15 早于合入 → 无 DFlash2 代码, **今晚不可跑**; 镜像 tag 最新仍 v0.27.1 族, 无新版本。
+- 处置: 维持路线 A(等 timothystewart6 新 tag), 08-29 checkpoint 不变(无 tag → 路径 B 再评估报告); sha-* tag 日期排查入 drafter 盯梢台账。不自建镜像(路线 A 拍板)。
+
+### 缓办: agent 超时抬升 + 每步输出 (08-22 晚, N3 记账, 不动手)
+- ① agent 超时抬升(45→60-75s): **待 N1 矩阵质量数据后拍板**; 执行需 :5050 重启窗口(红线, 另行批)。
+- ② "每步输出" = adapter step 事件流: 开发任务入下个代码窗口; 兼作导师演示叙事素材。
+
+### 快路 27B 提议否决 (08-22 晚, N4 记账)
+- 物理算术: 27B dense ~10 tok/s, 200tok 答案 15-25s; 快路现 1.3-2s; 换 = 快档慢 10 倍。
+- 官方 pairing(27B 质量 + A3B 快) = 现有拓扑; 快路升级唯一路径 = Route B 3.8-A3B 权重(盯梢中, 08-22 前无官方开源权重)。
+- 折中菜单项"深度直答第三档(27B thinking-off 单发 15-25s)"**记账不实施**。
+
+### L1 thinking 档位裁定矩阵裁定 (08-22 夜窗执行, 08-23 出数) — NO-GO, 准路默认维持 thinking=OFF
+- 数据: medium 13/16 + NF 1/9 + judge 4.67; xhigh 16/16 + NF 0/9 + judge 4.875（基线 off = 16/16 + NF 0/9 + judge 5.0）; 单步直连 wall p50 medium 55.9s / xhigh 57.7s, p95 121.9s / 137.1s。
+- 裁定: 两腿均 NO-GO（判据: 质量不降 16/16 + NF 0/9 + judge ≥4.9 且延迟实质下降）; 08-19 "xhigh 起步"正式作废。
+- 正向信号: xhigh 跨期诱导抗性（NF adv_june_cross_period medium 命中 / xhigh 过）+ citation/refusal 5.0 → 记为用户可选"深度"档菜单项（代价单步 p50 ~58s）。
+- 方法论: 首冒烟命中测量盲区（本 vLLM build 不产 usage.completion_tokens_details）, runner 补丁 fallback=len(reasoning)（runbook 口径注记预告场景）; 报告 docs/experiments/2026-08-23_l1_thinking_matrix.md。
+- 下游输入: N3 agent 超时抬升拍板数据就位（off 单步 46-50s / xhigh p50 57.7s p95 137s, 抬 60-75s 容纳不了 xhigh p95, 超时抬升与档位升级不捆绑）。
+
 ### :5050 运行代码滞后 (08-22 夜间审计发现) — 记台账, 待重启窗
 - 事实: uvicorn 父进程 2104416 lstart 08-18 16:44:49; fb94824(08-21, src/web/routers/m2.py M1_B4_LOG_PATH B4 日志隔离修复)未生效——进程跑旧代码。
 - 处置: 生效需 :5050 重启窗口(红线不擅动); 下次重启窗顺带激活; 运行中行为未见异常(日志隔离缺失期 B4 行已验证无 M1 污染)。
@@ -304,7 +324,7 @@
 
 ## [2026-08-19 23:xx] DSpark 批复批量入账 (用户)
 - ① GO 流程: :8006 基线矩阵回填 + Track C 审计 → 切换窗口申请(用户另行给窗); 回滚预案 = 原参数重起现容器(--rm, 启动命令已入 SOP), 切换前后各留一份 docker inspect 存档
-- ② 思考档位 xhigh 起步不降档: medium 无质量数据, 降档 = 无依据质量回归; 切换后 B4 跑 2-3 天 + 同步补 medium 档 16 题矩阵, 数据说话再议 【08-22 L2 更正注: 前提失效, 待 L1 矩阵复测——接线实况 thinking 当时实际 OFF, "xhigh 起步"从未在生产生效（不撤销不涂改, 让数据裁定）; 证据: docs/experiments/2026-08-22_l2_sidecar_context_measurement.md §7; L1 已更名"thinking 档位裁定矩阵"（用户拍板 a, 08-22）。】
+- ② 思考档位 xhigh 起步不降档: medium 无质量数据, 降档 = 无依据质量回归; 切换后 B4 跑 2-3 天 + 同步补 medium 档 16 题矩阵, 数据说话再议 【08-22 L2 更正注: 前提失效, 待 L1 矩阵复测——接线实况 thinking 当时实际 OFF, "xhigh 起步"从未在生产生效（不撤销不涂改, 让数据裁定）; 证据: docs/experiments/2026-08-22_l2_sidecar_context_measurement.md §7; L1 已更名"thinking 档位裁定矩阵"（用户拍板 a, 08-22）。08-23 L1 矩阵复测裁定: 正式作废——thinking ON 无延迟收益(单步 p50 56-58s), medium 质量降(13/16+NF 1/9+judge 4.67), xhigh judge 4.875<4.9; 准路默认维持 thinking=OFF。详见 docs/experiments/2026-08-23_l1_thinking_matrix.md。】
 - ③ content=null 偶发 (xhigh 多轮 adv_multiturn 第二轮) = **已知边界**入台账: 切换后 B4 回落率 watchdog 的首要怀疑对象; 回落率异常即回滚
 - ④ num_speculative_tokens=5 A/B → 切换后优化台账 (现 k=7 第 6/7 位接受率 14.3%/5.7% 近乎白算)
 - ⑤ Route S 解除阻塞 + 归因更正: token 一直在 GB10 (~/.cache/huggingface/token, whoami wpxxqzh111, 有效至 2026-09-11); 原归因"GB10 无 HF token"有误 — 实为查找路径遗漏 (recipe 仓库在 GitHub 不在 HF: github.com/hasso5703/dgx-spark-qwen38)。**红线: token 只引用路径, 任何场合不打印值, 不入 git**。对照臂恢复执行, 时序不阻塞 Route V 切换

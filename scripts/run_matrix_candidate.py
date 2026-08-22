@@ -89,11 +89,21 @@ def ask_candidate(endpoint: str, model: str, question: str,
     msg = body["choices"][0]["message"]
     usage = body.get("usage", {})
     details = usage.get("completion_tokens_details") or {}
+    reasoning = msg.get("reasoning") or msg.get("reasoning_content")
+    rtoks = details.get("reasoning_tokens")
+    rcaliber = "usage.completion_tokens_details"
+    if rtoks is None:
+        # Fallback: 本 vLLM build 不产 completion_tokens_details (L1 冒烟实测恒 None);
+        # 按 L1 runbook 口径注记, 退以 reasoning 字段长度(字符数)估算并注明口径。
+        rtoks = len(reasoning) if reasoning else 0
+        rcaliber = "len(reasoning) chars"
     return {"answer": msg.get("content", ""),
-            "reasoning": msg.get("reasoning") or msg.get("reasoning_content"),
+            "reasoning": reasoning,
+            "reasoning_chars": len(reasoning) if reasoning else 0,
+            "reasoning_caliber": rcaliber,
             "wall_ms": wall,
             "completion_tokens": usage.get("completion_tokens"),
-            "reasoning_tokens": details.get("reasoning_tokens"),
+            "reasoning_tokens": rtoks,
             "prompt_tokens": usage.get("prompt_tokens")}
 
 
@@ -179,6 +189,7 @@ def main(argv=None) -> int:
             "duration_ms": walls[-1], "sources": sources,
             "completion_tokens": toks,
             "reasoning_tokens": rtoks,
+            "reasoning_caliber": "usage_details, else len(reasoning) chars (L1 runbook fallback)",
         }
         results.append(row)
         mark = "PASS" if row["all_pass"] else "FAIL"

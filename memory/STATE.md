@@ -1,9 +1,9 @@
 # memory/STATE.md
-更新: 2026-08-22 23:10（kiosk 终判选项 B 正式关闭: 台账更正入账 + A1/观感/计数观察缓办全 CLOSED + 提案文档归档 + 规则入账: 常驻演示资产必须 runner 入库 + Loop B 健康断言）
+更新: 2026-08-23 01:00（L1 thinking 档位裁定矩阵已执行: 两腿 NO-GO, 准路默认维持 thinking=OFF; 08-19 xhigh 起步正式作废; runner reasoning fallback 补丁; N2/N3/N4 已记账）
 
 ## 模式
-守护模式。等拍板: ① 甲方首轮反馈（B4 时钟 08-12 启动）② 专利件导师五项定夺反馈（三件已发导师 08-22 晚）③ L1 矩阵窗口（08-23 晚, runbook 就位）
-已关闭: 侧车楔死（修复 + 验收通过 08-22 15:11, 拍板 c）/ L1 基线口径（a）/ L3 路径（A）/ D3 作废 / cron 24h 已删 / content=null CLOSED / 专利三件已发导师（08-22 晚）/ **kiosk 正式关闭（选项 B 08-22: A1 方案/演示观感/建议计数观察全 CLOSED, 提案归档）**
+守护模式。等拍板: ① 甲方首轮反馈（B4 时钟 08-12 启动）② 专利件导师五项定夺反馈（三件已发导师 08-22 晚）③ N3 agent 超时抬升（数据输入就位, 执行需 :5050 重启窗）
+已关闭: 侧车楔死（修复 + 验收通过 08-22 15:11, 拍板 c）/ L1 基线口径（a）/ L3 路径（A）/ D3 作废 / cron 24h 已删 / content=null CLOSED / 专利三件已发导师（08-22 晚）/ **kiosk 正式关闭（选项 B 08-22: A1 方案/演示观感/建议计数观察全 CLOSED, 提案归档）**/ **L1 thinking 档位矩阵（NO-GO 08-23: thinking ON 无延迟收益, 准路默认维持 OFF）**
 **48h 观察期（至 08-24 晚）**: 侧车修复后段完成率 <10% 或甲方要求更高 agent 完成率 → 抬超时(a)再议, 与减 step 数据一起拍; **口径注**: kiosk 停摆后本段新增样本 = 纯金丝雀（~8 行/时）, 48h 到点若样本不足需重议口径
 
 ## Git
@@ -32,6 +32,7 @@
 
 ## 质量基线
 - eval 08-22（经 :5050 生产端点）: M1 PASS / 确定性 16/16 / NF 0/9 / judge 四维 5.0
+- L1 矩阵 08-23（直连 :8006）: medium 13/16 + NF 1/9 + judge 4.67; xhigh 16/16 + NF 0/9 + judge 4.875; 两腿 NO-GO（报告 2026-08-23_l1_thinking_matrix.md）
 - pytest: 379 passed / 13 skipped（08-22 全量, logs/graph/pytest_latest.txt 全量工件）
 - docs_lint: PASS 0 fail / 9 warn（08-22 夜间复跑, GB10 为准）
 
@@ -39,9 +40,9 @@
 - md 737 行 hash F8A4B0…61F931635A6 / docx v2 hash 48FF2A…45DC01BC（入 git; 呈递说明已移出正文）/ 邮件草稿 hash 7E39CF…E84E109A6（INDEX 登记）; v1 7954BB… 留本地不入库
 
 ## 下一步
-1. 08-23 晚窗口（另批）: **L1 thinking 档位裁定矩阵** medium/xhigh 两腿（runbook = docs/experiments/2026-08-22_l1_matrix_runbook.md; 腿直连 :8006, 侧车非硬前置; 还原第一项=生产配置未动验证）
-2. 矩阵解读框架 = L2 定论（step 数主导）+ 08-22 三段核查（数据引用不重复复述）
-3. 杠杆序（记账, 矩阵后实施）: 减 step（M4 组合 34s→19s −44%）+ 孤儿终结 > L2 context 瘦身 > thinking 档位（质量维度）
+1. **L1 矩阵已裁定 NO-GO（08-22 夜窗执行）**: 准路默认维持 thinking=OFF; xhigh 记为用户可选"深度"档菜单项（citation/refusal 5.0 + 跨期诱导抗性, 代价单步 p50 ~58s）; 报告 docs/experiments/2026-08-23_l1_thinking_matrix.md
+2. 延迟根治 = 减 step + L2 瘦身（第一梯队; L2 定论 step 数主导 + L1 矩阵坐实 thinking 无延迟收益）
+3. 杠杆序（记账, 等窗口）: 减 step（M4 组合 34s→19s −44%）+ 孤儿终结 > L2 context 瘦身 > thinking 档位（质量维度, xhigh 深度档菜单项）
 4. L3: 盯 timothystewart6 新 tag; **08-29 checkpoint** 无 tag → 路径 B 再评估报告
 5. 48h 观察期（至 08-24 晚）: 修复后段完成率数据说话, 决定 (a) 是否再议
-6. 缓办: 甲方反馈; **:5050 重启窗（激活 HEAD 代码, 含 M1_B4_LOG_PATH 修复）**; C4 VL-8B; K3 批跑; NLPCC 核实; adapter FK 修复（候选项）
+6. 缓办: 甲方反馈; **:5050 重启窗（激活 HEAD 代码, 含 M1_B4_LOG_PATH 修复）**; N3 agent 超时抬升拍板; C4 VL-8B; K3 批跑; NLPCC 核实; adapter FK 修复（候选项）
