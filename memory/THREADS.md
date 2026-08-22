@@ -15,10 +15,20 @@
 
 ## 其他技术线索
 
-### opencode 侧车交付链楔死 (2026-08-22 #B4-DIAGNOSIS) — 待用户拍板
+### 专利文档终态三件套冻结台账 (2026-08-22, 用户终审后亲发导师)
+- 背景: 08-22 13:48 worktree 回退为用户有意操作(v1 docx 文末嵌呈递说明不宜随文档发出); 侧线重放修复并完成文档/邮件分离。
+- ① 交底书 md: docs/experiments/2026-08-21_patent_full_revised.md (737 行=§1-§8+附录A/B) sha256=F8A4B0CDF2BC0A503CA7DEED060C999425CA86082DB6740857C5F61F931635A6
+- ② docx v2: docs/experiments/《大模型长流程智能测评装置及方法》技术交底书_完整修订版_2026-08-21_v2.docx sha256=48FF2A450707B3038581B164E426C6D9ECBCFBFC2B1CDF951B8034CA45DC01BC (docx 内"老师好/呈递说明/请您定夺"零命中)
+- ③ 邮件草稿: docs/experiments/2026-08-22_patent_advisor_email.md sha256=7E39CFFC5F5CBD306C6617A250ECC4DAF61C3B06B67439F4662470EE84E109A6
+- v1 docx(hash 7954BB...)含嵌呈递说明, 不入库不发送, 留本地作废。
+
+### opencode 侧车交付链楔死 (2026-08-22 #B4-DIAGNOSIS) — 已修复(楔死解除), 剩余延迟预算差报拍板
 - 现象: B4 行 3075 (08-20 22:47:06) 起 agent 路 0 完成, 全部 45s 超时回落; 回滚点 3295 起 128 尝试/0 完成 (kiosk 94 / eval 窗 30 / 手工 4, 三段回落率均 100%; 08-22 三段核查 #B4-SEGMENT)。
 - 根因 (证据链: docs/experiments/2026-08-22_b4_agent_route_diagnosis.md): 轨迹形态 step0 skill+search ~5s → step1 最终答案流开始 → 静默 ~40s → 客户端超时 (回滚后 n=112, p50 steps=2); vLLM 侧最终流开始后 ≤20s Running→0 + 200 OK 不背锅; "exiting loop" 计数 08-18:117/08-19:81/08-20:27/08-21:0/08-22:0, 末次 08-20 22:46:16 与最后完成(行 3074)逐秒吻合; **故障起点早于 DSpark v3 切换 (23:48 READY)** → 切换/回滚均非病因; 侧车进程 08-17 22:49 启动未重启; :5050 回落原因全部 "opencode ask failed (timed out)" (非 compaction 守卫); opencode.db 持久化慢性病 (session 表仅 7 行 / message·part FK 插入失败自 08-11 每日都有, 08-19 峰值 570) 为背景噪声非直接病因。
 - 拍板选项: ① 重启 opencode 侧车进程 (低风险, 非 :5050/:8004/:8006 红线项) ② 仍 0 完成则备份重建 opencode.db ③ 维持现状 (直连兜底可用, 准路菜单名存实亡, kiosk 每条 46-50s 回落)。
+- 修复执行 (08-22 14:20-14:53, 拍板圈1+预授权升级): ①重启侧车(旧进程 08-17 22:49 起 4天15小时, 四项存档 logs/graph/eval/sidecar_restart_archive_0822.txt) ②重启后 2 次尝试仍 0 完成 → 选项2 备份重建 opencode.db(备份 ~/.local/share/opencode/backup_20260822/, sha256 在 dispatch #SIDECAR-DB-REBUILD, 恢复 SOP 同条)。结果: 楔死解除("exiting loop" 重现 14:32:34, 步速恢复 5-12s/step), 但实测题需 5-6 步 ≈46-60s > 45s 预算 → 验收①未达成, 剩余差距=延迟预算非侧车故障。待拍板: a) OPENCODE_ASK_TIMEOUT 45→60-75s(需 :5050 重启窗口) b) 准路根治杠杆(L2 瘦身/减 step) c) 维持现状。
+- 归因重记 (08-22): DSpark era 190/0 与 08-21"准路不可用"判定结论保留, **归因更正为侧车楔死**(起点 08-20 22:46 早于 DSpark v3 切换 23:48), DSpark 切换/回滚不背 agent 路失败; "content=null 首要怀疑"条目 **CLOSED**(根因是楔死致超时, 非 content=null)。
+- xargs 陷阱备忘: `xargs -0 -a ENVFILE env -i CMD` 会把变量追加到 CMD 参量尾 → yargs 未知位置参量打 help 退出; 正确姿势 = mapfile -d "" 重建数组(启动器 /tmp/sidecar_launch.sh)。
 - 关联: L1 thinking 档位裁定矩阵 (08-23 晚窗口, runbook 已就位) 走直连不受影响; 减 step 菜单 (2026-08-22_step_reduction_menu.md) 在楔死修复前收益为零; B4 agent_watchdog ALARM 为该现象的设计内信号。
 
 - Schema 口径 (2026-08-09 P1): 冻结运行时 schema (~/wzh/m1_samples, 07-30 版) 已落后 config/m1_table_schema.json (嘉合/卢样本 synonyms 演进)。CLI 与 :5050 已统一走 resolve_schema_path() (config/ 优先)。是否把运行时副本同步到 config 版 = 待 Loop D 决策 (需刷新 frozen_hashes.txt manifest)。

@@ -20,8 +20,11 @@ premises:
     claim: "注入不影响生产默认口径(矩阵全程直连 :8006, 不经 :5050/opencode)"
     falsify: "opencode.json 与 ~/.config/opencode/opencode.jsonc 窗口前后 sha256 对比 + :5050 health/full 前后对比"
   - id: P6
-    claim: "侧车楔死(#B4-DIAGNOSIS)不影响矩阵有效性: 矩阵走直连, 侧车不参与"
-    falsify: "无需证伪——口径注记: 侧车未修复前矩阵结论照常成立"
+    claim: "侧车状态不影响矩阵有效性: 矩阵腿全程直连 :8006(--endpoint 指向 8006), 不经 :5050/侧车"
+    falsify: "grep endpoint 本卡动作序全部命令; 08-22 已实证(侧车重启+DB 重建后直连探针照常)"
+  - id: P7
+    claim: "窗口起点侧车状态已记录(供 B4 解读, 不构成矩阵前置)"
+    falsify: "动作序第 0 步记一行侧车健康+agent 路完成状况入验收表"
 acceptance:
   - "sha256sum opencode.json ~/.config/opencode/opencode.jsonc  # 与窗前快照一致"
   - "curl -sS http://127.0.0.1:5050/api/health/full  # 137/local/healthy 不变"
@@ -53,7 +56,8 @@ go 判据(沿用队列口径): 质量不降(16/16, NF 0/9, judge ≥4.9)且延�
 | P3 | 注入格式被 :8006 接受 | 动作序第 0 步冒烟 1 问 | ⬜ 窗口内第 0 步验证 |
 | P4 | fixture 冻结只读 | ls -la tests/fixtures/m2_eval_questions.json | ✅ 08-22 13:38 坐实(6767B, 08-09) |
 | P5 | 注入不影响生产默认口径 | sha256 前后对比 + health/full 前后对比 | ⬜ 窗前快照, 窗末复验 |
-| P6 | 侧车楔死不污染矩阵结论 | 口径注记(矩阵直连, 不经侧车) | ✅ 结构上成立 |
+| P6 | 侧车状态不污染矩阵结论 | 动作序命令 --endpoint 均为 :8006 直连 | ✅ 08-22 实证: 侧车重启+DB 重建后直连探针照常; 腿不经侧车, 依赖不成立 |
+| P7 | 窗口起点侧车状态已记录 | 第 0 步记侧车健康+agent 路状况入验收表 | ⬜ 窗口内填 |
 
 > 规则: P3/P5 未验证不许进腿; 冒烟失败 = 停下报用户, 不带假设硬跑。
 
@@ -71,7 +75,7 @@ go 判据(沿用队列口径): 质量不降(16/16, NF 0/9, judge ≥4.9)且延�
    ./venv/bin/python scripts/m2_eval_judge.py --input logs/graph/eval/l1_medium_report.json --report logs/graph/eval/l1_judge_medium.json
    ./venv/bin/python scripts/m2_eval_judge.py --input logs/graph/eval/l1_xhigh_report.json --report logs/graph/eval/l1_judge_xhigh.json
 5. 汇总三方对照表入实验文档(建议 docs/experiments/2026-08-23_l1_thinking_matrix.md): off 列引 08-22 eval 与 B4 历史数据(记引用不重跑); 每腿列: 16 题通过数 / NF 未落地数 / judge 四维均分 / wall_ms p50·p95 / reasoning_tokens p50·p95·max; 附"agent 路端到端推算"注记(端到端 ≈ step 数 × 单步延迟, step 数另见减 step 菜单, 本矩阵只测单步直连)
-6. 还原验证(验收清单第一项): sha256 复验两份 opencode 配置与快照一致 + :5050 health/full 复验 + git status 无配置类 diff → 全过才算收口
+6. 还原验证(验收清单第一项): sha256 复验两份 opencode 配置与快照一致 + :5050 health/full 复验 + git status 无配置类 diff + **窗口起点侧车状态行**(侧车健康与否 + agent 路当时完成状况, 供 B4 解读) → 全过才算收口
 
 ## 4. 中止条件
 
@@ -108,4 +112,5 @@ go 判据(沿用队列口径): 质量不降(16/16, NF 0/9, judge ≥4.9)且延�
 
 - 矩阵直连 :8006 单步延迟 ≠ agent 路端到端延迟; 准路根治延迟预期须拼接减 step 菜单(docs/experiments/2026-08-22_step_reduction_menu.md)的 step 算术, 不许外推
 - reasoning_tokens 若 usage.completion_tokens_details 缺省, 退而记 reasoning 字段长度估算并注明口径
+- 侧车修复与矩阵的关系(08-22 核实): 腿直连 :8006, 侧车修复不是矩阵硬前置; 若未来腿改经 route=on/agent 路, 则侧车健康+45s 预算为硬前置(当日实测 5-6 步 ≈46-60s 超预算, 见 #SIDECAR-VERDICT)
 - 本卡与 08-19 "xhigh 起步"批复的关系: 该批复前提失效(见 THREADS 更正条目), 本矩阵即复测裁定, 结论出后由用户拍板准路默认档
