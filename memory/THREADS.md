@@ -14,6 +14,12 @@
 - 遗留: ~~:5050 重启后 curl 复验 (Loop D 择窗)~~ **CLOSED (2026-08-09)**: 重启后生产端复验 PASS (sources=3, TraFax+WaveFax 正确溯源, 08-09 两次复验); ~~BM25 stub 未实现~~ **CLOSED (2026-08-09)**: 真 BM25 已实现并 flag 化 (M2_ENABLE_BM25 默认 false, A/B 零增益决策不修); coord_table 未纳入 ocr_table 语义 (见交付说明 §6)。详见 logs/graph/loop_a_ocr_metaquery_result.md。
 
 ## 其他技术线索
+### FK 竞争诊断定论 + 台账合并 (2026-08-23, #HYG-FK-DIAG; 诊断只读完成, 动手等 :5050 重启窗)
+- 08-23 只读诊断坐实（积压清理卡·窗口合并项①）: opencode.db 重建为假愈合——三表全空（session/part/message = 0/0/0）; `FOREIGN KEY constraint failed` 累计 2824 条（近 24h ~90, 08-23 15:10Z 新鲜样本 `insert into "part" FOREIGN KEY failed`）; 栈 `Session.updatePart -> SessionProcessor.cleanup`。
+- 根因: `src/biz/opencode_adapter.py` `ask_via_opencode()` 的 finally 块无条件 `delete_session(session_id)`——超时/异常回落后侧车 run 仍在途, adapter 已删父 session -> 在途 part/message 插入 FK 失败。08-11「FK 竞争」与 08-14「持久化损坏根因待查」为同一病灶, **合并为本条, 「根因待查」措辞作废**。
+- 实际代价: transcript 零持久化——今后 L2 式 context 分布测量无生产 db 原料（08-22 L2 用日志侧口径完成, 未受影响）。
+- 修复菜单（报用户, 未实施; 与 M1_B4_LOG_PATH 修复同窗合并, 动手必须等 :5050 重启窗）: a) 超时不删——仅确认 run 完成才删 session（改 finally 条件） b) 清理异步化——run 完结事件后延迟删。方向口径: 超时不 DELETE session 或清理异步化。
+- 诊断时实况: OPENCODE_ASK_TIMEOUT=45 / OPENCODE_MAX_SESSIONS=50; 重建库亦复现 = 结构性问题非旧库腐烂。
 
 ### 专利文档终态三件套冻结台账 (2026-08-22, 已发导师 08-22 晚, 等五项定夺反馈)
 - 背景: 08-22 13:48 worktree 回退为用户有意操作(v1 docx 文末嵌呈递说明不宜随文档发出); 侧线重放修复并完成文档/邮件分离。
@@ -30,7 +36,7 @@
 - 修复执行 (08-22 14:20-14:53, 拍板圈1+预授权升级): ①重启侧车(旧进程 08-17 22:49 起 4天15小时, 四项存档 logs/graph/eval/sidecar_restart_archive_0822.txt) ②重启后 2 次尝试仍 0 完成 → 选项2 备份重建 opencode.db(备份 ~/.local/share/opencode/backup_20260822/, sha256 在 dispatch #SIDECAR-DB-REBUILD, 恢复 SOP 同条)。结果: 楔死解除("exiting loop" 重现 14:32:34, 步速恢复 5-12s/step), 但实测题需 5-6 步 ≈46-60s > 45s 预算 → 验收①未达成, 剩余差距=延迟预算非侧车故障。待拍板: a) OPENCODE_ASK_TIMEOUT 45→60-75s(需 :5050 重启窗口) b) 准路根治杠杆(L2 瘦身/减 step) c) 维持现状。
 - 归因重记 (08-22): DSpark era 190/0 与 08-21"准路不可用"判定结论保留, **归因更正为侧车楔死**(起点 08-20 22:46 早于 DSpark v3 切换 23:48), DSpark 切换/回滚不背 agent 路失败; "content=null 首要怀疑"条目 **CLOSED**(根因是楔死致超时, 非 content=null)。
 - 判定更正 + 拍板 (08-22 22:14): 验收①实已达成于 15:11:59——修复后 58 尝试 / 11 完成 = 19.0% (31.4-45.0s 全在预算内), 与楔死前 45s era 基线 ~20% 吻合; Loop B overall 15:14 FAIL→PASS (#LOOP-B-FLIP)。此前 14:53 "0 完成"判定 = 时点采样不足。**拍板 c 维持现状(不抬超时)**: ① 修复目标=恢复楔死前基线已达成, 无需动 :5050 ② 明晚 L1 矩阵需"生产配置未动"基线, 超时变更污染可比性 ③ "60s 完成率 >50%"属外推无数据, 不为外推花重启窗口 ④ 真正完成率提升走减 step (M4 34s→19s) + L2 context 瘦身 (27k→8-10k, 预热 2 overflow 为现成动机)。(a) 抬超时保留为后备: 48h 观察期(至 08-24 晚)完成率 <10% 或甲方要求更高 agent 完成率 → 届时与减 step 数据一起拍。
-- FK 竞争 (超时删 session vs 在途运行): 08-11 以来已知结构性问题 (adapter 超时删 session → 在途运行 FK 错), 新库亦复现非旧库腐烂; 记 **adapter 修复候选项, 不阻塞**当前任何事项。
+- FK 竞争 (超时删 session vs 在途运行): 08-11 以来已知结构性问题 (adapter 超时删 session → 在途运行 FK 错), 新库亦复现非旧库腐烂; 记 **adapter 修复候选项, 不阻塞**当前任何事项。**[08-23 #HYG-FK-DIAG: 根因定论 + 修复菜单见「FK 竞争诊断定论」条; 08-14「持久化损坏根因待查」并入该条, 措辞作废。]**
 - B4 统计分段: 08-22 14:37 起记"侧车修复后段", 48h 观察以 b4_checkpoint.py 两列口径(尝试/完成)为准。
 - xargs 陷阱备忘: `xargs -0 -a ENVFILE env -i CMD` 会把变量追加到 CMD 参量尾 → yargs 未知位置参量打 help 退出; 正确姿势 = mapfile -d "" 重建数组(启动器 scripts/sidecar_launch.sh, 08-22 夜间审计入库, 原 /tmp 版同内容)。
 - 关联: L1 thinking 档位裁定矩阵 (08-23 晚窗口, runbook 已就位) 走直连不受影响; 减 step 菜单 (2026-08-22_step_reduction_menu.md) 在楔死修复前收益为零; B4 agent_watchdog ALARM 为该现象的设计内信号。
@@ -151,7 +157,7 @@
 - 变体 A（摘 m2-qa「首答前加载 m2-rag-playbook」指令）: 冷 43.1s（轮1 prefill 37.3s = 10.9k skill 元数据上下文冷 prefill）/ 热 22.8s（out 903）。
 - 根因分解: ① **~11k skill 元数据上下文冷 prefill ≈ 37s**（「冷 39s」真身, 每次 sidecar 重启后首问承担） ② **输出端 reasoning tokens ~1-1.5k ≈ 19-30s（warm）**（qwen3.6 thinking 默认开） ③ playbook 指令本身未执行但诱发额外推理（摘除 warm 31.5→22.8s）。
 - 现状: warm 22.8s 仍 > OPENCODE_ASK_TIMEOUT=18 → route=on 当前多回落直连; 回落路 2-4s 正常, 演示以直连为主不受影响。
-- 修复候选（待批, 未动手）: a) restart_opencode_sidecar.sh 加一次 warm-up ask 预热缓存（消 37s 冷启动, 最小改动） b) m2-qa 禁 thinking（adapter hint 或 provider 层, 需 :5050 重启窗口） c) skill 上下文瘦身（m2-qa 仅注册必需 skill）。测后配置已还原（opencode.json 无净变化）。
+- 修复候选（待批, 未动手）: a) restart_opencode_sidecar.sh 加一次 warm-up ask 预热缓存（消 37s 冷启动, 最小改动） b) m2-qa 禁 thinking（adapter hint 或 provider 层, 需 :5050 重启窗口） c) skill 上下文瘦身（m2-qa 仅注册必需 skill）。测后配置已还原（opencode.json 无净变化）。**[08-23 洁癖批定性: b CLOSED（生产 thinking 本就 OFF, 08-22 L2 更正坐实, FORMAT_HINT /no_think 08-16 已载入, 无动作空间）; c 并入 L2 sidecar 瘦身菜单（08-22 测量完成, 方案待批）; a warm-up 留候选（冷路 45s 预付, 效果待观察）。]**
 
 ## 2026-08-11 任务2 M1/M2 页面改版设计稿（待拍板, 未动代码）
 - docs/27_M1M2页面改版_两个设计方向.md + 草图 docs/experiments/2026-08-11_m1m2_redesign/{direction_a,direction_b}.html（浏览器直接打开）。
@@ -322,7 +328,7 @@
 [08-19 03:15] 治理决策项(待拍板): kiosk 播放持续写 config/schema_suggestions.json 计数 → Loop B STEP 4 脏文件报警周期性复发(本轮 00:01/00:34 即此因, 4fc251c 入账清除后 kiosk 又会写脏)。候选: a) Loop B STEP 4 对该文件 count-only 变更白名单(小改+演练) b) 定时入账清扫(治标) c) kiosk 停播(演示已结束, 但 B4 样本积累仍在用)。拍板前维持现状, 报警出现即按先例 commit 入账。
   → [08-19 20:05 CLOSED, 用户拍板选 a]: STEP4 白名单落地 25d2bec — 只豁免 config/schema_suggestions.json(运行时状态文件, 自学习闭环合法写入目标), 其余脏文件照常计数报警; 豁免清单写入脚本注释。不停 kiosk、不搞定时清扫; kiosk 建议计数继续观察, 单晚增量 41 条可接受(面板演示素材), 过大再议。daemon 已重启载入新版(治理规则), 首轮 20:04:53 验证 dirty_files=1 whitelisted=1 格式生效。
   [08-19 20:05 根因更正]: 本条原归因"STEP 4 脏文件报警"**有误** — 代码核查证实 STEP 4 只记数不判 FAIL(13:53 FAIL 与 14:26 PASS 同为 dirty_files=2 即反证); 00:01/00:34 两次 FAIL 实为 STEP 5 canary 在 judge --runs3 重负载窗口的超时误报(既有已知模式)。STATE.md 对应行同步更正。
-[08-19 20:10] 新台账: Loop B canary 间歇 FAIL = kiosk wavefax 重传 ingest 竞态（证据链: ① 18:51 起 STEP 5 持续 3/4, 失败题恒为 adv_ocr_meta, 直连答案错引嘉合 PDF 而非 sample_20260506 ② 19:35 手动复现同题 PASS(50.9s, 答案与 sources 全对) ③ loop_demo.py L33 每轮 demo 循环重传 wavefax.pdf 触发重解析 ④ embeddings=137 未涨, 排除累积, 属瞬时竞态窗）。处置: 不停 kiosk(用户决定), 该模式记为已知干扰源; 后续若 canary FAIL 与 kiosk 上传窗口时间相关即按此归因, 不升级为服务退化; 根治候选(演示后议): ingest 原子化/去重幂等, 或 kiosk 上传段加节流。
+[08-19 20:10] 新台账: Loop B canary 间歇 FAIL = kiosk wavefax 重传 ingest 竞态（证据链: ① 18:51 起 STEP 5 持续 3/4, 失败题恒为 adv_ocr_meta, 直连答案错引嘉合 PDF 而非 sample_20260506 ② 19:35 手动复现同题 PASS(50.9s, 答案与 sources 全对) ③ loop_demo.py L33 每轮 demo 循环重传 wavefax.pdf 触发重解析 ④ embeddings=137 未涨, 排除累积, 属瞬时竞态窗）。处置: 不停 kiosk(用户决定), 该模式记为已知干扰源; 后续若 canary FAIL 与 kiosk 上传窗口时间相关即按此归因, 不升级为服务退化; 根治候选(演示后议): ingest 原子化/去重幂等, 或 kiosk 上传段加节流。**[08-23 洁癖批: 根治候选 CLOSED — kiosk 08-22 用户终判选项 B 正式关闭, 对象已不存在。]**
 
 ## [2026-08-19 23:xx] DSpark 批复批量入账 (用户)
 - ① GO 流程: :8006 基线矩阵回填 + Track C 审计 → 切换窗口申请(用户另行给窗); 回滚预案 = 原参数重起现容器(--rm, 启动命令已入 SOP), 切换前后各留一份 docker inspect 存档
@@ -408,7 +414,7 @@
 - **关键更正: 生产 m2-qa thinking 实际 OFF**（证据四条: opencode.json 无 reasoning_effort / proxy 默认注入 enable_thinking:false / 生成 45tok/请求与 off 档逐 token 吻合 + DB reasoning 全 0 / DECISIONS 08-16 结论）。"xhigh 轨迹超预算"表述更正为"串行多步 × 每步 7-15s（thinking off）"。
 - **L1 矩阵 08-23 基线口径须先拍板**: 现接线下 medium vs xhigh = off vs off; 选项 a) L1 改测 off（现状）vs 显式注入 medium/xhigh b) 先裁定准路要不要开 thinking（08-16 数据: dense 27B 开 thinking 加延迟无结构化收益; 08-19 批复"xhigh 起步"与接线实况存在口径落差, 一并报用户）。
 - 杠杆排序（对 45s 预算, 实测拼接）: ① step 数削减（3→2 省 1/3）② 孤儿续跑终结 ③ decode 提速（接受率是前提）④ context 瘦身（10k→6k 每步省 ~1-2s × 3 步）。
-- 顺带发现（记账不动手）: a) 孤儿会话续跑（45s 超时回落后 sidecar 继续跑 p95=133s/max=69min, slot 白占）→ 入 L2 方案菜单; b) opencode.db transcript 持久化损坏（08-14 起 5187 次插入失败, message 表仅存 08-07/08 六会话）根因待查; c) Loop B 08-21 23:43 model_topology FAIL = 回滚窗内 :8006 停机抓取, 设计内预期; d) log permission 行不带 session.id → skill/rag 归属计数偏低（方法学注记）。
+- 顺带发现（记账不动手）: a) 孤儿会话续跑（45s 超时回落后 sidecar 继续跑 p95=133s/max=69min, slot 白占）→ 入 L2 方案菜单; b) opencode.db transcript 持久化损坏（08-14 起 5187 次插入失败, message 表仅存 08-07/08 六会话）**[08-23: 「根因待查」作废, 与 08-11 FK 竞争合并为同一病灶, 定论见 #HYG-FK-DIAG 条]**; c) Loop B 08-21 23:43 model_topology FAIL = 回滚窗内 :8006 停机抓取, 设计内预期; d) log permission 行不带 session.id → skill/rag 归属计数偏低（方法学注记）。
 ### L3 DFlash2 镜像可行性（报告 docs/experiments/2026-08-22_l3_dflash2_image_feasibility.md）
 - PR #52816 直连复核: **MERGED**（08-21T05:27Z, b389ac2, base main）——DFlash2 = DFlash2DraftModel 新架构类, method 仍 dflash, 旧 DFlash checkpoint 不受影响。
 - 现镜像坐实不含: 0.27.2.dev0+g6e448d0ea.d20260815（22.1GB）全库 grep DFlash2DraftModel 零命中; 构建 commit 与合并点 diverged（ahead 792/behind 21）; v0.27.1 release（08-11）早于合并 → 无官方 release 含 DFlash2。

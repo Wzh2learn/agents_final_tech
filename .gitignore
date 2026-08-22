@@ -74,3 +74,6 @@ docs/experiments/2026-08-15_demo_video_v2/demo_v2.mp4
 /data/research/drift_v0/input/*
 !/data/research/drift_v0/output/report.json
 !/data/research/drift_v0/sample_injected_tables.json
+
+# 专利交底书 v1 docx（文末嵌呈递说明, 用户有意留本地不发; v2 已入库, 08-23 #HYG 定性）
+docs/experiments/《大模型长流程智能测评装置及方法》技术交底书_完整修订版_2026-08-21.docx

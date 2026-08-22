@@ -1,6 +1,6 @@
 # Claude Code Project Guide
 
-> 状态: 活跃（Loop C 阅读指引，薄指针，以根 AGENTS.md 为准） | 更新: 2026-08-05 | 取代/被取代: 无
+> 状态: 活跃（Loop C 阅读指引，薄指针，以根 AGENTS.md 为准） | 更新: 2026-08-23（08-23 审计复核: 指针仍有效, Loop C 配属以根 AGENTS.md 注册表为准） | 取代/被取代: 无
 
 Claude Code must follow the repository-wide instructions in [`../AGENTS.md`](../AGENTS.md). The detailed Agent architecture and implementation status are maintained in [`AGENTS.md`](../AGENTS.md); do not duplicate or override those facts here.
 

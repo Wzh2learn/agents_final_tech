@@ -1,5 +1,5 @@
 
-> 状态: 活跃 | 更新: 2026-08-08（Loop A 载体口径更新） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-23（08-21 Loop B 升级双模型拓扑断言 + agent 看门狗; 08-22 graph engineering 任务卡模板/status.sh 落地; 四层框架不变） | 取代/被取代: 无
 
  # 17 - Graph Engineering: 多层 Loop 协同设计
 

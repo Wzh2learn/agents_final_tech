@@ -885,3 +885,12 @@ echo dispatch_log updated
 [2026-08-23 01:00] #L1-RESULT L1 thinking 档位裁定矩阵完成(08-22 23:30-08-23 00:53, 直连 :8006 错峰): medium 13/16+NF 1/9+judge 4.67 / xhigh 16/16+NF 0/9+judge 4.875（基线 off 16/16+0/9+5.0）→ 两腿 NO-GO（判据: 质量不降+judge≥4.9+延迟实质下降, 均不满足）; 准路默认维持 thinking=OFF, xhigh 记深度档菜单项(跨期诱导抗性+引用/拒答 5.0); 08-19 xhigh 起步正式作废; 还原验证全过(sha256/health/git status/侧车 200); 报告 docs/experiments/2026-08-23_l1_thinking_matrix.md
 [2026-08-23 01:07] #SIDE-AUDIT-LAND 侧线全文档认知审计归位(主线程执行侧线交接): ~/side_audit_inbound_0822/ 暂存区 10 件验 MANIFEST 大小全一致 → tr -d CR 归位 9 冷文件(AGENTS/CORE/docs 17/18/19/20/25/30/31, 20 处漂移修正) + 审计报告入 experiments + INDEX 委托 8 项执行(头部更新日期/INDEX 自身行/23 两行已发送/20 历史快照/25 已执行/31 已发送/32 补三事/18 快照注) + §5 漂移防御 3 条规则入 THREADS; 暂存区删除; 报告 2026-08-22_side_audit_full_reconciliation.md
 [2026-08-23 01:13] #SIDE-AUDIT-RESIDUAL 侧线审计残留三项入账(只记不动): 31_docx"预审版"文件名已发送冻结件不改名不重冻 / docs/19 补版触发器=甲方反馈 / RECSYS INDEX 日期 2026-02-20 非漂移(误报剔除); 交接卡 1/2/4 项已于 5d2da9e 完成(归位 10 件+INDEX 8 项+治理 3 条+暂存区删)
+[2026-08-23 01:31] #HYG-FK-DIAG FK 竞争只读诊断定论(积压卡窗口合并项①): opencode.db 重建=假愈合(三表全空 0/0/0) + FK failed 累计 2824(近24h ~90, 栈 Session.updatePart→cleanup insert into part) → 根因 = opencode_adapter.ask_via_opencode finally 无条件 delete_session(超时回落后侧车 run 在途, 父 session 已删); 08-11「FK 竞争」与 08-14「持久化损坏根因待查」台账合并一条, 「根因待查」措辞作废; 代价=transcript 零持久化; 修复菜单 a)超时不删 b)清理异步化 已报用户, 动手等 :5050 重启窗(合并卡①)
+[2026-08-23 01:31] #HYG-DOCKER docker rm python-sandbox-4a9fc77c(Exited 137, 5 月前遗留容器) 完成, 生产容器零影响
+[2026-08-23 01:31] #HYG-LOG opencode.log 轮转(07-16 起未轮转 9.1 万行): 归档 opencode.log.1-20260823.gz(2.57MB) + live 截断(侧车空闲无写入, 8s 验证)
+[2026-08-23 01:31] #HYG-SKILLS 本机 skill 装配漂移修复: scripts/graph/sync_skills.sh 本地同步 16/21 漂移 → --check PASS 21/21(.codex 补缺 4 + 内容差对齐 3, .claude 补缺 9)
+[2026-08-23 01:31] #HYG-THREADS 台账洁癖四条: kiosk 竞态根治候选 CLOSED(对象 08-22 已关) / 08-11 修复菜单定性 b 禁 thinking CLOSED(生产本就 OFF, L2 更正坐实) + c skill 瘦身并入 L2 菜单 + a warm-up 留候选 / 「db 损坏根因待查」并入 FK 竞争条(#HYG-FK-DIAG)
+[2026-08-23 01:31] #HYG-GITIGNORE .gitignore 登记专利 v1 docx(呈递说明内嵌版, 用户有意留本地不发; v2 已入库 cb7100f), 本机 worktree 无主残留清零
+[2026-08-23 01:31] #HYG-INDEX INDEX 修正清单第 9 项: 登记 2026-08-20_dspark_switch_windows_v2v3.md; 7 份陈旧活文档逐个定性: 15/18/24/25 降历史快照(安装完成/计划已执行/菜单已消费/决策已闭环), 17/CLAUDE/m1_coldstart 真活跃复核刷新(头部三件套 + INDEX 行同 commit)
+[2026-08-23 01:31] #HYG-LINT docs_lint 复跑 PASS: 0 fail / 0 warn(8 warn 清零: 1 未登记 + 7 陈旧)
+[2026-08-23 01:33] #HYG-PYTEST pytest 全量 PASS: 379 passed / 13 skipped (134.29s, 全量输出入 logs/graph/pytest_latest.txt), 基线零漂移
