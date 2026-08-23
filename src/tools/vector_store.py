@@ -4,6 +4,7 @@
 """
 import os
 import re
+import threading
 from pathlib import Path
 from typing import Optional, Union, List
 from langchain_core.documents import Document
@@ -14,6 +15,13 @@ from utils.openai_network import get_openai_sync_network_kwargs
 # 全局变量
 _vector_store = None
 _embeddings_client = None
+
+# [PG 池泄漏修复 2026-08-23 菜单 a] 实例缓存: 此前每次调用构造新 PGVector 实例
+# (各带独立 SQLAlchemy engine + 池), 实例随请求丢弃 → idle 连接泄漏打满
+# (归因: docs/experiments/2026-08-23_pg_pool_leak_attribution.md)。
+# 现按 (collection_name, connection_string) 缓存实例, Lock 护竞态。
+_STORE_INSTANCE_CACHE: dict = {}
+_STORE_INSTANCE_CACHE_LOCK = threading.Lock()
 
 
 def __get_connection_string() -> str:
@@ -220,6 +228,15 @@ def get_vector_store(
     if connection_string is None:
         connection_string = __get_connection_string()
 
+    # [PG 池泄漏修复] 调用方显式传 embeddings 时不走缓存, 避免实例误用
+    use_cache = embeddings is None
+    cache_key = (collection_name, connection_string)
+    if use_cache:
+        with _STORE_INSTANCE_CACHE_LOCK:
+            cached = _STORE_INSTANCE_CACHE.get(cache_key)
+        if cached is not None:
+            return cached
+
     # 使用豆包 Embedding 或用户提供的 embeddings
     embeddings = embeddings or get_embeddings()
 
@@ -230,7 +247,10 @@ def get_vector_store(
             embeddings=embeddings,
             use_jsonb=True,  # 使用 JSONB 提高性能
         )
-
+        if use_cache:
+            with _STORE_INSTANCE_CACHE_LOCK:
+                # setdefault: 竞态时以先构造的实例为准, 避免重复 engine
+                vector_store = _STORE_INSTANCE_CACHE.setdefault(cache_key, vector_store)
         return vector_store
 
     except Exception as e:

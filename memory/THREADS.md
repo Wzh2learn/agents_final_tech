@@ -14,6 +14,17 @@
 - 遗留: ~~:5050 重启后 curl 复验 (Loop D 择窗)~~ **CLOSED (2026-08-09)**: 重启后生产端复验 PASS (sources=3, TraFax+WaveFax 正确溯源, 08-09 两次复验); ~~BM25 stub 未实现~~ **CLOSED (2026-08-09)**: 真 BM25 已实现并 flag 化 (M2_ENABLE_BM25 默认 false, A/B 零增益决策不修); coord_table 未纳入 ocr_table 语义 (见交付说明 §6)。详见 logs/graph/loop_a_ocr_metaquery_result.md。
 
 ## 其他技术线索
+
+### :5050 代码窗一窗全激活执行结果 (2026-08-23 23:22-23:35, 用户批准提前)
+- 背景: 原排期 08-24 48h 观察收口后; 用户批准提前——判定数据已成形(修复后段完成率 19.0%/19.3% 远超 10% 再议线), 明晚 checkpoint 只是复核; 三件修复全就绪, 回滚路径有先例。
+- 激活三件: ① FK 竞争修复菜单 a (src/biz/opencode_adapter.py: 超时不删 session + completed 标志; 草稿 docs/experiments/2026-08-23_fk_adapter_fix_draft.md) ② vector_store 实例缓存 (src/tools/vector_store.py: (collection,conn) 键 + Lock + setdefault, engine-per-search 泄漏根治) ③ M1_B4_LOG_PATH 修复 (fb94824, 08-21 提交) 随重启生效——生产走默认路径, env override 供测试隔离。
+- 窗口证据: 窗前存档 logs/graph/eval/m1_harness_window_archive_20260823.txt (23:22:23; 旧 PID 2104416 lstart 08-18 16:44:49) → 重启 6s (scripts/restart_m1_harness.sh 定型 SOP; 新 PID 2300096 lstart 23:27:09; 进程 env OPENCODE_ASK_TIMEOUT=45 / M2_OPENCODE_ROUTE=on 未动)。
+- 验证全过: /api/health/full overall=healthy (embeddings 137/local/ok); QA 2 条 (OCR meta-query sources=3 正确溯源 / 诚实拒答) + compare 嘉兴民安 2 持仓 + canary 4/4; pytest 384 passed/13 skipped (含新测试 5 项 tests/test_window_fixes_20260823.py)。
+- agent 路实值: 6 尝试全回落 47.6-70.5s (记实值; 窗口样本不构成结论, 按 48h 口径续观察)。
+- FK 验收双条件 PASS: opencode.db 三表 0/0/0 → 9/44/118 (session/part/message) + opencode.log FK 错误停涨于 136 — 持久化恢复成立 (08-11 FK 竞争 / 08-14 持久化损坏根因待查 合并条目由此关闭)。
+- 台账连续性: 重启后立即验 b4_checkpoint.py 3429 冒烟 PASS (259 行, 读路径连续无断); B4 第五分段点 3682 @23:27 入账 (窗口重启段标记)。
+- 遗留: 超时 (a) 45→60-75s 不预载, 待 08-24 23:50 cron 48h 口径数据拍板 (判据已预写: 段 C+D 完成率 <10% → 再议, ≥10% → 维持); 回滚口径 = 原参数重起 (SOP = 上述脚本)。
+
 ### 夜间队列任务 4 核查: K2 前置齐 + PSO/K3 排期 (2026-08-23)
 - 核查坐实: K2 v1 齐（2026-08-19_eval_protocol_v1.md, 判别力 9/9 + judge k A/B + 冻版零漂移）+ evidence card 齐（并入 v1 产出, scripts/eval_evidence_cards.py, evidence_cards 16A 工件）→ 前置条件 PASS。
 - 今晚不跑（预算门）: PSO 落点②需 (问题×mutant) 判别力矩阵——cached 判别力报告只有 per-mutant 叶级 delta 无 per-question 信号, 必须新跑模型（:8006 负载, 估 ≥1h）; 与 B4 canary 每 30min slot 争用 + 02:00 硬停 + 明日 48h checkpoint/代码窗前排, 不硬上。
@@ -33,7 +44,7 @@
 - ① inspect 存档口径: logs/graph/eval/pgvector_inspect_pre_restart_20260823.json 实测 9836B = `docker inspect pgvector_15432` 单容器全量输出（Id/Config/HostConfig/State/NetworkSettings 齐全）, 符合「可回滚级全量」标准; 验收所引 324B 与在盘存档不符, 如实记录。
 - ② verify-report.json 扫描范围核查: STEP4 扫描范围无漏——git status --porcelain 全 worktree, verify-report.json 未入白名单被正常计数（21:41/22:15 两周期 dirty_files=1 可查; 20:38/21:08 为 0 系写入顺序: STEP4 先于当周期 report 写入, 且在盘 report 恰与 HEAD 一致）。口径补充: dirty 计数为 R1 信息性字段, 不影响 overall（仅 tests/ 变更触发 WARNING）。
 - ② 处置提案（Loop B 红线报批）: 白名单再扩 2 件——verify-report.json（含 timestamp 字段, 每周期必脏）+ loop_b_last_status（Loop B 运行时工件）, 与已批 5 件同口径注释入脚本; 批准后常驻脏件归零。未批前维持现状（每周期自写回, 收口顺带 commit 快照）。
-- :5050 代码窗积压三件排期: FK adapter 修复（#HYG-FK-DIAG 菜单 a/b）/ PG 池泄漏根治（疑 engine-per-request, mcp 侧 ~1.5 连接/时 + :5050 侧 ~0.5/时, GUC 兜底中）/ M1_B4_LOG_PATH 激活——48h 观察（08-24 晚）收口后一起排窗。
+- :5050 代码窗积压三件排期: FK adapter 修复（#HYG-FK-DIAG 菜单 a/b）/ PG 池泄漏根治（疑 engine-per-request, mcp 侧 ~1.5 连接/时 + :5050 侧 ~0.5/时, GUC 兜底中）/ M1_B4_LOG_PATH 激活——48h 观察（08-24 晚）收口后一起排窗。**[08-23 23:35 三件已一窗全激活完成（用户批准提前）, 见「:5050 代码窗一窗全激活执行结果」条; 剩超时 (a) 待 48h 口径数据拍板。]**
 
 ### /api/health/full 路径更正 (2026-08-23, 窗口验收必更正)
 - 错误声明: 「/health/full 路由不存在, /health 为唯一健康端点」——PG 窗口验证时我的错误结论（grep 范围仅 src/*.py + src/api/*.py, 漏 src/web/routers/）。
@@ -115,7 +126,7 @@
 - 下游输入: N3 agent 超时抬升拍板数据就位（off 单步 46-50s / xhigh p50 57.7s p95 137s, 抬 60-75s 容纳不了 xhigh p95, 超时抬升与档位升级不捆绑）。
 
 ### :5050 运行代码滞后 (08-22 夜间审计发现) — 记台账, 待重启窗
-- 事实: uvicorn 父进程 2104416 lstart 08-18 16:44:49; fb94824(08-21, src/web/routers/m2.py M1_B4_LOG_PATH B4 日志隔离修复)未生效——进程跑旧代码。
+- 事实: uvicorn 父进程 2104416 lstart 08-18 16:44:49; fb94824(08-21, src/web/routers/m2.py M1_B4_LOG_PATH B4 日志隔离修复)未生效——进程跑旧代码。**[08-23 23:27 已生效: :5050 代码窗重启(新 PID 2300096, env 基线不变), b4_checkpoint.py 读路径连续性冒烟 PASS(3429 段 259 行正常统计), 台账未断; 生产默认路径不变, env 覆盖仅测试用。]**
 - 处置: 生效需 :5050 重启窗口(红线不擅动); 下次重启窗顺带激活; 运行中行为未见异常(日志隔离缺失期 B4 行已验证无 M1 污染)。
 
 - Schema 口径 (2026-08-09 P1): 冻结运行时 schema (~/wzh/m1_samples, 07-30 版) 已落后 config/m1_table_schema.json (嘉合/卢样本 synonyms 演进)。CLI 与 :5050 已统一走 resolve_schema_path() (config/ 优先)。是否把运行时副本同步到 config 版 = 待 Loop D 决策 (需刷新 frozen_hashes.txt manifest)。

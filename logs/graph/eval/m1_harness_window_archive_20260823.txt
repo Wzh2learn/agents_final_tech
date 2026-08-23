@@ -1,0 +1,102 @@
+=== :5050 代码窗 2026-08-23 窗前存档 ===
+2026-08-23 23:22:23
+--- 进程 (PID 2104416 父 1514835, lstart 08-18 16:44:49)
+    PID    PPID                  STARTED     ELAPSED CMD
+2104416 1514835 二 8月 18 16:44:49 2026 5-06:37:34 ./venv/bin/python ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 5050 --workers 2
+2104425 2104416 二 8月 18 16:44:49 2026 5-06:37:33 /home/testuser/wzh/projects/agents_final_tech/venv/bin/python -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=7, pipe_handle=9) --multiprocessing-fork
+2104426 2104416 二 8月 18 16:44:49 2026 5-06:37:33 /home/testuser/wzh/projects/agents_final_tech/venv/bin/python -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=7, pipe_handle=13) --multiprocessing-fork
+--- cmdline
+./venv/bin/python ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 5050 --workers 2 
+--- env (KEY/TOKEN/SECRET 值掩码)
+ALL_PROXY=http://127.0.0.1:7897
+all_proxy=socks://127.0.0.1:7897/
+ANTHROPIC_AUTH_TOKEN=***MASKED***
+ANTHROPIC_BASE_URL=https://code.ppchat.vip
+ANTHROPIC_SMALL_FAST_MODEL=claude-3-5-haiku-20241022
+_CE_CONDA=
+_CE_M=
+CLUTTER_DISABLE_MIPMAPPED_TEXT=1
+COLORTERM=truecolor
+CONDA_DEFAULT_ENV=base
+_CONDA_EXE=/home/testuser/miniconda3/bin/conda
+CONDA_EXE=/home/testuser/miniconda3/bin/conda
+CONDA_PREFIX=/home/testuser/miniconda3
+CONDA_PROMPT_MODIFIER=(base) 
+CONDA_PYTHON_EXE=/home/testuser/miniconda3/bin/python
+_CONDA_ROOT=/home/testuser/miniconda3
+CONDA_SHLVL=1
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1001/bus
+DEBUGINFOD_URLS=https://debuginfod.ubuntu.com 
+DESKTOP_SESSION=ubuntu
+DISPLAY=:1
+GDMSESSION=ubuntu
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GNOME_SHELL_SESSION_MODE=ubuntu
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/14720942_345c_4bf6_8bd2_431fc723c0c0
+GNOME_TERMINAL_SERVICE=:1.103
+GPG_AGENT_INFO=/run/user/1001/gnupg/S.gpg-agent:0:1
+GSM_SKIP_SSH_AGENT_WORKAROUND=true
+GTK_IM_MODULE=fcitx
+GTK_MODULES=gail:atk-bridge
+HOME=/home/testuser
+http_proxy=http://127.0.0.1:7897/
+HTTP_PROXY=http://127.0.0.1:7897
+https_proxy=http://127.0.0.1:7897/
+HTTPS_PROXY=http://127.0.0.1:7897
+LANG=zh_CN.utf8
+LESSCLOSE=/usr/bin/lesspipe %s %s
+LESSOPEN=| /usr/bin/lesspipe %s
+LOCAL_EMBEDDING_DEVICE=cpu
+LOCAL_EMBEDDING_MODEL_PATH=/home/testuser/wzh/models/hf/qwen3-embedding-0.6b
+LOGNAME=testuser
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:
+M2_OPENCODE_ROUTE=on
+MEMORY_PRESSURE_WATCH=/sys/fs/cgroup/user.slice/user-1001.slice/user@1001.service/session.slice/org.gnome.Shell@x11.service/memory.pressure
+MEMORY_PRESSURE_WRITE=c29tZSAyMDAwMDAgMjAwMDAwMAA=
+no_proxy=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,::1
+NO_PROXY=localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,::1
+NVM_CD_FLAGS=
+NVM_DIR=/home/testuser/.nvm
+NVM_RC_VERSION=
+OLDPWD=/home/testuser/wzh/projects/agents_final_tech
+OPENAI_API_KEY=***MASKED***
+OPENCODE_ASK_TIMEOUT=45
+PATH=/home/testuser/.local/bin:/home/testuser/bin:/home/testuser/bin:/home/testuser/.npm-global/bin:/home/testuser/.opencode/bin:/home/testuser/miniconda3/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:HOME/miniconda3/bin: PATH:/snap/bin:/home/testuser/.lmstudio/bin:/home/testuser/.lmstudio/bin
+PGDATABASE_URL=postgresql://postgres:postgres@127.0.0.1:15432/vector_db
+PWD=/home/testuser/wzh/projects/agents_final_tech
+PYTHONPATH=/home/testuser/wzh/projects/agents_final_tech/src
+QODER_PERSONAL_ACCESS_TOKEN=***MASKED***
+QT_ACCESSIBILITY=1
+QT_IM_MODULE=fcitx
+SDL_IM_MODULE=fcitx
+SESSION_MANAGER=local/promaxgb10-0b48:@/tmp/.ICE-unix/3398756,unix/promaxgb10-0b48:/tmp/.ICE-unix/3398756
+SHELL=/bin/bash
+SHLVL=2
+SSH_AUTH_SOCK=/run/user/1001/keyring/ssh
+SYSTEMD_EXEC_PID=3398836
+TERM_PROGRAM=tmux
+TERM_PROGRAM_VERSION=3.4
+TERM=tmux-256color
+TMUX_PANE=%185
+TMUX=/tmp/tmux-1001/default,3459917,0
+USERNAME=testuser
+USER=testuser
+_=./venv/bin/python
+VTE_VERSION=7600
+WINDOWPATH=2
+XAUTHORITY=/run/user/1001/gdm/Xauthority
+XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+XDG_CURRENT_DESKTOP=ubuntu:GNOME
+XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+XDG_MENU_PREFIX=gnome-
+XDG_RUNTIME_DIR=/run/user/1001
+XDG_SESSION_CLASS=user
+XDG_SESSION_DESKTOP=ubuntu
+XDG_SESSION_TYPE=x11
+XMODIFIERS=@im=fcitx
+--- FK 基线: 轮转后 FOREIGN KEY 计数
+136
+--- opencode.db 三表基线
+{'session': 0, 'message': 0, 'part': 0}
+--- B4 第五分段点: 窗前行数
+3682 logs/graph/b4_ask_log.jsonl

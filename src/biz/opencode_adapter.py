@@ -161,6 +161,7 @@ def ask_via_opencode(
         logger.warning("opencode sidecar unhealthy at %s; fallback", SIDECAR_URL)
         return None
     session_id: Optional[str] = None
+    completed = False  # [FK 修复·菜单 a 2026-08-23] 仅确认完成的 run 才删 session
     try:
         session_id = httpx.post(f"{SIDECAR_URL}/session", json={}, timeout=10, trust_env=False).json()["id"]
         body: dict[str, Any] = {
@@ -180,6 +181,7 @@ def ask_via_opencode(
             logger.warning("opencode final message is a compaction summary; fallback")
             return None
         answer, sources = _parse_structured(_extract_text(payload))
+        completed = True
         return {
             "answer": answer,
             "sources": sources,
@@ -191,7 +193,13 @@ def ask_via_opencode(
         return None
     finally:
         if session_id:
-            delete_session(session_id)
+            if completed:
+                delete_session(session_id)
+            else:
+                # [FK 修复·菜单 a 2026-08-23] 超时/异常不删: 侧车 run 可能在途,
+                # 删父 session 致在途 part/message FK 失败 + transcript 丢失;
+                # 留给侧车跑完, 水位闸门 cleanup_sessions() 兜底。
+                logger.info("opencode session %s kept (run may be in flight); FK-fix menu a", session_id)
             try:
                 if len(list_sessions()) > MAX_SESSIONS:
                     cleanup_sessions()

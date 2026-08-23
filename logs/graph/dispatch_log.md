@@ -915,3 +915,5 @@ echo dispatch_log updated
 [2026-08-23 22:57] #NIGHTQ-3 夜间队列③完成: 48h checkpoint 口径预写入账(明晚 23:50 cron 不临场定口径)——段 A 干净/段 B 11:45-20:20 PG 污染剔除降权/段 C 20:20 后干净/段 D 08-24 全天; 判据: C+D 完成率 <10% → 超时 (a) 再议, ≥10% 维持; THREADS 在案
 [2026-08-23 22:57] #NIGHTQ-4 夜间队列④核查: K2 v1 + evidence card 前置齐(判别力 9/9 + cards 16A) → PASS; PSO 落点②/K3 今晚不跑——判别力报告无 per-question 信号需新跑模型(:8006 负载 ≥1h), 预算门: canary slot 争用+02:00 硬停+明日窗口前排, 排期 08-24 23:50 收口后错峰, blocked 记账不硬上
 [2026-08-23 23:12] #LOOPB-WL2-ACCEPT 白名单 +2 验收通过: 手工周期 23:12:15 HEAD=7286433 dirty_files=0 whitelisted=1 overall=PASS(白名单 7 件生效, 上周期 verify-report 遗脏被豁免); 23:18 例行周期为同断言复核; 手工触发原因=用户要求提前验收不等例行
+[2026-08-23 23:22] #M1-WINDOW-OPEN :5050 代码窗开窗 (用户批准提前): 窗前存档 23:22:23 (logs/graph/eval/m1_harness_window_archive_20260823.txt) + B4 第五分段预标记; 三件 = FK 菜单 a + vector_store 实例缓存 + M1_B4_LOG_PATH 激活
+[2026-08-23 23:35] #M1-WINDOW-CLOSE 一窗全激活三件全 PASS: 重启 6s 新 PID 2300096 (23:27:09, env timeout=45/route=on 未动) / health/full healthy / QA2+compare+canary 4/4 / pytest 384-13 (+5 新测试) / agent 路 6 尝试全回落 47.6-70.5s 记实值 / FK 双验收 PASS (三表 0→9/44/118, FK 错误停涨 136) / checkpoint 3429 冒烟 PASS 读路径连续 / B4 分段点 3682 @23:27; 超时 (a) 不预载, 待 48h 数据
