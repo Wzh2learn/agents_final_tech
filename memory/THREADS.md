@@ -22,7 +22,7 @@
 ### Loop B 覆写 pytest_latest.txt 结构问题 (2026-08-23, 方案已报批, 红线先报后动)
 - 问题: Loop B STEP 2 每 30min 跑 tests/test_m1_service.py 18 题子集覆写 logs/graph/pytest_latest.txt（08-22「全量入该文件」批复被冲掉; 实测收口全量 379/13 两小时内被覆写成 "18 passed in 0.03s"）。
 - 方案（待批, 与 PG 窗口合并执行）: ① STEP 2 输出改 pytest_loopb.txt（loop_b_verify.sh L132/L135 两行） ② STEP4 白名单扩至 4 件: config/schema_suggestions.json（先例）+ logs/graph/{dispatch_log.md, docs_lint_report.json, pytest_latest.txt}（grep -v → grep -vE） ③ daemon reload（旧进程跑旧脚本教训, 改动必须 kill 旧 PID + tmux graph-loop-b 内重拉 --daemon 才生效）。
-- GB10 常驻 3 脏文件源 = 上述 Loop B 运行时写入（HEAD 三方对齐无问题）; 侧线未提交改动已清, 本机 _tmp 已清。
+- GB10 常驻 3 脏文件源 = 上述 Loop B 运行时写入（HEAD 三方对齐无问题）; 侧线未提交改动已清, 本机 _tmp 已清。**[08-23 20:38 已执行: 三项落地 + daemon reload (新 PID 2187590); 验收全过——首周期与手工复跑周期均 dirty_files=0 + whitelisted=1(白名单生效) + pytest_loopb.txt 产出(18 passed) + overall FAIL→PASS 翻绿; 白名单实为 5 件(批准 4 件 + pytest_loopb.txt 分流推论, 脚本注释写明)。]**
 
 ### PG 池打满事故 (2026-08-23, P1 活跃; 处置窗口申请已报, 待用户批准一次做完)
 - 证据: psql FATAL too many clients already（容器内管理连接亦打不进）; :15432 连接饱和 ~100=max_connections; Loop B 今日翻转 5 次, 17:50 周期 FAIL 于 qa_canary adv_ocr_meta 空检索; 生产检索间歇降级。
@@ -30,6 +30,7 @@
 - 处置清单（窗口申请待批, 一次做完）: ① 窗前 docker inspect 存档 → docker restart pgvector_15432（秒级, M1/M2 检索短暂报错窗 ~5-15s） ② 重启后 ALTER SYSTEM SET idle_session_timeout='10min' + pg_reload_conf（持久化 postgresql.auto.conf; **饱和时 psql 连不进, 只能重启后设——卡片假设已更正**） ③ Loop B 脚本改动按批方案同窗执行 + canary 前后 pg_stat_activity 归因泄漏端 ④ 验证: health/full + canary + pg_stat_activity 回落 + Loop B 下周期翻绿。
 - 注: 仓库 compose 文件（pg16/m1_pgvector）与在跑容器（pg15/pgvector_15432, 07-16 起）不一致, 重启直接对容器操作不用 compose。
 - **B4 统计注记: 08-23 ~11:45 起 B4 金丝雀样本受 PG 打满污染, 48h 观察（08-24 晚）判定时剔除或降权该时段。**
+- **执行结果 (08-23 20:26-20:38 窗口)**: ① restart 1s / ready 2s, 活动 100→1 ② GUC idle_session_timeout=10min 生效持久化 (600000ms, postgresql.auto.conf) ③ canary 4/4 PASS 两轮连过 (adv_ocr_meta 复活; 重启后长闲首请求重连验证成立——:5050 池 idle 连接被 GUC 切断后自动重连, 口径入账) ④ 泄漏实证: canary 前后连接 1→10(idle 9), 每请求留闲连接, 10min 后回收 (10min/30min 两点观察入 logs/graph/eval/pg_activity_followup_20260823.txt) ⑤ inspect 存档 logs/graph/eval/pgvector_inspect_pre_restart_20260823.json ⑥ compose(pg16/m1_pgvector) vs 在跑容器(pg15/pgvector_15432) 漂移只记账不修 ⑦ 中止条件未触发。
 ### FK 竞争诊断定论 + 台账合并 (2026-08-23, #HYG-FK-DIAG; 诊断只读完成, 动手等 :5050 重启窗)
 - 08-23 只读诊断坐实（积压清理卡·窗口合并项①）: opencode.db 重建为假愈合——三表全空（session/part/message = 0/0/0）; `FOREIGN KEY constraint failed` 累计 2824 条（近 24h ~90, 08-23 15:10Z 新鲜样本 `insert into "part" FOREIGN KEY failed`）; 栈 `Session.updatePart -> SessionProcessor.cleanup`。
 - 根因: `src/biz/opencode_adapter.py` `ask_via_opencode()` 的 finally 块无条件 `delete_session(session_id)`——超时/异常回落后侧车 run 仍在途, adapter 已删父 session -> 在途 part/message 插入 FK 失败。08-11「FK 竞争」与 08-14「持久化损坏根因待查」为同一病灶, **合并为本条, 「根因待查」措辞作废**。
@@ -277,7 +278,7 @@
 ## [2026-08-16 22:20] PG 连接泄漏: Loop B 周期跑遗留 idle 连接打满 max_connections=100 (known_risk)
 - 现象: NF 候选侧首跑全程 "too many clients already" (结果无效已重跑); pg_stat_activity 95 idle/100, 最老 1d21h, 增长速率 ~30min/个, last_q 含 chat_sessions 心跳与 ROLLBACK, 判定 Loop B 周期跑每轮漏 1 连接。
 - 临时处置: pg_terminate_backend 清 >60min idle (95→20), :5050 health 全程 healthy 无感。
-- 根治选项 (待窗口): a) Loop B 脚本补连接关闭 (Loop B 本体不扰, 需用户批) b) PG 设 idle_session_timeout (需 PG 重启窗口) c) max_connections 调大 (同需重启)。
+- 根治选项 (待窗口): a) Loop B 脚本补连接关闭 (Loop B 本体不扰, 需用户批) b) PG 设 idle_session_timeout (需 PG 重启窗口) c) max_connections 调大 (同需重启)。**[08-23 窗口执行完毕 + 归因更正: 窗前 ss 普查坐实泄漏端 = :5050 uvicorn 两 worker(55 连接) + mcp_server.server(45), Loop B 本体零连接——「Loop B 每轮漏 1 连接」更正为「Loop B 周期流量是触发器, 泄漏在 :5050/MCP 池」; 根治 a 不适用(Loop B 侧无连接), 根治 b idle_session_timeout=10min 已落地, c 不需要; :5050/MCP 池泄漏根治(连接关闭/池配置)记代码窗候选, GUC 10min 回收兜底。]**
 - 状态: OPEN (B 阶段候选); 再现特征: NF/eval 报 too many clients → 先查 pg_stat_activity。
 
 ## [2026-08-16 22:30] S2 台账同步 (模型升级后半场)
