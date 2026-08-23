@@ -1,7 +1,15 @@
 """2026-08-23 :5050 代码窗修复测试: FK 菜单 a (超时不删) + vector_store 实例缓存。"""
 import importlib
+import os
+import sys
 
 import pytest
+
+# [Loop C 审计后续] 单文件独立运行的 sys.path 守卫: pytest.ini pythonpath=. (仓库根),
+# 全量跑依赖其他测试的 sys.path 副作用; 单跑本文件需自带 src, 否则 biz/tools 不可导入。
+_SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src")
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
 
 
 @pytest.fixture()
@@ -82,7 +90,7 @@ def test_fk_watermark_cleanup_still_runs(adapter, monkeypatch):
     monkeypatch.setattr(adapter, "list_sessions", lambda: sessions)
     adapter.ask_via_opencode("q")
     assert "sess-1" not in deleted  # 当前在途会话不删
-    assert len(deleted) >= 1  # 水位闸门清理最旧
+    assert deleted == ["0"]  # [Loop C 审计 F17 补强] 被删的恰为最旧会话 (updated 升序)
 
 
 def test_vector_store_instance_cache(monkeypatch):

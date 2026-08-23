@@ -72,3 +72,59 @@ redlines: [冻结节点, API key, ...]
 | 8 | 人在环保留 | 设计原则, 无需实现 | risk=high 永远人确认, 编排器只备料——此项为约束不是待办 |
 
 落地顺序建议（L3 重评时）: 1 schema 校验 → 2 验收 runner → 3 存档约定 → 5 --json → 6 dispatch 模板 → 4 升级路径 → 7 成本护栏。每步 flag 增量, 不改分发默认行为; 与 §2 L3 "不实施理由"（分发量 <5 次/天 ROI 为负）一并重评。
+
+
+## 附录: Backlog 台账（2026-08-23 首版, TODO 梳理专项产出）
+
+> 规则: **新发现/挂账条目即时登记入本表**, 不再散落。每行: 发现点 / 现状 / 阻塞 / 下一步 / 承接层（A 执行 / B 验证 / C 审计 / D 用户决策）。
+> CLOSED 条目不入表（历史见 THREADS/dispatch）; 触发条件达成时重新入表。
+
+### 一、用户决策类（D）
+
+| # | 条目 | 发现点 | 现状 | 阻塞 | 下一步 | 承接层 |
+|---|---|---|---|---|---|---|
+| D1 | 任务2 M1/M2 页面改版设计稿拍板 (A 三栏工作台 / B 流水线画布) | THREADS 08-11 (docs/27) | 设计稿+草图就位, 未动代码, 挂账 12 天 | 等用户圈选 | 圈选后排执行窗 | D |
+| D2 | 专利五项定夺（权利要求范围/发明人排序等） | THREADS 08-22 专利台账 | 三件套已发导师 08-22 晚 (三 hash 在案) | 等导师反馈 | 反馈到后按意见修订 | D |
+| D3 | image/.env 旧 PNG 去留 (7 张 2026-02 Dify 原型截图) | THREADS 08-12 仓库精简 | 本机 gitignored 残留, 零引用待验 | 等用户圈选 | 圈选后执行 (删前验引用) | D |
+| D4 | NLPCC 2026 workshop 窗口核实 | THREADS 08-19 批复⑥ | 主节点已定 NLPCC/CCIR 2027; workshop 待核实 | 用户人工核实中 (agent 尝试被 DNS/502/JS 挡) | 核实回话更新台账; 8 月底无回话默认按 NLPCC 2027 节奏 | D |
+| D5 | admin token fail-open 收口 (M1_ADMIN_TOKEN/M1_API_TOKEN 未设) | THREADS 部署加固 + 08-05 启动告警 | fail-open 运行中 (m1.py:201/middleware.py:48) | 需 :5050 窗 + 决策 | 备忘录 D5 圈选后执行 | D |
+| D6 | 超时 (a) 45→60-75s | THREADS N3 缓办 08-22 | L1 矩阵数据就位 (抬 60-75 容纳不了 xhigh p95) | 等 08-24 23:50 48h checkpoint 数据 | 按预写判据拍板 (段 C+D 完成率 <10% → 再议) | D (数据 A 出) |
+| D7 | L2 sidecar 瘦身方案菜单批 | THREADS 08-22 L2 测量 | 测量定论 (prefill 主导), 菜单待批 | 等用户圈方案 | 圈选后 opencode.json 变更窗 | D |
+| D8 | warm-up 候选 a (sidecar 重启预热消 37s 冷启) | THREADS 08-11 修复菜单 | 留候选, 冷路 45s 预付 | 等用户批 | 可随下次侧车重启附带 | D |
+| D9 | schema 口径同步 (运行时副本 vs config 版 + frozen_hashes manifest 刷新) | THREADS 08-09 P1 | resolve_schema_path 已统一走 config | 需 Loop D 决策 | 决策后 A 刷 manifest | D |
+| D10 | M4 减 step A/B 拍板 | 08-22 减 step 菜单 + 08-23 方案预备 | 方案就位 (侧车/prompt 层) | 等窗口后排 | 拍板后 A/B 执行 | D |
+
+### 二、等窗/排期类（A 执行, 窗/触发由 D 给）
+
+| # | 条目 | 发现点 | 现状 | 阻塞 | 下一步 | 承接层 |
+|---|---|---|---|---|---|---|
+| A1 | PSO 落点② / K3 注入批跑 二选一 | THREADS 08-23 夜核 | 前置 PASS (v1 + evidence card 齐) | 等 08-24 23:50 收口后错峰窗 | 预算门复查 + 执行 | A |
+| A2 | K4 小模型矩阵 C3 (4B 级) / C4 | docs/33 §8 | C1/C2 NO-GO 完成 | 错峰排期 | 预算门先行, :8007 探针 | A |
+| A3 | 每步输出 (adapter step 事件流开发) | THREADS N3 缓办 08-22 | 开发任务未动 | 等下个代码窗 | 兼作导师演示叙事素材 | A |
+| A4 | Route S 对照臂 serving (SGLang+NVFP4+RadixArk) | blocked_questions 08-19 | 权重下载完成 | 需 :8006 停机窗 (缓, 与未来操作合并) | 给窗后起服补对照报告 | A+D |
+| A5 | L3 DFlash2 :8007 探针 | THREADS 08-22 N2 | #52816 已合入上游 + 权重在位; 我们镜像 08-15 早于合入 | 等 timothystewart6 新 tag (08-29 checkpoint) | tag 到 → 探针 (L1 基线已满足前置) | A |
+| A6 | drafter v2 / DSpark 再议 | drafter ledger 08-22 | 生产退出, 权重留盘 | 触发: drafter v2 发布或 medium 矩阵再议 | 盯梢命令自动 (ledger 现状) | A (自动) |
+| A7 | vLLM 版本升级评估 (#46932/#49760/#48140) | 08-21 窗口批复 | 长期台账, 版本未动 | 无 | 择评估窗; 新 tag 与 L3 联动 | A+D |
+| A8 | HTML 邮件提取步脚本入库 (.msg→HTML→表格) | THREADS 08-09 P1 | 匹配步已复活, 提取步仅存产物 | 无 | 与 4.1 一并入库 | A |
+| A9 | evidence card UI 展示层 | 批复 08-19 ⑤ | 脚本随 v1 交付 | 演示冻结窗不碰前端 | 另行排期 | A |
+| A10 | ZhikunCode 重建 (pip 直连 pypi 慢 → aliyun 源/上游 PR) | THREADS 08-03 | 低优先 | 无 | 顺手时做 | A |
+| A11 | Qoder CLI Phase 2 连通性实测 | THREADS 07-29 | BLOCKED-auth | 等用户注册提供 PAT | PAT 到后实测 | D→A |
+
+### 三、甲方侧（D 对外）
+
+| # | 条目 | 发现点 | 现状 | 阻塞 | 下一步 | 承接层 |
+|---|---|---|---|---|---|---|
+| C1 | 跨期对比多期数据 | THREADS 甲方待确认 | 阻塞 (仅单期) | 等甲方提供 | 数据到 → 入回归基线 | D (甲方) |
+| C2 | M2 正式业务指标 (label-to-source 映射 + 人工标注) | THREADS 甲方待确认 | 阻塞 | 等甲方批准 | 架构边界, 不越界 | D (甲方) |
+| C3 | 部署加固 (systemd/Prometheus/token) | THREADS 甲方待确认 | 等甲方运维确认 | 甲方 | token 部分可先行 (见备忘录 D5) | D (甲方) |
+| C4 | 场景 B 问答候选选择题 | THREADS 08-10 | 设计入库 (docs/26 §三) | 触发: 甲方 walkthrough 认可场景 A 面板 | 触发后排期 (直连路 ~2h) | D (触发) |
+| C5 | dify 5 份甲方规则 docx 深挖 | THREADS 08-12 | 确定性挖掘已做 (delta=0, 3 synonyms) | 触发: 甲方提供估值表类样本 | 见备忘录 D2 | D (触发) |
+
+### 四、观察/监控类（B 验证）
+
+| # | 条目 | 发现点 | 现状 | 阻塞 | 下一步 | 承接层 |
+|---|---|---|---|---|---|---|
+| B1 | FK 菜单 a 修复后观察 | 08-23 窗口 | 三表持久化恢复 (0→9/44/118), FK 停涨 136 | 无 | 08-24 收口看积压; 异常才上菜单 b | B |
+| B2 | PG 池修复后观察 (实例缓存 + GUC 10min) | 08-23 窗口 | 泄漏根治 (菜单 a), GUC 兜底 | 无 | 收口顺带 pg_stat_activity 抽样 | B |
+| B3 | B4 48h 观察 (段起点 3429; 段 B 11:45-20:20 PG 污染降权) | 批复卡 08-22 | 进行中 | 无 | 08-24 晚 23:50 cron 按预写口径判定 | B |
+| B4 | 常驻资产纳管规则执行 | kiosk 教训 08-22 | 规则入账 (runner 入库 + Loop B 断言) | 无 | 未来常驻资产逐个对照 | 治理 |

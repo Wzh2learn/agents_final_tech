@@ -3,6 +3,8 @@
 状态: 归因定论 + 修复菜单（明日 :5050 代码窗直接执行） | 更新: 2026-08-23 | 取代/被取代: 无
 关联: memory/THREADS.md [08-16 22:20] known_risk 条 / [08-23] PG 池打满事故条 / #HYG-FK-DIAG 同窗排期
 
+> **[2026-08-24 Loop C 审计更正, 加注不涂改]** 审计报告 2026-08-23_loopc_differential_audit.md F1/F3: ① §2 行号引用 "L58-68" 有误——修前快照 `_vector_store = PGVector` 实为 L143（语义结论「缓存类非实例」不变, 现码 L151）; ② §2 调用点角色标注两处颠倒——L172 属 ingest_file（入库）, L322/L337 属 smart_retrieve（检索）; 真正的每条问答检索热路径 = smart_retrieve L322/L337 + get_traceability L664, 归因结论被强化不动摇。审计总判: 两对象 PASS（17 findings = 4 LOW + 13 INFO, 无 C/H/M）。
+
 ## 1. 现象与速率（08-23 窗口实测）
 - 修前: pg_stat_activity 100/100 饱和, 最老连接 5-7 天, 零回收。
 - 归因普查（窗前 ss + 容器 peer 对账）: 100 连接 = mcp_server.server 45（08-22 14:37 起, ~29h, ≈1.5/h）+ :5050 uvicorn 两 worker 55（08-18 起, ~5d, ≈0.5/h）。Loop B 本体零连接。
