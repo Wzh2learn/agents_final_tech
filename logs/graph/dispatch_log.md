@@ -907,3 +907,4 @@ echo dispatch_log updated
 [2026-08-23 20:31] #LOOPB-APPLY Loop B 改动落地(用户批准同窗): STEP2→pytest_loopb.txt(L132/L135) + STEP4 白名单扩 5 件(批准 4 件 + pytest_loopb.txt 分流推论, 注释写明) + bash -n PASS; daemon reload 即将执行
 [08-23 20:38] #LOOP-B-FLIP overall FAIL -> PASS (head=b27a9a8; 详见 logs/graph/verify-report.json + loop_b.log)
 [2026-08-23 20:39] #PG-WINDOW-CLOSE PG 窗口收口(20:26-20:38): restart 1s/ready 2s, 活动 100→1; GUC idle_session_timeout=10min 生效持久化; canary 4/4 两轮连过(重连验证成立); 泄漏实证 canary 前后 1→10 连接; Loop B 三改落地+daemon reload(PID 2187590), 验收全过(dirty=0+白名单生效+pytest_loopb.txt 产出+overall FAIL→PASS); 10min/30min 两点观察排程中; compose 漂移只记账; 归因更正入 08-16 原条(泄漏端=:5050/MCP 池非 Loop B)
+[2026-08-23 20:57] #PG-FOLLOWUP pg_stat_activity 两点观察定论: 读点1(T+13min) total=15/idle=14/oldest 7.1min(两轮 canary 遗留) → 读点2(T+30min) total=1/idle=0 = GUC 10min 回收全生效, 泄漏增长闭环(对照修前 100 连接 5-7 天零回收打满); 工件 logs/graph/eval/pg_activity_followup_20260823.txt

@@ -1,0 +1,4 @@
+PG 池打满修复后 pg_stat_activity 观察 (重启 20:26, GUC idle_session_timeout=10min; 读点1 SQL 修正后补跑)
+读点1 (T+13min 补跑): 2026-08-23 12:39:45.774266+00 total=15 idle=14 oldest_idle_min=7.1
+读点2 (T+30min): 2026-08-23 12:56:35.885307+00 total=1 idle=0 oldest_idle_min=0.0
+done 2026-08-23 20:56:35
