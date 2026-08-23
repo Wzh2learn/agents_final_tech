@@ -15,6 +15,17 @@
 
 ## 其他技术线索
 
+### 窗口验收两疵核查结论 (2026-08-23)
+- ① inspect 存档口径: logs/graph/eval/pgvector_inspect_pre_restart_20260823.json 实测 9836B = `docker inspect pgvector_15432` 单容器全量输出（Id/Config/HostConfig/State/NetworkSettings 齐全）, 符合「可回滚级全量」标准; 验收所引 324B 与在盘存档不符, 如实记录。
+- ② verify-report.json 扫描范围核查: STEP4 扫描范围无漏——git status --porcelain 全 worktree, verify-report.json 未入白名单被正常计数（21:41/22:15 两周期 dirty_files=1 可查; 20:38/21:08 为 0 系写入顺序: STEP4 先于当周期 report 写入, 且在盘 report 恰与 HEAD 一致）。口径补充: dirty 计数为 R1 信息性字段, 不影响 overall（仅 tests/ 变更触发 WARNING）。
+- ② 处置提案（Loop B 红线报批）: 白名单再扩 2 件——verify-report.json（含 timestamp 字段, 每周期必脏）+ loop_b_last_status（Loop B 运行时工件）, 与已批 5 件同口径注释入脚本; 批准后常驻脏件归零。未批前维持现状（每周期自写回, 收口顺带 commit 快照）。
+- :5050 代码窗积压三件排期: FK adapter 修复（#HYG-FK-DIAG 菜单 a/b）/ PG 池泄漏根治（疑 engine-per-request, mcp 侧 ~1.5 连接/时 + :5050 侧 ~0.5/时, GUC 兜底中）/ M1_B4_LOG_PATH 激活——48h 观察（08-24 晚）收口后一起排窗。
+
+### /api/health/full 路径更正 (2026-08-23, 窗口验收必更正)
+- 错误声明: 「/health/full 路由不存在, /health 为唯一健康端点」——PG 窗口验证时我的错误结论（grep 范围仅 src/*.py + src/api/*.py, 漏 src/web/routers/）。
+- 更正: 正确路径 **/api/health/full**, 08-01 (32cca97) 入库, 定义 src/web/routers/pages.py:55; 08-23 22:35 实测返回 overall=healthy（pgvector ok / embeddings 137 / llm_8004 ok / embedding local / proxy_8100 ok / m2_rag retrieval_working=true）。历次窗口「137/local/healthy」口径即出此端点。
+- 行动: 今后六步验证保留 /api/health/full 项, 不再测错路径。
+
 ### 汇报措辞更正 (2026-08-23, 抽验批复两处记账)
 - 「本机 docs_lint 0 fail」仅 GB10 成立: 本机 autocrlf=true 致 .sh CRLF, sync_skills.sh 本机无法执行, 本机 docs_lint FAIL[4] 结构性; 今后汇报台词统一「GB10 为准」。
 - INDEX 自身行日期 08-22 落后头部 08-23 一天, 违「INDEX 最后更新与内容变更同 commit」规则, 本 commit 修复（08-22→08-23）。
