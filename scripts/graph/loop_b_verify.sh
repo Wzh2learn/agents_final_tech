@@ -129,10 +129,10 @@ run_pytest() {
 
   local pytest_exit=0
   "$py" -m pytest tests/test_m1_service.py -v --tb=short \
-    > "$REPORT_DIR/pytest_latest.txt" 2>&1 || pytest_exit=$?
+    > "$REPORT_DIR/pytest_loopb.txt" 2>&1 || pytest_exit=$?  # [2026-08-23 批准] 子集写 pytest_loopb.txt; pytest_latest.txt 只接受收口全量
 
   local summary
-  summary=$(tail -3 "$REPORT_DIR/pytest_latest.txt")
+  summary=$(tail -3 "$REPORT_DIR/pytest_loopb.txt")
   log "  pytest exit=$pytest_exit | $summary"
 
   echo "$pytest_exit"
@@ -202,12 +202,17 @@ check_git_state() {
   # [2026-08-19 用户批准: STEP4 白名单] 运行时状态文件豁免清单 —
   # config/schema_suggestions.json 是自学习闭环的合法写入目标
   # (kiosk 播放期间持续写观察计数), 不计入报警 dirty;
+  # [2026-08-23 用户批准: 白名单扩充] +4 件:
+  # logs/graph/dispatch_log.md (事件流, 主线程收口与 Loop B 翻转写入) /
+  # logs/graph/docs_lint_report.json (docs_lint.py 自动写报告工件) /
+  # logs/graph/pytest_latest.txt (只接受收口全量, Loop B STEP2 已分流) /
+  # logs/graph/pytest_loopb.txt (Loop B STEP2 子集工件, 每周期覆写, 分流天然推论)。
   # 其余脏文件照常计数报警。清单变更需 Loop D 批准。
   local dirty whitelisted_dirty
-  dirty=$(git status --porcelain 2>/dev/null | grep -v ' config/schema_suggestions\.json$' | wc -l)
-  whitelisted_dirty=$(git status --porcelain 2>/dev/null | grep -c ' config/schema_suggestions\.json$' || true)
+  dirty=$(git status --porcelain 2>/dev/null | grep -vE ' config/schema_suggestions\.json$| logs/graph/(dispatch_log\.md|docs_lint_report\.json|pytest_latest\.txt|pytest_loopb\.txt)$' | wc -l)
+  whitelisted_dirty=$(git status --porcelain 2>/dev/null | grep -cE ' config/schema_suggestions\.json$| logs/graph/(dispatch_log\.md|docs_lint_report\.json|pytest_latest\.txt|pytest_loopb\.txt)$' || true)
 
-  log "  HEAD=$head_commit branch=$branch dirty_files=$dirty whitelisted=$whitelisted_dirty (schema_suggestions 运行时状态豁免)"
+  log "  HEAD=$head_commit branch=$branch dirty_files=$dirty whitelisted=$whitelisted_dirty (白名单 5 件: schema_suggestions + logs/graph 运行时 4 件)"
 
   # Check if tests/ was modified in last commit
   local test_modified
