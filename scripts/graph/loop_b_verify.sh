@@ -42,6 +42,13 @@ LOOP_B_AGENT_WATCHDOG="${LOOP_B_AGENT_WATCHDOG:-1}"
 LOOP_B_PYTEST="${LOOP_B_PYTEST:-1}"
 AGENT_WATCHDOG_WINDOW="${AGENT_WATCHDOG_WINDOW:-30}"
 AGENT_WATCHDOG_MIN_FALLBACKS="${AGENT_WATCHDOG_MIN_FALLBACKS:-25}"
+# ---- T2 升级 (2026-08-24 夜, 批准): STEP 10 pg_pool_guard 哨兵 ----
+# 纯 bash+psql, 无 AI。阈值: >PG_POOL_WARN WARN (信息性) / >PG_POOL_FAIL FAIL (计 overall)。
+# 起源: 08-23 PG 池打满事故 (max_connections=100, 泄漏 7 天打满); GUC 10min + 实例缓存已根治, 本项为哨兵。
+LOOP_B_PG_POOL="${LOOP_B_PG_POOL:-1}"
+PG_POOL_WARN="${PG_POOL_WARN:-80}"
+PG_POOL_FAIL="${PG_POOL_FAIL:-95}"
+
 B4_LOG="$REPORT_DIR/b4_ask_log.jsonl"
 CANARY_IDS="${LOOP_B_CANARY_IDS:-adv_ocr_meta,adv_refusal,q06_minan_cash_balance,adv_cross_doc}"
 CANARY_TIMEOUT="${LOOP_B_CANARY_TIMEOUT:-75}"  # T5: 45s ask 超时 + 回落直连最坏 ~60s, 45 不够
@@ -403,7 +410,7 @@ write_report() {
   python3 "$GRAPH_DIR/write_report.py" \
     "$frozen_violations" "$pytest_exit" "$api_failures" "$head_commit" "$REPORT_FILE" \
     "$canary_failures" "$git_violations" "$lint_failures" \
-    "$topo_violations" "$watchdog_violations" \
+    "$topo_violations" "$watchdog_violations" "$pgpool_violations" \
     2>/dev/null || log "  WARNING: report write failed"
 
   log "REPORT: overall=$overall -> $REPORT_FILE"
@@ -431,6 +438,29 @@ record_status_flip() {
   log "STATUS FLIP: $prev -> $overall, dispatch_log entry written"
 }
 
+# ---- Step 10: PG Pool Guard (T2 2026-08-24, 纯 bash+psql 哨兵) ----
+# Returns: 0 = PASS/WARN (WARN 仅信息性), 1 = FAIL (连接数 > PG_POOL_FAIL; 探测失败 WARN 不计败, 可用性由 STEP 3 兜底)
+check_pg_pool() {
+  log "STEP 10: pg_pool_guard (warn>${PG_POOL_WARN}/fail>${PG_POOL_FAIL})..."
+  local cnt
+  cnt=$(docker exec pgvector_15432 psql -U postgres -t -A -c "select count(*) from pg_stat_activity where datname is not null" 2>/dev/null | tr -d '[:space:]')
+  if [[ -z "$cnt" || ! "$cnt" =~ ^[0-9]+$ ]]; then
+    log "  WARNING: pg_pool_guard 探测失败 (docker/psql 不可达); 可用性由 STEP 3 api_anchors 兜底"
+    echo 0
+    return
+  fi
+  if (( cnt > PG_POOL_FAIL )); then
+    log "  FAIL: pg pool connections=$cnt > ${PG_POOL_FAIL} (饱和风险; 对照 08-23 事故台账, 查 pg_stat_activity 泄漏端)"
+    echo 1
+  elif (( cnt > PG_POOL_WARN )); then
+    log "  WARN: pg pool connections=$cnt > ${PG_POOL_WARN} (疑似泄漏增长, 建议查 pg_stat_activity 按进程归因)"
+    echo 0
+  else
+    log "  OK: pg pool connections=$cnt (<= ${PG_POOL_WARN})"
+    echo 0
+  fi
+}
+
 # ---- Main Verification Run ----
 run_verification() {
   log "=========================================="
@@ -441,6 +471,7 @@ run_verification() {
   local frozen_violations pytest_exit api_failures head_commit overall
   local canary_failures=-1 git_violations=-1 lint_failures=-1
   local topo_violations=-1 watchdog_violations=-1
+  local pgpool_violations=-1
 
   frozen_violations=$(check_frozen_nodes)
   if [[ "$LOOP_B_PYTEST" == "1" ]]; then
@@ -474,6 +505,11 @@ run_verification() {
     watchdog_violations=$(check_b4_agent_watchdog)
   else
     log "STEP 9: agent watchdog SKIPPED (LOOP_B_AGENT_WATCHDOG=0)"
+  fi
+  if [[ "$LOOP_B_PG_POOL" == "1" ]]; then
+    pgpool_violations=$(check_pg_pool)
+  else
+    log "STEP 10: pg_pool_guard SKIPPED (LOOP_B_PG_POOL=0)"
   fi
   head_commit=$(check_git_state)
 

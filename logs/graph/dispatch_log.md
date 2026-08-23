@@ -925,3 +925,14 @@ echo dispatch_log updated
 [2026-08-24 00:35] #TODO-CLOSEOUT TODO 梳理专项收口: 全量 pytest 384 passed/13 skipped EXIT=0（含 F17 断言补强 deleted==["0"] + test_window_fixes sys.path 守卫修单文件隔离缺陷）; 四件资产入库: backlog 台账(docs/29 附录) / 五项决策备忘录 / Loop C 审计报告 / M4 A/B 方案; 三方对齐后回守护
 [2026-08-24 00:13] #CANARY-ADJUDICATION Loop B 23:51 周期 FAIL 判别 = canary q06 随机抖动, 非窗口回归: ① canary FAIL 历史 102 次（已知噪声, 含今日 PG 饱和段连败）② 窗口验证 23:33 canary 4/4（含 q06）③ 手动复测 00:12 答对（3508.55, 源 sample_jiaxing_minan 命中 0.7889; B4 route=direct fell_back=true）④ 该周期其余步全 PASS（pytest 18/拓扑/watchdog/dirty=0/git 对齐）; 处置: 不动任何配置, 观察下周期翻绿; 病灶与 81% 回落率同源（agent 超时 + 直连偶发弱检索）, M4 减 step 为根治路径
 [08-24 00:24] #LOOP-B-FLIP overall FAIL -> PASS (head=1fe4e41; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-24 00:52] #LOOP-B-FLIP overall PASS -> FAIL (head=9445f06; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-24 00:56] #LOOP-B-FLIP overall FAIL -> PASS (head=9445f06; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-24 01:00] #LOOP-B-FLIP overall PASS -> FAIL (head=9445f06; 详见 logs/graph/verify-report.json + loop_b.log)
+[2026-08-24 00:27] #NIGHTLOOP2-START 夜间自主 loop 第二阶段开窗 (启动 1787502427, 硬停 04:00): 队列 T0 MCP 重载闭环 / T1 减 step A/B / T2 Loop 升级 / T3 backlog 首波 / T4 条件项; 窗口三件激活已于 08-23 窗完成 (9445f06)
+[2026-08-24 00:56] #T0-MCP-RELOAD MCP 三进程随侧车重启重生载修复 (旧侧车 1189803 kill, 新 2357848, 子进程 2358639/640/643): 冒烟 q06 PASS; 重启前存档 logs/graph/eval/t0_mcp_reload_archive_20260824.txt; T+30min pg=9 贴底零增长 (对照修前 10-18); 持久化随 Arm B 流量复验 = db 三表活跃 (51/279/629) + FK 冻结 136 (末条 15:16Z 窗口修复前) → 泄漏修复闭环成立
+[2026-08-24 01:00] #T2-LOOP-UPGRADE Loop B STEP 10 pg_pool_guard (warn>80/fail>95, LOOP_B_PG_POOL flag) + write_report 第 11 参向后兼容 + status.sh PG 池/db 三表两行: 阈值演练 2/4 触发 FAIL 正确, 还原后真实周期 00:56/01:00/01:32 三连 OK connections=9; daemon 双旧更正后唯一新脚本 daemon (2385039, STEP 10 三周期出判定为证); STEP 9 FAIL=设计内 agent-watchdog 信号照旧记账
+[2026-08-24 01:44] #T1-STEP-AB 减 step 第一杠杆 A/B 判定=还原: 选杠 M2-top_k 变体 (top_k 5→8 + follow-up 收紧); Arm A 13/13 p50=49.6s steps p50=4 mean=4.4 (全量日志重提, 更正 00:48 即测 p50=3 缓冲假象); Arm B 13/13 p50=48.9s (Δ−0.7s 噪声) steps p50=4 mean=4.85 且诱导 evidence-verifier 子代理; 质量门禁 14/16, 2 FAIL 均直连路瞬态抖动 (检索脱靶/生成调用失败) 复测 2/2 非回归; keep 判据未达 → 01:42:34 还原 (sha 逐字一致 + 冒烟 q06 PASS); 发现: 45s 超时审查为第一障碍, 详见 docs/experiments/2026-08-24_t1_step_reduction_ab.md
+[2026-08-24 01:44] #T3-BACKLOG backlog 首波: docs_lint [2b] 活文档头部三件套 WARN 检查落地 (复跑 0 fail/0 warn); 常驻资产 runner 盘点全入库 (8 件); 1 项 CLOSED + 其余如实记"无合格项" (需窗口/拍板/甲方), 不造活
+[08-24 02:06] #LOOP-B-FLIP overall FAIL -> PASS (head=9445f06; 详见 logs/graph/verify-report.json + loop_b.log)
+[2026-08-24 03:09] #T4-14B-RETEST 14B>8B 异常复测定论=可复现非抖动: 14B 07-10 snapshot 双档得分与失败题集与 C1 逐题一致 (off 11/16 亚秒拒答富熙系 / xhigh 14/16 挂 q08+adv_ocr_meta); 归因=权重/量化批次/模板行为 > 参数量; NO-GO 维持; :8007 探针 03:01-03:09 用毕即停; 报告 docs/experiments/2026-08-24_t4_14b_anomaly_retest.md
+[08-24 03:13] #LOOP-B-FLIP overall PASS -> FAIL (head=9445f06; 详见 logs/graph/verify-report.json + loop_b.log)

@@ -27,11 +27,12 @@ def main():
     lint_f = int(sys.argv[8]) if len(sys.argv) > 8 else -1
     topo_v = int(sys.argv[9]) if len(sys.argv) > 9 else -1
     watchdog_v = int(sys.argv[10]) if len(sys.argv) > 10 else -1
+    pgpool_v = int(sys.argv[11]) if len(sys.argv) > 11 else -1  # T2 2026-08-24: pg_pool_guard
 
     overall = "PASS"
     if (frozen_v > 0 or pytest_e != 0 or api_f > 0
             or canary_f > 0 or git_v > 0 or lint_f > 0
-            or topo_v > 0 or watchdog_v > 0):
+            or topo_v > 0 or watchdog_v > 0 or pgpool_v > 0):
         overall = "FAIL"
 
     report = {
@@ -72,6 +73,10 @@ def main():
             "agent_watchdog": {
                 "status": _status(watchdog_v),
                 "violations": watchdog_v,
+            },
+            "pg_pool_guard": {
+                "status": _status(pgpool_v),
+                "violations": pgpool_v,
             },
         },
         "action": (

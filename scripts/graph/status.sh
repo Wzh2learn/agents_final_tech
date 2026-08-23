@@ -43,6 +43,18 @@ for p in 5050 4096 8004 8005 8006 8007 8008 8100 15432; do
 done
 echo "$LINE"
 echo "tmux 禁杀: graph-loop-b(Loop B) / opencode-serve(sidecar)"
+echo "-- PG 池 / opencode.db (T2 2026-08-24 夜增) --"
+PGCNT=$(docker exec pgvector_15432 psql -U postgres -t -A -c "select count(*) from pg_stat_activity where datname is not null" 2>/dev/null | tr -d '[:space:]')
+PGIDLE=$(docker exec pgvector_15432 psql -U postgres -t -A -c "select count(*) from pg_stat_activity where state='idle' and datname is not null" 2>/dev/null | tr -d '[:space:]')
+echo "PG 池连接: total=${PGCNT:-?} idle=${PGIDLE:-?} (哨兵阈值 warn>80 / fail>95)"
+./venv/bin/python - <<'PYDB' 2>/dev/null || echo "[!] opencode.db 读取失败"
+import sqlite3, os
+p = os.path.expanduser("~/.local/share/opencode/opencode.db")
+c = sqlite3.connect(p)
+s, pa, m = (c.execute("select count(*) from " + t).fetchone()[0] for t in ("session", "part", "message"))
+print(f"opencode.db 三表: session={s} part={pa} message={m} (08-23 持久化恢复基线: 0/0/0 起步)")
+PYDB
+
 
 echo "-- B4 观察窗口 --"
 B4=logs/graph/b4_ask_log.jsonl

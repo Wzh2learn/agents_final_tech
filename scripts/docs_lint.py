@@ -111,6 +111,12 @@ def check_status_headers() -> tuple[list, list]:
                     warns.append(f"[2] 活跃但 {age} 天未更新: docs/{name} (更新: {dm.group(1)})")
             except ValueError:
                 pass
+        # [2b] 头部三件套 (状态/更新/取代) 检查 — 08-22 侧线审计治理规则, 2026-08-24 落地;
+        # WARN 级 (建议性, 不阻塞): 活文档头部应三件套齐全。
+        if not re.search(r"更新[:：]", head):
+            warns.append(f"[2b] 三件套缺 更新 项: docs/{name}")
+        if not re.search(r"取代/被取代[:：]", head):
+            warns.append(f"[2b] 三件套缺 取代/被取代 项: docs/{name}")
     return fails, warns
 
 
