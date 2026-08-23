@@ -206,13 +206,16 @@ check_git_state() {
   # logs/graph/dispatch_log.md (事件流, 主线程收口与 Loop B 翻转写入) /
   # logs/graph/docs_lint_report.json (docs_lint.py 自动写报告工件) /
   # logs/graph/pytest_latest.txt (只接受收口全量, Loop B STEP2 已分流) /
-  # logs/graph/pytest_loopb.txt (Loop B STEP2 子集工件, 每周期覆写, 分流天然推论)。
+  # logs/graph/pytest_loopb.txt (Loop B STEP2 子集工件, 每周期覆写, 分流天然推论) /
+  # [2026-08-23 用户批准: 白名单再扩 2 件]
+  # logs/graph/verify-report.json (Loop B 周期报告, 含 timestamp 字段每周期必脏) /
+  # logs/graph/loop_b_last_status (Loop B 翻转状态位, 已被 git 跟踪——核查坐实, 翻转日必脏)。
   # 其余脏文件照常计数报警。清单变更需 Loop D 批准。
   local dirty whitelisted_dirty
-  dirty=$(git status --porcelain 2>/dev/null | grep -vE ' config/schema_suggestions\.json$| logs/graph/(dispatch_log\.md|docs_lint_report\.json|pytest_latest\.txt|pytest_loopb\.txt)$' | wc -l)
-  whitelisted_dirty=$(git status --porcelain 2>/dev/null | grep -cE ' config/schema_suggestions\.json$| logs/graph/(dispatch_log\.md|docs_lint_report\.json|pytest_latest\.txt|pytest_loopb\.txt)$' || true)
+  dirty=$(git status --porcelain 2>/dev/null | grep -vE ' config/schema_suggestions\.json$| logs/graph/(dispatch_log\.md|docs_lint_report\.json|pytest_latest\.txt|pytest_loopb\.txt|verify-report\.json|loop_b_last_status)$' | wc -l)
+  whitelisted_dirty=$(git status --porcelain 2>/dev/null | grep -cE ' config/schema_suggestions\.json$| logs/graph/(dispatch_log\.md|docs_lint_report\.json|pytest_latest\.txt|pytest_loopb\.txt|verify-report\.json|loop_b_last_status)$' || true)
 
-  log "  HEAD=$head_commit branch=$branch dirty_files=$dirty whitelisted=$whitelisted_dirty (白名单 5 件: schema_suggestions + logs/graph 运行时 4 件)"
+  log "  HEAD=$head_commit branch=$branch dirty_files=$dirty whitelisted=$whitelisted_dirty (白名单 7 件: schema_suggestions + logs/graph 运行时 6 件)"
 
   # Check if tests/ was modified in last commit
   local test_modified
