@@ -14,6 +14,20 @@
 - 遗留: ~~:5050 重启后 curl 复验 (Loop D 择窗)~~ **CLOSED (2026-08-09)**: 重启后生产端复验 PASS (sources=3, TraFax+WaveFax 正确溯源, 08-09 两次复验); ~~BM25 stub 未实现~~ **CLOSED (2026-08-09)**: 真 BM25 已实现并 flag 化 (M2_ENABLE_BM25 默认 false, A/B 零增益决策不修); coord_table 未纳入 ocr_table 语义 (见交付说明 §6)。详见 logs/graph/loop_a_ocr_metaquery_result.md。
 
 ## 其他技术线索
+### 夜间队列任务 4 核查: K2 前置齐 + PSO/K3 排期 (2026-08-23)
+- 核查坐实: K2 v1 齐（2026-08-19_eval_protocol_v1.md, 判别力 9/9 + judge k A/B + 冻版零漂移）+ evidence card 齐（并入 v1 产出, scripts/eval_evidence_cards.py, evidence_cards 16A 工件）→ 前置条件 PASS。
+- 今晚不跑（预算门）: PSO 落点②需 (问题×mutant) 判别力矩阵——cached 判别力报告只有 per-mutant 叶级 delta 无 per-question 信号, 必须新跑模型（:8006 负载, 估 ≥1h）; 与 B4 canary 每 30min slot 争用 + 02:00 硬停 + 明日 48h checkpoint/代码窗前排, 不硬上。
+- 排期: 08-24 23:50 cron 收口后错峰窗执行（PSO 落点② 或 K3 注入批跑二选一, 届时预算门复查）; K3 漂移注入器 v0（118 条 + 95 表）就绪在案。
+
+### 48h checkpoint 口径预写 (2026-08-23 夜, 明晚 23:50 cron 执行, 不临场定口径)
+- 执行: `./venv/bin/python scripts/graph/b4_checkpoint.py 3429`（段起点 3429 = 08-22 14:38 侧车修复后）; cron 23:50 已布防（08-21）, 跑完人工删。
+- 分段口径（判定时按此切, 两列口径=尝试/完成, 回落率=1-完成/尝试）:
+  - 段 A [3429 ~ 08-23 11:45): 侧车修复后 + PG 饱和前, 相对干净段;
+  - 段 B [08-23 ~11:45 ~ 20:20): **PG 打满污染段——剔除或降权**（金丝雀空检索回落样本, 事故条在案）;
+  - 段 C [08-23 20:20 起, 实际重启 20:26): 修复后干净段（首批样本: canary adv_refusal agent 路 44.8s 等）;
+  - 段 D [08-24 全天]: 干净段。
+- 判据（先入账）: 段 C+D 合并完成率 <10% → 超时 (a) 45→60-75s 再议（明日 :5050 代码窗一窗全激活顺带载入）; ≥10% → 维持现状续观察（对照楔死前 45s era ~20% 基线）。
+- 附加: content=null 计数与回落率按原批复口径; eval 中间行 route=agent 标签异常以 B4 为准。
 
 ### 窗口验收两疵核查结论 (2026-08-23)
 - ① inspect 存档口径: logs/graph/eval/pgvector_inspect_pre_restart_20260823.json 实测 9836B = `docker inspect pgvector_15432` 单容器全量输出（Id/Config/HostConfig/State/NetworkSettings 齐全）, 符合「可回滚级全量」标准; 验收所引 324B 与在盘存档不符, 如实记录。

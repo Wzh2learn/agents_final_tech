@@ -96,6 +96,8 @@
 | `2026-08-22_patent_advisor_email.md` | 活跃 | 专利导师邮件草稿(呈递说明从交底书正文分离的独立发送件, hash 7E39CF...): 改了什么/贡献点/请导师定夺项; 与交底书+docx v2 配套, **已随三件套发导师(08-22 晚)** | 2026-08-22 |
 | `2026-08-22_side_audit_full_reconciliation.md` | 活跃 | 侧线全文档认知审计（声明-实况对账）: 9 冷文件 20 处直修归位 + INDEX 委托 8 项 + 漂移模式防御 3 条治理建议 | 2026-08-22 |
 | `2026-08-23_l1_thinking_matrix.md` | 活跃 | L1 thinking 档位裁定矩阵报告: medium/xhigh 两腿直连 :8006 三方对照, 裁定 NO-GO（thinking ON 无延迟收益, medium 质量降, xhigh judge 4.875<4.9）, 准路默认维持 OFF; 含冒烟测量盲区与 runner fallback 补丁方法论记录 + 还原验证全过 | 2026-08-23 |
+| `2026-08-23_pg_pool_leak_attribution.md` | 活跃 | PG 池泄漏代码归因: 泄漏点=get_vector_store() engine-per-search(缓存的是类非实例), mcp 45+uvicorn 55 连接实证; 修复菜单 a 实例缓存(推荐)/b 共享 engine/c NullPool/d GUC 兜底已生效; 验收与回滚口径 | 2026-08-23 |
+| `2026-08-23_fk_adapter_fix_draft.md` | 待窗 | FK adapter 修复补丁草稿(只草不应用): 菜单 a 超时不删(completed 标志, 推荐)/b 清理异步化(延迟删 180s) diff + 测试清单 4 项 + 回滚口径; 待明日 :5050 窗 | 2026-08-23 |
 | `2026-08-22_metacognition_snapshot.md` | 活跃 | 元认知快照(第二次声明-实况对账): 7 项对账全坐实(端口拓扑/:5050 env/B4 段 3429 冒烟 57 尝试 11 完成=19.3%/Loop B 翻绿兑现链/冻结三件 hash/L1 窗前就绪) + 漂移 4 项(**D1 kiosk 08-20 23:55 停摆 2 天未发现** / D2 :5050 跑 08-18 代码 08-21 修复未生效需重启窗 / D4 sandbox 容器残留); 含 T2 侧车启动器入库 | 2026-08-22 |
 | `2026-08-21_b4_switch_checkpoint_interim.md` | 活跃 | N1 B4 切换点 interim: 真实流量 7 条全 45-50s 回落, pytest 污染发现+修复(M1_B4_LOG_PATH+conftest), 生产接受率 1.33, 24h checkpoint cron 23:50 布防 | 2026-08-21 |
 | `2026-08-21_pso_weight_search_v0.md` | 活跃 | N2 PSO 落点①v0 首批实测: 验证门 PASS, 分离度 1.2560→1.4326(+14.06%), 5 轮收敛, 均值目标压缩低频缺陷的取舍如实入账; 专利实施例三供数激活 | 2026-08-21 |
