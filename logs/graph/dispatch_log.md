@@ -894,3 +894,12 @@ echo dispatch_log updated
 [2026-08-23 01:31] #HYG-INDEX INDEX 修正清单第 9 项: 登记 2026-08-20_dspark_switch_windows_v2v3.md; 7 份陈旧活文档逐个定性: 15/18/24/25 降历史快照(安装完成/计划已执行/菜单已消费/决策已闭环), 17/CLAUDE/m1_coldstart 真活跃复核刷新(头部三件套 + INDEX 行同 commit)
 [2026-08-23 01:31] #HYG-LINT docs_lint 复跑 PASS: 0 fail / 0 warn(8 warn 清零: 1 未登记 + 7 陈旧)
 [2026-08-23 01:33] #HYG-PYTEST pytest 全量 PASS: 379 passed / 13 skipped (134.29s, 全量输出入 logs/graph/pytest_latest.txt), 基线零漂移
+[08-23 11:45] #LOOP-B-FLIP overall PASS -> FAIL (head=b7ebbe3; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-23 12:18] #LOOP-B-FLIP overall FAIL -> PASS (head=b7ebbe3; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-23 13:57] #LOOP-B-FLIP overall PASS -> FAIL (head=b7ebbe3; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-23 14:31] #LOOP-B-FLIP overall FAIL -> PASS (head=b7ebbe3; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-23 15:04] #LOOP-B-FLIP overall PASS -> FAIL (head=b7ebbe3; 详见 logs/graph/verify-report.json + loop_b.log)
+[2026-08-23 18:15] #WORDING-FIX 抽验批复措辞更正入账: ①「本机 docs_lint 0 fail」仅 GB10 成立(本机 autocrlf=true 致 .sh CRLF, sync_skills.sh 本机无法执行, FAIL[4] 结构性), 台词统一「GB10 为准」 ② INDEX 自身行日期 08-22→08-23 修复(违同 commit 规则)
+[2026-08-23 18:15] #PG-INCIDENT PG 池打满事故入账(P1 活跃): psql FATAL too many clients(管理连接亦满) + Loop B 翻转 5 次 + 生产检索间歇降级; 根因=08-16 known_risk Loop B idle 泄漏 7 天未修; 四项处置窗口申请已报待批(重启+idle_session_timeout 10min+Loop B 合并改+验证); 注: 饱和时 psql 连不进, GUC 只能重启后设; B4 金丝雀样本 ~11:45 起污染, 48h 判定剔除/降权
+[2026-08-23 18:15] #LOOPB-PLAN Loop B 改动方案报批(红线先报后动): STEP2 pytest_latest→pytest_loopb.txt(L132/L135 两行) + STEP4 白名单扩 4 件(+dispatch_log/docs_lint_report/pytest_latest, grep -vE) + daemon reload(旧进程教训); GB10 常驻 3 脏文件源=Loop B 运行时写入入账; pytest_latest.txt 本行前已还原收口全量版
+[2026-08-23 18:15] #PYTEST-RESTORE pytest_latest.txt 还原收口全量版(379/13): Loop B STEP2 两小时内覆写成 18 题子集, 按 08-22 批复该文件只接受收口全量; 修复落地前 Loop B 仍会再覆写(已知, 待 #LOOPB-PLAN 批准)

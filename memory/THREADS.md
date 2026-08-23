@@ -14,6 +14,22 @@
 - 遗留: ~~:5050 重启后 curl 复验 (Loop D 择窗)~~ **CLOSED (2026-08-09)**: 重启后生产端复验 PASS (sources=3, TraFax+WaveFax 正确溯源, 08-09 两次复验); ~~BM25 stub 未实现~~ **CLOSED (2026-08-09)**: 真 BM25 已实现并 flag 化 (M2_ENABLE_BM25 默认 false, A/B 零增益决策不修); coord_table 未纳入 ocr_table 语义 (见交付说明 §6)。详见 logs/graph/loop_a_ocr_metaquery_result.md。
 
 ## 其他技术线索
+
+### 汇报措辞更正 (2026-08-23, 抽验批复两处记账)
+- 「本机 docs_lint 0 fail」仅 GB10 成立: 本机 autocrlf=true 致 .sh CRLF, sync_skills.sh 本机无法执行, 本机 docs_lint FAIL[4] 结构性; 今后汇报台词统一「GB10 为准」。
+- INDEX 自身行日期 08-22 落后头部 08-23 一天, 违「INDEX 最后更新与内容变更同 commit」规则, 本 commit 修复（08-22→08-23）。
+
+### Loop B 覆写 pytest_latest.txt 结构问题 (2026-08-23, 方案已报批, 红线先报后动)
+- 问题: Loop B STEP 2 每 30min 跑 tests/test_m1_service.py 18 题子集覆写 logs/graph/pytest_latest.txt（08-22「全量入该文件」批复被冲掉; 实测收口全量 379/13 两小时内被覆写成 "18 passed in 0.03s"）。
+- 方案（待批, 与 PG 窗口合并执行）: ① STEP 2 输出改 pytest_loopb.txt（loop_b_verify.sh L132/L135 两行） ② STEP4 白名单扩至 4 件: config/schema_suggestions.json（先例）+ logs/graph/{dispatch_log.md, docs_lint_report.json, pytest_latest.txt}（grep -v → grep -vE） ③ daemon reload（旧进程跑旧脚本教训, 改动必须 kill 旧 PID + tmux graph-loop-b 内重拉 --daemon 才生效）。
+- GB10 常驻 3 脏文件源 = 上述 Loop B 运行时写入（HEAD 三方对齐无问题）; 侧线未提交改动已清, 本机 _tmp 已清。
+
+### PG 池打满事故 (2026-08-23, P1 活跃; 处置窗口申请已报, 待用户批准一次做完)
+- 证据: psql FATAL too many clients already（容器内管理连接亦打不进）; :15432 连接饱和 ~100=max_connections; Loop B 今日翻转 5 次, 17:50 周期 FAIL 于 qa_canary adv_ocr_meta 空检索; 生产检索间歇降级。
+- 根因 = [08-16 22:20] known_risk 条: Loop B 周期跑每轮泄漏 ~1 idle 连接（增长速率 ~30min/个 与 POLL_INTERVAL=1800 吻合）, 7 天未修打满。
+- 处置清单（窗口申请待批, 一次做完）: ① 窗前 docker inspect 存档 → docker restart pgvector_15432（秒级, M1/M2 检索短暂报错窗 ~5-15s） ② 重启后 ALTER SYSTEM SET idle_session_timeout='10min' + pg_reload_conf（持久化 postgresql.auto.conf; **饱和时 psql 连不进, 只能重启后设——卡片假设已更正**） ③ Loop B 脚本改动按批方案同窗执行 + canary 前后 pg_stat_activity 归因泄漏端 ④ 验证: health/full + canary + pg_stat_activity 回落 + Loop B 下周期翻绿。
+- 注: 仓库 compose 文件（pg16/m1_pgvector）与在跑容器（pg15/pgvector_15432, 07-16 起）不一致, 重启直接对容器操作不用 compose。
+- **B4 统计注记: 08-23 ~11:45 起 B4 金丝雀样本受 PG 打满污染, 48h 观察（08-24 晚）判定时剔除或降权该时段。**
 ### FK 竞争诊断定论 + 台账合并 (2026-08-23, #HYG-FK-DIAG; 诊断只读完成, 动手等 :5050 重启窗)
 - 08-23 只读诊断坐实（积压清理卡·窗口合并项①）: opencode.db 重建为假愈合——三表全空（session/part/message = 0/0/0）; `FOREIGN KEY constraint failed` 累计 2824 条（近 24h ~90, 08-23 15:10Z 新鲜样本 `insert into "part" FOREIGN KEY failed`）; 栈 `Session.updatePart -> SessionProcessor.cleanup`。
 - 根因: `src/biz/opencode_adapter.py` `ask_via_opencode()` 的 finally 块无条件 `delete_session(session_id)`——超时/异常回落后侧车 run 仍在途, adapter 已删父 session -> 在途 part/message 插入 FK 失败。08-11「FK 竞争」与 08-14「持久化损坏根因待查」为同一病灶, **合并为本条, 「根因待查」措辞作废**。
