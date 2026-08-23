@@ -1,48 +1,50 @@
 # memory/STATE.md
-更新: 2026-08-23 01:00（L1 thinking 档位裁定矩阵已执行: 两腿 NO-GO, 准路默认维持 thinking=OFF; 08-19 xhigh 起步正式作废; runner reasoning fallback 补丁; N2/N3/N4 已记账）
+更新: 2026-08-24 00:20（08-23 夜收口: :5050 一窗全激活三件 + PG 根治 + TODO 梳理专项四资产; Loop C 差分审计两对象 PASS; HEAD 1fe4e41 三方对齐）
 
 ## 模式
-守护模式。等拍板: ① 甲方首轮反馈（B4 时钟 08-12 启动）② 专利件导师五项定夺反馈（三件已发导师 08-22 晚）③ N3 agent 超时抬升（数据输入就位, 执行需 :5050 重启窗）
-已关闭: 侧车楔死（修复 + 验收通过 08-22 15:11, 拍板 c）/ L1 基线口径（a）/ L3 路径（A）/ D3 作废 / cron 24h 已删 / content=null CLOSED / 专利三件已发导师（08-22 晚）/ **kiosk 正式关闭（选项 B 08-22: A1 方案/演示观感/建议计数观察全 CLOSED, 提案归档）**/ **L1 thinking 档位矩阵（NO-GO 08-23: thinking ON 无延迟收益, 准路默认维持 OFF）**
-**48h 观察期（至 08-24 晚）**: 侧车修复后段完成率 <10% 或甲方要求更高 agent 完成率 → 抬超时(a)再议, 与减 step 数据一起拍; **口径注**: kiosk 停摆后本段新增样本 = 纯金丝雀（~8 行/时）, 48h 到点若样本不足需重议口径
+守护模式。等拍板: ① 甲方首轮反馈（B4 时钟 08-12 启动）② 专利件导师五项定夺反馈（三件已发导师 08-22 晚）③ 超时 (a) 45→60-75s——等 08-24 23:50 cron 48h checkpoint 数据（判据预写: 段 C+D 完成率 <10% → 再议, ≥10% → 维持）④ 五项用户决策备忘录 D1-D5 圈选（docs/experiments/2026-08-23_user_decision_memos.md）⑤ M4 减 step A/B 拍板（方案就位, 窗口后排）
+本轮已关闭: PG 池打满（GUC 持久化 + 实例缓存根治, Loop C 审计 PASS）/ FK 竞争（菜单 a 落地, 持久化恢复, 08-11+08-14 合并条目 CLOSED）/ M1_B4_LOG_PATH 激活（08-22 审计"代码滞后"条 CLOSED）/ backlog 台账建成（docs/29 附录, 新发现即时登记规则）
+**48h 观察期（至 08-24 晚）**: 侧车修复后段完成率 <10% 或甲方要求更高 agent 完成率 → 抬超时 (a) 再议, 与减 step 数据一起拍; 口径注: kiosk 停摆后样本 = 纯金丝雀; 段 B（08-23 11:45-20:20）PG 打满污染, 判定剔除或降权（预写口径在 THREADS）
 
 ## Git
-- HEAD: 本收口 commit（08-22 夜间收尾轮元认知审计）; 三方对齐 GB10=GitHub=本机
-- 本轮资产: 元认知快照（七项对账 + 漂移 D1-D4）/ 侧车启动器入库 scripts/sidecar_launch.sh / INDEX+THREADS 洁癖 / #NIGHT-AUDIT-T1~T5 记账 / 冻结件 md5 复验（甲方件 + 专利三件）
+- HEAD: 1fe4e41（08-23 夜 TODO 梳理专项收口, 跨日 08-24）; 三方对齐 GB10=GitHub=本机
+- 本轮双 commit: 07a7c16（:5050 一窗全激活三件）→ 1fe4e41（专项四资产 + 审计后续）
+- 本轮资产: 窗口三件 + 重启 SOP scripts/restart_m1_harness.sh + 新测试 5 项 + 窗前存档 / backlog 台账 docs/29 附录（30 条四组）/ 五项决策备忘录 / Loop C 审计报告 / M4 A/B 方案
 
-## 侧车修复终态（2026-08-22）
-- 完整验收通过: 楔死解除（"exiting loop" 14:32:34 重现）; 验收① 15:11:59 达成——修复后 58 尝试 / 11 完成 = 19.0%（31.4-45.0s 全在预算内）, 与楔死前 45s era 基线 ~20% 吻合; Loop B overall 15:14 FAIL→PASS（#LOOP-B-FLIP）
-- 判定更正: 14:53 "0 完成"判定 = 时点采样不足（15:11 数据坐实）
-- **拍板 c 维持现状（不抬超时）**: ① 修复目标=恢复楔死前基线已达成, 无需动 :5050 ② 明晚 L1 需"生产配置未动"基线 ③ 不为外推花重启窗口 ④ 真正完成率提升走减 step（M4 34s→19s）+ L2 瘦身（27k→8-10k, 预热 2 overflow 为现成动机）
-- (a) 抬超时保留后备: 48h 观察（至 08-24 晚）<10% 或甲方要求 → 再议
-- FK 竞争（超时删 session vs 在途运行）: 08-11 以来已知结构性问题, adapter 修复候选, 不阻塞
-- db 备份 ~/.local/share/opencode/backup_20260822/ 保留（恢复 SOP 在 dispatch #SIDECAR-DB-REBUILD）
-- 启动器入库: scripts/sidecar_launch.sh（/tmp 版 08-22 夜间审计定型入库, 内容照搬）, db 恢复 SOP 引用改指仓库路径
+## :5050 代码窗一窗全激活（2026-08-23 23:22-23:35, 用户批准提前）
+- 三件: ① FK 菜单 a（超时不删 session + completed 标志）② vector_store 实例缓存（engine-per-search 根治）③ M1_B4_LOG_PATH 随重启生效（生产默认路径, env override 仅测试隔离）
+- 证据: 重启 6s 新 PID 2300096（23:27:09, env timeout=45 / route=on 未动）/ /api/health/full healthy / QA2+compare+canary 4/4 / pytest 384/13（+5 新测试）
+- FK 验收双条件 PASS: db 三表 0/0/0 → 9/44/118 + FK 错误停涨于 136（持久化恢复成立）
+- agent 路实值: 6 尝试全回落 47.6-70.5s（窗口样本不构成结论, 按 48h 口径续观察）
+- B4 第五分段点 3682 @23:27; checkpoint 3429 冒烟 PASS（259 行）读路径连续; 超时 (a) 不预载; 回滚口径 = 原参数重起（SOP 在库）
 
-## B4（分段）
-- 回滚点段 128 尝试/0 完成（楔死 era, 修复前）; **侧车修复后段（08-22 14:38:33 起, 段起点行 3429）**: 15:11 口径 58 尝试/11 完成 = 19.0%; 22:19 b4_checkpoint.py 冒烟 **57 尝试 / 11 完成 = 19.3%**, 回落率 80.7%（超时回落 46）
-- 两列口径（尝试/完成）统一写全名, 回落率/完成率必须注明（#B4-NAMING）; 48h 观察以 b4_checkpoint.py 两列口径为准
+## PG 事故与根治（2026-08-23）
+- 事故: :15432 饱和 100/100, 生产检索间歇降级, Loop B 翻转 5 次; 窗口 restart + GUC idle_session_timeout=10min 持久化（T+30min idle=0 闭环）
+- 根治: vector_store 实例缓存（菜单 a, 07a7c16）——根因 engine-per-search（缓存类非实例）; GUC 兜底; B4 污染段 11:45-20:20 判定降权
+- Loop C 差分审计两对象 PASS（4 LOW + 13 INFO, 无 C/H/M）: 归因报告更正注入账（行号引用/调用点角色标注瑕疵, 结论不动摇）+ F17 测试断言补强 + 测试文件 sys.path 守卫（修单文件隔离缺陷）
+- 残留: compose(pg16/m1_pgvector) vs 在跑容器(pg15/pgvector_15432) 漂移只记账不修
+
+## B4（分段, 两列口径 尝试/完成 写全名）
+- 侧车修复后段（08-22 14:38:33 起, 段起点 3429）: 累计 **263 尝试 / 49 完成**, 回落率 81.4%（00:09 checkpoint; 含段 B 污染降权, 明晚 23:50 cron 按预写口径判定）
+- 窗口段标记: 第五分段点 3682 @23:27（:5050 重启）
+- 窗口后手工复测 q06 正确（3508.55, 源 sample_jiaxing_minan 命中 0.7889; agent 超时回落直连答对, B4 行 route=direct fell_back=true）
+
+## 侧车修复终态（2026-08-22, 未变）
+- 完整验收通过（15:11:59, 修复后 58 尝试/11 完成 = 19.0% ≈ 楔死前基线）; 拍板 c 维持现状不抬超时; (a) 保留后备至 48h 观察
+- db 备份 ~/.local/share/opencode/backup_20260822/ 保留（SOP 在 dispatch #SIDECAR-DB-REBUILD）; 启动器在库 scripts/sidecar_launch.sh
 
 ## 服务
-- :5050 UP（route=on, timeout=45, embeddings=137, 不重启）; :8004 A3B UP（M1 热路径锁定）; :8006 非 DSpark 生产 UP（GMEM 0.30, 观察期配置不动）; :8008 UP; :8007 空闲; :8005 DOWN（退位断言）; :15432 PG UP
-- opencode 侧车 PID 1189803 UP（14:37:35 起, db 已重建）
-- Loop B 30min 周期: overall **PASS**（15:14 翻转, 最新周期 08-22 21:53 持续 PASS, schema_suggestions 豁免生效）
-- **kiosk 正式关闭**（08-22 用户终判选项 B; 归因定论 = 窗前暂停未复活, 停点 = B4 行 3092 = DSpark 窗口 v2 切换点; 启动方式失考 = 仓库无 runner 未纳管资产; A1 方案/演示观感/建议计数观察全 CLOSED; 规则入账: 常驻演示资产必须 runner 入库 + Loop B 健康断言, 不允许无册运行）
-- 已知漂移: :5050 运行代码滞后（HEAD 的 08-21 m2.py M1_B4_LOG_PATH 修复未激活, 待重启窗, 只记账不动）
+- :5050 UP（新 PID 2300096, 08-23 23:27:09; route=on, timeout=45, embeddings=137）; :8004 A3B UP（M1 热路径锁定）; :8006 非 DSpark 生产 UP（GMEM 0.30, 观察期配置不动）; :8008 UP; :8007 空闲; :8005 DOWN（退位断言）; :15432 PG UP（GUC 10min）
+- opencode 侧车 PID 1189803 UP（08-22 14:37:35 起）
+- Loop B 30min 周期: 23:51 周期 FAIL = canary q06 随机抖动（判别见下）, 其余步全 PASS（pytest/拓扑/watchdog/dirty=0/git 对齐）; 下周期预期翻绿, 否则按 canary 检索抖动口径优先处置
+- **canary 判别（00:12 定论）**: 非窗口回归——① canary FAIL 历史 102 次（已知噪声, 含今日 PG 饱和段连败）② 窗口验证 23:33 canary 4/4（含 q06）③ 手动复测 00:12 答对（命中 0.7889）④ 病灶 = agent 超时回落 + 直连路检索偶发弱命中, 与 81% 回落率同源（M4 减 step 才是根治）
+- kiosk 正式关闭（08-22 选项 B, 详见 THREADS）
 
 ## 质量基线
-- eval 08-22（经 :5050 生产端点）: M1 PASS / 确定性 16/16 / NF 0/9 / judge 四维 5.0
-- L1 矩阵 08-23（直连 :8006）: medium 13/16 + NF 1/9 + judge 4.67; xhigh 16/16 + NF 0/9 + judge 4.875; 两腿 NO-GO（报告 2026-08-23_l1_thinking_matrix.md）
-- pytest: 379 passed / 13 skipped（08-22 全量, logs/graph/pytest_latest.txt 全量工件）
-- docs_lint: PASS 0 fail / 9 warn（08-22 夜间复跑, GB10 为准）
+- eval 08-22: M1 PASS / 确定性 16/16 / NF 0/9 / judge 5.0
+- L1 矩阵 08-23: medium/xhigh 两腿 NO-GO, 准路默认维持 thinking=OFF（报告 2026-08-23_l1_thinking_matrix.md）
+- pytest: **384 passed / 13 skipped**（08-24 收口全量, 含窗口新测试 5 项 + F17 断言补强 + sys.path 守卫; logs/graph/pytest_latest.txt）
+- docs_lint: PASS（Loop B 23:51 周期 STEP7; GB10 为准, 本机 autocrlf 结构性 FAIL 不采信）
 
 ## 专利三件（已发导师 08-22 晚, 等导师五项定夺反馈; 主线程不碰）
 - md 737 行 hash F8A4B0…61F931635A6 / docx v2 hash 48FF2A…45DC01BC（入 git; 呈递说明已移出正文）/ 邮件草稿 hash 7E39CF…E84E109A6（INDEX 登记）; v1 7954BB… 留本地不入库
-
-## 下一步
-1. **L1 矩阵已裁定 NO-GO（08-22 夜窗执行）**: 准路默认维持 thinking=OFF; xhigh 记为用户可选"深度"档菜单项（citation/refusal 5.0 + 跨期诱导抗性, 代价单步 p50 ~58s）; 报告 docs/experiments/2026-08-23_l1_thinking_matrix.md
-2. 延迟根治 = 减 step + L2 瘦身（第一梯队; L2 定论 step 数主导 + L1 矩阵坐实 thinking 无延迟收益）
-3. 杠杆序（记账, 等窗口）: 减 step（M4 组合 34s→19s −44%）+ 孤儿终结 > L2 context 瘦身 > thinking 档位（质量维度, xhigh 深度档菜单项）
-4. L3: 盯 timothystewart6 新 tag; **08-29 checkpoint** 无 tag → 路径 B 再评估报告
-5. 48h 观察期（至 08-24 晚）: 修复后段完成率数据说话, 决定 (a) 是否再议
-6. 缓办: 甲方反馈; **:5050 重启窗（激活 HEAD 代码, 含 M1_B4_LOG_PATH 修复）**; N3 agent 超时抬升拍板; C4 VL-8B; K3 批跑; NLPCC 核实; adapter FK 修复（候选项）
