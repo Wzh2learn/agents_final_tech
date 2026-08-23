@@ -914,3 +914,4 @@ echo dispatch_log updated
 [2026-08-23 22:57] #NIGHTQ-2 夜间队列②完成: FK adapter 修复补丁草稿(只草不应用)——菜单 a 超时不删(completed 标志, 推荐先行)/b 清理异步化(延迟删 180s>孤儿 p95 133s) diff + 测试清单 4 项(单测 3 路径+水位闸/集成三表行数>0/回归 379/13+FK 零新增) + 回滚口径; docs/experiments/2026-08-23_fk_adapter_fix_draft.md
 [2026-08-23 22:57] #NIGHTQ-3 夜间队列③完成: 48h checkpoint 口径预写入账(明晚 23:50 cron 不临场定口径)——段 A 干净/段 B 11:45-20:20 PG 污染剔除降权/段 C 20:20 后干净/段 D 08-24 全天; 判据: C+D 完成率 <10% → 超时 (a) 再议, ≥10% 维持; THREADS 在案
 [2026-08-23 22:57] #NIGHTQ-4 夜间队列④核查: K2 v1 + evidence card 前置齐(判别力 9/9 + cards 16A) → PASS; PSO 落点②/K3 今晚不跑——判别力报告无 per-question 信号需新跑模型(:8006 负载 ≥1h), 预算门: canary slot 争用+02:00 硬停+明日窗口前排, 排期 08-24 23:50 收口后错峰, blocked 记账不硬上
+[2026-08-23 23:12] #LOOPB-WL2-ACCEPT 白名单 +2 验收通过: 手工周期 23:12:15 HEAD=7286433 dirty_files=0 whitelisted=1 overall=PASS(白名单 7 件生效, 上周期 verify-report 遗脏被豁免); 23:18 例行周期为同断言复核; 手工触发原因=用户要求提前验收不等例行
