@@ -936,3 +936,4 @@ echo dispatch_log updated
 [08-24 02:06] #LOOP-B-FLIP overall FAIL -> PASS (head=9445f06; 详见 logs/graph/verify-report.json + loop_b.log)
 [2026-08-24 03:09] #T4-14B-RETEST 14B>8B 异常复测定论=可复现非抖动: 14B 07-10 snapshot 双档得分与失败题集与 C1 逐题一致 (off 11/16 亚秒拒答富熙系 / xhigh 14/16 挂 q08+adv_ocr_meta); 归因=权重/量化批次/模板行为 > 参数量; NO-GO 维持; :8007 探针 03:01-03:09 用毕即停; 报告 docs/experiments/2026-08-24_t4_14b_anomaly_retest.md
 [08-24 03:13] #LOOP-B-FLIP overall PASS -> FAIL (head=9445f06; 详见 logs/graph/verify-report.json + loop_b.log)
+[2026-08-24 03:18] #NIGHTLOOP2-CLOSEOUT 第二阶段收口完成 (00:27-03:18): T0/T1/T2/T3/T4 全落; pytest 384/13 全绿 (184.78s); commit 1196ee9 + 本回填 commit; 三方对齐; 系统终态见 memory/STATE.md; 回守护模式

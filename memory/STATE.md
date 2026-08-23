@@ -7,7 +7,7 @@
 **48h 观察期（至 08-24 晚）**: 侧车修复后段完成率 <10% 或甲方要求更高 agent 完成率 → 抬超时 (a) 再议; 段起点 3429, 累计 337 尝试/51 完成/回落率 84.9%（02:08 checkpoint, 段 B 污染降权, 明晚 23:50 cron 按预写口径判定）
 
 ## Git
-- HEAD: 本轮收口双 commit（主提交 + STATE/HEAD 回填, 回填后此处更新）; 上轮 9445f06; 三方对齐 GB10=GitHub=本机
+- HEAD: 1196ee9（08-24 夜间 loop 第二阶段收口, 本回填 commit 后终态）; 上轮 9445f06; 三方对齐 GB10=GitHub=本机
 - 本轮资产: Loop B STEP 10 pg_pool_guard + write_report 11 参 + status.sh PG/db 两行 / docs_lint [2b] 头部三件套 WARN 检查 / T1 减 step A/B 报告（判定还原）/ T4 14B 复测报告（可复现定论）/ T0 MCP 重载存档 / dispatch 8 行
 
 ## T1 减 step 第一杠杆 A/B（判定=还原, 01:42）
