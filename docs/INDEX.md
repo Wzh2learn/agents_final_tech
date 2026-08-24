@@ -132,6 +132,10 @@
 | `2026-08-23_user_decision_memos.md` | 活跃 | 五项用户决策备忘录（任务2 改版/dify 挖掘/PNG 去留/NLPCC workshop/admin token）: 背景+选项利弊+推荐, 待圈选 | 2026-08-23 |
 | `2026-08-23_m4_step_reduction_ab_plan.md` | 活跃（待拍板） | M4 减 step A/B 方案: 四臂增量（M2 单检索纪律→M1 playbook 预注入→M3 终答瘦身）, 指标+Go/No-Go+还原清单, 等窗口 | 2026-08-24 |
 | `2026-08-23_loopc_differential_audit.md` | 活跃 | Loop C 差分审计: PG 归因报告+修复 / FK 草稿 vs 提交码, 两对象 PASS（4 LOW + 13 INFO, 无 C/H/M） | 2026-08-24 |
+| `2026-08-24_pool_fix_draft.md` | 已实施 | 池×GUC 修复草稿 F1/F2（pre_ping+recycle300 / 异常不吞+dispose 重试+兜底曝光）: 08-25 凌晨窗口照稿执行, 门禁 12min 闲置 q06 PASS（0.7889 命中+零新警告）, 归因报告 2026-08-24_segment_d_q06_attribution.md | 2026-08-25 |
+| `2026-08-25_fk_watermark_fix_draft.md` | 草稿待批 | FK 水位闸边界修复: cleanup_sessions 超编删除无在途豁免致 FK 失败（08:14 新增 1 条级）; 菜单 a 新近活跃豁免（推荐）/ b 高低水位滞回（叠加项）, 实施挂下个 :5050 窗口 | 2026-08-25 |
+| `2026-08-25_pso_question_set_v0.md` | 首批数据（02:0x cron 生成） | PSO 落点② 最小判别题集选择: 粒子=题集二值向量, 适应度=(1-keep_rate)+0.3*|z|/M, 口径 2026-08-18 提案 J2; 脚本 research/pso/pso_question_set_search.py | 2026-08-25 |
+| `2026-08-25_morning_decision_sheet.md` | 待圈选（03:50 cron 汇编） | 判定一页纸: 超时(a) / T1 复评 / FK 窗口提案 / 积压亮点, 数据+选项+推荐, 用户白天圈选 | 2026-08-25 |
 ## 归档（archive/，只读历史，不得作为现状依据）
 
 | 条目 | 归档日期 | 说明 |

@@ -955,3 +955,4 @@ echo dispatch_log updated
 [08-24 23:44] #LOOP-B-FLIP overall FAIL -> PASS (head=87df0ea; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-24 23:55] #POOL-FIX-WINDOW 池xGUC 修复窗执行 (批准卡 08-24, 转工件模式): F1 engine_args(pre_ping+recycle300) + F2(异常不吞 ERROR+dispose 重试+fallback_reason 显式) | :5050 重启 新 PID 3153034 (env 45/on 不变) + 侧车重启 MCP 重生 | sanity q06 OK | canary exit=0 | B4 池修复后段起点 行 3929 @ 2026-08-24 23:55:02 | warn 基线 218 -> 219 | 门禁(12min 闲置 q06)转 cron one-shot, 工件 logs/graph/eval/pool_fix_verify_20260825.md | 纪律: 除恢复每日 eval 外不排变更留干净段; sleep 链模式作废
 [08-25 00:28] #POOL-GATE-PASS 12min 闲置门禁过: q06 命中 3508.55 + 零新 warning (T0=219) + 零兜底; pg pre/post=1|0/6|5; 工件 pool_fix_verify_20260825.md
+[08-25 00:52] #W6-DRAFTS W6 草稿与治理: FK 水位闸修复草稿入册 (菜单 a 新近豁免推荐, 挂下个 :5050 窗) + 任务卡模板补交互假设检查 (§2.1, 池xGUC 教训固化) + INDEX 登记 4 行 (池修复草稿状态=已实施 / FK 草稿 / PSO 落点② / 一页纸) + blocked_questions.md 建立; PSO 落点② 脚本 research/pso/pso_question_set_search.py 入库 (纯 stdlib, AST 过)
