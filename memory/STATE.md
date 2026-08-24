@@ -1,46 +1,50 @@
 # memory/STATE.md
-更新: 2026-08-24 03:15（夜间自主 loop 第二阶段收口: T0 MCP 重载闭环 / T1 减 step A/B 判定还原 / T2 Loop B STEP 10 上线 / T3 backlog 首波 / T4 14B 异常复测定论）
+更新: 2026-08-25 00:05（池×GUC 修复窗执行: F1+F2 生效 / sanity 0.7889 / canary 4/4 / 门禁转 cron 工件; 执行节奏治理入账）
 
 ## 模式
-守护模式。等拍板: ① 甲方首轮反馈（B4 时钟 08-12 启动）② 专利件导师五项定夺反馈（三件已发导师 08-22 晚）③ 超时 (a) 45→60-75s——等 08-24 23:50 cron 48h checkpoint 数据（判据预写: 段 C+D 完成率 <10% → 再议, ≥10% → 维持）④ 五项用户决策备忘录 D1-D5 圈选（docs/experiments/2026-08-23_user_decision_memos.md）⑤ M4 减 step 下一杠杆（T1 已证 top_k 变体无效; 菜单剩 M3 终答瘦身 / M1 playbook 预注入 / 结构性减 step 3→2）
-本轮已关闭: T0 泄漏修复闭环（MCP 重载 + pg 贴底零增长 + 持久化复验）/ T1 减 step 第一杠杆 A/B（判定=还原）/ T2 Loop B STEP 10 pg_pool_guard 上线（演练+四周期验证）/ T3 backlog 首波（docs_lint 头部三件套 + runner 盘点入库）/ T4 14B>8B 异常复测（可复现定论）
-**48h 观察期（至 08-24 晚）**: 判定挂起（08-24 22:25 用户指令）——段 D 塌方归因已闭环（红旗 1+2 同根: 池×GUC 化学反应, 见下）, 段 D 数据被污染, 超时 (a) 待修复后干净段数据再拍; 23:50 cron 照跑收原始数据; 段起点 3429, 02:08 checkpoint 累计 337 尝试/51 完成/回落率 84.9%, 今日 218/4=1.8%（塌方值, 污染段）
-**红旗 1+2 归因闭环（08-24 22:37, 报告 2026-08-24_segment_d_q06_attribution.md）**: 实例缓存长驻池 × GUC idle_session_timeout 10min × 无 pre_ping × smart_retrieve 吞异常 × 兜底冒充检索; 证据 = IdleSessionTimeout 216 条逐周期对上 + 双窗复现 + MCP 池同病; 修复菜单 F1 pre_ping+recycle / F2 异常不吞 待批（需 :5050 窗）; 次生: 僵尸 run 超时不 abort（F4 另卡）
+守护模式。**明早第一单 = 《判定一页纸》**（新规则: 收集/判定分离——夜间只跑确定性执行, 判定移白天）: 池修复验证工件（pool_fix_verify_20260825.md）+ B4 池修复后段数据 → 超时 (a) 是否还需要 + T1 结论复测安排（T1 跑在池病活跃期, 疑似污染）, 用户白天圈选。
+其余等拍板: ① 甲方首轮反馈（B4 时钟 08-12 启动）② 专利件导师五项定夺反馈（三件已发 08-22 晚）③ D1-D5 用户决策备忘录圈选（2026-08-23_user_decision_memos.md）④ M4 减 step 下一杠杆（菜单剩 M3 终答瘦身 / M1 playbook 预注入 / 结构性 3→2）
+本轮已关闭: 池×GUC 修复窗（批准卡 08-24 + 节奏修正: 收集与判定分离 / sleep 链作废改工件模式）
+
+## 池×GUC 修复窗（08-24 23:46-23:55 执行, 判定挂起）
+- 根因（归因报告 2026-08-24_segment_d_q06_attribution.md）: 实例缓存长驻池 × GUC idle_session_timeout 10min × 无 pre_ping × smart_retrieve 吞异常 × 兜底冒充检索
+- 窗前存档: logs/graph/eval/pool_fix_window_archive_20260824.txt（旧 PID 2300096 / env 45/on / db [51,368,907] / warn 基线 218）
+- 补丁 2 文件: src/tools/vector_store.py（engine_args pre_ping=True + recycle=300）+ src/biz/rag_service.py（WARNING→ERROR + dispose 重试一次 + fallback_reason 显式 + 兜底冒充曝光日志）
+- pytest 384 passed/13 skipped（195.99s）→ :5050 重启新 PID 3153034（env 45/on 不变; /api/health/full healthy: pgvector ok / embeddings 137 / retrieval_working）→ 侧车重启 pid 3153507 + MCP 三进程重生 3153592/94/96（新池载修复）
+- sanity q06 = 3508.55 命中 **score 0.7889**（与归因复现暖池值逐字一致）; canary 4/4（对照病灶期 23:19 周期 3/4 FAIL）
+- warn 218→219: 增量 23:47:08 = 重启前旧代码病灶残留（时间戳坐实）; 重启后零新警告, recovered=0（无需 dispose 救援 = pre_ping 已前置拦下）
+- B4 池修复后段起点 **行 3929 @23:54**; 窗前 checkpoint 原始数据: 段 3429 累计 491 尝试/53 完成/回落率 89.2%（判定挂起, 污染段定性见归因报告）
+- 门禁（12min 闲置后 q06 直问）= cron one-shot 00:16（闲置未达自动改期+7min, 至多 5 次后挂起; FAIL 自动回滚原参数重起）; Loop B 复验 = cron 00:40（canary 复跑 + 周期状态）; 工件均落 logs/graph/eval/pool_fix_verify_20260825.md, cron 跑完自删条目并自动提交工件
+- 纪律（批复）: 除恢复每日 eval 外不排变更留干净段; Loop B 翻转应停, 不停先疑修复未生效
+- 教训入账（任务卡模板 §8）: 多修复同窗必加"交互假设检查"（本案 = GUC 兜底 × 实例缓存化学反应, 单项验证全绿无一捕获）
+
+## 治理新增（2026-08-25, templates/task_card_template.md §8 + AGENTS.md 同文）
+- 主线程禁用 >5min 阻塞 sleep; 里程碑等待 = GB10 cron one-shot + 文件工件 + 结 turn; watcher/sleep 链模式作废（本窗已全杀, 进度零损失）
+- 收集与判定分离: 收集保留夜间 cron（机器时间, 流量干净）; 判定移白天——每日上午《判定一页纸》（分段数据+选项+推荐+红线核对）; 任务卡不得把人类决策排在 22:00 后; 夜间窗口只执行已批准的确定性动作
+- cron one-shot 三件套: 跑完自删条目 + abort/rollback 分支写死脚本 + 工件路径显式声明
 
 ## Git
-- HEAD: 1196ee9（08-24 夜间 loop 第二阶段收口, 本回填 commit 后终态）; 上轮 9445f06; 三方对齐 GB10=GitHub=本机
-- 本轮资产: Loop B STEP 10 pg_pool_guard + write_report 11 参 + status.sh PG/db 两行 / docs_lint [2b] 头部三件套 WARN 检查 / T1 减 step A/B 报告（判定还原）/ T4 14B 复测报告（可复现定论）/ T0 MCP 重载存档 / dispatch 8 行
-
-## T1 减 step 第一杠杆 A/B（判定=还原, 01:42）
-- 选杠 M2-top_k 变体（top_k 5→8 + follow-up 收紧）; 报告 docs/experiments/2026-08-24_t1_step_reduction_ab.md
-- Arm A 13/13 p50=49.6s steps p50=4 mean=4.4（全量日志重提, 更正 00:48 缓冲假象）; Arm B 13/13 p50=48.9s（Δ−0.7s 噪声）steps p50=4 mean=4.85 且诱导 evidence-verifier 子代理; 质量门禁 14/16（2 FAIL 直连路瞬态抖动, 复测 2/2 非回归）
-- 结论: 45s 超时审查为第一障碍, prompt 层微调在延迟维度无法显形; keep 判据未达 → 还原（sha 逐字一致 + 冒烟 q06 PASS）
-- 后续: 第一梯队 = 结构性减 step（M4 3→2）+ 超时口径决策（48h 数据）; top_k↑诱导子代理入观察指标
-
-## T4 14B>8B 异常复测（定论=可复现, 03:09）
-- 14B 07-10 snapshot 双档与 C1 逐题一致: off 11/16（富熙系亚秒拒答）/ xhigh 14/16（q08+adv_ocr_meta）; 归因=权重/量化批次/模板行为 > 参数量; NO-GO 维持; 唯一未排除变量=新权重
-- 报告 docs/experiments/2026-08-24_t4_14b_anomaly_retest.md; :8007 探针用毕即停（30G→33G 归位）
-
-## Loop B（STEP 10 已上线）
-- STEP 10 pg_pool_guard（warn>80/fail>95, flag LOOP_B_PG_POOL 默认 1）: 阈值演练 00:52 FAIL 触发正确; 真实周期 00:56/01:00/01:32/02:06 connections 9/9/9/8 全 OK
-- daemon 唯一新脚本（2385039 起, 双旧进程更正坐实）; STEP 9 02:06 OK = canary 真实 agent 完成 1 条（02:03:30, 43.4s 预算内, fell_back=false）
-- 周期实录: 01:00/01:32 overall=FAIL（STEP 9 设计内信号, 当时段 0 完成）; 02:06 overall=PASS
+- HEAD: 本收口 commit（窗口执行 commit e03326c 已推）; 三方对齐 GB10=GitHub=本机
+- 本轮资产: src 2 文件补丁 / 窗前存档 / checkpoint 原始数据 / canary 工件 / 门禁+复验 cron 脚本（/tmp, 工件落 md）/ 治理规则两处 / STATE 覆写
 
 ## B4（分段, 两列口径 尝试/完成 写全名）
-- 侧车修复后段（段起点 3429, 08-22 14:38:33）: 累计 **337 尝试 / 51 完成**, 回落率 84.9%, p50=48.8s（02:08 checkpoint）
-- 今夜 T1 分段: A 段 行 3698 @00:36 / B 段 行 3728 @01:04 / 质量门禁段 行 3741 @01:21 / 还原点 行 3761 @01:42; 段内全回落（审查效应）, 02:03 canary 1 条真实完成
-- 明晚 23:50 cron 按预写口径判定（段 B 污染降权）
+- 段 3429（侧车修复后, 08-22 14:38 → 3929）: 491 尝试 / 53 完成 / 回落率 89.2%（含池病污染段; 今日 218/4=1.8% 为塌方值）
+- **池修复后段（行 3929 @08-24 23:54 起）= 干净段起点**, 明早判定一页纸主数据源
+- 基线注: 45s era 完成率 ~19-20%（侧车修复后 58 尝试/11 完成）; 今日完成 4 条全为 OCR 类（00:21/02:03/16:34/20:28）
 
 ## 服务
-- :5050 UP（PID 2300096, 08-23 23:27:09; route=on, timeout=45, embeddings=137; 今夜零重启）; :8004 A3B UP（M1 热路径锁定）; :8006 非 DSpark 生产 UP（GMEM 0.30, 观察期配置不动）; :8008 UP; :8007 空闲（T4 用毕已停）; :8005 DOWN（退位断言）; :15432 PG UP（GUC 10min, 连接贴底 8-14 零增长）
-- opencode 侧车 PID 2418792 UP（01:42 T1 还原重启起; 序列 1189803→00:32 kill, 2357848→01:04 Arm B 注入重启, 2418792=还原后）; MCP 三子进程随侧车重生载修复
-- Loop B 30min 周期 PASS@02:06（canary 4/4 / STEP 9 OK / STEP 10 OK）; kiosk 正式关闭（08-22）
+- :5050 UP（PID 3153034, 08-24 23:50:27 池修复窗重启; route=on, timeout=45, embeddings=137）; :8004 A3B UP（M1 热路径锁定）; :8006 非 DSpark 生产 UP（观察期配置不动）; :8008 UP; :8007 空闲; :8005 DOWN（退位断言）; :15432 PG UP（GUC 10min + 池 pre_ping/recycle300 双保险）
+- opencode 侧车 PID 3153507 UP（池修复窗重启）; MCP 三子进程 3153592/94/96 重生（新池载修复, 旧 49 条错误进程已替换）
+- Loop B 30min 周期持续验证中（翻转应停）; kiosk 正式关闭（08-22）
+- cron 在排: 00:16 pool_gate.sh / 00:40 pool_loopb_check.sh（均 one-shot 自删）
 
 ## 质量基线
 - eval 08-22: M1 PASS / 确定性 16/16 / NF 0/9 / judge 5.0
-- L1 矩阵 08-23: medium/xhigh 两腿 NO-GO, 准路默认维持 thinking=OFF
-- pytest: **384 passed / 13 skipped**（08-24 03:12 收口全量, logs/graph/pytest_latest.txt; Loop B 子集已分流 pytest_loopb.txt）
-- docs_lint: PASS（GB10 为准, 本机 autocrlf 结构性 FAIL 不采信）
+- pytest 384 passed / 13 skipped（08-24 23:50, 补丁后全量）
+- canary 4/4（08-24 23:54, 修复后首轮; 对照修复前 23:19 周期 3/4）
 
-## 专利三件（已发导师 08-22 晚, 等导师五项定夺反馈; 主线程不碰）
-- md 737 行 hash F8A4B0…61F931635A6 / docx v2 hash 48FF2A…45DC01BC（入 git）/ 邮件草稿 hash 7E39CF…E84E109A6（INDEX 登记）; v1 7954BB… 留本地不入库
+## 待办（白天队列）
+- 明早第一单: 《判定一页纸》（池修复工件 + B4 分段 → 超时 (a) + T1 复测安排）
+- 每日 eval 恢复（今日缺位已记账; 今晚不排, 留干净段）
+- T1 结论疑似带污染: 引用前先复测 step 基线（#T1-POLLUTION-NOTE）
+- :5050 代码窗积压: FK cleanup 水位闸边角（08:14 新增 1 条）/ 泄漏真源根治（engine-per-request 已修, 观察）——观察期后再排

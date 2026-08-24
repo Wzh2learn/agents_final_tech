@@ -360,3 +360,14 @@ L2 语义记忆层（mem0 自托管 + pgvector :15432 + MCP）见 docs/18 第 10
 ## 文档治理（docs_lint）
 
 **neat 收尾必跑 `scripts/docs_lint.py`**（退出码 0 才可收口）。五项机器检查：INDEX 覆盖率+死链、存活文档状态头时效、**台账防漂移**（gap/遗留关键词只允许出现在 memory/THREADS.md，其他文档只引用不复述——08-11 漂移案的固化）、skill 注册表 vs 两端安装 diff（`scripts/graph/sync_skills.sh --check`）、**配属注册表 vs 分发列表 diff**（AGENTS.md 注册表与 sync_skills.sh A/C_SKILLS 双向对账，治理体检 2026-08-12 新增）。
+
+## 执行节奏治理 (2026-08-25, 用户批准)
+
+- **主线程禁用 >5min 阻塞 sleep**: 一切里程碑等待 = GB10 cron one-shot + 文件工件 + 结 turn;
+  watcher session / sleep 链模式作废。三害: 阻塞期间用户插不进话 / 上下文压缩 / ssh 长连接脆弱。
+  等待不是工作, 工件才是。先例: 池×GUC 修复窗 (08-25 凌晨) 12min 闲置门禁转 cron 工件。
+- **收集与判定分离**: 数据收集保留夜间 cron (机器时间, 流量干净); 需用户拍板的判定一律移至白天——
+  主线程每日上午产出《判定一页纸》(分段数据 + 选项 + 推荐 + 红线核对), 用户白天圈选。
+  任务卡不得把人类决策排在 22:00 后; 夜间窗口只执行已批准的确定性动作。
+- **cron one-shot 三件套**: 跑完自删条目 + abort/rollback 分支写死在脚本 (不依赖在线判断) + 工件路径显式声明。
+  同步固化于 templates/task_card_template.md §8。
