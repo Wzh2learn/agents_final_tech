@@ -948,3 +948,9 @@ echo dispatch_log updated
 [08-24 22:37] #RED-FLAG-ATTR 红旗 1+2 归因闭环 (只读, 报告 docs/experiments/2026-08-24_segment_d_q06_attribution.md): 两红旗同根 = 实例缓存长驻池 × GUC idle_session_timeout 10min × 无 pre_ping × smart_retrieve 异常吞没 × _local_fallback_docs 把兜底冒充检索; 证据 = app.log IdleSessionTimeout 216 条时间戳逐周期对上 + 22:32 双窗复现 (冷池 0.0027 兜底错答 / 暖池 3s 后 0.7889 命中 3508.55) + MCP 池同病 49 条; 段 D 塌方 = 流量构成 (纯 canary, eval 未跑) × step 预算错配 (q06 轨迹 6 步 152s 答对但超时) × 红旗 2 乘数; 修复菜单 F1 pre_ping+recycle / F2 异常不吞+兜底显式标注 / F3 GUC 维持 / F4 僵尸 run 另卡, 报用户拍板; 今日 :5050 零 ERROR (故障全在 WARNING 级 = "无错误日志"的原因)
 [08-24 22:37] #EVAL-GAP 每日 eval 08-24 未执行入账 (最后全 16 题 = 08-23 L1 矩阵腿); 恢复节奏待修复窗后排
 [08-24 22:37] #REPRO-NOTE 22:32-22:34 复现两问经 :5050 生产端点, B4 增 2 行 (均 direct fell_back, 复现用), 段 D 统计口径注记
+[08-24 22:45] #LOOP-B-FLIP overall FAIL -> PASS (head=87df0ea; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-24 23:10] #GOV-INTERACT 治理教训入任务卡模板 (用户注记②): 多修复同窗必加"交互假设检查" premises 条——每对同窗变更问"共同碰了什么资源/假设"; 本次池×GUC 化学反应为实例 (docs/17 头部已录规则)
+[08-24 23:10] #T1-POLLUTION-NOTE T1 结论污染注记 (用户注记①): T1 A/B (00:4x-01:4x) 跑在池病活跃期, 其 steps p50=4 与"45s 审查是第一障碍"结论可能部分是池病在说话; 池修复后先复测 step 基线再引用 T1; 超时 (a) 判定继续等干净段数据
+[08-24 23:19] #LOOP-B-FLIP overall PASS -> FAIL (head=87df0ea; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-24 23:44] #LOOP-B-FLIP overall FAIL -> PASS (head=87df0ea; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-24 23:55] #POOL-FIX-WINDOW 池xGUC 修复窗执行 (批准卡 08-24, 转工件模式): F1 engine_args(pre_ping+recycle300) + F2(异常不吞 ERROR+dispose 重试+fallback_reason 显式) | :5050 重启 新 PID 3153034 (env 45/on 不变) + 侧车重启 MCP 重生 | sanity q06 OK | canary exit=0 | B4 池修复后段起点 行 3929 @ 2026-08-24 23:55:02 | warn 基线 218 -> 219 | 门禁(12min 闲置 q06)转 cron one-shot, 工件 logs/graph/eval/pool_fix_verify_20260825.md | 纪律: 除恢复每日 eval 外不排变更留干净段; sleep 链模式作废

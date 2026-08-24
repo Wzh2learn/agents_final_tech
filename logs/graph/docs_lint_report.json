@@ -1,7 +1,8 @@
 {
- "date": "2026-08-24T22:12:12",
+ "date": "2026-08-24T23:44:20",
  "fails": [],
  "warns": [
+  "[1] INDEX 未登记: docs/experiments/2026-08-24_segment_d_q06_attribution.md",
   "[1] INDEX 未登记: docs/experiments/2026-08-24_t1_step_reduction_ab.md",
   "[1] INDEX 未登记: docs/experiments/2026-08-24_t4_14b_anomaly_retest.md"
  ],

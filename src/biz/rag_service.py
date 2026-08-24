@@ -318,6 +318,7 @@ class RAGService:
             bm25_count = 0
             fallback_count = 0
 
+            vector_failed = False
             try:
                 vector_store = get_vector_store(collection_name=collection_name)
                 results = vector_store.similarity_search_with_score(query, k=top_k)
@@ -327,7 +328,24 @@ class RAGService:
                     all_docs.append(doc)
                     vector_count += 1
             except Exception as e:
-                logger.warning(f"Vector retrieve failed on {collection_name}: {e}")
+                # [池×GUC 修复 2026-08-24] 不吞: WARNING→ERROR, dispose 死池重试一次,
+                # 再败标记兜底原因 (归因: 2026-08-24_segment_d_q06_attribution.md)
+                logger.error(f"Vector retrieve failed on {collection_name}: {e}")
+                try:
+                    vector_store = get_vector_store(collection_name=collection_name)
+                    engine = getattr(vector_store, "_engine", None)
+                    if engine is not None:
+                        engine.dispose()
+                    results = vector_store.similarity_search_with_score(query, k=top_k)
+                    for doc, score in results:
+                        doc.metadata["vector_score"] = float(score)
+                        doc.metadata["collection"] = collection_name
+                        all_docs.append(doc)
+                        vector_count += 1
+                    logger.info(f"Vector retrieve recovered after dispose+retry on {collection_name}")
+                except Exception as e2:
+                    vector_failed = True
+                    logger.error(f"Vector retrieve retry failed on {collection_name}: {e2}")
 
             # 2.5 OCR 溯源类查询: 补一路 doc_type=ocr_table 的过滤检索。
             # OCR 提取表 chunk 在全局向量排序中可能被邮件样板文本 chunk 挤出
@@ -372,7 +390,13 @@ class RAGService:
                 for doc in fallback_docs:
                     doc.metadata["collection"] = collection_name
                     doc.metadata["fallback"] = True
+                    if vector_failed:
+                        doc.metadata["fallback_reason"] = "vector_retrieve_error"
                     all_docs.append(doc)
+                if vector_failed and fallback_docs:
+                    logger.error(
+                        f"Serving {len(fallback_docs)} FALLBACK docs as retrieval on {collection_name} (vector path broken)"
+                    )
                     fallback_count += 1
 
             vector_total += vector_count

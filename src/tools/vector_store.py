@@ -246,6 +246,11 @@ def get_vector_store(
             connection=connection_string,
             embeddings=embeddings,
             use_jsonb=True,  # 使用 JSONB 提高性能
+            # [池×GUC 修复 2026-08-24] GUC idle_session_timeout=10min 杀长驻池 idle 连接,
+            # 无 pre_ping 时首查抛 IdleSessionTimeout 被吞 → 兜底冒充检索
+            # (归因: 2026-08-24_segment_d_q06_attribution.md)。pre_ping 检出即探活,
+            # 死连接透明重建; recycle=300s 先于 GUC 600s 主动回收。
+            engine_args={"pool_pre_ping": True, "pool_recycle": 300},
         )
         if use_cache:
             with _STORE_INSTANCE_CACHE_LOCK:

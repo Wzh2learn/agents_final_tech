@@ -55,4 +55,4 @@ venv/lib/python3.12/site-packages/fastapi/applications.py:4575
     return self.router.on_event(event_type)
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-384 passed, 13 skipped, 10 warnings in 184.78s (0:03:04)
+384 passed, 13 skipped, 10 warnings in 195.99s (0:03:15)
