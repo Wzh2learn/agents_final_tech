@@ -937,3 +937,14 @@ echo dispatch_log updated
 [2026-08-24 03:09] #T4-14B-RETEST 14B>8B 异常复测定论=可复现非抖动: 14B 07-10 snapshot 双档得分与失败题集与 C1 逐题一致 (off 11/16 亚秒拒答富熙系 / xhigh 14/16 挂 q08+adv_ocr_meta); 归因=权重/量化批次/模板行为 > 参数量; NO-GO 维持; :8007 探针 03:01-03:09 用毕即停; 报告 docs/experiments/2026-08-24_t4_14b_anomaly_retest.md
 [08-24 03:13] #LOOP-B-FLIP overall PASS -> FAIL (head=9445f06; 详见 logs/graph/verify-report.json + loop_b.log)
 [2026-08-24 03:18] #NIGHTLOOP2-CLOSEOUT 第二阶段收口完成 (00:27-03:18): T0/T1/T2/T3/T4 全落; pytest 384/13 全绿 (184.78s); commit 1196ee9 + 本回填 commit; 三方对齐; 系统终态见 memory/STATE.md; 回守护模式
+[08-24 16:37] #LOOP-B-FLIP overall FAIL -> PASS (head=89b6fca; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-24 17:10] #LOOP-B-FLIP overall PASS -> FAIL (head=89b6fca; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-24 20:31] #LOOP-B-FLIP overall FAIL -> PASS (head=89b6fca; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-24 21:05] #LOOP-B-FLIP overall PASS -> FAIL (head=89b6fca; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-24 22:25] #CHECKPOINT-HOLD 23:50 checkpoint 判定挂起 (用户指令): cron 照跑收数据 (crontab 此前为空=上次跑完已删, 今晚一次性条目已重装, 跑完人工删), 段 D 大概率触发 "<10%→(a) 再议" 但归因未清当晚拍超时=08-20 楔死教训复刻 → 判定推迟至归因完成, 用干净段数据拍; 归因队列启动 (段 D 轨迹对比 / q06 复现+连接层排查 / eval 缺位+错误清单), :5050 只读不动
+[08-24 22:25] #RED-FLAG-1 段 D 完成率塌方入账: 今日 218 尝试/4 完成 (1.8%), 03:18 后 136+/2 (≤1.5%), 对照基线 15-19%; 完成时点 00:21/02:03/16:34/20:28 (均 sources=1, 27-45s) = 非硬故障是率塌; Loop B 翻转时点与 canary agent 完成时点逐一对上 = 症状非独立故障
+[08-24 22:25] #RED-FLAG-2 q06 直连空检索抖一天入账 (03:13/21:05/21:38/22:12): PG 池干净/无错误日志/缓存键正确已排除; 疑点=实例缓存长驻池 × idle_session_timeout 10min 交互 (langchain_postgres v2 无 pre_ping 防护), 归因中
+[08-24 22:25] #HYG-FK-LEDGER FK 08:14 新增 1 条根因=cleanup_sessions 水位闸 session=51>MAX_SESSIONS=50 偶删在途会话 (日均 1 条级边角); 下个代码窗顺手修 (cleanup 跳过近期活跃会话); 另 01:42 MCP 随侧车三启又重载一次, 现进程载修复无碍
+[08-24 22:37] #RED-FLAG-ATTR 红旗 1+2 归因闭环 (只读, 报告 docs/experiments/2026-08-24_segment_d_q06_attribution.md): 两红旗同根 = 实例缓存长驻池 × GUC idle_session_timeout 10min × 无 pre_ping × smart_retrieve 异常吞没 × _local_fallback_docs 把兜底冒充检索; 证据 = app.log IdleSessionTimeout 216 条时间戳逐周期对上 + 22:32 双窗复现 (冷池 0.0027 兜底错答 / 暖池 3s 后 0.7889 命中 3508.55) + MCP 池同病 49 条; 段 D 塌方 = 流量构成 (纯 canary, eval 未跑) × step 预算错配 (q06 轨迹 6 步 152s 答对但超时) × 红旗 2 乘数; 修复菜单 F1 pre_ping+recycle / F2 异常不吞+兜底显式标注 / F3 GUC 维持 / F4 僵尸 run 另卡, 报用户拍板; 今日 :5050 零 ERROR (故障全在 WARNING 级 = "无错误日志"的原因)
+[08-24 22:37] #EVAL-GAP 每日 eval 08-24 未执行入账 (最后全 16 题 = 08-23 L1 矩阵腿); 恢复节奏待修复窗后排
+[08-24 22:37] #REPRO-NOTE 22:32-22:34 复现两问经 :5050 生产端点, B4 增 2 行 (均 direct fell_back, 复现用), 段 D 统计口径注记
