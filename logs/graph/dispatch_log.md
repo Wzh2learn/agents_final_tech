@@ -957,3 +957,4 @@ echo dispatch_log updated
 [08-25 00:28] #POOL-GATE-PASS 12min 闲置门禁过: q06 命中 3508.55 + 零新 warning (T0=219) + 零兜底; pg pre/post=1|0/6|5; 工件 pool_fix_verify_20260825.md
 [08-25 00:52] #W6-DRAFTS W6 草稿与治理: FK 水位闸修复草稿入册 (菜单 a 新近豁免推荐, 挂下个 :5050 窗) + 任务卡模板补交互假设检查 (§2.1, 池xGUC 教训固化) + INDEX 登记 4 行 (池修复草稿状态=已实施 / FK 草稿 / PSO 落点② / 一页纸) + blocked_questions.md 建立; PSO 落点② 脚本 research/pso/pso_question_set_search.py 入库 (纯 stdlib, AST 过)
 [08-25 00:48] #W2-ATTR-FIX W2 归因统计口径修正: cron awk 对 JSON 行失效(恒真), 按 timestamp 重算 23:54 后 = IdleSessionTimeout 0 / 检索失败 0 / 兜底 0 / dispose 救援 0, 病灶零复发; 更正段已附工件
+[08-25 00:50] #MORNING-SEQ-PENDING 晨间序列卡 M0-M3 收到入账: 时序闸门=夜间队列收口, 收口前零执行; 规则 0/A/B/C/D/E 预提交待算数比对; 详见 THREADS 条目
