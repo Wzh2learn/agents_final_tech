@@ -958,3 +958,6 @@ echo dispatch_log updated
 [08-25 00:52] #W6-DRAFTS W6 草稿与治理: FK 水位闸修复草稿入册 (菜单 a 新近豁免推荐, 挂下个 :5050 窗) + 任务卡模板补交互假设检查 (§2.1, 池xGUC 教训固化) + INDEX 登记 4 行 (池修复草稿状态=已实施 / FK 草稿 / PSO 落点② / 一页纸) + blocked_questions.md 建立; PSO 落点② 脚本 research/pso/pso_question_set_search.py 入库 (纯 stdlib, AST 过)
 [08-25 00:48] #W2-ATTR-FIX W2 归因统计口径修正: cron awk 对 JSON 行失效(恒真), 按 timestamp 重算 23:54 后 = IdleSessionTimeout 0 / 检索失败 0 / 兜底 0 / dispose 救援 0, 病灶零复发; 更正段已附工件
 [08-25 00:50] #MORNING-SEQ-PENDING 晨间序列卡 M0-M3 收到入账: 时序闸门=夜间队列收口, 收口前零执行; 规则 0/A/B/C/D/E 预提交待算数比对; 详见 THREADS 条目
+[08-25 01:51] #W3-EVAL-PASS 每日 eval 恢复过 (修复后首个干净质量点): exit=0, 对照基线 16/16/0/5.0 见 eval_summary; B4 行 3942->3972
+[08-25 01:58] #LOOP-B-FLIP overall PASS -> FAIL (head=dbcc18b; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-25 02:00] #W5-PSO-ABORT 启动闸未过: W4 未完成 (状态: SKIPPED) (今晚放弃, 记账不硬上)
