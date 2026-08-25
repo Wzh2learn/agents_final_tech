@@ -979,3 +979,4 @@ echo dispatch_log updated
 [08-25 23:51] #VIDEO-V3-WINDOW-END 视频窗口采集结束 (23:19-23:51, 录制/彩排经 :5050 的问句止于 23:47); B4 干净段统计剔除该窗口; B4_AFTER=4157
 [08-26 00:10] #VIDEO-V3-DELIVERED demo_v3.mp4 合成过质量门: 3:22 1080p30 h264+aac, 抽帧 5/62/150/195s 非空, 音量均值 -27.7dB; 配音 Yunyang 11 段; 十段结构=08-15 steps.md 骨架+现行口径; 深度验证段实测 52.4s 烧录字幕; 视频不入 git（v2 先例）
 [08-26 00:10] #DOCS-31-V2 导师文档 v2 交付: md+docx（自包含, 图片内嵌 697KB）, docx 黑话扫描零命中, judge 四维未引用; 08-15 版标作废保留; 呈递清单 2026-08-25_send_checklist.md 待用户亲发
+[08-26 00:18] #LOOP-B-FLIP overall FAIL -> PASS (head=3898a24; 详见 logs/graph/verify-report.json + loop_b.log)
