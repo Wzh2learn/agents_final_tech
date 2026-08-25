@@ -187,7 +187,14 @@
 | `PAPER_WRITING_PIPELINE.md` | 论文流水线架构 |
 | `SUPERSEDE_CHAIN_PATTERN.md` | "更正不涂改"形式化标准文本（本项目已实践, 此为标准版） |
 | `HOOK_AUTHORING_GUIDE.md` | hook 编写标准 + 升级阶梯（机械强制层依据, 见根 AGENTS.md） |
-| `GOAL_CARD_TEMPLATE.md` 等 8 份模板 | 目标卡/交接/实验日志/记忆/指令/设计文档/阅读笔记模板集（其预注册/退出/复盘三项已合并入 templates/task_card_template.md） |
+| `GOAL_CARD_TEMPLATE.md` | 目标卡模板（其预注册预测/退出条件/事后复盘三项已合并入 templates/task_card_template.md） |
+| `SESSION_HANDOFF_TEMPLATE.md` | 会话交接模板（铁律: handoff 与 git 冲突时信 git） |
+| `EXPERIMENTS_LOG_TEMPLATE.md` | 实验日志模板（预注册 + supersede 节, experiments/ 体例候选） |
+| `MEMORY_FILE_TEMPLATE.md` | 记忆文件模板 |
+| `INSTRUCTION_TEMPLATE.md` | 指令派发模板 |
+| `DESIGN_DOCUMENT_TEMPLATE.md` | 设计文档模板 |
+| `READING_NOTES_INDEX_TEMPLATE.md` | 阅读笔记索引模板 |
+| `AGENTS_MD_TEMPLATE.md` / `CLAUDE_MD_TEMPLATE.md` | 规则文件模板（参考; 本项目以根 AGENTS.md 为准） |
 | `multi-tool-sync.sh` | 多工具规则同步脚本（参考） |
 | 仓库 `scripts/graph/hooks/` | pre-commit 机械强制层脚本（根 AGENTS.md"机械强制层"节）: cjk-byte-check.precommit.sh / index-guard.precommit.sh / large-file-guard.precommit.sh / install_hooks.sh / skill_router.py |
 
