@@ -371,3 +371,7 @@ L2 语义记忆层（mem0 自托管 + pgvector :15432 + MCP）见 docs/18 第 10
   任务卡不得把人类决策排在 22:00 后; 夜间窗口只执行已批准的确定性动作。
 - **cron one-shot 三件套**: 跑完自删条目 + abort/rollback 分支写死在脚本 (不依赖在线判断) + 工件路径显式声明。
   同步固化于 templates/task_card_template.md §8。
+- **cron 闸语义 (2026-08-25)**: 闸不达标 = 改期（至多 N 次）, 禁止 SKIP; 耗尽 = BLOCKED 标记, 不静默。
+  工具 scripts/graph/cron_gate_helper.sh。案例: W4 闸 SKIP 致 W5 连环 abort (08-25 凌晨)。
+- **pending 卡交接必须 cron one-shot 触发 (2026-08-25)**: "稍后执行"类任务卡入账必须同批装触发 cron;
+  禁止依赖"硬停后会话仍活"。案例: 晨间序列卡入账后零执行 (08-25)。

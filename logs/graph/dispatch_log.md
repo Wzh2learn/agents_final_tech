@@ -961,3 +961,14 @@ echo dispatch_log updated
 [08-25 01:51] #W3-EVAL-PASS 每日 eval 恢复过 (修复后首个干净质量点): exit=0, 对照基线 16/16/0/5.0 见 eval_summary; B4 行 3942->3972
 [08-25 01:58] #LOOP-B-FLIP overall PASS -> FAIL (head=dbcc18b; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-25 02:00] #W5-PSO-ABORT 启动闸未过: W4 未完成 (状态: SKIPPED) (今晚放弃, 记账不硬上)
+[08-25 14:16] #LOOP-B-FLIP overall FAIL -> PASS (head=ce20c4b; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-25 18:44] #LOOP-B-FLIP overall PASS -> FAIL (head=ce20c4b; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-25 20:24] #LOOP-B-FLIP overall FAIL -> PASS (head=ce20c4b; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-25 22:47] #E4-PSO-START PSO 落点② 补跑启动 (B4 行 4139 @ 2026-08-25 22:47:08; 纯工件计算, Z 基线=W3 eval 工件 01:5x)
+[08-25 22:47] #E4-PSO-ABORT 判别力套件 exit=1, 今晚放弃
+[08-25 22:52] #E1-3FIX 流程缺陷三修完成: a) scripts/graph/cron_gate_helper.sh 入库（闸失败=改期, 禁 SKIP; 回归修 grep -vF 清表 bug） b) 汇编器 rd() errors=replace + dispatch 兜底 + gate iconv -c（回归 GATE_PASS runs=3, 坐实今晚门禁 PASS） c) pending 卡 cron one-shot 交接规则入 template §8 + AGENTS.md
+[08-25 22:52] #E2-RETEST-DONE step 复测补跑: 13/13 PASS, wall p50=49.09s / mean=49.2s, steps p50=4 / mean=4.67（join 12/13; canary 混入 4 行已注）→ 规则 B: T1 基线未被池病污染（Arm A 干净环境复现）, T1 结论维持; 工件 e2_step_retest_20260825.md
+[08-25 22:52] #E3-DIAG 逐步耗时诊断报告: 45s 截断时 step1 在途 44%（26/59）, 每 step 位 p50=30-34s（健康代 3-4 倍放大, prefill/context 27k 膨胀）→ 减 step 必须与 context 瘦身组合; 菜单已出不动手; 2026-08-25_e3_step_duration_diagnosis.md
+[08-25 22:52] #E4-PSO-ABORT-ROOTCAUSE 补充归因: 判别力套件崩溃 = W3 judge 工件四维 avg=None（judge 调用全 16 条 TimeoutError, n_unusable=16）× aggregate L67 无 None 防护; 更正: W3 "judge 5.0 零漂移"口径不成立（确定性+NF 部分仍属实）; 修复候选待明日窗口
+[08-25 22:52] #E5-LOOPB-ATTR 18:44 FAIL = STEP 9 agent_watchdog（0 completions / ≥25 fallbacks）, 设计内信号, canary 抖动类（08-23 23:51 先例）; 20:24 翻回 PASS, 22:05 九项全绿; 只分类不动手
+[08-25 22:52] #E6-SHEET-V2 一页纸 v2 回填完成: 门禁更正 PASS（00:28, 3 次运行）+ 规则 0/A/B/C/D/E 逐条评估（规则 A 超时(a) CLOSED / 规则 B T1 维持 / 规则 D PSO blocked 根因坐实）+ W3 judge 口径更正; 2026-08-25_morning_decision_sheet_v2.md

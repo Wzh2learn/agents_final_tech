@@ -14,6 +14,13 @@
 - 遗留: ~~:5050 重启后 curl 复验 (Loop D 择窗)~~ **CLOSED (2026-08-09)**: 重启后生产端复验 PASS (sources=3, TraFax+WaveFax 正确溯源, 08-09 两次复验); ~~BM25 stub 未实现~~ **CLOSED (2026-08-09)**: 真 BM25 已实现并 flag 化 (M2_ENABLE_BM25 默认 false, A/B 零增益决策不修); coord_table 未纳入 ocr_table 语义 (见交付说明 §6)。详见 logs/graph/loop_a_ocr_metaquery_result.md。
 
 ## 其他技术线索
+### 08-25 晚间队列 E1-E6: 三缺陷修复 + E2/E4 补跑 + 规则评估回填 (2026-08-25, 22:25 开窗)
+- E1 三修（只改脚本/SOP, 零生产变更）: a) cron 闸失败语义 = 改期（≤N 次）, **禁 SKIP**——新 `scripts/graph/cron_gate_helper.sh`（`cron_gate NAME COND MAX INTERVAL SELFLINE MARKER LOG`; 回归中发现并修 `grep -vF ""` 会清空 crontab 的真 bug, 改 awk $2 自删键）; 案例 = 01:50 W4 闸撞 W3 eval 收尾（01:05→01:51）致 SKIP → W5 连环 abort。 b) 汇编器门禁解析: gate 脚本 `head -c 400` 截断 UTF-8 半字符（位置 657）→ 汇编器 read_text 抛异常被 rd() 吞 → gate=UNKNOWN; 三层修（工件修复 / rd() errors=replace + dispatch #POOL-GATE-PASS|FAIL 兜底 / gate 脚本 iconv -c）, 回归 verdict=GATE_PASS runs=3。 c) pending 卡交接必须 cron one-shot 触发, 禁依赖"硬停后会话仍活"（案例 = 晨间序列卡零执行）; 规则入 task_card_template.md §8 + AGENTS.md。
+- E2 step 复测补跑（规则 B 输入）: 13 题全名 id 经 :5050 agent 路, 13/13 PASS（eval 口径）, B4 行 4122→4139（canary 混入 4 行已注）, join 12/13（顺序索引 + session.created±8s）; **wall p50=49.09s / mean=49.2s, steps p50=4 / mean=4.67**（分布 4×8/5×3/9×1）。三点对比 ≈ T1 Arm A（49.6s/p50=4/mean 4.4）干净环境复现, 健康代 p50=3 未复现 → **规则 B: T1 基线未被池病污染, T1 结论维持, 原杠杆队列不变**; 工件 `logs/graph/eval/e2_step_retest_20260825.md`。
+- E3 逐步耗时诊断（规则 A 后果, 减 step 第一梯队输入）: 窗口内 62 session（59 超时类, 与 B4 口径 59 尝试吻合）; **45s 截断时 step1 在途 26/59（44%）> step3 14 > step4 9**; 每 step 位 p50=30-34s（对照健康代 7-15s/step, 放大 3-4 倍, 主因 prefill/context 27k 膨胀）→ 结论: **减 step 必须与 context 瘦身组合**（单杠杆 2 step≈60s 仍超 45s）; 报告 `docs/experiments/2026-08-25_e3_step_duration_diagnosis.md`（菜单已出不动手）。
+- E4 PSO 落点② 补跑 = **ABORT（根因坐实）**: 启动闸全过, 判别力套件 exit=1——W3 judge 工件（01:51）四维 avg=None/n=0, n_unusable=16（judge 调用 :8006 全 16 条 TimeoutError）, `eval_checkpoint_aggregate.py` L67 `_judge_avg` 对 avg=None 无防护 → 崩溃。**更正入账**: W3 "eval 16/16/0/5.0 零漂移"——确定性 16/16 + NF 0/9 部分属实, judge 腿无数据（全超时）, "5.0 对照"口径收窄。修复候选（待明日窗口）: _judge_avg None 安全化 + judge 腿重跑 + 超时原因排查。详见 `docs/experiments/2026-08-25_pso_question_set_v0.md` E4 节。
+- E5 Loop B 反复归因: 18:44 FAIL = STEP 9 agent_watchdog（last 30 asks: 0 completions, ≥25 fallbacks）——设计内信号, 对照 08-23 23:51 先例属 canary 抖动类; 19:17/19:51 延续, 20:24 翻回 PASS, 22:05 九项全绿。只分类不动手。
+- E6 一页纸 v2: `docs/experiments/2026-08-25_morning_decision_sheet_v2.md`——门禁更正 PASS（00:28, 3 次运行）; 规则 0 n=59 过样本闸（canary 代表性注记）; 规则 A 3.4%<10% 且非近失主导 → 超时 (a) CLOSED, 诊断=E3; 规则 B steps p50=4 ≥4 → T1 维持; 规则 C FK 水位线单件窗等用户另行批（不催）; 规则 D PSO blocked（根因见上）; 规则 E 积压维持。规则评估逐条以本条入账, 晨间序列卡欠账清偿。
 
 ### :5050 代码窗一窗全激活执行结果 (2026-08-23 23:22-23:35, 用户批准提前)
 - 背景: 原排期 08-24 48h 观察收口后; 用户批准提前——判定数据已成形(修复后段完成率 19.0%/19.3% 远超 10% 再议线), 明晚 checkpoint 只是复核; 三件修复全就绪, 回滚路径有先例。

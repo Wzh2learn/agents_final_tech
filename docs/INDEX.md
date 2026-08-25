@@ -2,14 +2,14 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-24（08-23 夜 TODO 梳理专项跨日收口: Backlog 台账附录 + 五项决策备忘录 + M4 A/B 方案登记） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-25（08-25 晚间队列 E1-E6: e3 诊断 + 一页纸 v2 登记; PSO 行更正 ABORT×2 根因; sheet v1 标被取代） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
 
 | 文件 | 状态 | 一句话摘要 | 最后更新 |
 |---|---|---|---|
-| `INDEX.md` | 活跃 | 本目录表 | 2026-08-23 |
+| `INDEX.md` | 活跃 | 本目录表 | 2026-08-25 |
 | `README.md` | 活跃 | docs 入口指针 | 2026-08-05 |
 | `CLAUDE.md` | 活跃 | Claude Code (Loop C) 阅读指引（薄指针，以根 AGENTS.md 为准） | 2026-08-23 |
 | `17_Graph_Engineering_多层Loop设计.md` | 活跃 | 四层 Loop（A 执行 / B 验证 / C 审计 / D 战略）设计与安全机制（08-21 Loop B 双模型断言+看门狗升级 / 08-22 任务卡模板+status.sh 落地, 框架不变） | 2026-08-23 |
@@ -133,9 +133,13 @@
 | `2026-08-23_m4_step_reduction_ab_plan.md` | 活跃（待拍板） | M4 减 step A/B 方案: 四臂增量（M2 单检索纪律→M1 playbook 预注入→M3 终答瘦身）, 指标+Go/No-Go+还原清单, 等窗口 | 2026-08-24 |
 | `2026-08-23_loopc_differential_audit.md` | 活跃 | Loop C 差分审计: PG 归因报告+修复 / FK 草稿 vs 提交码, 两对象 PASS（4 LOW + 13 INFO, 无 C/H/M） | 2026-08-24 |
 | `2026-08-24_pool_fix_draft.md` | 已实施 | 池×GUC 修复草稿 F1/F2（pre_ping+recycle300 / 异常不吞+dispose 重试+兜底曝光）: 08-25 凌晨窗口照稿执行, 门禁 12min 闲置 q06 PASS（0.7889 命中+零新警告）, 归因报告 2026-08-24_segment_d_q06_attribution.md | 2026-08-25 |
+| `2026-08-24_t1_step_reduction_ab.md` | 已完成（判定=还原） | T1 减 step 第一杠杆 A/B: M3 终答瘦身单杠杆实跑, keep 判据未达（step 未降反诱导更深验证）, 数据入账; Arm A 49.6s/steps p50=4 基线被 E2 干净环境复现（08-25） | 2026-08-25 |
+| `2026-08-24_t4_14b_anomaly_retest.md` | 已完成（异常可复现） | T4 14B>8B 异常复测: 存量权重零下载复现成立, 待新权重定论; :8007 探针用毕即停 | 2026-08-25 |
 | `2026-08-25_fk_watermark_fix_draft.md` | 草稿待批 | FK 水位闸边界修复: cleanup_sessions 超编删除无在途豁免致 FK 失败（08:14 新增 1 条级）; 菜单 a 新近活跃豁免（推荐）/ b 高低水位滞回（叠加项）, 实施挂下个 :5050 窗口 | 2026-08-25 |
-| `2026-08-25_pso_question_set_v0.md` | 首批数据（02:0x cron 生成） | PSO 落点② 最小判别题集选择: 粒子=题集二值向量, 适应度=(1-keep_rate)+0.3*|z|/M, 口径 2026-08-18 提案 J2; 脚本 research/pso/pso_question_set_search.py | 2026-08-25 |
-| `2026-08-25_morning_decision_sheet.md` | 待圈选（03:50 cron 汇编） | 判定一页纸: 超时(a) / T1 复评 / FK 窗口提案 / 积压亮点, 数据+选项+推荐, 用户白天圈选 | 2026-08-25 |
+| `2026-08-25_e3_step_duration_diagnosis.md` | 活跃（菜单已出, 不动手） | E3 逐步耗时诊断: 45s 截断时 step1 在途 44%, 每 step 位 p50=30-34s（prefill/context 27k 膨胀 3-4 倍）, 减 step + context 瘦身组合菜单 | 2026-08-25 |
+| `2026-08-25_pso_question_set_v0.md` | ABORT×2（02:00 W4 SKIPPED 连环 / 22:47 判别力套件崩溃: W3 judge 全超时, 根因+修复候选在文） | PSO 落点② 最小判别题集选择: 粒子=题集二值向量, 适应度=(1-keep_rate)+0.3*|z|/M, 口径 2026-08-18 提案 J2; 脚本 research/pso/pso_question_set_search.py | 2026-08-25 |
+| `2026-08-25_morning_decision_sheet.md` | 被 v2 取代（门禁与规则层欠账, 保留备查） | 判定一页纸 v1: 03:50 cron 汇编, 门禁误报 UNKNOWN（根因=半字符截断, E1b 修复） | 2026-08-25 |
+| `2026-08-25_morning_decision_sheet_v2.md` | 待圈选（E6 回填版） | 判定一页纸 v2: 门禁更正 PASS + 规则 0/A/B/C/D/E 逐条评估（超时(a) CLOSED / T1 维持 / PSO blocked 根因坐实 / W3 judge 口径更正） | 2026-08-25 |
 ## 归档（archive/，只读历史，不得作为现状依据）
 
 | 条目 | 归档日期 | 说明 |
