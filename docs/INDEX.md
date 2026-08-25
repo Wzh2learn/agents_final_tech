@@ -2,7 +2,7 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-25（08-25 晚间队列 E1-E6: e3 诊断 + 一页纸 v2 登记; PSO 行更正 ABORT×2 根因; sheet v1 标被取代） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-25（08-25 晚间队列 E1-E6: e3 诊断 + 一页纸 v2 登记; PSO 行更正 ABORT×2 根因; sheet v1 标被取代; skills-loop-engineering 精华归位: docs/governance/reference/ 语料登记） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -171,6 +171,25 @@
 
 00_Codex_启动提示词.md / 01_项目背景与目标.md / 02_阶段计划与分工.md / 03_技术架构与模块设计.md / 04_服务器与模型部署计划.md / 05_开发任务清单.md / 06_Remote_SSH_开发流程.md / 07_角色B_模型调研与研究方向.md / 08_GB10模型服务两阶段计划_老师汇报版.md / 11_开发机_Codex_CLI_交接.md / 12_阶段收尾与对外汇报.md / 14_角色B_开发日志_老师汇报版.md / 16_Qoder_CLI迁移评估与计划.md / AGENTS.md / API_REFERENCE.md / ARCHITECTURAL_REVIEW_REPORT.md / CLAUDE_PLUGIN_SETUP.md / CODE_REVIEW_COMPREHENSIVE_20260118.md / code_review_prompt.md / codex_migration_pack_all_in_one.md / DEPLOYMENT.md / DEVELOPER_GUIDE.md / DIFY_VS_TOOLS_COMPARISON.md / Explore.md / implementation_guide.md / KB_UI_REDESIGN_SPEC.md / OPTIMIZATION_IMPLEMENTATION_REPORT.md / PROJECT_BUSINESS_FLOW_WORKLOAD_REPORT.md / PROJECT_REVIEW_REPORT.md / README_legacy_1115lines.md / README_scripts_2026-07-21.md / REVIEW_REPORT_20260118.md / TOOLS_USAGE.md / VibeCoding_Migration_Kit_Merged.md
 </details>
+
+## 治理参考语料（docs/governance/reference/）
+
+> 移植自 git@github.com:Wzh2learn/skills-loop-engineering.git @ 7ffbe44（2026-08-25, 用户授权）。参考语料, 非本项目现状描述; 与现状冲突时以活文档为准。
+
+| 文件 | 一句话摘要 |
+|---|---|
+| `MULTI_AGENT_DESIGN_PATTERNS.md` | 8 个多智能体设计模式（SSOT/痕迹协作/30 秒冷启动/文件边界/反幻觉核验/阶段门）, 与 graph loop 同构 |
+| `COMMANDER_PLAYBOOK.md` | 指挥官（用户）操作手册: 红线 + INSTRUCTION/DECISION 派发格式 |
+| `AGENT_COLLABORATION_PROTOCOL.md` | 多智能体协作协议（命名/文件/交接规则） |
+| `CROSS_AGENT_LESSONS.md` | 跨 agent 教训台账格式（场景/教训/建议/相关文件）——教训类条目进 THREADS 建议用此格式 |
+| `ACTION_FORMAT_SPEC.md` | agent 交付物结构化输出格式 |
+| `RESEARCH_WRITING_WORKFLOW.md` | 研究↔写作分工流水线（论文章 4 直接相关） |
+| `PAPER_WRITING_PIPELINE.md` | 论文流水线架构 |
+| `SUPERSEDE_CHAIN_PATTERN.md` | "更正不涂改"形式化标准文本（本项目已实践, 此为标准版） |
+| `HOOK_AUTHORING_GUIDE.md` | hook 编写标准 + 升级阶梯（机械强制层依据, 见根 AGENTS.md） |
+| `GOAL_CARD_TEMPLATE.md` 等 8 份模板 | 目标卡/交接/实验日志/记忆/指令/设计文档/阅读笔记模板集（其预注册/退出/复盘三项已合并入 templates/task_card_template.md） |
+| `multi-tool-sync.sh` | 多工具规则同步脚本（参考） |
+| 仓库 `scripts/graph/hooks/` | pre-commit 机械强制层脚本（根 AGENTS.md"机械强制层"节）: cjk-byte-check.precommit.sh / index-guard.precommit.sh / large-file-guard.precommit.sh / install_hooks.sh / skill_router.py |
 
 ## 治理规则
 

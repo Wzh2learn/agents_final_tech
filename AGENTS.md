@@ -308,7 +308,7 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 | A | Codex CLI | systematic-debugging | bug 卡住时根因追溯 |
 | A | Codex CLI | executing-plans | 多步计划按 checkpoint 执行 |
 | A | Codex CLI | subagent-driven-development | 独立子任务并行分发 |
-| A | Codex CLI | verification-before-completion | 交付前证据验证 |
+| A | Codex CLI | verification-before-completion | 交付前证据验证（**DEPRECATED 2026-08-25: 被 verify-before-done 取代**, 目录保留, 治理规则 4） |
 | A | Codex CLI | m2-rag-playbook | M2 RAG 问答失败模式契约（m2-qa agent 经 skill 工具加载）|
 | C | Claude Code | review-codebase | 全库体检 |
 | C | Claude Code | differential-review | 增量 diff 审查 |
@@ -326,6 +326,24 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 | A | Codex CLI | research-writing-skill | 科研线 (docs/30): 论文正文/摘要/回复审稿人写作与润色, 中文优先 |
 | A | Codex CLI | office-academic-skill | 科研线 (docs/30): 学术 Word/PPT 生成 (文献报告/组会/答辩 PPT) |
 | A | Codex CLI | scientific-toolkit-skill | 科研线 (docs/30): 科研计算/统计/配图 (含 paper-lookup 与 citation-management 子技能) |
+| A | Codex CLI | verify-before-done | 完成申报前双重验收: 11 条"假完成"捷径清单 + 本轮实跑完成门（取代 verification-before-completion; 源 skills-loop-engineering@7ffbe44） |
+| C | Claude Code | verify-before-done | 审计层验收完成申报的同套门 |
+| C | Claude Code | self-eval-bias | 同上下文自评偏倚检测（侧线抽验机制的理论依据） |
+| A | Codex CLI | shift-notes | 会话交接笔记格式; handoff 与 git 冲突时信 git |
+| A | Codex CLI | context-budget | 上下文预算纪律（长会话/大文件/精度塌方; 与 L2 context 瘦身杠杆同源） |
+| A | Codex CLI | tool-restraint | 工具克制: 过多 MCP/工具 = 认知负载悬崖（对应 sidecar 元数据装载病灶） |
+| A | Codex CLI | spec-first | 行动前写 goal spec 到盘（目标/完成条件/禁触/停止条件） |
+| A | Codex CLI | sprint-contract | 写码前定义 done（谓词化验收 + 运行路径 + 范围外清单） |
+| A | Codex CLI | broken-window-check | 冒烟已声明完成的功能（配合 shift-notes） |
+| A | Codex CLI | eval-harness | eval 骨架（grader 隔离/judge 可见 prompt/基线入 git） |
+| A | Codex CLI | evaluator-calibration | LLM 评审校准: rubric 锚定/禁读生成者推理/引用式判据/定期重提示（08-25 judge 事故对症） |
+| C | Claude Code | evaluator-calibration | 审计层评估校准基线 |
+| C | Claude Code | repo-audit | 对抗式治理审计 + hook 升级判断 + 项目结构梳理 |
+| C | Claude Code | readme-audit | 索引/文档入口审计（INDEX 治理） |
+| A | Codex CLI | experiment-autopsy | 实验尸检四步法（解剖/诊断/交叉验证/行动）+ tradeoff 前沿共线检验 |
+| A | Codex CLI | decision-record | ADR 式决策记录（对应 docs/32 DECISIONS） |
+| A | Codex CLI | paper-polish-and-audit | 投稿前论文审计清单（科研线, 论文章 4 前置） |
+| A | Codex CLI | recsys-toolkit | RecSys career/defense 双模式工具包（科研线） |
 
 **治理规则**:
 1. 仅 Loop D 可安装新 skill: 搜索 → 克隆审计 → 安装 → 注册本表与 skills/ → sync_skills.sh 分发。
@@ -333,6 +351,22 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 3. 自定义 skill 按 skills-best-practices 规范放仓库 skills/ (SKILL.md frontmatter + 附属文件), 不放个人目录。
 4. 弃用只标记不删除: 注册表标 DEPRECATED 并在 SKILL.md 头部注明, 目录保留审计痕迹。
 5. 修复失败的 prompt 改动必须同 commit 在 skills/agent-prompt-contracts/ 补录/更新对应契约 (失败模式 → 对策 → 验证方式 + 证据链接); 无契约补录的 prompt 修复合并前须说明理由。
+6. 其余 49 件 skills-loop-engineering 库存（code-quality/security/git-ops/frontend/data/dream-engine 等）不入仓, 留源仓库按需取; 引入需走本表流程。
+
+## 机械强制层 (pre-commit hook 链, 2026-08-25)
+
+仓库 `scripts/graph/hooks/` 是机械强制层; `.git/hooks/pre-commit` 为链式入口
+(安装器 `scripts/graph/hooks/install_hooks.sh`, 本地与 GB10 通用):
+
+1. `pre-commit` — L5 冻结节点守卫 (2026-08-06 既有, 链首不可移除; 覆盖仅 --no-verify, Loop D 专用)
+2. `cjk-byte-check.precommit.sh` — staged .md 的 U+FFFD 乱码扫描（源仓库 3 次实证; 本项目 CRLF/编码麻烦同族）
+3. `index-guard.precommit.sh` — 新增 scripts/**/*.py|sh 必须已索引于 docs/INDEX.md（源仓库 7 次"打地鼠"实证）
+4. `large-file-guard.precommit.sh` — >5MB / 权重/视频/数据类型禁入库（对应"视频文件不入 git"既有纪律）
+
+**Hook Escalation Ladder**（源 docs/governance/reference/HOOK_AUTHORING_GUIDE.md）:
+同一错误第 1 次 = 记教训; 第 2 次 = 入教训台账; 第 3 次及以上 = 上机械强制。
+编写标准 (何时写/何时不写/正反例测试/降级原则 = 环境异常警告放行不无声 fail-open) 同文档。
+移植自 git@github.com:Wzh2learn/skills-loop-engineering.git @ 7ffbe44 (2026-08-25, 用户授权)。
 
 ## 记忆系统协议 (Phase 5 L1, 2026-08-04)
 
