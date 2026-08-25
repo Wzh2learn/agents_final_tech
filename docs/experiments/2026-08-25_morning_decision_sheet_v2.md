@@ -45,8 +45,8 @@ FK 竞争修复 + PG 池泄漏根治 + M1_B4_LOG_PATH 已于 08-23 一窗全激�
 
 E4 22:47 补跑: 启动闸全过 (无回滚 / E2 DONE / :8006 200 / Loop B 空闲), 但判别力套件 exit=1 中止 (#E4-PSO-ABORT):
 - 根因: W3 judge 工件 logs/graph/eval/m2_judge_report.json (01:51) 四维 avg=None/n=0, n_unusable=16——judge 调用 (:8006/v1/chat/completions) **全 16 条 TimeoutError**; eval_checkpoint_aggregate.py L67 `_judge_avg` 对 avg=None 无防护 → 崩溃
-- 修复候选 (待明日窗口): ① `_judge_avg` None 安全化 (缺失→跳过该叶并注记, 不计 0) ② judge 腿单独重跑出可用 Z 基线 ③ judge 超时原因排查 (01:51 收尾段 :8006 负载 / 客户端超时配置)
-- PSO 落点② 维持 blocked, 无首批数据; 明日重跑前置 = 上述①②
+- 修复菜单（夜间 judge 归因后校准, 报告 2026-08-25_judge_timeout_triage.md）: ① `_judge_avg` None 安全化 (仍需要, 防御层) ② judge 腿重跑 (协议加隔离闸: 与 agent 路批量评测错峰 + 开跑前查 :8006 无在途长请求) ③ 原"超时原因排查"已定论关闭 = W3 NF 步 agent 路尝试 + 孤儿轨迹自饱和 :8006 (16×90s 逐一打满), 上游治理 = 孤儿轨迹 (减 step 菜单 M4-a, 与准路完成率洼地同根因)
+- PSO 落点② 维持 blocked, 无首批数据; 明日重跑前置 = ①②
 
 ## 7. 规则 E (积压)
 

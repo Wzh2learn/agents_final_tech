@@ -2,7 +2,7 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-25（08-25 晚间队列 E1-E6: e3 诊断 + 一页纸 v2 登记; PSO 行更正 ABORT×2 根因; sheet v1 标被取代; skills-loop-engineering 精华归位: docs/governance/reference/ 语料登记） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-26（08-26 凌晨: 导师包 v2 三件登记——31 v2 md/docx + demo_v3 steps/卡片 + 流水线脚本 6 件 + talk track v2 + judge 归因 + 呈递清单; 31 v1 标作废; 承接 08-25 晚间队列 E1-E6 登记） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -39,7 +39,7 @@
 | `28_业界对标与优化菜单.md` | 活跃（顺序已批 #2→#1→#4, 其余待拍板） | 四类对标(WorkBuddy/Manus/Devin/Cursor, Perplexity/NotebookLM/Dify, Docling/MinerU/LlamaParse/TextIn, RAGAS/DeepEval/TruLens) + Top5 优化菜单 + 四维审计清单附录 | 2026-08-11 |
 | `29_graph_engineering_roadmap.md` | 活跃（菜单待拍板） | 人肉环节盘点 + 分级菜单 L1 status.sh / L2 任务卡模板 / L3 自动编排前提（暂缓）+ Backlog 台账附录（08-23 首版, 新发现即时登记） | 2026-08-23 |
 | `30_科研线规划.md` | 活跃 | 科研线规划: VGMC 验证门控记忆固化 (三条素材线 / M0-M4 路线图 / 甲方数据零进入; 文末附 M0 文献调研任务卡) | 2026-08-13 |
-| `31_导师进展汇报.md` | 已发送（08-15 导师包已发送; 快照数字按红线不改写） | 导师预审包: 定位+架构/功能清单/前端重点节(12 图配看点)/战绩表/限制与下一步/请导师把关清单; 附录取回命令 | 2026-08-13 |
+| `31_导师进展汇报.md` | 作废-已被 v2 取代（08-15 版保留备查不删除） | 导师进展汇报 08-15 快照 | 2026-08-25 |
 | `32_模型升级与多agent再思考.md` | 活跃（S4 双模型接线完成; Route B watch→CLOSED 08-22 坐实无官方权重; DSpark 08-21 切换后回滚生产退出权重留盘; thinking-OFF 归因更正 08-22） | 模型升级专项: 旧栈约束盘点 / Qwen3.8-27B+vLLM 探针事实 / P2 基准(矩阵+并发+judge+视觉) / 闸门判定与切换菜单 / 多 agent 再思考菜单 | 2026-08-16 |
 | `33_导师指导吸收_科研三线升级.md` | 活跃 | 08-18 演示后导师三层指导吸收: hbkeyan 材料索引(GTA-2/Judge 实证/PSO 测评专利/指标手册) / 评估+改进+自学习三线框架 / 大论文四点+小论文 AB / 数据集策略 / 小模型矩阵 / §9 graph loop 精读与实验探索任务卡 | 2026-08-18 |
 | `15_远程开发机_Codex_CLI_与_OpenCode_配置.md` | 历史快照（08-23 定性: 安装/配置流程已完成且稳定; 现行模型拓扑以 DECISIONS 模型卡 + gb10_vllm_startup_sop 为准） | GB10 开发机配置与模型切换指南（Loop A flash / Loop C qwen3.8-max） | 2026-08-23 |
@@ -136,6 +136,11 @@
 | `2026-08-24_t1_step_reduction_ab.md` | 已完成（判定=还原） | T1 减 step 第一杠杆 A/B: M3 终答瘦身单杠杆实跑, keep 判据未达（step 未降反诱导更深验证）, 数据入账; Arm A 49.6s/steps p50=4 基线被 E2 干净环境复现（08-25） | 2026-08-25 |
 | `2026-08-24_t4_14b_anomaly_retest.md` | 已完成（异常可复现） | T4 14B>8B 异常复测: 存量权重零下载复现成立, 待新权重定论; :8007 探针用毕即停 | 2026-08-25 |
 | `2026-08-25_fk_watermark_fix_draft.md` | 草稿待批 | FK 水位闸边界修复: cleanup_sessions 超编删除无在途豁免致 FK 失败（08:14 新增 1 条级）; 菜单 a 新近活跃豁免（推荐）/ b 高低水位滞回（叠加项）, 实施挂下个 :5050 窗口 | 2026-08-25 |
+| `31_导师进展汇报_v2_20260825.md` | 待发送（用户亲发） | 导师进展汇报 v2（08-15→08-25 增量）: 快准双菜单生产化 / 自愈与可观测 / 判别力测试床 / 专利 08-22 递交 / 战绩表现行口径（judge 四维暂缺）; docx 自包含（构建器 `scripts/build_doc31_v2_docx.py`）; 取代 31_导师进展汇报.md（08-15 版保留备查） | 2026-08-25 |
+| `2026-08-25_demo_talk_track_v2.md` | 活跃 | demo_v3 逐分镜解说词定稿（Yunyang 配音源）+ 彩排驱动选题变更记录（快路三问实测走深度通道 → 快路段改持仓对比） | 2026-08-25 |
+| `2026-08-25_demo_video_v3/steps.md` | 待发送（用户亲发） | 演示视频 v3（3:22, 1080p30 h264+aac, 42MB）分段清单 + 卡片源件（cards/ 4 张入库）; 视频文件不入 git（v2 先例, .gitignore 已列, scp 取回路径见台账）; 流水线脚本（仓库 `scripts/`）: rehearse_demo_v3.py / record_demo_video_v3.py / tts_demo_v3.py / make_demo_cards_v3.py / assemble_demo_video_v3.py | 2026-08-26 |
+| `2026-08-25_judge_timeout_triage.md` | 活跃 | judge 16/16 超时归因定论: W3 NF 步 agent 路 + 孤儿轨迹自饱和 :8006（16×90s）; 修复菜单校准 F-J1/F-J2/F-J3（F-J3=孤儿治理, 与准路洼地同根因） | 2026-08-25 |
+| `2026-08-25_send_checklist.md` | 待执行（用户） | 晨间呈递清单: 文档 md/docx + 视频路径 + 建议发送一句话 + 发送前自查 | 2026-08-25 |
 | `2026-08-25_e3_step_duration_diagnosis.md` | 活跃（菜单已出, 不动手） | E3 逐步耗时诊断: 45s 截断时 step1 在途 44%, 每 step 位 p50=30-34s（prefill/context 27k 膨胀 3-4 倍）, 减 step + context 瘦身组合菜单 | 2026-08-25 |
 | `2026-08-25_pso_question_set_v0.md` | ABORT×2（02:00 W4 SKIPPED 连环 / 22:47 判别力套件崩溃: W3 judge 全超时, 根因+修复候选在文） | PSO 落点② 最小判别题集选择: 粒子=题集二值向量, 适应度=(1-keep_rate)+0.3*|z|/M, 口径 2026-08-18 提案 J2; 脚本 research/pso/pso_question_set_search.py | 2026-08-25 |
 | `2026-08-25_morning_decision_sheet.md` | 被 v2 取代（门禁与规则层欠账, 保留备查） | 判定一页纸 v1: 03:50 cron 汇编, 门禁误报 UNKNOWN（根因=半字符截断, E1b 修复） | 2026-08-25 |

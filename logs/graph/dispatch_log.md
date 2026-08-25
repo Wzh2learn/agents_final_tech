@@ -972,3 +972,10 @@ echo dispatch_log updated
 [08-25 22:52] #E4-PSO-ABORT-ROOTCAUSE 补充归因: 判别力套件崩溃 = W3 judge 工件四维 avg=None（judge 调用全 16 条 TimeoutError, n_unusable=16）× aggregate L67 无 None 防护; 更正: W3 "judge 5.0 零漂移"口径不成立（确定性+NF 部分仍属实）; 修复候选待明日窗口
 [08-25 22:52] #E5-LOOPB-ATTR 18:44 FAIL = STEP 9 agent_watchdog（0 completions / ≥25 fallbacks）, 设计内信号, canary 抖动类（08-23 23:51 先例）; 20:24 翻回 PASS, 22:05 九项全绿; 只分类不动手
 [08-25 22:52] #E6-SHEET-V2 一页纸 v2 回填完成: 门禁更正 PASS（00:28, 3 次运行）+ 规则 0/A/B/C/D/E 逐条评估（规则 A 超时(a) CLOSED / 规则 B T1 维持 / 规则 D PSO blocked 根因坐实）+ W3 judge 口径更正; 2026-08-25_morning_decision_sheet_v2.md
+[08-25 23:19] #VIDEO-V3-WINDOW-START 视频录制窗口开始（rehearsal+录制经 :5050, 干净段统计剔除本窗口起点; 同 PSO 窗口口径）; B4_BEFORE=4143
+[08-25 23:43] #JUDGE-TRIAGE judge 16/16 超时归因定论: W3 NF 步 agent 路尝试 + 孤儿轨迹自饱和 :8006 → judge 16×90s 全超时; 假设 (a) 排除 (b) 成立 (c) 不独立成立; 修复菜单校准: F-J1 None 安全化仍需 / F-J2 重跑加隔离闸 / F-J3 升级为孤儿轨迹治理(=M4-a, 与准路洼地同根因); 报告 2026-08-25_judge_timeout_triage.md
+[08-25 23:44] #LOOP-B-FLIP overall PASS -> FAIL (head=3147bed; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-25 23:51] #VIDEO-V3-RECORD-DONE 视频分段录制完成: 9 段 webm (home/fast/transparency/jiahe/sugg_a/sugg_b/review_mt_refusal/ocr/agent); 深度验证段实测 52.4s 完成; 快路段=持仓对比 11ms (route=on 下普通题全走深度通道, 彩排实证选题变更已入 talk track v2)
+[08-25 23:51] #VIDEO-V3-WINDOW-END 视频窗口采集结束 (23:19-23:51, 录制/彩排经 :5050 的问句止于 23:47); B4 干净段统计剔除该窗口; B4_AFTER=4157
+[08-26 00:10] #VIDEO-V3-DELIVERED demo_v3.mp4 合成过质量门: 3:22 1080p30 h264+aac, 抽帧 5/62/150/195s 非空, 音量均值 -27.7dB; 配音 Yunyang 11 段; 十段结构=08-15 steps.md 骨架+现行口径; 深度验证段实测 52.4s 烧录字幕; 视频不入 git（v2 先例）
+[08-26 00:10] #DOCS-31-V2 导师文档 v2 交付: md+docx（自包含, 图片内嵌 697KB）, docx 黑话扫描零命中, judge 四维未引用; 08-15 版标作废保留; 呈递清单 2026-08-25_send_checklist.md 待用户亲发
