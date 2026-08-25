@@ -980,3 +980,14 @@ echo dispatch_log updated
 [08-26 00:10] #VIDEO-V3-DELIVERED demo_v3.mp4 合成过质量门: 3:22 1080p30 h264+aac, 抽帧 5/62/150/195s 非空, 音量均值 -27.7dB; 配音 Yunyang 11 段; 十段结构=08-15 steps.md 骨架+现行口径; 深度验证段实测 52.4s 烧录字幕; 视频不入 git（v2 先例）
 [08-26 00:10] #DOCS-31-V2 导师文档 v2 交付: md+docx（自包含, 图片内嵌 697KB）, docx 黑话扫描零命中, judge 四维未引用; 08-15 版标作废保留; 呈递清单 2026-08-25_send_checklist.md 待用户亲发
 [08-26 00:18] #LOOP-B-FLIP overall FAIL -> PASS (head=3898a24; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-26 00:47] #SPRINT-P1 视频五门+文档五谓词全过: 新片 186.03s (速度闸 8x→16x+裁剪兜底修 ch07/ch08 音画同步), 11/11 章 delta<=0.61s, 三帧目视无乱码; 文档谓词①⑤口径注记+缩写展开; 证据 docs/experiments/2026-08-26_night_sprint/evidence_p1.md
+[08-26 00:48] #SPRINT-P2 F-J1 (25 行+3 单测 23 passed) + F-J2 隔离闸入库; eval 重跑启动 (judge 仍 :8006 保 k1 可比, 闸等排空); F-J3 提案只出不动手; 证据 evidence_p2.md
+[08-26 00:49] #SPRINT-P4 汇编器 v3 修正: 硬编码数字清零 (门禁/双段/pytest 全工件解析), 规则 0/A/B/C/D/E/F 机械裁定节, §① 推荐与规则 A 对齐; 冒烟过
+[08-26 00:51] #LOOP-B-FLIP overall PASS -> FAIL (head=2960641; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-26 00:56] #SPRINT-P2-GATE F-J2 闸实测: NF/确定性腿孤儿致 :8006 in_flight 24-31 缓排 (≈2.4/min), 10min 闸大概率不过 → 按协议改 judge 独立腿走 :8004 结构隔离 (08-13 8004 基线 4.94-5.0 校准), 不争 :8006; 闸本身行为正确 (显式跳过不静默)
+[08-26 00:57] #PSO-V0-START PSO 落点② 重跑启动 (纯工件计算, 零 :8006 ask, 窗口剔除不适用但照登记)
+[08-26 00:58] #PSO-V0-END PSO 落点② 重跑完成, 工件 pso_question_set_v0.json
+[08-26 01:00] #SPRINT-P2-JUDGE judge 重跑 :8004 结构隔离完成: 4.94/5.0/5.0/5.0 零 unusable → 规则 J 正向 → docs/31 写实数 + docx 重生成 (hash 入 send_checklist); eval_summary 16/16+NF 0/9
+[08-26 01:0x] #SPRINT-P3 PSO 落点② 首批落盘: bank19/7mutant/B=8 keep1.0/最小全保持 B=4; 实验文档追加; 规则 D 裁定续跑第二批
+[08-26 01:0x] #SPRINT-P4 一页纸 v3 生成 (规则 0-F 机械裁定, 挂起 3 项); INDEX 登记 5 件; docs_lint 0 fail/2 warn 预存
+[08-26 01:1x] #SPRINT-CLOSE pytest 全量+commit+push+三方对齐+STATE 覆写

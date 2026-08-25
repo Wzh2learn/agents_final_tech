@@ -1,9 +1,9 @@
-...........ss........ss................................................s [ 18%]
-........................................................................ [ 36%]
+...........ss........ss................................................. [ 18%]
+..s..................................................................... [ 36%]
 ........................................................................ [ 54%]
 ........................................................................ [ 72%]
 ........................................................................ [ 90%]
-........................ssssssss.....                                    [100%]
+...........................ssssssss.....                                 [100%]
 =============================== warnings summary ===============================
 <frozen abc>:106
   <frozen abc>:106: LangGraphDeprecatedSinceV10: AgentStatePydantic has been moved to `langchain.agents`. Please update your import to `from langchain.agents import AgentStatePydantic`. Deprecated in LangGraph V1.0 to be removed in V2.0.
@@ -55,4 +55,4 @@ venv/lib/python3.12/site-packages/fastapi/applications.py:4575
     return self.router.on_event(event_type)
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-384 passed, 13 skipped, 10 warnings in 159.07s (0:02:39)
+387 passed, 13 skipped, 10 warnings in 189.86s (0:03:09)

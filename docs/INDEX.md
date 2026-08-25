@@ -138,7 +138,12 @@
 | `2026-08-25_fk_watermark_fix_draft.md` | 草稿待批 | FK 水位闸边界修复: cleanup_sessions 超编删除无在途豁免致 FK 失败（08:14 新增 1 条级）; 菜单 a 新近活跃豁免（推荐）/ b 高低水位滞回（叠加项）, 实施挂下个 :5050 窗口 | 2026-08-25 |
 | `31_导师进展汇报_v2_20260825.md` | 待发送（用户亲发） | 导师进展汇报 v2（08-15→08-25 增量）: 快准双菜单生产化 / 自愈与可观测 / 判别力测试床 / 专利 08-22 递交 / 战绩表现行口径（judge 四维暂缺）; docx 自包含（构建器 `scripts/build_doc31_v2_docx.py`）; 取代 31_导师进展汇报.md（08-15 版保留备查） | 2026-08-25 |
 | `2026-08-25_demo_talk_track_v2.md` | 活跃 | demo_v3 逐分镜解说词定稿（Yunyang 配音源）+ 彩排驱动选题变更记录（快路三问实测走深度通道 → 快路段改持仓对比） | 2026-08-25 |
-| `2026-08-25_demo_video_v3/steps.md` | 待发送（用户亲发） | 演示视频 v3（3:22, 1080p30 h264+aac, 42MB）分段清单 + 卡片源件（cards/ 4 张入库）; 视频文件不入 git（v2 先例, .gitignore 已列, scp 取回路径见台账）; 流水线脚本（仓库 `scripts/`）: rehearse_demo_v3.py / record_demo_video_v3.py / tts_demo_v3.py / make_demo_cards_v3.py / assemble_demo_video_v3.py | 2026-08-26 |
+| `2026-08-25_demo_video_v3/steps.md` | 待发送（用户亲发） | 演示视频 v3（3:06, 1080p30 h264+aac, 36MB）分段清单 + 卡片源件（cards/ 4 张入库）; 视频文件不入 git（v2 先例, .gitignore 已列, scp 取回路径见台账）; 流水线脚本（仓库 `scripts/`）: rehearse_demo_v3.py / record_demo_video_v3.py / tts_demo_v3.py / make_demo_cards_v3.py / assemble_demo_video_v3.py | 2026-08-26 |
+| `2026-08-26_night_sprint/contracts.md` | 活跃 | 08-26 凌晨冲刺 sprint contracts（P1A/P1B/P2/P3/P4 交付物+谓词+范围外） | 2026-08-26 |
+| `2026-08-26_night_sprint/evidence_p1.md` | 活跃 | P1 证据: 视频五门（速度闸修复前后对照）+ docs/31 五谓词逐条实测 | 2026-08-26 |
+| `2026-08-26_night_sprint/evidence_p2.md` | 活跃 | P2 证据: F-J1 diff/单测 + F-J2 隔离闸 + 规则 J 裁定记录 | 2026-08-26 |
+| `2026-08-26_morning_decision_sheet_v3.md` | 活跃 | 判定一页纸 v3（规则 0/A/B/C/D/E/F 机械裁定, 硬编码清零版汇编器产出） | 2026-08-26 |
+| `2026-08-26_fj3_orphan_governance_proposal.md` | 提案 | F-J3 孤儿轨迹治理菜单 b→a→d→c（只提案不动手, 等批） | 2026-08-26 |
 | `2026-08-25_judge_timeout_triage.md` | 活跃 | judge 16/16 超时归因定论: W3 NF 步 agent 路 + 孤儿轨迹自饱和 :8006（16×90s）; 修复菜单校准 F-J1/F-J2/F-J3（F-J3=孤儿治理, 与准路洼地同根因） | 2026-08-25 |
 | `2026-08-25_send_checklist.md` | 待执行（用户） | 晨间呈递清单: 文档 md/docx + 视频路径 + 建议发送一句话 + 发送前自查 | 2026-08-25 |
 | `2026-08-25_e3_step_duration_diagnosis.md` | 活跃（菜单已出, 不动手） | E3 逐步耗时诊断: 45s 截断时 step1 在途 44%, 每 step 位 p50=30-34s（prefill/context 27k 膨胀 3-4 倍）, 减 step + context 瘦身组合菜单 | 2026-08-25 |
