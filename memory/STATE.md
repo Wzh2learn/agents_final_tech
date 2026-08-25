@@ -16,7 +16,7 @@
 
 ## Git
 - HEAD: E1-E6 收口 commit; 三方对齐（本机 pull --ff-only）
-- 本轮资产: cron_gate_helper.sh / e3 报告 / 一页纸 v2 / template+AGENTS 规则 / THREADS+INDEX+dispatch 入账 / pool_fix_verify+e2 工件（-f 入库）
+- 本轮资产: cron_gate_helper.sh / assemble_morning.py（升仓库）/ e3 报告 / 一页纸 v2 / template+AGENTS 规则（含字节截断字符安全）/ THREADS+INDEX+dispatch 入账 / pool_fix_verify+e2 工件（-f 入库）
 
 ## B4（分段, 两列口径 尝试/完成 写全名）
 - 池修复后段（行 3929 @08-24 23:54 起）: 规则评估注册窗 3929→3988 = 59 尝试 / 2 完成 = 3.4%（样本=canary 题型, 代表性注记在一页纸 §2）; 滚动累计至 22:54 = 210 尝试 / 5 完成 = 2.4%（含 canary 续流 + E2 窗口 13 题, E2 窗注记在案）

@@ -373,5 +373,9 @@ L2 语义记忆层（mem0 自托管 + pgvector :15432 + MCP）见 docs/18 第 10
   同步固化于 templates/task_card_template.md §8。
 - **cron 闸语义 (2026-08-25)**: 闸不达标 = 改期（至多 N 次）, 禁止 SKIP; 耗尽 = BLOCKED 标记, 不静默。
   工具 scripts/graph/cron_gate_helper.sh。案例: W4 闸 SKIP 致 W5 连环 abort (08-25 凌晨)。
+- **UTF-8 字节截断必须字符安全 (2026-08-25)**: 引用 LLM 回答/中文文本做 `head -c N` 字节截断时, 必须接 `| iconv -f utf-8 -t utf-8 -c`
+  （或改字符级截断）; 下游读文件默认 errors="replace", 判定类读取必须有第二数据源兜底。
+  案例: 08-25 gate=UNKNOWN 误报——gate 脚本 head -c 400 在 position 657 腰斩"资产市"后字符 (invalid continuation byte),
+  汇编器 rd() 吞 UnicodeDecodeError 返回空串。回归用例 = 08-25 当晚 gate PASS。
 - **pending 卡交接必须 cron one-shot 触发 (2026-08-25)**: "稍后执行"类任务卡入账必须同批装触发 cron;
   禁止依赖"硬停后会话仍活"。案例: 晨间序列卡入账后零执行 (08-25)。

@@ -7,7 +7,7 @@
 v1 一页纸写 gate=UNKNOWN/0 次运行——**更正为 PASS**:
 - 工件: logs/graph/eval/pool_fix_verify_20260825.md GATE_PASS 段, 00:28 判定, 共 3 次运行 (00:16 首轮 + 复验)
 - dispatch #POOL-GATE-PASS (08-25 00:28) 在案
-- v1 误报根因: gate 脚本 `head -c 400` 截断 UTF-8 半字符 (位置 657), 汇编器 read_text 抛异常被 rd() 吞掉 → gate=UNKNOWN; 已三层修复 (工件修复 / 汇编器 errors=replace + dispatch #POOL-GATE-PASS|FAIL 兜底 / gate 脚本加 iconv -c), 回归过: verdict=GATE_PASS runs=3
+- v1 误报根因（钉死）: gate 脚本 `head -c 400` 字节截断切断多字节字符（工件 position 657 实测 invalid continuation byte, "资产市"后一字符被腰斩）, assemble_morning.py 的 rd() 吞掉严格 read_text 的 UnicodeDecodeError 返回空串 → gate=UNKNOWN。修: rd() errors="replace" + gate 判定用 dispatch_log（#POOL-GATE-PASS）做兜底源 + 截断字符安全化（iconv -c）; 回归用例 = 今晚 PASS（verdict=GATE_PASS runs=3）
 - 门禁后事实: 病灶零复发 (23:54 分段点后 IdleSessionTimeout 0 / 检索失败 0 / 兜底 0 / dispose 救援 0)
 
 ## 1. 圈选表 (5 数字)

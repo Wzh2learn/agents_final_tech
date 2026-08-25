@@ -71,6 +71,9 @@ IdleSessionTimeout, 单项验证无一捕获。教训条目: 2026-08-24_segment_
   任务卡不得把人类决策排在 22:00 后; 夜间窗口只执行已批准的确定性动作。
 - cron one-shot 三件套: 跑完自删条目 (先例: b4_checkpoint) + abort 分支写死在脚本里
   (失败自动回滚, 不依赖主线程在线判断) + 工件路径在任务卡中显式声明。
+- **UTF-8 字节截断必须字符安全（2026-08-25 E1b 钉死）**: `head -c N` 截中文/LLM 文本必配 `| iconv -f utf-8 -t utf-8 -c`;
+  判定类工件读取默认 errors="replace" + 第二数据源（dispatch_log 等）兜底。
+  案例: 08-25 gate=UNKNOWN——position 657 "资产市[值]"字符腰斩 → rd() 吞 UnicodeDecodeError 返回空串。回归用例 = 当晚 PASS。
 - **cron 闸语义（2026-08-25 E1a 固化）**: 闸不达标 = 改期（至多 N 次）, **禁止 SKIP**;
   改期耗尽 = BLOCKED 标记 + 台账, 仍不静默。工具: scripts/graph/cron_gate_helper.sh。
   案例: 08-25 01:50 W4 闸撞 W3 eval 收尾（01:05→01:51）, SKIP 致 W5 连环 abort。
