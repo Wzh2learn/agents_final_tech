@@ -15,6 +15,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
 from eval_checkpoint_aggregate import (
     _contract_pass_rate,
     _judge_avg,
+    _mapped_leaf_score,
     _nf_pass_rate,
     _regression_overall_binary,
     _regression_row_pass_rate,
@@ -323,3 +324,35 @@ class TestLeafFactories:
         rep = {"n_fail": 0, "results": []}
         rate, n, note = _nf_pass_rate(rep)
         assert rate == 1.0 and n == 0 and note
+
+class TestFJ1JudgeUnusableArtifact:
+    """F-J1 (08-26): judge 工件 avg=null/n=0 (01:51 全超时工件形态) 不炸、不静默给 0。
+
+    回归用例形状 = logs/graph/eval/m2_judge_report.json @08-25 01:51 的 summary 逐字复刻。
+    """
+
+    NONE_ART = {"summary": {d: {"avg": None, "n": 0} for d in (
+        "faithfulness", "numeric_correctness", "citation_quality",
+        "refusal_appropriateness")}}
+
+    def test_judge_avg_none_returns_sentinel_not_crash(self):
+        val, n, note = _judge_avg(self.NONE_ART, "faithfulness")
+        assert val is None and n == 0
+        assert "unusable" in note and "data insufficient" in note
+
+    def test_unusable_leaf_degraded_to_missing_score(self):
+        arts = _art(judge=self.NONE_ART)
+        leaf = {"id": "j_f", "source": "m2_judge",
+                "mapping": "judge_dim_0_5", "dim": "faithfulness",
+                "missing_score": 5.0}
+        score, info = _mapped_leaf_score(leaf, arts)
+        assert score == 5.0
+        assert info.get("degraded") is True
+        assert "unusable" in info.get("reason", "")
+
+    def test_full_tree_with_unusable_judge_no_crash(self):
+        arts = _art(judge=self.NONE_ART)
+        res = aggregate_tree(_tree_def("qa"), arts)
+        # judge 四叶 degraded 到 missing_score=5, 树仍出数
+        assert res["n_leaves"] > 0
+        assert all(v is not None for v in res["leaves"].values())

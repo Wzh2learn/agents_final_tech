@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Assemble demo_v3.mp4: chapters = (video sources with speed factors) + per-chapter 配音。
 
-速度自适应: 每章视频时长向音频时长靠拢 (setpts 加速, 上限 8x; 视频短于音频则 tpad 冻帧补齐)。
+速度自适应: 每章视频时长向音频时长靠拢 (setpts 加速, 上限 16x; 仍超长则裁至目标; 视频短于音频则 tpad 冻帧补齐)。
 输出: 1920x1080 30fps h264+aac。
 """
 import json, os, subprocess, sys
@@ -82,9 +82,15 @@ def main():
         # 3) 速度自适应: 视频长 → 再加速 (≤8x); 视频短 → 冻帧补齐
         fit = os.path.join(WORK, name + "_fit.mp4")
         if vdur > target + 0.8:
-            factor = min(vdur / target, 8.0)
+            factor = min(vdur / target, 16.0)
             run(["-y", "-i", vcat, "-vf", "setpts=PTS/%g,fps=30" % factor,
                  "-preset", "ultrafast", "-crf", "20", "-c:v", "libx264", "-pix_fmt", "yuv420p", fit])
+            # 兜底: 加速后仍超目标 (如源段极长) → 裁至目标, 保证音画同步门
+            fdur = probe_dur(fit)
+            if fdur > target + 0.8:
+                run(["-y", "-i", fit, "-t", "%.2f" % target, "-c:v", "libx264",
+                     "-preset", "ultrafast", "-crf", "20", "-pix_fmt", "yuv420p", fit + ".trim.mp4"])
+                os.replace(fit + ".trim.mp4", fit)
         elif vdur < target - 0.8:
             run(["-y", "-i", vcat, "-vf", "tpad=stop_mode=clone:stop_duration=%.2f,fps=30" % (target - vdur),
                  "-preset", "ultrafast", "-crf", "20", "-c:v", "libx264", "-pix_fmt", "yuv420p", fit])

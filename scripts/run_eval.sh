@@ -33,12 +33,34 @@ $PY scripts/m2_eval_number_faithfulness.py \
     --top-k 5
 NF_RC=$?
 
-echo "== [4/5] AI judge (:8004, temperature=0; JUDGE_RUNS=${JUDGE_RUNS:-1}) =="
-$PY scripts/m2_eval_judge.py \
-    --input "$EVAL_DIR/m2_deterministic_report.json" \
-    --report "$EVAL_DIR/m2_judge_report.json" \
-    --runs "${JUDGE_RUNS:-1}"
-JD_RC=$?
+# F-J2 (08-26): judge 腿隔离闸 — 端点为 :8006 时等其在途请求归零,
+# 防 NF/agent 路孤儿轨迹自我饱和 (08-25 01:51 事故根因); 非 :8006 端点无需闸。
+wait_judge_idle() {
+  local ep="${M2_JUDGE_ENDPOINT:-http://127.0.0.1:8004/v1/chat/completions}" st i
+  case "$ep" in *":8006"*) ;; *)
+    echo "[F-J2] judge 端点非 :8006 ($ep), 无需隔离闸"; return 0;; esac
+  for i in $(seq 1 40); do
+    st=$(curl -s --max-time 4 http://127.0.0.1:8006/metrics \
+         | grep -E "^vllm:num_requests_(running|waiting)" \
+         | awk "{s+=\$2} END {print s+0}")
+    [ "${st:-1}" = "0" ] && { echo "[F-J2] :8006 idle (第 $i 次检查)"; return 0; }
+    echo "[F-J2] 等 :8006 排空 in_flight=$st ($i/40)"; sleep 15
+  done
+  echo "[F-J2] :8006 10min 未 idle, judge 步显式跳过 (不静默打分)"
+  return 3
+}
+
+echo "== [4/5] AI judge (endpoint=${M2_JUDGE_ENDPOINT:-default :8004}, temperature=0; JUDGE_RUNS=${JUDGE_RUNS:-1}) =="
+if wait_judge_idle; then
+  $PY scripts/m2_eval_judge.py \
+      --input "$EVAL_DIR/m2_deterministic_report.json" \
+      --report "$EVAL_DIR/m2_judge_report.json" \
+      --runs "${JUDGE_RUNS:-1}"
+  JD_RC=$?
+else
+  JD_RC=3
+  echo "[run_eval] judge SKIPPED by F-J2 gate (JD_RC=3)"
+fi
 
 echo "== [5/5] Evidence cards (v1, 确定性聚合, 非阻塞) =="
 $PY scripts/eval_evidence_cards.py --eval-dir "$EVAL_DIR" || echo "[warn] evidence cards 生成失败 (不影响 eval 退出码)"

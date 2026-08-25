@@ -64,6 +64,10 @@ def _judge_avg(rep: dict, dim: str) -> tuple[float, int, str]:
     entry = summary.get(dim)
     if not entry or "avg" not in entry:
         return 0.0, 0, f"judge dim {dim} not in artifact"
+    # F-J1 (08-26): avg=null / n=0 (如 judge 全超时工件) = 数据不足,
+    # 返回 val=None 触发调用方 degraded 回落, 绝不 float(None) 炸或静默给 0
+    if entry.get("avg") is None or int(entry.get("n", 0)) == 0:
+        return None, 0, f"judge dim {dim} unusable (avg=null or n=0): data insufficient"
     return float(entry["avg"]), int(entry.get("n", 0)), ""
 
 
@@ -179,6 +183,9 @@ def _mapped_leaf_score(leaf: dict, artifacts: dict) -> tuple[float, dict]:
         return float(leaf.get("missing_score", 5.0)), {"degraded": True,
                                                        "reason": "unmapped router"}
     val, n, note = router(art, leaf)
+    if val is None:  # F-J1: 显式数据不足 -> missing_score + degraded, 不静默给 0
+        return float(leaf.get("missing_score", 5.0)), {"degraded": True,
+                                                       "reason": note}
     if "_n" not in leaf:
         leaf["_n"] = {}
     leaf["_n"][leaf["id"]] = n
