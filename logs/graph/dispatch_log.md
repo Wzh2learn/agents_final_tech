@@ -991,3 +991,5 @@ echo dispatch_log updated
 [08-26 01:0x] #SPRINT-P3 PSO 落点② 首批落盘: bank19/7mutant/B=8 keep1.0/最小全保持 B=4; 实验文档追加; 规则 D 裁定续跑第二批
 [08-26 01:0x] #SPRINT-P4 一页纸 v3 生成 (规则 0-F 机械裁定, 挂起 3 项); INDEX 登记 5 件; docs_lint 0 fail/2 warn 预存
 [08-26 01:1x] #SPRINT-CLOSE pytest 全量+commit+push+三方对齐+STATE 覆写
+[08-26 07:00] #LOOP-B-FLIP overall FAIL -> PASS (head=a28d4ab; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-26 晨] #SEND-FIX 发送前必修两处口径: judge 行括号改"当日评测流程异常修复后重跑" (删 :8004/unusable/F-J 内部码) + 完成率行"~19% (混合题型, 08-22 实测)" + §5 补"对抗性题型干净段 3.1% (08-26, 261 尝试)"; docx 重生成; 扩扫 (端口正则+F-J 模式) md+docx 双零命中; checklist hash+扫描项同步
