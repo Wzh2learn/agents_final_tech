@@ -1001,3 +1001,4 @@ echo dispatch_log updated
 [08-26 22:31] #K2-DISC-START K2 v1 判别力联跑开窗: 95 表臂 + :8004 小臂（预算门过, canary 争用源 :8006 零触碰）
 [08-26 22:35] #LOOP-B-FLIP overall PASS -> FAIL (head=5d564a4; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-26 22:37] #K2-DISC-DONE 判别力联跑收口: 表级判别 75/95 / 局部+零漂移 95/95 / OCR 盲区发现 / PSO 第二批零漂移 (B=4 稳定)
+[08-26 22:43] #LOOP-B-FLIP-ATTR 22:35 FAIL 归因: STEP4 dirty_files=3 = K2 窗口提交前中间态（窗口副产物, 非故障）; 0cbced5 提交后 worktree 净, 23:00 周期预期自复; 记台账不处置
