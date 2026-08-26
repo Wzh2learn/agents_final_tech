@@ -144,6 +144,8 @@
 | `2026-08-26_night_sprint/evidence_p2.md` | 活跃 | P2 证据: F-J1 diff/单测 + F-J2 隔离闸 + 规则 J 裁定记录 | 2026-08-26 |
 | `2026-08-26_morning_decision_sheet_v3.md` | 活跃 | 判定一页纸 v3（规则 0/A/B/C/D/E/F 机械裁定, 硬编码清零版汇编器产出） | 2026-08-26 |
 | `2026-08-26_fj3_orphan_governance_proposal.md` | 提案 | F-J3 孤儿轨迹治理菜单 b→a→d→c（只提案不动手, 等批） | 2026-08-26 |
+| `2026-08-26_skills_system_whitepaper.md` | 活跃 | skills 体系白皮书 v1: 三层分发/四 Loop 配属/生命周期治理/研究-运维分置/漂移欠账 | 2026-08-26 |
+| `2026-08-26_paper_asset_mapping.md` | 活跃 | 论文资产映射表 v1: 三线单元↔仓库资产↔状态↔缺口动作 + gap top5 + 第一启动单元建议 | 2026-08-26 |
 | `2026-08-25_judge_timeout_triage.md` | 活跃 | judge 16/16 超时归因定论: W3 NF 步 agent 路 + 孤儿轨迹自饱和 :8006（16×90s）; 修复菜单校准 F-J1/F-J2/F-J3（F-J3=孤儿治理, 与准路洼地同根因） | 2026-08-25 |
 | `2026-08-25_send_checklist.md` | 待执行（用户） | 晨间呈递清单: 文档 md/docx + 视频路径 + 建议发送一句话 + 发送前自查 | 2026-08-25 |
 | `2026-08-25_e3_step_duration_diagnosis.md` | 活跃（菜单已出, 不动手） | E3 逐步耗时诊断: 45s 截断时 step1 在途 44%, 每 step 位 p50=30-34s（prefill/context 27k 膨胀 3-4 倍）, 减 step + context 瘦身组合菜单 | 2026-08-25 |

@@ -993,3 +993,8 @@ echo dispatch_log updated
 [08-26 01:1x] #SPRINT-CLOSE pytest 全量+commit+push+三方对齐+STATE 覆写
 [08-26 07:00] #LOOP-B-FLIP overall FAIL -> PASS (head=a28d4ab; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-26 晨] #SEND-FIX 发送前必修两处口径: judge 行括号改"当日评测流程异常修复后重跑" (删 :8004/unusable/F-J 内部码) + 完成率行"~19% (混合题型, 08-22 实测)" + §5 补"对抗性题型干净段 3.1% (08-26, 261 尝试)"; docx 重生成; 扩扫 (端口正则+F-J 模式) md+docx 双零命中; checklist hash+扫描项同步
+[08-26 12:01] #LOOP-B-FLIP overall PASS -> FAIL (head=d85d50f; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-26 17:02] #LOOP-B-FLIP overall FAIL -> PASS (head=d85d50f; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-26 晚] #T1-WHITEPAPER skills 白皮书 v1 入库: 34 件在库/双 check PASS/41 注册行逐件核/DEPRECATED 先例/钩链冻结守卫链首/neat-freak v3.0.0 方法论合并案/欠账 4 条 (含 audit-inventory.sh 漏打包)
+[08-26 晚] #T2-MAPPING 论文资产映射表 v1 入库: 三线 18 行映射 + 大论文四点总览 + gap top5 + 第一启动单元=K2 v1 判别力联跑 (一跑两得: 论文 B 曲线+PSO②第二批前提)
+[08-26 晚] #T3-CLOSE 圈选三件+导师已发+§5 不修入 THREADS; 一页纸 v3 挂起节注已圈; INDEX +2; docs_lint; 三方对齐

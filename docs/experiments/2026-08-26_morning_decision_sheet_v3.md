@@ -1,4 +1,4 @@
-# 判定一页纸 v3 — 2026-08-26 晨（自动汇编 2026-08-26 01:02, 规则机械裁定版）
+# 判定一页纸 v3 — 2026-08-26 晨（自动汇编 2026-08-26 22:09, 规则机械裁定版）
 
 > 用法: 每项 = 数据 + 选项 + 推荐, 圈选即可。工件路径全部可点开复核。
 > blocked_questions.md 摘要: # blocked_questions.md（夜间队列歧义/缺前置登记, 2026-08-25 建）
@@ -9,31 +9,31 @@
 
 ## ① 超时 (a) 45→60-75s 是否还需要
 **数据**:
-- 段 3429（侧车修复后, 含池病污染段）: 761 尝试 / 62 完成 = 8.1%（**池病灶污染不作数**, 归因见 2026-08-24_segment_d_q06_attribution.md）
-- 3929 后干净段（池修复后）: 261 尝试 / 8 完成 = 3.1%（样本=Loop B canary 题型, 代表性限 canary）
+- 段 3429（侧车修复后, 含池病污染段）: 913 尝试 / 70 完成 = 7.7%（**池病灶污染不作数**, 归因见 2026-08-24_segment_d_q06_attribution.md）
+- 3929 后干净段（池修复后）: 413 尝试 / 16 完成 = 3.9%（样本=Loop B canary 题型, 代表性限 canary）
 - 门禁工件: gate 判定 GATE_PASS（3 次运行, 12min 闲置 q06 命中 @0.7889 + warn 219/fallback 0）
 - 每日 eval（最新重跑）: 16/16 确定性; E2 复测: steps p50=4 wall p50=49092ms; 近失代理(step3+4 截断占比, E3)=39%
 ```
-# B4 checkpoint 20260826_0102
+# B4 checkpoint 20260826_2209
 
 ## agent 路两列口径（判定主口径; route 字段记最终路径, 尝试=完成+超时回落）
-- agent 尝试总数 (attempted): 261
-- agent 完成数 (无回落): 8
-- 回落率: 96.9%  (= 1 - 完成/尝试)
-  - 超时回落 (latency>=45000ms): 253
+- agent 尝试总数 (attempted): 413
+- agent 完成数 (无回落): 16
+- 回落率: 96.1%  (= 1 - 完成/尝试)
+  - 超时回落 (latency>=45000ms): 397
   - 快速回落 (<45000ms, sidecar 不可用等, 不计入尝试): 0
 
 ## 全量分布
-- segment: line 3930 .. 4191 (n=262)
-- 最终路径分布: direct=253 (其中回落 253), agent=8
-- status: {'ok': 262}
-- latency (rows >=100ms): p50=49164ms p95=61015ms n=261
+- segment: line 3930 .. 4343 (n=414)
+- 最终路径分布: direct=397 (其中回落 397), agent=16
+- status: {'ok': 414}
+- latency (rows >=100ms): p50=49148ms p95=60892ms n=413
 - suspect test/cache rows (<100ms, 已排除出统计): 1
   - line 4150 2026-08-25T23:30:53 route=direct lat=22ms fell=False
 
 Judgment rule (user approval 08-20 #3): 回落率 >60% -> 第一怀疑 content=null; 查无解释报用户拍板。
 
-report written: /home/testuser/wzh/projects/agents_final_tech/logs/graph/b4_checkpoint_20260826_0102.md
+report written: /home/testuser/wzh/projects/agents_final_tech/logs/graph/b4_checkpoint_20260826_2209.md
 
 ```
 **选项**: A 维持 45s | B 抬 60s | C 抬 75s | D 不动超时, 只走结构性根治（减 step + context 瘦身）
@@ -61,21 +61,21 @@ report written: /home/testuser/wzh/projects/agents_final_tech/logs/graph/b4_chec
 - W4 step 复测: w4_step_retest_20260825.md + w4_step_stats.json
 - W5 PSO 落点②: bank=19 题, QA mutants=7, 全保持最小预算=B=4（2026-08-25_pso_question_set_v0.md + pso_question_set_v0.json）
 - Loop B 夜间周期: -> /home/testuser/wzh/projects/agents_final_tech/logs/graph/verify-report.json
-[2026-08-26 00:51:44] REPORT: overall=FAIL -> /home/testuser/wzh/projects/agents_final_tech/logs/graph/verify-report.json
+[2026-08-26 22:03:59] REPORT: overall=PASS -> /home/testuser/wzh/projects/agents_final_tech/logs/graph/verify-report.json
 
 ## 规则机械裁定（预提交规则, 零圈选; 08-26 v3）
-- 规则 0（样本闸）: 干净段尝试 261 条 → 过闸, 结论有效（已按规则 0 裁定）
-- 规则 A（timeout）: 干净段完成率 3.1% → <10%: 不抬超时, timeout (a) CLOSED, 走结构性诊断 (E3/E2)（已按规则 A 裁定）
+- 规则 0（样本闸）: 干净段尝试 413 条 → 过闸, 结论有效（已按规则 0 裁定）
+- 规则 A（timeout）: 干净段完成率 3.9% → <10%: 不抬超时, timeout (a) CLOSED, 走结构性诊断 (E3/E2)（已按规则 A 裁定）
 - 规则 B（T1）: 复测 steps p50=4 → ≥4: T1 结论维持, 原杠杆队列不变（已按规则 B 裁定）
 - 规则 C（FK 窗口）: FK 水位闸修复 = 单件 :5050 窗（M1_B4_LOG_PATH/PG 根治已在位）, 时机等用户批, 不催（已按规则 C 裁定; 窗口卡草稿见附录）
 - 规则 D（PSO）: 首批数据落盘 → 登记 + 续跑第二批（已按规则 D 裁定）
 - 规则 E（积压）: dify 挖掘 / 任务 2 改版稿 / NLPCC 核实 维持挂起, 无新解锁理由（已按规则 E 裁定）
 - 规则 F（本卡预批）: 今夜不开 :5050 重启窗（交付日上午卫生优先, GUC+pre_ping 兜底在位）; FK 修复 = 待批窗口卡（已按规则 F 裁定）
 
-## 挂起项（规则外, 只建议不裁定）
-1. F-J3 孤儿轨迹治理（两案共同上游根因）: 提案 docs/experiments/2026-08-26_fj3_orphan_governance_proposal.md, 推荐序 b→a→d→c, 等批
-2. 减 step 组合拳（context 瘦身 + M4）: E3 结论 = 单杠杆不够, 组合预期 20-25s 进预算, 等拍板序
-3. FK 窗口时机: 草稿就绪, 与规则 F 互锁, 等用户一字"批"
+## 挂起项（规则外, 只建议不裁定; 08-26 晚已圈: 侧线代圈, 用户授权）
+1. F-J3 孤儿轨迹治理: **圈 b 先行**（prompt/skill 层零风险）, a 并入 :5050 窗口队列; 提案 docs/experiments/2026-08-26_fj3_orphan_governance_proposal.md
+2. 减 step 组合拳: **立主线**, 但本周窗口冻结让路论文（规则 F 加强）, 排论文启动单元之后
+3. FK 窗口: **缓办**, 合并激活（与下个 :5050 窗口同批, 不单独开）
 
 ## 红线核对
 :8004/:8006 配置零改动 ✓（夜间仅 :5050 预批路径）| 专利文档未碰 ✓ | API key/HF token 零打印 ✓ | 不对外发送 ✓ | 甲方数据零进入 ✓（PSO 用公开样本+合成 mutant）
