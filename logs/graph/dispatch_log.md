@@ -1013,3 +1013,6 @@ echo dispatch_log updated
 [08-27 00:17] #T3-TOOLS bandit v0 + ρ 协议两份设计稿入库（#10 样本审计实数裁定可行 / #4 零额外 LLM 协议）
 [08-27 00:17] #T4-AUDIT Loop C 差分审计: 7 数字全一致 + 4/42 vs 4/53 裁定（分母 42）+ mapping×git log 核对
 [08-27 00:21] #T5-CLOSE 收口: pytest 387 绿 + docs_lint 0 fail + 三方对齐（设计稿四件 + 审计 + mapping v1.1 + contracts）
+[08-27 00:25] #T5-LEDGER-CLEAR 台账待算清账两件（零 LLM, 0.17s）: #8 MS+bootstrap CI（表级 78.95% CI95[70.53,86.32]; 配对差别名−列名 +0.492 显著）+ #7 BC(δ=1) 注入侧 0.1864; 台账 #8 有 / #7 部分·注入侧在位; 报侧线出图
+[08-27 00:28] #T6-L1-ANALYSIS L1 两腿分析稿入库（零重跑）: 档位=质量杠杆非延迟杠杆（p50 重合+token +21.5%+质量单调）; mapping L1 行更新章 3 供数
+[08-27 00:3x] #SUPPL-CLOSE 补充项卡收口: pytest 387 绿(185.98s) + docs_lint 0 fail/2 warn(存量 26/28 陈旧) + INDEX 登记两件 + 三方对齐

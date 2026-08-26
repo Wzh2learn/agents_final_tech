@@ -20,7 +20,7 @@
 | 论文单元 | 仓库资产 | 状态 | 缺口动作 |
 |---|---|---|---|
 | step 数主导项证据 + 减 step 菜单 | 2026-08-22_l2_sidecar_context_measurement.md(+json) / 2026-08-25_e3_step_duration_diagnosis.md / 2026-08-22_step_reduction_menu.md / 2026-08-24_t1_step_reduction_ab.md | 数据在位（T1 还原; E2 复测 steps p50=4 坐实未污染） | 组合拳（瘦身+M4）立主线, 本周冻结让路论文（08-26 圈定） |
-| thinking 档位裁定矩阵（L1） | 2026-08-22_l1_matrix_runbook.md / 2026-08-23_l1_thinking_matrix.md + logs/graph/eval/l1_judge_{medium,xhigh}.json | 数据在位（off 现状生产数据 + 两腿补跑） | 解读框架 = L2 主导项结论, 已注记 |
+| thinking 档位裁定矩阵（L1） | 2026-08-22_l1_matrix_runbook.md / 2026-08-23_l1_thinking_matrix.md + l1_{medium,xhigh}_report/nf/judge.json + **2026-08-27_l1_matrix_analysis.md（分布级提纯）** | 数据在位（off 现状生产数据 + 两腿补跑 + 分析稿） | **章 3 供数在案**: 档位=质量维度路由轴（延迟中性/+21.5% thinking token/质量单调）; agent 路档位效应未测（挂起） |
 | 小模型矩阵 Pareto（路由实验数据） | 2026-08-18_small_model_matrix_design.md / c1c2 / c3 + research/ 探针工件 + **2026-08-26_c4_visual_prep.md** | 占位: C1/C2 NO-GO, C3 复测在位, **C4 准备完成待探针窗批** | C4 探针窗口待批（准备文档在位, 零下载坐实） |
 | 记忆感知路由形式化（max E[Q] s.t. E[C]≤b） | docs/33 §4 清单 | **缺口**: 未实测 | 与覆盖度 c 状态变量联测（实验 2/M3） |
 
@@ -54,6 +54,6 @@
 
 ## 论文第一启动单元建议（2026-08-27 更新）
 
-第一单元（K2 v1 判别力联跑）与第二单元（VGMC 实验 1）均已收口（34c93ab / ce85736）。
-**当前启动单元 = 噪声体制实验（台账 #12）**: 设计稿 2026-08-27 夜产出（预注册完毕）,
-执行待错峰窗口批; 其余排队 = C4 探针（准备在位）/ 次模消融 ρ（复用流水零额外 LLM）/ bandit 门 v0（样本审计结论在案）。
+Top5 缺口 1/2/5 已闭（34c93ab / ce85736 同批）, **第一启动单元指向台账 #12 噪声体制实验**
+（设计稿 = 2026-08-27 夜间卡 T1 产出: 2026-08-27_noise_regime_exp_design.md, 预注册完毕, 执行待错峰窗口批）。
+其余排队 = C4 探针（准备在位）/ 次模消融 ρ（复用流水零额外 LLM）/ bandit 门 v0（样本审计结论在案）。

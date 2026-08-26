@@ -1,0 +1,93 @@
+{
+ "meta": {
+  "name": "k2-ms-bootstrap-bc",
+  "generated": "2026-08-27 00:25:35",
+  "source": "/home/testuser/wzh/projects/agents_final_tech/logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+  "n_boot": 2000,
+  "seed": 20260827,
+  "caliber": "台账 #8 MS+bootstrap CI（Efron 1979）+ #7 BC(δ=1) 注入侧; 零 LLM; 表级为主口径（表内注入相关, 注入级 iid 仅参考）; 真实 OCR 错误分布待公开语料或合成渲染（接 C4 合成题库）, 甲方真实 OCR 红线禁入",
+  "runtime_s": 0.17
+ },
+ "mutation_score": {
+  "injection_level": {
+   "n": 118,
+   "visible": 96,
+   "ms": 0.8136,
+   "ci95_boot": [
+    0.7458,
+    0.8814
+   ]
+  },
+  "table_level_primary": {
+   "n": 95,
+   "discriminated": 75,
+   "ms": 0.7895,
+   "ci95_boot": [
+    0.7053,
+    0.8632
+   ]
+  },
+  "paired_bootstrap_type_diffs": {
+   "别名型-列名型": {
+    "point_diff": 0.492,
+    "ci95": [
+     0.2386,
+     0.6471
+    ]
+   },
+   "别名型-类型型": {
+    "point_diff": 0.0312,
+    "ci95": [
+     -0.1266,
+     0.0612
+    ]
+   },
+   "列名型-类型型": {
+    "point_diff": -0.4608,
+    "ci95": [
+     -0.6745,
+     -0.2751
+    ]
+   }
+  }
+ },
+ "blind_cone_bc_delta1": {
+  "delta": 1,
+  "bc_blind_mass": 0.1864,
+  "n_blind": 22,
+  "n_total": 118,
+  "by_type": {
+   "alias_variant": {
+    "n": 47,
+    "blind": 4,
+    "blind_rate": 0.0851
+   },
+   "date_variant": {
+    "n": 17,
+    "blind": 2,
+    "blind_rate": 0.1176
+   },
+   "mixed_lang": {
+    "n": 20,
+    "blind": 0,
+    "blind_rate": 0.0
+   },
+   "ocr_similar": {
+    "n": 13,
+    "blind": 13,
+    "blind_rate": 1.0
+   },
+   "prefix_noise": {
+    "n": 16,
+    "blind": 3,
+    "blind_rate": 0.1875
+   },
+   "unit_suffix": {
+    "n": 5,
+    "blind": 0,
+    "blind_rate": 0.0
+   }
+  },
+  "note": "δ=1 与编辑距离≤1 吸收机制一致: 盲区质量 22/118 中 13 集中于 ocr_similar（match_tier=1 全吸收）, 其余分布于 prefix_noise/alias 的 tier1-2 吸收; 真实分布侧待补（见 meta.caliber）"
+ }
+}
