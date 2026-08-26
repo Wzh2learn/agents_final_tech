@@ -1002,3 +1002,8 @@ echo dispatch_log updated
 [08-26 22:35] #LOOP-B-FLIP overall PASS -> FAIL (head=5d564a4; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-26 22:37] #K2-DISC-DONE 判别力联跑收口: 表级判别 75/95 / 局部+零漂移 95/95 / OCR 盲区发现 / PSO 第二批零漂移 (B=4 稳定)
 [08-26 22:43] #LOOP-B-FLIP-ATTR 22:35 FAIL 归因: STEP4 dirty_files=3 = K2 窗口提交前中间态（窗口副产物, 非故障）; 0cbced5 提交后 worktree 净, 23:00 周期预期自复; 记台账不处置
+[08-26 23:08] #LOOP-B-FLIP overall FAIL -> PASS (head=34c93ab; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-26 23:31] #VGMC-EXP1-DONE 实验 1 收口: 两臂 H/λ 曲线 + 网格标定 + 退化对照（未现形, 诚实入账）+ 生产零写实证
+[08-26 23:34] #T0-LOOPB 23:00 周期 PASS 自复核实（归因闭环）
+[08-26 23:34] #T2-C4-PREP C4 视觉准备完成（零下载坐实/探针计划待批/合成题库设计）; 14B 备选已 08-24 完成无余量, 二选一取 C4
+[08-26 23:34] #T3-CLOSE pytest 全量 + docs_lint + 三方对齐收口（实验 1 工件入库）
