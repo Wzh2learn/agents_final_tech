@@ -1007,3 +1007,9 @@ echo dispatch_log updated
 [08-26 23:34] #T0-LOOPB 23:00 周期 PASS 自复核实（归因闭环）
 [08-26 23:34] #T2-C4-PREP C4 视觉准备完成（零下载坐实/探针计划待批/合成题库设计）; 14B 备选已 08-24 完成无余量, 二选一取 C4
 [08-26 23:34] #T3-CLOSE pytest 全量 + docs_lint + 三方对齐收口（实验 1 工件入库）
+[08-27 00:17] #T0-DIGEST 骨架 v2.2 消化 + mapping v1.1 刷新（Gap1/2/5 closed + #12 新 Gap）+ 工件三方核对（GB10-only 三件拷回本机, hash 一致）
+[08-27 00:17] #T1-NOISE-DESIGN 噪声体制实验设计稿入库（台账 #12, 零执行）: 三档预注册 + 机械判据 + 窗口卡草稿待批
+[08-27 00:17] #T2-BLINDCONE 小 B 盲锥章节骨架 v1 入库（五节 + 图清单三张 + 口径注记携带）
+[08-27 00:17] #T3-TOOLS bandit v0 + ρ 协议两份设计稿入库（#10 样本审计实数裁定可行 / #4 零额外 LLM 协议）
+[08-27 00:17] #T4-AUDIT Loop C 差分审计: 7 数字全一致 + 4/42 vs 4/53 裁定（分母 42）+ mapping×git log 核对
+[08-27 00:21] #T5-CLOSE 收口: pytest 387 绿 + docs_lint 0 fail + 三方对齐（设计稿四件 + 审计 + mapping v1.1 + contracts）
