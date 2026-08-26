@@ -13,7 +13,7 @@ question dimension -> documented exclusion, not counted in keep_rate.
 Pure stdlib. Deterministic seed. No network, no client data.
 Output: logs/graph/eval/pso_question_set_v0.json
 """
-import json, math, random, time, pathlib, sys, collections
+import json, math, random, time, pathlib, sys, collections, argparse
 
 REPO = pathlib.Path(__file__).resolve().parents[2]
 EVAL = REPO / "logs" / "graph" / "eval"
@@ -83,8 +83,8 @@ def build_bank():
         e["leaves"] |= lv; e["types"] |= ty
     return bank
 
-def load_qa_mutants():
-    d = json.loads(DISC.read_text(encoding="utf-8"))
+def load_qa_mutants(disc_path=None):
+    d = json.loads((disc_path or DISC).read_text(encoding="utf-8"))
     ms = []
     for m in d.get("mutants", []):
         if not m["id"].startswith(QA_MUTANT_PREFIX):
@@ -172,11 +172,19 @@ def greedy(bank_ids, bank, mutants, budget):
     return z, fitness(z, bank_ids, bank, mutants, budget)
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--disc", default=None,
+                    help="discrimination report path (default: checkpoint_discrimination_report.json)")
+    ap.add_argument("--out", default=None,
+                    help="output path (default: pso_question_set_v0.json)")
+    args = ap.parse_args()
+    disc_path = pathlib.Path(args.disc) if args.disc else DISC
+    out_path = pathlib.Path(args.out) if args.out else OUT
     t0 = time.time()
     deadline = time.mktime(time.strptime("03:55", "%H:%M")) if time.strftime("%H%M") < "2300" else None
     bank = build_bank()
     bank_ids = sorted(bank.keys())
-    mutants = load_qa_mutants()
+    mutants = load_qa_mutants(disc_path)
     if not mutants:
         print("[fatal] no QA mutants found - run eval_checkpoint_discrimination.py first", file=sys.stderr)
         return 2
@@ -206,6 +214,7 @@ def main():
                  "generated": time.strftime("%Y-%m-%d %H:%M:%S"),
                  "caliber": "docs/33 K5 landing 2 / 2026-08-18 proposal J2; lam2=0.3, 30 particles x 50 iter (patent 5.3.1)",
                  "bank_size": len(bank_ids), "qa_mutants": [m["id"] for m in mutants],
+                 "disc_source": str(disc_path),
                  "note": "parse-tree mutants (M1/M9) excluded: artifact-level, outside question dimension",
                  "runtime_s": round(time.time() - t0, 2)},
         "question_signal_rank": sorted(
@@ -213,7 +222,7 @@ def main():
             key=lambda r: -r["mutants_covered"]),
         "results_by_budget": results,
     }
-    OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps({"bank": len(bank_ids), "mutants": len(mutants),
                       "B=8": results.get("B=8", {}).get("pso_keep_rate"),
                       "min_full_keep_budget": next(

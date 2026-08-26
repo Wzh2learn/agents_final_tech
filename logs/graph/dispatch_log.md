@@ -998,3 +998,6 @@ echo dispatch_log updated
 [08-26 晚] #T1-WHITEPAPER skills 白皮书 v1 入库: 34 件在库/双 check PASS/41 注册行逐件核/DEPRECATED 先例/钩链冻结守卫链首/neat-freak v3.0.0 方法论合并案/欠账 4 条 (含 audit-inventory.sh 漏打包)
 [08-26 晚] #T2-MAPPING 论文资产映射表 v1 入库: 三线 18 行映射 + 大论文四点总览 + gap top5 + 第一启动单元=K2 v1 判别力联跑 (一跑两得: 论文 B 曲线+PSO②第二批前提)
 [08-26 晚] #T3-CLOSE 圈选三件+导师已发+§5 不修入 THREADS; 一页纸 v3 挂起节注已圈; INDEX +2; docs_lint; 三方对齐
+[08-26 22:31] #K2-DISC-START K2 v1 判别力联跑开窗: 95 表臂 + :8004 小臂（预算门过, canary 争用源 :8006 零触碰）
+[08-26 22:35] #LOOP-B-FLIP overall PASS -> FAIL (head=5d564a4; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-26 22:37] #K2-DISC-DONE 判别力联跑收口: 表级判别 75/95 / 局部+零漂移 95/95 / OCR 盲区发现 / PSO 第二批零漂移 (B=4 稳定)

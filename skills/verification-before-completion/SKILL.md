@@ -3,6 +3,8 @@ name: verification-before-completion
 description: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always
 ---
 
+> **DEPRECATED (2026-08-26)**: 本 skill 已被 `verify-before-done` 取代（11 条假完成捷径清单 + 本轮实跑完成门）, 见 AGENTS.md 注册表同记。按治理规则 4 只标记不删除, 目录保留审计痕迹; 新工作一律使用 `verify-before-done`。
+
 # Verification Before Completion
 
 ## Overview

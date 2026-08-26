@@ -1,0 +1,365 @@
+{
+ "meta": {
+  "name": "pso-question-set-search",
+  "version": "v0",
+  "generated": "2026-08-26 22:36:15",
+  "caliber": "docs/33 K5 landing 2 / 2026-08-18 proposal J2; lam2=0.3, 30 particles x 50 iter (patent 5.3.1)",
+  "bank_size": 19,
+  "qa_mutants": [
+   "M2_exact_numeric_fail",
+   "M3_source_required_fail",
+   "M4_refusal_expected_fail",
+   "M5_judge_faithfulness_degrade",
+   "M6_judge_citation_degrade",
+   "M7_nf_fail_3",
+   "M8_judge_artifact_missing"
+  ],
+  "disc_source": "/home/testuser/wzh/projects/agents_final_tech/logs/graph/eval/checkpoint_discrimination_report.json",
+  "note": "parse-tree mutants (M1/M9) excluded: artifact-level, outside question dimension",
+  "runtime_s": 0.06
+ },
+ "question_signal_rank": [
+  {
+   "q": "q01_fuxi_total_assets",
+   "mutants_covered": 6,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.numeric.exact",
+    "qa.numeric.number_grounding",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "q04_minan_total_assets",
+   "mutants_covered": 6,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.numeric.exact",
+    "qa.numeric.number_grounding",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "q05_fuxi_securities_value",
+   "mutants_covered": 6,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.numeric.exact",
+    "qa.numeric.number_grounding",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "q06_minan_cash_balance",
+   "mutants_covered": 6,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.numeric.exact",
+    "qa.numeric.number_grounding",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "adv_multiturn",
+   "mutants_covered": 5,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.numeric.exact",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "q02_minan_positions",
+   "mutants_covered": 5,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.numeric.number_grounding",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "q03_boshi_fund_name",
+   "mutants_covered": 5,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.numeric.number_grounding",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "q10_boshi_fund_total",
+   "mutants_covered": 5,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.numeric.exact",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "q12_minan_pnl",
+   "mutants_covered": 5,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.numeric.exact",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "adv_cross_doc",
+   "mutants_covered": 4,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "adv_ocr_meta",
+   "mutants_covered": 4,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "adv_refusal",
+   "mutants_covered": 4,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.refusal.deterministic",
+    "qa.refusal.judge"
+   ]
+  },
+  {
+   "q": "q07_boshi_fund_code",
+   "mutants_covered": 4,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "q08_fuxi_customer_name",
+   "mutants_covered": 4,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "q09_minan_end_date",
+   "mutants_covered": 4,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "q11_fuxi_security_names",
+   "mutants_covered": 4,
+   "leaves": [
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.retrieval.source_required"
+   ]
+  },
+  {
+   "q": "adv_june_cross_period",
+   "mutants_covered": 1,
+   "leaves": [
+    "qa.numeric.number_grounding"
+   ]
+  },
+  {
+   "q": "adv_mask_probe",
+   "mutants_covered": 1,
+   "leaves": [
+    "qa.numeric.number_grounding"
+   ]
+  },
+  {
+   "q": "adv_nonexistent_entity",
+   "mutants_covered": 1,
+   "leaves": [
+    "qa.numeric.number_grounding"
+   ]
+  }
+ ],
+ "results_by_budget": {
+  "B=4": {
+   "pso_subset": [
+    "adv_refusal",
+    "q05_fuxi_securities_value"
+   ],
+   "pso_size": 2,
+   "pso_fitness": 0.0316,
+   "pso_keep_rate": 1.0,
+   "greedy_size": 2,
+   "greedy_fitness": 0.0316,
+   "greedy_keep_rate": 1.0,
+   "convergence_tail": [
+    {
+     "iter": 47,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    },
+    {
+     "iter": 48,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    },
+    {
+     "iter": 49,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    }
+   ]
+  },
+  "B=6": {
+   "pso_subset": [
+    "adv_refusal",
+    "q05_fuxi_securities_value"
+   ],
+   "pso_size": 2,
+   "pso_fitness": 0.0316,
+   "pso_keep_rate": 1.0,
+   "greedy_size": 2,
+   "greedy_fitness": 0.0316,
+   "greedy_keep_rate": 1.0,
+   "convergence_tail": [
+    {
+     "iter": 47,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    },
+    {
+     "iter": 48,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    },
+    {
+     "iter": 49,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    }
+   ]
+  },
+  "B=8": {
+   "pso_subset": [
+    "adv_refusal",
+    "q05_fuxi_securities_value"
+   ],
+   "pso_size": 2,
+   "pso_fitness": 0.0316,
+   "pso_keep_rate": 1.0,
+   "greedy_size": 2,
+   "greedy_fitness": 0.0316,
+   "greedy_keep_rate": 1.0,
+   "convergence_tail": [
+    {
+     "iter": 47,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    },
+    {
+     "iter": 48,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    },
+    {
+     "iter": 49,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    }
+   ]
+  },
+  "B=10": {
+   "pso_subset": [
+    "adv_refusal",
+    "q06_minan_cash_balance"
+   ],
+   "pso_size": 2,
+   "pso_fitness": 0.0316,
+   "pso_keep_rate": 1.0,
+   "greedy_size": 2,
+   "greedy_fitness": 0.0316,
+   "greedy_keep_rate": 1.0,
+   "convergence_tail": [
+    {
+     "iter": 47,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    },
+    {
+     "iter": 48,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    },
+    {
+     "iter": 49,
+     "gbest_f": 0.0316,
+     "gbest_size": 2,
+     "keep_rate": 1.0
+    }
+   ]
+  },
+  "B=12": {
+   "pso_subset": [
+    "adv_june_cross_period",
+    "adv_multiturn",
+    "adv_refusal"
+   ],
+   "pso_size": 3,
+   "pso_fitness": 0.0474,
+   "pso_keep_rate": 1.0,
+   "greedy_size": 2,
+   "greedy_fitness": 0.0316,
+   "greedy_keep_rate": 1.0,
+   "convergence_tail": [
+    {
+     "iter": 47,
+     "gbest_f": 0.0474,
+     "gbest_size": 3,
+     "keep_rate": 1.0
+    },
+    {
+     "iter": 48,
+     "gbest_f": 0.0474,
+     "gbest_size": 3,
+     "keep_rate": 1.0
+    },
+    {
+     "iter": 49,
+     "gbest_f": 0.0474,
+     "gbest_size": 3,
+     "keep_rate": 1.0
+    }
+   ]
+  }
+ }
+}

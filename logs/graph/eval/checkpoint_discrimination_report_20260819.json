@@ -1,0 +1,266 @@
+{
+ "meta": {
+  "name": "checkpoint-discrimination",
+  "version": "v1",
+  "generated": "2026-08-19 01:17:22",
+  "drop_threshold": 2.0,
+  "caliber": "v1 批复 ①: 增量/基线零漂移/判别力验证",
+  "eval_dir": "logs/graph/eval",
+  "trees": "config/eval_checkpoint_trees.json"
+ },
+ "control": {
+  "live_leaves": {
+   "parse.doc.ok": 10.0,
+   "parse.doc.throughput": 10.0,
+   "parse.table.regression": 10.0,
+   "parse.field.hit_rate": 10.0,
+   "parse.reconcile.equations": 10.0,
+   "qa.retrieval.source_required": 10.0,
+   "qa.faithfulness.judge": 10.0,
+   "qa.numeric.exact": 10.0,
+   "qa.numeric.number_grounding": 10.0,
+   "qa.citation.judge": 10.0,
+   "qa.refusal.judge": 10.0,
+   "qa.refusal.deterministic": 10.0
+  },
+  "copy_drift": {},
+  "zero_drift": true
+ },
+ "mutants": [
+  {
+   "id": "M1_m1_rows_fail",
+   "desc": "scenario1 两行 PASS->FAIL (带 diffs)",
+   "tree": "parse",
+   "target_hits": [
+    {
+     "leaf": "parse.doc.ok",
+     "delta": -10.0,
+     "hit": true
+    },
+    {
+     "leaf": "parse.reconcile.equations",
+     "delta": -10.0,
+     "hit": true
+    }
+   ],
+   "graded_hits": [
+    {
+     "leaf": "parse.table.regression",
+     "delta": -1.6667,
+     "hit": true
+    },
+    {
+     "leaf": "parse.field.hit_rate",
+     "delta": -0.7692,
+     "hit": true
+    }
+   ],
+   "non_target_moves": {},
+   "root_scores": {
+    "parse": 4.7145,
+    "qa": 10.0
+   },
+   "stable": false,
+   "stable_flip": true,
+   "verdict": "PASS"
+  },
+  {
+   "id": "M2_exact_numeric_fail",
+   "desc": "exact_numeric 契约全部失败",
+   "tree": "qa",
+   "target_hits": [
+    {
+     "leaf": "qa.numeric.exact",
+     "delta": -10.0,
+     "hit": true
+    }
+   ],
+   "graded_hits": [],
+   "non_target_moves": {},
+   "root_scores": {
+    "parse": 10.0,
+    "qa": 8.75
+   },
+   "stable": false,
+   "stable_flip": true,
+   "verdict": "PASS"
+  },
+  {
+   "id": "M3_source_required_fail",
+   "desc": "source_required 契约全部失败",
+   "tree": "qa",
+   "target_hits": [
+    {
+     "leaf": "qa.retrieval.source_required",
+     "delta": -10.0,
+     "hit": true
+    }
+   ],
+   "graded_hits": [],
+   "non_target_moves": {},
+   "root_scores": {
+    "parse": 10.0,
+    "qa": 8.3333
+   },
+   "stable": false,
+   "stable_flip": true,
+   "verdict": "PASS"
+  },
+  {
+   "id": "M4_refusal_expected_fail",
+   "desc": "refusal_expected 契约全部失败",
+   "tree": "qa",
+   "target_hits": [
+    {
+     "leaf": "qa.refusal.deterministic",
+     "delta": -10.0,
+     "hit": true
+    }
+   ],
+   "graded_hits": [],
+   "non_target_moves": {},
+   "root_scores": {
+    "parse": 10.0,
+    "qa": 8.8889
+   },
+   "stable": false,
+   "stable_flip": true,
+   "verdict": "PASS"
+  },
+  {
+   "id": "M5_judge_faithfulness_degrade",
+   "desc": "judge faithfulness 5.0->2.0",
+   "tree": "qa",
+   "target_hits": [
+    {
+     "leaf": "qa.faithfulness.judge",
+     "delta": -6.0,
+     "hit": true
+    }
+   ],
+   "graded_hits": [],
+   "non_target_moves": {},
+   "root_scores": {
+    "parse": 10.0,
+    "qa": 8.5
+   },
+   "stable": false,
+   "stable_flip": true,
+   "verdict": "PASS"
+  },
+  {
+   "id": "M6_judge_citation_degrade",
+   "desc": "judge citation_quality 5.0->1.5",
+   "tree": "qa",
+   "target_hits": [
+    {
+     "leaf": "qa.citation.judge",
+     "delta": -7.0,
+     "hit": true
+    }
+   ],
+   "graded_hits": [],
+   "non_target_moves": {},
+   "root_scores": {
+    "parse": 10.0,
+    "qa": 8.8333
+   },
+   "stable": false,
+   "stable_flip": true,
+   "verdict": "PASS"
+  },
+  {
+   "id": "M7_nf_fail_3",
+   "desc": "NF 前 3 条未落地",
+   "tree": "qa",
+   "target_hits": [
+    {
+     "leaf": "qa.numeric.number_grounding",
+     "delta": -3.3333,
+     "hit": true
+    }
+   ],
+   "graded_hits": [],
+   "non_target_moves": {},
+   "root_scores": {
+    "parse": 10.0,
+    "qa": 9.5833
+   },
+   "stable": false,
+   "stable_flip": true,
+   "verdict": "PASS"
+  },
+  {
+   "id": "M8_judge_artifact_missing",
+   "desc": "judge 工件缺失 -> missing_score 降级",
+   "tree": "qa",
+   "target_hits": [
+    {
+     "leaf": "qa.faithfulness.judge",
+     "delta": -5.0,
+     "hit": true
+    },
+    {
+     "leaf": "qa.citation.judge",
+     "delta": -5.0,
+     "hit": true
+    },
+    {
+     "leaf": "qa.refusal.judge",
+     "delta": -5.0,
+     "hit": true
+    }
+   ],
+   "graded_hits": [],
+   "non_target_moves": {},
+   "root_scores": {
+    "parse": 10.0,
+    "qa": 7.6389
+   },
+   "stable": false,
+   "stable_flip": true,
+   "verdict": "PASS"
+  },
+  {
+   "id": "M9_m1_all_rows_fail",
+   "desc": "scenario1 全部非SKIP行 FAIL (灾难态)",
+   "tree": "parse",
+   "target_hits": [
+    {
+     "leaf": "parse.doc.ok",
+     "delta": -10.0,
+     "hit": true
+    },
+    {
+     "leaf": "parse.table.regression",
+     "delta": -10.0,
+     "hit": true
+    },
+    {
+     "leaf": "parse.field.hit_rate",
+     "delta": -4.6154,
+     "hit": true
+    },
+    {
+     "leaf": "parse.reconcile.equations",
+     "delta": -10.0,
+     "hit": true
+    }
+   ],
+   "graded_hits": [],
+   "non_target_moves": {},
+   "root_scores": {
+    "parse": 2.1503,
+    "qa": 10.0
+   },
+   "stable": false,
+   "stable_flip": true,
+   "verdict": "PASS"
+  }
+ ],
+ "summary": {
+  "n_mutants": 9,
+  "n_pass": 9,
+  "all_pass": true
+ }
+}

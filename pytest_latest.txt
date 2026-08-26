@@ -1,0 +1,58 @@
+...........ss........ss................................................. [ 18%]
+..s..................................................................... [ 36%]
+........................................................................ [ 54%]
+........................................................................ [ 72%]
+........................................................................ [ 90%]
+...........................ssssssss.....                                 [100%]
+=============================== warnings summary ===============================
+<frozen abc>:106
+  <frozen abc>:106: LangGraphDeprecatedSinceV10: AgentStatePydantic has been moved to `langchain.agents`. Please update your import to `from langchain.agents import AgentStatePydantic`. Deprecated in LangGraph V1.0 to be removed in V2.0.
+
+src/tools/document_loader.py:47
+  /home/testuser/wzh/projects/agents_final_tech/tests/../src/tools/document_loader.py:47: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    @validator('file_path')
+
+src/tools/document_processor.py:74
+  /home/testuser/wzh/projects/agents_final_tech/tests/../src/tools/document_processor.py:74: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    @validator('file_path')
+
+src/storage/provider.py:23
+  /home/testuser/wzh/projects/agents_final_tech/tests/../src/storage/provider.py:23: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    @validator('source')
+
+venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854
+  /home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+    from crypt import crypt as _crypt
+
+src/auth/jwt_handler.py:15
+  /home/testuser/wzh/projects/agents_final_tech/tests/../src/auth/jwt_handler.py:15: RuntimeWarning: JWT_SECRET_KEY environment variable not set! Using a default key is insecure. Please set JWT_SECRET_KEY in production.
+    warnings.warn(
+
+src/auth/users.py:17
+  /home/testuser/wzh/projects/agents_final_tech/tests/../src/auth/users.py:17: RuntimeWarning: Using default admin password 'admin123' is insecure! Please set DEFAULT_ADMIN_PASSWORD environment variable in production.
+    warnings.warn(
+
+src/storage/collaboration/models.py:10
+  /home/testuser/wzh/projects/agents_final_tech/tests/../src/storage/collaboration/models.py:10: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+src/main.py:174
+  /home/testuser/wzh/projects/agents_final_tech/tests/../src/main.py:174: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+venv/lib/python3.12/site-packages/fastapi/applications.py:4575
+  /home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/fastapi/applications.py:4575: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+387 passed, 13 skipped, 10 warnings in 164.06s (0:02:44)
