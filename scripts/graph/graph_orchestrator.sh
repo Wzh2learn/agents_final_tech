@@ -39,8 +39,15 @@ start_loop_a() {
   1) 任务写入 /tmp/task.md (目标/步骤/约束/验收标准)
   2) tmux new-session -d -s loop-a-taskN "cd $PROJ && source ~/.bashrc && \
        cat scripts/graph/loop_a_exec_constraints.md /tmp/task.md | \
-       codex exec --dangerously-bypass-approvals-and-sandbox 2>&1 | tee -a logs/graph/loop_a.log"
+       codex exec --profile loopa-exec --dangerously-bypass-approvals-and-sandbox 2>&1 | tee -a logs/graph/loop_a.log"
      (PROJ=~/wzh/projects/agents_final_tech)
+  模型路由 (2026-08-27, 按任务性质双档路由; profile 单文件在仓外不入 git):
+    - 执行卡(默认) --profile loopa-exec  = qwen3.8-flash / Token_Plan / medium
+      适用: 明确卡面的确定性执行 (脚本修补/工件整理/实验流水/数据复算)
+    - 诊断卡 --profile loopa-diag = deepseek-v4-flash-0731 / Token_Plan_Chat / xhigh
+      适用: 根因诊断/归因分析/设计稿/任何需深度推理的任务
+    - profile 文件: ~/.codex/loopa-exec.config.toml 与 ~/.codex/loopa-diag.config.toml
+      (勿写 config.toml [profiles.X] legacy 块, codex 0.145 报错)
 详见 docs/17 §8 与 memory/CORE.md「分发通道」。
 EOF_LOOPA
 }
