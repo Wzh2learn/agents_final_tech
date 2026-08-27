@@ -1025,3 +1025,4 @@ echo dispatch_log updated
 [08-27 23:0x] #T7-BASELINE-DESIGN 小 A 基线协议设计稿入库（三基线全预注册, 只设计不写码, 窗口待批）
 [08-27 23:2x] #SIDE-5PT-LANDING 侧线五点优化直落: Loop A 双档路由（loopa-exec PROFILE-OK）+ figures_k2 五图 + 四桶板 + 窗口合并草案（待批）+ orchestrator 路由注记 + INDEX/THREADS 同 commit 登记; Round 3 辩证触发记账（骨架未碰）
 [08-27 23:5x] #SIDE-ROUND3-PREP Round 3 辩证简报 + K2 对账清单备妥（侧线预备; 骨架未动; INDEX/THREADS 同 commit 登记）
+[08-27 23:5x] #SIDE-ROUND3-RECORD Round 3 辩证记录上传入库 + INDEX 同 commit 登记（侧线; 工件抽验坐实: L3 逐轮 8/6/9/4 vs 14/11/16/11 + 两臂 h_meas 逐轮全同 + 门拒 31/58）; 骨架未动; THREADS 行待主线程收口带走
