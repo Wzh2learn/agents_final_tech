@@ -1,0 +1,165 @@
+{
+ "meta": {
+  "name": "vgmc-noise-curve",
+  "generated": "2026-08-27 22:54:19",
+  "design": "docs/experiments/2026-08-27_noise_regime_exp_design.md",
+  "window": "2026-08-27 22:41-22:53",
+  "prereg_seed_split": 20260826
+ },
+ "rows": [
+  {
+   "level": "L0",
+   "arm": "gated",
+   "noise": null,
+   "h_meas_baseline": 0.558095,
+   "h_meas_final": 0.589048,
+   "D_level": -0.030953,
+   "fixation_rate": 0.717,
+   "n_suggestions": 53,
+   "n_accepted": 38
+  },
+  {
+   "level": "L0",
+   "arm": "ungated",
+   "noise": null,
+   "h_meas_baseline": 0.558095,
+   "h_meas_final": 0.589048,
+   "D_level": -0.030953,
+   "fixation_rate": 0.8113,
+   "n_suggestions": 53,
+   "n_accepted": 43
+  },
+  {
+   "level": "L1s42",
+   "arm": "gated",
+   "noise": {
+    "level": "temp",
+    "seed": 42
+   },
+   "h_meas_baseline": 0.558095,
+   "h_meas_final": 0.589048,
+   "D_level": -0.030953,
+   "fixation_rate": 0.7308,
+   "n_suggestions": 52,
+   "n_accepted": 38
+  },
+  {
+   "level": "L1s42",
+   "arm": "ungated",
+   "noise": {
+    "level": "temp",
+    "seed": 42
+   },
+   "h_meas_baseline": 0.558095,
+   "h_meas_final": 0.589048,
+   "D_level": -0.030953,
+   "fixation_rate": 0.7736,
+   "n_suggestions": 53,
+   "n_accepted": 41
+  },
+  {
+   "level": "L1s43",
+   "arm": "gated",
+   "noise": {
+    "level": "temp",
+    "seed": 43
+   },
+   "h_meas_baseline": 0.558095,
+   "h_meas_final": 0.589048,
+   "D_level": -0.030953,
+   "fixation_rate": 0.717,
+   "n_suggestions": 53,
+   "n_accepted": 38
+  },
+  {
+   "level": "L1s43",
+   "arm": "ungated",
+   "noise": {
+    "level": "temp",
+    "seed": 43
+   },
+   "h_meas_baseline": 0.558095,
+   "h_meas_final": 0.589048,
+   "D_level": -0.030953,
+   "fixation_rate": 0.8269,
+   "n_suggestions": 52,
+   "n_accepted": 43
+  },
+  {
+   "level": "L2",
+   "arm": "gated",
+   "noise": {
+    "level": "prompt"
+   },
+   "h_meas_baseline": 0.558095,
+   "h_meas_final": 0.589048,
+   "D_level": -0.030953,
+   "fixation_rate": 0.6731,
+   "n_suggestions": 52,
+   "n_accepted": 35
+  },
+  {
+   "level": "L2",
+   "arm": "ungated",
+   "noise": {
+    "level": "prompt"
+   },
+   "h_meas_baseline": 0.558095,
+   "h_meas_final": 0.589048,
+   "D_level": -0.030953,
+   "fixation_rate": 0.7885,
+   "n_suggestions": 52,
+   "n_accepted": 41
+  },
+  {
+   "level": "L3",
+   "arm": "gated",
+   "noise": {
+    "level": "force",
+    "rate": 0.5
+   },
+   "h_meas_baseline": 0.558095,
+   "h_meas_final": 0.579524,
+   "D_level": -0.021429,
+   "fixation_rate": 0.4655,
+   "n_suggestions": 58,
+   "n_accepted": 27
+  },
+  {
+   "level": "L3",
+   "arm": "ungated",
+   "noise": {
+    "level": "force",
+    "rate": 0.5
+   },
+   "h_meas_baseline": 0.558095,
+   "h_meas_final": 0.579524,
+   "D_level": -0.021429,
+   "fixation_rate": 0.8966,
+   "n_suggestions": 58,
+   "n_accepted": 52
+  }
+ ],
+ "P1": {
+  "D_L1": -0.030953,
+  "D_L2": -0.030953,
+  "D_L3": -0.021429,
+  "monotonic": true
+ },
+ "P2": {
+  "gated_final_min": 0.579524,
+  "bound": 0.538095,
+  "holds": true,
+  "second_clause": "vacuous: 无档 D>0.005（全部为改进）"
+ },
+ "P3": {
+  "arm_abs_diff": {
+   "L1s42": 0.0,
+   "L1s43": 0.0,
+   "L2": 0.0,
+   "L3": 0.0
+  },
+  "all_below_0.005": true,
+  "verdict": "噪声档位不足或建议器过强 → 转扩语料碰撞（骨架候选①）, 不加档重试"
+ }
+}

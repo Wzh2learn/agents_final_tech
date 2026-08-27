@@ -128,13 +128,15 @@ def unresolved_cols(rec: dict, rules: dict) -> list[int]:
 
 
 # ---------------------------------------------------------------- LLM
-def llm_suggest(rec: dict, cols: list[int], rules: dict) -> list[dict]:
+def llm_suggest(rec: dict, cols: list[int], rules: dict, noise: str = "none",
+                noise_temp: float = 0.8, force_rate: float = 0.0,
+                noise_seed: int = 0) -> list[dict]:
     assert_endpoint_safe()
     hdr = rec["inj_header"]
-    data_rows = rec["rows"][1:3]
+    data_rows = [] if noise == "prompt" else rec["rows"][1:3]
     tbl = "\n".join("| " + " | ".join(str(c) if c is not None else "" for c in r) + " |"
                     for r in [hdr] + data_rows)
-    canon = "\n".join(f"- {c}" + (f"（已有别名: {', '.join(rules[c])}）" if rules.get(c) else "")
+    canon = "\n".join(f"- {c}" + ("" if noise == "prompt" else (f"（已有别名: {', '.join(rules[c])}）" if rules.get(c) else ""))
                       for c in rec["canonicals"])
     asked = "\n".join(f"- 第 {c + 1} 列: {hdr[c]!r}" for c in cols)
     prompt = (
@@ -148,7 +150,7 @@ def llm_suggest(rec: dict, cols: list[int], rules: dict) -> list[dict]:
     body = json.dumps({
         "model": "local",
         "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.0, "max_tokens": 1024,
+        "temperature": noise_temp if noise == "temp" else 0.0, "max_tokens": 1024,
         "chat_template_kwargs": {"enable_thinking": False},
     }).encode("utf-8")
     req = urllib.request.Request(QA_ENDPOINT, data=body,
@@ -157,7 +159,10 @@ def llm_suggest(rec: dict, cols: list[int], rules: dict) -> list[dict]:
     with urllib.request.urlopen(req, timeout=120) as resp:
         data = json.loads(resp.read().decode("utf-8"))
     text = (data.get("choices") or [{}])[0].get("message", {}).get("content", "") or ""
-    return _extract_suggestions(text)
+    sgs = _extract_suggestions(text)
+    if noise == "force":
+        sgs = force_inject(sgs, rec, cols, force_rate, noise_seed)
+    return sgs
 
 
 def _extract_suggestions(text: str) -> list[dict]:
@@ -176,6 +181,24 @@ def _extract_suggestions(text: str) -> list[dict]:
         return []
 
 
+def force_inject(sgs: list[dict], rec: dict, cols: list[int],
+                 rate: float, seed: int) -> list[dict]:
+    """L3 噪声: 每未解析列以概率 rate 尾插合成错误建议（目标=随机其他 canonical, col2sg 后写覆盖）。"""
+    out = list(sgs)
+    for c in cols:
+        rng = random.Random(f"{seed}:{rec['uid']}:{c}")
+        if rng.random() > rate:
+            continue
+        e = next((e for e in rec["entries"] if e["col"] == c), None)
+        true_c = next((x for x in rec["canonicals"] if e and
+                       mp.normalize_header(x) == mp.normalize_header(e["original"])), None)
+        wrong = [x for x in rec["canonicals"] if x != true_c]
+        if wrong:
+            out.append({"column": c + 1, "action": "map_to", "target": rng.choice(wrong),
+                        "confidence": "low", "synthetic": True, "reason": "forced_noise"})
+    return out
+
+
 # ---------------------------------------------------------------- gate
 def gate_eval(rec: dict, corpus: dict, fix_uids: list[str], rules: dict,
               target: str, syn: str) -> dict:
@@ -192,14 +215,15 @@ def gate_eval(rec: dict, corpus: dict, fix_uids: list[str], rules: dict,
 
 
 # ---------------------------------------------------------------- arm loop
-def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict,
-            rounds: int, batch: int, pilot: int, state: dict) -> dict:
+def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict, rounds: int,
+            batch: int, pilot: int, state: dict, noise_kw: dict | None = None) -> dict:
     rules: dict = state.get("rules", {})
     introduced: list[str] = state.get("introduced", [])
     asked: set = set(state.get("asked", []))
     rounds_log: list[dict] = state.get("rounds", [])
     sugg_log: list[dict] = state.get("sugg_log", [])
     pilot_log: list[dict] = state.get("pilot_log", [])
+    noise_kw = noise_kw or {}
 
     def ckpt():
         state.update({"rules": rules, "introduced": introduced,
@@ -214,7 +238,7 @@ def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict,
             if not cols:
                 continue
             t0 = time.time()
-            sgs = llm_suggest(rec, cols, rules)
+            sgs = llm_suggest(rec, cols, rules, **noise_kw)
             pilot_log.append({"uid": uid, "cols": cols, "n_sugg": len(sgs),
                               "latency_s": round(time.time() - t0, 2),
                               "sample": sgs[:2]})
@@ -239,7 +263,7 @@ def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict,
                 continue
             lam += 1
             n_asked_cols += len(cols)
-            sgs = llm_suggest(rec, cols, rules)
+            sgs = llm_suggest(rec, cols, rules, **noise_kw)
             col2sg = {}
             for s in sgs:
                 try:
@@ -350,8 +374,18 @@ def main() -> int:
     ap.add_argument("--batch", type=int, default=15)
     ap.add_argument("--pilot", type=int, default=2)
     ap.add_argument("--fresh", action="store_true")
+    ap.add_argument("--noise", default="none", choices=["none", "temp", "prompt", "force"])
+    ap.add_argument("--noise-temp", type=float, default=0.8)
+    ap.add_argument("--force-rate", type=float, default=0.5)
+    ap.add_argument("--noise-seed", type=int, default=20260827)
+    ap.add_argument("--label", default=None)
     args = ap.parse_args()
     assert_endpoint_safe()
+    global CKPT, OUT
+    label = args.label or ("exp1" if args.noise == "none" else f"noise_{args.noise}")
+    CKPT = EVAL / f"vgmc_{label}_checkpoint.json"
+    OUT = EVAL / f"vgmc_{label}_results.json"
+
     t0 = time.time()
 
     corpus = load_corpus()
@@ -375,11 +409,13 @@ def main() -> int:
     print(f"baseline: H_fix={baseline['h_fix']:.4f} H_meas={baseline['h_meas']:.4f} "
           f"(fix={len(fix_uids)}, meas={len(meas_uids)})", file=sys.stderr)
 
+    noise_kw = {"noise": args.noise, "noise_temp": args.noise_temp, "noise_seed": args.noise_seed,
+                "force_rate": args.force_rate if args.noise == "force" else 0.0}
     arms = ["gated", "ungated"] if args.arm == "both" else [args.arm]
     for arm in arms:
         state = ckpt.get("arm_" + arm, {})
         state = run_arm(arm, fix_uids, meas_uids, corpus, args.rounds,
-                        args.batch, args.pilot, state)
+                        args.batch, args.pilot, state, noise_kw)
         ckpt["arm_" + arm] = state
         save_ckpt({"arm_" + arm: state}, merge=True)
 
@@ -393,6 +429,10 @@ def main() -> int:
                        "split_digest_sha256": split_digest,
                        "fix_uids": fix_uids, "meas_uids": meas_uids},
             "endpoint": QA_ENDPOINT,
+            "noise": {"level": args.noise, "label": label,
+                      "temp": args.noise_temp if args.noise == "temp" else None,
+                      "force_rate": args.force_rate if args.noise == "force" else None,
+                      "seed": args.noise_seed if args.noise != "none" else None},
             "baseline_no_rules": baseline,
             "runtime_s": round(time.time() - t0, 2),
         },

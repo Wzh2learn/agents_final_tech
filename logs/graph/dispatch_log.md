@@ -1017,3 +1017,9 @@ echo dispatch_log updated
 [08-27 00:28] #T6-L1-ANALYSIS L1 两腿分析稿入库（零重跑）: 档位=质量杠杆非延迟杠杆（p50 重合+token +21.5%+质量单调）; mapping L1 行更新章 3 供数
 [08-27 00:3x] #SUPPL-CLOSE 补充项卡收口: pytest 387 绿(185.98s) + docs_lint 0 fail/2 warn(存量 26/28 陈旧) + INDEX 登记两件 + 三方对齐
 [08-27 00:4x] #T7-GATE-HOLD 候补未启动（闸门未到+唤醒机制缺位, 记账移交下卡, 不硬上）
+[08-27 02:30] #LOOP-B-FLIP overall PASS -> FAIL (head=bf6cf9b; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-27 06:58] #LOOP-B-FLIP overall FAIL -> PASS (head=bf6cf9b; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-27 20:54] #LOOP-B-FLIP overall PASS -> FAIL (head=bf6cf9b; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-27 22:3x] #S0-SYNC 骨架 v2.3 同步（5725c08 pull + §4 #8/#7 新状态 + 4/42 裁定注记验证, 骨架只读）+ 三圈选入账
+[08-27 22:5x] #VGMC-NOISE-WINDOW 噪声体制实验执行完毕: 4 腿×两臂 22:41-22:53, P1 PASS/P2 PASS/P3 null 触发（各档两臂终值全同）→ 预注册处置转扩语料碰撞不加档; 生产配置零写 + :8006 零调用坐实
+[08-27 23:0x] #T7-BASELINE-DESIGN 小 A 基线协议设计稿入库（三基线全预注册, 只设计不写码, 窗口待批）
