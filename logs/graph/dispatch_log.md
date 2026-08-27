@@ -1024,3 +1024,4 @@ echo dispatch_log updated
 [08-27 22:5x] #VGMC-NOISE-WINDOW 噪声体制实验执行完毕: 4 腿×两臂 22:41-22:53, P1 PASS/P2 PASS/P3 null 触发（各档两臂终值全同）→ 预注册处置转扩语料碰撞不加档; 生产配置零写 + :8006 零调用坐实
 [08-27 23:0x] #T7-BASELINE-DESIGN 小 A 基线协议设计稿入库（三基线全预注册, 只设计不写码, 窗口待批）
 [08-27 23:2x] #SIDE-5PT-LANDING 侧线五点优化直落: Loop A 双档路由（loopa-exec PROFILE-OK）+ figures_k2 五图 + 四桶板 + 窗口合并草案（待批）+ orchestrator 路由注记 + INDEX/THREADS 同 commit 登记; Round 3 辩证触发记账（骨架未碰）
+[08-27 23:5x] #SIDE-ROUND3-PREP Round 3 辩证简报 + K2 对账清单备妥（侧线预备; 骨架未动; INDEX/THREADS 同 commit 登记）
