@@ -1,0 +1,342 @@
+{
+ "meta": {
+  "name": "p1-correctness-backfill",
+  "generated": "2026-08-29 00:34:24",
+  "seed": 20260827,
+  "n_boot": 2000,
+  "endpoint_calls": 0,
+  "definition": "注入级正确性 = 注入表头映射回真值 canonical（逐表逐列）"
+ },
+ "per_regime": {
+  "exp1": {
+   "gated": {
+    "acc_all": 0.6102,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   },
+   "ungated": {
+    "acc_all": 0.6186,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   }
+  },
+  "noise_L1s42": {
+   "gated": {
+    "acc_all": 0.6102,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   },
+   "ungated": {
+    "acc_all": 0.6017,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   }
+  },
+  "noise_L1s43": {
+   "gated": {
+    "acc_all": 0.6102,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   },
+   "ungated": {
+    "acc_all": 0.5932,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   }
+  },
+  "noise_L2": {
+   "gated": {
+    "acc_all": 0.5763,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   },
+   "ungated": {
+    "acc_all": 0.5763,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   }
+  },
+  "noise_L3": {
+   "gated": {
+    "acc_all": 0.3898,
+    "acc_meas": 0.1667,
+    "n_inj": 118,
+    "h_final": 0.579524
+   },
+   "ungated": {
+    "acc_all": 0.3644,
+    "acc_meas": 0.1667,
+    "n_inj": 118,
+    "h_final": 0.579524
+   }
+  },
+  "baseline_fewshot": {
+   "ungated": {
+    "acc_all": 0.5508,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   }
+  },
+  "baseline_mem0": {
+   "ungated": {
+    "acc_all": 0.6017,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   }
+  },
+  "baseline_awm": {
+   "ungated": {
+    "acc_all": 0.5932,
+    "acc_meas": 0.2143,
+    "n_inj": 118,
+    "h_final": 0.589048
+   }
+  },
+  "collision_C0": {
+   "gated": {
+    "acc_all": 0.4054,
+    "acc_meas": 0.1791,
+    "n_inj": 185,
+    "h_final": 0.651905
+   },
+   "ungated": {
+    "acc_all": 0.4,
+    "acc_meas": 0.1791,
+    "n_inj": 185,
+    "h_final": 0.64619
+   }
+  },
+  "collision_C1": {
+   "gated": {
+    "acc_all": 0.3405,
+    "acc_meas": 0.1791,
+    "n_inj": 185,
+    "h_final": 0.651905
+   },
+   "ungated": {
+    "acc_all": 0.3351,
+    "acc_meas": 0.1791,
+    "n_inj": 185,
+    "h_final": 0.64619
+   }
+  },
+  "ADV_g10": {
+   "gated": {
+    "acc_all": 0.4108,
+    "acc_meas": 0.1791,
+    "n_inj": 185,
+    "h_final": 0.651905
+   }
+  },
+  "ADV_u05": {
+   "ungated": {
+    "acc_all": 0.4108,
+    "acc_meas": 0.1791,
+    "n_inj": 185,
+    "h_final": 0.64619
+   }
+  },
+  "ADV_u10": {
+   "ungated": {
+    "acc_all": 0.4108,
+    "acc_meas": 0.1791,
+    "n_inj": 185,
+    "h_final": 0.64619
+   }
+  }
+ },
+ "dV_bootstrap": [
+  {
+   "regime": "exp1",
+   "dV_H": 0.0,
+   "dV_H_ci95": [
+    0.0,
+    0.0
+   ],
+   "dV_ACC": 0.0,
+   "dV_ACC_ci95": [
+    0.0,
+    0.0
+   ],
+   "acc_scope": "全注入",
+   "n_tables_H": 35,
+   "n_tables_ACC": 35
+  },
+  {
+   "regime": "noise_L1s42",
+   "dV_H": 0.0,
+   "dV_H_ci95": [
+    0.0,
+    0.0
+   ],
+   "dV_ACC": 0.0,
+   "dV_ACC_ci95": [
+    0.0,
+    0.0
+   ],
+   "acc_scope": "全注入",
+   "n_tables_H": 35,
+   "n_tables_ACC": 35
+  },
+  {
+   "regime": "noise_L1s43",
+   "dV_H": 0.0,
+   "dV_H_ci95": [
+    0.0,
+    0.0
+   ],
+   "dV_ACC": 0.0,
+   "dV_ACC_ci95": [
+    0.0,
+    0.0
+   ],
+   "acc_scope": "全注入",
+   "n_tables_H": 35,
+   "n_tables_ACC": 35
+  },
+  {
+   "regime": "noise_L2",
+   "dV_H": 0.0,
+   "dV_H_ci95": [
+    0.0,
+    0.0
+   ],
+   "dV_ACC": 0.0,
+   "dV_ACC_ci95": [
+    0.0,
+    0.0
+   ],
+   "acc_scope": "全注入",
+   "n_tables_H": 35,
+   "n_tables_ACC": 35
+  },
+  {
+   "regime": "noise_L3",
+   "dV_H": 0.0,
+   "dV_H_ci95": [
+    0.0,
+    0.0
+   ],
+   "dV_ACC": 0.0,
+   "dV_ACC_ci95": [
+    0.0,
+    0.0
+   ],
+   "acc_scope": "全注入",
+   "n_tables_H": 35,
+   "n_tables_ACC": 35
+  },
+  {
+   "regime": "collision_C0",
+   "dV_H": 0.005714,
+   "dV_H_ci95": [
+    0.0,
+    0.017143
+   ],
+   "dV_ACC": 0.083333,
+   "dV_ACC_ci95": [
+    0.0,
+    0.166667
+   ],
+   "acc_scope": "碰撞列子集",
+   "n_tables_H": 35,
+   "n_tables_ACC": 12
+  },
+  {
+   "regime": "collision_C1",
+   "dV_H": 0.005714,
+   "dV_H_ci95": [
+    0.0,
+    0.017143
+   ],
+   "dV_ACC": 0.055556,
+   "dV_ACC_ci95": [
+    0.0,
+    0.138889
+   ],
+   "acc_scope": "碰撞列子集",
+   "n_tables_H": 35,
+   "n_tables_ACC": 12
+  },
+  {
+   "regime": "ADV_g10_vs_u10",
+   "dV_H": 0.005714,
+   "dV_H_ci95": [
+    0.0,
+    0.017143
+   ],
+   "dV_ACC": 0.083333,
+   "dV_ACC_ci95": [
+    0.0,
+    0.166667
+   ],
+   "acc_scope": "碰撞列子集",
+   "n_tables_H": 35,
+   "n_tables_ACC": 12
+  }
+ ],
+ "headroom": {
+  "plain": {
+   "h_oracle_meas": 1.0,
+   "h_baseline_meas": 0.558095,
+   "acc_oracle_meas": 0.952381
+  },
+  "overlay": {
+   "h_oracle_meas": 1.0,
+   "h_baseline_meas": 0.594762,
+   "acc_oracle_meas": 0.597015
+  }
+ },
+ "h_null_verdicts": [
+  {
+   "regime": "exp1",
+   "h_pair_same": true,
+   "acc_gated": 0.6102,
+   "acc_ungated": 0.6186,
+   "d_acc": -0.0084,
+   "verdict": "H null = 真 null（ACC 同水平）"
+  },
+  {
+   "regime": "noise_L1s42",
+   "h_pair_same": true,
+   "acc_gated": 0.6102,
+   "acc_ungated": 0.6017,
+   "d_acc": 0.0085,
+   "verdict": "H null = 真 null（ACC 同水平）"
+  },
+  {
+   "regime": "noise_L1s43",
+   "h_pair_same": true,
+   "acc_gated": 0.6102,
+   "acc_ungated": 0.5932,
+   "d_acc": 0.017,
+   "verdict": "H null = 真 null（ACC 同水平）"
+  },
+  {
+   "regime": "noise_L2",
+   "h_pair_same": true,
+   "acc_gated": 0.5763,
+   "acc_ungated": 0.5763,
+   "d_acc": 0.0,
+   "verdict": "H null = 真 null（ACC 同水平）"
+  },
+  {
+   "regime": "noise_L3",
+   "h_pair_same": true,
+   "acc_gated": 0.3898,
+   "acc_ungated": 0.3644,
+   "d_acc": 0.0254,
+   "verdict": "H null 非真 null（ACC 分离 ≥0.02）"
+  }
+ ]
+}

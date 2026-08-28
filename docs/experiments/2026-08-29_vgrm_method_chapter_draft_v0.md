@@ -1,6 +1,6 @@
 # 小 A 方法章草稿 v0 · VGRM：门控规则记忆（Gated Rule Memory）
 
-> 状态: 草稿 v0（数据全齐: G(τ,ε) 实现 = research/vgmc_exp1.py; 命题 1 实证 = 碰撞/对抗臂工件; 价值曲线 = 2026-08-28_gate_value_curve_data.md） | 更新: 2026-08-29
+> 状态: 草稿 v0.1（algorithm-description 升级: §2.5 变量对位表 + 命题 1 三步陈述+证明骨架收紧 + 命题边界实证补注; 数据全齐: G(τ,ε) 实现 = research/vgmc_exp1.py; 价值曲线 = 2026-08-28_gate_value_curve_data.md） | 更新: 2026-08-29
 > 定位: 论文第 2 章（旗舰）; 符号承骨架 v2.4 §3; 相关工作键名 = 2026-08-29_related_work_draft.md §4
 
 ## 1 问题设定
@@ -35,15 +35,39 @@ zhang2024selfevolution 谱系第一级）；参数内化（RL）为预留钩子�
 （第 8 行恒真）。门只看 gain/collateral 两个实数——置信度、来源标记对门不可见，这是对抗臂
 （§4）设计的前提。
 
+## 2.5 变量对位表（散文 ↔ 算法 ↔ 代码 ↔ 工件）
+
+| 符号 | 算法行 | 代码（research/vgmc_exp1.py） | 工件字段 | 实证取值 |
+|---|---|---|---|---|
+| R（规则库） | 1, 9 | `rules: dict[str, list[str]]`（run_arm 局部） | `*.checkpoint.json: arm_*.rules` | 各体制终局在案 |
+| r = (T,列,目标,表头) | 5 | sugg_log 条目（uid/col/target/injected） | `arm_*.sugg_log[]` | 每体制 84-88 条 |
+| τ（增益阈值） | 8 | `TAU_MAIN = 0.1` | meta.prereg.tau_main | 0.1（主档）+ 网格 {0.05,0.1,0.2} |
+| ε（回归容差） | 8 | `EPS_MAIN = 0.02` | meta.prereg.eps_main | 0.02（主档）+ 网格 {0,0.02} |
+| gain(r) | 6 | `gate_eval()→gain` | sugg_log[].gain | ∈ [0.0, 1.0] 实测域（单表命中率差） |
+| collateral(r) | 7 | `gate_eval()→collateral` | sugg_log[].collateral | 对抗体制出现 <−ε 值（门拒依据） |
+| H(S, R) | — | `pool_h(uids, corpus, rules)` | rounds[].h_fix / h_meas | 0.558-0.652 按体制 |
+| F_t（固化集） | 7 | `fix_uids`（60 表, seed=20260826） | meta.prereg.fix_uids | 全实验同切分 |
+| 门判定 G | 8 | `ok = g["gain"] >= TAU_MAIN and g["collateral"] >= -EPS_MAIN` | sugg_log[].reason ∈ {gated_pass, gated_fail} | 对抗臂拒 7/7 |
+
+实现假设（如实标注）: 建议器调用为同步单次（无流式事件）; 每列只问一次（`asked` 集合）;
+gain/collateral 在**建议时刻的规则库**下计算（反事实非重估, 直法评估口径, §6 学习门沿用）。
+
 ## 3 命题 1（有界回归）与实证
 
-**命题 1.** 设 G(τ,ε) 依次固化建议序列 r_1..r_m，且每个被接受建议满足
-collateral(r_i) ≥ −ε。则固化集上的累积回归有界：
-H(F, R_0) − H(F, R_m) ≤ Σ_{i=1..m} max(0, −collateral_i)，且当所有被接受建议
-collateral ≥ 0 时回归为 0。
+**命题 1（有界回归）.** 设 G(τ,ε) 依次固化建议序列 r_1..r_m，R_i 为第 i 步后的规则库
+（R_0 为初值）。则：
+（a）逐步分解: H(F, R_i) − H(F, R_{i−1}) = collateral(r_i)（i = 1..m）；
+（b）累积界: H(F, R_0) − H(F, R_m) ≤ Σ_{i=1..m} max(0, −collateral(r_i)) ≤ m·ε；
+（c）无损条件: 若所有被接受建议满足 collateral(r_i) ≥ 0，则 H(F, R_m) ≥ H(F, R_0)（回归为 0）。
 
-**证明梗概.** 每步固化对固化集命中率的改变量恰为 collateral(r_i)（第 7 行定义）；对序列
-伸缩求和即得。单步回归不超过 ε（接受条件），故累积回归 ≤ m·ε；当被接受集全非负时为 0。∎
+**证明骨架.** （a）由第 7 行定义直接成立——collateral 即固化前后固化集命中率之差。
+（b）对（a）从 1 到 m 伸缩求和，负项以 max(0,·) 上界，再由接受条件
+collateral(r_i) ≥ −ε 得每项 ≤ ε。（c）非负项求和非负即得。∎
+
+**命题的边界（实证补注）.** 命题约束的是**固化集**回归; holdout（meas）上的伤害不经门
+直接约束——伤害经共享表头传导, 传导量 = 碰撞暴露 × 单次碰撞危害（Round 3 D1）。
+这正是命题 1 与价值曲线的接口: 命题管"不变更糟"（固化集）, 价值曲线量"变好多少"
+（holdout）, 两者合起来才是门控的完整价值陈述。
 
 **实证对照（工件在案）.**
 - 可靠体制（实验 1 + 噪声四腿）：门拒均为增益型（collateral=0 域），回归 0，但臂间差亦 0

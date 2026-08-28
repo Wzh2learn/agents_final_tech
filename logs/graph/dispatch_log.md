@@ -1058,3 +1058,10 @@ echo dispatch_log updated
 [08-29 00:2x] #GOVERNANCE-SCAN 漂移扫描首跑 10 命中全登记（含真漂移: 31 v2 待发送/round3 待勾选等, 待核不擅改）; AGENTS.md 收口清单节 + 03:30 cron 轻扫安装 + Loop C 范围扩治理件
 [08-29 00:3x] #LOOPC-REDISPATCH Loop C 首派挂起 21min（CPU 24s, MCP bridge 子进程）→ kill 重派
 [08-29 00:4x] #LOOPC-BLOCKED Loop C 两派均挂起（环境异常, 疑与 Loop A token plan 同源）→ 审计顺延, 主线程自核代行
+[08-29 01:0x] #P1-BACKFILL Phase 1 三件完成: 逐体制正确性表 + H null 裁定（L3 非真 null）+ ΔV bootstrap CI（固化进 judge）+ oracle headroom（碰撞正确性天花板 0.597 发现）
+[08-29 01:1x] #RELWORK-V2 相关工作 v2（Voyager/MemGPT/mutation score 方法论三增量 + BibTeX）
+[08-29 01:2x] #P3-WRITING 写作四件入库: 盲锥章盲集族形式化（五定义+可计算性）/ 方法章变量对位表+命题 1 收紧 / 贡献重组 2+1+生产边界声明 / 定位双版本（当前=版本 B）
+[08-29 01:3x] #REVIEW-CHECK paper-review-check 自审: 2 blocking（定义 5 口径 / gain 域编造）+ 3 polish 全修, 清单入库
+[08-29 00:44] #LOOP-B-FLIP overall PASS -> FAIL (head=8899cff; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-29 01:4x] #REGISTRY-DRIFT-FIX docs_lint 30 fail 修复（侧线 7a65bea skills 同步副作用）: 注册表↔GB10 分发对齐（18 件入 A 表 + 12 件入 C 表, 按分发实况归位）→ 0 fail 0 warn
+[08-29 01:4x] #RESEARCH-LINE-CLOSE 科研线队列收口: pytest 全量 + docs_lint 0-0 + commit + push + 三方

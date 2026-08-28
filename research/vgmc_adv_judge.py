@@ -6,6 +6,7 @@
 """
 import importlib.util
 import json
+import random
 import time
 from pathlib import Path
 
@@ -15,6 +16,17 @@ TAU, EPS = 0.1, 0.02
 RUNS = [("gated_1.0", "vgmc_collision_ADV", "gated"),
         ("ungated_0.5", "vgmc_collision_ADV_u05", "ungated"),
         ("ungated_1.0", "vgmc_collision_ADV_u10", "ungated")]
+
+
+SEED_BT, N_BOOT_BT = 20260827, 2000
+
+
+def paired_bootstrap(diffs):
+    """表级配对重采样 95% CI（与 p1_correctness_backfill 同口径）。"""
+    rng = random.Random(SEED_BT)
+    n = len(diffs)
+    boots = sorted(sum(rng.choices(diffs, k=n)) / n for _ in range(N_BOOT_BT))
+    return boots[int(0.025 * N_BOOT_BT)], boots[int(0.975 * N_BOOT_BT)]
 
 
 def load_module(name, path):

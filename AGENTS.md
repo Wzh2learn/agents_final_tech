@@ -346,12 +346,42 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 | A | Codex CLI | recsys-toolkit | RecSys career/defense 双模式工具包（科研线） |
 | A | Codex CLI | paper-review-check | 科研线: 投稿前攻击面自查/对抗审查（每章草稿过一轮; 审稿人视角五问） |
 | C | Claude Code | paper-review-check | 审计层论文草稿审查协议（Loop C 审计范围扩至论文, 2026-08-29） |
+| C | Claude Code | code-review | 通用: 代码评审流程 |
+| C | Claude Code | generate-commit | 通用: commit 信息生成规范 |
+| C | Claude Code | memory-systems | 通用: agent 记忆系统模式参考 |
+| C | Claude Code | multi-agent-patterns | 通用: 多 agent 协作模式参考 |
+| C | Claude Code | tool-design | 通用: 工具接口设计参考 |
+| C | Claude Code | vibe-coding-context-manager | Vibe Coding 套件: 上下文管理 |
+| C | Claude Code | vibe-coding-planner | Vibe Coding 套件: 规划 |
+| C | Claude Code | vibe-coding-principles | Vibe Coding 套件: 原则 |
+| C | Claude Code | vibe-coding-prompt-engineer | Vibe Coding 套件: 提示工程 |
+| C | Claude Code | vibe-coding-quality-gate | Vibe Coding 套件: 质量门 |
+| C | Claude Code | vibe-coding-refinement | Vibe Coding 套件: 精化 |
+| C | Claude Code | webapp-testing | 通用: web 应用测试流程 |
 | A | Codex CLI | paper-writing-zh | 科研线: 中英文学术写作纪律（claims↔证据对齐, 禁 overclaim, limitations 不藏） |
 | A | Codex CLI | algorithm-description | 科研线: 代码→论文算法描述（伪代码/复杂度/变量对位, G(τ,ε) 方法节用） |
 | A | Codex CLI | neat-freak | 治理线: 知识收口/声明-实况对账/漂移清场（触发: /neat、洁癖、收尾同步意图） |
 | A | Codex CLI | code-cleanup-helper | 治理线: 技术债四扫 + repo audit（Mode A/B, release 一致性/交叉引用） |
 | A | Codex CLI | skill-doctor | 治理线: skill metadata 与 doc-link 体检（每次 neat 收尾跑, 治理规则 2） |
 | A | Codex CLI | skill-map | 治理线: skill 安装/交叉引用地图（依赖发现与重复检测） |
+| A | Codex CLI | agent-rules | 通用: AGENTS.md/agent 规则文件编写规范 |
+| A | Codex CLI | codebase-map | 通用: 代码库结构总览与依赖图 |
+| A | Codex CLI | dispatching-parallel-agents | 通用: 独立子任务并行分发模式 |
+| A | Codex CLI | writing-plans | 通用: 多步任务实施计划编写 |
+| A | Codex CLI | jupyter-notebook | 通用: notebook 脚手架与实验记录 |
+| A | Codex CLI | pdf | 通用: PDF 读取/生成/处理工具链 |
+| A | Codex CLI | playwright | 通用: 浏览器自动化（终端驱动, walkthrough/录制复用） |
+| A | Codex CLI | playwright-interactive | 通用: 持久浏览器/Electron 交互式调试 |
+| A | Codex CLI | security-threat-model | 通用: 仓库威胁建模（显式触发） |
+| A | Codex CLI | cloudflare-deploy | 通用: Cloudflare 部署（未启用, 备用） |
+| A | Codex CLI | vercel-deploy | 通用: Vercel 部署（未启用, 备用） |
+| A | Codex CLI | figma | 通用: Figma 上下文获取/设计转代码（未启用, 备用） |
+| A | Codex CLI | figma-use | 通用: Figma 写操作前置（未启用, 备用） |
+| A | Codex CLI | figma-implement-design | 通用: 设计稿 1:1 实现（未启用, 备用） |
+| A | Codex CLI | figma-generate-design | 通用: 代码→Figma 画布（未启用, 备用） |
+| A | Codex CLI | figma-generate-library | 通用: 设计系统对齐（未启用, 备用） |
+| A | Codex CLI | figma-code-connect-components | 通用: Code Connect 组件映射（未启用, 备用） |
+| A | Codex CLI | skills-best-practices | 治理线: 自定义 skill 规范（治理规则 3 依据） |
 
 **治理规则**:
 1. 仅 Loop D 可安装新 skill: 搜索 → 克隆审计 → 安装 → 注册本表与 skills/ → sync_skills.sh 分发。

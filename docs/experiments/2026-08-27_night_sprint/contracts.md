@@ -98,3 +98,21 @@
 - 验收谓词: ① §4.5 全部选择器保留（#fileInput #m2Question #m2AskBtn #m2NewChatBtn #tableCount #reviewBadge #kvCount #runBtn #sampleBtn #preciseParseChk #suggBtn #suggCount #suggApplyBtn #suggRejectBtn #suggList #reconcileSection #unmappedSection #confirmBtn #m2ChatLog #m2Meta #cmp*）② 任务卡=上传解析或发起 QA 即生成（历史存 localStorage）③ M1 六步时间轴（客户端动画, "过程示意"标注）④ QA 验证链路五步条（同标注）⑤ 建议映射升为右栏 tab（modal 语义保留）⑥ 直连/验证链路=只读指示（诚实设计 §4.2, 观察值来自 data.route）⑦ pytest web 相关测试全绿 ⑧ :5050 零重启（Jinja auto_reload + 静态文件热生效）
 - 范围外: /m1v2 并行路由（需重启, 按卡停手条款不采用, 原地改版+git 可回滚替代）; SSE 真实步骤事件流（二期）; 后端存储任务历史; API 零改动
 - 中止: 任何需要 :5050 重启的步骤 → 停手报批
+
+## 科研线队列 · findings 双向变现（08-29 凌晨启动）
+
+### Phase 1 三件（纯计算零端点, 单脚本三输出）
+- 交付物: p1_correctness_backfill.json（① 逐体制注入级正确性表 + H null 裁定 ② ΔV 双指标配对 bootstrap CI（机制同步固化进 vgmc_adv_judge.py）③ oracle 上界/匹配器下界 headroom 表）+ T2 数据表 CI 回填
+- 验收谓词: 正确性定义 = 注入表头映射回真值 canonical（逐表逐列）; bootstrap seed=20260827 n=2000 表级配对; oracle = 真值别名全注入; 每数字可复算
+- 范围外: 不重跑任何实验, 不改判定结论（只补证）
+
+### Phase 2 相关工作扩展
+- 交付物: related_work v2（+Voyager 技能库 / MemGPT / mutation score 方法论 / training-free 自进化补强）+ BibTeX
+- 验收谓词: 新条目 CrossRef 实查或标待复核; 与论文三创新点逐簇挂钩
+
+### Phase 3 写作四件（逐件过 paper-review-check 自审）
+- P3-1 盲锥章盲集族形式化节（形式化不出则改名 blindness spectrum, 不等不拖）
+- P3-2 方法章 algorithm-description 升级（变量对位表 + 命题 1 证明骨架收紧）
+- P3-3 贡献重组 2+1（I1/I2 旗舰 + I3 降 pilot）+ 生产边界声明节
+- P3-4 定位双版本（正向/条件性 标题+摘要, go/no-go 门 = 对抗臂三预测）
+- 验收谓词: 自审发现清单分级（blocking/polish）, blocking 全修后入库
