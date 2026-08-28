@@ -1026,3 +1026,4 @@ echo dispatch_log updated
 [08-27 23:2x] #SIDE-5PT-LANDING 侧线五点优化直落: Loop A 双档路由（loopa-exec PROFILE-OK）+ figures_k2 五图 + 四桶板 + 窗口合并草案（待批）+ orchestrator 路由注记 + INDEX/THREADS 同 commit 登记; Round 3 辩证触发记账（骨架未碰）
 [08-27 23:5x] #SIDE-ROUND3-PREP Round 3 辩证简报 + K2 对账清单备妥（侧线预备; 骨架未动; INDEX/THREADS 同 commit 登记）
 [08-27 23:5x] #SIDE-ROUND3-RECORD Round 3 辩证记录上传入库 + INDEX 同 commit 登记（侧线; 工件抽验坐实: L3 逐轮 8/6/9/4 vs 14/11/16/11 + 两臂 h_meas 逐轮全同 + 门拒 31/58）; 骨架未动; THREADS 行待主线程收口带走
+[08-28 Round3-exec] 用户勾选执行（主线程本地, GB10 loop token 异常代跑）: D1 采纳 / D2 批准 / D3 采纳 / D4 勾 1-5 全; 落地 = 记录 §6 勾选 + 骨架 v2.4（D4 项 1-5 + 项 6 条件条款保留）+ 对抗建议器臂设计全稿（2026-08-28_adversarial_suggester_arm_design.md）+ INDEX 登记; 骨架数字对账未触生产; :8004/:8006 零调用零配置改动; THREADS 行随本 commit 带走（侧线 #SIDE-ROUND3-RECORD 留 GB10 由主线程收口）
