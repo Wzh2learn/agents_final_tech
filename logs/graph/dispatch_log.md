@@ -1057,3 +1057,4 @@ echo dispatch_log updated
 [08-29 00:2x] #B-EXPANSION-DESIGN B 扩碰撞设计稿入库（危害梯度 ρ 网格 + E1-E4 预注册, 只设计不执行, 窗待排）
 [08-29 00:2x] #GOVERNANCE-SCAN 漂移扫描首跑 10 命中全登记（含真漂移: 31 v2 待发送/round3 待勾选等, 待核不擅改）; AGENTS.md 收口清单节 + 03:30 cron 轻扫安装 + Loop C 范围扩治理件
 [08-29 00:3x] #LOOPC-REDISPATCH Loop C 首派挂起 21min（CPU 24s, MCP bridge 子进程）→ kill 重派
+[08-29 00:4x] #LOOPC-BLOCKED Loop C 两派均挂起（环境异常, 疑与 Loop A token plan 同源）→ 审计顺延, 主线程自核代行
