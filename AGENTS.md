@@ -344,6 +344,14 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 | A | Codex CLI | decision-record | ADR 式决策记录（对应 docs/32 DECISIONS） |
 | A | Codex CLI | paper-polish-and-audit | 投稿前论文审计清单（科研线, 论文章 4 前置） |
 | A | Codex CLI | recsys-toolkit | RecSys career/defense 双模式工具包（科研线） |
+| A | Codex CLI | paper-review-check | 科研线: 投稿前攻击面自查/对抗审查（每章草稿过一轮; 审稿人视角五问） |
+| C | Claude Code | paper-review-check | 审计层论文草稿审查协议（Loop C 审计范围扩至论文, 2026-08-29） |
+| A | Codex CLI | paper-writing-zh | 科研线: 中英文学术写作纪律（claims↔证据对齐, 禁 overclaim, limitations 不藏） |
+| A | Codex CLI | algorithm-description | 科研线: 代码→论文算法描述（伪代码/复杂度/变量对位, G(τ,ε) 方法节用） |
+| A | Codex CLI | neat-freak | 治理线: 知识收口/声明-实况对账/漂移清场（触发: /neat、洁癖、收尾同步意图） |
+| A | Codex CLI | code-cleanup-helper | 治理线: 技术债四扫 + repo audit（Mode A/B, release 一致性/交叉引用） |
+| A | Codex CLI | skill-doctor | 治理线: skill metadata 与 doc-link 体检（每次 neat 收尾跑, 治理规则 2） |
+| A | Codex CLI | skill-map | 治理线: skill 安装/交叉引用地图（依赖发现与重复检测） |
 
 **治理规则**:
 1. 仅 Loop D 可安装新 skill: 搜索 → 克隆审计 → 安装 → 注册本表与 skills/ → sync_skills.sh 分发。

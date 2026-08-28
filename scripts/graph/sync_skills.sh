@@ -15,8 +15,8 @@ CHECK_MODE=0
 PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 SRC="$PROJECT_ROOT/skills"
 
-A_SKILLS=(systematic-debugging executing-plans subagent-driven-development verification-before-completion jinrong-docs-sync m1-gap-triage m2-rag-playbook graph-loop-rules agent-prompt-contracts research-writing-skill office-academic-skill scientific-toolkit-skill verify-before-done shift-notes context-budget tool-restraint spec-first sprint-contract broken-window-check eval-harness evaluator-calibration experiment-autopsy decision-record paper-polish-and-audit recsys-toolkit)
-C_SKILLS=(requesting-code-review receiving-code-review review-codebase differential-review spec-to-code-compliance security-best-practices jinrong-docs-sync m2-rag-playbook agent-prompt-contracts verify-before-done self-eval-bias evaluator-calibration repo-audit readme-audit)
+A_SKILLS=(systematic-debugging executing-plans subagent-driven-development verification-before-completion jinrong-docs-sync m1-gap-triage m2-rag-playbook graph-loop-rules agent-prompt-contracts research-writing-skill office-academic-skill scientific-toolkit-skill verify-before-done shift-notes context-budget tool-restraint spec-first sprint-contract broken-window-check eval-harness evaluator-calibration experiment-autopsy decision-record paper-polish-and-audit recsys-toolkit paper-review-check paper-writing-zh algorithm-description neat-freak code-cleanup-helper skill-doctor skill-map)
+C_SKILLS=(requesting-code-review receiving-code-review review-codebase differential-review spec-to-code-compliance security-best-practices jinrong-docs-sync m2-rag-playbook agent-prompt-contracts verify-before-done self-eval-bias evaluator-calibration repo-audit readme-audit paper-review-check)
 
 sync_one() {
   local name=$1 dest_root=$2
