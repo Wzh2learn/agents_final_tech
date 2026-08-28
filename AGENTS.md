@@ -421,3 +421,10 @@ L2 语义记忆层（mem0 自托管 + pgvector :15432 + MCP）见 docs/18 第 10
   汇编器 rd() 吞 UnicodeDecodeError 返回空串。回归用例 = 08-25 当晚 gate PASS。
 - **pending 卡交接必须 cron one-shot 触发 (2026-08-25)**: "稍后执行"类任务卡入账必须同批装触发 cron;
   禁止依赖"硬停后会话仍活"。案例: 晨间序列卡入账后零执行 (08-25)。
+
+## 收口清单（2026-08-29 制度化）
+
+每次收口 commit 前必须执行: `venv/bin/python scripts/graph/governance_drift_scan.py`
+（状态词扫荡: 待批/待执行/待发送/待勾选 + 活文档日期超期）。命中 = 漂移候选自动登记
+docs/29 backlog "漂移扫描待核"节（幂等去重）, 收口汇报附扫描结果行; 夜间 03:30 cron
+轻扫（--cron 只报告不登记）。审计层（Loop C）范围含治理件。

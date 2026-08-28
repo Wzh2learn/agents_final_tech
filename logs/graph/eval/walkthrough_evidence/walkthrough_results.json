@@ -1,0 +1,86 @@
+{
+ "generated": "2026-08-29 00:16:47",
+ "base": "http://127.0.0.1:5050",
+ "n_asserts": 13,
+ "n_pass": 13,
+ "results": [
+  {
+   "step": 1,
+   "assert": "六步卡全点亮",
+   "pass": true,
+   "detail": "done=6/6, 1.5s"
+  },
+  {
+   "step": 1,
+   "assert": "任务徽章完成态",
+   "pass": true,
+   "detail": "已完成"
+  },
+  {
+   "step": 1,
+   "assert": "表格产物渲染",
+   "pass": true,
+   "detail": "1 表"
+  },
+  {
+   "step": 1,
+   "assert": "任务卡入左栏",
+   "pass": true,
+   "detail": "1"
+  },
+  {
+   "step": 2,
+   "assert": "刷新后任务卡仍在",
+   "pass": true,
+   "detail": "n=1"
+  },
+  {
+   "step": 2,
+   "assert": "点击任务恢复产物",
+   "pass": true,
+   "detail": "1 表"
+  },
+  {
+   "step": 3,
+   "assert": "QA 五步条出现",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "step": 3,
+   "assert": "QA 答案落地",
+   "pass": true,
+   "detail": "嘉兴民安的总资产为 4,013****.83 元。\n出处: 样本=sample_jiaxing_minan_20231031.pdf, 表=p0_table_2"
+  },
+  {
+   "step": 4,
+   "assert": "sugg tab 激活可见",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "step": 4,
+   "assert": "建议列表或空态",
+   "pass": true,
+   "detail": "rows=25, empty=False"
+  },
+  {
+   "step": 5,
+   "assert": "快路问题 1 有答",
+   "pass": true,
+   "detail": "48.5s 博时传统产品的基金代码为 00****22。\n出处: 样本=sample_boshi_chuantong.pdf, 表="
+  },
+  {
+   "step": 5,
+   "assert": "快路问题 2 有答",
+   "pass": true,
+   "detail": "51.0s 嘉兴民安的资金余额为 3,508.55 元。\n出处: 样本=sample_jiaxing_minan_20231031."
+  },
+  {
+   "step": 5,
+   "assert": "快路问题 3 有答",
+   "pass": true,
+   "detail": "49.9s 复熙混合25号的客户全称为上海****资基金。\n出处: 样本=sample_fuxi_hunhe25_20231101."
+  }
+ ]
+}

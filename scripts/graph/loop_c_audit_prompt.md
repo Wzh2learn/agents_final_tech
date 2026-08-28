@@ -146,3 +146,6 @@ git diff HEAD~3..HEAD -- src/
 | security-best-practices | 仅当审计明确要求安全视角时触发安全专项 |
 
 约束: skill 只提供方法论；审计判定 (ACCEPTED/REJECTED/CONDITIONAL) 与冻结节点红线仍以本 prompt 为准。
+## 审计范围扩展（2026-08-29 制度化）
+除代码/工件审计外, 范围含治理件: docs/29 backlog 与 INDEX 状态词一致性 /
+governance_drift_scan 报告命中项的处置跟踪 / 台账（THREADS）与 backlog 交叉引用。

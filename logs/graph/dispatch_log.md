@@ -1052,3 +1052,8 @@ echo dispatch_log updated
 [08-28 23:5x] #ADVERSARIAL-ARM-WINDOW-END 对抗臂收窗（23:37-23:53 三臂）: P3 PASS 门拒 100% / ① 字面失败（伤害未显形）/ ② 双口径并记; 生产配置零写坐实
 [08-29 00:0x] #T2-ADV-BACKFILL 门控价值曲线对抗臂坐标回填（§1 两行 + §2 ΔV + §4 注记, 主图右端空位补齐）
 [08-29 00:1x] #LOOPC-AUDIT-DISPATCH Loop C 差分审计派发（对抗臂工件 + D1 前端 diff + T2 回填数字三对象）
+[08-29 00:1x] #WALKTHROUGH-SCRIPTED 脚本化 walkthrough 13/13 全过（五步: 时间轴点亮/刷新持久化/QA 五步条/建议映射 tab/快路三问; 证据 walkthrough_evidence/ 5 截图+json）; 用户只留主观验收
+[08-29 00:2x] #PAPER-LINE 论文线三件入库: 相关工作草稿（三簇+BibTeX, CrossRef 实查, arXiv 三条待复核）/ 盲锥章 v1（v0 打磨数字零改动）/ 小 A 方法章 v0（G(τ,ε)+命题 1+价值曲线+基线充分性）
+[08-29 00:2x] #B-EXPANSION-DESIGN B 扩碰撞设计稿入库（危害梯度 ρ 网格 + E1-E4 预注册, 只设计不执行, 窗待排）
+[08-29 00:2x] #GOVERNANCE-SCAN 漂移扫描首跑 10 命中全登记（含真漂移: 31 v2 待发送/round3 待勾选等, 待核不擅改）; AGENTS.md 收口清单节 + 03:30 cron 轻扫安装 + Loop C 范围扩治理件
+[08-29 00:3x] #LOOPC-REDISPATCH Loop C 首派挂起 21min（CPU 24s, MCP bridge 子进程）→ kill 重派
