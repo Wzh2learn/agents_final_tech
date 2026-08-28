@@ -1045,3 +1045,4 @@ echo dispatch_log updated
 [08-28 22:4x] #T3-GOVERNANCE 治理一捆完成: docs/29 清账（5 CLOSED 出表 + 6 新登记）/ INDEX 状态词 5 件 / STATE 挂起更正 / docs26,28 降历史快照 → docs_lint 0 fail 0 warn / fig4-5 不一致报侧线
 [08-28 22:4x] #T4-C4-MENU C4 错位治理三方案菜单入库（预注册错位率预期 + 改动面 + 对照编排, 下次探针窗照稿跑）
 [08-28 22:5x] #D1-M1-REDIRECTION 任务 2 改版方向 A 落地: /m1 原地三栏任务工作台（任务列表/执行流六步时间轴/QA 五步条/产物 tabs+建议映射 tab+引用 tab）; 零重启（模板热加载验证）; §4.5 选择器全保留; 13 测试绿; 待用户验收
+[08-29 00:0x] #LOW-CLOSEOUT 三 LOW 记账（前瞻 4 pulls/3 臂更正 + gain≥0 vs ≥τ 偏差入 A15 + 运行时脏文件白名单瞬态）+ 侧线裁定销账（图清单 3→5 扩容侧线执行）
