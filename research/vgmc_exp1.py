@@ -240,6 +240,30 @@ def _norm_tok(s: str) -> str:
     return "".join(ch for ch in str(s).lower() if ch.isalnum())
 
 
+ADV_SEED = 20260829
+
+
+def build_adv_map(corpus: dict, overlay: dict, fix_uids: list[str], rate: float):
+    """对抗注入（#13 更正口径）: fix 碰撞列种子派生 k=16 子集 × 貌似合理错列; 前缀嵌套 0.5⊂1.0。
+    （原稿写 meas 列, 但 meas=holdout 从不进建议流, 机械不可行 → 更正为 fix 侧, 预测不变）"""
+    if rate <= 0 or not overlay:
+        return {}, []
+    cols = [(uid, len(corpus[uid]["inj_header"]) - len(spec["cols"]) + i, c["true_canonical"])
+            for uid in sorted(fix_uids) if (spec := overlay.get("tables", {}).get(uid))
+            for i, c in enumerate(spec["cols"])]
+    rng = random.Random(ADV_SEED)
+    k_cols = rng.sample(cols, min(16, len(cols)))
+    adv = {}
+    for uid, ci, true_c in k_cols[:max(1, int(len(k_cols) * rate))]:
+        rngc = random.Random(f"{ADV_SEED}:{uid}:{ci}")
+        others = [x for x in corpus[uid]["canonicals"] if x != true_c]
+        shared = [x for x in others if set(str(x).lower()) & set(str(true_c).lower())]
+        if shared or others:
+            adv[(uid, ci)] = rngc.choice(shared or others)
+    return adv, [{"uid": u, "col": ci, "true_canonical": tc, "adv_target": adv.get((u, ci))}
+                 for u, ci, tc in k_cols]
+
+
 def fewshot_pool(corpus: dict, fix_uids: list[str]) -> list[dict]:
     """静态示例池 = 固化集前 10 表已解决案例（holdout 零泄漏, 确定性）。"""
     pool = []
@@ -290,7 +314,7 @@ def memory_write_llm(kind: str, items: list[tuple[str, str]]) -> list[str]:
 # ---------------------------------------------------------------- arm loop
 def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict, rounds: int,
             batch: int, pilot: int, state: dict, noise_kw: dict | None = None,
-            baseline_kw: dict | None = None) -> dict:
+            baseline_kw: dict | None = None, adv_map: dict | None = None) -> dict:
     rules: dict = state.get("rules", {})
     introduced: list[str] = state.get("introduced", [])
     asked: set = set(state.get("asked", []))
@@ -345,6 +369,15 @@ def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict, 
             hdrs = [rec["inj_header"][c] for c in cols]
             sgs = llm_suggest(rec, cols, rules, mem_text=memory_text(baseline, mem, hdrs, pool),
                               **noise_kw)
+            if adv_map:
+                for sg in sgs:
+                    try:
+                        ci = int(sg.get("column", 0)) - 1
+                    except Exception:
+                        continue
+                    tgt = adv_map.get((rec["uid"], ci))
+                    if tgt and sg.get("action") == "map_to":
+                        sg["target"], sg["confidence"], sg["synthetic"] = tgt, "high", True
             col2sg = {}
             for s in sgs:
                 try:
@@ -468,6 +501,7 @@ def main() -> int:
     ap.add_argument("--label", default=None)
     ap.add_argument("--collision-overlay", default=None)
     ap.add_argument("--baseline", default="none", choices=["none", "fewshot", "mem0", "awm"])
+    ap.add_argument("--adv-rate", type=float, default=0.0)
     args = ap.parse_args()
     assert_endpoint_safe()
     global CKPT, OUT
@@ -507,11 +541,16 @@ def main() -> int:
                 "force_rate": args.force_rate if args.noise == "force" else 0.0}
     pool = fewshot_pool(corpus, fix_uids) if args.baseline == "fewshot" else []
     baseline_kw = {"baseline": args.baseline, "pool": pool}
+    adv_map, adv_k_cols = build_adv_map(corpus, overlay, fix_uids, args.adv_rate)
+    if args.adv_rate >= 1.0 and adv_map:
+        (EVAL / "vgmc_adv_injection_map.json").write_text(json.dumps(
+            {"meta": {"seed": ADV_SEED, "k": len(adv_k_cols)}, "columns": adv_k_cols},
+            ensure_ascii=False, indent=1), encoding="utf-8")
     arms = ["gated", "ungated"] if args.arm == "both" else [args.arm]
     for arm in arms:
         state = ckpt.get("arm_" + arm, {})
         state = run_arm(arm, fix_uids, meas_uids, corpus, args.rounds,
-                        args.batch, args.pilot, state, noise_kw, baseline_kw)
+                        args.batch, args.pilot, state, noise_kw, baseline_kw, adv_map)
         ckpt["arm_" + arm] = state
         save_ckpt({"arm_" + arm: state}, merge=True)
 
@@ -529,6 +568,8 @@ def main() -> int:
                                     "seed": overlay["meta"]["seed"]} if overlay else None),
             "baseline": {"level": args.baseline,
                           "pool_n": len(pool) if args.baseline == "fewshot" else None},
+            "adversarial": {"rate": args.adv_rate, "seed": ADV_SEED if args.adv_rate > 0 else None,
+                            "n_active": len(adv_map)},
             "noise": {"level": args.noise, "label": label,
                       "temp": args.noise_temp if args.noise == "temp" else None,
                       "force_rate": args.force_rate if args.noise == "force" else None,

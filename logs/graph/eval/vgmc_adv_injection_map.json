@@ -1,0 +1,104 @@
+{
+ "meta": {
+  "seed": 20260829,
+  "k": 16
+ },
+ "columns": [
+  {
+   "uid": "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+   "col": 4,
+   "true_canonical": "£m",
+   "adv_target": "2019"
+  },
+  {
+   "uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+   "col": 4,
+   "true_canonical": "£m",
+   "adv_target": "2018"
+  },
+  {
+   "uid": "93339b76-1f90-4d86-8f31-bbb7bff71603",
+   "col": 5,
+   "true_canonical": "£m",
+   "adv_target": "Other temporary differences"
+  },
+  {
+   "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+   "col": 4,
+   "true_canonical": "Weighted Average Grant Date Fair Value",
+   "adv_target": "Number of shares"
+  },
+  {
+   "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+   "col": 4,
+   "true_canonical": "Weighted-average grant date fair value",
+   "adv_target": "Weighted Average Grant Date Fair Value"
+  },
+  {
+   "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+   "col": 3,
+   "true_canonical": "Weighted Average Grant Date Fair Value",
+   "adv_target": "Weighted-average grant date fair value"
+  },
+  {
+   "uid": "637d5671-0913-4e80-b135-2d4a516b79bb",
+   "col": 4,
+   "true_canonical": "£m",
+   "adv_target": "2018"
+  },
+  {
+   "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+   "col": 3,
+   "true_canonical": "Weighted Average Grant Date Fair Value",
+   "adv_target": "Number of Shares at Expected Attainment"
+  },
+  {
+   "uid": "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+   "col": 3,
+   "true_canonical": "£m",
+   "adv_target": "2019"
+  },
+  {
+   "uid": "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8",
+   "col": 5,
+   "true_canonical": "Net Tangible Assets Acquired (Liabilities Assumed)",
+   "adv_target": "Purchased Intangible Assets"
+  },
+  {
+   "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+   "col": 6,
+   "true_canonical": "Grant Date",
+   "adv_target": "Name"
+  },
+  {
+   "uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+   "col": 4,
+   "true_canonical": "£m",
+   "adv_target": "2017/18"
+  },
+  {
+   "uid": "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+   "col": 6,
+   "true_canonical": "Consolidated",
+   "adv_target": "Canadian broadband services"
+  },
+  {
+   "uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+   "col": 3,
+   "true_canonical": "£m",
+   "adv_target": "2018"
+  },
+  {
+   "uid": "7a249c43-5e24-447e-9da1-3d5982aca590",
+   "col": 3,
+   "true_canonical": "Consolidated",
+   "adv_target": null
+  },
+  {
+   "uid": "637d5671-0913-4e80-b135-2d4a516b79bb",
+   "col": 3,
+   "true_canonical": "£m",
+   "adv_target": "2018"
+  }
+ ]
+}

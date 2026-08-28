@@ -1047,3 +1047,8 @@ echo dispatch_log updated
 [08-28 22:5x] #D1-M1-REDIRECTION 任务 2 改版方向 A 落地: /m1 原地三栏任务工作台（任务列表/执行流六步时间轴/QA 五步条/产物 tabs+建议映射 tab+引用 tab）; 零重启（模板热加载验证）; §4.5 选择器全保留; 13 测试绿; 待用户验收
 [08-29 00:0x] #LOW-CLOSEOUT 三 LOW 记账（前瞻 4 pulls/3 臂更正 + gain≥0 vs ≥τ 偏差入 A15 + 运行时脏文件白名单瞬态）+ 侧线裁定销账（图清单 3→5 扩容侧线执行）
 [08-29 00:1x] #RULING-2ITEMS 拍板两件入账: 判定件 A 先（对抗臂 08-29 晚开窗 ~15min 三预测照稿）B 后（带 A 危害梯度定扩容设计）; /m1 五步 walkthrough 用户自走 + 口径 3 接受 localStorage（服务端持久化 D13 触发项）
+[08-28 23:2x] #ADVERSARIAL-ARM-WINDOW-START 对抗臂开窗: 前置全过（P1 digest MATCH / P2 overlay 67 列 / P3 sha 基线 / 预算门 23:03 PASS）
+[08-28 23:3x] #ADVERSARIAL-CORRECTION 首轮空跑归因: meas 从不进建议流 → 对抗列更正为 fix 碰撞列（设计稿 §6, 解读前完成, 预测冻结不变）; --fresh 重跑
+[08-28 23:5x] #ADVERSARIAL-ARM-WINDOW-END 对抗臂收窗（23:37-23:53 三臂）: P3 PASS 门拒 100% / ① 字面失败（伤害未显形）/ ② 双口径并记; 生产配置零写坐实
+[08-29 00:0x] #T2-ADV-BACKFILL 门控价值曲线对抗臂坐标回填（§1 两行 + §2 ΔV + §4 注记, 主图右端空位补齐）
+[08-29 00:1x] #LOOPC-AUDIT-DISPATCH Loop C 差分审计派发（对抗臂工件 + D1 前端 diff + T2 回填数字三对象）

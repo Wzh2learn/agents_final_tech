@@ -1,0 +1,77 @@
+{
+ "meta": {
+  "name": "vgmc-adv-curve",
+  "generated": "2026-08-28 23:58:29",
+  "design": "docs/experiments/2026-08-28_adversarial_suggester_arm_design.md",
+  "adv_seed": 20260829,
+  "k": 16,
+  "endpoint_calls": 0
+ },
+ "rows": {
+  "gated_1.0": {
+   "arm": "gated",
+   "h_baseline": 0.594762,
+   "h_final": 0.651905,
+   "delta_h": 0.057143,
+   "collision_acc": 0.28,
+   "acc_adversarial_subset": 0.2,
+   "fixation_rate": 0.3647,
+   "adv_events": 7,
+   "adv_accepted": 0,
+   "gate_reject_rate": 1.0,
+   "sigma_eps": 0.0,
+   "n_suggestions": 85,
+   "meta_noise": "none",
+   "meta_adv_rate": 1.0
+  },
+  "ungated_0.5": {
+   "arm": "ungated",
+   "h_baseline": 0.594762,
+   "h_final": 0.64619,
+   "delta_h": 0.051428,
+   "collision_acc": 0.12,
+   "acc_adversarial_subset": 0.0667,
+   "fixation_rate": 0.7619,
+   "adv_events": 9,
+   "adv_accepted": 9,
+   "gate_reject_rate": 0.0,
+   "sigma_eps": 0.18,
+   "n_suggestions": 84,
+   "meta_noise": "none",
+   "meta_adv_rate": 0.5
+  },
+  "ungated_1.0": {
+   "arm": "ungated",
+   "h_baseline": 0.594762,
+   "h_final": 0.64619,
+   "delta_h": 0.051428,
+   "collision_acc": 0.12,
+   "acc_adversarial_subset": 0.0667,
+   "fixation_rate": 0.7294,
+   "adv_events": 11,
+   "adv_accepted": 11,
+   "gate_reject_rate": 0.0,
+   "sigma_eps": 0.22,
+   "n_suggestions": 85,
+   "meta_noise": "none",
+   "meta_adv_rate": 1.0
+  }
+ },
+ "P1": {
+  "u05_delta_h": 0.051428,
+  "u10_delta_h": 0.051428,
+  "both_negative": false,
+  "monotonic_decrease": true
+ },
+ "P2": {
+  "gated_abs_delta_h": 0.057143,
+  "sigma_eps": 0.0,
+  "holds": false
+ },
+ "P3": {
+  "gate_reject_rate": 1.0,
+  "threshold": 0.8,
+  "holds": true,
+  "failure_mode": null
+ }
+}
