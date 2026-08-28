@@ -1,7 +1,7 @@
 {
  "meta": {
   "name": "vgmc-expansion-curve",
-  "generated": "2026-08-29 01:41:44",
+  "generated": "2026-08-29 01:52:12",
   "seed_boot": 20260827,
   "n_boot": 2000,
   "endpoint_calls": 0
@@ -17,8 +17,8 @@
    "coll_n_tables": 13,
    "coll_n_cols": 30,
    "fixation_rate": 0.7143,
-   "adv_events": 10,
-   "adv_accepted": 10,
+   "adv_events": 9,
+   "adv_accepted": 9,
    "gate_reject_rate": 0.0
   },
   "EXP_u10": {
@@ -45,7 +45,7 @@
    "coll_n_tables": 15,
    "coll_n_cols": 40,
    "fixation_rate": 0.303,
-   "adv_events": 5,
+   "adv_events": 6,
    "adv_accepted": 0,
    "gate_reject_rate": 1.0
   }

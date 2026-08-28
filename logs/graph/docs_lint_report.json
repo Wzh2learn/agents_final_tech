@@ -1,6 +1,8 @@
 {
- "date": "2026-08-29T01:43:05",
+ "date": "2026-08-29T01:59:11",
  "fails": [],
- "warns": [],
+ "warns": [
+  "[3] 疑似 gap 复述 (应只引用 THREADS): docs/INDEX.md:185: | `2026-08-29_full_review_findings.md` | 活跃 | 全盘复审发现清单（五路锚定防护自审, 边界 ea993d8）: 3 "
+ ],
  "overall": "PASS"
 }

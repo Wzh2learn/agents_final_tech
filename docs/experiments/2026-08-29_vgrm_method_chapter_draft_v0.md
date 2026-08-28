@@ -43,7 +43,7 @@ zhang2024selfevolution 谱系第一级）；参数内化（RL）为预留钩子�
 | r = (T,列,目标,表头) | 5 | sugg_log 条目（uid/col/target/injected） | `arm_*.sugg_log[]` | 每体制 84-88 条 |
 | τ（增益阈值） | 8 | `TAU_MAIN = 0.1` | meta.prereg.tau_main | 0.1（主档）+ 网格 {0.05,0.1,0.2} |
 | ε（回归容差） | 8 | `EPS_MAIN = 0.02` | meta.prereg.eps_main | 0.02（主档）+ 网格 {0,0.02} |
-| gain(r) | 6 | `gate_eval()→gain` | sugg_log[].gain | ∈ [0.0, 1.0] 实测域（单表命中率差） |
+| gain(r) | 6 | `gate_eval()→gain` | sugg_log[].gain | ∈ [−0.25, 1.0] 全检查点实测域（08-29 复审再更正: 首查 4 检查点得 [0.0,1.0] 为偏窄样本, 全域含负值） |
 | collateral(r) | 7 | `gate_eval()→collateral` | sugg_log[].collateral | 对抗体制出现 <−ε 值（门拒依据） |
 | H(S, R) | — | `pool_h(uids, corpus, rules)` | rounds[].h_fix / h_meas | 0.558-0.652 按体制 |
 | F_t（固化集） | 7 | `fix_uids`（60 表, seed=20260826） | meta.prereg.fix_uids | 全实验同切分 |

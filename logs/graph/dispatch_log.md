@@ -1072,3 +1072,9 @@ echo dispatch_log updated
 [08-29 03:1x] #OFFREPO-INVENTORY 仓外普查终版台账入库（权重/数据集/残留/暂缓区/红线备忘 + 治理补丁: 扫描扩面+下载即登记+白名单; 清理候选等批不擅动）
 [08-29 02:2x] #B-EXPANSION-WINDOW B 扩碰撞窗收口: E1/E2 PASS, E3 未触发（ΔV(ACC) 0.05 但 CI 含 0, 功效不足）→ 版本 B 维持; 伤害首触 H + 门控零伤害 + 门拒 100% 方向性证据全正
 [08-29 02:2x] #SKELETON-V25 骨架 v2.5 授权编辑两节（贡献重组 2+1 + 生产边界声明）+ 伴生问题入账（方法章 §5.5/§6.5 + 盲锥章局限）+ 相关工作待复核清零 + A15 设计稿
+[08-29 02:4x] #FULL-REVIEW-S1 S1 数字审（独立复算）: 7/8 PASS（ΔV CI/正确性回填/oracle headroom/门拒 7/7/walkthrough 13 断言/基线逐位 0）; C7b FAIL=射表覆写 → blocking 修复
+[08-29 02:4x] #FULL-REVIEW-S2 S2 治理审: 漂移扫描 11 命中 0 新登记; INDEX 三方核查全存在（含 governance/reference/ 体例）; backlog 全登记
+[08-29 02:4x] #FULL-REVIEW-S3 S3 论文审: 盲锥/定位/引文全过; 对位表 gain 域二次偏窄 [−0.25,1.0] → blocking 修复（两次编造教训升级: 全域复算不可抽样代）
+[08-29 02:4x] #FULL-REVIEW-S4 S4 代码审: Loop C（--bare 修复后首次交付）对抗臂 1 HIGH+3 LOW / D1 全过 / T2 全命中; 主线程补审判据↔卡片逐字一致
+[08-29 02:4x] #FULL-REVIEW-S5 S5 技能审: sync_skills --check 77 件 PASS; 注册表↔分发零漂移; 路由立法产物三件在位
+[08-29 02:5x] #FULL-REVIEW-CLOSE findings 入库（3 blocking 修复审过 + 7 polish + 3 遗留）+ 治理收尾（INDEX/STATE/dispatch + pytest + docs_lint + commit + push + 三方）

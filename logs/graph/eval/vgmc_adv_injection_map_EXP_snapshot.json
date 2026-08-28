@@ -1,0 +1,104 @@
+{
+ "meta": {
+  "seed": 20260829,
+  "k": 16
+ },
+ "columns": [
+  {
+   "uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+   "col": 4,
+   "true_canonical": "£m",
+   "adv_target": "2018"
+  },
+  {
+   "uid": "7c80a835-4fb2-4792-9ad8-95660da47f7e",
+   "col": 4,
+   "true_canonical": "Accumulated Amortization",
+   "adv_target": "December 31, 2019"
+  },
+  {
+   "uid": "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+   "col": 5,
+   "true_canonical": "£m",
+   "adv_target": "2018/19"
+  },
+  {
+   "uid": "e0689072-72ba-4979-962a-bb128539defb",
+   "col": 5,
+   "true_canonical": "£m",
+   "adv_target": "2019"
+  },
+  {
+   "uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+   "col": 6,
+   "true_canonical": "£m",
+   "adv_target": "2019"
+  },
+  {
+   "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+   "col": 3,
+   "true_canonical": "Weighted Average Grant Date Fair Value",
+   "adv_target": "Weighted-average grant date fair value"
+  },
+  {
+   "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+   "col": 4,
+   "true_canonical": "Weighted-average grant date fair value",
+   "adv_target": "Weighted Average Grant Date Fair Value"
+  },
+  {
+   "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+   "col": 5,
+   "true_canonical": "Weighted Average Grant Date Fair Value",
+   "adv_target": "Number of Shares at Expected Attainment"
+  },
+  {
+   "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+   "col": 7,
+   "true_canonical": "Grant Date",
+   "adv_target": "Exercise Price $"
+  },
+  {
+   "uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+   "col": 3,
+   "true_canonical": "£m",
+   "adv_target": "2018"
+  },
+  {
+   "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+   "col": 3,
+   "true_canonical": "Weighted Average Grant Date Fair Value",
+   "adv_target": "Number of Shares at Expected Attainment"
+  },
+  {
+   "uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+   "col": 5,
+   "true_canonical": "Accumulated Amortization",
+   "adv_target": "Gross Cost"
+  },
+  {
+   "uid": "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+   "col": 3,
+   "true_canonical": "£m",
+   "adv_target": "2019"
+  },
+  {
+   "uid": "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8",
+   "col": 5,
+   "true_canonical": "Net Tangible Assets Acquired (Liabilities Assumed)",
+   "adv_target": "Purchased Intangible Assets"
+  },
+  {
+   "uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+   "col": 3,
+   "true_canonical": "£m",
+   "adv_target": "2019"
+  },
+  {
+   "uid": "93339b76-1f90-4d86-8f31-bbb7bff71603",
+   "col": 4,
+   "true_canonical": "£m",
+   "adv_target": "Other temporary differences"
+  }
+ ]
+}
