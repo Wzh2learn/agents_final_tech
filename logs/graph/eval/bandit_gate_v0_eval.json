@@ -1,0 +1,141 @@
+{
+ "meta": {
+  "name": "bandit-gate-v0-replay",
+  "generated": "2026-08-27 23:32:01",
+  "design": "docs/experiments/2026-08-27_bandit_gate_v0_design.md",
+  "seed": 20260827,
+  "endpoint_calls": 0,
+  "gold_n": 42,
+  "rounds": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "production_prior_n": 23,
+  "conventions": "空接受批 R=0; Beta 更新按 R 二值化（>0.999/<0.001）; 生产 23 条无 ΔH 实测不作标签"
+ },
+ "thompson": {
+  "pulls": {
+   "tau=0.05,eps=0.0": 2,
+   "tau=0.05,eps=0.02": 1,
+   "tau=0.1,eps=0.0": 0,
+   "tau=0.1,eps=0.02": 0,
+   "tau=0.2,eps=0.0": 1,
+   "tau=0.2,eps=0.02": 0
+  },
+  "posterior": {
+   "tau=0.05,eps=0.0": {
+    "alpha": 2.5,
+    "beta": 0.5
+   },
+   "tau=0.05,eps=0.02": {
+    "alpha": 1.5,
+    "beta": 0.5
+   },
+   "tau=0.1,eps=0.0": {
+    "alpha": 0.5,
+    "beta": 0.5
+   },
+   "tau=0.1,eps=0.02": {
+    "alpha": 0.5,
+    "beta": 0.5
+   },
+   "tau=0.2,eps=0.0": {
+    "alpha": 1.5,
+    "beta": 0.5
+   },
+   "tau=0.2,eps=0.02": {
+    "alpha": 0.5,
+    "beta": 0.5
+   }
+  },
+  "total_reward": 4.0,
+  "trace": [
+   {
+    "round": 0,
+    "arm": "tau=0.05,eps=0.02",
+    "theta": 0.6096,
+    "reward": 1.0,
+    "n_accepted": 13
+   },
+   {
+    "round": 1,
+    "arm": "tau=0.05,eps=0.0",
+    "theta": 0.9842,
+    "reward": 1.0,
+    "n_accepted": 9
+   },
+   {
+    "round": 2,
+    "arm": "tau=0.2,eps=0.0",
+    "theta": 0.6883,
+    "reward": 1.0,
+    "n_accepted": 11
+   },
+   {
+    "round": 3,
+    "arm": "tau=0.05,eps=0.0",
+    "theta": 0.9572,
+    "reward": 1.0,
+    "n_accepted": 5
+   }
+  ]
+ },
+ "direct": {
+  "tau=0.05,eps=0.0": {
+   "mean_reward": 1.0,
+   "per_round": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "tau=0.05,eps=0.02": {
+   "mean_reward": 1.0,
+   "per_round": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "tau=0.1,eps=0.0": {
+   "mean_reward": 1.0,
+   "per_round": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "tau=0.1,eps=0.02": {
+   "mean_reward": 1.0,
+   "per_round": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "tau=0.2,eps=0.0": {
+   "mean_reward": 1.0,
+   "per_round": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "tau=0.2,eps=0.02": {
+   "mean_reward": 1.0,
+   "per_round": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  }
+ }
+}

@@ -54,7 +54,7 @@ def assert_endpoint_safe() -> None:
 
 
 # ---------------------------------------------------------------- corpus
-def load_corpus():
+def load_corpus(overlay: dict | None = None):
     """95 注入表: uid -> {inj_header, orig_header, canonicals, rows}"""
     tables = json.loads((DRIFT_OUT / "injected_tables.json").read_text(encoding="utf-8"))
     imap = json.loads((DRIFT_OUT / "injection_map.json").read_text(encoding="utf-8"))
@@ -80,6 +80,25 @@ def load_corpus():
         corpus[uid] = {"uid": uid, "rows": rows, "inj_header": inj_header,
                        "orig_header": orig_header, "canonicals": canonicals,
                        "entries": es}
+    return merge_overlay(corpus, overlay)
+
+
+def merge_overlay(corpus: dict, overlay: dict | None) -> dict:
+    """碰撞语料: 移植列只增列不改原列（甲方零进入, ground truth 在工件）。"""
+    if not overlay:
+        return corpus
+    for uid, spec in overlay.get("tables", {}).items():
+        rec = corpus.get(uid)
+        if not rec:
+            continue
+        for c in spec["cols"]:
+            idx = len(rec["inj_header"])
+            rec["inj_header"].append(c["header"])
+            for r_i, row in enumerate(rec["rows"]):
+                row.append(row[c["data_col_idx"]] if r_i > 0 and c["data_col_idx"] < len(row)
+                           else c["header"])
+            rec["entries"].append({"col": idx, "original": c["true_canonical"],
+                                   "injected": c["header"], "type": "collision"})
     return corpus
 
 
@@ -130,7 +149,7 @@ def unresolved_cols(rec: dict, rules: dict) -> list[int]:
 # ---------------------------------------------------------------- LLM
 def llm_suggest(rec: dict, cols: list[int], rules: dict, noise: str = "none",
                 noise_temp: float = 0.8, force_rate: float = 0.0,
-                noise_seed: int = 0) -> list[dict]:
+                noise_seed: int = 0, mem_text: str = "") -> list[dict]:
     assert_endpoint_safe()
     hdr = rec["inj_header"]
     data_rows = [] if noise == "prompt" else rec["rows"][1:3]
@@ -139,9 +158,11 @@ def llm_suggest(rec: dict, cols: list[int], rules: dict, noise: str = "none",
     canon = "\n".join(f"- {c}" + ("" if noise == "prompt" else (f"（已有别名: {', '.join(rules[c])}）" if rules.get(c) else ""))
                       for c in rec["canonicals"])
     asked = "\n".join(f"- 第 {c + 1} 列: {hdr[c]!r}" for c in cols)
+    extra = "\n\n已有经验（可参考）:\n" + mem_text if mem_text else ""
     prompt = (
         "下面是表格（首行为表头）:\n" + tbl + "\n\n标准字段清单:\n" + canon +
         "\n\n未解析的表头列:\n" + asked +
+        extra +
         "\n\n请为每个未解析列判断它对应哪个标准字段（可能是别名/变体/中英混写/OCR 形近/单位后缀/日期变体）。"
         "只输出 JSON 数组, 每项: {\"column\": 列号(从1起), \"action\": \"map_to\" 或 \"skip\", "
         "\"target\": 标准字段名或null, \"confidence\": \"high\"/\"medium\"/\"low\", "
@@ -214,9 +235,62 @@ def gate_eval(rec: dict, corpus: dict, fix_uids: list[str], rules: dict,
             "collateral": round(h_oth_a - h_oth_b, 6)}
 
 
+# ---------------------------------------------------------------- baselines
+def _norm_tok(s: str) -> str:
+    return "".join(ch for ch in str(s).lower() if ch.isalnum())
+
+
+def fewshot_pool(corpus: dict, fix_uids: list[str]) -> list[dict]:
+    """静态示例池 = 固化集前 10 表已解决案例（holdout 零泄漏, 确定性）。"""
+    pool = []
+    for uid in fix_uids[:10]:
+        for e in corpus[uid]["entries"]:
+            pool.append({"header": corpus[uid]["inj_header"][e["col"]],
+                         "canonical": e["original"]})
+    return pool
+
+
+def memory_text(baseline: str, mem: list, cols_hdrs: list[str], pool: list[dict]) -> str:
+    """读侧: fewshot top-6 / mem0 top-8（词法重叠排序, 确定性）/ awm 全量 ≤15。"""
+    if baseline == "awm":
+        return "\n".join(f"- {x}" for x in mem[:15]) if mem else ""
+    if baseline == "fewshot":
+        cands = [(x["header"], f"表头 {x['header']!r} 对应标准字段 {x['canonical']}") for x in pool]
+    else:
+        cands = [(f, f) for f in mem] if baseline == "mem0" else []
+    qchars = set().union(*[set(_norm_tok(h)) for h in cols_hdrs]) if cols_hdrs else set()
+    idx = sorted(range(len(cands)), key=lambda i: (-len(set(_norm_tok(cands[i][0])) & qchars), i))
+    return "\n".join("- " + cands[i][1] for i in idx[:6 if baseline == "fewshot" else 8]) if cands else ""
+
+
+def memory_write_llm(kind: str, items: list[tuple[str, str]]) -> list[str]:
+    """写侧每轮 1 次（temp=0, 仅 :8004）: mem0 抽事实 / awm 归纳过程。"""
+    assert_endpoint_safe()
+    listing = "\n".join(f"- 表头 {h!r} -> 标准字段 {c}" for h, c in items)
+    ask = ("从下面的表头映射案例中抽取可复用的简短事实陈述" if kind == "mem0"
+           else "从下面的表头映射案例中归纳可复用的简短过程性规则（启发式）")
+    prompt = ask + "，每条一句话，只输出 JSON 字符串数组（≤8 条），不要输出其他文字。\n案例:\n" + listing
+    body = json.dumps({"model": "local", "messages": [{"role": "user", "content": prompt}],
+                       "temperature": 0.0, "max_tokens": 512,
+                       "chat_template_kwargs": {"enable_thinking": False}}).encode("utf-8")
+    req = urllib.request.Request(QA_ENDPOINT, data=body, headers={"Content-Type": "application/json"},
+                                 method="POST")
+    with urllib.request.urlopen(req, timeout=120) as resp:
+        text = (json.loads(resp.read().decode("utf-8")).get("choices") or [{}])[0].get(
+            "message", {}).get("content", "") or ""
+    a, b = text.find("["), text.rfind("]")
+    if a == -1 or b <= a:
+        return []
+    try:
+        return [str(x) for x in json.loads(text[a:b + 1])][:8]
+    except Exception:
+        return []
+
+
 # ---------------------------------------------------------------- arm loop
 def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict, rounds: int,
-            batch: int, pilot: int, state: dict, noise_kw: dict | None = None) -> dict:
+            batch: int, pilot: int, state: dict, noise_kw: dict | None = None,
+            baseline_kw: dict | None = None) -> dict:
     rules: dict = state.get("rules", {})
     introduced: list[str] = state.get("introduced", [])
     asked: set = set(state.get("asked", []))
@@ -224,6 +298,10 @@ def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict, 
     sugg_log: list[dict] = state.get("sugg_log", [])
     pilot_log: list[dict] = state.get("pilot_log", [])
     noise_kw = noise_kw or {}
+    baseline_kw = baseline_kw or {}
+    baseline = baseline_kw.get("baseline", "none")
+    mem: list = state.get("memory", [])
+    pool: list[dict] = baseline_kw.get("pool", [])
 
     def ckpt():
         state.update({"rules": rules, "introduced": introduced,
@@ -252,6 +330,7 @@ def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict, 
             break
         introduced.extend(chunk)
         lam = 0
+        round_acc: list[tuple[str, str]] = []
         n_asked_cols = 0
         n_sugg = 0
         accepted = 0
@@ -263,7 +342,9 @@ def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict, 
                 continue
             lam += 1
             n_asked_cols += len(cols)
-            sgs = llm_suggest(rec, cols, rules, **noise_kw)
+            hdrs = [rec["inj_header"][c] for c in cols]
+            sgs = llm_suggest(rec, cols, rules, mem_text=memory_text(baseline, mem, hdrs, pool),
+                              **noise_kw)
             col2sg = {}
             for s in sgs:
                 try:
@@ -313,6 +394,12 @@ def run_arm(name: str, fix_uids: list[str], meas_uids: list[str], corpus: dict, 
                     if syn not in rules[target]:
                         rules[target].append(syn)
                     accepted += 1
+                    round_acc.append((syn, target))
+        if baseline in ("mem0", "awm") and round_acc:
+            for item in memory_write_llm(baseline, round_acc):
+                if item not in mem:
+                    mem.append(item)
+            state["memory"] = mem
         rec_row = {
             "round": r, "arm": name,
             "introduced_n": len(introduced),
@@ -379,16 +466,23 @@ def main() -> int:
     ap.add_argument("--force-rate", type=float, default=0.5)
     ap.add_argument("--noise-seed", type=int, default=20260827)
     ap.add_argument("--label", default=None)
+    ap.add_argument("--collision-overlay", default=None)
+    ap.add_argument("--baseline", default="none", choices=["none", "fewshot", "mem0", "awm"])
     args = ap.parse_args()
     assert_endpoint_safe()
     global CKPT, OUT
-    label = args.label or ("exp1" if args.noise == "none" else f"noise_{args.noise}")
+    label = args.label or ("exp1" if args.noise == "none" and args.baseline == "none"
+                           else (f"baseline_{args.baseline}" if args.baseline != "none"
+                                 else f"noise_{args.noise}"))
     CKPT = EVAL / f"vgmc_{label}_checkpoint.json"
     OUT = EVAL / f"vgmc_{label}_results.json"
 
     t0 = time.time()
 
-    corpus = load_corpus()
+    overlay = None
+    if args.collision_overlay:
+        overlay = json.loads(Path(args.collision_overlay).read_text(encoding="utf-8"))
+    corpus = load_corpus(overlay)
     fix_uids, meas_uids = split_uids(list(corpus.keys()))
     split_digest = hashlib.sha256(json.dumps(
         {"fix": fix_uids, "meas": meas_uids}, ensure_ascii=False).encode()).hexdigest()
@@ -411,11 +505,13 @@ def main() -> int:
 
     noise_kw = {"noise": args.noise, "noise_temp": args.noise_temp, "noise_seed": args.noise_seed,
                 "force_rate": args.force_rate if args.noise == "force" else 0.0}
+    pool = fewshot_pool(corpus, fix_uids) if args.baseline == "fewshot" else []
+    baseline_kw = {"baseline": args.baseline, "pool": pool}
     arms = ["gated", "ungated"] if args.arm == "both" else [args.arm]
     for arm in arms:
         state = ckpt.get("arm_" + arm, {})
         state = run_arm(arm, fix_uids, meas_uids, corpus, args.rounds,
-                        args.batch, args.pilot, state, noise_kw)
+                        args.batch, args.pilot, state, noise_kw, baseline_kw)
         ckpt["arm_" + arm] = state
         save_ckpt({"arm_" + arm: state}, merge=True)
 
@@ -429,6 +525,10 @@ def main() -> int:
                        "split_digest_sha256": split_digest,
                        "fix_uids": fix_uids, "meas_uids": meas_uids},
             "endpoint": QA_ENDPOINT,
+            "collision_overlay": ({"path": args.collision_overlay, "n_cols": overlay["meta"]["n_cols"],
+                                    "seed": overlay["meta"]["seed"]} if overlay else None),
+            "baseline": {"level": args.baseline,
+                          "pool_n": len(pool) if args.baseline == "fewshot" else None},
             "noise": {"level": args.noise, "label": label,
                       "temp": args.noise_temp if args.noise == "temp" else None,
                       "force_rate": args.force_rate if args.noise == "force" else None,
@@ -448,6 +548,18 @@ def main() -> int:
         for u in meas_uids:
             if table_h(corpus[u], rules_final) > table_h(corpus[u], {}) + 1e-9:
                 meas_improved += 1
+        ovl_acc = None
+        if overlay:
+            n_ovl = ok = 0
+            for u in meas_uids:
+                rec = corpus[u]
+                mapping, _ = mp.map_headers(rec["inj_header"], schema_table_for(rec, rules_final))
+                rev = {src: std for std, src in mapping.items()}
+                for e in rec["entries"]:
+                    if e.get("type") == "collision":
+                        n_ovl += 1
+                        ok += rev.get(rec["inj_header"][e["col"]]) == e["original"]
+            ovl_acc = round(ok / n_ovl, 4) if n_ovl else None
         payload["arm_" + arm] = {
             "rounds": rounds_log,
             "n_suggestions": n_sugg, "n_accepted": n_acc,
@@ -458,6 +570,8 @@ def main() -> int:
                 baseline["h_meas"] - (rounds_log[-1]["h_meas"] if rounds_log
                                       else baseline["h_meas"]), 6),
             "transfer_rate": round(meas_improved / len(meas_uids), 4),
+            "collision_acc": ovl_acc,
+            "memory_final": st.get("memory", []) if args.baseline in ("mem0", "awm") else None,
             "pilot": st.get("pilot_log", []),
             "rules": rules_final,
         }

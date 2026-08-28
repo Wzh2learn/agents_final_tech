@@ -1,0 +1,55 @@
+{
+ "meta": {
+  "name": "vgmc-baseline-curve",
+  "generated": "2026-08-28 20:21:04",
+  "design": "docs/experiments/2026-08-27_small_a_baseline_protocol_design.md",
+  "control": "实验 1 ungated (no-gate), H_meas 终值 0.589048",
+  "seed": 20260827,
+  "n_boot": 2000,
+  "endpoint_calls": 0,
+  "window": "2026-08-28 #BASELINE-WINDOW"
+ },
+ "rows": [
+  {
+   "baseline": "fewshot",
+   "h_meas_final": 0.589048,
+   "delta_h_vs_nogate": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "n_memory_items": 0,
+   "n_suggestions": 53,
+   "verdict": "与 no-gate 不可分"
+  },
+  {
+   "baseline": "mem0",
+   "h_meas_final": 0.589048,
+   "delta_h_vs_nogate": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "n_memory_items": 29,
+   "n_suggestions": 54,
+   "verdict": "与 no-gate 不可分"
+  },
+  {
+   "baseline": "awm",
+   "h_meas_final": 0.589048,
+   "delta_h_vs_nogate": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "n_memory_items": 32,
+   "n_suggestions": 54,
+   "verdict": "与 no-gate 不可分"
+  }
+ ],
+ "verdicts": {
+  "fewshot": "与 no-gate 不可分",
+  "mem0": "与 no-gate 不可分",
+  "awm": "与 no-gate 不可分"
+ }
+}

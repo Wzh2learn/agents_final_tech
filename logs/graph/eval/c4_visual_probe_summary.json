@@ -1,0 +1,90 @@
+{
+ "meta": {
+  "name": "c4-visual-probe-summary",
+  "generated": "2026-08-28 00:02:18",
+  "caliber": "严格判定=归一化全等; refined=含包含匹配; misaligned=列错位/读串（视觉层自身噪声）; 全合成渲染甲方零进入",
+  "source": "logs/graph/eval/c4_visual_probe_results.json",
+  "endpoint": ":8007 Qwen3-VL-8B（用毕已停）",
+  "window": "2026-08-28 00:3x-00:4x"
+ },
+ "by_type": {
+  "alias_variant": {
+   "n": 47,
+   "faithful_strict": 10,
+   "corrected_strict": 0,
+   "faithful_contain": 6,
+   "corrected_contain": 1,
+   "no_transcript": 5,
+   "misaligned": 25,
+   "faithful_all": 16,
+   "corrected_all": 1,
+   "visual_disc_rate_strict": 0.0,
+   "visual_disc_rate_refined": 0.0213
+  },
+  "date_variant": {
+   "n": 17,
+   "faithful_strict": 0,
+   "corrected_strict": 1,
+   "faithful_contain": 8,
+   "corrected_contain": 3,
+   "no_transcript": 2,
+   "misaligned": 3,
+   "faithful_all": 8,
+   "corrected_all": 4,
+   "visual_disc_rate_strict": 0.0588,
+   "visual_disc_rate_refined": 0.2353
+  },
+  "mixed_lang": {
+   "n": 20,
+   "faithful_strict": 0,
+   "corrected_strict": 0,
+   "faithful_contain": 11,
+   "corrected_contain": 0,
+   "no_transcript": 2,
+   "misaligned": 7,
+   "faithful_all": 11,
+   "corrected_all": 0,
+   "visual_disc_rate_strict": 0.0,
+   "visual_disc_rate_refined": 0.0
+  },
+  "ocr_similar": {
+   "n": 13,
+   "faithful_strict": 0,
+   "corrected_strict": 5,
+   "faithful_contain": 2,
+   "corrected_contain": 3,
+   "no_transcript": 2,
+   "misaligned": 1,
+   "faithful_all": 2,
+   "corrected_all": 8,
+   "visual_disc_rate_strict": 0.3846,
+   "visual_disc_rate_refined": 0.6154
+  },
+  "unit_suffix": {
+   "n": 5,
+   "faithful_strict": 0,
+   "corrected_strict": 0,
+   "faithful_contain": 2,
+   "corrected_contain": 0,
+   "no_transcript": 1,
+   "misaligned": 2,
+   "faithful_all": 2,
+   "corrected_all": 0,
+   "visual_disc_rate_strict": 0.0,
+   "visual_disc_rate_refined": 0.0
+  },
+  "prefix_noise": {
+   "n": 16,
+   "faithful_strict": 9,
+   "corrected_strict": 0,
+   "faithful_contain": 3,
+   "corrected_contain": 2,
+   "no_transcript": 1,
+   "misaligned": 1,
+   "faithful_all": 12,
+   "corrected_all": 2,
+   "visual_disc_rate_strict": 0.0,
+   "visual_disc_rate_refined": 0.125
+  }
+ }
+}

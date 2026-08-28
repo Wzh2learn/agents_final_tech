@@ -1026,4 +1026,15 @@ echo dispatch_log updated
 [08-27 23:2x] #SIDE-5PT-LANDING 侧线五点优化直落: Loop A 双档路由（loopa-exec PROFILE-OK）+ figures_k2 五图 + 四桶板 + 窗口合并草案（待批）+ orchestrator 路由注记 + INDEX/THREADS 同 commit 登记; Round 3 辩证触发记账（骨架未碰）
 [08-27 23:5x] #SIDE-ROUND3-PREP Round 3 辩证简报 + K2 对账清单备妥（侧线预备; 骨架未动; INDEX/THREADS 同 commit 登记）
 [08-27 23:5x] #SIDE-ROUND3-RECORD Round 3 辩证记录上传入库 + INDEX 同 commit 登记（侧线; 工件抽验坐实: L3 逐轮 8/6/9/4 vs 14/11/16/11 + 两臂 h_meas 逐轮全同 + 门拒 31/58）; 骨架未动; THREADS 行待主线程收口带走
+[08-28 00:46] #LOOP-B-FLIP overall FAIL -> PASS (head=0e1b099; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-28 09:08] #LOOP-B-FLIP overall PASS -> FAIL (head=0e1b099; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-28 10:15] #LOOP-B-FLIP overall FAIL -> PASS (head=0e1b099; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-28 14:10] #LOOP-B-FLIP overall PASS -> FAIL (head=0e1b099; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-28 15:50] #LOOP-B-FLIP overall FAIL -> PASS (head=0e1b099; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-28 20:16] #LOOP-B-FLIP overall PASS -> FAIL (head=0e1b099; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-28 Round3-exec] 用户勾选执行（主线程本地, GB10 loop token 异常代跑）: D1 采纳 / D2 批准 / D3 采纳 / D4 勾 1-5 全; 落地 = 记录 §6 勾选 + 骨架 v2.4（D4 项 1-5 + 项 6 条件条款保留）+ 对抗建议器臂设计全稿（2026-08-28_adversarial_suggester_arm_design.md）+ INDEX 登记; 骨架数字对账未触生产; :8004/:8006 零调用零配置改动; THREADS 行随本 commit 带走（侧线 #SIDE-ROUND3-RECORD 留 GB10 由主线程收口）
+[08-27 23:4x] #SEGMENT-C-BANDIT bandit v0 replay 完成: 42 金标 × 六格, TS 4 决策点全 R=1（可靠体制无分辨空间）, direct_best=τ0.05/ε0（最宽门赢）; 零端点
+[08-27 23:5x] #VGMC-COLLISION-WINDOW 段 A 扩语料碰撞完成: P3 null 未触发（H |差| 0.0057 临界 + ACC 门控 2 倍级, n=25 弱注记）; ε 维首次实质激活; 设计稿+生成器+40 行合并+8 单测全链
+[08-28 00:1x] #K2-CHAPTER-DRAFT K2/小 B 章正文 v0 入库（92 行五节+溯源索引, 数字全对账工件, 谓词自查过, 待用户/侧线复核）
+[08-28 00:4x] #C4-VISUAL-PROBE-WINDOW 段 B C4 探针首批完成: OCR 形近视觉判别 61.5%（匹配层盲区=视觉明区跨层互补）+ 错位噪声 33% 治理注记; :8007 用毕即停
+[08-28 20:2x] #BASELINE-WINDOW 段 D 基线窗完成: 三基线全部与 no-gate 不可分（ΔH 逐位 0）, 替代记忆机制无增量预注册结论入账; 主线程直跑（Loop A 异常期用户批, 后恢复）
