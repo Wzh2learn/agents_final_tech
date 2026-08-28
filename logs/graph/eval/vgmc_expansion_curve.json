@@ -1,0 +1,89 @@
+{
+ "meta": {
+  "name": "vgmc-expansion-curve",
+  "generated": "2026-08-29 01:41:44",
+  "seed_boot": 20260827,
+  "n_boot": 2000,
+  "endpoint_calls": 0
+ },
+ "rows": {
+  "EXP_u05": {
+   "arm": "ungated",
+   "rho": 0.5,
+   "h_baseline": 0.594762,
+   "h_final": 0.64619,
+   "delta_h": 0.051428,
+   "coll_acc": 0.1,
+   "coll_n_tables": 13,
+   "coll_n_cols": 30,
+   "fixation_rate": 0.7143,
+   "adv_events": 10,
+   "adv_accepted": 10,
+   "gate_reject_rate": 0.0
+  },
+  "EXP_u10": {
+   "arm": "ungated",
+   "rho": 1.0,
+   "h_baseline": 0.651905,
+   "h_final": 0.64619,
+   "delta_h": -0.005715,
+   "coll_acc": 0.1,
+   "coll_n_tables": 15,
+   "coll_n_cols": 40,
+   "fixation_rate": 0.8163,
+   "adv_events": 10,
+   "adv_accepted": 10,
+   "gate_reject_rate": 0.0
+  },
+  "EXP_g10": {
+   "arm": "gated",
+   "rho": 1.0,
+   "h_baseline": 0.651905,
+   "h_final": 0.651905,
+   "delta_h": 0.0,
+   "coll_acc": 0.175,
+   "coll_n_tables": 15,
+   "coll_n_cols": 40,
+   "fixation_rate": 0.303,
+   "adv_events": 5,
+   "adv_accepted": 0,
+   "gate_reject_rate": 1.0
+  }
+ },
+ "E1": {
+  "rho0_ref_delta_h": 0.051428,
+  "rho05_delta_h": 0.051428,
+  "rho10_delta_h": -0.005715,
+  "monotonic_H": true,
+  "rho0_ref_coll_acc": 0.12,
+  "rho05_coll_acc": 0.1,
+  "rho10_coll_acc": 0.1,
+  "monotonic_ACC": true
+ },
+ "E2": {
+  "gated_abs_delta_h": 0.0,
+  "sigma_eps": 0.0,
+  "holds": true
+ },
+ "E3": {
+  "dV_ACC": 0.05,
+  "dV_ACC_ci95": [
+   0.0,
+   0.1056
+  ],
+  "dV_H": 0.005714,
+  "dV_H_ci95": [
+   0.0,
+   0.017143
+  ],
+  "n_tables_ACC": 15,
+  "n_tables_H": 35,
+  "power_note": "碰撞表数 12（C0 基线）→ 15（扩容后, +3）",
+  "card_trigger_B_to_A": false,
+  "design_e3_both": false
+ },
+ "E4": {
+  "fired": false
+ },
+ "verdict": "未显形 → 版本 B 维持, 下一步另行裁定（如实记账）"
+}

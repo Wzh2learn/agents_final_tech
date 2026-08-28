@@ -1,6 +1,6 @@
 # 相关工作 v3（m0_lit 五篇全文接入, 三簇补强）
 
-> 状态: 草稿 v3（承 v2; m0_lit 全文在 GB10 盘上零在线依赖, 引文经 OpenAlex 实查作者, 08-29） | 更新: 2026-08-29 | 取代: v2（v1/v2 保留备查）
+> 状态: 草稿 v3.1（Voyager/MemGPT 在线核验, 待复核清零; 承 v3） | 更新: 2026-08-29 | 取代: v2（v1/v2 保留备查）
 > 语料: ~/wzh/research/m0_lit/（fulltext ×5 + batch 元数据）
 
 ## 1 簇二补强 · agent 记忆: 从机制谱系到评测谱系
@@ -61,9 +61,25 @@ v2 已列机制谱系（Mem0 事实 / AWM 过程 / MemGPT 分层 / Voyager 技�
   journal = {arXiv preprint arXiv:2608.03392}, year = {2026}}
 ```
 
-## 4 三簇现状自查
+## 4 BibTeX 增量二（Voyager / MemGPT 在线核验, 08-29 待复核清零）
+
+```bibtex
+@article{wang2023voyager,
+  title   = {Voyager: An Open-Ended Embodied Agent with Large Language Models},
+  author  = {Wang, Guanzhi and Xie, Yuqi and Jiang, Yunfan and Mandlekar, Ajay and Xiao, Chaowei and others},
+  journal = {arXiv preprint arXiv:2305.16291}, year = {2023},
+  note    = {OpenAlex 在线核验 08-29}}
+
+@article{packer2023memgpt,
+  title   = {MemGPT: Towards LLMs as Operating Systems},
+  author  = {Packer, Charles and Wooders, Sarah and Lin, Kevin and Fang, Vivian and Patil, Shishir G.},
+  journal = {arXiv preprint arXiv:2310.08560}, year = {2023},
+  note    = {OpenAlex 在线核验 08-29}}
+```
+
+## 5 三簇现状自查
 
 - 簇一（变异测试）: v2 已完备, 本批无增量
 - 簇二（记忆）: 机制 × 评测双轴成立（+3 篇）
 - 簇三（自进化）: 参数侧/规则侧分野 + 分类学坐标成立（+2 篇）
-- 全部 11 条引文中: CrossRef 实查 4 / OpenAlex 实查 5 / 待复核 2（Voyager, MemGPT）
+- 全部 13 条引文: CrossRef 实查 4 / OpenAlex 实查 7 / **待复核 0（08-29 清零）**

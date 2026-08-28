@@ -1,0 +1,405 @@
+{
+ "meta": {
+  "name": "vgmc-exp1",
+  "version": "v1",
+  "generated": "2026-08-29 01:37:57",
+  "design": "docs/experiments/2026-08-26_vgmc_exp1_design.md",
+  "prereg": {
+   "seed": 20260826,
+   "n_meas": 35,
+   "tau_main": 0.1,
+   "eps_main": 0.02,
+   "grid": [
+    [
+     0.05,
+     0.0
+    ],
+    [
+     0.05,
+     0.02
+    ],
+    [
+     0.1,
+     0.0
+    ],
+    [
+     0.1,
+     0.02
+    ],
+    [
+     0.2,
+     0.0
+    ],
+    [
+     0.2,
+     0.02
+    ]
+   ],
+   "split_digest_sha256": "47649383020b8b22cb2a6a6bf70af4b54ecadba49192432606051ebe606cfaca",
+   "fix_uids": [
+    "0b2eba23-104c-4219-8171-104f14d52a71",
+    "14b78dc3-ad9c-46cd-beb0-ecb222567694",
+    "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+    "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+    "1fe3e1d6-7532-44e1-aa5d-cdbe604583bd",
+    "21c316d6-5e25-4af5-a29a-82b748175279",
+    "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+    "2953b803-d49b-4fbb-8dc2-d9a3bec9d67e",
+    "38eb9da5-5c73-4366-af5f-9bd01019938a",
+    "425ee1c7-fb82-4853-994a-9876c414fbd5",
+    "44c7c9ef-bb9f-45c9-9ee5-e2bf465c3617",
+    "50a8d377-b36e-4a3f-a6c0-118531b1c134",
+    "50e78448-3cf5-439c-a609-ee866bd1f05a",
+    "51cd045e-e91b-4289-9397-341538e9739b",
+    "567a03c7-0324-46f4-adbe-4143b60a7eff",
+    "5e60c056-5073-441d-8525-7f834deb5c64",
+    "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+    "617deeb3-f222-4172-a824-c62fc2214a89",
+    "637d5671-0913-4e80-b135-2d4a516b79bb",
+    "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+    "6a5e5192-5d37-489f-97f2-400ea965ae36",
+    "6aae8dee-45af-4a09-9e09-8137d6eb3dc3",
+    "6bf238a5-0a3e-492d-91f8-7f62d3b37fba",
+    "6ed697ff-9893-453a-84a4-44023fffca78",
+    "6f9a0eb1-ef23-49e3-9342-ab389b10de48",
+    "70cf5260-2124-4a26-a148-5cf3c6028813",
+    "73a817fc-25df-494d-b0f2-79cfdab34076",
+    "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+    "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+    "7a249c43-5e24-447e-9da1-3d5982aca590",
+    "7c80a835-4fb2-4792-9ad8-95660da47f7e",
+    "93339b76-1f90-4d86-8f31-bbb7bff71603",
+    "964a6470-3cb0-4520-b096-8176bca8ed1d",
+    "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+    "97176853-a81e-422a-a8c1-e0542348d051",
+    "99f24ed1-6222-4707-a170-bac3de607798",
+    "9bce514f-3eb3-433c-85e5-2d40d116497c",
+    "a824b7af-61e8-4800-83c6-72e56e64a36d",
+    "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2",
+    "b48bb5fb-ea46-4a44-a39e-f2554719d158",
+    "b5aae4e9-040d-4e55-a42d-39cde217978f",
+    "b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1",
+    "bcbd7783-86ad-430d-aa96-48808bb0426c",
+    "bdeeb701-bae6-4a36-86d6-108c8e43c5e2",
+    "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+    "c0f66238-591a-4693-b2d2-fee0f6843420",
+    "ce09caff-769d-498f-9e5d-09dc1e741d70",
+    "d2bba753-0df3-4a39-860b-bde563261fec",
+    "d8c20406-c646-4689-b645-5260bf17499d",
+    "e0689072-72ba-4979-962a-bb128539defb",
+    "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+    "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+    "e67f7bf2-fc15-4a7a-9856-febb066998fd",
+    "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+    "e9d3bb25-89ab-4aed-8bec-5501d5fe7b16",
+    "ea1f0fff-a213-4475-8b1c-221157649595",
+    "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+    "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+    "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6",
+    "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8"
+   ],
+   "meas_uids": [
+    "195174fe-dd0a-40b1-9139-21fb207f382a",
+    "1e712660-7b78-4791-8264-e517efde2e62",
+    "21a432eb-166c-4178-adf9-08b6ad3fde7d",
+    "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+    "28caffcd-e07b-4eb6-9700-2400e8e1e450",
+    "2cc74a85-0524-4eda-aa35-dced125c3818",
+    "329e3ff5-0cff-4849-8fd0-9b1e5606f6ca",
+    "32cfcadb-add0-4cc1-9956-41ac073477c4",
+    "3789d7da-dc3e-4cd7-b639-d6805211405a",
+    "3c609073-6a48-4961-84cd-de68a59fd66c",
+    "3ec15660-9e13-4162-abb6-2462d65f07ba",
+    "46f3bc91-b8ca-42b8-bf03-f23e9fd70b5e",
+    "54c494f7-d731-49bf-b9cd-d494aea72e34",
+    "5628f806-5eff-4b35-8951-785a2669f0db",
+    "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+    "648e1260-d160-45d2-a744-57be0fd89850",
+    "6e1da895-35f8-4ac4-8b2d-491ef6b3c5f6",
+    "6ea63cce-37b7-4210-b446-952afde67eb5",
+    "82c8abd6-9cce-4ede-a4ee-2866ce65cda8",
+    "8692f92d-668a-452d-be7a-2b491ee27585",
+    "86d86884-ffec-48ae-bb29-a94cd773c029",
+    "a32b9e2a-36d9-4513-963e-9b1fc36878f0",
+    "abba843f-be4e-4905-8bab-19942dbfedef",
+    "aca23e3e-967d-40a9-b6bb-3c095786a3b7",
+    "ae3cbef3-f02b-4833-ba73-abb7590dc495",
+    "b538d340-dfca-4f89-a59f-01fc1bb35184",
+    "b975862d-d00d-42a5-a861-77ebcb48c55e",
+    "d423c6ef-50f3-4535-a74f-13cb46728627",
+    "d6d9f70a-17b6-4530-b497-f73d59f0f0cb",
+    "d7d65228-96c1-4890-951c-c3d7578f8031",
+    "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+    "ea031e89-1bf8-4f64-8ed5-d1d0327003cf",
+    "fa0ed823-f4a8-4063-b895-a517f9447dad",
+    "fbbb1116-0ef2-4d7e-a90f-2c72e2739e22",
+    "fd39b5b5-7426-4db6-bbf7-d3c5111ce543"
+   ]
+  },
+  "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+  "collision_overlay": {
+   "path": "logs/graph/eval/vgmc_collision_overlay_v2_rho05.json",
+   "n_cols": 67,
+   "seed": 20260828
+  },
+  "baseline": {
+   "level": "none",
+   "pool_n": null
+  },
+  "adversarial": {
+   "rate": 1.0,
+   "seed": 20260829,
+   "n_active": 16
+  },
+  "noise": {
+   "level": "none",
+   "label": "collision_EXP_u05",
+   "temp": null,
+   "force_rate": null,
+   "seed": null
+  },
+  "baseline_no_rules": {
+   "h_fix": 0.677897,
+   "h_meas": 0.594762
+  },
+  "runtime_s": 284.23
+ },
+ "arm_ungated": {
+  "rounds": [
+   {
+    "round": 0,
+    "arm": "ungated",
+    "introduced_n": 15,
+    "lambda_calls": 11,
+    "asked_cols": 20,
+    "suggestions": 20,
+    "accepted": 15,
+    "h_fix": 0.973333,
+    "h_meas": 0.609048,
+    "n_rules": 15
+   },
+   {
+    "round": 1,
+    "arm": "ungated",
+    "introduced_n": 30,
+    "lambda_calls": 11,
+    "asked_cols": 24,
+    "suggestions": 24,
+    "accepted": 15,
+    "h_fix": 0.97,
+    "h_meas": 0.637619,
+    "n_rules": 28
+   },
+   {
+    "round": 2,
+    "arm": "ungated",
+    "introduced_n": 45,
+    "lambda_calls": 15,
+    "asked_cols": 25,
+    "suggestions": 25,
+    "accepted": 21,
+    "h_fix": 0.908148,
+    "h_meas": 0.631905,
+    "n_rules": 45
+   },
+   {
+    "round": 3,
+    "arm": "ungated",
+    "introduced_n": 60,
+    "lambda_calls": 12,
+    "asked_cols": 22,
+    "suggestions": 22,
+    "accepted": 14,
+    "h_fix": 0.916111,
+    "h_meas": 0.64619,
+    "n_rules": 53
+   }
+  ],
+  "n_suggestions": 91,
+  "n_accepted": 65,
+  "fixation_rate": 0.7143,
+  "h_fix_final": 0.916111,
+  "h_meas_final": 0.64619,
+  "degradation_vs_baseline": -0.051428,
+  "transfer_rate": 0.0857,
+  "collision_acc": 0.1,
+  "memory_final": null,
+  "pilot": [
+   {
+    "uid": "0b2eba23-104c-4219-8171-104f14d52a71",
+    "cols": [
+     2
+    ],
+    "n_sugg": 1,
+    "latency_s": 2.42,
+    "sample": [
+     {
+      "column": 3,
+      "action": "map_to",
+      "target": "Accumulated Amortization",
+      "confidence": "high",
+      "reason": "列名'摊薄'是'Amortization'的中文翻译，且数值为负数，与Accumulated Amortization列一致。"
+     }
+    ]
+   },
+   {
+    "uid": "14b78dc3-ad9c-46cd-beb0-ecb222567694",
+    "cols": [
+     3,
+     4
+    ],
+    "n_sugg": 2,
+    "latency_s": 5.02,
+    "sample": [
+     {
+      "column": 4,
+      "action": "map_to",
+      "target": "Number of accounts",
+      "confidence": "high",
+      "reason": "列名 'account no.' 明确指代账户编号或数量，与标准字段 'Number of accounts' 语义一致。"
+     },
+     {
+      "column": 5,
+      "action": "skip",
+      "target": null,
+      "confidence": "high",
+      "reason": "列名 '账户' 为中文通用词，且数据值（70.3, 24.6）无明确单位指向，无法唯一映射到 'Percentage to total accounts' 或其他标准字段，故跳过。"
+     }
+    ]
+   }
+  ],
+  "rules": {
+   "Accumulated Amortization": [
+    "摊薄",
+    "amort"
+   ],
+   "Number of accounts": [
+    "account no."
+   ],
+   "Weighted Average Grant Date Fair Value": [
+    "Weighted Average Grant 2017期末 Fair Value",
+    "Weighted-average grant date 2021-对账日期 fair value"
+   ],
+   "Number of Shares at Expected Attainment": [
+    "Weighted Average Grant 对账日期 / date Fair Value"
+   ],
+   "Weighted-average grant date fair value": [
+    "Weighted-average grant date 2021-对账日期 fair value"
+   ],
+   "Revenue Recognition Guidance": [
+    "营业收入"
+   ],
+   "Allocation of GasLog Partners’ profit/(loss)(*)": [
+    "profit(万元)"
+   ],
+   "Weighted-Average Grant Date Fair Value Per Share": [
+    "Weighted-Average Grant date 2021-报表明细日期 Fair Value Per Share"
+   ],
+   "Office property and other tangible assets": [
+    "资产(assets)"
+   ],
+   "Total tangible fixed assets": [
+    "资产总额(万元)"
+   ],
+   "Income Tax Expense (Benefit)": [
+    "income(收入)"
+   ],
+   "Balance Sheet Account": [
+    "account no."
+   ],
+   "Grant Date": [
+    "Grant 2020年对账日期"
+   ],
+   "Expiry Date": [
+    "Expiry 净值日期 / date"
+   ],
+   "2019": [
+    "201j",
+    "4019",
+    "m①",
+    "m №"
+   ],
+   "CONSOLIDATE": [
+    "CONSOLI2017期末"
+   ],
+   "2018": [
+    "m①",
+    "turnover",
+    "m [1]"
+   ],
+   "Grant Date Fair Value of Stock and Option Awards ($) (1)": [
+    "Grant date 2017-交易日 Fair Value of Stock and Option Awards ($) (1)"
+   ],
+   "CASH FLOW SUMMARY": [
+    "现金流"
+   ],
+   "Income statement expense": [
+    "收入(income)"
+   ],
+   "Revenue and Receipts": [
+    "sales",
+    "turnover",
+    "营业收入"
+   ],
+   "Group Profit or Loss": [
+    "profit(万元)"
+   ],
+   "Consolidated": [
+    "Consoli2016年交易日d",
+    "CONSOLI2016年交易日D"
+   ],
+   "£m": [
+    "m①",
+    "m [1]",
+    "m №",
+    "m【】"
+   ],
+   "Grant Date Value ($)": [
+    "Grant date 2019-交易日 Value ($)"
+   ],
+   "Total Cash Dividends Paid": [
+    "股息"
+   ],
+   "Total Cash Dividends Paid Per Common Share": [
+    "dividends(股息)"
+   ],
+   "As a % of Revenue (1)": [
+    "营业总收入"
+   ],
+   "WEIGHTED AVERAGE INTEREST RATE AT DECEMBER 31, 2019": [
+    "利息"
+   ],
+   "2017/18": [
+    "m【】"
+   ],
+   "Net Tangible Assets Acquired (Liabilities Assumed)": [
+    "资产(assets)",
+    "assets(资产)"
+   ],
+   "Accounts Receivable, Gross": [
+    "帐号"
+   ],
+   "Accounts Receivable, Net": [
+    "帐号"
+   ],
+   "OPERATING REVENUES": [
+    "turnover"
+   ],
+   "Financial income and expenses": [
+    "income(收入)"
+   ],
+   "Net Cost": [
+    "摊薄"
+   ],
+   "Gross Cost": [
+    "Accumulatee Amortization"
+   ],
+   "Accumulated Unrealised Gains or Losses on Cash Flow Hedges": [
+    "现金流量"
+   ],
+   "Purchased Intangible Assets": [
+    "资产(元)"
+   ]
+  }
+ }
+}

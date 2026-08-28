@@ -1,0 +1,665 @@
+{
+ "meta": {
+  "name": "vgmc-collision-overlay",
+  "seed": 20260828,
+  "generated": "2026-08-27 23:37:07",
+  "e_meas": 4,
+  "e_fix": 2,
+  "n_tables": 37,
+  "n_cols": 67,
+  "caliber": "全合成移植列（数据复制目标表真值列）; 甲方零进入",
+  "expansion": {
+   "seed": 20260829,
+   "rho": 0.5,
+   "eligible_canons": 15,
+   "shareable_unique": 15,
+   "shared_n": 5,
+   "tables_hit": 8,
+   "generated": "2026-08-29 01:32:19"
+  }
+ },
+ "tables": {
+  "0b2eba23-104c-4219-8171-104f14d52a71": {
+   "cols": [
+    {
+     "header": "amort",
+     "true_canonical": "Accumulated Amortization",
+     "source_uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+     "data_col_idx": 2
+    }
+   ]
+  },
+  "16ebd25a-f23a-4182-9de0-8427a64a7fd2": {
+   "cols": [
+    {
+     "header": "Weighted Average Grant 对账日期 / date Fair Value",
+     "true_canonical": "Weighted Average Grant Date Fair Value",
+     "source_uid": "1e712660-7b78-4791-8264-e517efde2e62",
+     "data_col_idx": 2
+    },
+    {
+     "header": "Weighted-average grant date 2021-对账日期 fair value",
+     "true_canonical": "Weighted-average grant date fair value",
+     "source_uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+     "data_col_idx": 2
+    }
+   ]
+  },
+  "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa": {
+   "cols": [
+    {
+     "header": "Weighted Average Grant 2017期末 Fair Value",
+     "true_canonical": "Weighted Average Grant Date Fair Value",
+     "source_uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+     "data_col_idx": 2
+    },
+    {
+     "header": "Weighted Average Grant 对账日期 / date Fair Value",
+     "true_canonical": "Weighted Average Grant Date Fair Value",
+     "source_uid": "1e712660-7b78-4791-8264-e517efde2e62",
+     "data_col_idx": 2
+    }
+   ]
+  },
+  "1e712660-7b78-4791-8264-e517efde2e62": {
+   "cols": [
+    {
+     "header": "Weighted-average grant date 2021-对账日期 fair value",
+     "true_canonical": "Weighted-average grant date fair value",
+     "source_uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+     "data_col_idx": 2
+    },
+    {
+     "header": "Weighted Average Grant 2017期末 Fair Value",
+     "true_canonical": "Weighted Average Grant Date Fair Value",
+     "source_uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+     "data_col_idx": 2
+    }
+   ]
+  },
+  "21a432eb-166c-4178-adf9-08b6ad3fde7d": {
+   "cols": [
+    {
+     "header": "资产(assets)",
+     "true_canonical": "Financial Assets",
+     "source_uid": "ae3cbef3-f02b-4833-ba73-abb7590dc495",
+     "data_col_idx": 1
+    }
+   ]
+  },
+  "46f3bc91-b8ca-42b8-bf03-f23e9fd70b5e": {
+   "cols": [
+    {
+     "header": "amort",
+     "true_canonical": "Accumulated Amortization",
+     "source_uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+     "data_col_idx": 3
+    },
+    {
+     "header": "Accumulatee Amortization",
+     "true_canonical": "Accumulated Amortization",
+     "source_uid": "EXPAND2",
+     "data_col_idx": 3,
+     "shared": true,
+     "expansion": 2
+    }
+   ]
+  },
+  "54c494f7-d731-49bf-b9cd-d494aea72e34": {
+   "cols": [
+    {
+     "header": "摊薄",
+     "true_canonical": "Accumulated Amortization",
+     "source_uid": "82c8abd6-9cce-4ede-a4ee-2866ce65cda8",
+     "data_col_idx": 2
+    }
+   ]
+  },
+  "5628f806-5eff-4b35-8951-785a2669f0db": {
+   "cols": [
+    {
+     "header": "m【】",
+     "true_canonical": "£m",
+     "source_uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m①",
+     "true_canonical": "£m",
+     "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m [1]",
+     "true_canonical": "£m",
+     "source_uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "567a03c7-0324-46f4-adbe-4143b60a7eff": {
+   "cols": [
+    {
+     "header": "Grant date 2019-报表明细日期",
+     "true_canonical": "Grant Date",
+     "source_uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "5bf40a9b-38a9-47db-8c83-c3a854ee71b7": {
+   "cols": [
+    {
+     "header": "Consoli2021期末d",
+     "true_canonical": "Consolidated",
+     "source_uid": "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6",
+     "data_col_idx": 1
+    },
+    {
+     "header": "Consoli2019期末d",
+     "true_canonical": "Consolidated",
+     "source_uid": "7a249c43-5e24-447e-9da1-3d5982aca590",
+     "data_col_idx": 1
+    },
+    {
+     "header": "Consoli2016年交易日d",
+     "true_canonical": "Consolidated",
+     "source_uid": "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+     "data_col_idx": 1
+    },
+    {
+     "header": "Consoli交易日 / dated",
+     "true_canonical": "Consolidated",
+     "source_uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+     "data_col_idx": 1
+    }
+   ]
+  },
+  "5e60c056-5073-441d-8525-7f834deb5c64": {
+   "cols": [
+    {
+     "header": "m [1]",
+     "true_canonical": "£m",
+     "source_uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m №",
+     "true_canonical": "£m",
+     "source_uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+     "data_col_idx": 0
+    },
+    {
+     "header": "201j",
+     "true_canonical": "2018",
+     "source_uid": "EXPAND2",
+     "data_col_idx": 2,
+     "shared": true,
+     "expansion": 2
+    }
+   ]
+  },
+  "637d5671-0913-4e80-b135-2d4a516b79bb": {
+   "cols": [
+    {
+     "header": "m①",
+     "true_canonical": "£m",
+     "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m【】",
+     "true_canonical": "£m",
+     "source_uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "648e1260-d160-45d2-a744-57be0fd89850": {
+   "cols": [
+    {
+     "header": "资产(元)",
+     "true_canonical": "Purchased Intangible Assets",
+     "source_uid": "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8",
+     "data_col_idx": 1
+    }
+   ]
+  },
+  "68b8d514-802c-4ebc-a754-db4a3db7f9fd": {
+   "cols": [
+    {
+     "header": "Grant 2020年对账日期",
+     "true_canonical": "Grant Date",
+     "source_uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+     "data_col_idx": 1
+    }
+   ]
+  },
+  "6ea63cce-37b7-4210-b446-952afde67eb5": {
+   "cols": [
+    {
+     "header": "m №",
+     "true_canonical": "£m",
+     "source_uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m【】",
+     "true_canonical": "£m",
+     "source_uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m①",
+     "true_canonical": "£m",
+     "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+     "data_col_idx": 0
+    },
+    {
+     "header": "201j",
+     "true_canonical": "2018",
+     "source_uid": "EXPAND2",
+     "data_col_idx": 2,
+     "shared": true,
+     "expansion": 2
+    },
+    {
+     "header": "4019",
+     "true_canonical": "2019",
+     "source_uid": "EXPAND2",
+     "data_col_idx": 1,
+     "shared": true,
+     "expansion": 2
+    },
+    {
+     "header": "£v",
+     "true_canonical": "£m",
+     "source_uid": "EXPAND2",
+     "data_col_idx": 0,
+     "shared": true,
+     "expansion": 2
+    }
+   ]
+  },
+  "6ed697ff-9893-453a-84a4-44023fffca78": {
+   "cols": [
+    {
+     "header": "turnover",
+     "true_canonical": "Revenue and Receipts",
+     "source_uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+     "data_col_idx": 2
+    },
+    {
+     "header": "营业收入",
+     "true_canonical": "Unearned Revenue",
+     "source_uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+     "data_col_idx": 4
+    }
+   ]
+  },
+  "74509a86-77cf-48ee-92f4-f4cd19ad1610": {
+   "cols": [
+    {
+     "header": "CONSOLI2016年交易日D",
+     "true_canonical": "CONSOLIDATED",
+     "source_uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+     "data_col_idx": 4
+    },
+    {
+     "header": "Consoli2021期末d",
+     "true_canonical": "Consolidated",
+     "source_uid": "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6",
+     "data_col_idx": 4
+    }
+   ]
+  },
+  "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d": {
+   "cols": [
+    {
+     "header": "m [1]",
+     "true_canonical": "£m",
+     "source_uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m №",
+     "true_canonical": "£m",
+     "source_uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+     "data_col_idx": 0
+    },
+    {
+     "header": "£v",
+     "true_canonical": "£m",
+     "source_uid": "EXPAND2",
+     "data_col_idx": 0,
+     "shared": true,
+     "expansion": 2
+    }
+   ]
+  },
+  "7a249c43-5e24-447e-9da1-3d5982aca590": {
+   "cols": [
+    {
+     "header": "Consoli2016年交易日d",
+     "true_canonical": "Consolidated",
+     "source_uid": "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+     "data_col_idx": 1
+    },
+    {
+     "header": "CONSOLI2016年交易日D",
+     "true_canonical": "CONSOLIDATED",
+     "source_uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+     "data_col_idx": 1
+    }
+   ]
+  },
+  "7c80a835-4fb2-4792-9ad8-95660da47f7e": {
+   "cols": [
+    {
+     "header": "amort",
+     "true_canonical": "Accumulated Amortization",
+     "source_uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+     "data_col_idx": 2
+    }
+   ]
+  },
+  "82c8abd6-9cce-4ede-a4ee-2866ce65cda8": {
+   "cols": [
+    {
+     "header": "amort",
+     "true_canonical": "Accumulated Amortization",
+     "source_uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+     "data_col_idx": 2
+    }
+   ]
+  },
+  "93339b76-1f90-4d86-8f31-bbb7bff71603": {
+   "cols": [
+    {
+     "header": "m①",
+     "true_canonical": "£m",
+     "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m №",
+     "true_canonical": "£m",
+     "source_uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "a824b7af-61e8-4800-83c6-72e56e64a36d": {
+   "cols": [
+    {
+     "header": "m【】",
+     "true_canonical": "£m",
+     "source_uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m①",
+     "true_canonical": "£m",
+     "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2": {
+   "cols": [
+    {
+     "header": "assets(资产)",
+     "true_canonical": "Purchased Intangible Assets",
+     "source_uid": "648e1260-d160-45d2-a744-57be0fd89850",
+     "data_col_idx": 3
+    }
+   ]
+  },
+  "ae3cbef3-f02b-4833-ba73-abb7590dc495": {
+   "cols": [
+    {
+     "header": "assets(资产)",
+     "true_canonical": "Financial assets",
+     "source_uid": "21a432eb-166c-4178-adf9-08b6ad3fde7d",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "b538d340-dfca-4f89-a59f-01fc1bb35184": {
+   "cols": [
+    {
+     "header": "m①",
+     "true_canonical": "£m",
+     "source_uid": "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m №",
+     "true_canonical": "£m",
+     "source_uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m【】",
+     "true_canonical": "£m",
+     "source_uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "b5aae4e9-040d-4e55-a42d-39cde217978f": {
+   "cols": [
+    {
+     "header": "m [1]",
+     "true_canonical": "£m",
+     "source_uid": "b538d340-dfca-4f89-a59f-01fc1bb35184",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m №",
+     "true_canonical": "£m",
+     "source_uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540": {
+   "cols": [
+    {
+     "header": "sales",
+     "true_canonical": "Revenue and Receipts",
+     "source_uid": "6ed697ff-9893-453a-84a4-44023fffca78",
+     "data_col_idx": 2
+    }
+   ]
+  },
+  "ce09caff-769d-498f-9e5d-09dc1e741d70": {
+   "cols": [
+    {
+     "header": "m [1]",
+     "true_canonical": "£m",
+     "source_uid": "637d5671-0913-4e80-b135-2d4a516b79bb",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m①",
+     "true_canonical": "£m",
+     "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "d423c6ef-50f3-4535-a74f-13cb46728627": {
+   "cols": [
+    {
+     "header": "Consoli2016年交易日d",
+     "true_canonical": "Consolidated",
+     "source_uid": "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+     "data_col_idx": 0
+    },
+    {
+     "header": "Consoli2019期末d",
+     "true_canonical": "Consolidated",
+     "source_uid": "7a249c43-5e24-447e-9da1-3d5982aca590",
+     "data_col_idx": 0
+    },
+    {
+     "header": "Consoli2021期末d",
+     "true_canonical": "Consolidated",
+     "source_uid": "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6",
+     "data_col_idx": 0
+    },
+    {
+     "header": "CONSOLI2016年交易日D",
+     "true_canonical": "CONSOLIDATED",
+     "source_uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "e0689072-72ba-4979-962a-bb128539defb": {
+   "cols": [
+    {
+     "header": "m①",
+     "true_canonical": "£m",
+     "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m【】",
+     "true_canonical": "£m",
+     "source_uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "e2d0f4f9-d15b-4537-bc7a-625729013ba4": {
+   "cols": [
+    {
+     "header": "m №",
+     "true_canonical": "£m",
+     "source_uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m【】",
+     "true_canonical": "£m",
+     "source_uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "e573a09b-3053-4c6e-9766-3cce1d2c087d": {
+   "cols": [
+    {
+     "header": "m [1]",
+     "true_canonical": "£m",
+     "source_uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m【】",
+     "true_canonical": "£m",
+     "source_uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "e9730ea3-e003-4db6-a513-9c9e6f40e371": {
+   "cols": [
+    {
+     "header": "摊薄",
+     "true_canonical": "Accumulated Amortization",
+     "source_uid": "7c80a835-4fb2-4792-9ad8-95660da47f7e",
+     "data_col_idx": 2
+    },
+    {
+     "header": "Accumulatee Amortization",
+     "true_canonical": "Accumulated Amortization",
+     "source_uid": "EXPAND2",
+     "data_col_idx": 2,
+     "shared": true,
+     "expansion": 2
+    }
+   ]
+  },
+  "f47d9a01-a25d-436c-a28b-7aa04e2df491": {
+   "cols": [
+    {
+     "header": "m①",
+     "true_canonical": "£m",
+     "source_uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+     "data_col_idx": 0
+    },
+    {
+     "header": "m №",
+     "true_canonical": "£m",
+     "source_uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6": {
+   "cols": [
+    {
+     "header": "Consoli2019期末d",
+     "true_canonical": "Consolidated",
+     "source_uid": "7a249c43-5e24-447e-9da1-3d5982aca590",
+     "data_col_idx": 0
+    },
+    {
+     "header": "Consoli2016年交易日d",
+     "true_canonical": "Consolidated",
+     "source_uid": "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+     "data_col_idx": 0
+    }
+   ]
+  },
+  "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8": {
+   "cols": [
+    {
+     "header": "资产(assets)",
+     "true_canonical": "Net Tangible Assets Acquired (Liabilities Assumed)",
+     "source_uid": "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2",
+     "data_col_idx": 2
+    }
+   ]
+  },
+  "9bce514f-3eb3-433c-85e5-2d40d116497c": {
+   "cols": [
+    {
+     "header": "4019",
+     "true_canonical": "2019",
+     "source_uid": "EXPAND2",
+     "data_col_idx": 3,
+     "shared": true,
+     "expansion": 2
+    }
+   ]
+  },
+  "6e1da895-35f8-4ac4-8b2d-491ef6b3c5f6": {
+   "cols": [
+    {
+     "header": "Belance at End of Year",
+     "true_canonical": "Balance at End of Year",
+     "source_uid": "EXPAND2",
+     "data_col_idx": 5,
+     "shared": true,
+     "expansion": 2
+    }
+   ]
+  },
+  "50a8d377-b36e-4a3f-a6c0-118531b1c134": {
+   "cols": [
+    {
+     "header": "Belance at End of Year",
+     "true_canonical": "Balance at End of Year",
+     "source_uid": "EXPAND2",
+     "data_col_idx": 4,
+     "shared": true,
+     "expansion": 2
+    }
+   ]
+  }
+ }
+}

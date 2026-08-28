@@ -1070,3 +1070,5 @@ echo dispatch_log updated
 [08-29 02:5x] #RESEARCH-ASSETS 资产台账+m0_lit 接线+漂移检查三件完成（INDEX/backlog/THREADS 登记, 不开新服务不跑 OpenAI4S）
 [08-29 01:17] #LOOP-B-FLIP overall FAIL -> PASS (head=4efd96e; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-29 03:1x] #OFFREPO-INVENTORY 仓外普查终版台账入库（权重/数据集/残留/暂缓区/红线备忘 + 治理补丁: 扫描扩面+下载即登记+白名单; 清理候选等批不擅动）
+[08-29 02:2x] #B-EXPANSION-WINDOW B 扩碰撞窗收口: E1/E2 PASS, E3 未触发（ΔV(ACC) 0.05 但 CI 含 0, 功效不足）→ 版本 B 维持; 伤害首触 H + 门控零伤害 + 门拒 100% 方向性证据全正
+[08-29 02:2x] #SKELETON-V25 骨架 v2.5 授权编辑两节（贡献重组 2+1 + 生产边界声明）+ 伴生问题入账（方法章 §5.5/§6.5 + 盲锥章局限）+ 相关工作待复核清零 + A15 设计稿
