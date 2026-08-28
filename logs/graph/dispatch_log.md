@@ -1068,3 +1068,5 @@ echo dispatch_log updated
 [08-29 02:2x] #LOOPC-FIX Loop C 修复重派: --bare 已应用（orchestrator heredoc 同步）, 三对象审计派发运行中; 报告回收 = 02:55 cron one-shot（落盘即提交, 两轮上限）
 [08-29 02:2x] #SKILL-ROUTING-LAW skill 路由立法入库: docs/SKILL_ROUTING.md（五线总表+四仲裁+冗余裁决五项+钩链矩阵+装载纪律）+ AGENTS 指针节+敏感文件纪律节 + 任务卡模板装载清单行（机读+正文）+ INDEX 登记
 [08-29 02:5x] #RESEARCH-ASSETS 资产台账+m0_lit 接线+漂移检查三件完成（INDEX/backlog/THREADS 登记, 不开新服务不跑 OpenAI4S）
+[08-29 01:17] #LOOP-B-FLIP overall FAIL -> PASS (head=4efd96e; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-29 03:1x] #OFFREPO-INVENTORY 仓外普查终版台账入库（权重/数据集/残留/暂缓区/红线备忘 + 治理补丁: 扫描扩面+下载即登记+白名单; 清理候选等批不擅动）

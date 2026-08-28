@@ -109,6 +109,8 @@ redlines: [冻结节点, API key, ...]
 | A10 | ZhikunCode 重建 (pip 直连 pypi 慢 → aliyun 源/上游 PR) | THREADS 08-03 | 低优先 | 无 | 顺手时做 | A |
 | A11 | Qoder CLI Phase 2 连通性实测 | THREADS 07-29 | BLOCKED-auth | 等用户注册提供 PAT | PAT 到后实测 | D→A |
 | A16 | OpenAI4S 启用评估（长期候选） | 资产台账 08-29 | 已克隆未运行（论文优先, 工具克制） | 论文线收口后再议 | 触发后先出数据探针计划再启动 | D（触发） |
+| D14 | 仓外清理候选批复（等批不擅动） | 仓外台账 08-29 | docker 冗余 tag×2（零空间收益, 层共享已勘误）/ _tmp×14 / bundles×3 / side staging×2 / side_audit_inbound_0822 / bge 系（确认遗留后） | 等用户圈删 | 删前验引用; m1.*.bak 保留至 D1 验收; advisor 不碰 | D |
+| A17 | Route S NVFP4 权重复核 | 仓外台账 08-29 | A4 "权重已下"疑指 FP8 件, NVFP4 专用权重未在盘 | 复核后更正 A4 | 与 A4 合并 | A |
 | A12 | C4 错位治理（视觉探针 33% 错位/读串） | 08-28 C4 首批 | 方案菜单稿 08-28 夜入库（三方案 × 预注册预期） | 下次探针窗 | 照稿复跑对照错位率 | A |
 | A13 | 对抗建议器臂执行窗（台账 #13） | Round 3 D2 批准 08-28 | 设计全稿在案（五节预注册, 主案 3 跑批 ~120-180 次 :8004, 降级案双臂 1.0） | **已排: 08-29 晚开窗**（拍板 A 先 B 后, 判定件 B 扩碰撞带 A 危害梯度再定设计） | 照稿执行三预测 | A |
 | A14 | DPO 偏好对训练后续 | 08-28 T1② | pairs v0 已生成（60 对, 覆盖率 62.5%, gate_fooled 9） | 训练基建未立 + 路线待决 | 对增量随 #13/扩碰撞补充 | A+D |
@@ -147,3 +149,6 @@ redlines: [冻结节点, API key, ...]
 | e1665f1072 | INDEX 状态词[待勾选] | 2026-08-27_round3_dialectic_record.md | 2026-08-29 | 待核 |
 | d14b111446 | INDEX 状态词[待执行] | 2026-08-25_send_checklist.md | 2026-08-29 | 待核 |
 | 77bcec84bb | 日期超期[24天] | README.md | 2026-08-29 | 待核 |
+| a8fed1a8be | INDEX 状态词[待批] | 2026-08-29_collision_expansion_design.md | 2026-08-29 | 待核 |
+| 295daec7e4 | INDEX 状态词[待批] | scripts/graph/governance_drift_scan.py | 2026-08-29 | 待核 |
+| 998c1b402f | 仓外资产未登记 | /home/testuser/wzh/research/openai4s_probe | 2026-08-29 | 待核 |

@@ -53,6 +53,11 @@ def scan_doc_dates():
 
 
 SECTION = "### 五、漂移扫描待核（governance_drift_scan 自动登记, 只核不改）\n"
+OFFREPO_INV = REPO / "docs" / "experiments" / "2026-08-29_offrepo_assets_inventory.md"
+OFFREPO_DIRS = [Path.home() / "wzh" / d for d in
+                ("models/hf", "models/gguf", "research", "datasets")]
+# 用户暂缓区白名单（未来扫描跳过, 防误报; 08-29 用户卡 §四）
+SCAN_SKIP_WHITELIST = ("/home/testuser/datasets", "mym", ".openclaw", "6g_v2x")
 
 
 def register(hits):
@@ -71,9 +76,28 @@ def register(hits):
     return added
 
 
+def scan_offrepo_assets():
+    """仓外大件登记核查: ~/wzh 资产目录 vs 台账文本（下载即登记规则, 08-29）。"""
+    hits = []
+    if not OFFREPO_INV.exists():
+        return [{"kind": "仓外台账缺失", "file": str(OFFREPO_INV), "line": 0,
+                 "fp": "offrepo-inv-missing"}]
+    inv = OFFREPO_INV.read_text(encoding="utf-8", errors="replace")
+    for base in OFFREPO_DIRS:
+        if not base.is_dir() or str(base).startswith(SCAN_SKIP_WHITELIST):
+            continue
+        for child in sorted(base.iterdir()):
+            if not child.is_dir() or child.name.startswith(SCAN_SKIP_WHITELIST):
+                continue
+            if child.name not in inv:
+                hits.append({"kind": "仓外资产未登记", "file": str(child), "line": 0,
+                             "fp": hashlib.sha1(f"offrepo:{child}".encode()).hexdigest()[:10]})
+    return hits
+
+
 def main():
     cron = "--cron" in sys.argv
-    hits = scan_index() + scan_doc_dates()
+    hits = scan_index() + scan_doc_dates() + scan_offrepo_assets()
     lines = [f"# 治理漂移扫描报告 {datetime.datetime.now():%Y-%m-%d %H:%M}",
              "", f"命中 {len(hits)} 项（模式: {'cron 轻扫' if cron else '收口登记'}）", ""]
     for h in hits:
