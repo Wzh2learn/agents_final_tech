@@ -12,6 +12,8 @@ acceptance:                    # 验收项机读指针（验证命令列表）
 rollback: "<回滚点机读指针: 脚本路径 / inspect 存档 / commit hash>"
 redlines:
   - "<红线条目>"
+skills:                        # skill 装载清单（≤5 + 红线常备, 依 docs/SKILL_ROUTING.md）
+  - "<skill 名（空 = 声明无需装载）>"
 ---
 
 # 任务卡: <标题>
@@ -21,6 +23,10 @@ redlines:
 ## 1. 目标
 
 <一句话目标 + 量化验收标准。>
+
+## 1.5 Skill 装载清单（依 docs/SKILL_ROUTING.md, 单任务 ≤5 + 红线常备）
+
+<列出本任务实际装载件; 推断装载附一句理由; 收口时回报"装了没用/没用装"浪费信号>
 
 ## 2. 前提假设清单（必填）
 

@@ -56,7 +56,8 @@ EOF_LOOPA
 start_loop_c() {
   cat <<'EOF_LOOPC'
 [Loop C] Loop C 载体为 Claude Code (qwen3.8-max, Anthropic 兼容端点), 非常驻进程。派活方式:
-  cd $PROJ && claude -p "$(cat scripts/graph/loop_c_audit_prompt.md)" > docs/experiments/<audit_report>.md
+  cd $PROJ && claude --bare -p "$(cat scripts/graph/loop_c_audit_prompt.md)" > docs/experiments/<audit_report>.md
+必须用 --bare: oh-my-claudecode 插件 bridge 在非交互派发下挂死（08-29 根因坐实, 探针 --bare 9s 正常）。
 详见 docs/17 §6 与 memory/CORE.md「分发通道」。
 EOF_LOOPC
 }

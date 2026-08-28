@@ -2,7 +2,7 @@
 
 **甲方入口：[`docs/23_甲方阶段汇报.md`](23_甲方阶段汇报.md)** — 自包含发送版（图片全部内嵌，单文件可直接发）：`23_甲方阶段汇报_发送版.docx`
 
-> 状态: 活跃 | 更新: 2026-08-29（08-29 凌晨科研线: Phase 1 三件（正确性回填+ΔV CI+oracle headroom）+ 相关工作 v2 + 盲锥章盲集族形式化 + 方法章变量对位 + 贡献重组 2+1 + 定位双版本 + paper-review-check 自审清单; 08-29 凌晨并行层: 论文线三件（相关工作草稿/盲锥章 v1/小 A 方法章）+ B 扩碰撞设计稿 + 脚本化 walkthrough 13/13 + 治理制度化（漂移扫描+cron）; 08-29 凌晨: 对抗建议器臂执行记录（P3 门拒 100%）+ T2 对抗臂坐标回填; 08-28 夜: 夜间队列五件——DPO 对 v0 口径稿 / 门控价值曲线数据表 / C4 错位治理菜单 / docs27 方向 A 执行 / backlog 清账; 08-28: 窗口合并卡五件登记——扩语料碰撞设计稿+执行记录 / K2 小 B 章草稿 v0 / C4 视觉探针首批 / 小 A 基线执行记录; 08-28: Round 3 用户勾选执行——D1 采纳 / D2 批准+对抗设计稿登记 / D3 采纳 / D4 勾全, 骨架 → v2.4; 08-27 深夜 III: Round 3 辩证记录（D1-D4 + 两处更正, 骨架未动）; 08-27 深夜 II: Round 3 辩证简报 + K2 章核对清单（侧线预备）; 08-27 深夜: 侧线五件落地（figures_k2 五图+四桶板+窗口合并草案+Loop A 双档路由 orchestrator 注记）; 08-27 晚: 噪声体制实验执行记录（P3 null）+ 小 A 基线协议设计稿登记; 08-27 深夜补充项: K2 MS+bootstrap CI 清账(#8 有)+BC 注入侧(#7 部分)+L1 两腿分析稿登记; 08-27 夜: 噪声体制设计稿+小 B 盲锥骨架+bandit/ρ 两件设计稿+T4 审计+contracts 登记; 08-26 晚: VGMC 实验 1 设计+执行记录登记; K2 v1 判别力联跑报告 v2 + PSO 第二批零复算 + contract_k2 登记; 08-26 凌晨: 导师包 v2 三件登记——31 v2 md/docx + demo_v3 steps/卡片 + 流水线脚本 6 件 + talk track v2 + judge 归因 + 呈递清单; 31 v1 标作废; 承接 08-25 晚间队列 E1-E6 登记; 08-26 深夜: 论文叙事骨架 v2.2 登记） | 取代/被取代: 无
+> 状态: 活跃 | 更新: 2026-08-29（08-29 凌晨治理: SKILL_ROUTING.md 路由立法 + 敏感文件纪律 + 任务卡装载清单行; 08-29 凌晨科研线: Phase 1 三件（正确性回填+ΔV CI+oracle headroom）+ 相关工作 v2 + 盲锥章盲集族形式化 + 方法章变量对位 + 贡献重组 2+1 + 定位双版本 + paper-review-check 自审清单; 08-29 凌晨并行层: 论文线三件（相关工作草稿/盲锥章 v1/小 A 方法章）+ B 扩碰撞设计稿 + 脚本化 walkthrough 13/13 + 治理制度化（漂移扫描+cron）; 08-29 凌晨: 对抗建议器臂执行记录（P3 门拒 100%）+ T2 对抗臂坐标回填; 08-28 夜: 夜间队列五件——DPO 对 v0 口径稿 / 门控价值曲线数据表 / C4 错位治理菜单 / docs27 方向 A 执行 / backlog 清账; 08-28: 窗口合并卡五件登记——扩语料碰撞设计稿+执行记录 / K2 小 B 章草稿 v0 / C4 视觉探针首批 / 小 A 基线执行记录; 08-28: Round 3 用户勾选执行——D1 采纳 / D2 批准+对抗设计稿登记 / D3 采纳 / D4 勾全, 骨架 → v2.4; 08-27 深夜 III: Round 3 辩证记录（D1-D4 + 两处更正, 骨架未动）; 08-27 深夜 II: Round 3 辩证简报 + K2 章核对清单（侧线预备）; 08-27 深夜: 侧线五件落地（figures_k2 五图+四桶板+窗口合并草案+Loop A 双档路由 orchestrator 注记）; 08-27 晚: 噪声体制实验执行记录（P3 null）+ 小 A 基线协议设计稿登记; 08-27 深夜补充项: K2 MS+bootstrap CI 清账(#8 有)+BC 注入侧(#7 部分)+L1 两腿分析稿登记; 08-27 夜: 噪声体制设计稿+小 B 盲锥骨架+bandit/ρ 两件设计稿+T4 审计+contracts 登记; 08-26 晚: VGMC 实验 1 设计+执行记录登记; K2 v1 判别力联跑报告 v2 + PSO 第二批零复算 + contract_k2 登记; 08-26 凌晨: 导师包 v2 三件登记——31 v2 md/docx + demo_v3 steps/卡片 + 流水线脚本 6 件 + talk track v2 + judge 归因 + 呈递清单; 31 v1 标作废; 承接 08-25 晚间队列 E1-E6 登记; 08-26 深夜: 论文叙事骨架 v2.2 登记） | 取代/被取代: 无
 > 维护: Loop D 每次 neat/收尾时同步本文件。新会话阅读顺序: 根 `AGENTS.md` → `memory/STATE.md` → 本文件。现状以 memory/ 为准，不要到历史文档里找现状。
 
 ## 活文档（持续维护；内容冲突时以这些为准）
@@ -251,6 +251,8 @@
 | 仓库 `scripts/graph/hooks/` | pre-commit 机械强制层脚本（根 AGENTS.md"机械强制层"节）: cjk-byte-check.precommit.sh / index-guard.precommit.sh / large-file-guard.precommit.sh / install_hooks.sh / skill_router.py |
 | 仓库 `scripts/graph/governance_drift_scan.py` | 治理漂移扫描（2026-08-29 制度化）: 状态词扫荡（待批/待执行/待发送/待勾选）+ 活文档日期超期 → 漂移候选幂等登记 docs/29 backlog 待核节; 收口清单固定步骤 + 03:30 cron 轻扫（--cron 只报告） |
 | 仓库 `scripts/walkthrough_m1_v2.py` | D1 /m1 三栏工作台脚本化 walkthrough（五步 13 断言: 时间轴点亮/刷新持久化/QA 五步条/建议映射 tab/快路三问; 证据落 logs/graph/eval/walkthrough_evidence/） |
+
+| `SKILL_ROUTING.md` | 活跃（立法件, 修订需用户批） | skill 路由法: 五线总表 + 仲裁规则（红线永载/领域优先/单任务≤5/新旧降级）+ 冗余裁决表（verification 已废 / review-check vs polish-audit 分工 / pdf 合一 / figma·deploy 不主动装载）+ 钩链矩阵 + 装载纪律（卡片显式装载清单） | 2026-08-29 |
 
 ## 治理规则
 

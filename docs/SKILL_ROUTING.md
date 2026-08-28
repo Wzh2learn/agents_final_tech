@@ -1,0 +1,50 @@
+# SKILL_ROUTING.md — skill 路由法（治理线立法, 2026-08-29）
+
+> 状态: 活跃（立法件, 修改需用户批） | 更新: 2026-08-29 | 取代/被取代: 无 | 依据: 侧线设计稿转述（用户卡 08-29）+ 注册表↔分发漂移事故（30 件, 08-29 修复）
+> 范围: 五线任务的 skill 装载决策; 与根 AGENTS.md 配属注册表互为表里（注册表 = 有什么, 本法 = 何时用）
+
+## 1 五线总表（任务线 → 主装 skill）
+
+| 线 | 主装（按需, 单任务 ≤5） | 常备背景（不占配额） |
+|---|---|---|
+| 论文线 | research-writing-skill / paper-writing-zh / algorithm-description / paper-review-check / paper-polish-and-audit / literature-review / citation-management | graph-loop-rules |
+| 治理线 | neat-freak / jinrong-docs-sync / code-cleanup-helper / skill-doctor / skill-map / repo-audit / readme-audit | graph-loop-rules |
+| 运维线 | systematic-debugging / m1-gap-triage / m2-rag-playbook / graph-loop-rules / experiment-autopsy / shift-notes | graph-loop-rules |
+| 前端线 | playwright / webapp-testing / broken-window-check / verify-before-done | graph-loop-rules |
+| 交付线 | office-academic-skill / documents / presentations / verify-before-done | graph-loop-rules |
+
+## 2 仲裁规则（冲突时依次适用）
+
+1. **红线永载**: 涉及冻结节点/生产后端/甲方数据/对外发送的任务, `graph-loop-rules` 无条件装载, 不占配额。
+2. **领域优先**: 任务领域词命中某线 → 该线主装优先于通用件（如"论文草稿"→ 论文线, 不装通用 review-codebase）。
+3. **单任务 ≤5**: 装载清单超过 5 件 = 过装备（认知负载 > 收益, 见 tool-restraint 主张）; 超出者移入"可选"注记不装载。
+4. **新旧降级**: 同职能新旧两件并存时, 新版装载、旧版标 DEPRECATED 不删（治理规则 4 先例）; 引用旧版的历史工件不改。
+5. **显式优于推断**: 卡片装载清单 > 触发词推断; 推断装载必须在开工注记里写明理由。
+
+## 3 冗余裁决表（点名裁定, 2026-08-29）
+
+| 件 | 裁定 | 理由 |
+|---|---|---|
+| verification-before-completion | **已废（DEPRECATED 标记）** | 已并入 verify-before-done（对抗式审查 + 完成门两段式, 2026-07-28 合并）; 新任务一律装后者 |
+| paper-review-check vs paper-polish-and-audit | **分工并存**: 过程审查用前者, 投稿终审用后者 | review-check = 草稿期逻辑/一致性/审稿风险（每章过一遍）; polish-audit = 定稿期术语锁定/主张核验/编译检查（投稿前一次） |
+| pdf 双份（仓库版 + 个人版） | **合一: 仓库版为准** | 仓库 skills/ = source of truth（三层分发架构）; 个人版仅作未同步兜底, 不得反向回灌覆盖 |
+| figma × 6 / cloudflare-deploy / vercel-deploy | **标个人通用, 不主动装载** | 本项目无 Figma/部署工作流; 仅用户显式要求时装载; 注册表保留（分发实况对齐）但路由表不列 |
+| recsys-toolkit | 个人职业工具, 不入项目路由 | 触发词 /recsys, 与五线无关 |
+
+## 4 钩链矩阵（机械强制层 × 自动装载）
+
+| 钩/环 | 自动关联 | 说明 |
+|---|---|---|
+| pre-commit index-guard | jinrong-docs-sync（事后） | 新文档未登记被拦 → 收口时装载补登记 |
+| pre-commit large-file-guard | 无 skill | 纯机械 |
+| Loop B 验证 | 无（纯 bash） | 不装 AI |
+| Loop C 审计派单 | differential-review / paper-review-check（论文件, 08-29 扩围） | 审计对象决定 |
+| 收口清单漂移扫描 | neat-freak（命中多时装载清场） | governance_drift_scan 命中 ≥10 触发 |
+| 实验窗开/收 | sprint-contract + verify-before-done | 窗口卡标配两件 |
+
+## 5 装载纪律（卡片义务）
+
+1. 任务卡必须含"**skill 装载清单**"行: 列出本任务实际装载件（≤5 + 红线常备）, 空 = 声明"无需装载"。
+2. 推断装载需一句话理由; 显式装载照录卡文。
+3. 收口汇报附装载清单执行情况（装了没用 / 没用装 = 浪费信号, 记台账供路由表迭代）。
+4. 路由表每季度（或漂移事故后）复审一次, 修订需用户批（立法件纪律）。

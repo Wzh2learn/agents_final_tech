@@ -452,6 +452,17 @@ L2 语义记忆层（mem0 自托管 + pgvector :15432 + MCP）见 docs/18 第 10
 - **pending 卡交接必须 cron one-shot 触发 (2026-08-25)**: "稍后执行"类任务卡入账必须同批装触发 cron;
   禁止依赖"硬停后会话仍活"。案例: 晨间序列卡入账后零执行 (08-25)。
 
+## Skill 路由（2026-08-29 立法）
+
+装载决策依 **docs/SKILL_ROUTING.md**（五线总表 + 仲裁规则: 红线永载/领域优先/单任务≤5/新旧降级
++ 冗余裁决表 + 钩链矩阵）。任务卡必须含"skill 装载清单"行（模板已加）。路由表修订需用户批。
+
+## 敏感文件纪律（2026-08-29 立法）
+
+`~/.claude/settings.json`、`~/.codex/auth.json` 及各 harness 凭证文件 = **明文 token 载体,
+永不 cat / 永不入 commit / 永不出现在任何工件或日志中**（只能 stat/chmod/路径引用）。
+权限基线 600（08-29 已对 ~/.claude/settings.json 执行）。违反 = 红线事故级。
+
 ## 收口清单（2026-08-29 制度化）
 
 每次收口 commit 前必须执行: `venv/bin/python scripts/graph/governance_drift_scan.py`
