@@ -1,0 +1,79 @@
+{
+ "meta": {
+  "name": "bandit-prospective-eval",
+  "generated": "2026-08-28 22:24:39",
+  "design": "docs/experiments/2026-08-27_bandit_gate_v0_design.md §2",
+  "holdout_regime": "collision_C1（bandit 未见体制）",
+  "seed": 20260828,
+  "endpoint_calls": 0,
+  "n_suggestion_events": 88,
+  "method": "直接法离线复演（问题流固定为记录流, 反事实增益取记录值）",
+  "anchor": "固定门复演终值与 C1 工件逐位一致 (0.651905)"
+ },
+ "fixed_gate": {
+  "tau": 0.1,
+  "eps": 0.02,
+  "n_accepted": 25,
+  "acceptance_rate": 0.2841,
+  "h_meas_final": 0.651905,
+  "degradation_vs_baseline": -0.057143
+ },
+ "bandit_gate": {
+  "n_accepted": 25,
+  "acceptance_rate": 0.2841,
+  "h_meas_final": 0.651905,
+  "degradation_vs_baseline": -0.057143,
+  "posterior_final": {
+   "tau=0.05,eps=0.0": {
+    "alpha": 2.5,
+    "beta": 0.5
+   },
+   "tau=0.05,eps=0.02": {
+    "alpha": 3.5,
+    "beta": 0.5
+   },
+   "tau=0.1,eps=0.0": {
+    "alpha": 1.5,
+    "beta": 0.5
+   },
+   "tau=0.1,eps=0.02": {
+    "alpha": 0.5,
+    "beta": 0.5
+   },
+   "tau=0.2,eps=0.0": {
+    "alpha": 2.5,
+    "beta": 0.5
+   },
+   "tau=0.2,eps=0.02": {
+    "alpha": 0.5,
+    "beta": 0.5
+   }
+  },
+  "trace": [
+   {
+    "round": 0,
+    "arm": "tau=0.05,eps=0.02",
+    "reward": 1.0,
+    "n_accepted": 9
+   },
+   {
+    "round": 1,
+    "arm": "tau=0.1,eps=0.0",
+    "reward": 1.0,
+    "n_accepted": 7
+   },
+   {
+    "round": 2,
+    "arm": "tau=0.05,eps=0.02",
+    "reward": 1.0,
+    "n_accepted": 6
+   },
+   {
+    "round": 3,
+    "arm": "tau=0.2,eps=0.0",
+    "reward": 1.0,
+    "n_accepted": 3
+   }
+  ]
+ }
+}

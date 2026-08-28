@@ -1038,3 +1038,10 @@ echo dispatch_log updated
 [08-28 00:1x] #K2-CHAPTER-DRAFT K2/小 B 章正文 v0 入库（92 行五节+溯源索引, 数字全对账工件, 谓词自查过, 待用户/侧线复核）
 [08-28 00:4x] #C4-VISUAL-PROBE-WINDOW 段 B C4 探针首批完成: OCR 形近视觉判别 61.5%（匹配层盲区=视觉明区跨层互补）+ 错位噪声 33% 治理注记; :8007 用毕即停
 [08-28 20:2x] #BASELINE-WINDOW 段 D 基线窗完成: 三基线全部与 no-gate 不可分（ΔH 逐位 0）, 替代记忆机制无增量预注册结论入账; 主线程直跑（Loop A 异常期用户批, 后恢复）
+[08-28 22:30] #LOOP-B-FLIP overall FAIL -> PASS (head=013a489; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-28 22:3x] #T1-BANDIT-PROSPECTIVE bandit 前瞻验证完成: C1 holdout 固定门 vs bandit 门接受率/退化率全同（0.2841/−0.057143）, 批奖励全 1.0 无分辨力（奖励再设计随 #13, 台账 A15）; 锚点复演与工件逐位一致; 零端点
+[08-28 22:3x] #T1-DPO-PAIRS DPO 偏好对 v0: 口径稿先行入库, 机械生成 60 对（A50/C51 去重, B=0, 覆盖率 62.5%, gate_fooled 9）; 重跑确定性验证（时间戳外逐字段一致）; 零端点
+[08-28 22:4x] #T2-GVC-DATA 门控价值曲线数据表入库（主图供数: 可靠性×碰撞暴露 × 终值全量 + ΔV 表 + schema/caption; 对抗臂空位）
+[08-28 22:4x] #T3-GOVERNANCE 治理一捆完成: docs/29 清账（5 CLOSED 出表 + 6 新登记）/ INDEX 状态词 5 件 / STATE 挂起更正 / docs26,28 降历史快照 → docs_lint 0 fail 0 warn / fig4-5 不一致报侧线
+[08-28 22:4x] #T4-C4-MENU C4 错位治理三方案菜单入库（预注册错位率预期 + 改动面 + 对照编排, 下次探针窗照稿跑）
+[08-28 22:5x] #D1-M1-REDIRECTION 任务 2 改版方向 A 落地: /m1 原地三栏任务工作台（任务列表/执行流六步时间轴/QA 五步条/产物 tabs+建议映射 tab+引用 tab）; 零重启（模板热加载验证）; §4.5 选择器全保留; 13 测试绿; 待用户验收

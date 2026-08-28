@@ -274,13 +274,16 @@
     renderReview(result);
   }
 
-  // --- Parse file ---
+  // --- Parse file (三栏工作台版: 任务卡 + 六步时间轴, 客户端动画=过程示意) ---
   async function parseFile(file) {
     runBtn.disabled = true;
     runBtn.textContent = 'Parsing...';
     setNotice('');
     hideEmptyHero();
     showParseOverlay();
+    const taskId = wbTaskCreate('parse', file.name || '未命名文件');
+    wbStepsStart();
+    const t0 = Date.now();
     const formData = new FormData();
     formData.append('file', file);
     try {
@@ -297,11 +300,16 @@
       }
       lastResponse = data;
       renderAll(data);
+      wbStepsFinish(data, Date.now() - t0);
       const m = data.result.metrics;
+      const suggN = await wbSuggCount();
+      wbTaskUpdate(taskId, { status: suggN > 0 ? 'pending' : 'done', data: { response: data }, elapsedMs: Date.now() - t0 });
       setNotice(`完成: ${m.tables} 表, 命中 ${m.hit_rate}%, ${m.unmapped} 未映射`, 'ok');
       refreshSuggBadge();
       showToast('解析完成', 'success');
     } catch (err) {
+      wbStepsFail(err.message);
+      wbTaskUpdate(taskId, { status: 'failed', data: { error: err.message }, elapsedMs: Date.now() - t0 });
       setNotice(err.message, 'error');
       showToast(err.message, 'error');
     } finally {
@@ -471,8 +479,12 @@
     const topK = parseInt(m2TopK ? m2TopK.value : '3', 10);
     m2Question.value = '';
     m2AskBtn.disabled = true;
+    const qaTaskId = wbQaTaskEnsure();
+    wbQaRecord(qaTaskId, 'user', question);
     m2AddUserBubble(question);
+    const stepsBox = wbQaStepsStart();
     m2ShowThinking();
+    const t0 = Date.now();
     try {
       const res = await fetch('/api/m2/ask', {
         method: 'POST',
@@ -485,12 +497,17 @@
       }
       const data = await res.json();
       m2HideThinking();
+      wbQaStepsFinish(stepsBox, Date.now() - t0);
       m2AddAssistantBubble(data.answer || '(无答案)', data.sources);
+      wbAddRefs(data.sources || [], question);
+      wbQaRecord(qaTaskId, 'assistant', data.answer || '(无答案)', data.sources);
       if (data.session_id) m2SessionId = data.session_id;
       const routeTxt = data.route === 'opencode' ? '验证链路' : '直连';
+      wbRouteObserve(data.route, data.fell_back);
       m2Meta.textContent = `RAG · ${data.collection || 'm1_parsed_statements'} · top_k=${topK} · ${routeTxt} · ${data.model || 'n/a'} · ${data.duration_ms ?? 0}ms`;
     } catch (err) {
       m2HideThinking();
+      wbQaStepsFail(stepsBox);
       m2AddAssistantBubble(`⚠ ${err.message}`, []);
       setNotice(err.message, 'error');
       showToast(err.message, 'error');
@@ -874,7 +891,7 @@
   // -------------------------------------------------------------------
   const suggBtn = $('#suggBtn');
   const suggCount = $('#suggCount');
-  const suggModal = $('#suggModal');
+  const suggModal = null; // modal 已升为右栏 tab（三栏改版 2026-08-28）
   const suggList = $('#suggList');
   const suggEmpty = $('#suggEmpty');
   let _suggCache = [];
@@ -888,11 +905,13 @@
       const n = (d.suggestions || []).length;
       suggCount.hidden = n === 0;
       suggCount.textContent = n;
+      const tb = $('#suggTabBadge');
+      if (tb) { tb.hidden = n === 0; tb.textContent = n; }
     } catch (e) { /* silent */ }
   }
 
   async function openSuggModal() {
-    suggModal.hidden = false;
+    wbOpenTab('sugg');
     try {
       const [sRes, schemaRes] = await Promise.all([
         fetch('/api/m1/schema-suggestions'), fetch('/api/m1/schema')]);
@@ -966,20 +985,269 @@
     }
     if (kind === 'apply') {
       setNotice(`已应用 ${d.applied} 条（新增 ${d.added_synonyms} 个同义词），规则已热加载——重新解析相关样本即可看到命中率提升`, 'ok');
-      suggModal.hidden = true;
+      wbFlowMsg(`已应用 ${d.applied} 条映射（新增 ${d.added_synonyms} 个同义词）→ 规则热加载，重新解析相关样本可见命中率变化`);
     } else {
       setNotice(`已拒绝 ${d.rejected} 条，不再重复推荐`, 'ok');
+      wbFlowMsg(`已拒绝 ${d.rejected} 条映射建议`);
     }
     refreshSuggBadge();
-    if (!suggModal.hidden) openSuggModal();
+    openSuggModal();
   }
 
   suggBtn.addEventListener('click', openSuggModal);
-  $('#suggCloseBtn').addEventListener('click', () => { suggModal.hidden = true; });
   $('#suggApplyBtn').addEventListener('click', () => suggAction('apply'));
   $('#suggRejectBtn').addEventListener('click', () => suggAction('reject'));
-  suggModal.addEventListener('click', (e) => { if (e.target === suggModal) suggModal.hidden = true; });
   refreshSuggBadge();
+
+  // =====================================================================
+  // 三栏工作台模块（任务管理 / tabs / 步骤时间轴 / 服务状态, 2026-08-28 改版）
+  // 时长基线标定: 直连 QA ~2s / parse 非 OCR <2.1s / OCR 10-90s / agent 路 15-20s
+  // =====================================================================
+  const WB_STORE_KEY = 'm1v2_tasks';
+  let wbTasks = [];
+  let wbActiveTaskId = null;
+  let wbQaCurrentId = null;
+  let wbRefsSeen = 0;
+  try { wbTasks = JSON.parse(localStorage.getItem(WB_STORE_KEY)) || []; } catch (_) { wbTasks = []; }
+
+  function wbSaveTasks() {
+    try { localStorage.setItem(WB_STORE_KEY, JSON.stringify(wbTasks.slice(-40))); } catch (_) { /* 超配额则不持久化 */ }
+  }
+  function wbBadgeClass(st) { return ({ running: 'badge-running', done: 'badge-done', failed: 'badge-failed', pending: 'badge-pending' })[st] || 'badge-idle'; }
+  function wbBadgeText(st) { return ({ running: '进行中', done: '已完成', failed: '失败', pending: '待处理' })[st] || '待命'; }
+
+  function wbTaskCreate(kind, title) {
+    const t = { id: 'task-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+                kind, title: String(title).slice(0, 40), status: 'running', ts: Date.now(), data: null };
+    wbTasks.push(t); wbSaveTasks(); wbActiveTaskId = t.id; wbRenderTaskList();
+    const tt = $('#taskTitle'); if (tt) tt.textContent = t.title;
+    return t.id;
+  }
+  function wbTaskUpdate(id, patch) {
+    const t = wbTasks.find(x => x.id === id); if (!t) return;
+    Object.assign(t, patch); wbSaveTasks(); wbRenderTaskList();
+  }
+  function wbRenderTaskList() {
+    const parseUl = $('#taskListParse'), qaUl = $('#taskListQA');
+    if (!parseUl || !qaUl) return;
+    const q = (($('#taskSearch') || {}).value || '').trim().toLowerCase();
+    const vis = (t) => !q || t.title.toLowerCase().includes(q);
+    const render = (ul, kind) => {
+      const items = wbTasks.filter(t => t.kind === kind && vis(t)).slice(-12).reverse();
+      ul.innerHTML = '';
+      if (!items.length) { ul.innerHTML = '<li class="task-empty">暂无任务</li>'; return; }
+      for (const t of items) {
+        const li = document.createElement('li');
+        li.className = 'task-card' + (t.id === wbActiveTaskId ? ' active' : '');
+        li.innerHTML = '<div class="tc-title"><span>' + esc(t.title) + '</span><span class="badge ' + wbBadgeClass(t.status) + '">' + wbBadgeText(t.status) + '</span></div>' +
+          '<div class="tc-sub">' + new Date(t.ts).toLocaleTimeString('zh-CN', { hour12: false }) +
+          (t.elapsedMs ? ' · ' + (t.elapsedMs / 1000).toFixed(1) + 's' : '') + '</div>';
+        li.addEventListener('click', () => wbOpenTask(t.id));
+        ul.appendChild(li);
+      }
+    };
+    render(parseUl, 'parse'); render(qaUl, 'qa');
+  }
+  function wbOpenTask(id) {
+    const t = wbTasks.find(x => x.id === id); if (!t) return;
+    wbActiveTaskId = id; wbRenderTaskList();
+    const tt = $('#taskTitle'); if (tt) tt.textContent = t.title;
+    if (t.kind === 'parse') {
+      wbQaCurrentId = null;
+      if (t.data && t.data.response) { renderAll(t.data.response); wbStepsFinish(t.data.response, t.elapsedMs); }
+      else if (t.status === 'failed') { wbStepsFail((t.data && t.data.error) || '解析失败'); }
+    } else {
+      wbQaCurrentId = id;
+      const ps = $('#parseSteps'); if (ps) ps.innerHTML = '';
+      m2ChatLog.innerHTML = '';
+      const msgs = (t.data && t.data.msgs) || [];
+      for (const m of msgs) {
+        if (m.role === 'user') m2AddUserBubble(m.text);
+        else m2AddAssistantBubble(m.text, m.sources || []);
+      }
+      if (!msgs.length) m2ChatLog.innerHTML = '<div class="m2-empty-hint">输入问题开始对话，支持多轮追问。</div>';
+    }
+  }
+  function wbQaTaskEnsure() {
+    if (wbQaCurrentId && wbTasks.find(t => t.id === wbQaCurrentId)) return wbQaCurrentId;
+    const id = wbTaskCreate('qa', '问答 ' + new Date().toLocaleTimeString('zh-CN', { hour12: false }));
+    wbQaCurrentId = id;
+    const t = wbTasks.find(x => x.id === id); if (t) { t.data = { msgs: [] }; t.status = 'done'; }
+    return id;
+  }
+  function wbQaRecord(id, role, text, sources) {
+    const t = wbTasks.find(x => x.id === id); if (!t) return;
+    t.data = t.data || { msgs: [] };
+    t.data.msgs.push({ role, text: String(text || '').slice(0, 2000), sources: (sources || []).slice(0, 5) });
+    t.status = 'done'; t.ts = Date.now();
+    wbSaveTasks(); wbRenderTaskList();
+  }
+
+  // --- 右栏 tabs ---
+  function wbOpenTab(name) {
+    $$('.rt-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+    $$('.rt-panel').forEach(p => { p.hidden = p.dataset.panel !== name; });
+  }
+  $$('.rt-tab').forEach(b => b.addEventListener('click', () => wbOpenTab(b.dataset.tab)));
+
+  // --- 执行标题栏 ---
+  function wbExecTitle(title, status, elapsedMs) {
+    const b = $('#execBadge'), t = $('#execTitle'), e = $('#execElapsed');
+    if (b) { b.className = 'badge ' + wbBadgeClass(status); b.textContent = wbBadgeText(status); }
+    if (t && title) t.textContent = title;
+    if (e) e.textContent = elapsedMs ? (elapsedMs / 1000).toFixed(1) + 's' : '';
+  }
+
+  // --- M1 六步时间轴（客户端动画, 诚实标注"过程示意"） ---
+  const WB_STEPS = ['上传与预处理', '版面分析/OCR', '表格检测', '字段映射', '勾稽校验', 'RAG 入库'];
+  let wbStepTimer = null;
+  function wbStepsStart() {
+    clearInterval(wbStepTimer);
+    const wrap = $('#parseSteps'); if (!wrap) return;
+    wrap.innerHTML = WB_STEPS.map((n, i) =>
+      '<div class="step-card" id="wb-step-' + i + '"><span class="step-idx">' + (i + 1) + '</span><span class="step-name">' + n + '</span><span class="step-detail"></span></div>').join('') +
+      '<div class="step-note">过程示意：步骤动画时长按实测基线标定（非 OCR 解析 &lt;2.1s / OCR 10-90s）</div>';
+    let i = 0;
+    const cur = () => { const el = $('#wb-step-' + i); if (el) el.className = 'step-card running'; };
+    cur();
+    wbStepTimer = setInterval(() => {
+      const el = $('#wb-step-' + i);
+      if (el) { el.className = 'step-card done'; el.querySelector('.step-detail').textContent = '✓'; }
+      i++;
+      if (i >= WB_STEPS.length - 1) { clearInterval(wbStepTimer); wbStepTimer = null; return; }
+      cur();
+    }, 320);
+    wbExecTitle('解析中…', 'running');
+  }
+  function wbStepsFinish(data, elapsedMs) {
+    clearInterval(wbStepTimer); wbStepTimer = null;
+    const wrap = $('#parseSteps'); if (!wrap) return;
+    if (!wrap.children.length) wbStepsStartStatic();
+    const r = (data && data.result) || {}; const m = r.metrics || {};
+    const recon = r.reconcile || [];
+    const reconFail = recon.filter(c => c.disposition === 'fail').length;
+    const details = [r.kind || '文档就绪', r.needs_ocr ? '需视觉读图' : '解析完成', (m.tables ?? '-') + ' 表',
+      '命中率 ' + (m.hit_rate ?? '-') + '%', reconFail === 0 ? '全部通过' : reconFail + ' 项失败', data && data.m2_payload ? '载荷就绪' : '-'];
+    WB_STEPS.forEach((_, i) => {
+      const el = $('#wb-step-' + i); if (!el) return;
+      el.className = 'step-card done';
+      el.querySelector('.step-detail').textContent = '✓ ' + details[i];
+    });
+    wbExecTitle((r.file || '解析任务'), 'done', elapsedMs);
+  }
+  function wbStepsStartStatic() {
+    const wrap = $('#parseSteps'); if (!wrap) return;
+    wrap.innerHTML = WB_STEPS.map((n, i) =>
+      '<div class="step-card" id="wb-step-' + i + '"><span class="step-idx">' + (i + 1) + '</span><span class="step-name">' + n + '</span><span class="step-detail"></span></div>').join('');
+  }
+  function wbStepsFail(msg) {
+    clearInterval(wbStepTimer); wbStepTimer = null;
+    const wrap = $('#parseSteps'); if (!wrap) return;
+    if (!wrap.children.length) wbStepsStartStatic();
+    let hitFail = false;
+    wrap.querySelectorAll('.step-card').forEach(el => {
+      if (el.classList.contains('done')) return;
+      if (!hitFail) {
+        el.className = 'step-card failed';
+        el.querySelector('.step-detail').textContent = '✗ ' + String(msg || '').slice(0, 60);
+        hitFail = true;
+      } else { el.className = 'step-card'; }
+    });
+    wbExecTitle('解析失败', 'failed');
+  }
+
+  // --- QA 五步条（验证链路, 过程示意） ---
+  const WB_QA_STEPS = ['问题理解', 'RAG 检索', '重排', '答案生成', '独立复核与引用'];
+  function wbQaStepsStart() {
+    const box = document.createElement('div');
+    box.className = 'qa-steps-wrap';
+    box.innerHTML = '<div class="qa-steps">' + WB_QA_STEPS.map((n, i) =>
+      '<span class="qa-step" data-i="' + i + '">' + n + '</span>').join('') +
+      '</div><div class="qa-step-note">过程示意：验证链路（独立复核）约 15-20s，直连约 2s；链路最终取值以服务端返回为准</div>';
+    m2ChatLog.appendChild(box); m2ScrollToBottom();
+    const steps = box.querySelectorAll('.qa-step');
+    let i = 0; steps[0].classList.add('active');
+    const timer = setInterval(() => {
+      steps[i].classList.remove('active'); steps[i].classList.add('done'); i++;
+      if (i >= steps.length) { clearInterval(timer); return; }
+      steps[i].classList.add('active');
+    }, 420);
+    box._timer = timer;
+    return box;
+  }
+  function wbQaStepsFinish(box, elapsedMs) {
+    if (!box) return;
+    clearInterval(box._timer);
+    box.querySelectorAll('.qa-step').forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
+    const note = box.querySelector('.qa-step-note');
+    if (note) note.textContent = '完成 · ' + (elapsedMs / 1000).toFixed(1) + 's（过程示意）';
+  }
+  function wbQaStepsFail(box) { if (!box) return; clearInterval(box._timer); box.remove(); }
+
+  // --- 引用汇总（右栏"引用"tab） ---
+  function wbAddRefs(sources, question) {
+    if (!sources || !sources.length) return;
+    const cont = $('#refsContainer'); if (!cont) return;
+    if (!wbRefsSeen) cont.innerHTML = '';
+    for (const s of sources) {
+      wbRefsSeen++;
+      const div = document.createElement('div');
+      div.className = 'ref-item';
+      div.innerHTML = '<div class="ref-tags"><span class="m2-src-tag">' + esc(s.sample_id || '-') +
+        '</span><span class="m2-src-tag">' + esc(s.table_name || '-') + '</span>' +
+        (typeof s.score === 'number' ? '<span class="m2-src-score">score ' + s.score.toFixed(2) + '</span>' : '') +
+        '</div>' + (s.text ? '<div class="m2-src-text">' + esc(s.text) + '</div>' : '') +
+        '<div class="qa-step-note">问：' + esc(question) + '</div>';
+      cont.prepend(div);
+    }
+    const rc = $('#refsCount'); if (rc) rc.textContent = String(wbRefsSeen);
+  }
+
+  // --- 链路观察（诚实设计 §4.2: 只读指示, 观察值来自服务端返回） ---
+  function wbRouteObserve(route, fellBack) {
+    const el = $('#routeMode'), hint = $('#routeHint');
+    if (!el) return;
+    el.textContent = route === 'opencode' ? '验证链路 · 生效' : '直连 · 生效';
+    if (hint) hint.textContent = fellBack ? '（本次曾回落）' : '';
+  }
+
+  // --- 服务状态（/api/health/full, 60s 轮询） ---
+  async function wbSvcStatus() {
+    const dot = $('#svcDot'), txt = $('#svcText');
+    try {
+      const res = await fetch('/api/health/full');
+      const d = await res.json();
+      const ok = d.overall === 'healthy';
+      if (dot) dot.className = 'svc-dot ' + (ok ? 'ok' : 'warn');
+      if (txt) txt.textContent = ok ? '服务正常' : '部分降级';
+    } catch (_) {
+      if (dot) dot.className = 'svc-dot fail';
+      if (txt) txt.textContent = '状态不可达';
+    }
+  }
+  wbSvcStatus(); setInterval(wbSvcStatus, 60000);
+
+  // --- 建议计数（任务状态用） ---
+  async function wbSuggCount() {
+    try { const r = await fetch('/api/m1/schema-suggestions'); const d = await r.json(); return (d.suggestions || []).length; }
+    catch (_) { return 0; }
+  }
+
+  // --- 执行流系统消息 ---
+  function wbFlowMsg(text) {
+    const d = document.createElement('div');
+    d.className = 'qa-step-note';
+    d.textContent = text;
+    m2ChatLog.appendChild(d); m2ScrollToBottom();
+  }
+
+  // --- 左栏杂项 ---
+  const wbNewQaBtn = $('#taskNewQa');
+  if (wbNewQaBtn) wbNewQaBtn.addEventListener('click', () => { wbQaCurrentId = null; m2NewChat(); });
+  const wbSearch = $('#taskSearch');
+  if (wbSearch) wbSearch.addEventListener('input', wbRenderTaskList);
+  wbRenderTaskList();
+  wbOpenTab('tables');
 
   // --- Utility ---
   function esc(str) {

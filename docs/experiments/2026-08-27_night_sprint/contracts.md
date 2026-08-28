@@ -60,3 +60,41 @@
 - 触发: 段 B 收口后距 05:00 ≥25min
 - 交付物: 三基线执行工件 + 机械判据（|ΔH|<0.005 且 CI 跨 0 = 不可分）入账
 - 范围外: 判定入一页纸不拍板; 触发不满足 = 推迟明晚记账
+
+## 08-28 夜间队列（纯计算资产收取 + 治理清账 + 任务 2 圈定）
+
+### T1① bandit 前瞻验证
+- 交付物: bandit_prospective_eval.json（固定门 vs bandit 门 × 接受率/退化率, C1 holdout）+ 台账行
+- 验收谓词: 固定门复演终值与 C1 工件逐位一致（锚点）; bandit 门同协议直法复演; 零端点（meta.endpoint_calls=0）
+- 范围外: 不上线, 不改生产门控, 不重训后验（用 08-27 replay 后验原样前瞻）
+
+### T1② DPO 偏好对 v0
+- 交付物: 配对口径设计稿（预注册先行）+ dpo_pairs_v0.json（对数/覆盖率/来源分布）
+- 验收谓词: 设计稿未立不跑生成; 对生成全机械（种子固定）; 来源 = 噪声 L3 + 碰撞 C1 sugg_log（synthetic 标记利用）; 甲方零进入
+- 范围外: 不训练（对生成即止）, 不动训练基建
+
+### T2 门控价值曲线数据表
+- 交付物: 2026-08-28_gate_value_curve_data.md（可靠性×碰撞暴露双因子 × 终值 H/ACC/固化率/Δ + 溯源列 + 图 schema/caption）
+- 验收谓词: 每数字对工件; 对抗臂留空位; 骨架正文不碰
+- 范围外: 不画图（侧线）, 不新算指标
+
+### T3 治理一捆
+- 交付物: docs/29 backlog 清账+登记 / INDEX 状态词刷新 5 件 / STATE 挂起行修正 / docs/26,28 定性（2 warn 清零）/ fig4-5 不一致报侧线
+- 验收谓词: docs_lint warn=0; INDEX 状态词与实况一致; 台账行在
+- 范围外: 盲锥骨架与 K2 章正文不碰
+
+### T4 C4 错位治理方案稿
+- 交付物: 三方案菜单（列对齐校验/单列裁剪/列索引标注 × 预注册预期错位率变化 × 改动面）入 experiments/
+- 验收谓词: 每方案带预注册数字预期; 本夜不开 :8007
+- 范围外: 不复跑探针
+
+### D1 任务 2 改版（条件项, 01:30 闸）
+- 触发: T1-T4 于 01:30 前收口
+- 交付物: docs/27 方向 A 三栏工作台实施（sprint-contract 先行）; 未完 = 检查点续跑入账
+- 范围外: :5050 重启步停手报批; 配置零触碰; 甲方暴露面不新增
+
+### D1 任务 2 M1/M2 页面改版 · 方向 A 三栏工作台（执行中）
+- 交付物: /m1 原地改版为三栏任务工作台（左任务列表 / 中执行流 / 右产物 tabs）, m1.html+m1.js+m1.css 三件
+- 验收谓词: ① §4.5 全部选择器保留（#fileInput #m2Question #m2AskBtn #m2NewChatBtn #tableCount #reviewBadge #kvCount #runBtn #sampleBtn #preciseParseChk #suggBtn #suggCount #suggApplyBtn #suggRejectBtn #suggList #reconcileSection #unmappedSection #confirmBtn #m2ChatLog #m2Meta #cmp*）② 任务卡=上传解析或发起 QA 即生成（历史存 localStorage）③ M1 六步时间轴（客户端动画, "过程示意"标注）④ QA 验证链路五步条（同标注）⑤ 建议映射升为右栏 tab（modal 语义保留）⑥ 直连/验证链路=只读指示（诚实设计 §4.2, 观察值来自 data.route）⑦ pytest web 相关测试全绿 ⑧ :5050 零重启（Jinja auto_reload + 静态文件热生效）
+- 范围外: /m1v2 并行路由（需重启, 按卡停手条款不采用, 原地改版+git 可回滚替代）; SSE 真实步骤事件流（二期）; 后端存储任务历史; API 零改动
+- 中止: 任何需要 :5050 重启的步骤 → 停手报批

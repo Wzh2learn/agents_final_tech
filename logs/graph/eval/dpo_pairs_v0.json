@@ -1,0 +1,1328 @@
+{
+ "meta": {
+  "name": "dpo-pairs-v0",
+  "generated": "2026-08-28 22:28:05",
+  "design": "docs/experiments/2026-08-28_dpo_pairs_v0_design.md",
+  "gen_seed": 20260828,
+  "endpoint_calls": 0,
+  "sources": [
+   "noise_L3 (vgmc_noise_L3_checkpoint.json)",
+   "collision_C1 (vgmc_collision_C1_checkpoint.json)"
+  ],
+  "synthetic_reconstruction": "force_inject 同 RNG 重构（种子 20260827, rate 0.5）"
+ },
+ "summary": {
+  "n_pairs": 60,
+  "by_type": {
+   "A": 50,
+   "C": 51
+  },
+  "gate_fooled_n": 9,
+  "coverage": {
+   "columns_total": 96,
+   "columns_paired": 60,
+   "rate": 0.625
+  },
+  "source_distribution": {
+   "noise_L3": 35,
+   "collision_C1": 59
+  }
+ },
+ "pairs": [
+  {
+   "uid": "0b2eba23-104c-4219-8171-104f14d52a71",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Acquisition Cost"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r0",
+    "noise_L3/gated/r0",
+    "noise_L3/ungated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "14b78dc3-ad9c-46cd-beb0-ecb222567694",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Percentage to capital"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r0",
+    "noise_L3/gated/r0",
+    "noise_L3/ungated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Number of Shares at Expected Attainment"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Number of Shares at Expected Attainment"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Number of shares"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r0",
+    "noise_L3/gated/r0",
+    "noise_L3/ungated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Weighted-average grant date fair value"
+   },
+   "types": [
+    "A"
+   ],
+   "sources": [
+    "collision_C1/gated/r0"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Accounting for Income Taxes Guidance"
+   },
+   "types": [
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r0",
+    "noise_L3/ungated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": true
+  },
+  {
+   "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Revenue Recognition Guidance"
+   },
+   "types": [
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r0",
+    "noise_L3/ungated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": true
+  },
+  {
+   "uid": "2953b803-d49b-4fbb-8dc2-d9a3bec9d67e",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r0",
+    "noise_L3/gated/r0",
+    "noise_L3/ungated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "425ee1c7-fb82-4853-994a-9876c414fbd5",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Total tangible fixed assets"
+   },
+   "types": [
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r0",
+    "noise_L3/ungated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": true
+  },
+  {
+   "uid": "425ee1c7-fb82-4853-994a-9876c414fbd5",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Total tangible fixed assets"
+   },
+   "types": [
+    "A"
+   ],
+   "sources": [
+    "noise_L3/gated/r0",
+    "collision_C1/gated/r0"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "No. of Options at End of Year"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r0",
+    "noise_L3/gated/r0",
+    "noise_L3/ungated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Exercise Price $"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r0",
+    "noise_L3/gated/r0",
+    "noise_L3/ungated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/gated/r0",
+    "collision_C1/ungated/r0"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "637d5671-0913-4e80-b135-2d4a516b79bb",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r1",
+    "noise_L3/gated/r1",
+    "noise_L3/ungated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "637d5671-0913-4e80-b135-2d4a516b79bb",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2018"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "6aae8dee-45af-4a09-9e09-8137d6eb3dc3",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "CHANGE"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r1",
+    "noise_L3/gated/r1",
+    "noise_L3/ungated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "6ed697ff-9893-453a-84a4-44023fffca78",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Unearned Revenue"
+   },
+   "types": [
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r1",
+    "noise_L3/ungated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": true
+  },
+  {
+   "uid": "6ed697ff-9893-453a-84a4-44023fffca78",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Revenue and Receipts"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r1",
+    "noise_L3/gated/r1",
+    "noise_L3/ungated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "6ed697ff-9893-453a-84a4-44023fffca78",
+   "col": 7,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Revenue and Receipts"
+   },
+   "types": [
+    "A"
+   ],
+   "sources": [
+    "collision_C1/gated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "70cf5260-2124-4a26-a148-5cf3c6028813",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "CHANGE"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r1",
+    "noise_L3/gated/r1",
+    "noise_L3/ungated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Inter-segment eliminations and other"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r1",
+    "noise_L3/gated/r1",
+    "noise_L3/ungated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2017/18"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+   "col": 5,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Change"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r1",
+    "collision_C1/gated/r1",
+    "collision_C1/ungated/r1"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "7c80a835-4fb2-4792-9ad8-95660da47f7e",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Accumulated Amortization"
+   },
+   "types": [
+    "A"
+   ],
+   "sources": [
+    "collision_C1/gated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "93339b76-1f90-4d86-8f31-bbb7bff71603",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "£m"
+   },
+   "types": [
+    "A"
+   ],
+   "sources": [
+    "collision_C1/gated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "93339b76-1f90-4d86-8f31-bbb7bff71603",
+   "col": 5,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Investment and development property"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "noise_L3/gated/r2",
+    "noise_L3/ungated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "99f24ed1-6222-4707-a170-bac3de607798",
+   "col": 1,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "General and administrative"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "noise_L3/gated/r2",
+    "noise_L3/ungated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "9bce514f-3eb3-433c-85e5-2d40d116497c",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "noise_L3/gated/r2",
+    "noise_L3/ungated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2017/18"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "noise_L3/gated/r2",
+    "noise_L3/ungated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2018/19"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Fiscal 2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "noise_L3/gated/r2",
+    "noise_L3/ungated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Net Tangible Assets Acquired (Liabilities Assumed)"
+   },
+   "types": [
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "noise_L3/ungated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": true
+  },
+  {
+   "uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r2",
+    "collision_C1/gated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1",
+   "col": 1,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Accounts Receivable, Net"
+   },
+   "types": [
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "noise_L3/ungated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": true
+  },
+  {
+   "uid": "b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Accounts Receivable, Net"
+   },
+   "types": [
+    "A"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "collision_C1/gated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "bcbd7783-86ad-430d-aa96-48808bb0426c",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Q4 2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "noise_L3/gated/r2",
+    "noise_L3/ungated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Unearned Revenue"
+   },
+   "types": [
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "noise_L3/ungated/r2"
+   ],
+   "gate_fooled": true
+  },
+  {
+   "uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Revenue and Receipts"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r2",
+    "noise_L3/ungated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/gated/r2",
+    "collision_C1/ungated/r2"
+   ],
+   "gate_fooled": true
+  },
+  {
+   "uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+   "col": 6,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Unearned Revenue"
+   },
+   "types": [
+    "A"
+   ],
+   "sources": [
+    "collision_C1/gated/r2"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Change"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r3",
+    "noise_L3/gated/r3",
+    "noise_L3/ungated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+   "col": 5,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2018"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+   "col": 6,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Change"
+   },
+   "types": [
+    "C"
+   ],
+   "sources": [
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "e0689072-72ba-4979-962a-bb128539defb",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2018"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r3",
+    "noise_L3/gated/r3",
+    "noise_L3/ungated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "e0689072-72ba-4979-962a-bb128539defb",
+   "col": 5,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Change"
+   },
+   "types": [
+    "C"
+   ],
+   "sources": [
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "e0689072-72ba-4979-962a-bb128539defb",
+   "col": 6,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2018"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r3",
+    "noise_L3/gated/r3",
+    "noise_L3/ungated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "£m"
+   },
+   "types": [
+    "A"
+   ],
+   "sources": [
+    "collision_C1/gated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Gross Cost"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "e9d3bb25-89ab-4aed-8bec-5501d5fe7b16",
+   "col": 3,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Years Ended December 31,"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r3",
+    "noise_L3/gated/r3",
+    "noise_L3/ungated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+   "col": 1,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Unbilled Receivable (long-term)"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r3",
+    "noise_L3/gated/r3",
+    "noise_L3/ungated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+   "col": 4,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Unbilled Receivable (long-term)"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r3",
+    "noise_L3/gated/r3",
+    "noise_L3/ungated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "2019"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r3",
+    "noise_L3/gated/r3",
+    "noise_L3/ungated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6",
+   "col": 0,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Consolidated"
+   },
+   "types": [
+    "A"
+   ],
+   "sources": [
+    "collision_C1/gated/r3"
+   ],
+   "gate_fooled": false
+  },
+  {
+   "uid": "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8",
+   "col": 2,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Purchased Intangible Assets"
+   },
+   "types": [
+    "C"
+   ],
+   "sources": [
+    "noise_L3/gated/r3",
+    "noise_L3/ungated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": true
+  },
+  {
+   "uid": "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8",
+   "col": 5,
+   "chosen": {
+    "action": "skip"
+   },
+   "rejected": {
+    "action": "map_to",
+    "target": "Fiscal 2018"
+   },
+   "types": [
+    "A",
+    "C"
+   ],
+   "sources": [
+    "collision_C1/gated/r3",
+    "collision_C1/gated/r3",
+    "collision_C1/ungated/r3"
+   ],
+   "gate_fooled": false
+  }
+ ]
+}

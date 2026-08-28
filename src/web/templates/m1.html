@@ -6,77 +6,134 @@
     <title>M1 对账单解析工作台</title>
     <link rel="stylesheet" href="/static/m1.css">
 </head>
-<body>
+<body class="wb">
     <header class="topbar">
-        <div>
+        <div class="brand">
             <p class="eyebrow">M1 Document Intelligence</p>
-            <h1>M1 对账单解析工作台</h1>
+            <h1 id="taskTitle">对账单解析工作台</h1>
         </div>
-        <nav class="nav">
-            <a href="/">首页</a>
-            <a href="/knowledge">知识库</a>
-            <a href="/chat">问答</a>
-        </nav>
+        <div class="topbar-center">
+            <div class="seg seg-readonly" id="routeSeg" title="链路由服务端配置（运维）; 此处显示最近一次问答的实际链路">
+                <span class="seg-item active" id="routeMode">链路 · 待观察</span>
+                <span class="seg-hint" id="routeHint"></span>
+            </div>
+            <label class="seg seg-chk" title="只使用已沉淀的映射规则（确定性），不借助 AI 即时推断">
+                <input type="checkbox" id="preciseParseChk"> 精确解析
+            </label>
+        </div>
+        <div class="topbar-right">
+            <span class="svc-status" id="svcStatus" title="系统健康状态（/api/health/full）">
+                <span class="svc-dot" id="svcDot"></span><span id="svcText">检测中</span>
+            </span>
+            <nav class="nav">
+                <a href="/">首页</a>
+                <a href="/knowledge">知识库</a>
+                <a href="/chat">问答</a>
+            </nav>
+        </div>
     </header>
 
-    <main class="workspace">
-        <!-- Pipeline status -->
-        <section class="status-band" aria-label="pipeline status">
-            <div class="mode">
-                <span id="runMode">statement-parser</span>
-                <strong id="overallStatus">待运行</strong>
+    <div class="wb-body">
+        <!-- 左: 任务列表 -->
+        <aside class="wb-left">
+            <input id="taskSearch" type="search" placeholder="搜索任务…" autocomplete="off">
+            <button id="taskNewQa" type="button" class="btn-new-task">+ 新问答会话</button>
+            <div class="task-group">
+                <h3>解析任务</h3>
+                <ul id="taskListParse" class="task-list"></ul>
             </div>
-            <div id="stageRail" class="stage-rail"></div>
-        </section>
+            <div class="task-group">
+                <h3>QA 会话</h3>
+                <ul id="taskListQA" class="task-list"></ul>
+            </div>
+        </aside>
 
-        <!-- Metrics -->
-        <section id="metricGrid" class="metric-grid"></section>
-
-        <!-- Controls -->
-        <section class="control-strip">
-            <label class="file-button" for="fileInput" title="导入对账单文件 (TXT/PDF/XLSX/DOCX)">
-                <span>Upload</span>
-            </label>
-            <input id="fileInput" type="file" accept=".txt,.pdf,.xlsx,.docx">
-            <label style="font-size:12px;color:#6b7280;cursor:pointer" title="只使用已沉淀的映射规则（确定性），不借助 AI 即时推断。用于验证建议映射应用前后的命中率变化。">
-                <input type="checkbox" id="preciseParseChk"> 精确解析(纯规则)
-            </label>
-            <button id="sampleBtn" type="button" title="载入演示文本">Sample</button>
-            <button id="runBtn" type="button" title="解析对账单">Run</button>
-            <button id="copyBtn" type="button" title="复制M2载荷">Copy M2</button>
-            <button id="downloadBtn" type="button" title="下载M2载荷">Download M2</button>
-            <button id="schemaBtn" type="button" title="编辑字段映射规则">规则配置</button>
-            <button id="rulesViewBtn" type="button" title="只读查看已沉淀的字段映射规则（源自甲方映射表与递进沉淀）">字段规则</button>
-            <button id="suggBtn" type="button" title="查看并确认系统自动发现的映射建议">建议映射 <span id="suggCount" class="badge-warn" hidden></span></button>
-            <span id="notice" role="status"></span>
-        </section>
-
-        <!-- Three-panel result area -->
-        <section class="result-grid">
-            <!-- Panel 1: 标准化表格 -->
-            <div class="panel tables-panel">
-                <div class="panel-head">
-                    <h2>标准化表格</h2>
-                    <span id="tableCount">-</span>
+        <!-- 中: 执行流 -->
+        <main class="wb-mid">
+            <section class="status-band" aria-label="pipeline status">
+                <div class="mode">
+                    <span id="runMode">statement-parser</span>
+                    <strong id="overallStatus">待运行</strong>
                 </div>
+                <div id="stageRail" class="stage-rail"></div>
+            </section>
+            <section id="metricGrid" class="metric-grid"></section>
+
+            <div class="exec-titlebar">
+                <span id="execBadge" class="badge-idle">待命</span>
+                <strong id="execTitle">上传一份对账单，或点 Sample 载入示例</strong>
+                <span id="execElapsed"></span>
+            </div>
+
+            <section id="execFlow" class="exec-flow" aria-label="execution flow">
+                <div id="parseSteps" class="parse-steps"></div>
+                <div id="m2ChatLog" class="m2-chat-log">
+                    <div class="m2-empty-hint">输入问题开始对话，支持多轮追问。</div>
+                </div>
+            </section>
+
+            <section class="mid-actions">
+                <div class="control-strip">
+                    <label class="file-button" for="fileInput" title="导入对账单文件 (TXT/PDF/XLSX/DOCX)">
+                        <span>Upload</span>
+                    </label>
+                    <input id="fileInput" type="file" accept=".txt,.pdf,.xlsx,.docx">
+                    <button id="sampleBtn" type="button" title="载入演示文本">Sample</button>
+                    <button id="runBtn" type="button" title="解析对账单">Run</button>
+                    <button id="copyBtn" type="button" title="复制M2载荷">Copy M2</button>
+                    <button id="downloadBtn" type="button" title="下载M2载荷">Download M2</button>
+                    <button id="schemaBtn" type="button" title="编辑字段映射规则">规则配置</button>
+                    <button id="rulesViewBtn" type="button" title="只读查看已沉淀的字段映射规则">字段规则</button>
+                    <button id="suggBtn" type="button" title="查看并确认系统自动发现的映射建议">建议映射 <span id="suggCount" class="badge-warn" hidden></span></button>
+                    <span id="notice" role="status"></span>
+                </div>
+                <div class="qa-strip">
+                    <div id="m2PresetChips" class="m2-chips" aria-label="常见问题清单"></div>
+                    <div class="m2-controls">
+                        <input id="m2Question" type="text"
+                            placeholder="提问，例如：嘉兴民安的总资产是多少？"
+                            list="m2Examples" autocomplete="off">
+                        <datalist id="m2Examples">
+                            <option value="嘉兴民安的总资产是多少？"></option>
+                            <option value="其中证券市值占多少？"></option>
+                            <option value="复熙混合25号的资产总值是多少？"></option>
+                            <option value="嘉兴民安有哪些证券持仓？"></option>
+                        </datalist>
+                        <select id="m2TopK" title="检索条数 top_k" aria-label="检索条数 top_k">
+                            <option value="3" selected>top_k 3</option>
+                            <option value="5">top_k 5</option>
+                            <option value="8">top_k 8</option>
+                            <option value="10">top_k 10</option>
+                        </select>
+                        <button id="m2AskBtn" type="button" title="基于 M1 解析结果检索问答">Send</button>
+                        <button id="m2NewChatBtn" type="button" class="m2-new-chat-btn" title="清空对话，开始新会话">New Chat</button>
+                        <span id="m2Meta" class="m2-meta">RAG · m1_parsed_statements</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 右: 产物面板 -->
+        <aside class="wb-right">
+            <div class="rt-tabs" role="tablist">
+                <button class="rt-tab active" data-tab="tables" type="button">表格</button>
+                <button class="rt-tab" data-tab="kv" type="button">KV</button>
+                <button class="rt-tab" data-tab="review" type="button">勾稽</button>
+                <button class="rt-tab" data-tab="refs" type="button">引用</button>
+                <button class="rt-tab" data-tab="sugg" type="button">建议映射 <span id="suggTabBadge" class="badge-warn" hidden></span></button>
+                <button class="rt-tab" data-tab="cmp" type="button">对比</button>
+            </div>
+
+            <div class="rt-panel panel" id="panel-tables" data-panel="tables">
+                <div class="panel-head"><h2>标准化表格</h2><span id="tableCount">-</span></div>
                 <div id="tablesContainer" class="panel-body scrollable"></div>
             </div>
-
-            <!-- Panel 2: KV 表数据 -->
-            <div class="panel kv-panel">
-                <div class="panel-head">
-                    <h2>KV 表数据</h2>
-                    <span id="kvCount">-</span>
-                </div>
+            <div class="rt-panel panel" id="panel-kv" data-panel="kv" hidden>
+                <div class="panel-head"><h2>KV 表数据</h2><span id="kvCount">-</span></div>
                 <div id="kvContainer" class="panel-body scrollable"></div>
             </div>
-
-            <!-- Panel 3: 复核面板 -->
-            <div class="panel review-panel">
-                <div class="panel-head">
-                    <h2>复核面板</h2>
-                    <span id="reviewBadge">-</span>
-                </div>
+            <div class="rt-panel panel" id="panel-review" data-panel="review" hidden>
+                <div class="panel-head"><h2>复核面板</h2><span id="reviewBadge">-</span></div>
                 <div id="reviewContainer" class="panel-body scrollable">
                     <div id="unmappedSection"></div>
                     <div id="reconcileSection"></div>
@@ -85,137 +142,96 @@
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- M2 RAG QA panel (multi-turn chat) -->
-        <section class="panel m2-panel" aria-label="M2 knowledge QA">
-            <div class="panel-head">
-                <h2>M2 知识问答</h2>
-                <div class="m2-head-actions">
-                    <span id="m2Meta" class="m2-meta">RAG · m1_parsed_statements</span>
-                    <button id="m2NewChatBtn" type="button" class="m2-new-chat-btn" title="清空对话，开始新会话">New Chat</button>
+            <div class="rt-panel panel" id="panel-refs" data-panel="refs" hidden>
+                <div class="panel-head"><h2>引用证据</h2><span id="refsCount">0</span></div>
+                <div id="refsContainer" class="panel-body scrollable">
+                    <div class="empty-state">问答产生引用后，来源会汇总到这里。</div>
                 </div>
             </div>
-            <div class="panel-body m2-body">
-                <div id="m2ChatLog" class="m2-chat-log">
-                    <div class="m2-empty-hint">输入问题开始对话，支持多轮追问。</div>
-                </div>
-                <div id="m2PresetChips" class="m2-chips" aria-label="常见问题清单"></div>
-                <div class="m2-controls">
-                    <input id="m2Question" type="text"
-                        placeholder="提问，例如：嘉兴民安的总资产是多少？"
-                        list="m2Examples" autocomplete="off">
-                    <datalist id="m2Examples">
-                        <option value="嘉兴民安的总资产是多少？"></option>
-                        <option value="其中证券市值占多少？"></option>
-                        <option value="复熙混合25号的资产总值是多少？"></option>
-                        <option value="嘉兴民安有哪些证券持仓？"></option>
-                    </datalist>
-                    <select id="m2TopK" title="检索条数 top_k" aria-label="检索条数 top_k">
-                        <option value="3" selected>top_k 3</option>
-                        <option value="5">top_k 5</option>
-                        <option value="8">top_k 8</option>
-                        <option value="10">top_k 10</option>
-                    </select>
-                    <button id="m2AskBtn" type="button" title="基于 M1 解析结果检索问答">Send</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Cross-document comparison panel -->
-        <section class="panel cmp-panel" aria-label="Cross-document comparison">
-            <div class="panel-head">
-                <h2>对比分析</h2>
-                <span id="cmpMeta" class="m2-meta">M2 · cross-document</span>
-            </div>
-            <div class="panel-body cmp-body">
-                <div class="cmp-controls">
-                    <label for="cmpProduct">产品:</label>
-                    <select id="cmpProduct"><option value="">加载中…</option></select>
-                    <span id="cmpDateWrap" hidden>
-                        <label for="cmpDateA">日期A:</label>
-                        <select id="cmpDateA"></select>
-                        <label for="cmpDateB">日期B:</label>
-                        <select id="cmpDateB"></select>
-                        <button id="cmpDiffBtn" type="button">对比</button>
-                    </span>
-                    <button id="cmpPosBtn" type="button">持仓对比</button>
-                </div>
-                <div id="cmpResult" class="cmp-result">
-                    <div class="m2-empty-hint">选择产品后点击「持仓对比」查看组合内持仓排名。</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Schema Editor Modal -->
-        
-        <!-- 建议映射 modal (选择题体验 场景 A) -->
-        <div id="suggModal" class="modal-overlay" hidden>
-            <div class="modal-dialog">
-                <div class="modal-header">
-                    <h2>建议映射 - 系统自动发现，等待您确认</h2>
-                    <button id="suggCloseBtn" class="modal-close" type="button">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p style="margin:0 0 10px;color:#6b7280">解析新版式时未识别的列名会由系统给出映射建议。勾选并应用后即沉淀为规则，同版式样本后续自动受益；建议有误可拒绝或改选目标字段。</p>
+            <div class="rt-panel panel" id="panel-sugg" data-panel="sugg" hidden>
+                <div class="panel-head"><h2>建议映射</h2><span class="m2-meta">等待您确认</span></div>
+                <div class="panel-body scrollable">
+                    <p class="sugg-intro">解析新版式时未识别的列名会由系统给出映射建议。勾选并应用后即沉淀为规则，同版式样本后续自动受益；建议有误可拒绝或改选目标字段。</p>
                     <div id="suggEmpty" hidden>当前无待确认建议。</div>
                     <div id="suggList"></div>
-                </div>
-                <div class="modal-footer">
-                    <button id="suggApplyBtn" type="button">应用所选</button>
-                    <button id="suggRejectBtn" type="button" class="btn-sm">拒绝所选</button>
+                    <div class="sugg-actions">
+                        <button id="suggApplyBtn" type="button">应用所选</button>
+                        <button id="suggRejectBtn" type="button" class="btn-sm">拒绝所选</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="schemaModal" class="modal-overlay" hidden>
-            <div class="modal-dialog">
-                <div class="modal-header">
-                    <h2>规则配置 - 字段映射管理</h2>
-                    <button id="schemaCloseBtn" class="modal-close" type="button">&times;</button>
+            <div class="rt-panel panel" id="panel-cmp" data-panel="cmp" hidden>
+                <div class="panel-head"><h2>对比分析</h2><span id="cmpMeta" class="m2-meta">M2 · cross-document</span></div>
+                <div class="panel-body cmp-body scrollable">
+                    <div class="cmp-controls">
+                        <label for="cmpProduct">产品:</label>
+                        <select id="cmpProduct"><option value="">加载中…</option></select>
+                        <span id="cmpDateWrap" hidden>
+                            <label for="cmpDateA">日期A:</label>
+                            <select id="cmpDateA"></select>
+                            <label for="cmpDateB">日期B:</label>
+                            <select id="cmpDateB"></select>
+                            <button id="cmpDiffBtn" type="button">对比</button>
+                        </span>
+                        <button id="cmpPosBtn" type="button">持仓对比</button>
+                    </div>
+                    <div id="cmpResult" class="cmp-result">
+                        <div class="m2-empty-hint">选择产品后点「持仓对比」查看组合内持仓排名。</div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div class="schema-layout">
-                        <div class="schema-left">
-                            <h3>表定义</h3>
-                            <ul id="schemaTableList" class="schema-table-list"></ul>
-                            <button id="schemaAddTableBtn" type="button" class="btn-sm">+ 新增表</button>
-                        </div>
-                        <div class="schema-right">
-                            <h3 id="schemaRightTitle">选择左侧表查看字段</h3>
-                            <div id="schemaFieldsWrap">
-                                <table class="schema-fields-table" id="schemaFieldsTable" hidden>
-                                    <thead><tr><th>标准字段名</th><th>近义词 (逗号分隔)</th><th></th></tr></thead>
-                                    <tbody id="schemaFieldsBody"></tbody>
-                                </table>
-                                <button id="schemaAddFieldBtn" type="button" class="btn-sm" hidden>+ 新增字段</button>
-                            </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Schema Editor Modal -->
+    <div id="schemaModal" class="modal-overlay" hidden>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2>规则配置 - 字段映射管理</h2>
+                <button id="schemaCloseBtn" class="modal-close" type="button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="schema-layout">
+                    <div class="schema-left">
+                        <h3>表定义</h3>
+                        <ul id="schemaTableList" class="schema-table-list"></ul>
+                        <button id="schemaAddTableBtn" type="button" class="btn-sm">+ 新增表</button>
+                    </div>
+                    <div class="schema-right">
+                        <h3 id="schemaRightTitle">选择左侧表查看字段</h3>
+                        <div id="schemaFieldsWrap">
+                            <table class="schema-fields-table" id="schemaFieldsTable" hidden>
+                                <thead><tr><th>标准字段名</th><th>近义词 (逗号分隔)</th><th></th></tr></thead>
+                                <tbody id="schemaFieldsBody"></tbody>
+                            </table>
+                            <button id="schemaAddFieldBtn" type="button" class="btn-sm" hidden>+ 新增字段</button>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button id="schemaSaveBtn" type="button" class="btn-primary">保存</button>
-                    <button id="schemaCancelBtn" type="button" class="btn-secondary">取消</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="schemaSaveBtn" type="button" class="btn-primary">保存</button>
+                <button id="schemaCancelBtn" type="button" class="btn-secondary">取消</button>
             </div>
         </div>
-        <!-- 字段规则总览 modal (只读, 甲方演示 2026-08-17) -->
-        <div id="rulesModal" class="modal-overlay" hidden>
-            <div class="modal-dialog">
-                <div class="modal-header">
-                    <h2>字段规则总览（只读）</h2>
-                    <button id="rulesCloseBtn" class="modal-close" type="button">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p id="rulesSummary" style="margin:0 0 10px;color:#6b7280"></p>
-                    <div id="rulesList" class="rules-list"></div>
-                </div>
-                <div class="modal-footer">
-                    <span style="color:#6b7280;font-size:12px">规则维护请使用「规则配置」；本页仅作展示。</span>
-                    <button id="rulesOkBtn" type="button" class="btn-primary">关闭</button>
-                </div>
+    </div>
+    <!-- 字段规则总览 modal (只读) -->
+    <div id="rulesModal" class="modal-overlay" hidden>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2>字段规则总览（只读）</h2>
+                <button id="rulesCloseBtn" class="modal-close" type="button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="rulesSummary" style="margin:0 0 10px;color:#6b7280"></p>
+                <div id="rulesList" class="rules-list"></div>
+            </div>
+            <div class="modal-footer">
+                <span style="color:#6b7280;font-size:12px">规则维护请使用「规则配置」；本页仅作展示。</span>
+                <button id="rulesOkBtn" type="button" class="btn-primary">关闭</button>
             </div>
         </div>
-    </main>
+    </div>
 
     <script src="/static/m1.js"></script>
 </body>

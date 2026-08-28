@@ -1139,3 +1139,126 @@ body {
 .rules-table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .rules-table th, .rules-table td { border: 1px solid #e5e7eb; padding: 4px 8px; text-align: left; vertical-align: top; }
 .rules-table th { background: #f8fafc; }
+
+/* =====================================================================
+   三栏任务工作台（方向 A, docs/27 §2, 2026-08-28 改版）
+   配色: 浅色商务, 主色 #2563EB, 圆角 8px, 正文 13px
+   ===================================================================== */
+:root {
+  --wb-primary: #2563EB;
+  --wb-bg: #F5F7FA;
+  --wb-card: #FFFFFF;
+  --wb-border: #E5E9F0;
+  --wb-text: #1F2937;
+  --wb-sub: #6B7280;
+  --wb-ok: #16A34A;
+  --wb-warn: #D97706;
+  --wb-fail: #DC2626;
+}
+body.wb { background: var(--wb-bg); color: var(--wb-text); font-size: 13px; margin: 0; }
+body.wb .topbar {
+  display: flex; align-items: center; gap: 16px; height: 48px;
+  padding: 0 16px; background: var(--wb-card); border-bottom: 1px solid var(--wb-border);
+  position: sticky; top: 0; z-index: 30;
+}
+body.wb .topbar .brand { min-width: 220px; }
+body.wb .topbar .brand .eyebrow { margin: 0; font-size: 10px; color: var(--wb-sub); letter-spacing: .08em; text-transform: uppercase; }
+body.wb .topbar .brand h1 { margin: 0; font-size: 15px; font-weight: 600; white-space: nowrap; }
+.topbar-center { display: flex; align-items: center; gap: 10px; flex: 1; }
+.topbar-right { display: flex; align-items: center; gap: 14px; }
+.seg { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--wb-border);
+  border-radius: 8px; padding: 3px 10px; background: #fff; font-size: 12px; color: var(--wb-text); }
+.seg-readonly { cursor: default; }
+.seg-item.active { color: var(--wb-primary); font-weight: 600; }
+.seg-hint { color: var(--wb-sub); font-size: 11px; }
+.seg-chk { cursor: pointer; }
+.svc-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--wb-sub); }
+.svc-dot { width: 8px; height: 8px; border-radius: 50%; background: #9CA3AF; display: inline-block; }
+.svc-dot.ok { background: var(--wb-ok); }
+.svc-dot.warn { background: var(--wb-warn); }
+.svc-dot.fail { background: var(--wb-fail); }
+body.wb .nav { display: flex; gap: 12px; }
+body.wb .nav a { color: var(--wb-sub); text-decoration: none; font-size: 12px; }
+body.wb .nav a:hover { color: var(--wb-primary); }
+
+/* --- 三栏骨架 --- */
+.wb-body { display: grid; grid-template-columns: 240px minmax(0, 1fr) 380px; height: calc(100vh - 48px); }
+.wb-left { background: var(--wb-card); border-right: 1px solid var(--wb-border); padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.wb-mid { display: flex; flex-direction: column; min-width: 0; background: var(--wb-bg); }
+.wb-right { background: var(--wb-card); border-left: 1px solid var(--wb-border); display: flex; flex-direction: column; min-width: 0; }
+@media (max-width: 1200px) { .wb-body { grid-template-columns: 200px minmax(0, 1fr) 320px; } }
+
+/* --- 左栏任务列表 --- */
+#taskSearch { border: 1px solid var(--wb-border); border-radius: 8px; padding: 6px 10px; font-size: 12px; width: 100%; box-sizing: border-box; }
+.btn-new-task { border: 1px dashed var(--wb-border); background: #fff; border-radius: 8px; padding: 6px; font-size: 12px; color: var(--wb-sub); cursor: pointer; }
+.btn-new-task:hover { color: var(--wb-primary); border-color: var(--wb-primary); }
+.task-group h3 { font-size: 11px; color: var(--wb-sub); margin: 8px 0 4px; text-transform: uppercase; letter-spacing: .06em; }
+.task-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.task-card { border: 1px solid var(--wb-border); border-radius: 8px; padding: 8px 10px; cursor: pointer; background: #fff; }
+.task-card:hover { border-color: var(--wb-primary); }
+.task-card.active { border-color: var(--wb-primary); box-shadow: 0 0 0 1px var(--wb-primary); }
+.task-card .tc-title { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; justify-content: space-between; }
+.task-card .tc-sub { font-size: 11px; color: var(--wb-sub); margin-top: 3px; }
+.task-empty { color: var(--wb-sub); font-size: 12px; padding: 6px 2px; }
+
+/* --- 状态徽章 --- */
+.badge { display: inline-block; height: 20px; line-height: 18px; padding: 0 8px; border-radius: 10px; font-size: 12px; border: 1px solid transparent; white-space: nowrap; }
+.badge-running { color: var(--wb-primary); border-color: var(--wb-primary); animation: wb-pulse 1.4s ease-in-out infinite; }
+.badge-done { color: var(--wb-ok); border-color: var(--wb-ok); }
+.badge-failed { color: var(--wb-fail); border-color: var(--wb-fail); }
+.badge-pending { color: var(--wb-sub); border-color: #D1D5DB; }
+.badge-idle { color: var(--wb-sub); border-color: var(--wb-border); }
+@keyframes wb-pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+
+/* --- 中栏执行流 --- */
+body.wb .status-band { margin: 10px 14px 0; }
+body.wb .metric-grid { margin: 8px 14px 0; }
+.exec-titlebar { display: flex; align-items: center; gap: 10px; margin: 10px 14px 6px; }
+.exec-titlebar strong { font-size: 14px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#execElapsed { color: var(--wb-sub); font-size: 12px; font-variant-numeric: tabular-nums; }
+.exec-flow { flex: 1; overflow-y: auto; margin: 0 14px; border: 1px solid var(--wb-border); border-radius: 8px; background: var(--wb-card); padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+
+/* 步骤消息流 */
+.parse-steps { display: flex; flex-direction: column; gap: 6px; }
+.parse-steps:empty { display: none; }
+.step-card { display: flex; align-items: center; gap: 8px; border: 1px solid var(--wb-border); border-radius: 8px; padding: 7px 10px; font-size: 12px; background: #fff; }
+.step-card .step-idx { width: 20px; height: 20px; border-radius: 50%; background: var(--wb-bg); color: var(--wb-sub); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; flex: none; }
+.step-card .step-name { font-weight: 600; }
+.step-card .step-detail { color: var(--wb-sub); margin-left: auto; font-variant-numeric: tabular-nums; text-align: right; }
+.step-card.running { border-color: var(--wb-primary); }
+.step-card.running .step-idx { background: var(--wb-primary); color: #fff; animation: wb-pulse 1.2s infinite; }
+.step-card.done .step-idx { background: var(--wb-ok); color: #fff; }
+.step-card.failed { border-color: var(--wb-fail); }
+.step-card.failed .step-idx { background: var(--wb-fail); color: #fff; }
+.step-note { font-size: 11px; color: var(--wb-sub); margin: 2px 0 0 28px; }
+
+/* QA 五步条（验证链路, 过程示意） */
+.qa-steps { display: flex; gap: 4px; flex-wrap: wrap; margin: 4px 0 6px; }
+.qa-step { font-size: 11px; border: 1px solid var(--wb-border); border-radius: 10px; padding: 2px 8px; color: var(--wb-sub); background: #fff; }
+.qa-step.active { color: var(--wb-primary); border-color: var(--wb-primary); animation: wb-pulse 1.2s infinite; }
+.qa-step.done { color: var(--wb-ok); border-color: var(--wb-ok); }
+.qa-step-note { font-size: 11px; color: var(--wb-sub); margin-bottom: 6px; }
+
+/* 底部操作区 */
+.mid-actions { padding: 10px 14px 12px; display: flex; flex-direction: column; gap: 8px; }
+body.wb .control-strip { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 10px; background: var(--wb-card); border: 1px solid var(--wb-border); border-radius: 8px; }
+.qa-strip { background: var(--wb-card); border: 1px solid var(--wb-border); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; }
+.qa-strip .m2-controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.qa-strip #m2Question { flex: 1; min-width: 200px; border: 1px solid var(--wb-border); border-radius: 8px; padding: 6px 10px; font-size: 13px; }
+
+/* --- 右栏产物 tabs --- */
+.rt-tabs { display: flex; border-bottom: 1px solid var(--wb-border); padding: 0 8px; flex: none; }
+.rt-tab { border: none; background: none; padding: 10px 10px 8px; font-size: 12px; color: var(--wb-sub); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+.rt-tab:hover { color: var(--wb-primary); }
+.rt-tab.active { color: var(--wb-primary); border-bottom-color: var(--wb-primary); font-weight: 600; }
+.rt-panel { flex: 1; display: flex; flex-direction: column; min-height: 0; border: none; border-radius: 0; }
+.rt-panel .panel-head { padding: 10px 12px 6px; }
+.rt-panel .panel-body { flex: 1; overflow-y: auto; padding: 0 12px 12px; }
+.sugg-intro { color: var(--wb-sub); font-size: 12px; margin: 0 0 10px; }
+.sugg-actions { display: flex; gap: 8px; margin-top: 10px; }
+.ref-item { border: 1px solid var(--wb-border); border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; font-size: 12px; }
+.ref-item .ref-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+.ref-item .m2-src-text { color: var(--wb-sub); }
+
+/* 旧面板容器在三栏内的高度行为 */
+body.wb .result-grid, body.wb .m2-panel, body.wb .cmp-panel { display: contents; }
