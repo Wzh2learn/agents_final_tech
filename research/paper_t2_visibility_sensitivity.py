@@ -60,14 +60,22 @@ def _install_network_guard() -> None:
     socket.getaddrinfo = _blocked        # type: ignore[assignment]
 
 
+# 零端点自扫描清单固定为本窗三段脚本: 用目录 glob 时, 后续新增脚本会改变
+# 本窗工件的 payload_sha256, 破坏"重算命令可复现全部数字"
+SCAN_MANIFEST = ("paper_t1_eval_baselines.py",
+                 "paper_t2_visibility_sensitivity.py",
+                 "paper_t6_matching_competition.py")
+
+
 def self_source_scan() -> dict:
     pats = ["url" + "open", "request" + "s.",
             "htt" + "p:" + "/" * 2, "HTT" + "PS:" + "/" * 2,
             ":" + "8004", ":" + "8005", ":" + "8006", ":" + "8007", ":" + "8008",
             ":" + "5050", "sock" + "et.connect"]
     hits = {}
-    files = sorted((REPO / "research").glob("paper_t*_*.py"))
-    for f in files:
+    missing = [n for n in SCAN_MANIFEST if not (REPO / "research" / n).exists()]
+    scanned = [n for n in SCAN_MANIFEST if n not in missing]
+    for f in [REPO / "research" / n for n in scanned]:
         found = []
         for i, ln in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
             code = ln.split("#", 1)[0]
@@ -76,8 +84,8 @@ def self_source_scan() -> dict:
                     found.append({"line": i, "pattern": p, "text": ln.strip()[:120]})
         if found:
             hits[f.name] = found
-    return {"patterns": pats, "files_scanned": [f.name for f in files],
-            "hits_outside_comments": hits, "clean": not hits}
+    return {"patterns": pats, "files_scanned": scanned, "missing_files": missing,
+            "hits_outside_comments": hits, "clean": not hits and not missing}
 
 
 # ---------------------------------------------------------------- 语料与匹配

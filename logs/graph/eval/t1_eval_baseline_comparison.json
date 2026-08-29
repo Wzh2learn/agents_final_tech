@@ -2,7 +2,7 @@
  "meta": {
   "name": "t1-eval-baseline-comparison",
   "version": "v1",
-  "generated": "2026-08-30 00:44:23",
+  "generated": "2026-08-30 01:00:30",
   "script": "research/paper_t1_eval_baselines.py",
   "design_doc": "docs/experiments/2026-08-30_t1_eval_baseline_comparison_design.md",
   "task_card": "docs/experiments/2026-08-30_w1_window_card_t1t2t6.md",
@@ -20,7 +20,7 @@
    "scripts/eval_checkpoint_aggregate.py"
   ],
   "scope_note": "E1.5(Full Judge, 需在线推理端点)/E1.6(3 seeds) 不在本窗; 成功标准第三维 '≥3 seeds CI 可算' 由表级 bootstrap CI 部分承担, 完整多种子属 E1.6",
-  "runtime_s": 0.39
+  "runtime_s": 0.28
  },
  "gates": {
   "g1_max_err": 0.0,
@@ -6577,11 +6577,16 @@
    ":5050",
    "socket.connect"
   ],
-  "files_scanned": 1,
+  "files_scanned": [
+   "paper_t1_eval_baselines.py",
+   "paper_t2_visibility_sensitivity.py",
+   "paper_t6_matching_competition.py"
+  ],
+  "missing_files": [],
   "hits_outside_comments": {},
   "clean": true
  },
- "payload_sha256": "3c24596e269447dac75695aec8d4b97378f2c094916d26ec1c73a650083c297a",
+ "payload_sha256": "0ce023d6f83340dbc0e43a810b85c2d361a4b174337cdabc7da015f15c9ca87d",
  "sha256_scope": [
   "gates",
   "aggregation_isomorphism",

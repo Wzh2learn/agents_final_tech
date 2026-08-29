@@ -2,7 +2,7 @@
  "meta": {
   "name": "t2-visibility-sensitivity",
   "version": "v1",
-  "generated": "2026-08-30 00:50:12",
+  "generated": "2026-08-30 01:00:18",
   "script": "research/paper_t2_visibility_sensitivity.py",
   "design_doc": "docs/experiments/2026-08-30_t2_visibility_sensitivity_design.md",
   "task_card": "docs/experiments/2026-08-30_w1_window_card_t1t2t6.md",
@@ -30,7 +30,7 @@
    "data/research/drift_v0/output/{injected_tables,injection_map}.json",
    "logs/graph/eval/checkpoint_discrimination_tables_v2.json"
   ],
-  "runtime_s": 0.64
+  "runtime_s": 0.62
  },
  "gates": {
   "g3_s_arm_reproduction_tables": "75/95",
@@ -9069,12 +9069,14 @@
   ],
   "files_scanned": [
    "paper_t1_eval_baselines.py",
-   "paper_t2_visibility_sensitivity.py"
+   "paper_t2_visibility_sensitivity.py",
+   "paper_t6_matching_competition.py"
   ],
+  "missing_files": [],
   "hits_outside_comments": {},
   "clean": true
  },
- "payload_sha256": "0830f24e879bb062f931eb29b25016ef7715e1845fb9b9caa31d5a0de72a90a4",
+ "payload_sha256": "827b1f828fcaf171893d27b2cc379bbe2ccae82564943d4826d06fe7903e9114",
  "sha256_scope": [
   "gates",
   "e2_1_gamma_grid",

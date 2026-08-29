@@ -2,7 +2,7 @@
  "meta": {
   "name": "t6-matching-competition",
   "version": "v1",
-  "generated": "2026-08-30 00:54:04",
+  "generated": "2026-08-30 01:00:19",
   "script": "research/paper_t6_matching_competition.py",
   "design_doc": "docs/experiments/2026-08-30_t6_matching_competition_design.md",
   "task_card": "docs/experiments/2026-08-30_w1_window_card_t1t2t6.md",
@@ -8242,10 +8242,11 @@
    "paper_t2_visibility_sensitivity.py",
    "paper_t6_matching_competition.py"
   ],
+  "missing_files": [],
   "hits_outside_comments": {},
   "clean": true
  },
- "payload_sha256": "030c64f21fa9d6618a2d2b3b29e0640ea17c84b1ab38bf02bcbb9347cadd1c51",
+ "payload_sha256": "901cd9fea3055f2e84ef3114e8e8ec0707a979f3f5fc27eb8ee494aea06ef2f3",
  "sha256_scope": [
   "gates",
   "solver_validation",
