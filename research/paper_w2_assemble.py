@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -39,12 +40,15 @@ INPUT_FILES = [
     "logs/graph/eval/number_faithfulness_report.json",
     "data/research/drift_v0/output/injected_tables.json",
     "data/research/drift_v0/output/injection_map.json",
+    "logs/graph/eval/w2_endpoint_evidence_excerpt.txt",
 ]
 SCRIPT_FILES = [
     "research/paper_w2_e15_full_judge.py",
     "research/paper_w2_e16_injector_seeds.py",
     "research/paper_w2_t4_pso_fair.py",
     "research/paper_w2_assemble.py",
+    "research/paper_w2_endpoint_guard_probe.py",
+    "research/paper_w2_endpoint_evidence_excerpt.py",
     "research/paper_t1_eval_baselines.py",
     "research/pso/pso_weight_search.py",
     "research/pso/pso_question_set_search.py",
@@ -54,6 +58,8 @@ SCRIPT_FILES = [
     "scripts/m2_eval_judge.py",
 ]
 LEDGER = EVAL / "w2_e15_call_ledger.json"
+PROBE = EVAL / "w2_endpoint_guard_probe.json"
+EXCERPT = EVAL / "w2_endpoint_evidence_excerpt.txt"
 CACHE = EVAL / "w2_e15_judge_cache.jsonl"
 
 CLIENT_TOKENS = ["华泰紫金", "嘉合", "复熙", "博时", "华泰", "minan", "jiaxing", "boshi",
@@ -204,6 +210,71 @@ def _predicates(e15: dict, e16: dict, t4: dict) -> dict:
     }
 
 
+
+def parse_endpoint_excerpt(path: Path) -> list:
+    """从耐久件按标签抽回实跑观测（逐字行为准, 行号只作定位提示）。"""
+    if not path.exists():
+        return []
+    recs, lines = [], path.read_text(encoding="utf-8").splitlines()
+    src = None
+    for i, ln in enumerate(lines):
+        if ln.startswith("## source: "):
+            src = ln[len("## source: "):].strip()
+        m = re.match(r"\[(\w+) @line (\d+)\]$", ln.strip())
+        if not m or i + 1 >= len(lines):
+            continue
+        payload_ln = lines[i + 1]
+        pm = re.search(r"ports=\[([0-9,\s]*)\]", payload_ln)
+        if not pm:
+            continue
+        ports = [int(x) for x in re.findall(r"\d+", pm.group(1))]
+        vm = re.search(r"violations=\[(.*?)\]", payload_ln)
+        cm = re.search(r"call_counter=(\d+)/(\d+)", payload_ln)
+        recs.append({"label": m.group(1), "source": src, "ports_observed": ports,
+                     "violations": (vm.group(1).strip() or "[]"),
+                     "call_counter": int(cm.group(1)) if cm else None,
+                     "verbatim_line": payload_ln})
+    return recs
+
+
+
+def _endpoint_layered(e15: dict, e16: dict, t4: dict, excerpt_recs: list,
+                    probe: dict | None) -> dict:
+    """端点自证按作用域分层。
+
+    教训（本窗第 3 次"声明与存储不符"）: 旧字段 ports_touched 不区分作用域,
+    缓存命中的复算跑重写工件后它是空集, 而汇报里引用的是原始实跑的 [8004]。
+    现在每个观测集都显式标注作用域, 并把实跑观测锚到耐久件（其 sha256 入 payload）。
+    """
+    ea15 = e15["endpoint_assert"]
+    live = [r for r in excerpt_recs if r["label"] == "original_live_run"]
+    cached = [r for r in excerpt_recs if r["label"] == "cache_hit_rerun"]
+    all_ports = set(ea15.get("ports_touched_this_run", [])) | \
+        set(ea15.get("window_ports_observed", [])) | \
+        {p for r in excerpt_recs for p in r["ports_observed"]} | \
+        set(e16["zero_endpoint"]["ports_touched"]) | set(t4["zero_endpoint"]["ports_touched"])
+    all_violations = list(ea15.get("violations_this_run", [])) + \
+        [r["verbatim_line"] for r in excerpt_recs if r["violations"] not in ("[]", "")]
+    return {
+        "allowed": "127.0.0.1:8004",
+        "scope_note": ("每个字段标注作用域: this_run = 该进程连接观测; window = 跨运行账本;"
+                       " run_log = 耐久件里固化的原始实跑逐字输出。空集只说明该作用域内未建连接。"),
+        "assembler_this_run_ports": [],          # 本装配脚本零网络
+        "e15_this_run_ports": ea15.get("ports_touched_this_run", []),
+        "e15_live_calls_this_run": ea15.get("live_calls_this_run"),
+        "e15_cache_hit_cells_this_run": ea15.get("cache_hit_cells_this_run"),
+        "e15_window_ports_observed": ea15.get("window_ports_observed", []),
+        "e15_run_log_live_observation": live,
+        "e15_run_log_cached_rerun": cached,
+        "e16_zero_endpoint": e16["zero_endpoint"],
+        "t4_zero_endpoint": t4["zero_endpoint"],
+        "union_all_scoped_ports": sorted(all_ports),
+        "violations_any_scope": all_violations,
+        "only_allowed_endpoint": all_ports <= {8004} and not all_violations,
+        "guard_instrumentation_verified": bool(probe and probe["gates"]["all_pass"]),
+    }
+
+
 def main() -> int:
     for name, path in SECTIONS.items():
         if not path.exists():
@@ -212,15 +283,19 @@ def main() -> int:
     e15 = json.loads(SECTIONS["e1_5"].read_text(encoding="utf-8"))
     e16 = json.loads(SECTIONS["e1_6"].read_text(encoding="utf-8"))
     t4 = json.loads(SECTIONS["t4"].read_text(encoding="utf-8"))
+    probe = json.loads(PROBE.read_text(encoding="utf-8")) if PROBE.exists() else None
+    excerpt_recs = parse_endpoint_excerpt(EXCERPT)
     led = json.loads(LEDGER.read_text(encoding="utf-8"))
     cache_recs = [json.loads(x) for x in CACHE.read_text(encoding="utf-8").splitlines() if x.strip()]
 
     payload = {
         "call_counter": led["call_counter"],
         "budget_ceiling": led["ceiling"],
-        "endpoint_assert": e15["endpoint_assert"],
+        "endpoint_assert": _endpoint_layered(e15, e16, t4, excerpt_recs, probe),
         "ledger_note_count": len(led.get("notes", [])),
         "distinct_judge_cells": len({r["key"] for r in cache_recs}),
+        "endpoint_guard_self_test": probe,
+        "endpoint_evidence_excerpt_sha256": (sha(EXCERPT) if EXCERPT.exists() else "MISSING"),
         "e1_5": dict(e15, endpoint_consistency_note=e15["endpoint_consistency_note"]),
         "e1_6": e16,
         "t4": dict(t4, separation_table=t4["primary_separation_table"]),
@@ -239,7 +314,7 @@ def main() -> int:
         },
         "redline_self_check": {
             "budget_le_200": led["call_counter"] <= led["ceiling"],
-            "endpoint_only_8004": e15["endpoint_assert"]["only_allowed_endpoint"],
+            "endpoint_only_8004": None,  # placeholder, filled below after layered assert
             "e16_zero_calls": e16["zero_endpoint"]["model_calls"] == 0
             and not e16["zero_endpoint"]["ports_touched"],
             "t4_zero_calls": t4["zero_endpoint"]["model_calls"] == 0
@@ -248,6 +323,9 @@ def main() -> int:
             "frozen_artifacts_readonly": "mutants 写 /tmp 副本; 仓库内活工件与冻结件未改动",
         },
     }
+    payload["redline_self_check"]["endpoint_only_8004"] = bool(
+        payload["endpoint_assert"]["only_allowed_endpoint"]
+        and payload["endpoint_assert"]["union_all_scoped_ports"] <= [8004])
     # 残留扫描先做（只读判定, 不改 payload）
     residue = sorted({t for t in CLIENT_TOKENS
                       if t.lower() in json.dumps(payload, ensure_ascii=False,
@@ -274,6 +352,11 @@ def main() -> int:
             "e15_cells_all_ok": e15["cells_ok"] == e15["cells_total"] and not e15["blocked"],
             "budget_within_ceiling": payload["redline_self_check"]["budget_le_200"],
             "endpoint_only_8004": payload["redline_self_check"]["endpoint_only_8004"],
+            "endpoint_guard_instrumentation_verified": bool(
+                probe and probe["gates"]["all_pass"]),
+            "endpoint_evidence_chain_present": bool(
+                EXCERPT.exists() and [r for r in excerpt_recs
+                                      if r["label"] == "original_live_run"] and probe),
             "zero_endpoint_e16_t4": payload["redline_self_check"]["e16_zero_calls"]
             and payload["redline_self_check"]["t4_zero_calls"],
             "client_identifier_zero_entered": payload["redline_self_check"][
@@ -291,6 +374,8 @@ def main() -> int:
             "python3 research/paper_w2_e15_full_judge.py   # 120 单元, 缓存命中则零新增调用",
             "python3 research/paper_w2_e16_injector_seeds.py",
             "python3 research/paper_w2_t4_pso_fair.py",
+            "python3 research/paper_w2_endpoint_guard_probe.py   # 零模型调用, 护栏仪表自证",
+            "python3 research/paper_w2_endpoint_evidence_excerpt.py",
             "python3 research/paper_w2_assemble.py",
         ],
     }
@@ -305,7 +390,7 @@ def main() -> int:
     print("gates=%s" % json.dumps(doc["gates"], ensure_ascii=False))
     print("call_counter=%s/%s ports=%s residue=%s -> %s"
           % (payload["call_counter"], payload["budget_ceiling"],
-             payload["endpoint_assert"]["ports_touched"], residue, OUT))
+             payload["endpoint_assert"]["union_all_scoped_ports"], residue, OUT))
     return 0 if doc["gates"]["all_pass"] and not residue else 1
 
 

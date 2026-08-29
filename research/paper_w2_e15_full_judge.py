@@ -109,6 +109,22 @@ def ledger_take(note: str) -> int:
     return led["call_counter"]
 
 
+def ledger_record_ports(ports: set) -> list:
+    """把本次运行实际观测到的端口并入账本（跨运行累积, 只增不减）。
+
+    动机: PORTS_TOUCHED 是进程内集合, 缓存命中的复算跑不会建立任何连接,
+    于是"复算后重写工件"会把原始实跑观测到的 [8004] 覆盖成 []。账本是
+    跨运行载体, 端口观测必须落账才谈得上"可复核的红线自证"。
+    """
+    led = ledger_load()
+    seen = set(int(x) for x in led.get("ports_observed", []))
+    seen |= {int(x) for x in ports}
+    led["ports_observed"] = sorted(seen)
+    led["ports_observed_updated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    LEDGER.write_text(json.dumps(led, ensure_ascii=False), encoding="utf-8")
+    return led["ports_observed"]
+
+
 # ---------------------------------------------------------------- 去标识化
 # 甲方标识零进入: 证据片段一律用位置别名 (row_NN/item_NN) 构造, 名称字段永不读取;
 # redact() + redact_assert() 是第二道机械护栏（防未来改动把名称带进来）。
@@ -663,9 +679,22 @@ def build_section(rows: list, states: list, extra: dict) -> dict:
         "cells_ok": sum(1 for r in rows if r.get("status") == "OK"),
         "budget_self_proof": {"call_counter": led["call_counter"], "ceiling": BUDGET_CEILING,
                               "within_ceiling": led["call_counter"] <= BUDGET_CEILING},
-        "endpoint_assert": {"allowed": "127.0.0.1:8004", "ports_touched": sorted(PORTS_TOUCHED),
-                            "violations": ENDPOINT_VIOLATIONS,
-                            "only_allowed_endpoint": set(PORTS_TOUCHED) <= {ALLOWED_PORT}},
+        # 作用域显式化: "this_run" = 本进程连接观测（缓存复算跑必然为空）,
+        # "window" = 跨运行账本累积。旧字段名 ports_touched 语义含糊, 曾被
+        # 汇报当成"实跑观测 [8004]"引用而实际存的是 [] -> 声明与存储不符。
+        "endpoint_assert": {
+            "allowed": "127.0.0.1:8004",
+            "ports_touched_this_run": sorted(PORTS_TOUCHED),
+            "live_calls_this_run": sum(1 for r in rows if not r.get("cache_hit")),
+            "cache_hit_cells_this_run": sum(1 for r in rows if r.get("cache_hit")),
+            "violations_this_run": ENDPOINT_VIOLATIONS,
+            "only_allowed_endpoint": set(PORTS_TOUCHED) <= {ALLOWED_PORT},
+            "window_ports_observed": ledger_load().get("ports_observed", []),
+            "window_live_calls_ledger_notes": len(ledger_load().get("notes", [])),
+            "scope_note": ("ports_touched_this_run 只反映本进程; 缓存命中的复算不建连接故为空。"
+                           "实跑端点证据 = window_* 字段 + 账本时间戳; "
+                           "护栏自身是否真能记录/拦截由 w2_endpoint_guard_probe.json 独立自证。"),
+        },
     }
 
 
@@ -770,6 +799,7 @@ def main() -> int:
             if n == 0:
                 extra["no_evidence_behavior"]["%s|%s" % (st, lf)] = "empty_evidence_snippet"
 
+    ledger_record_ports(PORTS_TOUCHED)
     sec = build_section(rows, states, extra)
     sec["blocked"] = blocked
     Path(args.out).write_text(json.dumps(sec, ensure_ascii=False, indent=1), encoding="utf-8")

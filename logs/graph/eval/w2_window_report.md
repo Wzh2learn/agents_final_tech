@@ -2,10 +2,10 @@
 
 > 任务卡: docs/experiments/2026-08-30_w2_window_card_8004.md（TASK-20260830-04, risk medium, 预批: W1 绿态当晚开）
 > 执行: Loop A | 收口: 2026-08-30 | :8004 真实调用: **122 / 200**（E1.5 120 单元 + 1 证据变更重判 + 1 中断占用）
-> 端点自证: socket 层护栏, E1.5 `ports_touched=[8004]`；E1.6/T4 各自 `ports_touched=[]`（零调用段）
-> 复算命令: `paper_w2_e15_full_judge.py --dry-run` / 同名全量（缓存命中零新增）/ `paper_w2_e16_injector_seeds.py` / `paper_w2_t4_pso_fair.py` / `paper_w2_assemble.py`
-> 复算验证: E1.6+T4+装配连续双跑 `payload_sha256` 一致（`11674624…d807f`）；E1.5 全量重跑 120/120 缓存命中且 call_counter 不增（122→122）  
-> 摘要修正: 首 commit 后抽验发现 `payload_sha256` 在最后一次 payload 改动之前计算, 审阅方按文件复算必然不匹配; 已改为收口后计算并新增 `digest_self_consistency` 门, 摘要由 `fe492e14…0ba7` 变为 `11674624…d807f`（详见 §9）
+> 端点自证: socket 层护栏**按作用域分层**——原始实跑观测 `ports=[8004]`（逐字输出已固化为耐久件 `w2_endpoint_evidence_excerpt.txt`, sha 入工件）；缓存命中复算 `ports=[]`（不建连接, 非护栏失效）；E1.6/T4 零调用段 `ports=[]`；跨作用域并集 `union_all_scoped_ports=[8004]`；护栏自身记录/拦截能力由 `w2_endpoint_guard_probe.json` 零调用自证（A 正向/B 拦截/C 零外联/D 预算不变）
+> 复算命令: `paper_w2_e15_full_judge.py --dry-run` / 同名全量（缓存命中零新增）/ `paper_w2_e16_injector_seeds.py` / `paper_w2_t4_pso_fair.py` / `paper_w2_endpoint_guard_probe.py` / `paper_w2_endpoint_evidence_excerpt.py` / `paper_w2_assemble.py`
+> 复算验证: E1.6+T4+装配连续双跑 `payload_sha256` 一致（`cb00e8af…1a870`）；E1.5 全量重跑 120/120 缓存命中且 call_counter 不增（122→122）  
+> 摘要修正: 首 commit 后抽验发现 `payload_sha256` 在最后一次 payload 改动之前计算, 审阅方按文件复算必然不匹配; 已改为收口后计算并新增 `digest_self_consistency` 门, 摘要链 `fe492e14…0ba7` → `11674624…d807f` →（端点作用域分层修正, 同一轮抽验发现）`cb00e8af…1a870`（详见 §9）
 
 ## 1 执行结果（三段各一行）
 
@@ -19,12 +19,14 @@
 
 ## 2 工件路径
 
-- `logs/graph/eval/t4_pso_fair_comparison.json` — 本窗唯一终 artifact（卡 §1 要求）, `payload_sha256=11674624219f63b672043116ed4079b98e911e58221d46fbae96920cd66d807f`, gates 全 PASS（含 `digest_self_consistency`）
+- `logs/graph/eval/t4_pso_fair_comparison.json` — 本窗唯一终 artifact（卡 §1 要求）, `payload_sha256=cb00e8afb2689eeaa4810b5ff6c1ff106ccc29f96ac37e907f22af562461a870`, gates 全 PASS（13 项, 含 `digest_self_consistency` / `endpoint_guard_instrumentation_verified` / `endpoint_evidence_chain_present`）
 - 分节中间件（可复算, 不入 payload 摘要范围）: `_w2_e15_section.json` / `_w2_e16_section.json` / `_w2_t4_section.json`
 - 预算账本 `logs/graph/eval/w2_e15_call_ledger.json`（122 条 notes, 逐次可溯源）
 - 裁判原始缓存 `logs/graph/eval/w2_e15_judge_cache.jsonl`（本地留存不入库, 其 sha256 入工件 `judge_cache_sha256`）
+- 端点护栏仪表自证 `logs/graph/eval/w2_endpoint_guard_probe.json`（零模型调用; A 正向记录/B 拦截/C 对端零收包/D 预算不变, 四门全 PASS）
+- 端点实跑观测耐久件 `logs/graph/eval/w2_endpoint_evidence_excerpt.txt`（原始实跑 `ports=[8004]` 逐字输出; sha256 入工件 `endpoint_evidence_excerpt_sha256` 并计入 `inputs_sha256`）
 - 本汇报 `logs/graph/eval/w2_window_report.md`
-- 脚本: `research/paper_w2_e15_full_judge.py` / `research/paper_w2_e16_injector_seeds.py` / `research/paper_w2_t4_pso_fair.py` / `research/paper_w2_assemble.py`
+- 脚本: `research/paper_w2_e15_full_judge.py` / `research/paper_w2_e16_injector_seeds.py` / `research/paper_w2_t4_pso_fair.py` / `research/paper_w2_assemble.py` / `research/paper_w2_endpoint_guard_probe.py` / `research/paper_w2_endpoint_evidence_excerpt.py`（后两件 sha 入 `scripts_sha256`）
 
 ## 3 数字摘要
 
@@ -33,7 +35,7 @@
 | 声明 | 验证命令/位置 | 实测值 |
 |---|---|---|
 | 预算 ≤200 | `payload.call_counter` | **122**（ceiling 200, 余 78） |
-| 端点仅 :8004 | `payload.endpoint_assert` | `ports_touched=[8004]`, `violations=[]`, `only_allowed_endpoint=true`；E1.6/T4 `model_calls=0` |
+| 端点仅 :8004 | `payload.endpoint_assert` | `e15_run_log_live_observation[].ports_observed=[8004]`（两处独立日志逐字摘录）；`e15_this_run_ports=[]` + `live_calls_this_run=0` + `cache_hit_cells_this_run=120`（复算作用域）；`union_all_scoped_ports=[8004]`, `violations_any_scope=[]`, `only_allowed_endpoint=true`；E1.6/T4 `model_calls=0`；`guard_instrumentation_verified=true` |
 | C3 五组对照 | `payload.t4.separation_table` | equal 1.2563 / expert 1.2560 / random30 1.2604 / greedy 1.4326 / **PSO 1.4326**（主口径 pso_era） |
 | E1.6 三 seed CI | `payload.e1_6` | 0.7895 [0.6947,0.8737] / 0.7835 [0.701,0.866] / 0.7556 [0.6667,0.8444]；合并 0.7766 [0.727,0.8227] |
 | 一致性差异注记 | `payload.e1_5.endpoint_consistency_note` | faithfulness Δ=**0.5**、citation Δ=0.0、refusal Δ=0.0 → 预测 \|Δ\|≤0.5/维 **HOLDS（恰在边界）** |
@@ -85,7 +87,7 @@
 
 | 红线 | 结论 | 证据 |
 |---|---|---|
-| 端点仅 :8004, :8006/:8008/:5050 零触碰 | **PASS** | E1.5 `ports_touched=[8004]`；E1.6/T4 独立 zero-guard `ports_touched=[]`；护栏禁代理（`ProxyHandler({})`）防 :8100 劫持 |
+| 端点仅 :8004, :8006/:8008/:5050 零触碰 | **PASS** | 原始实跑 `ports=[8004]` 已固化为耐久件并计入跨作用域并集；E1.6/T4 独立 zero-guard `ports=[]`；护栏禁代理（`ProxyHandler({})`）防 :8100 劫持；**护栏仪表自证**（零调用）: 正向记录 {8004} ✓ / :8006 :8008 :5050 :8100 均在 syscall 前抛错拦截 ✓ / 临时监听器 accept 队列空 = 对端零收包 ✓ / `call_counter` 不变 ✓ |
 | 预算 ≤200 硬计数器, 不静默超支 | **PASS** | 账本悲观占用 + 超限抛错；122 条 note 可溯源；重跑缓存命中不增计数 |
 | judge 不见注入 ground truth | **PASS** | dry-run 120/120 单元零残留（甲方标识 + `mutated_field`/状态 id 全清单）；prompt 不含状态标识断言；`overall`/`avg`/占比等预聚合量全屏蔽 |
 | 甲方标识零进入 | **PASS** | 位置别名（row_NN/item_NN/org_NN）构造期生成 + `redact` 二道闸 + 终工件全 JSON 字符串零命中（`client_identifier_zero_entered=true`） |
@@ -153,3 +155,17 @@
   （第 1 次 = W1 `SCAN_MANIFEST` glob 漏扫, 见 STATE.md W1 治理教训）。第 3 次即上机械强制;
   本窗已以 `digest_self_consistency` 门预先机械化, 建议把"终工件摘要必须回读复算"提炼进
   `scripts/graph/hooks/` 通用件而非留在单脚本。
+- **同轮抽验第二项（端点证据作用域缺陷）**: 汇报与 STATE 曾写"E1.5 `ports_touched=[8004]`",
+  但存储工件里该字段实为 `[]`。根因不是护栏失灵, 而是**字段不区分作用域**: `PORTS_TOUCHED`
+  是进程内集合, 为验"双跑一致"而重跑的 E1.5 全命中裁判缓存, 不建立任何连接 → 重写工件时把
+  原始实跑观测覆盖成空集。修法（三条, 全部可复核）:
+  ① 字段作用域显式化 `ports_touched_this_run` / `window_ports_observed` / `run_log` 三层,
+     并附 `live_calls_this_run` + `cache_hit_cells_this_run` 使空集自带解释；
+  ② 端口观测落**跨运行账本**（`ledger_record_ports`, 只增不减）, 复算不再能覆盖实跑证据；
+  ③ 新增**零调用护栏仪表自证** `research/paper_w2_endpoint_guard_probe.py`: 正向连接 :8004
+     必须被记录、:8006/:8008/:5050/:8100 必须在 socket 系统调用**之前**抛错（异常类型为据,
+     不发包）、临时监听器 accept 队列必须为空（证"对端零收包"）、`call_counter` 必须不变；
+     另加门 `endpoint_guard_instrumentation_verified` + `endpoint_evidence_chain_present`。
+  摘要链第三次变化 = `cb00e8af…1a870`（13 门全 PASS, 双跑一致）。研究数字仍零改动: 122 调用 / 三段结果 / 判据裁定不变。
+- **教训提炼**: "为验证可复算而重跑"会**用复算作用域的观测覆盖实跑作用域的观测**。凡进程内计数器
+  （端口集、时延、重试次数）入工件, 必须先落跨运行账本或耐久日志并按作用域命名, 否则复算本身在销毁证据。

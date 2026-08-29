@@ -26,8 +26,8 @@
 
 ## W2 :8004 合并窗结果（2026-08-30, E1.5/E1.6/T4, Loop A）
 
-- 三段全 PASS（卡 TASK-20260830-04）: E1.5 Full-Judge 120/120 单元零失败未 BLOCKED / E1.6 三 seed 臂 B / T4 五组对照+minimax+预算梯度。单工件 `logs/graph/eval/t4_pso_fair_comparison.json`（payload_sha256 11674624…d807f, gates 全 PASS, 双跑一致）+ 汇报 `logs/graph/eval/w2_window_report.md`。
-- 红线实测: `:8004` 调用 **122/200**（账本悲观占用, 重跑缓存命中不增计数）; `ports_touched=[8004]`, :8006/:8008/:5050 零触碰; E1.6/T4 独立零端点护栏 `ports=[]`; 甲方标识终工件全 JSON 零命中; 冻结五件 md5 OK（未触发 REQUEST_UNFREEZE）; 逐路径 add 无 amend。
+- 三段全 PASS（卡 TASK-20260830-04）: E1.5 Full-Judge 120/120 单元零失败未 BLOCKED / E1.6 三 seed 臂 B / T4 五组对照+minimax+预算梯度。单工件 `logs/graph/eval/t4_pso_fair_comparison.json`（payload_sha256 cb00e8af…1a870, gates 全 PASS, 双跑一致）+ 汇报 `logs/graph/eval/w2_window_report.md`。
+- 红线实测: `:8004` 调用 **122/200**（账本悲观占用, 重跑缓存命中不增计数）; 端点观测按作用域分层: 原始实跑 `ports=[8004]`（逐字输出入耐久件 `w2_endpoint_evidence_excerpt.txt` + 跨作用域并集 `union_all_scoped_ports=[8004]`）, 缓存复算 `ports=[]` 属正常（不建连接）; :8006/:8008/:5050 零触碰且经**零调用护栏自证**（正向可记录 / 受保护端口 syscall 前拦截 / 对端零收包 / 预算不变）; 甲方标识终工件全 JSON 零命中; 冻结五件 md5 OK（未触发 REQUEST_UNFREEZE）; 逐路径 add 无 amend。
 - C2/C3 裁定: **C2「≥3 seeds CI 可算」PASS**（三 seed CI 非退化 + 合并 CI [0.727,0.8227]; E1.2_flat 0.7895/0.7835/0.7556 全落预测带）。**C3 PARTIAL → 降级条款已触发**: PSO 优于 equal/expert/random30 三组, 但与 greedy 坐标上升**完全同值 1.432574 且贵 114.2× 评估次数**（67 vs 7650）; 另 PSO 最差 mutant 0.0926 < expert 0.2083（均值增益以最差维退化）→ 论文须按「自动搜索省专家调参」而非「判别力上限」陈述 C3。冻结复现门 abs_err=0.0 且权重逐维全等。
 - Full-Judge vs 确定性映射（E1.5, 判分均值 1.3053 vs 映射 1.2526, 检出集两口径同 3/9）三机制入账: F_W2_1 M7 判分分离度**恰为 0**（NF 工件 9 条中 8 条 number_claims=0, 注入只落在聚合 n_fail → item 层不可观测 = 突变体保真度问题, 非裁判能力）; F_W2_2 裁判对空证据给 0 而确定性给中性 missing_score=5（M8 敏感度翻倍, 政策差异）; F_W2_3 硬闸门 `overall_status_binary` 被裁判部分分软化（M1 1.8523 vs 2.6428, M9 反向）。一致性 max|Δ|=0.5 **恰在边界**且恰等于 0-10 整数叶分的分辨率下限（F_W2_4）→ 该判据在此量纲无区分力。
 - 预算梯度: keep_rate 在 25/50/75/100%（B=5/10/14/19）恒 1.0 **饱和**, 「单调不降」平凡成立但不可用作结论; 适应度序列非单调（B=10 0.0368 反劣于 B=5 0.0316）。Pareto 双轴去重后仅 2 点, expert/equal 被 minimax 解支配。
