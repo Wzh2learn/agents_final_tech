@@ -243,6 +243,11 @@ def _norm_tok(s: str) -> str:
 ADV_SEED = 20260829
 
 
+def _should_write_adv_map(label: str) -> bool:
+    """正典射表写保护（08-29 B-2 二次修复, 元复审重开件）: 仅 collision_ADV 可写, 其余跑批只读。"""
+    return label == "collision_ADV"
+
+
 def build_adv_map(corpus: dict, overlay: dict, fix_uids: list[str], rate: float):
     """对抗注入（#13 更正口径）: fix 碰撞列种子派生 k=16 子集 × 貌似合理错列; 前缀嵌套 0.5⊂1.0。
     （原稿写 meas 列, 但 meas=holdout 从不进建议流, 机械不可行 → 更正为 fix 侧, 预测不变）"""
@@ -543,9 +548,13 @@ def main() -> int:
     baseline_kw = {"baseline": args.baseline, "pool": pool}
     adv_map, adv_k_cols = build_adv_map(corpus, overlay, fix_uids, args.adv_rate)
     if args.adv_rate >= 1.0 and adv_map:
-        (EVAL / "vgmc_adv_injection_map.json").write_text(json.dumps(
-            {"meta": {"seed": ADV_SEED, "k": len(adv_k_cols)}, "columns": adv_k_cols},
-            ensure_ascii=False, indent=1), encoding="utf-8")
+        if _should_write_adv_map(label):
+            (EVAL / "vgmc_adv_injection_map.json").write_text(json.dumps(
+                {"meta": {"seed": ADV_SEED, "k": len(adv_k_cols)}, "columns": adv_k_cols},
+                ensure_ascii=False, indent=1), encoding="utf-8")
+        else:
+            print(f"[adv-map] label={label} != collision_ADV, 跳过正典射表写入（只读, B-2 写保护）",
+                  file=sys.stderr)
     arms = ["gated", "ungated"] if args.arm == "both" else [args.arm]
     for arm in arms:
         state = ckpt.get("arm_" + arm, {})

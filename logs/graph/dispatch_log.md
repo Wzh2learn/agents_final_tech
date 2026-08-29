@@ -1079,3 +1079,8 @@ echo dispatch_log updated
 [08-29 02:4x] #FULL-REVIEW-S5 S5 技能审: sync_skills --check 77 件 PASS; 注册表↔分发零漂移; 路由立法产物三件在位
 [08-29 02:5x] #FULL-REVIEW-CLOSE findings 入库（3 blocking 修复审过 + 7 polish + 3 遗留）+ 治理收尾（INDEX/STATE/dispatch + pytest + docs_lint + commit + push + 三方）
 [08-29 02:55] #LOOPC-AUDIT-LANDED Loop C 审计报告落盘入库（--bare 修复后首份三对象审计）
+[08-29 03:31] #LOOP-B-FLIP overall PASS -> FAIL (head=8265c68; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-29 06:19] #LOOP-B-FLIP overall FAIL -> PASS (head=8265c68; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-29 10:47] #LOOP-B-FLIP overall PASS -> FAIL (head=8265c68; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-29 03:1x] #META-REVIEW-FIX 元复审修复两件: ① B-2 写保护补实现（首轮守卫未落码被元复审实查出, 位点 vgmc_exp1.py:246/:551 + test_adv_map_write_guard 3/3, EXP 类标签全断言只读）② findings 计数 2→3 顺修; 教训入账同步抽验手册（修复验证必查实现位点 / 实测域全域复算）
+[08-29 03:1x] #HANDOFF-SNAPSHOT HANDOFF.md 08-29 冻结快照节入库（版本 B 维持三候选待裁 / 骨架 v2.5 / 引文清零 / 盲锥形式化 / 伴生一等公民 / Loop C 恢复 / 401 绿 / 0-0）

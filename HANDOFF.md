@@ -1,5 +1,40 @@
 # Development Handoff
 
+## Snapshot — 2026-08-29 (frozen historical snapshot; live state = memory/STATE.md)
+
+- Positioning verdict: **Version B maintained**. E3 harm-manifestation trigger NOT met
+  (paired ΔV(ACC) point 0.05 reached the ≥0.05 line but CI [0.0, 0.1056] includes 0,
+  n=15 collision tables underpowered). Three candidates pending user adjudication:
+  a) corpus re-expansion beyond the 15-pair ceiling / b) per-column paired re-judgment of
+  existing data (zero new runs) / c) Version-B narrative submission. Criteria frozen,
+  not retroactive.
+- Narrative skeleton v2.5 (user-authorized edits per Round-3 precedent): §1.6 contribution
+  restructure 2+1 (I1 gated rule memory / I2 blind-cone evaluation as dual flagships,
+  I3 demoted to pilot) + §10 production-boundary declaration. Other sections untouched.
+- Related work v3.1: 13 citations all online-verified (CrossRef ×4 / OpenAlex ×7 incl.
+  Voyager/MemGPT), pending-review count = 0.
+- Blind-cone chapter v1.1: blind-set-family formalization established (5 definitions +
+  nesting + computability); naming verdict = keep "blind cone".
+- Companion issue elevated to first-class: matching-competition ceiling (collision-regime
+  correctness upper bound 0.597 < plain 0.952 = rules-complete still loses to column
+  competition); method chapter §5.5 + limitations + skeleton §10 clause 4. This paper
+  measures/declares only; no resolution mechanism.
+- Full review (5-route anchored self-audit, boundary ea993d8): 3 blocking fixed+re-reviewed
+  — F1 mechanism attribution corrected (adversarial rejections on the GAIN dimension, not
+  ε; P3 PASS mechanical verdict untouched); B-2 injection-map overwrite provenance repaired
+  (write guard re-implemented at vgmc_exp1.py:246/:551 after meta-review found first-round
+  guard missing from code — lesson: claimed fixes must be verified at implementation site);
+  gain range corrected twice to [−0.25, 1.0] (lesson: measured ranges require full-domain
+  recomputation, never sampling). See 2026-08-29_full_review_findings.md.
+- Loop C restored: claude --bare dispatch (oh-my-claudecode bridge hang root-caused);
+  first audit delivered (adversarial artifacts / D1 frontend diff / T2 backfill numbers,
+  three-layer numeric reconciliation all aligned).
+- Quality gates: pytest 401 passed / 13 skipped; docs_lint 0 fail / 0 warn;
+  sync_skills --check 77 skills consistent; three-way aligned (HEAD 9727a71 at snapshot time).
+- Side handoff side_handoff_20260829.md committed (effde3b): seven items + two re-opened
+  findings + spot-check manual incremental lessons.
+
+
 ## Snapshot — 2026-08-04 (frozen historical snapshot; live state = memory/STATE.md)
 
 - Model routing: Loop A (Codex CLI) + Loop C (Claude Code) both qwen3.8-max

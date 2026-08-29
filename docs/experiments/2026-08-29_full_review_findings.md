@@ -15,7 +15,7 @@
 
 ## 发现分级清单
 
-### blocking（2, 已修 + 复审通过）
+### blocking（3, 已修 + 复审通过; 计数 2→3 为 08-29 元复审顺修）
 
 **B-1 [S4/Loop C F1, HIGH] 对抗臂机制归因错误**: 执行记录/STATE/T2 写"全部被
 collateral 拦截 / ε 维决定性激活", 实测 7 条对抗事件全为 gain=0.0(<τ)∧collateral=0.0
@@ -24,7 +24,7 @@ collateral 拦截 / ε 维决定性激活", 实测 7 条对抗事件全为 gain=
 设计稿 §0 预期的 collateral 拦截未出现 = 支持"伤害未显形"叙事, 强化 B 扩容动机。
 复审: 更正文本与 sugg_log 复算一致（jq 口径承 Loop C 独立重算）。
 
-**B-2 [S1 C7b, 自发现] vgmc_adv_injection_map.json 被 EXP 跑批覆写（工件溯源断裂）**:
+**B-2 [S1 C7b, 自发现] vgmc_adv_injection_map.json 被 EXP 跑批覆写（工件溯源断裂）——状态: 已修复（二次, 08-29 元复审重开）**: 首轮声称的写保护未落码（元复审实查: grep collision_ADV 于 vgmc_exp1.py 零命中, 报告声称≠代码事实）; 二次修复实现位点 = `research/vgmc_exp1.py:246`（_should_write_adv_map 守卫）+ `:551`（写入分支调用）, 回归测试 `tests/test_vgmc_adversarial.py::test_adv_map_write_guard`（EXP 类标签全断言只读, 3/3 过）。原文修复三步记录保留如下:
 vgmc_exp1.py 在 adv_rate≥1.0 时无条件写正典射表, EXP 三跑批（扩容语料）覆写了
 ADV 窗的射表（k=16 采样池变化）。修复三步: ① 确定性重建验证（重建列与提交版
 逐位一致, 证可复现）② 磁盘工件恢复提交版内容 ③ 写保护（仅 label=collision_ADV
@@ -61,11 +61,16 @@ ADV 窗的射表（k=16 采样池变化）。修复三步: ① 确定性重建�
 - **S4**: Loop C 三对象全通过（带发现, 见上）; 主线程补审: expansion judge E 判据与卡片逐字一致（card_trigger 式）/ drift scan 设计↔实现一致（扫描面/白名单/登记逻辑）/ walkthrough 选择器接线 14 处在位
 - **S5**: sync_skills --check **PASS（77 件两端一致）**; docs_lint [5] 注册表↔分发零漂移; SKILL_ROUTING.md + 任务卡 skills 字段 + AGENTS 指针三件在位; verification-before-completion DEPRECATED 标记在案（735813b 先例, 路由法冗余裁决表一致）
 
+## 教训入账（同步侧线手递件抽验手册, effde3b）
+
+1. **修复项验证必查实现位点**（报告声称 ≠ 代码事实）: grep 代码 + git show --stat + 必要时重跑回归; 声称无实现 = 重开（B-2 即此教训的现形）
+2. **"实测域"类数值全域复算不可抽样**（B-3 同一项两次偏窄）
+
 ## 修复记录
 
 | # | 修复 | 复审方式 | 结果 |
 |---|---|---|---|
 | B-1 | 三处机制归因更正 | 文本与 sugg_loop 复算对照 | 通过 |
-| B-2 | 射表恢复+写保护+快照留档+判定重放 | git diff 零差异 + E1-E4 重放不变 | 通过 |
+| B-2 | 射表恢复+快照留档+判定重放（首轮）→ **写保护二次补实现（元复审重开, 位点 vgmc_exp1.py:246/:551 + 回归测试 3/3）** | git diff 零差异 + E1-E4 重放不变 + 守卫实查在位 + 回归过 | 通过（二次） |
 | B-3 | gain 域 [−0.25,1.0] 二次更正 | 全检查点脚本复算 | 通过 |
 | P-1~P-7 | 措辞/注记/登记 | 文本核对 | 通过 |

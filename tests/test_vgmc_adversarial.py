@@ -45,3 +45,12 @@ def test_adv_rate_zero_noop():
     m = _load()
     adv, k = m.build_adv_map({}, {}, [], 0.0)
     assert adv == {} and k == []
+
+
+def test_adv_map_write_guard():
+    """B-2 写保护回归（08-29 元复审重开件）: EXP 类跑批不得触发正典射表写入。"""
+    m = _load()
+    assert m._should_write_adv_map("collision_ADV") is True
+    for label in ("collision_EXP_g10", "collision_EXP_u05", "collision_EXP_u10",
+                  "collision_C0", "collision_C1", "noise_L3", "exp1"):
+        assert m._should_write_adv_map(label) is False, f"{label} 必须只读"
