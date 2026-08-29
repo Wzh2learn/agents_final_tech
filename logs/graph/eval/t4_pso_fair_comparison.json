@@ -3,7 +3,7 @@
   "name": "w2-window-e15-e16-t4",
   "task_card": "TASK-20260830-04",
   "card_file": "docs/experiments/2026-08-30_w2_window_card_8004.md",
-  "generated": "2026-08-30T01:48:57",
+  "generated": "2026-08-30T02:01:13",
   "window": "W2 :8004 合并窗",
   "segments": [
    "E1.5 Full-Judge 基线",
@@ -23,6 +23,7 @@
   "pso_frozen_reproduction": true,
   "all_inputs_present": true,
   "all_scripts_present": true,
+  "digest_self_consistency": true,
   "all_pass": true
  },
  "payload": {
@@ -30,9 +31,7 @@
   "budget_ceiling": 200,
   "endpoint_assert": {
    "allowed": "127.0.0.1:8004",
-   "ports_touched": [
-    8004
-   ],
+   "ports_touched": [],
    "violations": [],
    "only_allowed_endpoint": true
   },
@@ -1467,9 +1466,7 @@
    },
    "endpoint_assert": {
     "allowed": "127.0.0.1:8004",
-    "ports_touched": [
-     8004
-    ],
+    "ports_touched": [],
     "violations": [],
     "only_allowed_endpoint": true
    },
@@ -3751,7 +3748,7 @@
    "research/paper_w2_e15_full_judge.py": "b19de5b37841dcc01baa1488e6a42d7abac95d2a473356be21d732ef996a72eb",
    "research/paper_w2_e16_injector_seeds.py": "eddf79f477ec520711405b21fe9afad7e88eabfbce3553af8739dfe96f5fc6a1",
    "research/paper_w2_t4_pso_fair.py": "0957805c878a7a79ae512bbf6fe0f346b60cebef452461e68945cdb31615570b",
-   "research/paper_w2_assemble.py": "08e31a0748ff2403511e84c4c682f97868b4f36f9d3faccf4904ab6de6ca1cb9",
+   "research/paper_w2_assemble.py": "a720ea637af5946fb379017c016786743ae3c2cb706be8f4aea1dbb3a57992fd",
    "research/paper_t1_eval_baselines.py": "01772e84efb3f579a1146c7c0b0e76f42b1e77625eee1124f901ab03b4c29f79",
    "research/pso/pso_weight_search.py": "5483e73719970d8cfddd242ce1fbb87e405bb051a94b6def051c5d2e4ea82476",
    "research/pso/pso_question_set_search.py": "428ae5afba80904f8e9214bba1c0a5a365dfebe448a7b8f5fd6a29452273d6b7",
@@ -3783,7 +3780,7 @@
    "client_identifier_zero_entered": true
   }
  },
- "payload_sha256": "fe492e14f2c28cdd963310bf615a7b6ff0e429d4f72723f13ae8ee35575f0ba7",
+ "payload_sha256": "11674624219f63b672043116ed4079b98e911e58221d46fbae96920cd66d807f",
  "reproduce_commands": [
   "python3 research/paper_w2_e15_full_judge.py --dry-run",
   "python3 research/paper_w2_e15_full_judge.py   # 120 单元, 缓存命中则零新增调用",

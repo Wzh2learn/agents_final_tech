@@ -248,12 +248,17 @@ def main() -> int:
             "frozen_artifacts_readonly": "mutants 写 /tmp 副本; 仓库内活工件与冻结件未改动",
         },
     }
-    body = json.dumps(payload, ensure_ascii=False, sort_keys=True)
-    residue = sorted({t for t in CLIENT_TOKENS if t.lower() in body.lower()})
+    # 残留扫描先做（只读判定, 不改 payload）
+    residue = sorted({t for t in CLIENT_TOKENS
+                      if t.lower() in json.dumps(payload, ensure_ascii=False,
+                                                 sort_keys=True).lower()})
     payload["redline_self_check"]["client_identifier_zero_entered"] = not residue
     if residue:
         payload["client_token_residue"] = residue
-    digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
+    # 摘要必须在 payload 全部改动完成之后计算: 否则 payload_sha256 覆盖的是
+    # "写入前的 payload", 审阅方按文件复算必然不匹配（本窗首轮实跑踩到并已修复）
+    digest = hashlib.sha256(
+        json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
 
     doc = {
         "meta": {
@@ -289,6 +294,11 @@ def main() -> int:
             "python3 research/paper_w2_assemble.py",
         ],
     }
+    OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
+    back = json.loads(OUT.read_text(encoding="utf-8"))
+    doc["gates"]["digest_self_consistency"] = hashlib.sha256(
+        json.dumps(back["payload"], ensure_ascii=False, sort_keys=True)
+        .encode("utf-8")).hexdigest() == back["payload_sha256"]
     doc["gates"]["all_pass"] = all(doc["gates"].values())
     OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
     print("payload_sha256=%s" % digest)

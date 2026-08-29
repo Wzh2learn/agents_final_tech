@@ -4,7 +4,8 @@
 > 执行: Loop A | 收口: 2026-08-30 | :8004 真实调用: **122 / 200**（E1.5 120 单元 + 1 证据变更重判 + 1 中断占用）
 > 端点自证: socket 层护栏, E1.5 `ports_touched=[8004]`；E1.6/T4 各自 `ports_touched=[]`（零调用段）
 > 复算命令: `paper_w2_e15_full_judge.py --dry-run` / 同名全量（缓存命中零新增）/ `paper_w2_e16_injector_seeds.py` / `paper_w2_t4_pso_fair.py` / `paper_w2_assemble.py`
-> 复算验证: E1.6+T4+装配连续双跑 `payload_sha256` 一致（`fe492e14…0ba7`）；E1.5 全量重跑 120/120 缓存命中且 call_counter 不增（122→122）
+> 复算验证: E1.6+T4+装配连续双跑 `payload_sha256` 一致（`11674624…d807f`）；E1.5 全量重跑 120/120 缓存命中且 call_counter 不增（122→122）  
+> 摘要修正: 首 commit 后抽验发现 `payload_sha256` 在最后一次 payload 改动之前计算, 审阅方按文件复算必然不匹配; 已改为收口后计算并新增 `digest_self_consistency` 门, 摘要由 `fe492e14…0ba7` 变为 `11674624…d807f`（详见 §9）
 
 ## 1 执行结果（三段各一行）
 
@@ -18,7 +19,7 @@
 
 ## 2 工件路径
 
-- `logs/graph/eval/t4_pso_fair_comparison.json` — 本窗唯一终 artifact（卡 §1 要求）, `payload_sha256=fe492e14f2c28cdd963310bf615a7b6ff0e429d4f72723f13ae8ee35575f0ba7`, gates 全 PASS
+- `logs/graph/eval/t4_pso_fair_comparison.json` — 本窗唯一终 artifact（卡 §1 要求）, `payload_sha256=11674624219f63b672043116ed4079b98e911e58221d46fbae96920cd66d807f`, gates 全 PASS（含 `digest_self_consistency`）
 - 分节中间件（可复算, 不入 payload 摘要范围）: `_w2_e15_section.json` / `_w2_e16_section.json` / `_w2_t4_section.json`
 - 预算账本 `logs/graph/eval/w2_e15_call_ledger.json`（122 条 notes, 逐次可溯源）
 - 裁判原始缓存 `logs/graph/eval/w2_e15_judge_cache.jsonl`（本地留存不入库, 其 sha256 入工件 `judge_cache_sha256`）
@@ -141,3 +142,14 @@
 - `venv/bin/python -m pytest -q`: **402 passed / 13 skipped**（与 W1 收口基线同, 本窗零回归）
 - 冻结节点 md5 复核: 五件全 OK（`tests/test_m1_service.py` / `m1_table_schema.json` / 三件基线资产）
 - CJK 字节检查: 本汇报与 STATE/INDEX 编辑 U+FFFD 零残留
+- **摘要计算次序缺陷（本窗抽验发现并已修复, 记入台账）**: `paper_w2_assemble.py` 原先在
+  `redline_self_check.client_identifier_zero_entered` 写入**之前**计算 `payload_sha256`,
+  导致首个 commit 的存储摘要覆盖的是"写入前的 payload"——审阅方按文件复算必然不匹配。
+  修复 = ① 摘要移到 payload 全部改动完成之后；② 新增永久门 `digest_self_consistency`
+  （回读已写文件并对**存储的** payload 重新哈希）, 使同类缺陷下次收口即红。
+  双跑摘要一致（`11674624…d807f`）, 独立文件复算 = True。研究数字（122 调用 / 三段结果 / 判据裁定）零改动,
+  仅 provenance 字段与摘要值变化。
+- **Hook Escalation Ladder 计数**: 这是"**声明的哈希/扫描与存储工件不符**"第 **2** 次
+  （第 1 次 = W1 `SCAN_MANIFEST` glob 漏扫, 见 STATE.md W1 治理教训）。第 3 次即上机械强制;
+  本窗已以 `digest_self_consistency` 门预先机械化, 建议把"终工件摘要必须回读复算"提炼进
+  `scripts/graph/hooks/` 通用件而非留在单脚本。
