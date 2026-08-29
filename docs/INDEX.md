@@ -197,7 +197,7 @@
 | 2026-08-30_t2_visibility_sensitivity_design.md | 预注册（待执行） | T2 缺陷可见性敏感性设计稿（E2.1-E2.3, 零端点）: γ 网格（0.2 锚点+0.3/0.5/0.7/0.9）+ 等价变异校正 + 强度梯度（W/S/S' 确定性构造）; §1 原样引用蓝图 C1 判据; 执行者 Loop A（GB10） | 2026-08-30 |
 | 2026-08-30_t6_matching_competition_design.md | 预注册（待执行） | T6 匹配竞争控制设计稿（E5.1-E5.2, 零端点）: Hungarian 全局分配 vs 贪心 + oracle 天花板复核（0.952/0.597）+ 双分支判据; §1 原样引用蓝图 C1 判据; 执行者 Loop A（GB10） | 2026-08-30 |
 | 2026-08-30_w1_window_card_t1t2t6.md | 已执行-绿态 | W1 合并窗口任务卡: T1/T2/T6 零端点三段顺序（单 tmux 会话）; 前提 P1-P5 一分钟证伪 + 复现门 G1-G4 + 段间不互锁闸改期≤2; 收口绿态（0c9c441 入库, 主线程抽验过） | 2026-08-30 |
-| 2026-08-30_w2_window_card_8004.md | 待派发（预批） | W2 :8004 合并窗任务卡: E1.5 Full Judge（120 调用）+ E1.6 三 seed 零调用 + T4 五组对照/minimax/预算梯度/Pareto; 预算硬门 ≤200 + 端点仅 :8004 + :8006 一致性差异显式注记 | 2026-08-30 |
+| 2026-08-30_w2_window_card_8004.md | 执行中 | W2 :8004 合并窗任务卡: E1.5 Full Judge（120 调用）+ E1.6 三 seed 零调用 + T4 五组对照/minimax/预算梯度/Pareto; 预算硬门 ≤200 + 端点仅 :8004; 加编钉死 judge 口径可比性算法（Spearman+方向一致率+|Δ|混杂旗标） | 2026-08-30 |
 | 2026-08-30_t3_second_dataflow_design.md | 预注册（待派发） | T3 第二数据流设计稿: TAT-DQA joint-v1 validation split 注入构造 + 判别协议复跑（解冻范围限定, test split 零触碰）; §1 原样引用蓝图 C1 判据 | 2026-08-30 |
 | 2026-08-30_t3_task_card.md | 待派发（序列 W1 后） | T3 任务卡: 前提必含工件在位验证 + 解冻范围条款（用户指定）; 泄漏断言运行时; 完成后冻结线恢复 | 2026-08-30 |
 | 2026-08-30_t5_visual_crosslayer_design.md | 预注册（待派发） | T5 视觉跨层补盲设计稿: C4 案 b 单列裁剪（预注册 33%→≤5%）+ :8007 一窗复跑; §1 原样引用蓝图 C5 判据 + 增益阈值具体化（ocr_similar ≥50%） | 2026-08-30 |
@@ -249,11 +249,14 @@
 00_Codex_启动提示词.md / 01_项目背景与目标.md / 02_阶段计划与分工.md / 03_技术架构与模块设计.md / 04_服务器与模型部署计划.md / 05_开发任务清单.md / 06_Remote_SSH_开发流程.md / 07_角色B_模型调研与研究方向.md / 08_GB10模型服务两阶段计划_老师汇报版.md / 11_开发机_Codex_CLI_交接.md / 12_阶段收尾与对外汇报.md / 14_角色B_开发日志_老师汇报版.md / 16_Qoder_CLI迁移评估与计划.md / AGENTS.md / API_REFERENCE.md / ARCHITECTURAL_REVIEW_REPORT.md / CLAUDE_PLUGIN_SETUP.md / CODE_REVIEW_COMPREHENSIVE_20260118.md / code_review_prompt.md / codex_migration_pack_all_in_one.md / DEPLOYMENT.md / DEVELOPER_GUIDE.md / DIFY_VS_TOOLS_COMPARISON.md / Explore.md / implementation_guide.md / KB_UI_REDESIGN_SPEC.md / OPTIMIZATION_IMPLEMENTATION_REPORT.md / PROJECT_BUSINESS_FLOW_WORKLOAD_REPORT.md / PROJECT_REVIEW_REPORT.md / README_legacy_1115lines.md / README_scripts_2026-07-21.md / REVIEW_REPORT_20260118.md / TOOLS_USAGE.md / VibeCoding_Migration_Kit_Merged.md
 </details>
 
+| `2026-08-30_night_self_audit_findings.md` | 活跃 | 夜间自审 findings（九项攻击面预跑 + broken-window 八行 + 治理体检; 只列发现不裁决, 结论权在 Loop C/用户） | 2026-08-30 |
+| `2026-08-30_morning_decision_sheet.md` | 待圈选 | 晨间一页纸: W1 绿态 + W2 闸状态 + 判定项①C2 表述口径②T2 极差表述（各带推荐） | 2026-08-30 |
+
 ## paper/（论文正文工作区, 内部草稿, 禁止对外）
 
 | 文件 | 状态 | 一句话摘要 |
 |---|---|---|
-| `draft_v0_s1_s2_s6.md` | 草稿 v0 | T7 成熟节 S1/S2/S6（英文）: 数字仅既有工件溯源值 + [TODO-*] 占位; S3-S5/S7 待 T1-T6 工件 |
+| `draft_v0_s1_s2_s6.md` | 草稿 v0 | T7 成熟节 S1/S2/S6（英文）: 数字仅既有工件溯源值 + [TODO-*] 占位; 审稿五问注记一轮 + 边界脚注; S3-S5/S7 待 T1-T6 工件 |
 
 ## 治理参考语料（docs/governance/reference/）
 

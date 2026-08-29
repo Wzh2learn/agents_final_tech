@@ -1,0 +1,61 @@
+{
+ "version": "current_v0",
+ "source": "logs/graph/eval/t1_eval_baseline_comparison.json",
+ "source_sha256": "0ce023d6f83340dbc0e43a810b85c2d361a4b174337cdabc7da015f15c9ca87d",
+ "cost_definition": "E1.1=2 root units; E1.2-E1.4=12 leaves (design T1 3.1)",
+ "note": "current version only; replaced by T4 Pareto (budget gradient + 5-group)",
+ "points": [
+  {
+   "protocol": "E1.1_end_to_end",
+   "cost_scored_units": 2,
+   "pooled_separation": 1.252633,
+   "tree_root_separation": 2.505278,
+   "detected": 2,
+   "n_mutants": 9,
+   "worst_mutant": {
+    "id": "M7_nf_fail_3",
+    "sep": 0.4167
+   },
+   "localization": 0.0
+  },
+  {
+   "protocol": "E1.2_flat",
+   "cost_scored_units": 12,
+   "pooled_separation": 1.253611,
+   "tree_root_separation": 2.5072,
+   "detected": 4,
+   "n_mutants": 9,
+   "worst_mutant": {
+    "id": "M7_nf_fail_3",
+    "sep": 0.3333
+   },
+   "localization": 1.0
+  },
+  {
+   "protocol": "E1.3_hier_expert",
+   "cost_scored_units": 12,
+   "pooled_separation": 1.252633,
+   "tree_root_separation": 2.505278,
+   "detected": 3,
+   "n_mutants": 9,
+   "worst_mutant": {
+    "id": "M7_nf_fail_3",
+    "sep": 0.4167
+   },
+   "localization": 1.0
+  },
+  {
+   "protocol": "E1.4_hier_pso",
+   "cost_scored_units": 12,
+   "pooled_separation": 1.428156,
+   "tree_root_separation": 2.856256,
+   "detected": 4,
+   "n_mutants": 9,
+   "worst_mutant": {
+    "id": "M7_nf_fail_3",
+    "sep": 0.1852
+   },
+   "localization": 1.0
+  }
+ ]
+}

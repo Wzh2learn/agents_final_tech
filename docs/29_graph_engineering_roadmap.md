@@ -152,3 +152,7 @@ redlines: [冻结节点, API key, ...]
 | a8fed1a8be | INDEX 状态词[待批] | 2026-08-29_collision_expansion_design.md | 2026-08-29 | 待核 |
 | 295daec7e4 | INDEX 状态词[待批] | scripts/graph/governance_drift_scan.py | 2026-08-29 | 待核 |
 | 998c1b402f | 仓外资产未登记 | /home/testuser/wzh/research/openai4s_probe | 2026-08-29 | 待核 |
+| 9d351bba09 | INDEX 状态词[待执行] | | 2026-08-30_t1_eval_baseline_comparison | 2026-08-30 | 待核 |
+| ec550aa5d4 | INDEX 状态词[待执行] | | 2026-08-30_t2_visibility_sensitivity_d | 2026-08-30 | 待核 |
+| 193b26038b | INDEX 状态词[待执行] | | 2026-08-30_t6_matching_competition_des | 2026-08-30 | 待核 |
+| 7bc9b19655 | INDEX 状态词[待执行] | | superpowers/plans/2026-08-29-long-hori | 2026-08-30 | 待核 |
