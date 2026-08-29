@@ -1084,3 +1084,4 @@ echo dispatch_log updated
 [08-29 10:47] #LOOP-B-FLIP overall PASS -> FAIL (head=8265c68; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-29 03:1x] #META-REVIEW-FIX 元复审修复两件: ① B-2 写保护补实现（首轮守卫未落码被元复审实查出, 位点 vgmc_exp1.py:246/:551 + test_adv_map_write_guard 3/3, EXP 类标签全断言只读）② findings 计数 2→3 顺修; 教训入账同步抽验手册（修复验证必查实现位点 / 实测域全域复算）
 [08-29 03:1x] #HANDOFF-SNAPSHOT HANDOFF.md 08-29 冻结快照节入库（版本 B 维持三候选待裁 / 骨架 v2.5 / 引文清零 / 盲锥形式化 / 伴生一等公民 / Loop C 恢复 / 401 绿 / 0-0）
+[08-29 12:15] #REVIEW-DAY-FIX 治理一致性 + walkthrough 证据优化 + 用户裁定 b/c/四类可恢复清理执行；零研究跑批、零生产配置、零 :5050 重启、零对外。

@@ -187,6 +187,9 @@
 | `2026-08-29_loopc_audit_adversarial_d1_t2.md` | 活跃 | Loop C 差分审计报告（--bare 修复后首次交付）: 对抗臂工件三层对账（数字链全对齐 + 判定忠实预注册 + §6 预测冻结机械证实, 1 HIGH F1 + 3 LOW + 2 NOTE）/ D1 前端 diff 四项全过 / T2 回填逐数字命中 | 2026-08-29 |
 | `2026-08-29_research_assets_inventory.md` | 活跃 | 科研自动化资产台账（GB10 ~/wzh/research/ 五件）: OpenAI4S 长期候选不启动 / tabfm 相邻备用 / academic_skills_audit 上游零漂移不回灌 / m0_lit 已接科研线 / 探针空区; 同步链备查 | 2026-08-29 |
 | `2026-08-29_related_work_v3.md` | 草稿 v3.1（Voyager/MemGPT OpenAlex 在线核验, **待复核清零**; 取代 v2, 保留备查） | 相关工作 m0_lit 接入: 簇二补评测与巩固两支（MemoryAgentBench 四能力含选择性遗忘↔门控回归约束 / Evo-Memory 测试时学习 / RecMem 巩固↔固化）+ 簇三补参数侧/规则侧分野（Q-Evolve 过程奖励↔gain/collateral 同构）与对象中心分类学坐标（SE-Coding 综述）; 五篇引文作者 OpenAlex 实查 | 2026-08-29 |
+| `2026-08-29_column_sensitivity_analysis.md` | 活跃（探索性） | 用户裁定路径 b：40 碰撞列逐列配对敏感性分析（gated 7/40 vs ungated 4/40, Δ+0.075；朴素/表簇 CI 均触 0, McNemar p=0.375）；不覆盖冻结表级 E3，零新跑批/零端点 | 2026-08-29 |
+| `2026-08-29_version_b_submission_draft_v0.md` | 内部草稿（禁止对外） | 用户裁定路径 c：版本 B 题目+摘要+2+1 贡献+正文资产映射+声明边界；b 结果按探索性分栏，待用户终审后才可投稿 | 2026-08-29 |
+| `2026-08-29_m1_latency_naming_review.md` | 待用户裁定 | /m1 问答命名核验：最终单实例三问 48.6/50.6/49.7s 均为 45s 验证链等待后回落直连；功能 13/13 不等于快路体验通过。最小菜单为显式 direct 绕过等待（真实提速）或先如实改称回落问答（推荐） | 2026-08-29 |
 | `figures_k2/` | 活跃 | 小 B 盲锥章节五图组: 六类判别谱/吸收机制/三性质复现表/MS+CI 森林图/BC 盲率 + 生成脚本 make_k2_figures_repo.py（数据源 logs/graph/eval 两 json） | 2026-08-27 |
 | `2026-08-27_four_bucket_board.md` | 活跃 | 四桶并行板 v1（五点加速杠杆①）: 桶 0 零 LLM 永不断后 / 桶 1/2 互不阻塞错峰 / 桶 3 窗口合并须批 + dispatch 归属纪律 | 2026-08-27 |
 | `2026-08-27_night_window_consolidation_draft.md` | 已执行（用户批 + 08-28 四段收口 12fb78d） | 夜间窗口合并草案（段 A 扩语料碰撞 / 段 B C4 探针 / 段 C bandit replay）: 段间不互锁 + 闸失败改期 ≤2 + 交互假设检查 | 2026-08-27 |
@@ -258,7 +261,7 @@
 | `multi-tool-sync.sh` | 多工具规则同步脚本（参考） |
 | 仓库 `scripts/graph/hooks/` | pre-commit 机械强制层脚本（根 AGENTS.md"机械强制层"节）: cjk-byte-check.precommit.sh / index-guard.precommit.sh / large-file-guard.precommit.sh / install_hooks.sh / skill_router.py |
 | 仓库 `scripts/graph/governance_drift_scan.py` | 治理漂移扫描（2026-08-29 制度化）: 状态词扫荡（待批/待执行/待发送/待勾选）+ 活文档日期超期 → 漂移候选幂等登记 docs/29 backlog 待核节; 收口清单固定步骤 + 03:30 cron 轻扫（--cron 只报告） |
-| 仓库 `scripts/walkthrough_m1_v2.py` | D1 /m1 三栏工作台脚本化 walkthrough（五步 13 断言: 时间轴点亮/刷新持久化/QA 五步条/建议映射 tab/快路三问; 证据落 logs/graph/eval/walkthrough_evidence/） |
+| 仓库 `scripts/walkthrough_m1_v2.py` | D1 /m1 三栏工作台脚本化 walkthrough（五步 13 断言: 时间轴点亮/刷新持久化/QA 五步条/建议映射 tab/回落问答三问; 证据落 logs/graph/eval/walkthrough_evidence/；旧截图文件名 fast_regression 仅为路径兼容） |
 
 | `SKILL_ROUTING.md` | 活跃（立法件, 修订需用户批） | skill 路由法: 五线总表 + 仲裁规则（红线永载/领域优先/单任务≤5/新旧降级）+ 冗余裁决表（verification 已废 / review-check vs polish-audit 分工 / pdf 合一 / figma·deploy 不主动装载）+ 钩链矩阵 + 装载纪律（卡片显式装载清单） | 2026-08-29 |
 
@@ -267,6 +270,6 @@
 1. 新增文档: 当前事实 → docs/ 顶层编号；实验记录 → experiments/；废弃 → `git mv` 进 archive/（禁止 rm）。任何归档/新增必须同步更新本文件，同一 commit。
 2. 存活文档（本目录顶层 + architecture/ + datasets/）头部必须有状态标记行 `状态: … | 更新: … | 取代/被取代: …`；experiments/ 只追加不重写，以日期前缀为时效标记。
 3. OpenCode/MCP 交付物三件（09 / 10 / 2026-07-19_m2_mcp_verification）：**永不删除**；2026-08-05 起归档于 archive/，本文件归档组保留条目。
-4. HANDOFF.md 冻结为 2026-08-04 快照，不再更新；现状快照一律写 memory/STATE.md。
+4. HANDOFF.md 保留历史冻结快照（含顶部 2026-08-29 快照及更早快照）；实时状态仍一律以 memory/STATE.md 为准。
 5. gap/遗留项台账唯一存放于 memory/THREADS.md，其他文档只引用不复述。
 6. 盘点依据与矛盾修复记录: `architecture/phase2_docs_inventory.md`、`architecture/phase2_root_md_conflicts.md`、`architecture/phase2_docs_inventory_2026-08-05.md`（本轮）。

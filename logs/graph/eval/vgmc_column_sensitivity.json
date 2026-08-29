@@ -1,0 +1,411 @@
+{
+ "meta": {
+  "name": "vgmc-column-sensitivity",
+  "analysis_type": "exploratory_column_level_sensitivity",
+  "seed": 20260829,
+  "n_boot": 10000,
+  "endpoint_calls": 0,
+  "frozen_e3_unchanged": true
+ },
+ "frozen_table_level_E3": {
+  "dV_ACC": 0.05,
+  "dV_ACC_ci95": [
+   0.0,
+   0.1056
+  ],
+  "dV_H": 0.005714,
+  "dV_H_ci95": [
+   0.0,
+   0.017143
+  ],
+  "n_tables_ACC": 15,
+  "n_tables_H": 35,
+  "power_note": "碰撞表数 12（C0 基线）→ 15（扩容后, +3）",
+  "card_trigger_B_to_A": false,
+  "design_e3_both": false
+ },
+ "column_level": {
+  "n_tables": 15,
+  "n_columns": 40,
+  "gated_correct": 7,
+  "ungated_correct": 4,
+  "gated_acc": 0.175,
+  "ungated_acc": 0.1,
+  "paired_delta_acc": 0.075,
+  "improved": 4,
+  "harmed": 1,
+  "ties": 35,
+  "mcnemar_exact_p_two_sided": 0.375,
+  "naive_column_bootstrap_ci95": [
+   -0.025,
+   0.175
+  ],
+  "table_cluster_bootstrap_ci95": [
+   0.0,
+   0.14285714285714285
+  ]
+ },
+ "interpretation": "Exploratory only: report the pooled per-column effect and dependence-aware cluster interval; do not replace the frozen table-level E3 or switch Version B.",
+ "rows": [
+  {
+   "uid": "1e712660-7b78-4791-8264-e517efde2e62",
+   "col": 3,
+   "injected": "Weighted-average grant date 2021-对账日期 fair value",
+   "original": "Weighted-average grant date fair value",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "1e712660-7b78-4791-8264-e517efde2e62",
+   "col": 4,
+   "injected": "Weighted Average Grant 2017期末 Fair Value",
+   "original": "Weighted Average Grant Date Fair Value",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "1e712660-7b78-4791-8264-e517efde2e62",
+   "col": 5,
+   "injected": "Weighted Average 9rant Date Fair Value",
+   "original": "Weighted Average Grant Date Fair Value",
+   "gated_correct": 1,
+   "ungated_correct": 0,
+   "diff": 1
+  },
+  {
+   "uid": "21a432eb-166c-4178-adf9-08b6ad3fde7d",
+   "col": 5,
+   "injected": "资产(assets)",
+   "original": "Financial Assets",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "3ec15660-9e13-4162-abb6-2462d65f07ba",
+   "col": 5,
+   "injected": "Tota№",
+   "original": "Total",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "46f3bc91-b8ca-42b8-bf03-f23e9fd70b5e",
+   "col": 5,
+   "injected": "amort",
+   "original": "Accumulated Amortization",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "46f3bc91-b8ca-42b8-bf03-f23e9fd70b5e",
+   "col": 6,
+   "injected": "Accumulatee Amortization",
+   "original": "Accumulated Amortization",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+   "col": 4,
+   "injected": "摊薄",
+   "original": "Accumulated Amortization",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+   "col": 5,
+   "injected": "Gross Carrying lmount",
+   "original": "Gross Carrying Amount",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+   "col": 4,
+   "injected": "m【】",
+   "original": "£m",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+   "col": 5,
+   "injected": "m①",
+   "original": "£m",
+   "gated_correct": 1,
+   "ungated_correct": 1,
+   "diff": 0
+  },
+  {
+   "uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+   "col": 6,
+   "injected": "m [1]",
+   "original": "£m",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+   "col": 7,
+   "injected": "2818/19",
+   "original": "2018/19",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+   "col": 8,
+   "injected": "Cha3ge",
+   "original": "Change",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+   "col": 3,
+   "injected": "Consoli2021期末d",
+   "original": "Consolidated",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+   "col": 4,
+   "injected": "Consoli2019期末d",
+   "original": "Consolidated",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+   "col": 5,
+   "injected": "Consoli2016年交易日d",
+   "original": "Consolidated",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+   "col": 6,
+   "injected": "Consoli交易日 / dated",
+   "original": "Consolidated",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "648e1260-d160-45d2-a744-57be0fd89850",
+   "col": 3,
+   "injected": "资产(元)",
+   "original": "Purchased Intangible Assets",
+   "gated_correct": 1,
+   "ungated_correct": 0,
+   "diff": 1
+  },
+  {
+   "uid": "648e1260-d160-45d2-a744-57be0fd89850",
+   "col": 4,
+   "injected": "Purchased Intangibl3 Assets",
+   "original": "Purchased Intangible Assets",
+   "gated_correct": 0,
+   "ungated_correct": 1,
+   "diff": -1
+  },
+  {
+   "uid": "6e1da895-35f8-4ac4-8b2d-491ef6b3c5f6",
+   "col": 6,
+   "injected": "Balance at Beginnifg of Year",
+   "original": "Balance at Beginning of Year",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "6e1da895-35f8-4ac4-8b2d-491ef6b3c5f6",
+   "col": 7,
+   "injected": "Belance at End of Year",
+   "original": "Balance at End of Year",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+   "col": 3,
+   "injected": "m №",
+   "original": "£m",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+   "col": 4,
+   "injected": "m【】",
+   "original": "£m",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+   "col": 5,
+   "injected": "m①",
+   "original": "£m",
+   "gated_correct": 1,
+   "ungated_correct": 0,
+   "diff": 1
+  },
+  {
+   "uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+   "col": 6,
+   "injected": "201j",
+   "original": "2018",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+   "col": 7,
+   "injected": "4019",
+   "original": "2019",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+   "col": 8,
+   "injected": "£v",
+   "original": "£m",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "82c8abd6-9cce-4ede-a4ee-2866ce65cda8",
+   "col": 4,
+   "injected": "amort",
+   "original": "Accumulated Amortization",
+   "gated_correct": 1,
+   "ungated_correct": 1,
+   "diff": 0
+  },
+  {
+   "uid": "ae3cbef3-f02b-4833-ba73-abb7590dc495",
+   "col": 3,
+   "injected": "assets(资产)",
+   "original": "Financial assets",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "b538d340-dfca-4f89-a59f-01fc1bb35184",
+   "col": 4,
+   "injected": "m①",
+   "original": "£m",
+   "gated_correct": 1,
+   "ungated_correct": 0,
+   "diff": 1
+  },
+  {
+   "uid": "b538d340-dfca-4f89-a59f-01fc1bb35184",
+   "col": 5,
+   "injected": "m №",
+   "original": "£m",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "b538d340-dfca-4f89-a59f-01fc1bb35184",
+   "col": 6,
+   "injected": "m【】",
+   "original": "£m",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "b538d340-dfca-4f89-a59f-01fc1bb35184",
+   "col": 7,
+   "injected": "9017/18",
+   "original": "2017/18",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+   "col": 3,
+   "injected": "Consoli2016年交易日d",
+   "original": "Consolidated",
+   "gated_correct": 1,
+   "ungated_correct": 1,
+   "diff": 0
+  },
+  {
+   "uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+   "col": 4,
+   "injected": "Consoli2019期末d",
+   "original": "Consolidated",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+   "col": 5,
+   "injected": "Consoli2021期末d",
+   "original": "Consolidated",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+   "col": 6,
+   "injected": "CONSOLI2016年交易日D",
+   "original": "CONSOLIDATED",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+   "col": 7,
+   "injected": "Consolid@ted",
+   "original": "Consolidated",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  },
+  {
+   "uid": "fbbb1116-0ef2-4d7e-a90f-2c72e2739e22",
+   "col": 3,
+   "injected": "Number bf shares",
+   "original": "Number of shares",
+   "gated_correct": 0,
+   "ungated_correct": 0,
+   "diff": 0
+  }
+ ]
+}

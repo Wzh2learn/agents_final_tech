@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-29 00:16:47",
+ "generated": "2026-08-29 12:37:23",
  "base": "http://127.0.0.1:5050",
  "n_asserts": 13,
  "n_pass": 13,
@@ -8,7 +8,7 @@
    "step": 1,
    "assert": "六步卡全点亮",
    "pass": true,
-   "detail": "done=6/6, 1.5s"
+   "detail": "done=6/6, 4.1s"
   },
   {
    "step": 1,
@@ -56,7 +56,7 @@
    "step": 4,
    "assert": "sugg tab 激活可见",
    "pass": true,
-   "detail": ""
+   "detail": "panel_visible=True, tab_active=True"
   },
   {
    "step": 4,
@@ -66,21 +66,28 @@
   },
   {
    "step": 5,
-   "assert": "快路问题 1 有答",
+   "assert": "回落问答问题 1 有答",
    "pass": true,
-   "detail": "48.5s 博时传统产品的基金代码为 00****22。\n出处: 样本=sample_boshi_chuantong.pdf, 表="
+   "detail": "48.6s 博时传统产品的基金代码为 00****22。\n出处: 样本=sample_boshi_chuantong.pdf, 表="
   },
   {
    "step": 5,
-   "assert": "快路问题 2 有答",
+   "assert": "回落问答问题 2 有答",
    "pass": true,
-   "detail": "51.0s 嘉兴民安的资金余额为 3,508.55 元。\n出处: 样本=sample_jiaxing_minan_20231031."
+   "detail": "50.6s 嘉兴民安的资金余额为 3,508.55 元。\n出处: 样本=sample_jiaxing_minan_20231031."
   },
   {
    "step": 5,
-   "assert": "快路问题 3 有答",
+   "assert": "回落问答问题 3 有答",
    "pass": true,
-   "detail": "49.9s 复熙混合25号的客户全称为上海****资基金。\n出处: 样本=sample_fuxi_hunhe25_20231101."
+   "detail": "49.7s 复熙混合25号的客户全称为上海****资基金。\n出处: 样本=sample_fuxi_hunhe25_20231101."
   }
- ]
+ ],
+ "screenshot_summary": {
+  "step1_parse_timeline.png": "完整工作台：六步解析时间轴、完成态与表格产物。",
+  "step2_refresh_persist.png": "刷新后任务卡与解析产物恢复，验证 localStorage 持久化。",
+  "step3_qa_steps_bar.png": "QA 五步条特写：五个步骤均清晰可见，并显示完成耗时。",
+  "step4_sugg_tab.png": "证据紧凑视图：同页真实的建议映射 tab 激活态、说明与建议列表同屏。",
+  "step5_fast_regression.png": "回落问答三问完成后的工作台与实际链路耗时信息（文件名为历史兼容保留）。"
+ }
 }
