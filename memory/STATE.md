@@ -16,6 +16,14 @@
 ⑦ /m1 验收: 用户五步 walkthrough 自走（时间轴/刷新持久化/QA 五步条/建议映射 tab/快路回归）, 与 A 窗汇报一并看 08-29 晚; 口径 3 = 接受 localStorage（服务端持久化 = 触发项 D13）
 ⑧ 审阅日最终复验（12:37）: walkthrough 13/13 功能断言通过；QA 五步条完成耗时 48.7s，三条原称“快路”的回落问答分别 48.6/50.6/49.7s（服务端四问均为 `route=direct, fell_back=true`），故仅保留功能通过，不签“快路体验通过”；验收证据先如实改名，真实提速菜单待裁
 
+## W1 零端点合并窗结果（2026-08-30, T1/T2/T6, Loop A）
+
+- 三段全 PASS（卡 TASK-20260830-01）: T1 E1.1-E1.4 / T2 E2.1-E2.3 / T6 E5.1-E5.2, 复现门 G1-G4 全过。工件 `logs/graph/eval/{t1_eval_baseline_comparison,t2_visibility_sensitivity,t6_matching_competition}.json` + 收口汇报 `logs/graph/eval/w1_window_report.md`; commit cca4144 / 1333cae+670dc44 / 0d337b9 / fix 7eaef88 / 汇报 86d4d55。
+- 门限实测: G1 臂 A 逐 mutant root_scores 最大误差 0.0、臂 B 75/95 表级与注入级零失配; G2 PSO 均值分离度 1.4326（冻结 1.432574, 误差 2.6e-05）/ 最差 M7 0.0926; G3 S 档 75/95 + by_type 六类计数误差 0; G4 贪心臂 75/95 + oracle plain 0.952381 / overlay 0.597015（误差 0.0）。
+- 结论向（喂 T7 写作）: T1 分层协议在检出维度无优势（臂 A 3/9 vs E1.2 4/9; 臂 B 表级 0.2105 vs 0.7895）而定位率 1.0 vs 0.0 → 设计稿 §1 预注册降级表述评估已触发（本窗只产证据）; T2 ocr_similar 五 γ 点全盲成立、γ 字面极差判据在 0.7/0.9 不成立、S′ 档 8/13 未达（构造偏差, 机制零反例: 距离 2 的 8/8 全可见, 距离 1 的 5/5 全吸收）; T6 落分支 a（贪心 95/95 已全局最优 + 22/22 吸收无更高分竞争列）→ C1 可见性谱不需"匹配器次优性"注记, 效度威胁改写为打分层污染。
+- 红线自查五条全 PASS: 甲方数据零进入 / 零端点（socket 护栏 + 固定清单扫描 + 卡 P5 grep 零命中）/ 冻结件零改动（五件 md5 复核 OK, 开窗基线→收口 diff 仅本卡路径）/ 逐路径 add 无 amend / T3-T5 与 :8006 零触碰。
+- 治理教训（汇报 §6.6）: 脚本 `self_source_scan()` 原以 `research/` 目录 glob 枚举扫描集且该字段入 payload 摘要 → 下一个 `paper_t*.py` 落盘即令本窗工件不可复现（实跑已见 T1/T2 摘要漂移）。修法 = 钉死 `SCAN_MANIFEST`（7eaef88）+ 探针实验回归。后续零端点窗照抄该模板并保留"收口 = 重跑比摘要"这道门; T3/T5 派卡时写入脚本模板。
+
 ## 研究窗口结果（08-27 夜-08-28, 窗口合并卡）
 - 段 C bandit v0 replay: 42 金标 × 六格, TS 4 决策点全 R=1; **六格 direct 全 1.0 同分（可靠体制无分辨空间; json direct_best 为字典序 tie-break 不读作信号）**; 零端点; 工件 bandit_gate_v0_eval.json
 - 段 A 扩语料碰撞（#VGMC-COLLISION-WINDOW 23:38-23:51）: 移植列 67/37 表; C0 可靠/C1 碰撞+force; P1 PASS（弱, D 同值）/ P2 PASS（vacuous）/ **P3 未触发**（H |差| 0.0057 两体制同值 + ACC C0 0.28 vs 0.12）; H 对噪声逐位不变, ACC 为敏感量; ε 维首次实质激活
