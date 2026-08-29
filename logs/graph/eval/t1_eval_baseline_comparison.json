@@ -1,0 +1,6594 @@
+{
+ "meta": {
+  "name": "t1-eval-baseline-comparison",
+  "version": "v1",
+  "generated": "2026-08-30 00:44:23",
+  "script": "research/paper_t1_eval_baselines.py",
+  "design_doc": "docs/experiments/2026-08-30_t1_eval_baseline_comparison_design.md",
+  "task_card": "docs/experiments/2026-08-30_w1_window_card_t1t2t6.md",
+  "seed": 20260830,
+  "n_boot": 2000,
+  "tau": 2.0,
+  "flat_tau_H": 0.2,
+  "endpoint_calls": 0,
+  "inputs": [
+   "logs/graph/eval/checkpoint_discrimination_report.json",
+   "logs/graph/eval/checkpoint_discrimination_report_20260819.json",
+   "logs/graph/eval/pso_weight_search_v0.json",
+   "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+   "config/eval_checkpoint_trees.json",
+   "scripts/eval_checkpoint_aggregate.py"
+  ],
+  "scope_note": "E1.5(Full Judge, 需在线推理端点)/E1.6(3 seeds) 不在本窗; 成功标准第三维 '≥3 seeds CI 可算' 由表级 bootstrap CI 部分承担, 完整多种子属 E1.6",
+  "runtime_s": 0.39
+ },
+ "gates": {
+  "g1_max_err": 0.0,
+  "g1_armA_pass": true,
+  "g1_armb_tables": "75/95",
+  "g1_armb_frozen_tables": "75/95",
+  "g1_armb_pass": true,
+  "g2_mean_sep": 1.4326,
+  "g2_mean_sep_frozen": 1.432574,
+  "g2_mean_sep_err": 2.6e-05,
+  "g2_worst_sep": 0.0926,
+  "g2_worst_sep_frozen": 0.0926,
+  "g2_worst_sep_err": 0.0,
+  "g2_pass": true,
+  "aggregation_isomorphism_pass": true,
+  "all_pass": true,
+  "numbering_note": "任务卡 G1 = 本工件 g1_max_err + g1_armb_*; 任务卡 G2 = g2_*; 设计稿 §4 的 G1/G2/G3 依次对应本工件 g1_max_err / g1_armb / g2_*"
+ },
+ "aggregation_isomorphism": {
+  "aggregator_reference": "scripts/eval_checkpoint_aggregate.py",
+  "via": "aggregate_tree with leaf-score source patched",
+  "max_abs_err": 0.0,
+  "per_tree": {
+   "parse": {
+    "reference": 10.0,
+    "mine": 10.0,
+    "abs_err": 0.0
+   },
+   "qa": {
+    "reference": 9.97,
+    "mine": 9.97,
+    "abs_err": 0.0
+   }
+  },
+  "pass": true
+ },
+ "arm_a": {
+  "n_mutants": 9,
+  "leaf_ids": [
+   "parse.doc.ok",
+   "parse.doc.throughput",
+   "parse.field.hit_rate",
+   "parse.reconcile.equations",
+   "parse.table.regression",
+   "qa.citation.judge",
+   "qa.faithfulness.judge",
+   "qa.numeric.exact",
+   "qa.numeric.number_grounding",
+   "qa.refusal.deterministic",
+   "qa.refusal.judge",
+   "qa.retrieval.source_required"
+  ],
+  "control_live_leaves": {
+   "parse.doc.ok": 10.0,
+   "parse.doc.throughput": 10.0,
+   "parse.table.regression": 10.0,
+   "parse.field.hit_rate": 10.0,
+   "parse.reconcile.equations": 10.0,
+   "qa.retrieval.source_required": 10.0,
+   "qa.faithfulness.judge": 9.88,
+   "qa.numeric.exact": 10.0,
+   "qa.numeric.number_grounding": 10.0,
+   "qa.citation.judge": 10.0,
+   "qa.refusal.judge": 10.0,
+   "qa.refusal.deterministic": 10.0
+  },
+  "protocols": {
+   "E1.1_end_to_end": {
+    "weights": "config expert",
+    "control_blended_final": 9.985,
+    "control_tree_roots": {
+     "parse": 10.0,
+     "qa": 9.97
+    },
+    "per_mutant": [
+     {
+      "id": "M1_m1_rows_fail",
+      "tree": "parse",
+      "root_scores": {
+       "parse": 4.7145,
+       "qa": 9.97
+      },
+      "blended_final": 7.342227,
+      "sep_tree_root": 5.2855,
+      "sep_blended": 2.6428,
+      "detect_tree_root": true,
+      "detect_blended": true,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ],
+      "primary_target_leaf": "parse.doc.ok"
+     },
+     {
+      "id": "M2_exact_numeric_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.72
+      },
+      "blended_final": 9.36,
+      "sep_tree_root": 1.25,
+      "sep_blended": 0.625,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.numeric.exact"
+      ],
+      "primary_target_leaf": "qa.numeric.exact"
+     },
+     {
+      "id": "M3_source_required_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.3033
+      },
+      "blended_final": 9.151666,
+      "sep_tree_root": 1.6667,
+      "sep_blended": 0.8333,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.retrieval.source_required"
+      ],
+      "primary_target_leaf": "qa.retrieval.source_required"
+     },
+     {
+      "id": "M4_refusal_expected_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.8589
+      },
+      "blended_final": 9.429445,
+      "sep_tree_root": 1.1111,
+      "sep_blended": 0.5556,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.refusal.deterministic"
+      ],
+      "primary_target_leaf": "qa.refusal.deterministic"
+     },
+     {
+      "id": "M5_judge_faithfulness_degrade",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.5
+      },
+      "blended_final": 9.25,
+      "sep_tree_root": 1.47,
+      "sep_blended": 0.735,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.faithfulness.judge"
+      ],
+      "primary_target_leaf": "qa.faithfulness.judge"
+     },
+     {
+      "id": "M6_judge_citation_degrade",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.8033
+      },
+      "blended_final": 9.401666,
+      "sep_tree_root": 1.1667,
+      "sep_blended": 0.5833,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.citation.judge"
+      ],
+      "primary_target_leaf": "qa.citation.judge"
+     },
+     {
+      "id": "M7_nf_fail_3",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 9.5533
+      },
+      "blended_final": 9.776669,
+      "sep_tree_root": 0.4167,
+      "sep_blended": 0.2083,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.numeric.number_grounding"
+      ],
+      "primary_target_leaf": "qa.numeric.number_grounding"
+     },
+     {
+      "id": "M8_judge_artifact_missing",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 7.6389
+      },
+      "blended_final": 8.819445,
+      "sep_tree_root": 2.3311,
+      "sep_blended": 1.1656,
+      "detect_tree_root": true,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.citation.judge",
+       "qa.faithfulness.judge",
+       "qa.refusal.judge"
+      ],
+      "primary_target_leaf": "qa.faithfulness.judge"
+     },
+     {
+      "id": "M9_m1_all_rows_fail",
+      "tree": "parse",
+      "root_scores": {
+       "parse": 2.1503,
+       "qa": 9.97
+      },
+      "blended_final": 6.060173,
+      "sep_tree_root": 7.8497,
+      "sep_blended": 3.9248,
+      "detect_tree_root": true,
+      "detect_blended": true,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ],
+      "primary_target_leaf": "parse.doc.ok"
+     }
+    ],
+    "mean_separation_blended": 1.252633,
+    "mean_separation_tree_root": 2.505278,
+    "worst_separation_blended": 0.2083,
+    "worst_separation_mutant_blended": "M7_nf_fail_3",
+    "detected_tree_root": 3,
+    "detected_blended": 2,
+    "detected_primary": 2,
+    "n_mutants": 9,
+    "localization_rate": 0.0,
+    "cost_proxy": {
+     "scored_units": 2,
+     "unit_kind": "tree roots",
+     "model_calls": 0
+    }
+   },
+   "E1.2_flat": {
+    "weights": "uniform internal=1",
+    "control_blended_final": 9.988,
+    "control_tree_roots": {
+     "parse": 10.0,
+     "qa": 9.976
+    },
+    "per_mutant": [
+     {
+      "id": "M1_m1_rows_fail",
+      "tree": "parse",
+      "root_scores": {
+       "parse": 5.016,
+       "qa": 9.976
+      },
+      "blended_final": 7.496013,
+      "sep_tree_root": 4.984,
+      "sep_blended": 2.492,
+      "detect_tree_root": true,
+      "detect_blended": true,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ],
+      "primary_target_leaf": "parse.doc.ok"
+     },
+     {
+      "id": "M2_exact_numeric_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.976
+      },
+      "blended_final": 9.488,
+      "sep_tree_root": 1.0,
+      "sep_blended": 0.5,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.numeric.exact"
+      ],
+      "primary_target_leaf": "qa.numeric.exact"
+     },
+     {
+      "id": "M3_source_required_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 7.976
+      },
+      "blended_final": 8.988,
+      "sep_tree_root": 2.0,
+      "sep_blended": 1.0,
+      "detect_tree_root": true,
+      "detect_blended": false,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "qa.retrieval.source_required"
+      ],
+      "primary_target_leaf": "qa.retrieval.source_required"
+     },
+     {
+      "id": "M4_refusal_expected_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.6427
+      },
+      "blended_final": 9.321333,
+      "sep_tree_root": 1.3333,
+      "sep_blended": 0.6667,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.refusal.deterministic"
+      ],
+      "primary_target_leaf": "qa.refusal.deterministic"
+     },
+     {
+      "id": "M5_judge_faithfulness_degrade",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.8
+      },
+      "blended_final": 9.4,
+      "sep_tree_root": 1.176,
+      "sep_blended": 0.588,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.faithfulness.judge"
+      ],
+      "primary_target_leaf": "qa.faithfulness.judge"
+     },
+     {
+      "id": "M6_judge_citation_degrade",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.576
+      },
+      "blended_final": 9.288,
+      "sep_tree_root": 1.4,
+      "sep_blended": 0.7,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.citation.judge"
+      ],
+      "primary_target_leaf": "qa.citation.judge"
+     },
+     {
+      "id": "M7_nf_fail_3",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 9.6427
+      },
+      "blended_final": 9.821335,
+      "sep_tree_root": 0.3333,
+      "sep_blended": 0.1667,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.numeric.number_grounding"
+      ],
+      "primary_target_leaf": "qa.numeric.number_grounding"
+     },
+     {
+      "id": "M8_judge_artifact_missing",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 7.6667
+      },
+      "blended_final": 8.833334,
+      "sep_tree_root": 2.3093,
+      "sep_blended": 1.1547,
+      "detect_tree_root": true,
+      "detect_blended": false,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "qa.citation.judge",
+       "qa.faithfulness.judge",
+       "qa.refusal.judge"
+      ],
+      "primary_target_leaf": "qa.faithfulness.judge"
+     },
+     {
+      "id": "M9_m1_all_rows_fail",
+      "tree": "parse",
+      "root_scores": {
+       "parse": 1.9711,
+       "qa": 9.976
+      },
+      "blended_final": 5.973575,
+      "sep_tree_root": 8.0289,
+      "sep_blended": 4.0144,
+      "detect_tree_root": true,
+      "detect_blended": true,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ],
+      "primary_target_leaf": "parse.doc.ok"
+     }
+    ],
+    "mean_separation_blended": 1.253611,
+    "mean_separation_tree_root": 2.5072,
+    "worst_separation_blended": 0.1667,
+    "worst_separation_mutant_blended": "M7_nf_fail_3",
+    "detected_tree_root": 4,
+    "detected_blended": 2,
+    "detected_primary": 4,
+    "n_mutants": 9,
+    "localization_rate": 1.0,
+    "cost_proxy": {
+     "scored_units": 12,
+     "unit_kind": "leaves",
+     "model_calls": 0
+    }
+   },
+   "E1.3_hier_expert": {
+    "weights": "config expert",
+    "control_blended_final": 9.985,
+    "control_tree_roots": {
+     "parse": 10.0,
+     "qa": 9.97
+    },
+    "per_mutant": [
+     {
+      "id": "M1_m1_rows_fail",
+      "tree": "parse",
+      "root_scores": {
+       "parse": 4.7145,
+       "qa": 9.97
+      },
+      "blended_final": 7.342227,
+      "sep_tree_root": 5.2855,
+      "sep_blended": 2.6428,
+      "detect_tree_root": true,
+      "detect_blended": true,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ],
+      "primary_target_leaf": "parse.doc.ok"
+     },
+     {
+      "id": "M2_exact_numeric_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.72
+      },
+      "blended_final": 9.36,
+      "sep_tree_root": 1.25,
+      "sep_blended": 0.625,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.numeric.exact"
+      ],
+      "primary_target_leaf": "qa.numeric.exact"
+     },
+     {
+      "id": "M3_source_required_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.3033
+      },
+      "blended_final": 9.151666,
+      "sep_tree_root": 1.6667,
+      "sep_blended": 0.8333,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.retrieval.source_required"
+      ],
+      "primary_target_leaf": "qa.retrieval.source_required"
+     },
+     {
+      "id": "M4_refusal_expected_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.8589
+      },
+      "blended_final": 9.429445,
+      "sep_tree_root": 1.1111,
+      "sep_blended": 0.5556,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.refusal.deterministic"
+      ],
+      "primary_target_leaf": "qa.refusal.deterministic"
+     },
+     {
+      "id": "M5_judge_faithfulness_degrade",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.5
+      },
+      "blended_final": 9.25,
+      "sep_tree_root": 1.47,
+      "sep_blended": 0.735,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.faithfulness.judge"
+      ],
+      "primary_target_leaf": "qa.faithfulness.judge"
+     },
+     {
+      "id": "M6_judge_citation_degrade",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.8033
+      },
+      "blended_final": 9.401666,
+      "sep_tree_root": 1.1667,
+      "sep_blended": 0.5833,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.citation.judge"
+      ],
+      "primary_target_leaf": "qa.citation.judge"
+     },
+     {
+      "id": "M7_nf_fail_3",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 9.5533
+      },
+      "blended_final": 9.776669,
+      "sep_tree_root": 0.4167,
+      "sep_blended": 0.2083,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.numeric.number_grounding"
+      ],
+      "primary_target_leaf": "qa.numeric.number_grounding"
+     },
+     {
+      "id": "M8_judge_artifact_missing",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 7.6389
+      },
+      "blended_final": 8.819445,
+      "sep_tree_root": 2.3311,
+      "sep_blended": 1.1656,
+      "detect_tree_root": true,
+      "detect_blended": false,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "qa.citation.judge",
+       "qa.faithfulness.judge",
+       "qa.refusal.judge"
+      ],
+      "primary_target_leaf": "qa.faithfulness.judge"
+     },
+     {
+      "id": "M9_m1_all_rows_fail",
+      "tree": "parse",
+      "root_scores": {
+       "parse": 2.1503,
+       "qa": 9.97
+      },
+      "blended_final": 6.060173,
+      "sep_tree_root": 7.8497,
+      "sep_blended": 3.9248,
+      "detect_tree_root": true,
+      "detect_blended": true,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ],
+      "primary_target_leaf": "parse.doc.ok"
+     }
+    ],
+    "mean_separation_blended": 1.252633,
+    "mean_separation_tree_root": 2.505278,
+    "worst_separation_blended": 0.2083,
+    "worst_separation_mutant_blended": "M7_nf_fail_3",
+    "detected_tree_root": 3,
+    "detected_blended": 2,
+    "detected_primary": 3,
+    "n_mutants": 9,
+    "localization_rate": 1.0,
+    "cost_proxy": {
+     "scored_units": 12,
+     "unit_kind": "leaves",
+     "model_calls": 0
+    }
+   },
+   "E1.4_hier_pso": {
+    "weights": "pso_weight_search_v0 best_weights",
+    "control_blended_final": 9.98,
+    "control_tree_roots": {
+     "parse": 10.0,
+     "qa": 9.96
+    },
+    "per_mutant": [
+     {
+      "id": "M1_m1_rows_fail",
+      "tree": "parse",
+      "root_scores": {
+       "parse": 3.344,
+       "qa": 9.96
+      },
+      "blended_final": 6.652009,
+      "sep_tree_root": 6.656,
+      "sep_blended": 3.328,
+      "detect_tree_root": true,
+      "detect_blended": true,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ],
+      "primary_target_leaf": "parse.doc.ok"
+     },
+     {
+      "id": "M2_exact_numeric_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 9.4044
+      },
+      "blended_final": 9.702222,
+      "sep_tree_root": 0.5556,
+      "sep_blended": 0.2778,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.numeric.exact"
+      ],
+      "primary_target_leaf": "qa.numeric.exact"
+     },
+     {
+      "id": "M3_source_required_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.8489
+      },
+      "blended_final": 9.424444,
+      "sep_tree_root": 1.1111,
+      "sep_blended": 0.5556,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.retrieval.source_required"
+      ],
+      "primary_target_leaf": "qa.retrieval.source_required"
+     },
+     {
+      "id": "M4_refusal_expected_fail",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 9.2193
+      },
+      "blended_final": 9.609629,
+      "sep_tree_root": 0.7407,
+      "sep_blended": 0.3704,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.refusal.deterministic"
+      ],
+      "primary_target_leaf": "qa.refusal.deterministic"
+     },
+     {
+      "id": "M5_judge_faithfulness_degrade",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 8.0
+      },
+      "blended_final": 9.0,
+      "sep_tree_root": 1.96,
+      "sep_blended": 0.98,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.faithfulness.judge"
+      ],
+      "primary_target_leaf": "qa.faithfulness.judge"
+     },
+     {
+      "id": "M6_judge_citation_degrade",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 7.6267
+      },
+      "blended_final": 8.813334,
+      "sep_tree_root": 2.3333,
+      "sep_blended": 1.1667,
+      "detect_tree_root": true,
+      "detect_blended": false,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "qa.citation.judge"
+      ],
+      "primary_target_leaf": "qa.citation.judge"
+     },
+     {
+      "id": "M7_nf_fail_3",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 9.7748
+      },
+      "blended_final": 9.887409,
+      "sep_tree_root": 0.1852,
+      "sep_blended": 0.0926,
+      "detect_tree_root": false,
+      "detect_blended": false,
+      "primary_detect": false,
+      "localizable": true,
+      "target_leaves": [
+       "qa.numeric.number_grounding"
+      ],
+      "primary_target_leaf": "qa.numeric.number_grounding"
+     },
+     {
+      "id": "M8_judge_artifact_missing",
+      "tree": "qa",
+      "root_scores": {
+       "parse": 10.0,
+       "qa": 6.4815
+      },
+      "blended_final": 8.24074,
+      "sep_tree_root": 3.4785,
+      "sep_blended": 1.7393,
+      "detect_tree_root": true,
+      "detect_blended": false,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "qa.citation.judge",
+       "qa.faithfulness.judge",
+       "qa.refusal.judge"
+      ],
+      "primary_target_leaf": "qa.faithfulness.judge"
+     },
+     {
+      "id": "M9_m1_all_rows_fail",
+      "tree": "parse",
+      "root_scores": {
+       "parse": 1.3141,
+       "qa": 9.96
+      },
+      "blended_final": 5.63705,
+      "sep_tree_root": 8.6859,
+      "sep_blended": 4.343,
+      "detect_tree_root": true,
+      "detect_blended": true,
+      "primary_detect": true,
+      "localizable": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ],
+      "primary_target_leaf": "parse.doc.ok"
+     }
+    ],
+    "mean_separation_blended": 1.428156,
+    "mean_separation_tree_root": 2.856256,
+    "worst_separation_blended": 0.0926,
+    "worst_separation_mutant_blended": "M7_nf_fail_3",
+    "detected_tree_root": 4,
+    "detected_blended": 2,
+    "detected_primary": 4,
+    "n_mutants": 9,
+    "localization_rate": 1.0,
+    "cost_proxy": {
+     "scored_units": 12,
+     "unit_kind": "leaves",
+     "model_calls": 0
+    }
+   }
+  },
+  "g1_root_score_reproduction": {
+   "max_abs_err": 0.0,
+   "threshold": 0.01,
+   "pass": true,
+   "per_cell": [
+    {
+     "mutant": "M1_m1_rows_fail",
+     "tree": "parse",
+     "frozen": 4.7145,
+     "recomputed": 4.7145,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M1_m1_rows_fail",
+     "tree": "qa",
+     "frozen": 9.97,
+     "recomputed": 9.97,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M2_exact_numeric_fail",
+     "tree": "parse",
+     "frozen": 10.0,
+     "recomputed": 10.0,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M2_exact_numeric_fail",
+     "tree": "qa",
+     "frozen": 8.72,
+     "recomputed": 8.72,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M3_source_required_fail",
+     "tree": "parse",
+     "frozen": 10.0,
+     "recomputed": 10.0,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M3_source_required_fail",
+     "tree": "qa",
+     "frozen": 8.3033,
+     "recomputed": 8.3033,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M4_refusal_expected_fail",
+     "tree": "parse",
+     "frozen": 10.0,
+     "recomputed": 10.0,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M4_refusal_expected_fail",
+     "tree": "qa",
+     "frozen": 8.8589,
+     "recomputed": 8.8589,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M5_judge_faithfulness_degrade",
+     "tree": "parse",
+     "frozen": 10.0,
+     "recomputed": 10.0,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M5_judge_faithfulness_degrade",
+     "tree": "qa",
+     "frozen": 8.5,
+     "recomputed": 8.5,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M6_judge_citation_degrade",
+     "tree": "parse",
+     "frozen": 10.0,
+     "recomputed": 10.0,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M6_judge_citation_degrade",
+     "tree": "qa",
+     "frozen": 8.8033,
+     "recomputed": 8.8033,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M7_nf_fail_3",
+     "tree": "parse",
+     "frozen": 10.0,
+     "recomputed": 10.0,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M7_nf_fail_3",
+     "tree": "qa",
+     "frozen": 9.5533,
+     "recomputed": 9.5533,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M8_judge_artifact_missing",
+     "tree": "parse",
+     "frozen": 10.0,
+     "recomputed": 10.0,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M8_judge_artifact_missing",
+     "tree": "qa",
+     "frozen": 7.6389,
+     "recomputed": 7.6389,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M9_m1_all_rows_fail",
+     "tree": "parse",
+     "frozen": 2.1503,
+     "recomputed": 2.1503,
+     "abs_err": 0.0
+    },
+    {
+     "mutant": "M9_m1_all_rows_fail",
+     "tree": "qa",
+     "frozen": 9.97,
+     "recomputed": 9.97,
+     "abs_err": 0.0
+    }
+   ]
+  }
+ },
+ "arm_a_pso_reproduction": {
+  "caliber_variants": {
+   "pso_era_input_20260819": {
+    "expert": {
+     "control_blended": 10.0,
+     "per_mutant": [
+      {
+       "id": "M1_m1_rows_fail",
+       "sep": 2.6428
+      },
+      {
+       "id": "M2_exact_numeric_fail",
+       "sep": 0.625
+      },
+      {
+       "id": "M3_source_required_fail",
+       "sep": 0.8333
+      },
+      {
+       "id": "M4_refusal_expected_fail",
+       "sep": 0.5556
+      },
+      {
+       "id": "M5_judge_faithfulness_degrade",
+       "sep": 0.75
+      },
+      {
+       "id": "M6_judge_citation_degrade",
+       "sep": 0.5833
+      },
+      {
+       "id": "M7_nf_fail_3",
+       "sep": 0.2083
+      },
+      {
+       "id": "M8_judge_artifact_missing",
+       "sep": 1.1806
+      },
+      {
+       "id": "M9_m1_all_rows_fail",
+       "sep": 3.9248
+      }
+     ],
+     "mean_sep": 1.255967,
+     "worst_sep": 0.2083,
+     "worst_mutant": "M7_nf_fail_3"
+    },
+    "pso": {
+     "control_blended": 10.0,
+     "per_mutant": [
+      {
+       "id": "M1_m1_rows_fail",
+       "sep": 3.328
+      },
+      {
+       "id": "M2_exact_numeric_fail",
+       "sep": 0.2778
+      },
+      {
+       "id": "M3_source_required_fail",
+       "sep": 0.5556
+      },
+      {
+       "id": "M4_refusal_expected_fail",
+       "sep": 0.3704
+      },
+      {
+       "id": "M5_judge_faithfulness_degrade",
+       "sep": 1.0
+      },
+      {
+       "id": "M6_judge_citation_degrade",
+       "sep": 1.1667
+      },
+      {
+       "id": "M7_nf_fail_3",
+       "sep": 0.0926
+      },
+      {
+       "id": "M8_judge_artifact_missing",
+       "sep": 1.7593
+      },
+      {
+       "id": "M9_m1_all_rows_fail",
+       "sep": 4.343
+      }
+     ],
+     "mean_sep": 1.4326,
+     "worst_sep": 0.0926,
+     "worst_mutant": "M7_nf_fail_3"
+    }
+   },
+   "design_doc_input_20260826": {
+    "expert": {
+     "control_blended": 9.985,
+     "per_mutant": [
+      {
+       "id": "M1_m1_rows_fail",
+       "sep": 2.6428
+      },
+      {
+       "id": "M2_exact_numeric_fail",
+       "sep": 0.625
+      },
+      {
+       "id": "M3_source_required_fail",
+       "sep": 0.8333
+      },
+      {
+       "id": "M4_refusal_expected_fail",
+       "sep": 0.5556
+      },
+      {
+       "id": "M5_judge_faithfulness_degrade",
+       "sep": 0.735
+      },
+      {
+       "id": "M6_judge_citation_degrade",
+       "sep": 0.5833
+      },
+      {
+       "id": "M7_nf_fail_3",
+       "sep": 0.2083
+      },
+      {
+       "id": "M8_judge_artifact_missing",
+       "sep": 1.1656
+      },
+      {
+       "id": "M9_m1_all_rows_fail",
+       "sep": 3.9248
+      }
+     ],
+     "mean_sep": 1.252633,
+     "worst_sep": 0.2083,
+     "worst_mutant": "M7_nf_fail_3"
+    },
+    "pso": {
+     "control_blended": 9.98,
+     "per_mutant": [
+      {
+       "id": "M1_m1_rows_fail",
+       "sep": 3.328
+      },
+      {
+       "id": "M2_exact_numeric_fail",
+       "sep": 0.2778
+      },
+      {
+       "id": "M3_source_required_fail",
+       "sep": 0.5556
+      },
+      {
+       "id": "M4_refusal_expected_fail",
+       "sep": 0.3704
+      },
+      {
+       "id": "M5_judge_faithfulness_degrade",
+       "sep": 0.98
+      },
+      {
+       "id": "M6_judge_citation_degrade",
+       "sep": 1.1667
+      },
+      {
+       "id": "M7_nf_fail_3",
+       "sep": 0.0926
+      },
+      {
+       "id": "M8_judge_artifact_missing",
+       "sep": 1.7393
+      },
+      {
+       "id": "M9_m1_all_rows_fail",
+       "sep": 4.343
+      }
+     ],
+     "mean_sep": 1.428156,
+     "worst_sep": 0.0926,
+     "worst_mutant": "M7_nf_fail_3"
+    }
+   }
+  },
+  "g2_pso_mean_sep": 1.4326,
+  "g2_pso_mean_sep_frozen": 1.432574,
+  "g2_pso_mean_sep_err": 2.6e-05,
+  "g2_worst_sep": 0.0926,
+  "g2_worst_mutant": "M7_nf_fail_3",
+  "g2_worst_sep_frozen": 0.0926,
+  "g2_worst_sep_err": 0.0,
+  "g2_per_mutant_max_err": 0.0001,
+  "g2_baseline_per_mutant_max_err": 0.0,
+  "g2_pass": true
+ },
+ "arm_b": {
+  "n_tables": 95,
+  "n_injections": 118,
+  "armB_tree": {
+   "pruned": true,
+   "dropped_na_leaves": [
+    "parse.doc.throughput",
+    "parse.reconcile.equations"
+   ],
+   "note": "reconcile 与 throughput 在本臂 N/A, 按 missing 排除并注记（设计稿 §3.2）",
+   "live_leaves": [
+    "parse.doc.ok",
+    "parse.field.hit_rate",
+    "parse.table.regression"
+   ]
+  },
+  "protocols": {
+   "E1.1_end_to_end": {
+    "applicable": true,
+    "tables_detected": 95,
+    "n_tables": 95,
+    "table_detect_rate": 1.0,
+    "table_detect_rate_ci95": [
+     1.0,
+     1.0
+    ],
+    "injections_detected": 112,
+    "n_injections": 118,
+    "injection_detect_rate": 0.9492,
+    "by_type": {
+     "alias_variant": {
+      "n_injections": 47,
+      "n_detected": 41,
+      "detect_rate": 0.8723,
+      "n_tables_with_type": 37
+     },
+     "date_variant": {
+      "n_injections": 17,
+      "n_detected": 17,
+      "detect_rate": 1.0,
+      "n_tables_with_type": 14
+     },
+     "mixed_lang": {
+      "n_injections": 20,
+      "n_detected": 20,
+      "detect_rate": 1.0,
+      "n_tables_with_type": 19
+     },
+     "ocr_similar": {
+      "n_injections": 13,
+      "n_detected": 13,
+      "detect_rate": 1.0,
+      "n_tables_with_type": 11
+     },
+     "prefix_noise": {
+      "n_injections": 16,
+      "n_detected": 16,
+      "detect_rate": 1.0,
+      "n_tables_with_type": 16
+     },
+     "unit_suffix": {
+      "n_injections": 5,
+      "n_detected": 5,
+      "detect_rate": 1.0,
+      "n_tables_with_type": 5
+     }
+    },
+    "worst_type_detect_rate": 0.8723,
+    "worst_type": "alias_variant",
+    "separation_mean": 1.0,
+    "separation_unit": "检出布尔均值（0-1, 终局标量无降幅量纲）",
+    "localization_rate": 0.0,
+    "cost_proxy": {
+     "model_calls": 0,
+     "deterministic_checks": 190
+    }
+   },
+   "E1.2_flat": {
+    "applicable": true,
+    "tables_detected": 75,
+    "n_tables": 95,
+    "table_detect_rate": 0.7895,
+    "table_detect_rate_ci95": [
+     0.6947,
+     0.8737
+    ],
+    "injections_detected": 85,
+    "n_injections": 118,
+    "injection_detect_rate": 0.7203,
+    "by_type": {
+     "alias_variant": {
+      "n_injections": 47,
+      "n_detected": 36,
+      "detect_rate": 0.766,
+      "n_tables_with_type": 37
+     },
+     "date_variant": {
+      "n_injections": 17,
+      "n_detected": 12,
+      "detect_rate": 0.7059,
+      "n_tables_with_type": 14
+     },
+     "mixed_lang": {
+      "n_injections": 20,
+      "n_detected": 19,
+      "detect_rate": 0.95,
+      "n_tables_with_type": 19
+     },
+     "ocr_similar": {
+      "n_injections": 13,
+      "n_detected": 0,
+      "detect_rate": 0.0,
+      "n_tables_with_type": 11
+     },
+     "prefix_noise": {
+      "n_injections": 16,
+      "n_detected": 13,
+      "detect_rate": 0.8125,
+      "n_tables_with_type": 16
+     },
+     "unit_suffix": {
+      "n_injections": 5,
+      "n_detected": 5,
+      "detect_rate": 1.0,
+      "n_tables_with_type": 5
+     }
+    },
+    "worst_type_detect_rate": 0.0,
+    "worst_type": "ocr_similar",
+    "separation_mean": 0.38827,
+    "separation_unit": "ΔH（命中率先验 0-1 均值）",
+    "localization_rate": 1.0,
+    "cost_proxy": {
+     "model_calls": 0,
+     "deterministic_checks": 308
+    }
+   },
+   "E1.3_hier_expert": {
+    "applicable": true,
+    "tables_detected": 20,
+    "n_tables": 95,
+    "table_detect_rate": 0.2105,
+    "table_detect_rate_ci95": [
+     0.1263,
+     0.2947
+    ],
+    "injections_detected": 13,
+    "n_injections": 118,
+    "injection_detect_rate": 0.1102,
+    "by_type": {
+     "alias_variant": {
+      "n_injections": 47,
+      "n_detected": 2,
+      "detect_rate": 0.0426,
+      "n_tables_with_type": 37
+     },
+     "date_variant": {
+      "n_injections": 17,
+      "n_detected": 5,
+      "detect_rate": 0.2941,
+      "n_tables_with_type": 14
+     },
+     "mixed_lang": {
+      "n_injections": 20,
+      "n_detected": 6,
+      "detect_rate": 0.3,
+      "n_tables_with_type": 19
+     },
+     "ocr_similar": {
+      "n_injections": 13,
+      "n_detected": 0,
+      "detect_rate": 0.0,
+      "n_tables_with_type": 11
+     },
+     "prefix_noise": {
+      "n_injections": 16,
+      "n_detected": 0,
+      "detect_rate": 0.0,
+      "n_tables_with_type": 16
+     },
+     "unit_suffix": {
+      "n_injections": 5,
+      "n_detected": 0,
+      "detect_rate": 0.0,
+      "n_tables_with_type": 5
+     }
+    },
+    "worst_type_detect_rate": 0.0,
+    "worst_type": "ocr_similar",
+    "separation_mean": 1.456015,
+    "separation_unit": "parse 根分降幅（0-10 叶片量纲）",
+    "localization_rate": 1.0,
+    "cost_proxy": {
+     "model_calls": 0,
+     "deterministic_checks": 308
+    }
+   },
+   "E1.4_hier_pso": {
+    "applicable": false,
+    "note": "PSO 权重定义在臂 A 的 11 维内部节点空间, 与臂 B 实例化树不同构, 不迁移; 行如实标 N/A（设计稿 §3.2）, PSO 结果引用臂 A"
+   }
+  },
+  "tables": [
+   {
+    "uid": "0b2eba23-104c-4219-8171-104f14d52a71",
+    "n_cols": 5,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Accumulated Amortization"
+    ]
+   },
+   {
+    "uid": "14b78dc3-ad9c-46cd-beb0-ecb222567694",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 2,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.6,
+    "drop10": 4.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.4,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.5,
+    "E1.3_root_drop": 1.5,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Number of accounts",
+     "Percentage to total accounts"
+    ]
+   },
+   {
+    "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+    "n_cols": 3,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Weighted Average Grant Date Fair Value"
+    ]
+   },
+   {
+    "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+    "n_cols": 3,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Weighted-average grant date fair value"
+    ]
+   },
+   {
+    "uid": "195174fe-dd0a-40b1-9139-21fb207f382a",
+    "n_cols": 3,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Percentage of Plan Assets at December"
+    ]
+   },
+   {
+    "uid": "1e712660-7b78-4791-8264-e517efde2e62",
+    "n_cols": 3,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Weighted Average Grant Date Fair Value"
+    ]
+   },
+   {
+    "uid": "1fe3e1d6-7532-44e1-aa5d-cdbe604583bd",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Number of equity shares"
+    ]
+   },
+   {
+    "uid": "21a432eb-166c-4178-adf9-08b6ad3fde7d",
+    "n_cols": 5,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Financial assets"
+    ]
+   },
+   {
+    "uid": "21c316d6-5e25-4af5-a29a-82b748175279",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Dividend per Share"
+    ]
+   },
+   {
+    "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+    "n_cols": 6,
+    "n_canonical": 4,
+    "n_injections": 2,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "% of associated net revenues"
+    ]
+   },
+   {
+    "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 2,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.6,
+    "drop10": 4.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.4,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.5,
+    "E1.3_root_drop": 1.5,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Accounting for Income Taxes Guidance",
+     "Revenue Recognition Guidance"
+    ]
+   },
+   {
+    "uid": "28caffcd-e07b-4eb6-9700-2400e8e1e450",
+    "n_cols": 5,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Total right-of-use assets"
+    ]
+   },
+   {
+    "uid": "2953b803-d49b-4fbb-8dc2-d9a3bec9d67e",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "unit_suffix"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Allocation of GasLog Partners’ profit/(loss)(*)"
+    ]
+   },
+   {
+    "uid": "2cc74a85-0524-4eda-aa35-dced125c3818",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Fair Market Value"
+    ]
+   },
+   {
+    "uid": "329e3ff5-0cff-4849-8fd0-9b1e5606f6ca",
+    "n_cols": 4,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Segment Assets"
+    ]
+   },
+   {
+    "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+    "n_cols": 5,
+    "n_canonical": 3,
+    "n_injections": 2,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "As a % of Segment Revenue (1)"
+    ]
+   },
+   {
+    "uid": "3789d7da-dc3e-4cd7-b639-d6805211405a",
+    "n_cols": 5,
+    "n_canonical": 2,
+    "n_injections": 2,
+    "types": [
+     "alias_variant",
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Income (loss) from vessel operations",
+     "Revenues"
+    ]
+   },
+   {
+    "uid": "38eb9da5-5c73-4366-af5f-9bd01019938a",
+    "n_cols": 3,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Weighted-Average Grant Date Fair Value Per Share"
+    ]
+   },
+   {
+    "uid": "3c609073-6a48-4961-84cd-de68a59fd66c",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 2,
+    "types": [
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Other plant and operating equipment",
+     "Vessels and capitalized dry-docking"
+    ]
+   },
+   {
+    "uid": "3ec15660-9e13-4162-abb6-2462d65f07ba",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Year Ended December 31, 2019 Revenues"
+    ]
+   },
+   {
+    "uid": "425ee1c7-fb82-4853-994a-9876c414fbd5",
+    "n_cols": 5,
+    "n_canonical": 4,
+    "n_injections": 2,
+    "types": [
+     "mixed_lang",
+     "unit_suffix"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Office property and other tangible assets",
+     "Total tangible fixed assets"
+    ]
+   },
+   {
+    "uid": "44c7c9ef-bb9f-45c9-9ee5-e2bf465c3617",
+    "n_cols": 3,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Operating Leases"
+    ]
+   },
+   {
+    "uid": "46f3bc91-b8ca-42b8-bf03-f23e9fd70b5e",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Weighted Average Amortization Period"
+    ]
+   },
+   {
+    "uid": "50a8d377-b36e-4a3f-a6c0-118531b1c134",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Income Tax Expense (Benefit)"
+    ]
+   },
+   {
+    "uid": "50e78448-3cf5-439c-a609-ee866bd1f05a",
+    "n_cols": 6,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "US$"
+    ]
+   },
+   {
+    "uid": "51cd045e-e91b-4289-9397-341538e9739b",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Balance Sheet Account"
+    ]
+   },
+   {
+    "uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+    "n_cols": 4,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Accumulated Amortization"
+    ]
+   },
+   {
+    "uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+    "n_cols": 7,
+    "n_canonical": 7,
+    "n_injections": 3,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.714286,
+    "drop10": 2.8571,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.28571,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.9286,
+    "E1.3_root_drop": 1.0714,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Exercise Date",
+     "Expiry Date",
+     "Grant Date"
+    ]
+   },
+   {
+    "uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+    "n_cols": 3,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "CONSOLIDATED"
+    ]
+   },
+   {
+    "uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 2,
+    "types": [
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Capital Leases",
+     "Operating Leases"
+    ]
+   },
+   {
+    "uid": "617deeb3-f222-4172-a824-c62fc2214a89",
+    "n_cols": 3,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "CONSOLIDATE"
+    ]
+   },
+   {
+    "uid": "637d5671-0913-4e80-b135-2d4a516b79bb",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "648e1260-d160-45d2-a744-57be0fd89850",
+    "n_cols": 3,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Purchased Intangible Assets"
+    ]
+   },
+   {
+    "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+    "n_cols": 6,
+    "n_canonical": 6,
+    "n_injections": 2,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.833333,
+    "drop10": 1.6667,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.16667,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.375,
+    "E1.3_root_drop": 0.625,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Grant Date",
+     "Grant Date Fair Value of Stock and Option Awards ($) (1)"
+    ]
+   },
+   {
+    "uid": "6a5e5192-5d37-489f-97f2-400ea965ae36",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Equity-settled"
+    ]
+   },
+   {
+    "uid": "6aae8dee-45af-4a09-9e09-8137d6eb3dc3",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "CASH FLOW SUMMARY"
+    ]
+   },
+   {
+    "uid": "6bf238a5-0a3e-492d-91f8-7f62d3b37fba",
+    "n_cols": 4,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Income statement expense"
+    ]
+   },
+   {
+    "uid": "6e1da895-35f8-4ac4-8b2d-491ef6b3c5f6",
+    "n_cols": 6,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Additions Charged to Other Accounts"
+    ]
+   },
+   {
+    "uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "6ed697ff-9893-453a-84a4-44023fffca78",
+    "n_cols": 6,
+    "n_canonical": 2,
+    "n_injections": 2,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Revenue and Receipts",
+     "Unearned Revenue"
+    ]
+   },
+   {
+    "uid": "6f9a0eb1-ef23-49e3-9342-ab389b10de48",
+    "n_cols": 4,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Capital expenditures 2017–2019"
+    ]
+   },
+   {
+    "uid": "70cf5260-2124-4a26-a148-5cf3c6028813",
+    "n_cols": 5,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "unit_suffix"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Group Profit or Loss"
+    ]
+   },
+   {
+    "uid": "73a817fc-25df-494d-b0f2-79cfdab34076",
+    "n_cols": 4,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Dividends Paid(1)"
+    ]
+   },
+   {
+    "uid": "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Consolidated"
+    ]
+   },
+   {
+    "uid": "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "7a249c43-5e24-447e-9da1-3d5982aca590",
+    "n_cols": 3,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Consolidated"
+    ]
+   },
+   {
+    "uid": "7c80a835-4fb2-4792-9ad8-95660da47f7e",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Accumulated Amortization"
+    ]
+   },
+   {
+    "uid": "82c8abd6-9cce-4ede-a4ee-2866ce65cda8",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Accumulated Amortization"
+    ]
+   },
+   {
+    "uid": "8692f92d-668a-452d-be7a-2b491ee27585",
+    "n_cols": 4,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Income tax expense"
+    ]
+   },
+   {
+    "uid": "86d86884-ffec-48ae-bb29-a94cd773c029",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Revenue Performance Goal(in millions)"
+    ]
+   },
+   {
+    "uid": "93339b76-1f90-4d86-8f31-bbb7bff71603",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "964a6470-3cb0-4520-b096-8176bca8ed1d",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Grant Date Value ($)"
+    ]
+   },
+   {
+    "uid": "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 2,
+    "types": [
+     "alias_variant",
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.333333,
+    "drop10": 6.6667,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.66667,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 7.5,
+    "E1.3_root_drop": 2.5,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Total Cash Dividends Paid",
+     "Total Cash Dividends Paid Per Common Share"
+    ]
+   },
+   {
+    "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+    "n_cols": 5,
+    "n_canonical": 3,
+    "n_injections": 2,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "As a % of Revenue (1)"
+    ]
+   },
+   {
+    "uid": "99f24ed1-6222-4707-a170-bac3de607798",
+    "n_cols": 6,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Cost of revenue"
+    ]
+   },
+   {
+    "uid": "9bce514f-3eb3-433c-85e5-2d40d116497c",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "WEIGHTED AVERAGE INTEREST RATE AT DECEMBER 31, 2019"
+    ]
+   },
+   {
+    "uid": "a32b9e2a-36d9-4513-963e-9b1fc36878f0",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Long-lived Assets "
+    ]
+   },
+   {
+    "uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "abba843f-be4e-4905-8bab-19942dbfedef",
+    "n_cols": 5,
+    "n_canonical": 4,
+    "n_injections": 3,
+    "types": [
+     "alias_variant",
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.25,
+    "drop10": 7.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.75,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 7.1875,
+    "E1.3_root_drop": 2.8125,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Financial assets on which no interest is earned",
+     "Fixed rate financial assets",
+     "Floating rate financial assets"
+    ]
+   },
+   {
+    "uid": "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 2,
+    "types": [
+     "mixed_lang",
+     "unit_suffix"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.6,
+    "drop10": 4.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.4,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.5,
+    "E1.3_root_drop": 1.5,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Net Tangible Assets Acquired (Liabilities Assumed)",
+     "Purchased Intangible Assets"
+    ]
+   },
+   {
+    "uid": "aca23e3e-967d-40a9-b6bb-3c095786a3b7",
+    "n_cols": 3,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Positive (Negative) Impact to Net Income"
+    ]
+   },
+   {
+    "uid": "ae3cbef3-f02b-4833-ba73-abb7590dc495",
+    "n_cols": 3,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Financial Assets"
+    ]
+   },
+   {
+    "uid": "b48bb5fb-ea46-4a44-a39e-f2554719d158",
+    "n_cols": 3,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Accumulated Other Comprehensive Income (Loss)"
+    ]
+   },
+   {
+    "uid": "b538d340-dfca-4f89-a59f-01fc1bb35184",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.75,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.25,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.0625,
+    "E1.3_root_drop": 0.9375,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1",
+    "n_cols": 4,
+    "n_canonical": 3,
+    "n_injections": 2,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.333333,
+    "drop10": 6.6667,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.66667,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 7.5,
+    "E1.3_root_drop": 2.5,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Accounts Receivable, Gross",
+     "Accounts Receivable, Net"
+    ]
+   },
+   {
+    "uid": "b975862d-d00d-42a5-a861-77ebcb48c55e",
+    "n_cols": 3,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Remaining Amortization period"
+    ]
+   },
+   {
+    "uid": "bcbd7783-86ad-430d-aa96-48808bb0426c",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "OPERATING REVENUES"
+    ]
+   },
+   {
+    "uid": "bdeeb701-bae6-4a36-86d6-108c8e43c5e2",
+    "n_cols": 6,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Percent Expected to be Recognized as Revenue"
+    ]
+   },
+   {
+    "uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+    "n_cols": 6,
+    "n_canonical": 2,
+    "n_injections": 2,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Revenue and Receipts",
+     "Unearned Revenue"
+    ]
+   },
+   {
+    "uid": "c0f66238-591a-4693-b2d2-fee0f6843420",
+    "n_cols": 4,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))"
+    ]
+   },
+   {
+    "uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "d2bba753-0df3-4a39-860b-bde563261fec",
+    "n_cols": 3,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Capital stock"
+    ]
+   },
+   {
+    "uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+    "n_cols": 3,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Consolidated"
+    ]
+   },
+   {
+    "uid": "d6d9f70a-17b6-4530-b497-f73d59f0f0cb",
+    "n_cols": 4,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Revenue by segment"
+    ]
+   },
+   {
+    "uid": "d7d65228-96c1-4890-951c-c3d7578f8031",
+    "n_cols": 5,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Cash dividend per share (NT dollars)"
+    ]
+   },
+   {
+    "uid": "d8c20406-c646-4689-b645-5260bf17499d",
+    "n_cols": 3,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Financial income and expenses"
+    ]
+   },
+   {
+    "uid": "e0689072-72ba-4979-962a-bb128539defb",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+    "n_cols": 6,
+    "n_canonical": 6,
+    "n_injections": 2,
+    "types": [
+     "alias_variant",
+     "ocr_similar"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.833333,
+    "drop10": 1.6667,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.16667,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.375,
+    "E1.3_root_drop": 0.625,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Contractual Maturities of Financial Liabilities",
+     "Total contractual cash flows"
+    ]
+   },
+   {
+    "uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "e67f7bf2-fc15-4a7a-9856-febb066998fd",
+    "n_cols": 5,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Free cash flow (pre-spectrum)"
+    ]
+   },
+   {
+    "uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+    "n_cols": 4,
+    "n_canonical": 4,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 1.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.0,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 10.0,
+    "E1.3_root_drop": 0.0,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Accumulated Amortization"
+    ]
+   },
+   {
+    "uid": "e9d3bb25-89ab-4aed-8bec-5501d5fe7b16",
+    "n_cols": 4,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "31,"
+    ]
+   },
+   {
+    "uid": "ea031e89-1bf8-4f64-8ed5-d1d0327003cf",
+    "n_cols": 6,
+    "n_canonical": 6,
+    "n_injections": 1,
+    "types": [
+     "mixed_lang"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.833333,
+    "drop10": 1.6667,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": false,
+    "E1.2_score_delta_H": 0.16667,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.375,
+    "E1.3_root_drop": 0.625,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Right-of-Use Assets"
+    ]
+   },
+   {
+    "uid": "ea1f0fff-a213-4475-8b1c-221157649595",
+    "n_cols": 6,
+    "n_canonical": 5,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.8,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.2,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 9.25,
+    "E1.3_root_drop": 0.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Accumulated Unrealised Gains or Losses on Cash Flow Hedges"
+    ]
+   },
+   {
+    "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+    "n_cols": 6,
+    "n_canonical": 5,
+    "n_injections": 3,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.4,
+    "drop10": 6.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.6,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 7.75,
+    "E1.3_root_drop": 2.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Accounts Receivable",
+     "Deferred Revenue (current)",
+     "Deferred Revenue (long-term)"
+    ]
+   },
+   {
+    "uid": "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+    "n_cols": 3,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "prefix_noise"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "fa0ed823-f4a8-4063-b895-a517f9447dad",
+    "n_cols": 4,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Medicare Part D Subsidy Receipts"
+    ]
+   },
+   {
+    "uid": "fbbb1116-0ef2-4d7e-a90f-2c72e2739e22",
+    "n_cols": 3,
+    "n_canonical": 2,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.5,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.125,
+    "E1.3_root_drop": 1.875,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Weighted-Average Grant-Date"
+    ]
+   },
+   {
+    "uid": "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6",
+    "n_cols": 3,
+    "n_canonical": 1,
+    "n_injections": 1,
+    "types": [
+     "date_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 1.0,
+    "E1.3_detected": true,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 6.25,
+    "E1.3_root_drop": 3.75,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Consolidated"
+    ]
+   },
+   {
+    "uid": "fd39b5b5-7426-4db6-bbf7-d3c5111ce543",
+    "n_cols": 4,
+    "n_canonical": 3,
+    "n_injections": 1,
+    "types": [
+     "alias_variant"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.666667,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.33333,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.75,
+    "E1.3_root_drop": 1.25,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Interest Rate (per annum)"
+    ]
+   },
+   {
+    "uid": "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8",
+    "n_cols": 5,
+    "n_canonical": 5,
+    "n_injections": 2,
+    "types": [
+     "mixed_lang",
+     "unit_suffix"
+    ],
+    "h_orig": 1.0,
+    "h_inj": 0.6,
+    "drop10": 4.0,
+    "E1.1_detected": true,
+    "E1.1_final_change_kind": "mapping_text_changed",
+    "E1.2_detected": true,
+    "E1.2_score_delta_H": 0.4,
+    "E1.3_detected": false,
+    "E1.3_root_orig": 10.0,
+    "E1.3_root_inj": 8.5,
+    "E1.3_root_drop": 1.5,
+    "E1.4_detected": null,
+    "changed_canonicals": [
+     "Net Tangible Assets Acquired (Liabilities Assumed)",
+     "Purchased Intangible Assets"
+    ]
+   }
+  ],
+  "injections": [
+   {
+    "uid": "0b2eba23-104c-4219-8171-104f14d52a71",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Amortization",
+    "injected": "摊薄",
+    "canonical": "Accumulated Amortization",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accumulated Amortization"
+    ]
+   },
+   {
+    "uid": "14b78dc3-ad9c-46cd-beb0-ecb222567694",
+    "col": 3,
+    "type": "alias_variant",
+    "original": "Number of accounts",
+    "injected": "account no.",
+    "canonical": "Number of accounts",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Number of accounts"
+    ]
+   },
+   {
+    "uid": "14b78dc3-ad9c-46cd-beb0-ecb222567694",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Percentage to total accounts",
+    "injected": "账户",
+    "canonical": "Percentage to total accounts",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Percentage to total accounts"
+    ]
+   },
+   {
+    "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Weighted Average Grant Date Fair Value",
+    "injected": "Weighted Average Grant 2017期末 Fair Value",
+    "canonical": "Weighted Average Grant Date Fair Value",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Weighted Average Grant Date Fair Value"
+    ]
+   },
+   {
+    "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Weighted-average grant date fair value",
+    "injected": "Weighted-average grant date 2021-对账日期 fair value",
+    "canonical": "Weighted-average grant date fair value",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Weighted-average grant date fair value"
+    ]
+   },
+   {
+    "uid": "195174fe-dd0a-40b1-9139-21fb207f382a",
+    "col": 1,
+    "type": "mixed_lang",
+    "original": "Percentage of Plan Assets at December",
+    "injected": "assets(资产)",
+    "canonical": "Percentage of Plan Assets at December",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Percentage of Plan Assets at December"
+    ]
+   },
+   {
+    "uid": "1e712660-7b78-4791-8264-e517efde2e62",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Weighted Average Grant Date Fair Value",
+    "injected": "Weighted Average Grant 对账日期 / date Fair Value",
+    "canonical": "Weighted Average Grant Date Fair Value",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Weighted Average Grant Date Fair Value"
+    ]
+   },
+   {
+    "uid": "1fe3e1d6-7532-44e1-aa5d-cdbe604583bd",
+    "col": 2,
+    "type": "ocr_similar",
+    "original": "Number of equity shares",
+    "injected": "Number of equty shares",
+    "canonical": "Number of equity shares",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Number of equity shares"
+    ]
+   },
+   {
+    "uid": "21a432eb-166c-4178-adf9-08b6ad3fde7d",
+    "col": 1,
+    "type": "mixed_lang",
+    "original": "Financial assets",
+    "injected": "assets(资产)",
+    "canonical": "Financial assets",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Financial assets"
+    ]
+   },
+   {
+    "uid": "21c316d6-5e25-4af5-a29a-82b748175279",
+    "col": 2,
+    "type": "ocr_similar",
+    "original": "Dividend per Share",
+    "injected": "divdend per Share",
+    "canonical": "Dividend per Share",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Dividend per Share"
+    ]
+   },
+   {
+    "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "% of associated net revenues",
+    "injected": "turnover",
+    "canonical": "% of associated net revenues",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": false,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": false,
+    "changed_canonicals": []
+   },
+   {
+    "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "% of associated net revenues",
+    "injected": "营业总收入",
+    "canonical": "% of associated net revenues",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": false,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": false,
+    "changed_canonicals": []
+   },
+   {
+    "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Revenue Recognition Guidance",
+    "injected": "营业收入",
+    "canonical": "Revenue Recognition Guidance",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Revenue Recognition Guidance"
+    ]
+   },
+   {
+    "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+    "col": 3,
+    "type": "alias_variant",
+    "original": "Accounting for Income Taxes Guidance",
+    "injected": "account no.",
+    "canonical": "Accounting for Income Taxes Guidance",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accounting for Income Taxes Guidance"
+    ]
+   },
+   {
+    "uid": "28caffcd-e07b-4eb6-9700-2400e8e1e450",
+    "col": 4,
+    "type": "mixed_lang",
+    "original": "Total right-of-use assets",
+    "injected": "assets(资产)",
+    "canonical": "Total right-of-use assets",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Total right-of-use assets"
+    ]
+   },
+   {
+    "uid": "2953b803-d49b-4fbb-8dc2-d9a3bec9d67e",
+    "col": 0,
+    "type": "unit_suffix",
+    "original": "Allocation of GasLog Partners’ profit/(loss)(*)",
+    "injected": "profit(万元)",
+    "canonical": "Allocation of GasLog Partners’ profit/(loss)(*)",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Allocation of GasLog Partners’ profit/(loss)(*)"
+    ]
+   },
+   {
+    "uid": "2cc74a85-0524-4eda-aa35-dced125c3818",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Fair Market Value",
+    "injected": "market cap",
+    "canonical": "Fair Market Value",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Fair Market Value"
+    ]
+   },
+   {
+    "uid": "329e3ff5-0cff-4849-8fd0-9b1e5606f6ca",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Segment Assets",
+    "injected": "资产(assets)",
+    "canonical": "Segment Assets",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Segment Assets"
+    ]
+   },
+   {
+    "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "As a % of Segment Revenue (1)",
+    "injected": "营收",
+    "canonical": "As a % of Segment Revenue (1)",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": false,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": false,
+    "changed_canonicals": []
+   },
+   {
+    "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "As a % of Segment Revenue (1)",
+    "injected": "营业总收入",
+    "canonical": "As a % of Segment Revenue (1)",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": false,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": false,
+    "changed_canonicals": []
+   },
+   {
+    "uid": "3789d7da-dc3e-4cd7-b639-d6805211405a",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Revenues",
+    "injected": "sales",
+    "canonical": "Revenues",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Revenues"
+    ]
+   },
+   {
+    "uid": "3789d7da-dc3e-4cd7-b639-d6805211405a",
+    "col": 3,
+    "type": "mixed_lang",
+    "original": "Income (loss) from vessel operations",
+    "injected": "income(收入)",
+    "canonical": "Income (loss) from vessel operations",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Income (loss) from vessel operations"
+    ]
+   },
+   {
+    "uid": "38eb9da5-5c73-4366-af5f-9bd01019938a",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Weighted-Average Grant Date Fair Value Per Share",
+    "injected": "Weighted-Average Grant date 2021-报表明细日期 Fair Value Per Share",
+    "canonical": "Weighted-Average Grant Date Fair Value Per Share",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Weighted-Average Grant Date Fair Value Per Share"
+    ]
+   },
+   {
+    "uid": "3c609073-6a48-4961-84cd-de68a59fd66c",
+    "col": 1,
+    "type": "ocr_similar",
+    "original": "Vessels and capitalized dry-docking",
+    "injected": "Vessels and capitaiized dry-docking",
+    "canonical": "Vessels and capitalized dry-docking",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Vessels and capitalized dry-docking"
+    ]
+   },
+   {
+    "uid": "3c609073-6a48-4961-84cd-de68a59fd66c",
+    "col": 3,
+    "type": "ocr_similar",
+    "original": "Other plant and operating equipment",
+    "injected": "Other plant and operat1ng equipment",
+    "canonical": "Other plant and operating equipment",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Other plant and operating equipment"
+    ]
+   },
+   {
+    "uid": "3ec15660-9e13-4162-abb6-2462d65f07ba",
+    "col": 0,
+    "type": "alias_variant",
+    "original": "Year Ended December 31, 2019 Revenues",
+    "injected": "营业收入",
+    "canonical": "Year Ended December 31, 2019 Revenues",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Year Ended December 31, 2019 Revenues"
+    ]
+   },
+   {
+    "uid": "425ee1c7-fb82-4853-994a-9876c414fbd5",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Office property and other tangible assets",
+    "injected": "资产(assets)",
+    "canonical": "Office property and other tangible assets",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Office property and other tangible assets"
+    ]
+   },
+   {
+    "uid": "425ee1c7-fb82-4853-994a-9876c414fbd5",
+    "col": 3,
+    "type": "unit_suffix",
+    "original": "Total tangible fixed assets",
+    "injected": "资产总额(万元)",
+    "canonical": "Total tangible fixed assets",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Total tangible fixed assets"
+    ]
+   },
+   {
+    "uid": "44c7c9ef-bb9f-45c9-9ee5-e2bf465c3617",
+    "col": 1,
+    "type": "ocr_similar",
+    "original": "Operating Leases",
+    "injected": "operat1ng Leases",
+    "canonical": "Operating Leases",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Operating Leases"
+    ]
+   },
+   {
+    "uid": "46f3bc91-b8ca-42b8-bf03-f23e9fd70b5e",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Weighted Average Amortization Period",
+    "injected": "摊薄",
+    "canonical": "Weighted Average Amortization Period",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Weighted Average Amortization Period"
+    ]
+   },
+   {
+    "uid": "50a8d377-b36e-4a3f-a6c0-118531b1c134",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Income Tax Expense (Benefit)",
+    "injected": "income(收入)",
+    "canonical": "Income Tax Expense (Benefit)",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Income Tax Expense (Benefit)"
+    ]
+   },
+   {
+    "uid": "50e78448-3cf5-439c-a609-ee866bd1f05a",
+    "col": 2,
+    "type": "prefix_noise",
+    "original": "US$",
+    "injected": "US [1]",
+    "canonical": "US$",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "US$"
+    ]
+   },
+   {
+    "uid": "51cd045e-e91b-4289-9397-341538e9739b",
+    "col": 0,
+    "type": "alias_variant",
+    "original": "Balance Sheet Account",
+    "injected": "account no.",
+    "canonical": "Balance Sheet Account",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Balance Sheet Account"
+    ]
+   },
+   {
+    "uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Amortization",
+    "injected": "amort",
+    "canonical": "Accumulated Amortization",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accumulated Amortization"
+    ]
+   },
+   {
+    "uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m №",
+    "canonical": "£m",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+    "col": 0,
+    "type": "date_variant",
+    "original": "Grant Date",
+    "injected": "Grant 2020年对账日期",
+    "canonical": "Grant Date",
+    "n_canonical": 7,
+    "h_orig": 1.0,
+    "h_single": 0.857143,
+    "dH": 0.142857,
+    "drop10": 1.4286,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.5357,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Grant Date"
+    ]
+   },
+   {
+    "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+    "col": 1,
+    "type": "date_variant",
+    "original": "Exercise Date",
+    "injected": "Exercise date 2021-期末日期",
+    "canonical": "Exercise Date",
+    "n_canonical": 7,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Exercise Date"
+    ]
+   },
+   {
+    "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Expiry Date",
+    "injected": "Expiry 净值日期 / date",
+    "canonical": "Expiry Date",
+    "n_canonical": 7,
+    "h_orig": 1.0,
+    "h_single": 0.857143,
+    "dH": 0.142857,
+    "drop10": 1.4286,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.5357,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Expiry Date"
+    ]
+   },
+   {
+    "uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+    "col": 1,
+    "type": "date_variant",
+    "original": "CONSOLIDATED",
+    "injected": "CONSOLI2016年交易日D",
+    "canonical": "CONSOLIDATED",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "CONSOLIDATED"
+    ]
+   },
+   {
+    "uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m【】",
+    "canonical": "£m",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+    "col": 1,
+    "type": "ocr_similar",
+    "original": "Operating Leases",
+    "injected": "operat1ng Leases",
+    "canonical": "Operating Leases",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Operating Leases"
+    ]
+   },
+   {
+    "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+    "col": 2,
+    "type": "ocr_similar",
+    "original": "Capital Leases",
+    "injected": "capitai Leases",
+    "canonical": "Capital Leases",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Capital Leases"
+    ]
+   },
+   {
+    "uid": "617deeb3-f222-4172-a824-c62fc2214a89",
+    "col": 1,
+    "type": "date_variant",
+    "original": "CONSOLIDATE",
+    "injected": "CONSOLI2017期末",
+    "canonical": "CONSOLIDATE",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "CONSOLIDATE"
+    ]
+   },
+   {
+    "uid": "637d5671-0913-4e80-b135-2d4a516b79bb",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "canonical": "£m",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "648e1260-d160-45d2-a744-57be0fd89850",
+    "col": 1,
+    "type": "mixed_lang",
+    "original": "Purchased Intangible Assets",
+    "injected": "assets(资产)",
+    "canonical": "Purchased Intangible Assets",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Purchased Intangible Assets"
+    ]
+   },
+   {
+    "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+    "col": 1,
+    "type": "date_variant",
+    "original": "Grant Date",
+    "injected": "Grant date 2019-报表明细日期",
+    "canonical": "Grant Date",
+    "n_canonical": 6,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Grant Date"
+    ]
+   },
+   {
+    "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+    "col": 5,
+    "type": "date_variant",
+    "original": "Grant Date Fair Value of Stock and Option Awards ($) (1)",
+    "injected": "Grant date 2017-交易日 Fair Value of Stock and Option Awards ($) (1)",
+    "canonical": "Grant Date Fair Value of Stock and Option Awards ($) (1)",
+    "n_canonical": 6,
+    "h_orig": 1.0,
+    "h_single": 0.833333,
+    "dH": 0.166667,
+    "drop10": 1.6667,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.625,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Grant Date Fair Value of Stock and Option Awards ($) (1)"
+    ]
+   },
+   {
+    "uid": "6a5e5192-5d37-489f-97f2-400ea965ae36",
+    "col": 0,
+    "type": "ocr_similar",
+    "original": "Equity-settled",
+    "injected": "equty-settled",
+    "canonical": "Equity-settled",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Equity-settled"
+    ]
+   },
+   {
+    "uid": "6aae8dee-45af-4a09-9e09-8137d6eb3dc3",
+    "col": 0,
+    "type": "alias_variant",
+    "original": "CASH FLOW SUMMARY",
+    "injected": "现金流",
+    "canonical": "CASH FLOW SUMMARY",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "CASH FLOW SUMMARY"
+    ]
+   },
+   {
+    "uid": "6bf238a5-0a3e-492d-91f8-7f62d3b37fba",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Income statement expense",
+    "injected": "收入(income)",
+    "canonical": "Income statement expense",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Income statement expense"
+    ]
+   },
+   {
+    "uid": "6e1da895-35f8-4ac4-8b2d-491ef6b3c5f6",
+    "col": 3,
+    "type": "alias_variant",
+    "original": "Additions Charged to Other Accounts",
+    "injected": "account no.",
+    "canonical": "Additions Charged to Other Accounts",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Additions Charged to Other Accounts"
+    ]
+   },
+   {
+    "uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "canonical": "£m",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "6ed697ff-9893-453a-84a4-44023fffca78",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Revenue and Receipts",
+    "injected": "sales",
+    "canonical": "Revenue and Receipts",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Revenue and Receipts"
+    ]
+   },
+   {
+    "uid": "6ed697ff-9893-453a-84a4-44023fffca78",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Unearned Revenue",
+    "injected": "sales",
+    "canonical": "Unearned Revenue",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Unearned Revenue"
+    ]
+   },
+   {
+    "uid": "6f9a0eb1-ef23-49e3-9342-ab389b10de48",
+    "col": 0,
+    "type": "ocr_similar",
+    "original": "Capital expenditures 2017–2019",
+    "injected": "capitai expenditures 2017–2019",
+    "canonical": "Capital expenditures 2017–2019",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Capital expenditures 2017–2019"
+    ]
+   },
+   {
+    "uid": "70cf5260-2124-4a26-a148-5cf3c6028813",
+    "col": 0,
+    "type": "unit_suffix",
+    "original": "Group Profit or Loss",
+    "injected": "profit(万元)",
+    "canonical": "Group Profit or Loss",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Group Profit or Loss"
+    ]
+   },
+   {
+    "uid": "73a817fc-25df-494d-b0f2-79cfdab34076",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Dividends Paid(1)",
+    "injected": "dividend",
+    "canonical": "Dividends Paid(1)",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Dividends Paid(1)"
+    ]
+   },
+   {
+    "uid": "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+    "col": 4,
+    "type": "date_variant",
+    "original": "Consolidated",
+    "injected": "Consoli2016年交易日d",
+    "canonical": "Consolidated",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Consolidated"
+    ]
+   },
+   {
+    "uid": "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m①",
+    "canonical": "£m",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "7a249c43-5e24-447e-9da1-3d5982aca590",
+    "col": 1,
+    "type": "date_variant",
+    "original": "Consolidated",
+    "injected": "Consoli2019期末d",
+    "canonical": "Consolidated",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Consolidated"
+    ]
+   },
+   {
+    "uid": "7c80a835-4fb2-4792-9ad8-95660da47f7e",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Amortization",
+    "injected": "摊薄",
+    "canonical": "Accumulated Amortization",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accumulated Amortization"
+    ]
+   },
+   {
+    "uid": "82c8abd6-9cce-4ede-a4ee-2866ce65cda8",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Amortization",
+    "injected": "摊薄",
+    "canonical": "Accumulated Amortization",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accumulated Amortization"
+    ]
+   },
+   {
+    "uid": "8692f92d-668a-452d-be7a-2b491ee27585",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Income tax expense",
+    "injected": "income(收入)",
+    "canonical": "Income tax expense",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Income tax expense"
+    ]
+   },
+   {
+    "uid": "86d86884-ffec-48ae-bb29-a94cd773c029",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Revenue Performance Goal(in millions)",
+    "injected": "sales",
+    "canonical": "Revenue Performance Goal(in millions)",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Revenue Performance Goal(in millions)"
+    ]
+   },
+   {
+    "uid": "93339b76-1f90-4d86-8f31-bbb7bff71603",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "canonical": "£m",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "964a6470-3cb0-4520-b096-8176bca8ed1d",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Grant Date Value ($)",
+    "injected": "Grant date 2019-交易日 Value ($)",
+    "canonical": "Grant Date Value ($)",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Grant Date Value ($)"
+    ]
+   },
+   {
+    "uid": "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Total Cash Dividends Paid",
+    "injected": "股息",
+    "canonical": "Total Cash Dividends Paid",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Total Cash Dividends Paid"
+    ]
+   },
+   {
+    "uid": "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Total Cash Dividends Paid Per Common Share",
+    "injected": "dividends(股息)",
+    "canonical": "Total Cash Dividends Paid Per Common Share",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Total Cash Dividends Paid Per Common Share"
+    ]
+   },
+   {
+    "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "As a % of Revenue (1)",
+    "injected": "营业总收入",
+    "canonical": "As a % of Revenue (1)",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": false,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": false,
+    "changed_canonicals": []
+   },
+   {
+    "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "As a % of Revenue (1)",
+    "injected": "turnover",
+    "canonical": "As a % of Revenue (1)",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": false,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": false,
+    "changed_canonicals": []
+   },
+   {
+    "uid": "99f24ed1-6222-4707-a170-bac3de607798",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Cost of revenue",
+    "injected": "turnover",
+    "canonical": "Cost of revenue",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Cost of revenue"
+    ]
+   },
+   {
+    "uid": "9bce514f-3eb3-433c-85e5-2d40d116497c",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "WEIGHTED AVERAGE INTEREST RATE AT DECEMBER 31, 2019",
+    "injected": "利息",
+    "canonical": "WEIGHTED AVERAGE INTEREST RATE AT DECEMBER 31, 2019",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "WEIGHTED AVERAGE INTEREST RATE AT DECEMBER 31, 2019"
+    ]
+   },
+   {
+    "uid": "a32b9e2a-36d9-4513-963e-9b1fc36878f0",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Long-lived Assets ",
+    "injected": "资产(assets)",
+    "canonical": "Long-lived Assets ",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Long-lived Assets "
+    ]
+   },
+   {
+    "uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m №",
+    "canonical": "£m",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "abba843f-be4e-4905-8bab-19942dbfedef",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Fixed rate financial assets",
+    "injected": "assets(资产)",
+    "canonical": "Fixed rate financial assets",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Fixed rate financial assets"
+    ]
+   },
+   {
+    "uid": "abba843f-be4e-4905-8bab-19942dbfedef",
+    "col": 3,
+    "type": "mixed_lang",
+    "original": "Floating rate financial assets",
+    "injected": "资产(assets)",
+    "canonical": "Floating rate financial assets",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Floating rate financial assets"
+    ]
+   },
+   {
+    "uid": "abba843f-be4e-4905-8bab-19942dbfedef",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Financial assets on which no interest is earned",
+    "injected": "利息",
+    "canonical": "Financial assets on which no interest is earned",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Financial assets on which no interest is earned"
+    ]
+   },
+   {
+    "uid": "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Net Tangible Assets Acquired (Liabilities Assumed)",
+    "injected": "资产(assets)",
+    "canonical": "Net Tangible Assets Acquired (Liabilities Assumed)",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Net Tangible Assets Acquired (Liabilities Assumed)"
+    ]
+   },
+   {
+    "uid": "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2",
+    "col": 3,
+    "type": "unit_suffix",
+    "original": "Purchased Intangible Assets",
+    "injected": "资产(元)",
+    "canonical": "Purchased Intangible Assets",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Purchased Intangible Assets"
+    ]
+   },
+   {
+    "uid": "aca23e3e-967d-40a9-b6bb-3c095786a3b7",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Positive (Negative) Impact to Net Income",
+    "injected": "net profit",
+    "canonical": "Positive (Negative) Impact to Net Income",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Positive (Negative) Impact to Net Income"
+    ]
+   },
+   {
+    "uid": "ae3cbef3-f02b-4833-ba73-abb7590dc495",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Financial Assets",
+    "injected": "资产(assets)",
+    "canonical": "Financial Assets",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Financial Assets"
+    ]
+   },
+   {
+    "uid": "b48bb5fb-ea46-4a44-a39e-f2554719d158",
+    "col": 1,
+    "type": "mixed_lang",
+    "original": "Accumulated Other Comprehensive Income (Loss)",
+    "injected": "income(收入)",
+    "canonical": "Accumulated Other Comprehensive Income (Loss)",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accumulated Other Comprehensive Income (Loss)"
+    ]
+   },
+   {
+    "uid": "b538d340-dfca-4f89-a59f-01fc1bb35184",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "canonical": "£m",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "dH": 0.25,
+    "drop10": 2.5,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.9375,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m【】",
+    "canonical": "£m",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Accounts Receivable, Gross",
+    "injected": "帐号",
+    "canonical": "Accounts Receivable, Gross",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accounts Receivable, Gross"
+    ]
+   },
+   {
+    "uid": "b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1",
+    "col": 3,
+    "type": "alias_variant",
+    "original": "Accounts Receivable, Net",
+    "injected": "帐号",
+    "canonical": "Accounts Receivable, Net",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accounts Receivable, Net"
+    ]
+   },
+   {
+    "uid": "b975862d-d00d-42a5-a861-77ebcb48c55e",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Remaining Amortization period",
+    "injected": "摊薄",
+    "canonical": "Remaining Amortization period",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Remaining Amortization period"
+    ]
+   },
+   {
+    "uid": "bcbd7783-86ad-430d-aa96-48808bb0426c",
+    "col": 0,
+    "type": "alias_variant",
+    "original": "OPERATING REVENUES",
+    "injected": "turnover",
+    "canonical": "OPERATING REVENUES",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "OPERATING REVENUES"
+    ]
+   },
+   {
+    "uid": "bdeeb701-bae6-4a36-86d6-108c8e43c5e2",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Percent Expected to be Recognized as Revenue",
+    "injected": "sales",
+    "canonical": "Percent Expected to be Recognized as Revenue",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Percent Expected to be Recognized as Revenue"
+    ]
+   },
+   {
+    "uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Revenue and Receipts",
+    "injected": "turnover",
+    "canonical": "Revenue and Receipts",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Revenue and Receipts"
+    ]
+   },
+   {
+    "uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Unearned Revenue",
+    "injected": "营业收入",
+    "canonical": "Unearned Revenue",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Unearned Revenue"
+    ]
+   },
+   {
+    "uid": "c0f66238-591a-4693-b2d2-fee0f6843420",
+    "col": 3,
+    "type": "ocr_similar",
+    "original": "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))",
+    "injected": "Number of securities remaining available for future issuance under equty compensation plans (excluding securities reflected in column(a))",
+    "canonical": "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))"
+    ]
+   },
+   {
+    "uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m №",
+    "canonical": "£m",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "d2bba753-0df3-4a39-860b-bde563261fec",
+    "col": 0,
+    "type": "ocr_similar",
+    "original": "Capital stock",
+    "injected": "capitai stock",
+    "canonical": "Capital stock",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Capital stock"
+    ]
+   },
+   {
+    "uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+    "col": 0,
+    "type": "date_variant",
+    "original": "Consolidated",
+    "injected": "Consoli交易日 / dated",
+    "canonical": "Consolidated",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Consolidated"
+    ]
+   },
+   {
+    "uid": "d6d9f70a-17b6-4530-b497-f73d59f0f0cb",
+    "col": 0,
+    "type": "alias_variant",
+    "original": "Revenue by segment",
+    "injected": "营收",
+    "canonical": "Revenue by segment",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Revenue by segment"
+    ]
+   },
+   {
+    "uid": "d7d65228-96c1-4890-951c-c3d7578f8031",
+    "col": 3,
+    "type": "ocr_similar",
+    "original": "Cash dividend per share (NT dollars)",
+    "injected": "Cash divdend per share (NT dollars)",
+    "canonical": "Cash dividend per share (NT dollars)",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Cash dividend per share (NT dollars)"
+    ]
+   },
+   {
+    "uid": "d8c20406-c646-4689-b645-5260bf17499d",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Financial income and expenses",
+    "injected": "income(收入)",
+    "canonical": "Financial income and expenses",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Financial income and expenses"
+    ]
+   },
+   {
+    "uid": "e0689072-72ba-4979-962a-bb128539defb",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "canonical": "£m",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+    "col": 0,
+    "type": "ocr_similar",
+    "original": "Contractual Maturities of Financial Liabilities",
+    "injected": "Contractual Maturities of Financial liabilitie5",
+    "canonical": "Contractual Maturities of Financial Liabilities",
+    "n_canonical": 6,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Contractual Maturities of Financial Liabilities"
+    ]
+   },
+   {
+    "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Total contractual cash flows",
+    "injected": "现金流",
+    "canonical": "Total contractual cash flows",
+    "n_canonical": 6,
+    "h_orig": 1.0,
+    "h_single": 0.833333,
+    "dH": 0.166667,
+    "drop10": 1.6667,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.625,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Total contractual cash flows"
+    ]
+   },
+   {
+    "uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "canonical": "£m",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m①",
+    "canonical": "£m",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "e67f7bf2-fc15-4a7a-9856-febb066998fd",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Free cash flow (pre-spectrum)",
+    "injected": "cashflow",
+    "canonical": "Free cash flow (pre-spectrum)",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Free cash flow (pre-spectrum)"
+    ]
+   },
+   {
+    "uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Amortization",
+    "injected": "amort",
+    "canonical": "Accumulated Amortization",
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "dH": 0.0,
+    "drop10": 0.0,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.0,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": true,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accumulated Amortization"
+    ]
+   },
+   {
+    "uid": "e9d3bb25-89ab-4aed-8bec-5501d5fe7b16",
+    "col": 3,
+    "type": "prefix_noise",
+    "original": "31,",
+    "injected": "3①",
+    "canonical": "31,",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "31,"
+    ]
+   },
+   {
+    "uid": "ea031e89-1bf8-4f64-8ed5-d1d0327003cf",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Right-of-Use Assets",
+    "injected": "assets(资产)",
+    "canonical": "Right-of-Use Assets",
+    "n_canonical": 6,
+    "h_orig": 1.0,
+    "h_single": 0.833333,
+    "dH": 0.166667,
+    "drop10": 1.6667,
+    "E1.1_detected": true,
+    "E1.2_detected": false,
+    "E1.3_root_drop": 0.625,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Right-of-Use Assets"
+    ]
+   },
+   {
+    "uid": "ea1f0fff-a213-4475-8b1c-221157649595",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Unrealised Gains or Losses on Cash Flow Hedges",
+    "injected": "现金流量",
+    "canonical": "Accumulated Unrealised Gains or Losses on Cash Flow Hedges",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accumulated Unrealised Gains or Losses on Cash Flow Hedges"
+    ]
+   },
+   {
+    "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Accounts Receivable",
+    "injected": "账户",
+    "canonical": "Accounts Receivable",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Accounts Receivable"
+    ]
+   },
+   {
+    "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Deferred Revenue (current)",
+    "injected": "营收",
+    "canonical": "Deferred Revenue (current)",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Deferred Revenue (current)"
+    ]
+   },
+   {
+    "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+    "col": 5,
+    "type": "alias_variant",
+    "original": "Deferred Revenue (long-term)",
+    "injected": "营业收入",
+    "canonical": "Deferred Revenue (long-term)",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Deferred Revenue (long-term)"
+    ]
+   },
+   {
+    "uid": "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "canonical": "£m",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "£m"
+    ]
+   },
+   {
+    "uid": "fa0ed823-f4a8-4063-b895-a517f9447dad",
+    "col": 3,
+    "type": "alias_variant",
+    "original": "Medicare Part D Subsidy Receipts",
+    "injected": "收款",
+    "canonical": "Medicare Part D Subsidy Receipts",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Medicare Part D Subsidy Receipts"
+    ]
+   },
+   {
+    "uid": "fbbb1116-0ef2-4d7e-a90f-2c72e2739e22",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Weighted-Average Grant-Date",
+    "injected": "Weighted-Average Grant-2016年交易日",
+    "canonical": "Weighted-Average Grant-Date",
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "dH": 0.5,
+    "drop10": 5.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.875,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Weighted-Average Grant-Date"
+    ]
+   },
+   {
+    "uid": "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6",
+    "col": 0,
+    "type": "date_variant",
+    "original": "Consolidated",
+    "injected": "Consoli2021期末d",
+    "canonical": "Consolidated",
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "dH": 1.0,
+    "drop10": 10.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 3.75,
+    "E1.3_detected": true,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Consolidated"
+    ]
+   },
+   {
+    "uid": "fd39b5b5-7426-4db6-bbf7-d3c5111ce543",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Interest Rate (per annum)",
+    "injected": "利息",
+    "canonical": "Interest Rate (per annum)",
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "dH": 0.333333,
+    "drop10": 3.3333,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 1.25,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Interest Rate (per annum)"
+    ]
+   },
+   {
+    "uid": "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Net Tangible Assets Acquired (Liabilities Assumed)",
+    "injected": "assets(资产)",
+    "canonical": "Net Tangible Assets Acquired (Liabilities Assumed)",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Net Tangible Assets Acquired (Liabilities Assumed)"
+    ]
+   },
+   {
+    "uid": "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8",
+    "col": 3,
+    "type": "unit_suffix",
+    "original": "Purchased Intangible Assets",
+    "injected": "资产(元)",
+    "canonical": "Purchased Intangible Assets",
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "dH": 0.2,
+    "drop10": 2.0,
+    "E1.1_detected": true,
+    "E1.2_detected": true,
+    "E1.3_root_drop": 0.75,
+    "E1.3_detected": false,
+    "E1.4_detected": null,
+    "absorbed": false,
+    "attribution_correct": true,
+    "changed_canonicals": [
+     "Purchased Intangible Assets"
+    ]
+   }
+  ],
+  "g1_armb": {
+   "tables_discriminated_recomputed": 75,
+   "tables_discriminated_frozen": 75,
+   "n_tables": 95,
+   "table_level_mismatches": [],
+   "injection_level_mismatches": [],
+   "by_type_recomputed": {
+    "alias_variant": {
+     "n_injections": 47,
+     "n_visible": 43,
+     "n_absorbed": 4
+    },
+    "date_variant": {
+     "n_injections": 17,
+     "n_visible": 15,
+     "n_absorbed": 2
+    },
+    "mixed_lang": {
+     "n_injections": 20,
+     "n_visible": 20,
+     "n_absorbed": 0
+    },
+    "ocr_similar": {
+     "n_injections": 13,
+     "n_visible": 0,
+     "n_absorbed": 13
+    },
+    "prefix_noise": {
+     "n_injections": 16,
+     "n_visible": 13,
+     "n_absorbed": 3
+    },
+    "unit_suffix": {
+     "n_injections": 5,
+     "n_visible": 5,
+     "n_absorbed": 0
+    }
+   },
+   "by_type_frozen": {
+    "alias_variant": {
+     "n_injections": 47,
+     "n_visible": 43,
+     "n_absorbed": 4
+    },
+    "date_variant": {
+     "n_injections": 17,
+     "n_visible": 15,
+     "n_absorbed": 2
+    },
+    "mixed_lang": {
+     "n_injections": 20,
+     "n_visible": 20,
+     "n_absorbed": 0
+    },
+    "ocr_similar": {
+     "n_injections": 13,
+     "n_visible": 0,
+     "n_absorbed": 13
+    },
+    "prefix_noise": {
+     "n_injections": 16,
+     "n_visible": 13,
+     "n_absorbed": 3
+    },
+    "unit_suffix": {
+     "n_injections": 5,
+     "n_visible": 5,
+     "n_absorbed": 0
+    }
+   },
+   "pass": true
+  }
+ },
+ "prereg_predicates": {
+  "P1_pso_ge_expert_mean_sep": {
+   "pso": 2.856256,
+   "expert": 2.505278,
+   "note": "探索性, 不作假设承诺; 臂 A 均值分离度按检出落点(受影响子树根)与混池终局两口径同时给出",
+   "pso_blended": 1.428156,
+   "expert_blended": 1.252633
+  },
+  "P6_criterion_evaluation_design_s4_6": {
+   "question": "E1.3 相对 E1.1/E1.2 在检出维度是否有优势（无优势则触发 §1 降级表述）",
+   "armA_det_primary": {
+    "E1.1_end_to_end": 2,
+    "E1.2_flat": 4,
+    "E1.3_hier_expert": 3,
+    "E1.4_hier_pso": 4
+   },
+   "armA_mean_sep_tree_root": {
+    "E1.1_end_to_end": 2.505278,
+    "E1.2_flat": 2.5072,
+    "E1.3_hier_expert": 2.505278,
+    "E1.4_hier_pso": 2.856256
+   },
+   "armB_table_detect_rate": {
+    "E1.1_end_to_end": 1.0,
+    "E1.2_flat": 0.7895,
+    "E1.3_hier_expert": 0.2105,
+    "E1.4_hier_pso": null
+   },
+   "armB_injection_detect_rate": {
+    "E1.1_end_to_end": 0.9492,
+    "E1.2_flat": 0.7203,
+    "E1.3_hier_expert": 0.1102,
+    "E1.4_hier_pso": null
+   },
+   "e13_has_detection_advantage": null,
+   "verdict": "两臂一致: E1.3 检出维度不优于端到端/扁平协议（臂 A 检出数 3/9 vs E1.1 2/9、E1.2 4/9；臂 B 表级 0.2105 显著低于 E1.1 1.0 / E1.2 0.7895）→ 触发设计稿 §1 预注册降级表述评估（本卡只产证据, 表述切换在写作卡 T7）",
+   "mechanism_note": "臂 B E1.3 的根分降幅 = 3.75 x ΔH（field.hit_rate 在剪枝后的 parse 树中占 3/8 权重, doc.ok 与 table.regression 恒 10 稀释了降幅）, 同 τ=2.0 下等效于 ΔH >= 0.533, 远严于 E1.2 的 ΔH >= 0.2；分层优势体现在定位率 1.0 vs 0.0"
+  },
+  "P2_armB_e11_detect_ge_hier_but_localization_zero": {
+   "E1.1_table": 1.0,
+   "E1.2_table": 0.7895,
+   "E1.3_table": 0.2105,
+   "E1.1_localization_rate": 0.0,
+   "holds": true
+  }
+ },
+ "zero_endpoint": {
+  "patterns": [
+   "urlopen",
+   "requests.",
+   "http://",
+   "HTTPS://",
+   ":8004",
+   ":8005",
+   ":8006",
+   ":8007",
+   ":8008",
+   ":5050",
+   "socket.connect"
+  ],
+  "files_scanned": 1,
+  "hits_outside_comments": {},
+  "clean": true
+ },
+ "payload_sha256": "3c24596e269447dac75695aec8d4b97378f2c094916d26ec1c73a650083c297a",
+ "sha256_scope": [
+  "gates",
+  "aggregation_isomorphism",
+  "arm_a",
+  "arm_a_pso_reproduction",
+  "arm_b",
+  "prereg_predicates",
+  "zero_endpoint"
+ ]
+}

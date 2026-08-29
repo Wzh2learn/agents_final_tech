@@ -1,0 +1,205 @@
+{
+ "meta": {
+  "name": "pso-weight-search",
+  "version": "v0",
+  "landing": "K5 point 1",
+  "generated": "2026-08-21T00:38:08",
+  "variant": "all_leaves_missing_score",
+  "n_mutants": 9,
+  "params": {
+   "P": 30,
+   "Tmax": 50,
+   "w": "0.7->0.4",
+   "c1": 2.0,
+   "c2": 2.0,
+   "eps": 0.001,
+   "seed": 20260821
+  },
+  "patent_ref": "2026-08-21_patent_full_revised.md 5.3.3"
+ },
+ "verify": {
+  "gate": "reproduce discrimination report roots",
+  "result": "PASS",
+  "variant": "all_leaves_missing_score"
+ },
+ "baseline_separation_overall": 1.255968,
+ "optimized_separation_overall": 1.432574,
+ "delta_separation": 0.176606,
+ "iterations_to_converge": 5,
+ "history_best_fitness": [
+  1.398996,
+  1.426401,
+  1.430105,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574,
+  1.432574
+ ],
+ "per_mutant_baseline": [
+  {
+   "id": "M1_m1_rows_fail",
+   "sep": 2.6428
+  },
+  {
+   "id": "M2_exact_numeric_fail",
+   "sep": 0.625
+  },
+  {
+   "id": "M3_source_required_fail",
+   "sep": 0.8333
+  },
+  {
+   "id": "M4_refusal_expected_fail",
+   "sep": 0.5556
+  },
+  {
+   "id": "M5_judge_faithfulness_degrade",
+   "sep": 0.75
+  },
+  {
+   "id": "M6_judge_citation_degrade",
+   "sep": 0.5833
+  },
+  {
+   "id": "M7_nf_fail_3",
+   "sep": 0.2083
+  },
+  {
+   "id": "M8_judge_artifact_missing",
+   "sep": 1.1806
+  },
+  {
+   "id": "M9_m1_all_rows_fail",
+   "sep": 3.9248
+  }
+ ],
+ "per_mutant_optimized": [
+  {
+   "id": "M1_m1_rows_fail",
+   "sep": 3.328
+  },
+  {
+   "id": "M2_exact_numeric_fail",
+   "sep": 0.2778
+  },
+  {
+   "id": "M3_source_required_fail",
+   "sep": 0.5556
+  },
+  {
+   "id": "M4_refusal_expected_fail",
+   "sep": 0.3704
+  },
+  {
+   "id": "M5_judge_faithfulness_degrade",
+   "sep": 1.0
+  },
+  {
+   "id": "M6_judge_citation_degrade",
+   "sep": 1.1667
+  },
+  {
+   "id": "M7_nf_fail_3",
+   "sep": 0.0926
+  },
+  {
+   "id": "M8_judge_artifact_missing",
+   "sep": 1.7593
+  },
+  {
+   "id": "M9_m1_all_rows_fail",
+   "sep": 4.3429
+  }
+ ],
+ "weight_diff_nodes": {
+  "parse": {
+   "baseline": 3,
+   "pso": 1
+  },
+  "parse.doc": {
+   "baseline": 3,
+   "pso": 1
+  },
+  "parse.table": {
+   "baseline": 2,
+   "pso": 1
+  },
+  "parse.field": {
+   "baseline": 3,
+   "pso": 1
+  },
+  "qa.retrieval": {
+   "baseline": 2,
+   "pso": 1
+  },
+  "qa.numeric": {
+   "baseline": 3,
+   "pso": 1
+  },
+  "qa.citation": {
+   "baseline": 2,
+   "pso": 3
+  },
+  "qa.refusal": {
+   "baseline": 2,
+   "pso": 1
+  }
+ },
+ "n_weight_dims": 11,
+ "best_weights": {
+  "parse": 1,
+  "parse.doc": 1,
+  "parse.table": 1,
+  "parse.field": 1,
+  "parse.reconcile": 3,
+  "qa": 3,
+  "qa.retrieval": 1,
+  "qa.faithfulness": 3,
+  "qa.numeric": 1,
+  "qa.citation": 3,
+  "qa.refusal": 1
+ }
+}
