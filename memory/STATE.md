@@ -24,6 +24,16 @@
 - 红线自查五条全 PASS: 甲方数据零进入 / 零端点（socket 护栏 + 固定清单扫描 + 卡 P5 grep 零命中）/ 冻结件零改动（五件 md5 复核 OK, 开窗基线→收口 diff 仅本卡路径）/ 逐路径 add 无 amend / T3-T5 与 :8006 零触碰。
 - 治理教训（汇报 §6.6）: 脚本 `self_source_scan()` 原以 `research/` 目录 glob 枚举扫描集且该字段入 payload 摘要 → 下一个 `paper_t*.py` 落盘即令本窗工件不可复现（实跑已见 T1/T2 摘要漂移）。修法 = 钉死 `SCAN_MANIFEST`（7eaef88）+ 探针实验回归。后续零端点窗照抄该模板并保留"收口 = 重跑比摘要"这道门; T3/T5 派卡时写入脚本模板。
 
+## W2 :8004 合并窗结果（2026-08-30, E1.5/E1.6/T4, Loop A）
+
+- 三段全 PASS（卡 TASK-20260830-04）: E1.5 Full-Judge 120/120 单元零失败未 BLOCKED / E1.6 三 seed 臂 B / T4 五组对照+minimax+预算梯度。单工件 `logs/graph/eval/t4_pso_fair_comparison.json`（payload_sha256 fe492e14…0ba7, gates 全 PASS, 双跑一致）+ 汇报 `logs/graph/eval/w2_window_report.md`。
+- 红线实测: `:8004` 调用 **122/200**（账本悲观占用, 重跑缓存命中不增计数）; `ports_touched=[8004]`, :8006/:8008/:5050 零触碰; E1.6/T4 独立零端点护栏 `ports=[]`; 甲方标识终工件全 JSON 零命中; 冻结五件 md5 OK（未触发 REQUEST_UNFREEZE）; 逐路径 add 无 amend。
+- C2/C3 裁定: **C2「≥3 seeds CI 可算」PASS**（三 seed CI 非退化 + 合并 CI [0.727,0.8227]; E1.2_flat 0.7895/0.7835/0.7556 全落预测带）。**C3 PARTIAL → 降级条款已触发**: PSO 优于 equal/expert/random30 三组, 但与 greedy 坐标上升**完全同值 1.432574 且贵 114.2× 评估次数**（67 vs 7650）; 另 PSO 最差 mutant 0.0926 < expert 0.2083（均值增益以最差维退化）→ 论文须按「自动搜索省专家调参」而非「判别力上限」陈述 C3。冻结复现门 abs_err=0.0 且权重逐维全等。
+- Full-Judge vs 确定性映射（E1.5, 判分均值 1.3053 vs 映射 1.2526, 检出集两口径同 3/9）三机制入账: F_W2_1 M7 判分分离度**恰为 0**（NF 工件 9 条中 8 条 number_claims=0, 注入只落在聚合 n_fail → item 层不可观测 = 突变体保真度问题, 非裁判能力）; F_W2_2 裁判对空证据给 0 而确定性给中性 missing_score=5（M8 敏感度翻倍, 政策差异）; F_W2_3 硬闸门 `overall_status_binary` 被裁判部分分软化（M1 1.8523 vs 2.6428, M9 反向）。一致性 max|Δ|=0.5 **恰在边界**且恰等于 0-10 整数叶分的分辨率下限（F_W2_4）→ 该判据在此量纲无区分力。
+- 预算梯度: keep_rate 在 25/50/75/100%（B=5/10/14/19）恒 1.0 **饱和**, 「单调不降」平凡成立但不可用作结论; 适应度序列非单调（B=10 0.0368 反劣于 B=5 0.0316）。Pareto 双轴去重后仅 2 点, expert/equal 被 minimax 解支配。
+- 明日一页纸判定项（五项, 详见汇报 §7）: 叶分量纲是否改连续 / M7 是否重设计为在有数值主张条目注入 / C3 降级条款是否采纳并补 greedy 为标配对照组 / 题集预算轴是否换判据 / E1.5 是否追加「裁判评原始答案」第二形态（需另批预算, 本窗余量 78 次不足 16×4）。
+- Loop A 纪律注记: 本窗执行期间 Loop B 因 4 个在制未跟踪脚本判 `git_alignment=FAIL`（dirty 6>白名单 5）, 其余 8 项检查全 PASS; 入库后 dirty 归零待下周期翻回。`logs/graph/dispatch_log.md` 的 daemon FLIP 行不并入本工作 commit。
+
 ## 研究窗口结果（08-27 夜-08-28, 窗口合并卡）
 - 段 C bandit v0 replay: 42 金标 × 六格, TS 4 决策点全 R=1; **六格 direct 全 1.0 同分（可靠体制无分辨空间; json direct_best 为字典序 tie-break 不读作信号）**; 零端点; 工件 bandit_gate_v0_eval.json
 - 段 A 扩语料碰撞（#VGMC-COLLISION-WINDOW 23:38-23:51）: 移植列 67/37 表; C0 可靠/C1 碰撞+force; P1 PASS（弱, D 同值）/ P2 PASS（vacuous）/ **P3 未触发**（H |差| 0.0057 两体制同值 + ACC C0 0.28 vs 0.12）; H 对噪声逐位不变, ACC 为敏感量; ε 维首次实质激活

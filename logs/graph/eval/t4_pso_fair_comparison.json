@@ -1,0 +1,3794 @@
+{
+ "meta": {
+  "name": "w2-window-e15-e16-t4",
+  "task_card": "TASK-20260830-04",
+  "card_file": "docs/experiments/2026-08-30_w2_window_card_8004.md",
+  "generated": "2026-08-30T01:48:57",
+  "window": "W2 :8004 合并窗",
+  "segments": [
+   "E1.5 Full-Judge 基线",
+   "E1.6 injector 3 seeds",
+   "T4 PSO 严谨对照"
+  ],
+  "caliber_policy": "主口径 pso_era(08-19) 判 C3（卡 §2.2 预测数字出自该口径）; 次口径 v2(08-26) 作稳健性附注; 两口径永不混用",
+  "sha256_scope": "payload.*（meta 时间戳排除在外）"
+ },
+ "gates": {
+  "e15_cells_all_ok": true,
+  "budget_within_ceiling": true,
+  "endpoint_only_8004": true,
+  "zero_endpoint_e16_t4": true,
+  "client_identifier_zero_entered": true,
+  "seed42_injector_byte_identity": true,
+  "pso_frozen_reproduction": true,
+  "all_inputs_present": true,
+  "all_scripts_present": true,
+  "all_pass": true
+ },
+ "payload": {
+  "call_counter": 122,
+  "budget_ceiling": 200,
+  "endpoint_assert": {
+   "allowed": "127.0.0.1:8004",
+   "ports_touched": [
+    8004
+   ],
+   "violations": [],
+   "only_allowed_endpoint": true
+  },
+  "ledger_note_count": 122,
+  "distinct_judge_cells": 120,
+  "e1_5": {
+   "design_note": "判分证据等价替换: 裁判只见 item 级观测, 不见任何预聚合量（overall/avg/pass rate 全屏蔽）, 由裁判自行完成映射与聚合。局限: mutation 作用于工件/判定层, 逐条判定本身即被观测证据,故 3 个 judge 叶为『裁判评判定』而非『裁判评原始答案』。",
+   "states": [
+    "control",
+    "M1_m1_rows_fail",
+    "M2_exact_numeric_fail",
+    "M3_source_required_fail",
+    "M4_refusal_expected_fail",
+    "M5_judge_faithfulness_degrade",
+    "M6_judge_citation_degrade",
+    "M7_nf_fail_3",
+    "M8_judge_artifact_missing",
+    "M9_m1_all_rows_fail"
+   ],
+   "leaves": [
+    "parse.doc.ok",
+    "parse.doc.throughput",
+    "parse.field.hit_rate",
+    "parse.reconcile.equations",
+    "parse.table.regression",
+    "qa.citation.judge",
+    "qa.faithfulness.judge",
+    "qa.numeric.exact",
+    "qa.numeric.number_grounding",
+    "qa.refusal.deterministic",
+    "qa.refusal.judge",
+    "qa.retrieval.source_required"
+   ],
+   "call_convention": {
+    "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "enable_thinking": false
+   },
+   "leaf_score_matrix_judged": {
+    "control": {
+     "parse.doc.ok": 10,
+     "parse.doc.throughput": 10,
+     "parse.field.hit_rate": 10,
+     "parse.reconcile.equations": 10,
+     "parse.table.regression": 10,
+     "qa.citation.judge": 10,
+     "qa.faithfulness.judge": 9,
+     "qa.numeric.exact": 10,
+     "qa.numeric.number_grounding": 10,
+     "qa.refusal.deterministic": 10,
+     "qa.refusal.judge": 10,
+     "qa.retrieval.source_required": 10
+    },
+    "M1_m1_rows_fail": {
+     "parse.doc.ok": 7,
+     "parse.doc.throughput": 10,
+     "parse.field.hit_rate": 7,
+     "parse.reconcile.equations": 3,
+     "parse.table.regression": 8,
+     "qa.citation.judge": 10,
+     "qa.faithfulness.judge": 9,
+     "qa.numeric.exact": 10,
+     "qa.numeric.number_grounding": 10,
+     "qa.refusal.deterministic": 10,
+     "qa.refusal.judge": 10,
+     "qa.retrieval.source_required": 10
+    },
+    "M2_exact_numeric_fail": {
+     "parse.doc.ok": 10,
+     "parse.doc.throughput": 10,
+     "parse.field.hit_rate": 10,
+     "parse.reconcile.equations": 10,
+     "parse.table.regression": 10,
+     "qa.citation.judge": 10,
+     "qa.faithfulness.judge": 9,
+     "qa.numeric.exact": 0,
+     "qa.numeric.number_grounding": 10,
+     "qa.refusal.deterministic": 10,
+     "qa.refusal.judge": 10,
+     "qa.retrieval.source_required": 10
+    },
+    "M3_source_required_fail": {
+     "parse.doc.ok": 10,
+     "parse.doc.throughput": 10,
+     "parse.field.hit_rate": 10,
+     "parse.reconcile.equations": 10,
+     "parse.table.regression": 10,
+     "qa.citation.judge": 10,
+     "qa.faithfulness.judge": 9,
+     "qa.numeric.exact": 10,
+     "qa.numeric.number_grounding": 10,
+     "qa.refusal.deterministic": 10,
+     "qa.refusal.judge": 10,
+     "qa.retrieval.source_required": 0
+    },
+    "M4_refusal_expected_fail": {
+     "parse.doc.ok": 10,
+     "parse.doc.throughput": 10,
+     "parse.field.hit_rate": 10,
+     "parse.reconcile.equations": 10,
+     "parse.table.regression": 10,
+     "qa.citation.judge": 10,
+     "qa.faithfulness.judge": 9,
+     "qa.numeric.exact": 10,
+     "qa.numeric.number_grounding": 10,
+     "qa.refusal.deterministic": 0,
+     "qa.refusal.judge": 10,
+     "qa.retrieval.source_required": 10
+    },
+    "M5_judge_faithfulness_degrade": {
+     "parse.doc.ok": 10,
+     "parse.doc.throughput": 10,
+     "parse.field.hit_rate": 10,
+     "parse.reconcile.equations": 10,
+     "parse.table.regression": 10,
+     "qa.citation.judge": 10,
+     "qa.faithfulness.judge": 4,
+     "qa.numeric.exact": 10,
+     "qa.numeric.number_grounding": 10,
+     "qa.refusal.deterministic": 10,
+     "qa.refusal.judge": 10,
+     "qa.retrieval.source_required": 10
+    },
+    "M6_judge_citation_degrade": {
+     "parse.doc.ok": 10,
+     "parse.doc.throughput": 10,
+     "parse.field.hit_rate": 10,
+     "parse.reconcile.equations": 10,
+     "parse.table.regression": 10,
+     "qa.citation.judge": 4,
+     "qa.faithfulness.judge": 9,
+     "qa.numeric.exact": 10,
+     "qa.numeric.number_grounding": 10,
+     "qa.refusal.deterministic": 10,
+     "qa.refusal.judge": 10,
+     "qa.retrieval.source_required": 10
+    },
+    "M7_nf_fail_3": {
+     "parse.doc.ok": 10,
+     "parse.doc.throughput": 10,
+     "parse.field.hit_rate": 10,
+     "parse.reconcile.equations": 10,
+     "parse.table.regression": 10,
+     "qa.citation.judge": 10,
+     "qa.faithfulness.judge": 9,
+     "qa.numeric.exact": 10,
+     "qa.numeric.number_grounding": 10,
+     "qa.refusal.deterministic": 10,
+     "qa.refusal.judge": 10,
+     "qa.retrieval.source_required": 10
+    },
+    "M8_judge_artifact_missing": {
+     "parse.doc.ok": 10,
+     "parse.doc.throughput": 10,
+     "parse.field.hit_rate": 10,
+     "parse.reconcile.equations": 10,
+     "parse.table.regression": 10,
+     "qa.citation.judge": 0,
+     "qa.faithfulness.judge": 0,
+     "qa.numeric.exact": 10,
+     "qa.numeric.number_grounding": 10,
+     "qa.refusal.deterministic": 10,
+     "qa.refusal.judge": 5,
+     "qa.retrieval.source_required": 10
+    },
+    "M9_m1_all_rows_fail": {
+     "parse.doc.ok": 0,
+     "parse.doc.throughput": 10,
+     "parse.field.hit_rate": 0,
+     "parse.reconcile.equations": 0,
+     "parse.table.regression": 0,
+     "qa.citation.judge": 10,
+     "qa.faithfulness.judge": 9,
+     "qa.numeric.exact": 10,
+     "qa.numeric.number_grounding": 10,
+     "qa.refusal.deterministic": 10,
+     "qa.refusal.judge": 10,
+     "qa.retrieval.source_required": 10
+    }
+   },
+   "leaf_score_matrix_mapped_deterministic": {
+    "control": {
+     "parse.doc.ok": 10.0,
+     "parse.doc.throughput": 10.0,
+     "parse.table.regression": 10.0,
+     "parse.field.hit_rate": 10.0,
+     "parse.reconcile.equations": 10.0,
+     "qa.retrieval.source_required": 10.0,
+     "qa.faithfulness.judge": 9.88,
+     "qa.numeric.exact": 10.0,
+     "qa.numeric.number_grounding": 10.0,
+     "qa.citation.judge": 10.0,
+     "qa.refusal.judge": 10.0,
+     "qa.refusal.deterministic": 10.0
+    },
+    "M1_m1_rows_fail": {
+     "parse.doc.ok": 0.0,
+     "parse.doc.throughput": 10.0,
+     "parse.table.regression": 8.3333,
+     "parse.field.hit_rate": 9.2308,
+     "parse.reconcile.equations": 0.0,
+     "qa.retrieval.source_required": 10.0,
+     "qa.faithfulness.judge": 9.88,
+     "qa.numeric.exact": 10.0,
+     "qa.numeric.number_grounding": 10.0,
+     "qa.citation.judge": 10.0,
+     "qa.refusal.judge": 10.0,
+     "qa.refusal.deterministic": 10.0
+    },
+    "M2_exact_numeric_fail": {
+     "parse.doc.ok": 10.0,
+     "parse.doc.throughput": 10.0,
+     "parse.table.regression": 10.0,
+     "parse.field.hit_rate": 10.0,
+     "parse.reconcile.equations": 10.0,
+     "qa.retrieval.source_required": 10.0,
+     "qa.faithfulness.judge": 9.88,
+     "qa.numeric.exact": 0.0,
+     "qa.numeric.number_grounding": 10.0,
+     "qa.citation.judge": 10.0,
+     "qa.refusal.judge": 10.0,
+     "qa.refusal.deterministic": 10.0
+    },
+    "M3_source_required_fail": {
+     "parse.doc.ok": 10.0,
+     "parse.doc.throughput": 10.0,
+     "parse.table.regression": 10.0,
+     "parse.field.hit_rate": 10.0,
+     "parse.reconcile.equations": 10.0,
+     "qa.retrieval.source_required": 0.0,
+     "qa.faithfulness.judge": 9.88,
+     "qa.numeric.exact": 10.0,
+     "qa.numeric.number_grounding": 10.0,
+     "qa.citation.judge": 10.0,
+     "qa.refusal.judge": 10.0,
+     "qa.refusal.deterministic": 10.0
+    },
+    "M4_refusal_expected_fail": {
+     "parse.doc.ok": 10.0,
+     "parse.doc.throughput": 10.0,
+     "parse.table.regression": 10.0,
+     "parse.field.hit_rate": 10.0,
+     "parse.reconcile.equations": 10.0,
+     "qa.retrieval.source_required": 10.0,
+     "qa.faithfulness.judge": 9.88,
+     "qa.numeric.exact": 10.0,
+     "qa.numeric.number_grounding": 10.0,
+     "qa.citation.judge": 10.0,
+     "qa.refusal.judge": 10.0,
+     "qa.refusal.deterministic": 0.0
+    },
+    "M5_judge_faithfulness_degrade": {
+     "parse.doc.ok": 10.0,
+     "parse.doc.throughput": 10.0,
+     "parse.table.regression": 10.0,
+     "parse.field.hit_rate": 10.0,
+     "parse.reconcile.equations": 10.0,
+     "qa.retrieval.source_required": 10.0,
+     "qa.faithfulness.judge": 4.0,
+     "qa.numeric.exact": 10.0,
+     "qa.numeric.number_grounding": 10.0,
+     "qa.citation.judge": 10.0,
+     "qa.refusal.judge": 10.0,
+     "qa.refusal.deterministic": 10.0
+    },
+    "M6_judge_citation_degrade": {
+     "parse.doc.ok": 10.0,
+     "parse.doc.throughput": 10.0,
+     "parse.table.regression": 10.0,
+     "parse.field.hit_rate": 10.0,
+     "parse.reconcile.equations": 10.0,
+     "qa.retrieval.source_required": 10.0,
+     "qa.faithfulness.judge": 9.88,
+     "qa.numeric.exact": 10.0,
+     "qa.numeric.number_grounding": 10.0,
+     "qa.citation.judge": 3.0,
+     "qa.refusal.judge": 10.0,
+     "qa.refusal.deterministic": 10.0
+    },
+    "M7_nf_fail_3": {
+     "parse.doc.ok": 10.0,
+     "parse.doc.throughput": 10.0,
+     "parse.table.regression": 10.0,
+     "parse.field.hit_rate": 10.0,
+     "parse.reconcile.equations": 10.0,
+     "qa.retrieval.source_required": 10.0,
+     "qa.faithfulness.judge": 9.88,
+     "qa.numeric.exact": 10.0,
+     "qa.numeric.number_grounding": 6.6667,
+     "qa.citation.judge": 10.0,
+     "qa.refusal.judge": 10.0,
+     "qa.refusal.deterministic": 10.0
+    },
+    "M8_judge_artifact_missing": {
+     "parse.doc.ok": 10.0,
+     "parse.doc.throughput": 10.0,
+     "parse.table.regression": 10.0,
+     "parse.field.hit_rate": 10.0,
+     "parse.reconcile.equations": 10.0,
+     "qa.retrieval.source_required": 10.0,
+     "qa.faithfulness.judge": 5.0,
+     "qa.numeric.exact": 10.0,
+     "qa.numeric.number_grounding": 10.0,
+     "qa.citation.judge": 5.0,
+     "qa.refusal.judge": 5.0,
+     "qa.refusal.deterministic": 10.0
+    },
+    "M9_m1_all_rows_fail": {
+     "parse.doc.ok": 0.0,
+     "parse.doc.throughput": 10.0,
+     "parse.table.regression": 0.0,
+     "parse.field.hit_rate": 5.3846,
+     "parse.reconcile.equations": 0.0,
+     "qa.retrieval.source_required": 10.0,
+     "qa.faithfulness.judge": 9.88,
+     "qa.numeric.exact": 10.0,
+     "qa.numeric.number_grounding": 10.0,
+     "qa.citation.judge": 10.0,
+     "qa.refusal.judge": 10.0,
+     "qa.refusal.deterministic": 10.0
+    }
+   },
+   "separation_judged": {
+    "complete": true,
+    "control_blended": 9.875,
+    "control_tree_roots": {
+     "parse": 10.0,
+     "qa": 9.75
+    },
+    "per_mutant": [
+     {
+      "id": "M1_m1_rows_fail",
+      "tree": "parse",
+      "sep_blended": 1.8523,
+      "sep_tree_root": 3.7045,
+      "detect_blended": false,
+      "detect_tree_root": true,
+      "primary_detect": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ]
+     },
+     {
+      "id": "M2_exact_numeric_fail",
+      "tree": "qa",
+      "sep_blended": 0.625,
+      "sep_tree_root": 1.25,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.numeric.exact"
+      ]
+     },
+     {
+      "id": "M3_source_required_fail",
+      "tree": "qa",
+      "sep_blended": 0.8333,
+      "sep_tree_root": 1.6667,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.retrieval.source_required"
+      ]
+     },
+     {
+      "id": "M4_refusal_expected_fail",
+      "tree": "qa",
+      "sep_blended": 0.5556,
+      "sep_tree_root": 1.1111,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.refusal.deterministic"
+      ]
+     },
+     {
+      "id": "M5_judge_faithfulness_degrade",
+      "tree": "qa",
+      "sep_blended": 0.625,
+      "sep_tree_root": 1.25,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.faithfulness.judge"
+      ]
+     },
+     {
+      "id": "M6_judge_citation_degrade",
+      "tree": "qa",
+      "sep_blended": 0.5,
+      "sep_tree_root": 1.0,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.citation.judge"
+      ]
+     },
+     {
+      "id": "M7_nf_fail_3",
+      "tree": "qa",
+      "sep_blended": 0.0,
+      "sep_tree_root": 0.0,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.numeric.number_grounding"
+      ]
+     },
+     {
+      "id": "M8_judge_artifact_missing",
+      "tree": "qa",
+      "sep_blended": 2.0972,
+      "sep_tree_root": 4.1944,
+      "detect_blended": true,
+      "detect_tree_root": true,
+      "primary_detect": true,
+      "target_leaves": [
+       "qa.citation.judge",
+       "qa.faithfulness.judge",
+       "qa.refusal.judge"
+      ]
+     },
+     {
+      "id": "M9_m1_all_rows_fail",
+      "tree": "parse",
+      "sep_blended": 4.6591,
+      "sep_tree_root": 9.3182,
+      "detect_blended": true,
+      "detect_tree_root": true,
+      "primary_detect": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ]
+     }
+    ],
+    "mean_sep_blended": 1.305278,
+    "mean_sep_tree_root": 2.610544,
+    "worst_sep_blended": 0.0,
+    "worst_mutant_blended": "M7_nf_fail_3",
+    "worst_sep_tree_root": 0.0,
+    "worst_mutant_tree_root": "M7_nf_fail_3",
+    "detected_blended": 2,
+    "detected_tree_root": 3,
+    "n_mutants": 9
+   },
+   "separation_mapped_control_only_caliber": {
+    "complete": true,
+    "control_blended": 9.985,
+    "control_tree_roots": {
+     "parse": 10.0,
+     "qa": 9.97
+    },
+    "per_mutant": [
+     {
+      "id": "M1_m1_rows_fail",
+      "tree": "parse",
+      "sep_blended": 2.6428,
+      "sep_tree_root": 5.2855,
+      "detect_blended": true,
+      "detect_tree_root": true,
+      "primary_detect": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ]
+     },
+     {
+      "id": "M2_exact_numeric_fail",
+      "tree": "qa",
+      "sep_blended": 0.625,
+      "sep_tree_root": 1.25,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.numeric.exact"
+      ]
+     },
+     {
+      "id": "M3_source_required_fail",
+      "tree": "qa",
+      "sep_blended": 0.8333,
+      "sep_tree_root": 1.6667,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.retrieval.source_required"
+      ]
+     },
+     {
+      "id": "M4_refusal_expected_fail",
+      "tree": "qa",
+      "sep_blended": 0.5556,
+      "sep_tree_root": 1.1111,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.refusal.deterministic"
+      ]
+     },
+     {
+      "id": "M5_judge_faithfulness_degrade",
+      "tree": "qa",
+      "sep_blended": 0.735,
+      "sep_tree_root": 1.47,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.faithfulness.judge"
+      ]
+     },
+     {
+      "id": "M6_judge_citation_degrade",
+      "tree": "qa",
+      "sep_blended": 0.5833,
+      "sep_tree_root": 1.1667,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.citation.judge"
+      ]
+     },
+     {
+      "id": "M7_nf_fail_3",
+      "tree": "qa",
+      "sep_blended": 0.2083,
+      "sep_tree_root": 0.4167,
+      "detect_blended": false,
+      "detect_tree_root": false,
+      "primary_detect": false,
+      "target_leaves": [
+       "qa.numeric.number_grounding"
+      ]
+     },
+     {
+      "id": "M8_judge_artifact_missing",
+      "tree": "qa",
+      "sep_blended": 1.1656,
+      "sep_tree_root": 2.3311,
+      "detect_blended": false,
+      "detect_tree_root": true,
+      "primary_detect": true,
+      "target_leaves": [
+       "qa.citation.judge",
+       "qa.faithfulness.judge",
+       "qa.refusal.judge"
+      ]
+     },
+     {
+      "id": "M9_m1_all_rows_fail",
+      "tree": "parse",
+      "sep_blended": 3.9248,
+      "sep_tree_root": 7.8497,
+      "detect_blended": true,
+      "detect_tree_root": true,
+      "primary_detect": true,
+      "target_leaves": [
+       "parse.doc.ok",
+       "parse.field.hit_rate",
+       "parse.reconcile.equations",
+       "parse.table.regression"
+      ]
+     }
+    ],
+    "mean_sep_blended": 1.252633,
+    "mean_sep_tree_root": 2.505278,
+    "worst_sep_blended": 0.2083,
+    "worst_mutant_blended": "M7_nf_fail_3",
+    "worst_sep_tree_root": 0.4167,
+    "worst_mutant_tree_root": "M7_nf_fail_3",
+    "detected_blended": 2,
+    "detected_tree_root": 3,
+    "n_mutants": 9
+   },
+   "pso_weight_caliber_reference": {
+    "mean_sep": 1.432574,
+    "expert_mean_sep": 1.255968
+   },
+   "judged_vs_mapped_per_leaf": {
+    "parse.doc.ok": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 7,
+      "mapped": 0.0,
+      "abs_delta": 7.0
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 0,
+      "mapped": 0.0,
+      "abs_delta": 0.0
+     }
+    },
+    "parse.doc.throughput": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     }
+    },
+    "parse.field.hit_rate": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 7,
+      "mapped": 9.2308,
+      "abs_delta": 2.2308
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 0,
+      "mapped": 5.3846,
+      "abs_delta": 5.3846
+     }
+    },
+    "parse.reconcile.equations": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 3,
+      "mapped": 0.0,
+      "abs_delta": 3.0
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 0,
+      "mapped": 0.0,
+      "abs_delta": 0.0
+     }
+    },
+    "parse.table.regression": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 8,
+      "mapped": 8.3333,
+      "abs_delta": 0.3333
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 0,
+      "mapped": 0.0,
+      "abs_delta": 0.0
+     }
+    },
+    "qa.citation.judge": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 4,
+      "mapped": 3.0,
+      "abs_delta": 1.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 0,
+      "mapped": 5.0,
+      "abs_delta": 5.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     }
+    },
+    "qa.faithfulness.judge": {
+     "control": {
+      "judged": 9,
+      "mapped": 9.88,
+      "abs_delta": 0.88
+     },
+     "M1_m1_rows_fail": {
+      "judged": 9,
+      "mapped": 9.88,
+      "abs_delta": 0.88
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 9,
+      "mapped": 9.88,
+      "abs_delta": 0.88
+     },
+     "M3_source_required_fail": {
+      "judged": 9,
+      "mapped": 9.88,
+      "abs_delta": 0.88
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 9,
+      "mapped": 9.88,
+      "abs_delta": 0.88
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 4,
+      "mapped": 4.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 9,
+      "mapped": 9.88,
+      "abs_delta": 0.88
+     },
+     "M7_nf_fail_3": {
+      "judged": 9,
+      "mapped": 9.88,
+      "abs_delta": 0.88
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 0,
+      "mapped": 5.0,
+      "abs_delta": 5.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 9,
+      "mapped": 9.88,
+      "abs_delta": 0.88
+     }
+    },
+    "qa.numeric.exact": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 0,
+      "mapped": 0.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     }
+    },
+    "qa.numeric.number_grounding": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 6.6667,
+      "abs_delta": 3.3333
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     }
+    },
+    "qa.refusal.deterministic": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 0,
+      "mapped": 0.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     }
+    },
+    "qa.refusal.judge": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 5,
+      "mapped": 5.0,
+      "abs_delta": 0.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     }
+    },
+    "qa.retrieval.source_required": {
+     "control": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M1_m1_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M2_exact_numeric_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M3_source_required_fail": {
+      "judged": 0,
+      "mapped": 0.0,
+      "abs_delta": 0.0
+     },
+     "M4_refusal_expected_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M5_judge_faithfulness_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M6_judge_citation_degrade": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M7_nf_fail_3": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M8_judge_artifact_missing": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     },
+     "M9_m1_all_rows_fail": {
+      "judged": 10,
+      "mapped": 10.0,
+      "abs_delta": 0.0
+     }
+    }
+   },
+   "judged_vs_mapped_max_abs_delta": 7.0,
+   "verdict_distributions_and_ceiling": {
+    "parse.doc.ok": {
+     "n": 10,
+     "mean": 8.7,
+     "distinct": [
+      0,
+      7,
+      10
+     ],
+     "saturated_at_10": false,
+     "saturated_at_0": false
+    },
+    "parse.doc.throughput": {
+     "n": 10,
+     "mean": 10.0,
+     "distinct": [
+      10
+     ],
+     "saturated_at_10": true,
+     "saturated_at_0": false
+    },
+    "parse.field.hit_rate": {
+     "n": 10,
+     "mean": 8.7,
+     "distinct": [
+      0,
+      7,
+      10
+     ],
+     "saturated_at_10": false,
+     "saturated_at_0": false
+    },
+    "parse.reconcile.equations": {
+     "n": 10,
+     "mean": 8.3,
+     "distinct": [
+      0,
+      3,
+      10
+     ],
+     "saturated_at_10": false,
+     "saturated_at_0": false
+    },
+    "parse.table.regression": {
+     "n": 10,
+     "mean": 8.8,
+     "distinct": [
+      0,
+      8,
+      10
+     ],
+     "saturated_at_10": false,
+     "saturated_at_0": false
+    },
+    "qa.citation.judge": {
+     "n": 10,
+     "mean": 8.4,
+     "distinct": [
+      0,
+      4,
+      10
+     ],
+     "saturated_at_10": false,
+     "saturated_at_0": false
+    },
+    "qa.faithfulness.judge": {
+     "n": 10,
+     "mean": 7.6,
+     "distinct": [
+      0,
+      4,
+      9
+     ],
+     "saturated_at_10": false,
+     "saturated_at_0": false
+    },
+    "qa.numeric.exact": {
+     "n": 10,
+     "mean": 9.0,
+     "distinct": [
+      0,
+      10
+     ],
+     "saturated_at_10": false,
+     "saturated_at_0": false
+    },
+    "qa.numeric.number_grounding": {
+     "n": 10,
+     "mean": 10.0,
+     "distinct": [
+      10
+     ],
+     "saturated_at_10": true,
+     "saturated_at_0": false
+    },
+    "qa.refusal.deterministic": {
+     "n": 10,
+     "mean": 9.0,
+     "distinct": [
+      0,
+      10
+     ],
+     "saturated_at_10": false,
+     "saturated_at_0": false
+    },
+    "qa.refusal.judge": {
+     "n": 10,
+     "mean": 9.5,
+     "distinct": [
+      5,
+      10
+     ],
+     "saturated_at_10": false,
+     "saturated_at_0": false
+    },
+    "qa.retrieval.source_required": {
+     "n": 10,
+     "mean": 9.0,
+     "distinct": [
+      0,
+      10
+     ],
+     "saturated_at_10": false,
+     "saturated_at_0": false
+    }
+   },
+   "endpoint_consistency_note": {
+    "prediction_abs_delta_per_dim_le": 0.5,
+    "max_observed_abs_delta": 0.5,
+    "prediction_holds": true,
+    "frozen_8006_k1": {
+     "endpoint": "http://127.0.0.1:8006/v1/chat/completions",
+     "model": "qwen38-27b-fp8",
+     "rubric_version": "v_k1",
+     "judge_runs": 1,
+     "dims": {
+      "faithfulness": 5.0,
+      "numeric_correctness": 5.0,
+      "citation_quality": 5.0,
+      "refusal_appropriateness": 5.0
+     }
+    },
+    "frozen_8006_k3": {
+     "endpoint": "http://127.0.0.1:8006/v1/chat/completions",
+     "model": "qwen38-27b-fp8",
+     "rubric_version": "v_k1",
+     "judge_runs": 3,
+     "dims": {
+      "faithfulness": 5.0,
+      "numeric_correctness": 5.0,
+      "citation_quality": 5.0,
+      "refusal_appropriateness": 5.0
+     }
+    },
+    "live_8004": {
+     "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+     "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+     "rubric_version": "v_k1",
+     "judge_runs": 1,
+     "dims": {
+      "faithfulness": 4.94,
+      "numeric_correctness": 5.0,
+      "citation_quality": 5.0,
+      "refusal_appropriateness": 5.0
+     }
+    },
+    "per_dim": {
+     "citation_quality": {
+      "e15_8004_rejudged_on_0_5": 5.0,
+      "frozen_8006_k1": 5.0,
+      "frozen_8006_k3_runs3": 5.0,
+      "live_8004": 5.0,
+      "abs_delta_vs_frozen_8006": 0.0,
+      "abs_delta_vs_live_8004": 0.0
+     },
+     "faithfulness": {
+      "e15_8004_rejudged_on_0_5": 4.5,
+      "frozen_8006_k1": 5.0,
+      "frozen_8006_k3_runs3": 5.0,
+      "live_8004": 4.94,
+      "abs_delta_vs_frozen_8006": 0.5,
+      "abs_delta_vs_live_8004": 0.44
+     },
+     "refusal_appropriateness": {
+      "e15_8004_rejudged_on_0_5": 5.0,
+      "frozen_8006_k1": 5.0,
+      "frozen_8006_k3_runs3": 5.0,
+      "live_8004": 5.0,
+      "abs_delta_vs_frozen_8006": 0.0,
+      "abs_delta_vs_live_8004": 0.0
+     }
+    },
+    "numeric_correctness_note": "四维中的 numeric_correctness 在契约树上无对应 judge 叶（F-M4 已知缺口）, 故其一致性差异无法由 E1.5 重判口径给出, 如实缺项。",
+    "caveat": "E1.5 judge 叶读的是历史逐条 0-5 判定再聚合, 非重新评原始答案; 因此本注记度量的是【:8004 聚合器能否复现历史四维均分】, 不等于 :8004 与 :8006 对同一原始答案的逐条判定一致率。"
+   },
+   "no_evidence_behavior": {
+    "M8_judge_artifact_missing|qa.citation.judge": "empty_evidence_snippet",
+    "M8_judge_artifact_missing|qa.faithfulness.judge": "empty_evidence_snippet",
+    "M8_judge_artifact_missing|qa.refusal.judge": "empty_evidence_snippet"
+   },
+   "failures": [],
+   "cells_total": 120,
+   "cells_ok": 120,
+   "budget_self_proof": {
+    "call_counter": 122,
+    "ceiling": 200,
+    "within_ceiling": true
+   },
+   "endpoint_assert": {
+    "allowed": "127.0.0.1:8004",
+    "ports_touched": [
+     8004
+    ],
+    "violations": [],
+    "only_allowed_endpoint": true
+   },
+   "blocked": false
+  },
+  "e1_6": {
+   "protocol_reuse": "research/paper_t1_eval_baselines.run_arm_b 逐字复用; TAU=2.0 / FLAT_TAU_H=0.2 / bootstrap N=2000 SEED=20260830 冻结",
+   "variable_changed": "injector seed only (ratio=0.3, input, matcher, protocol identical)",
+   "seeds": [
+    42,
+    20260831,
+    20260832
+   ],
+   "ratio": 0.3,
+   "gate_seed42_byte_identity": {
+    "injected_tables": [
+     "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9",
+     "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+    ],
+    "injection_map": [
+     "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+     "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e"
+    ],
+    "determinism_sha256": [
+     "ebefc6f1a94b9c2679811c5db16c4c3b1f7aceeb59afeba15dc6444a1bc22555",
+     "ebefc6f1a94b9c2679811c5db16c4c3b1f7aceeb59afeba15dc6444a1bc22555"
+    ]
+   },
+   "gate_seed42_pass": true,
+   "per_seed": [
+    {
+     "seed": 42,
+     "n_tables_injected": 95,
+     "n_injections": 118,
+     "injection_rate_per_table": 0.0383,
+     "by_type": {
+      "alias_variant": 47,
+      "date_variant": 17,
+      "mixed_lang": 20,
+      "ocr_similar": 13,
+      "prefix_noise": 16,
+      "unit_suffix": 5
+     },
+     "determinism_sha256": "ebefc6f1a94b9c2679811c5db16c4c3b1f7aceeb59afeba15dc6444a1bc22555",
+     "protocols": {
+      "E1.1_end_to_end": {
+       "tables_detected": 95,
+       "n_tables": 95,
+       "table_detect_rate": 1.0,
+       "table_detect_rate_ci95": [
+        1.0,
+        1.0
+       ],
+       "injection_detect_rate": 0.9492,
+       "worst_type": "alias_variant",
+       "worst_type_detect_rate": 0.8723,
+       "separation_mean": 1.0
+      },
+      "E1.2_flat": {
+       "tables_detected": 75,
+       "n_tables": 95,
+       "table_detect_rate": 0.7895,
+       "table_detect_rate_ci95": [
+        0.6947,
+        0.8737
+       ],
+       "injection_detect_rate": 0.7203,
+       "worst_type": "ocr_similar",
+       "worst_type_detect_rate": 0.0,
+       "separation_mean": 0.38827
+      },
+      "E1.3_hier_expert": {
+       "tables_detected": 20,
+       "n_tables": 95,
+       "table_detect_rate": 0.2105,
+       "table_detect_rate_ci95": [
+        0.1263,
+        0.2947
+       ],
+       "injection_detect_rate": 0.1102,
+       "worst_type": "ocr_similar",
+       "worst_type_detect_rate": 0.0,
+       "separation_mean": 1.456015
+      }
+     },
+     "g1_frozen_reconciliation_applicable": true,
+     "g1_frozen_reconciliation_pass": true,
+     "n_tables_recomputed": 95
+    },
+    {
+     "seed": 20260831,
+     "n_tables_injected": 97,
+     "n_injections": 121,
+     "injection_rate_per_table": 0.0391,
+     "by_type": {
+      "alias_variant": 46,
+      "date_variant": 21,
+      "mixed_lang": 20,
+      "ocr_similar": 13,
+      "prefix_noise": 16,
+      "unit_suffix": 5
+     },
+     "determinism_sha256": "f58a5b3d092f003d10276f4e927139a0ca8643a4c11b2e10fc777cef56f8be57",
+     "protocols": {
+      "E1.1_end_to_end": {
+       "tables_detected": 97,
+       "n_tables": 97,
+       "table_detect_rate": 1.0,
+       "table_detect_rate_ci95": [
+        1.0,
+        1.0
+       ],
+       "injection_detect_rate": 0.9504,
+       "worst_type": "alias_variant",
+       "worst_type_detect_rate": 0.8696,
+       "separation_mean": 1.0
+      },
+      "E1.2_flat": {
+       "tables_detected": 76,
+       "n_tables": 97,
+       "table_detect_rate": 0.7835,
+       "table_detect_rate_ci95": [
+        0.701,
+        0.866
+       ],
+       "injection_detect_rate": 0.7107,
+       "worst_type": "ocr_similar",
+       "worst_type_detect_rate": 0.0,
+       "separation_mean": 0.380264
+      },
+      "E1.3_hier_expert": {
+       "tables_detected": 16,
+       "n_tables": 97,
+       "table_detect_rate": 0.1649,
+       "table_detect_rate_ci95": [
+        0.0928,
+        0.2474
+       ],
+       "injection_detect_rate": 0.0909,
+       "worst_type": "ocr_similar",
+       "worst_type_detect_rate": 0.0,
+       "separation_mean": 1.425994
+      }
+     },
+     "g1_frozen_reconciliation_applicable": false,
+     "g1_frozen_reconciliation_pass": null,
+     "n_tables_recomputed": 97
+    },
+    {
+     "seed": 20260832,
+     "n_tables_injected": 90,
+     "n_injections": 108,
+     "injection_rate_per_table": 0.0363,
+     "by_type": {
+      "alias_variant": 46,
+      "date_variant": 11,
+      "mixed_lang": 21,
+      "ocr_similar": 9,
+      "prefix_noise": 16,
+      "unit_suffix": 5
+     },
+     "determinism_sha256": "36e8f0769c841ce14573bf47d44a8192ae3ae70f0b76ca7ff9b5b2853a00361b",
+     "protocols": {
+      "E1.1_end_to_end": {
+       "tables_detected": 90,
+       "n_tables": 90,
+       "table_detect_rate": 1.0,
+       "table_detect_rate_ci95": [
+        1.0,
+        1.0
+       ],
+       "injection_detect_rate": 0.9259,
+       "worst_type": "ocr_similar",
+       "worst_type_detect_rate": 0.7778,
+       "separation_mean": 1.0
+      },
+      "E1.2_flat": {
+       "tables_detected": 68,
+       "n_tables": 90,
+       "table_detect_rate": 0.7556,
+       "table_detect_rate_ci95": [
+        0.6667,
+        0.8444
+       ],
+       "injection_detect_rate": 0.7315,
+       "worst_type": "ocr_similar",
+       "worst_type_detect_rate": 0.0,
+       "separation_mean": 0.373148
+      },
+      "E1.3_hier_expert": {
+       "tables_detected": 18,
+       "n_tables": 90,
+       "table_detect_rate": 0.2,
+       "table_detect_rate_ci95": [
+        0.1222,
+        0.2889
+       ],
+       "injection_detect_rate": 0.1019,
+       "worst_type": "ocr_similar",
+       "worst_type_detect_rate": 0.0,
+       "separation_mean": 1.399306
+      }
+     },
+     "g1_frozen_reconciliation_applicable": false,
+     "g1_frozen_reconciliation_pass": null,
+     "n_tables_recomputed": 90
+    }
+   ],
+   "seed_distribution_E1_2_flat": {
+    "values": [
+     0.7895,
+     0.7835,
+     0.7556
+    ],
+    "n_seeds": 3,
+    "min": 0.7556,
+    "max": 0.7895,
+    "spread": 0.0339,
+    "mean": 0.7762,
+    "frozen_seed42_reference": 0.7895,
+    "reproduces_frozen_seed42": true
+   },
+   "pooled_across_seeds": {
+    "E1.1_end_to_end": {
+     "n_tables": 282,
+     "table_detect_rate": 1.0,
+     "table_detect_rate_ci95": [
+      1.0,
+      1.0
+     ]
+    },
+    "E1.2_flat": {
+     "n_tables": 282,
+     "table_detect_rate": 0.7766,
+     "table_detect_rate_ci95": [
+      0.727,
+      0.8227
+     ]
+    },
+    "E1.3_hier_expert": {
+     "n_tables": 282,
+     "table_detect_rate": 0.1915,
+     "table_detect_rate_ci95": [
+      0.1489,
+      0.2376
+     ]
+    }
+   },
+   "prediction_check": {
+    "c2_multi_seed_ci_computable": true,
+    "e1_6_band": [
+     0.7,
+     0.85
+    ],
+    "all_seeds_in_band": true,
+    "values_out_of_band": []
+   },
+   "zero_endpoint": {
+    "ports_touched": [],
+    "model_calls": 0
+   }
+  },
+  "t4": {
+   "caliber_policy": "主口径 pso_era(08-19) 判 C3（卡 §2.2 预测数字出自该口径）; 次口径 v2(08-26) 作稳健性附注; 两口径永不混用",
+   "primary_separation_table": {
+    "equal": {
+     "mean_sep": 1.256268,
+     "worst_sep": 0.166665,
+     "worst_mutant": "M7_nf_fail_3",
+     "n_evals": 1
+    },
+    "expert": {
+     "mean_sep": 1.255968,
+     "worst_sep": 0.208331,
+     "worst_mutant": "M7_nf_fail_3",
+     "n_evals": 1
+    },
+    "random30": {
+     "mean_sep": 1.260413,
+     "std_of_means": 0.05296,
+     "worst_sep": 0.069444,
+     "best_single_mean": 1.367023,
+     "n_evals": 30,
+     "n_beating_expert": 16
+    },
+    "greedy": {
+     "mean_sep": 1.432574,
+     "worst_sep": 0.092591,
+     "worst_mutant": "M7_nf_fail_3",
+     "n_evals": 67
+    },
+    "pso_5seeds": {
+     "mean_sep_mean": 1.432574,
+     "mean_sep_values": [
+      1.432574,
+      1.432574,
+      1.432574,
+      1.432574,
+      1.432574
+     ],
+     "mean_sep_std": 0.0,
+     "mean_sep_ci95": [
+      1.432574,
+      1.432574
+     ],
+     "worst_sep_mean": 0.092591,
+     "worst_sep_values": [
+      0.092591,
+      0.092591,
+      0.092591,
+      0.092591,
+      0.092591
+     ],
+     "n_evals": 7650
+    },
+    "pso_minimax_5seeds": {
+     "mean_sep_mean": 1.25605,
+     "worst_sep_mean": 0.35714,
+     "worst_sep_values": [
+      0.35714,
+      0.35714,
+      0.35714,
+      0.35714,
+      0.35714
+     ],
+     "mean_sep_values": [
+      1.199671,
+      1.241046,
+      1.244429,
+      1.260752,
+      1.334351
+     ]
+    }
+   },
+   "secondary_separation_table": {
+    "equal": {
+     "mean_sep": 1.253601,
+     "worst_sep": 0.166665,
+     "worst_mutant": "M7_nf_fail_3",
+     "n_evals": 1
+    },
+    "expert": {
+     "mean_sep": 1.252634,
+     "worst_sep": 0.208331,
+     "worst_mutant": "M7_nf_fail_3",
+     "n_evals": 1
+    },
+    "random30": {
+     "mean_sep": 1.257812,
+     "std_of_means": 0.052552,
+     "worst_sep": 0.069444,
+     "best_single_mean": 1.364356,
+     "n_evals": 30,
+     "n_beating_expert": 16
+    },
+    "greedy": {
+     "mean_sep": 1.428129,
+     "worst_sep": 0.092591,
+     "worst_mutant": "M7_nf_fail_3",
+     "n_evals": 67
+    },
+    "pso_5seeds": {
+     "mean_sep_mean": 1.428129,
+     "mean_sep_values": [
+      1.428129,
+      1.428129,
+      1.428129,
+      1.428129,
+      1.428129
+     ],
+     "mean_sep_std": 0.0,
+     "mean_sep_ci95": [
+      1.428129,
+      1.428129
+     ],
+     "worst_sep_mean": 0.092591,
+     "worst_sep_values": [
+      0.092591,
+      0.092591,
+      0.092591,
+      0.092591,
+      0.092591
+     ],
+     "n_evals": 7650
+    },
+    "pso_minimax_5seeds": {
+     "mean_sep_mean": 1.23509,
+     "worst_sep_mean": 0.357139,
+     "worst_sep_values": [
+      0.357139,
+      0.357139,
+      0.357139,
+      0.357139,
+      0.357139
+     ],
+     "mean_sep_values": [
+      1.10249,
+      1.239141,
+      1.242524,
+      1.258847,
+      1.332446
+     ]
+    }
+   },
+   "per_caliber": {
+    "pso_era_input_20260819": {
+     "caliber": "pso_era_input_20260819",
+     "matrix_source": "checkpoint_discrimination_report_20260819.json",
+     "n_weight_dims": 11,
+     "n_mutants": 9,
+     "separation_table": {
+      "equal": {
+       "mean_sep": 1.256268,
+       "worst_sep": 0.166665,
+       "worst_mutant": "M7_nf_fail_3",
+       "n_evals": 1
+      },
+      "expert": {
+       "mean_sep": 1.255968,
+       "worst_sep": 0.208331,
+       "worst_mutant": "M7_nf_fail_3",
+       "n_evals": 1
+      },
+      "random30": {
+       "mean_sep": 1.260413,
+       "std_of_means": 0.05296,
+       "worst_sep": 0.069444,
+       "best_single_mean": 1.367023,
+       "n_evals": 30,
+       "n_beating_expert": 16
+      },
+      "greedy": {
+       "mean_sep": 1.432574,
+       "worst_sep": 0.092591,
+       "worst_mutant": "M7_nf_fail_3",
+       "n_evals": 67
+      },
+      "pso_5seeds": {
+       "mean_sep_mean": 1.432574,
+       "mean_sep_values": [
+        1.432574,
+        1.432574,
+        1.432574,
+        1.432574,
+        1.432574
+       ],
+       "mean_sep_std": 0.0,
+       "mean_sep_ci95": [
+        1.432574,
+        1.432574
+       ],
+       "worst_sep_mean": 0.092591,
+       "worst_sep_values": [
+        0.092591,
+        0.092591,
+        0.092591,
+        0.092591,
+        0.092591
+       ],
+       "n_evals": 7650
+      },
+      "pso_minimax_5seeds": {
+       "mean_sep_mean": 1.25605,
+       "worst_sep_mean": 0.35714,
+       "worst_sep_values": [
+        0.35714,
+        0.35714,
+        0.35714,
+        0.35714,
+        0.35714
+       ],
+       "mean_sep_values": [
+        1.199671,
+        1.241046,
+        1.244429,
+        1.260752,
+        1.334351
+       ]
+      }
+     },
+     "pso_runs": [
+      {
+       "seed": 20260821,
+       "weights": {
+        "parse": 1,
+        "parse.doc": 1,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 3,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 3,
+        "qa.numeric": 1,
+        "qa.citation": 3,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.432574,
+       "worst_sep": 0.092591,
+       "trace_tail": [
+        1.432574,
+        1.432574,
+        1.432574
+       ],
+       "evals": 1530,
+       "per_mutant": [
+        3.327992,
+        0.277778,
+        0.555555,
+        0.37037,
+        1.0,
+        1.166666,
+        0.092591,
+        1.75926,
+        4.34295
+       ]
+      },
+      {
+       "seed": 42,
+       "weights": {
+        "parse": 3,
+        "parse.doc": 1,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 1,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 3,
+        "qa.numeric": 1,
+        "qa.citation": 3,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.432574,
+       "worst_sep": 0.092591,
+       "trace_tail": [
+        1.432574,
+        1.432574,
+        1.432574
+       ],
+       "evals": 1530,
+       "per_mutant": [
+        3.327992,
+        0.277778,
+        0.555555,
+        0.37037,
+        1.0,
+        1.166666,
+        0.092591,
+        1.75926,
+        4.34295
+       ]
+      },
+      {
+       "seed": 2026,
+       "weights": {
+        "parse": 1,
+        "parse.doc": 1,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 3,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 3,
+        "qa.numeric": 1,
+        "qa.citation": 3,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.432574,
+       "worst_sep": 0.092591,
+       "trace_tail": [
+        1.432574,
+        1.432574,
+        1.432574
+       ],
+       "evals": 1530,
+       "per_mutant": [
+        3.327992,
+        0.277778,
+        0.555555,
+        0.37037,
+        1.0,
+        1.166666,
+        0.092591,
+        1.75926,
+        4.34295
+       ]
+      },
+      {
+       "seed": 20260830,
+       "weights": {
+        "parse": 3,
+        "parse.doc": 1,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 1,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 3,
+        "qa.numeric": 1,
+        "qa.citation": 3,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.432574,
+       "worst_sep": 0.092591,
+       "trace_tail": [
+        1.432574,
+        1.432574,
+        1.432574
+       ],
+       "evals": 1530,
+       "per_mutant": [
+        3.327992,
+        0.277778,
+        0.555555,
+        0.37037,
+        1.0,
+        1.166666,
+        0.092591,
+        1.75926,
+        4.34295
+       ]
+      },
+      {
+       "seed": 777,
+       "weights": {
+        "parse": 1,
+        "parse.doc": 1,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 1,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 3,
+        "qa.numeric": 1,
+        "qa.citation": 3,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.432574,
+       "worst_sep": 0.092591,
+       "trace_tail": [
+        1.432574,
+        1.432574,
+        1.432574
+       ],
+       "evals": 1530,
+       "per_mutant": [
+        3.327992,
+        0.277778,
+        0.555555,
+        0.37037,
+        1.0,
+        1.166666,
+        0.092591,
+        1.75926,
+        4.34295
+       ]
+      }
+     ],
+     "minimax_runs": [
+      {
+       "seed": 20260821,
+       "weights": {
+        "parse": 1,
+        "parse.doc": 2,
+        "parse.table": 3,
+        "parse.field": 3,
+        "parse.reconcile": 3,
+        "qa": 2,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 1,
+        "qa.numeric": 3,
+        "qa.citation": 1,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.199671,
+       "worst_sep": 0.35714,
+       "evals": 1530
+      },
+      {
+       "seed": 42,
+       "weights": {
+        "parse": 3,
+        "parse.doc": 2,
+        "parse.table": 3,
+        "parse.field": 2,
+        "parse.reconcile": 3,
+        "qa": 2,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 1,
+        "qa.numeric": 3,
+        "qa.citation": 1,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.241046,
+       "worst_sep": 0.35714,
+       "evals": 1530
+      },
+      {
+       "seed": 2026,
+       "weights": {
+        "parse": 3,
+        "parse.doc": 1,
+        "parse.table": 2,
+        "parse.field": 2,
+        "parse.reconcile": 3,
+        "qa": 2,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 1,
+        "qa.numeric": 3,
+        "qa.citation": 1,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.244429,
+       "worst_sep": 0.35714,
+       "evals": 1530
+      },
+      {
+       "seed": 20260830,
+       "weights": {
+        "parse": 2,
+        "parse.doc": 3,
+        "parse.table": 3,
+        "parse.field": 1,
+        "parse.reconcile": 2,
+        "qa": 3,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 1,
+        "qa.numeric": 3,
+        "qa.citation": 1,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.260752,
+       "worst_sep": 0.35714,
+       "evals": 1530
+      },
+      {
+       "seed": 777,
+       "weights": {
+        "parse": 2,
+        "parse.doc": 3,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 3,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 1,
+        "qa.numeric": 3,
+        "qa.citation": 1,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.334351,
+       "worst_sep": 0.35714,
+       "evals": 1530
+      }
+     ],
+     "frozen_reproduction_gate": {
+      "frozen_optimized_separation": 1.432574,
+      "recomputed": 1.432574,
+      "abs_err": 0.0,
+      "threshold": 0.01,
+      "pass": true,
+      "weights_identical_to_frozen": true
+     },
+     "pareto": {
+      "points": [
+       {
+        "source": "pso",
+        "key": "seed=20260821",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=42",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=2026",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=20260830",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=777",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=20260821",
+        "mean": 1.199671,
+        "worst": 0.35714
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=42",
+        "mean": 1.241046,
+        "worst": 0.35714
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=2026",
+        "mean": 1.244429,
+        "worst": 0.35714
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=20260830",
+        "mean": 1.260752,
+        "worst": 0.35714
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=777",
+        "mean": 1.334351,
+        "worst": 0.35714
+       },
+       {
+        "source": "random",
+        "key": "i=0",
+        "mean": 1.31746,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=1",
+        "mean": 1.250713,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=2",
+        "mean": 1.221526,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=3",
+        "mean": 1.352422,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=4",
+        "mean": 1.241453,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=5",
+        "mean": 1.178933,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=6",
+        "mean": 1.169629,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=7",
+        "mean": 1.290757,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=8",
+        "mean": 1.169674,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=9",
+        "mean": 1.243233,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=10",
+        "mean": 1.225546,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=11",
+        "mean": 1.310412,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=12",
+        "mean": 1.314214,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=13",
+        "mean": 1.278727,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=14",
+        "mean": 1.312096,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=15",
+        "mean": 1.261159,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=16",
+        "mean": 1.276353,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=17",
+        "mean": 1.265252,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=18",
+        "mean": 1.217264,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=19",
+        "mean": 1.302101,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=20",
+        "mean": 1.163913,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=21",
+        "mean": 1.197471,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=22",
+        "mean": 1.238841,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=23",
+        "mean": 1.245014,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=24",
+        "mean": 1.256885,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=25",
+        "mean": 1.233776,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=26",
+        "mean": 1.292023,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=27",
+        "mean": 1.289293,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=28",
+        "mean": 1.367023,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=29",
+        "mean": 1.329234,
+        "worst": null
+       },
+       {
+        "source": "expert",
+        "key": "config",
+        "mean": 1.255968,
+        "worst": 0.208331
+       },
+       {
+        "source": "equal",
+        "key": "uniform",
+        "mean": 1.256268,
+        "worst": 0.166665
+       },
+       {
+        "source": "greedy",
+        "key": "coordinate_ascent",
+        "mean": 1.432574,
+        "worst": 0.092591
+       }
+      ],
+      "front": [
+       {
+        "source": "pso",
+        "key": "seed=20260821",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=42",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=2026",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=20260830",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=777",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "greedy",
+        "key": "coordinate_ascent",
+        "mean": 1.432574,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=777",
+        "mean": 1.334351,
+        "worst": 0.35714
+       }
+      ],
+      "axes": [
+       "mean_separation (0-10 leaf scale)",
+       "worst_mutant_separation"
+      ],
+      "n_points": 13,
+      "n_front": 7
+     },
+     "expert_weights": {
+      "parse": 3,
+      "parse.doc": 3,
+      "parse.table": 2,
+      "parse.field": 3,
+      "parse.reconcile": 3,
+      "qa": 3,
+      "qa.retrieval": 2,
+      "qa.faithfulness": 3,
+      "qa.numeric": 3,
+      "qa.citation": 2,
+      "qa.refusal": 2
+     }
+    },
+    "design_doc_input_20260826": {
+     "caliber": "design_doc_input_20260826",
+     "matrix_source": "checkpoint_discrimination_report.json",
+     "n_weight_dims": 11,
+     "n_mutants": 9,
+     "separation_table": {
+      "equal": {
+       "mean_sep": 1.253601,
+       "worst_sep": 0.166665,
+       "worst_mutant": "M7_nf_fail_3",
+       "n_evals": 1
+      },
+      "expert": {
+       "mean_sep": 1.252634,
+       "worst_sep": 0.208331,
+       "worst_mutant": "M7_nf_fail_3",
+       "n_evals": 1
+      },
+      "random30": {
+       "mean_sep": 1.257812,
+       "std_of_means": 0.052552,
+       "worst_sep": 0.069444,
+       "best_single_mean": 1.364356,
+       "n_evals": 30,
+       "n_beating_expert": 16
+      },
+      "greedy": {
+       "mean_sep": 1.428129,
+       "worst_sep": 0.092591,
+       "worst_mutant": "M7_nf_fail_3",
+       "n_evals": 67
+      },
+      "pso_5seeds": {
+       "mean_sep_mean": 1.428129,
+       "mean_sep_values": [
+        1.428129,
+        1.428129,
+        1.428129,
+        1.428129,
+        1.428129
+       ],
+       "mean_sep_std": 0.0,
+       "mean_sep_ci95": [
+        1.428129,
+        1.428129
+       ],
+       "worst_sep_mean": 0.092591,
+       "worst_sep_values": [
+        0.092591,
+        0.092591,
+        0.092591,
+        0.092591,
+        0.092591
+       ],
+       "n_evals": 7650
+      },
+      "pso_minimax_5seeds": {
+       "mean_sep_mean": 1.23509,
+       "worst_sep_mean": 0.357139,
+       "worst_sep_values": [
+        0.357139,
+        0.357139,
+        0.357139,
+        0.357139,
+        0.357139
+       ],
+       "mean_sep_values": [
+        1.10249,
+        1.239141,
+        1.242524,
+        1.258847,
+        1.332446
+       ]
+      }
+     },
+     "pso_runs": [
+      {
+       "seed": 20260821,
+       "weights": {
+        "parse": 1,
+        "parse.doc": 1,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 3,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 3,
+        "qa.numeric": 1,
+        "qa.citation": 3,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.428129,
+       "worst_sep": 0.092591,
+       "trace_tail": [
+        1.428129,
+        1.428129,
+        1.428129
+       ],
+       "evals": 1530,
+       "per_mutant": [
+        3.327991,
+        0.277778,
+        0.555556,
+        0.370371,
+        0.98,
+        1.166666,
+        0.092591,
+        1.73926,
+        4.34295
+       ]
+      },
+      {
+       "seed": 42,
+       "weights": {
+        "parse": 3,
+        "parse.doc": 1,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 1,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 3,
+        "qa.numeric": 1,
+        "qa.citation": 3,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.428129,
+       "worst_sep": 0.092591,
+       "trace_tail": [
+        1.428129,
+        1.428129,
+        1.428129
+       ],
+       "evals": 1530,
+       "per_mutant": [
+        3.327991,
+        0.277778,
+        0.555556,
+        0.370371,
+        0.98,
+        1.166666,
+        0.092591,
+        1.73926,
+        4.34295
+       ]
+      },
+      {
+       "seed": 2026,
+       "weights": {
+        "parse": 1,
+        "parse.doc": 1,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 3,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 3,
+        "qa.numeric": 1,
+        "qa.citation": 3,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.428129,
+       "worst_sep": 0.092591,
+       "trace_tail": [
+        1.428129,
+        1.428129,
+        1.428129
+       ],
+       "evals": 1530,
+       "per_mutant": [
+        3.327991,
+        0.277778,
+        0.555556,
+        0.370371,
+        0.98,
+        1.166666,
+        0.092591,
+        1.73926,
+        4.34295
+       ]
+      },
+      {
+       "seed": 20260830,
+       "weights": {
+        "parse": 3,
+        "parse.doc": 1,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 3,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 3,
+        "qa.numeric": 1,
+        "qa.citation": 3,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.428129,
+       "worst_sep": 0.092591,
+       "trace_tail": [
+        1.428129,
+        1.428129,
+        1.428129
+       ],
+       "evals": 1530,
+       "per_mutant": [
+        3.327991,
+        0.277778,
+        0.555556,
+        0.370371,
+        0.98,
+        1.166666,
+        0.092591,
+        1.73926,
+        4.34295
+       ]
+      },
+      {
+       "seed": 777,
+       "weights": {
+        "parse": 1,
+        "parse.doc": 1,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 1,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 3,
+        "qa.numeric": 1,
+        "qa.citation": 3,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.428129,
+       "worst_sep": 0.092591,
+       "trace_tail": [
+        1.428129,
+        1.428129,
+        1.428129
+       ],
+       "evals": 1530,
+       "per_mutant": [
+        3.327991,
+        0.277778,
+        0.555556,
+        0.370371,
+        0.98,
+        1.166666,
+        0.092591,
+        1.73926,
+        4.34295
+       ]
+      }
+     ],
+     "minimax_runs": [
+      {
+       "seed": 20260821,
+       "weights": {
+        "parse": 2,
+        "parse.doc": 2,
+        "parse.table": 1,
+        "parse.field": 3,
+        "parse.reconcile": 1,
+        "qa": 1,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 1,
+        "qa.numeric": 3,
+        "qa.citation": 1,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.10249,
+       "worst_sep": 0.357139,
+       "evals": 1530
+      },
+      {
+       "seed": 42,
+       "weights": {
+        "parse": 3,
+        "parse.doc": 2,
+        "parse.table": 3,
+        "parse.field": 2,
+        "parse.reconcile": 3,
+        "qa": 2,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 1,
+        "qa.numeric": 3,
+        "qa.citation": 1,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.239141,
+       "worst_sep": 0.357139,
+       "evals": 1530
+      },
+      {
+       "seed": 2026,
+       "weights": {
+        "parse": 3,
+        "parse.doc": 1,
+        "parse.table": 2,
+        "parse.field": 2,
+        "parse.reconcile": 3,
+        "qa": 2,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 1,
+        "qa.numeric": 3,
+        "qa.citation": 1,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.242524,
+       "worst_sep": 0.357139,
+       "evals": 1530
+      },
+      {
+       "seed": 20260830,
+       "weights": {
+        "parse": 2,
+        "parse.doc": 3,
+        "parse.table": 3,
+        "parse.field": 1,
+        "parse.reconcile": 2,
+        "qa": 3,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 1,
+        "qa.numeric": 3,
+        "qa.citation": 1,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.258847,
+       "worst_sep": 0.357139,
+       "evals": 1530
+      },
+      {
+       "seed": 777,
+       "weights": {
+        "parse": 2,
+        "parse.doc": 3,
+        "parse.table": 1,
+        "parse.field": 1,
+        "parse.reconcile": 3,
+        "qa": 3,
+        "qa.retrieval": 1,
+        "qa.faithfulness": 1,
+        "qa.numeric": 3,
+        "qa.citation": 1,
+        "qa.refusal": 1
+       },
+       "mean_sep": 1.332446,
+       "worst_sep": 0.357139,
+       "evals": 1530
+      }
+     ],
+     "frozen_reproduction_gate": {
+      "frozen_optimized_separation": 1.432574,
+      "recomputed": 1.428129,
+      "abs_err": 0.004445,
+      "threshold": 0.01,
+      "pass": true,
+      "weights_identical_to_frozen": true
+     },
+     "pareto": {
+      "points": [
+       {
+        "source": "pso",
+        "key": "seed=20260821",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=42",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=2026",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=20260830",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=777",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=20260821",
+        "mean": 1.10249,
+        "worst": 0.357139
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=42",
+        "mean": 1.239141,
+        "worst": 0.357139
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=2026",
+        "mean": 1.242524,
+        "worst": 0.357139
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=20260830",
+        "mean": 1.258847,
+        "worst": 0.357139
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=777",
+        "mean": 1.332446,
+        "worst": 0.357139
+       },
+       {
+        "source": "random",
+        "key": "i=0",
+        "mean": 1.314383,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=1",
+        "mean": 1.247379,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=2",
+        "mean": 1.218859,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=3",
+        "mean": 1.349755,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=4",
+        "mean": 1.238491,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=5",
+        "mean": 1.177822,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=6",
+        "mean": 1.168416,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=7",
+        "mean": 1.286312,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=8",
+        "mean": 1.168193,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=9",
+        "mean": 1.2399,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=10",
+        "mean": 1.222213,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=11",
+        "mean": 1.307988,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=12",
+        "mean": 1.310213,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=13",
+        "mean": 1.275765,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=14",
+        "mean": 1.309671,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=15",
+        "mean": 1.258082,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=16",
+        "mean": 1.273391,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=17",
+        "mean": 1.262289,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=18",
+        "mean": 1.21484,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=19",
+        "mean": 1.299434,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=20",
+        "mean": 1.161246,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=21",
+        "mean": 1.196138,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=22",
+        "mean": 1.237361,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=23",
+        "mean": 1.24259,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=24",
+        "mean": 1.255774,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=25",
+        "mean": 1.232295,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=26",
+        "mean": 1.288689,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=27",
+        "mean": 1.285959,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=28",
+        "mean": 1.364356,
+        "worst": null
+       },
+       {
+        "source": "random",
+        "key": "i=29",
+        "mean": 1.326567,
+        "worst": null
+       },
+       {
+        "source": "expert",
+        "key": "config",
+        "mean": 1.252634,
+        "worst": 0.208331
+       },
+       {
+        "source": "equal",
+        "key": "uniform",
+        "mean": 1.253601,
+        "worst": 0.166665
+       },
+       {
+        "source": "greedy",
+        "key": "coordinate_ascent",
+        "mean": 1.428129,
+        "worst": 0.092591
+       }
+      ],
+      "front": [
+       {
+        "source": "pso",
+        "key": "seed=20260821",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=42",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=2026",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=20260830",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso",
+        "key": "seed=777",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "greedy",
+        "key": "coordinate_ascent",
+        "mean": 1.428129,
+        "worst": 0.092591
+       },
+       {
+        "source": "pso_minimax",
+        "key": "seed=777",
+        "mean": 1.332446,
+        "worst": 0.357139
+       }
+      ],
+      "axes": [
+       "mean_separation (0-10 leaf scale)",
+       "worst_mutant_separation"
+      ],
+      "n_points": 13,
+      "n_front": 7
+     },
+     "expert_weights": {
+      "parse": 3,
+      "parse.doc": 3,
+      "parse.table": 2,
+      "parse.field": 3,
+      "parse.reconcile": 3,
+      "qa": 3,
+      "qa.retrieval": 2,
+      "qa.faithfulness": 3,
+      "qa.numeric": 3,
+      "qa.citation": 2,
+      "qa.refusal": 2
+     }
+    }
+   },
+   "question_set_budget": {
+    "bank_size": 19,
+    "qa_mutants_in_scope": 7,
+    "protocol_reuse": "research/pso/pso_question_set_search.py (build_bank/load_qa_mutants/keep_rate/coverage_violations/fitness/pso/greedy)",
+    "budgets": {
+     "B=5(25%)": {
+      "budget": 5,
+      "fraction": 0.25,
+      "n_seeds": 3,
+      "pso_keep_rate_mean": 1.0,
+      "pso_keep_rate_values": [
+       1.0,
+       1.0,
+       1.0
+      ],
+      "pso_fitness_mean": 0.031579,
+      "greedy_keep_rate_mean": 1.0,
+      "min_per_leaf_support": {
+       "per_leaf_bank_support_min": 1,
+       "n_leaves_in_bank": 7
+      },
+      "runs": [
+       {
+        "seed": 20260825,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       },
+       {
+        "seed": 20260826,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       },
+       {
+        "seed": 20260827,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       }
+      ]
+     },
+     "B=10(50%)": {
+      "budget": 10,
+      "fraction": 0.5,
+      "n_seeds": 3,
+      "pso_keep_rate_mean": 1.0,
+      "pso_keep_rate_values": [
+       1.0,
+       1.0,
+       1.0
+      ],
+      "pso_fitness_mean": 0.036842,
+      "greedy_keep_rate_mean": 1.0,
+      "min_per_leaf_support": {
+       "per_leaf_bank_support_min": 1,
+       "n_leaves_in_bank": 7
+      },
+      "runs": [
+       {
+        "seed": 20260825,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       },
+       {
+        "seed": 20260826,
+        "pso_size": 3,
+        "pso_fitness": 0.047368,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       },
+       {
+        "seed": 20260827,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       }
+      ]
+     },
+     "B=14(75%)": {
+      "budget": 14,
+      "fraction": 0.75,
+      "n_seeds": 3,
+      "pso_keep_rate_mean": 1.0,
+      "pso_keep_rate_values": [
+       1.0,
+       1.0,
+       1.0
+      ],
+      "pso_fitness_mean": 0.031579,
+      "greedy_keep_rate_mean": 1.0,
+      "min_per_leaf_support": {
+       "per_leaf_bank_support_min": 1,
+       "n_leaves_in_bank": 7
+      },
+      "runs": [
+       {
+        "seed": 20260825,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       },
+       {
+        "seed": 20260826,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       },
+       {
+        "seed": 20260827,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       }
+      ]
+     },
+     "B=19(100%)": {
+      "budget": 19,
+      "fraction": 1.0,
+      "n_seeds": 3,
+      "pso_keep_rate_mean": 1.0,
+      "pso_keep_rate_values": [
+       1.0,
+       1.0,
+       1.0
+      ],
+      "pso_fitness_mean": 0.031579,
+      "greedy_keep_rate_mean": 1.0,
+      "min_per_leaf_support": {
+       "per_leaf_bank_support_min": 1,
+       "n_leaves_in_bank": 7
+      },
+      "runs": [
+       {
+        "seed": 20260825,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       },
+       {
+        "seed": 20260826,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       },
+       {
+        "seed": 20260827,
+        "pso_size": 2,
+        "pso_fitness": 0.031579,
+        "pso_keep_rate": 1.0,
+        "pso_coverage_violations": 0,
+        "greedy_keep_rate": 1.0,
+        "greedy_fitness": 0.031579,
+        "all_mutants_target_leaves": 7
+       }
+      ]
+     }
+    },
+    "keep_rate_sequence": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "monotonic_non_decreasing": true,
+    "saturated_at_smallest_budget": true,
+    "saturation_note": "keep_rate 在最小预算即达 1.0 -> 题集维度的判别力梯度在该协议下饱和, 无法区分 25%~100%; 已并列次级指标（适应度/覆盖违反/最小叶支撑题数）作为可区分轴, 论文中不得用 keep_rate 主张预算-判别力单调性。"
+   },
+   "minimax_pred": 0.208,
+   "multi_seed_ci_caveat": "5 个 PSO seed 在臂 A 矩阵上全部收敛到同一点（std=0, CI 宽度=0）: 离散 {1,2,3}^11 权重空间在该目标下最优点高度退化, 多 seed CI 因此可算但零宽, 不构成统计区分力证据; 随机组与 greedy 的对照才是本窗的实质证据。",
+   "checks": {
+    "c3_pso_beats_equal": true,
+    "c3_pso_beats_expert": true,
+    "c3_pso_beats_random30": true,
+    "c3_pso_beats_greedy": false,
+    "pso_mean_reproduces_frozen_1_4326": true,
+    "expert_reproduces_frozen_1_2560": true,
+    "random30_below_pso_card_pred": true,
+    "minimax_worst_ge_pred": true,
+    "budget_gradient_monotonic": true,
+    "multi_seed_ci_computable": true,
+    "pso_seed_variance_degenerate": true,
+    "greedy_parity_with_pso": true,
+    "greedy_cheaper_than_pso": true,
+    "pso_worst_worse_than_expert": true,
+    "minimax_trades_mean_for_worst": true,
+    "worst_dimension_reported": true
+   },
+   "c3_verdict": {
+    "success_clause_holds": false,
+    "degradation_clause_needed": true,
+    "mean_gain_vs_expert": 0.176606,
+    "worst_vs_expert": {
+     "pso": 0.092591,
+     "expert": 0.208331,
+     "minimax": 0.35714
+    },
+    "cost_evals": {
+     "equal": 1,
+     "expert": 1,
+     "random30": 30,
+     "greedy": 67,
+     "pso_5seeds": 7650
+    },
+    "pso_cost_over_greedy": 114.2,
+    "clause_reading": "C3 成功标准含『优于四组对照』: PSO 优于 equal/expert/random30 三组, 但与 greedy 完全打平且评估次数为其 114.2 倍 -> 该维不满足, 触发降级条款; 且 PSO 最坏 mutant 分离度低于 expert（均值增益以最差维退化为代价）。论文按降级口径陈述: 自动搜索的价值在『省专家调参』而非『判别力上限』。"
+   },
+   "zero_endpoint": {
+    "ports_touched": [],
+    "model_calls": 0
+   },
+   "separation_table": {
+    "equal": {
+     "mean_sep": 1.256268,
+     "worst_sep": 0.166665,
+     "worst_mutant": "M7_nf_fail_3",
+     "n_evals": 1
+    },
+    "expert": {
+     "mean_sep": 1.255968,
+     "worst_sep": 0.208331,
+     "worst_mutant": "M7_nf_fail_3",
+     "n_evals": 1
+    },
+    "random30": {
+     "mean_sep": 1.260413,
+     "std_of_means": 0.05296,
+     "worst_sep": 0.069444,
+     "best_single_mean": 1.367023,
+     "n_evals": 30,
+     "n_beating_expert": 16
+    },
+    "greedy": {
+     "mean_sep": 1.432574,
+     "worst_sep": 0.092591,
+     "worst_mutant": "M7_nf_fail_3",
+     "n_evals": 67
+    },
+    "pso_5seeds": {
+     "mean_sep_mean": 1.432574,
+     "mean_sep_values": [
+      1.432574,
+      1.432574,
+      1.432574,
+      1.432574,
+      1.432574
+     ],
+     "mean_sep_std": 0.0,
+     "mean_sep_ci95": [
+      1.432574,
+      1.432574
+     ],
+     "worst_sep_mean": 0.092591,
+     "worst_sep_values": [
+      0.092591,
+      0.092591,
+      0.092591,
+      0.092591,
+      0.092591
+     ],
+     "n_evals": 7650
+    },
+    "pso_minimax_5seeds": {
+     "mean_sep_mean": 1.25605,
+     "worst_sep_mean": 0.35714,
+     "worst_sep_values": [
+      0.35714,
+      0.35714,
+      0.35714,
+      0.35714,
+      0.35714
+     ],
+     "mean_sep_values": [
+      1.199671,
+      1.241046,
+      1.244429,
+      1.260752,
+      1.334351
+     ]
+    }
+   }
+  },
+  "findings": {
+   "F_W2_1_m7_item_level_invisible": {
+    "observation": "M7_nf_fail_3 在 Full-Judge 口径下分离度 = 0.0000（映射口径 0.2083）",
+    "mechanism": "NF 工件 9 条里 8 条 number_claims=0; mut_nf_fail(3) 把前 3 条 pass 置 False 并写 n_fail=3, 而这 3 条本身无任何数值主张。本窗裁判只见 item 级观测（按 E1.5 证据等价设计刻意屏蔽 n_fail 聚合量）,裁判判定其为零主张条目上的空洞断言 -> 与 control 同分。",
+    "attribution": "突变体保真度问题（缺陷注入只落在聚合计数上）, 非单纯裁判能力问题",
+    "consequence": "该 mutant 的 M1/M2 联合判别结论不能归因于裁判; 若要测 Full-Judge 对数值忠实度的敏感性, 需换成在有数值主张的条目上注入 ungrounded。",
+    "both_calibers_below_tau": true
+   },
+   "F_W2_2_missing_artifact_pessimism": {
+    "observation": "M8_judge_artifact_missing: 判分 2.0972 vs 映射 1.1656（判分更敏感）",
+    "mechanism": "确定性口径对缺工件给中性 missing_score=5; 裁判对空证据给0/0/5（理由: 无法验证即最低分）-> Full-Judge 把'证据缺失'当作缺陷而非中性事件。",
+    "note": "属评分政策差异（悲观 vs 中性）, 需在论文中作为口径选择而非优劣陈述。",
+    "no_evidence_scores": {
+     "M8_judge_artifact_missing|qa.citation.judge": "empty_evidence_snippet",
+     "M8_judge_artifact_missing|qa.faithfulness.judge": "empty_evidence_snippet",
+     "M8_judge_artifact_missing|qa.refusal.judge": "empty_evidence_snippet"
+    }
+   },
+   "F_W2_3_hinge_vs_graded": {
+    "observation": "M1_m1_rows_fail: 判分 1.8523 < 映射 2.6428（判分更钝）",
+    "mechanism": "parse.doc.ok 的确定性路由是 overall_status_binary 硬闸门（PASS=10 / FAIL=0）,2 条 FAIL 即归零; 裁判按失败占比给 7 分（部分分）-> 闸门被软化。反向地 M9（全 FAIL）判分 4.6591 > 映射 3.9248。",
+    "consequence": "硬闸门语义是契约层设计选择, Full-Judge 默认给部分分; 二者不可互换。"
+   },
+   "F_W2_4_quantization_floor": {
+    "observation": "叶分量纲为 0-10 整数, 1 个单位 = 四维 0-5 尺度上的 0.5;E1.5 一致性注记的预测容差 |Δ|<=0.5 恰等于该分辨率下限。faithfulness 真实聚合值 9.875 无法用整数叶分表达（裁判给 9）。",
+    "implication": "|Δ|<=0.5 判据在 0-10 整数叶分量纲下无区分力, 需二选一:放宽到 >1 单位, 或改用连续叶分。列入明日一页纸判定项。"
+   },
+   "F_W2_5_greedy_parity": {
+    "success_clause_holds": false,
+    "degradation_clause_needed": true,
+    "mean_gain_vs_expert": 0.176606,
+    "worst_vs_expert": {
+     "pso": 0.092591,
+     "expert": 0.208331,
+     "minimax": 0.35714
+    },
+    "cost_evals": {
+     "equal": 1,
+     "expert": 1,
+     "random30": 30,
+     "greedy": 67,
+     "pso_5seeds": 7650
+    },
+    "pso_cost_over_greedy": 114.2,
+    "clause_reading": "C3 成功标准含『优于四组对照』: PSO 优于 equal/expert/random30 三组, 但与 greedy 完全打平且评估次数为其 114.2 倍 -> 该维不满足, 触发降级条款; 且 PSO 最坏 mutant 分离度低于 expert（均值增益以最差维退化为代价）。论文按降级口径陈述: 自动搜索的价值在『省专家调参』而非『判别力上限』。"
+   },
+   "F_W2_6_injector_seed_stability": {
+    "E1.2_flat_rates": [
+     0.7895,
+     0.7835,
+     0.7556
+    ],
+    "spread": 0.0339,
+    "observation": "三 seed 表级判别率极差仅 0.0339（0.756~0.789）, 且各自 95% CI 高度重叠 -> 臂 B 判别率对注入种子稳健, 变异主要来自表样本本身。"
+   }
+  },
+  "prereg_predicates": {
+   "C2_multi_seed_ci_computable": {
+    "prereg": "分层评测 >=3 seeds CI 可算（本窗承担该一维）",
+    "observed": {
+     "n_seeds": 3,
+     "per_seed_ci": [
+      [
+       0.6947,
+       0.8737
+      ],
+      [
+       0.701,
+       0.866
+      ],
+      [
+       0.6667,
+       0.8444
+      ]
+     ],
+     "pooled_ci": [
+      0.727,
+      0.8227
+     ]
+    },
+    "verdict": "PASS"
+   },
+   "C3_pso_beats_four_controls": {
+    "prereg": "PSO 均值分离度优于四组对照（多 seed CI）, 最坏类型维度如实报告",
+    "observed": {
+     "equal": 1.256268,
+     "expert": 1.255968,
+     "random30": 1.260413,
+     "greedy": 1.432574,
+     "pso": 1.432574,
+     "beats": [
+      "equal",
+      "expert",
+      "random30"
+     ]
+    },
+    "verdict": "PARTIAL -> 触发降级条款",
+    "degradation_clause": "改述为『自动搜索节省专家调参成本』, 均值增益与最坏维退化并列"
+   },
+   "E1_5_endpoint_consistency_abs_delta_le_0_5": {
+    "prereg": "|Δ|<=0.5/维（校准预期, 非判据; 超出 = 端点一致性威胁, 入论文局限节）",
+    "observed_max_abs_delta": 0.5,
+    "verdict": "HOLDS (边界)",
+    "caveat": "见 F_W2_4: 容差恰等于 0-10 整数叶分的分辨率下限"
+   },
+   "T4_pso_mean_reproduces_1_4326": {
+    "prereg": "PSO(5 seeds) 均值分离 >= expert(1.2560) 且复现 1.4326±0.01",
+    "observed": {
+     "pso_mean": 1.432574,
+     "expert": 1.255968,
+     "frozen_gate": {
+      "frozen_optimized_separation": 1.432574,
+      "recomputed": 1.432574,
+      "abs_err": 0.0,
+      "threshold": 0.01,
+      "pass": true,
+      "weights_identical_to_frozen": true
+     }
+    },
+    "verdict": "PASS"
+   },
+   "T4_random30_below_pso": {
+    "prereg": "random(30) 均值 < PSO",
+    "observed": {
+     "random30": 1.260413,
+     "pso": 1.432574
+    },
+    "verdict": "PASS"
+   },
+   "T4_minimax_worst_ge_0_208": {
+    "prereg": "minimax 变体最差 mutant 分离 >= 0.208（以牺牲均值为代价）",
+    "observed": {
+     "minimax_worst": 0.35714,
+     "minimax_mean": 1.25605,
+     "pso_mean": 1.432574,
+     "pso_worst": 0.092591
+    },
+    "verdict": "PASS",
+    "tradeoff_quantified": {
+     "worst_gain": 0.264549,
+     "mean_cost": 0.176524
+    }
+   },
+   "T4_budget_gradient_monotonic": {
+    "prereg": "题集预算梯度判别力随题量单调不降（25%->100%）",
+    "observed_keep_rate_sequence": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "verdict": "PASS 但不可用（saturated）",
+    "caveat": "keep_rate 在最小预算即达 1.0 -> 题集维度的判别力梯度在该协议下饱和, 无法区分 25%~100%; 已并列次级指标（适应度/覆盖违反/最小叶支撑题数）作为可区分轴, 论文中不得用 keep_rate 主张预算-判别力单调性。"
+   },
+   "E1_6_band_0_70_0_85": {
+    "prereg": "三 seed 臂 B 表级判别率 in [0.70, 0.85]",
+    "observed": [
+     0.7895,
+     0.7835,
+     0.7556
+    ],
+    "verdict": "PASS"
+   }
+  },
+  "inputs_sha256": {
+   "config/eval_checkpoint_trees.json": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+   "logs/graph/eval/checkpoint_discrimination_report.json": "5a1d38c05bf6f08c611097560a1463a67ab0598c7e30809144a66f6d9836852c",
+   "logs/graph/eval/checkpoint_discrimination_report_20260819.json": "ce799019cc87691e74535fe46cc2777c67295e8ff35f014c0d83128dad6a4fc2",
+   "logs/graph/eval/pso_weight_search_v0.json": "245cf8d4a2f22ec52c0e8050862da49ee0b85cd30b02c3201db0f8a64fac9ccc",
+   "logs/graph/eval/pso_question_set_v0_batch2.json": "8dccc2926a984ea1e28cf2974976d95024dea3372463b31f3c2cdc68e25ecfcb",
+   "logs/graph/eval/scenario1_regression_report.json": "3f348cac1bf14cc1d0bfde084da55bc822198c2a432f8b74e58cc246c8629129",
+   "logs/graph/eval/m2_deterministic_report.json": "adfee09163314197714aa65800e367e8161b55012a29dc5a9fb6a3d70ce229f7",
+   "logs/graph/eval/m2_judge_report.json": "d149f6a6cbe83c5339471dc283b8f014be1908e01f1b2e49df121dda44866b25",
+   "logs/graph/eval/m2_judge_report_k1.json": "5c47d8e207f13338f4f8e39f3c59fbb36dfd9c6268ef83549cdbd22bd204bda5",
+   "logs/graph/eval/m2_judge_report_k3.json": "27a7e173cdf69e3f1a5d081214e30721d52a1e52b5ada3ca17f39a8f40522fbe",
+   "logs/graph/eval/number_faithfulness_report.json": "1cb21ccfa73f6ec981fd0048cd068ad92787fd8b79d1baf9f1e9223064191335",
+   "data/research/drift_v0/output/injected_tables.json": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9",
+   "data/research/drift_v0/output/injection_map.json": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e"
+  },
+  "scripts_sha256": {
+   "research/paper_w2_e15_full_judge.py": "b19de5b37841dcc01baa1488e6a42d7abac95d2a473356be21d732ef996a72eb",
+   "research/paper_w2_e16_injector_seeds.py": "eddf79f477ec520711405b21fe9afad7e88eabfbce3553af8739dfe96f5fc6a1",
+   "research/paper_w2_t4_pso_fair.py": "0957805c878a7a79ae512bbf6fe0f346b60cebef452461e68945cdb31615570b",
+   "research/paper_w2_assemble.py": "08e31a0748ff2403511e84c4c682f97868b4f36f9d3faccf4904ab6de6ca1cb9",
+   "research/paper_t1_eval_baselines.py": "01772e84efb3f579a1146c7c0b0e76f42b1e77625eee1124f901ab03b4c29f79",
+   "research/pso/pso_weight_search.py": "5483e73719970d8cfddd242ce1fbb87e405bb051a94b6def051c5d2e4ea82476",
+   "research/pso/pso_question_set_search.py": "428ae5afba80904f8e9214bba1c0a5a365dfebe448a7b8f5fd6a29452273d6b7",
+   "scripts/eval_checkpoint_aggregate.py": "12c68f08338a4778d196fe42d34ee6cea859637d3b637fff3baa423c8831e81f",
+   "scripts/eval_checkpoint_discrimination.py": "044261dacfd93075adf457b2f4a2e23b41fcc6dbf7dfab05bc13394e7393d33f",
+   "scripts/research/drift_inject.py": "ca734d8c7f2e8354c9d3bef410235c6a4f55bc8e362c7b661389c886358e615e",
+   "scripts/m2_eval_judge.py": "4de5485be7810c64f604bbb3df85715962b0546b953d75404a9f52fefdb11a58"
+  },
+  "judge_cache_sha256": "a0ff78115fcdde24d7a4216f1f82faa0e39c4420e8bdb2f1ca1a67221670daa8",
+  "design_choices": {
+   "evidence_equivalence": "判分证据等价替换: 裁判只见 item 级观测, 不见任何预聚合量（overall/avg/pass rate 全屏蔽）, 由裁判自行完成映射与聚合。局限: mutation 作用于工件/判定层, 逐条判定本身即被观测证据,故 3 个 judge 叶为『裁判评判定』而非『裁判评原始答案』。",
+   "no_formula_leak": "裁判 prompt 给检查点需求（同源 config）+ item 级证据, 不给确定性映射公式（硬闸门/兄弟归一化/占比公式）, 否则测的是照抄复现而非替代能力。",
+   "integer_leaf_scale": "0-10 整数叶分（0-5 粒度 x2 同构于历史 judge 叶量纲）",
+   "call_convention": {
+    "endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "enable_thinking": false
+   },
+   "scratch_isolation": "mutants 作用于 /tmp/w2_e15_scratch 副本; 活工件与冻结件零改动"
+  },
+  "redline_self_check": {
+   "budget_le_200": true,
+   "endpoint_only_8004": true,
+   "e16_zero_calls": true,
+   "t4_zero_calls": true,
+   "judge_no_ground_truth": true,
+   "frozen_artifacts_readonly": "mutants 写 /tmp 副本; 仓库内活工件与冻结件未改动",
+   "client_identifier_zero_entered": true
+  }
+ },
+ "payload_sha256": "fe492e14f2c28cdd963310bf615a7b6ff0e429d4f72723f13ae8ee35575f0ba7",
+ "reproduce_commands": [
+  "python3 research/paper_w2_e15_full_judge.py --dry-run",
+  "python3 research/paper_w2_e15_full_judge.py   # 120 单元, 缓存命中则零新增调用",
+  "python3 research/paper_w2_e16_injector_seeds.py",
+  "python3 research/paper_w2_t4_pso_fair.py",
+  "python3 research/paper_w2_assemble.py"
+ ]
+}
