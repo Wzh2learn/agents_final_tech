@@ -187,7 +187,7 @@
 
 | `2026-08-29_loopc_audit_adversarial_d1_t2.md` | 活跃 | Loop C 差分审计报告（--bare 修复后首次交付）: 对抗臂工件三层对账（数字链全对齐 + 判定忠实预注册 + §6 预测冻结机械证实, 1 HIGH F1 + 3 LOW + 2 NOTE）/ D1 前端 diff 四项全过 / T2 回填逐数字命中 | 2026-08-29 |
 | `2026-08-29_research_assets_inventory.md` | 活跃 | 科研自动化资产台账（GB10 ~/wzh/research/ 五件）: OpenAI4S 长期候选不启动 / tabfm 相邻备用 / academic_skills_audit 上游零漂移不回灌 / m0_lit 已接科研线 / 探针空区; 同步链备查 | 2026-08-29 |
-| `2026-08-29_related_work_v3.md` | 草稿 v3.1（Voyager/MemGPT OpenAlex 在线核验, **待复核清零**; 取代 v2, 保留备查） | 相关工作 m0_lit 接入: 簇二补评测与巩固两支（MemoryAgentBench 四能力含选择性遗忘↔门控回归约束 / Evo-Memory 测试时学习 / RecMem 巩固↔固化）+ 簇三补参数侧/规则侧分野（Q-Evolve 过程奖励↔gain/collateral 同构）与对象中心分类学坐标（SE-Coding 综述）; 五篇引文作者 OpenAlex 实查 | 2026-08-29 |
+| `2026-08-29_related_work_v3.md` | 草稿 v3.1 定稿（引文核验清零: Voyager/MemGPT arXiv 原始条目实查 08-30, 作者列表两处更正; 取代 v2, 保留备查） | 相关工作 m0_lit 接入: 簇二补评测与巩固两支（MemoryAgentBench 四能力含选择性遗忘↔门控回归约束 / Evo-Memory 测试时学习 / RecMem 巩固↔固化）+ 簇三补参数侧/规则侧分野（Q-Evolve 过程奖励↔gain/collateral 同构）与对象中心分类学坐标（SE-Coding 综述）; 五篇引文作者 OpenAlex 实查 | 2026-08-29 |
 | `2026-08-29_column_sensitivity_analysis.md` | 活跃（探索性） | 用户裁定路径 b：40 碰撞列逐列配对敏感性分析（gated 7/40 vs ungated 4/40, Δ+0.075；朴素/表簇 CI 均触 0, McNemar p=0.375）；不覆盖冻结表级 E3，零新跑批/零端点 | 2026-08-29 |
 | `2026-08-29_version_b_submission_draft_v0.md` | 内部草稿（禁止对外） | 用户裁定路径 c：版本 B 题目+摘要+2+1 贡献+正文资产映射+声明边界；b 结果按探索性分栏，待用户终审后才可投稿 | 2026-08-29 |
 | `2026-08-29_m1_latency_naming_review.md` | 待用户裁定 | /m1 问答命名核验：最终单实例三问 48.6/50.6/49.7s 均为 45s 验证链等待后回落直连；功能 13/13 不等于快路体验通过。最小菜单为显式 direct 绕过等待（真实提速）或先如实改称回落问答（推荐） | 2026-08-29 |
@@ -203,6 +203,7 @@
 | 2026-08-30_t5_task_card.md | 待派发（序列 T3 后） | T5 任务卡: 阶段 A 零端点渲染 + 阶段 B :8007 用毕即停; 双判据（错位门 <10% / 增益线）定采纳或整节删除 | 2026-08-30 |
 | superpowers/plans/2026-08-29-long-horizon-evaluation-paper.md | 待执行（预注册） | Graph Loop 分阶段计划: T1-T8 任务卡（基线对照/敏感性/第二数据流/PSO对照/视觉补盲/匹配竞争/正文组装/治理收尾）+ 依赖图 + 红线清单; 23:2x 增 Loop 0-F 映射 + 矩阵回填纪律 + 九项独立审计清单; 08-30 执行者口径更正（T1/T2/T6 = Loop A（GB10）, 主线程直跑字样删除）+ T3/T5 裁定入账 | 2026-08-30 |
 | `figures_k2/` | 活跃 | 小 B 盲锥章节五图组: 六类判别谱/吸收机制/三性质复现表/MS+CI 森林图/BC 盲率 + 生成脚本 make_k2_figures_repo.py（数据源 logs/graph/eval 两 json） | 2026-08-27 |
+| `figures_paper/` | 草稿 | 论文图稿: 可见性谱 + 检查点树结构（research/paper_figures_draft.py 产出, 数据源 checkpoint_discrimination_tables_v2.json + config/eval_checkpoint_trees.json）; Pareto 待 T4 工件, 不造数 | 2026-08-30 |
 | `2026-08-27_four_bucket_board.md` | 活跃 | 四桶并行板 v1（五点加速杠杆①）: 桶 0 零 LLM 永不断后 / 桶 1/2 互不阻塞错峰 / 桶 3 窗口合并须批 + dispatch 归属纪律 | 2026-08-27 |
 | `2026-08-27_night_window_consolidation_draft.md` | 已执行（用户批 + 08-28 四段收口 12fb78d） | 夜间窗口合并草案（段 A 扩语料碰撞 / 段 B C4 探针 / 段 C bandit replay）: 段间不互锁 + 闸失败改期 ≤2 + 交互假设检查 | 2026-08-27 |
 | `2026-08-27_round3_dialectic_brief.md` | 已辩证（见记录） | Round 3 辩证简报（I1 实证口径再裁定）: 两次 null 证据清单（transfer_rate 0.1143 / L3 验收缺口 +25 / 对称毒性 −0.0095）+ H1 证伪 / H2 碰撞匮乏领先 / H3 待段 D + I1 三因子修正提案 + 对抗臂设计提案 + 骨架编辑项清单（骨架全程未动） | 2026-08-27 |
@@ -246,6 +247,12 @@
 
 00_Codex_启动提示词.md / 01_项目背景与目标.md / 02_阶段计划与分工.md / 03_技术架构与模块设计.md / 04_服务器与模型部署计划.md / 05_开发任务清单.md / 06_Remote_SSH_开发流程.md / 07_角色B_模型调研与研究方向.md / 08_GB10模型服务两阶段计划_老师汇报版.md / 11_开发机_Codex_CLI_交接.md / 12_阶段收尾与对外汇报.md / 14_角色B_开发日志_老师汇报版.md / 16_Qoder_CLI迁移评估与计划.md / AGENTS.md / API_REFERENCE.md / ARCHITECTURAL_REVIEW_REPORT.md / CLAUDE_PLUGIN_SETUP.md / CODE_REVIEW_COMPREHENSIVE_20260118.md / code_review_prompt.md / codex_migration_pack_all_in_one.md / DEPLOYMENT.md / DEVELOPER_GUIDE.md / DIFY_VS_TOOLS_COMPARISON.md / Explore.md / implementation_guide.md / KB_UI_REDESIGN_SPEC.md / OPTIMIZATION_IMPLEMENTATION_REPORT.md / PROJECT_BUSINESS_FLOW_WORKLOAD_REPORT.md / PROJECT_REVIEW_REPORT.md / README_legacy_1115lines.md / README_scripts_2026-07-21.md / REVIEW_REPORT_20260118.md / TOOLS_USAGE.md / VibeCoding_Migration_Kit_Merged.md
 </details>
+
+## paper/（论文正文工作区, 内部草稿, 禁止对外）
+
+| 文件 | 状态 | 一句话摘要 |
+|---|---|---|
+| `draft_v0_s1_s2_s6.md` | 草稿 v0 | T7 成熟节 S1/S2/S6（英文）: 数字仅既有工件溯源值 + [TODO-*] 占位; S3-S5/S7 待 T1-T6 工件 |
 
 ## 治理参考语料（docs/governance/reference/）
 
