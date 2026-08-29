@@ -103,6 +103,8 @@ cca4144 feat(research): T1 评测基线对照 E1.1-E1.4 零端点执行
 
 段 T1 另含 `feat(research)` 首 commit 内 `logs/graph/eval/pso_weight_search_v0.json` 首次入库（卡第 0 步指定，既有工件入账非新产）。
 
+收口之后的两枚记账 commit（同属本窗，逐路径 add）：`86d4d55` = 本汇报入库；`de0a789` = `memory/STATE.md` W1 结果段入账（Loop A 记忆协议 Phase 5 L1）。开窗基线 `d3d31b0` → 收口共 7 枚 commit，触及路径 = 本卡 3 脚本 + 4 工件 + 本汇报 + STATE.md（九件），冻结件与治理件零改动。
+
 ## 6 pivot 与偏差登记（如实记录，不静默改判据）
 
 1. **PSO 输入口径 pivot**：设计稿 §2 列出的臂 A 工件为 08-26 `checkpoint_discrimination_report.json`，但 PSO v0 工件生成于 08-21，其 control.live_leaves 与 delta 实际来自 `checkpoint_discrimination_report_20260819.json`（全叶 10.0、M5 delta -6.0）。按 08-19 口径复算 G2 精确复现（1.4326 / 0.0926，逐 mutant 最大误差 0.0001）；按设计稿所列 08-26 口径复算为均值 1.428156、最差 0.0926，同样落在 ±0.01 门内。两口径均入工件 `arm_a_pso_reproduction.caliber_variants`，G1（臂A）以 08-26 v2 报告为准（误差 0.0）。→ 建议 T7 写作引用 PSO 数字时标注输入报告版本。
