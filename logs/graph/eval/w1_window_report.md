@@ -103,7 +103,7 @@ cca4144 feat(research): T1 评测基线对照 E1.1-E1.4 零端点执行
 
 段 T1 另含 `feat(research)` 首 commit 内 `logs/graph/eval/pso_weight_search_v0.json` 首次入库（卡第 0 步指定，既有工件入账非新产）。
 
-收口之后的两枚记账 commit（同属本窗，逐路径 add）：`86d4d55` = 本汇报入库；`de0a789` = `memory/STATE.md` W1 结果段入账（Loop A 记忆协议 Phase 5 L1）。开窗基线 `d3d31b0` → 收口共 7 枚 commit，触及路径 = 本卡 3 脚本 + 4 工件 + 本汇报 + STATE.md（九件），冻结件与治理件零改动。
+收口之后的记账 commit（同属本窗，逐路径 add）：`86d4d55` = 本汇报入库；`de0a789` = `memory/STATE.md` W1 结果段入账（Loop A 记忆协议 Phase 5 L1）；本条补记为其后一枚。开窗基线 = `d3d31b0`，对账命令 `git diff --name-only d3d31b0..HEAD`，结果应为"本卡 3 脚本 + 4 工件 + 本汇报 + memory/STATE.md"共九件，commit 层面冻结件与治理件零改动（漂移扫描器对 `docs/29` 与 `logs/graph/governance_drift_latest.md` 的工作区写入已在 §4 记账且不入账）。
 
 ## 6 pivot 与偏差登记（如实记录，不静默改判据）
 
