@@ -2,7 +2,7 @@
  "meta": {
   "name": "t2-visibility-sensitivity",
   "version": "v1",
-  "generated": "2026-08-30 00:48:43",
+  "generated": "2026-08-30 00:50:12",
   "script": "research/paper_t2_visibility_sensitivity.py",
   "design_doc": "docs/experiments/2026-08-30_t2_visibility_sensitivity_design.md",
   "task_card": "docs/experiments/2026-08-30_w1_window_card_t1t2t6.md",
@@ -30,7 +30,7 @@
    "data/research/drift_v0/output/{injected_tables,injection_map}.json",
    "logs/graph/eval/checkpoint_discrimination_tables_v2.json"
   ],
-  "runtime_s": 0.62
+  "runtime_s": 0.64
  },
  "gates": {
   "g3_s_arm_reproduction_tables": "75/95",
@@ -815,6 +815,16 @@
        "dH": 0.0,
        "n_columns_same_norm_as_canonical": 2,
        "visible": true
+      },
+      {
+       "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+       "col": 4,
+       "original": "As a % of Revenue (1)",
+       "variant_header": "As a % of Revenue (1)(turnover)",
+       "match_tier": 2,
+       "dH": 0.0,
+       "n_columns_same_norm_as_canonical": 2,
+       "visible": true
       }
      ]
     },
@@ -872,6 +882,36 @@
        "match_tier": 0,
        "dH": 0.0,
        "n_columns_same_norm_as_canonical": 2,
+       "visible": true
+      },
+      {
+       "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+       "col": 2,
+       "original": "Revenue Recognition Guidance",
+       "variant_header": "营业收入",
+       "match_tier": 0,
+       "dH": 0.2,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+       "col": 3,
+       "original": "Accounting for Income Taxes Guidance",
+       "variant_header": "account no.",
+       "match_tier": 0,
+       "dH": 0.2,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "2cc74a85-0524-4eda-aa35-dced125c3818",
+       "col": 4,
+       "original": "Fair Market Value",
+       "variant_header": "market cap",
+       "match_tier": 0,
+       "dH": 0.2,
+       "n_columns_same_norm_as_canonical": 1,
        "visible": true
       }
      ]
@@ -938,6 +978,36 @@
        "variant_header": "Grant 2020年对账日期",
        "match_tier": 0,
        "dH": 0.142857,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+       "col": 1,
+       "original": "Exercise Date",
+       "variant_header": "Exercise date 2021-期末日期",
+       "match_tier": 2,
+       "dH": 0.0,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": false
+      },
+      {
+       "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+       "col": 2,
+       "original": "Expiry Date",
+       "variant_header": "Expiry 净值日期 / date",
+       "match_tier": 0,
+       "dH": 0.142857,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+       "col": 1,
+       "original": "CONSOLIDATED",
+       "variant_header": "CONSOLI2016年交易日D",
+       "match_tier": 0,
+       "dH": 1.0,
        "n_columns_same_norm_as_canonical": 1,
        "visible": true
       }
@@ -1007,6 +1077,36 @@
        "dH": 0.5,
        "n_columns_same_norm_as_canonical": 1,
        "visible": true
+      },
+      {
+       "uid": "425ee1c7-fb82-4853-994a-9876c414fbd5",
+       "col": 2,
+       "original": "Office property and other tangible assets",
+       "variant_header": "资产(assets)",
+       "match_tier": 0,
+       "dH": 0.25,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "50a8d377-b36e-4a3f-a6c0-118531b1c134",
+       "col": 2,
+       "original": "Income Tax Expense (Benefit)",
+       "variant_header": "income(收入)",
+       "match_tier": 0,
+       "dH": 0.2,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "648e1260-d160-45d2-a744-57be0fd89850",
+       "col": 1,
+       "original": "Purchased Intangible Assets",
+       "variant_header": "assets(资产)",
+       "match_tier": 0,
+       "dH": 0.5,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
       }
      ]
     }
@@ -1063,6 +1163,36 @@
        "col": 1,
        "original": "Operating Leases",
        "variant_header": "operat1ng Leases",
+       "match_tier": 1,
+       "dH": 0.0,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": false
+      },
+      {
+       "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+       "col": 1,
+       "original": "Operating Leases",
+       "variant_header": "operat1ng Leases",
+       "match_tier": 1,
+       "dH": 0.0,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": false
+      },
+      {
+       "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+       "col": 2,
+       "original": "Capital Leases",
+       "variant_header": "capitai Leases",
+       "match_tier": 1,
+       "dH": 0.0,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": false
+      },
+      {
+       "uid": "6a5e5192-5d37-489f-97f2-400ea965ae36",
+       "col": 0,
+       "original": "Equity-settled",
+       "variant_header": "equty-settled",
        "match_tier": 1,
        "dH": 0.0,
        "n_columns_same_norm_as_canonical": 1,
@@ -1125,6 +1255,36 @@
        "dH": 0.5,
        "n_columns_same_norm_as_canonical": 1,
        "visible": true
+      },
+      {
+       "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+       "col": 1,
+       "original": "Operating Leases",
+       "variant_header": "operat11ngleases",
+       "match_tier": 0,
+       "dH": 0.25,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+       "col": 2,
+       "original": "Capital Leases",
+       "variant_header": "capitaiileases",
+       "match_tier": 0,
+       "dH": 0.25,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "6a5e5192-5d37-489f-97f2-400ea965ae36",
+       "col": 0,
+       "original": "Equity-settled",
+       "variant_header": "equttysettled",
+       "match_tier": 1,
+       "dH": 0.0,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": false
       }
      ]
     }
@@ -1190,6 +1350,36 @@
        "variant_header": "m [1]",
        "match_tier": 0,
        "dH": 0.333333,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+       "col": 0,
+       "original": "£m",
+       "variant_header": "m①",
+       "match_tier": 0,
+       "dH": 0.25,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "93339b76-1f90-4d86-8f31-bbb7bff71603",
+       "col": 0,
+       "original": "£m",
+       "variant_header": "m [1]",
+       "match_tier": 0,
+       "dH": 0.25,
+       "n_columns_same_norm_as_canonical": 1,
+       "visible": true
+      },
+      {
+       "uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+       "col": 0,
+       "original": "£m",
+       "variant_header": "m №",
+       "match_tier": 0,
+       "dH": 0.25,
        "n_columns_same_norm_as_canonical": 1,
        "visible": true
       }
@@ -1265,6 +1455,66 @@
    }
   },
   "monotonicity_violations": [],
+  "w_arm_partial_absorption_attribution": {
+   "alias_variant": {
+    "n_visible": 6,
+    "n": 47,
+    "all_in_absorption_region": true,
+    "all_zero_coverage_loss": true,
+    "all_duplicate_column_tables": true,
+    "attribution": "重复列竞争: 同一归一化文本的两列共用一个 canonical, 漂移列被其孪生列顶替（dH=0 且 W 档仍在吸收区内 tier>=2）, 非匹配层对扰动的真实感知",
+    "cases": [
+     {
+      "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+      "col": 2,
+      "variant_header": "% of associated net revenues(turnover)",
+      "match_tier": 2,
+      "dH": 0.0,
+      "n_columns_same_norm_as_canonical": 2
+     },
+     {
+      "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+      "col": 4,
+      "variant_header": "% of associated net revenues(营业总收入)",
+      "match_tier": 2,
+      "dH": 0.0,
+      "n_columns_same_norm_as_canonical": 2
+     },
+     {
+      "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+      "col": 2,
+      "variant_header": "As a % of Segment Revenue (1)(营收)",
+      "match_tier": 2,
+      "dH": 0.0,
+      "n_columns_same_norm_as_canonical": 2
+     },
+     {
+      "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+      "col": 4,
+      "variant_header": "As a % of Segment Revenue (1)(营业总收入)",
+      "match_tier": 2,
+      "dH": 0.0,
+      "n_columns_same_norm_as_canonical": 2
+     },
+     {
+      "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+      "col": 2,
+      "variant_header": "As a % of Revenue (1)(营业总收入)",
+      "match_tier": 2,
+      "dH": 0.0,
+      "n_columns_same_norm_as_canonical": 2
+     },
+     {
+      "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+      "col": 4,
+      "variant_header": "As a % of Revenue (1)(turnover)",
+      "match_tier": 2,
+      "dH": 0.0,
+      "n_columns_same_norm_as_canonical": 2
+     }
+    ]
+   }
+  },
   "criterion": "可见 = 该档表头不再被映射回其真值 canonical（吸收判据, 无阈值; 机制锚 = 精确 并 归一化包含 并 编辑距离<=1 的吸收区）",
   "ocr_s_prime_construction": "在归一化域取 S 相对 original 的首个差异位点, 重复该位字符（编辑距离 1 -> 2, 击穿 <=1 兜底）",
   "s_prime_detail": [
@@ -8824,7 +9074,7 @@
   "hits_outside_comments": {},
   "clean": true
  },
- "payload_sha256": "5ffcfc8fb9fae5bfa07e364a2a9509155d3671a10cd9c7ab26a8b205756105c1",
+ "payload_sha256": "0830f24e879bb062f931eb29b25016ef7715e1845fb9b9caa31d5a0de72a90a4",
  "sha256_scope": [
   "gates",
   "e2_1_gamma_grid",

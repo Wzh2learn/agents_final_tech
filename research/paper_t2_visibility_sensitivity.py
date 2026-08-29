@@ -327,7 +327,7 @@ def compute(mp) -> dict:
                                            i["n_columns_same_norm_as_canonical"],
                                        "visible": i["gradient"][arm]["visible"]}
                                       for i in (rows if arm != "W"
-                                                else [r for r in rows if r["gradient"]["W"]["visible"]])[:5]]}
+                                                else [r for r in rows if r["gradient"]["W"]["visible"]])[:8]]}
         if "W" in arms and "S" in arms and arms["W"]["visibility_rate"] > arms["S"]["visibility_rate"]:
             violations.append({"type": t, "rule": "W <= S", "W": arms["W"]["visibility_rate"],
                                "S": arms["S"]["visibility_rate"]})
@@ -336,7 +336,26 @@ def compute(mp) -> dict:
             violations.append({"type": t, "rule": "S <= S_PRIME", "S": arms["S"]["visible"],
                                "S_PRIME": arms["S_PRIME"]["visible"]})
         grad[t] = arms
+    w_partial = {}
+    for t in types:
+        rows = [i for i in injections if i["type"] == t and "W" in i["gradient"]]
+        vis = [i for i in rows if i["gradient"]["W"]["visible"]]
+        if not vis:
+            continue
+        w_partial[t] = {
+            "n_visible": len(vis), "n": len(rows),
+            "all_in_absorption_region": all(i["gradient"]["W"]["match_tier"] >= 1 for i in vis),
+            "all_zero_coverage_loss": all(i["gradient"]["W"]["dH"] == 0.0 for i in vis),
+            "all_duplicate_column_tables": all(i["n_columns_same_norm_as_canonical"] > 1 for i in vis),
+            "attribution": ("重复列竞争: 同一归一化文本的两列共用一个 canonical, 漂移列被其孪生列顶替"
+                            "（dH=0 且 W 档仍在吸收区内 tier>=2）, 非匹配层对扰动的真实感知"),
+            "cases": [{"uid": i["uid"], "col": i["col"], "variant_header": i["gradient"]["W"]["header"],
+                       "match_tier": i["gradient"]["W"]["match_tier"], "dH": i["gradient"]["W"]["dH"],
+                       "n_columns_same_norm_as_canonical": i["n_columns_same_norm_as_canonical"]}
+                      for i in vis],
+        }
     e2_3 = {"by_type": grad, "monotonicity_violations": violations,
+            "w_arm_partial_absorption_attribution": w_partial,
             "criterion": "可见 = 该档表头不再被映射回其真值 canonical（吸收判据, 无阈值; "
                          "机制锚 = 精确 并 归一化包含 并 编辑距离<=1 的吸收区）",
             "ocr_s_prime_construction": "在归一化域取 S 相对 original 的首个差异位点, 重复该位字符"
