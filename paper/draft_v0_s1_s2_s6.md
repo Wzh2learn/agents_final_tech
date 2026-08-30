@@ -3,7 +3,8 @@
 > Status: draft v0 (2026-08-30, main thread) | Scope: mature sections only; S3-S5, S7 await T1-T6 artifacts
 > Discipline: every number below is a traceable value from an existing repo artifact (path in brackets);
 > numbers not yet produced are explicit [TODO-*] placeholders - no fabrication, no extrapolation.
-> Blueprint: docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md (S1-S7 skeleton).\n> Boundary: internal draft; no public disclosure (arXiv/submission/preprint) before patent filing status confirmed (docs/34 section 6).
+> Blueprint: docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md (S1-S7 skeleton).
+> Boundary: internal draft; no public disclosure (arXiv/submission/preprint) before patent filing status confirmed (docs/34 section 6).
 
 ## S1 Problem: final correctness is not step reliability, and evaluation itself can be blind (0.75p)
 
@@ -32,6 +33,13 @@ profile per defect type and intensity rather than one aggregate score, and
 have the discriminability to separate normal from defective systems, and where is
 it structurally blind? [TODO-T1: four-protocol baseline comparison table]
 [TODO-T2: threshold-grid sensitivity of the spectrum]
+(Ruling 2a, frozen 2026-08-30: the ranking of the visibility spectrum is stable
+across the full threshold grid gamma in {0.2, ..., 0.9}; the absolute range
+decays at high gamma by a quantization mechanism - one injection on a table
+with n canonical headers moves the score by at most 1/n_canonical, and only
+narrow tables remain at high gamma. The mechanism explanation belongs in the
+main text; the literal-range criterion failing at gamma 0.7/0.9 is reported as
+such, not relabeled. [logs/graph/eval/t2_visibility_sensitivity.json])
 
 ## S2 Hierarchical checkpoint evaluation framework (1.25p)
 
@@ -65,6 +73,16 @@ defect families the protocol cannot see and which layer absorbs them.
 same corpus; [TODO-T4: PSO-optimized weights and cost-discriminability Pareto
 curve]; [TODO-T6: matching-competition validity threat and oracle ceiling].]
 
+Pre-registered positioning (ruling 1a, frozen 2026-08-30, verbatim degradation
+clause of blueprint C2): hierarchical evaluation provides defect localization
+and diagnosis at a cost not exceeding end-to-end/flat, with equivalent
+discriminative power; **no superiority claim is made on detection rates**
+(both arms detect below flat: arm A 3/9 vs 4/9, arm B 20/95 vs 75/95).
+Caliber note (ruling F-1, frozen 2026-08-30): the frozen M2 evaluation fixture
+used for calibration arms is an **internal calibration arm** (de-identified,
+frozen-hash registered); numbers cited in the body come only from public bases
+(TAT-QA / TAT-DQA).
+
 ## S6 Closed-loop case: evaluation findings into gated rule consolidation (0.5p)
 
 We close the loop with a compact case study of how evaluation findings feed back
@@ -88,6 +106,23 @@ or preference-optimization machinery, and its honest null motivates the larger
 thesis question of when collision exposure, suggestion reliability and per-collision
 harm jointly determine gating value.
 
+
+## Threats to validity (stub; ruling 3 landed 2026-08-30, formal assembly in T7)
+
+Matching competition. Under overlay shared headers, multiple canonical
+variants of the same column compete for a single slot; even when every
+ground-truth rule is present, inter-column competition compresses the
+correctness ceiling (oracle: plain 0.952381 vs collision 0.597015). Gating
+blocks incremental harm only, not the stock competition
+[logs/graph/eval/t6_matching_competition.json].
+
+Branch-a verdict (T6, pre-registered): Hungarian global assignment vs greedy
+differs by 0 assignments and 0 flips on the frozen corpus - greedy is already
+globally near-optimal at this scoring layer. Matching competition is therefore
+**not resolvable at the allocation layer; the root cause is scoring-layer
+pollution**: near-identical strings receive the same score band as ground
+truth. Reported as a validity threat to the single-matcher visibility
+spectrum, not as an efficacy claim.
 
 ## 审稿人视角五问注记（paper-review-check 一轮, 2026-08-30 夜, Loop D 自审; 结论权在 Loop C/用户）
 

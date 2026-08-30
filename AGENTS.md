@@ -400,6 +400,7 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 2. `cjk-byte-check.precommit.sh` — staged .md 的 U+FFFD 乱码扫描（源仓库 3 次实证; 本项目 CRLF/编码麻烦同族）
 3. `index-guard.precommit.sh` — 新增 scripts/**/*.py|sh 必须已索引于 docs/INDEX.md（源仓库 7 次"打地鼠"实证）
 4. `large-file-guard.precommit.sh` — >5MB / 权重/视频/数据类型禁入库（对应"视频文件不入 git"既有纪律）
+5. `summary-recompute-guard.precommit.sh` — 摘要收据重读复算守卫（2026-08-30; Hook Escalation 第 3 次触发: "声明摘要 ≠ 存储工件"三连实证 f1bf00b/36ab25f/d4e749a → 上机械强制; 核心 `scripts/graph/hooks/summary_recompute_guard.py`: 收据块 gen/check, sha raw+LF 双口径, 数值容差 5e-5, 失配阻断; python 缺失降级警告放行）
 
 **Hook Escalation Ladder**（源 docs/governance/reference/HOOK_AUTHORING_GUIDE.md）:
 同一错误第 1 次 = 记教训; 第 2 次 = 入教训台账; 第 3 次及以上 = 上机械强制。

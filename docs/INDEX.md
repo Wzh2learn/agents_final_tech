@@ -250,13 +250,14 @@
 </details>
 
 | `2026-08-30_night_self_audit_findings.md` | 活跃 | 夜间自审 findings（九项攻击面预跑 + broken-window 八行 + 治理体检; 只列发现不裁决, 结论权在 Loop C/用户） | 2026-08-30 |
-| `2026-08-30_morning_decision_sheet.md` | 待圈选 | 晨间一页纸: W1 绿态 + W2 闸状态 + 判定项①C2 表述口径②T2 极差表述（各带推荐） | 2026-08-30 |
+| `2026-08-30_morning_decision_sheet.md` | W2 事项被完整版取代（①a②a 圈选已入账补记） | 晨间一页纸: W1 绿态 + W2 闸状态 + 判定项①C2 表述口径②T2 极差表述（各带推荐） | 2026-08-30 |
+| `2026-08-30_decision_sheet_full_w2.md` | 待圈选（J1-J6） | 完整版一页纸 W2 收口版: W2 绿态（122/200 调用/仅 :8004/13 门）+ 抽验 26/26 + findings 先行（F-SC-1/F_W2_4/F_W2_1/C3 降级/预算饱和）+ 圈选 ①a②a③F-1 入账 + 首个 SUMMARY-GUARD 收据块 | 2026-08-30 |
 
 ## paper/（论文正文工作区, 内部草稿, 禁止对外）
 
 | 文件 | 状态 | 一句话摘要 |
 |---|---|---|
-| `draft_v0_s1_s2_s6.md` | 草稿 v0 | T7 成熟节 S1/S2/S6（英文）: 数字仅既有工件溯源值 + [TODO-*] 占位; 审稿五问注记一轮 + 边界脚注; S3-S5/S7 待 T1-T6 工件 |
+| `draft_v0_s1_s2_s6.md` | 草稿 v0.1 | T7 成熟节 S1/S2/S6（英文）+ 效度威胁占位节: 数字仅既有工件溯源值 + [TODO-*] 占位; 圈选 ①a②a③F-1 已落稿（S1 极差量化机制句 / S2 C2 降级定位块+fixture 口径注 / T6 分支 a 威胁节）; 审稿五问注记一轮 + 边界脚注; S3-S5/S7 待 T1-T6 工件 |
 
 ## 治理参考语料（docs/governance/reference/）
 
@@ -282,7 +283,7 @@
 | `READING_NOTES_INDEX_TEMPLATE.md` | 阅读笔记索引模板 |
 | `AGENTS_MD_TEMPLATE.md` / `CLAUDE_MD_TEMPLATE.md` | 规则文件模板（参考; 本项目以根 AGENTS.md 为准） |
 | `multi-tool-sync.sh` | 多工具规则同步脚本（参考） |
-| 仓库 `scripts/graph/hooks/` | pre-commit 机械强制层脚本（根 AGENTS.md"机械强制层"节）: cjk-byte-check.precommit.sh / index-guard.precommit.sh / large-file-guard.precommit.sh / install_hooks.sh / skill_router.py |
+| 仓库 `scripts/graph/hooks/` | pre-commit 机械强制层脚本（根 AGENTS.md"机械强制层"节）: cjk-byte-check.precommit.sh / index-guard.precommit.sh / large-file-guard.precommit.sh / summary-recompute-guard.precommit.sh + summary_recompute_guard.py（2026-08-30 摘要收据重读复算守卫）/ install_hooks.sh / skill_router.py |
 | 仓库 `scripts/graph/governance_drift_scan.py` | 治理漂移扫描（2026-08-29 制度化）: 状态词扫荡（待批/待执行/待发送/待勾选）+ 活文档日期超期 → 漂移候选幂等登记 docs/29 backlog 待核节; 收口清单固定步骤 + 03:30 cron 轻扫（--cron 只报告） |
 | 仓库 `scripts/walkthrough_m1_v2.py` | D1 /m1 三栏工作台脚本化 walkthrough（五步 13 断言: 时间轴点亮/刷新持久化/QA 五步条/建议映射 tab/回落问答三问; 证据落 logs/graph/eval/walkthrough_evidence/；旧截图文件名 fast_regression 仅为路径兼容） |
 

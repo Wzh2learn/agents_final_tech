@@ -1,0 +1,176 @@
+{
+ "artifact": "logs/graph/eval/t4_pso_fair_comparison.json",
+ "n_checks": 26,
+ "n_pass": 26,
+ "checks": [
+  {
+   "check": "payload_sha256_recompute",
+   "pass": true,
+   "detail": {
+    "stored": "cb00e8afb2689eea",
+    "calc": "cb00e8afb2689eea"
+   }
+  },
+  {
+   "check": "budget_le_200",
+   "pass": true,
+   "detail": "122/200"
+  },
+  {
+   "check": "endpoint_union_only_8004",
+   "pass": true,
+   "detail": "[8004]"
+  },
+  {
+   "check": "e15_control_blended_judged",
+   "pass": true,
+   "detail": {
+    "recomputed": 9.875,
+    "stored": 9.875
+   }
+  },
+  {
+   "check": "e15_control_blended_mapped",
+   "pass": true,
+   "detail": {
+    "recomputed": 9.985,
+    "stored": 9.985
+   }
+  },
+  {
+   "check": "e15_per_mutant_sep_recomputed",
+   "pass": true,
+   "detail": "9 mutants vs stored sep_blended, tree-weighted"
+  },
+  {
+   "check": "e15_mean_sep_judged",
+   "pass": true,
+   "detail": {
+    "recomputed": 1.3053,
+    "report_claim": 1.3053
+   }
+  },
+  {
+   "check": "e15_mean_sep_mapped",
+   "pass": true,
+   "detail": {
+    "recomputed": 1.2526,
+    "report_claim": 1.2526
+   }
+  },
+  {
+   "check": "e15_detect_counts_tree_root_caliber",
+   "pass": true,
+   "detail": "judged 3/9 vs mapped tree_root 3/9, same set True (mapped blended-level = 2/9, noted)"
+  },
+  {
+   "check": "e15_within_caliber_spearman_supplement",
+   "pass": true,
+   "detail": {
+    "spearman_judged_vs_mapped_120cells": 0.9744,
+    "scope": "within :8004 caliber only (judged vs deterministic-mapped); cross-endpoint Spearman infeasible under :8006 zero-touch"
+   }
+  },
+  {
+   "check": "e15_within_caliber_direction_agreement_supplement",
+   "pass": true,
+   "detail": {
+    "agree": 107,
+    "total": 108,
+    "rate": 0.9907,
+    "rule": "sign(delta_mut - delta_ctrl) match incl. zero-zero"
+   }
+  },
+  {
+   "check": "e16_rates_k_over_n",
+   "pass": true,
+   "detail": [
+    0.7895,
+    0.7835,
+    0.7556
+   ]
+  },
+  {
+   "check": "e16_pooled_rate",
+   "pass": true,
+   "detail": "219/282=0.7766"
+  },
+  {
+   "check": "e16_ci_gridpoints",
+   "pass": true,
+   "detail": "CI [0.7270, 0.8227] on k/282 grid"
+  },
+  {
+   "check": "e16_independent_bootstrap",
+   "pass": true,
+   "detail": {
+    "mine": [
+     0.727,
+     0.8227
+    ],
+    "stored": [
+     0.727,
+     0.8227
+    ]
+   }
+  },
+  {
+   "check": "e16_band_check",
+   "pass": true,
+   "detail": "{'values': [0.7895, 0.7835, 0.7556], 'n_seeds': 3, 'min': 0.7556, 'max': 0.7895, 'spread': 0.0339, 'mean': 0.7762, 'frozen_seed42_reference': 0.7895, 'reproduces_frozen_seed42': True}"
+  },
+  {
+   "check": "t4_pso_greedy_parity",
+   "pass": true,
+   "detail": "PSO 5 seeds == greedy 1.432574"
+  },
+  {
+   "check": "t4_cost_ratio",
+   "pass": true,
+   "detail": "7650/67"
+  },
+  {
+   "check": "t4_pso_beats_three",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "t4_minimax_worst_ge_pred",
+   "pass": true,
+   "detail": "0.3571 >= 0.208"
+  },
+  {
+   "check": "t4_minimax_mean_cost",
+   "pass": true,
+   "detail": "mean drop 0.1765"
+  },
+  {
+   "check": "t4_budget_gradient_saturation",
+   "pass": true,
+   "detail": "keep_rate==1.0 at 25/50/75/100%"
+  },
+  {
+   "check": "t4_c3_degradation_trigger",
+   "pass": true,
+   "detail": "C3 degradation clause applies"
+  },
+  {
+   "check": "t4_frozen_reproduction_gate",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "endpoint_evidence_excerpt_sha",
+   "pass": true,
+   "detail": {
+    "lf_sha": "73231e6e1af9cfe4",
+    "note": "local checkout CRLF-normalized to LF before hashing; GB10 raw bytes identical"
+   }
+  },
+  {
+   "check": "guard_probe_gates",
+   "pass": true,
+   "detail": "{\"positive_recording\": true, \"all_protected_ports_blocked\": true, \"violations_recorded_for_each_block\": true, \"zero_wire_contact\": true, \"budget_unchanged\": tru"
+  }
+ ]
+}
