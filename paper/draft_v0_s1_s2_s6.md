@@ -3,7 +3,7 @@
 > Status: draft v0 (2026-08-30, main thread) | Scope: mature sections only; S3-S5, S7 await T1-T6 artifacts
 > Discipline: every number below is a traceable value from an existing repo artifact (path in brackets);
 > numbers not yet produced are explicit [TODO-*] placeholders - no fabrication, no extrapolation.
-> Blueprint: docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md (S1-S7 skeleton).
+> Blueprint: docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md (S1-S7 skeleton).\n> Boundary: internal draft; no public disclosure (arXiv/submission/preprint) before patent filing status confirmed (docs/34 section 6).
 
 ## S1 Problem: final correctness is not step reliability, and evaluation itself can be blind (0.75p)
 
@@ -87,3 +87,24 @@ instantiates evaluation-driven safe self-learning without reinforcement-learning
 or preference-optimization machinery, and its honest null motivates the larger
 thesis question of when collision exposure, suggestion reliability and per-collision
 harm jointly determine gating value.
+
+
+## 审稿人视角五问注记（paper-review-check 一轮, 2026-08-30 夜, Loop D 自审; 结论权在 Loop C/用户）
+
+五问 = skill 五焦点: 核心主张 / 方法 / 实验 / 写作 / 风险。blocking 与 polish 分列。
+
+### S1
+- [polish] 与变异测试谱系（簇一）的对位句缺失: 静默吸收 ≈ "mutant 未杀死测试", 但本文按层报告可见性而非二元 kill——reviewer 首问必是"与 mutation testing 何异"。修: S1 末或 S3 加一句对位（相关工作 v3 簇一已备素材）。
+- [polish] 78.9%/81.4% 单匹配器外部效度: reviewer 会问盲区是匹配器属性还是协议属性。缓解证据在 T6 分支 a（分配层不可消解）——S1 加交叉引用占位 [TODO-T6-crossref]。
+- 主张清晰/新颖/有据: 无 blocking。
+
+### S2
+- [blocking-占位] Algorithm 1 伪代码未入稿（方法完整性）。修: [TODO: algorithm-description 产伪代码, 与 eval_checkpoint_aggregate.py 逐行对位]。
+- [blocking-披露] missing-score 政策敏感性: E1.3=20/95 对 missing 处理（排除 vs 补 0）敏感, 草稿未披露。修: S2 加 missing-score 政策句 + 指向 T1 设计稿 §7 supersede 注记。
+- [polish] 专家权重 1-3 手工设定: 加前向引用 S4（PSO 搜索即该问题的回答）。
+- 术语/记号一致: visibility profile / silent absorption 与蓝图命名裁定一致, 无 blocking。
+
+### S6
+- [polish] gain/collateral 门未形式化（τ/ε 取值未给）。修: 加一行门定义或指向方法章占位。
+- [polish] 非显著案例的入选理由应前置一句（对抗臂 100% 门拒是机制信号, 非功效主张）——现有文本已含但位置靠后, 提前。
+- 语料体制标注: 对抗臂/碰撞体制分列 ✓ 无 blocking。
