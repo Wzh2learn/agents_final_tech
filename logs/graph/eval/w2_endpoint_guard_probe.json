@@ -1,0 +1,71 @@
+{
+ "meta": {
+  "purpose": "W2 端点护栏仪表自证: 记录/拦截能力独立验证（弥补 ports_touched 在缓存复算跑为空导致的证据缺口）",
+  "card": "TASK-20260830-04 §4 红线自查",
+  "generated": "2026-08-30T02:08:59",
+  "model_calls_made": 0,
+  "guard_source": "research/paper_w2_e15_full_judge.py::install_endpoint_guard"
+ },
+ "A_positive_recording": {
+  "port": 8004,
+  "connect_error": null,
+  "ports_recorded_by_guard": [
+   8004
+  ],
+  "pass": true
+ },
+ "B_protected_ports_blocked": [
+  {
+   "port": 8006,
+   "exception_type": "RuntimeError",
+   "message": "ENDPOINT_GUARD: blocked outbound to 127.0.0.1:8006",
+   "blocked_by_guard": true,
+   "no_os_level_connect_attempted": true,
+   "violation_logged": true
+  },
+  {
+   "port": 8008,
+   "exception_type": "RuntimeError",
+   "message": "ENDPOINT_GUARD: blocked outbound to 127.0.0.1:8008",
+   "blocked_by_guard": true,
+   "no_os_level_connect_attempted": true,
+   "violation_logged": true
+  },
+  {
+   "port": 5050,
+   "exception_type": "RuntimeError",
+   "message": "ENDPOINT_GUARD: blocked outbound to 127.0.0.1:5050",
+   "blocked_by_guard": true,
+   "no_os_level_connect_attempted": true,
+   "violation_logged": true
+  },
+  {
+   "port": 8100,
+   "exception_type": "RuntimeError",
+   "message": "ENDPOINT_GUARD: blocked outbound to 127.0.0.1:8100",
+   "blocked_by_guard": true,
+   "no_os_level_connect_attempted": true,
+   "violation_logged": true
+  }
+ ],
+ "C_zero_wire_contact": {
+  "ephemeral_port_used": 49435,
+  "guard_error": "RuntimeError: ENDPOINT_GUARD: blocked outbound to 127.0.0.1:49435",
+  "peer_accepted_connection": false,
+  "pass": true
+ },
+ "D_budget_invariance": {
+  "call_counter_before": 122,
+  "call_counter_after": 122,
+  "pass": true,
+  "note": "只做 TCP 握手, 从不发 HTTP 请求, 不进 ledger_take 计数路径"
+ },
+ "gates": {
+  "positive_recording": true,
+  "all_protected_ports_blocked": true,
+  "violations_recorded_for_each_block": true,
+  "zero_wire_contact": true,
+  "budget_unchanged": true,
+  "all_pass": true
+ }
+}

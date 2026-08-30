@@ -1,6 +1,6 @@
-# 治理漂移扫描报告 2026-08-30 01:18
+# 治理漂移扫描报告 2026-08-30 03:30
 
-命中 15 项（模式: 收口登记）
+命中 15 项（模式: cron 轻扫）
 
 - [INDEX 状态词[待批]] 2026-08-21_dspark_k5_ab_plan.md (L107, fp=3ef80c8d7a)
 - [INDEX 状态词[待批]] 2026-08-22_l3_dflash2_image_feasibility.md (L110, fp=d98aa05659)
@@ -18,4 +18,4 @@
 - [INDEX 状态词[待批]] scripts/graph/governance_drift_scan.py (L283, fp=295daec7e4)
 - [日期超期[25天]] README.md (L1, fp=77bcec84bb)
 
-新登记 backlog: 4 项
+（cron 模式不登记）

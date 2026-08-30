@@ -1,0 +1,22 @@
+# W2 E1.5 端点观测证据摘录（耐久件）
+# 目的: 端点红线（仅 :8004）的实跑观测原本只存在于进程内集合 PORTS_TOUCHED,
+#       缓存命中的复算不建连接会把工件里的观测覆盖成空集。本件把原始实跑的
+#       逐字输出固化为可复核证据, 其 sha256 记入终工件 payload。
+# 权威判据 = 逐字文本匹配; 行号仅为生成时定位提示（logs/ 为在制转写, 行号会漂移）。
+# 正文不含时间戳: 重复生成字节一致, 终工件引用的 sha256 才谈得上可复算。
+
+## source: logs/graph/loop_a.log
+[last_live_cell @line 144837]
+[120/120] ok M9_m1_all_rows_fail/qa.retrieval.source_required -> 10 (cache=False n=122)
+[original_live_run @line 144838]
+cells_ok=120/120 call_counter=122/200 ports=[8004] violations=[] -> logs/graph/eval/_w2_e15_section.json
+[cache_hit_rerun @line 146633]
+cells_ok=120/120 call_counter=122/200 ports=[] violations=[] -> logs/graph/eval/_w2_e15_section.json
+
+## source: /tmp/w2_e15_full.log
+[last_live_cell @line 122]
+[120/120] ok M9_m1_all_rows_fail/qa.retrieval.source_required -> 10 (cache=False n=122)
+[original_live_run @line 123]
+cells_ok=120/120 call_counter=122/200 ports=[8004] violations=[] -> logs/graph/eval/_w2_e15_section.json
+[cache_hit_rerun @line n/a]
+<not present in this source>

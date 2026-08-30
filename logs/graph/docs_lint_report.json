@@ -1,8 +1,6 @@
 {
- "date": "2026-08-30T01:17:59",
- "fails": [
-  "[4] skill 安装漂移 (sync_skills.sh --check): "
- ],
+ "date": "2026-08-30T21:56:01",
+ "fails": [],
  "warns": [],
- "overall": "FAIL"
+ "overall": "PASS"
 }
