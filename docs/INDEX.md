@@ -259,6 +259,7 @@
 | `2026-08-31_d1_audit_report.md` | 已交付（Loop A 实跑, 待主线程 autopsy） | D1 审计报告: 118 注入三分类 H/E/HI=85/7/26（两口径入账: 严格吸收 22 = E 7 + HI 吸收 15, 阈值稀释 11）+ 9 突变体 MO/MU=8/1（M7 归不可观测并原样保留, J2）+ 门 G1-G7 全过 + P1-P6 逐条判定 + 零端点 AST 护栏分层自证; 工件 `logs/graph/eval/d1_mutant_validity_audit.json` |
 | `2026-08-31_phase_c_stats_plan_draft.md` | 草稿（待 Phase C 冻结） | Phase C 统计预案: 表级聚类推断（118 注入非 iid）+ 类型 fixed effect + Holm 多重比较 + γ 网格重复测量 + matched-FPR 草案 |
 | `2026-08-31_d2_cross_matcher_card_draft.md` | 草案（D1 收口后定稿派发） | D2 跨匹配器卡草案: 确定性三件（归一化/greedy/Hungarian）+ 嵌入匹配器（端点与预算入卡）; R3 降级判据对照; :8006 按 08-31 资源裁定五条件 |
+| `2026-08-31_d1_audit_report.md` | 已交付（含 SUMMARY-GUARD 收据） | D1 执行报告: 三分类 85/7/26 + MO/MU 8/1 + OCR 有害论证 + 门 G1-G7 + 预注册判定 + 红线自查（收据经主线程复核） |
 
 ## paper/（论文正文工作区, 内部草稿, 禁止对外）
 
