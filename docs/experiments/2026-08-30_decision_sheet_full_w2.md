@@ -75,3 +75,10 @@ END-SUMMARY-GUARD -->
 ## V. 圈选后序列
 
 T3（validation split 解冻条款在卡）→ T5（治理段零端点 + :8007 一窗用毕即停）→ T7 组装（等全数字）→ T8 收尾。今晚不派。
+---
+
+## 补记（08-30 晚, 外部专家评审采纳; 只追加）
+
+- 圈选记录: **J1-J6 全部 a 采纳; J7 = 暂不开、附条件开放**（仅当 D4/跨匹配器/统计校正全部完成后终审仍列端点鲁棒性为主要拒稿点, 且错峰单窗 ≤120 调用, 才另报批）。J2 附加条件: 不得用重设计 mutant 偷偷替代原 M7。J5 记账算术错误更正: 16×4=64 ≤ 78（余量本足够）, 不追投裁定不变, 理由更正为窗口纪律与优先级。
+- C2 表述覆盖（判据冻结不变）: "Hierarchical checkpoints provide layer-level localization and decomposable evidence under a lower evaluation budget, but do not improve raw defect-detection sensitivity in the current setting."（论文可比降级上限更保守, 本条即按此办理）
+- 序列重冻结（覆盖本纸 §V）: T3/T5 派发暂停 → Phase A 尸检+Claim Set v2 冻结（已完成, 见 2026-08-30_phase_a_autopsy_and_claim_set_v2.md）→ Phase B 文献 → Phase C 预注册 → Phase D（D1→D2→D3→D4=原 T3, 解冻条款不变）; T5 降 P2; 每段停一次尸检。

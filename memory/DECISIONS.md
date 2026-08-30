@@ -205,3 +205,10 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 - Loop B: topology 断言实查无 spec 计数器项 (仅 health+模型 ID), 无需改动; agent_watchdog 持续守护至 agent 完成恢复
 - 存档: logs/graph/eval/dspark_rollback_inspect_before/after_8006_0821night.json (与 v3 配对)
 - 准路根治三杠杆 (合并卡): L1 medium 矩阵 (08-23/24 错峰, 第一杠杆) → L2 sidecar 上下文瘦身 (先量后方案) → L3 DFlash2 (镜像评估先行); **抬超时不在选项内**; 每杠杆独立 go/no-go, 组合方案报用户拍板
+
+## [2026-08-30] Phase A 实验尸检 + Paper Claim Set v2 冻结（外部专家评审采纳）
+- 背景: 用户采纳外部专家评审总体方案; 圈选 J1-J7 入账（J1-J6 均 a; J7 = 端点鲁棒性窗条件开放）; C2 措辞被更保守句覆盖（判据冻结不变）; PSO 从贡献删除（方法一句带过）。
+- 六件尸检结论: C2（分层不提高检出敏感性, 增量 = 定位+证据可分解+预算 2 vs 12）/ C3（PSO ≡ greedy 且贵 114.2x, 降级条款触发但更彻底处理）/ M7（突变体保真度 = 可观测性机制发现, 原数据保留不得替换）/ 量化地板（|Δ| 容差 = 分辨率, 判据无区分力）/ 预算饱和（keep_rate≡1.0 只留 observation）/ 匹配竞争（分配层不可消解, 打分层污染, 跨匹配器待 D2）。
+- Claim Set v2 冻结: R1 可见性谱核心 / R2 检出-吸收-传播 + 定位-诊断（两轴分列）/ R3 可见性边界机制 / R4 跨数据流降为研究问题 / PSO 一句带过 / VGRM 仅案例（P1）。详见 docs/experiments/2026-08-30_phase_a_autopsy_and_claim_set_v2.md。
+- 序列: T3/T5 派发暂停 → Phase B（文献, 四簇六线索实查, BiomniBench 未证实前禁用）→ C（新判据预注册: 可见性/有效突变体/三轴/表级聚类统计/matched-FPR）→ D（D1 突变体审计 → D2 跨匹配器 → D3 同 FPR → D4 第二数据流=原 T3, 解冻条款不变）; 每段停一次尸检; T5 降 P2。
+- 记账更正: "余量 78 不足 16×4" = 算术错误（64≤78）, 已销账; J5 不追投裁定不变, 理由更正为窗口纪律与优先级。

@@ -70,14 +70,21 @@ The resulting visibility profile is the paper's core diagnostic: it locates whic
 defect families the protocol cannot see and which layer absorbs them.
 
 [TODO-T1: end-to-end-only / flat-weighted / hierarchical-expert baselines on the
-same corpus; [TODO-T4: PSO-optimized weights and cost-discriminability Pareto
-curve]; [TODO-T6: matching-competition validity threat and oracle ceiling].]
+same corpus; [TODO-T6: matching-competition validity threat and oracle ceiling].]
+Weight-search note (J3 ruling, frozen 2026-08-30; PSO removed from
+contributions): a particle-swarm weight search reproduced the same mean
+separation (1.4326) as greedy coordinate ascent at 114x the evaluation cost
+(7650 vs 67 evaluations, 5 seeds identical), so all reported weights use
+greedy/equal calibers [logs/graph/eval/t4_pso_fair_comparison.json].
 
-Pre-registered positioning (ruling 1a, frozen 2026-08-30, verbatim degradation
-clause of blueprint C2): hierarchical evaluation provides defect localization
-and diagnosis at a cost not exceeding end-to-end/flat, with equivalent
-discriminative power; **no superiority claim is made on detection rates**
-(both arms detect below flat: arm A 3/9 vs 4/9, arm B 20/95 vs 75/95).
+Pre-registered positioning (ruling 1a, frozen 2026-08-30; wording superseded
+the same day per adopted expert review - the paper may state less than the
+preregistered degradation ceiling, and it does; frozen criteria unchanged):
+"Hierarchical checkpoints provide layer-level localization and decomposable
+evidence under a lower evaluation budget, but do not improve raw
+defect-detection sensitivity in the current setting."
+(Both arms detect below flat: arm A 3/9 vs 4/9, arm B 20/95 vs 75/95;
+cost axis 2 vs 12 units.)
 Caliber note (ruling F-1, frozen 2026-08-30): the frozen M2 evaluation fixture
 used for calibration arms is an **internal calibration arm** (de-identified,
 frozen-hash registered); numbers cited in the body come only from public bases

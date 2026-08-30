@@ -199,9 +199,9 @@
 | 2026-08-30_w1_window_card_t1t2t6.md | 已执行-绿态 | W1 合并窗口任务卡: T1/T2/T6 零端点三段顺序（单 tmux 会话）; 前提 P1-P5 一分钟证伪 + 复现门 G1-G4 + 段间不互锁闸改期≤2; 收口绿态（0c9c441 入库, 主线程抽验过） | 2026-08-30 |
 | 2026-08-30_w2_window_card_8004.md | 已执行-绿态（C3 触发降级条款） | W2 :8004 合并窗任务卡: E1.5 Full Judge（120 调用）+ E1.6 三 seed 零调用 + T4 五组对照/minimax/预算梯度/Pareto; 预算硬门 ≤200 + 端点仅 :8004 + :8006 一致性差异显式注记 + 加编钉死 judge 口径可比性算法（Spearman+方向一致率+|Δ|混杂旗标） | 2026-08-30 |
 | 2026-08-30_t3_second_dataflow_design.md | 预注册（待派发） | T3 第二数据流设计稿: TAT-DQA joint-v1 validation split 注入构造 + 判别协议复跑（解冻范围限定, test split 零触碰）; §1 原样引用蓝图 C1 判据 | 2026-08-30 |
-| 2026-08-30_t3_task_card.md | 待派发（序列 W1 后） | T3 任务卡: 前提必含工件在位验证 + 解冻范围条款（用户指定）; 泄漏断言运行时; 完成后冻结线恢复 | 2026-08-30 |
+| 2026-08-30_t3_task_card.md | 暂停派发（= Phase D4, 序列重冻结 08-30 晚） | T3 任务卡: 前提必含工件在位验证 + 解冻范围条款（用户指定）; 泄漏断言运行时; 完成后冻结线恢复 | 2026-08-30 |
 | 2026-08-30_t5_visual_crosslayer_design.md | 预注册（待派发） | T5 视觉跨层补盲设计稿: C4 案 b 单列裁剪（预注册 33%→≤5%）+ :8007 一窗复跑; §1 原样引用蓝图 C5 判据 + 增益阈值具体化（ocr_similar ≥50%） | 2026-08-30 |
-| 2026-08-30_t5_task_card.md | 待派发（序列 T3 后） | T5 任务卡: 阶段 A 零端点渲染 + 阶段 B :8007 用毕即停; 双判据（错位门 <10% / 增益线）定采纳或整节删除 | 2026-08-30 |
+| 2026-08-30_t5_task_card.md | P2 可选（暂缓, 序列重冻结 08-30 晚） | T5 任务卡: 阶段 A 零端点渲染 + 阶段 B :8007 用毕即停; 双判据（错位门 <10% / 增益线）定采纳或整节删除 | 2026-08-30 |
 | superpowers/plans/2026-08-29-long-horizon-evaluation-paper.md | 待执行（预注册） | Graph Loop 分阶段计划: T1-T8 任务卡（基线对照/敏感性/第二数据流/PSO对照/视觉补盲/匹配竞争/正文组装/治理收尾）+ 依赖图 + 红线清单; 23:2x 增 Loop 0-F 映射 + 矩阵回填纪律 + 九项独立审计清单; 08-30 执行者口径更正（T1/T2/T6 = Loop A（GB10）, 主线程直跑字样删除）+ T3/T5 裁定入账 | 2026-08-30 |
 | `figures_k2/` | 活跃 | 小 B 盲锥章节五图组: 六类判别谱/吸收机制/三性质复现表/MS+CI 森林图/BC 盲率 + 生成脚本 make_k2_figures_repo.py（数据源 logs/graph/eval 两 json） | 2026-08-27 |
 | `figures_paper/` | 草稿 | 论文图稿: 可见性谱 + 检查点树结构（research/paper_figures_draft.py 产出, 数据源 checkpoint_discrimination_tables_v2.json + config/eval_checkpoint_trees.json）; Pareto 待 T4 工件, 不造数 | 2026-08-30 |
@@ -251,7 +251,8 @@
 
 | `2026-08-30_night_self_audit_findings.md` | 活跃 | 夜间自审 findings（九项攻击面预跑 + broken-window 八行 + 治理体检; 只列发现不裁决, 结论权在 Loop C/用户） | 2026-08-30 |
 | `2026-08-30_morning_decision_sheet.md` | W2 事项被完整版取代（①a②a 圈选已入账补记） | 晨间一页纸: W1 绿态 + W2 闸状态 + 判定项①C2 表述口径②T2 极差表述（各带推荐） | 2026-08-30 |
-| `2026-08-30_decision_sheet_full_w2.md` | 待圈选（J1-J6） | 完整版一页纸 W2 收口版: W2 绿态（122/200 调用/仅 :8004/13 门）+ 抽验 26/26 + findings 先行（F-SC-1/F_W2_4/F_W2_1/C3 降级/预算饱和）+ 圈选 ①a②a③F-1 入账 + 首个 SUMMARY-GUARD 收据块 | 2026-08-30 |
+| `2026-08-30_decision_sheet_full_w2.md` | 圈选完毕（J1-J7 入账, 序列被 Phase A-D 覆盖, 补记在案） | 完整版一页纸 W2 收口版: W2 绿态（122/200 调用/仅 :8004/13 门）+ 抽验 26/26 + findings 先行（F-SC-1/F_W2_4/F_W2_1/C3 降级/预算饱和）+ 圈选 ①a②a③F-1 入账 + 首个 SUMMARY-GUARD 收据块 | 2026-08-30 |
+| `2026-08-30_phase_a_autopsy_and_claim_set_v2.md` | 冻结（Claim Set v2） | Phase A 六件尸检（C2/C3/M7/量化地板/预算饱和/匹配竞争）+ Paper Claim Set v2（R1-R4 + PSO 降级 + VGRM 仅案例）+ 专利协同核对 + Phase B/C/D 输入清单 | 2026-08-30 |
 
 ## paper/（论文正文工作区, 内部草稿, 禁止对外）
 
