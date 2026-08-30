@@ -168,8 +168,10 @@ def cmd_check(argv):
                 fails += 1
             continue
         shas = file_shas(art)
-        ok_sha = b.get("sha256") in (shas.get("raw"),) or (b.get("sha256") == shas.get("raw"))
-        lf_ok = ("sha256_lf" in b and b["sha256_lf"] == shas.get("lf")) or (b.get("sha256") == shas.get("lf"))
+        # raw 收据可匹配 raw; lf 收据可匹配 lf 或 raw(纯 LF 文件两口径同值);
+        # raw 收据也可匹配 lf(收据在 CRLF 检出侧生成, 复核在 LF 侧)
+        ok_sha = b.get("sha256") in (shas.get("raw"), shas.get("lf"))
+        lf_ok = b.get("sha256_lf") in (shas.get("lf"), shas.get("raw")) or (b.get("sha256") == shas.get("lf"))
         if not (ok_sha or lf_ok):
             print("[summary-guard] FAIL sha 失配: %s (stored=%s actual_raw=%s)" % (art_rel, str(b.get("sha256"))[:16], shas["raw"][:16]))
             fails += 1
