@@ -1,0 +1,5234 @@
+{
+ "meta": {
+  "name": "d1-mutant-validity-audit",
+  "version": "v1",
+  "card_id": "TASK-20260831-01",
+  "task_card": "docs/experiments/2026-08-31_d1_task_card.md",
+  "design_doc": "docs/experiments/2026-08-31_d1_mutant_validity_audit_design.md",
+  "generated": "2026-08-31 01:21:18",
+  "script": "research/paper_d1_mutant_validity_audit.py",
+  "n_injections": 118,
+  "n_mutants": 9,
+  "endpoint_calls": 0,
+  "anchor_gamma": 0.2,
+  "gamma_grid": [
+   "0.2",
+   "0.3",
+   "0.5",
+   "0.7",
+   "0.9"
+  ],
+  "reproduce": [
+   "python3 research/paper_d1_mutant_validity_audit.py"
+  ]
+ },
+ "gates": {
+  "G1_equiv_set_matches_t2_frozen": true,
+  "G2_anchor_counts_85_7_26": true,
+  "G3_equivalent_invisible_all_gamma": true,
+  "G4_mutant_classification_and_evidence_paths": true,
+  "G5_ocr_all_harmful_invisible_with_examples": true,
+  "G6_zero_endpoint_and_readonly_self_proof": true,
+  "G7_digest_self_consistency": true,
+  "all_pass": true
+ },
+ "payload": {
+  "inputs_sha256": {
+   "data/research/drift_v0/output/injection_map.json": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+   "data/research/drift_v0/output/injected_tables.json": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9",
+   "logs/graph/eval/t2_visibility_sensitivity.json": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5",
+   "logs/graph/eval/checkpoint_discrimination_report.json": "5a1d38c05bf6f08c611097560a1463a67ab0598c7e30809144a66f6d9836852c",
+   "logs/graph/eval/t4_pso_fair_comparison.json": "d82922141717d933c26931c17fe79d0664ed007c0ac0af70b5b7d0e1b8194b15",
+   "config/eval_checkpoint_trees.json": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25"
+  },
+  "criterion_provenance": {
+   "design_doc": "docs/experiments/2026-08-31_d1_mutant_validity_audit_design.md",
+   "task_card": "docs/experiments/2026-08-31_d1_task_card.md",
+   "card_id": "TASK-20260831-01",
+   "blueprint_c1_criterion": "原样引用, 判据冻结不溯及（设计稿 §1）",
+   "classification_rules": {
+    "H": "锚点 gamma=0.2 检出（单注入边际降幅 dH*10 >= 10*0.2）",
+    "E": "被吸收 且 类型属 {alias_variant, mixed_lang, prefix_noise} 且 映射标准字段集与原表一致（T2 e2_2 冻结定义）",
+    "HI": "锚点未检出 且 非等价（按设计意图缺陷成立而协议无信号）",
+    "MO": "缺陷在该叶 item 级证据的承载字段上有移动（叶需求所关于的观测变化）",
+    "MU": "缺陷只落在派生标签 / 预聚合量, item 级承载字段零移动"
+   },
+   "absorption_caliber_note": "设计稿 §2 的 HI 用词「被吸收」按任务卡 P2 的冻结推导口径执行 = 锚点未检出（118-85=33, 33-7=26）。严格映射吸收口径同时入账: absorbed_strict_total=22（其 HI 子集 15）, 余 11 条为宽表稀释（dH<0.2 未达阈值但未被吸收）。两口径均写入 counts, 无静默取舍。",
+   "independent_rederivation": "注入状态一律从 injection_map.json + injected_tables.json 经生产匹配器重推; T2 聚合值仅用于 G1/G2 对账。"
+  },
+  "injections": [
+   {
+    "uid": "0b2eba23-104c-4219-8171-104f14d52a71",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Amortization",
+    "injected": "摊薄",
+    "mapping_target": "Accumulated Amortization",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "14b78dc3-ad9c-46cd-beb0-ecb222567694",
+    "col": 3,
+    "type": "alias_variant",
+    "original": "Number of accounts",
+    "injected": "account no.",
+    "mapping_target": "Number of accounts",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.6,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "14b78dc3-ad9c-46cd-beb0-ecb222567694",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Percentage to total accounts",
+    "injected": "账户",
+    "mapping_target": "Percentage to total accounts",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.6,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Weighted Average Grant Date Fair Value",
+    "injected": "Weighted Average Grant 2017期末 Fair Value",
+    "mapping_target": "Weighted Average Grant Date Fair Value",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Weighted-average grant date fair value",
+    "injected": "Weighted-average grant date 2021-对账日期 fair value",
+    "mapping_target": "Weighted-average grant date fair value",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "195174fe-dd0a-40b1-9139-21fb207f382a",
+    "col": 1,
+    "type": "mixed_lang",
+    "original": "Percentage of Plan Assets at December",
+    "injected": "assets(资产)",
+    "mapping_target": "Percentage of Plan Assets at December",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "1e712660-7b78-4791-8264-e517efde2e62",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Weighted Average Grant Date Fair Value",
+    "injected": "Weighted Average Grant 对账日期 / date Fair Value",
+    "mapping_target": "Weighted Average Grant Date Fair Value",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "1fe3e1d6-7532-44e1-aa5d-cdbe604583bd",
+    "col": 2,
+    "type": "ocr_similar",
+    "original": "Number of equity shares",
+    "injected": "Number of equty shares",
+    "mapping_target": "Number of equity shares",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "21a432eb-166c-4178-adf9-08b6ad3fde7d",
+    "col": 1,
+    "type": "mixed_lang",
+    "original": "Financial assets",
+    "injected": "assets(资产)",
+    "mapping_target": "Financial assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "21c316d6-5e25-4af5-a29a-82b748175279",
+    "col": 2,
+    "type": "ocr_similar",
+    "original": "Dividend per Share",
+    "injected": "divdend per Share",
+    "mapping_target": "Dividend per Share",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "% of associated net revenues",
+    "injected": "turnover",
+    "mapping_target": "% of associated net revenues",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "% of associated net revenues",
+    "injected": "营业总收入",
+    "mapping_target": "% of associated net revenues",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Revenue Recognition Guidance",
+    "injected": "营业收入",
+    "mapping_target": "Revenue Recognition Guidance",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.6,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+    "col": 3,
+    "type": "alias_variant",
+    "original": "Accounting for Income Taxes Guidance",
+    "injected": "account no.",
+    "mapping_target": "Accounting for Income Taxes Guidance",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.6,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "28caffcd-e07b-4eb6-9700-2400e8e1e450",
+    "col": 4,
+    "type": "mixed_lang",
+    "original": "Total right-of-use assets",
+    "injected": "assets(资产)",
+    "mapping_target": "Total right-of-use assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "2953b803-d49b-4fbb-8dc2-d9a3bec9d67e",
+    "col": 0,
+    "type": "unit_suffix",
+    "original": "Allocation of GasLog Partners’ profit/(loss)(*)",
+    "injected": "profit(万元)",
+    "mapping_target": "Allocation of GasLog Partners’ profit/(loss)(*)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "2cc74a85-0524-4eda-aa35-dced125c3818",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Fair Market Value",
+    "injected": "market cap",
+    "mapping_target": "Fair Market Value",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "329e3ff5-0cff-4849-8fd0-9b1e5606f6ca",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Segment Assets",
+    "injected": "资产(assets)",
+    "mapping_target": "Segment Assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "As a % of Segment Revenue (1)",
+    "injected": "营收",
+    "mapping_target": "As a % of Segment Revenue (1)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "As a % of Segment Revenue (1)",
+    "injected": "营业总收入",
+    "mapping_target": "As a % of Segment Revenue (1)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "3789d7da-dc3e-4cd7-b639-d6805211405a",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Revenues",
+    "injected": "sales",
+    "mapping_target": "Revenues",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.0,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "3789d7da-dc3e-4cd7-b639-d6805211405a",
+    "col": 3,
+    "type": "mixed_lang",
+    "original": "Income (loss) from vessel operations",
+    "injected": "income(收入)",
+    "mapping_target": "Income (loss) from vessel operations",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.0,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "38eb9da5-5c73-4366-af5f-9bd01019938a",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Weighted-Average Grant Date Fair Value Per Share",
+    "injected": "Weighted-Average Grant date 2021-报表明细日期 Fair Value Per Share",
+    "mapping_target": "Weighted-Average Grant Date Fair Value Per Share",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "3c609073-6a48-4961-84cd-de68a59fd66c",
+    "col": 1,
+    "type": "ocr_similar",
+    "original": "Vessels and capitalized dry-docking",
+    "injected": "Vessels and capitaiized dry-docking",
+    "mapping_target": "Vessels and capitalized dry-docking",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "3c609073-6a48-4961-84cd-de68a59fd66c",
+    "col": 3,
+    "type": "ocr_similar",
+    "original": "Other plant and operating equipment",
+    "injected": "Other plant and operat1ng equipment",
+    "mapping_target": "Other plant and operating equipment",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "3ec15660-9e13-4162-abb6-2462d65f07ba",
+    "col": 0,
+    "type": "alias_variant",
+    "original": "Year Ended December 31, 2019 Revenues",
+    "injected": "营业收入",
+    "mapping_target": "Year Ended December 31, 2019 Revenues",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "425ee1c7-fb82-4853-994a-9876c414fbd5",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Office property and other tangible assets",
+    "injected": "资产(assets)",
+    "mapping_target": "Office property and other tangible assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "425ee1c7-fb82-4853-994a-9876c414fbd5",
+    "col": 3,
+    "type": "unit_suffix",
+    "original": "Total tangible fixed assets",
+    "injected": "资产总额(万元)",
+    "mapping_target": "Total tangible fixed assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "44c7c9ef-bb9f-45c9-9ee5-e2bf465c3617",
+    "col": 1,
+    "type": "ocr_similar",
+    "original": "Operating Leases",
+    "injected": "operat1ng Leases",
+    "mapping_target": "Operating Leases",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "46f3bc91-b8ca-42b8-bf03-f23e9fd70b5e",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Weighted Average Amortization Period",
+    "injected": "摊薄",
+    "mapping_target": "Weighted Average Amortization Period",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "50a8d377-b36e-4a3f-a6c0-118531b1c134",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Income Tax Expense (Benefit)",
+    "injected": "income(收入)",
+    "mapping_target": "Income Tax Expense (Benefit)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "50e78448-3cf5-439c-a609-ee866bd1f05a",
+    "col": 2,
+    "type": "prefix_noise",
+    "original": "US$",
+    "injected": "US [1]",
+    "mapping_target": "US$",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": true,
+    "class": "E",
+    "invisibility_mechanism": "absorption_normalized"
+   },
+   {
+    "uid": "51cd045e-e91b-4289-9397-341538e9739b",
+    "col": 0,
+    "type": "alias_variant",
+    "original": "Balance Sheet Account",
+    "injected": "account no.",
+    "mapping_target": "Balance Sheet Account",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Amortization",
+    "injected": "amort",
+    "mapping_target": "Accumulated Amortization",
+    "target_exists": true,
+    "absorption_tier": 2,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": true,
+    "class": "E",
+    "invisibility_mechanism": "absorption_normalized"
+   },
+   {
+    "uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m №",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+    "col": 0,
+    "type": "date_variant",
+    "original": "Grant Date",
+    "injected": "Grant 2020年对账日期",
+    "mapping_target": "Grant Date",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 7,
+    "h_orig": 1.0,
+    "h_single": 0.857143,
+    "h_full_injection": 0.714286,
+    "marginal_dH": 0.14286,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+    "col": 1,
+    "type": "date_variant",
+    "original": "Exercise Date",
+    "injected": "Exercise date 2021-期末日期",
+    "mapping_target": "Exercise Date",
+    "target_exists": true,
+    "absorption_tier": 2,
+    "absorbed": true,
+    "canonical_keyset_identical": false,
+    "n_canonical": 7,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 0.714286,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Expiry Date",
+    "injected": "Expiry 净值日期 / date",
+    "mapping_target": "Expiry Date",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 7,
+    "h_orig": 1.0,
+    "h_single": 0.857143,
+    "h_full_injection": 0.714286,
+    "marginal_dH": 0.14286,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+    "col": 1,
+    "type": "date_variant",
+    "original": "CONSOLIDATED",
+    "injected": "CONSOLI2016年交易日D",
+    "mapping_target": "CONSOLIDATED",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m【】",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 2,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": true,
+    "class": "E",
+    "invisibility_mechanism": "absorption_normalized"
+   },
+   {
+    "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+    "col": 1,
+    "type": "ocr_similar",
+    "original": "Operating Leases",
+    "injected": "operat1ng Leases",
+    "mapping_target": "Operating Leases",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+    "col": 2,
+    "type": "ocr_similar",
+    "original": "Capital Leases",
+    "injected": "capitai Leases",
+    "mapping_target": "Capital Leases",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "617deeb3-f222-4172-a824-c62fc2214a89",
+    "col": 1,
+    "type": "date_variant",
+    "original": "CONSOLIDATE",
+    "injected": "CONSOLI2017期末",
+    "mapping_target": "CONSOLIDATE",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "637d5671-0913-4e80-b135-2d4a516b79bb",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "648e1260-d160-45d2-a744-57be0fd89850",
+    "col": 1,
+    "type": "mixed_lang",
+    "original": "Purchased Intangible Assets",
+    "injected": "assets(资产)",
+    "mapping_target": "Purchased Intangible Assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+    "col": 1,
+    "type": "date_variant",
+    "original": "Grant Date",
+    "injected": "Grant date 2019-报表明细日期",
+    "mapping_target": "Grant Date",
+    "target_exists": true,
+    "absorption_tier": 2,
+    "absorbed": true,
+    "canonical_keyset_identical": false,
+    "n_canonical": 6,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 0.833333,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+    "col": 5,
+    "type": "date_variant",
+    "original": "Grant Date Fair Value of Stock and Option Awards ($) (1)",
+    "injected": "Grant date 2017-交易日 Fair Value of Stock and Option Awards ($) (1)",
+    "mapping_target": "Grant Date Fair Value of Stock and Option Awards ($) (1)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 6,
+    "h_orig": 1.0,
+    "h_single": 0.833333,
+    "h_full_injection": 0.833333,
+    "marginal_dH": 0.16667,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "6a5e5192-5d37-489f-97f2-400ea965ae36",
+    "col": 0,
+    "type": "ocr_similar",
+    "original": "Equity-settled",
+    "injected": "equty-settled",
+    "mapping_target": "Equity-settled",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "6aae8dee-45af-4a09-9e09-8137d6eb3dc3",
+    "col": 0,
+    "type": "alias_variant",
+    "original": "CASH FLOW SUMMARY",
+    "injected": "现金流",
+    "mapping_target": "CASH FLOW SUMMARY",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "6bf238a5-0a3e-492d-91f8-7f62d3b37fba",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Income statement expense",
+    "injected": "收入(income)",
+    "mapping_target": "Income statement expense",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "6e1da895-35f8-4ac4-8b2d-491ef6b3c5f6",
+    "col": 3,
+    "type": "alias_variant",
+    "original": "Additions Charged to Other Accounts",
+    "injected": "account no.",
+    "mapping_target": "Additions Charged to Other Accounts",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "6ed697ff-9893-453a-84a4-44023fffca78",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Revenue and Receipts",
+    "injected": "sales",
+    "mapping_target": "Revenue and Receipts",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.0,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "6ed697ff-9893-453a-84a4-44023fffca78",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Unearned Revenue",
+    "injected": "sales",
+    "mapping_target": "Unearned Revenue",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.0,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "6f9a0eb1-ef23-49e3-9342-ab389b10de48",
+    "col": 0,
+    "type": "ocr_similar",
+    "original": "Capital expenditures 2017–2019",
+    "injected": "capitai expenditures 2017–2019",
+    "mapping_target": "Capital expenditures 2017–2019",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "70cf5260-2124-4a26-a148-5cf3c6028813",
+    "col": 0,
+    "type": "unit_suffix",
+    "original": "Group Profit or Loss",
+    "injected": "profit(万元)",
+    "mapping_target": "Group Profit or Loss",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "73a817fc-25df-494d-b0f2-79cfdab34076",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Dividends Paid(1)",
+    "injected": "dividend",
+    "mapping_target": "Dividends Paid(1)",
+    "target_exists": true,
+    "absorption_tier": 2,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": true,
+    "class": "E",
+    "invisibility_mechanism": "absorption_normalized"
+   },
+   {
+    "uid": "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+    "col": 4,
+    "type": "date_variant",
+    "original": "Consolidated",
+    "injected": "Consoli2016年交易日d",
+    "mapping_target": "Consolidated",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m①",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "7a249c43-5e24-447e-9da1-3d5982aca590",
+    "col": 1,
+    "type": "date_variant",
+    "original": "Consolidated",
+    "injected": "Consoli2019期末d",
+    "mapping_target": "Consolidated",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "7c80a835-4fb2-4792-9ad8-95660da47f7e",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Amortization",
+    "injected": "摊薄",
+    "mapping_target": "Accumulated Amortization",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "82c8abd6-9cce-4ede-a4ee-2866ce65cda8",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Amortization",
+    "injected": "摊薄",
+    "mapping_target": "Accumulated Amortization",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "8692f92d-668a-452d-be7a-2b491ee27585",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Income tax expense",
+    "injected": "income(收入)",
+    "mapping_target": "Income tax expense",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "86d86884-ffec-48ae-bb29-a94cd773c029",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Revenue Performance Goal(in millions)",
+    "injected": "sales",
+    "mapping_target": "Revenue Performance Goal(in millions)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "93339b76-1f90-4d86-8f31-bbb7bff71603",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "964a6470-3cb0-4520-b096-8176bca8ed1d",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Grant Date Value ($)",
+    "injected": "Grant date 2019-交易日 Value ($)",
+    "mapping_target": "Grant Date Value ($)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Total Cash Dividends Paid",
+    "injected": "股息",
+    "mapping_target": "Total Cash Dividends Paid",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.333333,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Total Cash Dividends Paid Per Common Share",
+    "injected": "dividends(股息)",
+    "mapping_target": "Total Cash Dividends Paid Per Common Share",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.333333,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "As a % of Revenue (1)",
+    "injected": "营业总收入",
+    "mapping_target": "As a % of Revenue (1)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "As a % of Revenue (1)",
+    "injected": "turnover",
+    "mapping_target": "As a % of Revenue (1)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "99f24ed1-6222-4707-a170-bac3de607798",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Cost of revenue",
+    "injected": "turnover",
+    "mapping_target": "Cost of revenue",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "9bce514f-3eb3-433c-85e5-2d40d116497c",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "WEIGHTED AVERAGE INTEREST RATE AT DECEMBER 31, 2019",
+    "injected": "利息",
+    "mapping_target": "WEIGHTED AVERAGE INTEREST RATE AT DECEMBER 31, 2019",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "a32b9e2a-36d9-4513-963e-9b1fc36878f0",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Long-lived Assets ",
+    "injected": "资产(assets)",
+    "mapping_target": "Long-lived Assets ",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m №",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "abba843f-be4e-4905-8bab-19942dbfedef",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Fixed rate financial assets",
+    "injected": "assets(资产)",
+    "mapping_target": "Fixed rate financial assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.25,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "abba843f-be4e-4905-8bab-19942dbfedef",
+    "col": 3,
+    "type": "mixed_lang",
+    "original": "Floating rate financial assets",
+    "injected": "资产(assets)",
+    "mapping_target": "Floating rate financial assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.25,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "abba843f-be4e-4905-8bab-19942dbfedef",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Financial assets on which no interest is earned",
+    "injected": "利息",
+    "mapping_target": "Financial assets on which no interest is earned",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.25,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Net Tangible Assets Acquired (Liabilities Assumed)",
+    "injected": "资产(assets)",
+    "mapping_target": "Net Tangible Assets Acquired (Liabilities Assumed)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.6,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2",
+    "col": 3,
+    "type": "unit_suffix",
+    "original": "Purchased Intangible Assets",
+    "injected": "资产(元)",
+    "mapping_target": "Purchased Intangible Assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.6,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "aca23e3e-967d-40a9-b6bb-3c095786a3b7",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Positive (Negative) Impact to Net Income",
+    "injected": "net profit",
+    "mapping_target": "Positive (Negative) Impact to Net Income",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "ae3cbef3-f02b-4833-ba73-abb7590dc495",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Financial Assets",
+    "injected": "资产(assets)",
+    "mapping_target": "Financial Assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "b48bb5fb-ea46-4a44-a39e-f2554719d158",
+    "col": 1,
+    "type": "mixed_lang",
+    "original": "Accumulated Other Comprehensive Income (Loss)",
+    "injected": "income(收入)",
+    "mapping_target": "Accumulated Other Comprehensive Income (Loss)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "b538d340-dfca-4f89-a59f-01fc1bb35184",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 0.75,
+    "h_full_injection": 0.75,
+    "marginal_dH": 0.25,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m【】",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 2,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": true,
+    "class": "E",
+    "invisibility_mechanism": "absorption_normalized"
+   },
+   {
+    "uid": "b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Accounts Receivable, Gross",
+    "injected": "帐号",
+    "mapping_target": "Accounts Receivable, Gross",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.333333,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1",
+    "col": 3,
+    "type": "alias_variant",
+    "original": "Accounts Receivable, Net",
+    "injected": "帐号",
+    "mapping_target": "Accounts Receivable, Net",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.333333,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "b975862d-d00d-42a5-a861-77ebcb48c55e",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Remaining Amortization period",
+    "injected": "摊薄",
+    "mapping_target": "Remaining Amortization period",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "bcbd7783-86ad-430d-aa96-48808bb0426c",
+    "col": 0,
+    "type": "alias_variant",
+    "original": "OPERATING REVENUES",
+    "injected": "turnover",
+    "mapping_target": "OPERATING REVENUES",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "bdeeb701-bae6-4a36-86d6-108c8e43c5e2",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Percent Expected to be Recognized as Revenue",
+    "injected": "sales",
+    "mapping_target": "Percent Expected to be Recognized as Revenue",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Revenue and Receipts",
+    "injected": "turnover",
+    "mapping_target": "Revenue and Receipts",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.0,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Unearned Revenue",
+    "injected": "营业收入",
+    "mapping_target": "Unearned Revenue",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.0,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "c0f66238-591a-4693-b2d2-fee0f6843420",
+    "col": 3,
+    "type": "ocr_similar",
+    "original": "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))",
+    "injected": "Number of securities remaining available for future issuance under equty compensation plans (excluding securities reflected in column(a))",
+    "mapping_target": "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m №",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "d2bba753-0df3-4a39-860b-bde563261fec",
+    "col": 0,
+    "type": "ocr_similar",
+    "original": "Capital stock",
+    "injected": "capitai stock",
+    "mapping_target": "Capital stock",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+    "col": 0,
+    "type": "date_variant",
+    "original": "Consolidated",
+    "injected": "Consoli交易日 / dated",
+    "mapping_target": "Consolidated",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "d6d9f70a-17b6-4530-b497-f73d59f0f0cb",
+    "col": 0,
+    "type": "alias_variant",
+    "original": "Revenue by segment",
+    "injected": "营收",
+    "mapping_target": "Revenue by segment",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "d7d65228-96c1-4890-951c-c3d7578f8031",
+    "col": 3,
+    "type": "ocr_similar",
+    "original": "Cash dividend per share (NT dollars)",
+    "injected": "Cash divdend per share (NT dollars)",
+    "mapping_target": "Cash dividend per share (NT dollars)",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "d8c20406-c646-4689-b645-5260bf17499d",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Financial income and expenses",
+    "injected": "income(收入)",
+    "mapping_target": "Financial income and expenses",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "e0689072-72ba-4979-962a-bb128539defb",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+    "col": 0,
+    "type": "ocr_similar",
+    "original": "Contractual Maturities of Financial Liabilities",
+    "injected": "Contractual Maturities of Financial liabilitie5",
+    "mapping_target": "Contractual Maturities of Financial Liabilities",
+    "target_exists": true,
+    "absorption_tier": 1,
+    "absorbed": true,
+    "canonical_keyset_identical": false,
+    "n_canonical": 6,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 0.833333,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "absorption_silent"
+   },
+   {
+    "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Total contractual cash flows",
+    "injected": "现金流",
+    "mapping_target": "Total contractual cash flows",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 6,
+    "h_orig": 1.0,
+    "h_single": 0.833333,
+    "h_full_injection": 0.833333,
+    "marginal_dH": 0.16667,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m①",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "e67f7bf2-fc15-4a7a-9856-febb066998fd",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Free cash flow (pre-spectrum)",
+    "injected": "cashflow",
+    "mapping_target": "Free cash flow (pre-spectrum)",
+    "target_exists": true,
+    "absorption_tier": 2,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": true,
+    "class": "E",
+    "invisibility_mechanism": "absorption_normalized"
+   },
+   {
+    "uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Amortization",
+    "injected": "amort",
+    "mapping_target": "Accumulated Amortization",
+    "target_exists": true,
+    "absorption_tier": 2,
+    "absorbed": true,
+    "canonical_keyset_identical": true,
+    "n_canonical": 4,
+    "h_orig": 1.0,
+    "h_single": 1.0,
+    "h_full_injection": 1.0,
+    "marginal_dH": 0.0,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": true,
+    "class": "E",
+    "invisibility_mechanism": "absorption_normalized"
+   },
+   {
+    "uid": "e9d3bb25-89ab-4aed-8bec-5501d5fe7b16",
+    "col": 3,
+    "type": "prefix_noise",
+    "original": "31,",
+    "injected": "3①",
+    "mapping_target": "31,",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "ea031e89-1bf8-4f64-8ed5-d1d0327003cf",
+    "col": 0,
+    "type": "mixed_lang",
+    "original": "Right-of-Use Assets",
+    "injected": "assets(资产)",
+    "mapping_target": "Right-of-Use Assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 6,
+    "h_orig": 1.0,
+    "h_single": 0.833333,
+    "h_full_injection": 0.833333,
+    "marginal_dH": 0.16667,
+    "detected_at_anchor": false,
+    "visible_by_gamma": {
+     "0.2": false,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "HI",
+    "invisibility_mechanism": "threshold_dilution"
+   },
+   {
+    "uid": "ea1f0fff-a213-4475-8b1c-221157649595",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Accumulated Unrealised Gains or Losses on Cash Flow Hedges",
+    "injected": "现金流量",
+    "mapping_target": "Accumulated Unrealised Gains or Losses on Cash Flow Hedges",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.8,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+    "col": 1,
+    "type": "alias_variant",
+    "original": "Accounts Receivable",
+    "injected": "账户",
+    "mapping_target": "Accounts Receivable",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.4,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+    "col": 4,
+    "type": "alias_variant",
+    "original": "Deferred Revenue (current)",
+    "injected": "营收",
+    "mapping_target": "Deferred Revenue (current)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.4,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+    "col": 5,
+    "type": "alias_variant",
+    "original": "Deferred Revenue (long-term)",
+    "injected": "营业收入",
+    "mapping_target": "Deferred Revenue (long-term)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.4,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+    "col": 0,
+    "type": "prefix_noise",
+    "original": "£m",
+    "injected": "m [1]",
+    "mapping_target": "£m",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "fa0ed823-f4a8-4063-b895-a517f9447dad",
+    "col": 3,
+    "type": "alias_variant",
+    "original": "Medicare Part D Subsidy Receipts",
+    "injected": "收款",
+    "mapping_target": "Medicare Part D Subsidy Receipts",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "fbbb1116-0ef2-4d7e-a90f-2c72e2739e22",
+    "col": 2,
+    "type": "date_variant",
+    "original": "Weighted-Average Grant-Date",
+    "injected": "Weighted-Average Grant-2016年交易日",
+    "mapping_target": "Weighted-Average Grant-Date",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 2,
+    "h_orig": 1.0,
+    "h_single": 0.5,
+    "h_full_injection": 0.5,
+    "marginal_dH": 0.5,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6",
+    "col": 0,
+    "type": "date_variant",
+    "original": "Consolidated",
+    "injected": "Consoli2021期末d",
+    "mapping_target": "Consolidated",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 1,
+    "h_orig": 1.0,
+    "h_single": 0.0,
+    "h_full_injection": 0.0,
+    "marginal_dH": 1.0,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": true,
+     "0.7": true,
+     "0.9": true
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "fd39b5b5-7426-4db6-bbf7-d3c5111ce543",
+    "col": 2,
+    "type": "alias_variant",
+    "original": "Interest Rate (per annum)",
+    "injected": "利息",
+    "mapping_target": "Interest Rate (per annum)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 3,
+    "h_orig": 1.0,
+    "h_single": 0.666667,
+    "h_full_injection": 0.666667,
+    "marginal_dH": 0.33333,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": true,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8",
+    "col": 2,
+    "type": "mixed_lang",
+    "original": "Net Tangible Assets Acquired (Liabilities Assumed)",
+    "injected": "assets(资产)",
+    "mapping_target": "Net Tangible Assets Acquired (Liabilities Assumed)",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.6,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   },
+   {
+    "uid": "fe416c52-0225-4a4f-9e3f-fcc1a993f8a8",
+    "col": 3,
+    "type": "unit_suffix",
+    "original": "Purchased Intangible Assets",
+    "injected": "资产(元)",
+    "mapping_target": "Purchased Intangible Assets",
+    "target_exists": true,
+    "absorption_tier": 0,
+    "absorbed": false,
+    "canonical_keyset_identical": false,
+    "n_canonical": 5,
+    "h_orig": 1.0,
+    "h_single": 0.8,
+    "h_full_injection": 0.6,
+    "marginal_dH": 0.2,
+    "detected_at_anchor": true,
+    "visible_by_gamma": {
+     "0.2": true,
+     "0.3": false,
+     "0.5": false,
+     "0.7": false,
+     "0.9": false
+    },
+    "equivalent": false,
+    "class": "H",
+    "invisibility_mechanism": null
+   }
+  ],
+  "counts": {
+   "H": 85,
+   "E": 7,
+   "HI": 26,
+   "total": 118,
+   "n_tables": 95,
+   "by_class_by_type": {
+    "H": {
+     "alias_variant": 36,
+     "date_variant": 12,
+     "mixed_lang": 19,
+     "prefix_noise": 13,
+     "unit_suffix": 5
+    },
+    "E": {
+     "alias_variant": 4,
+     "prefix_noise": 3
+    },
+    "HI": {
+     "alias_variant": 7,
+     "date_variant": 5,
+     "mixed_lang": 1,
+     "ocr_similar": 13
+    }
+   },
+   "anchor_detected_by_type": {
+    "alias_variant": 36,
+    "date_variant": 12,
+    "mixed_lang": 19,
+    "ocr_similar": 0,
+    "prefix_noise": 13,
+    "unit_suffix": 5
+   },
+   "n_by_type": {
+    "alias_variant": 47,
+    "date_variant": 17,
+    "mixed_lang": 20,
+    "ocr_similar": 13,
+    "prefix_noise": 16,
+    "unit_suffix": 5
+   },
+   "anchor_detected_total": 85,
+   "absorbed_strict_total": 22,
+   "undetected_at_anchor_total": 33,
+   "hi_by_mechanism": {
+    "absorption_silent": 15,
+    "threshold_dilution": 11
+   },
+   "absorbed_and_detected_at_anchor": 0,
+   "keyset_identical_total": 19
+  },
+  "equivalence": {
+   "definition": "被吸收 且 类型属 {alias_variant, mixed_lang, prefix_noise} 且 映射标准字段集与原表一致（设计稿 §2 = T2 e2_2 冻结定义）",
+   "n_equivalent": 7,
+   "by_type": {
+    "alias_variant": 4,
+    "prefix_noise": 3
+   },
+   "equivalent_list": [
+    {
+     "uid": "50e78448-3cf5-439c-a609-ee866bd1f05a",
+     "col": 2,
+     "type": "prefix_noise",
+     "original": "US$",
+     "injected": "US [1]",
+     "mapping_target": "US$"
+    },
+    {
+     "uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+     "col": 2,
+     "type": "alias_variant",
+     "original": "Accumulated Amortization",
+     "injected": "amort",
+     "mapping_target": "Accumulated Amortization"
+    },
+    {
+     "uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+     "col": 0,
+     "type": "prefix_noise",
+     "original": "£m",
+     "injected": "m【】",
+     "mapping_target": "£m"
+    },
+    {
+     "uid": "73a817fc-25df-494d-b0f2-79cfdab34076",
+     "col": 1,
+     "type": "alias_variant",
+     "original": "Dividends Paid(1)",
+     "injected": "dividend",
+     "mapping_target": "Dividends Paid(1)"
+    },
+    {
+     "uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+     "col": 0,
+     "type": "prefix_noise",
+     "original": "£m",
+     "injected": "m【】",
+     "mapping_target": "£m"
+    },
+    {
+     "uid": "e67f7bf2-fc15-4a7a-9856-febb066998fd",
+     "col": 4,
+     "type": "alias_variant",
+     "original": "Free cash flow (pre-spectrum)",
+     "injected": "cashflow",
+     "mapping_target": "Free cash flow (pre-spectrum)"
+    },
+    {
+     "uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+     "col": 2,
+     "type": "alias_variant",
+     "original": "Accumulated Amortization",
+     "injected": "amort",
+     "mapping_target": "Accumulated Amortization"
+    }
+   ],
+   "keyset_identical_total": 19
+  },
+  "gamma_equivalence_check": {
+   "claim": "等价注入在全部 gamma 网格不可见（吸收 => 字段集不变 => 无失配信号）",
+   "gamma_grid": [
+    "0.2",
+    "0.3",
+    "0.5",
+    "0.7",
+    "0.9"
+   ],
+   "violations": [],
+   "per_equivalent": [
+    {
+     "uid_col": "50e78448-3cf5-439c-a609-ee866bd1f05a:2",
+     "marginal_dH": 0.0,
+     "visible_by_gamma": {
+      "0.2": false,
+      "0.3": false,
+      "0.5": false,
+      "0.7": false,
+      "0.9": false
+     }
+    },
+    {
+     "uid_col": "54c494f7-d731-49bf-b9cd-d494aea72e34:2",
+     "marginal_dH": 0.0,
+     "visible_by_gamma": {
+      "0.2": false,
+      "0.3": false,
+      "0.5": false,
+      "0.7": false,
+      "0.9": false
+     }
+    },
+    {
+     "uid_col": "5e60c056-5073-441d-8525-7f834deb5c64:0",
+     "marginal_dH": 0.0,
+     "visible_by_gamma": {
+      "0.2": false,
+      "0.3": false,
+      "0.5": false,
+      "0.7": false,
+      "0.9": false
+     }
+    },
+    {
+     "uid_col": "73a817fc-25df-494d-b0f2-79cfdab34076:1",
+     "marginal_dH": 0.0,
+     "visible_by_gamma": {
+      "0.2": false,
+      "0.3": false,
+      "0.5": false,
+      "0.7": false,
+      "0.9": false
+     }
+    },
+    {
+     "uid_col": "b5aae4e9-040d-4e55-a42d-39cde217978f:0",
+     "marginal_dH": 0.0,
+     "visible_by_gamma": {
+      "0.2": false,
+      "0.3": false,
+      "0.5": false,
+      "0.7": false,
+      "0.9": false
+     }
+    },
+    {
+     "uid_col": "e67f7bf2-fc15-4a7a-9856-febb066998fd:4",
+     "marginal_dH": 0.0,
+     "visible_by_gamma": {
+      "0.2": false,
+      "0.3": false,
+      "0.5": false,
+      "0.7": false,
+      "0.9": false
+     }
+    },
+    {
+     "uid_col": "e9730ea3-e003-4db6-a513-9c9e6f40e371:2",
+     "marginal_dH": 0.0,
+     "visible_by_gamma": {
+      "0.2": false,
+      "0.3": false,
+      "0.5": false,
+      "0.7": false,
+      "0.9": false
+     }
+    }
+   ]
+  },
+  "ocr_absorption_examples": {
+   "claim": "ocr_similar 13 条全属 HI: 形近误读被编辑距离容差静默接回原字段, 协议零信号（设计稿 §5 论证骨架的数据支撑）",
+   "n_ocr": 13,
+   "n_ocr_HI": 13,
+   "all_targets_unchanged": true,
+   "triples": [
+    {
+     "original": "Number of equity shares",
+     "injected": "Number of equty shares",
+     "mapping_target": "Number of equity shares",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Dividend per Share",
+     "injected": "divdend per Share",
+     "mapping_target": "Dividend per Share",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Vessels and capitalized dry-docking",
+     "injected": "Vessels and capitaiized dry-docking",
+     "mapping_target": "Vessels and capitalized dry-docking",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Other plant and operating equipment",
+     "injected": "Other plant and operat1ng equipment",
+     "mapping_target": "Other plant and operating equipment",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Operating Leases",
+     "injected": "operat1ng Leases",
+     "mapping_target": "Operating Leases",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Operating Leases",
+     "injected": "operat1ng Leases",
+     "mapping_target": "Operating Leases",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Capital Leases",
+     "injected": "capitai Leases",
+     "mapping_target": "Capital Leases",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Equity-settled",
+     "injected": "equty-settled",
+     "mapping_target": "Equity-settled",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Capital expenditures 2017–2019",
+     "injected": "capitai expenditures 2017–2019",
+     "mapping_target": "Capital expenditures 2017–2019",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))",
+     "injected": "Number of securities remaining available for future issuance under equty compensation plans (excluding securities reflected in column(a))",
+     "mapping_target": "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Capital stock",
+     "injected": "capitai stock",
+     "mapping_target": "Capital stock",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Cash dividend per share (NT dollars)",
+     "injected": "Cash divdend per share (NT dollars)",
+     "mapping_target": "Cash dividend per share (NT dollars)",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    },
+    {
+     "original": "Contractual Maturities of Financial Liabilities",
+     "injected": "Contractual Maturities of Financial liabilitie5",
+     "mapping_target": "Contractual Maturities of Financial Liabilities",
+     "target_unchanged": true,
+     "absorption_tier": 1,
+     "class": "HI"
+    }
+   ]
+  },
+  "mutants": [
+   {
+    "id": "M1_m1_rows_fail",
+    "tree": "parse",
+    "target_leaves": [
+     "parse.doc.ok",
+     "parse.field.hit_rate",
+     "parse.reconcile.equations",
+     "parse.table.regression"
+    ],
+    "classification": "MO",
+    "carrier_leaves": [
+     "parse.doc.ok",
+     "parse.field.hit_rate",
+     "parse.reconcile.equations",
+     "parse.table.regression"
+    ],
+    "derived_label_only_leaves": [],
+    "item_evidence_view": {
+     "parse.doc.ok": {
+      "n_items_control": 15,
+      "n_items_mutant": 15,
+      "primary_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 2,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2
+      ],
+      "moved_indices_truncated": false
+     },
+     "parse.reconcile.equations": {
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "primary_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 2,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2
+      ],
+      "moved_indices_truncated": false
+     },
+     "parse.table.regression": {
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "primary_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 2,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2
+      ],
+      "moved_indices_truncated": false
+     },
+     "parse.field.hit_rate": {
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "primary_fields": [
+       "values_checked",
+       "values_mismatched"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 2,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2
+      ],
+      "moved_indices_truncated": false
+     }
+    },
+    "raw_field_diff": {
+     "n_atomic_paths_changed": 5,
+     "changed_paths_generalized": {
+      "scenario1_regression_report.json.overall": {
+       "n_instances": 1,
+       "control_type": "str",
+       "mutant_type": "str"
+      },
+      "scenario1_regression_report.json.rows[*].diffs[*]": {
+       "n_instances": 2,
+       "control_type": "length",
+       "mutant_type": "length"
+      },
+      "scenario1_regression_report.json.rows[*].status": {
+       "n_instances": 2,
+       "control_type": "str",
+       "mutant_type": "str"
+      }
+     },
+     "artifacts_touched": [
+      "scenario1_regression_report"
+     ]
+    },
+    "evidence_paths": [
+     {
+      "leaf": "parse.doc.ok",
+      "carrier_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_items_control": 15,
+      "n_items_mutant": 15,
+      "n_carrier_items_moved": 2,
+      "example_item_lines": [
+       "row_01 status=FAIL",
+       "row_02 status=FAIL"
+      ],
+      "raw_paths_sample": [
+       "scenario1_regression_report.json.overall",
+       "scenario1_regression_report.json.rows[*].diffs[*]",
+       "scenario1_regression_report.json.rows[*].status"
+      ]
+     },
+     {
+      "leaf": "parse.field.hit_rate",
+      "carrier_fields": [
+       "values_checked",
+       "values_mismatched"
+      ],
+      "derived_fields": [],
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "n_carrier_items_moved": 2,
+      "example_item_lines": [
+       "row_01 values_checked=1 values_mismatched=1",
+       "row_02 values_checked=2 values_mismatched=1"
+      ],
+      "raw_paths_sample": [
+       "scenario1_regression_report.json.overall",
+       "scenario1_regression_report.json.rows[*].diffs[*]",
+       "scenario1_regression_report.json.rows[*].status"
+      ]
+     },
+     {
+      "leaf": "parse.reconcile.equations",
+      "carrier_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "n_carrier_items_moved": 2,
+      "example_item_lines": [
+       "row_01 status=FAIL",
+       "row_02 status=FAIL"
+      ],
+      "raw_paths_sample": [
+       "scenario1_regression_report.json.overall",
+       "scenario1_regression_report.json.rows[*].diffs[*]",
+       "scenario1_regression_report.json.rows[*].status"
+      ]
+     },
+     {
+      "leaf": "parse.table.regression",
+      "carrier_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "n_carrier_items_moved": 2,
+      "example_item_lines": [
+       "row_01 status=FAIL",
+       "row_02 status=FAIL"
+      ],
+      "raw_paths_sample": [
+       "scenario1_regression_report.json.overall",
+       "scenario1_regression_report.json.rows[*].diffs[*]",
+       "scenario1_regression_report.json.rows[*].status"
+      ]
+     }
+    ],
+    "corroboration_judged_leaf_deltas": {
+     "parse.doc.ok": [
+      10,
+      7
+     ],
+     "parse.reconcile.equations": [
+      10,
+      3
+     ],
+     "parse.table.regression": [
+      10,
+      8
+     ],
+     "parse.field.hit_rate": [
+      10,
+      7
+     ]
+    },
+    "corroboration_sep_judged": 1.8523,
+    "corroboration_sep_mapped": 2.6428,
+    "corroboration_frozen_mapped_deltas": {
+     "parse.doc.ok": -10.0,
+     "parse.reconcile.equations": -10.0
+    }
+   },
+   {
+    "id": "M2_exact_numeric_fail",
+    "tree": "qa",
+    "target_leaves": [
+     "qa.numeric.exact"
+    ],
+    "classification": "MO",
+    "carrier_leaves": [
+     "qa.numeric.exact"
+    ],
+    "derived_label_only_leaves": [],
+    "item_evidence_view": {
+     "qa.numeric.exact": {
+      "n_items_control": 7,
+      "n_items_mutant": 7,
+      "primary_fields": [
+       "contract_verdict"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 7,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "moved_indices_truncated": false
+     }
+    },
+    "raw_field_diff": {
+     "n_atomic_paths_changed": 14,
+     "changed_paths_generalized": {
+      "m2_deterministic_report.json.results[*].all_pass": {
+       "n_instances": 7,
+       "control_type": "bool",
+       "mutant_type": "bool"
+      },
+      "m2_deterministic_report.json.results[*].checks[*].pass": {
+       "n_instances": 7,
+       "control_type": "bool",
+       "mutant_type": "bool"
+      }
+     },
+     "artifacts_touched": [
+      "m2_deterministic_report"
+     ]
+    },
+    "evidence_paths": [
+     {
+      "leaf": "qa.numeric.exact",
+      "carrier_fields": [
+       "contract_verdict"
+      ],
+      "derived_fields": [],
+      "n_items_control": 7,
+      "n_items_mutant": 7,
+      "n_carrier_items_moved": 7,
+      "example_item_lines": [
+       "item_01 contract_verdict=FAIL",
+       "item_02 contract_verdict=FAIL",
+       "item_03 contract_verdict=FAIL"
+      ],
+      "raw_paths_sample": [
+       "m2_deterministic_report.json.results[*].all_pass",
+       "m2_deterministic_report.json.results[*].checks[*].pass"
+      ]
+     }
+    ],
+    "corroboration_judged_leaf_deltas": {
+     "qa.numeric.exact": [
+      10,
+      0
+     ]
+    },
+    "corroboration_sep_judged": 0.625,
+    "corroboration_sep_mapped": 0.625,
+    "corroboration_frozen_mapped_deltas": {
+     "qa.numeric.exact": -10.0
+    }
+   },
+   {
+    "id": "M3_source_required_fail",
+    "tree": "qa",
+    "target_leaves": [
+     "qa.retrieval.source_required"
+    ],
+    "classification": "MO",
+    "carrier_leaves": [
+     "qa.retrieval.source_required"
+    ],
+    "derived_label_only_leaves": [],
+    "item_evidence_view": {
+     "qa.retrieval.source_required": {
+      "n_items_control": 15,
+      "n_items_mutant": 15,
+      "primary_fields": [
+       "contract_verdict"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 15,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12
+      ],
+      "moved_indices_truncated": true
+     }
+    },
+    "raw_field_diff": {
+     "n_atomic_paths_changed": 30,
+     "changed_paths_generalized": {
+      "m2_deterministic_report.json.results[*].all_pass": {
+       "n_instances": 15,
+       "control_type": "bool",
+       "mutant_type": "bool"
+      },
+      "m2_deterministic_report.json.results[*].checks[*].pass": {
+       "n_instances": 15,
+       "control_type": "bool",
+       "mutant_type": "bool"
+      }
+     },
+     "artifacts_touched": [
+      "m2_deterministic_report"
+     ]
+    },
+    "evidence_paths": [
+     {
+      "leaf": "qa.retrieval.source_required",
+      "carrier_fields": [
+       "contract_verdict"
+      ],
+      "derived_fields": [],
+      "n_items_control": 15,
+      "n_items_mutant": 15,
+      "n_carrier_items_moved": 15,
+      "example_item_lines": [
+       "item_01 contract_verdict=FAIL",
+       "item_02 contract_verdict=FAIL",
+       "item_03 contract_verdict=FAIL"
+      ],
+      "raw_paths_sample": [
+       "m2_deterministic_report.json.results[*].all_pass",
+       "m2_deterministic_report.json.results[*].checks[*].pass"
+      ]
+     }
+    ],
+    "corroboration_judged_leaf_deltas": {
+     "qa.retrieval.source_required": [
+      10,
+      0
+     ]
+    },
+    "corroboration_sep_judged": 0.8333,
+    "corroboration_sep_mapped": 0.8333,
+    "corroboration_frozen_mapped_deltas": {
+     "qa.retrieval.source_required": -10.0
+    }
+   },
+   {
+    "id": "M4_refusal_expected_fail",
+    "tree": "qa",
+    "target_leaves": [
+     "qa.refusal.deterministic"
+    ],
+    "classification": "MO",
+    "carrier_leaves": [
+     "qa.refusal.deterministic"
+    ],
+    "derived_label_only_leaves": [],
+    "item_evidence_view": {
+     "qa.refusal.deterministic": {
+      "n_items_control": 1,
+      "n_items_mutant": 1,
+      "primary_fields": [
+       "contract_verdict"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 1,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1
+      ],
+      "moved_indices_truncated": false
+     }
+    },
+    "raw_field_diff": {
+     "n_atomic_paths_changed": 2,
+     "changed_paths_generalized": {
+      "m2_deterministic_report.json.results[*].all_pass": {
+       "n_instances": 1,
+       "control_type": "bool",
+       "mutant_type": "bool"
+      },
+      "m2_deterministic_report.json.results[*].checks[*].pass": {
+       "n_instances": 1,
+       "control_type": "bool",
+       "mutant_type": "bool"
+      }
+     },
+     "artifacts_touched": [
+      "m2_deterministic_report"
+     ]
+    },
+    "evidence_paths": [
+     {
+      "leaf": "qa.refusal.deterministic",
+      "carrier_fields": [
+       "contract_verdict"
+      ],
+      "derived_fields": [],
+      "n_items_control": 1,
+      "n_items_mutant": 1,
+      "n_carrier_items_moved": 1,
+      "example_item_lines": [
+       "item_01 contract_verdict=FAIL"
+      ],
+      "raw_paths_sample": [
+       "m2_deterministic_report.json.results[*].all_pass",
+       "m2_deterministic_report.json.results[*].checks[*].pass"
+      ]
+     }
+    ],
+    "corroboration_judged_leaf_deltas": {
+     "qa.refusal.deterministic": [
+      10,
+      0
+     ]
+    },
+    "corroboration_sep_judged": 0.5556,
+    "corroboration_sep_mapped": 0.5556,
+    "corroboration_frozen_mapped_deltas": {
+     "qa.refusal.deterministic": -10.0
+    }
+   },
+   {
+    "id": "M5_judge_faithfulness_degrade",
+    "tree": "qa",
+    "target_leaves": [
+     "qa.faithfulness.judge"
+    ],
+    "classification": "MO",
+    "carrier_leaves": [
+     "qa.faithfulness.judge"
+    ],
+    "derived_label_only_leaves": [],
+    "item_evidence_view": {
+     "qa.faithfulness.judge": {
+      "n_items_control": 16,
+      "n_items_mutant": 16,
+      "primary_fields": [
+       "verdict_on_0_5"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 16,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12
+      ],
+      "moved_indices_truncated": true
+     }
+    },
+    "raw_field_diff": {
+     "n_atomic_paths_changed": 17,
+     "changed_paths_generalized": {
+      "m2_judge_report.json.results[*].scores.faithfulness.score": {
+       "n_instances": 16,
+       "control_type": "int",
+       "mutant_type": "int"
+      },
+      "m2_judge_report.json.summary.faithfulness.avg": {
+       "n_instances": 1,
+       "control_type": "float",
+       "mutant_type": "float"
+      }
+     },
+     "artifacts_touched": [
+      "m2_judge_report"
+     ]
+    },
+    "evidence_paths": [
+     {
+      "leaf": "qa.faithfulness.judge",
+      "carrier_fields": [
+       "verdict_on_0_5"
+      ],
+      "derived_fields": [],
+      "n_items_control": 16,
+      "n_items_mutant": 16,
+      "n_carrier_items_moved": 16,
+      "example_item_lines": [
+       "item_01 verdict_on_0_5=2",
+       "item_02 verdict_on_0_5=2",
+       "item_03 verdict_on_0_5=2"
+      ],
+      "raw_paths_sample": [
+       "m2_judge_report.json.results[*].scores.faithfulness.score",
+       "m2_judge_report.json.summary.faithfulness.avg"
+      ]
+     }
+    ],
+    "corroboration_judged_leaf_deltas": {
+     "qa.faithfulness.judge": [
+      9,
+      4
+     ]
+    },
+    "corroboration_sep_judged": 0.625,
+    "corroboration_sep_mapped": 0.735,
+    "corroboration_frozen_mapped_deltas": {
+     "qa.faithfulness.judge": -5.88
+    }
+   },
+   {
+    "id": "M6_judge_citation_degrade",
+    "tree": "qa",
+    "target_leaves": [
+     "qa.citation.judge"
+    ],
+    "classification": "MO",
+    "carrier_leaves": [
+     "qa.citation.judge"
+    ],
+    "derived_label_only_leaves": [],
+    "item_evidence_view": {
+     "qa.citation.judge": {
+      "n_items_control": 16,
+      "n_items_mutant": 16,
+      "primary_fields": [
+       "verdict_on_0_5"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 16,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12
+      ],
+      "moved_indices_truncated": true
+     }
+    },
+    "raw_field_diff": {
+     "n_atomic_paths_changed": 17,
+     "changed_paths_generalized": {
+      "m2_judge_report.json.results[*].scores.citation_quality.score": {
+       "n_instances": 16,
+       "control_type": "int",
+       "mutant_type": "int"
+      },
+      "m2_judge_report.json.summary.citation_quality.avg": {
+       "n_instances": 1,
+       "control_type": "float",
+       "mutant_type": "float"
+      }
+     },
+     "artifacts_touched": [
+      "m2_judge_report"
+     ]
+    },
+    "evidence_paths": [
+     {
+      "leaf": "qa.citation.judge",
+      "carrier_fields": [
+       "verdict_on_0_5"
+      ],
+      "derived_fields": [],
+      "n_items_control": 16,
+      "n_items_mutant": 16,
+      "n_carrier_items_moved": 16,
+      "example_item_lines": [
+       "item_01 verdict_on_0_5=2",
+       "item_02 verdict_on_0_5=2",
+       "item_03 verdict_on_0_5=2"
+      ],
+      "raw_paths_sample": [
+       "m2_judge_report.json.results[*].scores.citation_quality.score",
+       "m2_judge_report.json.summary.citation_quality.avg"
+      ]
+     }
+    ],
+    "corroboration_judged_leaf_deltas": {
+     "qa.citation.judge": [
+      10,
+      4
+     ]
+    },
+    "corroboration_sep_judged": 0.5,
+    "corroboration_sep_mapped": 0.5833,
+    "corroboration_frozen_mapped_deltas": {
+     "qa.citation.judge": -7.0
+    }
+   },
+   {
+    "id": "M7_nf_fail_3",
+    "tree": "qa",
+    "target_leaves": [
+     "qa.numeric.number_grounding"
+    ],
+    "classification": "MU",
+    "carrier_leaves": [],
+    "derived_label_only_leaves": [
+     "qa.numeric.number_grounding"
+    ],
+    "item_evidence_view": {
+     "qa.numeric.number_grounding": {
+      "n_items_control": 9,
+      "n_items_mutant": 9,
+      "primary_fields": [
+       "number_claims",
+       "ungrounded"
+      ],
+      "derived_fields": [
+       "grounding_verdict"
+      ],
+      "n_primary_items_moved": 0,
+      "n_derived_only_items_moved": 3,
+      "primary_items_moved_1based": [],
+      "moved_indices_truncated": false
+     }
+    },
+    "raw_field_diff": {
+     "n_atomic_paths_changed": 4,
+     "changed_paths_generalized": {
+      "number_faithfulness_report.json.n_fail": {
+       "n_instances": 1,
+       "control_type": "int",
+       "mutant_type": "int"
+      },
+      "number_faithfulness_report.json.results[*].pass": {
+       "n_instances": 3,
+       "control_type": "bool",
+       "mutant_type": "bool"
+      }
+     },
+     "artifacts_touched": [
+      "number_faithfulness_report"
+     ]
+    },
+    "evidence_paths": [],
+    "corroboration_judged_leaf_deltas": {},
+    "corroboration_sep_judged": 0.0,
+    "corroboration_sep_mapped": 0.2083,
+    "corroboration_frozen_mapped_deltas": {
+     "qa.numeric.number_grounding": -3.3333
+    }
+   },
+   {
+    "id": "M8_judge_artifact_missing",
+    "tree": "qa",
+    "target_leaves": [
+     "qa.citation.judge",
+     "qa.faithfulness.judge",
+     "qa.refusal.judge"
+    ],
+    "classification": "MO",
+    "carrier_leaves": [
+     "qa.citation.judge",
+     "qa.faithfulness.judge",
+     "qa.refusal.judge"
+    ],
+    "derived_label_only_leaves": [],
+    "item_evidence_view": {
+     "qa.faithfulness.judge": {
+      "n_items_control": 16,
+      "n_items_mutant": 0,
+      "primary_fields": [
+       "verdict_on_0_5"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 16,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12
+      ],
+      "moved_indices_truncated": true
+     },
+     "qa.citation.judge": {
+      "n_items_control": 16,
+      "n_items_mutant": 0,
+      "primary_fields": [
+       "verdict_on_0_5"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 16,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12
+      ],
+      "moved_indices_truncated": true
+     },
+     "qa.refusal.judge": {
+      "n_items_control": 16,
+      "n_items_mutant": 0,
+      "primary_fields": [
+       "verdict_on_0_5"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 16,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12
+      ],
+      "moved_indices_truncated": true
+     }
+    },
+    "raw_field_diff": {
+     "n_atomic_paths_changed": 1,
+     "changed_paths_generalized": {
+      "m2_judge_report.json": {
+       "n_instances": 1,
+       "control_type": "present",
+       "mutant_type": "absent"
+      }
+     },
+     "artifacts_touched": [
+      "m2_judge_report"
+     ]
+    },
+    "evidence_paths": [
+     {
+      "leaf": "qa.citation.judge",
+      "carrier_fields": [
+       "verdict_on_0_5"
+      ],
+      "derived_fields": [],
+      "n_items_control": 16,
+      "n_items_mutant": 0,
+      "n_carrier_items_moved": 16,
+      "example_item_lines": [],
+      "raw_paths_sample": [
+       "m2_judge_report.json"
+      ]
+     },
+     {
+      "leaf": "qa.faithfulness.judge",
+      "carrier_fields": [
+       "verdict_on_0_5"
+      ],
+      "derived_fields": [],
+      "n_items_control": 16,
+      "n_items_mutant": 0,
+      "n_carrier_items_moved": 16,
+      "example_item_lines": [],
+      "raw_paths_sample": [
+       "m2_judge_report.json"
+      ]
+     },
+     {
+      "leaf": "qa.refusal.judge",
+      "carrier_fields": [
+       "verdict_on_0_5"
+      ],
+      "derived_fields": [],
+      "n_items_control": 16,
+      "n_items_mutant": 0,
+      "n_carrier_items_moved": 16,
+      "example_item_lines": [],
+      "raw_paths_sample": [
+       "m2_judge_report.json"
+      ]
+     }
+    ],
+    "corroboration_judged_leaf_deltas": {
+     "qa.faithfulness.judge": [
+      9,
+      0
+     ],
+     "qa.citation.judge": [
+      10,
+      0
+     ],
+     "qa.refusal.judge": [
+      10,
+      5
+     ]
+    },
+    "corroboration_sep_judged": 2.0972,
+    "corroboration_sep_mapped": 1.1656,
+    "corroboration_frozen_mapped_deltas": {
+     "qa.faithfulness.judge": -4.88,
+     "qa.citation.judge": -5.0,
+     "qa.refusal.judge": -5.0
+    }
+   },
+   {
+    "id": "M9_m1_all_rows_fail",
+    "tree": "parse",
+    "target_leaves": [
+     "parse.doc.ok",
+     "parse.field.hit_rate",
+     "parse.reconcile.equations",
+     "parse.table.regression"
+    ],
+    "classification": "MO",
+    "carrier_leaves": [
+     "parse.doc.ok",
+     "parse.field.hit_rate",
+     "parse.reconcile.equations",
+     "parse.table.regression"
+    ],
+    "derived_label_only_leaves": [],
+    "item_evidence_view": {
+     "parse.doc.ok": {
+      "n_items_control": 15,
+      "n_items_mutant": 15,
+      "primary_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 12,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       13,
+       14,
+       15
+      ],
+      "moved_indices_truncated": false
+     },
+     "parse.table.regression": {
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "primary_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 12,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12
+      ],
+      "moved_indices_truncated": false
+     },
+     "parse.field.hit_rate": {
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "primary_fields": [
+       "values_checked",
+       "values_mismatched"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 12,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12
+      ],
+      "moved_indices_truncated": false
+     },
+     "parse.reconcile.equations": {
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "primary_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_primary_items_moved": 12,
+      "n_derived_only_items_moved": 0,
+      "primary_items_moved_1based": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12
+      ],
+      "moved_indices_truncated": false
+     }
+    },
+    "raw_field_diff": {
+     "n_atomic_paths_changed": 25,
+     "changed_paths_generalized": {
+      "scenario1_regression_report.json.overall": {
+       "n_instances": 1,
+       "control_type": "str",
+       "mutant_type": "str"
+      },
+      "scenario1_regression_report.json.rows[*].diffs[*]": {
+       "n_instances": 12,
+       "control_type": "length",
+       "mutant_type": "length"
+      },
+      "scenario1_regression_report.json.rows[*].status": {
+       "n_instances": 12,
+       "control_type": "str",
+       "mutant_type": "str"
+      }
+     },
+     "artifacts_touched": [
+      "scenario1_regression_report"
+     ]
+    },
+    "evidence_paths": [
+     {
+      "leaf": "parse.doc.ok",
+      "carrier_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_items_control": 15,
+      "n_items_mutant": 15,
+      "n_carrier_items_moved": 12,
+      "example_item_lines": [
+       "row_01 status=FAIL",
+       "row_02 status=FAIL",
+       "row_03 status=FAIL"
+      ],
+      "raw_paths_sample": [
+       "scenario1_regression_report.json.overall",
+       "scenario1_regression_report.json.rows[*].diffs[*]",
+       "scenario1_regression_report.json.rows[*].status"
+      ]
+     },
+     {
+      "leaf": "parse.field.hit_rate",
+      "carrier_fields": [
+       "values_checked",
+       "values_mismatched"
+      ],
+      "derived_fields": [],
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "n_carrier_items_moved": 12,
+      "example_item_lines": [
+       "row_01 values_checked=1 values_mismatched=1",
+       "row_02 values_checked=2 values_mismatched=1",
+       "row_03 values_checked=2 values_mismatched=1"
+      ],
+      "raw_paths_sample": [
+       "scenario1_regression_report.json.overall",
+       "scenario1_regression_report.json.rows[*].diffs[*]",
+       "scenario1_regression_report.json.rows[*].status"
+      ]
+     },
+     {
+      "leaf": "parse.reconcile.equations",
+      "carrier_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "n_carrier_items_moved": 12,
+      "example_item_lines": [
+       "row_01 status=FAIL",
+       "row_02 status=FAIL",
+       "row_03 status=FAIL"
+      ],
+      "raw_paths_sample": [
+       "scenario1_regression_report.json.overall",
+       "scenario1_regression_report.json.rows[*].diffs[*]",
+       "scenario1_regression_report.json.rows[*].status"
+      ]
+     },
+     {
+      "leaf": "parse.table.regression",
+      "carrier_fields": [
+       "status"
+      ],
+      "derived_fields": [],
+      "n_items_control": 12,
+      "n_items_mutant": 12,
+      "n_carrier_items_moved": 12,
+      "example_item_lines": [
+       "row_01 status=FAIL",
+       "row_02 status=FAIL",
+       "row_03 status=FAIL"
+      ],
+      "raw_paths_sample": [
+       "scenario1_regression_report.json.overall",
+       "scenario1_regression_report.json.rows[*].diffs[*]",
+       "scenario1_regression_report.json.rows[*].status"
+      ]
+     }
+    ],
+    "corroboration_judged_leaf_deltas": {
+     "parse.doc.ok": [
+      10,
+      0
+     ],
+     "parse.table.regression": [
+      10,
+      0
+     ],
+     "parse.field.hit_rate": [
+      10,
+      0
+     ],
+     "parse.reconcile.equations": [
+      10,
+      0
+     ]
+    },
+    "corroboration_sep_judged": 4.6591,
+    "corroboration_sep_mapped": 3.9248,
+    "corroboration_frozen_mapped_deltas": {
+     "parse.doc.ok": -10.0,
+     "parse.table.regression": -10.0,
+     "parse.field.hit_rate": -4.6154,
+     "parse.reconcile.equations": -10.0
+    }
+   }
+  ],
+  "mutant_counts": {
+   "total": 9,
+   "MO": 8,
+   "MU": 1,
+   "mu_ids": [
+    "M7_nf_fail_3"
+   ],
+   "mo_missing_evidence_path": []
+  },
+  "m7_retention": {
+   "id": "M7_nf_fail_3",
+   "classification": "MU",
+   "original_artifact": "logs/graph/eval/number_faithfulness_report.json",
+   "preserved_verbatim": true,
+   "redesigned_or_replaced": false,
+   "statement": "M7 原样保留（J2 附加条件）: 不重设计、不替换、不改判其既有结论; D1 仅登记其缺陷落在派生标签与聚合计数（pass / n_fail）, item 级承载字段 number_claims / ungrounded 零移动, 故对 item 级判分结构性不可见。",
+   "evidence": {
+    "mutator": "scripts/eval_checkpoint_discrimination.py:mut_nf_fail",
+    "carrier_items_moved": 0,
+    "derived_label_items_moved": 3,
+    "sep_judged": 0.0,
+    "sep_mapped": 0.2083,
+    "frozen_finding_ref": "t4_pso_fair_comparison.json:payload.findings.F_W2_1_m7_item_level_invisible"
+   }
+  },
+  "gate_details": {
+   "G1_equiv_set_matches_t2_frozen": {
+    "pass": true,
+    "n_d1": 7,
+    "n_t2_frozen": 7,
+    "only_in_d1": [],
+    "only_in_t2": []
+   },
+   "G2_anchor_counts_85_7_26": {
+    "pass": true,
+    "d1_counts": {
+     "H": 85,
+     "E": 7,
+     "HI": 26,
+     "total": 118
+    },
+    "d1_anchor_detected_by_type": {
+     "alias_variant": 36,
+     "date_variant": 12,
+     "mixed_lang": 19,
+     "ocr_similar": 0,
+     "prefix_noise": 13,
+     "unit_suffix": 5
+    },
+    "t2_frozen_anchor_detected_by_type": {
+     "alias_variant": 36,
+     "date_variant": 12,
+     "mixed_lang": 19,
+     "ocr_similar": 0,
+     "prefix_noise": 13,
+     "unit_suffix": 5
+    },
+    "prereg": {
+     "H": 85,
+     "E": 7,
+     "HI": 26,
+     "total": 118,
+     "anchor_visible_by_type": {
+      "alias_variant": 36,
+      "date_variant": 12,
+      "mixed_lang": 19,
+      "ocr_similar": 0,
+      "prefix_noise": 13,
+      "unit_suffix": 5
+     }
+    }
+   },
+   "G3_equivalent_invisible_all_gamma": {
+    "pass": true,
+    "equivalent_uid_cols": [
+     "50e78448-3cf5-439c-a609-ee866bd1f05a:2",
+     "54c494f7-d731-49bf-b9cd-d494aea72e34:2",
+     "5e60c056-5073-441d-8525-7f834deb5c64:0",
+     "73a817fc-25df-494d-b0f2-79cfdab34076:1",
+     "b5aae4e9-040d-4e55-a42d-39cde217978f:0",
+     "e67f7bf2-fc15-4a7a-9856-febb066998fd:4",
+     "e9730ea3-e003-4db6-a513-9c9e6f40e371:2"
+    ],
+    "violations": []
+   },
+   "G4_mutant_classification_and_evidence_paths": {
+    "pass": true,
+    "mu_ids": [
+     "M7_nf_fail_3"
+    ],
+    "n_mo": 8,
+    "n_total": 9,
+    "mo_missing_evidence_path": [],
+    "separation_judged_by_mutant": {
+     "M1_m1_rows_fail": 1.8523,
+     "M2_exact_numeric_fail": 0.625,
+     "M3_source_required_fail": 0.8333,
+     "M4_refusal_expected_fail": 0.5556,
+     "M5_judge_faithfulness_degrade": 0.625,
+     "M6_judge_citation_degrade": 0.5,
+     "M7_nf_fail_3": 0.0,
+     "M8_judge_artifact_missing": 2.0972,
+     "M9_m1_all_rows_fail": 4.6591
+    },
+    "separation_mapped_by_mutant": {
+     "M1_m1_rows_fail": 2.6428,
+     "M2_exact_numeric_fail": 0.625,
+     "M3_source_required_fail": 0.8333,
+     "M4_refusal_expected_fail": 0.5556,
+     "M5_judge_faithfulness_degrade": 0.735,
+     "M6_judge_citation_degrade": 0.5833,
+     "M7_nf_fail_3": 0.2083,
+     "M8_judge_artifact_missing": 1.1656,
+     "M9_m1_all_rows_fail": 3.9248
+    },
+    "derived_label_only_leaves": {
+     "M7_nf_fail_3": [
+      "qa.numeric.number_grounding"
+     ]
+    }
+   },
+   "G5_ocr_all_harmful_invisible_with_examples": {
+    "pass": true,
+    "n_ocr": 13,
+    "n_ocr_hi": 13,
+    "n_examples": 13,
+    "all_mapping_targets_unchanged": true
+   },
+   "G6_zero_endpoint_and_readonly_self_proof": {
+    "pass": true,
+    "ports_touched": [],
+    "model_calls": 0,
+    "budget_counter": 0,
+    "endpoint_violations": [],
+    "source_scan_clean": true,
+    "source_scan_files": [
+     "research/paper_d1_mutant_validity_audit.py",
+     "scripts/eval_checkpoint_discrimination.py",
+     "scripts/eval_checkpoint_aggregate.py"
+    ],
+    "gating_basis": "AST import/call 检索（http 客户端根模块 ∈ aiohttp,ftplib,http,httpx,openai,requests,smtplib,subprocess,telnetlib,urllib,websocket,websocket_client）; socket 仅用于封死出站与试连自证, 单列披露",
+    "network_findings_in_d1_scope": {},
+    "helper_module": "scripts/m1_statement_parser.py",
+    "helper_module_ast_findings": [
+     "import urllib.request",
+     "import subprocess",
+     "subprocess.run",
+     "urllib.request.Request",
+     "urllib.request.Request",
+     "urllib.request.Request",
+     "urllib.request.Request",
+     "urllib.request.urlopen",
+     "urllib.request.urlopen",
+     "urllib.request.urlopen",
+     "urllib.request.urlopen"
+    ],
+    "helper_module_note": "生产匹配器 scripts/m1_statement_parser.py 自带 OCR/VLM 调用helper, 故列D1 作用域之外（T2 SCAN_MANIFEST 同构口径: 只扫本窗 research 脚本）。D1 对其「只调用纯文本匹配 API」不靠嘴说: 三重自证 = socket 层封死 + guard_self_test 主动试连全拦 + MATCHER_APIS_CALLED hasattr 存在性断言。",
+    "socket_import_disclosed": true,
+    "active_connection_probes": {
+     "create_connection": "blocked:RuntimeError",
+     "getaddrinfo": "blocked:RuntimeError",
+     "socket_connect": "blocked:RuntimeError",
+     "all_blocked": true,
+     "matcher_apis_present": {
+      "normalize_header": true,
+      "SchemaField": true,
+      "SchemaTable": true,
+      "map_headers": true,
+      "_best_field_for_header": true
+     },
+     "matcher_apis_all_present": true
+    },
+    "scope_note": "硬门作用域 = 本窗 research 脚本 + D1 导入的聚合脚本（T2 SCAN_MANIFEST 同构口径）; 生产匹配器自带 OCR/VLM helper 故列作用域外, 其「D1 从未调用」由三重自证: socket 层封死 + 主动试连全拦 + 所用匹配 API hasattr 断言。"
+   }
+  },
+  "prereg_predicates": {
+   "P1_equivalence_set_reproduced": true,
+   "P2_anchor_counts_85_7_26": true,
+   "P3_equivalent_invisible_all_gamma": true,
+   "P4_mutant_classification_MU_only_M7": true,
+   "P5_ocr_all_harmful_invisible_with_examples": true,
+   "P6_zero_endpoint_self_proof": true,
+   "note": "预注册于设计稿 §3, 执行后不溯及; 任一项 false 一律上报主线程, 禁止静默重分类或静默改判。"
+  },
+  "zero_endpoint": {
+   "patterns": [
+    "urlopen",
+    "urllib",
+    "requests",
+    "httpx",
+    "openai",
+    "aiohttp",
+    "http://",
+    "HTTPS://",
+    "socket.connect",
+    ":8004",
+    ":8005",
+    ":8006",
+    ":8007",
+    ":8008",
+    ":5050"
+   ],
+   "files_scanned": [
+    "research/paper_d1_mutant_validity_audit.py",
+    "scripts/eval_checkpoint_discrimination.py",
+    "scripts/eval_checkpoint_aggregate.py"
+   ],
+   "missing_files": [],
+   "gating_basis": "AST import/call 检索（http 客户端根模块 ∈ aiohttp,ftplib,http,httpx,openai,requests,smtplib,subprocess,telnetlib,urllib,websocket,websocket_client）; socket 仅用于封死出站与试连自证, 单列披露",
+   "network_findings_in_d1_scope": {},
+   "endpoint_literal_mentions_advisory": {
+    "research/paper_d1_mutant_validity_audit.py": [
+     {
+      "line": 246,
+      "pattern": ":8004",
+      "text": "\"「不调用 :8004/:5050/:8006」否定式声明与本护栏模式串自身; \""
+     },
+     {
+      "line": 246,
+      "pattern": ":8006",
+      "text": "\"「不调用 :8004/:5050/:8006」否定式声明与本护栏模式串自身; \""
+     },
+     {
+      "line": 246,
+      "pattern": ":5050",
+      "text": "\"「不调用 :8004/:5050/:8006」否定式声明与本护栏模式串自身; \""
+     }
+    ],
+    "scripts/eval_checkpoint_discrimination.py": [
+     {
+      "line": 11,
+      "pattern": ":8004",
+      "text": "纯确定性计算: 不调 :5050/:8004/:8006, 不改活工件（副本全部落在"
+     },
+     {
+      "line": 11,
+      "pattern": ":8006",
+      "text": "纯确定性计算: 不调 :5050/:8004/:8006, 不改活工件（副本全部落在"
+     },
+     {
+      "line": 11,
+      "pattern": ":5050",
+      "text": "纯确定性计算: 不调 :5050/:8004/:8006, 不改活工件（副本全部落在"
+     }
+    ],
+    "scripts/eval_checkpoint_aggregate.py": [
+     {
+      "line": 4,
+      "pattern": ":8004",
+      "text": "只读消费 logs/graph/eval/ 下的既有活工件, 不调用 :5050/:8004/:8006,"
+     },
+     {
+      "line": 4,
+      "pattern": ":8006",
+      "text": "只读消费 logs/graph/eval/ 下的既有活工件, 不调用 :5050/:8004/:8006,"
+     },
+     {
+      "line": 4,
+      "pattern": ":5050",
+      "text": "只读消费 logs/graph/eval/ 下的既有活工件, 不调用 :5050/:8004/:8006,"
+     },
+     {
+      "line": 275,
+      "pattern": ":8004",
+      "text": "f\"> 干跑验证: 本报告为纯确定性计算, 未调用 :5050/:8004/:8006\", \"\"]"
+     },
+     {
+      "line": 275,
+      "pattern": ":8006",
+      "text": "f\"> 干跑验证: 本报告为纯确定性计算, 未调用 :5050/:8004/:8006\", \"\"]"
+     },
+     {
+      "line": 275,
+      "pattern": ":5050",
+      "text": "f\"> 干跑验证: 本报告为纯确定性计算, 未调用 :5050/:8004/:8006\", \"\"]"
+     }
+    ],
+    "scripts/m1_statement_parser.py": [
+     {
+      "line": 21,
+      "pattern": "urllib",
+      "text": "import urllib.request"
+     },
+     {
+      "line": 408,
+      "pattern": "http://",
+      "text": "\"M1_OCR_VISION_ENDPOINT\", \"http://127.0.0.1:8004/v1/chat/completions\")"
+     },
+     {
+      "line": 408,
+      "pattern": ":8004",
+      "text": "\"M1_OCR_VISION_ENDPOINT\", \"http://127.0.0.1:8004/v1/chat/completions\")"
+     },
+     {
+      "line": 563,
+      "pattern": "urllib",
+      "text": "req = urllib.request.Request("
+     },
+     {
+      "line": 569,
+      "pattern": "urlopen",
+      "text": "with urllib.request.urlopen(req, timeout=_OCR_VISION_TIMEOUT) as resp:"
+     },
+     {
+      "line": 569,
+      "pattern": "urllib",
+      "text": "with urllib.request.urlopen(req, timeout=_OCR_VISION_TIMEOUT) as resp:"
+     },
+     {
+      "line": 590,
+      "pattern": "http://",
+      "text": "\"M1_VLM_ENDPOINT\", \"http://127.0.0.1:8007/v1/chat/completions\")"
+     },
+     {
+      "line": 590,
+      "pattern": ":8007",
+      "text": "\"M1_VLM_ENDPOINT\", \"http://127.0.0.1:8007/v1/chat/completions\")"
+     },
+     {
+      "line": 607,
+      "pattern": "urllib",
+      "text": "req = urllib.request.Request("
+     },
+     {
+      "line": 611,
+      "pattern": "urlopen",
+      "text": "with urllib.request.urlopen(req, timeout=3) as resp:"
+     },
+     {
+      "line": 611,
+      "pattern": "urllib",
+      "text": "with urllib.request.urlopen(req, timeout=3) as resp:"
+     },
+     {
+      "line": 660,
+      "pattern": "urllib",
+      "text": "req = urllib.request.Request("
+     },
+     {
+      "line": 666,
+      "pattern": "urlopen",
+      "text": "with urllib.request.urlopen(req, timeout=_VLM_TIMEOUT) as resp:"
+     },
+     {
+      "line": 666,
+      "pattern": "urllib",
+      "text": "with urllib.request.urlopen(req, timeout=_VLM_TIMEOUT) as resp:"
+     },
+     {
+      "line": 1584,
+      "pattern": "http://",
+      "text": "\"M1_LLM_ENDPOINT\", \"http://127.0.0.1:8004/v1/chat/completions\")"
+     },
+     {
+      "line": 1584,
+      "pattern": ":8004",
+      "text": "\"M1_LLM_ENDPOINT\", \"http://127.0.0.1:8004/v1/chat/completions\")"
+     },
+     {
+      "line": 1741,
+      "pattern": "urllib",
+      "text": "req = urllib.request.Request("
+     },
+     {
+      "line": 1747,
+      "pattern": "urlopen",
+      "text": "with urllib.request.urlopen(req, timeout=LLM_TIMEOUT) as resp:"
+     },
+     {
+      "line": 1747,
+      "pattern": "urllib",
+      "text": "with urllib.request.urlopen(req, timeout=LLM_TIMEOUT) as resp:"
+     }
+    ]
+   },
+   "endpoint_literal_note": "字面量层不判门: 命中全部位于中文注释/文档字符串/报告文本中的「不调用 :8004/:5050/:8006」否定式声明与本护栏模式串自身; 逐条披露供人工复核护栏未放水。",
+   "ports_touched": [],
+   "model_calls": 0,
+   "budget_counter": 0,
+   "clean": true,
+   "active_connection_probes": {
+    "create_connection": "blocked:RuntimeError",
+    "getaddrinfo": "blocked:RuntimeError",
+    "socket_connect": "blocked:RuntimeError",
+    "all_blocked": true,
+    "matcher_apis_present": {
+     "normalize_header": true,
+     "SchemaField": true,
+     "SchemaTable": true,
+     "map_headers": true,
+     "_best_field_for_header": true
+    },
+    "matcher_apis_all_present": true
+   }
+  },
+  "redline_self_check": {
+   "frozen_input_digests_match_w2_registration": {
+    "data/research/drift_v0/output/injection_map.json": true,
+    "data/research/drift_v0/output/injected_tables.json": true,
+    "logs/graph/eval/checkpoint_discrimination_report.json": true,
+    "config/eval_checkpoint_trees.json": true
+   },
+   "live_and_frozen_artifacts_untouched": true,
+   "scratch_dir": "/tmp/d1_mutant_scratch",
+   "scratch_outside_repo": true,
+   "m7_preserved_verbatim": true,
+   "client_identifier_zero_entered": true
+  }
+ },
+ "prereg_predicates": {
+  "P1_equivalence_set_reproduced": true,
+  "P2_anchor_counts_85_7_26": true,
+  "P3_equivalent_invisible_all_gamma": true,
+  "P4_mutant_classification_MU_only_M7": true,
+  "P5_ocr_all_harmful_invisible_with_examples": true,
+  "P6_zero_endpoint_self_proof": true,
+  "note": "预注册于设计稿 §3, 执行后不溯及; 任一项 false 一律上报主线程, 禁止静默重分类或静默改判。"
+ },
+ "payload_sha256": "d7d0e0e0a34370b513655c6c65996332a7ec4c3828854886f94b4b776b7f28b3",
+ "sha256_scope": [
+  "inputs_sha256",
+  "criterion_provenance",
+  "injections",
+  "counts",
+  "equivalence",
+  "gamma_equivalence_check",
+  "ocr_absorption_examples",
+  "mutants",
+  "mutant_counts",
+  "m7_retention",
+  "gate_details",
+  "prereg_predicates",
+  "zero_endpoint",
+  "redline_self_check"
+ ]
+}

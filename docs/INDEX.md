@@ -254,8 +254,9 @@
 | `2026-08-30_decision_sheet_full_w2.md` | 圈选完毕（J1-J7 入账, 序列被 Phase A-D 覆盖, 补记在案） | 完整版一页纸 W2 收口版: W2 绿态（122/200 调用/仅 :8004/13 门）+ 抽验 26/26 + findings 先行（F-SC-1/F_W2_4/F_W2_1/C3 降级/预算饱和）+ 圈选 ①a②a③F-1 入账 + 首个 SUMMARY-GUARD 收据块 | 2026-08-30 |
 | `2026-08-30_phase_a_autopsy_and_claim_set_v2.md` | 冻结（Claim Set v2） | Phase A 六件尸检（C2/C3/M7/量化地板/预算饱和/匹配竞争）+ Paper Claim Set v2（R1-R4 + PSO 降级 + VGRM 仅案例）+ 专利协同核对 + Phase B/C/D 输入清单 | 2026-08-30 |
 | `2026-08-31_related_work_v4.md` | 骨架稿（Phase B 首件） | 四簇重排（meta-evaluation/过程级评测/突变与故障注入[保留 v3 簇一]/裁判可靠性）+ 六线索实查 BibTeX + 覆盖度自查 + BiomniBench 禁则; v3 簇二/三降 S6 短段 |
-| `2026-08-31_d1_mutant_validity_audit_design.md` | 预注册（执行中） | D1 突变体有效性审计设计稿: 三分类（有害-可见/等价/有害-不可见）118 注入 + 9 突变体; P1-P6 预注册冻结; M7 归不可观测原样保留（J2）; OCR 有害论证骨架; §1 蓝图 C1 判据原样引用 |
-| `2026-08-31_d1_task_card.md` | 执行中（Loop A, 零端点） | D1 任务卡: 前提一分钟证伪四件 + 验收（工件+报告+SUMMARY-GUARD 收据）+ 红线（零端点/只读/M7 保留/判据冻结） |
+| `2026-08-31_d1_mutant_validity_audit_design.md` | 预注册（已执行, 判据冻结不溯及） | D1 突变体有效性审计设计稿: 三分类（有害-可见/等价/有害-不可见）118 注入 + 9 突变体; P1-P6 预注册冻结; M7 归不可观测原样保留（J2）; OCR 有害论证骨架; §1 蓝图 C1 判据原样引用 |
+| `2026-08-31_d1_task_card.md` | 已交付（Loop A, 零端点, G1-G7 全过） | D1 任务卡: 前提一分钟证伪四件 + 验收（工件+报告+SUMMARY-GUARD 收据）+ 红线（零端点/只读/M7 保留/判据冻结） |
+| `2026-08-31_d1_audit_report.md` | 已交付（Loop A 实跑, 待主线程 autopsy） | D1 审计报告: 118 注入三分类 H/E/HI=85/7/26（两口径入账: 严格吸收 22 = E 7 + HI 吸收 15, 阈值稀释 11）+ 9 突变体 MO/MU=8/1（M7 归不可观测并原样保留, J2）+ 门 G1-G7 全过 + P1-P6 逐条判定 + 零端点 AST 护栏分层自证; 工件 `logs/graph/eval/d1_mutant_validity_audit.json` |
 | `2026-08-31_phase_c_stats_plan_draft.md` | 草稿（待 Phase C 冻结） | Phase C 统计预案: 表级聚类推断（118 注入非 iid）+ 类型 fixed effect + Holm 多重比较 + γ 网格重复测量 + matched-FPR 草案 |
 | `2026-08-31_d2_cross_matcher_card_draft.md` | 草案（D1 收口后定稿派发） | D2 跨匹配器卡草案: 确定性三件（归一化/greedy/Hungarian）+ 嵌入匹配器（端点与预算入卡）; R3 降级判据对照; :8006 按 08-31 资源裁定五条件 |
 
