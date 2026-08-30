@@ -37,6 +37,16 @@
 - 明日一页纸判定项（五项, 详见汇报 §7）: 叶分量纲是否改连续 / M7 是否重设计为在有数值主张条目注入 / C3 降级条款是否采纳并补 greedy 为标配对照组 / 题集预算轴是否换判据 / E1.5 是否追加「裁判评原始答案」第二形态（需另批预算, 本窗余量 78 次不足 16×4）。
 - Loop A 纪律注记: 本窗执行期间 Loop B 因 4 个在制未跟踪脚本判 `git_alignment=FAIL`（dirty 6>白名单 5）, 其余 8 项检查全 PASS; 入库后 dirty 归零待下周期翻回。`logs/graph/dispatch_log.md` 的 daemon FLIP 行不并入本工作 commit。
 
+## D1 零端点审计窗结果（2026-08-31, TASK-20260831-01, Loop A）
+
+- 全门 PASS: G1-G7 + 预注册 P1-P6 逐条成立, **零改判零 BLOCKED**, exit 0。工件 `logs/graph/eval/d1_mutant_validity_audit.json`（payload_sha256 d7d0e0e0a3…7f28b3, 跨两次实跑逐字节稳定）+ 报告 `docs/experiments/2026-08-31_d1_audit_report.md`（SUMMARY-GUARD 收据 27 claim, check 过）; commit 285a93d。
+- 三分类底表（喂 D2/D3/D4）: 118 注入 = **H 85 / E 7 / HI 26**（95 表）, 逐类锚点检出 36/12/19/**0**/13/5 与 T2 冻结同值; E 集合与 T2 `e2_2` 集合差 ∅（alias 4 + prefix 3 + mixed_lang 0）且 7 条全 γ 网格不可见; ocr_similar 13/13 ∈ HI（tier 1 编辑距离容差静默接回, 映射目标 100% 不变）; HI 机制分层 = 吸收静默 15 + 阈值稀释 11（两口径并行入账: 严格吸收 22 = E 7 + HI 15, 锚点未检出 33 = E 7 + HI 26）。
+- 突变体 MO/MU = **8/1**: 唯一 MU = `M7_nf_fail_3`（4 处原子变化全落 `n_fail` 聚合 + `results[*].pass` 派生标签; 承载字段 number_claims/ungrounded 9 item 零移动 → 判分分离度 0.0000 vs 映射 0.2083）。**M7 原样保留零替代（J2）**, 未重设计、未改判其既有结论。
+- 方法学注记（供后续零端点窗沿用）: G6 硬门从「逐行字面量」改为 **AST 级 import/call 检索**（任务卡 P4 证伪口径 = 不导入任何 http 客户端）, 字面量降为披露层——原逐行门把生产匹配器 `m1_statement_parser.py` 的合法 OCR/VLM helper（19 处）与脚本自身中文注释「不调 :8004」误判为违规。作用域分层沿用 T2 `SCAN_MANIFEST` 先例; 「只调用纯文本匹配 API」不靠嘴说 = socket 封死 + 主动试连三探针全拦 + `MATCHER_APIS_CALLED` hasattr 断言 + 检索器正/负控（造假违规样例必命中, 不放水）。
+- 红线自查: 零端点（ports=[] / model_calls=0 / 预算 0）✓; 冻结与活工件前后 sha256 全等, 突变体副本落 `/tmp/d1_mutant_scratch` ✓; 甲方标识终工件与报告零命中（证据只用 `row_NN`/`item_NN` 位置别名, uid 为 UUID）✓; 判据冻结不溯及 ✓; 逐路径 add 无 `-A`/无 amend ✓。
+- 质量基线: pytest **402 passed / 13 skipped**; docs_lint PASS(0/0); summary-guard check exit 0; governance_drift_scan 15 命中全为前序存量（新登记 0, 无本卡路径）。
+- 归主线程（收集与判定分离）: C1「注入有效性」基础层的论文含义判定待 autopsy; D1 底表已冻结可作 D2（跨匹配器）/D3（matched-specificity）输入。
+
 ## 研究窗口结果（08-27 夜-08-28, 窗口合并卡）
 - 段 C bandit v0 replay: 42 金标 × 六格, TS 4 决策点全 R=1; **六格 direct 全 1.0 同分（可靠体制无分辨空间; json direct_best 为字典序 tie-break 不读作信号）**; 零端点; 工件 bandit_gate_v0_eval.json
 - 段 A 扩语料碰撞（#VGMC-COLLISION-WINDOW 23:38-23:51）: 移植列 67/37 表; C0 可靠/C1 碰撞+force; P1 PASS（弱, D 同值）/ P2 PASS（vacuous）/ **P3 未触发**（H |差| 0.0057 两体制同值 + ACC C0 0.28 vs 0.12）; H 对噪声逐位不变, ACC 为敏感量; ε 维首次实质激活

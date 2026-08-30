@@ -1096,3 +1096,4 @@ echo dispatch_log updated
 [08-30 22:29] #LOOP-B-FLIP overall FAIL -> PASS (head=60887e6; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-30 23:03] #LOOP-B-FLIP overall PASS -> FAIL (head=78e3048; 详见 logs/graph/verify-report.json + loop_b.log)
 [08-30 23:36] #LOOP-B-FLIP overall FAIL -> PASS (head=78e3048; 详见 logs/graph/verify-report.json + loop_b.log)
+[08-31 01:32] #D1 突变体有效性审计（零端点, TASK-20260831-01）三分类 H/E/HI=85/7/26 + 突变体 MO/MU=8/1（M7 唯一 MU, 原样保留）-> G1-G7 全 PASS / P1-P6 零改判 -> commit 285a93d（工件 logs/graph/eval/d1_mutant_validity_audit.json, payload_sha256 d7d0e0e0a3…; 报告 docs/experiments/2026-08-31_d1_audit_report.md）
