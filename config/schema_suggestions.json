@@ -62,9 +62,9 @@
       "reason": "累计净值与单位净值虽同属净值指标，但含义不同，通常不视为同义表达，此处仅为相关字段提示",
       "sample": "tmpdv0fl4r0.txt",
       "table": "交易对账单",
-      "count": 4,
+      "count": 8,
       "first_seen": "2026-08-11 23:58",
-      "last_seen": "2026-08-12 20:59"
+      "last_seen": "2026-08-29 12:34"
     },
     {
       "raw_column": "产品代码",
@@ -150,9 +150,9 @@
       "reason": "列名完全匹配标准字段名",
       "sample": "tmpbogalgsp.txt",
       "table": "交易对账单",
-      "count": 331,
+      "count": 333,
       "first_seen": "2026-08-14 00:24",
-      "last_seen": "2026-08-25 23:43"
+      "last_seen": "2026-08-29 12:20"
     },
     {
       "raw_column": "元（单位",
