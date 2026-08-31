@@ -158,6 +158,7 @@ def cmd_check(argv):
         return 0
     root = repo_root(md)
     fails = 0
+    skipped = 0
     for b in blocks:
         art_rel = b.get("artifact", "")
         art = os.path.join(root, art_rel.replace("/", os.sep))
@@ -166,6 +167,7 @@ def cmd_check(argv):
             print(msg)
             if not warn_missing:
                 fails += 1
+            skipped += 1
             continue
         shas = file_shas(art)
         # raw 收据可匹配 raw; lf 收据可匹配 lf 或 raw(纯 LF 文件两口径同值);
@@ -190,7 +192,10 @@ def cmd_check(argv):
     if fails:
         print("[summary-guard] %s: %d 项失配 — 摘要必须与存储工件一致, 请重读复算后再提交" % (md, fails))
         return 1
-    print("[summary-guard] %s: %d 收据块复核通过" % (md, len(blocks)))
+    if skipped:
+        print("[summary-guard] %s: %d 收据块, %d 已复核, %d 跳过未复核（工件不在本机）— 跳过不等于通过" % (md, len(blocks), len(blocks) - skipped, skipped))
+    else:
+        print("[summary-guard] %s: %d 收据块复核通过" % (md, len(blocks)))
     return 0
 
 def main():

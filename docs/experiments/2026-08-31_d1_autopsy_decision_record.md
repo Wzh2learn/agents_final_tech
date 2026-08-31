@@ -32,6 +32,16 @@
 
 - GB10 codex 后端: 昨夜模型目录刷新错误（schema 不匹配）+ 今晨探针（PROBE_OK）无复现; rmcp 遥测退出错误无害。探针证据与 canary 快照（qa_canary PASS / overall PASS / "Loop A may continue"）入 D2 开窗前置记账。
 - v4 venue 标签（ICSME/COLM）arXiv 元数据无据 → 入 Phase B DBLP 实查队列（用户 08-31 更正注记）。
+
 ## 4. 数字收据（SUMMARY-GUARD, 重读复算）
 
-<!-- SUMMARY-GUARD artifact: logs/graph/eval/d1_mutant_validity_audit.json sha256: 7e2ee0eb072ab0626af1e41d4586a73e3d8ffa7642ec31171428e6f43bfde767 sha256_lf: ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b claims:   payload.counts.H = 85   payload.counts.E = 7   payload.counts.HI = 26   gates.all_pass = true END-SUMMARY-GUARD -->
+<!-- SUMMARY-GUARD
+artifact: logs/graph/eval/d1_mutant_validity_audit.json
+sha256: 7e2ee0eb072ab0626af1e41d4586a73e3d8ffa7642ec31171428e6f43bfde767
+sha256_lf: ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b
+claims:
+  payload.counts.H = 85
+  payload.counts.E = 7
+  payload.counts.HI = 26
+  gates.all_pass = true
+END-SUMMARY-GUARD -->
