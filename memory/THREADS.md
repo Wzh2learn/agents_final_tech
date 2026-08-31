@@ -609,3 +609,7 @@
 [08-31 白天] #D2-PRECHECK D2 开窗前置检查（硬性, 派发前记账）: a) codex 后端探针 = PROBE_OK（qwen3.8-flash 正常响应; 昨夜模型目录刷新错误未复现; rmcp 遥测退出错误无害; "Model metadata qwen3.8-flash not found" 警告记账无碍）→ 功能健康判定成立, 不带病开窗依据 = 探针实证 + W2/D1 同症状下两窗绿态; b) canary 快照 = Loop B overall PASS（head 8ccb8d6 周期, qa_canary PASS / api_anchors PASS / 9 项全 PASS, action="Loop A may continue"; 03:30 FAIL→04:04 PASS 为已知体制波动）; c) 端口: :8004（llama-server）/:8006/:8100 监听在位, :8006 健康 200（零调用）; d) 嵌入资产 = ~/wzh/models/hf/bge-m3 在位（另有 bge-reranker-v2-m3 / qwen3-embedding-0.6b 备选不入卡）。
 
 [08-31 22:2x] #D2-DISPATCH D2 跨匹配器窗派发（Loop A, 零端点）: tmux loop-a-d2（GB10 22:22 派发, 观察器 */5, MAX=48）; 派发模板 = constraints + 定稿卡 → codex exec --profile loopa-exec; 预注册 P-1..P-5 冻结在卡（编辑距离族: OCR 全盲存续 + τ≥0.8; 嵌入 = 探索性无过判; 等价 7 保持; 零端点自证; 迁移矩阵完整）。节奏注记: 派发时点为 GB10 22:22（用户批复当日夜间）——D2 零端点, 不触 :8004/:8006 时段条件（canary 争用源零调用）; 如用户要求改 09-01 白天, 可中止改期（改期 ≤2 纪律内）。
+
+[08-31] #RULING-WINDOW-HOURS 用户时点裁定入账（时点注记销账）: D2 继续不中止; 规则明确化 = 端点窗仅白天错峰（夜间零调用）, 零端点窗不限时段——已固化进任务卡模板 §8; D2 = 零端点窗, 22:22 派发合规。
+[08-31] #RULING-AUTOPSY-ACCEPT D1 autopsy 验收通过（侧线抽验: HI 机制二分/类型内非等价吸收/三数闭合/收据复核）; DR-1..DR-5 全批准; 第六点反思（推导门 vs 经验预测）固化为今后窗口预注册常备纪律（任务卡模板 §2.2 已加, 本条入账）。守卫两修与 v4 venue 更正侧线核过。
+[08-31] #D2-DIRECTIONAL-TRIGGER 上报纪律注记（用户指定）: D2 若出现方向性结果（换匹配器后盲区消失 / 谱排序 τ<0.8）→ 记账后立即上报, 不等 autopsy 排期。
