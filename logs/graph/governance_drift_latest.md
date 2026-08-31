@@ -1,6 +1,6 @@
-# 治理漂移扫描报告 2026-08-30 03:30
+# 治理漂移扫描报告 2026-09-01 00:09
 
-命中 15 项（模式: cron 轻扫）
+命中 15 项（模式: 收口登记）
 
 - [INDEX 状态词[待批]] 2026-08-21_dspark_k5_ab_plan.md (L107, fp=3ef80c8d7a)
 - [INDEX 状态词[待批]] 2026-08-22_l3_dflash2_image_feasibility.md (L110, fp=d98aa05659)
@@ -15,7 +15,7 @@
 - [INDEX 状态词[待执行]] | superpowers/plans/2026-08-29-long-hori (L205, fp=7bc9b19655)
 - [INDEX 状态词[待勾选]] 2026-08-27_round3_dialectic_record.md (L212, fp=e1665f1072)
 - [INDEX 状态词[待执行]] 2026-08-25_send_checklist.md (L215, fp=d14b111446)
-- [INDEX 状态词[待批]] scripts/graph/governance_drift_scan.py (L283, fp=295daec7e4)
-- [日期超期[25天]] README.md (L1, fp=77bcec84bb)
+- [INDEX 状态词[待批]] scripts/graph/governance_drift_scan.py (L299, fp=295daec7e4)
+- [日期超期[27天]] README.md (L1, fp=77bcec84bb)
 
-（cron 模式不登记）
+新登记 backlog: 0 项
