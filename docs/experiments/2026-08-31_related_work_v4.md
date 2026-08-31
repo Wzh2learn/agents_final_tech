@@ -10,9 +10,9 @@
 - 新四簇: meta-evaluation / 过程级评测 / 突变与故障注入 / 裁判可靠性。
 - 六条专家线索实查结果（本文 2026-08-31 经 arXiv API 逐条拉取元数据, 与侧线 08-30 核验清单一致）:
   1. AgentChaos = arXiv 2608.06790（2026-08-07）✓
-  2. Metamorphic Testing of LLMs = arXiv 2511.02108（2025-11-03, ICSME 2025）✓
+  2. Metamorphic Testing of LLMs = arXiv 2511.02108（2025-11-03）✓（venue 标签 ICSME 来源侧线转述, arXiv 元数据无 venue → 待证实, 见 §7 队列）
   3. AgentProcessBench = arXiv 2603.14465v2 ✓
-  4. WebStep "Where Did It Go Wrong?" = arXiv 2606.15673v2（COLM 2026）✓
+  4. WebStep "Where Did It Go Wrong?" = arXiv 2606.15673v2 ✓（venue 标签 COLM 来源侧线转述, arXiv 元数据无 venue → 待证实, 见 §7 队列）
   5. ACES 期刊版 = arXiv 2401.16313（同族 2210.15615 / 2311.01153 均实查在案）✓
   6. Contextual Metric Meta-Evaluation = arXiv 2503.19828（侧线核验 ACL 2025 Findings (NAACL) 276; 本文以 arXiv 版入 BibTeX, 刊版信息作注记）✓
   - BiomniBench: 禁用（见头部禁则）。
@@ -61,23 +61,22 @@
   author  = {Tan, Gou and Sun, Zhensu and Shi, Jieke and Zhang, Ting and He, Zilong and Wu, Qingfu and Liang, Shuai and Sun, Weifeng and He, Junda and Chen, Pengfei and Zhang, Chuanfu and Shar, Lwin Khin and Lo, David},
   journal = {arXiv preprint arXiv:2608.06790}, year = {2026}}
 
-@inproceedings{cho2025metamorphic,
-  title     = {Metamorphic Testing of Large Language Models for Natural Language Processing},
-  author    = {Cho, Steven and Ruberto, Stefano and Terragni, Valerio},
-  booktitle = {Proc. IEEE Int. Conf. on Software Maintenance and Evolution (ICSME)},
-  pages     = {174--186}, year = {2025},
-  note      = {arXiv:2511.02108}}
+@article{cho2025metamorphic,
+  title   = {Metamorphic Testing of Large Language Models for Natural Language Processing},
+  author  = {Cho, Steven and Ruberto, Stefano and Terragni, Valerio},
+  journal = {arXiv preprint arXiv:2511.02108}, year = {2025},
+  note    = {venue 待证实（侧线转述 ICSME 2025 pp.174-186, arXiv 元数据无 venue; 入正文前 DBLP 核验, 未证实则去标签）}}
 
 @article{fan2026agentprocessbench,
   title   = {AgentProcessBench: Diagnosing Step-Level Process Quality in Tool-Using Agents},
   author  = {Fan, Shengda and Ye, Xuyan and Huo, Yupeng and Chen, Zhi-Yuan and Guo, Yiju and Yang, Shenzhi and Yang, Wenkai and Ye, Shuqi and Chen, Jingwen and Chen, Haotian and Cong, Xin and Lin, Yankai},
   journal = {arXiv preprint arXiv:2603.14465}, year = {2026}}
 
-@inproceedings{chung2026webstep,
-  title     = {Where Did It Go Wrong? Process-Level Evaluation of Web Agents with Semantic State Tracking},
-  author    = {Chung, Jiwan and Byun, JiHyuk and Vineet, Vibhav and Kim, Seon Joo},
-  booktitle = {COLM}, year = {2026},
-  note      = {arXiv:2606.15673}}
+@article{chung2026webstep,
+  title   = {Where Did It Go Wrong? Process-Level Evaluation of Web Agents with Semantic State Tracking},
+  author  = {Chung, Jiwan and Byun, JiHyuk and Vineet, Vibhav and Kim, Seon Joo},
+  journal = {arXiv preprint arXiv:2606.15673}, year = {2026},
+  note    = {venue 待证实（侧线转述 COLM 2026, arXiv 元数据无 venue; 入正文前 DBLP 核验, 未证实则去标签）}}
 
 @article{moghe2024acesjournal,
   title   = {Machine Translation Meta Evaluation through Translation Accuracy Challenge Sets},
@@ -120,3 +119,4 @@
 | matched-FPR（D3）/ 聚类统计（Phase C） | 方法学, 非文献簇 | Phase C 预注册时再查统计方法文献 |
 | 簇四裁判可靠性 | zheng2023judge 为锚 | TODO 两件实查未落, 入稿前必须清零 |
 | BiomniBench | — | 禁用（0 命中未证实） |
+| venue 待证实 ×2（ICSME 2511.02108 / COLM 2606.15673） | 簇三/簇二 | Phase B 实查队列: DBLP 核验, 未证实去标签（用户 08-31 更正注记） |
