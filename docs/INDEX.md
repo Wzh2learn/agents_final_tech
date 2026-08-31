@@ -258,11 +258,12 @@
 | `2026-08-31_d1_task_card.md` | 已交付（Loop A, 零端点, G1-G7 全过） | D1 任务卡: 前提一分钟证伪四件 + 验收（工件+报告+SUMMARY-GUARD 收据）+ 红线（零端点/只读/M7 保留/判据冻结） |
 | `2026-08-31_d1_audit_report.md` | 已交付（Loop A 实跑, 待主线程 autopsy） | D1 审计报告: 118 注入三分类 H/E/HI=85/7/26（两口径入账: 严格吸收 22 = E 7 + HI 吸收 15, 阈值稀释 11）+ 9 突变体 MO/MU=8/1（M7 归不可观测并原样保留, J2）+ 门 G1-G7 全过 + P1-P6 逐条判定 + 零端点 AST 护栏分层自证; 工件 `logs/graph/eval/d1_mutant_validity_audit.json` |
 | `2026-08-31_d1_autopsy_decision_record.md` | 冻结（DR-1..5 在案） | D1 autopsy 决策记录: HI 机制二分 / 盲区宽于 OCR / 失明vs鲁棒闭合 / 有效突变体定义输入 / D2 迁移矩阵验收 / D4 等价类模板 |
-| `2026-08-31_d2_cross_matcher_card.md` | 执行中（Loop A, 零端点白天窗） | D2 跨匹配器定稿卡: 贪心/归一化/Hungarian + bge-m3 本地嵌入; 预注册 P-1..P-5（全盲存续 + τ≥0.8 + 迁移矩阵完整性）; R3 判据对照; 开窗前置检查已记账 |
+| `2026-08-31_d2_cross_matcher_card.md` | 收口绿态（autopsy 完成, 判定请求 ×2 待圈选） | D2 跨匹配器定稿卡: 贪心/归一化/Hungarian + bge-m3 本地嵌入; 预注册 P-1..P-5（全盲存续 + τ≥0.8 + 迁移矩阵完整性）; R3 判据对照; 开窗前置检查已记账 |
 | `2026-08-31_phase_c_stats_plan_draft.md` | 草稿（待 Phase C 冻结） | Phase C 统计预案: 表级聚类推断（118 注入非 iid）+ 类型 fixed effect + Holm 多重比较 + γ 网格重复测量 + matched-FPR 草案 |
 | `2026-08-31_d2_cross_matcher_card_draft.md` | 被定稿卡取代（保留备查） | D2 跨匹配器卡草案: 确定性三件（归一化/greedy/Hungarian）+ 嵌入匹配器（端点与预算入卡）; R3 降级判据对照; :8006 按 08-31 资源裁定五条件 |
-| `2026-08-31_d2_cross_matcher_phase_a.md` | 已交付（Loop A 阶段 A, G1 预注册失配已触发 R3 降级条款, 待 autopsy） | D2 跨匹配器阶段 A 报告（确定性三件 + 补充列, 零端点）: 四件谱（唯一变动 date_variant 0.7059→0.4118）+ ocr_similar 全盲四件存续（0/13）+ 归一化列 τ_min=0.733<0.8 → P-1 τ 条款不成立; 轴归因 = 打分轴单轴驱动（Hungarian 零翻转 τ=1.0）; 5/5 翻转定性为良性正确吸收且仅因冻结 EQUIV_TYPES 类型闸门未计入 E; 33×3 迁移矩阵零缺格零翻转; 工件 `logs/graph/eval/d2_cross_matcher_det.json` |
-| `2026-08-31_d2_cross_matcher_phase_b.md` | 已交付（Loop A 阶段 B, 全门 PASS, P-2 探索性无过判, 待 autopsy） | D2 跨匹配器阶段 B 报告（bge-m3 本地嵌入两件, 零端点）: 阈值 p05 定标 0.5439 先于打分冻结（正负控 margin −0.133 重叠如实入账）+ 嵌入谱（H/E/HI 23/57/38 与 19/66/33）+ τ_min 0.276/−0.298 + ocr_similar 六件事恒全盲 + 盲区集合随打分基扩张（prefix_noise/unit_suffix 新盲点位）+ 33×3 迁移矩阵零缺格（8 翻转全为 HI→E 良性等价, 零例转可见）; 工件 `logs/graph/eval/d2_cross_matcher_embed.json` |
+| `2026-08-31_d2_cross_matcher_phase_a.md` | 已交付（Loop A 阶段 A, G1 预注册失配已触发 R3 降级条款, autopsy 完成） | D2 跨匹配器阶段 A 报告（确定性三件 + 补充列, 零端点）: 四件谱（唯一变动 date_variant 0.7059→0.4118）+ ocr_similar 全盲四件存续（0/13）+ 归一化列 τ_min=0.733<0.8 → P-1 τ 条款不成立; 轴归因 = 打分轴单轴驱动（Hungarian 零翻转 τ=1.0）; 5/5 翻转定性为良性正确吸收且仅因冻结 EQUIV_TYPES 类型闸门未计入 E; 33×3 迁移矩阵零缺格零翻转; 工件 `logs/graph/eval/d2_cross_matcher_det.json` |
+| `2026-08-31_d2_cross_matcher_phase_b.md` | 已交付（Loop A 阶段 B, 全门 PASS, P-2 探索性无过判, autopsy 完成） | D2 跨匹配器阶段 B 报告（bge-m3 本地嵌入两件, 零端点）: 阈值 p05 定标 0.5439 先于打分冻结（正负控 margin −0.133 重叠如实入账）+ 嵌入谱（H/E/HI 23/57/38 与 19/66/33）+ τ_min 0.276/−0.298 + ocr_similar 六件事恒全盲 + 盲区集合随打分基扩张（prefix_noise/unit_suffix 新盲点位）+ 33×3 迁移矩阵零缺格（8 翻转全为 HI→E 良性等价, 零例转可见）; 工件 `logs/graph/eval/d2_cross_matcher_embed.json` |
+| `2026-09-01_d2_autopsy_decision_record.md` | 冻结（判定请求 ×2 待用户圈选） | D2 autopsy 决策记录: τ 裁定 b 落地（0.8286 撤销, 教训 #4）+ R3 降级条款适用（半句 A 不入论文/半句 B 双打分基支持/打分轴敏感性入边界条件）+ 阶段 B 盲集扩张机制（盲区消失=否/范围移动=是）+ findings F-D2-1..8 + 决策 DR-D2-1..6 + 抽验 12/12 |
 | `2026-08-31_d1_audit_report.md` | 已交付（含 SUMMARY-GUARD 收据） | D1 执行报告: 三分类 85/7/26 + MO/MU 8/1 + OCR 有害论证 + 门 G1-G7 + 预注册判定 + 红线自查（收据经主线程复核） |
 
 ## paper/（论文正文工作区, 内部草稿, 禁止对外）

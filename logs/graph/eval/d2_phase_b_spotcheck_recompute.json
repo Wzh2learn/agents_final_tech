@@ -1,0 +1,148 @@
+{
+ "n_checks": 12,
+ "n_pass": 12,
+ "all_pass": true,
+ "results": [
+  {
+   "check": "payload_sha256_recompute",
+   "pass": true,
+   "detail": {
+    "mine": "299ab1c7acfc8b272fce6c1a3bbf18ca01d35810d715cd1b62c3c651f121f950",
+    "stored": "299ab1c7acfc8b272fce6c1a3bbf18ca01d35810d715cd1b62c3c651f121f950",
+    "receipt": "299ab1c7acfc8b272fce6c1a3bbf18ca01d35810d715cd1b62c3c651f121f950"
+   }
+  },
+  {
+   "check": "raw_file_lf_sha256",
+   "pass": true,
+   "detail": {
+    "receipt": "ed3d3905e42c41ab71d4dfacc64a3609de2dd12d5e20cf9b5b363a90d29d4bbf",
+    "lf": "ed3d3905e42c41ab71d4dfacc64a3609de2dd12d5e20cf9b5b363a90d29d4bbf",
+    "raw": "8e7bef8d9a788c01b206510bbbe4d9d3c8b6c1f4e13af9394bbcaa6af322e765",
+    "matched_caliber": "lf"
+   }
+  },
+  {
+   "check": "gates_all_pass",
+   "pass": true,
+   "detail": {
+    "gates": {
+     "G0_production_reproduces_d1": true,
+     "G1_threshold_calibration_valid": true,
+     "G3_equivalence_observation_noncriterion": true,
+     "G4_p4_zero_endpoint_and_readonly": true,
+     "G5_transition_matrix_completeness": true,
+     "G6_digest_self_consistency": true,
+     "P2_embedding_pass_fail": "none_by_preregistration",
+     "all_pass": true
+    }
+   }
+  },
+  {
+   "check": "tau_b_independent_recompute",
+   "pass": true,
+   "detail": {
+    "tau_min_mine": {
+     "greedy_production": 1.0,
+     "greedy_embedding": 0.276026,
+     "hungarian_embedding": -0.298142
+    },
+    "expected": {
+     "greedy_production": 1.0,
+     "greedy_embedding": 0.276026,
+     "hungarian_embedding": -0.298142
+    },
+    "cell_mismatch": []
+   }
+  },
+  {
+   "check": "blind_set_ocr_all_gamma",
+   "pass": true,
+   "detail": {
+    "note": "ocr 13/13 恒零可见, 盲集 = 声明"
+   }
+  },
+  {
+   "check": "counts_vs_spectrum_crosscheck",
+   "pass": true,
+   "detail": {
+    "note": "三匹配器计数/机制/谱三方闭合"
+   }
+  },
+  {
+   "check": "transition_matrix_completeness_and_flips",
+   "pass": true,
+   "detail": {
+    "n_rows": 33,
+    "n_cells": 99,
+    "flips": {
+     "greedy_production": 0,
+     "greedy_embedding": 8,
+     "hungarian_embedding": 8
+    },
+    "bad_flip": []
+   }
+  },
+  {
+   "check": "equivalence_stability",
+   "pass": true,
+   "detail": {
+    "pass": true,
+    "n_equivalence_rows": 7,
+    "columns": [
+     "greedy_production",
+     "greedy_embedding",
+     "hungarian_embedding"
+    ],
+    "missing_cells": 0,
+    "n_flips": 0,
+    "flips": [],
+    "note": "P-3 属编辑距离族预注册; 此处对嵌入件作同口径观察（非判据）"
+   }
+  },
+  {
+   "check": "threshold_calibration_arithmetic",
+   "pass": true,
+   "detail": {
+    "margin_calc": -0.13278,
+    "margin_stored": -0.13278,
+    "threshold": 0.5439,
+    "neg_p75": 0.556794
+   }
+  },
+  {
+   "check": "zero_endpoint_self_proof",
+   "pass": true,
+   "detail": {
+    "ports": [],
+    "service_calls": 0,
+    "batches": 16,
+    "texts": 496
+   }
+  },
+  {
+   "check": "phase_a_artifact_zero_overwrite",
+   "pass": true,
+   "detail": {
+    "mine": "caf1e3bdea4621c685f184d308bdd9123c843f20fb00909fb5a945ef3d0c9558",
+    "phase_a_receipt": "caf1e3bdea4621c685f184d308bdd9123c843f20fb00909fb5a945ef3d0c9558"
+   }
+  },
+  {
+   "check": "p2_findings_consistency",
+   "pass": true,
+   "detail": {
+    "abs_mine": {
+     "greedy_production": 22,
+     "greedy_embedding": 30,
+     "hungarian_embedding": 30
+    },
+    "stored": {
+     "greedy_production": 22,
+     "greedy_embedding": 30,
+     "hungarian_embedding": 30
+    }
+   }
+  }
+ ]
+}

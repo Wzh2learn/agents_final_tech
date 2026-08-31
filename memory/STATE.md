@@ -101,3 +101,11 @@
 - HEAD 收口验证: pytest **402 passed / 13 skipped**; docs_lint **0 fail / 0 warn**
 - Loop B 最新波动周期仅 agent_watchdog FAIL，其余冻结节点/pytest/API anchors/QA canary/git alignment/docs_lint/model topology/PG pool checks PASS；维持“波动只记账”口径
 - eval 08-26 01:0x: 16/16 / NF 0/9 / judge 4.94-5.0
+
+## D2 收口（09-01, autopsy 停一次）
+- 窗口: TASK-20260831-D2, Loop A（GB10）, 零端点。首跑令牌耗尽改期 #1 → R2 两阶段: 阶段 A 确定性三件（7b49fb3）+ 阶段 B bge-m3 嵌入（f0b3a89）; 观察器 00:20 SESSION_ENDED 自删; 三方对齐 11df397（GB10 分叉已合）。
+- τ 裁定 b: 门失败属实（归一化族 τ_min=0.7333<0.8, 平均名次+tau-b 口径）; 0.8286 撤销销账（教训台账第 4 次, 守卫缺口登记 docs/29 A18）。
+- R3 降级条款适用（09-01 用户裁定 + Claim Set v2 适用注记）: 半句 A 不入论文（确定性族盲集恒 [ocr_similar] 交集=并集）; 半句 B 成立; 打分轴敏感性入边界条件。阶段 B 补充: 盲集单调扩张 {ocr}→{ocr,prefix}→{ocr,prefix,unit}（盲区消失=否/范围移动=是）, ocr 13/13 全盲跨打分基存续; 适用域圈选待 §5-①。
+- 抽验: 阶段 B 12/12 全 PASS（research/paper_d2_phase_b_spotcheck_recompute.py → logs/graph/eval/d2_phase_b_spotcheck_recompute.json）; 阶段 A 4/5 唯一 FAIL=τ 口径分歧, 裁定 b 后自洽。
+- 判定请求 ×2: ① R3 半句 A 适用域/盲集扩张表述（推荐 a）; ② D3 嵌入臂弱门控定标先行与否（推荐 a）。
+- 红线: 零端点 / :8006 零触碰 / J7 未开 / 冻结件 sha 全等 / 判据冻结不溯及 / 甲方标识零命中 / 零对外。
