@@ -82,6 +82,8 @@
 
 **R3 可见性边界机制**: 盲区由匹配/打分层机制决定（形近串同档打分 + 量化分辨率 + 突变体可观测性）, 非分配层或裁判能力伪影。证据: T6 分支 a（差 0/翻转 0）+ 量化地板 + M7 保真度。降级: D2 跨匹配器若谱形显著改变 → 改为"盲区位置匹配器相关, 谱结构（存在全盲类型）匹配器无关"。
 
+> [09-01 R3 降级条款适用记录 | 用户裁定, 判据文本零改动]: D2 阶段 A 证据（确定性族四匹配器）按降级条款适用——半句 A「盲区位置匹配器相关」被否定（全盲集恒 [ocr_similar], 交集=并集）, 不入论文; 半句 B「谱结构（存在全盲类型）匹配器无关」成立; 打分轴敏感性（长度归一化稀释长表头: date_variant 5 例 H→HI, 边际 ΔH 0.5→0, 机制见 logs/graph/eval/d2_cross_matcher_det.json）入边界条件节。条款与证据失配记为预注册不完善项（THREADS #RULING-TAU-B-R3-FALLBACK ③）。注: 阶段 B（嵌入打分基, 探索性）后续落盘, 另观察到全盲集合单调扩张 {ocr}→{ocr,prefix}→{ocr,prefix,unit} 且 ocr_similar 13/13 全盲存续; 其与半句 A 适用域的调和待 D2 autopsy, 本注记不溯及改写。
+
 **R4 跨数据流泛化 = 研究问题（不作主张）**: TAT-DQA 第二数据流（Phase D4, 解冻条款: 仅 validation split, 完成即恢复冻结）结果以研究问题形式呈现方向一致性, 不作泛化主张, 除非复现达 C1 成功标准。
 
 **PSO 降级**: 出贡献, 方法一句: "A particle-swarm weight search reproduced the same mean separation (1.4326) as greedy coordinate ascent (7650 vs 67 evaluations), so all reported weights use greedy/equal calibers." 不再单列任何 PSO 主张; 专利协同见 §3。
