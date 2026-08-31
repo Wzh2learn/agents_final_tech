@@ -1,0 +1,4843 @@
+{
+ "meta": {
+  "name": "d2-cross-matcher-deterministic",
+  "version": "v1",
+  "card_id": "TASK-20260831-D2",
+  "task_card": "docs/experiments/2026-08-31_d2_cross_matcher_card.md",
+  "report": "docs/experiments/2026-08-31_d2_cross_matcher_phase_a.md",
+  "phase": "A_deterministic_three",
+  "generated": "2026-08-31 23:36:24",
+  "script": "research/paper_d2_cross_matcher_det.py",
+  "matchers": [
+   "greedy_production",
+   "greedy_normalized",
+   "hungarian_production",
+   "hungarian_normalized"
+  ],
+  "n_injections": 118,
+  "n_transition_rows": 33,
+  "endpoint_calls": 0,
+  "anchor_gamma": 0.2,
+  "gamma_grid": [
+   "0.2",
+   "0.3",
+   "0.5",
+   "0.7",
+   "0.9"
+  ],
+  "reproduce": [
+   "python3 research/paper_d2_cross_matcher_det.py"
+  ]
+ },
+ "gates": {
+  "G0_production_reproduces_d1": true,
+  "G1_p1_blind_persistence_and_tau": false,
+  "G3_p3_equivalence_stability": true,
+  "G4_p4_zero_endpoint_and_readonly": true,
+  "G5_p5_transition_matrix_completeness": true,
+  "G6_digest_self_consistency": true,
+  "all_pass": false
+ },
+ "payload": {
+  "inputs_sha256": {
+   "logs/graph/eval/d1_mutant_validity_audit.json": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+   "data/research/drift_v0/output/injection_map.json": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+   "data/research/drift_v0/output/injected_tables.json": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9",
+   "logs/graph/eval/t2_visibility_sensitivity.json": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5",
+   "research/paper_t6_matching_competition.py": "311dff9015071c573bbd16b7c7ca868177a5dbe99c38a0ca059bf15b79d3b379"
+  },
+  "criterion_provenance": {
+   "card": "docs/experiments/2026-08-31_d2_cross_matcher_card.md",
+   "card_id": "TASK-20260831-D2",
+   "phase": "A_deterministic",
+   "prereg": {
+    "P1_edit_distance_family": {
+     "matcher_columns": [
+      "greedy_production",
+      "greedy_normalized",
+      "hungarian_production"
+     ],
+     "ocr_similar_anchor_visible_expected": 0,
+     "ocr_similar_n": 13,
+     "kendall_tau_b_min_vs_production": 0.8,
+     "tau_operationalization": "逐 gamma 对六类按 visibility_rate 降序取名次, 并列取平均名次; tau-b（含并列修正）对比 greedy_production 同 gamma 名次; 门 = 非贪心预注册件在各 gamma 的 tau-b 最小值 >= 0.8",
+     "on_violation": "R3 降级条款自动生效并入报告, 不静默改判"
+    },
+    "P2_embedding_matcher": {
+     "column": "embedding_bge_m3",
+     "verdict": "exploratory",
+     "pass_fail": "none（阶段 B 独立工件）"
+    },
+    "P3_equivalence_stability": {
+     "rows": "D1 等价集 7 条（uid,col 冻结）",
+     "expect": "在编辑距离族匹配器下保持吸收-等价",
+     "on_flip": "逐条报告为发现, 不判失败"
+    },
+    "P4_zero_endpoint_self_proof": {
+     "ports_touched": [],
+     "model_calls": 0,
+     "ast_http_client_findings": 0,
+     "frozen_inputs_sha_unchanged": true
+    },
+    "P5_transition_matrix_completeness": {
+     "rows": 33,
+     "columns": 3,
+     "note": "33 吸收注入（E7+HI26, D1 口径）x 3 预注册匹配器列 = 99 格无缺格"
+    }
+   },
+   "anchor_gamma": 0.2,
+   "gamma_grid": [
+    "0.2",
+    "0.3",
+    "0.5",
+    "0.7",
+    "0.9"
+   ],
+   "equivalence_types": [
+    "alias_variant",
+    "mixed_lang",
+    "prefix_noise"
+   ],
+   "d1_expect": {
+    "H": 85,
+    "E": 7,
+    "HI": 26,
+    "total": 118,
+    "absorption_rows": 33,
+    "anchor_detected_by_type": {
+     "alias_variant": 36,
+     "date_variant": 12,
+     "mixed_lang": 19,
+     "ocr_similar": 0,
+     "prefix_noise": 13,
+     "unit_suffix": 5
+    }
+   },
+   "control_note": "canonical 字段集与归一化 = 生产 normalize_header（跨匹配器恒定）; 唯一变量 = 打分口径 x 分配算法 两轴",
+   "r3_wording_source": "Paper Claim Set v2 R3 降级表述（卡内原样引用）"
+  },
+  "matchers": {
+   "greedy_production": {
+    "matcher": "greedy_production",
+    "scoring": "生产档位（离散 4/3/2/1）",
+    "assignment": "生产贪心 map_headers（高分优先, 每标准字段/每源列各占一次）",
+    "preregistered": true
+   },
+   "greedy_normalized": {
+    "matcher": "greedy_normalized",
+    "scoring": "编辑距离按表头长度归一化（rel<=0.2; 档位>=2 沿用生产）",
+    "assignment": "生产贪心（同接口: 按 (score, syn_len) 降序先到先得）",
+    "preregistered": true
+   },
+   "hungarian_production": {
+    "matcher": "hungarian_production",
+    "scoring": "生产档位（T6 标量编码 score*100 + min(syn_len,99)）",
+    "assignment": "Hungarian 全局最优（T6 hungarian_max; 无效边大负权 + 补方列退路）",
+    "preregistered": true
+   },
+   "hungarian_normalized": {
+    "matcher": "hungarian_normalized",
+    "scoring": "归一化编辑距离（同 greedy_normalized 打分; x10 后 T6 编码）",
+    "assignment": "Hungarian 全局最优（T6 hungarian_max; 无效边大负权 + 补方列退路）",
+    "preregistered": false
+   }
+  },
+  "spectrum": {
+   "greedy_production": {
+    "0.2": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 36,
+       "visibility_rate": 0.766
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 12,
+       "visibility_rate": 0.7059
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 19,
+       "visibility_rate": 0.95
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 13,
+       "visibility_rate": 0.8125
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 5,
+       "visibility_rate": 1.0
+      }
+     },
+     "type_range": 1.0,
+     "ranking_desc": {
+      "unit_suffix": 1.0,
+      "mixed_lang": 2.0,
+      "prefix_noise": 3.0,
+      "alias_variant": 4.0,
+      "date_variant": 5.0,
+      "ocr_similar": 6.0
+     },
+     "ordering_ties_broken_by_name": [
+      "unit_suffix",
+      "mixed_lang",
+      "prefix_noise",
+      "alias_variant",
+      "date_variant",
+      "ocr_similar"
+     ]
+    },
+    "0.3": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 15,
+       "visibility_rate": 0.3191
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 11,
+       "visibility_rate": 0.6471
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 12,
+       "visibility_rate": 0.6
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 6,
+       "visibility_rate": 0.375
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 1,
+       "visibility_rate": 0.2
+      }
+     },
+     "type_range": 0.6471,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "mixed_lang": 2.0,
+      "prefix_noise": 3.0,
+      "alias_variant": 4.0,
+      "unit_suffix": 5.0,
+      "ocr_similar": 6.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "mixed_lang",
+      "prefix_noise",
+      "alias_variant",
+      "unit_suffix",
+      "ocr_similar"
+     ]
+    },
+    "0.5": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 8,
+       "visibility_rate": 0.1702
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 10,
+       "visibility_rate": 0.5882
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 10,
+       "visibility_rate": 0.5
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 1,
+       "visibility_rate": 0.0625
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.5882,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "mixed_lang": 2.0,
+      "alias_variant": 3.0,
+      "prefix_noise": 4.0,
+      "ocr_similar": 5.5,
+      "unit_suffix": 5.5
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "mixed_lang",
+      "alias_variant",
+      "prefix_noise",
+      "ocr_similar",
+      "unit_suffix"
+     ]
+    },
+    "0.7": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 2,
+       "visibility_rate": 0.0426
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 6,
+       "visibility_rate": 0.3
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.9": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 2,
+       "visibility_rate": 0.0426
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 6,
+       "visibility_rate": 0.3
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    }
+   },
+   "greedy_normalized": {
+    "0.2": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 36,
+       "visibility_rate": 0.766
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 7,
+       "visibility_rate": 0.4118
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 19,
+       "visibility_rate": 0.95
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 13,
+       "visibility_rate": 0.8125
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 5,
+       "visibility_rate": 1.0
+      }
+     },
+     "type_range": 1.0,
+     "ranking_desc": {
+      "unit_suffix": 1.0,
+      "mixed_lang": 2.0,
+      "prefix_noise": 3.0,
+      "alias_variant": 4.0,
+      "date_variant": 5.0,
+      "ocr_similar": 6.0
+     },
+     "ordering_ties_broken_by_name": [
+      "unit_suffix",
+      "mixed_lang",
+      "prefix_noise",
+      "alias_variant",
+      "date_variant",
+      "ocr_similar"
+     ]
+    },
+    "0.3": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 15,
+       "visibility_rate": 0.3191
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 6,
+       "visibility_rate": 0.3529
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 12,
+       "visibility_rate": 0.6
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 6,
+       "visibility_rate": 0.375
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 1,
+       "visibility_rate": 0.2
+      }
+     },
+     "type_range": 0.6,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "prefix_noise": 2.0,
+      "date_variant": 3.0,
+      "alias_variant": 4.0,
+      "unit_suffix": 5.0,
+      "ocr_similar": 6.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "prefix_noise",
+      "date_variant",
+      "alias_variant",
+      "unit_suffix",
+      "ocr_similar"
+     ]
+    },
+    "0.5": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 8,
+       "visibility_rate": 0.1702
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 10,
+       "visibility_rate": 0.5
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 1,
+       "visibility_rate": 0.0625
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.5,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "prefix_noise": 4.0,
+      "ocr_similar": 5.5,
+      "unit_suffix": 5.5
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "prefix_noise",
+      "ocr_similar",
+      "unit_suffix"
+     ]
+    },
+    "0.7": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 2,
+       "visibility_rate": 0.0426
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 4,
+       "visibility_rate": 0.2353
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 6,
+       "visibility_rate": 0.3
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.9": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 2,
+       "visibility_rate": 0.0426
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 4,
+       "visibility_rate": 0.2353
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 6,
+       "visibility_rate": 0.3
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    }
+   },
+   "hungarian_production": {
+    "0.2": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 36,
+       "visibility_rate": 0.766
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 12,
+       "visibility_rate": 0.7059
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 19,
+       "visibility_rate": 0.95
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 13,
+       "visibility_rate": 0.8125
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 5,
+       "visibility_rate": 1.0
+      }
+     },
+     "type_range": 1.0,
+     "ranking_desc": {
+      "unit_suffix": 1.0,
+      "mixed_lang": 2.0,
+      "prefix_noise": 3.0,
+      "alias_variant": 4.0,
+      "date_variant": 5.0,
+      "ocr_similar": 6.0
+     },
+     "ordering_ties_broken_by_name": [
+      "unit_suffix",
+      "mixed_lang",
+      "prefix_noise",
+      "alias_variant",
+      "date_variant",
+      "ocr_similar"
+     ]
+    },
+    "0.3": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 15,
+       "visibility_rate": 0.3191
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 11,
+       "visibility_rate": 0.6471
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 12,
+       "visibility_rate": 0.6
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 6,
+       "visibility_rate": 0.375
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 1,
+       "visibility_rate": 0.2
+      }
+     },
+     "type_range": 0.6471,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "mixed_lang": 2.0,
+      "prefix_noise": 3.0,
+      "alias_variant": 4.0,
+      "unit_suffix": 5.0,
+      "ocr_similar": 6.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "mixed_lang",
+      "prefix_noise",
+      "alias_variant",
+      "unit_suffix",
+      "ocr_similar"
+     ]
+    },
+    "0.5": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 8,
+       "visibility_rate": 0.1702
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 10,
+       "visibility_rate": 0.5882
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 10,
+       "visibility_rate": 0.5
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 1,
+       "visibility_rate": 0.0625
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.5882,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "mixed_lang": 2.0,
+      "alias_variant": 3.0,
+      "prefix_noise": 4.0,
+      "ocr_similar": 5.5,
+      "unit_suffix": 5.5
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "mixed_lang",
+      "alias_variant",
+      "prefix_noise",
+      "ocr_similar",
+      "unit_suffix"
+     ]
+    },
+    "0.7": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 2,
+       "visibility_rate": 0.0426
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 6,
+       "visibility_rate": 0.3
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.9": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 2,
+       "visibility_rate": 0.0426
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 6,
+       "visibility_rate": 0.3
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    }
+   },
+   "hungarian_normalized": {
+    "0.2": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 36,
+       "visibility_rate": 0.766
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 7,
+       "visibility_rate": 0.4118
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 19,
+       "visibility_rate": 0.95
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 13,
+       "visibility_rate": 0.8125
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 5,
+       "visibility_rate": 1.0
+      }
+     },
+     "type_range": 1.0,
+     "ranking_desc": {
+      "unit_suffix": 1.0,
+      "mixed_lang": 2.0,
+      "prefix_noise": 3.0,
+      "alias_variant": 4.0,
+      "date_variant": 5.0,
+      "ocr_similar": 6.0
+     },
+     "ordering_ties_broken_by_name": [
+      "unit_suffix",
+      "mixed_lang",
+      "prefix_noise",
+      "alias_variant",
+      "date_variant",
+      "ocr_similar"
+     ]
+    },
+    "0.3": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 15,
+       "visibility_rate": 0.3191
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 6,
+       "visibility_rate": 0.3529
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 12,
+       "visibility_rate": 0.6
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 6,
+       "visibility_rate": 0.375
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 1,
+       "visibility_rate": 0.2
+      }
+     },
+     "type_range": 0.6,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "prefix_noise": 2.0,
+      "date_variant": 3.0,
+      "alias_variant": 4.0,
+      "unit_suffix": 5.0,
+      "ocr_similar": 6.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "prefix_noise",
+      "date_variant",
+      "alias_variant",
+      "unit_suffix",
+      "ocr_similar"
+     ]
+    },
+    "0.5": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 8,
+       "visibility_rate": 0.1702
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 10,
+       "visibility_rate": 0.5
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 1,
+       "visibility_rate": 0.0625
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.5,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "prefix_noise": 4.0,
+      "ocr_similar": 5.5,
+      "unit_suffix": 5.5
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "prefix_noise",
+      "ocr_similar",
+      "unit_suffix"
+     ]
+    },
+    "0.7": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 2,
+       "visibility_rate": 0.0426
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 4,
+       "visibility_rate": 0.2353
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 6,
+       "visibility_rate": 0.3
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.9": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 2,
+       "visibility_rate": 0.0426
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 4,
+       "visibility_rate": 0.2353
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 6,
+       "visibility_rate": 0.3
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    }
+   }
+  },
+  "ordering_kendall_tau": {
+   "greedy_production": {
+    "per_gamma": {
+     "0.2": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 15,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.3": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 15,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.5": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 14,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.7": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 12,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.9": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 12,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     }
+    },
+    "tau_min": 1.0,
+    "tau_mean": 1.0,
+    "preregistered": true
+   },
+   "greedy_normalized": {
+    "per_gamma": {
+     "0.2": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 15,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.3": {
+      "tau": 0.733333,
+      "defined": true,
+      "note": "",
+      "concordant": 13,
+      "discordant": 2,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.5": {
+      "tau": 0.857143,
+      "defined": true,
+      "note": "",
+      "concordant": 13,
+      "discordant": 1,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.7": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 12,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.9": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 12,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     }
+    },
+    "tau_min": 0.733333,
+    "tau_mean": 0.918095,
+    "preregistered": true
+   },
+   "hungarian_production": {
+    "per_gamma": {
+     "0.2": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 15,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.3": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 15,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.5": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 14,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.7": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 12,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.9": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 12,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     }
+    },
+    "tau_min": 1.0,
+    "tau_mean": 1.0,
+    "preregistered": true
+   },
+   "hungarian_normalized": {
+    "per_gamma": {
+     "0.2": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 15,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.3": {
+      "tau": 0.733333,
+      "defined": true,
+      "note": "",
+      "concordant": 13,
+      "discordant": 2,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.5": {
+      "tau": 0.857143,
+      "defined": true,
+      "note": "",
+      "concordant": 13,
+      "discordant": 1,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.7": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 12,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.9": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 12,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     }
+    },
+    "tau_min": 0.733333,
+    "tau_mean": 0.918095,
+    "preregistered": false
+   }
+  },
+  "blind_types": {
+   "greedy_production": [
+    "ocr_similar"
+   ],
+   "greedy_normalized": [
+    "ocr_similar"
+   ],
+   "hungarian_production": [
+    "ocr_similar"
+   ],
+   "hungarian_normalized": [
+    "ocr_similar"
+   ]
+  },
+  "matcher_class_transitions": {
+   "greedy_normalized": {
+    "matrix_prod_to_k": {
+     "H": {
+      "H": 80,
+      "HI": 5
+     },
+     "HI": {
+      "HI": 26
+     },
+     "E": {
+      "E": 7
+     }
+    },
+    "n_flips": 5,
+    "visibility_lost_H_to_HI": 5,
+    "visibility_gained_HI_to_H": 0,
+    "net": -5,
+    "n_benign_correct_absorption": 5,
+    "n_blocked_from_E_only_by_frozen_type_rule": 5,
+    "flip_types": {
+     "date_variant": 5
+    },
+    "flips": [
+     {
+      "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted Average Grant Date Fair Value",
+      "injected": "Weighted Average Grant 2017期末 Fair Value",
+      "prod_class": "H",
+      "k_class": "HI",
+      "prod_marginal_dH": 0.5,
+      "k_marginal_dH": 0.0,
+      "injected_len": 40,
+      "k_absorbed": true,
+      "k_mapped_to_correct_field": true,
+      "k_canonical_keyset_identical": true,
+      "benign_correct_absorption": true,
+      "blocked_from_E_only_by_type_rule": true
+     },
+     {
+      "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted-average grant date fair value",
+      "injected": "Weighted-average grant date 2021-对账日期 fair value",
+      "prod_class": "H",
+      "k_class": "HI",
+      "prod_marginal_dH": 0.5,
+      "k_marginal_dH": 0.0,
+      "injected_len": 48,
+      "k_absorbed": true,
+      "k_mapped_to_correct_field": true,
+      "k_canonical_keyset_identical": true,
+      "benign_correct_absorption": true,
+      "blocked_from_E_only_by_type_rule": true
+     },
+     {
+      "uid": "1e712660-7b78-4791-8264-e517efde2e62",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted Average Grant Date Fair Value",
+      "injected": "Weighted Average Grant 对账日期 / date Fair Value",
+      "prod_class": "H",
+      "k_class": "HI",
+      "prod_marginal_dH": 0.5,
+      "k_marginal_dH": 0.0,
+      "injected_len": 45,
+      "k_absorbed": true,
+      "k_mapped_to_correct_field": true,
+      "k_canonical_keyset_identical": true,
+      "benign_correct_absorption": true,
+      "blocked_from_E_only_by_type_rule": true
+     },
+     {
+      "uid": "38eb9da5-5c73-4366-af5f-9bd01019938a",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted-Average Grant Date Fair Value Per Share",
+      "injected": "Weighted-Average Grant date 2021-报表明细日期 Fair Value Per Share",
+      "prod_class": "H",
+      "k_class": "HI",
+      "prod_marginal_dH": 0.5,
+      "k_marginal_dH": 0.0,
+      "injected_len": 60,
+      "k_absorbed": true,
+      "k_mapped_to_correct_field": true,
+      "k_canonical_keyset_identical": true,
+      "benign_correct_absorption": true,
+      "blocked_from_E_only_by_type_rule": true
+     },
+     {
+      "uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+      "col": 0,
+      "type": "date_variant",
+      "original": "Consolidated",
+      "injected": "Consoli交易日 / dated",
+      "prod_class": "H",
+      "k_class": "HI",
+      "prod_marginal_dH": 1.0,
+      "k_marginal_dH": 0.0,
+      "injected_len": 18,
+      "k_absorbed": true,
+      "k_mapped_to_correct_field": true,
+      "k_canonical_keyset_identical": true,
+      "benign_correct_absorption": true,
+      "blocked_from_E_only_by_type_rule": true
+     }
+    ],
+    "note": "方向性解释件（不入预注册判据）: 归一化打分把相对编辑距离 <= NORM_REL_MAX 的长表头纳入映射 => 漂移被吸收 => 可见性下降; 净损失 > 0 即「越宽松的匹配器吞掉越多漂移」。翻转的毒性定性: benign_correct_absorption = 该漂移被映射到正确字段且标准字段集不变（良性吸收）; blocked_from_E_only_by_frozen_type_rule = 该翻转只因类型不在冻结 EQUIV_TYPES 内而未计入 E, 即谱形改变的幅度由 E/HI 的类型闸门而非新增危害驱动。"
+   },
+   "hungarian_production": {
+    "matrix_prod_to_k": {
+     "H": {
+      "H": 85
+     },
+     "HI": {
+      "HI": 26
+     },
+     "E": {
+      "E": 7
+     }
+    },
+    "n_flips": 0,
+    "visibility_lost_H_to_HI": 0,
+    "visibility_gained_HI_to_H": 0,
+    "net": 0,
+    "n_benign_correct_absorption": 0,
+    "n_blocked_from_E_only_by_frozen_type_rule": 0,
+    "flip_types": {},
+    "flips": [],
+    "note": "方向性解释件（不入预注册判据）: 归一化打分把相对编辑距离 <= NORM_REL_MAX 的长表头纳入映射 => 漂移被吸收 => 可见性下降; 净损失 > 0 即「越宽松的匹配器吞掉越多漂移」。翻转的毒性定性: benign_correct_absorption = 该漂移被映射到正确字段且标准字段集不变（良性吸收）; blocked_from_E_only_by_frozen_type_rule = 该翻转只因类型不在冻结 EQUIV_TYPES 内而未计入 E, 即谱形改变的幅度由 E/HI 的类型闸门而非新增危害驱动。"
+   },
+   "hungarian_normalized": {
+    "matrix_prod_to_k": {
+     "H": {
+      "H": 80,
+      "HI": 5
+     },
+     "HI": {
+      "HI": 26
+     },
+     "E": {
+      "E": 7
+     }
+    },
+    "n_flips": 5,
+    "visibility_lost_H_to_HI": 5,
+    "visibility_gained_HI_to_H": 0,
+    "net": -5,
+    "n_benign_correct_absorption": 5,
+    "n_blocked_from_E_only_by_frozen_type_rule": 5,
+    "flip_types": {
+     "date_variant": 5
+    },
+    "flips": [
+     {
+      "uid": "16ebd25a-f23a-4182-9de0-8427a64a7fd2",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted Average Grant Date Fair Value",
+      "injected": "Weighted Average Grant 2017期末 Fair Value",
+      "prod_class": "H",
+      "k_class": "HI",
+      "prod_marginal_dH": 0.5,
+      "k_marginal_dH": 0.0,
+      "injected_len": 40,
+      "k_absorbed": true,
+      "k_mapped_to_correct_field": true,
+      "k_canonical_keyset_identical": true,
+      "benign_correct_absorption": true,
+      "blocked_from_E_only_by_type_rule": true
+     },
+     {
+      "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted-average grant date fair value",
+      "injected": "Weighted-average grant date 2021-对账日期 fair value",
+      "prod_class": "H",
+      "k_class": "HI",
+      "prod_marginal_dH": 0.5,
+      "k_marginal_dH": 0.0,
+      "injected_len": 48,
+      "k_absorbed": true,
+      "k_mapped_to_correct_field": true,
+      "k_canonical_keyset_identical": true,
+      "benign_correct_absorption": true,
+      "blocked_from_E_only_by_type_rule": true
+     },
+     {
+      "uid": "1e712660-7b78-4791-8264-e517efde2e62",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted Average Grant Date Fair Value",
+      "injected": "Weighted Average Grant 对账日期 / date Fair Value",
+      "prod_class": "H",
+      "k_class": "HI",
+      "prod_marginal_dH": 0.5,
+      "k_marginal_dH": 0.0,
+      "injected_len": 45,
+      "k_absorbed": true,
+      "k_mapped_to_correct_field": true,
+      "k_canonical_keyset_identical": true,
+      "benign_correct_absorption": true,
+      "blocked_from_E_only_by_type_rule": true
+     },
+     {
+      "uid": "38eb9da5-5c73-4366-af5f-9bd01019938a",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted-Average Grant Date Fair Value Per Share",
+      "injected": "Weighted-Average Grant date 2021-报表明细日期 Fair Value Per Share",
+      "prod_class": "H",
+      "k_class": "HI",
+      "prod_marginal_dH": 0.5,
+      "k_marginal_dH": 0.0,
+      "injected_len": 60,
+      "k_absorbed": true,
+      "k_mapped_to_correct_field": true,
+      "k_canonical_keyset_identical": true,
+      "benign_correct_absorption": true,
+      "blocked_from_E_only_by_type_rule": true
+     },
+     {
+      "uid": "d423c6ef-50f3-4535-a74f-13cb46728627",
+      "col": 0,
+      "type": "date_variant",
+      "original": "Consolidated",
+      "injected": "Consoli交易日 / dated",
+      "prod_class": "H",
+      "k_class": "HI",
+      "prod_marginal_dH": 1.0,
+      "k_marginal_dH": 0.0,
+      "injected_len": 18,
+      "k_absorbed": true,
+      "k_mapped_to_correct_field": true,
+      "k_canonical_keyset_identical": true,
+      "benign_correct_absorption": true,
+      "blocked_from_E_only_by_type_rule": true
+     }
+    ],
+    "note": "方向性解释件（不入预注册判据）: 归一化打分把相对编辑距离 <= NORM_REL_MAX 的长表头纳入映射 => 漂移被吸收 => 可见性下降; 净损失 > 0 即「越宽松的匹配器吞掉越多漂移」。翻转的毒性定性: benign_correct_absorption = 该漂移被映射到正确字段且标准字段集不变（良性吸收）; blocked_from_E_only_by_frozen_type_rule = 该翻转只因类型不在冻结 EQUIV_TYPES 内而未计入 E, 即谱形改变的幅度由 E/HI 的类型闸门而非新增危害驱动。"
+   }
+  },
+  "transition_matrix": {
+   "rows_are_d1_absorption_injections": 33,
+   "columns_prereg": [
+    "greedy_production",
+    "greedy_normalized",
+    "hungarian_production"
+   ],
+   "supplementary_columns": [
+    "hungarian_normalized"
+   ],
+   "rows": [
+    {
+     "uid": "1fe3e1d6-7532-44e1-aa5d-cdbe604583bd",
+     "col": 2,
+     "type": "ocr_similar",
+     "original": "Number of equity shares",
+     "injected": "Number of equty shares",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.95,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.95,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "21c316d6-5e25-4af5-a29a-82b748175279",
+     "col": 2,
+     "type": "ocr_similar",
+     "original": "Dividend per Share",
+     "injected": "divdend per Share",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.9375,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.9375,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+     "col": 2,
+     "type": "alias_variant",
+     "original": "% of associated net revenues",
+     "injected": "turnover",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+     "col": 4,
+     "type": "alias_variant",
+     "original": "% of associated net revenues",
+     "injected": "营业总收入",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+     "col": 2,
+     "type": "alias_variant",
+     "original": "As a % of Segment Revenue (1)",
+     "injected": "营收",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+     "col": 4,
+     "type": "alias_variant",
+     "original": "As a % of Segment Revenue (1)",
+     "injected": "营业总收入",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "3c609073-6a48-4961-84cd-de68a59fd66c",
+     "col": 1,
+     "type": "ocr_similar",
+     "original": "Vessels and capitalized dry-docking",
+     "injected": "Vessels and capitaiized dry-docking",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.967742,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.967742,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "3c609073-6a48-4961-84cd-de68a59fd66c",
+     "col": 3,
+     "type": "ocr_similar",
+     "original": "Other plant and operating equipment",
+     "injected": "Other plant and operat1ng equipment",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.967742,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.967742,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "44c7c9ef-bb9f-45c9-9ee5-e2bf465c3617",
+     "col": 1,
+     "type": "ocr_similar",
+     "original": "Operating Leases",
+     "injected": "operat1ng Leases",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.933333,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.933333,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "50e78448-3cf5-439c-a609-ee866bd1f05a",
+     "col": 2,
+     "type": "prefix_noise",
+     "original": "US$",
+     "injected": "US [1]",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.666667,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.666667,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+     "col": 2,
+     "type": "alias_variant",
+     "original": "Accumulated Amortization",
+     "injected": "amort",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+     "col": 0,
+     "type": "date_variant",
+     "original": "Grant Date",
+     "injected": "Grant 2020年对账日期",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.14286,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.14286,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.14286,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.14286,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+     "col": 1,
+     "type": "date_variant",
+     "original": "Exercise Date",
+     "injected": "Exercise date 2021-期末日期",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+     "col": 2,
+     "type": "date_variant",
+     "original": "Expiry Date",
+     "injected": "Expiry 净值日期 / date",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.14286,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.14286,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.14286,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.14286,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+     "col": 0,
+     "type": "prefix_noise",
+     "original": "£m",
+     "injected": "m【】",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+     "col": 1,
+     "type": "ocr_similar",
+     "original": "Operating Leases",
+     "injected": "operat1ng Leases",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.933333,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.933333,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+     "col": 2,
+     "type": "ocr_similar",
+     "original": "Capital Leases",
+     "injected": "capitai Leases",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.923077,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.923077,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+     "col": 1,
+     "type": "date_variant",
+     "original": "Grant Date",
+     "injected": "Grant date 2019-报表明细日期",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+     "col": 5,
+     "type": "date_variant",
+     "original": "Grant Date Fair Value of Stock and Option Awards ($) (1)",
+     "injected": "Grant date 2017-交易日 Fair Value of Stock and Option Awards ($) (1)",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.857143,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.857143,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "6a5e5192-5d37-489f-97f2-400ea965ae36",
+     "col": 0,
+     "type": "ocr_similar",
+     "original": "Equity-settled",
+     "injected": "equty-settled",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.923077,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.923077,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "6f9a0eb1-ef23-49e3-9342-ab389b10de48",
+     "col": 0,
+     "type": "ocr_similar",
+     "original": "Capital expenditures 2017–2019",
+     "injected": "capitai expenditures 2017–2019",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.964286,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.964286,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "73a817fc-25df-494d-b0f2-79cfdab34076",
+     "col": 1,
+     "type": "alias_variant",
+     "original": "Dividends Paid(1)",
+     "injected": "dividend",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+     "col": 2,
+     "type": "alias_variant",
+     "original": "As a % of Revenue (1)",
+     "injected": "营业总收入",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+     "col": 4,
+     "type": "alias_variant",
+     "original": "As a % of Revenue (1)",
+     "injected": "turnover",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+     "col": 0,
+     "type": "prefix_noise",
+     "original": "£m",
+     "injected": "m【】",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "c0f66238-591a-4693-b2d2-fee0f6843420",
+     "col": 3,
+     "type": "ocr_similar",
+     "original": "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))",
+     "injected": "Number of securities remaining available for future issuance under equty compensation plans (excluding securities reflected in column(a))",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.991525,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.991525,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "d2bba753-0df3-4a39-860b-bde563261fec",
+     "col": 0,
+     "type": "ocr_similar",
+     "original": "Capital stock",
+     "injected": "capitai stock",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.916667,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.916667,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "d7d65228-96c1-4890-951c-c3d7578f8031",
+     "col": 3,
+     "type": "ocr_similar",
+     "original": "Cash dividend per share (NT dollars)",
+     "injected": "Cash divdend per share (NT dollars)",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.965517,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.965517,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+     "col": 0,
+     "type": "ocr_similar",
+     "original": "Contractual Maturities of Financial Liabilities",
+     "injected": "Contractual Maturities of Financial liabilitie5",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.976744,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 1.976744,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+     "col": 4,
+     "type": "alias_variant",
+     "original": "Total contractual cash flows",
+     "injected": "现金流",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "e67f7bf2-fc15-4a7a-9856-febb066998fd",
+     "col": 4,
+     "type": "alias_variant",
+     "original": "Free cash flow (pre-spectrum)",
+     "injected": "cashflow",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+     "col": 2,
+     "type": "alias_variant",
+     "original": "Accumulated Amortization",
+     "injected": "amort",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "pair_score_on_target": 2.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    },
+    {
+     "uid": "ea031e89-1bf8-4f64-8ed5-d1d0327003cf",
+     "col": 0,
+     "type": "mixed_lang",
+     "original": "Right-of-Use Assets",
+     "injected": "assets(资产)",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "n_flips_prereg": 0,
+     "n_flips_all": 0,
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_production": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_normalized": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "pair_score_on_target": 0.0,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     }
+    }
+   ]
+  },
+  "equivalence_stability": {
+   "pass": true,
+   "n_equivalence_rows": 7,
+   "columns": 4,
+   "missing_cells": 0,
+   "n_flips": 0,
+   "flips": [],
+   "verdict_note": "P-3 门只判记录完整性; 翻转按预注册作「发现」逐条入账"
+  },
+  "r3_assessment": {
+   "prereg_wording": "D2 跨匹配器若谱形显著改变 -> 改为「盲区位置匹配器相关, 谱结构（存在全盲类型）匹配器无关」",
+   "blind_types_by_matcher": {
+    "greedy_production": [
+     "ocr_similar"
+    ],
+    "greedy_normalized": [
+     "ocr_similar"
+    ],
+    "hungarian_production": [
+     "ocr_similar"
+    ],
+    "hungarian_normalized": [
+     "ocr_similar"
+    ]
+   },
+   "blind_intersection_prereg_family": [
+    "ocr_similar"
+   ],
+   "blind_union_prereg_family": [
+    "ocr_similar"
+   ],
+   "blind_set_identical_across_prereg_family": true,
+   "spectrum_shape_materially_changed": true,
+   "axis_attribution": {
+    "assignment_axis_hungarian_flips": 0,
+    "scoring_axis_normalized_flips": 5,
+    "reading": "分配轴（贪心->Hungarian）零翻转 = 谱对分配算法不敏感; 打分轴（绝对 ed->相对 ed）翻转 = 谱对打分口径敏感。τ 失败由打分轴单轴驱动。"
+   },
+   "downgrade_clause_half_evidence": {
+    "half_a_blind_spot_position_matcher_dependent": "本窗证据不支持: 全盲集合在 4 个匹配器下恒为 [ocr_similar]",
+    "half_b_spectrum_structure_matcher_independent": "支持: 存在全盲类型这一结构跨匹配器存续",
+    "what_actually_changed": "非全盲类型的可见率与名次（date_variant 在归一化打分下 0.7059 -> 0.4118, 名次 1 -> 3）=> 谱排序改变, 全盲位置未变"
+   },
+   "conclusion": "谱结构（存在全盲类型）匹配器无关（编辑距离族交集内 ocr_similar 全盲存续）"
+  },
+  "counts_by_matcher": {
+   "greedy_production": {
+    "H": 85,
+    "E": 7,
+    "HI": 26,
+    "total": 118,
+    "anchor_detected_by_type": {
+     "alias_variant": 36,
+     "date_variant": 12,
+     "mixed_lang": 19,
+     "ocr_similar": 0,
+     "prefix_noise": 13,
+     "unit_suffix": 5
+    },
+    "n_by_type": {
+     "alias_variant": 47,
+     "date_variant": 17,
+     "mixed_lang": 20,
+     "ocr_similar": 13,
+     "prefix_noise": 16,
+     "unit_suffix": 5
+    },
+    "detected_by_gamma_by_type": {
+     "0.2": {
+      "alias_variant": 36,
+      "date_variant": 12,
+      "mixed_lang": 19,
+      "ocr_similar": 0,
+      "prefix_noise": 13,
+      "unit_suffix": 5
+     },
+     "0.3": {
+      "alias_variant": 15,
+      "date_variant": 11,
+      "mixed_lang": 12,
+      "ocr_similar": 0,
+      "prefix_noise": 6,
+      "unit_suffix": 1
+     },
+     "0.5": {
+      "alias_variant": 8,
+      "date_variant": 10,
+      "mixed_lang": 10,
+      "ocr_similar": 0,
+      "prefix_noise": 1,
+      "unit_suffix": 0
+     },
+     "0.7": {
+      "alias_variant": 2,
+      "date_variant": 5,
+      "mixed_lang": 6,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.9": {
+      "alias_variant": 2,
+      "date_variant": 5,
+      "mixed_lang": 6,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     }
+    },
+    "absorbed_strict_total": 22,
+    "undetected_at_anchor_total": 33,
+    "hi_by_mechanism": {
+     "absorption_silent": 15,
+     "threshold_dilution": 11
+    },
+    "keyset_identical_total": 19,
+    "matcher_kind": "greedy_production"
+   },
+   "greedy_normalized": {
+    "H": 80,
+    "E": 7,
+    "HI": 31,
+    "total": 118,
+    "anchor_detected_by_type": {
+     "alias_variant": 36,
+     "date_variant": 7,
+     "mixed_lang": 19,
+     "ocr_similar": 0,
+     "prefix_noise": 13,
+     "unit_suffix": 5
+    },
+    "n_by_type": {
+     "alias_variant": 47,
+     "date_variant": 17,
+     "mixed_lang": 20,
+     "ocr_similar": 13,
+     "prefix_noise": 16,
+     "unit_suffix": 5
+    },
+    "detected_by_gamma_by_type": {
+     "0.2": {
+      "alias_variant": 36,
+      "date_variant": 7,
+      "mixed_lang": 19,
+      "ocr_similar": 0,
+      "prefix_noise": 13,
+      "unit_suffix": 5
+     },
+     "0.3": {
+      "alias_variant": 15,
+      "date_variant": 6,
+      "mixed_lang": 12,
+      "ocr_similar": 0,
+      "prefix_noise": 6,
+      "unit_suffix": 1
+     },
+     "0.5": {
+      "alias_variant": 8,
+      "date_variant": 5,
+      "mixed_lang": 10,
+      "ocr_similar": 0,
+      "prefix_noise": 1,
+      "unit_suffix": 0
+     },
+     "0.7": {
+      "alias_variant": 2,
+      "date_variant": 4,
+      "mixed_lang": 6,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.9": {
+      "alias_variant": 2,
+      "date_variant": 4,
+      "mixed_lang": 6,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     }
+    },
+    "absorbed_strict_total": 28,
+    "undetected_at_anchor_total": 38,
+    "hi_by_mechanism": {
+     "absorption_silent": 21,
+     "threshold_dilution": 10
+    },
+    "keyset_identical_total": 26,
+    "matcher_kind": "greedy_normalized"
+   },
+   "hungarian_production": {
+    "H": 85,
+    "E": 7,
+    "HI": 26,
+    "total": 118,
+    "anchor_detected_by_type": {
+     "alias_variant": 36,
+     "date_variant": 12,
+     "mixed_lang": 19,
+     "ocr_similar": 0,
+     "prefix_noise": 13,
+     "unit_suffix": 5
+    },
+    "n_by_type": {
+     "alias_variant": 47,
+     "date_variant": 17,
+     "mixed_lang": 20,
+     "ocr_similar": 13,
+     "prefix_noise": 16,
+     "unit_suffix": 5
+    },
+    "detected_by_gamma_by_type": {
+     "0.2": {
+      "alias_variant": 36,
+      "date_variant": 12,
+      "mixed_lang": 19,
+      "ocr_similar": 0,
+      "prefix_noise": 13,
+      "unit_suffix": 5
+     },
+     "0.3": {
+      "alias_variant": 15,
+      "date_variant": 11,
+      "mixed_lang": 12,
+      "ocr_similar": 0,
+      "prefix_noise": 6,
+      "unit_suffix": 1
+     },
+     "0.5": {
+      "alias_variant": 8,
+      "date_variant": 10,
+      "mixed_lang": 10,
+      "ocr_similar": 0,
+      "prefix_noise": 1,
+      "unit_suffix": 0
+     },
+     "0.7": {
+      "alias_variant": 2,
+      "date_variant": 5,
+      "mixed_lang": 6,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.9": {
+      "alias_variant": 2,
+      "date_variant": 5,
+      "mixed_lang": 6,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     }
+    },
+    "absorbed_strict_total": 22,
+    "undetected_at_anchor_total": 33,
+    "hi_by_mechanism": {
+     "absorption_silent": 15,
+     "threshold_dilution": 11
+    },
+    "keyset_identical_total": 19,
+    "matcher_kind": "hungarian_production"
+   },
+   "hungarian_normalized": {
+    "H": 80,
+    "E": 7,
+    "HI": 31,
+    "total": 118,
+    "anchor_detected_by_type": {
+     "alias_variant": 36,
+     "date_variant": 7,
+     "mixed_lang": 19,
+     "ocr_similar": 0,
+     "prefix_noise": 13,
+     "unit_suffix": 5
+    },
+    "n_by_type": {
+     "alias_variant": 47,
+     "date_variant": 17,
+     "mixed_lang": 20,
+     "ocr_similar": 13,
+     "prefix_noise": 16,
+     "unit_suffix": 5
+    },
+    "detected_by_gamma_by_type": {
+     "0.2": {
+      "alias_variant": 36,
+      "date_variant": 7,
+      "mixed_lang": 19,
+      "ocr_similar": 0,
+      "prefix_noise": 13,
+      "unit_suffix": 5
+     },
+     "0.3": {
+      "alias_variant": 15,
+      "date_variant": 6,
+      "mixed_lang": 12,
+      "ocr_similar": 0,
+      "prefix_noise": 6,
+      "unit_suffix": 1
+     },
+     "0.5": {
+      "alias_variant": 8,
+      "date_variant": 5,
+      "mixed_lang": 10,
+      "ocr_similar": 0,
+      "prefix_noise": 1,
+      "unit_suffix": 0
+     },
+     "0.7": {
+      "alias_variant": 2,
+      "date_variant": 4,
+      "mixed_lang": 6,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.9": {
+      "alias_variant": 2,
+      "date_variant": 4,
+      "mixed_lang": 6,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     }
+    },
+    "absorbed_strict_total": 28,
+    "undetected_at_anchor_total": 38,
+    "hi_by_mechanism": {
+     "absorption_silent": 21,
+     "threshold_dilution": 10
+    },
+    "keyset_identical_total": 26,
+    "matcher_kind": "hungarian_normalized"
+   }
+  },
+  "gate_details": {
+   "G0_production_reproduces_d1": {
+    "pass": true,
+    "d1_all_pass": true,
+    "n_rows": 118,
+    "n_mismatches": 0,
+    "mismatches": [],
+    "d1_absorption_rows": 33,
+    "production_anchor_detected_by_type": {
+     "alias_variant": 36,
+     "date_variant": 12,
+     "mixed_lang": 19,
+     "ocr_similar": 0,
+     "prefix_noise": 13,
+     "unit_suffix": 5
+    }
+   },
+   "G1_p1_blind_persistence_and_tau": {
+    "pass": false,
+    "ocr_similar_blind_persistence": {
+     "greedy_production": {
+      "n": 13,
+      "visible_at_anchor": 0,
+      "survives_all_blind": true,
+      "visible_any_gamma": false
+     },
+     "greedy_normalized": {
+      "n": 13,
+      "visible_at_anchor": 0,
+      "survives_all_blind": true,
+      "visible_any_gamma": false
+     },
+     "hungarian_production": {
+      "n": 13,
+      "visible_at_anchor": 0,
+      "survives_all_blind": true,
+      "visible_any_gamma": false
+     }
+    },
+    "ocr_visible_any_gamma_by_matcher": {
+     "greedy_production": false,
+     "greedy_normalized": false,
+     "hungarian_production": false
+    },
+    "kendall_tau_b_min_by_prereg_column": {
+     "greedy_production": 1.0,
+     "greedy_normalized": 0.733333,
+     "hungarian_production": 1.0
+    },
+    "kendall_tau_b_per_gamma": {
+     "greedy_production": {
+      "0.2": 1.0,
+      "0.3": 1.0,
+      "0.5": 1.0,
+      "0.7": 1.0,
+      "0.9": 1.0
+     },
+     "greedy_normalized": {
+      "0.2": 1.0,
+      "0.3": 0.733333,
+      "0.5": 0.857143,
+      "0.7": 1.0,
+      "0.9": 1.0
+     },
+     "hungarian_production": {
+      "0.2": 1.0,
+      "0.3": 1.0,
+      "0.5": 1.0,
+      "0.7": 1.0,
+      "0.9": 1.0
+     },
+     "hungarian_normalized": {
+      "0.2": 1.0,
+      "0.3": 0.733333,
+      "0.5": 0.857143,
+      "0.7": 1.0,
+      "0.9": 1.0
+     }
+    },
+    "tau_gate": 0.8,
+    "operationalization": "逐 gamma 对六类按 visibility_rate 降序取名次, 并列取平均名次; tau-b（含并列修正）对比 greedy_production 同 gamma 名次; 门 = 非贪心预注册件在各 gamma 的 tau-b 最小值 >= 0.8",
+    "blind_gate_pass": true,
+    "tau_gate_pass": false,
+    "r3_fallback_engaged": true
+   },
+   "G3_p3_equivalence_stability": {
+    "pass": true,
+    "n_equivalence_rows": 7,
+    "columns": 4,
+    "missing_cells": 0,
+    "n_flips": 0,
+    "flips": [],
+    "verdict_note": "P-3 门只判记录完整性; 翻转按预注册作「发现」逐条入账"
+   },
+   "G4_p4_zero_endpoint_and_readonly": {
+    "pass": true,
+    "ports_touched": [],
+    "model_calls": 0,
+    "budget_counter": 0,
+    "endpoint_violations": [],
+    "socket_attempts_blocked_disclosure": {
+     "n": 3,
+     "ports": [
+      8004
+     ],
+     "events": [
+      {
+       "where": "socket.module_level",
+       "port": 8004
+      },
+      {
+       "where": "socket.module_level",
+       "port": null
+      },
+      {
+       "where": "socket.connect",
+       "port": 8004
+      }
+     ],
+     "note": "全部为护栏自证试连（guard_self_test 主动打 :8004 验证拦截生效）; 连接在系统调用前即抛错, 零字节收发 => 不构成端点使用。 ports_touched 语义 = 实际建立的出站连接（D1 同口径: D1 跑同一试连 并记 ports_touched=[]）。非自证来源的尝试 = 0。"
+    },
+    "source_scan_clean": true,
+    "source_scan_files": [
+     "research/paper_d2_cross_matcher_det.py",
+     "research/paper_t6_matching_competition.py",
+     "research/paper_t2_visibility_sensitivity.py",
+     "research/paper_d1_mutant_validity_audit.py"
+    ],
+    "gating_basis": "AST import/call 检索（http 客户端根模块 ∈ aiohttp,ftplib,http,httpx,openai,requests,smtplib,subprocess,telnetlib,urllib,websocket,websocket_client）; socket 仅用于封死出站与试连自证, 单列披露",
+    "network_findings_in_d2_scope": {},
+    "helper_module": "scripts/m1_statement_parser.py",
+    "helper_module_ast_findings": [
+     "import urllib.request",
+     "import subprocess",
+     "subprocess.run",
+     "urllib.request.Request",
+     "urllib.request.Request",
+     "urllib.request.Request",
+     "urllib.request.Request",
+     "urllib.request.urlopen",
+     "urllib.request.urlopen",
+     "urllib.request.urlopen",
+     "urllib.request.urlopen"
+    ],
+    "helper_module_note": "生产匹配器 scripts/m1_statement_parser.py 自带 OCR/VLM helper, 列本窗作用域外（D1/T2 同构口径）。本窗对其「只调用纯文本匹配 API」的三重自证 = socket 层封死 + guard_self_test 主动试连全拦 + MATCHER_APIS_CALLED hasattr 存在性断言。",
+    "socket_import_disclosed": true,
+    "active_connection_probes": {
+     "create_connection": "blocked:RuntimeError",
+     "getaddrinfo": "blocked:RuntimeError",
+     "socket_connect": "blocked:RuntimeError",
+     "all_blocked": true,
+     "matcher_apis_present": {
+      "m1_statement_parser.normalize_header": true,
+      "m1_statement_parser.SchemaField": true,
+      "m1_statement_parser.SchemaTable": true,
+      "m1_statement_parser.map_headers": true,
+      "m1_statement_parser._best_field_for_header": true,
+      "m1_statement_parser.edit_distance": true
+     },
+     "matcher_apis_all_present": true
+    },
+    "t6_api_missing": [],
+    "embedding_asset_note": "阶段 B 独立工件（bge-m3 本地 HF 加载）; 阶段 A 全程零模型服务调用",
+    "scope_note": "硬门作用域 = 本窗脚本 + 导入链自有研究脚本; 生产匹配器自带 OCR/VLM helper 故列作用域外, 其「本窗从未调用」由 socket 封死 + 试连自证 + hasattr 断言三重证明"
+   },
+   "G5_p5_transition_matrix_completeness": {
+    "pass": true,
+    "n_rows": 33,
+    "prereg_columns": [
+     "greedy_production",
+     "greedy_normalized",
+     "hungarian_production"
+    ],
+    "supplementary_columns": [
+     "hungarian_normalized"
+    ],
+    "cells_expected_prereg": 99,
+    "cells_missing": 0,
+    "cells_expected_full": 132,
+    "flip_count_by_matcher": {
+     "greedy_production": 0,
+     "greedy_normalized": 0,
+     "hungarian_production": 0,
+     "hungarian_normalized": 0
+    },
+    "flip_detail": []
+   }
+  },
+  "prereg_predicates": {
+   "P1_edit_distance_family_blind_and_tau": false,
+   "P3_equivalence_stability_rendered": true,
+   "P4_zero_endpoint_self_proof": true,
+   "P5_transition_matrix_complete": true,
+   "note": "预注册于任务卡 §2（含加编两阶段切分）, 执行后不溯及; 任一项 false 一律上报主线程, 禁止静默改判。P-2 属阶段 B 独立工件。"
+  },
+  "zero_endpoint": {
+   "patterns": [
+    "urlopen",
+    "urllib",
+    "requests",
+    "httpx",
+    "openai",
+    "aiohttp",
+    "http://",
+    "HTTPS://",
+    "socket.connect",
+    ":8004",
+    ":8005",
+    ":8006",
+    ":8007",
+    ":8008",
+    ":5050"
+   ],
+   "files_scanned": [
+    "research/paper_d2_cross_matcher_det.py",
+    "research/paper_t6_matching_competition.py",
+    "research/paper_t2_visibility_sensitivity.py",
+    "research/paper_d1_mutant_validity_audit.py"
+   ],
+   "missing_files": [],
+   "gating_basis": "AST import/call 检索（http 客户端根模块 ∈ aiohttp,ftplib,http,httpx,openai,requests,smtplib,subprocess,telnetlib,urllib,websocket,websocket_client）; socket 仅用于封死出站与试连自证, 单列披露",
+   "network_findings_in_d2_scope": {},
+   "endpoint_literal_mentions_advisory": {
+    "research/paper_d2_cross_matcher_det.py": [
+     {
+      "line": 126,
+      "pattern": "socket.connect",
+      "text": "_note_attempt(\"socket.connect\", a)"
+     },
+     {
+      "line": 130,
+      "pattern": "socket.connect",
+      "text": "_note_attempt(\"socket.connect_ex\", a)"
+     },
+     {
+      "line": 960,
+      "pattern": ":8004",
+      "text": "\"note\": (\"全部为护栏自证试连（guard_self_test 主动打 :8004 验证拦截生效）;\""
+     }
+    ],
+    "research/paper_d1_mutant_validity_audit.py": [
+     {
+      "line": 246,
+      "pattern": ":8004",
+      "text": "\"「不调用 :8004/:5050/:8006」否定式声明与本护栏模式串自身; \""
+     },
+     {
+      "line": 246,
+      "pattern": ":8006",
+      "text": "\"「不调用 :8004/:5050/:8006」否定式声明与本护栏模式串自身; \""
+     },
+     {
+      "line": 246,
+      "pattern": ":5050",
+      "text": "\"「不调用 :8004/:5050/:8006」否定式声明与本护栏模式串自身; \""
+     }
+    ],
+    "scripts/m1_statement_parser.py": [
+     {
+      "line": 21,
+      "pattern": "urllib",
+      "text": "import urllib.request"
+     },
+     {
+      "line": 408,
+      "pattern": "http://",
+      "text": "\"M1_OCR_VISION_ENDPOINT\", \"http://127.0.0.1:8004/v1/chat/completions\")"
+     },
+     {
+      "line": 408,
+      "pattern": ":8004",
+      "text": "\"M1_OCR_VISION_ENDPOINT\", \"http://127.0.0.1:8004/v1/chat/completions\")"
+     },
+     {
+      "line": 563,
+      "pattern": "urllib",
+      "text": "req = urllib.request.Request("
+     },
+     {
+      "line": 569,
+      "pattern": "urlopen",
+      "text": "with urllib.request.urlopen(req, timeout=_OCR_VISION_TIMEOUT) as resp:"
+     },
+     {
+      "line": 569,
+      "pattern": "urllib",
+      "text": "with urllib.request.urlopen(req, timeout=_OCR_VISION_TIMEOUT) as resp:"
+     },
+     {
+      "line": 590,
+      "pattern": "http://",
+      "text": "\"M1_VLM_ENDPOINT\", \"http://127.0.0.1:8007/v1/chat/completions\")"
+     },
+     {
+      "line": 590,
+      "pattern": ":8007",
+      "text": "\"M1_VLM_ENDPOINT\", \"http://127.0.0.1:8007/v1/chat/completions\")"
+     },
+     {
+      "line": 607,
+      "pattern": "urllib",
+      "text": "req = urllib.request.Request("
+     },
+     {
+      "line": 611,
+      "pattern": "urlopen",
+      "text": "with urllib.request.urlopen(req, timeout=3) as resp:"
+     },
+     {
+      "line": 611,
+      "pattern": "urllib",
+      "text": "with urllib.request.urlopen(req, timeout=3) as resp:"
+     },
+     {
+      "line": 660,
+      "pattern": "urllib",
+      "text": "req = urllib.request.Request("
+     },
+     {
+      "line": 666,
+      "pattern": "urlopen",
+      "text": "with urllib.request.urlopen(req, timeout=_VLM_TIMEOUT) as resp:"
+     },
+     {
+      "line": 666,
+      "pattern": "urllib",
+      "text": "with urllib.request.urlopen(req, timeout=_VLM_TIMEOUT) as resp:"
+     },
+     {
+      "line": 1584,
+      "pattern": "http://",
+      "text": "\"M1_LLM_ENDPOINT\", \"http://127.0.0.1:8004/v1/chat/completions\")"
+     },
+     {
+      "line": 1584,
+      "pattern": ":8004",
+      "text": "\"M1_LLM_ENDPOINT\", \"http://127.0.0.1:8004/v1/chat/completions\")"
+     },
+     {
+      "line": 1741,
+      "pattern": "urllib",
+      "text": "req = urllib.request.Request("
+     },
+     {
+      "line": 1747,
+      "pattern": "urlopen",
+      "text": "with urllib.request.urlopen(req, timeout=LLM_TIMEOUT) as resp:"
+     },
+     {
+      "line": 1747,
+      "pattern": "urllib",
+      "text": "with urllib.request.urlopen(req, timeout=LLM_TIMEOUT) as resp:"
+     }
+    ]
+   },
+   "endpoint_literal_note": "字面量层不判门: 命中全部位于中文注释/文档字符串中的否定式声明与本护栏模式串自身; 逐条披露供人工复核护栏未放水。",
+   "ports_touched": [],
+   "model_calls": 0,
+   "budget_counter": 0,
+   "socket_attempts_blocked": 3,
+   "clean": true,
+   "active_connection_probes": {
+    "create_connection": "blocked:RuntimeError",
+    "getaddrinfo": "blocked:RuntimeError",
+    "socket_connect": "blocked:RuntimeError",
+    "all_blocked": true,
+    "matcher_apis_present": {
+     "m1_statement_parser.normalize_header": true,
+     "m1_statement_parser.SchemaField": true,
+     "m1_statement_parser.SchemaTable": true,
+     "m1_statement_parser.map_headers": true,
+     "m1_statement_parser._best_field_for_header": true,
+     "m1_statement_parser.edit_distance": true
+    },
+    "matcher_apis_all_present": true
+   }
+  },
+  "redline_self_check": {
+   "frozen_and_baseline_inputs_unchanged": true,
+   "sha_before": {
+    "logs/graph/eval/d1_mutant_validity_audit.json": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+    "data/research/drift_v0/output/injection_map.json": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+    "data/research/drift_v0/output/injected_tables.json": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9",
+    "logs/graph/eval/t2_visibility_sensitivity.json": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5"
+   },
+   "d1_baseline_gate_all_pass": true,
+   "inputs_sha256": {
+    "logs/graph/eval/d1_mutant_validity_audit.json": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+    "data/research/drift_v0/output/injection_map.json": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+    "data/research/drift_v0/output/injected_tables.json": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9",
+    "logs/graph/eval/t2_visibility_sensitivity.json": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5",
+    "research/paper_t6_matching_competition.py": "311dff9015071c573bbd16b7c7ca868177a5dbe99c38a0ca059bf15b79d3b379"
+   },
+   "client_identifier_zero_entered": true
+  }
+ },
+ "prereg_predicates": {
+  "P1_edit_distance_family_blind_and_tau": false,
+  "P3_equivalence_stability_rendered": true,
+  "P4_zero_endpoint_self_proof": true,
+  "P5_transition_matrix_complete": true,
+  "note": "预注册于任务卡 §2（含加编两阶段切分）, 执行后不溯及; 任一项 false 一律上报主线程, 禁止静默改判。P-2 属阶段 B 独立工件。"
+ },
+ "payload_sha256": "caf1e3bdea4621c685f184d308bdd9123c843f20fb00909fb5a945ef3d0c9558",
+ "sha256_scope": [
+  "inputs_sha256",
+  "criterion_provenance",
+  "matchers",
+  "spectrum",
+  "ordering_kendall_tau",
+  "blind_types",
+  "transition_matrix",
+  "equivalence_stability",
+  "r3_assessment",
+  "counts_by_matcher",
+  "matcher_class_transitions",
+  "gate_details",
+  "prereg_predicates",
+  "zero_endpoint",
+  "redline_self_check"
+ ]
+}

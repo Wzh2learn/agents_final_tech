@@ -261,6 +261,7 @@
 | `2026-08-31_d2_cross_matcher_card.md` | 执行中（Loop A, 零端点白天窗） | D2 跨匹配器定稿卡: 贪心/归一化/Hungarian + bge-m3 本地嵌入; 预注册 P-1..P-5（全盲存续 + τ≥0.8 + 迁移矩阵完整性）; R3 判据对照; 开窗前置检查已记账 |
 | `2026-08-31_phase_c_stats_plan_draft.md` | 草稿（待 Phase C 冻结） | Phase C 统计预案: 表级聚类推断（118 注入非 iid）+ 类型 fixed effect + Holm 多重比较 + γ 网格重复测量 + matched-FPR 草案 |
 | `2026-08-31_d2_cross_matcher_card_draft.md` | 被定稿卡取代（保留备查） | D2 跨匹配器卡草案: 确定性三件（归一化/greedy/Hungarian）+ 嵌入匹配器（端点与预算入卡）; R3 降级判据对照; :8006 按 08-31 资源裁定五条件 |
+| `2026-08-31_d2_cross_matcher_phase_a.md` | 已交付（Loop A 阶段 A, G1 预注册失配已触发 R3 降级条款, 待 autopsy） | D2 跨匹配器阶段 A 报告（确定性三件 + 补充列, 零端点）: 四件谱（唯一变动 date_variant 0.7059→0.4118）+ ocr_similar 全盲四件存续（0/13）+ 归一化列 τ_min=0.733<0.8 → P-1 τ 条款不成立; 轴归因 = 打分轴单轴驱动（Hungarian 零翻转 τ=1.0）; 5/5 翻转定性为良性正确吸收且仅因冻结 EQUIV_TYPES 类型闸门未计入 E; 33×3 迁移矩阵零缺格零翻转; 工件 `logs/graph/eval/d2_cross_matcher_det.json` |
 | `2026-08-31_d1_audit_report.md` | 已交付（含 SUMMARY-GUARD 收据） | D1 执行报告: 三分类 85/7/26 + MO/MU 8/1 + OCR 有害论证 + 门 G1-G7 + 预注册判定 + 红线自查（收据经主线程复核） |
 
 ## paper/（论文正文工作区, 内部草稿, 禁止对外）
