@@ -1,0 +1,3378 @@
+{
+ "meta": {
+  "name": "d2-cross-matcher-embedding",
+  "version": "v1",
+  "card_id": "TASK-20260831-D2",
+  "task_card": "docs/experiments/2026-08-31_d2_cross_matcher_card.md",
+  "report": "docs/experiments/2026-08-31_d2_cross_matcher_phase_a.md",
+  "phase": "B_embedding_exploratory",
+  "generated": "2026-08-31 23:57:10",
+  "script": "research/paper_d2_cross_matcher_embed.py",
+  "matchers": [
+   "greedy_production",
+   "greedy_embedding",
+   "hungarian_embedding"
+  ],
+  "n_injections": 118,
+  "endpoint_calls": 0,
+  "anchor_gamma": 0.2,
+  "gamma_grid": [
+   "0.2",
+   "0.3",
+   "0.5",
+   "0.7",
+   "0.9"
+  ],
+  "reproduce": [
+   "HF_HUB_OFFLINE=1 python3 research/paper_d2_cross_matcher_embed.py"
+  ]
+ },
+ "gates": {
+  "G0_production_reproduces_d1": true,
+  "G1_threshold_calibration_valid": true,
+  "G3_equivalence_observation_noncriterion": true,
+  "G4_p4_zero_endpoint_and_readonly": true,
+  "G5_transition_matrix_completeness": true,
+  "G6_digest_self_consistency": true,
+  "P2_embedding_pass_fail": "none_by_preregistration",
+  "all_pass": true
+ },
+ "payload": {
+  "inputs_sha256": {
+   "logs/graph/eval/d1_mutant_validity_audit.json": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+   "logs/graph/eval/d2_cross_matcher_det.json": "7bb268e5da19590c9f58e71e293c3b66e4e5071f53932b41792ec8fb0ea1f146",
+   "data/research/drift_v0/output/injection_map.json": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+   "data/research/drift_v0/output/injected_tables.json": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9",
+   "logs/graph/eval/t2_visibility_sensitivity.json": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5"
+  },
+  "criterion_provenance": {
+   "card": "docs/experiments/2026-08-31_d2_cross_matcher_card.md",
+   "card_id": "TASK-20260831-D2",
+   "phase": "B_embedding",
+   "prereg_P2": {
+    "column": "greedy_embedding",
+    "supplementary_column": "hungarian_embedding",
+    "verdict": "exploratory",
+    "pass_fail": "none（卡 2 预注册 P-2: 不设通过/失败判据）",
+    "threshold_rule": "阈值 = 生产 schema (standard, synonym) 正控余弦分布 p05; 定标先于 derive_injections, 看结果后不调",
+    "questions_reported": [
+     "嵌入件下 ocr_similar 是否仍全盲（盲区位置匹配器相关性）",
+     "嵌入件谱排序对生产贪心的 tau-b",
+     "33 条 D1 吸收注入在嵌入件下是否仍吸收（迁移矩阵列）",
+     "等价 7 条在嵌入件下是否保持吸收-等价"
+    ]
+   },
+   "anchor_gamma": 0.2,
+   "gamma_grid": [
+    "0.2",
+    "0.3",
+    "0.5",
+    "0.7",
+    "0.9"
+   ],
+   "phase_a_artifact_readonly": "logs/graph/eval/d2_cross_matcher_det.json",
+   "inheritance": "可见性判定/三分类/gamma 网格/tau-b 口径逐字沿用阶段 A (research/paper_d2_cross_matcher_det.py), 唯一变量 = 打分基（字符串编辑距离 -> 语义嵌入余弦）"
+  },
+  "model_asset": {
+   "dir": "~/wzh/models/hf/bge-m3",
+   "present": true,
+   "config_present": true,
+   "weights_sha256": "b5e0ce3470abf5ef3831aa1bd5553b486803e83251590ab7ff35a117cf6aad38",
+   "weights_bytes": 2271145830,
+   "device": "cpu",
+   "torch_threads": 8,
+   "gpu_avoided_reason": "GB10 GPU 内存由 :8004 生产 llama-server 占用; 本窗不引入争用, 显式 device=cpu",
+   "offline_env": {
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "HF_DATASETS_OFFLINE": "1"
+   },
+   "local_files_only": true
+  },
+  "threshold_calibration": {
+   "rule": "阈值 = 生产 schema (standard, synonym) 正控余弦分布 p05; 定标先于 derive_injections, 看结果后不调",
+   "percentile": 5.0,
+   "threshold_frozen": 0.5439,
+   "schema_source": "config/m1_table_schema.json",
+   "n_positive_control_pairs": 286,
+   "n_negative_control_cross_field": 286,
+   "positive_control_distribution": {
+    "n": 286,
+    "min": 0.458183,
+    "p01": 0.481267,
+    "p05": 0.543866,
+    "p25": 0.681313,
+    "median": 0.811071,
+    "p75": 1.0,
+    "p95": 1.0,
+    "max": 1.0,
+    "mean": 0.811796,
+    "stdev": 0.158414
+   },
+   "negative_control_distribution": {
+    "n": 286,
+    "min": 0.344851,
+    "p01": 0.358094,
+    "p05": 0.39345,
+    "p25": 0.459442,
+    "median": 0.514428,
+    "p75": 0.556794,
+    "p95": 0.676647,
+    "max": 0.803954,
+    "mean": 0.517239,
+    "stdev": 0.085526
+   },
+   "separation_margin_p05_pos_minus_p95_neg": -0.13278,
+   "overlap_note": "margin <= 0 = 正控 p05 未与负控 p95 分开, 即嵌入余弦在短表头域上分离力弱, 阈值只能作弱门控; 如实入账, 不调阈值救它",
+   "frozen_before_injection_scoring": true
+  },
+  "matchers": {
+   "greedy_production": {
+    "matcher": "greedy_production",
+    "scoring": "生产档位（离散 4/3/2/1）",
+    "assignment": "生产贪心 map_headers（高分优先, 每标准字段/每源列各占一次）",
+    "preregistered": true
+   },
+   "greedy_embedding": {
+    "matcher": "greedy_embedding",
+    "scoring": "bge-m3 余弦（阈值门控: cos <= 0.5439 记 0 不合格）",
+    "assignment": "与阶段 A 归一化件同构的贪心（按 (score, len) 降序先到先得）",
+    "preregistered": true
+   },
+   "hungarian_embedding": {
+    "matcher": "hungarian_embedding",
+    "scoring": "bge-m3 余弦（T6 标量编码 cos*1000 -> score）",
+    "assignment": "Hungarian 全局最优（T6 hungarian_max; 无效边大负权 + 补方列退路）",
+    "preregistered": false
+   }
+  },
+  "spectrum": {
+   "greedy_production": {
+    "0.2": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 36,
+       "visibility_rate": 0.766
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 12,
+       "visibility_rate": 0.7059
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 19,
+       "visibility_rate": 0.95
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 13,
+       "visibility_rate": 0.8125
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 5,
+       "visibility_rate": 1.0
+      }
+     },
+     "type_range": 1.0,
+     "ranking_desc": {
+      "unit_suffix": 1.0,
+      "mixed_lang": 2.0,
+      "prefix_noise": 3.0,
+      "alias_variant": 4.0,
+      "date_variant": 5.0,
+      "ocr_similar": 6.0
+     },
+     "ordering_ties_broken_by_name": [
+      "unit_suffix",
+      "mixed_lang",
+      "prefix_noise",
+      "alias_variant",
+      "date_variant",
+      "ocr_similar"
+     ]
+    },
+    "0.3": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 15,
+       "visibility_rate": 0.3191
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 11,
+       "visibility_rate": 0.6471
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 12,
+       "visibility_rate": 0.6
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 6,
+       "visibility_rate": 0.375
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 1,
+       "visibility_rate": 0.2
+      }
+     },
+     "type_range": 0.6471,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "mixed_lang": 2.0,
+      "prefix_noise": 3.0,
+      "alias_variant": 4.0,
+      "unit_suffix": 5.0,
+      "ocr_similar": 6.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "mixed_lang",
+      "prefix_noise",
+      "alias_variant",
+      "unit_suffix",
+      "ocr_similar"
+     ]
+    },
+    "0.5": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 8,
+       "visibility_rate": 0.1702
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 10,
+       "visibility_rate": 0.5882
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 10,
+       "visibility_rate": 0.5
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 1,
+       "visibility_rate": 0.0625
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.5882,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "mixed_lang": 2.0,
+      "alias_variant": 3.0,
+      "prefix_noise": 4.0,
+      "ocr_similar": 5.5,
+      "unit_suffix": 5.5
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "mixed_lang",
+      "alias_variant",
+      "prefix_noise",
+      "ocr_similar",
+      "unit_suffix"
+     ]
+    },
+    "0.7": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 2,
+       "visibility_rate": 0.0426
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 6,
+       "visibility_rate": 0.3
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.9": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 2,
+       "visibility_rate": 0.0426
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 6,
+       "visibility_rate": 0.3
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3,
+     "ranking_desc": {
+      "mixed_lang": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "mixed_lang",
+      "date_variant",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    }
+   },
+   "greedy_embedding": {
+    "0.2": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 14,
+       "visibility_rate": 0.2979
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 6,
+       "visibility_rate": 0.3529
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 1,
+       "visibility_rate": 0.05
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 2,
+       "visibility_rate": 0.4
+      }
+     },
+     "type_range": 0.4,
+     "ranking_desc": {
+      "unit_suffix": 1.0,
+      "date_variant": 2.0,
+      "alias_variant": 3.0,
+      "mixed_lang": 4.0,
+      "ocr_similar": 5.5,
+      "prefix_noise": 5.5
+     },
+     "ordering_ties_broken_by_name": [
+      "unit_suffix",
+      "date_variant",
+      "alias_variant",
+      "mixed_lang",
+      "ocr_similar",
+      "prefix_noise"
+     ]
+    },
+    "0.3": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 5,
+       "visibility_rate": 0.1064
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 1,
+       "visibility_rate": 0.05
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.2941,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "alias_variant": 2.0,
+      "mixed_lang": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "alias_variant",
+      "mixed_lang",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.5": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 4,
+       "visibility_rate": 0.0851
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 1,
+       "visibility_rate": 0.05
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.2941,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "alias_variant": 2.0,
+      "mixed_lang": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "alias_variant",
+      "mixed_lang",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.7": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 1,
+       "visibility_rate": 0.0213
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 1,
+       "visibility_rate": 0.05
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.2941,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "mixed_lang": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "mixed_lang",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.9": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 1,
+       "visibility_rate": 0.0213
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 1,
+       "visibility_rate": 0.05
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.2941,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "mixed_lang": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "mixed_lang",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    }
+   },
+   "hungarian_embedding": {
+    "0.2": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 12,
+       "visibility_rate": 0.2553
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 6,
+       "visibility_rate": 0.3529
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 1,
+       "visibility_rate": 0.05
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.3529,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "alias_variant": 2.0,
+      "mixed_lang": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "alias_variant",
+      "mixed_lang",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.3": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 4,
+       "visibility_rate": 0.0851
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 1,
+       "visibility_rate": 0.05
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.2941,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "alias_variant": 2.0,
+      "mixed_lang": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "alias_variant",
+      "mixed_lang",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.5": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 3,
+       "visibility_rate": 0.0638
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 1,
+       "visibility_rate": 0.05
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.2941,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "alias_variant": 2.0,
+      "mixed_lang": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "alias_variant",
+      "mixed_lang",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.7": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 1,
+       "visibility_rate": 0.0213
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 1,
+       "visibility_rate": 0.05
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.2941,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "mixed_lang": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "mixed_lang",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    },
+    "0.9": {
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "visible": 1,
+       "visibility_rate": 0.0213
+      },
+      "date_variant": {
+       "n": 17,
+       "visible": 5,
+       "visibility_rate": 0.2941
+      },
+      "mixed_lang": {
+       "n": 20,
+       "visible": 1,
+       "visibility_rate": 0.05
+      },
+      "ocr_similar": {
+       "n": 13,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "prefix_noise": {
+       "n": 16,
+       "visible": 0,
+       "visibility_rate": 0.0
+      },
+      "unit_suffix": {
+       "n": 5,
+       "visible": 0,
+       "visibility_rate": 0.0
+      }
+     },
+     "type_range": 0.2941,
+     "ranking_desc": {
+      "date_variant": 1.0,
+      "mixed_lang": 2.0,
+      "alias_variant": 3.0,
+      "ocr_similar": 5.0,
+      "prefix_noise": 5.0,
+      "unit_suffix": 5.0
+     },
+     "ordering_ties_broken_by_name": [
+      "date_variant",
+      "mixed_lang",
+      "alias_variant",
+      "ocr_similar",
+      "prefix_noise",
+      "unit_suffix"
+     ]
+    }
+   }
+  },
+  "ordering_kendall_tau": {
+   "greedy_production": {
+    "per_gamma": {
+     "0.2": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 15,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.3": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 15,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.5": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 14,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.7": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 12,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.9": {
+      "tau": 1.0,
+      "defined": true,
+      "note": "",
+      "concordant": 12,
+      "discordant": 0,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     }
+    },
+    "tau_min": 1.0,
+    "tau_mean": 1.0,
+    "preregistered": false
+   },
+   "greedy_embedding": {
+    "per_gamma": {
+     "0.2": {
+      "tau": 0.276026,
+      "defined": true,
+      "note": "",
+      "concordant": 9,
+      "discordant": 5,
+      "ties_a": 0,
+      "ties_b": 1,
+      "n_items": 6
+     },
+     "0.3": {
+      "tau": 0.596285,
+      "defined": true,
+      "note": "",
+      "concordant": 10,
+      "discordant": 2,
+      "ties_a": 0,
+      "ties_b": 3,
+      "n_items": 6
+     },
+     "0.5": {
+      "tau": 0.771517,
+      "defined": true,
+      "note": "",
+      "concordant": 11,
+      "discordant": 1,
+      "ties_a": 0,
+      "ties_b": 2,
+      "n_items": 6
+     },
+     "0.7": {
+      "tau": 0.833333,
+      "defined": true,
+      "note": "",
+      "concordant": 11,
+      "discordant": 1,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.9": {
+      "tau": 0.833333,
+      "defined": true,
+      "note": "",
+      "concordant": 11,
+      "discordant": 1,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     }
+    },
+    "tau_min": 0.276026,
+    "tau_mean": 0.662099,
+    "preregistered": true
+   },
+   "hungarian_embedding": {
+    "per_gamma": {
+     "0.2": {
+      "tau": -0.298142,
+      "defined": true,
+      "note": "",
+      "concordant": 4,
+      "discordant": 8,
+      "ties_a": 0,
+      "ties_b": 3,
+      "n_items": 6
+     },
+     "0.3": {
+      "tau": 0.596285,
+      "defined": true,
+      "note": "",
+      "concordant": 10,
+      "discordant": 2,
+      "ties_a": 0,
+      "ties_b": 3,
+      "n_items": 6
+     },
+     "0.5": {
+      "tau": 0.771517,
+      "defined": true,
+      "note": "",
+      "concordant": 11,
+      "discordant": 1,
+      "ties_a": 0,
+      "ties_b": 2,
+      "n_items": 6
+     },
+     "0.7": {
+      "tau": 0.833333,
+      "defined": true,
+      "note": "",
+      "concordant": 11,
+      "discordant": 1,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     },
+     "0.9": {
+      "tau": 0.833333,
+      "defined": true,
+      "note": "",
+      "concordant": 11,
+      "discordant": 1,
+      "ties_a": 0,
+      "ties_b": 0,
+      "n_items": 6
+     }
+    },
+    "tau_min": -0.298142,
+    "tau_mean": 0.547265,
+    "preregistered": false
+   }
+  },
+  "blind_types": {
+   "greedy_production": [
+    "ocr_similar"
+   ],
+   "greedy_embedding": [
+    "ocr_similar",
+    "prefix_noise"
+   ],
+   "hungarian_embedding": [
+    "ocr_similar",
+    "prefix_noise",
+    "unit_suffix"
+   ]
+  },
+  "transition_matrix": {
+   "rows_are_d1_absorption_injections": 33,
+   "columns": [
+    "greedy_production",
+    "greedy_embedding",
+    "hungarian_embedding"
+   ],
+   "rows": [
+    {
+     "uid": "1fe3e1d6-7532-44e1-aa5d-cdbe604583bd",
+     "col": 2,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "21c316d6-5e25-4af5-a29a-82b748175279",
+     "col": 2,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+     "col": 2,
+     "type": "alias_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      }
+     },
+     "n_flips": 2
+    },
+    {
+     "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+     "col": 4,
+     "type": "alias_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      }
+     },
+     "n_flips": 2
+    },
+    {
+     "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+     "col": 2,
+     "type": "alias_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      }
+     },
+     "n_flips": 2
+    },
+    {
+     "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+     "col": 4,
+     "type": "alias_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      }
+     },
+     "n_flips": 2
+    },
+    {
+     "uid": "3c609073-6a48-4961-84cd-de68a59fd66c",
+     "col": 1,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "3c609073-6a48-4961-84cd-de68a59fd66c",
+     "col": 3,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "44c7c9ef-bb9f-45c9-9ee5-e2bf465c3617",
+     "col": 1,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "50e78448-3cf5-439c-a609-ee866bd1f05a",
+     "col": 2,
+     "type": "prefix_noise",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+     "col": 2,
+     "type": "alias_variant",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+     "col": 0,
+     "type": "date_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.14286,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+     "col": 1,
+     "type": "date_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+     "col": 2,
+     "type": "date_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.14286,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+     "col": 0,
+     "type": "prefix_noise",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+     "col": 1,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+     "col": 2,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+     "col": 1,
+     "type": "date_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+     "col": 5,
+     "type": "date_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "6a5e5192-5d37-489f-97f2-400ea965ae36",
+     "col": 0,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "6f9a0eb1-ef23-49e3-9342-ab389b10de48",
+     "col": 0,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "73a817fc-25df-494d-b0f2-79cfdab34076",
+     "col": 1,
+     "type": "alias_variant",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+     "col": 2,
+     "type": "alias_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      }
+     },
+     "n_flips": 2
+    },
+    {
+     "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+     "col": 4,
+     "type": "alias_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": false,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      }
+     },
+     "n_flips": 2
+    },
+    {
+     "uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+     "col": 0,
+     "type": "prefix_noise",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "c0f66238-591a-4693-b2d2-fee0f6843420",
+     "col": 3,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "d2bba753-0df3-4a39-860b-bde563261fec",
+     "col": 0,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "d7d65228-96c1-4890-951c-c3d7578f8031",
+     "col": 3,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+     "col": 0,
+     "type": "ocr_similar",
+     "d1_class": "HI",
+     "d1_mechanism": "absorption_silent",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "HI",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+     "col": 4,
+     "type": "alias_variant",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      }
+     },
+     "n_flips": 2
+    },
+    {
+     "uid": "e67f7bf2-fc15-4a7a-9856-febb066998fd",
+     "col": 4,
+     "type": "alias_variant",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+     "col": 2,
+     "type": "alias_variant",
+     "d1_class": "E",
+     "d1_mechanism": "absorption_normalized",
+     "cells": {
+      "greedy_production": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      }
+     },
+     "n_flips": 0
+    },
+    {
+     "uid": "ea031e89-1bf8-4f64-8ed5-d1d0327003cf",
+     "col": 0,
+     "type": "mixed_lang",
+     "d1_class": "HI",
+     "d1_mechanism": "threshold_dilution",
+     "cells": {
+      "greedy_production": {
+       "class": "HI",
+       "marginal_dH": 0.16667,
+       "absorbed": false,
+       "canonical_keyset_identical": false,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "keep",
+       "flipped_to": null
+      },
+      "greedy_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      },
+      "hungarian_embedding": {
+       "class": "E",
+       "marginal_dH": 0.0,
+       "absorbed": true,
+       "canonical_keyset_identical": true,
+       "visible_by_gamma": {
+        "0.2": false,
+        "0.3": false,
+        "0.5": false,
+        "0.7": false,
+        "0.9": false
+       },
+       "state": "flip",
+       "flipped_to": "E"
+      }
+     },
+     "n_flips": 2
+    }
+   ],
+   "note": "生产列为参照列（阶段 A 已判定）, 嵌入两列为 P-2 探索列"
+  },
+  "equivalence_stability": {
+   "pass": true,
+   "n_equivalence_rows": 7,
+   "columns": [
+    "greedy_production",
+    "greedy_embedding",
+    "hungarian_embedding"
+   ],
+   "missing_cells": 0,
+   "n_flips": 0,
+   "flips": [],
+   "note": "P-3 属编辑距离族预注册; 此处对嵌入件作同口径观察（非判据）"
+  },
+  "p2_findings": {
+   "prereg_status": "exploratory / none（卡 2 预注册 P-2: 不设通过/失败判据）",
+   "no_pass_fail_adjudicated": true,
+   "ocr_similar_under_embedding": {
+    "visible_at_anchor": 0,
+    "n": 13,
+    "visible_any_gamma": false
+   },
+   "blind_types_by_matcher": {
+    "greedy_production": [
+     "ocr_similar"
+    ],
+    "greedy_embedding": [
+     "ocr_similar",
+     "prefix_noise"
+    ],
+    "hungarian_embedding": [
+     "ocr_similar",
+     "prefix_noise",
+     "unit_suffix"
+    ]
+   },
+   "blind_still_ocr_similar_only": {
+    "greedy_production": true,
+    "greedy_embedding": false,
+    "hungarian_embedding": false
+   },
+   "tau_b_min_vs_production": {
+    "greedy_production": 1.0,
+    "greedy_embedding": 0.276026,
+    "hungarian_embedding": -0.298142
+   },
+   "spectrum_at_anchor": {
+    "greedy_production": {
+     "alias_variant": 0.766,
+     "date_variant": 0.7059,
+     "mixed_lang": 0.95,
+     "ocr_similar": 0.0,
+     "prefix_noise": 0.8125,
+     "unit_suffix": 1.0
+    },
+    "greedy_embedding": {
+     "alias_variant": 0.2979,
+     "date_variant": 0.3529,
+     "mixed_lang": 0.05,
+     "ocr_similar": 0.0,
+     "prefix_noise": 0.0,
+     "unit_suffix": 0.4
+    },
+    "hungarian_embedding": {
+     "alias_variant": 0.2553,
+     "date_variant": 0.3529,
+     "mixed_lang": 0.05,
+     "ocr_similar": 0.0,
+     "prefix_noise": 0.0,
+     "unit_suffix": 0.0
+    }
+   },
+   "absorption_maintained_of_33": {
+    "greedy_production": 22,
+    "greedy_embedding": 30,
+    "hungarian_embedding": 30
+   },
+   "directional_reading": "P-2 探索性: 两个方向都是合法答案。若 ocr_similar 在嵌入件下仍全盲 => 「谱结构（存在全盲类型）匹配器无关」获第二打分基支持; 若被照亮 => 「盲区位置匹配器相关」获支持, R3 降级表述第一半句翻正"
+  },
+  "counts_by_matcher": {
+   "greedy_production": {
+    "H": 85,
+    "E": 7,
+    "HI": 26,
+    "total": 118,
+    "anchor_detected_by_type": {
+     "alias_variant": 36,
+     "date_variant": 12,
+     "mixed_lang": 19,
+     "ocr_similar": 0,
+     "prefix_noise": 13,
+     "unit_suffix": 5
+    },
+    "n_by_type": {
+     "alias_variant": 47,
+     "date_variant": 17,
+     "mixed_lang": 20,
+     "ocr_similar": 13,
+     "prefix_noise": 16,
+     "unit_suffix": 5
+    },
+    "detected_by_gamma_by_type": {
+     "0.2": {
+      "alias_variant": 36,
+      "date_variant": 12,
+      "mixed_lang": 19,
+      "ocr_similar": 0,
+      "prefix_noise": 13,
+      "unit_suffix": 5
+     },
+     "0.3": {
+      "alias_variant": 15,
+      "date_variant": 11,
+      "mixed_lang": 12,
+      "ocr_similar": 0,
+      "prefix_noise": 6,
+      "unit_suffix": 1
+     },
+     "0.5": {
+      "alias_variant": 8,
+      "date_variant": 10,
+      "mixed_lang": 10,
+      "ocr_similar": 0,
+      "prefix_noise": 1,
+      "unit_suffix": 0
+     },
+     "0.7": {
+      "alias_variant": 2,
+      "date_variant": 5,
+      "mixed_lang": 6,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.9": {
+      "alias_variant": 2,
+      "date_variant": 5,
+      "mixed_lang": 6,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     }
+    },
+    "absorbed_strict_total": 22,
+    "undetected_at_anchor_total": 33,
+    "hi_by_mechanism": {
+     "absorption_silent": 15,
+     "threshold_dilution": 11
+    },
+    "keyset_identical_total": 19,
+    "matcher_kind": "greedy_production"
+   },
+   "greedy_embedding": {
+    "H": 23,
+    "E": 57,
+    "HI": 38,
+    "total": 118,
+    "anchor_detected_by_type": {
+     "alias_variant": 14,
+     "date_variant": 6,
+     "mixed_lang": 1,
+     "ocr_similar": 0,
+     "prefix_noise": 0,
+     "unit_suffix": 2
+    },
+    "n_by_type": {
+     "alias_variant": 47,
+     "date_variant": 17,
+     "mixed_lang": 20,
+     "ocr_similar": 13,
+     "prefix_noise": 16,
+     "unit_suffix": 5
+    },
+    "detected_by_gamma_by_type": {
+     "0.2": {
+      "alias_variant": 14,
+      "date_variant": 6,
+      "mixed_lang": 1,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 2
+     },
+     "0.3": {
+      "alias_variant": 5,
+      "date_variant": 5,
+      "mixed_lang": 1,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.5": {
+      "alias_variant": 4,
+      "date_variant": 5,
+      "mixed_lang": 1,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.7": {
+      "alias_variant": 1,
+      "date_variant": 5,
+      "mixed_lang": 1,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.9": {
+      "alias_variant": 1,
+      "date_variant": 5,
+      "mixed_lang": 1,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     }
+    },
+    "absorbed_strict_total": 81,
+    "undetected_at_anchor_total": 95,
+    "hi_by_mechanism": {
+     "absorption_silent": 31,
+     "threshold_dilution": 7
+    },
+    "keyset_identical_total": 86,
+    "matcher_kind": "greedy_embedding"
+   },
+   "hungarian_embedding": {
+    "H": 19,
+    "E": 66,
+    "HI": 33,
+    "total": 118,
+    "anchor_detected_by_type": {
+     "alias_variant": 12,
+     "date_variant": 6,
+     "mixed_lang": 1,
+     "ocr_similar": 0,
+     "prefix_noise": 0,
+     "unit_suffix": 0
+    },
+    "n_by_type": {
+     "alias_variant": 47,
+     "date_variant": 17,
+     "mixed_lang": 20,
+     "ocr_similar": 13,
+     "prefix_noise": 16,
+     "unit_suffix": 5
+    },
+    "detected_by_gamma_by_type": {
+     "0.2": {
+      "alias_variant": 12,
+      "date_variant": 6,
+      "mixed_lang": 1,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.3": {
+      "alias_variant": 4,
+      "date_variant": 5,
+      "mixed_lang": 1,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.5": {
+      "alias_variant": 3,
+      "date_variant": 5,
+      "mixed_lang": 1,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.7": {
+      "alias_variant": 1,
+      "date_variant": 5,
+      "mixed_lang": 1,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     },
+     "0.9": {
+      "alias_variant": 1,
+      "date_variant": 5,
+      "mixed_lang": 1,
+      "ocr_similar": 0,
+      "prefix_noise": 0,
+      "unit_suffix": 0
+     }
+    },
+    "absorbed_strict_total": 88,
+    "undetected_at_anchor_total": 99,
+    "hi_by_mechanism": {
+     "absorption_silent": 29,
+     "threshold_dilution": 4
+    },
+    "keyset_identical_total": 95,
+    "matcher_kind": "hungarian_embedding"
+   }
+  },
+  "gate_details": {
+   "G0_production_reproduces_d1": {
+    "pass": true,
+    "d1_all_pass": true,
+    "n_rows": 118,
+    "n_mismatches": 0,
+    "mismatches": [],
+    "note": "阶段 B 内重算生产件仍须逐条复现 D1, 否则嵌入件对比失分母"
+   },
+   "G1_threshold_calibration_valid": {
+    "pass": true,
+    "threshold_frozen": 0.5439,
+    "n_positive_control_pairs": 286,
+    "percentile": 5.0,
+    "note": "定标有效性门（阈值可定标 + 先于注入打分冻结）, 非 P-2 过判"
+   },
+   "G3_equivalence_observation_noncriterion": {
+    "pass": true,
+    "n_equivalence_rows": 7,
+    "columns": [
+     "greedy_production",
+     "greedy_embedding",
+     "hungarian_embedding"
+    ],
+    "missing_cells": 0,
+    "n_flips": 0,
+    "flips": [],
+    "note": "P-3 属编辑距离族预注册; 此处对嵌入件作同口径观察（非判据）"
+   },
+   "G4_p4_zero_endpoint_and_readonly": {
+    "pass": true,
+    "ports_touched": [],
+    "model_service_calls": 0,
+    "local_inference_batches": 16,
+    "local_encoded_texts": 496,
+    "endpoint_violations": [],
+    "socket_attempts_blocked": {
+     "n": 3,
+     "ports": [
+      8004
+     ],
+     "events": [
+      {
+       "where": "socket.module_level",
+       "port": 8004
+      },
+      {
+       "where": "socket.module_level",
+       "port": null
+      },
+      {
+       "where": "socket.connect",
+       "port": 8004
+      }
+     ],
+     "note": "全部为护栏自证试连, 系统调用前抛错, 零字节收发 => 非端点使用"
+    },
+    "active_connection_probes": {
+     "create_connection": "blocked:RuntimeError",
+     "getaddrinfo": "blocked:RuntimeError",
+     "socket_connect": "blocked:RuntimeError",
+     "all_blocked": true,
+     "matcher_apis_present": {
+      "m1_statement_parser.normalize_header": true,
+      "m1_statement_parser.SchemaField": true,
+      "m1_statement_parser.SchemaTable": true,
+      "m1_statement_parser.map_headers": true,
+      "m1_statement_parser._best_field_for_header": true,
+      "m1_statement_parser.edit_distance": true
+     },
+     "matcher_apis_all_present": true
+    },
+    "frozen_and_baseline_inputs_unchanged": true,
+    "sha_before": {
+     "logs/graph/eval/d1_mutant_validity_audit.json": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+     "logs/graph/eval/d2_cross_matcher_det.json": "7bb268e5da19590c9f58e71e293c3b66e4e5071f53932b41792ec8fb0ea1f146",
+     "data/research/drift_v0/output/injection_map.json": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+     "data/research/drift_v0/output/injected_tables.json": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9",
+     "logs/graph/eval/t2_visibility_sensitivity.json": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5"
+    },
+    "source_scan": {
+     "clean": true,
+     "files_scanned": [
+      "research/paper_d2_cross_matcher_det.py",
+      "research/paper_t6_matching_competition.py",
+      "research/paper_t2_visibility_sensitivity.py",
+      "research/paper_d1_mutant_validity_audit.py"
+     ],
+     "findings_in_scope": {},
+     "note": "AST 作用域检索沿用阶段 A 件（本脚本 + 自有导入链）"
+    },
+    "scope_note": "sentence_transformers/transformers/huggingface_hub 具备网络能力, 本窗四重护栏 = 离线 env 三件套 + local_files_only + socket 封死（装载与编码全程在护栏下）+ 试连自证; model_service_calls=0 与 local_inference_batches 分列"
+   },
+   "G5_transition_matrix_completeness": {
+    "pass": true,
+    "n_rows": 33,
+    "columns": [
+     "greedy_production",
+     "greedy_embedding",
+     "hungarian_embedding"
+    ],
+    "cells_expected": 99,
+    "cells_missing": 0,
+    "flip_count_by_matcher": {
+     "greedy_production": 0,
+     "greedy_embedding": 8,
+     "hungarian_embedding": 8
+    }
+   }
+  },
+  "prereg_predicates": {
+   "P2_embedding_verdict": "none（探索性, 预注册不设过判 -> 本窗不判定）",
+   "P4_zero_endpoint_self_proof_phase_b": true,
+   "P5_matrix_complete_phase_b_columns": true,
+   "note": "P-1/P-3 判定见阶段 A 工件; 阶段 B 只补 P-2 谱与迁移证据"
+  },
+  "redline_self_check": {
+   "phase_a_artifact_not_overwritten": true,
+   "phase_a_sha_unchanged": true,
+   "client_identifier_zero_entered": true
+  }
+ },
+ "prereg_predicates": {
+  "P2_embedding_verdict": "none（探索性, 预注册不设过判 -> 本窗不判定）",
+  "P4_zero_endpoint_self_proof_phase_b": true,
+  "P5_matrix_complete_phase_b_columns": true,
+  "note": "P-1/P-3 判定见阶段 A 工件; 阶段 B 只补 P-2 谱与迁移证据"
+ },
+ "payload_sha256": "299ab1c7acfc8b272fce6c1a3bbf18ca01d35810d715cd1b62c3c651f121f950",
+ "sha256_scope": [
+  "inputs_sha256",
+  "criterion_provenance",
+  "model_asset",
+  "threshold_calibration",
+  "matchers",
+  "spectrum",
+  "ordering_kendall_tau",
+  "blind_types",
+  "transition_matrix",
+  "equivalence_stability",
+  "p2_findings",
+  "counts_by_matcher",
+  "gate_details",
+  "prereg_predicates",
+  "zero_endpoint",
+  "redline_self_check"
+ ]
+}

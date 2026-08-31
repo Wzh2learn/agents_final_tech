@@ -164,3 +164,14 @@ claims:
   payload.gate_details.G0_production_reproduces_d1.n_mismatches = 0
   payload.gate_details.G0_production_reproduces_d1.n_rows = 118
 END-SUMMARY-GUARD -->
+
+---
+
+## 附节 · 阶段 B 已产出（2026-08-31 同窗续跑, 本文件既有正文零改动）
+
+本报告 §8「阶段 B 未在本跑产出」自本附节起失效（原文保留作审计痕迹, 不覆写）: 阶段 B 已在同会话续跑完成并独立交付 —— 脚本 `research/paper_d2_cross_matcher_embed.py`, 工件 `logs/graph/eval/d2_cross_matcher_embed.json`（payload_sha256 `299ab1c7acfc…1f950`, 全门 PASS, 双跑一致）, 报告 `docs/experiments/2026-08-31_d2_cross_matcher_phase_b.md`。
+
+阶段 B 对阶段 A 结论的两点补充（细节与判读归该报告）:
+
+1. **第二打分基下 `ocr_similar` 仍未被照亮**（0/13, 任意 γ）→ §5 第二半句「谱结构（存在全盲类型）匹配器无关」由编辑距离族扩展到语义嵌入族; D1 的 33 盲区行在嵌入两件下 **0 例转为可见**。
+2. **盲区集合随打分基单调扩张而非平移**: 全盲集合 生产/归一化族 `{ocr_similar}` → greedy_embedding `{ocr_similar, prefix_noise}` → hungarian_embedding `{+ unit_suffix}`; 且嵌入臂的 8 次翻转方向与阶段 A 相反（`HI(threshold_dilution) → E`, 8/8 keyset 全等）→ 阶段 A §4「谱形改变由 E/HI 类型闸门驱动, 非新增危害驱动」在第二打分基下同向复现。

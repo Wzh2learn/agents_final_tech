@@ -56,11 +56,23 @@
 - **翻转毒性（关键, 交 autopsy 判读）**: 5/5 为良性正确吸收（漂移表头映射到**正确** canonical 字段 + keyset 不变）, 且 5/5 只因类型不在冻结 `EQUIV_TYPES` 内未计入 E → **谱形改变幅度由 E/HI 类型闸门驱动, 非新增危害驱动**（`visibility_gained_HI_to_H=0`, 无一例转可见）。R3 降级表述第一半句「盲区位置匹配器相关」本窗证据**不支持**（全盲集合四件恒等 = {ocr_similar}）, 第二半句支持。
 - DR-3 迁移矩阵: 33 吸收注入（E7+HI26）× 3 预注册列 = 99 格无缺格（含补充列 132 格）, 矩阵内**零翻转** = D1 盲区跨匹配器单调保持。P-3 等价 7 条四件零翻转。HI 机制构成随件变化: 生产 silent15/dilution11 → 归一化 **silent21**/dilution10（供 D3 救援先验）。
 - 方法学注记（自证护栏缺陷, 本窗实修）: 初版把**护栏自证试连**的端口记进 `ports_touched` → 自证反噬误判 G4 FAIL（[8004]）。修法 = 语义分离: `ports_touched` 只记实际建立的出站连接（socket 封死 → 恒空）, 被拦试连单列 `socket_attempts_blocked_disclosure` 逐事件披露 + 退出时护栏完整性复核 + 自证来源外尝试必须为零 → **判据强度净增非放宽**（与 W2 36ab25f「ports_touched 声明≠存储」同族病灶）。教训二: 现场取证一次性脚本 `!='H'==False` 链式比较恒假吃掉统计（同坑第 2 次, 是否上机械强制归治理线）。
-- 阶段 B（bge-m3 嵌入件）**本跑未产出**: 按卡加编「上下文不足则独立派发, 记账不算新改期」处理; 资产前置证伪在位。阶段 A = 本窗绿态下限已达成。
+- 阶段 B（bge-m3 嵌入件）**已同会话续跑交付**（见下节「D2 阶段 B」; 本条原记「本跑未产出」为阶段 A 收口时点事实, 现由阶段 B 补完, 判据零改动）。阶段 A = 本窗绿态下限已达成。
 - 红线自查: 零端点（ports=[] / model_calls=0 / 全程未用 :8006 / J7 窗未开）✓; 判据冻结零改动 ✓; D1 底表 + drift 三件 + T2 + T6 前后 sha 全等, 冻结节点零改动 ✓; 甲方标识终工件与报告零命中（逐注入只落 uid+列号）✓; 逐路径 add 无 `-A` 无 amend ✓。
 - 质量基线: pytest **402 passed / 13 skipped**（零回归）; docs_lint **PASS 0/0**; summary-guard check exit 0; governance_drift_scan 15 hits / **registered 0**（新两文件零漂移命中）。
-- 归主线程（收集与判定分离）: ① τ 失配的论文落笔（R3 两半句一支持一不支持, 如何改写）待 D2 autopsy; ② 「E/HI 类型闸门驱动谱形改变」是否上升为对 D1 三分类定义的方法学主张（涉冻结设计稿 §2）; ③ 阶段 B 是否另窗派发。
+- 归主线程（收集与判定分离）: ① τ 失配的论文落笔（R3 两半句一支持一不支持, 如何改写）待 D2 autopsy; ② 「E/HI 类型闸门驱动谱形改变」是否上升为对 D1 三分类定义的方法学主张（涉冻结设计稿 §2）; ③ 阶段 B 已产出（独立工件 + 独立报告）→ D2 两阶段齐, 本窗可收口。
 
+## D2 阶段 B 跨匹配器窗结果（2026-08-31, TASK-20260831-D2, Loop A, 零端点）
+
+- 嵌入两件事（bge-m3 余弦打分 × 贪心/Hungarian 分配）一次跑通: **全门 PASS**（G0/G1/G3/G4/G5/G6, `all_pass=true`, exit 0）。工件 `logs/graph/eval/d2_cross_matcher_embed.json`（独立件, payload_sha256 `299ab1c7acfc…1f950`, **双跑 payload 逐字节等**（原始差异仅 `.meta.generated`）+ 报告 `docs/experiments/2026-08-31_d2_cross_matcher_phase_b.md`（SUMMARY-GUARD 收据 92 claim, check 过）; 阶段 A 报告以**文末附节**衔接（既有正文零改动）。
+- **P-2 按预注册不判过判**: 工件 `prereg_predicates.P2_embedding_verdict = none`, `no_pass_fail_adjudicated = true`; 本窗只产证据。
+- **打分基替换的谱塌降**: H/E/HI = 生产 85/7/26 → greedy_embedding **23/57/38** → hungarian_embedding **19/66/33**; 锚点谱仅 date_variant 保持（0.7059→0.3529, γ≥0.3 名列第 1）, mixed_lang 0.95→**0.05**（跨语种字段名被嵌入"读懂"）, prefix_noise 0.8125→0, unit_suffix 1.0→0.4/0。τ_min vs 生产 = **0.276026 / −0.298142**（γ≥0.5 两嵌入件名次趋同 τ 0.771517/0.833333）。
+- **全盲存续 + 盲区集合扩张**: `ocr_similar` 13/13 在**六件事 / 两种打分基**下任意 γ 恒 0 可见（未被照亮）→ R3 第二半句获第二打分基支持; 全盲集合 = `{ocr_similar}` → `{+prefix_noise}` → `{+unit_suffix}`（单调扩张, 非平移）→ 第一半句须区分「盲区消失（否）」与「盲区范围随打分基移动（是）」两种读法。**方向性触发第二次入账, 按 `#D2-DIRECTIONAL-TRIGGER` 立即上报**。
+- **迁移矩阵（33 × 3 列 = 99 格零缺格）**: 翻转 生产 0 / 嵌入两列各 **8**, 全部 `HI(threshold_dilution) → E`（7 alias_variant + 1 mixed_lang, 8/8 keyset 全等）, **0 例转为可见** ⇒ D1 盲区锚点下仍全盲, 翻转是"良性化改标"非新增危害; 严格吸收 22/33 → 30/33; HI 机制构成 silent 15/dilution 11 → 嵌入件 silent 31/dilution 7 与 silent 29/dilution 4（供 D3 救援先验）。P-3 等价 7 条同口径观察零翻转。
+- **定标诚实入账（阈值先于打分冻结, 事后未回调）**: 阈值 = 生产 schema 286 个 `(standard, synonym)` 正控余弦 p05 = **0.5439**; 负控（286 跨字段对）p75 0.5568 > 阈值, margin p05(正)−p95(负) = **−0.13278** ⇒ 正负控重叠, 弱门控; 正控含 74/286（25.9%）`standard == synonym` 同串对（cos=1.0）抬高分布 —— 两条都入报告 §3, 不用调阈值救它。
+- **零端点自证（本窗新增作用域 = 本地模型装载）**: `ports_touched=[]`、`model_service_calls=0` 与 `local_inference_batches=16 / local_encoded_texts=496` **分列**; 护栏**先于** `sentence_transformers` 导入与装载安装, 被拦事件 3 条 = 自证三探针全部 ⇒ **导入-装载-编码路径零出站尝试**; `device=cpu` 显式（不占 :8004 生产显存）, 离线 env 三件套 + `local_files_only`; :8006 零触碰 / J7 未开。
+- 只读与红线: 阶段 A 工件**零覆写**（`phase_a_sha_unchanged=true`）, D1 底表 + drift 两件 + T2 + 阶段 A 件前后 sha 全等, 冻结节点零改动; 甲方标识零命中（uid+列号）; 逐路径 add / 无 `-A` / 无 amend / 不改写阶段 A commit。
+- 质量基线: pytest **402 passed / 13 skipped**（零回归）; docs_lint **PASS 0/0**; summary-guard check exit 0（两件收据均复核）; governance_drift_scan 结果见收口汇报。
+- 归主线程（收集与判定分离）: ① 是否把嵌入族纳入 R3 匹配器集（P-2 探索性 ⇒ 纳入即改判据口径, 属主张层）; ② 弱阈值（负控重叠 + 同串对）是打分基性质还是短表头域性质 → D3 若引嵌入臂需先定标尺; ③ D2 两阶段齐, autopsy 后排 D3。
 ## 研究窗口结果（08-27 夜-08-28, 窗口合并卡）
 - 段 C bandit v0 replay: 42 金标 × 六格, TS 4 决策点全 R=1; **六格 direct 全 1.0 同分（可靠体制无分辨空间; json direct_best 为字典序 tie-break 不读作信号）**; 零端点; 工件 bandit_gate_v0_eval.json
 - 段 A 扩语料碰撞（#VGMC-COLLISION-WINDOW 23:38-23:51）: 移植列 67/37 表; C0 可靠/C1 碰撞+force; P1 PASS（弱, D 同值）/ P2 PASS（vacuous）/ **P3 未触发**（H |差| 0.0057 两体制同值 + ACC C0 0.28 vs 0.12）; H 对噪声逐位不变, ACC 为敏感量; ε 维首次实质激活
