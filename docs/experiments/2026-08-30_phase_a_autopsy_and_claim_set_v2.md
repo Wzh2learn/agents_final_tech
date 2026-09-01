@@ -86,6 +86,8 @@
 
 **R4 跨数据流泛化 = 研究问题（不作主张）**: TAT-DQA 第二数据流（Phase D4, 解冻条款: 仅 validation split, 完成即恢复冻结）结果以研究问题形式呈现方向一致性, 不作泛化主张, 除非复现达 C1 成功标准。
 
+> [09-01 R4 拆分注记 | 专家第 2 轮 + 用户指令]: R4 拆为 R4a 配置迁移（D2 已答: 按预注册秩稳定判据部分失败, τ_min=0.7333<0.8）/ R4b 数据流迁移（D4 新测: 冻结 evaluator 配置下 visibility 结构跨数据流是否保存）。R4 问句改写: 「Which components of a visibility profile transfer across evaluation contexts, and which are context-specific?」D4 重设计（三指标 τ_b≥0.6 / macro type-level MAE≤0.15 / OCR 锚 V≤0.20, 另报 reversal V_target>0.50; 三档 verdict 不二元化; D4-A source 冻结阈值 / D4-B target 本地定标双条件, 不增模型调用; 参数冻结前先功效/分辨率检查; 协议+等价 oracle+阈值一次性冻结, 单窗执行, 见结果后禁改）拟卡时启用。等价定义按 DR-4 重写（Step1/2, D1 autopsy 记录）。
+
 **PSO 降级**: 出贡献, 方法一句: "A particle-swarm weight search reproduced the same mean separation (1.4326) as greedy coordinate ascent (7650 vs 67 evaluations), so all reported weights use greedy/equal calibers." 不再单列任何 PSO 主张; 专利协同见 §3。
 
 **VGRM 仅案例（P1 不变）**: 门拒 7/7 + 5/5 机制信号, 主效应不显著如实报告（ΔV(ACC)=0.05, CI 含 0; 列级 7/40 vs 4/40, McNemar p=0.375）, 指向大论文线功效分析。
