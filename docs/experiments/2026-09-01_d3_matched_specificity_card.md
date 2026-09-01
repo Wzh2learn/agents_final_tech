@@ -103,3 +103,21 @@ skills:
 ## 6. 红线（同 YAML）
 
 阶段 A 零端点; 阶段 B 仅端点窗条件内; 新预注册不动旧判据; 甲方标识零进入; 禁 -A / amend; J7 不开; TAT-DQA 零触碰; 对外零发送。
+
+
+---
+
+## 加编（09-01 夜, 专家第 2 轮意见落地; 原文冻结不动, 本节为修订后执行口径, 同 commit 登记）
+
+加编背景: D3 卡冻结后专家第 2 轮意见到达（沉淀件 `2026-09-01_expert_consultation_round2_digest.md`; 时序如实: 晚于卡冻结, 非操作失误）。阶段 A 22:20 派发 → 22:4x 中止（改期 #1, 中间产物清除, 正式工件零产出）, 按本节整段重派。侧线逐条审计: 专家 6 约束中 4 项与原卡 A2-A4 冲突。
+
+- **S-1【新增】定标/评估分离（约束 1+2）**: 定标只用 clean controls, 不得混入扰动样本（否则 threshold 知道 positive 分布, 同批比 TPR = tuning leakage）; 5 折表簇交叉拟合（5-fold table-cluster cross-fitting）: 表为最小 split 单元, 同一张表的 clean 版与全部 mutation 同 fold; 禁止同表 clean 在定标、mutation 在评估。
+- **S-2【新增】检出分母（约束 4）**: D3 detection denominator = H∪HI = 111 个非等价有害注入; E=7 不算 evaluator miss; 报告三行分列: Equivalent 7 (excluded) / Harmful-observable / Harmful-currently-invisible。分母按现行分类冻结（若 TASK-20260901-DR4 复核改成员 → 更正注记 + 敏感性, 不溯及）。
+- **S-3【新增】定位双指标（约束 5）**: conditional P(correct location | detected) 与 end-to-end P(detected ∧ correctly localized | harmful) 同报; 禁止只报前者。
+- **S-4【新增】成本轴（约束 6）**: 主指标 = model calls / tokens / cost per harmful detected / cost per correctly localized harmful; latency 次要（易被负载/缓存/批处理污染）。
+- **S-5【措辞】E-2 修订（约束 3, 覆盖原 E-2 措辞, n_clean 分支规则保留）**: matched-FPR = 共同假阳预算: max TPR(θ) s.t. FPR(θ) ≤ α; 不强迫插值精确相等（离散分值 + 量化地板做不到）。主 α = 0.05; n_clean 落入低档分支时按预结果规则自动切 0.10（不得按对谁有利人工挑选）; 报告实际达到 FPR + CI; 附固定 α 网格 {0.05, 0.10} 作敏感性。
+- **S-6【注记】11 例稀释子组出身**: 写「post-D1 hypothesis, prospectively preregistered for D3」, 不得表述为自始预注册。
+- **S-7【统计引用更新】**: Phase C 草案已同步修订——primary 推断 = paired table-cluster bootstrap（每 replicate: 按表重采样 → 保留该表全部 mutations → 重做阈值定标 → 重算各协议 → 算协议差; 不得固定原 threshold）; 检验结构 = primary protocol×type 全局/异质性 + 预设对比三组（OCR vs 非 OCR / 静默吸收 vs 阈值稀释 / 等价 vs 有害仅作 validity audit）+ 六类两两 15 对入 supplement。
+- **S-8【冻结清单】（沉淀件 §7, 看 D3 结果前冻结, 不得事后挑）**: ① 主 α=0.05（含 S-5 自动切换规则）; ② fold 结构 = 5-fold 表簇; ③ 检验结构 = S-7。
+
+**判据冻结声明**: 加编为执行口径修订; 原预注册 E-2 措辞由 S-5 覆盖, 其余原文冻结不动; R1-R4 / D1-D2 旧判据零改动。重派后工件谱系单一: `logs/graph/eval/d3_matched_fpr_stage_a.json`（首次派发零产出, 无谱系冲突）。

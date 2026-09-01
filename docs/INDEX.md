@@ -264,7 +264,9 @@
 | `2026-08-31_d2_cross_matcher_phase_a.md` | 已交付（Loop A 阶段 A, G1 预注册失配已触发 R3 降级条款, autopsy 完成） | D2 跨匹配器阶段 A 报告（确定性三件 + 补充列, 零端点）: 四件谱（唯一变动 date_variant 0.7059→0.4118）+ ocr_similar 全盲四件存续（0/13）+ 归一化列 τ_min=0.733<0.8 → P-1 τ 条款不成立; 轴归因 = 打分轴单轴驱动（Hungarian 零翻转 τ=1.0）; 5/5 翻转定性为良性正确吸收且仅因冻结 EQUIV_TYPES 类型闸门未计入 E; 33×3 迁移矩阵零缺格零翻转; 工件 `logs/graph/eval/d2_cross_matcher_det.json` |
 | `2026-08-31_d2_cross_matcher_phase_b.md` | 已交付（Loop A 阶段 B, 全门 PASS, P-2 探索性无过判, autopsy 完成） | D2 跨匹配器阶段 B 报告（bge-m3 本地嵌入两件, 零端点）: 阈值 p05 定标 0.5439 先于打分冻结（正负控 margin −0.133 重叠如实入账）+ 嵌入谱（H/E/HI 23/57/38 与 19/66/33）+ τ_min 0.276/−0.298 + ocr_similar 六件事恒全盲 + 盲区集合随打分基扩张（prefix_noise/unit_suffix 新盲点位）+ 33×3 迁移矩阵零缺格（8 翻转全为 HI→E 良性等价, 零例转可见）; 工件 `logs/graph/eval/d2_cross_matcher_embed.json` |
 | `2026-09-01_d2_autopsy_decision_record.md` | 圈选销账（①=a ②=a, 09-01） | D2 autopsy 决策记录: τ 裁定 b 落地（0.8286 撤销, 教训 #4）+ R3 降级条款适用（半句 A 不入论文/半句 B 双打分基支持/打分轴敏感性入边界条件）+ 阶段 B 盲集扩张机制（盲区消失=否/范围移动=是）+ findings F-D2-1..8 + 决策 DR-D2-1..6 + 抽验 12/12 |
-| `2026-09-01_d3_matched_specificity_card.md` | 预注册定稿（阶段 A 零端点派发; 阶段 B 端点窗白天另派） | D3 matched-FPR 任务卡: 零端点定标诊断段（弱门控三证据 → 嵌入臂引用方式三态确定性映射）+ clean controls 可行性分支 + FPR 档定标 + 阈值稀释救援通道（11 例）+ matched-FPR 确定性比较; 统计口径引 Phase C 草案 §2; 阶段 B judge 重打分预算 ≤200 硬门 |
+| `2026-09-01_d3_matched_specificity_card.md` | 加编定稿（专家第 2 轮 S-1..S-8; 首派中止改期 #1, 整段重派） | D3 matched-FPR 任务卡: 零端点定标诊断段（弱门控三证据 → 嵌入臂引用方式三态确定性映射）+ clean controls 可行性分支 + FPR 档定标 + 阈值稀释救援通道（11 例）+ matched-FPR 确定性比较; 统计口径引 Phase C 草案 §2; 阶段 B judge 重打分预算 ≤200 硬门 |
+| `2026-09-01_expert_consultation_round2_digest.md` | 沉淀件（外部专家意见蒸馏, 未冻结文本） | 专家咨询第 2 轮意见沉淀: D2 证据地位划分 + 可直接入论文英文段 + D3 六约束 + D4 重设计（三指标/三档/双条件/Step1-2 等价）+ 待冻结参数清单 + 文献补线; 注: 文件截断（§8 缺 ③④/§9 缺失, 待补发） |
+| `2026-09-01_dr4_d1_reclassification_review_card.md` | 预注册定稿（零端点, 与 D3 重派并行） | DR-4 复核卡: D1 现行分类按 Step1/2 独立 oracle 标准逐实例复核（118 注入, E/H 标签 + diff）; absorption=outcome 非 criterion; 产出更正记录不溯及 |
 | `2026-08-31_d1_audit_report.md` | 已交付（含 SUMMARY-GUARD 收据） | D1 执行报告: 三分类 85/7/26 + MO/MU 8/1 + OCR 有害论证 + 门 G1-G7 + 预注册判定 + 红线自查（收据经主线程复核） |
 
 ## paper/（论文正文工作区, 内部草稿, 禁止对外）

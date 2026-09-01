@@ -19,7 +19,7 @@
 - **DR-1（采纳, 入 T7）**: R1 可见性谱表述精化 = 类型谱 + 类型内吸收分解 + 机制二分（静默吸收 15 / 阈值稀释 11）; "OCR 全盲"表述保留但补"非唯一吸收类型"。
 - **DR-2（输入 Phase C 冻结）**: 有效突变体定义 = 缺陷须在 ≥1 承载叶移动 ≥1 条 primary item 证据（D1 九突变体验证: MO 8 全满足, M7 不满足 = canonical MU 案例, 原样保留不替代）。
 - **DR-3（入 D2 卡）**: D2 验收加 per-injection 迁移矩阵——33 吸收注入（E7+HI26）× 每匹配器的状态保持/翻转, 不止报率。
-- **DR-4（入未来 D4 卡）**: TAT-DQA 预注册必须自带等价类定义（套用 D1 模板: 吸收 + 设计语义等价类 + 标准字段集不变）, 不得事后补定义。
+- **DR-4（入未来 D4 卡; 09-01 重写）**: 等价类定义按 Step1/2 冻结——**Step 1（运行被测 matcher/evaluator 之前）**: 依据独立 oracle 定义 E(m)=1 当且仅当: ① mutation 属预定义语义等价算子, ② 独立规范真值映射不变, ③ 下游目标语义不变; **Step 2（运行之后）**: 才记录 detected / absorbed / propagated / localized——**absorption 是 outcome, 不是 equivalence criterion**; E/H 按 instance-level ground truth 冻结, 不按 mutation type 一刀切（与 mutation testing 的 equivalent-mutant validity 同源）。不得事后补定义。  > 更正注记（09-01, 专家第 2 轮 §5, 直接推翻原措辞）: 原文「套用 D1 模板: 吸收 + 设计语义等价类 + 标准字段集不变」作废——「吸收」入等价定义构成循环（没发现→被吸收→判等价→不算没发现）, 系严重方法学攻击点。supersede: 原文 → 本重写（依据 2026-09-01_expert_consultation_round2_digest.md §5）。同步: D1 现行分类按同一标准复核（TASK-20260901-DR4 复核卡, 零端点）, 结果入更正记录。
 - **DR-5（输入 Phase C）**: 阈值稀释 11 例为"可救援"先验进 D3 matched-FPR 设计; 不作新主张, 统计口径以 Phase C 冻结为准。
 
 ## 2. 对 D2 的直接含义（明日开窗输入）
