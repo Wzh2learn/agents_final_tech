@@ -157,3 +157,4 @@ redlines: [冻结节点, API key, ...]
 | ec550aa5d4 | INDEX 状态词[待执行] | | 2026-08-30_t2_visibility_sensitivity_d | 2026-08-30 | 待核 |
 | 193b26038b | INDEX 状态词[待执行] | | 2026-08-30_t6_matching_competition_des | 2026-08-30 | 待核 |
 | 7bc9b19655 | INDEX 状态词[待执行] | | superpowers/plans/2026-08-29-long-hori | 2026-08-30 | 待核 |
+| c2a146fed7 | 日期超期[17天] | 33_导师指导吸收_科研三线升级.md | 2026-09-04 | 待核 |

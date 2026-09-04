@@ -122,3 +122,30 @@
 - 两处实现缺陷（本窗自查修复, 报告 §7 记账; 修复前后 G-1 均 true ⇒ 判据零影响）: ① 列归因用叶位置而非输入位置; ② TPR 比对用四舍五入值致 fold 2 落到 1e-12 哨兵显示 θ=0（改 raw 口径后正常）。
 - 红线自查: 阶段 A **零端点**（`ports_touched=[]` / `model_calls=0` / AST 作用域检索零 http 客户端; 本地 bge-m3 CPU 推理按 D2-B 先例作自证口径分列, 护栏先于模型装载）; 冻结件只读（含 D1/D2-A/D2-B/W2 工件 sha 前后全等）; 新预注册不动旧判据（R1-R4/D1-D2/W2 零改动）; 甲方标识零命中; 逐路径 add / 无 `-A` / 无 amend / J7 不开 / TAT-DQA 零触碰 / 零对外。
 - 归主线程（收集与判定分离）: ① 阶段 B judge 重打分 28 调用清单待白天端点窗派发; ② 层位树第二变化叶（`parse.reconcile` 型, 可零端点分离两协议）需 Loop D 批准, 本窗未动冻结树; ③ **对 Claim Set v2 的影响必须上报**: 08-30 裁定 ①a「分层提供定位与诊断不主张检出优越」在本语料需限定 —— 匹配-FPR 下**检出与定位两轴均无差异**（单变化叶 ⇒ 仿射恒等）, "分层提供定位"在此通道亦无额外信息。详见 `memory/THREADS.md`。
+
+## DR-4 D1 现行分类逐实例复核收口（2026-09-04, TASK-20260901-DR4, Loop A 改期 #1, 零端点）
+
+- 窗口: 首跑（09-02 00:2x）分析段完成、报告段令牌耗尽（1,281,246）→ 本次**收口重派**范围严格限定
+  （只读工件 + 确定性复跑 + 报告 + 收据 + 记账 + 提交）。四门全 PASS（`gates.all_pass=true`）+
+  五预注册全 holds; 工件 `logs/graph/eval/dr4_d1_reclassification_review.json`
+  （payload_sha256 `47adbe66…`, 文件 sha `7806b77b…`, 441,072 B）+ 脚本
+  `research/paper_dr4_d1_reclassification_review.py` + 报告
+  `docs/experiments/2026-09-04_dr4_d1_reclassification_review_report.md`（SUMMARY-GUARD 收据 53 claim, check 过）。
+- **确定性复跑（本次唯一执行动作, 镜像法）**: 脚本 sha 快照含任务卡, 卡片 09-04 加编后原地重跑会改写冻结工件
+  ⇒ 在 `/tmp/dr4_verify.*` 镜像布放加编前卡片（`790f67f` 版本, sha `85155fc7…`）双跑: 两次输出 `cmp` 逐字节相同,
+  sha256 = 首跑工件 `7806b77b…`, exit 0, client hits `[]`; 仓库内工件与五件输入 sha 收口前后全等。
+- **复核结果**: 118/118 逐实例 Step 1 oracle（C1 算子资格 ∧ C2 规范真值映射不变 ∧ C3 下游语义不变）
+  = **oracle E 1 / H 117**; 现行分类复现 H85/E7/HI26 且逐条 118/118 与 D1 存储一致、E 集与 T2 冻结 7 uid 集合相等（G1 PASS）。
+  交叉表 oracle|现行 = `E|H 1` / `H|E 7` / `H|H 84` / `H|HI 26`, **`E|E` 格为空**。
+- **diff = 8 例（稳定 110）**: 7 例 E→H（`50e78448#2`/`5e60c056#0`/`b5aae4e9#0` 前缀噪声删除单位原子 `US$`/`£` ⇒ 首失 C1;
+  `54c494f7#2`/`e9730ea3#2` amort 丢 ACCUMULATED、`73a817fc#1` dividend 丢 PAID、`e67f7bf2#4` cashflow 丢 FREE+PRE_SPECTRUM ⇒ 首失 C2）
+  + 1 例 H→E（`3789d7da#1` `Revenues→sales`, 三条全过）。**HI→E = 0 例**（卡 §3 步骤 3 问句答零）;
+  diff 8 例 C3 全部通过 ⇒ 复判机制集中在字段集内容变化（单位符号/限定语丢失）, 非表头歧义。
+- **对下游**: D3 有害分母敏感性 111（现行）→ 117（oracle）, delta **+6**, `retroactive=false`（不溯及, D3 冻结产物不重算,
+  下一轮 FPR/召回分母须显式声明口径）; 口径敏感性 = 严格 E 1 vs 宽松（限定语移出 C2）E 15, 逐实例一致 104/118（宽松仅披露不入分母）。
+- 独立性自证: 阶段 1 冻结（`oracle_rows_sha256=4b3025ef…`）先于读任何 class/检测字段;
+  禁读字段产物内零命中 + 生产匹配器未载入（`forbidden_*=[]`）。红线: 零端点（ports=[]/model_calls=0/试连 3 项全拦）/
+  D1+T2 工件与报告只读 / 不溯及 / 判据冻结零改动 / 甲方标识零命中 / D3 工件域零写入 / 逐路径 add 无 `-A` 无 amend。
+- 归主线程（收集与判定分离）: **「等价注入」作为鲁棒性正例的证据基础在本语料近乎不存在**（现行 7 条 E 全失守,
+  oracle 仅认可纯同义别名 1 例）⇒ D1「E 集」口径、任何以 E 集为分子的表述、D4 等价类定义需 Loop D 判定;
+  本窗只出更正记录不改写既有主张（见 `memory/THREADS.md` #DR4-CLOSEOUT）。
