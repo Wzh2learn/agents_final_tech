@@ -80,6 +80,8 @@
 
 **R2 检出-吸收-传播 + 定位-诊断（两轴分列）**: (a) 缺陷注入三态分类（检出/静默吸收/下游显形）可测量 [两臂工件]; (b) 分层检查点提供层位定位与可分解证据, 评测预算更低（2 vs 12 单位口径）, 但**不提高原始缺陷检出敏感性**（J3 二裁定句, 覆盖 ①a）: "Hierarchical checkpoints provide layer-level localization and decomposable evidence under a lower evaluation budget, but do not improve raw defect-detection sensitivity in the current setting." 降级: 定位维若被 D2/D4 削弱 → 只保留证据可分解主张。
 
+> [09-04 ①a 适用域注记 | 用户圈选 ②=a+(i), 判据文本零改动, 不溯及]: 在 D3 语料 + 当前冻结树下, 两协议（分层/扁平）在匹配假阳率下的检出轴为**仿射恒等而非 null 测量**——单输入变化叶 ⇒ 层位 ≡ 3/8 · 扁平严格正仿射, ρ=1.0, 2000 次逐 replicate 重定标 bootstrap 非零差 0/2000, 差 CI [0,0]（同一 ROC）; 定位轴零误归属（mean_blamed_cols=1.0）, 该通道不携带定位判别信息。故 W2 窗 0.7895 vs 0.2105 检出率差距 = **阈值摆放 artifact**, 不得表述为「协议判别力差异」（证据: logs/graph/eval/d3_matched_fpr_stage_a.json; THREADS #D3-STAGE-A-LANDED ②）。本语料下分层的定位/诊断价值待第二输入变化叶（候选 parse.reconcile, 已并入 D4 卡, 解冻条款显式覆盖: 仅 validation split / test 零触碰 / 完成即恢复冻结）或阶段 B judge 臂; 若恒等 null 持续, 如实报告, 不修到成功。
+
 **R3 可见性边界机制**: 盲区由匹配/打分层机制决定（形近串同档打分 + 量化分辨率 + 突变体可观测性）, 非分配层或裁判能力伪影。证据: T6 分支 a（差 0/翻转 0）+ 量化地板 + M7 保真度。降级: D2 跨匹配器若谱形显著改变 → 改为"盲区位置匹配器相关, 谱结构（存在全盲类型）匹配器无关"。
 
 > [09-01 R3 降级条款适用记录 | 用户裁定, 判据文本零改动]: D2 阶段 A 证据（确定性族四匹配器）按降级条款适用——半句 A「盲区位置匹配器相关」被否定（全盲集恒 [ocr_similar], 交集=并集）, 不入论文; 半句 B「谱结构（存在全盲类型）匹配器无关」成立; 打分轴敏感性（长度归一化稀释长表头: date_variant 5 例 H→HI, 边际 ΔH 0.5→0, 机制见 logs/graph/eval/d2_cross_matcher_det.json）入边界条件节。条款与证据失配记为预注册不完善项（THREADS #RULING-TAU-B-R3-FALLBACK ③）。注: 阶段 B（嵌入打分基, 探索性）后续落盘, 另观察到全盲集合单调扩张 {ocr}→{ocr,prefix}→{ocr,prefix,unit} 且 ocr_similar 13/13 全盲存续; 其与半句 A 适用域的调和待 D2 autopsy, 本注记不溯及改写。 [09-01 圈选销账: ①=a 已圈, 盲集扩张作探索性发现入边界条件节（冻结措辞见 D2 autopsy §5 注记）, 不升主张。]

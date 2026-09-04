@@ -85,6 +85,21 @@ evidence under a lower evaluation budget, but do not improve raw
 defect-detection sensitivity in the current setting."
 (Both arms detect below flat: arm A 3/9 vs 4/9, arm B 20/95 vs 75/95;
 cost axis 2 vs 12 units.)
+
+Applicability note (ruling 2026-09-04, frozen criteria unchanged): on the
+current corpus and frozen checkpoint tree, the hierarchical and flat
+protocols are affinely identical on the matched false-positive axis - the
+single input-varying leaf makes the layered score exactly 3/8 of the flat
+score up to a strict positive affine map, and a 2000-replicate recalibrated
+bootstrap gives a protocol-difference CI of [0,0] (same ROC) - so the
+0.7895 vs 0.2105 detection gap reported by the W2 window is a
+threshold-placement artifact, not protocol discriminability
+[logs/graph/eval/d3_matched_fpr_stage_a.json]. Any localization or
+diagnostic value of layering on this corpus must come from a second
+input-varying leaf (candidate parse.reconcile, folded into Phase D4 under
+the unfreeze clause: validation split only, test split untouched, freeze
+restored on completion) or from the judge arm, and is reported as such when
+available; if the identity null persists it is reported as-is.
 Caliber note (ruling F-1, frozen 2026-08-30): the frozen M2 evaluation fixture
 used for calibration arms is an **internal calibration arm** (de-identified,
 frozen-hash registered); numbers cited in the body come only from public bases
