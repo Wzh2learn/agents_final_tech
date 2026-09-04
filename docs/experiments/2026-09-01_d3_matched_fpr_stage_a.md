@@ -30,6 +30,8 @@ endpoint_calls: 0
    ROC。实测: 秩相关 1.0、斜率最大偏离 4×10⁻⁸（1e-6 量化抖动）、2000 次**逐 replicate 重定标**
    的表簇 bootstrap 中非零差 replicate 数 = 0, 差 CI = [0, 0]。
    ⇒ **W2 的 0.7895 vs 0.2105 差距 100% 来自阈值摆放（ΔH ≥ 0.2 vs ≥ 0.5333）, 不是协议判别力差异。**
+
+> [09-04 更正注记 | 用户裁定, 只增不改, 不溯及]: 上节散文与本节所引工件结论「斜率最大偏离 4×10⁻⁸」系误誊——以结构字段 `slope_max_abs_deviation_from_0.375 = 9e-08` 为准（= 斜率偏离集 {9e-8, 7e-8, 0, 4e-8} 的 max; 4e-8 仅为单点 0.37500004 的偏离）。误差源 = research/paper_d3_matched_fpr_stage_a.py:1228 散文模板; 工件 logs/graph/eval/d3_matched_fpr_stage_a.json 冻结, 零回改; 台账见 THREADS #D3-ARTIFACT-PROSE-CONTRADICTION-NOTE。
 3. **嵌入臂定标诊断 = E-1 态 (b) → 引用方式 = 降为敏感性分析**。且**同串对污染假设不成立、方向
    相反**: 剔除 74 条 cos≡1.0 的 `standard==synonym` 对后 p05 由 0.5439 **降至** 0.5323, margin
    由 −0.13278 恶化至 −0.14433; 上移 p10/p15 可收回 −0.10640/−0.08192（改善但始终不过零）。
