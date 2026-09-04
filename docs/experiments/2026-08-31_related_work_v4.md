@@ -16,6 +16,7 @@
   5. ACES 期刊版 = arXiv 2401.16313（同族 2210.15615 / 2311.01153 均实查在案）✓
   6. Contextual Metric Meta-Evaluation = arXiv 2503.19828（侧线核验 ACL 2025 Findings (NAACL) 276; 本文以 arXiv 版入 BibTeX, 刊版信息作注记）✓
   - BiomniBench: 禁用（见头部禁则）。
+- 09-01 文献补线（专家第 2 轮 §8, 指标对表示层鲁棒性 = R3 理论坐标, 非边缘）: 检索词组 ①② 实查（沉淀件截断, ③④ 待补发; 锚点 2503.19828 / 2401.16313 同族已在案）, arXiv API 逐条核验元数据, 新增 7 件: 排序不稳定框架（2603.03493, GRN 域方法同构）/ LLM 评测 prompt 排序稳定性（2606.24381）/ 指标质量元评测（2412.13989, T2I 域）/ LLM 管线隐藏测量误差（2604.11581）/ judge 鲁棒性系统评估（2506.09443）/ judge 打分偏差（2506.22316）/ 答案等价判定（2402.11161, 与 DR-4 Step1 oracle 同族）。全部存在性已证, 零猜测。
 
 ## 1 簇一 · Meta-evaluation（评测协议/指标的元评测）
 
@@ -23,6 +24,12 @@
 
 1. **ACES 系**（amrhein2022aces → amrhein2023aceswmt → moghe2024acesjournal）: 以人工判定的翻译准确性挑战集（challenge sets）元评测 MT 指标——指标应区分"真错误/可接受变体/无误"。**与本文对位**: 同构主张 = 评测器必须能区分"真缺陷/等价变体/无缺陷"; 本文的等价变异校正（T2, 7 等价注入）与有效突变体审计（D1 三分类）即该区分在长流程管线上的操作化。差异: ACES 面向标量指标可靠性, 本文面向多层协议的按类型可见性谱。
 2. **Contextual Metric Meta-Evaluation**（deviyani2025contextual）: 以局部指标精度（局部上下文内度量准确性）元评测指标。**与本文对位**: "评测器对自身盲区的感知"是局部精度问题的协议级版本; 本文的 matched-specificity（D3）与聚类统计预案（Phase C）回应其"按上下文分层评估"的方法论要求。
+
+3. **【09-01 增簇】指标排序不稳定与表示层敏感性（R3 理论坐标, 专家第 2 轮 §8）**:
+   - **Quantifying Ranking Instability Across Evaluation Protocol Axes**（kendiukhov2026ranking, 2603.03493）: 系统诊断框架, 量化评估协议轴（预处理/参数/指标选择）变化下的基准排序不稳定度。**与本文对位**: 方法同构——该件量化"协议轴变动 → 排序漂移", 本文量化"打分表示/匹配器变动 → 可见性谱漂移"（D2 τ_min=0.7333 与嵌入臂谱塌降即其实例）; 差异: 该件域为基因调控网络基准, 本文域为长流程文档管线, 且本文同时给出机制归因（打分轴单轴驱动）。
+   - **On the Stability of Prompt Ranking in LLM Evaluation**（du2026promptranking, 2606.24381）: LLM 评测中 prompt 排序对随机种子/评测子集选择的稳定性。**与本文对位**: 同为"评测结论对评测配置的敏感性", 其敏感性源 = 抽样与随机性, 本文敏感性源 = 匹配/打分表示层; 两件并置支撑 R3 的"可见性是 evaluator-context dependent"叙事。
+   - **What makes a good metric?**（ross2024goodmetric, 2412.13989, T2I 域）: 元评测视角审"好指标"应具备的性质（对语言/视觉性质的灵敏度）。**与本文对位**: 本文"评测协议必须能看见注入缺陷"即其灵敏度要求在长流程协议级评测的实例化; 域差异显式标注（图像生成一致性 → 文档管线判别力）。
+   - **Hidden Measurement Error in LLM Pipelines**（messing2026measurementerror, 2604.11581）: LLM 管线中隐藏测量误差扭曲标注/评测/基准。**与本文对位**: 同为"管线中间层使真实信号不可见"; 该件面向测量误差的统计分解, 本文面向缺陷可见性的类型级谱与静默吸收机制——互补证据: 可见性盲区是管线评测的一阶问题而非边角。
 
 ## 2 簇二 · 过程级评测（step/process-level evaluation）
 
@@ -39,13 +46,17 @@
 2. **AgentChaos**（tan2026agentchaos）: 智能体系统的混沌工程——程序化故障注入暴露系统弱点。**与本文对位**: 同为程序化注入, 目标互补: AgentChaos 测系统鲁棒性（系统能否扛住故障）, 本文测评测可见性（评测能否看见故障）; 本文的注入谱（6 类表头漂移 + 9 检查点突变体）是其故障目录在文档管线评测维度的扩展。
 3. **Metamorphic Testing of LLMs**（cho2025metamorphic）: LLM 的蜕变关系测试（输入变换下输出应满足的关系）。**与本文对位**: 等价变体（吸收后标准字段集不变 = 蜕变关系成立 → 鲁棒）与有害变体（蜕变关系被破坏而评测未察觉 = 盲区）的形式边界, 与本文等价类定义同族; 本文按设计口径冻结等价类范围（仅 alias/mixed_lang/prefix_noise, OCR 形近不在内, 论证骨架见 D1 设计稿）。
 
+4. **【09-01 增簇】PEDANTS: 答案等价判定**（li2024pedants, 2402.11161）: 廉价、可解释的答案对等价类判定（QA 场景）。**与本文对位**: 与 DR-4 重写后的 Step 1 独立 oracle 同族——等价判定先于且独立于系统输出（等价是语义性质, 不是检测结果）; 差异: PEDANTS 判定答案串等价, 本文判定表头变换的规范真值映射与下游语义不变性（实例级冻结, 不按类型一刀切）。
+
 ## 4 簇四 · 裁判可靠性（judge reliability）
 
 对位问题: 以 LLM 为裁判时, 裁判自身的偏差与灵敏度是评测有效性的一阶威胁。
 
 1. **Judging LLM-as-a-Judge**（zheng2023judge）: MT-Bench/Chatbot Arena 确立 LLM 裁判与人类偏好一致性范式, 同时暴露位置偏差等裁判偏差。**与本文对位**: 本文裁判使用约束（不见注入真值 = 防泄漏; 确定性契约优先, judge 只评开放语义维）是其偏差控制清单的工程化实例。
 2. 本文内部证据（非文献, 供引用时标注口径）: 四维 judge 基线 4.94-5.0（08-08, :8006 xhigh 口径）; 端点一致性只能验证到离散评分分辨率（|Δ| 容差 = 0-10 整数叶分分辨率, F_W2_4）; 同口径内判分-映射排序一致性 Spearman 0.9744 / 方向一致 0.9907（限 :8004 口径内, 不得表述为跨端点证据, J6 裁定）。
-3. **TODO（Phase B 续, 实查后补, 零猜测）**: judge 校准/一致性专项（评分者间一致性在评测协议场景的量化方法）、judge 端点敏感性的既有度量——入稿前必须实查落 BibTeX。
+3. **【09-01 增簇】RobustJudge: judge 鲁棒性系统评估**（li2025robustjudge, 2506.09443）: 对 LLM-as-a-Judge 在扰动下的鲁棒性做综合评估（含跨配置判分一致性）。**与本文对位**: 本文裁判口径注记（端点一致性只能验证到离散评分分辨率, F_W2_4）是其问题域的协议侧实例; 该件提供鲁棒性度量方法参照。
+4. **【09-01 增簇】Evaluating Scoring Bias in LLM-as-a-Judge**（li2025scoringbias, 2506.22316）: 裁判打分偏差的度量（含自偏好/位置类偏差）。**与本文对位**: 支撑本文"judge 不见注入真值 + 确定性契约优先"的偏差控制设计; 引用时与 zheng2023judge 并列。
+5. **TODO（Phase B 续, 部分清零 09-01）**: ~~judge 鲁棒性专项~~（已由 2506.09443 / 2506.22316 部分覆盖）; 剩余待实查 = judge 端点敏感性的既有度量 + 评分者间一致性在评测协议场景的量化方法——入稿前必须实查落 BibTeX。
 
 ## 5 S6 短段素材（原簇二/三降级留存）
 
@@ -104,6 +115,41 @@
   title   = {Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena},
   author  = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
   journal = {arXiv preprint arXiv:2306.05685}, year = {2023}}
+@article{kendiukhov2026ranking,
+  title   = {Quantifying Ranking Instability Across Evaluation Protocol Axes in Gene Regulatory Network Benchmarking},
+  author  = {Kendiukhov, Ihor},
+  journal = {arXiv preprint arXiv:2603.03493}, year = {2026}}
+
+@article{du2026promptranking,
+  title   = {On the Stability of Prompt Ranking in Large Language Model Evaluation},
+  author  = {Du, Shaoshuai and Liang, Penghao and Shen, Yixian and Shi, Chuanqi and Zhang, Hang and Wang, Lun},
+  journal = {arXiv preprint arXiv:2606.24381}, year = {2026}}
+
+@article{ross2024goodmetric,
+  title   = {What makes a good metric? Evaluating automatic metrics for text-to-image consistency},
+  author  = {Ross, Candace and Hall, Melissa and Romero Soriano, Adriana and Williams, Adina},
+  journal = {arXiv preprint arXiv:2412.13989}, year = {2024}}
+
+@article{messing2026measurementerror,
+  title   = {Hidden Measurement Error in LLM Pipelines Distorts Annotation, Evaluation, and Benchmarking},
+  author  = {Messing, Solomon},
+  journal = {arXiv preprint arXiv:2604.11581}, year = {2026}}
+
+@article{li2025robustjudge,
+  title   = {LLMs Cannot Reliably Judge (Yet?): A Comprehensive Assessment on the Robustness of LLM-as-a-Judge},
+  author  = {Li, Songze and Xu, Chuokun and Wang, Jiaying and Gong, Xueluan and Chen, Chen and Zhang, Jirai and Wang, Jun and Lam, Kwok-Yan and Ji, Shouling},
+  journal = {arXiv preprint arXiv:2506.09443}, year = {2025}}
+
+@article{li2025scoringbias,
+  title   = {Evaluating Scoring Bias in LLM-as-a-Judge},
+  author  = {Li, Qingquan and Dou, Shaoyu and Shao, Kailai and Chen, Chao and Hu, Haixiang},
+  journal = {arXiv preprint arXiv:2506.22316}, year = {2025}}
+
+@article{li2024pedants,
+  title   = {PEDANTS: Cheap but Effective and Interpretable Answer Equivalence},
+  author  = {Li, Zongxia and Mondal, Ishani and Liang, Yijun and Nghiem, Huy and Boyd-Graber, Jordan Lee},
+  journal = {arXiv preprint arXiv:2402.11161}, year = {2024}}
+
 ```
 
 （v3 五篇 + Voyager/MemGPT 两篇 BibTeX 原样保留于 2026-08-29_related_work_v3.md §3/§4, S6 短段引用时直接取用, 不重录。）
@@ -114,9 +160,9 @@
 |---|---|---|
 | R1 可见性谱 | 簇一（元评测范式）+ 簇二（过程级对位） | 无文献缺口; 写作差异点 = 按类型谱 + 静默吸收 |
 | R2 检出-吸收-传播 + 定位-诊断 | 簇二（WebStep 定位轴）+ 簇三（注入手段） | 无缺口 |
-| R3 可见性边界机制（匹配/打分层 + 量化 + 保真度） | 簇三（蜕变关系/故障注入）+ 簇四（裁判分辨率） | 有效突变体定义的形式化引用待 D1 后补（Phase C） |
+| R3 可见性边界机制（匹配/打分层 + 量化 + 保真度） | 簇三（蜕变关系/故障注入）+ 簇四（裁判分辨率）+ 簇一增簇（排序不稳定/表示层敏感性 4 件, 09-01） | 有效突变体定义的形式化引用待 D1 后补（Phase C）; R3 理论坐标已有实查文献支撑（沉淀件 §8 ③④ 待补发后再扩） |
 | R4 跨数据流（研究问题） | 簇二（基准多样性语境） | D4 结果出来前不引具体基准 |
 | matched-FPR（D3）/ 聚类统计（Phase C） | 方法学, 非文献簇 | Phase C 预注册时再查统计方法文献 |
-| 簇四裁判可靠性 | zheng2023judge 为锚 | TODO 两件实查未落, 入稿前必须清零 |
+| 簇四裁判可靠性 | zheng2023judge 为锚 + RobustJudge/scoring bias（09-01 增） | TODO 部分清零: 余 = judge 端点敏感性度量 + 评分者间一致性量化, 入稿前清零 |
 | BiomniBench | — | 禁用（0 命中未证实） |
 | venue 待证实 ×2（ICSME 2511.02108 / COLM 2606.15673） | 簇三/簇二 | Phase B 实查队列: DBLP 核验, 未证实去标签（用户 08-31 更正注记） |
