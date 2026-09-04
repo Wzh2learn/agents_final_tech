@@ -252,7 +252,7 @@
 | `2026-08-30_night_self_audit_findings.md` | 活跃 | 夜间自审 findings（九项攻击面预跑 + broken-window 八行 + 治理体检; 只列发现不裁决, 结论权在 Loop C/用户） | 2026-08-30 |
 | `2026-08-30_morning_decision_sheet.md` | W2 事项被完整版取代（①a②a 圈选已入账补记） | 晨间一页纸: W1 绿态 + W2 闸状态 + 判定项①C2 表述口径②T2 极差表述（各带推荐） | 2026-08-30 |
 | `2026-08-30_decision_sheet_full_w2.md` | 圈选完毕（J1-J7 入账, 序列被 Phase A-D 覆盖, 补记在案） | 完整版一页纸 W2 收口版: W2 绿态（122/200 调用/仅 :8004/13 门）+ 抽验 26/26 + findings 先行（F-SC-1/F_W2_4/F_W2_1/C3 降级/预算饱和）+ 圈选 ①a②a③F-1 入账 + 首个 SUMMARY-GUARD 收据块 | 2026-08-30 |
-| `2026-08-30_phase_a_autopsy_and_claim_set_v2.md` | 冻结（Claim Set v2） | Phase A 六件尸检（C2/C3/M7/量化地板/预算饱和/匹配竞争）+ Paper Claim Set v2（R1-R4 + PSO 降级 + VGRM 仅案例）+ 专利协同核对 + Phase B/C/D 输入清单 | 2026-08-30 |
+| `2026-08-30_phase_a_autopsy_and_claim_set_v2.md` | 冻结（Claim Set v2; 09-04 ①a 适用域注记） | Phase A 六件尸检（C2/C3/M7/量化地板/预算饱和/匹配竞争）+ Paper Claim Set v2（R1-R4 + PSO 降级 + VGRM 仅案例）+ 专利协同核对 + Phase B/C/D 输入清单; 09-04 注记: 本语料/本树下两协议检测仿射恒等（W2 差距 = 阈值摆放 artifact, 不得表述为协议判别力差异）, 第二变化叶并入 D4 | 2026-08-30 |
 | `2026-08-31_related_work_v4.md` | 骨架稿（Phase B 首件） | 四簇重排（meta-evaluation/过程级评测/突变与故障注入[保留 v3 簇一]/裁判可靠性）+ 六线索实查 BibTeX + 覆盖度自查 + BiomniBench 禁则; v3 簇二/三降 S6 短段 |
 | `2026-08-31_d1_mutant_validity_audit_design.md` | 预注册（已执行, 判据冻结不溯及） | D1 突变体有效性审计设计稿: 三分类（有害-可见/等价/有害-不可见）118 注入 + 9 突变体; P1-P6 预注册冻结; M7 归不可观测原样保留（J2）; OCR 有害论证骨架; §1 蓝图 C1 判据原样引用 |
 | `2026-08-31_d1_task_card.md` | 已交付（Loop A, 零端点, G1-G7 全过） | D1 任务卡: 前提一分钟证伪四件 + 验收（工件+报告+SUMMARY-GUARD 收据）+ 红线（零端点/只读/M7 保留/判据冻结） |
@@ -264,9 +264,9 @@
 | `2026-08-31_d2_cross_matcher_phase_a.md` | 已交付（Loop A 阶段 A, G1 预注册失配已触发 R3 降级条款, autopsy 完成） | D2 跨匹配器阶段 A 报告（确定性三件 + 补充列, 零端点）: 四件谱（唯一变动 date_variant 0.7059→0.4118）+ ocr_similar 全盲四件存续（0/13）+ 归一化列 τ_min=0.733<0.8 → P-1 τ 条款不成立; 轴归因 = 打分轴单轴驱动（Hungarian 零翻转 τ=1.0）; 5/5 翻转定性为良性正确吸收且仅因冻结 EQUIV_TYPES 类型闸门未计入 E; 33×3 迁移矩阵零缺格零翻转; 工件 `logs/graph/eval/d2_cross_matcher_det.json` |
 | `2026-08-31_d2_cross_matcher_phase_b.md` | 已交付（Loop A 阶段 B, 全门 PASS, P-2 探索性无过判, autopsy 完成） | D2 跨匹配器阶段 B 报告（bge-m3 本地嵌入两件, 零端点）: 阈值 p05 定标 0.5439 先于打分冻结（正负控 margin −0.133 重叠如实入账）+ 嵌入谱（H/E/HI 23/57/38 与 19/66/33）+ τ_min 0.276/−0.298 + ocr_similar 六件事恒全盲 + 盲区集合随打分基扩张（prefix_noise/unit_suffix 新盲点位）+ 33×3 迁移矩阵零缺格（8 翻转全为 HI→E 良性等价, 零例转可见）; 工件 `logs/graph/eval/d2_cross_matcher_embed.json` |
 | `2026-09-01_d2_autopsy_decision_record.md` | 圈选销账（①=a ②=a, 09-01） | D2 autopsy 决策记录: τ 裁定 b 落地（0.8286 撤销, 教训 #4）+ R3 降级条款适用（半句 A 不入论文/半句 B 双打分基支持/打分轴敏感性入边界条件）+ 阶段 B 盲集扩张机制（盲区消失=否/范围移动=是）+ findings F-D2-1..8 + 决策 DR-D2-1..6 + 抽验 12/12 |
-| `2026-09-01_d3_matched_specificity_card.md` | 加编定稿（专家第 2 轮 S-1..S-8）; 阶段 A 已按加编口径交付 | D3 matched-FPR 任务卡: 零端点定标诊断段（弱门控三证据 → 嵌入臂引用方式三态确定性映射）+ clean controls 可行性分支 + FPR 档定标 + 阈值稀释救援通道（11 例）+ matched-FPR 确定性比较; 统计口径引 Phase C 草案 §2; 阶段 B judge 重打分预算 ≤200 硬门 |
+| `2026-09-01_d3_matched_specificity_card.md` | 加编 2 定稿（阶段 B 派发批准, 待白天端点窗） | D3 matched-FPR 任务卡: 零端点定标诊断段 + clean controls 分支 + FPR 档定标 + 阈值稀释救援通道 + matched-FPR 确定性比较; 阶段 A 已按加编口径交付; 阶段 B judge 重打分 = 28 调用冻结（J-N1 21 + J-N2 7, J-N3 0）, ≤200 硬门, canary 先行, judge 防泄漏, J-N2 × DR4 diff 逐例对照注记在案 |
 | `2026-09-01_d3_matched_fpr_stage_a.md` | 阶段 A 已交付（Loop A 重派, 全门 PASS, 含 SUMMARY-GUARD 收据） | D3 阶段 A 报告（零端点）: 无可定标空间 → 卡 §4 pivot 执行（对比型分数在 2382 clean 表上恒 0 + 两条绝对通道不可定标: 生产 schema 域不相交 / 自身撞车率 AUC 0.248 反判别）; matched-FPR 两协议差 = 0 为**恒等**（prune 树单变化叶 ⇒ 层位 ≡ 3/8·扁平, ρ=1.0, 2000 次逐折重定标 bootstrap 非零差 0） ⇒ W2 0.7895 vs 0.2105 = 阈值摆放非判别力; 嵌入定标诊断落 E-1 (b) → 敏感性分析（同串对污染假设不成立且方向相反）; 11 例稀释零端点全救援（θ 再定标 5 + 表级聚合 8, 并集 11/11, 嵌入 8 例 flip→E 属标签损失）; 工件 `logs/graph/eval/d3_matched_fpr_stage_a.json` |
-| `2026-09-01_expert_consultation_round2_digest.md` | 沉淀件（外部专家意见蒸馏, 未冻结文本） | 专家咨询第 2 轮意见沉淀: D2 证据地位划分 + 可直接入论文英文段 + D3 六约束 + D4 重设计（三指标/三档/双条件/Step1-2 等价）+ 待冻结参数清单 + 文献补线; 注: 文件截断（§8 缺 ③④/§9 缺失, 待补发） |
+| `2026-09-01_expert_consultation_round2_digest.md` | 沉淀件（F5 补发已核对; 未冻结文本） | 专家咨询第 2 轮意见沉淀: D2 证据地位划分 + 可直接入论文英文段 + D3 六约束 + D4 重设计（三指标/三档/双条件/Step1-2 等价）+ 待冻结参数清单 + 文献补线（§8 四组检索词 + 锚点齐备）+ 风险清单; 09-04 F5 补发与登记版逐条核对（§11 记录）, 09-01 截断声明撤销 |
 | `2026-09-01_dr4_d1_reclassification_review_card.md` | 加编定稿（09-04 收口重派节 = 改期 #1）; 已按加编口径交付 | DR-4 复核卡: D1 现行分类按 Step1/2 独立 oracle 标准逐实例复核（118 注入, E/H 标签 + diff）; absorption=outcome 非 criterion; 产出更正记录不溯及 |
 | `2026-09-04_dr4_d1_reclassification_review_report.md` | 已交付（Loop A 改期 #1 收口重派, 四门全 PASS + 收据 check 过） | DR-4 复核报告: 118 注入逐实例 Step 1 oracle = E 1 / H 117, 现行 H85/E7/HI26 复现 118/118（E 集 = T2 冻结 7 uid）→ diff 8（7 例 E→H = 3×C1 单位符号被删 + 4×C2 限定语丢失; 1 例 H→E = Revenues→sales; **HI→E 0 例**; diff 8 例 C3 全通过）; D3 有害分母敏感性 111→117（delta +6, 不溯及）; 严格/宽松口径一致 104/118; 工件 `logs/graph/eval/dr4_d1_reclassification_review.json` 镜像双跑逐字节复现（`7806b77b…` = 首跑 sha） |
 | `2026-08-31_d1_audit_report.md` | 已交付（含 SUMMARY-GUARD 收据） | D1 执行报告: 三分类 85/7/26 + MO/MU 8/1 + OCR 有害论证 + 门 G1-G7 + 预注册判定 + 红线自查（收据经主线程复核） |
@@ -275,7 +275,7 @@
 
 | 文件 | 状态 | 一句话摘要 |
 |---|---|---|
-| `draft_v0_s1_s2_s6.md` | 草稿 v0.1 | T7 成熟节 S1/S2/S6（英文）+ 效度威胁占位节: 数字仅既有工件溯源值 + [TODO-*] 占位; 圈选 ①a②a③F-1 已落稿（S1 极差量化机制句 / S2 C2 降级定位块+fixture 口径注 / T6 分支 a 威胁节）; 审稿五问注记一轮 + 边界脚注; S3-S5/S7 待 T1-T6 工件 |
+| `draft_v0_s1_s2_s6.md` | 草稿 v0.1（09-04 注记） | T7 成熟节 S1/S2/S6（英文）+ 效度威胁占位节: 数字仅既有工件溯源值 + [TODO-*] 占位; 圈选 ①a②a③F-1 已落稿; 审稿五问注记一轮 + 边界脚注; 09-04 ①a 适用域注记 + F2 恒等式口径（W2 差距 = 阈值摆放 artifact, 非协议判别力差异）落 S2; S3-S5/S7 待工件 |
 
 ## 治理参考语料（docs/governance/reference/）
 

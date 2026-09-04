@@ -121,3 +121,20 @@ skills:
 - **S-8【冻结清单】（沉淀件 §7, 看 D3 结果前冻结, 不得事后挑）**: ① 主 α=0.05（含 S-5 自动切换规则）; ② fold 结构 = 5-fold 表簇; ③ 检验结构 = S-7。
 
 **判据冻结声明**: 加编为执行口径修订; 原预注册 E-2 措辞由 S-5 覆盖, 其余原文冻结不动; R1-R4 / D1-D2 旧判据零改动。重派后工件谱系单一: `logs/graph/eval/d3_matched_fpr_stage_a.json`（首次派发零产出, 无谱系冲突）。
+
+
+---
+
+## 加编 2（09-04, 用户圈选 ① 批准派发; 原文与加编 1 冻结不动, 本节为阶段 B 执行口径, 同 commit 登记）
+
+**阶段 B 派发批准**: judge 重打分需求清单冻结 **28 调用** = J-N1 21 例（零信号有害注入语义危害性复判）+ J-N2 7 例（等价注入 validity audit）; **J-N3 本窗维持 0 调用不夹带**（第二证据叶定位复核已并入 D4 卡, 解冻条款管辖）。
+
+**执行约束**（阶段 A 冻结, 本加编零新增）: `:8004` 主; 预算 ≤200 硬门（调用计数器入工件）; canary 快照先行, 异常即停 + 记账; `:8006` 仅五条件条款, 窗外恢复零触碰; 窗口时段 = 端点窗仅白天错峰; 派发前置检查（:8004 健康 + canary 状态快照）落记账。
+
+**Judge 防泄漏条款**: judge prompt 输入 = 表内容 + 原始/变异表头 + 语义问题; 注入真值元数据（uid / 缺陷类型 / 预期分类 / 目标字段）严禁进入 prompt（承框架 S2 泄漏保护纪律: leakage-protected judge whose prompt never sees the injected ground truth）。
+
+**注记（圈选 ①）**: J-N2 在 DR4 复核（oracle E 1 / H 117, diff 8 = 7 E→H + 1 H→E）后构成「类型级 E vs 实例级 H」之外的第三证据角; 阶段 B 产出必须与 DR4 diff 清单（logs/graph/eval/dr4_d1_reclassification_review.json）逐例对照, 以例级一致/不一致表入报告（7 例 E→H: judge 复判危害性 × DR4 oracle 有害; 1 例 H→E: judge 复判等价性 × DR4 oracle 等价）。
+
+**阶段 B 不新增判据**: 只执行阶段 A 冻结的需求清单; J-N1/J-N2 问题模板与输出 schema 由 Loop A 在上述约束内定义, 随工件 + 报告 + 调用计数器入账。
+
+**序列**: 阶段 B judge 窗 → 停一次 autopsy → D4 拟卡（含第二叶）→ T7。

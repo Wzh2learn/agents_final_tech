@@ -1,0 +1,143 @@
+{
+ "n_checks": 9,
+ "n_pass": 9,
+ "all_pass": true,
+ "results": [
+  {
+   "check": "payload_sha256_recompute",
+   "pass": true,
+   "detail": {
+    "mine": "47adbe6649666f864693",
+    "stored": "47adbe6649666f864693"
+   }
+  },
+  {
+   "check": "raw_file_lf_sha256",
+   "pass": true,
+   "detail": {
+    "receipt": "7806b77b5ad46add9f04",
+    "lf": "7806b77b5ad46add9f04",
+    "raw": "dce8f7dc0d3de78630d8"
+   }
+  },
+  {
+   "check": "gates_all_pass",
+   "pass": true,
+   "detail": {
+    "G1_reproduce_current": true,
+    "G2_zero_endpoint_and_readonly": true,
+    "G3_independence_and_evidence": true,
+    "G4_input_integrity": true,
+    "all_pass": true
+   }
+  },
+  {
+   "check": "oracle_counts_recompute",
+   "pass": true,
+   "detail": {
+    "stored": {
+     "total": 118,
+     "E": 1,
+     "H": 117,
+     "by_type": {
+      "alias_variant": {
+       "n": 47,
+       "E": 1,
+       "H": 46
+      },
+      "date_variant": {
+       "n": 17,
+       "E": 0,
+       "H": 17
+      },
+      "mixed_lang": {
+       "n": 20,
+       "E": 0,
+       "H": 20
+      },
+      "ocr_similar": {
+       "n": 13,
+       "E": 0,
+       "H": 13
+      },
+      "prefix_noise": {
+       "n": 16,
+       "E": 0,
+       "H": 16
+      },
+      "unit_suffix": {
+       "n": 5,
+       "E": 0,
+       "H": 5
+      }
+     }
+    },
+    "mine": {
+     "H": 117,
+     "E": 1
+    }
+   }
+  },
+  {
+   "check": "diff_recompute",
+   "pass": true,
+   "detail": {
+    "n_reviewed": 118,
+    "n_changed": 8,
+    "e2h": 7,
+    "h2e": 1,
+    "e2h_mech": [
+     "C2_lost",
+     "additive_only(C1b)",
+     "family_design_intent"
+    ]
+   }
+  },
+  {
+   "check": "current_classification_reproduced",
+   "pass": true,
+   "detail": {
+    "reproduced": {
+     "H": 85,
+     "E": 7,
+     "HI": 26
+    },
+    "stored_in_d1": {
+     "H": 85,
+     "E": 7,
+     "HI": 26,
+     "total": 118
+    }
+   }
+  },
+  {
+   "check": "d3_denominator_sensitivity",
+   "pass": true,
+   "detail": {
+    "note": "{\"why\": \"D3 匹配 FPR 的有害分母（111 = 85 H + 26 HI）按**现行分类**冻结; 本卡 oracle 若改变 E 集成员, 该分母在 oracle 口径下不同。\", \"d3_frozen_harmful_denominator\": 111, \"oracle_harmful_denominator\": 117, \"oracle_e_denominator\": 1, \"delta\": 6, \"retroactive\": false, \"statement\": \"D3 已冻结产物不重算; 本注记只提供敏感性: 若按 Step 1 oracle 口径, 有害集大小 = "
+   }
+  },
+  {
+   "check": "tier_sensitivity_present",
+   "pass": true,
+   "detail": {
+    "excerpt": "{\"primary_strict\": {\"E\": 1, \"H\": 117, \"definition\": \"C2 = 概念/限定语/单位/未登录原子四元组逐等\"}, \"sensitivity_lenient\": {\"E\": 15, \"H\": 103, \"definition\": \"C2' 仅比概念/单位/未登录原子（限定语差异移出）, 限定语缺失的后果并入 C3 唯一指称检验\", \"e_instan"
+   }
+  },
+  {
+   "check": "independence_self_proof",
+   "pass": true,
+   "detail": {
+    "criterion_keys": [
+     "card",
+     "card_id",
+     "basis_docs",
+     "oracle",
+     "c1_families",
+     "c2_definition"
+    ],
+    "integrity": "{\"n_injections_map\": 118, \"n_d1_items\": 118, \"n_tables\": 2479, \"unique_keys_map\": 118, \"map_d1_keyset_identical\": true, \"map_d1_keys_only_in_map\": [], \"map_d1_keys_only_in_d1\": [], \"original_text_mism"
+   }
+  }
+ ]
+}
