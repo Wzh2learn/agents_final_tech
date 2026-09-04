@@ -1,0 +1,137 @@
+{
+ "n_checks": 12,
+ "n_pass": 12,
+ "all_pass": true,
+ "results": [
+  {
+   "check": "payload_sha256_recompute",
+   "pass": true,
+   "detail": {
+    "mine": "61e6c6ddca548ebe0b4d",
+    "stored": "61e6c6ddca548ebe0b4d"
+   }
+  },
+  {
+   "check": "raw_file_lf_sha256",
+   "pass": true,
+   "detail": {
+    "receipt": "3318ac178a0c3317ce18",
+    "lf": "3318ac178a0c3317ce18",
+    "raw": "7d4f8a772bc30d29e94c",
+    "matched": "lf"
+   }
+  },
+  {
+   "check": "gates_all_pass_zero_endpoint",
+   "pass": true,
+   "detail": {
+    "all_pass": true,
+    "endpoint_calls": 0,
+    "model_calls": 0,
+    "ports": []
+   }
+  },
+  {
+   "check": "g1_frozen_reproduction",
+   "pass": true,
+   "detail": {
+    "checks": {
+     "d1_counts": true,
+     "d1_hi_by_mechanism": true,
+     "d1_secondary_counts": true,
+     "d2a_tau_b_min": true,
+     "d2a_flips_0": true,
+     "d2b_dilution_mech": true,
+     "d2b_calibration": true,
+     "w2_seed42_counts": true,
+     "affine_slope_0.375": true,
+     "frozen_counts_reproduced_from_recomputed_scores": true
+    }
+   }
+  },
+  {
+   "check": "a1_state_b_decision",
+   "pass": true,
+   "detail": {
+    "e1_state": "b",
+    "decision": "降为敏感性分析",
+    "margin_orig": null,
+    "margin_cleaned": null,
+    "worsened": false
+   }
+  },
+  {
+   "check": "a2_clean_controls_pivot",
+   "pass": true,
+   "detail": {
+    "n_clean": 2382,
+    "flat_nonzero": 0,
+    "hier_nonzero": 0,
+    "pivot": true,
+    "cp95_upper_recomputed": 0.001547
+   }
+  },
+  {
+   "check": "a4_matched_fpr_identity",
+   "pass": true,
+   "detail": {
+    "denominator": 111,
+    "tpr_flat": 0.810811,
+    "point": 0.0,
+    "nonzero_replicates": 0,
+    "n_replicates": null,
+    "ci": null
+   }
+  },
+  {
+   "check": "a4_affine_identity_recorded",
+   "pass": true,
+   "detail": {
+    "rho_found": null,
+    "note": "affine 3/8 claim in report; artifact field location recorded"
+   }
+  },
+  {
+   "check": "a3_rescue_11_of_11",
+   "pass": true,
+   "detail": {
+    "union_n": 11,
+    "theta": 5,
+    "table": 8,
+    "overlap": 2,
+    "unrescued": 0,
+    "provenance": "post-D1 hypothesis, prospectively prereg",
+    "embedding_flip_not_detection": true
+   }
+  },
+  {
+   "check": "judge_needs_28",
+   "pass": true,
+   "detail": {
+    "estimated_calls": 28
+   }
+  },
+  {
+   "check": "prereg_predicates_present",
+   "pass": true,
+   "detail": {
+    "n_predicates": 5
+   }
+  },
+  {
+   "check": "inputs_sha_and_redline",
+   "pass": true,
+   "detail": {
+    "n_inputs": 9,
+    "redline_keys": [
+     "frozen_paths_untouched",
+     "no_new_adjudicating_criterion",
+     "client_identifier_scan",
+     "git_discipline",
+     "tat_dqa_untouched",
+     "outbound_sent"
+    ]
+   }
+  }
+ ]
+}
