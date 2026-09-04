@@ -66,3 +66,19 @@ skills:
 ## 5. 红线
 
 零端点; D1/T2 工件只读; 不溯及（不改写 D1 报告, 只出更正记录）; 甲方标识零进入; 禁 -A / amend。
+
+
+---
+
+## 加编（09-04, 收口重派节 = 改期 #1, 判据零改动）
+
+首跑事实（09-02 00:2x）: 执行全部完成——工件 `logs/graph/eval/dr4_d1_reclassification_review.json` 已产出（441KB, gates 全 PASS, payload_sha256 47adbe66… 独立复算匹配）, 但会话在写报告正文前令牌耗尽（tokens used 1,281,246）, 报告/收据/提交未落。改期纪律内（≤2）。
+
+**收口重派范围（严格限定, 禁止超范围）**:
+1. 只读既有工件 + 复跑脚本验证字节级确定性（双跑 sha256 全等; 脚本已去墙钟时间戳）;
+2. 依据工件数字写报告 `2026-09-04_dr4_d1_reclassification_review_report.md`（数字只从工件取, 不得新增分析）;
+3. SUMMARY-GUARD 收据（summary_recompute_guard.py gen 生成, 绝不手写）;
+4. INDEX/STATE/THREADS 记账（含 diff 结果 + D3 分母敏感性注记）;
+5. commit（工件 -f + 脚本 + 报告 + 台账, 逐路径）+ push。
+
+**禁令**: 禁止重跑分析 / 禁止改工件 / 禁止开端点 / 禁止改判据。上下文纪律: 大工件按需读键段（oracle_counts / diff / correction_record / d3_sensitivity_note / tier_sensitivity）, 不全量复读 oracle_items（首跑令牌耗尽的直接诱因）。
