@@ -138,3 +138,10 @@ skills:
 **阶段 B 不新增判据**: 只执行阶段 A 冻结的需求清单; J-N1/J-N2 问题模板与输出 schema 由 Loop A 在上述约束内定义, 随工件 + 报告 + 调用计数器入账。
 
 **序列**: 阶段 B judge 窗 → 停一次 autopsy → D4 拟卡（含第二叶）→ T7。
+
+### 加编 2 澄清（09-04 夜, 零端点三工件交叉核对; 加编 2 原文冻结不动, 同 commit 登记）
+
+**J-N2 × DR4 对照表口径**: 交叉核对 `d3_matched_fpr_stage_a.json` / `dr4_d1_reclassification_review.json` / `checkpoint_discrimination_tables_v2.json` 三工件:
+1. J-N2 的 7 例等价注入 = 现行 E 集, 与 DR4 diff 的 7 例 E→H **逐一对应**（uid8: 50e78448 / 54c494f7 / 5e60c056 / 73a817fc / b5aae4e9 / e67f7bf2 / e9730ea3）, judge 覆盖 7/7。
+2. DR4 唯一 H→E 例（3789d7da#1, Revenues→sales, alias_variant）在冻结生产打分基下 **visible=true / absorbed=false / match_tier=0**（确定性检出, 非零信号）⇒ 不在 J-N1（限 21 例零信号）亦不在 J-N2, **冻结 28 调用清单中无其 judge 调用**。处置: 对照表该例以确定性证据（visible / absorbed / match_tier + 分数）× DR4 oracle 等价入账, judge 不复判, **零调用追加**; 加编 2 括注「（1 例 H→E: judge 复判等价性 × DR4 oracle 等价）」相应更正为以确定性证据列呈现。后续若需该例 judge 复判 = 新调用需求, 另行报批。
+3. 对照表终态 = **8 行**: 7 行 judge 判定 × DR4 oracle + 1 行确定性状态 × DR4 oracle。
