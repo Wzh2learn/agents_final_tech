@@ -145,3 +145,87 @@ skills:
 1. J-N2 的 7 例等价注入 = 现行 E 集, 与 DR4 diff 的 7 例 E→H **逐一对应**（uid8: 50e78448 / 54c494f7 / 5e60c056 / 73a817fc / b5aae4e9 / e67f7bf2 / e9730ea3）, judge 覆盖 7/7。
 2. DR4 唯一 H→E 例（3789d7da#1, Revenues→sales, alias_variant）在冻结生产打分基下 **visible=true / absorbed=false / match_tier=0**（确定性检出, 非零信号）⇒ 不在 J-N1（限 21 例零信号）亦不在 J-N2, **冻结 28 调用清单中无其 judge 调用**。处置: 对照表该例以确定性证据（visible / absorbed / match_tier + 分数）× DR4 oracle 等价入账, judge 不复判, **零调用追加**; 加编 2 括注「（1 例 H→E: judge 复判等价性 × DR4 oracle 等价）」相应更正为以确定性证据列呈现。后续若需该例 judge 复判 = 新调用需求, 另行报批。
 3. 对照表终态 = **8 行**: 7 行 judge 判定 × DR4 oracle + 1 行确定性状态 × DR4 oracle。
+
+---
+
+## 加编 3（09-06, 用户指令 A2 =【派发硬前置】阶段 B 测量契约冻结; 审计 F08 响应; 原文与加编 1/2 冻结不动, 同 commit 登记）
+
+性质: 方法预注册收紧——完成于任何 judge 输出产生之前; 28 调用与判据文本零改动; 加编 2 之「J-N1/J-N2 问题模板与输出 schema 由 Loop A 在上述约束内定义」句由本节**覆盖**, 此后**零现场定义空间**。**不冻结 = 不派发**。
+
+### C3-1 案例清单（逐字冻结, 运行时零推导）
+
+**J-N1（21 例, 零信号有害注入语义危害性复判）** = D1 HI 静默吸收 15 例 + D3 a3 `per_case` single_drop10=0.0 稀释 6 例（uid8#col; uid8 = `checkpoint_discrimination_tables_v2.json` 表 uuid 前 8 字符, 解析必须 1:1 唯一）:
+
+- silent 15: `1fe3e1d6#2 / 21c316d6#2 / 3c609073#1 / 3c609073#3 / 44c7c9ef#1 / 567a03c7#1 / 5fe2c49e#1 / 5fe2c49e#2 / 68b8d514#1 / 6a5e5192#0 / 6f9a0eb1#0 / c0f66238#3 / d2bba753#0 / d7d65228#3 / e11338f6#0`
+- dilution-0 6: `24ff90f9#2 / 24ff90f9#4 / 32cfcadb#2 / 32cfcadb#4 / 97176853#2 / 97176853#4`
+
+**J-N2（7 例, 等价注入 validity audit）** = 现行 E 集 = DR4 diff 7 例 E→H（完整 key 逐字; 括号内 original→injected 为断言锚, 不入 prompt）:
+
+1. `50e78448-3cf5-439c-a609-ee866bd1f05a#2`（US$ → US [1]）
+2. `54c494f7-d731-49bf-b9cd-d494aea72e34#2`（Accumulated Amortization → amort）
+3. `5e60c056-5073-441d-8525-7f834deb5c64#0`（£m → m【】）
+4. `73a817fc-25df-494d-b0f2-79cfdab34076#1`（Dividends Paid(1) → dividend）
+5. `b5aae4e9-040d-4e55-a42d-39cde217978f#0`（£m → m【】）
+6. `e67f7bf2-fc15-4a7a-9856-febb066998fd#4`（Free cash flow (pre-spectrum) → cashflow）
+7. `e9730ea3-e003-4db6-a513-9c9e6f40e371#2`（Accumulated Amortization → amort）
+
+**运行时硬断言（任一失败 → 停报, 零现场替换）**: ① J-N1 21 == （D1 `injections` class=HI ∧ invisibility_mechanism=absorption_silent 的 15 例）∪（D3 a3 `per_case` single_drop10==0.0 的 6 例）; ② J-N2 7 == D1 class=E 集 == DR4 `diff.current_e_to_oracle_h[].key`; ③ 21 ∩ 7 = ∅; ④ 28 例 original/injected 自 D1 `injections` 逐字读取, 与 `tables_v2` 同 key 字段逐一相等; ⑤ `3789d7da#1`（H→E 例）不在调用清单（加编 2 澄清节: 以确定性证据呈现, 零调用追加）。
+
+### C3-2 Judge 问题模板（全文冻结; J-N1/J-N2 同模板, 不带子组身份）
+
+**system（逐字）**:
+
+```text
+你是严格的财务报表 schema 审查员。你会看到一张表格（列名与数据行）、一个原始列名和一个修改后列名。你需要判断在该表格的语境下, 修改后列名与原始列名是否指向同一个字段。你的回复必须是且仅是一个 JSON 对象, 不得包含 markdown 围栏、项目符号或任何额外文本, 不得拒答。
+```
+
+**user（逐字模板; 占位符 = {table_md} {n_rows} {col_1based} {original} {injected}）**:
+
+```text
+表格数据（markdown, 原始表头, 共 {n_rows} 行）:
+{table_md}
+
+原始列名（第 {col_1based} 列）: {original}
+修改后列名（第 {col_1based} 列）: {injected}
+
+问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?
+判定标准（冻结）:
+- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;
+- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。
+输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:
+{"verdict": "equivalent" 或 "meaning_changed", "confidence": "high" 或 "medium" 或 "low", "rationale": "40 字以内中文"}
+示例: {"verdict": "meaning_changed", "confidence": "high", "rationale": "删除限定语, 字段范围扩大"}
+```
+
+**表渲染规则（冻结）**: `{table_md}` = 该表以 **原始表头** 渲染的 markdown 管道表, 全部数据行照录零增删; 行数 > 40 → 前 40 行 + 尾注 `...(截断, 共 {n_rows} 行)` 并在调用记录置 `table_truncated=true`。`{col_1based}` = col+1。
+
+**防泄漏白/黑名单（承加编 2, 具体化）**: prompt 允许字段 = 表格 markdown（原始表头）/ 1-based 列序号 / 原始列名 / 修改后列名 / 判定标准 / 输出格式与示例; 严禁字段 = uid·key / type / canonical·mapping_target / 预期分类（E·H·HI）/ absorbed·visible·match_tier / marginal_dH·single_drop10 / 子组身份（J-N1·J-N2）/ DR4 oracle 结果 / 注入实验设计信息。问题框架本身（原始 vs 修改后）为测量的一部分, 不构成泄漏。**prompt 由代码从冻结工件构造, 禁止手工编辑**。
+
+### C3-3 输出 schema 与解析（冻结）
+
+- 解析契约（FORMAT_HINT, agent-prompt-contracts §2）: 响应应为单一 JSON; 保守提取器 = 去围栏（如有）→ 取第一个平衡 `{...}` 块 → `json.loads`; 要求 verdict ∈ {equivalent, meaning_changed} ∧ confidence ∈ {high, medium, low} ∧ rationale 为 ≤200 字符串; verdict 缺失/出词表/解析失败 = **invalid**。
+- 映射（冻结）: meaning_changed ⇒ judge_harmful=true; equivalent ⇒ judge_harmful=false。
+- 聚合（描述性, 不设新过判）: J-N1 确认率 = #(meaning_changed)/valid(21); J-N2 = #(equivalent)/valid(7)（支持现行 E 标签）与 #(meaning_changed)/valid(7)（支持 DR4 oracle H）。invalid_final 不入分子分母, 报告逐例原样列出, **不填补、不以人工判定替代**。
+- 工件 `logs/graph/eval/d3_matched_fpr_stage_b.json` per-call 记录字段（冻结）: call_id / subgroup / injection_key / uid8 / col / attempt / prompt_sha256 / prompt_text（逐字）/ table_truncated / raw_response（逐字）/ parsed（或 null）/ status ∈ {ok, invalid_retry, invalid_final} / model / temperature / max_tokens / latency_ms / ts; 汇总块 = call_counter_total / canary / verdict_cross_tab / dr4_comparison_8rows / gates / redline_self_check / payload_sha256。
+- **8 行对照表（冻结格式, 承加编 2 澄清）**: 行 = DR4 diff 8 例（7 E→H + 1 H→E `3789d7da#1`）; 列 = key / direction / current_label / dr4_oracle / judge_verdict（7 例）或 deterministic_evidence（`3789d7da#1`: visible=true, absorbed=false, match_tier=0, 源 tables_v2）/ agreement。
+- **方向性分歧触发（上报纪律, 非判据）**: ① J-N2 有效判定中 ≥4/7 为 equivalent（与 DR4 oracle 方向相反）→ 即时上报; ② J-N1 有效判定中 ≥11/21 为 equivalent（零信号集多数实为无害 ⇒ 动摇有害集选取与 D4 oracle）→ 即时上报。均不等 autopsy 排期。
+
+### C3-4 :8004 模型设置（冻结; 承 `scripts/m2_eval_judge.py` 既有约定）
+
+- 端点: `http://127.0.0.1:8004/v1/chat/completions`（OpenAI 兼容）; 健康检查 = GET `http://127.0.0.1:8004/v1/health`（非推理, 不计数）。
+- 模型: `Qwen3.6-35B-A3B-Q4_K_M.gguf`; 运行时断言与 `/v1/models` 实况一致, 不一致 → 停报（**零现场换模型**）。
+- 参数: `temperature=0` / `max_tokens=512` / `chat_template_kwargs: {"enable_thinking": false}` / 单调用 timeout=90s。
+- canary: **1 次推理探针（计数）**, 冻结 prompt = user 消息 `连通性检查: 请输出 JSON {"ok": true}, 不要输出其他内容。`; 未解析出 ok 或超时 → 即停 + 记账（未开则不开窗, 已开则中止窗口）。
+- 口径注记（承 W2）: 本窗 judge = :8004（A3B, temp=0）, 与历史四维 judge 基线（4.94-5.0, 含 :8006 xhigh 档）不同口径——本窗仅用于 J-N1/J-N2 效度判定, **不与历史 judge 分数作跨比较**; `:8006` 本窗零调用（五条件条款未被本窗启用）。
+
+### C3-5 调用计数规则（冻结）
+
+- 计数器 = 窗口期间对 `:8004` 的全部**推理 HTTP 请求**累计 = canary 探针（1）+ 正式 judge 调用（28）+ invalid 重试（≤28）; 失败/超时请求同样计数; 健康 GET 与 `/v1/models` 不计数。
+- 硬门: 计数器 > 200 → 立即中止 + 记账。预期上界 = 1 + 28 + 28 = **57**。
+- invalid/拒答处理: invalid（含拒答形态）→ 同模板**字节相同 payload** 重试 1 次（计数）; 第二次 invalid → status=invalid_final, 停止该例重试。零规则外追加重试、零人工改题。
+- 实时计数: 每调用向 JSONL 追加一行（含 counter 累计值, append-only）, 收口汇总为工件 JSON; 计数器随工件自证。
+
+### C3-6 判据零改动声明 + 抽验接口
+
+- 本节仅冻结测量方法（清单/模板/渲染/schema/设置/计数）; 判据文本（E-1..E-4, S-1..S-8, 加编 1/2）零改动; J-N3 维持 0 调用; 收集与判定分离——Loop A 只收集 + 确定性聚合, 结论判定归 Loop D/autopsy。
+- 抽验接口（Loop D 收口后执行, 用户 09-06 指令新增项）: ① 契约遵循 = 本节 prompt 全文 vs 工件 `prompt_text` **逐例比对（不抽样）**; ② 调用计数器 ≤200 工件自证 + JSONL 逐行核对; ③ `:8006` 零触碰自证（工件断言 + ports 自证）; ④ 抽验报告逐项标注证据级别（字段存在 / 存值一致 / 独立重算）。
