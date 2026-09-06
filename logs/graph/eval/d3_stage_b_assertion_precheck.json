@@ -1,0 +1,110 @@
+{
+ "script": "research/paper_d3_stage_b_assertion_precheck.py",
+ "ts": "2026-09-06T11:04:48.236706+08:00",
+ "purpose": "D3 阶段 B 派发前断言预演（加编 3 C3-1 硬断言 A1-A5 + 卡文绑定 A6 + 审计拷入复算 A7）; 侧线独立复算为旁证（用户 09-06 批复）",
+ "inputs_sha256": {
+  "logs/graph/eval/d1_mutant_validity_audit.json": "7e2ee0eb072ab0626af1e41d4586a73e3d8ffa7642ec31171428e6f43bfde767",
+  "logs/graph/eval/checkpoint_discrimination_tables_v2.json": "a10d1b81808d66f610160ba6100ffe51dd6eabcccc1602ff9f8bd69f4c6ee7e8",
+  "logs/graph/eval/d3_matched_fpr_stage_a.json": "7d4f8a772bc30d29e94c7ee49289b3f0d14fba855c4298a4bf608a425d4245ed",
+  "logs/graph/eval/dr4_d1_reclassification_review.json": "dce8f7dc0d3de78630d8190e3eec593351399ae463772c085c262f29e498648a",
+  "docs/experiments/2026-09-01_d3_matched_specificity_card.md": "22eaa5117b8472472b24eb038e18d8af855de36c49f7dd46dd295fefe9ade411"
+ },
+ "checks": [
+  {
+   "id": "A1",
+   "desc": "J-N1 21 == D1 silent 15 ∪ D3 a3 dilution-0 6（缺键即 KeyError）",
+   "evidence_level": "recompute",
+   "pass": true,
+   "detail": {
+    "silent15_match": true,
+    "dil06_match": true,
+    "union_n": 21,
+    "disjoint": true,
+    "silent_type_split": {
+     "ocr_similar": 13,
+     "date_variant": 2
+    }
+   }
+  },
+  {
+   "id": "A2",
+   "desc": "J-N2 7 == D1 class=E 集 == DR4 diff.current_e_to_oracle_h keys（全 key 逐字）",
+   "evidence_level": "recompute",
+   "pass": true,
+   "detail": {
+    "e7_match": true,
+    "dr4_keys_match": true,
+    "n_dr4": 7
+   }
+  },
+  {
+   "id": "A3",
+   "desc": "J-N1 ∩ J-N2 = 空集",
+   "evidence_level": "recompute",
+   "pass": true,
+   "detail": {
+    "intersection": []
+   }
+  },
+  {
+   "id": "A4",
+   "desc": "28 例 original/injected: D1 injections vs tables_v2 同 key 字段逐例相等",
+   "evidence_level": "match",
+   "pass": true,
+   "detail": {
+    "n_compared": 28,
+    "mismatches": []
+   }
+  },
+  {
+   "id": "A5",
+   "desc": "H→E 例 3789d7da#1 不在 28 调用清单 + tables_v2 visible/absorbed/match_tier=(true,false,0) + DR4 唯一 H->E oracle=E",
+   "evidence_level": "recompute",
+   "pass": true,
+   "detail": {
+    "in_call_list": false,
+    "t2": {
+     "visible": true,
+     "absorbed": false,
+     "match_tier": 0
+    },
+    "dr4_h2e_n": 1
+   }
+  },
+  {
+   "id": "A6",
+   "desc": "卡加编 3 C3-1 含全部 28 key 逐字（21 短 key + 7 全 key）",
+   "evidence_level": "exists",
+   "pass": true,
+   "detail": {
+    "missing": [],
+    "section_found": true
+   }
+  },
+  {
+   "id": "A7",
+   "desc": "审计四件拷入: 字节和 == 53785 且与外部源 4/4 sha256 相等",
+   "evidence_level": "recompute",
+   "pass": true,
+   "detail": {
+    "sizes": {
+     "RESUME.md": 5408,
+     "AUDIT_REPORT.md": 18662,
+     "EVIDENCE.md": 19336,
+     "CRITIQUE.md": 10379
+    },
+    "sum": 53785,
+    "sha_match": {
+     "RESUME.md": true,
+     "AUDIT_REPORT.md": true,
+     "EVIDENCE.md": true,
+     "CRITIQUE.md": true
+    }
+   }
+  }
+ ],
+ "n_checks": 7,
+ "all_pass": true,
+ "zero_endpoint": true,
+ "payload_sha256": "46320845e3997db993f38422549250821f3c47fdac3d00e084bf8b8327ca32d2"
+}
