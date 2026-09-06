@@ -1,0 +1,2669 @@
+{
+ "meta": {
+  "name": "d3-matched-fpr-stage-b",
+  "version": "v1",
+  "card_id": "TASK-20260901-D3",
+  "task_card": "docs/experiments/2026-09-01_d3_matched_specificity_card.md",
+  "contract": "加编 3 C3-1..C3-6 = 测量契约（零现场定义空间）",
+  "report": "docs/experiments/2026-09-06_d3_matched_fpr_stage_b.md",
+  "script": "research/paper_d3_stage_b_judge.py",
+  "phase": "B_endpoint_window_8004",
+  "generated": "2026-09-06 14:44:05",
+  "inference_endpoint": "http://127.0.0.1:8004/v1/chat/completions",
+  "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+  "call_counter_total": 31,
+  "reproduce": [
+   "venv/bin/python research/paper_d3_stage_b_judge.py --stage window"
+  ],
+  "cross_caliber_note": "本窗 judge = :8004（A3B, temp=0）与历史四维 judge 基线（4.94-5.0, 含 :8006 xhigh 档）不同口径; 仅用于 J-N1/J-N2 效度判定, 不与历史 judge 分数作跨比较（C3-4）"
+ },
+ "gates": {
+  "GG1_C3_1_runtime_hard_assertions": true,
+  "GG2_C3_4_model_service_assertion": true,
+  "GG3_canary_ok_and_counted": true,
+  "GG4_budget_hard_gate_le_200": true,
+  "GG5_28_cases_all_final": true,
+  "GG6_only_8004_touched": true,
+  "GG7_8006_zero_touch": true,
+  "GG8_leak_guard_and_prompt_contract": true,
+  "GG9_frozen_inputs_readonly": true,
+  "GG10_counter_identity_vs_ledger": true,
+  "GG11_card_sha_pinned": true,
+  "GG12_client_identifier_zero": true,
+  "GG13_jn3_zero_calls": true,
+  "all_pass": true
+ },
+ "payload": {
+  "inputs_sha256_before": {
+   "docs/experiments/2026-09-01_d3_matched_specificity_card.md": "22eaa5117b8472472b24eb038e18d8af855de36c49f7dd46dd295fefe9ade411",
+   "logs/graph/eval/d1_mutant_validity_audit.json": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+   "logs/graph/eval/checkpoint_discrimination_tables_v2.json": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+   "logs/graph/eval/d3_matched_fpr_stage_a.json": "3318ac178a0c3317ce18d69663b942e289c2668f4b604082606a549172f2ab10",
+   "logs/graph/eval/dr4_d1_reclassification_review.json": "7806b77b5ad46add9f0461f12c82c54b7f0328f5e3cf66ac6b8aaceefc52d6ca",
+   "data/research/drift_v0/input/tatqa_tables.json": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+  },
+  "inputs_sha256_after": {
+   "docs/experiments/2026-09-01_d3_matched_specificity_card.md": "22eaa5117b8472472b24eb038e18d8af855de36c49f7dd46dd295fefe9ade411",
+   "logs/graph/eval/d1_mutant_validity_audit.json": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+   "logs/graph/eval/checkpoint_discrimination_tables_v2.json": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+   "logs/graph/eval/d3_matched_fpr_stage_a.json": "3318ac178a0c3317ce18d69663b942e289c2668f4b604082606a549172f2ab10",
+   "logs/graph/eval/dr4_d1_reclassification_review.json": "7806b77b5ad46add9f0461f12c82c54b7f0328f5e3cf66ac6b8aaceefc52d6ca",
+   "data/research/drift_v0/input/tatqa_tables.json": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+  },
+  "criterion_provenance": {
+   "task_card": "docs/experiments/2026-09-01_d3_matched_specificity_card.md",
+   "contract": "加编 3（C3-1 案例清单 / C3-2 模板与渲染 / C3-3 schema 与聚合 / C3-4 模型设置 / C3-5 计数）",
+   "stage_A_artifact": "logs/graph/eval/d3_matched_fpr_stage_a.json",
+   "dr4_artifact": "logs/graph/eval/dr4_d1_reclassification_review.json",
+   "zero_new_criterion": true,
+   "collection_vs_judgment": "本窗只收集 + 确定性聚合; 结论判定归 Loop D / autopsy（C3-6）"
+  },
+  "measurement_contract": {
+   "system_prompt_sha256": "c9a5d386cc7c1f45346a243773dee59889b8fba8dde342740a0fc4d01009561d",
+   "system_prompt_text": "你是严格的财务报表 schema 审查员。你会看到一张表格（列名与数据行）、一个原始列名和一个修改后列名。你需要判断在该表格的语境下, 修改后列名与原始列名是否指向同一个字段。你的回复必须是且仅是一个 JSON 对象, 不得包含 markdown 围栏、项目符号或任何额外文本, 不得拒答。",
+   "user_template_sha256": "08bf6bfc6c2303ca435a270948f0ac140d41fa094baecba9039a139b885fab42",
+   "user_template_text": "表格数据（markdown, 原始表头, 共 {n_rows} 行）:\n{table_md}\n\n原始列名（第 {col_1based} 列）: {original}\n修改后列名（第 {col_1based} 列）: {injected}\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+   "canary_prompt_sha256": "355ffc69a020b1a0a44aef9b82dce1acea369d58fd64debc8b20478e8148ba60",
+   "jn1_21_keys": [
+    "1fe3e1d6#2",
+    "21c316d6#2",
+    "3c609073#1",
+    "3c609073#3",
+    "44c7c9ef#1",
+    "567a03c7#1",
+    "5fe2c49e#1",
+    "5fe2c49e#2",
+    "68b8d514#1",
+    "6a5e5192#0",
+    "6f9a0eb1#0",
+    "c0f66238#3",
+    "d2bba753#0",
+    "d7d65228#3",
+    "e11338f6#0",
+    "24ff90f9#2",
+    "24ff90f9#4",
+    "32cfcadb#2",
+    "32cfcadb#4",
+    "97176853#2",
+    "97176853#4"
+   ],
+   "jn2_7_keys": [
+    "50e78448-3cf5-439c-a609-ee866bd1f05a#2",
+    "54c494f7-d731-49bf-b9cd-d494aea72e34#2",
+    "5e60c056-5073-441d-8525-7f834deb5c64#0",
+    "73a817fc-25df-494d-b0f2-79cfdab34076#1",
+    "b5aae4e9-040d-4e55-a42d-39cde217978f#0",
+    "e67f7bf2-fc15-4a7a-9856-febb066998fd#4",
+    "e9730ea3-e003-4db6-a513-9c9e6f40e371#2"
+   ],
+   "jn3_calls": 0,
+   "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+   "temperature": 0,
+   "max_tokens": 512,
+   "enable_thinking": false,
+   "timeout_s": 90,
+   "row_cap": 40,
+   "budget_ceiling": 200,
+   "expected_upper_bound_calls": 57
+  },
+  "runtime_assertions": [
+   {
+    "id": "A1",
+    "desc": "J-N1 21 == (D1 class=HI ∧ absorption_silent 15) ∪ (D3 a3 single_drop10==0.0 6); 并集 21 且不相交",
+    "evidence_level": "recompute",
+    "pass": true,
+    "detail": {
+     "silent15_match": true,
+     "dilution6_match": true,
+     "n_silent": 15,
+     "n_dilution0": 6,
+     "union_n": 21,
+     "disjoint": true
+    }
+   },
+   {
+    "id": "A2",
+    "desc": "J-N2 7 == D1 class=E 集 == DR4 diff.current_e_to_oracle_h[].key（全 key 逐字）",
+    "evidence_level": "recompute",
+    "pass": true,
+    "detail": {
+     "e7_match": true,
+     "dr4_keys_match": true,
+     "n_dr4_e2h": 7
+    }
+   },
+   {
+    "id": "A3",
+    "desc": "J-N1(21) ∩ J-N2(7) = ∅",
+    "evidence_level": "recompute",
+    "pass": true,
+    "detail": {
+     "intersection": []
+    }
+   },
+   {
+    "id": "A4",
+    "desc": "28 例 original/injected 自 D1 injections 逐字读取且与 tables_v2 同 key 字段相等; J-N2 7 例卡内括号锚点相符",
+    "evidence_level": "match",
+    "pass": true,
+    "detail": {
+     "n_compared": 28,
+     "mismatches_vs_tables_v2": [],
+     "card_anchor_mismatches": []
+    }
+   },
+   {
+    "id": "A5",
+    "desc": "3789d7da#1（DR4 唯一 H→E 例）不在 28 调用清单 + tables_v2 确定性证据 visible/absorbed/match_tier = (true,false,0) + DR4 oracle=E",
+    "evidence_level": "recompute",
+    "pass": true,
+    "detail": {
+     "in_call_list": false,
+     "deterministic_evidence": {
+      "visible": true,
+      "absorbed": false,
+      "match_tier": 0
+     },
+     "dr4_h2e_n": 1,
+     "dr4_h2e_oracle": "E"
+    }
+   },
+   {
+    "id": "A6",
+    "desc": "uid8 → full uid 解析在 tables_v2 95 表内 1:1 唯一且 28 例全可解析",
+    "evidence_level": "recompute",
+    "pass": true,
+    "detail": {
+     "collisions": {},
+     "unresolved": [],
+     "n_tables_v2": 95
+    }
+   }
+  ],
+  "model_service_assertion": {
+   "expected": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+   "served_ids": [
+    "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+   ],
+   "holds": true,
+   "health": {
+    "status": "ok"
+   },
+   "counted_as_inference": false,
+   "rule": "零现场换模型: 不一致 → 停报"
+  },
+  "canary": {
+   "counted": true,
+   "counter_at": 31,
+   "prompt_text": "连通性检查: 请输出 JSON {\"ok\": true}, 不要输出其他内容。",
+   "prompt_sha256": "355ffc69a020b1a0a44aef9b82dce1acea369d58fd64debc8b20478e8148ba60",
+   "raw_response": "{\"ok\": true}",
+   "error": "",
+   "parsed": {
+    "ok": true
+   },
+   "ok": true,
+   "latency_ms": 199,
+   "usage": {
+    "completion_tokens": 6,
+    "prompt_tokens": 31,
+    "total_tokens": 37,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    }
+   },
+   "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+   "temperature": 0,
+   "max_tokens": 64,
+   "ts": "2026-09-06T14:44:05.688993+08:00"
+  },
+  "leak_guard": {
+   "n_prompts_scanned": 28,
+   "hits": [],
+   "holds": true,
+   "observations_info_only_not_in_pass_denominator": [],
+   "scan_region_rule": "扫描 = prompt 去掉表格 markdown 后的骨架（模板固定文本 + 列序号 + 原始列名 + 修改后列名）; 表格 markdown 属 C3-2 白名单字段不扫",
+   "token_vocabulary": {
+    "en": [
+     "J-N1",
+     "J-N2",
+     "DR4",
+     "oracle",
+     "HARMFUL",
+     "absorbed",
+     "visible",
+     "match_tier",
+     "marginal_dH",
+     "single_drop10",
+     "mapping_target",
+     "canonical",
+     "injection",
+     "invisibility",
+     "alias_variant",
+     "ocr_similar",
+     "prefix_noise",
+     "date_variant",
+     "mixed_lang",
+     "unit_symbol",
+     "class=",
+     "uid8",
+     "full_uid",
+     "detection",
+     "threshold"
+    ],
+    "cn": [
+     "静默吸收",
+     "阈值稀释",
+     "等价注入",
+     "有害注入",
+     "预期分类",
+     "注入",
+     "同义词",
+     "归一化"
+    ]
+   }
+  },
+  "prompt_contract_selfcheck": {
+   "n_prompts": 28,
+   "template_placeholder_vocabulary": [
+    "col_1based",
+    "injected",
+    "n_rows",
+    "original",
+    "table_md"
+   ],
+   "expected_vocabulary": [
+    "col_1based",
+    "injected",
+    "n_rows",
+    "original",
+    "table_md"
+   ],
+   "vocabulary_exact": true,
+   "unique_prompt_sha256": 28,
+   "binding_violations": [],
+   "holds": true,
+   "note": "逐例 prompt_text = 卡内 user 模板字面段 ∘ 五白名单值, 游标推进须恰好用尽全文=> 零手工编辑 / 零附加字段 / 零缺字段"
+  },
+  "calls": [
+   {
+    "call_id": "B01",
+    "subgroup": "J-N1",
+    "injection_key": "1fe3e1d6#2",
+    "uid8": "1fe3e1d6",
+    "col": 2,
+    "attempt": 1,
+    "prompt_sha256": "bf814b41ca111ba9299d8178cbca239318c5cf42eb5d63b100b46383da5ebae3",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 6 行）:\n| Particulars | Number of shareholders | Number of equity shares |\n| --- | --- | --- |\n| Aggregate number of shareholders and the outstanding shares in the suspense account lying as on April 1, 2018 | 26 | 820 |\n| Shareholders who approached the Company for transfer of shares from suspense account during the year | - | - |\n| Shareholders to whom shares were transferred from the suspense account during the year | - | - |\n| Shareholders whose shares are transferred to the demat account of the IEPF Authority as per Section 124 of the Act | - | - |\n| Aggregate number of shareholders and the outstanding shares in the suspense account lying as on March 31, 2019 | 26 | 1,640* |\n\n原始列名（第 3 列）: Number of equity shares\n修改后列名（第 3 列）: Number of equty shares\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"拼写错误, 语义不变\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "拼写错误, 语义不变"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 893,
+    "ts": "2026-09-06T14:39:00.689769+08:00"
+   },
+   {
+    "call_id": "B02",
+    "subgroup": "J-N1",
+    "injection_key": "21c316d6#2",
+    "uid8": "21c316d6",
+    "col": 2,
+    "attempt": 1,
+    "prompt_sha256": "87e4bbef5e3be12d19bb7f863dc7b19d7ad2e4167204f86f2b45abace969c6ae",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 10 行）:\n| Date Declared | Record Date | Dividend per Share | Total Amount | Payment Date |\n| --- | --- | --- | --- | --- |\n|  |  |  | (in millions) |  |\n| November 21, 2019 | 12/2/2019 | $0.250 | $273 | 12/13/2019 |\n| August 22, 2019 | 9/2/2019 | 0.250 | 273 | 9/13/2019 |\n| May 23, 2019 | 6/3/2019 | 0.250 | 274 | 6/14/2019 |\n| March 1, 2019 | 3/12/2019 | 0.250 | 273 | 3/22/2019 |\n| November 14, 2018 | 11/26/2018 | 0.540 | 586 | 12/7/2018 |\n| August 21, 2018 | 8/31/2018 | 0.540 | 584 | 9/14/2018 |\n| May 23, 2018 | 6/4/2018 | 0.540 | 588 | 6/15/2018 |\n| February 21, 2018 | 3/5/2018 | 0.540 | 586 | 3/16/2018 |\n\n原始列名（第 3 列）: Dividend per Share\n修改后列名（第 3 列）: divdend per Share\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"拼写错误但不影响语义指向\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "拼写错误但不影响语义指向"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1053,
+    "ts": "2026-09-06T14:39:01.743322+08:00"
+   },
+   {
+    "call_id": "B03",
+    "subgroup": "J-N1",
+    "injection_key": "3c609073#1",
+    "uid8": "3c609073",
+    "col": 1,
+    "attempt": 1,
+    "prompt_sha256": "c91d28cfc333357cbb3ed9ed18ab6c5dde1721c3bfab097121cb8a761b09249a",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 13 行）:\n| USDm | Vessels and capitalized dry-docking | Land and buildings | Other plant and operating equipment |\n| --- | --- | --- | --- |\n| Cost: |  |  |  |\n| Balance as of 1 January | 43.3 | - | - |\n| Adjustment on transition to IFRS 16 | - | 9.9 | 0.3 |\n| Additions | 1.8 | 0.5 | 0.4 |\n| Disposals | -2.7 | - | -0.1 |\n| Balance as of 31 December | 42.4 | 10.4 | 0.6 |\n| Depreciation: |  |  |  |\n| Balance as of 1 January | 13.4 | - | - |\n| Disposals | -2.7 | - | - |\n| Depreciation for the year | 4.8 | 2.3 | 0.2 |\n| Balance as of 31 December | 15.5 | 2.3 | 0.2 |\n| Carrying amount as of 31 December | 26.9 | 8.1 | 0.4 |\n\n原始列名（第 2 列）: Vessels and capitalized dry-docking\n修改后列名（第 2 列）: Vessels and capitaiized dry-docking\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"equivalent\",\n\"confidence\": \"high\",\n\"rationale\": \"仅存在拼写错误, 语义指向相同\"\n}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在拼写错误, 语义指向相同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1115,
+    "ts": "2026-09-06T14:39:02.858598+08:00"
+   },
+   {
+    "call_id": "B04",
+    "subgroup": "J-N1",
+    "injection_key": "3c609073#3",
+    "uid8": "3c609073",
+    "col": 3,
+    "attempt": 1,
+    "prompt_sha256": "5b7b2239858c5badda27625e43eb9073bfbfd22ae038916cd9e3943e1fad4022",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 13 行）:\n| USDm | Vessels and capitalized dry-docking | Land and buildings | Other plant and operating equipment |\n| --- | --- | --- | --- |\n| Cost: |  |  |  |\n| Balance as of 1 January | 43.3 | - | - |\n| Adjustment on transition to IFRS 16 | - | 9.9 | 0.3 |\n| Additions | 1.8 | 0.5 | 0.4 |\n| Disposals | -2.7 | - | -0.1 |\n| Balance as of 31 December | 42.4 | 10.4 | 0.6 |\n| Depreciation: |  |  |  |\n| Balance as of 1 January | 13.4 | - | - |\n| Disposals | -2.7 | - | - |\n| Depreciation for the year | 4.8 | 2.3 | 0.2 |\n| Balance as of 31 December | 15.5 | 2.3 | 0.2 |\n| Carrying amount as of 31 December | 26.9 | 8.1 | 0.4 |\n\n原始列名（第 4 列）: Other plant and operating equipment\n修改后列名（第 4 列）: Other plant and operat1ng equipment\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在拼写错误, 语义指向相同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 796,
+    "ts": "2026-09-06T14:39:03.655068+08:00"
+   },
+   {
+    "call_id": "B05",
+    "subgroup": "J-N1",
+    "injection_key": "44c7c9ef#1",
+    "uid8": "44c7c9ef",
+    "col": 1,
+    "attempt": 1,
+    "prompt_sha256": "60e9b2b90b9ea75ece82e8ed2b409fc25ca16dd1a471aef8c3212bf311f98730",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 10 行）:\n|  | Operating Leases | Finance Leases |\n| --- | --- | --- |\n| 2021 | $138 | $6 |\n| 2022 | 135 | 6 |\n| 2023 | 120 | 7 |\n| 2024 | 94 | 7 |\n| 2025 | 70 | 7 |\n| Thereafter | 577 | 35 |\n| Total future minimum lease payments | 1,134 | 68 |\n| Less: Imputed interest | (279) | (9) |\n| Total lease liabilities(1) | $855 | $59 |\n\n原始列名（第 2 列）: Operating Leases\n修改后列名（第 2 列）: operat1ng Leases\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在拼写错误, 语义指向相同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 898,
+    "ts": "2026-09-06T14:39:04.553331+08:00"
+   },
+   {
+    "call_id": "B06",
+    "subgroup": "J-N1",
+    "injection_key": "567a03c7#1",
+    "uid8": "567a03c7",
+    "col": 1,
+    "attempt": 1,
+    "prompt_sha256": "4d238e06ada2948d0499bbe63b28427c374b8873e5b85a5c0bc3cdda510722d6",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 8 行）:\n| Grant Date | Exercise Date | Expiry Date | Exercise Price $ | No. of Options at Beg. of Year | Options Exercised or Lapsed | No. of Options at End of Year |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2 Jul 2012 | 2 Jul 2015 | 2 Jul 2017 | 0.92 | 40,000 | (40,000) | - |\n| 2 Jul 2013 | 2 Jul 2016 | 30 Sept 2018 1 | 0.92 | 295,000 | (220,000) | 75,000 |\n| 2 Jul 2014 | 2 Jul 2017 | 2 Jul 2019 | 1.30 | 875,000 | (405,000) | 470,000 |\n| 2 Jul 2015 | 2 Jul 2018 | 2 Jul 2020 | 2.67 | 1,000,000 | - | 1,000,000 |\n| 22 Dec 2016 | 31 Aug 2019 | 22 Dec 2021 | 3.59 | 1,323,730 | - | 1,323,730 |\n| Total |  |  |  | 3,533,730 | (665,000) | 2,868,730 |\n| Weighted average exercise price |  |  |  |  | $1.15 | $2.82 |\n\n原始列名（第 2 列）: Exercise Date\n修改后列名（第 2 列）: Exercise date 2021-期末日期\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"修改后列名包含'期末日期', 与原始'行权日期'语义不同\"\n}",
+    "parsed": {
+     "verdict": "meaning_changed",
+     "confidence": "high",
+     "rationale": "修改后列名包含'期末日期', 与原始'行权日期'语义不同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1301,
+    "ts": "2026-09-06T14:39:05.855437+08:00"
+   },
+   {
+    "call_id": "B07",
+    "subgroup": "J-N1",
+    "injection_key": "5fe2c49e#1",
+    "uid8": "5fe2c49e",
+    "col": 1,
+    "attempt": 1,
+    "prompt_sha256": "bd12b98daed2065ba67212b1ffb505850324ffcb9532a03a588fb37885fb9d44",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 8 行）:\n| Fiscal Year | Operating Leases | Capital Leases | Purchase Commitments |\n| --- | --- | --- | --- |\n| 2020 | $22,207 | $241 | $328,435 |\n| 2021 | 13,382 | 1,220 | 24,005 |\n| 2022 | 10,331 | 1,220 | 5,654 |\n| 2023 | 8,224 | 1,220 | 3,596 |\n| 2024 | 7,139 | 1,220 | — |\n| Thereafter | 31,598 | 47,258 | — |\n| Total minimum payments | $92,881 | $52,379 | $361,690 |\n\n原始列名（第 2 列）: Operating Leases\n修改后列名（第 2 列）: operat1ng Leases\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"equivalent\",\n\"confidence\": \"high\",\n\"rationale\": \"仅存在大小写拼写差异, 语义指向相同\"\n}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在大小写拼写差异, 语义指向相同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1102,
+    "ts": "2026-09-06T14:39:06.958296+08:00"
+   },
+   {
+    "call_id": "B08",
+    "subgroup": "J-N1",
+    "injection_key": "5fe2c49e#2",
+    "uid8": "5fe2c49e",
+    "col": 2,
+    "attempt": 1,
+    "prompt_sha256": "49b3efa001e4b9e70f6d207891cf39b49860e8f9c64b8c8fcb6ba766d0117f6a",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 8 行）:\n| Fiscal Year | Operating Leases | Capital Leases | Purchase Commitments |\n| --- | --- | --- | --- |\n| 2020 | $22,207 | $241 | $328,435 |\n| 2021 | 13,382 | 1,220 | 24,005 |\n| 2022 | 10,331 | 1,220 | 5,654 |\n| 2023 | 8,224 | 1,220 | 3,596 |\n| 2024 | 7,139 | 1,220 | — |\n| Thereafter | 31,598 | 47,258 | — |\n| Total minimum payments | $92,881 | $52,379 | $361,690 |\n\n原始列名（第 3 列）: Capital Leases\n修改后列名（第 3 列）: capitai Leases\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在拼写错误, 语义指向相同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 868,
+    "ts": "2026-09-06T14:39:07.827227+08:00"
+   },
+   {
+    "call_id": "B09",
+    "subgroup": "J-N1",
+    "injection_key": "68b8d514#1",
+    "uid8": "68b8d514",
+    "col": 1,
+    "attempt": 1,
+    "prompt_sha256": "564290d17e1928a48887eac246e594959523294be85c3adce60d06a26477b97c",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 8 行）:\n| Name | Grant Date | Number of Securities Underlying Restricted Stock Awards and Restricted Stock Units (#) | Number of Securities Underlying Options (#) | Exercise or Base Price of Option Awards ($/Sh) | Grant Date Fair Value of Stock and Option Awards ($) (1) |\n| --- | --- | --- | --- | --- | --- |\n| Mr. Dorsey | — | — | — | — | — |\n| Ms. Friar | 4/25/2018 | 38,159 | 109,026 | 44.75 | 3,479,299 |\n| Ms.Henry | 4/25/2018 | 38,159 | 109,026 | 44.75 | 3,479,299 |\n| Ms. Reses | 4/25/2018 | 38,159 | 109,026 | 44.75 | 3,479,299 |\n| Ms. Whiteley | 4/25/2018 | 16,695 | 47,699 | 44.75 | 1,522,215 |\n| Mr. Daswani | 4/25/2018 | 4,198 | — | — | 187,861 |\n| Mr. Murphy | 4/25/2018 | 4,962 | — | — | 222,050 |\n\n原始列名（第 2 列）: Grant Date\n修改后列名（第 2 列）: Grant date 2019-报表明细日期\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅增加年份标注, 核心语义仍为授予日期\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅增加年份标注, 核心语义仍为授予日期"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1141,
+    "ts": "2026-09-06T14:39:08.968997+08:00"
+   },
+   {
+    "call_id": "B10",
+    "subgroup": "J-N1",
+    "injection_key": "6a5e5192#0",
+    "uid8": "6a5e5192",
+    "col": 0,
+    "attempt": 1,
+    "prompt_sha256": "178a556439c67542d2669ef5f0f48474dd3dca790d1ae531fae588c7f4919ec5",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 13 行）:\n| Equity-settled | Exercise price | Fair Value at grant date |\n| --- | --- | --- |\n| Date of grant | US$ | US$ |\n| 16 May 2016 | 0.07 | 0.0445 to 0.0463 |\n| 24 April 2017 | 0.07 | 0.0301 to 0.0315 |\n| 2 May 2017 | 0.07 | 0.0292 to 0.0313 |\n| 31 July 2017 | 0.07 | 0.0313 to 0.0315 |\n| 8 September 2017 | 0.07 | 0.0296 to 0.0298 |\n| 23 October 2017 | 0.07 | 0.0309 to 0.0320 |\n| 10 January 2018 | 0.07 | 0.0316 to 0.0318 |\n| 1 April 2018 | 0.07 | 0.0360 to 0.0366 |\n| 1 July 2018 | 0.07 | 0.0368 to 0.0373 |\n| 19 October 2018 | 0.07 | 0.0371 to 0.0374 |\n| 31 January 2019 | 0.07 | 0.0367 to 0.0369 |\n\n原始列名（第 1 列）: Equity-settled\n修改后列名（第 1 列）: equty-settled\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在拼写错误, 语义指向相同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1087,
+    "ts": "2026-09-06T14:39:10.056298+08:00"
+   },
+   {
+    "call_id": "B11",
+    "subgroup": "J-N1",
+    "injection_key": "6f9a0eb1#0",
+    "uid8": "6f9a0eb1",
+    "col": 0,
+    "attempt": 1,
+    "prompt_sha256": "b476215b3d2966f17d4bb34f42ef9554f45025239d88051e8a60b2511cfc31c1",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 5 行）:\n| Capital expenditures 2017–2019 |  |  |  |\n| --- | --- | --- | --- |\n| SEK billion | 2019 | 2018 | 2017 |\n| Capital expenditures | 5.1 | 4.0 | 3.9 |\n| Of which in Sweden | 2.0 | 1.3 | 1.5 |\n| Share of annual sales | 2.3% | 1.9% | 1.9% |\n\n原始列名（第 1 列）: Capital expenditures 2017–2019\n修改后列名（第 1 列）: capitai expenditures 2017–2019\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在拼写错误, 语义指向相同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 900,
+    "ts": "2026-09-06T14:39:10.956840+08:00"
+   },
+   {
+    "call_id": "B12",
+    "subgroup": "J-N1",
+    "injection_key": "c0f66238#3",
+    "uid8": "c0f66238",
+    "col": 3,
+    "attempt": 1,
+    "prompt_sha256": "e0b7f0741f90374d7c9e3a17da56992e6819be75a64f989bbc64c858cde3ae80",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 5 行）:\n|  | Number of securities to be issued upon exercise of outstanding options and rights | Weighted-average exercise price of outstanding options and rights | Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a)) |\n| --- | --- | --- | --- |\n|  | (a) | (b) | (c) |\n| Equity compensation plans approved by security holders | 445,000(1) | $2.34(3) | 1,780,505 |\n| Equity compensation plans not approved by security holders | 500,000(2) | $1.19 | — |\n| Total | 945,000 | $1.39(3) | 1,780,505 |\n\n原始列名（第 4 列）: Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))\n修改后列名（第 4 列）: Number of securities remaining available for future issuance under equty compensation plans (excluding securities reflected in column(a))\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义未变\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在拼写错误, 语义未变"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 980,
+    "ts": "2026-09-06T14:39:11.937304+08:00"
+   },
+   {
+    "call_id": "B13",
+    "subgroup": "J-N1",
+    "injection_key": "d2bba753#0",
+    "uid8": "d2bba753",
+    "col": 0,
+    "attempt": 1,
+    "prompt_sha256": "2093e2f934a56ecb36365a0b601a5a7a74a75d0829e0f1ac1c56b766e5ac4295",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 5 行）:\n| Capital stock |  |  |\n| --- | --- | --- |\n| Parent Company | Number of shares | Capital stock (SEK million) |\n| Class A shares | 261,755,983 | 1,309 |\n| Class B shares | 3,072,395,752 | 15,363 |\n| Total | 3,334,151,735 | 16,672 |\n\n原始列名（第 1 列）: Capital stock\n修改后列名（第 1 列）: capitai stock\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在拼写错误, 语义指向相同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 844,
+    "ts": "2026-09-06T14:39:12.782210+08:00"
+   },
+   {
+    "call_id": "B14",
+    "subgroup": "J-N1",
+    "injection_key": "d7d65228#3",
+    "uid8": "d7d65228",
+    "col": 3,
+    "attempt": 1,
+    "prompt_sha256": "a2fbf1b8af86a3302704b407622aef23c957211cddbdbc587f6489a7eeb2d7a7",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 5 行）:\n|  | Appropriation of earnings (in thousand NT dollars) Appropriation of earnings (in thousand NT dollars) |  | Cash dividend per share (NT dollars) |  |\n| --- | --- | --- | --- | --- |\n|  | 2018 | 2019 | 2018 | 2019 |\n| Legal reserve | $707,299 | $963,947 |  |  |\n| Special reserve | 14,513,940 | (3,491,626) |  |  |\n| Cash dividends | 6,916,105 | 9,765,155 | $0.58 | $0.75 |\n\n原始列名（第 4 列）: Cash dividend per share (NT dollars)\n修改后列名（第 4 列）: Cash divdend per share (NT dollars)\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在拼写错误, 语义指向相同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 954,
+    "ts": "2026-09-06T14:39:13.736481+08:00"
+   },
+   {
+    "call_id": "B15",
+    "subgroup": "J-N1",
+    "injection_key": "e11338f6#0",
+    "uid8": "e11338f6",
+    "col": 0,
+    "attempt": 1,
+    "prompt_sha256": "213033d667c168ca1d93c0d7bc3242303aed9aff36de53e845fb9784f61bcab2",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 11 行）:\n| Contractual Maturities of Financial Liabilities | Within 12 months | Between 1 and 5 years | Over 5 years | Total contractual cash flows | Carrying amount |\n| --- | --- | --- | --- | --- | --- |\n| 2019 | $'000 | $'000 | $'000 | $'000 | $'000 |\n| Trade payables | 44,840 | - | - | 44,840 | 44,840 |\n| Unsecured notes | 46,634 | 900,046 | - | 946,680 | 793,849 |\n| Lease liabilities | 5,008 | 26,709 | 167,214 | 198,931 | 73,328 |\n| Total non-derivatives | 96,482 | 926,755 | 167,214 | 1,190,451 | 912,017 |\n| 2018 |  |  |  |  |  |\n| Trade payables | 27,640 | - | - | 27,640 | 27,640 |\n| Unsecured notes | 18,750 | 342,000 | - | 360,750 | 296,912 |\n| Lease liabilities | 641 | 2,565 | 5,451 | 8,657 | 6,042 |\n| Total non-derivatives | 47,031 | 344,565 | 5,451 | 397,047 | 330,594 |\n\n原始列名（第 1 列）: Contractual Maturities of Financial Liabilities\n修改后列名（第 1 列）: Contractual Maturities of Financial liabilitie5\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "仅存在拼写错误, 语义指向相同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1062,
+    "ts": "2026-09-06T14:39:14.799436+08:00"
+   },
+   {
+    "call_id": "B16",
+    "subgroup": "J-N1",
+    "injection_key": "24ff90f9#2",
+    "uid8": "24ff90f9",
+    "col": 2,
+    "attempt": 1,
+    "prompt_sha256": "99b55fc3acc04447badceb3d29a172847dd08804441137b5798e36104ce33778",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 8 行）:\n|  | Year Ended December 31, 2019 | % of associated net revenues | Year Ended December 31, 2018 | % of associated net revenues | Increase (Decrease) |\n| --- | --- | --- | --- | --- | --- |\n| Cost of revenues—product sales: |  |  |  |  |  |\n| Product costs | $656 | 33% | $719 | 32% | $(63) |\n| Software royalties, amortization, intellectual property licenses | 240 | 12 | 371 | 16 | (131) |\n| Cost of revenues—subscription, licensing, and other revenues: |  |  |  |  |  |\n| Game operations and distribution costs | 965 | 21 | 1,028 | 20 | (63) |\n| Software royalties, amortization, intellectual property licenses | 233 | 5 | 399 | 8 | (166) |\n| Total cost of revenues | $2,094 | 32% | $2,517 | 34% | $(423) |\n\n原始列名（第 3 列）: % of associated net revenues\n修改后列名（第 3 列）: turnover\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"turnover通常指营业额或周转率，与表中占比含义不同\"\n}",
+    "parsed": {
+     "verdict": "meaning_changed",
+     "confidence": "high",
+     "rationale": "turnover通常指营业额或周转率，与表中占比含义不同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1229,
+    "ts": "2026-09-06T14:39:16.029548+08:00"
+   },
+   {
+    "call_id": "B17",
+    "subgroup": "J-N1",
+    "injection_key": "24ff90f9#4",
+    "uid8": "24ff90f9",
+    "col": 4,
+    "attempt": 1,
+    "prompt_sha256": "f9461190454f27ce78da777248d5dd9c4b48b1f0fad642f761e54ed5e2d258f6",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 8 行）:\n|  | Year Ended December 31, 2019 | % of associated net revenues | Year Ended December 31, 2018 | % of associated net revenues | Increase (Decrease) |\n| --- | --- | --- | --- | --- | --- |\n| Cost of revenues—product sales: |  |  |  |  |  |\n| Product costs | $656 | 33% | $719 | 32% | $(63) |\n| Software royalties, amortization, intellectual property licenses | 240 | 12 | 371 | 16 | (131) |\n| Cost of revenues—subscription, licensing, and other revenues: |  |  |  |  |  |\n| Game operations and distribution costs | 965 | 21 | 1,028 | 20 | (63) |\n| Software royalties, amortization, intellectual property licenses | 233 | 5 | 399 | 8 | (166) |\n| Total cost of revenues | $2,094 | 32% | $2,517 | 34% | $(423) |\n\n原始列名（第 5 列）: % of associated net revenues\n修改后列名（第 5 列）: 营业总收入\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"原始列为占比, 修改后为绝对金额指标, 语义完全不同\"\n}",
+    "parsed": {
+     "verdict": "meaning_changed",
+     "confidence": "high",
+     "rationale": "原始列为占比, 修改后为绝对金额指标, 语义完全不同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 993,
+    "ts": "2026-09-06T14:39:17.023528+08:00"
+   },
+   {
+    "call_id": "B18",
+    "subgroup": "J-N1",
+    "injection_key": "32cfcadb#2",
+    "uid8": "32cfcadb",
+    "col": 2,
+    "attempt": 1,
+    "prompt_sha256": "51930ce78c3f7235a90a75407388bfb2e224026e4fa9c6668bbc52a5810fe1f1",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 7 行）:\n|  | 2019 | As a % of Segment Revenue (1) | 2018 | As a % of Segment Revenue (1) |\n| --- | --- | --- | --- | --- |\n| PSG | $976.0 | 35.0 % | $ 1,110.1 | 36.5 % |\n| ASG | 794.8 | 40.3 % | 878.3 | 42.4 % |\n| ISG | 275.4 | 36.4 % | 317.1 | 41.2 % |\n| Gross profit for all segments | $ 2,046.2 |  | $ 2,305.5 |  |\n| Unallocated manufacturing costs (2) | (72.6) | (1.3) % | (66.8) | (1.1) % |\n| Total gross profit | $ 1,973.6 | 35.8 % | $ 2,238.7 | 38.1 % |\n\n原始列名（第 3 列）: As a % of Segment Revenue (1)\n修改后列名（第 3 列）: 营收\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"原始列为占比, 修改后为营收, 语义完全不同\"\n}",
+    "parsed": {
+     "verdict": "meaning_changed",
+     "confidence": "high",
+     "rationale": "原始列为占比, 修改后为营收, 语义完全不同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1157,
+    "ts": "2026-09-06T14:39:18.181248+08:00"
+   },
+   {
+    "call_id": "B19",
+    "subgroup": "J-N1",
+    "injection_key": "32cfcadb#4",
+    "uid8": "32cfcadb",
+    "col": 4,
+    "attempt": 1,
+    "prompt_sha256": "8298bc22e81210bad28cf0ac12ed10e39b20971ff9876288ffba09e46a11b153",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 7 行）:\n|  | 2019 | As a % of Segment Revenue (1) | 2018 | As a % of Segment Revenue (1) |\n| --- | --- | --- | --- | --- |\n| PSG | $976.0 | 35.0 % | $ 1,110.1 | 36.5 % |\n| ASG | 794.8 | 40.3 % | 878.3 | 42.4 % |\n| ISG | 275.4 | 36.4 % | 317.1 | 41.2 % |\n| Gross profit for all segments | $ 2,046.2 |  | $ 2,305.5 |  |\n| Unallocated manufacturing costs (2) | (72.6) | (1.3) % | (66.8) | (1.1) % |\n| Total gross profit | $ 1,973.6 | 35.8 % | $ 2,238.7 | 38.1 % |\n\n原始列名（第 5 列）: As a % of Segment Revenue (1)\n修改后列名（第 5 列）: 营业总收入\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"原始列为占比, 修改后为收入总额, 语义完全不同\"\n}",
+    "parsed": {
+     "verdict": "meaning_changed",
+     "confidence": "high",
+     "rationale": "原始列为占比, 修改后为收入总额, 语义完全不同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 974,
+    "ts": "2026-09-06T14:39:19.155809+08:00"
+   },
+   {
+    "call_id": "B20",
+    "subgroup": "J-N1",
+    "injection_key": "97176853#2",
+    "uid8": "97176853",
+    "col": 2,
+    "attempt": 1,
+    "prompt_sha256": "3ce329291e73285f507da9084ddb3a4a151403518f467c730e0b8cc6ad69460a",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 5 行）:\n|  | 2019 | As a % of Revenue (1) | 2018 | As a % of Revenue (1) |\n| --- | --- | --- | --- | --- |\n| PSG | $ 2,788.3 | 50.5 % | $ 3,038.2 | 51.7 % |\n| ASG | 1,972.3 | 35.7 % | 2,071.2 | 35.2 % |\n| ISG | 757.3 | 13.7 % | 768.9 | 13.1 % |\n| Total revenue | $ 5,517.9 |  | $ 5,878.3 |  |\n\n原始列名（第 3 列）: As a % of Revenue (1)\n修改后列名（第 3 列）: 营业总收入\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"原始列为占比, 修改后为总额, 语义完全不同\"\n}",
+    "parsed": {
+     "verdict": "meaning_changed",
+     "confidence": "high",
+     "rationale": "原始列为占比, 修改后为总额, 语义完全不同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1125,
+    "ts": "2026-09-06T14:39:20.281295+08:00"
+   },
+   {
+    "call_id": "B21",
+    "subgroup": "J-N1",
+    "injection_key": "97176853#4",
+    "uid8": "97176853",
+    "col": 4,
+    "attempt": 1,
+    "prompt_sha256": "17c353ae0d18ae0e332a199a4dd5a6984e64a9ec8335ecbdbad6b77b937ab4e2",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 5 行）:\n|  | 2019 | As a % of Revenue (1) | 2018 | As a % of Revenue (1) |\n| --- | --- | --- | --- | --- |\n| PSG | $ 2,788.3 | 50.5 % | $ 3,038.2 | 51.7 % |\n| ASG | 1,972.3 | 35.7 % | 2,071.2 | 35.2 % |\n| ISG | 757.3 | 13.7 % | 768.9 | 13.1 % |\n| Total revenue | $ 5,517.9 |  | $ 5,878.3 |  |\n\n原始列名（第 5 列）: As a % of Revenue (1)\n修改后列名（第 5 列）: turnover\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"原始列为收入占比, 修改后为营业额, 语义不同\"\n}",
+    "parsed": {
+     "verdict": "meaning_changed",
+     "confidence": "high",
+     "rationale": "原始列为收入占比, 修改后为营业额, 语义不同"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1082,
+    "ts": "2026-09-06T14:39:21.364031+08:00"
+   },
+   {
+    "call_id": "B22",
+    "subgroup": "J-N2",
+    "injection_key": "50e78448#2",
+    "uid8": "50e78448",
+    "col": 2,
+    "attempt": 1,
+    "prompt_sha256": "2d17a3b20bff9856d6935a55484bbd858830dcda062f1608a8f76284e6ab8f3a",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 7 行）:\n|  |  | US$ |  | Hedging effect |  |\n| --- | --- | --- | --- | --- | --- |\n| (In millions of dollars, except interest rates) Effective date | Principal/ Notional amount (US$) | Maturity date | Coupon rate | Fixed hedged (Cdn$) interest rate 1 | Equivalent (Cdn$) |\n| 2019 issuances |  |  |  |  |  |\n| April 30, 2019 | 1,250 | 2049 | 4.350% | 4.173% | 1,676 |\n| November 12, 2019 | 1,000 | 2049 | 3.700% | 3.996% | 1,308 |\n| 2018 issuances |  |  |  |  |  |\n| February 8, 2018 | 750 | 2048 | 4.300% | 4.193% | 938 |\n\n原始列名（第 3 列）: US$\n修改后列名（第 3 列）: US [1]\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"equivalent\",\n\"confidence\": \"high\",\n\"rationale\": \"US$与US均为美元符号或缩写变体，指代相同币种字段\"\n}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "US$与US均为美元符号或缩写变体，指代相同币种字段"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1237,
+    "ts": "2026-09-06T14:39:22.601457+08:00"
+   },
+   {
+    "call_id": "B23",
+    "subgroup": "J-N2",
+    "injection_key": "54c494f7#2",
+    "uid8": "54c494f7",
+    "col": 2,
+    "attempt": 1,
+    "prompt_sha256": "06375091ba821a4f9ca898725e970bba996bda8a9771b3e5336686457eeda22d",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 20 行）:\n|  | Gross Carrying Amount | Accumulated Amortization | Net |\n| --- | --- | --- | --- |\n|  |  | (in millions) |  |\n| June 30, 2019 |  |  |  |\n| Finite-Lived Intangible Assets |  |  |  |\n| Customer relationships | $1,597.6 | $(498.7) | $1,098.9 |\n| Underlying rights and other | 3.4 | (1.5) | 1.9 |\n| Total | 1,601.0 | (500.2) | 1,100.8 |\n| Indefinite-Lived Intangible Assets |  |  |  |\n| Certifications | 3.5 | — | 3.5 |\n| Underlying rights and other | 14.5 | — | 14.5 |\n| Total | 1,619.0 | (500.2) | 1,118.8 |\n| June 30, 2018 |  |  |  |\n| Finite-Lived Intangible Assets |  |  |  |\n| Customer relationships | $1,597.0 | $(405.6) | $1,191.4 |\n| Underlying rights and other | 2.7 | (0.6) | 2.1 |\n| Total | 1,599.7 | (406.2) | 1,193.5 |\n| Indefinite-Lived Intangible Assets |  |  |  |\n| Certifications | 3.5 | — | 3.5 |\n| Underlying rights and other | 15.1 | — | 15.1 |\n| Total | $1,618.3 | $(406.2) | $1,212.1 |\n\n原始列名（第 3 列）: Accumulated Amortization\n修改后列名（第 3 列）: amort\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"amort是Accumulated Amortization的常见缩写，语义一致\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "amort是Accumulated Amortization的常见缩写，语义一致"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1165,
+    "ts": "2026-09-06T14:39:23.767091+08:00"
+   },
+   {
+    "call_id": "B24",
+    "subgroup": "J-N2",
+    "injection_key": "5e60c056#0",
+    "uid8": "5e60c056",
+    "col": 0,
+    "attempt": 1,
+    "prompt_sha256": "b84ec4610c225de7ffb23fa15b30e1d9c9dfb033d0e7b84a6334e600ef4562a7",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 4 行）:\n| £m | 2019 | 2018 |\n| --- | --- | --- |\n| Up to three months | 29.9 | 32.1 |\n| Three to six months | 10.0 | 3.7 |\n| Trade receivables | 39.9 | 35.8 |\n\n原始列名（第 1 列）: £m\n修改后列名（第 1 列）: m【】\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"删除货币单位£, 语义改变\"\n}",
+    "parsed": {
+     "verdict": "meaning_changed",
+     "confidence": "high",
+     "rationale": "删除货币单位£, 语义改变"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 972,
+    "ts": "2026-09-06T14:39:24.739544+08:00"
+   },
+   {
+    "call_id": "B25",
+    "subgroup": "J-N2",
+    "injection_key": "73a817fc#1",
+    "uid8": "73a817fc",
+    "col": 1,
+    "attempt": 1,
+    "prompt_sha256": "d16258e7c2b30c882c4e7ed5ed36f978ed88dffac87f16086fc5b79a97661491",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 6 行）:\n|  | Dividends Paid(1) | Share Repurchases(2) | Total |\n| --- | --- | --- | --- |\n| Fiscal year 2016 | $62,436 | $148,185 | $210,621 |\n| Fiscal year 2017 | $59,959 | $306,397 | $366,356 |\n| Fiscal year 2018 | $57,833 | $450,000 | $507,833 |\n| Fiscal year 2019 | $52,004 | $350,000 | $402,004 |\n| Total | $232,232 | $1,254,582 | $1,486,814 |\n\n原始列名（第 2 列）: Dividends Paid(1)\n修改后列名（第 2 列）: dividend\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"equivalent\",\n\"confidence\": \"high\",\n\"rationale\": \"dividend是Dividends Paid的合理缩写，语义一致\"\n}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "dividend是Dividends Paid的合理缩写，语义一致"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1218,
+    "ts": "2026-09-06T14:39:25.957751+08:00"
+   },
+   {
+    "call_id": "B26",
+    "subgroup": "J-N2",
+    "injection_key": "b5aae4e9#0",
+    "uid8": "b5aae4e9",
+    "col": 0,
+    "attempt": 1,
+    "prompt_sha256": "d3d388980f0a8c03494d4339d2207426f72d2c7040f382505f879bb4437928dc",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 6 行）:\n| £m | 2019 | 2018 |\n| --- | --- | --- |\n| Repayable within one year | 65.8 | 46.7 |\n| Repayable in more than one year but not more than two years | 901.8 | 30.5 |\n| Repayable in more than two years but not more than five years | 2,114.2 | 2,722.0 |\n| Repayable in more than five years | 1,569.6 | 2,155.9 |\n|  | 4,651.4 | 4,955.1 |\n\n原始列名（第 1 列）: £m\n修改后列名（第 1 列）: m【】\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除货币符号£, 丢失英镑单位信息, 语义改变\"}",
+    "parsed": {
+     "verdict": "meaning_changed",
+     "confidence": "high",
+     "rationale": "删除货币符号£, 丢失英镑单位信息, 语义改变"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 928,
+    "ts": "2026-09-06T14:39:26.886310+08:00"
+   },
+   {
+    "call_id": "B27",
+    "subgroup": "J-N2",
+    "injection_key": "e67f7bf2#4",
+    "uid8": "e67f7bf2",
+    "col": 4,
+    "attempt": 1,
+    "prompt_sha256": "4849a34d4f6d6bfc30e931dc430d06485b57ad703e9947fe777b76b8d4ad5689",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 7 行）:\n|  |  | Adjusted EBITDA |  | Free cash flow (pre-spectrum) |\n| --- | --- | --- | --- | --- |\n|  | 2019 €m | 2018 €m | Growth | 2019 €m |\n| Reported (IAS 18 basis) | 14,139 | 14,737 | (4.1)% | 5,443 |\n| Other activity (including M&A) | (95) | (341) |  | – |\n| Foreign exchange | – | (288) |  | – |\n| Handset financing and settlements | (198) | (674) |  | – |\n| Guidance basis | 13,846 | 13,434 | 3.1% | 5,443 |\n\n原始列名（第 5 列）: Free cash flow (pre-spectrum)\n修改后列名（第 5 列）: cashflow\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"修改后列名删除了关键限定语(pre-spectrum), 导致字段范围扩大, 语义发生改变\"\n}",
+    "parsed": {
+     "verdict": "meaning_changed",
+     "confidence": "high",
+     "rationale": "修改后列名删除了关键限定语(pre-spectrum), 导致字段范围扩大, 语义发生改变"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1249,
+    "ts": "2026-09-06T14:39:28.136081+08:00"
+   },
+   {
+    "call_id": "B28",
+    "subgroup": "J-N2",
+    "injection_key": "e9730ea3#2",
+    "uid8": "e9730ea3",
+    "col": 2,
+    "attempt": 1,
+    "prompt_sha256": "51feefb6231ddc9916bb4e30f18a1d92a7cd4be8a0debfd3dfb9090f90a34838",
+    "prompt_text": "表格数据（markdown, 原始表头, 共 12 行）:\n| December 31, 2019 | Gross Cost | Accumulated Amortization | Net Cost |\n| --- | --- | --- | --- |\n| Technologies & licenses | 699 | (578) | 121 |\n| Purchased & internally developed software | 486 | (427) | 59 |\n| Technologies in progress | 119 | — | 119 |\n| Other intangible assets | 70 | (70) | — |\n| Total | 1,374 | (1,075) | 299 |\n| December 31, 2018 | Gross Cost | Accumulated Amortization | Net Cost |\n| Technologies & licenses | 705 | (592) | 113 |\n| Purchased & internally developed software | 459 | (404) | 55 |\n| Technologies in progress | 44 | — | 44 |\n| Other intangible assets | 69 | (69) | — |\n| Total | 1,277 | (1,065) | 212 |\n\n原始列名（第 3 列）: Accumulated Amortization\n修改后列名（第 3 列）: amort\n\n问题: 在该表格的语境下, 「修改后列名」是否仍然指向与「原始列名」相同的字段?\n判定标准（冻结）:\n- equivalent = 修改后列名是同一字段的另一种写法（同义、缩写、拼写变体、符号或标注差异）, 在本表中按原字段读取不产生任何语义错误;\n- meaning_changed = 修改后列名改变了字段的所指、范围或口径（包括但不限于: 删除限定语导致范围扩大或缩小、单位/币种/期间归属变化、指向另一个字段）, 在本表中按原字段读取会产生语义错误。\n输出（必须是且仅是一个 JSON, 无围栏, 无额外文本; 信息不足时仍须给出判定并把 confidence 设为 low）:\n{\"verdict\": \"equivalent\" 或 \"meaning_changed\", \"confidence\": \"high\" 或 \"medium\" 或 \"low\", \"rationale\": \"40 字以内中文\"}\n示例: {\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除限定语, 字段范围扩大\"}",
+    "table_truncated": false,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"amort是Accumulated Amortization的通用缩写, 语义一致\"}",
+    "parsed": {
+     "verdict": "equivalent",
+     "confidence": "high",
+     "rationale": "amort是Accumulated Amortization的通用缩写, 语义一致"
+    },
+    "status": "ok",
+    "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+    "temperature": 0,
+    "max_tokens": 512,
+    "latency_ms": 1072,
+    "ts": "2026-09-06T14:39:29.209090+08:00"
+   }
+  ],
+  "call_supplement": {
+   "fields": "非冻结诊断补充（计数器 / 请求体 sha / usage / 错误文本）",
+   "rows": [
+    {
+     "injection_key": "1fe3e1d6#2",
+     "injection_key_full": "1fe3e1d6#2",
+     "attempt": 1,
+     "counter": 2,
+     "request_body_sha256": "ad25c26b7a89b34d76adf87498b424f8b4f21deb88aabf04ed197173fdf87875",
+     "table_md_sha256": "ec2e24769ffa22cd849cceddddc55a9ea04f86f7c9b3034d271f45232eee3bc2",
+     "col_1based": 3,
+     "original": "Number of equity shares",
+     "injected": "Number of equty shares",
+     "usage": {
+      "completion_tokens": 28,
+      "prompt_tokens": 568,
+      "total_tokens": 596,
+      "prompt_tokens_details": {
+       "cached_tokens": 0
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "21c316d6#2",
+     "injection_key_full": "21c316d6#2",
+     "attempt": 1,
+     "counter": 3,
+     "request_body_sha256": "20de0fe835e202bf8729da685c5f4d0453cd282fb8e8c6eb56b888a24653b36a",
+     "table_md_sha256": "40b434be8a4aed0a1374cf828433b177ba983527e16f6eda6a8522a3e73c9be0",
+     "col_1based": 3,
+     "original": "Dividend per Share",
+     "injected": "divdend per Share",
+     "usage": {
+      "completion_tokens": 28,
+      "prompt_tokens": 812,
+      "total_tokens": 840,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "3c609073#1",
+     "injection_key_full": "3c609073#1",
+     "attempt": 1,
+     "counter": 4,
+     "request_body_sha256": "f7762a7832b4e32530ad752aa07d08ae78a8f18322c52bf9cd2a4d9929daa118",
+     "table_md_sha256": "57fd55ecaabc47fb33e7876c9855b6240f8cd4050f35e24d9ab07fdca1f4a7db",
+     "col_1based": 2,
+     "original": "Vessels and capitalized dry-docking",
+     "injected": "Vessels and capitaiized dry-docking",
+     "usage": {
+      "completion_tokens": 37,
+      "prompt_tokens": 678,
+      "total_tokens": 715,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "3c609073#3",
+     "injection_key_full": "3c609073#3",
+     "attempt": 1,
+     "counter": 5,
+     "request_body_sha256": "db873b28ffde8b67da7231a48e65958c279d429fe13d6d8c9884603db87e806a",
+     "table_md_sha256": "57fd55ecaabc47fb33e7876c9855b6240f8cd4050f35e24d9ab07fdca1f4a7db",
+     "col_1based": 4,
+     "original": "Other plant and operating equipment",
+     "injected": "Other plant and operat1ng equipment",
+     "usage": {
+      "completion_tokens": 31,
+      "prompt_tokens": 673,
+      "total_tokens": 704,
+      "prompt_tokens_details": {
+       "cached_tokens": 162
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "44c7c9ef#1",
+     "injection_key_full": "44c7c9ef#1",
+     "attempt": 1,
+     "counter": 6,
+     "request_body_sha256": "21934e31241329ea4a4b287963090c8b8c286e6f09791e7b74e897e190be9aa1",
+     "table_md_sha256": "4d7d21df97270601c579a343ced17a34478f40d0ba941438b6c54c75a7edfa4b",
+     "col_1based": 2,
+     "original": "Operating Leases",
+     "injected": "operat1ng Leases",
+     "usage": {
+      "completion_tokens": 31,
+      "prompt_tokens": 559,
+      "total_tokens": 590,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "567a03c7#1",
+     "injection_key_full": "567a03c7#1",
+     "attempt": 1,
+     "counter": 7,
+     "request_body_sha256": "1981c9100760c04550e6504a7004be548e10747eb27f0d9fa86e9b06c7085b9f",
+     "table_md_sha256": "250c2d01623012256779ec2be6ba66f3308aebebb1aa3dca34db969f83dec8ba",
+     "col_1based": 2,
+     "original": "Exercise Date",
+     "injected": "Exercise date 2021-期末日期",
+     "usage": {
+      "completion_tokens": 46,
+      "prompt_tokens": 825,
+      "total_tokens": 871,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "5fe2c49e#1",
+     "injection_key_full": "5fe2c49e#1",
+     "attempt": 1,
+     "counter": 8,
+     "request_body_sha256": "84ffa31391d5208a88bf5a36a03cda5ff10d05e13299ed155a0e9a4f077e8d4a",
+     "table_md_sha256": "8fe3ea720c2035132bf1aba9b48f29e34fc7a880602bfb1503f23dac0e3bc2d4",
+     "col_1based": 2,
+     "original": "Operating Leases",
+     "injected": "operat1ng Leases",
+     "usage": {
+      "completion_tokens": 39,
+      "prompt_tokens": 616,
+      "total_tokens": 655,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "5fe2c49e#2",
+     "injection_key_full": "5fe2c49e#2",
+     "attempt": 1,
+     "counter": 9,
+     "request_body_sha256": "8521daa80f60de0e804804ca3aa0063e85e8c5f699472ad02ef2021b97c21609",
+     "table_md_sha256": "8fe3ea720c2035132bf1aba9b48f29e34fc7a880602bfb1503f23dac0e3bc2d4",
+     "col_1based": 3,
+     "original": "Capital Leases",
+     "injected": "capitai Leases",
+     "usage": {
+      "completion_tokens": 31,
+      "prompt_tokens": 614,
+      "total_tokens": 645,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "68b8d514#1",
+     "injection_key_full": "68b8d514#1",
+     "attempt": 1,
+     "counter": 10,
+     "request_body_sha256": "d4abf2dabdd50bd0262f4630fd25426cf52a179f66425f18643a573a51360836",
+     "table_md_sha256": "b96d9cb3dd956918462f44b12bd3e537203ad14b51ee984ed304c7434abb45f4",
+     "col_1based": 2,
+     "original": "Grant Date",
+     "injected": "Grant date 2019-报表明细日期",
+     "usage": {
+      "completion_tokens": 33,
+      "prompt_tokens": 771,
+      "total_tokens": 804,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "6a5e5192#0",
+     "injection_key_full": "6a5e5192#0",
+     "attempt": 1,
+     "counter": 11,
+     "request_body_sha256": "491f3b304394add60d2e6df1f900fb7a5783a270a46563de79a4470f64c97d5f",
+     "table_md_sha256": "1b71535da435617745d4e96ea2d112f2e6e98aedc47935d37242bb4d9378c898",
+     "col_1based": 1,
+     "original": "Equity-settled",
+     "injected": "equty-settled",
+     "usage": {
+      "completion_tokens": 31,
+      "prompt_tokens": 798,
+      "total_tokens": 829,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "6f9a0eb1#0",
+     "injection_key_full": "6f9a0eb1#0",
+     "attempt": 1,
+     "counter": 12,
+     "request_body_sha256": "d251f565761242ebf1662cdb28a0ccbb8bb52f512f192290cfdd4d114fab49ee",
+     "table_md_sha256": "40d95f4a43edb3a8ef41fd8c2402ac76b9fea397458939dc24961b6e101ed7eb",
+     "col_1based": 1,
+     "original": "Capital expenditures 2017–2019",
+     "injected": "capitai expenditures 2017–2019",
+     "usage": {
+      "completion_tokens": 31,
+      "prompt_tokens": 530,
+      "total_tokens": 561,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "c0f66238#3",
+     "injection_key_full": "c0f66238#3",
+     "attempt": 1,
+     "counter": 13,
+     "request_body_sha256": "fa63b1b94af902e77a1ee858b0a4714632f79336f19955c95d7426c9d7a01e96",
+     "table_md_sha256": "ef6bbdbb5d96b9774be60d78e9a1f826e1cf75e96d1f2e7085d0283d0a822ee5",
+     "col_1based": 4,
+     "original": "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))",
+     "injected": "Number of securities remaining available for future issuance under equty compensation plans (excluding securities reflected in column(a))",
+     "usage": {
+      "completion_tokens": 31,
+      "prompt_tokens": 605,
+      "total_tokens": 636,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "d2bba753#0",
+     "injection_key_full": "d2bba753#0",
+     "attempt": 1,
+     "counter": 14,
+     "request_body_sha256": "96c99af84f62a0b7f6f997aee95fc3dafa54a239810f09c4a0e8aa6d2371e818",
+     "table_md_sha256": "2274f63a60b62b1ee45615f9cbe80b3bb692c18a26f6eee210d49839e4ff8e2f",
+     "col_1based": 1,
+     "original": "Capital stock",
+     "injected": "capitai stock",
+     "usage": {
+      "completion_tokens": 31,
+      "prompt_tokens": 503,
+      "total_tokens": 534,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "d7d65228#3",
+     "injection_key_full": "d7d65228#3",
+     "attempt": 1,
+     "counter": 15,
+     "request_body_sha256": "a2fabae73df38c206643d6f8a6616e0131fd4fadd17ad54676c0b72b2dc1218d",
+     "table_md_sha256": "8b2d330ad34f4f13ae83485d8169730a7bc31bcb45939274590995fe86d99eef",
+     "col_1based": 4,
+     "original": "Cash dividend per share (NT dollars)",
+     "injected": "Cash divdend per share (NT dollars)",
+     "usage": {
+      "completion_tokens": 31,
+      "prompt_tokens": 577,
+      "total_tokens": 608,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "e11338f6#0",
+     "injection_key_full": "e11338f6#0",
+     "attempt": 1,
+     "counter": 16,
+     "request_body_sha256": "d0fee7416a2174a7f97cbbf508cbb6edd05a305ad24392aa9739faeb1acdade5",
+     "table_md_sha256": "ea8cbf170b83f0c3ffb01ec41e51a975a2ac400d27cb852a4d3bcfb995911f38",
+     "col_1based": 1,
+     "original": "Contractual Maturities of Financial Liabilities",
+     "injected": "Contractual Maturities of Financial liabilitie5",
+     "usage": {
+      "completion_tokens": 31,
+      "prompt_tokens": 855,
+      "total_tokens": 886,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "24ff90f9#2",
+     "injection_key_full": "24ff90f9#2",
+     "attempt": 1,
+     "counter": 17,
+     "request_body_sha256": "7464e6f64f5eef8b58f7984e6d0791cb8bce2fe068469e5c4860549d67e86aa9",
+     "table_md_sha256": "f5714b0b43b397832f969385a67a19fa377b0d17c5efef8ef69668a910a2cd58",
+     "col_1based": 3,
+     "original": "% of associated net revenues",
+     "injected": "turnover",
+     "usage": {
+      "completion_tokens": 41,
+      "prompt_tokens": 665,
+      "total_tokens": 706,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "24ff90f9#4",
+     "injection_key_full": "24ff90f9#4",
+     "attempt": 1,
+     "counter": 18,
+     "request_body_sha256": "768d8213f7c35550865560f635d8c05f55d990f70eaaf45a76f59da58cdcd588",
+     "table_md_sha256": "f5714b0b43b397832f969385a67a19fa377b0d17c5efef8ef69668a910a2cd58",
+     "col_1based": 5,
+     "original": "% of associated net revenues",
+     "injected": "营业总收入",
+     "usage": {
+      "completion_tokens": 42,
+      "prompt_tokens": 667,
+      "total_tokens": 709,
+      "prompt_tokens_details": {
+       "cached_tokens": 149
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "32cfcadb#2",
+     "injection_key_full": "32cfcadb#2",
+     "attempt": 1,
+     "counter": 19,
+     "request_body_sha256": "9d42d06d4da7917cc2b2acee130506341b98b86aba25765d612971a4621c1f58",
+     "table_md_sha256": "f9f5949c8879daa5b221d6ca22b2c1a038a63dcefa93c9651cb898908cb827e7",
+     "col_1based": 3,
+     "original": "As a % of Segment Revenue (1)",
+     "injected": "营收",
+     "usage": {
+      "completion_tokens": 40,
+      "prompt_tokens": 652,
+      "total_tokens": 692,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "32cfcadb#4",
+     "injection_key_full": "32cfcadb#4",
+     "attempt": 1,
+     "counter": 20,
+     "request_body_sha256": "abf6a920c1f7340283ee687e7e3abdf46c477b3e6643b5969bb77590202c149c",
+     "table_md_sha256": "f9f5949c8879daa5b221d6ca22b2c1a038a63dcefa93c9651cb898908cb827e7",
+     "col_1based": 5,
+     "original": "As a % of Segment Revenue (1)",
+     "injected": "营业总收入",
+     "usage": {
+      "completion_tokens": 41,
+      "prompt_tokens": 653,
+      "total_tokens": 694,
+      "prompt_tokens_details": {
+       "cached_tokens": 136
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "97176853#2",
+     "injection_key_full": "97176853#2",
+     "attempt": 1,
+     "counter": 21,
+     "request_body_sha256": "5e78cf64674351d0e7b12aaf383be0ead1c505bfc1d511d0a49d6f6ea91fa56d",
+     "table_md_sha256": "2a71f0e31b9b1790539dd8d2a51ea28e3bcc370d3a1fff4868a53eda8828a177",
+     "col_1based": 3,
+     "original": "As a % of Revenue (1)",
+     "injected": "营业总收入",
+     "usage": {
+      "completion_tokens": 40,
+      "prompt_tokens": 576,
+      "total_tokens": 616,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "97176853#4",
+     "injection_key_full": "97176853#4",
+     "attempt": 1,
+     "counter": 22,
+     "request_body_sha256": "5c928d78025cbe2f3f19b830f66b8310c334f87a4ec6d051466208704f4e94a3",
+     "table_md_sha256": "2a71f0e31b9b1790539dd8d2a51ea28e3bcc370d3a1fff4868a53eda8828a177",
+     "col_1based": 5,
+     "original": "As a % of Revenue (1)",
+     "injected": "turnover",
+     "usage": {
+      "completion_tokens": 41,
+      "prompt_tokens": 574,
+      "total_tokens": 615,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "50e78448#2",
+     "injection_key_full": "50e78448-3cf5-439c-a609-ee866bd1f05a#2",
+     "attempt": 1,
+     "counter": 23,
+     "request_body_sha256": "b7f71b39c7c4561f9d128f108911f11f9a344035c3547530c8436dc8235a6016",
+     "table_md_sha256": "14eb6f2044ada00e5cb28a52fc38d19de76d721446b666de7d16598d46b18dae",
+     "col_1based": 3,
+     "original": "US$",
+     "injected": "US [1]",
+     "usage": {
+      "completion_tokens": 44,
+      "prompt_tokens": 653,
+      "total_tokens": 697,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "54c494f7#2",
+     "injection_key_full": "54c494f7-d731-49bf-b9cd-d494aea72e34#2",
+     "attempt": 1,
+     "counter": 24,
+     "request_body_sha256": "c7c66b1d915c6119945756a1638097bde929cfc45db73141f21b42f895f941f7",
+     "table_md_sha256": "e6f7fcc9a49e0dd30f9dca6e80f0b70713226a231d2bafd51f013d89d8741662",
+     "col_1based": 3,
+     "original": "Accumulated Amortization",
+     "injected": "amort",
+     "usage": {
+      "completion_tokens": 36,
+      "prompt_tokens": 839,
+      "total_tokens": 875,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "5e60c056#0",
+     "injection_key_full": "5e60c056-5073-441d-8525-7f834deb5c64#0",
+     "attempt": 1,
+     "counter": 25,
+     "request_body_sha256": "f22a040fa5d7ffbe92ee29fd48b730303e179ecab767b42ca8834072388afd1a",
+     "table_md_sha256": "58bce2c29b05ebec1c1debb5dddd7a1cfb6f3f80c69810d02d5646a519afe27c",
+     "col_1based": 1,
+     "original": "£m",
+     "injected": "m【】",
+     "usage": {
+      "completion_tokens": 35,
+      "prompt_tokens": 468,
+      "total_tokens": 503,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "73a817fc#1",
+     "injection_key_full": "73a817fc-25df-494d-b0f2-79cfdab34076#1",
+     "attempt": 1,
+     "counter": 26,
+     "request_body_sha256": "07a57464b4e6f160c8257f76133aa34f49ec885f3a0be920712daf8838244e7b",
+     "table_md_sha256": "503dd74fc8f6a697c2043f2483179567f506a9ddd8acc6ece1a1084534b4837c",
+     "col_1based": 2,
+     "original": "Dividends Paid(1)",
+     "injected": "dividend",
+     "usage": {
+      "completion_tokens": 40,
+      "prompt_tokens": 600,
+      "total_tokens": 640,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "b5aae4e9#0",
+     "injection_key_full": "b5aae4e9-040d-4e55-a42d-39cde217978f#0",
+     "attempt": 1,
+     "counter": 27,
+     "request_body_sha256": "982e62bfdd995e94f32d15951ca8fdaed5e75f9496ee0ee0e4e2ec2c11d32f6a",
+     "table_md_sha256": "37a98363e9a08493f29de1c9bca7be7d5b9d5f09c3d8ae48f7048498aa498eb6",
+     "col_1based": 1,
+     "original": "£m",
+     "injected": "m【】",
+     "usage": {
+      "completion_tokens": 35,
+      "prompt_tokens": 549,
+      "total_tokens": 584,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "e67f7bf2#4",
+     "injection_key_full": "e67f7bf2-fc15-4a7a-9856-febb066998fd#4",
+     "attempt": 1,
+     "counter": 28,
+     "request_body_sha256": "2353ce9278178935ecebd22cdd8bcd3339c498c189e12449ae0bc45b58bcc305",
+     "table_md_sha256": "938537a28230a7abfae01fbfd488ffa96847232c15ebf62d75e26a4d1ad43307",
+     "col_1based": 5,
+     "original": "Free cash flow (pre-spectrum)",
+     "injected": "cashflow",
+     "usage": {
+      "completion_tokens": 49,
+      "prompt_tokens": 597,
+      "total_tokens": 646,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    },
+    {
+     "injection_key": "e9730ea3#2",
+     "injection_key_full": "e9730ea3-e003-4db6-a513-9c9e6f40e371#2",
+     "attempt": 1,
+     "counter": 29,
+     "request_body_sha256": "a1b19790365f258192493613817abf612ab5025f414d22e4c73df284e8db5fab",
+     "table_md_sha256": "076269491d4fb8c36777f46d55c35a689cf4e9468c2ce3910fc290964284e667",
+     "col_1based": 3,
+     "original": "Accumulated Amortization",
+     "injected": "amort",
+     "usage": {
+      "completion_tokens": 37,
+      "prompt_tokens": 659,
+      "total_tokens": 696,
+      "prompt_tokens_details": {
+       "cached_tokens": 52
+      }
+     },
+     "parse_error": "",
+     "request_error": "",
+     "resumed_from_ledger": true
+    }
+   ]
+  },
+  "call_counter_total": 31,
+  "call_counter_breakdown": {
+   "counter_total_vs_ceiling": {
+    "total": 31,
+    "ceiling": 200,
+    "within": true,
+    "expected_upper_bound_single_run": 57
+   },
+   "canary_probes_all_invocations": 3,
+   "formal_call_records_in_window": 28,
+   "formal_distinct_cases": 28,
+   "invalid_retries": 0,
+   "resumed_cases_reusing_append_only_ledger": 28,
+   "new_inference_calls_this_invocation": 1,
+   "identity_counter_eq_canary_plus_call_records": true,
+   "identity_note": "计数器每次推理请求前 +1 且同步行落 JSONL（append-only）; 恒等式 = counter_total == canary 探针数 + call 记录数 ⇒ 零计数外请求。续跑（装配缺陷修复后重开窗）只重发 canary 探针, 28 例判定复用账本（payload 字节相同 ⇒ 判定不可变）, 账本行完整保留两次探针的审计痕迹",
+   "ledger_path": "logs/graph/eval/d3_stage_b_call_ledger.jsonl",
+   "ledger_lines_total": 62,
+   "ledger_reserve_lines": 31,
+   "ledger_reserve_eq_counter": true
+  },
+  "verdict_cross_tab": {
+   "J-N1": {
+    "equivalent": 14,
+    "meaning_changed": 7,
+    "invalid_final": 0
+   },
+   "J-N2": {
+    "equivalent": 4,
+    "meaning_changed": 3,
+    "invalid_final": 0
+   }
+  },
+  "jn1_confirmation_rate": {
+   "numerator": 7,
+   "valid_denominator": 21,
+   "rate": 0.333333,
+   "invalid_final_excluded": 0,
+   "frozen_denominator": 21
+  },
+  "jn2_equivalent_rate_supports_current_E": {
+   "numerator": 4,
+   "valid_denominator": 7,
+   "rate": 0.571429,
+   "invalid_final_excluded": 0,
+   "frozen_denominator": 7
+  },
+  "jn2_meaning_changed_rate_supports_dr4_oracle_H": {
+   "numerator": 3,
+   "valid_denominator": 7,
+   "rate": 0.428571,
+   "invalid_final_excluded": 0,
+   "frozen_denominator": 7
+  },
+  "per_case": [
+   {
+    "call_id": "B01",
+    "subgroup": "J-N1",
+    "injection_key": "1fe3e1d6#2",
+    "uid8": "1fe3e1d6",
+    "col": 2,
+    "col_1based": 3,
+    "original": "Number of equity shares",
+    "injected": "Number of equty shares",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "拼写错误, 语义不变",
+    "judge_harmful": false,
+    "prompt_sha256": "bf814b41ca111ba9299d8178cbca239318c5cf42eb5d63b100b46383da5ebae3",
+    "table_truncated": false,
+    "latency_ms": 893,
+    "usage": {
+     "completion_tokens": 28,
+     "prompt_tokens": 568,
+     "total_tokens": 596,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     }
+    },
+    "counter": 2,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"拼写错误, 语义不变\"}"
+   },
+   {
+    "call_id": "B02",
+    "subgroup": "J-N1",
+    "injection_key": "21c316d6#2",
+    "uid8": "21c316d6",
+    "col": 2,
+    "col_1based": 3,
+    "original": "Dividend per Share",
+    "injected": "divdend per Share",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "拼写错误但不影响语义指向",
+    "judge_harmful": false,
+    "prompt_sha256": "87e4bbef5e3be12d19bb7f863dc7b19d7ad2e4167204f86f2b45abace969c6ae",
+    "table_truncated": false,
+    "latency_ms": 1053,
+    "usage": {
+     "completion_tokens": 28,
+     "prompt_tokens": 812,
+     "total_tokens": 840,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 3,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"拼写错误但不影响语义指向\"}"
+   },
+   {
+    "call_id": "B03",
+    "subgroup": "J-N1",
+    "injection_key": "3c609073#1",
+    "uid8": "3c609073",
+    "col": 1,
+    "col_1based": 2,
+    "original": "Vessels and capitalized dry-docking",
+    "injected": "Vessels and capitaiized dry-docking",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在拼写错误, 语义指向相同",
+    "judge_harmful": false,
+    "prompt_sha256": "c91d28cfc333357cbb3ed9ed18ab6c5dde1721c3bfab097121cb8a761b09249a",
+    "table_truncated": false,
+    "latency_ms": 1115,
+    "usage": {
+     "completion_tokens": 37,
+     "prompt_tokens": 678,
+     "total_tokens": 715,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 4,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"equivalent\",\n\"confidence\": \"high\",\n\"rationale\": \"仅存在拼写错误, 语义指向相同\"\n}"
+   },
+   {
+    "call_id": "B04",
+    "subgroup": "J-N1",
+    "injection_key": "3c609073#3",
+    "uid8": "3c609073",
+    "col": 3,
+    "col_1based": 4,
+    "original": "Other plant and operating equipment",
+    "injected": "Other plant and operat1ng equipment",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在拼写错误, 语义指向相同",
+    "judge_harmful": false,
+    "prompt_sha256": "5b7b2239858c5badda27625e43eb9073bfbfd22ae038916cd9e3943e1fad4022",
+    "table_truncated": false,
+    "latency_ms": 796,
+    "usage": {
+     "completion_tokens": 31,
+     "prompt_tokens": 673,
+     "total_tokens": 704,
+     "prompt_tokens_details": {
+      "cached_tokens": 162
+     }
+    },
+    "counter": 5,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}"
+   },
+   {
+    "call_id": "B05",
+    "subgroup": "J-N1",
+    "injection_key": "44c7c9ef#1",
+    "uid8": "44c7c9ef",
+    "col": 1,
+    "col_1based": 2,
+    "original": "Operating Leases",
+    "injected": "operat1ng Leases",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在拼写错误, 语义指向相同",
+    "judge_harmful": false,
+    "prompt_sha256": "60e9b2b90b9ea75ece82e8ed2b409fc25ca16dd1a471aef8c3212bf311f98730",
+    "table_truncated": false,
+    "latency_ms": 898,
+    "usage": {
+     "completion_tokens": 31,
+     "prompt_tokens": 559,
+     "total_tokens": 590,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 6,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}"
+   },
+   {
+    "call_id": "B06",
+    "subgroup": "J-N1",
+    "injection_key": "567a03c7#1",
+    "uid8": "567a03c7",
+    "col": 1,
+    "col_1based": 2,
+    "original": "Exercise Date",
+    "injected": "Exercise date 2021-期末日期",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "meaning_changed",
+    "confidence": "high",
+    "rationale": "修改后列名包含'期末日期', 与原始'行权日期'语义不同",
+    "judge_harmful": true,
+    "prompt_sha256": "4d238e06ada2948d0499bbe63b28427c374b8873e5b85a5c0bc3cdda510722d6",
+    "table_truncated": false,
+    "latency_ms": 1301,
+    "usage": {
+     "completion_tokens": 46,
+     "prompt_tokens": 825,
+     "total_tokens": 871,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 7,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"修改后列名包含'期末日期', 与原始'行权日期'语义不同\"\n}"
+   },
+   {
+    "call_id": "B07",
+    "subgroup": "J-N1",
+    "injection_key": "5fe2c49e#1",
+    "uid8": "5fe2c49e",
+    "col": 1,
+    "col_1based": 2,
+    "original": "Operating Leases",
+    "injected": "operat1ng Leases",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在大小写拼写差异, 语义指向相同",
+    "judge_harmful": false,
+    "prompt_sha256": "bd12b98daed2065ba67212b1ffb505850324ffcb9532a03a588fb37885fb9d44",
+    "table_truncated": false,
+    "latency_ms": 1102,
+    "usage": {
+     "completion_tokens": 39,
+     "prompt_tokens": 616,
+     "total_tokens": 655,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 8,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"equivalent\",\n\"confidence\": \"high\",\n\"rationale\": \"仅存在大小写拼写差异, 语义指向相同\"\n}"
+   },
+   {
+    "call_id": "B08",
+    "subgroup": "J-N1",
+    "injection_key": "5fe2c49e#2",
+    "uid8": "5fe2c49e",
+    "col": 2,
+    "col_1based": 3,
+    "original": "Capital Leases",
+    "injected": "capitai Leases",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在拼写错误, 语义指向相同",
+    "judge_harmful": false,
+    "prompt_sha256": "49b3efa001e4b9e70f6d207891cf39b49860e8f9c64b8c8fcb6ba766d0117f6a",
+    "table_truncated": false,
+    "latency_ms": 868,
+    "usage": {
+     "completion_tokens": 31,
+     "prompt_tokens": 614,
+     "total_tokens": 645,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 9,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}"
+   },
+   {
+    "call_id": "B09",
+    "subgroup": "J-N1",
+    "injection_key": "68b8d514#1",
+    "uid8": "68b8d514",
+    "col": 1,
+    "col_1based": 2,
+    "original": "Grant Date",
+    "injected": "Grant date 2019-报表明细日期",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅增加年份标注, 核心语义仍为授予日期",
+    "judge_harmful": false,
+    "prompt_sha256": "564290d17e1928a48887eac246e594959523294be85c3adce60d06a26477b97c",
+    "table_truncated": false,
+    "latency_ms": 1141,
+    "usage": {
+     "completion_tokens": 33,
+     "prompt_tokens": 771,
+     "total_tokens": 804,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 10,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅增加年份标注, 核心语义仍为授予日期\"}"
+   },
+   {
+    "call_id": "B10",
+    "subgroup": "J-N1",
+    "injection_key": "6a5e5192#0",
+    "uid8": "6a5e5192",
+    "col": 0,
+    "col_1based": 1,
+    "original": "Equity-settled",
+    "injected": "equty-settled",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在拼写错误, 语义指向相同",
+    "judge_harmful": false,
+    "prompt_sha256": "178a556439c67542d2669ef5f0f48474dd3dca790d1ae531fae588c7f4919ec5",
+    "table_truncated": false,
+    "latency_ms": 1087,
+    "usage": {
+     "completion_tokens": 31,
+     "prompt_tokens": 798,
+     "total_tokens": 829,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 11,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}"
+   },
+   {
+    "call_id": "B11",
+    "subgroup": "J-N1",
+    "injection_key": "6f9a0eb1#0",
+    "uid8": "6f9a0eb1",
+    "col": 0,
+    "col_1based": 1,
+    "original": "Capital expenditures 2017–2019",
+    "injected": "capitai expenditures 2017–2019",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在拼写错误, 语义指向相同",
+    "judge_harmful": false,
+    "prompt_sha256": "b476215b3d2966f17d4bb34f42ef9554f45025239d88051e8a60b2511cfc31c1",
+    "table_truncated": false,
+    "latency_ms": 900,
+    "usage": {
+     "completion_tokens": 31,
+     "prompt_tokens": 530,
+     "total_tokens": 561,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 12,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}"
+   },
+   {
+    "call_id": "B12",
+    "subgroup": "J-N1",
+    "injection_key": "c0f66238#3",
+    "uid8": "c0f66238",
+    "col": 3,
+    "col_1based": 4,
+    "original": "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))",
+    "injected": "Number of securities remaining available for future issuance under equty compensation plans (excluding securities reflected in column(a))",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在拼写错误, 语义未变",
+    "judge_harmful": false,
+    "prompt_sha256": "e0b7f0741f90374d7c9e3a17da56992e6819be75a64f989bbc64c858cde3ae80",
+    "table_truncated": false,
+    "latency_ms": 980,
+    "usage": {
+     "completion_tokens": 31,
+     "prompt_tokens": 605,
+     "total_tokens": 636,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 13,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义未变\"}"
+   },
+   {
+    "call_id": "B13",
+    "subgroup": "J-N1",
+    "injection_key": "d2bba753#0",
+    "uid8": "d2bba753",
+    "col": 0,
+    "col_1based": 1,
+    "original": "Capital stock",
+    "injected": "capitai stock",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在拼写错误, 语义指向相同",
+    "judge_harmful": false,
+    "prompt_sha256": "2093e2f934a56ecb36365a0b601a5a7a74a75d0829e0f1ac1c56b766e5ac4295",
+    "table_truncated": false,
+    "latency_ms": 844,
+    "usage": {
+     "completion_tokens": 31,
+     "prompt_tokens": 503,
+     "total_tokens": 534,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 14,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}"
+   },
+   {
+    "call_id": "B14",
+    "subgroup": "J-N1",
+    "injection_key": "d7d65228#3",
+    "uid8": "d7d65228",
+    "col": 3,
+    "col_1based": 4,
+    "original": "Cash dividend per share (NT dollars)",
+    "injected": "Cash divdend per share (NT dollars)",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在拼写错误, 语义指向相同",
+    "judge_harmful": false,
+    "prompt_sha256": "a2fbf1b8af86a3302704b407622aef23c957211cddbdbc587f6489a7eeb2d7a7",
+    "table_truncated": false,
+    "latency_ms": 954,
+    "usage": {
+     "completion_tokens": 31,
+     "prompt_tokens": 577,
+     "total_tokens": 608,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 15,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}"
+   },
+   {
+    "call_id": "B15",
+    "subgroup": "J-N1",
+    "injection_key": "e11338f6#0",
+    "uid8": "e11338f6",
+    "col": 0,
+    "col_1based": 1,
+    "original": "Contractual Maturities of Financial Liabilities",
+    "injected": "Contractual Maturities of Financial liabilitie5",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "仅存在拼写错误, 语义指向相同",
+    "judge_harmful": false,
+    "prompt_sha256": "213033d667c168ca1d93c0d7bc3242303aed9aff36de53e845fb9784f61bcab2",
+    "table_truncated": false,
+    "latency_ms": 1062,
+    "usage": {
+     "completion_tokens": 31,
+     "prompt_tokens": 855,
+     "total_tokens": 886,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 16,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"仅存在拼写错误, 语义指向相同\"}"
+   },
+   {
+    "call_id": "B16",
+    "subgroup": "J-N1",
+    "injection_key": "24ff90f9#2",
+    "uid8": "24ff90f9",
+    "col": 2,
+    "col_1based": 3,
+    "original": "% of associated net revenues",
+    "injected": "turnover",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "meaning_changed",
+    "confidence": "high",
+    "rationale": "turnover通常指营业额或周转率，与表中占比含义不同",
+    "judge_harmful": true,
+    "prompt_sha256": "99b55fc3acc04447badceb3d29a172847dd08804441137b5798e36104ce33778",
+    "table_truncated": false,
+    "latency_ms": 1229,
+    "usage": {
+     "completion_tokens": 41,
+     "prompt_tokens": 665,
+     "total_tokens": 706,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 17,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"turnover通常指营业额或周转率，与表中占比含义不同\"\n}"
+   },
+   {
+    "call_id": "B17",
+    "subgroup": "J-N1",
+    "injection_key": "24ff90f9#4",
+    "uid8": "24ff90f9",
+    "col": 4,
+    "col_1based": 5,
+    "original": "% of associated net revenues",
+    "injected": "营业总收入",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "meaning_changed",
+    "confidence": "high",
+    "rationale": "原始列为占比, 修改后为绝对金额指标, 语义完全不同",
+    "judge_harmful": true,
+    "prompt_sha256": "f9461190454f27ce78da777248d5dd9c4b48b1f0fad642f761e54ed5e2d258f6",
+    "table_truncated": false,
+    "latency_ms": 993,
+    "usage": {
+     "completion_tokens": 42,
+     "prompt_tokens": 667,
+     "total_tokens": 709,
+     "prompt_tokens_details": {
+      "cached_tokens": 149
+     }
+    },
+    "counter": 18,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"原始列为占比, 修改后为绝对金额指标, 语义完全不同\"\n}"
+   },
+   {
+    "call_id": "B18",
+    "subgroup": "J-N1",
+    "injection_key": "32cfcadb#2",
+    "uid8": "32cfcadb",
+    "col": 2,
+    "col_1based": 3,
+    "original": "As a % of Segment Revenue (1)",
+    "injected": "营收",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "meaning_changed",
+    "confidence": "high",
+    "rationale": "原始列为占比, 修改后为营收, 语义完全不同",
+    "judge_harmful": true,
+    "prompt_sha256": "51930ce78c3f7235a90a75407388bfb2e224026e4fa9c6668bbc52a5810fe1f1",
+    "table_truncated": false,
+    "latency_ms": 1157,
+    "usage": {
+     "completion_tokens": 40,
+     "prompt_tokens": 652,
+     "total_tokens": 692,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 19,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"原始列为占比, 修改后为营收, 语义完全不同\"\n}"
+   },
+   {
+    "call_id": "B19",
+    "subgroup": "J-N1",
+    "injection_key": "32cfcadb#4",
+    "uid8": "32cfcadb",
+    "col": 4,
+    "col_1based": 5,
+    "original": "As a % of Segment Revenue (1)",
+    "injected": "营业总收入",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "meaning_changed",
+    "confidence": "high",
+    "rationale": "原始列为占比, 修改后为收入总额, 语义完全不同",
+    "judge_harmful": true,
+    "prompt_sha256": "8298bc22e81210bad28cf0ac12ed10e39b20971ff9876288ffba09e46a11b153",
+    "table_truncated": false,
+    "latency_ms": 974,
+    "usage": {
+     "completion_tokens": 41,
+     "prompt_tokens": 653,
+     "total_tokens": 694,
+     "prompt_tokens_details": {
+      "cached_tokens": 136
+     }
+    },
+    "counter": 20,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"原始列为占比, 修改后为收入总额, 语义完全不同\"\n}"
+   },
+   {
+    "call_id": "B20",
+    "subgroup": "J-N1",
+    "injection_key": "97176853#2",
+    "uid8": "97176853",
+    "col": 2,
+    "col_1based": 3,
+    "original": "As a % of Revenue (1)",
+    "injected": "营业总收入",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "meaning_changed",
+    "confidence": "high",
+    "rationale": "原始列为占比, 修改后为总额, 语义完全不同",
+    "judge_harmful": true,
+    "prompt_sha256": "3ce329291e73285f507da9084ddb3a4a151403518f467c730e0b8cc6ad69460a",
+    "table_truncated": false,
+    "latency_ms": 1125,
+    "usage": {
+     "completion_tokens": 40,
+     "prompt_tokens": 576,
+     "total_tokens": 616,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 21,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"原始列为占比, 修改后为总额, 语义完全不同\"\n}"
+   },
+   {
+    "call_id": "B21",
+    "subgroup": "J-N1",
+    "injection_key": "97176853#4",
+    "uid8": "97176853",
+    "col": 4,
+    "col_1based": 5,
+    "original": "As a % of Revenue (1)",
+    "injected": "turnover",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "meaning_changed",
+    "confidence": "high",
+    "rationale": "原始列为收入占比, 修改后为营业额, 语义不同",
+    "judge_harmful": true,
+    "prompt_sha256": "17c353ae0d18ae0e332a199a4dd5a6984e64a9ec8335ecbdbad6b77b937ab4e2",
+    "table_truncated": false,
+    "latency_ms": 1082,
+    "usage": {
+     "completion_tokens": 41,
+     "prompt_tokens": 574,
+     "total_tokens": 615,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 22,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"原始列为收入占比, 修改后为营业额, 语义不同\"\n}"
+   },
+   {
+    "call_id": "B22",
+    "subgroup": "J-N2",
+    "injection_key": "50e78448#2",
+    "uid8": "50e78448",
+    "col": 2,
+    "col_1based": 3,
+    "original": "US$",
+    "injected": "US [1]",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "US$与US均为美元符号或缩写变体，指代相同币种字段",
+    "judge_harmful": false,
+    "prompt_sha256": "2d17a3b20bff9856d6935a55484bbd858830dcda062f1608a8f76284e6ab8f3a",
+    "table_truncated": false,
+    "latency_ms": 1237,
+    "usage": {
+     "completion_tokens": 44,
+     "prompt_tokens": 653,
+     "total_tokens": 697,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 23,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"equivalent\",\n\"confidence\": \"high\",\n\"rationale\": \"US$与US均为美元符号或缩写变体，指代相同币种字段\"\n}"
+   },
+   {
+    "call_id": "B23",
+    "subgroup": "J-N2",
+    "injection_key": "54c494f7#2",
+    "uid8": "54c494f7",
+    "col": 2,
+    "col_1based": 3,
+    "original": "Accumulated Amortization",
+    "injected": "amort",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "amort是Accumulated Amortization的常见缩写，语义一致",
+    "judge_harmful": false,
+    "prompt_sha256": "06375091ba821a4f9ca898725e970bba996bda8a9771b3e5336686457eeda22d",
+    "table_truncated": false,
+    "latency_ms": 1165,
+    "usage": {
+     "completion_tokens": 36,
+     "prompt_tokens": 839,
+     "total_tokens": 875,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 24,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"amort是Accumulated Amortization的常见缩写，语义一致\"}"
+   },
+   {
+    "call_id": "B24",
+    "subgroup": "J-N2",
+    "injection_key": "5e60c056#0",
+    "uid8": "5e60c056",
+    "col": 0,
+    "col_1based": 1,
+    "original": "£m",
+    "injected": "m【】",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "meaning_changed",
+    "confidence": "high",
+    "rationale": "删除货币单位£, 语义改变",
+    "judge_harmful": true,
+    "prompt_sha256": "b84ec4610c225de7ffb23fa15b30e1d9c9dfb033d0e7b84a6334e600ef4562a7",
+    "table_truncated": false,
+    "latency_ms": 972,
+    "usage": {
+     "completion_tokens": 35,
+     "prompt_tokens": 468,
+     "total_tokens": 503,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 25,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"删除货币单位£, 语义改变\"\n}"
+   },
+   {
+    "call_id": "B25",
+    "subgroup": "J-N2",
+    "injection_key": "73a817fc#1",
+    "uid8": "73a817fc",
+    "col": 1,
+    "col_1based": 2,
+    "original": "Dividends Paid(1)",
+    "injected": "dividend",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "dividend是Dividends Paid的合理缩写，语义一致",
+    "judge_harmful": false,
+    "prompt_sha256": "d16258e7c2b30c882c4e7ed5ed36f978ed88dffac87f16086fc5b79a97661491",
+    "table_truncated": false,
+    "latency_ms": 1218,
+    "usage": {
+     "completion_tokens": 40,
+     "prompt_tokens": 600,
+     "total_tokens": 640,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 26,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"equivalent\",\n\"confidence\": \"high\",\n\"rationale\": \"dividend是Dividends Paid的合理缩写，语义一致\"\n}"
+   },
+   {
+    "call_id": "B26",
+    "subgroup": "J-N2",
+    "injection_key": "b5aae4e9#0",
+    "uid8": "b5aae4e9",
+    "col": 0,
+    "col_1based": 1,
+    "original": "£m",
+    "injected": "m【】",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "meaning_changed",
+    "confidence": "high",
+    "rationale": "删除货币符号£, 丢失英镑单位信息, 语义改变",
+    "judge_harmful": true,
+    "prompt_sha256": "d3d388980f0a8c03494d4339d2207426f72d2c7040f382505f879bb4437928dc",
+    "table_truncated": false,
+    "latency_ms": 928,
+    "usage": {
+     "completion_tokens": 35,
+     "prompt_tokens": 549,
+     "total_tokens": 584,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 27,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"meaning_changed\", \"confidence\": \"high\", \"rationale\": \"删除货币符号£, 丢失英镑单位信息, 语义改变\"}"
+   },
+   {
+    "call_id": "B27",
+    "subgroup": "J-N2",
+    "injection_key": "e67f7bf2#4",
+    "uid8": "e67f7bf2",
+    "col": 4,
+    "col_1based": 5,
+    "original": "Free cash flow (pre-spectrum)",
+    "injected": "cashflow",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "meaning_changed",
+    "confidence": "high",
+    "rationale": "修改后列名删除了关键限定语(pre-spectrum), 导致字段范围扩大, 语义发生改变",
+    "judge_harmful": true,
+    "prompt_sha256": "4849a34d4f6d6bfc30e931dc430d06485b57ad703e9947fe777b76b8d4ad5689",
+    "table_truncated": false,
+    "latency_ms": 1249,
+    "usage": {
+     "completion_tokens": 49,
+     "prompt_tokens": 597,
+     "total_tokens": 646,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 28,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\n\"verdict\": \"meaning_changed\",\n\"confidence\": \"high\",\n\"rationale\": \"修改后列名删除了关键限定语(pre-spectrum), 导致字段范围扩大, 语义发生改变\"\n}"
+   },
+   {
+    "call_id": "B28",
+    "subgroup": "J-N2",
+    "injection_key": "e9730ea3#2",
+    "uid8": "e9730ea3",
+    "col": 2,
+    "col_1based": 3,
+    "original": "Accumulated Amortization",
+    "injected": "amort",
+    "attempts": 1,
+    "status": "ok",
+    "verdict": "equivalent",
+    "confidence": "high",
+    "rationale": "amort是Accumulated Amortization的通用缩写, 语义一致",
+    "judge_harmful": false,
+    "prompt_sha256": "51feefb6231ddc9916bb4e30f18a1d92a7cd4be8a0debfd3dfb9090f90a34838",
+    "table_truncated": false,
+    "latency_ms": 1072,
+    "usage": {
+     "completion_tokens": 37,
+     "prompt_tokens": 659,
+     "total_tokens": 696,
+     "prompt_tokens_details": {
+      "cached_tokens": 52
+     }
+    },
+    "counter": 29,
+    "parse_error": "",
+    "resumed_from_ledger": true,
+    "raw_response": "{\"verdict\": \"equivalent\", \"confidence\": \"high\", \"rationale\": \"amort是Accumulated Amortization的通用缩写, 语义一致\"}"
+   }
+  ],
+  "confidence_distribution_valid_only": {
+   "high": 28,
+   "medium": 0,
+   "low": 0
+  },
+  "tokens_valid_calls": {
+   "prompt_tokens": 18136,
+   "completion_tokens": 1011
+  },
+  "aggregation_rule": {
+   "meaning_changed": "judge_harmful=true",
+   "equivalent": "judge_harmful=false",
+   "invalid_final": "不入分子分母, 逐例原样列出, 不填补不以人工判定替代"
+  },
+  "dr4_comparison_8rows": [
+   {
+    "key": "3789d7da-dc3e-4cd7-b639-d6805211405a#1",
+    "direction": "H->E",
+    "current_label": "H",
+    "dr4_oracle": "E",
+    "type": "alias_variant",
+    "first_failing_criterion": "none_failed",
+    "evidence_kind": "deterministic_evidence",
+    "judge_verdict": null,
+    "judge_confidence": null,
+    "judge_status": "not_called_zero_calls",
+    "deterministic_evidence": {
+     "visible": true,
+     "absorbed": false,
+     "match_tier": 0
+    },
+    "agreement": "disagree",
+    "agreement_note": "确定性通道判为检出（visible=true ∧ absorbed=false ∧ match_tier=0）而 DR4 oracle = 等价 ⇒ 方向不一致, 如实入账（卡加编 2 澄清: 本例零 judge 调用）"
+   },
+   {
+    "key": "50e78448-3cf5-439c-a609-ee866bd1f05a#2",
+    "direction": "E->H",
+    "current_label": "E",
+    "dr4_oracle": "HARMFUL",
+    "type": "prefix_noise",
+    "first_failing_criterion": "C1_operator",
+    "evidence_kind": "judge_verdict",
+    "judge_verdict": "equivalent",
+    "judge_confidence": "high",
+    "judge_status": "ok",
+    "deterministic_evidence": null,
+    "agreement": "disagree"
+   },
+   {
+    "key": "54c494f7-d731-49bf-b9cd-d494aea72e34#2",
+    "direction": "E->H",
+    "current_label": "E",
+    "dr4_oracle": "HARMFUL",
+    "type": "alias_variant",
+    "first_failing_criterion": "C2_canonical_truth",
+    "evidence_kind": "judge_verdict",
+    "judge_verdict": "equivalent",
+    "judge_confidence": "high",
+    "judge_status": "ok",
+    "deterministic_evidence": null,
+    "agreement": "disagree"
+   },
+   {
+    "key": "5e60c056-5073-441d-8525-7f834deb5c64#0",
+    "direction": "E->H",
+    "current_label": "E",
+    "dr4_oracle": "HARMFUL",
+    "type": "prefix_noise",
+    "first_failing_criterion": "C1_operator",
+    "evidence_kind": "judge_verdict",
+    "judge_verdict": "meaning_changed",
+    "judge_confidence": "high",
+    "judge_status": "ok",
+    "deterministic_evidence": null,
+    "agreement": "agree"
+   },
+   {
+    "key": "73a817fc-25df-494d-b0f2-79cfdab34076#1",
+    "direction": "E->H",
+    "current_label": "E",
+    "dr4_oracle": "HARMFUL",
+    "type": "alias_variant",
+    "first_failing_criterion": "C2_canonical_truth",
+    "evidence_kind": "judge_verdict",
+    "judge_verdict": "equivalent",
+    "judge_confidence": "high",
+    "judge_status": "ok",
+    "deterministic_evidence": null,
+    "agreement": "disagree"
+   },
+   {
+    "key": "b5aae4e9-040d-4e55-a42d-39cde217978f#0",
+    "direction": "E->H",
+    "current_label": "E",
+    "dr4_oracle": "HARMFUL",
+    "type": "prefix_noise",
+    "first_failing_criterion": "C1_operator",
+    "evidence_kind": "judge_verdict",
+    "judge_verdict": "meaning_changed",
+    "judge_confidence": "high",
+    "judge_status": "ok",
+    "deterministic_evidence": null,
+    "agreement": "agree"
+   },
+   {
+    "key": "e67f7bf2-fc15-4a7a-9856-febb066998fd#4",
+    "direction": "E->H",
+    "current_label": "E",
+    "dr4_oracle": "HARMFUL",
+    "type": "alias_variant",
+    "first_failing_criterion": "C2_canonical_truth",
+    "evidence_kind": "judge_verdict",
+    "judge_verdict": "meaning_changed",
+    "judge_confidence": "high",
+    "judge_status": "ok",
+    "deterministic_evidence": null,
+    "agreement": "agree"
+   },
+   {
+    "key": "e9730ea3-e003-4db6-a513-9c9e6f40e371#2",
+    "direction": "E->H",
+    "current_label": "E",
+    "dr4_oracle": "HARMFUL",
+    "type": "alias_variant",
+    "first_failing_criterion": "C2_canonical_truth",
+    "evidence_kind": "judge_verdict",
+    "judge_verdict": "equivalent",
+    "judge_confidence": "high",
+    "judge_status": "ok",
+    "deterministic_evidence": null,
+    "agreement": "disagree"
+   }
+  ],
+  "dr4_agreement_tally": {
+   "agree": 3,
+   "disagree": 5,
+   "unresolved_invalid_final": 0
+  },
+  "divergence_triggers_report_discipline": {
+   "trigger_1_jn2_ge_4of7_equivalent_vs_dr4_oracle": true,
+   "jn2_equivalent_valid": 4,
+   "trigger_2_jn1_ge_11of21_equivalent_undermines_harmful_set": true,
+   "jn1_equivalent_valid": 14,
+   "any_triggered": true,
+   "semantics": "C3-3 上报纪律（非判据）: 命中 = 即时上报 Loop D, 不等 autopsy 排期"
+  },
+  "gate_details": {
+   "GG1_C3_1_runtime_hard_assertions": true,
+   "GG2_C3_4_model_service_assertion": true,
+   "GG3_canary_ok_and_counted": true,
+   "GG4_budget_hard_gate_le_200": true,
+   "GG5_28_cases_all_final": true,
+   "GG6_only_8004_touched": true,
+   "GG7_8006_zero_touch": true,
+   "GG8_leak_guard_and_prompt_contract": true,
+   "GG9_frozen_inputs_readonly": true,
+   "GG10_counter_identity_vs_ledger": true,
+   "GG11_card_sha_pinned": true,
+   "GG12_client_identifier_zero": true,
+   "GG13_jn3_zero_calls": true,
+   "all_pass": true
+  },
+  "redline_self_check": {
+   "stage": "B_endpoint_window（仅 :8004）",
+   "ports_observed": [
+    8004
+   ],
+   "endpoint_violations": [],
+   "endpoint_8004_only": true,
+   "endpoint_8006_zero_touch": true,
+   "jn3_zero_calls": true,
+   "tat_dqa_frozen_line_untouched": true,
+   "frozen_nodes_untouched": "tests/test_m1_service.py / ~/wzh/m1_samples / frozen_hashes 零读写",
+   "read_only_frozen_inputs": {
+    "sha_equal": true,
+    "n_inputs": 6
+   },
+   "client_identifier_scan": {
+    "client_token_hits": [],
+    "id_token_hits": [],
+    "scanned_chars": 92676
+   },
+   "git_discipline": "逐路径 add; 禁 -A / 禁 amend",
+   "outbound_sent": false,
+   "j7_endpoint_robustness_window_not_opened": true
+  },
+  "window_abort": null
+ },
+ "payload_sha256": "2e4a828ca5c07ea20a3828a65c800d2fec8e804720d2e49247f6f8cdc99531b7",
+ "digest_self_consistency": true
+}

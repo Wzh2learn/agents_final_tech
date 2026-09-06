@@ -150,3 +150,37 @@
 - 归主线程（收集与判定分离）: **「等价注入」作为鲁棒性正例的证据基础在本语料近乎不存在**（现行 7 条 E 全失守,
   oracle 仅认可纯同义别名 1 例）⇒ D1「E 集」口径、任何以 E 集为分子的表述、D4 等价类定义需 Loop D 判定;
   本窗只出更正记录不改写既有主张（见 `memory/THREADS.md` #DR4-CLOSEOUT）。
+
+## D3 阶段 B judge 重打分窗结果（2026-09-06, TASK-20260901-D3, Loop A, 端点窗仅 :8004）
+
+- 窗口: 卡加编 3（C3-1..C3-6 测量契约, **零现场定义空间**; 派发硬前置）+ 加编 2 澄清节; 09-06 13:5x 派发后同日开窗, 零改期。
+  **13 门全 PASS**（`gates.all_pass=true`; GG1 C3-1 六断言 / GG2 模型实况 / GG3 canary / GG4 预算 / GG5 28 例全终态 /
+  GG6 仅 8004 / GG7 8006 零触碰 / GG8 防泄漏 + prompt 契约 / GG9 冻结件只读 / GG10 计数恒等式 / GG11 卡 sha 钉死 /
+  GG12 甲方标识零 / GG13 J-N3 零调用）。工件 `logs/graph/eval/d3_matched_fpr_stage_b.json`（payload_sha256 `2e4a828c…`,
+  文件 sha `e0cec25e…`, digest 自洽 true）+ 报告 `docs/experiments/2026-09-06_d3_matched_fpr_stage_b.md`（十节 + 22 claim 收据 check 过）
+  + 账本 `logs/graph/eval/d3_stage_b_call_ledger.jsonl`（62 行 append-only）+ 脚本 `research/paper_d3_stage_b_judge.py`。
+- **判定分布（28 调用全 ok; 零 invalid / 零重试 / 零表截断）**: J-N1 零信号有害 21 例 = meaning_changed **7/21（33.3%）** /
+  equivalent 14; J-N2 等价 7 例 = equivalent **4/7（57.1%）** / meaning_changed 3/7（42.9%）。
+  **J-N1 按机制二分彻底翻转**: 阈值稀释 6 例 = **6/6 meaning_changed**（占比→绝对额, `% of Revenue → 营业总收入` 类）
+  vs 静默吸收 15 例 = **14/15 equivalent** 且形态同质 = 纯字符级拼写扰动（`equty`/`capitai`/`divdend`/`operat1ng`/`liabilitie5`）
+  ⇒ 零信号集内真正语义有害疑似仅 1 例（`567a03c7#1` 追加「2021-期末日期」, 属追加非扰动）。
+- **⚠ C3-3 两条方向性触发同时命中（已按上报纪律即时上报, 不等 autopsy; THREADS #D3-STAGE-B-CLOSEOUT）**:
+  ① J-N2 equivalent 4/7 ≥ 4（与 DR4 oracle 全 HARMFUL 反向）; ② J-N1 equivalent 14/21 ≥ 11（零信号集多数判无害 ⇒ 动摇有害集选取与 D4 oracle）。
+  8 行 DR4 对照 = **3 agree / 5 disagree / 0 unresolved**; 同形对（`amort` ×2、`£m→m【】` ×2）判定自洽一致 ⇒ temp=0 稳定;
+  分歧**按扰动族成块**（缩写族全 disagree / 删限定语与货币符号族全 agree）, 非逐例随机噪声。
+  `3789d7da#1`（H→E）按加编 2 澄清以确定性证据（visible=T/absorbed=F/tier=0）入账, 零 judge 调用。
+- 计数与开窗如实记账: **计数器 31 ≤ 200**（canary 3 + call 28 + 重试 0; 恒等式 counter==canary+calls 与 reserve==counter 双成立 ⇒ 零计数外请求）;
+  **开窗 3 次** = 首窗 29 次调用（canary 1 + 正式 28）+ 装配缺陷修复后 2 次 canary 探针; **28 例正式判定只发过一次**
+  （payload 字节相同 ⇒ 判定不可变, 后续 append-only 账本复用, resumed=28, 零新正式调用）。成本: tokens 18,136/1,011; latency median 1,072 ms（S-4 次要）。
+- 执行期缺陷两处（均非判据改动）: ① 占位符正则 `\{([a-z_]+)\}` 漏 `{col_1based}` → 加数字类（首跑前修）;
+  ② `Ledger._append` 只写盘不同步内存镜像 → 账本快照漏计本次行 → **GG10 FAIL / all_pass=false / 工件未收口**
+  （门确实拦住了不自洽的第一次产物）; 根因修 `_append` 同步后 31=3+28 成立。
+- 前置自证: C3-1 A1–A6 6/6 PASS（独立重算: 清单并集/不相交/逐字锚点/H→E 排除/uid8 1:1 唯一）; leak_guard hits=[];
+  28 prompt 游标重建零绑定违规且 sha 全唯一（逐例非抽样）; 冻结 6 件 sha 前后等; 卡 sha `22eaa5117b84` = 钉死值。
+- 红线自查: 仅 :8004（`ports_observed=[8004]`, violations=[]）/ :8006 与 :8008 零触碰 / J-N3 零调用 /
+  **阶段 A 零重跑**（工件只读）/ 判据零改动（E-1..E-4 / S-1..S-8 / R1-R4 / D1-D2 全不动, 收集与判定分离）/
+  甲方标识零命中（92,676 字符扫描）/ TAT-DQA 冻结线零触碰 / 逐路径 add 无 `-A` 无 amend / 零对外。
+  口径注记: 本窗 judge = :8004 A3B temp=0, 与历史四维 judge 基线（4.94–5.0 含 :8006 xhigh）**不同口径不作跨比较**。
+- 归主线程（收集与判定分离, 本窗不裁定不重归类）: ① **三条证据线互不完全一致**（现行类型级 E / DR4 实例级 oracle / 本窗 judge）
+  ⇒ 缺陷**类型标签与实例级危害性之间存在口径缺口**; ② 「纯字符级拼写扰动是否计入有害注入集」需 Loop D 显式裁定
+  ——直接影响 D4 oracle 与 S-2 检出分母 111 的合法性; ③ 序列续: 停一次 autopsy → D4 拟卡（含第二证据叶）→ T7。
