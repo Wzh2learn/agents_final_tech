@@ -212,6 +212,35 @@ python research/paper_d3_stage_b_closeout.py --corpus <mirror>     # Windows（�
 python scripts/graph/hooks/summary_recompute_guard.py check docs/experiments/2026-09-07_d3_stage_b_closeout.md
 ```
 
+## 15 更正注记（09-07 侧线抽验 + 决策 4A/5A）
+
+> 性质: **只追加, 不回改原文, 不动收据**。决策 4A = 收据保持 v1 原状（不重跑审计脚本、不重铸 `payload_sha256`、不改 SUMMARY-GUARD 块）, 可复现性以 §14 为准。以下更正以本节为准, 原文对应句保留不改。侧线独立抽验已核过: 三方对齐、工件字节/哈希、计数恒等式、判定分布、DR4 8 行、两条触发、tokens/latency、prompt 28/28、端点隔离、F-0907-1 现场**全部成立**; 本节三条更正均不影响阶段 B 数字有效性, 不需返工重跑。
+
+### 15.1 证据级别计数更正（F06 家族）
+
+§2 C3-6④ 行与 §3 表末所写「独立重算 19 / 存值一致 6 / 字段存在 2」**有误**; 正确值 = **独立重算 21 / 存值一致 5 / 字段存在 1**（合计仍 27）。依据 = 结构字段机械计数 `payload.checks[].evidence_level`（实测 `independent_recompute=21` / `value_match=5` / `field_exists=1`; 唯一 `field_exists` = S-12）。误因 = 收口时按印象手数、未以结构字段为准（F06 家族「手抄数字」同型; 对策 = A21 关键数值绑定工件字段不手抄）。**判定不受影响**: 27 项结论与 `all_pass=true` 均不依赖该分布计数。
+
+### 15.2 claim boundary 措辞锁死（审稿面）
+
+§10「支持」列的「『零信号 = 有害』在实例级不成立」与「不支持」列的「本窗只证明 judge 如此判定, 未证明其判定为真」**不可并存**（前者读作已证否, 后者才是正确限定）。**论文可用口径锁定为后者**, 冻结表述:
+
+> 在冻结 judge 协议（C3-2 模板 / C3-4 `:8004` A3B temp=0）下, 21 例零信号注入中 14 例被判 equivalent ⇒「零信号即有害」的**隐含假设在实例级不可维持**; 且该判定依赖 scorer / matcher 的等价类定义（依赖性归 autopsy + F-0907-3）。
+
+禁止把 judge verdict 或 DR4 oracle 任一方写成 ground truth; 禁止据本窗重归类注入、改 H/E/HI 底表或改 S-2 检出分母 111。
+
+### 15.3 权限数字更正
+
+§11 F-0907-1 中 `0644` 应为 **`0664`**（实测 `-rw-rw-r--`: `/tmp/d3b_watcher.sh` 821 B、`/tmp/d3b_dispatch.sh` 1702 B 同）; 对照前 8 窗 watcher（w1/w2/d1/d2/d2r2/d3r2/dr4/dr4c）均为 **`0775`（`-rwxrwxr-x`）**。机制结论不变: **无执行位 + crontab 直呼路径 ⇒ cron 每 5 分钟 permission denied 静默失败**（`loop_a_d3b_done.json` 与 `/tmp/loop_a_d3b_state` 从未生成、自清从未执行）。
+
+### 15.4 决策 4A 下不修工件的两条已知残留
+
+- 收据 `meta` **无 `reproduce` 字段**（实测 `meta` 键集 = `card_id / endpoint_calls / generated / name / phase / script / target_artifact_sha256 / target_payload_sha256 / version`; 严格说是「字段缺席」而非 `reproduce = null`）⇒ 复现口径以本报告 **§14** 为准（GB10 与 Windows 两条命令 + 期望镜像 sha `3e7e0568…`）; 决策 4A 下不重铸收据、不生成 v2。
+- S-01 `detail.http_clients_imported = ["urllib"]` **属 stdlib 传递引入, 非本脚本使用 HTTP 客户端**: 实测裸解释器 `urllib in sys.modules = False`, 而 `import pathlib` 后为 True（`pathlib` 传递引入 `urllib.parse`）; 本脚本 import 集 = `ast / hashlib / json / re / socket / sys / datetime / pathlib`, 无任何 HTTP 客户端, 且 **S-01 的 PASS 条件只看 `socket_attempts == []`**（实测 `[]`）⇒ S-01 结论不变。注: 侧线原表述「环境噪声」按实测收紧为「`pathlib` 传递引入」, 属措辞精确化, 不改判定。
+
+### 15.5 决策 5A 现场处置（GB10, 记账指针）
+
+`*/5 * * * * /tmp/d3b_watcher.sh` 已摘除（前后逐字对照与取证清单见 THREADS `#D3B-CRONTAB-REMOVED-5A`）; watcher 与 dispatch 脚本**本体与权限原样保留作证据**（仍 0664）, 未补建 done 件, 未清理 /tmp 其他件; 备份 `/tmp/crontab_pre_d3b_20260907.bak` 与摘除后镜像 `/tmp/crontab_post_d3b_20260907.txt` 留存。机制修复（watcher 注册形态改 `bash /tmp/x_watcher.sh` 或创建即 `chmod +x`; 派发前置检查在 `bash -n` 之外新增**执行位实证 + 首次 tick 实证**两项）**不在本轮做**, 记入 THREADS 未决, D4 拟卡时内嵌为派发硬前置, 不新开 docs/29 A 编号。
+
 <!-- SUMMARY-GUARD
 artifact: logs/graph/eval/d3_stage_b_closeout_spotcheck.json
 sha256: 25918a12b69203b53c626cdcade3c2fd7503a38e68ce8142d40a715d95d7dc93
