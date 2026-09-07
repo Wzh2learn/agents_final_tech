@@ -280,6 +280,12 @@
 |---|---|---|
 | `draft_v0_s1_s2_s6.md` | 草稿 v0.1（09-04 注记） | T7 成熟节 S1/S2/S6（英文）+ 效度威胁占位节: 数字仅既有工件溯源值 + [TODO-*] 占位; 圈选 ①a②a③F-1 已落稿; 审稿五问注记一轮 + 边界脚注; 09-04 ①a 适用域注记 + F2 恒等式口径（W2 差距 = 阈值摆放 artifact, 非协议判别力差异）落 S2; S3-S5/S7 待工件 |
 
+## 治理裁定件（docs/governance/）
+
+| 文件 | 一句话摘要 |
+|---|---|
+| `2026-09-07_execution_plane_boundary.md` | 执行面/控制面边界唯一权威定义（09-07 用户裁定 决策 3B, backlog A23）: 本地 = Control/Analysis/Audit Plane（拟卡·静态检查·既有 artifact 机械复算·ledger 抽验·closeout·autopsy·claim 推理·文档治理·为 GB10 起草脚本·纯本地 deterministic 测试）/ GB10 = Experimental Execution Plane（正式 run·endpoint 与 judge 调用·模型推理·运行时验证·任何改变论文最终数字或产生正式 raw artifact 的执行）; 判据 = 分析既有事实 vs 创造新事实; **EFT 三问**（输入/输出/标签, 任一落 GB10 即回 GB10, 判不出 = 当作创造新事实）; 三条硬规则（审计脚本禁网禁派发 + 命名与字段即 provenance + 收据必须可复现, 临时目录镜像视同不可复现）; 附下一阶段边界（autopsy 本地 / D4 本地只拟卡、执行必 GB10 / T7·neat·A4-A5 本地）+ 两项待裁定指针 + 首例适用记录（closeout 收据, 决策 1B 保留不重跑） |
+
 ## 审计工件（docs/governance/audit/）
 
 > 09-06 拷贝登记（同 commit）: 自外部审计目录 `D:/AIRcommend/JinRongAgents/harness_audit_20260905/` 字节级拷贝（v1.0 静态审计终版, 基线 `9cdd141`, 两轮独立反方完成; 4/4 sha256 MATCH）; `HANDOFF_PROMPT.md` 留外部目录未拷。裁定与排期见 `docs/experiments/2026-09-06_harness_audit_response.md`。

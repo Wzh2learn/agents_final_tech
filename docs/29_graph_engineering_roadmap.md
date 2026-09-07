@@ -120,6 +120,7 @@ redlines: [冻结节点, API key, ...]
 | A20 | 研究输入 manifest + 只读查看模式（审计 F09） | 09-06 harness 审计响应批 | PSO 脚本共享目录 glob + 解析失败静默跳过 + 无输入 hash; status.sh 自称只读但 :111 调 docs_lint 覆盖报告 | 无 | 研究运行显式输入清单、坏输入失败、输出按 run 隔离; 查看命令纯 stdout 模式; 不外推 D3 | A |
 | A21 | 指标注册表轻量版 + 文档入口收敛（审计 F07/F06 对策） | 09-06 harness 审计响应批 | 论文关键数值多处手抄（STATE 均1.0 误抄 = 实证）; 记忆/入口/待办多源漂移（字节≠token 限定在案） | 无 | 关键数值五元组绑定（指标名/分母/适用域/工件字段/版本）, STATE/INDEX/handoff 引用不手抄; 单一事项状态源 | D（裁定稳定 ID）+ A |
 | A22 | 执行-报告阶段分离 + 检查点持久化（审计 E09 结构对策） | 09-06 harness 审计响应批 | 令牌耗尽家族 3 次（D2/DR4 首跑）, 现行为范围限定收口重派应急对策 | 无 | 报告会话中断只重做报告不重跑分析; 检查点持久化 + 实际 usage 记账; 并入 neat 卡 | A |
+| A23 | 执行面/控制面边界与 Experimental-fact test（角色漂移预防） | 09-07 用户裁定（决策 3B）+ D3 阶段 B closeout 侧线角色审计 | 本地 closeout 抽验（27/27, 零端点, `phase=closeout_loop_d`）经侧线复核 = 合法 Loop D 本地审计、角色正确无漂移; 但边界此前只散见 side_handoff:4 与 STATE:80 先例, 无单一权威定义, 判据易被「脚本在哪台机器跑」误导 | 无 | 边界 + EFT 三问 + 三条硬规则全文落 `docs/governance/2026-09-07_execution_plane_boundary.md`（本行指向; INDEX 同 commit 注册）; STATE 当前裁定区加一行指针; 本地审计件按命名/`phase`/`endpoint_calls` 自证; 派发前置检查新增「执行位 + 首次 tick 实证」两项（承接 F-0907-1, 归 D4 卡与后续派发） | A |
 
 ### 三、甲方侧（D 对外）
 
