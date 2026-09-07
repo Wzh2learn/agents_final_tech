@@ -1,0 +1,845 @@
+{
+ "meta": {
+  "name": "d3-stage-b-closeout-spotcheck",
+  "version": "v1",
+  "card_id": "TASK-20260901-D3",
+  "phase": "closeout_loop_d",
+  "generated": "2026-09-07 22:41:34",
+  "endpoint_calls": 0,
+  "script": "research/paper_d3_stage_b_closeout.py",
+  "target_artifact_sha256": "61b2c1b3ee7e719d29e40961bfd99bb85069f350988e9fb6a235d2c11bc2cdcd",
+  "target_payload_sha256": "2e4a828ca5c07ea20a3828a65c800d2fec8e804720d2e49247f6f8cdc99531b7"
+ },
+ "payload": {
+  "script": "research/paper_d3_stage_b_closeout.py",
+  "generated": "2026-09-07 22:41:34",
+  "role": "Loop D closeout spot-check (C3-6 interface items 1-4)",
+  "contract": "docs/experiments/2026-09-01_d3_matched_specificity_card.md 加编 3 C3-1..C3-6",
+  "inputs": {
+   "artifact": "logs/graph/eval/d3_matched_fpr_stage_b.json",
+   "ledger": "logs/graph/eval/d3_stage_b_call_ledger.jsonl",
+   "report": "docs/experiments/2026-09-06_d3_matched_fpr_stage_b.md",
+   "card": "docs/experiments/2026-09-01_d3_matched_specificity_card.md",
+   "d1": "logs/graph/eval/d1_mutant_validity_audit.json",
+   "t2": "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+   "d3a": "logs/graph/eval/d3_matched_fpr_stage_a.json",
+   "dr4": "logs/graph/eval/dr4_d1_reclassification_review.json",
+   "corpus": "data/research/drift_v0/input/tatqa_tables.json"
+  },
+  "zero_endpoint": true,
+  "socket_attempts": [],
+  "checks": [
+   {
+    "id": "S-01",
+    "desc": "本抽验脚本零端点自证（socket 层封死 + 无出站尝试）",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "socket_attempts": [],
+     "http_clients_imported": [
+      "urllib"
+     ]
+    }
+   },
+   {
+    "id": "S-02",
+    "desc": "卡 sha 钉死（C3-6/GG11）: 现盘 sha == 冻结期望 == 工件 before/after",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "disk": "22eaa5117b8472472b24eb038e18d8af855de36c49f7dd46dd295fefe9ade411",
+     "expect": "22eaa5117b8472472b24eb038e18d8af855de36c49f7dd46dd295fefe9ade411",
+     "artifact_before": "22eaa5117b8472472b24eb038e18d8af855de36c49f7dd46dd295fefe9ade411",
+     "artifact_after": "22eaa5117b8472472b24eb038e18d8af855de36c49f7dd46dd295fefe9ade411"
+    }
+   },
+   {
+    "id": "S-03",
+    "desc": "冻结输入 6 件只读（GG9）: sha == before == after（本机 core.autocrlf=true, JSON 件按 LF 归一核对; 语料件用 GB10 sha 校验镜像）",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "docs/experiments/2026-09-01_d3_matched_specificity_card.md": {
+      "before": "22eaa5117b8472472b24eb038e18d8af855de36c49f7dd46dd295fefe9ade411",
+      "after": "22eaa5117b8472472b24eb038e18d8af855de36c49f7dd46dd295fefe9ade411",
+      "disk_now": "22eaa5117b8472472b24eb038e18d8af855de36c49f7dd46dd295fefe9ade411",
+      "source": "local_repo_raw",
+      "equal": true
+     },
+     "logs/graph/eval/d1_mutant_validity_audit.json": {
+      "before": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+      "after": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+      "disk_now": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+      "source": "local_repo_lf_normalized",
+      "equal": true
+     },
+     "logs/graph/eval/checkpoint_discrimination_tables_v2.json": {
+      "before": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+      "after": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+      "disk_now": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+      "source": "local_repo_lf_normalized",
+      "equal": true
+     },
+     "logs/graph/eval/d3_matched_fpr_stage_a.json": {
+      "before": "3318ac178a0c3317ce18d69663b942e289c2668f4b604082606a549172f2ab10",
+      "after": "3318ac178a0c3317ce18d69663b942e289c2668f4b604082606a549172f2ab10",
+      "disk_now": "3318ac178a0c3317ce18d69663b942e289c2668f4b604082606a549172f2ab10",
+      "source": "local_repo_lf_normalized",
+      "equal": true
+     },
+     "logs/graph/eval/dr4_d1_reclassification_review.json": {
+      "before": "7806b77b5ad46add9f0461f12c82c54b7f0328f5e3cf66ac6b8aaceefc52d6ca",
+      "after": "7806b77b5ad46add9f0461f12c82c54b7f0328f5e3cf66ac6b8aaceefc52d6ca",
+      "disk_now": "7806b77b5ad46add9f0461f12c82c54b7f0328f5e3cf66ac6b8aaceefc52d6ca",
+      "source": "local_repo_lf_normalized",
+      "equal": true
+     },
+     "data/research/drift_v0/input/tatqa_tables.json": {
+      "before": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+      "after": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+      "disk_now": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+      "source": "gb10_mirror:C:\\Users\\王中华\\.codex\\visualizations\\2026-09-07\\01a07bac-e004-7d52-831b-8f1d20462807\\frozen_mirror\\tatqa_tables.json",
+      "equal": true
+     }
+    }
+   },
+   {
+    "id": "S-04",
+    "desc": "system prompt 逐字取自卡 C3-2（byte-equal + sha）",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "card_len": 145,
+     "artifact_len": 145,
+     "sha_match": true
+    }
+   },
+   {
+    "id": "S-05",
+    "desc": "user 模板逐字取自卡 C3-2 + 占位符词表精确 5 项",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "template_match": true,
+     "placeholders": [
+      "col_1based",
+      "injected",
+      "n_rows",
+      "original",
+      "table_md"
+     ],
+     "expected": [
+      "col_1based",
+      "injected",
+      "n_rows",
+      "original",
+      "table_md"
+     ]
+    }
+   },
+   {
+    "id": "S-06",
+    "desc": "J-N1 21 例清单: 卡逐字 == 工件 jn1_21_keys == 实际调用键（顺序与集合）",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "n_card": 21,
+     "n_artifact": 21,
+     "n_calls": 21,
+     "silent15": 15,
+     "dilution6": 6
+    }
+   },
+   {
+    "id": "S-07",
+    "desc": "J-N2 7 例清单: 卡完整 key == 工件 == 调用键; 3789d7da#1 不在 28 例内",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "n_card": 7,
+     "jn3_calls": 0,
+     "h2e_absent": true,
+     "anchors_parsed": 7
+    }
+   },
+   {
+    "id": "S-08",
+    "desc": "C3-1 运行时硬断言 A1-A6 独立复算（并集/相等/不相交/逐字锚点/H→E 排除/uid8 1:1）",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "A1_union_21_disjoint": true,
+     "A2_e7_eq_jn2_eq_dr4": true,
+     "A3_jn1_jn2_disjoint": true,
+     "A4_anchors_verbatim_vs_d1": true,
+     "A5_h2e_excluded_zero_calls": true,
+     "A6_uid8_1to1_unique": true,
+     "silent15": 15,
+     "dilution6": 6,
+     "e7": 7,
+     "dr4_e2h": 7,
+     "anchor_mismatch": [],
+     "uid8_dupes": []
+    }
+   },
+   {
+    "id": "S-09",
+    "desc": "C3-6① prompt 逐例比对不抽样: 28/28 由卡模板 + 冻结源独立重建后 byte-equal",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "n_calls": 28,
+     "n_byte_equal": 28,
+     "mismatches": [],
+     "prompt_len_range": [
+      708,
+      1492
+     ],
+     "any_table_truncated": false
+    }
+   },
+   {
+    "id": "S-10",
+    "desc": "prompt_sha256 逐例独立重算 + 28 唯一",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "mismatch": [],
+     "n_unique": 28
+    }
+   },
+   {
+    "id": "S-11",
+    "desc": "C3-2 防泄漏白黑名单独立扫描（骨架区 + uid/uid8）: 零命中",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "n_prompts_scanned": 28,
+     "hits": [],
+     "artifact_leak_guard_holds": true,
+     "artifact_hits": []
+    }
+   },
+   {
+    "id": "S-12",
+    "desc": "C3-3 per-call 冻结字段 17 项齐备 + status 词表合法",
+    "evidence_level": "field_exists",
+    "pass": true,
+    "detail": {
+     "n_calls": 28,
+     "missing_fields": {},
+     "bad_status": []
+    }
+   },
+   {
+    "id": "S-13",
+    "desc": "raw_response 独立保守解析 == 工件 parsed（28/28, 词表 + rationale ≤200）",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "n": 28,
+     "mismatch": []
+    }
+   },
+   {
+    "id": "S-14",
+    "desc": "C3-4 模型设置逐例一致（model/temperature=0/max_tokens=512）+ 契约字段存值",
+    "evidence_level": "value_match",
+    "pass": true,
+    "detail": {
+     "bad_cfg": [],
+     "model": "Qwen3.6-35B-A3B-Q4_K_M.gguf",
+     "temperature": 0,
+     "max_tokens": 512,
+     "enable_thinking": false,
+     "timeout_s": 90,
+     "row_cap": 40,
+     "served_ids": [
+      "Qwen3.6-35B-A3B-Q4_K_M.gguf"
+     ],
+     "assertion_holds": true
+    }
+   },
+   {
+    "id": "S-15",
+    "desc": "C3-5/C3-6② 账本逐行核对: 62 行 / reserve 1..31 连续 / 恒等式 / ≤200 / 零重试 / 28 例各一次 / 跨文件 sha 一致",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "lines": 62,
+     "kinds": {
+      "reserve": 31,
+      "canary": 3,
+      "call": 28
+     },
+     "counter_total": 31,
+     "ceiling": 200,
+     "expected_upper_bound_single_run": 57,
+     "identity": true,
+     "reserve_counters_contiguous": true,
+     "retries": 0,
+     "distinct_cases": 28,
+     "ledger_prompt_sha_selfconsistent": true,
+     "ledger_vs_artifact_sha": true,
+     "breakdown": {
+      "counter_total_vs_ceiling": {
+       "total": 31,
+       "ceiling": 200,
+       "within": true,
+       "expected_upper_bound_single_run": 57
+      },
+      "canary_probes_all_invocations": 3,
+      "formal_call_records_in_window": 28,
+      "formal_distinct_cases": 28,
+      "invalid_retries": 0,
+      "resumed_cases_reusing_append_only_ledger": 28,
+      "new_inference_calls_this_invocation": 1,
+      "identity_counter_eq_canary_plus_call_records": true,
+      "identity_note": "计数器每次推理请求前 +1 且同步行落 JSONL（append-only）; 恒等式 = counter_total == canary 探针数 + call 记录数 ⇒ 零计数外请求。续跑（装配缺陷修复后重开窗）只重发 canary 探针, 28 例判定复用账本（payload 字节相同 ⇒ 判定不可变）, 账本行完整保留两次探针的审计痕迹",
+      "ledger_path": "logs/graph/eval/d3_stage_b_call_ledger.jsonl",
+      "ledger_lines_total": 62,
+      "ledger_reserve_lines": 31,
+      "ledger_reserve_eq_counter": true
+     }
+    }
+   },
+   {
+    "id": "S-16",
+    "desc": "canary 冻结 prompt sha + 3 次探针全 ok + 计数入账",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "card_sha": "355ffc69a020b1a0a44aef9b82dce1acea369d58fd64debc8b20478e8148ba60",
+     "artifact_sha": "355ffc69a020b1a0a44aef9b82dce1acea369d58fd64debc8b20478e8148ba60",
+     "ok": true,
+     "counted": true,
+     "counter_at": 31,
+     "canary_rows_in_ledger": 3,
+     "parsed": {
+      "ok": true
+     },
+     "latency_ms": 199
+    }
+   },
+   {
+    "id": "S-17",
+    "desc": "判定聚合独立重算（交叉表 / 比率分母 / confidence 分布 / tokens / latency）",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "recomputed_cross_tab": {
+      "J-N1": {
+       "equivalent": 14,
+       "meaning_changed": 7,
+       "invalid_final": 0
+      },
+      "J-N2": {
+       "equivalent": 4,
+       "meaning_changed": 3,
+       "invalid_final": 0
+      }
+     },
+     "artifact_cross_tab": {
+      "J-N1": {
+       "equivalent": 14,
+       "meaning_changed": 7,
+       "invalid_final": 0
+      },
+      "J-N2": {
+       "equivalent": 4,
+       "meaning_changed": 3,
+       "invalid_final": 0
+      }
+     },
+     "jn1_rate": {
+      "numerator": 7,
+      "denominator": 21
+     },
+     "jn2_equivalent": 4,
+     "jn2_meaning_changed": 3,
+     "confidence": {
+      "high": 28,
+      "medium": 0,
+      "low": 0
+     },
+     "tokens": {
+      "prompt": 18136,
+      "completion": 1011
+     },
+     "latency_ms": {
+      "min": 796,
+      "median": 1072,
+      "max": 1301
+     },
+     "mapping_rule": {
+      "meaning_changed": "judge_harmful=true",
+      "equivalent": "judge_harmful=false",
+      "invalid_final": "不入分子分母, 逐例原样列出, 不填补不以人工判定替代"
+     }
+    }
+   },
+   {
+    "id": "S-18",
+    "desc": "8 行 DR4 对照独立重建（7 judge + 1 确定性）+ 逐行 agreement + tally",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "recomputed_tally": {
+      "agree": 3,
+      "disagree": 5,
+      "unresolved_invalid_final": 0
+     },
+     "artifact_tally": {
+      "agree": 3,
+      "disagree": 5,
+      "unresolved_invalid_final": 0
+     },
+     "row_diffs": [],
+     "rows": [
+      {
+       "key": "3789d7da-dc3e-4cd7-b639-d6805211405a#1",
+       "direction": "H->E",
+       "current_label": "H",
+       "dr4_oracle": "E",
+       "evidence_kind": "deterministic_evidence",
+       "deterministic_evidence": {
+        "visible": true,
+        "absorbed": false,
+        "match_tier": 0
+       },
+       "judge_status": "not_called_zero_calls",
+       "agreement": "disagree"
+      },
+      {
+       "key": "50e78448-3cf5-439c-a609-ee866bd1f05a#2",
+       "direction": "E->H",
+       "current_label": "E",
+       "dr4_oracle": "HARMFUL",
+       "evidence_kind": "judge_verdict",
+       "judge_verdict": "equivalent",
+       "judge_confidence": "high",
+       "agreement": "disagree"
+      },
+      {
+       "key": "54c494f7-d731-49bf-b9cd-d494aea72e34#2",
+       "direction": "E->H",
+       "current_label": "E",
+       "dr4_oracle": "HARMFUL",
+       "evidence_kind": "judge_verdict",
+       "judge_verdict": "equivalent",
+       "judge_confidence": "high",
+       "agreement": "disagree"
+      },
+      {
+       "key": "5e60c056-5073-441d-8525-7f834deb5c64#0",
+       "direction": "E->H",
+       "current_label": "E",
+       "dr4_oracle": "HARMFUL",
+       "evidence_kind": "judge_verdict",
+       "judge_verdict": "meaning_changed",
+       "judge_confidence": "high",
+       "agreement": "agree"
+      },
+      {
+       "key": "73a817fc-25df-494d-b0f2-79cfdab34076#1",
+       "direction": "E->H",
+       "current_label": "E",
+       "dr4_oracle": "HARMFUL",
+       "evidence_kind": "judge_verdict",
+       "judge_verdict": "equivalent",
+       "judge_confidence": "high",
+       "agreement": "disagree"
+      },
+      {
+       "key": "b5aae4e9-040d-4e55-a42d-39cde217978f#0",
+       "direction": "E->H",
+       "current_label": "E",
+       "dr4_oracle": "HARMFUL",
+       "evidence_kind": "judge_verdict",
+       "judge_verdict": "meaning_changed",
+       "judge_confidence": "high",
+       "agreement": "agree"
+      },
+      {
+       "key": "e67f7bf2-fc15-4a7a-9856-febb066998fd#4",
+       "direction": "E->H",
+       "current_label": "E",
+       "dr4_oracle": "HARMFUL",
+       "evidence_kind": "judge_verdict",
+       "judge_verdict": "meaning_changed",
+       "judge_confidence": "high",
+       "agreement": "agree"
+      },
+      {
+       "key": "e9730ea3-e003-4db6-a513-9c9e6f40e371#2",
+       "direction": "E->H",
+       "current_label": "E",
+       "dr4_oracle": "HARMFUL",
+       "evidence_kind": "judge_verdict",
+       "judge_verdict": "equivalent",
+       "judge_confidence": "high",
+       "agreement": "disagree"
+      }
+     ]
+    }
+   },
+   {
+    "id": "S-19",
+    "desc": "方向性触发独立重算（① J-N2 ≥4/7 equivalent; ② J-N1 ≥11/21 equivalent）",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "trigger_1": true,
+     "trigger_2": true,
+     "jn2_equivalent_valid": 4,
+     "jn1_equivalent_valid": 14,
+     "artifact": {
+      "trigger_1_jn2_ge_4of7_equivalent_vs_dr4_oracle": true,
+      "jn2_equivalent_valid": 4,
+      "trigger_2_jn1_ge_11of21_equivalent_undermines_harmful_set": true,
+      "jn1_equivalent_valid": 14,
+      "any_triggered": true,
+      "semantics": "C3-3 上报纪律（非判据）: 命中 = 即时上报 Loop D, 不等 autopsy 排期"
+     }
+    }
+   },
+   {
+    "id": "S-20",
+    "desc": "C3-6③ 端点隔离: ports_observed=[8004] / violations=[] / 8006·8008·5050 零触碰 / 工件内 URL 端口集={8004}",
+    "evidence_level": "value_match",
+    "pass": true,
+    "detail": {
+     "ports_observed": [
+      8004
+     ],
+     "endpoint_violations": [],
+     "ports_in_urls": [
+      "8004"
+     ],
+     "redline": {
+      "stage": "B_endpoint_window（仅 :8004）",
+      "ports_observed": [
+       8004
+      ],
+      "endpoint_violations": [],
+      "endpoint_8004_only": true,
+      "endpoint_8006_zero_touch": true,
+      "jn3_zero_calls": true,
+      "tat_dqa_frozen_line_untouched": true,
+      "frozen_nodes_untouched": "tests/test_m1_service.py / ~/wzh/m1_samples / frozen_hashes 零读写",
+      "read_only_frozen_inputs": {
+       "sha_equal": true,
+       "n_inputs": 6
+      },
+      "client_identifier_scan": {
+       "client_token_hits": [],
+       "id_token_hits": [],
+       "scanned_chars": 92676
+      },
+      "git_discipline": "逐路径 add; 禁 -A / 禁 amend",
+      "outbound_sent": false,
+      "j7_endpoint_robustness_window_not_opened": true
+     }
+    }
+   },
+   {
+    "id": "S-21",
+    "desc": "甲方标识零进入（GG12）: 独立 AST 取 D1 冻结 token 表, 扫工件/账本/报告",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "artifact": {
+      "chars": 102358,
+      "client_hits": [],
+      "id_hits": []
+     },
+     "ledger": {
+      "chars": 60951,
+      "client_hits": [],
+      "id_hits": []
+     },
+     "report": {
+      "chars": 10204,
+      "client_hits": [],
+      "id_hits": []
+     },
+     "token_counts": {
+      "client": 17,
+      "id": 13
+     },
+     "artifact_scan": {
+      "client_token_hits": [],
+      "id_token_hits": [],
+      "scanned_chars": 92676
+     }
+    }
+   },
+   {
+    "id": "S-22",
+    "desc": "payload_sha256 独立重算 + digest 自洽 + 工件文件 sha",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "recomputed": "2e4a828ca5c07ea20a3828a65c800d2fec8e804720d2e49247f6f8cdc99531b7",
+     "stored": "2e4a828ca5c07ea20a3828a65c800d2fec8e804720d2e49247f6f8cdc99531b7",
+     "self_consistency": true,
+     "artifact_file_sha256": "61b2c1b3ee7e719d29e40961bfd99bb85069f350988e9fb6a235d2c11bc2cdcd",
+     "artifact_bytes": 136966,
+     "ledger_lines": 62
+    }
+   },
+   {
+    "id": "S-23",
+    "desc": "13 门逐门存值核对 + all_pass",
+    "evidence_level": "value_match",
+    "pass": true,
+    "detail": {
+     "gates": {
+      "GG1_C3_1_runtime_hard_assertions": true,
+      "GG2_C3_4_model_service_assertion": true,
+      "GG3_canary_ok_and_counted": true,
+      "GG4_budget_hard_gate_le_200": true,
+      "GG5_28_cases_all_final": true,
+      "GG6_only_8004_touched": true,
+      "GG7_8006_zero_touch": true,
+      "GG8_leak_guard_and_prompt_contract": true,
+      "GG9_frozen_inputs_readonly": true,
+      "GG10_counter_identity_vs_ledger": true,
+      "GG11_card_sha_pinned": true,
+      "GG12_client_identifier_zero": true,
+      "GG13_jn3_zero_calls": true,
+      "all_pass": true
+     },
+     "window_abort": null,
+     "gate_details_present": true
+    }
+   },
+   {
+    "id": "S-24",
+    "desc": "报告 Markdown 关键数字与独立重算逐项一致（F06 家族防误誊）",
+    "evidence_level": "value_match",
+    "pass": true,
+    "detail": {
+     "n_expected": 12,
+     "missing": {},
+     "silent_split": {
+      "equivalent": 14,
+      "meaning_changed": 1
+     },
+     "dilution_meaning_changed": 6
+    }
+   },
+   {
+    "id": "S-25",
+    "desc": "报告 §4/§5 逐例 verdict 表（21+7 行）与工件一致",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "n_rows_parsed": 28,
+     "expected_rows": 28,
+     "diffs": []
+    }
+   },
+   {
+    "id": "S-26",
+    "desc": "STATE.md 阶段 B 节 + THREADS #D3-STAGE-B-CLOSEOUT 与独立重算一致",
+    "evidence_level": "value_match",
+    "pass": true,
+    "detail": {
+     "state_missing": {},
+     "threads_missing": {}
+    }
+   },
+   {
+    "id": "S-27",
+    "desc": "报告 §6 8 行对照表（direction / 证据 / agreement）与独立重建逐行一致",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "n_rows_parsed": 8,
+     "expected_rows": 8,
+     "diffs": []
+    }
+   }
+  ],
+  "n_checks": 27,
+  "all_pass": true,
+  "recomputed_summary": {
+   "call_counter_total": 31,
+   "canary_probes": 3,
+   "formal_calls": 28,
+   "invalid_retries": 0,
+   "ledger_lines": 62,
+   "verdict_cross_tab": {
+    "J-N1": {
+     "equivalent": 14,
+     "meaning_changed": 7,
+     "invalid_final": 0
+    },
+    "J-N2": {
+     "equivalent": 4,
+     "meaning_changed": 3,
+     "invalid_final": 0
+    }
+   },
+   "jn1": {
+    "equivalent": 14,
+    "meaning_changed": 7,
+    "valid": 21,
+    "silent15": {
+     "equivalent": 14,
+     "meaning_changed": 1
+    },
+    "dilution6_meaning_changed": 6
+   },
+   "jn2": {
+    "equivalent": 4,
+    "meaning_changed": 3,
+    "valid": 7
+   },
+   "dr4_tally": {
+    "agree": 3,
+    "disagree": 5,
+    "unresolved_invalid_final": 0
+   },
+   "dr4_rows": [
+    {
+     "key": "3789d7da-dc3e-4cd7-b639-d6805211405a#1",
+     "direction": "H->E",
+     "current_label": "H",
+     "dr4_oracle": "E",
+     "evidence_kind": "deterministic_evidence",
+     "deterministic_evidence": {
+      "visible": true,
+      "absorbed": false,
+      "match_tier": 0
+     },
+     "judge_status": "not_called_zero_calls",
+     "agreement": "disagree"
+    },
+    {
+     "key": "50e78448-3cf5-439c-a609-ee866bd1f05a#2",
+     "direction": "E->H",
+     "current_label": "E",
+     "dr4_oracle": "HARMFUL",
+     "evidence_kind": "judge_verdict",
+     "judge_verdict": "equivalent",
+     "judge_confidence": "high",
+     "agreement": "disagree"
+    },
+    {
+     "key": "54c494f7-d731-49bf-b9cd-d494aea72e34#2",
+     "direction": "E->H",
+     "current_label": "E",
+     "dr4_oracle": "HARMFUL",
+     "evidence_kind": "judge_verdict",
+     "judge_verdict": "equivalent",
+     "judge_confidence": "high",
+     "agreement": "disagree"
+    },
+    {
+     "key": "5e60c056-5073-441d-8525-7f834deb5c64#0",
+     "direction": "E->H",
+     "current_label": "E",
+     "dr4_oracle": "HARMFUL",
+     "evidence_kind": "judge_verdict",
+     "judge_verdict": "meaning_changed",
+     "judge_confidence": "high",
+     "agreement": "agree"
+    },
+    {
+     "key": "73a817fc-25df-494d-b0f2-79cfdab34076#1",
+     "direction": "E->H",
+     "current_label": "E",
+     "dr4_oracle": "HARMFUL",
+     "evidence_kind": "judge_verdict",
+     "judge_verdict": "equivalent",
+     "judge_confidence": "high",
+     "agreement": "disagree"
+    },
+    {
+     "key": "b5aae4e9-040d-4e55-a42d-39cde217978f#0",
+     "direction": "E->H",
+     "current_label": "E",
+     "dr4_oracle": "HARMFUL",
+     "evidence_kind": "judge_verdict",
+     "judge_verdict": "meaning_changed",
+     "judge_confidence": "high",
+     "agreement": "agree"
+    },
+    {
+     "key": "e67f7bf2-fc15-4a7a-9856-febb066998fd#4",
+     "direction": "E->H",
+     "current_label": "E",
+     "dr4_oracle": "HARMFUL",
+     "evidence_kind": "judge_verdict",
+     "judge_verdict": "meaning_changed",
+     "judge_confidence": "high",
+     "agreement": "agree"
+    },
+    {
+     "key": "e9730ea3-e003-4db6-a513-9c9e6f40e371#2",
+     "direction": "E->H",
+     "current_label": "E",
+     "dr4_oracle": "HARMFUL",
+     "evidence_kind": "judge_verdict",
+     "judge_verdict": "equivalent",
+     "judge_confidence": "high",
+     "agreement": "disagree"
+    }
+   ],
+   "triggers": {
+    "trigger_1_jn2_ge_4of7": true,
+    "trigger_2_jn1_ge_11of21": true
+   },
+   "prompt_rebuild_byte_equal": "28/28",
+   "confidence_distribution": {
+    "high": 28,
+    "medium": 0,
+    "low": 0
+   },
+   "tokens": {
+    "prompt": 18136,
+    "completion": 1011
+   },
+   "latency_ms": {
+    "min": 796,
+    "median": 1072,
+    "max": 1301
+   }
+  },
+  "boundary_cases_for_autopsy": [
+   {
+    "key": "567a03c7#1",
+    "why": "静默吸收子组唯一 meaning_changed; 形态为追加文字（Exercise date 2021-期末日期）而非字符级扰动"
+   },
+   {
+    "key": "68b8d514#1",
+    "why": "与 567a03c7#1 同为日期列追加文字形态, judge 判 equivalent ⇒ 同形态反判, 边界样本"
+   },
+   {
+    "key": "3789d7da#1",
+    "why": "唯一 H→E 例, 零 judge 调用, 确定性证据 visible=T/absorbed=F/tier=0 与 oracle=E 方向不一致（如实记 disagree）"
+   },
+   {
+    "key": "54c494f7#2 / e9730ea3#2",
+    "why": "同形对（Accumulated Amortization → amort）判定自洽一致, 佐证 temp=0 稳定"
+   },
+   {
+    "key": "5e60c056#0 / b5aae4e9#0",
+    "why": "同形对（£m → m【】）判定自洽一致"
+   },
+   {
+    "key": "family_blocking",
+    "why": "分歧按扰动族成块（缩写/单位族全 disagree, 删限定语与货币符号族全 agree）⇒ 分界落在「缩写是否算改口径」的判定标准歧义, 非随机噪声"
+   }
+  ],
+  "evidence_level_legend": {
+   "field_exists": "字段存在即通过（最弱）",
+   "value_match": "读取工件/文档存值并与冻结期望比对（中）",
+   "independent_recompute": "由冻结源独立重算后比对（最强）"
+  }
+ },
+ "payload_sha256": "e296adc7569ed89081ccc9291402b889c2fae764582e50b4635cc34ea88e8f01",
+ "digest_self_consistency": true
+}

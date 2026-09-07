@@ -184,3 +184,12 @@
 - 归主线程（收集与判定分离, 本窗不裁定不重归类）: ① **三条证据线互不完全一致**（现行类型级 E / DR4 实例级 oracle / 本窗 judge）
   ⇒ 缺陷**类型标签与实例级危害性之间存在口径缺口**; ② 「纯字符级拼写扰动是否计入有害注入集」需 Loop D 显式裁定
   ——直接影响 D4 oracle 与 S-2 检出分母 111 的合法性; ③ 序列续: 停一次 autopsy → D4 拟卡（含第二证据叶）→ T7。
+
+## D3 阶段 B 收口抽验（2026-09-07, Loop D, 零端点）
+
+- **收口判定: 阶段 B 可正式关闭**（27/27 抽验全 PASS, `all_pass=true`; C3-6 四项接口全过; 零重跑 / 零新端点调用 / 零判据改动 / 零重归类）。记录 `docs/experiments/2026-09-07_d3_stage_b_closeout.md`（SUMMARY-GUARD 19 claim check 过）+ 工件 `logs/graph/eval/d3_stage_b_closeout_spotcheck.json`（payload_sha256 `e296adc7…`）+ 脚本 `research/paper_d3_stage_b_closeout.py`。
+- C3-6 逐项: ① 契约遵循 = 卡 C3-2 模板逐字 byte-equal + **28/28 prompt 由卡模板与冻结源独立重建后 byte-equal（不抽样）** + sha 重算 28 唯一 + 防泄漏独立扫描零命中; ② 计数 = **31 ≤200** + 账本 62 行逐行（reserve 31 计数 1..31 连续 / call 28 / canary 3）+ 双恒等式 + 零重试 + 28 例各一次 + 跨文件 sha 一致; ③ 端点隔离 = `ports_observed=[8004]` / violations=[] / 工件 URL 端口集 = {8004}（`:8006`·`:8008`·`:5050` 零触碰）+ 抽验脚本 socket 封死零出站; ④ 证据级别 = 独立重算 19 / 存值一致 6 / 字段存在 2。
+- 独立复算与 Loop A 交付**同值**: J-N1 14 equivalent / 7 meaning_changed（silent 14/15 eq, dilution 6/6 mc）、J-N2 4/3、8 行 DR4 = 3 agree / 5 disagree / 0 unresolved、两条方向性触发均命中（4/7 ≥4、14/21 ≥11）、confidence 全 high、tokens 18 136/1 011、latency median 1 072 ms、13 门 all_pass、payload_sha256 `2e4a828c…` 重算相符。
+- 主张边界（收口时点冻结表述）: 不支持 judge 或 DR4 任一方为 ground truth; 不支持与历史四维 judge 基线跨口径比较; 不支持据此重归类注入或改 S-2 分母 111; 不支持把「纯字符级扰动无害」写成结论。
+- Findings 四条（不影响数字有效性）: **F-0907-1** 观察器 0644 无执行位 + crontab 直呼路径 ⇒ cron 静默失败, done 件从未落盘、自清未执行（前 8 窗 watcher 均 0775）→ 修法 = `bash /tmp/x_watcher.sh` 注册或 scp 后 chmod +x, 且挂载后取首次 tick 实证; **F-0907-2** 本机 `core.autocrlf=true` ⇒ 冻结件裸 sha 假 FAIL, LF 归一 4/4 全等（guard 双口径已吸收, GB10 为字节权威）; **F-0907-3** agreement 谓词只在实现中固化、卡内无散文定义 ⇒ D4 卡须入卡并列为派发硬前置; **F-0907-4** 旧主线程 session 缺 `call_id` 结构损坏弃用（heartbeat 注入产物, 交付后约 29h 无法收口, automation 已删、原件已备份未改）。
+- 三方对齐: 收口前本地 `20d74f6` 落后 5 commit → `git pull --ff-only` 至 `39307d4`（无 merge/stash/reset）; 残件五件原样保留（`side_handoff_20260827.md` / `side_handoff_20260829.md` / `_d3b_dispatch.sh` / `IMPLEMENTATION_PLAN.md` / `PROMPT.md`）归 neat 收口卡。**序列: 停一次** ⇒ D3 autopsy（另批）→ 用户裁定 D3 论文解释 → D4 transfer 预注册卡（只拟不执行）→ D4 执行 → T7 → neat → T5。
