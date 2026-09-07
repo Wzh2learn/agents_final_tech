@@ -56,6 +56,7 @@ endpoint_calls: 0
 1. **本地审计脚本禁网禁派发**: 不得 import 任何 HTTP 客户端、不得含 subprocess / ssh / 派发逻辑, 必须自带 socket 封死守卫并把 `socket_attempts` 写进收据。派发只走 Loop D 显式派发链（ssh / tmux）+ 记账, 不得内嵌在审计脚本里。
 2. **命名与字段即 provenance**: 本地写入 `logs/graph/eval/` 的产物, 文件名须含 `spotcheck|precheck|closeout|recompute|autopsy`, `meta` 必须含 `phase` 与 `endpoint_calls: 0`; 禁止本地生成 `*_stage_x.json` / `*_window.json` 这类形似原始实验件的产物。
 3. **收据必须可复现**: 复现命令与远端取件步骤（含期望 sha256）必须写在收据或其绑定文档中; **依赖线程临时目录的镜像视同不可复现**。
+   复现路径以收据或其绑定文档记载为准（09-08 决策 8A 澄清, 见 §六）。
 
 ## 四、本裁定适用的下一阶段边界（09-07）
 
@@ -68,8 +69,18 @@ endpoint_calls: 0
 1. 收据可复现性的落地方式: 保持 v1 不动（认定 closeout 报告 §14 已满足决策 1B）, 或重跑补 `meta.reproduce` / `corpus_provenance` 生成 v2 收据 + 重生成 SUMMARY-GUARD。
 2. watcher 机制修复（执行位 / crontab 注册形态）与 GB10 残留 crontab 行清理的时点（现场按 F-0907-1 保留作证据, 未动）。
 
+> [09-07/09-08 裁定注记 | 只增不改] 两项均已裁定, 原文保留作轨迹:
+> **1 = 决策 4A + 8A**——closeout 收据保持 v1 原状（不重跑审计脚本、不重铸 `payload_sha256`、不改 SUMMARY-GUARD 块）; 可复现性以 closeout 报告 §14 为准（GB10 与 Windows 两条命令 + 期望镜像 sha `3e7e0568…`）; 硬规则 3 的判定对象经 8A 澄清为「收据或其绑定文档记载的复现路径」, 详见 §六。
+> **2 = 决策 5A + 7B**——GB10 残留 crontab 行已于 09-07 摘除并逐字记账（THREADS `#D3B-CRONTAB-REMOVED-5A`）, watcher 与 dispatch 脚本本体及权限（0664）原样保留作 F-0907-1 证据, 未补 done 件; 机制修复（watcher 注册形态 + 派发前置「执行位实证 + 首次 tick 实证」）与 A4/A5 合并为同一批, 时点 = **D4 拟卡之后、D4 执行之前**（THREADS `#A4A5-WATCHER-SCHEDULED-7B`, docs/29 A4/A5 行「下一步/时点」列已同步）。
+
 ## 六、首例适用记录
 
 `research/paper_d3_stage_b_closeout.py` + `logs/graph/eval/d3_stage_b_closeout_spotcheck.json`（`phase=closeout_loop_d`, `endpoint_calls=0`, `socket_attempts=0` 已入收据）= 本边界下首个本地审计件; 侧线独立复核结论 = 合法 Loop D 本地审计, 角色正确, 无漂移; 脚本与收据全部保留（不回滚、不重做、不搬去 GB10 重跑 = 决策 1B）。
 
-**已知不足（如实记）**: 语料冻结件 `data/research/drift_v0/input/tatqa_tables.json` 仅在 GB10, 本次抽验用其 sha 校验镜像（`3e7e0568…` 逐字相符）落于线程临时目录 ⇒ 按硬规则 3 **视同不可复现**, 处置待裁定（§五.1）。
+**状态: 已澄清（09-08, 决策 8A）。**
+
+**澄清注记**: 硬规则 3 的判定对象 = **收据或其绑定文档记载的复现路径**, 不是某次运行的镜像落点。本例的复现路径已由绑定文档 `docs/experiments/2026-09-07_d3_stage_b_closeout.md` §14 完整记载（从 GB10 重取语料冻结件 + 期望 sha256 `3e7e0568…` + Windows 与 GB10 两条命令）⇒ **满足硬规则 3**。运行期把 sha 校验镜像放在线程临时目录属执行细节, **不构成「不可复现」**: 任何人按 §14 重取即可逐字复现, 镜像落点不进入复现链。
+
+原「已知不足」段的表述按本注记收紧, 原文轨迹保留于 §五 裁定注记与本节 git 历史; 收据本体零改动（决策 4A）。
+
+**规则 3 的正确用法（本件自此为准）**: 检查收据时先找 `meta.reproduce`（或绑定文档的复现节）, 核其是否含①可执行命令 ②远端取件步骤 ③期望 sha256; 三者齐备即合格。仅当复现依赖某个已消失的临时目录内容且无重取路径时, 才判不可复现。首例按此口径的合格件 = `logs/graph/eval/d3_autopsy_recompute.json`（`meta.reproduce` 直接内置于收据, 见 D3 autopsy 决策记录 §1）。

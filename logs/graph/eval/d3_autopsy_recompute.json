@@ -1,0 +1,869 @@
+{
+ "meta": {
+  "name": "d3_autopsy_recompute",
+  "version": "v1",
+  "phase": "autopsy",
+  "endpoint_calls": 0,
+  "generated": "2026-09-08T00:40:34+08:00",
+  "script": "research/paper_d3_autopsy_recompute.py",
+  "card_id": "TASK-20260901-D3",
+  "binding_doc": "docs/experiments/2026-09-08_d3_autopsy_decision_record.md",
+  "socket_attempts": [],
+  "reproduce": {
+   "windows": "python research/paper_d3_autopsy_recompute.py",
+   "gb10": "cd ~/wzh/projects/agents_final_tech && venv/bin/python research/paper_d3_autopsy_recompute.py",
+   "expected_input_sha256": {
+    "logs/graph/eval/d3_matched_fpr_stage_b.json": "61b2c1b3ee7e719d29e40961bfd99bb85069f350988e9fb6a235d2c11bc2cdcd",
+    "logs/graph/eval/d1_mutant_validity_audit.json": "7e2ee0eb072ab0626af1e41d4586a73e3d8ffa7642ec31171428e6f43bfde767",
+    "logs/graph/eval/dr4_d1_reclassification_review.json": "dce8f7dc0d3de78630d8190e3eec593351399ae463772c085c262f29e498648a",
+    "logs/graph/eval/d3_stage_b_call_ledger.jsonl": "bf9f4a0eea1554bfba20b4746f4bd75487a1304527f4e339c93c33b9f6046eba"
+   },
+   "expected_input_sha256_lf": {
+    "logs/graph/eval/d3_matched_fpr_stage_b.json": "e0cec25e39d801bae161f9fd954a30b93b16daa9ccc7fbe52f432b918bba3797",
+    "logs/graph/eval/d1_mutant_validity_audit.json": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+    "logs/graph/eval/dr4_d1_reclassification_review.json": "7806b77b5ad46add9f0461f12c82c54b7f0328f5e3cf66ac6b8aaceefc52d6ca",
+    "logs/graph/eval/d3_stage_b_call_ledger.jsonl": "51c89cf1bda005883373d0880aa99af52b3ade0e7655beb428f0b06ff29bb03e"
+   },
+   "note": "Windows core.autocrlf=true, so compare sha256_lf for text inputs (F-0907-2); GB10 is the byte authority."
+  }
+ },
+ "inputs": [
+  {
+   "path": "logs/graph/eval/d3_matched_fpr_stage_b.json",
+   "bytes": 136966,
+   "sha256": "61b2c1b3ee7e719d29e40961bfd99bb85069f350988e9fb6a235d2c11bc2cdcd",
+   "sha256_lf": "e0cec25e39d801bae161f9fd954a30b93b16daa9ccc7fbe52f432b918bba3797"
+  },
+  {
+   "path": "logs/graph/eval/d1_mutant_validity_audit.json",
+   "bytes": 140490,
+   "sha256": "7e2ee0eb072ab0626af1e41d4586a73e3d8ffa7642ec31171428e6f43bfde767",
+   "sha256_lf": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b"
+  },
+  {
+   "path": "logs/graph/eval/dr4_d1_reclassification_review.json",
+   "bytes": 459111,
+   "sha256": "dce8f7dc0d3de78630d8190e3eec593351399ae463772c085c262f29e498648a",
+   "sha256_lf": "7806b77b5ad46add9f0461f12c82c54b7f0328f5e3cf66ac6b8aaceefc52d6ca"
+  },
+  {
+   "path": "logs/graph/eval/d3_stage_b_call_ledger.jsonl",
+   "bytes": 77484,
+   "sha256": "bf9f4a0eea1554bfba20b4746f4bd75487a1304527f4e339c93c33b9f6046eba",
+   "sha256_lf": "51c89cf1bda005883373d0880aa99af52b3ade0e7655beb428f0b06ff29bb03e"
+  }
+ ],
+ "payload": {
+  "checks": [
+   {
+    "id": "A-01",
+    "desc": "zero endpoint guard recorded no outbound attempt",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "socket_attempts": []
+    }
+   },
+   {
+    "id": "A-02",
+    "desc": "28 judge cases join 1:1 onto D1 injections with byte-equal original/injected",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "n_joined": 28,
+     "n_injections": 118,
+     "mismatch": []
+    }
+   },
+   {
+    "id": "A-03",
+    "desc": "J-N1 21 = absorption_silent 15 (ocr_similar 13 + date_variant 2) + threshold_dilution 6",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "silent": 15,
+     "dilution": 6,
+     "silent_types": {
+      "ocr_similar": 13,
+      "date_variant": 2
+     },
+     "dilution_types": {
+      "alias_variant": 6
+     }
+    }
+   },
+   {
+    "id": "A-04",
+    "desc": "verdict cross-tab: ocr_similar 13/13 equivalent, date_variant 1 eq / 1 mc, dilution 6/6 meaning_changed",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "cross_tab": {
+      "absorption_silent/date_variant": {
+       "n": 2,
+       "meaning_changed": 1,
+       "equivalent": 1
+      },
+      "absorption_silent/ocr_similar": {
+       "n": 13,
+       "equivalent": 13
+      },
+      "threshold_dilution/alias_variant": {
+       "n": 6,
+       "meaning_changed": 6
+      }
+     },
+     "jn1_total": {
+      "equivalent": 14,
+      "meaning_changed": 7
+     }
+    }
+   },
+   {
+    "id": "A-05",
+    "desc": "trigger 2 (>=11/21 equivalent) is carried entirely by ocr_similar: 13 of the 14 equivalent are ocr_similar; non-ocr subset is 1/8",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "equivalent_21": 14,
+     "threshold": 11,
+     "hit": true,
+     "ocr_similar": {
+      "n": 13,
+      "equivalent": 13
+     },
+     "non_ocr": {
+      "n": 8,
+      "equivalent": 1
+     },
+     "scenario_note": "counterfactual, not a paper number: excluding ocr_similar the observed equivalent count is 1 < 11, so the pre-registered trigger would not have fired"
+    }
+   },
+   {
+    "id": "A-06",
+    "desc": "the 13 ocr_similar edits are pure single-token character-level perturbations (token count preserved, <=2 char edits, one token touched)",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "max_lev": 1,
+     "lev_distribution": {
+      "1": 13
+     },
+     "len_delta_distribution": {
+      "-1": 5,
+      "0": 8
+     },
+     "per_case": [
+      {
+       "key": "1fe3e1d6#2",
+       "lev_lower": 1,
+       "len_delta": -1,
+       "n_tokens": 4,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "21c316d6#2",
+       "lev_lower": 1,
+       "len_delta": -1,
+       "n_tokens": 3,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "3c609073#1",
+       "lev_lower": 1,
+       "len_delta": 0,
+       "n_tokens": 4,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "3c609073#3",
+       "lev_lower": 1,
+       "len_delta": 0,
+       "n_tokens": 5,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "44c7c9ef#1",
+       "lev_lower": 1,
+       "len_delta": 0,
+       "n_tokens": 2,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "5fe2c49e#1",
+       "lev_lower": 1,
+       "len_delta": 0,
+       "n_tokens": 2,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "5fe2c49e#2",
+       "lev_lower": 1,
+       "len_delta": 0,
+       "n_tokens": 2,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "6a5e5192#0",
+       "lev_lower": 1,
+       "len_delta": -1,
+       "n_tokens": 1,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "6f9a0eb1#0",
+       "lev_lower": 1,
+       "len_delta": 0,
+       "n_tokens": 3,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "c0f66238#3",
+       "lev_lower": 1,
+       "len_delta": -1,
+       "n_tokens": 17,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "d2bba753#0",
+       "lev_lower": 1,
+       "len_delta": 0,
+       "n_tokens": 2,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "d7d65228#3",
+       "lev_lower": 1,
+       "len_delta": -1,
+       "n_tokens": 6,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      },
+      {
+       "key": "e11338f6#0",
+       "lev_lower": 1,
+       "len_delta": 0,
+       "n_tokens": 5,
+       "token_count_equal": true,
+       "n_diff_tokens": 1,
+       "max_token_lev": 1
+      }
+     ]
+    }
+   },
+   {
+    "id": "A-07",
+    "desc": "neither D1 type in J-N2 is verdict-homogeneous: alias_variant 3 eq / 1 mc, prefix_noise 1 eq / 2 mc",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "by_type": {
+      "alias_variant": {
+       "n": 4,
+       "equivalent": 3,
+       "meaning_changed": 1
+      },
+      "prefix_noise": {
+       "n": 3,
+       "equivalent": 1,
+       "meaning_changed": 2
+      }
+     },
+     "jn2_total": {
+      "equivalent": 4,
+      "meaning_changed": 3
+     }
+    }
+   },
+   {
+    "id": "A-08",
+    "desc": "identical (original, injected) strings always receive an identical verdict (temp=0 determinism at string level)",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "n_repeated_groups": 3,
+     "groups": [
+      {
+       "original": "Accumulated Amortization",
+       "injected": "amort",
+       "n": 2,
+       "verdict": "equivalent"
+      },
+      {
+       "original": "Operating Leases",
+       "injected": "operat1ng Leases",
+       "n": 2,
+       "verdict": "equivalent"
+      },
+      {
+       "original": "£m",
+       "injected": "m【】",
+       "n": 2,
+       "verdict": "meaning_changed"
+      }
+     ]
+    }
+   },
+   {
+    "id": "A-09",
+    "desc": "567a03c7#1 and 68b8d514#1 are the same edit template with different appended content and opposite verdicts",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "pair": [
+      {
+       "key": "567a03c7#1",
+       "type": "date_variant",
+       "mechanism": "absorption_silent",
+       "original": "Exercise Date",
+       "injected": "Exercise date 2021-期末日期",
+       "template_match": true,
+       "appended_cjk": "期末日期",
+       "lead_case_folded": true,
+       "verdict": "meaning_changed",
+       "rationale": "修改后列名包含'期末日期', 与原始'行权日期'语义不同"
+      },
+      {
+       "key": "68b8d514#1",
+       "type": "date_variant",
+       "mechanism": "absorption_silent",
+       "original": "Grant Date",
+       "injected": "Grant date 2019-报表明细日期",
+       "template_match": true,
+       "appended_cjk": "报表明细日期",
+       "lead_case_folded": true,
+       "verdict": "equivalent",
+       "rationale": "仅增加年份标注, 核心语义仍为授予日期"
+      }
+     ],
+     "note": "same template, different appended referent; the discriminator is the appended token's semantic content, not the edit form"
+    }
+   },
+   {
+    "id": "A-10",
+    "desc": "DR4 8-row agreement recomputed from the written predicate equals the delivered tally 3 agree / 5 disagree / 0 unresolved",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "rebuilt": {
+      "disagree": 5,
+      "agree": 3
+     },
+     "delivered": {
+      "agree": 3,
+      "disagree": 5,
+      "unresolved_invalid_final": 0
+     },
+     "predicate_judge_row": "(verdict == meaning_changed) == (dr4_oracle == HARMFUL)",
+     "predicate_deterministic_row": "(visible and not absorbed and match_tier == 0) == (dr4_oracle == HARMFUL)"
+    }
+   },
+   {
+    "id": "A-11",
+    "desc": "the 8-row tally pools two error directions: 7 rows are E->H (miss side) and 1 row is H->E (false-alarm side)",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "directions": {
+      "H->E": 1,
+      "E->H": 7
+     },
+     "note": "a single agree/disagree tally over both directions is not interpretable as one error rate; D4 must stratify"
+    }
+   },
+   {
+    "id": "A-12",
+    "desc": "for all 13 ocr_similar the oracle H rests on a family-level C1 stipulation plus a lexicon-coverage C2 failure, with data values unchanged in 13/13",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "c1_check_and_pass": {
+      "family_design_intent/False": 13
+     },
+     "c2_pass_false": 13,
+     "c2_failed_with_no_concept_loss_only_residue_added": 4,
+     "c2_value_invariance_holds": 13,
+     "c3_pass": 8,
+     "c3_fail": 5,
+     "c3_fail_with_sibling_concept_collision": 5
+    }
+   },
+   {
+    "id": "A-13",
+    "desc": "C2 fails on ocr_similar because the perturbed tokens are unregistered lexicon atoms carried verbatim into the equality test",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "residue_atoms_added_by_ocr_similar": [
+      "1",
+      "5",
+      "capitai",
+      "capitaiized",
+      "divdend",
+      "equty",
+      "liabilitie",
+      "ng",
+      "operat"
+     ],
+     "n_residue_occurrences_all_118": 75,
+     "n_distinct_residue_atoms": 27,
+     "residue_note": "未登录原子逐字保留并纳入相等性判定 => 词表覆盖缺口只会把实例推向 H, 不会凭空造 E; 此处全量披露供人工复核。"
+    }
+   },
+   {
+    "id": "A-14",
+    "desc": "all 13 ocr_similar satisfy every instance-level condition of the frozen E definition except the type whitelist",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "e_definition": "被吸收 且 类型属 {alias_variant, mixed_lang, prefix_noise} 且 映射标准字段集与原表一致（设计稿 §2 = T2 e2_2 冻结定义）",
+     "type_whitelist": [
+      "alias_variant",
+      "mixed_lang",
+      "prefix_noise"
+     ],
+     "absorbed": 13,
+     "mapping_target_equals_original": 13,
+     "marginal_dH_zero": 13,
+     "canonical_keyset_identical": 12,
+     "detected_at_anchor": 0
+    }
+   },
+   {
+    "id": "A-15",
+    "desc": "the DR4 oracle explicitly forbids every matcher-behavioural field as input, so it cannot corroborate or refute the absorption evidence",
+    "evidence_level": "field_exists",
+    "pass": true,
+    "detail": {
+     "forbidden_oracle_inputs": [
+      "absorbed",
+      "absorbed_strict",
+      "detected_at_anchor",
+      "visible_by_gamma",
+      "absorption_tier",
+      "absorption",
+      "class",
+      "current_class",
+      "equivalent",
+      "canonical_keyset_identical",
+      "mapping_target",
+      "target_exists",
+      "h_orig",
+      "h_single",
+      "h_full_injection",
+      "marginal_dH",
+      "n_canonical",
+      "invisibility_mechanism",
+      "gamma"
+     ],
+     "behavioural_fields_checked": [
+      "absorbed",
+      "detected_at_anchor",
+      "visible_by_gamma",
+      "marginal_dH",
+      "canonical_keyset_identical",
+      "mapping_target",
+      "absorption_tier",
+      "class",
+      "equivalent"
+     ]
+    }
+   },
+   {
+    "id": "A-16",
+    "desc": "the 13 ocr_similar sit inside the 21 invisible harmful injections, so excluding them moves the S-2 denominator 111 -> 98 and TPR 0.810811 -> 0.918367 (scenario only)",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "frozen": {
+      "numerator": 90,
+      "denominator": 111,
+      "tpr": 0.810811
+     },
+     "scenario_if_ocr_excluded": {
+      "numerator": 90,
+      "denominator": 98,
+      "tpr": 0.918367,
+      "delta": 0.107556
+     },
+     "retroactive": false,
+     "note": "scenario arithmetic for the ruling request only; the frozen denominator 111 is unchanged this round"
+    }
+   },
+   {
+    "id": "A-17",
+    "desc": "no endpoint was touched by this recompute and all four inputs are hashed in dual EOL caliber",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "endpoint_calls": 0,
+     "ledger_lines": 62
+    }
+   },
+   {
+    "id": "A-18",
+    "desc": "the instance-level oracle retained none of the type-level equivalence class: 0 of 7 D1 E cases survive, and the single oracle E case was previously labelled H",
+    "evidence_level": "independent_recompute",
+    "pass": true,
+    "detail": {
+     "d1_E_total": 7,
+     "d1_E_surviving_oracle": 0,
+     "oracle_E_total": 1,
+     "oracle_E_previous_class": "H",
+     "turnover": "7/7"
+    }
+   }
+  ],
+  "n_checks": 18,
+  "n_pass": 18,
+  "all_pass": true,
+  "zero_endpoint": true,
+  "evidence_level_distribution": {
+   "independent_recompute": 17,
+   "field_exists": 1
+  },
+  "recomputed_summary": {
+   "n_judge_cases": 28,
+   "jn1_n": 21,
+   "jn1_equivalent": 14,
+   "jn1_meaning_changed": 7,
+   "jn2_n": 7,
+   "jn2_equivalent": 4,
+   "jn2_meaning_changed": 3,
+   "silent_absorption_n": 15,
+   "silent_absorption_equivalent": 14,
+   "threshold_dilution_n": 6,
+   "threshold_dilution_meaning_changed": 6,
+   "ocr_similar_n": 13,
+   "ocr_similar_equivalent": 13,
+   "non_ocr_n": 8,
+   "non_ocr_equivalent": 1,
+   "ocr_max_levenshtein_lower": 1,
+   "ocr_token_count_preserved": 13,
+   "ocr_single_token_touched": 13,
+   "identical_input_groups": 3,
+   "identical_input_groups_verdict_consistent": 3,
+   "dr4_rows": 8,
+   "dr4_agree": 3,
+   "dr4_disagree": 5,
+   "dr4_unresolved_invalid_final": 0,
+   "dr4_rows_miss_side": 7,
+   "dr4_rows_false_alarm_side": 1,
+   "d1_E_total": 7,
+   "d1_E_surviving_oracle": 0,
+   "ocr_c1_family_stipulation": 13,
+   "ocr_c2_value_invariance_holds": 13,
+   "ocr_c2_residue_only_no_concept_loss": 4,
+   "ocr_c3_pass": 8,
+   "ocr_c3_fail_sibling_collision": 5,
+   "s2_denominator_frozen": 111,
+   "s2_tpr_frozen": 0.810811,
+   "s2_denominator_scenario": 98,
+   "s2_tpr_scenario": 0.918367,
+   "trigger_1_jn2_ge_4of7": true,
+   "trigger_2_jn1_ge_11of21": true,
+   "endpoint_calls": 0
+  },
+  "stratification": {
+   "jn1_cross_tab": {
+    "absorption_silent/date_variant": {
+     "n": 2,
+     "meaning_changed": 1,
+     "equivalent": 1
+    },
+    "absorption_silent/ocr_similar": {
+     "n": 13,
+     "equivalent": 13
+    },
+    "threshold_dilution/alias_variant": {
+     "n": 6,
+     "meaning_changed": 6
+    }
+   },
+   "jn2_by_type": {
+    "alias_variant": {
+     "n": 4,
+     "equivalent": 3,
+     "meaning_changed": 1
+    },
+    "prefix_noise": {
+     "n": 3,
+     "equivalent": 1,
+     "meaning_changed": 2
+    }
+   },
+   "trigger_2_decomposition": {
+    "equivalent_21": 14,
+    "threshold": 11,
+    "hit": true,
+    "ocr_similar": {
+     "n": 13,
+     "equivalent": 13
+    },
+    "non_ocr": {
+     "n": 8,
+     "equivalent": 1
+    },
+    "scenario_note": "counterfactual, not a paper number: excluding ocr_similar the observed equivalent count is 1 < 11, so the pre-registered trigger would not have fired"
+   },
+   "ocr_morphology": {
+    "max_lev": 1,
+    "lev_distribution": {
+     "1": 13
+    },
+    "len_delta_distribution": {
+     "-1": 5,
+     "0": 8
+    },
+    "per_case": [
+     {
+      "key": "1fe3e1d6#2",
+      "lev_lower": 1,
+      "len_delta": -1,
+      "n_tokens": 4,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "21c316d6#2",
+      "lev_lower": 1,
+      "len_delta": -1,
+      "n_tokens": 3,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "3c609073#1",
+      "lev_lower": 1,
+      "len_delta": 0,
+      "n_tokens": 4,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "3c609073#3",
+      "lev_lower": 1,
+      "len_delta": 0,
+      "n_tokens": 5,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "44c7c9ef#1",
+      "lev_lower": 1,
+      "len_delta": 0,
+      "n_tokens": 2,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "5fe2c49e#1",
+      "lev_lower": 1,
+      "len_delta": 0,
+      "n_tokens": 2,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "5fe2c49e#2",
+      "lev_lower": 1,
+      "len_delta": 0,
+      "n_tokens": 2,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "6a5e5192#0",
+      "lev_lower": 1,
+      "len_delta": -1,
+      "n_tokens": 1,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "6f9a0eb1#0",
+      "lev_lower": 1,
+      "len_delta": 0,
+      "n_tokens": 3,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "c0f66238#3",
+      "lev_lower": 1,
+      "len_delta": -1,
+      "n_tokens": 17,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "d2bba753#0",
+      "lev_lower": 1,
+      "len_delta": 0,
+      "n_tokens": 2,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "d7d65228#3",
+      "lev_lower": 1,
+      "len_delta": -1,
+      "n_tokens": 6,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     },
+     {
+      "key": "e11338f6#0",
+      "lev_lower": 1,
+      "len_delta": 0,
+      "n_tokens": 5,
+      "token_count_equal": true,
+      "n_diff_tokens": 1,
+      "max_token_lev": 1
+     }
+    ]
+   },
+   "identical_input_groups": {
+    "n_repeated_groups": 3,
+    "groups": [
+     {
+      "original": "Accumulated Amortization",
+      "injected": "amort",
+      "n": 2,
+      "verdict": "equivalent"
+     },
+     {
+      "original": "Operating Leases",
+      "injected": "operat1ng Leases",
+      "n": 2,
+      "verdict": "equivalent"
+     },
+     {
+      "original": "£m",
+      "injected": "m【】",
+      "n": 2,
+      "verdict": "meaning_changed"
+     }
+    ]
+   },
+   "same_template_boundary_pair": {
+    "pair": [
+     {
+      "key": "567a03c7#1",
+      "type": "date_variant",
+      "mechanism": "absorption_silent",
+      "original": "Exercise Date",
+      "injected": "Exercise date 2021-期末日期",
+      "template_match": true,
+      "appended_cjk": "期末日期",
+      "lead_case_folded": true,
+      "verdict": "meaning_changed",
+      "rationale": "修改后列名包含'期末日期', 与原始'行权日期'语义不同"
+     },
+     {
+      "key": "68b8d514#1",
+      "type": "date_variant",
+      "mechanism": "absorption_silent",
+      "original": "Grant Date",
+      "injected": "Grant date 2019-报表明细日期",
+      "template_match": true,
+      "appended_cjk": "报表明细日期",
+      "lead_case_folded": true,
+      "verdict": "equivalent",
+      "rationale": "仅增加年份标注, 核心语义仍为授予日期"
+     }
+    ],
+    "note": "same template, different appended referent; the discriminator is the appended token's semantic content, not the edit form"
+   },
+   "dr4_8rows": {
+    "rebuilt": {
+     "disagree": 5,
+     "agree": 3
+    },
+    "delivered": {
+     "agree": 3,
+     "disagree": 5,
+     "unresolved_invalid_final": 0
+    },
+    "predicate_judge_row": "(verdict == meaning_changed) == (dr4_oracle == HARMFUL)",
+    "predicate_deterministic_row": "(visible and not absorbed and match_tier == 0) == (dr4_oracle == HARMFUL)"
+   },
+   "dr4_error_directions": {
+    "directions": {
+     "H->E": 1,
+     "E->H": 7
+    },
+    "note": "a single agree/disagree tally over both directions is not interpretable as one error rate; D4 must stratify"
+   },
+   "ocr_oracle_provenance": {
+    "c1_check_and_pass": {
+     "family_design_intent/False": 13
+    },
+    "c2_pass_false": 13,
+    "c2_failed_with_no_concept_loss_only_residue_added": 4,
+    "c2_value_invariance_holds": 13,
+    "c3_pass": 8,
+    "c3_fail": 5,
+    "c3_fail_with_sibling_concept_collision": 5
+   },
+   "e_class_turnover": {
+    "d1_E_total": 7,
+    "d1_E_surviving_oracle": 0,
+    "oracle_E_total": 1,
+    "oracle_E_previous_class": "H",
+    "turnover": "7/7"
+   },
+   "s2_scenario": {
+    "frozen": {
+     "numerator": 90,
+     "denominator": 111,
+     "tpr": 0.810811
+    },
+    "scenario_if_ocr_excluded": {
+     "numerator": 90,
+     "denominator": 98,
+     "tpr": 0.918367,
+     "delta": 0.107556
+    },
+    "retroactive": false,
+    "note": "scenario arithmetic for the ruling request only; the frozen denominator 111 is unchanged this round"
+   }
+  }
+ },
+ "payload_sha256": "d9827807f2d29e728a011099e47442796d7ca35a200967fc2a17b58c0a16f4aa"
+}
