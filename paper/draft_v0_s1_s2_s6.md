@@ -1,6 +1,6 @@
 # Paper draft v0 - mature sections S1 / S2 / S6 (AAAI 7-page target)
 
-> Status: draft v0 (2026-08-30, main thread) | Scope: mature sections only; S3-S5, S7 await T1-T6 artifacts
+> Status: draft v0 (2026-08-30, main thread; S3/S7 section shells landed 2026-09-10 per ruling 10=c) | Scope: mature sections S1/S2/S6 + S3/S7 criterion-relativity paragraphs (ruling 10=c, one paragraph each); remaining S3-S5 body and full S7 assembly await T7; number-traceability discipline below unchanged
 > Discipline: every number below is a traceable value from an existing repo artifact (path in brackets);
 > numbers not yet produced are explicit [TODO-*] placeholders - no fabrication, no extrapolation.
 > Blueprint: docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md (S1-S7 skeleton).
@@ -105,6 +105,51 @@ used for calibration arms is an **internal calibration arm** (de-identified,
 frozen-hash registered); numbers cited in the body come only from public bases
 (TAT-QA / TAT-DQA).
 
+## S3 Defect visibility diagnostics (1.5p) [section shell landed 2026-09-10 per ruling 10=c; full section assembly in T7]
+
+> Namespace note (2026-09-10, append-only): "S3" here is the conference short-paper section
+> defined in docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md :34. It is
+> homonymous with, and unrelated to, "## S3 注入分类学与 crosswalk" in
+> docs/experiments/2026-08-27_blind_cone_chapter_skeleton.md :18 (that file numbers the
+> dissertation blind-cone chapter). Any citation of "S3" must carry the document name.
+
+Under the frozen evaluator configuration, character-level header perturbations form a
+perturbation family with a recomputable definition: every instance touches exactly one
+token, has lowercase Levenshtein distance exactly 1, preserves token count, and leaves the
+perturbed column's values unchanged in all 13 cases
+[logs/graph/eval/d3_autopsy_recompute.json, payload.recomputed_summary.ocr_max_levenshtein_lower
+/ .ocr_single_token_touched / .ocr_token_count_preserved / .ocr_c2_value_invariance_holds].
+The evaluator is blind to this family across the entire strength grid gamma in [0.2, 0.9]
+(0/13 visible; the grid is the five discrete points {0.2, 0.3, 0.5, 0.7, 0.9}, not a
+continuous sweep) [logs/graph/eval/d1_mutant_validity_audit.json,
+payload.injections[].visible_by_gamma], and the anchor-stage detection count for the family
+is 0 [logs/graph/eval/d1_mutant_validity_audit.json,
+payload.counts.anchor_detected_by_type.ocr_similar]. This total blindness is the strongest
+endpoint of the visibility spectrum observed in this study. Whether the blind spot
+constitutes a missed detection depends on the definition of the equivalence class; we treat
+that question as a boundary condition in S7 and claim here only the directly observable
+evaluator property.
+
+Beyond this family, the window identifies criterion-relativity of instance-level harmfulness
+labels. All 7 type-level equivalence-class members survive 0/7 under an instance-level
+oracle [logs/graph/eval/d3_autopsy_recompute.json, payload.recomputed_summary.d1_E_total /
+.d1_E_surviving_oracle]; 5 of the 8 cross-criterion comparison rows disagree, and every
+disagreement falls on the criterion-kind axis - canonical form / canonical truth
+preservation versus reader referent recoverability - rather than splitting along defect type
+[ibid., .dr4_agree / .dr4_disagree / .dr4_rows_miss_side / .dr4_rows_false_alarm_side;
+stratification A-07]; and identical input strings receive consistent verdicts in 3/3
+repeated groups, ruling out sampling noise as an alternative explanation [ibid.,
+.identical_input_groups / .identical_input_groups_verdict_consistent]. We therefore claim
+that instance-level harmfulness labels are criterion-relative, that the disagreement
+structure of the visibility spectrum is characterized by two orthogonal axes (a granularity
+axis and a criterion-kind axis), and that disagreement appears block-wise along the
+criterion-kind axis rather than case-by-case at random. When citing that 14 of 21
+zero-signal injections were judged equivalent, the family stratification must be reported
+alongside (13/13 within ocr_similar; 1/8 in the non-ocr_similar subset), and it must not be
+stated as a global claim that most of the zero-signal harmful set was judged harmless
+[ibid., .jn1_n / .jn1_equivalent / .ocr_similar_equivalent / .non_ocr_n /
+.non_ocr_equivalent].
+
 ## S6 Closed-loop case: evaluation findings into gated rule consolidation (0.5p)
 
 We close the loop with a compact case study of how evaluation findings feed back
@@ -145,6 +190,44 @@ globally near-optimal at this scoring layer. Matching competition is therefore
 pollution**: near-identical strings receive the same score band as ground
 truth. Reported as a validity threat to the single-matcher visibility
 spectrum, not as an efficacy claim.
+
+## S7 Discussion, limitations, conclusion (0.5p) [section shell landed 2026-09-10 per ruling 10=c; full section assembly in T7]
+
+> Landing note (2026-09-10, append-only, ruling 10=c): this boundary paragraph is
+> provisional with respect to exactly one input - the second-scorer arm pre-registered for
+> D4. If that arm reports, this paragraph is revised by an appended correction note, not by
+> rewriting (decision 4A discipline). No scenario / counterfactual figure from receipt
+> A-16 appears in S3 or S7 (retroactive=false, non-paper numbers).
+
+The harmfulness judgements in this study depend on the frozen scorer/matcher
+equivalence-class definition, and we make none of the following four claims. First, we do
+not adjudicate which of the two criteria is correct: under the frozen judge protocol, 14 of
+21 zero-signal injections were judged equivalent, so the implicit assumption that zero
+signal implies harmful cannot be sustained at the instance level, and that judgement depends
+on the scorer/matcher equivalence-class definition; this window shows only that the judge so
+decided, not that the decision is true. Second, we do not claim that referent recoverability
+is the correct equivalence-class definition; it was observed under a single judge, a single
+frozen protocol, and n = 28 [logs/graph/eval/d3_autopsy_recompute.json,
+payload.recomputed_summary.n_judge_cases]. Third, a single judge at n = 28 does not support
+extrapolation to untested perturbation families: mixed_lang (20 instances) and unit_suffix
+(5 instances) received zero calls in this window, so we draw no conclusion about them
+[logs/graph/eval/d1_mutant_validity_audit.json, payload.injections[] type counts;
+logs/graph/eval/d3_matched_fpr_stage_b.json - absence of verdict rows for these two
+families]. Fourth, we write neither the judge verdict nor the DR4 oracle as ground truth;
+their disagreement is itself a result of this study rather than evidence that either side
+failed, and the 8 comparison rows must be reported split by direction (7 miss-side rows,
+1 false-alarm-side row), with any direction of n < 5 reported as counts only, never as rates
+[logs/graph/eval/d3_autopsy_recompute.json, payload.recomputed_summary.dr4_rows_miss_side /
+.dr4_rows_false_alarm_side].
+
+Accordingly, the total blindness reported in S3 should be read as an observation about the
+evaluator, while whether that blind spot constitutes a missed detection remains an open,
+definition-dependent question; the 13 instances remain in the harmful injection set, and
+neither the detection denominator nor the primary TPR was changed by this window's
+judgements [ibid., .s2_denominator_frozen / .s2_tpr_frozen]. The pre-registered next window
+stratifies by perturbation family x criterion kind and adds a second-scorer arm, to test
+whether criterion-relativity is a property of the criterion kind or of a single scorer;
+until that arm reports, the claim is not upgraded.
 
 ## 审稿人视角五问注记（paper-review-check 一轮, 2026-08-30 夜, Loop D 自审; 结论权在 Loop C/用户）
 
