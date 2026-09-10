@@ -5,42 +5,101 @@ set -uo pipefail
 #   - docs/m1_schema/                 (schema baseline docs)
 #   - scripts/graph/frozen_hashes.txt (hash manifest itself)
 #   - every path listed in frozen_hashes.txt (md5-verified freeze list)
-CHANGED=$(git diff --cached --name-only --diff-filter=ACMR 2>/dev/null)
-[ -z "$CHANGED" ] && exit 0
-MANIFEST="scripts/graph/frozen_hashes.txt"
-VIOLATIONS=$(echo "$CHANGED" | grep -E '^tests/test_m1_service\.py$|^docs/m1_schema/|^scripts/graph/frozen_hashes\.txt$' || true)
-if [ -f "$MANIFEST" ]; then
+#
+# F05 修复 (2026-09-10, Loop A / TASK-20260910-A4A5A4W) — 改前三条静默放行路径 (全部实测复现):
+#   ① --diff-filter=ACMR 不含 D  => staged 删除 tests/test_m1_service.py 不被视为"变更", exit 0。
+#   ② `[ -z "$CHANGED" ] && exit 0` => 一次提交若**全部**是删除, CHANGED 为空 => 直接放行。
+#   ③ 两处 `if [ -f "$MANIFEST" ]` => 清单被删/改名/不可读/只剩注释时整段守卫静默跳过,
+#      即「拆掉报警器的火警」= 通过。
+#   ④ --diff-filter=ACMR 的 R 只报**目标路径**, git mv 冻结件 => 目标路径不匹配清单 => 放行。
+# 新语义: 不可核验 != 通过。清单缺失/不可读/零有效条目 = FAIL; 删除与重命名一律纳入匹配;
+#         rename 用 --no-renames 拆成 D+A 两侧, 使"改名走"与"删掉"都被拦。
+#
+# 残余风险 (如实入账, 不宣称守卫完备): `git commit --no-verify` 绕过全部钩子,
+# 这是 Loop D 专用逃生门 (见下方提示), 机械层无法自防; 兜底 = Loop B 每 30min 独立复验。
+
+ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
+MANIFEST_REL="scripts/graph/frozen_hashes.txt"
+MANIFEST="$ROOT/$MANIFEST_REL"
+VIOLATIONS=""
+
+note() { VIOLATIONS="${VIOLATIONS:+${VIOLATIONS}
+}$1"; }
+
+# ---- 1. 清单自身完整性: 缺失 / 不可读 / 零有效条目 = FAIL ----------------------
+if [ ! -e "$MANIFEST" ]; then
+  echo "BLOCKED: 冻结清单不存在 ($MANIFEST_REL) — 清单缺失不等于没有冻结节点"
+  echo "  恢复: git checkout -- $MANIFEST_REL   (更新清单需 Loop D 授权)"
+  exit 1
+fi
+if [ ! -r "$MANIFEST" ]; then
+  echo "BLOCKED: 冻结清单不可读 ($MANIFEST_REL) — 不可核验 != 通过"
+  exit 1
+fi
+MANIFEST_ENTRIES=$(grep -cE '^[0-9a-fA-F]{32}[[:space:]]' "$MANIFEST" 2>/dev/null || true)
+case "$MANIFEST_ENTRIES" in
+  ''|*[!0-9]*) MANIFEST_ENTRIES=0 ;;
+esac
+if [ "$MANIFEST_ENTRIES" -eq 0 ]; then
+  echo "BLOCKED: 冻结清单存在但零条有效条目 ($MANIFEST_REL) — 空清单等于没有守卫"
+  exit 1
+fi
+
+# ---- 2. 取 staged 变更集 (含删除; rename 拆成 D+A) ----------------------------
+# 枚举失败 (异常仓库状态) -> 警告但不静默: 清单完整性守卫已拦住最危险的场景。
+CHANGED=$(git diff --cached --name-only --no-renames --diff-filter=ACMD 2>/dev/null)
+enum_rc=$?
+if [ "$enum_rc" -ne 0 ]; then
+  echo "[L5] WARN: 无法枚举 staged 变更 (git diff 失败, rc=$enum_rc), 路径匹配这一步未执行 (跳过不等于通过)"
+  CHANGED=""
+fi
+
+# 硬编码范围 (与 2026-08-06 Loop D 指令一致) —— 旧版 `[ -z "$CHANGED" ] && exit 0` 早退已移除:
+# 全为删除的提交同样必须过守卫。
+HARD='^tests/test_m1_service\.py$|^docs/m1_schema/|^scripts/graph/frozen_hashes\.txt$'
+
+if [ -n "$CHANGED" ]; then
+  hits=$(printf '%s\n' "$CHANGED" | grep -E "$HARD" || true)
+  if [ -n "$hits" ]; then
+    hits=$(printf '%s\n' "$hits" | sed 's#$# (hardcoded L5 scope)#')
+    VIOLATIONS="${VIOLATIONS:+${VIOLATIONS}
+}${hits}"
+  fi
+  # ---- 3. 清单逐条匹配 (含删除与重命名两侧) ------------------------------------
   while IFS= read -r line; do
     case "$line" in ''|\#*) continue ;; esac
-    p=$(echo "$line" | awk '{print $2}')
+    h=$(printf '%s' "$line" | awk '{print $1}')
+    p=$(printf '%s' "$line" | awk '{print $2}')
     [ -z "$p" ] && continue
-    if echo "$CHANGED" | grep -qxF "$p"; then
+    case "$h" in *[!0-9a-fA-F]*) continue ;; esac   # 非 md5 开头 = 注释性/说明行, 跳过
+    if printf '%s\n' "$CHANGED" | grep -qxF "$p"; then
       VIOLATIONS="${VIOLATIONS:+${VIOLATIONS}
 }${p} (listed in frozen_hashes.txt)"
     fi
   done < "$MANIFEST"
 fi
-# Absolute-path (runtime, outside repo) manifest entries: verify on-disk md5
-# still matches at commit time (guards out-of-band tampering; Loop B also
-# checks every 30 min). Turns former dead entries into live protection.
-if [ -f "$MANIFEST" ]; then
-  while IFS= read -r line; do
-    case "$line" in ""|\#*) continue ;; esac
-    h=$(echo "$line" | awk "{print \$1}")
-    fp=$(echo "$line" | awk "{print \$2}")
-    case "$fp" in
-      /*)
-        if [ -f "$fp" ]; then
-          actual=$(md5sum "$fp" 2>/dev/null | awk "{print \$1}")
-          if [ -n "$actual" ] && [ "$h" != "$actual" ]; then
-            VIOLATIONS="${VIOLATIONS:+${VIOLATIONS}
+
+# ---- 4. 绝对路径条目: 提交时复核盘上 md5 (带外篡改; 在清单可读时总是执行) -------
+while IFS= read -r line; do
+  case "$line" in ""|\#*) continue ;; esac
+  h=$(printf '%s' "$line" | awk '{print $1}')
+  fp=$(printf '%s' "$line" | awk '{print $2}')
+  case "$fp" in
+    /*)
+      if [ -f "$fp" ]; then
+        actual=$(md5sum "$fp" 2>/dev/null | awk '{print $1}')
+        if [ -z "$actual" ]; then
+          echo "[L5] WARN: 无法读取冻结运行时文件 $fp 的 md5, 本条未核验 (跳过不等于通过)"
+        elif [ "$h" != "$actual" ]; then
+          VIOLATIONS="${VIOLATIONS:+${VIOLATIONS}
 }${fp} (frozen runtime file md5 mismatch: expected $h, got $actual)"
-          fi
         fi
-        ;;
-    esac
-  done < "$MANIFEST"
-fi
+      else
+        echo "[L5] NOTE: 冻结运行时文件本机不存在, 未核验: $fp"
+      fi
+      ;;
+  esac
+done < "$MANIFEST"
 
 if [ -n "$VIOLATIONS" ]; then
   echo "BLOCKED: commit modifies frozen nodes:"
@@ -52,6 +111,7 @@ if [ -n "$VIOLATIONS" ]; then
   echo "  scripts/graph/frozen_hashes.txt hash manifest"
   echo "  + paths listed in frozen_hashes.txt"
   echo ""
+  echo "删除/重命名同样被拦 (F05 修复): 冻结件的 git rm / git mv 亦属违规。"
   echo "To override (Loop D only): git commit --no-verify"
   exit 1
 fi
