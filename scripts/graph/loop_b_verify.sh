@@ -69,6 +69,30 @@ log() {
 check_frozen_nodes() {
   log "STEP 1: Checking frozen node integrity..."
   local violations=0
+  local checked=0
+
+  # F03/F05 修复 (2026-09-10, TASK-20260910-A4A5A4W):
+  # 改前本函数结尾是 `done < "$FROZEN_FILE"`: 清单缺失/不可读时循环体一次都不执行,
+  # violations 保持 0 原样上报 => Loop B 对「删掉/清空冻结清单」完全失明 (实测复现)。
+  # 新语义: 清单缺失 / 不可读 / 零条有效条目 = 计入 violation (不可核验 != 通过)。
+  if [[ ! -e "$FROZEN_FILE" ]]; then
+    log "  FROZEN VIOLATION: 清单不存在 $FROZEN_FILE (不可核验 != 通过)"
+    echo 1
+    return
+  fi
+  if [[ ! -r "$FROZEN_FILE" ]]; then
+    log "  FROZEN VIOLATION: 清单不可读 $FROZEN_FILE (不可核验 != 通过)"
+    echo 1
+    return
+  fi
+  local manifest_entries
+  manifest_entries=$(grep -cE '^[0-9a-f]{32}[[:space:]]' "$FROZEN_FILE" 2>/dev/null || true)
+  [[ "$manifest_entries" =~ ^[0-9]+$ ]] || manifest_entries=0
+  if [[ "$manifest_entries" -eq 0 ]]; then
+    log "  FROZEN VIOLATION: 清单存在但零条有效条目 ($FROZEN_FILE) — 空清单等于没有守卫"
+    echo 1
+    return
+  fi
 
   while IFS= read -r line; do
     # Skip comments (lines starting with #) and empty lines
@@ -97,12 +121,14 @@ check_frozen_nodes() {
 
     if [[ ! -f "$filepath" ]]; then
       violations=$((violations + 1))
+      checked=$((checked + 1))
       log "  FROZEN VIOLATION: $filepath is MISSING"
       continue
     fi
 
     local actual_md5
     actual_md5=$(md5sum "$filepath" | awk '{print $1}')
+    checked=$((checked + 1))
 
     if [[ "$actual_md5" != "$expected_md5" ]]; then
       violations=$((violations + 1))
@@ -111,6 +137,12 @@ check_frozen_nodes() {
       log "  OK: $filepath"
     fi
   done < "$FROZEN_FILE"
+
+  # 对账: 清单声明的有效条目数必须等于实际核验数, 否则说明有条目被解析分支静默跳过
+  if [[ "$checked" -ne "$manifest_entries" ]]; then
+    violations=$((violations + 1))
+    log "  FROZEN VIOLATION: 清单有效条目 $manifest_entries, 实际核验 $checked — 有条目被静默跳过"
+  fi
 
   # Check test file count
   local test_count
@@ -399,22 +431,41 @@ write_report() {
   local lint_failures=$7     # -1 = SKIP
   local topo_violations=${8:-0}    # -1 = SKIP (T5)
   local watchdog_violations=${9:-0} # -1 = SKIP (T5)
+  local pgpool_violations=${10:-0}  # -1 = SKIP (T2) — F03 修复: 改前此参数根本不存在
 
+  # ---- F03 修复 (2026-09-10, TASK-20260910-A4A5A4W): 单一 verdict 同源 ----
+  # 改前缺陷 (实测复现, 见 repro/repro_F03_before.txt):
+  #  (a) 此处的 overall 公式不含 pgpool, 而 write_report.py 自己又算一遍**含** pgpool
+  #      => PG-only 失败时 JSON=FAIL / SHELL=PASS, 两份 verdict 分叉;
+  #  (b) 报告写入失败只 log 一条 WARNING, verdict 照发, 退出码照 0
+  #      => 「判定失败」与「报告写入失败」不可区分。
+  # 新语义: verdict 只在 bash 这里算**一次**, 作为参数显式交给 write_report.py
+  #      (python 不再自行判定, 只消费); 报告写入结果单独回传, 用不同退出码表达。
   local overall="PASS"
   if [[ "$frozen_violations" -gt 0 ]] || [[ "$pytest_exit" -ne 0 ]] || [[ "$api_failures" -gt 0 ]] \
      || [[ "$canary_failures" -gt 0 ]] || [[ "$git_violations" -gt 0 ]] || [[ "$lint_failures" -gt 0 ]] \
-     || [[ "$topo_violations" -gt 0 ]] || [[ "$watchdog_violations" -gt 0 ]]; then
+     || [[ "$topo_violations" -gt 0 ]] || [[ "$watchdog_violations" -gt 0 ]] \
+     || [[ "$pgpool_violations" -gt 0 ]]; then
     overall="FAIL"
   fi
 
+  # 退出码语义: python 0=OK / 1=报告写入失败(基础设施) / 4=verdict 与计数矛盾(守卫自检失败)
+  local report_write="OK"
+  local writer_rc=0
   python3 "$GRAPH_DIR/write_report.py" \
     "$frozen_violations" "$pytest_exit" "$api_failures" "$head_commit" "$REPORT_FILE" \
     "$canary_failures" "$git_violations" "$lint_failures" \
-    "$topo_violations" "$watchdog_violations" "$pgpool_violations" \
-    2>/dev/null || log "  WARNING: report write failed"
+    "$topo_violations" "$watchdog_violations" "$pgpool_violations" "$overall" || writer_rc=$?
+  case "$writer_rc" in
+    0) report_write="OK" ;;
+    4) report_write="MISMATCH"
+       log "  ERROR: verdict MISMATCH — 调用方判定与检查计数矛盾, 本次报告不可信" ;;
+    *) report_write="FAILED"
+       log "  ERROR: report write failed (判定=$overall 已定, 属基础设施故障, 与判定失败不同类)" ;;
+  esac
 
-  log "REPORT: overall=$overall -> $REPORT_FILE"
-  echo "$overall"
+  log "REPORT: overall=$overall report_write=$report_write pg_pool=$pgpool_violations -> $REPORT_FILE"
+  echo "$overall $report_write"
 }
 
 # ---- FAIL 翻转检测 (R1: 只在状态翻转时写 dispatch_log, 不每周期刷屏) ----
@@ -513,22 +564,42 @@ run_verification() {
   fi
   head_commit=$(check_git_state)
 
-  overall=$(write_report "$frozen_violations" "$pytest_exit" "$api_failures" "$head_commit" \
-    "$canary_failures" "$git_violations" "$lint_failures" "$topo_violations" "$watchdog_violations")
+  # F03 修复: 显式传入 pgpool (改前此调用漏传第 10 参 => pgpool 只靠 bash 动态作用域
+  # 渗进 write_report 里的 python 调用, shell 侧总判定完全看不到它)
+  local report_write_status="OK"
+  local verdict_line
+  verdict_line=$(write_report "$frozen_violations" "$pytest_exit" "$api_failures" "$head_commit" \
+    "$canary_failures" "$git_violations" "$lint_failures" "$topo_violations" "$watchdog_violations" \
+    "$pgpool_violations")
+  overall=${verdict_line%% *}
+  report_write_status=${verdict_line##* }
 
   record_status_flip "$overall"
 
-  log "Loop B verification complete."
+  log "Loop B verification complete. VERDICT=$overall REPORT_WRITE=$report_write_status"
+  echo "VERDICT=$overall REPORT_WRITE=$report_write_status"
+
+  # 退出码语义 (单次运行): 0 = PASS; 1 = 判定 FAIL;
+  #   3 = 守卫基础设施故障 (报告写入失败或 verdict 矛盾) — 与「判定失败」明确区分
+  if [[ "$overall" == "FAIL" ]]; then
+    return 1
+  fi
+  if [[ "$report_write_status" != "OK" ]]; then
+    return 3
+  fi
+  return 0
 }
 
 # ---- Entry Point ----
 if [[ "${1:-}" == "--daemon" ]]; then
+  # daemon 语义与单次退出语义分开: FAIL 只记录, 不退出 (改后依旧每 30min 轮询)
   log "Loop B starting in daemon mode (poll every ${POLL_INTERVAL}s)"
   while true; do
-    run_verification
+    run_verification || log "run_verification returned non-zero (verdict FAIL or report-write failure); daemon continues"
     log "Sleeping ${POLL_INTERVAL}s until next check..."
     sleep "$POLL_INTERVAL"
   done
 else
   run_verification
+  exit $?
 fi
