@@ -326,7 +326,8 @@
 | `READING_NOTES_INDEX_TEMPLATE.md` | 阅读笔记索引模板 |
 | `AGENTS_MD_TEMPLATE.md` / `CLAUDE_MD_TEMPLATE.md` | 规则文件模板（参考; 本项目以根 AGENTS.md 为准） |
 | `multi-tool-sync.sh` | 多工具规则同步脚本（参考） |
-| 仓库 `scripts/graph/hooks/` | pre-commit 机械强制层脚本（根 AGENTS.md"机械强制层"节）: cjk-byte-check.precommit.sh / index-guard.precommit.sh / large-file-guard.precommit.sh / summary-recompute-guard.precommit.sh + summary_recompute_guard.py（2026-08-30 摘要收据重读复算守卫）/ install_hooks.sh / skill_router.py |
+| 仓库 `scripts/graph/hooks/` | pre-commit 机械强制层脚本（根 AGENTS.md"机械强制层"节）: cjk-byte-check.precommit.sh / index-guard.precommit.sh / large-file-guard.precommit.sh / summary-recompute-guard.precommit.sh + summary_recompute_guard.py（2026-08-30 摘要收据重读复算守卫; 2026-09-10 F02 修复 = 只比对有效非空哈希 + 绑定 staged blob）/ install_hooks.sh（2026-09-10 起原子安装: 暂存 → bash -n 校验 → 备份 → mv -f 交换 → 装后自检）/ skill_router.py; 链首 L5 冻结守卫 `pre-commit` 同日按 F05 覆盖删除与重命名、清单缺失/不可读/空条目计入失败 |
+| 仓库 `scripts/graph/dispatch_precheck.sh` | 常备派发前置检查（A4w 剩余范围, 2026-09-10）: 把 watcher 的**执行位实证 + 首次 tick 实证**机械化供后续所有窗口继承 —— `--watcher`（存在/执行位/bash -n/非空 + mode 与 sha 入证据）、`--cron-line`（直呼路径且无执行位 = F-0907-1 复现条件, 判 FAIL; 无重定向 = 静默失败不留日志）、`--tick-marker`+`--max-tick-age-min`（首次 tick 工件缺失或 0 字节或超时 = FAIL; 未提供即「缺一不派发」）; 只读取证, 绝不装 cron / 绝不写仓内工件; 任一 FAIL → 非零退出, 派发方必须停下 |
 | 仓库 `scripts/graph/governance_drift_scan.py` | 治理漂移扫描（2026-08-29 制度化）: 状态词扫荡（待批/待执行/待发送/待勾选）+ 活文档日期超期 → 漂移候选幂等登记 docs/29 backlog 待核节; 收口清单固定步骤 + 03:30 cron 轻扫（--cron 只报告） |
 | 仓库 `scripts/walkthrough_m1_v2.py` | D1 /m1 三栏工作台脚本化 walkthrough（五步 13 断言: 时间轴点亮/刷新持久化/QA 五步条/建议映射 tab/回落问答三问; 证据落 logs/graph/eval/walkthrough_evidence/；旧截图文件名 fast_regression 仅为路径兼容） |
 
