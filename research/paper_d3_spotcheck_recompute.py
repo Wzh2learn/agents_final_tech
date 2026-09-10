@@ -99,12 +99,17 @@ s.check("a2_clean_controls_pivot", [nclean, flat_nz, piv], [2382, 0, True], leve
 if isinstance(nclean, int) and nclean > 0:
     s.observe("a2_cp95_upper_recomputed", round(1 - (0.025) ** (1 / nclean), 6))
 
-# 7. A4 matched-FPR: 分母 111, 差点 0.0, bootstrap 0/2000  [L2]
+# 7. A4 matched-FPR: 分母 111, 差点 0.0, bootstrap 0/2000, CI [0,0]  [L2]
 den = req("a4_denominator_S2", doc, "payload.a4_matched_fpr.denominator_S2.harmful_H_union_HI")
 point = req("a4_difference_point", doc, "payload.a4_matched_fpr.matched_fpr_difference.point")
 nzrep = req("a4_bootstrap_nonzero_replicates", doc, "payload.a4_matched_fpr.matched_fpr_difference.bootstrap.difference_nonzero_replicates")
-s.check("a4_matched_fpr_identity", [den, point, nzrep], [111, 0.0, 0], level="L2",
-        detail={"denominator": den, "point": point, "nonzero_replicates": nzrep})
+nboot = req("a4_bootstrap_n_boot", doc, "payload.a4_matched_fpr.matched_fpr_difference.bootstrap.n_boot")
+s.check("a4_matched_fpr_identity", [den, point, nzrep, nboot], [111, 0.0, 0, 2000], level="L2",
+        detail={"denominator": den, "point": point, "nonzero_replicates": nzrep, "n_boot": nboot,
+                "note": "n_boot 入断言 = 把注释里的 '0/2000' 分母从散文变成机器核验"})
+ci95 = req("a4_difference_ci95_present", doc, "payload.a4_matched_fpr.matched_fpr_difference.bootstrap.difference_ci95")
+s.observe("a4_difference_ci95", {"value": ci95, "path": "payload.a4_matched_fpr.matched_fpr_difference.bootstrap.difference_ci95",
+                                 "fix_note": "改前 detail 读 bs['n_replicates'] 与 diff['ci'] 两个不存在的键, 恒 null = 假字段; 真实键名 = n_boot 与 difference_ci95"})
 
 # 8. 仿射恒等: ρ 必须**实读到**且 == 1.0 (改前恒真的那条, 现为第 ⑦ 个反例的靶点)  [L2]
 rho = req("a4_spearman_rho_rank_identical", doc, RHO_PATH)
