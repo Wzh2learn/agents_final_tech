@@ -5,7 +5,11 @@
 #
 # 用法:
 #   gen   <artifact> <claim=value>...   打印可粘贴的 SUMMARY-GUARD 收据块
-#   check <md_file> [--warn-missing]    重读工件复算收据; 失配 -> exit 1
+#   check <md_file> [--warn-missing] [--staged]
+#                                       重读工件复算收据; 失配 -> exit 1
+#       --staged: 校验对象 = **待提交的 index blob** (git show :<path>), 不是工作树文件。
+#                 pre-commit 必须走该口径, 否则「工作树合法 / staged 有缺陷」可绕过守卫
+#                 (审计 F02: staged 与工作树对象漂移)。
 #
 # 收据块格式 (嵌在 md 里):
 #   <!-- SUMMARY-GUARD
@@ -18,17 +22,29 @@
 import sys, os, json, hashlib, re
 
 TOL = 5e-5  # 存储数字常四舍五入到 4 位小数 (抽验实证), 容差与之对齐
+HEX64 = re.compile(r"^[0-9a-f]{64}$")
+# F02 修复 (2026-09-10, Loop A / TASK-20260910-A4A5A4W):
+# 旧实现 file_shas() 在纯 LF 工件上不产出 "lf" 键 => shas.get("lf") is None;
+# 收据缺哈希字段时 b.get("sha256") / b.get("sha256_lf") 同为 None,
+# 于是 `None in (raw, None)` 恒真 => 缺字段 / 空字段 / 错哈希 全部放行 (改前实测 exit 0)。
 
 def sha_bytes(b):
     return hashlib.sha256(b).hexdigest()
 
-def file_shas(path):
-    raw = open(path, "rb").read()
-    out = {"raw": sha_bytes(raw)}
+def bytes_shas(raw):
+    # 两口径**永远都在** (纯 LF 件 raw == lf), 使 None 没有碰撞空间。
     lf = raw.replace(b"\r\n", b"\n")
-    if lf != raw:
-        out["lf"] = sha_bytes(lf)
-    return out
+    return {"raw": sha_bytes(raw), "lf": sha_bytes(lf)}
+
+def file_shas(path):
+    return bytes_shas(open(path, "rb").read())
+
+def git_blob_bytes(root, rel):
+    """读 index 中的 staged blob 字节; 该路径不在 index -> None。"""
+    import subprocess
+    r = subprocess.run(["git", "--no-pager", "show", ":" + rel.replace(os.sep, "/")],
+                       cwd=root, capture_output=True)
+    return None if r.returncode != 0 else r.stdout
 
 def parse_path(p):
     # 支持 a.b.c 与 a["b.c"][0] 混写
@@ -127,7 +143,7 @@ def cmd_gen(argv):
         claims.append((k.strip(), v.strip()))
     root = repo_root(art)
     rel = os.path.relpath(art, root).replace(os.sep, "/") if os.path.isabs(art) else art
-    shas = file_shas(art)
+    shas = bytes_shas(open(art, "rb").read())
     # 先校验每条 claim 可解析 (防错收据入库)
     if art.endswith(".json"):
         obj = json.load(open(art, encoding="utf-8"))
@@ -139,7 +155,7 @@ def cmd_gen(argv):
     print("<!-- SUMMARY-GUARD")
     print("artifact: " + rel)
     print("sha256: " + shas["raw"])
-    if "lf" in shas:
+    if shas["lf"] != shas["raw"]:
         print("sha256_lf: " + shas["lf"])
     if claims:
         print("claims:")
@@ -148,54 +164,136 @@ def cmd_gen(argv):
     print("END-SUMMARY-GUARD -->")
     return 0
 
+OPEN_MARKER = re.compile(r"<!--\s*SUMMARY-GUARD")
+
+
+def check_block_shape(b, idx):
+    """F02 修复: 收据块结构完整性 = 硬失败。旧实现缺 sha256 时以 None 撞空口径放行。"""
+    errs = []
+    if not b.get("artifact"):
+        errs.append("收据块 #%d 缺 artifact 字段" % idx)
+    sha = b.get("sha256")
+    if sha is None:
+        errs.append("收据块 #%d 缺 sha256 字段 (缺失不等于通过)" % idx)
+    elif not isinstance(sha, str) or not HEX64.match(sha):
+        errs.append("收据块 #%d sha256 非 64 位小写十六进制: %r" % (idx, sha))
+    lf = b.get("sha256_lf")
+    if lf is not None and (not isinstance(lf, str) or not HEX64.match(lf)):
+        errs.append("收据块 #%d sha256_lf 非 64 位小写十六进制: %r" % (idx, lf))
+    return errs
+
+
+def verify_shas(b, shas):
+    """两口径 (raw / LF 归一) 有效非空比对。返回 (ok, reason)。
+
+    通过条件 (任一):
+      A. sha256 == raw            —— 同检出侧原字节
+      B. sha256 == lf             —— 收据在 LF 侧生成, 或纯 LF 件两口径同值
+      C. sha256_lf 在位且 == lf   —— 收据在 CRLF 检出侧生成 (raw 为 CRLF 口径)
+    若 sha256_lf 在位但 != lf, 一律 FAIL (声称的 LF 口径与实存不符)。
+    """
+    sha, lf_sha = b.get("sha256"), b.get("sha256_lf")
+    if lf_sha is not None and lf_sha != shas["lf"]:
+        return False, "sha256_lf 与实存 LF 口径失配 (stored=%s actual_lf=%s)" % (
+            str(lf_sha)[:16], shas["lf"][:16])
+    if sha in (shas["raw"], shas["lf"]):
+        return True, ""
+    if lf_sha is not None and lf_sha == shas["lf"]:
+        return True, ""
+    return False, "sha256 失配 (stored=%s actual_raw=%s actual_lf=%s)" % (
+        str(sha)[:16], shas["raw"][:16], shas["lf"][:16])
+
+
+def artifact_bytes(root, art_rel, use_index):
+    """--staged 优先读 index blob (缺陷若已暂存则必须被拒), 否则回落工作树文件。"""
+    if use_index:
+        blob = git_blob_bytes(root, art_rel)
+        if blob is not None:
+            return blob
+    path = os.path.join(root, art_rel.replace("/", os.sep))
+    if os.path.isfile(path):
+        return open(path, "rb").read()
+    return None
+
+
 def cmd_check(argv):
     md = argv[0]
     warn_missing = "--warn-missing" in argv
-    text = open(md, encoding="utf-8").read()
+    use_index = "--staged" in argv
+    root = repo_root(None if use_index else md)
+    display = md
+    if use_index:
+        rel_md = md.replace(os.sep, "/").lstrip("./")
+        blob = git_blob_bytes(root, rel_md)
+        if blob is None:
+            print("[summary-guard] FAIL 无法读取 staged blob: %s (校验对象缺失不等于通过)" % rel_md)
+            return 1
+        text = blob.decode("utf-8", errors="replace")
+        display = rel_md
+    else:
+        text = open(md, encoding="utf-8").read()
+
     blocks = parse_blocks(text)
+    openings = len(OPEN_MARKER.findall(text))
+    if openings != len(blocks):
+        print("[summary-guard] FAIL %s: 发现 %d 个 SUMMARY-GUARD 起始标记但只有 %d 个可解析块 "
+              "(块格式错误 / 未闭合 / 字段不可解析 = 收据不可信)" % (display, openings, len(blocks)))
+        return 1
     if not blocks:
-        print("[summary-guard] %s: 无 SUMMARY-GUARD 块, 跳过" % md)
+        print("[summary-guard] %s: 无 SUMMARY-GUARD 块, 跳过" % display)
         return 0
-    root = repo_root(md)
+
     fails = 0
     skipped = 0
-    for b in blocks:
-        art_rel = b.get("artifact", "")
-        art = os.path.join(root, art_rel.replace("/", os.sep))
-        if not os.path.exists(art):
-            msg = "[summary-guard] WARN 工件不在本机 (GB10-only?): %s — 收据未复核" % art_rel
+    for i, b in enumerate(blocks, 1):
+        errs = check_block_shape(b, i)
+        if errs:
+            for e in errs:
+                print("[summary-guard] FAIL %s: %s" % (display, e))
+            fails += 1
+            continue
+        art_rel = b["artifact"]
+        raw = artifact_bytes(root, art_rel, use_index)
+        if raw is None:
+            msg = ("[summary-guard] WARN 工件不在本机 (GB10-only?): %s — 收据未复核"
+                   % art_rel) if warn_missing else \
+                  ("[summary-guard] FAIL %s: 收据块 #%d 指向的工件不可读: %s" % (display, i, art_rel))
             print(msg)
             if not warn_missing:
                 fails += 1
             skipped += 1
             continue
-        shas = file_shas(art)
-        # raw 收据可匹配 raw; lf 收据可匹配 lf 或 raw(纯 LF 文件两口径同值);
-        # raw 收据也可匹配 lf(收据在 CRLF 检出侧生成, 复核在 LF 侧)
-        ok_sha = b.get("sha256") in (shas.get("raw"), shas.get("lf"))
-        lf_ok = b.get("sha256_lf") in (shas.get("lf"), shas.get("raw")) or (b.get("sha256") == shas.get("lf"))
-        if not (ok_sha or lf_ok):
-            print("[summary-guard] FAIL sha 失配: %s (stored=%s actual_raw=%s)" % (art_rel, str(b.get("sha256"))[:16], shas["raw"][:16]))
+        ok, reason = verify_shas(b, bytes_shas(raw))
+        if not ok:
+            print("[summary-guard] FAIL %s 收据块 #%d: %s" % (display, i, reason))
             fails += 1
             continue
-        if art.endswith(".json") and b["claims"]:
-            obj = json.load(open(art, encoding="utf-8"))
+        if art_rel.endswith(".json") and b["claims"]:
+            try:
+                obj = json.loads(raw.decode("utf-8"))
+            except Exception as e:
+                print("[summary-guard] FAIL %s 收据块 #%d: 工件非合法 JSON, claims 无法复核 (%s)"
+                      % (display, i, e))
+                fails += 1
+                continue
             for k, expected in b["claims"]:
                 try:
                     actual = resolve(obj, k)
                 except Exception as e:
                     print("[summary-guard] FAIL 路径不可解析: %s (%s)" % (k, e))
-                    fails += 1; continue
+                    fails += 1
+                    continue
                 if not values_match(actual, expected):
                     print("[summary-guard] FAIL 数字失配: %s = %r (收据声称 %r)" % (k, actual, expected))
                     fails += 1
     if fails:
-        print("[summary-guard] %s: %d 项失配 — 摘要必须与存储工件一致, 请重读复算后再提交" % (md, fails))
+        print("[summary-guard] %s: %d 项失配 — 摘要必须与存储工件一致, 请重读复算后再提交" % (display, fails))
         return 1
     if skipped:
-        print("[summary-guard] %s: %d 收据块, %d 已复核, %d 跳过未复核（工件不在本机）— 跳过不等于通过" % (md, len(blocks), len(blocks) - skipped, skipped))
+        print("[summary-guard] %s: %d 收据块, %d 已复核, %d 跳过未复核（工件不在本机）— 跳过不等于通过"
+              % (display, len(blocks), len(blocks) - skipped, skipped))
     else:
-        print("[summary-guard] %s: %d 收据块复核通过" % (md, len(blocks)))
+        print("[summary-guard] %s: %d 收据块复核通过" % (display, len(blocks)))
     return 0
 
 def main():
