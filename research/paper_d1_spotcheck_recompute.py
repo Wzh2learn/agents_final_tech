@@ -1,12 +1,24 @@
 import json, io, hashlib, os
+
+# --- F04 纪律改造 (2026-09-10, TASK-20260910-A4A5A4W 修复包 ④, 见 research/spotcheck_lib.py) ---
+#  (1) 输入/输出可重定向: SPOTCHECK_OUT 让验收方把抽验工件写到仓外,
+#      不覆盖 logs/graph/eval/ 下的审计证据 (历史默认路径与文件名不变)。
+#  (2) 恒真/存在性补充项用 ck(..., gate=False) 登记为 OBSERVE, 不入 PASS 分母。
+#  (3) 结尾给出**退出码** (改前本脚本 sys.exit 出现 0 次 => 抽验失败对上游不可见)。
+import sys as _sys
+def _env_path(var, default):
+    import os as _os
+    v = _os.environ.get(var)
+    return v if v else default
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ART = os.path.join(R, "logs", "graph", "eval", "d1_mutant_validity_audit.json")
-T2 = os.path.join(R, "logs", "graph", "eval", "t2_visibility_sensitivity.json")
+ART = _env_path("SPOTCHECK_ARTIFACT", os.path.join(R, "logs", "graph", "eval", "d1_mutant_validity_audit.json"))
+T2 = _env_path("SPOTCHECK_T2", os.path.join(R, "logs", "graph", "eval", "t2_visibility_sensitivity.json"))
 d = json.load(open(ART, encoding="utf-8"))
 pay = d["payload"]
 out = []
-def ck(name, ok, detail):
-    out.append(("PASS " if ok else "FAIL ") + name + " :: " + str(detail)[:260])
+def ck(name, ok, detail, gate=True):
+    """gate=False => OBSERVE 行: 描述性/存在性补充, 不入 PASS 分母 (F04 纪律 4)。"""
+    out.append((("PASS " if ok else "FAIL ") if gate else "OBSERVE ") + name + " :: " + str(detail)[:260])
     return ok
 
 # 1. payload digest recompute (recipe per W2 assemble: dumps ensure_ascii=False sort_keys default separators)
@@ -54,5 +66,12 @@ pr = d.get("prereg_predicates", {})
 ck("prereg_present", len(pr) >= 5, list(pr.keys()))
 
 print("\n".join(out))
-res = sum(1 for o in out if o.startswith("PASS"))
-print("\nD1 spotcheck: %d/%d PASS" % (res, len(out)))
+_gating = [o for o in out if not o.startswith("OBSERVE")]
+_res = sum(1 for o in _gating if o.startswith("PASS"))
+_fail = sum(1 for o in _gating if o.startswith("FAIL"))
+print("\nD1 spotcheck: %d/%d PASS (gating 分母; OBSERVE 不入分母 %d 项; FAIL %d)" % (
+    _res, len(_gating), len(out) - len(_gating), _fail))
+if not _gating:
+    print("FAIL: 零 gating 项 —— 没有闸门的抽验不算通过")
+    raise SystemExit(2)
+raise SystemExit(0 if _fail == 0 else 1)

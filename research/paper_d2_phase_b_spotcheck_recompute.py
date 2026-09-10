@@ -4,12 +4,22 @@
 输出: logs/graph/eval/d2_phase_b_spotcheck_recompute.json
 """
 import json, hashlib, math
+
+# --- F04 纪律改造 (2026-09-10, TASK-20260910-A4A5A4W 修复包 ④; 引擎见 research/spotcheck_lib.py) ---
+#  (1) 输入/输出路径可用环境变量重定向 (SPOTCHECK_ARTIFACT / SPOTCHECK_OUT 等):
+#      默认路径与文件名**不变**, 但验收方能把抽验工件写到仓外, 不覆盖 logs/graph/eval/ 下的审计证据。
+#  (2) 恒真项与存在性补充项用 ck(..., gate=False) 登记为 OBSERVE, 不入 PASS 分母。
+#  (3) 结尾给出**退出码** (改前本脚本 sys.exit 出现 0 次 => 抽验失败对上游完全不可见)。
+import sys as _sys
+def _env_path(var, default):
+    _v = __import__("os").environ.get(var)
+    return _v if _v else default
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-EMB = ROOT / "logs" / "graph" / "eval" / "d2_cross_matcher_embed.json"
-DET = ROOT / "logs" / "graph" / "eval" / "d2_cross_matcher_det.json"
-OUT = ROOT / "logs" / "graph" / "eval" / "d2_phase_b_spotcheck_recompute.json"
+EMB = Path(_env_path("SPOTCHECK_EMB", str(ROOT / "logs" / "graph" / "eval" / "d2_cross_matcher_embed.json")))
+DET = Path(_env_path("SPOTCHECK_DET", str(ROOT / "logs" / "graph" / "eval" / "d2_cross_matcher_det.json")))
+OUT = Path(_env_path("SPOTCHECK_OUT", str(ROOT / "logs" / "graph" / "eval" / "d2_phase_b_spotcheck_recompute.json")))
 
 RECEIPT_PAYLOAD_SHA = "299ab1c7acfc8b272fce6c1a3bbf18ca01d35810d715cd1b62c3c651f121f950"
 RECEIPT_RAW_SHA = "ed3d3905e42c41ab71d4dfacc64a3609de2dd12d5e20cf9b5b363a90d29d4bbf"
@@ -24,8 +34,9 @@ EXPECTED_BLIND = {"greedy_production": ["ocr_similar"],
                   "hungarian_embedding": ["ocr_similar", "prefix_noise", "unit_suffix"]}
 
 results = []
-def ck(name, ok, detail=None):
-    results.append({"check": name, "pass": bool(ok), "detail": detail or {}})
+def ck(name, ok, detail=None, gate=True):
+    """gate=False => 观察项 (gate=False), 不入 PASS 分母 (F04 纪律 2)。"""
+    results.append({"check": name, "pass": bool(ok), "gate": gate, "detail": detail or {}})
 
 raw = EMB.read_bytes()
 doc = json.loads(raw.decode("utf-8"))
@@ -164,8 +175,19 @@ ck("p2_findings_consistency",
    and abs_mine == pf["absorption_maintained_of_33"],
    {"abs_mine": abs_mine, "stored": pf["absorption_maintained_of_33"]})
 
-n_pass = sum(1 for r in results if r["pass"])
-report = {"n_checks": len(results), "n_pass": n_pass,
-          "all_pass": n_pass == len(results), "results": results}
+_gating = [r for r in results if r.get("gate", True)]
+_n_fail = sum(1 for r in _gating if not r["pass"])
+n_pass = sum(1 for r in _gating if r["pass"])
+report = {"n_checks": len(_gating), "n_pass": n_pass, "n_observed": len(results) - len(_gating),
+          "all_pass": (_n_fail == 0 and bool(_gating)),
+          "denominator_rule": "OBSERVE(gate=False) 与存在性项不入 PASS 分母 (F04)",
+          "results": results}
 OUT.write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
-print(json.dumps(report, ensure_ascii=False, indent=1))
+print("SPOTCHECK: %d/%d gating PASS (OBSERVE %d 项不入分母; FAIL %d)" % (
+    n_pass, len(_gating), len(results) - len(_gating), _n_fail))
+for r in _gating:
+    if not r["pass"]:
+        print("FAIL:", r["check"], json.dumps(r["detail"], ensure_ascii=False)[:250])
+if not _gating:
+    print("FAIL: 零 gating 项 —— 没有闸门的抽验不算通过"); raise SystemExit(2)
+raise SystemExit(0 if _n_fail == 0 else 1)

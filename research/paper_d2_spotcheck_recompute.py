@@ -1,12 +1,23 @@
 import json, io, hashlib, os
+
+# --- F04 纪律改造 (2026-09-10, TASK-20260910-A4A5A4W 修复包 ④; 引擎见 research/spotcheck_lib.py) ---
+#  (1) 输入/输出路径可用环境变量重定向 (SPOTCHECK_ARTIFACT / SPOTCHECK_OUT 等):
+#      默认路径与文件名**不变**, 但验收方能把抽验工件写到仓外, 不覆盖 logs/graph/eval/ 下的审计证据。
+#  (2) 恒真项与存在性补充项用 ck(..., gate=False) 登记为 OBSERVE, 不入 PASS 分母。
+#  (3) 结尾给出**退出码** (改前本脚本 sys.exit 出现 0 次 => 抽验失败对上游完全不可见)。
+import sys as _sys
+def _env_path(var, default):
+    _v = __import__("os").environ.get(var)
+    return _v if _v else default
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ART = os.path.join(R, "logs", "graph", "eval", "d2_cross_matcher_det.json")
-D1 = os.path.join(R, "logs", "graph", "eval", "d1_mutant_validity_audit.json")
+ART = _env_path("SPOTCHECK_ARTIFACT", os.path.join(R, "logs", "graph", "eval", "d2_cross_matcher_det.json"))
+D1 = _env_path("SPOTCHECK_D1", os.path.join(R, "logs", "graph", "eval", "d1_mutant_validity_audit.json"))
 d = json.load(open(ART, encoding="utf-8"))
 p = d["payload"]
 out = []
-def ck(name, ok, detail):
-    out.append(("PASS " if ok else "FAIL ") + name + " :: " + str(detail)[:240])
+def ck(name, ok, detail, gate=True):
+    """gate=False => OBSERVE 行: 描述性/存在性补充, 不入 PASS 分母 (F04 纪律 2)。"""
+    out.append((("PASS " if ok else "FAIL ") if gate else "OBSERVE ") + name + " :: " + str(detail)[:240])
 
 # 1. digest
 calc = hashlib.sha256(json.dumps(p, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
@@ -71,17 +82,18 @@ if not ok_tau:
 tm = p["transition_matrix"]
 rows = tm["rows"]
 n33 = len(rows)
-row_ok = all(sum(v.values()) == 1 for r in rows for v in [r.get("columns", r)] if isinstance(v, dict)) if False else True
 ck("transition_rows_33", n33 == 33, {"rows": n33})
 mct = p["matcher_class_transitions"]
-for m, blk in mct.items():
-    mat = blk["matrix_prod_to_k"]
-    total = sum(sum(blk2.values()) for blk2 in mat.values())
-    if total != 118:
-        ck("transition_total_" + m, False, total); break
-else:
-    ck("transition_totals_all_33", True, list(mct.keys()))
+# 改前靠 for/else 走通后 ck(..., True) —— 条件恒真且不可审计。现显式算出实测量再断言。
+_totals = {m: sum(sum(b2.values()) for b2 in blk["matrix_prod_to_k"].values()) for m, blk in mct.items()}
+ck("transition_totals_all_33", all(v == 118 for v in _totals.values()), _totals)
 
 print("\n".join(out))
-res = sum(1 for o in out if o.startswith("PASS"))
-print("\nD2-A spotcheck: %d/%d" % (res, len(out)))
+_gating = [o for o in out if not o.startswith("OBSERVE")]
+_res = sum(1 for o in _gating if o.startswith("PASS"))
+_fail = sum(1 for o in _gating if o.startswith("FAIL"))
+print("\nD2-A spotcheck: %d/%d PASS (gating 分母; OBSERVE 不入分母 %d 项; FAIL %d)"
+      % (_res, len(_gating), len(out) - len(_gating), _fail))
+if not _gating:
+    print("FAIL: 零 gating 项 —— 没有闸门的抽验不算通过"); raise SystemExit(2)
+raise SystemExit(0 if _fail == 0 else 1)

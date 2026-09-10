@@ -1,17 +1,28 @@
 # -*- coding: utf-8 -*-
 """DR-4 复核抽验（主线程独立复算, 只读本地工件）。"""
 import json, hashlib
+
+# --- F04 纪律改造 (2026-09-10, TASK-20260910-A4A5A4W 修复包 ④; 引擎见 research/spotcheck_lib.py) ---
+#  (1) 输入/输出路径可用环境变量重定向 (SPOTCHECK_ARTIFACT / SPOTCHECK_OUT 等):
+#      默认路径与文件名**不变**, 但验收方能把抽验工件写到仓外, 不覆盖 logs/graph/eval/ 下的审计证据。
+#  (2) 恒真项与存在性补充项用 ck(..., gate=False) 登记为 OBSERVE, 不入 PASS 分母。
+#  (3) 结尾给出**退出码** (改前本脚本 sys.exit 出现 0 次 => 抽验失败对上游完全不可见)。
+import sys as _sys
+def _env_path(var, default):
+    _v = __import__("os").environ.get(var)
+    return _v if _v else default
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-A = ROOT / "logs" / "graph" / "eval" / "dr4_d1_reclassification_review.json"
-OUT = ROOT / "logs" / "graph" / "eval" / "dr4_spotcheck_recompute.json"
+A = Path(_env_path("SPOTCHECK_ARTIFACT", str(ROOT / "logs" / "graph" / "eval" / "dr4_d1_reclassification_review.json")))
+OUT = Path(_env_path("SPOTCHECK_OUT", str(ROOT / "logs" / "graph" / "eval" / "dr4_spotcheck_recompute.json")))
 RECEIPT_RAW = "7806b77b5ad46add9f0461f12c82c54b7f0328f5e3cf66ac6b8aaceefc52d6ca"
 RECEIPT_PAYLOAD = "47adbe6649666f864693daead98cb857ff1189545b7e28b0ba126f7cc8beb126"
 
 results = []
-def ck(name, ok, detail=None):
-    results.append({"check": name, "pass": bool(ok), "detail": detail or {}})
+def ck(name, ok, detail=None, gate=True):
+    """gate=False => 观察项 (gate=False), 不入 PASS 分母 (F04 纪律 2)。"""
+    results.append({"check": name, "pass": bool(ok), "gate": gate, "detail": detail or {}})
 
 raw = A.read_bytes()
 doc = json.loads(raw.decode("utf-8"))
@@ -84,10 +95,19 @@ ck("independence_self_proof",
    {"criterion_keys": list(cp.keys())[:6] if isinstance(cp, dict) else str(cp)[:100],
     "integrity": json.dumps(integ, ensure_ascii=False)[:200]})
 
-n_pass = sum(1 for r in results if r["pass"])
-report = {"n_checks": len(results), "n_pass": n_pass, "all_pass": n_pass == len(results), "results": results}
+_gating = [r for r in results if r.get("gate", True)]
+_n_fail = sum(1 for r in _gating if not r["pass"])
+n_pass = sum(1 for r in _gating if r["pass"])
+report = {"n_checks": len(_gating), "n_pass": n_pass, "n_observed": len(results) - len(_gating),
+          "all_pass": (_n_fail == 0 and bool(_gating)),
+          "denominator_rule": "OBSERVE(gate=False) 与存在性项不入 PASS 分母 (F04)",
+          "results": results}
 OUT.write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
-print("DR4 SPOTCHECK: %d/%d PASS" % (n_pass, len(results)))
-for r in results:
+print("SPOTCHECK: %d/%d gating PASS (OBSERVE %d 项不入分母; FAIL %d)" % (
+    n_pass, len(_gating), len(results) - len(_gating), _n_fail))
+for r in _gating:
     if not r["pass"]:
         print("FAIL:", r["check"], json.dumps(r["detail"], ensure_ascii=False)[:250])
+if not _gating:
+    print("FAIL: 零 gating 项 —— 没有闸门的抽验不算通过"); raise SystemExit(2)
+raise SystemExit(0 if _n_fail == 0 else 1)

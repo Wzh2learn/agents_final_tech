@@ -2,19 +2,29 @@
 # from the stored artifact; prints PASS/FAIL per check. No network, no endpoints.
 import json, io, hashlib, os, random
 
+# --- F04 纪律改造 (2026-09-10, TASK-20260910-A4A5A4W 修复包 ④; 引擎见 research/spotcheck_lib.py) ---
+#  (1) 输入/输出可 env 重定向 (默认路径不变), 验收方不必覆盖 logs/graph/eval/ 审计证据。
+#  (2) 两条 `_supplement` 恒真项改登记为 OBSERVE (gate=False), 不入 PASS 分母。
+#  (3) 结尾给出退出码 (改前 sys.exit 出现 0 次)。
+import sys as _sys
+def _env_path(var, default):
+    _v = __import__("os").environ.get(var)
+    return _v if _v else default
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ART = os.path.join(ROOT, "logs", "graph", "eval", "t4_pso_fair_comparison.json")
-EXC = os.path.join(ROOT, "logs", "graph", "eval", "w2_endpoint_evidence_excerpt.txt")
-GUARD = os.path.join(ROOT, "logs", "graph", "eval", "w2_endpoint_guard_probe.json")
+ART = _env_path("SPOTCHECK_ARTIFACT", os.path.join(ROOT, "logs", "graph", "eval", "t4_pso_fair_comparison.json"))
+EXC = _env_path("SPOTCHECK_EXC", os.path.join(ROOT, "logs", "graph", "eval", "w2_endpoint_evidence_excerpt.txt"))
+GUARD = _env_path("SPOTCHECK_GUARD", os.path.join(ROOT, "logs", "graph", "eval", "w2_endpoint_guard_probe.json"))
 TREE = os.path.join(ROOT, "config", "eval_checkpoint_trees.json")
-OUT = os.path.join(ROOT, "logs", "graph", "eval", "w2_spotcheck_recompute.json")
+OUT = _env_path("SPOTCHECK_OUT", os.path.join(ROOT, "logs", "graph", "eval", "w2_spotcheck_recompute.json"))
 
 d = json.load(open(ART, encoding="utf-8"))
 pay = d["payload"]
 checks = []
-def ck(name, ok, detail):
-    checks.append({"check": name, "pass": bool(ok), "detail": detail})
-    print(("PASS " if ok else "FAIL ") + name + " :: " + str(detail)[:220])
+def ck(name, ok, detail, gate=True):
+    """gate=False => OBSERVE 观察项: 描述性补充, 不入 PASS 分母 (F04 纪律 2)。"""
+    checks.append({"check": name, "pass": bool(ok), "gate": gate, "detail": detail})
+    print((("PASS " if ok else "FAIL ") if gate else "OBSERVE ") + name + " :: " + str(detail)[:220])
 
 # 1. payload digest recompute (recipe = paper_w2_assemble.py L338)
 stored = d["payload_sha256"]
@@ -131,6 +141,17 @@ ck("endpoint_evidence_excerpt_sha", exc_sha == pay["endpoint_evidence_excerpt_sh
 gp = json.load(open(GUARD, encoding="utf-8"))
 ck("guard_probe_gates", bool(gp.get("gates")) and all(v is True for v in gp["gates"].values() if isinstance(v, bool)), json.dumps(gp["gates"], ensure_ascii=False)[:160])
 
-res = {"artifact": os.path.relpath(ART, ROOT).replace(os.sep, "/"), "n_checks": len(checks), "n_pass": sum(1 for c in checks if c["pass"]), "checks": checks}
+_gating = [c for c in checks if c.get("gate", True)]
+_n_fail = sum(1 for c in _gating if not c["pass"])
+res = {"artifact": os.path.relpath(ART, ROOT).replace(os.sep, "/"),
+       "n_checks": len(_gating), "n_pass": sum(1 for c in _gating if c["pass"]),
+       "n_observed": len(checks) - len(_gating),
+       "all_pass": (_n_fail == 0 and bool(_gating)),
+       "denominator_rule": "OBSERVE(gate=False) 与存在性项不入 PASS 分母 (F04)",
+       "checks": checks}
 json.dump(res, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-print("\nSUMMARY %d/%d PASS -> %s" % (res["n_pass"], res["n_checks"], os.path.relpath(OUT, ROOT)))
+print("\nSUMMARY %d/%d gating PASS (OBSERVE %d 项不入分母; FAIL %d) -> %s"
+      % (res["n_pass"], res["n_checks"], res["n_observed"], _n_fail, os.path.relpath(OUT, ROOT)))
+if not _gating:
+    print("FAIL: 零 gating 项 —— 没有闸门的抽验不算通过"); raise SystemExit(2)
+raise SystemExit(0 if _n_fail == 0 else 1)
