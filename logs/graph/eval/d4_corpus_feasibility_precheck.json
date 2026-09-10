@@ -1,0 +1,217 @@
+{
+ "meta": {
+  "name": "d4_corpus_feasibility_precheck",
+  "version": "v1",
+  "phase": "d4-precheck",
+  "endpoint_calls": 0,
+  "generated": "2026-09-11T01:08:17+08:00",
+  "script": "research/paper_d4_corpus_feasibility_probe.py",
+  "script_sha256": "1cd16b56b91bd6032a05b002667dda352075b5dd13d27b24502eb773e524b800",
+  "card_id": "TASK-20260910-D4",
+  "binding_doc": "docs/experiments/2026-09-10_d4_transfer_preregistration_card.md",
+  "decision": "21=D (D4 deferred 2026-09-11; paper line proceeds to T7)",
+  "host": {
+   "node": "promaxgb10-0b48",
+   "platform": "linux",
+   "python": "3.12.3"
+  },
+  "socket_attempts": [],
+  "files_written": [
+   "logs/graph/eval/d4_corpus_feasibility_precheck.json"
+  ],
+  "reproduce": {
+   "gb10": "cd ~/wzh/projects/agents_final_tech && venv/bin/python research/paper_d4_corpus_feasibility_probe.py --write-receipt",
+   "windows": "corpus rows are not reproducible off GB10: the TAT-DQA zip and the TAT-QA pool exist only there (F-0907-2); elsewhere the probe reports them MISSING / absent",
+   "expected_input_sha256": {
+    "docs/datasets/tat-dqa-joint-v1-manifest.json": "c211ae1b20b0e724592be9c2f02d197e348acdcdf405f170542b36f25fbdf072",
+    "scripts/prepare_tat_dqa_joint_v1.py": "8f0e0a2e6fb5f7195b81ddf5ceaa7e980aca8e88fd8c3dc08a415194c37c3103",
+    "/home/testuser/wzh/datasets/tat-dqa/raw/tatdqa_docs_dev.zip": "0e463045f3f89dcfd0e7238480fc931bd5f301883d9a022d4bd54d3f9c3ee080",
+    "data/research/drift_v0/input/tatqa_tables.json": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+   },
+   "expected_input_sha256_lf": {
+    "docs/datasets/tat-dqa-joint-v1-manifest.json": "c211ae1b20b0e724592be9c2f02d197e348acdcdf405f170542b36f25fbdf072",
+    "scripts/prepare_tat_dqa_joint_v1.py": "8f0e0a2e6fb5f7195b81ddf5ceaa7e980aca8e88fd8c3dc08a415194c37c3103",
+    "data/research/drift_v0/input/tatqa_tables.json": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+   },
+   "note": "Receipt is written UTF-8 with LF newlines. Windows core.autocrlf=true, so compare sha256_lf for text inputs (F-0907-2); GB10 is the byte authority. payload.observations holds exactly the key/value lines this same run printed."
+  }
+ },
+ "inputs": [
+  {
+   "path": "docs/datasets/tat-dqa-joint-v1-manifest.json",
+   "exists": true,
+   "bytes": 226529,
+   "sha256": "c211ae1b20b0e724592be9c2f02d197e348acdcdf405f170542b36f25fbdf072",
+   "sha256_lf": "c211ae1b20b0e724592be9c2f02d197e348acdcdf405f170542b36f25fbdf072"
+  },
+  {
+   "path": "scripts/prepare_tat_dqa_joint_v1.py",
+   "exists": true,
+   "bytes": 13384,
+   "sha256": "8f0e0a2e6fb5f7195b81ddf5ceaa7e980aca8e88fd8c3dc08a415194c37c3103",
+   "sha256_lf": "8f0e0a2e6fb5f7195b81ddf5ceaa7e980aca8e88fd8c3dc08a415194c37c3103"
+  },
+  {
+   "path": "/home/testuser/wzh/datasets/tat-dqa/raw/tatdqa_docs_dev.zip",
+   "exists": true,
+   "bytes": 155773433,
+   "sha256": "0e463045f3f89dcfd0e7238480fc931bd5f301883d9a022d4bd54d3f9c3ee080"
+  },
+  {
+   "path": "data/research/drift_v0/input/tatqa_tables.json",
+   "exists": true,
+   "bytes": 1442890,
+   "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+   "sha256_lf": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+  }
+ ],
+ "payload": {
+  "observations": [
+   {
+    "key": "joint-v1 documents",
+    "value": 100
+   },
+   {
+    "key": "joint-v1 documents_by_split",
+    "value": {
+     "train": 60,
+     "validation": 20,
+     "test": 20
+    }
+   },
+   {
+    "key": "joint-v1 questions_by_split",
+    "value": {
+     "test": 100,
+     "train": 300,
+     "validation": 100
+    }
+   },
+   {
+    "key": "validation document_ids (n)",
+    "value": 20
+   },
+   {
+    "key": "manifest seed",
+    "value": 20260722
+   },
+   {
+    "key": "prepare_tat_dqa_joint_v1.py lines",
+    "value": 287
+   },
+   {
+    "key": "  mentions 'table'",
+    "value": 0
+   },
+   {
+    "key": "  writes any *tables*.json",
+    "value": false
+   },
+   {
+    "key": "zip entries",
+    "value": 856
+   },
+   {
+    "key": "zip entry kinds",
+    "value": {
+     "dev/": 1,
+     "png": 307,
+     "json": 274,
+     "pdf": 274
+    }
+   },
+   {
+    "key": "validation docs present in zip",
+    "value": 20
+   },
+   {
+    "key": "pages (validation docs)",
+    "value": 24
+   },
+   {
+    "key": "blocks (validation docs)",
+    "value": 627
+   },
+   {
+    "key": "distinct block keysets",
+    "value": 1
+   },
+   {
+    "key": "  keyset n=627",
+    "value": [
+     "bbox",
+     "order",
+     "text",
+     "uuid",
+     "words"
+    ]
+   },
+   {
+    "key": "blocks with cell/row structure",
+    "value": 0
+   },
+   {
+    "key": "tabular-looking blocks (heuristic)",
+    "value": 71
+   },
+   {
+    "key": "  tabular_blocks_with_unit_token",
+    "value": 53
+   },
+   {
+    "key": "  tabular_blocks_with_year_token",
+    "value": 41
+   },
+   {
+    "key": "TAT-QA pool tables",
+    "value": 2479
+   },
+   {
+    "key": "TAT-QA pool element keysets",
+    "value": {
+     "['table', 'uid']": 2479
+    }
+   },
+   {
+    "key": "TAT-QA pool has document_id",
+    "value": false
+   },
+   {
+    "key": "TAT-QA pool has split",
+    "value": false
+   },
+   {
+    "key": "per-family constructible n on TAT-DQA validation split",
+    "value": "UNDEFINED"
+   },
+   {
+    "key": "reason",
+    "value": "joint-v1 has no frozen table layer; converted doc blocks carry no cell/row structure; TAT-QA pool is a different dataset with zero split attribution"
+   },
+   {
+    "key": "requires_before_n_table",
+    "value": "pre-register + freeze a TAT-DQA table-extraction/normalization protocol (geometric reconstruction from words.bbox_list), then re-run this probe"
+   },
+   {
+    "key": "endpoint_calls",
+    "value": 0
+   },
+   {
+    "key": "socket_attempts",
+    "value": []
+   },
+   {
+    "key": "files_written",
+    "value": [
+     "logs/graph/eval/d4_corpus_feasibility_precheck.json"
+    ]
+   }
+  ],
+  "verdict": {
+   "per_family_constructible_n_on_tat_dqa_validation_split": "UNDEFINED",
+   "reason": "joint-v1 has no frozen table layer; converted doc blocks carry no cell/row structure; TAT-QA pool is a different dataset with zero split attribution",
+   "requires_before_n_table": "pre-register + freeze a TAT-DQA table-extraction/normalization protocol (geometric reconstruction from words.bbox_list), then re-run this probe"
+  }
+ },
+ "payload_sha256": "a7a6ed14370baefdc493ab1d25cfbf622167569626b310a51b8cb9ad00ae3ccd"
+}
