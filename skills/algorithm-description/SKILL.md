@@ -1,4 +1,4 @@
-﻿---
+---
 name: algorithm-description
 description: Use when converting source code, formulas, or implementation notes into paper-ready algorithm descriptions, pseudocode, complexity analysis, method explanations, or reproducible implementation details.
 metadata:

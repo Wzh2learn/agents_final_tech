@@ -1,4 +1,4 @@
-﻿---
+---
 name: paper-review-check
 description: Use when checking a paper, thesis chapter, LaTeX draft, experiment report, or research note for logical gaps, missing evidence, inconsistent notation, weak claims, reproducibility problems, or reviewer-facing risks.
 metadata:
