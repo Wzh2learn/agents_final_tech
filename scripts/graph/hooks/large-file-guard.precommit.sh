@@ -4,7 +4,7 @@
 # 规则: >5MB 文件与权重/视频/数据类型禁入库 (对应既有纪律 "视频文件不入 git";
 #       demo_v3.mp4 录制当晚即为第一个受益者)
 # 降级原则: stat 不可用时跳过体积检查, 类型检查仍生效
-STAGED=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null)
+STAGED=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=ACM 2>/dev/null)
 [ -z "$STAGED" ] && exit 0
 BAD=""
 for f in $STAGED; do

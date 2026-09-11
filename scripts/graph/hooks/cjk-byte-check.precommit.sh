@@ -8,7 +8,7 @@ if ! command -v python3 >/dev/null 2>&1; then
   echo "[pre-commit:cjk-byte-check] ⚠️ 守卫降级: python3 不可用, 本次放行" >&2
   exit 0
 fi
-MD_FILES=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null | grep -E '\.md$')
+MD_FILES=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=ACM 2>/dev/null | grep -E '\.md$')
 [ -z "$MD_FILES" ] && exit 0
 BAD=$(echo "$MD_FILES" | python3 -c "
 import sys

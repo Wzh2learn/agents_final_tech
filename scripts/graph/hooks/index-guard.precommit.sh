@@ -3,7 +3,7 @@
 # 移植自 skills-loop-engineering@7ffbe44 hooks/readme-index-guard.sh (README 口径 → docs/INDEX.md 口径)
 # 规则: staged 新增的 scripts/**/*.py|sh 必须在 docs/INDEX.md 有索引行
 # 源仓库七次"打地鼠"实证; 对应本项目既有纪律 "INDEX 最后更新与内容变更必须同 commit"
-NEW_FILES=$(git diff --cached --diff-filter=A --name-only 2>/dev/null | grep -E '^scripts/.*\.(py|sh)$')
+NEW_FILES=$(git -c core.quotepath=false diff --cached --diff-filter=A --name-only 2>/dev/null | grep -E '^scripts/.*\.(py|sh)$')
 [ -z "$NEW_FILES" ] && exit 0
 MISSING=""
 for f in $NEW_FILES; do

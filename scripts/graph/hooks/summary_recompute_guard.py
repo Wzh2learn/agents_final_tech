@@ -132,8 +132,24 @@ def repo_root(anchor=None):
             if nd == d:
                 break
             d = nd
+    # RW-4 修复 (2026-09-12, 决策 31 同族清查): 显式声明 git 输出的编码, 不再依赖 locale。
+    # 旧写法 capture_output=True, text=True 让 python 按 **locale 编码** 解码子进程输出;
+    # Windows 上 locale = gbk/cp936, 而 git 的路径输出恒为 **UTF-8 字节** => 仓库路径含非 ASCII
+    # 字符时解码失败, subprocess 的 reader 线程抛 UnicodeDecodeError 并死亡, stdout 变成 None,
+    # 紧接的 .strip() 抛 AttributeError => 守卫崩溃 => **合法提交被假拦 (fail-loud 但误判)**。
+    # 字节级实证: 在 C:/Users/<非 ASCII 用户名>/... 下 git rev-parse --show-toplevel 的原始输出为
+    #   b'C:/Users/\xe7\x8e\x8b\xe4\xb8\xad\xe5\x8d\x8e/AppData/Local/Temp/rwwinB\n'
+    # gbk 解码在 position 17 的 0x8e 处失败; 纯 ASCII 路径 (主仓 D:/AIRcommend/..., GB10
+    # /home/testuser/...) 则正常 => **今日无活体影响, 但任何位于非 ASCII 家目录下的 Windows
+    # 隔离 clone 都会让守卫崩溃, 把包括正例在内的全部用例变成假 BLOCKED**。
+    # 与 RW-2 同族不同点: RW-2 = 文件**内容**含 gbk 外字符 -> 取内容静默为空 -> fail-open 放行;
+    #                   RW-4 = 仓库**路径**含非 ASCII -> 取路径崩溃 -> fail-loud 假拦。
+    # 修法择 ⓐ (text=True + encoding/errors) 而非 ⓑ (取字节后自行 decode): 二者等效, 但 ⓐ 是
+    # 单行最小改动、保持原返回类型与调用结构不变, 且 errors='replace' 使任何将来的不可解码字节
+    # 都不可能再让守卫崩溃 (守卫崩溃 = 提交被假拦, 代价高于路径退化, 故取绝不抛异常的一侧)。
     return subprocess.run(["git", "rev-parse", "--show-toplevel"],
-                          capture_output=True, text=True).stdout.strip()
+                          capture_output=True, text=True,
+                           encoding="utf-8", errors="replace").stdout.strip()
 
 def cmd_gen(argv):
     art = argv[0]

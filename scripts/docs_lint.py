@@ -58,7 +58,7 @@ def check_index() -> tuple[list, list]:
     # coverage: tracked md basename must appear in INDEX
     try:
         tracked = subprocess.run(
-            ["git", "ls-files", "docs"], capture_output=True, text=True,
+            ["git", "-c", "core.quotepath=false", "ls-files", "docs"], capture_output=True, text=True,
             cwd=REPO_ROOT).stdout.splitlines()
     except Exception as e:
         return [f"git ls-files 失败: {e}"], []
