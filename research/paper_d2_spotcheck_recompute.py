@@ -49,16 +49,48 @@ def ranks(vals):
         i = j + 1
     return rk
 def tau_b(a, b):
+    # Kendall tau-b with tie correction, per the frozen caliber (avg ranks on ties + tau-b).
+    # Fixed 2026-09-12 (decision 22 wave 2; this repairs the script, it does NOT touch any
+    # criterion/threshold/stored artifact value). The previous body computed
+    #   sum((ra_i-ra_j)*(rb_i-rb_j)) / (sqrt(sum(ra_i-ra_j)^2) * sqrt(sum(rb_i-rb_j)^2))
+    # which is a Spearman-type rank-product correlation, NOT Kendall's tau: with no ties it
+    # reduces algebraically to 1 - sum(d^2)/35 for n=6, i.e. exactly Spearman's rho.
+    # It therefore never reproduced the frozen values (gamma0.3 gave 0.828571 vs the frozen
+    # 0.733333), and that mismatch stayed hidden for ~10 days behind a tautological check
+    # which F04 later removed. Attribution - both parts are needed:
+    #   (1) primary   = wrong statistic (Spearman-shaped, not Kendall). gamma0.3 has six
+    #                   distinct visibility rates and NO ties, so tie handling cannot
+    #                   explain that gap; only the statistic identity can.
+    #   (2) secondary = the denominator must be tau-b's sqrt((n0-n1)*(n0-n2)), not tau-a's
+    #                   n0. gamma0.5 frozen 0.857143 = 12/14 (tau-b) whereas tau-a gives
+    #                   12/15 = 0.8; gamma0.7 and 0.9 frozen 1.0 = 12/12 vs tau-a 0.8.
+    # Frozen five values reproduced exactly: [1.0, 0.733333, 0.857143, 1.0, 1.0].
     ra, rb = ranks(a), ranks(b)
     n = len(a)
-    num = sum((ra[i] - ra[j]) * (rb[i] - rb[j]) for i in range(n) for j in range(i + 1, n))
-    def denom(r):
-        s = 0.0
+    n0 = n * (n - 1) // 2
+    conc = disc = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            da = ra[i] - ra[j]
+            db = rb[i] - rb[j]
+            if da * db > 0:
+                conc += 1
+            elif da * db < 0:
+                disc += 1
+    def tie_pairs(r):
+        # pairs sharing an average rank == pairs tied in the underlying values
+        s = 0
         for i in range(n):
             for j in range(i + 1, n):
-                s += (r[i] - r[j]) ** 2
-        return s ** 0.5
-    return num / (denom(ra) * denom(rb))
+                if r[i] == r[j]:
+                    s += 1
+        return s
+    n1 = tie_pairs(ra)
+    n2 = tie_pairs(rb)
+    den = ((n0 - n1) * (n0 - n2)) ** 0.5
+    if den == 0:
+        return 0.0
+    return (conc - disc) / den
 base = {g: rates("greedy_production", g) for g in gammas}
 tau_min = {}
 for m in matchers:
