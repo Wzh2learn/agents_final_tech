@@ -25,7 +25,7 @@ fi
 rc=0
 GUARD="$ROOT/scripts/graph/hooks/summary_recompute_guard.py"
 
-staged=$(git diff --cached --name-only --no-renames --diff-filter=ACM -- "*.md")
+staged=$(git -c core.quotepath=false diff --cached --name-only --no-renames --diff-filter=ACM -- "*.md")
 deleted=$(git diff --cached --name-only --no-renames --diff-filter=D -- "*.md")
 if [ -n "$deleted" ]; then
   echo "[summary-guard] NOTE 本次提交删除/移走以下 .md (其收据不再受复核; 受保护文件由 L5 冻结守卫拦截):"

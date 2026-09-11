@@ -70,7 +70,7 @@ fi
 exit 0
 ```
 
-## The Five Design Principles
+## The Five Design Principles（+ principle 6 appended 2026-09-12 per RW-1; this heading is preserved verbatim under the append-only discipline, so it still reads "Five" while six principles follow）
 
 ### 1. Graceful Degradation (NEVER silent fail-open)
 
@@ -134,6 +134,55 @@ echo "Exit: $?"  # Should be 2
 echo '{"tool_input":{"command":"git push origin main"}}' | bash hooks/git-commit-guard.sh
 echo "Exit: $?"  # Should be 0
 ```
+
+### 6. Normalize Path Encoding Before Feeding `git` Output to Another Command
+
+Added 2026-09-12 (RW-1; side-thread acceptance counterexample CE8). This repository uses
+non-ASCII (Chinese) document filenames extensively, so the condition below is **guaranteed
+to be hit** — it is not an edge case.
+
+`git diff --name-only`, `git ls-files`, `git status --porcelain` and friends quote any
+non-ASCII path by default (`core.quotepath=true`), emitting a double-quoted octal escape
+string such as `"docs/19_\347\263\273....md"`. If that string is then passed to another
+git command, the argument is the *literal quoted escape text* rather than a real path, so
+the lookup fails — and a guard built on that lookup silently stops guarding those files.
+
+```bash
+# BAD: CJK paths come back quoted+escaped, so the later lookup always misses them
+staged=$(git diff --cached --name-only --diff-filter=ACM -- "*.md")
+for f in $staged; do
+  git cat-file -e ":$f" || { echo "WARN unreadable"; continue; }   # always fails for CJK
+  ...
+done
+
+# GOOD: pin the quoting mode on the enumeration itself
+staged=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=ACM -- "*.md")
+
+# ALSO ACCEPTABLE: NUL-delimited output carries no quoting at all
+git diff --cached --name-only -z --diff-filter=ACM -- "*.md" | while IFS= read -r -d '' f; do
+  ...
+done
+```
+
+**Rule**: any script that takes `git … --name-only` (or `--porcelain`) output and uses it as
+an argument to a later command must either set `-c core.quotepath=false` on the enumeration
+or use `-z` together with `read -d ''`.
+
+**Why this is a guard defect and not a cosmetic one**: the failure mode is *fail-open*. In
+the RW-1 incident the summary-recompute guard printed `WARN 无法读取 … staged blob, 本项未复核`
+and then `continue`d, so the receipt check never ran for that file at all — a Chinese-named
+document carrying a **mismatched** receipt block committed successfully (rc=0), while the
+byte-identical block in an ASCII-named file was correctly BLOCKED (rc=1). The only variable
+was the filename.
+
+**Do not "fix" this by weakening the WARN.** The explicit `WARN … (跳过不等于通过)` semantics
+are correct, and they are exactly what made the gap visible; the defect was in how paths were
+enumerated, not in how unreadable paths were reported. When a guard says "could not check",
+treat that as a signal to fix the enumeration — never as a reason to downgrade the message.
+
+**Author self-check**: after writing any path-enumerating guard, exercise it with a non-ASCII
+filename in both directions (must BLOCK the bad case, must PASS the good case) — see
+principle 5. A guard that has only ever been tested with ASCII paths is untested.
 
 ## Hook Types by Event
 

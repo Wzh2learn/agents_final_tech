@@ -47,7 +47,7 @@ fi
 
 # ---- 2. 取 staged 变更集 (含删除; rename 拆成 D+A) ----------------------------
 # 枚举失败 (异常仓库状态) -> 警告但不静默: 清单完整性守卫已拦住最危险的场景。
-CHANGED=$(git diff --cached --name-only --no-renames --diff-filter=ACMD 2>/dev/null)
+CHANGED=$(git -c core.quotepath=false diff --cached --name-only --no-renames --diff-filter=ACMD 2>/dev/null)
 enum_rc=$?
 if [ "$enum_rc" -ne 0 ]; then
   echo "[L5] WARN: 无法枚举 staged 变更 (git diff 失败, rc=$enum_rc), 路径匹配这一步未执行 (跳过不等于通过)"
