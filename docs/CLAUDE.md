@@ -1,6 +1,6 @@
 # Claude Code Project Guide
 
-> 状态: 活跃（Loop C 阅读指引，薄指针，以根 AGENTS.md 为准） | 更新: 2026-08-23（08-23 审计复核: 指针仍有效, Loop C 配属以根 AGENTS.md 注册表为准） | 取代/被取代: 无
+> 状态: 活跃（Loop C 阅读指引，薄指针，以根 AGENTS.md 为准; 09-11 指针目标已逐个核验 = **9/9 存在**（承 A19 引用校验姿势, 只核不改）） | 更新: 2026-09-11（09-11 neat 批（决策 22）**刷元数据 + 指针核验**: 正文零改动。本件共 10 处路径型引用、去重后 **9 个唯一目标全部存在**（含 `../AGENTS.md`、`README.md`、`memory/STATE.md` 等）⇒ 与 08-23 审计复核所记「指针仍有效」一致; 前序 2026-08-23（08-23 审计复核: 指针仍有效, Loop C 配属以根 AGENTS.md 注册表为准） 保留作轨迹） | 取代/被取代: 无
 
 Claude Code must follow the repository-wide instructions in [`../AGENTS.md`](../AGENTS.md). The detailed Agent architecture and implementation status are maintained in [`AGENTS.md`](../AGENTS.md); do not duplicate or override those facts here.
 
