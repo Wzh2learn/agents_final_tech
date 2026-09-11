@@ -37,12 +37,34 @@ for f in $staged; do
     echo "[summary-guard] WARN 无法读取 $f 的 staged blob, 本项未复核 (跳过不等于通过)"
     continue
   fi
-  content=$(git --no-pager show ":$f" | "$PY" -c "import sys; sys.stdout.write(sys.stdin.buffer.read().decode('utf-8','replace'))" 2>/dev/null)
-  if printf '%s' "$content" | grep -q "SUMMARY-GUARD"; then
+  # RW-2 修复 (2026-09-12, 侧线验收 RW-2; 严重度高于 RW-1): 直接对 staged blob 的**原始字节流** grep,
+  # 去掉旧实现里 python 解码/重编码这一道。旧行为 =
+  #   content=$(git show ":$f" | "$PY" -c "...sys.stdout.write(stdin.buffer.read().decode(utf-8,replace))" 2>/dev/null)
+  # 在 Windows 上 python 的 stdout 编码是 gbk/cp936, 文件含 gbk 不可编码字符 (如 U+2717 / U+21D2)
+  # 即抛 UnicodeEncodeError, 而该异常被行尾的 2>/dev/null 吞掉 => content 捕获 **0 字符** =>
+  # 下面的 grep 无从匹配 => guard check **根本不执行** => **静默放行且零输出 (fail-open)**,
+  # 直接违反本钩子自述的「跳过不等于通过」。实测 (git 自带 bash 跑同一条管线, memory/THREADS.md):
+  #   不设 PYTHONUTF8 -> stdout.encoding=gbk / content_chars=0 / stderr 187 B
+  #                       (UnicodeEncodeError: 'gbk' codec ... position 31572) / grep NO -> 静默跳过
+  #   设 PYTHONUTF8=1 -> stdout.encoding=utf-8 / content_chars=227300 / stderr 0 B / grep MATCH -> guard RUNS
+  # => 守卫是否生效竟取决于提交者 shell 里一个无人声明的环境变量。字节流 grep 不经任何编解码,
+  #    故与 locale / PYTHONUTF8 / 平台无关 (GB10 与 Windows 行为一致)。
+  # **不变量 (RW-2, 硬要求)**: blob 非空而取到的内容为空 = 必须 WARN, 绝不静默跳过。
+  blob_size=$(git --no-pager show ":$f" 2>/dev/null | wc -c | tr -d "[:space:]")
+  case "$blob_size" in
+    ""|*[!0-9]*)
+      echo "[summary-guard] WARN $f 的 staged blob 字节数无法测定 (取到: ${blob_size:-<空>}), 本项未复核 (跳过不等于通过)"
+      continue ;;
+  esac
+  if [ "$blob_size" -eq 0 ]; then
+    echo "[summary-guard] WARN $f 的 staged blob 取出为 0 字节 (但 cat-file 报其存在), 本项未复核 (跳过不等于通过)"
+    continue
+  fi
+  if git --no-pager show ":$f" | grep -aq "SUMMARY-GUARD"; then
     "$PY" "$GUARD" check "$f" --staged --warn-missing || rc=1
   elif echo "$f" | grep -q "^docs/experiments/" && echo "$f" | grep -Eq "(report|window|汇报|decision|spot)"; then
     # 报告型文档: 引用本地存在的工件 json 却无收据 = WARN
-    refs=$(printf '%s' "$content" | grep -oE "logs/graph/eval/[A-Za-z0-9_.-]+\.json" | sort -u)
+    refs=$(git --no-pager show ":$f" | grep -aoE "logs/graph/eval/[A-Za-z0-9_.-]+\.json" | sort -u)
     for r in $refs; do
       if [ -f "$ROOT/$r" ]; then
         echo "[summary-guard] WARN: $f 引用工件 $r 但无 SUMMARY-GUARD 收据块 (建议: python3 scripts/graph/hooks/summary_recompute_guard.py gen $r <claim=value>...)"

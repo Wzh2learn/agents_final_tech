@@ -99,7 +99,7 @@ def values_match(actual, expected):
 
 def parse_blocks(text):
     blocks = []
-    for m in re.finditer(r"<!--\s*SUMMARY-GUARD(.*?)END-SUMMARY-GUARD\s*-->", text, re.S):
+    for m in re.finditer(r"^\s*<!--\s*SUMMARY-GUARD(.*?)END-SUMMARY-GUARD\s*-->", text, re.M | re.S):  # RW-3: 行首锚定, 与 OPEN_MARKER 同步
         body = m.group(1)
         b = {"claims": []}
         in_claims = False
@@ -164,7 +164,16 @@ def cmd_gen(argv):
     print("END-SUMMARY-GUARD -->")
     return 0
 
-OPEN_MARKER = re.compile(r"<!--\s*SUMMARY-GUARD")
+  # RW-3 修复 (2026-09-12, 侧线验收 RW-3): OPEN_MARKER 加**行首锚定** (re.M)。
+  # 旧式 r"<!--\s*SUMMARY-GUARD" 不锚行首 => **散文里逐字提及该标记也被计为一个 opening**,
+  # 而该文档并无真收据块 => openings(1) != blocks(0) => cmd_check 无条件 FAIL => 该文件永远无法提交。
+  # 实测自伤案例: memory/THREADS.md 为说明「真收据块合计 0」而逐字写出该标记 (b52675f 埋入),
+  # 导致其后两批台账均无法入库。前提已由侧线全库核验: docs/ (排除 archive) 24 份 md 中真收据块 11 个,
+  # **开标记 11/11 全在行首、END 11/11 配对、行中开标记 0 个** => 行首锚定不误伤任何一份,
+  # 且此后文档可以安全地在散文里讨论该标记。
+  # **注意 (侧线实现细节提醒)**: 锚定必须**同时**施加于本 OPEN_MARKER 与 parse_blocks() 的块解析正则,
+  # 否则 openings 与 blocks 会在另一方向上分叉 (块解析仍收行中块 => openings < blocks => 同样 FAIL)。
+OPEN_MARKER = re.compile(r"^\s*<!--\s*SUMMARY-GUARD", re.M)
 
 
 def check_block_shape(b, idx):
