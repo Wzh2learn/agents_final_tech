@@ -352,3 +352,123 @@ def test_ask_still_parses_json_when_present_ignores_fallback(monkeypatch):
     assert res is not None
     assert res["sources"] == [{"sample_id": "sample_x", "table_name": "table_1", "field": "总资产"}]
     assert "不得返回 []" in posts[1]["parts"][0]["text"]
+
+
+# --- [C1 2026-09-13 决策 43] 孤儿 run 中止: best-effort / 绝不抛 / 绝不删 session ---
+
+
+def _fake_sidecar(monkeypatch, message_exc=None, abort_exc=None, abort_status=200):
+    """Wire httpx: /session ok, /message ok-or-raise, /abort as specified."""
+    posts, aborts, deletes = [], [], []
+
+    def fake_get(*a, **k):
+        return FakeResp(200, [])
+
+    def fake_post(url, json=None, timeout=None, **k):
+        assert k.get("trust_env") is False, "sidecar calls must not honor env proxy (a9ddfc4)"
+        if url.endswith("/abort"):
+            aborts.append((url, timeout))
+            if abort_exc is not None:
+                raise abort_exc
+            return FakeResp(abort_status, {})
+        posts.append((url, json))
+        if url.endswith("/session"):
+            return FakeResp(200, {"id": "ses_c1"})
+        if message_exc is not None:
+            raise message_exc
+        return FakeResp(200, {"parts": [{"type": "text", "text": '{"answer": "ok", "sources": []}'}]})
+
+    monkeypatch.setattr(oc.httpx, "get", fake_get)
+    monkeypatch.setattr(oc.httpx, "post", fake_post)
+    monkeypatch.setattr(oc.httpx, "delete", lambda url, timeout=None, **k: deletes.append(url) or FakeResp(200, {}))
+    return posts, aborts, deletes
+
+
+def test_c1_abort_fires_on_timeout_and_session_is_kept(monkeypatch):
+    """Timeout path: abort the orphan run, keep the session (FK fix), still return None."""
+    posts, aborts, deletes = _fake_sidecar(monkeypatch, message_exc=RuntimeError("read timeout"))
+    assert oc.ask_via_opencode("q") is None
+    assert len(aborts) == 1, "exactly one abort on the timeout path"
+    assert aborts[0][0].endswith("/session/ses_c1/abort")
+    assert deletes == [], "abort must NOT delete the session (FK-fix menu a unchanged)"
+
+
+def test_c1_abort_failure_is_swallowed(monkeypatch):
+    """A raising abort must not change the fallback contract: still None, nothing propagates."""
+    posts, aborts, deletes = _fake_sidecar(
+        monkeypatch, message_exc=RuntimeError("t"), abort_exc=RuntimeError("boom")
+    )
+    assert oc.ask_via_opencode("q") is None
+    assert len(aborts) == 1
+    assert deletes == []
+
+
+def test_c1_abort_404_does_not_fall_back_to_delete(monkeypatch):
+    """404/405 on abort => surface it in logs; never substitute delete_session (the FK bug)."""
+    posts, aborts, deletes = _fake_sidecar(monkeypatch, message_exc=RuntimeError("t"), abort_status=404)
+    assert oc.ask_via_opencode("q") is None
+    assert len(aborts) == 1
+    assert deletes == [], "must not delete_session as an abort substitute"
+    assert oc.abort_session_run("ses_c1") is False
+
+
+def test_c1_abort_not_called_on_success(monkeypatch):
+    """Completed run: delete as before, no abort."""
+    posts, aborts, deletes = _fake_sidecar(monkeypatch)
+    res = oc.ask_via_opencode("q")
+    assert res is not None and res["route"] == "opencode"
+    assert aborts == [], "no abort when the run completed"
+    assert any("ses_c1" in u for u in deletes), "completed run still deletes its session"
+
+
+def test_c1_abort_not_called_when_no_session(monkeypatch):
+    """If session creation itself fails there is nothing to abort."""
+    calls = []
+
+    def fake_post(url, json=None, timeout=None, **k):
+        calls.append(url)
+        raise RuntimeError("no session")
+
+    monkeypatch.setattr(oc.httpx, "get", lambda *a, **k: FakeResp(200, []))
+    monkeypatch.setattr(oc.httpx, "post", fake_post)
+    monkeypatch.setattr(oc.httpx, "delete", lambda *a, **k: FakeResp(200, {}))
+    assert oc.ask_via_opencode("q") is None
+    assert not any(u.endswith("/abort") for u in calls)
+
+
+def test_c1_abort_uses_bounded_timeout_and_opts_out_of_proxy(monkeypatch):
+    """Fire-and-forget: bounded by ABORT_TIMEOUT and trust_env=False (proxy guard a9ddfc4)."""
+    seen = {}
+
+    def fake_post(url, json=None, timeout=None, **k):
+        seen["timeout"] = timeout
+        seen["trust_env"] = k.get("trust_env")
+        return FakeResp(200, {})
+
+    monkeypatch.setattr(oc.httpx, "post", fake_post)
+    assert oc.abort_session_run("ses_z") is True
+    assert seen["timeout"] == oc.ABORT_TIMEOUT
+    assert seen["trust_env"] is False
+
+
+def test_c1_abort_timeout_default_is_two_seconds(monkeypatch):
+    import importlib
+
+    monkeypatch.delenv("OPENCODE_ABORT_TIMEOUT", raising=False)
+    mod = importlib.reload(oc)
+    try:
+        assert mod.ABORT_TIMEOUT == 2.0
+    finally:
+        importlib.reload(oc)
+
+
+def test_c1_abort_timeout_is_env_overridable(monkeypatch):
+    import importlib
+
+    monkeypatch.setenv("OPENCODE_ABORT_TIMEOUT", "0.5")
+    mod = importlib.reload(oc)
+    try:
+        assert mod.ABORT_TIMEOUT == 0.5
+    finally:
+        monkeypatch.delenv("OPENCODE_ABORT_TIMEOUT", raising=False)
+        importlib.reload(oc)
