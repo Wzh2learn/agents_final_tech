@@ -423,6 +423,179 @@
 
 批 #1 报「`:7` 现为 `name = "custom"`」，读起来像 notify 被摘除。侧线实测: 文件被应用**重排**（新增 `[model_providers.custom]` 段），**notify 键仍在，只是从 `:7` 移到 `:5`**，且指向**新一代运行时 `34f6cb496aad4fce`**（上一代 `e7fe122ad3cbcd58`）；`:7` 的 `name = "custom"` 是那个新段里的字段，与 notify 无关。当前 `config.toml` = 4 666 B、sha256 `8979af4782b7bc53…`、mtime 2026-09-11T22:32:50。⇒ **决策 15=A 的悬案未消解**，legacy_notify 链路仍接着；本次改动是既有台账所记「运行时轮换 → 自动重写 notify 行」机制的**又一次印证**（第五代哈希）。**主线程那条「:7 现为 name = custom」的表述不得入台账。**
 
+
+### 追加（2026-09-12 日间, 侧线对批 #3 的复核 + 交接给下一任侧线）
+
+> 性质: 本节承接上文两节（09-11 验收结论 / 09-12 RW-2·RW-3 查证）。上文原文逐字保留。
+> **本节写完时侧线尚未完成任务 1 的正式复验**（主线程停等 ①）⇒ 该复验是下一任侧线的第一件事，见末节「交接」。
+
+**一、现役基线（2026-09-12 日间实测）**
+
+- 三方对齐 = **`490c74207515064b08ba981e5875c785165cec17`**，`rev-list --left-right --count` = `0 0`。
+- 批 #3 三个 commit = `bc594e8`（钩子/守卫同族清查，**首个 commit 即守卫修复本身**，符合本批纪律 §四.11②）→ `5af5b7c`（P0 台账）→ `490c742`（P1+P2）。
+- 本地脏件 = `logs/graph/docs_lint_report.json`（M，不提交）+ 三件残件（未跟踪）；**两份 handoff 均已被主线程登记入库**（`side_handoff_20260827.md` 于 `2cd2f04`、`side_handoff_20260829.md` 于 `7cb8f06`）⇒ 本节是登记后的新增，仍按约定**留工作区不自行 commit**。
+- GB10 脏件 = 5 个 Loop B 瞬态件（`dispatch_log.md` / `docs_lint_report.json` / `governance_drift_latest.md` / `loop_b_last_status` / `verify-report.json`）。
+- pytest 基线已变 = **428 passed / 13 skipped / 0 failed**（原 420/13，净 +8 = 新哨兵测试 8 用例，skipped 不变 ⇒ 8 个用例全部真跑未 skip）。
+- 哨兵件位置 = `tests/fixtures/guard/`（4 件: `sentinel_artifact.json` 66 B / `sentinel_inline_mention.md` 815 B / `sentinel_valid_block.md` 663 B / `sentinel_中文名有效块.md` 914 B）+ `tests/test_guard_sentinels.py`（7 223 B）。
+
+**二、Loop B 现役状态（侧线只读实测，对白天批有用）**
+
+- `verify-report.json` = **`overall: PASS` / `action: Loop A may continue` / `head_commit: 490c742` / generated `2026-09-12T11:16:30`**，9 项 checks **全 PASS**（frozen_nodes / pytest / api_anchors / qa_canary / git_alignment / docs_lint / model_topology / **agent_watchdog** / pg_pool_guard）；`loop_b_last_status` = `PASS`。
+- ⇒ 主线程所报「00:42:34 翻 FAIL、02:22:52 自愈翻回 PASS」**已独立证实**: `loop_b.log` 的 `STATUS FLIP` 共 **146 次**，最近三条逐字为 `[2026-09-11 00:45:27] FAIL -> PASS` / `[2026-09-12 00:42:34] PASS -> FAIL` / `[2026-09-12 02:22:52] FAIL -> PASS` ⇒ 该次 FAIL 持续 **1 h 40 min** 后自愈，属 **flapping**，不是持续退化。
+- **F03 仍未生效，且现在有了改前基线**: `verdict_source = "write_report.py fallback (caller did not pass a verdict)"`、`verdict_consistency = NOT_APPLICABLE`（在 overall=PASS 的这份报告里依然如此）⇒ **白天批重启后的验收门就是这两项翻转**（`verdict_source` 不再是 fallback、`verdict_consistency` 变为 OK/一致），比 ELAPSED 归零强得多。**重启不得以「overall 变 PASS」为门**（它现在已经是 PASS）。
+- daemon 仍未重启（PID 2385039）；当前 GB10 时间已在日间 ⇒ **白天门可满足**。
+
+**三、侧线对批 #3 的独立复核（已做的部分）**
+
+1. **`docs_lint.py:61` 的越权延伸 = 追认**。实测 diff 恰为一行：`["git", "ls-files", "docs"]` → `["git", "-c", "core.quotepath=false", "ls-files", "docs"]`。根因成立且比主线程所述更广 —— `:66` 的 `if not path.endswith(".md")` 会把转义输出（以 `.md"` 结尾）整条过滤掉 ⇒ **`docs/` 下所有中文名文档此前从未被 [1] INDEX 覆盖率检查过**。侧线独立计数 = `docs/` 下被跟踪 `.md` 共 **312 份，其中含中文 35 份**（主线程报「转义输出 39 份、[1] 候选集 214 → 233 = +19」；差异可由 39 含非 .md 与 archive/ 排除解释，两个口径都记）。**追认理由三条**: ① 属 §四.4 授权面「全库扫出的守卫/提交路径上的同类位点」，而 docs_lint 是每批验收的门、Loop B 会因其 fail 而 HALT ⇒ 确属守卫路径 ② 主线程**修前已量化风险**（19 份逐个核对全部已登记、3 份未登记者均为 .docx 本就不检查、warn 增量 +0）③ **修后 GB10 实测 `docs_lint` PASS (0 fail / 0 warn)** ⇒ 覆盖扩大而 warn 未增，证明无积压未登记件。
+2. **F-2 改判为假阳 = 主线程正确，侧线上一批漏判**。实测 `skills/repo-audit/SKILL.md:113-:116` 是 Mode B 方法论的**示例清单**（`:113` 引导句「全域 grep 每个旧路径…」，`:114`-`:116` 三行分别以「全路径引用（如 …）」「裸文件名引用（如 …）」「markdown 链接引用（如 `[xxx](…)`）」呈现），**三行均以「如」开头、`:116` 的链接文本本身就是占位符 `xxx`**；且 `git log --all -- scripts/env_gpu-cluster.sh` **零命中**、`git ls-files` 亦无 ⇒ **该路径在本仓从未存在**，是从源仓 `skills-loop-engineering` 移植时带入的示例路径。**⇒ 缺陷归属应从「repo-audit 引用断裂」改判为「skill-doctor 的 `RESOURCE_LINK_MISSING` 未排除示例/占位符形态」。**
+   **侧线的方法论错误，如实记（新教训）**: 上一批我把 skill-map 的 **59 条 unresolved 判为全假阳**，用的正是「占位词」标准（`skill-name` / `my-bucket` / `new-page` / `cdn-cgi` 等），**却没有把同一标准施加到 skill-doctor 的 `RESOURCE_LINK_MISSING`**，于是 F-2 被定成 LOW-MEDIUM 真缺陷。**教训 = 同一批 findings 里，假阳判据必须一致地施加到所有 code 类型；不能只对数量最多的那一类做逐条核实，而对只有一两条的那类凭直觉定级。**（数量少 ≠ 更可能是真的。）
+   **处置建议**: 采主线程倾向的 **A = 改判为假阳、零改动**。理由 = B（加括注）受分发漂移约束只能留给 A19 脚本级批；C（修 skill-doctor 判据）会变动 findings 计数且有放宽风险，若将来采 C，**只应排除可机械判定的占位形态（如「如」引导 + `xxx` 链接文本），不要排除「git 历史中从未存在」那一条**——后者是真缺陷的合法信号，放宽它会造出新的盲区。
+3. **`AGENTS.md:311` 弃用日 = 08-25 正确，侧线上一批所记「差 1 天属 metadata 一致性缺口」判断过重**。主线程用 git 证据改判（`git log -S "DEPRECATED 2026-08-25" -- AGENTS.md` 唯一命中 `735813b`（08-25）；`git log -S "2026-08-26" -- …/SKILL.md` 唯一命中 `0cbced5`（08-26））⇒ **注册表先标（08-25 = 弃用生效日），本体横幅次日补写（08-26 = 补写日）**，两者不是转录误差而是两个不同语义的日期。**侧线接受该改判**，并记一条附带教训: 报「日期不一致」之前应先查两处日期各自的语义，不能默认同义。
+4. **哨兵设计偏离 = 批准**。主线程未把「失配块」做成仓内常驻文件，改为仓内只存非毒件、失配变体由测试在 `tmp_path` 运行时派生。理由成立且重要: **一份仓内常驻的失配 `.md` 会被它所测试的守卫永久拒绝提交**（钩子 pathspec `-- "*.md"` 命中它、行首真块失配 ⇒ FAIL ⇒ 它自己的任何后续修改都无法提交，除非 `--no-verify`（红线明禁），而钩子无 fixtures 豁免机制）—— 这正是本仓刚付两批代价的那类地雷。**覆盖度不降反升**（8 用例含正例先行 + RW-3 行中提及靶 + RW-1 守卫层 CJK 失配靶 + quotepath pin 结构哨兵 + RW-4 结构哨兵 + RW-1 机制级端到端靶）。
+5. **计数口径提醒（下一任必看）**: 三份哨兵 `.md` 都含 SUMMARY-GUARD 字面量，但在 `tests/` 而非 `docs/`；一切既有计数口径都是 `grep -rl … docs --include=*.md` ⇒ **「24 份」不变**。**若下一任见全库计数从 24 变 27，那不是漂移，是这三份哨兵件；复算时必须写明是否限定 `docs/`。**
+
+**四、侧线尚未完成、交接给下一任的事（主线程停等 ①）**
+
+**任务 1 全部改动的正式复验尚未做**（主线程只测不签，复验权在侧线）。待验清单与已知陷阱见末节「交接」。
+
+**五、待用户裁定项（侧线不自行推进；截至本节写入时均未裁定）**
+
+1. **`agent_watchdog` 处置（A / B / B' / C）**。侧线补充意见（在主线程三选项之上）: **建议 A 与 C 并行，不是二择** —— A（`LOOP_B_AGENT_WATCHDOG_WINDOW` 30→100，纯环境变量、零代码改动、随白天批重启即生效、`0.915^100 ≈ 1e-4` 假警几乎归零，且**保留**「agent 路真的不承载流量」的检测语义）立刻止住告警疲劳与随机 HALT；C（`timeout_fb=3497 / fast_fb=0 / direct=0` ⇒ 回落几乎全是超时型，**91.5% 的回落率本身可能才是真问题**）另开只读调查。B/B' 要改 `loop_b_verify.sh:393-:413`，属另批授权 + 修者不自验，成本高于 A。**关键事实**: 该 FAIL 与近三批改动无关（docs_lint 0 / git_alignment 0 / frozen_nodes 0 / pytest exit 0 全 PASS，首次可触发时点 2026-08-22 远早于这三批），且**现已自愈为 PASS**。
+2. **A10**（ZhikunCode 重建，做不做）—— 侧线建议继续挂着，不在任何关键路径上。
+3. **F-2 处置**（侧线建议 A = 改判假阳零改动，见上 §三.2）。
+4. **`paper/draft_v0_s1_s2_s6.md` S7 `:227`-`:230` 失实句 + 蓝图 `:34`/`:38` 过期项的修文授权** —— 属侧线资产，**需用户授权侧线动手**，自首批提出以来一直未给。它挡着 T7 的正文组装。
+5. **`2026-08-25_demo_video_v3/steps.md` 在 INDEX `:142` 仍标「待发送（用户亲发）」**，而 docs/31 本体已由用户确认发送 ⇒ 该行是否也过期，只有用户知道。
+6. **约 333 MB 验证残留的人工清理**（6 处: `_rw_verify\rwB_ascii`·`rwwinC`·`rwwinD` + `%TEMP%\rwB_cjk`·`rwwinB` 各约 66.5 MB + `%TEMP%\rwwinA` 空壳）。**侧线与主线程双方的递归删除都被本机策略拦下，均未绕过** ⇒ 需用户手删或显式授权。口径已调和: 单个 clone 的 sparse 工作树 = **6.2 MB**（367 文件），`.git` = **60.6 MB**（6 757 文件，因用 `--no-hardlinks` 故对象库是全量副本），合计 **66.8 MB**（7 124 文件）⇒ **两个数字都对，差异全在 `.git`**。GB10 侧 `/tmp` 全部已删并确认 GONE。
+
+**六、波次现状（供下一任排程）**
+
+- **已完成**: 波 1（批 #1 = 决策 23-30）+ 侧线验收（A4/A5/A4w 与 R1）+ 波 2（批 #2 = RW-1/2/3 + τ + 收口）+ 波 3（批 #3 = 同族清查 + 诊断 + 哨兵 + A19 文档级）。
+- **下一步（顺序有硬依赖）**: ① 侧线复验批 #3 任务 1（**当前唯一卡住的项**）② **白天批 = daemon 重启**（验收门 = `verdict_source` 不再是 fallback；见 §二）③ **记忆件分层归档**（必须在 ②之后、且需 THREADS 条目基数稳定；批 #3 已 +7 条）④ 波 4 = A19 脚本级（`sync_skills.sh` 原子分发）+ A22 脚本侧 + A20 manifest 子项 + A8，派发 Loop A ⑤ 波 5 = A21 + A18 合并 → T7 ⑥ 波 6 = R3 三张卡拟卡（A3 可先走；A13 需 `:8004`，**实测承载者是 llama.cpp/LM Studio 而非 vLLM**，设计稿若假设 vLLM 特有行为须先核；A12 需 `:8007`，**该端口当前无监听**，起服务方式未定）⑦ 波 7 = 专家同步点二（排在 T7 数字合流之后）。
+- **已解锁的前置**: A19 的原前置「`install_hooks.sh` 原子安装模式尚未经侧线验收」**已解除**（侧线在隔离 clone 内重装得到与主仓在役件逐字相同的 wrapper sha `52085d01…`）；F-1 的可装载性**已实证确认**（两个独立会话）⇒ **T7 写 Algorithm 1 的前置已满足**。
+
+**七、交接给下一任侧线（复验任务 1 的方法与已知陷阱）**
+
+**待验清单（主线程停等 ①）**:
+1. **RW-4** = `summary_recompute_guard.py` 的 `repo_root()` 改为 `text=True, encoding="utf-8", errors="replace"`（主线程择 ⓐ，理由 = 单行最小改动且「绝不抛异常」的一侧优先，因守卫崩溃 = 合法提交被假拦，代价高于路径退化）。**回归靶 = 在纯 ASCII 路径与含非 ASCII 路径两种 clone 落点下各跑一次正例，两者都必须 rc=0 且 guard 出声。**
+2. **4 处 quotepath** = `cjk-byte-check.precommit.sh:11`（实质绕过，双重不匹配）/ `large-file-guard.precommit.sh:7`（实质绕过，且 `[ -f "$f" ] || continue` 对转义路径必然为假 ⇒ **连 WARN 都没有，比 RW-1 的 fail-loud 更弱**）/ `index-guard.precommit.sh:6`（潜伏）/ `summary-recompute-guard…:29`（外观）。各 `--numstat` 应为 1/1。
+3. **六道门无回归** = 正例 N（rc=0 + guard 出声）/ CE1 错哈希 / CE2 LF 口径失配 / CE3 缺 sha256 字段 / CE4 删冻结件 / CE5 删清单 / CE6 三子例（rc=0+HALT / **rc=4**+MISMATCH / rc=1 写入失败）/ CE7 缺 ρ 键（对照 13/13 gating PASS + OBSERVED 7 项不入分母；缺键版 rc=1）/ CE8 CJK 名失配块（rc=1 BLOCKED）/ CE9 行中 marker（rc=0）/ CE10 gbk 不可编码字符 + 失配真块（rc=1 BLOCKED，**环境须显式剔除 `PYTHONUTF8`/`PYTHONIOENCODING` 并实测 `sys.stdout.encoding == gbk`**）。
+4. **11 份真收据块逐个 `guard check` 仍 11/11 rc=0**，且 **OBSERVE 计数不得上升**（这是「未削弱守卫」的独立判据）。
+5. **同族扫描表的抽查** = 主线程报 447 份 .py/.sh → 46 个 subprocess 位点 → 二分「守卫/提交路径 6 处（全修）/ 不在路径 40 处（只记）」。侧线至少抽查 40 处里被判「不在路径」的 3-5 处，确认归类成立（尤其 `docs_lint.py:150`、`status.sh:91`、`skill-map.py:124`）。
+6. **主线程主动申报的「只上报不顺手改」项** = 三处钩子以 `for f in $STAGED` 做无引号词分割 ⇒ **文件名含空格时断裂**（与 quotepath 无关，属另一缺陷类，修法需 `-z` + `read -d ''` 结构性重写）⇒ 侧线应确认这确实是独立缺陷类、并支持其「与 F05 家族一并另批」的处置。
+
+**已知陷阱（三条都是本仓已付过代价的，务必照做）**:
+- **反例 harness 必须先跑正例**。正例不过 ⇒ **整批判 INVALID**，不得把「全部 rc=1」读成「全部被拦」。本仓已两次踩到: 侧线 SC-1（fixture 放稀疏检出锥外 ⇒ `git add` 静默失效 ⇒ 四例假 PASS）、主线程 RW-4 首轮（clone 落在非 ASCII 路径 ⇒ 守卫崩溃 ⇒ 四例假 BLOCKED）。
+- **结果必须同时记 `rc` 与 `guard_lines_emitted`**。只记 rc 无法区分「被拦」与「守卫根本没跑」。
+- **Windows 与 GB10 的 git 行为不同**: GB10 git **2.43** 支持 `git add --sparse`（锥外只打提示）；本机 git **2.33.0.windows.2** 对 `--sparse` 直接 `error: unknown option` ⇒ 本机须改用 `git sparse-checkout add <dir>` 把目录纳入锥内。
+- **稀疏 clone 的正确姿势** = `git clone --local --no-checkout` → `git sparse-checkout init --cone` → `set scripts tests research templates` → `add logs/graph/eval` → `git checkout`（约 80 M，避开 6.5 G 的 `venv/`，且 `venv/` 不在 git 内）。**不要用 `git worktree`**（会写共享 repo 元数据）。
+- **测退出码不得用 `cmd | tail; echo $?`**（取到的是管道下游的 rc）；须重定向后直接取 `$?`。
+- **clone 落点路径本身要作为变量记录**（RW-4 的判别变量）。RW-4 修好后非 ASCII 落点应当也能工作 —— **这正是要验的**。
+- **`PYTHONUTF8=1` 是本仓常规前置**（skill-map 的 GBK bug 所致），但**测 RW-2/CE10 时必须显式剔除它**，否则测不到缺陷。
+- **破坏性反例只在隔离 clone 内投放**；CE6/CE7 的输出一律指向 `/tmp` ⇒ 仓内零写入，事后 `git status` 复核。
+- **不得动主仓 HEAD/index/工作树**，不得 kill 任何进程，不得干扰 Loop B daemon（PID 2385039），不得改两份 handoff 以外的侧线资产，**不得自签主线程的交付**，也不得让主线程自签侧线的结论。
+
+**八、侧线自身的持久化约定（不变）**
+
+侧线本机**无任何 transcript 持久化**（`#SIDE-THREAD-NO-TRANSCRIPT`，决策 12=A）⇒ **本件是侧线唯一的跨会话记忆**。每轮结论必须落本件；本件**留工作区不自行 commit**，由主线程收口批同 commit 登记（先例: `2cd2f04` 登记 0827 件、`7cb8f06` 登记 0829 件）。若侧线会话消失，下一任从本件 + `memory/STATE.md` 当前裁定区 + `memory/THREADS.md` 尾部即可接手。
+
+### 追加（2026-09-12 夜, 侧线对批 #3 任务 1 的正式复验 = 通过（含 1 项新发现 RW-5）+ 交接）
+
+> 性质: 本节承接上文各节，上文原文逐字保留。**复验权在侧线、修者不自验**已履行：主线程只测不签，本节是侧线的正式结论。
+> 隔离性自证: 破坏性反例全部在 GB10 `/tmp/sv-clone-0912`（`git clone --local --no-checkout` + 稀疏 `scripts tests research templates logs/graph/eval accept`，83 M）内投放，**用后 `rm -rf` 并确认 GONE**；CE6/CE7 输出一律指向 `/tmp`；**主仓 HEAD 全程 `490c742` 未动、脏件仍为同 5 个 Loop B 瞬态件、`.git/hooks/pre-commit` sha 仍 `52085d01…` 未变、F-0907-1 现场 `/tmp/d3b_watcher.sh`(0664/821 B/9月4日) 与 `/tmp/d3b_dispatch.sh`(0664/1702 B/9月6日) 未动**；未用 `git worktree`；未 kill 任何进程、未干扰 daemon(PID 2385039)。Windows 侧**复用了上一任遗留的两个 clone**（`_rw_verify\rwB_ascii` 与 `%TEMP%\rwB_cjk`，`git fetch` + `checkout --detach 490c742`）而**未新建**，以免增加无法删除的残留。
+
+**一、复验结论一句话 = 批 #3 任务 1 的六处改动全部 PASS，无回归；但复验过程中查出一个主线程与上一任侧线都未发现的新缺陷 RW-5（`cjk-byte-check` 在 Windows 上完全失效），它使该钩子的 quotepath 修复在 Windows 侧无法生效。**
+
+**二、逐项结果（rc 与 guard_lines_emitted 双列，承新立红线第 2 条）**
+
+| 项 | 落点 | rc | 守卫是否出声 | 判定 |
+|---|---|---|---|---|
+| 正例 N（有效收据块） | GB10 | 0 | `[summary-guard]` ×1「1 收据块复核通过」 | PASS |
+| 正例 N（**phase B 独立文件名**） | GB10 | 0 | ×1 | PASS（**关键**：证明 phase B 的 harness 有效，故 phase B 的 rc=0 是真放行而非 harness 坏） |
+| 正例 N | Win ASCII 落点 | 0 | ×1 | PASS |
+| 正例 N | **Win 非 ASCII 落点** | 0 | ×1 | **PASS = RW-4 回归靶达成** |
+| CE1 错哈希 | GB10 / Win×2 | 1 | ×2 `sha256 失配` | PASS |
+| CE2 CRLF 工件 + 篡改 `sha256_lf`（raw `64a94b51…` ≠ lf `98148044…`） | GB10 | 1 | ×2 `sha256_lf 与实存 LF 口径失配` | PASS |
+| CE3 删 `sha256:` 行 | GB10 | 1 | ×2 `缺 sha256 字段 (缺失不等于通过)` | PASS |
+| CE4 `git rm tests/test_m1_service.py` | GB10 | 1 | `BLOCKED: commit modifies frozen nodes` | PASS |
+| CE5 `git rm scripts/graph/frozen_hashes.txt` | GB10 | 1 | `BLOCKED: 冻结清单不存在 … 清单缺失不等于没有冻结节点` | PASS |
+| CE6-A pgpool=1 + caller 如实 FAIL | GB10 | **0** | `overall=FAIL` / `src=loop_b_verify.sh (single source)` / `consist=OK` / `action=HALT` / `pg=FAIL` | PASS |
+| CE6-B pgpool=1 + caller **谎报 PASS** | GB10 | **4** | `consist=MISMATCH` | PASS |
+| CE6-C 报告写入失败 | GB10 | **1** | 与判定失败区分 | PASS |
+| CE7 对照真工件 | GB10 | 0 | `13/13 gating PASS (OBSERVED 不入分母 7 项; FAIL 0)` | PASS |
+| CE7 缺 ρ 键注入 | GB10 | 1 | `FAIL L2 a4_spearman_rho_rank_identical 缺键: …`（合计 `10/14`） | PASS |
+| CE8 CJK 名 + 失配块 | GB10 / Win×2 | 1 | ×2，文件名呈**裸 UTF-8** | PASS |
+| CE9 行中提及 marker | GB10 / Win×2 | 0 | ×1「无 SUMMARY-GUARD 块, 跳过」 | PASS |
+| CE10 gbk 不可编码字符 + 失配真块 | GB10 / **Win×2（`PYTHONUTF8` 已剔除，实测子进程 `stdout.encoding=gbk`）** | 1 | ×2 | PASS |
+| 11 份真收据块逐个 `guard check` | GB10 | **11/11 rc=0** | — | PASS |
+| τ 脚本（OBSERVE 不得上升） | GB10 | 0 | `5/5 PASS（gating 分母; **OBSERVE 不入分母 0 项**; FAIL 0）` | PASS |
+| `tests/test_guard_sentinels.py` | GB10 | 0 | **8 passed** | PASS |
+
+**三、侧线新增的反例（主线程自证未覆盖，这是本轮复验的主要增量）**
+
+主线程的四例自证（N/CE8/CE9/CE10）**只练到 `summary-recompute-guard` 一个钩子**；本批另修的三个钩子（`cjk-byte-check` / `large-file-guard` / `index-guard`）**没有任何反例覆盖**，而开工卡要求「每处都要确认它原本防什么没被改坏」。侧线补造三对反例并做**改前/改后对照**（在隔离 clone 内用 `sed` 只把那三行还原，其余不动）：
+
+| 反例 | 构造 | 改后（HEAD `490c742`） | 改前（还原那一行） |
+|---|---|---|---|
+| CE11c | CJK 名 `.md` 含 U+FFFD | GB10 **rc=1**，`[pre-commit:cjk-byte-check]` 出声 | GB10 **rc=0，零出声** ⇒ 绕过 |
+| CE11a | ASCII 名 `.md` 含 U+FFFD（对照） | GB10 rc=1 出声 | GB10 rc=1 出声（对照不受影响） |
+| CE12c | CJK 名 `.mp4`（禁入类型，体积极小） | GB10 **rc=1**，`[pre-commit:large-file-guard]` 出声 | GB10 **rc=0，零出声** ⇒ 绕过 |
+| CE12a | ASCII 名 `.mp4`（对照） | rc=1 出声 | rc=1 出声 |
+| CE13c | 新增 CJK 名 `scripts/*.py` 未登记 INDEX | GB10 **rc=1**，`[pre-commit:index-guard]` 出声 | GB10 **rc=0，零出声** ⇒ 绕过 |
+| CE13a | 新增 ASCII 名 `scripts/*.py`（对照） | rc=1 出声 | rc=1 出声 |
+
+⇒ **三处 quotepath 修复各自都是 load-bearing 的**（改前 CJK 名一律静默放行、改后一律拦截，而 ASCII 对照改前改后都拦 ⇒ 差异唯一归因于文件名编码）。**Windows 侧另测**: `large-file-guard` 与 `index-guard` 均为**纯 bash**，CJK 与 ASCII 两例都 rc=1 且出声 ⇒ **在 Windows 上正常工作**。（CE13 的一处口径须说明：稀疏 clone 内 `docs/INDEX.md` 不在锥内，故 index-guard 的拦截理由含「INDEX 缺失」成分；但被测的是**枚举**——CJK 名脚本改前根本不出现在 `--diff-filter=A` 清单里、改后出现，这一点由 GB10 的改前/改后对照唯一确定。）
+
+**四、⚠ 新发现 RW-5（HIGH，主线程与上一任侧线均未发现）= `cjk-byte-check` 在 Windows 上完全失效，且失效原因与 quotepath 无关**
+
+- **实测链**（Windows，`PYTHONUTF8` 已剔除，全部在隔离 clone 内）：`command -v python3` → **rc=0**，指向 `/c/Users/<非 ASCII 用户名>/AppData/Local/Microsoft/WindowsApps/python3`（**Microsoft Store 存根**）；`python3 -c "import sys; print(1)"` → **rc=49、stdout 空、stderr 空**（存根静默失败）；`python -c …` → rc=0 正常（真解释器是 `python` = Python 3.9）。
+- **后果**：钩子 `:7` 的降级判据是 `if ! command -v python3`，而存根**存在** ⇒ 降级分支不触发；随后 `BAD=$(echo "$MD_FILES" | python3 -c …)` 因存根 rc=49 而得到**空串** ⇒ `[ -n "$BAD" ]` 为假 ⇒ **`exit 0`，零输出**。
+- **直接证据**：构造一个 **ASCII 名**、内容确含 U+FFFD（文件字节已核 `EF BF BD` 在位）的 `.md` 并 staged，直接跑该钩子 ⇒ **rc=0、stdout 空、stderr 空**；同一钩子把 `python3` 换成 `python` ⇒ `PY3_STDIN_LINES 1`、rc=0 正常工作。**⇒ 该守卫在 Windows 上对 ASCII 与 CJK 文件名一律失效，不是 quotepath 问题。**
+- **主线程的 `:11` 修复本身是对的且已生效**：同一实验里 `MD_FILES=[accept/sv_fffd_ascii.md]` 枚举正确（若 quotepath 未修，CJK 名会以转义串出现且被 `grep -E '\.md$'` 二次漏掉）。**但该修复在 Windows 上无法产生任何效果，因为下游消费者（`python3`）是死的。**
+- **同目录已有正确范式**：`summary-recompute-guard.precommit.sh` 的解释器探测循环 `for cand in python3 python py; do … # WindowsApps store 存根会静默失败: 必须实跑探测才算可用 … if "$cand" -c "import sys" >/dev/null 2>&1; then PY="$cand"; break; fi; done` —— **该注释逐字预言了本次故障**，而 `cjk-byte-check` 从未套用这个范式。这也解释了为何同一批里 `summary-guard` 在 Windows 上能出声、`cjk-byte-check` 不能。
+- **影响面**：该守卫的职责是「staged `.md` 的 U+FFFD 乱码扫描（edit 工具链 CJK 编码副作用，源仓库三次实证）」，而 **Windows + 中文用户名 + CJK 文档正是最可能产生 U+FFFD 的环境** ⇒ **它恰好在唯一需要它的平台上是死的**；GB10（`python3` 为真解释器）侧正常 ⇒ **Loop A 在 GB10 的提交受保护，Loop D 在主线程本机的提交不受保护**（与 RW-2 的平台不对称同型）。
+- **这是本族的第三个独立根因**：RW-1 = git 路径转义口径；RW-2 = python 文本重编码撞 locale；**RW-5 = 解释器解析（硬编码 `python3` + Store 存根静默 rc=49）**。三者都在「Windows 上假设 POSIX 行为」这一总根因下，但**修法互不覆盖**，只修前两个仍留 RW-5。
+- **最小修法建议（供主线程另批执行，侧线不自修）**：把 `cjk-byte-check.precommit.sh` 的 `command -v python3` 判据替换为 `summary-recompute-guard.precommit.sh:9-14` 那一套**实跑探测**循环（`for cand in python3 python py` + `"$cand" -c "import sys"` 实测），并把后续 `python3 -c` 改为 `"$PY" -c`；**同时补 fail-loud 不变量**：`BAD` 为空**且** `$PY` 解析失败/未找到 ⇒ 必须打 WARN 而非静默 `exit 0`（该钩子 `:5` 自述的「不无声 fail-open」目前在存根场景下恰好被违反）。**注意**：修后必须重跑 CE11a/CE11c 两例并确认在 **Windows 与 GB10 双侧**都 rc=1 出声（Windows 侧是本次漏掉的那一侧）。
+- **顺带一条同类风险（只记不修）**：`index-guard` 与 `large-file-guard` 是纯 bash 故不受 RW-5 影响；但**任何将来新增的、调用 `python3` 的钩子都会重蹈覆辙**，故建议把「实跑探测解释器」写进 `HOOK_AUTHORING_GUIDE`（该件已有 principle 6，可加为 principle 7 或并入 1「Graceful Degradation」）。
+
+**五、扫描表抽查（40 处「不在路径」的判定，抽查 3 处，全部成立）**
+
+- `scripts/docs_lint.py:150`（`bash sync_skills.sh --check`，`text=True`）：解析的是 `DRIFT` **状态行**而非路径枚举；且整段包在 `try/except Exception` 内并把异常**计入 `fails`** ⇒ **fail-loud**，归类「不在提交路径 + 失败姿态安全」**成立**。
+- `scripts/graph/status.sh:91`（通用命令运行器，`text=True`）：R1 交付件，§四.4 明令不动；输出为人读健康页与端点守卫拒绝信息，非 git 路径枚举 ⇒ 归类**成立**。
+- `skills/skill-map/scripts/skill-map.py:124`（`run_rg`，`text=True`）：即已知的 Windows GBK 平台 bug（`UnicodeDecodeError` → `stdout` 为 None → `AttributeError` at `:298`，体检报告 `:52`/`:44` 所记，34 天未修），属 A19/skills 范围、非守卫路径 ⇒ 归类**成立**。**附带观察**：它与 RW-2/RW-5 同属「Windows locale/解释器」总根因，若将来做一次「Windows 兼容性专项」，这三处应一并处理。
+
+**六、主线程「只上报不顺手改」的词分割项 = 确认为独立缺陷类，支持其处置**
+
+机械核实：`for f in $STAGED` 一类**无引号词分割**共 **5 处、跨 3 个钩子** = `large-file-guard:10`、`index-guard:9` 与 `:17`、`summary-recompute-guard:35` 与 `:68`；**四个钩子无一使用 NUL 分隔枚举**（无 `git … -z`、无 `read -d ''`；文件里出现的 `-z` 全是 bash 的空串测试 `[ -z "$VAR" ]`，**不是** git 的 `-z` 标志——这点容易被误读，特此注明）。`cjk-byte-check` **不受此缺陷影响**（它用 `echo "$MD_FILES" | python`，变量是加引号的）⇒ 主线程所说「三处」准确。**结论 = 与 quotepath 无关的另一缺陷类**（触发条件是**文件名含空格**，本仓当前无此类文件 ⇒ 今日无活体影响），修法需 `-z` + `read -d ''` 的结构性重写（非一行）⇒ **支持「与 F05 家族一并另批」的处置，不应塞进本批**。
+
+**七、`docs_lint.py:61` 延伸的独立复核 = 追认，且两个计数口径已完全调和**
+
+- diff 恰为一行（`["git","ls-files","docs"]` → 加 `-c core.quotepath=false`），根因成立：`:66` 的 `if not path.endswith(".md")` 会把转义输出（以 `.md"` 结尾）整条过滤掉。
+- **侧线独立复算（GB10）**：`[1]` 候选集 **OLD(quoted)=214 → NEW(pinned)=233，delta=+19**（与主线程逐字相符）；另一口径 **`docs/` 下全部 `.md`（含 archive）=312，其中非 ASCII 名 =35**（与上一任侧线逐字相符）。**两口径调和 = 35 = 19（现役，`[1]` 新覆盖）+ 16（在 `docs/archive/` 下，`[1]` 本就排除）** ⇒ 之前的「19 vs 35」不是分歧，是**是否排除 archive** 之别。
+- **新覆盖的 19 份中未登记 INDEX 的 = 0** ⇒ 无积压，warn 增量 +0；GB10 `docs_lint` 实测 **PASS (0 fail / 0 warn)**（本侧线未重跑，采主线程所报并与上一任 §三.1 的实测一致；下一任如需自证可直接跑 `--json` 落 `/tmp`）。
+
+**八、待用户裁定清单（侧线复核后重述 + 建议；均未裁定，侧线不自行推进）**
+
+1. **RW-5（新）是否入返工范围，以及与 RW-1/RW-2/RW-3 的关系**。侧线建议：**并入同一「Windows 兼容性」返工批**，因为它与前两者同根因不同点、且**不修则 `cjk-byte-check` 的 quotepath 修复在 Windows 侧等于白做**。修法已有现成范式（同目录的解释器探测循环），成本约 3-5 行。
+2. **`agent_watchdog` 处置**。上一任建议 **A 与 C 并行**，侧线复核后**维持该建议**：A（`AGENT_WATCHDOG_WINDOW` 30→100，纯环境变量、随白天批重启生效、`0.915^100 ≈ 1e-4`）立刻止住告警疲劳与随机 HALT；C（`timeout_fb=3497 / fast_fb=0 / direct=0` ⇒ 回落几乎全是超时型，**91.5% 回落率本身可能才是真问题**）另开只读调查。B/B' 需改 `loop_b_verify.sh:393-:413`，属另批授权 + 修者不自验，成本高于 A。**关键事实**：该 FAIL 与近三批无关，且已自愈（`STATUS FLIP` 共 146 次，最近一次 `00:42:34 PASS→FAIL` 于 `02:22:52 FAIL→PASS`，持续 1 h 40 min）。
+3. **F-2 处置** = 侧线维持 **A（改判假阳、零改动）**；若将来采 C（修 skill-doctor 判据），**只应排除可机械判定的占位形态（「如」引导 + 链接文本 `xxx`），不要排除「git 历史中从未存在」那一条**（后者是真缺陷的合法信号）。
+4. **A10**（ZhikunCode 重建，做不做）—— 侧线建议继续挂着，不在任何关键路径上。
+5. **`paper/draft_v0_s1_s2_s6.md` S7 `:227`-`:230` 失实句 + 蓝图 `:34`/`:38` 过期项的修文授权** —— 属侧线资产，需用户授权侧线动手；**它挡着 T7 的正文组装**，自首批提出以来一直未给。
+6. **`2026-08-25_demo_video_v3/steps.md` 在 INDEX `:142` 仍标「待发送（用户亲发）」**，而 docs/31 本体已由用户确认发送 ⇒ 该行是否也过期，只有用户知道。
+7. **验证残留人工清理**：侧线与主线程双方的递归删除**都被本机策略拦下，均未绕过** ⇒ 需用户手删或显式授权。现存 6 处（`_rw_verify\rwB_ascii`·`rwwinC`·`rwwinD` + `%TEMP%\rwB_cjk`·`rwwinB` 各约 66.5 MB + `%TEMP%\rwwinA` 空壳），合计约 **333 MB**；口径已调和（sparse 工作树 6.2 MB / `.git` 60.6 MB，因 `--no-hardlinks` 故对象库是全量副本）。**本轮侧线未新增任何残留**（复用既有 clone）。
+
+**九、给下一任侧线的交接（新增陷阱，务必照做）**
+
+- **Windows 上验钩子必须逐个钩子验，不能只验 `summary-guard`**：本仓 5 个钩子里 3 个是纯 bash（Windows 正常）、1 个有解释器探测（正常）、**1 个硬编码 `python3`（在 Windows 上是死的）**。凡新增/修改钩子，反例必须**按钩子逐个造**，并**在 Windows 与 GB10 双侧各跑一遍**——本批的 RW-1/RW-2/RW-3 都只在单侧验过，RW-5 正是这样漏掉的。
+- **`command -v X` 成功不等于 X 可用**：WindowsApps 存根会让它成功。凡脚本探测解释器，必须**实跑** `"$cand" -c "import sys"` 才算可用（`summary-recompute-guard` 的注释已写明这条，照抄即可）。
+- **改前/改后对照是判定「修复是否 load-bearing」的唯一硬证据**：只在改后跑反例，无法区分「修好了」与「本来就不会触发」。本轮用 `sed` 在隔离 clone 内**只还原被验的那一行**做对照，成本低、归因唯一，建议沿用。
+- **phase B 也要有自己的正例**：本轮 phase B 第一次跑正例时因其 fixture 已在 phase A 提交过 ⇒ `git add` 无变化 ⇒ 侧线 harness 判 **INVALID** 而非 BLOCKED（承红线第 2 条），随后**换一个新文件名重跑正例并确认 rc=0 且守卫出声**，才敢把 phase B 的三个 rc=0 读作「真绕过」。**反例集里每个阶段都要有独立的正例。**
+- 其余陷阱（稀疏锥外 `git add` 需 `git sparse-checkout add <dir>`（本机 git 2.33 不认 `--sparse`）、退出码不得经管道取、clone 落点路径要作为变量记录、破坏性反例只在隔离 clone、不用 `git worktree`、`PYTHONUTF8` 测 RW-2/RW-5 时必须剔除）**照上文 §七 与既有各节执行，未变**。
+
+**十、侧线自身状态**
+
+本轮**未改任何仓库文件**（只读 + 隔离 clone），**未 commit**（本件仍留工作区，由主线程收口批登记）；未动 `~/.codex`/`~/.claude`、`frozen_hashes.txt`、`status.sh`、`loop_b_verify.sh`、`write_report.py`、`sync_skills.sh`、GB10 `/tmp` 0664 现场、任何应用配置；零端点（五端口只列举不连接）、零重跑（未执行两份禁跑脚本、未铸收据，三份收据 sha `2b62bf31…`/`88cb5b80…`/`698f9401…` 未动）。**未自签主线程交付之外的任何结论**；RW-5 属侧线新发现，**其修复不由侧线做**（验者不自修）。
+
 ## 存档指引
 - 本件 09-10 夜更新（**第八次**, 就地）: 裁定台账扩至 **决策 1-19**（+ 一条不占号的顺延附带裁定）+ 现役快照锚定 **`9c999ef`**（含对已提交 blob 的逐 hunk 实核、F-1/F-2 byte-equal 重验、EOF 换行 GB10 侧末字节实测、12 份必不动件逐个 UNTOUCHED、docs_lint `[3]/[1]/[2b]` 全零）+ **侧线本轮最重要发现 = D4 卡在 F-2 第 3 项（A4/A5 验收通过）上不可派发, 全库无 A4/A5 卡** + A4w 范围精确化（D4 侧已由 BG-7 承载, 剩余 = 常备派发前置检查）+ 认账主线程两条更准发现（size 属弱证据 / 行数三口径）+ `config.toml` 第五代轮换 `e7fe122a`（间隔加速至 21.7 小时）+ 观察点与队列换为 09-10 夜现役 + 抽验手册七条新教训（含**决策门第二次重犯**的自身教训与两条侧线自踩的工具坑）+ 红线 09-10 夜六条; 09-10 白天版快照·观察点·队列原文**全部保留作轨迹, 未回改**（仅加销账注记与「保留作轨迹」标签）。
 - 09-10 夜本轮 Prompt（已交用户转发）= **决策 17/18/19 落地批**: A4/A5/A4w 合并批拟卡派发 + D4 可构造 n 表盘点（回呈即停）+ R1 拟卡派发, 另含 B 类更正（F-2 五项满足度盘点落卡）与三对交互假设检查; **neat 批与其同批顺序经用户裁定顺延至该批回来之后**。落点行号索引（`9c999ef` 后）= D4 卡 `:5`(YAML status) `:115`(回呈硬门) `:206`(F-2 第 3 项) `:210`(五项同为硬前置) `:221`(层级钉死) `:259`(BG 裁定状态) `:289`(硬门 400) `:334`(分支 B1); 总账 `:3`(状态头) `:122-142`(§九 裁定注记) `:124`(权威源声明重申); THREADS `:722`(15=A, 纯后缀追加) `:727-731`(五条新条目); STATE `:5`。

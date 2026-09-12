@@ -229,6 +229,26 @@ stratifies by perturbation family x criterion kind and adds a second-scorer arm,
 whether criterion-relativity is a property of the criterion kind or of a single scorer;
 until that arm reports, the claim is not upgraded.
 
+> Correction note (2026-09-12, append-only; supersedes the forward-looking sentence above,
+> which is preserved verbatim as trajectory per the decision-4A discipline):
+> the pre-registered next window described in that sentence **is no longer scheduled**.
+> The D4 transfer experiment was deferred by ruling 21=D (2026-09-11) because the
+> family-level constructible-n table is undefined on the frozen TAT-DQA joint-v1 contract
+> (the corpus carries no table layer, so per-family n has no definition); the deferral was
+> for that reason only, not for budget, endpoint or scheduling reasons. Consequently the
+> second-scorer arm has **not reported and is not pending**: it is deferred. Two consequences
+> for this section, both of which tighten rather than loosen the claim boundary:
+> (1) the criterion-relativity claim **remains at its D3 evidence level and is not upgraded**
+>     - the sentence above said the claim would not be upgraded until the arm reports, and
+>     that still holds, now for a stronger reason (the arm is deferred, not merely awaited);
+> (2) nothing in S3 or S7 may cite a family x criterion-kind stratification, a second-scorer
+>     result, or any D4 number, because none exists. Any such citation would be a reference to
+>     an experiment that was never run.
+> The four claim-boundary items stated earlier in this section are unchanged, and the study
+> still adjudicates nothing about which criterion is correct: judge and DR4 oracle remain
+> non-ground-truth, and the disagreement between them remains a result rather than a defect.
+> Full S7 assembly still awaits T7; this note does not assemble the section.
+
 ## 审稿人视角五问注记（paper-review-check 一轮, 2026-08-30 夜, Loop D 自审; 结论权在 Loop C/用户）
 
 五问 = skill 五焦点: 核心主张 / 方法 / 实验 / 写作 / 风险。blocking 与 polish 分列。
