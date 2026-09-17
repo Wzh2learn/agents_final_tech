@@ -441,11 +441,11 @@ usage 记账」这类**分析工作**纪律, 把守卫验证纪律放进去会�
 - `memory/DECISIONS.md` — 只追加决策日志（ADR 风格）：日期 + 决策 + 理由，不删改。
 - `memory/STATE.md` — 当前快照（覆写式）：各 Loop 状态、进行中任务、下一步、阻塞项。
 - `memory/THREADS.md` — 未决线索：blocked_questions 蒸馏 + 甲方待确认项。
-- `memory/archive/` — STATE.md 旧版压缩归档（按日期命名）。
+- `memory/archive/` — 快照式归档（`STATE_<date>_<suffix>.md`，按日期命名）+ 滚动式历史件 `THREADS_history.md`（已结案条目轨迹；常规会话不读）。
 
-**单一信源规则**: gap/遗留项台账唯一存放于 `memory/THREADS.md`；其他文档（CORE/STATE/docs 等）只引用不复述，更新只改 THREADS.md。
+**单一信源规则**: 现役台账唯一存放于 `memory/THREADS.md`；**已结案的历史轨迹在 `memory/archive/THREADS_history.md`（滚动件，只增不改）**。其他文档（CORE/STATE/docs 等）只引用不复述，更新只改对应台账件。
 
-**读取协议（新会话/新 Loop）**: `memory/CORE.md` → `STATE.md` → `THREADS.md`（约 2KB，替代读 HANDOFF.md 全文；HANDOFF.md 冻结于 2026-08-03 快照，是历史文档）。
+**读取协议（新会话/新 Loop）**: `memory/CORE.md` → `STATE.md` → `THREADS.md`（**读取协议不含 `memory/archive/`——常规会话不读已结案历史件**；替代读 HANDOFF.md 全文，HANDOFF.md 为冻结历史文档）。
 
 **写入职责**:
 - Loop A: 任务交付后更新 `STATE.md` 任务进度段。
@@ -457,7 +457,7 @@ L2 语义记忆层（mem0 自托管 + pgvector :15432 + MCP）见 docs/18 第 10
 
 ## 文档治理（docs_lint）
 
-**neat 收尾必跑 `scripts/docs_lint.py`**（退出码 0 才可收口）。五项机器检查：INDEX 覆盖率+死链、存活文档状态头时效、**台账防漂移**（gap/遗留关键词只允许出现在 memory/THREADS.md，其他文档只引用不复述——08-11 漂移案的固化）、skill 注册表 vs 两端安装 diff（`scripts/graph/sync_skills.sh --check`）、**配属注册表 vs 分发列表 diff**（AGENTS.md 注册表与 sync_skills.sh A/C_SKILLS 双向对账，治理体检 2026-08-12 新增）。
+**neat 收尾必跑 `scripts/docs_lint.py`**（退出码 0 才可收口）。五项机器检查：INDEX 覆盖率+死链、存活文档状态头时效、**台账防漂移**（gap/遗留关键词只允许出现在 memory/THREADS.md，其他文档只引用不复述——08-11 漂移案的固化；已结案轨迹见 `memory/archive/THREADS_history.md`，该处不在关键词扫描域内）、skill 注册表 vs 两端安装 diff（`scripts/graph/sync_skills.sh --check`）、**配属注册表 vs 分发列表 diff**（AGENTS.md 注册表与 sync_skills.sh A/C_SKILLS 双向对账，治理体检 2026-08-12 新增）。
 
 ## 执行节奏治理 (2026-08-25, 用户批准)
 

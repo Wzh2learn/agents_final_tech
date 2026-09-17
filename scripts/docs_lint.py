@@ -7,8 +7,8 @@
   [2] 存活文档状态头: docs/ 顶层活文档须有 "状态:" 头行; 状态=活跃 但 更新
       日期超 14 天 -> WARN (时效过期)。
   [3] 台账防漂移 (08-11 漂移案沉淀): docs/ 非 experiments/archive 文档中出现
-      gap/遗留 关键词复述 (而非引用 THREADS) -> flag。治理规则: gap/遗留项台账
-      唯一存放于 memory/THREADS.md, 其他文档只引用不复述。
+      gap/遗留 关键词复述 (而非引用 THREADS) -> flag。治理规则: 现役台账
+      唯一存放于 memory/THREADS.md (已结案轨迹在 memory/archive/THREADS_history.md), 其他文档只引用不复述。
   [4] skill 注册表 vs 两端安装 diff: 调 scripts/graph/sync_skills.sh --check。
   [5] AGENTS.md 配属注册表 vs sync_skills.sh 分发列表双向 diff:
       注册了但未分发 / 分发了但未注册 -> FAIL (治理体检, 2026-08-12)。

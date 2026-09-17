@@ -340,5 +340,5 @@
 2. 存活文档（本目录顶层 + architecture/ + datasets/）头部必须有状态标记行 `状态: … | 更新: … | 取代/被取代: …`；experiments/ 只追加不重写，以日期前缀为时效标记。
 3. OpenCode/MCP 交付物三件（09 / 10 / 2026-07-19_m2_mcp_verification）：**永不删除**；2026-08-05 起归档于 archive/，本文件归档组保留条目。
 4. HANDOFF.md 保留历史冻结快照（含顶部 2026-08-29 快照及更早快照）；实时状态仍一律以 memory/STATE.md 为准。
-5. gap/遗留项台账唯一存放于 memory/THREADS.md，其他文档只引用不复述。
+5. 现役台账唯一存放于 memory/THREADS.md（已结案历史轨迹在 memory/archive/THREADS_history.md，滚动件只增不改），其他文档只引用不复述。
 6. 盘点依据与矛盾修复记录: `architecture/phase2_docs_inventory.md`、`architecture/phase2_root_md_conflicts.md`、`architecture/phase2_docs_inventory_2026-08-05.md`（本轮）。

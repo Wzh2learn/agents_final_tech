@@ -48,6 +48,6 @@
 
 ## 质量基线（2026-08-22 更新）
 
-- M1 解析: 100%（scenario1 15 源 30 表）；gap/遗留项台账唯一存放于 memory/THREADS.md（只引用不复述）
+- M1 解析: 100%（scenario1 15 源 30 表）；现役台账唯一存放于 memory/THREADS.md，已结案轨迹在 memory/archive/THREADS_history.md（只引用不复述）
 - M2 eval 基线: 确定性 16/16 + NF 0/9 + judge 四维 5.0（08-22, 经 :5050）；embeddings 137
 - pytest: 379 passed / 13 skipped（08-22）；Loop B 30min 一轮（08-22 overall PASS）
