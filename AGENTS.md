@@ -346,18 +346,6 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 | A | Codex CLI | recsys-toolkit | RecSys career/defense 双模式工具包（科研线） |
 | A | Codex CLI | paper-review-check | 科研线: 投稿前攻击面自查/对抗审查（每章草稿过一轮; 审稿人视角五问） |
 | C | Claude Code | paper-review-check | 审计层论文草稿审查协议（Loop C 审计范围扩至论文, 2026-08-29） |
-| C | Claude Code | code-review | 通用: 代码评审流程 |
-| C | Claude Code | generate-commit | 通用: commit 信息生成规范 |
-| C | Claude Code | memory-systems | 通用: agent 记忆系统模式参考 |
-| C | Claude Code | multi-agent-patterns | 通用: 多 agent 协作模式参考 |
-| C | Claude Code | tool-design | 通用: 工具接口设计参考 |
-| C | Claude Code | vibe-coding-context-manager | Vibe Coding 套件: 上下文管理 |
-| C | Claude Code | vibe-coding-planner | Vibe Coding 套件: 规划 |
-| C | Claude Code | vibe-coding-principles | Vibe Coding 套件: 原则 |
-| C | Claude Code | vibe-coding-prompt-engineer | Vibe Coding 套件: 提示工程 |
-| C | Claude Code | vibe-coding-quality-gate | Vibe Coding 套件: 质量门 |
-| C | Claude Code | vibe-coding-refinement | Vibe Coding 套件: 精化 |
-| C | Claude Code | webapp-testing | 通用: web 应用测试流程 |
 | A | Codex CLI | paper-writing-zh | 科研线: 中英文学术写作纪律（claims↔证据对齐, 禁 overclaim, limitations 不藏） |
 | A | Codex CLI | algorithm-description | 科研线: 代码→论文算法描述（伪代码/复杂度/变量对位, G(τ,ε) 方法节用） |
 | A | Codex CLI | neat-freak | 治理线: 知识收口/声明-实况对账/漂移清场（触发: /neat、洁癖、收尾同步意图） |

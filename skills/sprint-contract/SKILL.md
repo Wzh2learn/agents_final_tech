@@ -66,7 +66,7 @@ Two to five minutes of prose before code. In return: the evaluator has something
 
 - [[shift-notes]] — where the contract lives across sessions.
 - [[broken-window-check]] — what the evaluator runs *against* the contract at session start.
-- [[adversarial-verify]] — the end-of-sprint pass that decides whether every predicate actually holds.
+- [[verify-before-done]] — the end-of-sprint pass that decides whether every predicate actually holds.
 
 ## When NOT to apply
 

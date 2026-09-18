@@ -43,7 +43,7 @@ The fix is not "tell the evaluator to be stricter." That works for one iteration
 
 ## Related
 
-- [[adversarial-verify]] — the single-shot form; evaluator-calibration is the standing-agent form.
+- [[verify-before-done]] — the single-shot form; evaluator-calibration is the standing-agent form.
 - [[shift-notes]] — evaluator verdicts belong in the ledger so drift is visible session-over-session.
 - [[broken-window-check]] — a mechanical version of "don't trust the last verdict"; pairs well when the evaluator is the thing being distrusted.
 

@@ -49,7 +49,7 @@ The check is 30-90 seconds per session in a healthy project. In a project that's
 ## Pairs with
 
 - `shift-notes` — the ledger the check reads and writes.
-- `adversarial-verify` — run this on the current session's diff *before* claiming done, so the next session doesn't have to broken-window you.
+- `verify-before-done` — run this on the current session's diff *before* claiming done, so the next session doesn't have to broken-window you.
 - `verification-before-completion` — the general form of "don't claim without evidence".
 
 If every session enforces the check, the compounding-error mode of shift-work agents stops compounding.

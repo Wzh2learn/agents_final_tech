@@ -42,5 +42,5 @@ The pattern shows up hardest in planner/generator/evaluator architectures where 
 ## Related
 
 - [[broken-window-check]] — the runtime-driven version of "don't trust the last claim".
-- [[adversarial-verify]] — the structural form of "find the strongest failure case".
+- [[verify-before-done]] — the structural form of "find the strongest failure case".
 - [[shift-notes]] — where you record what the fresh-persona review actually found.
