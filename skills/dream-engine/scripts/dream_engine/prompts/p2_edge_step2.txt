@@ -1,0 +1,18 @@
+## 任务
+判断以下两个有关联的概念节点之间的关系类型。
+
+节点A：{node_a_name} — {node_a_gist}
+节点B：{node_b_name} — {node_b_gist}
+关联原因：{reason_from_step1}
+
+## 关系类型（三选一）
+- supports：A 为 B 提供证据/支持/是 B 的前提条件
+- contradicts：A 和 B 存在矛盾/冲突/相互否定
+- related：有关联但不是明确的支持或矛盾（类比、并列、组成等）
+
+## 输出（纯 JSON，不要任何其他文字）
+{{
+  "edge_type": "supports",
+  "direction": "a_to_b",
+  "description": "一句话描述这个关系"
+}}

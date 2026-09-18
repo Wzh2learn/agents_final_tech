@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "required": ["related", "reason"],
+  "properties": {
+    "related": {"type": "boolean"},
+    "reason": {"type": "string"}
+  }
+}

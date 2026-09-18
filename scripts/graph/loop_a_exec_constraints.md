@@ -117,5 +117,11 @@ code_interpreter 适合多步数值计算 (如市值求和与 reconcile 对比),
 | subagent-driven-development | 任务可拆分为相互独立的子任务时，按其流程分发与复审 |
 | verify-before-done | 宣称"完成/修复/通过"之前，必须跑验证命令并给出输出证据，先证据后结论 （**09-12 批 #3 更正（A19 文档级, 决策 35）**: 本行原列 `verification-before-completion`, 该件已于 **2026-08-25** 标 DEPRECATED 并被 `verify-before-done` 取代——依据 = `AGENTS.md:311` 注册表标注（commit `735813b`, 08-25）+ `AGENTS.md:329` 新件登记 + `docs/SKILL_ROUTING.md:28` 冗余裁决表; 弃用件本体 `skills/verification-before-completion/SKILL.md:6` 亦自证「已被 `verify-before-done` 取代」。**这是派发路径上的活体入口漂移**: 本文件是派发给 Loop A 的现役约束件, 却仍指向弃用件且未提新件 ⇒ Loop A 会装/用错件（新件 `verify-before-done` = 11 条「假完成」捷径清单 + 本轮实跑完成门, 是旧件的超集）。**原列名以上方逐字保留作轨迹, 不改写历史**; 触发条件文本零改动, 因新件承接同一职责。） |
 | m1-gap-triage | M1 解析返回 0 表或字段命中率 <80% 时：读原文诊断 → 补 synonyms → 重跑 → 报 delta；image-only PDF 先看 OCR/vision 输出再诊断；schema 只改 config/m1_table_schema.json（docs/m1_schema/ 冻结基线不碰） |
+| write-failing-test-first | 修任何 bug 之前: 先写复现它的测试并亲眼看它失败, 再动手改（新件 09-18） |
+| secret-scan | 任何 commit 之前; 触及凭据/密钥/令牌的文件（新件 09-18） |
+| input-validation | 任何接收外部数据的 handler 边界（新件 09-18） |
+| bisect-regression | "以前好的、现在坏了"且不知是哪个改动导致时, 用 git bisect 定位首个坏 commit（新件 09-18） |
+| structured-output | 需要模型稳定吐 JSON 时: 优先 tool_use + schema, 收侧校验, 解析失败重试（新件 09-18） |
+| exp-lifecycle | 用户说"跑 lifecycle / 走闭环 / 一键流程", 或实验出数后/工程交付后需要五阶段编排（新件 09-18） |
 
 约束: skill 只提供方法论；冻结节点 / API key / 72B 等红线仍以本文件与 AGENTS.md 为准。

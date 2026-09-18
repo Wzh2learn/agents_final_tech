@@ -1,0 +1,15 @@
+{
+  "routes": [
+    {
+      "skill": "skill-merger",
+      "keywords": ["合并 skill", "整理 skill", "skill 太多", "重复的 skill", "精简 skill", "skill 瘦身"],
+      "hint": "分析并合并功能重叠的 skill，先出报告再确认合并、自动备份原文件"
+    },
+    {
+      "skill": "pdf-form-filler",
+      "keywords": ["PDF", "表单"],
+      "require_all": true,
+      "hint": "自动识别并填写 PDF 表单字段（仅当 PDF 与表单同时出现才提示，避免泛词误报）"
+    }
+  ]
+}

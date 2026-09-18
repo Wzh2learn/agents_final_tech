@@ -1,6 +1,9 @@
 ---
 name: exp-lifecycle
-description: 判读 → 设计 → 工程 → 审计 → 治理，带反馈环的一键流程。 本 skill 是**编排层**：各阶段方法论复用域内既有 skill，本层只定义阶段衔接、产物契约、拍板门与循环条件。 立法：2026-08-20（distilled from multi-day practice: judgment→design→engineering→audit→governance full-chain validation）。
+description: >-
+  判读 → 设计 → 工程 → 审计 → 治理，带反馈环的一键流程。 本 skill 是**编排层**：各阶段方法论复用域内既有 skill，本层
+  只定义阶段衔接、产物契约、拍板门与循环条件。 立法：2026-08-20（distilled from multi-day practice: 
+  judgment→design→engineering→audit→governance full-chain validation）。
 when_to_use: 用户说"跑 lifecycle / 走闭环 / 一键流程 / 对 X 实验完整处置" / 实验出数后（从判读进入） / 工程交付后（从审计进入）
 ---
 

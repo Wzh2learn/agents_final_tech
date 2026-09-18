@@ -1,0 +1,27 @@
+做梦联想推理 — 输出格式参考
+
+具体的做梦流程由 SKILL.md 的 /dream run 步骤 3-5 定义。
+本文件仅作为输出 JSON 的 schema 参考。
+
+## 输入
+
+联想路径/碰撞对 + gravity_centers（由 SKILL.md 步骤 1-2 产出）
+
+## 输出格式（纯 JSON 数组，不要任何其他文字或 markdown 代码块）
+[
+  {{
+    "path_id": 1,
+    "dream_scene": "视觉场景描述（100字以内）",
+    "forgotten_variable": "被遗忘的变量（一句话）",
+    "paper_skeleton": {{
+      "problem": "现有方法忽视了什么？",
+      "insight": "为什么这个被忽视的因素重要？",
+      "method": "技术方案概述（一句话）",
+      "expected_result": "预期指标变化"
+    }},
+    "strongest_objection": "最强反对者的攻击 + 引用的具体工作",
+    "min_experiment": "最小验证实验（1天内可验证）",
+    "novelty_score": 0.7,
+    "title": "一句话idea标题"
+  }}
+]

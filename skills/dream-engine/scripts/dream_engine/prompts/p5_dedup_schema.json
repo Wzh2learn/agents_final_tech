@@ -1,0 +1,12 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["merge", "canonical", "reason"],
+    "properties": {
+      "merge": {"type": "array", "items": {"type": "string"}, "minItems": 2},
+      "canonical": {"type": "string"},
+      "reason": {"type": "string"}
+    }
+  }
+}

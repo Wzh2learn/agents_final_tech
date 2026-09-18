@@ -1,0 +1,13 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["name", "type", "gist", "tags"],
+    "properties": {
+      "name": {"type": "string", "minLength": 1},
+      "type": {"type": "string", "enum": ["concept", "method", "finding", "problem"]},
+      "gist": {"type": "string", "maxLength": 60},
+      "tags": {"type": "array", "items": {"type": "string"}}
+    }
+  }
+}

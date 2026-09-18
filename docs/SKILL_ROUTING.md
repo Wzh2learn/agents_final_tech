@@ -1,6 +1,6 @@
 # SKILL_ROUTING.md — skill 路由法（治理线立法, 2026-08-29）
 
-> 状态: 活跃（立法件, 修改需用户批） | 更新: 2026-08-29 | 取代/被取代: 无 | 依据: 侧线设计稿转述（用户卡 08-29）+ 注册表↔分发漂移事故（30 件, 08-29 修复）
+> 状态: 活跃（立法件, 修改需用户批） | 更新: 2026-09-18 | 取代/被取代: 无 | 依据: 侧线设计稿转述（用户卡 08-29）+ 注册表↔分发漂移事故（30 件, 08-29 修复）+ **skill 库扩容精简化（09-18 批 #6-S: 49 件新 skill 入库、12 件旧件删除; 五线主装按扩容后清单重列）**
 > 范围: 五线任务的 skill 装载决策; 与根 AGENTS.md 配属注册表互为表里（注册表 = 有什么, 本法 = 何时用）
 
 ## 1 五线总表（任务线 → 主装 skill）
@@ -9,8 +9,9 @@
 |---|---|---|
 | 论文线 | research-writing-skill / paper-writing-zh / algorithm-description / paper-review-check / paper-polish-and-audit / literature-review / citation-management | graph-loop-rules |
 | 治理线 | neat-freak / jinrong-docs-sync / code-cleanup-helper / skill-doctor / skill-map / repo-audit / readme-audit | graph-loop-rules |
-| 运维线 | systematic-debugging / m1-gap-triage / m2-rag-playbook / graph-loop-rules / experiment-autopsy / shift-notes | graph-loop-rules |
-| 前端线 | playwright / webapp-testing / broken-window-check / verify-before-done | graph-loop-rules |
+| 运维线 | systematic-debugging / m1-gap-triage / m2-rag-playbook / graph-loop-rules / experiment-autopsy / shift-notes / experiment-observer / experiment-analysis / train-monitor / gpu-env | graph-loop-rules |
+| 前端线 | playwright / design-system / a11y-pass / loading-empty-error-states / broken-window-check / verify-before-done | graph-loop-rules |
+| 工程线 | write-failing-test-first / systematic-debugging / flaky-hunter / bisect-regression / simplify / reduce-nesting / kill-dead-code / revert-surgical / rebase-safely / clean-commits / secret-scan / input-validation / migration-writer / schema-diff / dependency-audit | graph-loop-rules |
 | 交付线 | office-academic-skill / documents / presentations / verify-before-done | graph-loop-rules |
 
 ## 2 仲裁规则（冲突时依次适用）
@@ -30,6 +31,10 @@
 | pdf 双份（仓库版 + 个人版） | **合一: 仓库版为准** | 仓库 skills/ = source of truth（三层分发架构）; 个人版仅作未同步兜底, 不得反向回灌覆盖 |
 | figma × 6 / cloudflare-deploy / vercel-deploy | **标个人通用, 不主动装载** | 本项目无 Figma/部署工作流; 仅用户显式要求时装载; 注册表保留（分发实况对齐）但路由表不列 |
 | recsys-toolkit | 个人职业工具, 不入项目路由 | 触发词 /recsys, 与五线无关 |
+| vibe-coding × 6（context-manager / planner / principles / prompt-engineer / quality-gate / refinement） | **已删（09-18 批 #6-S, 用户裁定）** | 旧世代自洽管线, 职责已被 spec-first + sprint-contract + executing-plans 覆盖; 互引随删消失 |
+| code-review / generate-commit / memory-systems / multi-agent-patterns / tool-design / webapp-testing | **已删（09-18 批 #6-S, 用户裁定）** | 与 C 侧现役件职责重叠; 删前实测前 5 件零入向引用, code-review 仅被 code-pathology 的 tags 引用 |
+| subagent-fanout vs dispatching-parallel-agents vs subagent-driven-development | **分工并存**: 通用概览 / 计划内多步执行 / 新件=精确并行 fanout | 三者粒度不同, 暂不合并（skill-merger 可后续评估） |
+| owasp-review / sql-review / authz-check / input-validation / secret-scan | **分工并存（新件, 09-18 入库）** | 分别覆盖安全 diff 审查 / SQL 正确性 / 授权越权 / 边界输入 / 密钥扫描, 互不替代 |
 
 ## 4 钩链矩阵（机械强制层 × 自动装载）
 

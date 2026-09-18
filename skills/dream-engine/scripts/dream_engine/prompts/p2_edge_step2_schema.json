@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "required": ["edge_type", "direction", "description"],
+  "properties": {
+    "edge_type": {"type": "string", "enum": ["supports", "contradicts", "related"]},
+    "direction": {"type": "string", "enum": ["a_to_b", "b_to_a", "bidirectional"]},
+    "description": {"type": "string"}
+  }
+}

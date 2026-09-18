@@ -370,6 +370,55 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 | A | Codex CLI | figma-generate-library | 通用: 设计系统对齐（未启用, 备用） |
 | A | Codex CLI | figma-code-connect-components | 通用: Code Connect 组件映射（未启用, 备用） |
 | A | Codex CLI | skills-best-practices | 治理线: 自定义 skill 规范（治理规则 3 依据） |
+| A | Codex CLI | experiment-analysis | Standardized analysis framework for ML experiment results. Follows a 5-step process (dat |
+| A | Codex CLI | experiment-observer | 自动检查实验日志，提取关键指标（HR/NDCG/sHR/proto cos/ort_loss/group 诊断/τ 退火）、趋势分析和健康度判断。当用户需要分析实验结果、定时  |
+| A | Codex CLI | research-driven-design | 从论文出发的训练策略设计引擎。 核心流程：论文机制提取 → 核心原理归纳 → 框架映射 → 适配性分析 → 训练信号设计 → 实验验证方案。 参数耦合适配分析（Step 4.5 |
+| A | Codex CLI | offline-eval-playbook | Offline evaluation judgment playbook: multi-slice evaluation (full/covered/intersection) |
+| A | Codex CLI | code-pathology | 代码全路径病理检查：沿数据流从输入到输出逐层审查，找确定性 Bug 和高价值优化方向。 核心理念：不做泛泛 review，而是沿着一条具体的训练路径（如主特征路径 full-m |
+| A | Codex CLI | organize-logs | Organize experiment logs into a structured, searchable directory with per-dataset groupi |
+| A | Codex CLI | train-monitor | Monitor running training jobs — check GPU utilization, training progress, loss curves, a |
+| A | Codex CLI | gpu-env | Activate GPU training environment, check GPU/driver status, verify torch/accelerate/deep |
+| A | Codex CLI | data-sync | Download data or model checkpoints from object storage to local training server. Checks  |
+| A | Codex CLI | write-failing-test-first | Before fixing any bug, write a test that reproduces it and watch it fail. Use for every  |
+| A | Codex CLI | flaky-hunter | Diagnose and fix tests that pass sometimes and fail other times. Use when CI is red inte |
+| A | Codex CLI | bisect-regression | Find the exact commit that introduced a bug. Use when something worked before and broke, |
+| A | Codex CLI | coverage-gaps | Find the untested code paths that actually matter, not just the coverage percentage. Use |
+| A | Codex CLI | contract-test | Test the boundary between two systems by the contract, not the implementation. Use for A |
+| A | Codex CLI | kill-dead-code | Find and remove unreachable/unused code safely. Use during cleanup or before a refactor. |
+| A | Codex CLI | reduce-nesting | Flatten deeply nested conditionals into readable, early-return code. Use on any function |
+| A | Codex CLI | simplify | Reduce a change to the minimum that solves the problem. Use when code is over-engineered |
+| A | Codex CLI | revert-surgical | Undo a bad change without nuking unrelated work. Use when a specific commit or change br |
+| A | Codex CLI | rebase-safely | Rebase, squash, or rewrite history without losing work or breaking shared branches. Use  |
+| A | Codex CLI | clean-commits | Turn messy WIP into clean, atomic commits with messages that explain why. Use before ope |
+| A | Codex CLI | changelog-from-diff | Turn a set of commits or a diff into a clean, user-facing changelog entry. Use before a  |
+| A | Codex CLI | pr-from-diff | Write a PR description a reviewer can approve fast. Use when opening any pull request. |
+| A | Codex CLI | dependency-audit | Decide whether to add, keep, or remove a dependency. Use before adding any package. |
+| A | Codex CLI | authz-check | Verify that an endpoint checks ownership, not just authentication. Use on any handler th |
+| A | Codex CLI | input-validation | Validate and constrain untrusted input at the boundary. Use on any handler that accepts  |
+| A | Codex CLI | secret-scan | Catch hardcoded secrets, keys, and tokens before they get committed. Use before any comm |
+| A | Codex CLI | migration-writer | Write safe, reversible database migrations for this repo's conventions. Use for any sche |
+| A | Codex CLI | schema-diff | Compare two schema states and surface the risky changes. Use before applying migrations  |
+| A | Codex CLI | design-system | Make frontend output look intentional, not AI-generated. Use for any UI work — component |
+| A | Codex CLI | a11y-pass | Catch the accessibility failures that ship in almost every AI-built UI. Use after buildi |
+| A | Codex CLI | loading-empty-error-states | Design the three states every data UI forgets. Use for any component that fetches or lis |
+| A | Codex CLI | init-script-contract | Author idempotent init.sh under 120s plus sibling test.sh, stop.sh, reset.sh, serve.sh w |
+| A | Codex CLI | progress-reading-protocol | Run the fixed 6-step session-opening sequence — pwd, read progress, git log, count remai |
+| A | Codex CLI | harness-stripping | Systematically remove one harness component at a time and measure impact, killing scaffo |
+| A | Codex CLI | structured-output | Get JSON out of the model reliably. Prefer tool_use with a schema over prompted-JSON, va |
+| A | Codex CLI | prompt-caching | Cache the parts of the prompt that don't change so a long-running loop stops paying full |
+| A | Codex CLI | pdf-ingestion | Get a PDF into the model without blowing the context window or losing structure. Native  |
+| A | Codex CLI | planner-spec-expand | Expand a 1-4 sentence product brief into a full spec with a design language, acceptance  |
+| A | Codex CLI | skill-merger | "分析并合并功能重叠的 Skill。当用户觉得 skill 太多太杂、想整理/精简/瘦身 skill 库、发现多个 skill 职责重复、说「合并重复的 skill」「帮我整理 |
+| A | Codex CLI | skill-hook-trigger | "用 Hook 机制为 Skill 加确定性触发提示。当用户抱怨「skill 老是不触发/该用的时候没用上」、想「用 hook 保证 skill 触发」「给 skill 加触发 |
+| A | Codex CLI | socrates | "Socratic learning coach for any technical paper or complex topic. Use when the user say |
+| A | Codex CLI | dream-engine | 认知梦境引擎。模拟人类做梦过程，从用户的研究笔记中发现远距离联想，产出研究 idea。 触发词：做梦、联想、灵感、论文idea、研究方向、记忆整理、创意发散。 示例：帮我做个梦 |
+| C | Claude Code | audit-cycle | Standard audit cycle distilled from five real audits run in one week (external expert re |
+| C | Claude Code | owasp-review | Security-review a diff against the OWASP Top 10. Use before merging anything that touche |
+| C | Claude Code | sql-review | Review SQL and ORM queries for correctness, safety, and performance before they ship. |
+| C | Claude Code | feature-list-json | Enumerate every end-to-end feature as strict JSON entries with passes:false, editable-pa |
+| C | Claude Code | subagent-fanout | Parallelize independent sub-jobs across fresh-context subagents instead of one bloated c |
+| C | Claude Code | using-loopkit | Use when starting any conversation in a loopkit-enabled project - establishes how to fin |
+| A | Codex CLI | exp-lifecycle | 实验生命周期五阶段闭环编排器（判读→设计→工程→审计→治理, 带反馈环; 编排层, 各阶段复用域内既有 skill） |
 
 **治理规则**:
 1. 仅 Loop D 可安装新 skill: 搜索 → 克隆审计 → 安装 → 注册本表与 skills/ → sync_skills.sh 分发。

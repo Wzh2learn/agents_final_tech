@@ -1,0 +1,27 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["path_id", "dream_scene", "forgotten_variable", "paper_skeleton",
+                  "strongest_objection", "min_experiment", "novelty_score", "title"],
+    "properties": {
+      "path_id": {"type": "integer"},
+      "dream_scene": {"type": "string"},
+      "forgotten_variable": {"type": "string"},
+      "paper_skeleton": {
+        "type": "object",
+        "required": ["problem", "insight", "method", "expected_result"],
+        "properties": {
+          "problem": {"type": "string"},
+          "insight": {"type": "string"},
+          "method": {"type": "string"},
+          "expected_result": {"type": "string"}
+        }
+      },
+      "strongest_objection": {"type": "string"},
+      "min_experiment": {"type": "string"},
+      "novelty_score": {"type": "number", "minimum": 0, "maximum": 1},
+      "title": {"type": "string"}
+    }
+  }
+}

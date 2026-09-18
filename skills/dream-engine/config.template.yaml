@@ -1,0 +1,41 @@
+# Dream Engine 项目配置模板
+# 复制到项目根目录，重命名为 config.yaml，按需修改
+
+domain:
+  name: "你的研究领域"
+  key_venues: "顶会列表，如 RecSys, KDD, WWW"
+  reviewer_profile: "熟悉该领域的顶会reviewer"
+
+storage:
+  memories_path: "data/memories.jsonl"
+  graph_path: "data/graph_{namespace}.json"
+  dreams_dir: "data/dreams/"
+  namespace: "default"
+
+dream:
+  mode: "paper"
+  gravity_center_source: ""              # 填入你的实验记录文件路径（相对于项目根），留空则用下方兜底值
+  gravity_centers:
+    - "你的核心研究问题1"
+    - "你的核心研究问题2"
+    - "你的核心研究问题3"
+  rounds:
+    - {name: shallow, activation_threshold: 0.7, top_k: 5}
+    - {name: medium,  activation_threshold: 0.4, top_k: 8}
+    - {name: deep,    activation_threshold: 0.1, top_k: 10}
+
+graph:
+  spreading_activation:
+    decay_factor: 0.5
+    max_hops: 3
+  dedup_cosine_threshold: 0.85
+  edge_cosine_threshold: 0.3
+  edge_batch_size: 10
+
+feedback:
+  upvote_delta: 0.1
+  downvote_delta: -0.05
+
+input_paths:
+  - path: "你的文档目录/"
+    recursive: true
