@@ -11,6 +11,8 @@ SCRIPT = Path(__file__).with_name("skill-doctor.py")
 
 
 class SkillDoctorAdvisoryTests(unittest.TestCase):
+    BACKTICK = chr(96)
+
     def make_catalog(self, model: str, body: str) -> Path:
         root = Path(self.temp.name)
         skill = root / "skills/demo"
@@ -59,6 +61,28 @@ class SkillDoctorAdvisoryTests(unittest.TestCase):
         report = self.run_doctor(self.make_catalog("sonnet", "## Completion\n\nReport verified output."))
         self.assertEqual(report["counts"]["findings"], 0)
 
+
+    def test_example_link_inside_code_span_is_not_a_missing_resource(self) -> None:
+        """Decision 39 (F-2): a path shown as an example inside a code span is not a live reference."""
+        body = "- full path reference (such as " + self.BACKTICK + "scripts/env_gpu-cluster.sh" + self.BACKTICK + ")"
+        report = self.run_doctor(self.make_catalog("sonnet", body + "\n\n## Completion\n\nReport verified output."))
+        codes = {item["code"] for item in report["findings"]}
+        self.assertNotIn("RESOURCE_LINK_MISSING", codes)
+        self.assertEqual(report["counts"]["errors"], 0)
+
+    def test_live_markdown_link_to_missing_resource_still_fails(self) -> None:
+        """Negative control: a real link (not inside a code span) must still be reported."""
+        body = "- see [" + self.BACKTICK + "missing" + self.BACKTICK + "](scripts/env_gpu-cluster.sh)"
+        report = self.run_doctor(self.make_catalog("sonnet", body + "\n\n## Completion\n\nReport verified output."))
+        codes = {item["code"] for item in report["findings"]}
+        self.assertIn("RESOURCE_LINK_MISSING", codes)
+
+    def test_live_uv_run_reference_to_missing_script_still_fails(self) -> None:
+        """Negative control: a live `uv run scripts/...` reference must still be reported."""
+        body = "Run " + self.BACKTICK + "uv run scripts/does-not-exist.py" + self.BACKTICK + " to start."
+        report = self.run_doctor(self.make_catalog("sonnet", body + "\n\n## Completion\n\nReport verified output."))
+        codes = {item["code"] for item in report["findings"]}
+        self.assertIn("RESOURCE_LINK_MISSING", codes)
 
 if __name__ == "__main__":
     unittest.main()

@@ -40,6 +40,26 @@ REQUIREMENT_RE = re.compile(r"\b(?:always|must(?!\s+not\b)|required to)\s+([^.!?
 PROHIBITION_RE = re.compile(r"\b(?:do not|don't|never|must not|forbid(?:s|den)?)\s+([^.!?\n]+)", re.IGNORECASE)
 STALE_MODEL_PINS = {"opus"}
 
+CODE_SPAN_RE = re.compile(r"`+[^`\n]*`+")
+FENCED_BLOCK_RE = re.compile(r"(?ms)^(?:```|~~~)[^\n]*\n.*?^(?:```|~~~)[ \t]*$")
+
+
+def masked_spans(text: str) -> list[tuple[int, int]]:
+    """Return byte ranges that are illustrative rather than live references.
+
+    Decision 39 (F-2): a skill may document a *pattern* by showing it inside a code span
+    (repo-audit SKILL.md does exactly this for the full-path-reference case). Such text is an
+    example, not a resource the skill loads at runtime, so a missing target there is not a
+    catalog defect. Fenced code blocks are masked for the same reason.
+    """
+    spans = [(m.start(), m.end()) for m in FENCED_BLOCK_RE.finditer(text)]
+    spans += [(m.start(), m.end()) for m in CODE_SPAN_RE.finditer(text)]
+    return spans
+
+
+def in_masked_span(spans: list[tuple[int, int]], offset: int) -> bool:
+    return any(start <= offset < end for start, end in spans)
+
 
 @dataclass(frozen=True)
 class Finding:
@@ -462,7 +482,13 @@ def check_cli_version(skill: SkillFile, frontmatter: dict[str, Any], findings: l
 
 
 def check_resource_links(skill: SkillFile, text: str, findings: list[Finding]) -> None:
-    matches = list(MARKDOWN_RESOURCE_LINK_RE.finditer(text)) + list(UV_SCRIPT_REF_RE.finditer(text))
+    # 决策 39 (F-2): markdown 链接若「整体位于 code span / 围栏内」即属示例或占位符形态
+    # （本篇的实例 = `[xxx](scripts/env_gpu-cluster.sh)`），不是运行时加载的资源 ⇒ 不报。
+    # 只掩蔽 markdown 链接一侧: `uv run scripts/...` 是可直接执行的指令, 即便被渲染成 code span
+    # 也仍是活引用, 故仍按原样检查 (见 test_live_uv_run_reference_to_missing_script_still_fails)。
+    masked = masked_spans(text)
+    matches = [m for m in MARKDOWN_RESOURCE_LINK_RE.finditer(text) if not in_masked_span(masked, m.start())]
+    matches += list(UV_SCRIPT_REF_RE.finditer(text))
     for match in matches:
         raw_ref = match.group("path").rstrip(".,;:")
         raw_ref = raw_ref.split("#", 1)[0].split("?", 1)[0]
