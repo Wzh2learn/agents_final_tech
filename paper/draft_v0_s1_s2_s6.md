@@ -1,6 +1,6 @@
 # Paper draft v0 - mature sections S1 / S2 / S6 (AAAI 7-page target)
 
-> Status: draft v0 (2026-08-30, main thread; S3/S7 section shells landed 2026-09-10 per ruling 10=c) | Scope: mature sections S1/S2/S6 + S3/S7 criterion-relativity paragraphs (ruling 10=c, one paragraph each); remaining S3-S5 body and full S7 assembly await T7; number-traceability discipline below unchanged
+> Status: draft v0.3 (2026-09-20, main thread; T7 backfill per user ruling 2026-09-20) | Scope: S1-S7 assembled from existing artefacts | S3 was landed 2026-09-10 (ruling 10=c); S4 and S5 body assembled in T7; S6 unchanged; S7 assembled in T7 with the D4-deferral correction note preserved verbatim | every number carries an artefact path; numbers with no artefact remain explicit [TODO-*] with the blocker named
 > Discipline: every number below is a traceable value from an existing repo artifact (path in brackets);
 > numbers not yet produced are explicit [TODO-*] placeholders - no fabrication, no extrapolation.
 > Blueprint: docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md (S1-S7 skeleton).
@@ -31,8 +31,19 @@ Evaluation of long-horizon systems must therefore (i) report a defect visibility
 profile per defect type and intensity rather than one aggregate score, and
 (ii) treat the evaluation protocol itself as an object of measurement: does it
 have the discriminability to separate normal from defective systems, and where is
-it structurally blind? [TODO-T1: four-protocol baseline comparison table]
-[TODO-T2: threshold-grid sensitivity of the spectrum]
+it structurally blind? On the same frozen corpus, four evaluation protocols order the
+same system very differently: an end-to-end protocol detects 112/118 injections, a flat
+single-score protocol 85/118, and the hierarchical expert-weight protocol as instantiated
+13/118, so the detected-defect count is a property of the scoring protocol rather than of
+the tested system [logs/graph/eval/t1_eval_baseline_comparison.json, arm_b.protocols].
+The visibility spectrum is also stable in ordering but not in absolute range across the
+scoring threshold gamma in {0.2, 0.3, 0.5, 0.7, 0.9}: the OCR-similar class is blind at
+every point (0/13) and the type ordering stays non-degenerate (type range 1.0, 0.6471,
+0.5882, 0.3, 0.3), while the literal absolute-range criterion fails at gamma 0.7 and 0.9
+and is reported as failing rather than relabeled
+[logs/graph/eval/t2_visibility_sensitivity.json, prereg_predicates
+.E2_1_ocr_similar_blind_all_gamma / .E2_1_type_range_ge_0p5_all_gamma_injection_level /
+.E2_1_ranking_non_degenerate_all_gamma].
 (Ruling 2a, frozen 2026-08-30: the ranking of the visibility spectrum is stable
 across the full threshold grid gamma in {0.2, ..., 0.9}; the absolute range
 decays at high gamma by a quantization mechanism - one injection on a table
@@ -47,8 +58,9 @@ We represent a document pipeline as a forest of checkpoint trees: a parsing tree
 (document read-in, table structure, field mapping, arithmetic reconciliation) and
 a QA tree (retrieval grounding, faithfulness, numeric correctness, citation,
 refusal) - two roots with 12 scored leaves, expert weights in {1,2,3},
-sibling-normalized bottom-up aggregation, hard hinge gates that zero a subtree on
-gate failure, and explicit missing-score degradation when evidence is absent
+sibling-normalized bottom-up aggregation, hard-gate leaves whose absent evidence
+contributes zero instead of the neutral default and which must clear the stability
+threshold (Algorithm 1), and explicit missing-score degradation when evidence is absent
 [config/eval_checkpoint_trees.json]. Each leaf is scored either by a
 deterministic contract (16/16 contracts pass on the frozen regression set) or,
 for open-semantic dimensions, by a leakage-protected judge whose prompt never
@@ -57,6 +69,80 @@ sees the injected ground truth (four dimensions, 4.94-5.0 on the baseline set)
 chain, so a root score always decomposes into per-checkpoint findings. The
 framework scores latency and model-call cost as first-class dimensions, giving
 the cost axis used later for cost-discriminability trade-offs.
+
+Algorithm 1 states the aggregation exactly as implemented, so that the framework can be
+reproduced from the paper alone. It differs from the deliverable-only original in two
+places, both forced by our setting and both marked: leaves are scored by deterministic
+contracts wherever a contract exists, and absent evidence is handled by an explicit
+policy rather than by omission.
+
+```
+Algorithm 1  Recursive checkpoint aggregation (as implemented)
+Require: checkpoint tree T with root r; leaf-to-evidence routing R; per-leaf weight w(n)
+         in {1,2,3}; per-leaf missing score m(n); hinge-leaf set H = {n : mapping(n) in
+         {overall_status_binary, pass_rate_contract, nf_pass_rate}}; threshold set K
+Ensure:  per-tree root score S(r) in [0,10]; per-threshold success rates; stability flag
+
+ 1: function SCORENODE(n)
+ 2:     if n has no children then                       # leaf
+ 3:         v, c, note <- EVIDENCE(n)                    # v: raw rate in [0,1] or judge 0-5
+ 4:         if v is undefined then                       # missing artefact / unusable judge dim
+ 5:             return (m(n), degraded <- true, note)     # explicit degradation, never a silent 0
+ 6:         end if
+ 7:         if mapping(n) = judge_dim_0_5 then return (10 * v / 5, false, note)
+ 8:         else return (10 * v, false, note)            # rates and binaries map onto 0-10
+ 9:         end if
+10:     end if
+11:     C <- children(n)
+12:     W <- sum over c in C of w(c)                       # sibling normalisation
+13:     S <- 0
+14:     for all c in C do
+15:         S <- S + (w(c) / W) * SCORENODE(c)             # bottom-up weighted mean
+16:     end for
+17:     return (S, any child degraded, children aggregated)
+18: end function
+
+19: function EVALUATETREE(T, K)
+20:     (S(r), degraded, _) <- SCORENODE(r)
+21:     L <- leaf scores collected during the traversal
+22:     for all k in K do
+23:         root_sr(k) <- |{c in children(r) : score(c) > k}| / |children(r)|
+24:         leaf_sr(k) <- |{n in L : score(n) > k}| / |L|
+25:     end for
+26:     k_last <- last element of K                        # as implemented: stability uses the final k
+27:     stable <- (|{n in L : score(n) > k_last}| >= 0.9 * |L|) and (for all h in H : score(h) >= 7)
+28:     return (S(r), root_sr, leaf_sr, stable, degraded)
+28: end function
+```
+
+Three properties of Algorithm 1 are load-bearing for the rest of the paper. First, the
+aggregation is a sibling-normalised weighted mean at every internal node, so the root is a
+convex combination of leaf scores and no internal node can exceed its highest-scoring child
+[scripts/eval_checkpoint_aggregate.py, aggregate_tree: w_sum and agg]. Second, the hinge
+set is a hard gate on the stability flag, not a silent zeroing: a hinge leaf below the
+threshold blocks the stable verdict, and a hinge leaf with absent evidence is scored 0 by
+its configured missing score rather than the neutral default, which is why the missing
+caliber is defensive at exactly the leaves that guard the outcome
+[config/eval_checkpoint_trees.json, leaves of mapping overall_status_binary /
+pass_rate_contract / nf_pass_rate]. Third, degradation is explicit and reported: an absent
+artefact or an unusable judge dimension (average null or n = 0) returns the configured
+missing score together with a reason string, and the reason is carried into the report, so
+a degraded root score is never indistinguishable from a genuinely low one
+[scripts/eval_checkpoint_aggregate.py, _mapped_leaf_score and _judge_avg]. The whole
+procedure is deterministic given the artefacts: no leaf score depends on a live model call,
+which is what allows every number in this paper to be recomputed offline
+[logs/graph/eval/t1_eval_baseline_comparison.json, aggregation_isomorphism.max_abs_err = 0.0].
+Two implementation details are stated because a reader reproducing Algorithm 1 would
+otherwise get different numbers from ours. The stability flag is evaluated at the last
+threshold passed on the command line, not at a fixed k: the report's stable field therefore
+belongs to the k = 8 row under the default threshold list, while the hinge sub-check is
+hard-coded at 7 [scripts/eval_checkpoint_aggregate.py, the stable assignment inside the
+per-threshold loop]. And the leaf counts are 5 (parse) and 7 (qa), 12 in total, not the 20
+implied by an earlier twenty-leaf draft of the tree; the 0.9 fraction is a fraction of the
+current leaf count [ibid., result['n_leaves'] per tree; the run above reports parse 5 and
+qa 7]. On the live artefacts both thresholds give the same flag, so this
+distinction does not change any reported number; it is recorded so the definition is
+unambiguous.
 
 Defect injection turns the framework into a meta-evaluation instrument. We inject
 controlled mutants at two granularities - nine checkpoint-level mutants spanning
@@ -69,8 +155,15 @@ and record, per injection, whether the defect is (a) detected at a checkpoint,
 The resulting visibility profile is the paper's core diagnostic: it locates which
 defect families the protocol cannot see and which layer absorbs them.
 
-[TODO-T1: end-to-end-only / flat-weighted / hierarchical-expert baselines on the
-same corpus; [TODO-T6: matching-competition validity threat and oracle ceiling].]
+Missing evidence is a first-class caliber choice rather than a formatting detail: the
+hierarchical expert arm scores 20/95 (table level) when its two not-applicable leaves are
+excluded from the aggregate instead of filled with a neutral score, and both the exclusion
+caliber and the dropped leaf identifiers are recorded with the arm
+[docs/experiments/2026-08-30_t1_eval_baseline_comparison_design.md, section 7 supersede
+note; logs/graph/eval/t1_eval_baseline_comparison.json, arm_b.armB_tree.dropped_na_leaves].
+The four-protocol comparison is reported in S4 and S5; the matching-competition validity
+threat and its oracle ceiling are reported in the validity-threats section
+[logs/graph/eval/t6_matching_competition.json].
 Weight-search note (J3 ruling, frozen 2026-08-30; PSO removed from
 contributions): a particle-swarm weight search reproduced the same mean
 separation (1.4326) as greedy coordinate ascent at 114x the evaluation cost
@@ -105,7 +198,7 @@ used for calibration arms is an **internal calibration arm** (de-identified,
 frozen-hash registered); numbers cited in the body come only from public bases
 (TAT-QA / TAT-DQA).
 
-## S3 Defect visibility diagnostics (1.5p) [section shell landed 2026-09-10 per ruling 10=c; full section assembly in T7]
+## S3 Defect visibility diagnostics (1.5p)
 
 > Namespace note (2026-09-10, append-only): "S3" here is the conference short-paper section
 > defined in docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md :34. It is
@@ -150,6 +243,134 @@ stated as a global claim that most of the zero-signal harmful set was judged har
 [ibid., .jn1_n / .jn1_equivalent / .ocr_similar_equivalent / .non_ocr_n /
 .non_ocr_equivalent].
 
+## S4 Protocol rigor: what the score actually measures (1.0p)
+
+The evaluation protocol is itself measured before its numbers are used. On the frozen
+selection corpus the four-protocol comparison separates two effects that a single score
+confounds. Detection counts are protocol-dependent: end-to-end detects 112/118
+injections, flat 85/118, and the hierarchical expert arm as instantiated 13/118, so the
+protocol difference is not a noise-level detail but a reordering of what counts as
+detected [logs/graph/eval/t1_eval_baseline_comparison.json, arm_b.protocols
+.E1.1_end_to_end / .E1.2_flat / .E1.3_hier_expert]. The checkpoint-level arms separate the
+same mutants further: per-protocol tree-root mean separation is 2.5053 (end-to-end), 2.5072
+(flat), 2.5053 (hierarchical, expert weights) and 2.8563 (hierarchical, searched weights),
+against blended separations of 1.2526-1.4282 [ibid., arm_a.protocols, fields
+.mean_separation_tree_root / .mean_separation_blended]. The apparent gain comes with a cost:
+the checkpoint-level arms score 12 leaf units where the end-to-end arm scores 2 root units,
+and the two calibers are not commensurable, so both are reported and never averaged.
+
+We make the protocol-dependence explicit on the matched false-positive axis, where a
+single aggregate number would mislead. Holding the false-positive rate fixed by
+recalibrating each protocol on clean tables, the hierarchical and flat protocols are
+affinely identical on the current corpus: the input-varying part of the score reduces to a
+single leaf, so the layered score is a strict positive affine image of the flat score, and
+the 2000-replicate table-cluster bootstrap gives a protocol-difference confidence interval
+of [0, 0] [logs/graph/eval/d3_matched_fpr_stage_a.json, payload.a4_matched_fpr]. The
+0.7895 versus 0.2105 gap visible in the raw counts is therefore a threshold-placement
+artifact rather than protocol discriminability, and we report it as such. Clean controls
+are enumerable as a structural fact - 2384 clean tables, of which 2382 are usable, the two
+exclusions lacking a self-derived canonical header - and on those tables any within-table
+contrastive score is identically 0 under the frozen definition, which is why the matched
+comparison yields a null rather than a power problem [ibid., payload.preflight.P1 /
+payload.a2_clean_controls_fpr.enumeration].
+
+Weight search is reported for what it buys, not as a contribution. A particle-swarm search
+over the same weight space reproduces the greedy result exactly (mean separation 1.432574
+on 5 seeds, identical to greedy, at 7650 evaluations versus 67) and beats the equal, expert
+and random-30 controls while not improving the worst-case mutant
+[logs/graph/eval/t4_pso_fair_comparison.json, payload.t4.primary_separation_table;
+payload.prereg_predicates.C3_pso_beats_four_controls = PARTIAL, degradation clause
+triggered]. A minimax variant trades mean separation for worst-case separation (1.25605
+mean versus 0.35714 worst) [ibid., .pso_minimax_5seeds]. We therefore keep expert and
+greedy calibers throughout and present automated search as a way to avoid expert
+weight-tuning cost, stating the worst-dimension regression alongside.
+
+A cross-matcher check bounds how far the blindness result travels. Re-running the same
+spectrum under four matchers - production greedy, normalized-distance greedy, and the
+Hungarian global assignment under both score calibers - leaves the blind set identical to
+[ocr_similar] in all four: the spectral structure, meaning the existence of a fully blind
+type, is matcher-independent within the edit-distance family
+[logs/graph/eval/d2_cross_matcher_det.json, payload.r3_assessment
+.blind_set_identical_across_prereg_family]. What does move is the ranking: 0 assignment
+flips under the assignment axis but 5 class flips under the scoring axis, all on
+date_variant, so rank changes are driven by scoring caliber rather than by the allocation
+algorithm. The position of the blind class is preserved; the relative order of the visible
+classes is not, and both facts are reported rather than the flattering one.
+
+Finally, the judge dimension of the framework is calibrated against a deterministic
+reference. Scoring all 120 leaf-state cells with a judge instead of the deterministic
+mapping leaves the control tree roots within 0.5 of the mapped caliber, the pre-registered
+consistency bound, while individual leaves move by up to 7.0: the control holds at the
+aggregate level, not per cell [logs/graph/eval/t4_pso_fair_comparison.json,
+payload.e1_5.endpoint_consistency_note / .judged_vs_mapped_max_abs_delta]. One mutant is
+invisible to the judge for a fidelity reason rather than a judge-capability reason: the
+zero-signal injection lands only on aggregate counters while the affected items carry no
+numeric claim, so its separation is 0.0000 and it is excluded from judge-side claims
+[ibid., payload.findings.F_W2_1_m7_item_level_invisible].
+
+## S5 Experiments (1.5p)
+
+**Main comparison.** Table 1 reports the four protocols on one frozen corpus of 95 tables
+carrying 118 injections, with table-level and injection-level detection and bootstrap
+confidence intervals. The protocols are ordered by how much structure they score:
+end-to-end evaluates only the final artefact, flat averages every leaf, and the hierarchical
+arms aggregate leaves bottom-up under sibling-normalized expert weights. Detection falls
+monotonically as the protocol scores more structure rather than the artifact alone, from
+112/118 injections under end-to-end to 13/118 under the expert hierarchy; the hierarchical
+arms are not a more sensitive detector on this corpus at this threshold, and the per-type
+breakdown shows where the loss concentrates (alias_variant 41/47 end-to-end versus 2/47
+hierarchical) [logs/graph/eval/t1_eval_baseline_comparison.json, arm_b.protocols].
+
+| protocol | scored units | tables detected | injections detected |
+|---|---|---|---|
+| E1.1 end-to-end | 2 (root scores) | 95/95 (1.0) | 112/118 (0.9492) |
+| E1.2 flat | 12 (leaves) | 75/95 (0.7895, CI95 [0.6947, 0.8737]) | 85/118 (0.7203) |
+| E1.3 hierarchical, expert weights | 12 (leaves) | 20/95 (0.2105, CI95 [0.1263, 0.2947]) | 13/118 (0.1102) |
+| E1.4 hierarchical, searched weights | 12 (leaves) | not transferable (see below) | not transferable |
+
+Table 1. Four-protocol detection comparison on the frozen corpus. Counts and intervals are
+read from the artefact; the searched-weight row is marked not transferable because the
+search space is defined over an 11-dimensional internal-node space that is not isomorphic
+to the instantiated tree used in the table-level arm, so transferring it would compare two
+different objects [logs/graph/eval/t1_eval_baseline_comparison.json, arm_b.protocols
+.E1.4_hier_pso].
+
+**Sensitivity.** The visibility spectrum is probed over a five-point threshold grid. The
+blind class is blind at every point and the type ordering stays non-degenerate, while the
+absolute range contracts as the threshold rises, because a single injection on a table with
+n canonical headers can move the score by at most 1/n and only narrow tables remain at high
+gamma [logs/graph/eval/t2_visibility_sensitivity.json, prereg_predicates]. Injector-seed
+sensitivity is bounded separately: re-running the flat protocol under three seeds with
+everything else held fixed gives table-detection rates of 0.7895, 0.7835 and 0.7556, a
+spread of 0.0339, pooled 0.7766 with CI95 [0.727, 0.8227], and the seed-42 run reproduces
+the frozen artifact byte-for-byte
+[logs/graph/eval/t4_pso_fair_comparison.json, payload.e1_6.seed_distribution_E1_2_flat /
+.pooled_across_seeds / .gate_seed42_byte_identity].
+
+**Ablation.** Two ablations isolate the aggregation machinery from the scoring content.
+Weights: equal, expert, random-30 and searched settings land within 1.2560-1.4326 mean
+separation, with the searched setting matching greedy exactly and the worst-case mutant
+unchanged at 0.0926, so the weight axis moves the headroom but not the weakest case
+[logs/graph/eval/t4_pso_fair_comparison.json, payload.t4.primary_separation_table].
+Allocation: replacing greedy assignment with Hungarian global assignment changes 0
+assignments and 0 flips, and a positive control confirms the solver does detect
+improvements when they exist (403.0 versus 806.0 on the control instance), so the null is a
+property of the corpus rather than a degenerate solver
+[logs/graph/eval/t6_matching_competition.json, prereg_predicates.P1_branch /
+solver_validation].
+
+**External validity.** The spectrum is re-run under four matchers and the blind set is
+identical across all four, while 5 class flips appear on the scoring axis alone; the
+structure is stable and the ranking is not [logs/graph/eval/d2_cross_matcher_det.json,
+payload.r3_assessment.axis_attribution]. Two external-validity probes are **not** reported
+as results. A second dataflow was pre-registered but deferred, because the family-level
+constructible-n table is undefined on the frozen contract (the corpus carries no table
+layer), so no number from it exists and none is cited. The judge arm covers 28 cases at the
+injection level and 120 leaf-state cells at the aggregate level; both are reported with
+their counts so their scope is readable, and neither is extrapolated to families that
+received zero calls [logs/graph/eval/d3_matched_fpr_stage_b.json, call_counter_breakdown;
+logs/graph/eval/d1_mutant_validity_audit.json, payload.injections[] type counts].
+
 ## S6 Closed-loop case: evaluation findings into gated rule consolidation (0.5p)
 
 We close the loop with a compact case study of how evaluation findings feed back
@@ -174,7 +395,7 @@ thesis question of when collision exposure, suggestion reliability and per-colli
 harm jointly determine gating value.
 
 
-## Threats to validity (stub; ruling 3 landed 2026-08-30, formal assembly in T7)
+## Threats to validity
 
 Matching competition. Under overlay shared headers, multiple canonical
 variants of the same column compete for a single slot; even when every
@@ -191,7 +412,7 @@ pollution**: near-identical strings receive the same score band as ground
 truth. Reported as a validity threat to the single-matcher visibility
 spectrum, not as an efficacy claim.
 
-## S7 Discussion, limitations, conclusion (0.5p) [section shell landed 2026-09-10 per ruling 10=c; full section assembly in T7]
+## S7 Discussion, limitations, conclusion (0.5p)
 
 > Landing note (2026-09-10, append-only, ruling 10=c): this boundary paragraph is
 > provisional with respect to exactly one input - the second-scorer arm pre-registered for
@@ -247,7 +468,56 @@ until that arm reports, the claim is not upgraded.
 > The four claim-boundary items stated earlier in this section are unchanged, and the study
 > still adjudicates nothing about which criterion is correct: judge and DR4 oracle remain
 > non-ground-truth, and the disagreement between them remains a result rather than a defect.
-> Full S7 assembly still awaits T7; this note does not assemble the section.
+> Assembly note (2026-09-20, append-only, T7): S7 is now assembled. The closing paragraph above
+> was written before assembly and is preserved verbatim as trajectory; the assembled prose below
+> adds the algorithmic contribution to the discussion and states the limits that remain.
+
+Our contribution is not a new detector and we do not present one. What the study
+contributes is a way to measure an evaluation protocol itself: a checkpoint forest that
+turns a single end-to-end score into a decomposable one, a visibility profile that reports
+per-type rather than aggregate detectability, and an explicit account of where the protocol
+is blind. The finding that most changes how such protocols should be reported is negative
+in form and therefore worth stating plainly: on this corpus, adding structure to the score
+does not buy additional discriminability at a matched false-positive rate, because the
+input-varying part of the layered score collapses onto a single leaf and the two protocols
+end up related by a positive affine map [logs/graph/eval/d3_matched_fpr_stage_a.json,
+payload.a4_matched_fpr]. Structure buys localization and evidence decomposition, not
+sensitivity, and the paper claims exactly that and no more
+[logs/graph/eval/t1_eval_baseline_comparison.json, arm_a.protocols.localization_rate].
+
+Three limits bound the claims and are stated rather than deferred. First, the visibility
+spectrum is measured on a single corpus of synthetic perturbations over a public tabular
+base; the blind class is stable across four matchers and across injector seeds, but a
+different corpus could move it, and no cross-domain transfer is claimed
+[logs/graph/eval/d2_cross_matcher_det.json, payload.r3_assessment;
+logs/graph/eval/t4_pso_fair_comparison.json, payload.e1_6.seed_distribution_E1_2_flat].
+Second, the harmfulness of an injection is criterion-relative, and we adjudicate neither of
+the two criteria; the second-scorer arm that would have separated criterion-kind from
+scorer effects was pre-registered and is now deferred, so the claim stays at its current
+evidence level rather than being upgraded. Third, the matching-competition ceiling is a
+property of the scoring layer rather than of the assignment algorithm: greedy is already
+globally optimal here (0 flips against Hungarian) while the oracle correctness ceiling drops
+from 0.952381 to 0.597015 under overlay sharing, so no post-hoc assignment fix is proposed
+[logs/graph/eval/t6_matching_competition.json, gates.g4_oracle_plain /
+.g4_oracle_overlay].
+
+Two directions follow and are deliberately left open. The layer-level localization that the
+hierarchy provides is only observable when more than one leaf varies with the input; the
+current frozen tree has exactly one, which is why the matched comparison is an identity, and
+a second varying leaf is the minimal change that would make localization measurable
+[logs/graph/eval/d3_matched_fpr_stage_a.json, payload.a4_matched_fpr]. And because
+Algorithm 1 is deterministic given artefacts, the same instrument that evaluates the system
+can be reused as the objective of a weight search, which is where the searched-weight arm
+already operates; whether that search is worth its cost is answered negatively on this
+corpus and is left as a question for larger ones
+[logs/graph/eval/t4_pso_fair_comparison.json, payload.t4.primary_separation_table].
+
+We close on the observation that motivated the study. A system can be correct at the end and
+unreliable in the middle, and an evaluation protocol can be sensitive to one defect family
+and blind to another; a single number cannot express either distinction. Reporting
+decomposable scores with an explicit visibility profile, and measuring the protocol
+alongside the system, costs little and makes those distinctions visible - which is the whole
+of the claim we make.
 
 ## 审稿人视角五问注记（paper-review-check 一轮, 2026-08-30 夜, Loop D 自审; 结论权在 Loop C/用户）
 
@@ -255,16 +525,16 @@ until that arm reports, the claim is not upgraded.
 
 ### S1
 - [polish] 与变异测试谱系（簇一）的对位句缺失: 静默吸收 ≈ "mutant 未杀死测试", 但本文按层报告可见性而非二元 kill——reviewer 首问必是"与 mutation testing 何异"。修: S1 末或 S3 加一句对位（相关工作 v3 簇一已备素材）。
-- [polish] 78.9%/81.4% 单匹配器外部效度: reviewer 会问盲区是匹配器属性还是协议属性。缓解证据在 T6 分支 a（分配层不可消解）——S1 加交叉引用占位 [TODO-T6-crossref]。
+- [已处理 2026-09-20 T7] 78.9%/81.4% 单匹配器外部效度: 原占位 [TODO-T6-crossref] 已由 S4 末段承接——四匹配器下盲集恒为 [ocr_similar]（结构稳、名次不稳），且 T6 分支 a 记录分配层不可消解 [logs/graph/eval/d2_cross_matcher_det.json, payload.r3_assessment; logs/graph/eval/t6_matching_competition.json, prereg_predicates.P1_branch]。
 - 主张清晰/新颖/有据: 无 blocking。
 
 ### S2
-- [blocking-占位] Algorithm 1 伪代码未入稿（方法完整性）。修: [TODO: algorithm-description 产伪代码, 与 eval_checkpoint_aggregate.py 逐行对位]。
-- [blocking-披露] missing-score 政策敏感性: E1.3=20/95 对 missing 处理（排除 vs 补 0）敏感, 草稿未披露。修: S2 加 missing-score 政策句 + 指向 T1 设计稿 §7 supersede 注记。
-- [polish] 专家权重 1-3 手工设定: 加前向引用 S4（PSO 搜索即该问题的回答）。
+- [已处理 2026-09-20 T7] Algorithm 1 伪代码已入 S2（含输入/输出/聚合规则/缺失值处理/hinge gate 行为），逐行对位表落 docs/experiments/2026-09-20_algorithm1_lines_vs_impl.md [scripts/eval_checkpoint_aggregate.py]。
+- [已处理 2026-09-20 T7] missing-score 政策敏感性已披露: S2 新段落写明 E1.3 的 20/95 来自「排除」口径并给出 dropped_na_leaves 与设计稿 §7 supersede 注记指针；S4 另记判定级 missing 政策（hinge 用 0、其余用中性 5）[logs/graph/eval/t1_eval_baseline_comparison.json, arm_b.armB_tree].
+- [已处理 2026-09-20 T7] 专家权重 1-3 手工设定: S2 保留手工权重表述, S4 给出搜索臂的回答（同值 1.432574、7650 vs 67 次评估、最坏维未改善）[logs/graph/eval/t4_pso_fair_comparison.json, payload.t4.primary_separation_table]。
 - 术语/记号一致: visibility profile / silent absorption 与蓝图命名裁定一致, 无 blocking。
 
 ### S6
-- [polish] gain/collateral 门未形式化（τ/ε 取值未给）。修: 加一行门定义或指向方法章占位。
+- [已处理 2026-09-20 T7] gain/collateral 门已在 S6 正文形式化（accept iff expected gain >= tau and collateral >= -epsilon），并保留「机制案例非功效主张」定位；tau/epsilon 的具体取值属 T5/门控章, 不在本文档范围。
 - [polish] 非显著案例的入选理由应前置一句（对抗臂 100% 门拒是机制信号, 非功效主张）——现有文本已含但位置靠后, 提前。
 - 语料体制标注: 对抗臂/碰撞体制分列 ✓ 无 blocking。
