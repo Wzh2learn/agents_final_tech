@@ -28,24 +28,24 @@ Skills are files at `.claude/skills/<name>/SKILL.md`. Each has YAML frontmatter 
 | Task shape | First skill |
 |---|---|
 | "Fix this bug" / test failing / crash | `systematic-debugging` |
-| "It broke between two commits" | `bisect-regression` |
-| "Flaky test" | `flaky-hunter` |
-| "Add a feature" / write anything new | `spec-first`, then `write-failing-test-first` |
-| "Refactor" / dead code / deep nesting | `kill-dead-code`, `simplify`, `reduce-nesting` |
+| "It broke between two commits" | `git-history-ops` |
+| "Flaky test" | `testing-practices` |
+| "Add a feature" / write anything new | `spec-first`, then `testing-practices` |
+| "Refactor" / dead code / deep nesting | `code-simplification` |
 | About to claim done / commit / open PR | `verify-before-done` + `self-eval-bias` |
-| Review a diff | `verify-before-done`, `pr-from-diff` |
-| Frontend / UI work | `design-system`, `a11y-pass`, `loading-empty-error-states` |
+| Review a diff | `verify-before-done`, `commit-and-pr-hygiene` |
+| Frontend / UI work | `frontend-quality` |
 | Security touch | `owasp-review`, `authz-check`, `input-validation`, `secret-scan`, `dependency-audit` |
-| Data / SQL / migrations | `sql-review`, `migration-writer`, `schema-diff` |
-| Docs / changelog / README | `changelog-from-diff`, `decision-record`, `readme-audit` |
-| Git ops | `clean-commits`, `pr-from-diff`, `rebase-safely`, `revert-surgical` |
-| Test suite gaps | `coverage-gaps`, `contract-test` |
+| Data / SQL / migrations | `sql-review`, `db-schema-change` |
+| Docs / changelog / README | `commit-and-pr-hygiene`, `decision-record`, `readme-audit` |
+| Git ops | `git-history-ops`, `commit-and-pr-hygiene` |
+| Test suite gaps | `testing-practices` |
 | Running out of context | `context-budget`, `tool-restraint` |
 | Parallel work | `subagent-fanout` |
 | Starting a fresh project / major feature | `planner-spec-expand`, then `feature-list-json`, then `init-script-contract` |
 | Bootstrapping into an existing multi-session project | `progress-reading-protocol` |
 | Entering an implementation sprint | `sprint-contract` |
-| Calibrating a reviewer / evaluator | `evaluator-calibration` |
+| Calibrating a reviewer / evaluator | `eval-harness` |
 | New Claude/Sonnet/Opus model landed | `harness-stripping` |
 
 Full list: `ls .claude/skills/`.
@@ -65,7 +65,7 @@ Full list: `ls .claude/skills/`.
 
 ## Priority when multiple skills apply
 
-Process skills first (spec-first, systematic-debugging, planner-spec-expand, sprint-contract), then implementation skills (design-system, sql-review, etc.), then finishers (verify-before-done, self-eval-bias, clean-commits).
+Process skills first (spec-first, systematic-debugging, planner-spec-expand, sprint-contract), then implementation skills (frontend-quality, sql-review, etc.), then finishers (verify-before-done, self-eval-bias, commit-and-pr-hygiene).
 
 - "Let's build X" → `planner-spec-expand` → `feature-list-json` → `sprint-contract` → domain skills → `verify-before-done`.
 - "Fix bug Y" → `systematic-debugging` → fix → `verify-before-done`.

@@ -45,7 +45,7 @@ Categories: `functional`, `ux`, `data`, `infra`. Order the array in implementati
 
 1. Read the file. Do not edit yet.
 2. Pick the topmost entry with `passes: false` and satisfied prerequisites. If the top is blocked, drop to the deepest unblocked entry.
-3. Implement. Test. Verify end-to-end via the runtime path (browser automation, HTTP, CLI) — not unit tests alone. See [[broken-window-check]] for what E2E means.
+3. Implement. Test. Verify end-to-end via the runtime path (browser automation, HTTP, CLI) — not unit tests alone. See [[progress-reading-protocol]] for what E2E means.
 4. Only after E2E green: flip that single entry's `passes` to `true`.
 5. Diff the file. The diff must be exactly one `false` → `true`. Nothing else.
 
@@ -76,6 +76,6 @@ If this prints anything other than the file header, you edited a forbidden field
 ## Related
 
 - [[shift-notes]] — the prose companion; feature_list.json holds state, shift-notes holds context.
-- [[broken-window-check]] — what "end-to-end verified" means before you flip a bit.
+- [[progress-reading-protocol]] — what "end-to-end verified" means before you flip a bit.
 - The one-feature-per-session rule — limits you to one flip per session.
 - [[verify-before-done]] — the general form of "no bit-flip without runtime evidence".

@@ -1,7 +1,7 @@
 ---
 name: shift-notes
 description: Write and read the between-session handoff file so a fresh agent with no memory can pick up where the last one stopped without re-deriving context. Structured prose, not JSON — the model writes prose better.
-when_to_use: end of any session in a multi-session project, start of the next one; pairs with broken-window-check and feature-list state files
+when_to_use: end of any session in a multi-session project, start of the next one; pairs with progress-reading-protocol and feature-list state files
 ---
 
 # Shift Notes
@@ -47,7 +47,7 @@ Enforced softly by the prompt, not by validation. Free text is the point — the
 
 - Read the whole file. It's small.
 - **If shift notes and git log disagree, trust the git log.** The notes can be truncated by a crashed session; the log can't. This is a load-bearing rule.
-- Cross-reference "what's done" against the feature list. If the notes claim done but the feature list says not-done, run `broken-window-check`.
+- Cross-reference "what's done" against the feature list. If the notes claim done but the feature list says not-done, run `progress-reading-protocol`.
 - Pick work from "what's next" unless it's stale (a new session already picked it).
 
 ## Red flags
@@ -66,7 +66,7 @@ Enforced softly by the prompt, not by validation. Free text is the point — the
 
 ## Pairs with
 
-- `broken-window-check` — reads the "what's done" list to know what to smoke-test.
+- `progress-reading-protocol` — reads the "what's done" list to know what to smoke-test.
 - `spec-first` — the spec is the contract; the notes are the ledger against it.
 - `context-budget` — the notes are the compact recap the context-budget skill wants.
 

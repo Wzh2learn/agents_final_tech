@@ -1,17 +1,17 @@
 # SKILL_ROUTING.md — skill 路由法（治理线立法, 2026-08-29）
 
-> 状态: 活跃（立法件, 修改需用户批） | 更新: 2026-09-18 | 取代/被取代: 无 | 依据: 侧线设计稿转述（用户卡 08-29）+ 注册表↔分发漂移事故（30 件, 08-29 修复）+ **skill 库扩容精简化（09-18 批 #6-S: 49 件新 skill 入库、12 件旧件删除; 五线主装按扩容后清单重列）**
+> 状态: 活跃（立法件, 修改需用户批） | 更新: 2026-09-21 | 取代/被取代: 无 | 依据: 侧线设计稿转述（用户卡 08-29）+ 注册表↔分发漂移事故（30 件, 08-29 修复）+ skill 库扩容精简化（09-18 批 #6-S: 49 件新 skill 入库、12 件旧件删除）+ **skill 语义合并（09-21 批 #8-A: 10 簇合并, 目录 108→92; 五线主装按合并后名重列, §3 裁定表逐字保留不回改）**
 > 范围: 五线任务的 skill 装载决策; 与根 AGENTS.md 配属注册表互为表里（注册表 = 有什么, 本法 = 何时用）
 
 ## 1 五线总表（任务线 → 主装 skill）
 
 | 线 | 主装（按需, 单任务 ≤5） | 常备背景（不占配额） |
 |---|---|---|
-| 论文线 | research-writing-skill / paper-writing-zh / algorithm-description / paper-review-check / paper-polish-and-audit / literature-review / citation-management | graph-loop-rules |
+| 论文线 | research-writing-skill / algorithm-description / paper-review-check / paper-polish-and-audit / literature-review / citation-management | graph-loop-rules |
 | 治理线 | neat-freak / jinrong-docs-sync / code-cleanup-helper / skill-doctor / skill-map / repo-audit / readme-audit | graph-loop-rules |
-| 运维线 | systematic-debugging / m1-gap-triage / m2-rag-playbook / graph-loop-rules / experiment-autopsy / shift-notes / experiment-observer / experiment-analysis / train-monitor / gpu-env | graph-loop-rules |
-| 前端线 | playwright / design-system / a11y-pass / loading-empty-error-states / broken-window-check / verify-before-done | graph-loop-rules |
-| 工程线 | write-failing-test-first / systematic-debugging / flaky-hunter / bisect-regression / simplify / reduce-nesting / kill-dead-code / revert-surgical / rebase-safely / clean-commits / secret-scan / input-validation / migration-writer / schema-diff / dependency-audit | graph-loop-rules |
+| 运维线 | systematic-debugging / m1-gap-triage / m2-rag-playbook / graph-loop-rules / experiment-autopsy / shift-notes / experiment-analysis / train-monitor / gpu-env | graph-loop-rules |
+| 前端线 | playwright / frontend-quality / verify-before-done | graph-loop-rules |
+| 工程线 | testing-practices / git-history-ops / code-simplification / commit-and-pr-hygiene / db-schema-change / systematic-debugging / secret-scan / input-validation / dependency-audit / eval-harness / progress-reading-protocol | graph-loop-rules |
 | 交付线 | office-academic-skill / documents / presentations / verify-before-done | graph-loop-rules |
 
 ## 2 仲裁规则（冲突时依次适用）
@@ -35,6 +35,9 @@
 | code-review / generate-commit / memory-systems / multi-agent-patterns / tool-design / webapp-testing | **已删（09-18 批 #6-S, 用户裁定）** | 与 C 侧现役件职责重叠; 删前实测前 5 件零入向引用, code-review 仅被 code-pathology 的 tags 引用 |
 | subagent-fanout vs dispatching-parallel-agents vs subagent-driven-development | **分工并存**: 通用概览 / 计划内多步执行 / 新件=精确并行 fanout | 三者粒度不同, 暂不合并（skill-merger 可后续评估） |
 | owasp-review / sql-review / authz-check / input-validation / secret-scan | **分工并存（新件, 09-18 入库）** | 分别覆盖安全 diff 审查 / SQL 正确性 / 授权越权 / 边界输入 / 密钥扫描, 互不替代 |
+| 09-21 批 #8-A 的 10 簇合并 | **10 簇合并已执行（用户 09-21 裁定）** | C1 research-writing-skill(合 paper-writing-zh) / C2 experiment-analysis(合 experiment-observer) / C3 commit-and-pr-hygiene(3) / C4 code-simplification(3) / C5 git-history-ops(3) / C6 db-schema-change(2) / C7 frontend-quality(3) / C8 testing-practices(4) / C12 progress-reading-protocol(合 broken-window-check) / C13 eval-harness(合 evaluator-calibration); 目录 108→92, A 93→77, C 21→21 |
+| 09-21 批 #8-A 的四个「保持现状」 | **不合并（用户 09-21 裁定）** | C9 web-deploy 延后 / C10 codebase-review 延后 / C11 paper-audit 保持分工并存（§3 原裁定有效） / C15 dispatching-parallel-agents 保持不合并（§3 原裁定有效） |
+| verification-before-completion 摘除 | **待执行（须与 docs_lint [5] 同 commit）** | 用户裁定执行 C14, 但要求与 A19 / docs_lint `[5]` 同一 commit; 未同步前保持现状（本次未摘） |
 
 ## 4 钩链矩阵（机械强制层 × 自动装载）
 

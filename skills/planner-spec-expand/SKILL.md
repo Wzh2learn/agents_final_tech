@@ -46,4 +46,4 @@ Do the sections in order. Later sections depend on earlier ones being locked.
 
 Skip this for briefs already specified to acceptance-criteria depth, or for single-feature edits to an existing project — use [[shift-notes]] and pick from the existing [[feature-list-json]] instead.
 
-Related: [[feature-list-json]], [[shift-notes]], [[broken-window-check]].
+Related: [[feature-list-json]], [[shift-notes]], [[progress-reading-protocol]].

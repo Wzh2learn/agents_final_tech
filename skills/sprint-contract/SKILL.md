@@ -51,7 +51,7 @@ Out of scope this sprint:
 - **Predicates that are prose, not checks.** "Handles errors gracefully" is not a predicate. "Returns 400 with `{error: "missing_field"}` when `name` is absent" is.
 - **Renegotiating mid-sprint.** If the generator hits a wall, it does not edit the contract to route around it. It surfaces the wall, the *planner* revises scope, a new contract gets signed. Evaluator leniency comes from mid-flight edits — block them structurally.
 - **Contract written by the generator alone.** The generator will write predicates its planned code happens to satisfy. Have the evaluator draft or at least sign off before code starts.
-- **No runtime path.** Without it, the evaluator falls back to reading unit tests — see [[broken-window-check]] for how that fails.
+- **No runtime path.** Without it, the evaluator falls back to reading unit tests — see [[progress-reading-protocol]] for how that fails.
 - **Skipping the out-of-scope list.** This is the cheapest anti-drift device you have. Skip it and you'll ship a "small refactor" that broke two other features.
 
 ## Rehydration case
@@ -65,7 +65,7 @@ Two to five minutes of prose before code. In return: the evaluator has something
 ## Related
 
 - [[shift-notes]] — where the contract lives across sessions.
-- [[broken-window-check]] — what the evaluator runs *against* the contract at session start.
+- [[progress-reading-protocol]] — what the evaluator runs *against* the contract at session start.
 - [[verify-before-done]] — the end-of-sprint pass that decides whether every predicate actually holds.
 
 ## When NOT to apply

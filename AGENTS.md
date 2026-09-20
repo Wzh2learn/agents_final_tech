@@ -334,10 +334,10 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 | A | Codex CLI | tool-restraint | 工具克制: 过多 MCP/工具 = 认知负载悬崖（对应 sidecar 元数据装载病灶） |
 | A | Codex CLI | spec-first | 行动前写 goal spec 到盘（目标/完成条件/禁触/停止条件） |
 | A | Codex CLI | sprint-contract | 写码前定义 done（谓词化验收 + 运行路径 + 范围外清单） |
-| A | Codex CLI | broken-window-check | 冒烟已声明完成的功能（配合 shift-notes） |
+| A | Codex CLI | progress-reading-protocol | 工程线: 会话开头固定 6 步 + 断窗复原（smoke-test 失败即 revert 重开，先于新工作） |
 | A | Codex CLI | eval-harness | eval 骨架（grader 隔离/judge 可见 prompt/基线入 git） |
-| A | Codex CLI | evaluator-calibration | LLM 评审校准: rubric 锚定/禁读生成者推理/引用式判据/定期重提示（08-25 judge 事故对症） |
-| C | Claude Code | evaluator-calibration | 审计层评估校准基线 |
+| A | Codex CLI | eval-harness | 工程线: LLM-as-judge 评分循环 + 评分者校准（rubric 锚点 + 定期重提示防宽松漂移） |
+| C | Claude Code | eval-harness | 工程线: LLM-as-judge 评分循环 + 评分者校准（rubric 锚点 + 定期重提示防宽松漂移） |
 | C | Claude Code | repo-audit | 对抗式治理审计 + hook 升级判断 + 项目结构梳理 |
 | C | Claude Code | readme-audit | 索引/文档入口审计（INDEX 治理） |
 | A | Codex CLI | experiment-autopsy | 实验尸检四步法（解剖/诊断/交叉验证/行动）+ tradeoff 前沿共线检验 |
@@ -346,7 +346,7 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 | A | Codex CLI | recsys-toolkit | RecSys career/defense 双模式工具包（科研线） |
 | A | Codex CLI | paper-review-check | 科研线: 投稿前攻击面自查/对抗审查（每章草稿过一轮; 审稿人视角五问） |
 | C | Claude Code | paper-review-check | 审计层论文草稿审查协议（Loop C 审计范围扩至论文, 2026-08-29） |
-| A | Codex CLI | paper-writing-zh | 科研线: 中英文学术写作纪律（claims↔证据对齐, 禁 overclaim, limitations 不藏） |
+| A | Codex CLI | research-writing-skill | 科研线: 中英文学术写作纪律（claims↔证据对齐, 禁 overclaim, limitations 不藏, 章节导向 + 改写规则） |
 | A | Codex CLI | algorithm-description | 科研线: 代码→论文算法描述（伪代码/复杂度/变量对位, G(τ,ε) 方法节用） |
 | A | Codex CLI | neat-freak | 治理线: 知识收口/声明-实况对账/漂移清场（触发: /neat、洁癖、收尾同步意图） |
 | A | Codex CLI | code-cleanup-helper | 治理线: 技术债四扫 + repo audit（Mode A/B, release 一致性/交叉引用） |
@@ -371,7 +371,7 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 | A | Codex CLI | figma-code-connect-components | 通用: Code Connect 组件映射（未启用, 备用） |
 | A | Codex CLI | skills-best-practices | 治理线: 自定义 skill 规范（治理规则 3 依据） |
 | A | Codex CLI | experiment-analysis | Standardized analysis framework for ML experiment results. Follows a 5-step process (dat |
-| A | Codex CLI | experiment-observer | 自动检查实验日志，提取关键指标（HR/NDCG/sHR/proto cos/ort_loss/group 诊断/τ 退火）、趋势分析和健康度判断。当用户需要分析实验结果、定时  |
+| A | Codex CLI | experiment-analysis | 实验线: 在线日志监测（指标健康度）+ 离线五步归因框架（对齐→分层→对照表→因果→处置） |
 | A | Codex CLI | research-driven-design | 从论文出发的训练策略设计引擎。 核心流程：论文机制提取 → 核心原理归纳 → 框架映射 → 适配性分析 → 训练信号设计 → 实验验证方案。 参数耦合适配分析（Step 4.5 |
 | A | Codex CLI | offline-eval-playbook | Offline evaluation judgment playbook: multi-slice evaluation (full/covered/intersection) |
 | A | Codex CLI | code-pathology | 代码全路径病理检查：沿数据流从输入到输出逐层审查，找确定性 Bug 和高价值优化方向。 核心理念：不做泛泛 review，而是沿着一条具体的训练路径（如主特征路径 full-m |
@@ -379,28 +379,16 @@ RAG QA: eval 基线定稿 2026-08-09（08-22 生产复验: 确定性 16/16 + NF 
 | A | Codex CLI | train-monitor | Monitor running training jobs — check GPU utilization, training progress, loss curves, a |
 | A | Codex CLI | gpu-env | Activate GPU training environment, check GPU/driver status, verify torch/accelerate/deep |
 | A | Codex CLI | data-sync | Download data or model checkpoints from object storage to local training server. Checks  |
-| A | Codex CLI | write-failing-test-first | Before fixing any bug, write a test that reproduces it and watch it fail. Use for every  |
-| A | Codex CLI | flaky-hunter | Diagnose and fix tests that pass sometimes and fail other times. Use when CI is red inte |
-| A | Codex CLI | bisect-regression | Find the exact commit that introduced a bug. Use when something worked before and broke, |
-| A | Codex CLI | coverage-gaps | Find the untested code paths that actually matter, not just the coverage percentage. Use |
-| A | Codex CLI | contract-test | Test the boundary between two systems by the contract, not the implementation. Use for A |
-| A | Codex CLI | kill-dead-code | Find and remove unreachable/unused code safely. Use during cleanup or before a refactor. |
-| A | Codex CLI | reduce-nesting | Flatten deeply nested conditionals into readable, early-return code. Use on any function |
-| A | Codex CLI | simplify | Reduce a change to the minimum that solves the problem. Use when code is over-engineered |
-| A | Codex CLI | revert-surgical | Undo a bad change without nuking unrelated work. Use when a specific commit or change br |
-| A | Codex CLI | rebase-safely | Rebase, squash, or rewrite history without losing work or breaking shared branches. Use  |
-| A | Codex CLI | clean-commits | Turn messy WIP into clean, atomic commits with messages that explain why. Use before ope |
-| A | Codex CLI | changelog-from-diff | Turn a set of commits or a diff into a clean, user-facing changelog entry. Use before a  |
-| A | Codex CLI | pr-from-diff | Write a PR description a reviewer can approve fast. Use when opening any pull request. |
+| A | Codex CLI | testing-practices | 工程线: 测试四实践（失败测试先行 / 覆盖空白 / 契约测试 / 间歇失败诊断） |
+| A | Codex CLI | git-history-ops | 工程线: git 历史三操作（bisect 定位坏 commit / 精准 revert / 安全 rebase）；共享分支禁改写 |
+| A | Codex CLI | code-simplification | 工程线: 行为不变的三类精简（去过早抽象 / 摊平嵌套 / 删可证死代码） |
+| A | Codex CLI | commit-and-pr-hygiene | 工程线: 一次改动 → 可审产出（原子 commit + why-message / 面向用户的 changelog / PR body） |
 | A | Codex CLI | dependency-audit | Decide whether to add, keep, or remove a dependency. Use before adding any package. |
 | A | Codex CLI | authz-check | Verify that an endpoint checks ownership, not just authentication. Use on any handler th |
 | A | Codex CLI | input-validation | Validate and constrain untrusted input at the boundary. Use on any handler that accepts  |
 | A | Codex CLI | secret-scan | Catch hardcoded secrets, keys, and tokens before they get committed. Use before any comm |
-| A | Codex CLI | migration-writer | Write safe, reversible database migrations for this repo's conventions. Use for any sche |
-| A | Codex CLI | schema-diff | Compare two schema states and surface the risky changes. Use before applying migrations  |
-| A | Codex CLI | design-system | Make frontend output look intentional, not AI-generated. Use for any UI work — component |
-| A | Codex CLI | a11y-pass | Catch the accessibility failures that ship in almost every AI-built UI. Use after buildi |
-| A | Codex CLI | loading-empty-error-states | Design the three states every data UI forgets. Use for any component that fetches or lis |
+| A | Codex CLI | db-schema-change | 工程线: schema 变更两步（diff 定风险 + 可回退迁移与上线顺序） |
+| A | Codex CLI | frontend-quality | 前端线: UI 三面（视觉意图 / 无障碍 / loading-empty-error-partial 四态） |
 | A | Codex CLI | init-script-contract | Author idempotent init.sh under 120s plus sibling test.sh, stop.sh, reset.sh, serve.sh w |
 | A | Codex CLI | progress-reading-protocol | Run the fixed 6-step session-opening sequence — pwd, read progress, git log, count remai |
 | A | Codex CLI | harness-stripping | Systematically remove one harness component at a time and measure impact, killing scaffo |

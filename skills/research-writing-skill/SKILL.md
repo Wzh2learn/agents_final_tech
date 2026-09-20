@@ -1,6 +1,6 @@
 ---
 name: research-writing-skill
-description: Chinese-first research paper writing, revision, polishing, section drafting, rebuttal, peer-review response, thesis prose improvement, and manuscript argument planning. Use when the user asks to write or revise论文正文, abstracts, introductions, methods, results, discussion, conclusions, related work, responses to reviewers, LaTeX/Overleaf text, or academic prose. Preserve formulas, English paper titles, terms, citations, and measured results.
+description: Chinese-first research paper writing, revision, polishing, section drafting, rebuttal, peer-review response, thesis prose improvement, and manuscript argument planning. Use when the user asks to write or revise论文正文, abstracts, introductions, related work, method sections, experiment sections, limitations, conclusions, responses to reviewers, LaTeX/Overleaf text, cover letters, or academic prose. Preserve formulas, English paper titles, terms, citations, and measured results.
 ---
 
 # Research Writing Skill
@@ -17,6 +17,8 @@ Use this skill for research writing and revision when the output is prose, LaTeX
 - Separate `原文/已有数据`, `用户确认内容`, `根据上下文推断`, and `建议性扩展`.
 - Prefer verifiable technical statements over generic claims.
 - When revising, preserve the user's intended meaning and terminology unless a change is clearly needed.
+- For English drafts, prioritize concrete verbs, tight topic sentences, and consistent terminology.
+- For Chinese drafts, improve scholarly clarity without making the prose stiff or machine-like.
 
 ## Manuscript Workflow
 
@@ -36,6 +38,7 @@ For revision or polishing:
 - Check whether each paragraph advances the section's purpose.
 - Keep formulas with variable definitions, units, assumptions, and applicable conditions.
 - For experimental sections, state dataset/sample, hardware/software, parameters, metrics, baselines, and uncertainty when available.
+- When editing, return either a revised passage or a compact change rationale, depending on the user request.
 
 ## Section Guides
 
@@ -48,6 +51,20 @@ Use these default moves unless the user's school or journal template overrides t
 - Experiments: data/source, platform/software, parameters, metrics, baseline, repeated trials, visualization plan.
 - Results and discussion: claim first, evidence second, mechanism/explanation third, limitation last.
 - Conclusion: answer the research question, summarize evidence, state limitations and next steps.
+- Limitations: do not hide assumptions; state what the evidence does not support.
+- Rebuttal / response to reviewers: quote the reviewer point, answer it directly, state what changed and where.
+
+## Checks
+
+Before delivery, confirm and state:
+
+- Contribution and novelty are explicit.
+- Claims match experiments or cited evidence; no over-claiming.
+- Terms, symbols, and datasets are consistent throughout.
+- Limitations and assumptions are not hidden.
+- What was drafted or revised, and which source material was used.
+- Which claims still need user-provided data or citation support.
+- Any uncertainty about terminology, parameters, or references.
 
 ## Bundled References
 
@@ -60,13 +77,3 @@ The folder `references/paper-writing/` contains external writing checklists and 
 - `author_profile/` for editorial heuristics.
 
 These references come from an external systems/networking-oriented repository. Treat them as optional craft guidance, not binding rules, and adapt them to光电信息科学与工程, optics, optoelectronics, sensing, communication, signal processing, and MATLAB simulation work.
-
-## Final Checks
-
-Before delivery, state:
-
-- What was drafted or revised.
-- Which source material was used.
-- Which claims still need user-provided data or citation support.
-- Any uncertainty about terminology, parameters, or references.
-

@@ -8,7 +8,7 @@ when_to_use: scaffolding a new project the initializer agent will hand to future
 
 Every coding session in a multi-session project starts by bringing the dev server up. If the entry point is named differently each time, or takes four minutes, or prompts for input, you burn tokens and wall-clock on every single session. The fix is a fixed set of script names at the project root with a hard contract. The initializer agent writes them once; every downstream session relies on them.
 
-The names are load-bearing — [[shift-notes]] and [[broken-window-check]] both refer to them by name. Do not invent your own.
+The names are load-bearing — [[shift-notes]] and [[progress-reading-protocol]] both refer to them by name. Do not invent your own.
 
 ## When to apply
 
@@ -24,7 +24,7 @@ The names are load-bearing — [[shift-notes]] and [[broken-window-check]] both 
 | `serve.sh` | Start the dev server only. Written when `init.sh` cannot fit under 120s. |
 | `test.sh` | Run the full test suite. Exit non-zero on any failure. |
 | `stop.sh` | Cleanly kill the dev server. Sessions run this before exiting. |
-| `reset.sh` | Wipe local DB and ephemeral state. Leave code untouched. Used by [[broken-window-check]]. |
+| `reset.sh` | Wipe local DB and ephemeral state. Leave code untouched. Used by [[progress-reading-protocol]]. |
 
 ## Procedure
 
@@ -44,7 +44,7 @@ The names are load-bearing — [[shift-notes]] and [[broken-window-check]] both 
 - **Unpinned deps.** `npm install foo` without a lockfile means the next session gets a different transitive graph. See the Feb 2026 incident where an agent ran `npm update --save` and broke twelve sessions.
 - **Killing the server with `pkill node`.** Kills every node process in the sandbox. Use a PID file written by `serve.sh`.
 - **Letting `init.sh` create files outside the project directory.** Sandbox will reject it and the failure mode is opaque.
-- **Skipping `reset.sh` because "the DB is fine".** [[broken-window-check]] needs it to isolate a bad commit from stale state.
+- **Skipping `reset.sh` because "the DB is fine".** [[progress-reading-protocol]] needs it to isolate a bad commit from stale state.
 
 ## Red flags
 
@@ -60,7 +60,7 @@ Single-session scripts and one-shot demos. The contract exists to amortize setup
 ## Related
 
 - [[shift-notes]] — the notes downstream sessions read after `init.sh` succeeds.
-- [[broken-window-check]] — runs `init.sh` then `reset.sh` when reverting a bad feature.
+- [[progress-reading-protocol]] — runs `init.sh` then `reset.sh` when reverting a bad feature.
 - The one-feature-per-session discipline — what this contract enables by keeping session startup cheap.
 
 Inspiration: Prithvi's March 2026 planner/generator/evaluator write-up, where the fixed harness entry points let the evaluator persona re-verify any generator session from scratch without re-learning the launch procedure.
