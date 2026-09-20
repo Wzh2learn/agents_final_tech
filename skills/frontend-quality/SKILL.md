@@ -1,7 +1,7 @@
 ---
 name: frontend-quality
-description: Ship UI that looks intentional, is accessible, and handles its data states — visual hierarchy and spacing, keyboard/screen-reader access, and the loading/empty/error/partial states every fetch needs. Use for any component, page, or layout, right after building or changing interactive UI.
 when_to_use: building UI, a component, a page, "make this look good", forms, buttons, modals, images, color choices, keyboard interaction, a list, a fetch, a dashboard, anything async in the UI
+description: Ship UI that looks intentional, is accessible, and handles its data states — visual hierarchy and spacing, keyboard/screen-reader access, and the loading/empty/error/partial states every fetch needs. Use for any component, page, or layout, right after building or changing interactive UI.
 ---
 
 # Frontend Quality

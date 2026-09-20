@@ -1,7 +1,7 @@
 ---
 name: code-simplification
-description: Reduce existing code — cut premature abstraction, flatten deep nesting, delete provably dead code — without changing behavior. Use during cleanup, before a refactor, or when a diff is bloated or a function is hard to follow.
 when_to_use: cleanup, "remove unused", before refactoring, dead branches, over-abstraction, a 200-line diff for a small ask, premature generality, arrow-shaped code, 3+ nested ifs, a function that's hard to follow
+description: Reduce existing code — cut premature abstraction, flatten deep nesting, delete provably dead code — without changing behavior. Use during cleanup, before a refactor, or when a diff is bloated or a function is hard to follow.
 ---
 
 # Code Simplification

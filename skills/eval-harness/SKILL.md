@@ -1,7 +1,7 @@
 ---
 name: eval-harness
-description: Build a repeatable eval loop that grades agent output with an LLM judge against a fixed baseline, and keep that judge honest by calibrating its rubric with concrete pass/fail anchors. Use when tuning a prompt or skill, comparing models, regression-testing a workflow, or when an evaluator's scores drift lenient over a long run.
 when_to_use: tuning a prompt, changing a skill, comparing two models, regression-testing a workflow, "does this actually work better?", standing up an evaluator/critic agent, noticing evaluator scores drift upward across iterations, grading skill/PR/diff output and wanting reproducible verdicts
+description: Build a repeatable eval loop that grades agent output with an LLM judge against a fixed baseline, and keep that judge honest by calibrating its rubric with concrete pass/fail anchors. Use when tuning a prompt or skill, comparing models, regression-testing a workflow, or when an evaluator's scores drift lenient over a long run.
 ---
 
 # Eval Harness

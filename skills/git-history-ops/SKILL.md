@@ -1,7 +1,7 @@
 ---
 name: git-history-ops
-description: Work with git history safely — bisect to the commit that introduced a bug, revert precisely without losing unrelated work, and rebase/rewrite only what is safe to rewrite. Use when something worked before and broke, a specific commit needs undoing, or before any history rewrite.
 when_to_use: '"it worked last week"', 'a regression, unclear which commit broke it', '"revert this"', 'a bad deploy, one commit broke prod, undo without losing other work', 'rebase, squash, "update my branch", interactive rebase, force-push'
+description: Work with git history safely — bisect to the commit that introduced a bug, revert precisely without losing unrelated work, and rebase/rewrite only what is safe to rewrite. Use when something worked before and broke, a specific commit needs undoing, or before any history rewrite.
 ---
 
 # Git History Operations

@@ -1,7 +1,7 @@
 ---
 name: db-schema-change
-description: Change a database schema safely — diff two schema states to rank the risks, then write a reversible migration with a live-safe deploy order. Use before applying a migration, after a model change, or on "what changed in the schema".
 when_to_use: reviewing a migration, "what changed in the schema", pre-deploy check, add/alter a table, column, index, or constraint
+description: Change a database schema safely — diff two schema states to rank the risks, then write a reversible migration with a live-safe deploy order. Use before applying a migration, after a model change, or on "what changed in the schema".
 ---
 
 # Database Schema Change

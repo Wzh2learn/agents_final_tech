@@ -1,7 +1,7 @@
 ---
 name: testing-practices
-description: Write and judge tests that catch real bugs — reproduce the defect before fixing it, hunt the untested paths that matter instead of chasing coverage percent, test system boundaries by contract, and diagnose intermittently failing tests. Use when fixing a bug, adding tests, checking coverage, integrating two systems, or when CI is red intermittently.
 when_to_use: fixing a bug, "make X work", a reported defect, '"improve coverage"', after writing tests, pre-merge quality check, an API endpoint, a service integration, a webhook, a shared schema, intermittent CI failure, "passes locally fails in CI", a flaky test
+description: Write and judge tests that catch real bugs — reproduce the defect before fixing it, hunt the untested paths that matter instead of chasing coverage percent, test system boundaries by contract, and diagnose intermittently failing tests. Use when fixing a bug, adding tests, checking coverage, integrating two systems, or when CI is red intermittently.
 ---
 
 # Testing Practices

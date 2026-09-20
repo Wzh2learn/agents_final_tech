@@ -1,7 +1,7 @@
 ---
 name: progress-reading-protocol
-description: Run the fixed 6-step session-opening sequence (pwd, read progress, git log, count remaining features, init.sh, smoke-test the last feature) and, when the smoke test fails, the broken-window recovery that reverts and re-opens the feature before any new work. Use at the very first tool calls of a fresh coding session, after a context reset or crash, or before picking up new work.
 when_to_use: very first tool calls of any fresh coding-agent session, rehydrating after a context reset or crash mid-project, verifying a claimed-shipped feature before picking up new work, start of any session in a multi-session project, right after reading progress notes and running init.sh
+description: Run the fixed 6-step session-opening sequence (pwd, read progress, git log, count remaining features, init.sh, smoke-test the last feature) and, when the smoke test fails, the broken-window recovery that reverts and re-opens the feature before any new work. Use at the very first tool calls of a fresh coding session, after a context reset or crash, or before picking up new work.
 ---
 
 # Progress-Reading Protocol

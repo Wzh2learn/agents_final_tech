@@ -1,7 +1,7 @@
 ---
 name: commit-and-pr-hygiene
-description: Turn a change into reviewable output — atomic commits with why-messages, user-facing changelog entries, and a PR body a reviewer can approve fast. Use before opening a PR, cutting a release, writing release notes, or when the history is messy.
 when_to_use: before a PR, messy history, "squash this", commit message help, cutting a release, writing release notes, summarizing a branch, "write the PR body", review prep
+description: Turn a change into reviewable output — atomic commits with why-messages, user-facing changelog entries, and a PR body a reviewer can approve fast. Use before opening a PR, cutting a release, writing release notes, or when the history is messy.
 ---
 
 # Commit and PR Hygiene
