@@ -1,3 +1,6 @@
 display_name: Scientific Toolkit
 short_description: MATLAB, Python research computing, statistics, simulation, figures, and citations.
 default_prompt: Analyze data, write MATLAB/Python research code, create figures, or run scientific simulations.
+
+policy:
+  allow_implicit_invocation: true

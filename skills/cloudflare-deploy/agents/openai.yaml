@@ -4,3 +4,6 @@ interface:
   icon_small: "./assets/cloudflare-small.svg"
   icon_large: "./assets/cloudflare.png"
   default_prompt: "Deploy this app to Cloudflare (Workers or Pages) and return URL, config, and required env vars."
+
+policy:
+  allow_implicit_invocation: true

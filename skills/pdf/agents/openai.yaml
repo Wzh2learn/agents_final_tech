@@ -3,3 +3,6 @@ interface:
   short_description: "Create, edit, and review PDFs"
   icon_large: "./assets/pdf.png"
   default_prompt: "Create, edit, or review this PDF and summarize the key output or changes."
+
+policy:
+  allow_implicit_invocation: true
