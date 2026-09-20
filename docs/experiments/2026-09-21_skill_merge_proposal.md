@@ -247,3 +247,119 @@ skill-map 在 `skills/` 下扫到 **129** 个 `SKILL.md`，其中 **21 个是 `s
 - **做了**：GB10 上跑 skill-merger `scan_skills.py` 与 skill-map；完成 108 目录的全量清点；按**语义簇**（非名字相似度）分出 15 簇；给出每簇的合并理由 / 资源方案 / 风险 / 计数影响；清点侧线引用爆炸半径。
 - **没做（明确）**：**未修改 skills/ 下任何文件**；未改 `sync_skills.sh` / `AGENTS.md` / `SKILL_ROUTING.md`；未删任何目录；未外发；未动论文与 `docs/33` / `docs/34`；未动实验工件。
 - **执行纪律**：全部扫描与校验在 GB10 上跑；本机只做文本编辑与 git。
+## 附录 A 全量清单（108 个目录）
+
+> 口径: Loop 列取自 `A_SKILLS` / `C_SKILLS`; 行数 = SKILL.md 物理行; 资源 = scripts/references/assets 下文件数。
+
+| # | skill | description 摘要 | Loop | 行数 | 资源 | 是否重复 | 是否可合并 | 建议处置 |
+|---|---|---|---|---|---|---|---|---|
+| 1 | `a11y-pass` | Catch the accessibility failures that ship in almost every AI-built UI. Use af | A | 13 | 0 | 否 | 是 → `frontend-quality` | **合并**(A档) |
+| 2 | `agent-prompt-contracts` | JinRongAgents 已验证的 4 条 agent prompt 契约 (verbatim 首查 / FORMAT_HINT / bash 先行 /  | A/C | 69 | 0 | 否 | 否 | **保护** |
+| 3 | `agent-rules` | Use when creating or updating AGENTS.md files, .github/copilot-instructions.md | A | 87 | 152 | 否 | 否 | 保留 |
+| 4 | `algorithm-description` | Use when converting source code, formulas, or implementation notes into paper- | A | 23 | 0 | 否 | 否 | 保留 |
+| 5 | `audit-cycle` | >- | C | 160 | 0 | 否 | 否 | **保护** |
+| 6 | `authz-check` | Verify that an endpoint checks ownership, not just authentication. Use on any  | A | 12 | 0 | 否 | 否 | 保留 |
+| 7 | `bisect-regression` | Find the exact commit that introduced a bug. Use when something worked before  | A | 12 | 0 | 否 | 是 → `git-history-ops` | **合并**(A档) |
+| 8 | `broken-window-check` | Before picking new work, smoke-test the last "completed" feature. If it's brok | A | 55 | 0 | 否 | 是 → `progress-reading-protocol` | **合并**(B档) |
+| 9 | `changelog-from-diff` | Turn a set of commits or a diff into a clean, user-facing changelog entry. Use | A | 13 | 0 | 否 | 是 → `commit-and-pr-hygiene` | **合并**(A档) |
+| 10 | `clean-commits` | Turn messy WIP into clean, atomic commits with messages that explain why. Use  | A | 12 | 0 | 否 | 是 → `commit-and-pr-hygiene` | **合并**(A档) |
+| 11 | `cloudflare-deploy` | Deploy applications and infrastructure to Cloudflare using Workers, Pages, and | A | 224 | 309 | 否 | 是 → `web-deploy` | **合并**(A档) |
+| 12 | `code-cleanup-helper` | 兩模式工具 — Mode A 掃 codebase / SKILL.md / prompt 找重複/命名/模組/過長 4 類技術債；Mode B 跑 rep | A | 368 | 0 | 否 | 否 | 保留 |
+| 13 | `code-pathology` | / | A | 416 | 0 | 否 | 否 | 保留 |
+| 14 | `codebase-map` | Generate a structural overview and dependency diagram of the codebase. Use whe | A | 311 | 0 | 否 | 是 → `codebase-review` | **合并**(A档) |
+| 15 | `context-budget` | Keep the agent's context lean so accuracy doesn't collapse. Use on long sessio | A | 12 | 0 | 否 | 否 | 保留 |
+| 16 | `contract-test` | Test the boundary between two systems by the contract, not the implementation. | A | 12 | 0 | 否 | 是 → `testing-practices` | **合并**(A档) |
+| 17 | `coverage-gaps` | Find the untested code paths that actually matter, not just the coverage perce | A | 12 | 0 | 否 | 是 → `testing-practices` | **合并**(A档) |
+| 18 | `data-sync` | Download data or model checkpoints from object storage to local training serve | A | 58 | 0 | 否 | 否 | 保留 |
+| 19 | `decision-record` | Capture an architectural decision so the next session (or engineer) knows WHY. | A | 13 | 0 | 否 | 否 | 保留 |
+| 20 | `dependency-audit` | Decide whether to add, keep, or remove a dependency. Use before adding any pac | A | 13 | 0 | 否 | 否 | 保留 |
+| 21 | `design-system` | Make frontend output look intentional, not AI-generated. Use for any UI work — | A | 13 | 0 | 否 | 是 → `frontend-quality` | **合并**(A档) |
+| 22 | `differential-review` | > | C | 228 | 1 | 否 | 否 | 保留 |
+| 23 | `dispatching-parallel-agents` | Use when facing 2+ independent tasks that can be worked on without shared stat | A | 167 | 0 | 否 | 是 → `dispatching-parallel-agents` | **合并**(B档) |
+| 24 | `dream-engine` | / | A | 194 | 23 | 否 | 否 | 保留 |
+| 25 | `eval-harness` | Build a repeatable eval loop that grades agent output with an LLM judge, so pr | A | 72 | 0 | 否 | 是 → `eval-harness` | **合并**(B档) |
+| 26 | `evaluator-calibration` | Calibrate a reviewer persona with few-shot rubric examples so skepticism stays | A/C | 52 | 0 | 否 | 是 → `eval-harness` | **合并**(B档) |
+| 27 | `executing-plans` | Use when you have a written implementation plan to execute in a separate sessi | A | 64 | 0 | 否 | 否 | 保留 |
+| 28 | `exp-lifecycle` | >- | A | 107 | 0 | 否 | 否 | 保留 |
+| 29 | `experiment-analysis` | / | A | 132 | 0 | 否 | 是 → `experiment-analysis` | **合并**(A档) |
+| 30 | `experiment-autopsy` | / | A | 101 | 0 | 否 | 否 | **保护** |
+| 31 | `experiment-observer` | 自动检查实验日志，提取关键指标（HR/NDCG/sHR/proto cos/ort_loss/group 诊断/τ 退火）、趋势分析和健康度判断。当用户需要 | A | 112 | 0 | 否 | 是 → `experiment-analysis` | **合并**(A档) |
+| 32 | `feature-list-json` | Enumerate every end-to-end feature as strict JSON entries with passes:false, e | C | 81 | 0 | 否 | 否 | 保留 |
+| 33 | `figma` | Use the Figma MCP server to fetch design context, screenshots, variables, and  | A | 42 | 5 | 否 | 否 | 保留 |
+| 34 | `figma-code-connect-components` | Connects Figma design components to code components using Code Connect mapping | A | 349 | 5 | 否 | 否 | 保留 |
+| 35 | `figma-generate-design` | Use this skill alongside figma-use when the task involves translating an appli | A | 341 | 3 | 否 | 否 | 保留 |
+| 36 | `figma-generate-library` | Build or update a professional-grade design system in Figma from a codebase. U | A | 314 | 19 | 否 | 否 | 保留 |
+| 37 | `figma-implement-design` | Translates Figma designs into production-ready application code with 1:1 visua | A | 258 | 3 | 否 | 否 | 保留 |
+| 38 | `figma-use` | **MANDATORY prerequisite** — you MUST invoke this skill BEFORE every `use_figm | A | 233 | 25 | 否 | 否 | 保留 |
+| 39 | `flaky-hunter` | Diagnose and fix tests that pass sometimes and fail other times. Use when CI i | A | 13 | 0 | 否 | 是 → `testing-practices` | **合并**(A档) |
+| 40 | `gpu-env` | Activate GPU training environment, check GPU/driver status, verify torch/accel | A | 60 | 0 | 否 | 否 | 保留 |
+| 41 | `graph-loop-rules` | JinRongAgents Graph Loop 红线与运行约束。OpenCode agent 在本仓库执行任何任务（解析、审计、问答、代码修改）前必须遵守 | A | 26 | 0 | 否 | 否 | **保护** |
+| 42 | `harness-stripping` | Systematically remove one harness component at a time and measure impact, kill | A | 66 | 0 | 否 | 否 | 保留 |
+| 43 | `init-script-contract` | Author idempotent init.sh under 120s plus sibling test.sh, stop.sh, reset.sh,  | A | 66 | 0 | 否 | 否 | 保留 |
+| 44 | `input-validation` | Validate and constrain untrusted input at the boundary. Use on any handler tha | A | 13 | 0 | 否 | 否 | 保留 |
+| 45 | `jinrong-docs-sync` | JinRongAgents 项目文档四层结构（活文档/当前/实验/归档）治理与 docs/INDEX.md 单一入口维护。新增文档、归档文档、neat 收尾 | A/C | 45 | 0 | 否 | 否 | **保护** |
+| 46 | `jupyter-notebook` | Use when the user asks to create, scaffold, or edit Jupyter notebooks (`.ipynb | A | 107 | 9 | 否 | 否 | 保留 |
+| 47 | `kill-dead-code` | Find and remove unreachable/unused code safely. Use during cleanup or before a | A | 11 | 0 | 否 | 是 → `code-simplification` | **合并**(A档) |
+| 48 | `loading-empty-error-states` | Design the three states every data UI forgets. Use for any component that fetc | A | 12 | 0 | 否 | 是 → `frontend-quality` | **合并**(A档) |
+| 49 | `m1-gap-triage` | M1 解析失败分诊（0 表 / unmapped 过高）：嘉合 playbook 固化的"读原文诊断 → 补 synonyms → 重跑 → 报 delta | A | 68 | 0 | 否 | 否 | **保护** |
+| 50 | `m2-rag-playbook` | M2 RAG 问答失败模式手册（检索为空/数值缺失/多轮追问/脱敏掩码/跨文档聚合的对策与验证）。m2-qa agent 或任何经 jinrong-rag  | A/C | 58 | 0 | 否 | 否 | **保护** |
+| 51 | `migration-writer` | Write safe, reversible database migrations for this repo's conventions. Use fo | A | 12 | 0 | 否 | 是 → `db-schema-change` | **合并**(A档) |
+| 52 | `neat-freak` | >- | A | 221 | 5 | 否 | 否 | **保护** |
+| 53 | `office-academic-skill` | Chinese-first academic Word and PowerPoint workflow for paper reading reports, | A | 122 | 121 | 否 | 否 | 保留 |
+| 54 | `offline-eval-playbook` | / | A | 109 | 0 | 否 | 否 | 保留 |
+| 55 | `organize-logs` | / | A | 121 | 0 | 否 | 否 | 保留 |
+| 56 | `owasp-review` | Security-review a diff against the OWASP Top 10. Use before merging anything t | C | 15 | 0 | 否 | 否 | 保留 |
+| 57 | `paper-polish-and-audit` | / | A | 64 | 0 | 否 | 是 → `paper-audit` | **合并**(B档) |
+| 58 | `paper-review-check` | Use when checking a paper, thesis chapter, LaTeX draft, experiment report, or  | A/C | 23 | 0 | 否 | 是 → `paper-audit` | **合并**(B档) |
+| 59 | `paper-writing-zh` | Use when writing, rewriting, or polishing Chinese or English academic papers,  | A | 24 | 0 | 否 | 是 → `research-writing-skill` | **合并**(A档) |
+| 60 | `pdf` | Use when tasks involve reading, creating, or reviewing PDF files where renderi | A | 67 | 1 | 是(pdf 双份) | 否 | 保留 |
+| 61 | `pdf-ingestion` | Get a PDF into the model without blowing the context window or losing structur | A | 59 | 0 | 否 | 否 | 保留 |
+| 62 | `planner-spec-expand` | Expand a 1-4 sentence product brief into a full spec with a design language, a | A | 49 | 0 | 否 | 否 | 保留 |
+| 63 | `playwright` | Use when the task requires automating a real browser from the terminal (naviga | A | 147 | 5 | 否 | 否 | 保留 |
+| 64 | `playwright-interactive` | Persistent browser and Electron interaction through `js_repl` for fast iterati | A | 693 | 2 | 否 | 否 | 保留 |
+| 65 | `pr-from-diff` | Write a PR description a reviewer can approve fast. Use when opening any pull  | A | 13 | 0 | 否 | 是 → `commit-and-pr-hygiene` | **合并**(A档) |
+| 66 | `progress-reading-protocol` | Run the fixed 6-step session-opening sequence — pwd, read progress, git log, c | A | 49 | 0 | 否 | 是 → `progress-reading-protocol` | **合并**(B档) |
+| 67 | `prompt-caching` | Cache the parts of the prompt that don't change so a long-running loop stops p | A | 55 | 0 | 否 | 否 | 保留 |
+| 68 | `readme-audit` | Check whether a README actually lets a stranger run the project. Use on any re | C | 14 | 0 | 否 | 否 | 保留 |
+| 69 | `rebase-safely` | Rebase, squash, or rewrite history without losing work or breaking shared bran | A | 12 | 0 | 否 | 是 → `git-history-ops` | **合并**(A档) |
+| 70 | `receiving-code-review` | Use when receiving code review feedback, before implementing suggestions, espe | C | 205 | 0 | 否 | 否 | 保留 |
+| 71 | `recsys-toolkit` | / | A | 189 | 0 | 否 | 否 | 保留 |
+| 72 | `reduce-nesting` | Flatten deeply nested conditionals into readable, early-return code. Use on an | A | 12 | 0 | 否 | 是 → `code-simplification` | **合并**(A档) |
+| 73 | `repo-audit` | / | C | 205 | 0 | 否 | 否 | **保护** |
+| 74 | `requesting-code-review` | Use when completing tasks, implementing major features, or before merging to v | C | 95 | 0 | 否 | 否 | 保留 |
+| 75 | `research-driven-design` | / | A | 296 | 0 | 否 | 否 | 保留 |
+| 76 | `research-writing-skill` | Chinese-first research paper writing, revision, polishing, section drafting, r | A | 72 | 19 | 否 | 是 → `research-writing-skill` | **合并**(A档) |
+| 77 | `revert-surgical` | Undo a bad change without nuking unrelated work. Use when a specific commit or | A | 12 | 0 | 否 | 是 → `git-history-ops` | **合并**(A档) |
+| 78 | `review-codebase` | Optional focus area to review (e.g., "API layer", "tests", "auth system"). Def | C | 383 | 0 | 否 | 是 → `codebase-review` | **合并**(A档) |
+| 79 | `schema-diff` | Compare two schema states and surface the risky changes. Use before applying m | A | 11 | 0 | 否 | 是 → `db-schema-change` | **合并**(A档) |
+| 80 | `scientific-toolkit-skill` | Research computing toolkit for optoelectronic information science and engineer | A | 89 | 241 | 否 | 否 | 保留 |
+| 81 | `secret-scan` | Catch hardcoded secrets, keys, and tokens before they get committed. Use befor | A | 12 | 0 | 否 | 否 | 保留 |
+| 82 | `security-best-practices` | Perform language and framework specific security best-practice reviews and sug | C | 86 | 10 | 否 | 否 | 保留 |
+| 83 | `security-threat-model` | Repository-grounded threat modeling that enumerates trust boundaries, assets,  | A | 81 | 2 | 否 | 否 | 保留 |
+| 84 | `self-eval-bias` | Detect and interrupt the pattern where an agent confidently praises work it ju | C | 46 | 0 | 否 | 否 | 保留 |
+| 85 | `shift-notes` | Write and read the between-session handoff file so a fresh agent with no memor | A | 73 | 0 | 否 | 否 | 保留 |
+| 86 | `simplify` | Reduce a change to the minimum that solves the problem. Use when code is over- | A | 12 | 0 | 否 | 是 → `code-simplification` | **合并**(A档) |
+| 87 | `skill-doctor` | (no description) | A | 79 | 2 | 否 | 否 | 保留 |
+| 88 | `skill-hook-trigger` | 用 Hook 机制为 Skill 加确定性触发提示。当用户抱怨「skill 老是不触发/该用的时候没用上」、想「用 hook 保证 skill 触发」「给  | A | 89 | 3 | 否 | 否 | 保留 |
+| 89 | `skill-map` | (no description) | A | 85 | 2 | 否 | 否 | 保留 |
+| 90 | `skill-merger` | 分析并合并功能重叠的 Skill。当用户觉得 skill 太多太杂、想整理/精简/瘦身 skill 库、发现多个 skill 职责重复、说「合并重复的 sk | A | 92 | 1 | 否 | 否 | 保留 |
+| 91 | `skills-best-practices` | Authors and structures professional-grade agent skills following the agentskil | A | 56 | 3 | 否 | 否 | 保留 |
+| 92 | `socrates` | Socratic learning coach for any technical paper or complex topic. Use when the | A | 50 | 0 | 否 | 否 | 保留 |
+| 93 | `spec-first` | Write the goal spec on disk before the agent acts, so it can't drift. Use befo | A | 13 | 0 | 否 | 否 | 保留 |
+| 94 | `spec-to-code-compliance` | Verifies code implements exactly what documentation specifies for blockchain a | C | 357 | 1 | 否 | 否 | 保留 |
+| 95 | `sprint-contract` | Negotiate a pre-code contract between generator and evaluator personas that de | A | 73 | 0 | 否 | 否 | 保留 |
+| 96 | `sql-review` | Review SQL and ORM queries for correctness, safety, and performance before the | C | 13 | 0 | 否 | 否 | 保留 |
+| 97 | `structured-output` | Get JSON out of the model reliably. Prefer tool_use with a schema over prompte | A | 54 | 0 | 否 | 否 | 保留 |
+| 98 | `subagent-driven-development` | Use when executing implementation plans with independent tasks in the current  | A | 503 | 3 | 否 | 否 | 保留 |
+| 99 | `subagent-fanout` | Parallelize independent sub-jobs across fresh-context subagents instead of one | C | 13 | 0 | 否 | 是 → `dispatching-parallel-agents` | **合并**(B档) |
+| 100 | `systematic-debugging` | Use when encountering any bug, test failure, or unexpected behavior, before pr | A | 283 | 0 | 否 | 否 | **保护** |
+| 101 | `tool-restraint` | Don't over-equip an agent with tools/MCP servers. More tools = more ways to fa | A | 12 | 0 | 否 | 否 | 保留 |
+| 102 | `train-monitor` | Monitor running training jobs — check GPU utilization, training progress, loss | A | 94 | 0 | 否 | 否 | 保留 |
+| 103 | `using-loopkit` | Use when starting any conversation in a loopkit-enabled project - establishes  | C | 76 | 0 | 否 | 否 | 保留 |
+| 104 | `vercel-deploy` | Deploy applications and websites to Vercel. Use when the user requests deploym | A | 77 | 3 | 否 | 是 → `web-deploy` | **合并**(A档) |
+| 105 | `verification-before-completion` | Use when about to claim work is complete, fixed, or passing, before committing | A | 122 | 0 | 否 | 否(退役) | **废弃**(摘除分发) |
+| 106 | `verify-before-done` | / | A/C | 73 | 0 | 否 | 否 | 保留 |
+| 107 | `write-failing-test-first` | Before fixing any bug, write a test that reproduces it and watch it fail. Use  | A | 13 | 0 | 否 | 是 → `testing-practices` | **合并**(A档) |
+| 108 | `writing-plans` | Use when you have a spec or requirements for a multi-step task, before touchin | A | 168 | 0 | 否 | 否 | 保留 |
+
+合计: 108 目录 = 保护 10 + 合并成员 34 + 废弃 1 + 保留 63
