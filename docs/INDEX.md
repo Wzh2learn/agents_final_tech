@@ -290,6 +290,7 @@
 | 文件 | 状态 | 一句话摘要 |
 |---|---|---|
 | `draft_v0_s1_s2_s6.md` | 草稿 v0.2（09-10: S3/S7 各一段判据相对性正文已落地 = 决策 16=B 一次性限定授权; **文件名仍 s1_s2_s6 不符实**, 归 neat 卡） | T7 成熟节 S1/S2/S6（英文）+ 效度威胁占位节: 数字仅既有工件溯源值 + [TODO-*] 占位; 圈选 ①a②a③F-1 已落稿; 审稿五问注记一轮 + 边界脚注; 09-04 ①a 适用域注记 + F2 恒等式口径（W2 差距 = 阈值摆放 artifact, 非协议判别力差异）落 S2; S3/S7 各一段已落地（09-10, 决策 16=B, 逐字来自侧线交付文本, 英文 + 方括号绑工件路径; S3 含 vs blind_cone 骨架 S3 的命名空间消歧注记, S7 含第二 scorer 臂 proviso 注记; S1/S2/S6/Threats/审稿五问 零字节改动已用 difflib 逐行证明）; **S3-S5 其余正文与 S7 整节组装仍待 T7** |
+| `../paper/references_v0.md` | 引用表（仅仓内已核条目; venue 未核者一律不标） | Paper references v0: Related work 四簇 16 条 + m9（GTA-2）+ KD/future work 6 条 = **23 条**，逐条给 arXiv ID/DOI + BibTeX；来源池 = related_work_v4 与 kd_literature_candidates（均 arXiv 官方 API 已核）；末节列未核实项 | 2026-09-21 |
 
 ## 治理裁定件（docs/governance/）
 

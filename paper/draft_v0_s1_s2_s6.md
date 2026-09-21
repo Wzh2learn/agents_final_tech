@@ -85,10 +85,12 @@ checkpoint-level arms), giving the cost axis used later for
 cost-discriminability trade-offs.
 
 Algorithm 1 states the aggregation exactly as implemented, so that the framework can be
-reproduced from the paper alone. It differs from the deliverable-only original in two
-places, both forced by our setting and both marked: leaves are scored by deterministic
-contracts wherever a contract exists, and absent evidence is handled by an explicit
-policy rather than by omission.
+reproduced from the paper alone. Its structure follows the recursive checkpoint scoring of
+GTA-2, which scores each checkpoint on the final deliverable and aggregates bottom-up under
+sibling-normalised weights [wang2026gta2]. It differs from that deliverable-only original in
+two places, both forced by our setting and both marked: leaves are scored by deterministic
+contracts wherever a contract exists, and absent evidence is handled by an explicit policy
+rather than by omission.
 
 ```
 Algorithm 1  Recursive checkpoint aggregation (as implemented)
@@ -560,6 +562,70 @@ and blind to another; a single number cannot express either distinction. Reporti
 decomposable scores with an explicit visibility profile, and measuring the protocol
 alongside the system, costs little and makes those distinctions visible - which is the whole
 of the claim we make.
+
+## Related work
+
+**Meta-evaluation of evaluation protocols.** Making the evaluator an object of
+measurement has a lineage in machine translation, where challenge sets test whether a metric
+can separate true errors from acceptable variants: ACES and its journal extension build
+human-judged accuracy challenge sets for exactly this purpose
+[amrhein2022aces; amrhein2023aceswmt; moghe2024acesjournal], and local metric-accuracy
+meta-evaluation extends the same idea to context-dependent accuracy
+[deviyani2025contextual]. We inherit the framing that a metric must be evaluated on its
+ability to place defects, not only on its agreement with a reference. Three recent threads
+push this further into protocol-level instability: ranking can shift with the evaluation
+protocol axes, with the prompt subset or seed, or with the property a metric is asked to
+track [kendiukhov2026ranking; du2026promptranking; ross2024goodmetric], and measurement
+error introduced in intermediate pipeline stages can hide the signal being measured
+[messing2026measurementerror]. Our contribution narrows this to one concrete question -
+whether a long-horizon protocol can *see* an injected defect at all - and answers it per
+defect family rather than in aggregate.
+
+**Process-level and hierarchical evaluation.** Final-answer accuracy is the standard target;
+process-level benchmarks instead grade intermediate steps, whether by diagnosing step-level
+process quality in tool-using agents [fan2026agentprocessbench] or by tracking semantic state
+to localise the step where a web agent went wrong [chung2026webstep]. Hierarchical
+checkpoint scoring is the same move applied to a deliverable: the final artefact is graded
+against a tree of verifiable sub-goals and aggregated bottom-up [wang2026gta2], which is the
+structure Algorithm 1 follows. We keep that structure and add the measurement the line has
+not reported: the same checkpoint tree is used as a controlled fault-injection surface, so
+that the protocol's own sensitivity - and its blind families - become observable rather than
+assumed.
+
+**Mutation testing and fault injection.** Controlled perturbation is the standard instrument
+for measuring detection power, and it carries a validity obligation: an unkilled mutant is
+evidence about the test suite only if the mutant is actually harmful and actually observable.
+Metamorphic testing of LLMs formalises the relation-preserving half of this obligation
+[cho2025metamorphic], chaos engineering for agent systems injects faults programmatically to
+expose robustness gaps [tan2026agentchaos], and answer-equivalence work such as PEDANTS
+shows that equivalence determination can be made cheap and interpretable [li2024pedants]. We
+report the three-way outcome - detected, silently absorbed, or equivalent - as a first-class
+per-family statistic rather than collapsing it into a single kill count, and we audit mutant
+fidelity explicitly, since one of our own mutants turned out to be invisible for a defect
+placement reason rather than a detector limitation.
+
+**Reliability of LLM judges.** When an LLM is the scorer, the scorer's own biases are a
+first-order threat to validity. MT-Bench established the judge paradigm together with its
+known position, verbosity and self-enhancement biases [zheng2023judge]; subsequent work
+assesses judge robustness under perturbation [li2025robustjudge] and quantifies scoring bias
+directly [li2025scoringbias]. Our protocol is designed around these findings rather than
+against them: deterministic contracts carry the hinge leaves, the judge is used only for
+open-semantic dimensions, and its prompt never sees the injected ground truth. We also report
+the resolution limit of our own judge check - an endpoint-consistency tolerance that is
+bounded by the discrete leaf scale - instead of presenting agreement as stronger evidence
+than the scale can carry.
+
+**Knowledge distillation and agent distillation (future work).** Distillation is the natural
+compression counterpart to this study's measurement concern: if a long-horizon pipeline is to
+be replaced by a smaller student, the student's behaviour has to be graded by a protocol whose
+discriminability is already characterised. Distilling knowledge from ensembles
+[hinton2015distilling] and the LLM-specific survey of the area [xu2024kdsurveyllm] define the
+standard setting, while agent-specific distillation - transferring planning, memory and tool
+use rather than only outputs [qiu2025agentdistill; liu2025structuredagent] - is explicitly
+noted as underexplored by that line of work. Multi-teacher pipelines extend this to several
+teachers with capability-integration objectives [chen2026counteraction; ma2026mopd]. We do
+not run any distillation experiment here; the measurement instrument is what we contribute,
+and its value for distillation is a question for future work.
 
 ## 审稿人视角五问注记（paper-review-check 一轮, 2026-08-30 夜, Loop D 自审; 结论权在 Loop C/用户）
 
