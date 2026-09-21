@@ -17,15 +17,25 @@ regions.
 
 We make the blindness concrete with controlled defect injection. On 95 tables and
 118 header-drift injections built from a public tabular base (fully synthetic
-perturbations, six defect types), a frozen hierarchical evaluation discriminates
-75/95 tables (78.9%) and renders 96/118 injections visible (81.4%) - yet the
-OCR-similar class is absorbed silently in all 13/13 cases (visibility 0.0): the
-text matching layer maps the corrupted header back to the original field within
-its edit-distance tolerance, and no downstream check moves
-[logs/graph/eval/checkpoint_discrimination_tables_v2.json]. The same protocol sees
-other defect types at 81-100% visibility. End-to-end correctness alone cannot
-distinguish "defect detected" from "defect silently absorbed", and a single score
-hides the type-structured visibility spectrum.
+perturbations, six defect types), a frozen checkpoint-level discrimination pass
+renders 96/118 injections visible (checkpoint-level visibility), while at the
+protocol level the same corpus yields 85/118 under flat aggregation and 13/118
+under hierarchical expert-weight aggregation. These three figures are three
+distinct calibers and are defined once here: checkpoint-level visibility counts an
+injection as visible when a checkpoint moves at all; protocol-level detection
+counts it as detected when the aggregated score crosses the protocol threshold.
+Visibility is therefore not detection, and the two are never interchanged below.
+At the table level the same split holds: flat scoring discriminates 75/95 tables
+(78.9%), hierarchical expert scoring 20/95. Across all calibers the OCR-similar
+class is absorbed silently in all 13/13 cases (visibility 0.0): the text matching
+layer maps the corrupted header back to the original field within its
+edit-distance tolerance, and no downstream check moves
+[logs/graph/eval/checkpoint_discrimination_tables_v2.json;
+logs/graph/eval/t1_eval_baseline_comparison.json, arm_b.protocols
+.E1.2_flat / .E1.3_hier_expert]. The same pass sees other defect types at 81-100%
+visibility. End-to-end correctness alone cannot distinguish "defect detected" from
+"defect silently absorbed", and a single score hides the type-structured visibility
+spectrum.
 
 Evaluation of long-horizon systems must therefore (i) report a defect visibility
 profile per defect type and intensity rather than one aggregate score, and
@@ -45,7 +55,7 @@ and is reported as failing rather than relabeled
 .E2_1_ocr_similar_blind_all_gamma / .E2_1_type_range_ge_0p5_all_gamma_injection_level /
 .E2_1_ranking_non_degenerate_all_gamma].
 (Ruling 2a, frozen 2026-08-30: the ranking of the visibility spectrum is stable
-across the full threshold grid gamma in {0.2, ..., 0.9}; the absolute range
+across the full threshold grid gamma in {0.2, 0.3, 0.5, 0.7, 0.9}; the absolute range
 decays at high gamma by a quantization mechanism - one injection on a table
 with n canonical headers moves the score by at most 1/n_canonical, and only
 narrow tables remain at high gamma. The mechanism explanation belongs in the
@@ -57,18 +67,22 @@ such, not relabeled. [logs/graph/eval/t2_visibility_sensitivity.json])
 We represent a document pipeline as a forest of checkpoint trees: a parsing tree
 (document read-in, table structure, field mapping, arithmetic reconciliation) and
 a QA tree (retrieval grounding, faithfulness, numeric correctness, citation,
-refusal) - two roots with 12 scored leaves, expert weights in {1,2,3},
-sibling-normalized bottom-up aggregation, hard-gate leaves whose absent evidence
-contributes zero instead of the neutral default and which must clear the stability
-threshold (Algorithm 1), and explicit missing-score degradation when evidence is absent
+refusal) - two roots with 12 scored leaves, expert weights in {1,2,3} (chosen by hand
+from the importance of each checkpoint, the design point the searched-weight arm later
+replaces with an automatic search),
+sibling-normalized bottom-up aggregation, hard-gate (hinge) leaves that must clear
+the stability threshold (Algorithm 1), and an explicit missing-score policy configured per
+tree: the parsing tree assigns 0 to absent evidence, the QA tree assigns a neutral 5
 [config/eval_checkpoint_trees.json]. Each leaf is scored either by a
 deterministic contract (16/16 contracts pass on the frozen regression set) or,
 for open-semantic dimensions, by a leakage-protected judge whose prompt never
 sees the injected ground truth (four dimensions, 4.94-5.0 on the baseline set)
 [docs/experiments/2026-08-08_eval_baseline.md]; every check retains its evidence
 chain, so a root score always decomposes into per-checkpoint findings. The
-framework scores latency and model-call cost as first-class dimensions, giving
-the cost axis used later for cost-discriminability trade-offs.
+framework records latency and scores model-call and check-count cost as its cost axis
+(scored units: 2 root units for the end-to-end arm versus 12 leaf units for the
+checkpoint-level arms), giving the cost axis used later for
+cost-discriminability trade-offs.
 
 Algorithm 1 states the aggregation exactly as implemented, so that the framework can be
 reproduced from the paper alone. It differs from the deliverable-only original in two
@@ -87,7 +101,7 @@ Ensure:  per-tree root score S(r) in [0,10]; per-threshold success rates; stabil
  2:     if n has no children then                       # leaf
  3:         v, c, note <- EVIDENCE(n)                    # v: raw rate in [0,1] or judge 0-5
  4:         if v is undefined then                       # missing artefact / unusable judge dim
- 5:             return (m(n), degraded <- true, note)     # explicit degradation, never a silent 0
+ 5:             return (m(n), degraded <- true, note)     # m(n) = per-tree missing score (parse 0 / QA 5)
  6:         end if
  7:         if mapping(n) = judge_dim_0_5 then return (10 * v / 5, false, note)
  8:         else return (10 * v, false, note)            # rates and binaries map onto 0-10
@@ -112,7 +126,7 @@ Ensure:  per-tree root score S(r) in [0,10]; per-threshold success rates; stabil
 26:     k_last <- last element of K                        # as implemented: stability uses the final k
 27:     stable <- (|{n in L : score(n) > k_last}| >= 0.9 * |L|) and (for all h in H : score(h) >= 7)
 28:     return (S(r), root_sr, leaf_sr, stable, degraded)
-28: end function
+29: end function EVALUATETREE
 ```
 
 Three properties of Algorithm 1 are load-bearing for the rest of the paper. First, the
@@ -120,15 +134,23 @@ aggregation is a sibling-normalised weighted mean at every internal node, so the
 convex combination of leaf scores and no internal node can exceed its highest-scoring child
 [scripts/eval_checkpoint_aggregate.py, aggregate_tree: w_sum and agg]. Second, the hinge
 set is a hard gate on the stability flag, not a silent zeroing: a hinge leaf below the
-threshold blocks the stable verdict, and a hinge leaf with absent evidence is scored 0 by
-its configured missing score rather than the neutral default, which is why the missing
-caliber is defensive at exactly the leaves that guard the outcome
+threshold blocks the stable verdict, while a non-hinge leaf does not. The hinge set does not
+determine the missing score - absent evidence is scored per tree (0 on the parsing tree, 5 on
+the QA tree), so of the five hinge leaves only the parsing-tree one is scored 0. The hinge
+set is defined by the mapping, three types hitting five leaves
 [config/eval_checkpoint_trees.json, leaves of mapping overall_status_binary /
-pass_rate_contract / nf_pass_rate]. Third, degradation is explicit and reported: an absent
+pass_rate_contract / nf_pass_rate; scripts/eval_checkpoint_aggregate.py, HINGE_ROUTES]. Third, degradation is explicit and reported: an absent
 artefact or an unusable judge dimension (average null or n = 0) returns the configured
 missing score together with a reason string, and the reason is carried into the report, so
 a degraded root score is never indistinguishable from a genuinely low one
-[scripts/eval_checkpoint_aggregate.py, _mapped_leaf_score and _judge_avg]. The whole
+[scripts/eval_checkpoint_aggregate.py, _mapped_leaf_score and _judge_avg]. The missing
+score is a per-tree configuration, not a property of the hinge set: absent evidence scores 0
+on the parsing tree and a neutral 5 on the QA tree. What makes the hinge set load-bearing is
+the stability gate, not the missing score: a hinge leaf below the threshold blocks the
+stable verdict while non-hinge leaves do not [config/eval_checkpoint_trees.json, the five
+leaves whose mapping is one of overall_status_binary / pass_rate_contract /
+nf_pass_rate; scripts/eval_checkpoint_aggregate.py, HINGE_ROUTES and the stability
+expression]. The whole
 procedure is deterministic given the artefacts: no leaf score depends on a live model call,
 which is what allows every number in this paper to be recomputed offline
 [logs/graph/eval/t1_eval_baseline_comparison.json, aggregation_isomorphism.max_abs_err = 0.0].
@@ -212,7 +234,8 @@ token, has lowercase Levenshtein distance exactly 1, preserves token count, and 
 perturbed column's values unchanged in all 13 cases
 [logs/graph/eval/d3_autopsy_recompute.json, payload.recomputed_summary.ocr_max_levenshtein_lower
 / .ocr_single_token_touched / .ocr_token_count_preserved / .ocr_c2_value_invariance_holds].
-The evaluator is blind to this family across the entire strength grid gamma in [0.2, 0.9]
+The evaluator is blind to this family across the entire strength grid
+gamma in {0.2, 0.3, 0.5, 0.7, 0.9}
 (0/13 visible; the grid is the five discrete points {0.2, 0.3, 0.5, 0.7, 0.9}, not a
 continuous sweep) [logs/graph/eval/d1_mutant_validity_audit.json,
 payload.injections[].visible_by_gamma], and the anchor-stage detection count for the family
@@ -243,6 +266,15 @@ stated as a global claim that most of the zero-signal harmful set was judged har
 [ibid., .jn1_n / .jn1_equivalent / .ocr_similar_equivalent / .non_ocr_n /
 .non_ocr_equivalent].
 
+Relation to mutation testing. A reader from the mutation-testing literature will
+recognise the injection setup: a synthetic defect is introduced, and the question is
+whether the evaluator notices. The difference is what gets reported. Mutation testing
+reduces to a binary kill/no-kill per mutant and summarises with a mutation score; silent
+absorption is simply an unkilled mutant. We keep the absorbed case as a first-class,
+separately named outcome and report it per defect family rather than collapsing it into the
+kill count, because an absorbed defect and an untested defect call for different responses
+in this domain. The family-level visibility rates in S3 are the corresponding statistic.
+
 ## S4 Protocol rigor: what the score actually measures (1.0p)
 
 The evaluation protocol is itself measured before its numbers are used. On the frozen
@@ -256,8 +288,9 @@ same mutants further: per-protocol tree-root mean separation is 2.5053 (end-to-e
 (flat), 2.5053 (hierarchical, expert weights) and 2.8563 (hierarchical, searched weights),
 against blended separations of 1.2526-1.4282 [ibid., arm_a.protocols, fields
 .mean_separation_tree_root / .mean_separation_blended]. The apparent gain comes with a cost:
-the checkpoint-level arms score 12 leaf units where the end-to-end arm scores 2 root units,
-and the two calibers are not commensurable, so both are reported and never averaged.
+the checkpoint-level arms report 12 per-leaf decomposition dimensions where the end-to-end
+arm reports only 2 aggregated root scores, and the two calibers are not commensurable, so
+both are reported and never averaged.
 
 We make the protocol-dependence explicit on the matched false-positive axis, where a
 single aggregate number would mislead. Holding the false-positive rate fixed by
@@ -298,10 +331,11 @@ algorithm. The position of the blind class is preserved; the relative order of t
 classes is not, and both facts are reported rather than the flattering one.
 
 Finally, the judge dimension of the framework is calibrated against a deterministic
-reference. Scoring all 120 leaf-state cells with a judge instead of the deterministic
-mapping leaves the control tree roots within 0.5 of the mapped caliber, the pre-registered
-consistency bound, while individual leaves move by up to 7.0: the control holds at the
-aggregate level, not per cell [logs/graph/eval/t4_pso_fair_comparison.json,
+reference. The pre-registered consistency bound is per judge dimension on the 0-5 judge scale
+(|delta| <= 0.5); scoring all 120 leaf-state cells with a judge instead of the
+deterministic mapping meets it (max observed 0.5). Derived to the 0-10 tree-root scale, the
+control tree roots differ by at most 0.22, while individual leaves move by up to 7.0: the
+control holds at the aggregate level, not per cell [logs/graph/eval/t4_pso_fair_comparison.json,
 payload.e1_5.endpoint_consistency_note / .judged_vs_mapped_max_abs_delta]. One mutant is
 invisible to the judge for a fidelity reason rather than a judge-capability reason: the
 zero-signal injection lands only on aggregate counters while the affected items carry no
@@ -368,7 +402,8 @@ constructible-n table is undefined on the frozen contract (the corpus carries no
 layer), so no number from it exists and none is cited. The judge arm covers 28 cases at the
 injection level and 120 leaf-state cells at the aggregate level; both are reported with
 their counts so their scope is readable, and neither is extrapolated to families that
-received zero calls [logs/graph/eval/d3_matched_fpr_stage_b.json, call_counter_breakdown;
+received zero calls [logs/graph/eval/t4_pso_fair_comparison.json, payload.e1_5.cells_total /
+.cells_ok; logs/graph/eval/d3_matched_fpr_stage_b.json, call_counter_breakdown;
 logs/graph/eval/d1_mutant_validity_audit.json, payload.injections[] type counts].
 
 ## S6 Closed-loop case: evaluation findings into gated rule consolidation (0.5p)
@@ -382,7 +417,14 @@ re-entering evaluation. In the adversarial-suggester arm, the gate rejects 7/7
 (100%) high-confidence wrong mappings, and 5/5 in the expanded-collision regime -
 with a complete audit chain of proposals, gate decisions and consolidated rules
 [docs/experiments/2026-08-28_adversarial_arm_experiment.md;
-docs/experiments/2026-08-29_collision_expansion_experiment.md].
+docs/experiments/2026-08-29_collision_expansion_experiment.md]. Which dimension fires is
+part of the mechanism and we report it as such: in the adversarial arm all seven
+rejections fired on the gain dimension (collateral was exactly 0.0, so the
+collateral-side path never activated), whereas the collateral dimension became routinely
+active only once the collision regime was expanded [docs/experiments/
+2026-08-28_adversarial_arm_experiment.md, mechanism-correction note (2026-08-29);
+docs/experiments/2026-08-29_collision_expansion_experiment.md, collateral dimension
+fully activated].
 
 We present this strictly as a mechanism case, not an efficacy claim: the main
 effect of gating on downstream correctness is not significant at current corpus
@@ -530,7 +572,7 @@ of the claim we make.
 
 ### S2
 - [已处理 2026-09-20 T7] Algorithm 1 伪代码已入 S2（含输入/输出/聚合规则/缺失值处理/hinge gate 行为），逐行对位表落 docs/experiments/2026-09-20_algorithm1_lines_vs_impl.md [scripts/eval_checkpoint_aggregate.py]。
-- [已处理 2026-09-20 T7] missing-score 政策敏感性已披露: S2 新段落写明 E1.3 的 20/95 来自「排除」口径并给出 dropped_na_leaves 与设计稿 §7 supersede 注记指针；S4 另记判定级 missing 政策（hinge 用 0、其余用中性 5）[logs/graph/eval/t1_eval_baseline_comparison.json, arm_b.armB_tree].
+- [已处理 2026-09-20 T7; **2026-09-21 批 #8-C 更正口径**] missing-score 政策敏感性已披露: S2 新段落写明 E1.3 的 20/95 来自「排除」口径, 并给出 dropped_na_leaves 与设计稿 §7 supersede 注记指针。**原句「S4 另记判定级 missing 政策（hinge 用 0、其余用中性 5）」口径有误已删**——实测 missing score 是**按树配置**（parse 树全 0 / qa 树全 5）, 与 hinge 集合不重合（5 个 hinge 叶中仅 1 个为 0）; hinge 的作用是 stability 判据（详见 S2 正文与对位表 §2）[config/eval_checkpoint_trees.json].
 - [已处理 2026-09-20 T7] 专家权重 1-3 手工设定: S2 保留手工权重表述, S4 给出搜索臂的回答（同值 1.432574、7650 vs 67 次评估、最坏维未改善）[logs/graph/eval/t4_pso_fair_comparison.json, payload.t4.primary_separation_table]。
 - 术语/记号一致: visibility profile / silent absorption 与蓝图命名裁定一致, 无 blocking。
 
