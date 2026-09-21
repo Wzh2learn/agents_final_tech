@@ -37,7 +37,7 @@
 | owasp-review / sql-review / authz-check / input-validation / secret-scan | **分工并存（新件, 09-18 入库）** | 分别覆盖安全 diff 审查 / SQL 正确性 / 授权越权 / 边界输入 / 密钥扫描, 互不替代 |
 | 09-21 批 #8-A 的 10 簇合并 | **10 簇合并已执行（用户 09-21 裁定）** | C1 research-writing-skill(合 paper-writing-zh) / C2 experiment-analysis(合 experiment-observer) / C3 commit-and-pr-hygiene(3) / C4 code-simplification(3) / C5 git-history-ops(3) / C6 db-schema-change(2) / C7 frontend-quality(3) / C8 testing-practices(4) / C12 progress-reading-protocol(合 broken-window-check) / C13 eval-harness(合 evaluator-calibration); 目录 108→92, A 93→77, C 21→21 |
 | 09-21 批 #8-A 的四个「保持现状」 | **不合并（用户 09-21 裁定）** | C9 web-deploy 延后 / C10 codebase-review 延后 / C11 paper-audit 保持分工并存（§3 原裁定有效） / C15 dispatching-parallel-agents 保持不合并（§3 原裁定有效） |
-| verification-before-completion 摘除 | **待执行（须与 docs_lint [5] 同 commit）** | 用户裁定执行 C14, 但要求与 A19 / docs_lint `[5]` 同一 commit; 未同步前保持现状（本次未摘） |
+| verification-before-completion 摘除 | **已执行（09-21 批 #9-B, 三步同一 commit）** | C14+A19 落地: (i) `docs_lint [5]` 跳过用途列含 DEPRECATED 的注册表行 + 输出一条 INFO 行; (ii) 从 `A_SKILLS` 摘除该件（A 77→76, 总数 98→97）; (iii) prune 安装区残留（实测仅 `~/.codex/skills` 一端有副本）。注册表行按治理规则 4 保留 |
 
 ## 4 钩链矩阵（机械强制层 × 自动装载）
 
