@@ -7,6 +7,7 @@ databases, or the network.
 
 from __future__ import annotations
 
+import argparse
 import re
 from pathlib import Path
 
@@ -94,10 +95,56 @@ def add_markdown_table(document: Document, rows: list[list[str]]) -> None:
                 run.font.size = Pt(8.5)
 
 
-def build() -> Path:
+def add_three_stage_table(document: Document) -> None:
+    table = document.add_table(rows=4, cols=3)
+    table.style = "Table Grid"
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    entries = (
+        (
+            "E · Evaluate",
+            "D · Distill",
+            "R · Evolve rules",
+        ),
+        (
+            "Contracts + judges\nCheckpoint forest\nVisibility audit",
+            "Filter teacher traces\nTrain 4B/8B student\nQuality–cost Pareto",
+            "Propose candidates\nVerification gate\nVersioned rule memory",
+        ),
+        (
+            "Output: qualified traces and defect labels",
+            "Output: lightweight process policy or verifier",
+            "Output: auditable, rollback-ready rules",
+        ),
+        (
+            "Established evidence",
+            "Training result missing",
+            "Mechanism evidence only",
+        ),
+    )
+    for row_index, row in enumerate(entries):
+        for column_index, value in enumerate(row):
+            cell = table.cell(row_index, column_index)
+            cell.text = value
+            cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+            for paragraph in cell.paragraphs:
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                for run in paragraph.runs:
+                    run.font.size = Pt(8.5)
+                    if row_index in (0, 3):
+                        run.bold = True
+    feedback = document.add_paragraph(
+        "Accepted rules update the workflow; every update returns to the same evaluation protocol."
+    )
+    feedback.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    for run in feedback.runs:
+        run.italic = True
+        run.font.size = Pt(9)
+
+
+def build(source: Path = SOURCE, output: Path = OUTPUT) -> Path:
     document = Document()
     style_document(document)
-    lines = SOURCE.read_text(encoding="utf-8").splitlines()
+    lines = source.read_text(encoding="utf-8").splitlines()
     index = 0
     in_formula = False
 
@@ -109,8 +156,9 @@ def build() -> Path:
             title = document.add_paragraph(style="Title")
             title.alignment = WD_ALIGN_PARAGRAPH.CENTER
             add_runs(title, line[2:])
-            author = document.add_paragraph("Author: ____________________")
-            author.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            if source.name.startswith("teacher_review_draft"):
+                author = document.add_paragraph("Author: ____________________")
+                author.alignment = WD_ALIGN_PARAGRAPH.CENTER
             index += 1
             continue
 
@@ -143,7 +191,7 @@ def build() -> Path:
         image_match = re.match(r"^!\[([^]]+)\]\(([^)]+)\)$", stripped)
         if image_match:
             caption, relative = image_match.groups()
-            image_path = (SOURCE.parent / relative).resolve()
+            image_path = (source.parent / relative).resolve()
             if image_path.suffix.lower() == ".png" and image_path.is_file():
                 paragraph = document.add_paragraph()
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -176,6 +224,8 @@ def build() -> Path:
                         run.bold = True
                     for cell in (head_cell, body_cell):
                         cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+            elif image_path.name == "fig_evaluate_distill_evolve_v1.svg" and image_path.is_file():
+                add_three_stage_table(document)
             caption_paragraph = document.add_paragraph(caption)
             caption_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
             for run in caption_paragraph.runs:
@@ -218,15 +268,25 @@ def build() -> Path:
         index += 1
 
     # Preserve an explicit internal-review watermark in document properties.
-    document.core_properties.title = SOURCE.read_text(encoding="utf-8").splitlines()[0][2:]
+    document.core_properties.title = source.read_text(encoding="utf-8").splitlines()[0][2:]
     document.core_properties.subject = (
         "Internal teacher-review manuscript; patent release gate pending confirmation"
     )
-    document.core_properties.comments = "Generated offline from paper/teacher_review_draft_v1.md"
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    document.save(OUTPUT)
-    return OUTPUT
+    try:
+        source_label = source.relative_to(REPO).as_posix()
+    except ValueError:
+        source_label = source.as_posix()
+    document.core_properties.comments = f"Generated offline from {source_label}"
+    output.parent.mkdir(parents=True, exist_ok=True)
+    document.save(output)
+    return output
 
 
 if __name__ == "__main__":
-    print(build())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source", type=Path, default=SOURCE)
+    parser.add_argument("--output", type=Path, default=OUTPUT)
+    args = parser.parse_args()
+    source = args.source if args.source.is_absolute() else REPO / args.source
+    output = args.output if args.output.is_absolute() else REPO / args.output
+    print(build(source, output))

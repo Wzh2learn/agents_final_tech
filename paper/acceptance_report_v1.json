@@ -195,11 +195,11 @@
       "pass": true
     },
     {
-      "check": "delivery:paper/teacher_review_note_v1.md",
+      "check": "delivery:paper/teacher_review_note_v2.md",
       "pass": true
     },
     {
-      "check": "delivery:paper/teacher_review_readiness_v1.md",
+      "check": "delivery:paper/teacher_review_readiness_v2.md",
       "pass": true
     }
   ]

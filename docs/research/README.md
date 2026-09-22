@@ -8,15 +8,27 @@
 
 出现冲突时，按下列顺序判断：
 
-1. `docs/34_专利_小论文_大论文协同研究路线.md`：专利—小论文—大论文的上位路线与公开边界（受保护，只读）。
-2. `docs/experiments/2026-08-30_phase_a_autopsy_and_claim_set_v2.md`：小论文冻结主张与降级口径。
-3. `paper/draft_v0_s1_s2_s6.md`：当前内部英文稿；不能把内部草稿直接当投稿版。
+1. 用户在 2026-09-22 明确恢复的小论文三阶段方向：大模型流程评估、小模型蒸馏、自学习规则进化；当前落盘为 `paper/research_story_v2.md`。
+2. `docs/34_专利_小论文_大论文协同研究路线.md`：上一轮为降低拒稿风险形成的“评估单线”裁定及公开边界（受保护，只读）；其中专利边界继续有效，论文范围由本次用户校准更新。
+3. `docs/experiments/2026-08-30_phase_a_autopsy_and_claim_set_v2.md`：评估子稿的冻结主张与降级口径。
 4. `logs/graph/eval/` 与 `docs/experiments/`：数字、预注册、审计和复现证据。
 5. 早期路线、任务卡和旧稿：只用于追溯，不能覆盖以上现行结论。
 
-## 2. 两条论文线
+## 2. 统一科研主线
 
-### 2.1 会议小论文：先把“如何可信地评”讲透
+### 2.1 会议小论文：评估—蒸馏—规则进化
+
+当前目标故事见 `paper/research_story_v2.md`：流程评估产生可信 checkpoint 信号，可信轨迹用于小模型蒸馏，小模型或大模型提出的规则候选经验证门控后进入可回滚规则记忆，并重新进入同一评估协议。
+
+| 阶段 | 论文责任 | 当前资产 | 成熟度 |
+|---|---|---|---|
+| E 大模型流程评估 | 提供可信训练/验收信号 | 95 表、118 注入、检查点树、可见性与协议审计 | 已闭环 |
+| D 小模型蒸馏 | 把过程能力迁移到 4B/8B 学生 | 零样本矩阵、文献、60 条 DPO 对 | 未训练，当前最大缺口 |
+| R 自学习规则进化 | 把稳定经验固化为可审计规则 | gain–collateral 门、碰撞/对抗实验、bandit/DPO 工件 | 机制级，功效待补 |
+
+`paper/teacher_review_draft_v1.md/.docx` 只覆盖 E 阶段，现定位为成熟证据子稿或分拆投稿备选，不再代表完整小论文。
+
+### 2.2 评估子稿：已完成的证据底座
 
 暂定题目：*Discriminability-Aware Evaluation of Long-Horizon Document AI Pipelines via Hierarchical Checkpoints and Defect Visibility Analysis*。
 
@@ -31,16 +43,16 @@
 
 小论文明确不承担：VGRM 显著效果、PSO 优越性、严格“盲锥”理论、RL/DPO/bandit 扩展、任意长流程系统的普遍外推。
 
-### 2.2 研究生大论文：形成“评测—诊断—改进”闭环
+### 2.3 研究生大论文：展开三阶段并验证长期闭环
 
 | 创新点 | 核心问题 | 与小论文关系 | 独立验收条件 | 成熟度 |
 |---|---|---|---|---|
 | TH-I1 判别力感知的分层评测 | 如何以可控成本获得可诊断证据？ | 小论文 SP-RQ2/RQ3 是主体证据 | 强基线、多种子、不确定性、成本口径、第二类长流程 | 中高 |
 | TH-I2 缺陷可见性与静默吸收 | 哪些缺陷为何不可见？ | 小论文 SP-RQ1 是主体证据 | 等价类、强度梯度、匹配器边界和跨数据流复现 | 中高 |
-| TH-I3 评测驱动的门控规则自学习 | 发现缺陷后如何安全固化并回滚？ | 小论文只给机制案例 | no-gate/gain-only/collateral-only/confidence/holdout/rollback 强基线，功效分析与碰撞控制 | 中 |
-| TH-I4 跨层互补修复（条件性） | 文本层失明时，视觉层能否低成本补盲？ | 小论文不依赖 | 错位率低于预注册门且跨层增益稳定 | 中低；未过门则并入 TH-I2 |
+| TH-I3 评估引导的小模型过程蒸馏 | 如何将可靠过程能力迁移到低成本学生？ | 小论文 D 阶段 | 4B/8B、SFT/DPO、未见家族 holdout、质量—成本 Pareto | 低，最高优先 |
+| TH-I4 验证门控的规则自学习 | 如何安全固化并回滚？ | 小论文 R 阶段 | no-gate/gain-only/collateral-only/confidence/holdout/rollback 强基线，功效分析 | 中 |
 
-大论文不是把小论文拉长。TH-I1/TH-I2 可复用小论文证据，但 TH-I3 必须有自己的强基线和统计功效；TH-I4 只有过门后才成为独立创新点。
+大论文不是把小论文拉长。TH-I1/TH-I2 复用评估底座，TH-I3 扩展多学生/多教师和泛化，TH-I4 扩展长期安全性与学习门。视觉补盲仅作 TH-I2 的条件性实验。
 
 ## 3. 论文导向验收体系
 
@@ -72,15 +84,15 @@
 
 - T1/T2/T6 实验与 T7 回填已完成；Algorithm 1 已入稿并有实现对位表。
 - 2026-09-21 双模型独立审稿均判定 `REVISE`；随后已完成口径、hinge、算法编号、门控披露等 P0 文本修订。
-- 当前高价值缺口不是再跑同类实验，而是生成干净投稿稿、完成 Related Work/引用、做一次 claim—number—artifact 机械验收。
-- 第二数据流/第二 scorer 仍是外部效度缺口；它们决定主张范围，不应阻塞内部稿件清理。
-- 专利公开状态是唯一外发硬门。
+- 评估子稿已完成干净稿、Related Work、claim—number—artifact 机械验收。
+- 完整三阶段小论文的最高价值缺口是蒸馏 MVP；第二数据流/第二 scorer 次于该缺口。
+- 完整三阶段稿尚未达到投稿就绪；即使科研验收通过，专利公开状态仍是独立外发硬门。
 
 ### 大论文
 
 - TH-I1/TH-I2 已有较完整的小论文证据底座。
-- TH-I3 只有机制与探索性证据，强门控基线和功效分析尚未闭合。
-- TH-I4 尚未达到独立创新点门槛。
+- TH-I3 只有训练前矩阵、文献和偏好对，尚无蒸馏结果。
+- TH-I4 有机制与探索性证据，强门控基线和功效分析尚未闭合。
 
 ## 5. 论文验收基线 v1
 
@@ -92,8 +104,13 @@
 2. `paper/claim_manifest_v1.json`：每条 claim 对应稿件数字、证据、适用范围和降级边界。
 3. `research/validate_paper_claims.py`：静态检查章节、证据路径、关键数字和内部注记泄漏。
 4. `paper/teacher_review_draft_v1.docx`：老师可直接打开的 Word 审阅版，由 Markdown 离线生成。
-5. `paper/teacher_review_readiness_v1.md`：内部送审判定、阻塞项与导师审阅问题。
+5. `paper/teacher_review_readiness_v2.md`：方向校准后的内部送审判定、阻塞项与导师审阅问题。
 6. `paper/thesis_manuscript_scaffold_v1.md`：大论文章节、创新点、小论文继承与新增证据边界。
+7. `paper/research_story_v2.md`：三阶段统一故事、证据成熟度和最小蒸馏/规则实验闭环。
+8. `paper/figures/fig_evaluate_distill_evolve_v1.svg`：三阶段总架构图。
+9. `paper/research_story_v2.docx`：可直接交导师讨论的三阶段方向说明。
+10. `paper/research_asset_map_v2.md`：评估、蒸馏、规则进化的代码、实验、稿件和缺口索引。
+11. `docs/experiments/2026-09-22_distillation_mvp_preregistration.md`：下一项蒸馏实验的 RQ、四臂对照、split、防泄漏和判定规则。
 
 运行：
 
@@ -103,7 +120,7 @@ PYTHONPATH=. python3 -m pytest tests/test_paper_claim_acceptance.py -q
 .venv/bin/python research/build_teacher_review_docx.py
 ```
 
-通过 G5 后，再决定外部效度优先补第二数据流还是第二 scorer；两者均需另开预注册与预算门。
+评估子稿已通过 G5。完整三阶段稿下一门是蒸馏 MVP；通过后再决定外部效度优先补第二数据流还是第二 scorer。
 
 本批不包含：生产探测、模型调用、TAT-DQA 解冻、D4 执行、专利公开状态判断或对外发送。
 
@@ -112,7 +129,12 @@ PYTHONPATH=. python3 -m pytest tests/test_paper_claim_acceptance.py -q
 - 当前内部稿：`paper/draft_v0_s1_s2_s6.md`
 - 老师审阅稿：`paper/teacher_review_draft_v1.md`
 - 老师审阅 Word：`paper/teacher_review_draft_v1.docx`
-- 内部送审验收：`paper/teacher_review_readiness_v1.md`
+- 方向校准说明：`paper/teacher_review_note_v2.md`
+- 内部送审验收：`paper/teacher_review_readiness_v2.md`
+- 三阶段总叙事：`paper/research_story_v2.md`
+- 三阶段方向 Word：`paper/research_story_v2.docx`
+- 三阶段架构图：`paper/figures/fig_evaluate_distill_evolve_v1.svg`
+- 三阶段资产地图：`paper/research_asset_map_v2.md`
 - 大论文稿件骨架：`paper/thesis_manuscript_scaffold_v1.md`
 - Claim manifest：`paper/claim_manifest_v1.json`
 - 小论文蓝图：`docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md`

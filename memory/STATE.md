@@ -25,13 +25,17 @@ thesis directly. The canonical execution and acceptance entry is
 
 ## Completed in the current governance pass
 
-- The conference-paper teacher-review package is complete: clean Markdown and
-  DOCX manuscripts, a Chinese review note, claim manifest, acceptance report,
-  and internal-readiness decision are linked from `docs/research/README.md`.
+- The evaluation-track teacher-review package is complete, but the user has
+  restored the conference paper's intended three-stage direction: large-model
+  process evaluation, small-model distillation, and verification-gated rule
+  evolution. `paper/research_story_v2.md` is the current narrative authority.
 - The paper acceptance gate verifies 4 claims and 49 section, wording, evidence,
   figure, and delivery-file checks without model, service, or database calls.
 - The master's-thesis scaffold now maps each chapter to the small-paper evidence
   it may inherit and the independent evidence it must still add.
+- The three-stage asset map and Figure 1 distinguish established evaluation
+  evidence, untrained distillation assets, and mechanism-only rule-evolution
+  evidence. A distillation MVP preregistration exists but has not been executed.
 - Local quickstart no longer kills an existing process or backgrounds Uvicorn.
 - Runtime configuration now agrees on `PGDATABASE_URL`, `vector_db`, and port 5050.
 - Docker images include the required `config/` tree.
@@ -50,14 +54,14 @@ thesis directly. The canonical execution and acceptance entry is
 
 ## Next work
 
-1. User reviews and sends the internal package to the advisor when appropriate;
-   the agent does not send it externally.
-2. Apply advisor feedback only to the affected manuscript sections, then rerun
-   the paper acceptance gate and regenerate the DOCX.
-3. If the advisor requires stronger external validity, preregister either a
-   second dataflow or a second scorer before any new run.
-4. Continue the thesis with TH-I3 strong baselines after the conference-paper
-   story is stable; keep TH-I4 conditional on its preregistered gate.
+1. Use the direction-calibrated note, research story, and Figure 1 to confirm
+   with the advisor whether the three stages remain one conference paper.
+2. If unified, preregister and run the small-model distillation MVP; do not
+   mislabel the existing zero-shot model matrix as distillation evidence.
+3. Then compare strong rule-gate baselines on a shared candidate stream and
+   integrate the supported results into a new manuscript version.
+4. Keep the evaluation-only manuscript as a mature evidence chapter and
+   fallback split-paper route.
 
 ## Protected boundaries
 

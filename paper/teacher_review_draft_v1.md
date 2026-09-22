@@ -1,6 +1,6 @@
 # Discriminability-Aware Evaluation of Long-Horizon Document AI Pipelines via Hierarchical Checkpoints and Defect Visibility Analysis
 
-> Internal teacher-review version, 2026-09-22. Author and affiliation are to be filled in. Do not distribute, submit, upload to arXiv, or publish code before the patent-status gate is cleared.
+> Evaluation-track evidence draft for internal teacher review, 2026-09-22. This document covers the evaluation stage only; the current three-stage paper direction is documented separately. Author and affiliation are to be filled in. Do not distribute, submit, upload to arXiv, or publish code before the patent-status gate is cleared.
 
 ## Abstract
 

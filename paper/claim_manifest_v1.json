@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "paper": "paper/teacher_review_draft_v1.md",
-  "status": "internal_teacher_review",
+  "status": "evaluation_track_internal_draft",
   "release_gate": "patent_status_confirmation_required",
   "delivery_files": [
     "paper/teacher_review_draft_v1.md",
     "paper/teacher_review_draft_v1.docx",
-    "paper/teacher_review_note_v1.md",
-    "paper/teacher_review_readiness_v1.md"
+    "paper/teacher_review_note_v2.md",
+    "paper/teacher_review_readiness_v2.md"
   ],
   "required_sections": [
     "Abstract",

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">Evaluation-guided distillation and verification-gated self-evolution</title>
+  <desc id="desc">A closed research loop from a large-model workflow through hierarchical evaluation, small-model distillation, verification-gated rule evolution, and back to the workflow. Solid boxes indicate existing evidence; dashed boxes indicate planned validation.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#263238"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#228833"/>
+    </marker>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#17212b}.subtitle{font:18px Arial,sans-serif;fill:#455a64}
+      .stage{font:700 22px Arial,sans-serif;fill:#17212b}.body{font:17px Arial,sans-serif;fill:#263238}
+      .small{font:15px Arial,sans-serif;fill:#455a64}.badge{font:700 14px Arial,sans-serif;fill:#17212b}
+      .box{stroke-width:2.2;rx:16;ry:16}.inner{stroke-width:1.4;rx:10;ry:10}
+      .arrow{stroke:#263238;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .feedback{stroke:#228833;stroke-width:3;fill:none;marker-end:url(#arrowGreen)}
+    </style>
+  </defs>
+  <rect width="1400" height="780" fill="#ffffff"/>
+  <text x="700" y="48" text-anchor="middle" class="title">Evaluation-guided distillation and verification-gated self-evolution</text>
+  <text x="700" y="78" text-anchor="middle" class="subtitle">Long-horizon document intelligence: measure → transfer → consolidate → re-evaluate</text>
+
+  <rect x="45" y="165" width="230" height="350" class="box" fill="#f3f5f7" stroke="#607d8b"/>
+  <text x="160" y="205" text-anchor="middle" class="stage">Large-model workflow</text>
+  <rect x="78" y="235" width="164" height="56" class="inner" fill="#ffffff" stroke="#90a4ae"/>
+  <text x="160" y="270" text-anchor="middle" class="body">Parse documents</text>
+  <rect x="78" y="315" width="164" height="56" class="inner" fill="#ffffff" stroke="#90a4ae"/>
+  <text x="160" y="350" text-anchor="middle" class="body">Retrieve evidence</text>
+  <rect x="78" y="395" width="164" height="56" class="inner" fill="#ffffff" stroke="#90a4ae"/>
+  <text x="160" y="430" text-anchor="middle" class="body">Reason and act</text>
+  <text x="160" y="482" text-anchor="middle" class="small">Traces · outputs · cost</text>
+
+  <rect x="325" y="125" width="300" height="430" class="box" fill="#e8f2fb" stroke="#4477aa"/>
+  <text x="475" y="165" text-anchor="middle" class="stage">E · Evaluate</text>
+  <rect x="365" y="195" width="220" height="60" class="inner" fill="#ffffff" stroke="#4477aa"/>
+  <text x="475" y="222" text-anchor="middle" class="body">Deterministic contracts</text>
+  <text x="475" y="244" text-anchor="middle" class="small">+ semantic judges</text>
+  <rect x="365" y="280" width="220" height="60" class="inner" fill="#ffffff" stroke="#4477aa"/>
+  <text x="475" y="307" text-anchor="middle" class="body">Checkpoint forest</text>
+  <text x="475" y="329" text-anchor="middle" class="small">evidence at every stage</text>
+  <rect x="365" y="365" width="220" height="60" class="inner" fill="#ffffff" stroke="#4477aa"/>
+  <text x="475" y="392" text-anchor="middle" class="body">Visibility audit</text>
+  <text x="475" y="414" text-anchor="middle" class="small">detected · absorbed · bounded</text>
+  <rect x="390" y="465" width="170" height="40" rx="20" fill="#d5e8f7" stroke="#4477aa"/>
+  <text x="475" y="490" text-anchor="middle" class="badge">ESTABLISHED EVIDENCE</text>
+
+  <rect x="675" y="125" width="300" height="430" class="box" fill="#fff4df" stroke="#d89000" stroke-dasharray="11 7"/>
+  <text x="825" y="165" text-anchor="middle" class="stage">D · Distill</text>
+  <rect x="715" y="195" width="220" height="60" class="inner" fill="#ffffff" stroke="#d89000" stroke-dasharray="8 5"/>
+  <text x="825" y="222" text-anchor="middle" class="body">Filter teacher traces</text>
+  <text x="825" y="244" text-anchor="middle" class="small">checkpoint-qualified data</text>
+  <rect x="715" y="280" width="220" height="60" class="inner" fill="#ffffff" stroke="#d89000" stroke-dasharray="8 5"/>
+  <text x="825" y="307" text-anchor="middle" class="body">Train 4B / 8B student</text>
+  <text x="825" y="329" text-anchor="middle" class="small">SFT + preference learning</text>
+  <rect x="715" y="365" width="220" height="60" class="inner" fill="#ffffff" stroke="#d89000" stroke-dasharray="8 5"/>
+  <text x="825" y="392" text-anchor="middle" class="body">Quality–cost Pareto</text>
+  <text x="825" y="414" text-anchor="middle" class="small">unseen-family holdout</text>
+  <rect x="710" y="465" width="230" height="40" rx="20" fill="#fff0cf" stroke="#d89000" stroke-dasharray="6 4"/>
+  <text x="825" y="490" text-anchor="middle" class="badge">TRAINING RESULT MISSING</text>
+
+  <rect x="1025" y="125" width="330" height="430" class="box" fill="#e8f5ec" stroke="#228833"/>
+  <text x="1190" y="165" text-anchor="middle" class="stage">R · Evolve rules</text>
+  <rect x="1065" y="195" width="250" height="60" class="inner" fill="#ffffff" stroke="#228833"/>
+  <text x="1190" y="222" text-anchor="middle" class="body">Propose rule candidates</text>
+  <text x="1190" y="244" text-anchor="middle" class="small">teacher or student</text>
+  <rect x="1065" y="280" width="250" height="60" class="inner" fill="#ffffff" stroke="#228833"/>
+  <text x="1190" y="307" text-anchor="middle" class="body">Verification gate</text>
+  <text x="1190" y="329" text-anchor="middle" class="small">gain · collateral · holdout</text>
+  <rect x="1065" y="365" width="250" height="60" class="inner" fill="#ffffff" stroke="#228833"/>
+  <text x="1190" y="392" text-anchor="middle" class="body">Versioned rule memory</text>
+  <text x="1190" y="414" text-anchor="middle" class="small">consolidate · audit · rollback</text>
+  <rect x="1065" y="465" width="250" height="40" rx="20" fill="#dff1e5" stroke="#228833"/>
+  <text x="1190" y="490" text-anchor="middle" class="badge">MECHANISM EVIDENCE ONLY</text>
+
+  <path d="M275 340 H325" class="arrow"/>
+  <path d="M625 340 H675" class="arrow"/>
+  <path d="M975 340 H1025" class="arrow"/>
+  <text x="650" y="315" text-anchor="middle" class="small">qualified traces</text>
+  <text x="1000" y="315" text-anchor="middle" class="small">candidate actions</text>
+
+  <path d="M1190 555 V650 H160 V515" class="feedback"/>
+  <text x="700" y="685" text-anchor="middle" class="body" fill="#228833">Accepted rules update the workflow; every update returns to the same evaluation protocol</text>
+
+  <line x1="325" y1="735" x2="375" y2="735" stroke="#4477aa" stroke-width="3"/>
+  <text x="385" y="741" class="small">existing evidence</text>
+  <line x1="610" y1="735" x2="660" y2="735" stroke="#d89000" stroke-width="3" stroke-dasharray="9 6"/>
+  <text x="670" y="741" class="small">planned validation</text>
+  <line x1="900" y1="735" x2="950" y2="735" stroke="#228833" stroke-width="3"/>
+  <text x="960" y="741" class="small">closed-loop feedback</text>
+</svg>
