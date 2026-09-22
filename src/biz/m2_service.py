@@ -1,6 +1,6 @@
 """M2 RAG QA service: retrieval over M1-parsed statements + :8004 generation.
 
-Reuses the existing M2 RAG pipeline (``scripts/m1_rag_ingest.py`` ->
+Reuses the existing M2 RAG pipeline (``biz.m1_rag_ingest`` ->
 ``RAGService.smart_retrieve`` over the ``m1_parsed_statements`` collection) and
 adds an answer-generation step on the :8004 Qwen3.6-35B chat model.
 
@@ -17,7 +17,6 @@ from __future__ import annotations
 
 import json
 import os
-import sys
 import urllib.request
 from typing import Any, Optional
 import threading
@@ -123,25 +122,19 @@ def new_session_id() -> str:
     """Generate a new session UUID."""
     return str(uuid.uuid4())
 
-_rag_mod = None       # cached scripts/m1_rag_ingest.py module (env + RAGService)
+_rag_mod = None       # cached biz.m1_rag_ingest module (env + RAGService)
 _rag_service = None   # cached RAGService instance (embedding model loaded once)
 
 
 def _load_rag():
-    """Lazy-import the M2 RAG pipeline from scripts/ and cache a RAGService.
+    """Lazy-import the M2 RAG application module and cache a RAGService.
 
-    Mirrors the lazy-load pattern used by ``web.routers.m1`` for the parser.
-    Importing ``m1_rag_ingest`` sets the local-embedding + PGVector env vars and
+    Importing ``biz.m1_rag_ingest`` sets the local-embedding + PGVector env vars and
     exposes ``RAGService`` / ``COLLECTION``.
     """
     global _rag_mod, _rag_service
     if _rag_mod is None:
-        scripts_dir = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "..", "..", "scripts")
-        )
-        if scripts_dir not in sys.path:
-            sys.path.insert(0, scripts_dir)
-        import m1_rag_ingest as mod  # noqa: E402
+        from biz import m1_rag_ingest as mod
 
         _rag_mod = mod
     if _rag_service is None:

@@ -1,7 +1,7 @@
 """Unit tests for doc_type tagging + OCR-provenance rescore (2026-08-05).
 
 Covers:
-- scripts/m1_rag_ingest.compute_doc_type  (doc_type 规则单一信源)
+- biz.m1_rag_ingest.compute_doc_type  (doc_type 规则单一信源)
 - biz.rag_service.RAGService._apply_doc_type_rescore  (OCR 溯源查询重排)
 
 纯函数测试，不依赖 PGVector / embedding / LLM。

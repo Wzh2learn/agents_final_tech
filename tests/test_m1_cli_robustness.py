@@ -1,4 +1,4 @@
-"""CLI 健壮性测试 — scripts/m1_statement_parser.py (P1.3, 2026-08-08 沉淀)。
+"""CLI 兼容性测试 — biz.m1_statement_parser (P1.3, 2026-08-08 沉淀)。
 
 覆盖：
 - 前缀过滤跳过文件时的 stderr 显式警告（列明文件名）

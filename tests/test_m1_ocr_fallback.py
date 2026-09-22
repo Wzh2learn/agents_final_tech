@@ -1,4 +1,4 @@
-"""Unit tests for OCR fallback logic in scripts/m1_statement_parser.py.
+"""Unit tests for OCR fallback logic in biz.m1_statement_parser.
 
 All external dependencies (vision-8004, PaddleOCR, fitz) are mocked.
 """

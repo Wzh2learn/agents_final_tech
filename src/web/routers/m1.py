@@ -25,7 +25,7 @@ router = APIRouter()
 _LLM_FALLBACK_DEFAULT = os.environ.get("M1_LLM_FALLBACK", "1") != "0"
 
 # ---------------------------------------------------------------------------
-# Lazy-load the statement parser that lives in scripts/ (outside src/)
+# Lazy-load the production statement parser.
 # ---------------------------------------------------------------------------
 _parser_mod = None
 
@@ -33,12 +33,7 @@ _parser_mod = None
 def _get_parser():
     global _parser_mod
     if _parser_mod is None:
-        scripts_dir = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "..", "..", "..", "scripts")
-        )
-        if scripts_dir not in sys.path:
-            sys.path.insert(0, scripts_dir)
-        import m1_statement_parser as mod  # noqa: E402
+        from biz import m1_statement_parser as mod
 
         _parser_mod = mod
     return _parser_mod

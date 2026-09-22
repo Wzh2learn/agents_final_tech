@@ -43,7 +43,7 @@ Full test runs may perform optional read-only health probes. GB10 results are au
 | `config/` | Runtime configuration and schema overrides |
 | `docs/` | Current docs, experiments, governance evidence, archive |
 
-Keep routes thin and reusable application logic under `src/`. Do not add new production imports from `scripts/`; existing parser/ingest imports are migration debt being removed separately.
+Keep routes thin and reusable application logic under `src/`. Production parser and ingest logic lives in `src/biz/`; `scripts/m1_statement_parser.py` and `scripts/m1_rag_ingest.py` are compatibility CLIs only. Do not add production imports from `scripts/`.
 
 ## Workflow
 

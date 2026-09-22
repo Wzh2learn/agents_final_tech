@@ -28,6 +28,7 @@ Improve engineering governance and operational reliability on branch
 - Runtime configuration now agrees on `PGDATABASE_URL`, `vector_db`, and port 5050.
 - Docker images include the required `config/` tree.
 - Local, Docker, systemd, supervisord, compatibility, and restart launch paths delegate to `serve.sh`.
+- Production parser and ingest implementations live in `src/biz/`; legacy script imports and CLIs delegate to those canonical modules.
 
 ## Runtime status
 
@@ -38,10 +39,9 @@ Improve engineering governance and operational reliability on branch
 
 ## Next engineering-governance work
 
-1. Finish thinning project documentation and separate navigation from history.
-2. Move production parser/ingest implementation out of `scripts/` behind stable imports.
-3. Classify scripts as production, operations, experiments, or archive.
-4. Harden skill synchronization and repair skill metadata/validation gaps.
+1. Classify scripts as production, operations, experiments, or archive.
+2. Harden skill synchronization and repair skill metadata/validation gaps.
+3. Split oversized parser/RAG modules only after stable behavioral boundaries are covered.
 
 ## Protected boundaries
 

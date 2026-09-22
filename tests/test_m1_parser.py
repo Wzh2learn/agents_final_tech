@@ -1,4 +1,4 @@
-"""Unit tests for scripts/m1_statement_parser.py — parsing & schema mapping."""
+"""Unit tests for biz.m1_statement_parser — parsing and schema mapping."""
 
 import os
 import sys

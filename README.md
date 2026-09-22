@@ -68,7 +68,9 @@ curl -X POST http://localhost:5050/api/m2/ask \
 
 ```
 src/
-├── biz/            # 业务逻辑 (M1 解析, M2 RAG QA)
+├── biz/            # 业务逻辑 (M1 解析/入库, M2 RAG QA)
+│   ├── m1_statement_parser.py  # 对账单解析引擎
+│   └── m1_rag_ingest.py        # 脱敏后写入 PGVector
 ├── web/            # FastAPI 路由 + 前端
 │   ├── routers/    # API 端点 (m1, m2, pages)
 │   ├── static/     # CSS/JS
@@ -76,8 +78,8 @@ src/
 └── main.py         # 应用入口
 
 scripts/
-├── m1_statement_parser.py   # 对账单解析引擎
-├── m1_rag_ingest.py         # RAG 知识库入库
+├── m1_statement_parser.py   # 解析器兼容 CLI
+├── m1_rag_ingest.py         # 入库兼容 CLI
 ├── m1_rag_qa.py             # RAG 问答测试 (15 queries)
 ├── m1_benchmark.py          # 性能基准测试
 ├── qwen_harness_tools.py    # 千问平台工具 CLI

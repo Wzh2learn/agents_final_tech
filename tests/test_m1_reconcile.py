@@ -1,4 +1,4 @@
-"""Unit tests for reconcile logic in scripts/m1_statement_parser.py."""
+"""Unit tests for reconcile logic in biz.m1_statement_parser."""
 
 import os
 import sys
