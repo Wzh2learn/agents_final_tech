@@ -1,16 +1,23 @@
 # Current State
 
-> Updated: 2026-09-22 | Scope: repository governance | Runtime: not probed
+> Updated: 2026-09-22 | Scope: main fast-forward and GB10 acceptance stop | Runtime: no restart
 
-This is the current snapshot. Open decisions belong in [`THREADS.md`](THREADS.md),
-durable decisions in [`DECISIONS.md`](DECISIONS.md), and the previous long snapshot
-in [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
+Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
+[`DECISIONS.md`](DECISIONS.md); prior snapshot: [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 
 ## Current objective
 
-P1 local audit and advisor-content review are delivered; remaining tests and
-Office visual review are handed to the server. Research entry:
-[`../docs/research/README.md`](../docs/research/README.md).
+`origin/test/compaction-guard-abort` was fast-forwarded into `main` and pushed.
+GB10 acceptance stopped on governance drift, four pytest failures and a zero-endpoint
+violation. Phase 1a/2 did not start. Entry: [`../docs/research/README.md`](../docs/research/README.md).
+
+## Git and GB10 checkout state
+
+- Local and origin `main` are `0aee20d`; `--ff-only`, 17 commits, 88 files, `+7955/-4408`.
+- Frozen paths/docs 33–34 are unchanged; four pre-existing local user assets stay uncommitted.
+- GB10 production stays at `3dabbc7`: six dirty files include intersecting
+  `logs/graph/dispatch_log.md`; no pull/stash/reset/clean occurred.
+- Clean detached worktree `agents_final_tech_accept_0aee20d` at `0aee20d` held acceptance.
 
 ## Repository baseline
 
@@ -66,32 +73,27 @@ Office visual review are handed to the server. Research entry:
 - The internal direction package is separate from the experiment-backed full draft.
   No materials were sent; patent release approval remains an independent gate.
 
-## Verification record and server handoff (2026-09-22)
+## GB10 acceptance evidence and stop (2026-09-22)
 
-- Before the user's pause: 17 data-audit tests and 11 paper/asset tests passed locally.
-  Two audit outputs are byte-identical; details/hashes are in the asset map §3.1.
-- Remaining tests and Office visual review are server-side; no more local test runs.
-- Earlier governance regression: 160 passed, 1 real-corpus test deliberately deselected;
-  governance/catalog/receipts/VGMC/paper/runtime/module boundaries/aggregation/drift.
-- Paper static acceptance: 49/49. This checks structure/wording/paths, not new effects.
-- All 16 checkpoint files and DPO hashes match the plan's pre-change snapshot.
-- `git diff --check` and dispatch `bash -n` pass; protected docs/33, docs/34,
-  frozen tests/hash manifest and original experimental artifacts are unchanged.
-- docs_lint still reports 1 existing local skill-installation FAIL and 1 protected
-  docs/34 date WARN; not an all-green lint claim. No suppression/global sync applied.
-- Pytest retains its existing unknown `asyncio_mode` warning. The existing `.venv`
-  provides python-docx; no dependencies were installed or changed.
-- Endpoint/model/service/database/health-probe calls: 0. No GB10 or Office validation.
+- Focused offline contracts: 159 passed, exit 0; scope covered data/paper claims,
+  production/runtime boundaries, isolated launch fixtures and governance routing.
+- `git diff --check`, changed Python compilation and changed Bash `bash -n` passed.
+  Paper claim validator passed 49/49; these checks do not prove research effects.
+- Skill sync failed 1/97 (`skill-doctor` install drift); docs_lint was 1 fail/1 warn.
+  Skill-doctor found 0 errors/139 warnings and exited 1. No install mutation or suppression.
+- Full pytest ran once: `590 passed, 14 skipped, 4 failed`; failures lacked ignored
+  `injected_tables.json` in the worktree. Production has SHA256
+  `827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9`;
+  it was not copied/generated/linked and tests were not rerun.
+- Network trace: allowed PG `:15432` ×6 and HTTP `:5050` ×1; forbidden `:8004`
+  ×5 and `:8007` ×1; DNS `:53` ×4 and GitHub SSH `:22` ×4. Forbidden attempts
+  violate the zero-endpoint contract even though completed inference was not proven.
+- No daemon/service restart, crontab change, model load, judge, canary, training,
+  Phase 1a, Phase 2, old receipt recomputation or paper publication occurred.
 
-## Exclusions and next action
+## Next-session boundary
 
-- The user states corpus/model/runtime assets are on another server. This round
-  neither verifies nor retrieves them; missing local copies are not research failure.
-- New paper-facing baselines/replay remain GB10 work even at zero endpoint calls;
-  local work is existing-fact audit and synthetic code testing only.
-- Plan §10 now hands off remaining tests/Office review to the server; Phase 1a/2,
-  data expansion and training all await the user's further approval.
-- Do not modify docs/33, docs/34 or frozen TAT-DQA, publish research, change global
-  installs, or touch services without the required separate authorization.
-- The latest instruction requests a Git commit after document handoff;
-  Git history and branch alignment are authoritative for delivery status.
+- Acceptance is **blocked**; Phase 1a/2 require approved skill-drift, data-access and hard network-isolation resolutions.
+- Do not regenerate old artifacts; only four failed tests need diagnostic rerun unless authorized.
+- Preserve production dirty files; no pull while dispatch log intersects, and no stash/reset/clean.
+- Training, model/endpoint tests, restarts, frozen/protocol changes and publication remain unauthorized.

@@ -2,6 +2,23 @@
 
 ## 当前科研线（2026-09-22）
 
+- **最新接续停点（0aee20d 合并后 GB10 验收）**：本地与 `origin/main`
+  已 fast-forward 到 `0aee20d`；GB10 生产 checkout 因脏件与
+  `logs/graph/dispatch_log.md` 路径交集仍停在 `3dabbc7`，隔离 worktree
+  `/home/testuser/wzh/projects/agents_final_tech_accept_0aee20d` 用于验收。
+  定向离线测试 159 passed，静态检查与 claim validator 49/49 通过；但
+  `sync_skills --check` 为 1/97 drift，docs_lint 为 1 fail/1 warn，skill-doctor
+  为 0 errors/139 warnings（exit 1）。全量 pytest 为 590 passed/14 skipped/
+  4 failed，失败均因隔离 worktree 缺少已存在于生产 checkout 的 ignored
+  `injected_tables.json`；未复制、未重跑。更严重的是 `strace` 记录到
+  `:8004` 5 次和 `:8007` 1 次禁用连接尝试（另有允许的 `:5050` 1 次、
+  PG `:15432` 6 次），故验收不得写 PASS。Phase 1a/2 未启动。
+- **接续前必须裁定/修复的三件事**：① 是否授权把仓库 `skill-doctor`
+  同步到 GB10 安装区，或明确接受 1/97 drift；② 为全量/失败测试建立
+  硬网络隔离或精确排除清单，禁止再次触达模型端点；③ 以只读复制、
+  bind/symlink 或显式数据根为隔离 worktree 提供现存 ignored 输入的具体
+  方案。三项未闭合前不进入 Phase 1a/2，不申请4B/8B窗口。
+
 - 统一入口：`docs/research/README.md`；当前叙事权威为 `paper/research_story_v2.md`。用户于 2026-09-22 校准：小论文恢复“大模型流程评估 → 小模型蒸馏 → 自学习规则进化”三阶段闭环。
 - 评估子稿验收基线 v1 已完成，但只代表 Stage E，不再称为完整小论文；可作成熟章节或分拆投稿备选。
 - 当前最大缺口：动作策略/规则候选蒸馏没有训练结果；vgmc 日志不含完整推理轨迹。4B 仅训练链 smoke、8B 主学生已定，14B 既有异常尚未归因；待确认的是训练窗口与预注册指标/非劣和安全容差，不再重问学生选择。

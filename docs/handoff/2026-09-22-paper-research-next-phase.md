@@ -1,6 +1,6 @@
 # 小论文—大论文科研下一阶段执行计划与 Agent 交接 v1
 
-> 状态：P1 本地数据审计与导师包内容核对已交付；Office 视觉仍待核；所有后续实验（含 Phase 1a/2）等待用户批准
+> 状态：`0aee20d` 已 fast-forward 到 main；GB10 验收因 skill 安装漂移、隔离数据缺失和零端点违规而停；Phase 1a/2 未启动
 
 > 更新：2026-09-22
 
@@ -443,9 +443,40 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 ## 10. P1 交付与服务器接手
 
+### 10.0 2026-09-22 主线合并与 GB10 验收停点
+
+`origin/test/compaction-guard-abort` 的17个提交已通过 `--ff-only` 合入
+`main` 并推送，`main/origin/main=0aee20d913e32fdc7bdf99e7980d0eef0f15bb28`。
+冻结清单所列仓内路径、docs/33 和 docs/34 在该范围内零改动。本地四项既有
+用户资产保持原样。
+
+GB10 生产 checkout 的 `logs/graph/dispatch_log.md` 与导入范围相交，因此按
+保护规则保持在 `3dabbc7`，未 pull/stash/reset/clean；验收在 detached worktree
+`/home/testuser/wzh/projects/agents_final_tech_accept_0aee20d` 完成。当前证据：
+
+- 定向离线合同测试 159 passed；diff/Python/Bash 静态检查通过；论文 claim
+  validator 49/49。
+- `sync_skills.sh --check` 为 1/97 drift（仓内 `skill-doctor` 与 GB10 Codex
+  安装副本不同），docs_lint 因此为 1 fail/1 warn；未擅自 sync/prune。
+- skill-doctor 为 0 errors/139 warnings，按当前策略 exit 1；没有消警。
+- 全量 pytest 一次：590 passed/14 skipped/4 failed。四项失败都来自 detached
+  worktree 缺少 gitignored `data/research/drift_v0/output/injected_tables.json`；
+  生产 checkout 中该文件存在，SHA256 为
+  `827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9`。
+- `strace connect` 实测除允许的 `:5050` 1 次和 PG `:15432` 6 次外，还发生
+  `:8004` 5 次、`:8007` 1 次禁用连接尝试，并有 DNS `:53` 4 次与 GitHub
+  SSH `:22` 4 次。连接尝试已违反零端点合同；不能因为未确认完成模型推理
+  就降格为通过。
+
+因此本轮验收结论是 **BLOCKED**。Phase 1a 与 Phase 2 均未实现、未运行、
+未生成结果或提交。新接手者不得重复全量 pytest，直到任务卡明确硬网络隔离/
+精确排除策略；不得生成或重算旧工件来填补 detached worktree 输入。后续先由
+用户裁定 GB10 skill 安装漂移的处理、隔离数据挂载方式与安全测试清单，再恢复
+验收。4B/8B、模型调用、judge、端点实验和服务重启仍未授权。
+
 **本地完成**：37件既有工件的审计、三视图索引、冲突隔离和历史/缺层manifest；两次产物hash一致，聚合结果及复算命令见资产账本§3.1。动作SFT/风险预筛未放行，DPO仅保留审计素材；不把缺少本机原始语料当作远端资产失败。导师包内容修正和两份Word已生成，阅读顺序为中文说明→总叙事→英文评估稿。
 
-**用户最新停点**：不继续本机跑测试；已有局部通过记录保留，服务器验收尚未发生。接手方只做以下验证，不自动运行实验：
+**旧服务器接手卡（已由 §10.0 的实况取代）**：以下命令只保留作历史验收范围，不是再次运行指令。新接手者不得重复全量 pytest，也不得自动运行实验；先按 §10.0 处理 skill 漂移、隔离数据与硬网络边界：
 
 ```bash
 PYTHONPATH=src python3 -m pytest tests/test_distillation_data_audit.py tests/test_paper_claim_acceptance.py tests/test_research_story_assets.py tests/test_document_governance.py -q
