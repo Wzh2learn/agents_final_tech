@@ -79,6 +79,8 @@
 | [`governance/2026-09-11_serving_stack_provenance.md`](governance/2026-09-11_serving_stack_provenance.md) | 取证快照 | GB10 serving 栈来源证据 |
 | [`governance/audit/`](governance/audit/) | 只读证据集 | Harness 审计工件 |
 | [`governance/reference/`](governance/reference/) | 参考资料 | 外部治理模板，不描述项目现状 |
+| [../scripts/loop_c_lead.py](../scripts/loop_c_lead.py) | 活跃控制器 | Loop C Lead 状态机、STOP 闸门与原子检查点控制 |
+| [../scripts/loop_c_lead.sh](../scripts/loop_c_lead.sh) | 活跃入口 | Loop C Lead 控制器薄包装 |
 | [`archive/`](archive/) | 只读历史 | 已归档文档；不得作为当前状态依据 |
 
 ## 维护规则
