@@ -1,18 +1,18 @@
 # SKILL_ROUTING.md — skill 路由法（治理线立法, 2026-08-29）
 
-> 状态: 活跃（立法件, 修改需用户批） | 更新: 2026-09-21 | 取代/被取代: 无 | 依据: 侧线设计稿转述（用户卡 08-29）+ 注册表↔分发漂移事故（30 件, 08-29 修复）+ skill 库扩容精简化（09-18 批 #6-S: 49 件新 skill 入库、12 件旧件删除）+ **skill 语义合并（09-21 批 #8-A: 10 簇合并, 目录 108→92; 五线主装按合并后名重列, §3 裁定表逐字保留不回改）**
+> 状态: 活跃（立法件, 修改需用户批） | 更新: 2026-09-22 | 取代/被取代: 无 | 依据: 侧线设计稿转述（用户卡 08-29）+ 注册表↔分发漂移事故（30 件, 08-29 修复）+ skill 库扩容精简化（09-18 批 #6-S: 49 件新 skill 入库、12 件旧件删除）+ **skill 语义合并（09-21 批 #8-A: 10 簇合并, 目录 108→92; 五线主装按合并后名重列, §3 裁定表逐字保留不回改）**
 > 范围: 五线任务的 skill 装载决策; 与根 AGENTS.md 配属注册表互为表里（注册表 = 有什么, 本法 = 何时用）
 
 ## 1 五线总表（任务线 → 主装 skill）
 
 | 线 | 主装（按需, 单任务 ≤5） | 常备背景（不占配额） |
 |---|---|---|
-| 论文线 | research-writing-skill / algorithm-description / paper-review-check / paper-polish-and-audit / literature-review / citation-management | graph-loop-rules |
+| 论文线 | research-writing-skill / algorithm-description / paper-review-check / paper-polish-and-audit / scientific-toolkit-skill | graph-loop-rules |
 | 治理线 | neat-freak / jinrong-docs-sync / code-cleanup-helper / skill-doctor / skill-map / repo-audit / readme-audit | graph-loop-rules |
 | 运维线 | systematic-debugging / m1-gap-triage / m2-rag-playbook / graph-loop-rules / experiment-autopsy / shift-notes / experiment-analysis / train-monitor / gpu-env | graph-loop-rules |
 | 前端线 | playwright / frontend-quality / verify-before-done | graph-loop-rules |
 | 工程线 | testing-practices / git-history-ops / code-simplification / commit-and-pr-hygiene / db-schema-change / systematic-debugging / secret-scan / input-validation / dependency-audit / eval-harness / progress-reading-protocol | graph-loop-rules |
-| 交付线 | office-academic-skill / documents / presentations / verify-before-done | graph-loop-rules |
+| 交付线 | office-academic-skill / pdf / verify-before-done | graph-loop-rules |
 
 ## 2 仲裁规则（冲突时依次适用）
 

@@ -150,6 +150,7 @@ def audit(roots: list[Path], *, fix_safe: bool) -> dict[str, Any]:
             {
                 "path": str(root),
                 "active_skills": sum(1 for skill in skills if skill.active),
+                "skills_scanned": len(skills),
                 "readme": str(root / "README.md") if (root / "README.md").exists() else None,
             }
         )
@@ -173,28 +174,33 @@ def audit(roots: list[Path], *, fix_safe: bool) -> dict[str, Any]:
 
 def discover_skills(root: Path) -> list[SkillFile]:
     skills: list[SkillFile] = []
+    own_skill = root / "SKILL.md"
+    if own_skill.is_file():
+        skills.append(SkillFile(root=root, path=own_skill.resolve(), active=True))
+        search_root = root
+        direct_children_are_active = False
+    elif root.name == "skills":
+        search_root = root
+        direct_children_are_active = True
+    elif (root / "skills").is_dir():
+        search_root = root / "skills"
+        direct_children_are_active = True
+    else:
+        search_root = None
+        direct_children_are_active = False
 
-    if (root / "SKILL.md").is_file():
-        skills.append(SkillFile(root=root, path=(root / "SKILL.md").resolve(), active=True))
-
-    for skill_path in child_skill_paths(root, "skills"):
-        skills.append(SkillFile(root=root, path=skill_path.resolve(), active=True))
-
-    if root.name == "skills":
-        for skill_path in sorted(root.glob("*/SKILL.md")):
-            skills.append(SkillFile(root=root, path=skill_path.resolve(), active=True))
+    if search_root is not None:
+        for skill_path in sorted(search_root.rglob("SKILL.md")):
+            if skill_path == own_skill:
+                continue
+            relative = skill_path.relative_to(search_root)
+            active = direct_children_are_active and len(relative.parts) == 2
+            skills.append(SkillFile(root=root, path=skill_path.resolve(), active=active))
 
     deduped: dict[Path, SkillFile] = {}
     for skill in skills:
         deduped.setdefault(skill.path, skill)
     return sorted(deduped.values(), key=lambda skill: str(skill.path))
-
-
-def child_skill_paths(root: Path, child: str) -> list[Path]:
-    directory = root / child
-    if not directory.is_dir():
-        return []
-    return sorted(path for path in directory.glob("*/SKILL.md") if path.is_file())
 
 
 def check_skill(skill: SkillFile, findings: list[Finding], fixes: list[Fix], *, fix_safe: bool) -> None:
@@ -208,8 +214,8 @@ def check_skill(skill: SkillFile, findings: list[Finding], fixes: list[Fix], *, 
         return
 
     check_frontmatter_fields(skill, frontmatter, field_lines, field_order, findings)
-    check_openai_metadata(skill, frontmatter, findings, fixes, fix_safe=fix_safe)
     if skill.active:
+        check_openai_metadata(skill, frontmatter, findings, fixes, fix_safe=fix_safe)
         check_cli_version(skill, frontmatter, findings)
     check_resource_links(skill, text, findings)
     check_prompt_hygiene(skill, text, frontmatter, field_lines, findings)
@@ -680,7 +686,10 @@ def print_text_report(report: dict[str, Any]) -> None:
     if report["roots"]:
         print("\nRoots:")
         for root in report["roots"]:
-            print(f"- {root['path']}: {root['active_skills']} active")
+            print(
+                f"- {root['path']}: {root['active_skills']} active, "
+                f"{root['skills_scanned']} scanned"
+            )
 
     if report["fixes"]:
         print("\nFixes:")

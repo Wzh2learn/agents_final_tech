@@ -42,6 +42,8 @@ Audit local Agent Skills catalogs and installed skill roots, then apply only nar
 
 ## Findings
 
+- Scan nested `SKILL.md` files recursively. Only direct catalog children count as active installs; bundled/reference
+  skills are still checked for frontmatter, links, and prompt hygiene without requiring install-only metadata.
 - Treat `error` findings as catalog defects that should block publishing or syncing.
 - Treat `warning` findings as review-required catalog hygiene issues.
 - Prompt-hygiene warnings are advisory and never auto-fix: stale model pins, oversized unconditional Markdown

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -37,8 +39,9 @@ class SkillDoctorAdvisoryTests(unittest.TestCase):
         return root
 
     def run_doctor(self, root: Path) -> dict[str, object]:
+        command = ["uv", "run", str(SCRIPT)] if shutil.which("uv") else [sys.executable, str(SCRIPT)]
         result = subprocess.run(
-            ["uv", "run", str(SCRIPT), "--root", str(root), "--format", "json"],
+            [*command, "--root", str(root), "--format", "json"],
             text=True,
             capture_output=True,
             check=False,
@@ -83,6 +86,21 @@ class SkillDoctorAdvisoryTests(unittest.TestCase):
         report = self.run_doctor(self.make_catalog("sonnet", body + "\n\n## Completion\n\nReport verified output."))
         codes = {item["code"] for item in report["findings"]}
         self.assertIn("RESOURCE_LINK_MISSING", codes)
+
+    def test_audits_nested_skill_files_without_marking_them_active(self) -> None:
+        root = self.make_catalog("sonnet", "## Completion\n\nReport verified output.")
+        nested = root / "skills/demo/references/scientific-skills/nested/SKILL.md"
+        nested.parent.mkdir(parents=True)
+        nested.write_text("# missing frontmatter\n", encoding="utf-8")
+
+        report = self.run_doctor(root)
+
+        self.assertEqual(report["roots"][0]["active_skills"], 1)
+        self.assertEqual(report["roots"][0]["skills_scanned"], 2)
+        nested_findings = [
+            item for item in report["findings"] if item["path"] == str(nested)
+        ]
+        self.assertEqual([item["code"] for item in nested_findings], ["FRONTMATTER_MISSING"])
 
 if __name__ == "__main__":
     unittest.main()
