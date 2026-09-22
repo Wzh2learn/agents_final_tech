@@ -4,29 +4,40 @@
 
 本文只回答三个问题：小论文在证明什么、大论文如何承接、下一项工作怎样验收。历史实验过程仍保留在 `docs/experiments/`，不在这里重复。
 
-## 1. 权威顺序
+## 1. 权威层级与最短阅读路径
 
-出现冲突时，按下列顺序判断：
+“单一权威”按职责划分，不等于只留一份文件。用户 2026-09-22 的明确校准优先；下表各层不得越权替代其他层。
 
-1. 用户在 2026-09-22 明确恢复的小论文三阶段方向：大模型流程评估、小模型蒸馏、自学习规则进化；当前落盘为 `paper/research_story_v2.md`。
-2. `docs/34_专利_小论文_大论文协同研究路线.md`：上一轮为降低拒稿风险形成的“评估单线”裁定及公开边界（受保护，只读）；其中专利边界继续有效，论文范围由本次用户校准更新。
-3. `docs/experiments/2026-08-30_phase_a_autopsy_and_claim_set_v2.md`：评估子稿的冻结主张与降级口径。
-4. `logs/graph/eval/` 与 `docs/experiments/`：数字、预注册、审计和复现证据。
-5. 早期路线、任务卡和旧稿：只用于追溯，不能覆盖以上现行结论。
+| 层 | 权威文件 | 管什么、不管什么 |
+|---|---|---|
+| 导航入口 | 本文件；全仓目录见 `docs/INDEX.md` | 指定阅读顺序与冲突裁定，不另存实验数字真值 |
+| 战略/导师政策依据 | `docs/33_导师指导吸收_科研三线升级.md`、`docs/34_专利_小论文_大论文协同研究路线.md` | 两件受保护、只读；导师要求与专利公开边界继续有效，旧小论文范围/排期不覆盖本次校准 |
+| 当前论文叙事 | `paper/research_story_v2.md` | 唯一现役故事、RQ 与主张边界；目标贡献不等于结果 |
+| 证据与资产账本 | `paper/research_asset_map_v2.md`；评估子稿细账为 `paper/claim_manifest_v1.json` | 区分已成立、机制级、needs-evidence 与历史素材；数字真值仍来自原始工件 |
+| 当前执行计划 | `docs/handoff/2026-09-22-paper-research-next-phase.md` | 唯一下一阶段任务顺序、四层数据边界、阶段门与拆稿条件；不得再建平行计划 |
+| 成熟评估保底稿 | `paper/teacher_review_draft_v1.md`、`paper/teacher_review_draft_v1.docx` | 仅 Stage E；其主张仍受 `docs/experiments/2026-08-30_phase_a_autopsy_and_claim_set_v2.md` 约束，不定义完整三阶段方向 |
+| 数字真值 | `logs/graph/eval/` 下原始 JSON + 对应生成代码/冻结协议 | 原始数字优于文字摘要；历史实验只能支持原协议内的结论，不能反推新实验已经完成 |
+| 历史/已取代过程稿 | `docs/30_科研线规划.md`、`docs/superpowers/plans/2026-08-29-long-horizon-evaluation-paper.md`、评估蓝图、旧大论文骨架、多轮审稿与旧任务卡 | 保留追溯/证据价值，不再控制当前方向或排期 |
+
+冲突裁定：论文范围由用户校准及当前叙事覆盖 docs/33、docs/34 中的旧范围；公开限制不被覆盖。执行细节由当前计划覆盖旧任务卡和 `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` 中的草案（该草案尚未执行，不是已冻结实验）。已执行实验的预注册与原始工件不可被新计划回改；数字不符先审计，不选择更有利的文字版本。审稿记录是问题来源，不自动成为新结论。
+
+**最短必读路径**：`AGENTS.md` → `memory/CORE.md` / `memory/STATE.md` / `memory/THREADS.md` 当前科研线 → 本入口 → `paper/research_story_v2.md` → `paper/research_asset_map_v2.md` → 当前执行计划 §10 第一张任务卡。首次接手再只读 docs/33、docs/34 的政策；只在复核某条结论时打开对应实验工件或评估稿，不必重读全部旧稿。
+
+历史材料不删除，也不能继续参与当前结论竞争；大规模移动、删除、改名须用户另行确认。Word/图是派生展示件，不覆盖 Markdown 权威源；`paper/research_story_v2.docx` 为本次收窄前快照，内部方向包先用当前 Markdown，需 Word 时先离线重生成并核对。
 
 ## 2. 统一科研主线
 
 ### 2.1 会议小论文：评估—蒸馏—规则进化
 
-当前目标故事见 `paper/research_story_v2.md`：流程评估产生可信 checkpoint 信号，可信轨迹用于小模型蒸馏，小模型或大模型提出的规则候选经验证门控后进入可回滚规则记忆，并重新进入同一评估协议。
+当前目标故事见 `paper/research_story_v2.md`：大模型流程评估 → checkpoint 引导的小模型规则动作蒸馏 → 验证门控的规则自学习与版本化回滚。`research/vgmc_exp1.py` 主要记录动作事件，不是完整推理轨迹，近期只能称“动作策略蒸馏/规则候选蒸馏”。小模型负责候选提出和验证预筛，不替代最终确定性验证门。
 
 | 阶段 | 论文责任 | 当前资产 | 成熟度 |
 |---|---|---|---|
-| E 大模型流程评估 | 提供可信训练/验收信号 | 95 表、118 注入、检查点树、可见性与协议审计 | 已闭环 |
-| D 小模型蒸馏 | 把过程能力迁移到 4B/8B 学生 | 零样本矩阵、文献、60 条 DPO 对 | 未训练，当前最大缺口 |
-| R 自学习规则进化 | 把稳定经验固化为可审计规则 | gain–collateral 门、碰撞/对抗实验、bandit/DPO 工件 | 机制级，功效待补 |
+| E 大模型流程评估 | 提供经审计的 checkpoint 信号 | 95 表、118 注入、检查点树、可见性与协议审计 | 评估子稿已闭环；不代表动作标签天然正确 |
+| D 小模型蒸馏 | 8B 主学生学习规则动作；4B 仅训练链 smoke | 零样本矩阵、文献、60 对单向 DPO 偏好 | 未训练；先 Phase 1 数据审计和 Phase 1a 可学性探针 |
+| R 自学习规则进化 | 把稳定经验固化为可审计规则 | gain–collateral 门、碰撞/对抗实验、bandit/DPO 工件 | 机制级；独立验证、强基线与功效待补 |
 
-`paper/teacher_review_draft_v1.md/.docx` 只覆盖 E 阶段，现定位为成熟证据子稿或分拆投稿备选，不再代表完整小论文。
+`paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` 只覆盖 E 阶段，现定位为成熟证据子稿或分拆投稿备选，不再代表完整小论文。
 
 ### 2.2 评估子稿：已完成的证据底座
 
@@ -41,7 +52,7 @@
 | SP-RQ3：结论是否依赖协议、匹配器和评分口径？ | 严谨性贡献 | 跨匹配器、匹配竞争、judge 校准、种子与敏感性分析 | 第二数据流和第二 scorer 尚未闭合，不外推为普遍定律 |
 | SP-RQ4：评测发现能否反馈系统改进？ | 半页机制案例 | VGRM 门拒、规则固化与回归记录 | 不主张 VGRM 显著净收益；PSO 仅报告 null/负面结果 |
 
-小论文明确不承担：VGRM 显著效果、PSO 优越性、严格“盲锥”理论、RL/DPO/bandit 扩展、任意长流程系统的普遍外推。
+**评估子稿**明确不承担：VGRM 显著效果、PSO 优越性、严格“盲锥”理论、RL/DPO/bandit 扩展、任意长流程系统的普遍外推。完整三阶段方向中的 DPO 仍是条件臂，不能由这一历史子稿范围推导为永久取消，也不能预写增益。
 
 ### 2.3 研究生大论文：展开三阶段并验证长期闭环
 
@@ -49,14 +60,14 @@
 |---|---|---|---|---|
 | TH-I1 判别力感知的分层评测 | 如何以可控成本获得可诊断证据？ | 小论文 SP-RQ2/RQ3 是主体证据 | 强基线、多种子、不确定性、成本口径、第二类长流程 | 中高 |
 | TH-I2 缺陷可见性与静默吸收 | 哪些缺陷为何不可见？ | 小论文 SP-RQ1 是主体证据 | 等价类、强度梯度、匹配器边界和跨数据流复现 | 中高 |
-| TH-I3 评估引导的小模型过程蒸馏 | 如何将可靠过程能力迁移到低成本学生？ | 小论文 D 阶段 | 4B/8B、SFT/DPO、未见家族 holdout、质量—成本 Pareto | 低，最高优先 |
-| TH-I4 验证门控的规则自学习 | 如何安全固化并回滚？ | 小论文 R 阶段 | no-gate/gain-only/collateral-only/confidence/holdout/rollback 强基线，功效分析 | 中 |
+| TH-I3 评估引导的小模型动作策略蒸馏 | 如何将可靠规则动作迁移到低成本学生？ | 小论文 D 阶段 | 4B 仅 smoke、8B 主学生、SFT/条件 DPO、四层隔离、未见家族、质量—成本 Pareto | 低，先数据与可学性审计 |
+| TH-I4 验证门控的规则自学习 | 如何安全固化并回滚？ | 小论文 R 阶段 | no-gate/gain-only/collateral-only/confidence-only/fixed-dual/gate-validation/rollback 强基线，功效分析 | 中 |
 
 大论文不是把小论文拉长。TH-I1/TH-I2 复用评估底座，TH-I3 扩展多学生/多教师和泛化，TH-I4 扩展长期安全性与学习门。视觉补盲仅作 TH-I2 的条件性实验。
 
 ## 3. 论文导向验收体系
 
-任何新测试、脚本或实验必须先绑定一个 `SP-RQ*` 或 `TH-I*`。不能回答论文问题的“全链路通过”只算工程健康检查，不算科研验收。
+任何新测试、脚本或实验必须先绑定当前叙事 `RQ1–RQ4`、评估子稿 `SP-RQ*` 或大论文 `TH-I*`，并写清命名空间；三阶段蒸馏是 RQ2/TH-I3，不能混同评估子稿 SP-RQ2。不能回答论文问题的“全链路通过”只算工程健康检查，不算科研验收。
 
 | 门 | 必须回答 | 通过证据 | 失败时处理 |
 |---|---|---|---|
@@ -108,9 +119,10 @@
 6. `paper/thesis_manuscript_scaffold_v1.md`：大论文章节、创新点、小论文继承与新增证据边界。
 7. `paper/research_story_v2.md`：三阶段统一故事、证据成熟度和最小蒸馏/规则实验闭环。
 8. `paper/figures/fig_evaluate_distill_evolve_v1.svg`：三阶段总架构图。
-9. `paper/research_story_v2.docx`：可直接交导师讨论的三阶段方向说明。
+9. `paper/research_story_v2.docx`：既有派生快照，未同步本次动作蒸馏收窄；方向包使用当前 Markdown，需 Word 时先离线重生成核对。
 10. `paper/research_asset_map_v2.md`：评估、蒸馏、规则进化的代码、实验、稿件和缺口索引。
-11. `docs/experiments/2026-09-22_distillation_mvp_preregistration.md`：下一项蒸馏实验的 RQ、四臂对照、split、防泄漏和判定规则。
+11. `docs/experiments/2026-09-22_distillation_mvp_preregistration.md`：未执行的准备草案，仅作素材；模型角色、数据边界、双口径与判门由当前执行计划覆盖，训练前在原位同步确认参数。
+12. `docs/handoff/2026-09-22-paper-research-next-phase.md`：后续 Agent 可直接执行的优先级、数据门、任务卡、合稿/拆稿门与三周排期。
 
 运行：
 
@@ -120,7 +132,7 @@ PYTHONPATH=. python3 -m pytest tests/test_paper_claim_acceptance.py -q
 .venv/bin/python research/build_teacher_review_docx.py
 ```
 
-评估子稿已通过 G5。完整三阶段稿下一门是蒸馏 MVP；通过后再决定外部效度优先补第二数据流还是第二 scorer。
+评估子稿已通过 G5。当前先执行 Phase 1 数据审计 → Phase 1a 零端点可学性探针 → Phase 2 规则强基线，再申请训练窗口；4B 仅 smoke、8B 主学生、A3 条件执行。24–48 小时导师方向包（成熟评估稿 + 当前三阶段说明）不等训练，实验后统一初稿另行验收；`PILOT_ONLY`、简单规则已足够或非劣/安全门失败就拆稿保底，具体停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
 
 本批不包含：生产探测、模型调用、TAT-DQA 解冻、D4 执行、专利公开状态判断或对外发送。
 

@@ -55,10 +55,11 @@
 | 文件 | 状态 | 用途 |
 |---|---|---|
 | [`research/README.md`](research/README.md) | 活跃 | 小论文、大论文、证据边界与论文导向验收的统一执行入口 |
+| [`handoff/2026-09-22-paper-research-next-phase.md`](handoff/2026-09-22-paper-research-next-phase.md) | 活跃执行计划 | 后续 Agent 的论文科研优先级、阶段任务卡、验收门与止损路线 |
 | [`13_M1_M2联合数据闭环计划.md`](13_M1_M2联合数据闭环计划.md) | 冻结政策依据 | 数据集与 split 政策 |
 | [`30_科研线规划.md`](30_科研线规划.md) | 已被取代 | 旧科研路线 |
-| [`33_导师指导吸收_科研三线升级.md`](33_导师指导吸收_科研三线升级.md) | 活跃、受保护 | 科研线现役主文档 |
-| [`34_专利_小论文_大论文协同研究路线.md`](34_专利_小论文_大论文协同研究路线.md) | 活跃、受保护 | 专利与论文协同路线 |
+| [`33_导师指导吸收_科研三线升级.md`](33_导师指导吸收_科研三线升级.md) | 战略依据、受保护只读 | 导师政策来源；旧范围/排期不覆盖 research/README 的现役裁定 |
+| [`34_专利_小论文_大论文协同研究路线.md`](34_专利_小论文_大论文协同研究路线.md) | 政策依据、受保护只读 | 专利公开边界继续有效；评估单线范围已被用户校准 |
 | [`RECSYS_MEMORY_DESIGN.md`](RECSYS_MEMORY_DESIGN.md) | 设计依据 | 层次化记忆设计 |
 | [`datasets/tat-dqa-joint-v1-data-card.md`](datasets/tat-dqa-joint-v1-data-card.md) | 冻结契约 | TAT-DQA 数据卡 |
 | [`experiments/`](experiments/) | 只追加证据集 | 实验、审计、任务卡与结果；按文件名日期检索 |

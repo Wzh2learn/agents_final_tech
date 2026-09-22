@@ -4,10 +4,14 @@
 
 - 统一入口：`docs/research/README.md`；当前叙事权威为 `paper/research_story_v2.md`。用户于 2026-09-22 校准：小论文恢复“大模型流程评估 → 小模型蒸馏 → 自学习规则进化”三阶段闭环。
 - 评估子稿验收基线 v1 已完成，但只代表 Stage E，不再称为完整小论文；可作成熟章节或分拆投稿备选。
-- 当前最大缺口：小模型蒸馏没有训练结果。已有 4B/8B/14B 零样本矩阵、蒸馏文献和 60 条 DPO 对；MVP 预注册草案已落盘，待确认学生、训练窗口和非劣容差后执行。
-- 规则进化已有机制证据，但强门控基线、holdout 与功效分析仍需在统一候选流上闭合。
+- 当前最大缺口：动作策略/规则候选蒸馏没有训练结果；vgmc 日志不含完整推理轨迹。4B 仅训练链 smoke、8B 主学生已定，14B 既有异常尚未归因；待确认的是训练窗口与预注册指标/非劣和安全容差，不再重问学生选择。
+- 唯一执行计划：`docs/handoff/2026-09-22-paper-research-next-phase.md`；下一张卡直接执行 §10 Phase 1。原始 JSON 已复算（494 条有 gain/collateral 的 gated 事件/48 uid；60 DPO 对/36 uid，全为 skip 优于 map_to），但去重、冲突归因、四层 manifest 和 uid 聚类功效/MDE 尚未完成；当前更可能 PILOT_ONLY，A3 不能直接训练。
+- Phase 1 后先做零端点可学性探针（含 always-skip/confidence-only/简单分类器），再补七类规则门基线；学生必要性、独立 gate-validation、逐臂状态 replay、长期回滚仍缺实证。sealed test 不参与接受/阈值/early stopping，future replay 独立。
+- 24–48 小时导师方向包与实验后统一初稿分开；数据/必要性/非劣/安全门不成立或 10-04 仍缺闭环证据即拆稿保底，详见计划 Phase 6。方向 Word 为收窄前派生快照，方向包优先用当前 Markdown，需 Word 时先重生成核对。
+- 旧科研总纲、评估单线排期、蒸馏预注册草案与历史审稿不再控制当前执行；分层覆盖规则见 `docs/research/README.md` §1，原始证据及公开红线不变。
 - 外发硬门：专利申请状态与权利要求覆盖仍由用户确认；确认前不外发、不上传 arXiv、不公开核心代码。
-- 工程治理 backlog（skill warning、解析器/RAG 拆分）暂缓，不与论文批混做。
+- 本地验收环境：现有 `.venv` 可跑两份论文测试（6 passed），系统 Python 缺 python-docx。docs_lint 的 [4] skill 安装漂移（本机 Codex/Claude 缺仓库分发技能）在本批前报告中已存在，本批仍为 1 FAIL；修复需另行确认本机安装同步，不为通过检查覆盖全局技能或改 lint。唯一 WARN 为受保护 docs/34 时效，属于既有基线，不修改该文件清警。
+- 工程治理 backlog（skill 安装漂移、解析器/RAG 拆分）暂缓，不与论文批混做。
 
 ## 技术未决（来自 blocked_questions.md 现存条目）
 

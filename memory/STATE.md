@@ -36,6 +36,17 @@ thesis directly. The canonical execution and acceptance entry is
 - The three-stage asset map and Figure 1 distinguish established evaluation
   evidence, untrained distillation assets, and mechanism-only rule-evolution
   evidence. A distillation MVP preregistration exists but has not been executed.
+- The sole next-phase execution plan is
+  `docs/handoff/2026-09-22-paper-research-next-phase.md`; navigation, narrative,
+  evidence ledger, execution and historical policy have separate authority.
+  Only action-policy/rule-candidate distillation is currently proposed.
+- Raw JSON was recounted locally: 494 gated gain/collateral events across 48
+  source-table uids; 60 DPO pairs across 36 uids, all preferring skip to map_to.
+  Counts are verified, not a completed data audit or DATA_GO decision.
+- Data audit, zero-endpoint learnability probes and seven rule-gate baselines
+  precede any training request. 4B is smoke-only; 8B is the primary student.
+  A3 is conditional, and proposal/train, gate-validation, sealed test and
+  future replay must remain separate. Plan Phase 6 controls early stop/split.
 - Local quickstart no longer kills an existing process or backgrounds Uvicorn.
 - Runtime configuration now agrees on `PGDATABASE_URL`, `vector_db`, and port 5050.
 - Docker images include the required `config/` tree.
@@ -54,14 +65,15 @@ thesis directly. The canonical execution and acceptance entry is
 
 ## Next work
 
-1. Use the direction-calibrated note, research story, and Figure 1 to confirm
-   with the advisor whether the three stages remain one conference paper.
-2. If unified, preregister and run the small-model distillation MVP; do not
-   mislabel the existing zero-shot model matrix as distillation evidence.
-3. Then compare strong rule-gate baselines on a shared candidate stream and
-   integrate the supported results into a new manuscript version.
-4. Keep the evaluation-only manuscript as a mature evidence chapter and
-   fallback split-paper route.
+1. Execute plan §10 / Phase 1: zero-endpoint data audit, provenance/label
+   reconstruction, four-layer uid manifests and per-view data/MDE gates.
+2. Run Phase 1a learnability probes, then Phase 2 state-aware rule-gate replay;
+   neither authorizes model calls or a training window.
+3. Prepare the 24–48-hour internal direction package independently of training:
+   mature evaluation draft plus current story Markdown. Its older direction
+   DOCX must be regenerated and checked if a current Word version is needed.
+4. Only after offline gates and user approval, run 4B smoke and 8B experiments
+   (A3 conditional). Apply the plan's immediate split triggers and 10-04 cutoff.
 
 ## Protected boundaries
 
@@ -77,6 +89,10 @@ thesis directly. The canonical execution and acceptance entry is
 - Local checks are deterministic development evidence only; they are not GB10 runtime proof.
 - Focused launcher/runtime contract suite: 8 tests passed on 2026-09-22.
 - Known local warning: pytest reports unknown `asyncio_mode` because the optional plugin is absent.
-- Paper acceptance gate: 49/49 checks passed; focused paper tests: 3 passed on
-  2026-09-22. The DOCX contains one embedded PNG plus a native Word checkpoint
-  table; no visual Office renderer was available locally.
+- Paper acceptance gate: 49/49 checks passed; both focused paper suites: 6 passed
+  on 2026-09-22 using the existing `.venv` (Python 3.12.3). System Python lacks
+  python-docx; no dependency or global configuration was changed.
+- docs_lint: 1 existing local skill-installation failure and 1 known protected
+  docs/34 stale-date warning; not an all-green governance result. See THREADS.
+- Endpoint/model/service/database/health-probe calls: 0. Protected docs/33 and
+  docs/34 are unchanged. No Office visual rendering or GB10 runtime validation.

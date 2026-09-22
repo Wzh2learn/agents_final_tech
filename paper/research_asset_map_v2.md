@@ -2,18 +2,17 @@
 
 > 状态：当前索引 | 更新：2026-09-22 | 范围：论文相关仓内资产与已知仓外证据
 
-## 1. 阅读顺序
+## 1. 账本职责与阅读顺序
 
-1. `paper/research_story_v2.md`：统一故事、RQ、主张边界和最小闭环。
-2. `paper/teacher_review_note_v2.md`：给导师的方向校准说明。
-3. 本文件：按 Evaluate–Distill–Evolve 查找素材。
-4. `docs/research/README.md`：验收门和当前执行入口。
+先完成 `AGENTS.md` 的规则/记忆必读，再按 `docs/research/README.md` → `paper/research_story_v2.md` → 本账本 → `docs/handoff/2026-09-22-paper-research-next-phase.md` 阅读。入口 §1 管权威冲突，叙事管故事，本账本管证据与缺口，执行计划管下一张任务卡；数字以原始工件为准，不按文档新旧投票。
+
+`paper/teacher_review_note_v2.md` 是既有导师说明素材；`paper/research_story_v2.docx` 是收窄前的派生快照，不覆盖当前 Markdown，需 Word 交付时先离线重生成并核对。24–48 小时方向包可用成熟评估稿 + 当前故事 Markdown，不等待统一论文实验完成。
 
 ## 2. Stage E — 大模型流程评估
 
 | 类型 | 资产 | 用途 | 状态 |
 |---|---|---|---|
-| 路线 | `docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md` | 评估论文结构与实验问题 | 可用 |
+| 路线 | `docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md` | 评估论文结构与实验问题 | 历史过程稿；只作评估素材，不再控制三阶段方向 |
 | 方法 | `config/eval_checkpoint_trees.json` | 两棵检查点树定义 | 可用 |
 | 方法 | `scripts/eval_checkpoint_aggregate.py` | 递归聚合实现 | 可用 |
 | 方法核对 | `docs/experiments/2026-09-20_algorithm1_lines_vs_impl.md` | 算法行与实现对位 | 可用 |
@@ -22,7 +21,7 @@
 | 稳健性 | `logs/graph/eval/t2_visibility_sensitivity.json` | 阈值敏感性 | 可用 |
 | 匹配器 | `logs/graph/eval/d2_cross_matcher_det.json` | 跨匹配器结果 | 可用 |
 | 统计 | `logs/graph/eval/d3_matched_fpr_stage_a.json` | matched-FPR bootstrap | 可用 |
-| 稿件 | `paper/teacher_review_draft_v1.md/.docx` | Stage E 成熟英文子稿 | 已验收，不代表完整三阶段论文 |
+| 稿件 | `paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` | Stage E 成熟英文子稿 | 已验收，不代表完整三阶段论文 |
 
 ## 3. Stage D — 小模型蒸馏
 
@@ -33,10 +32,11 @@
 | 模型矩阵结果 | `docs/experiments/2026-08-21_small_model_matrix_c3.md` | 4B 训练前基线 | 报告可用；逐题 JSON 在 GB10 gitignored 路径 |
 | 文献 | `docs/experiments/2026-09-20_kd_literature_candidates.md` | KD、agent distillation、多教师路线 | 18 条候选已核；venue 仍按文档边界 |
 | 训练数据设计 | `docs/experiments/2026-08-28_dpo_pairs_v0_design.md` | 门控事件转偏好对 | 可用 |
-| 训练数据 | `logs/graph/eval/dpo_pairs_v0.json` | 60 条偏好对，覆盖率 62.5% | 可用，但尚未训练 |
-| 生成器 | `research/dpo_pairs_v0.py` | 可复现偏好对生成 | 可用 |
-| 学生训练 | 尚无 | SFT/DPO/过程蒸馏 | **关键缺口** |
-| 训练后评估 | 尚无 | 未见缺陷家族、质量—成本与回归 | **关键缺口** |
+| 候选事件 | `logs/graph/eval/vgmc*_checkpoint.json`（16 件） | 494 条有 gain/collateral 的 gated 事件，48 uid / 94 uid-col / 139 uid-col-target | accepted 292 / rejected 202；16 组相反标签、41 列多 target，待审计 |
+| 训练数据 | `logs/graph/eval/dpo_pairs_v0.json` | 60 对、36 uid、60 uid-col；全部 skip 优于 map_to | 无 Type-B、gate_fooled=9；偏好单向，不是 DATA_GO |
+| 生成器 | `research/dpo_pairs_v0.py` | 可复现偏好对生成 | 不重跑在线建议器；优先复用而非另起重复构建器 |
+| 学生训练 | 尚无 | 8B 动作策略/规则候选 SFT，DPO 条件实验；4B 仅 smoke | **needs-evidence**；不得称完整过程推理蒸馏 |
+| 训练后评估 | 尚无 | 四层隔离、未见缺陷家族、质量—成本与回归 | **needs-evidence**；先离线强基线再申请训练 |
 
 结论：小模型矩阵回答“现成模型能做到什么”，蒸馏实验回答“评估筛选的教师知识能否被迁移”。两者不能混用。
 
@@ -63,10 +63,22 @@
 | `paper/figures/fig_evaluate_distill_evolve_v1.svg` | 三阶段 Figure 1 | 实线/虚线同时编码成熟度，不只靠颜色 |
 | `paper/thesis_manuscript_scaffold_v1.md` | 大论文章节与创新点 | 已恢复蒸馏独立章节 |
 
-## 6. 清理裁定
+## 6. 主张—证据—缺口账本
 
-- 保留评估子稿，不复制其正文到三阶段总叙事。
-- 不把模型矩阵、DPO 偏好对或训练钩子表述为已完成蒸馏。
+| 当前叙事 RQ | 已成立与限制 | 下一证据门 / 责任角色 |
+|---|---|---|
+| RQ1 / Stage E | 95 表、118 注入与可见性/协议审计；不主张层级检出率更高或跨系统普适 | 成熟评估保底稿；第二数据流/scorer 为后续条件工作 / 论文 Agent |
+| RQ2 / Stage D | 仅零样本矩阵与动作事件；本节 §3 统计由原始 JSON 复算，分母/hash 见执行计划 §1.2 | Phase 1 数据四层隔离、Phase 1a 可学性、Phase 4 A1/A2 自然量及 matched 双口径；DPO 为 RQ2 条件消融 / 数据与实验 Agent |
+| RQ3 / Stage R | 现有拒绝与碰撞是机制证据，净收益/长期回滚仍 needs-evidence | Phase 2 七类共享流且状态独立的门基线、Phase 5 冻结快照评测 / 规则实验 Agent |
+| RQ4 / 闭环 | needs-evidence，不把 E 与 R 分别存在写成闭环有效 | Phase 5 sealed test/future replay + Phase 6 合稿门 / 实验与论文 Agent |
+
+当前第一个任务是执行计划 §10；数据不足时扩充独立公开源表/uid、正确 map_to、hold 和双向偏好，按 uid 做功效/MDE，不复制事件。`PILOT_ONLY` 或简单规则已足够即走评估保底，详细判据只维护在执行计划。
+
+## 7. 清理裁定
+
+- 保留评估子稿，不复制其正文到三阶段总叙事；内部稿、评估蓝图、旧骨架和审稿记录只作历史/素材，不再竞争当前方向。
+- 不把模型矩阵、DPO 偏好对或训练钩子表述为已完成蒸馏；14B 既有异常尚未归因。
 - 不把 bandit 奖励无分辨力包装成学习门有效。
-- 不修改 `docs/33*`、`docs/34*`；新口径通过当前入口和决策日志覆盖。
-- 不再新增按日期命名的临时路线稿；后续更新本地图和 `research_story_v2.md`。
+- 不修改 `docs/33*`、`docs/34*`；入口仅覆盖旧论文范围/排期，不覆盖专利公开限制或已执行实验真值。
+- 不再新增临时路线稿/claim 矩阵；叙事更新 `research_story_v2.md`，资产更新本账本，执行更新现有 handoff。
+- 历史文件不删；大规模移动、删除、改名须用户另行确认。
