@@ -40,3 +40,15 @@ def test_http_port_defaults_to_5050_everywhere() -> None:
     assert app_config["web"]["port"] == 5050
     assert 'os.getenv("M1_PORT", "5050")' in main_source
     assert 'M1_PORT="${M1_PORT:-5050}"' in run_script
+
+
+def test_docker_image_contains_required_runtime_roots() -> None:
+    dockerfile = _read("Dockerfile")
+
+    for copy_instruction in (
+        "COPY src/ ./src/",
+        "COPY scripts/ ./scripts/",
+        "COPY models/ ./models/",
+        "COPY config/ ./config/",
+    ):
+        assert copy_instruction in dockerfile
