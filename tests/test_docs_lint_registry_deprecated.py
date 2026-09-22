@@ -30,13 +30,19 @@ def _load_lint():
 
 @pytest.fixture()
 def lint(tmp_path, monkeypatch):
-    """docs_lint bound to a throwaway copy of AGENTS.md + sync_skills.sh + skills/."""
+    """docs_lint bound to a throwaway registry + sync_skills.sh + skills/."""
     mod = _load_lint()
     import shutil
     monkeypatch.setattr(mod, "REPO_ROOT", str(tmp_path), raising=True)
     # minimal skills/ tree: one dir per name we reference
     (tmp_path / "skills").mkdir()
-    shutil.copy(os.path.join(REPO, "AGENTS.md"), tmp_path / "AGENTS.md")
+    (tmp_path / "docs" / "governance").mkdir(parents=True)
+    monkeypatch.setattr(
+        mod,
+        "SKILL_REGISTRY",
+        str(tmp_path / "docs" / "governance" / "SKILL_REGISTRY.md"),
+        raising=True,
+    )
     (tmp_path / "scripts" / "graph").mkdir(parents=True)
     shutil.copy(os.path.join(REPO, "scripts", "graph", "sync_skills.sh"),
                 tmp_path / "scripts" / "graph" / "sync_skills.sh")
@@ -55,7 +61,7 @@ def _write_registry(mod, rows):
     head = ("# test\n\n**\u914d\u5c5e\u6ce8\u518c\u8868**:\n\n"
             "| Loop | Harness | skill | \u7528\u9014 |\n|---|---|---|---|\n")
     body = "".join("| %s | Codex CLI | %s | %s |\n" % r for r in rows)
-    with open(os.path.join(mod.REPO_ROOT, "AGENTS.md"), "w", encoding="utf-8") as fh:
+    with open(mod.SKILL_REGISTRY, "w", encoding="utf-8") as fh:
         fh.write(head + body)
 
 

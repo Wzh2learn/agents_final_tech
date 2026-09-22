@@ -1,6 +1,6 @@
 # memory/CORE.md — 永久事实（始终加载，<100 行）
 
-更新: 2026-08-22（拓扑大修: 双模型+侧车, 侧线审计纠偏; 维护: 拓扑变化时才改；日常只改 STATE.md）
+更新: 2026-09-22（文档指针治理；运行拓扑仍为 2026-08-22 最后正式记录，非实时健康声明）
 
 ## 系统拓扑（GB10 开发机: ssh jinrong-dev, testuser@10.129.237.26, ARM64）
 
@@ -35,7 +35,7 @@
 - 项目: 远端 ~/wzh/projects/agents_final_tech ↔ 本地 D:\AIRcommend\JinRongAgents\agents_final_tech
 - src/ ACL 三层: web / biz / storage；scripts/ 工具链；config/ schema
 - 样本: ~/wzh/m1_samples/（含 scenario1/，永不 commit）；manifest 不 commit
-- 文档四层: 见 docs/INDEX.md；skill 注册表: 见根 AGENTS.md「Skill 武库注册表」
+- 文档四层: 见 docs/INDEX.md；skill 注册表: 见 docs/governance/SKILL_REGISTRY.md
 - 开发机一键同步: `cd ~/wzh/projects/agents_final_tech && git pull && bash scripts/graph/sync_skills.sh`
 
 ## 冻结红线

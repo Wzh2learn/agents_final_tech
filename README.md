@@ -1,22 +1,20 @@
 # 金融对账单智能解析与问答系统
 
-基于 AI 的金融对账单智能解析与问答系统：上传对账单，秒级提取结构化数据，自然语言追问即得答案。
+基于 AI 的金融对账单解析与可溯源问答系统：上传对账单，提取结构化数据，并通过自然语言查询来源证据。
 
-[![Tests](https://img.shields.io/badge/tests-227%20passed-brightgreen)]()
-[![Parse Rate](https://img.shields.io/badge/parse%20rate-100%25-blue)]()
-[![RAG QA](https://img.shields.io/badge/RAG%20QA-14%2F15-blue)]()
+> 当前代码状态见 [`memory/STATE.md`](memory/STATE.md)；正式历史指标见 [`memory/CORE.md`](memory/CORE.md)。README 不维护容易过期的测试数和延迟快照。
 
 ---
 
 ## 核心能力
 
-| 能力 | 说明 | 指标 |
-|------|------|------|
-| 多格式解析 | PDF / TXT / DOCX / XLSX / HTML，含扫描件 OCR + 坐标重建 | scenario1: 15 源 / 30 表 = 100% |
-| 智能字段映射 | 表头近义词 + LLM 兜底 | 60+ 同义词 |
-| 勾稽校验 | 市值/币种/日期/错配 4 项自动校验 | real_pass/skipped 标注 |
-| RAG 问答 | 自然语言查询 + 答案溯源 | 14/15 = 93%, 295ms |
-| 多轮对话 | 连续追问，上下文感知检索 | session 管理 |
+| 能力 | 说明 |
+|------|------|
+| 多格式解析 | PDF / TXT / DOCX / XLSX / HTML，含扫描件 OCR 与坐标重建 |
+| 智能字段映射 | 表头近义词与可选 LLM 兜底 |
+| 勾稽校验 | 市值、币种、日期与错配校验 |
+| RAG 问答 | 自然语言查询与来源溯源 |
+| 多轮对话 | 连续追问与会话管理 |
 
 ## 快速开始
 
@@ -87,11 +85,12 @@ scripts/
 
 serve.sh                     # 所有部署方式共用的服务入口
 
-tests/                       # 227 tests (0 failures)
+tests/                       # pytest 测试与契约检查
 docs/
-├── 19_系统能力说明书.md      # 甲方演示文档
-├── 20_部署指南.md            # 部署文档
-└── experiments/             # 实验报告 + 截图
+├── INDEX.md                 # 文档唯一导航入口
+├── governance/              # 治理规则与审计证据
+├── experiments/             # 只追加实验记录
+└── archive/                 # 只读历史
 ```
 
 ## 技术栈
@@ -101,22 +100,13 @@ docs/
 - **检索**: PGVector + BM25 混合检索
 - **生成**: Qwen3.6-35B-A3B (llama.cpp)
 - **嵌入**: Qwen3-Embedding-0.6B
-- **测试**: pytest (227 passed, 13 skipped)
-
-## 性能
-
-| 路径 | 延迟 |
-|------|------|
-| 非 OCR 解析 | <2.1s |
-| OCR 解析 | 27-70s |
-| M2 问答 | 295ms |
-| 多轮追问 | ~300ms |
+- **测试**: pytest；正式全量结果以 GB10 留存证据为准
 
 ## 文档
 
-- [系统能力说明书](docs/19_系统能力说明书.md) — 面向甲方/老师
-- [部署指南](docs/20_部署指南.md) — 环境 + Docker + FAQ
-- [Graph Engineering 设计](docs/17_Graph_Engineering_多层Loop设计.md) — 开发过程
+- [文档索引](docs/INDEX.md) — 当前、历史、实验与归档的唯一导航入口
+- [当前状态](memory/STATE.md) — 当前工程状态与下一步
+- [Graph Engineering 设计](docs/17_Graph_Engineering_多层Loop设计.md) — 多层 Loop 设计依据
 
 ## 开发
 
@@ -124,11 +114,8 @@ docs/
 # 运行测试
 PYTHONPATH=src pytest tests/ -v
 
-# 运行 RAG QA 验证
-python scripts/m1_rag_qa.py
-
-# 运行性能基准
-python scripts/m1_benchmark.py
+# 只运行与改动相关的测试；正式全量验证在 GB10 执行
+PYTHONPATH=src python3 -m pytest tests/test_runtime_contract.py -q
 ```
 
 ## License

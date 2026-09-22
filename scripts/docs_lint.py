@@ -10,7 +10,7 @@
       gap/遗留 关键词复述 (而非引用 THREADS) -> flag。治理规则: 现役台账
       唯一存放于 memory/THREADS.md (已结案轨迹在 memory/archive/THREADS_history.md), 其他文档只引用不复述。
   [4] skill 注册表 vs 两端安装 diff: 调 scripts/graph/sync_skills.sh --check。
-  [5] AGENTS.md 配属注册表 vs sync_skills.sh 分发列表双向 diff:
+  [5] SKILL_REGISTRY.md 配属注册表 vs sync_skills.sh 分发列表双向 diff:
       注册了但未分发 / 分发了但未注册 -> FAIL (治理体检, 2026-08-12)。
 
 用法: venv/bin/python scripts/docs_lint.py [--json PATH]
@@ -29,7 +29,24 @@ import sys
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS = os.path.join(REPO_ROOT, "docs")
 INDEX = os.path.join(DOCS, "INDEX.md")
+SKILL_REGISTRY = os.path.join(DOCS, "governance", "SKILL_REGISTRY.md")
 STALE_DAYS = 14
+
+COLLECTION_INDEX_KEYS = {
+    "docs/experiments/": "experiments/",
+    "docs/governance/audit/": "governance/audit/",
+    "docs/governance/reference/": "governance/reference/",
+    "docs/superpowers/": "superpowers/",
+}
+
+
+def index_registration_key(path: str) -> str:
+    """Return the catalog key required for a tracked documentation path."""
+    normalized = path.replace(os.sep, "/")
+    for prefix, key in COLLECTION_INDEX_KEYS.items():
+        if normalized.startswith(prefix):
+            return key
+    return os.path.basename(normalized)
 
 # --- check 3 关键词与豁免 -----------------------------------------------
 GAP_KEYWORDS = re.compile(r"known[_ ]gap|遗留|挂起|待修|未解决", re.I)
@@ -67,8 +84,8 @@ def check_index() -> tuple[list, list]:
             continue
         if path == "docs/INDEX.md":
             continue
-        base = os.path.basename(path)
-        if base not in index_text:
+        registration_key = index_registration_key(path)
+        if registration_key not in index_text:
             warns.append(f"[1] INDEX 未登记: {path}")
     # dead links inside INDEX.md
     for m in re.finditer(r"\[[^\]]*\]\(([^)\s]+)\)", index_text):
@@ -178,20 +195,19 @@ def _parse_sync_skill_lists() -> tuple[dict, list]:
 
 
 def _parse_agents_registry() -> tuple[dict, list, dict]:
-    """解析 AGENTS.md 配属注册表 (| Loop | Harness | skill | 用途 |)。
+    """解析 SKILL_REGISTRY.md 配属注册表。
 
     返回 (reg, errs, deprecated)。deprecated 是 {"A": set(), "C": set()}, 收录
     用途列含 DEPRECATED 的注册表行 —— 这类行按治理规则 4 只标记不删除, 已从
     分发列表摘除, 故 [5] 的对账必须跳过它们 (决策 51 (i))。
     """
-    agents = os.path.join(REPO_ROOT, "AGENTS.md")
     reg = {"A": set(), "C": set()}
     deprecated = {"A": set(), "C": set()}
     errs = []
     try:
-        lines = open(agents, encoding="utf-8").read().splitlines()
+        lines = open(SKILL_REGISTRY, encoding="utf-8").read().splitlines()
     except OSError as e:
-        return reg, [f"无法读取 AGENTS.md: {e}"], deprecated
+        return reg, [f"无法读取 SKILL_REGISTRY.md: {e}"], deprecated
     in_section = False
     for line in lines:
         stripped = line.strip()
@@ -207,9 +223,9 @@ def _parse_agents_registry() -> tuple[dict, list, dict]:
         cells = [c.strip() for c in stripped.strip("|").split("|")]
         if len(cells) < 3:
             continue
-        loop, skill = cells[0], cells[2]
+        loop, skills_cell = cells[0], cells[2]
         if (not loop or set(loop) <= set("-: ") or loop == "Loop"
-                or skill in ("", "skill")):
+                or skills_cell in ("", "skill", "skills")):
             continue
         # 用途列 (cells[3]) 此前解析后即丢弃; 这里保留其 DEPRECATED 信息 (决策 51 (i))。
         # 判据必须**只认独立词 DEPRECATED**, 不能只做子串包含: 否则把
@@ -221,13 +237,14 @@ def _parse_agents_registry() -> tuple[dict, list, dict]:
         # "(not DEPRECATED)" 之类的否定表述会被误判为弃用行。见负例控制。
         is_deprecated = re.search(
             r"(?<![A-Za-z])DEPRECATED\s+\d{4}", purpose.upper()) is not None
+        skills = [s.strip(" `") for s in re.split(r"[\s,]+", skills_cell) if s.strip(" `")]
         for part in loop.replace("+", " ").split():
             if part in reg:
-                reg[part].add(skill)
+                reg[part].update(skills)
                 if is_deprecated:
-                    deprecated[part].add(skill)
+                    deprecated[part].update(skills)
     if not in_section:
-        errs.append("AGENTS.md 未找到配属注册表段落")
+        errs.append("SKILL_REGISTRY.md 未找到配属注册表段落")
     return reg, errs, deprecated
 
 
