@@ -144,6 +144,14 @@ PYTHONPATH=. python3 -m pytest tests/test_paper_claim_acceptance.py -q
 
 本批不包含：生产探测、模型调用、TAT-DQA 解冻、D4 执行、专利公开状态判断或对外发送。
 
+## 7.1 2026-09-23 strict closeout status
+
+The 2026-09-22 acceptance stop has now been closed at the evidence boundary. GB10 production is aligned with `origin/main` at `d351d7e`, and a subsequent natural Loop B cycle recorded `git_alignment=PASS`. A-3 is closed at `PASS: 97` (A=76, C=21, missing=0, orphan=0). A-2 remains `SCOPED_PASS`: its four named tests passed with zero forbidden connects in the traced scope, but synthetic fixtures and a missing `injection_map.json` mean no claim about full pytest, production, or future experiment paths is allowed.
+
+Phase 1a is a formal `DATA_NO_GO`, with no baseline result table; Phase 2 is unstarted. The data gate, historical-only boundary, missing evidence, and minimum supplement contract are recorded in `docs/experiments/2026-09-23_phase1a_data_no_go.md`. This status is a research decision boundary, not a failed experiment to be erased by reruns. The next permitted entries are data supplementation, a newly scoped A-2 expansion, or the Loop C Lead control-plane/governance work; none opens Phase 2, training, production endpoints, frozen rules, or publication.
+
+A-2's four tested nodes were `test_adv_map_deterministic_nested_wrong_target`, `test_overlay_merge_adds_columns_and_entries`, `test_overlay_none_is_identity`, and `test_real_overlay_artifact_loads`; the traced scope was `4 passed`, rc=0, with zero `connect` syscalls. This is a scoped network statement, not a whole-project guarantee.
+
 ## 6. 常用入口
 
 - 当前内部稿：`paper/draft_v0_s1_s2_s6.md`

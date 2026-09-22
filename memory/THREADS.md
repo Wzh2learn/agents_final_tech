@@ -1,5 +1,13 @@
 # memory/THREADS.md — 未决线索
 
+## Strict closeout ledger (2026-09-23)
+
+- **Alignment and acceptance:** GB10 production and `origin/main` are `d351d7e` at `0/0`; the next natural Loop B cycle recorded `git_alignment=PASS`. The production checkout still contains only the registered accumulative/rolling dirty assets and the external alignment backup remains outside Git.
+- **A-3:** `sync_skills.sh --check` is `PASS: 97` after syncing the single confirmed `skill-doctor` installation drift. Counts are A=76, C=21, missing=0, orphan=0; repository skills were not changed and warnings were not suppressed.
+- **A-2:** record as `SCOPED_PASS`, not global PASS. Exact nodes: `test_adv_map_deterministic_nested_wrong_target`, `test_overlay_merge_adds_columns_and_entries`, `test_overlay_none_is_identity`, and `test_real_overlay_artifact_loads`; `4 passed`, exit 0. `strace -f -e trace=connect` observed zero connect syscalls, including forbidden `:8004/:8006/:8007/:8008/:4096` and allowed `:5050`/PG `:15432`. Synthetic fixture substitution and absent `injection_map.json` leave corpus loading, full pytest, production, and future experiment paths unproven.
+- **Research gate:** Phase 1a is `DATA_NO_GO`; no formal baseline numbers exist. Phase 2 was not started. Evidence and the minimum supplement list are in `docs/experiments/2026-09-23_phase1a_data_no_go.md`.
+- **Next entries:** data supplement; exact-scope A-2 expansion; Loop C Lead control/governance refactor. None authorizes frozen-rule changes, endpoints, training, publication, or main integration beyond the ordinary documented gates.
+
 ## 当前科研线（2026-09-22）
 
 - **最新接续停点（0aee20d 合并后 GB10 验收）**：本地与 `origin/main`

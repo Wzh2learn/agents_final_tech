@@ -97,3 +97,17 @@ violation. Phase 1a/2 did not start. Entry: [`../docs/research/README.md`](../do
 - Do not regenerate old artifacts; only four failed tests need diagnostic rerun unless authorized.
 - Preserve production dirty files; no pull while dispatch log intersects, and no stash/reset/clean.
 - Training, model/endpoint tests, restarts, frozen/protocol changes and publication remain unauthorized.
+
+## Strict closeout (2026-09-23)
+
+- GB10 production checkout is aligned with `origin/main` at `d351d7e09e738f16727f17d5aa3dc35646989731` (ahead/behind `0/0`); `0aee20d` is an ancestor. The next Loop B natural cycle recorded `git_alignment=PASS`; this was observed from the cycle report, not inferred from Git alone.
+- A-3 is closed: after the authorized one-item installation sync, `scripts/graph/sync_skills.sh --check` returned `PASS: 97`; A=76/C=21, missing=0, orphan=0. Only the GB10 Codex installation copy of `skill-doctor` changed; repository skills and Claude installation were unchanged. Full-root warnings remain and were not suppressed.
+- A-2 is **SCOPED_PASS** only. The exact nodes were `tests/test_vgmc_adversarial.py::test_adv_map_deterministic_nested_wrong_target`, `tests/test_vgmc_collision_overlay.py::test_overlay_merge_adds_columns_and_entries`, `tests/test_vgmc_collision_overlay.py::test_overlay_none_is_identity`, and `tests/test_vgmc_collision_overlay.py::test_real_overlay_artifact_loads`; all four passed (exit 0). The command used `strace -f -e trace=connect`; forbidden ports `8004/8006/8007/8008/4096` were each observed zero times, as were allowed `5050` and PG `15432` (total connect syscalls 0). The test fixture used synthetic corpus helpers because the isolated worktree lacks `injection_map.json`; `load_corpus()` and the broader suite were not covered. This cannot be generalized to full pytest, production, or future experiments.
+- Phase 1a is formally `DATA_NO_GO`; no baseline result table was produced and Phase 2 was not started. The structured data-gate report is `docs/experiments/2026-09-23_phase1a_data_no_go.md`.
+- No backend agent session remains running. Production accumulative files, rolling reports, and the external alignment backup remain traceable and are not treated as source commits.
+
+### Next-round entry gates
+
+1. **Data supplement:** reopen Phase 1a only after complete source tables/schema, licence/provenance, independent correctness labels, and disjoint manifests are supplied and accepted.
+2. **A-2 scope expansion:** if a broader test or experiment range is requested, establish new hard network-isolation evidence for that exact range; do not reuse this scoped pass as a global guarantee.
+3. **Loop C Lead:** governance, control-plane, documentation, archive candidates, and experiment design may proceed while Phase 1a remains `DATA_NO_GO`; Phase 2 and training remain closed.

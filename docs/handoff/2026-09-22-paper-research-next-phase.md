@@ -533,3 +533,19 @@ skill 装载清单：按 docs/SKILL_ROUTING.md 选不超过 5 件并完整读取
 3. 若需新增源表下载/标注，批准具体来源和操作；专利申请状态/权利要求覆盖另为公开硬门。
 
 先完成零端点数据审计、可学性探针和规则 baseline，不空等训练窗口。
+
+## 12. Strict closeout addendum (2026-09-23)
+
+This addendum records the current evidence and supersedes the old acceptance-stop status for operational handoff; historical §10.0 text remains unchanged for traceability.
+
+- **GB10 alignment:** production checkout and `origin/main` are `d351d7e09e738f16727f17d5aa3dc35646989731`, ahead/behind `0/0`; `0aee20d` is an ancestor. The next natural Loop B cycle recorded `git_alignment=PASS`.
+- **A-3 closed:** the authorized one-item installation sync repaired the confirmed `skill-doctor` drift. `sync_skills.sh --check` is `PASS: 97`, with A=76/C=21 and missing/orphan both zero. Repository skills were not edited; full-root warnings remain visible.
+- **A-2 boundary:** four exact VGMC tests passed (`4 passed`, rc=0): `test_adv_map_deterministic_nested_wrong_target`, `test_overlay_merge_adds_columns_and_entries`, `test_overlay_none_is_identity`, and `test_real_overlay_artifact_loads`. `strace -f -e trace=connect` observed zero attempts to `:8004`, `:8006`, `:8007`, `:8008`, and `:4096` in that test scope (total connect syscalls 0). The scope used synthetic corpus helpers because `injection_map.json` is absent in the isolated worktree; it does not cover `load_corpus()`, full pytest, production, or future experiment paths. The correct label is `SCOPED_PASS`.
+- **Phase 1a:** `DATA_NO_GO`; no baseline numbers were produced. Phase 2 remains unstarted. See `docs/experiments/2026-09-23_phase1a_data_no_go.md` for the structured gate report.
+- **Traceability:** no backend agent session remains running. Production dirty assets and the external alignment backup remain outside the source commit; no rolling report is promoted to source evidence.
+
+### Next-round entry contract
+
+1. Data supplementation: reopen Phase 1a only after the listed source/schema, licence, independent-correctness, confidence, and disjoint-manifest evidence is accepted.
+2. A-2 expansion: create new hard network-isolation evidence for any broader range; the present scoped trace is not reusable as a global guarantee.
+3. Loop C Lead: control-plane, governance, documentation, archive candidates, and experiment-design work may proceed while the research gate is `DATA_NO_GO`; Phase 2 and training remain closed.
