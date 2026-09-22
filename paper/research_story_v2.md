@@ -68,7 +68,7 @@
 - 训练臂：A0 zero-shot、A1 unfiltered SFT、A2 checkpoint-filtered SFT、A3=A2+DPO（双向偏好及功效达标才运行）。
 - A1/A2 两种公平口径都报：自然数据量（实际可用规模）和 size/token/group-matched（匹配样本数、训练 token、独立 uid/家族分布）；不能把减量收益写成过滤质量收益。
 - 四层边界：proposal/train（含内部 uid-dev 调参/早停）→ gate-validation（冻结门做接受/回滚）→ sealed test（冻结系统只读终评）→ future replay（未来独立 uid 批次）。各层 uid 隔离，sealed test 不参与接受、阈值或 early stopping；旧开发证据不得改名充当未见测试。
-- 指标：action macro-F1、目标字段 exact match、有害动作接受率、最坏家族、H/ACC、成本与有效动作覆盖。按 uid 聚类估区间及功效。
+- 指标：action macro-F1（动作类别宏平均 F1）、目标字段 exact match（精确匹配率）、有害动作接受率、最坏家族、H（字段命中率）/ACC（注入列正确率）、成本与有效动作覆盖。按源表 uid 聚类估区间及功效。
 - 继续三阶段稿须同时具备足量独立数据、非劣成立、相对简单基线的必要性以及闭环成本/风险收益；`PILOT_ONLY`、失败或回归就拆出成熟评估稿，具体门以执行计划为准。
 
 ### 规则进化 MVP

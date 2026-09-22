@@ -46,13 +46,56 @@
 | 模型矩阵结果 | `docs/experiments/2026-08-21_small_model_matrix_c3.md` | 4B 训练前基线 | 报告可用；逐题 JSON 在 GB10 gitignored 路径 |
 | 文献 | `docs/experiments/2026-09-20_kd_literature_candidates.md` | KD、agent distillation、多教师路线 | 18 条候选已核；venue 仍按文档边界 |
 | 训练数据设计 | `docs/experiments/2026-08-28_dpo_pairs_v0_design.md` | 门控事件转偏好对 | 可用 |
-| 候选事件 | `logs/graph/eval/vgmc*_checkpoint.json`（16 件） | 494 条有 gain/collateral 的 gated 事件，48 uid / 94 uid-col / 139 uid-col-target | accepted 292 / rejected 202；16 组相反标签、41 列多 target，待审计 |
+| 候选事件 | `logs/graph/eval/vgmc*_checkpoint.json`（16 件） | 494 条有 gain/collateral 的 gated 事件，48 uid / 94 uid-col / 139 uid-col-target | 本地 P1 已审：292/202；16 组冲突隔离、41 列多 target；不等于训练数据放行 |
 | 训练数据 | `logs/graph/eval/dpo_pairs_v0.json` | 60 对、36 uid、60 uid-col；全部 skip 优于 map_to | 无 Type-B、gate_fooled=9；偏好单向，不是 DATA_GO |
-| 生成器 | `research/dpo_pairs_v0.py` | 可复现偏好对生成 | 不重跑在线建议器；优先复用而非另起重复构建器 |
+| 生成器与审计 | `research/dpo_pairs_v0.py` | 旧偏好生成入口 + 独立 `--audit` 路径 | 审计已交付，17项用例保留给服务器复核；不调用旧生成入口或建议器 |
 | 学生训练 | 尚无 | 8B 动作策略/规则候选 SFT，DPO 条件实验；4B 仅 smoke | **needs-evidence**；不得称完整过程推理蒸馏 |
 | 训练后评估 | 尚无 | 四层隔离、未见缺陷家族、质量—成本与回归 | **needs-evidence**；先离线强基线再申请训练 |
 
 结论：小模型矩阵回答“现成模型能做到什么”，蒸馏实验回答“评估筛选的教师知识能否被迁移”。两者不能混用。
+
+### 3.1 P1 本地审计交付（2026-09-22）
+
+`research/dpo_pairs_v0.py --audit` 已完成本地可核范围，不调用旧生成入口、不加载原始语料/模型。37 件输入包括 16 checkpoint、16 results、3 overlay、DPO 和表级评估参考；23 条 arm 的接受事件从空规则库重建后均与 checkpoint/result 终态一致。这里只重建既有账本，不重算 gain/collateral 或产生新实验效果。
+
+| 核验项 | 实测与解释 |
+|---|---|
+| 事件分母 | 全臂 1584；gated 原始 625 = 带分数 494 + no_map 126 + 非标准目标 5 |
+| 原始动作 | map_to 499、skip 121、parse_fail 5、hold 0；旧格式42条 map_to 由分数合同推断且明确标记 |
+| 去重与冲突 | 48 uid / 94 uid-col / 139 uid-col-target；包含事件前规则状态的完全重复观测17条，不靠重复扩独立样本；16组相反标签全部保留并隔离，41列多目标 |
+| 冲突上下文 | 16组中15组规则前态不同、15组overlay版本不同；这解释“不能直接合并”的上下文差异，不是因果归因或反事实验证 |
+| 参考字段核对 | 494条均可回链到已有注入/overlay的 header+canonical：368目标一致、126不一致；292条接受中17条与参考字段不一致。**这是对工件记录字段的精确比对，不是原文语义/下游危害独立真值** |
+| DPO | 60对/36 uid；全部 skip>map_to，A=50、C=51重叠，Type-B=0；记录 gate_fooled=9；6对 rejected 的映射与对应参考字段一致，不能把拒绝标签直接当错误标签 |
+| 来源隔离 | 16份历史划分一致、fix60/meas35、源表无交集；但67条去重的借用表头变体关系中28条跨历史fix/meas，扩展语料另有刻意共享变体；历史评估不能冒充新的未见终评 |
+| 未见数据 | 95表全部只标 HISTORICAL_ONLY；不重新随机切分。新的 gate-validation / sealed test / future replay 均 MISSING；训练内部dev也未擅自分配 |
+
+家族覆盖（gated，uid 数跨家族不可相加）：
+
+| 家族 | 原始事件 | 带分数事件 | 独立 uid |
+|---|---:|---:|---:|
+| alias_variant | 220 | 171 | 17 |
+| collision | 128 | 87 | 26 |
+| date_variant | 99 | 92 | 10 |
+| mixed_lang | 72 | 61 | 8 |
+| prefix_noise | 66 | 47 | 9 |
+| unit_suffix | 40 | 36 | 5 |
+| ocr_similar | 0 | 0 | 0 |
+
+**分视图判门**：动作 SFT、风险预筛为 `DATA_NO_GO`（当前输入不具备完整源表/候选schema、独立标签/许可核验及新隔离数据）；DPO 为 `PILOT_ONLY`（仅保留历史审计/设计素材，不批准训练）。三视图均有可追溯审计索引，`training_export=[]`。这是本地现有材料的放行判断，不是另一服务器资产丢失、实验失败或永久否决路线。
+
+**功效仅作敏感性**：以独立 uid 为单位、双侧α=.05、80% power 的配对均值正态近似，假设差值SD为0.25/0.5/1；48 uid 的示意MDE为0.1010/0.2021/0.4041，36 uid 为0.1167/0.2333/0.4667。未测得真实差值方差，也未估计 macro-F1 专属功效，不能用此数字批准非劣δ或DATA_GO；指标/容差待确认。
+
+复算命令（输出文件必须尚不存在）：
+
+```bash
+python3 research/dpo_pairs_v0.py --audit --output data/research/p1_audit/p1-data-audit.json
+python3 research/dpo_pairs_v0.py --audit --output data/research/p1_audit/p1-data-audit-repeat.json
+PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py -q
+```
+
+两次 JSON 字节一致，SHA-256=`d5df834668878f70e09a0cbbb21f46ee0c5e08b86aafd41f66ea01c7013c2471`；输入清单内容hash=`5591e3a61071d476a53dc57942dc501e7ca65a7e75feed72ec6c524d411cfcb5`；历史/缺层 manifest hash=`b17c4741bf93b619c3ff39a95b2bb3bedbd6041bb5bde1b3daff272b91582504`。原checkpoint/DPO hash仍与执行计划§1.2一致；完整事件、冲突、来源索引和manifest仅在 gitignored `data/`，不提交。17项审计测试通过，endpoint/socket尝试均0。
+
+**后续不自动运行**：保留评估稿作近期交付；完整源表/许可、正确动作和双向偏好、OCR/hold覆盖及独立新数据的补充，连同 Phase 1a/2 和训练都等待用户批准。其他服务器本轮不连接或获取。
 
 ## 4. Stage R — 自学习规则进化
 
@@ -82,11 +125,11 @@
 | 当前叙事 RQ | 已成立与限制 | 下一证据门 / 责任角色 |
 |---|---|---|
 | RQ1 / Stage E | 95 表、118 注入与可见性/协议审计；不主张层级检出率更高或跨系统普适 | 成熟评估保底稿；第二数据流/scorer 为后续条件工作 / 论文 Agent |
-| RQ2 / Stage D | 仅零样本矩阵与动作事件；本节 §3 统计由原始 JSON 复算，分母/hash 见执行计划 §1.2 | Phase 1 数据四层隔离、Phase 1a 可学性、Phase 4 A1/A2 自然量及 matched 双口径；DPO 为 RQ2 条件消融 / 数据与实验 Agent |
+| RQ2 / Stage D | 本地 P1 已审，§3.1 记录冲突与标签边界；无训练结果，三视图均未放行训练 | 补齐独立正确性/源表/新隔离数据，再经批准做 Phase 1a 与后续实验；DPO 独立判门 / 数据与实验 Agent |
 | RQ3 / Stage R | 现有拒绝与碰撞是机制证据，净收益/长期回滚仍 needs-evidence | Phase 2 七类共享流且状态独立的门基线、Phase 5 冻结快照评测 / 规则实验 Agent |
 | RQ4 / 闭环 | needs-evidence，不把 E 与 R 分别存在写成闭环有效 | Phase 5 sealed test/future replay + Phase 6 合稿门 / 实验与论文 Agent |
 
-当前第一个任务是执行计划 §10；数据不足时扩充独立公开源表/uid、正确 map_to、hold 和双向偏好，按 uid 做功效/MDE，不复制事件。`PILOT_ONLY` 或简单规则已足够即走评估保底，详细判据只维护在执行计划。
+执行计划 §10 的本地审计已交付；当前先交接服务器测试与导师包 Office 视觉核对，不继续本机测试。数据补充、Phase 1a/2 及训练均等用户批准；保留评估稿作近期交付，不能从 PILOT_ONLY 推导训练许可，详细停止条件仍只维护在执行计划。
 
 ## 7. 清理裁定
 

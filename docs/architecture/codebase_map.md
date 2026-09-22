@@ -35,7 +35,7 @@
 | `scripts/research/drift_inject.py` | 原表/注入配置 → 漂移语料与注入映射 | 合成 fixture 可离线验证；正式语料生成须按既有计划授权 |
 | 评估聚合、K2 与 `research/paper_d*` / `paper_t*` / `paper_w2*` | 已有 checkpoint/逐样本工件 → 汇总、稳健性与审稿证据 | 先查具体入口；有的仅聚合，有的会请求模型，不能按文件前缀推断零调用 |
 | `research/vgmc_exp1.py` 与其他 VGMC 脚本 | drift_v0 语料、候选动作、规则状态 → 门控/拒绝/污染曲线 | `fewshot_pool` 等纯函数可用 fixture；完整回放/新数字归正式执行面 |
-| `research/dpo_pairs_v0.py` | 已有 checkpoint → 偏好对 | 现有偏好单向，需审计；脚本存在不代表训练完成或数据可直接训练 |
+| `research/dpo_pairs_v0.py` | 旧生成入口：checkpoint → 偏好对；`--audit`：已有37件工件 → 来源/标签/历史划分审计 | 审计不加载语料/模型、不导出训练样本；结果见资产账本 §3.1；回归 `tests/test_distillation_data_audit.py` |
 | bandit / PSO / 视觉探索脚本 | 各自实验输入 → 探索工件 | 历史/候选资产，不是本轮自动重开项目 |
 | `research/validate_paper_claims.py` | 主张 manifest、正文、工件路径 → 静态验收 | 本地离线；路径/标记通过不等于复算数字或证明贡献 |
 | `research/build_teacher_review_docx.py` | Markdown + 图表模板 → DOCX | 本地离线派生；结构测试不等于 Office 视觉验收 |

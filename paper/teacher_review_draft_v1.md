@@ -60,11 +60,13 @@ For a leaf, S(n) is the mapped contract or judge score. A tree is stable only wh
 
 ### 3.2 Visibility outcomes
 
-For an injected defect d, we distinguish three outcomes:
+For an injected defect d, visibility and protocol detection are separate observations:
 
-- **Detected:** the defect changes measured evidence and the protocol score crosses its detection threshold.
-- **Silently absorbed:** the injected state changes, but normalization or matching removes the difference before a measured checkpoint can expose it.
-- **Equivalence-dependent:** the perturbation's harmfulness changes under the chosen equivalence criterion, so the evaluator observation is reported without declaring either criterion ground truth.
+- **Detected:** the selected protocol satisfies its detection predicate, which may test a mapping change or a score threshold.
+- **Visible but not detected:** the checkpoint exposes a difference, but the selected protocol does not satisfy its detection predicate.
+- **Silently absorbed:** normalization or matching preserves the canonical correspondence, so that checkpoint does not expose the perturbation.
+
+Harmfulness is a separate, **equivalence-dependent** judgment, not a mutually exclusive visibility outcome: canonical-form preservation and reader-referent recoverability need not agree.
 
 The defect visibility profile reports visibility separately for each family. This preserves information lost by a single mutation score and distinguishes a missing checkpoint from a genuinely robust stage.
 
@@ -98,7 +100,7 @@ We freeze inputs and decision criteria before reading each result. Confidence in
 
 ### 5.1 Visibility is strongly defect-type dependent
 
-Checkpoint-level analysis makes 96/118 injections visible, but the aggregate hides a large family effect. OCR-like perturbations are invisible in 0/13 cases across all five thresholds. Other families range from 0.81 to 1.00 visibility at the primary setting.
+Checkpoint-level analysis makes 96/118 injections visible, but the aggregate hides a large family effect. OCR-like perturbations are visible in 0/13 cases across all five thresholds; all 13 are silently absorbed under this observation criterion. Other families range from 0.81 to 1.00 visibility at the primary setting.
 
 ![Figure 2. Defect visibility varies strongly across perturbation families.](../docs/experiments/figures_paper/fig_visibility_spectrum.png)
 
@@ -108,13 +110,13 @@ The harmfulness label is also criterion-dependent. An instance-level oracle reje
 
 ### 5.2 Protocol structure changes raw detection counts
 
-Table 1 compares the three transferable protocols. Hierarchical scoring is not a more sensitive detector at the frozen threshold.
+Table 1 compares the three transferable protocols. Here end-to-end detection tests whether the final mapping text changes; it is not the canonical-correspondence visibility criterion behind 96/118. A changed source-header string can therefore count as end-to-end detection even when the canonical match is preserved, explaining why 112/118 exceeds 96/118. Table-level counts apply all assigned injections together, whereas injection-level counts apply one perturbation at a time; the 20 detected tables and 13 individually detected injections are not nested counts. Hierarchical scoring is not a more sensitive detector at the frozen threshold.
 
-| Protocol | Scored units | Tables detected | Injections detected |
-|---|---:|---:|---:|
-| End-to-end | 2 roots | 95/95 (1.0000) | 112/118 (0.9492) |
-| Flat | 12 leaves | 75/95 (0.7895; 95% CI [0.6947, 0.8737]) | 85/118 (0.7203) |
-| Hierarchical, expert weights | 12 leaves | 20/95 (0.2105; 95% CI [0.1263, 0.2947]) | 13/118 (0.1102) |
+| Protocol | Detection signal | Tables detected | Injections detected |
+|---|---|---:|---:|
+| End-to-end | Final mapping change | 95/95 (1.0000) | 112/118 (0.9492) |
+| Flat | Field-hit-rate drop | 75/95 (0.7895; 95% CI [0.6947, 0.8737]) | 85/118 (0.7203) |
+| Hierarchical, expert weights | Pruned parsing-root drop | 20/95 (0.2105; 95% CI [0.1263, 0.2947]) | 13/118 (0.1102) |
 
 The raw flat–hierarchical gap does not establish inferior ranking quality. At matched false-positive rate, the two protocols are affinely equivalent on the current corpus because only one scored leaf varies with the input. A 2,000-replicate table-cluster bootstrap yields a protocol-difference confidence interval of [0,0]. The raw gap is therefore a threshold-placement effect. Under this construction, hierarchy supplies decomposable evidence but cannot demonstrate additional localization value until more than one leaf varies.
 
@@ -124,7 +126,7 @@ The identity of the fully blind family is stable across the threshold grid. Abso
 
 Across three injection seeds, flat table-detection rates are 0.7895, 0.7835, and 0.7556. Their spread is 0.0339, and the pooled estimate is 0.7766 with a 95% interval of [0.7270, 0.8227]. The seed-42 run reproduces the frozen artifact byte-for-byte.
 
-Judge calibration covers 120 leaf-state cells. The preregistered per-dimension bound on the 0–5 scale is met with a maximum observed difference of 0.5. On the derived 0–10 root scale, control roots differ by at most 0.22, while individual leaves can move by as much as 7.0. Agreement is therefore an aggregate observation, not evidence of cell-level interchangeability.
+Judge calibration covers 120 leaf-state cells. In the control-state comparison, rejudged summaries of historical 0–5 judgments differ from the frozen dimension means by at most 0.5, meeting the preregistered consistency expectation. This checks reproduction of aggregate dimension scores, not agreement between judges re-evaluating the same original answers. On the derived 0–10 root scale, control roots differ by at most 0.22, while individual leaves can move by as much as 7.0. Agreement is therefore an aggregate observation, not evidence of cell-level interchangeability.
 
 ### 5.4 Weight search produces an informative null
 
@@ -134,7 +136,7 @@ PSO and greedy coordinate ascent reach the same mean separation of 1.432574. PSO
 
 As a compact feedback example, evaluation findings generate candidate schema-rule repairs. A gain–collateral gate screens each candidate before deterministic consolidation and regression verification. The gate rejects all 7 adversarial high-confidence mappings and all 5 candidates in the expanded-collision regime. In the first arm, every rejection is triggered by insufficient gain; the collateral path activates only after collision expansion.
 
-This is not an efficacy claim. At the current corpus size, the downstream correctness effect is not significant: the table-level change is 0.05 with an interval containing zero, and the column-level comparison is 7/40 versus 4/40 with exact McNemar p=0.375. The case motivates, but does not answer, the thesis-level question of when suggestion reliability, collision exposure, and per-collision harm make gated consolidation valuable.
+This is not an efficacy claim. Across 15 collision tables, the mean paired difference in within-table collision-column accuracy (gated minus ungated) is 0.05, or 5 percentage points, with a table-level paired-bootstrap 95% interval of [0, 0.1056]. The exploratory pooled column-level comparison is 7/40 versus 4/40 with exact McNemar p=0.375; neither analysis establishes a significant downstream benefit. The case motivates, but does not answer, the thesis-level question of when suggestion reliability, collision exposure, and per-collision harm make gated consolidation valuable.
 
 ## 6. Discussion and Limitations
 

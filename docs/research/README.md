@@ -42,7 +42,7 @@
 | 阶段 | 论文责任 | 当前资产 | 成熟度 |
 |---|---|---|---|
 | E 大模型流程评估 | 提供经审计的 checkpoint 信号 | 95 表、118 注入、检查点树、可见性与协议审计 | 评估子稿已闭环；不代表动作标签天然正确 |
-| D 小模型蒸馏 | 8B 主学生学习规则动作；4B 仅训练链 smoke | 零样本矩阵、文献、60 对单向 DPO 偏好 | 未训练；先 Phase 1 数据审计和 Phase 1a 可学性探针 |
+| D 小模型蒸馏 | 8B 主学生学习规则动作；4B 仅训练链 smoke | 零样本矩阵、文献、60 对单向 DPO 偏好 | 本地 P1 已审、未放行训练；服务器测试与后续实验分别接手/待批 |
 | R 自学习规则进化 | 把稳定经验固化为可审计规则 | gain–collateral 门、碰撞/对抗实验、bandit/DPO 工件 | 机制级；独立验证、强基线与功效待补 |
 
 `paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` 只覆盖 E 阶段，现定位为成熟证据子稿或分拆投稿备选，不再代表完整小论文。
@@ -140,7 +140,7 @@ PYTHONPATH=. python3 -m pytest tests/test_paper_claim_acceptance.py -q
 .venv/bin/python research/build_teacher_review_docx.py
 ```
 
-评估子稿已通过 G5。当前先执行 Phase 1 数据审计 → Phase 1a 零端点可学性探针 → Phase 2 规则强基线，再申请训练窗口；4B 仅 smoke、8B 主学生、A3 条件执行。24–48 小时导师方向包（成熟评估稿 + 当前三阶段说明）不等训练，实验后统一初稿另行验收；`PILOT_ONLY`、简单规则已足够或非劣/安全门失败就拆稿保底，具体停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
+评估子稿原有 G5 静态门已补充语义反向负控；本轮修正 OCR 可见性方向和表格检测信号，并重生成两份导师 DOCX。P1 本地审计已交付：动作 SFT/风险预筛 DATA_NO_GO，DPO 仅为审计素材的 PILOT_ONLY，均不导出训练数据；依据见资产账本 §3.1。用户最新要求停止继续本机测试，保留测试与已有局部结果，服务器验证和 Office 视觉核对按现有计划 §10 接手；Phase 1a/2 及后续实验等待明确批准。近期使用评估保底稿与方向说明，不等训练、不代发；详细停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
 
 本批不包含：生产探测、模型调用、TAT-DQA 解冻、D4 执行、专利公开状态判断或对外发送。
 

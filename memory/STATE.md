@@ -8,8 +8,8 @@ in [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_g
 
 ## Current objective
 
-Complete the first repository-side knowledge-governance round, then follow the
-existing research plan rather than create another roadmap. Research entry:
+P1 local audit and advisor-content review are delivered; remaining tests and
+Office visual review are handed to the server. Research entry:
 [`../docs/research/README.md`](../docs/research/README.md).
 
 ## Repository baseline
@@ -44,7 +44,7 @@ existing research plan rather than create another roadmap. Research entry:
 - Story Markdown, SVG, generator and direction DOCX agree on 8B main student,
   4B smoke-only, candidate proposal/prescreen and the final deterministic gate.
   Word paragraphs/tables match fresh generation; Office visual review is unverified.
-- This is repository-side governance closure, not Phase 1 data completion,
+- Governance closure and P1 local audit are not training-data readiness,
   independent production Loop B/C acceptance, training or research-effect proof.
 
 ## Research maturity
@@ -53,16 +53,25 @@ existing research plan rather than create another roadmap. Research entry:
 - D: no trained student results. Existing zero-shot matrix is not distillation.
 - R: rejection/collision mechanism evidence, not stable significant net benefit
   or a completed long-term versioned rollback loop.
-- Raw recount: 494 scored gated events/48 uids; DPO 60 pairs/36 uids, all skip>map_to.
-  Conflicts/provenance, four-layer manifests and clustered power remain unaudited.
+- P1 local audit now covers 37 artifacts: 494 scored gated events/48 uids;
+  DPO 60 pairs/36 uids, all skip>map_to. All 23 arm ledgers match final rules.
+- Sixteen conflict groups are quarantined; 17 accepted targets disagree with stored
+  canonical references, and 6 DPO pairs reject reference-matching mappings.
+- Action-SFT/risk views are DATA_NO_GO; DPO is audit-only PILOT_ONLY; training exports
+  remain empty. All 95 tables are historical; new validation/test/future layers are missing.
+- Complete source/context, independent correctness/licence checks and real metric-specific
+  power remain outstanding; only hypothetical uid-level MDE sensitivity was computed.
 - Plan order: Phase 1 data audit → Phase 1a learnability → Phase 2 gate baselines →
   approved 4B smoke/8B experiments. A3 is conditional; Phase 6 controls splitting.
 - The internal direction package is separate from the experiment-backed full draft.
   No materials were sent; patent release approval remains an independent gate.
 
-## Verification (local, 2026-09-22)
+## Verification record and server handoff (2026-09-22)
 
-- Focused regression: 160 passed, 1 real-corpus test deliberately deselected;
+- Before the user's pause: 17 data-audit tests and 11 paper/asset tests passed locally.
+  Two audit outputs are byte-identical; details/hashes are in the asset map §3.1.
+- Remaining tests and Office visual review are server-side; no more local test runs.
+- Earlier governance regression: 160 passed, 1 real-corpus test deliberately deselected;
   governance/catalog/receipts/VGMC/paper/runtime/module boundaries/aggregation/drift.
 - Paper static acceptance: 49/49. This checks structure/wording/paths, not new effects.
 - All 16 checkpoint files and DPO hashes match the plan's pre-change snapshot.
@@ -80,8 +89,9 @@ existing research plan rather than create another roadmap. Research entry:
   neither verifies nor retrieves them; missing local copies are not research failure.
 - New paper-facing baselines/replay remain GB10 work even at zero endpoint calls;
   local work is existing-fact audit and synthetic code testing only.
-- Next card remains plan §10 / P1-DATA-AUDIT; do not start training or another plan.
+- Plan §10 now hands off remaining tests/Office review to the server; Phase 1a/2,
+  data expansion and training all await the user's further approval.
 - Do not modify docs/33, docs/34 or frozen TAT-DQA, publish research, change global
   installs, or touch services without the required separate authorization.
-- The user authorized committing/pushing this follow-up batch on 2026-09-22;
+- The latest instruction requests a Git commit after document handoff;
   Git history and branch alignment are authoritative for delivery status.

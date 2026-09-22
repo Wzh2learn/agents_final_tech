@@ -1,6 +1,6 @@
 # 小论文—大论文科研下一阶段执行计划与 Agent 交接 v1
 
-> 状态：可执行基线；仓内分析可直接开展，正式新实验依执行面规则派发；模型加载、训练和在线评测须用户另行批准
+> 状态：P1 本地数据审计与导师包内容核对已交付；Office 视觉仍待核；所有后续实验（含 Phase 1a/2）等待用户批准
 
 > 更新：2026-09-22
 
@@ -14,9 +14,9 @@
 
 ## 0. 执行结论
 
-本文件接续已有草案，是唯一下一阶段执行计划；分层权威与冲突裁定见 `docs/research/README.md` §1。本批目标是收敛材料与阶段门，完成条件是原始数据复算、入口/叙事/账本一致及指定离线验收通过；不执行下列实验、不对外送稿、不另建同类计划。
+本文件是唯一下一阶段执行计划；分层权威与冲突裁定见 `docs/research/README.md` §1。第一轮治理及 P1 本地审计已交付，导师包内容核对已修正；审计结论见资产账本 §3.1，阅读回执见 `paper/teacher_review_readiness_v2.md`。用户最新要求：保留测试代码和已有局部结果，不继续本机跑测试，剩余测试及 Office 视觉核对交服务器；所有后续实验仍待批准，不对外送稿、不另建计划。
 
-下一步最高价值工作不是直接拿现有 60 对偏好训练 8B，而是：
+既有阶段顺序如下（P1本地审计已完成，其余实验待批；不是自动派发队列）：
 
 1. **Phase 1 先审计数据。** 还原 checkpoint、规则候选与门控标签的 provenance，按源表 uid 分组去重，报告独立样本、冲突和四层数据边界。
 2. **Phase 1a 再做零端点可学性探针，Phase 2 补规则强基线。** always-skip、deterministic matcher、lexical/fuzzy、confidence-only、简单分类器回答“为什么需要小模型”；共享候选流上的七类规则门回答确定性安全门的增量价值。
@@ -251,9 +251,11 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 ### Phase 0：接续已确认主张（本批治理，不重开规划）
 
-小模型角色、双轨路线与边界已由用户确认；本计划、叙事和资产账本已对齐，后续从 Phase 1 开始。claim–evidence–owner 复用 `paper/research_asset_map_v2.md`，不另建日期版矩阵/计划；目标贡献保留 `needs-evidence`。指标阈值、训练窗口仍待确认，不能把方向确认当执行许可。若要改成通用 QA 蒸馏或替代确定性门，先停下报用户。
+小模型角色、双轨路线与边界已由用户确认；本计划、叙事和资产账本已对齐，Phase 1 本地审计现已交付，按 §10 移交服务器验证。claim–evidence–owner 复用 `paper/research_asset_map_v2.md`，不另建日期版矩阵/计划；目标贡献保留 `needs-evidence`。指标阈值、训练窗口仍待确认，不能把方向确认当执行许可。若要改成通用 QA 蒸馏或替代确定性门，先停下报用户。
 
-### Phase 1：蒸馏数据审计与构建器（零端点，1–2 天，最高优先）
+### Phase 1：蒸馏数据审计与构建器（本地审计已交付，训练视图未放行）
+
+**完成范围**：§10与资产账本§3.1。本地来源/标签参考/规则账本/冲突与历史缺层已审；完整源表和独立正确性、真正未见数据仍缺，不把本地交付等同DATA_GO。测试按用户要求移交服务器，以下保留验收合同。
 
 **输入**：`logs/graph/eval/vgmc*_checkpoint.json`、`logs/graph/eval/dpo_pairs_v0.json`、`logs/graph/eval/checkpoint_discrimination_tables_v2.json` 及其本地来源。
 
@@ -439,7 +441,21 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 4. 报告 endpoint/model 调用次数，包括 0；
 5. 更新 `memory/STATE.md` 和 `memory/THREADS.md`，但只有用户确认的路线才写 `DECISIONS.md`。
 
-## 10. 后续 Agent 的第一张任务卡
+## 10. P1 交付与服务器接手
+
+**本地完成**：37件既有工件的审计、三视图索引、冲突隔离和历史/缺层manifest；两次产物hash一致，聚合结果及复算命令见资产账本§3.1。动作SFT/风险预筛未放行，DPO仅保留审计素材；不把缺少本机原始语料当作远端资产失败。导师包内容修正和两份Word已生成，阅读顺序为中文说明→总叙事→英文评估稿。
+
+**用户最新停点**：不继续本机跑测试；已有局部通过记录保留，服务器验收尚未发生。接手方只做以下验证，不自动运行实验：
+
+```bash
+PYTHONPATH=src python3 -m pytest tests/test_distillation_data_audit.py tests/test_paper_claim_acceptance.py tests/test_research_story_assets.py tests/test_document_governance.py -q
+python3 research/validate_paper_claims.py
+python3 scripts/docs_lint.py --json /tmp/docs_lint_p1_server.json
+```
+
+使用服务器已有含 python-docx 的 Python 环境；完整数据/来源明细可按资产账本命令在新的忽略路径重算，不提交原文。另在 Office/LibreOffice 打开两份导师 DOCX，检查缺字、分页、表格溢出与阅读顺序。需要修复时只定点修，不启动 Phase 1a/2、训练或新的正式回放；实验许可由用户后续给出。
+
+以下保留 P1 任务合同供复核，**不是新的开工指令**：
 
 ```text
 任务：P1-DATA-AUDIT，执行 Phase 1 动作策略蒸馏数据审计。

@@ -1,6 +1,10 @@
+import json
 from pathlib import Path
+import re
 
 from docx import Document
+
+from research.build_teacher_review_docx import build
 
 from research.validate_paper_claims import DEFAULT_MANIFEST, validate
 
@@ -8,6 +12,46 @@ from research.validate_paper_claims import DEFAULT_MANIFEST, validate
 def test_teacher_review_paper_satisfies_claim_manifest() -> None:
     result = validate(DEFAULT_MANIFEST)
     assert result["status"] == "PASS", result["errors"]
+
+
+def test_ocr_visibility_wording_matches_stored_evidence() -> None:
+    root = DEFAULT_MANIFEST.parent.parent
+    evidence = json.loads((root / "logs/graph/eval/checkpoint_discrimination_tables_v2.json").read_text())
+    ocr = evidence["by_type"]["ocr_similar"]
+    assert (ocr["n_visible"], ocr["n_injections"], ocr["n_absorbed"]) == (0, 13, 13)
+    markdown = (DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md").read_text()
+    docx = Document(DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.docx")
+    for text in (markdown, "\n".join(p.text for p in docx.paragraphs)):
+        assert re.search(r"OCR-like perturbations are visible in 0/13 cases", text)
+        assert "invisible in 0/13" not in text
+
+
+def test_acceptance_rejects_reversed_visibility_claim(tmp_path) -> None:
+    manifest = json.loads(DEFAULT_MANIFEST.read_text())
+    source = (DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md").read_text()
+    broken = tmp_path / "broken.md"
+    broken.write_text(source.replace("are visible in 0/13 cases", "are invisible in 0/13 cases"))
+    manifest["paper"] = str(broken)
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(manifest))
+    assert validate(path)["status"] == "FAIL"
+
+
+def test_evaluation_docx_matches_current_source(tmp_path) -> None:
+    source = DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md"
+    current = Document(DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.docx")
+    rebuilt = Document(build(source=source, output=tmp_path / "rebuilt.docx"))
+    assert [p.text for p in current.paragraphs] == [p.text for p in rebuilt.paragraphs]
+    assert [[c.text for r in t.rows for c in r.cells] for t in current.tables] == [
+        [c.text for r in t.rows for c in r.cells] for t in rebuilt.tables]
+
+
+def test_table_protocol_labels_do_not_reuse_full_tree_leaf_counts() -> None:
+    text = (DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md").read_text()
+    assert "| Detection signal |" in text
+    assert "| Flat | Field-hit-rate drop |" in text
+    assert "| Hierarchical, expert weights | Pruned parsing-root drop |" in text
+    assert "| 12 leaves |" not in text
 
 
 def test_manifest_is_repository_relative() -> None:

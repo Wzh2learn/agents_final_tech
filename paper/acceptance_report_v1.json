@@ -87,7 +87,7 @@
       "pass": true
     },
     {
-      "check": "SP-C1:token:0/13",
+      "check": "SP-C1:token:are visible in 0/13 cases",
       "pass": true
     },
     {

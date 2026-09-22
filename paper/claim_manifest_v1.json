@@ -37,7 +37,7 @@
       "id": "SP-C1",
       "status": "supported_with_scope_limit",
       "claim": "Defect visibility is type-dependent and OCR-like perturbations are fully blind in the tested evaluator.",
-      "manuscript_tokens": ["96/118", "0/13", "five thresholds"],
+      "manuscript_tokens": ["96/118", "are visible in 0/13 cases", "five thresholds"],
       "evidence": [
         "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
         "logs/graph/eval/t2_visibility_sensitivity.json",
