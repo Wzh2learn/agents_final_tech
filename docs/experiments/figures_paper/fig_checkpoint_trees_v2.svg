@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="470" viewBox="0 0 1400 470">
+  <style>
+    .title{font:700 24px Arial,sans-serif;fill:#17212b}.panel{font:700 19px Arial,sans-serif;fill:#253746}
+    .node{fill:#dce9f2;stroke:#354a5f;stroke-width:1.4}.leaf{fill:#f7e9c9;stroke:#6b5730;stroke-width:1.4}
+    .edge{stroke:#647381;stroke-width:1.5}.label{font:15px Arial,sans-serif;fill:#17212b;text-anchor:middle}.note{font:14px Arial,sans-serif;fill:#50606f;text-anchor:middle}
+  </style>
+  <rect width="1400" height="470" fill="white"/>
+  <text x="700" y="32" class="title" text-anchor="middle">Hierarchical evaluation: 2 roots and 12 scored leaves</text>
+  <text x="335" y="70" class="panel" text-anchor="middle">Parsing checkpoints</text>
+  <text x="1040" y="70" class="panel" text-anchor="middle">Question-answering checkpoints</text>
+
+  <!-- Parsing edges -->
+  <g class="edge">
+    <line x1="335" y1="117" x2="105" y2="182"/><line x1="335" y1="117" x2="255" y2="182"/>
+    <line x1="335" y1="117" x2="405" y2="182"/><line x1="335" y1="117" x2="555" y2="182"/>
+    <line x1="105" y1="218" x2="65" y2="303"/><line x1="105" y1="218" x2="150" y2="303"/>
+    <line x1="255" y1="218" x2="255" y2="303"/><line x1="405" y1="218" x2="405" y2="303"/>
+    <line x1="555" y1="218" x2="555" y2="303"/>
+  </g>
+  <rect x="285" y="82" width="100" height="42" rx="7" class="node"/><text x="335" y="108" class="label">parse · w=3</text>
+  <rect x="55" y="182" width="100" height="42" rx="7" class="node"/><text x="105" y="208" class="label">document · 3</text>
+  <rect x="205" y="182" width="100" height="42" rx="7" class="node"/><text x="255" y="208" class="label">table · 2</text>
+  <rect x="355" y="182" width="100" height="42" rx="7" class="node"/><text x="405" y="208" class="label">field · 3</text>
+  <rect x="505" y="182" width="100" height="42" rx="7" class="node"/><text x="555" y="208" class="label">reconcile · 3</text>
+  <rect x="20" y="303" width="90" height="48" rx="7" class="leaf"/><text x="65" y="324" class="label">read OK*</text><text x="65" y="343" class="note">w=3</text>
+  <rect x="115" y="303" width="95" height="48" rx="7" class="leaf"/><text x="162" y="324" class="label">throughput</text><text x="162" y="343" class="note">w=1</text>
+  <rect x="215" y="303" width="95" height="48" rx="7" class="leaf"/><text x="262" y="324" class="label">structure</text><text x="262" y="343" class="note">w=2</text>
+  <rect x="360" y="303" width="90" height="48" rx="7" class="leaf"/><text x="405" y="324" class="label">field hit</text><text x="405" y="343" class="note">w=3</text>
+  <rect x="510" y="303" width="90" height="48" rx="7" class="leaf"/><text x="555" y="324" class="label">equations</text><text x="555" y="343" class="note">w=3</text>
+
+  <!-- QA edges -->
+  <g class="edge">
+    <line x1="1040" y1="117" x2="720" y2="182"/><line x1="1040" y1="117" x2="840" y2="182"/>
+    <line x1="1040" y1="117" x2="990" y2="182"/><line x1="1040" y1="117" x2="1130" y2="182"/>
+    <line x1="1040" y1="117" x2="1270" y2="182"/>
+    <line x1="720" y1="218" x2="720" y2="303"/><line x1="840" y1="218" x2="840" y2="303"/>
+    <line x1="990" y1="218" x2="950" y2="303"/><line x1="990" y1="218" x2="1030" y2="303"/>
+    <line x1="1130" y1="218" x2="1130" y2="303"/><line x1="1270" y1="218" x2="1230" y2="303"/><line x1="1270" y1="218" x2="1320" y2="303"/>
+  </g>
+  <rect x="990" y="82" width="100" height="42" rx="7" class="node"/><text x="1040" y="108" class="label">QA · w=3</text>
+  <rect x="665" y="182" width="110" height="42" rx="7" class="node"/><text x="720" y="208" class="label">retrieval · 2</text>
+  <rect x="785" y="182" width="110" height="42" rx="7" class="node"/><text x="840" y="208" class="label">faithful · 3</text>
+  <rect x="935" y="182" width="110" height="42" rx="7" class="node"/><text x="990" y="208" class="label">numeric · 3</text>
+  <rect x="1075" y="182" width="110" height="42" rx="7" class="node"/><text x="1130" y="208" class="label">citation · 2</text>
+  <rect x="1215" y="182" width="110" height="42" rx="7" class="node"/><text x="1270" y="208" class="label">refusal · 2</text>
+  <rect x="675" y="303" width="90" height="48" rx="7" class="leaf"/><text x="720" y="324" class="label">source*</text><text x="720" y="343" class="note">w=2</text>
+  <rect x="795" y="303" width="90" height="48" rx="7" class="leaf"/><text x="840" y="324" class="label">judge</text><text x="840" y="343" class="note">w=3</text>
+  <rect x="905" y="303" width="90" height="48" rx="7" class="leaf"/><text x="950" y="324" class="label">exact*</text><text x="950" y="343" class="note">w=3</text>
+  <rect x="1000" y="303" width="90" height="48" rx="7" class="leaf"/><text x="1045" y="324" class="label">grounding*</text><text x="1045" y="343" class="note">w=3</text>
+  <rect x="1095" y="303" width="90" height="48" rx="7" class="leaf"/><text x="1140" y="324" class="label">judge</text><text x="1140" y="343" class="note">w=2</text>
+  <rect x="1190" y="303" width="90" height="48" rx="7" class="leaf"/><text x="1235" y="324" class="label">judge</text><text x="1235" y="343" class="note">w=1</text>
+  <rect x="1290" y="303" width="90" height="48" rx="7" class="leaf"/><text x="1335" y="324" class="label">contract*</text><text x="1335" y="343" class="note">w=2</text>
+  <text x="700" y="405" class="note">Blue: internal checkpoint · Beige: scored leaf · * hinge leaf · sibling weights are normalized locally</text>
+  <text x="700" y="435" class="note">Parsing: 5 leaves · Question answering: 7 leaves</text>
+</svg>

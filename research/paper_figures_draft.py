@@ -59,7 +59,7 @@ def fig_visibility_spectrum() -> str:
             group_of[m] = g
     colors = [GROUP_COLOR[group_of[n]] for n in names]
 
-    fig, ax = plt.subplots(figsize=(5.6, 3.0))
+    fig, ax = plt.subplots(figsize=(6.2, 3.25))
     bars = ax.bar(range(len(names)), rates, color=colors, edgecolor="black", linewidth=0.4)
     for i, (r, n, a) in enumerate(zip(rates, ns, absorbed)):
         ax.text(i, r + 0.02, f"{r:.2f}\nn={n}", ha="center", va="bottom", fontsize=7.5)
@@ -68,10 +68,10 @@ def fig_visibility_spectrum() -> str:
     ax.axhline(0.2, color="grey", lw=0.6, ls="--")
     ax.set_xticks(range(len(names)))
     ax.set_xticklabels([n.replace("_", "\n") for n in names], fontsize=7.5)
-    ax.set_ylim(0, 1.22)
+    ax.set_ylim(0, 1.16)
     ax.set_ylabel("Injection-level visibility rate")
-    ax.set_title("Defect visibility spectrum by injection type (95 tables / 118 injections;\n"
-                 "drop threshold 2.0; checkpoint_discrimination_tables_v2.json)", fontsize=8.5)
+    ax.set_title("Defect visibility is strongly type-dependent\n"
+                 "(95 tables, 118 controlled injections)", fontsize=10)
     handles = [plt.Rectangle((0, 0), 1, 1, fc=GROUP_COLOR[g]) for g in PATENT_GROUPS]
     ax.legend(handles, list(PATENT_GROUPS), loc="upper left", fontsize=7, frameon=False)
     OUT.mkdir(parents=True, exist_ok=True)
@@ -100,42 +100,56 @@ def _layout(node, depth, counter, xs, ys, labels):
 def fig_checkpoint_trees() -> str:
     src = REPO / "config" / "eval_checkpoint_trees.json"
     d = json.loads(src.read_text(encoding="utf-8"))
-    fig, ax = plt.subplots(figsize=(7.2, 3.6))
-    for tree in d["trees"]:
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 3.5), gridspec_kw={"wspace": 0.18})
+    titles = {
+        "parse": "Parsing checkpoints",
+        "qa": "Question-answering checkpoints",
+    }
+    short = {
+        "parse": "parse", "doc": "document", "table": "table",
+        "field": "field", "reconcile": "reconcile", "ok": "read OK",
+        "throughput": "throughput", "regression": "structure",
+        "hit_rate": "field hit", "equations": "equations",
+        "qa": "QA", "retrieval": "retrieval", "faithfulness": "faithfulness",
+        "numeric": "numeric", "citation": "citation", "refusal": "refusal",
+        "source_required": "source", "judge": "judge", "exact": "exact",
+        "number_grounding": "grounding", "deterministic": "contract",
+    }
+    hinge_mappings = {"overall_status_binary", "pass_rate_contract", "nf_pass_rate"}
+
+    for ax, tree in zip(axes, d["trees"]):
         xs, ys, labels = {}, {}, {}
-        _layout(tree, 0, [0 if not xs else max(xs.values()) + 2], xs, ys, labels)
-        # recompute with proper offset between the two trees
-        pass
-    # single-pass layout across both trees with a gap
-    xs, ys, labels = {}, {}, {}
-    counter = [0]
-    for tree in d["trees"]:
-        _layout(tree, 0, counter, xs, ys, labels)
-        counter[0] += 2
-    def draw(node):
-        x, y = xs[node["id"]], ys[node["id"]]
-        leaf = not node.get("children")
-        w = node.get("weight", "")
-        lbl = node["id"].split(".")[-1]
-        t = ax.text(x, y, f"{lbl}\nw={w}", ha="center", va="center", fontsize=6.8,
-                    bbox=dict(boxstyle="round,pad=0.25",
-                              fc="#DCE9F2" if not leaf else "#F7E9C9", ec="black", lw=0.5))
-        for c in node.get("children", []):
-            cx, cy = xs[c["id"]], ys[c["id"]]
-            ax.plot([x, cx], [y - 0.28, cy + 0.28], color="0.35", lw=0.7, zorder=0)
-            draw(c)
-    for tree in d["trees"]:
+        _layout(tree, 0, [0], xs, ys, labels)
+
+        def draw(node):
+            x, y = xs[node["id"]], ys[node["id"]]
+            leaf = not node.get("children")
+            token = node["id"].split(".")[-1]
+            label = short.get(token, token.replace("_", " "))
+            if leaf and node.get("mapping") in hinge_mappings:
+                label += " *"
+            ax.text(
+                x, y, f"{label}\nw={node.get('weight', '')}",
+                ha="center", va="center", fontsize=7.2,
+                bbox=dict(
+                    boxstyle="round,pad=0.28",
+                    fc="#DCE9F2" if not leaf else "#F7E9C9",
+                    ec="0.25", lw=0.6,
+                ),
+            )
+            for child in node.get("children", []):
+                cx, cy = xs[child["id"]], ys[child["id"]]
+                ax.plot([x, cx], [y - 0.22, cy + 0.22], color="0.4", lw=0.8, zorder=0)
+                draw(child)
+
         draw(tree)
-        en = {"parse": "Parsing tree (doc / table / field / reconcile)",
-              "qa": "QA tree (retrieval / faithfulness / numeric / citation / refusal)"}
-        ax.text(xs[tree["id"]], ys[tree["id"]] + 0.55, en.get(tree["id"], tree["label"]),
-                ha="center", fontsize=8, fontweight="bold")
-    ax.set_xlim(min(xs.values()) - 1, max(xs.values()) + 1)
-    ax.set_ylim(min(ys.values()) - 0.9, 1.1)
-    ax.axis("off")
-    ax.set_title("Evaluation checkpoint trees (2 roots / 12 scored leaves; sibling-normalized "
-                 "weighted aggregation; hinge gates on doc/ok, exact_numeric, number_grounding; "
-                 "config/eval_checkpoint_trees.json)", fontsize=8)
+        ax.set_xlim(min(xs.values()) - 0.75, max(xs.values()) + 0.75)
+        ax.set_ylim(min(ys.values()) - 0.6, 0.65)
+        ax.set_title(titles[tree["id"]], fontsize=10, fontweight="bold", pad=8)
+        ax.axis("off")
+
+    fig.suptitle("Hierarchical evaluation: 2 roots and 12 scored leaves", fontsize=11, y=1.02)
+    fig.text(0.5, 0.015, "* hinge leaf; sibling weights are normalized locally", ha="center", fontsize=8)
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / "fig_checkpoint_trees.png"
     fig.savefig(p)

@@ -1,0 +1,206 @@
+{
+  "status": "PASS",
+  "paper": "paper/teacher_review_draft_v1.md",
+  "claims": 4,
+  "checks_total": 49,
+  "checks_passed": 49,
+  "errors": [],
+  "checks": [
+    {
+      "check": "section:Abstract",
+      "pass": true
+    },
+    {
+      "check": "section:Introduction",
+      "pass": true
+    },
+    {
+      "check": "section:Related Work",
+      "pass": true
+    },
+    {
+      "check": "section:Method",
+      "pass": true
+    },
+    {
+      "check": "section:Experimental Setup",
+      "pass": true
+    },
+    {
+      "check": "section:Results",
+      "pass": true
+    },
+    {
+      "check": "section:Discussion and Limitations",
+      "pass": true
+    },
+    {
+      "check": "section:Conclusion",
+      "pass": true
+    },
+    {
+      "check": "section:References",
+      "pass": true
+    },
+    {
+      "check": "forbidden:TODO",
+      "pass": true
+    },
+    {
+      "check": "forbidden:append-only",
+      "pass": true
+    },
+    {
+      "check": "forbidden:main thread",
+      "pass": true
+    },
+    {
+      "check": "forbidden:Loop D",
+      "pass": true
+    },
+    {
+      "check": "forbidden:Ruling ",
+      "pass": true
+    },
+    {
+      "check": "forbidden:ruling ",
+      "pass": true
+    },
+    {
+      "check": "forbidden:[logs/graph/eval/",
+      "pass": true
+    },
+    {
+      "check": "forbidden:[docs/experiments/",
+      "pass": true
+    },
+    {
+      "check": "forbidden:主线程",
+      "pass": true
+    },
+    {
+      "check": "forbidden:决策 ",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:token:96/118",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:token:0/13",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:token:five thresholds",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:evidence:logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:evidence:logs/graph/eval/t2_visibility_sensitivity.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:evidence:logs/graph/eval/d1_mutant_validity_audit.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:112/118",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:85/118",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:13/118",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:[0,0]",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:evidence:logs/graph/eval/t1_eval_baseline_comparison.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:evidence:logs/graph/eval/d3_matched_fpr_stage_a.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:token:0.7895",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:token:0.7835",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:token:0.7556",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:token:five class flips",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:evidence:logs/graph/eval/d2_cross_matcher_det.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:evidence:logs/graph/eval/t4_pso_fair_comparison.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:token:all 7",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:token:all 5",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:token:p=0.375",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:evidence:docs/experiments/2026-08-28_adversarial_arm_experiment.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:evidence:docs/experiments/2026-08-29_collision_expansion_experiment.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:evidence:docs/experiments/2026-08-29_column_sensitivity_analysis.md",
+      "pass": true
+    },
+    {
+      "check": "figure:docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg",
+      "pass": true
+    },
+    {
+      "check": "figure:docs/experiments/figures_paper/fig_visibility_spectrum.png",
+      "pass": true
+    },
+    {
+      "check": "delivery:paper/teacher_review_draft_v1.md",
+      "pass": true
+    },
+    {
+      "check": "delivery:paper/teacher_review_draft_v1.docx",
+      "pass": true
+    },
+    {
+      "check": "delivery:paper/teacher_review_note_v1.md",
+      "pass": true
+    },
+    {
+      "check": "delivery:paper/teacher_review_readiness_v1.md",
+      "pass": true
+    }
+  ]
+}

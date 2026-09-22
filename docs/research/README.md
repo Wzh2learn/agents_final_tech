@@ -25,7 +25,7 @@
 | 研究问题 | 稿件责任 | 当前证据 | 当前结论边界 |
 |---|---|---|---|
 | SP-RQ1：缺陷在哪一层可见、在哪一层被吸收？ | 主贡献 | 95 表、118 注入、阈值网格和可见性谱 | 只主张受测文档管线；字符扰动危害性依赖等价类定义 |
-| SP-RQ2：分层检查点带来什么？ | 主贡献 | 端到端、扁平、层级协议与 matched-FPR 对照 | 贡献是定位和证据分解，不主张检出率优于扁平基线 |
+| SP-RQ2：分层检查点带来什么？ | 主贡献 | 端到端、扁平、层级协议与 matched-FPR 对照 | 当前只证实证据分解；不主张检出率更高，额外定位收益仍待多 leaf 变化场景验证 |
 | SP-RQ3：结论是否依赖协议、匹配器和评分口径？ | 严谨性贡献 | 跨匹配器、匹配竞争、judge 校准、种子与敏感性分析 | 第二数据流和第二 scorer 尚未闭合，不外推为普遍定律 |
 | SP-RQ4：评测发现能否反馈系统改进？ | 半页机制案例 | VGRM 门拒、规则固化与回归记录 | 不主张 VGRM 显著净收益；PSO 仅报告 null/负面结果 |
 
@@ -82,21 +82,39 @@
 - TH-I3 只有机制与探索性证据，强门控基线和功效分析尚未闭合。
 - TH-I4 尚未达到独立创新点门槛。
 
-## 5. 下一批：论文验收基线 v1
+## 5. 论文验收基线 v1
 
 目标不是新跑模型，而是把现有科研资产变成可审计、可投稿、可继续扩展的基线。
 
-1. 从内部稿生成独立的干净投稿稿，移除决策日志、append-only 注记和中文审稿记录；冻结原内部稿作为证据源。
-2. 建立机器可读的 claim manifest：每条 claim 对应稿件段落、数字、工件、复算命令、适用范围和降级文本。
-3. 写验收器做静态检查：悬空工件、未解释数字、禁用强主张、术语/分母漂移、未闭合占位、内部注记泄漏。
-4. 用当前证据跑出第一份验收报告；先修文本级失败，不启动新端点实验。
-5. 通过 G5 后，再决定外部效度优先补第二数据流还是第二 scorer；两者均需另开预注册与预算门。
+当前已建立第一版仓内资产：
+
+1. `paper/teacher_review_draft_v1.md`：独立的干净老师审阅稿；原内部稿继续作为证据底稿。
+2. `paper/claim_manifest_v1.json`：每条 claim 对应稿件数字、证据、适用范围和降级边界。
+3. `research/validate_paper_claims.py`：静态检查章节、证据路径、关键数字和内部注记泄漏。
+4. `paper/teacher_review_draft_v1.docx`：老师可直接打开的 Word 审阅版，由 Markdown 离线生成。
+5. `paper/teacher_review_readiness_v1.md`：内部送审判定、阻塞项与导师审阅问题。
+6. `paper/thesis_manuscript_scaffold_v1.md`：大论文章节、创新点、小论文继承与新增证据边界。
+
+运行：
+
+```bash
+python3 research/validate_paper_claims.py
+PYTHONPATH=. python3 -m pytest tests/test_paper_claim_acceptance.py -q
+.venv/bin/python research/build_teacher_review_docx.py
+```
+
+通过 G5 后，再决定外部效度优先补第二数据流还是第二 scorer；两者均需另开预注册与预算门。
 
 本批不包含：生产探测、模型调用、TAT-DQA 解冻、D4 执行、专利公开状态判断或对外发送。
 
 ## 6. 常用入口
 
 - 当前内部稿：`paper/draft_v0_s1_s2_s6.md`
+- 老师审阅稿：`paper/teacher_review_draft_v1.md`
+- 老师审阅 Word：`paper/teacher_review_draft_v1.docx`
+- 内部送审验收：`paper/teacher_review_readiness_v1.md`
+- 大论文稿件骨架：`paper/thesis_manuscript_scaffold_v1.md`
+- Claim manifest：`paper/claim_manifest_v1.json`
 - 小论文蓝图：`docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md`
 - 冻结 Claim Set v2：`docs/experiments/2026-08-30_phase_a_autopsy_and_claim_set_v2.md`
 - 最新双模型审稿：`docs/experiments/2026-09-21_loopc_review_diff_table.md`

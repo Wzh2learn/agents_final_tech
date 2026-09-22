@@ -1,0 +1,232 @@
+#!/usr/bin/env python3
+"""Build the teacher-review DOCX from the clean Markdown manuscript.
+
+This is a deterministic, offline formatter. It does not call models, services,
+databases, or the network.
+"""
+
+from __future__ import annotations
+
+import re
+from pathlib import Path
+
+from docx import Document
+from docx.enum.section import WD_SECTION
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_CELL_VERTICAL_ALIGNMENT
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+from docx.shared import Cm, Inches, Pt, RGBColor
+
+
+REPO = Path(__file__).resolve().parents[1]
+SOURCE = REPO / "paper" / "teacher_review_draft_v1.md"
+OUTPUT = REPO / "paper" / "teacher_review_draft_v1.docx"
+
+
+def add_runs(paragraph, text: str) -> None:
+    position = 0
+    pattern = re.compile(r"(\*\*[^*]+\*\*|`[^`]+`|\*[^*]+\*)")
+    for match in pattern.finditer(text):
+        if match.start() > position:
+            paragraph.add_run(text[position : match.start()])
+        token = match.group(0)
+        run = paragraph.add_run(token.strip("*`"))
+        if token.startswith("**"):
+            run.bold = True
+        elif token.startswith("`"):
+            run.font.name = "Consolas"
+        else:
+            run.italic = True
+        position = match.end()
+    if position < len(text):
+        paragraph.add_run(text[position:])
+
+
+def add_page_number(section) -> None:
+    paragraph = section.footer.paragraphs[0]
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = paragraph.add_run()
+    begin = OxmlElement("w:fldChar")
+    begin.set(qn("w:fldCharType"), "begin")
+    instr = OxmlElement("w:instrText")
+    instr.set(qn("xml:space"), "preserve")
+    instr.text = "PAGE"
+    end = OxmlElement("w:fldChar")
+    end.set(qn("w:fldCharType"), "end")
+    run._r.extend([begin, instr, end])
+
+
+def style_document(document: Document) -> None:
+    section = document.sections[0]
+    section.top_margin = Cm(2.0)
+    section.bottom_margin = Cm(2.0)
+    section.left_margin = Cm(2.2)
+    section.right_margin = Cm(2.2)
+    add_page_number(section)
+
+    normal = document.styles["Normal"]
+    normal.font.name = "Times New Roman"
+    normal.font.size = Pt(10.5)
+    normal.paragraph_format.space_after = Pt(4)
+    normal.paragraph_format.line_spacing = 1.08
+    for name, size in (("Title", 18), ("Heading 1", 14), ("Heading 2", 12)):
+        style = document.styles[name]
+        style.font.name = "Arial"
+        style.font.size = Pt(size)
+        style.font.color.rgb = RGBColor(0x17, 0x21, 0x2B)
+
+
+def add_markdown_table(document: Document, rows: list[list[str]]) -> None:
+    table = document.add_table(rows=len(rows), cols=max(map(len, rows)))
+    table.style = "Table Grid"
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    for row_index, row in enumerate(rows):
+        for column_index, value in enumerate(row):
+            cell = table.cell(row_index, column_index)
+            cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+            paragraph = cell.paragraphs[0]
+            add_runs(paragraph, value)
+            if row_index == 0:
+                for run in paragraph.runs:
+                    run.bold = True
+            for run in paragraph.runs:
+                run.font.size = Pt(8.5)
+
+
+def build() -> Path:
+    document = Document()
+    style_document(document)
+    lines = SOURCE.read_text(encoding="utf-8").splitlines()
+    index = 0
+    in_formula = False
+
+    while index < len(lines):
+        line = lines[index]
+        stripped = line.strip()
+
+        if index == 0 and line.startswith("# "):
+            title = document.add_paragraph(style="Title")
+            title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            add_runs(title, line[2:])
+            author = document.add_paragraph("Author: ____________________")
+            author.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            index += 1
+            continue
+
+        if stripped == "\\[":
+            in_formula = True
+            index += 1
+            continue
+        if stripped == "\\]":
+            in_formula = False
+            index += 1
+            continue
+        if in_formula:
+            paragraph = document.add_paragraph()
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            run = paragraph.add_run(stripped)
+            run.font.name = "Cambria Math"
+            run.italic = True
+            index += 1
+            continue
+
+        if line.startswith("|") and index + 1 < len(lines) and re.match(r"^\|[\s\-:|]+\|$", lines[index + 1]):
+            rows: list[list[str]] = []
+            while index < len(lines) and lines[index].startswith("|"):
+                rows.append([part.strip() for part in lines[index].strip("|").split("|")])
+                index += 1
+            rows.pop(1)
+            add_markdown_table(document, rows)
+            continue
+
+        image_match = re.match(r"^!\[([^]]+)\]\(([^)]+)\)$", stripped)
+        if image_match:
+            caption, relative = image_match.groups()
+            image_path = (SOURCE.parent / relative).resolve()
+            if image_path.suffix.lower() == ".png" and image_path.is_file():
+                paragraph = document.add_paragraph()
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                paragraph.add_run().add_picture(str(image_path), width=Inches(6.2))
+            elif image_path.name == "fig_checkpoint_trees_v2.svg" and image_path.is_file():
+                # python-docx cannot rasterize SVG. Preserve the complete structure
+                # as a compact native Word table instead of emitting a blank figure.
+                table = document.add_table(rows=2, cols=2)
+                table.style = "Table Grid"
+                table.alignment = WD_TABLE_ALIGNMENT.CENTER
+                entries = (
+                    (
+                        "Parsing tree",
+                        "document → read OK*, throughput\n"
+                        "table → structure\nfield → field hit\nreconcile → equations",
+                    ),
+                    (
+                        "Question-answering tree",
+                        "retrieval → source*\nfaithfulness → judge\n"
+                        "numeric → exact*, grounding*\ncitation → judge\n"
+                        "refusal → judge, contract*",
+                    ),
+                )
+                for column, (heading, body) in enumerate(entries):
+                    head_cell = table.cell(0, column)
+                    head_cell.text = heading
+                    body_cell = table.cell(1, column)
+                    body_cell.text = body
+                    for run in head_cell.paragraphs[0].runs:
+                        run.bold = True
+                    for cell in (head_cell, body_cell):
+                        cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+            caption_paragraph = document.add_paragraph(caption)
+            caption_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            for run in caption_paragraph.runs:
+                run.italic = True
+                run.font.size = Pt(9)
+            index += 1
+            continue
+
+        heading = re.match(r"^(#{2,3}) (.+)$", line)
+        if heading:
+            level = 1 if len(heading.group(1)) == 2 else 2
+            document.add_heading(heading.group(2), level=level)
+            index += 1
+            continue
+
+        if stripped.startswith("> "):
+            paragraph = document.add_paragraph()
+            paragraph.paragraph_format.left_indent = Cm(0.5)
+            add_runs(paragraph, stripped[2:])
+            for run in paragraph.runs:
+                run.italic = True
+                run.font.color.rgb = RGBColor(0x66, 0x66, 0x66)
+            index += 1
+            continue
+
+        if re.match(r"^\d+\. ", stripped):
+            paragraph = document.add_paragraph(style="List Number")
+            add_runs(paragraph, re.sub(r"^\d+\. ", "", stripped))
+            index += 1
+            continue
+        if stripped.startswith("- "):
+            paragraph = document.add_paragraph(style="List Bullet")
+            add_runs(paragraph, stripped[2:])
+            index += 1
+            continue
+
+        if stripped:
+            paragraph = document.add_paragraph()
+            add_runs(paragraph, stripped)
+        index += 1
+
+    # Preserve an explicit internal-review watermark in document properties.
+    document.core_properties.title = SOURCE.read_text(encoding="utf-8").splitlines()[0][2:]
+    document.core_properties.subject = (
+        "Internal teacher-review manuscript; patent release gate pending confirmation"
+    )
+    document.core_properties.comments = "Generated offline from paper/teacher_review_draft_v1.md"
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    document.save(OUTPUT)
+    return OUTPUT
+
+
+if __name__ == "__main__":
+    print(build())

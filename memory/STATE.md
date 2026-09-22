@@ -25,6 +25,13 @@ thesis directly. The canonical execution and acceptance entry is
 
 ## Completed in the current governance pass
 
+- The conference-paper teacher-review package is complete: clean Markdown and
+  DOCX manuscripts, a Chinese review note, claim manifest, acceptance report,
+  and internal-readiness decision are linked from `docs/research/README.md`.
+- The paper acceptance gate verifies 4 claims and 49 section, wording, evidence,
+  figure, and delivery-file checks without model, service, or database calls.
+- The master's-thesis scaffold now maps each chapter to the small-paper evidence
+  it may inherit and the independent evidence it must still add.
 - Local quickstart no longer kills an existing process or backgrounds Uvicorn.
 - Runtime configuration now agrees on `PGDATABASE_URL`, `vector_db`, and port 5050.
 - Docker images include the required `config/` tree.
@@ -43,10 +50,14 @@ thesis directly. The canonical execution and acceptance entry is
 
 ## Next work
 
-1. Build paper-acceptance baseline v1 around frozen claims and existing evidence.
-2. Produce a clean submission manuscript from the internal evidence-rich draft.
-3. Defer generic skill-warning cleanup and parser/RAG modularization until the
-   paper-facing batch is complete or explicitly reprioritized.
+1. User reviews and sends the internal package to the advisor when appropriate;
+   the agent does not send it externally.
+2. Apply advisor feedback only to the affected manuscript sections, then rerun
+   the paper acceptance gate and regenerate the DOCX.
+3. If the advisor requires stronger external validity, preregister either a
+   second dataflow or a second scorer before any new run.
+4. Continue the thesis with TH-I3 strong baselines after the conference-paper
+   story is stable; keep TH-I4 conditional on its preregistered gate.
 
 ## Protected boundaries
 
@@ -62,3 +73,6 @@ thesis directly. The canonical execution and acceptance entry is
 - Local checks are deterministic development evidence only; they are not GB10 runtime proof.
 - Focused launcher/runtime contract suite: 8 tests passed on 2026-09-22.
 - Known local warning: pytest reports unknown `asyncio_mode` because the optional plugin is absent.
+- Paper acceptance gate: 49/49 checks passed; focused paper tests: 3 passed on
+  2026-09-22. The DOCX contains one embedded PNG plus a native Word checkpoint
+  table; no visual Office renderer was available locally.

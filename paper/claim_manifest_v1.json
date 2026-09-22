@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "paper": "paper/teacher_review_draft_v1.md",
+  "status": "internal_teacher_review",
+  "release_gate": "patent_status_confirmation_required",
+  "delivery_files": [
+    "paper/teacher_review_draft_v1.md",
+    "paper/teacher_review_draft_v1.docx",
+    "paper/teacher_review_note_v1.md",
+    "paper/teacher_review_readiness_v1.md"
+  ],
+  "required_sections": [
+    "Abstract",
+    "Introduction",
+    "Related Work",
+    "Method",
+    "Experimental Setup",
+    "Results",
+    "Discussion and Limitations",
+    "Conclusion",
+    "References"
+  ],
+  "forbidden_manuscript_markers": [
+    "TODO",
+    "append-only",
+    "main thread",
+    "Loop D",
+    "Ruling ",
+    "ruling ",
+    "[logs/graph/eval/",
+    "[docs/experiments/",
+    "主线程",
+    "决策 "
+  ],
+  "claims": [
+    {
+      "id": "SP-C1",
+      "status": "supported_with_scope_limit",
+      "claim": "Defect visibility is type-dependent and OCR-like perturbations are fully blind in the tested evaluator.",
+      "manuscript_tokens": ["96/118", "0/13", "five thresholds"],
+      "evidence": [
+        "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+        "logs/graph/eval/t2_visibility_sensitivity.json",
+        "logs/graph/eval/d1_mutant_validity_audit.json"
+      ],
+      "scope_limit": "The observation applies to the tested public tabular corpus and evaluator; harmfulness remains equivalence-definition dependent."
+    },
+    {
+      "id": "SP-C2",
+      "status": "supported_as_diagnostic_not_superiority",
+      "claim": "Hierarchical checkpoints provide decomposition but do not improve matched-FPR discrimination on the current corpus.",
+      "manuscript_tokens": ["112/118", "85/118", "13/118", "[0,0]"],
+      "evidence": [
+        "logs/graph/eval/t1_eval_baseline_comparison.json",
+        "logs/graph/eval/d3_matched_fpr_stage_a.json"
+      ],
+      "scope_limit": "Localization value cannot be established while only one input-varying leaf is present."
+    },
+    {
+      "id": "SP-C3",
+      "status": "supported_with_external_validity_gap",
+      "claim": "The blind-family structure is stable across tested matchers and seeds, while visible-family ranking depends on scoring caliber.",
+      "manuscript_tokens": ["0.7895", "0.7835", "0.7556", "five class flips"],
+      "evidence": [
+        "logs/graph/eval/d2_cross_matcher_det.json",
+        "logs/graph/eval/t4_pso_fair_comparison.json"
+      ],
+      "scope_limit": "No second-dataflow result and no second-scorer result are claimed."
+    },
+    {
+      "id": "SP-C4",
+      "status": "mechanism_case_only",
+      "claim": "Evaluation findings can be routed through a gated deterministic consolidation loop.",
+      "manuscript_tokens": ["all 7", "all 5", "p=0.375"],
+      "evidence": [
+        "docs/experiments/2026-08-28_adversarial_arm_experiment.md",
+        "docs/experiments/2026-08-29_collision_expansion_experiment.md",
+        "docs/experiments/2026-08-29_column_sensitivity_analysis.md"
+      ],
+      "scope_limit": "The downstream efficacy effect is not significant and is not presented as a contribution."
+    }
+  ],
+  "figures": [
+    "docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg",
+    "docs/experiments/figures_paper/fig_visibility_spectrum.png"
+  ]
+}
