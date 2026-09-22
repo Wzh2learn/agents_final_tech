@@ -1,0 +1,119 @@
+[catalog]
+version = 1
+authority = "scripts/README.md"
+policy = "Every tracked file under scripts/ belongs to exactly one category."
+
+[production]
+roots = []
+files = [
+  "m1_apply_schema_suggestions.py",
+  "m1_ocr_fallback.py",
+  "m1_rag_ingest.py",
+  "m1_serve.sh",
+  "m1_statement_parser.py",
+  "opencode_m1_extract.sh",
+  "responses2chat_proxy.py",
+  "run.sh",
+  "run_opencode_gb10.sh",
+  "run_opencode_tabular.sh",
+  "sidecar_launch.sh",
+  "start_llamacpp_model.sh",
+  "start_mcp_server.sh",
+  "start_tabular_mcp_server.sh",
+  "start_vision_mcp_server.sh",
+  "thinking_inject_proxy.py",
+]
+
+[operations]
+roots = ["graph"]
+files = [
+  "build_product_aliases.py",
+  "check_vision_model_runtime.py",
+  "deploy_proxy_gb10.sh",
+  "deploy_qoder_gb10.sh",
+  "dev_remote_demo.ps1",
+  "docs_lint.py",
+  "download_hf_model.py",
+  "download_model_from_catalog.py",
+  "gb10_reclaim_page_cache.sh",
+  "init_knowledge_backend.py",
+  "m1_rag_tag_doctype.py",
+  "m1_scenario1_regression.py",
+  "opencode_session_cleanup.py",
+  "qoder_settings_template.json",
+  "qwen_harness_tools.py",
+  "restart_m1_harness.sh",
+  "restart_opencode_sidecar.sh",
+  "routeb_watch.sh",
+  "setup_codex_gb10.sh",
+  "smoke_test_mcp_server.py",
+  "smoke_test_retrieval_model.py",
+  "smoke_test_tabular_mcp_server.py",
+  "smoke_test_tabular_model.py",
+  "smoke_test_vision_mcp_server.py",
+  "smoke_test_vision_model.py",
+  "supervisor_m1.sh",
+  "supervisor_qoder.sh",
+  "switch_codex_model.sh",
+  "verify_config.py",
+  "vllm_probe_serve.sh",
+]
+
+[experiments]
+roots = ["research"]
+files = [
+  "assemble_demo_video_v2.py",
+  "assemble_demo_video_v3.py",
+  "build_doc23_docx.py",
+  "build_doc31_docx.py",
+  "build_doc31_v2_docx.py",
+  "demo.sh",
+  "docs23_screenshots.py",
+  "eval_checkpoint_aggregate.py",
+  "eval_checkpoint_discrimination.py",
+  "eval_evidence_cards.py",
+  "m1_accuracy_eval.py",
+  "m1_benchmark.py",
+  "m1_header_mapping_llm.py",
+  "m1_html_email_parse.py",
+  "m1_ocr_map.py",
+  "m1_ocr_render.py",
+  "m1_rag_qa.py",
+  "m2_bm25_ab.py",
+  "m2_eval_deterministic.py",
+  "m2_eval_judge.py",
+  "m2_eval_judge_consistency.py",
+  "m2_eval_judge_crosscheck.py",
+  "m2_eval_number_faithfulness.py",
+  "m2_model_probe_benchmark.py",
+  "m2_model_probe_p2_run.sh",
+  "make_demo_cards_v3.py",
+  "mine_dify_rule_terms.py",
+  "prepare_tat_dqa_joint_v1.py",
+  "preprocess_msg.py",
+  "probe_docling.py",
+  "record_demo_video.py",
+  "record_demo_video_v2.py",
+  "record_demo_video_v3.py",
+  "rehearse_demo_v3.py",
+  "run_eval.sh",
+  "run_m2_rag_eval.py",
+  "run_matrix_candidate.py",
+  "run_mcp_opencode_stability.py",
+  "run_tabular_inference.py",
+  "run_tat_dqa_m2_upper_bound.py",
+  "t1_client_experience_audit.py",
+  "tat_dqa_data.py",
+  "tts_demo_v3.py",
+  "vlm_server_8007.py",
+  "walkthrough_m1_v2.py",
+]
+
+[archive]
+roots = ["archive"]
+files = [
+  "loop_m1_compact_patch_qoder.md",
+  "loop_m1_header_mapping_llm.md",
+  "loop_m1_multiagent_delegation.md",
+  "loop_qoder_recon.md",
+]

@@ -38,7 +38,7 @@ Full test runs may perform optional read-only health probes. GB10 results are au
 | `src/tools/` | Retrieval and document tools |
 | `src/storage/` | PostgreSQL/PGVector, persistence, files |
 | `src/*_mcp_server/` | Isolated read-only MCP adapters |
-| `scripts/` | Operational commands, migration-era production helpers, experiments |
+| `scripts/` | Thin CLIs and catalogued operations/experiments; see `scripts/README.md` |
 | `tests/` | Pytest unit and contract tests |
 | `config/` | Runtime configuration and schema overrides |
 | `docs/` | Current docs, experiments, governance evidence, archive |

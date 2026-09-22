@@ -78,6 +78,7 @@ src/
 └── main.py         # 应用入口
 
 scripts/
+├── catalog.toml             # 可机械校验的脚本分类清单
 ├── m1_statement_parser.py   # 解析器兼容 CLI
 ├── m1_rag_ingest.py         # 入库兼容 CLI
 ├── m1_rag_qa.py             # RAG 问答测试 (15 queries)

@@ -20,7 +20,7 @@ agents_final_tech/
 │   ├── mcp_server/           # 知识检索 MCP (120 行, 未常驻)
 │   ├── vision_mcp_server/    # 视觉 OCR MCP (274 行, 未常驻)
 │   └── tabular_mcp_server/   # 表格分类 MCP (198 行, 未常驻)
-├── scripts/                  # 运维入口 + 评测 + Graph Loop + 兼容 CLI
+├── scripts/                  # 兼容 CLI + 运维 + 实验 + 归档；分类见 catalog.toml
 │   ├── m1_statement_parser.py   # 兼容 CLI，委托 src/biz/m1_statement_parser.py
 │   ├── m1_rag_ingest.py         # 兼容 CLI，委托 src/biz/m1_rag_ingest.py
 │   ├── m1_rag_qa.py             # 15 查询 RAG QA 评测 (gate >= 80%)
