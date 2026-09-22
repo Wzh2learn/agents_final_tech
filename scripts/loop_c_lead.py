@@ -73,7 +73,8 @@ def cmd_start():
         if STOP.exists(): raise RuntimeError(f"STOP exists: {STOP}")
         a = active()
         if a.get("state") in {"RUNNING","AUDITING"}: raise RuntimeError(f"active task: {a.get('task_id')}")
-        q = load_queue(); t = select_ready(q); t["status"] = "ACTIVE"
+        q = load_queue(); t = select_ready(q); card = ROOT / "cards" / f"{t["id"]}.md";
+        if not card.exists(): raise RuntimeError(f"missing execution card: {card}"); t["status"] = "ACTIVE"
         payload = {"task_id": t["id"], "mode": t.get("mode"), "worktree": t.get("worktree", str(DEFAULT_WORKTREE)), "branch": t.get("branch", "gb10/loop-c-lead-20260923"), "owned_paths": t.get("owned_paths", []), "pid": os.getpid(), "session": os.environ.get("LOOP_C_SESSION_ID", "manual"), "started_at": now(), "state": "RUNNING"}
         atomic_write(ACTIVE, json.dumps(payload, ensure_ascii=False, indent=2) + "\n"); save_queue(q); print(json.dumps(payload, ensure_ascii=False, indent=2))
     return 0

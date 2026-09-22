@@ -50,3 +50,10 @@ Initial ready cards are LC-GOV-002 (read-only governance/archive inventory) and 
 Lead may read evidence, dispatch bounded cards, and advance owned governance/design work. Loop D/user must decide core claims, frozen rules, endpoints, restart, training, deletion of unclear assets, main integration, and publication.
 
 Current boundary: Phase 1a is DATA_NO_GO, Phase 2 unstarted. Control-plane, governance, documentation, archive candidates, and experiment design may proceed; no baselines or speculative paper numbers may be manufactured.
+
+## Four work modes
+
+- LEAD reads the goal, queue, checkpoint, Loop B state, and Git state; selects one dependency-satisfied card; dispatches at most one modifying Loop A; and owns stop conditions.
+- RESEARCH maps hypotheses, approved offline tools, power limits, and evidence-to-claim links; it cannot change the final paper positioning or frozen protocol.
+- GOVERNANCE reconciles docs, memory, Git dirty-file ownership, archive candidates, and regenerable reports; ambiguous user assets are registered and left untouched.
+- AUDIT is a fresh read-only Loop C session. It reviews the Lead or Loop A result, cannot edit audited files, and cannot inherit the Lead session conclusion. One Claude session never performs both Lead and independent Audit roles.
