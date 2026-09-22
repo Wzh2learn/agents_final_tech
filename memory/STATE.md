@@ -30,6 +30,7 @@ Improve engineering governance and operational reliability on branch
 - Local, Docker, systemd, supervisord, compatibility, and restart launch paths delegate to `serve.sh`.
 - Production parser and ingest implementations live in `src/biz/`; legacy script imports and CLIs delegate to those canonical modules.
 - Every tracked script is assigned to production, operations, experiments, or archive in `scripts/catalog.toml`, with a test preventing unclassified additions.
+- Skill distribution stages and validates each copy before activation, preserves the previous install for rollback, and rejects unsafe single-skill paths.
 
 ## Runtime status
 
@@ -40,7 +41,7 @@ Improve engineering governance and operational reliability on branch
 
 ## Next engineering-governance work
 
-1. Harden skill synchronization and repair skill metadata/validation gaps.
+1. Repair skill routing metadata and validator coverage gaps.
 2. Split oversized parser/RAG modules only after stable behavioral boundaries are covered.
 
 ## Protected boundaries
