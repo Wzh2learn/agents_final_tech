@@ -19,6 +19,14 @@ def test_parser_and_ingest_have_canonical_biz_modules() -> None:
     assert ingest.__file__ and "/src/biz/" in ingest.__file__.replace("\\", "/")
 
 
+def test_relocated_parser_resources_still_resolve_from_repository_root() -> None:
+    parser = importlib.import_module("biz.m1_statement_parser")
+
+    assert Path(parser.LOCAL_SCHEMA) == REPO_ROOT / "config" / "m1_table_schema.json"
+    assert Path(parser._OCR_PADDLE_SCRIPT) == REPO_ROOT / "scripts" / "m1_ocr_fallback.py"
+    assert Path(parser.SCHEMA_SUGGESTIONS_PATH) == REPO_ROOT / "config" / "schema_suggestions.json"
+
+
 def test_legacy_script_imports_alias_canonical_modules(monkeypatch) -> None:
     monkeypatch.syspath_prepend(str(REPO_ROOT / "scripts"))
     for legacy_name, canonical_name in (

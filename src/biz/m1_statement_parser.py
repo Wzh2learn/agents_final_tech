@@ -405,7 +405,7 @@ def parse_txt(path: str) -> ParsedDoc:
 _OCR_PADDLE_PYTHON = os.path.expanduser(
     "~/miniconda3/envs/wzh_vision/bin/python")
 _OCR_PADDLE_SCRIPT = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "m1_ocr_fallback.py")
+    _PROJECT_ROOT, "scripts", "m1_ocr_fallback.py")
 _OCR_VISION_ENDPOINT = os.environ.get(
     "M1_OCR_VISION_ENDPOINT", "http://127.0.0.1:8004/v1/chat/completions")
 _OCR_VISION_MODEL = os.environ.get(
@@ -539,7 +539,7 @@ def _vision_ocr_one(img_bytes: bytes) -> str:
     import hashlib
 
     # --- OCR cache: skip vision call for previously-seen images ---
-    _OCR_CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".ocr_cache")
+    _OCR_CACHE_DIR = os.path.join(_PROJECT_ROOT, ".ocr_cache")
     img_hash = hashlib.sha256(img_bytes).hexdigest()[:16]
     cache_path = os.path.join(_OCR_CACHE_DIR, f"{img_hash}.txt")
     if os.path.isfile(cache_path):
@@ -1592,9 +1592,7 @@ _LLM_TEXT_LIMIT = 12000
 # Schema 自学习：LLM 兜底产出的同义词建议沉淀到仓库 config/（去重、可批量应用）
 SCHEMA_SUGGESTIONS_PATH = os.environ.get(
     "M1_SCHEMA_SUGGESTIONS",
-    os.path.normpath(os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "..", "config",
-        "schema_suggestions.json")))
+    os.path.join(_PROJECT_ROOT, "config", "schema_suggestions.json"))
 
 
 def _llm_extract_json(content: str) -> dict | None:
