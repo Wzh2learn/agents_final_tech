@@ -39,6 +39,8 @@ bash scripts/run.sh
 
 `scripts/run.sh` 不会终止已有进程；如果 5050 端口已被占用，它会报错退出。请先明确停止端口所属服务后再重试。
 
+本地运行时契约：`PGDATABASE_URL` 是唯一数据库连接变量，默认数据库为 `vector_db`；Web 端口由 `M1_PORT` 控制，默认 `5050`。示例值统一维护在 `.env.example`。
+
 ## Docker 部署
 
 ```bash

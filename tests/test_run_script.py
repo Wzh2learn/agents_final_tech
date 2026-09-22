@@ -42,6 +42,10 @@ def _isolated_launcher(tmp_path: Path, *, port_occupied: bool) -> tuple[Path, di
         fake_bin / "python",
         """
 if [ "${1:-}" = "-c" ]; then
+    if [[ "${2:-}" == *dotenv_values* ]]; then
+        awk -F= -v key="${3:-}" '$1 == key {sub(/^[^=]*=/, ""); print; exit}' .env
+        exit 0
+    fi
     [ "${FAKE_PORT_OCCUPIED:-0}" = "1" ] && exit 0
     exit 1
 fi
@@ -80,3 +84,24 @@ def test_launcher_uses_foreground_exec_without_implicit_kill() -> None:
     assert "pkill" not in source
     assert "nohup" not in source
     assert "exec python -m uvicorn" in source
+
+
+def test_launcher_honors_runtime_values_from_dotenv(tmp_path: Path) -> None:
+    repo, env, marker = _isolated_launcher(tmp_path, port_occupied=False)
+    (repo / ".env").write_text(
+        "PGDATABASE_URL=postgresql://user:pass@127.0.0.1:15432/vector_db\n"
+        "M1_PORT=15050\n",
+        encoding="utf-8",
+    )
+
+    result = subprocess.run(
+        ["bash", "scripts/run.sh"],
+        cwd=repo,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stderr
+    assert marker.read_text(encoding="utf-8").endswith("--port 15050 --workers 2\n")

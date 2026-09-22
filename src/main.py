@@ -236,7 +236,12 @@ async def http_graph_inout_parameter(request: Request):
 def parse_args():
     parser = argparse.ArgumentParser(description="Start FastAPI server")
     parser.add_argument("-m", type=str, default="http", help="Run mode, support http")
-    parser.add_argument("-p", type=int, default=5000, help="HTTP server port")
+    parser.add_argument(
+        "-p",
+        type=int,
+        default=int(os.getenv("M1_PORT", "5050")),
+        help="HTTP server port (default: M1_PORT or 5050)",
+    )
     return parser.parse_args()
 
 def start_http_server(port):
