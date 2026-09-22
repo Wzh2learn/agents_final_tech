@@ -9,8 +9,9 @@ The previous long snapshot is preserved as
 
 ## Current objective
 
-Improve engineering governance and operational reliability on branch
-`test/compaction-guard-abort`, one independently verified change at a time.
+Make the repository's research work serve the conference paper and master's
+thesis directly. The canonical execution and acceptance entry is
+[`../docs/research/README.md`](../docs/research/README.md).
 
 ## Repository state
 
@@ -40,10 +41,12 @@ Improve engineering governance and operational reliability on branch
 - Therefore deployment/live status remains unverified in this snapshot.
 - Last formally recorded topology and metrics are historical baselines in [`CORE.md`](CORE.md), not a claim that services are currently live.
 
-## Next engineering-governance work
+## Next work
 
-1. Batch-remediate skill completion-evidence and frontmatter warnings.
-2. Split oversized parser/RAG modules only after stable behavioral boundaries are covered.
+1. Build paper-acceptance baseline v1 around frozen claims and existing evidence.
+2. Produce a clean submission manuscript from the internal evidence-rich draft.
+3. Defer generic skill-warning cleanup and parser/RAG modularization until the
+   paper-facing batch is complete or explicitly reprioritized.
 
 ## Protected boundaries
 

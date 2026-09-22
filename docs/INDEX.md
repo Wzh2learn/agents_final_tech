@@ -15,6 +15,7 @@
 | 未决事项 | [`../memory/THREADS.md`](../memory/THREADS.md) |
 | 已确认决策 | [`../memory/DECISIONS.md`](../memory/DECISIONS.md) |
 | Skill 路由 | [`SKILL_ROUTING.md`](SKILL_ROUTING.md) |
+| 科研主线与论文验收 | [`research/README.md`](research/README.md) |
 
 ## 产品与交付
 
@@ -53,6 +54,7 @@
 
 | 文件 | 状态 | 用途 |
 |---|---|---|
+| [`research/README.md`](research/README.md) | 活跃 | 小论文、大论文、证据边界与论文导向验收的统一执行入口 |
 | [`13_M1_M2联合数据闭环计划.md`](13_M1_M2联合数据闭环计划.md) | 冻结政策依据 | 数据集与 split 政策 |
 | [`30_科研线规划.md`](30_科研线规划.md) | 已被取代 | 旧科研路线 |
 | [`33_导师指导吸收_科研三线升级.md`](33_导师指导吸收_科研三线升级.md) | 活跃、受保护 | 科研线现役主文档 |

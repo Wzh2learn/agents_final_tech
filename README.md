@@ -91,6 +91,7 @@ serve.sh                     # 所有部署方式共用的服务入口
 tests/                       # pytest 测试与契约检查
 docs/
 ├── INDEX.md                 # 文档唯一导航入口
+├── research/README.md       # 小论文、大论文与科研验收入口
 ├── governance/              # 治理规则与审计证据
 ├── experiments/             # 只追加实验记录
 └── archive/                 # 只读历史
@@ -108,6 +109,7 @@ docs/
 ## 文档
 
 - [文档索引](docs/INDEX.md) — 当前、历史、实验与归档的唯一导航入口
+- [科研主线与论文验收](docs/research/README.md) — 小论文、大论文、证据边界与下一批验收入口
 - [当前状态](memory/STATE.md) — 当前工程状态与下一步
 - [Graph Engineering 设计](docs/17_Graph_Engineering_多层Loop设计.md) — 多层 Loop 设计依据
 
