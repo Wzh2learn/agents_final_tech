@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import time
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -55,7 +56,11 @@ def test_restart_archives_previous_log_before_starting_new_process(tmp_path: Pat
     assert len(archived) == 1
     assert archived[0].read_text(encoding="utf-8") == "previous-instance-failure\n"
 
+    deadline = time.monotonic() + 1
     new_log = current_log.read_text(encoding="utf-8")
+    while "fresh-instance-output" not in new_log and time.monotonic() < deadline:
+        time.sleep(0.01)
+        new_log = current_log.read_text(encoding="utf-8")
     assert "restart started_at=" in new_log
     assert "fresh-instance-output" in new_log
     assert "previous-instance-failure" not in new_log

@@ -14,6 +14,7 @@ import subprocess
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = REPO_ROOT / "scripts" / "run.sh"
+SERVE = REPO_ROOT / "serve.sh"
 
 
 def _write_executable(path: Path, body: str) -> None:
@@ -30,6 +31,7 @@ def _isolated_launcher(tmp_path: Path, *, port_occupied: bool) -> tuple[Path, di
     fake_bin.mkdir()
     venv_bin.mkdir(parents=True)
     shutil.copy2(SCRIPT, scripts / SCRIPT.name)
+    shutil.copy2(SERVE, repo / SERVE.name)
     (venv_bin / "activate").write_text("", encoding="utf-8")
 
     marker = repo / "uvicorn-invoked"
@@ -79,11 +81,13 @@ def test_launcher_refuses_to_replace_process_on_occupied_port(tmp_path: Path) ->
 
 
 def test_launcher_uses_foreground_exec_without_implicit_kill() -> None:
-    source = SCRIPT.read_text(encoding="utf-8")
+    source = SERVE.read_text(encoding="utf-8")
+    wrapper = SCRIPT.read_text(encoding="utf-8")
 
     assert "pkill" not in source
     assert "nohup" not in source
-    assert "exec python -m uvicorn" in source
+    assert 'exec "$PYTHON_BIN" -m uvicorn' in source
+    assert "exec ./serve.sh" in wrapper
 
 
 def test_launcher_honors_runtime_values_from_dotenv(tmp_path: Path) -> None:

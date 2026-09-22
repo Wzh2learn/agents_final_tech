@@ -21,29 +21,6 @@ else
     source venv/bin/activate
 fi
 
-# Canonical local runtime values. Explicitly exported values win; otherwise
-# read the same .env file as the application before applying development defaults.
-dotenv_value() {
-    python -c 'from dotenv import dotenv_values; import sys; print(dotenv_values(".env").get(sys.argv[1], ""))' "$1"
-}
-if [ -f ".env" ]; then
-    PGDATABASE_URL="${PGDATABASE_URL:-$(dotenv_value PGDATABASE_URL)}"
-    M1_PORT="${M1_PORT:-$(dotenv_value M1_PORT)}"
-fi
-export PGDATABASE_URL="${PGDATABASE_URL:-postgresql://postgres:postgres@127.0.0.1:15432/vector_db}"
-M1_PORT="${M1_PORT:-5050}"
-if ! [[ "$M1_PORT" =~ ^[0-9]+$ ]] || [ "$M1_PORT" -lt 1 ] || [ "$M1_PORT" -gt 65535 ]; then
-    echo "ERROR: M1_PORT must be an integer between 1 and 65535." >&2
-    exit 2
-fi
-
-# Refuse to replace an existing listener.  This launcher is safe to run in a
-# shared development environment and never terminates another process.
-if python -c 'import socket, sys; sock = socket.socket(); sock.settimeout(0.2); sys.exit(0 if sock.connect_ex(("127.0.0.1", int(sys.argv[1]))) == 0 else 1)' "$M1_PORT"; then
-    echo "ERROR: Port $M1_PORT is already in use. Stop the owning service explicitly or set M1_PORT to a free port." >&2
-    exit 2
-fi
-
 # Check PGVector
 echo "[2/4] Checking PostgreSQL + PGVector..."
 if ! docker ps --format '{{.Names}}' | grep -q pgvector; then
@@ -69,12 +46,5 @@ else
 fi
 
 # Start M1 harness
-echo "[4/4] Starting M1/M2 harness on :${M1_PORT}..."
-export PYTHONPATH=src
-
-echo "  M1/M2 UI:    http://localhost:${M1_PORT}/m1"
-echo "  API docs:    http://localhost:${M1_PORT}/docs"
-echo "  Health:      http://localhost:${M1_PORT}/health"
-echo "  Press Ctrl+C to stop the development server."
-
-exec python -m uvicorn main:app --host 0.0.0.0 --port "$M1_PORT" --workers 2
+echo "[4/4] Starting M1/M2 harness through the canonical launcher..."
+exec ./serve.sh

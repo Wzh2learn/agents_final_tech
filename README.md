@@ -37,7 +37,7 @@ bash scripts/run.sh
 # API: http://localhost:5050/docs
 ```
 
-`scripts/run.sh` 不会终止已有进程；如果 5050 端口已被占用，它会报错退出。请先明确停止端口所属服务后再重试。
+`scripts/run.sh` 完成开发环境检查后会进入统一的前台入口 `serve.sh`。启动过程不会终止已有进程；如果 5050 端口已被占用，它会报错退出。请先明确停止端口所属服务后再重试。
 
 本地运行时契约：`PGDATABASE_URL` 是唯一数据库连接变量，默认数据库为 `vector_db`；Web 端口由 `M1_PORT` 控制，默认 `5050`。示例值统一维护在 `.env.example`。
 
@@ -83,7 +83,9 @@ scripts/
 ├── m1_rag_qa.py             # RAG 问答测试 (15 queries)
 ├── m1_benchmark.py          # 性能基准测试
 ├── qwen_harness_tools.py    # 千问平台工具 CLI
-└── run.sh                   # 安全的前台开发启动
+└── run.sh                   # 开发环境检查后委托 serve.sh
+
+serve.sh                     # 所有部署方式共用的服务入口
 
 tests/                       # 227 tests (0 failures)
 docs/

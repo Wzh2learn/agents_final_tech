@@ -22,6 +22,5 @@ if [ -e "$LOG_PATH" ]; then
     echo "archived previous log to $archive_path"
 fi
 printf '=== restart started_at=%s ===\n' "$(date --iso-8601=seconds)" > "$LOG_PATH"
-nohup ./venv/bin/python ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 5050 --workers 2 \
-    >> "$LOG_PATH" 2>&1 &
+nohup ./serve.sh >> "$LOG_PATH" 2>&1 &
 echo "launched PID $!"
