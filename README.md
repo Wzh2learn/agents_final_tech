@@ -29,13 +29,15 @@ cd agents_final_tech
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
-# 3. 启动 (需要 PostgreSQL+PGVector 和模型服务)
+# 3. 前台启动 (需要 PostgreSQL+PGVector 和模型服务；Ctrl+C 停止)
 bash scripts/run.sh
 
 # 4. 访问
 # UI:  http://localhost:5050/m1
 # API: http://localhost:5050/docs
 ```
+
+`scripts/run.sh` 不会终止已有进程；如果 5050 端口已被占用，它会报错退出。请先明确停止端口所属服务后再重试。
 
 ## Docker 部署
 
@@ -79,7 +81,7 @@ scripts/
 ├── m1_rag_qa.py             # RAG 问答测试 (15 queries)
 ├── m1_benchmark.py          # 性能基准测试
 ├── qwen_harness_tools.py    # 千问平台工具 CLI
-└── run.sh                   # 一键启动
+└── run.sh                   # 安全的前台开发启动
 
 tests/                       # 227 tests (0 failures)
 docs/

@@ -21,6 +21,13 @@ else
     source venv/bin/activate
 fi
 
+# Refuse to replace an existing listener.  This launcher is safe to run in a
+# shared development environment and never terminates another process.
+if python -c 'import socket, sys; sock = socket.socket(); sock.settimeout(0.2); sys.exit(0 if sock.connect_ex(("127.0.0.1", 5050)) == 0 else 1)'; then
+    echo "ERROR: Port 5050 is already in use. Stop the owning service explicitly or choose another launcher configuration." >&2
+    exit 2
+fi
+
 # Check PGVector
 echo "[2/4] Checking PostgreSQL + PGVector..."
 if ! docker ps --format '{{.Names}}' | grep -q pgvector; then
@@ -50,22 +57,9 @@ echo "[4/4] Starting M1/M2 harness on :5050..."
 export PYTHONPATH=src
 export DATABASE_URL="${DATABASE_URL:-postgresql://postgres:postgres@localhost:15432/m1_statements}"
 
-# Kill existing if running
-pkill -f "uvicorn main:app.*5050" 2>/dev/null || true
-sleep 1
+echo "  M1/M2 UI:    http://localhost:5050/m1"
+echo "  API docs:    http://localhost:5050/docs"
+echo "  Health:      http://localhost:5050/health"
+echo "  Press Ctrl+C to stop the development server."
 
-nohup python -m uvicorn main:app --host 0.0.0.0 --port 5050 --workers 2 \
-    > logs/m1_service.log 2>&1 &
-echo "  PID: $!"
-
-sleep 2
-if curl -s http://127.0.0.1:5050/health | grep -q ok; then
-    echo ""
-    echo "=== System Ready ==="
-    echo "  M1/M2 UI:    http://localhost:5050/m1"
-    echo "  API docs:    http://localhost:5050/docs"
-    echo "  Health:      http://localhost:5050/health"
-    echo ""
-else
-    echo "  WARNING: Service may still be starting. Check logs/m1_service.log"
-fi
+exec python -m uvicorn main:app --host 0.0.0.0 --port 5050 --workers 2
