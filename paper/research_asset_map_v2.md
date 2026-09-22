@@ -6,7 +6,21 @@
 
 先完成 `AGENTS.md` 的规则/记忆必读，再按 `docs/research/README.md` → `paper/research_story_v2.md` → 本账本 → `docs/handoff/2026-09-22-paper-research-next-phase.md` 阅读。入口 §1 管权威冲突，叙事管故事，本账本管证据与缺口，执行计划管下一张任务卡；数字以原始工件为准，不按文档新旧投票。
 
-`paper/teacher_review_note_v2.md` 是既有导师说明素材；`paper/research_story_v2.docx` 是收窄前的派生快照，不覆盖当前 Markdown，需 Word 交付时先离线重生成并核对。24–48 小时方向包可用成熟评估稿 + 当前故事 Markdown，不等待统一论文实验完成。
+`paper/teacher_review_note_v2.md` 是当前导师说明；`paper/research_story_v2.docx` 已由当前 Markdown 和同步后的三阶段表离线重生成，结构/口径测试通过，Office 视觉未验；它不覆盖 Markdown。24–48 小时方向包使用成熟评估稿 + 当前故事，不等待统一论文实验完成。
+
+### 1.1 “有资产”与“可在本机执行”分开登记
+
+本账本中的“可用”仅指所列代码/报告/工件可作为相应证据或复用素材，不表示本机输入齐备、服务存活或获得执行许可。全仓依赖图见 `docs/architecture/codebase_map.md`；`scripts/catalog.toml` 不覆盖根 `research/`，不能据它漏掉科研代码。
+
+| 输入/资产 | 仓内可核验 | 依赖及本轮边界 |
+|---|---|---|
+| `logs/graph/eval/` 已有 JSON | 既有统计、分母、hash 与 provenance 引用 | 复算不等于重做实验或完成 Phase 1 标签审计 |
+| `research/vgmc_exp1.py` 的 fewshot/记忆纯逻辑 | 合成 fix/meas fixture 与 mock 请求合同 | `load_corpus()` 需要 `data/research/drift_v0/output/`；完整新 replay 不在本地跑 |
+| `research/dpo_pairs_v0.py` | 从已有 checkpoint 构造偏好的代码与现有结果 | 60 对偏好单向；不可据脚本存在宣称训练数据过门 |
+| 源表、逐题输出、模型权重与训练环境 | 仅仓内引用、代码所需路径与既有报告 | 用户说明在另一台服务器，本轮未核验；不下载、搬运或重建，不据本地缺件判失败 |
+| 文稿与派生器 | Markdown、SVG、临时 DOCX 的离线结构检查 | 不能代替 Office 视觉验收、导师认可或公开许可 |
+
+本地只分析既有事实和验证代码合同；生成新论文数字的可学性实验、规则 replay、训练与终评均按 `docs/governance/2026-09-07_execution_plane_boundary.md` 在 GB10 获批执行。未来若输入仍不可核验，明确暂停对应步骤，不伪造结果；这不是本轮环境治理任务。
 
 ## 2. Stage E — 大模型流程评估
 

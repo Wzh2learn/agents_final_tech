@@ -107,18 +107,19 @@ def add_three_stage_table(document: Document) -> None:
         ),
         (
             "Contracts + judges\nCheckpoint forest\nVisibility audit",
-            "Filter teacher traces\nTrain 4B/8B student\nQuality–cost Pareto",
-            "Propose candidates\nVerification gate\nVersioned rule memory",
+            "Filter action events\n8B rule-candidate policy\n4B: training smoke only",
+            "candidate proposal/prescreen\nfinal deterministic gate\n"
+            "gate-validation not sealed test",
         ),
         (
             "Output: qualified traces and defect labels",
-            "Output: lightweight process policy or verifier",
-            "Output: auditable, rollback-ready rules",
+            "Target: action policy\nQuality–cost comparison",
+            "Target: rule memory + rollback\nIndependent validation pending",
         ),
         (
             "Established evidence",
-            "Training result missing",
-            "Mechanism evidence only",
+            "TRAINING RESULT MISSING",
+            "MECHANISM EVIDENCE ONLY",
         ),
     )
     for row_index, row in enumerate(entries):
@@ -133,7 +134,7 @@ def add_three_stage_table(document: Document) -> None:
                     if row_index in (0, 3):
                         run.bold = True
     feedback = document.add_paragraph(
-        "Accepted rules update the workflow; every update returns to the same evaluation protocol."
+        "Target loop: accepted rules update the workflow and return to the same evaluation protocol."
     )
     feedback.alignment = WD_ALIGN_PARAGRAPH.CENTER
     for run in feedback.runs:

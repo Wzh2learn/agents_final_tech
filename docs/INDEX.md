@@ -35,15 +35,15 @@
 
 | 文件 | 状态 | 用途 |
 |---|---|---|
-| [`17_Graph_Engineering_多层Loop设计.md`](17_Graph_Engineering_多层Loop设计.md) | 设计依据 | 多层 Loop 架构与安全机制 |
+| [`17_Graph_Engineering_多层Loop设计.md`](17_Graph_Engineering_多层Loop设计.md) | 设计依据 | 现役协作边界与历史架构；不提供任务授权或实时状态 |
 | [`18_多Agent编排工具演进计划.md`](18_多Agent编排工具演进计划.md) | 历史快照 | 已执行的多 Agent 演进计划 |
 | [`20_部署指南.md`](20_部署指南.md) | 历史快照 | 旧部署拓扑；当前启动以根 `serve.sh`/README 为准 |
 | [`21_基础设施盘点与gap解决规划.md`](21_基础设施盘点与gap解决规划.md) | 历史参考 | 已执行的基础设施规划 |
 | [`28_业界对标与优化菜单.md`](28_业界对标与优化菜单.md) | 历史快照 | 已消费的优化菜单 |
-| [`29_graph_engineering_roadmap.md`](29_graph_engineering_roadmap.md) | 活跃 | 工程治理路线与 backlog |
+| [`29_graph_engineering_roadmap.md`](29_graph_engineering_roadmap.md) | 活跃路线入口 | 工程职责与历史 backlog 索引；当前未决只在 THREADS |
 | [`32_模型升级与多agent再思考.md`](32_模型升级与多agent再思考.md) | 活跃 | 模型升级与多 Agent 专项 |
 | [`15_远程开发机_Codex_CLI_与_OpenCode_配置.md`](15_远程开发机_Codex_CLI_与_OpenCode_配置.md) | 历史快照 | GB10 配置过程 |
-| [`architecture/codebase_map.md`](architecture/codebase_map.md) | 待刷新 | 代码结构图；当前规模统计已过期 |
+| [`architecture/codebase_map.md`](architecture/codebase_map.md) | 活跃 | 生产/科研代码依赖、验证入口与执行边界；不声明实时健康 |
 | [`architecture/gb10_vllm_startup_sop.md`](architecture/gb10_vllm_startup_sop.md) | 活跃 | GB10 vLLM 启动 SOP |
 | [`architecture/skill_system_health.md`](architecture/skill_system_health.md) | 审计快照 | Skill 历史体检结果 |
 | [`architecture/phase2_docs_inventory.md`](architecture/phase2_docs_inventory.md) | 历史参考 | 早期文档盘点 |

@@ -23,7 +23,15 @@
 
 **最短必读路径**：`AGENTS.md` → `memory/CORE.md` / `memory/STATE.md` / `memory/THREADS.md` 当前科研线 → 本入口 → `paper/research_story_v2.md` → `paper/research_asset_map_v2.md` → 当前执行计划 §10 第一张任务卡。首次接手再只读 docs/33、docs/34 的政策；只在复核某条结论时打开对应实验工件或评估稿，不必重读全部旧稿。
 
-历史材料不删除，也不能继续参与当前结论竞争；大规模移动、删除、改名须用户另行确认。Word/图是派生展示件，不覆盖 Markdown 权威源；`paper/research_story_v2.docx` 为本次收窄前快照，内部方向包先用当前 Markdown，需 Word 时先离线重生成并核对。
+历史材料不删除，也不能继续参与当前结论竞争；大规模移动、删除、改名须用户另行确认。Word/图是派生展示件，不覆盖 Markdown 权威源；`paper/research_story_v2.docx` 已按当前正文和三阶段表离线重生成，结构/口径检查通过，不等于 Office 视觉验收或可对外发布。
+
+### 1.1 与代码资产和研发协作怎样接上
+
+- 代码在哪里、输入输出和副作用：`docs/architecture/codebase_map.md`；科研证据成熟度仍由资产账本维护，二者不互相替代。
+- 研发分工：`docs/17_Graph_Engineering_多层Loop设计.md`；工程路线/历史 backlog：`docs/29_graph_engineering_roadmap.md`。当前未决只在 `memory/THREADS.md`，科研顺序只在现有执行计划。
+- 任务卡用 `templates/task_card_template.md`：D 授权 → A 执行 → B 独立验证 → C 独立审计 → D 验收。业务内 `src/agents/` 不承担这套治理角色，脚本在库不等于自动化已安装。
+- 本地/GB10 分工以 `docs/governance/2026-09-07_execution_plane_boundary.md` 为准：零端点不等于可在本机创造正式实验事实，Loop B 默认检查也不是零调用。
+- 用户说明原始语料、模型和执行环境在另一台服务器，本轮不连接或补齐；本地缺件是未核验依赖，不判作研究失败。下一阶段需该依赖时再按原计划取证。
 
 ## 2. 统一科研主线
 
@@ -119,7 +127,7 @@
 6. `paper/thesis_manuscript_scaffold_v1.md`：大论文章节、创新点、小论文继承与新增证据边界。
 7. `paper/research_story_v2.md`：三阶段统一故事、证据成熟度和最小蒸馏/规则实验闭环。
 8. `paper/figures/fig_evaluate_distill_evolve_v1.svg`：三阶段总架构图。
-9. `paper/research_story_v2.docx`：既有派生快照，未同步本次动作蒸馏收窄；方向包使用当前 Markdown，需 Word 时先离线重生成核对。
+9. `paper/research_story_v2.docx`：当前故事的离线派生件，含同步后的原生三阶段表；结构/口径测试通过，Office 视觉未验。
 10. `paper/research_asset_map_v2.md`：评估、蒸馏、规则进化的代码、实验、稿件和缺口索引。
 11. `docs/experiments/2026-09-22_distillation_mvp_preregistration.md`：未执行的准备草案，仅作素材；模型角色、数据边界、双口径与判门由当前执行计划覆盖，训练前在原位同步确认参数。
 12. `docs/handoff/2026-09-22-paper-research-next-phase.md`：后续 Agent 可直接执行的优先级、数据门、任务卡、合稿/拆稿门与三周排期。

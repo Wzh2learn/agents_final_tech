@@ -1,13 +1,58 @@
 from pathlib import Path
+import re
 from xml.etree import ElementTree
 
 from docx import Document
+
+from research.build_teacher_review_docx import build
 
 
 REPO = Path(__file__).resolve().parents[1]
 STORY = REPO / "paper" / "research_story_v2.md"
 FIGURE = REPO / "paper" / "figures" / "fig_evaluate_distill_evolve_v1.svg"
 DIRECTION_DOCX = REPO / "paper" / "research_story_v2.docx"
+STAGES = ("E · Evaluate", "D · Distill", "R · Evolve rules")
+
+
+def _assert_current_three_stage_summary(text: str) -> None:
+    for label in (
+        *STAGES,
+        "8B rule-candidate policy",
+        "4B: training smoke only",
+        "candidate proposal/prescreen",
+        "final deterministic gate",
+        "gate-validation not sealed test",
+        "TRAINING RESULT MISSING",
+        "MECHANISM EVIDENCE ONLY",
+    ):
+        assert label in text, f"Missing current role/boundary: {label}"
+    for stale_label in (
+        "Train 4B/8B student",
+        "Train 4B / 8B student",
+        "process policy or verifier",
+        "Filter teacher traces",
+        "SFT + preference learning",
+    ):
+        assert stale_label not in text
+
+
+def _assert_direction_docx_summary(document) -> None:
+    summaries = [
+        table for table in document.tables
+        if tuple(cell.text for cell in table.rows[0].cells) == STAGES
+    ]
+    assert len(summaries) == 1
+    # Inspect the native figure table, so current body prose cannot mask drift.
+    text = "\n".join(cell.text for row in summaries[0].rows for cell in row.cells)
+    _assert_current_three_stage_summary(text)
+    assert any(paragraph.text.startswith("Target loop:") for paragraph in document.paragraphs)
+    subject = document.core_properties.subject or ""
+    assert "patent" in subject
+    assert "pending confirmation" in subject
+    assert "gate open" not in subject
+    assert document.core_properties.comments == (
+        "Generated offline from paper/research_story_v2.md"
+    )
 
 
 def test_three_stage_story_preserves_evidence_boundaries() -> None:
@@ -19,27 +64,44 @@ def test_three_stage_story_preserves_evidence_boundaries() -> None:
     assert "不主张已获得稳定显著净收益" in text
 
 
+def test_build_story_docx_preserves_current_roles_and_markdown_body(tmp_path: Path) -> None:
+    output = tmp_path / "research_story_v2.docx"
+    assert build(source=STORY, output=output) == output
+    document = Document(output)
+    _assert_direction_docx_summary(document)
+
+    # Compare narrative paragraphs with the source, not a second route/config.
+    source_lines = STORY.read_text(encoding="utf-8").splitlines()
+    body_lines = [
+        line for line in source_lines
+        if line.strip() and not re.match(r"^(?:[#>!|*\-]|\d+\. )", line)
+    ]
+    assert body_lines
+    paragraphs = {paragraph.text for paragraph in document.paragraphs}
+    assert source_lines[0].removeprefix("# ") in paragraphs
+    for line in body_lines:
+        assert re.sub(r"[*`]", "", line) in paragraphs
+
+
 def test_three_stage_figure_is_valid_and_self_describing() -> None:
     root = ElementTree.parse(FIGURE).getroot()
     assert root.tag.endswith("svg")
-    text = " ".join(element.text or "" for element in root.iter())
-    for label in ("E · Evaluate", "D · Distill", "R · Evolve rules"):
-        assert label in text
-    assert "TRAINING RESULT MISSING" in text
-    assert "MECHANISM EVIDENCE ONLY" in text
+    # Required labels must be visible, not hidden solely in the SVG description.
+    text = " ".join(
+        "".join(element.itertext())
+        for element in root.findall(".//{http://www.w3.org/2000/svg}text")
+    )
+    _assert_current_three_stage_summary(text)
+    assert "Target loop:" in text
 
 
-def test_teacher_direction_docx_contains_three_stage_summary() -> None:
+def test_teacher_direction_docx_contains_three_stage_summary(tmp_path: Path) -> None:
     document = Document(DIRECTION_DOCX)
-    text = "\n".join(paragraph.text for paragraph in document.paragraphs)
-    text += "\n" + "\n".join(
-        cell.text for table in document.tables for row in table.rows for cell in row.cells
-    )
-    for label in ("E · Evaluate", "D · Distill", "R · Evolve rules"):
-        assert label in text
-    subject = document.core_properties.subject or ""
-    assert "pending confirmation" in subject
-    assert "gate open" not in subject
-    assert document.core_properties.comments == (
-        "Generated offline from paper/research_story_v2.md"
-    )
+    _assert_direction_docx_summary(document)
+    regenerated = Document(build(source=STORY, output=tmp_path / "current.docx"))
+    assert [paragraph.text for paragraph in document.paragraphs] == [
+        paragraph.text for paragraph in regenerated.paragraphs
+    ]
+    assert [[cell.text for row in table.rows for cell in row.cells] for table in document.tables] == [
+        [cell.text for row in table.rows for cell in row.cells] for table in regenerated.tables
+    ]

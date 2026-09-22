@@ -1,98 +1,87 @@
 # Current State
 
-> Updated: 2026-09-22 | Scope: repository state only | Runtime: not probed in this session
+> Updated: 2026-09-22 | Scope: repository governance | Runtime: not probed
 
-This file is the short current snapshot. Open decisions and blockers belong in
-[`THREADS.md`](THREADS.md); durable decisions belong in [`DECISIONS.md`](DECISIONS.md).
-The previous long snapshot is preserved as
-[`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
+This is the current snapshot. Open decisions belong in [`THREADS.md`](THREADS.md),
+durable decisions in [`DECISIONS.md`](DECISIONS.md), and the previous long snapshot
+in [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 
 ## Current objective
 
-Make the repository's research work serve the conference paper and master's
-thesis directly. The canonical execution and acceptance entry is
+Complete the first repository-side knowledge-governance round, then follow the
+existing research plan rather than create another roadmap. Research entry:
 [`../docs/research/README.md`](../docs/research/README.md).
 
-## Repository state
+## Repository baseline
 
-- Primary product path: counterparty-statement M1 parsing and M2 traceable RAG QA.
-- Application: Python 3.12, FastAPI, PostgreSQL/PGVector.
-- Canonical HTTP launcher: root `serve.sh`.
-- Canonical database variable: `PGDATABASE_URL`; development database: `vector_db`.
-- Default HTTP port: `5050`, configurable with `M1_PORT`.
-- Documentation entry point: [`../docs/INDEX.md`](../docs/INDEX.md).
-- Skill routing: [`../docs/SKILL_ROUTING.md`](../docs/SKILL_ROUTING.md).
+- Product: M1 counterparty-statement parsing and M2 traceable RAG QA.
+- Python 3.12, FastAPI, PostgreSQL/PGVector; root `serve.sh` is the launcher.
+- Database contract: `PGDATABASE_URL`, development `vector_db`; HTTP default 5050.
+- Production parser/ingest live in `src/biz/`; scripts are compatibility CLIs.
+- Startup paths delegate to `serve.sh`; Docker includes `config/`; local startup
+  does not kill an occupied port or silently background Uvicorn.
+- Script ownership is in `scripts/catalog.toml`; top-level `research/` is separate.
+- Skill distribution stages/validates before activation; code existence does not
+  prove the current machine's skills, hooks or daemons are installed.
 
-## Completed in the current governance pass
+## First-round governance outcome
 
-- The evaluation-track teacher-review package is complete, but the user has
-  restored the conference paper's intended three-stage direction: large-model
-  process evaluation, small-model distillation, and verification-gated rule
-  evolution. `paper/research_story_v2.md` is the current narrative authority.
-- The paper acceptance gate verifies 4 claims and 49 section, wording, evidence,
-  figure, and delivery-file checks without model, service, or database calls.
-- The master's-thesis scaffold now maps each chapter to the small-paper evidence
-  it may inherit and the independent evidence it must still add.
-- The three-stage asset map and Figure 1 distinguish established evaluation
-  evidence, untrained distillation assets, and mechanism-only rule-evolution
-  evidence. A distillation MVP preregistration exists but has not been executed.
-- The sole next-phase execution plan is
-  `docs/handoff/2026-09-22-paper-research-next-phase.md`; navigation, narrative,
-  evidence ledger, execution and historical policy have separate authority.
-  Only action-policy/rule-candidate distillation is currently proposed.
-- Raw JSON was recounted locally: 494 gated gain/collateral events across 48
-  source-table uids; 60 DPO pairs across 36 uids, all preferring skip to map_to.
-  Counts are verified, not a completed data audit or DATA_GO decision.
-- Data audit, zero-endpoint learnability probes and seven rule-gate baselines
-  precede any training request. 4B is smoke-only; 8B is the primary student.
-  A3 is conditional, and proposal/train, gate-validation, sealed test and
-  future replay must remain separate. Plan Phase 6 controls early stop/split.
-- Local quickstart no longer kills an existing process or backgrounds Uvicorn.
-- Runtime configuration now agrees on `PGDATABASE_URL`, `vector_db`, and port 5050.
-- Docker images include the required `config/` tree.
-- Local, Docker, systemd, supervisord, compatibility, and restart launch paths delegate to `serve.sh`.
-- Production parser and ingest implementations live in `src/biz/`; legacy script imports and CLIs delegate to those canonical modules.
-- Every tracked script is assigned to production, operations, experiments, or archive in `scripts/catalog.toml`, with a test preventing unclassified additions.
-- Skill distribution stages and validates each copy before activation, preserves the previous install for rollback, and rejects unsafe single-skill paths.
-- Skill routing names only installable top-level skills, and `skill-doctor` audits nested bundled skills without counting them as active installs.
+- Document authority is separated: INDEX navigates, research README resolves
+  conflicts, story defines claims, asset map tracks evidence, the existing
+  `docs/handoff/2026-09-22-paper-research-next-phase.md` controls execution.
+- Advisor materials and thesis chapters now follow that plan; historical roadmaps
+  and side handoffs no longer dispatch old work or duplicate the current ledger.
+- `docs/architecture/codebase_map.md` maps product, research and governance code,
+  inputs, side effects and focused tests, without stale size/health claims.
+- `run_tabular_inference.py` is classified as a production MCP subprocess.
+- VGMC few-shot tests use synthetic fix/meas inputs, not remote corpus assets;
+  real assertions reject measurement leakage, an eleventh fix table and bad labels.
+- A/C prompts and orchestrator help use current authorities and task authorization;
+  start no longer claims A/C were launched. Business agents are a separate graph.
+- Dispatch precheck requires JSON receipts bound to watcher path, SHA256, zoned
+  observation time and integer-zero exit status; it never executes the watcher.
+  Synthetic receipts verify the contract, not actual deployment or scheduling.
+- Story Markdown, SVG, generator and direction DOCX agree on 8B main student,
+  4B smoke-only, candidate proposal/prescreen and the final deterministic gate.
+  Word paragraphs/tables match fresh generation; Office visual review is unverified.
+- This is repository-side governance closure, not Phase 1 data completion,
+  independent production Loop B/C acceptance, training or research-effect proof.
 
-## Runtime status
+## Research maturity
 
-- GB10 is the only authoritative runtime and formal full-test environment.
-- No service, model endpoint, database, or live health endpoint was contacted during the changes above.
-- Therefore deployment/live status remains unverified in this snapshot.
-- Last formally recorded topology and metrics are historical baselines in [`CORE.md`](CORE.md), not a claim that services are currently live.
+- E: mature evaluation subdraft; 95 tables/118 injections, bounded claims.
+- D: no trained student results. Existing zero-shot matrix is not distillation.
+- R: rejection/collision mechanism evidence, not stable significant net benefit
+  or a completed long-term versioned rollback loop.
+- Raw recount: 494 scored gated events/48 uids; DPO 60 pairs/36 uids, all skip>map_to.
+  Conflicts/provenance, four-layer manifests and clustered power remain unaudited.
+- Plan order: Phase 1 data audit → Phase 1a learnability → Phase 2 gate baselines →
+  approved 4B smoke/8B experiments. A3 is conditional; Phase 6 controls splitting.
+- The internal direction package is separate from the experiment-backed full draft.
+  No materials were sent; patent release approval remains an independent gate.
 
-## Next work
+## Verification (local, 2026-09-22)
 
-1. Execute plan §10 / Phase 1: zero-endpoint data audit, provenance/label
-   reconstruction, four-layer uid manifests and per-view data/MDE gates.
-2. Run Phase 1a learnability probes, then Phase 2 state-aware rule-gate replay;
-   neither authorizes model calls or a training window.
-3. Prepare the 24–48-hour internal direction package independently of training:
-   mature evaluation draft plus current story Markdown. Its older direction
-   DOCX must be regenerated and checked if a current Word version is needed.
-4. Only after offline gates and user approval, run 4B smoke and 8B experiments
-   (A3 conditional). Apply the plan's immediate split triggers and 10-04 cutoff.
+- Focused regression: 160 passed, 1 real-corpus test deliberately deselected;
+  governance/catalog/receipts/VGMC/paper/runtime/module boundaries/aggregation/drift.
+- Paper static acceptance: 49/49. This checks structure/wording/paths, not new effects.
+- All 16 checkpoint files and DPO hashes match the plan's pre-change snapshot.
+- `git diff --check` and dispatch `bash -n` pass; protected docs/33, docs/34,
+  frozen tests/hash manifest and original experimental artifacts are unchanged.
+- docs_lint still reports 1 existing local skill-installation FAIL and 1 protected
+  docs/34 date WARN; not an all-green lint claim. No suppression/global sync applied.
+- Pytest retains its existing unknown `asyncio_mode` warning. The existing `.venv`
+  provides python-docx; no dependencies were installed or changed.
+- Endpoint/model/service/database/health-probe calls: 0. No GB10 or Office validation.
 
-## Protected boundaries
+## Exclusions and next action
 
-- Do not modify `docs/33_导师指导吸收_科研三线升级.md` or
-  `docs/34_专利_小论文_大论文协同研究路线.md` in this governance pass.
-- TAT-DQA work remains frozen.
-- Do not restart or probe production services without explicit authorization.
-- Preserve the existing `RAGService`/PGVector knowledge backend and read-only MCP boundary.
-- Never commit credentials, private samples, model weights, generated datasets, local databases, or `.env`.
-
-## Verification status
-
-- Local checks are deterministic development evidence only; they are not GB10 runtime proof.
-- Focused launcher/runtime contract suite: 8 tests passed on 2026-09-22.
-- Known local warning: pytest reports unknown `asyncio_mode` because the optional plugin is absent.
-- Paper acceptance gate: 49/49 checks passed; both focused paper suites: 6 passed
-  on 2026-09-22 using the existing `.venv` (Python 3.12.3). System Python lacks
-  python-docx; no dependency or global configuration was changed.
-- docs_lint: 1 existing local skill-installation failure and 1 known protected
-  docs/34 stale-date warning; not an all-green governance result. See THREADS.
-- Endpoint/model/service/database/health-probe calls: 0. Protected docs/33 and
-  docs/34 are unchanged. No Office visual rendering or GB10 runtime validation.
+- The user states corpus/model/runtime assets are on another server. This round
+  neither verifies nor retrieves them; missing local copies are not research failure.
+- New paper-facing baselines/replay remain GB10 work even at zero endpoint calls;
+  local work is existing-fact audit and synthetic code testing only.
+- Next card remains plan §10 / P1-DATA-AUDIT; do not start training or another plan.
+- Do not modify docs/33, docs/34 or frozen TAT-DQA, publish research, change global
+  installs, or touch services without the required separate authorization.
+- The user authorized committing/pushing this follow-up batch on 2026-09-22;
+  Git history and branch alignment are authoritative for delivery status.

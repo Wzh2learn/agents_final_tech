@@ -1,5 +1,5 @@
 
-> 状态: 活跃（**R3「Loop A 派发窗节奏恢复」已由用户 09-11 裁定解锁**——顺序 A3 → A13 → A12、先拟卡再开窗, 本批不拟不派不开窗——故本件即将重新现役） | 更新: 2026-09-11（09-11 neat 批（决策 22）**刷元数据**: 正文零改动, 仅同步更新日与状态注; 前序 2026-08-24（任务卡模板补"交互假设检查"治理规则） 保留作轨迹） | 取代/被取代: 无
+> 状态: 设计依据（现役使用说明 + 历史设计） | 更新: 2026-09-22 | 取代/被取代: 本件不提供任务授权或运行状态
 > 治理规则（2026-08-24, 池×GUC 事故教训）: 任务卡含**多项同窗变更**时, premises 必含一条"交互假设检查"——
 > 对每对同窗变更回答: 你们共同碰了什么资源/假设（连接生命周期/内存/文件/端口）, 一分钟证伪法是什么。
 > 本次 GUC 兜底与实例缓存各自单项验证全绿, 经连接生命周期发生化学反应而无一捕获。
@@ -10,8 +10,20 @@
  > 结合本项目 (JinRongAgents M1/M2) 的实际开发模式设计。
  > 文章核心参考: Carlos Perez《From Loop Engineering to Graph Engineering?》+ Peter Steinberger (OpenClaw) 的 Graph 范式讨论。
 
- > **本文档面向**: 指挥层 (本机 Codex + 用户) 和执行层 (远端 GB10 Codex CLI / OpenCode)。
- > 任何 Loop 在启动前应阅读本文档，理解自己在 Graph 中的位置、约束和汇报对象。
+ > **现役职责**: 解释研发治理的 Loop/harness 关系；不是任务卡、排期表或当前运行快照。
+
+ ## 现役使用说明（2026-09-22）
+
+ - 协作闭环：**D 授权 → A 执行 → B 独立验证 → C 独立审计 → D 验收**；A 自测不代替 B/C 独立结论。
+ - 具体任务、范围、模型、频率及执行面按当前用户授权与任务卡确定；规则、状态、未决分别归 [AGENTS](../AGENTS.md)、[STATE](../memory/STATE.md)、[THREADS](../memory/THREADS.md)，执行面边界见 [治理裁定](governance/2026-09-07_execution_plane_boundary.md)。
+ - A/C 现役约束见 [Loop A prompt](../scripts/graph/loop_a_exec_constraints.md) 与 [Loop C prompt](../scripts/graph/loop_c_audit_prompt.md)；不再从旧模型、固定频率或 M1 单一目标推导任务。
+ - `src/agents/` 是业务内 Agent 图，**不是研发 harness**；这里的 harness 是任务卡、`scripts/graph/`、hooks、skills 与独立验收组成的协作约束。
+ - `graph_orchestrator.sh start` **实际只启动 Loop B**；A/C 分支仅打印派活说明，不代表已启动，也不是自动 A→B→C 流水线；其 `status` 也会探测服务。
+ - `loop_b_verify.sh` 虽由脚本驱动，默认 canary / API / PG 检查有真实访问，可能触及模型后端，**不是零调用或离线单测**；运行须有相应授权并申报实际调用。
+ - 仓内 scripts/hooks/skills 存在不等于机器已安装、钩链已接入或调度已生效；安装态和运行态须分别取证，不由目录或旧报告推断。
+ - 非冻结测试可按授权合法补充或修复；不得擅改冻结节点、删除有效断言或削弱判据来制造通过。
+
+ > **历史阅读边界**：下文 §1–§8 保留原设计、菜单与演进证据，均不可直接派工；其中固定模型/频率、全 tests 禁改、强制 commit、自动启动及旧窗口承诺不构成现役权限。09-11 R3 解锁记录不等于本轮开窗授权。
 
  ---
 

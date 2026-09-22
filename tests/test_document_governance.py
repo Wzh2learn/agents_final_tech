@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+import re
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -52,3 +53,72 @@ def test_docs_lint_registers_collections_by_directory() -> None:
     assert lint.index_registration_key("docs/experiments/a/report.md") == "experiments/"
     assert lint.index_registration_key("docs/governance/audit/run/report.md") == "governance/audit/"
     assert lint.index_registration_key("docs/architecture/codebase_map.md") == "codebase_map.md"
+
+
+def test_advisor_materials_link_to_the_current_execution_plan() -> None:
+    plan = "docs/handoff/2026-09-22-paper-research-next-phase.md"
+    for relative in (
+        "paper/teacher_review_note_v2.md",
+        "paper/teacher_review_readiness_v2.md",
+        "paper/thesis_manuscript_scaffold_v1.md",
+    ):
+        text = (REPO_ROOT / relative).read_text(encoding="utf-8")
+        assert plan in text, relative
+        assert "先等待老师确认" not in text, relative
+        assert "蒸馏结果闭合后，用同一候选流" not in text, relative
+
+
+def test_active_loop_prompts_use_current_authorities() -> None:
+    for relative in (
+        "scripts/graph/loop_a_exec_constraints.md",
+        "scripts/graph/loop_c_audit_prompt.md",
+    ):
+        text = (REPO_ROOT / relative).read_text(encoding="utf-8")
+        for authority in (
+            "AGENTS.md",
+            "memory/STATE.md",
+            "docs/research/README.md",
+            "docs/governance/2026-09-07_execution_plane_boundary.md",
+        ):
+            assert authority in text, (relative, authority)
+        assert "FastAPI 在 :5000" not in text
+        assert "HANDOFF.md (项目交接状态)" not in text
+
+
+def test_research_plan_binds_execution_to_existing_governance() -> None:
+    plan = REPO_ROOT / "docs/handoff/2026-09-22-paper-research-next-phase.md"
+    text = plan.read_text(encoding="utf-8")
+    for reference in (
+        "docs/29_graph_engineering_roadmap.md",
+        "docs/17_Graph_Engineering_多层Loop设计.md",
+        "docs/governance/2026-09-07_execution_plane_boundary.md",
+        "templates/task_card_template.md",
+    ):
+        assert reference in text, reference
+
+
+def test_orchestrator_messages_do_not_claim_automatic_dispatch() -> None:
+    text = (REPO_ROOT / "scripts/graph/graph_orchestrator.sh").read_text(encoding="utf-8")
+    assert "All loops started." not in text
+    assert "codex exec --profile" not in text
+    assert "docs/17 §8" not in text
+    assert "scripts/graph/loop_a_exec_constraints.md" in text
+    assert "scripts/graph/loop_c_audit_prompt.md" in text
+    assert "templates/task_card_template.md" in text
+    assert "docs/governance/2026-09-07_execution_plane_boundary.md" in text
+
+
+def test_code_map_separates_assets_from_live_health() -> None:
+    text = (REPO_ROOT / "docs/architecture/codebase_map.md").read_text(encoding="utf-8")
+    for reference in (
+        "research/vgmc_exp1.py",
+        "research/dpo_pairs_v0.py",
+        "paper/research_asset_map_v2.md",
+        "memory/CORE.md",
+    ):
+        assert reference in text, reference
+    assert "| healthy |" not in text
+    paths = re.findall(r"`((?:src|scripts|research|tests|docs|memory|paper)/[^`*]+)`", text)
+    assert paths
+    for relative in paths:
+        assert (REPO_ROOT / relative).exists(), relative

@@ -18,16 +18,28 @@ def _load():
 
 def test_fewshot_pool_from_fix_only():
     m = _load()
-    corpus = m.load_corpus()
-    fix, meas = m.split_uids(list(corpus.keys()))
+    fix = [f"fix-{index}" for index in range(11)]
+    meas = ["meas-0", "meas-1"]
+    corpus = {
+        uid: {
+            "inj_header": [f"{uid}-header-0", f"{uid}-header-1"],
+            "entries": [{"col": col, "original": f"field-{col}"} for col in range(2)],
+        }
+        for uid in meas + fix
+    }
     pool = m.fewshot_pool(corpus, fix)
-    assert len(pool) > 0
-    allowed = set()
-    for uid in fix[:10]:
-        allowed.update(corpus[uid]["inj_header"][e["col"]] for e in corpus[uid]["entries"])
-    assert all(x["header"] in allowed for x in pool), "示例池只来自固化集前 10 表"
-    assert not any(x["header"] in set(corpus[u]["inj_header"] for e in corpus[u]["entries"])
-                   for u in meas for x in []), "holdout 零泄漏（构造保证）"
+    expected = [
+        {"header": f"{uid}-header-{col}", "canonical": f"field-{col}"}
+        for uid in fix[:10]
+        for col in range(2)
+    ]
+    assert pool == expected
+    excluded_headers = {
+        header for uid in meas + fix[10:] for header in corpus[uid]["inj_header"]
+    }
+    assert excluded_headers.isdisjoint(item["header"] for item in pool)
+    assert m.fewshot_pool(corpus, []) == []
+    assert m.fewshot_pool(corpus, fix[:1]) == expected[:2]
 
 
 def test_memory_text_deterministic_and_capped():

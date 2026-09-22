@@ -94,6 +94,6 @@
 
 ## 8. 当前稿件使用说明
 
-`paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` 是 Stage E 的成熟证据子稿，可作为评估章节或拆稿保底；它不再代表完整三阶段方向。24–48 小时内部方向包使用该子稿与当前故事 Markdown；统一论文初稿须等实验过门。`paper/research_story_v2.docx` 和 Figure 1 是概念展示件，不覆盖本次收窄后的执行口径，Word 需先重生成核对。
+`paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` 是 Stage E 的成熟证据子稿，可作为评估章节或拆稿保底；它不再代表完整三阶段方向。24–48 小时内部方向包使用该子稿与当前故事；统一论文初稿须等实验过门。`paper/research_story_v2.docx` 由本文离线生成，Figure 1 在 Word 中用原生三阶段表展示；两者是概念展示件，不覆盖 Markdown 与执行计划。重生成后须核对结构和文字，Office 排版/分页另做视觉验收。
 
 专利公开状态未确认，不投稿、不上传预印本、不公开核心代码；内部方向包不代表已获公开许可。

@@ -36,3 +36,9 @@ def test_every_tracked_script_has_exactly_one_category() -> None:
     assert sorted(tracked - assignments.keys()) == []
     assert sorted(assignments.keys() - tracked) == []
     assert {path: owners for path, owners in assignments.items() if len(owners) != 1} == {}
+
+
+def test_tabular_mcp_runtime_helper_is_production() -> None:
+    data = tomllib.loads(CATALOG.read_text(encoding="utf-8"))
+    assert "run_tabular_inference.py" in data["production"]["files"]
+    assert "run_tabular_inference.py" not in data["experiments"]["files"]

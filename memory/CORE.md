@@ -15,7 +15,7 @@
 | :15432 | PostgreSQL + PGVector (docker) | vector_db, collection m1_parsed_statements |
 | :8090 | ZhikunCode (docker) | Multi-Agent 平台，可选扩展面 |
 
-## 模型路由（2026-08-03 定版）
+## 模型路由（历史记录；当前任务不得据此派发）
 
 - Loop A (Codex CLI): qwen3.8-max，Token Plan 直连 Responses API（~/.codex/config.toml）
 - Loop C (Claude Code): qwen3.8-max，Anthropic 兼容端点（~/.claude/settings.json）；不兼容的仅是 qwen3.8-max-preview
@@ -24,11 +24,12 @@
 
 ## Graph 四层 Loop
 
-- A 执行（Codex CLI 按需派活）/ B 验证（纯 bash，30min 常驻，信任锚点）/ C 审计（Claude Code，12h）/ D 战略（主线程）
-- Loop A 派活: 任务写 /tmp/task.md → `tmux new-session -d -s loop-a-taskN "cd $PROJ && source ~/.bashrc && cat scripts/graph/loop_a_exec_constraints.md /tmp/task.md | codex exec --dangerously-bypass-approvals-and-sandbox 2>&1 | tee -a logs/graph/loop_a.log"`（PROJ=~/wzh/projects/agents_final_tech）
-- Loop C 派活: `claude -p "<指令>"`
-- 健康: `bash scripts/graph/graph_orchestrator.sh status|logs|start|stop`
-- 每轮派活/验收写 `logs/graph/dispatch_log.md`: `[HH:MM] #N 任务 → 结果 → commit`
+- D 授权/验收 → A 执行 → B 独立验证 → C 独立审计；这是研发协作，不是 `src/agents/` 业务图。
+- 当前任务决定范围与预算，入口为 `scripts/graph/loop_a_exec_constraints.md`、`scripts/graph/loop_c_audit_prompt.md`；不从历史模型/频率推断许可。
+- `graph_orchestrator.sh` 仅有 B 的实际启动逻辑，A/C 主要打印说明；start/stop 会改变运行状态，不是健康查询。
+- B 的判分确定性不等于零调用：默认 canary/API/QA/PG 检查会访问真实服务；本地定点测试不替代它。
+- 本地分析与 GB10 正式执行边界见 `docs/governance/2026-09-07_execution_plane_boundary.md`；代码在库不代表 hooks、skills、调度或 daemon 已安装。
+- 每轮派活/验收按既有规则写 `logs/graph/dispatch_log.md`；当前状态写 STATE，未决写 THREADS。
 
 ## 目录约定
 
@@ -36,7 +37,7 @@
 - src/ ACL 三层: web / biz / storage；scripts/ 工具链；config/ schema
 - 样本: ~/wzh/m1_samples/（含 scenario1/，永不 commit）；manifest 不 commit
 - 文档四层: 见 docs/INDEX.md；skill 注册表: 见 docs/governance/SKILL_REGISTRY.md
-- 开发机一键同步: `cd ~/wzh/projects/agents_final_tech && git pull && bash scripts/graph/sync_skills.sh`
+- 技能分发入口为 `scripts/graph/sync_skills.sh`；同步会修改机器安装，须单独授权，不随文档治理自动执行。
 
 ## 冻结红线
 

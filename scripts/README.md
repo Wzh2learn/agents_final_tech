@@ -16,4 +16,10 @@
 3. Run `PYTHONPATH=src python3 -m pytest tests/test_script_catalog.py -q`.
 4. Update callers before physically moving an established script path.
 
-The catalog records ownership, not runtime health. A `production` label does not mean a service is deployed or currently running.
+The catalog records ownership, not runtime health. A `production` label does not mean a service is deployed or currently running. `run_tabular_inference.py` is a production subprocess used by `src/tabular_mcp_server/service.py`, not an isolated experiment.
+
+## Scope and research assets
+
+The catalog covers `scripts/` only; its `research` root means `scripts/research/`, not the repository's top-level `research/`. The research asset and evidence authority is `paper/research_asset_map_v2.md`; cross-layer entry points are in `docs/architecture/codebase_map.md`.
+
+A script's presence is not permission to execute it. `scripts/graph/loop_b_verify.sh` includes service, model-backed QA and database checks; it is not a zero-call local test command. Only run the focused offline tests named in the current task. Formal experimental runs and remote installation checks belong to the explicitly approved GB10 execution scope.

@@ -1,6 +1,6 @@
 # 小论文—大论文科研下一阶段执行计划与 Agent 交接 v1
 
-> 状态：可执行基线；零端点阶段可直接开展，模型加载、训练和在线评测须用户另行批准
+> 状态：可执行基线；仓内分析可直接开展，正式新实验依执行面规则派发；模型加载、训练和在线评测须用户另行批准
 
 > 更新：2026-09-22
 
@@ -26,7 +26,18 @@
 
 A+C 双轨不互相阻塞：24–48 小时导师方向包 = 成熟评估稿 + 当前三阶段方向说明；实验完成后的统一论文初稿是另一交付，不能用方向包冒充三阶段结果。所有 null/adverse result 原样保留，不改 split、阈值、家族或容差救结论。
 
-**skill 装载清单（本批实际使用）**：`research-paper-pipeline`（复用现有阶段、claim–evidence 与修订闭环，不套用推荐系统选题）、仓内 `paper-review-check`（证据/公平对照/泄漏审查）、`handoff`（接手任务卡）、仓内 `neat-freak`（分层权威与记忆同步）、`security-scan`（交付前权限路由）；共 5 件。`graph-loop-rules` 为不占配额的红线常备。所有应用均受本批零端点边界约束。
+**技能路由**：每张卡按 `docs/SKILL_ROUTING.md` 选 ≤5 件，红线常备 `graph-loop-rules` 不占配额。历史治理批的装载记录留在 Git，不作为后续 Agent 自动装载或联网扫描许可。
+
+### 0.1 第一轮治理的四个完成面
+
+| 面 | 本轮修正与验收要求 | 权威落点 |
+|---|---|---|
+| 文档关系 | 入口、故事、资产、导师材料、唯一计划各司其职；旧路线/台账不再派工 | 科研入口、INDEX、导师说明与大论文骨架 |
+| 代码资产 | 区分生产/科研、输入/输出、纯函数/在线入口；修复生产 MCP helper 分类和无效泄漏断言 | 代码地图、资产账本、catalog 与定点测试 |
+| 科研进度 | E 成熟、D 未训练、R 机制级；494/60 的独立单位、冲突和单向偏好不被淡化；图/生成器/Word 同口径 | 现有故事/账本及原始 JSON；静态验收不冒充研究结论 |
+| harness 协作 | D/A/B/C 责任、任务授权与执行面关联；watcher 预检校验绑定脚本的真实收据合同，不认任意非空文件 | docs/17、docs/29、A/C prompt、任务模板和预检测试 |
+
+本轮完成以这些仓内修正和新鲜离线验收为准，验证结果只记 `memory/STATE.md`，剩余事项只记 `memory/THREADS.md`。另一台服务器的环境、原始语料、权重、调度及安装状态由用户明确排除：本轮未核验、不获取、不修复；缺少本机副本不是本轮失败。Office 视觉验收也不由 DOCX 结构测试代替。**治理闭环不等于 Phase 1 数据审计、训练完成、Loop B/C 生产验收或完整论文闭环。**
 
 ## 1. 为什么这条路线价值最高
 
@@ -357,7 +368,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 ## 7. 双交付与三周条件排期
 
-**交付 A：24–48 小时导师方向包（09-22～09-24）**。使用 `paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` 成熟评估稿，加当前 `paper/research_story_v2.md` 方向说明与现有资产账本；明确 E 已有证据、D 未训练、R 机制级。`paper/research_story_v2.docx` 是本次收窄前快照，需 Word 时先离线重生成并人工核对，不把旧版本当最新方向。包交用户内部审阅，本批不代发导师。
+**交付 A：24–48 小时导师方向包（09-22～09-24）**。使用 `paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` 成熟评估稿，加当前 `paper/research_story_v2.md` 方向说明与现有资产账本；明确 E 已有证据、D 未训练、R 机制级。`paper/research_story_v2.docx` 已离线同步当前正文与三阶段表并通过结构/口径检查；正式阅读前仍需 Office 视觉核对。包交用户内部审阅，本批不代发导师。
 
 **交付 B：实验完成后的统一论文初稿**。仅在 Phase 6 继续条件满足时组装统一稿，附冻结工件、两种公平对照与真实闭环结果；失败则直接使用成熟评估保底稿，不能为了排期把方向说明改名“完整论文”。
 
@@ -398,7 +409,18 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 5. `paper/research_asset_map_v2.md`
 6. 本计划（直接接 §10）；首次接手只读 docs/33、docs/34 政策，不执行旧排期
 
-每张任务卡必须写明：目标、输入、输出、成功条件、失败条件、skill 装载清单（≤5 + 红线常备）、endpoint/model 调用预算、禁止修改文件和回滚方法。
+协作设计依据为 `docs/17_Graph_Engineering_多层Loop设计.md`，工程路线为 `docs/29_graph_engineering_roadmap.md`；后者的历史 backlog 不覆盖本计划，当前未决只回链 THREADS。卡片复用 `templates/task_card_template.md`，不新造科研专属 harness。
+
+| 阶段 | 本地控制/分析/审计 | GB10 正式执行与验收 |
+|---|---|---|
+| Phase 0/1 | 文档治理、已有 JSON 复算、provenance 审计、构建器与合成测试 | 需远端源表才能完成的核验/正式数据构建在授权执行面进行；未核验项保留缺口 |
+| Phase 1a/2 | 起草可学性/规则基线代码、fixture 验证、审计已有输出 | 即使 endpoint=0，新 baseline 数字、校准和 replay 仍是正式实验事实，不在本地创造 |
+| Phase 3–5 | 拟卡、预算/协议审查、已有结果复算 | 获批的环境核验、4B smoke、8B 训练及闭环终评 |
+| Phase 6/7 | 基于有效工件判断合稿/拆稿、写作、图表和独立审查 | 不因写作/审稿缺数字而自动重跑实验 |
+
+执行面唯一权威是 `docs/governance/2026-09-07_execution_plane_boundary.md`：D 给任务与授权，A 交实际 diff/工件，B 跑范围匹配的独立验证，C 审证据和主张，D 验收。A 自测不是 B/C 已审；报告必须绑定提交或工作区范围、时间和环境。默认 Loop B 包含真实 canary/API/QA/PG 检查，不得为本地治理启动它。watcher 收据预检只验证合同，不运行 watcher、不生成真实运行证据。
+
+每张任务卡必须写明：目标、输入、输出、成功条件、失败条件、skill 装载清单（≤5 + 红线常备）、执行面与 endpoint/model 调用预算、禁止修改文件和回滚方法。
 
 共同红线：
 
@@ -411,7 +433,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 每阶段提交要求：
 
-1. 一个阶段只做一个原子 commit；
+1. 仅在用户授权提交时做原子 commit，push 另有明确授权；不把前一批交付许可延伸到新改动；
 2. `git diff --check`；
 3. 最小相关测试和可复现命令；
 4. 报告 endpoint/model 调用次数，包括 0；
@@ -425,6 +447,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 Claim：当前叙事 RQ2 / TH-I3；兼为 RQ3 门基线提供候选账本，不沿用旧 SP-RQ2 编号。
 
 开工：git status；读取 AGENTS.md、CORE/STATE/THREADS 当前科研线、科研入口、故事、资产账本与本计划。
+执行面：本地只复算已有JSON、审计provenance并验证构建器/fixture；依赖另一服务器源表的步骤暂挂，正式数据构建或新论文数字按 §9 回 GB10，不因 endpoint=0 越界。
 skill 装载清单：按 docs/SKILL_ROUTING.md 选不超过 5 件并完整读取；本卡至少用论文证据审查与文档治理，红线常备 graph-loop-rules。
 
 输入：

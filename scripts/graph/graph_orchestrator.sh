@@ -2,12 +2,12 @@
 # ============================================================
 # Graph Engineering - Orchestrator
 # ============================================================
-# 启动和管理所有 Graph Loop 的 tmux 会话。
+# 管理 Loop B，并显示 A/C 的人工派发入口。
 #
 # 用法:
-#   bash scripts/graph/graph_orchestrator.sh start   # 启动所有 Loop
-#   bash scripts/graph/graph_orchestrator.sh stop    # 停止所有 Loop
-#   bash scripts/graph/graph_orchestrator.sh status  # 查看状态
+#   bash scripts/graph/graph_orchestrator.sh start   # 启动 B 并显示 A/C 入口，须授权
+#   bash scripts/graph/graph_orchestrator.sh stop    # 停止匹配的 tmux 会话，须授权
+#   bash scripts/graph/graph_orchestrator.sh status  # 访问服务探测状态，非零调用
 #   bash scripts/graph/graph_orchestrator.sh logs    # 查看最近日志
 # ============================================================
 
@@ -32,33 +32,23 @@ start_loop_b() {
   echo "[Loop B] Started (tmux: graph-loop-b)"
 }
 
-# ---- Loop A: Execution Layer (一次性派活模式, 2026-08-04 更新) ----
 start_loop_a() {
   cat <<'EOF_LOOPA'
-[Loop A] Loop A 为一次性派活 (codex exec), 非常驻进程。派活方式:
-  1) 任务写入 /tmp/task.md (目标/步骤/约束/验收标准)
-  2) tmux new-session -d -s loop-a-taskN "cd $PROJ && source ~/.bashrc && \
-       cat scripts/graph/loop_a_exec_constraints.md /tmp/task.md | \
-       codex exec --profile loopa-exec --dangerously-bypass-approvals-and-sandbox 2>&1 | tee -a logs/graph/loop_a.log"
-     (PROJ=~/wzh/projects/agents_final_tech)
-  模型路由 (2026-08-27, 按任务性质双档路由; profile 单文件在仓外不入 git):
-    - 执行卡(默认) --profile loopa-exec  = qwen3.8-flash / Token_Plan / medium
-      适用: 明确卡面的确定性执行 (脚本修补/工件整理/实验流水/数据复算)
-    - 诊断卡 --profile loopa-diag = deepseek-v4-flash-0731 / Token_Plan_Chat / xhigh
-      适用: 根因诊断/归因分析/设计稿/任何需深度推理的任务
-    - profile 文件: ~/.codex/loopa-exec.config.toml 与 ~/.codex/loopa-diag.config.toml
-      (勿写 config.toml [profiles.X] legacy 块, codex 0.145 报错)
-详见 docs/17 §8 与 memory/CORE.md「分发通道」。
+[Loop A] 未启动；本分支只显示派发入口。
+  规则/状态: AGENTS.md、memory/STATE.md、memory/THREADS.md。
+  按 templates/task_card_template.md 明确目标、验收、预算和当前授权。
+  执行约束: scripts/graph/loop_a_exec_constraints.md。
+  执行面: docs/governance/2026-09-07_execution_plane_boundary.md。
+  CLI、模型、profile 与窗口按当前任务授权确认，不沿用历史配置自动派发。
 EOF_LOOPA
 }
 
-# ---- Loop C: Quality Audit (Claude Code + qwen3.8-max, 2026-08-04 更新) ----
 start_loop_c() {
   cat <<'EOF_LOOPC'
-[Loop C] Loop C 载体为 Claude Code (qwen3.8-max, Anthropic 兼容端点), 非常驻进程。派活方式:
-  cd $PROJ && claude --bare -p "$(cat scripts/graph/loop_c_audit_prompt.md)" > docs/experiments/<audit_report>.md
-必须用 --bare: oh-my-claudecode 插件 bridge 在非交互派发下挂死（08-29 根因坐实, 探针 --bare 9s 正常）。
-详见 docs/17 §6 与 memory/CORE.md「分发通道」。
+[Loop C] 未启动；本分支只显示独立审计入口。
+  按当前任务范围读取 scripts/graph/loop_c_audit_prompt.md。
+  审计须绑定实际提交/工作区 diff 和验证证据；A 自测不等于 B/C 已验收。
+  模型、服务、数据库和真实样本解析须另有明确授权，不默认执行。
 EOF_LOOPC
 }
 
@@ -168,7 +158,7 @@ case "${1:-status}" in
     sleep 2
     start_loop_c
     echo
-    echo "All loops started. Use 'status' to monitor."
+    echo "Loop B 启动步骤已返回，未核验健康；A/C 仅显示派发入口，未启动。status 会访问真实服务，须另有授权。"
     ;;
   stop)
     stop_all
