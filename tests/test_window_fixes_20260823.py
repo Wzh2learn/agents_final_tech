@@ -71,13 +71,15 @@ def test_fk_timeout_path_keeps_session(adapter, monkeypatch):
 
 def test_fk_compaction_guard_keeps_session(adapter, monkeypatch):
     deleted = []
+    fake_httpx = _FakeHttpx(info={"agent": "compaction"})
     monkeypatch.setattr(adapter, "sidecar_health", lambda: True)
-    monkeypatch.setattr(adapter, "httpx", _FakeHttpx(info={"agent": "compaction"}))
+    monkeypatch.setattr(adapter, "httpx", fake_httpx)
     monkeypatch.setattr(adapter, "delete_session", lambda sid: deleted.append(sid) or True)
     monkeypatch.setattr(adapter, "list_sessions", lambda: [])
     out = adapter.ask_via_opencode("q")
     assert out is None
     assert deleted == []
+    assert fake_httpx.posts.count(f"{adapter.SIDECAR_URL}/session/sess-1/abort") == 1
 
 
 def test_fk_watermark_cleanup_still_runs(adapter, monkeypatch):

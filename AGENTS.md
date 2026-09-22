@@ -457,6 +457,17 @@ usage 记账」这类**分析工作**纪律, 把守卫验证纪律放进去会�
    **描述一个由字面文本触发的缺陷, 这件事本身就会触发该缺陷。** 指代哨兵串一律用占位（如「〔起始标记〕」）
    或拼接写法; **每次编辑 `memory/THREADS.md` 后须跑一次 opener 计数作为提交前自查**。
 
+### `docs_lint` warning 基线与零端点口径（2026-09-22，决策 45/46 落地）
+
+1. `docs_lint` 的通过条件是 **exit 0、`fails=[]`，且 warning 集合不得超出
+   `logs/graph/docs_lint_warn_baseline.md`**。任何新增 warning 都必须逐条归因；不得通过过滤、降级或
+   静默跳过来让门变绿。基线记录的是已知债务，不代表该 warning 已修复。
+2. “零端点”严格定义为：**零模型调用、零 canary、零 judge、零新建 run**。只读健康探测属于白名单，
+   但必须在汇报中单独申报次数，不能把“执行过健康探测”表述成字面上的“未触任何端点”。
+3. 当前全量 pytest 已知包含两类可选只读探测：`tests/test_health_embeddings_count.py` 对
+   `:5050/api/health/full` 的 GET，以及 `_pg_ready()` 对 PostgreSQL `:15432` 的就绪探测。执行全量
+   pytest 时须如实申报实际发生次数；服务不可达导致 skip 也须按真实结果报告。
+
 ## 记忆系统协议 (Phase 5 L1, 2026-08-04)
 
 仓库 `memory/` 是蒸馏记忆层；`logs/graph/dispatch_log.md` 是原始事件流。两轨并行，不互替。

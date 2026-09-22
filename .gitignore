@@ -27,11 +27,12 @@ __pycache__/
 
 # Logs and temp files
 *.log
-logs/
+logs/*
 # 治理台账豁免: dispatch_log 入库, logs/ 其余仍忽略 (K1.5 收口 2026-08-18)
 !logs/graph/
 logs/graph/*
 !logs/graph/dispatch_log.md
+!logs/graph/docs_lint_warn_baseline.md
 tmp/
 tmpclaude-*
 tmp_*.py

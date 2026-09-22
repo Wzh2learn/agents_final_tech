@@ -1112,3 +1112,4 @@ echo dispatch_log updated
 [09-06 12:06] #LOOP-B-FLIP overall PASS -> FAIL (head=b8dda56; 详见 logs/graph/verify-report.json + loop_b.log)
 [09-06 12:39] #LOOP-B-FLIP overall FAIL -> PASS (head=b8dda56; 详见 logs/graph/verify-report.json + loop_b.log)
 [09-06 14:20] #LOOP-B-FLIP overall PASS -> FAIL (head=654dc90; 详见 logs/graph/verify-report.json + loop_b.log)
+[09-22 03:41 UTC] #GOV-OPS-HARDENING branch test/compaction-guard-abort: compaction abort 覆盖断言 + :5050 日志生命周期轮转及隔离契约测试 + docs_lint warning 基线/零端点口径落稿; 本机未触端口，GB10 权威验证待执行，未 commit
