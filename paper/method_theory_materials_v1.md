@@ -86,6 +86,10 @@ $z_i=1$ 只表示样本满足预注册过滤合同，不表示标签天然正确
 - Hsieh et al., *Distilling Step-by-Step!*, arXiv:2305.02301：用 rationale 作为额外监督。本文当前只有动作事件而非完整 rationale，因此只作为相邻路线和术语边界，不得把动作蒸馏写成推理链蒸馏。
 - Dataset Cartography（Swayamdipta et al., arXiv:2009.10795）与 Confident Learning（Northcutt et al., arXiv:1911.00068）说明训练动态或标签噪声建模可帮助发现困难/歧义/错标样本；二者是后续数据诊断候选，不是当前 checkpoint 过滤结果的理论证明。
 
+### 3.4 过程错误定位与自动标签的边界
+
+ProcessBench（Zheng et al., arXiv:2412.06559）把任务定义为定位数学推理中最早错误步骤或判定全程正确；Math-Shepherd（Wang et al., arXiv:2312.08935）探索不依赖人工逐步标注的过程监督。这两件说明“过程错误位置”可以成为独立监督目标，但不能直接当作本文金融表格流程的训练集：任务域、错误本体和标签生成机制都不同。它们适合支撑 Stage E 的问题重要性，以及作为“自动过程标签需独立核验”的反例边界。
+
 ## 4. Stage D：动作策略蒸馏与选择性预测
 
 ### 4.1 当前可实现的两头监督目标
@@ -137,6 +141,26 @@ Conformal Risk Control（Angelopoulos et al., arXiv:2208.02814）允许在交换
 \]
 
 公式来源为 Rafailov et al., arXiv:2305.18290。当前 60 对单向偏 `skip`，不满足主实验门；A3 保持条件臂。
+
+### 4.4 `hold`、拒答与送检必须分开
+
+本文有两个容易混淆的决定：`hold` 是任务标签，表示当前证据下无法唯一决定规则动作；defer 是系统路由，表示学生把任意预测送交昂贵的完整验证。令 $r_\phi(x)=1$ 表示送检，$c_v(x)$ 为实测验证成本，可写成本敏感风险
+
+\[
+\mathcal R_{\mathrm{route}}(\theta,\phi)=
+\mathbb E\!\left[(1-r_\phi(X))\ell(\pi_\theta(X),Y)
++r_\phi(X)c_v(X)\right].
+\]
+
+这与 learning to defer（Mozannar and Sontag, arXiv:2006.01862）同属“模型与专家/验证器分工”的问题，但本文验证器是冻结的确定性 checkpoint/gate，而不是默认正确的人类专家。`always-skip`、输出 `hold`、低置信送检三者必须分列，否则零覆盖会伪装成零风险。
+
+若学生输出置信 $q_\theta(x)$，先在 proposal 内部 dev 上做校准；Guo et al.（arXiv:1706.04599）支持 temperature scaling 作为候选基线，但校准改善不等于排序或风险保证。主判据仍是 UID 级 risk–coverage、最坏家族和 sealed test，而不是单独 ECE。
+
+### 4.5 离线蒸馏与 on-policy 蒸馏的边界
+
+GKD（Agarwal et al., arXiv:2306.13649）与 MiniLLM（Gu et al., arXiv:2306.08543）针对学生生成分布与固定教师样本之间的 exposure mismatch，使用学生自生成输出再获得教师反馈。它们是重要强基线，但不应偷偷混入当前 A1/A2：当前主实验是冻结离线动作数据上的同预算 SFT。若以后增加 on-policy 臂，必须单独登记教师调用预算、学生 rollout 来源、过滤器版本和 UID 层，且学生生成数据不得接触 gate/sealed/future。
+
+数据选择方面，Influence Functions、Data Shapley、example forgetting、GraNd/EL2N 与 LESS 分别提供影响度、价值分摊、训练遗忘、早期梯度/误差和目标化 instruction selection 视角。它们适合做大论文的选择器对照；小论文优先保留可解释的 checkpoint filter，并用 size/token/group-matched A1/A2 证明收益不是单纯减量。没有正式训练动态前，不把这些方法写成已实现基线。
 
 ## 5. Stage R：受约束规则更新与回滚
 
@@ -205,6 +229,12 @@ SPIBB（Laroche et al., arXiv:1712.06924）在 batch RL 中研究相对基线的
 - gate-validation 只决定接受/回滚，sealed test 只在系统冻结后读取一次；
 - 超出查询预算时不再声称 gate-validation 是独立证据。
 
+### 5.4 与“自我改进/经验记忆”工作的最近邻差异
+
+Reflexion（Shinn et al., arXiv:2303.11366）、Self-Refine（Madaan et al., arXiv:2303.17651）、ExpeL（Zhao et al., arXiv:2308.10144）和 Agent Workflow Memory（Wang et al., arXiv:2409.07429）分别展示语言反馈迭代、无额外训练自修正、跨任务经验抽取和可复用 workflow 记忆。它们支持“经验可以外化并复用”，但不替本文证明独立验证、回归预算或版本回滚。
+
+更直接的最近邻来自 schema matching：Valentine（Koutras et al., arXiv:2010.07386）给出开放匹配基准与经典 matcher；Magneto（Liu et al., arXiv:2412.08194）已组合小模型候选检索和大模型重排；Matchmaker（Seedat and van der Schaar, arXiv:2410.24105）已提出自改进 LLM schema-matching program；Prompt-Matcher（Feng et al., arXiv:2408.14507）已研究预算内 correspondence verification 与不确定性更新。因此本文**不能**声称首次“小模型+大模型”“自改进 schema matching”或“验证后更新”。可守住的候选差异是：checkpoint 证据先过滤蒸馏数据，学生只做候选/预筛，规则写入由独立 gate-validation、sealed 防火墙和版本回滚共同约束。该差异仍须由 RQ2–RQ4 实验证明。
+
 ## 6. 统一目标与论文图表
 
 不建议把质量、风险、成本强行压成一个未经校准的总分。主文报告 Pareto 面；仅为分析可定义
@@ -220,6 +250,18 @@ J(\pi,R)=Q(\pi,R)-\lambda_h\,\mathrm{Harm}(\pi,R)
 - Table 2：七类门的 harmful accept、valid retention、gate coverage/accuracy、查询、回滚和成本代理。
 - Figure 3：学生 risk–coverage / quality–cost Pareto。
 - Figure 4：共享候选步上的 retained-valid、retained-harmful、rollback 和累计成本。
+
+### 6.1 “零观测伤害”不等于零风险
+
+对 $n$ 个独立 source UID，令 $K$ 为至少出现一次 Q3 harmful accept 的 UID 数。若 $K<n$，一侧 Clopper–Pearson 上界可写为
+
+\[
+U_{1-\alpha}=\operatorname{Beta}^{-1}(1-\alpha;K+1,n-K).
+\]
+
+当 $K=0$ 时仍有 $U_{1-\alpha}=1-\alpha^{1/n}>0$；所以“0 次伤害”只能与有效 UID 数和置信上界一起报告。该式要求 UID 作为独立单位；同一 UID 的多个 mutant/事件先合并，不能扩大 $n$。
+
+正式门建议同时要求收益差的 UID-cluster 区间下界通过 $\tau$、伤害率上界通过 $h_{\max}$，并对冻结的确认性假设族使用 Holm 校正。Clopper–Pearson（1934）和 Holm（1979）提供统计工具，不会自动解决重复查询 gate 的适应性偏差；候选集合、查询预算或阈值发生结果驱动变化时，必须更换独立 holdout 或把证据降级为 exploratory。
 
 ## 7. 写作时的主张分级
 
@@ -248,6 +290,46 @@ J(\pi,R)=Q(\pi,R)-\lambda_h\,\mathrm{Harm}(\pi,R)
 | `swayamdipta2020cartography` | Dataset Cartography | 2020 | arXiv:2009.10795 | 数据难度/歧义诊断候选 |
 | `northcutt2019confident` | Confident Learning | 2019/2021 | arXiv:1911.00068 | 标签错误审计候选 |
 | `xia2024less` | LESS: Selecting Influential Data for Targeted Instruction Tuning | 2024 | arXiv:2402.04333 | 大论文的数据选择扩展 |
+
+### 8.1 新增的直接方法与统计锚点
+
+| cite key | 题名 | 年 | 标识 | 用途/边界 |
+|---|---|---:|---|---|
+| `mozannar2020defer` | Consistent Estimators for Learning to Defer to an Expert | 2020 | arXiv:2006.01862 | 送检/专家分工；不把验证器假设成完美 |
+| `guo2017calibration` | On Calibration of Modern Neural Networks | 2017 | arXiv:1706.04599 | temperature scaling 候选；不替代 risk–coverage |
+| `agarwal2023gkd` | On-Policy Distillation of Language Models | 2023 | arXiv:2306.13649 | 学生分布蒸馏强基线；当前离线主实验不混用 |
+| `gu2023minillm` | MiniLLM: On-Policy Distillation of Large Language Models | 2023 | arXiv:2306.08543 | on-policy KD 近邻；须另开预算/数据合同 |
+| `zheng2024processbench` | ProcessBench | 2024 | arXiv:2412.06559 | 过程错误定位；数学域不可直接移植 |
+| `wang2023mathshepherd` | Math-Shepherd | 2023 | arXiv:2312.08935 | 自动过程标签；仍需独立正确性审计 |
+| `koh2017influence` | Understanding Black-box Predictions via Influence Functions | 2017 | arXiv:1703.04730 | 训练样本影响度候选 |
+| `ghorbani2019datashapley` | Data Shapley | 2019 | arXiv:1904.02868 | 数据价值候选，计算成本高 |
+| `toneva2018forgetting` | An Empirical Study of Example Forgetting | 2018 | arXiv:1812.05159 | 训练动态数据诊断候选 |
+| `paul2021datadiet` | Deep Learning on a Data Diet | 2021 | arXiv:2107.07075 | GraNd/EL2N 选择候选 |
+| `clopper1934confidence` | The Use of Confidence or Fiducial Limits Illustrated in the Case of the Binomial | 1934 | DOI:10.1093/biomet/26.4.404 | 零伤害有限样本上界 |
+| `holm1979simple` | A Simple Sequentially Rejective Multiple Test Procedure | 1979 | DOI:10.2307/4615733 | 冻结确认性假设族校正 |
+
+### 8.2 最近邻系统与数据工作
+
+| cite key | 题名 | 年 | 标识 | 对本文的压力 |
+|---|---|---:|---|---|
+| `koutras2020valentine` | Valentine | 2020 | arXiv:2010.07386 | 已有开放 schema-matching 基准与经典 matcher |
+| `liu2024magneto` | Magneto | 2024 | arXiv:2412.08194 | 已有 SLM 检索 + LLM 重排与合成训练数据 |
+| `seedat2024matchmaker` | Matchmaker | 2024 | arXiv:2410.24105 | 已有自改进 LLM schema-matching program |
+| `feng2024promptmatcher` | Prompt-Matcher | 2024 | arXiv:2408.14507 | 已有预算内 correspondence verification |
+| `shinn2023reflexion` | Reflexion | 2023 | arXiv:2303.11366 | 语言反馈式迭代，不等于安全规则持久化 |
+| `madaan2023selfrefine` | Self-Refine | 2023 | arXiv:2303.17651 | 无训练自修正，不等于独立 gate |
+| `zhao2023expel` | ExpeL | 2023 | arXiv:2308.10144 | 跨任务经验抽取，不提供本文回归保证 |
+| `wang2024awm` | Agent Workflow Memory | 2024 | arXiv:2409.07429 | workflow 记忆近邻，不提供 sealed 防火墙 |
+
+### 8.3 新增数据候选论文
+
+| cite key | 数据/论文 | 年 | 标识 | 当前角色 |
+|---|---|---:|---|---|
+| `chen2022convfinqa` | ConvFinQA | 2022 | arXiv:2210.03849 | FinQA 同源会话扩展，不作独立 test |
+| `hulsebos2021gittables` | GitTables | 2021 | arXiv:2106.07258 | 自然表头 proposal/pretrain only |
+| `hulsebos2019sherlock` | Sherlock | 2019 | arXiv:1905.10688 | 语义类型 baseline only |
+| `chen2020hybridqa` | HybridQA | 2020 | arXiv:2004.07347 | 大论文跨域过程压力候选 |
+| `chen2020ottqa` | OTT-QA | 2020 | arXiv:2010.10439 | 大论文检索重负载压力候选 |
 
 ## 9. GB10 后续验证卡
 

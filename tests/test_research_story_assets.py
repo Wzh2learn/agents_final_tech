@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import re
 from xml.etree import ElementTree
 
@@ -16,6 +17,7 @@ DATA_PROTOCOL = REPO / "paper" / "dataset_protocol_v1.md"
 METHOD_BIB = REPO / "paper" / "method_data_references_v1.bib"
 RULE_FIGURE = REPO / "paper" / "figures" / "fig_rule_gate_replay_v1.svg"
 PREREGISTRATION = REPO / "docs" / "experiments" / "2026-09-22_distillation_mvp_preregistration.md"
+SOURCE_REGISTRY = REPO / "docs" / "datasets" / "paper-public-source-registry-v1.json"
 STAGES = ("E · Evaluate", "D · Distill", "R · Evolve rules")
 
 
@@ -67,6 +69,8 @@ def test_three_stage_story_preserves_evidence_boundaries() -> None:
     assert "不是蒸馏结果" in text
     assert "没有学生模型训练" in text
     assert "不主张已获得稳定显著净收益" in text
+    assert "不声称首次“小模型+大模型”" in text
+    assert "Valentine" in text and "Magneto" in text and "Matchmaker" in text
 
 
 def test_build_story_docx_preserves_current_roles_and_markdown_body(tmp_path: Path) -> None:
@@ -125,6 +129,9 @@ def test_method_materials_keep_theory_and_evidence_boundaries() -> None:
         "arXiv:1506.02629",
         "不能声称已有 conformal guarantee",
         "不等价于在线学习收敛",
+        "hold` 是任务标签",
+        "U_{1-\\alpha}",
+        "不能**声称首次",
     ):
         assert required in text
 
@@ -140,6 +147,8 @@ def test_dataset_protocol_separates_quality_from_experiment_role() -> None:
         "HISTORICAL_ONLY",
         "TAT-DQA 继续冻结",
         "不下载 PubTables-1M",
+        "Valentine 的 NYC schema-matching benchmark 是 P0 动作来源",
+        "FinQA 与 ConvFinQA 在完成 report/question UID 去重前不得跨",
     ):
         assert required in text
 
@@ -147,7 +156,7 @@ def test_dataset_protocol_separates_quality_from_experiment_role() -> None:
 def test_method_bibliography_has_unique_verified_keys() -> None:
     text = METHOD_BIB.read_text(encoding="utf-8")
     keys = re.findall(r"@article\{([^,]+),", text)
-    assert len(keys) == 17
+    assert len(keys) == 42
     assert len(keys) == len(set(keys))
     for arxiv_id in (
         "1705.08500",
@@ -158,8 +167,40 @@ def test_method_bibliography_has_unique_verified_keys() -> None:
         "2105.07624",
         "2109.00122",
         "2206.01347",
+        "2006.01862",
+        "2306.13649",
+        "2412.08194",
+        "2410.24105",
+        "2010.07386",
+        "2210.03849",
     ):
         assert arxiv_id in text
+
+    theory = THEORY.read_text(encoding="utf-8")
+    listed_keys = set(re.findall(r"^\| `([^`]+)` \|", theory, flags=re.MULTILINE))
+    assert listed_keys <= set(keys)
+
+
+def test_public_source_registry_is_metadata_only_and_fail_closed() -> None:
+    registry = json.loads(SOURCE_REGISTRY.read_text(encoding="utf-8"))
+    assert registry["status"] == "METADATA_ONLY_NOT_DOWNLOAD_APPROVAL"
+    assert registry["policy"]["contains_data_bodies"] is False
+    assert registry["policy"]["download_approved"] is False
+
+    sources = registry["sources"]
+    ids = [source["dataset_id"] for source in sources]
+    assert len(ids) == len(set(ids)) == 10
+    for source in sources:
+        assert re.fullmatch(r"[0-9a-f]{40}", source["checked_default_head"])
+        assert source["official_repo"].startswith("https://github.com/")
+        assert source["download_approved"] is False
+        assert source["data_license_state"] != "APPROVED"
+
+    by_id = {source["dataset_id"]: source for source in sources}
+    assert by_id["finqa"]["independence_cluster"] == by_id["convfinqa"]["independence_cluster"]
+    assert by_id["finqa"]["decision"] == "P0_PROCESS_SOURCE_PREFLIGHT"
+    assert by_id["valentine_nyc"]["decision"] == "P0_ACTION_SOURCE_PREFLIGHT"
+    assert by_id["tatqa"]["decision"] == "HISTORICAL_ONLY_UNTIL_EXPOSURE_AUDIT"
 
 
 def test_rule_gate_figure_is_valid_and_keeps_data_firewall_visible() -> None:

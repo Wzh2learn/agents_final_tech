@@ -45,7 +45,7 @@
 5. `BASELINE_GO`：五类简单基线仍留有可学残差；`SIMPLE_SUFFICIENT`、`NO_CLEAR_SIGNAL`、`PILOT_ONLY` 或 `DATA_NO_GO` 都停止主训练。
 6. `MODEL_GO`：用户批准模型、权重许可、GB10 窗口、预算、输出目录和恢复策略。
 
-标签质量 Q0–Q3 与上述四个 role layer 是两个正交维度。新来源顺序为 FinQA metadata/license preflight → MultiHiertt 条件外部验证；旧 TAT-QA train+dev 池在完成 UID 曝光反查前继续 `HISTORICAL_ONLY`，TAT-DQA 继续冻结。
+标签质量 Q0–Q3 与上述四个 role layer 是两个正交维度。P0 新来源分为 FinQA process/checkpoint preflight 与 Valentine NYC schema-action preflight，两者不按行混合；随后才考虑 MultiHiertt 条件外部验证。ConvFinQA 与 FinQA 同 independence cluster；旧 TAT-QA train+dev 池在完成 UID 曝光反查前继续 `HISTORICAL_ONLY`，TAT-DQA 继续冻结。
 
 ## 4. 实验臂与唯一职责
 
@@ -163,7 +163,7 @@
 ## 10. 执行与验收顺序
 
 1. GB10 恢复后先只读核现状，在干净隔离 worktree 里执行。
-2. 完成历史 TAT-QA UID 曝光审计和 FinQA metadata/license preflight，再由用户批准具体来源。
+2. 完成历史 TAT-QA UID 曝光审计、FinQA 过程来源 preflight 与 Valentine NYC 动作来源 preflight，再由用户批准具体来源；ConvFinQA/FinQA 先做同源去重。
 3. 按 Phase 1 数据合同双跑、零 `connect` 并取得独立人工验收；再运行 Phase 1a 五基线。
 4. Phase 1a 留有可学残差后，依次执行 Phase 2 正式 replay、4B smoke、8B A0–A2；A3 仍单独判门。
 5. 各阶段均需用户对应授权；详细命令、输出位置和回滚规则只维护在 handoff 计划及 Phase 1a data-gate 报告，本文件不复制。

@@ -249,7 +249,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 不足时不复制事件扩量：增加独立公开源表（先用已获许可且本地可用的来源，不重开 TAT-DQA D4），增加独立 uid，补经核验的正确 `map_to`、`hold` 与双向偏好（含正向 map_to 的 Type-B），重新做 uid 聚类功效/MDE 和四层覆盖检查。新来源下载、模型标注或训练另行授权；合成扰动不得算新增独立表。扩充截止前仍不达门即维持拆稿，不无期限补样本救主张。
 
-**数据来源与质量分层已预研，尚未获取**：具体选择、许可核验、Q0–Q3 标签质量 × 四层实验角色、黄金标注合同和模型配置清单位于 `paper/dataset_protocol_v1.md`。当前优先级为 FinQA 新鲜来源 preflight，其次 MultiHiertt 条件外部验证；TAT-QA 旧 train+dev 池保持 `HISTORICAL_ONLY`，需先反查曝光 UID；TAT-DQA 继续冻结，PubTables-1M 本小论文不下载。该文档是素材/合同，不另立执行顺序；任何获取、构建与训练仍由本计划和用户授权控制。
+**数据来源与质量分层已预研，尚未获取**：具体选择、许可核验、Q0–Q3 标签质量 × 四层实验角色、黄金标注合同和模型配置清单位于 `paper/dataset_protocol_v1.md`，机器可读核验锚位于 `docs/datasets/paper-public-source-registry-v1.json`。P0 必须拆成互补两路：FinQA 负责 process/checkpoint 来源，Valentine NYC 负责 schema-action pilot；两者不能按行混成同分布样本。MultiHiertt 是 P1 条件外部过程验证；ConvFinQA 与 FinQA 同 independence cluster，不得冒充独立 test。TAT-QA 旧 train+dev 池保持 `HISTORICAL_ONLY`，需先反查曝光 UID；TAT-DQA 继续冻结，PubTables-1M 本小论文不下载。注册表中全部 `download_approved=false`；任何获取、构建与训练仍由本计划和用户授权控制。
 
 ## 6. 分阶段执行卡
 

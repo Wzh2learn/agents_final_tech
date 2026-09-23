@@ -2,16 +2,18 @@
 
 > 状态：数据准备权威素材，尚未批准下载/构建 | 核验日期：2026-09-23
 > 边界：本轮只做公开来源核验、选择和合同设计；未下载新数据、未读取 GB10 私有语料、未生成或上传数据正文。TAT-DQA 冻结线不重开。
+> 可机读来源快照：`docs/datasets/paper-public-source-registry-v1.json`。其中 commit 是 2026-09-23 的核验锚，不是下载许可或永久最新版声明。
 
 ## 1. 结论先行
 
 近期小论文的数据路线建议是：
 
 1. **TAT-QA 保留为 Stage E 历史主域和 proposal 素材，但既有 train+dev 混合池全部标 `HISTORICAL_ONLY`**；先在 GB10 用公开 UID 回溯已消费范围，不能把旧池重新命名为独立验证集。
-2. **FinQA 作为最优先的新鲜第二来源**：同属金融表格/文本，提供 gold reasoning program，公开 test 与 private test 分开，适合补 Stage E 的过程监督和 Stage D 的动作构造。
-3. **MultiHiertt 作为条件外部验证来源**：多层级、多表、长文本和细粒度 supporting facts/program 与长流程评估更贴近，但正式获取前必须确认数据包许可范围与 private-test 使用方式。
-4. HiTab 只作跨域层级表扩展；其数据采用 C-UDA v1.0，先过许可门。PubTables-1M 解决视觉表格结构，不解决语义规则动作，体量又大，本小论文不下载。Valentine 适合补 schema-matching baseline，不作为核心语料。
-5. **不新造另一个漂移注入器**。仓库已有 `scripts/research/drift_inject.py`，后续应做 split-preserving v1 适配，而不是改动已产生历史结果的 v0。合成数据只进入训练/机制压力测试，不能冒充真实独立评测。
+2. **不存在一个公开数据集能同时覆盖三阶段**。FinQA 是 P0 过程来源：同属金融表格/文本并带 gold reasoning program，适合 Stage E 的 checkpoint/过程监督；这些 program 不是 `map_to / hold / skip` 标签，未经 adapter 与 Q3 复核不能直接训练动作头。
+3. **Valentine 的 NYC schema-matching benchmark 是 P0 动作来源**：它提供真实表对、gold column correspondences 和 COMA/Cupid/Similarity Flooding 等强简单基线，直接贴近 Stage D/R 的 `map_to`。但 gold match 只直接支持正向映射；`skip/hold` 仍需 Q3，且 NYC 上游许可和 LLM 扰动 provenance 必须先审。
+4. **MultiHiertt 作为 P1 条件外部过程来源**：多层级、多表、长文本和细粒度 supporting facts/program 与长流程评估更贴近，但正式获取前必须确认数据包许可范围与 private-test 使用方式。ConvFinQA 直接由 FinQA 问题分解/组合而来，二者默认视为同一 independence cluster，不能冒充独立测试。
+5. HiTab 只作跨域层级表扩展；GitTables/Sherlock 只作自然表头、语义类型或预训练候选池；HybridQA/OTT-QA 只作大范围外部压力。PubTables-1M 解决视觉表格结构，不解决语义规则动作，体量又大，本小论文不下载。
+6. **不新造另一个漂移注入器**。仓库已有 `scripts/research/drift_inject.py`，后续应做 split-preserving v1 适配，而不是改动已产生历史结果的 v0。合成数据只进入训练/机制压力测试，不能冒充真实独立评测。
 
 ## 2. 两个正交维度：质量等级不等于实验 split
 
@@ -46,39 +48,48 @@ Q3 是标签质量，不是“测试集”。Q3 样本一旦分到 proposal/trai
 | 数据集 | 官方事实与标识 | 许可核验 | 对本文的价值 | 裁定 |
 |---|---|---|---|---|
 | TAT-QA | 16,552 问题、2,757 个金融表格+文本上下文；arXiv:2105.07624；官方仓库 `NExTplusplus/TAT-QA` | 官方 README 明示数据 CC BY 4.0；仓库 API 为 MIT（代码） | 已有 95 表/118 注入 Stage E 资产；适合金融表头漂移和历史可比 | **核心但历史污染需审计**；旧 train+dev 池不作独立 gate/sealed |
-| FinQA | 金融报告 QA，带 gold reasoning programs；arXiv:2109.00122；官方仓库 `czyssrs/FinQA` | GitHub API 标 MIT；数据条款未在本次 README 片段单独区分，获取时复核 | 补过程级监督、数值链和新鲜金融来源；公开 test 有 gold，另有无 gold private test | **P0 新增来源**；优先做许可/版本/UID preflight |
+| FinQA | 金融报告 QA，带 gold reasoning programs；arXiv:2109.00122；官方仓库 `czyssrs/FinQA` | GitHub API 标 MIT；数据条款未在本次 README 片段单独区分，获取时复核 | 补过程级监督、数值链和新鲜金融来源；program 不等于规则动作标签 | **P0 过程来源**；优先做许可/版本/UID preflight |
+| ConvFinQA | 把一个或两个 FinQA 问题分解为多轮会话，保留 original program 与来源标记；arXiv:2210.03849 | GitHub API 标 MIT；数据适用范围获取时复核 | 可测长程上下文和过程状态，但继承 FinQA 来源 | **P1 关联扩展**；与 FinQA 同 cluster，不作独立 test |
 | MultiHiertt | 多层级、多表、长文本，带 program 与 supporting facts；arXiv:2206.01347；ACL 2022 官方引用 | GitHub API 标 MIT，数据由官方 Drive 分发；数据包范围需下载前再核 | 更强长流程和跨表推理；适合 dataset-held-out 外部验证 | **P1 条件来源**；许可与 private-test 路径清楚后接入 |
 | HiTab | 当前 README 写 10,672 samples/3,597 tables；arXiv v3 摘要写 10,686，存在版本差异；arXiv:2108.06712 | README 明示 Computational Use of Data Agreement v1.0 | 跨域层级表、header hierarchy 和公式标注 | **P2 条件扩展**；先冻结版本并过许可门 |
 | PubTables-1M | 575,305 页、947,642 张完整标注表；arXiv:2110.00061；官方 Microsoft Table Transformer 仓库 | 代码仓 MIT；数据在 Microsoft Research Open Data，数据条款须单独确认 | OCR/结构识别、header bounding boxes；不直接提供本文动作/目标语义 | **本小论文不下载**；留大论文视觉补盲 |
-| Valentine | schema matching 工具与实验套件；官方仓库 `delftdata/valentine` | Apache-2.0（代码）；具体实验数据分别核许可 | 可提供 Cupid/Similarity Flooding/Coma 等 schema matcher 对照思路 | **只吸收 baseline**，不作核心数据源 |
+| Valentine NYC | schema matching 工具与实验套件；当前仓含 10 个 NYC Open Data 表对、`ground_truth.json` 与 LLM 扰动轨迹；arXiv:2010.07386 | Apache-2.0 覆盖仓库；NYC 上游数据与派生扰动范围仍须单独核 | 与 `map_to` 动作及 exact/fuzzy/COMA/Cupid/Similarity Flooding 基线最贴近 | **P0 动作 pilot 来源**；正向 gold 可用，`skip/hold` 不自动补 |
+| GitTables | GitHub CSV 大规模关系表语料，带语法/语义标注；arXiv:2106.07258 | 仓库 API 标 CC0-1.0；逐表来源与再利用边界仍需审计 | 自然表头覆盖和语义类型预训练；无天然 pairwise match gold | **P2 proposal/pretrain only**；不作 sealed gold |
+| Sherlock/VizNet | 686,765 列、78 个语义类型；arXiv:1905.10688 | 代码仓 MIT；VizNet 上游范围另核 | 强语义类型基线，可帮助候选召回 | **P2 baseline only**；类型标签不等于字段映射 |
+| HybridQA / OTT-QA | Wikipedia 表格+文本多跳 QA；arXiv:2004.07347 / 2010.10439 | 两代码仓 GitHub API 标 MIT；数据范围另核 | 可作跨域检索/长流程压力，不直接给规则动作 | **P3 大论文候选**；不占小论文主路径 |
 | TAT-DQA | 已有 `joint-v1` 数据卡，CC BY 4.0，仓外约 1.5 GiB | 仓内数据卡已核 | 文档视觉 QA 和大论文跨数据流 | **保持冻结**；本批不重开 D4、不下载、不重建表层 |
 
 ### 3.2 来源核验记录
 
 - 论文元数据通过 arXiv 官方 API 于 2026-09-23 查询。
-- TAT-QA、FinQA、MultiHiertt、HiTab、Table Transformer 和 Valentine 的官方 GitHub README/API 于同日只读核验。
+- TAT-QA、FinQA、ConvFinQA、MultiHiertt、HiTab、Table Transformer、Valentine、GitTables、Sherlock、HybridQA 和 OTT-QA 的官方 GitHub README/API 或 `git ls-remote` 于同日只读核验；精确 head 见可机读来源快照。
 - HiTab 当前 README 与 arXiv v3 的样本数不一致，说明版本会漂移；未来数据卡必须写 commit/release hash，不能只写数据集名称。
+- ConvFinQA README 明示其简单/复杂会话由一个或两个原 FinQA 问题分解而来；FinQA 与 ConvFinQA 在完成 report/question UID 去重前不得跨 train/gate/sealed 角色。
+- Valentine 当前仓的 NYC benchmark 含 10 对真实来源表、gold correspondences 和基于 LLM 的 schema/value perturbations。它与动作任务高度贴合，但不是天然三分类金标：未匹配列不能自动等同 `skip`，近似候选不能自动等同 `hold`。
 - GitHub 仓库 license 可能只覆盖代码，不能自动推定所有第三方文档内容；每次实际获取仍须保存数据页条款和时间戳。
 
 ## 4. 小论文最小数据组合
 
-### 4.1 推荐组合 A（最现实）
+### 4.1 推荐组合 A（最现实的双来源最小闭环）
 
 | 角色 | 来源 | 构造 |
 |---|---|---|
 | 历史机制复现 | 现有 TAT-QA 95 表/118 注入 | 仅复算历史，不改 split、不升级证据 |
-| proposal/train | 经 UID 暴露审计后的 TAT-QA official train + FinQA train | Q1 确定性扰动 + Q3 人工金标子集；同表 clean/mutant 不跨层 |
-| gate-validation | 未在历史工件出现的 TAT-QA/FinQA dev UID；若无法证明未见则改用新来源 | 全部 Q3；只用于接受/回滚和有限查询 |
-| sealed test | 从未用于规则/阈值/写作判断的官方 test UID | 全部 Q3 或官方 gold 可验证映射；一次只读 |
-| external transfer | MultiHiertt dev/test 的独立文档族 | 只作外部效度；不参与主阈值选择 |
+| Stage E 新过程来源 | FinQA train/dev | 用 gold program/supporting evidence 设计 checkpoint adapter；不直接转成动作标签 |
+| Stage D/R 动作 pilot | Valentine NYC 10 个表对 | ground-truth correspondence 只生成 `map_to` 候选；负例/歧义例经 Q3 才生成 `skip/hold`；先作 proposal/dev，不直接作 sealed |
+| proposal/train | 经 UID 暴露审计后的 TAT-QA official train + 获批的 FinQA/Valentine 独立组 | Q1 确定性扰动 + Q3 人工金标子集；同表 clean/mutant 不跨层 |
+| gate-validation | 优先使用未参与历史开发且完成 Q3 的 Valentine/FinQA 独立组 | 只用于接受/回滚和有限查询；不同任务 adapter 分层报告 |
+| sealed test | 从未用于规则/阈值/写作判断的独立 dataset/document UID | 全部 Q3 或官方 gold 可验证映射；一次只读；不得把 ConvFinQA 当 FinQA 的独立来源 |
+| external transfer | MultiHiertt 的独立文档族 | 只作过程外部效度；不参与主阈值选择 |
 
-如果无法从旧 TAT-QA 池复原 UID 暴露，TAT-QA train/dev 全部降为 historical/proposal，不能再承担 gate；此时 FinQA 或 MultiHiertt 必须提供独立 gate/sealed。跨数据集构造差异要单列，不能把 domain shift 误写成方法效应。
+如果无法从旧 TAT-QA 池复原 UID 暴露，TAT-QA train/dev 全部降为 historical/proposal，不能再承担 gate。FinQA 的过程样本与 Valentine 的匹配样本**不能按行拼成一个假装同分布的数据集**；二者分别回答 checkpoint 外部效度与动作策略可学性，最终闭环只能在共同 task adapter 和同一 UID 防火墙下报告。跨数据集构造差异要单列，不能把 domain shift 误写成方法效应。
 
 ### 4.2 最低 action 构成
 
 - `map_to`：候选目标正确且来源可追溯。
 - `skip`：候选目标明确错误或不存在合法目标；不能只生成明显乱码负例。
 - `hold`：在当前可见信息下至少两个目标合理，或证据不足；需要人工复核，不能由 confidence=`medium` 自动产生。
+- Valentine 的 `ground_truth.json` 只可机械生成正向 `map_to` Q1 标签；未出现在 ground truth 的列对只是候选负例，完成 Q3 前不能直接标 `skip`，更不能自动生成 `hold`。
 - 冲突族：同一表面别名在不同文档上下文指向不同 canonical，专门检验 collateral 与 gate-validation。
 - 未见族：至少按 perturbation family 或 dataset family 留一类，不在训练/阈值选择中出现。
 
@@ -153,11 +164,26 @@ GB10 运行前必须冻结：权重来源与许可、revision/hash、tokenizer/c
 
 1. 只读盘点现有 TAT-QA/TAT-DQA/模型资产及 hash；TAT-DQA 只核状态，不运行 D4。
 2. 用旧注入 map/checkpoint 反查已曝光 TAT-QA UID，形成 `historical_exposure_manifest`。
-3. 对 FinQA 做 metadata-only preflight：官方仓库 commit、license 文件、split 文件名、字节数/hash；未获批准不下载数据正文。
-4. 用户确认来源后，在 Git 外下载并生成 public-ID-only manifest；先跑许可/容量/hash 验收。
-5. 抽取表头与 source pointers，按组先分层，再运行 split-preserving v1 合成；双跑 hash 一致。
-6. 建立 Q3 标注包并完成双审/裁决；再由 Phase 1 合同判门。
-7. 只有 Phase 1a 表明简单基线有残余、Phase 2 可复现且用户批准，才进入 4B smoke 与 8B A0–A2。
+3. 分别做 FinQA（过程来源）与 Valentine NYC（动作来源）的 metadata-only preflight：核官方仓库 commit、数据许可适用范围、split/ground-truth 文件名、字节数/hash；未获批准不下载数据正文。
+4. 对 FinQA/ConvFinQA 做 report/question UID 关系审计，对 Valentine 做 NYC 上游许可、LLM 扰动 provenance 与 gold 语义审计；不得用代码仓许可证替代数据许可。
+5. 用户确认具体来源后，在 Git 外下载并生成 public-ID-only manifest；先跑许可/容量/hash 验收。
+6. 抽取表头与 source pointers，按组先分层，再运行 split-preserving v1 合成；双跑 hash 一致。
+7. 建立 Q3 标注包并完成双审/裁决；再由 Phase 1 合同判门。
+8. 只有 Phase 1a 表明简单基线有残余、Phase 2 可复现且用户批准，才进入 4B smoke 与 8B A0–A2。
+
+GB10 恢复后的第一步仍是 metadata-only 核验，不拉数据正文：
+
+```bash
+python3 -m json.tool docs/datasets/paper-public-source-registry-v1.json >/dev/null
+jq -r '.sources[] | [.dataset_id, .official_repo, .checked_default_head] | @tsv' \
+  docs/datasets/paper-public-source-registry-v1.json |
+while IFS=$'\t' read -r dataset_id source_repo checked_head; do
+  live_head=$(git ls-remote "${source_repo}.git" HEAD | awk '{print $1}')
+  printf '%s\tchecked=%s\tlive=%s\n' "$dataset_id" "$checked_head" "$live_head"
+done
+```
+
+任一 `live` 为空或与 `checked` 不同，只表示注册表需要人工重核，不能自动跟随最新版，更不能据此下载。只有用户批准具体 source/revision 后，才在 Git 外建立下载目录、记录条款快照/字节数/SHA-256，并把聚合收据交给 Phase 1 合同；原始文件不得加入 Git。
 
 ## 10. 当前不做的事
 
@@ -171,7 +197,12 @@ GB10 运行前必须冻结：权重来源与许可、revision/hash、tokenizer/c
 
 - TAT-QA：<https://github.com/NExTplusplus/TAT-QA>；论文 arXiv:2105.07624。
 - FinQA：<https://github.com/czyssrs/FinQA>；论文 arXiv:2109.00122。
+- ConvFinQA：<https://github.com/czyssrs/ConvFinQA>；论文 arXiv:2210.03849。
 - MultiHiertt：<https://github.com/psunlpgroup/MultiHiertt>；论文 arXiv:2206.01347；ACL Anthology `2022.acl-long.454`。
 - HiTab：<https://github.com/microsoft/HiTab>；论文 arXiv:2108.06712。
 - PubTables-1M：<https://github.com/microsoft/table-transformer>；论文 arXiv:2110.00061。
-- Valentine：<https://github.com/delftdata/valentine>。
+- Valentine：<https://github.com/delftdata/valentine>；论文 arXiv:2010.07386。
+- GitTables：<https://github.com/madelonhulsebos/gittables>；论文 arXiv:2106.07258。
+- Sherlock：<https://github.com/mitmedialab/sherlock-project>；论文 arXiv:1905.10688。
+- HybridQA：<https://github.com/wenhuchen/HybridQA>；论文 arXiv:2004.07347。
+- OTT-QA：<https://github.com/wenhuchen/OTT-QA>；论文 arXiv:2010.10439。

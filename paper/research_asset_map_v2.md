@@ -45,9 +45,10 @@
 | 模型矩阵结果 | `docs/experiments/2026-08-19_small_model_matrix_c1c2.md` | 14B、8B 训练前基线 | 报告可用；逐题 JSON 在 GB10 gitignored 路径 |
 | 模型矩阵结果 | `docs/experiments/2026-08-21_small_model_matrix_c3.md` | 4B 训练前基线 | 报告可用；逐题 JSON 在 GB10 gitignored 路径 |
 | 文献 | `docs/experiments/2026-09-20_kd_literature_candidates.md` | KD、agent distillation、多教师路线 | 18 条候选已核；venue 仍按文档边界 |
-| 方法与理论素材 | `paper/method_theory_materials_v1.md` | 统一记号、风险—覆盖、三门更新、累计局部回归界与回滚不变量 | 可用于 Method/Related Work；固定池伸缩界是条件推论，不等于实验保证 |
-| 数据分层与选型 | `paper/dataset_protocol_v1.md` | Q0–Q3 标签质量 × 四层角色、公开数据选择、模型矩阵 | 仓内设计已就绪；未下载/构建，GB10 待授权 |
-| 方法引用与细化图 | `paper/method_data_references_v1.bib`、`paper/figures/fig_rule_gate_replay_v1.svg` | 17 条已核候选 BibTeX；共享流七臂/三门/回滚/数据防火墙 | 可直接复用；图明确标注无正式结果 |
+| 方法与理论素材 | `paper/method_theory_materials_v1.md` | 统一记号、defer 路由、风险—覆盖、三门更新、有限样本风险上界、累计局部回归界、回滚不变量和最近邻差异 | 可用于 Method/Related Work；固定池伸缩界是条件推论，不等于实验保证 |
+| 数据分层与选型 | `paper/dataset_protocol_v1.md` | Q0–Q3 标签质量 × 四层角色、FinQA 过程源 + Valentine 动作源的双 P0 选择、模型矩阵 | 仓内设计已就绪；未下载/构建，GB10 待授权 |
+| 公开来源注册表 | `docs/datasets/paper-public-source-registry-v1.json` | 10 个来源的核验 commit、许可缺口、independence cluster、角色适配与准入状态 | metadata only；全部 `download_approved=false` |
+| 方法引用与细化图 | `paper/method_data_references_v1.bib`、`paper/figures/fig_rule_gate_replay_v1.svg` | 42 条已核候选 BibTeX；共享流七臂/三门/回滚/数据防火墙 | 可直接复用；图明确标注无正式结果 |
 | 实验预注册 | `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` | RQ2–RQ4、数据/模型门、A0–A3、七臂、双口径、统计与停止规则 | `DRAFT_NOT_FROZEN`；数值容差/资源/来源待人工批准 |
 | 训练数据设计 | `docs/experiments/2026-08-28_dpo_pairs_v0_design.md` | 门控事件转偏好对 | 可用 |
 | 候选事件 | `logs/graph/eval/vgmc*_checkpoint.json`（16 件） | 494 条有 gain/collateral 的 gated 事件，48 uid / 94 uid-col / 139 uid-col-target | 本地 P1 已审：292/202；16 组冲突隔离、41 列多 target；不等于训练数据放行 |

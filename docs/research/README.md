@@ -134,9 +134,10 @@
 13. `research/phase1a_data_contract.py`：Phase 1a 私有数据补充包的离线、fail-closed 机械预检；通过只表示 `READY_FOR_INDEPENDENT_ACCEPTANCE`，不表示 `DATA_GO`、训练许可或论文结果。合同与 GB10 命令见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`。
 14. `research/phase1a_learnability_baselines.py`：独立接收后才可运行的 proposal train/dev 五基线探针；仓内仅有合成合同测试，正式 GB10 开发数字尚未产生。输入回执、预注册配置与运行命令仍只维护在同一 Phase 1a data-gate 报告中。
 15. `research/phase2_rule_gate_replay.py` / `research/paper_result_views.py`：共享候选、状态独立的七臂 replay 软件合同及 Table 2 / Figure 4 聚合接口；当前仅有合成测试，正式 Phase 2 未启动，GB10 命令和停止条件只维护在 handoff 的 Phase 2 节。
-16. `paper/method_theory_materials_v1.md`：三阶段统一符号、SFT/选择性预测/三门更新公式、两个有限命题与已核验理论文献；是写作素材，不是已成立实验结论。
-17. `paper/dataset_protocol_v1.md`：标签质量 × 实验角色二维分层、公开数据选择、模型对照配置与 GB10 数据门；不授权下载、构建、训练或解冻 TAT-DQA。
-18. `paper/method_data_references_v1.bib` / `paper/figures/fig_rule_gate_replay_v1.svg`：经官方入口核验的理论与数据 BibTeX，以及共享流、独立状态、三门与回滚的论文方法图；正式稿引用前仍二次核版。
+16. `paper/method_theory_materials_v1.md`：三阶段统一符号、SFT/选择性预测/三门更新公式、有限样本风险上界、两个有限命题及最近邻差异；是写作素材，不是已成立实验结论。
+17. `paper/dataset_protocol_v1.md`：标签质量 × 实验角色二维分层、过程/动作双来源选择、模型对照配置与 GB10 数据门；不授权下载、构建、训练或解冻 TAT-DQA。
+18. `docs/datasets/paper-public-source-registry-v1.json`：10 个公开来源的 metadata-only 可机读快照，记录核验 commit、许可缺口、independence cluster、角色适配和准入状态；全部 `download_approved=false`。
+19. `paper/method_data_references_v1.bib` / `paper/figures/fig_rule_gate_replay_v1.svg`：经官方入口核验的理论与数据 BibTeX，以及共享流、独立状态、三门与回滚的论文方法图；正式稿引用前仍二次核版。
 
 运行：
 

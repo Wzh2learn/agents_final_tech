@@ -1,0 +1,149 @@
+{
+  "schema_version": "paper-public-source-registry-v1",
+  "status": "METADATA_ONLY_NOT_DOWNLOAD_APPROVAL",
+  "verified_at": "2026-09-23",
+  "verification_sources": [
+    "arXiv Atom API",
+    "GitHub REST API",
+    "git ls-remote"
+  ],
+  "policy": {
+    "contains_data_bodies": false,
+    "contains_private_data": false,
+    "download_approved": false,
+    "source_go_requires_data_license_scope": true,
+    "same_independence_cluster_cannot_cross_role_layers_without_uid_audit": true
+  },
+  "sources": [
+    {
+      "dataset_id": "tatqa",
+      "paper_id": "arXiv:2105.07624",
+      "official_repo": "https://github.com/NExTplusplus/TAT-QA",
+      "checked_default_head": "870accc41953dcde885aabeb963d94aabdc0fbc3",
+      "repo_license_spdx": "MIT",
+      "data_license_state": "README_REPORTS_CC_BY_4_0_RECHECK_AT_FETCH",
+      "independence_cluster": "tatqa_financial_reports",
+      "role_fit": ["historical_evaluate", "proposal_train"],
+      "action_label_fit": "ADAPTER_AND_Q3_REVIEW_REQUIRED",
+      "decision": "HISTORICAL_ONLY_UNTIL_EXPOSURE_AUDIT",
+      "download_approved": false
+    },
+    {
+      "dataset_id": "finqa",
+      "paper_id": "arXiv:2109.00122",
+      "official_repo": "https://github.com/czyssrs/FinQA",
+      "checked_default_head": "0f16e2867befa6840783e58be38c9efb9229d742",
+      "repo_license_spdx": "MIT",
+      "data_license_state": "REPO_LICENSE_VISIBLE_DATA_SCOPE_REVIEW_REQUIRED",
+      "independence_cluster": "finqa_financial_reports",
+      "role_fit": ["process_supervision", "external_evaluate", "proposal_train"],
+      "action_label_fit": "PROGRAMS_ARE_NOT_MAP_HOLD_SKIP_LABELS",
+      "decision": "P0_PROCESS_SOURCE_PREFLIGHT",
+      "download_approved": false
+    },
+    {
+      "dataset_id": "convfinqa",
+      "paper_id": "arXiv:2210.03849",
+      "official_repo": "https://github.com/czyssrs/ConvFinQA",
+      "checked_default_head": "cf3eed2d5984960bf06bb8145bcea5e80b0222a6",
+      "repo_license_spdx": "MIT",
+      "data_license_state": "REPO_LICENSE_VISIBLE_DATA_SCOPE_REVIEW_REQUIRED",
+      "independence_cluster": "finqa_financial_reports",
+      "role_fit": ["conversational_process_stress", "future_extension"],
+      "action_label_fit": "PROGRAMS_ARE_NOT_MAP_HOLD_SKIP_LABELS",
+      "decision": "LINKED_EXTENSION_NOT_INDEPENDENT_TEST",
+      "download_approved": false
+    },
+    {
+      "dataset_id": "multihiertt",
+      "paper_id": "arXiv:2206.01347",
+      "official_repo": "https://github.com/psunlpgroup/MultiHiertt",
+      "checked_default_head": "45bd9ccdf3142ea059bd5e69c0afb83437fa539c",
+      "repo_license_spdx": "MIT",
+      "data_license_state": "EXTERNAL_PACKAGE_SCOPE_REVIEW_REQUIRED",
+      "independence_cluster": "multihiertt_financial_reports",
+      "role_fit": ["external_evaluate", "long_process_stress"],
+      "action_label_fit": "PROGRAMS_AND_SUPPORTING_FACTS_NEED_ADAPTER",
+      "decision": "P1_CONDITIONAL_EXTERNAL_SOURCE",
+      "download_approved": false
+    },
+    {
+      "dataset_id": "valentine_nyc",
+      "paper_id": "arXiv:2010.07386",
+      "official_repo": "https://github.com/delftdata/valentine",
+      "checked_default_head": "5d5163f04da304985bd51a476ccf7653de3979c3",
+      "repo_license_spdx": "Apache-2.0",
+      "data_license_state": "NYC_UPSTREAM_AND_LLM_PERTURBATION_PROVENANCE_REVIEW_REQUIRED",
+      "independence_cluster": "valentine_nyc_schema_matching",
+      "role_fit": ["schema_action_pilot", "simple_baselines", "proposal_train"],
+      "action_label_fit": "GOLD_MATCHES_SUPPORT_MAP_TO_ONLY_SKIP_HOLD_NEED_Q3",
+      "decision": "P0_ACTION_SOURCE_PREFLIGHT",
+      "download_approved": false
+    },
+    {
+      "dataset_id": "hitab",
+      "paper_id": "arXiv:2108.06712",
+      "official_repo": "https://github.com/microsoft/HiTab",
+      "checked_default_head": "d179602662b490249baf068a76fbe4137029126e",
+      "repo_license_spdx": "NOASSERTION",
+      "data_license_state": "README_C_UDA_1_0_REVIEW_REQUIRED",
+      "independence_cluster": "hitab_hierarchical_tables",
+      "role_fit": ["hierarchy_external_stress"],
+      "action_label_fit": "QA_AND_NLG_LABELS_NEED_ADAPTER",
+      "decision": "P2_CONDITIONAL_EXTENSION",
+      "download_approved": false
+    },
+    {
+      "dataset_id": "gittables",
+      "paper_id": "arXiv:2106.07258",
+      "official_repo": "https://github.com/madelonhulsebos/gittables",
+      "checked_default_head": "9ba1abe43076e1ac3729bd4b8bf3b356dc32d551",
+      "repo_license_spdx": "CC0-1.0",
+      "data_license_state": "CORPUS_PROVENANCE_AND_ROW_LEVEL_REUSE_REVIEW_REQUIRED",
+      "independence_cluster": "gittables_github_csv",
+      "role_fit": ["natural_header_proposal_pool", "semantic_type_pretraining"],
+      "action_label_fit": "NO_PAIRWISE_GOLD_WITHOUT_ADAPTER",
+      "decision": "P2_PROPOSAL_ONLY",
+      "download_approved": false
+    },
+    {
+      "dataset_id": "sherlock_viznet",
+      "paper_id": "arXiv:1905.10688",
+      "official_repo": "https://github.com/mitmedialab/sherlock-project",
+      "checked_default_head": "f194013e795d90bc63553a2c47bb33f56c1c7b53",
+      "repo_license_spdx": "MIT",
+      "data_license_state": "VIZNET_UPSTREAM_SCOPE_REVIEW_REQUIRED",
+      "independence_cluster": "viznet_semantic_columns",
+      "role_fit": ["semantic_type_baseline", "proposal_pool"],
+      "action_label_fit": "TYPE_LABELS_ARE_NOT_PAIRWISE_MATCH_LABELS",
+      "decision": "P2_BASELINE_OR_PRETRAIN_ONLY",
+      "download_approved": false
+    },
+    {
+      "dataset_id": "hybridqa",
+      "paper_id": "arXiv:2004.07347",
+      "official_repo": "https://github.com/wenhuchen/HybridQA",
+      "checked_default_head": "db22fda8c5951438fade3c69d75b350335ba93b3",
+      "repo_license_spdx": "MIT",
+      "data_license_state": "REPO_LICENSE_VISIBLE_DATA_SCOPE_REVIEW_REQUIRED",
+      "independence_cluster": "wikipedia_hybrid_table_text",
+      "role_fit": ["broad_external_process_stress"],
+      "action_label_fit": "QA_LABELS_NEED_ADAPTER",
+      "decision": "P3_NOT_SMALL_PAPER_CORE",
+      "download_approved": false
+    },
+    {
+      "dataset_id": "ottqa",
+      "paper_id": "arXiv:2010.10439",
+      "official_repo": "https://github.com/wenhuchen/OTT-QA",
+      "checked_default_head": "b289bcca691db21a5259c3420e6b9819a9be9ba3",
+      "repo_license_spdx": "MIT",
+      "data_license_state": "REPO_LICENSE_VISIBLE_DATA_SCOPE_REVIEW_REQUIRED",
+      "independence_cluster": "wikipedia_hybrid_table_text",
+      "role_fit": ["retrieval_heavy_external_stress"],
+      "action_label_fit": "QA_LABELS_NEED_ADAPTER",
+      "decision": "P3_NOT_SMALL_PAPER_CORE",
+      "download_approved": false
+    }
+  ]
+}

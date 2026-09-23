@@ -1,6 +1,6 @@
 # 小论文—大论文统一科研叙事 v2
 
-> 状态：当前工作口径 | 更新：2026-09-22
+> 状态：当前工作口径 | 更新：2026-09-23
 > 用户校准：小论文原始方向包含“大模型流程评估、小模型蒸馏、自学习规则进化”三部分。
 
 ## 1. 一句话故事
@@ -58,13 +58,15 @@
 
 其中贡献 1–4 是目标结构，不是当前均已完成的结果。若没有最小蒸馏实验，稿件只能作为研究计划或将 Stage D 降为 future work；不能以“三阶段完整方法”投稿。
 
+**新颖性边界**：Valentine 已提供开放 schema-matching 基准，Magneto 已组合小模型检索与大模型重排，Matchmaker 已提出自改进 LLM schema-matching program，Prompt-Matcher 已研究预算内 correspondence verification。因此不声称首次“小模型+大模型”“自改进 schema matching”或“验证后更新”。候选差异限定为 checkpoint 证据同时服务于蒸馏样本过滤和规则准入，且规则持久化受独立 gate-validation、sealed 防火墙与版本回滚约束；该差异仍须 RQ2–RQ4 的真实实验成立。
+
 ## 5. 最小可交实验闭环
 
 ### 蒸馏 MVP
 
 - 先审计数据，再在开发侧跑 always-skip、deterministic matcher、lexical/fuzzy、confidence-only、简单分类器，回答“为什么需要小模型，而不是一条确定性规则”。数据/可学性/门基线通过后才申请训练窗口。
 - 学生：4B 仅训练链 smoke；8B 主实验。现有 14/16、15/16 是零样本结果，不能替代规则动作评测。
-- 数据：提取 checkpoint 筛选的动作事件；门接受不等于正确，冲突与 gate_fooled 必须单列核验。
+- 数据：提取 checkpoint 筛选的动作事件；门接受不等于正确，冲突与 gate_fooled 必须单列核验。新增来源采用双 P0：FinQA 只补 process/checkpoint 证据，Valentine NYC 只先做 schema-action pilot；二者不按行混成一个同分布数据集，ConvFinQA 不作为 FinQA 的独立测试。
 - 训练臂：A0 zero-shot、A1 unfiltered SFT、A2 checkpoint-filtered SFT、A3=A2+DPO（双向偏好及功效达标才运行）。
 - A1/A2 两种公平口径都报：自然数据量（实际可用规模）和 size/token/group-matched（匹配样本数、训练 token、独立 uid/家族分布）；不能把减量收益写成过滤质量收益。
 - 四层边界：proposal/train（含内部 uid-dev 调参/早停）→ gate-validation（冻结门做接受/回滚）→ sealed test（冻结系统只读终评）→ future replay（未来独立 uid 批次）。各层 uid 隔离，sealed test 不参与接受、阈值或 early stopping；旧开发证据不得改名充当未见测试。
