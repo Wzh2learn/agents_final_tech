@@ -48,6 +48,7 @@
 | 方法与理论素材 | `paper/method_theory_materials_v1.md` | 统一记号、风险—覆盖、三门更新、累计局部回归界与回滚不变量 | 可用于 Method/Related Work；固定池伸缩界是条件推论，不等于实验保证 |
 | 数据分层与选型 | `paper/dataset_protocol_v1.md` | Q0–Q3 标签质量 × 四层角色、公开数据选择、模型矩阵 | 仓内设计已就绪；未下载/构建，GB10 待授权 |
 | 方法引用与细化图 | `paper/method_data_references_v1.bib`、`paper/figures/fig_rule_gate_replay_v1.svg` | 17 条已核候选 BibTeX；共享流七臂/三门/回滚/数据防火墙 | 可直接复用；图明确标注无正式结果 |
+| 实验预注册 | `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` | RQ2–RQ4、数据/模型门、A0–A3、七臂、双口径、统计与停止规则 | `DRAFT_NOT_FROZEN`；数值容差/资源/来源待人工批准 |
 | 训练数据设计 | `docs/experiments/2026-08-28_dpo_pairs_v0_design.md` | 门控事件转偏好对 | 可用 |
 | 候选事件 | `logs/graph/eval/vgmc*_checkpoint.json`（16 件） | 494 条有 gain/collateral 的 gated 事件，48 uid / 94 uid-col / 139 uid-col-target | 本地 P1 已审：292/202；16 组冲突隔离、41 列多 target；不等于训练数据放行 |
 | 训练数据 | `logs/graph/eval/dpo_pairs_v0.json` | 60 对、36 uid、60 uid-col；全部 skip 优于 map_to | 无 Type-B、gate_fooled=9；偏好单向，不是 DATA_GO |

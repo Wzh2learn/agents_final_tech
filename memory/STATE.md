@@ -16,6 +16,7 @@ This is software and governance preparation, not a Phase 1a learnability run or 
 
 - Pre-delivery baseline: local `main`, freshly fetched `origin/main`, and local `test/compaction-guard-abort` were `061d8819bd7c3b03159f6f0df183887be57edef6`; `HEAD...origin/main = 0/0`.
 - The Phase 1a learnability runner is published on `test/compaction-guard-abort` at `fede65c`; local and remote test were verified `0/0` immediately after push. Use live Git commands for the current head after later commits.
+- The theory/data materials are published on the same branch at `b29ee92`; local and remote test were verified `0/0` immediately after push.
 - Alignment used fast-forward history only. No reset, rebase, stash, or cleanup was used.
 - Protected `docs/33*`, `docs/34*`, frozen tests, schemas, and `scripts/graph/frozen_hashes.txt` remain untouched.
 
@@ -51,13 +52,14 @@ This is software and governance preparation, not a Phase 1a learnability run or 
 - The authoritative package schema and GB10 procedure are in `docs/experiments/2026-09-23_phase1a_data_no_go.md`; the tool is registered in the research entry, asset map, code map, and existing handoff.
 - `paper/method_theory_materials_v1.md` now provides paper-ready notation and formulas for checkpoint filtering, two-head action SFT, selective risk/coverage, state-dependent three-way gating, the cumulative local regression bound with a fixed-pool telescoping corollary, and the rollback invariant. Twelve supporting papers were verified through the arXiv API; imported guarantees are explicitly disclaimed.
 - `paper/dataset_protocol_v1.md` separates label quality Q0–Q3 from proposal/gate/sealed/future roles, chooses FinQA then MultiHiertt as the highest-value new public sources, keeps the old TAT-QA train+dev pool historical-only pending UID exposure audit, and keeps TAT-DQA frozen. No dataset was downloaded or generated.
+- `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` is upgraded in place to the current RQ2–RQ4 contract: simple-baseline stop gate, 4B-smoke/8B-main roles, A1/A2 dual fairness views, seven-arm replay, UID-cluster inference, a human freeze receipt, and fail-closed stopping rules. It remains `DRAFT_NOT_FROZEN`; numerical tolerances and execution authority are unset.
 
 ## Local verification
 
 - Focused contract suite: 19 passed. Combined research/governance suite under `.venv`: 55 passed. Both emitted only the repository's existing unknown `asyncio_mode` warning.
 - New learnability-runner suite: 23 passed. Data-contract plus learnability-runner suites: 42 passed; the selected research/governance integration scope passed 61 tests, and paper claim validation remained 49/49. Python compilation and `git diff --check` passed; these are local synthetic/static software checks, not GB10 or scientific acceptance.
 - Phase 2 replay/view synthetic suite: 14 passed under local Python 3.12 with the repository's existing unknown `asyncio_mode` warning. It is not a replay result or GB10 acceptance.
-- Current theory/data batch: the seven focused research/document suites passed 81 tests; paper claim validation passed 49/49 and `git diff --check` passed. SVG XML/content checks passed, but visual rendering was unavailable locally and remains unverified.
+- Current theory/data and preregistration-alignment batch: the seven focused research/document suites passed 97 tests; paper claim validation passed 49/49 and `git diff --check` passed. SVG XML/content checks passed, but visual rendering was unavailable locally and remains unverified.
 - Python compilation passed; paper claim validation passed 49/49.
 - The system-Python combined attempt stopped during collection because `python-docx` is absent; the same scope passed under the repository `.venv`, which contains the declared document dependency.
 - Local `docs_lint` remains 1 fail/1 warn because this machine's Codex skill installation is out of sync and protected `docs/34*` is stale. Neither condition was hidden or modified; they are not failures introduced by this source change.

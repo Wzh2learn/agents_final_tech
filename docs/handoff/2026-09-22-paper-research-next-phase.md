@@ -345,6 +345,8 @@ GB10 软件验收要求两次报告逐字一致、两份 trace 均无 `connect(`
 
 **前置**：相应 SFT 视图 `DATA_GO`，Phase 1a 留有值得学习的残余，Phase 2 可复现，4B smoke 通过且用户批准独立训练窗口；缺一不运行论文主实验。
 
+具体假设、指标、多重检验、冻结收据与 fail-closed 停止条件在原位预注册合同 `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` 中维护。该合同当前是 `DRAFT_NOT_FROZEN`，不能替代本计划的执行授权。
+
 | 臂 | 定义 | 作用 |
 |---|---|---|
 | A0 | 8B zero-shot | 同任务训练前基线，不使用原 16 道 QA 替代 |

@@ -19,7 +19,7 @@
 | 数字真值 | `logs/graph/eval/` 下原始 JSON + 对应生成代码/冻结协议 | 原始数字优于文字摘要；历史实验只能支持原协议内的结论，不能反推新实验已经完成 |
 | 历史/已取代过程稿 | `docs/30_科研线规划.md`、`docs/superpowers/plans/2026-08-29-long-horizon-evaluation-paper.md`、评估蓝图、旧大论文骨架、多轮审稿与旧任务卡 | 保留追溯/证据价值，不再控制当前方向或排期 |
 
-冲突裁定：论文范围由用户校准及当前叙事覆盖 docs/33、docs/34 中的旧范围；公开限制不被覆盖。执行细节由当前计划覆盖旧任务卡和 `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` 中的草案（该草案尚未执行，不是已冻结实验）。已执行实验的预注册与原始工件不可被新计划回改；数字不符先审计，不选择更有利的文字版本。审稿记录是问题来源，不自动成为新结论。
+冲突裁定：论文范围由用户校准及当前叙事覆盖 docs/33、docs/34 中的旧范围；公开限制不被覆盖。执行细节由当前计划覆盖旧任务卡；`docs/experiments/2026-09-22_distillation_mvp_preregistration.md` 是从属于该计划的实验口径合同，当前仍为 `DRAFT_NOT_FROZEN`，不是已授权实验。已执行实验的预注册与原始工件不可被新计划回改；数字不符先审计，不选择更有利的文字版本。审稿记录是问题来源，不自动成为新结论。
 
 **最短必读路径**：`AGENTS.md` → `memory/CORE.md` / `memory/STATE.md` / `memory/THREADS.md` 当前科研线 → 本入口 → `paper/research_story_v2.md` → `paper/research_asset_map_v2.md` → 当前执行计划 §10 第一张任务卡。首次接手再只读 docs/33、docs/34 的政策；只在复核某条结论时打开对应实验工件或评估稿，不必重读全部旧稿。
 
@@ -129,7 +129,7 @@
 8. `paper/figures/fig_evaluate_distill_evolve_v1.svg`：三阶段总架构图。
 9. `paper/research_story_v2.docx`：当前故事的离线派生件，含同步后的原生三阶段表；结构/口径测试通过，Office 视觉未验。
 10. `paper/research_asset_map_v2.md`：评估、蒸馏、规则进化的代码、实验、稿件和缺口索引。
-11. `docs/experiments/2026-09-22_distillation_mvp_preregistration.md`：未执行的准备草案，仅作素材；模型角色、数据边界、双口径与判门由当前执行计划覆盖，训练前在原位同步确认参数。
+11. `docs/experiments/2026-09-22_distillation_mvp_preregistration.md`：从属于唯一执行计划的 `DRAFT_NOT_FROZEN` 实验口径合同；统一 RQ2–RQ4、数据/模型门、A0–A3、七臂 replay、双公平口径、统计和停止规则。数值参数在用户/导师确认前保持 `UNSET`。
 12. `docs/handoff/2026-09-22-paper-research-next-phase.md`：后续 Agent 可直接执行的优先级、数据门、任务卡、合稿/拆稿门与三周排期。
 13. `research/phase1a_data_contract.py`：Phase 1a 私有数据补充包的离线、fail-closed 机械预检；通过只表示 `READY_FOR_INDEPENDENT_ACCEPTANCE`，不表示 `DATA_GO`、训练许可或论文结果。合同与 GB10 命令见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`。
 14. `research/phase1a_learnability_baselines.py`：独立接收后才可运行的 proposal train/dev 五基线探针；仓内仅有合成合同测试，正式 GB10 开发数字尚未产生。输入回执、预注册配置与运行命令仍只维护在同一 Phase 1a data-gate 报告中。

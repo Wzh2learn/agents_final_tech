@@ -15,6 +15,7 @@ THEORY = REPO / "paper" / "method_theory_materials_v1.md"
 DATA_PROTOCOL = REPO / "paper" / "dataset_protocol_v1.md"
 METHOD_BIB = REPO / "paper" / "method_data_references_v1.bib"
 RULE_FIGURE = REPO / "paper" / "figures" / "fig_rule_gate_replay_v1.svg"
+PREREGISTRATION = REPO / "docs" / "experiments" / "2026-09-22_distillation_mvp_preregistration.md"
 STAGES = ("E · Evaluate", "D · Distill", "R · Evolve rules")
 
 
@@ -177,3 +178,20 @@ def test_rule_gate_figure_is_valid_and_keeps_data_firewall_visible() -> None:
         "no GB10 replay or paper result yet",
     ):
         assert required in text
+
+
+def test_distillation_preregistration_matches_current_authority() -> None:
+    text = PREREGISTRATION.read_text(encoding="utf-8")
+    for required in (
+        "DRAFT_NOT_FROZEN",
+        "RQ2 / RQ3 / RQ4",
+        "SIMPLE_SUFFICIENT",
+        "size/token/group-matched（主口径）",
+        "Qwen3-4B LoRA/QLoRA，极少步",
+        "paper_result=false",
+        "historical_exposure_manifest_sha256",
+        "sealed_test_open_once",
+    ):
+        assert required in text
+    assert "Claim：SP-RQ2" not in text
+    assert "低成本对照候选：Qwen3-4B" not in text
