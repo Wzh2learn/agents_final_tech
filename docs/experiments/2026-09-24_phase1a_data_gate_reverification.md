@@ -133,3 +133,71 @@ grep -oE "/home/testuser/[A-Za-z0-9_./-]*" /tmp/phase1a.stderr | sort | uniq -c 
 - 零模型调用、零 canary、零 judge、零起 run；未派发任何 Loop A/B/C 卡。
 - 本件**不含任何行级样本内容**，只有计数、类型分布、uid 数、字节数与 sha256；调查中一次意外输出的行级表头串未入任何工件（§7 如实记）。
 - 未动 `docs/33`、`docs/34`；四件用户资产零触碰；逐路径 add、无 `-A`/`--amend`/`--no-verify`。
+
+---
+
+## 10 追加（同日，append-only）：§5 的 `schema` 待判项已可用机械证据**关闭**
+
+本件 §5 把 `~/wzh/m1_samples/m1_table_schema.json` 列为 `schema` 角色的**待判候选**，并注明「它是 M1 生产表 schema，是否即 drift_v0 语料所需的 `schema` 角色属语义判断，本件不代判」。该判断现已可用**机械证据**关闭，故按 append-only 追加本节；§5 原表格文字**不回改**（保留作轨迹）。
+
+### 10.1 方法（aggregate only，不打印任何名称或行级内容）
+
+只比较三类**聚合量**：标识符**基数**、标识符的 **Unicode 文字类别分布**（CJK / Latin / digit / other）、以及与语料的**交集大小**。**全程不打印任何表名、列名或行级内容**，以免重演 §7 记录的那次意外输出。
+
+### 10.2 实测
+
+| 工件 | 字节 | 顶层结构 | 标识符数 | 文字类别分布 | 与 schema 表标识符的交集 |
+|---|---|---|---|---|---|
+| `~/wzh/m1_samples/m1_table_schema.json`（候选） | 14 253 | dict，top keys = `_comment` / `header_meta_fields` / `tables`；`tables` 为 list；`header_meta_fields` 15 项 | **5** | **CJK 4 / Latin 1** | — |
+| `data/research/drift_v0/input/tatqa_tables.json`（= `source_tables`） | 1 442 890 | list，len 2479 | **2479** | **digit 2317 / Latin 162，CJK 0** | **0** |
+| `data/research/drift_v0/output/injected_tables.json` | 2 568 361 | list，len 2479 | **2479** | digit 2317 / Latin 162，CJK 0 | **0** |
+| `data/research/drift_v0/output/injection_map.json` | 36 004 | dict，keys = `mapping` / `meta` | 115 | digit 89 / Latin 26，CJK 0 | **0** |
+
+### 10.3 判定：该候选**不是** drift_v0 语料的 `schema` 角色
+
+两条**互相独立**的证据同向：
+
+1. **交集为 0**：候选 schema 的 5 个表标识符与三个语料工件的标识符集合**无任何交集**（`tatqa_tables` 0/5、`injected_tables` 0/5、`injection_map` 0/5）。
+2. **文字类别不相交**：候选 schema 的标识符 **4/5 为 CJK**（中文报表类型名），而语料 2479 个标识符中 **CJK 为 0**（全为 digit/Latin 的 TAT-QA 系标识）。两者属**不同语言域**，不可能是同一套表的 schema。
+
+**一处如实的自我限定（不夸大证据）**：`5 vs 2479` 的**基数差本身不作为判据**——候选 schema 的 `tables` 很可能枚举的是**表类型/模板**而非表实例，故基数不可直接比较。判定只依据上面两条（交集为 0 + 文字类别不相交），这两条与「类型 vs 实例」的解释无关。
+
+### 10.4 对 §5 的影响：`schema` 回到「必须外部交付」，待判项归零
+
+§5 原表把 `schema` 记为「**待判**」。据本节，该行应读作：
+
+| 角色 | 修订后的实况 | 是否仍需外部交付 |
+|---|---|---|
+| `schema` | 唯一候选 `m1_table_schema.json`（sha `79bc3a17…`）经机械比对**判定不适用**（不同语言域、零交集） | **是** |
+
+⇒ **外部索取范围由「6 角色 + 1 包根 + 1 待判」确定为「7 角色 + 1 包根」**，且**角色可得性上已无任何待判项**：
+
+- **已在 production、可哈希绑定、不必外部交付（2）**：`source_tables`、`injection_map`
+- **必须外部产生（7）**：`schema`、`label_ledger`、`licence_record`、`confidence_manifest`、`analysis_plan`、`parser_contract_receipt`、`learnability_feature_ledger`
+- **另需（1）**：包根 `phase1a_manifest.json`（全盘 0 命中，尚不存在）
+
+其中 `label_ledger` 的独立正确性标签仍是**决定性缺口**（§4 已用穷尽搜索证实全盘无 `gold_action` 工件）。
+
+⇒ 附带意义：`DATA_NO_GO` 报告的补充合同（经 `2026-09-24_phase1a_supplement_contract_role_gap.md` 更正为 9 角色后）中，**2 个角色可由既有 production 工件直接绑定、7 个必须新交付**。这使该文 §6.2 建议的 append-only 更正注记可以把话说死，不再留「`schema` 待判」的悬空项。
+
+### 10.5 本节复现与取证
+
+```bash
+ssh jinrong-dev
+~/wzh/projects/agents_final_tech/venv/bin/python /tmp/schema_role_check.py
+```
+
+| 文件（GB10 `/tmp`，仓外，不 commit） | sha256 |
+|---|---|
+| `schema_role_check.py` | `7ed9bfa48c9e083f2dc5484cacb7d52007db1734c91926f390c68e4d19f94ccc` |
+
+脚本内**不含任何打印标识符内容的语句**（只打印 `len()`、文字类别 `Counter`、交集基数），故其输出本身即 aggregate-only，可安全转录。
+
+### 10.6 本节红线自查
+
+- 全程只读：未修改、未移动、未复制 production 任何文件；未 pull production（仍 `e5ab809` + 5 脏件）；未重启 daemon `1816933` 与 `:5050` `1868428`；未改 crontab；未重置 Loop B。
+- **未改 `DATA_NO_GO` 结论**——本节只关闭一个**角色可得性**的待判项，该门仍成立且其决定性依据（§4）未变；未改任何代码、判据、阈值、oracle、冻结 hash；未启动 Phase 1a/2；未批准任何数值、未填任何 `UNSET`；未授权训练或端点。
+- 未改 §5 原文（append-only；修订以本节 §10.4 的表为准，并明示其与 §5 原行的对应关系）。
+- 零端点、零模型调用、零 canary、零 judge、零起 run；未运行任何测试或实验；未派发任何 Loop A/B/C 卡。
+- **未打印任何表名、列名或行级内容**；输出仅为基数、文字类别分布与交集大小。
+- 未动 `docs/33`、`docs/34`；四件用户资产零触碰；逐路径 add、无 `-A`/`--amend`/`--no-verify`。
