@@ -415,6 +415,51 @@ def test_path_escape_is_rejected_without_reading_outside_package(
     assert "secret" not in json.dumps(report)
 
 
+def test_duplicate_role_cannot_bypass_feature_ledger_hash_binding(
+    package: Path,
+) -> None:
+    import shutil
+
+    manifest = _manifest(package)
+    schema_entry = next(a for a in manifest["artifacts"] if a["id"] == "schema")
+    schema_path = package / schema_entry["path"]
+    dup_path = schema_path.parent / "schema_copy.json"
+    shutil.copy(schema_path, dup_path)
+    manifest["artifacts"].append(_artifact(dup_path, "schema-copy", "schema"))
+
+    feat_entry = next(a for a in manifest["artifacts"] if a["id"] == "features")
+    feat_path = package / feat_entry["path"]
+    features = json.loads(feat_path.read_text(encoding="utf-8"))
+    features["schema_sha256"] = "e" * 64
+    _write_json(feat_path, features)
+    feat_entry.update(_artifact(feat_path, "features", "learnability_feature_ledger"))
+
+    # Cover every duplicate in licence and parser receipt so only the role
+    # duplication itself can fail the package.
+    lic_entry = next(a for a in manifest["artifacts"] if a["id"] == "licence")
+    lic_path = package / lic_entry["path"]
+    licence = json.loads(lic_path.read_text(encoding="utf-8"))
+    licence["covered_artifact_sha256"]["schema-copy"] = _file_hash(dup_path)
+    licence["covered_artifact_sha256"]["features"] = _file_hash(feat_path)
+    _write_json(lic_path, licence)
+    lic_entry.update(_artifact(lic_path, "licence", "licence_record"))
+
+    receipt_entry = next(a for a in manifest["artifacts"] if a["id"] == "parser-receipt")
+    receipt_path = package / receipt_entry["path"]
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["input_sha256"]["schema-copy"] = _file_hash(dup_path)
+    _write_json(receipt_path, receipt)
+    receipt_entry.update(
+        _artifact(receipt_path, "parser-receipt", "parser_contract_receipt"))
+
+    _save_manifest(package, manifest)
+    report = contract.validate_package(package)
+    assert report["status"] == "DATA_NO_GO"
+    codes = {item["code"] for item in report["gates"]["artifact_integrity"]["errors"]}
+    assert "duplicate_role_artifact" in codes
+    assert "feature_ledger_source_hash_mismatch" not in codes
+
+
 def test_disagreement_requires_adjudication(package: Path) -> None:
     manifest = _manifest(package)
     artifact = next(item for item in manifest["artifacts"] if item["id"] == "labels")

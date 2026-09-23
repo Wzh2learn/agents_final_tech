@@ -2,7 +2,7 @@
 
 ## 当前科研阻塞与接续（2026-09-23）
 
-- **当前 Git 基线**：审计整改开工时 `test/compaction-guard-abort` 与远端 test 均为 `7dd505c`；本轮 v2 合同/理论/统计修复已在该基线上以 fast-forward 提交交付（接手时 3 项测试失败，已在交付前修复并补 1 项正测，七套件 117 passed）。未使用 reset/rebase。
+- **当前 Git 基线**：审计整改开工时 `test/compaction-guard-abort` 与远端 test 均为 `7dd505c`；本轮 v2 合同/理论/统计修复已在该基线上以 fast-forward 提交交付（接手时 3 项测试失败，已修复并补正测；复核时再发现并关闭 duplicate-role 绕过 feature-ledger hash 绑定的 fail-open 缺口，七套件 118 passed）。未使用 reset/rebase。
 - **论文状态不变**：Stage E 是成熟评估子稿；Stage D 无训练后证据；Stage R 只有机制级证据。Phase 1a 仍为 `DATA_NO_GO`，Phase 2 只有仓内软件合同、正式数据 replay 未启动；零样本矩阵不能写成蒸馏结果，评估方向包不能冒充三阶段完整论文。
 - **Phase 1 v2 审计整改已交付**：`research/phase1a_data_contract.py` 改为 namespaced lineage UID/root/independence-cluster 三层隔离，canonical Q3 ledger，当前四层必有数据；future 可空但须 hash-bound acquisition protocol，并显式输出 `LONGITUDINAL_EVIDENCE_UNAVAILABLE`。机械通过仍只到 `READY_FOR_INDEPENDENT_ACCEPTANCE`。
 - **五基线 runner v2 已实现但未正式运行**：proposal view 现在逐条回查 hash-bound canonical Q3 ledger；`harmful_map_rate`、`map_to_risk`、`correct_map_coverage` 分母已消歧，`min_dev_uids=1` 被拒。没有私有 baseline 数字，Phase 1a 状态不变。

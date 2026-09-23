@@ -476,6 +476,7 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
     artifact_bytes: dict[str, bytes] = {}
     actual_hashes: dict[str, str] = {}
     declared_roles: set[str] = set()
+    role_counts: dict[str, int] = {}
     if not isinstance(artifacts, list):
         _fail(gates, "artifact_integrity", "artifact_list_required")
         artifacts = []
@@ -496,6 +497,7 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
             _fail(gates, "artifact_integrity", "invalid_artifact_role", artifact_id=artifact_id)
         else:
             declared_roles.add(role)
+            role_counts[role] = role_counts.get(role, 0) + 1
 
         path = _resolve_inside(package_root, artifact.get("path"))
         if path is None:
@@ -673,6 +675,12 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
             _fail(gates, "artifact_integrity", "invalid_feature_ledger_version")
         role_hashes: dict[str, str | None] = {}
         for role in ("source_tables", "schema", "confidence_manifest"):
+            if role_counts.get(role, 0) > 1:
+                # A duplicated role makes the hash binding ambiguous and must stay
+                # fail-closed even when every duplicate is itself readable.
+                _fail(gates, "artifact_integrity", "duplicate_role_artifact", role=role)
+                role_hashes[role] = None
+                continue
             matches = [
                 actual_hashes.get(artifact_id)
                 for artifact_id, artifact in artifact_index.items()
@@ -684,8 +692,9 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
             ("schema_sha256", "schema"),
             ("confidence_manifest_sha256", "confidence_manifest"),
         ):
-            # An unreadable role artifact (unsafe/missing path) already failed this gate
-            # with a specific error; hashing was skipped, so a mismatch here would be noise.
+            # An unreadable or duplicated role artifact already failed this gate
+            # with a specific error; hashing was skipped or ambiguous, so a
+            # mismatch comparison here would only add noise.
             if role_hashes[role] is not None and feature_ledger.get(field) != role_hashes[role]:
                 _fail(gates, "artifact_integrity", "feature_ledger_source_hash_mismatch", role=role)
         raw_feature_rows = feature_ledger.get("rows")
