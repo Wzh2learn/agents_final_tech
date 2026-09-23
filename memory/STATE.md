@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-09-23 | Scope: Phase 1a/2 repository-only experiment prerequisites | Runtime: no GB10/service operation
+> Updated: 2026-09-24 | Scope: test→main 合并已落地、Phase 2 重复 JSON key 执行门已闭合、GB10 实验安全门已定义 | Runtime: GB10 只读预检 + 隔离 worktree 权威验收；未 pull production、未重启服务、未跑任何实验
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
@@ -8,12 +8,17 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Current objective
 
-Keep the paper line moving while GB10 is unavailable by completing and independently auditing repository-only experiment prerequisites. The current batch repairs the audit P0s in the Phase 1/1a/2 contracts, RQ2 bridge, theory notation, statistics, and live documentation without creating experimental facts.
+围绕 Evaluate–Distill–Evolve 三阶段闭环推进科研主线（用户 2026-09-24 裁定：三阶段是目标主线，M 路线是阶段性过渡，不推翻三阶段）。本批把 `test/compaction-guard-abort` 整体合并进 `main` 并 push，闭合 Phase 2 runner 的重复 JSON key 执行门，并定义 GB10 实验安全与资源门。
 
-This is software and governance preparation, not a Phase 1a learnability run or Phase 2 replay. Synthetic fixture metrics are test data only; no private-data baseline, training data, model output, real rule replay, or paper-facing experimental result has been produced.
+这仍是软件与治理准备，不是 Phase 1a 可学性运行，也不是 Phase 2 replay。Phase 1a 维持 `DATA_NO_GO`，Phase 2 未启动，训练与模型端点窗口未开启；合成 fixture 指标只是测试数据。任何阶段推进都须逐门取得用户授权。
 
 ## Git state
 
+- 2026-09-24 合并落地：main 先到 `b82a2ea`（merge commit，双亲 `394cbe6` 与 `a92e170`），随后 `60eaa27`（Phase 2 重复 JSON key 门）与 `1fd3e27`（GB10 安全门文档）。三次 push 后 local 与 origin 同为 `1fd3e27`，ahead 0 / behind 0。
+- 合并图为真合并而非 fast-forward：merge-base 唯一为 `061d881`，main 侧 1 提交、test 侧 10 提交 / 25 路径，两侧路径零交集，无冲突。未 squash、未 rebase、未 amend。
+- 四件用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）全程未 add、未 stash、未 reset、未 clean，合并后逐条复核仍在原位。
+- GB10 production 未对齐且按裁定未 pull：production 停在 `e5ab809`，落后 origin/main 14 个提交；其脏件 `logs/graph/dispatch_log.md` 与来料路径相交，故验收改在隔离 worktree `agents_final_tech_accept_1fd3e27` 内完成。
+- Loop B 连续 FAIL，唯一失败项为 git_alignment，起点是 09-23 11:11 production 移到 `e5ab809` 那一刻，早于本批 push；已按规矩停手上报，未自行重置。
 - Pre-delivery baseline: local `main`, freshly fetched `origin/main`, and local `test/compaction-guard-abort` were `061d8819bd7c3b03159f6f0df183887be57edef6`; `HEAD...origin/main = 0/0`.
 - The Phase 1a learnability runner is published on `test/compaction-guard-abort` at `fede65c`; local and remote test were verified `0/0` immediately after push. Use live Git commands for the current head after later commits.
 - The theory/data materials are published on the same branch at `b29ee92`; local and remote test were verified `0/0` immediately after push.
