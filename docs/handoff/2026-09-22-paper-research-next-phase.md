@@ -1,8 +1,8 @@
 # 小论文—大论文科研下一阶段执行计划与 Agent 交接 v1
 
-> 状态：`0aee20d` 已 fast-forward 到 main；GB10 验收因 skill 安装漂移、隔离数据缺失和零端点违规而停；Phase 1a/2 未启动
+> 状态：Phase 1a/2 仓内软件前置已交付到 `test/compaction-guard-abort`；数据仍为 `DATA_NO_GO`，正式 replay/训练未启动，GB10 实况未验证
 
-> 更新：2026-09-22
+> 更新：2026-09-23
 
 > 接收方：后续负责科研实验、证据审计和论文写作的 Agent
 
@@ -14,7 +14,7 @@
 
 ## 0. 执行结论
 
-本文件是唯一下一阶段执行计划；分层权威与冲突裁定见 `docs/research/README.md` §1。第一轮治理及 P1 本地审计已交付，导师包内容核对已修正；审计结论见资产账本 §3.1，阅读回执见 `paper/teacher_review_readiness_v2.md`。用户最新要求：保留测试代码和已有局部结果，不继续本机跑测试，剩余测试及 Office 视觉核对交服务器；所有后续实验仍待批准，不对外送稿、不另建计划。
+本文件是唯一下一阶段执行计划；分层权威与冲突裁定见 `docs/research/README.md` §1。第一轮治理、P1 本地审计、Phase 1a 五基线软件前置和 Phase 2 七臂 replay 软件前置已交付，导师包内容核对已修正；审计结论见资产账本 §3.1，阅读回执见 `paper/teacher_review_readiness_v2.md`。本轮仓内工作未连接 GB10、未创建新论文数字；正式私有数据验收、实验、训练、Office 视觉核对和对外发送仍待各自批准，不另建平行计划。
 
 既有阶段顺序如下（P1本地审计已完成，其余实验待批；不是自动派发队列）：
 
@@ -25,6 +25,8 @@
 5. **随时执行止损门，而非等满三周。** 数据仅 `PILOT_ONLY`、简单规则已解决问题、非劣失败或安全回归时，立即转评估保底稿内部交导师，D/R 留给大论文；专利公开门未通过前不投稿。
 
 A+C 双轨不互相阻塞：24–48 小时导师方向包 = 成熟评估稿 + 当前三阶段方向说明；实验完成后的统一论文初稿是另一交付，不能用方向包冒充三阶段结果。所有 null/adverse result 原样保留，不改 split、阈值、家族或容差救结论。
+
+**当前仓内前置完成面**：`research/phase1a_data_contract.py`、`research/phase1a_learnability_baselines.py`、`research/phase2_rule_gate_replay.py` 和 `research/paper_result_views.py` 已把数据验收、简单基线、七臂状态机与表图接口变成 fail-closed 软件合同。`paper/method_theory_materials_v1.md` 与 `paper/dataset_protocol_v1.md` 补齐公式/理论边界和公开数据选择。它们都不能给 `DATA_GO` 或论文结论；私有包格式和 Phase 1a 命令仍只维护于 data-gate 报告，Phase 2 命令只维护于本计划 Phase 2 节。
 
 **技能路由**：每张卡按 `docs/SKILL_ROUTING.md` 选 ≤5 件，红线常备 `graph-loop-rules` 不占配额。历史治理批的装载记录留在 Git，不作为后续 Agent 自动装载或联网扫描许可。
 
@@ -189,34 +191,13 @@ DPO 的问题不只是小，而是偏好方向单一，直接训练可能学成�
 
 主样本单位必须是源表 `uid`，不是一条事件。由同一源表派生的 clean、mutant、不同 regime、候选动作和偏好对必须进入同一个 split。
 
-建议统一样本 schema：
+Phase 1 不再维护第二套样本 schema。唯一 canonical 结构见 `paper/dataset_protocol_v1.md` §6：manifest lineage row 固定 `sample_id/uid/dataset_id/dataset_revision/source_split/independence_cluster/lineage_root_id/transformation_parent_id`；Q3 label ledger 固定 `sample_id/uid/col/gold_action/gold_target/quality_grade/reviewers/adjudication`。人工标注源先归一为 ledger，learnability view 再从已验收 ledger 与 hash-bound source/schema/confidence 工件派生。
 
-```json
-{
-  "sample_id": "stable-hash",
-  "group_id": "source-table-uid",
-  "defect_family": "alias_variant",
-  "context": {
-    "headers": [],
-    "candidate_fields": [],
-    "cheap_checkpoint_summary": {}
-  },
-  "teacher_action": {"action": "map_to", "target": "..."},
-  "verification": {
-    "gain": 0.0,
-    "collateral": 0.0,
-    "accepted": false,
-    "reason": "gated_fail"
-  },
-  "provenance": {"artifact": "...", "regime": "...", "round": 0}
-}
-```
-
-学生输入不得包含会让任务退化成阈值复制的完整 gain/collateral 真值。它可以使用验证前可获得的便宜特征；gain/collateral 只作为标签和最终门证据。
+学生输入不得包含会让任务退化成阈值复制的完整 gain/collateral 真值。它可以使用验证前可获得的便宜特征；gain/collateral 只作为最终门证据，不作为 learnability feature 或 Q3 正确性替代物。
 
 ### 5.2 四层数据边界与泄漏规则
 
-先按 `group_id=uid` 分组，再构造动作/SFT/DPO 视图；同一源表的 clean、mutant、不同 regime、规则事件与偏好对不可跨层。不能把历史 fix/meas 名称直接解释成新的四层隔离。
+先按 v2 manifest 的 namespaced lineage UID 与 independence cluster 分组，再构造动作/SFT/DPO 视图；同一源表的 clean、mutant、不同 regime、规则事件与偏好对不可跨层。不能把历史 fix/meas 名称直接解释成新的四层隔离。
 
 | 层 | 允许用途 | 禁止用途 |
 |---|---|---|
@@ -225,7 +206,7 @@ DPO 的问题不只是小，而是偏好方向单一，直接训练可能学成�
 | sealed test | 冻结模型、阈值、规则库后的一次只读终评，包含预先选定的未见家族压力测试 | **绝不参与规则是否接受、阈值选择、early stopping、split/家族/容差修改** |
 | future replay | 冻结后新增独立 uid 的前瞻只读批次，评估长期漂移/风险；批次规则版本先冻结 | 回流当前轮训练/门控/选择；本批揭封后不可继续充当未见证据 |
 
-1. 先盘点旧工件哪些已用于开发、筛选或审稿；已看过的结果只能作 development/pilot 证据，不能通过重新切分“洗成”未见 sealed test。新的 sealed/future 层若不存在，manifest 标 `missing` 并走扩充路线，不虚构样本。
+1. 先盘点旧工件哪些已用于开发、筛选或审稿；已看过的结果只能作 development/pilot 证据，不能通过重新切分“洗成”未见 sealed test。sealed test 必须非空；future 尚未到来时允许空数组，但须绑定经批准的获取时间、来源约束、分层规则与“不回流本轮”协议，并在报告标 `LONGITUDINAL_EVIDENCE_UNAVAILABLE`。
 2. 同一 `(uid,col,target)` 重复先聚合 provenance，16 组冲突逐组保留原因/状态；规则历史或 regime 不同不等于随机噪声，解释不了就隔离，禁止多数投票消除冲突。
 3. 未见家族的选择只依据预注册设计与元数据，在训练/调参前冻结；其全部 uid 从 proposal/train 和 gate-validation 排除。少量家族只能作压力测试，不能拿约 5 表支撑显著性。
 4. 主要区间按 uid 聚类 bootstrap；不得把 118 个注入或 494 条事件当 iid。功效/MDE 使用开发侧统计及事先设定效应，不看 sealed test 结果估参数。
@@ -239,7 +220,7 @@ DPO 的问题不只是小，而是偏好方向单一，直接训练可能学成�
 
 | 判定 | 条件与后续 |
 |---|---|
-| `DATA_GO` | provenance/标签可核验、冲突已解释或隔离，前三层独立 uid/类别覆盖成立，future replay 来源与独立批次协议预先登记（尚未到来的批次不虚构样本），两次构建 hash 一致，按 uid 聚类功效/MDE 足以检验预注册效应；可经离线门后申请相应训练臂 |
+| `DATA_GO` | provenance/标签可核验、冲突已解释或隔离，当前四层（proposal train/dev、gate、sealed）按 lineage UID 与 independence cluster 零交叉，future replay 来源与独立批次协议预先登记（尚未到来的批次不虚构样本），两次构建 hash 一致，按 uid 聚类功效/MDE 足以检验预注册效应；可经离线门后申请相应实验臂 |
 | `PILOT_ONLY` | 来源合法可复现但独立 uid、双向动作/偏好、功效或未见测试不足；只能有界 smoke/pilot，立即转近期评估稿保底，不宣称论文级蒸馏 |
 | `DATA_NO_GO`（NO_GO） | 来源/许可不明、不可修复泄漏、冲突无法隔离或正确性标签无法重建；该视图停止构建/训练并登记阻塞 |
 
@@ -247,11 +228,13 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 不足时不复制事件扩量：增加独立公开源表（先用已获许可且本地可用的来源，不重开 TAT-DQA D4），增加独立 uid，补经核验的正确 `map_to`、`hold` 与双向偏好（含正向 map_to 的 Type-B），重新做 uid 聚类功效/MDE 和四层覆盖检查。新来源下载、模型标注或训练另行授权；合成扰动不得算新增独立表。扩充截止前仍不达门即维持拆稿，不无期限补样本救主张。
 
+**数据来源与质量分层已预研，尚未获取**：具体选择、许可核验、Q0–Q3 标签质量 × 四层实验角色、黄金标注合同和模型配置清单位于 `paper/dataset_protocol_v1.md`，机器可读核验锚位于 `docs/datasets/paper-public-source-registry-v1.json`。P0 必须拆成互补两路：FinQA 负责 process/checkpoint 来源，Valentine NYC 负责 schema-action pilot；两者不能按行混成同分布样本。注册表记录的是 independence-cluster namespace；样本 manifest 必须追加具体 report/document/table origin id，不能把整个数据集当一个簇。MultiHiertt 是 P1 条件外部过程验证；ConvFinQA 与 FinQA 共享 namespace，同源 report/question 组不得冒充独立 test。TAT-QA 旧 train+dev 池保持 `HISTORICAL_ONLY`，需先反查曝光 UID；TAT-DQA 继续冻结，PubTables-1M 本小论文不下载。注册表中全部 `download_approved=false`；任何获取、构建与训练仍由本计划和用户授权控制。
+
 ## 6. 分阶段执行卡
 
 ### Phase 0：接续已确认主张（本批治理，不重开规划）
 
-小模型角色、双轨路线与边界已由用户确认；本计划、叙事和资产账本已对齐，Phase 1 本地审计现已交付，按 §10 移交服务器验证。claim–evidence–owner 复用 `paper/research_asset_map_v2.md`，不另建日期版矩阵/计划；目标贡献保留 `needs-evidence`。指标阈值、训练窗口仍待确认，不能把方向确认当执行许可。若要改成通用 QA 蒸馏或替代确定性门，先停下报用户。
+小模型角色、双轨路线与边界已由用户确认；本计划、叙事和资产账本已对齐，Phase 1 本地审计现已交付，当前服务器边界见 §13。claim–evidence–owner 复用 `paper/research_asset_map_v2.md`，不另建日期版矩阵/计划；目标贡献保留 `needs-evidence`。指标阈值、训练窗口仍待确认，不能把方向确认当执行许可。若要改成通用 QA 蒸馏或替代确定性门，先停下报用户。
 
 ### Phase 1：蒸馏数据审计与构建器（本地审计已交付，训练视图未放行）
 
@@ -261,7 +244,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 **动作**：复核 §1.2 分母，去重/隔离冲突，重建 provenance/规则状态与真实标签；按 §5.2 建四层 uid 清单、家族分布与 hash，构建 action/SFT、风险预筛、DPO 三种视图并分别判门。
 
-**代码落点**：优先扩展 `research/dpo_pairs_v0.py` 的离线构建/审计能力和复用 `research/vgmc_exp1.py` 纯函数，不执行在线 main；只有无法保持职责清晰时才新增最小模块，不预建重复构建器目录。
+**代码落点**：既有事实审计保留在 `research/dpo_pairs_v0.py --audit`。职责不同的私有补充包预检已收敛为单一模块 `research/phase1a_data_contract.py`：它只校验 manifest、hash、层隔离、标签/许可/confidence/统计计划/parser receipt，不读取仓外路径、不联网、不训练；合成合同测试在 `tests/test_phase1a_data_contract.py`。不得再建第二个构建器或复制这套判门。
 
 **提交内容**：离线代码/测试，现有资产账本内的数据卡摘要、provenance/hash/排除口径与功效假设；本地完整 manifest/数据视图不提交。
 
@@ -271,7 +254,9 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 ### Phase 1a：零端点可学性探针（0.5–1 天，Phase 1 后）
 
-只用 proposal/train 内部按 uid 分组的开发划分；不看 gate-validation、sealed test 或 future replay 结果来筛方案。不加载 LLM；简单分类器仅 CPU 拟合，例如 logistic regression，属于本卡离线探针，不是模型训练窗口。
+当前仍为 `DATA_NO_GO`，本阶段未启动。先由补充包预检器得到 `READY_FOR_INDEPENDENT_ACCEPTANCE`，再由 Loop B/C 或指定人员完成私有原件人工验收；只有数据门被用户明确重开后，才只用 proposal/train 内部按 uid 分组的开发划分。不看 gate-validation、sealed test 或 future replay 结果来筛方案。不加载 LLM；简单分类器仅 CPU 拟合，例如 logistic regression，属于本卡离线探针，不是模型训练窗口。
+
+**仓内前置已完成，正式探针未启动**：`research/phase1a_learnability_baselines.py` 与 `tests/test_phase1a_learnability_baselines.py` 已固化五臂、聚合指标、UID-cluster 区间、四种开发决策和 fail-closed 输入边界。Runner 要求独立接收回执同时绑定 package manifest、precheck、proposal-only view 与预注册配置 hash；拒绝 gate/sealed/future 样本及 gain/collateral/accepted/split/partition 字段。它只输出开发级信号，不输出 `DATA_GO` 或训练许可。正式输入格式和 GB10 双跑命令只维护在 Phase 1a data-gate 报告，不另建计划。
 
 | 基线 | 输入/行为 | 要排除的简单解释 |
 |---|---|---|
@@ -281,7 +266,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 | confidence-only | 只读建议时已记录的 confidence，冻结高/中/低处理和缺失策略 | 教师自报置信是否已解释收益 |
 | 简单分类器 | 仅验证前便宜特征，按 uid 拟合/评估；不含 gain/collateral/accepted、事后规则或 split 标识 | 是否根本不需要 8B |
 
-**输出**：action macro-F1、正确 map_to/hold 召回、有害动作率、有效动作覆盖、最坏家族及 uid 聚类区间；预筛与候选生成分开计分，缺 confidence/正确标签时标不可测，不填 0。比较同风险下覆盖和同覆盖下风险，不能只拿全拒绝的准确率获胜。
+**输出**：action macro-F1、正确 map_to/hold 召回、harmful-map rate、map-to risk、correct-map coverage、最坏家族及 uid 聚类区间；预筛与候选生成分开计分，缺 confidence/正确标签时标不可测，不填 0。比较同候选风险下的送检覆盖、同覆盖下候选风险、有效候选召回、漏失有效规则率与验证成本；所有候选仍进入确定性 gate，不能只拿零送检的准确率获胜。
 
 **门**：若强简单基线已满足事先在开发侧定义的质量/覆盖目标且无可辨残余，判 `SIMPLE_SUFFICIENT`，不申请主训练，走评估稿保底。若样本不足则 `PILOT_ONLY`；若存在稳定残余且标签可学，仅说明值得申请窗口，**不是小模型已经优于简单基线**，其必要性最终还须 Phase 4/5 实测。阈值在探针前登记于本计划或原预注册，不因 sealed 结果修改。
 
@@ -291,11 +276,39 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 **七类对照**：no gate、gain-only、collateral-only、confidence-only、fixed dual gate、独立 gate-validation 增强门、rollback-versioning（增强门 + 版本快照/回滚）。confidence 缺失策略事先冻结，不可使用 gain/collateral 冒充 confidence。
 
-**指标**：有害接受率、有效规则保留率、覆盖/正确率、最坏家族、验证次数、回滚次数、累计成本代理；成本代理不冒充真实模型延迟。
+**指标**：rule-level harmful-accept rate、回滚后的 rule-level harmful-retained rate 与 UID-any-harm rate/单侧 Clopper–Pearson 上界分列，有效规则保留率、覆盖/正确率、最坏家族、验证次数、回滚次数、累计成本代理；规则分母与 UID 分母、曾接受与最终保留不混用，成本代理不冒充真实模型延迟。
 
 **关键纪律**：所有臂消费同一候选顺序并各自维护规则版本；接受历史分叉后必须在各臂状态上重新确定性计算 gain/collateral，不能照搬原臂记录分数。旧 `grid_replay` 只能复核历史摘要，不算完整反事实门比较。
 
 **通过门**：先复现原固定门数字，再验证各臂状态和计分器；接受/回滚仅使用 proposal/train 与 gate-validation，sealed test 不参与本卡。表级区间可算，null 原样保留；源表/状态缺失则标 `REPLAY_BLOCKED`，不能伪造闭环或用在线建议器补齐。
+
+**仓内前置已完成，正式 replay 未启动**：`research/phase2_rule_gate_replay.py` 已固化七臂状态机，`research/paper_result_views.py` 已固化 Table 2 / Figure 4 的聚合数据接口。输入合同只接受 `proposal_train` 与 `gate_validation` 表；候选只能含 id、source uid、synonym、target、confidence，任何预存 `gain`、`collateral`、`accepted` 或 `split` 字段都会失败。七臂逐条消费同一候选顺序、各自维护规则库；source gain、proposal collateral、独立 gate delta 均从该臂当前状态重算。rollback 臂保留最佳独立验证快照，超出预注册累计预算时回滚。合成测试只证明状态机和接口，不复现旧固定门数字，也不打开 Phase 2。
+
+GB10 恢复后，先完成 Phase 1 数据接收并取得 Phase 2 单独授权，再把已批准 manifest 中的 proposal/train 共享候选、可重建表状态和独立 gate-validation 转成合同 JSON；转换工件、预注册配置和报告均放 Git 外，sealed test/future replay 不进入本卡。Phase 2 不以 Phase 1a 的 `LEARNABILITY_SIGNAL` 为前置。正式运行前冻结 `min_source_gain`、`max_collateral_loss`、`max_gate_loss`、`rollback_budget`、`significance_level`、confidence 缺失策略和四项成本代理。默认只报告动态 leave-one-source-out collateral 的累计局部界；如需在论文主张全局伸缩界，须先单独扩展合同/测试并冻结同一个不含候选 source UID 的回归池。先验证软件，再做两次零连接重放：
+
+```bash
+python3 -m py_compile research/phase2_rule_gate_replay.py research/paper_result_views.py
+PYTHONPATH=src:. .venv/bin/python -m pytest tests/test_phase2_rule_gate_replay.py -q
+
+strace -f -e trace=connect -o /tmp/phase2-replay-1.strace \
+  env PYTHONPATH=. .venv/bin/python research/phase2_rule_gate_replay.py \
+  --dataset <GB10-approved-phase2-contract.json> \
+  --config <GB10-approved-phase2-prereg.json> \
+  --output /tmp/phase2-replay-1.json
+
+strace -f -e trace=connect -o /tmp/phase2-replay-2.strace \
+  env PYTHONPATH=. .venv/bin/python research/phase2_rule_gate_replay.py \
+  --dataset <GB10-approved-phase2-contract.json> \
+  --config <GB10-approved-phase2-prereg.json> \
+  --output /tmp/phase2-replay-2.json
+
+cmp --silent /tmp/phase2-replay-1.json /tmp/phase2-replay-2.json
+env PYTHONPATH=. .venv/bin/python research/paper_result_views.py \
+  --phase2-report /tmp/phase2-replay-1.json \
+  --output /tmp/phase2-paper-views-preview.json
+```
+
+GB10 软件验收要求两次报告逐字一致、两份 trace 均无 `connect(`、七臂 candidate-order hash 一致、状态分叉用例与 rollback 用例通过。科学验收还必须复现原 fixed-dual 历史口径，核对 manifest/config/input/implementation hash、独立层 UID 隔离、最坏家族与 null；任何源表/状态缺失均记 `REPLAY_BLOCKED`。数据接口始终输出 `paper_result=false` 和未验收水印，需另行独立审查后才允许被论文生成器消费。
 
 ### Phase 3：训练环境和 4B smoke（需用户批准，1 天）
 
@@ -311,12 +324,16 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 **前置**：相应 SFT 视图 `DATA_GO`，Phase 1a 留有值得学习的残余，Phase 2 可复现，4B smoke 通过且用户批准独立训练窗口；缺一不运行论文主实验。
 
+具体假设、指标、多重检验、冻结收据与 fail-closed 停止条件在原位预注册合同 `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` 中维护。该合同当前是 `DRAFT_NOT_FROZEN`，不能替代本计划的执行授权。
+
 | 臂 | 定义 | 作用 |
 |---|---|---|
 | A0 | 8B zero-shot | 同任务训练前基线，不使用原 16 道 QA 替代 |
-| A1 | unfiltered SFT | 保留所有合法、可核验的教师动作；不是把来源错误/泄漏也纳入 |
-| A2 | checkpoint-filtered SFT | 在同一来源母池上增加 checkpoint 过滤 |
+| A1 | unfiltered SFT | 使用共同资格门 $u_i=1$ 的全部合法 Q3 教师动作；不是把来源错误/泄漏也纳入 |
+| A2 | checkpoint-filtered SFT | 只在同一 $u_i=1$ 母池上增加 $z_i$ checkpoint 过滤 |
 | A3 | A2 + gate-derived DPO | 独立偏好数据门通过才执行 |
+
+**RQ2 同样本桥接硬门**：A1/A2 每个样本必须同时具备预动作 checkpoint evidence、同一 lineage UID 的 Q3 teacher action/target 和 Q3 outcome/correctness。FinQA process/program 与 Valentine correspondence 是互补预研，不能跨样本拼成该桥；桥未成立时不启动 A1/A2，RQ2 记 `NOT_IDENTIFIED`。
 
 4B **仅用于 Phase 3 训练链 smoke**，不作主实验 ablation；14B **既有异常尚未归因**，不推断权重或模板为原因，暂不作主学生。论文级训练主臂至少 3 seeds；仅单 seed 时降为 pilot，A0 报告是否确定性解码，不伪装重复独立样本。
 
@@ -368,6 +385,8 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 建议新稿路径：`paper/evaluate_distill_evolve_draft_v0.md`；老师 Word 版只在 claim gate 通过后生成。
 
+Method/Related Work 写作优先复用 `paper/method_theory_materials_v1.md`：其中区分了可直接采用的两头 SFT、risk–coverage 与状态相关三门公式，条件性的 KD/DPO/conformal 扩展，以及累计局部回归界、固定池条件下的伸缩推论与 rollback 不变量。引用均已通过 arXiv 官方 API 做存在性核验；入正式稿前仍须二次核对版本/venue。不得把动态 collateral 池写成全局伸缩界，也不得把相邻理论的安全或泛化保证写成本方法已经获得的保证。
+
 ## 7. 双交付与三周条件排期
 
 **交付 A：24–48 小时导师方向包（09-22～09-24）**。使用 `paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` 成熟评估稿，加当前 `paper/research_story_v2.md` 方向说明与现有资产账本；明确 E 已有证据、D 未训练、R 机制级。`paper/research_story_v2.docx` 已离线同步当前正文与三阶段表并通过结构/口径检查；正式阅读前仍需 Office 视觉核对。包交用户内部审阅，本批不代发导师。
@@ -409,7 +428,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 3. `docs/research/README.md`
 4. `paper/research_story_v2.md`
 5. `paper/research_asset_map_v2.md`
-6. 本计划（直接接 §10）；首次接手只读 docs/33、docs/34 政策，不执行旧排期
+6. 本计划（直接接 §13 当前边界）；首次接手只读 docs/33、docs/34 政策，不执行旧排期
 
 协作设计依据为 `docs/17_Graph_Engineering_多层Loop设计.md`，工程路线为 `docs/29_graph_engineering_roadmap.md`；后者的历史 backlog 不覆盖本计划，当前未决只回链 THREADS。卡片复用 `templates/task_card_template.md`，不新造科研专属 harness。
 
@@ -541,7 +560,7 @@ This addendum records the current evidence and supersedes the old acceptance-sto
 - **GB10 alignment:** production checkout and `origin/main` are `d351d7e09e738f16727f17d5aa3dc35646989731`, ahead/behind `0/0`; `0aee20d` is an ancestor. The next natural Loop B cycle recorded `git_alignment=PASS`.
 - **A-3 closed:** the authorized one-item installation sync repaired the confirmed `skill-doctor` drift. `sync_skills.sh --check` is `PASS: 97`, with A=76/C=21 and missing/orphan both zero. Repository skills were not edited; full-root warnings remain visible.
 - **A-2 boundary:** four exact VGMC tests passed (`4 passed`, rc=0): `test_adv_map_deterministic_nested_wrong_target`, `test_overlay_merge_adds_columns_and_entries`, `test_overlay_none_is_identity`, and `test_real_overlay_artifact_loads`. `strace -f -e trace=connect` observed zero attempts to `:8004`, `:8006`, `:8007`, `:8008`, and `:4096` in that test scope (total connect syscalls 0). The scope used synthetic corpus helpers because `injection_map.json` is absent in the isolated worktree; it does not cover `load_corpus()`, full pytest, production, or future experiment paths. The correct label is `SCOPED_PASS`.
-- **Phase 1a:** `DATA_NO_GO`; no baseline numbers were produced. Phase 2 remains unstarted. See `docs/experiments/2026-09-23_phase1a_data_no_go.md` for the structured gate report.
+- **Phase 1a:** `DATA_NO_GO`; no baseline numbers were produced. Phase 2 has a repository-only synthetic software contract, but its formal data replay remains unstarted. See `docs/experiments/2026-09-23_phase1a_data_no_go.md` for the structured gate report.
 - **Traceability:** no backend agent session remains running. Production dirty assets and the external alignment backup remain outside the source commit; no rolling report is promoted to source evidence.
 
 ### Next-round entry contract
@@ -552,10 +571,10 @@ This addendum records the current evidence and supersedes the old acceptance-sto
 
 ## 13. Local closeout and remote verification boundary (2026-09-23)
 
-This note supersedes §12 only for the current handoff boundary; §12 remains an accurate record of the earlier observation and is not rewritten.
+This section is the current handoff boundary; §10.0 and §12 remain historical evidence rather than live status.
 
-- **Verified locally this round:** at the initial check after `git fetch origin`, local `main` and `origin/main` were both `e5ab809e373de4e70680fd102e253e1ffa12e2f2`, ahead/behind `0/0`; the status closeout was subsequently committed and pushed as `b8bd7cf`. The worktree contains four preserved user assets: modified tracked `logs/graph/docs_lint_report.json`, plus untracked `IMPLEMENTATION_PLAN.md`, `PROMPT.md`, and `_d3b_dispatch.sh`.
-- **Last known GB10 snapshot only:** a prior successful SSH observation recorded production `main` and `origin/main` at `e5ab809`, `0/0`, with five tracked dirty files: `config/schema_suggestions.json`, `logs/graph/dispatch_log.md`, `logs/graph/docs_lint_report.json`, `logs/graph/loop_b_last_status`, and `logs/graph/verify-report.json`. The Loop C Lead worktree was then branch `gb10/loop-c-lead-20260923` at `dc20ab1`, two commits ahead of `origin/main`; its control files then showed `ACTIVE={}`, no `STOP`, `2 READY / 4 BLOCKED`, and `IDLE`. None of this is a current remote check.
-- **Not verified this round:** one bounded SSH attempt to `jinrong-dev` timed out. No remote status, control file, process, Loop B cycle, or worktree was read afterward. Do not infer that the queue is currently active or idle, and do not claim any READY card. The local cached `gb10/main=3dabbc7` ref is stale metadata, not live remote evidence.
-- The closeout audit remains **`INCONCLUSIVE`**: one call omitted the prompt correctly; a separate valid session was terminated after 180 seconds without a report. Phase 1a remains **`DATA_NO_GO`** and Phase 2 remains unstarted. No audit or experiment was rerun this round. The Loop C Lead branch remains unpushed/unmerged according to its last known snapshot; current remote status is unknown.
-- No GB10 acceptance, endpoint access, or service operation was performed in this round. The status documentation was pushed to `origin/main` under the user's explicit instruction; no Loop C Lead branch was merged. Resume remote work only after a new successful read-only status check; preserve the four local user assets.
+- **Verified local baseline:** after a fresh fetch, local `main`, `origin/main`, and `test/compaction-guard-abort` were all `061d8819bd7c3b03159f6f0df183887be57edef6` (`HEAD...origin/main = 0/0`). Pre-delivery `origin/test/compaction-guard-abort` was `0aee20d`; the repository-only contract is delivered on that test branch. No reset or rebase was used.
+- **Repository-only delivery:** Phase 1a data acceptance and five-baseline runners plus the Phase 2 seven-arm replay and watermarked paper-view adapter are implemented with focused synthetic suites. They are fail-closed, deterministic, aggregate-only, and unable to authorize training or paper claims. The method/theory and public-data materials add formulas, bounded propositions, candidate sources and source/licence gates without downloading data. Exact Phase 1a contracts stay in the data-gate report; Phase 2 execution stays in this plan.
+- **Research boundary:** synthetic fixture tests validate software behavior only. Phase 1a remains **`DATA_NO_GO`**, Phase 2 formal replay remains unstarted, and the checkers cannot emit `DATA_GO`, training permission, or paper-facing results. A full Phase 1 mechanical pass yields only `READY_FOR_INDEPENDENT_ACCEPTANCE` and requires separate private-origin review.
+- **GB10 unverified:** the last known production snapshot remains `e5ab809` with the dirty paths and Loop C Lead state previously recorded in Git. The bounded SSH attempt recorded on 2026-09-23 timed out; current checkout, processes, queues, Loop B cycle, private data, and test state are unknown. The cached `gb10/main=3dabbc7` ref is not live evidence.
+- **Resume order on GB10:** establish a clean isolated worktree at the reviewed commit, mount the private package read-only, run the focused tests and two `strace`-wrapped prechecks, compare report hashes, then perform independent manual review. Any network call, non-determinism, failed gate, or provenance doubt leaves `DATA_NO_GO`; even acceptance does not open Phase 2 or training without user authorization.

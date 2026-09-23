@@ -1,6 +1,6 @@
 # 科研主线与论文验收入口
 
-> 状态: 活跃 | 更新: 2026-09-22 | 取代/被取代: 不取代受保护路线文档；作为当前执行与验收入口
+> 状态: 活跃 | 更新: 2026-09-23 | 取代/被取代: 不取代受保护路线文档；作为当前执行与验收入口
 
 本文只回答三个问题：小论文在证明什么、大论文如何承接、下一项工作怎样验收。历史实验过程仍保留在 `docs/experiments/`，不在这里重复。
 
@@ -19,9 +19,9 @@
 | 数字真值 | `logs/graph/eval/` 下原始 JSON + 对应生成代码/冻结协议 | 原始数字优于文字摘要；历史实验只能支持原协议内的结论，不能反推新实验已经完成 |
 | 历史/已取代过程稿 | `docs/30_科研线规划.md`、`docs/superpowers/plans/2026-08-29-long-horizon-evaluation-paper.md`、评估蓝图、旧大论文骨架、多轮审稿与旧任务卡 | 保留追溯/证据价值，不再控制当前方向或排期 |
 
-冲突裁定：论文范围由用户校准及当前叙事覆盖 docs/33、docs/34 中的旧范围；公开限制不被覆盖。执行细节由当前计划覆盖旧任务卡和 `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` 中的草案（该草案尚未执行，不是已冻结实验）。已执行实验的预注册与原始工件不可被新计划回改；数字不符先审计，不选择更有利的文字版本。审稿记录是问题来源，不自动成为新结论。
+冲突裁定：论文范围由用户校准及当前叙事覆盖 docs/33、docs/34 中的旧范围；公开限制不被覆盖。执行细节由当前计划覆盖旧任务卡；`docs/experiments/2026-09-22_distillation_mvp_preregistration.md` 是从属于该计划的实验口径合同，当前仍为 `DRAFT_NOT_FROZEN`，不是已授权实验。已执行实验的预注册与原始工件不可被新计划回改；数字不符先审计，不选择更有利的文字版本。审稿记录是问题来源，不自动成为新结论。
 
-**最短必读路径**：`AGENTS.md` → `memory/CORE.md` / `memory/STATE.md` / `memory/THREADS.md` 当前科研线 → 本入口 → `paper/research_story_v2.md` → `paper/research_asset_map_v2.md` → 当前执行计划 §10 第一张任务卡。首次接手再只读 docs/33、docs/34 的政策；只在复核某条结论时打开对应实验工件或评估稿，不必重读全部旧稿。
+**最短必读路径**：`AGENTS.md` → `memory/CORE.md` / `memory/STATE.md` / `memory/THREADS.md` 当前科研线 → 本入口 → `paper/research_story_v2.md` → `paper/research_asset_map_v2.md` → 当前执行计划 §13 当前边界，再按对应 Phase 卡执行。§10/§12 仅作历史证据。首次接手再只读 docs/33、docs/34 的政策；只在复核某条结论时打开对应实验工件或评估稿，不必重读全部旧稿。
 
 历史材料不删除，也不能继续参与当前结论竞争；大规模移动、删除、改名须用户另行确认。Word/图是派生展示件，不覆盖 Markdown 权威源；`paper/research_story_v2.docx` 已按当前正文和三阶段表离线重生成，结构/口径检查通过，不等于 Office 视觉验收或可对外发布。
 
@@ -129,8 +129,15 @@
 8. `paper/figures/fig_evaluate_distill_evolve_v1.svg`：三阶段总架构图。
 9. `paper/research_story_v2.docx`：当前故事的离线派生件，含同步后的原生三阶段表；结构/口径测试通过，Office 视觉未验。
 10. `paper/research_asset_map_v2.md`：评估、蒸馏、规则进化的代码、实验、稿件和缺口索引。
-11. `docs/experiments/2026-09-22_distillation_mvp_preregistration.md`：未执行的准备草案，仅作素材；模型角色、数据边界、双口径与判门由当前执行计划覆盖，训练前在原位同步确认参数。
+11. `docs/experiments/2026-09-22_distillation_mvp_preregistration.md`：从属于唯一执行计划的 `DRAFT_NOT_FROZEN` 实验口径合同；统一 RQ2–RQ4、数据/模型门、A0–A3、七臂 replay、双公平口径、统计和停止规则。数值参数在用户/导师确认前保持 `UNSET`。
 12. `docs/handoff/2026-09-22-paper-research-next-phase.md`：后续 Agent 可直接执行的优先级、数据门、任务卡、合稿/拆稿门与三周排期。
+13. `research/phase1a_data_contract.py`：Phase 1a 私有数据补充包的离线、fail-closed 机械预检；通过只表示 `READY_FOR_INDEPENDENT_ACCEPTANCE`，不表示 `DATA_GO`、训练许可或论文结果。合同与 GB10 命令见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`。
+14. `research/phase1a_learnability_baselines.py`：独立接收后才可运行的 proposal train/dev 五基线探针；仓内仅有合成合同测试，正式 GB10 开发数字尚未产生。输入回执、预注册配置与运行命令仍只维护在同一 Phase 1a data-gate 报告中。
+15. `research/phase2_rule_gate_replay.py` / `research/paper_result_views.py`：共享候选、状态独立的七臂 replay 软件合同及 Table 2 / Figure 4 聚合接口；当前仅有合成测试，正式 Phase 2 未启动，GB10 命令和停止条件只维护在 handoff 的 Phase 2 节。
+16. `paper/method_theory_materials_v1.md`：三阶段统一符号、SFT/选择性预测/三门更新公式、有限样本风险上界、两个有限命题及最近邻差异；是写作素材，不是已成立实验结论。
+17. `paper/dataset_protocol_v1.md`：标签质量 × 实验角色二维分层、过程/动作双来源选择、模型对照配置与 GB10 数据门；不授权下载、构建、训练或解冻 TAT-DQA。
+18. `docs/datasets/paper-public-source-registry-v1.json`：10 个公开来源的 metadata-only 可机读快照，记录核验 commit、许可缺口、independence-cluster namespace、角色适配和准入状态；namespace 不是可直接写入样本 manifest 的粗粒度簇，全部 `download_approved=false`。
+19. `paper/method_data_references_v1.bib` / `paper/figures/fig_rule_gate_replay_v1.svg`：经官方入口核验的理论与数据 BibTeX，以及共享流、独立状态、三门与回滚的论文方法图；正式稿引用前仍二次核版。
 
 运行：
 
@@ -140,23 +147,27 @@ PYTHONPATH=. python3 -m pytest tests/test_paper_claim_acceptance.py -q
 .venv/bin/python research/build_teacher_review_docx.py
 ```
 
-评估子稿原有 G5 静态门已补充语义反向负控；本轮修正 OCR 可见性方向和表格检测信号，并重生成两份导师 DOCX。P1 本地审计已交付：动作 SFT/风险预筛 DATA_NO_GO，DPO 仅为审计素材的 PILOT_ONLY，均不导出训练数据；依据见资产账本 §3.1。用户最新要求停止继续本机测试，保留测试与已有局部结果，服务器验证和 Office 视觉核对按现有计划 §10 接手；Phase 1a/2 及后续实验等待明确批准。近期使用评估保底稿与方向说明，不等训练、不代发；详细停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
+评估子稿原有 G5 静态门已补充语义反向负控；OCR 可见性方向和表格检测信号已修正，两份导师 DOCX 已重生成。P1 本地审计已交付：动作 SFT/风险预筛 DATA_NO_GO，DPO 仅为审计素材的 PILOT_ONLY，均不导出训练数据；依据见资产账本 §3.1。本轮新增仓内补充包合同、五基线探针、七臂 replay 状态机及论文数据接口的合成测试，未生成正式实验数字；GB10 私有包验收和 Office 视觉核对仍未执行，Phase 1a/2 及后续实验等待各自明确批准。近期使用评估保底稿与方向说明，不等训练、不代发；详细停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
 
 本批不包含：生产探测、模型调用、TAT-DQA 解冻、D4 执行、专利公开状态判断或对外发送。
 
-## 7.1 2026-09-23 strict closeout status
+## 6. 当前状态边界
+
+### 6.1 2026-09-23 strict closeout status
 
 The 2026-09-22 acceptance stop has now been closed at the evidence boundary. GB10 production is aligned with `origin/main` at `d351d7e`, and a subsequent natural Loop B cycle recorded `git_alignment=PASS`. A-3 is closed at `PASS: 97` (A=76, C=21, missing=0, orphan=0). A-2 remains `SCOPED_PASS`: its four named tests passed with zero forbidden connects in the traced scope, but synthetic fixtures and a missing `injection_map.json` mean no claim about full pytest, production, or future experiment paths is allowed.
 
-Phase 1a is a formal `DATA_NO_GO`, with no baseline result table; Phase 2 is unstarted. The data gate, historical-only boundary, missing evidence, and minimum supplement contract are recorded in `docs/experiments/2026-09-23_phase1a_data_no_go.md`. This status is a research decision boundary, not a failed experiment to be erased by reruns. The next permitted entries are data supplementation, a newly scoped A-2 expansion, or the Loop C Lead control-plane/governance work; none opens Phase 2, training, production endpoints, frozen rules, or publication.
+Phase 1a is a formal `DATA_NO_GO`, with no baseline result table; Phase 2 formal replay is unstarted even though its repository-only state-machine contract now exists. The data gate, historical-only boundary, missing evidence, and minimum supplement contract are recorded in `docs/experiments/2026-09-23_phase1a_data_no_go.md`. This status is a research decision boundary, not a failed experiment to be erased by reruns. The next permitted entries are data supplementation, repository-only software validation, a newly scoped A-2 expansion, or the Loop C Lead control-plane/governance work; none opens Phase 2 data execution, training, production endpoints, frozen rules, or publication.
 
 A-2's four tested nodes were `test_adv_map_deterministic_nested_wrong_target`, `test_overlay_merge_adds_columns_and_entries`, `test_overlay_none_is_identity`, and `test_real_overlay_artifact_loads`; the traced scope was `4 passed`, rc=0, with zero `connect` syscalls. This is a scoped network statement, not a whole-project guarantee.
 
-## 7.2 Local and remote status boundary (2026-09-23)
+### 6.2 Local and remote status boundary (2026-09-23)
 
-Section 7.1 is the earlier `d351d7e` closeout snapshot. At this round's initial check, local `main` and freshly fetched `origin/main` were `e5ab809` (`0/0`); the documentation-only status closeout was then pushed as `b8bd7cf`. GB10 was last observed at `e5ab809`, but the only SSH attempt in this round timed out; its current production/worktree state, Loop B cycle, processes, and Loop C Lead queue are **unverified**. The prior queue snapshot (`IDLE`, two READY and four BLOCKED) is historical and does not establish current activity. The closeout audit remains `INCONCLUSIVE`; Phase 1a remains `DATA_NO_GO`, and Phase 2 has not started. See the dated status boundary in `memory/STATE.md` and §13 of the handoff.
+Section 6.1 is the earlier `d351d7e` closeout snapshot. At this delivery's clean baseline, local `main`, `origin/main`, and the working branch `test/compaction-guard-abort` were aligned at `061d881`; pre-delivery `origin/test/compaction-guard-abort` was `0aee20d`, and the repository-only contract is published on that test branch. GB10 was last observed at `e5ab809`, but its current production/worktree state, Loop B cycle, processes, and Loop C Lead queue are **unverified** because the last bounded SSH attempt timed out. The closeout audit remains `INCONCLUSIVE`; Phase 1a remains `DATA_NO_GO`, and Phase 2 has not started.
 
-## 6. 常用入口
+The repository-only Phase 1a supplement precheck, simple-baseline runner, Phase 2 seven-arm replay state machine, and paper-view adapter are now implemented with synthetic contract tests. They create no experimental result: GB10 must later run the fixed offline acceptance procedure against a read-only private package, obtain independent manual review, and receive separate authorization for each development/replay step before any metric exists. See the dated state in `memory/STATE.md`, §13 and Phase 2 of the handoff, and the data-gate report.
+
+## 7. 常用入口
 
 - 当前内部稿：`paper/draft_v0_s1_s2_s6.md`
 - 老师审阅稿：`paper/teacher_review_draft_v1.md`
