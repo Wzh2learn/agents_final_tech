@@ -1,8 +1,8 @@
 # 小论文—大论文科研下一阶段执行计划与 Agent 交接 v1
 
-> 状态：`0aee20d` 已 fast-forward 到 main；GB10 验收因 skill 安装漂移、隔离数据缺失和零端点违规而停；Phase 1a/2 未启动
+> 状态：本轮开工基线已对齐 `061d881`；Phase 1a 补充包预检器已交付到 `test/compaction-guard-abort`，数据仍为 `DATA_NO_GO`，GB10 实况未验证
 
-> 更新：2026-09-22
+> 更新：2026-09-23
 
 > 接收方：后续负责科研实验、证据审计和论文写作的 Agent
 
@@ -14,7 +14,7 @@
 
 ## 0. 执行结论
 
-本文件是唯一下一阶段执行计划；分层权威与冲突裁定见 `docs/research/README.md` §1。第一轮治理及 P1 本地审计已交付，导师包内容核对已修正；审计结论见资产账本 §3.1，阅读回执见 `paper/teacher_review_readiness_v2.md`。用户最新要求：保留测试代码和已有局部结果，不继续本机跑测试，剩余测试及 Office 视觉核对交服务器；所有后续实验仍待批准，不对外送稿、不另建计划。
+本文件是唯一下一阶段执行计划；分层权威与冲突裁定见 `docs/research/README.md` §1。第一轮治理及 P1 本地审计已交付，导师包内容核对已修正；审计结论见资产账本 §3.1，阅读回执见 `paper/teacher_review_readiness_v2.md`。本轮获准继续仓库内前置工作，但不连接 GB10、不创建新论文数字：Phase 1a 补充包的机械验收合同和合成测试已实现，正式私有数据验收、测试及 Office 视觉核对仍交服务器；所有实验、训练和对外发送仍待独立批准，不另建计划。
 
 既有阶段顺序如下（P1本地审计已完成，其余实验待批；不是自动派发队列）：
 
@@ -25,6 +25,8 @@
 5. **随时执行止损门，而非等满三周。** 数据仅 `PILOT_ONLY`、简单规则已解决问题、非劣失败或安全回归时，立即转评估保底稿内部交导师，D/R 留给大论文；专利公开门未通过前不投稿。
 
 A+C 双轨不互相阻塞：24–48 小时导师方向包 = 成熟评估稿 + 当前三阶段方向说明；实验完成后的统一论文初稿是另一交付，不能用方向包冒充三阶段结果。所有 null/adverse result 原样保留，不改 split、阈值、家族或容差救结论。
+
+**当前最高价值仓内前置**：完成 `research/phase1a_data_contract.py` 与 `tests/test_phase1a_data_contract.py`。它把“源表/schema/injection map、独立双人标签、许可、confidence、四层隔离、分析计划、parser receipt”从文字要求变成 fail-closed 合同。机械全过只给 `READY_FOR_INDEPENDENT_ACCEPTANCE`，不能给 `DATA_GO`；因此既能减少 GB10 恢复后的无效窗口，也不越权创造实验结论。私有包格式和 GB10 验收命令唯一维护于 `docs/experiments/2026-09-23_phase1a_data_no_go.md`。
 
 **技能路由**：每张卡按 `docs/SKILL_ROUTING.md` 选 ≤5 件，红线常备 `graph-loop-rules` 不占配额。历史治理批的装载记录留在 Git，不作为后续 Agent 自动装载或联网扫描许可。
 
@@ -261,7 +263,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 **动作**：复核 §1.2 分母，去重/隔离冲突，重建 provenance/规则状态与真实标签；按 §5.2 建四层 uid 清单、家族分布与 hash，构建 action/SFT、风险预筛、DPO 三种视图并分别判门。
 
-**代码落点**：优先扩展 `research/dpo_pairs_v0.py` 的离线构建/审计能力和复用 `research/vgmc_exp1.py` 纯函数，不执行在线 main；只有无法保持职责清晰时才新增最小模块，不预建重复构建器目录。
+**代码落点**：既有事实审计保留在 `research/dpo_pairs_v0.py --audit`。职责不同的私有补充包预检已收敛为单一模块 `research/phase1a_data_contract.py`：它只校验 manifest、hash、层隔离、标签/许可/confidence/统计计划/parser receipt，不读取仓外路径、不联网、不训练；合成合同测试在 `tests/test_phase1a_data_contract.py`。不得再建第二个构建器或复制这套判门。
 
 **提交内容**：离线代码/测试，现有资产账本内的数据卡摘要、provenance/hash/排除口径与功效假设；本地完整 manifest/数据视图不提交。
 
@@ -271,7 +273,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 ### Phase 1a：零端点可学性探针（0.5–1 天，Phase 1 后）
 
-只用 proposal/train 内部按 uid 分组的开发划分；不看 gate-validation、sealed test 或 future replay 结果来筛方案。不加载 LLM；简单分类器仅 CPU 拟合，例如 logistic regression，属于本卡离线探针，不是模型训练窗口。
+当前仍为 `DATA_NO_GO`，本阶段未启动。先由补充包预检器得到 `READY_FOR_INDEPENDENT_ACCEPTANCE`，再由 Loop B/C 或指定人员完成私有原件人工验收；只有数据门被用户明确重开后，才只用 proposal/train 内部按 uid 分组的开发划分。不看 gate-validation、sealed test 或 future replay 结果来筛方案。不加载 LLM；简单分类器仅 CPU 拟合，例如 logistic regression，属于本卡离线探针，不是模型训练窗口。
 
 | 基线 | 输入/行为 | 要排除的简单解释 |
 |---|---|---|
@@ -552,10 +554,10 @@ This addendum records the current evidence and supersedes the old acceptance-sto
 
 ## 13. Local closeout and remote verification boundary (2026-09-23)
 
-This note supersedes §12 only for the current handoff boundary; §12 remains an accurate record of the earlier observation and is not rewritten.
+This section is the current handoff boundary; §10.0 and §12 remain historical evidence rather than live status.
 
-- **Verified locally this round:** at the initial check after `git fetch origin`, local `main` and `origin/main` were both `e5ab809e373de4e70680fd102e253e1ffa12e2f2`, ahead/behind `0/0`; the status closeout was subsequently committed and pushed as `b8bd7cf`. The worktree contains four preserved user assets: modified tracked `logs/graph/docs_lint_report.json`, plus untracked `IMPLEMENTATION_PLAN.md`, `PROMPT.md`, and `_d3b_dispatch.sh`.
-- **Last known GB10 snapshot only:** a prior successful SSH observation recorded production `main` and `origin/main` at `e5ab809`, `0/0`, with five tracked dirty files: `config/schema_suggestions.json`, `logs/graph/dispatch_log.md`, `logs/graph/docs_lint_report.json`, `logs/graph/loop_b_last_status`, and `logs/graph/verify-report.json`. The Loop C Lead worktree was then branch `gb10/loop-c-lead-20260923` at `dc20ab1`, two commits ahead of `origin/main`; its control files then showed `ACTIVE={}`, no `STOP`, `2 READY / 4 BLOCKED`, and `IDLE`. None of this is a current remote check.
-- **Not verified this round:** one bounded SSH attempt to `jinrong-dev` timed out. No remote status, control file, process, Loop B cycle, or worktree was read afterward. Do not infer that the queue is currently active or idle, and do not claim any READY card. The local cached `gb10/main=3dabbc7` ref is stale metadata, not live remote evidence.
-- The closeout audit remains **`INCONCLUSIVE`**: one call omitted the prompt correctly; a separate valid session was terminated after 180 seconds without a report. Phase 1a remains **`DATA_NO_GO`** and Phase 2 remains unstarted. No audit or experiment was rerun this round. The Loop C Lead branch remains unpushed/unmerged according to its last known snapshot; current remote status is unknown.
-- No GB10 acceptance, endpoint access, or service operation was performed in this round. The status documentation was pushed to `origin/main` under the user's explicit instruction; no Loop C Lead branch was merged. Resume remote work only after a new successful read-only status check; preserve the four local user assets.
+- **Verified local baseline:** after a fresh fetch, local `main`, `origin/main`, and `test/compaction-guard-abort` were all `061d8819bd7c3b03159f6f0df183887be57edef6` (`HEAD...origin/main = 0/0`). Pre-delivery `origin/test/compaction-guard-abort` was `0aee20d`; the repository-only contract is delivered on that test branch. No reset or rebase was used.
+- **Repository-only delivery:** `research/phase1a_data_contract.py` and `tests/test_phase1a_data_contract.py` implement the private supplement precheck with seven fail-closed gates, deterministic aggregate receipts, socket blocking, safe path/hash checks, and no training-data export. The exact package contract and later GB10 commands are maintained in the existing Phase 1a data-gate report, not in a parallel plan.
+- **Research boundary:** synthetic fixture tests validate software behavior only. Phase 1a remains **`DATA_NO_GO`**, Phase 2 remains unstarted, and the checker cannot emit `DATA_GO`, training permission, or paper-facing results. A full mechanical pass yields only `READY_FOR_INDEPENDENT_ACCEPTANCE` and requires separate private-origin review.
+- **GB10 unverified:** the last known production snapshot remains `e5ab809` with the dirty paths and Loop C Lead state previously recorded in Git. The bounded SSH attempt recorded on 2026-09-23 timed out; current checkout, processes, queues, Loop B cycle, private data, and test state are unknown. The cached `gb10/main=3dabbc7` ref is not live evidence.
+- **Resume order on GB10:** establish a clean isolated worktree at the reviewed commit, mount the private package read-only, run the focused tests and two `strace`-wrapped prechecks, compare report hashes, then perform independent manual review. Any network call, non-determinism, failed gate, or provenance doubt leaves `DATA_NO_GO`; even acceptance does not open Phase 2 or training without user authorization.

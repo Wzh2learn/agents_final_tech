@@ -1,51 +1,14 @@
 # memory/THREADS.md — 未决线索
 
-## 远端状态待复核（2026-09-23）
+## 当前科研阻塞与接续（2026-09-23）
 
-- 本轮开工时本机 `main` 与 fetch 后的 `origin/main` 均为 `e5ab809e373de4e70680fd102e253e1ffa12e2f2`、`0/0`；状态补记提交 `b8bd7cf` 已推送。四件本机用户资产保持未提交；最终 HEAD 以最新 `git log` 为准。
-- 下方 `Strict closeout ledger` 是 `d351d7e` 时点的历史快照，并非当前 GB10 状态。
-- GB10 上次成功观测为 production `e5ab809`、`0/0`；Loop C Lead 当时 `dc20ab1`，控制面 `IDLE`、`ACTIVE={}`、无 `STOP`、`2 READY / 4 BLOCKED`。本轮唯一一次 SSH 尝试超时，因此这些仅是历史状态，当前队列及远端工作区/进程均未核实；不得认领 READY 卡或声称队列正在运行。
-- 收尾独立审计为 `INCONCLUSIVE`；Phase 1a 为 `DATA_NO_GO`，Phase 2 未启动。待 SSH 恢复后先只读核状态，再决定接续。细节见 `memory/STATE.md` 与唯一科研交接 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
-
-## Strict closeout ledger (2026-09-23)
-
-- **Alignment and acceptance:** GB10 production and `origin/main` are `d351d7e` at `0/0`; the next natural Loop B cycle recorded `git_alignment=PASS`. The production checkout still contains only the registered accumulative/rolling dirty assets and the external alignment backup remains outside Git.
-- **A-3:** `sync_skills.sh --check` is `PASS: 97` after syncing the single confirmed `skill-doctor` installation drift. Counts are A=76, C=21, missing=0, orphan=0; repository skills were not changed and warnings were not suppressed.
-- **A-2:** record as `SCOPED_PASS`, not global PASS. Exact nodes: `test_adv_map_deterministic_nested_wrong_target`, `test_overlay_merge_adds_columns_and_entries`, `test_overlay_none_is_identity`, and `test_real_overlay_artifact_loads`; `4 passed`, exit 0. `strace -f -e trace=connect` observed zero connect syscalls, including forbidden `:8004/:8006/:8007/:8008/:4096` and allowed `:5050`/PG `:15432`. Synthetic fixture substitution and absent `injection_map.json` leave corpus loading, full pytest, production, and future experiment paths unproven.
-- **Research gate:** Phase 1a is `DATA_NO_GO`; no formal baseline numbers exist. Phase 2 was not started. Evidence and the minimum supplement list are in `docs/experiments/2026-09-23_phase1a_data_no_go.md`.
-- **Next entries:** data supplement; exact-scope A-2 expansion; Loop C Lead control/governance refactor. None authorizes frozen-rule changes, endpoints, training, publication, or main integration beyond the ordinary documented gates.
-
-## 当前科研线（2026-09-22）
-
-- **最新接续停点（0aee20d 合并后 GB10 验收）**：本地与 `origin/main`
-  已 fast-forward 到 `0aee20d`；GB10 生产 checkout 因脏件与
-  `logs/graph/dispatch_log.md` 路径交集仍停在 `3dabbc7`，隔离 worktree
-  `/home/testuser/wzh/projects/agents_final_tech_accept_0aee20d` 用于验收。
-  定向离线测试 159 passed，静态检查与 claim validator 49/49 通过；但
-  `sync_skills --check` 为 1/97 drift，docs_lint 为 1 fail/1 warn，skill-doctor
-  为 0 errors/139 warnings（exit 1）。全量 pytest 为 590 passed/14 skipped/
-  4 failed，失败均因隔离 worktree 缺少已存在于生产 checkout 的 ignored
-  `injected_tables.json`；未复制、未重跑。更严重的是 `strace` 记录到
-  `:8004` 5 次和 `:8007` 1 次禁用连接尝试（另有允许的 `:5050` 1 次、
-  PG `:15432` 6 次），故验收不得写 PASS。Phase 1a/2 未启动。
-- **接续前必须裁定/修复的三件事**：① 是否授权把仓库 `skill-doctor`
-  同步到 GB10 安装区，或明确接受 1/97 drift；② 为全量/失败测试建立
-  硬网络隔离或精确排除清单，禁止再次触达模型端点；③ 以只读复制、
-  bind/symlink 或显式数据根为隔离 worktree 提供现存 ignored 输入的具体
-  方案。三项未闭合前不进入 Phase 1a/2，不申请4B/8B窗口。
-
-- 统一入口：`docs/research/README.md`；当前叙事权威为 `paper/research_story_v2.md`。用户于 2026-09-22 校准：小论文恢复“大模型流程评估 → 小模型蒸馏 → 自学习规则进化”三阶段闭环。
-- 评估子稿验收基线 v1 已完成，但只代表 Stage E，不再称为完整小论文；可作成熟章节或分拆投稿备选。
-- 当前最大缺口：动作策略/规则候选蒸馏没有训练结果；vgmc 日志不含完整推理轨迹。4B 仅训练链 smoke、8B 主学生已定，14B 既有异常尚未归因；待确认的是训练窗口与预注册指标/非劣和安全容差，不再重问学生选择。
-- 唯一执行计划：`docs/handoff/2026-09-22-paper-research-next-phase.md`；§10 已改为 P1 交付与服务器接手。本地审计结果见资产账本§3.1：冲突隔离、历史来源与缺层manifest已交付；动作SFT/风险预筛DATA_NO_GO，DPO仅审计素材PILOT_ONLY。剩余为完整源表/schema、独立正确性/许可、新隔离数据和指标专属功效，不可直接训练。
-- 用户最新停点：不再继续本机跑test，测试代码与已有局部结果保留；服务器接手测试和导师Word视觉核对。Phase 1a可学性、七类规则门、数据补充和训练均等后续批准；未见数据不得参与调参或规则接受。
-- 24–48 小时导师方向包与实验后统一初稿分开；数据/必要性/非劣/安全门不成立或 10-04 仍缺闭环证据即拆稿保底，详见计划 Phase 6。方向 Word 已重生成且全文段落/表格与当前源一致；Office 排版/分页视觉验收仍未做，未代发导师。
-- 旧科研总纲、评估单线排期、蒸馏预注册草案与历史审稿不再控制当前执行；分层覆盖规则见 `docs/research/README.md` §1，原始证据及公开红线不变。
-- 外发硬门：专利申请状态与权利要求覆盖仍由用户确认；确认前不外发、不上传 arXiv、不公开核心代码。
-- 本地验收依赖：使用现有 `.venv`（系统 Python 缺 python-docx）。docs_lint 的 [4] skill 安装漂移是既有机器安装问题；本轮不覆盖全局技能、不改 lint 清零。唯一 WARN 为受保护 docs/34 时效，不修改该文件清警；最新检查结果只维护于 STATE。
-- 另一台服务器的语料、模型、运行环境和调度/技能安装由用户明确排除，本轮未核验、不搬运或重建；Phase 1 若需源表/规则状态再按执行面取证。代码在库不代表已安装或可运行，详细依赖见资产账本与代码地图。
-- 后续可学性 baseline 与规则 replay 即使零端点，生成新论文数字仍归 GB10；本地只做已有事实审计和合成代码测试，不以治理完成宣称独立 B/C 或生产验收。
-- 解析器/RAG 进一步拆分、全局 hooks/skills 安装和自动编排不属本轮；当前仓内治理的结案状态见 STATE，历史 backlog 不重新派工。
+- **本地 Git 基线已对齐**：本轮开工 fresh fetch 后，本地 `main`、`origin/main` 与工作分支 `test/compaction-guard-abort` 均为 `061d8819bd7c3b03159f6f0df183887be57edef6`，`HEAD...origin/main=0/0`；交付前远端 test 为 `0aee20d`。Phase 1a 合同随本轮交付发布到该 test 分支；未使用 reset/rebase。
+- **论文状态不变**：Stage E 是成熟评估子稿；Stage D 无训练后证据；Stage R 只有机制级证据。Phase 1a 仍为 `DATA_NO_GO`，Phase 2 未启动；零样本矩阵不能写成蒸馏结果，评估方向包不能冒充三阶段完整论文。
+- **仓内前置已收敛**：`research/phase1a_data_contract.py` 与 `tests/test_phase1a_data_contract.py` 把数据补充要求固化为七门 fail-closed 合同。机械通过只到 `READY_FOR_INDEPENDENT_ACCEPTANCE`，不能输出 `DATA_GO`、训练许可或论文结果。唯一合同与 GB10 验收命令见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`，不再另建计划。
+- **GB10 仍待复核**：上次已知 production 为 `e5ab809`；2026-09-23 的一次 SSH 连接超时，当前 checkout、脏件、进程、Loop B、控制队列、私有数据和 Loop C Lead 均未验证。不得使用本地缓存 `gb10/main=3dabbc7` 推断实况，不得认领 READY 卡。
+- **恢复顺序**：先只读核 GB10 状态并建立干净隔离 worktree，再只读挂载私有补充包，跑聚焦测试和两次 `strace` 预检，要求报告逐字一致、零 connect、七门全 PASS；随后由独立人员复核许可、标签身份/裁决、分析计划与 parser receipt。任何一步失败继续 `DATA_NO_GO`。
+- **仍需用户另批**：Phase 1a 可学性、Phase 2 七类 replay、4B smoke、8B 主训练、模型/服务/数据库动作、正式实验数字和公开投稿。Office 视觉验收仍为独立待办；专利状态未确认前不外发。
+- **当前执行权威**：入口为 `docs/research/README.md`，叙事为 `paper/research_story_v2.md`，证据为 `paper/research_asset_map_v2.md`，唯一计划为 `docs/handoff/2026-09-22-paper-research-next-phase.md`。旧 closeout 细节留在 Git 与 handoff §10/§12，不再复制到当前台账。
 
 ## 技术未决（来自 blocked_questions.md 现存条目）
 

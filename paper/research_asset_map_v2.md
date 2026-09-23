@@ -1,6 +1,6 @@
 # 三阶段科研资产地图 v2
 
-> 状态：当前索引 | 更新：2026-09-22 | 范围：论文相关仓内资产与已知仓外证据
+> 状态：当前索引 | 更新：2026-09-23 | 范围：论文相关仓内资产与已知仓外证据
 
 ## 1. 账本职责与阅读顺序
 
@@ -97,6 +97,8 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 
 **后续不自动运行**：保留评估稿作近期交付；完整源表/许可、正确动作和双向偏好、OCR/hold覆盖及独立新数据的补充，连同 Phase 1a/2 和训练都等待用户批准。其他服务器本轮不连接或获取。
 
+**补充包预检器**：`research/phase1a_data_contract.py` 将上述缺口固化为七道机械门（工件完整性、层隔离、独立正确性、许可、confidence、分析计划、parser contract），合成回归位于 `tests/test_phase1a_data_contract.py`。它只可能输出 `DATA_NO_GO` 或 `READY_FOR_INDEPENDENT_ACCEPTANCE`；后者仍须 GB10 对私有原件做零连接、双跑确定性及人工独立验收，不是 `DATA_GO`、训练许可或新的论文证据。完整合同和命令见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`。
+
 ## 4. Stage R — 自学习规则进化
 
 | 类型 | 资产 | 用途 | 状态 |
@@ -129,7 +131,7 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 | RQ3 / Stage R | 现有拒绝与碰撞是机制证据，净收益/长期回滚仍 needs-evidence | Phase 2 七类共享流且状态独立的门基线、Phase 5 冻结快照评测 / 规则实验 Agent |
 | RQ4 / 闭环 | needs-evidence，不把 E 与 R 分别存在写成闭环有效 | Phase 5 sealed test/future replay + Phase 6 合稿门 / 实验与论文 Agent |
 
-执行计划 §10 的本地审计已交付；当前先交接服务器测试与导师包 Office 视觉核对，不继续本机测试。数据补充、Phase 1a/2 及训练均等用户批准；保留评估稿作近期交付，不能从 PILOT_ONLY 推导训练许可，详细停止条件仍只维护在执行计划。
+执行计划 §10 的本地审计已交付；本轮新增的补充包合同只接受合成测试，不产生正式实验事实。GB10 私有包验收与导师包 Office 视觉核对仍待执行；数据补充、Phase 1a/2 及训练均等用户批准。保留评估稿作近期交付，不能从 PILOT_ONLY 或 `READY_FOR_INDEPENDENT_ACCEPTANCE` 推导训练许可，详细停止条件仍只维护在执行计划。
 
 ## 7. 清理裁定
 

@@ -1,6 +1,6 @@
 # 代码资产与执行边界地图
 
-> 状态: 活跃 | 更新: 2026-09-22 | 取代/被取代: 取代本文件旧规模统计与服务健康快照；历史见 Git
+> 状态: 活跃 | 更新: 2026-09-23 | 取代/被取代: 取代本文件旧规模统计与服务健康快照；历史见 Git
 
 本文件说明仓内代码在哪里、怎样关联、验证需要什么，不是服务器存活报告。科研证据成熟度见 `paper/research_asset_map_v2.md`；当前状态见 `memory/STATE.md`；运行基线见 `memory/CORE.md`。
 
@@ -36,6 +36,7 @@
 | 评估聚合、K2 与 `research/paper_d*` / `paper_t*` / `paper_w2*` | 已有 checkpoint/逐样本工件 → 汇总、稳健性与审稿证据 | 先查具体入口；有的仅聚合，有的会请求模型，不能按文件前缀推断零调用 |
 | `research/vgmc_exp1.py` 与其他 VGMC 脚本 | drift_v0 语料、候选动作、规则状态 → 门控/拒绝/污染曲线 | `fewshot_pool` 等纯函数可用 fixture；完整回放/新数字归正式执行面 |
 | `research/dpo_pairs_v0.py` | 旧生成入口：checkpoint → 偏好对；`--audit`：已有37件工件 → 来源/标签/历史划分审计 | 审计不加载语料/模型、不导出训练样本；结果见资产账本 §3.1；回归 `tests/test_distillation_data_audit.py` |
+| `research/phase1a_data_contract.py` | 私有补充包 manifest + hash 绑定工件 → 七门聚合预检收据 | 本地仅用合成 fixture 验证合同；通过只到 `READY_FOR_INDEPENDENT_ACCEPTANCE`，GB10 私有包、`strace` 与人工复核另验；回归 `tests/test_phase1a_data_contract.py` |
 | bandit / PSO / 视觉探索脚本 | 各自实验输入 → 探索工件 | 历史/候选资产，不是本轮自动重开项目 |
 | `research/validate_paper_claims.py` | 主张 manifest、正文、工件路径 → 静态验收 | 本地离线；路径/标记通过不等于复算数字或证明贡献 |
 | `research/build_teacher_review_docx.py` | Markdown + 图表模板 → DOCX | 本地离线派生；结构测试不等于 Office 视觉验收 |
@@ -55,7 +56,7 @@
 ## 定点验证地图
 
 - 启动/分层/分类：`tests/test_runtime_contract.py`、`tests/test_production_module_boundaries.py`、`tests/test_script_catalog.py`。
-- 科研纯逻辑：评估聚合测试、drift 合成用例、`tests/test_vgmc_baseline.py`；逐项确认不加载真实语料或访问服务。
+- 科研纯逻辑：评估聚合测试、drift 合成用例、`tests/test_vgmc_baseline.py`、`tests/test_phase1a_data_contract.py`；逐项确认不加载真实语料或访问服务。
 - 治理合同：`tests/test_document_governance.py`、`tests/test_dispatch_precheck.py`。
 - 主张与派生件：`tests/test_paper_claim_acceptance.py`、`tests/test_research_story_assets.py`。
 
