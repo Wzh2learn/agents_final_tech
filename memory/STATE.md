@@ -19,7 +19,7 @@ This is software and governance preparation, not a Phase 1a learnability run or 
 - The theory/data materials are published on the same branch at `b29ee92`; local and remote test were verified `0/0` immediately after push.
 - The experiment-preregistration alignment is published on the same branch at `1c74e73`; local and remote test were verified `0/0` immediately after push.
 - The theory/source expansion is published on the same branch at `cbd674c`; local and remote test were verified `0/0` immediately after push.
-- Audit-source delivery was published at `7dd505c`; the working branch and `origin/test/compaction-guard-abort` were aligned there before this repair batch, which is delivered as the next fast-forward commit on the same branch.
+- Audit-source delivery was published at `7dd505c`. The audit-repair batch is published on the same branch at `c296969`; local and remote test were verified `0/0` immediately after push. Use live Git commands for the current head after later commits.
 - Alignment used fast-forward history only. No reset, rebase, stash, or cleanup was used.
 - Protected `docs/33*`, `docs/34*`, frozen tests, schemas, and `scripts/graph/frozen_hashes.txt` remain untouched.
 
