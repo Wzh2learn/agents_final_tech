@@ -301,6 +301,34 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 **通过门**：先复现原固定门数字，再验证各臂状态和计分器；接受/回滚仅使用 proposal/train 与 gate-validation，sealed test 不参与本卡。表级区间可算，null 原样保留；源表/状态缺失则标 `REPLAY_BLOCKED`，不能伪造闭环或用在线建议器补齐。
 
+**仓内前置已完成，正式 replay 未启动**：`research/phase2_rule_gate_replay.py` 已固化七臂状态机，`research/paper_result_views.py` 已固化 Table 2 / Figure 4 的聚合数据接口。输入合同只接受 `proposal_train` 与 `gate_validation` 表；候选只能含 id、source uid、synonym、target、confidence，任何预存 `gain`、`collateral`、`accepted` 或 `split` 字段都会失败。七臂逐条消费同一候选顺序、各自维护规则库；source gain、proposal collateral、独立 gate delta 均从该臂当前状态重算。rollback 臂保留最佳独立验证快照，超出预注册累计预算时回滚。合成测试只证明状态机和接口，不复现旧固定门数字，也不打开 Phase 2。
+
+GB10 恢复后，先完成 Phase 1 数据接收并取得 Phase 2 单独授权，再把已批准 manifest 中的 proposal/train 共享候选、可重建表状态和独立 gate-validation 转成合同 JSON；转换工件、预注册配置和报告均放 Git 外，sealed test/future replay 不进入本卡。正式运行前冻结 `min_source_gain`、`max_collateral_loss`、`max_gate_loss`、`rollback_budget`、confidence 缺失策略和四项成本代理。先验证软件，再做两次零连接重放：
+
+```bash
+python3 -m py_compile research/phase2_rule_gate_replay.py research/paper_result_views.py
+PYTHONPATH=src:. .venv/bin/python -m pytest tests/test_phase2_rule_gate_replay.py -q
+
+strace -f -e trace=connect -o /tmp/phase2-replay-1.strace \
+  env PYTHONPATH=. .venv/bin/python research/phase2_rule_gate_replay.py \
+  --dataset <GB10-approved-phase2-contract.json> \
+  --config <GB10-approved-phase2-prereg.json> \
+  --output /tmp/phase2-replay-1.json
+
+strace -f -e trace=connect -o /tmp/phase2-replay-2.strace \
+  env PYTHONPATH=. .venv/bin/python research/phase2_rule_gate_replay.py \
+  --dataset <GB10-approved-phase2-contract.json> \
+  --config <GB10-approved-phase2-prereg.json> \
+  --output /tmp/phase2-replay-2.json
+
+cmp --silent /tmp/phase2-replay-1.json /tmp/phase2-replay-2.json
+env PYTHONPATH=. .venv/bin/python research/paper_result_views.py \
+  --phase2-report /tmp/phase2-replay-1.json \
+  --output /tmp/phase2-paper-views-preview.json
+```
+
+GB10 软件验收要求两次报告逐字一致、两份 trace 均无 `connect(`、七臂 candidate-order hash 一致、状态分叉用例与 rollback 用例通过。科学验收还必须复现原 fixed-dual 历史口径，核对 manifest/config/input/implementation hash、独立层 UID 隔离、最坏家族与 null；任何源表/状态缺失均记 `REPLAY_BLOCKED`。数据接口始终输出 `paper_result=false` 和未验收水印，需另行独立审查后才允许被论文生成器消费。
+
 ### Phase 3：训练环境和 4B smoke（需用户批准，1 天）
 
 **目的**：只验证 HF/PEFT 数据、loss、保存、恢复和离线评测链，不产论文结论。

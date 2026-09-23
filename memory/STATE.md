@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-09-23 | Scope: Phase 1a data acceptance and simple-baseline prerequisites | Runtime: no GB10/service operation
+> Updated: 2026-09-23 | Scope: Phase 1a/2 repository-only experiment prerequisites | Runtime: no GB10/service operation
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
@@ -8,14 +8,14 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Current objective
 
-Keep the paper line moving while GB10 is unavailable by completing repository-only Phase 1a prerequisites. The data-supplement precheck is delivered; the current batch adds the five simple baselines needed to decide whether deterministic/lexical/confidence rules are already sufficient or whether a cheap classifier shows residual learnability.
+Keep the paper line moving while GB10 is unavailable by completing repository-only experiment prerequisites. The Phase 1a data precheck and five simple baselines are delivered; the current batch adds the Phase 2 seven-arm replay state machine and stable Table 2/Figure 4 aggregate interfaces.
 
-This is software and governance preparation, not a Phase 1a learnability run. Synthetic fixture metrics are test data only; no private-data baseline, training data, model output, or paper-facing experimental result has been produced.
+This is software and governance preparation, not a Phase 1a learnability run or Phase 2 replay. Synthetic fixture metrics are test data only; no private-data baseline, training data, model output, real rule replay, or paper-facing experimental result has been produced.
 
 ## Git state
 
 - Pre-delivery baseline: local `main`, freshly fetched `origin/main`, and local `test/compaction-guard-abort` were `061d8819bd7c3b03159f6f0df183887be57edef6`; `HEAD...origin/main = 0/0`.
-- Pre-delivery `origin/test/compaction-guard-abort` was `0aee20d`. The repository-only Phase 1a contract is delivered on that test branch; use `git rev-parse HEAD origin/test/compaction-guard-abort` for the exact published head.
+- The Phase 1a learnability runner is published on `test/compaction-guard-abort` at `fede65c`; local and remote test were verified `0/0` immediately after push. Use live Git commands for the current head after later commits.
 - Alignment used fast-forward history only. No reset, rebase, stash, or cleanup was used.
 - Protected `docs/33*`, `docs/34*`, frozen tests, schemas, and `scripts/graph/frozen_hashes.txt` remain untouched.
 
@@ -34,7 +34,7 @@ This is software and governance preparation, not a Phase 1a learnability run. Sy
 - Stage D: no trained-student result. Existing zero-shot matrices are not distillation evidence.
 - Stage R: rejection/collision mechanism evidence exists; stable net benefit and long-term rollback evidence do not.
 - P1 local audit covers 37 historical artifacts, but action-SFT/risk remain `DATA_NO_GO` and DPO remains audit-only `PILOT_ONLY`; training exports are empty.
-- Phase 1a remains `DATA_NO_GO`; Phase 2 is unstarted. The internal direction package remains separate from an experiment-backed full paper.
+- Phase 1a remains `DATA_NO_GO`; Phase 2 software contract exists but formal data replay is unstarted. The internal direction package remains separate from an experiment-backed full paper.
 - Patent release approval is unconfirmed, so no submission, preprint upload, or public core-code release is allowed.
 
 ## Current repository-only delivery
@@ -45,12 +45,16 @@ This is software and governance preparation, not a Phase 1a learnability run. Sy
 - `tests/test_phase1a_data_contract.py` uses synthetic private-package fixtures and covers happy path, each gate family, leakage/path/hash failures, malformed inputs, network blocking, deterministic output, no-overwrite behavior, and CLI failure status.
 - `research/phase1a_learnability_baselines.py` implements always-skip, exact deterministic, lexical/fuzzy, confidence-only, and deterministic CPU softmax baselines over a receipt-bound proposal train/dev view. It rejects gate/sealed/future rows and post-outcome/split fields, and emits aggregate-only development decisions that never authorize training.
 - `tests/test_phase1a_learnability_baselines.py` covers receipt/config/view hash binding, independent-review shape, partition leakage, forbidden features, confidence missingness, risk/coverage metrics, UID bootstrap determinism, decision outcomes, work budgets, socket restoration, and output overwrite protection.
+- `research/phase2_rule_gate_replay.py` implements the shared-order seven-arm replay with independent rule states, per-arm score recomputation, independent gate validation, version snapshots, and bounded rollback. It rejects sealed/future layers and recorded outcome fields and emits aggregate-only, non-paper reports.
+- `research/paper_result_views.py` converts only the Phase 2 aggregate report into schema-stable Table 2/Figure 4 views while preserving `paper_result=false` and an independent-acceptance watermark.
+- `tests/test_phase2_rule_gate_replay.py` covers all seven arms, order identity, state-divergent recomputation, missing confidence, rollback restoration, layer/outcome leakage, deterministic aggregate output, and the paper-view contract.
 - The authoritative package schema and GB10 procedure are in `docs/experiments/2026-09-23_phase1a_data_no_go.md`; the tool is registered in the research entry, asset map, code map, and existing handoff.
 
 ## Local verification
 
 - Focused contract suite: 19 passed. Combined research/governance suite under `.venv`: 55 passed. Both emitted only the repository's existing unknown `asyncio_mode` warning.
 - New learnability-runner suite: 23 passed. Data-contract plus learnability-runner suites: 42 passed; the selected research/governance integration scope passed 61 tests, and paper claim validation remained 49/49. Python compilation and `git diff --check` passed; these are local synthetic/static software checks, not GB10 or scientific acceptance.
+- Phase 2 replay/view synthetic suite: 14 passed under local Python 3.12 with the repository's existing unknown `asyncio_mode` warning. It is not a replay result or GB10 acceptance.
 - Python compilation passed; paper claim validation passed 49/49.
 - The system-Python combined attempt stopped during collection because `python-docx` is absent; the same scope passed under the repository `.venv`, which contains the declared document dependency.
 - Local `docs_lint` remains 1 fail/1 warn because this machine's Codex skill installation is out of sync and protected `docs/34*` is stale. Neither condition was hidden or modified; they are not failures introduced by this source change.
@@ -69,5 +73,6 @@ This is software and governance preparation, not a Phase 1a learnability run. Sy
 2. Mount the private supplement package read-only and execute the focused test plus two `strace`-wrapped prechecks documented in the data-gate report.
 3. Require byte-identical reports, zero `connect` syscalls, seven mechanical PASS gates, and independent review of licence authority, reviewer identity/adjudication, analysis approval, and parser provenance.
 4. After independent acceptance and separate probe authorization, run the five-baseline runner twice with the receipt-bound preregistered config; inspect `SIMPLE_SUFFICIENT` / `LEARNABILITY_SIGNAL` / `NO_CLEAR_SIGNAL` / `PILOT_ONLY` without promoting any result to `DATA_GO`.
-5. Phase 2 replay, 4B/8B training, endpoints, service changes, and publication still require their own authorization.
-6. Office visual review of the two advisor DOCX files remains outstanding and is independent of this code contract.
+5. After Phase 1 acceptance, a separately approved Phase 2 GB10 run must construct the contract from the frozen proposal/gate manifest, freeze the gate/config values, run twice under `strace`, reproduce the historical fixed-dual scorer, and undergo independent artifact review. The current software report cannot self-promote to a paper result.
+6. 4B/8B training, endpoints, service changes, and publication still require their own authorization.
+7. Office visual review of the two advisor DOCX files remains outstanding and is independent of this code contract.

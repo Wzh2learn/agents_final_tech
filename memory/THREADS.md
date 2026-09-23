@@ -3,12 +3,13 @@
 ## 当前科研阻塞与接续（2026-09-23）
 
 - **本地 Git 基线已对齐**：本轮开工 fresh fetch 后，本地 `main`、`origin/main` 与工作分支 `test/compaction-guard-abort` 均为 `061d8819bd7c3b03159f6f0df183887be57edef6`，`HEAD...origin/main=0/0`；交付前远端 test 为 `0aee20d`。Phase 1a 合同随本轮交付发布到该 test 分支；未使用 reset/rebase。
-- **论文状态不变**：Stage E 是成熟评估子稿；Stage D 无训练后证据；Stage R 只有机制级证据。Phase 1a 仍为 `DATA_NO_GO`，Phase 2 未启动；零样本矩阵不能写成蒸馏结果，评估方向包不能冒充三阶段完整论文。
+- **论文状态不变**：Stage E 是成熟评估子稿；Stage D 无训练后证据；Stage R 只有机制级证据。Phase 1a 仍为 `DATA_NO_GO`，Phase 2 只有仓内软件合同、正式数据 replay 未启动；零样本矩阵不能写成蒸馏结果，评估方向包不能冒充三阶段完整论文。
 - **仓内前置已收敛**：`research/phase1a_data_contract.py` 与 `tests/test_phase1a_data_contract.py` 把数据补充要求固化为七门 fail-closed 合同。机械通过只到 `READY_FOR_INDEPENDENT_ACCEPTANCE`，不能输出 `DATA_GO`、训练许可或论文结果。唯一合同与 GB10 验收命令见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`，不再另建计划。
 - **五基线 runner 已就绪但未正式运行**：`research/phase1a_learnability_baselines.py` / `tests/test_phase1a_learnability_baselines.py` 已实现 proposal train/dev 专用的 always-skip、deterministic、lexical/fuzzy、confidence-only、simple classifier，对接独立接收回执和预注册配置 hash。合成测试 23 passed，联合数据合同 42 passed，科研/治理定向 61 passed；没有私有 baseline 数字，Phase 1a 状态不变。
+- **Phase 2 七臂软件合同已就绪但未正式运行**：`research/phase2_rule_gate_replay.py` 保证共享候选顺序、逐臂独立规则状态、分叉后重算三类分数和 rollback 快照；`research/paper_result_views.py` 提供带未验收水印的 Table 2/Figure 4 聚合接口。合成测试 14 passed；没有读取真实语料、没有 Phase 2 数字，GB10 输入转换、历史 fixed-dual 复现和独立验收仍待授权。
 - **GB10 仍待复核**：上次已知 production 为 `e5ab809`；2026-09-23 的一次 SSH 连接超时，当前 checkout、脏件、进程、Loop B、控制队列、私有数据和 Loop C Lead 均未验证。不得使用本地缓存 `gb10/main=3dabbc7` 推断实况，不得认领 READY 卡。
 - **恢复顺序**：先只读核 GB10 状态并建立干净隔离 worktree，再只读挂载私有补充包，跑聚焦测试和两次 `strace` 预检，要求报告逐字一致、零 connect、七门全 PASS；随后由独立人员复核许可、标签身份/裁决、分析计划与 parser receipt。任何一步失败继续 `DATA_NO_GO`。
-- **仍需后续门/授权**：GB10 私有包与人工验收通过后，Phase 1a 正式可学性探针仍须按已绑定配置运行；Phase 2 七类 replay、4B smoke、8B 主训练、模型/服务/数据库动作、正式实验数字和公开投稿均未开放。Office 视觉验收仍为独立待办；专利状态未确认前不外发。
+- **仍需后续门/授权**：GB10 私有包与人工验收通过后，Phase 1a 正式可学性探针仍须按已绑定配置运行；Phase 2 数据 replay 即使已有软件骨架仍须单独批准并按 handoff 双跑验收；4B smoke、8B 主训练、模型/服务/数据库动作、正式实验数字和公开投稿均未开放。Office 视觉验收仍为独立待办；专利状态未确认前不外发。
 - **当前执行权威**：入口为 `docs/research/README.md`，叙事为 `paper/research_story_v2.md`，证据为 `paper/research_asset_map_v2.md`，唯一计划为 `docs/handoff/2026-09-22-paper-research-next-phase.md`。旧 closeout 细节留在 Git 与 handoff §10/§12，不再复制到当前台账。
 
 ## 技术未决（来自 blocked_questions.md 现存条目）

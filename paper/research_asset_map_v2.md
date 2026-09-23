@@ -114,6 +114,8 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 | 碰撞证据 | `logs/graph/eval/vgmc_collision_curve.json` | 门控与无门控差异 | 有方向性差异，不能替代功效分析 |
 | 基线 | `logs/graph/eval/vgmc_baseline_curve.json` | few-shot/Mem0/AWM 式对照 | 与 no-gate 不可分，保留 null |
 | 学习门 | `logs/graph/eval/bandit_gate_v0_eval.json`、`logs/graph/eval/bandit_prospective_eval.json` | 阈值 bandit | 奖励无分辨力，需重设计 |
+| 七臂 replay 软件合同 | `research/phase2_rule_gate_replay.py`、`tests/test_phase2_rule_gate_replay.py` | 共享候选流、独立状态、逐臂重算与 rollback | 合成软件证据可用；正式 Phase 2 未执行 |
+| 论文数据接口 | `research/paper_result_views.py` | Phase 2 报告 → Table 2 / Figure 4 聚合视图 | 仅未验收预览，固定 `paper_result=false`；不能作为论文数字 |
 
 ## 5. 总体路线与图
 
@@ -133,7 +135,7 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 | RQ3 / Stage R | 现有拒绝与碰撞是机制证据，净收益/长期回滚仍 needs-evidence | Phase 2 七类共享流且状态独立的门基线、Phase 5 冻结快照评测 / 规则实验 Agent |
 | RQ4 / 闭环 | needs-evidence，不把 E 与 R 分别存在写成闭环有效 | Phase 5 sealed test/future replay + Phase 6 合稿门 / 实验与论文 Agent |
 
-执行计划 §10 的本地审计已交付；补充包合同与五基线 runner 当前只接受合成测试，不产生正式实验事实。GB10 私有包验收与导师包 Office 视觉核对仍待执行；Phase 1a 正式开发探针、Phase 2 及训练均待相应门通过和授权。保留评估稿作近期交付，不能从 PILOT_ONLY、`READY_FOR_INDEPENDENT_ACCEPTANCE` 或 `LEARNABILITY_SIGNAL` 推导训练许可，详细停止条件仍只维护在执行计划。
+执行计划 §10 的本地审计已交付；补充包合同、五基线 runner、Phase 2 七臂状态机与论文数据接口当前只接受合成测试，不产生正式实验事实。GB10 私有包验收与导师包 Office 视觉核对仍待执行；Phase 1a 正式开发探针、Phase 2 数据 replay 及训练均待相应门通过和授权。保留评估稿作近期交付，不能从 PILOT_ONLY、`READY_FOR_INDEPENDENT_ACCEPTANCE`、`LEARNABILITY_SIGNAL` 或软件合同 PASS 推导训练许可/论文结论，详细停止条件仍只维护在执行计划。
 
 ## 7. 清理裁定
 
