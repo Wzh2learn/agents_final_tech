@@ -92,6 +92,50 @@ cmp --silent /tmp/phase1a-precheck-1.json /tmp/phase1a-precheck-2.json
 
 Acceptance requires: 19 focused tests pass; both trace files contain zero `connect(` syscalls; the two JSON files are byte-identical; `endpoint_calls=0`, `socket_attempts=0`; all seven gates are `PASS`; and status is exactly `READY_FOR_INDEPENDENT_ACCEPTANCE`. Loop B/C or the designated reviewers must then independently verify the three manual-review items against the private originals. Any failed gate, non-determinism, network attempt, provenance doubt, or private-data leakage keeps `DATA_NO_GO`. Passing does not start Phase 1a, Phase 2, or training; those remain separately authorized execution steps.
 
+## Phase 1a learnability probe after independent acceptance
+
+`research/phase1a_learnability_baselines.py` is the repository-only runner for the five Phase 1a development baselines. Its presence does not start the probe. It refuses to run until all of the following are supplied outside Git:
+
+1. the byte-exact `READY_FOR_INDEPENDENT_ACCEPTANCE` precheck report;
+2. an `ACCEPTED_FOR_PHASE1A_LEARNABILITY` receipt binding the package-manifest, precheck-report, learnability-view, and preregistered-config SHA-256 values;
+3. three recorded, distinct manual-review PASS identities for licence authority, label independence, and analysis/parser provenance;
+4. one hash-bound JSONL view whose rows exactly match `proposal_train.train` and `proposal_train.dev` sample/UID references; and
+5. a preregistered config fixing the lexical threshold, confidence policy, classifier hyperparameters, bootstrap seed/count, and decision policy before execution.
+
+The JSONL view accepts only `sample_id`, `uid`, `observed_header`, `canonical_fields`, `candidate_target`, `confidence`, `gold_action`, `gold_target`, and `family`. Unknown fields are rejected. In particular, `gain`, `collateral`, `accepted`, `split`, and `partition` cannot enter the feature path. The runner derives the split only from the accepted package manifest and rejects missing, extra, gate-validation, sealed-test, or future-replay samples.
+
+The five arms are `always_skip`, exact normalized `deterministic_matcher`, preregistered-threshold `lexical_fuzzy`, frozen-policy `confidence_only`, and a deterministic CPU softmax `simple_classifier`. The classifier uses only header/candidate lexical similarity, exact-match indicators, candidate availability, confidence indicators, and bounded shape features. It does not use family, gold target/action, split identity, post-verification scores, accepted state, or learned rule state as features.
+
+Reports contain aggregate train/dev metrics, worst-family aggregates, deterministic UID-cluster intervals, input/config/implementation hashes, and no row-level predictions or sample text. Missing confidence is excluded as `unmeasurable`, never filled with zero. The only decisions are `SIMPLE_SUFFICIENT`, `LEARNABILITY_SIGNAL`, `NO_CLEAR_SIGNAL`, and `PILOT_ONLY`; all carry `training_authorized=false` and `paper_result=false`.
+
+After the data package and receipt have been independently accepted and the user separately authorizes the development probe, run from a clean reviewed GB10 worktree. Replace placeholders only; keep reports and traces outside Git and outside the private package:
+
+```bash
+python3 -m py_compile research/phase1a_learnability_baselines.py
+PYTHONPATH=src .venv/bin/python -m pytest tests/test_phase1a_learnability_baselines.py -q
+
+strace -f -e trace=connect -o /tmp/phase1a-probe-1.strace \
+  env PYTHONPATH=. .venv/bin/python research/phase1a_learnability_baselines.py \
+  --package-root <GB10-private-package-root> \
+  --precheck-report <phase1a-precheck-report> \
+  --acceptance-receipt <independent-acceptance-receipt> \
+  --config <approved-preregistered-config> \
+  --output /tmp/phase1a-probe-1.json
+
+strace -f -e trace=connect -o /tmp/phase1a-probe-2.strace \
+  env PYTHONPATH=. .venv/bin/python research/phase1a_learnability_baselines.py \
+  --package-root <GB10-private-package-root> \
+  --precheck-report <phase1a-precheck-report> \
+  --acceptance-receipt <independent-acceptance-receipt> \
+  --config <approved-preregistered-config> \
+  --output /tmp/phase1a-probe-2.json
+
+sha256sum /tmp/phase1a-probe-1.json /tmp/phase1a-probe-2.json
+cmp --silent /tmp/phase1a-probe-1.json /tmp/phase1a-probe-2.json
+```
+
+Software acceptance requires the focused synthetic suite to pass, both traces to contain zero `connect(` calls, and both reports to be byte-identical with `endpoint_calls=0` and `socket_attempts=0`. Scientific interpretation still occurs only after checking the approved thresholds, measurable denominators, family/UID support, and confidence missingness. `LEARNABILITY_SIGNAL` can justify asking for a later training window; it is not evidence that an 8B student is better. `SIMPLE_SUFFICIENT` stops escalation under the current plan.
+
 ## Evidence and boundaries
 
 The non-formal Phase 1a audit trace is retained on GB10 at `/tmp/phase1a.stderr`; the A-2 and A-3 reports and raw traces remain under `/tmp` as execution evidence, not Git source. No model calls, endpoint calls, canaries, training, old receipt recomputation, or service restarts were used for this gate. The next permitted entries are data supplementation, a separately scoped A-2 expansion, or Loop C Lead governance/control-plane work.

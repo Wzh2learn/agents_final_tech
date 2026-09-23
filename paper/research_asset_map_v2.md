@@ -99,6 +99,8 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 
 **补充包预检器**：`research/phase1a_data_contract.py` 将上述缺口固化为七道机械门（工件完整性、层隔离、独立正确性、许可、confidence、分析计划、parser contract），合成回归位于 `tests/test_phase1a_data_contract.py`。它只可能输出 `DATA_NO_GO` 或 `READY_FOR_INDEPENDENT_ACCEPTANCE`；后者仍须 GB10 对私有原件做零连接、双跑确定性及人工独立验收，不是 `DATA_GO`、训练许可或新的论文证据。完整合同和命令见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`。
 
+**可学性五基线前置**：`research/phase1a_learnability_baselines.py` 与 `tests/test_phase1a_learnability_baselines.py` 已把 always-skip、确定性精确匹配、lexical/fuzzy、confidence-only 和简单 CPU 分类器固化为 proposal train/dev 专用 runner。接收回执必须绑定数据预检、私有 view 与预注册配置 hash；输出仅含聚合指标、UID-cluster 区间和 `SIMPLE_SUFFICIENT` / `LEARNABILITY_SIGNAL` / `NO_CLEAR_SIGNAL` / `PILOT_ONLY`。当前只有合成软件证据，没有 GB10 开发结果，RQ2/TH-I3 仍为 needs-evidence。
+
 ## 4. Stage R — 自学习规则进化
 
 | 类型 | 资产 | 用途 | 状态 |
@@ -131,7 +133,7 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 | RQ3 / Stage R | 现有拒绝与碰撞是机制证据，净收益/长期回滚仍 needs-evidence | Phase 2 七类共享流且状态独立的门基线、Phase 5 冻结快照评测 / 规则实验 Agent |
 | RQ4 / 闭环 | needs-evidence，不把 E 与 R 分别存在写成闭环有效 | Phase 5 sealed test/future replay + Phase 6 合稿门 / 实验与论文 Agent |
 
-执行计划 §10 的本地审计已交付；本轮新增的补充包合同只接受合成测试，不产生正式实验事实。GB10 私有包验收与导师包 Office 视觉核对仍待执行；数据补充、Phase 1a/2 及训练均等用户批准。保留评估稿作近期交付，不能从 PILOT_ONLY 或 `READY_FOR_INDEPENDENT_ACCEPTANCE` 推导训练许可，详细停止条件仍只维护在执行计划。
+执行计划 §10 的本地审计已交付；补充包合同与五基线 runner 当前只接受合成测试，不产生正式实验事实。GB10 私有包验收与导师包 Office 视觉核对仍待执行；Phase 1a 正式开发探针、Phase 2 及训练均待相应门通过和授权。保留评估稿作近期交付，不能从 PILOT_ONLY、`READY_FOR_INDEPENDENT_ACCEPTANCE` 或 `LEARNABILITY_SIGNAL` 推导训练许可，详细停止条件仍只维护在执行计划。
 
 ## 7. 清理裁定
 

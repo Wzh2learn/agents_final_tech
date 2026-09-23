@@ -275,6 +275,8 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 当前仍为 `DATA_NO_GO`，本阶段未启动。先由补充包预检器得到 `READY_FOR_INDEPENDENT_ACCEPTANCE`，再由 Loop B/C 或指定人员完成私有原件人工验收；只有数据门被用户明确重开后，才只用 proposal/train 内部按 uid 分组的开发划分。不看 gate-validation、sealed test 或 future replay 结果来筛方案。不加载 LLM；简单分类器仅 CPU 拟合，例如 logistic regression，属于本卡离线探针，不是模型训练窗口。
 
+**仓内前置已完成，正式探针未启动**：`research/phase1a_learnability_baselines.py` 与 `tests/test_phase1a_learnability_baselines.py` 已固化五臂、聚合指标、UID-cluster 区间、四种开发决策和 fail-closed 输入边界。Runner 要求独立接收回执同时绑定 package manifest、precheck、proposal-only view 与预注册配置 hash；拒绝 gate/sealed/future 样本及 gain/collateral/accepted/split/partition 字段。它只输出开发级信号，不输出 `DATA_GO` 或训练许可。正式输入格式和 GB10 双跑命令只维护在 Phase 1a data-gate 报告，不另建计划。
+
 | 基线 | 输入/行为 | 要排除的简单解释 |
 |---|---|---|
 | always-skip | 全部拒绝候选 | 低有害率是否只是零覆盖 |
@@ -557,7 +559,7 @@ This addendum records the current evidence and supersedes the old acceptance-sto
 This section is the current handoff boundary; §10.0 and §12 remain historical evidence rather than live status.
 
 - **Verified local baseline:** after a fresh fetch, local `main`, `origin/main`, and `test/compaction-guard-abort` were all `061d8819bd7c3b03159f6f0df183887be57edef6` (`HEAD...origin/main = 0/0`). Pre-delivery `origin/test/compaction-guard-abort` was `0aee20d`; the repository-only contract is delivered on that test branch. No reset or rebase was used.
-- **Repository-only delivery:** `research/phase1a_data_contract.py` and `tests/test_phase1a_data_contract.py` implement the private supplement precheck with seven fail-closed gates, deterministic aggregate receipts, socket blocking, safe path/hash checks, and no training-data export. The exact package contract and later GB10 commands are maintained in the existing Phase 1a data-gate report, not in a parallel plan.
+- **Repository-only delivery:** `research/phase1a_data_contract.py` and `research/phase1a_learnability_baselines.py`, with their focused synthetic suites, implement the private supplement precheck and the later proposal-only five-baseline probe. Both are fail-closed, deterministic, aggregate-only, socket-blocked, and unable to authorize training. Exact package/receipt/config contracts and later GB10 commands are maintained in the existing Phase 1a data-gate report, not in a parallel plan.
 - **Research boundary:** synthetic fixture tests validate software behavior only. Phase 1a remains **`DATA_NO_GO`**, Phase 2 remains unstarted, and the checker cannot emit `DATA_GO`, training permission, or paper-facing results. A full mechanical pass yields only `READY_FOR_INDEPENDENT_ACCEPTANCE` and requires separate private-origin review.
 - **GB10 unverified:** the last known production snapshot remains `e5ab809` with the dirty paths and Loop C Lead state previously recorded in Git. The bounded SSH attempt recorded on 2026-09-23 timed out; current checkout, processes, queues, Loop B cycle, private data, and test state are unknown. The cached `gb10/main=3dabbc7` ref is not live evidence.
 - **Resume order on GB10:** establish a clean isolated worktree at the reviewed commit, mount the private package read-only, run the focused tests and two `strace`-wrapped prechecks, compare report hashes, then perform independent manual review. Any network call, non-determinism, failed gate, or provenance doubt leaves `DATA_NO_GO`; even acceptance does not open Phase 2 or training without user authorization.

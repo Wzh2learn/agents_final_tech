@@ -132,6 +132,7 @@
 11. `docs/experiments/2026-09-22_distillation_mvp_preregistration.md`：未执行的准备草案，仅作素材；模型角色、数据边界、双口径与判门由当前执行计划覆盖，训练前在原位同步确认参数。
 12. `docs/handoff/2026-09-22-paper-research-next-phase.md`：后续 Agent 可直接执行的优先级、数据门、任务卡、合稿/拆稿门与三周排期。
 13. `research/phase1a_data_contract.py`：Phase 1a 私有数据补充包的离线、fail-closed 机械预检；通过只表示 `READY_FOR_INDEPENDENT_ACCEPTANCE`，不表示 `DATA_GO`、训练许可或论文结果。合同与 GB10 命令见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`。
+14. `research/phase1a_learnability_baselines.py`：独立接收后才可运行的 proposal train/dev 五基线探针；仓内仅有合成合同测试，正式 GB10 开发数字尚未产生。输入回执、预注册配置与运行命令仍只维护在同一 Phase 1a data-gate 报告中。
 
 运行：
 
@@ -141,7 +142,7 @@ PYTHONPATH=. python3 -m pytest tests/test_paper_claim_acceptance.py -q
 .venv/bin/python research/build_teacher_review_docx.py
 ```
 
-评估子稿原有 G5 静态门已补充语义反向负控；OCR 可见性方向和表格检测信号已修正，两份导师 DOCX 已重生成。P1 本地审计已交付：动作 SFT/风险预筛 DATA_NO_GO，DPO 仅为审计素材的 PILOT_ONLY，均不导出训练数据；依据见资产账本 §3.1。本轮只新增仓内补充包合同及合成测试，未生成正式实验数字；GB10 私有包验收和 Office 视觉核对仍未执行，Phase 1a/2 及后续实验等待明确批准。近期使用评估保底稿与方向说明，不等训练、不代发；详细停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
+评估子稿原有 G5 静态门已补充语义反向负控；OCR 可见性方向和表格检测信号已修正，两份导师 DOCX 已重生成。P1 本地审计已交付：动作 SFT/风险预筛 DATA_NO_GO，DPO 仅为审计素材的 PILOT_ONLY，均不导出训练数据；依据见资产账本 §3.1。本轮只新增仓内补充包合同、五基线探针骨架及合成测试，未生成正式实验数字；GB10 私有包验收和 Office 视觉核对仍未执行，Phase 1a/2 及后续实验等待明确批准。近期使用评估保底稿与方向说明，不等训练、不代发；详细停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
 
 本批不包含：生产探测、模型调用、TAT-DQA 解冻、D4 执行、专利公开状态判断或对外发送。
 
@@ -159,7 +160,7 @@ A-2's four tested nodes were `test_adv_map_deterministic_nested_wrong_target`, `
 
 Section 6.1 is the earlier `d351d7e` closeout snapshot. At this delivery's clean baseline, local `main`, `origin/main`, and the working branch `test/compaction-guard-abort` were aligned at `061d881`; pre-delivery `origin/test/compaction-guard-abort` was `0aee20d`, and the repository-only contract is published on that test branch. GB10 was last observed at `e5ab809`, but its current production/worktree state, Loop B cycle, processes, and Loop C Lead queue are **unverified** because the last bounded SSH attempt timed out. The closeout audit remains `INCONCLUSIVE`; Phase 1a remains `DATA_NO_GO`, and Phase 2 has not started.
 
-The repository-only Phase 1a supplement precheck is now implemented with synthetic contract tests. It creates no experimental result: GB10 must later run the fixed offline acceptance procedure against a read-only private package and obtain independent manual review before the data gate can be reconsidered. See the dated state in `memory/STATE.md`, §13 of the handoff, and the data-gate report.
+The repository-only Phase 1a supplement precheck and simple-baseline runner are now implemented with synthetic contract tests. They create no experimental result: GB10 must later run the fixed offline acceptance procedure against a read-only private package, obtain independent manual review, and receive separate probe authorization before any development metric exists. See the dated state in `memory/STATE.md`, §13 of the handoff, and the data-gate report.
 
 ## 7. 常用入口
 

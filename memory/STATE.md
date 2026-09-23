@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-09-23 | Scope: main alignment and Phase 1a data-supplement precheck | Runtime: no GB10/service operation
+> Updated: 2026-09-23 | Scope: Phase 1a data acceptance and simple-baseline prerequisites | Runtime: no GB10/service operation
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
@@ -8,9 +8,9 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Current objective
 
-Keep `test/compaction-guard-abort` aligned with current `main` while completing the highest-value repository-only prerequisite for the paper line. The selected work is the Phase 1a private data-supplement precheck: turn the existing `DATA_NO_GO` gap list into a deterministic contract before consuming another GB10 window.
+Keep the paper line moving while GB10 is unavailable by completing repository-only Phase 1a prerequisites. The data-supplement precheck is delivered; the current batch adds the five simple baselines needed to decide whether deterministic/lexical/confidence rules are already sufficient or whether a cheap classifier shows residual learnability.
 
-This is software and governance preparation, not a Phase 1a learnability run. It produces no training data, model output, baseline score, or paper-facing experimental result.
+This is software and governance preparation, not a Phase 1a learnability run. Synthetic fixture metrics are test data only; no private-data baseline, training data, model output, or paper-facing experimental result has been produced.
 
 ## Git state
 
@@ -43,11 +43,14 @@ This is software and governance preparation, not a Phase 1a learnability run. It
 - The checker blocks common Python socket entry points, emits deterministic aggregate-only JSON, rejects unsafe paths and output overwrite, and never exports sample bodies.
 - It has only two outcomes: `DATA_NO_GO` and `READY_FOR_INDEPENDENT_ACCEPTANCE`. The latter is deliberately not `DATA_GO`, training permission, GB10 acceptance, or a paper result.
 - `tests/test_phase1a_data_contract.py` uses synthetic private-package fixtures and covers happy path, each gate family, leakage/path/hash failures, malformed inputs, network blocking, deterministic output, no-overwrite behavior, and CLI failure status.
+- `research/phase1a_learnability_baselines.py` implements always-skip, exact deterministic, lexical/fuzzy, confidence-only, and deterministic CPU softmax baselines over a receipt-bound proposal train/dev view. It rejects gate/sealed/future rows and post-outcome/split fields, and emits aggregate-only development decisions that never authorize training.
+- `tests/test_phase1a_learnability_baselines.py` covers receipt/config/view hash binding, independent-review shape, partition leakage, forbidden features, confidence missingness, risk/coverage metrics, UID bootstrap determinism, decision outcomes, work budgets, socket restoration, and output overwrite protection.
 - The authoritative package schema and GB10 procedure are in `docs/experiments/2026-09-23_phase1a_data_no_go.md`; the tool is registered in the research entry, asset map, code map, and existing handoff.
 
 ## Local verification
 
 - Focused contract suite: 19 passed. Combined research/governance suite under `.venv`: 55 passed. Both emitted only the repository's existing unknown `asyncio_mode` warning.
+- New learnability-runner suite: 23 passed. Data-contract plus learnability-runner suites: 42 passed; the selected research/governance integration scope passed 61 tests, and paper claim validation remained 49/49. Python compilation and `git diff --check` passed; these are local synthetic/static software checks, not GB10 or scientific acceptance.
 - Python compilation passed; paper claim validation passed 49/49.
 - The system-Python combined attempt stopped during collection because `python-docx` is absent; the same scope passed under the repository `.venv`, which contains the declared document dependency.
 - Local `docs_lint` remains 1 fail/1 warn because this machine's Codex skill installation is out of sync and protected `docs/34*` is stale. Neither condition was hidden or modified; they are not failures introduced by this source change.
@@ -65,5 +68,6 @@ This is software and governance preparation, not a Phase 1a learnability run. It
 1. When GB10 is restored, first obtain a fresh read-only status and create a clean isolated worktree at the reviewed commit; preserve production dirty files.
 2. Mount the private supplement package read-only and execute the focused test plus two `strace`-wrapped prechecks documented in the data-gate report.
 3. Require byte-identical reports, zero `connect` syscalls, seven mechanical PASS gates, and independent review of licence authority, reviewer identity/adjudication, analysis approval, and parser provenance.
-4. A mechanical pass only permits reconsidering the data gate. Phase 1a learnability, Phase 2 replay, 4B/8B training, endpoints, service changes, and publication still require their own authorization.
-5. Office visual review of the two advisor DOCX files remains outstanding and is independent of this code contract.
+4. After independent acceptance and separate probe authorization, run the five-baseline runner twice with the receipt-bound preregistered config; inspect `SIMPLE_SUFFICIENT` / `LEARNABILITY_SIGNAL` / `NO_CLEAR_SIGNAL` / `PILOT_ONLY` without promoting any result to `DATA_GO`.
+5. Phase 2 replay, 4B/8B training, endpoints, service changes, and publication still require their own authorization.
+6. Office visual review of the two advisor DOCX files remains outstanding and is independent of this code contract.
