@@ -1,5 +1,12 @@
 # memory/THREADS.md — 未决线索
 
+## 远端状态待复核（2026-09-23）
+
+- 本机 `main` 与本次 fetch 后的 `origin/main` 均为 `e5ab809e373de4e70680fd102e253e1ffa12e2f2`，`0/0`；四件本机用户资产保持未提交。
+- 下方 `Strict closeout ledger` 是 `d351d7e` 时点的历史快照，并非当前 GB10 状态。
+- GB10 上次成功观测为 production `e5ab809`、`0/0`；Loop C Lead 当时 `dc20ab1`，控制面 `IDLE`、`ACTIVE={}`、无 `STOP`、`2 READY / 4 BLOCKED`。本轮唯一一次 SSH 尝试超时，因此这些仅是历史状态，当前队列及远端工作区/进程均未核实；不得认领 READY 卡或声称队列正在运行。
+- 收尾独立审计为 `INCONCLUSIVE`；Phase 1a 为 `DATA_NO_GO`，Phase 2 未启动。待 SSH 恢复后先只读核状态，再决定接续。细节见 `memory/STATE.md` 与唯一科研交接 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
+
 ## Strict closeout ledger (2026-09-23)
 
 - **Alignment and acceptance:** GB10 production and `origin/main` are `d351d7e` at `0/0`; the next natural Loop B cycle recorded `git_alignment=PASS`. The production checkout still contains only the registered accumulative/rolling dirty assets and the external alignment backup remains outside Git.

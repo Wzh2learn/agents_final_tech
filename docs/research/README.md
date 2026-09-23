@@ -152,6 +152,10 @@ Phase 1a is a formal `DATA_NO_GO`, with no baseline result table; Phase 2 is uns
 
 A-2's four tested nodes were `test_adv_map_deterministic_nested_wrong_target`, `test_overlay_merge_adds_columns_and_entries`, `test_overlay_none_is_identity`, and `test_real_overlay_artifact_loads`; the traced scope was `4 passed`, rc=0, with zero `connect` syscalls. This is a scoped network statement, not a whole-project guarantee.
 
+## 7.2 Local and remote status boundary (2026-09-23)
+
+Section 7.1 is the earlier `d351d7e` closeout snapshot. Local `main` and freshly fetched `origin/main` were verified at `e5ab809` (`0/0`). GB10 was last observed at that same commit, but the only SSH attempt in this round timed out; its current production/worktree state, Loop B cycle, processes, and Loop C Lead queue are **unverified**. The prior queue snapshot (`IDLE`, two READY and four BLOCKED) is historical and does not establish current activity. The closeout audit remains `INCONCLUSIVE`; Phase 1a remains `DATA_NO_GO`, and Phase 2 has not started. See the dated status boundary in `memory/STATE.md` and §13 of the handoff.
+
 ## 6. 常用入口
 
 - 当前内部稿：`paper/draft_v0_s1_s2_s6.md`

@@ -549,3 +549,13 @@ This addendum records the current evidence and supersedes the old acceptance-sto
 1. Data supplementation: reopen Phase 1a only after the listed source/schema, licence, independent-correctness, confidence, and disjoint-manifest evidence is accepted.
 2. A-2 expansion: create new hard network-isolation evidence for any broader range; the present scoped trace is not reusable as a global guarantee.
 3. Loop C Lead: control-plane, governance, documentation, archive candidates, and experiment-design work may proceed while the research gate is `DATA_NO_GO`; Phase 2 and training remain closed.
+
+## 13. Local closeout and remote verification boundary (2026-09-23)
+
+This note supersedes §12 only for the current handoff boundary; §12 remains an accurate record of the earlier observation and is not rewritten.
+
+- **Verified locally this round:** after `git fetch origin`, local `main` and `origin/main` are both `e5ab809e373de4e70680fd102e253e1ffa12e2f2`, ahead/behind `0/0`. The worktree contains four preserved user assets: modified tracked `logs/graph/docs_lint_report.json`, plus untracked `IMPLEMENTATION_PLAN.md`, `PROMPT.md`, and `_d3b_dispatch.sh`.
+- **Last known GB10 snapshot only:** a prior successful SSH observation recorded production `main` and `origin/main` at `e5ab809`, `0/0`, with five tracked dirty files: `config/schema_suggestions.json`, `logs/graph/dispatch_log.md`, `logs/graph/docs_lint_report.json`, `logs/graph/loop_b_last_status`, and `logs/graph/verify-report.json`. The Loop C Lead worktree was then branch `gb10/loop-c-lead-20260923` at `dc20ab1`, two commits ahead of `origin/main`; its control files then showed `ACTIVE={}`, no `STOP`, `2 READY / 4 BLOCKED`, and `IDLE`. None of this is a current remote check.
+- **Not verified this round:** one bounded SSH attempt to `jinrong-dev` timed out. No remote status, control file, process, Loop B cycle, or worktree was read afterward. Do not infer that the queue is currently active or idle, and do not claim any READY card. The local cached `gb10/main=3dabbc7` ref is stale metadata, not live remote evidence.
+- The closeout audit remains **`INCONCLUSIVE`**: one call omitted the prompt correctly; a separate valid session was terminated after 180 seconds without a report. Phase 1a remains **`DATA_NO_GO`** and Phase 2 remains unstarted. No audit or experiment was rerun this round. The Loop C Lead branch remains unpushed/unmerged according to its last known snapshot; current remote status is unknown.
+- No GB10 acceptance, endpoint access, service operation, push, or main merge was performed in this round. Resume only after a new successful read-only remote status check; preserve the four local user assets.

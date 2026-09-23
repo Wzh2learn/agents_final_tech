@@ -111,3 +111,11 @@ violation. Phase 1a/2 did not start. Entry: [`../docs/research/README.md`](../do
 1. **Data supplement:** reopen Phase 1a only after complete source tables/schema, licence/provenance, independent correctness labels, and disjoint manifests are supplied and accepted.
 2. **A-2 scope expansion:** if a broader test or experiment range is requested, establish new hard network-isolation evidence for that exact range; do not reuse this scoped pass as a global guarantee.
 3. **Loop C Lead:** governance, control-plane, documentation, archive candidates, and experiment design may proceed while Phase 1a remains `DATA_NO_GO`; Phase 2 and training remain closed.
+
+## 本机与 GB10 状态边界（2026-09-23）
+
+- 本文件前面的 `Strict closeout` 记录的是 `d351d7e` 时点的历史观测，不代表本轮 GB10 实况。
+- **本机已核实：** 本次 `git fetch origin` 后，local `main` 与 `origin/main` 均为 `e5ab809e373de4e70680fd102e253e1ffa12e2f2`，ahead/behind `0/0`。保留四件本机用户资产：tracked 修改 `logs/graph/docs_lint_report.json`，以及未跟踪的 `IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`；本次未修改或暂存它们。
+- **GB10 上次已知、非当前核实：** 上一次成功远端观测记录 production `main` 与 `origin/main` 为 `e5ab809`、`0/0`；production 有五件 tracked 脏件（`config/schema_suggestions.json`、`logs/graph/dispatch_log.md`、`logs/graph/docs_lint_report.json`、`logs/graph/loop_b_last_status`、`logs/graph/verify-report.json`）。Loop C Lead worktree 当时为 `gb10/loop-c-lead-20260923`、`dc20ab1`，相对 `origin/main` 超前两个提交；控制面当时为 `ACTIVE={}`、无 `STOP`、队列 `2 READY / 4 BLOCKED`、`IDLE`。这些均为历史快照。
+- **本轮远端未核实：** 对 `ssh jinrong-dev` 仅尝试一次（BatchMode、12 秒连接上限），连接超时。故 production/worktree/控制文件、进程、Loop B 当前周期和所有远端脏件现状均未知；不得据历史 `IDLE` 推定队列当前未运行或已运行。此前收尾独立审计仍为 `INCONCLUSIVE`（一次未正确传入 prompt；一次有效会话在 180 秒终止且无报告）。Phase 1a 仍为 `DATA_NO_GO`，Phase 2 未启动；本次未重跑审计或实验。
+- `remotes/gb10/main=3dabbc7` 是本机缓存的旧远端跟踪引用，不代表 GB10 实况。本轮未 push、merge、修改四件用户资产，也未进行远端操作或验收。
