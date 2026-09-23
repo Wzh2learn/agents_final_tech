@@ -250,3 +250,58 @@ def test_report_writer_refuses_overwrite(tmp_path):
 
     with pytest.raises(ValueError, match="refusing to overwrite"):
         replay._write_new(output, {"second": True})
+
+
+def test_read_json_accepts_strict_json(tmp_path):
+    path = tmp_path / "config.json"
+    payload = {"contract_version": replay.CONTRACT_VERSION, "min_source_gain": 0.1}
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    assert replay._read_json(path, "config") == payload
+
+
+def test_read_json_rejects_duplicate_key_that_would_loosen_gate(tmp_path):
+    # Negative control: without object_pairs_hook, json.loads keeps the LAST
+    # value, so a duplicated min_source_gain of 0.0 would quietly disable the
+    # gain gate while the file still parsed cleanly and the replay still ran.
+    path = tmp_path / "config.json"
+    path.write_text(
+        '{"contract_version": "%s", "min_source_gain": 0.1, "min_source_gain": 0.0}'
+        % replay.CONTRACT_VERSION,
+        encoding="utf-8",
+    )
+
+    # Demonstrate the exact silent behaviour the guard exists to prevent.
+    assert json.loads(path.read_text(encoding="utf-8"))["min_source_gain"] == 0.0
+
+    with pytest.raises(ValueError, match="duplicate JSON key in config: min_source_gain"):
+        replay._read_json(path, "config")
+
+
+def test_read_json_rejects_duplicate_key_in_dataset(tmp_path):
+    path = tmp_path / "dataset.json"
+    path.write_text('{"dataset_id": "a", "dataset_id": "b"}', encoding="utf-8")
+
+    with pytest.raises(ValueError, match="duplicate JSON key in dataset: dataset_id"):
+        replay._read_json(path, "dataset")
+
+
+def test_read_json_rejects_nested_duplicate_key(tmp_path):
+    path = tmp_path / "config.json"
+    path.write_text('{"confidence_policy": {"high": "accept", "high": "reject"}}', encoding="utf-8")
+
+    with pytest.raises(ValueError, match="duplicate JSON key in config: high"):
+        replay._read_json(path, "config")
+
+
+def test_read_json_rejects_non_standard_constant(tmp_path):
+    path = tmp_path / "config.json"
+    path.write_text('{"min_source_gain": NaN}', encoding="utf-8")
+
+    with pytest.raises(ValueError, match="invalid JSON constant in config"):
+        replay._read_json(path, "config")
+
+
+def test_read_json_still_wraps_unreadable_file(tmp_path):
+    with pytest.raises(ValueError, match="cannot read strict JSON config"):
+        replay._read_json(tmp_path / "missing.json", "config")

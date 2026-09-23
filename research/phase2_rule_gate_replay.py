@@ -595,9 +595,40 @@ def run_replay(dataset: object, config: object) -> dict[str, object]:
     return report
 
 
+def _invalid_constant(source: str):
+    """Reject NaN / Infinity so a contract stays strict JSON."""
+
+    def invalid(value: str) -> None:
+        raise ValueError(f"invalid JSON constant in {source}: {value}")
+
+    return invalid
+
+
+def _unique_pairs(source: str):
+    """Reject duplicate object keys instead of letting the last one silently win.
+
+    Same guard as ``phase1a_data_contract._strict_json``: a duplicated key in the
+    dataset or config would otherwise change the replayed contract with no trace.
+    """
+
+    def unique(pairs: list[tuple[str, object]]) -> dict[str, object]:
+        result: dict[str, object] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"duplicate JSON key in {source}: {key}")
+            result[key] = value
+        return result
+
+    return unique
+
+
 def _read_json(path: Path, source: str) -> object:
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
+        return json.loads(
+            path.read_text(encoding="utf-8"),
+            parse_constant=_invalid_constant(source),
+            object_pairs_hook=_unique_pairs(source),
+        )
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise ValueError(f"cannot read strict JSON {source}") from exc
 
