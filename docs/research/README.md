@@ -154,7 +154,7 @@ A-2's four tested nodes were `test_adv_map_deterministic_nested_wrong_target`, `
 
 ## 7.2 Local and remote status boundary (2026-09-23)
 
-Section 7.1 is the earlier `d351d7e` closeout snapshot. Local `main` and freshly fetched `origin/main` were verified at `e5ab809` (`0/0`). GB10 was last observed at that same commit, but the only SSH attempt in this round timed out; its current production/worktree state, Loop B cycle, processes, and Loop C Lead queue are **unverified**. The prior queue snapshot (`IDLE`, two READY and four BLOCKED) is historical and does not establish current activity. The closeout audit remains `INCONCLUSIVE`; Phase 1a remains `DATA_NO_GO`, and Phase 2 has not started. See the dated status boundary in `memory/STATE.md` and §13 of the handoff.
+Section 7.1 is the earlier `d351d7e` closeout snapshot. At this round's initial check, local `main` and freshly fetched `origin/main` were `e5ab809` (`0/0`); the documentation-only status closeout was then pushed as `b8bd7cf`. GB10 was last observed at `e5ab809`, but the only SSH attempt in this round timed out; its current production/worktree state, Loop B cycle, processes, and Loop C Lead queue are **unverified**. The prior queue snapshot (`IDLE`, two READY and four BLOCKED) is historical and does not establish current activity. The closeout audit remains `INCONCLUSIVE`; Phase 1a remains `DATA_NO_GO`, and Phase 2 has not started. See the dated status boundary in `memory/STATE.md` and §13 of the handoff.
 
 ## 6. 常用入口
 
