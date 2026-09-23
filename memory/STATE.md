@@ -8,7 +8,7 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Current objective
 
-Keep the paper line moving while GB10 is unavailable by completing repository-only experiment prerequisites. The Phase 1a data precheck and five simple baselines are delivered; the current batch adds the Phase 2 seven-arm replay state machine and stable Table 2/Figure 4 aggregate interfaces.
+Keep the paper line moving while GB10 is unavailable by completing repository-only experiment prerequisites and paper-ready design materials. Phase 1a/2 software prerequisites are delivered; the current batch now also consolidates method formulas/theory and a split-safe public-data strategy without creating experimental facts.
 
 This is software and governance preparation, not a Phase 1a learnability run or Phase 2 replay. Synthetic fixture metrics are test data only; no private-data baseline, training data, model output, real rule replay, or paper-facing experimental result has been produced.
 
@@ -49,12 +49,15 @@ This is software and governance preparation, not a Phase 1a learnability run or 
 - `research/paper_result_views.py` converts only the Phase 2 aggregate report into schema-stable Table 2/Figure 4 views while preserving `paper_result=false` and an independent-acceptance watermark.
 - `tests/test_phase2_rule_gate_replay.py` covers all seven arms, order identity, state-divergent recomputation, missing confidence, rollback restoration, layer/outcome leakage, deterministic aggregate output, and the paper-view contract.
 - The authoritative package schema and GB10 procedure are in `docs/experiments/2026-09-23_phase1a_data_no_go.md`; the tool is registered in the research entry, asset map, code map, and existing handoff.
+- `paper/method_theory_materials_v1.md` now provides paper-ready notation and formulas for checkpoint filtering, two-head action SFT, selective risk/coverage, state-dependent three-way gating, the cumulative local regression bound with a fixed-pool telescoping corollary, and the rollback invariant. Twelve supporting papers were verified through the arXiv API; imported guarantees are explicitly disclaimed.
+- `paper/dataset_protocol_v1.md` separates label quality Q0–Q3 from proposal/gate/sealed/future roles, chooses FinQA then MultiHiertt as the highest-value new public sources, keeps the old TAT-QA train+dev pool historical-only pending UID exposure audit, and keeps TAT-DQA frozen. No dataset was downloaded or generated.
 
 ## Local verification
 
 - Focused contract suite: 19 passed. Combined research/governance suite under `.venv`: 55 passed. Both emitted only the repository's existing unknown `asyncio_mode` warning.
 - New learnability-runner suite: 23 passed. Data-contract plus learnability-runner suites: 42 passed; the selected research/governance integration scope passed 61 tests, and paper claim validation remained 49/49. Python compilation and `git diff --check` passed; these are local synthetic/static software checks, not GB10 or scientific acceptance.
 - Phase 2 replay/view synthetic suite: 14 passed under local Python 3.12 with the repository's existing unknown `asyncio_mode` warning. It is not a replay result or GB10 acceptance.
+- Current theory/data batch: the seven focused research/document suites passed 81 tests; paper claim validation passed 49/49 and `git diff --check` passed. SVG XML/content checks passed, but visual rendering was unavailable locally and remains unverified.
 - Python compilation passed; paper claim validation passed 49/49.
 - The system-Python combined attempt stopped during collection because `python-docx` is absent; the same scope passed under the repository `.venv`, which contains the declared document dependency.
 - Local `docs_lint` remains 1 fail/1 warn because this machine's Codex skill installation is out of sync and protected `docs/34*` is stale. Neither condition was hidden or modified; they are not failures introduced by this source change.
@@ -74,5 +77,6 @@ This is software and governance preparation, not a Phase 1a learnability run or 
 3. Require byte-identical reports, zero `connect` syscalls, seven mechanical PASS gates, and independent review of licence authority, reviewer identity/adjudication, analysis approval, and parser provenance.
 4. After independent acceptance and separate probe authorization, run the five-baseline runner twice with the receipt-bound preregistered config; inspect `SIMPLE_SUFFICIENT` / `LEARNABILITY_SIGNAL` / `NO_CLEAR_SIGNAL` / `PILOT_ONLY` without promoting any result to `DATA_GO`.
 5. After Phase 1 acceptance, a separately approved Phase 2 GB10 run must construct the contract from the frozen proposal/gate manifest, freeze the gate/config values, run twice under `strace`, reproduce the historical fixed-dual scorer, and undergo independent artifact review. The current software report cannot self-promote to a paper result.
-6. 4B/8B training, endpoints, service changes, and publication still require their own authorization.
-7. Office visual review of the two advisor DOCX files remains outstanding and is independent of this code contract.
+6. For data expansion, first audit historical TAT-QA UID exposure and perform metadata/licence preflight for FinQA; only after source approval may GB10 fetch bytes, construct split-preserving views, and create Q3 dual-review gold.
+7. 4B/8B training, endpoints, service changes, and publication still require their own authorization.
+8. Office visual review of the two advisor DOCX files remains outstanding and is independent of this code contract.

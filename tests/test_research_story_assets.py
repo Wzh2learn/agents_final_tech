@@ -11,6 +11,10 @@ REPO = Path(__file__).resolve().parents[1]
 STORY = REPO / "paper" / "research_story_v2.md"
 FIGURE = REPO / "paper" / "figures" / "fig_evaluate_distill_evolve_v1.svg"
 DIRECTION_DOCX = REPO / "paper" / "research_story_v2.docx"
+THEORY = REPO / "paper" / "method_theory_materials_v1.md"
+DATA_PROTOCOL = REPO / "paper" / "dataset_protocol_v1.md"
+METHOD_BIB = REPO / "paper" / "method_data_references_v1.bib"
+RULE_FIGURE = REPO / "paper" / "figures" / "fig_rule_gate_replay_v1.svg"
 STAGES = ("E · Evaluate", "D · Distill", "R · Evolve rules")
 
 
@@ -105,3 +109,71 @@ def test_teacher_direction_docx_contains_three_stage_summary(tmp_path: Path) -> 
     assert [[cell.text for row in table.rows for cell in row.cells] for table in document.tables] == [
         [cell.text for row in table.rows for cell in row.cells] for table in regenerated.tables
     ]
+
+
+def test_method_materials_keep_theory_and_evidence_boundaries() -> None:
+    text = THEORY.read_text(encoding="utf-8")
+    for required in (
+        "Risk}(\\tau)",
+        "Delta_s",
+        "Delta_p",
+        "Delta_g",
+        "命题 1",
+        "命题 2",
+        "只能支持第一个累计局部界",
+        "arXiv:1506.02629",
+        "不能声称已有 conformal guarantee",
+        "不等价于在线学习收敛",
+    ):
+        assert required in text
+
+
+def test_dataset_protocol_separates_quality_from_experiment_role() -> None:
+    text = DATA_PROTOCOL.read_text(encoding="utf-8")
+    for required in (
+        "Q3 是标签质量，不是“测试集”",
+        "proposal/train",
+        "gate-validation",
+        "sealed test",
+        "future replay",
+        "HISTORICAL_ONLY",
+        "TAT-DQA 继续冻结",
+        "不下载 PubTables-1M",
+    ):
+        assert required in text
+
+
+def test_method_bibliography_has_unique_verified_keys() -> None:
+    text = METHOD_BIB.read_text(encoding="utf-8")
+    keys = re.findall(r"@article\{([^,]+),", text)
+    assert len(keys) == 17
+    assert len(keys) == len(set(keys))
+    for arxiv_id in (
+        "1705.08500",
+        "2208.02814",
+        "1506.02629",
+        "1503.02531",
+        "2305.20050",
+        "2105.07624",
+        "2109.00122",
+        "2206.01347",
+    ):
+        assert arxiv_id in text
+
+
+def test_rule_gate_figure_is_valid_and_keeps_data_firewall_visible() -> None:
+    root = ElementTree.parse(RULE_FIGURE).getroot()
+    assert root.tag.endswith("svg")
+    text = " ".join(
+        "".join(element.itertext())
+        for element in root.findall(".//{http://www.w3.org/2000/svg}text")
+    )
+    for required in (
+        "Same candidate order",
+        "proposal / train",
+        "gate-validation",
+        "sealed test",
+        "future replay",
+        "no GB10 replay or paper result yet",
+    ):
+        assert required in text
