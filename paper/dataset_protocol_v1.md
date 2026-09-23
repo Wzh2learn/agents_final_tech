@@ -24,7 +24,7 @@
 | 等级 | 定义 | 允许用途 |
 |---|---|---|
 | Q0 来源级 | 官方原始数据、公开 ID、许可、版本与 hash 可核；尚无本文动作标签 | 资产盘点、待标注 |
-| Q1 合成/弱标级 | 确定性变换或教师建议，标签来自变换程序/自动规则；保留 source pointer 和 generator hash | 训练、软件 smoke、机制压力测试 |
+| Q1 合成/弱标级 | 确定性变换或教师建议，标签来自变换程序/自动规则；保留 source pointer 和 generator hash | 非主实验软件/训练链 smoke、候选生成与机制压力测试；不得进入 Phase 1a 接收包或 A1/A2 主训练 |
 | Q2 单审级 | 一名人工复核 action/target/来源，冲突未必已裁决 | pilot、错误分析；不作最终 gold |
 | Q3 黄金级 | 两名独立复核者 + 第三方裁决或一致结论；许可、来源、标签、去重均通过 | 训练金标子集、gate、sealed；具体用途仍由 split 决定 |
 
@@ -37,9 +37,9 @@ Q3 是标签质量，不是“测试集”。Q3 样本一旦分到 proposal/trai
 | proposal/train | SFT/DPO、内部 UID-dev、简单基线开发、候选生成 | 充当最终泛化证据 |
 | gate-validation | 冻结门后的接受/回滚、有限次数校准 | 训练学生、反复调阈值、冒充 sealed |
 | sealed test | 系统/阈值/规则版本冻结后一次只读终评 | early stopping、选模型、更新规则 |
-| future replay | 冻结后新增独立 UID/时间批次的前瞻只读评测 | 回流本轮结论；揭封后继续称未见数据 |
+| future replay | 冻结后新增独立 UID/时间批次的前瞻只读评测；尚未到来时允许空层 + 哈希绑定获取协议 | 回流本轮结论；揭封后继续称未见数据；把空层伪造成长期证据 |
 
-每个样本必须同时记录 `quality_grade` 与 `role_layer`。推荐验收条件为：训练级 = Q1 以上 + proposal/train；黄金级 = Q3；评测级 = Q3 + gate/sealed/future 中一个明确角色。
+每个样本必须能由 label ledger 的 `quality_grade` 与 manifest 的 role layer 联合解析其“质量 × 用途”，不在 ledger 中重复一套 `role_layer` 字段。通用素材的最低口径为：训练链 smoke = Q1 以上 + proposal/train；黄金级 = Q3；Phase 1a 接收/可学性与 A1/A2 主训练 = Q3 + proposal/train；评测级 = Q3 + gate/sealed/future 中一个明确角色。
 
 ## 3. 已核验公开数据候选
 
@@ -77,12 +77,12 @@ Q3 是标签质量，不是“测试集”。Q3 样本一旦分到 proposal/trai
 | 历史机制复现 | 现有 TAT-QA 95 表/118 注入 | 仅复算历史，不改 split、不升级证据 |
 | Stage E 新过程来源 | FinQA train/dev | 用 gold program/supporting evidence 设计 checkpoint adapter；不直接转成动作标签 |
 | Stage D/R 动作 pilot | Valentine NYC 10 个表对 | ground-truth correspondence 只生成 `map_to` 候选；负例/歧义例经 Q3 才生成 `skip/hold`；先作 proposal/dev，不直接作 sealed |
-| proposal/train | 经 UID 暴露审计后的 TAT-QA official train + 获批的 FinQA/Valentine 独立组 | Q1 确定性扰动 + Q3 人工金标子集；同表 clean/mutant 不跨层 |
-| gate-validation | 优先使用未参与历史开发且完成 Q3 的 Valentine/FinQA 独立组 | 只用于接受/回滚和有限查询；不同任务 adapter 分层报告 |
+| proposal/train | 经 UID 暴露审计后的 TAT-QA official train + 获批的 FinQA/Valentine 独立组 | Q1 只作非主实验 smoke/候选池；Phase 1a 与 A1/A2 仅用 Q3 人工金标子集；同表 clean/mutant 不跨角色层 |
+| gate-validation | 使用未参与历史开发、完成 Q3 且达到最低 UID/家族门的独立来源组 | 当前 Valentine NYC 10 个表对只登记为 `PILOT_ONLY` proposal/dev 候选，不同时承担 gate；后续新增且按完整 origin cluster 隔离的独立批次才可申请 gate 角色 |
 | sealed test | 从未用于规则/阈值/写作判断的独立 dataset/document UID | 全部 Q3 或官方 gold 可验证映射；一次只读；不得把 ConvFinQA 当 FinQA 的独立来源 |
 | external transfer | MultiHiertt 的独立文档族 | 只作过程外部效度；不参与主阈值选择 |
 
-如果无法从旧 TAT-QA 池复原 UID 暴露，TAT-QA train/dev 全部降为 historical/proposal，不能再承担 gate。FinQA 的过程样本与 Valentine 的匹配样本**不能按行拼成一个假装同分布的数据集**；二者分别回答 checkpoint 外部效度与动作策略可学性，最终闭环只能在共同 task adapter 和同一 UID 防火墙下报告。跨数据集构造差异要单列，不能把 domain shift 误写成方法效应。
+如果无法从旧 TAT-QA 池复原 UID 暴露，TAT-QA train/dev 全部降为 historical/proposal，不能再承担 gate。FinQA 的过程样本与 Valentine 的匹配样本**不能按行拼成一个假装同分布的数据集**；二者分别回答 checkpoint 外部效度与动作策略可学性。RQ2 的 A1/A2 只能使用同一母池中同时具有“checkpoint evidence + Q3 teacher action/target + Q3 outcome/correctness”的样本；缺少这座同样本桥时，两路结果只算互补预研，RQ2 标 `NOT_IDENTIFIED`。跨数据集构造差异要单列，不能把 domain shift 误写成方法效应。
 
 ### 4.2 最低 action 构成
 
@@ -109,28 +109,54 @@ Q3 是标签质量，不是“测试集”。Q3 样本一旦分到 proposal/trai
 
 只有通过 Phase 1 数据合同后才实现/运行 v1 数据构建器。当前直接合成更多样本只会放大未经裁决的标签和 split 问题，价值低于先补 provenance 与 Q3 gold。
 
-## 6. 黄金级标注合同
+## 6. Phase 1 canonical schema 与唯一派生链
 
-每个 Q3 样本至少包含：
+唯一权威链路是：**人工标注源 → package label ledger → learnability view**。人工工具可以有自己的 UI/导出格式，但进入 Phase 1 时必须先无损归一为下面两类 v2 记录；learnability view 只能从已验收 ledger 与已绑定 source/schema/confidence 工件派生，不能再成为第四套标签权威。
+
+### 6.1 Manifest lineage row
+
+每个 split 引用严格包含：
 
 ```json
 {
-  "public_source_ref": "dataset/split/document/table/header",
-  "group_uid": "stable hash, not raw content",
-  "family": "frozen taxonomy",
-  "observed_header": "stored outside Git",
-  "canonical_candidates": ["stored outside Git"],
-  "gold_action": "map_to|hold|skip",
-  "gold_target": "required only for map_to",
-  "reviewer_a": "pseudonymous id",
-  "reviewer_b": "different pseudonymous id",
-  "adjudication": "required on disagreement",
-  "quality_grade": "Q3",
-  "role_layer": "proposal_train|gate_validation|sealed_test|future_replay"
+  "sample_id": "stable sample hash",
+  "uid": "sha256(canonical dataset_id/revision/lineage_root_id)",
+  "dataset_id": "source namespace",
+  "dataset_revision": "immutable release/commit/hash",
+  "source_split": "official source split",
+  "independence_cluster": "source-namespace:stable shared-origin group id",
+  "lineage_root_id": "stable report/document/table root",
+  "transformation_parent_id": null
 }
 ```
 
-验收同时报告 action 原始一致率、action Cohen's kappa（类别失衡时附原始一致率）、`map_to` 条件下 target exact agreement、冲突率和裁决率。任何一项缺失都不能标 Q3。reviewer 不能从模型 confidence 或 gate 结果反推标签。
+`uid` 不是自由文本；由规范化的 `dataset_id + dataset_revision + lineage_root_id` 计算。同一母表的 clean、mutant、轨迹和派生表继承 lineage root。`independence_cluster` 是**具体共享来源组**，粒度应为 report/document/table family，例如 `finqa_financial_reports:<shared-report-id>`，不是把整个 FinQA 或 Valentine 数据集写成一个簇。来源注册表中的 `independence_cluster_namespace` 只提供前缀；FinQA/ConvFinQA 等若追溯到同一报告，必须生成同一个完整 cluster。验收允许一个完整 cluster 位于 proposal/train 的内部 train/dev，但禁止它跨 proposal、gate、sealed、future 角色层；UID 与 lineage root 仍不得跨任意 partition，不能靠改 UID 或 dataset 名隐藏泄漏。
+
+### 6.2 Canonical Q3 label ledger
+
+Phase 1 label ledger 的每行严格包含：
+
+```json
+{
+  "sample_id": "must match one manifest row",
+  "uid": "must match the computed lineage uid",
+  "col": 0,
+  "gold_action": "map_to|hold|skip",
+  "gold_target": "required only for map_to",
+  "quality_grade": "Q3",
+  "reviewers": [
+    {"reviewer_id": "pseudonymous-a", "action": "map_to", "target": "Revenue"},
+    {"reviewer_id": "pseudonymous-b", "action": "map_to", "target": "Revenue"}
+  ],
+  "adjudication": null
+}
+```
+
+角色层只存在于 manifest，不在 label ledger 重复维护。分歧时 `adjudication` 必须含不同 adjudicator 的 action/target；一致时为 `null`。验收同时报告 action 原始一致率、action Cohen's kappa（类别失衡时附原始一致率）、`map_to` 条件下 target exact agreement、冲突率和裁决率。任何一项缺失都不能标 Q3。reviewer 不能从模型 confidence 或 gate 结果反推标签。
+
+### 6.3 Learnability view（非权威派生视图）
+
+仅 proposal/train 的已验收 Q3 ledger 可派生最小视图：复制 `sample_id/uid/gold_action/gold_target/quality_grade`，再从已绑定 source/schema/confidence 工件加入 `observed_header/canonical_fields/candidate_target/confidence/family`。Runner 必须逐条回查 ledger，拒绝标签不一致、Q1/Q2、gate/sealed/future 样本及 `gain/collateral/accepted/split/partition` 字段。
 
 ## 7. 模型与对比配置
 
@@ -169,7 +195,7 @@ GB10 运行前必须冻结：权重来源与许可、revision/hash、tokenizer/c
 5. 用户确认具体来源后，在 Git 外下载并生成 public-ID-only manifest；先跑许可/容量/hash 验收。
 6. 抽取表头与 source pointers，按组先分层，再运行 split-preserving v1 合成；双跑 hash 一致。
 7. 建立 Q3 标注包并完成双审/裁决；再由 Phase 1 合同判门。
-8. 只有 Phase 1a 表明简单基线有残余、Phase 2 可复现且用户批准，才进入 4B smoke 与 8B A0–A2。
+8. Phase 1 接收后，Phase 1a 与 Phase 2 各自申请授权；Phase 2 不依赖 `LEARNABILITY_SIGNAL`。只有 Phase 1a 表明简单基线有残余、Phase 2 可复现且用户批准，才进入 4B smoke 与 8B A0–A2。
 
 GB10 恢复后的第一步仍是 metadata-only 核验，不拉数据正文：
 

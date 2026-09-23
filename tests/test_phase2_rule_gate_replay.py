@@ -106,6 +106,7 @@ def config() -> dict[str, object]:
         "max_collateral_loss": 0.0,
         "max_gate_loss": 0.5,
         "rollback_budget": 0.1,
+        "significance_level": 0.05,
         "confidence_policy": {
             "high": "accept",
             "medium": "reject",
@@ -207,6 +208,32 @@ def test_paper_views_are_stable_watermarked_interfaces(dataset, config):
     assert len(first["figure_4_rule_dynamics"]["series"]) == 7 * 5
     assert first["manifest"]["paper_result"] is False
     assert first["manifest"]["watermark"] == "NOT_FOR_PAPER_UNTIL_INDEPENDENT_GB10_ACCEPTANCE"
+    for row in first["table_2_gate_baselines"]["rows"]:
+        assert "rule_level_harmful_accept_rate" in row
+        assert "rule_level_harmful_retained_rate" in row
+        assert "uid_any_harm_rate" in row
+        assert "uid_any_harm_cp_upper" in row
+        assert row["uid_any_harm_significance_level"] == 0.05
+        assert "harmful_accept_rate" not in row
+
+
+def test_harm_metrics_separate_rule_and_uid_denominators(dataset, config):
+    report = replay.run_replay(dataset, config)
+    metrics = report["arms"]["no_gate"]["metrics"]
+
+    assert metrics["uid_any_harm_counts"]["evaluated_uids"] == 3
+    assert metrics["rule_level_harmful_accept_rate"] == 0.6
+    assert metrics["uid_any_harm_rate"] == pytest.approx(2 / 3, abs=1e-8)
+    assert metrics["uid_any_harm_cp_upper"] >= metrics["uid_any_harm_rate"]
+
+
+def test_zero_uid_harm_still_has_nonzero_exact_upper_bound(dataset, config):
+    report = replay.run_replay(dataset, config)
+    metrics = report["arms"]["fixed_dual_gate"]["metrics"]
+    counts = metrics["uid_any_harm_counts"]
+    if counts["harmful_uids"] == 0:
+        expected = 1.0 - config["significance_level"] ** (1 / counts["evaluated_uids"])
+        assert metrics["uid_any_harm_cp_upper"] == pytest.approx(expected, abs=1e-8)
 
 
 def test_paper_view_rejects_self_promoted_report(dataset, config):

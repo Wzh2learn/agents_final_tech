@@ -88,7 +88,7 @@
 | Figure 2 | 缺陷可见性谱 | 证明评估器盲区 | 已有 |
 | Figure 3 | 蒸馏质量—成本 Pareto | 证明小模型迁移价值 | 待蒸馏 MVP |
 | Figure 4 | 规则学习曲线与有害固化率 | 证明安全进化 | 部分数据已有，需统一强基线 |
-| Table 1 | 三阶段消融 | 区分评估过滤、蒸馏和门控贡献 | 待 MVP |
+| Table 1 | A0–A3 学生主结果 | 对比 zero-shot、unfiltered SFT、checkpoint-filtered SFT 与条件 DPO；报告 action/target、harm、coverage、最坏家族、不确定性和成本 | 待 MVP；B0–B4 简单基线仅进入 Appendix Table A1 |
 
 ## 7. 与大论文的关系
 

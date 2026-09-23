@@ -7,6 +7,7 @@ import sys
 import pytest
 
 from research import phase1a_learnability_baselines as probe
+from research import phase1a_data_contract as data_contract
 
 
 def _stable_bytes(value: object) -> bytes:
@@ -36,6 +37,14 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _uid(lineage_root_id: str) -> str:
+    return data_contract.lineage_uid(
+        "synthetic-finance",
+        "rev-2026-09-23",
+        lineage_root_id,
+    )
+
+
 def _case(
     sample_id: str,
     uid: str,
@@ -55,6 +64,7 @@ def _case(
         "confidence": confidence,
         "gold_action": gold_action,
         "gold_target": gold_target,
+        "quality_grade": "Q3",
         "family": family,
     }
 
@@ -69,39 +79,109 @@ def accepted_probe(tmp_path: Path) -> dict[str, Path]:
     config_path = tmp_path / "phase1a-prereg.json"
 
     train = [
-        _case("t-map-1", "uid-t1", "Revenue", "Revenue", "high", "map_to", "Revenue", "exact"),
-        _case("t-map-2", "uid-t2", "Amount", "Amount", "high", "map_to", "Amount", "exact"),
-        _case("t-skip-1", "uid-t3", "Mystery", "Revenue", "low", "skip", None, "noise"),
-        _case("t-skip-2", "uid-t4", "Unknown", "Amount", "low", "skip", None, "noise"),
-        _case("t-hold-1", "uid-t5", "Ambiguous", "Revenue", "medium", "hold", None, "ambiguous"),
-        _case("t-hold-2", "uid-t6", "Unclear", "Amount", "medium", "hold", None, "ambiguous"),
+        _case("t-map-1", _uid("t-map-1"), "Revenue", "Revenue", "high", "map_to", "Revenue", "exact"),
+        _case("t-map-2", _uid("t-map-2"), "Amount", "Amount", "high", "map_to", "Amount", "exact"),
+        _case("t-skip-1", _uid("t-skip-1"), "Mystery", "Revenue", "low", "skip", None, "noise"),
+        _case("t-skip-2", _uid("t-skip-2"), "Unknown", "Amount", "low", "skip", None, "noise"),
+        _case("t-hold-1", _uid("t-hold-1"), "Ambiguous", "Revenue", "medium", "hold", None, "ambiguous"),
+        _case("t-hold-2", _uid("t-hold-2"), "Unclear", "Amount", "medium", "hold", None, "ambiguous"),
     ]
     dev = [
-        _case("d-map-1", "uid-d1", "Revenue", "Revenue", "high", "map_to", "Revenue", "exact"),
-        _case("d-map-2", "uid-d2", "Revnue", "Revenue", "high", "map_to", "Revenue", "typo"),
-        _case("d-skip-1", "uid-d3", "Unknown", "Amount", "low", "skip", None, "noise"),
-        _case("d-skip-2", "uid-d4", "Misleading", "Amount", "high", "skip", None, "collision"),
-        _case("d-hold-1", "uid-d5", "Ambiguous", "Revenue", "medium", "hold", None, "ambiguous"),
-        _case("d-hold-2", "uid-d6", "Unclear", "Amount", "medium", "hold", None, "ambiguous"),
+        _case("d-map-1", _uid("d-map-1"), "Revenue", "Revenue", "high", "map_to", "Revenue", "exact"),
+        _case("d-map-2", _uid("d-map-2"), "Revnue", "Revenue", "high", "map_to", "Revenue", "exact"),
+        _case("d-skip-1", _uid("d-skip-1"), "Unknown", "Amount", "low", "skip", None, "noise"),
+        _case("d-skip-2", _uid("d-skip-2"), "Misleading", "Amount", "high", "skip", None, "noise"),
+        _case("d-hold-1", _uid("d-hold-1"), "Ambiguous", "Revenue", "medium", "hold", None, "ambiguous"),
+        _case("d-hold-2", _uid("d-hold-2"), "Unclear", "Amount", "medium", "hold", None, "ambiguous"),
     ]
     _write_jsonl(view, train + dev)
+    feature_ledger_path = package / "artifacts" / "features.json"
+    _write_json(feature_ledger_path, {
+        "contract_version": data_contract.FEATURE_LEDGER_VERSION,
+        "source_tables_sha256": "1" * 64,
+        "schema_sha256": "2" * 64,
+        "confidence_manifest_sha256": "3" * 64,
+        "rows": [
+            {field: row[field] for field in data_contract.FEATURE_FIELDS}
+            for row in train + dev
+        ],
+    })
 
-    def refs(rows: list[dict[str, object]]) -> list[dict[str, str]]:
+    def refs(rows: list[dict[str, object]], source_split: str) -> list[dict[str, object]]:
         return [
-            {"sample_id": str(row["sample_id"]), "uid": str(row["uid"])}
+            {
+                "sample_id": str(row["sample_id"]),
+                "uid": str(row["uid"]),
+                "dataset_id": "synthetic-finance",
+                "dataset_revision": "rev-2026-09-23",
+                "source_split": source_split,
+                "independence_cluster": f"cluster-{row['sample_id']}",
+                "lineage_root_id": str(row["sample_id"]),
+                "transformation_parent_id": None,
+            }
             for row in rows
         ]
 
+    labels_path = package / "artifacts" / "labels.jsonl"
+    _write_jsonl(labels_path, [
+        {
+            "sample_id": row["sample_id"],
+            "uid": row["uid"],
+            "col": 0,
+            "gold_action": row["gold_action"],
+            "gold_target": row["gold_target"],
+            "quality_grade": "Q3",
+            "reviewers": [
+                {
+                    "reviewer_id": "reviewer-a",
+                    "action": row["gold_action"],
+                    "target": row["gold_target"],
+                },
+                {
+                    "reviewer_id": "reviewer-b",
+                    "action": row["gold_action"],
+                    "target": row["gold_target"],
+                },
+            ],
+            "adjudication": None,
+        }
+        for row in train + dev
+    ])
+
     manifest = {
-        "contract_version": "phase1a-data-package-v1",
+        "contract_version": "phase1a-data-package-v2",
         "package_id": "synthetic-learnability-fixture",
-        "artifacts": [],
-        "bindings": {},
+        "artifacts": [
+            {
+                "id": "labels",
+                "role": "label_ledger",
+                "path": "artifacts/labels.jsonl",
+                "bytes": labels_path.stat().st_size,
+                "sha256": _sha256(labels_path),
+            },
+            {
+                "id": "features",
+                "role": "learnability_feature_ledger",
+                "path": "artifacts/features.json",
+                "bytes": feature_ledger_path.stat().st_size,
+                "sha256": _sha256(feature_ledger_path),
+            },
+        ],
+        "bindings": {
+            "label_ledger": "labels",
+            "learnability_feature_ledger": "features",
+        },
         "layers": {
-            "proposal_train": {"train": refs(train), "dev": refs(dev)},
-            "gate_validation": [{"sample_id": "gate-secret", "uid": "uid-gate"}],
-            "sealed_test": [{"sample_id": "sealed-secret", "uid": "uid-sealed"}],
-            "future_replay": [{"sample_id": "future-secret", "uid": "uid-future"}],
+            "proposal_train": {"train": refs(train, "train"), "dev": refs(dev, "train")},
+            "gate_validation": refs([{
+                "sample_id": "gate-secret", "uid": _uid("gate-secret")
+            }], "validation"),
+            "sealed_test": refs([{
+                "sample_id": "sealed-secret", "uid": _uid("sealed-secret")
+            }], "test"),
+            "future_replay": refs([{
+                "sample_id": "future-secret", "uid": _uid("future-secret")
+            }], "future-2027q1"),
         },
     }
     _write_json(manifest_path, manifest)
@@ -110,7 +190,7 @@ def accepted_probe(tmp_path: Path) -> dict[str, Path]:
     precheck = {
         "status": "READY_FOR_INDEPENDENT_ACCEPTANCE",
         "meta": {
-            "contract_version": "phase1a-data-package-v1",
+            "contract_version": "phase1a-data-package-v2",
             "endpoint_calls": 0,
             "socket_attempts": 0,
         },
@@ -131,7 +211,7 @@ def accepted_probe(tmp_path: Path) -> dict[str, Path]:
     _write_json(precheck_path, precheck)
 
     receipt = {
-        "contract_version": "phase1a-independent-acceptance-v1",
+        "contract_version": "phase1a-independent-acceptance-v2",
         "status": "ACCEPTED_FOR_PHASE1A_LEARNABILITY",
         "scope": "proposal_train_only",
         "approved_by": "acceptance-lead",
@@ -155,7 +235,7 @@ def accepted_probe(tmp_path: Path) -> dict[str, Path]:
     _write_json(receipt_path, receipt)
 
     config = {
-        "contract_version": "phase1a-learnability-probe-v1",
+        "contract_version": "phase1a-learnability-probe-v2",
         "lexical_threshold": 0.8,
         "confidence_policy": {
             "high": "map_to",
@@ -171,9 +251,11 @@ def accepted_probe(tmp_path: Path) -> dict[str, Path]:
         "bootstrap": {"samples": 200, "seed": 20260923},
         "decision_policy": {
             "min_dev_uids": 4,
+            "min_dev_uids_by_action": {"skip": 2, "hold": 2, "map_to": 2},
+            "min_dev_uids_by_family": {"ambiguous": 2, "exact": 2, "noise": 2},
             "min_action_macro_f1": 0.75,
-            "max_harmful_action_rate": 0.2,
-            "min_valid_action_coverage": 0.2,
+            "max_harmful_map_rate": 0.2,
+            "min_correct_map_coverage": 0.2,
             "min_classifier_macro_f1_gain": 0.05,
         },
     }
@@ -201,6 +283,37 @@ def _refresh_view_binding(paths: dict[str, Path]) -> None:
 def _refresh_config_binding(paths: dict[str, Path]) -> None:
     receipt = json.loads(paths["receipt"].read_text(encoding="utf-8"))
     receipt["preregistered_config_sha256"] = _sha256(paths["config"])
+    _write_json(paths["receipt"], receipt)
+
+
+def _refresh_feature_and_view_bindings(paths: dict[str, Path]) -> None:
+    rows = [
+        json.loads(line)
+        for line in paths["view"].read_text(encoding="utf-8").splitlines()
+    ]
+    manifest = json.loads(paths["manifest"].read_text(encoding="utf-8"))
+    feature_artifact = next(
+        item for item in manifest["artifacts"] if item["id"] == "features"
+    )
+    feature_path = paths["package"] / feature_artifact["path"]
+    feature_ledger = json.loads(feature_path.read_text(encoding="utf-8"))
+    feature_ledger["rows"] = [
+        {field: row[field] for field in data_contract.FEATURE_FIELDS}
+        for row in rows
+        if set(data_contract.FEATURE_FIELDS) <= set(row)
+    ]
+    _write_json(feature_path, feature_ledger)
+    feature_artifact["bytes"] = feature_path.stat().st_size
+    feature_artifact["sha256"] = _sha256(feature_path)
+    _write_json(paths["manifest"], manifest)
+    precheck = json.loads(paths["precheck"].read_text(encoding="utf-8"))
+    precheck["hashes"]["manifest_sha256"] = _sha256(paths["manifest"])
+    _write_json(paths["precheck"], precheck)
+    receipt = json.loads(paths["receipt"].read_text(encoding="utf-8"))
+    receipt["package_manifest_sha256"] = _sha256(paths["manifest"])
+    receipt["precheck_report_sha256"] = _sha256(paths["precheck"])
+    receipt["learnability_view"]["bytes"] = paths["view"].stat().st_size
+    receipt["learnability_view"]["sha256"] = _sha256(paths["view"])
     _write_json(paths["receipt"], receipt)
 
 
@@ -239,7 +352,7 @@ def test_probe_is_deterministic_aggregate_only_and_has_five_baselines(
     }
     assert first["decision"] != "DATA_GO"
     rendered = json.dumps(first, ensure_ascii=False)
-    for private_value in ("Revnue", "Misleading", "uid-d1", "d-map-1"):
+    for private_value in ("Revnue", "Misleading", _uid("d-map-1"), "d-map-1"):
         assert private_value not in rendered
 
 
@@ -253,9 +366,9 @@ def test_metrics_include_required_risk_coverage_and_uid_intervals(
         "action_macro_f1",
         "correct_map_to_recall",
         "hold_recall",
-        "harmful_action_rate",
+        "harmful_map_rate",
         "map_to_risk",
-        "valid_action_coverage",
+        "correct_map_coverage",
         "evaluated_samples",
         "evaluated_uids",
         "uid_cluster_intervals",
@@ -263,8 +376,8 @@ def test_metrics_include_required_risk_coverage_and_uid_intervals(
     }
     assert set(metrics["uid_cluster_intervals"]) == {
         "action_macro_f1",
-        "harmful_action_rate",
-        "valid_action_coverage",
+        "harmful_map_rate",
+        "correct_map_coverage",
     }
 
 
@@ -277,7 +390,7 @@ def test_missing_confidence_is_unmeasurable_not_filled(
     ]
     next(row for row in rows if row["sample_id"] == "d-hold-1")["confidence"] = None
     _write_jsonl(accepted_probe["view"], rows)
-    _refresh_view_binding(accepted_probe)
+    _refresh_feature_and_view_bindings(accepted_probe)
 
     report = _run(accepted_probe)
     confidence = report["baselines"]["confidence_only"]["dev"]
@@ -286,6 +399,21 @@ def test_missing_confidence_is_unmeasurable_not_filled(
     assert confidence["excluded_unmeasurable"] == 1
     assert confidence["scope"] == "confidence_measurable_subset"
     assert confidence["comparable_to_full_dev"] is False
+
+
+def test_view_features_must_match_hash_bound_feature_ledger(
+    accepted_probe: dict[str, Path],
+) -> None:
+    rows = [
+        json.loads(line)
+        for line in accepted_probe["view"].read_text(encoding="utf-8").splitlines()
+    ]
+    rows[0]["confidence"] = "low"
+    _write_jsonl(accepted_probe["view"], rows)
+    _refresh_view_binding(accepted_probe)
+
+    with pytest.raises(ValueError, match="hash-bound feature ledger"):
+        _run(accepted_probe)
 
 
 @pytest.mark.parametrize("forbidden", ["gain", "collateral", "accepted", "split", "partition"])
@@ -365,6 +493,37 @@ def test_view_must_cover_every_proposal_train_sample(
         _run(accepted_probe)
 
 
+def test_view_label_must_match_canonical_q3_ledger(
+    accepted_probe: dict[str, Path],
+) -> None:
+    rows = [
+        json.loads(line)
+        for line in accepted_probe["view"].read_text(encoding="utf-8").splitlines()
+    ]
+    rows[0]["gold_action"] = "skip"
+    rows[0]["gold_target"] = None
+    _write_jsonl(accepted_probe["view"], rows)
+    _refresh_view_binding(accepted_probe)
+
+    with pytest.raises(ValueError, match="accepted Q3 label ledger"):
+        _run(accepted_probe)
+
+
+def test_view_rejects_non_q3_quality(
+    accepted_probe: dict[str, Path],
+) -> None:
+    rows = [
+        json.loads(line)
+        for line in accepted_probe["view"].read_text(encoding="utf-8").splitlines()
+    ]
+    rows[0]["quality_grade"] = "Q1"
+    _write_jsonl(accepted_probe["view"], rows)
+    _refresh_view_binding(accepted_probe)
+
+    with pytest.raises(ValueError, match="requires Q3"):
+        _run(accepted_probe)
+
+
 def test_view_hash_and_safe_relative_path_are_mandatory(
     accepted_probe: dict[str, Path],
 ) -> None:
@@ -438,6 +597,38 @@ def test_preregistration_rejects_invalid_thresholds_and_unknown_fields(
         _run(accepted_probe)
 
 
+def test_preregistration_rejects_single_uid_as_inferential_minimum(
+    accepted_probe: dict[str, Path],
+) -> None:
+    config = json.loads(accepted_probe["config"].read_text(encoding="utf-8"))
+    config["decision_policy"]["min_dev_uids"] = 1
+    _write_json(accepted_probe["config"], config)
+    _refresh_config_binding(accepted_probe)
+
+    with pytest.raises(ValueError, match="at least two"):
+        _run(accepted_probe)
+
+
+def test_preregistration_rejects_single_uid_action_or_family_minimum(
+    accepted_probe: dict[str, Path],
+) -> None:
+    config = json.loads(accepted_probe["config"].read_text(encoding="utf-8"))
+    config["decision_policy"]["min_dev_uids_by_action"]["hold"] = 1
+    _write_json(accepted_probe["config"], config)
+    _refresh_config_binding(accepted_probe)
+
+    with pytest.raises(ValueError, match="action UID minimum"):
+        _run(accepted_probe)
+
+    config["decision_policy"]["min_dev_uids_by_action"]["hold"] = 2
+    config["decision_policy"]["min_dev_uids_by_family"]["ambiguous"] = 1
+    _write_json(accepted_probe["config"], config)
+    _refresh_config_binding(accepted_probe)
+
+    with pytest.raises(ValueError, match="family UID minimum"):
+        _run(accepted_probe)
+
+
 def test_combined_classifier_and_bootstrap_work_is_bounded(
     accepted_probe: dict[str, Path],
     monkeypatch: pytest.MonkeyPatch,
@@ -463,49 +654,58 @@ def test_combined_classifier_and_bootstrap_work_is_bounded(
 def test_decision_gate_prefers_nonlearned_simple_sufficiency() -> None:
     policy = {
         "min_dev_uids": 4,
+        "min_dev_uids_by_action": {"skip": 2, "hold": 2, "map_to": 2},
+        "min_dev_uids_by_family": {"all": 2},
         "min_action_macro_f1": 0.75,
-        "max_harmful_action_rate": 0.1,
-        "min_valid_action_coverage": 0.2,
+        "max_harmful_map_rate": 0.1,
+        "min_correct_map_coverage": 0.2,
         "min_classifier_macro_f1_gain": 0.05,
     }
     metrics = {
         "deterministic_matcher": {
             "action_macro_f1": 0.8,
-            "harmful_action_rate": 0.0,
-            "valid_action_coverage": 0.3,
+            "harmful_map_rate": 0.0,
+            "correct_map_coverage": 0.3,
         },
         "lexical_fuzzy": {
             "action_macro_f1": 0.7,
-            "harmful_action_rate": 0.0,
-            "valid_action_coverage": 0.3,
+            "harmful_map_rate": 0.0,
+            "correct_map_coverage": 0.3,
         },
         "confidence_only": {
             "action_macro_f1": 0.7,
-            "harmful_action_rate": 0.0,
-            "valid_action_coverage": 0.3,
+            "harmful_map_rate": 0.0,
+            "correct_map_coverage": 0.3,
         },
         "simple_classifier": {
             "action_macro_f1": 0.83,
-            "harmful_action_rate": 0.0,
-            "valid_action_coverage": 0.4,
+            "harmful_map_rate": 0.0,
+            "correct_map_coverage": 0.4,
         },
     }
-    assert probe.decide_probe(6, metrics, policy)["status"] == "SIMPLE_SUFFICIENT"
+    support = {
+        "total": 6,
+        "by_action": {"skip": 2, "hold": 2, "map_to": 2},
+        "by_family": {"all": 6},
+    }
+    assert probe.decide_probe(support, metrics, policy)["status"] == "SIMPLE_SUFFICIENT"
 
 
 def test_decision_gate_keeps_residual_signal_when_nonlearned_also_passes() -> None:
     policy = {
         "min_dev_uids": 4,
+        "min_dev_uids_by_action": {"skip": 2, "hold": 2, "map_to": 2},
+        "min_dev_uids_by_family": {"all": 2},
         "min_action_macro_f1": 0.75,
-        "max_harmful_action_rate": 0.1,
-        "min_valid_action_coverage": 0.2,
+        "max_harmful_map_rate": 0.1,
+        "min_correct_map_coverage": 0.2,
         "min_classifier_macro_f1_gain": 0.05,
     }
     metrics = {
         name: {
             "action_macro_f1": score,
-            "harmful_action_rate": 0.0,
-            "valid_action_coverage": 0.3,
+            "harmful_map_rate": 0.0,
+            "correct_map_coverage": 0.3,
         }
         for name, score in (
             ("deterministic_matcher", 0.8),
@@ -514,33 +714,71 @@ def test_decision_gate_keeps_residual_signal_when_nonlearned_also_passes() -> No
             ("simple_classifier", 0.9),
         )
     }
-    assert probe.decide_probe(6, metrics, policy)["status"] == "LEARNABILITY_SIGNAL"
+    support = {
+        "total": 6,
+        "by_action": {"skip": 2, "hold": 2, "map_to": 2},
+        "by_family": {"all": 6},
+    }
+    assert probe.decide_probe(support, metrics, policy)["status"] == "LEARNABILITY_SIGNAL"
 
 
 def test_decision_gate_can_report_learnability_without_training_permission() -> None:
     policy = {
         "min_dev_uids": 4,
+        "min_dev_uids_by_action": {"skip": 2, "hold": 2, "map_to": 2},
+        "min_dev_uids_by_family": {"all": 2},
         "min_action_macro_f1": 0.75,
-        "max_harmful_action_rate": 0.1,
-        "min_valid_action_coverage": 0.2,
+        "max_harmful_map_rate": 0.1,
+        "min_correct_map_coverage": 0.2,
         "min_classifier_macro_f1_gain": 0.05,
     }
     metrics = {
         name: {
             "action_macro_f1": 0.5,
-            "harmful_action_rate": 0.0,
-            "valid_action_coverage": 0.2,
+            "harmful_map_rate": 0.0,
+            "correct_map_coverage": 0.2,
         }
         for name in ("deterministic_matcher", "lexical_fuzzy", "confidence_only")
     }
     metrics["simple_classifier"] = {
         "action_macro_f1": 0.8,
-        "harmful_action_rate": 0.05,
-        "valid_action_coverage": 0.3,
+        "harmful_map_rate": 0.05,
+        "correct_map_coverage": 0.3,
     }
-    decision = probe.decide_probe(6, metrics, policy)
+    support = {
+        "total": 6,
+        "by_action": {"skip": 2, "hold": 2, "map_to": 2},
+        "by_family": {"all": 6},
+    }
+    decision = probe.decide_probe(support, metrics, policy)
     assert decision["status"] == "LEARNABILITY_SIGNAL"
     assert decision["training_authorized"] is False
+
+
+def test_decision_gate_returns_pilot_for_action_or_family_uid_shortfall() -> None:
+    policy = {
+        "min_dev_uids": 4,
+        "min_dev_uids_by_action": {"skip": 2, "hold": 2, "map_to": 2},
+        "min_dev_uids_by_family": {"exact": 2, "noise": 2},
+        "min_action_macro_f1": 0.75,
+        "max_harmful_map_rate": 0.1,
+        "min_correct_map_coverage": 0.2,
+        "min_classifier_macro_f1_gain": 0.05,
+    }
+    support = {
+        "total": 6,
+        "by_action": {"skip": 3, "hold": 1, "map_to": 2},
+        "by_family": {"exact": 2, "unregistered": 4},
+    }
+    decision = probe.decide_probe(support, {}, policy)
+
+    assert decision["status"] == "PILOT_ONLY"
+    assert decision["reason"] == "insufficient_or_unregistered_dev_uid_support"
+    assert {item["name"] for item in decision["uid_support_shortfalls"]} == {
+        "hold",
+        "noise",
+        "unregistered",
+    }
 
 
 def test_cli_refuses_overwrite_and_keeps_report_outside_repo(

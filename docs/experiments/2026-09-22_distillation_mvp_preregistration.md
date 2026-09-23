@@ -21,11 +21,11 @@
 
 - H2a（质量）：在 size/token/group-matched 口径下，A2 的 action macro-F1 相对 A1 不劣于预注册容差 $\delta_q$。
 - H2b（安全）：在冻结的有效动作覆盖下，A2 的 harmful-action rate 不高于 A1 加预注册容差 $\delta_h$。
-- H2c（选择性）：A2 的 risk–coverage 曲线在预注册风险上限 $\alpha$ 下提供更高覆盖；零覆盖的 always-skip 单列，不把未定义风险记为 0。
+- H2c（预筛）：A2 在预注册候选风险上限 $\rho_{\max}$ 下提供更高送检覆盖，同时报告有效候选召回、漏失有效规则率和验证成本；所有候选仍经过确定性 gate。零送检的 always-skip 单列，不把未定义风险记为 0。统计显著性水平另记 $\alpha_{\mathrm{sig}}$。
 
 ### RQ3：独立验证与版本回滚是否能安全累积规则？
 
-- H3a：independent-gate 相对 fixed-dual gate 降低 harmful accept rate，同时 valid-rule retention 不劣于 $\delta_r$。
+- H3a：independent-gate 相对 fixed-dual gate 降低 UID-any-harm rate 的单侧上界，同时 valid-rule retention 不劣于 $\delta_r$；rule-level harmful-accept rate 仅作描述。
 - H3b：rollback-versioning 在预注册预算 $B$ 内恢复最佳 gate-validation 快照，不把开发侧不变量写成 sealed-test 泛化保证。
 - H3c：动态 leave-one-source-out collateral 只支持累计局部界。若要检验全局 telescoping 推论，必须先冻结同一 $\mathcal D_{\mathrm{reg}}$ 并单独扩展合同/测试。
 
@@ -40,12 +40,22 @@
 
 1. `SOURCE_GO`：公开来源 URL、license 适用范围、commit/release、字节 hash 和零甲方数据证明已核。
 2. `LABEL_GO`：Q3 双审/裁决、action/target 正确性、冲突隔离通过。
-3. `SPLIT_GO`：先按 group UID 分 proposal/train、gate-validation、sealed test、future replay；同母表 clean/mutant/轨迹/规则事件不跨层。
+3. `SPLIT_GO`：先按 namespaced lineage UID 与 independence cluster 分 proposal/train、gate-validation、sealed test；同母表 clean/mutant/轨迹/规则事件不跨层。future replay 尚未到来时允许为空，但必须有哈希绑定的获取时间、来源约束、分层规则与“不回流本轮”协议，并标 `LONGITUDINAL_EVIDENCE_UNAVAILABLE`。
 4. `POWER_GO`：用开发侧方差假设做 UID 聚类 MDE/功效分析；不用 sealed 结果反推参数。
 5. `BASELINE_GO`：五类简单基线仍留有可学残差；`SIMPLE_SUFFICIENT`、`NO_CLEAR_SIGNAL`、`PILOT_ONLY` 或 `DATA_NO_GO` 都停止主训练。
 6. `MODEL_GO`：用户批准模型、权重许可、GB10 窗口、预算、输出目录和恢复策略。
 
 标签质量 Q0–Q3 与上述四个 role layer 是两个正交维度。P0 新来源分为 FinQA process/checkpoint preflight 与 Valentine NYC schema-action preflight，两者不按行混合；随后才考虑 MultiHiertt 条件外部验证。ConvFinQA 与 FinQA 同 independence cluster；旧 TAT-QA train+dev 池在完成 UID 曝光反查前继续 `HISTORICAL_ONLY`，TAT-DQA 继续冻结。
+
+### 3.1 RQ2 同样本桥接门
+
+FinQA 只提供 process/program gold，Valentine NYC 只提供 schema correspondence；二者是互补预研来源，**不能相互拼接成 RQ2 主实验**。进入 A1/A2 的每个样本必须来自同一已验收母池，并同时具备：
+
+1. 运行时可得、且在 teacher action 产生前冻结的 checkpoint evidence；
+2. 同一 sample/lineage UID 上的 Q3 teacher action 与条件 target；
+3. 可用于 sealed 评分的 Q3 outcome/correctness 标签。
+
+A1 与 A2 共享 provenance、licence、Q3 和 proposal-role 资格门 $u_i$；A1 使用全部 $u_i=1$ 样本，A2 仅增加 checkpoint filter $z_i$。若只能取得 FinQA 或 Valentine 的单侧标签，最多分别报告 Stage E/Stage D 外部效度或 pilot，RQ2 保持 `NOT_IDENTIFIED`。
 
 ## 4. 实验臂与唯一职责
 
@@ -90,22 +100,23 @@
 
 - action macro-F1；`map_to / hold / skip` 逐类 precision/recall/F1。
 - `map_to` 条件下 target exact accuracy。
-- harmful-action rate，必须在 Q3 正确性标签上计算，不用 gate 接受标签代替。
-- valid-action coverage 与 risk–coverage 曲线；零覆盖时 risk 记 `undefined`。
+- harmful-map rate（错误 `map_to` / 全部可测样本）与 map-to risk（错误 `map_to` / 所有 `map_to` 预测），必须在 Q3 正确性标签上计算，不用 gate 接受标签代替。
+- correct-map coverage（正确 `map_to` / 全部可测样本）与候选风险—送检覆盖曲线；另报有效候选召回、漏失有效规则率和验证成本。学生输出不能绕过确定性 gate；零送检时 risk 记 `undefined`。
 - 最坏家族表现及每家族有效 UID 数。
 
 ### 6.2 RQ3/RQ4 主指标
 
-- harmful accept rate、valid-rule retention、gate coverage/accuracy、最坏家族。
+- rule-level harmful-accept rate（有害接受事件/全部接受事件，描述量）、回滚后的 rule-level harmful-retained rate、UID-any-harm rate（任一有害接受事件）及其单侧 Clopper–Pearson 上界、valid-rule retention、gate coverage/accuracy、最坏家族。分母和“曾接受/最终保留”状态不得混名或共用区间。
 - validation queries、rollbacks、主动规则数、实测端到端延迟、生成/验证 token、峰值显存。
 - 仓内 `cost_proxy` 只作软件对账，不得写成真实延迟或 GPU 成本。
 
 ### 6.3 推断
 
-- 点估计与 95% CI 按 source-table UID 成组；同表 mutant/事件不当 iid。
-- A1/A2 使用同 seed 配对；主报告先计算每 seed 的 UID 聚类差值，再汇总 seed 间变异。层级 bootstrap 只作敏感性分析。
-- RQ2 的共同主门和 RQ3 的共同主门各自使用 Holm 校正；次指标标为 exploratory，不用未校正 p-value 翻转主结论。
-- 统计不可用来弥补功效不足；未达预注册有效 UID 下限时只报告 pilot/不确定区间。
+- 点估计与区间按 namespaced lineage UID 成组；同表 mutant/事件不当 iid。A1/A2 使用同 seed、同 UID 配对，点估计对 seed×UID 单元等权，主区间按“成对重采样 seed，再在 seed 内成对重采样 UID”的两阶段 bootstrap；不得平铺所有行。
+- 质量非劣用 A2−A1 的单侧下置信界对 $-\delta_q$；安全非劣用单侧上置信界对 $\delta_h$；retention 非劣用单侧下置信界对 $-\delta_r$。“不显著”不等于非劣。
+- RQ2 确认性 Holm family 固定为 H2a 质量非劣、H2b 安全非劣、H2c 风险约束下覆盖；RQ3 family 固定为 UID-any-harm 与 valid-rule retention。逐家族与其他次指标为 exploratory。
+- 阈值只在 proposal/train 内部 dev 上按“风险不高于 $\rho_{\max}$ 时覆盖最大”选；并列时先选 action macro-F1 高者，再选更保守阈值。gate/sealed 不参与阈值选择。
+- 统计不可用来弥补功效不足；`minimum_uid_by_role_family` 与 MDE 必须在揭封前由人批准并绑定 hash，未达下限时只报告 pilot/不确定区间。
 
 ## 7. 待人工确认的冻结收据
 
@@ -127,9 +138,15 @@
   "delta_quality": "UNSET",
   "delta_harm": "UNSET",
   "delta_retention": "UNSET",
+  "risk_limit": "UNSET",
+  "significance_level": "UNSET",
+  "one_sided_interval_method": "paired_two_stage_seed_uid_bootstrap",
+  "threshold_selection": "proposal_dev_max_coverage_under_risk_then_macro_f1_then_conservative",
   "minimum_cost_reduction": "UNSET",
   "minimum_uid_by_role_family": "UNSET",
-  "multiplicity_policy": "holm_for_confirmatory_families",
+  "mde_by_confirmatory_contrast": "UNSET",
+  "rq2_holm_family": ["H2a_quality_noninferiority", "H2b_safety_noninferiority", "H2c_risk_constrained_coverage"],
+  "rq3_holm_family": ["H3a_uid_any_harm", "H3a_valid_rule_retention"],
   "sealed_test_open_once": true
 }
 ```
@@ -152,9 +169,10 @@
 
 ## 9. 论文结果槽位（当前均为空）
 
-- Table 1：B0–B4 与 A0–A3 的 action/target、harm、coverage、最坏家族、不确定性和成本。
+- Appendix Table A1：B0–B4 的开发侧可学性门，不与论文主学生结果混表。
+- Table 1：A0–A3 的 action/target、harm、coverage、最坏家族、不确定性和成本。
 - Table 2：七类规则门的 harmful accept、valid retention、gate 指标、查询/回滚与成本。
-- Figure 3：学生 risk–coverage 与 quality–cost Pareto。
+- Figure 3：学生候选风险—送检覆盖与 quality–verification-cost Pareto。
 - Figure 4：共享候选流上的 retained-valid、retained-harmful、rollback 与累计成本。
 - Appendix：数据卡、曝光审计、训练配置、家族全表、null/adverse 与排除清单。
 
@@ -164,16 +182,16 @@
 
 1. GB10 恢复后先只读核现状，在干净隔离 worktree 里执行。
 2. 完成历史 TAT-QA UID 曝光审计、FinQA 过程来源 preflight 与 Valentine NYC 动作来源 preflight，再由用户批准具体来源；ConvFinQA/FinQA 先做同源去重。
-3. 按 Phase 1 数据合同双跑、零 `connect` 并取得独立人工验收；再运行 Phase 1a 五基线。
-4. Phase 1a 留有可学残差后，依次执行 Phase 2 正式 replay、4B smoke、8B A0–A2；A3 仍单独判门。
+3. 按 Phase 1 数据合同双跑、零 `connect` 并取得独立人工验收。此后 Phase 1a 与 Phase 2 分别申请授权：Phase 1a 回答可学性，Phase 2 回答规则门；两者可顺序执行，但 Phase 2 不以 `LEARNABILITY_SIGNAL` 为前置。
+4. 只有 Phase 1a 留有可学残差，才继续 4B smoke、8B A0–A2；A3 仍单独判门。Phase 2 的正式 replay 只依赖已接收数据、可重建状态与其单独授权。
 5. 各阶段均需用户对应授权；详细命令、输出位置和回滚规则只维护在 handoff 计划及 Phase 1a data-gate 报告，本文件不复制。
 
 ## 11. 冻结前人工检查表
 
 - [ ] 数据来源、许可、版本、hash 和历史曝光清单已签字。
 - [ ] Q3 双审/裁决和四层 UID 零交叉已独立验收。
-- [ ] 五基线结论为 `LEARNABILITY_SIGNAL`，不是其他停止状态。
+- [ ] 若申请 4B/8B 训练，五基线结论为 `LEARNABILITY_SIGNAL`；若只申请 Phase 2 replay，本项不构成前置。
 - [ ] 模型/revision/template、训练超参、seed、预算和输出位置已冻结。
-- [ ] $\delta_q$、$\delta_h$、$\delta_r$、$\alpha$、$\rho_c$、最低 UID/家族覆盖和 Holm 检验族已确认。
+- [ ] $\delta_q$、$\delta_h$、$\delta_r$、$\rho_{\max}$、$\alpha_{\mathrm{sig}}$、$\rho_c$、最低 UID/家族覆盖、MDE 和两组 Holm family 已确认。
 - [ ] 三类实验输出均带证据级别和 `paper_result` 标记，sealed test 只允许揭封一次。
 - [ ] 专利公开门已由用户确认；未确认时不投稿、不上传预印本、不公开核心代码。

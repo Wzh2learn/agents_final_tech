@@ -2,12 +2,12 @@
 
 ## 当前科研阻塞与接续（2026-09-23）
 
-- **本地 Git 基线已对齐**：本轮开工 fresh fetch 后，本地 `main`、`origin/main` 与工作分支 `test/compaction-guard-abort` 均为 `061d8819bd7c3b03159f6f0df183887be57edef6`，`HEAD...origin/main=0/0`；交付前远端 test 为 `0aee20d`。Phase 1a 合同随本轮交付发布到该 test 分支；未使用 reset/rebase。
+- **当前 Git 基线**：审计整改开工时 `test/compaction-guard-abort` 与远端 test 均为 `7dd505c`；本轮 v2 合同/理论/统计修复已在该基线上以 fast-forward 提交交付（接手时 3 项测试失败，已在交付前修复并补 1 项正测，七套件 117 passed）。未使用 reset/rebase。
 - **论文状态不变**：Stage E 是成熟评估子稿；Stage D 无训练后证据；Stage R 只有机制级证据。Phase 1a 仍为 `DATA_NO_GO`，Phase 2 只有仓内软件合同、正式数据 replay 未启动；零样本矩阵不能写成蒸馏结果，评估方向包不能冒充三阶段完整论文。
-- **仓内前置已收敛**：`research/phase1a_data_contract.py` 与 `tests/test_phase1a_data_contract.py` 把数据补充要求固化为七门 fail-closed 合同。机械通过只到 `READY_FOR_INDEPENDENT_ACCEPTANCE`，不能输出 `DATA_GO`、训练许可或论文结果。唯一合同与 GB10 验收命令见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`，不再另建计划。
-- **五基线 runner 已就绪但未正式运行**：`research/phase1a_learnability_baselines.py` / `tests/test_phase1a_learnability_baselines.py` 已实现 proposal train/dev 专用的 always-skip、deterministic、lexical/fuzzy、confidence-only、simple classifier，对接独立接收回执和预注册配置 hash。合成测试 23 passed，联合数据合同 42 passed，科研/治理定向 61 passed；没有私有 baseline 数字，Phase 1a 状态不变。
-- **Phase 2 七臂软件合同已就绪但未正式运行**：`research/phase2_rule_gate_replay.py` 保证共享候选顺序、逐臂独立规则状态、分叉后重算三类分数和 rollback 快照；`research/paper_result_views.py` 提供带未验收水印的 Table 2/Figure 4 聚合接口。合成测试 14 passed；没有读取真实语料、没有 Phase 2 数字，GB10 输入转换、历史 fixed-dual 复现和独立验收仍待授权。
-- **理论与数据素材已收敛**：`paper/method_theory_materials_v1.md` 整理过程监督、defer/选择性预测、有限样本风险、受约束更新、回滚不变量、adaptive holdout 与最近邻工作边界；`paper/dataset_protocol_v1.md` 冻结 Q0–Q3 × 四层角色，并把 P0 拆为 FinQA 过程源与 Valentine NYC 动作源。10 个候选的 commit/许可缺口/独立性簇已落 `docs/datasets/paper-public-source-registry-v1.json`，全部下载门关闭；ConvFinQA 不独立于 FinQA，旧 TAT-QA 继续 `HISTORICAL_ONLY`，TAT-DQA 继续冻结。
+- **Phase 1 v2 审计整改已交付**：`research/phase1a_data_contract.py` 改为 namespaced lineage UID/root/independence-cluster 三层隔离，canonical Q3 ledger，当前四层必有数据；future 可空但须 hash-bound acquisition protocol，并显式输出 `LONGITUDINAL_EVIDENCE_UNAVAILABLE`。机械通过仍只到 `READY_FOR_INDEPENDENT_ACCEPTANCE`。
+- **五基线 runner v2 已实现但未正式运行**：proposal view 现在逐条回查 hash-bound canonical Q3 ledger；`harmful_map_rate`、`map_to_risk`、`correct_map_coverage` 分母已消歧，`min_dev_uids=1` 被拒。没有私有 baseline 数字，Phase 1a 状态不变。
+- **Phase 2 v2 已实现但未正式运行**：七臂状态机保持不变，统计输出把 rule-level harmful accept 与 UID-any-harm/Clopper–Pearson 上界分开；Phase 2 只依赖已接收数据、可重建状态和单独授权，不依赖 `LEARNABILITY_SIGNAL`。没有真实 replay 数字。
+- **理论/数据冲突已修、证据缺口不伪造**：A1/A2 已拆共同资格 $u_i$ 与 checkpoint filter $z_i$；学生直出/送检、规则效用、完整 UID collateral、单侧非劣、Holm family 和 seed×UID 汇总已明确。FinQA 与 Valentine 只算互补预研；未找到同一母池同时含 checkpoint evidence、Q3 action/target、Q3 outcome 前，RQ2 保持 `NOT_IDENTIFIED`。
 - **预注册已原位收口**：`docs/experiments/2026-09-22_distillation_mvp_preregistration.md` 已从旧 SP-RQ2/4B 对照草案改为当前 RQ2–RQ4 实验口径合同，覆盖五基线止损、A0–A3、七臂 replay、双公平口径和独立冻结收据。状态仍为 `DRAFT_NOT_FROZEN`，数值容差/模型 revision/预算/数据批准未由 Agent 代填。
 - **GB10 仍待复核**：上次已知 production 为 `e5ab809`；2026-09-23 的一次 SSH 连接超时，当前 checkout、脏件、进程、Loop B、控制队列、私有数据和 Loop C Lead 均未验证。不得使用本地缓存 `gb10/main=3dabbc7` 推断实况，不得认领 READY 卡。
 - **恢复顺序**：先只读核 GB10 状态并建立干净隔离 worktree，再只读挂载私有补充包，跑聚焦测试和两次 `strace` 预检，要求报告逐字一致、零 connect、七门全 PASS；随后由独立人员复核许可、标签身份/裁决、分析计划与 parser receipt。任何一步失败继续 `DATA_NO_GO`。

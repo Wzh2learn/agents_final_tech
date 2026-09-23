@@ -36,10 +36,10 @@
 | 评估聚合、K2 与 `research/paper_d*` / `paper_t*` / `paper_w2*` | 已有 checkpoint/逐样本工件 → 汇总、稳健性与审稿证据 | 先查具体入口；有的仅聚合，有的会请求模型，不能按文件前缀推断零调用 |
 | `research/vgmc_exp1.py` 与其他 VGMC 脚本 | drift_v0 语料、候选动作、规则状态 → 门控/拒绝/污染曲线 | `fewshot_pool` 等纯函数可用 fixture；完整回放/新数字归正式执行面 |
 | `research/dpo_pairs_v0.py` | 旧生成入口：checkpoint → 偏好对；`--audit`：已有37件工件 → 来源/标签/历史划分审计 | 审计不加载语料/模型、不导出训练样本；结果见资产账本 §3.1；回归 `tests/test_distillation_data_audit.py` |
-| `research/phase1a_data_contract.py` | 私有补充包 manifest + hash 绑定工件 → 七门聚合预检收据 | 本地仅用合成 fixture 验证合同；通过只到 `READY_FOR_INDEPENDENT_ACCEPTANCE`，GB10 私有包、`strace` 与人工复核另验；回归 `tests/test_phase1a_data_contract.py` |
-| `research/phase1a_learnability_baselines.py` | 已独立接收的 proposal train/dev 视图 + 预注册配置 → 五类简单基线的聚合开发报告 | 仓内只验证合成合同；拒绝 gate/sealed/future 样本与事后特征，只给 `SIMPLE_SUFFICIENT` / `LEARNABILITY_SIGNAL` / `NO_CLEAR_SIGNAL` / `PILOT_ONLY`，不能放行训练；回归 `tests/test_phase1a_learnability_baselines.py` |
-| `research/phase2_rule_gate_replay.py` | proposal/train 共享候选流 + 独立 gate-validation + 各臂规则状态 → 七类门 replay 聚合报告 | 每臂按自身状态重算 gain/collateral/gate delta，拒绝 sealed/future 和事后分数字段；本地仅验证合成状态机，不产生正式 replay 数字；回归 `tests/test_phase2_rule_gate_replay.py` |
-| `research/paper_result_views.py` | Phase 2 聚合报告 → Table 2 / Figure 4 稳定数据接口 | 只转换聚合字段，强制 `paper_result=false` 和未验收水印；不能自行把 GB10 工件提升为论文证据 |
+| `research/phase1a_data_contract.py` | v2 私有补充包 manifest + hash 绑定工件 → 七门聚合预检收据 | 校验 namespaced lineage UID/root/independence cluster 三层隔离、canonical Q3 ledger 和冻结统计合同；当前四层必有数据，future 可空但须 acquisition protocol 并标长期证据不可用。通过只到 `READY_FOR_INDEPENDENT_ACCEPTANCE`；回归 `tests/test_phase1a_data_contract.py` |
+| `research/phase1a_learnability_baselines.py` | 已独立接收的 proposal train/dev 派生视图 + canonical ledger + 预注册配置 → 五类简单基线聚合开发报告 | 逐条核对 Q3 ledger，拒绝 gate/sealed/future 样本与事后特征；明确 `harmful_map_rate` / `map_to_risk` / `correct_map_coverage`，只给四种开发决策，不能放行训练；回归 `tests/test_phase1a_learnability_baselines.py` |
+| `research/phase2_rule_gate_replay.py` | proposal/train 共享候选流 + 独立 gate-validation + 各臂规则状态 → 七类门 replay 聚合报告 | 每臂按自身状态重算 gain/collateral/gate delta，拒绝 sealed/future 和事后分数字段；分列 rule-level harm 与 UID-any-harm/Clopper–Pearson 上界；本地仅验证合成状态机；回归 `tests/test_phase2_rule_gate_replay.py` |
+| `research/paper_result_views.py` | Phase 2 聚合报告 → Table 2 / Figure 4 稳定数据接口 | 只转换聚合字段并保留两种 harm 分母，强制 `paper_result=false` 和未验收水印；不能自行把 GB10 工件提升为论文证据 |
 | bandit / PSO / 视觉探索脚本 | 各自实验输入 → 探索工件 | 历史/候选资产，不是本轮自动重开项目 |
 | `research/validate_paper_claims.py` | 主张 manifest、正文、工件路径 → 静态验收 | 本地离线；路径/标记通过不等于复算数字或证明贡献 |
 | `research/build_teacher_review_docx.py` | Markdown + 图表模板 → DOCX | 本地离线派生；结构测试不等于 Office 视觉验收 |

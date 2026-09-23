@@ -18,8 +18,8 @@ from pathlib import Path
 from typing import Iterable
 
 
-CONTRACT_VERSION = "phase2-rule-gate-replay-v1"
-REPORT_VERSION = "phase2-rule-gate-report-v1"
+CONTRACT_VERSION = "phase2-rule-gate-replay-v2"
+REPORT_VERSION = "phase2-rule-gate-report-v2"
 ARMS = (
     "no_gate",
     "gain_only",
@@ -220,6 +220,7 @@ def _validate_config(value: object) -> dict[str, object]:
             "max_collateral_loss",
             "max_gate_loss",
             "rollback_budget",
+            "significance_level",
             "confidence_policy",
             "cost_proxy",
         },
@@ -235,6 +236,8 @@ def _validate_config(value: object) -> dict[str, object]:
     ):
         if not _finite(value[field], minimum=0.0, maximum=2.0):
             raise ValueError(f"{field} must be finite and within [0, 2]")
+    if not _finite(value["significance_level"], minimum=1e-9, maximum=0.5):
+        raise ValueError("significance_level must be finite and within [1e-9, 0.5]")
     confidence = value["confidence_policy"]
     if not isinstance(confidence, dict):
         raise ValueError("confidence_policy must be an object")
@@ -344,8 +347,10 @@ def _arm_decision(
 def _final_metrics(
     tables: list[TableCase],
     rules: Rules,
+    accepted: set[str],
     retained: set[str],
     candidates: list[Candidate],
+    significance_level: float,
 ) -> dict[str, object]:
     gate_tables = [table for table in tables if table.layer == "gate_validation"]
     overall = _pool_score(gate_tables, rules)
@@ -367,12 +372,34 @@ def _final_metrics(
         if _candidate_is_valid(candidate, tables)
     }
     harmful_retained = retained - valid
+    harmful_accepted = accepted - valid
+    candidate_by_id = {candidate.candidate_id: candidate for candidate in candidates}
+    evaluated_uids = {candidate.source_uid for candidate in candidates}
+    harmful_uids = {
+        candidate_by_id[candidate_id].source_uid for candidate_id in harmful_accepted
+    }
     return {
         "gate_utility": round(overall.utility, 8),
         "gate_accuracy": _round_optional(overall.accuracy),
         "gate_coverage": round(overall.coverage, 8),
         "valid_rule_retention": round(len(retained & valid) / len(valid), 8) if valid else None,
-        "harmful_accept_rate": round(len(harmful_retained) / len(retained), 8) if retained else None,
+        "rule_level_harmful_accept_rate": (
+            round(len(harmful_accepted) / len(accepted), 8) if accepted else None
+        ),
+        "rule_level_harmful_retained_rate": (
+            round(len(harmful_retained) / len(retained), 8) if retained else None
+        ),
+        "uid_any_harm_rate": (
+            round(len(harmful_uids) / len(evaluated_uids), 8) if evaluated_uids else None
+        ),
+        "uid_any_harm_cp_upper": _clopper_pearson_upper(
+            len(harmful_uids), len(evaluated_uids), significance_level
+        ),
+        "uid_any_harm_significance_level": significance_level,
+        "uid_any_harm_counts": {
+            "harmful_uids": len(harmful_uids),
+            "evaluated_uids": len(evaluated_uids),
+        },
         "retained_rules": len(retained),
         "valid_candidates": len(valid),
         "worst_family": min(
@@ -385,6 +412,32 @@ def _final_metrics(
 
 def _round_optional(value: float | None) -> float | None:
     return round(value, 8) if value is not None else None
+
+
+def _binomial_cdf(k: int, n: int, probability: float) -> float:
+    return sum(
+        math.comb(n, index)
+        * probability ** index
+        * (1.0 - probability) ** (n - index)
+        for index in range(k + 1)
+    )
+
+
+def _clopper_pearson_upper(k: int, n: int, significance_level: float) -> float | None:
+    """One-sided exact upper bound for a binomial proportion."""
+
+    if n <= 0:
+        return None
+    if k >= n:
+        return 1.0
+    lower, upper = 0.0, 1.0
+    for _ in range(80):
+        midpoint = (lower + upper) / 2.0
+        if _binomial_cdf(k, n, midpoint) > significance_level:
+            lower = midpoint
+        else:
+            upper = midpoint
+    return round(upper, 8)
 
 
 def _cost_for_arm(arm: str, n_proposal_other: int, n_gate: int, config: dict[str, object]) -> float:
@@ -415,6 +468,7 @@ def _run_arm(
     gate = [table for table in tables if table.layer == "gate_validation"]
     by_uid = {table.uid: table for table in tables}
     rules = copy.deepcopy(initial_rules)
+    accepted_ids: set[str] = set()
     retained: set[str] = set()
     events: list[dict[str, object]] = []
     validations = rollbacks = 0
@@ -440,6 +494,7 @@ def _run_arm(
         accepted = decision == "accept"
         rolled_back = False
         if accepted:
+            accepted_ids.add(candidate.candidate_id)
             rules = proposed_rules
             retained.add(candidate.candidate_id)
 
@@ -477,7 +532,14 @@ def _run_arm(
     return {
         "events": events,
         "metrics": {
-            **_final_metrics(tables, rules, retained, candidates),
+            **_final_metrics(
+                tables,
+                rules,
+                accepted_ids,
+                retained,
+                candidates,
+                float(config["significance_level"]),
+            ),
             "validation_queries": validations,
             "rollbacks": rollbacks,
             "cumulative_cost_proxy": round(cumulative_cost, 8),

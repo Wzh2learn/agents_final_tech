@@ -191,34 +191,13 @@ DPO 的问题不只是小，而是偏好方向单一，直接训练可能学成�
 
 主样本单位必须是源表 `uid`，不是一条事件。由同一源表派生的 clean、mutant、不同 regime、候选动作和偏好对必须进入同一个 split。
 
-建议统一样本 schema：
+Phase 1 不再维护第二套样本 schema。唯一 canonical 结构见 `paper/dataset_protocol_v1.md` §6：manifest lineage row 固定 `sample_id/uid/dataset_id/dataset_revision/source_split/independence_cluster/lineage_root_id/transformation_parent_id`；Q3 label ledger 固定 `sample_id/uid/col/gold_action/gold_target/quality_grade/reviewers/adjudication`。人工标注源先归一为 ledger，learnability view 再从已验收 ledger 与 hash-bound source/schema/confidence 工件派生。
 
-```json
-{
-  "sample_id": "stable-hash",
-  "group_id": "source-table-uid",
-  "defect_family": "alias_variant",
-  "context": {
-    "headers": [],
-    "candidate_fields": [],
-    "cheap_checkpoint_summary": {}
-  },
-  "teacher_action": {"action": "map_to", "target": "..."},
-  "verification": {
-    "gain": 0.0,
-    "collateral": 0.0,
-    "accepted": false,
-    "reason": "gated_fail"
-  },
-  "provenance": {"artifact": "...", "regime": "...", "round": 0}
-}
-```
-
-学生输入不得包含会让任务退化成阈值复制的完整 gain/collateral 真值。它可以使用验证前可获得的便宜特征；gain/collateral 只作为标签和最终门证据。
+学生输入不得包含会让任务退化成阈值复制的完整 gain/collateral 真值。它可以使用验证前可获得的便宜特征；gain/collateral 只作为最终门证据，不作为 learnability feature 或 Q3 正确性替代物。
 
 ### 5.2 四层数据边界与泄漏规则
 
-先按 `group_id=uid` 分组，再构造动作/SFT/DPO 视图；同一源表的 clean、mutant、不同 regime、规则事件与偏好对不可跨层。不能把历史 fix/meas 名称直接解释成新的四层隔离。
+先按 v2 manifest 的 namespaced lineage UID 与 independence cluster 分组，再构造动作/SFT/DPO 视图；同一源表的 clean、mutant、不同 regime、规则事件与偏好对不可跨层。不能把历史 fix/meas 名称直接解释成新的四层隔离。
 
 | 层 | 允许用途 | 禁止用途 |
 |---|---|---|
@@ -227,7 +206,7 @@ DPO 的问题不只是小，而是偏好方向单一，直接训练可能学成�
 | sealed test | 冻结模型、阈值、规则库后的一次只读终评，包含预先选定的未见家族压力测试 | **绝不参与规则是否接受、阈值选择、early stopping、split/家族/容差修改** |
 | future replay | 冻结后新增独立 uid 的前瞻只读批次，评估长期漂移/风险；批次规则版本先冻结 | 回流当前轮训练/门控/选择；本批揭封后不可继续充当未见证据 |
 
-1. 先盘点旧工件哪些已用于开发、筛选或审稿；已看过的结果只能作 development/pilot 证据，不能通过重新切分“洗成”未见 sealed test。新的 sealed/future 层若不存在，manifest 标 `missing` 并走扩充路线，不虚构样本。
+1. 先盘点旧工件哪些已用于开发、筛选或审稿；已看过的结果只能作 development/pilot 证据，不能通过重新切分“洗成”未见 sealed test。sealed test 必须非空；future 尚未到来时允许空数组，但须绑定经批准的获取时间、来源约束、分层规则与“不回流本轮”协议，并在报告标 `LONGITUDINAL_EVIDENCE_UNAVAILABLE`。
 2. 同一 `(uid,col,target)` 重复先聚合 provenance，16 组冲突逐组保留原因/状态；规则历史或 regime 不同不等于随机噪声，解释不了就隔离，禁止多数投票消除冲突。
 3. 未见家族的选择只依据预注册设计与元数据，在训练/调参前冻结；其全部 uid 从 proposal/train 和 gate-validation 排除。少量家族只能作压力测试，不能拿约 5 表支撑显著性。
 4. 主要区间按 uid 聚类 bootstrap；不得把 118 个注入或 494 条事件当 iid。功效/MDE 使用开发侧统计及事先设定效应，不看 sealed test 结果估参数。
@@ -241,7 +220,7 @@ DPO 的问题不只是小，而是偏好方向单一，直接训练可能学成�
 
 | 判定 | 条件与后续 |
 |---|---|
-| `DATA_GO` | provenance/标签可核验、冲突已解释或隔离，前三层独立 uid/类别覆盖成立，future replay 来源与独立批次协议预先登记（尚未到来的批次不虚构样本），两次构建 hash 一致，按 uid 聚类功效/MDE 足以检验预注册效应；可经离线门后申请相应训练臂 |
+| `DATA_GO` | provenance/标签可核验、冲突已解释或隔离，当前四层（proposal train/dev、gate、sealed）按 lineage UID 与 independence cluster 零交叉，future replay 来源与独立批次协议预先登记（尚未到来的批次不虚构样本），两次构建 hash 一致，按 uid 聚类功效/MDE 足以检验预注册效应；可经离线门后申请相应实验臂 |
 | `PILOT_ONLY` | 来源合法可复现但独立 uid、双向动作/偏好、功效或未见测试不足；只能有界 smoke/pilot，立即转近期评估稿保底，不宣称论文级蒸馏 |
 | `DATA_NO_GO`（NO_GO） | 来源/许可不明、不可修复泄漏、冲突无法隔离或正确性标签无法重建；该视图停止构建/训练并登记阻塞 |
 
@@ -249,13 +228,13 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 不足时不复制事件扩量：增加独立公开源表（先用已获许可且本地可用的来源，不重开 TAT-DQA D4），增加独立 uid，补经核验的正确 `map_to`、`hold` 与双向偏好（含正向 map_to 的 Type-B），重新做 uid 聚类功效/MDE 和四层覆盖检查。新来源下载、模型标注或训练另行授权；合成扰动不得算新增独立表。扩充截止前仍不达门即维持拆稿，不无期限补样本救主张。
 
-**数据来源与质量分层已预研，尚未获取**：具体选择、许可核验、Q0–Q3 标签质量 × 四层实验角色、黄金标注合同和模型配置清单位于 `paper/dataset_protocol_v1.md`，机器可读核验锚位于 `docs/datasets/paper-public-source-registry-v1.json`。P0 必须拆成互补两路：FinQA 负责 process/checkpoint 来源，Valentine NYC 负责 schema-action pilot；两者不能按行混成同分布样本。MultiHiertt 是 P1 条件外部过程验证；ConvFinQA 与 FinQA 同 independence cluster，不得冒充独立 test。TAT-QA 旧 train+dev 池保持 `HISTORICAL_ONLY`，需先反查曝光 UID；TAT-DQA 继续冻结，PubTables-1M 本小论文不下载。注册表中全部 `download_approved=false`；任何获取、构建与训练仍由本计划和用户授权控制。
+**数据来源与质量分层已预研，尚未获取**：具体选择、许可核验、Q0–Q3 标签质量 × 四层实验角色、黄金标注合同和模型配置清单位于 `paper/dataset_protocol_v1.md`，机器可读核验锚位于 `docs/datasets/paper-public-source-registry-v1.json`。P0 必须拆成互补两路：FinQA 负责 process/checkpoint 来源，Valentine NYC 负责 schema-action pilot；两者不能按行混成同分布样本。注册表记录的是 independence-cluster namespace；样本 manifest 必须追加具体 report/document/table origin id，不能把整个数据集当一个簇。MultiHiertt 是 P1 条件外部过程验证；ConvFinQA 与 FinQA 共享 namespace，同源 report/question 组不得冒充独立 test。TAT-QA 旧 train+dev 池保持 `HISTORICAL_ONLY`，需先反查曝光 UID；TAT-DQA 继续冻结，PubTables-1M 本小论文不下载。注册表中全部 `download_approved=false`；任何获取、构建与训练仍由本计划和用户授权控制。
 
 ## 6. 分阶段执行卡
 
 ### Phase 0：接续已确认主张（本批治理，不重开规划）
 
-小模型角色、双轨路线与边界已由用户确认；本计划、叙事和资产账本已对齐，Phase 1 本地审计现已交付，按 §10 移交服务器验证。claim–evidence–owner 复用 `paper/research_asset_map_v2.md`，不另建日期版矩阵/计划；目标贡献保留 `needs-evidence`。指标阈值、训练窗口仍待确认，不能把方向确认当执行许可。若要改成通用 QA 蒸馏或替代确定性门，先停下报用户。
+小模型角色、双轨路线与边界已由用户确认；本计划、叙事和资产账本已对齐，Phase 1 本地审计现已交付，当前服务器边界见 §13。claim–evidence–owner 复用 `paper/research_asset_map_v2.md`，不另建日期版矩阵/计划；目标贡献保留 `needs-evidence`。指标阈值、训练窗口仍待确认，不能把方向确认当执行许可。若要改成通用 QA 蒸馏或替代确定性门，先停下报用户。
 
 ### Phase 1：蒸馏数据审计与构建器（本地审计已交付，训练视图未放行）
 
@@ -287,7 +266,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 | confidence-only | 只读建议时已记录的 confidence，冻结高/中/低处理和缺失策略 | 教师自报置信是否已解释收益 |
 | 简单分类器 | 仅验证前便宜特征，按 uid 拟合/评估；不含 gain/collateral/accepted、事后规则或 split 标识 | 是否根本不需要 8B |
 
-**输出**：action macro-F1、正确 map_to/hold 召回、有害动作率、有效动作覆盖、最坏家族及 uid 聚类区间；预筛与候选生成分开计分，缺 confidence/正确标签时标不可测，不填 0。比较同风险下覆盖和同覆盖下风险，不能只拿全拒绝的准确率获胜。
+**输出**：action macro-F1、正确 map_to/hold 召回、harmful-map rate、map-to risk、correct-map coverage、最坏家族及 uid 聚类区间；预筛与候选生成分开计分，缺 confidence/正确标签时标不可测，不填 0。比较同候选风险下的送检覆盖、同覆盖下候选风险、有效候选召回、漏失有效规则率与验证成本；所有候选仍进入确定性 gate，不能只拿零送检的准确率获胜。
 
 **门**：若强简单基线已满足事先在开发侧定义的质量/覆盖目标且无可辨残余，判 `SIMPLE_SUFFICIENT`，不申请主训练，走评估稿保底。若样本不足则 `PILOT_ONLY`；若存在稳定残余且标签可学，仅说明值得申请窗口，**不是小模型已经优于简单基线**，其必要性最终还须 Phase 4/5 实测。阈值在探针前登记于本计划或原预注册，不因 sealed 结果修改。
 
@@ -297,7 +276,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 **七类对照**：no gate、gain-only、collateral-only、confidence-only、fixed dual gate、独立 gate-validation 增强门、rollback-versioning（增强门 + 版本快照/回滚）。confidence 缺失策略事先冻结，不可使用 gain/collateral 冒充 confidence。
 
-**指标**：有害接受率、有效规则保留率、覆盖/正确率、最坏家族、验证次数、回滚次数、累计成本代理；成本代理不冒充真实模型延迟。
+**指标**：rule-level harmful-accept rate、回滚后的 rule-level harmful-retained rate 与 UID-any-harm rate/单侧 Clopper–Pearson 上界分列，有效规则保留率、覆盖/正确率、最坏家族、验证次数、回滚次数、累计成本代理；规则分母与 UID 分母、曾接受与最终保留不混用，成本代理不冒充真实模型延迟。
 
 **关键纪律**：所有臂消费同一候选顺序并各自维护规则版本；接受历史分叉后必须在各臂状态上重新确定性计算 gain/collateral，不能照搬原臂记录分数。旧 `grid_replay` 只能复核历史摘要，不算完整反事实门比较。
 
@@ -305,7 +284,7 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 
 **仓内前置已完成，正式 replay 未启动**：`research/phase2_rule_gate_replay.py` 已固化七臂状态机，`research/paper_result_views.py` 已固化 Table 2 / Figure 4 的聚合数据接口。输入合同只接受 `proposal_train` 与 `gate_validation` 表；候选只能含 id、source uid、synonym、target、confidence，任何预存 `gain`、`collateral`、`accepted` 或 `split` 字段都会失败。七臂逐条消费同一候选顺序、各自维护规则库；source gain、proposal collateral、独立 gate delta 均从该臂当前状态重算。rollback 臂保留最佳独立验证快照，超出预注册累计预算时回滚。合成测试只证明状态机和接口，不复现旧固定门数字，也不打开 Phase 2。
 
-GB10 恢复后，先完成 Phase 1 数据接收并取得 Phase 2 单独授权，再把已批准 manifest 中的 proposal/train 共享候选、可重建表状态和独立 gate-validation 转成合同 JSON；转换工件、预注册配置和报告均放 Git 外，sealed test/future replay 不进入本卡。正式运行前冻结 `min_source_gain`、`max_collateral_loss`、`max_gate_loss`、`rollback_budget`、confidence 缺失策略和四项成本代理。默认只报告动态 leave-one-source-out collateral 的累计局部界；如需在论文主张全局伸缩界，须先单独扩展合同/测试并冻结同一个不含候选 source UID 的回归池。先验证软件，再做两次零连接重放：
+GB10 恢复后，先完成 Phase 1 数据接收并取得 Phase 2 单独授权，再把已批准 manifest 中的 proposal/train 共享候选、可重建表状态和独立 gate-validation 转成合同 JSON；转换工件、预注册配置和报告均放 Git 外，sealed test/future replay 不进入本卡。Phase 2 不以 Phase 1a 的 `LEARNABILITY_SIGNAL` 为前置。正式运行前冻结 `min_source_gain`、`max_collateral_loss`、`max_gate_loss`、`rollback_budget`、`significance_level`、confidence 缺失策略和四项成本代理。默认只报告动态 leave-one-source-out collateral 的累计局部界；如需在论文主张全局伸缩界，须先单独扩展合同/测试并冻结同一个不含候选 source UID 的回归池。先验证软件，再做两次零连接重放：
 
 ```bash
 python3 -m py_compile research/phase2_rule_gate_replay.py research/paper_result_views.py
@@ -350,9 +329,11 @@ GB10 软件验收要求两次报告逐字一致、两份 trace 均无 `connect(`
 | 臂 | 定义 | 作用 |
 |---|---|---|
 | A0 | 8B zero-shot | 同任务训练前基线，不使用原 16 道 QA 替代 |
-| A1 | unfiltered SFT | 保留所有合法、可核验的教师动作；不是把来源错误/泄漏也纳入 |
-| A2 | checkpoint-filtered SFT | 在同一来源母池上增加 checkpoint 过滤 |
+| A1 | unfiltered SFT | 使用共同资格门 $u_i=1$ 的全部合法 Q3 教师动作；不是把来源错误/泄漏也纳入 |
+| A2 | checkpoint-filtered SFT | 只在同一 $u_i=1$ 母池上增加 $z_i$ checkpoint 过滤 |
 | A3 | A2 + gate-derived DPO | 独立偏好数据门通过才执行 |
+
+**RQ2 同样本桥接硬门**：A1/A2 每个样本必须同时具备预动作 checkpoint evidence、同一 lineage UID 的 Q3 teacher action/target 和 Q3 outcome/correctness。FinQA process/program 与 Valentine correspondence 是互补预研，不能跨样本拼成该桥；桥未成立时不启动 A1/A2，RQ2 记 `NOT_IDENTIFIED`。
 
 4B **仅用于 Phase 3 训练链 smoke**，不作主实验 ablation；14B **既有异常尚未归因**，不推断权重或模板为原因，暂不作主学生。论文级训练主臂至少 3 seeds；仅单 seed 时降为 pilot，A0 报告是否确定性解码，不伪装重复独立样本。
 
@@ -447,7 +428,7 @@ Method/Related Work 写作优先复用 `paper/method_theory_materials_v1.md`：�
 3. `docs/research/README.md`
 4. `paper/research_story_v2.md`
 5. `paper/research_asset_map_v2.md`
-6. 本计划（直接接 §10）；首次接手只读 docs/33、docs/34 政策，不执行旧排期
+6. 本计划（直接接 §13 当前边界）；首次接手只读 docs/33、docs/34 政策，不执行旧排期
 
 协作设计依据为 `docs/17_Graph_Engineering_多层Loop设计.md`，工程路线为 `docs/29_graph_engineering_roadmap.md`；后者的历史 backlog 不覆盖本计划，当前未决只回链 THREADS。卡片复用 `templates/task_card_template.md`，不新造科研专属 harness。
 

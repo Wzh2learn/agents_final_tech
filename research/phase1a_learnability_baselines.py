@@ -22,14 +22,28 @@ import re
 from typing import Any, Callable
 
 try:
-    from research.phase1a_data_contract import offline_guard
+    from research.phase1a_data_contract import (
+        CONTRACT_VERSION as DATA_CONTRACT_VERSION,
+        FEATURE_FIELDS,
+        FEATURE_LEDGER_VERSION,
+        LABEL_FIELDS,
+        MANIFEST_ROW_FIELDS,
+        offline_guard,
+    )
 except ModuleNotFoundError:  # Direct ``python research/...py`` execution.
-    from phase1a_data_contract import offline_guard
+    from phase1a_data_contract import (  # type: ignore
+        CONTRACT_VERSION as DATA_CONTRACT_VERSION,
+        FEATURE_FIELDS,
+        FEATURE_LEDGER_VERSION,
+        LABEL_FIELDS,
+        MANIFEST_ROW_FIELDS,
+        offline_guard,
+    )
 
 
 REPO = Path(__file__).resolve().parents[1]
-PROBE_VERSION = "phase1a-learnability-probe-v1"
-ACCEPTANCE_VERSION = "phase1a-independent-acceptance-v1"
+PROBE_VERSION = "phase1a-learnability-probe-v2"
+ACCEPTANCE_VERSION = "phase1a-independent-acceptance-v2"
 PRECHECK_READY = "READY_FOR_INDEPENDENT_ACCEPTANCE"
 ACCEPTED = "ACCEPTED_FOR_PHASE1A_LEARNABILITY"
 
@@ -50,6 +64,7 @@ CASE_FIELDS = {
     "confidence",
     "gold_action",
     "gold_target",
+    "quality_grade",
     "family",
 }
 CONFIG_FIELDS = {
@@ -62,9 +77,11 @@ CONFIG_FIELDS = {
 }
 POLICY_FIELDS = {
     "min_dev_uids",
+    "min_dev_uids_by_action",
+    "min_dev_uids_by_family",
     "min_action_macro_f1",
-    "max_harmful_action_rate",
-    "min_valid_action_coverage",
+    "max_harmful_map_rate",
+    "min_correct_map_coverage",
     "min_classifier_macro_f1_gain",
 }
 MANUAL_REVIEW_FIELDS = {
@@ -223,9 +240,31 @@ def _validate_config(config: dict[str, object]) -> dict[str, object]:
     if not isinstance(policy, dict):
         raise ValueError("decision_policy must be an object")
     _expect_exact_keys(policy, POLICY_FIELDS, "decision_policy")
-    if type(policy.get("min_dev_uids")) is not int or policy["min_dev_uids"] < 1:
-        raise ValueError("min_dev_uids must be a positive integer")
-    for field in POLICY_FIELDS - {"min_dev_uids"}:
+    if type(policy.get("min_dev_uids")) is not int or policy["min_dev_uids"] < 2:
+        raise ValueError("min_dev_uids must be at least two independent lineage UIDs")
+    action_minimums = policy.get("min_dev_uids_by_action")
+    if not isinstance(action_minimums, dict) or set(action_minimums) != set(ACTIONS):
+        raise ValueError("min_dev_uids_by_action must define skip, hold, and map_to")
+    if any(type(value) is not int or value < 2 for value in action_minimums.values()):
+        raise ValueError("each action UID minimum must be at least two")
+    family_minimums = policy.get("min_dev_uids_by_family")
+    if (
+        not isinstance(family_minimums, dict)
+        or not family_minimums
+        or any(
+            not isinstance(family, str)
+            or not family
+            or type(value) is not int
+            or value < 2
+            for family, value in family_minimums.items()
+        )
+    ):
+        raise ValueError("each registered family UID minimum must be at least two")
+    for field in POLICY_FIELDS - {
+        "min_dev_uids",
+        "min_dev_uids_by_action",
+        "min_dev_uids_by_family",
+    }:
         if not _finite_number(policy.get(field), minimum=0.0, maximum=1.0):
             raise ValueError(f"{field} must be finite and within [0, 1]")
     return config
@@ -240,7 +279,7 @@ def _validate_precheck(
     meta = precheck.get("meta")
     if not isinstance(meta, dict) or meta.get("endpoint_calls") != 0 or meta.get("socket_attempts") != 0:
         raise ValueError("precheck must attest zero endpoint and socket calls")
-    if meta.get("contract_version") not in (None, "phase1a-data-package-v1"):
+    if meta.get("contract_version") != DATA_CONTRACT_VERSION:
         raise ValueError("precheck contract_version is incompatible")
     hashes = precheck.get("hashes")
     if not isinstance(hashes, dict) or hashes.get("manifest_sha256") != manifest_sha256:
@@ -329,7 +368,7 @@ def _proposal_refs(manifest: dict[str, object]) -> tuple[dict[str, str], dict[st
             raise ValueError(f"proposal_train.{partition} must be non-empty")
         refs: dict[str, str] = {}
         for index, row in enumerate(rows):
-            if not isinstance(row, dict) or set(row) != {"sample_id", "uid"}:
+            if not isinstance(row, dict) or set(row) != MANIFEST_ROW_FIELDS:
                 raise ValueError(f"invalid proposal_train.{partition} row {index}")
             sample_id, uid = row.get("sample_id"), row.get("uid")
             if not isinstance(sample_id, str) or not sample_id or not isinstance(uid, str) or not uid:
@@ -373,6 +412,8 @@ def _validate_case(value: object, line: int) -> dict[str, object]:
     if confidence not in {None, "low", "medium", "high"}:
         raise ValueError(f"invalid confidence on line {line}")
     gold_action, gold_target = value.get("gold_action"), value.get("gold_target")
+    if value.get("quality_grade") != "Q3":
+        raise ValueError(f"learnability view requires Q3 labels on line {line}")
     if gold_action not in ACTIONS:
         raise ValueError(f"invalid gold_action on line {line}")
     if gold_action == "map_to":
@@ -389,6 +430,7 @@ def _validate_case(value: object, line: int) -> dict[str, object]:
         "confidence": confidence,
         "gold_action": gold_action,
         "gold_target": gold_target,
+        "quality_grade": "Q3",
         "family": family,
     }
 
@@ -419,6 +461,7 @@ def _bind_partitions(
     rows: list[dict[str, object]],
     train_refs: dict[str, str],
     dev_refs: dict[str, str],
+    labels: dict[str, tuple[str, str, str | None, str]],
 ) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
     expected = set(train_refs) | set(dev_refs)
     actual = {str(row["sample_id"]) for row in rows}
@@ -431,8 +474,115 @@ def _bind_partitions(
         refs, target = (train_refs, train) if sample_id in train_refs else (dev_refs, dev)
         if refs[sample_id] != uid:
             raise ValueError("learnability view UID does not match proposal_train manifest")
+        expected_label = labels.get(sample_id)
+        actual_label = (
+            uid,
+            str(row["gold_action"]),
+            row.get("gold_target"),
+            str(row["quality_grade"]),
+        )
+        if expected_label != actual_label:
+            raise ValueError("learnability view label does not match the accepted Q3 label ledger")
         target.append(row)
     return train, dev
+
+
+def _load_label_ledger(
+    package_root: Path,
+    manifest: dict[str, object],
+) -> dict[str, tuple[str, str, str | None, str]]:
+    bindings = manifest.get("bindings")
+    artifacts = manifest.get("artifacts")
+    if not isinstance(bindings, dict) or not isinstance(artifacts, list):
+        raise ValueError("manifest lacks the canonical label-ledger binding")
+    label_id = bindings.get("label_ledger")
+    matches = [
+        item for item in artifacts
+        if isinstance(item, dict) and item.get("id") == label_id
+        and item.get("role") == "label_ledger"
+    ]
+    if len(matches) != 1:
+        raise ValueError("manifest label-ledger binding is missing or ambiguous")
+    artifact = matches[0]
+    path = _resolve_inside(package_root, artifact.get("path"))
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise ValueError("cannot read canonical label ledger") from exc
+    if len(raw) != artifact.get("bytes") or _sha256_bytes(raw) != artifact.get("sha256"):
+        raise ValueError("canonical label ledger no longer matches the accepted manifest")
+    labels: dict[str, tuple[str, str, str | None, str]] = {}
+    for line_number, line in enumerate(raw.splitlines(), start=1):
+        if not line.strip():
+            continue
+        row = _strict_json(line, f"label ledger line {line_number}")
+        if not isinstance(row, dict) or set(row) != LABEL_FIELDS:
+            raise ValueError(f"invalid canonical label ledger row {line_number}")
+        sample_id = row.get("sample_id")
+        uid = row.get("uid")
+        action = row.get("gold_action")
+        target = row.get("gold_target")
+        quality = row.get("quality_grade")
+        if (
+            not isinstance(sample_id, str) or not sample_id or sample_id in labels
+            or not isinstance(uid, str) or not uid
+            or action not in ACTIONS or quality != "Q3"
+            or (action == "map_to" and (not isinstance(target, str) or not target))
+            or (action != "map_to" and target is not None)
+        ):
+            raise ValueError(f"invalid canonical label identity on line {line_number}")
+        labels[sample_id] = (uid, str(action), target if isinstance(target, str) else None, "Q3")
+    return labels
+
+
+def _load_feature_ledger(
+    package_root: Path,
+    manifest: dict[str, object],
+) -> dict[str, dict[str, object]]:
+    bindings = manifest.get("bindings")
+    artifacts = manifest.get("artifacts")
+    if not isinstance(bindings, dict) or not isinstance(artifacts, list):
+        raise ValueError("manifest lacks the canonical feature-ledger binding")
+    feature_id = bindings.get("learnability_feature_ledger")
+    matches = [
+        item for item in artifacts
+        if isinstance(item, dict) and item.get("id") == feature_id
+        and item.get("role") == "learnability_feature_ledger"
+    ]
+    if len(matches) != 1:
+        raise ValueError("manifest feature-ledger binding is missing or ambiguous")
+    artifact = matches[0]
+    path = _resolve_inside(package_root, artifact.get("path"))
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise ValueError("cannot read canonical feature ledger") from exc
+    if len(raw) != artifact.get("bytes") or _sha256_bytes(raw) != artifact.get("sha256"):
+        raise ValueError("canonical feature ledger no longer matches the accepted manifest")
+    value = _strict_json(raw, "canonical feature ledger")
+    expected = {
+        "contract_version",
+        "source_tables_sha256",
+        "schema_sha256",
+        "confidence_manifest_sha256",
+        "rows",
+    }
+    if not isinstance(value, dict) or set(value) != expected:
+        raise ValueError("canonical feature ledger has an invalid shape")
+    if value.get("contract_version") != FEATURE_LEDGER_VERSION:
+        raise ValueError("canonical feature ledger has an unsupported version")
+    rows = value.get("rows")
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("canonical feature ledger has no rows")
+    result: dict[str, dict[str, object]] = {}
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict) or set(row) != FEATURE_FIELDS:
+            raise ValueError(f"invalid canonical feature ledger row {index}")
+        sample_id = row.get("sample_id")
+        if not isinstance(sample_id, str) or not sample_id or sample_id in result:
+            raise ValueError(f"invalid canonical feature identity on row {index}")
+        result[sample_id] = row
+    return result
 
 
 def _normalize(value: object) -> str:
@@ -638,9 +788,9 @@ def _core_metrics(
         "action_f1": {action: _round(f1_by_action[action]) for action in ACTIONS},
         "correct_map_to_recall": _round(_ratio(correct_map, gold_map)),
         "hold_recall": _round(_ratio(correct_hold, gold_hold)),
-        "harmful_action_rate": _round(_ratio(harmful, evaluated)),
+        "harmful_map_rate": _round(_ratio(harmful, evaluated)),
         "map_to_risk": _round(_ratio(harmful, predicted_map)),
-        "valid_action_coverage": _round(_ratio(correct_map, evaluated)),
+        "correct_map_coverage": _round(_ratio(correct_map, evaluated)),
         "evaluated_samples": evaluated,
         "evaluated_uids": len(uids),
         "excluded_unmeasurable": excluded,
@@ -671,7 +821,7 @@ def _cluster_intervals(
     for row, prediction in zip(rows, predictions, strict=True):
         grouped[str(row["uid"])].append((row, prediction))
     uids = sorted(grouped)
-    metrics = ("action_macro_f1", "harmful_action_rate", "valid_action_coverage")
+    metrics = ("action_macro_f1", "harmful_map_rate", "correct_map_coverage")
     draws: dict[str, list[float]] = {metric: [] for metric in metrics}
     if uids:
         rng = random.Random(seed)
@@ -707,7 +857,7 @@ def _worst_family(
     for family, pairs in grouped.items():
         metrics = _core_metrics([pair[0] for pair in pairs], [pair[1] for pair in pairs])
         macro = float(metrics["action_macro_f1"] or 0.0)
-        harm = float(metrics["harmful_action_rate"] or 0.0)
+        harm = float(metrics["harmful_map_rate"] or 0.0)
         candidates.append((macro, -harm, family, metrics))
     if not candidates:
         return None
@@ -716,8 +866,8 @@ def _worst_family(
         "family": family,
         "evaluated_samples": metrics["evaluated_samples"],
         "action_macro_f1": metrics["action_macro_f1"],
-        "harmful_action_rate": metrics["harmful_action_rate"],
-        "valid_action_coverage": metrics["valid_action_coverage"],
+        "harmful_map_rate": metrics["harmful_map_rate"],
+        "correct_map_coverage": metrics["correct_map_coverage"],
     }
 
 
@@ -746,29 +896,90 @@ def _score(
 def _meets_policy(metrics: dict[str, object], policy: dict[str, object]) -> bool:
     values = (
         metrics.get("action_macro_f1"),
-        metrics.get("harmful_action_rate"),
-        metrics.get("valid_action_coverage"),
+        metrics.get("harmful_map_rate"),
+        metrics.get("correct_map_coverage"),
     )
     if any(type(value) not in (int, float) for value in values):
         return False
     return (
         float(values[0]) >= float(policy["min_action_macro_f1"])
-        and float(values[1]) <= float(policy["max_harmful_action_rate"])
-        and float(values[2]) >= float(policy["min_valid_action_coverage"])
+        and float(values[1]) <= float(policy["max_harmful_map_rate"])
+        and float(values[2]) >= float(policy["min_correct_map_coverage"])
     )
 
 
+def _uid_support(rows: list[dict[str, object]]) -> dict[str, object]:
+    by_action: dict[str, set[str]] = {action: set() for action in ACTIONS}
+    by_family: dict[str, set[str]] = defaultdict(set)
+    all_uids: set[str] = set()
+    for row in rows:
+        uid = str(row["uid"])
+        all_uids.add(uid)
+        by_action[str(row["gold_action"])].add(uid)
+        by_family[str(row["family"])].add(uid)
+    return {
+        "total": len(all_uids),
+        "by_action": {
+            action: len(by_action[action])
+            for action in ACTIONS
+        },
+        "by_family": {
+            family: len(uids)
+            for family, uids in sorted(by_family.items())
+        },
+    }
+
+
 def decide_probe(
-    dev_uid_count: int,
+    dev_uid_support: dict[str, object],
     metrics: dict[str, dict[str, object]],
     policy: dict[str, object],
 ) -> dict[str, object]:
     """Return a bounded development decision; never a data or training release."""
 
-    if dev_uid_count < int(policy["min_dev_uids"]):
+    action_counts = dev_uid_support.get("by_action")
+    family_counts = dev_uid_support.get("by_family")
+    if not isinstance(action_counts, dict) or not isinstance(family_counts, dict):
+        raise ValueError("dev UID support must contain action and family counts")
+    action_minimums = policy["min_dev_uids_by_action"]
+    family_minimums = policy["min_dev_uids_by_family"]
+    assert isinstance(action_minimums, dict) and isinstance(family_minimums, dict)
+    shortfalls: list[dict[str, object]] = []
+    total = dev_uid_support.get("total")
+    if type(total) is not int or total < int(policy["min_dev_uids"]):
+        shortfalls.append({
+            "dimension": "all",
+            "name": "all",
+            "observed_uids": total if type(total) is int else 0,
+            "required_uids": int(policy["min_dev_uids"]),
+        })
+    for action in ACTIONS:
+        observed = action_counts.get(action)
+        required = int(action_minimums[action])
+        if type(observed) is not int or observed < required:
+            shortfalls.append({
+                "dimension": "action",
+                "name": action,
+                "observed_uids": observed if type(observed) is int else 0,
+                "required_uids": required,
+            })
+    registered_families = set(family_minimums)
+    observed_families = set(family_counts)
+    for family in sorted(registered_families | observed_families):
+        observed = family_counts.get(family)
+        required = family_minimums.get(family)
+        if type(observed) is not int or type(required) is not int or observed < required:
+            shortfalls.append({
+                "dimension": "family",
+                "name": family,
+                "observed_uids": observed if type(observed) is int else 0,
+                "required_uids": required if type(required) is int else None,
+            })
+    if shortfalls:
         return {
             "status": "PILOT_ONLY",
-            "reason": "insufficient_dev_uid_count",
+            "reason": "insufficient_or_unregistered_dev_uid_support",
+            "uid_support_shortfalls": shortfalls,
             "training_authorized": False,
         }
     nonlearned_names = ("deterministic_matcher", "lexical_fuzzy", "confidence_only")
@@ -888,7 +1099,18 @@ def _run_probe(
         raise ValueError("learnability view SHA-256 mismatch")
 
     train_refs, dev_refs = _proposal_refs(manifest)
-    train, dev = _bind_partitions(rows, train_refs, dev_refs)
+    labels = _load_label_ledger(package_root, manifest)
+    features = _load_feature_ledger(package_root, manifest)
+    train, dev = _bind_partitions(rows, train_refs, dev_refs, labels)
+    if set(features) != set(train_refs) | set(dev_refs):
+        raise ValueError("canonical feature ledger must exactly cover proposal_train")
+    for row in train + dev:
+        sample_id = str(row["sample_id"])
+        actual = {field: row[field] for field in FEATURE_FIELDS}
+        if actual != features[sample_id]:
+            raise ValueError(
+                "learnability view features do not match the hash-bound feature ledger"
+            )
     classifier = config["classifier"]
     bootstrap = config["bootstrap"]
     assert isinstance(classifier, dict) and isinstance(bootstrap, dict)
@@ -900,7 +1122,8 @@ def _run_probe(
     dev_metrics = {name: result["dev"] for name, result in baselines.items()}
     policy = config["decision_policy"]
     assert isinstance(policy, dict)
-    decision = decide_probe(len({str(row["uid"]) for row in dev}), dev_metrics, policy)
+    dev_uid_support = _uid_support(dev)
+    decision = decide_probe(dev_uid_support, dev_metrics, policy)
     return {
         "decision": decision["status"],
         "decision_detail": decision,
@@ -917,6 +1140,7 @@ def _run_probe(
             "train_uids": len({str(row["uid"]) for row in train}),
             "dev_samples": len(dev),
             "dev_uids": len({str(row["uid"]) for row in dev}),
+            "dev_uid_support": dev_uid_support,
             "manual_review_categories": len(MANUAL_REVIEW_FIELDS),
         },
         "hashes": {
@@ -928,9 +1152,9 @@ def _run_probe(
             "preregistered_config_sha256": _sha256_bytes(config_raw),
         },
         "metric_definitions": {
-            "harmful_action_rate": "incorrect map_to predictions divided by evaluated samples",
+            "harmful_map_rate": "incorrect map_to predictions divided by evaluated samples",
             "map_to_risk": "incorrect map_to predictions divided by predicted map_to actions",
-            "valid_action_coverage": "correct map_to predictions divided by evaluated samples",
+            "correct_map_coverage": "correct map_to predictions divided by evaluated samples",
             "confidence_missing": "excluded as unmeasurable; never filled with zero",
         },
         "baselines": baselines,

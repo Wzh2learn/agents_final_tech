@@ -119,7 +119,7 @@ def test_teacher_direction_docx_contains_three_stage_summary(tmp_path: Path) -> 
 def test_method_materials_keep_theory_and_evidence_boundaries() -> None:
     text = THEORY.read_text(encoding="utf-8")
     for required in (
-        "Risk}(\\tau)",
+        "Risk}_{\\mathrm{student}}(\\tau)",
         "Delta_s",
         "Delta_p",
         "Delta_g",
@@ -130,7 +130,9 @@ def test_method_materials_keep_theory_and_evidence_boundaries() -> None:
         "不能声称已有 conformal guarantee",
         "不等价于在线学习收敛",
         "hold` 是任务标签",
-        "U_{1-\\alpha}",
+        "U_{1-\\alpha_{\\mathrm{sig}}}",
+        "source-lineage UID 组",
+        "w_i^{(1)}=u_i",
         "不能**声称首次",
     ):
         assert required in text
@@ -149,6 +151,8 @@ def test_dataset_protocol_separates_quality_from_experiment_role() -> None:
         "不下载 PubTables-1M",
         "Valentine 的 NYC schema-matching benchmark 是 P0 动作来源",
         "FinQA 与 ConvFinQA 在完成 report/question UID 去重前不得跨",
+        "人工标注源 → package label ledger → learnability view",
+        "RQ2 标 `NOT_IDENTIFIED`",
     ):
         assert required in text
 
@@ -195,9 +199,14 @@ def test_public_source_registry_is_metadata_only_and_fail_closed() -> None:
         assert source["official_repo"].startswith("https://github.com/")
         assert source["download_approved"] is False
         assert source["data_license_state"] != "APPROVED"
+        assert source["independence_cluster_namespace"]
+        assert "independence_cluster" not in source
 
     by_id = {source["dataset_id"]: source for source in sources}
-    assert by_id["finqa"]["independence_cluster"] == by_id["convfinqa"]["independence_cluster"]
+    assert (
+        by_id["finqa"]["independence_cluster_namespace"]
+        == by_id["convfinqa"]["independence_cluster_namespace"]
+    )
     assert by_id["finqa"]["decision"] == "P0_PROCESS_SOURCE_PREFLIGHT"
     assert by_id["valentine_nyc"]["decision"] == "P0_ACTION_SOURCE_PREFLIGHT"
     assert by_id["tatqa"]["decision"] == "HISTORICAL_ONLY_UNTIL_EXPOSURE_AUDIT"

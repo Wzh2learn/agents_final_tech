@@ -27,7 +27,7 @@ The available internal split is hash-based (`uid % 5 == 0` for dev), with 10 dev
 | Source/schema completeness | Source tables and an auditable injection map are incomplete in the isolated input path | No corpus correctness or parser-to-label identity claim |
 | Independent correctness | Correct `map_to`/`hold` labels are all null in the audited view | Action macro-F1, map/hold recall, harmful-action rate, useful coverage, and worst-family metrics are `UNMEASURABLE` |
 | Licence/provenance | No accepted training licence and layer manifest were supplied with the audited labels | No training, tuning, or rule acceptance |
-| Independent layers | No accepted disjoint gate-validation, sealed-test, and future-replay manifests | No generalization or gate calibration claim |
+| Independent layers | No accepted disjoint gate-validation/sealed-test manifest and no future-replay batch or acquisition protocol | No generalization or gate calibration claim; no longitudinal evidence |
 | Confidence | Confidence provenance and a missing-confidence policy are not established | `confidence-only` cannot be evaluated; gain/collateral cannot substitute for confidence |
 | Statistical plan | Power, non-inferiority margin, and acceptance parameters are not approved for this gate | No inferential or non-inferiority conclusion |
 
@@ -40,7 +40,7 @@ Historical checkpoints, old accepted labels, DPO pairs, and rolling audit artifa
 | Complete source tables, schema, and `injection_map` | Data owner | Immutable manifest, SHA256, parser-contract check | Needed before corpus identity can be checked |
 | Independent correctness labels for `map_to`/`hold` | Research/labeling owner | Double review or equivalent provenance with adjudication record | Needed before action metrics are measurable |
 | Licence and permission record | Data owner | Auditable layer manifest tied to hashes | Required for any train/tune use |
-| Frozen proposal/train, gate-validation, sealed-test, future manifests | Loop D + research owner | Disjoint `uid`/hash check and recorded split rule | Required before any replay or generalization claim |
+| Frozen proposal train/dev, gate-validation, sealed-test, plus future batch or acquisition protocol | Loop D + research owner | Namespaced lineage UID、root 与 independence-cluster 零交叉；future 空时检查 hash-bound protocol | 当前四层用于实验接收；future 空只限制长期主张 |
 | Confidence provenance and missingness policy | Research owner | Field-level manifest plus explicit `UNMEASURABLE` rule | Required for confidence-only arm |
 | Pre-approved power, non-inferiority, and safety parameters | Loop D/user decision | Decision record before rerun | Required for inferential gates |
 
@@ -55,13 +55,13 @@ The package root must contain `phase1a_manifest.json`. Every artifact entry requ
 | Role | Minimum contract |
 |---|---|
 | `source_tables` / `schema` / `injection_map` | Immutable inputs; their exact hashes must be bound into the parser receipt and licence record |
-| `label_ledger` | JSONL with `sample_id`, `uid`, non-negative integer `col`, gold `map_to/skip/hold`, and at least two distinct reviewer identities; disagreement requires an independent adjudicator |
+| `label_ledger` | Canonical Q3 JSONL with exact fields `sample_id/uid/col/gold_action/gold_target/quality_grade/reviewers/adjudication`; at least two distinct reviewer identities, disagreement requires an independent adjudicator |
 | `licence_record` | Accepted owner/time, all four permitted uses (`training`, `tuning`, `evaluation`, `rule_acceptance`), and covered-input hashes |
 | `confidence_manifest` | Pre-verification field/source, exact `low/medium/high` vocabulary, `missing_policy=unmeasurable`, and no gain/collateral substitution |
-| `analysis_plan` | Approved owner/time, `cluster_unit=uid`, finite alpha/power/non-inferiority margin, required primary metrics, and the exact layer-manifest hash |
+| `analysis_plan` | Approved owner/time, `cluster_unit=lineage_uid`, distinct `significance_level`/`risk_limit`, target power/non-inferiority margin, frozen Holm family、seed×UID aggregation、threshold-selection rule、每角色×家族最低 UID、每个确认性对比的 MDE，以及 exact layer-manifest hash |
 | `parser_contract_receipt` | PASS receipt with checker, 40-hex commit, timezone-bearing execution time, and source/schema/injection-map hashes |
 
-The manifest must bind the five disjoint layers `proposal_train.train`, `proposal_train.dev`, `gate_validation`, `sealed_test`, and `future_replay`. Every layer is non-empty and contains only `sample_id`/`uid` references; both sample IDs and UIDs must remain disjoint across layers. Private artifact bodies and the complete manifest remain outside Git.
+The v2 manifest must bind `proposal_train.train`, `proposal_train.dev`, `gate_validation`, `sealed_test`, and `future_replay`. The first four are non-empty. `future_replay` may be empty only with a hash-bound `future_replay_protocol` that freezes acquisition time, source constraints, partition rule, and no-return contamination policy; the report then records `LONGITUDINAL_EVIDENCE_UNAVAILABLE` without blocking mechanical precheck. Every row has the exact lineage fields documented in `paper/dataset_protocol_v1.md` §6. `uid` is computed from `dataset_id + dataset_revision + lineage_root_id`; UID, lineage root, and `independence_cluster` are all checked for cross-layer overlap. Private artifact bodies and the complete manifest remain outside Git.
 
 The command has only two scientific-boundary outcomes:
 
@@ -90,7 +90,7 @@ sha256sum /tmp/phase1a-precheck-1.json /tmp/phase1a-precheck-2.json
 cmp --silent /tmp/phase1a-precheck-1.json /tmp/phase1a-precheck-2.json
 ```
 
-Acceptance requires: 19 focused tests pass; both trace files contain zero `connect(` syscalls; the two JSON files are byte-identical; `endpoint_calls=0`, `socket_attempts=0`; all seven gates are `PASS`; and status is exactly `READY_FOR_INDEPENDENT_ACCEPTANCE`. Loop B/C or the designated reviewers must then independently verify the three manual-review items against the private originals. Any failed gate, non-determinism, network attempt, provenance doubt, or private-data leakage keeps `DATA_NO_GO`. Passing does not start Phase 1a, Phase 2, or training; those remain separately authorized execution steps.
+Acceptance requires: the current focused suite passes; both trace files contain zero `connect(` syscalls; the two JSON files are byte-identical; `endpoint_calls=0`, `socket_attempts=0`; all seven gates are `PASS`; and status is exactly `READY_FOR_INDEPENDENT_ACCEPTANCE`. Loop B/C or the designated reviewers must then independently verify the three manual-review items against the private originals. Any failed gate, non-determinism, network attempt, provenance doubt, or private-data leakage keeps `DATA_NO_GO`. Passing does not start Phase 1a, Phase 2, or training; those remain separately authorized execution steps.
 
 ## Phase 1a learnability probe after independent acceptance
 
@@ -102,11 +102,11 @@ Acceptance requires: 19 focused tests pass; both trace files contain zero `conne
 4. one hash-bound JSONL view whose rows exactly match `proposal_train.train` and `proposal_train.dev` sample/UID references; and
 5. a preregistered config fixing the lexical threshold, confidence policy, classifier hyperparameters, bootstrap seed/count, and decision policy before execution.
 
-The JSONL view accepts only `sample_id`, `uid`, `observed_header`, `canonical_fields`, `candidate_target`, `confidence`, `gold_action`, `gold_target`, and `family`. Unknown fields are rejected. In particular, `gain`, `collateral`, `accepted`, `split`, and `partition` cannot enter the feature path. The runner derives the split only from the accepted package manifest and rejects missing, extra, gate-validation, sealed-test, or future-replay samples.
+The JSONL view accepts only `sample_id`, `uid`, `observed_header`, `canonical_fields`, `candidate_target`, `confidence`, `gold_action`, `gold_target`, `quality_grade=Q3`, and `family`. Unknown fields are rejected. In particular, `gain`, `collateral`, `accepted`, `split`, and `partition` cannot enter the feature path. The runner derives the split only from the accepted package manifest, rereads the hash-bound canonical label ledger, and rejects any identity/gold/quality mismatch plus missing, extra, gate-validation, sealed-test, or future-replay samples.
 
 The five arms are `always_skip`, exact normalized `deterministic_matcher`, preregistered-threshold `lexical_fuzzy`, frozen-policy `confidence_only`, and a deterministic CPU softmax `simple_classifier`. The classifier uses only header/candidate lexical similarity, exact-match indicators, candidate availability, confidence indicators, and bounded shape features. It does not use family, gold target/action, split identity, post-verification scores, accepted state, or learned rule state as features.
 
-Reports contain aggregate train/dev metrics, worst-family aggregates, deterministic UID-cluster intervals, input/config/implementation hashes, and no row-level predictions or sample text. Missing confidence is excluded as `unmeasurable`, never filled with zero. The only decisions are `SIMPLE_SUFFICIENT`, `LEARNABILITY_SIGNAL`, `NO_CLEAR_SIGNAL`, and `PILOT_ONLY`; all carry `training_authorized=false` and `paper_result=false`.
+Reports contain aggregate train/dev metrics, worst-family aggregates, deterministic UID-cluster intervals, input/config/implementation hashes, and no row-level predictions or sample text. `harmful_map_rate` means incorrect map-to/all measurable samples; `map_to_risk` means incorrect map-to/all map-to predictions; `correct_map_coverage` means correct map-to/all measurable samples. Missing confidence is excluded as `unmeasurable`, never filled with zero. The only decisions are `SIMPLE_SUFFICIENT`, `LEARNABILITY_SIGNAL`, `NO_CLEAR_SIGNAL`, and `PILOT_ONLY`; all carry `training_authorized=false` and `paper_result=false`.
 
 After the data package and receipt have been independently accepted and the user separately authorizes the development probe, run from a clean reviewed GB10 worktree. Replace placeholders only; keep reports and traces outside Git and outside the private package:
 

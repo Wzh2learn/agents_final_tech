@@ -15,7 +15,7 @@ from pathlib import Path
 from research.phase2_rule_gate_replay import ARMS, REPORT_VERSION, _stable_bytes
 
 
-VIEW_VERSION = "paper-result-views-v1"
+VIEW_VERSION = "paper-result-views-v2"
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -67,7 +67,18 @@ def build_phase2_views(report: object) -> dict[str, object]:
             raise ValueError("seven arms do not expose the same candidate sequence length")
         table_rows.append({
             "arm": arm,
-            "harmful_accept_rate": _metric(metrics, "harmful_accept_rate"),
+            "rule_level_harmful_accept_rate": _metric(
+                metrics, "rule_level_harmful_accept_rate"
+            ),
+            "rule_level_harmful_retained_rate": _metric(
+                metrics, "rule_level_harmful_retained_rate"
+            ),
+            "uid_any_harm_rate": _metric(metrics, "uid_any_harm_rate"),
+            "uid_any_harm_cp_upper": _metric(metrics, "uid_any_harm_cp_upper"),
+            "uid_any_harm_significance_level": _metric(
+                metrics, "uid_any_harm_significance_level"
+            ),
+            "uid_any_harm_counts": metrics.get("uid_any_harm_counts"),
             "valid_rule_retention": _metric(metrics, "valid_rule_retention"),
             "gate_coverage": _metric(metrics, "gate_coverage"),
             "gate_accuracy": _metric(metrics, "gate_accuracy"),

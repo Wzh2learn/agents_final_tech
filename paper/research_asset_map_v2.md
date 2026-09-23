@@ -35,7 +35,7 @@
 | 稳健性 | `logs/graph/eval/t2_visibility_sensitivity.json` | 阈值敏感性 | 可用 |
 | 匹配器 | `logs/graph/eval/d2_cross_matcher_det.json` | 跨匹配器结果 | 可用 |
 | 统计 | `logs/graph/eval/d3_matched_fpr_stage_a.json` | matched-FPR bootstrap | 可用 |
-| 稿件 | `paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` | Stage E 成熟英文子稿 | 已验收，不代表完整三阶段论文 |
+| 稿件 | `paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` | Stage E 成熟英文子稿 | Markdown 主张核验及 DOCX 内容/结构比对已通过；Office 分页/溢出视觉验收仍待完成，不代表完整三阶段论文 |
 
 ## 3. Stage D — 小模型蒸馏
 
@@ -47,7 +47,7 @@
 | 文献 | `docs/experiments/2026-09-20_kd_literature_candidates.md` | KD、agent distillation、多教师路线 | 18 条候选已核；venue 仍按文档边界 |
 | 方法与理论素材 | `paper/method_theory_materials_v1.md` | 统一记号、defer 路由、风险—覆盖、三门更新、有限样本风险上界、累计局部回归界、回滚不变量和最近邻差异 | 可用于 Method/Related Work；固定池伸缩界是条件推论，不等于实验保证 |
 | 数据分层与选型 | `paper/dataset_protocol_v1.md` | Q0–Q3 标签质量 × 四层角色、FinQA 过程源 + Valentine 动作源的双 P0 选择、模型矩阵 | 仓内设计已就绪；未下载/构建，GB10 待授权 |
-| 公开来源注册表 | `docs/datasets/paper-public-source-registry-v1.json` | 10 个来源的核验 commit、许可缺口、independence cluster、角色适配与准入状态 | metadata only；全部 `download_approved=false` |
+| 公开来源注册表 | `docs/datasets/paper-public-source-registry-v1.json` | 10 个来源的核验 commit、许可缺口、independence-cluster namespace、角色适配与准入状态 | metadata only；namespace 需与具体 origin id 组合成样本簇，全部 `download_approved=false` |
 | 方法引用与细化图 | `paper/method_data_references_v1.bib`、`paper/figures/fig_rule_gate_replay_v1.svg` | 42 条已核候选 BibTeX；共享流七臂/三门/回滚/数据防火墙 | 可直接复用；图明确标注无正式结果 |
 | 实验预注册 | `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` | RQ2–RQ4、数据/模型门、A0–A3、七臂、双口径、统计与停止规则 | `DRAFT_NOT_FROZEN`；数值容差/资源/来源待人工批准 |
 | 训练数据设计 | `docs/experiments/2026-08-28_dpo_pairs_v0_design.md` | 门控事件转偏好对 | 可用 |
@@ -140,7 +140,7 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 | RQ3 / Stage R | 现有拒绝与碰撞是机制证据；累计局部回归界和 rollback 不变量已写明，固定池伸缩界及净收益/长期回滚仍 needs-evidence | Phase 2 七类共享流且状态独立的门基线、Phase 5 冻结快照评测 / 规则实验 Agent |
 | RQ4 / 闭环 | needs-evidence，不把 E 与 R 分别存在写成闭环有效 | Phase 5 sealed test/future replay + Phase 6 合稿门 / 实验与论文 Agent |
 
-执行计划 §10 的本地审计已交付；补充包合同、五基线 runner、Phase 2 七臂状态机与论文数据接口当前只接受合成测试，不产生正式实验事实。GB10 私有包验收与导师包 Office 视觉核对仍待执行；Phase 1a 正式开发探针、Phase 2 数据 replay 及训练均待相应门通过和授权。保留评估稿作近期交付，不能从 PILOT_ONLY、`READY_FOR_INDEPENDENT_ACCEPTANCE`、`LEARNABILITY_SIGNAL` 或软件合同 PASS 推导训练许可/论文结论，详细停止条件仍只维护在执行计划。
+执行计划的历史 §10 审计已交付，当前边界见 §13；补充包合同、五基线 runner、Phase 2 七臂状态机与论文数据接口当前只接受合成测试，不产生正式实验事实。GB10 私有包验收与导师包 Office 视觉核对仍待执行；Phase 1a 正式开发探针、Phase 2 数据 replay 及训练均待相应门通过和授权。保留评估稿作近期交付，不能从 PILOT_ONLY、`READY_FOR_INDEPENDENT_ACCEPTANCE`、`LEARNABILITY_SIGNAL` 或软件合同 PASS 推导训练许可/论文结论，详细停止条件仍只维护在执行计划。
 
 ## 7. 清理裁定
 

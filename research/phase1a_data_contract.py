@@ -20,15 +20,18 @@ from typing import Any
 
 
 REPO = Path(__file__).resolve().parents[1]
-CONTRACT_VERSION = "phase1a-data-package-v1"
+CONTRACT_VERSION = "phase1a-data-package-v2"
+FEATURE_LEDGER_VERSION = "phase1a-feature-ledger-v1"
 READY = "READY_FOR_INDEPENDENT_ACCEPTANCE"
 NO_GO = "DATA_NO_GO"
+LONGITUDINAL_UNAVAILABLE = "LONGITUDINAL_EVIDENCE_UNAVAILABLE"
 
 REQUIRED_ROLES = {
     "source_tables",
     "schema",
     "injection_map",
     "label_ledger",
+    "learnability_feature_ledger",
     "licence_record",
     "confidence_manifest",
     "analysis_plan",
@@ -36,21 +39,79 @@ REQUIRED_ROLES = {
 }
 REQUIRED_BINDINGS = {
     "label_ledger": ("independent_correctness", "label_ledger"),
+    "learnability_feature_ledger": ("artifact_integrity", "learnability_feature_ledger"),
     "licence_record": ("licence_permission", "licence_record"),
     "confidence_manifest": ("confidence_provenance", "confidence_manifest"),
     "analysis_plan": ("analysis_plan", "analysis_plan"),
     "parser_contract_receipt": ("parser_contract", "parser_contract_receipt"),
 }
-PARTITIONS = (
+REQUIRED_PARTITIONS = (
     "proposal_train.train",
     "proposal_train.dev",
     "gate_validation",
     "sealed_test",
-    "future_replay",
 )
+PARTITIONS = (*REQUIRED_PARTITIONS, "future_replay")
+ROLE_LAYER_BY_PARTITION = {
+    "proposal_train.train": "proposal_train",
+    "proposal_train.dev": "proposal_train",
+    "gate_validation": "gate_validation",
+    "sealed_test": "sealed_test",
+    "future_replay": "future_replay",
+}
+MANIFEST_ROW_FIELDS = {
+    "sample_id",
+    "uid",
+    "dataset_id",
+    "dataset_revision",
+    "source_split",
+    "independence_cluster",
+    "lineage_root_id",
+    "transformation_parent_id",
+}
+LABEL_FIELDS = {
+    "sample_id",
+    "uid",
+    "col",
+    "gold_action",
+    "gold_target",
+    "quality_grade",
+    "reviewers",
+    "adjudication",
+}
+FEATURE_FIELDS = {
+    "sample_id",
+    "uid",
+    "observed_header",
+    "canonical_fields",
+    "candidate_target",
+    "confidence",
+    "family",
+}
 VALID_ACTIONS = {"map_to", "skip", "hold"}
 REQUIRED_USES = {"training", "tuning", "evaluation", "rule_acceptance"}
-REQUIRED_PRIMARY_METRICS = {"action_macro_f1", "harmful_action_rate"}
+REQUIRED_PRIMARY_METRICS = {"action_macro_f1", "harmful_map_rate"}
+REQUIRED_NONINFERIORITY_MARGINS = {
+    "delta_quality",
+    "delta_harm",
+    "delta_retention",
+}
+REQUIRED_HOLM_FAMILIES = {
+    "rq2": [
+        "H2a_quality_noninferiority",
+        "H2b_safety_noninferiority",
+        "H2c_risk_constrained_coverage",
+    ],
+    "rq3": [
+        "H3a_cluster_any_harm",
+        "H3a_valid_rule_retention",
+    ],
+}
+REQUIRED_MDE_CONTRASTS = {
+    hypothesis
+    for family in REQUIRED_HOLM_FAMILIES.values()
+    for hypothesis in family
+}
 SHA256_RE = re.compile(r"[0-9a-f]{64}")
 COMMIT_RE = re.compile(r"[0-9a-f]{40}")
 
@@ -71,6 +132,17 @@ def _sha256_bytes(value: bytes) -> str:
 
 def _digest_object(value: object) -> str:
     return _sha256_bytes(_stable_json(value).encode("utf-8"))
+
+
+def lineage_uid(dataset_id: str, dataset_revision: str, lineage_root_id: str) -> str:
+    """Return the v2 namespace-bound UID for one immutable source lineage root."""
+
+    identity = {
+        "dataset_id": dataset_id.strip(),
+        "dataset_revision": dataset_revision.strip(),
+        "lineage_root_id": lineage_root_id.strip(),
+    }
+    return _digest_object(identity)
 
 
 def _strict_json(raw: bytes) -> Any:
@@ -168,6 +240,7 @@ def _base_report(gates: dict[str, dict[str, object]]) -> dict[str, object]:
         "gates": gates,
         "counts": {"artifacts": 0, "samples": 0, "uids": 0, "labels": 0},
         "hashes": {},
+        "evidence_limits": [],
         "manual_review_required": [
             "confirm licence authority and permitted-use record authenticity",
             "confirm reviewer identity, independence, and adjudication provenance",
@@ -229,6 +302,62 @@ def _valid_choice(value: object) -> bool:
     return target is None
 
 
+def _review_agreement_summary(
+    review_sets: list[tuple[list[tuple[str, str | None]], bool]],
+) -> dict[str, object]:
+    rows = len(review_sets)
+    action_agreement = sum(
+        1 for choices, _ in review_sets if len({choice[0] for choice in choices}) == 1
+    )
+    action_target_agreement = sum(
+        1 for choices, _ in review_sets if len(set(choices)) == 1
+    )
+    conflicts = sum(1 for choices, _ in review_sets if len(set(choices)) > 1)
+    adjudicated = sum(
+        1 for choices, has_valid_adjudication in review_sets
+        if len(set(choices)) > 1 and has_valid_adjudication
+    )
+    action_counts = {action: 0 for action in sorted(VALID_ACTIONS)}
+    agreeing_pairs = total_pairs = 0
+    target_agreeing_pairs = target_pairs = 0
+    for choices, _ in review_sets:
+        for action, _ in choices:
+            action_counts[action] += 1
+        for left_index, left in enumerate(choices):
+            for right in choices[left_index + 1:]:
+                total_pairs += 1
+                agreeing_pairs += left[0] == right[0]
+                if left[0] == right[0] == "map_to":
+                    target_pairs += 1
+                    target_agreeing_pairs += left[1] == right[1]
+    observed = agreeing_pairs / total_pairs if total_pairs else None
+    ratings = sum(action_counts.values())
+    expected = (
+        sum((count / ratings) ** 2 for count in action_counts.values())
+        if ratings else None
+    )
+    kappa = (
+        (observed - expected) / (1.0 - expected)
+        if observed is not None and expected is not None and expected < 1.0
+        else None
+    )
+    return {
+        "rows_with_valid_reviewer_sets": rows,
+        "raw_action_agreement": round(action_agreement / rows, 8) if rows else None,
+        "raw_action_target_agreement": (
+            round(action_target_agreement / rows, 8) if rows else None
+        ),
+        "pooled_pairwise_action_kappa": round(kappa, 8) if kappa is not None else None,
+        "target_agreement_on_joint_map_to_pairs": (
+            round(target_agreeing_pairs / target_pairs, 8) if target_pairs else None
+        ),
+        "conflict_rate": round(conflicts / rows, 8) if rows else None,
+        "adjudication_rate_given_conflict": (
+            round(adjudicated / conflicts, 8) if conflicts else None
+        ),
+    }
+
+
 def _partition_rows(manifest: dict[str, object]) -> dict[str, object]:
     layers = manifest.get("layers")
     if not isinstance(layers, dict):
@@ -243,6 +372,80 @@ def _partition_rows(manifest: dict[str, object]) -> dict[str, object]:
         "sealed_test": layers.get("sealed_test"),
         "future_replay": layers.get("future_replay"),
     }
+
+
+def _valid_lineage_row(row: object) -> bool:
+    if not isinstance(row, dict) or set(row) != MANIFEST_ROW_FIELDS:
+        return False
+    required_strings = MANIFEST_ROW_FIELDS - {"transformation_parent_id"}
+    if any(
+        not isinstance(row.get(key), str)
+        or not row[key].strip()
+        or row[key] != row[key].strip()
+        for key in required_strings
+    ):
+        return False
+    parent = row.get("transformation_parent_id")
+    return parent is None or isinstance(parent, str) and bool(parent.strip())
+
+
+def _validate_future_protocol(
+    bindings: dict[str, object],
+    artifact_index: dict[str, dict[str, object]],
+    artifact_bytes: dict[str, bytes],
+    gates: dict[str, dict[str, object]],
+) -> None:
+    protocol = _load_bound_json(
+        bindings.get("future_replay_protocol")
+        if isinstance(bindings.get("future_replay_protocol"), str) else None,
+        "future_replay_protocol",
+        artifact_index,
+        artifact_bytes,
+        gates,
+        "layer_isolation",
+    )
+    if protocol is None:
+        return
+    expected = {
+        "contract_version",
+        "status",
+        "cycle_id",
+        "freeze_receipt_sha256",
+        "approved_by",
+        "approved_at",
+        "acquire_after",
+        "source_constraints",
+        "partition_rule",
+        "contamination_policy",
+    }
+    if set(protocol) != expected:
+        _fail(gates, "layer_isolation", "invalid_future_protocol_fields")
+    if protocol.get("contract_version") != "future-replay-acquisition-v1":
+        _fail(gates, "layer_isolation", "invalid_future_protocol_version")
+    if protocol.get("status") != "HASH_BOUND_PROTOCOL":
+        _fail(gates, "layer_isolation", "future_protocol_not_approved")
+    if not isinstance(protocol.get("cycle_id"), str) or not protocol["cycle_id"]:
+        _fail(gates, "layer_isolation", "missing_future_protocol_cycle_id")
+    if (
+        not isinstance(protocol.get("freeze_receipt_sha256"), str)
+        or not SHA256_RE.fullmatch(protocol["freeze_receipt_sha256"])
+    ):
+        _fail(gates, "layer_isolation", "invalid_future_protocol_freeze_receipt")
+    if not isinstance(protocol.get("approved_by"), str) or not protocol["approved_by"]:
+        _fail(gates, "layer_isolation", "missing_future_protocol_owner")
+    for field in ("approved_at", "acquire_after"):
+        if not _iso8601(protocol.get(field)):
+            _fail(gates, "layer_isolation", f"invalid_future_protocol_{field}")
+    if _iso8601(protocol.get("approved_at")) and _iso8601(protocol.get("acquire_after")):
+        approved_at = datetime.fromisoformat(str(protocol["approved_at"]).replace("Z", "+00:00"))
+        acquire_after = datetime.fromisoformat(str(protocol["acquire_after"]).replace("Z", "+00:00"))
+        if acquire_after <= approved_at:
+            _fail(gates, "layer_isolation", "future_acquisition_not_after_freeze")
+    for field in ("source_constraints", "partition_rule"):
+        if not isinstance(protocol.get(field), str) or not protocol[field]:
+            _fail(gates, "layer_isolation", f"missing_future_protocol_{field}")
+    if protocol.get("contamination_policy") != "never_return_to_current_cycle":
+        _fail(gates, "layer_isolation", "invalid_future_contamination_policy")
 
 
 def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, object]:
@@ -328,36 +531,103 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
 
     partitions = _partition_rows(manifest)
     samples: dict[str, tuple[str, str]] = {}
+    sample_rows: dict[str, dict[str, object]] = {}
     uid_partitions: dict[str, set[str]] = {}
+    cluster_role_layers: dict[str, set[str]] = {}
+    root_partitions: dict[tuple[str, str, str], set[str]] = {}
     partition_counts: dict[str, dict[str, int]] = {}
     for partition in PARTITIONS:
         rows = partitions.get(partition)
-        if not isinstance(rows, list) or not rows:
+        if not isinstance(rows, list):
+            _fail(gates, "layer_isolation", "invalid_partition", partition=partition)
+            continue
+        if partition in REQUIRED_PARTITIONS and not rows:
             _fail(gates, "layer_isolation", "missing_or_empty_partition", partition=partition)
             continue
         partition_uids: set[str] = set()
         for index, row in enumerate(rows):
-            if not isinstance(row, dict):
-                _fail(gates, "layer_isolation", "invalid_sample_entry", partition=partition, index=index)
+            if not _valid_lineage_row(row):
+                _fail(gates, "layer_isolation", "invalid_lineage_entry", partition=partition, index=index)
                 continue
+            assert isinstance(row, dict)
             sample_id, uid = row.get("sample_id"), row.get("uid")
-            if not isinstance(sample_id, str) or not sample_id or not isinstance(uid, str) or not uid:
-                _fail(gates, "layer_isolation", "invalid_sample_identity", partition=partition, index=index)
-                continue
+            assert isinstance(sample_id, str) and isinstance(uid, str)
+            dataset_id = str(row["dataset_id"]).strip()
+            dataset_revision = str(row["dataset_revision"]).strip()
+            source_split = str(row["source_split"]).strip()
+            cluster = str(row["independence_cluster"]).strip()
+            root_id = str(row["lineage_root_id"]).strip()
+            expected_uid = lineage_uid(dataset_id, dataset_revision, root_id)
+            if uid != expected_uid:
+                _fail(gates, "layer_isolation", "lineage_uid_mismatch", partition=partition, index=index)
             if sample_id in samples:
                 _fail(gates, "layer_isolation", "duplicate_sample_id", partition=partition)
                 continue
             samples[sample_id] = (uid, partition)
+            sample_rows[sample_id] = row
             partition_uids.add(uid)
             uid_partitions.setdefault(uid, set()).add(partition)
+            cluster_role_layers.setdefault(cluster, set()).add(ROLE_LAYER_BY_PARTITION[partition])
+            root_partitions.setdefault((dataset_id, dataset_revision, root_id), set()).add(partition)
         partition_counts[partition] = {"samples": len(rows), "uids": len(partition_uids)}
-    for partitions_for_uid in uid_partitions.values():
+    for sample_id, row in sorted(sample_rows.items()):
+        parent_id = row.get("transformation_parent_id")
+        if parent_id is None:
+            continue
+        parent = sample_rows.get(str(parent_id))
+        if parent is None:
+            _fail(gates, "layer_isolation", "missing_transformation_parent")
+            continue
+        if parent_id == sample_id:
+            _fail(gates, "layer_isolation", "self_referential_transformation_parent")
+            continue
+        inherited_fields = (
+            "uid",
+            "dataset_id",
+            "dataset_revision",
+            "independence_cluster",
+            "lineage_root_id",
+        )
+        if any(row.get(field) != parent.get(field) for field in inherited_fields):
+            _fail(gates, "layer_isolation", "transformation_parent_cross_lineage")
+    for sample_id in sorted(sample_rows):
+        seen_chain: set[str] = set()
+        current = sample_id
+        while current in sample_rows:
+            if current in seen_chain:
+                _fail(gates, "layer_isolation", "transformation_parent_cycle")
+                break
+            seen_chain.add(current)
+            parent_id = sample_rows[current].get("transformation_parent_id")
+            if parent_id is None:
+                break
+            current = str(parent_id)
+    for uid, partitions_for_uid in sorted(uid_partitions.items()):
         if len(partitions_for_uid) > 1:
             _fail(
                 gates,
                 "layer_isolation",
                 "uid_cross_partition",
+                uid=uid,
                 partitions=sorted(partitions_for_uid),
+            )
+    for cluster, role_layers_for_cluster in sorted(cluster_role_layers.items()):
+        if len(role_layers_for_cluster) > 1:
+            _fail(
+                gates,
+                "layer_isolation",
+                "independence_cluster_cross_role_layer",
+                independence_cluster=cluster,
+                role_layers=sorted(role_layers_for_cluster),
+            )
+    for root, partitions_for_root in sorted(root_partitions.items()):
+        if len(partitions_for_root) > 1:
+            _fail(
+                gates,
+                "layer_isolation",
+                "lineage_root_cross_partition",
+                lineage_root_sha256=_digest_object(root),
+                partitions=sorted(partitions_for_root),
             )
     report["counts"].update({
         "samples": len(samples),
@@ -372,10 +642,101 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
         artifact = artifact_index.get(bindings.get(binding, ""))
         if not artifact or artifact.get("role") != expected_role:
             _fail(gates, gate, "missing_or_mismatched_binding")
+    future_rows = partitions.get("future_replay")
+    if isinstance(future_rows, list) and not future_rows:
+        _validate_future_protocol(bindings, artifact_index, artifact_bytes, gates)
+        evidence_limits = report["evidence_limits"]
+        assert isinstance(evidence_limits, list)
+        evidence_limits.append(LONGITUDINAL_UNAVAILABLE)
+
+    feature_ledger = _load_bound_json(
+        bindings.get("learnability_feature_ledger")
+        if isinstance(bindings.get("learnability_feature_ledger"), str) else None,
+        "learnability_feature_ledger",
+        artifact_index,
+        artifact_bytes,
+        gates,
+        "artifact_integrity",
+    )
+    feature_rows: dict[str, dict[str, object]] = {}
+    if feature_ledger is not None:
+        expected_feature_ledger_fields = {
+            "contract_version",
+            "source_tables_sha256",
+            "schema_sha256",
+            "confidence_manifest_sha256",
+            "rows",
+        }
+        if set(feature_ledger) != expected_feature_ledger_fields:
+            _fail(gates, "artifact_integrity", "invalid_feature_ledger_fields")
+        if feature_ledger.get("contract_version") != FEATURE_LEDGER_VERSION:
+            _fail(gates, "artifact_integrity", "invalid_feature_ledger_version")
+        role_hashes: dict[str, str | None] = {}
+        for role in ("source_tables", "schema", "confidence_manifest"):
+            matches = [
+                actual_hashes.get(artifact_id)
+                for artifact_id, artifact in artifact_index.items()
+                if artifact.get("role") == role
+            ]
+            role_hashes[role] = matches[0] if len(matches) == 1 else None
+        for field, role in (
+            ("source_tables_sha256", "source_tables"),
+            ("schema_sha256", "schema"),
+            ("confidence_manifest_sha256", "confidence_manifest"),
+        ):
+            # An unreadable role artifact (unsafe/missing path) already failed this gate
+            # with a specific error; hashing was skipped, so a mismatch here would be noise.
+            if role_hashes[role] is not None and feature_ledger.get(field) != role_hashes[role]:
+                _fail(gates, "artifact_integrity", "feature_ledger_source_hash_mismatch", role=role)
+        raw_feature_rows = feature_ledger.get("rows")
+        if not isinstance(raw_feature_rows, list) or not raw_feature_rows:
+            _fail(gates, "artifact_integrity", "invalid_feature_ledger_rows")
+            raw_feature_rows = []
+        proposal_ids = {
+            sample_id
+            for sample_id, (_, partition) in samples.items()
+            if ROLE_LAYER_BY_PARTITION[partition] == "proposal_train"
+        }
+        for index, row in enumerate(raw_feature_rows):
+            if not isinstance(row, dict) or set(row) != FEATURE_FIELDS:
+                _fail(gates, "artifact_integrity", "invalid_feature_ledger_row", index=index)
+                continue
+            sample_id, uid = row.get("sample_id"), row.get("uid")
+            canonical = row.get("canonical_fields")
+            candidate = row.get("candidate_target")
+            if (
+                not isinstance(sample_id, str)
+                or not sample_id
+                or sample_id in feature_rows
+                or not isinstance(uid, str)
+                or not uid
+                or not isinstance(row.get("observed_header"), str)
+                or not isinstance(row.get("family"), str)
+                or not row["family"]
+                or not isinstance(canonical, list)
+                or not canonical
+                or any(not isinstance(field, str) or not field for field in canonical)
+                or len(set(canonical)) != len(canonical)
+                or (candidate is not None and candidate not in canonical)
+                or not (
+                    row.get("confidence") is None
+                    or isinstance(row.get("confidence"), str)
+                    and row.get("confidence") in {"low", "medium", "high"}
+                )
+            ):
+                _fail(gates, "artifact_integrity", "invalid_feature_ledger_row", index=index)
+                continue
+            feature_rows[sample_id] = row
+            if sample_id not in proposal_ids or samples[sample_id][0] != uid:
+                _fail(gates, "artifact_integrity", "feature_ledger_identity_mismatch", index=index)
+        if set(feature_rows) != proposal_ids:
+            _fail(gates, "artifact_integrity", "feature_ledger_proposal_coverage_mismatch")
+        report["counts"]["feature_rows"] = len(feature_rows)
 
     label_id = bindings.get("label_ledger") if isinstance(bindings.get("label_ledger"), str) else None
     labels_raw = artifact_bytes.get(label_id or "")
     labels: dict[str, dict[str, object]] = {}
+    review_sets: list[tuple[list[tuple[str, str | None]], bool]] = []
     if labels_raw is None:
         _fail(gates, "independent_correctness", "bound_artifact_unavailable")
     else:
@@ -389,6 +750,9 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
                 continue
             if not isinstance(row, dict):
                 _fail(gates, "independent_correctness", "label_object_required", line=index)
+                continue
+            if set(row) != LABEL_FIELDS:
+                _fail(gates, "independent_correctness", "invalid_label_fields", line=index)
                 continue
             sample_id = row.get("sample_id")
             if not isinstance(sample_id, str) or not sample_id:
@@ -404,6 +768,8 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
                 continue
             if row.get("uid") != sample[0] or type(row.get("col")) is not int or row["col"] < 0:
                 _fail(gates, "independent_correctness", "label_identity_mismatch", line=index)
+            if row.get("quality_grade") != "Q3":
+                _fail(gates, "independent_correctness", "label_not_q3", line=index)
             gold = {"action": row.get("gold_action"), "target": row.get("gold_target")}
             if not _valid_choice(gold):
                 _fail(gates, "independent_correctness", "invalid_gold_action", line=index)
@@ -428,7 +794,12 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
             if any(not _valid_choice(review) for review in reviewers):
                 _fail(gates, "independent_correctness", "invalid_reviewer_label", line=index)
                 continue
-            choices = {(review["action"], review.get("target")) for review in reviewers}
+            reviewer_choices = [
+                (str(review["action"]), review.get("target"))
+                for review in reviewers
+            ]
+            choices = set(reviewer_choices)
+            has_valid_adjudication = False
             if len(choices) == 1:
                 if next(iter(choices)) != (gold["action"], gold["target"]):
                     _fail(gates, "independent_correctness", "gold_review_mismatch", line=index)
@@ -445,10 +816,14 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
                     gold["action"], gold["target"]
                 ):
                     _fail(gates, "independent_correctness", "gold_adjudication_mismatch", line=index)
+                else:
+                    has_valid_adjudication = True
+            review_sets.append((reviewer_choices, has_valid_adjudication))
     for sample_id in sorted(set(samples) - set(labels)):
         del sample_id
         _fail(gates, "independent_correctness", "missing_label")
     report["counts"]["labels"] = len(labels)
+    report["label_quality"] = _review_agreement_summary(review_sets)
 
     licence = _load_bound_json(
         bindings.get("licence_record") if isinstance(bindings.get("licence_record"), str) else None,
@@ -476,7 +851,8 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
             artifact_id: actual_hashes.get(artifact_id)
             for artifact_id, artifact in artifact_index.items()
             if artifact.get("role") in {
-                "source_tables", "schema", "injection_map", "label_ledger"
+                "source_tables", "schema", "injection_map", "label_ledger",
+                "learnability_feature_ledger",
             }
         }
         for artifact_id, actual_hash in sorted(licensed_inputs.items()):
@@ -522,25 +898,72 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
         "analysis_plan",
     )
     if analysis is not None:
+        if "alpha" in analysis or "power" in analysis or "noninferiority_margin" in analysis:
+            _fail(gates, "analysis_plan", "ambiguous_legacy_statistical_field")
         if analysis.get("status") != "approved":
             _fail(gates, "analysis_plan", "analysis_plan_not_approved")
         if not isinstance(analysis.get("approved_by"), str) or not analysis["approved_by"]:
             _fail(gates, "analysis_plan", "missing_analysis_owner")
         if not _iso8601(analysis.get("approved_at")):
             _fail(gates, "analysis_plan", "invalid_analysis_approval_time")
-        if analysis.get("cluster_unit") != "uid":
+        if analysis.get("cluster_unit") != "lineage_uid":
             _fail(gates, "analysis_plan", "invalid_cluster_unit")
-        for key in ("alpha", "power"):
+        for key in ("significance_level", "target_power", "risk_limit"):
             value = analysis.get(key)
             if type(value) not in (int, float) or not math.isfinite(value) or not 0 < value < 1:
                 _fail(gates, "analysis_plan", f"invalid_{key}")
-        margin = analysis.get("noninferiority_margin")
-        if type(margin) not in (int, float) or not math.isfinite(margin) or not 0 <= margin < 1:
-            _fail(gates, "analysis_plan", "invalid_noninferiority_margin")
+        margins = analysis.get("noninferiority_margins")
+        if (
+            not isinstance(margins, dict)
+            or set(margins) != REQUIRED_NONINFERIORITY_MARGINS
+            or any(
+                type(value) not in (int, float)
+                or not math.isfinite(value)
+                or not 0 <= float(value) < 1
+                for value in margins.values()
+            )
+        ):
+            _fail(gates, "analysis_plan", "invalid_noninferiority_margins")
         metrics = analysis.get("primary_metrics")
         metric_set = set(metrics) if isinstance(metrics, list) and all(isinstance(x, str) for x in metrics) else set()
         for metric in sorted(REQUIRED_PRIMARY_METRICS - metric_set):
             _fail(gates, "analysis_plan", "missing_primary_metric", metric=metric)
+        if analysis.get("threshold_selection") != "proposal_dev_only":
+            _fail(gates, "analysis_plan", "invalid_threshold_selection")
+        if analysis.get("seed_uid_aggregation") != "fixed_seed_pair_then_uid_cluster_bootstrap":
+            _fail(gates, "analysis_plan", "invalid_seed_uid_aggregation")
+        if analysis.get("holm_families") != REQUIRED_HOLM_FAMILIES:
+            _fail(gates, "analysis_plan", "invalid_holm_families")
+        if analysis.get("one_sided_p_value_methods") != {
+            "H2a_quality_noninferiority": "paired_uid_sign_flip_on_seed_mean_difference",
+            "H2b_safety_noninferiority": "paired_uid_sign_flip_on_seed_mean_difference",
+            "H2c_risk_constrained_coverage": "paired_uid_sign_flip_on_seed_mean_difference",
+            "H3a_cluster_any_harm": "exact_mcnemar",
+            "H3a_valid_rule_retention": "paired_cluster_sign_flip_noninferiority",
+        }:
+            _fail(gates, "analysis_plan", "invalid_one_sided_p_value_methods")
+        if analysis.get("holm_adjustment") != "step_down_adjusted_p_and_simultaneous_one_sided_ci":
+            _fail(gates, "analysis_plan", "invalid_holm_adjustment")
+        minimums = analysis.get("minimum_uid_by_role_family")
+        if not isinstance(minimums, dict) or not minimums or any(
+            not isinstance(key, str) or not key or type(value) is not int or value < 2
+            for key, value in minimums.items()
+        ):
+            _fail(gates, "analysis_plan", "invalid_minimum_uid_by_role_family")
+        action_minimums = analysis.get("minimum_uid_by_action")
+        if (
+            not isinstance(action_minimums, dict)
+            or set(action_minimums) != VALID_ACTIONS
+            or any(type(value) is not int or value < 2 for value in action_minimums.values())
+        ):
+            _fail(gates, "analysis_plan", "invalid_minimum_uid_by_action")
+        mde = analysis.get("mde_by_confirmatory_contrast")
+        if not isinstance(mde, dict) or set(mde) != REQUIRED_MDE_CONTRASTS or any(
+            type(value) not in (int, float) or not math.isfinite(value)
+            or not 0 < float(value) < 1
+            for value in mde.values()
+        ):
+            _fail(gates, "analysis_plan", "invalid_mde_by_confirmatory_contrast")
         if analysis.get("layer_manifest_sha256") != _digest_object(manifest.get("layers")):
             _fail(gates, "analysis_plan", "layer_manifest_hash_mismatch")
 

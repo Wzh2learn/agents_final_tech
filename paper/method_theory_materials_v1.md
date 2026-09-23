@@ -69,16 +69,23 @@ S(v)=\sum_{c\in\mathrm{ch}(v)}
 {\sum_i \mathbb 1[F_i=f]},
 \]
 
-其中 $D_{ik}=1$ 表示缺陷被该 checkpoint 显式检出。蒸馏过滤器写为
+其中 $D_{ik}=1$ 表示缺陷被该 checkpoint 显式检出。先定义所有训练臂共享的资格门
 
 \[
-z_i=\mathbb 1[\text{provenance}_i=1]
+u_i=\mathbb 1[\text{proposal/train}_i=1]
+     \mathbb 1[\text{provenance}_i=1]
      \mathbb 1[\text{label-review}_i=1]
-     \mathbb 1[\text{required hinges pass}]
+     \mathbb 1[\text{licence}_i=1].
+\]
+
+在共同资格母池上，checkpoint 过滤器才写为
+
+\[
+z_i=\mathbb 1[\text{required hinges pass}]
      \mathbb 1[S_i\ge \kappa].
 \]
 
-$z_i=1$ 只表示样本满足预注册过滤合同，不表示标签天然正确；因此 provenance 与独立标签复核不能被 checkpoint 分数替代。
+$u_i=1$ 是 A1/A2 的共同输入资格，$z_i=1$ 只表示样本进一步满足预注册 checkpoint 过滤合同，不表示标签天然正确。A1 使用 $u_i=1$ 的母池，A2 使用其中 $u_i z_i=1$ 的子集；size/token/group-matched 对照也只能从同一 $u_i=1$ 母池构造。这样才能把来源/标签合法性与 checkpoint 的增量作用分开。
 
 ### 3.3 文献锚点
 
@@ -94,16 +101,19 @@ ProcessBench（Zheng et al., arXiv:2412.06559）把任务定义为定位数学�
 
 ### 4.1 当前可实现的两头监督目标
 
-对动作头和条件目标头，建议采用
+对动作头和条件目标头，令 $w_i^{(1)}=u_i$、$w_i^{(2)}=u_i z_i$ 分别表示 A1 和 A2 的样本权重，建议采用
 
 \[
-\mathcal L_{\mathrm{SFT}}(\theta)=
--\sum_{i:z_i=1}\log \pi_\theta(a_i\mid x_i)
--\lambda_t\sum_{i:z_i=1}\mathbb 1[a_i=\texttt{map\_to}]
-\log \pi_\theta(t_i\mid x_i,a_i).
+\mathcal L_{\mathrm{SFT}}^{(b)}(\theta)=
+-\frac{\sum_i w_i^{(b)}\log \pi_\theta(a_i\mid x_i)}
+{\sum_i w_i^{(b)}}
+-\lambda_t
+\frac{\sum_i w_i^{(b)}\mathbb 1[a_i=\texttt{map\_to}]
+\log \pi_\theta(t_i\mid x_i,a_i)}
+{\sum_i w_i^{(b)}\mathbb 1[a_i=\texttt{map\_to}]}.
 \]
 
-该表达与现有 `map_to / hold / skip + target` 合同一致。类别不平衡应通过 macro-F1、逐类召回和按 UID 聚类区间处理，不能只用 accuracy。
+两项分别按其有效样本数归一化；若一个 batch 中没有 `map_to`，目标头项定义为 0，而不是除以 0。$\lambda_t$ 是归一化后目标头相对动作头的权重，须在 proposal 内部 dev 上预注册并在 A1/A2 间保持一致；不得让 A2 因 `map_to` 占比变化而隐式改变损失尺度。该表达与现有 `map_to / hold / skip + target` 合同一致。类别不平衡应通过 macro-F1、逐类召回和按 UID 聚类区间处理，不能只用 accuracy。
 
 经典温度蒸馏项
 
@@ -116,16 +126,16 @@ ProcessBench（Zheng et al., arXiv:2412.06559）把任务定义为定位数学�
 
 ### 4.2 风险—覆盖而不是“准确率最高”
 
-令选择函数 $g_\tau(x)\in\{0,1\}$ 表示候选是否进入完整验证：
+令 $v_\tau(x)\in\{0,1\}$ 表示学生是否把一个可执行候选送入冻结的完整验证器；$v_\tau(x)=0$ 只表示不提出/暂缓该候选，**不表示学生直接接受规则**。送检覆盖与送检前候选条件风险为
 
 \[
-\mathrm{Coverage}(\tau)=\mathbb E[g_\tau(X)],\qquad
-\mathrm{Risk}(\tau)=
-\frac{\mathbb E[\ell(\hat Y,Y)g_\tau(X)]}
-{\mathbb E[g_\tau(X)]}.
+\mathrm{VerificationCoverage}(\tau)=\mathbb E[v_\tau(X)],\qquad
+\mathrm{Risk}_{\mathrm{student}}(\tau)=
+\frac{\mathbb E[\ell_s(\hat Y_s,Y)v_\tau(X)]}
+{\mathbb E[v_\tau(X)]}.
 \]
 
-上式只在 $\mathbb E[g_\tau(X)]>0$ 时定义。预筛器应求“风险不高于 $\alpha$ 时覆盖最大”，或报告完整 risk–coverage 曲线。always-skip 的覆盖为 0，其选择性风险未定义，必须单列为拒答退化基线而不能因“零错误”获胜。Geifman and El-Yaniv（arXiv:1705.08500）以及 SelectiveNet（arXiv:1901.09192）提供了 reject option / risk–coverage 的直接文献锚点。
+上式只在 $\mathbb E[v_\tau(X)]>0$ 时定义。预筛器应求“候选风险不高于 $\rho_{\max}$ 时送检覆盖最大”，同时报告有效候选召回、漏失有效规则率和验证成本；所有 $v_\tau=1$ 的候选仍须经过确定性 gate。$\rho_{\max}$ 是送检前候选风险上限，不再与统计显著性水平共用 $\alpha$。always-skip 的送检覆盖为 0，其条件风险未定义，必须单列为退化基线而不能因“零错误”获胜。Geifman and El-Yaniv（arXiv:1705.08500）以及 SelectiveNet（arXiv:1901.09192）只提供选择函数的相邻文献锚点，不赋予绕过本文验证门的权限。
 
 Conformal Risk Control（Angelopoulos et al., arXiv:2208.02814）允许在交换性等条件下控制单调损失的期望风险，可作为**后续校准扩展**。当前样本量、交换性、阈值冻结和自适应查询条件尚未验证，因此正文最多写“受其启发”，不能声称已有 conformal guarantee。
 
@@ -144,17 +154,17 @@ Conformal Risk Control（Angelopoulos et al., arXiv:2208.02814）允许在交换
 
 ### 4.4 `hold`、拒答与送检必须分开
 
-本文有两个容易混淆的决定：`hold` 是任务标签，表示当前证据下无法唯一决定规则动作；defer 是系统路由，表示学生把任意预测送交昂贵的完整验证。令 $r_\phi(x)=1$ 表示送检，$c_v(x)$ 为实测验证成本，可写成本敏感风险
+本文有两个容易混淆的决定：`hold` 是任务标签，表示当前证据下无法唯一决定规则动作；verification routing 是系统路由，表示学生是否提出候选并送交昂贵的完整验证。令 $c_v(x)$ 为实测验证成本、$\ell_v$ 为冻结验证器仍可能产生的损失、$\ell_{\mathrm{miss}}$ 为未送检而漏掉有效规则的损失，可写成本敏感风险
 
 \[
 \mathcal R_{\mathrm{route}}(\theta,\phi)=
-\mathbb E\!\left[(1-r_\phi(X))\ell(\pi_\theta(X),Y)
-+r_\phi(X)c_v(X)\right].
+\mathbb E\!\left[v_\phi(X)\{\ell_v(V(X),Y)+\lambda_c c_v(X)\}
++(1-v_\phi(X))\ell_{\mathrm{miss}}(X,Y)\right].
 \]
 
-这与 learning to defer（Mozannar and Sontag, arXiv:2006.01862）同属“模型与专家/验证器分工”的问题，但本文验证器是冻结的确定性 checkpoint/gate，而不是默认正确的人类专家。`always-skip`、输出 `hold`、低置信送检三者必须分列，否则零覆盖会伪装成零风险。
+这与 learning to defer（Mozannar and Sontag, arXiv:2006.01862）同属“模型与专家/验证器分工”的问题，但本文验证器是冻结的确定性 checkpoint/gate，而不是默认正确的人类专家；学生没有直接持久化规则的分支。`always-skip`、输出 `hold`、不提出候选和候选送检必须分列，否则零送检会伪装成零风险。
 
-若学生输出置信 $q_\theta(x)$，先在 proposal 内部 dev 上做校准；Guo et al.（arXiv:1706.04599）支持 temperature scaling 作为候选基线，但校准改善不等于排序或风险保证。主判据仍是 UID 级 risk–coverage、最坏家族和 sealed test，而不是单独 ECE。
+若学生输出置信 $q_\theta(x)$，先在 proposal 内部 dev 上做校准；Guo et al.（arXiv:1706.04599）支持 temperature scaling 作为候选基线，但校准改善不等于排序或风险保证。主判据仍是 UID 级候选风险—送检覆盖、有效候选召回、漏失有效规则率、最坏家族和 sealed test，而不是单独 ECE。
 
 ### 4.5 离线蒸馏与 on-policy 蒸馏的边界
 
@@ -166,22 +176,30 @@ GKD（Agarwal et al., arXiv:2306.13649）与 MiniLLM（Gu et al., arXiv:2306.085
 
 ### 5.1 三个状态相关增量
 
-对候选规则 $r_t$ 和当前规则状态 $R_{t-1}^{(a)}$，每个实验臂 $a$ 独立重算：
+对任意数据子集 $\mathcal D$ 和规则状态 $R$，先定义实现一致的效用
 
 \[
-\Delta_s^{(a)}(r_t)=H(\{x_t\},R_{t-1}^{(a)}\cup\{r_t\})-
-H(\{x_t\},R_{t-1}^{(a)}),
+U(\mathcal D,R)=\frac{N_{\mathrm{correct}}(\mathcal D,R)-N_{\mathrm{harmful}}(\mathcal D,R)}{N_{\mathrm{total}}(\mathcal D)}.
+\]
+
+这里不再用 $H$，避免与历史稿的“字段命中率/field-hit rate”记号冲突。对候选规则 $r_t$ 和当前规则状态 $R_{t-1}^{(a)}$，每个实验臂 $a$ 独立重算：
+
+\[
+\Delta_s^{(a)}(r_t)=U(\mathcal G_t,R_{t-1}^{(a)}\cup\{r_t\})-
+U(\mathcal G_t,R_{t-1}^{(a)}),
 \]
 
 \[
-\Delta_p^{(a)}(r_t)=H(\mathcal D_{\mathrm{proposal}}\setminus\{x_t\},R_{t-1}^{(a)}\cup\{r_t\})-
-H(\mathcal D_{\mathrm{proposal}}\setminus\{x_t\},R_{t-1}^{(a)}),
+\Delta_p^{(a)}(r_t)=U(\mathcal D_{\mathrm{proposal}}\setminus\mathcal G_t,R_{t-1}^{(a)}\cup\{r_t\})-
+U(\mathcal D_{\mathrm{proposal}}\setminus\mathcal G_t,R_{t-1}^{(a)}),
 \]
 
 \[
-\Delta_g^{(a)}(r_t)=H(\mathcal D_{\mathrm{gate}},R_{t-1}^{(a)}\cup\{r_t\})-
-H(\mathcal D_{\mathrm{gate}},R_{t-1}^{(a)}).
+\Delta_g^{(a)}(r_t)=U(\mathcal D_{\mathrm{gate}},R_{t-1}^{(a)}\cup\{r_t\})-
+U(\mathcal D_{\mathrm{gate}},R_{t-1}^{(a)}).
 \]
+
+$\mathcal G_t$ 是候选 $r_t$ 所属的完整 source-lineage UID 组，而不是单条事件 $\{x_t\}$。因此 collateral 比较必须排除该 UID 的 clean、mutant、轨迹和派生表全组；这与当前 runner 的 leave-one-source-UID-out 实现一致。
 
 增强固定门为
 
@@ -204,16 +222,16 @@ A_t=\mathbb 1[\Delta_s\ge\tau]
 证明是对逐步下界求和。只有当所有 $\mathcal P_j$ 都是同一个固定回归池 $\mathcal D_{\mathrm{reg}}$ 时，才有伸缩推论
 
 \[
-H(\mathcal D_{\mathrm{reg}},R_m)-H(\mathcal D_{\mathrm{reg}},R_0)
+U(\mathcal D_{\mathrm{reg}},R_m)-U(\mathcal D_{\mathrm{reg}},R_0)
 =\sum_{j=1}^{m}\Delta_p^{(j)}(r_j)\ge-m\epsilon.
 \]
 
 当前 runner 的 collateral 池会按 source UID 做 leave-one-source-out，因此只能支持第一个累计局部界；若要在正文主张全局伸缩界，GB10 正式协议必须额外冻结同一个 $\mathcal D_{\mathrm{reg}}$。两个版本都只约束开发侧比较集，不推出 sealed test 泛化。
 
-**命题 2（版本回滚不变量）**。令 $B\ge0$ 为预注册 rollback budget，$H_g^*(t)$ 为截至步骤 $t$ 保存过的最佳 gate-validation 快照分数。若每次接受后都检查，且一旦当前分数低于 $H_g^*(t)-B$ 就恢复最佳快照，则每个步骤结束时
+**命题 2（版本回滚不变量）**。令 $B\ge0$ 为预注册 rollback budget，$U_g^*(t)$ 为截至步骤 $t$ 保存过的最佳 gate-validation 快照效用。若每次接受后都检查，且一旦当前效用低于 $U_g^*(t)-B$ 就恢复最佳快照，则每个步骤结束时
 
 \[
-H(\mathcal D_g,R_t)\ge H_g^*(t)-B.
+U(\mathcal D_g,R_t)\ge U_g^*(t)-B.
 \]
 
 证明按“未触发/触发回滚”两种情况直接成立。该不变量已由 `research/phase2_rule_gate_replay.py` 的合成状态分叉与 rollback 测试覆盖；它仍不约束 sealed test，也不等价于在线学习收敛。
@@ -248,20 +266,37 @@ J(\pi,R)=Q(\pi,R)-\lambda_h\,\mathrm{Harm}(\pi,R)
 
 - Table 1：A0–A3 的 action macro-F1、target exact、harm、coverage、最坏家族和成本。
 - Table 2：七类门的 harmful accept、valid retention、gate coverage/accuracy、查询、回滚和成本代理。
-- Figure 3：学生 risk–coverage / quality–cost Pareto。
+- Figure 3：学生候选风险—送检覆盖 / quality–verification-cost Pareto。
 - Figure 4：共享候选步上的 retained-valid、retained-harmful、rollback 和累计成本。
 
-### 6.1 “零观测伤害”不等于零风险
+### 6.1 两种伤害分母必须分开
 
-对 $n$ 个独立 source UID，令 $K$ 为至少出现一次 Q3 harmful accept 的 UID 数。若 $K<n$，一侧 Clopper–Pearson 上界可写为
+规则级描述量定义为
 
 \[
-U_{1-\alpha}=\operatorname{Beta}^{-1}(1-\alpha;K+1,n-K).
+\widehat h_{\mathrm{rule}}=
+\frac{\#\{\text{accepted harmful rules}\}}
+{\#\{\text{accepted rules}\}},
 \]
 
-当 $K=0$ 时仍有 $U_{1-\alpha}=1-\alpha^{1/n}>0$；所以“0 次伤害”只能与有效 UID 数和置信上界一起报告。该式要求 UID 作为独立单位；同一 UID 的多个 mutant/事件先合并，不能扩大 $n$。
+它回答“已接受规则里有多少有害”，但候选规则共享 UID，不能直接套独立二项区间。UID 级安全量则先把同一 lineage UID 的所有候选合并：对 $n$ 个独立 source UID，令 $K$ 为至少出现一次 Q3 harmful accept 的 UID 数，定义 $\widehat h_{\mathrm{uid}}=K/n$。若 $K<n$，显著性水平记为 $\alpha_{\mathrm{sig}}$，其一侧 Clopper–Pearson 上界为
 
-正式门建议同时要求收益差的 UID-cluster 区间下界通过 $\tau$、伤害率上界通过 $h_{\max}$，并对冻结的确认性假设族使用 Holm 校正。Clopper–Pearson（1934）和 Holm（1979）提供统计工具，不会自动解决重复查询 gate 的适应性偏差；候选集合、查询预算或阈值发生结果驱动变化时，必须更换独立 holdout 或把证据降级为 exploratory。
+\[
+U_{1-\alpha_{\mathrm{sig}}}=
+\operatorname{Beta}^{-1}(1-\alpha_{\mathrm{sig}};K+1,n-K).
+\]
+
+当 $K=0$ 时仍有 $U_{1-\alpha_{\mathrm{sig}}}=1-\alpha_{\mathrm{sig}}^{1/n}>0$；所以“0 次伤害”只能与有效 UID 数和置信上界一起报告。主安全门使用 UID 级上界，规则级比例只作描述或使用另行预注册的 UID 聚类推断，二者不得共用一个 harmful accept rate 名称。
+
+### 6.2 确认性推断合同
+
+- A1/A2 使用同一 seed 列表和同一 lineage UID：点估计对 seed×UID 单元等权，区间采用“先成对重采样 seed，再在 seed 内成对重采样 UID”的两阶段 bootstrap；不得把所有事件或 token 平铺成 iid。
+- 质量非劣使用 A2−A1 的单侧下置信界与 $-\delta_q$ 比较；安全非劣使用 A2−A1 的单侧上置信界与 $\delta_h$ 比较；retention 非劣同理与 $-\delta_r$ 比较。“不显著”不等于非劣。
+- RQ2 的确认性族固定为质量非劣、安全非劣和风险约束下覆盖；RQ3 的确认性族固定为 UID-any-harm 与 valid-rule retention。各族内部使用 Holm，次指标和逐家族结果标 exploratory。
+- 阈值只能在 proposal/train 的内部 dev 上按“满足 $\rho_{\max}$ 后覆盖最大”选择；并列时先选 action macro-F1 高者，再选更保守阈值。gate-validation 只接受/回滚，sealed test 只在模型、阈值、规则和分析代码冻结后揭封一次。
+- $\delta_q,\delta_h,\delta_r,\rho_{\max},\alpha_{\mathrm{sig}}$、seed 列表、每角色×家族最低 UID 和 MDE 都必须在 Git 外冻结收据中由人批准；当前仍为 UNSET，不能由软件默认值冒充论文预注册值。
+
+Clopper–Pearson（1934）和 Holm（1979）提供统计工具，不会自动解决重复查询 gate 的适应性偏差；候选集合、查询预算或阈值发生结果驱动变化时，必须更换独立 holdout 或把证据降级为 exploratory。
 
 ## 7. 写作时的主张分级
 
@@ -306,7 +341,7 @@ U_{1-\alpha}=\operatorname{Beta}^{-1}(1-\alpha;K+1,n-K).
 | `toneva2018forgetting` | An Empirical Study of Example Forgetting | 2018 | arXiv:1812.05159 | 训练动态数据诊断候选 |
 | `paul2021datadiet` | Deep Learning on a Data Diet | 2021 | arXiv:2107.07075 | GraNd/EL2N 选择候选 |
 | `clopper1934confidence` | The Use of Confidence or Fiducial Limits Illustrated in the Case of the Binomial | 1934 | DOI:10.1093/biomet/26.4.404 | 零伤害有限样本上界 |
-| `holm1979simple` | A Simple Sequentially Rejective Multiple Test Procedure | 1979 | DOI:10.2307/4615733 | 冻结确认性假设族校正 |
+| `holm1979simple` | A Simple Sequentially Rejective Multiple Test Procedure | 1979 | JSTOR stable:4615733 | 冻结确认性假设族校正；该 stable identifier 不是 DOI |
 
 ### 8.2 最近邻系统与数据工作
 
