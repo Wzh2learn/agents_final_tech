@@ -142,3 +142,41 @@ In the private test data, we only have the "question" field, no reference provid
 
 草案件：`docs/datasets/phase1a_schema_draft_v1.json`（fields 九项、private_test 排除注记、scope 明确只属
 P1-future 包）。探针只取 README/LICENSE 元数据，未取 dataset/*.json 任何数据体。
+## 7 parser_contract_receipt 运行器规格（未来批实现，零模型）
+
+- 产物须满足合同 gate `parser_contract`：`status=PASS`、`checker` 非空、`commit` 为 40-hex（运行时刻 repo HEAD）、
+  `executed_at` ISO8601、`input_sha256` 覆盖 source_tables / schema / injection_map 且等于包内实际哈希。
+- 检查程序（拟 `research/phase1a_parser_contract_receipt.py`）：对 95 张表逐一以生产头映射器
+  （scripts/m1_statement_parser.py 的 map_headers）跑原表头与注入表头，按冻结 drop 规则
+  （drop=(H_orig-H_inj)*10，阈值 2.0）记录逐表 drop 向量；与 logs/graph/eval/checkpoint_discrimination_tables_v2.json
+  的 g3 不变量对账（75/95 判别、逐族计数、零 mismatch）；双跑 byte-identical。
+- 零连接自证：socket 守卫仅允许本地文件 IO（镜像 w2 endpoint guard 模式），观测端口集记录为 []。
+- 前置：schema 绑定存在（当前 corpus 包该角色 BLOCKED，见 §6；P1-future 包绑定后即可跑）。
+- 验收：合同 gate 过 + 双跑一致 + 运行日志经独立 Loop C 审计；实现批须带正反例（篡改任一输入哈希必须
+  parser_input_hash_mismatch）。
+
+## 8 learnability_feature_ledger 派生规格（未来批实现，零模型）
+
+- 输入：source_tables、schema、confidence_manifest、已接受的 label_ledger、层分配（proposal_train）。
+- 逐样本行：sample_id 与 uid 取自层 manifest；observed_header 取源表头；canonical_fields 取 schema 映射；
+  candidate_target = label_ledger 的 gold_target（action=map_to 时）否则 null；confidence 恒为 null
+  （confidence_manifest 政策 unmeasurable）；family = 注入族（带注入样本）或 unperturbed。
+- 九条约束镜像（addendum A）：顶层键集、contract_version=phase1a-feature-ledger-v1、三个跨角色 sha256 等于
+  同包实际哈希、rows 非空、行键集 FEATURE_FIELDS、canonical_fields 非空唯一且 candidate_target 属其内、
+  confidence ∈ {null, low, medium, high}、sample_id/uid 与 proposal_train 注册一致、行集恰好覆盖 proposal_train。
+- 双跑 byte-identical；独立 Loop C 审计；生成者不得自审（派生脚本作者不签署验收）。
+
+## 9 analysis_plan 模板与 PENDING 口径（2026-09-24）
+
+模板：`docs/datasets/phase1a_analysis_plan_template_v1.json`。18 个必需键齐备；D8 批准起点值已填
+（significance_level 0.05、target_power 0.80、risk_limit 0.10、delta_* 0.02、primary_metrics 两项、
+cluster_unit=lineage_uid、seed_uid_aggregation 与 holm_adjustment 逐字、holm_families 含 H3a_uid_any_harm、
+one_sided_p_value_methods 五键逐字引自合同 :946-953）。四处诚实 PENDING，模板在填齐前**必须**被合同拒绝：
+- status/approved_by/approved_at：用户批准行为（合同要求 status 恰为 approved）；
+- minimum_uid_by_role_family：PENDING_FAMILY_TAXONOMY（家族税制待 learnability 设计定稿；D11 要求与
+  config min_dev_uids_by_family 去 proposal_train.dev/ 前缀后键值全等）；
+- mde_by_confirmatory_contrast：PENDING_DEV_SIGMA（键集须为 REQUIRED_MDE_CONTRASTS 五假设、值域 (0,1)；
+  无真实开发侧 σ 前任何取值都是伪造）；
+- layer_manifest_sha256：PENDING_SPLIT_GO（须等于 manifest layers 摘要）。
+另：threshold_selection_rule_note 为 D10 裁定的附加规则字段，不属于 18 必需键；legacy 键
+alpha / power / noninferiority_margin 一律不出现（出现即 ambiguous_legacy_statistical_field）。

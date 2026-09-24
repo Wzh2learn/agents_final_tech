@@ -1,0 +1,30 @@
+{
+  "status": "PENDING_USER_APPROVAL",
+  "approved_by": "PENDING_USER",
+  "approved_at": "PENDING_ISO8601",
+  "cluster_unit": "lineage_uid",
+  "significance_level": 0.05,
+  "target_power": 0.8,
+  "risk_limit": 0.1,
+  "noninferiority_margins": {"delta_quality": 0.02, "delta_harm": 0.02, "delta_retention": 0.02},
+  "primary_metrics": ["action_macro_f1", "harmful_map_rate"],
+  "threshold_selection": "proposal_dev_only",
+  "threshold_selection_rule_note": "proposal_dev_max_coverage_under_risk_then_macro_f1_then_conservative (full rule recorded as this note per ruling D10; the threshold_selection token itself carries scope only and is machine-audited separately)",
+  "seed_uid_aggregation": "fixed_seed_pair_then_uid_cluster_bootstrap",
+  "holm_families": {
+    "rq2": ["H2a_quality_noninferiority", "H2b_safety_noninferiority", "H2c_risk_constrained_coverage"],
+    "rq3": ["H3a_uid_any_harm", "H3a_valid_rule_retention"]
+  },
+  "one_sided_p_value_methods": {
+    "H2a_quality_noninferiority": "paired_uid_sign_flip_on_seed_mean_difference",
+    "H2b_safety_noninferiority": "paired_uid_sign_flip_on_seed_mean_difference",
+    "H2c_risk_constrained_coverage": "paired_uid_sign_flip_on_seed_mean_difference",
+    "H3a_uid_any_harm": "exact_mcnemar",
+    "H3a_valid_rule_retention": "paired_cluster_sign_flip_noninferiority"
+  },
+  "holm_adjustment": "step_down_adjusted_p_and_simultaneous_one_sided_ci",
+  "minimum_uid_by_action": {"map_to": 2, "skip": 2, "hold": 2},
+  "minimum_uid_by_role_family": "PENDING_FAMILY_TAXONOMY",
+  "mde_by_confirmatory_contrast": "PENDING_DEV_SIGMA",
+  "layer_manifest_sha256": "PENDING_SPLIT_GO"
+}
