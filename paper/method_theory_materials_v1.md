@@ -373,3 +373,29 @@ Clopper–Pearson（1934）和 Holm（1979）提供统计工具，不会自动�
 3. 记录 gate 查询预算；若发生策略/阈值改动，旧 gate 结果降为 adaptive development evidence。
 4. A1/A2 只采用两头 SFT 主目标；教师 soft targets 不存在时不启用 KL，双向偏好不足时不启用 DPO。
 5. 理论命题只做实现一致性与开发侧局部安全界说明；固定池伸缩推论只有在额外冻结同一 $\mathcal D_{\mathrm{reg}}$ 后才可启用，最终结论仍由 UID 聚类区间、最坏家族和 sealed test 决定。
+
+## 10. 三阶段形式化状态与开放问题清单（2026-09-24 加记）
+
+本节只登记「已经形式化到什么程度」与「明确未形式化 / 未证明的部分」，不引入任何新数字、新命题或新判据；
+每条均回指既有载体。开放问题与 `paper/teacher_review_finalization_v1.md` 的回填位、开题 §5.6 的门一一对应。
+
+| 对象 | 已形式化内容 | 载体 | 未形式化 / 未证明部分 |
+|---|---|---|---|
+| 检查点森林与聚合 | 递归分数 S(n)、兄弟归一化权重、稳定性判据（≥90% 叶过阈 + hinge ≥7）、按树缺失分（parse 0 / qa 5） | 本文 §3.1、`config/eval_checkpoint_trees.json`、Algorithm 1 对位表 | 无（实现与论文逐行对位已存档） |
+| 可见性三分类与剖面 | V_ckpt / V_proto、静默吸收、盲区 vs 无效变异体、家族剖面 | 大论文第 2 章 §2.9、`logs/graph/eval/t2_visibility_sensitivity.json` | 无 |
+| matched-FPR 比较与仿射等价 | 校准阈值定义、比较协议；仿射等价是**单 varying leaf 实例化下的经验发现**（退化情形），不是定理 | 小论文 §5.2、`logs/graph/eval/d3_matched_fpr_stage_a.json` | 多叶响应下的一般性条件未证明 ⇒ 开放问题 OP-1 |
+| fail-closed 合同语义 | 双结局机器合同、READY ≠ DATA_GO、哈希绑定与跨工件一致性（D11 校验） | `research/phase1a_data_contract.py`、`research/phase1a_learnability_baselines.py` | 无 |
+| Stage D 风险边界 | 仅第一个累计局部界（本文命题载体）；无 conformal guarantee；不等价于在线学习收敛 | 本文 §4、§5.2 | 动作策略蒸馏下的学生风险上界未证明 ⇒ OP-2 |
+| Stage R 门语义 | gain–collateral 双门 + 独立 gate-validation 作为判定规则；机制级证据 7/7 与 5/5 拒绝 | `research/phase2_rule_gate_replay.py` 合同、小论文 §5.5 | 无有害累积 / 收敛类定理 ⇒ OP-3；功效与强基线未闭合 ⇒ OP-4 |
+| 纵向维度 | future replay 协议 schema（获取时间、来源约束、分层规则、不回流） | `paper/dataset_protocol_v1.md` | 获取与哈希绑定未完成 ⇒ OP-5（容忍 `LONGITUDINAL_EVIDENCE_UNAVAILABLE`） |
+
+开放问题（与门 / 回填位对应）：
+
+- **OP-1**：仿射等价在多输入响应叶下是否保持。前置：第二数据流 + 第二 scorer（对应 BF-3 / 复审恢复判据）。
+- **OP-2**：动作策略蒸馏的学生风险上界。前置：SOURCE_GO→MODEL_GO 全过 + 独立验收（对应 BF-1）。
+- **OP-3**：受控规则累积的无有害累积性质。前置：Phase 2 门 + 独立 gate-validation（对应 BF-2）。
+- **OP-4**：H3a 类假设的功效闭合（250–500 有效 UID 目标）。前置：数据批准；达不到则降 exploratory，不改检验方法。
+- **OP-5**：future replay 的获取与哈希绑定。前置：协议执行；缺失不阻塞机械预检。
+
+纪律：任何开放问题在对应门通过之前**不得**在正文中以定理、已证性质或已得结果的形式出现；
+回填时只允许新增小节或替换显式占位句，不得回改已验收段落的数字。

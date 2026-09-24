@@ -68,3 +68,12 @@ Figure 2 中逐柱底部的 `absorbed=N` 标注与柱体填充在 80 dpi 下部�
 - GB10 在 `4de4741` 的权威验收：`tests/test_paper_claim_acceptance.py` + `tests/test_research_story_assets.py`
   共 **17 passed**；`docs_lint` rc=0 / 0 fail / 1 warn（docs/34 时效 warn 未消警）。
 - §6 判定对新 DOCX 继续成立；§5 的 Figure 2 柱底标注观察不变（仍留单独批）。
+## 加记二（2026-09-24，camera-pass 提交 4ce848a 后的第三次转换）
+
+- 输入 DOCX 再次变更（camera-pass 两条 editorial 修订）：新 sha256 前 16 位 = `72525e528130cabc`；
+  本件此前记录的 `f33be93d8159cbfb`（1627a54）与 `87ea0770cb5b8fb1`（4de4741）各归其提交。
+- 重转换（隔离 worktree `accept_4ce848a`、独立 profile、输出仓外）：**8 页** letter；U+FFFD 0；
+  Abstract / 1. Introduction / 7. Conclusion / References 均在文本层；两条 camera-pass 句
+  （pruned 定义、120-cell 与 28-case 窗口区分）在 PDF 文本层在位。
+- GB10 在 `4ce848a` 的权威验收：17 passed；docs_lint rc=0 / 0 fail / 1 warn（docs/34 未消警）。
+- §6 判定继续成立；§5 的 Figure 2 观察不变。
