@@ -51,3 +51,22 @@ No candidate inside archive/ requires action.
 
 No file moved, deleted, renamed or re-registered; no INDEX.md edit; no memory edit; model calls 0;
 no endpoint contact; findings limited to observations above.
+
+## Loop D correction (2026-09-24, after independent audit REJECT)
+
+The audit (qwen3.8-max packet session) refuted two entries; both corrections below are made with direct
+probe evidence at commit 4ce848a, and the affected claims in the tables above are superseded by this
+section.
+
+- F1 (CRITICAL, accepted): the status-header probe used for the table matched only the Chinese key
+  "状态"; docs/governance/2026-09-07_execution_plane_boundary.md carries an English-key header on line 2
+  ("status: 活跃（裁定件, 边界冻结）"), inside the first-six-lines scope. Corrected entry: status header
+  PRESENT; the document is compliant. Observation 2 of section 4 is WITHDRAWN: there is no missing
+  status line and no remediation is proposed. Root cause: probe pattern, not the document.
+- F2 (MAJOR, accepted): docs/governance/reference/ contains 19 entries at 4ce848a (18 markdown files plus
+  multi-tool-sync.sh), not 21. Corrected entry: 19 entries (18 md + 1 sh); the md-only count is 18.
+  Root cause: manual miscount while grouping the listing.
+- Probe methodology corrected for future mappings: status probes must match both "状态" and "status:" keys,
+  and directory counts must come from git ls-tree, never from manual grouping.
+- No other table entry, observation or red-line statement is changed; the no-move/no-delete discipline
+  stands, and the commit touching this report remains report-only.
