@@ -164,25 +164,32 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
             "injection_map": hashes["injection_map.json"],
         },
     })
-    layers = {
-        part: [
+    def _enrich(key, pairs):
+        return [
             {
                 "sample_id": s,
                 "uid": u,
                 "dataset_id": "fixture-finance",
                 "dataset_revision": "rev-1",
-                "source_split": specs[key][0] if key in specs else "test",
-                "independence_cluster": specs[key][1] if key in specs else "cluster-x",
+                "source_split": specs[key][0],
+                "independence_cluster": specs[key][1],
                 "lineage_root_id": f"report-{key}",
                 "transformation_parent_id": None,
             }
-            for (s, u) in layer_manifest["layers"][part]
+            for (s, u) in pairs
         ]
-        for part, key in (
-            ("proposal_train.train", "train"),
-            ("proposal_train.dev", "dev"),
-            ("gate_validation", "gate"),
-        )
+
+    pairs_by_key = {
+        "train": [("sample-train", uids["train"])],
+        "dev": [("sample-dev", uids["dev"])],
+        "gate": [("sample-gate", uids["gate"])],
+    }
+    layers = {
+        "proposal_train": {
+            "train": _enrich("train", pairs_by_key["train"]),
+            "dev": _enrich("dev", pairs_by_key["dev"]),
+        },
+        "gate_validation": _enrich("gate", pairs_by_key["gate"]),
     }
     plan = {
         "status": "approved",
