@@ -585,6 +585,106 @@ def _load_feature_ledger(
     return result
 
 
+# D11 (user ruling 2026-09-24, convention (i)): the approved UID floors live in the
+# package's analysis_plan under role-layer-scoped keys, while the floors that actually
+# drive the PILOT_ONLY decision live in the preregistered config under bare family
+# names. The analysis_plan side therefore uses "proposal_train.dev/<family>".
+DEV_ROLE_PREFIX = "proposal_train.dev/"
+
+
+def _load_analysis_plan(
+    package_root: Path,
+    manifest: dict[str, object],
+) -> dict[str, object]:
+    """Load the hash-bound analysis_plan artifact for the D11 consistency check.
+
+    Mirrors ``_load_feature_ledger``: the artifact must be uniquely bound in the
+    manifest and must still match the accepted byte count and SHA-256, so a plan
+    edited after acceptance cannot be substituted.
+    """
+    bindings = manifest.get("bindings")
+    artifacts = manifest.get("artifacts")
+    if not isinstance(bindings, dict) or not isinstance(artifacts, list):
+        raise ValueError("manifest lacks the canonical analysis-plan binding")
+    plan_id = bindings.get("analysis_plan")
+    matches = [
+        item for item in artifacts
+        if isinstance(item, dict) and item.get("id") == plan_id
+        and item.get("role") == "analysis_plan"
+    ]
+    if len(matches) != 1:
+        raise ValueError("manifest analysis-plan binding is missing or ambiguous")
+    artifact = matches[0]
+    path = _resolve_inside(package_root, artifact.get("path"))
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise ValueError("cannot read canonical analysis plan") from exc
+    if len(raw) != artifact.get("bytes") or _sha256_bytes(raw) != artifact.get("sha256"):
+        raise ValueError("canonical analysis plan no longer matches the accepted manifest")
+    value = _strict_json(raw, "canonical analysis plan")
+    if not isinstance(value, dict):
+        raise ValueError("canonical analysis plan must be an object")
+    return value
+
+
+def _check_uid_floor_consistency(
+    analysis_plan: dict[str, object],
+    policy: dict[str, object],
+) -> None:
+    """D11: fail closed unless the approved floors and the enforced floors agree.
+
+    Before this check the two copies were unrelated: the data contract only
+    shape-checked ``analysis_plan.minimum_uid_by_action`` /
+    ``minimum_uid_by_role_family``, while ``decision_policy.min_dev_uids_by_action``
+    / ``min_dev_uids_by_family`` were what actually produced ``PILOT_ONLY``. A human
+    could approve 50/50/50 and hash-bind it, set the config to 2/2/2, and the probe
+    would still return a positive decision -- the approved power floor was silently
+    bypassed at the very step meant to enforce it.
+
+    action dimension: both sides key on exactly {map_to, skip, hold}, so the dicts
+    must be equal.
+
+    family dimension (convention (i)): analysis_plan keys are dev-scoped
+    ``proposal_train.dev/<family>``; config keys are bare ``<family>``. Stripping the
+    prefix must yield exactly the config dict -- same keys and same values.
+    """
+    plan_action = analysis_plan.get("minimum_uid_by_action")
+    cfg_action = policy.get("min_dev_uids_by_action")
+    if not isinstance(plan_action, dict) or plan_action != cfg_action:
+        raise ValueError(
+            "minimum_uid_by_action disagrees with the preregistered config's "
+            "min_dev_uids_by_action; the approved UID floor would not be enforced"
+        )
+
+    plan_family = analysis_plan.get("minimum_uid_by_role_family")
+    cfg_family = policy.get("min_dev_uids_by_family")
+    if not isinstance(plan_family, dict) or not isinstance(cfg_family, dict):
+        raise ValueError("UID floor family minimums must both be objects")
+    mapped: dict[str, object] = {}
+    for key, value in plan_family.items():
+        if not isinstance(key, str) or not key.startswith(DEV_ROLE_PREFIX):
+            raise ValueError(
+                "minimum_uid_by_role_family key "
+                f"{key!r} must be dev-scoped as {DEV_ROLE_PREFIX}<family>"
+            )
+        family = key[len(DEV_ROLE_PREFIX):]
+        if not family or "/" in family:
+            raise ValueError(
+                f"minimum_uid_by_role_family key {key!r} has an invalid family name"
+            )
+        if family in mapped:
+            raise ValueError(
+                f"duplicate dev family in minimum_uid_by_role_family: {family}"
+            )
+        mapped[family] = value
+    if mapped != cfg_family:
+        raise ValueError(
+            "minimum_uid_by_role_family (dev-scoped) disagrees with the preregistered "
+            "config's min_dev_uids_by_family; the approved UID floor would not be enforced"
+        )
+
+
 def _normalize(value: object) -> str:
     return "".join(character.lower() for character in str(value) if character.isalnum())
 
@@ -1122,6 +1222,9 @@ def _run_probe(
     dev_metrics = {name: result["dev"] for name, result in baselines.items()}
     policy = config["decision_policy"]
     assert isinstance(policy, dict)
+    # D11: the approved floors (package analysis_plan) and the enforced floors
+    # (preregistered config) must agree before any decision is derived from them.
+    _check_uid_floor_consistency(_load_analysis_plan(package_root, manifest), policy)
     dev_uid_support = _uid_support(dev)
     decision = decide_probe(dev_uid_support, dev_metrics, policy)
     return {

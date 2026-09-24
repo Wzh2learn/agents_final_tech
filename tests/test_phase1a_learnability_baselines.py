@@ -148,6 +148,19 @@ def accepted_probe(tmp_path: Path) -> dict[str, Path]:
         for row in train + dev
     ])
 
+    # D11: the package must carry an analysis_plan whose approved UID floors match
+    # the config's decision_policy. Action keys are identical on both sides; family
+    # keys are dev-scoped here (convention (i)) and bare in the config.
+    analysis_plan_path = package / "artifacts" / "analysis_plan.json"
+    _write_json(analysis_plan_path, {
+        "minimum_uid_by_action": {"skip": 2, "hold": 2, "map_to": 2},
+        "minimum_uid_by_role_family": {
+            "proposal_train.dev/ambiguous": 2,
+            "proposal_train.dev/exact": 2,
+            "proposal_train.dev/noise": 2,
+        },
+    })
+
     manifest = {
         "contract_version": "phase1a-data-package-v2",
         "package_id": "synthetic-learnability-fixture",
@@ -166,10 +179,18 @@ def accepted_probe(tmp_path: Path) -> dict[str, Path]:
                 "bytes": feature_ledger_path.stat().st_size,
                 "sha256": _sha256(feature_ledger_path),
             },
+            {
+                "id": "analysis-plan",
+                "role": "analysis_plan",
+                "path": "artifacts/analysis_plan.json",
+                "bytes": analysis_plan_path.stat().st_size,
+                "sha256": _sha256(analysis_plan_path),
+            },
         ],
         "bindings": {
             "label_ledger": "labels",
             "learnability_feature_ledger": "features",
+            "analysis_plan": "analysis-plan",
         },
         "layers": {
             "proposal_train": {"train": refs(train, "train"), "dev": refs(dev, "train")},
@@ -814,3 +835,104 @@ def test_probe_restores_socket_functions(accepted_probe: dict[str, Path]) -> Non
     original = socket.create_connection
     _run(accepted_probe)
     assert socket.create_connection is original
+
+
+# ---------------------------------------------------------------------------
+# D11 (user ruling 2026-09-24): approved UID floors (package analysis_plan) must
+# agree with the enforced floors (preregistered config decision_policy).
+# Convention (i): analysis_plan family keys are "proposal_train.dev/<family>",
+# config family keys are bare "<family>"; action keys are identical on both sides.
+# ---------------------------------------------------------------------------
+
+
+def _rewrite_analysis_plan(paths: dict[str, Path], mutate) -> None:
+    """Mutate the package's analysis_plan and refresh every dependent binding."""
+    plan_path = paths["package"] / "artifacts" / "analysis_plan.json"
+    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    mutate(plan)
+    _write_json(plan_path, plan)
+    manifest = json.loads(paths["manifest"].read_text(encoding="utf-8"))
+    entry = next(a for a in manifest["artifacts"] if a["id"] == "analysis-plan")
+    entry["bytes"] = plan_path.stat().st_size
+    entry["sha256"] = _sha256(plan_path)
+    _write_json(paths["manifest"], manifest)
+    precheck = json.loads(paths["precheck"].read_text(encoding="utf-8"))
+    precheck["hashes"]["manifest_sha256"] = _sha256(paths["manifest"])
+    _write_json(paths["precheck"], precheck)
+    receipt = json.loads(paths["receipt"].read_text(encoding="utf-8"))
+    receipt["package_manifest_sha256"] = _sha256(paths["manifest"])
+    receipt["precheck_report_sha256"] = _sha256(paths["precheck"])
+    _write_json(paths["receipt"], receipt)
+
+
+def test_uid_floors_agree_between_analysis_plan_and_config(
+    accepted_probe: dict[str, Path],
+) -> None:
+    """D11 positive control: consistent floors let the probe decide normally."""
+    plan_path = accepted_probe["package"] / "artifacts" / "analysis_plan.json"
+    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    config = json.loads(accepted_probe["config"].read_text(encoding="utf-8"))
+    policy = config["decision_policy"]
+    # The fixture itself must satisfy convention (i), otherwise every other test
+    # in this file would be exercising the fail-closed path by accident.
+    assert plan["minimum_uid_by_action"] == policy["min_dev_uids_by_action"]
+    assert plan["minimum_uid_by_role_family"] == {
+        f"proposal_train.dev/{family}": value
+        for family, value in policy["min_dev_uids_by_family"].items()
+    }
+
+    report = _run(accepted_probe)
+    assert report["decision"] in {
+        "SIMPLE_SUFFICIENT", "LEARNABILITY_SIGNAL", "NO_CLEAR_SIGNAL", "PILOT_ONLY",
+    }
+    assert report["meta"]["socket_attempts"] == 0
+
+
+@pytest.mark.parametrize(
+    ("field", "mutate", "match"),
+    [
+        # action dimension: identical key space, so any difference must fail
+        ("action_value", lambda p: p["minimum_uid_by_action"].update({"hold": 50}),
+         "minimum_uid_by_action disagrees"),
+        ("action_extra_key", lambda p: p["minimum_uid_by_action"].update({"extra": 2}),
+         "minimum_uid_by_action disagrees"),
+        # family dimension: value drift under the dev-scoped convention
+        ("family_value", lambda p: p["minimum_uid_by_role_family"].update(
+            {"proposal_train.dev/noise": 50}), "dev-scoped"),
+        # family dimension: a bare (non-dev-scoped) key is a convention violation
+        ("family_bare_key", lambda p: p["minimum_uid_by_role_family"].update(
+            {"ambiguous": 2}), "must be dev-scoped"),
+        # family dimension: dropping a family makes the two dicts unequal
+        ("family_missing", lambda p: p["minimum_uid_by_role_family"].pop(
+            "proposal_train.dev/exact"), "dev-scoped"),
+        # family dimension: a nested sub-path is not a valid family name
+        ("family_nested", lambda p: p["minimum_uid_by_role_family"].update(
+            {"proposal_train.dev/a/b": 2}), "invalid family name"),
+    ],
+)
+def test_uid_floor_mismatch_fails_closed(
+    accepted_probe: dict[str, Path],
+    field: str,
+    mutate,
+    match: str,
+) -> None:
+    """D11 negative controls: every divergence must fail closed, not decide."""
+    _rewrite_analysis_plan(accepted_probe, mutate)
+    with pytest.raises(ValueError, match=match):
+        _run(accepted_probe)
+
+
+def test_analysis_plan_tamper_after_acceptance_is_rejected(
+    accepted_probe: dict[str, Path],
+) -> None:
+    """Editing the plan without re-binding must be caught by the hash check.
+
+    This is the guard that makes the D11 comparison meaningful: the plan compared
+    against the config is the one the acceptance receipt actually bound.
+    """
+    plan_path = accepted_probe["package"] / "artifacts" / "analysis_plan.json"
+    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    plan["minimum_uid_by_action"]["hold"] = 50
+    _write_json(plan_path, plan)  # deliberately NOT refreshing the manifest binding
+    with pytest.raises(ValueError, match="no longer matches the accepted manifest"):
+        _run(accepted_probe)
