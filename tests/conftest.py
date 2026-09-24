@@ -35,6 +35,25 @@ def _has_server():
 
 def pytest_collection_modifyitems(config, items):
     """Auto-skip tests based on available dependencies."""
+    # D2 (2026-09-24, user ruling): integration-marked tests talk to live
+    # production services. Concretely, test_m2_multiturn's TestMultiTurnIntegration
+    # calls svc.ask() three times, which performs real RAG inference against the
+    # production :8004 model endpoint. pytest.ini registers the `integration`
+    # marker but sets no addopts, so those tests used to run on every full pytest
+    # invocation -- meaning routine acceptance runs silently issued production
+    # model calls and shared the stack Loop B monitors via qa_canary.
+    #
+    # They are deselected by default. The tests are NOT deleted; set
+    # JINRONG_RUN_INTEGRATION=1 to run them, which requires explicit user
+    # authorization plus a call budget and canary per decision 46 and
+    # safety-gates section 4. Evidence and per-port strace attribution:
+    # docs/experiments/2026-09-24_acceptance_worktree_fixture_gap_and_pytest_baseline.md
+    if os.environ.get("JINRONG_RUN_INTEGRATION") != "1":
+        deselected = [i for i in items if i.get_closest_marker("integration")]
+        if deselected:
+            items[:] = [i for i in items if not i.get_closest_marker("integration")]
+            config.hook.pytest_deselected(items=deselected)
+
     skip_playwright = pytest.mark.skip(reason="playwright not installed")
     skip_server = pytest.mark.skip(reason="FastAPI server not running on :5050")
 

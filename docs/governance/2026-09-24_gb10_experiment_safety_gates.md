@@ -57,6 +57,52 @@
 5. **先 pilot 后放量**：任何新链路先用最小样本跑通并核产物，再扩大规模。
 6. **每次运行必带** `timeout`、预算上限、停止条件、失败回收方案（产物路径 + 如何删除 + 如何确认进程已退出）。
 
+### 4.1 裁定落地更正（2026-09-24，用户裁定 D2/D3/D4/D5）
+
+本节把 §2、§3.1、§3.2 与 §4 中四处「待用户确认」的口径按裁定确定下来，并更正决策 46 的白名单。**上文原文一律保留作轨迹**；冲突处以本节为准。
+
+**(1) D4 —— 内存口径确定为 `available`（§3.1 的待确认项已关闭）。**
+
+- 开工门：`available ≥ 20GB` **或** `≥ 20%`
+- 停止门：`used > 85%` **或** `available < 10GB`
+- 严格 `free` **不作为**生效指标（本机常驻模型占满 page cache，严格 `free` 会长期偏低从而永久锁死开工门）。§2 表中「内存」一行即按此读。
+
+**(2) D5 —— GPU 统一内存口径确定（§3.2 的待确认项已关闭）。** GB10 为 Grace-Blackwell 统一内存，`nvidia-smi -q` 的 FB Memory 四项与 BAR1 全为 `N/A`、`Addressing Mode = ATS`，**无独立 VRAM 可测**。生效口径为：
+
+- 以 §2 的**内存门作为唯一内存预算**；
+- GPU 侧只保留 `utilization.gpu` 两档：**重任务前 < 80%**，**> 90% 立即停**；
+- **模型/训练加载前额外要求** `available ≥ 模型常驻量 × 1.5`；
+- 「VRAM <80% / >90%」的字面表述**作废**，不得再以「VRAM 检查通过」为由开重任务。
+
+**(3) D2 —— 决策 46 白名单更正：全量 pytest 的已知网络面是 6 个 TCP 端口，不是 2 个。**
+
+决策 46 原记「只读 health 探测已知两位点（`:5050` 与 `:15432`）」。`strace -f -e trace=connect` 实测一轮全量 pytest 的真实网络面为：
+
+| 端口 | 性质 | 计数（修复前） | 来源 | 修复后 |
+|---|---|---|---|---|
+| `:8004` | **真实模型推理**（不是探测） | 5 | `test_m2_multiturn.py` 的 `TestMultiTurnIntegration`，三次 `svc.ask()` | **0**（默认 deselect） |
+| `:8007` | 只读探活（mock 未覆盖的泄漏） | 1 | `test_m1_ocr_fallback.py` 经 `m1_statement_parser._check_vlm_available()`（`:603-617`） | **0**（autouse fixture 已 patch） |
+| `:15432` | 只读 PG 探测/查询 | 6 | 多处 | 5 |
+| `:5050` | 只读 health GET | 1 | `test_health_embeddings_count.py:36-38` | 1 |
+| `:22` | SSH 连接 | 4 | `test_status_onepage.py` | 4 |
+| `:53` | DNS 解析 | 4 | `test_status_onepage.py` | 4 |
+
+⇒ **必须区分「只读探测」与「真实推理」**：`:5050`/`:15432`/`:8007`/`:22`/`:53` 属只读探测或基础设施连接，而 **`:8004` 是真实推理**，须计入 D3 的 <200 调用预算。
+
+**已实施的修复（用户裁定 D2）**：`tests/conftest.py` 的 `pytest_collection_modifyitems` 现默认 deselect 所有带 `integration` marker 的用例；`tests/test_m1_ocr_fallback.py` 加 autouse fixture patch 掉 `_check_vlm_available` 并重置其模块级缓存。**integration 测试未被删除**，设 `JINRONG_RUN_INTEGRATION=1` 即恢复——该开关**只在用户显式授权并已设调用预算与 canary 时使用**。
+
+**修复后实测（GB10，全量 pytest + strace）**：`684 passed / 13 skipped / 1 deselected / rc=0`；TCP 连接仅 `:15432`×5、`:53`×4、`:22`×4、`:5050`×1；**`:8004` = 0、`:8007` = 0**。开关双向实测：默认 `19/20 collected (1 deselected)`，`JINRONG_RUN_INTEGRATION=1` 时 `20/20 collected`。
+
+⇒ **今后凡申报「零模型调用」，必须以 strace 端口计数为据，不得以「只跑了 pytest」为据。**
+
+**(4) D3 —— 长任务改用「后台运行 + monitor」，不用短 timeout 杀半成品。** §4 第 6 条的「每次运行必带 `timeout`」据此更正为：
+
+- **不得**用短 `timeout` 把长任务杀一半（会产生半成品产物与孤儿进程）；
+- 长任务改为**后台运行 + monitor**，monitor 必须记录：**PID、开始时间、heartbeat、日志路径、调用计数、资源占用**；
+- 终止条件只有两个：**安全门触发**（§5.3）或**用户明确停止**；
+- 若某任务确实无 `timeout`，则**必须有监控与停止条件**，且**不允许孤儿进程无限残留**——收尾按 §5.1 对比基线进程集，新增进程必须全部退出，残留即人工回收并记账；
+- 模型/MCP 调用**硬上限 < 200**，含 canary、重试与 MCP 模型调用（D3）。
+
 ## 5 进程回收与失败停止
 
 1. 启动前记录基线进程集；结束后对比，**新增进程必须全部退出**，残留即人工回收并记账。

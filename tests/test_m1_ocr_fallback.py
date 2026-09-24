@@ -1,6 +1,6 @@
 """Unit tests for OCR fallback logic in biz.m1_statement_parser.
 
-All external dependencies (vision-8004, PaddleOCR, fitz) are mocked.
+All external dependencies (vision-8004, vlm-8007, PaddleOCR, fitz) are mocked.
 """
 
 import json
@@ -20,6 +20,24 @@ from m1_statement_parser import (
     _parse_markdown_tables,
     _try_paddleocr,
 )
+
+
+@pytest.fixture(autouse=True)
+def _no_vlm_network_probe(monkeypatch):
+    """D2 (2026-09-24): keep this module off the network.
+
+    ``_check_vlm_available()`` (biz/m1_statement_parser.py:603-617) issues a real
+    HTTP GET to the production ``:8007`` VLM ``/health`` endpoint. Its result is
+    cached in the module-level ``_vlm_available``, so a full pytest run produced
+    exactly one ``connect()`` to ``:8007`` -- the one external dependency this
+    module claimed to mock but did not. Patch the probe out and reset the cache on
+    both sides so no test here can reach ``:8007``, and so the cached value cannot
+    leak between tests.
+    """
+    monkeypatch.setattr(parser, "_vlm_available", None, raising=False)
+    monkeypatch.setattr(parser, "_check_vlm_available", lambda: False)
+    yield
+    monkeypatch.setattr(parser, "_vlm_available", None, raising=False)
 
 
 # ---------------------------------------------------------------------------
