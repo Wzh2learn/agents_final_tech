@@ -8,6 +8,7 @@ any real data arrives.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -23,6 +24,28 @@ ONE_SIDED = {
     "H2c_risk_constrained_coverage": "paired_uid_sign_flip_on_seed_mean_difference",
     "H3a_uid_any_harm": "exact_mcnemar",
     "H3a_valid_rule_retention": "paired_cluster_sign_flip_noninferiority",
+}
+
+SPECS = {
+    "train": ("train", "cluster-proposal"),
+    "dev": ("train", "cluster-proposal"),
+    "gate": ("validation", "cluster-gate"),
+    "test": ("test", "cluster-test"),
+    "future": ("future-2027q1", "cluster-future"),
+}
+IDS = {
+    "source_tables": "src",
+    "schema": "sch",
+    "injection_map": "inj",
+    "label_ledger": "lab",
+    "learnability_feature_ledger": "led",
+}
+FILES = {
+    "src": "source_tables.jsonl",
+    "sch": "schema.json",
+    "inj": "injection_map.json",
+    "lab": "labels.jsonl",
+    "led": "feature_ledger.json",
 }
 
 
@@ -44,34 +67,32 @@ def _write_jsonl(path: Path, rows: list[dict]) -> None:
     )
 
 
+def _sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def _artifact(path: Path, artifact_id: str, role: str) -> dict:
-    data = path.read_bytes()
     return {
         "id": artifact_id,
         "role": role,
-        "path": "artifacts/" + str(path.name),
-        "bytes": len(data),
-        "sha256": __import__("hashlib").sha256(data).hexdigest(),
+        "path": "artifacts/" + path.name,
+        "bytes": path.stat().st_size,
+        "sha256": _sha(path),
     }
 
 
 def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
     root = tmp_path / "phase1a-package"
     art = root / "artifacts"
-    specs = {
-        "train": ("train", "cluster-proposal"),
-        "dev": ("train", "cluster-proposal"),
-        "gate": ("validation", "cluster-gate"),
-    }
     uids = {
         name: contract.lineage_uid("fixture-finance", "rev-1", f"report-{name}")
-        for name in specs
+        for name in SPECS
     }
-    _write_jsonl(art / "source_tables.jsonl", [
-        {"uid": uids[n], "headers": ["alias", "amount"]} for n in specs
+    _write_jsonl(art / FILES["src"], [
+        {"uid": uids[n], "headers": ["alias", "amount"]} for n in SPECS
     ])
-    _write_json(art / "schema.json", {"canonical_fields": ["Revenue", "Amount"]})
-    _write_json(art / "injection_map.json", {
+    _write_json(art / FILES["sch"], {"canonical_fields": ["Revenue", "Amount"]})
+    _write_json(art / FILES["inj"], {
         uids["train"]: [{"col": 0, "canonical": "Revenue", "family": "alias_variant"}],
         uids["dev"]: [{"col": 1, "canonical": "Amount", "family": "date_variant"}],
     })
@@ -84,33 +105,37 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
     }
     _write_json(art / "confidence.json", confidence)
 
+    base_judgments = [
+        ("sample-train", uids["train"], 0, "map_to", "Revenue"),
+        ("sample-dev", uids["dev"], 1, "skip", None),
+        ("sample-gate", uids["gate"], 0, "hold", None),
+        ("sample-test", uids["test"], 1, "map_to", "Amount"),
+        ("sample-future", uids["future"], 0, "skip", None),
+    ]
     r1 = {"reviewer_id": "r1", "template_version": "t1", "judgments": [
-        {"sample_id": "sample-train", "uid": uids["train"], "col": 0,
-         "action": "map_to", "target": "Revenue"},
-        {"sample_id": "sample-dev", "uid": uids["dev"], "col": 1,
-         "action": "skip", "target": None},
+        {"sample_id": s, "uid": u, "col": c, "action": a, "target": t}
+        for (s, u, c, a, t) in base_judgments
     ]}
     r2 = {"reviewer_id": "r2", "template_version": "t1", "judgments": [
-        {"sample_id": "sample-train", "uid": uids["train"], "col": 0,
-         "action": "map_to", "target": "Revenue"},
-        {"sample_id": "sample-dev", "uid": uids["dev"], "col": 1,
-         "action": "map_to", "target": "Amount"},
+        {"sample_id": s, "uid": u, "col": c, "action": (a if s != "sample-dev" else "map_to"),
+         "target": (t if s != "sample-dev" else "Amount")}
+        for (s, u, c, a, t) in base_judgments
     ]}
     adj = {"adjudicator_id": "adj", "entries": [
         {"sample_id": "sample-dev", "col": 1, "action": "skip", "target": None,
          "rationale_ref": "fixture-note#1"},
     ]}
     rows, _meta = assemble(r1, r2, adj, "generator-fixture")
-    _write_jsonl(art / "labels.jsonl", rows)
+    _write_jsonl(art / FILES["lab"], rows)
 
     label_by_sample = {r["sample_id"]: r for r in rows}
-    layer_manifest = {"layers": {
-        "proposal_train.train": [{"sample_id": "sample-train", "uid": uids["train"]}],
-        "proposal_train.dev": [{"sample_id": "sample-dev", "uid": uids["dev"]}],
-        "gate_validation": [{"sample_id": "sample-gate", "uid": uids["gate"]}],
-    }}
-    fam_by_uid = {uids["train"]: "alias_variant", uids["dev"]: "date_variant"}
+    flat_layers = {
+        "proposal_train.train": [("sample-train", uids["train"])],
+        "proposal_train.dev": [("sample-dev", uids["dev"])],
+        "gate_validation": [("sample-gate", uids["gate"])],
+    }
     derive_rows = []
+    fam_by_uid = {uids["train"]: "alias_variant", uids["dev"]: "date_variant"}
     for sample_id in ("sample-train", "sample-dev"):
         lab = label_by_sample[sample_id]
         derive_rows.append({
@@ -124,33 +149,30 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
         })
     ledger = derive(
         {"rows": derive_rows},
-        layer_manifest,
+        {"layers": flat_layers},
         {
-            "source_tables": art / "source_tables.jsonl",
-            "schema": art / "schema.json",
+            "source_tables": art / FILES["src"],
+            "schema": art / FILES["sch"],
             "confidence_manifest": art / "confidence.json",
         },
     )
-    _write_json(art / "feature_ledger.json", ledger)
+    _write_json(art / FILES["led"], ledger)
 
     if swap_confidence:
         confidence["source"] = "fixture: swapped after ledger derivation"
         _write_json(art / "confidence.json", confidence)
 
-    hashes = {
-        p.name: __import__("hashlib").sha256((art / p.name).read_bytes()).hexdigest()
-        for p in art.iterdir()
-    }
+    hashes = {aid: _sha(art / FILES[aid]) for aid in IDS}
     _write_json(art / "licence.json", {
         "status": "accepted",
         "accepted_by": "fixture-user",
         "accepted_at": "2026-09-24T00:00:00+00:00",
         "permitted_uses": ["training", "tuning", "evaluation", "rule_acceptance"],
         "covered_artifact_sha256": {
-            "source_tables": hashes["source_tables.jsonl"],
-            "schema": hashes["schema.json"],
-            "label_ledger": hashes["labels.jsonl"],
-            "learnability_feature_ledger": hashes["feature_ledger.json"],
+            IDS["source_tables"]: hashes["src"],
+            IDS["schema"]: hashes["sch"],
+            IDS["label_ledger"]: hashes["lab"],
+            IDS["learnability_feature_ledger"]: hashes["led"],
         },
     })
     _write_json(art / "receipt.json", {
@@ -159,11 +181,12 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
         "commit": "0" * 40,
         "executed_at": "2026-09-24T00:00:00+00:00",
         "input_sha256": {
-            "source_tables": hashes["source_tables.jsonl"],
-            "schema": hashes["schema.json"],
-            "injection_map": hashes["injection_map.json"],
+            IDS["source_tables"]: hashes["src"],
+            IDS["schema"]: hashes["sch"],
+            IDS["injection_map"]: hashes["inj"],
         },
     })
+
     def _enrich(key, pairs):
         return [
             {
@@ -171,25 +194,22 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
                 "uid": u,
                 "dataset_id": "fixture-finance",
                 "dataset_revision": "rev-1",
-                "source_split": specs[key][0],
-                "independence_cluster": specs[key][1],
+                "source_split": SPECS[key][0],
+                "independence_cluster": SPECS[key][1],
                 "lineage_root_id": f"report-{key}",
                 "transformation_parent_id": None,
             }
             for (s, u) in pairs
         ]
 
-    pairs_by_key = {
-        "train": [("sample-train", uids["train"])],
-        "dev": [("sample-dev", uids["dev"])],
-        "gate": [("sample-gate", uids["gate"])],
-    }
     layers = {
         "proposal_train": {
-            "train": _enrich("train", pairs_by_key["train"]),
-            "dev": _enrich("dev", pairs_by_key["dev"]),
+            "train": _enrich("train", flat_layers["proposal_train.train"]),
+            "dev": _enrich("dev", flat_layers["proposal_train.dev"]),
         },
-        "gate_validation": _enrich("gate", pairs_by_key["gate"]),
+        "gate_validation": _enrich("gate", flat_layers["gate_validation"]),
+        "sealed_test": _enrich("test", [("sample-test", uids["test"])]),
+        "future_replay": _enrich("future", [("sample-future", uids["future"])]),
     }
     plan = {
         "status": "approved",
@@ -216,11 +236,12 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
     _write_json(art / "plan.json", plan)
 
     artifacts = [
-        _artifact(art / "source_tables.jsonl", "src", "source_tables"),
-        _artifact(art / "schema.json", "sch", "schema"),
-        _artifact(art / "injection_map.json", "inj", "injection_map"),
-        _artifact(art / "labels.jsonl", "lab", "label_ledger"),
-        _artifact(art / "feature_ledger.json", "led", "learnability_feature_ledger"),
+        _artifact(art / FILES["src"], IDS["source_tables"], "source_tables"),
+        _artifact(art / FILES["sch"], IDS["schema"], "schema"),
+        _artifact(art / FILES["inj"], IDS["injection_map"], "injection_map"),
+        _artifact(art / FILES["lab"], IDS["label_ledger"], "label_ledger"),
+        _artifact(art / FILES["led"], IDS["learnability_feature_ledger"],
+                  "learnability_feature_ledger"),
         _artifact(art / "licence.json", "lic", "licence_record"),
         _artifact(art / "confidence.json", "conf", "confidence_manifest"),
         _artifact(art / "plan.json", "plan", "analysis_plan"),
@@ -231,15 +252,14 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
         "package_id": "fixture-package-1",
         "artifacts": artifacts,
         "bindings": {
-            "label_ledger": "lab",
-            "learnability_feature_ledger": "led",
+            "label_ledger": IDS["label_ledger"],
+            "learnability_feature_ledger": IDS["learnability_feature_ledger"],
             "licence_record": "lic",
             "confidence_manifest": "conf",
             "analysis_plan": "plan",
             "parser_contract_receipt": "rec",
         },
         "layers": layers,
-        "future_replay": None,
     }
     _write_json(root / "phase1a_manifest.json", manifest)
     return root
