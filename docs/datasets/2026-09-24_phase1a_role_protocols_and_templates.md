@@ -180,3 +180,17 @@ one_sided_p_value_methods 五键逐字引自合同 :946-953）。四处诚实 PE
 - layer_manifest_sha256：PENDING_SPLIT_GO（须等于 manifest layers 摘要）。
 另：threshold_selection_rule_note 为 D10 裁定的附加规则字段，不属于 18 必需键；legacy 键
 alpha / power / noninferiority_margin 一律不出现（出现即 ambiguous_legacy_statistical_field）。
+## 10 装配日检查单（phase1a_manifest 装配，一次性动作，不造运行器）
+
+前置（缺一不可）：label_ledger 已接受（双 reviewer + 裁决 + Loop C 独立复核留痕）；licence_record 用户签署；
+schema 绑定存在（P1-future 草案或裁定变更）；analysis_plan 四 PENDING 填齐并批准；
+parser_contract_receipt 由运行器实跑产出；learnability_feature_ledger 由派生运行器产出。
+
+1. 包根建于仓外；九角色文件 + layers manifest 落位；逐文件记录 bytes 与 sha256。
+2. 按 §3 骨架填 manifest：artifacts 九条、bindings 六对、layers、future_replay（未获取则 null + 注记）。
+3. `research/phase1a_data_contract.py --package-root <pkg> --output <out>` 跑两次：两次均
+   READY_FOR_INDEPENDENT_ACCEPTANCE 且报告 byte-identical；strace 复核零 connect。
+4. D11 交叉一致性复核（analysis_plan minimum_uid_* 与 learnability config min_dev_uids*，去前缀键值全等）。
+5. 独立复核：Loop C 证据包审计（manifest + 两次运行日志 + 双跑 diff）；生成者不自签。
+6. 仅在此之后重评 DATA_NO_GO；任一 gate FAIL 回对应角色修复，不得绕过、不得改冻结判据。
+红线：私有数据与包根不入 Git；失败保留现场并上报；本检查单不授权任何下载。
