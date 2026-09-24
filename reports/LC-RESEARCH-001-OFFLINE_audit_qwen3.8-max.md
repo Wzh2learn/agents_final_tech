@@ -112,3 +112,24 @@ Evidence: header "GB10-side calls=0 evidence: `strace -f -e trace=connect` over 
 - F1 is therefore closed as an inventory artifact: no acceptance criterion in the audited report cites a
   nonexistent validator code. The audit verdict stands at PASS_WITH_NOTES with the blocking condition
   lifted, and the corrected inventory is published alongside this section.
+
+## Loop D reconciliation of F1 - corrected text (2026-09-24; supersedes the malformed block above)
+
+The block above lost several quoted fragments to shell expansion when it was appended; this block
+restates it in full and governs.
+
+- Inventory re-derived at commit 1627a54 (worktree branch gb10/lc-research-20260924) with a digit-aware,
+  multiline-tolerant pattern over every _fail( gates, gate-string, code-string ) call form: 95 unique
+  codes; full list preserved at /tmp/failcode_inventory_full.txt on GB10.
+- All four codes flagged by F1 exist in research/phase1a_data_contract.py: label_not_q3
+  (independent_correctness, line 781), insufficient_independent_reviewers (independent_correctness,
+  line 796), licence_artifact_hash_mismatch (licence_permission, line 869), parser_input_hash_mismatch
+  (parser_contract, line 1007).
+- Root cause of F1: the inventory handed to the auditor was produced with a single-line, digit-free
+  pattern, which dropped multiline calls and any code containing a digit. The auditor checked correctly
+  against the inventory it was given; the inventory was the defective input, not the report.
+- F1 is closed as an inventory artifact: no acceptance criterion in the audited report cites a
+  nonexistent validator code. The audit verdict stands at PASS_WITH_NOTES with the blocking condition
+  lifted, and the corrected inventory is published alongside this section.
+- Process note: the earlier block was appended through an unquoted heredoc, so shell expansion stripped
+  its backticked fragments; this corrected block is appended in a separate commit and governs.
