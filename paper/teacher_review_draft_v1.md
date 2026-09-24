@@ -124,7 +124,7 @@ Table 1 compares the three transferable protocols. Here end-to-end detection tes
 
 The raw flat–hierarchical gap does not establish inferior ranking quality. At matched false-positive rate, the two protocols are affinely equivalent on the current corpus because only one scored leaf varies with the input. A 2,000-replicate table-cluster bootstrap yields a protocol-difference confidence interval of [0,0]. The raw gap is therefore a threshold-placement effect. Under this construction, hierarchy supplies decomposable evidence but cannot demonstrate additional localization value until more than one leaf varies.
 
-The 118 injections close at the checkpoint level as 96 visible plus 22 silently absorbed; by family (injections / visible / absorbed): alias variant 47/43/4, date variant 17/15/2, mixed language 20/20/0, OCR-like 13/0/13, prefix noise 16/13/3, unit suffix 5/5/0 (logs/graph/eval/t2_visibility_sensitivity.json). The protocol-level counts in Table 1 are measured on different signals and are therefore not a partition of the 96.
+The 118 injections close at the checkpoint level as 96 visible plus 22 silently absorbed; by family (injections / visible / absorbed): alias variant 47/43/4, date variant 17/15/2, mixed language 20/20/0, OCR-like 13/0/13, prefix noise 16/13/3, unit suffix 5/5/0 (frozen artifact t2_visibility_sensitivity.json; path in the evidence ledger). The protocol-level counts in Table 1 are measured on different signals and are therefore not a partition of the 96.
 
 We label the affine-equivalence observation a degenerate-case result: it fixes the interpretation of the raw gap under the current single-varying-leaf instantiation and does not establish affine equivalence of the protocols in general.
 
