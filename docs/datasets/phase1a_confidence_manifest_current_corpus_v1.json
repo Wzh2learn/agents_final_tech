@@ -1,0 +1,16 @@
+{
+  "field": "none_native",
+  "source": "Measured 2026-09-24 (zero-model, GB10 production read-only): the current drift-v0 corpus (TAT-QA-derived tables) and the FinQA/Valentine candidate sources carry no per-row confidence field; FinQA README at recorded head is silent on licence and carries no confidence schema either.",
+  "missing_policy": "unmeasurable",
+  "gain_collateral_substitution": false,
+  "allowed_values": ["low", "medium", "high"],
+  "provenance": {
+    "measured_at": "2026-09-24",
+    "corpus": "data/research/drift_v0 (source_tables sha256 3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302)",
+    "evidence_docs": [
+      "docs/datasets/2026-09-24_dB_licence_evidence.md",
+      "docs/datasets/2026-09-24_phase1a_role_protocols_and_templates.md"
+    ],
+    "note": "If a future source provides a native confidence field, this artifact is superseded wholesale and re-audited; gain/collateral may never substitute for it (contract gate confidence_provenance)."
+  }
+}
