@@ -106,3 +106,37 @@ valentine README.md 14 635 B / `3d484bddcf124bca` / 提及 1（为示例代码�
 （field/source 非空、missing_policy=unmeasurable、gain_collateral_substitution=false、
 allowed_values 集合等于 {low, medium, high}）。草案**不含任何测量置信度**，也不得被读作测量；
 入 package 时须绑定 sha256 并经独立复核；未来若出现真实置信度字段，本草案整体替换并重审。
+## 6 schema 角色裁定与 P1-future 草案（2026-09-24）
+
+**当前 corpus（drift-v0，TAT-QA 派生）包的 schema 角色 = BLOCKED**。零模型探针：NExTplusplus/TAT-QA
+@870accc41953dcde885aabeb963d94aabdc0fbc3 的 README.md（4 689 B，sha256
+85c398173d771a2531abea5b81f3696914296642da2af78c2c34545715c14d5f）只在第 48 行记载
+「We heuristicly generate the "facts" and "mapping" fields based on raw dataset, which are stored under
+the folder of dataset_tagop」；逐表列级 schema 的官方记载在 ACL2021 论文与项目网站，二者均在已核验引用池外。
+按「schema 只取所选公开数据源官方 schema/metadata」裁定，当前 corpus 包无法填齐该角色；
+m1_table_schema 候选维持否决。
+
+**P1-future 包（FinQA process/checkpoint 流）schema 草案 = DRAFT_COMPLETE_PENDING_PACKAGE_BINDING**：
+官方字段文档取自 czyssrs/FinQA @0f16e2867befa6840783e58be38c9efb9229d742 的 README.md
+（6 518 B，sha256 eb86779cfed6f0a253913761d8e4fabe032a29d9fcf2944e56c23bf007064605）第 31-47 行，逐字如下：
+
+```text
+The dataset is stored as json files in folder "dataset", each entry has the following format:
+
+"pre_text": the texts before the table;
+"post_text": the text after the table;
+"table": the table;
+"id": unique example id. composed by the original report name plus example index for this report.
+
+"qa": {
+  "question": the question;
+  "program": the reasoning program;
+  "gold_inds": the gold supporting facts;
+  "exe_ans": the gold execution result;
+  "program_re": the reasoning program in nested format;
+}
+In the private test data, we only have the "question" field, no reference provided.
+```
+
+草案件：`docs/datasets/phase1a_schema_draft_v1.json`（fields 九项、private_test 排除注记、scope 明确只属
+P1-future 包）。探针只取 README/LICENSE 元数据，未取 dataset/*.json 任何数据体。

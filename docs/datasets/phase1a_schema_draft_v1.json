@@ -1,0 +1,15 @@
+{
+  "role": "schema",
+  "scope": "P1_FUTURE_PACKAGE (FinQA process/checkpoint stream); NOT the current drift-v0 corpus package",
+  "draft_status": "DRAFT_COMPLETE_PENDING_PACKAGE_BINDING",
+  "source_repo": "https://github.com/czyssrs/FinQA",
+  "source_head": "0f16e2867befa6840783e58be38c9efb9229d742",
+  "doc_path": "README.md",
+  "doc_sha256": "eb86779cfed6f0a253913761d8e4fabe032a29d9fcf2944e56c23bf007064605",
+  "doc_bytes": 6518,
+  "excerpt_lines": [31, 47],
+  "fields": ["pre_text", "post_text", "table", "id", "qa.question", "qa.program", "qa.gold_inds", "qa.exe_ans", "qa.program_re"],
+  "private_test_note": "private_test.json carries only the question field (README line 47); it is excluded from any schema binding",
+  "verbatim_excerpt_location": "protocol doc docs/datasets/2026-09-24_phase1a_role_protocols_and_templates.md section 6, quoted verbatim",
+  "current_corpus_ruling": "For the current drift-v0 (TAT-QA-derived) corpus package the schema role is BLOCKED: official in-repo metadata of NExTplusplus/TAT-QA at 870accc41953dcde885aabeb963d94aabdc0fbc3 (README.md, 4689 B, sha256 85c398173d771a2531abea5b81f3696914296642da2af78c2c34545715c14d5f) documents only the facts/mapping fields of dataset_tagop (README line 48); the detailed table schema lives in the ACL2021 paper and the project website, outside the verified citation pool. Under the official-metadata-only ruling this role cannot be filled for the current corpus; the m1_table_schema candidate remains rejected."
+}
