@@ -94,3 +94,15 @@ licence_record（最后签署）→ 双次 deterministic precheck（byte-identic
 - 不下载数据体；不解冻 TAT-DQA；旧 TAT-QA 池仍 HISTORICAL_ONLY；不伪造任何哈希或字节数；
 - 已填两项哈希仅陈述现存冻结工件，不引入新数据使用；
 - 本件任何模板在填齐前不得被当作 package 传给 validator 或任何 runner。
+## 5 confidence_manifest 草案（今日即可填齐的角色，2026-09-24）
+
+零模型探针（GB10，raw.githubusercontent 于记录 head）：finqa README.md 6 518 B / sha256 前 16 位
+`eb86779cfed6f0a2` / confidence 提及 0；convfinqa README.md 6 164 B / `c5f329640aaffa14` / 提及 0；
+valentine README.md 14 635 B / `3d484bddcf124bca` / 提及 1（为示例代码中的匹配阈值
+`high_confidence = matches.filter(min_score=0.7)`，**不是**逐行置信度字段）。
+⇒ 三个选定来源均无原生逐行置信度字段；按合同唯一诚实填法即 `missing_policy = unmeasurable`。
+
+草案件：`docs/datasets/phase1a_confidence_manifest_draft_v1.json`，五条合同条件镜像校验 5/5 通过
+（field/source 非空、missing_policy=unmeasurable、gain_collateral_substitution=false、
+allowed_values 集合等于 {low, medium, high}）。草案**不含任何测量置信度**，也不得被读作测量；
+入 package 时须绑定 sha256 并经独立复核；未来若出现真实置信度字段，本草案整体替换并重审。

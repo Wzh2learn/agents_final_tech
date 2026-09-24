@@ -1,0 +1,10 @@
+{
+  "role": "confidence_manifest",
+  "draft_status": "DRAFT_COMPLETE_PENDING_PACKAGE_BINDING",
+  "field": "none_native",
+  "source": "Zero-model probe 2026-09-24 on GB10: official README field documentation of finqa (README.md @0f16e2867befa6840783e58be38c9efb9229d742, 6518 B, sha256 eb86779cfed6f0a2..., 0 confidence mentions), convfinqa (README.md @cf3eed2d5984960bf06bb8145bcea5e80b0222a6, 6164 B, sha256 c5f329640aaffa14..., 0 mentions), valentine (README.md @5d5163f04da304985bd51a476ccf7653de3979c3, 14635 B, sha256 3d484bddcf124bca..., 1 mention which is a matching-threshold code snippet, not a per-row field). No native per-row confidence field exists in any chosen source.",
+  "missing_policy": "unmeasurable",
+  "gain_collateral_substitution": false,
+  "allowed_values": ["low", "medium", "high"],
+  "notes": "Contract conditions mirrored and checked: field and source non-empty strings; missing_policy == unmeasurable; gain_collateral_substitution is false; allowed_values set-equal to {low, medium, high}. This draft carries no measured confidence and must not be read as one; any future measured confidence replaces this draft with real source fields and a fresh independent audit."
+}
