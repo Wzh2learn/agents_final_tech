@@ -63,6 +63,7 @@
 | [`RECSYS_MEMORY_DESIGN.md`](RECSYS_MEMORY_DESIGN.md) | 设计依据 | 层次化记忆设计 |
 | [`datasets/tat-dqa-joint-v1-data-card.md`](datasets/tat-dqa-joint-v1-data-card.md) | 冻结契约 | TAT-DQA 数据卡 |
 | [`datasets/paper-public-source-registry-v1.json`](datasets/paper-public-source-registry-v1.json) | 活跃元数据合同 | 小论文 10 个公开来源的核验 commit、许可缺口、独立性簇命名空间与下载禁门；不含数据正文 |
+| [`datasets/2026-09-24_phase1a_role_protocols_and_templates.md`](datasets/2026-09-24_phase1a_role_protocols_and_templates.md) | 活跃协议 | 七角色协议与模板：label_ledger 独立复核协议、licence_record / schema / analysis_plan 模板、receipt 与 ledger 运行器规格、装配日检查单；含零模型探针与 PENDING 口径 |
 | [`experiments/`](experiments/) | 只追加证据集 | 实验、审计、任务卡与结果；按文件名日期检索 |
 | [`superpowers/`](superpowers/) | 计划快照 | 历史实施计划 |
 
