@@ -56,6 +56,7 @@
 |---|---|---|
 | [`research/README.md`](research/README.md) | 活跃 | 小论文、大论文、证据边界与论文导向验收的统一执行入口 |
 | [`handoff/2026-09-22-paper-research-next-phase.md`](handoff/2026-09-22-paper-research-next-phase.md) | 活跃执行计划 | 后续 Agent 的论文科研优先级、阶段任务卡、验收门与止损路线 |
+| [`handoff/2026-09-24_user_decision_packet.md`](handoff/2026-09-24_user_decision_packet.md) | 活跃决策请求 | 解锁实验线最小决策集：label 复核 canonical 参考、licence 签署、P1 下载范围、Loop A 沙箱口径、MIMO 批排期、专利确认 |
 | [`13_M1_M2联合数据闭环计划.md`](13_M1_M2联合数据闭环计划.md) | 冻结政策依据 | 数据集与 split 政策 |
 | [`30_科研线规划.md`](30_科研线规划.md) | 已被取代 | 旧科研路线 |
 | [`33_导师指导吸收_科研三线升级.md`](33_导师指导吸收_科研三线升级.md) | 战略依据、受保护只读 | 导师政策来源；旧范围/排期不覆盖 research/README 的现役裁定 |
