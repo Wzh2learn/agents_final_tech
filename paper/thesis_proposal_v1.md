@@ -26,8 +26,8 @@
 | 阶段 | 内容 | 当前证据成熟度 |
 |---|---|---|
 | **Stage E（Evaluate）** | 分层检查点评估、确定性契约 + 受泄漏保护的语义裁判、缺陷注入与可见性分析 | **成熟**。95 张公开表、118 个受控注入，阈值 / 匹配器 / 种子 / matched-FPR 审计均已落仓并经独立验收 |
-| **Stage D（Distill）** | 以 checkpoint 过滤可追溯动作事件，构造监督 / 偏好数据，训练 8B 主学生 | **尚未闭环**。已有 4B/8B/14B 零样本能力矩阵、蒸馏文献核验、60 条 DPO 偏好对；**没有学生模型训练、蒸馏基线或训练后评测**。60 对均偏向 `skip`，A3 仅为条件臂，14B 既有异常尚未归因 |
-| **Stage R（Evolve）** | gain–collateral 双门 + 独立 gate-validation，规则版本化与回滚 | **机制级成立、功效未闭合**。对抗建议 7/7 被拒、扩展碰撞候选 5/5 被拒；碰撞体制出现方向性收益，但总体下游效应未达强结论标准；独立验证门与长期版本回滚的完整对照仍待实验 |
+| **Stage D（Distill）** | 以 checkpoint 过滤可追溯动作事件，构造监督 / 偏好数据，训练 8B 主学生 | **尚未闭环**。已有 4B/8B/14B 零样本能力矩阵（执行记录：`docs/experiments/2026-08-18_small_model_matrix_design.md`、`2026-08-19_small_model_matrix_c1c2.md`、`2026-08-21_small_model_matrix_c3.md`、`2026-08-24_t4_14b_anomaly_retest.md`）、蒸馏文献核验、60 条 DPO 偏好对；**没有学生模型训练、蒸馏基线或训练后评测**。60 对均偏向 `skip`，A3 仅为条件臂，14B 既有异常尚未归因 |
+| **Stage R（Evolve）** | gain–collateral 双门 + 独立 gate-validation，规则版本化与回滚 | **机制级成立、功效未闭合**。对抗建议 7/7 被拒、扩展碰撞候选 5/5 被拒（门拒执行记录：`docs/experiments/2026-08-28_adversarial_arm_experiment.md`:23 含 08-29 机制更正；`docs/experiments/2026-08-29_collision_expansion_experiment.md`；交叉核对 `docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md`:25）；碰撞体制出现方向性收益，但总体下游效应未达强结论标准；独立验证门与长期版本回滚的完整对照仍待实验 |
 
 ## 2 国内外研究现状
 
@@ -145,7 +145,7 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 |---|---|---|---|---|
 | RQ1 评估信号 | Stage E 检查点评估 + 可见性谱 + matched-FPR 审计 | `logs/graph/eval/` 下 checkpoint_discrimination_tables_v2 / t2_visibility_sensitivity / t1_eval_baseline_comparison / d3_matched_fpr_stage_a | 评估轨无剩余门；跨域复现需第二数据流 + 第二 scorer | 已成稿，双模型复审 ACCEPT |
 | RQ2 蒸馏迁移 | 8B 学生动作策略蒸馏 vs 简单基线；质量—成本 Pareto | 尚不存在；回填位 BF-1 / FIG-D-* | SOURCE_GO→LABEL_GO→SPLIT_GO→POWER_GO→BASELINE_GO→MODEL_GO + 独立验收 | 目标；数据门 DATA_NO_GO |
-| RQ3 安全积累 | 七臂规则门 replay + 强基线 + 功效分析 + 独立 gate-validation + 版本回滚 | `research/phase2_rule_gate_replay.py`（仅合同）；机制证据 7/7 与 5/5 拒绝 | Phase 2 门 + POWER_GO + 独立 gate-validation | 机制级；功效未闭合（BF-2 / FIG-R-*） |
+| RQ3 安全积累 | 七臂规则门 replay（门拒执行记录：`docs/experiments/2026-08-28_adversarial_arm_experiment.md`:23 含 08-29 机制更正；`docs/experiments/2026-08-29_collision_expansion_experiment.md`；交叉核对 `docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md`:25） + 强基线 + 功效分析 + 独立 gate-validation + 版本回滚 | `research/phase2_rule_gate_replay.py`（仅合同）；机制证据 7/7 与 5/5 拒绝 | Phase 2 门 + POWER_GO + 独立 gate-validation | 机制级；功效未闭合（BF-2 / FIG-R-*） |
 | RQ4 闭环权衡 | 三阶段统一端到端实验与消融 | 尚不存在 | 上述全部 + sealed / future replay | 仅总假设 |
 
 本矩阵是开题报告中唯一把每个 RQ 绑到具体实验、其供数 artifact 与升级门的地方；空单元是故意的，
@@ -155,9 +155,9 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 
 以下四条沿用 `paper/thesis_manuscript_scaffold_v1.md` 的口径，**逐条标明当前可主张到什么程度**：
 
-1. **TH-I1：判别力感知的分层评测。** 当前**可主张**可审计的证据分解；**额外定位收益必须在多个输入敏感 leaf 的场景中验证**——目前只有一个受打分 leaf 随注入输入变化，故定位价值尚未确立。
+1. **TH-I1：判别力感知的分层评测。** 当前**可主张**可审计的证据分解；**额外定位收益必须在多个输入敏感 leaf 的场景中验证**——目前只有一个受打分 leaf 随注入输入变化（`logs/graph/eval/checkpoint_discrimination_tables_v2.json`），故定位价值尚未确立。
 2. **TH-I2：缺陷可见性与静默吸收分析。** 当前证据支持**按缺陷家族揭示盲区**；**普遍性**需要第二数据流与等价类边界实验。
-3. **TH-I3：评估引导的小模型动作策略蒸馏。** 当前有训练前模型矩阵、文献核验与偏好对，**没有学生训练结果**；且记录不是完整推理轨迹。**必须补齐规则候选学习证据才能成为创新点**，否则只作为研究计划呈现。
+3. **TH-I3：评估引导的小模型动作策略蒸馏。** 当前有训练前模型矩阵（指针见 §1.3 Stage D 行）、文献核验与偏好对，**没有学生训练结果**；且记录不是完整推理轨迹。**必须补齐规则候选学习证据才能成为创新点**，否则只作为研究计划呈现。
 4. **TH-I4：验证门控的规则自学习。** 当前**只是机制可行性**；没有强基线、功效分析、独立 gate-validation 与 sealed test / future replay 证据前，**不写成已证实的效果创新**。
 
 视觉跨层补盲不再单列创新点；通过预注册门后作为 TH-I2 的扩展，否则只记为失败边界。
@@ -168,7 +168,7 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 
 `paper/teacher_review_draft_v1.md`（另有 `.docx`）已具备 `paper/claim_manifest_v1.json` 要求的全部 9 个章节（Abstract / Introduction / Related Work / Method / Experimental Setup / Results / Discussion and Limitations / Conclusion / References），两张必需图件均存在，4 个交付文件齐备，且该 manifest 列出的 **10 个内部流程标记零命中**（标记清单以 manifest 为唯一出处，本件不逐条复述，以免正文自身触发该项检查）。仓库自带的验收测试 `tests/test_paper_claim_acceptance.py` **7 passed**，其中含反例 `test_acceptance_rejects_reversed_visibility_claim` 与专利门检查 `test_teacher_review_docx_keeps_patent_gate_closed`。
 
-其核心实证结论（全部来自已验收 artifact，可追溯）：在含 **95 张表、118 个合成表头漂移注入**的冻结公开表格语料上，检查点级分析使 **96** 个注入可见，但可见性**强烈依赖类型**——字符级 OCR 类扰动在**五个阈值下全部 13 例**中均不可见；协议级结果在同一语料上差异巨大：端到端、扁平、层级专家加权聚合分别检出 **112 / 85 / 13** 个注入；在**匹配假阳率**之后，扁平与层级分数在该语料上**仿射等价**，说明原始差距来自**阈值摆放**而非更好的判别力。
+其核心实证结论（全部来自已验收 artifact，可追溯）：在含 **95 张表、118 个合成表头漂移注入**的冻结公开表格语料上，检查点级分析使 **96** 个注入可见，但可见性**强烈依赖类型**——字符级 OCR 类扰动在**五个阈值下全部 13 例**中均不可见；协议级结果在同一语料上差异巨大：端到端、扁平、层级专家加权聚合分别检出 **112 / 85 / 13** 个注入（`logs/graph/eval/t1_eval_baseline_comparison.json`）；在**匹配假阳率**之后，扁平与层级分数在该语料上**仿射等价**（`logs/graph/eval/d3_matched_fpr_stage_a.json`），说明原始差距来自**阈值摆放**而非更好的判别力。
 
 由此得到的是一条**刻意收窄**的结论：层级结构提供**证据分解**，而非在当前设定下更好的检出灵敏度；其额外定位价值**尚未确立**，因为只有一个受打分 leaf 随注入输入变化。
 

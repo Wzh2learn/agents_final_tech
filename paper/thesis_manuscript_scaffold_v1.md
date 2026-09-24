@@ -28,8 +28,8 @@
 
 1. **TH-I1：判别力感知的分层评测。** 当前可主张可审计的证据分解；额外定位收益必须在多个输入敏感 leaf 的场景中验证。
 2. **TH-I2：缺陷可见性与静默吸收分析。** 当前证据支持按缺陷家族揭示盲区；普遍性需要第二数据流和等价类边界实验。
-3. **TH-I3：评估引导的小模型动作策略蒸馏。** 当前有训练前模型矩阵、文献和偏好对，没有学生训练结果；记录不是完整推理轨迹，必须补齐规则候选学习证据才能成为创新点。
-4. **TH-I4：验证门控的规则自学习。** 当前只是机制可行性；没有强基线、功效分析、独立 gate-validation 与 sealed test/future replay 证据前，不写成已证实的效果创新。
+3. **TH-I3：评估引导的小模型动作策略蒸馏。** 当前有训练前模型矩阵（执行记录：`docs/experiments/2026-08-18_small_model_matrix_design.md`、`2026-08-19_small_model_matrix_c1c2.md`、`2026-08-21_small_model_matrix_c3.md`、`2026-08-24_t4_14b_anomaly_retest.md`）、文献和偏好对，没有学生训练结果；记录不是完整推理轨迹，必须补齐规则候选学习证据才能成为创新点。
+4. **TH-I4：验证门控的规则自学习。** 当前只是机制可行性（门拒执行记录：`docs/experiments/2026-08-28_adversarial_arm_experiment.md`、`docs/experiments/2026-08-29_collision_expansion_experiment.md`）；没有强基线、功效分析、独立 gate-validation 与 sealed test/future replay 证据前，不写成已证实的效果创新。
 
 视觉跨层补盲不再单列创新点；通过预注册门后作为 TH-I2 的扩展，否则只记为失败边界。
 
