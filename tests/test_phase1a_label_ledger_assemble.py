@@ -172,3 +172,14 @@ def test_unparseable_input_rejected(tmp_path, monkeypatch: pytest.MonkeyPatch) -
     with pytest.raises(LabelAssemblyError) as exc:
         main()
     assert exc.value.code == "invalid_input_json"
+
+def test_top_level_non_dict_review_doc_rejected() -> None:
+    with pytest.raises(LabelAssemblyError) as exc:
+        assemble([], R2(), _adj([]), "gen")
+    assert exc.value.code == "invalid_review_doc"
+
+
+def test_top_level_non_dict_adjudication_doc_rejected() -> None:
+    with pytest.raises(LabelAssemblyError) as exc:
+        assemble(R1(), R2(), [], "gen")
+    assert exc.value.code == "invalid_adjudication_doc"

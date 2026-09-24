@@ -73,6 +73,10 @@ def _judgments_by_pair(doc: dict, who: str) -> dict[tuple[str, int], dict]:
 
 
 def assemble(r1: dict, r2: dict, adj_doc: dict, generator_id: str) -> tuple[list[dict], dict]:
+    if not isinstance(r1, dict) or not isinstance(r2, dict):
+        raise LabelAssemblyError("invalid_review_doc", reviewer="r1/r2")
+    if not isinstance(adj_doc, dict):
+        raise LabelAssemblyError("invalid_adjudication_doc")
     rid1, rid2 = r1.get("reviewer_id"), r2.get("reviewer_id")
     aid = adj_doc.get("adjudicator_id")
     if not all(isinstance(x, str) and x for x in (rid1, rid2, aid)):
@@ -85,8 +89,6 @@ def assemble(r1: dict, r2: dict, adj_doc: dict, generator_id: str) -> tuple[list
         raise LabelAssemblyError("adjudicator_is_reviewer", adjudicator=aid)
     j1 = _judgments_by_pair(r1, rid1)
     j2 = _judgments_by_pair(r2, rid2)
-    if not isinstance(adj_doc, dict):
-        raise LabelAssemblyError("invalid_adjudication_doc")
     entries = adj_doc.get("entries")
     if not isinstance(entries, list):
         raise LabelAssemblyError("invalid_adjudication_doc")
