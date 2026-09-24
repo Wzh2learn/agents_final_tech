@@ -52,3 +52,46 @@ proposal/train（含内部 dev）、gate-validation、sealed test、future repla
 - 小论文的门控案例不能替代大论文规则自学习的效果验证。
 - 第二数据流与第二 scorer 未完成前，不作跨域或普适性主张。
 - 专利状态确认前，所有稿件仅限内部审阅。
+## 章节级框架加记（§x.y 级，2026-09-24；v1 正文不回改）
+
+> 口径：每节给出「继承锚点 / 必须新增 / 证据指针 / 门依赖 / 状态」。空槽位与
+> `paper/figure_plan_v1.md`、`paper/teacher_review_finalization_v1.md` 的回填位一一对应；
+> 门通过前任何节不得写入数字或已证表述。
+
+### 第 3 章 判别力感知的分层评测
+
+- 3.1 检查点森林与打分合同｜继承：小论文 §3.1、`config/eval_checkpoint_trees.json`｜新增：逐叶成本模型（证据字节/运行时）｜证据：`logs/graph/eval/checkpoint_discrimination_tables_v2.json`｜可写
+- 3.2 契约/裁判分工与泄漏保护｜继承：小论文 §3.1/§4｜新增：裁判分辨率与样本上限的形式化｜证据：`logs/graph/eval/d3_stage_b_*`｜可写
+- 3.3 聚合与校准（Algorithm 1）｜继承：小论文 §3.3、`docs/experiments/2026-09-20_algorithm1_lines_vs_impl.md`｜新增：强基线对照表｜门：Phase 2 强基线｜可写（对照表空槽）
+- 3.4 阈值敏感与可复现性｜继承：小论文 §5.3｜新增：跨种子/跨匹配器边界｜证据：`t2_visibility_sensitivity.json`、`d2_cross_matcher_*`｜可写
+
+### 第 4 章 缺陷可见性与静默吸收
+
+- 4.1 三分类结果与家族剖面｜继承：小论文 §3.2/§5.1、大论文 §2.9｜证据：`t2_visibility_sensitivity.json`｜可写
+- 4.2 盲区归因（评测器盲 vs 无效变异体）｜继承：小论文 §5.1｜证据：`d1_mutant_validity_audit.json`｜可写
+- 4.3 matched-FPR 与仿射等价（退化情形标注）｜继承：小论文 §5.2｜证据：`d3_matched_fpr_stage_a/b`｜可写；一般性情形空槽（OP-1）
+- 4.4 强度梯度与跨数据流复现｜新增｜门：第二数据流（OP-1）｜空槽
+
+### 第 5 章 评估引导的小模型蒸馏
+
+- 5.1 动作事件抽取与 checkpoint 过滤｜继承：`research/vgmc_exp1.py` 事件 schema｜新增：过滤统计｜门：SOURCE_GO/SPLIT_GO｜空槽
+- 5.2 监督/偏好数据构造｜继承：`research/dpo_pairs_v0.py`（60 对，仅审计素材）｜门：LABEL_GO｜空槽
+- 5.3 8B 主学生与 4B smoke｜门：MODEL_GO｜空槽
+- 5.4 质量—成本 Pareto 与 A1/A2 双口径｜空槽（FIG-D-1/FIG-D-2）
+
+### 第 6 章 验证门控的规则自学习
+
+- 6.1 候选生成与 gain–collateral 双门｜继承：小论文 §5.5、`research/phase2_rule_gate_replay.py` 合同｜机制级可写
+- 6.2 独立 gate-validation 与七类门基线｜门：Phase 2｜空槽
+- 6.3 固化、版本化与回滚｜机制级可写；回滚曲线空槽（FIG-R-2）
+
+### 第 7 章 系统实现与综合实验
+
+- 7.1 工程架构与复现合同｜继承：`scripts/research/*`、`docs/governance/2026-09-24_gb10_experiment_safety_gates.md`｜可写
+- 7.2 跨章节统一实验协议｜继承：预注册件、`paper/dataset_protocol_v1.md`｜可写
+- 7.3 综合分析（质量/成本/可见性/回归四轴）｜空槽
+
+### 第 8 章 总结与展望
+
+- 8.1 结论与适用边界｜继承：小论文 §6/§7｜后写
+- 8.2 后续工作｜继承：`paper/method_theory_materials_v1.md` §10 的 OP-1..OP-5｜可写
