@@ -214,3 +214,27 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 引用池见 `paper/references_v0.md`（逐条含 arXiv ID / DOI 与 BibTeX，未核实项单列且**不入引用**）与 `paper/method_data_references_v1.bib`。本开题正文中的作者—年份标注均取自该已核验池；venue 除已核实者外一律写 arXiv preprint，不标注未经核实的会议归属，不引用未经核实的 CFP。
 
 同姓同年消歧（标注 → cite key）：`Li et al., 2025a` = `li2025robustjudge`，`Li et al., 2025b` = `li2025scoringbias`；`Amrhein et al., 2022` / `Amrhein et al., 2023` 分别 = `amrhein2022aces` / `amrhein2023aceswmt`；`Gou et al., 2021` = `gou2021kdsurvey`。本开题正文未引用池外任何条目。
+
+### 11.1 本开题正文引用的 18 条（逐条回指已核验池）
+
+1. `amrhein2022aces` — ACES: Translation Accuracy Challenge Sets for Evaluating Machine Translation Metrics, arXiv:2210.15615, 2022.
+2. `amrhein2023aceswmt` — ACES: Translation Accuracy Challenge Sets at WMT 2023, arXiv:2311.01153, 2023.
+3. `moghe2024acesjournal` — Machine Translation Meta Evaluation through Translation Accuracy Challenge Sets, arXiv:2401.16313, 2024.
+4. `deviyani2025contextual` — Contextual Metric Meta-Evaluation by Measuring Local Metric Accuracy, arXiv:2503.19828, 2025.
+5. `kendiukhov2026ranking` — Quantifying Ranking Instability Across Evaluation Protocol Axes in Gene Regulatory Network Benchmarking, arXiv:2603.03493, 2026.
+6. `du2026promptranking` — On the Stability of Prompt Ranking in Large Language Model Evaluation, arXiv:2606.24381, 2026.
+7. `ross2024goodmetric` — What makes a good metric? Evaluating automatic metrics for text-to-image consistency, arXiv:2412.13989, 2024.
+8. `fan2026agentprocessbench` — AgentProcessBench: Diagnosing Step-Level Process Quality in Tool-Using Agents, arXiv:2603.14465, 2026.
+9. `chung2026webstep` — Where Did It Go Wrong? Process-Level Evaluation of Web Agents with Semantic State Tracking, arXiv:2606.15673, 2026.
+10. `wang2026gta2` — GTA-2: Benchmarking General Tool Agents from Atomic Tool-Use to Open-Ended Workflows, arXiv:2604.15715, 2026.
+11. `cho2025metamorphic` — Metamorphic Testing of Large Language Models for Natural Language Processing, arXiv:2511.02108, 2025.
+12. `tan2026agentchaos` — AgentChaos: Chaos Engineering for Agent Systems via Programmatic Fault Injection, arXiv:2608.06790, 2026.
+13. `zheng2023judge` — Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena, arXiv:2306.05685, 2023.
+14. `li2025robustjudge` — LLMs Cannot Reliably Judge (Yet?): A Comprehensive Assessment on the Robustness of LLM-as-a-Judge, arXiv:2506.09443, 2025.
+15. `li2025scoringbias` — Evaluating Scoring Bias in LLM-as-a-Judge, arXiv:2506.22316, 2025.
+16. `hinton2015distilling` — Distilling the Knowledge in a Neural Network, arXiv:1503.02531, 2015.
+17. `gou2021kdsurvey` — Knowledge Distillation: A Survey, IJCV, DOI 10.1007/s11263-021-01453-z, 2021.
+18. `xu2024kdsurveyllm` — A Survey on Knowledge Distillation of Large Language Models, arXiv:2402.13116, 2024.
+
+上表 18 条与正文 18 处作者—年份标注一一对应；池内其余条目（如 `messing2026measurementerror`、
+`li2024pedants` 与 KD 簇其余件）在本开题正文**未被引用**，仅保留在池中供第 2 章与后续章节取用。
