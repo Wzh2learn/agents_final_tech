@@ -19,8 +19,8 @@
 3. 署名义务：MIT notice 保留、Apache notice 保留；若他处适用 CC-BY 则按其署名；
 4. licence_record 的 covered_artifact_sha256 仅覆盖入包工件哈希；许可范围判断不写入工件、只写入签署记录。
 
-## 3 挂起更正（不擅自改 registry）
+## 3 更正归属（registry 行修改归 ONLINE 卡/用户处置）
 
 registry 行 finqa 的 `data_license_state = README_REPORTS_CC_BY_4_0_RECHECK_AT_FETCH` 在记录 head 上被证伪
 （README 零许可提及）。更正为 `README_SILENT_ON_DATA_LICENSE_AT_RECORDED_HEAD` 属 registry 行修改，
-归 ONLINE 卡/用户处置；本件只记录证伪事实与证据（README sha + 检索 0 行）。
+归 ONLINE 卡/用户处置；本件只记录证伪事实与证据（README sha + 检索 0 行），在裁定前保持现状。
