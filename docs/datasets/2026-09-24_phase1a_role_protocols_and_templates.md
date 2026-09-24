@@ -120,13 +120,14 @@ m1_table_schema 候选维持否决。
 官方字段文档取自 czyssrs/FinQA @0f16e2867befa6840783e58be38c9efb9229d742 的 README.md
 （6 518 B，sha256 eb86779cfed6f0a253913761d8e4fabe032a29d9fcf2944e56c23bf007064605）第 31-47 行，逐字如下：
 
-```text
+````markdown
 The dataset is stored as json files in folder "dataset", each entry has the following format:
 
+```
 "pre_text": the texts before the table;
 "post_text": the text after the table;
 "table": the table;
-"id": unique example id. composed by the original report name plus example index for this report.
+"id": unique example id. composed by the original report name plus example index for this report. 
 
 "qa": {
   "question": the question;
@@ -135,8 +136,9 @@ The dataset is stored as json files in folder "dataset", each entry has the foll
   "exe_ans": the gold execution result;
   "program_re": the reasoning program in nested format;
 }
-In the private test data, we only have the "question" field, no reference provided.
 ```
+In the private test data, we only have the "question" field, no reference provided. 
+````
 
 草案件：`docs/datasets/phase1a_schema_draft_v1.json`（fields 九项、private_test 排除注记、scope 明确只属
 P1-future 包）。探针只取 README/LICENSE 元数据，未取 dataset/*.json 任何数据体。
