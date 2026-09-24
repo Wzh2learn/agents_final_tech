@@ -287,26 +287,39 @@ Phase 1 报告来源工件、uid、regime、round、规则状态、标签来源�
 GB10 恢复后，先完成 Phase 1 数据接收并取得 Phase 2 单独授权，再把已批准 manifest 中的 proposal/train 共享候选、可重建表状态和独立 gate-validation 转成合同 JSON；转换工件、预注册配置和报告均放 Git 外，sealed test/future replay 不进入本卡。Phase 2 不以 Phase 1a 的 `LEARNABILITY_SIGNAL` 为前置。正式运行前冻结 `min_source_gain`、`max_collateral_loss`、`max_gate_loss`、`rollback_budget`、`significance_level`、confidence 缺失策略和四项成本代理。默认只报告动态 leave-one-source-out collateral 的累计局部界；如需在论文主张全局伸缩界，须先单独扩展合同/测试并冻结同一个不含候选 source UID 的回归池。先验证软件，再做两次零连接重放：
 
 ```bash
-python3 -m py_compile research/phase2_rule_gate_replay.py research/paper_result_views.py
-PYTHONPATH=src:. .venv/bin/python -m pytest tests/test_phase2_rule_gate_replay.py -q
+# 解释器（2026-09-24 用户裁定 D1 更正）：GB10 上不存在 .venv/，真实路径是 venv/（无点）。
+# production 检出内可用相对路径；隔离 worktree 内没有 venv/，必须用绝对路径
+# （安全门文档 §6.2）。原写法 .venv/bin/python 实测 rc=127。
+PY=venv/bin/python
+# 隔离 worktree 内改为：PY=~/wzh/projects/agents_final_tech/venv/bin/python
 
+python3 -m py_compile research/phase2_rule_gate_replay.py research/paper_result_views.py
+# pytest 无需 PYTHONPATH（实测 rc=0 / 22 passed）；原 PYTHONPATH=src:. 对这些命令零作用，
+# 且会把生产服务模块挂上导入路径，与「零端点」主张相悖，故删除。
+"$PY" -m pytest tests/test_phase2_rule_gate_replay.py -q
+
+# replay runner 自身无需 PYTHONPATH（实测 --help rc=0）
 strace -f -e trace=connect -o /tmp/phase2-replay-1.strace \
-  env PYTHONPATH=. .venv/bin/python research/phase2_rule_gate_replay.py \
+  "$PY" research/phase2_rule_gate_replay.py \
   --dataset <GB10-approved-phase2-contract.json> \
   --config <GB10-approved-phase2-prereg.json> \
   --output /tmp/phase2-replay-1.json
 
 strace -f -e trace=connect -o /tmp/phase2-replay-2.strace \
-  env PYTHONPATH=. .venv/bin/python research/phase2_rule_gate_replay.py \
+  "$PY" research/phase2_rule_gate_replay.py \
   --dataset <GB10-approved-phase2-contract.json> \
   --config <GB10-approved-phase2-prereg.json> \
   --output /tmp/phase2-replay-2.json
 
 cmp --silent /tmp/phase2-replay-1.json /tmp/phase2-replay-2.json
-env PYTHONPATH=. .venv/bin/python research/paper_result_views.py \
+# paper_result_views 在 :15 import research.phase2_rule_gate_replay，必须带 PYTHONPATH=.
+# （实测无 PYTHONPATH 时 rc=1 / ModuleNotFoundError: No module named 'research'）
+PYTHONPATH=. "$PY" research/paper_result_views.py \
   --phase2-report /tmp/phase2-replay-1.json \
   --output /tmp/phase2-paper-views-preview.json
 ```
+
+> 命令块更正依据（2026-09-24，用户裁定 D1）：原块 10 行中 6 行实测即失败（5×rc=127 因 `.venv` 不存在、1×rc=1 因裸 `python3` 无 pytest）。**四个脚本的 CLI 标志经逐一核验全部正确，未作任何改动**；更正只涉及解释器路径与 `PYTHONPATH`。逐行退出码、strace 归因与修正后形式的实测证据见 `docs/experiments/2026-09-24_phase1a_phase2_runbook_command_defects.md`。
 
 GB10 软件验收要求两次报告逐字一致、两份 trace 均无 `connect(`、七臂 candidate-order hash 一致、状态分叉用例与 rollback 用例通过。科学验收还必须复现原 fixed-dual 历史口径，核对 manifest/config/input/implementation hash、独立层 UID 隔离、最坏家族与 null；任何源表/状态缺失均记 `REPLAY_BLOCKED`。数据接口始终输出 `paper_result=false` 和未验收水印，需另行独立审查后才允许被论文生成器消费。
 

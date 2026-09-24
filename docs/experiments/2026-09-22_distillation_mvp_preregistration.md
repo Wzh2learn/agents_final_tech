@@ -153,6 +153,39 @@ A1 与 A2 共享 provenance、licence、Q3 和 proposal-role 资格门 $u_i$；A
 
 `delta_quality=0.02` 只能作讨论起点，尚未批准；不能原样复制后声称已预注册。
 
+### 7.1 追加注记（2026-09-24，用户裁定 D7/D8/D9/D10/D12；append-only，上文一字未改）
+
+本节为用户裁定后的 append-only 注记。**上文 §7 正文与 JSON 块保持原样作为轨迹**；若本节与上文冲突，**以本节为准**。
+
+**(1) D7：§7 与 `analysis_plan.json` 是两份不同工件。** §7 是**人工冻结收据**（记批准人、批准时间、各类 hash、各 δ 与家族），`analysis_plan.json` 是**包内机器合同角色件**（`research/phase1a_data_contract.py` 的 `analysis_plan` 角色）。二者**不是一份**：实测 §7 的 24 键与合同 18 个必需键在 **10 个键上完全不相交**，且把 §7 的 18 个 `UNSET` 全部填入合成值、键集保持不变后，真实校验器仍报 **14 个 schema 级错误**（`overall = DATA_NO_GO`）。⇒ **不得照 §7 的字段集构造 `analysis_plan.json`。** 证据见 `2026-09-24_phase1a_s7_receipt_contract_gap.md`。
+
+**(2) `analysis_plan.json` 的 18 个必需键**（机械导出于合同 `:909-977`；另有 3 个「出现即失败」的遗留歧义键 `alpha` / `power` / 单数 `noninferiority_margin`，`:910`，**不得出现**）：
+
+`status` · `approved_by` · `approved_at` · `cluster_unit` · `significance_level` · `target_power` · `risk_limit` · `noninferiority_margins`（嵌套，键集恰为 `delta_quality`/`delta_harm`/`delta_retention`）· `primary_metrics`（须含 `action_macro_f1` 与 `harmful_map_rate`）· `threshold_selection` · `seed_uid_aggregation` · `holm_families`（嵌套）· `one_sided_p_value_methods`（恰 5 键）· `holm_adjustment` · `minimum_uid_by_role_family` · `minimum_uid_by_action`（键集恰为 `map_to`/`skip`/`hold`）· `mde_by_confirmatory_contrast`（键集恰为 `REQUIRED_MDE_CONTRASTS`）· `layer_manifest_sha256`
+
+**(3) D8：以下为用户批准的设计起点值，不再是合成 fixture 值。**
+
+| 键 | 批准值 |
+|---|---|
+| `approved_by` | 用户（Wzh） |
+| `approved_at` | 实际写入时的 ISO 8601 时间 |
+| `significance_level` | `0.05` |
+| `risk_limit` | `0.10` |
+| `delta_quality` | `0.02` |
+| `delta_harm` | `0.02` |
+| `delta_retention` | `0.02` |
+| `minimum_cost_reduction` | `0.10` |
+| `seed_list` | `[42, 43, 44]` |
+| `target_power` | `0.80` |
+
+⇒ 上文「`delta_quality=0.02` 只能作讨论起点，尚未批准」一句**就 `delta_quality` 而言已被 D8 取代**（原文按 append-only 纪律保留作轨迹，不回改）。其余各值同批生效。**注意**：`minimum_uid_by_role_family`、`minimum_uid_by_action` 与 `mde_by_confirmatory_contrast` **不在本批批准范围内**——它们需真实开发侧方差做功效分析（见 `2026-09-24_phase1a_power_mde_sensitivity_grid.md`：同一 δ 下所需独立 UID 数跨一个数量级，主导项是 σ²），在数据补充交付开发侧样本前**不可定值**。
+
+**(4) D9：`H3a` 命名统一为 `H3a_uid_any_harm`。** §7 `:149` 的写法即权威。合同侧 `REQUIRED_HOLM_FAMILIES`（`:99-108`）与 `one_sided_p_value_methods`（`:946-953`）原用 `H3a_cluster_any_harm`，经全仓证据权重核实为**孤立离群值**（仅 4 处 / 2 文件，其中 2 处是夹具回声），而科学层（本件 §2 `:28`、§6.2 `:109`、§6.3 `:117`、§7 `:149`）与已落地的 Phase 2 实现（`phase2_rule_gate_replay.py:392-399` 产出 `uid_any_harm_*` 指标、`paper_result_views.py:76-81` 消费、`test_phase2_rule_gate_replay.py:214-236` 断言）统一用 `uid_any_harm`。因合同强制 `cluster_unit == lineage_uid`，两名**语义相同**，故这是**纯命名对齐**，不改统计量、阈值、家族结构或判定逻辑。`REQUIRED_MDE_CONTRASTS`（`:110-114`）由家族派生，会联动。证据见 `2026-09-24_spec_conflict_weight_of_evidence.md`。
+
+**(5) D10：`threshold_selection` 采「范围 token + 规则字段」双记录，暂不实现完整选阈算法。** 机器合同保留范围 token **`proposal_dev_only`**（`:940`）；完整规则 **`proposal_dev_max_coverage_under_risk_then_macro_f1_then_conservative`**（与 §6.3 `:118` 逐段对应）另作**规则字段/注记**记录。由**独立 Loop C 或独立 agent 做机器审计**，核三件事：范围确为 proposal/dev、不含 gate/sealed、规则文本与预注册一致。**本批不实现完整选阈算法**（实测该规则此前在所有 `.py` 中零实现）。
+
+**(6) D12：`H3a` 欠功效的处置目标。** `H3a_uid_any_harm` 被合同钉为 `exact_mcnemar`（`:950`），d 个不一致对可达到的最小单侧 p 为 `0.5^d`，故 α=0.05 下 **d ≥ 5** 才可能显著；而合同对 `minimum_uid_by_action` 只要求 `>= 2`（`:962-968`），那是健全性下限而非功效下限。处置目标 = **数据补充 250–500 个有效 UID**（期望 5 个不一致对需 `N ≈ 5/p_d`，`p_d`=1%→500、2%→250）。**若补充达不到，`H3a` 降为 exploratory，不改检验方法，不用功效不足冒充显著结论。** 证据见 `2026-09-24_phase1a_power_mde_sensitivity_grid.md` §4。
+
 ## 8. 判定与停止规则
 
 | 情形 | 结论/动作 |
