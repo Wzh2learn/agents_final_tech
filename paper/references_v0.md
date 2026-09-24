@@ -5,8 +5,10 @@
 > 逐条给 arXiv ID 或 DOI。来源池 = `docs/experiments/2026-08-31_related_work_v4.md`（四簇, 经 arXiv API 实查）
 > 与 `docs/experiments/2026-09-20_kd_literature_candidates.md`（KD 候选, arXiv 官方 API 已核）。
 > 本件不新增任何未经核验的条目, 不引用未核 CFP。
+> 计数更正（2026-09-24）: §1 / §3 / §4 的条数标签按表内实际行数重算（原标签 12 / 5 / 19 与行数不符, 属历史遗留）;
+> 同批新增 `gou2021kdsurvey`（OpenAlex 已核 DOI, 承 `docs/experiments/2026-09-20_kd_literature_candidates.md` §1 第 2 条）。
 
-## 1 Related work 四簇引用（12 条）
+## 1 Related work 四簇引用（16 条）
 
 | cite key | 题名 | 年 | arXiv ID | venue |
 |---|---|---|---|---|
@@ -37,18 +39,19 @@
 - **同名歧义已判**：另有 arXiv:2609.09808 的同名 GTA-2 属机器人操作方向，**不引**。
 - **一律以 arXiv 版引用**：本仓 hbkeyan 目录下的 PDF 属仓外材料，不作唯一出处。
 
-## 3 KD / agent distillation（future work，5 条）
+## 3 KD / agent distillation（future work，7 条）
 
 | cite key | 题名 | 年 | arXiv ID / DOI | venue |
 |---|---|---|---|---|
 | `hinton2015distilling` | Distilling the Knowledge in a Neural Network | 2015 | arXiv:1503.02531 · DOI 10.48550/arxiv.1503.02531 | arXiv preprint（venue 待另核） |
+| `gou2021kdsurvey` | Knowledge Distillation: A Survey | 2021 | DOI 10.1007/s11263-021-01453-z | IJCV（OpenAlex 已核） |
 | `xu2024kdsurveyllm` | A Survey on Knowledge Distillation of Large Language Models | 2024 | arXiv:2402.13116 · DOI 10.48550/arxiv.2402.13116 | arXiv preprint（venue 待另核） |
 | `qiu2025agentdistill` | AgentDistill: Training-Free Agent Distillation with Generalizable MCP Boxes | 2025 | arXiv:2506.14728 | arXiv preprint（venue 待另核） |
 | `liu2025structuredagent` | Structured Agent Distillation for Large Language Model | 2025 | arXiv:2505.13820 | arXiv preprint（venue 待另核） |
 | `chen2026counteraction` | Counteraction-Aware Multi-Teacher On-Policy Distillation for General Capability Recovery with Domain Preservation | 2026 | arXiv:2605.27115 | arXiv preprint（venue 待另核） |
 | `ma2026mopd` | MOPD: Multi-Teacher On-Policy Distillation for Capability Integration in LLM Post-Training | 2026 | arXiv:2606.30406 | arXiv preprint（venue 待另核） |
 
-## 4 BibTeX（逐条: Related work 12 + m9 1 + KD 6 = 19 条）
+## 4 BibTeX（逐条: Related work 16 + m9 1 + KD 7 = 24 条）
 
 ```bibtex
 @article{amrhein2022aces,
@@ -140,6 +143,12 @@
   title   = {Distilling the Knowledge in a Neural Network},
   author  = {Hinton, Geoffrey E. and Vinyals, Oriol and Dean, Jeff},
   journal = {arXiv preprint arXiv:1503.02531}, year = {2015}}
+
+@article{gou2021kdsurvey,
+  title   = {Knowledge Distillation: A Survey},
+  author  = {Gou, Jianping and Yu, Baosheng and Maybank, Stephen and Tao, Dacheng},
+  journal = {International Journal of Computer Vision}, year = {2021},
+  doi     = {10.1007/s11263-021-01453-z}}
 
 @article{xu2024kdsurveyllm,
   title   = {A Survey on Knowledge Distillation of Large Language Models},
