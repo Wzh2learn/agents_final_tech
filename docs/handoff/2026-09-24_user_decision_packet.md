@@ -30,7 +30,7 @@ receipt/ledger 运行器与装配检查单均已备齐（审计过）。若现�
 ## D-D：Loop A sandbox 口径裁定（LC-GOV-002 派发前置）
 
 LC-GOV-002（治理/归档清单）READY 但 owner 为 Loop A（codex exec）；派发需裁定沙箱口径
-（report-only 只读沙箱是否足够）。裁定后派发；不裁定则该卡继续 READY 挂起。
+（report-only 只读沙箱是否足够）。裁定后派发；不裁定则该卡保持 READY 且不派发。
 
 ## D-E：MIMO provider 单独批排期
 
