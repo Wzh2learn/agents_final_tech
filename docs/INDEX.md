@@ -66,6 +66,7 @@
 | [`datasets/paper-public-source-registry-v1.json`](datasets/paper-public-source-registry-v1.json) | 活跃元数据合同 | 小论文 10 个公开来源的核验 commit、许可缺口、独立性簇命名空间与下载禁门；不含数据正文 |
 | [`datasets/2026-09-24_phase1a_role_protocols_and_templates.md`](datasets/2026-09-24_phase1a_role_protocols_and_templates.md) | 活跃协议 | 七角色协议与模板：label_ledger 独立复核协议、licence_record / schema / analysis_plan 模板、receipt 与 ledger 运行器规格、装配日检查单；含零模型探针与 PENDING 口径 |
 | [`datasets/2026-09-24_dA_canonical_reference_evidence.md`](datasets/2026-09-24_dA_canonical_reference_evidence.md) | 决策支持 | D-A 裁定证据：管线配置与当前 corpus 表头交集 0（选项 2 不可行），可行路径仅剩官方摘录或延后 P1 |
+| [`datasets/2026-09-24_label_review_protocol_templates.md`](datasets/2026-09-24_label_review_protocol_templates.md) | 流程模板 | label 独立复核的载体可见性边界、R1/R2 判定提示与裁决记录模板、启动检查单 |
 | [`experiments/`](experiments/) | 只追加证据集 | 实验、审计、任务卡与结果；按文件名日期检索 |
 | [`superpowers/`](superpowers/) | 计划快照 | 历史实施计划 |
 
