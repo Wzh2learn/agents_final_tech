@@ -49,3 +49,6 @@ streams 留 /tmp/lc_audit2.stream 与 /tmp/lc_review_qwen2.stream 备查。按�
 
 - 确认性复审（camera-pass a0f4d3d vs ACCEPTed 4de4741）: qwen3.8-max, 1 turn, $0.1880, 落盘 docs/experiments/2026-09-24_loopc_confirm_review_camera_pass.md; 判定 ACCEPT, 两 minor 关闭, 零数字/保护结果/主张范围漂移。
 - 累计更新: 主仓会话 41 turns / $4.3720; 加 canary 3 与分支 5 turns 及被 kill 上限 38 ⇒ ≤87 < 200。
+
+- label_ledger 装配器审计三轮（qwen3.8-max, 各 1 turn）: 0.3195 (PASS_WITH_NOTES) + 0.1895 (REJECT, F1 残口) + 0.1522 (PASS_WITH_NOTES, F1 关闭确认); 落盘 docs/experiments/2026-09-24_loopc_audit_label_assembler*.md 三件。
+- 累计更新: 主仓会话 45 turns / $5.0332; 加 canary 3、分支 5、被 kill 上限 38 ⇒ ≤91 < 200。
