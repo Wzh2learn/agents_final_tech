@@ -130,9 +130,9 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
 
     label_by_sample = {r["sample_id"]: r for r in rows}
     flat_layers = {
-        "proposal_train.train": [("sample-train", uids["train"])],
-        "proposal_train.dev": [("sample-dev", uids["dev"])],
-        "gate_validation": [("sample-gate", uids["gate"])],
+        "proposal_train.train": [{"sample_id": "sample-train", "uid": uids["train"]}],
+        "proposal_train.dev": [{"sample_id": "sample-dev", "uid": uids["dev"]}],
+        "gate_validation": [{"sample_id": "sample-gate", "uid": uids["gate"]}],
     }
     derive_rows = []
     fam_by_uid = {uids["train"]: "alias_variant", uids["dev"]: "date_variant"}
@@ -187,11 +187,11 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
         },
     })
 
-    def _enrich(key, pairs):
+    def _enrich(key, rows):
         return [
             {
-                "sample_id": s,
-                "uid": u,
+                "sample_id": r["sample_id"],
+                "uid": r["uid"],
                 "dataset_id": "fixture-finance",
                 "dataset_revision": "rev-1",
                 "source_split": SPECS[key][0],
@@ -199,7 +199,7 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
                 "lineage_root_id": f"report-{key}",
                 "transformation_parent_id": None,
             }
-            for (s, u) in pairs
+            for r in rows
         ]
 
     layers = {
@@ -208,8 +208,12 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
             "dev": _enrich("dev", flat_layers["proposal_train.dev"]),
         },
         "gate_validation": _enrich("gate", flat_layers["gate_validation"]),
-        "sealed_test": _enrich("test", [("sample-test", uids["test"])]),
-        "future_replay": _enrich("future", [("sample-future", uids["future"])]),
+        "sealed_test": _enrich(
+            "test", [{"sample_id": "sample-test", "uid": uids["test"]}]
+        ),
+        "future_replay": _enrich(
+            "future", [{"sample_id": "sample-future", "uid": uids["future"]}]
+        ),
     }
     plan = {
         "status": "approved",
