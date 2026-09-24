@@ -54,7 +54,13 @@ CANARY_IDS="${LOOP_B_CANARY_IDS:-adv_ocr_meta,adv_refusal,q06_minan_cash_balance
 CANARY_TIMEOUT="${LOOP_B_CANARY_TIMEOUT:-75}"  # T5: 45s ask 超时 + 回落直连最坏 ~60s, 45 不够
 CANARY_BUDGET=360  # T5: 4 题 x 最坏 ~75s 余量
 STATE_FILE="$REPORT_DIR/loop_b_last_status"
-DISPATCH_LOG="$REPORT_DIR/dispatch_log.md"
+# 2026-09-24 (user ruling, item 3): Loop B runtime FLIP records go to a GITIGNORED
+# runtime file, NOT to the Git-tracked dispatch_log.md. dispatch_log.md now carries
+# Loop D batch ledger entries only. Two writers sharing one tracked file meant every
+# Loop D push left production behind, failed git_alignment, and needed a manual tail
+# union. The runtime file is ignored by the existing `logs/graph/*` rule and is never
+# auto-committed. Historical FLIP lines already inside dispatch_log.md are NOT moved.
+FLIP_LOG="${LOOP_B_FLIP_LOG:-$REPORT_DIR/loop_b_flip_log.md}"
 
 mkdir -p "$REPORT_DIR"
 
@@ -468,7 +474,9 @@ write_report() {
   echo "$overall $report_write"
 }
 
-# ---- FAIL 翻转检测 (R1: 只在状态翻转时写 dispatch_log, 不每周期刷屏) ----
+# ---- FAIL 翻转检测 (R1: 只在状态翻转时写一条, 不每周期刷屏) ----
+# 2026-09-24 (user ruling): 写入 gitignored 的 runtime 文件 FLIP_LOG, 不再写受 Git 跟踪的
+# dispatch_log.md（后者只承载 Loop D 台账）。不自动 commit runtime 文件。
 record_status_flip() {
   local overall=$1
   local prev="UNKNOWN"
@@ -485,8 +493,8 @@ record_status_flip() {
   fi
   local head_short
   head_short=$(git -C "$PROJECT_DIR" rev-parse --short HEAD 2>/dev/null || echo "?")
-  echo "[$(date '+%m-%d %H:%M')] #LOOP-B-FLIP overall $prev -> $overall (head=$head_short; 详见 logs/graph/verify-report.json + loop_b.log)" >> "$DISPATCH_LOG"
-  log "STATUS FLIP: $prev -> $overall, dispatch_log entry written"
+  echo "[$(date '+%m-%d %H:%M')] #LOOP-B-FLIP overall $prev -> $overall (head=$head_short; 详见 logs/graph/verify-report.json + loop_b.log)" >> "$FLIP_LOG"
+  log "STATUS FLIP: $prev -> $overall, flip_log entry written ($FLIP_LOG)"
 }
 
 # ---- Step 10: PG Pool Guard (T2 2026-08-24, 纯 bash+psql 哨兵) ----
