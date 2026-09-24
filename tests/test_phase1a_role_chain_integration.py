@@ -171,6 +171,7 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
         "covered_artifact_sha256": {
             IDS["source_tables"]: hashes["src"],
             IDS["schema"]: hashes["sch"],
+            IDS["injection_map"]: hashes["inj"],
             IDS["label_ledger"]: hashes["lab"],
             IDS["learnability_feature_ledger"]: hashes["led"],
         },
