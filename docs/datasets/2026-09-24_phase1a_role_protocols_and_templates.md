@@ -58,6 +58,7 @@ quality_grade / reviewers / adjudication`；`quality_grade` 固定 `Q3`；`gold_
 ```json
 {
   "contract_version": "phase1a-data-package-v2",
+  "package_id": "PENDING_PACKAGE_ID",
   "artifacts": [
     {"id": "src_tables", "role": "source_tables", "path": "data/research/drift_v0/input/tatqa_tables.json",
      "bytes": 1442890, "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"},
@@ -187,7 +188,7 @@ schema 绑定存在（P1-future 草案或裁定变更）；analysis_plan 四 PEN
 parser_contract_receipt 由运行器实跑产出；learnability_feature_ledger 由派生运行器产出。
 
 1. 包根建于仓外；九角色文件 + layers manifest 落位；逐文件记录 bytes 与 sha256。
-2. 按 §3 骨架填 manifest：artifacts 九条、bindings 六条 role→artifact-id 字符串（gate 映射在合同 REQUIRED_BINDINGS 内，不写入 manifest）、layers、future_replay（未获取则 null + 注记）。
+2. 按 §3 骨架填 manifest：package_id 非空字符串、artifacts 九条（path 为包根相对路径）、bindings 六条 role→artifact-id 字符串（gate 映射在合同 REQUIRED_BINDINGS 内，不写入 manifest）、layers、future_replay（未获取则 null + 注记）。
 3. `research/phase1a_data_contract.py --package-root <pkg> --output <out>` 跑两次：两次均
    READY_FOR_INDEPENDENT_ACCEPTANCE 且报告 byte-identical；strace 复核零 connect。
 4. D11 交叉一致性复核（analysis_plan minimum_uid_* 与 learnability config min_dev_uids*，去前缀键值全等）。

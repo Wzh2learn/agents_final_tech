@@ -49,7 +49,7 @@ def _artifact(path: Path, artifact_id: str, role: str) -> dict:
     return {
         "id": artifact_id,
         "role": role,
-        "path": str(path.name),
+        "path": "artifacts/" + str(path.name),
         "bytes": len(data),
         "sha256": __import__("hashlib").sha256(data).hexdigest(),
     }
@@ -221,6 +221,7 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
     ]
     manifest = {
         "contract_version": "phase1a-data-package-v2",
+        "package_id": "fixture-package-1",
         "artifacts": artifacts,
         "bindings": {
             "label_ledger": "lab",
