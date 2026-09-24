@@ -58,3 +58,13 @@ Figure 2 中逐柱底部的 `absorbed=N` 标注与柱体填充在 80 dpi 下部�
   「视觉未验」一行对这两份文件**关闭**。
 - 不主张: 不代表 Word 原生渲染与 LibreOffice 完全一致；不代表印刷色彩配置已验；作者、单位、目标会议
   模板**仍按专利门要求留空**，venue 未经官方源核实不写入。
+## 加记（2026-09-24，修订提交 4de4741 后的第二次转换）
+
+- 输入 DOCX 因七处审稿修订而变更：新 sha256 = `87ea0770cb5b8fb15519caf4b925bcea1c2d6dac74fd0b7c5bc8aaa2c095d0f3`；
+  本件 §2/§3 记录的 `f33be93d8159cbfb` 对应 commit `1627a54` 上的 DOCX，两者不冲突、各归其提交。
+- 重转换（同法：隔离 worktree `accept_4de4741`、独立 UserInstallation、输出落 /tmp 仓外）：
+  **8 页** letter（原 7 页，增页来自修订段落）；U+FFFD 0；Abstract / 1. Introduction / 7. Conclusion /
+  References 均在文本层；修订句（判据差异注记、家族核算、恢复判据等）在 PDF 文本层在位（跨行折行属排版）。
+- GB10 在 `4de4741` 的权威验收：`tests/test_paper_claim_acceptance.py` + `tests/test_research_story_assets.py`
+  共 **17 passed**；`docs_lint` rc=0 / 0 fail / 1 warn（docs/34 时效 warn 未消警）。
+- §6 判定对新 DOCX 继续成立；§5 的 Figure 2 柱底标注观察不变（仍留单独批）。
