@@ -72,12 +72,12 @@ quality_grade / reviewers / adjudication`；`quality_grade` 固定 `Q3`；`gold_
     {"id": "PENDING", "role": "learnability_feature_ledger", "path": "PENDING", "bytes": null, "sha256": "PENDING_ROLE_HASH"}
   ],
   "bindings": {
-    "label_ledger": ["independent_correctness", "PENDING"],
-    "learnability_feature_ledger": ["artifact_integrity", "PENDING"],
-    "licence_record": ["licence_permission", "PENDING"],
-    "confidence_manifest": ["confidence_provenance", "PENDING"],
-    "analysis_plan": ["analysis_plan", "PENDING"],
-    "parser_contract_receipt": ["parser_contract", "PENDING"]
+    "label_ledger": "PENDING_ARTIFACT_ID",
+    "learnability_feature_ledger": "PENDING_ARTIFACT_ID",
+    "licence_record": "PENDING_ARTIFACT_ID",
+    "confidence_manifest": "PENDING_ARTIFACT_ID",
+    "analysis_plan": "PENDING_ARTIFACT_ID",
+    "parser_contract_receipt": "PENDING_ARTIFACT_ID"
   },
   "layers": "PENDING_SPLIT_GO",
   "future_replay": null,
@@ -187,10 +187,12 @@ schema 绑定存在（P1-future 草案或裁定变更）；analysis_plan 四 PEN
 parser_contract_receipt 由运行器实跑产出；learnability_feature_ledger 由派生运行器产出。
 
 1. 包根建于仓外；九角色文件 + layers manifest 落位；逐文件记录 bytes 与 sha256。
-2. 按 §3 骨架填 manifest：artifacts 九条、bindings 六对、layers、future_replay（未获取则 null + 注记）。
+2. 按 §3 骨架填 manifest：artifacts 九条、bindings 六条 role→artifact-id 字符串（gate 映射在合同 REQUIRED_BINDINGS 内，不写入 manifest）、layers、future_replay（未获取则 null + 注记）。
 3. `research/phase1a_data_contract.py --package-root <pkg> --output <out>` 跑两次：两次均
    READY_FOR_INDEPENDENT_ACCEPTANCE 且报告 byte-identical；strace 复核零 connect。
 4. D11 交叉一致性复核（analysis_plan minimum_uid_* 与 learnability config min_dev_uids*，去前缀键值全等）。
 5. 独立复核：Loop C 证据包审计（manifest + 两次运行日志 + 双跑 diff）；生成者不自签。
 6. 仅在此之后重评 DATA_NO_GO；任一 gate FAIL 回对应角色修复，不得绕过、不得改冻结判据。
 红线：私有数据与包根不入 Git；失败保留现场并上报；本检查单不授权任何下载。
+
+> 更正（2026-09-24，组合测试发现）：bindings 的值是 artifact-id 字符串，不是 [gate, id] 列表；gate→role 映射由合同 REQUIRED_BINDINGS 持有。合同 :643-644 同步加 isinstance 守卫，列表形 bindings 现以 missing_or_mismatched_binding 失败而非裸 TypeError。

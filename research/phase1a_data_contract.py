@@ -641,7 +641,8 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
     if not isinstance(bindings, dict):
         bindings = {}
     for binding, (gate, expected_role) in REQUIRED_BINDINGS.items():
-        artifact = artifact_index.get(bindings.get(binding, ""))
+        bound_id = bindings.get(binding, "")
+        artifact = artifact_index.get(bound_id) if isinstance(bound_id, str) else None
         if not artifact or artifact.get("role") != expected_role:
             _fail(gates, gate, "missing_or_mismatched_binding")
     future_rows = partitions.get("future_replay")

@@ -856,3 +856,13 @@ def test_non_q3_label_is_rejected(package: Path) -> None:
     errors = report["gates"]["independent_correctness"]["errors"]
     assert report["status"] == "DATA_NO_GO"
     assert "label_not_q3" in {item["code"] for item in errors}
+
+
+def test_list_shaped_binding_is_rejected_without_crashing(package: Path) -> None:
+    manifest = _manifest(package)
+    manifest["bindings"]["label_ledger"] = ["independent_correctness", "labels"]
+    _save_manifest(package, manifest)
+    report = contract.validate_package(package)
+    assert report["status"] == contract.NO_GO
+    codes = [e.get("code") for g in report["gates"].values() for e in g["errors"]]
+    assert "missing_or_mismatched_binding" in codes
