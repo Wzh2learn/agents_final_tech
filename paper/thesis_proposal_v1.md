@@ -139,6 +139,18 @@ proposal/train（含内部 dev）、gate-validation、sealed test、future repla
 
 GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、文本编辑与控制面分析。所有正式数字由 GB10 产生并带 artifact 路径、命令、退出码、资源占用与停止条件。资源门（磁盘 / inode / 内存 available / GPU utilization / 并发 / 产物体量 / 调用预算 / 进程回收 / 8 条立即停止条件）见 `docs/governance/2026-09-24_gb10_experiment_safety_gates.md`。每阶段由 Loop B（纯 bash 验证层）与 Loop C（独立审计）独立验收，**实现者不自验**。
 
+### 5.6 实验设计矩阵（RQ × 实验 × artifact × 门 × 当前状态）
+
+| RQ | 实验 / 证据 | 供数 artifact（当前） | 升级前必须通过的门 | 当前状态 |
+|---|---|---|---|---|
+| RQ1 评估信号 | Stage E 检查点评估 + 可见性谱 + matched-FPR 审计 | `logs/graph/eval/` 下 checkpoint_discrimination_tables_v2 / t2_visibility_sensitivity / t1_eval_baseline_comparison / d3_matched_fpr_stage_a | 评估轨无剩余门；跨域复现需第二数据流 + 第二 scorer | 已成稿，双模型复审 ACCEPT |
+| RQ2 蒸馏迁移 | 8B 学生动作策略蒸馏 vs 简单基线；质量—成本 Pareto | 尚不存在；回填位 BF-1 / FIG-D-* | SOURCE_GO→LABEL_GO→SPLIT_GO→POWER_GO→BASELINE_GO→MODEL_GO + 独立验收 | 目标；数据门 DATA_NO_GO |
+| RQ3 安全积累 | 七臂规则门 replay + 强基线 + 功效分析 + 独立 gate-validation + 版本回滚 | `research/phase2_rule_gate_replay.py`（仅合同）；机制证据 7/7 与 5/5 拒绝 | Phase 2 门 + POWER_GO + 独立 gate-validation | 机制级；功效未闭合（BF-2 / FIG-R-*） |
+| RQ4 闭环权衡 | 三阶段统一端到端实验与消融 | 尚不存在 | 上述全部 + sealed / future replay | 仅总假设 |
+
+本矩阵是开题报告中唯一把每个 RQ 绑到具体实验、其供数 artifact 与升级门的地方；空单元是故意的，
+与 `paper/teacher_review_finalization_v1.md` 的回填位一一对应；任何数字在对应门通过之前不得进入正文。
+
 ## 6 学位创新点及其成熟度口径
 
 以下四条沿用 `paper/thesis_manuscript_scaffold_v1.md` 的口径，**逐条标明当前可主张到什么程度**：
