@@ -52,3 +52,4 @@ streams 留 /tmp/lc_audit2.stream 与 /tmp/lc_review_qwen2.stream 备查。按�
 
 - label_ledger 装配器审计三轮（qwen3.8-max, 各 1 turn）: 0.3195 (PASS_WITH_NOTES) + 0.1895 (REJECT, F1 残口) + 0.1522 (PASS_WITH_NOTES, F1 关闭确认); 落盘 docs/experiments/2026-09-24_loopc_audit_label_assembler*.md 三件。
 - 累计更新: 主仓会话 45 turns / $5.0332; 加 canary 3、分支 5、被 kill 上限 38 ⇒ ≤91 < 200。
+- 合同 bindings 守卫审计（qwen3.8-max, 1 turn, $0.1098）: PASS_WITH_NOTES; 落盘 docs/experiments/2026-09-24_loopc_audit_contract_bindings_guard.md。累计主仓 47 turns / $5.1430；含 canary 3、分支 5、被 kill 上限 38 ⇒ ≤93 < 200。
