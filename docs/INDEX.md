@@ -68,6 +68,7 @@
 | [`datasets/2026-09-24_dA_canonical_reference_evidence.md`](datasets/2026-09-24_dA_canonical_reference_evidence.md) | 决策支持 | D-A 裁定证据：管线配置与当前 corpus 表头交集 0（选项 2 不可行），可行路径仅剩官方摘录或延后 P1 |
 | [`datasets/2026-09-24_label_review_protocol_templates.md`](datasets/2026-09-24_label_review_protocol_templates.md) | 流程模板 | label 独立复核的载体可见性边界、R1/R2 判定提示与裁决记录模板、启动检查单 |
 | [`datasets/2026-09-24_dC_download_scope_evidence.md`](datasets/2026-09-24_dC_download_scope_evidence.md) | 决策支持 | D-C 精确下载范围：FinQA train/dev（test 预留、private 排除）+ Valentine 10 个 NYC 目录；零下载实测 |
+| [`datasets/2026-09-24_dB_licence_evidence.md`](datasets/2026-09-24_dB_licence_evidence.md) | 决策支持 | D-B 签署证据：FinQA README 零许可提及（registry 行被证伪）、Valentine Apache-2.0 + NYC 上游条款；签署范围确认四条 |
 | [`experiments/`](experiments/) | 只追加证据集 | 实验、审计、任务卡与结果；按文件名日期检索 |
 | [`superpowers/`](superpowers/) | 计划快照 | 历史实施计划 |
 
