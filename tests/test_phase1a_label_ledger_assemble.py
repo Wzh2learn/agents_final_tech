@@ -119,3 +119,56 @@ def test_jsonl_shape(tmp_path) -> None:
     assert set(json.loads(lines[0])) == LABEL_FIELDS
     meta = json.loads(out.with_suffix(".meta.json").read_text(encoding="utf-8"))
     assert meta["reviewer_carriers"] == ["r1", "r2"]
+
+def test_missing_target_key_rejected() -> None:
+    bad = {"reviewer_id": "r2", "template_version": "t1",
+           "judgments": [{"sample_id": "s1", "uid": "u1", "col": 0, "action": "skip"}]}
+    with pytest.raises(LabelAssemblyError) as exc:
+        assemble(R1(), bad, _adj([]), "gen")
+    assert exc.value.code == "invalid_judgment"
+
+
+def test_missing_uid_rejected() -> None:
+    bad = {"reviewer_id": "r2", "template_version": "t1",
+           "judgments": [{"sample_id": "s1", "col": 0, "action": "skip", "target": None}]}
+    with pytest.raises(LabelAssemblyError) as exc:
+        assemble(R1(), bad, _adj([]), "gen")
+    assert exc.value.code == "invalid_judgment"
+
+
+def test_non_dict_judgment_rejected() -> None:
+    bad = {"reviewer_id": "r2", "template_version": "t1", "judgments": ["x"]}
+    with pytest.raises(LabelAssemblyError) as exc:
+        assemble(R1(), bad, _adj([]), "gen")
+    assert exc.value.code == "invalid_judgment"
+
+
+def test_non_dict_adjudication_entry_rejected() -> None:
+    r2 = _rev("r2", ("s1", "u1", 0, "skip", None))
+    with pytest.raises(LabelAssemblyError) as exc:
+        assemble(R1(), r2, _adj(["y"]), "gen")
+    assert exc.value.code == "invalid_adjudication_entry"
+
+
+def test_missing_rationale_ref_rejected() -> None:
+    r2 = _rev("r2", ("s1", "u1", 0, "skip", None))
+    adj = _adj([{"sample_id": "s1", "col": 0, "action": "map_to", "target": "asset"}])
+    with pytest.raises(LabelAssemblyError) as exc:
+        assemble(R1(), r2, adj, "gen")
+    assert exc.value.code == "missing_rationale_ref"
+
+
+def test_unparseable_input_rejected(tmp_path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import sys
+    from research.phase1a_label_ledger_assemble import main
+
+    p1 = tmp_path / "r1.json"; p1.write_text("{not json", encoding="utf-8")
+    p2 = tmp_path / "r2.json"; p2.write_text(json.dumps(R2()), encoding="utf-8")
+    pa = tmp_path / "adj.json"; pa.write_text(json.dumps(_adj([])), encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["x", "--r1", str(p1), "--r2", str(p2),
+                                      "--adjudications", str(pa),
+                                      "--generator-id", "gen",
+                                      "--out", str(tmp_path / "o.jsonl")])
+    with pytest.raises(LabelAssemblyError) as exc:
+        main()
+    assert exc.value.code == "invalid_input_json"

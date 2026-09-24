@@ -47,11 +47,21 @@ def _valid_choice(value: object) -> bool:
 
 
 def _judgments_by_pair(doc: dict, who: str) -> dict[tuple[str, int], dict]:
+    if not isinstance(doc, dict):
+        raise LabelAssemblyError("invalid_review_doc", reviewer=who)
+    judgments = doc.get("judgments")
+    if not isinstance(judgments, list):
+        raise LabelAssemblyError("invalid_review_doc", reviewer=who)
     out: dict[tuple[str, int], dict] = {}
-    for j in doc.get("judgments", []):
+    for j in judgments:
+        if not isinstance(j, dict) or any(k not in j for k in
+                                          ("sample_id", "uid", "col", "action", "target")):
+            raise LabelAssemblyError("invalid_judgment", reviewer=who, entry=j)
         sample_id, col = j.get("sample_id"), j.get("col")
         if not isinstance(sample_id, str) or not sample_id or type(col) is not int:
             raise LabelAssemblyError("invalid_judgment", reviewer=who, entry=j)
+        if not isinstance(j.get("uid"), str) or not j["uid"]:
+            raise LabelAssemblyError("invalid_judgment", reviewer=who, entry=j, why="uid")
         choice = {"action": j.get("action"), "target": j.get("target")}
         if not _valid_choice(choice):
             raise LabelAssemblyError("invalid_judgment", reviewer=who, entry=j)
@@ -75,9 +85,16 @@ def assemble(r1: dict, r2: dict, adj_doc: dict, generator_id: str) -> tuple[list
         raise LabelAssemblyError("adjudicator_is_reviewer", adjudicator=aid)
     j1 = _judgments_by_pair(r1, rid1)
     j2 = _judgments_by_pair(r2, rid2)
-    adjudications = {
-        e.get("sample_id"): e for e in adj_doc.get("entries", [])
-    }
+    if not isinstance(adj_doc, dict):
+        raise LabelAssemblyError("invalid_adjudication_doc")
+    entries = adj_doc.get("entries")
+    if not isinstance(entries, list):
+        raise LabelAssemblyError("invalid_adjudication_doc")
+    adjudications: dict[str, dict] = {}
+    for e in entries:
+        if not isinstance(e, dict) or not isinstance(e.get("sample_id"), str):
+            raise LabelAssemblyError("invalid_adjudication_entry", entry=e)
+        adjudications[e["sample_id"]] = e
     rows: list[dict] = []
     agreed = 0
     for key in sorted(set(j1) | set(j2)):
@@ -105,6 +122,9 @@ def assemble(r1: dict, r2: dict, adj_doc: dict, generator_id: str) -> tuple[list
             choice = {"action": entry.get("action"), "target": entry.get("target")}
             if not _valid_choice(choice):
                 raise LabelAssemblyError("adjudication_invalid", sample_id=sample_id)
+            rationale = entry.get("rationale_ref")
+            if not isinstance(rationale, str) or not rationale:
+                raise LabelAssemblyError("missing_rationale_ref", sample_id=sample_id)
             gold = choice
             adjudication = {
                 "adjudicator_id": aid,
@@ -144,9 +164,15 @@ def main() -> int:
     ap.add_argument("--out", required=True, type=Path)
     ap.add_argument("--meta-out", type=Path, default=None)
     args = ap.parse_args()
-    r1 = json.loads(args.r1.read_text(encoding="utf-8"))
-    r2 = json.loads(args.r2.read_text(encoding="utf-8"))
-    adj = json.loads(args.adjudications.read_text(encoding="utf-8"))
+    def _load(path: Path) -> dict:
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except (UnicodeDecodeError, ValueError) as exc:
+            raise LabelAssemblyError("invalid_input_json", path=str(path)) from exc
+
+    r1 = _load(args.r1)
+    r2 = _load(args.r2)
+    adj = _load(args.adjudications)
     rows, meta = assemble(r1, r2, adj, args.generator_id)
     payload = "".join(
         json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n" for row in rows
