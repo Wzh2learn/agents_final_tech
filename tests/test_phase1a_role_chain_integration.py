@@ -162,7 +162,7 @@ def _build_package(tmp_path: Path, swap_confidence: bool = False) -> Path:
         confidence["source"] = "fixture: swapped after ledger derivation"
         _write_json(art / "confidence.json", confidence)
 
-    hashes = {aid: _sha(art / FILES[aid]) for aid in IDS}
+    hashes = {aid: _sha(art / FILES[aid]) for aid in IDS.values()}
     _write_json(art / "licence.json", {
         "status": "accepted",
         "accepted_by": "fixture-user",
