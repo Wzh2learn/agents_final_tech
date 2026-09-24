@@ -199,7 +199,7 @@ def package(tmp_path: Path) -> Path:
             "H2a_quality_noninferiority": "paired_uid_sign_flip_on_seed_mean_difference",
             "H2b_safety_noninferiority": "paired_uid_sign_flip_on_seed_mean_difference",
             "H2c_risk_constrained_coverage": "paired_uid_sign_flip_on_seed_mean_difference",
-            "H3a_cluster_any_harm": "exact_mcnemar",
+            "H3a_uid_any_harm": "exact_mcnemar",
             "H3a_valid_rule_retention": "paired_cluster_sign_flip_noninferiority",
         },
         "holm_adjustment": "step_down_adjusted_p_and_simultaneous_one_sided_ci",
@@ -209,7 +209,7 @@ def package(tmp_path: Path) -> Path:
             "H2a_quality_noninferiority": 0.05,
             "H2b_safety_noninferiority": 0.03,
             "H2c_risk_constrained_coverage": 0.05,
-            "H3a_cluster_any_harm": 0.05,
+            "H3a_uid_any_harm": 0.05,
             "H3a_valid_rule_retention": 0.05,
         },
         "layer_manifest_sha256": _stable_hash(layers),
@@ -319,6 +319,7 @@ def test_complete_package_is_ready_for_independent_acceptance(package: Path) -> 
         ("analysis", "analysis_plan", "analysis_plan_not_approved"),
         ("analysis_action_minimum", "analysis_plan", "invalid_minimum_uid_by_action"),
         ("analysis_layers", "analysis_plan", "layer_manifest_hash_mismatch"),
+        ("analysis_h3a_legacy_name", "analysis_plan", "invalid_holm_families"),
         ("parser", "parser_contract", "parser_input_hash_mismatch"),
     ],
 )
@@ -371,13 +372,29 @@ def test_gate_failures_never_release_data(
         value["missing_policy"] = "fill_zero"
         _write_json(path, value)
         artifacts["confidence"].update(_artifact(path, "confidence", "confidence_manifest"))
-    elif mutation in {"analysis", "analysis_action_minimum", "analysis_layers"}:
+    elif mutation in {
+        "analysis",
+        "analysis_action_minimum",
+        "analysis_layers",
+        "analysis_h3a_legacy_name",
+    }:
         path = package / artifacts["analysis-plan"]["path"]
         value = json.loads(path.read_text(encoding="utf-8"))
         if mutation == "analysis":
             value["status"] = "draft"
         elif mutation == "analysis_action_minimum":
             value["minimum_uid_by_action"]["hold"] = 1
+        elif mutation == "analysis_h3a_legacy_name":
+            # D9 negative control: reverting the RQ3 hypothesis to the
+            # pre-alignment legacy name must fail closed in all three places
+            # that key off it (holm_families, one_sided_p_value_methods and the
+            # derived mde_by_confirmatory_contrast).
+            legacy, unified = "H3a_cluster_any_harm", "H3a_uid_any_harm"
+            value["holm_families"]["rq3"] = [legacy, "H3a_valid_rule_retention"]
+            value["one_sided_p_value_methods"][legacy] = (
+                value["one_sided_p_value_methods"].pop(unified))
+            value["mde_by_confirmatory_contrast"][legacy] = (
+                value["mde_by_confirmatory_contrast"].pop(unified))
         else:
             value["layer_manifest_sha256"] = "d" * 64
         _write_json(path, value)
@@ -396,6 +413,37 @@ def test_gate_failures_never_release_data(
     assert report["gates"][gate]["status"] == "FAIL"
     assert error in {item["code"] for item in report["gates"][gate]["errors"]}
     assert report["status"] != "DATA_GO"
+
+
+def test_h3a_hypothesis_name_is_unified_to_uid_any_harm(package: Path) -> None:
+    """D9 positive control: the unified name is the only accepted one.
+
+    The RQ3 harm hypothesis is named ``H3a_uid_any_harm`` across the
+    preregistration (sections 2/6.2/6.3/7), the plan's Phase 2 metric list, the
+    Phase 2 runner's emitted ``uid_any_harm_*`` metrics and the paper result
+    views. The contract previously used ``H3a_cluster_any_harm``; because the
+    contract pins ``cluster_unit == "lineage_uid"`` the two names denote the
+    same statistic, so aligning them changes no threshold, oracle, statistic or
+    family structure -- only the identifier.
+    """
+    unified, legacy = "H3a_uid_any_harm", "H3a_cluster_any_harm"
+
+    assert contract.REQUIRED_HOLM_FAMILIES["rq3"] == [unified, "H3a_valid_rule_retention"]
+    # REQUIRED_MDE_CONTRASTS is derived from the families, so it must follow.
+    assert unified in contract.REQUIRED_MDE_CONTRASTS
+    assert legacy not in contract.REQUIRED_MDE_CONTRASTS
+
+    report = contract.validate_package(package)
+    assert report["gates"]["analysis_plan"]["status"] == "PASS"
+
+    manifest = _manifest(package)
+    entry = next(a for a in manifest["artifacts"] if a["id"] == "analysis-plan")
+    plan = json.loads((package / entry["path"]).read_text(encoding="utf-8"))
+    assert plan["holm_families"]["rq3"] == [unified, "H3a_valid_rule_retention"]
+    assert set(plan["one_sided_p_value_methods"]) == set(contract.REQUIRED_MDE_CONTRASTS)
+    assert set(plan["mde_by_confirmatory_contrast"]) == contract.REQUIRED_MDE_CONTRASTS
+    assert legacy not in plan["one_sided_p_value_methods"]
+    assert legacy not in plan["mde_by_confirmatory_contrast"]
 
 
 def test_path_escape_is_rejected_without_reading_outside_package(

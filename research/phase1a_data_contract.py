@@ -103,7 +103,7 @@ REQUIRED_HOLM_FAMILIES = {
         "H2c_risk_constrained_coverage",
     ],
     "rq3": [
-        "H3a_cluster_any_harm",
+        "H3a_uid_any_harm",
         "H3a_valid_rule_retention",
     ],
 }
@@ -947,7 +947,7 @@ def _validate_package(package_root: Path, manifest_path: Path) -> dict[str, obje
             "H2a_quality_noninferiority": "paired_uid_sign_flip_on_seed_mean_difference",
             "H2b_safety_noninferiority": "paired_uid_sign_flip_on_seed_mean_difference",
             "H2c_risk_constrained_coverage": "paired_uid_sign_flip_on_seed_mean_difference",
-            "H3a_cluster_any_harm": "exact_mcnemar",
+            "H3a_uid_any_harm": "exact_mcnemar",
             "H3a_valid_rule_retention": "paired_cluster_sign_flip_noninferiority",
         }:
             _fail(gates, "analysis_plan", "invalid_one_sided_p_value_methods")
