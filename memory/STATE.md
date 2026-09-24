@@ -1,23 +1,32 @@
 # Current State
 
-> Updated: 2026-09-22 | Scope: main fast-forward and GB10 acceptance stop | Runtime: no restart
+> Updated: 2026-09-24 | Scope: test→main 合并已落地、Phase 2 重复 JSON key 执行门已闭合、GB10 实验安全门已定义 | Runtime: GB10 只读预检 + 隔离 worktree 权威验收；未 pull production、未重启服务、未跑任何实验
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
-[`DECISIONS.md`](DECISIONS.md); prior snapshot: [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
+[`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
+The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 
 ## Current objective
 
-`origin/test/compaction-guard-abort` was fast-forwarded into `main` and pushed.
-GB10 acceptance stopped on governance drift, four pytest failures and a zero-endpoint
-violation. Phase 1a/2 did not start. Entry: [`../docs/research/README.md`](../docs/research/README.md).
+围绕 Evaluate–Distill–Evolve 三阶段闭环推进科研主线（用户 2026-09-24 裁定：三阶段是目标主线，M 路线是阶段性过渡，不推翻三阶段）。本批把 `test/compaction-guard-abort` 整体合并进 `main` 并 push，闭合 Phase 2 runner 的重复 JSON key 执行门，并定义 GB10 实验安全与资源门。
 
-## Git and GB10 checkout state
+这仍是软件与治理准备，不是 Phase 1a 可学性运行，也不是 Phase 2 replay。Phase 1a 维持 `DATA_NO_GO`，Phase 2 未启动，训练与模型端点窗口未开启；合成 fixture 指标只是测试数据。任何阶段推进都须逐门取得用户授权。
 
-- Local and origin `main` are `0aee20d`; `--ff-only`, 17 commits, 88 files, `+7955/-4408`.
-- Frozen paths/docs 33–34 are unchanged; four pre-existing local user assets stay uncommitted.
-- GB10 production stays at `3dabbc7`: six dirty files include intersecting
-  `logs/graph/dispatch_log.md`; no pull/stash/reset/clean occurred.
-- Clean detached worktree `agents_final_tech_accept_0aee20d` at `0aee20d` held acceptance.
+## Git state
+
+- 2026-09-24 合并落地：main 先到 `b82a2ea`（merge commit，双亲 `394cbe6` 与 `a92e170`），随后 `60eaa27`（Phase 2 重复 JSON key 门）与 `1fd3e27`（GB10 安全门文档）。三次 push 后 local 与 origin 同为 `1fd3e27`，ahead 0 / behind 0。
+- 合并图为真合并而非 fast-forward：merge-base 唯一为 `061d881`，main 侧 1 提交、test 侧 10 提交 / 25 路径，两侧路径零交集，无冲突。未 squash、未 rebase、未 amend。
+- 四件用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）全程未 add、未 stash、未 reset、未 clean，合并后逐条复核仍在原位。
+- GB10 production 未对齐且按裁定未 pull：production 停在 `e5ab809`，落后 origin/main 14 个提交；其脏件 `logs/graph/dispatch_log.md` 与来料路径相交，故验收改在隔离 worktree `agents_final_tech_accept_1fd3e27` 内完成。
+- Loop B 连续 FAIL，唯一失败项为 git_alignment，起点是 09-23 11:11 production 移到 `e5ab809` 那一刻，早于本批 push；已按规矩停手上报，未自行重置。
+- Pre-delivery baseline: local `main`, freshly fetched `origin/main`, and local `test/compaction-guard-abort` were `061d8819bd7c3b03159f6f0df183887be57edef6`; `HEAD...origin/main = 0/0`.
+- The Phase 1a learnability runner is published on `test/compaction-guard-abort` at `fede65c`; local and remote test were verified `0/0` immediately after push. Use live Git commands for the current head after later commits.
+- The theory/data materials are published on the same branch at `b29ee92`; local and remote test were verified `0/0` immediately after push.
+- The experiment-preregistration alignment is published on the same branch at `1c74e73`; local and remote test were verified `0/0` immediately after push.
+- The theory/source expansion is published on the same branch at `cbd674c`; local and remote test were verified `0/0` immediately after push.
+- Audit-source delivery was published at `7dd505c`. The audit-repair batch is published on the same branch at `c296969`; local and remote test were verified `0/0` immediately after push. Use live Git commands for the current head after later commits.
+- Alignment used fast-forward history only. No reset, rebase, stash, or cleanup was used.
+- Protected `docs/33*`, `docs/34*`, frozen tests, schemas, and `scripts/graph/frozen_hashes.txt` remain untouched.
 
 ## Repository baseline
 
@@ -25,89 +34,60 @@ violation. Phase 1a/2 did not start. Entry: [`../docs/research/README.md`](../do
 - Python 3.12, FastAPI, PostgreSQL/PGVector; root `serve.sh` is the launcher.
 - Database contract: `PGDATABASE_URL`, development `vector_db`; HTTP default 5050.
 - Production parser/ingest live in `src/biz/`; scripts are compatibility CLIs.
-- Startup paths delegate to `serve.sh`; Docker includes `config/`; local startup
-  does not kill an occupied port or silently background Uvicorn.
-- Script ownership is in `scripts/catalog.toml`; top-level `research/` is separate.
-- Skill distribution stages/validates before activation; code existence does not
-  prove the current machine's skills, hooks or daemons are installed.
-
-## First-round governance outcome
-
-- Document authority is separated: INDEX navigates, research README resolves
-  conflicts, story defines claims, asset map tracks evidence, the existing
-  `docs/handoff/2026-09-22-paper-research-next-phase.md` controls execution.
-- Advisor materials and thesis chapters now follow that plan; historical roadmaps
-  and side handoffs no longer dispatch old work or duplicate the current ledger.
-- `docs/architecture/codebase_map.md` maps product, research and governance code,
-  inputs, side effects and focused tests, without stale size/health claims.
-- `run_tabular_inference.py` is classified as a production MCP subprocess.
-- VGMC few-shot tests use synthetic fix/meas inputs, not remote corpus assets;
-  real assertions reject measurement leakage, an eleventh fix table and bad labels.
-- A/C prompts and orchestrator help use current authorities and task authorization;
-  start no longer claims A/C were launched. Business agents are a separate graph.
-- Dispatch precheck requires JSON receipts bound to watcher path, SHA256, zoned
-  observation time and integer-zero exit status; it never executes the watcher.
-  Synthetic receipts verify the contract, not actual deployment or scheduling.
-- Story Markdown, SVG, generator and direction DOCX agree on 8B main student,
-  4B smoke-only, candidate proposal/prescreen and the final deterministic gate.
-  Word paragraphs/tables match fresh generation; Office visual review is unverified.
-- Governance closure and P1 local audit are not training-data readiness,
-  independent production Loop B/C acceptance, training or research-effect proof.
+- Research authority is layered: research README resolves conflicts, story defines claims, asset map tracks evidence, and the existing handoff controls execution.
+- Code in Git does not prove GB10 skills, hooks, services, private data, or runtime state are installed or healthy.
 
 ## Research maturity
 
-- E: mature evaluation subdraft; 95 tables/118 injections, bounded claims.
-- D: no trained student results. Existing zero-shot matrix is not distillation.
-- R: rejection/collision mechanism evidence, not stable significant net benefit
-  or a completed long-term versioned rollback loop.
-- P1 local audit now covers 37 artifacts: 494 scored gated events/48 uids;
-  DPO 60 pairs/36 uids, all skip>map_to. All 23 arm ledgers match final rules.
-- Sixteen conflict groups are quarantined; 17 accepted targets disagree with stored
-  canonical references, and 6 DPO pairs reject reference-matching mappings.
-- Action-SFT/risk views are DATA_NO_GO; DPO is audit-only PILOT_ONLY; training exports
-  remain empty. All 95 tables are historical; new validation/test/future layers are missing.
-- Complete source/context, independent correctness/licence checks and real metric-specific
-  power remain outstanding; only hypothetical uid-level MDE sensitivity was computed.
-- Plan order: Phase 1 data audit → Phase 1a learnability → Phase 2 gate baselines →
-  approved 4B smoke/8B experiments. A3 is conditional; Phase 6 controls splitting.
-- The internal direction package is separate from the experiment-backed full draft.
-  No materials were sent; patent release approval remains an independent gate.
+- Stage E: mature evaluation subdraft with 95 tables/118 injections and bounded claims.
+- Stage D: no trained-student result. Existing zero-shot matrices are not distillation evidence.
+- Stage R: rejection/collision mechanism evidence exists; stable net benefit and long-term rollback evidence do not.
+- P1 local audit covers 37 historical artifacts, but action-SFT/risk remain `DATA_NO_GO` and DPO remains audit-only `PILOT_ONLY`; training exports are empty.
+- Phase 1a remains `DATA_NO_GO`; Phase 2 software contract exists but formal data replay is unstarted. The internal direction package remains separate from an experiment-backed full paper.
+- Patent release approval is unconfirmed, so no submission, preprint upload, or public core-code release is allowed.
 
-## GB10 acceptance evidence and stop (2026-09-22)
+## Current repository-only delivery
 
-- Focused offline contracts: 159 passed, exit 0; scope covered data/paper claims,
-  production/runtime boundaries, isolated launch fixtures and governance routing.
-- `git diff --check`, changed Python compilation and changed Bash `bash -n` passed.
-  Paper claim validator passed 49/49; these checks do not prove research effects.
-- Skill sync failed 1/97 (`skill-doctor` install drift); docs_lint was 1 fail/1 warn.
-  Skill-doctor found 0 errors/139 warnings and exited 1. No install mutation or suppression.
-- Full pytest ran once: `590 passed, 14 skipped, 4 failed`; failures lacked ignored
-  `injected_tables.json` in the worktree. Production has SHA256
-  `827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9`;
-  it was not copied/generated/linked and tests were not rerun.
-- Network trace: allowed PG `:15432` ×6 and HTTP `:5050` ×1; forbidden `:8004`
-  ×5 and `:8007` ×1; DNS `:53` ×4 and GitHub SSH `:22` ×4. Forbidden attempts
-  violate the zero-endpoint contract even though completed inference was not proven.
-- No daemon/service restart, crontab change, model load, judge, canary, training,
-  Phase 1a, Phase 2, old receipt recomputation or paper publication occurred.
+- `research/phase1a_data_contract.py` now implements `phase1a-data-package-v2`: it checks seven gates plus namespaced lineage UID/root/independence-cluster isolation, exact Q3 ledger shape, explicit statistical fields, and an optional hash-bound future-acquisition protocol. Proposal train/dev, gate, and sealed remain non-empty; an empty future layer records `LONGITUDINAL_EVIDENCE_UNAVAILABLE` but does not by itself fail mechanical precheck.
+- The checker blocks common Python socket entry points, emits deterministic aggregate-only JSON, rejects unsafe paths and output overwrite, and never exports sample bodies.
+- It has only two outcomes: `DATA_NO_GO` and `READY_FOR_INDEPENDENT_ACCEPTANCE`. The latter is deliberately not `DATA_GO`, training permission, GB10 acceptance, or a paper result.
+- `tests/test_phase1a_data_contract.py` uses synthetic private-package fixtures and covers happy path, each gate family, leakage/path/hash failures, malformed inputs, network blocking, deterministic output, no-overwrite behavior, and CLI failure status.
+- `research/phase1a_learnability_baselines.py` implements always-skip, exact deterministic, lexical/fuzzy, confidence-only, and deterministic CPU softmax baselines over a receipt-bound proposal train/dev view. V2 rereads the hash-bound canonical Q3 ledger and rejects any view label drift, gate/sealed/future rows, non-Q3 quality, and post-outcome/split fields. Its metrics are explicitly named `harmful_map_rate`, `map_to_risk`, and `correct_map_coverage`.
+- `tests/test_phase1a_learnability_baselines.py` covers receipt/config/view hash binding, independent-review shape, partition leakage, forbidden features, confidence missingness, risk/coverage metrics, UID bootstrap determinism, decision outcomes, work budgets, socket restoration, and output overwrite protection.
+- `research/phase2_rule_gate_replay.py` implements the shared-order seven-arm replay with independent rule states, per-arm score recomputation, independent gate validation, version snapshots, and bounded rollback. V2 separates descriptive `rule_level_harmful_accept_rate` from `uid_any_harm_rate` and its one-sided Clopper–Pearson upper bound.
+- `research/paper_result_views.py` converts only the Phase 2 aggregate report into schema-stable Table 2/Figure 4 views while preserving `paper_result=false` and an independent-acceptance watermark.
+- `tests/test_phase2_rule_gate_replay.py` covers all seven arms, order identity, state-divergent recomputation, missing confidence, rollback restoration, layer/outcome leakage, deterministic aggregate output, and the paper-view contract.
+- The authoritative package schema and GB10 procedure are in `docs/experiments/2026-09-23_phase1a_data_no_go.md`; the tool is registered in the research entry, asset map, code map, and existing handoff.
+- `paper/method_theory_materials_v1.md` now separates common eligibility $u_i$ from checkpoint filter $z_i$, student direct acceptance from defer routing, and rule-level harm from UID-level harm. Rule utility uses $U$ rather than the overloaded $H$, and collateral excludes the complete source-lineage UID group. The inferential contract fixes one-sided non-inferiority direction, seed×UID aggregation, Holm families and threshold-selection provenance while leaving numerical tolerances human-UNSET.
+- `paper/dataset_protocol_v1.md` separates label quality Q0–Q3 from proposal/gate/sealed/future roles, freezes the only mapping `人工标注源 → package label ledger → learnability view`, and records that FinQA process gold plus Valentine action gold do not form an RQ2 main experiment. A1/A2 require one mother pool with checkpoint evidence, Q3 action/target, and Q3 outcome/correctness. No dataset was downloaded or generated.
+- `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` is upgraded in place to the current RQ2–RQ4 contract: simple-baseline stop gate, 4B-smoke/8B-main roles, A1/A2 dual fairness views, seven-arm replay, UID-cluster inference, a human freeze receipt, and fail-closed stopping rules. It remains `DRAFT_NOT_FROZEN`; numerical tolerances and execution authority are unset.
 
-## Next-session boundary
+## Local verification
 
-- Acceptance is **blocked**; Phase 1a/2 require approved skill-drift, data-access and hard network-isolation resolutions.
-- Do not regenerate old artifacts; only four failed tests need diagnostic rerun unless authorized.
-- Preserve production dirty files; no pull while dispatch log intersects, and no stash/reset/clean.
-- Training, model/endpoint tests, restarts, frozen/protocol changes and publication remain unauthorized.
+- Focused contract suite: 19 passed. Combined research/governance suite under `.venv`: 55 passed. Both emitted only the repository's existing unknown `asyncio_mode` warning.
+- New learnability-runner suite: 23 passed. Data-contract plus learnability-runner suites: 42 passed; the selected research/governance integration scope passed 61 tests, and paper claim validation remained 49/49. Python compilation and `git diff --check` passed; these are local synthetic/static software checks, not GB10 or scientific acceptance.
+- Phase 2 replay/view synthetic suite: 14 passed under local Python 3.12 with the repository's existing unknown `asyncio_mode` warning. It is not a replay result or GB10 acceptance.
+- Current audit-repair batch: the seven focused research/document suites passed 118 tests under `.venv`; paper claim validation passed 49/49; `git diff --check` passed; docs_lint kept only the existing machine skill-drift fail and the protected-doc staleness warning. Completing the batch repaired three stale spots found at handover (a path-escape cascade error in the v2 contract, the `Risk}_{\mathrm{student}}(\tau)` notation, a stale `research_story_v2.docx`) and, after an adversarial re-verification pass, closed a duplicate-role fail-open hole: a duplicated `source_tables`/`schema`/`confidence_manifest` role can no longer skip the feature-ledger hash binding (`duplicate_role_artifact` fails closed, with a regression test). The system Python still lacks `python-docx`; `.venv` contains it. No Office visual inspection was performed.
+- Theory/source expansion batch: the same seven suites passed 98 tests after adding the metadata-only 10-source registry, 42-entry method/data bibliography, closest-neighbor novelty boundaries, and finite-sample risk reporting. Live lookups used only public arXiv, GitHub, Crossref, and OpenAlex metadata; no dataset body was downloaded.
+- Python compilation passed; paper claim validation passed 49/49.
+- The system-Python combined attempt stopped during collection because `python-docx` is absent; the same scope passed under the repository `.venv`, which contains the declared document dependency.
+- Local `docs_lint` remains 1 fail/1 warn because this machine's Codex skill installation is out of sync and protected `docs/34*` is stale. Neither condition was hidden or modified; they are not failures introduced by this source change.
+- Endpoint/model/service/database calls: 0. No real or private dataset was read.
 
-## Strict closeout (2026-09-23)
+## GB10 boundary
 
-- GB10 production checkout is aligned with `origin/main` at `d351d7e09e738f16727f17d5aa3dc35646989731` (ahead/behind `0/0`); `0aee20d` is an ancestor. The next Loop B natural cycle recorded `git_alignment=PASS`; this was observed from the cycle report, not inferred from Git alone.
-- A-3 is closed: after the authorized one-item installation sync, `scripts/graph/sync_skills.sh --check` returned `PASS: 97`; A=76/C=21, missing=0, orphan=0. Only the GB10 Codex installation copy of `skill-doctor` changed; repository skills and Claude installation were unchanged. Full-root warnings remain and were not suppressed.
-- A-2 is **SCOPED_PASS** only. The exact nodes were `tests/test_vgmc_adversarial.py::test_adv_map_deterministic_nested_wrong_target`, `tests/test_vgmc_collision_overlay.py::test_overlay_merge_adds_columns_and_entries`, `tests/test_vgmc_collision_overlay.py::test_overlay_none_is_identity`, and `tests/test_vgmc_collision_overlay.py::test_real_overlay_artifact_loads`; all four passed (exit 0). The command used `strace -f -e trace=connect`; forbidden ports `8004/8006/8007/8008/4096` were each observed zero times, as were allowed `5050` and PG `15432` (total connect syscalls 0). The test fixture used synthetic corpus helpers because the isolated worktree lacks `injection_map.json`; `load_corpus()` and the broader suite were not covered. This cannot be generalized to full pytest, production, or future experiments.
-- Phase 1a is formally `DATA_NO_GO`; no baseline result table was produced and Phase 2 was not started. The structured data-gate report is `docs/experiments/2026-09-23_phase1a_data_no_go.md`.
-- No backend agent session remains running. Production accumulative files, rolling reports, and the external alignment backup remain traceable and are not treated as source commits.
+- GB10 is not connected or probed in this batch. The bounded SSH attempt recorded on 2026-09-23 in the inherited main-line documents timed out.
+- The last known production snapshot was `e5ab809`; current checkout, dirty files, processes, Loop B cycle, control queue, private data, and Loop C Lead status are unverified.
+- The local cached `gb10/main=3dabbc7` ref is stale metadata, not live evidence. Do not claim a READY card or infer that the queue is active or idle.
+- The earlier closeout audit remains `INCONCLUSIVE`; the prior four-test A-2 result is only `SCOPED_PASS`, not a whole-project network guarantee.
 
-### Next-round entry gates
+## Next gates
 
-1. **Data supplement:** reopen Phase 1a only after complete source tables/schema, licence/provenance, independent correctness labels, and disjoint manifests are supplied and accepted.
-2. **A-2 scope expansion:** if a broader test or experiment range is requested, establish new hard network-isolation evidence for that exact range; do not reuse this scoped pass as a global guarantee.
-3. **Loop C Lead:** governance, control-plane, documentation, archive candidates, and experiment design may proceed while Phase 1a remains `DATA_NO_GO`; Phase 2 and training remain closed.
+1. When GB10 is restored, first obtain a fresh read-only status and create a clean isolated worktree at the reviewed commit; preserve production dirty files.
+2. Mount the private supplement package read-only and execute the focused test plus two `strace`-wrapped prechecks documented in the data-gate report.
+3. Require byte-identical v2 reports, zero `connect` syscalls, seven mechanical PASS gates, lineage UID/root/cluster zero overlap, and independent review of licence authority, reviewer identity/adjudication, analysis approval, parser provenance, and any empty-future acquisition protocol.
+4. After independent acceptance and separate probe authorization, run the five-baseline runner twice with the receipt-bound preregistered config; inspect `SIMPLE_SUFFICIENT` / `LEARNABILITY_SIGNAL` / `NO_CLEAR_SIGNAL` / `PILOT_ONLY` without promoting any result to `DATA_GO`.
+5. After Phase 1 acceptance, a separately approved Phase 2 GB10 run must construct the contract from the frozen proposal/gate manifest, freeze the gate/config values, run twice under `strace`, reproduce the historical fixed-dual scorer, and undergo independent artifact review. The current software report cannot self-promote to a paper result.
+6. For data expansion, first audit historical TAT-QA UID exposure and perform metadata/licence preflight for both FinQA process data and Valentine NYC action data. Then identify or construct an approved same-mother-pool bridge containing checkpoint evidence + Q3 action/target + Q3 outcome; without it, preserve the two sources as separate pilot evidence and keep RQ2 `NOT_IDENTIFIED`.
+7. 4B/8B training, endpoints, service changes, and publication still require their own authorization.
+8. Office visual review of the two advisor DOCX files remains outstanding and is independent of this code contract.

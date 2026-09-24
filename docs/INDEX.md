@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-09-22 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-09-23 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -62,6 +62,7 @@
 | [`34_专利_小论文_大论文协同研究路线.md`](34_专利_小论文_大论文协同研究路线.md) | 政策依据、受保护只读 | 专利公开边界继续有效；评估单线范围已被用户校准 |
 | [`RECSYS_MEMORY_DESIGN.md`](RECSYS_MEMORY_DESIGN.md) | 设计依据 | 层次化记忆设计 |
 | [`datasets/tat-dqa-joint-v1-data-card.md`](datasets/tat-dqa-joint-v1-data-card.md) | 冻结契约 | TAT-DQA 数据卡 |
+| [`datasets/paper-public-source-registry-v1.json`](datasets/paper-public-source-registry-v1.json) | 活跃元数据合同 | 小论文 10 个公开来源的核验 commit、许可缺口、独立性簇命名空间与下载禁门；不含数据正文 |
 | [`experiments/`](experiments/) | 只追加证据集 | 实验、审计、任务卡与结果；按文件名日期检索 |
 | [`superpowers/`](superpowers/) | 计划快照 | 历史实施计划 |
 
@@ -77,6 +78,7 @@
 | [`governance/2026-09-07_execution_plane_boundary.md`](governance/2026-09-07_execution_plane_boundary.md) | 活跃 | 本地与 GB10 执行边界 |
 | [`governance/2026-09-10_backlog_ledger_and_loop_restart_proposal.md`](governance/2026-09-10_backlog_ledger_and_loop_restart_proposal.md) | 提案快照 | backlog 与 Loop 重启提案 |
 | [`governance/2026-09-11_serving_stack_provenance.md`](governance/2026-09-11_serving_stack_provenance.md) | 取证快照 | GB10 serving 栈来源证据 |
+| [`governance/2026-09-24_gb10_experiment_safety_gates.md`](governance/2026-09-24_gb10_experiment_safety_gates.md) | 活跃 | GB10 实验安全与资源门：开工/停止阈值、并发与预算、进程回收、隔离纪律；含两处不可直接测量项（内存 free vs available、GB10 统一内存无独立 VRAM） |
 | [`governance/audit/`](governance/audit/) | 只读证据集 | Harness 审计工件 |
 | [`governance/reference/`](governance/reference/) | 参考资料 | 外部治理模板，不描述项目现状 |
 | [`archive/`](archive/) | 只读历史 | 已归档文档；不得作为当前状态依据 |

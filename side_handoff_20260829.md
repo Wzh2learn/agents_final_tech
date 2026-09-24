@@ -1,5 +1,15 @@
 # CONTEXT HANDOFF — 侧线职责与历史交接证据 · JinRongAgents（文件名沿用 20260829）
 
+## 2026-09-23 侧线现役接续（本轮只读观察；下文旧快照仅供追溯）
+
+- 本侧线仅提供只读核查、解释和给主线程的建议，不继承父线程历史任务，不派子代理。当前科研事实和未决项仍以 AGENTS、CORE、STATE、THREADS 与科研交接文档为准。
+- 本轮观察时本机 main / origin/main = 061d881；远端 test/compaction-guard-abort = a92e170，相对 main 为 0 behind / 10 ahead、merge-base = 061d881。这是观察时快照，主线程合并前必须重新 fetch 并核最新远端 HEAD；本侧线没有执行 fetch、merge、push。
+- 本机没有本地 test 分支，只有 origin/test 的跟踪引用。用户要求的顺序是：先在本机建立或同步跟踪远端的 test 分支，核它与远端 HEAD 一致；再将本机 test 合入本机 main 并推送 origin/main；之后才在 GB10 检查脏件并安全拉取 main。不能在不存在的本地 test 分支上直接执行 pull。
+- 用户表示已手动恢复 GB10 连接，本侧线未 SSH 验证。GB10 production、Loop C Lead 与队列的旧快照不等于当前实况；主线程须在 Git push 后现场核验。test 分支改动含 logs/graph/dispatch_log.md，GB10 拉取前须检查生产脏件交集，不覆盖累积日志。
+- 本机四件既有未提交用户资产为 logs/graph/docs_lint_report.json、IMPLEMENTATION_PLAN.md、PROMPT.md、_d3b_dispatch.sh；本侧线没有编辑或提交。仅为让云端 agent 看到而整件提交它们没有必要。云端 agent 可看 Git，不能访问 GB10。
+- 上次权威收尾的独立审计仍是 INCONCLUSIVE；A-2 仅 SCOPED_PASS；Phase 1a = DATA_NO_GO；Phase 2 未启动。test 分支有新实现不等于研究数据门已打开，后续结论须由 GB10 权威验收。
+- 手递件整理：side_handoff_20260827.md 已标历史快照并有仓内引用，保留；本件已有历史段与过期快照，已超过其自身的 300 行现役上限。应在主线程本次 Git 合并收口后另批按“已结案且已入权威台账”双条件逐节盘点，先备份并核字节/引用，再给出归档候选；本轮不移动或删除旧件。
+
 ## 现役职责与阅读边界（2026-09-22）
 - 本件是侧线交接证据，不是“单一现役版本”或唯一指令源；规则见 [AGENTS](AGENTS.md)，当前状态见 [STATE](memory/STATE.md)，唯一现役未决台账为 [THREADS](memory/THREADS.md)。
 - 侧线负责恢复上下文、独立只读核查、建议与草拟；写入、派发或执行须当前任务明确授权，执行面遵循 [边界裁定](docs/governance/2026-09-07_execution_plane_boundary.md)，不从旧角色或承诺推断权限。
