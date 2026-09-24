@@ -44,3 +44,8 @@ streams 留 /tmp/lc_audit2.stream 与 /tmp/lc_review_qwen2.stream 备查。按�
 
 已计 turns = 40（主仓）+ 5（分支）+ 3（canary）= 48；加被 kill 上限 38 ⇒ **≤86 < 200**，未触顶、未 top-up。
 后续每次派发须在对应审计/报告件头部记录 turns 与 cost，并回写本件。
+
+## 6 回写（2026-09-24 晚）
+
+- 确认性复审（camera-pass a0f4d3d vs ACCEPTed 4de4741）: qwen3.8-max, 1 turn, $0.1880, 落盘 docs/experiments/2026-09-24_loopc_confirm_review_camera_pass.md; 判定 ACCEPT, 两 minor 关闭, 零数字/保护结果/主张范围漂移。
+- 累计更新: 主仓会话 41 turns / $4.3720; 加 canary 3 与分支 5 turns 及被 kill 上限 38 ⇒ ≤87 < 200。
