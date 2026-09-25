@@ -53,3 +53,15 @@ streams 留 /tmp/lc_audit2.stream 与 /tmp/lc_review_qwen2.stream 备查。按�
 - label_ledger 装配器审计三轮（qwen3.8-max, 各 1 turn）: 0.3195 (PASS_WITH_NOTES) + 0.1895 (REJECT, F1 残口) + 0.1522 (PASS_WITH_NOTES, F1 关闭确认); 落盘 docs/experiments/2026-09-24_loopc_audit_label_assembler*.md 三件。
 - 累计更新: 主仓会话 45 turns / $5.0332; 加 canary 3、分支 5、被 kill 上限 38 ⇒ ≤91 < 200。
 - 合同 bindings 守卫审计（qwen3.8-max, 1 turn, $0.1098）: PASS_WITH_NOTES; 落盘 docs/experiments/2026-09-24_loopc_audit_contract_bindings_guard.md。累计主仓 47 turns / $5.1430；含 canary 3、分支 5、被 kill 上限 38 ⇒ ≤93 < 200。
+
+## 7 回写（2026-09-25）
+
+- 双模型独立审稿 v2（对象 = 稿件 §6 新增两段与 claim SP-C5，即上次 ACCEPT 之后的增量）：
+  canary 2 turns（qwen3.8-max → `QWEN_OK`、deepseek-v4-pro → `DS_OK`）+ 审稿 2 turns（各 1 turn，
+  bare 模式不报 cost）。同一 packet（61 097 B，sha256 `ef6ddc7a…`），两会话并发、互不可见、不 resume、
+  不带工具，GB10 PID 3812664 / 3812665，均正常退出无 stderr。输出逐字落盘
+  `docs/experiments/2026-09-25_loopc_review_teacher_review_v2_qwen3.8-max.md` 与
+  `…_deepseek-v4-pro.md`，差异对照表 `…_loopc_review_v2_divergence_table.md`。
+  判定均为 REVISE，且独立收敛到同一条 Blocking（"under any proportional assignment" 全称量化被自引 artifact 反驳）。
+- 09-25 其余各波（SPLIT 分层仪器、语料 v1、检测器 v1/v2、论文 §6 增补与 manifest SP-C5）均为零模型调用。
+- 累计更新：主仓会话 49 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤97 < 200**，未触顶、未 top-up。

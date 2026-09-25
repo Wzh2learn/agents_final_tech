@@ -65,7 +65,7 @@
         "logs/graph/eval/d2_cross_matcher_det.json",
         "logs/graph/eval/t4_pso_fair_comparison.json"
       ],
-      "scope_limit": "No second-dataflow result and no second-scorer result are claimed."
+      "scope_limit": "No second-dataflow result and no second-scorer result are claimed for the ranking-stability findings of this entry; the separately reported boundary measurements of the attempted second dataflow and second scorer live in SP-C5."
     },
     {
       "id": "SP-C4",
@@ -82,14 +82,17 @@
     {
       "id": "SP-C5",
       "status": "attempted_stopped_by_preregistration",
-      "claim": "A second dataflow and a model-free second scorer were attempted under pre-registered stop conditions; SOURCE_GO and UID-disjoint layer assignment were achieved, while action-label semantics and step-level re-execution fidelity were not, so the deferred arms remain unreported.",
-      "manuscript_tokens": ["0.0298", "0.2233", "1970 frozen step-level records", "2409 lineage UIDs"],
+      "claim": "A second dataflow and a model-free second scorer were attempted under pre-registered stop conditions. SOURCE_GO passed and a cluster-level UID-disjoint split instrument was built and shown geometrically fillable, but SPLIT_GO itself remains blocked (that corpus has gate and sealed withheld by its registered role list, and the action-vocabulary corpus leaves the development layer empty at ten clusters). Action-label semantics were not achieved, and the step-level re-execution route was stopped by its own pre-registered fidelity threshold; because it measures reasoning-step checkpoints rather than the frozen header-injection leaf states, the leaf-state reproduction clause of reinstatement criterion (ii) remains untested rather than failed.",
+      "manuscript_tokens": ["2409 lineage UIDs", "768 report clusters", "1970 frozen step-level records", "0.0298", "0.2233", "pre-set 0.5", "ten table-pair clusters", "16.3% to 23.7%"],
       "evidence": [
         "docs/experiments/2026-09-25_source_go_p1p2_staging.md",
         "docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md",
         "docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md"
+        ,
+        "docs/experiments/2026-09-25_loopc_review_teacher_review_v2_qwen3.8-max.md",
+        "docs/experiments/2026-09-25_loopc_review_teacher_review_v2_deepseek-v4-pro.md"
       ],
-      "scope_limit": "No second-dataflow result and no second-scorer result are claimed; the reported quantity is the measured boundary and the fired stop condition, not a performance result."
+      "scope_limit": "This entry reports a boundary finding, not a substantive result. No capability, detection-performance, or arm-level result is claimed; the reported quantities are the measured boundary and the fired stop condition. The leaf-state-cell reproduction clause of reinstatement criterion (ii) remains untested, because the stopped route measured a different object (reasoning-step checkpoints)."
     }
   ],
   "figures": [
