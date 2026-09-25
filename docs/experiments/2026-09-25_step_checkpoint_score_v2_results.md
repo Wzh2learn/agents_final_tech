@@ -98,3 +98,18 @@ layers_manifest `94379823…` / `9fc84f2b…`、预注册 v2 `6ee1d06b…`、v1 
 冻结 Stage E 口径与数字；未改预注册 v1 与 v2（本件只报结果）；未改协议、注册表、合同与守卫逻辑；
 未覆盖 production 脏件；未重启 daemon 与 :5050；逐路径 add，无 `--amend`、无 `--no-verify`；
 不外发、不上 arXiv、不公开代码。
+
+## 10 引用门状态变更（append-only，2026-09-25；不原位改上文）
+
+本件头部原写「`paper_result = false`：未经独立 Loop C 审计前不得被论文引用」。该前置条件现已满足：
+独立链路审计（qwen3.8-max，packet 178 438 B，sha256 `826905f8…`，审计基线 head `e357e11`）判定
+**PASS_WITH_NOTES，无 HIGH 发现**，并显式给出引用门判定「小论文 §6 对 0.0298 / 0.2233 的引用：
+可以保留（是）」，理由含数字与 artifact 链一致（0.0298 = 44/1478、0.2233 = 330/1478，审计人自行
+算术复核通过）、所引为边界量而非被禁的性能量、两读法同时出现且未取优、untested 与 failed 区分正确。
+审计件：`docs/experiments/2026-09-25_loopc_audit_step_checkpoint_chain.md`。
+
+据此本件所载数字的引用门**开启**，但范围严格限于审计人核可的用法：只可作边界量引用，必须带分母，
+两读法必须同时出现；detection 0.99068 / 0.99358 与 localization 1.0 仍在 §7 禁令之内，不得引用。
+`paper_result` 的语义不变：本件不是论文结果，是边界测量记录。审计提出的 F7 更正同时登记：
+§3.3 所称「负对照成立」应读作**定义性核对（analytic identity）**而非经验负对照，
+经验负对照的载体是测试断言（`test_clean_faithful_and_no_false_flag_r7` 等）。

@@ -83,7 +83,7 @@
       "id": "SP-C5",
       "status": "attempted_stopped_by_preregistration",
       "claim": "A second dataflow and a model-free second scorer were attempted under pre-registered stop conditions. SOURCE_GO passed and a cluster-level UID-disjoint split instrument was built and shown geometrically fillable, but SPLIT_GO itself remains blocked (the acquisition corpus has gate and sealed withheld by its registered role list, and the action-vocabulary corpus leaves the development layer empty under the frozen hash-threshold bucketing rule at ten clusters). Action-label semantics were not achieved, and the step-level re-execution route was stopped by its own pre-registered fidelity threshold; because it measures reasoning-step checkpoints rather than the frozen header-injection leaf states, the leaf-state reproduction clause of reinstatement criterion (ii) remains untested rather than failed.",
-      "manuscript_tokens": ["2409 lineage UIDs", "768 report clusters", "1970 frozen step-level records", "0.0298", "0.2233", "pre-set 0.5", "ten table-pair clusters", "16.3% to 23.7%", "four role layers", "7134 examples", "two to eleven columns", "322 records of 1970", "467 under the one yielding 0.2233"],
+      "manuscript_tokens": ["2409 lineage UIDs", "768 report clusters", "1970 frozen step-level records", "0.0298", "0.2233", "pre-set 0.5", "ten table-pair clusters", "16.3% to 23.7%", "four role layers", "7134 examples", "two to eleven columns", "322 records of 1970", "467 under the one yielding 0.2233", "44 and 330 matches out of 1478 percent-form steps"],
       "evidence": [
         "docs/experiments/2026-09-25_source_go_p1p2_staging.md",
         "docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md",
