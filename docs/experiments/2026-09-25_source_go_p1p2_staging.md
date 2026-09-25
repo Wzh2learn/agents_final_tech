@@ -42,3 +42,12 @@ FinQA 两文件字节数与 D-C 附件 API 实测**逐字节一致**；valentine
 2. label review：R1=qwen3.8-max / R2=deepseek-v4-pro（模板互异），参考 = 已审计 FinQA schema 草案
    （D-A 选项 3）；裁决载体独立；输出过装配器→派生→合同→manifest 双跑→独立复核。
 3. Valentine 只作 P2 action 来源，单独 provenance 与 split 命名空间，不与 P1 拼同分布主实验。
+
+## 5 更正（2026-09-25，SPLIT 批只读复核发现；append-only，不回改上文）
+
+§2 表内「10 个 NYC 目录，58 文件」与 §2 末「valentine 共 62 文件（LICENSE+bench+58 数据文件）」的文件数有误。
+GB10 只读实测：`find valentine -type f | wc -l` = 62，其中 `experiments/data/` 下为 **60** 个数据文件
+（10 目录 × {source_table.csv, target_table.csv, ground_truth.json} = 30，10 目录 × {_full, _result, _trajectory}.json = 30），
+加 LICENSE 与 bench.py 恰为 62 ⇒ 两处「58」应为「60」，而 62 这个总数本身正确。
+哈希与字节口径不受影响：`sha256_manifest.txt` 共 64 行 = 62 个 valentine 文件 + 2 个 finqa 文件；
+逐文件哈希仍为权威，§3 的范围检查（越界路径 0）结论不变。更正取证为零模型、零下载、零端点。

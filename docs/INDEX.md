@@ -69,6 +69,7 @@
 | [`datasets/2026-09-24_label_review_protocol_templates.md`](datasets/2026-09-24_label_review_protocol_templates.md) | 流程模板 | label 独立复核的载体可见性边界、R1/R2 判定提示与裁决记录模板、启动检查单 |
 | [`datasets/2026-09-24_dC_download_scope_evidence.md`](datasets/2026-09-24_dC_download_scope_evidence.md) | 决策支持 | D-C 精确下载范围：FinQA train/dev（test 预留、private 排除）+ Valentine 10 个 NYC 目录；零下载实测 |
 | [`datasets/2026-09-24_dB_licence_evidence.md`](datasets/2026-09-24_dB_licence_evidence.md) | 决策支持 | D-B 签署证据：FinQA README 零许可提及（registry 行被证伪）、Valentine Apache-2.0 + NYC 上游条款；签署范围确认四条 |
+| [`datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`](datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md) | 活跃设计+实测 | SPLIT 预注册规则（双盐簇级分桶、标签盲、注册表驱动的角色门）与双命名空间层容量实测：FinQA M 扫描（M=8 → 286 UID）、Valentine 10 簇/146 列/K=10 且 dev 层为 0；四堵墙 W1-W4 与裁定项 G-A..G-E |
 | [`experiments/`](experiments/) | 只追加证据集 | 实验、审计、任务卡与结果；按文件名日期检索 |
 | [`superpowers/`](superpowers/) | 计划快照 | 历史实施计划 |
 
