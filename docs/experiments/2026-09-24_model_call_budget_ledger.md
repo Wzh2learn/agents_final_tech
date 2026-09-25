@@ -72,4 +72,9 @@ streams 留 /tmp/lc_audit2.stream 与 /tmp/lc_review_qwen2.stream 备查。按�
   stderr 空）：packet 103 376 B，sha256 `e6f718bbf1fd810fff8d51eb3b0abfce2459c9ab3a3c3c75cb89f343ac239d86`；
   判定 **PASS_WITH_NOTES**（1 MEDIUM + 5 LOW），落盘
   `docs/experiments/2026-09-25_loopc_audit_thesis_boundary_sync.md`。
-- 累计更新：主仓会话 52 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤100 < 200**，未触顶、未 top-up。
+- 累计更新：主仓会话 52 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤100 < 200**，未触顶、未 top-up。- 窄范围放行确认（第 5 轮，双模型）：2 turns（qwen3.8-max PID 3890701、deepseek-v4-pro PID 3890703，
+  各 1 turn，bare 模式不报 cost，均正常退出 stderr 空）。packet 20 014 B，sha256
+  `bf086dff371053e8a207f08d1db9fd62678d4d0630c54c353622cf2a6cc5783d`；审计 head `12e5e398…`。
+  两模型判定均 **ACCEPT**，四条放行条件全部满足；落盘
+  `docs/experiments/2026-09-25_loopc_confirm_review_v2_round5_{qwen3.8-max,deepseek-v4-pro}.md`。
+- 累计更新：主仓会话 56 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤104 < 200**，未触顶、未 top-up。

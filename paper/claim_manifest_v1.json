@@ -94,9 +94,11 @@
         "docs/experiments/2026-09-25_loopc_review_teacher_review_v2_deepseek-v4-pro.md",
         "docs/experiments/2026-09-25_loopc_review_v2_divergence_table.md",
         "docs/experiments/2026-09-25_loopc_confirm_review_v2_qwen3.8-max.md",
-        "docs/experiments/2026-09-25_loopc_confirm_review_v2_deepseek-v4-pro.md"
+        "docs/experiments/2026-09-25_loopc_confirm_review_v2_deepseek-v4-pro.md",
+        "docs/experiments/2026-09-25_loopc_confirm_review_v2_round5_qwen3.8-max.md",
+        "docs/experiments/2026-09-25_loopc_confirm_review_v2_round5_deepseek-v4-pro.md"
       ],
-      "audit_status": "dual_model_ACCEPT_2026-09-25_round3",
+      "audit_status": "dual_model_ACCEPT_2026-09-25_round5",
       "scope_limit": "This entry reports a boundary finding, not a substantive result. No capability, detection-performance, or arm-level result is claimed; the reported quantities are procedural gate status, split-capacity arithmetic, the measured boundary, and the fired stop condition. The leaf-state-cell reproduction clause of reinstatement criterion (ii) remains untested, because the stopped route measured a different object (reasoning-step checkpoints)."
     }
   ],
