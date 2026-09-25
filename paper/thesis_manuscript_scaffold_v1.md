@@ -75,7 +75,7 @@ proposal/train（含内部 dev）、gate-validation、sealed test、future repla
 ### 第 5 章 评估引导的小模型蒸馏
 
 - 5.1 动作事件抽取与 checkpoint 过滤｜继承：`research/vgmc_exp1.py` 事件 schema｜新增：过滤统计｜门：SOURCE_GO/SPLIT_GO｜空槽
-- 5.2 监督/偏好数据构造｜继承：`research/dpo_pairs_v0.py`（60 对，仅审计素材）｜门：LABEL_GO｜空槽
+- 5.2 监督/偏好数据构造｜继承：`research/dpo_pairs_v0.py`（60 对，仅审计素材）｜门：LABEL_GO（2026-09-25 实测：D-C 批准来源内该门无可用载体，成因与裁定项见开题报告 §7.3）｜空槽
 - 5.3 8B 主学生与 4B smoke｜门：MODEL_GO｜空槽
 - 5.4 质量—成本 Pareto 与 A1/A2 双口径｜空槽（FIG-D-1/FIG-D-2）
 

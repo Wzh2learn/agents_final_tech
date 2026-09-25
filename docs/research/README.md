@@ -1,6 +1,6 @@
 # 科研主线与论文验收入口
 
-> 状态: 活跃 | 更新: 2026-09-23 | 取代/被取代: 不取代受保护路线文档；作为当前执行与验收入口
+> 状态: 活跃 | 更新: 2026-09-25 | 取代/被取代: 不取代受保护路线文档；作为当前执行与验收入口
 
 本文只回答三个问题：小论文在证明什么、大论文如何承接、下一项工作怎样验收。历史实验过程仍保留在 `docs/experiments/`，不在这里重复。
 
@@ -110,7 +110,7 @@
 ### 大论文
 
 - TH-I1/TH-I2 已有较完整的小论文证据底座。
-- TH-I3 只有训练前矩阵、文献和偏好对，尚无蒸馏结果。
+- TH-I3 只有训练前矩阵、文献和偏好对，尚无蒸馏结果。2026-09-25 实测进一步定位了其数据路径：在已批准来源范围内**没有单一命名空间可承载 Phase 1a 动作包**，且 250-500 有效 UID 的补充目标对 schema-matching 表对类来源不可达（K = 表对数，实测 K=10）。详见 §6.3。
 - TH-I4 有机制与探索性证据，强门控基线和功效分析尚未闭合。
 
 ## 5. 论文验收基线 v1
@@ -166,6 +166,14 @@ A-2's four tested nodes were `test_adv_map_deterministic_nested_wrong_target`, `
 Section 6.1 is the earlier `d351d7e` closeout snapshot. At this delivery's clean baseline, local `main`, `origin/main`, and the working branch `test/compaction-guard-abort` were aligned at `061d881`; pre-delivery `origin/test/compaction-guard-abort` was `0aee20d`, and the repository-only contract is published on that test branch. GB10 was last observed at `e5ab809`, but its current production/worktree state, Loop B cycle, processes, and Loop C Lead queue are **unverified** because the last bounded SSH attempt timed out. The closeout audit remains `INCONCLUSIVE`; Phase 1a remains `DATA_NO_GO`, and Phase 2 has not started.
 
 The repository-only Phase 1a supplement precheck, simple-baseline runner, Phase 2 seven-arm replay state machine, and paper-view adapter are now implemented with synthetic contract tests. They create no experimental result: GB10 must later run the fixed offline acceptance procedure against a read-only private package, obtain independent manual review, and receive separate authorization for each development/replay step before any metric exists. See the dated state in `memory/STATE.md`, §13 and Phase 2 of the handoff, and the data-gate report.
+
+### 6.3 Data-path boundary measured after the approved public-source download (2026-09-25)
+
+SOURCE_GO is now evidenced for the D-C approved minimal scope (FinQA `train.json` / `dev.json`; Valentine 10 NYC pairs + LICENSE + bench.py), staged outside the repository on GB10 with per-file sha256 recorded in `docs/experiments/2026-09-25_source_go_p1p2_staging.md`. No data body entered Git.
+
+A deterministic, label-blind split instrument (`research/phase1a_split_assign.py`, 15 contract tests green on GB10) was then run read-only over that staging. It measured a boundary that changes how the RQ2/RQ3 data path must be described: within the approved scope **no single namespace can carry the Phase 1a action package**. Valentine supplies genuine action-label material (146 source columns over 10 pairs; source-side `matches` 77, `ambiguous_scenarios` 10, `false_positive_scenarios` 0, so `skip` has no mechanical seed) but only 10 origin clusters and 10 lineage UIDs: threshold bucketing leaves `proposal_train.dev` at zero clusters while the contract requires four non-empty partitions, and K=10 sits 25-50x below the 250-500 UID supplement target. That shortfall is bounded by the number of table pairs, not by annotation effort, because one pair is one lineage root and therefore one UID. The source registry and `paper/dataset_protocol_v1.md` §4.1 additionally confine this source to `PILOT_ONLY` proposal/dev. FinQA fills four layers comfortably (M=8 gives 856 samples / 286 UIDs / 88 clusters, inside the target band) but its audited schema role is entry-level and the registry records `action_label_fit = PROGRAMS_ARE_NOT_MAP_HOLD_SKIP_LABELS`; forcing its nine entry-level fields to serve as `canonical_fields` makes every real header unmappable, so `gold_action` collapses to all-`skip` and an always-skip rule scores `action_macro_f1 = 1.0` with `harmful_map_rate = 0`.
+
+Consequently the same-sample bridge required by §4.1 (checkpoint evidence + Q3 action/target + Q3 outcome on one sample) does not exist in the approved scope, RQ2 stays `NOT_IDENTIFIED`, and `DATA_NO_GO` is not lifted by this work. Full measurements, the four walls W1-W4, and ruling items G-A..G-E are in `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`. Two branches stay executable without any ruling and without rework: a FinQA checkpoint adapter for process-level external validity, and Q3 review of the 146 Valentine columns as explicitly exploratory learnability evidence. Neither yields confirmatory RQ2 evidence, and neither may be reported as closing the Distill stage.
 
 ## 7. 常用入口
 

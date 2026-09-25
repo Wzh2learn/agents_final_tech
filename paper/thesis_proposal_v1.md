@@ -144,7 +144,7 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 | RQ | 实验 / 证据 | 供数 artifact（当前） | 升级前必须通过的门 | 当前状态 |
 |---|---|---|---|---|
 | RQ1 评估信号 | Stage E 检查点评估 + 可见性谱 + matched-FPR 审计 | `logs/graph/eval/` 下 checkpoint_discrimination_tables_v2 / t2_visibility_sensitivity / t1_eval_baseline_comparison / d3_matched_fpr_stage_a | 评估轨无剩余门；跨域复现需第二数据流 + 第二 scorer | 已成稿，双模型复审 ACCEPT |
-| RQ2 蒸馏迁移 | 8B 学生动作策略蒸馏 vs 简单基线；质量—成本 Pareto | 尚不存在；回填位 BF-1 / FIG-D-* | SOURCE_GO→LABEL_GO→SPLIT_GO→POWER_GO→BASELINE_GO→MODEL_GO + 独立验收 | 目标；数据门 DATA_NO_GO |
+| RQ2 蒸馏迁移 | 8B 学生动作策略蒸馏 vs 简单基线；质量—成本 Pareto | 尚不存在；回填位 BF-1 / FIG-D-* | SOURCE_GO→LABEL_GO→SPLIT_GO→POWER_GO→BASELINE_GO→MODEL_GO + 独立验收 | 目标；SOURCE_GO 已过（2026-09-25），但批准范围内无单一命名空间可走完该门链 ⇒ 记 `NOT_IDENTIFIED`（实测成因见 §7.3） |
 | RQ3 安全积累 | 七臂规则门 replay（门拒执行记录：`docs/experiments/2026-08-28_adversarial_arm_experiment.md`:23 含 08-29 机制更正；`docs/experiments/2026-08-29_collision_expansion_experiment.md`；交叉核对 `docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md`:25） + 强基线 + 功效分析 + 独立 gate-validation + 版本回滚 | `research/phase2_rule_gate_replay.py`（仅合同）；机制证据 7/7 与 5/5 拒绝 | Phase 2 门 + POWER_GO + 独立 gate-validation | 机制级；功效未闭合（BF-2 / FIG-R-*） |
 | RQ4 闭环权衡 | 三阶段统一端到端实验与消融 | 尚不存在 | 上述全部 + sealed / future replay | 仅总假设 |
 
@@ -182,6 +182,9 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 - 已有的 `source_tables`（`tatqa_tables.json`，sha `3e7e0568…`）与 `injection_map`（118 条 / 95 uid / 含 `deterministic=true, seed=42, ratio=0.3` 溯源，sha `d7612405…`）**可直接哈希绑定、不必重新交付**；故外部补充范围收窄为 **7 个角色 + 1 个包根**。
 - `H3a_uid_any_harm` 因被钉为 `exact_mcnemar`，在 α=0.05 下需 **≥5 个不一致对**才可能显著，而合同对 `minimum_uid_by_action` 只要求 `>= 2`（健全性下限，非功效下限）⇒ 存在**结构性欠功效**风险，处置目标为补充 **250–500 个有效 UID**，达不到则该假设降为 exploratory，**不改检验方法、不以功效不足冒充显著**。见 `docs/experiments/2026-09-24_phase1a_power_mde_sensitivity_grid.md`。
 - D 类参数（`minimum_uid_*`、`mde_by_confirmatory_contrast`）在拿到真实开发侧 σ 之前**在数学上无法收敛到唯一值**（同一 δ 下所需独立 UID 数跨一个数量级，主导项是 σ²）。
+- **`DATA_NO_GO` 的成因已于 2026-09-25 实测定位，且不是「再补一点标注」可解**。D-C 批准范围内的两个公开命名空间都无法单独承载 Phase 1a 动作包：Valentine NYC 有真实动作标签材料（10 表对 / 146 源列；源侧 `matches` 77、`ambiguous_scenarios` 10、`false_positive_scenarios` **0** ⇒ `skip` 无机械种子，69 个未覆盖列仅为须经 Q3 的候选负例），但只有 **10 个 origin cluster 与 10 个 lineage UID**——阈值分桶下 `proposal_train.dev` 实测为 **0 簇**，而合同要求四层全部非空；且 K=10 相对 250-500 UID 目标差 **25-50 倍**，该缺口受**表对数量**而非标注量约束（一表对 = 一 lineage root = 一 UID）。FinQA 侧四层几何可填（M=8 → 856 样本 / 286 UID / 88 簇，286 恰落在目标带内），但其已审计 schema 角色是**条目级**字段，注册表判 `action_label_fit = PROGRAMS_ARE_NOT_MAP_HOLD_SKIP_LABELS`；若强行以那九个条目级字段充当 `canonical_fields`，任何真实表头都不属该集合 ⇒ `gold_action` 恒为 `skip`，「恒预测 skip」即取得 `action_macro_f1 = 1.0` 与 `harmful_map_rate = 0` 双满分，且 `map_to`/`hold` 两类为空使 `minimum_uid_by_action` 不可满足——可学性结论退化为恒真命题。故 `paper/dataset_protocol_v1.md` §4.1 要求的「同样本桥」（同一母池同时具备 checkpoint evidence + Q3 teacher action/target + Q3 outcome）在批准范围内**不存在** ⇒ **RQ2 记 `NOT_IDENTIFIED`**，两路只算互补预研。
+- 上述结论的取证链：实测与四堵墙 W1-W4、裁定项 G-A..G-E 见 `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`；分层仪器 `research/phase1a_split_assign.py`（确定性、标签盲、零连接、哈希绑定 fail-closed；15 例合同测试于 GB10 全绿；`ground_truth.json` 与 `target_table.csv` 被刻意排除在 sha256 manifest 外，读取即失败 ⇒ 标签盲为机械强制）；层分配与 commit 无关，`layers_manifest_sha256` 在两个不同 head 上逐位复现（`3651cd32…`）。SOURCE_GO 证据见 `docs/experiments/2026-09-25_source_go_p1p2_staging.md`（数据体始终在仓外，未入 Git）。
+- 在该边界下仍可执行且在任何裁定下都不返工的两条支路：FinQA checkpoint adapter（过程流外部效度，不需动作标签）与 Valentine 146 列的 Q3 三载体复核（在 `proposal_train` 内作为**显式 exploratory** 的可学性证据）。两者都不产生 RQ2 的确认性证据，也不得被报为 Stage D 闭合。
 
 ## 8 进度安排与阶段门
 
