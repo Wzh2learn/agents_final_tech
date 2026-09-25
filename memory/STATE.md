@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-09-24 | Scope: test→main 合并已落地、Phase 2 重复 JSON key 执行门已闭合、GB10 实验安全门已定义 | Runtime: GB10 只读预检 + 隔离 worktree 权威验收；未 pull production、未重启服务、未跑任何实验
+> Updated: 2026-09-25 | Scope: D-C 批准范围已下载并取证（SOURCE_GO）；分层 / 语料 / 检测器三件运行器落地并全链路复现；步级重执行线按其自身预注册停止条件终止；小论文当前文本经双模型审稿与全链路独立审计 | Runtime: GB10 已连通并为唯一权威验收环境；未重启 daemon 与 :5050、未覆盖 production 脏件、未跑任何训练或业务实验
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
@@ -8,86 +8,72 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Current objective
 
-围绕 Evaluate–Distill–Evolve 三阶段闭环推进科研主线（用户 2026-09-24 裁定：三阶段是目标主线，M 路线是阶段性过渡，不推翻三阶段）。本批把 `test/compaction-guard-abort` 整体合并进 `main` 并 push，闭合 Phase 2 runner 的重复 JSON key 执行门，并定义 GB10 实验安全与资源门。
+围绕 Evaluate–Distill–Evolve 三阶段闭环推进科研主线（用户 2026-09-24 裁定：三阶段是目标主线，M 路线是阶段性过渡）。两份交付物按目标口径推进：小论文以**评估保底稿**为当前成稿口径（三阶段完整稿因数据门未开，按目标自带的自动切换条款走保底路线），大论文开题报告 + 初稿框架 + 前两章草稿均已成稿并经独立审计。
 
-这仍是软件与治理准备，不是 Phase 1a 可学性运行，也不是 Phase 2 replay。Phase 1a 维持 `DATA_NO_GO`，Phase 2 未启动，训练与模型端点窗口未开启；合成 fixture 指标只是测试数据。任何阶段推进都须逐门取得用户授权。
+Phase 1a 动作包仍为 `DATA_NO_GO`，Phase 2 未启动，训练与模型端点窗口未开启。与 09-24 的差别在于：这不再是「尚未测量」，而是**已实测定位**——批准范围内没有单一命名空间可承载动作包（见 Research maturity 与 Pending user decisions）。任何阶段推进仍须逐门取得用户授权。
 
 ## Git state
 
-- 2026-09-24 合并落地：main 先到 `b82a2ea`（merge commit，双亲 `394cbe6` 与 `a92e170`），随后 `60eaa27`（Phase 2 重复 JSON key 门）与 `1fd3e27`（GB10 安全门文档）。三次 push 后 local 与 origin 同为 `1fd3e27`，ahead 0 / behind 0。
-- 合并图为真合并而非 fast-forward：merge-base 唯一为 `061d881`，main 侧 1 提交、test 侧 10 提交 / 25 路径，两侧路径零交集，无冲突。未 squash、未 rebase、未 amend。
-- 四件用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）全程未 add、未 stash、未 reset、未 clean，合并后逐条复核仍在原位。
-- GB10 production 未对齐且按裁定未 pull：production 停在 `e5ab809`，落后 origin/main 14 个提交；其脏件 `logs/graph/dispatch_log.md` 与来料路径相交，故验收改在隔离 worktree `agents_final_tech_accept_1fd3e27` 内完成。
-- Loop B 连续 FAIL，唯一失败项为 git_alignment，起点是 09-23 11:11 production 移到 `e5ab809` 那一刻，早于本批 push；已按规矩停手上报，未自行重置。
-- Pre-delivery baseline: local `main`, freshly fetched `origin/main`, and local `test/compaction-guard-abort` were `061d8819bd7c3b03159f6f0df183887be57edef6`; `HEAD...origin/main = 0/0`.
-- The Phase 1a learnability runner is published on `test/compaction-guard-abort` at `fede65c`; local and remote test were verified `0/0` immediately after push. Use live Git commands for the current head after later commits.
-- The theory/data materials are published on the same branch at `b29ee92`; local and remote test were verified `0/0` immediately after push.
-- The experiment-preregistration alignment is published on the same branch at `1c74e73`; local and remote test were verified `0/0` immediately after push.
-- The theory/source expansion is published on the same branch at `cbd674c`; local and remote test were verified `0/0` immediately after push.
-- Audit-source delivery was published at `7dd505c`. The audit-repair batch is published on the same branch at `c296969`; local and remote test were verified `0/0` immediately after push. Use live Git commands for the current head after later commits.
-- Alignment used fast-forward history only. No reset, rebase, stash, or cleanup was used.
-- Protected `docs/33*`, `docs/34*`, frozen tests, schemas, and `scripts/graph/frozen_hashes.txt` remain untouched.
+- 三方对齐：local `main` = `origin/main` = GB10 production = `23774473a4866de048724194725193ce86616ffe`，ahead 0 / behind 0。
+- 本日提交序列（均逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`、无破坏性命令）：分层运行器与合同测试 → SPLIT 设计与层容量实测 → 语料构建器 → 检测器 v1 与预注册 v1 → 检测器 v2 与预注册 v2 → 论文 §6 与 claim SP-C5 → 双模型审稿第 3-5 轮 → 全链路独立审计与守卫收紧。
+- GB10 production 脏件始终为固定五件（`config/schema_suggestions.json`、`logs/graph/docs_lint_report.json`、`logs/graph/governance_drift_latest.md`、`logs/graph/loop_b_last_status`、`logs/graph/verify-report.json`），每次 pull 前后逐条复核未被覆盖。
+- 本机用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）与 `side_handoff_20260829.md` 全程未 add、未 commit、未 stash、未 reset、未 clean。
+- 受保护件未触碰：`docs/33*`、`docs/34*`、冻结测试、schema、`scripts/graph/frozen_hashes.txt`。
+- Loop B：最近自然周期 2026-09-25 18:56:04 于 head `23774473a` 记录 overall **PASS**，非 PASS 检查项为空。本日 14:31 曾出现一次 FAIL，唯一失败项为 `git_alignment`（push 与 GB10 pull 之间的中间态），15:04 自然周期即自愈；全程未手工重置。
 
-## Repository baseline
+## GB10 boundary（已连通，取代 09-24 的「未连通」记载）
 
-- Product: M1 counterparty-statement parsing and M2 traceable RAG QA.
-- Python 3.12, FastAPI, PostgreSQL/PGVector; root `serve.sh` is the launcher.
-- Database contract: `PGDATABASE_URL`, development `vector_db`; HTTP default 5050.
-- Production parser/ingest live in `src/biz/`; scripts are compatibility CLIs.
-- Research authority is layered: research README resolves conflicts, story defines claims, asset map tracks evidence, and the existing handoff controls execution.
-- Code in Git does not prove GB10 skills, hooks, services, private data, or runtime state are installed or healthy.
+- SSH `jinrong-dev` 全天可用。GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、文本编辑与 commit/push，本机测试结果不作权威验收。
+- 进程：`:5050` = PID 1868428，lstart 09-13 01:22:32（未重启）；Loop B daemon = PID **2835621**，lstart 09-24 14:14:59（用户授权 FLIP 改道重启后的进程）。**旧任务卡所载 daemon PID 1816933 已不存在**，任何仍以该 PID 为准的检查都需更正。
+- 端口：`:5050 / :8004 / :8006 / :8008 / :4096` 全部 LISTEN；`:5050/api/health/full` 实测 HTTP 200 / 0.127s，`overall=healthy`，pgvector ok（embeddings 137），llm_8004 ok，embedding ok。
+- 资源门（决策 D4/D5 口径，本日实测）：磁盘 `/dev/nvme0n1p2` 3.6T 总量 / 814G 已用 / 2.7T 可用（24% 已用，满足「free ≥20% 且 ≥50GB」开工门）；内存 121G 总量 / available 31G（满足 ≥20G 开工门）/ used 74%（低于 85% 停止门）。
+- `loop_b_flip_log.md` 由 `.gitignore:33`（`logs/graph/*`）收录并正常写入；`dispatch_log.md` 只承载 Loop D 台账，不再承载 Loop B 运行时记录。
+- 仓外暂存：`~/wzh/phase1a_staging_20260925/`（FinQA train/dev + Valentine 10 个 NYC 目录 + LICENSE + bench.py；`sha256_manifest.txt` 共 64 行）。派生产物在 `/tmp/step_ckpt_20260925/` 与 `/tmp/repro_20260925/`。数据体与派生产物一律不入 Git。
 
 ## Research maturity
 
-- Stage E: mature evaluation subdraft with 95 tables/118 injections and bounded claims.
-- Stage D: no trained-student result. Existing zero-shot matrices are not distillation evidence.
-- Stage R: rejection/collision mechanism evidence exists; stable net benefit and long-term rollback evidence do not.
-- P1 local audit covers 37 historical artifacts, but action-SFT/risk remain `DATA_NO_GO` and DPO remains audit-only `PILOT_ONLY`; training exports are empty.
-- Phase 1a remains `DATA_NO_GO`; Phase 2 software contract exists but formal data replay is unstarted. The internal direction package remains separate from an experiment-backed full paper.
-- Patent release approval is unconfirmed, so no submission, preprint upload, or public core-code release is allowed.
+- Stage E（评估）：成熟评估子稿，95 表 / 118 注入，主张有界；当前文本经双模型独立审稿第 5 轮 **ACCEPT**，零 blocking。
+- Stage D（蒸馏）：无训练后学生结果，既有零样本矩阵不是蒸馏证据。**新增实测边界**：RQ2 记 `NOT_IDENTIFIED`，因为「同一母池同时具备 checkpoint 证据 + Q3 动作/目标标签 + Q3 结果」的同样本桥在批准范围内不存在。
+- Stage R（规则进化）：拒绝与碰撞机制证据存在；稳定净收益与长期回滚证据不存在。
+- Phase 1a：维持 `DATA_NO_GO`，成因已实测定位为四堵墙——W1 十簇填不满四层（dev 层实测 0 簇）、W2 注册表 `role_fit` 与协议 §4.1 均不给 Valentine gate/sealed、W3 动作流 K=10 对 250-500 UID 目标差 25-50 倍、W4 FinQA 无动作标签语义。门状态：SOURCE_GO 已过；SPLIT 仪器 READY 而动作包 SPLIT_GO **BLOCKED**；LABEL_GO 未启动（待 G-D）；POWER_GO / BASELINE_GO / MODEL_GO 未启动。
+- 步级 checkpoint 重执行线：**已按其自身预注册停止条件终止**（两种百分号读法下 pct 形态保真度 0.0298 与 0.2233，均低于预设 0.5）。不得开 v3 继续试约定；唯一合法后续是新申报 FinQA 官方算子代码或文档（超出 D-C 范围，需用户批准），或放弃该路线并如实记录。
+- FinQA **具备** table layer（7134 例 100% 带非空矩形表、首行全字符串、列数 2-11），故「缺表层」不是递延理由；缺的是官方表列 canonical 词汇。表层使样本可定义，但不提供样本所需的 gold。
+- 专利公开状态未确认：不外发、不上 arXiv、不公开代码。
 
 ## Current repository-only delivery
 
-- `research/phase1a_data_contract.py` now implements `phase1a-data-package-v2`: it checks seven gates plus namespaced lineage UID/root/independence-cluster isolation, exact Q3 ledger shape, explicit statistical fields, and an optional hash-bound future-acquisition protocol. Proposal train/dev, gate, and sealed remain non-empty; an empty future layer records `LONGITUDINAL_EVIDENCE_UNAVAILABLE` but does not by itself fail mechanical precheck.
-- The checker blocks common Python socket entry points, emits deterministic aggregate-only JSON, rejects unsafe paths and output overwrite, and never exports sample bodies.
-- It has only two outcomes: `DATA_NO_GO` and `READY_FOR_INDEPENDENT_ACCEPTANCE`. The latter is deliberately not `DATA_GO`, training permission, GB10 acceptance, or a paper result.
-- `tests/test_phase1a_data_contract.py` uses synthetic private-package fixtures and covers happy path, each gate family, leakage/path/hash failures, malformed inputs, network blocking, deterministic output, no-overwrite behavior, and CLI failure status.
-- `research/phase1a_learnability_baselines.py` implements always-skip, exact deterministic, lexical/fuzzy, confidence-only, and deterministic CPU softmax baselines over a receipt-bound proposal train/dev view. V2 rereads the hash-bound canonical Q3 ledger and rejects any view label drift, gate/sealed/future rows, non-Q3 quality, and post-outcome/split fields. Its metrics are explicitly named `harmful_map_rate`, `map_to_risk`, and `correct_map_coverage`.
-- `tests/test_phase1a_learnability_baselines.py` covers receipt/config/view hash binding, independent-review shape, partition leakage, forbidden features, confidence missingness, risk/coverage metrics, UID bootstrap determinism, decision outcomes, work budgets, socket restoration, and output overwrite protection.
-- `research/phase2_rule_gate_replay.py` implements the shared-order seven-arm replay with independent rule states, per-arm score recomputation, independent gate validation, version snapshots, and bounded rollback. V2 separates descriptive `rule_level_harmful_accept_rate` from `uid_any_harm_rate` and its one-sided Clopper–Pearson upper bound.
-- `research/paper_result_views.py` converts only the Phase 2 aggregate report into schema-stable Table 2/Figure 4 views while preserving `paper_result=false` and an independent-acceptance watermark.
-- `tests/test_phase2_rule_gate_replay.py` covers all seven arms, order identity, state-divergent recomputation, missing confidence, rollback restoration, layer/outcome leakage, deterministic aggregate output, and the paper-view contract.
-- The authoritative package schema and GB10 procedure are in `docs/experiments/2026-09-23_phase1a_data_no_go.md`; the tool is registered in the research entry, asset map, code map, and existing handoff.
-- `paper/method_theory_materials_v1.md` now separates common eligibility $u_i$ from checkpoint filter $z_i$, student direct acceptance from defer routing, and rule-level harm from UID-level harm. Rule utility uses $U$ rather than the overloaded $H$, and collateral excludes the complete source-lineage UID group. The inferential contract fixes one-sided non-inferiority direction, seed×UID aggregation, Holm families and threshold-selection provenance while leaving numerical tolerances human-UNSET.
-- `paper/dataset_protocol_v1.md` separates label quality Q0–Q3 from proposal/gate/sealed/future roles, freezes the only mapping `人工标注源 → package label ledger → learnability view`, and records that FinQA process gold plus Valentine action gold do not form an RQ2 main experiment. A1/A2 require one mother pool with checkpoint evidence, Q3 action/target, and Q3 outcome/correctness. No dataset was downloaded or generated.
-- `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` is upgraded in place to the current RQ2–RQ4 contract: simple-baseline stop gate, 4B-smoke/8B-main roles, A1/A2 dual fairness views, seven-arm replay, UID-cluster inference, a human freeze receipt, and fail-closed stopping rules. It remains `DRAFT_NOT_FROZEN`; numerical tolerances and execution authority are unset.
+- `research/phase1a_data_contract.py` 实现 `phase1a-data-package-v2`：七个机械门 + 命名空间化 lineage UID/root/independence-cluster 隔离 + 严格 Q3 账本形状 + 显式统计字段 + 可选哈希绑定未来获取协议。只有两种结局：`DATA_NO_GO` 与 `READY_FOR_INDEPENDENT_ACCEPTANCE`；后者刻意不等于 `DATA_GO`、训练许可、GB10 验收或论文结果。
+- `research/phase1a_learnability_baselines.py`（五基线）、`research/phase2_rule_gate_replay.py`（七臂 replay）、`research/paper_result_views.py`（Table 2 / Figure 4 视图，强制 `paper_result=false`）、以及 label_ledger 装配器 / feature ledger 派生器 / parser receipt 运行器均已在案并有合同测试。
+- **本日新增三件运行器**：`research/phase1a_split_assign.py`（确定性、标签盲、零连接、哈希绑定 fail-closed 的分层仪器；治理编码——注册表 `role_fit` 未含 gate/sealed 时扣行并报 `LAYER_CAPACITY_BLOCKED_PILOT_ONLY`，须显式裁定 id 才填层；15 例合同测试）；`research/finqa_step_checkpoint_adapter.py`（预注册故障注入语料构建器，17 例测试）；`research/finqa_step_checkpoint_scorer.py`（按预注册 v2 的双读法检测器，含 v1 复现守卫与冻结值锚定，30 个测试函数）。
+- 权威包 schema 与 GB10 程序见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`；分层与容量见 `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`；步级链路见 `docs/experiments/2026-09-25_finqa_step_checkpoint_corpus_v1.md`、`…_step_checkpoint_score_v1_results.md`、`…_step_checkpoint_score_v2_results.md`。
 
-## Local verification
+## Verification（GB10 权威，head `23774473a`）
 
-- Focused contract suite: 19 passed. Combined research/governance suite under `.venv`: 55 passed. Both emitted only the repository's existing unknown `asyncio_mode` warning.
-- New learnability-runner suite: 23 passed. Data-contract plus learnability-runner suites: 42 passed; the selected research/governance integration scope passed 61 tests, and paper claim validation remained 49/49. Python compilation and `git diff --check` passed; these are local synthetic/static software checks, not GB10 or scientific acceptance.
-- Phase 2 replay/view synthetic suite: 14 passed under local Python 3.12 with the repository's existing unknown `asyncio_mode` warning. It is not a replay result or GB10 acceptance.
-- Current audit-repair batch: the seven focused research/document suites passed 118 tests under `.venv`; paper claim validation passed 49/49; `git diff --check` passed; docs_lint kept only the existing machine skill-drift fail and the protected-doc staleness warning. Completing the batch repaired three stale spots found at handover (a path-escape cascade error in the v2 contract, the `Risk}_{\mathrm{student}}(\tau)` notation, a stale `research_story_v2.docx`) and, after an adversarial re-verification pass, closed a duplicate-role fail-open hole: a duplicated `source_tables`/`schema`/`confidence_manifest` role can no longer skip the feature-ledger hash binding (`duplicate_role_artifact` fails closed, with a regression test). The system Python still lacks `python-docx`; `.venv` contains it. No Office visual inspection was performed.
-- Theory/source expansion batch: the same seven suites passed 98 tests after adding the metadata-only 10-source registry, 42-entry method/data bibliography, closest-neighbor novelty boundaries, and finite-sample risk reporting. Live lookups used only public arXiv, GitHub, Crossref, and OpenAlex metadata; no dataset body was downloaded.
-- Python compilation passed; paper claim validation passed 49/49.
-- The system-Python combined attempt stopped during collection because `python-docx` is absent; the same scope passed under the repository `.venv`, which contains the declared document dependency.
-- Local `docs_lint` remains 1 fail/1 warn because this machine's Codex skill installation is out of sync and protected `docs/34*` is stale. Neither condition was hidden or modified; they are not failures introduced by this source change.
-- Endpoint/model/service/database calls: 0. No real or private dataset was read.
+- 全量 pytest：**799 passed / 13 skipped / 1 deselected**。计数按本日逐 head 实测对账：727（09-24 台账基线于 `3240a78`）+ 1（confidence_manifest 合同件）+ 15（分层运行器）= 743（实测于 `d079c05` / `4484fe6`）；+ 17（语料构建器）= 760（实测于 `47fa138`，即 conftest 修好跨文件 socket 守卫泄漏后复原的值）；+ 28（检测器 v1）= 788（实测于 `5bde74d`）；+ 2（audit_records 验收门）= 790（实测于 `c511bbd` / `12e5e39`）；+ 9（链路审计补的守卫负例与 seed 性质）= **799**（实测于 `2377447`）。skipped 恒为 13、deselected 恒为 1（`integration` 标记默认排除）。
+- `tests/test_paper_claim_acceptance.py` 9 passed（含 DOCX 与 MD 逐段逐格一致门）；`research/validate_paper_claims.py` PASS / 5 claims / **73 checks 全过** / errors 空。
+- 三个链路测试文件合计 69 passed。
+- `docs_lint` rc=0 / **0 fail / 1 warn**（唯一 warn 为受保护 `docs/34*` 时效，基线保留、不消警）+ `[5]` INFO 行（注册表标 DEPRECATED 且未分发，属预期）。
+- `sync_skills --check` **PASS: 97**（C14 摘除 `verification-before-completion` 后的口径，98 → 97，`[5]` INFO 行为证）。
+- 本机 `docs_lint` 的 `[4]` fail 是历次台账在案的已知假阳（本机 Codex skill 安装区与仓库不同步）。本日以 GB10 为权威，**未在本机重跑** `docs_lint`，因为重跑会改写 `logs/graph/docs_lint_report.json` 这一用户资产；该条因此是「已记录状态」而非本日新测结果。
+- 端点与模型调用申报（决策 46 口径）：本日只读探测为 `:5050/api/health/full` 的 GET 与 `tests/test_health_embeddings_count.py` 内 `_pg_ready()` 对 PG `:15432` 的探测（随全量 pytest 轮次发生）；`integration` 标记测试 1 deselected（`pytest.ini` 默认排除，符合 D2）。模型调用仅用于独立审稿与审计（离线 packet，不接业务端点），累计 **≤105 / 200** turns，未 top-up。
 
-## GB10 boundary
+## Independent review status
 
-- GB10 is not connected or probed in this batch. The bounded SSH attempt recorded on 2026-09-23 in the inherited main-line documents timed out.
-- The last known production snapshot was `e5ab809`; current checkout, dirty files, processes, Loop B cycle, control queue, private data, and Loop C Lead status are unverified.
-- The local cached `gb10/main=3dabbc7` ref is stale metadata, not live evidence. Do not claim a READY card or infer that the queue is active or idle.
-- The earlier closeout audit remains `INCONCLUSIVE`; the prior four-test A-2 result is only `SCOPED_PASS`, not a whole-project network guarantee.
+- 小论文当前文本：双模型独立审稿第 3 轮 ACCEPT（实质修订后）→ 第 4 轮分歧（qwen 条件性 REVISE / deepseek ACCEPT，按更保守一侧执行全部 9 项）→ 第 5 轮双模型 **ACCEPT**，四条放行条件全部满足。
+- 步级链路（暂存数据 → 论文所引数字）：独立审计 **PASS_WITH_NOTES**，无 HIGH；引用门判定「可以保留」，据此以 append-only 开启引用，范围严格限于边界量、必须带分母、两读法同时出现；detection 与 localization 数字仍在禁令内。
+- 大论文三件（开题 / 前两章 / 骨架）：独立审计 **PASS_WITH_NOTES**，全部可执行 Finding 已闭合，仅余一项按审计人指示延后的范围性 Finding（既存批次数字不属本轮同步引入）。
+- 纪律：生成者不自验；四份审稿 / 审计原件逐字落档；分歧以对照表记录、不合并结论、不代用户仲裁。
+
+## Pending user decisions
+
+1. **G-A..G-E**（见 `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md` §8）：是否许 Valentine 承担 gate/sealed；小簇数下是否改秩分位分桶；是否批准新的最小下载增量以取得 ≥40 origin cluster 独立批次；Valentine 的 canonical 参考可否用 `target_table.csv` 表头；是否接受「动作包维持 DATA_NO_GO + RQ2 `NOT_IDENTIFIED` + 小论文按评估保底口径推进 + 146 列 Q3 复核作 exploratory」这一组合。
+2. **V2-3 分叉**：是否新申报 FinQA 官方算子代码 / 文档（超 D-C 范围），或正式关闭步级重执行路线。
+3. 仍沿用 2026-09-25 的 D-A=3 / D-B / D-C（已完成）/ D-D（仅范围设计）/ D-E（MIMO 维持现状另批）/ D-F（专利未确认前不外发）。
 
 ## Next gates
 
-1. When GB10 is restored, first obtain a fresh read-only status and create a clean isolated worktree at the reviewed commit; preserve production dirty files.
-2. Mount the private supplement package read-only and execute the focused test plus two `strace`-wrapped prechecks documented in the data-gate report.
-3. Require byte-identical v2 reports, zero `connect` syscalls, seven mechanical PASS gates, lineage UID/root/cluster zero overlap, and independent review of licence authority, reviewer identity/adjudication, analysis approval, parser provenance, and any empty-future acquisition protocol.
-4. After independent acceptance and separate probe authorization, run the five-baseline runner twice with the receipt-bound preregistered config; inspect `SIMPLE_SUFFICIENT` / `LEARNABILITY_SIGNAL` / `NO_CLEAR_SIGNAL` / `PILOT_ONLY` without promoting any result to `DATA_GO`.
-5. After Phase 1 acceptance, a separately approved Phase 2 GB10 run must construct the contract from the frozen proposal/gate manifest, freeze the gate/config values, run twice under `strace`, reproduce the historical fixed-dual scorer, and undergo independent artifact review. The current software report cannot self-promote to a paper result.
-6. For data expansion, first audit historical TAT-QA UID exposure and perform metadata/licence preflight for both FinQA process data and Valentine NYC action data. Then identify or construct an approved same-mother-pool bridge containing checkpoint evidence + Q3 action/target + Q3 outcome; without it, preserve the two sources as separate pilot evidence and keep RQ2 `NOT_IDENTIFIED`.
-7. 4B/8B training, endpoints, service changes, and publication still require their own authorization.
-8. Office visual review of the two advisor DOCX files remains outstanding and is independent of this code contract.
+1. G-D 若批准：装配 Valentine 146 源列的 Q3 三载体复核输入包（R1 = qwen3.8-max，R2 = deepseek-v4-pro，裁决载体独立且不得由生成者担任），并强制任何载体不得见 `ground_truth.json`；源侧 gold 只用于事后收敛效度统计并披露其为来源自带元数据。
+2. G-A / G-C 若批准：按裁定重跑分层仪器产出权威 layers，再走 label_ledger 装配 → feature ledger 派生 → 合同双跑 precheck（byte-identical、零 connect）→ 独立复核 → 重评 `DATA_NO_GO`。
+3. 若均不批准：按 G-E 维持 `DATA_NO_GO` 与 RQ2 `NOT_IDENTIFIED`，小论文保持评估保底口径，大论文保持设计阶段表述，不以任何方式把目标写成结果。
+4. Phase 2 正式 replay、4B smoke、8B 主训练、端点与服务变更、以及任何外发，仍各自需要独立授权。
+5. 两份导师 DOCX 的 Office 视觉验收仍未做，与代码合同无关，独立推进。
