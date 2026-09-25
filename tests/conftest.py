@@ -1,5 +1,6 @@
 """Test configuration: auto-skip tests with missing runtime dependencies."""
 import os
+import socket
 import tempfile
 
 # N1 (2026-08-21): redirect B4 structured ask-log to scratch for in-process test traffic,
@@ -81,3 +82,26 @@ def pytest_collection_modifyitems(config, items):
         # Skip hmm memory tests (need specific model setup)
         if "test_hmm_memory" in str(item.fspath):
             item.add_marker(pytest.mark.skip(reason="requires HMM model configuration"))
+
+
+@pytest.fixture(autouse=True)
+def _restore_socket_entrypoints():
+    """Restore the socket connect entrypoints after every test.
+
+    Several runners install a zero-connect guard by monkeypatching `socket.socket.connect`
+    and `socket.create_connection`, and their CLI tests call `main()`, which installs the
+    guard without restoring it. pytest collects files alphabetically, so a leak in an early
+    file silently robs every later test of networking. Observed symptom: after adding
+    tests/test_finqa_step_checkpoint_adapter.py, `test_health_embeddings_count.py` began
+    skipping with "FastAPI server on :5050 not reachable" while :5050 answered HTTP 200 in
+    0.13s, and full-suite wall time fell from ~130-167s to ~39s because endpoint probes
+    raised instantly instead of waiting on timeouts.
+
+    Restoring per test removes that hazard class for all seven guard-installing test modules
+    without changing a single assertion: no test depends on the guard outliving itself.
+    """
+    original_connect = socket.socket.connect
+    original_create = socket.create_connection
+    yield
+    socket.socket.connect = original_connect
+    socket.create_connection = original_create
