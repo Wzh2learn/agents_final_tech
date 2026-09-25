@@ -39,6 +39,7 @@ from research.phase1a_data_contract import _digest_object  # noqa: E402
 
 SCORE_CONTRACT_VERSION = "finqa-step-checkpoint-score-v2"
 PREREG_VERSION = "v2"
+CORPUS_CONTRACT_VERSION = "finqa-step-checkpoint-corpus-v1"
 READING_DIRECT = "mantissa_direct"
 READING_SCALED = "mantissa_scaled"
 READINGS = (READING_DIRECT, READING_SCALED)
@@ -351,11 +352,33 @@ def aggregate(scored: list[dict]) -> dict:
     }
 
 
-def verify_bindings(corpus_raw: bytes, corpus_sha: str, summary: dict, layers: dict) -> set[str]:
-    """R1: corpus hash, summary agreement, layer digest recomputation, and row containment."""
+def verify_bindings(
+    corpus_raw: bytes,
+    corpus_sha: str,
+    summary: dict,
+    layers: dict,
+    frozen_corpus_sha: str,
+    frozen_layers_manifest: str,
+) -> set[str]:
+    """R1: corpus hash, summary agreement, layer digest recomputation, and row containment.
+
+    The two `frozen_*` arguments are transcribed from the pre-registration, not derived here.
+    Without them every check below only proves internal consistency, so a self-consistent but
+    *different* corpus + summary + layers triple would score without tripping any guard.
+    """
     actual = hashlib.sha256(corpus_raw).hexdigest()
     if actual != corpus_sha:
         raise ScorerError("corpus_sha256_mismatch", expected=corpus_sha, actual=actual)
+    if actual != frozen_corpus_sha:
+        raise ScorerError(
+            "frozen_corpus_sha256_mismatch", frozen=frozen_corpus_sha, actual=actual
+        )
+    if summary.get("contract_version") != CORPUS_CONTRACT_VERSION:
+        raise ScorerError(
+            "invalid_summary_contract_version", got=str(summary.get("contract_version"))
+        )
+    if summary.get("namespace") != "finqa":
+        raise ScorerError("invalid_summary_namespace", got=str(summary.get("namespace")))
     counts = summary.get("counts") or {}
     if counts.get("corpus_sha256") != actual:
         raise ScorerError("summary_corpus_sha_mismatch")
@@ -363,6 +386,10 @@ def verify_bindings(corpus_raw: bytes, corpus_sha: str, summary: dict, layers: d
     declared = (summary.get("inputs") or {}).get("layers_manifest_sha256")
     if declared != digest:
         raise ScorerError("layers_manifest_sha256_mismatch", declared=str(declared), recomputed=digest)
+    if digest != frozen_layers_manifest:
+        raise ScorerError(
+            "frozen_layers_manifest_mismatch", frozen=frozen_layers_manifest, recomputed=digest
+        )
     assigned: set[str] = set()
     flat = layers["layers"]
     for rows in (flat["proposal_train"]["train"], flat["proposal_train"]["dev"],
@@ -399,6 +426,13 @@ def _assert_reproduces_v1(block: dict, v1: dict) -> None:
     """
     sections = (("counts", "totals"), ("metrics", "metrics"),
                 ("metric_denominators", "metric_denominators"))
+    # Without this shape check, a v1 artifact missing one of the three sections would make the
+    # corresponding loop iterate over nothing and pass silently, leaving only step_strata.
+    for v1_key, _ in sections:
+        if not isinstance(v1.get(v1_key), dict) or not v1.get(v1_key):
+            raise ScorerError("v1_artifact_shape_invalid", missing=v1_key)
+    if not isinstance(v1.get("step_strata"), dict) or not v1.get("step_strata"):
+        raise ScorerError("v1_artifact_shape_invalid", missing="step_strata")
     for v1_key, v2_key in sections:
         expected = v1.get(v1_key) or {}
         actual = block.get(v2_key) or {}
@@ -422,6 +456,10 @@ def main() -> int:
     ap.add_argument("--v1-score", required=True, type=Path,
                     help="v1 score artifact; mantissa_direct must reproduce it")
     ap.add_argument("--commit", required=True)
+    ap.add_argument("--frozen-corpus-sha256", required=True,
+                    help="corpus sha256 transcribed verbatim from pre-registration R1")
+    ap.add_argument("--frozen-layers-manifest-sha256", required=True,
+                    help="layers digest transcribed verbatim from pre-registration R1")
     ap.add_argument("--out", required=True, type=Path)
     args = ap.parse_args()
     commit = args.commit.strip()
@@ -431,7 +469,14 @@ def main() -> int:
     corpus_raw = args.corpus.read_bytes()
     summary = json.loads(args.summary.read_text(encoding="utf-8"))
     layers = json.loads(args.layers.read_text(encoding="utf-8"))
-    assigned = verify_bindings(corpus_raw, args.corpus_sha256.strip(), summary, layers)
+    assigned = verify_bindings(
+        corpus_raw,
+        args.corpus_sha256.strip(),
+        summary,
+        layers,
+        args.frozen_corpus_sha256.strip(),
+        args.frozen_layers_manifest_sha256.strip(),
+    )
     expected = int((summary.get("counts") or {}).get("corpus_records", -1))
     v1_score = json.loads(args.v1_score.read_text(encoding="utf-8"))
 
@@ -466,6 +511,8 @@ def main() -> int:
         "bindings": {
             "corpus_sha256": hashlib.sha256(corpus_raw).hexdigest(),
             "corpus_bytes": len(corpus_raw),
+            "frozen_corpus_sha256": args.frozen_corpus_sha256.strip(),
+            "frozen_layers_manifest_sha256": args.frozen_layers_manifest_sha256.strip(),
             "summary_sha256": hashlib.sha256(args.summary.read_bytes()).hexdigest(),
             "layers_sha256": hashlib.sha256(args.layers.read_bytes()).hexdigest(),
             "layers_manifest_sha256": (summary.get("inputs") or {}).get("layers_manifest_sha256"),

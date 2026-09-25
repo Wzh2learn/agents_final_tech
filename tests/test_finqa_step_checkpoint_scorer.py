@@ -17,6 +17,7 @@ import pytest
 from research.finqa_step_checkpoint_adapter import op_family, scale_res
 from research.finqa_step_checkpoint_scorer import (
     ScorerError,
+    _assert_reproduces_v1,
     aggregate,
     compute,
     install_network_guard,
@@ -25,6 +26,7 @@ from research.finqa_step_checkpoint_scorer import (
     res_form,
     resolve_arg,
     run_steps,
+    score_corpus,
     score_record,
     step_verdict,
     verify_bindings,
@@ -210,26 +212,50 @@ def _bindings_fixture():
          "transformation_parent_id": None}], "dev": []},
         "gate_validation": [], "sealed_test": [], "future_replay": []}}
     digest = _digest_object(layers["layers"])
-    raw = (json.dumps({"sample_id": "a"}) + "\n").encode("utf-8")
-    summary = {"counts": {"corpus_sha256": hashlib.sha256(raw).hexdigest(), "corpus_records": 1},
-               "inputs": {"layers_manifest_sha256": digest, "layers_m_universe": 1}}
-    return raw, hashlib.sha256(raw).hexdigest(), summary, layers
+    raw = (json.dumps(_valid_record()) + "\n").encode("utf-8")
+    sha = hashlib.sha256(raw).hexdigest()
+    summary = {
+        "contract_version": "finqa-step-checkpoint-corpus-v1",
+        "namespace": "finqa",
+        "counts": {"corpus_sha256": sha, "corpus_records": 1},
+        "inputs": {"layers_manifest_sha256": digest, "layers_m_universe": 1},
+    }
+    return raw, sha, summary, layers, digest
 
 
 def test_verify_bindings_rejects_each_tamper_r1():
-    raw, sha, summary, layers = _bindings_fixture()
-    assert verify_bindings(raw, sha, summary, layers) == {"a"}
+    raw, sha, summary, layers, digest = _bindings_fixture()
+    assert verify_bindings(raw, sha, summary, layers, sha, digest) == {"a"}
     with pytest.raises(ScorerError) as exc:
-        verify_bindings(raw, "0" * 64, summary, layers)
+        verify_bindings(raw, "0" * 64, summary, layers, "0" * 64, digest)
     assert exc.value.code == "corpus_sha256_mismatch"
+    # The frozen anchors are transcribed from the pre-registration: a self-consistent but
+    # different triple must still fail, which internal-consistency checks alone cannot catch.
+    with pytest.raises(ScorerError) as exc:
+        verify_bindings(raw, sha, summary, layers, "0" * 64, digest)
+    assert exc.value.code == "frozen_corpus_sha256_mismatch"
+    with pytest.raises(ScorerError) as exc:
+        verify_bindings(raw, sha, summary, layers, sha, "0" * 64)
+    assert exc.value.code == "frozen_layers_manifest_mismatch"
     broken_summary = dict(summary, counts=dict(summary["counts"], corpus_sha256="f" * 64))
     with pytest.raises(ScorerError) as exc:
-        verify_bindings(raw, sha, broken_summary, layers)
+        verify_bindings(raw, sha, broken_summary, layers, sha, digest)
     assert exc.value.code == "summary_corpus_sha_mismatch"
     broken_layers = dict(layers, layers=dict(layers["layers"], future_replay=[{"sample_id": "x"}]))
     with pytest.raises(ScorerError) as exc:
-        verify_bindings(raw, sha, summary, broken_layers)
+        verify_bindings(raw, sha, summary, broken_layers, sha, digest)
     assert exc.value.code == "layers_manifest_sha256_mismatch"
+
+
+def test_verify_bindings_checks_summary_identity():
+    raw, sha, summary, layers, digest = _bindings_fixture()
+    for field, value, code in (
+        ("contract_version", "something-else", "invalid_summary_contract_version"),
+        ("namespace", "valentine_nyc", "invalid_summary_namespace"),
+    ):
+        with pytest.raises(ScorerError) as exc:
+            verify_bindings(raw, sha, dict(summary, **{field: value}), layers, sha, digest)
+        assert exc.value.code == code
 
 
 def test_invalid_commit_fails_closed(tmp_path, monkeypatch):
@@ -240,6 +266,8 @@ def test_invalid_commit_fails_closed(tmp_path, monkeypatch):
         "--summary", str(tmp_path / "s.json"), "--layers", str(tmp_path / "l.json"),
         "--prereg", str(tmp_path / "p.md"),
         "--v1-results-doc", str(tmp_path / "v1.md"), "--v1-score", str(tmp_path / "v1.json"),
+        "--frozen-corpus-sha256", "0" * 64,
+        "--frozen-layers-manifest-sha256", "0" * 64,
         "--commit", "abc", "--out", str(tmp_path / "o.json")])
     with pytest.raises(ScorerError) as exc:
         runner.main()
@@ -313,3 +341,128 @@ def test_arg_swap_localizes_exactly_under_both_readings():
         assert row["clean_faithful"] is True, reading
         assert row["exact_localization"] is True, reading
         assert row["root_cause_localization"] is True, reading
+
+
+def _valid_record(sample_id="a"):
+    steps = [_step("divide1-1", "100", "100", "1"), _step("divide1-2", "3.8", "#0", "3.8")]
+    return {"sample_id": sample_id, "partition": "proposal_train.train",
+            "steps_clean": steps, "fault": _res_fault(1, steps)}
+
+
+def test_score_corpus_rejects_row_outside_assigned_layers():
+    rogue = (json.dumps(_valid_record("zzz")) + "\n").encode("utf-8")
+    with pytest.raises(ScorerError) as exc:
+        score_corpus(rogue, {"a"}, 1, READING_DIRECT)
+    assert exc.value.code == "corpus_row_not_in_layers"
+
+
+def test_score_corpus_rejects_record_count_mismatch():
+    raw = (json.dumps(_valid_record()) + "\n").encode("utf-8")
+    with pytest.raises(ScorerError) as exc:
+        score_corpus(raw, {"a"}, 2, READING_DIRECT)
+    assert exc.value.code == "corpus_record_count_mismatch"
+    assert len(score_corpus(raw, {"a"}, 1, READING_DIRECT)) == 1
+
+
+def test_score_corpus_rejects_record_missing_required_key():
+    broken = {"sample_id": "a", "partition": "proposal_train.train", "steps_clean": []}
+    with pytest.raises(ScorerError) as exc:
+        score_corpus((json.dumps(broken) + "\n").encode("utf-8"), {"a"}, 1, READING_DIRECT)
+    assert exc.value.code == "invalid_corpus_record"
+
+
+def test_v1_reproduction_guard_rejects_perturbed_number():
+    steps = [_step("divide1-1", "100", "100", "1"), _step("divide1-2", "3.8", "#0", "3.8")]
+    block = aggregate([score_record(_record(steps, _res_fault(1, steps)), READING_DIRECT)])
+    v1 = {"counts": dict(block["totals"]), "metrics": dict(block["metrics"]),
+          "metric_denominators": dict(block["metric_denominators"]),
+          "step_strata": block["step_strata"]}
+    assert _assert_reproduces_v1(block, v1) is None
+    v1["metrics"]["interpretation_fidelity"] = 0.5
+    with pytest.raises(ScorerError) as exc:
+        _assert_reproduces_v1(block, v1)
+    assert exc.value.code == "v1_reproduction_mismatch"
+
+
+def test_v1_reproduction_guard_rejects_malformed_v1_artifact():
+    # A v1 artifact missing a whole section would otherwise make that section's comparison
+    # loop over nothing and pass silently.
+    steps = [_step("divide1-1", "100", "100", "1"), _step("divide1-2", "3.8", "#0", "3.8")]
+    block = aggregate([score_record(_record(steps, _res_fault(1, steps)), READING_DIRECT)])
+    for missing in ("counts", "metrics", "metric_denominators", "step_strata"):
+        v1 = {"counts": dict(block["totals"]), "metrics": dict(block["metrics"]),
+              "metric_denominators": dict(block["metric_denominators"]),
+              "step_strata": block["step_strata"]}
+        v1[missing] = {}
+        with pytest.raises(ScorerError) as exc:
+            _assert_reproduces_v1(block, v1)
+        assert exc.value.code == "v1_artifact_shape_invalid", missing
+
+
+def _cli_fixture(tmp_path):
+    raw, sha, summary, layers, digest = _bindings_fixture()
+    corpus = tmp_path / "corpus.jsonl"
+    corpus.write_bytes(raw)
+    summ = tmp_path / "summary.json"
+    summ.write_text(json.dumps(summary), encoding="utf-8")
+    lay = tmp_path / "layers.json"
+    lay.write_text(json.dumps(layers), encoding="utf-8")
+    prereg = tmp_path / "prereg.md"
+    prereg.write_text("# frozen spec\n", encoding="utf-8")
+    block = aggregate(score_corpus(raw, {"a"}, 1, READING_DIRECT))
+    drop = ("root_cause_localization", "root_cause_localization_rate")
+    v1 = {
+        "counts": {k: v for k, v in block["totals"].items() if k not in drop},
+        "metrics": {k: v for k, v in block["metrics"].items() if k not in drop},
+        "metric_denominators": {k: v for k, v in block["metric_denominators"].items() if k not in drop},
+        "step_strata": block["step_strata"],
+    }
+    v1p = tmp_path / "v1.json"
+    v1p.write_text(json.dumps(v1), encoding="utf-8")
+    return {"corpus": corpus, "sha": sha, "summary": summ, "layers": lay, "prereg": prereg,
+            "v1": v1p, "digest": digest}
+
+
+def _cli_argv(fx, tmp_path, out_name, frozen_corpus=None, commit=COMMIT):
+    return [
+        "runner", "--corpus", str(fx["corpus"]), "--corpus-sha256", fx["sha"],
+        "--summary", str(fx["summary"]), "--layers", str(fx["layers"]),
+        "--prereg", str(fx["prereg"]), "--v1-results-doc", str(fx["prereg"]),
+        "--v1-score", str(fx["v1"]),
+        "--frozen-corpus-sha256", frozen_corpus if frozen_corpus is not None else fx["sha"],
+        "--frozen-layers-manifest-sha256", fx["digest"],
+        "--commit", commit, "--out", str(tmp_path / out_name),
+    ]
+
+
+def test_cli_writes_byte_identical_artifacts_with_both_readings(tmp_path, monkeypatch):
+    from research import finqa_step_checkpoint_scorer as runner
+
+    fx = _cli_fixture(tmp_path)
+    outputs = []
+    for name in ("a.json", "b.json"):
+        monkeypatch.setattr(sys, "argv", _cli_argv(fx, tmp_path, name))
+        assert runner.main() == 0
+        outputs.append((tmp_path / name).read_bytes())
+    assert outputs[0] == outputs[1]
+    payload = json.loads(outputs[0])
+    assert payload["commit"] == COMMIT
+    assert "executed_at" not in payload
+    assert set(payload["readings"]) == {"mantissa_direct", "mantissa_scaled"}
+    assert set(payload["by_reading"]) == {"mantissa_direct", "mantissa_scaled"}
+    assert payload["bindings"]["frozen_corpus_sha256"] == fx["sha"]
+    assert payload["bindings"]["frozen_layers_manifest_sha256"] == fx["digest"]
+    for reading in payload["readings"]:
+        assert set(payload["by_reading"][reading]) == {
+            "counts", "metrics", "metric_denominators", "step_strata", "example_strata"}
+
+
+def test_cli_rejects_frozen_anchor_mismatch(tmp_path, monkeypatch):
+    from research import finqa_step_checkpoint_scorer as runner
+
+    fx = _cli_fixture(tmp_path)
+    monkeypatch.setattr(sys, "argv", _cli_argv(fx, tmp_path, "o.json", frozen_corpus="0" * 64))
+    with pytest.raises(ScorerError) as exc:
+        runner.main()
+    assert exc.value.code == "frozen_corpus_sha256_mismatch"
+    assert not (tmp_path / "o.json").exists()

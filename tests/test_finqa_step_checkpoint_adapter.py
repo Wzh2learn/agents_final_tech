@@ -250,15 +250,32 @@ def test_layer_sample_missing_from_source_fails_closed(env: dict) -> None:
     assert exc.value.code == "layer_sample_not_in_source"
 
 
-def test_build_is_deterministic_and_seed_is_an_input(env: dict) -> None:
+def test_build_is_deterministic(env: dict) -> None:
     first, corpus_a = _build(env, seed=42)
     second, corpus_b = _build(env, seed=42)
     assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
     assert corpus_a == corpus_b
-    other, corpus_c = _build(env, seed=43)
+    other, _ = _build(env, seed=43)
     assert other["counts"]["injected"] == first["counts"]["injected"]
     assert other["seed"] == 43
-    assert len([json.loads(x) for x in corpus_c.splitlines() if x.strip()]) == 4
+
+
+def test_seed_actually_changes_fault_selection(env: dict) -> None:
+    # The previous version of this check only asserted that `seed` was echoed back into the
+    # summary, which passes even if the seed is ignored entirely. This asserts the property
+    # the pre-registration actually claims: the seed drives index and family selection.
+    steps = [_step("divide1-1", "100", "100", "1"),
+             _step("divide1-2", "3.8", "#0", "3.8"),
+             _step("minus1-3", "#1", "2", "1.8")]
+    choices = set()
+    for seed in range(42, 53):
+        for sample_id in ("s1", "s2", "s3", "s4", "s5"):
+            fault = plan_fault(seed, sample_id, steps)
+            assert fault is not None
+            choices.add((fault["step_index"], fault["family"]))
+    assert len(choices) >= 2, choices
+    # Same seed and same sample must give the same choice, i.e. it is a seed, not randomness.
+    assert plan_fault(7, "s1", steps) == plan_fault(7, "s1", steps)
 
 
 def test_cli_writes_byte_identical_artifacts(env: dict, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
