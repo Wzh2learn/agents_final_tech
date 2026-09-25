@@ -41,3 +41,17 @@ config.toml 中 Xiaomi_Token_Plan provider 段的清理留待单独批（用户�
 
 确认前所有稿件仅限内部审阅、不上 arXiv、不公开代码（release_gate 维持）。
 确认后解锁送审流程（小论文评估保底轨已备齐）。
+## 裁定结果（用户 2026-09-25，逐条对应）
+
+- **D-A = 选项 3**：本轮不提供官方 TAT-QA schema excerpt；label review 推迟到 P1-future package；
+  主线程不得自行构造或替代官方 schema（当前 corpus 的 schema 角色维持 BLOCKED，P1 包用已审计的
+  FinQA schema 草案）。
+- **D-B = 批准**：D-B annex 所列四项 licence scope confirmation 获批准，**仅限该 annex 精确范围**，
+  不扩展到其他数据源或许可口径 ⇒ licence_record 的 accepted_by/accepted_at 可以用户裁定填入。
+- **D-C = 批准最小下载范围**：FinQA train.json + dev.json；Valentine 十个 NYC 目录 + LICENSE + bench.py；
+  任何额外文件/目录/数据集须重新申报等待批准。下载执行于 GB10 仓外暂存
+  ~/wzh/phase1a_staging_20260925/（监控中），sha256 与字节数落 manifest。
+- **D-D = 授权范围设计**：Loop A sandbox scoping 仅限范围设计；不启动生产端口、不重启服务。
+- **D-E = MIMO 继续挂起**：Loop A 用已跑通路由（deepseek-v4.1-flash / Token_Plan_Chat），Loop C 用 qwen3.8-max。
+- **D-F = 维持**：专利未确认前不上 arXiv、不公开代码、不外发；任何 external release 需用户单独确认。
+- 恢复指令：按已落地的 runner / manifest / audit 链路继续推进，不重做已完成部分。
