@@ -78,6 +78,18 @@
         "docs/experiments/2026-08-29_column_sensitivity_analysis.md"
       ],
       "scope_limit": "The downstream efficacy effect is not significant and is not presented as a contribution."
+    },
+    {
+      "id": "SP-C5",
+      "status": "attempted_stopped_by_preregistration",
+      "claim": "A second dataflow and a model-free second scorer were attempted under pre-registered stop conditions; SOURCE_GO and UID-disjoint layer assignment were achieved, while action-label semantics and step-level re-execution fidelity were not, so the deferred arms remain unreported.",
+      "manuscript_tokens": ["0.0298", "0.2233", "1970 frozen step-level records", "2409 lineage UIDs"],
+      "evidence": [
+        "docs/experiments/2026-09-25_source_go_p1p2_staging.md",
+        "docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md",
+        "docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md"
+      ],
+      "scope_limit": "No second-dataflow result and no second-scorer result are claimed; the reported quantity is the measured boundary and the fired stop condition, not a performance result."
     }
   ],
   "figures": [
