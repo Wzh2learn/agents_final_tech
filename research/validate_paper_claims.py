@@ -58,6 +58,13 @@ def validate(manifest_path: Path = DEFAULT_MANIFEST) -> dict[str, object]:
             checks.append({"check": f"{claim_id}:evidence:{relative}", "pass": exists})
             if not exists:
                 errors.append(f"{claim_id} missing evidence: {relative}")
+        # Audit records are separated from measurement evidence so that a review cannot be
+        # mistaken for a data artifact; a dangling pointer here must still fail closed.
+        for relative in claim.get("audit_records", []):
+            exists = (REPO / relative).is_file()
+            checks.append({"check": f"{claim_id}:audit_record:{relative}", "pass": exists})
+            if not exists:
+                errors.append(f"{claim_id} missing audit record: {relative}")
 
     for relative in manifest["figures"]:
         exists = (REPO / relative).is_file()

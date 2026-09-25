@@ -37,6 +37,26 @@ def test_acceptance_rejects_reversed_visibility_claim(tmp_path) -> None:
     assert validate(path)["status"] == "FAIL"
 
 
+def test_audit_records_are_mechanically_checked() -> None:
+    result = validate(DEFAULT_MANIFEST)
+    assert result["status"] == "PASS", result["errors"]
+    audit_checks = [c for c in result["checks"] if ":audit_record:" in str(c["check"])]
+    assert len(audit_checks) == 5
+    assert all(c["pass"] for c in audit_checks)
+
+
+def test_acceptance_rejects_dangling_audit_record(tmp_path) -> None:
+    manifest = json.loads(DEFAULT_MANIFEST.read_text())
+    for claim in manifest["claims"]:
+        if claim["id"] == "SP-C5":
+            claim["audit_records"] = ["docs/experiments/does_not_exist_audit.md"]
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(manifest))
+    result = validate(path)
+    assert result["status"] == "FAIL"
+    assert any("missing audit record" in error for error in result["errors"])
+
+
 def test_evaluation_docx_matches_current_source(tmp_path) -> None:
     source = DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md"
     current = Document(DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.docx")
