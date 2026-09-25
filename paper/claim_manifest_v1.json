@@ -88,10 +88,15 @@
         "docs/experiments/2026-09-25_source_go_p1p2_staging.md",
         "docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md",
         "docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md"
-        ,
-        "docs/experiments/2026-09-25_loopc_review_teacher_review_v2_qwen3.8-max.md",
-        "docs/experiments/2026-09-25_loopc_review_teacher_review_v2_deepseek-v4-pro.md"
       ],
+      "audit_records": [
+        "docs/experiments/2026-09-25_loopc_review_teacher_review_v2_qwen3.8-max.md",
+        "docs/experiments/2026-09-25_loopc_review_teacher_review_v2_deepseek-v4-pro.md",
+        "docs/experiments/2026-09-25_loopc_review_v2_divergence_table.md",
+        "docs/experiments/2026-09-25_loopc_confirm_review_v2_qwen3.8-max.md",
+        "docs/experiments/2026-09-25_loopc_confirm_review_v2_deepseek-v4-pro.md"
+      ],
+      "audit_status": "dual_model_ACCEPT_2026-09-25_round3",
       "scope_limit": "This entry reports a boundary finding, not a substantive result. No capability, detection-performance, or arm-level result is claimed; the reported quantities are the measured boundary and the fired stop condition. The leaf-state-cell reproduction clause of reinstatement criterion (ii) remains untested, because the stopped route measured a different object (reasoning-step checkpoints)."
     }
   ],

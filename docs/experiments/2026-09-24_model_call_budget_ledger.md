@@ -64,4 +64,8 @@ streams 留 /tmp/lc_audit2.stream 与 /tmp/lc_review_qwen2.stream 备查。按�
   `…_deepseek-v4-pro.md`，差异对照表 `…_loopc_review_v2_divergence_table.md`。
   判定均为 REVISE，且独立收敛到同一条 Blocking（"under any proportional assignment" 全称量化被自引 artifact 反驳）。
 - 09-25 其余各波（SPLIT 分层仪器、语料 v1、检测器 v1/v2、论文 §6 增补与 manifest SP-C5）均为零模型调用。
-- 累计更新：主仓会话 49 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤97 < 200**，未触顶、未 top-up。
+- 累计更新：主仓会话 49 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤97 < 200**，未触顶、未 top-up。- 确认性复核（第 3 轮，修订后的 §6 与 SP-C5）：canary 0（沿用同日已验证路由）+ 复核 2 turns
+  （qwen3.8-max PID 3828335、deepseek-v4-pro PID 3828336，各 1 turn，bare 模式不报 cost，无 stderr）。
+  packet 25 937 B，sha256 `801193769790242aa69cb0d3558e84adad3d98716865ddb51246a71c5fc46fc4`。
+  两模型判定均 **ACCEPT**；落盘 `docs/experiments/2026-09-25_loopc_confirm_review_v2_{qwen3.8-max,deepseek-v4-pro}.md`。
+- 累计更新：主仓会话 51 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤99 < 200**，未触顶、未 top-up。
