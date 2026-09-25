@@ -1,6 +1,6 @@
 # 大论文初稿 · 第 1–2 章草稿 v1
 
-> 状态：初稿草稿（可讨论）| 更新：2026-09-24 | 密级：**仅限内部审阅**（专利门未确认前不外发、不上 arXiv、不公开代码）
+> 状态：初稿草稿（可讨论）| 更新：2026-09-25 | 密级：**仅限内部审阅**（专利门未确认前不外发、不上 arXiv、不公开代码）
 > 配套件：开题报告 `paper/thesis_proposal_v1.md`；章节—创新—证据映射 `paper/thesis_manuscript_scaffold_v1.md`；叙事权威 `paper/research_story_v2.md`。
 > 证据纪律：本章所有实验数字均来自已验收 artifact，并在文中给出出处；**未闭环的部分一律写为目标与边界，不写成已有结果**。
 > 术语与公式的完整推导见 `paper/method_theory_materials_v1.md`；本章只给出阅读后续章节所必需的定义。
@@ -178,11 +178,11 @@ LLM 裁判适用于开放语义质量的判断，但已被证实存在位置偏�
 
 第二数据流与第二 scorer 的状态不再能用「未完成」笼统表述，实测把它钉死为三条**性质不同**的缺口：
 
-1. *来源可得、标签语义不可得*。FinQA 已通过 SOURCE_GO（批准最小范围内，逐文件 sha256 在案），并已有确定性、标签盲的分层仪器给出 UID 不相交的四层分配（全量下 2409 个 lineage UID / 768 个报告级簇，四层几何可填）。但该来源不发布表列的官方 canonical 词汇，故动作标签无法在不自造 schema 的前提下构造；来源注册表亦判定其 reasoning program 不等于 `map_to/skip/hold` 标签。若强行以其条目级字段充当 canonical 词汇，任何真实表头都不属该集合，`gold_action` 将恒为 `skip`，「恒预测 skip」即得 `action_macro_f1 = 1.0` 与 `harmful_map_rate = 0` 的双满分 —— 可学性结论退化为恒真命题。这属**结构性**缺口，不是补标注可解。
+1. *来源可得、标签语义不可得*。FinQA 已通过 SOURCE_GO（批准最小范围内，逐文件 sha256 在案），并已有确定性、标签盲的分层仪器给出 UID 不相交的层分配（train 与 dev 已实测分配，gate 与 sealed 依注册表 role_fit 扣住待裁定；全量下 2409 个 lineage UID / 768 个报告级簇，四层几何可填）。但该来源不发布表列的官方 canonical 词汇，故动作标签无法在不自造 schema 的前提下构造；来源注册表亦判定其 reasoning program 不等于 `map_to/skip/hold` 标签。若强行以其条目级字段充当 canonical 词汇，任何真实表头都不属该集合，`gold_action` 将恒为 `skip`，「恒预测 skip」即得 `action_macro_f1 = 1.0` 与 `harmful_map_rate = 0` 的双满分 —— 可学性结论退化为恒真命题。这属**结构性**缺口，不是补标注可解。
 2. *动作词汇可得、层与功效不可得*。带动作词汇的 schema-matching 来源（Valentine NYC，10 个表对 / 146 个源列；源侧 `matches` 77、`ambiguous_scenarios` 10、`false_positive_scenarios` 0，即 `skip` 无机械种子）只有 10 个 origin 簇与 10 个 lineage UID：在冻结的哈希阈值分桶下 dev 层实测为 0 簇，而数据合同要求四层全部非空；且 K = 10 使 UID 聚类的确认性推断结构性欠功效。这属**规模性**缺口，受下载范围而非方法约束。
-3. *第二 scorer 已尝试并按预注册停止*。模型无关、独立于 `:8004` judge 的步级重执行检测器在 1970 条冻结步级记录上运行；其语料、故障族与停止条件在任何检测器存在之前即已冻结，停止条件（两种读法下 pct 形态保真度均须不低于 0.5）未被满足，路线停止而非重新参数化。因其测量对象是推理步检查点，而既有冻结口径是表头注入下的 leaf-state，二者为不同测量对象，故「第二 scorer 复现 leaf-state cells」这一条款应记为 **untested 而非 failed**。这属**已终止**缺口，非待办。
+3. *第二 scorer 已尝试并按预注册停止*。模型无关、且独立于既有语义裁判（LLM judge）的步级重执行检测器在 1970 条冻结步级记录上运行；其语料、故障族与停止条件在任何检测器存在之前即已冻结，停止条件（两种读法下 pct 形态保真度均须不低于 0.5）未被满足，路线停止而非重新参数化。因其测量对象是推理步检查点，而既有冻结口径是表头注入下的 leaf-state，二者为不同测量对象，故「第二 scorer 复现 leaf-state cells」这一条款应记为 **untested 而非 failed**。这属**已终止**缺口，非待办。
 
-三条缺口的取证件：`docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`（四堵墙 W1-W4、双命名空间层容量实测与裁定项）、`docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md`（停止条件触发、两读法并列数字与分层归因）、`docs/experiments/2026-09-25_source_go_p1p2_staging.md`（SOURCE_GO 逐文件哈希与范围自证）。上述表述经双模型独立审稿与其确认轮复核，两份判定均为 ACCEPT，见 `docs/experiments/2026-09-25_loopc_confirm_review_v2_qwen3.8-max.md` 与 `…_deepseek-v4-pro.md`；分歧处置记录见 `docs/experiments/2026-09-25_loopc_review_v2_divergence_table.md`。
+三条缺口的取证件：`docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`（四堵墙 W1-W4、双命名空间层容量实测与裁定项）、`docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md`（停止条件触发、两读法并列数字与分层归因）、`docs/experiments/2026-09-25_source_go_p1p2_staging.md`（SOURCE_GO 逐文件哈希与范围自证）。上述表述经双模型独立审稿与其确认轮复核，两份判定均为 ACCEPT，见 `docs/experiments/2026-09-25_loopc_confirm_review_v2_qwen3.8-max.md` 与 `docs/experiments/2026-09-25_loopc_confirm_review_v2_deepseek-v4-pro.md`；分歧处置记录见 `docs/experiments/2026-09-25_loopc_review_v2_divergence_table.md`。
 
 据此，本论文的 RQ2（checkpoint 筛选能否改善小模型规则动作学习）记 `NOT_IDENTIFIED`：不是因为实验没做，而是因为「同一母池同时具备 checkpoint 证据 + Q3 动作/目标标签 + Q3 结果」的同样本桥在批准范围内不存在。第 5-6 章回指本清单时，须同时回指上述三条缺口的**性质差异**（结构性 / 规模性 / 已终止），不得合并为「数据不足」一句话，也不得把第 3 条写成失败实验。
 

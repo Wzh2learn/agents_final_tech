@@ -216,3 +216,17 @@ venv/bin/python research/phase1a_split_assign.py --namespace valentine_nyc \
 `finqa_m20` `cbaf147d95c5fa477f1a3ced5f3144e5ef25fbb037c4cc8d638952941af0ac43` ·
 `finqa_m24` `47f25a52fad67c055afe619f984757bc1eca9a41993c73345c3a48d05927461a` ·
 `valentine_m1` `8ff657cb4fb4369d2250454c26410e8b9649b2b1a3c10c7cf9b8de33e734b544`。
+
+## 11 跨 head 复现记录（append-only，2026-09-25 补记）
+
+本件 §4 的层容量数字在两个不同 repo head 上各跑一次，`layers_manifest_sha256` 逐位相同：
+
+| head | 命名空间 / M | layers_manifest_sha256 | 产物差异 |
+|---|---|---|---|
+| `236cda99162954a16d057e8187581507f420f25b` | valentine_nyc / M=1 | `3651cd32883c599bf32fa9728ab7af28d7c13409caed950f695e9dab289c22b6` | 基准 |
+| `d079c055fd014f05a647f124edcceec365fe3967` | valentine_nyc / M=1 | 同上（逐位相同） | 除 `commit` 字段外逐字节相同（过滤该字段后 `diff` 输出为空） |
+
+层分配按构造与 commit 无关：层盐 `phase1a-split-v1:layer` 的输入只有 cluster 字符串，不含 commit。
+上表是该构造性质的实测复核，不是巧合，也不是对某一 head 的调参结果。
+本记录用于支撑 `paper/thesis_proposal_v1.md` §7.3 取证链 bullet 与
+`paper/thesis_ch1_ch2_draft_v1.md` §2.10 的对应陈述（独立审计 Finding F1 的落点补全）。

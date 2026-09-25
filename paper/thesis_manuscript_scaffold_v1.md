@@ -52,7 +52,7 @@ proposal/train（含内部 dev）、gate-validation、sealed test、future repla
 - 小论文的门控案例不能替代大论文规则自学习的效果验证。
 - 第二数据流与第二 scorer 未完成前，不作跨域或普适性主张。
 - 专利状态确认前，所有稿件仅限内部审阅。
-## 章节级框架加记（§x.y 级，2026-09-24；v1 正文不回改）
+## 章节级框架加记（§x.y 级，2026-09-24；门注记更新于 2026-09-25；v1 正文不回改）
 
 > 口径：每节给出「继承锚点 / 必须新增 / 证据指针 / 门依赖 / 状态」。空槽位与
 > `paper/figure_plan_v1.md`、`paper/teacher_review_finalization_v1.md` 的回填位一一对应；
