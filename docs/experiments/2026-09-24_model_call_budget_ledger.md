@@ -77,4 +77,11 @@ streams 留 /tmp/lc_audit2.stream 与 /tmp/lc_review_qwen2.stream 备查。按�
   `bf086dff371053e8a207f08d1db9fd62678d4d0630c54c353622cf2a6cc5783d`；审计 head `12e5e398…`。
   两模型判定均 **ACCEPT**，四条放行条件全部满足；落盘
   `docs/experiments/2026-09-25_loopc_confirm_review_v2_round5_{qwen3.8-max,deepseek-v4-pro}.md`。
-- 累计更新：主仓会话 56 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤104 < 200**，未触顶、未 top-up。
+- 累计更新：主仓会话 56 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤104 < 200**，未触顶、未 top-up。- 全链路独立审计（第 6 轮，qwen3.8-max，1 turn，bare 模式不报 cost，GB10 PID 3903468，约 12 分钟，stderr 空）：
+  packet 178 438 B，sha256 `826905f8050845b11c5d644a564354ebdab1fc0b22f6e764191e8311e2de15e9`，
+  审计基线 head `e357e11`。判定 **PASS_WITH_NOTES**（无 HIGH；2 MEDIUM + 6 LOW），并给出引用门判定
+  「小论文 §6 对 0.0298 / 0.2233 的引用可以保留」。落盘
+  `docs/experiments/2026-09-25_loopc_audit_step_checkpoint_chain.md`。
+  派发偏差如实记录：首次以 `-p "$(cat packet)"` 传参触发 `nohup: 参数列表过长` 立即退出（stderr 74 B、无输出），
+  改 stdin 重定向后成功；先用小 prompt 验证 stdin 通路（STDIN_OK）再派发，未换模型、未缩减 packet。
+- 累计更新：主仓会话 57 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤105 < 200**，未触顶、未 top-up。
