@@ -38,10 +38,15 @@ def test_acceptance_rejects_reversed_visibility_claim(tmp_path) -> None:
 
 
 def test_audit_records_are_mechanically_checked() -> None:
+    # Derive the expected count from the manifest rather than hard-coding it, so the test
+    # tracks a growing audit trail; the floor keeps anyone from emptying the list silently.
+    manifest = json.loads(DEFAULT_MANIFEST.read_text())
+    expected = sum(len(claim.get("audit_records", [])) for claim in manifest["claims"])
+    assert expected >= 5
     result = validate(DEFAULT_MANIFEST)
     assert result["status"] == "PASS", result["errors"]
     audit_checks = [c for c in result["checks"] if ":audit_record:" in str(c["check"])]
-    assert len(audit_checks) == 5
+    assert len(audit_checks) == expected
     assert all(c["pass"] for c in audit_checks)
 
 
