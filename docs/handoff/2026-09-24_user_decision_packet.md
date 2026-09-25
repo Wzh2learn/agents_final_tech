@@ -52,6 +52,6 @@ config.toml 中 Xiaomi_Token_Plan provider 段的清理留待单独批（用户�
   任何额外文件/目录/数据集须重新申报等待批准。下载执行于 GB10 仓外暂存
   ~/wzh/phase1a_staging_20260925/（监控中），sha256 与字节数落 manifest。
 - **D-D = 授权范围设计**：Loop A sandbox scoping 仅限范围设计；不启动生产端口、不重启服务。
-- **D-E = MIMO 继续挂起**：Loop A 用已跑通路由（deepseek-v4.1-flash / Token_Plan_Chat），Loop C 用 qwen3.8-max。
+- **D-E = MIMO 维持现状、另批处理**：Loop A 用已跑通路由（deepseek-v4.1-flash / Token_Plan_Chat），Loop C 用 qwen3.8-max。
 - **D-F = 维持**：专利未确认前不上 arXiv、不公开代码、不外发；任何 external release 需用户单独确认。
 - 恢复指令：按已落地的 runner / manifest / audit 链路继续推进，不重做已完成部分。
