@@ -113,6 +113,35 @@ D-A=3 明确禁止自行构造或替代官方 schema。故 FinQA 虽能几何上
 §4.1 要求的「同样本桥」（同一母池同时具备 checkpoint evidence + Q3 teacher action/target + Q3 outcome）
 在两个命名空间中都不存在，故 RQ2 记 `NOT_IDENTIFIED`，Phase 1a 动作包的 DATA_NO_GO 不能凭本批解除。
 
+### 5.1 W4 补充：闭合两条显然的绕法（append-only）
+
+绕法一，把 schema 草案的九个**条目级**字段（pre_text / post_text / table / id / qa.*）直接当作
+`canonical_fields` 去标 FinQA 的表列：任何真实表头（如 `Net Sales`、`2009`、`% of Net Sales`）都不属于该字段集，
+故 `gold_action` 只能恒为 `skip`；此时「恒预测 skip」的规则即可取得 `action_macro_f1 = 1.0` 与
+`harmful_map_rate = 0` 的双满分，可学性结论退化为恒真命题，`minimum_uid_by_action` 也无法满足
+（合同要求键集恰为 {map_to, skip, hold}，而 map_to / hold 两类为空）。
+
+绕法二，改用「自 canonical」（把归一化后的原表头自身当参考词汇，即
+`research/phase1a_parser_contract_receipt.py` 的冻结口径）：这与 `docs/datasets/2026-09-24_dA_canonical_reference_evidence.md`
+§2 第 2 条已判定的情形同构 —— map_to 判定退化为对表头归一化的确认，与可见性口径同义反复，不满足独立性。
+
+⇒ W4 的实质不是「缺一份 schema 文件」，而是**该来源在本任务定义下无判别力**：
+非退化的动作标签需要一个外部 canonical 词汇，而 Valentine 天然自带一个（同一官方来源的目标表列名，见 G-D），
+FinQA 不自带。这也解释了注册表为何把两者的 `action_label_fit` 写成两种相反结论。
+
+### 5.2 对「P1-future 包逐门推进」这一路径的更正
+
+既定推进路径写作 SOURCE_GO → LABEL_GO → SPLIT_GO → … 且以 P1-future（FinQA）包为载体。按本件实测应更正为：
+
+1. P1-future（FinQA）**能**过 SOURCE_GO（已在案）与 SPLIT 的几何门（四层可填，§4.1），
+   但**不能**过 LABEL_GO —— 见 W4 与 §5.1，除非任务定义改变（属判据面，须显式授权）。
+2. 动作标签链（LABEL_GO 及其后的可学性/功效门）的天然载体是 Valentine 命名空间，
+   而它被 W1（十簇填不满四层）与 W3（K=10）挡住，且 W2 是治理裁定而非技术限制。
+3. 因此「逐门推进」在批准范围内没有单一载体可走通；可行的是两条并行支路：
+   FinQA 走 checkpoint adapter（过程流外部效度，不需动作标签），
+   Valentine 走 proposal_train 内的 exploratory 可学性（146 列 Q3 复核，见 §7.1），
+   两者都不构成 RQ2 的确认性证据。是否接受这一更正即 G-E。
+
 ## 6 与合同的逐门对位（哪一门、以哪个码失败）
 
 | 合同门 | 失败码 | 触发条件 | 本批状态 |
