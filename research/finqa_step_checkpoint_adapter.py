@@ -163,34 +163,51 @@ def apply_fault(steps: list[dict[str, object]], fault: dict[str, object]) -> lis
 
 
 def plan_fault(seed: int, sample_id: str, steps: list[dict[str, object]]) -> dict[str, object] | None:
-    """Pre-registered selection: one fault, family by salted parity, index by salted bucket."""
-    index = bucket(INDEX_SALT + ":" + str(seed), sample_id, len(steps))
-    step = steps[index]
-    res_ok, swap_ok = admissible_families(step)
+    """Pre-registered selection: one fault per multi-step example.
+
+    The starting index comes from a salted bucket and the family preference from an
+    independent salted parity bit. Admissibility is a property of a single step, so the scan
+    walks the remaining indices in deterministic wrap-around order and takes the first step
+    that admits a family. Without that scan an example would be dropped merely because the
+    bucketed step happened to be commutative with a non-numeric result, which would make the
+    corpus silently smaller than its own spec ("one fault per multi-step example").
+    Returns None only when no step of the example admits either family.
+    """
+    total = len(steps)
+    start = bucket(INDEX_SALT + ":" + str(seed), sample_id, total)
     prefer_swap = bucket(FAMILY_SALT + ":" + str(seed), sample_id, 2) == 1
-    order = ("arg_swap", "res_scale") if (prefer_swap and swap_ok) else (
-        ("res_scale", "arg_swap") if res_ok else (("arg_swap",) if swap_ok else ())
-    )
-    for family in order:
-        if family == "res_scale" and res_ok:
-            before = str(step["res"])
-            return {
-                "family": "res_scale",
-                "step_index": index,
-                "field": "res",
-                "op_family": op_family(str(step.get("op", ""))),
-                "before": before,
-                "after": scale_res(before),
-            }
-        if family == "arg_swap" and swap_ok:
-            return {
-                "family": "arg_swap",
-                "step_index": index,
-                "field": "arg1+arg2",
-                "op_family": op_family(str(step.get("op", ""))),
-                "before": [str(step["arg1"]), str(step["arg2"])],
-                "after": [str(step["arg2"]), str(step["arg1"])],
-            }
+    for offset in range(total):
+        index = (start + offset) % total
+        step = steps[index]
+        res_ok, swap_ok = admissible_families(step)
+        if not res_ok and not swap_ok:
+            continue
+        if prefer_swap and swap_ok:
+            order = ("arg_swap", "res_scale")
+        elif res_ok:
+            order = ("res_scale", "arg_swap")
+        else:
+            order = ("arg_swap",)
+        for family in order:
+            if family == "res_scale" and res_ok:
+                before = str(step["res"])
+                return {
+                    "family": "res_scale",
+                    "step_index": index,
+                    "field": "res",
+                    "op_family": op_family(str(step.get("op", ""))),
+                    "before": before,
+                    "after": scale_res(before),
+                }
+            if family == "arg_swap" and swap_ok:
+                return {
+                    "family": "arg_swap",
+                    "step_index": index,
+                    "field": "arg1+arg2",
+                    "op_family": op_family(str(step.get("op", ""))),
+                    "before": [str(step["arg1"]), str(step["arg2"])],
+                    "after": [str(step["arg2"]), str(step["arg1"])],
+                }
     return None
 
 
@@ -367,6 +384,8 @@ def build(*, root: Path, manifest_path: Path, layers_path: Path, seed: int) -> t
             "res_scale_factor": "1.1",
             "commutative_families_excluded_from_arg_swap": sorted(COMMUTATIVE_FAMILIES),
             "faults_per_example": 1,
+            "index_selection": "salted_bucket_then_deterministic_wraparound_scan",
+            "admissibility_scope": "per_candidate_step",
             "step_level_denominator": "multi_step_only",
             "single_step_examples": "counted_never_injected",
             "scorer": "NOT_PREREGISTERED",

@@ -25,6 +25,7 @@ from research.finqa_step_checkpoint_adapter import (
     build,
     install_network_guard,
     op_family,
+    plan_fault,
     scale_res,
 )
 from research.phase1a_split_assign import SplitError
@@ -313,3 +314,25 @@ def test_zero_connect_guard() -> None:
     finally:
         socket.socket.connect = original_connect
         socket.create_connection = original_cc
+
+
+def test_plan_fault_scans_past_an_inadmissible_step() -> None:
+    steps = [
+        # commutative family, non-numeric res, equal args -> neither family admissible
+        {"op": "add1-1", "arg1": "2", "arg2": "2", "res": "yes"},
+        # non-commutative family with numeric res -> both families admissible
+        {"op": "divide1-2", "arg1": "10", "arg2": "4", "res": "2.5"},
+    ]
+    for seed in range(12):
+        fault = plan_fault(seed, "sample-" + str(seed), steps)
+        assert fault is not None, seed
+        assert fault["step_index"] == 1, seed
+
+
+def test_plan_fault_returns_none_only_when_no_step_is_admissible() -> None:
+    steps = [
+        {"op": "add1-1", "arg1": "2", "arg2": "2", "res": "yes"},
+        {"op": "multiply1-2", "arg1": "3", "arg2": "3", "res": "no"},
+    ]
+    for seed in range(6):
+        assert plan_fault(seed, "sample-none-" + str(seed), steps) is None
