@@ -37,8 +37,11 @@ from research.finqa_step_checkpoint_adapter import (  # noqa: E402
 )
 from research.phase1a_data_contract import _digest_object  # noqa: E402
 
-SCORE_CONTRACT_VERSION = "finqa-step-checkpoint-score-v1"
-PREREG_VERSION = "v1"
+SCORE_CONTRACT_VERSION = "finqa-step-checkpoint-score-v2"
+PREREG_VERSION = "v2"
+READING_DIRECT = "mantissa_direct"
+READING_SCALED = "mantissa_scaled"
+READINGS = (READING_DIRECT, READING_SCALED)
 REL_TOL = Decimal("1e-9")  # R4: written once, never tuned after a run
 NUM_RE = re.compile(r"^[+-]?(?:\d+\.?\d*|\.\d+)$")
 PCT_RE = re.compile(r"^([+-]?(?:\d+\.?\d*|\.\d+))%$")
@@ -173,8 +176,15 @@ def _close(a: Decimal, b: Decimal) -> bool:
     return abs(a - b) <= REL_TOL * scale
 
 
-def step_verdict(steps: list[dict], index: int) -> tuple[str, str]:
-    """One step -> ("match" | "mismatch" | "unevaluable", detail). R2/R3/R4."""
+def step_verdict(steps: list[dict], index: int, reading: str) -> tuple[str, str]:
+    """One step -> ("match" | "mismatch" | "unevaluable", detail). R2/R3/R4 plus V2-1.
+
+    `reading` selects the percent convention and, by construction, affects only pct-form
+    results: num-form comparison is reading-independent, so the two readings cannot diverge
+    anywhere except the stratum where v1 measured the divergence.
+    """
+    if reading not in READINGS:
+        raise ScorerError("unknown_percent_reading", reading=reading)
     step = steps[index]
     op = str(step.get("op", ""))
     family = op_family(op)
@@ -197,6 +207,9 @@ def step_verdict(steps: list[dict], index: int) -> tuple[str, str]:
     if form == "pct":
         match = PCT_RE.match(res)
         expected = _decimal(match.group(1)) if match else None
+        if expected is not None and reading == READING_SCALED:
+            assert not isinstance(value, str)
+            value = value * Decimal(100)
     else:
         expected = _decimal(res)
     if expected is None:
@@ -204,8 +217,8 @@ def step_verdict(steps: list[dict], index: int) -> tuple[str, str]:
     return ("match", "") if _close(value, expected) else ("mismatch", "numeric")
 
 
-def run_steps(steps: list[dict]) -> dict:
-    verdicts = [step_verdict(steps, i) for i in range(len(steps))]
+def run_steps(steps: list[dict], reading: str) -> dict:
+    verdicts = [step_verdict(steps, i, reading) for i in range(len(steps))]
     return {
         "verdicts": verdicts,
         "flagged": [i for i, (state, _) in enumerate(verdicts) if state == "mismatch"],
@@ -213,13 +226,13 @@ def run_steps(steps: list[dict]) -> dict:
     }
 
 
-def score_record(record: dict) -> dict:
+def score_record(record: dict, reading: str) -> dict:
     """R5: classify one corpus record; the mutant always comes from the adapter's apply_fault."""
     clean = record["steps_clean"]
     fault = record["fault"]
     mutant = apply_fault(clean, fault)
-    clean_run = run_steps(clean)
-    mutant_run = run_steps(mutant)
+    clean_run = run_steps(clean, reading)
+    mutant_run = run_steps(mutant, reading)
     injected = int(fault["step_index"])
     faithful = not clean_run["flagged"] and not clean_run["unevaluable"]
     detected = bool(mutant_run["flagged"])
@@ -234,6 +247,11 @@ def score_record(record: dict) -> dict:
         "detected": detected,
         "exact_localization": mutant_run["flagged"] == [injected],
         "inclusive_localization": injected in mutant_run["flagged"],
+        # V2-1(2): the injected step is the earliest altered one, so downstream mismatches
+        # are consequences of #N propagation rather than independent detections.
+        "root_cause_localization": bool(mutant_run["flagged"])
+        and min(mutant_run["flagged"]) == injected,
+        "reading": reading,
         "fault_family": fault["family"],
         "injected_op_family": op_family(str(clean[injected].get("op", ""))),
         "injected_variant": op_variant(str(clean[injected].get("op", ""))),
@@ -263,6 +281,7 @@ def aggregate(scored: list[dict]) -> dict:
         "detected": 0,
         "exact_localization": 0,
         "inclusive_localization": 0,
+        "root_cause_localization": 0,
         "steps_total": 0,
         "steps_match": 0,
         "steps_mismatch": 0,
@@ -279,6 +298,7 @@ def aggregate(scored: list[dict]) -> dict:
             totals["detected"] += int(row["detected"])
             totals["exact_localization"] += int(row["exact_localization"])
             totals["inclusive_localization"] += int(row["inclusive_localization"])
+            totals["root_cause_localization"] += int(row["root_cause_localization"])
         for i in range(row["n_steps"]):
             state = row["step_verdict_states"][i]
             totals["steps_total"] += 1
@@ -296,6 +316,7 @@ def aggregate(scored: list[dict]) -> dict:
                 "detected": int(row["detected"]),
                 "exact_localization": int(row["exact_localization"]),
                 "inclusive_localization": int(row["inclusive_localization"]),
+                "root_cause_localization": int(row["root_cause_localization"]),
             })
         _bump(example_strata, "fault_family", row["fault_family"], example_fields)
         _bump(example_strata, "partition", row["partition"], example_fields)
@@ -309,6 +330,7 @@ def aggregate(scored: list[dict]) -> dict:
         "fault_detection_rate": _ratio(detected_n, faithful_n),
         "exact_localization_rate": _ratio(totals["exact_localization"], detected_n),
         "inclusive_localization_rate": _ratio(totals["inclusive_localization"], detected_n),
+        "root_cause_localization_rate": _ratio(totals["root_cause_localization"], detected_n),
         "clean_false_flag_rate": _ratio(totals["clean_false_flag"], faithful_n),
     }
     return {
@@ -319,6 +341,7 @@ def aggregate(scored: list[dict]) -> dict:
             "fault_detection_rate": faithful_n,
             "exact_localization_rate": detected_n,
             "inclusive_localization_rate": detected_n,
+            "root_cause_localization_rate": detected_n,
             "clean_false_flag_rate": faithful_n,
         },
         "step_strata": {d: {k: step_strata[d][k] for k in sorted(step_strata[d])}
@@ -349,7 +372,9 @@ def verify_bindings(corpus_raw: bytes, corpus_sha: str, summary: dict, layers: d
     return assigned
 
 
-def score_corpus(corpus_raw: bytes, assigned: set[str], expected_records: int) -> list[dict]:
+def score_corpus(
+    corpus_raw: bytes, assigned: set[str], expected_records: int, reading: str
+) -> list[dict]:
     scored: list[dict] = []
     for line_number, line in enumerate(corpus_raw.decode("utf-8").splitlines(), start=1):
         if not line.strip():
@@ -360,10 +385,29 @@ def score_corpus(corpus_raw: bytes, assigned: set[str], expected_records: int) -
         for key in ("steps_clean", "fault", "partition"):
             if key not in record:
                 raise ScorerError("invalid_corpus_record", line=line_number, missing=key)
-        scored.append(score_record(record))
+        scored.append(score_record(record, reading))
     if len(scored) != expected_records:
         raise ScorerError("corpus_record_count_mismatch", got=len(scored), expected=expected_records)
     return scored
+
+
+def _assert_reproduces_v1(block: dict, v1: dict) -> None:
+    """V2-4: under mantissa_direct, v2 must reproduce every v1 number or fail closed.
+
+    Without this guard a "spec version bump" could silently redefine v1's semantics, and the
+    two published results would no longer be comparable.
+    """
+    sections = (("counts", "totals"), ("metrics", "metrics"),
+                ("metric_denominators", "metric_denominators"))
+    for v1_key, v2_key in sections:
+        expected = v1.get(v1_key) or {}
+        actual = block.get(v2_key) or {}
+        for key in sorted(expected):
+            if actual.get(key) != expected[key]:
+                raise ScorerError("v1_reproduction_mismatch", section=v1_key, key=key,
+                                  v1=expected[key], v2=actual.get(key))
+    if (v1.get("step_strata") or {}) != (block.get("step_strata") or {}):
+        raise ScorerError("v1_reproduction_mismatch", section="step_strata")
 
 
 def main() -> int:
@@ -373,6 +417,10 @@ def main() -> int:
     ap.add_argument("--summary", required=True, type=Path, help="adapter corpus summary artifact")
     ap.add_argument("--layers", required=True, type=Path, help="phase1a_split_assign artifact")
     ap.add_argument("--prereg", required=True, type=Path, help="frozen pre-registration file")
+    ap.add_argument("--v1-results-doc", required=True, type=Path,
+                    help="v1 results markdown; hashed into the artifact per V2-4")
+    ap.add_argument("--v1-score", required=True, type=Path,
+                    help="v1 score artifact; mantissa_direct must reproduce it")
     ap.add_argument("--commit", required=True)
     ap.add_argument("--out", required=True, type=Path)
     args = ap.parse_args()
@@ -385,10 +433,19 @@ def main() -> int:
     layers = json.loads(args.layers.read_text(encoding="utf-8"))
     assigned = verify_bindings(corpus_raw, args.corpus_sha256.strip(), summary, layers)
     expected = int((summary.get("counts") or {}).get("corpus_records", -1))
-    first = aggregate(score_corpus(corpus_raw, assigned, expected))
-    second = aggregate(score_corpus(corpus_raw, assigned, expected))
+    v1_score = json.loads(args.v1_score.read_text(encoding="utf-8"))
+
+    def _run() -> dict:
+        return {
+            reading: aggregate(score_corpus(corpus_raw, assigned, expected, reading))
+            for reading in READINGS
+        }
+
+    first = _run()
+    second = _run()
     if json.dumps(first, sort_keys=True) != json.dumps(second, sort_keys=True):
         raise ScorerError("nondeterministic_scoring")
+    _assert_reproduces_v1(first[READING_DIRECT], v1_score)
     prereg_raw = args.prereg.read_bytes()
     artifact = {
         "contract_version": SCORE_CONTRACT_VERSION,
@@ -398,6 +455,14 @@ def main() -> int:
             "version": PREREG_VERSION,
             "relative_tolerance": str(REL_TOL),
         },
+        "readings": list(READINGS),
+        "v1_anchors": {
+            "results_doc_sha256": hashlib.sha256(args.v1_results_doc.read_bytes()).hexdigest(),
+            "score_artifact_sha256": hashlib.sha256(args.v1_score.read_bytes()).hexdigest(),
+            "reproduced_under": READING_DIRECT,
+            "reproduction_checked_sections": [
+                "counts", "metrics", "metric_denominators", "step_strata"],
+        },
         "bindings": {
             "corpus_sha256": hashlib.sha256(corpus_raw).hexdigest(),
             "corpus_bytes": len(corpus_raw),
@@ -406,11 +471,16 @@ def main() -> int:
             "layers_manifest_sha256": (summary.get("inputs") or {}).get("layers_manifest_sha256"),
             "layers_m_universe": (summary.get("inputs") or {}).get("layers_m_universe"),
         },
-        "counts": first["totals"],
-        "metrics": first["metrics"],
-        "metric_denominators": first["metric_denominators"],
-        "step_strata": first["step_strata"],
-        "example_strata": first["example_strata"],
+        "by_reading": {
+            reading: {
+                "counts": first[reading]["totals"],
+                "metrics": first[reading]["metrics"],
+                "metric_denominators": first[reading]["metric_denominators"],
+                "step_strata": first[reading]["step_strata"],
+                "example_strata": first[reading]["example_strata"],
+            }
+            for reading in READINGS
+        },
         "commit": commit,
         "observed_ports": [],
     }
@@ -419,16 +489,19 @@ def main() -> int:
         encoding="utf-8",
         newline="\n",
     )
-    totals = artifact["counts"]
-    print(
-        "wrote " + str(args.out)
-        + " records=" + str(totals["records"])
-        + " clean_faithful=" + str(totals["clean_faithful"])
-        + " clean_unfaithful=" + str(totals["clean_unfaithful"])
-        + " detected=" + str(totals["detected"])
-    )
-    print("metrics=" + json.dumps(artifact["metrics"], sort_keys=True))
-    print("steps=" + json.dumps({k: v for k, v in totals.items() if k.startswith("steps_")}, sort_keys=True))
+    for reading in READINGS:
+        block = artifact["by_reading"][reading]
+        totals = block["counts"]
+        print(
+            "[" + reading + "] wrote " + str(args.out)
+            + " records=" + str(totals["records"])
+            + " clean_faithful=" + str(totals["clean_faithful"])
+            + " clean_unfaithful=" + str(totals["clean_unfaithful"])
+            + " detected=" + str(totals["detected"])
+        )
+        print("[" + reading + "] metrics=" + json.dumps(block["metrics"], sort_keys=True))
+        print("[" + reading + "] steps=" + json.dumps(
+            {k: v for k, v in totals.items() if k.startswith("steps_")}, sort_keys=True))
     return 0
 
 
