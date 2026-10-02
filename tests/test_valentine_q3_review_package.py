@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -107,6 +110,19 @@ def test_chunk_size_is_validated(tmp_path: Path) -> None:
     with pytest.raises(PackageBuildError) as exc:
         build(staging, REVISION, tmp_path / "out", chunk_size=0)
     assert exc.value.code == "invalid_chunk_size"
+
+
+def test_direct_script_entry_does_not_depend_on_pythonpath() -> None:
+    repo = Path(__file__).resolve().parents[1]
+    env = dict(os.environ)
+    env.pop("PYTHONPATH", None)
+    proc = subprocess.run([
+        sys.executable,
+        str(repo / "research" / "valentine_q3_review_package.py"),
+        "--help",
+    ], cwd=repo, env=env, capture_output=True, text=True)
+    assert proc.returncode == 0, proc.stderr
+    assert "--dataset-revision" in proc.stdout
 
 
 def test_duplicate_headers_fail_closed(tmp_path: Path) -> None:
