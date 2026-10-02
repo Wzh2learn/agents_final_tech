@@ -48,10 +48,10 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - **Q3 复核包**：`research/valentine_q3_review_package.py` + 16 例合同测试已落地；hardening 后输入只接受 10 pair × 3 allowlist 文件，输出目录 fail-closed 且不再删除旧内容。旧包 10 pair / 146 source columns / 160 target headers 仍为 hardening 前不可变历史产物，R1/R2/ADJ 未运行。证据见 `docs/experiments/2026-10-03_project_cleanup.md`。
 - 权威包 schema 与 GB10 程序见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`；分层与容量见 `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`；步级链路见 `docs/experiments/2026-09-25_finqa_step_checkpoint_corpus_v1.md`、`…_step_checkpoint_score_v1_results.md`、`…_step_checkpoint_score_v2_results.md`。
 
-## Verification（GB10 权威，全量 head `1c4ffaf`；文档收口 `10dfbbd`）
+## Verification（GB10 权威，全量 head `5f82efb`）
 
-- 全量 pytest：**819 passed / 13 skipped / 1 deselected**（10-03 于 `1c4ffaf` 实测，rc=0）。相对 809 基线 +10，增量全部为 Q3 输入/输出 fail-closed 反例，无未解释变化。
-- `research/validate_paper_claims.py` PASS / 5 claims / **73 checks 全过** / errors 空（10-03 于 `1c4ffaf` 复跑，rc=0）。
+- 全量 pytest：**819 passed / 13 skipped / 1 deselected**（10-03 于 `5f82efb` 实测，rc=0）。相对 809 基线 +10，增量全部为 Q3 输入/输出 fail-closed 反例，无未解释变化。
+- `research/validate_paper_claims.py` PASS / 5 claims / **73 checks 全过** / errors 空（10-03 于 `5f82efb` 复跑，rc=0）。
 - 三个链路测试文件合计 69 passed。
 - `docs_lint` rc=0 / **0 fail / 4 warn**；四条已按用户裁定逐条纳入 `logs/graph/docs_lint_warn_baseline.md`，机器比对 `SET_EQUAL=True, 4/4`。未回改正文、未消警、未改 lint 逻辑；真实内容更新留后续治理批。+ `[5]` INFO 行（注册表标 DEPRECATED 且未分发，属预期）。
 - `sync_skills --check` **PASS: 97**（C14 摘除 `verification-before-completion` 后的口径，98 → 97，`[5]` INFO 行为证）。
