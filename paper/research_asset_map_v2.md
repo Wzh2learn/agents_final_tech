@@ -53,6 +53,7 @@
 | 数据分层与选型 | `paper/dataset_protocol_v1.md` | Q0–Q3 标签质量 × 四层角色、FinQA 过程源 + Valentine 动作源的双 P0 选择、模型矩阵 | D-C 最小范围已下载到 GB10 仓外暂存并取证；不新增下载。动作包仍 `DATA_NO_GO`，Q3 仅 exploratory |
 | Q3 复核包生成器 | `research/valentine_q3_review_package.py` | 从批准的 Valentine pair 输入生成 R1/R2/ADJ 输入包、样本清单和可见性 manifest | 零模型；只读 source/target 表头与文件 hash，`ground_truth.json` 仅允许存在性校验、禁止读取。146 列包已装配，R1/R2/ADJ 未运行 |
 | Q3 输入/结果边界 | `docs/experiments/2026-10-03_ruling_gd_q3_package_and_goal_refresh.md` | 10 pair / 146 source columns / 160 target headers、双跑包 hash 与零 gold 可见性证据 | 输入包与可见性已闭合；labels、review agreement、裁决与 learnability 指标均 `NOT_RUN`，不得升级为 Stage D/RQ2/DATA_GO |
+| Q3 allowlist 重建边界 | `research/valentine_q3_review_package.py` + `/tmp` 输入视图 | 当前原始 staging 含 `_full/_result/_trajectory` 扩展件，按新 allowlist 会被 `input_manifest_scope_mismatch` 拒绝；旧包是 hardening 前的不可变历史产物 | 重建必须使用仅含 10 pair × {source_table.csv, target_table.csv, ground_truth.json} 的过滤输入根和 30 行 manifest；ground_truth 只做存在性校验，禁止读取 |
 | 公开来源注册表 | `docs/datasets/paper-public-source-registry-v1.json` | 10 个来源的核验 commit、许可缺口、independence-cluster namespace、角色适配与准入状态 | metadata only；namespace 需与具体 origin id 组合成样本簇，全部 `download_approved=false` |
 | 方法引用与细化图 | `paper/method_data_references_v1.bib`、`paper/figures/fig_rule_gate_replay_v1.svg` | 42 条已核候选 BibTeX；共享流七臂/三门/回滚/数据防火墙 | 可直接复用；图明确标注无正式结果 |
 | 实验预注册 | `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` | RQ2–RQ4、数据/模型门、A0–A3、七臂、双口径、统计与停止规则 | `DRAFT_NOT_FROZEN`；数值容差/资源/来源待人工批准 |
