@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-10-03 | Scope: G-A..G-E 与 V2-3 已裁定；docs_lint 4 warn 纳入基线；Valentine 146 列 Q3 复核包已装配并零 gold 可见性自证 | Runtime: GB10 权威；零模型调用，R1/R2 派发停在 Token Plan token 轮换确认前
+> Updated: 2026-10-03 | Scope: 草稿层两份交付物证据完成；投稿版与后续章节框架继续推进；G-A..G-E/V2-3 已同步；146 列 Q3 保持已装配未复核 | Runtime: GB10 权威；token 未轮换/未就绪，零模型调用，外发与后续实验继续受专利/预注册门控制
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
@@ -10,12 +10,12 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 围绕 Evaluate–Distill–Evolve 三阶段闭环推进科研主线（用户 2026-09-24 裁定：三阶段是目标主线，M 路线是阶段性过渡）。两份交付物按目标口径推进：小论文以**评估保底稿**为当前成稿口径（三阶段完整稿因数据门未开，按目标自带的自动切换条款走保底路线），大论文开题报告 + 初稿框架 + 前两章草稿均已成稿并经独立审计。
 
-Goal 推进重点（核心目标与安全边界逐字不变）：(a) 两份交付物按当前口径的完成核验已有 73/73 claim、双模型第 5 轮 ACCEPT、全链路审计、Office PASS 证据链；(b) 唯一在途执行项 = G-D 下 146 列 Q3 三载体复核，严格标 exploratory；(c) 门链不再作为当前推进项，按 G-E 归档为用户裁定维持 `DATA_NO_GO` / RQ2 `NOT_IDENTIFIED`。146 列完成后先做逐项完成审计，未达成项不得申报完成。
+完成审计见 `docs/experiments/2026-10-03_goal_completion_audit.md`：草稿层两份交付物有机器验收、独立审稿/审计与 Office/边界证据；goal 保持 ACTIVE，继续准备小论文投稿版、大论文开题/前两章及后续章节框架。146 列 Q3、正式投稿、Phase 2/训练均不得冒充完成结果。
 
 ## Git state
 
-- 三方对齐至证据提交 `333b9333001c285175274d419fe51fd221a1aec7`，ahead 0 / behind 0；本快照提交随后收尾。
-- 本批提交链：docs_lint 基线 + Q3 builder `55aec1a` → fixture 修正 `31ba327` → direct-script 入口修正 `b1923fe` → 裁定/包证据 `333b933`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`、无破坏性命令。
+- 三方对齐至审计基线 `ae344ae1c6fe4883ce19a047c94658d01f354cbe`，ahead 0 / behind 0；本快照/完成审计提交随后收尾。
+- 后续提交链：零模型边界同步 `07d89a1` → Q3 理论/图表空槽 `6ea6209` → readiness 契约链接回归修复 `ae344ae`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`、无破坏性命令。
 - GB10 production 脏件始终为固定五件（`config/schema_suggestions.json`、`logs/graph/docs_lint_report.json`、`logs/graph/governance_drift_latest.md`、`logs/graph/loop_b_last_status`、`logs/graph/verify-report.json`），每次 pull 前后逐条复核未被覆盖。
 - 本机用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）与 `side_handoff_20260829.md` 全程未 add、未 commit、未 stash、未 reset、未 clean。
 - 受保护件未触碰：`docs/33*`、`docs/34*`、冻结测试、schema、`scripts/graph/frozen_hashes.txt`。
@@ -48,9 +48,9 @@ Goal 推进重点（核心目标与安全边界逐字不变）：(a) 两份交�
 - **Q3 复核包**：`research/valentine_q3_review_package.py` + 6 例合同测试已落地；GB10 双跑 10 pair / 146 source columns / 160 target headers，50+50+46 三块，包逐字节一致，`strace` 对 `ground_truth.json` open 命中 0。证据见 `docs/experiments/2026-10-03_ruling_gd_q3_package_and_goal_refresh.md`。
 - 权威包 schema 与 GB10 程序见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`；分层与容量见 `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`；步级链路见 `docs/experiments/2026-09-25_finqa_step_checkpoint_corpus_v1.md`、`…_step_checkpoint_score_v1_results.md`、`…_step_checkpoint_score_v2_results.md`。
 
-## Verification（GB10 权威，基线 head `871aeb3`；本批定点复核至 `333b933`）
+## Verification（GB10 权威，head `ae344ae`）
 
-- 全量 pytest：**809 passed / 13 skipped / 1 deselected**（10-03 于 `333b933` 实测，rc=0）= 09-25 基线 799 + 4（DOCX 渲染回归）+ 6（Q3 包合同/入口）。skipped 恒 13、deselected 恒 1（`tests/conftest.py` 默认排除 `integration`）。
+- 全量 pytest：**809 passed / 13 skipped / 1 deselected**（10-03 于 `ae344ae` 实测，rc=0）。审计过程中曾抓到 readiness 缺执行计划链接的 1 failed；只补链接、未改测试，随后目标用例 1 passed 与全量均恢复。
 - `tests/test_paper_claim_acceptance.py` 与渲染回归合计 13 passed（GB10，10-03；含 DOCX 与 MD 逐段逐格一致门）；`research/validate_paper_claims.py` PASS / 5 claims / **73 checks 全过** / errors 空（10-03 于 `871aeb3` 复跑，rc=0）。
 - 三个链路测试文件合计 69 passed。
 - `docs_lint` rc=0 / **0 fail / 4 warn**；四条已按用户裁定逐条纳入 `logs/graph/docs_lint_warn_baseline.md`，机器比对 `SET_EQUAL=True, 4/4`。未回改正文、未消警、未改 lint 逻辑；真实内容更新留后续治理批。+ `[5]` INFO 行（注册表标 DEPRECATED 且未分发，属预期）。
@@ -67,12 +67,12 @@ Goal 推进重点（核心目标与安全边界逐字不变）：(a) 两份交�
 
 ## Pending user confirmation
 
-1. **GB10 Token Plan token 是否已轮换**：未确认前不得派 R1/R2/裁决，不得把旧值当新值，不自行重试；token 值永不进文件、prompt、台账或 Git。
+1. **GB10 qwen/deepseek key 已失效，token 按“未轮换 / 未就绪”处理**：新 key 安全配置、状态确认并获明确授权前不得派 R1/R2/裁决，不打印或记录 token。
 2. G-A..G-E 与 V2-3 已裁定；D-E（MIMO 挂起）与 D-F（专利门）继续有效。
 
 ## Next gates
 
-1. token 轮换确认后派 R1 = qwen3.8-max、R2 = deepseek-v4-pro；两份判定互不可见，裁决载体独立且不由生成者担任，任何载体不得见 `ground_truth.json`。
+1. 只有新 key 安全配置、状态确认并获明确授权后，才派 R1 = qwen3.8-max、R2 = deepseek-v4-pro 与独立裁决；三者互异且非生成者，任何载体不得见 `ground_truth.json`。
 2. 复核输出过既有 label_ledger 装配器与独立审计；源侧 gold 只在复核完成后作收敛效度统计，严格标 exploratory。
-3. 146 列完成后按目标完成标准逐项做完成审计，证据不足按未达成处理，再决定是否申报 goal 完成。
+3. goal 保持 active：继续小论文投稿版、大论文开题/前两章与后续章节框架；ARR 10/12 为主窗口，WWW 10/18/10/25 为后备。146 列 review 如后续获准，只作 exploratory 补充证据。
 4. Phase 2 正式 replay、4B smoke、8B 主训练、端点与服务变更、以及任何外发，仍各自需要独立授权。
