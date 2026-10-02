@@ -28,7 +28,7 @@ def _make_staging(root: Path) -> Path:
         target = pair / "target_table.csv"
         gold = pair / "ground_truth.json"
         source.write_text(
-            "source_" + ",".join(f"src_{pair_index}_{col}" for col in range(source_count)) + "\nrow\n",
+            ",".join(f"src_{pair_index}_{col}" for col in range(source_count)) + "\nrow\n",
             encoding="utf-8",
             newline="\n",
         )
