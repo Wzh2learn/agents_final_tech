@@ -24,7 +24,6 @@
 | Li et al., 2025a | `li2025scoringbias` | arXiv:2506.22316 | arXiv preprint |
 | Li et al., 2025b | `li2025robustjudge` | arXiv:2506.09443 | arXiv preprint |
 
-消歧规则：同一作者年份按题名/引用顺序固定后不得漂移；本稿 `2025a = scoringbias`、`2025b = robustjudge`。GTA-2 只使用 `arXiv:2604.15715`，不引用同名机器人操作论文 `arXiv:2609.09808`。
 
 ## 2 投稿版 BibTeX（15 条）
 
@@ -106,6 +105,8 @@
 ```
 
 ## 3 投稿前引用检查
+
+消歧规则：同一作者年份按题名/引用顺序固定后不得漂移；本稿 `2025a = scoringbias`、`2025b = robustjudge`。GTA-2 只使用 `arXiv:2604.15715`；同名机器人操作论文 `arXiv:2609.09808` 属显式排除项，不进入 §1 映射或 BibTeX。
 
 1. venue 模板确定后只调整 BibTeX entry type、作者缩写和引用顺序；标识与题名不得无证据改动。
 2. 未核 venue 继续写 `arXiv preprint`；不得把 ICSME/COLUM/KD 候选 venue 直接升级为已核。
