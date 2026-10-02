@@ -40,6 +40,7 @@
 | `research/phase1a_learnability_baselines.py` | 已独立接收的 proposal train/dev 派生视图 + canonical ledger + 预注册配置 → 五类简单基线聚合开发报告 | 逐条核对 Q3 ledger，拒绝 gate/sealed/future 样本与事后特征；明确 `harmful_map_rate` / `map_to_risk` / `correct_map_coverage`，只给四种开发决策，不能放行训练；回归 `tests/test_phase1a_learnability_baselines.py` |
 | `research/phase2_rule_gate_replay.py` | proposal/train 共享候选流 + 独立 gate-validation + 各臂规则状态 → 七类门 replay 聚合报告 | 每臂按自身状态重算 gain/collateral/gate delta，拒绝 sealed/future 和事后分数字段；分列 rule-level harm 与 UID-any-harm/Clopper–Pearson 上界；本地仅验证合成状态机；回归 `tests/test_phase2_rule_gate_replay.py` |
 | `research/paper_result_views.py` | Phase 2 聚合报告 → Table 2 / Figure 4 稳定数据接口 | 只转换聚合字段并保留两种 harm 分母，强制 `paper_result=false` 和未验收水印；不能自行把 GB10 工件提升为论文证据 |
+| `research/valentine_q3_review_package.py` | 批准的 Valentine 10-pair 输入（source/target 表头 + 文件 hash）→ R1/R2/ADJ 输入包、146 行 samples.jsonl、canonical reference、可见性 manifest | 零模型、零下载；仅允许 10 个批准 pair 与三类批准文件，`ground_truth.json` 仅校验存在性且禁止读取；禁止输出标签/指标、禁止把包状态写成 Stage D/RQ2/DATA_GO，输出目录必须不存在或为空且不得嵌套/位于输入树 |
 | bandit / PSO / 视觉探索脚本 | 各自实验输入 → 探索工件 | 历史/候选资产，不是本轮自动重开项目 |
 | `research/validate_paper_claims.py` | 主张 manifest、正文、工件路径 → 静态验收 | 本地离线；路径/标记通过不等于复算数字或证明贡献 |
 | `research/build_teacher_review_docx.py` | Markdown + 图表模板 → DOCX | 本地离线派生；结构测试不等于 Office 视觉验收 |

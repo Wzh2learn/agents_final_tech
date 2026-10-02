@@ -39,7 +39,7 @@
 | 稳健性 | `logs/graph/eval/t2_visibility_sensitivity.json` | 阈值敏感性 | 可用 |
 | 匹配器 | `logs/graph/eval/d2_cross_matcher_det.json` | 跨匹配器结果 | 可用 |
 | 统计 | `logs/graph/eval/d3_matched_fpr_stage_a.json` | matched-FPR bootstrap | 可用 |
-| 稿件 | `paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` | Stage E 成熟英文子稿 | Markdown 主张核验及 DOCX 内容/结构比对已通过；Office 分页/溢出视觉验收仍待完成，不代表完整三阶段论文 |
+| 稿件 | `paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` | Stage E 成熟英文子稿 | Markdown 主张核验及 DOCX 内容/结构比对已通过；Office 8/8 + 4/4 页视觉验收已于 2026-10-03 PASS，仍不代表完整三阶段论文 |
 
 ## 3. Stage D — 小模型蒸馏
 
@@ -50,7 +50,9 @@
 | 模型矩阵结果 | `docs/experiments/2026-08-21_small_model_matrix_c3.md` | 4B 训练前基线 | 报告可用；逐题 JSON 在 GB10 gitignored 路径 |
 | 文献 | `docs/experiments/2026-09-20_kd_literature_candidates.md` | KD、agent distillation、多教师路线 | 18 条候选已核；venue 仍按文档边界 |
 | 方法与理论素材 | `paper/method_theory_materials_v1.md` | 统一记号、defer 路由、风险—覆盖、三门更新、有限样本风险上界、累计局部回归界、回滚不变量和最近邻差异 | 可用于 Method/Related Work；固定池伸缩界是条件推论，不等于实验保证 |
-| 数据分层与选型 | `paper/dataset_protocol_v1.md` | Q0–Q3 标签质量 × 四层角色、FinQA 过程源 + Valentine 动作源的双 P0 选择、模型矩阵 | 仓内设计已就绪；未下载/构建，GB10 待授权 |
+| 数据分层与选型 | `paper/dataset_protocol_v1.md` | Q0–Q3 标签质量 × 四层角色、FinQA 过程源 + Valentine 动作源的双 P0 选择、模型矩阵 | D-C 最小范围已下载到 GB10 仓外暂存并取证；不新增下载。动作包仍 `DATA_NO_GO`，Q3 仅 exploratory |
+| Q3 复核包生成器 | `research/valentine_q3_review_package.py` | 从批准的 Valentine pair 输入生成 R1/R2/ADJ 输入包、样本清单和可见性 manifest | 零模型；只读 source/target 表头与文件 hash，`ground_truth.json` 仅允许存在性校验、禁止读取。146 列包已装配，R1/R2/ADJ 未运行 |
+| Q3 输入/结果边界 | `docs/experiments/2026-10-03_ruling_gd_q3_package_and_goal_refresh.md` | 10 pair / 146 source columns / 160 target headers、双跑包 hash 与零 gold 可见性证据 | 输入包与可见性已闭合；labels、review agreement、裁决与 learnability 指标均 `NOT_RUN`，不得升级为 Stage D/RQ2/DATA_GO |
 | 公开来源注册表 | `docs/datasets/paper-public-source-registry-v1.json` | 10 个来源的核验 commit、许可缺口、independence-cluster namespace、角色适配与准入状态 | metadata only；namespace 需与具体 origin id 组合成样本簇，全部 `download_approved=false` |
 | 方法引用与细化图 | `paper/method_data_references_v1.bib`、`paper/figures/fig_rule_gate_replay_v1.svg` | 42 条已核候选 BibTeX；共享流七臂/三门/回滚/数据防火墙 | 可直接复用；图明确标注无正式结果 |
 | 实验预注册 | `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` | RQ2–RQ4、数据/模型门、A0–A3、七臂、双口径、统计与停止规则 | `DRAFT_NOT_FROZEN`；数值容差/资源/来源待人工批准 |

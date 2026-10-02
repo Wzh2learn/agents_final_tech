@@ -8,7 +8,7 @@
 2. 对象是 `D:/AIRcommend/JinRongAgents/agents_final_tech`，基线 HEAD `9cdd141c418d8c91d63715f701ec591e7ede8f4c`。原 prompt 的 agents/_final/_tech 路径错误。
 3. 已完成十条 findings 的两轮独立反方、七类家族可读证据补查、本地钩链静态核验。**不要重扫全库或重做已完成的三路分工审计。**
 4. 当前结论见v1.0报告；本次授权内无剩余取证任务。若继续，只核对新证据/HEAD变动或用户指定的质疑；实施修复需另获授权。
-5. 每个重要检查点更新本入口、主报告和证据账本。历史检查点2–7已保留于EVIDENCE，原续审要求保留在 [HANDOFF_PROMPT.md](HANDOFF_PROMPT.md)。
+5. 每个重要检查点更新本入口、主报告和证据账本。历史检查点2–7已保留于EVIDENCE，原续审要求的历史载体 `HANDOFF_PROMPT.md` 不在当前仓库；缺失状态登记于 `memory/THREADS.md`，不伪造链接。
 
 ## 授权与硬边界
 

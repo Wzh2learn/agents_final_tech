@@ -11,9 +11,22 @@ import csv
 import hashlib
 import json
 import sys
+import tempfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
+APPROVED_PAIRS = (
+    "City_Government__Capital_Projects",
+    "City_Government__DCM_StreetCenterLine",
+    "City_Government__DPR_AthleticFacilities_001",
+    "City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments",
+    "City_Government__NYC_Municipal_Building_Energy_Benchmarking_Results",
+    "Education__COVID-19_Free_Meals_Locations",
+    "Housing_&_Development__Housing_Maintenance_Code_Complaints_and_Problems",
+    "Housing_&_Development__Public_Design_Commission_Outdoor_Public_Art_Invent",
+    "Recreation__Swim_for_Life__2016_to_2020",
+    "Transportation__DOT_In-house_Street_Resurfacing_Projects",
+)
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
@@ -21,6 +34,8 @@ from research.phase1a_data_contract import lineage_uid
 
 ALLOWED_HEADER_FILES = {"source_table.csv", "target_table.csv"}
 FORBIDDEN_GOLD_NAME = "ground_truth.json"
+ALLOWED_PAIR_FILES = ALLOWED_HEADER_FILES | {FORBIDDEN_GOLD_NAME}
+DATA_PREFIX = "valentine/experiments/data/"
 TEMPLATE_VERSION = "label-review-v1"
 GENERATOR_ID = "valentine_q3_package_builder-v1"
 
@@ -82,14 +97,81 @@ def _read_csv_header(path: Path) -> tuple[list[str], str]:
     return header, _sha256_file(path)
 
 
-def _pair_dirs(staging_root: Path) -> list[Path]:
+def _validate_input_tree(staging_root: Path) -> list[Path]:
     data_root = staging_root / "valentine" / "experiments" / "data"
-    if not data_root.is_dir():
+    if not data_root.is_dir() or data_root.is_symlink():
         raise PackageBuildError("missing_valentine_data_root", path=str(data_root))
-    dirs = sorted(path for path in data_root.iterdir() if path.is_dir())
-    if not dirs:
-        raise PackageBuildError("no_valentine_pairs", path=str(data_root))
-    return dirs
+    entries = list(data_root.iterdir())
+    non_dirs = sorted(item.name for item in entries if not item.is_dir() or item.is_symlink())
+    if non_dirs:
+        raise PackageBuildError("unexpected_data_root_entry", entries=non_dirs)
+    actual_pairs = {item.name for item in entries}
+    expected_pairs = set(APPROVED_PAIRS)
+    if actual_pairs != expected_pairs:
+        raise PackageBuildError(
+            "pair_directory_allowlist_mismatch",
+            missing=sorted(expected_pairs - actual_pairs),
+            extra=sorted(actual_pairs - expected_pairs),
+        )
+    for pair_name in APPROVED_PAIRS:
+        pair_dir = data_root / pair_name
+        pair_entries = list(pair_dir.iterdir())
+        invalid = sorted(item.name for item in pair_entries if not item.is_file() or item.is_symlink())
+        if invalid:
+            raise PackageBuildError("unexpected_pair_entry_type", pair=pair_name, entries=invalid)
+        actual_files = {item.name for item in pair_entries}
+        if actual_files != ALLOWED_PAIR_FILES:
+            raise PackageBuildError(
+                "pair_file_allowlist_mismatch",
+                pair=pair_name,
+                missing=sorted(ALLOWED_PAIR_FILES - actual_files),
+                extra=sorted(actual_files - ALLOWED_PAIR_FILES),
+            )
+    return [data_root / pair_name for pair_name in APPROVED_PAIRS]
+
+
+def _validate_manifest_scope(rows: dict[str, str]) -> None:
+    expected = {
+        f"{DATA_PREFIX}{pair_name}/{file_name}"
+        for pair_name in APPROVED_PAIRS
+        for file_name in ALLOWED_PAIR_FILES
+    }
+    actual = {relpath for relpath in rows if relpath.startswith(DATA_PREFIX)}
+    if actual != expected:
+        raise PackageBuildError(
+            "input_manifest_scope_mismatch",
+            missing=sorted(expected - actual),
+            extra=sorted(actual - expected),
+        )
+
+
+def _validate_output_dir(out_dir: Path, staging_root: Path) -> None:
+    if not out_dir.is_absolute():
+        raise PackageBuildError("output_path_not_absolute", path=str(out_dir))
+    if out_dir.is_symlink():
+        raise PackageBuildError("output_path_is_symlink", path=str(out_dir))
+    resolved = out_dir.resolve(strict=False)
+    temp_root = Path(tempfile.gettempdir()).resolve()
+    if resolved == temp_root or not resolved.is_relative_to(temp_root):
+        raise PackageBuildError("output_path_outside_temp", path=str(resolved), temp_root=str(temp_root))
+    for label, anchor in (("staging", staging_root.resolve()), ("repo", REPO.resolve())):
+        if resolved == anchor or resolved.is_relative_to(anchor) or anchor.is_relative_to(resolved):
+            raise PackageBuildError("output_path_conflicts_with_input", kind=label, path=str(resolved))
+    if out_dir.exists():
+        if not out_dir.is_dir() or out_dir.is_symlink():
+            raise PackageBuildError("output_path_not_directory", path=str(out_dir))
+        entries = list(out_dir.iterdir())
+        if entries:
+            raise PackageBuildError(
+                "output_dir_not_empty",
+                entries=sorted(item.name for item in entries),
+                has_nested_directory=any(item.is_dir() for item in entries),
+            )
+        return
+    parent = out_dir.parent
+    if not parent.is_dir() or parent.is_symlink():
+        raise PackageBuildError("output_parent_invalid", path=str(parent))
+    out_dir.mkdir()
 
 
 def _sample_id(dataset_id: str, dataset_revision: str, pair_id: str, col: int) -> str:
@@ -136,8 +218,9 @@ def build(staging_root: Path, dataset_revision: str, out_dir: Path, chunk_size: 
         raise PackageBuildError("invalid_chunk_size", value=chunk_size)
     manifest_rows = _load_sha256_manifest(staging_root / "sha256_manifest.txt")
     manifest_sha = _sha256_file(staging_root / "sha256_manifest.txt")
+    _validate_manifest_scope(manifest_rows)
 
-    dirs = _pair_dirs(staging_root)
+    dirs = _validate_input_tree(staging_root)
     pairs: dict[str, dict] = {}
     samples: list[dict] = []
     input_files: list[str] = []
@@ -188,18 +271,13 @@ def build(staging_root: Path, dataset_revision: str, out_dir: Path, chunk_size: 
         raise PackageBuildError("expected_ten_pairs", actual=len(pairs))
     if len(samples) != 146:
         raise PackageBuildError("expected_146_source_columns", actual=len(samples))
+    _validate_output_dir(out_dir, staging_root)
 
     reference = {
         pair_id: pairs[pair_id]["target_header"]
         for pair_id in sorted(pairs)
     }
     reference_sha = _sha256_bytes(_stable_json(reference).encode("utf-8"))
-    out_dir.mkdir(parents=True, exist_ok=True)
-    for stale in out_dir.iterdir():
-        if stale.is_file():
-            stale.unlink()
-        else:
-            raise PackageBuildError("output_dir_not_flat", path=str(stale))
 
     chunks = [samples[i:i + chunk_size] for i in range(0, len(samples), chunk_size)]
     manifest_files: list[dict] = []

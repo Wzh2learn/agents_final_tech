@@ -1,8 +1,10 @@
 # 小论文—大论文科研下一阶段执行计划与 Agent 交接 v1
 
-> 状态：Phase 1a/2 仓内软件前置已交付到 `test/compaction-guard-abort`；数据仍为 `DATA_NO_GO`，正式 replay/训练未启动，GB10 实况未验证
+> 状态：历史执行计划（当前状态以 `memory/STATE.md` 为准）；数据仍为 `DATA_NO_GO`，正式 replay/训练未启动，GB10 已验证并为权威验收环境
 
 > 更新：2026-09-23
+
+> 2026-10-03 当前状态注记：GB10 三方对齐、Loop B 自然周期与 docs_lint 实况已核；旧文中的“GB10 未验证”和 `1 fail/1 warn` 仅作历史记录，当前口径为 docs_lint `rc=0 / 0 fail / 4 warn` 且四条与 `logs/graph/docs_lint_warn_baseline.md` 同构。
 
 > 接收方：后续负责科研实验、证据审计和论文写作的 Agent
 
@@ -490,6 +492,8 @@ GB10 生产 checkout 的 `logs/graph/dispatch_log.md` 与导入范围相交，�
   validator 49/49。
 - `sync_skills.sh --check` 为 1/97 drift（仓内 `skill-doctor` 与 GB10 Codex
   安装副本不同），docs_lint 因此为 1 fail/1 warn；未擅自 sync/prune。
+
+**2026-10-03 当前状态覆盖**：上述 `1 fail/1 warn` 是历史安装区快照；当前 GB10 权威口径为 `docs_lint rc=0 / 0 fail / 4 warn`，四条 warn 与基线 `SET_EQUAL=True`。本注记只覆盖状态，不回改历史段落。
 - skill-doctor 为 0 errors/139 warnings，按当前策略 exit 1；没有消警。
 - 全量 pytest 一次：590 passed/14 skipped/4 failed。四项失败都来自 detached
   worktree 缺少 gitignored `data/research/drift_v0/output/injected_tables.json`；
