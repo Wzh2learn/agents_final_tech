@@ -8,6 +8,8 @@
 
 `paper/teacher_review_note_v2.md` 是当前导师说明；`paper/research_story_v2.docx` 已由当前 Markdown 和同步后的三阶段表离线重生成，结构/口径测试通过，Office 视觉验收已于 2026-10-03 PASS；它不覆盖 Markdown。方向包使用成熟评估稿 + 当前故事，不等待统一论文实验完成。
 
+投稿准备入口为 `paper/submission_readiness_arr_www_v1.md`：只整理 ARR 10/12 主窗口与 WWW 10/18/10/25 后备窗口的材料清单和硬阻塞，不构成投稿、不解除专利门。
+
 ### 1.1 “有资产”与“可在本机执行”分开登记
 
 > 2026-10-03 状态记录：两份 DOCX 的视觉验收证据见 `docs/experiments/2026-10-03_office_visual_acceptance.md`。
