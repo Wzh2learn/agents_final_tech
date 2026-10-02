@@ -22,6 +22,7 @@
 | `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `5e1fa1c700f3584b0b010c9838fc243d56c3256af13dc75166caf46241aba7fa` |
 | `paper/acceptance_report_v1.json` | 机械验收 | PASS / 5 claims / 73 checks | `33e800b2d48d633b0f77f31abd82dcc34b54e43b6bba263a144f014e62ccaea9` |
 | `paper/references_v0.md` | 已核引用池 | arXiv/DOI 可追溯；venue 未核项不升级 | `0044e50be1635106939e105bfffaa96fb497e74c852bb4d6da2b62c1d2a3839b` |
+| `paper/submission_references_arr_www_v1.md` | 投稿引用映射/BibTeX | 主稿 15 条逐条映射；Li 2025a/b 已固定消歧 | `90022dbfd6046d1db90f1632ac49ec5d6f30447e049c7067ccae2082a403207b` |
 | `docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg` | Figure 1 | 已入稿 | `cb38b0c7adb96e93a22086f2561d3178762cb69b0da1929a274a4bed7e69e1db` |
 | `docs/experiments/figures_paper/fig_visibility_spectrum.png` | Figure 2 | 已入稿；视觉验收记录在案 | `d9da2f7b2e290d557f14ef14bc163850f5c6a55117432137848e8b49a0e27226` |
 
