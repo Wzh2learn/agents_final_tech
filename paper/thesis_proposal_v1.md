@@ -166,7 +166,7 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 
 ### 7.1 已成稿并通过机器验收的小论文（评估保底路线）
 
-`paper/teacher_review_draft_v1.md`（另有 `.docx`）已具备 `paper/claim_manifest_v1.json` 要求的全部 9 个章节（Abstract / Introduction / Related Work / Method / Experimental Setup / Results / Discussion and Limitations / Conclusion / References），两张必需图件均存在，4 个交付文件齐备，且该 manifest 列出的 **10 个内部流程标记零命中**（标记清单以 manifest 为唯一出处，本件不逐条复述，以免正文自身触发该项检查）。仓库自带的验收测试 `tests/test_paper_claim_acceptance.py` **7 passed**，其中含反例 `test_acceptance_rejects_reversed_visibility_claim` 与专利门检查 `test_teacher_review_docx_keeps_patent_gate_closed`。
+`paper/teacher_review_draft_v1.md`（另有 `.docx`）已具备 `paper/claim_manifest_v1.json` 要求的全部 9 个章节（Abstract / Introduction / Related Work / Method / Experimental Setup / Results / Discussion and Limitations / Conclusion / References），两张必需图件均存在，4 个交付文件齐备，且该 manifest 列出的内部流程标记零命中（标记清单以 manifest 为唯一出处，本件不逐条复述，以免正文自身触发该项检查）。GB10 `research/validate_paper_claims.py` 当前为 **PASS / 5 claims / 73 checks**，`paper/acceptance_report_v1.json` 为该命令的机器产物；`tests/test_paper_claim_acceptance.py` 当前 **9 passed**，其中含反例 `test_acceptance_rejects_reversed_visibility_claim` 与专利门检查 `test_teacher_review_docx_keeps_patent_gate_closed`。
 
 其核心实证结论（全部来自已验收 artifact，可追溯）：在含 **95 张表、118 个合成表头漂移注入**的冻结公开表格语料上，检查点级分析使 **96** 个注入可见，但可见性**强烈依赖类型**——字符级 OCR 类扰动在**五个阈值下全部 13 例**中均不可见；协议级结果在同一语料上差异巨大：端到端、扁平、层级专家加权聚合分别检出 **112 / 85 / 13** 个注入（`logs/graph/eval/t1_eval_baseline_comparison.json`）；在**匹配假阳率**之后，扁平与层级分数在该语料上**仿射等价**（`logs/graph/eval/d3_matched_fpr_stage_a.json`），说明原始差距来自**阈值摆放**而非更好的判别力。
 
@@ -174,7 +174,7 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 
 ### 7.2 claim–evidence 映射
 
-`paper/claim_manifest_v1.json` 以机器可读方式记录 4 条主张及其状态，状态词本身即体现克制：`SP-C1 = supported_with_scope_limit`、`SP-C2 = supported_as_diagnostic_not_superiority`、`SP-C3 = supported_with_external_validity_gap`、`SP-C4 = mechanism_case_only`。
+`paper/claim_manifest_v1.json` 以机器可读方式记录 5 条主张及其状态，状态词本身即体现克制：`SP-C1 = supported_with_scope_limit`、`SP-C2 = supported_as_diagnostic_not_superiority`、`SP-C3 = supported_with_external_validity_gap`、`SP-C4 = mechanism_case_only`、`SP-C5 = attempted_stopped_by_preregistration`。其中 SP-C5 只承载 V2-3 的停止结论，不把未通过保真度门槛的检测器写成有效 scorer。
 
 ### 7.3 尚未取得的关键证据（如实列，不掩饰）
 
@@ -184,8 +184,10 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 - D 类参数（`minimum_uid_*`、`mde_by_confirmatory_contrast`）在拿到真实开发侧 σ 之前**在数学上无法收敛到唯一值**（同一 δ 下所需独立 UID 数跨一个数量级，主导项是 σ²）。
 - **`DATA_NO_GO` 的成因已于 2026-09-25 实测定位，且不是「再补一点标注」可解**。D-C 批准范围内的两个公开命名空间都无法单独承载 Phase 1a 动作包：Valentine NYC 有真实动作标签材料（10 表对 / 146 源列；源侧 `matches` 77、`ambiguous_scenarios` 10、`false_positive_scenarios` **0** ⇒ `skip` 无机械种子，69 个未覆盖列仅为须经 Q3 的候选负例），但只有 **10 个 origin cluster 与 10 个 lineage UID**——阈值分桶下 `proposal_train.dev` 实测为 **0 簇**，而合同要求四层全部非空；且 K=10 相对 250-500 UID 目标差 **25-50 倍**，该缺口受**表对数量**而非标注量约束（一表对 = 一 lineage root = 一 UID）。FinQA 侧四层几何可填（M=8 → 856 样本 / 286 UID / 88 簇，286 恰落在目标带内），但其已审计 schema 角色是**条目级**字段，注册表判 `action_label_fit = PROGRAMS_ARE_NOT_MAP_HOLD_SKIP_LABELS`；若强行以那九个条目级字段充当 `canonical_fields`，任何真实表头都不属该集合 ⇒ `gold_action` 恒为 `skip`，「恒预测 skip」即取得 `action_macro_f1 = 1.0` 与 `harmful_map_rate = 0` 双满分，且 `map_to`/`hold` 两类为空使 `minimum_uid_by_action` 不可满足——可学性结论退化为恒真命题。故 `paper/dataset_protocol_v1.md` §4.1 要求的「同样本桥」（同一母池同时具备 checkpoint evidence + Q3 teacher action/target + Q3 outcome）在批准范围内**不存在** ⇒ **RQ2 记 `NOT_IDENTIFIED`**，两路只算互补预研。
 - 上述结论的取证链：实测与四堵墙 W1-W4、裁定项 G-A..G-E 见 `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`；分层仪器 `research/phase1a_split_assign.py`（确定性、标签盲、零连接、哈希绑定 fail-closed；15 例合同测试于 GB10 全绿；`ground_truth.json` 与 `target_table.csv` 被刻意排除在 sha256 manifest 外，读取即失败 ⇒ 标签盲为机械强制）；层分配与 commit 无关（层盐输入只含 cluster 字符串，属构造性质），`layers_manifest_sha256` 已在 `236cda9` 与 `d079c05` 两个 head 上实测逐位复现（复现记录见该件 §11；`3651cd32…`）。SOURCE_GO 证据见 `docs/experiments/2026-09-25_source_go_p1p2_staging.md`（数据体始终在仓外，未入 Git）。
-- 在该边界下仍可执行且在任何裁定下都不返工的两条支路：FinQA checkpoint adapter（过程流外部效度，不需动作标签）与 Valentine 146 列的 Q3 三载体复核（在 `proposal_train` 内作为**显式 exploratory** 的可学性证据）。两者都不产生 RQ2 的确认性证据，也不得被报为 Stage D 闭合。
-- **上述过程流支路已执行，并按其自身预注册的停止条件停线（2026-09-25 实测）**：FinQA 步级语料在检测器存在之前冻结（1 970 条，sha `03cf47c3…`，双跑逐字节相同），确定性重执行检测器按已提交规格运行；两种百分号读法下的 `interpretation_fidelity` 为 0.16345 与 0.23706，pct 形态步保真度为 **0.0298** 与 **0.2233**，双双低于预注册 v2 事先写死的 0.5 阈值 ⇒ 停止条件**已触发**，本线停止，且按规格不得开 v3 继续试约定、不得改分母/容差/族语义/故障定义来救保真度。此后唯一合法动作是新申报 FinQA 官方算子代码或文档（超出 D-C 批准范围，需用户批准），或放弃该来源的步级重执行路线并如实记录。num 形态步保真度在两读法下同为 0.8304，故残余 518/3 096 的不一致**未被解释、也刻意不作归因**（归因需要本线已不被允许去追的官方算子语义）。检出与定位数字（detection 0.99068 / 0.99358、root-cause localization 1.0）以 clean_faithful 子集为分母、覆盖率仅 16-24%，且 root-cause 在本故障模型下近乎构造性成立，故**不得**引用为「步级 checkpoint 检测在 FinQA 上成立」。可保留的贡献是方法论与一个干净的负结果：语料先于检测器冻结、无规格即拒绝发布指标、运行时守卫证明 v2 在原读法下逐项复现 v1、以及一个真的触发而没有被放宽的停止条件。详见 `docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md`。
+- 在该边界下曾识别出两条支路：FinQA checkpoint adapter（过程流外部效度，不需动作标签）与 Valentine 146 列的 Q3 三载体复核（在 `proposal_train` 内作为**显式 exploratory** 的可学性证据）。2026-10-03 裁定后，FinQA 步级重执行路线由 V2-3 正式关闭；当前唯一在途支路是 Valentine Q3，且只在 review 完成后产生 exploratory 证据。两者均不产生 RQ2 的确认性证据，也不得被报为 Stage D 闭合。
+- **上述过程流支路已执行，并按其自身预注册的停止条件停线（2026-09-25 实测）**：FinQA 步级语料在检测器存在之前冻结（1 970 条，sha `03cf47c3…`，双跑逐字节相同），确定性重执行检测器按已提交规格运行；两种百分号读法下的 `interpretation_fidelity` 为 0.16345 与 0.23706，pct 形态步保真度为 **0.0298** 与 **0.2233**，双双低于预注册 v2 事先写死的 0.5 阈值 ⇒ 停止条件**已触发**，本线停止，且按规格不得开 v3 继续试约定、不得改分母/容差/族语义/故障定义来救保真度。2026-10-03 的 V2-3 裁定正式关闭该路线：不新申报 FinQA 官方算子代码/文档。
+- num 形态步保真度在两读法下同为 0.8304，故残余 518/3 096 的不一致**未被解释、也刻意不作归因**（归因需要本线已不被允许去追的官方算子语义）。检出与定位数字（detection 0.99068 / 0.99358、root-cause localization 1.0）以 clean_faithful 子集为分母、覆盖率仅 16-24%，且 root-cause 在本故障模型下近乎构造性成立，故**不得**引用为「步级 checkpoint 检测在 FinQA 上成立」。可保留的贡献是方法论与一个干净的负结果：语料先于检测器冻结、无规格即拒绝发布指标、运行时守卫证明 v2 在原读法下逐项复现 v1、以及一个真的触发而没有被放宽的停止条件。详见 `docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md`。
+- **2026-10-03 V2-3 closure update**：用户裁定正式关闭步级重执行线；不新申报官方算子材料、不开 v3、不更换读法或修改容差救原结果，只保留预注册停止条件触发的负结果与方法论边界。
 
 ## 8 进度安排与阶段门
 

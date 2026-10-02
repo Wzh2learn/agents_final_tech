@@ -13,7 +13,7 @@
 3. **RQ2 所需的「同样本桥」在批准范围内不存在**：FinQA 有过程/checkpoint 证据但无动作标签语义，
    Valentine 有动作标签材料但无过程/checkpoint。按 `paper/dataset_protocol_v1.md` §4.1 的既有规则，
    缺桥时 RQ2 记 `NOT_IDENTIFIED`，两路只算互补预研。
-4. **未被阻塞、且在任何裁定下都不白做的工作有两项**（§7）：Valentine 146 列的 Q3 独立复核，
+4. **决策前识别出两项不受当时待裁定项阻塞的工作**（§7；2026-10-03 裁定后仅 Valentine Q3 仍在途，FinQA 步级线由 V2-3 关闭）：Valentine 146 列的 Q3 独立复核，
    以及 FinQA checkpoint adapter 设计。二者都不依赖 §8 的裁定结果。
 5. 本件不改任何冻结判据、不改 `paper/dataset_protocol_v1.md` §4.1 的 PILOT_ONLY 裁定、不改注册表；
    需要改的地方全部作为 §8 的裁定项上交。
@@ -154,7 +154,7 @@ FinQA 不自带。这也解释了注册表为何把两者的 `action_label_fit` 
 
 判定：**SPLIT 仪器 = READY；动作包 SPLIT_GO = BLOCKED（W1-W4）**。本件不宣称任何门通过。
 
-## 7 未被阻塞、且在任何裁定下都不白做的两项
+## 7 决策前识别的两项与裁定后状态
 
 1. **Valentine 146 源列的 Q3 独立复核**。三载体（R1 = qwen3.8-max，R2 = deepseek-v4-pro，裁决载体独立且不得由
    生成者担任），按 `docs/datasets/2026-09-24_label_review_protocol_templates.md` 的可见性边界执行；
@@ -230,3 +230,17 @@ venv/bin/python research/phase1a_split_assign.py --namespace valentine_nyc \
 上表是该构造性质的实测复核，不是巧合，也不是对某一 head 的调参结果。
 本记录用于支撑 `paper/thesis_proposal_v1.md` §7.3 取证链 bullet 与
 `paper/thesis_ch1_ch2_draft_v1.md` §2.10 的对应陈述（独立审计 Finding F1 的落点补全）。
+
+## 12 用户裁定结果（2026-10-03，append-only）
+
+§8 的建议项已由用户逐条裁定；该节保留为决策前记录，当前口径以本节为准：
+
+| 项 | 裁定 | 当前约束 |
+|---|---|---|
+| G-A | 不批 | Valentine 不承担 gate/sealed，维持注册表 `role_fit` |
+| G-B | 不批 | 保持 frozen hash-threshold bucketing，不为四层非空改分配规则 |
+| G-C | 本批不批 | 不选源、不下载；≥40 origin cluster 的扩源另开精确申报卡 |
+| G-D | 批准 | `target_table.csv` 表头可作 canonical 参考；只开 146 列 Q3 exploratory 复核 |
+| G-E | 接受 | 动作包维持 `DATA_NO_GO`，RQ2 记 `NOT_IDENTIFIED`，小论文按评估保底口径 |
+
+V2-3 同日关闭：FinQA 步级重执行线按预注册停止条件归档，不开 v3、不申报官方算子代码/文档。146 列 Q3 输入包已装配但 review 未运行，不能据此改变任何正式门。

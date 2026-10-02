@@ -91,3 +91,9 @@ build.strace           b588bf9a966d07eb0bfa06dfa2760fa179d84fea081904b18bfa3cfc1
 ## 7. 红线自查
 
 零模型调用、零业务端点、零下载；未读 token；数据体不入 Git；未改冻结判据 / hash / 数据合同；未覆盖 production 脏件；未重启 daemon / :5050；逐路径 add，无 `--amend`、无 `--no-verify`；专利未确认前不外发、不上 arXiv、不公开代码。
+
+## 8 Exploratory result state（2026-10-03）
+
+- 当前闭合的是**输入包与可见性边界**，不是 Q3 结果：R1/R2 尚未派发，独立裁决未发生。
+- 尚不存在 `labels.jsonl`、review agreement、adjudication rate、action 分布、target exact agreement、learnability 指标或任何模型输出。
+- 因此 exploratory 状态为 **NOT_RUN / UNFINISHED**；不得把 146 个输入样本数、160 个目标表头数或包哈希写成标注结果、可学性结果、Stage D 闭合、RQ2 确认或 `DATA_GO`。

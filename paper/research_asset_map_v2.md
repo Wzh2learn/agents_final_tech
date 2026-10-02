@@ -1,14 +1,16 @@
 # 三阶段科研资产地图 v2
 
-> 状态：当前索引 | 更新：2026-09-23 | 范围：论文相关仓内资产与已知仓外证据
+> 状态：当前索引 | 更新：2026-10-03 | 范围：论文相关仓内资产与已知仓外证据
 
 ## 1. 账本职责与阅读顺序
 
 先完成 `AGENTS.md` 的规则/记忆必读，再按 `docs/research/README.md` → `paper/research_story_v2.md` → 本账本 → `docs/handoff/2026-09-22-paper-research-next-phase.md` 阅读。入口 §1 管权威冲突，叙事管故事，本账本管证据与缺口，执行计划管下一张任务卡；数字以原始工件为准，不按文档新旧投票。
 
-`paper/teacher_review_note_v2.md` 是当前导师说明；`paper/research_story_v2.docx` 已由当前 Markdown 和同步后的三阶段表离线重生成，结构/口径测试通过，Office 视觉未验；它不覆盖 Markdown。24–48 小时方向包使用成熟评估稿 + 当前故事，不等待统一论文实验完成。
+`paper/teacher_review_note_v2.md` 是当前导师说明；`paper/research_story_v2.docx` 已由当前 Markdown 和同步后的三阶段表离线重生成，结构/口径测试通过，Office 视觉验收已于 2026-10-03 PASS；它不覆盖 Markdown。方向包使用成熟评估稿 + 当前故事，不等待统一论文实验完成。
 
 ### 1.1 “有资产”与“可在本机执行”分开登记
+
+> 2026-10-03 状态记录：两份 DOCX 的视觉验收证据见 `docs/experiments/2026-10-03_office_visual_acceptance.md`。
 
 本账本中的“可用”仅指所列代码/报告/工件可作为相应证据或复用素材，不表示本机输入齐备、服务存活或获得执行许可。全仓依赖图见 `docs/architecture/codebase_map.md`；`scripts/catalog.toml` 不覆盖根 `research/`，不能据它漏掉科研代码。
 

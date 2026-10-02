@@ -1,9 +1,9 @@
 {
   "status": "PASS",
   "paper": "paper/teacher_review_draft_v1.md",
-  "claims": 4,
-  "checks_total": 49,
-  "checks_passed": 49,
+  "claims": 5,
+  "checks_total": 73,
+  "checks_passed": 73,
   "errors": [],
   "checks": [
     {
@@ -176,6 +176,102 @@
     },
     {
       "check": "SP-C4:evidence:docs/experiments/2026-08-29_column_sensitivity_analysis.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:2409 lineage UIDs",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:768 report clusters",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:1970 frozen step-level records",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:0.0298",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:0.2233",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:pre-set 0.5",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:ten table-pair clusters",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:16.3% to 23.7%",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:four role layers",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:7134 examples",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:two to eleven columns",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:322 records of 1970",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:467 under the one yielding 0.2233",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:44 and 330 matches out of 1478 percent-form steps",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:evidence:docs/experiments/2026-09-25_source_go_p1p2_staging.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:evidence:docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:evidence:docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_review_teacher_review_v2_qwen3.8-max.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_review_teacher_review_v2_deepseek-v4-pro.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_review_v2_divergence_table.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_confirm_review_v2_qwen3.8-max.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_confirm_review_v2_deepseek-v4-pro.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_confirm_review_v2_round5_qwen3.8-max.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_confirm_review_v2_round5_deepseek-v4-pro.md",
       "pass": true
     },
     {

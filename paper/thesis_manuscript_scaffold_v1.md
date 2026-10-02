@@ -52,6 +52,9 @@ proposal/train（含内部 dev）、gate-validation、sealed test、future repla
 - 小论文的门控案例不能替代大论文规则自学习的效果验证。
 - 第二数据流与第二 scorer 未完成前，不作跨域或普适性主张。
 - 专利状态确认前，所有稿件仅限内部审阅。
+- G-D 的 146 列 Q3 复核只可写为 exploratory learnability evidence；当前仅有输入包和零 gold 可见性证据，尚无 R1/R2 判定、裁决、label ledger 或指标，不得写成 Stage D 闭合、RQ2 确认或 `DATA_GO`。
+- V2-3 已正式关闭步级重执行路线；不得重开 v3、更换读法或申报 FinQA 官方算子材料来挽救原结果。
+
 ## 章节级框架加记（§x.y 级，2026-09-24；门注记更新于 2026-09-25；v1 正文不回改）
 
 > 口径：每节给出「继承锚点 / 必须新增 / 证据指针 / 门依赖 / 状态」。空槽位与
