@@ -19,7 +19,7 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - GB10 production 脏件始终为固定五件（`config/schema_suggestions.json`、`logs/graph/docs_lint_report.json`、`logs/graph/governance_drift_latest.md`、`logs/graph/loop_b_last_status`、`logs/graph/verify-report.json`），每次 pull 前后逐条复核未被覆盖。
 - 本机用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）与 `side_handoff_20260829.md` 全程未 add、未 commit、未 stash、未 reset、未 clean。
 - 受保护件未触碰：`docs/33*`、`docs/34*`、冻结测试、schema、`scripts/graph/frozen_hashes.txt`。
-- Loop B：最近自然 PASS 覆盖 head `6ea62091c`（`logs/graph/verify-report.json`，overall PASS）。`ae344ae`、`dc72a24`、`4591273`、`7e2a241`、`00bb53d`、`d1c82df`、`35e77d1`、`7dfb426`、`1c4ffaf`、`10dfbbd` 及最终收尾提交尚未被自然周期覆盖；本批未手工触发、未重置。
+- Loop B：最近自然 PASS 覆盖 head `6ea62091c`；后续 `ae344ae`、`dc72a24`、`4591273`、`7e2a241`、`00bb53d`、`d1c82df`、`35e77d1`、`7dfb426`、`1c4ffaf`、`10dfbbd` 未被 PASS 覆盖。自然周期另于 `5f82efb` 记录 **FAIL**：唯一失败 `qa_canary`（`adv_cross_doc` 的 `source_required` 因 `sources empty`，1/2），其余 8 项 PASS；最终收尾 `2219fbc` 尚未被自然周期覆盖。本批未手工触发、未重置。
 
 ## GB10 boundary（已连通，取代 09-24 的「未连通」记载）
 
