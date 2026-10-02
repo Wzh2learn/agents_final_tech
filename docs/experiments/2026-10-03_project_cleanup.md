@@ -44,10 +44,6 @@
 - secret scan：高置信凭证模式命中 `0`；未读取、未打印、未记录任何 token。
 - 投稿准备清单 hash：**12/12 present**，包含 `fig_evaluate_distill_evolve_v1.svg` 补登记。
 
-## 5. 未决技术债与范围外
+## 5. 未决技术债
 
-- `docs/governance/audit/harness_audit_20260905/HANDOFF_PROMPT.md` 历史载体不在仓库；已清断链并登记 THREADS，不伪造文件。
-- 原始 Valentine staging 的 `_full/_result/_trajectory` 扩展件不符合新 Q3 allowlist；旧包不重建，未来需过滤输入根。
-- Loop B 最近自然 PASS 覆盖 `6ea6209`；`ae344ae..7dfb426` 及本批后续 head 尚未被自然周期覆盖，不冒充覆盖。
-- 上一 goal 的 `research/build_submission_anonymous_preview.py` 与 `tests/test_submission_anonymous_preview.py` 是暂停线未提交工作区件，本大扫除未混入提交。
-- 用户保护工作区资产和 Loop B 瞬态件均未 add/commit/删除。
+唯一登记入口为 `memory/THREADS.md`；本件不重复维护技术债正文。

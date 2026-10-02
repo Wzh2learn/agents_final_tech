@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-10-03 | Scope: 草稿层两份交付物证据完成；投稿版与后续章节框架继续推进；G-A..G-E/V2-3 已同步；146 列 Q3 保持已装配未复核 | Runtime: GB10 权威；token 未轮换/未就绪，零模型调用，外发与后续实验继续受专利/预注册门控制
+> Updated: 2026-10-03 | Scope: 项目大扫除完成（文档/资产/代码安全/可审计性）；科研 goal 已暂停，146 列 Q3 保持已装配未复核 | Runtime: GB10 权威；零模型、零下载、零服务重启，token 未轮换/未就绪
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
@@ -14,12 +14,12 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Git state
 
-- 三方对齐至审计基线 `ae344ae1c6fe4883ce19a047c94658d01f354cbe`，ahead 0 / behind 0；本快照/完成审计提交随后收尾。
-- 后续提交链：零模型边界同步 `07d89a1` → Q3 理论/图表空槽 `6ea6209` → readiness 契约链接回归修复 `ae344ae`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`、无破坏性命令。
+- 大扫除文档收口 head = `10dfbbdb6954c7fc11f266f7a5ed0eefd3795bc0`；最终 STATE/台账提交随后收尾。三方在 `10dfbbd` 对齐，ahead 0 / behind 0。
+- 大扫除提交链：Q3 runner fail-closed + 现役文档/断链修复 `1c4ffaf` → 大扫除证据/资产清单 `10dfbbd`。`paper/submission_references_arr_www_v1.md` 已先行原子收口于 `35e77d1`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`。
 - GB10 production 脏件始终为固定五件（`config/schema_suggestions.json`、`logs/graph/docs_lint_report.json`、`logs/graph/governance_drift_latest.md`、`logs/graph/loop_b_last_status`、`logs/graph/verify-report.json`），每次 pull 前后逐条复核未被覆盖。
 - 本机用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）与 `side_handoff_20260829.md` 全程未 add、未 commit、未 stash、未 reset、未 clean。
 - 受保护件未触碰：`docs/33*`、`docs/34*`、冻结测试、schema、`scripts/graph/frozen_hashes.txt`。
-- Loop B：最近自然周期 2026-10-03 00:27:32 于 head `871aeb3` 记录 overall **PASS**，9 项检查全 PASS（`logs/graph/verify-report.json`）；本批未手工触发、未重置。
+- Loop B：最近自然 PASS 覆盖 head `6ea62091c`（`logs/graph/verify-report.json`，overall PASS）。`ae344ae`、`dc72a24`、`4591273`、`7e2a241`、`00bb53d`、`d1c82df`、`35e77d1`、`7dfb426`、`1c4ffaf`、`10dfbbd` 及最终收尾提交尚未被自然周期覆盖；本批未手工触发、未重置。
 
 ## GB10 boundary（已连通，取代 09-24 的「未连通」记载）
 
@@ -45,13 +45,13 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - `research/phase1a_data_contract.py` 实现 `phase1a-data-package-v2`：七个机械门 + 命名空间化 lineage UID/root/independence-cluster 隔离 + 严格 Q3 账本形状 + 显式统计字段 + 可选哈希绑定未来获取协议。只有两种结局：`DATA_NO_GO` 与 `READY_FOR_INDEPENDENT_ACCEPTANCE`；后者刻意不等于 `DATA_GO`、训练许可、GB10 验收或论文结果。
 - `research/phase1a_learnability_baselines.py`（五基线）、`research/phase2_rule_gate_replay.py`（七臂 replay）、`research/paper_result_views.py`（Table 2 / Figure 4 视图，强制 `paper_result=false`）、以及 label_ledger 装配器 / feature ledger 派生器 / parser receipt 运行器均已在案并有合同测试。
 - **本日新增三件运行器**：`research/phase1a_split_assign.py`（确定性、标签盲、零连接、哈希绑定 fail-closed 的分层仪器；治理编码——注册表 `role_fit` 未含 gate/sealed 时扣行并报 `LAYER_CAPACITY_BLOCKED_PILOT_ONLY`，须显式裁定 id 才填层；15 例合同测试）；`research/finqa_step_checkpoint_adapter.py`（预注册故障注入语料构建器，17 例测试）；`research/finqa_step_checkpoint_scorer.py`（按预注册 v2 的双读法检测器，含 v1 复现守卫与冻结值锚定，30 个测试函数）。
-- **Q3 复核包**：`research/valentine_q3_review_package.py` + 6 例合同测试已落地；GB10 双跑 10 pair / 146 source columns / 160 target headers，50+50+46 三块，包逐字节一致，`strace` 对 `ground_truth.json` open 命中 0。证据见 `docs/experiments/2026-10-03_ruling_gd_q3_package_and_goal_refresh.md`。
+- **Q3 复核包**：`research/valentine_q3_review_package.py` + 16 例合同测试已落地；hardening 后输入只接受 10 pair × 3 allowlist 文件，输出目录 fail-closed 且不再删除旧内容。旧包 10 pair / 146 source columns / 160 target headers 仍为 hardening 前不可变历史产物，R1/R2/ADJ 未运行。证据见 `docs/experiments/2026-10-03_project_cleanup.md`。
 - 权威包 schema 与 GB10 程序见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`；分层与容量见 `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`；步级链路见 `docs/experiments/2026-09-25_finqa_step_checkpoint_corpus_v1.md`、`…_step_checkpoint_score_v1_results.md`、`…_step_checkpoint_score_v2_results.md`。
 
-## Verification（GB10 权威，head `ae344ae`）
+## Verification（GB10 权威，全量 head `1c4ffaf`；文档收口 `10dfbbd`）
 
-- 全量 pytest：**809 passed / 13 skipped / 1 deselected**（10-03 于 `ae344ae` 实测，rc=0）。审计过程中曾抓到 readiness 缺执行计划链接的 1 failed；只补链接、未改测试，随后目标用例 1 passed 与全量均恢复。
-- `tests/test_paper_claim_acceptance.py` 与渲染回归合计 13 passed（GB10，10-03；含 DOCX 与 MD 逐段逐格一致门）；`research/validate_paper_claims.py` PASS / 5 claims / **73 checks 全过** / errors 空（10-03 于 `871aeb3` 复跑，rc=0）。
+- 全量 pytest：**819 passed / 13 skipped / 1 deselected**（10-03 于 `1c4ffaf` 实测，rc=0）。相对 809 基线 +10，增量全部为 Q3 输入/输出 fail-closed 反例，无未解释变化。
+- `research/validate_paper_claims.py` PASS / 5 claims / **73 checks 全过** / errors 空（10-03 于 `1c4ffaf` 复跑，rc=0）。
 - 三个链路测试文件合计 69 passed。
 - `docs_lint` rc=0 / **0 fail / 4 warn**；四条已按用户裁定逐条纳入 `logs/graph/docs_lint_warn_baseline.md`，机器比对 `SET_EQUAL=True, 4/4`。未回改正文、未消警、未改 lint 逻辑；真实内容更新留后续治理批。+ `[5]` INFO 行（注册表标 DEPRECATED 且未分发，属预期）。
 - `sync_skills --check` **PASS: 97**（C14 摘除 `verification-before-completion` 后的口径，98 → 97，`[5]` INFO 行为证）。
