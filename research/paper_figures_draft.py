@@ -62,13 +62,14 @@ def fig_visibility_spectrum() -> str:
     fig, ax = plt.subplots(figsize=(6.2, 3.25))
     bars = ax.bar(range(len(names)), rates, color=colors, edgecolor="black", linewidth=0.4)
     for i, (r, n, a) in enumerate(zip(rates, ns, absorbed)):
-        ax.text(i, r + 0.02, f"{r:.2f}\nn={n}", ha="center", va="bottom", fontsize=7.5)
-        if a:
-            ax.text(i, 0.02, f"absorbed={a}", ha="center", va="bottom", fontsize=6.5, color="white")
+        # White text drawn inside a bar was unreadable: the label sat on the bar fill and
+        # its lower half was lost. Keep every figure number in the label above the bar.
+        label = f"{r:.2f}\nn={n}" + (f"\nabsorbed={a}" if a else "")
+        ax.text(i, r + 0.02, label, ha="center", va="bottom", fontsize=7.5)
     ax.axhline(0.2, color="grey", lw=0.6, ls="--")
     ax.set_xticks(range(len(names)))
     ax.set_xticklabels([n.replace("_", "\n") for n in names], fontsize=7.5)
-    ax.set_ylim(0, 1.16)
+    ax.set_ylim(0, 1.30)
     ax.set_ylabel("Injection-level visibility rate")
     ax.set_title("Defect visibility is strongly type-dependent\n"
                  "(95 tables, 118 controlled injections)", fontsize=10)

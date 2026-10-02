@@ -23,6 +23,92 @@ from docx.shared import Cm, Inches, Pt, RGBColor
 REPO = Path(__file__).resolve().parents[1]
 SOURCE = REPO / "paper" / "teacher_review_draft_v1.md"
 OUTPUT = REPO / "paper" / "teacher_review_draft_v1.docx"
+MATH_GREEK = {
+    "alpha": "α", "beta": "β", "gamma": "γ", "Gamma": "Γ", "delta": "δ", "Delta": "Δ",
+    "epsilon": "ε", "varepsilon": "ε", "eta": "η", "theta": "θ", "Theta": "Θ", "iota": "ι",
+    "kappa": "κ", "lambda": "λ", "mu": "μ", "nu": "ν", "xi": "ξ", "pi": "π", "rho": "ρ",
+    "sigma": "σ", "tau": "τ", "phi": "φ", "chi": "χ", "psi": "ψ", "omega": "ω", "zeta": "ζ",
+}
+MATH_SYMBOLS = {
+    "sum": "Σ", "prod": "∏", "int": "∫", "in": "∈", "notin": "∉", "le": "≤", "leq": "≤",
+    "ge": "≥", "geq": "≥", "times": "×", "cdot": "·", "pm": "±", "mp": "∓",
+    "approx": "≈", "neq": "≠", "ne": "≠", "to": "→", "rightarrow": "→", "leftarrow": "←",
+    "mid": "|", "infty": "∞", "partial": "∂",
+}
+MATH_SPACING = (("\\,", " "), ("\\;", " "), ("\\:", " "), ("\\!", ""), ("\\ ", " "), ("\\quad", "  "))
+
+
+def _matching_brace(text: str, open_index: int) -> int:
+    """Index of the brace matching the one at `open_index`, or -1 when unbalanced."""
+    depth = 0
+    for position in range(open_index, len(text)):
+        if text[position] == "{":
+            depth += 1
+        elif text[position] == "}":
+            depth -= 1
+            if depth == 0:
+                return position
+    return -1
+
+
+def render_math(text: str) -> str:
+    """Translate the LaTeX constructs this manuscript uses into Unicode.
+
+    python-docx cannot typeset LaTeX, so passing formula source through verbatim puts
+    backslashes and command names in front of a reader. Only the constructs present in the
+    manuscript are translated; any unrecognised command is left untouched, so a new
+    construct degrades into visible source instead of being silently mistranslated.
+    """
+    out = text
+
+    # \frac{num}{den} -> (num)/(den); brace-matched so a denominator that itself contains
+    # `_{...}` is captured whole rather than truncated at the inner brace.
+    for _ in range(8):
+        match = re.search(r"\\frac\{", out)
+        if not match:
+            break
+        open_num = match.end() - 1
+        close_num = _matching_brace(out, open_num)
+        if close_num < 0 or close_num + 1 >= len(out) or out[close_num + 1] != "{":
+            break
+        close_den = _matching_brace(out, close_num + 1)
+        if close_den < 0:
+            break
+        out = (
+            out[: match.start()]
+            + "(" + out[open_num + 1:close_num] + ")/(" + out[close_num + 2:close_den] + ")"
+            + out[close_den + 1:]
+        )
+
+    for name in ("sum", "prod", "int"):
+        out = re.sub(
+            r"\\" + name + r"_\{([^{}]*)\}",
+            lambda m, symbol=MATH_SYMBOLS[name]: symbol + "_{" + m.group(1) + "}",
+            out,
+        )
+        out = re.sub(r"\\" + name + r"(?![A-Za-z])", MATH_SYMBOLS[name], out)
+
+    for source, target in (("\\{", "{"), ("\\}", "}"), ("\\%", "%"), ("\\_", "_"),
+                           ("\\&", "&"), ("\\#", "#")):
+        out = out.replace(source, target)
+    for source, target in MATH_SPACING:
+        out = out.replace(source, target)
+    for table in (MATH_GREEK, MATH_SYMBOLS):
+        for name in sorted(table, key=len, reverse=True):
+            out = re.sub(r"\\" + name + r"(?![A-Za-z])", table[name], out)
+    return re.sub(r"[ \t]{2,}", " ", out).strip()
+
+
+def prevent_row_split(table) -> None:
+    """Keep each row on one page.
+
+    A row that breaks across a page boundary leaves a continuation fragment whose leading
+    cells are empty, which reads as a malformed table. Word and LibreOffice both honour
+    the `w:cantSplit` row property.
+    """
+    for row in table.rows:
+        row._tr.get_or_add_trPr().append(OxmlElement("w:cantSplit"))
+
 
 
 def add_runs(paragraph, text: str) -> None:
@@ -93,6 +179,7 @@ def add_markdown_table(document: Document, rows: list[list[str]]) -> None:
                     run.bold = True
             for run in paragraph.runs:
                 run.font.size = Pt(8.5)
+    prevent_row_split(table)
 
 
 def add_three_stage_table(document: Document) -> None:
@@ -133,6 +220,7 @@ def add_three_stage_table(document: Document) -> None:
                     run.font.size = Pt(8.5)
                     if row_index in (0, 3):
                         run.bold = True
+    prevent_row_split(table)
     feedback = document.add_paragraph(
         "Target loop: accepted rules update the workflow and return to the same evaluation protocol."
     )
@@ -174,7 +262,7 @@ def build(source: Path = SOURCE, output: Path = OUTPUT) -> Path:
         if in_formula:
             paragraph = document.add_paragraph()
             paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            run = paragraph.add_run(stripped)
+            run = paragraph.add_run(render_math(stripped))
             run.font.name = "Cambria Math"
             run.italic = True
             index += 1
@@ -225,6 +313,7 @@ def build(source: Path = SOURCE, output: Path = OUTPUT) -> Path:
                         run.bold = True
                     for cell in (head_cell, body_cell):
                         cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+                prevent_row_split(table)
             elif image_path.name == "fig_evaluate_distill_evolve_v1.svg" and image_path.is_file():
                 add_three_stage_table(document)
             caption_paragraph = document.add_paragraph(caption)
