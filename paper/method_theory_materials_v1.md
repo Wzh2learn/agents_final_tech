@@ -399,3 +399,29 @@ Clopper–Pearson（1934）和 Holm（1979）提供统计工具，不会自动�
 
 纪律：任何开放问题在对应门通过之前**不得**在正文中以定理、已证性质或已得结果的形式出现；
 回填时只允许新增小节或替换显式占位句，不得回改已验收段落的数字。
+
+## 11 146 列 Q3 独立复核的形式化与证据边界（2026-10-03）
+
+本节只定义 G-D exploratory 复核的变量、聚合与证据等级，不产生结果、不填数值、不改变任何正式门。
+
+### 11.1 样本空间
+
+令 $P$ 为 10 个 Valentine 表对，$C_p$ 为表对 $p$ 的源列集合，且 $\sum_{p\in P}|C_p|=146$。对源列 $j\in C_p$，输入样本为
+
+$$x_{p,j}=(uid_p,\;j,\;h^{S}_{p,j},\;\mathcal H^{T}_{p}),$$
+
+其中 $uid_p$ 是该表对的 lineage UID，$h^{S}_{p,j}$ 是源表原表头，$\mathcal H^{T}_{p}$ 是 G-D 批准的 `target_table.csv` 表头集合。输入包不得包含 `ground_truth.json`、管线映射、注入信息或其他载体判定。
+
+### 11.2 双审、裁决与 gold
+
+对独立载体 $r\in\{R1,R2\}$，判定为 $(A_{p,j,r},T_{p,j,r})$，其中 $A_{p,j,r}\in\{\texttt{map\_to},\texttt{skip},\texttt{hold}\}$；仅当动作是 `map_to` 时 $T_{p,j,r}\in\mathcal H^{T}_{p}$，否则目标为 $\varnothing$。两载体的完整选择相同时直接形成 Q3 gold；动作或目标不同时进入独立裁决载体 ADJ，裁决选择成为 gold，并必须保留 `rationale_ref`。三载体必须互异且均不得是生成器。
+
+复核只报告：动作原始一致率、动作 Cohen’s $\kappa$、双方均为 `map_to` 时的目标 exact agreement、裁决率与各动作计数。缺失判定记 `unmeasurable` 或 `NOT_RUN`，不得补 0；当前这些量全部为空。
+
+### 11.3 源侧 gold 的事后收敛效度
+
+源仓自带的 correspondence gold 记为 $G^{src}$，只能在 R1/R2/ADJ 输出封存后用于事后一致性统计。$G^{src}$ 不进入任何载体输入，不参与裁决，也不得反向修改 Q3 gold。由于源侧 `skip/hold` 语义不完整，收敛统计必须按 `map_to` 候选覆盖、未覆盖候选与歧义场景分层披露，不能把未覆盖列自动计为负例。
+
+### 11.4 证据等级
+
+即使复核完成，本线也只能支持 `proposal_train` 内的 **exploratory learnability evidence**。它不构成 Stage D 闭合、RQ2 确认、`DATA_GO`、gate/sealed 证据或训练许可；正式门仍受 G-A/B/C/E、K=10、层容量和功效约束。

@@ -22,6 +22,8 @@
 | FIG-R-1 | 七臂 gain–collateral 曲线 + 独立 gate delta | line | 各臂规则状态演化与独立门增量 | `research/phase2_rule_gate_replay.py` 的独立验收输出 | Phase 2 + 功效分析 + 独立 gate-validation（= BF-2） | 空框 |
 | FIG-R-2 | 规则版本化回滚曲线 | line | 固化增量在回滚事件下的质量 / 风险轨迹 | 同 FIG-R-1 | 同 BF-2 | 空框 |
 | FIG-L-1 | future replay 纵向对照 | line | 获取协议哈希绑定后的跨时间 replay 对照 | 协议 + 获取时间 + 分层规则 | 协议存在即可启动（= BF-4） | 空框；允许 `LONGITUDINAL_EVIDENCE_UNAVAILABLE` |
+| FIG-Q3-1 | 146 列双审动作一致性与分歧剖面 | stacked bar / matrix | R1/R2 的 `map_to / skip / hold` 计数、动作一致/分歧和裁决占比 | 将来封存的 R1/R2/ADJ 输出与 `phase1a_label_ledger_assemble.py` meta | token 状态确认 + 明确授权 + 三载体复核完成 | 空框；`NOT_RUN` |
+| TAB-Q3-1 | Q3 复核一致性与目标匹配表 | table | raw action agreement、Cohen’s kappa、`map_to` target exact agreement、adjudication rate | 同 FIG-Q3-1 | 同 FIG-Q3-1 | 空表；`NOT_RUN` |
 
 ## 3 与正文的挂钩
 
@@ -35,3 +37,4 @@
 
 - 本件不主张任何空槽位已有数据；不主张 FIG-D-* / FIG-R-* 的形状或趋势；
 - 不把 FIG-ST-2 的机制示意读作效果证据（机制级成立、功效未闭合的口径不变）。
+- FIG-Q3-1 / TAB-Q3-1 只允许展示 exploratory 复核的一致性与标签形状；不得用它们支撑 Stage D、RQ2、`DATA_GO`、gate/sealed 或训练结论。
