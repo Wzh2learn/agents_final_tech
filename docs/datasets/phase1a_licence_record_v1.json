@@ -1,0 +1,67 @@
+{
+  "accepted_at": "2026-10-03T17:01:42Z",
+  "accepted_by": "Wzh",
+  "covered_artifact_sha256": {
+    "finqa_readme": "eb86779cfed6f0a253913761d8e4fabe032a29d9fcf2944e56c23bf007064605",
+    "finqa_repo_license": "92c0e67bd762c15c07ba60de09558338315a8ebf99aac4f51f487179809ac087",
+    "valentine_repo_license": "f4960433bd98568685898d782e724fc28b5481be2a4b57b6280bf6e8c262e99d"
+  },
+  "covered_artifacts": [
+    {
+      "artifact": "LICENSE",
+      "bytes": 1067,
+      "dataset_id": "finqa",
+      "id": "finqa_repo_license",
+      "license_text": "MIT",
+      "official_repo": "https://github.com/czyssrs/FinQA",
+      "revision": "0f16e2867befa6840783e58be38c9efb9229d742"
+    },
+    {
+      "artifact": "README.md",
+      "bytes": 6518,
+      "dataset_id": "finqa",
+      "id": "finqa_readme",
+      "observed_state": "README silent on data licence at recorded revision",
+      "official_repo": "https://github.com/czyssrs/FinQA",
+      "revision": "0f16e2867befa6840783e58be38c9efb9229d742"
+    },
+    {
+      "artifact": "LICENSE",
+      "bytes": 11365,
+      "dataset_id": "valentine_nyc",
+      "id": "valentine_repo_license",
+      "license_text": "Apache-2.0",
+      "official_repo": "https://github.com/delftdata/valentine",
+      "revision": "5d5163f04da304985bd51a476ccf7653de3979c3"
+    }
+  ],
+  "data_boundary": {
+    "d_c_minimal_download_completed": true,
+    "new_downloads_authorized": false,
+    "q3_three_file_allowlist_is_downstream_only": true
+  },
+  "evidence_ref": "docs/datasets/2026-09-24_dB_licence_evidence.md",
+  "permitted_uses": [
+    "training",
+    "tuning",
+    "evaluation",
+    "rule_acceptance"
+  ],
+  "record_type": "phase1a_licence_record",
+  "record_version": "phase1a-licence-record-v1",
+  "scope": {
+    "accepted": [
+      "FinQA repo-level MIT plus the recorded upstream data-licence risk acknowledgement",
+      "Valentine repo-level Apache-2.0 plus NYC Open Data upstream terms governing NYC data",
+      "Retain MIT and Apache notice obligations; apply attribution where an upstream term requires it"
+    ],
+    "not_granted": [
+      "redistribution",
+      "public_release",
+      "commercial_use",
+      "other_data_sources",
+      "other_licence_interpretations"
+    ]
+  },
+  "status": "accepted"
+}

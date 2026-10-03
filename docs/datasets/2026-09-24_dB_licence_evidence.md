@@ -24,3 +24,7 @@
 registry 行 finqa 的 `data_license_state = README_REPORTS_CC_BY_4_0_RECHECK_AT_FETCH` 在记录 head 上被证伪
 （README 零许可提及）。更正为 `README_SILENT_ON_DATA_LICENSE_AT_RECORDED_HEAD` 属 registry 行修改，
 归 ONLINE 卡/用户处置；本件只记录证伪事实与证据（README sha + 检索 0 行），在裁定前保持现状。
+
+## 4 正式接受记录（2026-10-04，append-only）
+
+用户 D-B 范围确认已由 `docs/datasets/phase1a_licence_record_v1.json` 正式记录：`accepted_by=Wzh`、`accepted_at=2026-10-03T17:01:42Z`、`permitted_uses` 仅 `training / tuning / evaluation / rule_acceptance`。`covered_artifact_sha256` 只含本件 §1 的 FinQA LICENSE、FinQA README、Valentine LICENSE 三件；未授权再分发、公开发布、商业用途、其他数据源或其他许可口径。

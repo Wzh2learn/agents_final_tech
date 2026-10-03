@@ -26,6 +26,8 @@ quality_grade / reviewers / adjudication`；`quality_grade` 固定 `Q3`；`gold_
 
 ## 2 licence_record 模板（接受行为保留给用户）
 
+2026-10-04 当前状态：D-B 的正式接受记录已落地为 `docs/datasets/phase1a_licence_record_v1.json`（accepted_by=`Wzh`，accepted_at 为 GB10 生成现场时间）。该记录的 `covered_artifact_sha256` **只覆盖 D-B annex 的 FinQA LICENSE、FinQA README、Valentine LICENSE**；下方模板继续保留给未来 package-wide licence 绑定，不得用测试夹具或扩大 D-B scope 的哈希替代正式记录。
+
 ```json
 {
   "status": "PENDING_USER_ACCEPTANCE",
