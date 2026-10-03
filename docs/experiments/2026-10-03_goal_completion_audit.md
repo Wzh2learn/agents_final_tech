@@ -89,3 +89,18 @@ thesis_ch1_ch2_draft_v1.md     f1ce8081e8f3566c05708f7178bcb3b843d08b054a0fd9986
 草稿层两份交付物均有完整文件、机器验收、独立审稿/审计、视觉验收和边界同步证据；没有以目标替代结果、以部分落盘替代完成、以 exploratory 升格为正式结论。
 
 **审计结论：DRAFT_DELIVERABLES_PROVEN；goal 保持 ACTIVE。** 后续继续投稿版、后续章节框架和不依赖模型的探索工作。
+
+## 8. 2026-10-04 当前要求矩阵（补充审计）
+
+当前 head：`5a799e9093b46b0651e21199fa4b36ee0be88e50`；后续以 GB10 实测为准。
+
+| 要求 | 当前判定 | 证据/剩余边界 |
+|---|---|---|
+| 小论文正文/方法/实验/图表/Related Work/limitations/claim 映射 | **PROVEN at draft level** | 主稿 9 sections、5 claims/74 checks、round5 双 ACCEPT、Office PASS、RR-01 已闭合 |
+| 大论文开题/框架/前 1-2 章 | **PROVEN** | `thesis_proposal_v1.md`、`thesis_manuscript_scaffold_v1.md`、`thesis_ch1_ch2_draft_v1.md`；第 3-8 章保留空槽 |
+| 投稿包内部完整性 | **PROVEN mechanically** | `submission_package_audit_v1.json` = 10/10 mechanical PASS / PENDING_EXTERNAL_ITEMS |
+| 146 列 exploratory review | **NOT RUN** | 输入包 10 pair / 146 columns / 160 targets，ground-truth open 0；R1/R2/ADJ 未运行。按用户前置指令，不能据此申报 goal 完成 |
+| 正式投稿/外发 | **PENDING external** | venue/CFP、作者/匿名、专利、camera-ready 未完成；专利门继续禁止 arXiv/代码公开/外发 |
+| 安全边界 | **PROVEN** | 零模型/零下载/零训练；DATA_NO_GO、NOT_IDENTIFIED、V2-3、G-A/B/C/E 约束不变 |
+
+结论：两份草稿交付物已达到内部可审计完成面，但 goal 仍保持 ACTIVE；后续完成判定必须把 Q3 复核、投稿外部件和任何新实验按各自门逐项核对，不得以本节草稿证据替代。
