@@ -2,8 +2,8 @@
   "status": "PASS",
   "paper": "paper/teacher_review_draft_v1.md",
   "claims": 5,
-  "checks_total": 73,
-  "checks_passed": 73,
+  "checks_total": 74,
+  "checks_passed": 74,
   "errors": [],
   "checks": [
     {
@@ -244,6 +244,10 @@
     },
     {
       "check": "SP-C5:evidence:docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:evidence:docs/datasets/2026-09-25_finqa_process_structure_and_checkpoint_semantics.md",
       "pass": true
     },
     {

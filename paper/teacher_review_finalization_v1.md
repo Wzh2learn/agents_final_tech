@@ -16,7 +16,7 @@
 | `paper/research_story_v2.md` / `.docx` | 三阶段总叙事与方向 Word |
 | `paper/figures/fig_evaluate_distill_evolve_v1.svg` 与 `docs/experiments/figures_paper/` 两张必需图件 | 图件 |
 | `paper/claim_manifest_v1.json` | 5 条主张（含 SP-C5 停止结论）+ 内部流程标记清单 + 专利门 |
-| `paper/acceptance_report_v1.json` | GB10 机器验收结果：PASS / 5 claims / 73 checks；`tests/test_paper_claim_acceptance.py` 9 passed |
+| `paper/acceptance_report_v1.json` | GB10 机器验收结果：PASS / 5 claims / 74 checks；`tests/test_paper_claim_acceptance.py` 9 passed |
 | `paper/teacher_review_readiness_v2.md` | 送审验收结论；2026-10-03 附记已关闭 Office 视觉项 |
 
 基线**不含**三阶段结果：Stage D 无学生训练，Stage R 只有机制级证据。这两块在基线里只以边界与
@@ -51,7 +51,7 @@
 
 ## 5 2026-10-03 完成状态附记（取代本件早期快照中的陈旧计数）
 
-- 当前 `paper/claim_manifest_v1.json` 为 **5 条主张**：SP-C1..SP-C4 保持原状态，SP-C5 = `attempted_stopped_by_preregistration`，用于如实承载 V2-3 的停止结论。`paper/acceptance_report_v1.json` 已由 GB10 `research/validate_paper_claims.py --output` 重新生成，**PASS / 5 claims / 73 checks**，sha256 `33e800b2d48d633b0f77f31abd82dcc34b54e43b6bba263a144f014e62ccaea9`。
+- 当前 `paper/claim_manifest_v1.json` 为 **5 条主张**：SP-C1..SP-C4 保持原状态，SP-C5 = `attempted_stopped_by_preregistration`，用于如实承载 V2-3 的停止结论。`paper/acceptance_report_v1.json` 已由 GB10 `research/validate_paper_claims.py --output` 重新生成，**PASS / 5 claims / 74 checks**，sha256 `cf6123638a042b9027db0f1a8a500571a75cc512c1866d04142b4b4a4a7b9d05`。
 - `tests/test_paper_claim_acceptance.py` 当前为 **9 passed**；两份导师向 DOCX 的 Office 视觉验收已于 2026-10-03 PASS（导师稿 8/8 页、故事稿 4/4 页；证据件 `docs/experiments/2026-10-03_office_visual_acceptance.md`）。
 - 小论文仍按成熟评估保底稿定稿。G-D 的 146 列 Q3 输入包已装配，但 review 未运行；因此本基线不含任何 146 列判定、指标或 Stage D 证据。V2-3 已关闭；`DATA_NO_GO` 与 RQ2 `NOT_IDENTIFIED` 继续有效。
 - 外发门仍由专利状态控制：未确认前不上 arXiv、不公开代码、不外发。

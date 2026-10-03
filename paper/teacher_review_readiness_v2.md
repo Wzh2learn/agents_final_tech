@@ -49,6 +49,6 @@
 
 ## 2026-10-03 状态附记
 
-本附记更新上文 2026-09-22 的阶段性判断：两份 DOCX 的 Office 视觉验收已完成并 PASS；当前 claim manifest 为 5 条主张，GB10 `validate_paper_claims` 为 PASS / 73 checks，专用验收测试为 9 passed。G-A、G-B、G-C 不批，G-D 只批准 `target_table.csv` 表头作 canonical 参考，G-E 接受 `DATA_NO_GO` / RQ2 `NOT_IDENTIFIED`；V2-3 已关闭。146 列 Q3 复核目前只有输入包，review 未运行，不能作为 Stage D、RQ2 或训练证据。
+本附记更新上文 2026-09-22 的阶段性判断：两份 DOCX 的 Office 视觉验收已完成并 PASS；当前 claim manifest 为 5 条主张，GB10 `validate_paper_claims` 为 PASS / 74 checks，专用验收测试为 9 passed。G-A、G-B、G-C 不批，G-D 只批准 `target_table.csv` 表头作 canonical 参考，G-E 接受 `DATA_NO_GO` / RQ2 `NOT_IDENTIFIED`；V2-3 已关闭。146 列 Q3 复核目前只有输入包，review 未运行，不能作为 Stage D、RQ2 或训练证据。
 
 当前唯一执行计划仍为 `docs/handoff/2026-09-22-paper-research-next-phase.md`；本附记只更新状态，不另立平行计划。

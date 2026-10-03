@@ -57,8 +57,8 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 ## Verification（GB10 权威，全量 head `4cd0713`）
 
 - 全量 pytest：**832 passed / 13 skipped / 1 deselected**（10-04 于 `4cd0713` 实测，rc=0）。相对 829 增量 3 条为投稿包审计合同测试；此前 tracked preview 测试自身 KeyError 已修，不改生成器。
-- `research/validate_paper_claims.py` PASS / 5 claims / **73 checks 全过** / errors 空（10-04 于 `4cd0713` 复跑，rc=0）。
-- 文档/投稿后续 head `af441ee`、`7d776b1` 定点复核均 22 passed（document governance + paper claim + licence record），claims 73/73、docs_lint 0 fail / 4 warn。
+- `research/validate_paper_claims.py` PASS / 5 claims / **74 checks 全过** / errors 空（10-04 于 `4cd0713` 复跑，rc=0）。
+- 文档/投稿后续 head `af441ee`、`7d776b1` 定点复核均 22 passed（document governance + paper claim + licence record），claims 74/74、docs_lint 0 fail / 4 warn。
 - 三个链路测试文件合计 69 passed。
 - `docs_lint` rc=0 / **0 fail / 4 warn**；四条已按用户裁定逐条纳入 `logs/graph/docs_lint_warn_baseline.md`，机器比对 `SET_EQUAL=True, 4/4`。未回改正文、未消警、未改 lint 逻辑；真实内容更新留后续治理批。+ `[5]` INFO 行（注册表标 DEPRECATED 且未分发，属预期）。
 - `sync_skills --check` **PASS: 97**（C14 摘除 `verification-before-completion` 后的口径，98 → 97，`[5]` INFO 行为证）。

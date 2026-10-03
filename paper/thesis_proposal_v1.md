@@ -166,7 +166,7 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 
 ### 7.1 已成稿并通过机器验收的小论文（评估保底路线）
 
-`paper/teacher_review_draft_v1.md`（另有 `.docx`）已具备 `paper/claim_manifest_v1.json` 要求的全部 9 个章节（Abstract / Introduction / Related Work / Method / Experimental Setup / Results / Discussion and Limitations / Conclusion / References），两张必需图件均存在，4 个交付文件齐备，且该 manifest 列出的内部流程标记零命中（标记清单以 manifest 为唯一出处，本件不逐条复述，以免正文自身触发该项检查）。GB10 `research/validate_paper_claims.py` 当前为 **PASS / 5 claims / 73 checks**，`paper/acceptance_report_v1.json` 为该命令的机器产物；`tests/test_paper_claim_acceptance.py` 当前 **9 passed**，其中含反例 `test_acceptance_rejects_reversed_visibility_claim` 与专利门检查 `test_teacher_review_docx_keeps_patent_gate_closed`。
+`paper/teacher_review_draft_v1.md`（另有 `.docx`）已具备 `paper/claim_manifest_v1.json` 要求的全部 9 个章节（Abstract / Introduction / Related Work / Method / Experimental Setup / Results / Discussion and Limitations / Conclusion / References），两张必需图件均存在，4 个交付文件齐备，且该 manifest 列出的内部流程标记零命中（标记清单以 manifest 为唯一出处，本件不逐条复述，以免正文自身触发该项检查）。GB10 `research/validate_paper_claims.py` 当前为 **PASS / 5 claims / 74 checks**，`paper/acceptance_report_v1.json` 为该命令的机器产物；`tests/test_paper_claim_acceptance.py` 当前 **9 passed**，其中含反例 `test_acceptance_rejects_reversed_visibility_claim` 与专利门检查 `test_teacher_review_docx_keeps_patent_gate_closed`。
 
 其核心实证结论（全部来自已验收 artifact，可追溯）：在含 **95 张表、118 个合成表头漂移注入**的冻结公开表格语料上，检查点级分析使 **96** 个注入可见，但可见性**强烈依赖类型**——字符级 OCR 类扰动在**五个阈值下全部 13 例**中均不可见；协议级结果在同一语料上差异巨大：端到端、扁平、层级专家加权聚合分别检出 **112 / 85 / 13** 个注入（`logs/graph/eval/t1_eval_baseline_comparison.json`）；在**匹配假阳率**之后，扁平与层级分数在该语料上**仿射等价**（`logs/graph/eval/d3_matched_fpr_stage_a.json`），说明原始差距来自**阈值摆放**而非更好的判别力。
 

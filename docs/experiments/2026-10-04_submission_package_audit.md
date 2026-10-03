@@ -33,3 +33,7 @@
 5. 146 列 Q3 三载体复核仍未运行。
 
 这些项目保持 pending，不写成已完成或可投稿。
+
+## 4 SP-C5 evidence 锚点补全（2026-10-04）
+
+为闭合 round5 N-2，SP-C5 evidence 已补入 `docs/datasets/2026-09-25_finqa_process_structure_and_checkpoint_semantics.md`，使列宽分布的最详载工件与 claim 显式绑定。`validate_paper_claims` 因此由 73 checks 增至 **74 checks**；acceptance report 已重生成，未改变任何实验数字或判定。
