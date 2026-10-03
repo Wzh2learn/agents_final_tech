@@ -22,9 +22,9 @@ READINESS = REPO / "paper" / "submission_readiness_arr_www_v1.md"
 REPRO_STATEMENT = REPO / "paper" / "reproducibility_statement_arr_www_v1.md"
 LICENCE_RECORD = REPO / "docs" / "datasets" / "phase1a_licence_record_v1.json"
 
-EXPECTED_OUTPUT_SHA256 = "9d4edf42eba194fc6959e685483336755d547f7460b0fafc507bb7e7e2ab4d39"
-EXPECTED_MAP_SHA256 = "36114ceb6fd6a19f75f436f5d0f20f901a4afd3b88fd10dd4e8faff4cb34f678"
-EXPECTED_SOURCE_SHA256 = "7006d98e3d9e91cbba9ea4c8cd60a9fa9104f5f84af67fb6b71e579790a9e18a"
+EXPECTED_OUTPUT_SHA256 = "6af1dfc661f56cd29b63ecc727a4ee35e0df93adf42e887254ba017de1f1b30e"
+EXPECTED_MAP_SHA256 = "30f1be4b82759ef151d148f71ddf146cbdda75d84bfca3b1c1d93ea5a2af03a6"
+EXPECTED_SOURCE_SHA256 = "9d3e492694dda052a854c3cffac0b127ecda3aa383aa566abb75293fd7716f5c"
 EXPECTED_USES = ["training", "tuning", "evaluation", "rule_acceptance"]
 EXPECTED_LICENCE_HASHES = {
     "finqa_repo_license": "92c0e67bd762c15c07ba60de09558338315a8ebf99aac4f51f487179809ac087",

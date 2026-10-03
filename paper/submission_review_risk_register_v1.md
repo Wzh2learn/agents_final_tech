@@ -8,7 +8,7 @@
 
 | id | 风险 | 严重度 | 当前证据 | 状态/处置 |
 |---|---|---|---|---|
-| RR-01 | matched-FPR `[0,0]` 区间看起来退化，审稿人可能质疑 | should-fix | §5.2 已解释 single-varying-leaf 退化情形；chain audit 记录 F5/F6 已收窄 | **controlled**；可在 venue 版补两句推导，不改结论 |
+| RR-01 | matched-FPR `[0,0]` 区间看起来退化，审稿人可能质疑 | should-fix | §5.2 已补 single-varying-leaf 仿射分数推导，明确 `[0,0]` 是退化支持集而非一般等价定理 | **closed**；主稿已补推导，数字/结论不变 |
 | RR-02 | 112 > 96 的首读悖论 | should-fix | Abstract 与 §5.2 已明确 checkpoint visibility 与 protocol detection 是不同信号，不是 96 的分区 | **closed**；保留显式解释 |
 | RR-03 | 单一公开表格语料、单 varying leaf 的外部效度 | major limitation | §5.2/§6 明确不主张普适性；第二数据流仍 pending | **controlled/open**；必须保留在 Limitations |
 | RR-04 | step-level scorer 的低保真度被误读为检测能力 | should-fix | SP-C5 = `attempted_stopped_by_preregistration`；0.0298/0.2233 停止条件触发；detection/localization 禁止作为能力结论 | **closed**；V2-3 已关闭，不开 v3 |

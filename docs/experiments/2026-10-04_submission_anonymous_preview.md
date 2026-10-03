@@ -8,9 +8,9 @@
 
 | 工件 | sha256 | 说明 |
 |---|---|---|
-| `paper/submission_draft_arr_www_anonymous_v0.md` | `9d4edf42eba194fc6959e685483336755d547f7460b0fafc507bb7e7e2ab4d39` | 匿名投稿源预览 |
-| `paper/submission_redaction_map_v1.json` | `36114ceb6fd6a19f75f436f5d0f20f901a4afd3b88fd10dd4e8faff4cb34f678` | 内部脱敏审计图，不随稿外发 |
-| 源稿 `paper/teacher_review_draft_v1.md` | `7006d98e3d9e91cbba9ea4c8cd60a9fa9104f5f84af67fb6b71e579790a9e18a` | 未被生成器修改 |
+| `paper/submission_draft_arr_www_anonymous_v0.md` | `6af1dfc661f56cd29b63ecc727a4ee35e0df93adf42e887254ba017de1f1b30e` | 匿名投稿源预览 |
+| `paper/submission_redaction_map_v1.json` | `30f1be4b82759ef151d148f71ddf146cbdda75d84bfca3b1c1d93ea5a2af03a6` | 内部脱敏审计图，不随稿外发 |
+| 源稿 `paper/teacher_review_draft_v1.md` | `9d3e492694dda052a854c3cffac0b127ecda3aa383aa566abb75293fd7716f5c` | 未被生成器修改 |
 
 ## 2 机械脱敏
 
