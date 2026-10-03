@@ -98,3 +98,10 @@ proposal/train（含内部 dev）、gate-validation、sealed test、future repla
 
 - 8.1 结论与适用边界｜继承：小论文 §6/§7｜后写
 - 8.2 后续工作｜继承：`paper/method_theory_materials_v1.md` §10 的 OP-1..OP-5｜可写
+
+## 9 当前证据指针（2026-10-04，零模型）
+
+- 第 3-4 章可直接继承评估保底稿与既有 artifact；matched-FPR null、OCR 盲区与停止条件保持原样。
+- 第 5 章只写方法/边界：D-B `licence_record` 已接受但仅覆盖 D-B annex 三件，仍无 label_ledger、student result 或 `DATA_GO`；146 列 Q3 仍是“已装配未复核”的 exploratory 输入包。
+- 第 6 章只写机制级门控与回填位；Phase 2、功效、gate-validation、rollback curve 仍是空槽，不得写成自学习效果。
+- 第 7 章复现材料见 `paper/reproducibility_statement_arr_www_v1.md`；第 8 章后写时只汇总已验收边界和开放问题，不把目标贡献改写成结果。
