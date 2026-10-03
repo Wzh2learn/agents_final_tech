@@ -17,18 +17,18 @@
 |---|---|---|---|
 | `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；独立审稿第 5 轮双 ACCEPT | `7006d98e3d9e91cbba9ea4c8cd60a9fa9104f5f84af67fb6b71e579790a9e18a` |
 | `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | Office 视觉 PASS；尚未套 ARR/WWW venue 模板 | `7880429716bc0bb4727b3d09e70125de8f5145df948d78987c92782bee76f2ef` |
-| `paper/teacher_review_note_v2.md` | 中文说明 | 阅读顺序与边界说明 | `02abf013e1a50a42189a4278ba240922fb70109e8e9f4a1d1cf5444f5e6d60e8` |
-| `paper/research_story_v2.md` / `.docx` | 三阶段叙事/方向材料 | 只作研究框架与后续回填，不作未完成实验结果 | `1e83d05bd4426966b855cd2d21f5657ebcc826b078cb01e362f528ee658e06ac` / `311e0f625e785432f8dd3277faa466e60a4919b0a02034725bb48a0c5bea6a00` |
-| `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `5e1fa1c700f3584b0b010c9838fc243d56c3256af13dc75166caf46241aba7fa` |
+| `paper/teacher_review_note_v2.md` | 中文说明 | 阅读顺序与边界说明 | `3677450844b136807dddc67576064788726e651a4e3a561d4a86e97dbaf37d5a` |
+| `paper/research_story_v2.md` / `.docx` | 三阶段叙事/方向材料 | 只作研究框架与后续回填，不作未完成实验结果 | `372153462d0fd5d52da8be77097c6375aaa6e05e53cc98c366aea69daf678c0c` / `311e0f625e785432f8dd3277faa466e60a4919b0a02034725bb48a0c5bea6a00` |
+| `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `d8dfbe36b281cf2e933180e130a86c8c9a38538dd99644c53d0a8c70ff51472e` |
 | `paper/acceptance_report_v1.json` | 机械验收 | PASS / 5 claims / 73 checks | `33e800b2d48d633b0f77f31abd82dcc34b54e43b6bba263a144f014e62ccaea9` |
-| `paper/references_v0.md` | 已核引用池 | arXiv/DOI 可追溯；venue 未核项不升级 | `0044e50be1635106939e105bfffaa96fb497e74c852bb4d6da2b62c1d2a3839b` |
+| `paper/references_v0.md` | 已核引用池 | arXiv/DOI 可追溯；venue 未核项不升级 | `8e89bef1bb8ea1a2d3fcb571c31d118bce4306c1c67eb957e8c5ccc155043eeb` |
 | `paper/submission_references_arr_www_v1.md` | 投稿引用映射/BibTeX | 主稿 15 条逐条映射；Li 2025a/b 已固定消歧 | `1b49c7ffb1f9856e092d1a47199050c4d813e1421c5f1ca4ac77d179d22a7b82` |
 | `paper/reproducibility_statement_arr_www_v1.md` | 可复现性/工件披露 | 区分可公开候选与不外发材料；纳入 D-B licence_record 边界 | `da8119733417d3dba27f20588e2f05d2ee6b878098bfe1bc3bd0c244e3b15dc8` |
 | `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；不是 camera-ready | `9d4edf42eba194fc6959e685483336755d547f7460b0fafc507bb7e7e2ab4d39` |
 | `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `36114ceb6fd6a19f75f436f5d0f20f901a4afd3b88fd10dd4e8faff4cb34f678` |
-| `docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg` | Figure 1 | 已入稿 | `cb38b0c7adb96e93a22086f2561d3178762cb69b0da1929a274a4bed7e69e1db` |
+| `docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg` | Figure 1 | 已入稿 | `983f4f4657e83ff8d8996e9add265bee9bab4f69dca20be810899f3330911e7e` |
 | `docs/experiments/figures_paper/fig_visibility_spectrum.png` | Figure 2 | 已入稿；视觉验收记录在案 | `d9da2f7b2e290d557f14ef14bc163850f5c6a55117432137848e8b49a0e27226` |
-| `paper/figures/fig_evaluate_distill_evolve_v1.svg` | 三阶段总架构 | 研究框架图；不是实验结果图 | `c5b74d5b953150c37aad0bcc9827b424bc9d8da1706e1cffba2335ec5b7c3f6b` |
+| `paper/figures/fig_evaluate_distill_evolve_v1.svg` | 三阶段总架构 | 研究框架图；不是实验结果图 | `3e8500b773f92291042fb0503df0e9b646f7ed5a07599465c8fea8f66ae15240` |
 
 ## 3 投稿前必须完成的材料工作
 
