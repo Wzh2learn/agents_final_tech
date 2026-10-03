@@ -28,6 +28,7 @@
 | `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `36114ceb6fd6a19f75f436f5d0f20f901a4afd3b88fd10dd4e8faff4cb34f678` |
 | `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `ace6d6f47bd4becdd2e004e6fefaf8642d5be6b2910a974001ed85ab8a6e9ef9` |
 | `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 阻断项/受控风险/外部 pending 分离 | `7af1ac2e21fd52be50284bd6bc16f93ccf994c74ba77f9fd3c9c50ae6951789c` |
+| `paper/related_work_contribution_matrix_v1.md` | Related Work 贡献边界矩阵 | 四簇代表工作、差异边界与 KD future-work 隔离 | `97253b3eb8a0cfb0e0646a4250346b6183202bdebad650f687d36c44620dbb42` |
 | `docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg` | Figure 1 | 已入稿 | `983f4f4657e83ff8d8996e9add265bee9bab4f69dca20be810899f3330911e7e` |
 | `docs/experiments/figures_paper/fig_visibility_spectrum.png` | Figure 2 | 已入稿；视觉验收记录在案 | `d9da2f7b2e290d557f14ef14bc163850f5c6a55117432137848e8b49a0e27226` |
 | `paper/figures/fig_evaluate_distill_evolve_v1.svg` | 三阶段总架构 | 研究框架图；不是实验结果图 | `3e8500b773f92291042fb0503df0e9b646f7ed5a07599465c8fea8f66ae15240` |
