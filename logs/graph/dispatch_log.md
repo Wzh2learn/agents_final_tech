@@ -1246,3 +1246,4 @@ echo dispatch_log updated
 [10-04 01:45 UTC] #ZERO-MODEL-PAPER-AND-THESIS-MAP main@7d776b1: reproducibility statement + thesis ch3-8 evidence map done; 22 targeted / 73 claims / docs_lint 0 fail 4 warn; full baseline 824/13/1 at c26ae04. No models/downloads/results fabrication.
 [10-04 02:20 UTC] #ANONYMOUS-SUBMISSION-PREVIEW-READY main@3f82d68: preview 9d4edf42… / map 36114ceb…，脱敏 11、禁词 0、claim tokens 0 missing；tracked 测试 KeyError 已修，5/5 + full 829/13/1 + claims 73/73 + docs_lint 0/4。非 camera-ready，不外发。
 [10-04 03:05 UTC] #SUBMISSION-PACKAGE-AUDIT-PASS main@4cd0713: audit runner 10/10 mechanical PASS / submission PENDING；hash 口径改为 GB10 checkout；专项 25 passed、full 832/13/1、claims 73/73、docs_lint 0/4。
+[10-04 03:35 UTC] #SPC5-EVIDENCE-ANCHOR-CLOSED main@61abf0c: round5 N-2 closed; claims 74/74、full 832/13/1、audit 10/10、docs_lint 0/4。
