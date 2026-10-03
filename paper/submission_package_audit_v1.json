@@ -1,5 +1,5 @@
 {
-  "anonymous_preview_sha256": "9d4edf42eba194fc6959e685483336755d547f7460b0fafc507bb7e7e2ab4d39",
+  "anonymous_preview_sha256": "6af1dfc661f56cd29b63ecc727a4ee35e0df93adf42e887254ba017de1f1b30e",
   "audit_type": "submission-package-integrity",
   "checks": [
     {
@@ -61,9 +61,9 @@
     {
       "check": "redaction_map_hashes",
       "detail": {
-        "map": "36114ceb6fd6a19f75f436f5d0f20f901a4afd3b88fd10dd4e8faff4cb34f678",
-        "preview": "9d4edf42eba194fc6959e685483336755d547f7460b0fafc507bb7e7e2ab4d39",
-        "source": "7006d98e3d9e91cbba9ea4c8cd60a9fa9104f5f84af67fb6b71e579790a9e18a"
+        "map": "30f1be4b82759ef151d148f71ddf146cbdda75d84bfca3b1c1d93ea5a2af03a6",
+        "preview": "6af1dfc661f56cd29b63ecc727a4ee35e0df93adf42e887254ba017de1f1b30e",
+        "source": "9d3e492694dda052a854c3cffac0b127ecda3aa383aa566abb75293fd7716f5c"
       },
       "pass": true
     },
@@ -96,8 +96,8 @@
     "camera_ready_pdf_visual_acceptance",
     "q3_three_carrier_review_not_run"
   ],
-  "redaction_map_sha256": "36114ceb6fd6a19f75f436f5d0f20f901a4afd3b88fd10dd4e8faff4cb34f678",
+  "redaction_map_sha256": "30f1be4b82759ef151d148f71ddf146cbdda75d84bfca3b1c1d93ea5a2af03a6",
   "schema_version": 1,
-  "source_sha256": "7006d98e3d9e91cbba9ea4c8cd60a9fa9104f5f84af67fb6b71e579790a9e18a",
+  "source_sha256": "9d3e492694dda052a854c3cffac0b127ecda3aa383aa566abb75293fd7716f5c",
   "submission_status": "PENDING_EXTERNAL_ITEMS"
 }

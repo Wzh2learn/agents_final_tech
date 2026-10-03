@@ -36,8 +36,8 @@ def test_audit_checks_cover_required_artifact_contracts() -> None:
         "d_b_licence_scope",
         "reproducibility_boundary",
     } <= names
-    assert result["source_sha256"] == "7006d98e3d9e91cbba9ea4c8cd60a9fa9104f5f84af67fb6b71e579790a9e18a"
-    assert result["anonymous_preview_sha256"] == "9d4edf42eba194fc6959e685483336755d547f7460b0fafc507bb7e7e2ab4d39"
+    assert result["source_sha256"] == "9d3e492694dda052a854c3cffac0b127ecda3aa383aa566abb75293fd7716f5c"
+    assert result["anonymous_preview_sha256"] == "6af1dfc661f56cd29b63ecc727a4ee35e0df93adf42e887254ba017de1f1b30e"
 
 
 def test_audit_output_is_json_serializable(tmp_path: Path) -> None:
