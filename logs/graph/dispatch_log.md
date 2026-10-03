@@ -1243,3 +1243,4 @@ echo dispatch_log updated
 [10-03 19:20 UTC] #CLEANUP-FINAL-VERIFY main@5f82efb: 819/13/1、73/73、docs_lint 0 fail/4 warn SET_EQUAL、links 0+placeholder 1、secret 0、hash 12/12；Q3 allowlist raw-staging reject 已证。goal PAUSED。
 [10-03 19:30 UTC] #LOOP-B-NATURAL-FAIL-QA-CANARY main@5f82efb: 自然 Loop B FAIL，唯一失败 adv_cross_doc source_required（sources empty，1/2），其余 8 项 PASS；上一周期同题 PASS，间歇 retrieval 缺失。未修复/未重跑/未重置；2219fbc 尚未覆盖。
 [10-04 01:20 UTC] #DB-LICENCE-RECORD-FORMALIZED main@d83078e: D-B licence_record 正式落地，accepted_by=Wzh / accepted_at=2026-10-03T17:01:42Z / 四项 permitted_uses / covered 仅三项 annex hash；排除五类扩权。49 targeted、824/13/1 full、73/73 claims、docs_lint 0 fail/4 warn。DATA_NO_GO 与新下载禁令不变。
+[10-04 01:45 UTC] #ZERO-MODEL-PAPER-AND-THESIS-MAP main@7d776b1: reproducibility statement + thesis ch3-8 evidence map done; 22 targeted / 73 claims / docs_lint 0 fail 4 warn; full baseline 824/13/1 at c26ae04. No models/downloads/results fabrication.

@@ -16,8 +16,8 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Git state
 
-- 恢复批当前 head = `d83078e798d00db4e4ffd313a2c57b3d62af8bf1`；local / origin / GB10 对齐，ahead 0 / behind 0。
-- 恢复批提交链：D-B licence_record `0a8ffbe` → 当前状态同步 `c26ae04` → 接受证据件 `d83078e`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`。
+- 恢复批当前 head = `7d776b1436c51ee8f6e50f2344ebd6e66d685c05`；local / origin / GB10 对齐，ahead 0 / behind 0。
+- 恢复批提交链：D-B licence_record `0a8ffbe` → 状态同步 `c26ae04` → 接受证据 `d83078e` → 可复现性声明 `af441ee` → 后续章节证据指针 `7d776b1`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`。
 - GB10 production 脏件始终为固定五件（`config/schema_suggestions.json`、`logs/graph/docs_lint_report.json`、`logs/graph/governance_drift_latest.md`、`logs/graph/loop_b_last_status`、`logs/graph/verify-report.json`），每次 pull 前后逐条复核未被覆盖。
 - 本机用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）与 `side_handoff_20260829.md` 全程未 add、未 commit、未 stash、未 reset、未 clean。
 - 受保护件未触碰：`docs/33*`、`docs/34*`、冻结测试、schema、`scripts/graph/frozen_hashes.txt`。
@@ -49,12 +49,14 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - **本日新增三件运行器**：`research/phase1a_split_assign.py`（确定性、标签盲、零连接、哈希绑定 fail-closed 的分层仪器；治理编码——注册表 `role_fit` 未含 gate/sealed 时扣行并报 `LAYER_CAPACITY_BLOCKED_PILOT_ONLY`，须显式裁定 id 才填层；15 例合同测试）；`research/finqa_step_checkpoint_adapter.py`（预注册故障注入语料构建器，17 例测试）；`research/finqa_step_checkpoint_scorer.py`（按预注册 v2 的双读法检测器，含 v1 复现守卫与冻结值锚定，30 个测试函数）。
 - **Q3 复核包**：`research/valentine_q3_review_package.py` + 16 例合同测试已落地；hardening 后输入只接受 10 pair × 3 allowlist 文件，输出目录 fail-closed 且不再删除旧内容。旧包 10 pair / 146 source columns / 160 target headers 仍为 hardening 前不可变历史产物，R1/R2/ADJ 未运行。证据见 `docs/experiments/2026-10-03_project_cleanup.md`。
 - **D-B licence_record**：`docs/datasets/phase1a_licence_record_v1.json` 已正式接受，`accepted_by=Wzh`、`accepted_at=2026-10-03T17:01:42Z`、permitted_uses 仅四项；covered hashes 仅限 FinQA LICENSE / FinQA README / Valentine LICENSE。该记录不是 package-wide 授权，不解除 `DATA_NO_GO`。证据见 `docs/experiments/2026-10-04_db_licence_record_acceptance.md`。
+- **投稿/章节零模型材料**：`paper/reproducibility_statement_arr_www_v1.md` 区分可公开候选与不外发材料；`paper/thesis_manuscript_scaffold_v1.md` 新增第 3-8 章证据指针，Q3/Phase 2/训练空槽保持未完成。
 - 权威包 schema 与 GB10 程序见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`；分层与容量见 `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`；步级链路见 `docs/experiments/2026-09-25_finqa_step_checkpoint_corpus_v1.md`、`…_step_checkpoint_score_v1_results.md`、`…_step_checkpoint_score_v2_results.md`。
 
 ## Verification（GB10 权威，全量 head `c26ae04`；licence 证据件 `d83078e`）
 
 - 全量 pytest：**824 passed / 13 skipped / 1 deselected**（10-04 于 `c26ae04` 实测，rc=0）。相对 819 增量 5 条为 D-B licence_record 合同测试，无未解释变化。
 - `research/validate_paper_claims.py` PASS / 5 claims / **73 checks 全过** / errors 空（10-04 于 `c26ae04` 复跑，rc=0）。
+- 文档/投稿后续 head `af441ee`、`7d776b1` 定点复核均 22 passed（document governance + paper claim + licence record），claims 73/73、docs_lint 0 fail / 4 warn。
 - 三个链路测试文件合计 69 passed。
 - `docs_lint` rc=0 / **0 fail / 4 warn**；四条已按用户裁定逐条纳入 `logs/graph/docs_lint_warn_baseline.md`，机器比对 `SET_EQUAL=True, 4/4`。未回改正文、未消警、未改 lint 逻辑；真实内容更新留后续治理批。+ `[5]` INFO 行（注册表标 DEPRECATED 且未分发，属预期）。
 - `sync_skills --check` **PASS: 97**（C14 摘除 `verification-before-completion` 后的口径，98 → 97，`[5]` INFO 行为证）。
