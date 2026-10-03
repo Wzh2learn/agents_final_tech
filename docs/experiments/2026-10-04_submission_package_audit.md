@@ -37,3 +37,7 @@
 ## 4 SP-C5 evidence 锚点补全（2026-10-04）
 
 为闭合 round5 N-2，SP-C5 evidence 已补入 `docs/datasets/2026-09-25_finqa_process_structure_and_checkpoint_semantics.md`，使列宽分布的最详载工件与 claim 显式绑定。`validate_paper_claims` 因此由 73 checks 增至 **74 checks**；acceptance report 已重生成，未改变任何实验数字或判定。
+
+## 5 Reviewer 风险登记
+
+`paper/submission_review_risk_register_v1.md` 将 RR-01..RR-10 分为 controlled、closed、tracked 与 pending-external；当前没有新的 manuscript blocking issue，submission blocker 仍是 venue/作者/专利/camera-ready/Q3 review 外部项。
