@@ -99,6 +99,6 @@ def test_tracked_preview_matches_generator() -> None:
     assert _sha256(TRACKED_MAP) == TRACKED_MAP_SHA256
 
     tracked_map = json.loads(TRACKED_MAP.read_text(encoding="utf-8"))
-    assert tracked_map["source_sha256"] == expected_map["source_sha256"]
+    assert tracked_map["source_sha256"] == _sha256(DEFAULT_SOURCE)
     assert tracked_map["output_path"] == "paper/submission_draft_arr_www_anonymous_v0.md"
     assert tracked_map["redactions"] == expected_map["redactions"]
