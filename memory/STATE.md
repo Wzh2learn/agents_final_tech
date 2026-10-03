@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-10-04 | Scope: 科研 goal 恢复；D-B 正式 licence_record 已落地并限定 annex scope；146 列 Q3 保持已装配未复核 | Runtime: GB10 权威；零模型、零下载、零服务重启，token 未轮换/未就绪
+> Updated: 2026-10-04 | Scope: 两份科研交付物最终完成审计通过；投稿材料与探索空间保留；146 列 Q3 仍已装配未复核 | Runtime: GB10 权威；零模型、零下载、零服务重启，token 未轮换/未就绪
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
@@ -11,6 +11,8 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 围绕 Evaluate–Distill–Evolve 三阶段闭环推进科研主线（用户 2026-09-24 裁定：三阶段是目标主线，M 路线是阶段性过渡）。两份交付物按目标口径推进：小论文以**评估保底稿**为当前成稿口径（三阶段完整稿因数据门未开，按目标自带的自动切换条款走保底路线），大论文开题报告 + 初稿框架 + 前两章草稿均已成稿并经独立审计。
 
 完成审计见 `docs/experiments/2026-10-03_goal_completion_audit.md`：草稿层两份交付物有机器验收、独立审稿/审计与 Office/边界证据；goal 保持 ACTIVE，继续准备小论文投稿版、大论文开题/前两章及后续章节框架。146 列 Q3、正式投稿、Phase 2/训练均不得冒充完成结果。
+
+最终完成审计见 `docs/experiments/2026-10-04_goal_final_completion_audit.md`：按当前 goal 口径两份可交付成果均已达成；正式投稿、Q3 exploratory review、Phase 2/训练保留为后续授权/探索项，不冒充完成结果。
 
 当前执行重点：小论文投稿材料与大论文章节继续零模型推进；D-B licence_record 已正式接受，但仅覆盖 FinQA LICENSE、FinQA README、Valentine LICENSE 三件，不解除 `DATA_NO_GO`、不扩大下载或用途。
 
