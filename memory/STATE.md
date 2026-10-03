@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-10-03 | Scope: 项目大扫除完成（文档/资产/代码安全/可审计性）；科研 goal 已暂停，146 列 Q3 保持已装配未复核 | Runtime: GB10 权威；零模型、零下载、零服务重启，token 未轮换/未就绪
+> Updated: 2026-10-04 | Scope: 科研 goal 恢复；D-B 正式 licence_record 已落地并限定 annex scope；146 列 Q3 保持已装配未复核 | Runtime: GB10 权威；零模型、零下载、零服务重启，token 未轮换/未就绪
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
@@ -12,10 +12,12 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 完成审计见 `docs/experiments/2026-10-03_goal_completion_audit.md`：草稿层两份交付物有机器验收、独立审稿/审计与 Office/边界证据；goal 保持 ACTIVE，继续准备小论文投稿版、大论文开题/前两章及后续章节框架。146 列 Q3、正式投稿、Phase 2/训练均不得冒充完成结果。
 
+当前执行重点：小论文投稿材料与大论文章节继续零模型推进；D-B licence_record 已正式接受，但仅覆盖 FinQA LICENSE、FinQA README、Valentine LICENSE 三件，不解除 `DATA_NO_GO`、不扩大下载或用途。
+
 ## Git state
 
-- 大扫除文档收口 head = `10dfbbdb6954c7fc11f266f7a5ed0eefd3795bc0`；最终 STATE/台账提交随后收尾。三方在 `10dfbbd` 对齐，ahead 0 / behind 0。
-- 大扫除提交链：Q3 runner fail-closed + 现役文档/断链修复 `1c4ffaf` → 大扫除证据/资产清单 `10dfbbd`。`paper/submission_references_arr_www_v1.md` 已先行原子收口于 `35e77d1`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`。
+- 恢复批当前 head = `d83078e798d00db4e4ffd313a2c57b3d62af8bf1`；local / origin / GB10 对齐，ahead 0 / behind 0。
+- 恢复批提交链：D-B licence_record `0a8ffbe` → 当前状态同步 `c26ae04` → 接受证据件 `d83078e`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`。
 - GB10 production 脏件始终为固定五件（`config/schema_suggestions.json`、`logs/graph/docs_lint_report.json`、`logs/graph/governance_drift_latest.md`、`logs/graph/loop_b_last_status`、`logs/graph/verify-report.json`），每次 pull 前后逐条复核未被覆盖。
 - 本机用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）与 `side_handoff_20260829.md` 全程未 add、未 commit、未 stash、未 reset、未 clean。
 - 受保护件未触碰：`docs/33*`、`docs/34*`、冻结测试、schema、`scripts/graph/frozen_hashes.txt`。
@@ -46,12 +48,13 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - `research/phase1a_learnability_baselines.py`（五基线）、`research/phase2_rule_gate_replay.py`（七臂 replay）、`research/paper_result_views.py`（Table 2 / Figure 4 视图，强制 `paper_result=false`）、以及 label_ledger 装配器 / feature ledger 派生器 / parser receipt 运行器均已在案并有合同测试。
 - **本日新增三件运行器**：`research/phase1a_split_assign.py`（确定性、标签盲、零连接、哈希绑定 fail-closed 的分层仪器；治理编码——注册表 `role_fit` 未含 gate/sealed 时扣行并报 `LAYER_CAPACITY_BLOCKED_PILOT_ONLY`，须显式裁定 id 才填层；15 例合同测试）；`research/finqa_step_checkpoint_adapter.py`（预注册故障注入语料构建器，17 例测试）；`research/finqa_step_checkpoint_scorer.py`（按预注册 v2 的双读法检测器，含 v1 复现守卫与冻结值锚定，30 个测试函数）。
 - **Q3 复核包**：`research/valentine_q3_review_package.py` + 16 例合同测试已落地；hardening 后输入只接受 10 pair × 3 allowlist 文件，输出目录 fail-closed 且不再删除旧内容。旧包 10 pair / 146 source columns / 160 target headers 仍为 hardening 前不可变历史产物，R1/R2/ADJ 未运行。证据见 `docs/experiments/2026-10-03_project_cleanup.md`。
+- **D-B licence_record**：`docs/datasets/phase1a_licence_record_v1.json` 已正式接受，`accepted_by=Wzh`、`accepted_at=2026-10-03T17:01:42Z`、permitted_uses 仅四项；covered hashes 仅限 FinQA LICENSE / FinQA README / Valentine LICENSE。该记录不是 package-wide 授权，不解除 `DATA_NO_GO`。证据见 `docs/experiments/2026-10-04_db_licence_record_acceptance.md`。
 - 权威包 schema 与 GB10 程序见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`；分层与容量见 `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`；步级链路见 `docs/experiments/2026-09-25_finqa_step_checkpoint_corpus_v1.md`、`…_step_checkpoint_score_v1_results.md`、`…_step_checkpoint_score_v2_results.md`。
 
-## Verification（GB10 权威，全量 head `5f82efb`）
+## Verification（GB10 权威，全量 head `c26ae04`；licence 证据件 `d83078e`）
 
-- 全量 pytest：**819 passed / 13 skipped / 1 deselected**（10-03 于 `5f82efb` 实测，rc=0）。相对 809 基线 +10，增量全部为 Q3 输入/输出 fail-closed 反例，无未解释变化。
-- `research/validate_paper_claims.py` PASS / 5 claims / **73 checks 全过** / errors 空（10-03 于 `5f82efb` 复跑，rc=0）。
+- 全量 pytest：**824 passed / 13 skipped / 1 deselected**（10-04 于 `c26ae04` 实测，rc=0）。相对 819 增量 5 条为 D-B licence_record 合同测试，无未解释变化。
+- `research/validate_paper_claims.py` PASS / 5 claims / **73 checks 全过** / errors 空（10-04 于 `c26ae04` 复跑，rc=0）。
 - 三个链路测试文件合计 69 passed。
 - `docs_lint` rc=0 / **0 fail / 4 warn**；四条已按用户裁定逐条纳入 `logs/graph/docs_lint_warn_baseline.md`，机器比对 `SET_EQUAL=True, 4/4`。未回改正文、未消警、未改 lint 逻辑；真实内容更新留后续治理批。+ `[5]` INFO 行（注册表标 DEPRECATED 且未分发，属预期）。
 - `sync_skills --check` **PASS: 97**（C14 摘除 `verification-before-completion` 后的口径，98 → 97，`[5]` INFO 行为证）。
