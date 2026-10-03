@@ -16,8 +16,8 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Git state
 
-- 当前 head = `08b231f12754f22c09a18c4bcc6e3586d4a3028b`；local / origin / GB10 对齐，ahead 0 / behind 0。
-- 当前提交链：D-B licence_record `0a8ffbe` → 状态同步 `c26ae04` → 接受证据 `d83078e` → 可复现性声明 `af441ee` → 后续章节证据指针 `7d776b1` → 匿名投稿预览 `10dc253` → tracked 对账测试修正 `3f82d68` → 投稿包审计 `6e01b40`/`1ae9517`/`4cd0713` → SP-C5 证据锚点 `695b796`/`61abf0c` → reviewer 风险登记 `e34b3ea` → Related Work 矩阵 `1a13223` → RR-01 推导与派生重建 `7e91eea`/`de8bafe`/`6812d3c` → goal requirement matrix `e0a626e` → 语言/术语审计 `08b231f`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`。
+- 当前 head = `b72d06a0bbf0115a52115b52e0ec88082a7f4ab7`；local / origin / GB10 对齐，ahead 0 / behind 0。
+- 当前提交链：D-B licence_record `0a8ffbe` → 状态同步 `c26ae04` → 接受证据 `d83078e` → 可复现性声明 `af441ee` → 后续章节证据指针 `7d776b1` → 匿名投稿预览 `10dc253` → tracked 对账测试修正 `3f82d68` → 投稿包审计 `6e01b40`/`1ae9517`/`4cd0713` → SP-C5 证据锚点 `695b796`/`61abf0c` → reviewer 风险登记 `e34b3ea` → Related Work 矩阵 `1a13223` → RR-01 推导与派生重建 `7e91eea`/`de8bafe`/`6812d3c` → goal requirement matrix `e0a626e` → 语言/术语审计 `08b231f` → RQ2–RQ4 执行矩阵 `b72d06a`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`。
 - GB10 production 脏件始终为固定五件（`config/schema_suggestions.json`、`logs/graph/docs_lint_report.json`、`logs/graph/governance_drift_latest.md`、`logs/graph/loop_b_last_status`、`logs/graph/verify-report.json`），每次 pull 前后逐条复核未被覆盖。
 - 本机用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）与 `side_handoff_20260829.md` 全程未 add、未 commit、未 stash、未 reset、未 clean。
 - 受保护件未触碰：`docs/33*`、`docs/34*`、冻结测试、schema、`scripts/graph/frozen_hashes.txt`。
@@ -58,13 +58,14 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - **RR-01 已闭合**：主稿 §5.2 补 single-varying-leaf 仿射分数推导，明确 `[0,0]` 是退化支持集而非一般等价定理；DOCX、匿名预览、redaction map、审计 hash 已同步。
 - **Related Work 贡献矩阵**：`paper/related_work_contribution_matrix_v1.md` 固定四簇代表工作、本文差异边界，并将 KD/agent distillation 限定为 future work。
 - **投稿语言审计**：`paper/submission_language_audit_v1.md` 未发现 AI 套话、无依据强主张或术语漂移；不改主稿。
+- **RQ2–RQ4 执行矩阵**：`paper/thesis_rq2_rq4_execution_matrix_v1.md` 固化第 5–6 章的臂、指标、门序、确认性族与禁止写法，所有实验槽位保持空。
 - 权威包 schema 与 GB10 程序见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`；分层与容量见 `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md`；步级链路见 `docs/experiments/2026-09-25_finqa_step_checkpoint_corpus_v1.md`、`…_step_checkpoint_score_v1_results.md`、`…_step_checkpoint_score_v2_results.md`。
 
-## Verification（GB10 权威，全量 head `6812d3c`；文档/投稿收口 `08b231f`）
+## Verification（GB10 权威，全量 head `6812d3c`；文档/章节收口 `b72d06a`）
 
 - 全量 pytest：**832 passed / 13 skipped / 1 deselected**（10-04 于 `6812d3c` 实测，rc=0）。相对 829 增量 3 条为投稿包审计合同测试；tracked preview 测试自身 KeyError 已修，不改生成器。
 - `research/validate_paper_claims.py` PASS / 5 claims / **74 checks 全过** / errors 空（10-04 于 `6812d3c` 复跑，rc=0）。
-- 文档/投稿后续 head `af441ee`、`7d776b1` 定点复核均 22 passed（document governance + paper claim + licence record），claims 74/74、docs_lint 0 fail / 4 warn。
+- 文档/投稿/章节后续 head `af441ee`、`7d776b1`、`b72d06a` 定点复核分别为 22、22、20 passed；claims 74/74、docs_lint 0 fail / 4 warn。
 - 三个链路测试文件合计 69 passed。
 - `docs_lint` rc=0 / **0 fail / 4 warn**；四条已按用户裁定逐条纳入 `logs/graph/docs_lint_warn_baseline.md`，机器比对 `SET_EQUAL=True, 4/4`。未回改正文、未消警、未改 lint 逻辑；真实内容更新留后续治理批。+ `[5]` INFO 行（注册表标 DEPRECATED 且未分发，属预期）。
 - `sync_skills --check` **PASS: 97**（C14 摘除 `verification-before-completion` 后的口径，98 → 97，`[5]` INFO 行为证）。
