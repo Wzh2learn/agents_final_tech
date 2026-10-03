@@ -55,6 +55,7 @@
 | Q3 输入/结果边界 | `docs/experiments/2026-10-03_ruling_gd_q3_package_and_goal_refresh.md` | 10 pair / 146 source columns / 160 target headers、双跑包 hash 与零 gold 可见性证据 | 输入包与可见性已闭合；labels、review agreement、裁决与 learnability 指标均 `NOT_RUN`，不得升级为 Stage D/RQ2/DATA_GO |
 | Q3 allowlist 重建边界 | `research/valentine_q3_review_package.py` + `/tmp` 输入视图 | 当前原始 staging 含 `_full/_result/_trajectory` 扩展件，按新 allowlist 会被 `input_manifest_scope_mismatch` 拒绝；旧包是 hardening 前的不可变历史产物 | 重建必须使用仅含 10 pair × {source_table.csv, target_table.csv, ground_truth.json} 的过滤输入根和 30 行 manifest；ground_truth 只做存在性校验，禁止读取 |
 | 公开来源注册表 | `docs/datasets/paper-public-source-registry-v1.json` | 10 个来源的核验 commit、许可缺口、independence-cluster namespace、角色适配与准入状态 | metadata only；namespace 需与具体 origin id 组合成样本簇，全部 `download_approved=false` |
+| D-B licence_record | `docs/datasets/phase1a_licence_record_v1.json` | 正式接受记录：accepted_by=Wzh、现场 accepted_at、四项 permitted_uses；covered hashes 仅限 FinQA LICENSE / FinQA README / Valentine LICENSE | 已落地但仅限 D-B scope；不是 package-wide 授权，不解除 `DATA_NO_GO` |
 | 方法引用与细化图 | `paper/method_data_references_v1.bib`、`paper/figures/fig_rule_gate_replay_v1.svg` | 42 条已核候选 BibTeX；共享流七臂/三门/回滚/数据防火墙 | 可直接复用；图明确标注无正式结果 |
 | 实验预注册 | `docs/experiments/2026-09-22_distillation_mvp_preregistration.md` | RQ2–RQ4、数据/模型门、A0–A3、七臂、双口径、统计与停止规则 | `DRAFT_NOT_FROZEN`；数值容差/资源/来源待人工批准 |
 | 训练数据设计 | `docs/experiments/2026-08-28_dpo_pairs_v0_design.md` | 门控事件转偏好对 | 可用 |

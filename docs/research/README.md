@@ -138,6 +138,7 @@
 17. `paper/dataset_protocol_v1.md`：标签质量 × 实验角色二维分层、过程/动作双来源选择、模型对照配置与 GB10 数据门；不授权下载、构建、训练或解冻 TAT-DQA。
 18. `docs/datasets/paper-public-source-registry-v1.json`：10 个公开来源的 metadata-only 可机读快照，记录核验 commit、许可缺口、independence-cluster namespace、角色适配和准入状态；namespace 不是可直接写入样本 manifest 的粗粒度簇，全部 `download_approved=false`。
 19. `paper/method_data_references_v1.bib` / `paper/figures/fig_rule_gate_replay_v1.svg`：经官方入口核验的理论与数据 BibTeX，以及共享流、独立状态、三门与回滚的论文方法图；正式稿引用前仍二次核版。
+20. `docs/datasets/phase1a_licence_record_v1.json`：D-B 正式 licence_record；`accepted_by=Wzh`、`permitted_uses` 仅四项、covered hashes 仅限 D-B annex 三件。它是许可接受记录，不是 package-wide 授权，也不解除 `DATA_NO_GO`。
 
 运行：
 
@@ -147,7 +148,7 @@ PYTHONPATH=. python3 -m pytest tests/test_paper_claim_acceptance.py -q
 .venv/bin/python research/build_teacher_review_docx.py
 ```
 
-评估子稿原有 G5 静态门已补充语义反向负控；OCR 可见性方向和表格检测信号已修正，两份导师 DOCX 已重生成。P1 本地审计已交付：动作 SFT/风险预筛 DATA_NO_GO，DPO 仅为审计素材的 PILOT_ONLY，均不导出训练数据；依据见资产账本 §3.1。本轮新增仓内补充包合同、五基线探针、七臂 replay 状态机及论文数据接口的合成测试，未生成正式实验数字；GB10 私有包验收和 Office 视觉核对仍未执行，Phase 1a/2 及后续实验等待各自明确批准。近期使用评估保底稿与方向说明，不等训练、不代发；详细停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
+评估子稿原有 G5 静态门已补充语义反向负控；OCR 可见性方向和表格检测信号已修正，两份导师 DOCX 已重生成。P1 本地审计已交付：动作 SFT/风险预筛 DATA_NO_GO，DPO 仅为审计素材的 PILOT_ONLY，均不导出训练数据；依据见资产账本 §3.1。本轮新增仓内补充包合同、五基线探针、七臂 replay 状态机及论文数据接口的合成测试，未生成正式实验数字；Office 视觉核对已完成并 PASS；GB10 私有包验收仍未执行，Phase 1a/2 及后续实验等待各自明确批准。近期使用评估保底稿与方向说明，不等训练、不代发；详细停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
 
 本批不包含：生产探测、模型调用、TAT-DQA 解冻、D4 执行、专利公开状态判断或对外发送。
 
@@ -171,9 +172,13 @@ The repository-only Phase 1a supplement precheck, simple-baseline runner, Phase 
 
 SOURCE_GO is now evidenced for the D-C approved minimal scope (FinQA `train.json` / `dev.json`; Valentine 10 NYC pairs + LICENSE + bench.py), staged outside the repository on GB10 with per-file sha256 recorded in `docs/experiments/2026-09-25_source_go_p1p2_staging.md`. No data body entered Git.
 
+The D-B licence acceptance is now formalized at `docs/datasets/phase1a_licence_record_v1.json` (accepted_by=`Wzh`, accepted_at generated on GB10, permitted_uses limited to `training`, `tuning`, `evaluation`, `rule_acceptance`). Its covered hashes are limited to the D-B annex artifacts (FinQA LICENSE, FinQA README, Valentine LICENSE); this is not a package-wide licence binding and does not lift `DATA_NO_GO`. No new download is authorized.
+
 A deterministic, label-blind split instrument (`research/phase1a_split_assign.py`, 15 contract tests green on GB10) was then run read-only over that staging. It measured a boundary that changes how the RQ2/RQ3 data path must be described: within the approved scope **no single namespace can carry the Phase 1a action package**. Valentine supplies genuine action-label material (146 source columns over 10 pairs; source-side `matches` 77, `ambiguous_scenarios` 10, `false_positive_scenarios` 0, so `skip` has no mechanical seed) but only 10 origin clusters and 10 lineage UIDs: threshold bucketing leaves `proposal_train.dev` at zero clusters while the contract requires four non-empty partitions, and K=10 sits 25-50x below the 250-500 UID supplement target. That shortfall is bounded by the number of table pairs, not by annotation effort, because one pair is one lineage root and therefore one UID. The source registry and `paper/dataset_protocol_v1.md` §4.1 additionally confine this source to `PILOT_ONLY` proposal/dev. FinQA fills four layers comfortably (M=8 gives 856 samples / 286 UIDs / 88 clusters, inside the target band) but its audited schema role is entry-level and the registry records `action_label_fit = PROGRAMS_ARE_NOT_MAP_HOLD_SKIP_LABELS`; forcing its nine entry-level fields to serve as `canonical_fields` makes every real header unmappable, so `gold_action` collapses to all-`skip` and an always-skip rule scores `action_macro_f1 = 1.0` with `harmful_map_rate = 0`.
 
 Consequently the same-sample bridge required by §4.1 (checkpoint evidence + Q3 action/target + Q3 outcome on one sample) does not exist in the approved scope, RQ2 stays `NOT_IDENTIFIED`, and `DATA_NO_GO` is not lifted by this work. Full measurements, the four walls W1-W4, and the resolved rulings G-A..G-E are in `docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md` §12. G-A/G-B/G-C are not approved, G-E preserves `DATA_NO_GO` / `NOT_IDENTIFIED`, and V2-3 closes the FinQA step-level route. The only in-flight exploratory branch is Q3 review of the 146 Valentine source columns; its input package is assembled, but R1/R2/ADJ have not run. It cannot support Stage D closure, RQ2 confirmation, `DATA_GO`, or training evidence.
+
+The licence_record status above is an accepted D-B metadata record only. It does not supply missing label_ledger, schema, confidence_manifest, analysis_plan, parser_contract_receipt, or learnability_feature_ledger roles, and it does not authorize any additional data source or use.
 
 ### 6.4 Step-level checkpoint line executed, then stopped by its own pre-registration (2026-09-25)
 
