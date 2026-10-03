@@ -60,6 +60,7 @@ HASHED_PACKAGE_FILES = (
     "paper/reproducibility_statement_arr_www_v1.md",
     "paper/submission_draft_arr_www_anonymous_v0.md",
     "paper/submission_redaction_map_v1.json",
+    "paper/submission_package_audit_v1.json",
 )
 
 
