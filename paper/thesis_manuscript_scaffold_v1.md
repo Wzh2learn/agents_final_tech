@@ -105,3 +105,4 @@ proposal/train（含内部 dev）、gate-validation、sealed test、future repla
 - 第 5 章只写方法/边界：D-B `licence_record` 已接受但仅覆盖 D-B annex 三件，仍无 label_ledger、student result 或 `DATA_GO`；146 列 Q3 仍是“已装配未复核”的 exploratory 输入包。
 - 第 6 章只写机制级门控与回填位；Phase 2、功效、gate-validation、rollback curve 仍是空槽，不得写成自学习效果。
 - 第 7 章复现材料见 `paper/reproducibility_statement_arr_www_v1.md`；第 8 章后写时只汇总已验收边界和开放问题，不把目标贡献改写成结果。
+- 第 5–6 章的 RQ2/RQ3/RQ4 臂、指标、门序与禁止写法见 `paper/thesis_rq2_rq4_execution_matrix_v1.md`；所有槽位在真实实验过门前保持空槽。
