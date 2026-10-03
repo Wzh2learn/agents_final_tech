@@ -61,6 +61,7 @@ HASHED_PACKAGE_FILES = (
     "paper/submission_draft_arr_www_anonymous_v0.md",
     "paper/submission_redaction_map_v1.json",
     "paper/submission_package_audit_v1.json",
+    "paper/submission_review_risk_register_v1.md",
 )
 
 
