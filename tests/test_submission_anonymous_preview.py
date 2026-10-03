@@ -11,6 +11,10 @@ from research.build_submission_anonymous_preview import (
 )
 
 REPO = Path(__file__).resolve().parents[1]
+TRACKED_OUTPUT = REPO / "paper" / "submission_draft_arr_www_anonymous_v0.md"
+TRACKED_MAP = REPO / "paper" / "submission_redaction_map_v1.json"
+TRACKED_OUTPUT_SHA256 = "9d4edf42eba194fc6959e685483336755d547f7460b0fafc507bb7e7e2ab4d39"
+TRACKED_MAP_SHA256 = "36114ceb6fd6a19f75f436f5d0f20f901a4afd3b88fd10dd4e8faff4cb34f678"
 FORBIDDEN = (
     "logs/graph",
     "docs/experiments",
@@ -85,3 +89,16 @@ def test_redaction_map_records_expected_paths(tmp_path: Path) -> None:
     assert labels["judge_model_endpoint"] == 1
     assert labels["source_artifact"] == 1
     assert labels["injection_artifact"] == 1
+
+
+def test_tracked_preview_matches_generator() -> None:
+    source = DEFAULT_SOURCE.read_text(encoding="utf-8")
+    expected_text, expected_map = anonymize(source)
+    assert TRACKED_OUTPUT.read_text(encoding="utf-8") == expected_text
+    assert _sha256(TRACKED_OUTPUT) == TRACKED_OUTPUT_SHA256
+    assert _sha256(TRACKED_MAP) == TRACKED_MAP_SHA256
+
+    tracked_map = json.loads(TRACKED_MAP.read_text(encoding="utf-8"))
+    assert tracked_map["source_sha256"] == expected_map["source_sha256"]
+    assert tracked_map["output_path"] == "paper/submission_draft_arr_www_anonymous_v0.md"
+    assert tracked_map["redactions"] == expected_map["redactions"]

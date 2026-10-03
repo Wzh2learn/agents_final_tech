@@ -1,0 +1,69 @@
+{
+  "generator": "submission-anonymous-preview-v1",
+  "output_path": "paper/submission_draft_arr_www_anonymous_v0.md",
+  "redactions": [
+    {
+      "count": 1,
+      "label": "internal_status_header",
+      "replacement": "> Anonymous submission-source preview. Author and affiliation are omitted; venue-specific formatting and final submission authorization remain pending."
+    },
+    {
+      "count": 1,
+      "label": "figure_1_path",
+      "replacement": "figures/fig_checkpoint_trees_v2.svg"
+    },
+    {
+      "count": 1,
+      "label": "figure_2_path",
+      "replacement": "figures/fig_visibility_spectrum.png"
+    },
+    {
+      "count": 1,
+      "label": "checkpoint_config_versioned",
+      "replacement": "the frozen checkpoint configuration"
+    },
+    {
+      "count": 1,
+      "label": "semantic_judge_config",
+      "replacement": "the frozen semantic-judge configuration"
+    },
+    {
+      "count": 0,
+      "label": "checkpoint_config",
+      "replacement": "the frozen checkpoint configuration"
+    },
+    {
+      "count": 1,
+      "label": "source_artifact",
+      "replacement": "the frozen source-table artifact"
+    },
+    {
+      "count": 1,
+      "label": "injection_artifact",
+      "replacement": "the frozen perturbation artifact"
+    },
+    {
+      "count": 1,
+      "label": "matcher_implementation",
+      "replacement": "the deterministic header matcher"
+    },
+    {
+      "count": 1,
+      "label": "judge_model_endpoint",
+      "replacement": "a fixed semantic-judge model"
+    },
+    {
+      "count": 1,
+      "label": "sensitivity_artifact",
+      "replacement": "the frozen sensitivity artifact"
+    },
+    {
+      "count": 1,
+      "label": "production_wording",
+      "replacement": "greedy header matcher"
+    }
+  ],
+  "schema_version": 1,
+  "source_path": "paper/teacher_review_draft_v1.md",
+  "source_sha256": "7006d98e3d9e91cbba9ea4c8cd60a9fa9104f5f84af67fb6b71e579790a9e18a"
+}

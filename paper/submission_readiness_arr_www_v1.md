@@ -24,6 +24,8 @@
 | `paper/references_v0.md` | 已核引用池 | arXiv/DOI 可追溯；venue 未核项不升级 | `0044e50be1635106939e105bfffaa96fb497e74c852bb4d6da2b62c1d2a3839b` |
 | `paper/submission_references_arr_www_v1.md` | 投稿引用映射/BibTeX | 主稿 15 条逐条映射；Li 2025a/b 已固定消歧 | `1b49c7ffb1f9856e092d1a47199050c4d813e1421c5f1ca4ac77d179d22a7b82` |
 | `paper/reproducibility_statement_arr_www_v1.md` | 可复现性/工件披露 | 区分可公开候选与不外发材料；纳入 D-B licence_record 边界 | `da8119733417d3dba27f20588e2f05d2ee6b878098bfe1bc3bd0c244e3b15dc8` |
+| `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；不是 camera-ready | `9d4edf42eba194fc6959e685483336755d547f7460b0fafc507bb7e7e2ab4d39` |
+| `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `36114ceb6fd6a19f75f436f5d0f20f901a4afd3b88fd10dd4e8faff4cb34f678` |
 | `docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg` | Figure 1 | 已入稿 | `cb38b0c7adb96e93a22086f2561d3178762cb69b0da1929a274a4bed7e69e1db` |
 | `docs/experiments/figures_paper/fig_visibility_spectrum.png` | Figure 2 | 已入稿；视觉验收记录在案 | `d9da2f7b2e290d557f14ef14bc163850f5c6a55117432137848e8b49a0e27226` |
 | `paper/figures/fig_evaluate_distill_evolve_v1.svg` | 三阶段总架构 | 研究框架图；不是实验结果图 | `c5b74d5b953150c37aad0bcc9827b424bc9d8da1706e1cffba2335ec5b7c3f6b` |
