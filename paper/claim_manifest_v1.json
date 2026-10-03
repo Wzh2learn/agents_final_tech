@@ -87,7 +87,8 @@
       "evidence": [
         "docs/experiments/2026-09-25_source_go_p1p2_staging.md",
         "docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md",
-        "docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md"
+        "docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md",
+        "docs/datasets/2026-09-25_finqa_process_structure_and_checkpoint_semantics.md"
       ],
       "audit_records": [
         "docs/experiments/2026-09-25_loopc_review_teacher_review_v2_qwen3.8-max.md",
