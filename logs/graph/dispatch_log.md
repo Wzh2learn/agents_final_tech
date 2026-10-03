@@ -1248,3 +1248,4 @@ echo dispatch_log updated
 [10-04 03:05 UTC] #SUBMISSION-PACKAGE-AUDIT-PASS main@4cd0713: audit runner 10/10 mechanical PASS / submission PENDING；hash 口径改为 GB10 checkout；专项 25 passed、full 832/13/1、claims 73/73、docs_lint 0/4。
 [10-04 03:35 UTC] #SPC5-EVIDENCE-ANCHOR-CLOSED main@61abf0c: round5 N-2 closed; claims 74/74、full 832/13/1、audit 10/10、docs_lint 0/4。
 [10-04 04:05 UTC] #SUBMISSION-RISK-REGISTER-READY main@e34b3ea: RR-01..RR-10 登记；audit 10/10、专项17、full832/13/1、claims74/74、docs_lint0/4。
+[10-04 04:35 UTC] #RELATED-WORK-MATRIX-READY main@1a13223: four-cluster contribution matrix + KD future-work boundary; audit10/10, target17, full832/13/1, claims74/74, docs_lint0/4.
