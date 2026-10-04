@@ -56,6 +56,7 @@
 | [`datasets/2026-10-05_stage_d_training_readiness_config_v1.json`](datasets/2026-10-05_stage_d_training_readiness_config_v1.json) | Readiness config | A0-A3 / 4B smoke dry-run configuration and resource gates |
 | [`datasets/2026-10-05_stage_d_training_readiness_validation_v1.json`](datasets/2026-10-05_stage_d_training_readiness_validation_v1.json) | Dry-run validation | PASS_DRY_RUN_ONLY, training execution blocked |
 | [`experiments/2026-10-05_stage_d_training_readiness_report.md`](experiments/2026-10-05_stage_d_training_readiness_report.md) | Readiness report | resource/monitor/estimate summary; no training execution |
+| [`datasets/2026-10-05_model_training_go_application_v1.md`](datasets/2026-10-05_model_training_go_application_v1.md) | Pending application | MODEL_GO / TRAINING_GO fields and blockers; not authorization |
 | [`experiments/2026-10-05_stage_d_necessity_residual_memo.md`](experiments/2026-10-05_stage_d_necessity_residual_memo.md) | Necessity memo | risk-constrained coverage and A2 residual criteria |
 | [`experiments/2026-10-05_stage_r_rq4_static_protocol.md`](experiments/2026-10-05_stage_r_rq4_static_protocol.md) | Static protocol | seven-arm order/state/rollback and C0-C3 analysis |
 | [`datasets/2026-10-05_rq2_source_label_split_power_application_v1.md`](datasets/2026-10-05_rq2_source_label_split_power_application_v1.md) | Application | SOURCE/LABEL/SPLIT/POWER exact request, no download |
