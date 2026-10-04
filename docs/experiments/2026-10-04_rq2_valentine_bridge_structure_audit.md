@@ -77,3 +77,7 @@ GB10 `/tmp` 只读审计产物：
 2. Q3 R1/R2/ADJ 在独立授权后运行，任何载体不得见 `_full.json` 原文、`ground_truth.json`、`_result.json`。
 3. Q3 锁定后才把 correctness join 到 checkpoint/action 事件；再决定 Route V 精确扩源和 B0–B4 的 split/power 申报。
 4. 任何 raw `_full.json`、source gold 或 `_result.json` 进入 reviewer/feature 都判 `INVALID`，不得用事后 gold 补 Q3。
+
+## 7. Adapter preflight addendum (2026-10-04)
+
+The gold-free adapter and Q3 package focused suite passed on GB10 before the real-staging preflight: 24 passed. Real D-C staging then failed closed at 	ool_call_source_not_in_header. In one pair (City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments), three final action events (ecord_match, evoke_match, atch_record_match) reference mgp_curb_pri_boro, which is in neither the 16-column source header nor the 17-column target header. The 146/146 valid source coverage remains true, but the full process view is not safely bindable until those three invalid action references are quarantined or explained. The adapter intentionally does not emit a partial checkpoint package. A positive-control strace observed 1 synthetic ground_truth.json open; the real adapter trace observed 0.

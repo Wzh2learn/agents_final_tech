@@ -161,6 +161,20 @@ def test_read_hash_mismatch_fails_closed(tmp_path: Path) -> None:
         build(staging, REVISION, tmp_path / "out")
     assert exc.value.code == "sha256_manifest_mismatch"
 
+def test_action_source_outside_header_fails_closed(tmp_path: Path) -> None:
+    staging = _make_staging(tmp_path)
+    full = staging / "valentine" / "experiments" / "data" / APPROVED_PAIRS[0] / f"{APPROVED_PAIRS[0]}_full.json"
+    obj = json.loads(full.read_text())
+    obj["audit_trail"][0]["final"]["tool_calls"][0]["args"]["source_column"] = "not_a_source_header"
+    full.write_text(json.dumps(obj), encoding="utf-8", newline="\n")
+    rows = (staging / "sha256_manifest.txt").read_text().splitlines()
+    relpath = full.relative_to(staging).as_posix()
+    rows = [(_sha256(full) + "  " + relpath if line.endswith(relpath) else line) for line in rows]
+    (staging / "sha256_manifest.txt").write_text("\n".join(rows) + "\n", encoding="utf-8", newline="\n")
+    with pytest.raises(AdapterError) as exc:
+        build(staging, REVISION, tmp_path / "out")
+    assert exc.value.code == "tool_call_source_not_in_header"
+
 def test_output_dir_must_be_empty(tmp_path: Path) -> None:
     staging = _make_staging(tmp_path)
     out = tmp_path / "out"
