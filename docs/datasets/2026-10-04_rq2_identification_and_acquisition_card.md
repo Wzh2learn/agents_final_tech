@@ -164,3 +164,7 @@ valentine/experiments/data/<approved_pair>/ground_truth.json
 5. Q3/B0–B4 是否在新 key、模型派发授权和 SAFETY_GO 后执行。
 
 在用户明确批准前，所有状态保持 pending，不创建第二份 licence_record，不新增下载，不动 TAT-DQA/TAT-QA 边界，不把 exploratory 证据升级为 Stage D。
+
+## 7. 2026-10-04 structural-audit addendum
+
+零模型结构审计见 [docs/experiments/2026-10-04_rq2_valentine_bridge_structure_audit.md](../experiments/2026-10-04_rq2_valentine_bridge_structure_audit.md)。现有 10 pair 的 final action stream 覆盖 146/146 source columns，并提供 turn-level record/revoke/finalize 过程；_full.json 含内嵌 gold，原文件不可交给复核载体。correctness 仍由 Q3 提供，B0-B4 仍受 proposal_train.dev=0 阻塞；本段不改变 Route V/F 的批准状态。
