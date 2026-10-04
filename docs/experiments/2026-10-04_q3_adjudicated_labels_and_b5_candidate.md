@@ -129,3 +129,9 @@ B5 is a go/no-go probe for the necessity of a specialized student:
 ## 7. Pre-seal receipt
 
 The machine-readable inventory is [docs/datasets/phase1a_q3_seal_receipt_v1.json](../datasets/phase1a_q3_seal_receipt_v1.json). It records PRE_SEAL_INVENTORY_ONLY_BLOCKED_MISSING_RAW_ARTIFACTS: R1 output, R2 output, ADJ output, final label ledger, and visibility/gold-isolation receipt are not present in the accessible local/GB10 search scope. The existing r1/r2/adjudication files are empty input templates, so seal_complete=false. This summary remains user-confirmed and not artifact-closed.
+
+## 8. Authoritative correction and sealed status (2026-10-04)
+
+The 52/58/36 distribution above is the pre-correction derived ledger. The authoritative corrected ledger is `final_q3_label_ledger_corrected_v1.txt`, SHA256 `cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6`. Exactly one row changed at line 61: `map_to | pap_curb_sec` -> `hold | null`. The corrected distribution is `map_to=51 / skip=58 / hold=37`; target validation errors are zero.
+
+The package is `SEALED_WITH_VISIBILITY_EXCEPTIONS`, `seal_complete=true`, evidence level `ARTIFACT_CLOSED_WITH_VISIBILITY_EXCEPTIONS`. R1 saw `lineage_root_id` / table grouping and is not strict three-field-only. R2 and ADJ lack independently signed visibility receipts. Q3 remains exploratory learnability evidence only.

@@ -38,7 +38,7 @@
 - `/tmp/r2.json`：历史 preregistration payload schema，不是 Q3 reviewer output。
 - 机器收据：[`docs/datasets/phase1a_q3_seal_receipt_v1.json`](../datasets/phase1a_q3_seal_receipt_v1.json)。
 
-用户确认摘要仍只可写为：146/146 adjudicated；119/146 exact agreement；action κ≈0.727；shared `map_to` target 41/41；27 个 action-boundary disagreement；最终 `map_to=52 / skip=58 / hold=36`。`seal_complete=false`。
+用户确认摘要仍只可写为：146/146 adjudicated；119/146 exact agreement；action κ≈0.727；shared `map_to` target 41/41；27 个 action-boundary disagreement；pre-correction `map_to=52 / skip=58 / hold=36`。`seal_complete=false`。
 
 ## 2. Three invalid action references
 
@@ -146,3 +146,6 @@ B5 输入合同保持 `source_header + canonical headers + LABEL semantics`；�
 - B0-B4: leave-one-pair-out is the primary exploratory protocol; the salted group-aware split is sensitivity only. Pair-cluster bootstrap `n=2000` with seeds `[42,43,44]` is accepted for exploratory uncertainty, not power proof. Same-data tuning followed by same-data reporting is prohibited.
 - B5: remains dormant / `PROPOSED_EXPLORATORY / NOT_RUN`. At most a metadata-only audit may be prepared later; installation or execution requires separate authorization.
 - Execution gates remain closed until raw seal, invalid-reference implementation, label-ledger lock, split freeze, and B5 boundary closure.
+## 7. Raw seal completed (2026-10-04)
+
+The raw package is now sealed as SEALED_WITH_VISIBILITY_EXCEPTIONS. The authoritative corrected ledger is 51/58/37; 52/58/36 is pre-correction only. R1 visibility includes lineage/table grouping; R2/ADJ have no separately signed visibility receipts. This closes raw artifact availability but not the scientific gates.

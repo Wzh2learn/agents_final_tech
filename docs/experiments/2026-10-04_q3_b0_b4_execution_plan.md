@@ -111,7 +111,7 @@ Q3 raw 未封存、身份不独立、ground_truth 泄漏或 label ledger 未锁�
 
 ## 8. Status addendum (2026-10-04)
 
-The user subsequently confirmed that three independent experts completed R1/R2/ADJ Q3 review. The reported exploratory summary is 146/146 adjudicated labels, 119/146 action exact agreement (81.51%), action Cohen's kappa approximately 0.727, 41/41 target exact agreement on shared `map_to` decisions, and a final distribution of `map_to=52 / skip=58 / hold=36`.
+The user subsequently confirmed that three independent experts completed R1/R2/ADJ Q3 review. The reported exploratory summary is 146/146 adjudicated labels, 119/146 action exact agreement (81.51%), action Cohen's kappa approximately 0.727, 41/41 target exact agreement on shared `map_to` decisions, and a pre-correction distribution of `map_to=52 / skip=58 / hold=36`. The authoritative corrected distribution is `map_to=51 / skip=58 / hold=37` after the single line-61 correction.
 
 Raw expert outputs, adjudication ledger, final label ledger, visibility receipt, and hashes are still pending seal. B0-B4 remain `NOT_RUN`. A B5 Jev-like typed-decision baseline is registered only as `PROPOSED_EXPLORATORY / NOT_RUN`; it does not replace the frozen B0-B4 set and does not change `DATA_NO_GO`, `RQ2 NOT_IDENTIFIED`, or training authorization.
 
@@ -122,3 +122,7 @@ The raw seal is not complete. See [docs/experiments/2026-10-04_q3_boundary_block
 ## 10. Ruling status (2026-10-04)
 
 Raw originals must be delivered to exact GB10 paths or /home/testuser/wzh/q3_raw_seal_20261004/inbox/. Invalid references use Option A as primary and Option B as mandatory sensitivity. B0-B4 uses LOO primary and salted split sensitivity; bootstrap 2000 / seeds [42,43,44] are exploratory only. B5 remains dormant. No run is authorized.
+
+## 11. Sealed Q3 correction (2026-10-04)
+
+Raw seal is complete with visibility exceptions. Use corrected ledger SHA256 cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6 and corrected counts 51/58/37; 52/58/36 is superseded for analysis. B0-B4 remain NOT_RUN.

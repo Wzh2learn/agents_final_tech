@@ -41,6 +41,8 @@
 | [`experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md`](experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md) | 用户确认摘要 | Q3 R1/R2/ADJ exploratory 汇总与 B5 候选边界；raw/hash 待封存 |
 | [`datasets/phase1a_q3_seal_receipt_v1.json`](datasets/phase1a_q3_seal_receipt_v1.json) | Pre-seal 收据 | 五个必需 raw 工件当前 MISSING；输入模板/哈希与误认候选已登记 |
 | [`experiments/2026-10-04_q3_boundary_blocker_audit.md`](experiments/2026-10-04_q3_boundary_blocker_audit.md) | 边界审计 | raw MISSING、三条异常引用 A/B 处置、B5 offline audit |
+| [`experiments/2026-10-04_q3_full_delivery_seal_validation.md`](experiments/2026-10-04_q3_full_delivery_seal_validation.md) | Seal validation | 10-file raw package, 9/9 hashes, corrected ledger and visibility exceptions |
+| [`experiments/2026-10-04_q3_partial_delivery_validation.md`](experiments/2026-10-04_q3_partial_delivery_validation.md) | Superseded snapshot | Partial-delivery state before full raw package arrived |
 | [`datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md`](datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md) | Draft protocol | leave-one-pair-out / group-aware exploratory split；NOT_RUN |
 | [`17_Graph_Engineering_多层Loop设计.md`](17_Graph_Engineering_多层Loop设计.md) | 设计依据 | 现役协作边界与历史架构；不提供任务授权或实时状态 |
 | [`18_多Agent编排工具演进计划.md`](18_多Agent编排工具演进计划.md) | 历史快照 | 已执行的多 Agent 演进计划 |

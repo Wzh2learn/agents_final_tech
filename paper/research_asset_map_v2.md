@@ -52,7 +52,7 @@
 | 方法与理论素材 | `paper/method_theory_materials_v1.md` | 统一记号、defer 路由、风险—覆盖、三门更新、有限样本风险上界、累计局部回归界、回滚不变量和最近邻差异 | 可用于 Method/Related Work；固定池伸缩界是条件推论，不等于实验保证 |
 | 数据分层与选型 | `paper/dataset_protocol_v1.md` | Q0–Q3 标签质量 × 四层角色、FinQA 过程源 + Valentine 动作源的双 P0 选择、模型矩阵 | D-C 最小范围已下载到 GB10 仓外暂存并取证；不新增下载。动作包仍 `DATA_NO_GO`，Q3 仅 exploratory |
 | Q3 复核包生成器 | `research/valentine_q3_review_package.py` | 从批准的 Valentine pair 输入生成 R1/R2/ADJ 输入包、样本清单和可见性 manifest | 零模型；只读 source/target 表头与文件 hash，`ground_truth.json` 仅允许存在性校验、禁止读取。146 列包已装配，三位独立专家已完成 exploratory 复核；原始输出/hash 待封存 |
-| Q3 exploratory result | `docs/experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md` | 三专家 R1/R2/ADJ 结果摘要、证据边界与 B5 typed-decision candidate | 用户确认摘要：146/146 adjudicated、119/146 exact agreement、41/41 target exact、最终 52/58/36；只作 exploratory，原始工件/hash 尚待封存 |
+| Q3 exploratory result | `docs/experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md` | 三专家 R1/R2/ADJ 结果摘要、证据边界与 B5 typed-decision candidate | 用户确认摘要：146/146 adjudicated、119/146 exact agreement、41/41 target exact、pre-correction 52/58/36；authoritative corrected 51/58/37；raw sealed with visibility exceptions，仍只作 exploratory |
 | B5 candidate | `docs/experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md` | Jev-like typed-decision baseline 的输入、两阶段输出、指标和 go/no-go 问题 | `PROPOSED_EXPLORATORY / NOT_RUN`；不替换 B0-B4，`open-alternative-jev` / `jevos-v2` 未核验，不安装、不运行 |
 | Q3 输入边界 | `docs/experiments/2026-10-03_ruling_gd_q3_package_and_goal_refresh.md` | 10 pair / 146 source columns / 160 target headers、双跑包 hash 与零 gold 可见性证据 | 输入包与可见性已闭合；结果摘要见 `2026-10-04_q3_adjudicated_labels_and_b5_candidate.md`，原始输出/hash 仍待封存，不得升级为 Stage D/RQ2/DATA_GO |
 | Q3 allowlist 重建边界 | `research/valentine_q3_review_package.py` + `/tmp` 输入视图 | 当前原始 staging 含 `_full/_result/_trajectory` 扩展件，按新 allowlist 会被 `input_manifest_scope_mismatch` 拒绝；旧包是 hardening 前的不可变历史产物 | 重建必须使用仅含 10 pair × {source_table.csv, target_table.csv, ground_truth.json} 的过滤输入根和 30 行 manifest；ground_truth 只做存在性校验，禁止读取 |
@@ -172,3 +172,7 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 ## 2026-10-04 ruling update
 
 Raw delivery target and no-reconstruction rule are recorded in docs/datasets/phase1a_q3_seal_receipt_v1.json. Invalid references are Option A primary / Option B sensitivity. B0-B4 is LOO primary / salted sensitivity, bootstrap exploratory only. B5 remains dormant.
+
+## 2026-10-04 raw seal update
+
+Q3 raw package is sealed with visibility exceptions. Corrected ledger SHA256 cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6; authoritative counts 51/58/37. R1 is not strict three-field-only and R2/ADJ lack signed visibility receipts.

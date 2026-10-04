@@ -1,9 +1,9 @@
 {
   "record_type": "phase1a_q3_seal_receipt",
   "record_version": "phase1a-q3-seal-receipt-v1",
-  "status": "AWAITING_RAW_ORIGINAL_DELIVERY_TO_GB10_INBOX",
-  "seal_complete": false,
-  "evidence_level": "USER_CONFIRMED_SUMMARY_NOT_ARTIFACT_CLOSED",
+  "status": "SEALED_WITH_VISIBILITY_EXCEPTIONS",
+  "seal_complete": true,
+  "evidence_level": "ARTIFACT_CLOSED_WITH_VISIBILITY_EXCEPTIONS",
   "dataset_id": "valentine_nyc",
   "dataset_revision": "5d5163f04da304985bd51a476ccf7653de3979c3",
   "exploratory_only": true,
@@ -32,33 +32,39 @@
       "skip": 58,
       "hold": 36
     },
-    "artifact_closed": false
+    "artifact_closed": true
   },
   "required_seal_artifacts": {
     "r1_output": {
-      "status": "MISSING_ARTIFACT",
-      "sha256": null,
-      "delivery_status": "AWAITING_ORIGINAL_DELIVERY"
+      "status": "PRESENT_HASH_VERIFIED",
+      "sha256": "f1de10f8c75016330ad6874707ff12118a399993f967e889d0c377fe395e0aa0",
+      "delivery_status": "IN_GB10_PACKAGE"
     },
     "r2_output": {
-      "status": "MISSING_ARTIFACT",
-      "sha256": null,
-      "delivery_status": "AWAITING_ORIGINAL_DELIVERY"
+      "status": "PRESENT_HASH_VERIFIED",
+      "sha256": "2b6d792dac2ec394f238380d869586896ef2fefea39eb35d539ffbd602d00378",
+      "delivery_status": "IN_GB10_PACKAGE"
     },
     "adjudicator_output": {
-      "status": "MISSING_ARTIFACT",
-      "sha256": null,
-      "delivery_status": "AWAITING_ORIGINAL_DELIVERY"
+      "status": "PRESENT_HASH_VERIFIED",
+      "sha256": "a2bfef296dae28c62003d68802e84f4bcddf5f1dc12049fcc3105b21dd92212c",
+      "delivery_status": "IN_GB10_PACKAGE"
     },
     "final_label_ledger": {
-      "status": "MISSING_ARTIFACT",
-      "sha256": null,
-      "delivery_status": "AWAITING_ORIGINAL_DELIVERY"
+      "status": "PRESENT_CORRECTED_HASH_VERIFIED",
+      "sha256": "cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6",
+      "delivery_status": "IN_GB10_PACKAGE"
     },
     "visibility_gold_isolation_receipt": {
-      "status": "MISSING_ARTIFACT",
-      "sha256": null,
-      "delivery_status": "AWAITING_ORIGINAL_DELIVERY"
+      "status": "PRESENT_WITH_EXCEPTIONS",
+      "sha256": "a861b3818a919ea751ab9455b2bda16d495ec584fb479d88b7b1ff8b51d0b157",
+      "delivery_status": "IN_GB10_PACKAGE",
+      "exception": "R1 saw lineage_root_id/table grouping; R2 and ADJ visibility receipts are not independently signed."
+    },
+    "output_manifest": {
+      "status": "PRESENT_HASH_VERIFIED",
+      "sha256": "b565661c923e97cd83e97873008be611327246c023e1b1737a53b7689527c298",
+      "delivery_status": "IN_GB10_PACKAGE"
     }
   },
   "available_input_package": {
@@ -106,5 +112,79 @@
     "directory_status": "CREATED_EMPTY_MODE_700",
     "accepted_material": "original expert outputs and original ledgers/receipts only",
     "reconstruction_from_summary_allowed": false
+  },
+  "final_label_ledger_validation": {
+    "status": "PASS_CORRECTED_COMPONENT",
+    "file": "/home/testuser/wzh/q3_raw_seal_20261004/inbox/final_q3_label_ledger_corrected_v1.txt",
+    "sha256": "cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6",
+    "rows": 146,
+    "action_counts": {
+      "map_to": 51,
+      "skip": 58,
+      "hold": 37
+    },
+    "target_validation": "PASS",
+    "provenance_binding": "PASS_R1_R2_ADJ_RAW_HASH_BOUND"
+  },
+  "pre_correction_ledger_validation": {
+    "status": "PASS_LOGICAL_CONTENT_NORMALIZED",
+    "raw_user_pasted_sha256": "a7c9a16a900efb82b48e22001ae52dad599a8dd3d8d4f06039a717574f1a23ee",
+    "normalized_sha256": "baa4ebf27d77c72825fba003b8316853a5d8370563b63f4e181a696c24f3fb8a",
+    "changed_rows": 1,
+    "changed_line": 61
+  },
+  "partial_delivery": {
+    "directory": "/home/testuser/wzh/q3_raw_seal_20261004/inbox",
+    "validated_at": "2026-10-04T15:52:23.4578478+08:00",
+    "present_files": [
+      "correction_record.json",
+      "final_q3_label_ledger_corrected_v1.txt",
+      "output_manifest.json",
+      "q3_gold_adjudicated_v1.txt",
+      "q3_gold_adjudicated_v1.user_pasted_crlf.bin",
+      "sha256_manifest.txt",
+      "visibility_gold_isolation_receipt.txt"
+    ],
+    "missing_required_files": [],
+    "validation_report": "/home/testuser/wzh/q3_raw_seal_20261004/inbox/q3_partial_delivery_validation.json",
+    "superseded_by": "/home/testuser/wzh/q3_raw_seal_20261004/inbox/q3_raw_seal_20261004"
+  },
+  "corrected_final_summary": {
+    "source": "logs/graph/q3_raw_seal_20261004/final_q3_label_ledger_corrected_v1.txt",
+    "sha256": "cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6",
+    "adjudicated_labels": 146,
+    "final_action_counts": {
+      "map_to": 51,
+      "skip": 58,
+      "hold": 37
+    },
+    "correction_count": 1,
+    "correction_line": 61
+  },
+  "sealed_delivery": {
+    "local_directory": "logs/graph/q3_raw_seal_20261004",
+    "gb10_directory": "/home/testuser/wzh/q3_raw_seal_20261004/inbox/q3_raw_seal_20261004",
+    "files": 10,
+    "manifest_entries": 9,
+    "manifest_hash_matches": 9,
+    "secret_hits": 0,
+    "r1_rows": 146,
+    "r2_rows": 146,
+    "adj_rows": 27,
+    "r1_r2_agreement": 119,
+    "r1_r2_disagreements": 27,
+    "action_cohen_kappa": 0.726534859521332,
+    "pre_derive_errors": 0,
+    "corrected_diff_rows": 1,
+    "validation_errors": 0
+  },
+  "visibility_audit": {
+    "status": "PASS_WITH_EXCEPTIONS",
+    "r1_gold_isolated": true,
+    "r1_reviewer_isolated": true,
+    "r1_strict_three_field_only": false,
+    "r1_exception": "lineage_root_id/table grouping was visible",
+    "r2_visibility_receipt_signed": false,
+    "adj_visibility_receipt_signed": false
   }
 }

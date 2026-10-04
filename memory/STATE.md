@@ -1,6 +1,5 @@
 # Current State
 
-<!-- Q3_STATUS_ADDENDUM -->
 ## 2026-10-04 Q3 result and B5 addendum (append-only)
 
 - User confirmed Q3 review by three independent experts (R1/R2/ADJ). This supersedes the intermediate statement that one expert served as both R1 and R2. Local checkout head observed as `d62420e`; this update performed no git operation and did not re-verify origin/GB10 alignment.
@@ -9,6 +8,7 @@
 - Evidence boundary unchanged: exploratory learnability evidence only. It does not lift `RQ2 NOT_IDENTIFIED / DATA_NO_GO`, and must not be written as Stage D closure, RQ2 confirmation, training evidence, or RQ4 closure. The 146 columns contain only 10 lineage/table-pair clusters.
 - B5 candidate registered as `Jev-like typed-decision baseline`, status `PROPOSED_EXPLORATORY / NOT_RUN`. Input is strictly `source_header + canonical headers + LABEL semantics`; action is selected first, then target only for `map_to`. B5 does not replace or modify frozen B0-B4. `open-alternative-jev` and `jevos-v2` remain unverified candidates and must not be installed or run before licence, provenance, version, dependency, and output-capability checks.
 - Next order: seal the three expert outputs and hashes, run the existing B0-B4 exploratory probe, then audit and decide whether to run B5 as a single frozen zero-shot probe. Any tuning or calibration must use a table/lineage-UID group-aware split.
+- 2026-10-04 full delivery: the 10-file expert package is stored at `logs/graph/q3_raw_seal_20261004/` and GB10 `/home/testuser/wzh/q3_raw_seal_20261004/inbox/q3_raw_seal_20261004/`. All 9 manifest hashes match. R1/R2/ADJ/final synthesis was mechanically verified: 119/146 agreement, 27 ADJ rows, kappa 0.7265, zero derivation errors; corrected ledger is `map_to=51 / skip=58 / hold=37` with only line 61 changed to `hold|null`. Status is `SEALED_WITH_VISIBILITY_EXCEPTIONS` / `seal_complete=true`; R1 saw lineage/table grouping and R2/ADJ lack separately signed visibility receipts.
 > Updated: 2026-10-04 | Scope: 两份科研交付物最终完成审计通过；D-B licence_record 核验保持；MIMO 状态 READY_FOR_CONFIG_ONLY | Runtime: GB10 权威；零模型、零下载、零服务重启，API key 只在一次性进程环境加载
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
@@ -128,3 +128,9 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - Invalid action references: Option A reference quarantine is primary for turn 12/13/31 with invalid_action_reference_count=3; Option B whole-pair INVALID is mandatory sensitivity. Preserve the 146-column summary and report a 9-cluster / 130-column sensitivity subset.
 - B0-B4: LOO is primary, salted split is sensitivity; bootstrap 2000 and seeds [42,43,44] are exploratory uncertainty only. Protocol is user-selected but not frozen/running.
 - B5 remains dormant / NOT_RUN; metadata-only audit is the maximum next step and execution needs separate authorization.
+
+## 2026-10-04 Q3 raw seal correction (append-only)
+
+- Raw audit package is sealed at logs/graph/q3_raw_seal_20261004/ and GB10 /home/testuser/wzh/q3_raw_seal_20261004/inbox/q3_raw_seal_20261004/; 10 files, 9/9 manifest hashes, secret scan 0.
+- Authoritative corrected ledger SHA256 cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6; corrected counts map_to=51 / skip=58 / hold=37. The earlier 52/58/36 is pre-correction only.
+- Evidence level is ARTIFACT_CLOSED_WITH_VISIBILITY_EXCEPTIONS: R1 saw lineage/table grouping; R2/ADJ lack separately signed visibility receipts.
