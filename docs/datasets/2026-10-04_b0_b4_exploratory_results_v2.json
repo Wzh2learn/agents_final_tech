@@ -1,0 +1,93 @@
+{
+  "record_type": "valentine_b0_b4_exploratory_results",
+  "record_version": "valentine-b0-b4-exploratory-results-v2",
+  "status": "VALID_EXPLORATORY_RESULT_WITH_SENSITIVITIES",
+  "evidence_level": "DEVELOPMENT_ONLY_EXPLORATORY",
+  "paper_result": false,
+  "data_go": false,
+  "rq2_status": "NOT_IDENTIFIED",
+  "training_authorized": false,
+  "b5_status": "DORMANT_NOT_RUN",
+  "freeze_receipt": {
+    "path": "docs/datasets/2026-10-04_b0_b4_exploratory_freeze_v2.json",
+    "sha256": "c8454c558c1f9fc106bde5b2d8fa667c761f6b4cbf0d96b85e9823e17ca8d4ad"
+  },
+  "invalidated_first_run": {
+    "status": "INVALIDATED_RUNNER_ALIGNMENT_BUG",
+    "reason": "salted B4 row-index predictions were scored as action/target tuples",
+    "excluded_from_all_claims": true
+  },
+  "deterministic_double_run": {
+    "quarantine_primary_loo_diff_rc": 0,
+    "pair_invalid_loo_diff_rc": 0,
+    "quarantine_primary_salted_diff_rc": 0
+  },
+  "primary_quarantine_loo": {
+    "rows": 146,
+    "pairs": 10,
+    "prediction_count": 730,
+    "report_sha256": "89fc4130151f92d052a5e001f284798b6e3a6b842bad73a016fb5ddcb12250d6",
+    "predictions_sha256": "1a435c9e5a486ec25891f8a7cc00fecf80a5b2c8bd6b5c8dd26551f01342788d",
+    "manifest_sha256": "1452f16c738b20044746b34d690312f4b49b3e0800b7423afc740420d2bc06f7",
+    "baselines": {
+      "B0": {"action_macro_f1": 0.1895424837, "accuracy": 0.3972602740, "harmful_map_rate": 0.0, "map_to_risk": null, "correct_map_coverage": 0.0, "target_exact_gold_map_to": 0.0, "target_exact_predicted_map_to": null},
+      "B1": {"action_macro_f1": 0.4626190476, "accuracy": 0.5958904110, "harmful_map_rate": 0.0, "map_to_risk": 0.0, "correct_map_coverage": 0.1986301370, "target_exact_gold_map_to": 0.5686274510, "target_exact_predicted_map_to": 1.0},
+      "B2": {"action_macro_f1": 0.4615873016, "accuracy": 0.6027397260, "harmful_map_rate": 0.1164383562, "map_to_risk": 0.3148148148, "correct_map_coverage": 0.2534246575, "target_exact_gold_map_to": 0.7254901961, "target_exact_predicted_map_to": 0.6851851852},
+      "B3": {"action_macro_f1": 0.5718792651, "accuracy": 0.7260273973, "harmful_map_rate": 0.1780821918, "map_to_risk": 0.3513513514, "correct_map_coverage": 0.3287671233, "target_exact_gold_map_to": 0.9411764706, "target_exact_predicted_map_to": 0.6486486486},
+      "B4": {"action_macro_f1": 0.7169945630, "accuracy": 0.7602739726, "harmful_map_rate": 0.0616438356, "map_to_risk": 0.1914893617, "correct_map_coverage": 0.2602739726, "target_exact_gold_map_to": 0.7450980392, "target_exact_predicted_map_to": 0.8085106383}
+    },
+    "B4_cluster_bootstrap_95": {
+      "action_macro_f1": [0.6607709392, 0.7574751606],
+      "harmful_map_rate": [0.0347212187, 0.0948275862],
+      "correct_map_coverage": [0.1963105404, 0.3398058252],
+      "target_exact_gold_map_to": [0.5818181818, 0.8653846154]
+    }
+  },
+  "pair_invalid_loo_sensitivity": {
+    "rows": 130,
+    "pairs": 9,
+    "prediction_count": 650,
+    "report_sha256": "1f49c18fff61ef70398a1959a7271c4943c24428d6515f01f096c5e5df02305f",
+    "predictions_sha256": "f2ea514ce0802b4061fcdd7312e2fbdbe2d16bbaaf24e5800d71f57c7c1285cc",
+    "manifest_sha256": "9b278b7d1f42ecb25157c7e4a68bc55500fabbbe33f9bea3e76dae1225d9d412",
+    "B3": {"action_macro_f1": 0.5800798195, "harmful_map_rate": 0.1769230769, "correct_map_coverage": 0.3384615385, "target_exact_gold_map_to": 0.9565217391},
+    "B4": {"action_macro_f1": 0.7093112676, "harmful_map_rate": 0.0615384615, "correct_map_coverage": 0.2538461538, "target_exact_gold_map_to": 0.7173913043},
+    "B4_cluster_bootstrap_95": {
+      "action_macro_f1": [0.6466075611, 0.7570929044],
+      "harmful_map_rate": [0.0309278351, 0.0990990991],
+      "correct_map_coverage": [0.1753165584, 0.3523829040],
+      "target_exact_gold_map_to": [0.5000000000, 0.8727840909]
+    }
+  },
+  "salted_split_sensitivity": {
+    "rows_total": 146,
+    "rows_tested": 19,
+    "pairs_tested": 2,
+    "prediction_count": 95,
+    "train_pairs": 6,
+    "dev_pairs": 2,
+    "test_pairs": 2,
+    "report_sha256": "3db5b3f5727fa2301e3d671cbc482c4a7052f7d792a4d112fb060e8c06dd1273",
+    "predictions_sha256": "eb462fc0c23d09cfcc5012ccb2e4b83f6bb3402843bf4fd2d7d5684b679566d4",
+    "manifest_sha256": "8f75a66f50393cf5f214312792ccc9227e667392d564cf8fe9acdbb4570d8b1a",
+    "B3": {"action_macro_f1": 0.5882352941, "harmful_map_rate": 0.1578947368, "correct_map_coverage": 0.3684210526, "target_exact_gold_map_to": 1.0},
+    "B4": {"action_macro_f1": 0.6915032680, "harmful_map_rate": 0.1052631579, "correct_map_coverage": 0.3157894737, "target_exact_gold_map_to": 0.8571428571},
+    "B4_cluster_bootstrap_95": {
+      "action_macro_f1": [0.5166666667, 0.8412698413],
+      "harmful_map_rate": [0.0909090909, 0.1250000000],
+      "correct_map_coverage": [0.2727272727, 0.3750000000],
+      "target_exact_gold_map_to": [0.7500000000, 1.0]
+    }
+  },
+  "exploratory_interpretation": {
+    "best_primary_action_baseline": "B4",
+    "best_primary_nonlearned_action_baseline": "B3",
+    "B4_minus_B3_action_macro_f1": 0.1451152979,
+    "B4_minus_B3_harmful_map_rate": -0.1164383562,
+    "B4_minus_B3_correct_map_coverage": -0.0684931507,
+    "B4_current_baseline_to_beat": true,
+    "dedicated_student_justified": "NOT_ESTABLISHED",
+    "decision_status": "EXPLORATORY_ONLY_NOT_A_GO_NO_GO_GATE",
+    "reason": "B4 shows learnability beyond non-learned baselines, but coverage and risk tradeoffs remain, pair sensitivity is stable only on 9-10 clusters, and the salted test set contains only 2 pairs / 19 columns."
+  }
+}

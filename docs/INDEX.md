@@ -44,6 +44,11 @@
 | [`experiments/2026-10-04_q3_full_delivery_seal_validation.md`](experiments/2026-10-04_q3_full_delivery_seal_validation.md) | Seal validation | 10-file raw package, 9/9 hashes, corrected ledger and visibility exceptions |
 | [`experiments/2026-10-04_q3_partial_delivery_validation.md`](experiments/2026-10-04_q3_partial_delivery_validation.md) | Superseded snapshot | Partial-delivery state before full raw package arrived |
 | [`datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md`](datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md) | Draft protocol | leave-one-pair-out / group-aware exploratory split；NOT_RUN |
+| [`datasets/2026-10-04_b0_b4_exploratory_freeze_v1.json`](datasets/2026-10-04_b0_b4_exploratory_freeze_v1.json) | Superseded freeze | first run invalidated by salted B4 alignment bug |
+| [`datasets/2026-10-04_b0_b4_exploratory_config_v1.json`](datasets/2026-10-04_b0_b4_exploratory_config_v1.json) | Frozen config | LOO / salted sensitivity / bootstrap 2000 configuration |
+| [`datasets/2026-10-04_b0_b4_exploratory_freeze_v2.json`](datasets/2026-10-04_b0_b4_exploratory_freeze_v2.json) | Valid freeze | v2 runner/input bindings before validated rerun |
+| [`datasets/2026-10-04_b0_b4_exploratory_results_v2.json`](datasets/2026-10-04_b0_b4_exploratory_results_v2.json) | Machine result | primary and mandatory sensitivity metrics, hashes |
+| [`experiments/2026-10-04_b0_b4_exploratory_probe_results_v2.md`](experiments/2026-10-04_b0_b4_exploratory_probe_results_v2.md) | Exploratory result | B0-B4 v2 interpretation and evidence boundary |
 | [`17_Graph_Engineering_多层Loop设计.md`](17_Graph_Engineering_多层Loop设计.md) | 设计依据 | 现役协作边界与历史架构；不提供任务授权或实时状态 |
 | [`18_多Agent编排工具演进计划.md`](18_多Agent编排工具演进计划.md) | 历史快照 | 已执行的多 Agent 演进计划 |
 | [`20_部署指南.md`](20_部署指南.md) | 历史快照 | 旧部署拓扑；当前启动以根 `serve.sh`/README 为准 |

@@ -176,3 +176,11 @@ Raw delivery target and no-reconstruction rule are recorded in docs/datasets/pha
 ## 2026-10-04 raw seal update
 
 Q3 raw package is sealed with visibility exceptions. Corrected ledger SHA256 cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6; authoritative counts 51/58/37. R1 is not strict three-field-only and R2/ADJ lack signed visibility receipts.
+
+## 2026-10-04 B0-B4 exploratory evidence
+
+- Freeze v2: `docs/datasets/2026-10-04_b0_b4_exploratory_freeze_v2.json`.
+- Machine results: `docs/datasets/2026-10-04_b0_b4_exploratory_results_v2.json`.
+- Narrative results: `docs/experiments/2026-10-04_b0_b4_exploratory_probe_results_v2.md`.
+- Primary B4 action macro-F1 0.717 / harmful-map 0.062 / coverage 0.260; B3 0.572 / 0.178 / 0.329. Pair-invalid B4 is similar. Salted sensitivity is only 2 test pairs and remains uncertain.
+- Scientific boundary: B4 is the baseline to beat; dedicated student necessity is not established; all results are exploratory and `paper_result=false`.

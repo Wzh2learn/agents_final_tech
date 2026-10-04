@@ -113,3 +113,6 @@ B5 不属于 B0-B4，不进入本协议的排名、调参或 go/no-go。
 - Pair-cluster bootstrap `n=2000` and seeds `[42,43,44]` are accepted for exploratory uncertainty only; they do not prove power.
 - Thresholds, classifier hyperparameters, exact candidate grids, output hashes, and freeze receipt are still pending. Therefore this is `USER_SELECTED_NOT_FROZEN`, not an execution authorization.
 - The same data may not be used for tuning and then reported as the evaluation set.
+## 9. Execution status (2026-10-04)
+
+`freeze_v2` and the v2 GB10 outputs execute the selected LOO primary and mandatory sensitivities. This does not turn the protocol into Stage D authorization. The v2 outputs are exploratory only; B5 remains dormant and all training/Phase 2 gates remain closed.

@@ -61,3 +61,7 @@ Use C0 teacher/no persistence, C1 teacher/strong gate+rollback, C2 student/no pe
 ### 5.3 Execution annexes
 
 Q3/B0-B4 preconditions are in `docs/experiments/2026-10-04_q3_b0_b4_execution_plan.md`. RQ2 identification and the data/licence/split/power application are in `docs/datasets/2026-10-04_rq2_identification_and_acquisition_card.md`. Neither annex authorizes execution.
+
+## 6 2026-10-04 B0-B4 exploratory addendum
+
+B0-B4 exploratory v2 is complete but does not pass a Stage D gate. Primary B4 is the strongest simple action baseline (macro-F1 0.717, harmful-map 0.062, coverage 0.260) and must be the comparator for any future A0-A2 work. The pair-invalid sensitivity is similar; the salted split has only 2 test pairs and a wide interval. Dedicated student necessity remains unestablished, `DATA_NO_GO / RQ2 NOT_IDENTIFIED` remain, and no A0/A1/A2/A3 or Phase 2 run is authorized.

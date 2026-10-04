@@ -134,3 +134,11 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - Raw audit package is sealed at logs/graph/q3_raw_seal_20261004/ and GB10 /home/testuser/wzh/q3_raw_seal_20261004/inbox/q3_raw_seal_20261004/; 10 files, 9/9 manifest hashes, secret scan 0.
 - Authoritative corrected ledger SHA256 cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6; corrected counts map_to=51 / skip=58 / hold=37. The earlier 52/58/36 is pre-correction only.
 - Evidence level is ARTIFACT_CLOSED_WITH_VISIBILITY_EXCEPTIONS: R1 saw lineage/table grouping; R2/ADJ lack separately signed visibility receipts.
+
+## 2026-10-04 B0-B4 exploratory v2 result (append-only)
+
+- Option A/B process variants passed on real staging: primary 10 pairs / 146 columns / 3 quarantined references; sensitivity 9 pairs / 130 columns / the same 3 references.
+- Frozen B0-B4 v2 ran on GB10 with zero model calls. Primary B4 action macro-F1=0.71699, harmful-map rate=0.06164, coverage=0.26027; B3=0.57188 / 0.17808 / 0.32877. Pair-invalid B4=0.70931 / 0.06154 / 0.25385. Salted B4=0.69150 / 0.10526 / 0.31579 on only 2 test pairs / 19 columns.
+- B4 is the current simple baseline to beat. A dedicated student is `NOT_ESTABLISHED` as necessary; no go/no-go threshold was approved and no training is authorized.
+- The first probe run is invalidated by a salted B4 alignment bug; `freeze_v2` and `*_v2` outputs are the only valid exploratory evidence. Double-run diff rc=0/0/0.
+- DATA_NO_GO / RQ2 NOT_IDENTIFIED / B5 dormant / no Phase 2 / no training boundaries remain.

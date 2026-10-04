@@ -1,7 +1,7 @@
 # Q3 独立复核与 B0–B4 执行卡（2026-10-04）
 
-> 状态：`PLANNED_NOT_RUN` | 模型调用：0 | 下载：0 | Phase 1a/2/训练：未启动
-> 授权边界：本件只定义可审计执行面。三位专家的 Q3 exploratory 摘要已由用户确认，但 raw R1/R2/ADJ、final ledger 与 receipt/hash 尚未封存；B0–B4 没有 GB10 开发结果。
+> 状态：`Q3_SEALED / B0_B4_EXPLORATORY_V2_RUN / STAGE_D_NOT_RUN` | 模型调用：0 | 下载：0 | Phase 1a/2/训练：未启动
+> 授权边界：本件只定义可审计执行面。三位专家的 Q3 exploratory 摘要已由用户确认，但 raw R1/R2/ADJ、final ledger 与 receipt/hash 尚未封存；B0-B4 已在 GB10 完成 exploratory v2；A0-A3、Stage D、Phase 2 和训练未运行。
 > 关联：`docs/experiments/2026-10-03_ruling_gd_q3_package_and_goal_refresh.md`、`docs/datasets/2026-10-04_rq2_identification_and_acquisition_card.md`
 
 ## 1. 当前可复用输入
@@ -103,7 +103,7 @@ Q3 raw 未封存、身份不独立、ground_truth 泄漏或 label ledger 未锁�
 ## 7. 明确未完成
 
 - Q3 R1/R2/ADJ：用户确认的 exploratory 摘要已形成；raw 输出、final ledger、visibility receipt 与 manifest/hash 仍 `MISSING`，不是 artifact closure；
-- B0–B4：`NOT_RUN`，没有 GB10 development 数字；
+- B0–B4：exploratory v2 已运行；结果只作 development evidence，不通过 Stage D gate；
 - RQ2：`NOT_IDENTIFIED`，不因 Q3 或简单基线自动升级；
 - Stage D/Phase 2/训练：未启动；
 - MIMO：`READY_FOR_CONFIG_ONLY`，本件不派发模型、不记录 token；
@@ -126,3 +126,9 @@ Raw originals must be delivered to exact GB10 paths or /home/testuser/wzh/q3_raw
 ## 11. Sealed Q3 correction (2026-10-04)
 
 Raw seal is complete with visibility exceptions. Use corrected ledger SHA256 cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6 and corrected counts 51/58/37; 52/58/36 is superseded for analysis. B0-B4 remain NOT_RUN.
+
+## 12. B0-B4 exploratory probe result (2026-10-04)
+
+The frozen v2 probe ran on GB10 with zero model calls. Primary quarantine+LOO results over 146 columns / 10 pairs give B4 action macro-F1 0.717 and harmful-map rate 0.062; B3 gives 0.572 and 0.178. Whole-pair INVALID sensitivity is similar for B4 (0.709 / 0.062). Salted split sensitivity uses only 2 test pairs / 19 columns and has a wide B4 macro-F1 interval.
+
+This makes B4 the simple baseline to beat, but does not establish that a dedicated student is necessary. Results remain exploratory, `paper_result=false`, and do not lift `DATA_NO_GO` or `RQ2 NOT_IDENTIFIED`. See `2026-10-04_b0_b4_exploratory_probe_results_v2.md`.

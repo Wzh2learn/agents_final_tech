@@ -218,3 +218,7 @@ The Q3 result is a user-confirmed exploratory summary, not raw artifact closure.
 ## 2026-10-04 ruling update
 
 Raw originals now have a GB10 delivery target. Invalid references use quarantine as primary and whole-pair INVALID as mandatory sensitivity. B0-B4 uses LOO primary and salted split sensitivity with exploratory bootstrap only. B5 remains dormant. All execution gates remain closed.
+
+## 2026-10-04 B0-B4 exploratory v2
+
+The sealed corrected Q3 ledger and gold-free process views now support a frozen exploratory B0-B4 probe. B4 is the strongest primary action baseline and the baseline future student work must beat, but the result does not establish that a dedicated student is necessary. Pair-invalid sensitivity is similar; salted split sensitivity is wide and based on only 2 test pairs. All Stage D, training, Phase 2, B5, DATA_GO and RQ2 boundaries remain closed.
