@@ -95,3 +95,10 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 2. 复核输出过既有 label_ledger 装配器与独立审计；源侧 gold 只在复核完成后作收敛效度统计，严格标 exploratory。
 3. goal 保持 active：继续小论文投稿版、大论文开题/前两章与后续章节框架；ARR 10/12 为主窗口，WWW 10/18/10/25 为后备。146 列 review 如后续获准，只作 exploratory 补充证据。
 4. Phase 2 正式 replay、4B smoke、8B 主训练、端点与服务变更、以及任何外发，仍各自需要独立授权。
+
+## 2026-10-04 research edge batch（append-only）
+
+- 当前批准基线 = `f2adaf1be13cd641ca0993c8e2d20a16ad717cfc`；本批实际工作起点 = `e44c3c3d3922bc8b3c6f11d6a7cd50526ad6ebc0`。上文仍写 f2adaf1 的 Git 行是前批快照，本段为当前更正，不回改历史。
+- 新增 `docs/datasets/2026-10-04_rq2_identification_and_acquisition_card.md`：RQ2 同样本 identification 与 Route V/F 数据、许可、split、power 申报，状态 `DECISION_APPLICATION / NO_EXECUTION`。
+- 新增 `docs/experiments/2026-10-04_q3_b0_b4_execution_plan.md`：Q3 R1/R2/ADJ 与 B0-B4 执行合同，状态 `PLANNED_NOT_RUN`。
+- 边界不变：`DATA_NO_GO`、`RQ2 NOT_IDENTIFIED`、146 列“已装配未复核”、MIMO `READY_FOR_CONFIG_ONLY`、V2-3 关闭、G-A/G-B/G-C 不批准。零模型、零下载、不启动 Phase 1a/2/训练、不外发。

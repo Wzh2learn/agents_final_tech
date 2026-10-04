@@ -45,3 +45,19 @@
 2. FinQA 与 Valentine 分命名空间报告；不把两条互补证据拼成一个主实验。
 3. 所有阈值、家族、容差、停止条件先冻结；失败/null/adverse 原样保留。
 4. 146 列 Q3 即使完成也只能作 exploratory learnability evidence，不改变上述 RQ 状态。
+
+## 5 2026-10-04 execution addendum
+
+### 5.1 Stage R confirmatory contrast
+
+The confirmatory comparison is the strongest preregistered baseline selected from no-gate, gain-only, collateral-only, confidence-only, and fixed-dual using proposal/train only, versus the full `independent-gate-validation + rollback-versioning` gate. Gate/sealed results cannot select the comparator. The remaining arms are mechanism ablations.
+
+All arms consume the same hash-bound candidate order and maintain independent rule state. Gain, collateral, and gate delta are recomputed on each arm's current state. Predeclared order perturbations use the same candidate multiset and only alter order. Required trajectory metrics include time/step to first harmful consolidation, maximum validation-set drawdown, first rollback step, and recovery step.
+
+### 5.2 RQ4 causal symmetry
+
+Use C0 teacher/no persistence, C1 teacher/strong gate+rollback, C2 student/no persistence, and C3 student/strong gate+rollback. Compare teacher/student at fixed persistence and persistence/no-persistence at fixed actor using the same candidate stream and evaluation time. Without independent RQ2 and RQ3 evidence, these groups remain design slots and cannot support a closed-loop claim.
+
+### 5.3 Execution annexes
+
+Q3/B0-B4 preconditions are in `docs/experiments/2026-10-04_q3_b0_b4_execution_plan.md`. RQ2 identification and the data/licence/split/power application are in `docs/datasets/2026-10-04_rq2_identification_and_acquisition_card.md`. Neither annex authorizes execution.

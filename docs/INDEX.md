@@ -35,6 +35,8 @@
 
 | 文件 | 状态 | 用途 |
 |---|---|---|
+| [`datasets/2026-10-04_rq2_identification_and_acquisition_card.md`](datasets/2026-10-04_rq2_identification_and_acquisition_card.md) | 决策申请 | RQ2 identification、Route V/F、数据/许可/split/power 申报；不授权下载 |
+| [`experiments/2026-10-04_q3_b0_b4_execution_plan.md`](experiments/2026-10-04_q3_b0_b4_execution_plan.md) | 计划 | Q3 R1/R2/ADJ 与 B0-B4 执行前置、可见性、预算、go/no-go；当前未运行 |
 | [`17_Graph_Engineering_多层Loop设计.md`](17_Graph_Engineering_多层Loop设计.md) | 设计依据 | 现役协作边界与历史架构；不提供任务授权或实时状态 |
 | [`18_多Agent编排工具演进计划.md`](18_多Agent编排工具演进计划.md) | 历史快照 | 已执行的多 Agent 演进计划 |
 | [`20_部署指南.md`](20_部署指南.md) | 历史快照 | 旧部署拓扑；当前启动以根 `serve.sh`/README 为准 |
