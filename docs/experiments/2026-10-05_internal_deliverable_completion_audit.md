@@ -34,10 +34,10 @@
 
 ## 3. Validation
 
-- submission audit regenerated and byte-identical on GB10：`cmp rc=0`。
 - `tests/test_submission_package_audit.py`：`3 passed`。
-- Previous full repository validation remains `850 passed / 13 skipped / 1 deselected` before this audit-only correction; final full-suite rerun is recorded with the commit that closes this report.
-- `docs_lint` remains `rc=0 / 0 fail / 4 warn` on the current research state.
+- Full pytest at `4c1dbdf`: `850 passed / 13 skipped / 1 deselected`.
+- `docs_lint`: `rc=0 / 0 fail / 4 warn`.
+- submission audit regenerated output is byte-identical to `paper/submission_package_audit_v1.json` (`cmp rc=0`), with exactly four external blockers.
 
 ## 4. Completion interpretation
 
