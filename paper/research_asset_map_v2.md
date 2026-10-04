@@ -161,3 +161,10 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 - 不修改 `docs/33*`、`docs/34*`；入口仅覆盖旧论文范围/排期，不覆盖专利公开限制或已执行实验真值。
 - 不再新增临时路线稿/claim 矩阵；叙事更新 `research_story_v2.md`，资产更新本账本，执行更新现有 handoff。
 - 历史文件不删；大规模移动、删除、改名须用户另行确认。
+
+## 2026-10-04 boundary/blocker addendum
+
+- Q3 raw closure: MISSING R1/R2/ADJ outputs, final label ledger, expert visibility/gold-isolation receipt, and output manifest/hash; user summary remains exploratory only.
+- Invalid action reference audit: DSNY pair has 3 final references to mgp_curb_pri_boro; reference quarantine and whole-pair INVALID are both pending user decision.
+- B0-B4 exploratory protocol: [docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md](../docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md), DRAFT_NOT_FROZEN / NOT_RUN.
+- B5: no locally verifiable source/licence/version/dependency/output capability for either candidate; PROPOSED_EXPLORATORY / NOT_RUN.

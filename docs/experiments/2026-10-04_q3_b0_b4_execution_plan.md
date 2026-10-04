@@ -1,7 +1,7 @@
 # Q3 独立复核与 B0–B4 执行卡（2026-10-04）
 
 > 状态：`PLANNED_NOT_RUN` | 模型调用：0 | 下载：0 | Phase 1a/2/训练：未启动
-> 授权边界：本件只定义可审计执行面。R1/R2/ADJ 未派发，Q3 仍是“已装配、未复核”，B0–B4 没有 GB10 开发结果。
+> 授权边界：本件只定义可审计执行面。三位专家的 Q3 exploratory 摘要已由用户确认，但 raw R1/R2/ADJ、final ledger 与 receipt/hash 尚未封存；B0–B4 没有 GB10 开发结果。
 > 关联：`docs/experiments/2026-10-03_ruling_gd_q3_package_and_goal_refresh.md`、`docs/datasets/2026-10-04_rq2_identification_and_acquisition_card.md`
 
 ## 1. 当前可复用输入
@@ -90,7 +90,7 @@
 | `NO_CLEAR_SIGNAL` | 没有基线满足开发策略 | 不训练，报告 null/adverse |
 | `PILOT_ONLY` | UID/family/action 覆盖不足或输入质量不足 | 只报 pilot，不冒充确认性结论 |
 
-Q3 未运行、身份不独立、ground_truth 泄漏或 label ledger 未锁定时，所有 B0–B4 结果无效，不进入 Stage D。
+Q3 raw 未封存、身份不独立、ground_truth 泄漏或 label ledger 未锁定时，所有 B0–B4 结果无效，不进入 Stage D。
 
 ## 6. Stage D 门序
 
@@ -102,7 +102,7 @@ Q3 未运行、身份不独立、ground_truth 泄漏或 label ledger 未锁定�
 
 ## 7. 明确未完成
 
-- Q3 R1/R2/ADJ：`NOT_RUN`，146 列仍是“已装配、未复核”；
+- Q3 R1/R2/ADJ：用户确认的 exploratory 摘要已形成；raw 输出、final ledger、visibility receipt 与 manifest/hash 仍 `MISSING`，不是 artifact closure；
 - B0–B4：`NOT_RUN`，没有 GB10 development 数字；
 - RQ2：`NOT_IDENTIFIED`，不因 Q3 或简单基线自动升级；
 - Stage D/Phase 2/训练：未启动；
@@ -114,3 +114,7 @@ Q3 未运行、身份不独立、ground_truth 泄漏或 label ledger 未锁定�
 The user subsequently confirmed that three independent experts completed R1/R2/ADJ Q3 review. The reported exploratory summary is 146/146 adjudicated labels, 119/146 action exact agreement (81.51%), action Cohen's kappa approximately 0.727, 41/41 target exact agreement on shared `map_to` decisions, and a final distribution of `map_to=52 / skip=58 / hold=36`.
 
 Raw expert outputs, adjudication ledger, final label ledger, visibility receipt, and hashes are still pending seal. B0-B4 remain `NOT_RUN`. A B5 Jev-like typed-decision baseline is registered only as `PROPOSED_EXPLORATORY / NOT_RUN`; it does not replace the frozen B0-B4 set and does not change `DATA_NO_GO`, `RQ2 NOT_IDENTIFIED`, or training authorization.
+
+## 9. Boundary closure addendum (2026-10-04)
+
+The raw seal is not complete. See [docs/experiments/2026-10-04_q3_boundary_blocker_audit.md](2026-10-04_q3_boundary_blocker_audit.md) and [docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md](../datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md). Three invalid action references are pending user choice between reference quarantine and whole-pair INVALID. B0-B4 remain NOT_RUN; B5 remains PROPOSED_EXPLORATORY / NOT_RUN. No model, Phase 2, training, or download was started.

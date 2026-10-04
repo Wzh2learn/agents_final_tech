@@ -110,5 +110,14 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 - 当前批准基线 = `f2adaf1be13cd641ca0993c8e2d20a16ad717cfc`；本批实际工作起点 = `e44c3c3d3922bc8b3c6f11d6a7cd50526ad6ebc0`。上文仍写 f2adaf1 的 Git 行是前批快照，本段为当前更正，不回改历史。
 - 新增 `docs/datasets/2026-10-04_rq2_identification_and_acquisition_card.md`：RQ2 同样本 identification 与 Route V/F 数据、许可、split、power 申报，状态 `DECISION_APPLICATION / NO_EXECUTION`。
-- 新增 `docs/experiments/2026-10-04_q3_b0_b4_execution_plan.md`：Q3 R1/R2/ADJ 与 B0-B4 执行合同，状态 `PLANNED_NOT_RUN`。
-- 边界不变：`DATA_NO_GO`、`RQ2 NOT_IDENTIFIED`、146 列“已装配未复核”、MIMO `READY_FOR_CONFIG_ONLY`、V2-3 关闭、G-A/G-B/G-C 不批准。零模型、零下载、不启动 Phase 1a/2/训练、不外发。
+- 新增 `docs/experiments/2026-10-04_q3_b0_b4_execution_plan.md`：Q3 专家摘要状态注记与 B0-B4 执行合同；Q3 raw 未封存，B0-B4 `NOT_RUN`。
+- 边界不变：`DATA_NO_GO`、`RQ2 NOT_IDENTIFIED`；146 列已有用户确认的 exploratory 摘要但 raw 未封存；MIMO `READY_FOR_CONFIG_ONLY`、V2-3 关闭、G-A/G-B/G-C 不批准。零模型、零下载、不启动 Phase 1a/2/训练、不外发。
+
+## 2026-10-04 boundary clarification and blocker closure (append-only)
+
+- Goal remains ACTIVE; Stage E fallback remains valid; RQ2 stays NOT_IDENTIFIED / DATA_NO_GO; Q3 remains exploratory learnability evidence only.
+- Q3 raw artifacts are still MISSING in the checked local and GB10 scopes: R1 output, R2 output, ADJ output, final label ledger, expert visibility/gold-isolation receipt, and output manifest/hash. Empty input templates and historical /tmp/r1.json,/tmp/r2.json are explicitly not sealed raw outputs.
+- Three invalid action references remain pending user disposition: turn 12 record_match, turn 13 revoke_match, turn 31 batch_record_match in City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments all reference mgp_curb_pri_boro. Options are reference-level quarantine or whole-pair INVALID; no option has been selected.
+- B0-B4 exploratory split protocol is DRAFT_NOT_FROZEN / NOT_RUN at docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md. The frozen runner is not run because proposal_train.dev=0.
+- B5 remains PROPOSED_EXPLORATORY / NOT_RUN. Offline audit found no local source checkout, licence, version, dependency, import, or typed-output evidence for open-alternative-jev / jevos-v2.
+- Stage R, RQ4, training, formal submission, external release, arXiv, and public code remain incomplete or prohibited.

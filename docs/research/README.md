@@ -210,3 +210,7 @@ What survives is the methodology plus a clean negative result: a corpus frozen b
 - Algorithm 1 对位：`docs/experiments/2026-09-20_algorithm1_lines_vs_impl.md`
 - 大论文旧骨架（仅作素材）：`docs/experiments/2026-08-26_thesis_narrative_skeleton.md`
 - 专利与论文协同路线：`docs/34_专利_小论文_大论文协同研究路线.md`
+
+## 2026-10-04 boundary clarification
+
+The Q3 result is a user-confirmed exploratory summary, not raw artifact closure. Raw R1/R2/ADJ outputs, final ledger, expert visibility receipt, and output manifest/hash are MISSING. The three invalid DSNY action references are audited but undecided. B0-B4 has a draft group-aware exploratory split protocol only; the frozen runner is not run because proposal_train.dev=0. B5 is an unverified offline candidate and is not installed or run. Goal remains ACTIVE; RQ2 NOT_IDENTIFIED / DATA_NO_GO and all Stage R/RQ4/training/release boundaries remain.
