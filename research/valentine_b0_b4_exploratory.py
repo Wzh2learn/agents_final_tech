@@ -269,13 +269,14 @@ def _align_rows_and_predictions(
     raw_predictions: list[object],
     split: str,
     salted_assignment: dict[str, str] | None,
+    baseline: str,
 ) -> tuple[list[dict[str, object]], list[tuple[str, str | None] | None]]:
     if split == "salted_group_split":
         test_pairs = {pair for pair, layer in salted_assignment.items() if layer == "test"}
         selected = [row for row in rows if row["pair_id"] in test_pairs]
     else:
         selected = list(rows)
-    if split == "leave_one_pair_out":
+    if split == "leave_one_pair_out" and baseline == "B4":
         by_index = {int(item[0]): item[1] for item in raw_predictions if isinstance(item, tuple)}
         aligned = [by_index.get(index) for index in range(len(rows))]
         return rows, aligned
@@ -473,7 +474,7 @@ def _run_variant(
     report_rows: list[dict[str, object]] = []
     baseline_reports: dict[str, object] = {}
     for baseline in BASELINES:
-        selected_rows, aligned = _align_rows_and_predictions(rows, raw_predictions[baseline], split, salted_assignment)
+        selected_rows, aligned = _align_rows_and_predictions(rows, raw_predictions[baseline], split, salted_assignment, baseline)
         baseline_reports[baseline] = {
             "runner_name": BASELINE_NAMES[baseline],
             "metrics": _metric_core(selected_rows, aligned),
