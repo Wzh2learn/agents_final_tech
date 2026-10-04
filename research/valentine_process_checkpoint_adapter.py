@@ -37,6 +37,12 @@ CONTRACT_VERSION = "valentine-process-checkpoint-adapter-v1"
 DATASET_ID = "valentine_nyc"
 READ_FILES = ("source_table.csv", "target_table.csv", "_full.json", "_trajectory.json")
 PRESENCE_ONLY_FILES = ("ground_truth.json", "_result.json")
+EXPECTED_INVALID_ACTION_REFERENCES = {
+    ("City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments", 12, "record_match", "call_c4f11200e31c4c269217b8dc"): "mgp_curb_pri_boro",
+    ("City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments", 13, "revoke_match", "call_59ac6c3556084cfea42c037f"): "mgp_curb_pri_boro",
+    ("City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments", 31, "batch_record_match", "call_5e32f59bddca46e18a95c413"): "mgp_curb_pri_boro",
+}
+ANALYSIS_VARIANTS = ("quarantine-primary", "pair-invalid-sensitivity")
 ACTION_EVENTS = {
     "record_match": "record_candidate",
     "batch_record_match": "record_candidate",
@@ -185,7 +191,15 @@ def _strings(value: object) -> list[str]:
     return []
 
 
-def _safe_call_view(call: object, source_headers: set[str], target_headers: set[str]) -> dict[str, object]:
+def _safe_call_view(
+    call: object,
+    source_headers: set[str],
+    target_headers: set[str],
+    *,
+    pair: str,
+    turn: int,
+    event_index: int,
+) -> dict[str, object]:
     if not isinstance(call, dict) or set(call) != {"id", "name", "args"}:
         raise AdapterError("invalid_tool_call_shape")
     args = call["args"]
@@ -193,25 +207,42 @@ def _safe_call_view(call: object, source_headers: set[str], target_headers: set[
         raise AdapterError("invalid_tool_call_args")
     source = sorted(set(_strings(_named_values(args, "source_column")) + _strings(_named_values(args, "source_columns"))))
     target = sorted(set(_strings(_named_values(args, "target_column")) + _strings(_named_values(args, "target_columns"))))
-    unknown_source = [value for value in source if value not in source_headers]
+    invalid_source = sorted(value for value in source if value not in source_headers)
+    valid_source = sorted(value for value in source if value in source_headers)
     unknown_target = [value for value in target if value not in target_headers]
-    if unknown_source:
-        raise AdapterError("tool_call_source_not_in_header", values=unknown_source)
+    name = str(call["name"])
+    call_id = str(call["id"])
+    for value in invalid_source:
+        key = (pair, turn, name, call_id)
+        expected = EXPECTED_INVALID_ACTION_REFERENCES.get(key)
+        if expected != value:
+            raise AdapterError(
+                "unexpected_invalid_action_reference",
+                pair=pair,
+                turn=turn,
+                event_index=event_index,
+                tool_name=name,
+                call_id=call_id,
+                expected=expected,
+                actual=value,
+            )
+    if len(invalid_source) > 1:
+        raise AdapterError("multiple_invalid_action_references_in_call", values=len(invalid_source))
     confidence = args.get("confidence")
     if confidence is not None and (not isinstance(confidence, (int, float)) or not math.isfinite(confidence)):
         raise AdapterError("invalid_tool_call_confidence")
-    name = str(call["name"])
     return {
         "tool_name": name,
+        "call_id": call_id,
         "event_kind": ACTION_EVENTS.get(name, "process_tool"),
-        "source_columns": source,
+        "source_columns": valid_source,
+        "invalid_source_references": invalid_source,
         "target_columns": target,
         "unknown_target_count": len(unknown_target),
         "confidence": confidence,
         "reasoning_present": bool(_named_values(args, "reasoning") or _named_values(args, "reason")),
         "transformation_present": bool(_named_values(args, "transformation_code") or _named_values(args, "transformation_type")),
     }
-
 
 def _safe_state_view(state: object) -> dict[str, object]:
     if not isinstance(state, dict):
@@ -240,9 +271,16 @@ def _assert_no_forbidden_output(value: object) -> None:
             raise AdapterError("forbidden_output_marker")
 
 
-def build(staging_root: Path, dataset_revision: str, out_dir: Path) -> dict[str, object]:
+def build(
+    staging_root: Path,
+    dataset_revision: str,
+    out_dir: Path,
+    analysis_variant: str = "quarantine-primary",
+) -> dict[str, object]:
     if not isinstance(dataset_revision, str) or not dataset_revision.strip():
         raise AdapterError("missing_dataset_revision")
+    if analysis_variant not in ANALYSIS_VARIANTS:
+        raise AdapterError("invalid_analysis_variant", value=analysis_variant)
     manifest_path = staging_root / "sha256_manifest.txt"
     rows = _load_sha256_manifest(manifest_path)
     _assert_manifest_scope(rows)
@@ -250,8 +288,10 @@ def build(staging_root: Path, dataset_revision: str, out_dir: Path) -> dict[str,
     _validate_output_dir(out_dir, staging_root)
 
     events: list[dict[str, object]] = []
+    quarantine_events: list[dict[str, object]] = []
     pair_summaries: list[dict[str, object]] = []
     input_files_read: list[str] = []
+    invalid_pairs: set[str] = set()
     for pair_dir in pair_dirs:
         pair = pair_dir.name
         for name in ("source_table.csv", "target_table.csv", _pair_file_name(pair, "full"), _pair_file_name(pair, "trajectory")):
@@ -280,9 +320,12 @@ def build(staging_root: Path, dataset_revision: str, out_dir: Path) -> dict[str,
         trajectory_log = ((trajectory.get("metadata") or {}).get("trajectory_log"))
         if not isinstance(trajectory_log, list):
             raise AdapterError("missing_trajectory_log", pair=pair)
+
         pair_source_seen: set[str] = set()
         pair_target_seen: set[str] = set()
-        for row_index, row in enumerate(audit):
+        pair_events: list[dict[str, object]] = []
+        pair_quarantine: list[dict[str, object]] = []
+        for row in audit:
             if not isinstance(row, dict):
                 raise AdapterError("invalid_audit_row", pair=pair)
             raw_state = row.get("agent_a_raw")
@@ -292,9 +335,41 @@ def build(staging_root: Path, dataset_revision: str, out_dir: Path) -> dict[str,
             raw_calls = raw_state["tool_calls"]
             final_calls = final_state["tool_calls"]
             for call_index, call in enumerate(final_calls):
-                view = _safe_call_view(call, source_set, target_set)
-                source_columns = view["source_columns"]
-                target_columns = view["target_columns"]
+                view = _safe_call_view(
+                    call,
+                    source_set,
+                    target_set,
+                    pair=pair,
+                    turn=int(row["turn"]),
+                    event_index=call_index,
+                )
+                invalid_refs = list(view["invalid_source_references"])
+                for invalid_ref in invalid_refs:
+                    quarantine_id = _sha256_bytes(_stable_json({
+                        "pair": pair,
+                        "turn": row["turn"],
+                        "call_index": call_index,
+                        "tool_name": view["tool_name"],
+                        "call_id": view["call_id"],
+                        "invalid_source_reference": invalid_ref,
+                    }).encode("utf-8"))
+                    pair_quarantine.append({
+                        "quarantine_id": quarantine_id,
+                        "dataset_id": DATASET_ID,
+                        "dataset_revision": dataset_revision,
+                        "pair_id": pair,
+                        "lineage_uid": lineage_uid(DATASET_ID, dataset_revision, pair),
+                        "turn": row["turn"],
+                        "event_index": call_index,
+                        "tool_name": view["tool_name"],
+                        "call_id": view["call_id"],
+                        "invalid_source_reference": invalid_ref,
+                        "reason": "approved_reference_level_quarantine",
+                        "paper_result": False,
+                    })
+                    invalid_pairs.add(pair)
+                source_columns = list(view["source_columns"])
+                target_columns = list(view["target_columns"])
                 pair_source_seen.update(source_columns)
                 pair_target_seen.update(target_columns)
                 event_id = _sha256_bytes(_stable_json({
@@ -307,7 +382,7 @@ def build(staging_root: Path, dataset_revision: str, out_dir: Path) -> dict[str,
                 }).encode("utf-8"))
                 for source_column in source_columns:
                     col_index = source_headers.index(source_column)
-                    events.append({
+                    pair_events.append({
                         "event_id": event_id,
                         "dataset_id": DATASET_ID,
                         "dataset_revision": dataset_revision,
@@ -328,27 +403,62 @@ def build(staging_root: Path, dataset_revision: str, out_dir: Path) -> dict[str,
                         "correctness_status": "NOT_RUN",
                         "paper_result": False,
                     })
+
+        pair_has_invalid_reference = bool(pair_quarantine)
+        include_pair_events = not (
+            analysis_variant == "pair-invalid-sensitivity" and pair_has_invalid_reference
+        )
+        if include_pair_events:
+            events.extend(pair_events)
+        quarantine_events.extend(pair_quarantine)
         pair_summaries.append({
             "pair_id": pair,
+            "analysis_included": include_pair_events,
+            "exclusion_reason": "invalid_action_reference_pair_sensitivity" if not include_pair_events else None,
             "source_header_count": len(source_headers),
             "target_header_count": len(target_headers),
+            "analysis_source_header_count": len(source_headers) if include_pair_events else 0,
             "audit_turns": len(audit),
             "trajectory_log_turns": len(trajectory_log),
             "final_source_coverage": len(pair_source_seen),
             "final_target_coverage": len(pair_target_seen),
+            "invalid_action_reference_count": len(pair_quarantine),
         })
 
+    if len(quarantine_events) != 3:
+        raise AdapterError("invalid_action_reference_count_mismatch", expected=3, actual=len(quarantine_events))
+    expected_invalid_pairs = {
+        pair for pair, _turn, _tool, _call_id in EXPECTED_INVALID_ACTION_REFERENCES
+    }
+    if invalid_pairs != expected_invalid_pairs:
+        raise AdapterError(
+            "invalid_action_reference_pairs_mismatch",
+            expected=sorted(expected_invalid_pairs),
+            actual=sorted(invalid_pairs),
+        )
+    if analysis_variant == "pair-invalid-sensitivity" and len(invalid_pairs) != 1:
+        raise AdapterError("pair_invalid_sensitivity_scope_mismatch", pairs=sorted(invalid_pairs))
+
     events.sort(key=lambda row: (str(row["pair_id"]), int(row["turn"]), int(row["event_index"]), str(row["source_header"])))
+    quarantine_events.sort(key=lambda row: (str(row["pair_id"]), int(row["turn"]), int(row["event_index"]), str(row["invalid_source_reference"])))
     event_path = out_dir / "checkpoint_events.jsonl"
     event_path.write_text("".join(_stable_json(row) + "\n" for row in events), encoding="utf-8", newline="\n")
+    quarantine_path = out_dir / "quarantine_events.jsonl"
+    quarantine_path.write_text("".join(_stable_json(row) + "\n" for row in quarantine_events), encoding="utf-8", newline="\n")
+    included_pairs = [row for row in pair_summaries if row["analysis_included"]]
     summary = {
         "contract_version": CONTRACT_VERSION,
+        "analysis_variant": analysis_variant,
         "dataset_id": DATASET_ID,
         "dataset_revision": dataset_revision,
         "pair_count": len(pair_dirs),
+        "analysis_pair_count": len(included_pairs),
         "source_header_count": sum(row["source_header_count"] for row in pair_summaries),
+        "analysis_source_header_count": sum(row["analysis_source_header_count"] for row in pair_summaries),
         "target_header_count": sum(row["target_header_count"] for row in pair_summaries),
         "event_count": len(events),
+        "invalid_action_reference_count": len(quarantine_events),
+        "invalid_action_reference_pairs": sorted(invalid_pairs),
         "pairs": pair_summaries,
         "correctness_status": "NOT_RUN",
         "ground_truth_read": False,
@@ -361,6 +471,7 @@ def build(staging_root: Path, dataset_revision: str, out_dir: Path) -> dict[str,
     summary_path.write_text(json.dumps(summary, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8", newline="\n")
     manifest = {
         "contract_version": CONTRACT_VERSION,
+        "analysis_variant": analysis_variant,
         "input_files_read": sorted(input_files_read),
         "presence_only_file_count": len(APPROVED_PAIRS) * len(PRESENCE_ONLY_FILES),
         "presence_only_file_names_emitted": False,
@@ -369,22 +480,24 @@ def build(staging_root: Path, dataset_revision: str, out_dir: Path) -> dict[str,
         "embedded_gold_exposed": False,
         "files": {
             "checkpoint_events.jsonl": {"bytes": event_path.stat().st_size, "sha256": _sha256_bytes(event_path.read_bytes())},
+            "quarantine_events.jsonl": {"bytes": quarantine_path.stat().st_size, "sha256": _sha256_bytes(quarantine_path.read_bytes())},
             "checkpoint_summary.json": {"bytes": summary_path.stat().st_size, "sha256": _sha256_bytes(summary_path.read_bytes())},
         },
     }
     _assert_no_forbidden_output(events)
+    _assert_no_forbidden_output(quarantine_events)
     _assert_no_forbidden_output(manifest)
     (out_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8", newline="\n")
     return summary
-
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build a gold-free Valentine process/checkpoint view")
     parser.add_argument("--staging-root", type=Path, required=True)
     parser.add_argument("--dataset-revision", required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
+    parser.add_argument("--analysis-variant", choices=ANALYSIS_VARIANTS, default="quarantine-primary")
     args = parser.parse_args()
-    summary = build(args.staging_root, args.dataset_revision, args.out_dir)
+    summary = build(args.staging_root, args.dataset_revision, args.out_dir, args.analysis_variant)
     print(json.dumps(summary, ensure_ascii=False, sort_keys=True))
     return 0
 
