@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-10-04 | Scope: 两份科研交付物最终完成审计通过；投稿材料与探索空间保留；146 列 Q3 仍已装配未复核 | Runtime: GB10 权威；零模型、零下载、零服务重启，token 未轮换/未就绪
+> Updated: 2026-10-04 | Scope: 两份科研交付物最终完成审计通过；D-B licence_record 核验保持；MIMO 路由已配置但零模型派发 | Runtime: GB10 权威；零模型、零下载、零服务重启，API key 只走安全配置通道
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
@@ -13,12 +13,13 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 完成审计见 `docs/experiments/2026-10-03_goal_completion_audit.md`：草稿层两份交付物有机器验收、独立审稿/审计与 Office/边界证据；goal 保持 ACTIVE，继续准备小论文投稿版、大论文开题/前两章及后续章节框架。146 列 Q3、正式投稿、Phase 2/训练均不得冒充完成结果。
 
 最终完成审计见 `docs/experiments/2026-10-04_goal_final_completion_audit.md`：按当前 goal 口径两份可交付成果均已达成；正式投稿、Q3 exploratory review、Phase 2/训练保留为后续授权/探索项，不冒充完成结果。
+大白话完成度解释见 `docs/experiments/2026-10-04_goal_completion_plain_language.md`：内部科研交付完成不等于正式投稿或全项目所有后续实验完成。
 
 当前执行重点：小论文投稿材料与大论文章节继续零模型推进；D-B licence_record 已正式接受，但仅覆盖 FinQA LICENSE、FinQA README、Valentine LICENSE 三件，不解除 `DATA_NO_GO`、不扩大下载或用途。
 
 ## Git state
 
-- 当前 head = `b72d06a0bbf0115a52115b52e0ec88082a7f4ab7`；local / origin / GB10 对齐，ahead 0 / behind 0。
+- 当前 head = `f2adaf1be13cd641ca0993c8e2d20a16ad717cfc`；local / origin / GB10 对齐，ahead 0 / behind 0。
 - 当前提交链：D-B licence_record `0a8ffbe` → 状态同步 `c26ae04` → 接受证据 `d83078e` → 可复现性声明 `af441ee` → 后续章节证据指针 `7d776b1` → 匿名投稿预览 `10dc253` → tracked 对账测试修正 `3f82d68` → 投稿包审计 `6e01b40`/`1ae9517`/`4cd0713` → SP-C5 证据锚点 `695b796`/`61abf0c` → reviewer 风险登记 `e34b3ea` → Related Work 矩阵 `1a13223` → RR-01 推导与派生重建 `7e91eea`/`de8bafe`/`6812d3c` → goal requirement matrix `e0a626e` → 语言/术语审计 `08b231f` → RQ2–RQ4 执行矩阵 `b72d06a`。全部逐路径 add，无 `-A`、无 `--amend`、无 `--no-verify`。
 - GB10 production 脏件始终为固定五件（`config/schema_suggestions.json`、`logs/graph/docs_lint_report.json`、`logs/graph/governance_drift_latest.md`、`logs/graph/loop_b_last_status`、`logs/graph/verify-report.json`），每次 pull 前后逐条复核未被覆盖。
 - 本机用户资产（`logs/graph/docs_lint_report.json`、`IMPLEMENTATION_PLAN.md`、`PROMPT.md`、`_d3b_dispatch.sh`）与 `side_handoff_20260829.md` 全程未 add、未 commit、未 stash、未 reset、未 clean。
@@ -32,6 +33,7 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - 端口：`:5050 / :8004 / :8006 / :8008 / :4096` 全部 LISTEN；`:5050/api/health/full` 实测 HTTP 200 / 0.127s，`overall=healthy`，pgvector ok（embeddings 137），llm_8004 ok，embedding ok。
 - 资源门（决策 D4/D5 口径，本日实测）：磁盘 `/dev/nvme0n1p2` 3.6T 总量 / 814G 已用 / 2.7T 可用（24% 已用，满足「free ≥20% 且 ≥50GB」开工门）；内存 121G 总量 / available 31G（满足 ≥20G 开工门）/ used 74%（低于 85% 停止门）。
 - `loop_b_flip_log.md` 由 `.gitignore:33`（`logs/graph/*`）收录并正常写入；`dispatch_log.md` 只承载 Loop D 台账，不再承载 Loop B 运行时记录。
+- MIMO 路由只改 GB10 配置，不派发模型：Codex `/home/testuser/.codex/config.toml` = `mimo-v2.6-flash` / `https://token-plan-cn.xiaomimimo.com/v1`；Claude Code `/home/testuser/.claude/settings.json` = `mimo-v2.6-pro` / `https://token-plan-cn.xiaomimimo.com/anthropic`。两处语法/加载检查 PASS；secret 由既有安全通道承载，未读取、未打印、未写入 Git。
 - 仓外暂存：`~/wzh/phase1a_staging_20260925/`（FinQA train/dev + Valentine 10 个 NYC 目录 + LICENSE + bench.py；`sha256_manifest.txt` 共 64 行）。派生产物在 `/tmp/step_ckpt_20260925/` 与 `/tmp/repro_20260925/`。数据体与派生产物一律不入 Git。
 
 ## Research maturity
@@ -83,8 +85,8 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Pending user confirmation
 
-1. **GB10 qwen/deepseek key 已失效，token 按“未轮换 / 未就绪”处理**：新 key 安全配置、状态确认并获明确授权前不得派 R1/R2/裁决，不打印或记录 token。
-2. G-A..G-E 与 V2-3 已裁定；D-E（MIMO 挂起）与 D-F（专利门）继续有效。
+1. **MIMO 路由已配置但不派发**：API key 只走 GB10 安全配置通道；R1/R2/ADJ、Phase 2、训练仍待另行授权，不打印或记录 token。
+2. G-A..G-E 与 V2-3 已裁定；MIMO 仅完成路由配置、不调用模型；D-F（专利门）继续有效。
 
 ## Next gates
 
