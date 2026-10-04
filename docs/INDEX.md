@@ -51,6 +51,7 @@
 | [`experiments/2026-10-04_b0_b4_exploratory_probe_results_v2.md`](experiments/2026-10-04_b0_b4_exploratory_probe_results_v2.md) | Exploratory result | B0-B4 v2 interpretation and evidence boundary |
 | [`datasets/2026-10-05_stage_d_necessity_gate_v1.json`](datasets/2026-10-05_stage_d_necessity_gate_v1.json) | Machine gate | risk_limit=0.10 necessity verdict |
 | [`experiments/2026-10-05_stage_d_necessity_gate.md`](experiments/2026-10-05_stage_d_necessity_gate.md) | Gate report | PILOT_ONLY risk-constrained coverage judgment |
+| [`experiments/2026-10-05_internal_deliverable_completion_audit.md`](experiments/2026-10-05_internal_deliverable_completion_audit.md) | Completion audit | internal paper/thesis deliverables complete; research goal remains open |
 | [`17_Graph_Engineering_多层Loop设计.md`](17_Graph_Engineering_多层Loop设计.md) | 设计依据 | 现役协作边界与历史架构；不提供任务授权或实时状态 |
 | [`18_多Agent编排工具演进计划.md`](18_多Agent编排工具演进计划.md) | 历史快照 | 已执行的多 Agent 演进计划 |
 | [`20_部署指南.md`](20_部署指南.md) | 历史快照 | 旧部署拓扑；当前启动以根 `serve.sh`/README 为准 |

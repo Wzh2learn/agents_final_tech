@@ -93,7 +93,7 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 ## Next gates
 
 1. Stage D necessity gate = `PILOT_ONLY`：B4 在 primary/pair-invalid 满足 risk_limit=0.10，但 salted 2-pair slice 不稳定；专门学生必要性 `NOT_ESTABLISHED`，不开 A0-A2。
-2. 小论文内部投稿版继续 Stage E 评估保底稿；大论文继续 Evaluate-Distill-Evolve 叙事与 B0-B4 exploratory 回填，所有数字保持 evidence level 与 paper_result 边界。
+2. 内部交付审计完成：小论文 Stage E 内部投稿版、大论文开题/第 1–2 章/后续框架均有证据链；科研闭环仍未完成，继续 Evaluate-Distill-Evolve 与 B0-B4 exploratory 回填。
 3. B5 保持 dormant / NOT_RUN；后续最多 metadata-only audit，安装或运行需另行授权。
 4. Phase 2、4B/8B、正式投稿、arXiv、公开代码与外发仍需各自授权；Goal 保持 ACTIVE。
 
