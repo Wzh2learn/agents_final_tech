@@ -93,8 +93,7 @@
     "venue_official_template_and_cfp_verification",
     "author_affiliation_and_anonymization",
     "patent_status_confirmation",
-    "camera_ready_pdf_visual_acceptance",
-    "q3_three_carrier_review_not_run"
+    "camera_ready_pdf_visual_acceptance"
   ],
   "redaction_map_sha256": "30f1be4b82759ef151d148f71ddf146cbdda75d84bfca3b1c1d93ea5a2af03a6",
   "schema_version": 1,

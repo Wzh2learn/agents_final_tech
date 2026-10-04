@@ -26,7 +26,7 @@
 | `paper/reproducibility_statement_arr_www_v1.md` | 可复现性/工件披露 | 区分可公开候选与不外发材料；纳入 D-B licence_record 边界 | `da8119733417d3dba27f20588e2f05d2ee6b878098bfe1bc3bd0c244e3b15dc8` |
 | `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；不是 camera-ready | `6af1dfc661f56cd29b63ecc727a4ee35e0df93adf42e887254ba017de1f1b30e` |
 | `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `30f1be4b82759ef151d148f71ddf146cbdda75d84bfca3b1c1d93ea5a2af03a6` |
-| `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `87c6ece3a4faceb52c722a10ebd669bcd2d38a26c065b6b831e5163b91400bbf` |
+| `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `094e581789c75bbab66a1b74d0d04ff18cdb26fa23fe5bb285ef37503d9b278a` |
 | `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 阻断项/受控风险/外部 pending 分离 | `42e98c45badd3c55758732b342688bd4a4ade89d7b03b1b412412e0343503f65` |
 | `paper/related_work_contribution_matrix_v1.md` | Related Work 贡献边界矩阵 | 四簇代表工作、差异边界与 KD future-work 隔离 | `97253b3eb8a0cfb0e0646a4250346b6183202bdebad650f687d36c44620dbb42` |
 | `paper/submission_language_audit_v1.md` | 语言/术语审计 | AI 套话、强主张、术语一致性与版本同步 | `0c1ad69ec1c99f2a11c8e6108e66129085cca32c09cc6591eeca74bc559c2384` |
