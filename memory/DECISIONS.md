@@ -220,3 +220,10 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 ## [2026-10-04] Q3 exploratory labels and B5 boundary
 结论: 用户确认三位独立专家完成 Q3 R1/R2/ADJ；146 条 adjudicated labels 仅作 exploratory learnability evidence。B5 登记为 Jev-like typed-decision exploratory candidate，不替换冻结的 B0-B4，未核验第三方实现前不安装、不运行。
 理由: Q3 摘要显示 action 边界存在真实不确定性，但 target identity 在共同 map_to 上完全一致；B5 可检验简单 typed-decision baseline 是否已覆盖 map/hold/skip 与 target 选择，从而判断专门学生模型是否仍有残余必要性。原始专家输出与 hash 尚待封存，且 146 列只有 10 个 lineage/table-pair clusters，因此不得升级为 Stage D、DATA_GO、RQ2 确认或训练证据。
+
+## 2026-10-04 Q3 closure ruling
+
+- Raw delivery: exact GB10 paths preferred; fallback inbox /home/testuser/wzh/q3_raw_seal_20261004/inbox/; originals only, no summary reconstruction.
+- Invalid references: Option A reference quarantine primary; Option B whole-pair INVALID mandatory sensitivity; 146 summary preserved and 9-cluster/130-column sensitivity reported separately.
+- B0-B4: leave-one-pair-out primary; salted split sensitivity; bootstrap 2000 with seeds [42,43,44] for exploratory uncertainty only.
+- B5: dormant / NOT_RUN; metadata-only audit at most; install/run needs separate authorization.

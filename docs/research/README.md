@@ -214,3 +214,7 @@ What survives is the methodology plus a clean negative result: a corpus frozen b
 ## 2026-10-04 boundary clarification
 
 The Q3 result is a user-confirmed exploratory summary, not raw artifact closure. Raw R1/R2/ADJ outputs, final ledger, expert visibility receipt, and output manifest/hash are MISSING. The three invalid DSNY action references are audited but undecided. B0-B4 has a draft group-aware exploratory split protocol only; the frozen runner is not run because proposal_train.dev=0. B5 is an unverified offline candidate and is not installed or run. Goal remains ACTIVE; RQ2 NOT_IDENTIFIED / DATA_NO_GO and all Stage R/RQ4/training/release boundaries remain.
+
+## 2026-10-04 ruling update
+
+Raw originals now have a GB10 delivery target. Invalid references use quarantine as primary and whole-pair INVALID as mandatory sensitivity. B0-B4 uses LOO primary and salted split sensitivity with exploratory bootstrap only. B5 remains dormant. All execution gates remain closed.

@@ -118,3 +118,7 @@ Raw expert outputs, adjudication ledger, final label ledger, visibility receipt,
 ## 9. Boundary closure addendum (2026-10-04)
 
 The raw seal is not complete. See [docs/experiments/2026-10-04_q3_boundary_blocker_audit.md](2026-10-04_q3_boundary_blocker_audit.md) and [docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md](../datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md). Three invalid action references are pending user choice between reference quarantine and whole-pair INVALID. B0-B4 remain NOT_RUN; B5 remains PROPOSED_EXPLORATORY / NOT_RUN. No model, Phase 2, training, or download was started.
+
+## 10. Ruling status (2026-10-04)
+
+Raw originals must be delivered to exact GB10 paths or /home/testuser/wzh/q3_raw_seal_20261004/inbox/. Invalid references use Option A as primary and Option B as mandatory sensitivity. B0-B4 uses LOO primary and salted split sensitivity; bootstrap 2000 / seeds [42,43,44] are exploratory only. B5 remains dormant. No run is authorized.

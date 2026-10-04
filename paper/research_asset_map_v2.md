@@ -168,3 +168,7 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 - Invalid action reference audit: DSNY pair has 3 final references to mgp_curb_pri_boro; reference quarantine and whole-pair INVALID are both pending user decision.
 - B0-B4 exploratory protocol: [docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md](../docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md), DRAFT_NOT_FROZEN / NOT_RUN.
 - B5: no locally verifiable source/licence/version/dependency/output capability for either candidate; PROPOSED_EXPLORATORY / NOT_RUN.
+
+## 2026-10-04 ruling update
+
+Raw delivery target and no-reconstruction rule are recorded in docs/datasets/phase1a_q3_seal_receipt_v1.json. Invalid references are Option A primary / Option B sensitivity. B0-B4 is LOO primary / salted sensitivity, bootstrap exploratory only. B5 remains dormant.

@@ -121,3 +121,10 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - B0-B4 exploratory split protocol is DRAFT_NOT_FROZEN / NOT_RUN at docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md. The frozen runner is not run because proposal_train.dev=0.
 - B5 remains PROPOSED_EXPLORATORY / NOT_RUN. Offline audit found no local source checkout, licence, version, dependency, import, or typed-output evidence for open-alternative-jev / jevos-v2.
 - Stage R, RQ4, training, formal submission, external release, arXiv, and public code remain incomplete or prohibited.
+
+## 2026-10-04 ruling landing (append-only)
+
+- Raw originals delivery target is /home/testuser/wzh/q3_raw_seal_20261004/inbox/ (created empty, mode 700), with exact GB10 paths preferred. No reconstruction from summary.
+- Invalid action references: Option A reference quarantine is primary for turn 12/13/31 with invalid_action_reference_count=3; Option B whole-pair INVALID is mandatory sensitivity. Preserve the 146-column summary and report a 9-cluster / 130-column sensitivity subset.
+- B0-B4: LOO is primary, salted split is sensitivity; bootstrap 2000 and seeds [42,43,44] are exploratory uncertainty only. Protocol is user-selected but not frozen/running.
+- B5 remains dormant / NOT_RUN; metadata-only audit is the maximum next step and execution needs separate authorization.

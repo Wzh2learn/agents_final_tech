@@ -1,6 +1,6 @@
 # B0-B4 exploratory split protocol v1
 
-> 状态：`DRAFT_NOT_FROZEN / NOT_RUN` | Goal：`ACTIVE`
+> 状态：`USER_SELECTED_NOT_FROZEN / NOT_RUN` | Goal：`ACTIVE`
 > 运行边界：只准备协议；不运行 B0-B4/B5、不启动模型/Phase 2/训练、不新增下载
 > 关联：[`docs/experiments/2026-10-04_q3_boundary_blocker_audit.md`](../experiments/2026-10-04_q3_boundary_blocker_audit.md)
 
@@ -105,3 +105,11 @@ B5 不属于 B0-B4，不进入本协议的排名、调参或 go/no-go。
 - B0-B4 runner 仍 `NOT_RUN`；
 - B5 仍 `PROPOSED_EXPLORATORY / NOT_RUN`；
 - `DATA_NO_GO`、`RQ2 NOT_IDENTIFIED`、Stage D/RQ4/训练/外发边界全部不变。
+
+## 8. User ruling applied (2026-10-04)
+
+- P1 leave-one-pair-out is selected as the primary exploratory protocol.
+- P2 salted group-aware split is selected only as split sensitivity.
+- Pair-cluster bootstrap `n=2000` and seeds `[42,43,44]` are accepted for exploratory uncertainty only; they do not prove power.
+- Thresholds, classifier hyperparameters, exact candidate grids, output hashes, and freeze receipt are still pending. Therefore this is `USER_SELECTED_NOT_FROZEN`, not an execution authorization.
+- The same data may not be used for tuning and then reported as the evaluation set.

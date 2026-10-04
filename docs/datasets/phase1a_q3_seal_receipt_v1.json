@@ -1,7 +1,7 @@
 {
   "record_type": "phase1a_q3_seal_receipt",
   "record_version": "phase1a-q3-seal-receipt-v1",
-  "status": "PRE_SEAL_INVENTORY_ONLY_BLOCKED_MISSING_RAW_ARTIFACTS",
+  "status": "AWAITING_RAW_ORIGINAL_DELIVERY_TO_GB10_INBOX",
   "seal_complete": false,
   "evidence_level": "USER_CONFIRMED_SUMMARY_NOT_ARTIFACT_CLOSED",
   "dataset_id": "valentine_nyc",
@@ -37,23 +37,28 @@
   "required_seal_artifacts": {
     "r1_output": {
       "status": "MISSING_ARTIFACT",
-      "sha256": null
+      "sha256": null,
+      "delivery_status": "AWAITING_ORIGINAL_DELIVERY"
     },
     "r2_output": {
       "status": "MISSING_ARTIFACT",
-      "sha256": null
+      "sha256": null,
+      "delivery_status": "AWAITING_ORIGINAL_DELIVERY"
     },
     "adjudicator_output": {
       "status": "MISSING_ARTIFACT",
-      "sha256": null
+      "sha256": null,
+      "delivery_status": "AWAITING_ORIGINAL_DELIVERY"
     },
     "final_label_ledger": {
       "status": "MISSING_ARTIFACT",
-      "sha256": null
+      "sha256": null,
+      "delivery_status": "AWAITING_ORIGINAL_DELIVERY"
     },
     "visibility_gold_isolation_receipt": {
       "status": "MISSING_ARTIFACT",
-      "sha256": null
+      "sha256": null,
+      "delivery_status": "AWAITING_ORIGINAL_DELIVERY"
     }
   },
   "available_input_package": {
@@ -95,5 +100,11 @@
     "GB10 /tmp Q3 directories",
     "GB10 ~/wzh bounded file search"
   ],
-  "completion_condition": "All five required artifacts are present, independently parsed, hashed, bound to the input package manifest and dataset revision, and checked for gold isolation before seal_complete can become true."
+  "completion_condition": "Original R1/R2/ADJ outputs, final label ledger, expert visibility/gold-isolation receipt, and output manifest/hash are delivered to the approved inbox or exact GB10 paths, then independently parsed, hashed, bound to the input package manifest and dataset revision, and checked for gold isolation before seal_complete can become true.",
+  "delivery": {
+    "directory": "/home/testuser/wzh/q3_raw_seal_20261004/inbox",
+    "directory_status": "CREATED_EMPTY_MODE_700",
+    "accepted_material": "original expert outputs and original ledgers/receipts only",
+    "reconstruction_from_summary_allowed": false
+  }
 }

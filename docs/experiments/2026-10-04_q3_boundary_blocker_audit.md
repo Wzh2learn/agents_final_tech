@@ -138,3 +138,11 @@ B5 输入合同保持 `source_header + canonical headers + LABEL semantics`；�
 - Q3 仅为 exploratory learnability evidence。
 - Stage R、RQ4、训练、正式投稿和外部发布均未完成。
 - 专利未确认前不上 arXiv、不公开代码、不外发。
+
+## 6. User ruling applied (2026-10-04)
+
+- Raw delivery: use exact GB10 paths when available; otherwise deliver originals to `/home/testuser/wzh/q3_raw_seal_20261004/inbox/`. The directory was created empty with mode 700. Only original outputs/ledgers/receipts are accepted; reconstruction from the summary is prohibited.
+- Invalid action references: Option A reference-level quarantine is the primary analysis. Isolate turn 12 `record_match`, turn 13 `revoke_match`, and turn 31 `batch_record_match`; record `invalid_action_reference_count=3`. Option B whole-pair INVALID is mandatory sensitivity. Keep the 146-column Q3 summary and separately report the 9-cluster / 130-column sensitivity subset. No renaming, alias guessing, or gold edits.
+- B0-B4: leave-one-pair-out is the primary exploratory protocol; the salted group-aware split is sensitivity only. Pair-cluster bootstrap `n=2000` with seeds `[42,43,44]` is accepted for exploratory uncertainty, not power proof. Same-data tuning followed by same-data reporting is prohibited.
+- B5: remains dormant / `PROPOSED_EXPLORATORY / NOT_RUN`. At most a metadata-only audit may be prepared later; installation or execution requires separate authorization.
+- Execution gates remain closed until raw seal, invalid-reference implementation, label-ledger lock, split freeze, and B5 boundary closure.
