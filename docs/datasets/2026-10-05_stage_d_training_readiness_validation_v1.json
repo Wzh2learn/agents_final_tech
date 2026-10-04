@@ -1,0 +1,85 @@
+{
+  "config_sha256": "87a3f13ac8b06532ea8ef55b1cdf49b69b356767b21807dc6434f9095c294c83",
+  "data_go": false,
+  "launch_conditions": [
+    "MODEL_GO with exact model and tokenizer revisions",
+    "TRAINING_GO with budget, window, stop conditions and output paths",
+    "SOURCE_GO / LABEL_GO / SPLIT_GO / POWER_GO / BASELINE_GO",
+    "stage D necessity memo shows stable residual",
+    "readiness dry-run and resource safety gates pass"
+  ],
+  "missing_dependencies": [
+    "deepspeed",
+    "peft",
+    "trl"
+  ],
+  "model_revision_ready": false,
+  "paper_result": false,
+  "phase2_status": "NOT_RUN",
+  "planning_estimates": {
+    "A1_A2_per_seed": {
+      "disk_gb": [
+        2,
+        4
+      ],
+      "gpu_time_minutes": [
+        20,
+        60
+      ],
+      "peak_unified_memory_gb": [
+        20,
+        32
+      ]
+    },
+    "A1_A2_three_seeds_each_gpu_hours": [
+      2.0,
+      6.0
+    ],
+    "A3_per_seed_conditional": {
+      "disk_gb": [
+        2,
+        4
+      ],
+      "gpu_time_minutes": [
+        15,
+        45
+      ],
+      "peak_unified_memory_gb": [
+        22,
+        34
+      ]
+    },
+    "A3_three_seeds_gpu_hours": [
+      0.75,
+      2.25
+    ],
+    "S0_4B_smoke": {
+      "disk_gb": [
+        1,
+        2
+      ],
+      "gpu_time_minutes": [
+        5,
+        15
+      ],
+      "peak_unified_memory_gb": [
+        12,
+        20
+      ]
+    },
+    "cost_interpretation": "local GB10 planning estimate; no API token or external model-call cost",
+    "external_api_calls": 0,
+    "external_api_cost": 0,
+    "measurement_status": "ESTIMATE_NOT_MEASURED",
+    "total_after_smoke_gpu_hours": [
+      2.75,
+      8.25
+    ]
+  },
+  "record_type": "stage_d_training_readiness_validation",
+  "record_version": "stage-d-training-readiness-validation-v1",
+  "status": "PASS_DRY_RUN_ONLY",
+  "training_execution_authorized": false,
+  "training_execution_status": "BLOCKED_PENDING_MODEL_GO_DEPENDENCIES_AND_DATA_GATES",
+  "training_status": "NOT_RUN"
+}
