@@ -1,0 +1,192 @@
+{
+  "record_type": "stage_d_training_readiness_config",
+  "record_version": "stage-d-training-readiness-v1",
+  "status": "PREPARED_NOT_AUTHORIZED_DRY_RUN_ONLY",
+  "training_execution_authorized": false,
+  "training_results_present": false,
+  "paper_result": false,
+  "data_go": false,
+  "rq2_status": "NOT_IDENTIFIED",
+  "stage_d_necessity": "NOT_ESTABLISHED",
+  "model_family": {
+    "student_main": "Qwen3-8B",
+    "smoke_only": "Qwen3-4B",
+    "model_revision": "PENDING_MODEL_GO_SHA256",
+    "tokenizer_revision": "PENDING_MODEL_GO_MATCHED_SHA256",
+    "weight_license_review": "PENDING_MODEL_GO",
+    "revision_must_match_tokenizer": true
+  },
+  "template": {
+    "id": "valentine-typed-action-v1",
+    "input_fields": ["source_header", "canonical_headers", "LABEL_semantics"],
+    "decision_order": ["map_to", "hold", "skip"],
+    "target_rule": "choose exactly one canonical target if and only if action is map_to",
+    "output_schema": {
+      "action": ["map_to", "hold", "skip"],
+      "target": "canonical_target_or_null"
+    },
+    "gold_leakage_forbidden": true
+  },
+  "arms": {
+    "A0": {
+      "role": "zero_shot_reference",
+      "train": false,
+      "model": "Qwen3-8B",
+      "decoding": {"temperature": 0.0, "top_p": 1.0, "max_new_tokens": 64},
+      "data": "locked evaluation view only",
+      "status": "PREPARED_NOT_RUN"
+    },
+    "A1": {
+      "role": "unfiltered_sft",
+      "train": true,
+      "method": "qlora_sft",
+      "model": "Qwen3-8B",
+      "seed_list": [42, 43, 44],
+      "sequence_length": 1024,
+      "epochs": 3,
+      "batch_size": 1,
+      "gradient_accumulation": 8,
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0,
+      "max_grad_norm": 1.0,
+      "warmup_ratio": 0.03,
+      "precision": "bf16",
+      "gradient_checkpointing": true,
+      "lora": {"rank": 16, "alpha": 32, "dropout": 0.05, "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]},
+      "training_examples": "all accepted proposal_train rows",
+      "status": "PREPARED_NOT_RUN"
+    },
+    "A2": {
+      "role": "checkpoint_filtered_sft",
+      "train": true,
+      "method": "qlora_sft",
+      "model": "Qwen3-8B",
+      "seed_list": [42, 43, 44],
+      "inherit_from": "A1",
+      "filter_inputs": ["sample_id", "uid", "pair_id", "process_event_kind", "target_header", "confidence", "reasoning_present", "transformation_present", "invalid_action_reference_count"],
+      "filter_forbidden_inputs": ["ground_truth", "source_gold", "final_correctness", "gain", "collateral", "gate_decision", "model_prediction"],
+      "filter_rule": {
+        "include_if": [
+          "sample has at least one final record_candidate or batch_record_match event",
+          "sample has no invalid action reference attached to its source column",
+          "candidate target is canonical or action is non-map",
+          "trace has reasoning_present or transformation_present",
+          "sample has no post-record revoke before finalization"
+        ],
+        "exclude_if": ["any include_if predicate is false", "any filter_forbidden_inputs value is used"],
+        "sensitivity": "repeat with the DSNY pair excluded as a whole"
+      },
+      "matched_with_A1": ["model", "tokenizer", "template", "sequence_length", "epochs", "batch_size", "gradient_accumulation", "learning_rate", "seed_list"],
+      "status": "PREPARED_NOT_RUN"
+    },
+    "A3": {
+      "role": "conditional_dpo_from_A2",
+      "train": true,
+      "method": "dpo",
+      "model": "Qwen3-8B",
+      "seed_list": [42, 43, 44],
+      "conditional_gate": "bidirectional preference data with independent reviewer agreement and sufficient UID support",
+      "beta": 0.1,
+      "max_prompt_length": 512,
+      "max_completion_length": 128,
+      "preference_inputs": ["chosen_action", "rejected_action", "chosen_target", "rejected_target", "reviewer_identity", "adjudication_id"],
+      "status": "CONDITIONAL_NOT_RUN"
+    }
+  },
+  "smoke": {
+    "arm": "S0_4B_CHAIN_SMOKE",
+    "model": "Qwen3-4B",
+    "purpose": "pipeline and recovery validation only",
+    "not_a_parameter_ablation": true,
+    "seed": 42,
+    "sequence_length": 512,
+    "epochs": 1,
+    "status": "PREPARED_NOT_RUN"
+  },
+  "outputs": {
+    "root": "/home/testuser/wzh/stage_d_runs",
+    "layout": "{arm}/{seed}/checkpoints|logs|metrics|manifest",
+    "per_run_output_limit_bytes": 5368709120,
+    "per_run_log_limit_bytes": 524288000,
+    "overwrite_existing": false,
+    "manifest_required": true
+  },
+  "checkpoint_and_recovery": {
+    "save_every_epoch": true,
+    "save_best_on": "proposal_train.dev action_macro_f1 subject to harmful-map risk limit",
+    "resume_from_latest": true,
+    "verify_hashes_on_resume": true,
+    "preserve_failed_outputs": true,
+    "orphan_cleanup_required": true
+  },
+  "resources": {
+    "current_snapshot": {
+      "gpu": "NVIDIA GB10",
+      "driver": "580.159.03",
+      "torch": "2.13.0+cu130",
+      "accelerate": "1.14.0",
+      "cuda_available": true,
+      "device_count": 1,
+      "packages": {"torch": true, "accelerate": true, "transformers": true, "peft": false, "trl": false, "deepspeed": false},
+      "available_memory_mb": 29999,
+      "disk_available_gb": 2600,
+      "gpu_utilization_percent": 0,
+      "gpu_memory_fields": "N/A on unified-memory GB10"
+    },
+    "start_gates": {
+      "disk_free_percent_min": 20,
+      "disk_free_gb_min": 50,
+      "inode_used_percent_max": 80,
+      "available_memory_gb_min_4b": 25,
+      "available_memory_gb_min_8b": 45,
+      "used_memory_percent_max": 85,
+      "gpu_utilization_percent_max": 80,
+      "heavy_task_count_max": 1
+    },
+    "stop_gates": {
+      "disk_free_percent_min": 15,
+      "disk_free_gb_min": 30,
+      "inode_used_percent_max": 90,
+      "available_memory_gb_min": 10,
+      "used_memory_percent_max": 85,
+      "gpu_utilization_percent_max": 90,
+      "heavy_task_count_max": 1,
+      "oom_killer_detected": true,
+      "output_or_log_limit_exceeded": true
+    },
+    "monitor": {
+      "background": true,
+      "pid": true,
+      "started_at": true,
+      "heartbeat_interval_seconds": 300,
+      "log_path": true,
+      "checkpoint_path": true,
+      "gpu_utilization": true,
+      "available_memory": true,
+      "disk_free": true,
+      "loss_and_nan_scan": true,
+      "call_count": true,
+      "process_reconciliation": true
+    }
+  },
+  "planning_estimates": {
+    "measurement_status": "ESTIMATE_NOT_MEASURED",
+    "external_api_calls": 0,
+    "external_api_cost": 0,
+    "S0_4B_smoke": {"gpu_time_minutes": [5, 15], "peak_unified_memory_gb": [12, 20], "disk_gb": [1, 2]},
+    "A1_A2_per_seed": {"gpu_time_minutes": [20, 60], "peak_unified_memory_gb": [20, 32], "disk_gb": [2, 4]},
+    "A1_A2_three_seeds_each_gpu_hours": [2.0, 6.0],
+    "A3_per_seed_conditional": {"gpu_time_minutes": [15, 45], "peak_unified_memory_gb": [22, 34], "disk_gb": [2, 4]},
+    "A3_three_seeds_gpu_hours": [0.75, 2.25],
+    "total_after_smoke_gpu_hours": [2.75, 8.25],
+    "cost_interpretation": "local GB10 planning estimate; no API token or external model-call cost"
+  },
+  "missing_dependencies": ["peft", "trl", "deepspeed"],
+  "launch_conditions": [
+    "MODEL_GO with exact model and tokenizer revisions",
+    "TRAINING_GO with budget, window, stop conditions and output paths",
+    "SOURCE_GO / LABEL_GO / SPLIT_GO / POWER_GO / BASELINE_GO",
+    "stage D necessity memo shows stable residual",
+    "readiness dry-run and resource safety gates pass"
+  ]
+}
