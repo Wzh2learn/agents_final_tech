@@ -92,8 +92,8 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Next gates
 
-1. 以 B4 作为未来 A0-A2 的简单基线；只有 SOURCE/LABEL/SPLIT/POWER/BASELINE/MODEL/SAFETY 七门通过后，才申请学生训练，不因 exploratory 结果自动开训。
-2. 小论文保持 Stage E 评估保底稿；大论文继续 Evaluate-Distill-Evolve 叙事与 B0-B4 exploratory 回填，所有数字保持 evidence level 与 paper_result 边界。
+1. Stage D necessity gate = `PILOT_ONLY`：B4 在 primary/pair-invalid 满足 risk_limit=0.10，但 salted 2-pair slice 不稳定；专门学生必要性 `NOT_ESTABLISHED`，不开 A0-A2。
+2. 小论文内部投稿版继续 Stage E 评估保底稿；大论文继续 Evaluate-Distill-Evolve 叙事与 B0-B4 exploratory 回填，所有数字保持 evidence level 与 paper_result 边界。
 3. B5 保持 dormant / NOT_RUN；后续最多 metadata-only audit，安装或运行需另行授权。
 4. Phase 2、4B/8B、正式投稿、arXiv、公开代码与外发仍需各自授权；Goal 保持 ACTIVE。
 

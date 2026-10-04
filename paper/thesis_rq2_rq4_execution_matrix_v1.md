@@ -65,3 +65,6 @@ Q3/B0-B4 preconditions are in `docs/experiments/2026-10-04_q3_b0_b4_execution_pl
 ## 6 2026-10-04 B0-B4 exploratory addendum
 
 B0-B4 exploratory v2 is complete but does not pass a Stage D gate. Primary B4 is the strongest simple action baseline (macro-F1 0.717, harmful-map 0.062, coverage 0.260) and must be the comparator for any future A0-A2 work. The pair-invalid sensitivity is similar; the salted split has only 2 test pairs and a wide interval. Dedicated student necessity remains unestablished, `DATA_NO_GO / RQ2 NOT_IDENTIFIED` remain, and no A0/A1/A2/A3 or Phase 2 run is authorized.
+## 7. Stage D necessity gate outcome (2026-10-05)
+
+The risk-constrained gate is `PILOT_ONLY`: B4 satisfies harmful-map rate <= 0.10 in the primary and whole-pair sensitivity slices, but the salted slice has point rate 0.1053 and upper bound 0.1250 on only 2 test pairs / 19 columns. Stable risk-constrained coverage is false; dedicated-student necessity is `NOT_ESTABLISHED`; no A0-A2 run is authorized. The thesis retains all Stage D/R/RQ4 slots and labels B0-B4 as exploratory evidence.

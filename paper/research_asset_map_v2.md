@@ -115,7 +115,7 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 
 **补充包预检器**：`research/phase1a_data_contract.py` 将上述缺口固化为七道机械门（工件完整性、层隔离、独立正确性、许可、confidence、分析计划、parser contract），合成回归位于 `tests/test_phase1a_data_contract.py`。它只可能输出 `DATA_NO_GO` 或 `READY_FOR_INDEPENDENT_ACCEPTANCE`；后者仍须 GB10 对私有原件做零连接、双跑确定性及人工独立验收，不是 `DATA_GO`、训练许可或新的论文证据。完整合同和命令见 `docs/experiments/2026-09-23_phase1a_data_no_go.md`。
 
-**可学性五基线前置**：`research/phase1a_learnability_baselines.py` 与 `tests/test_phase1a_learnability_baselines.py` 已把 always-skip、确定性精确匹配、lexical/fuzzy、confidence-only 和简单 CPU 分类器固化为 proposal train/dev 专用 runner。接收回执必须绑定数据预检、私有 view 与预注册配置 hash；输出仅含聚合指标、UID-cluster 区间和 `SIMPLE_SUFFICIENT` / `LEARNABILITY_SIGNAL` / `NO_CLEAR_SIGNAL` / `PILOT_ONLY`。当前只有合成软件证据，没有 GB10 开发结果，RQ2/TH-I3 仍为 needs-evidence。
+**可学性五基线前置**：`research/phase1a_learnability_baselines.py` 与 `tests/test_phase1a_learnability_baselines.py` 已把 always-skip、确定性精确匹配、lexical/fuzzy、confidence-only 和简单 CPU 分类器固化为 proposal train/dev 专用 runner。接收回执必须绑定数据预检、私有 view 与预注册配置 hash；输出仅含聚合指标、UID-cluster 区间和 `SIMPLE_SUFFICIENT` / `LEARNABILITY_SIGNAL` / `NO_CLEAR_SIGNAL` / `PILOT_ONLY`。当前已有 GB10 exploratory v2 结果，但 Stage D necessity gate 为 PILOT_ONLY、RQ2/TH-I3 仍为 needs-evidence。
 
 ## 4. Stage R — 自学习规则进化
 
@@ -184,3 +184,6 @@ Q3 raw package is sealed with visibility exceptions. Corrected ledger SHA256 cf3
 - Narrative results: `docs/experiments/2026-10-04_b0_b4_exploratory_probe_results_v2.md`.
 - Primary B4 action macro-F1 0.717 / harmful-map 0.062 / coverage 0.260; B3 0.572 / 0.178 / 0.329. Pair-invalid B4 is similar. Salted sensitivity is only 2 test pairs and remains uncertain.
 - Scientific boundary: B4 is the baseline to beat; dedicated student necessity is not established; all results are exploratory and `paper_result=false`.
+## 2026-10-05 Stage D necessity gate
+
+Machine gate: `docs/datasets/2026-10-05_stage_d_necessity_gate_v1.json`; report: `docs/experiments/2026-10-05_stage_d_necessity_gate.md`. B4 is risk-admissible in primary and pair-invalid slices but not in the 2-pair salted slice. Verdict `PILOT_ONLY`; dedicated student necessity `NOT_ESTABLISHED`; internal paper route remains Stage E fallback.

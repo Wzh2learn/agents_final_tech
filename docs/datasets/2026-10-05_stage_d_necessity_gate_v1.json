@@ -1,0 +1,135 @@
+{
+  "auxiliary_cost_status": {
+    "gpu_cpu_cost": "NOT_MEASURED",
+    "latency": "NOT_MEASURED",
+    "token_use": "NOT_MEASURED"
+  },
+  "b4_risk_admissible_by_slice": {
+    "pair_invalid": true,
+    "primary": true,
+    "salted": false
+  },
+  "b5_status": "DORMANT_NOT_RUN",
+  "data_go": false,
+  "paper_result": false,
+  "phase2_status": "NOT_RUN",
+  "primary_risk_constrained_coverage": 0.2602739726,
+  "reason": "B4 risk admissibility is not stable across the mandatory sensitivity slices; the salted split has only two test pairs and its harmful-map upper bound crosses the approved risk limit.",
+  "record_type": "stage_d_necessity_gate",
+  "record_version": "stage-d-necessity-gate-v1",
+  "results_path": "docs/datasets/2026-10-04_b0_b4_exploratory_results_v2.json",
+  "results_sha256": "299d8148b8a09dc115254904dc531dffcb33f3cbcff3dee2c8a26719009101bd",
+  "risk_limit": 0.1,
+  "rq2_status": "NOT_IDENTIFIED",
+  "salted_coverage_at_fixed_policy": 0.3157894737,
+  "salted_risk_admissible": false,
+  "slices": {
+    "pair_invalid": {
+      "B3": {
+        "baseline": "B3",
+        "correct_map_coverage": 0.3384615385,
+        "correct_map_coverage_ci95": null,
+        "harmful_map_rate": 0.1769230769,
+        "harmful_map_rate_ci95": null,
+        "risk_admissible": false,
+        "risk_admissible_point": false,
+        "risk_admissible_upper": false,
+        "risk_limit": 0.1,
+        "run_key": "pair_invalid_loo_sensitivity",
+        "slice": "pair_invalid"
+      },
+      "B4": {
+        "baseline": "B4",
+        "correct_map_coverage": 0.2538461538,
+        "correct_map_coverage_ci95": [
+          0.1753165584,
+          0.352382904
+        ],
+        "harmful_map_rate": 0.0615384615,
+        "harmful_map_rate_ci95": [
+          0.0309278351,
+          0.0990990991
+        ],
+        "risk_admissible": true,
+        "risk_admissible_point": true,
+        "risk_admissible_upper": true,
+        "risk_limit": 0.1,
+        "run_key": "pair_invalid_loo_sensitivity",
+        "slice": "pair_invalid"
+      }
+    },
+    "primary": {
+      "B3": {
+        "baseline": "B3",
+        "correct_map_coverage": 0.3287671233,
+        "correct_map_coverage_ci95": null,
+        "harmful_map_rate": 0.1780821918,
+        "harmful_map_rate_ci95": null,
+        "risk_admissible": false,
+        "risk_admissible_point": false,
+        "risk_admissible_upper": false,
+        "risk_limit": 0.1,
+        "run_key": "primary_quarantine_loo",
+        "slice": "primary"
+      },
+      "B4": {
+        "baseline": "B4",
+        "correct_map_coverage": 0.2602739726,
+        "correct_map_coverage_ci95": [
+          0.1963105404,
+          0.3398058252
+        ],
+        "harmful_map_rate": 0.0616438356,
+        "harmful_map_rate_ci95": [
+          0.0347212187,
+          0.0948275862
+        ],
+        "risk_admissible": true,
+        "risk_admissible_point": true,
+        "risk_admissible_upper": true,
+        "risk_limit": 0.1,
+        "run_key": "primary_quarantine_loo",
+        "slice": "primary"
+      }
+    },
+    "salted": {
+      "B3": {
+        "baseline": "B3",
+        "correct_map_coverage": 0.3684210526,
+        "correct_map_coverage_ci95": null,
+        "harmful_map_rate": 0.1578947368,
+        "harmful_map_rate_ci95": null,
+        "risk_admissible": false,
+        "risk_admissible_point": false,
+        "risk_admissible_upper": false,
+        "risk_limit": 0.1,
+        "run_key": "salted_split_sensitivity",
+        "slice": "salted"
+      },
+      "B4": {
+        "baseline": "B4",
+        "correct_map_coverage": 0.3157894737,
+        "correct_map_coverage_ci95": [
+          0.2727272727,
+          0.375
+        ],
+        "harmful_map_rate": 0.1052631579,
+        "harmful_map_rate_ci95": [
+          0.0909090909,
+          0.125
+        ],
+        "risk_admissible": false,
+        "risk_admissible_point": false,
+        "risk_admissible_upper": false,
+        "risk_limit": 0.1,
+        "run_key": "salted_split_sensitivity",
+        "slice": "salted"
+      }
+    }
+  },
+  "stable_risk_constrained_coverage": false,
+  "stage_d_necessity": "NOT_ESTABLISHED",
+  "status": "PILOT_ONLY",
+  "training_recommendation": "DO_NOT_TRAIN_YET",
+  "training_status": "NOT_RUN"
+}

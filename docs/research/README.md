@@ -222,3 +222,6 @@ Raw originals now have a GB10 delivery target. Invalid references use quarantine
 ## 2026-10-04 B0-B4 exploratory v2
 
 The sealed corrected Q3 ledger and gold-free process views now support a frozen exploratory B0-B4 probe. B4 is the strongest primary action baseline and the baseline future student work must beat, but the result does not establish that a dedicated student is necessary. Pair-invalid sensitivity is similar; salted split sensitivity is wide and based on only 2 test pairs. All Stage D, training, Phase 2, B5, DATA_GO and RQ2 boundaries remain closed.
+## 2026-10-05 Stage D necessity gate
+
+B0-B4 exploratory v2 has been interpreted under the approved risk limit 0.10. B4 passes the primary and whole-pair risk slices but fails the 2-pair salted sensitivity slice; the gate is `PILOT_ONLY`, dedicated student necessity is `NOT_ESTABLISHED`, and the internal paper remains on the Stage E fallback route. No Stage D/A0-A2/Phase 2/training conclusion is produced.

@@ -64,3 +64,9 @@
 - 不主张 146 列 Q3 已复核；其状态仍是“已装配、未复核”。
 - 不主张 Stage D 闭合、RQ2 确认、`DATA_GO` 或训练完成。
 - 不把 venue 候选、未核 CFP、私有数据或内部 token 配置写入投稿包。
+
+## 6. Internal submission route decision (2026-10-05)
+
+Stage D necessity gate is `PILOT_ONLY`, with `stage_d_necessity=NOT_ESTABLISHED` and `training_recommendation=DO_NOT_TRAIN_YET`. Therefore the internal submission route remains the mature Stage E evaluation fallback. The internal manuscript content is finalized for internal submission review; Q3 and B0-B4 exploratory evidence stays outside the main result tables and is referenced only as future-work/limitations evidence.
+
+External submission remains blocked by venue/template verification, authorship, patent confirmation, anonymization, and camera-ready acceptance. This route decision does not make the package ready for external submission.
