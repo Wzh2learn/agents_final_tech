@@ -124,3 +124,22 @@ def test_same_data_tuning_is_rejected(tmp_path: Path) -> None:
             split="leave_one_pair_out",
         )
     assert exc.value.code == "same_data_tuning_not_prohibited"
+
+def test_salted_b4_predictions_are_scored_as_action_tuples(tmp_path: Path) -> None:
+    fixture = _write_fixture(tmp_path)
+    report = build(
+        labels_path=fixture["labels"],
+        samples_path=fixture["samples"],
+        canonical_reference_path=fixture["canonical"],
+        process_summary_path=fixture["summary"],
+        process_events_path=fixture["events"],
+        config_path=fixture["config"],
+        out_dir=tmp_path / "out",
+        analysis_variant="quarantine-primary",
+        split="salted_group_split",
+    )
+    metrics = report["baselines"]["B4"]["metrics"]
+    assert report["prediction_count"] == 10
+    assert metrics["scored_row_count"] == 2
+    assert metrics["action_macro_f1"] is not None
+    assert metrics["action_accuracy"] is not None

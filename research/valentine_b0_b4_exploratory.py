@@ -271,17 +271,23 @@ def _align_rows_and_predictions(
     salted_assignment: dict[str, str] | None,
     baseline: str,
 ) -> tuple[list[dict[str, object]], list[tuple[str, str | None] | None]]:
-    if split == "salted_group_split":
-        test_pairs = {pair for pair, layer in salted_assignment.items() if layer == "test"}
-        selected = [row for row in rows if row["pair_id"] in test_pairs]
-    else:
-        selected = list(rows)
-    if split == "leave_one_pair_out" and baseline == "B4":
-        by_index = {int(item[0]): item[1] for item in raw_predictions if isinstance(item, tuple)}
-        aligned = [by_index.get(index) for index in range(len(rows))]
-        return rows, aligned
-    return selected, list(raw_predictions)  # type: ignore[arg-type]
+    if split == "leave_one_pair_out":
+        if baseline == "B4":
+            by_index = {int(item[0]): item[1] for item in raw_predictions if isinstance(item, tuple)}
+            return rows, [by_index.get(index) for index in range(len(rows))]
+        return rows, list(raw_predictions)  # type: ignore[arg-type]
 
+    if salted_assignment is None:
+        raise ProbeError("missing_salted_assignment")
+    test_pairs = {pair for pair, layer in salted_assignment.items() if layer == "test"}
+    selected_indices = [index for index, row in enumerate(rows) if row["pair_id"] in test_pairs]
+    selected_rows = [rows[index] for index in selected_indices]
+    if baseline == "B4":
+        by_index = {int(item[0]): item[1] for item in raw_predictions if isinstance(item, tuple)}
+        aligned = [by_index.get(index) for index in selected_indices]
+    else:
+        aligned = list(raw_predictions)  # type: ignore[arg-type]
+    return selected_rows, aligned
 
 def _percentile(values: list[float], q: float) -> float | None:
     if not values:
