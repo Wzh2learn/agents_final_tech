@@ -17,12 +17,12 @@ def _write_fixture(root: Path) -> dict[str, Path]:
     config = root / "config.json"
     labels.write_text(
         "\n".join([
-            "p1s0 | map_to | t0",
-            "p1s1 | skip | null",
-            "p2s0 | hold | null",
-            "p2s1 | map_to | t1",
-            "p3s0 | skip | null",
-            "p3s1 | map_to | t0",
+            "p1_src0 | map_to | t0",
+            "p1_src1 | skip | null",
+            "p2_src0 | hold | null",
+            "p2_src1 | map_to | t1",
+            "p3_src0 | skip | null",
+            "p3_src1 | map_to | t0",
         ]) + "\n",
         encoding="utf-8",
         newline="\n",
@@ -123,4 +123,4 @@ def test_same_data_tuning_is_rejected(tmp_path: Path) -> None:
             analysis_variant="quarantine-primary",
             split="leave_one_pair_out",
         )
-    assert exc.value.args[0] == "same_data_tuning_not_prohibited"
+    assert exc.value.code == "same_data_tuning_not_prohibited"

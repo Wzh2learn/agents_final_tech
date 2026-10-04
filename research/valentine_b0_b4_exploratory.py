@@ -44,6 +44,11 @@ BASELINE_NAMES = {
 class ProbeError(ValueError):
     """Fail-closed exploratory probe error."""
 
+    def __init__(self, code: str, **detail: object) -> None:
+        self.code = code
+        self.detail = detail
+        super().__init__(f"{code}: {detail}")
+
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
