@@ -1,0 +1,83 @@
+{
+  "contract_version": "valentine-b0-b4-exploratory-v1",
+  "status": "FROZEN_EXPLORATORY_CONFIG_PENDING_RUN",
+  "evidence_level": "DEVELOPMENT_ONLY_EXPLORATORY",
+  "paper_result": false,
+  "analysis_unit": "table_pair_lineage_uid",
+  "primary_protocol": "leave_one_pair_out",
+  "sensitivity_protocols": [
+    "pair_invalid_leave_one_pair_out",
+    "quarantine_primary_salted_group_split"
+  ],
+  "invalid_action_reference_policy": {
+    "primary": "reference_level_quarantine",
+    "primary_invalid_reference_count": 3,
+    "mandatory_sensitivity": "whole_pair_invalid",
+    "invalid_pair_id": "City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments"
+  },
+  "baselines": {
+    "B0": "always_skip",
+    "B1": "deterministic_matcher",
+    "B2": "lexical_fuzzy",
+    "B3": "confidence_only",
+    "B4": "simple_classifier"
+  },
+  "lexical_threshold": 0.8,
+  "confidence_policy": {
+    "mapping": {
+      "high": {
+        "lower_inclusive": 0.8,
+        "upper_inclusive": 1.0,
+        "action": "map_to"
+      },
+      "medium": {
+        "lower_inclusive": 0.6,
+        "upper_exclusive": 0.8,
+        "action": "hold"
+      },
+      "low": {
+        "lower_inclusive": 0.0,
+        "upper_exclusive": 0.6,
+        "action": "skip"
+      },
+      "missing": {
+        "action": "unmeasurable"
+      }
+    }
+  },
+  "classifier": {
+    "epochs": 160,
+    "learning_rate": 0.2,
+    "l2": 0.01
+  },
+  "salted_split": {
+    "salt": "b0b4-explore-v1:layer",
+    "hash": "sha256",
+    "modulus": 100,
+    "train_buckets": [0, 60],
+    "dev_buckets": [60, 80],
+    "test_buckets": [80, 100],
+    "empty_layer_policy": "BLOCKED_EMPTY_LAYER"
+  },
+  "bootstrap": {
+    "samples": 2000,
+    "seeds": [42, 43, 44],
+    "cluster_unit": "table_pair_lineage_uid",
+    "interval": "percentile_95",
+    "power_claim_allowed": false
+  },
+  "metrics": {
+    "action_classes": ["map_to", "skip", "hold"],
+    "primary_target_denominator": "gold_action_map_to",
+    "predicted_target_denominator": "predicted_action_map_to",
+    "harmful_map_denominator": "all_scored_rows",
+    "correct_map_coverage_denominator": "all_rows",
+    "map_to_risk_zero_denominator": "undefined",
+    "abstention_policy": "report_abstention_and_scored_subset_separately"
+  },
+  "same_data_tuning_allowed": false,
+  "stage_d_authorization": false,
+  "data_go": false,
+  "rq2_status": "NOT_IDENTIFIED",
+  "b5_status": "DORMANT_NOT_RUN"
+}
