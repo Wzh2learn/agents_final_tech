@@ -225,3 +225,6 @@ The sealed corrected Q3 ledger and gold-free process views now support a frozen 
 ## 2026-10-05 Stage D necessity gate
 
 B0-B4 exploratory v2 has been interpreted under the approved risk limit 0.10. B4 passes the primary and whole-pair risk slices but fails the 2-pair salted sensitivity slice; the gate is `PILOT_ONLY`, dedicated student necessity is `NOT_ESTABLISHED`, and the internal paper remains on the Stage E fallback route. No Stage D/A0-A2/Phase 2/training conclusion is produced.
+## 2026-10-05 Stage D formal boundary
+
+`DATA_NO_GO / RQ2 NOT_IDENTIFIED` is now recorded as a formal boundary with exact recovery requirements in `docs/experiments/2026-10-05_stage_d_data_no_go_boundary_and_requirements.md`. The exploratory same-sample linkage exists for the 10-pair subset, but confirmatory identification still lacks independent clusters, non-empty split layers, strict visibility receipts, and a signed power receipt.

@@ -187,3 +187,6 @@ Q3 raw package is sealed with visibility exceptions. Corrected ledger SHA256 cf3
 ## 2026-10-05 Stage D necessity gate
 
 Machine gate: `docs/datasets/2026-10-05_stage_d_necessity_gate_v1.json`; report: `docs/experiments/2026-10-05_stage_d_necessity_gate.md`. B4 is risk-admissible in primary and pair-invalid slices but not in the 2-pair salted slice. Verdict `PILOT_ONLY`; dedicated student necessity `NOT_ESTABLISHED`; internal paper route remains Stage E fallback.
+## 2026-10-05 Stage D boundary requirements
+
+Formal boundary: `docs/experiments/2026-10-05_stage_d_data_no_go_boundary_and_requirements.md`. It distinguishes the exploratory 10-pair same-sample linkage from confirmatory RQ2 and enumerates the exact SOURCE/LABEL/SPLIT/POWER/BASELINE/MODEL/SAFETY conditions required to change `DATA_NO_GO / NOT_IDENTIFIED`.
