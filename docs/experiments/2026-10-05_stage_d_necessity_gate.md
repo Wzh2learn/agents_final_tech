@@ -62,3 +62,16 @@ B3 在三个 slice 的 harmful-map rate 分别为 0.1781 / 0.1769 / 0.1579，均
 ## 6. Boundaries
 
 `DATA_NO_GO`、`RQ2 NOT_IDENTIFIED` 保持；B5 不安装、不运行；Phase 2、4B/8B、模型派发、正式投稿、arXiv、公开代码和外发均未授权。
+
+## 7. Validation
+
+GB10 authoritative checks at `1fec714`:
+
+- machine gate regeneration vs committed JSON: byte-identical, `cmp rc=0`;
+- focused gate/B0-B4/adapter/Q3 tests: `34 passed`;
+- full pytest: `850 passed / 13 skipped / 1 deselected`;
+- `validate_paper_claims`: `PASS / 5 claims / 74 checks`;
+- submission package audit: `10/10 mechanical PASS`, `NOT_READY_FOR_SUBMISSION`;
+- `docs_lint`: `rc=0 / 0 fail / 4 warn`.
+
+No model, B5, Phase 2, training, download, or external release was executed.
