@@ -1,0 +1,71 @@
+{
+  "record_type": "valentine_b0_b4_exploratory_freeze_receipt",
+  "record_version": "valentine-b0-b4-exploratory-freeze-v2",
+  "status": "FROZEN_EXPLORATORY_BEFORE_VALIDATED_RERUN",
+  "frozen_at": "2026-10-04T16:37:06.8415474+08:00",
+  "supersedes": {
+    "path": "docs/datasets/2026-10-04_b0_b4_exploratory_freeze_v1.json",
+    "reason": "salted B4 row-index predictions were scored as action/target tuples",
+    "first_run_status": "INVALIDATED_RUNNER_ALIGNMENT_BUG"
+  },
+  "paper_result": false,
+  "power_claim_allowed": false,
+  "data_go": false,
+  "rq2_status": "NOT_IDENTIFIED",
+  "b5_status": "DORMANT_NOT_RUN",
+  "runner": {
+    "path": "research/valentine_b0_b4_exploratory.py",
+    "sha256": "762b8612a5be7f4e6ab119218d02624283ad87a555cf2ace2ad68cda5fb0cafc"
+  },
+  "config": {
+    "path": "docs/datasets/2026-10-04_b0_b4_exploratory_config_v1.json",
+    "sha256": "f8298e0ab488ae9532a0b8d52b2a28e3d8e6010feb99a97139fc91a8a719ecd9"
+  },
+  "process_adapter": {
+    "path": "research/valentine_process_checkpoint_adapter.py",
+    "sha256": "76a598e7244b02a9c0fccf6f83a225957d81e8c737ae123463f2a1d2c8e5f782"
+  },
+  "label_and_input_bindings": {
+    "corrected_label_ledger_sha256": "cf339cef8b7065dad05f574a1400415a7bff64b78b66e1db38f74143cc49ccb6",
+    "samples_sha256": "6843f4c500a90335f5b66f48e130565bb3887407aa1ad8971a99385e9ea28c6d",
+    "canonical_reference_sha256": "241ca7ed1ef30c4531cd9d6c7dc03652c00142eb7a0d622c637489b57bede377"
+  },
+  "analysis_bindings": {
+    "quarantine_primary_leave_one_pair_out": {
+      "analysis_variant": "quarantine-primary",
+      "split": "leave_one_pair_out",
+      "process_summary_sha256": "85010fa2fd78ca43d72a29743e129770afa841d2e4f0e4de94b54f53c76430b1",
+      "process_events_sha256": "0605a7c62f2cc2d107535d3bf9efabb08b0d4c0127f6a7913985030f89ec4d77",
+      "quarantine_events_sha256": "fb24002ad568d51e9e3953def0311099b81fcd98803a58c257747ff50d390fc8",
+      "expected_pairs": 10,
+      "expected_source_columns": 146
+    },
+    "pair_invalid_leave_one_pair_out": {
+      "analysis_variant": "pair-invalid-sensitivity",
+      "split": "leave_one_pair_out",
+      "process_summary_sha256": "dc8e186c4d4517d087cc59a76b35afaeb78c4c9094193b05152b5d155f9667a3",
+      "process_events_sha256": "b1ccc64406e30a780387cc8ac4e5d9c040eb805c36f41f80f785b0359078ed01",
+      "quarantine_events_sha256": "fb24002ad568d51e9e3953def0311099b81fcd98803a58c257747ff50d390fc8",
+      "expected_pairs": 9,
+      "expected_source_columns": 130
+    },
+    "quarantine_primary_salted_group_split": {
+      "analysis_variant": "quarantine-primary",
+      "split": "salted_group_split",
+      "process_summary_sha256": "85010fa2fd78ca43d72a29743e129770afa841d2e4f0e4de94b54f53c76430b1",
+      "process_events_sha256": "0605a7c62f2cc2d107535d3bf9efabb08b0d4c0127f6a7913985030f89ec4d77",
+      "quarantine_events_sha256": "fb24002ad568d51e9e3953def0311099b81fcd98803a58c257747ff50d390fc8",
+      "expected_pairs": 10,
+      "expected_source_columns": 146
+    }
+  },
+  "frozen_choices": {
+    "primary_split": "leave-one-pair-out",
+    "mandatory_pair_sensitivity": "whole-pair INVALID",
+    "mandatory_split_sensitivity": "salted group-aware split",
+    "bootstrap_samples_per_seed": 2000,
+    "bootstrap_seeds": [42, 43, 44],
+    "same_data_tuning_allowed": false
+  },
+  "execution_boundary": "No model calls, no B5 install/run, no Phase 2, no training, no new download."
+}
