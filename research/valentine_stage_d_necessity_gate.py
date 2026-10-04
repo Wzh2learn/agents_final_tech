@@ -42,21 +42,19 @@ def _risk_view(results: dict[str, object], slice_key: str, run_key: str, baselin
     run = results.get(run_key)
     if not isinstance(run, dict):
         raise GateError("missing_result_slice", slice=slice_key, run=run_key)
+    metrics_container = run.get("baselines", run)
+    if not isinstance(metrics_container, dict):
+        raise GateError("invalid_metrics_container", slice=slice_key)
+    metrics = metrics_container.get(baseline)
+    if not isinstance(metrics, dict):
+        raise GateError("missing_baseline_metrics", slice=slice_key, baseline=baseline)
+    point = metrics.get("harmful_map_rate")
+    coverage = metrics.get("correct_map_coverage")
     if baseline == "B4":
-        metrics = run["baselines"]["B4"]
-        if not isinstance(metrics, dict):
-            raise GateError("missing_b4_metrics", slice=slice_key)
-        point = metrics.get("harmful_map_rate")
-        coverage = metrics.get("correct_map_coverage")
         interval = run["B4_cluster_bootstrap_95"]
         harm_interval = interval["harmful_map_rate"]
         coverage_interval = interval["correct_map_coverage"]
     else:
-        metrics = run.get("B3")
-        if not isinstance(metrics, dict):
-            raise GateError("missing_b3_metrics", slice=slice_key)
-        point = metrics.get("harmful_map_rate")
-        coverage = metrics.get("correct_map_coverage")
         harm_interval = None
         coverage_interval = None
     if not isinstance(point, (int, float)) or not isinstance(coverage, (int, float)):
@@ -78,7 +76,6 @@ def _risk_view(results: dict[str, object], slice_key: str, run_key: str, baselin
         "correct_map_coverage": coverage,
         "correct_map_coverage_ci95": coverage_interval,
     }
-
 
 def evaluate(results_path: Path, risk_limit: float = 0.10) -> dict[str, object]:
     if risk_limit <= 0 or risk_limit >= 1:
