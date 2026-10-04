@@ -17,7 +17,6 @@ def test_submission_package_mechanically_passes_but_is_not_ready() -> None:
         "author_affiliation_and_anonymization",
         "patent_status_confirmation",
         "camera_ready_pdf_visual_acceptance",
-        "q3_three_carrier_review_not_run",
     ]
 
 

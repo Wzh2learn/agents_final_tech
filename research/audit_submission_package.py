@@ -190,7 +190,6 @@ def audit() -> dict[str, object]:
             "author_affiliation_and_anonymization",
             "patent_status_confirmation",
             "camera_ready_pdf_visual_acceptance",
-            "q3_three_carrier_review_not_run",
         ],
         "source_sha256": _sha256(SOURCE),
         "anonymous_preview_sha256": _sha256(ANONYMOUS),
