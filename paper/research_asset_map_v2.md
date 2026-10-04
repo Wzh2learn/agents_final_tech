@@ -190,3 +190,10 @@ Machine gate: `docs/datasets/2026-10-05_stage_d_necessity_gate_v1.json`; report:
 ## 2026-10-05 Stage D boundary requirements
 
 Formal boundary: `docs/experiments/2026-10-05_stage_d_data_no_go_boundary_and_requirements.md`. It distinguishes the exploratory 10-pair same-sample linkage from confirmatory RQ2 and enumerates the exact SOURCE/LABEL/SPLIT/POWER/BASELINE/MODEL/SAFETY conditions required to change `DATA_NO_GO / NOT_IDENTIFIED`.
+## 2026-10-05 training readiness and protocol assets
+
+- `docs/datasets/2026-10-05_stage_d_training_readiness_config_v1.json`: A0-A3/4B-smoke dry-run config, QLoRA/A3 conditional fields, resource gates and planning estimates.
+- `docs/datasets/2026-10-05_stage_d_training_readiness_validation_v1.json`: GB10 dry-run validator report, `PASS_DRY_RUN_ONLY`, dependencies `peft/trl/deepspeed` missing, no training execution.
+- `docs/experiments/2026-10-05_stage_d_necessity_residual_memo.md`: A2 residual criteria and current `PILOT_ONLY` decision.
+- `docs/experiments/2026-10-05_stage_r_rq4_static_protocol.md`: seven-arm order/state/rollback and C0-C3 static contract.
+- `docs/datasets/2026-10-05_rq2_source_label_split_power_application_v1.md`: exact SOURCE/LABEL/SPLIT/POWER request, pending user approval and no download.

@@ -68,3 +68,6 @@ B0-B4 exploratory v2 is complete but does not pass a Stage D gate. Primary B4 is
 ## 7. Stage D necessity gate outcome (2026-10-05)
 
 The risk-constrained gate is `PILOT_ONLY`: B4 satisfies harmful-map rate <= 0.10 in the primary and whole-pair sensitivity slices, but the salted slice has point rate 0.1053 and upper bound 0.1250 on only 2 test pairs / 19 columns. Stable risk-constrained coverage is false; dedicated-student necessity is `NOT_ESTABLISHED`; no A0-A2 run is authorized. The thesis retains all Stage D/R/RQ4 slots and labels B0-B4 as exploratory evidence.
+## 8. Training readiness and static protocol addendum (2026-10-05)
+
+A0-A3 and 4B-smoke configuration, output/checkpoint/recovery rules, resource gates, and planning estimates are frozen as dry-run-only in `docs/datasets/2026-10-05_stage_d_training_readiness_config_v1.json`; validator output is `PASS_DRY_RUN_ONLY` with `training_execution_status=BLOCKED_PENDING_MODEL_GO_DEPENDENCIES_AND_DATA_GATES`. Stage R/RQ4 static order/state/rollback/C0-C3 protocol is in `docs/experiments/2026-10-05_stage_r_rq4_static_protocol.md`. No A0-A3 or Phase 2 execution is authorized.
