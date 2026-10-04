@@ -237,3 +237,28 @@ def test_direct_script_help_does_not_need_pythonpath() -> None:
     ], cwd=repo, env=env, capture_output=True, text=True)
     assert proc.returncode == 0, proc.stderr
     assert "--analysis-variant" in proc.stdout
+
+def test_nested_mapping_records_bind_target_and_confidence(tmp_path: Path) -> None:
+    staging = _make_staging(tmp_path)
+    pair = APPROVED_PAIRS[0]
+    full = staging / "valentine" / "experiments" / "data" / pair / f"{pair}_full.json"
+    obj = json.loads(full.read_text())
+    obj["audit_trail"][0]["final"]["tool_calls"] = [{
+        "id": "call-batch",
+        "name": "batch_record_match",
+        "args": {
+            "mappings": [
+                {"source_column": "src_0", "target_column": "target_a", "confidence": 0.9},
+                {"source_column": "other_0", "target_column": "target_b", "confidence": 0.4},
+            ]
+        },
+    }]
+    full.write_text(json.dumps(obj), encoding="utf-8", newline="\n")
+    _rewrite_manifest(staging, full)
+    build(staging, REVISION, tmp_path / "out")
+    events = [json.loads(line) for line in (tmp_path / "out" / "checkpoint_events.jsonl").read_text().splitlines()]
+    selected = [row for row in events if row["pair_id"] == pair]
+    assert {(row["source_header"], row["target_header"], row["confidence"]) for row in selected} == {
+        ("src_0", "target_a", 0.9),
+        ("other_0", "target_b", 0.4),
+    }

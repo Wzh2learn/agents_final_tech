@@ -191,6 +191,52 @@ def _strings(value: object) -> list[str]:
     return []
 
 
+def _mapping_records(args: dict[str, object]) -> list[dict[str, object]]:
+    records: list[dict[str, object]] = []
+
+    def visit(value: object) -> None:
+        if isinstance(value, dict):
+            source = value.get("source_column")
+            if isinstance(source, str):
+                target = value.get("target_column")
+                confidence = value.get("confidence")
+                records.append({
+                    "source_column": source,
+                    "target_column": target if isinstance(target, str) else None,
+                    "confidence": confidence,
+                })
+            for child in value.values():
+                visit(child)
+        elif isinstance(value, list):
+            for child in value:
+                visit(child)
+
+    visit(args)
+    top_source = args.get("source_column")
+    top_target = args.get("target_column")
+    top_confidence = args.get("confidence")
+    if isinstance(top_source, str) and not any(
+        row["source_column"] == top_source
+        and row["target_column"] == (top_target if isinstance(top_target, str) else None)
+        and row["confidence"] == top_confidence
+        for row in records
+    ):
+        records.append({
+            "source_column": top_source,
+            "target_column": top_target if isinstance(top_target, str) else None,
+            "confidence": top_confidence,
+        })
+    source_list = _strings(args.get("source_columns"))
+    target_list = _strings(args.get("target_columns"))
+    if source_list and len(source_list) == len(target_list):
+        for source, target in zip(source_list, target_list):
+            records.append({"source_column": source, "target_column": target, "confidence": top_confidence})
+    elif source_list:
+        for source in source_list:
+            records.append({"source_column": source, "target_column": None, "confidence": top_confidence})
+    return records
+
+
 def _safe_call_view(
     call: object,
     source_headers: set[str],
@@ -205,8 +251,9 @@ def _safe_call_view(
     args = call["args"]
     if not isinstance(args, dict):
         raise AdapterError("invalid_tool_call_args")
-    source = sorted(set(_strings(_named_values(args, "source_column")) + _strings(_named_values(args, "source_columns"))))
-    target = sorted(set(_strings(_named_values(args, "target_column")) + _strings(_named_values(args, "target_columns"))))
+    mapping_records = _mapping_records(args)
+    source = sorted({str(row["source_column"]) for row in mapping_records})
+    target = sorted({str(row["target_column"]) for row in mapping_records if row["target_column"] is not None})
     invalid_source = sorted(value for value in source if value not in source_headers)
     valid_source = sorted(value for value in source if value in source_headers)
     unknown_target = [value for value in target if value not in target_headers]
@@ -228,9 +275,10 @@ def _safe_call_view(
             )
     if len(invalid_source) > 1:
         raise AdapterError("multiple_invalid_action_references_in_call", values=len(invalid_source))
-    confidence = args.get("confidence")
-    if confidence is not None and (not isinstance(confidence, (int, float)) or not math.isfinite(confidence)):
-        raise AdapterError("invalid_tool_call_confidence")
+    for row in mapping_records:
+        confidence = row["confidence"]
+        if confidence is not None and (not isinstance(confidence, (int, float)) or not math.isfinite(confidence)):
+            raise AdapterError("invalid_tool_call_confidence")
     return {
         "tool_name": name,
         "call_id": call_id,
@@ -238,8 +286,9 @@ def _safe_call_view(
         "source_columns": valid_source,
         "invalid_source_references": invalid_source,
         "target_columns": target,
+        "mapping_records": mapping_records,
         "unknown_target_count": len(unknown_target),
-        "confidence": confidence,
+        "confidence": args.get("confidence"),
         "reasoning_present": bool(_named_values(args, "reasoning") or _named_values(args, "reason")),
         "transformation_present": bool(_named_values(args, "transformation_code") or _named_values(args, "transformation_type")),
     }
@@ -372,6 +421,19 @@ def build(
                 target_columns = list(view["target_columns"])
                 pair_source_seen.update(source_columns)
                 pair_target_seen.update(target_columns)
+                valid_records = [
+                    row for row in view["mapping_records"]
+                    if row["source_column"] in source_set
+                ]
+                if not valid_records and source_columns:
+                    valid_records = [
+                        {
+                            "source_column": source_column,
+                            "target_column": target_columns[0] if len(target_columns) == 1 else None,
+                            "confidence": view["confidence"],
+                        }
+                        for source_column in source_columns
+                    ]
                 event_id = _sha256_bytes(_stable_json({
                     "pair": pair,
                     "turn": row["turn"],
@@ -380,7 +442,9 @@ def build(
                     "source_columns": source_columns,
                     "target_columns": target_columns,
                 }).encode("utf-8"))
-                for source_column in source_columns:
+                for record in valid_records:
+                    source_column = str(record["source_column"])
+                    target_header = record["target_column"]
                     col_index = source_headers.index(source_column)
                     pair_events.append({
                         "event_id": event_id,
@@ -391,19 +455,19 @@ def build(
                         "sample_id": _sample_id(DATASET_ID, dataset_revision, pair, col_index),
                         "col": col_index,
                         "source_header": source_column,
-                        "target_headers": target_columns,
+                        "target_header": target_header,
+                        "target_headers": [target_header] if target_header is not None else [],
                         "turn": row["turn"],
                         "event_index": call_index,
                         "tool_name": view["tool_name"],
                         "event_kind": view["event_kind"],
-                        "confidence": view["confidence"],
+                        "confidence": record["confidence"],
                         "reasoning_present": view["reasoning_present"],
                         "transformation_present": view["transformation_present"],
                         "raw_final_equal": raw_calls == final_calls,
                         "correctness_status": "NOT_RUN",
                         "paper_result": False,
                     })
-
         pair_has_invalid_reference = bool(pair_quarantine)
         include_pair_events = not (
             analysis_variant == "pair-invalid-sensitivity" and pair_has_invalid_reference
