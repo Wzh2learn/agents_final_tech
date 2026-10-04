@@ -1,0 +1,99 @@
+{
+  "record_type": "phase1a_q3_seal_receipt",
+  "record_version": "phase1a-q3-seal-receipt-v1",
+  "status": "PRE_SEAL_INVENTORY_ONLY_BLOCKED_MISSING_RAW_ARTIFACTS",
+  "seal_complete": false,
+  "evidence_level": "USER_CONFIRMED_SUMMARY_NOT_ARTIFACT_CLOSED",
+  "dataset_id": "valentine_nyc",
+  "dataset_revision": "5d5163f04da304985bd51a476ccf7653de3979c3",
+  "exploratory_only": true,
+  "scientific_boundaries": {
+    "data_no_go": true,
+    "rq2_status": "NOT_IDENTIFIED",
+    "stage_d_closed": false,
+    "data_go": false,
+    "training_result": false,
+    "rq4_closed": false,
+    "independent_unit": "lineage/table-pair cluster",
+    "independent_cluster_count": 10
+  },
+  "user_confirmed_summary": {
+    "artifact": "docs/experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md",
+    "sha256": "d6a73c3bda92533e369c9364abb05aaabd84c3ea1206ae749f702cff56fe2a4f",
+    "adjudicated_labels": 146,
+    "r1_r2_exact_agreement": 119,
+    "r1_r2_exact_agreement_denominator": 146,
+    "action_cohen_kappa_approx": 0.727,
+    "shared_map_to_count": 41,
+    "shared_map_to_target_exact": 41,
+    "disagreement_count": 27,
+    "final_action_counts": {
+      "map_to": 52,
+      "skip": 58,
+      "hold": 36
+    },
+    "artifact_closed": false
+  },
+  "required_seal_artifacts": {
+    "r1_output": {
+      "status": "MISSING_ARTIFACT",
+      "sha256": null
+    },
+    "r2_output": {
+      "status": "MISSING_ARTIFACT",
+      "sha256": null
+    },
+    "adjudicator_output": {
+      "status": "MISSING_ARTIFACT",
+      "sha256": null
+    },
+    "final_label_ledger": {
+      "status": "MISSING_ARTIFACT",
+      "sha256": null
+    },
+    "visibility_gold_isolation_receipt": {
+      "status": "MISSING_ARTIFACT",
+      "sha256": null
+    }
+  },
+  "available_input_package": {
+    "path": "/tmp/valentine_q3_20261003_jeDV/package_a",
+    "manifest_sha256": "d91fd7d46a8c02c7ef4432d3fa1f38d8b5b42956746723d33244bd9dbcb94b5c",
+    "samples_sha256": "6843f4c500a90335f5b66f48e130565bb3887407aa1ad8971a99385e9ea28c6d",
+    "canonical_reference_sha256": "241ca7ed1ef30c4531cd9d6c7dc03652c00142eb7a0d622c637489b57bede377",
+    "build_strace_sha256": "b588bf9a966d07eb0bfa06dfa2760fa179d84fea081904b18bfa3cfc15c54258",
+    "r1_input_template_judgment_counts": [
+      0,
+      0,
+      0
+    ],
+    "r2_input_template_judgment_counts": [
+      0,
+      0,
+      0
+    ],
+    "adjudication_template_nonnull_counts": [
+      0,
+      0,
+      0
+    ],
+    "interpretation": "These are empty input templates, not expert outputs."
+  },
+  "rejected_false_positive_candidates": [
+    {
+      "path": "/tmp/r1.json",
+      "reason": "top-level schema is a historical audit report, not Q3 reviewer output"
+    },
+    {
+      "path": "/tmp/r2.json",
+      "reason": "top-level schema is a historical preregistration payload, not Q3 reviewer output"
+    }
+  ],
+  "search_scope_checked": [
+    "local repository",
+    "GB10 repository",
+    "GB10 /tmp Q3 directories",
+    "GB10 ~/wzh bounded file search"
+  ],
+  "completion_condition": "All five required artifacts are present, independently parsed, hashed, bound to the input package manifest and dataset revision, and checked for gold isolation before seal_complete can become true."
+}

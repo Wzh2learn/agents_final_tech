@@ -1,5 +1,14 @@
 # Current State
 
+<!-- Q3_STATUS_ADDENDUM -->
+## 2026-10-04 Q3 result and B5 addendum (append-only)
+
+- User confirmed Q3 review by three independent experts (R1/R2/ADJ). This supersedes the intermediate statement that one expert served as both R1 and R2. Local checkout head observed as `d62420e`; this update performed no git operation and did not re-verify origin/GB10 alignment.
+- Exploratory Q3 summary: 146/146 adjudicated labels; R1/R2 exact agreement 119/146 (81.51%); action Cohen's kappa approximately 0.727; 41/41 target exact agreement when both chose `map_to`; 27 disagreements all at the action boundary; final `map_to=52 / skip=58 / hold=36`.
+- Raw R1/R2/ADJ outputs, adjudication ledger, final label ledger, gold-isolation receipt, and hashes remain to be sealed. These numbers are recorded as a user-confirmed expert-output summary, not as a complete artifact audit.
+- Evidence boundary unchanged: exploratory learnability evidence only. It does not lift `RQ2 NOT_IDENTIFIED / DATA_NO_GO`, and must not be written as Stage D closure, RQ2 confirmation, training evidence, or RQ4 closure. The 146 columns contain only 10 lineage/table-pair clusters.
+- B5 candidate registered as `Jev-like typed-decision baseline`, status `PROPOSED_EXPLORATORY / NOT_RUN`. Input is strictly `source_header + canonical headers + LABEL semantics`; action is selected first, then target only for `map_to`. B5 does not replace or modify frozen B0-B4. `open-alternative-jev` and `jevos-v2` remain unverified candidates and must not be installed or run before licence, provenance, version, dependency, and output-capability checks.
+- Next order: seal the three expert outputs and hashes, run the existing B0-B4 exploratory probe, then audit and decide whether to run B5 as a single frozen zero-shot probe. Any tuning or calibration must use a table/lineage-UID group-aware split.
 > Updated: 2026-10-04 | Scope: 两份科研交付物最终完成审计通过；D-B licence_record 核验保持；MIMO 状态 READY_FOR_CONFIG_ONLY | Runtime: GB10 权威；零模型、零下载、零服务重启，API key 只在一次性进程环境加载
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
@@ -52,7 +61,8 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - `research/phase1a_data_contract.py` 实现 `phase1a-data-package-v2`：七个机械门 + 命名空间化 lineage UID/root/independence-cluster 隔离 + 严格 Q3 账本形状 + 显式统计字段 + 可选哈希绑定未来获取协议。只有两种结局：`DATA_NO_GO` 与 `READY_FOR_INDEPENDENT_ACCEPTANCE`；后者刻意不等于 `DATA_GO`、训练许可、GB10 验收或论文结果。
 - `research/phase1a_learnability_baselines.py`（五基线）、`research/phase2_rule_gate_replay.py`（七臂 replay）、`research/paper_result_views.py`（Table 2 / Figure 4 视图，强制 `paper_result=false`）、以及 label_ledger 装配器 / feature ledger 派生器 / parser receipt 运行器均已在案并有合同测试。
 - **本日新增三件运行器**：`research/phase1a_split_assign.py`（确定性、标签盲、零连接、哈希绑定 fail-closed 的分层仪器；治理编码——注册表 `role_fit` 未含 gate/sealed 时扣行并报 `LAYER_CAPACITY_BLOCKED_PILOT_ONLY`，须显式裁定 id 才填层；15 例合同测试）；`research/finqa_step_checkpoint_adapter.py`（预注册故障注入语料构建器，17 例测试）；`research/finqa_step_checkpoint_scorer.py`（按预注册 v2 的双读法检测器，含 v1 复现守卫与冻结值锚定，30 个测试函数）。
-- **Q3 复核包**：`research/valentine_q3_review_package.py` + 16 例合同测试已落地；hardening 后输入只接受 10 pair × 3 allowlist 文件，输出目录 fail-closed 且不再删除旧内容。旧包 10 pair / 146 source columns / 160 target headers 仍为 hardening 前不可变历史产物，R1/R2/ADJ 未运行。证据见 `docs/experiments/2026-10-03_project_cleanup.md`。
+- **Q3 复核包**：`research/valentine_q3_review_package.py` + 16 例合同测试已落地；hardening 后输入只接受 10 pair × 3 allowlist 文件，输出目录 fail-closed 且不再删除旧内容。旧包 10 pair / 146 source columns / 160 target headers 仍为 hardening 前不可变历史产物。三位独立专家的 exploratory R1/R2/ADJ 结果已由用户确认，原始输出/hash 待封存；详见 `docs/experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md`。
+- **Q3 复核包**：`research/valentine_q3_review_package.py` + 16 例合同测试已落地；hardening 后输入只接受 10 pair × 3 allowlist 文件，输出目录 fail-closed 且不再删除旧内容。旧包 10 pair / 146 source columns / 160 target headers 仍为 hardening 前不可变历史产物。三位独立专家的 exploratory R1/R2/ADJ 结果已由用户确认，原始输出/hash 待封存；详见 `docs/experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md`。
 - **D-B licence_record**：`docs/datasets/phase1a_licence_record_v1.json` 已正式接受，`accepted_by=Wzh`、`accepted_at=2026-10-03T17:01:42Z`、permitted_uses 仅四项；covered hashes 仅限 FinQA LICENSE / FinQA README / Valentine LICENSE。该记录不是 package-wide 授权，不解除 `DATA_NO_GO`。证据见 `docs/experiments/2026-10-04_db_licence_record_acceptance.md`。
 - **投稿/章节零模型材料**：`paper/reproducibility_statement_arr_www_v1.md` 区分可公开候选与不外发材料；`paper/thesis_manuscript_scaffold_v1.md` 新增第 3-8 章证据指针，Q3/Phase 2/训练空槽保持未完成。
 - **匿名投稿预览**：`paper/submission_draft_arr_www_anonymous_v0.md` + 内部 `paper/submission_redaction_map_v1.json` 已生成，11 处机械脱敏、claim tokens 全保留、禁词 0；不是 camera-ready，不外发。
@@ -86,14 +96,14 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Pending user confirmation
 
-1. **MIMO 状态 = READY_FOR_CONFIG_ONLY**：API key 已安全加载到一次性进程环境；R1/R2/ADJ、Phase 2、训练仍待另行授权，不打印或记录 token。
+1. **MIMO 状态 = READY_FOR_CONFIG_ONLY**：API key 已安全加载到一次性进程环境；本轮 Q3 由三位独立外部专家完成，不等于 MIMO 模型派发。B5、Phase 2、训练仍待另行授权，不打印或记录 token。
 2. G-A..G-E 与 V2-3 已裁定；MIMO 仅完成路由配置、不调用模型；D-F（专利门）继续有效。
 
 ## Next gates
 
-1. 只有新 key 安全配置、状态确认并获明确授权后，才派 R1 = qwen3.8-max、R2 = deepseek-v4-pro 与独立裁决；三者互异且非生成者，任何载体不得见 `ground_truth.json`。
+1. 封存三位独立专家的 R1/R2/ADJ 输出、最终 label ledger、visibility receipt 与 hash，并过既有 label_ledger 装配器和独立审计；任何后续载体不得见 `ground_truth.json`。
 2. 复核输出过既有 label_ledger 装配器与独立审计；源侧 gold 只在复核完成后作收敛效度统计，严格标 exploratory。
-3. goal 保持 active：继续小论文投稿版、大论文开题/前两章与后续章节框架；ARR 10/12 为主窗口，WWW 10/18/10/25 为后备。146 列 review 如后续获准，只作 exploratory 补充证据。
+3. goal 保持 active：继续小论文投稿版、大论文开题/前两章与后续章节框架；ARR 10/12 为主窗口，WWW 10/18/10/25 为后备。146 列 Q3 只作 exploratory learnability evidence；下一步是 B0-B4 与 B5 go/no-go，不自动进入训练。
 4. Phase 2 正式 replay、4B smoke、8B 主训练、端点与服务变更、以及任何外发，仍各自需要独立授权。
 
 ## 2026-10-04 research edge batch（append-only）

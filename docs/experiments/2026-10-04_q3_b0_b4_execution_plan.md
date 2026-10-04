@@ -108,3 +108,9 @@ Q3 未运行、身份不独立、ground_truth 泄漏或 label ledger 未锁定�
 - Stage D/Phase 2/训练：未启动；
 - MIMO：`READY_FOR_CONFIG_ONLY`，本件不派发模型、不记录 token；
 - 任何结果不得写成 Stage D、DATA_GO、RQ2 确认或 safe continual improvement。
+
+## 8. Status addendum (2026-10-04)
+
+The user subsequently confirmed that three independent experts completed R1/R2/ADJ Q3 review. The reported exploratory summary is 146/146 adjudicated labels, 119/146 action exact agreement (81.51%), action Cohen's kappa approximately 0.727, 41/41 target exact agreement on shared `map_to` decisions, and a final distribution of `map_to=52 / skip=58 / hold=36`.
+
+Raw expert outputs, adjudication ledger, final label ledger, visibility receipt, and hashes are still pending seal. B0-B4 remain `NOT_RUN`. A B5 Jev-like typed-decision baseline is registered only as `PROPOSED_EXPLORATORY / NOT_RUN`; it does not replace the frozen B0-B4 set and does not change `DATA_NO_GO`, `RQ2 NOT_IDENTIFIED`, or training authorization.

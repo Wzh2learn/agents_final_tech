@@ -216,3 +216,7 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 ## [2026-09-22] 小论文恢复“评估—蒸馏—规则进化”三阶段方向
 结论: 小论文的目标主线为大模型长流程评估产生可信过程信号、将过程能力蒸馏给小模型、再以验证门控把稳定经验固化为可回滚规则。现有评估稿只作为 Stage E 成熟子稿或分拆备选，不再代表完整小论文。
 理由: 用户明确纠正此前“评估单线”收敛。证据审计显示评估已闭环，自学习已有机制证据，蒸馏仅有零样本模型矩阵、文献与 60 条 DPO 对，尚需训练 MVP；不得把计划写成已完成贡献。
+
+## [2026-10-04] Q3 exploratory labels and B5 boundary
+结论: 用户确认三位独立专家完成 Q3 R1/R2/ADJ；146 条 adjudicated labels 仅作 exploratory learnability evidence。B5 登记为 Jev-like typed-decision exploratory candidate，不替换冻结的 B0-B4，未核验第三方实现前不安装、不运行。
+理由: Q3 摘要显示 action 边界存在真实不确定性，但 target identity 在共同 map_to 上完全一致；B5 可检验简单 typed-decision baseline 是否已覆盖 map/hold/skip 与 target 选择，从而判断专门学生模型是否仍有残余必要性。原始专家输出与 hash 尚待封存，且 146 列只有 10 个 lineage/table-pair clusters，因此不得升级为 Stage D、DATA_GO、RQ2 确认或训练证据。
