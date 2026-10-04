@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-10-04 | Scope: 两份科研交付物最终完成审计通过；D-B licence_record 核验保持；MIMO 路由已配置但零模型派发 | Runtime: GB10 权威；零模型、零下载、零服务重启，API key 只走安全配置通道
+> Updated: 2026-10-04 | Scope: 两份科研交付物最终完成审计通过；D-B licence_record 核验保持；MIMO 状态 READY_FOR_CONFIG_ONLY | Runtime: GB10 权威；零模型、零下载、零服务重启，API key 只在一次性进程环境加载
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
@@ -34,6 +34,7 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 - 资源门（决策 D4/D5 口径，本日实测）：磁盘 `/dev/nvme0n1p2` 3.6T 总量 / 814G 已用 / 2.7T 可用（24% 已用，满足「free ≥20% 且 ≥50GB」开工门）；内存 121G 总量 / available 31G（满足 ≥20G 开工门）/ used 74%（低于 85% 停止门）。
 - `loop_b_flip_log.md` 由 `.gitignore:33`（`logs/graph/*`）收录并正常写入；`dispatch_log.md` 只承载 Loop D 台账，不再承载 Loop B 运行时记录。
 - MIMO 路由只改 GB10 配置，不派发模型：Codex `/home/testuser/.codex/config.toml` = `mimo-v2.6-flash` / `https://token-plan-cn.xiaomimimo.com/v1`；Claude Code `/home/testuser/.claude/settings.json` = `mimo-v2.6-pro` / `https://token-plan-cn.xiaomimimo.com/anthropic`。两处语法/加载检查 PASS；secret 由既有安全通道承载，未读取、未打印、未写入 Git。
+- MIMO 状态：`READY_FOR_CONFIG_ONLY`。`/home/testuser/.config/mimo-token-plan.env` 权限 600，已安全加载到一次性进程环境并通过 key 长度/格式检查；不派发模型、不跑 R1/R2/ADJ、不启动 Phase 2/训练。
 - 仓外暂存：`~/wzh/phase1a_staging_20260925/`（FinQA train/dev + Valentine 10 个 NYC 目录 + LICENSE + bench.py；`sha256_manifest.txt` 共 64 行）。派生产物在 `/tmp/step_ckpt_20260925/` 与 `/tmp/repro_20260925/`。数据体与派生产物一律不入 Git。
 
 ## Research maturity
@@ -85,7 +86,7 @@ The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_g
 
 ## Pending user confirmation
 
-1. **MIMO 路由已配置但不派发**：API key 只走 GB10 安全配置通道；R1/R2/ADJ、Phase 2、训练仍待另行授权，不打印或记录 token。
+1. **MIMO 状态 = READY_FOR_CONFIG_ONLY**：API key 已安全加载到一次性进程环境；R1/R2/ADJ、Phase 2、训练仍待另行授权，不打印或记录 token。
 2. G-A..G-E 与 V2-3 已裁定；MIMO 仅完成路由配置、不调用模型；D-F（专利门）继续有效。
 
 ## Next gates
