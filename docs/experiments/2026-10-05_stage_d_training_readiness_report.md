@@ -78,3 +78,6 @@ No A0/A1/A2/A3, 4B smoke, Phase 2, model dispatch, download, or external release
 A3 is independent of A1/A2 and remains `CONDITIONAL_NOT_RUN`: preference pairs >=200, independent lineage clusters >=10, both directions present, no direction >60%, no cluster >20%, beta 0.1, LR 5e-6, epochs 1, batch 1, accumulation 8, max length 1024, seeds 42/43/44.
 
 Windows: S0 4B smoke 30 minutes; A1/A2 pilot one seed per arm and 2 hours total; A1/A2 full 2-6 GPU-hours with 6 GPU-hour batch cap; A3 0.75-2.25 GPU-hours and no default parallelism; whole cycle hard cap 8 GPU-hours.
+## 8. Dependency audit update
+
+`peft==0.21.2`, `trl==1.14.1`, and transitive `datasets==5.0.1` are installed; `pip check` passes and import-only smoke reports the expected versions. `deepspeed==0.19.7` is intentionally not installed because the single-device QLoRA path uses `accelerate==1.14.0` and does not need distributed optimizer infrastructure. OSV metadata-only queries returned no listed vulnerabilities for peft/trl/datasets. See `docs/experiments/2026-10-05_training_dependency_audit.md`.

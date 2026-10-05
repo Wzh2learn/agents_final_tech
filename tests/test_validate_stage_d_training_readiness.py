@@ -26,7 +26,7 @@ def test_readiness_passes_but_training_stays_blocked() -> None:
     assert report["paper_result"] is False
     assert report["phase2_status"] == "NOT_RUN"
     assert report["training_status"] == "NOT_RUN"
-    assert report["missing_dependencies"] == ["deepspeed", "peft", "trl"]
+    assert report["missing_dependencies"] == ["deepspeed"]
 
 
 def test_authorized_training_is_rejected(tmp_path: Path) -> None:

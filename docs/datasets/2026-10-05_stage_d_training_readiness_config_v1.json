@@ -230,8 +230,8 @@
         "torch": true,
         "accelerate": true,
         "transformers": true,
-        "peft": false,
-        "trl": false,
+        "peft": true,
+        "trl": true,
         "deepspeed": false
       },
       "available_memory_mb": 29999,
@@ -336,8 +336,6 @@
     "cost_interpretation": "local GB10 planning estimate; no API token or external model-call cost"
   },
   "missing_dependencies": [
-    "peft",
-    "trl",
     "deepspeed"
   ],
   "launch_conditions": [
@@ -404,5 +402,18 @@
     "maximum_single_pair_gain_share": 0.5,
     "split_sensitivity_requirement": "risk upper <= 0.10 and A2-B4 coverage delta >= 0 in primary, pair-invalid and salted slices; positive lower cluster-bootstrap bound in primary and pair-invalid",
     "current_verdict_if_missing": "PILOT_ONLY"
+  },
+  "dependency_decision": {
+    "installed": [
+      "peft==0.21.2",
+      "trl==1.14.1",
+      "datasets==5.0.1"
+    ],
+    "not_installed": [
+      "deepspeed==0.19.7"
+    ],
+    "alternative": "accelerate==1.14.0 single-device path",
+    "reason": "single-GPU QLoRA does not require DeepSpeed; avoid source-build and unnecessary distributed dependencies",
+    "pip_check": "PASS"
   }
 }
