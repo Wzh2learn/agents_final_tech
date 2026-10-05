@@ -241,7 +241,7 @@
         "transformers": true,
         "peft": true,
         "trl": true,
-        "deepspeed": false
+        "datasets": true
       },
       "available_memory_mb": 29999,
       "disk_available_gb": 2600,
@@ -344,9 +344,7 @@
     ],
     "cost_interpretation": "local GB10 planning estimate; no API token or external model-call cost"
   },
-  "missing_dependencies": [
-    "deepspeed"
-  ],
+  "missing_dependencies": [],
   "launch_conditions": [
     "MODEL_GO with exact model and tokenizer revisions",
     "TRAINING_GO with budget, window, stop conditions and output paths",
@@ -405,11 +403,11 @@
     ]
   },
   "stage_d_necessity_thresholds": {
-    "status": "PROPOSED_PENDING_USER_CONFIRMATION",
+    "status": "APPROVED_INITIAL_VALUES",
     "minimum_A2_absolute_correct_map_coverage_gain": 0.05,
     "target_exact_noninferiority_margin": 0.02,
     "maximum_single_pair_gain_share": 0.5,
-    "split_sensitivity_requirement": "risk upper <= 0.10 and A2-B4 coverage delta >= 0 in primary, pair-invalid and salted slices; positive lower cluster-bootstrap bound in primary and pair-invalid",
+    "split_sensitivity_requirement": "primary, pair-invalid and salted slices must all have harmful-map risk upper <= 0.10; primary and pair-invalid A2-B4 coverage delta lower bound must be > 0",
     "current_verdict_if_missing": "PILOT_ONLY"
   },
   "dependency_decision": {
@@ -419,10 +417,51 @@
       "datasets==5.0.1"
     ],
     "not_installed": [
-      "deepspeed==0.19.7"
+      "deepspeed"
     ],
     "alternative": "accelerate==1.14.0 single-device path",
     "reason": "single-GPU QLoRA does not require DeepSpeed; avoid source-build and unnecessary distributed dependencies",
+    "pip_check": "PASS"
+  },
+  "model_sync_status": {
+    "qwen3_4b": {
+      "status": "ARTIFACT_VALIDATED_NOT_MODEL_GO",
+      "artifact_validation_status": "PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO",
+      "artifact_validation_receipt": "docs/datasets/2026-10-05_qwen3_4b_artifact_validation_receipt_v1.json",
+      "artifact_validation_receipt_sha256": "227576f2b90a0b7c22a77af0de60f5f3d8bc0d9bd158af59b70b463bc574cf5d",
+      "canonical_manifest_path_contract": "model_root_relative_sorted_v1",
+      "canonical_clean_manifest_sha256": "3d1c26944d87b4f8429cb66ca40fa5fd190fc9adf8bd58e07f625b3471891101",
+      "canonical_full_manifest_sha256": "3584ef3de9e6c4fd5d8fab458c7265531bf4b24d7644e5bd1a555377011d7b91",
+      "path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+      "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+      "endpoint": "https://hf-mirror.com",
+      "token_sent": false,
+      "hf_hub_disable_xet": true,
+      "clean_model_files_manifest_sha256": "28860ecbda224e8d9ead8ec91e68abd6488dc3e33f46a768d0f33368203e456c",
+      "full_local_cache_manifest_sha256": "fdba6de9068e02663fcbc7aec02125fd310fed82692cf37360f2924b81b1842a",
+      "legacy_manifest_note": "legacy absolute-path download manifests retained as provenance only; validator uses canonical model-root-relative manifests",
+      "model_revision_ready": true,
+      "model_load_started": false
+    },
+    "qwen3_8b": {
+      "status": "NOT_DOWNLOADED",
+      "artifact_validation_status": "NOT_DOWNLOADED",
+      "artifact_validation_receipt": null,
+      "model_revision_ready": false,
+      "path": "/home/testuser/wzh/models/hf/Qwen3-8B",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "endpoint": "pending",
+      "token_sent": false,
+      "model_load_started": false
+    },
+    "provenance_note": "Qwen3-4B was obtained through hf-mirror.com fallback after official Hugging Face network block; exact revision and hashes preserved; not an official direct-download claim."
+  },
+  "dependency_status": {
+    "peft": "0.21.2 installed",
+    "trl": "1.14.1 installed",
+    "datasets": "5.0.1 installed transitively",
+    "accelerate": "1.14.0 installed and approved single-device path",
+    "deepspeed": "intentionally_not_installed_single_device_qlora",
     "pip_check": "PASS"
   }
 }

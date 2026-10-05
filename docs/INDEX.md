@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-09-23 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-10-05 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -16,6 +16,7 @@
 | 已确认决策 | [`../memory/DECISIONS.md`](../memory/DECISIONS.md) |
 | Skill 路由 | [`SKILL_ROUTING.md`](SKILL_ROUTING.md) |
 | 科研主线与论文验收 | [`research/README.md`](research/README.md) |
+| 会话/侧线交接 | [`../side_handoff.md`](../side_handoff.md)；索引见 [`handoff/README.md`](handoff/README.md) |
 
 ## 产品与交付
 
@@ -36,13 +37,12 @@
 | 文件 | 状态 | 用途 |
 |---|---|---|
 | [`datasets/2026-10-04_rq2_identification_and_acquisition_card.md`](datasets/2026-10-04_rq2_identification_and_acquisition_card.md) | 决策申请 | RQ2 identification、Route V/F、数据/许可/split/power 申报；不授权下载 |
-| [`experiments/2026-10-04_q3_b0_b4_execution_plan.md`](experiments/2026-10-04_q3_b0_b4_execution_plan.md) | 计划 | Q3 R1/R2/ADJ 与 B0-B4 执行前置、可见性、预算、go/no-go；当前未运行 |
+| [`experiments/2026-10-04_q3_b0_b4_execution_plan.md`](experiments/2026-10-04_q3_b0_b4_execution_plan.md) | 计划/追加状态 | Q3 与 B0-B4 执行前置；v2 exploratory 已运行，首轮 runner 对齐 bug 已作废 |
 | [`experiments/2026-10-04_rq2_valentine_bridge_structure_audit.md`](experiments/2026-10-04_rq2_valentine_bridge_structure_audit.md) | 实证审计 | 10 pair trajectory/audit 结构、146 源列覆盖、gold 隔离与 RQ2 bridge 边界 |
-| [`experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md`](experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md) | 用户确认摘要 | Q3 R1/R2/ADJ exploratory 汇总与 B5 候选边界；raw/hash 待封存 |
-| [`datasets/phase1a_q3_seal_receipt_v1.json`](datasets/phase1a_q3_seal_receipt_v1.json) | Pre-seal 收据 | 五个必需 raw 工件当前 MISSING；输入模板/哈希与误认候选已登记 |
-| [`experiments/2026-10-04_q3_boundary_blocker_audit.md`](experiments/2026-10-04_q3_boundary_blocker_audit.md) | 边界审计 | raw MISSING、三条异常引用 A/B 处置、B5 offline audit |
+| [`experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md`](experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md) | 历史摘要 | Q3 pre-correction 摘要与 B5 候选边界；当前 corrected ledger 以 full delivery seal 为准 |
+| [`datasets/phase1a_q3_seal_receipt_v1.json`](datasets/phase1a_q3_seal_receipt_v1.json) | Seal receipt | `SEALED_WITH_VISIBILITY_EXCEPTIONS`；corrected ledger 51/58/37，raw/hash 已绑定，visibility 例外保留 |
+| [`experiments/SUMMARY_q3_label_and_baselines.md`](experiments/SUMMARY_q3_label_and_baselines.md) | Current summary | Q3 corrected labels、B0-B4 v2、necessity boundary 与历史链 |
 | [`experiments/2026-10-04_q3_full_delivery_seal_validation.md`](experiments/2026-10-04_q3_full_delivery_seal_validation.md) | Seal validation | 10-file raw package, 9/9 hashes, corrected ledger and visibility exceptions |
-| [`experiments/2026-10-04_q3_partial_delivery_validation.md`](experiments/2026-10-04_q3_partial_delivery_validation.md) | Superseded snapshot | Partial-delivery state before full raw package arrived |
 | [`datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md`](datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md) | Draft protocol | leave-one-pair-out / group-aware exploratory split；NOT_RUN |
 | [`datasets/2026-10-04_b0_b4_exploratory_freeze_v1.json`](datasets/2026-10-04_b0_b4_exploratory_freeze_v1.json) | Superseded freeze | first run invalidated by salted B4 alignment bug |
 | [`datasets/2026-10-04_b0_b4_exploratory_config_v1.json`](datasets/2026-10-04_b0_b4_exploratory_config_v1.json) | Frozen config | LOO / salted sensitivity / bootstrap 2000 configuration |
@@ -57,8 +57,10 @@
 | [`datasets/2026-10-05_stage_d_training_readiness_validation_v1.json`](datasets/2026-10-05_stage_d_training_readiness_validation_v1.json) | Dry-run validation | PASS_DRY_RUN_ONLY, training execution blocked |
 | [`experiments/2026-10-05_stage_d_training_readiness_report.md`](experiments/2026-10-05_stage_d_training_readiness_report.md) | Readiness report | resource/monitor/estimate summary; no training execution |
 | [`experiments/2026-10-05_training_dependency_audit.md`](experiments/2026-10-05_training_dependency_audit.md) | Dependency audit | peft/trl installed; deepspeed replaced by single-device accelerate |
-| [`experiments/2026-10-05_qwen_model_candidate_metadata_audit.md`](experiments/2026-10-05_qwen_model_candidate_metadata_audit.md) | Model metadata | immutable HF revisions and licence; weight sync blocked |
-| [`experiments/2026-10-05_model_sync_blocked.md`](experiments/2026-10-05_model_sync_blocked.md) | Sync status | MODEL_SYNC_BLOCKED; network/token status without secret |
+| [`datasets/2026-10-05_qwen3_4b_artifact_validation_receipt_v1.json`](datasets/2026-10-05_qwen3_4b_artifact_validation_receipt_v1.json) | GB10 artifact receipt | Qwen3-4B identity/shard/index/tokenizer/licence/manifest validation; not MODEL_GO |
+| [`experiments/2026-10-05_qwen_model_candidate_metadata_audit.md`](experiments/2026-10-05_qwen_model_candidate_metadata_audit.md) | Model metadata | immutable HF revisions and licence; historical official-path block record |
+| [`experiments/SUMMARY_stage_d_readiness_and_model_sync.md`](experiments/SUMMARY_stage_d_readiness_and_model_sync.md) | Current summary | Stage D readiness、dependency decision、model sync 与 canonical evidence map |
+| [`experiments/2026-10-05_model_sync_mirror_success.md`](experiments/2026-10-05_model_sync_mirror_success.md) | Sync success | Qwen3-4B exact revision via `hf-mirror.com`, `token=false`, Xet disabled; artifact ready for validation |
 | [`datasets/2026-10-05_model_training_go_application_v1.md`](datasets/2026-10-05_model_training_go_application_v1.md) | Pending application | MODEL_GO / TRAINING_GO fields and blockers; not authorization |
 | [`experiments/2026-10-05_stage_d_necessity_residual_memo.md`](experiments/2026-10-05_stage_d_necessity_residual_memo.md) | Necessity memo | risk-constrained coverage and A2 residual criteria |
 | [`experiments/2026-10-05_stage_r_rq4_static_protocol.md`](experiments/2026-10-05_stage_r_rq4_static_protocol.md) | Static protocol | seven-arm order/state/rollback and C0-C3 analysis |
@@ -84,8 +86,9 @@
 | 文件 | 状态 | 用途 |
 |---|---|---|
 | [`research/README.md`](research/README.md) | 活跃 | 小论文、大论文、证据边界与论文导向验收的统一执行入口 |
-| [`handoff/2026-09-22-paper-research-next-phase.md`](handoff/2026-09-22-paper-research-next-phase.md) | 活跃执行计划 | 后续 Agent 的论文科研优先级、阶段任务卡、验收门与止损路线 |
-| [`handoff/2026-09-24_user_decision_packet.md`](handoff/2026-09-24_user_decision_packet.md) | 活跃决策请求 | 解锁实验线最小决策集：label 复核 canonical 参考、licence 签署、P1 下载范围、Loop A 沙箱口径、MIMO 批排期、专利确认 |
+| [`handoff/README.md`](handoff/README.md) | Handoff index | 现役 side handoff、历史计划与已消费决策件的唯一导航 |
+| [`handoff/2026-09-22-paper-research-next-phase.md`](handoff/2026-09-22-paper-research-next-phase.md) | 历史执行计划+当前注记 | 论文科研优先级、阶段任务卡、验收门与止损路线 |
+| [`handoff/2026-09-24_user_decision_packet.md`](handoff/2026-09-24_user_decision_packet.md) | 已消费决策记录 | D-A 至 D-F 裁定来源；不再作为活跃请求 |
 | [`13_M1_M2联合数据闭环计划.md`](13_M1_M2联合数据闭环计划.md) | 冻结政策依据 | 数据集与 split 政策 |
 | [`30_科研线规划.md`](30_科研线规划.md) | 已被取代 | 旧科研路线 |
 | [`33_导师指导吸收_科研三线升级.md`](33_导师指导吸收_科研三线升级.md) | 战略依据、受保护只读 | 导师政策来源；旧范围/排期不覆盖 research/README 的现役裁定 |
@@ -121,6 +124,11 @@
 | [`governance/reference/`](governance/reference/) | 参考资料 | 外部治理模板，不描述项目现状 |
 | [`governance/2026-09-25_loop_a_sandbox_scoping_design.md`](governance/2026-09-25_loop_a_sandbox_scoping_design.md) | 活跃设计 | Loop A 沙箱分级（R 类 read-only / W 类 workspace-write / 禁 bypass）与派发核对清单（D-D 授权范围设计） |
 | [`archive/`](archive/) | 只读历史 | 已归档文档；不得作为当前状态依据 |
+| [`archive/side_handoff_20260827.md`](archive/side_handoff_20260827.md) | 归档 handoff | 08-28 历史快照；现役见 `../side_handoff.md` |
+| [`archive/side_handoff_20260829.md`](archive/side_handoff_20260829.md) | 归档 handoff | 长期侧线历史证据；现役见 `../side_handoff.md` |
+| [`archive/experiments/2026-10-04_q3_partial_delivery_validation.md`](archive/experiments/2026-10-04_q3_partial_delivery_validation.md) | 归档快照 | full raw package 到达前的 partial 状态 |
+| [`archive/experiments/2026-10-04_q3_boundary_blocker_audit.md`](archive/experiments/2026-10-04_q3_boundary_blocker_audit.md) | 归档审计 | raw MISSING 与异常引用处置前的边界记录 |
+| [`archive/experiments/2026-10-05_model_sync_blocked.md`](archive/experiments/2026-10-05_model_sync_blocked.md) | 归档诊断 | official Hugging Face path 阻塞记录；已被 mirror success 取代 |
 
 ## 维护规则
 

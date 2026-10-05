@@ -1,7 +1,7 @@
 {
   "record_type": "qwen_model_metadata",
   "record_version": "qwen-model-metadata-v2",
-  "status": "METADATA_ONLY_NO_WEIGHT_DOWNLOAD",
+  "status": "QWEN3_4B_ARTIFACT_VALIDATED_QWEN3_8B_NOT_DOWNLOADED",
   "models": [
     {
       "id": "Qwen/Qwen3-4B",
@@ -106,7 +106,38 @@
           "lfs_sha256": null,
           "lfs_size": null
         }
-      ]
+      ],
+      "download_receipt": {
+        "status": "ARTIFACT_VALIDATED_NOT_MODEL_GO",
+        "artifact_validation_status": "PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO",
+        "artifact_validation_receipt": "docs/datasets/2026-10-05_qwen3_4b_artifact_validation_receipt_v1.json",
+        "artifact_validation_receipt_sha256": "227576f2b90a0b7c22a77af0de60f5f3d8bc0d9bd158af59b70b463bc574cf5d",
+        "canonical_manifest_path_contract": "model_root_relative_sorted_v1",
+        "canonical_clean_manifest_sha256": "3d1c26944d87b4f8429cb66ca40fa5fd190fc9adf8bd58e07f625b3471891101",
+        "canonical_full_manifest_sha256": "3584ef3de9e6c4fd5d8fab458c7265531bf4b24d7644e5bd1a555377011d7b91",
+        "endpoint": "https://hf-mirror.com",
+        "official_endpoint_status": "BLOCKED",
+        "token_sent": false,
+        "hf_hub_disable_xet": true,
+        "target": "/home/testuser/wzh/models/hf/Qwen3-4B",
+        "top_level_file_count": 13,
+        "total_size_approx_gb": 7.6,
+        "clean_model_files_manifest_sha256": "28860ecbda224e8d9ead8ec91e68abd6488dc3e33f46a768d0f33368203e456c",
+        "full_local_cache_manifest_sha256": "fdba6de9068e02663fcbc7aec02125fd310fed82692cf37360f2924b81b1842a",
+        "legacy_manifest_note": "legacy absolute-path download manifests retained as provenance only; validator uses canonical model-root-relative manifests",
+        "mirror_repo_commit": "1cfa9a7208912126459214e8b04321603b3df60c",
+        "model_index_weight_entries": 398,
+        "all_shards_present": true,
+        "license_verified": "Apache License 2.0",
+        "model_load_started": false,
+        "immutable_metadata_identity_check": {
+          "status": "PASS",
+          "checked_files": 13,
+          "lfs_sha256_files": 4,
+          "git_blob_sha1_files": 9,
+          "lfs_git_blob_sha1_interpretation": "pointer-object identity, not content hash"
+        }
+      }
     },
     {
       "id": "Qwen/Qwen3-8B",
@@ -225,7 +256,16 @@
           "lfs_sha256": null,
           "lfs_size": null
         }
-      ]
+      ],
+      "download_receipt": {
+        "status": "NOT_DOWNLOADED",
+        "artifact_validation_status": "NOT_DOWNLOADED",
+        "artifact_validation_receipt": null,
+        "endpoint": "pending",
+        "official_endpoint_status": "BLOCKED",
+        "token_sent": false,
+        "model_load_started": false
+      }
     }
   ]
 }

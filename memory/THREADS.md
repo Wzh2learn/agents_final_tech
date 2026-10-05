@@ -1,5 +1,7 @@
 # memory/THREADS.md — 未决线索
 
+[10-05] #QWEN3-4B-ARTIFACT-VALIDATED-GB10: 本机 validator fixture 过程结果（含 3 failed / 1 passed）只记 `DEV_ONLY / NON_AUTHORITATIVE`，不作项目验收。GB10 focused contract tests `15 passed`；真实 Qwen3-4B validator `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`：13/13 immutable identity（4 LFS SHA256 + 9 Git blob SHA1）、3 shard headers、398 tensors、tokenizer/licence、canonical model-root-relative manifests 全过。receipt SHA256 `227576f2...`；readiness `PASS_DRY_RUN_ONLY`，`smoke_model_revision_ready=true`，但 Qwen3-8B `NOT_DOWNLOADED`，`model_revision_ready=false`。S0/A0-A2 已获条件式自动授权，但六项门尚未全过，当前仍 `NOT_RUN`；A3/Phase2/新数据/外发仍需另批。
+
 ## 当前科研阻塞与接续（2026-09-23）
 
 - **当前 Git 基线**：审计整改开工时 `test/compaction-guard-abort` 与远端 test 均为 `7dd505c`；本轮 v2 合同/理论/统计修复已在该基线上以 fast-forward 提交交付（接手时 3 项测试失败，已修复并补正测；复核时再发现并关闭 duplicate-role 绕过 feature-ledger hash 绑定的 fail-open 缺口，七套件 118 passed）。未使用 reset/rebase。
@@ -831,3 +833,7 @@
 [10-05] #MODEL-TRAINING-GO-APPLICATION-PREPARED: separate MODEL_GO/TRAINING_GO application prepared with exact revision/licence/budget/window/stop fields. Current gate matrix fails necessity/source/label/split/power/baseline and dependency readiness; status PENDING_USER_APPROVAL, no install/model load/training.
 [10-05] #MODEL-CANDIDATE-METADATA-AUDIT: local Qwen3-4B/8B GGUF hashes recorded but not trainable checkpoints. HF metadata-only queries timed out; immutable model/tokenizer revisions and licences remain missing. MODEL_GO incomplete, no model loaded/downloaded.
 [10-05] #MODEL-SYNC-BLOCKED: Qwen3-4B exact revision metadata bound but weight download blocked. GB10 DNS resolves, HTTPS to huggingface.co:443 times out; local official path also times out. credential discovery resolved, whoami network timeout, authenticated unknown, username unverified, token length 825 only. no target/partial files, no model load/S0/A0-A3/Phase2/training.
+
+[10-05] #MODEL-SYNC-MIRROR-SUCCESS: 官方 HF 路径仍阻塞；批准的 fallback 使用 `hf-mirror.com`、`token=false`、`HF_HUB_DISABLE_XET=1`，Qwen3-4B revision `1cfa9a72...` 已同步到 `/home/testuser/wzh/models/hf/Qwen3-4B`。13 个顶层文件、3 个分片、398 个 index 条目、Apache-2.0、镜像 `X-Repo-Commit`、clean/full manifest 全部验证。状态 `READY_FOR_ARTIFACT_VALIDATION`；不等于 MODEL_GO，未加载模型或启动 S0/A0-A3/Phase2/训练。provenance 必须写 third-party mirror fallback，不能写官方直连。
+
+[10-05] #DOCS-GOVERNANCE-COMPACTED: 新建 `side_handoff.md` 与 `docs/handoff/README.md` 作为现役交接入口；`side_handoff_20260827.md`、`side_handoff_20260829.md` 归档到 `docs/archive/`。Q3 partial/boundary blocker 与 official model-sync blocker 归档到 `docs/archive/experiments/`，新建 `SUMMARY_q3_label_and_baselines.md` 与 `SUMMARY_stage_d_readiness_and_model_sync.md` 收拢现役结论。论文 hash 证据件未移动，历史台账只更新路径/状态标签。

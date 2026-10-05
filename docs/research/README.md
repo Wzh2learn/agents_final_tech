@@ -191,7 +191,11 @@ What survives is the methodology plus a clean negative result: a corpus frozen b
 ### 7.1 2026-10-03 state override (historical; superseded by the 2026-10-04 addendum below)
 2026-10-03 historical snapshot: at that time GB10 was verified, while `DATA_NO_GO`, RQ2 `NOT_IDENTIFIED`, V2-3 closure, the assembled-but-unreviewed Q3 package, and unrotated/unready token status were current. The 2026-10-04 addendum below supersedes only the Q3 review status.
 
-2026-10-04 Q3 addendum：用户确认三位独立专家已完成 R1/R2/ADJ，146/146 已形成 exploratory adjudicated labels；R1/R2 exact agreement 119/146（81.51%），action κ≈0.727，双方 `map_to` 的 41 条 target 41/41，最终 `map_to=52 / skip=58 / hold=36`。原始输出、裁决 ledger 与 hash 尚待封存；Q3 仍是 exploratory learnability evidence，不解除 `DATA_NO_GO / NOT_IDENTIFIED`。B5 Jev-like typed-decision baseline 仅登记为 `PROPOSED_EXPLORATORY / NOT_RUN`。
+2026-10-04 Q3 addendum：三位独立专家的 raw package 已封存，corrected ledger 为 `map_to=51 / skip=58 / hold=37`；旧 `52/58/36` 仅是 pre-correction 分布。R1/R2 exact agreement 119/146（81.51%），action κ≈0.727，共同 `map_to` 的 target 41/41，唯一 correction 为 line 61 `map_to|pap_curb_sec -> hold|null`。Q3 仍是 exploratory learnability evidence，不解除 `DATA_NO_GO / NOT_IDENTIFIED`。B5 保持 dormant / `NOT_RUN`。
+
+2026-10-05 model sync addendum：官方 `huggingface.co:443` 路径仍被网络阻塞。Qwen3-4B revision `1cfa9a72...` 已通过批准的 `hf-mirror.com` fallback 同步到 `/home/testuser/wzh/models/hf/Qwen3-4B`，使用 `token=false` 与 `HF_HUB_DISABLE_XET=1`；13 个顶层文件、3 个权重分片、398 个 index 条目、Apache-2.0 licence、镜像 `X-Repo-Commit` 和 manifest 已验证。状态 `READY_FOR_ARTIFACT_VALIDATION`；Qwen3-8B 仍未下载。此状态不授权模型加载、S0、A0-A3、Phase 2 或训练。
+
+2026-10-05 GB10 artifact validation addendum：Qwen3-4B 已在 GB10 完成真实 artifact validation，状态 `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`。13/13 immutable identity、3 个 safetensors header、398 个 tensor、tokenizer/licence、model-root-relative clean/full manifests 均通过；receipt 为 `docs/datasets/2026-10-05_qwen3_4b_artifact_validation_receipt_v1.json`。本机 synthetic 测试只记 `DEV_ONLY / NON_AUTHORITATIVE`。readiness 为 `PASS_DRY_RUN_ONLY`，`smoke_model_revision_ready=true`，但 Qwen3-8B 未下载，`model_revision_ready=false`。S0/A0-A2 仅在两模型与全部科学/安全门通过后按条件式授权自动执行；当前仍不运行。
 
 - 当前内部稿：`paper/draft_v0_s1_s2_s6.md`
 - 老师审阅稿：`paper/teacher_review_draft_v1.md`

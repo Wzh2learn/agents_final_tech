@@ -14,7 +14,7 @@ def _copy_config(tmp_path: Path, mutate) -> Path:
     value = json.loads(CONFIG.read_text(encoding="utf-8"))
     mutate(value)
     path = tmp_path / "config.json"
-    path.write_text(json.dumps(value), encoding="utf-8", newline="\n")
+    path.write_text(json.dumps(value), encoding="utf-8")
     return path
 
 
@@ -26,7 +26,12 @@ def test_readiness_passes_but_training_stays_blocked() -> None:
     assert report["paper_result"] is False
     assert report["phase2_status"] == "NOT_RUN"
     assert report["training_status"] == "NOT_RUN"
-    assert report["missing_dependencies"] == ["deepspeed"]
+    assert report["missing_dependencies"] == []
+    assert report["model_revision_ready"] is False
+    assert report["smoke_model_revision_ready"] is True
+    assert report["student_model_revision_ready"] is False
+    assert report["excluded_dependencies"] == {"deepspeed": "intentionally_not_installed_single_device_qlora"}
+    assert report["stage_d_necessity_threshold_status"] == "APPROVED_INITIAL_VALUES"
 
 
 def test_authorized_training_is_rejected(tmp_path: Path) -> None:

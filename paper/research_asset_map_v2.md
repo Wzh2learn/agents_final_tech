@@ -51,10 +51,10 @@
 | 文献 | `docs/experiments/2026-09-20_kd_literature_candidates.md` | KD、agent distillation、多教师路线 | 18 条候选已核；venue 仍按文档边界 |
 | 方法与理论素材 | `paper/method_theory_materials_v1.md` | 统一记号、defer 路由、风险—覆盖、三门更新、有限样本风险上界、累计局部回归界、回滚不变量和最近邻差异 | 可用于 Method/Related Work；固定池伸缩界是条件推论，不等于实验保证 |
 | 数据分层与选型 | `paper/dataset_protocol_v1.md` | Q0–Q3 标签质量 × 四层角色、FinQA 过程源 + Valentine 动作源的双 P0 选择、模型矩阵 | D-C 最小范围已下载到 GB10 仓外暂存并取证；不新增下载。动作包仍 `DATA_NO_GO`，Q3 仅 exploratory |
-| Q3 复核包生成器 | `research/valentine_q3_review_package.py` | 从批准的 Valentine pair 输入生成 R1/R2/ADJ 输入包、样本清单和可见性 manifest | 零模型；只读 source/target 表头与文件 hash，`ground_truth.json` 仅允许存在性校验、禁止读取。146 列包已装配，三位独立专家已完成 exploratory 复核；原始输出/hash 待封存 |
+| Q3 复核包生成器 | `research/valentine_q3_review_package.py` | 从批准的 Valentine pair 输入生成 R1/R2/ADJ 输入包、样本清单和可见性 manifest | 零模型；只读 source/target 表头与文件 hash，`ground_truth.json` 仅允许存在性校验、禁止读取。三位独立专家 raw package 已封存，corrected ledger 51/58/37，visibility 例外保留 |
 | Q3 exploratory result | `docs/experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md` | 三专家 R1/R2/ADJ 结果摘要、证据边界与 B5 typed-decision candidate | 用户确认摘要：146/146 adjudicated、119/146 exact agreement、41/41 target exact、pre-correction 52/58/36；authoritative corrected 51/58/37；raw sealed with visibility exceptions，仍只作 exploratory |
 | B5 candidate | `docs/experiments/2026-10-04_q3_adjudicated_labels_and_b5_candidate.md` | Jev-like typed-decision baseline 的输入、两阶段输出、指标和 go/no-go 问题 | `PROPOSED_EXPLORATORY / NOT_RUN`；不替换 B0-B4，`open-alternative-jev` / `jevos-v2` 未核验，不安装、不运行 |
-| Q3 输入边界 | `docs/experiments/2026-10-03_ruling_gd_q3_package_and_goal_refresh.md` | 10 pair / 146 source columns / 160 target headers、双跑包 hash 与零 gold 可见性证据 | 输入包与可见性已闭合；结果摘要见 `2026-10-04_q3_adjudicated_labels_and_b5_candidate.md`，原始输出/hash 仍待封存，不得升级为 Stage D/RQ2/DATA_GO |
+| Q3 输入边界 | `docs/experiments/2026-10-03_ruling_gd_q3_package_and_goal_refresh.md` | 10 pair / 146 source columns / 160 target headers、双跑包 hash 与零 gold 可见性证据 | 输入包与可见性已闭合；现役结果见 `SUMMARY_q3_label_and_baselines.md`，只作 exploratory，不得升级为 Stage D/RQ2/DATA_GO |
 | Q3 allowlist 重建边界 | `research/valentine_q3_review_package.py` + `/tmp` 输入视图 | 当前原始 staging 含 `_full/_result/_trajectory` 扩展件，按新 allowlist 会被 `input_manifest_scope_mismatch` 拒绝；旧包是 hardening 前的不可变历史产物 | 重建必须使用仅含 10 pair × {source_table.csv, target_table.csv, ground_truth.json} 的过滤输入根和 30 行 manifest；ground_truth 只做存在性校验，禁止读取 |
 | 公开来源注册表 | `docs/datasets/paper-public-source-registry-v1.json` | 10 个来源的核验 commit、许可缺口、independence-cluster namespace、角色适配与准入状态 | metadata only；namespace 需与具体 origin id 组合成样本簇，全部 `download_approved=false` |
 | D-B licence_record | `docs/datasets/phase1a_licence_record_v1.json` | 正式接受记录：accepted_by=Wzh、现场 accepted_at、四项 permitted_uses；covered hashes 仅限 FinQA LICENSE / FinQA README / Valentine LICENSE | 已落地但仅限 D-B scope；不是 package-wide 授权，不解除 `DATA_NO_GO` |
@@ -193,7 +193,9 @@ Formal boundary: `docs/experiments/2026-10-05_stage_d_data_no_go_boundary_and_re
 ## 2026-10-05 training readiness and protocol assets
 
 - `docs/datasets/2026-10-05_stage_d_training_readiness_config_v1.json`: A0-A3/4B-smoke dry-run config, QLoRA/A3 conditional fields, resource gates and planning estimates.
-- `docs/datasets/2026-10-05_stage_d_training_readiness_validation_v1.json`: GB10 dry-run validator report, `PASS_DRY_RUN_ONLY`, dependencies `peft/trl/deepspeed` missing, no training execution.
+- `docs/datasets/2026-10-05_stage_d_training_readiness_validation_v1.json`: GB10 dry-run validator report, `PASS_DRY_RUN_ONLY`; `peft/trl` and `accelerate` are installed, `deepspeed` is intentionally not installed, and no training execution has started.
+- `docs/experiments/2026-10-05_model_sync_mirror_success.md`: Qwen3-4B exact-revision artifact acquired through the approved `hf-mirror.com` fallback with `token=false`, Xet disabled, verified hashes/license, and third-party provenance wording.
+- `docs/datasets/2026-10-05_qwen3_4b_artifact_validation_receipt_v1.json`: GB10 real artifact validation receipt. It verifies 13/13 immutable identities, 3 shard headers, 398 tensors, tokenizer/licence, and canonical model-root-relative manifests. It is model artifact evidence only, not Stage D, MODEL_GO, or training evidence.
 - `docs/experiments/2026-10-05_stage_d_necessity_residual_memo.md`: A2 residual criteria and current `PILOT_ONLY` decision.
 - `docs/experiments/2026-10-05_stage_r_rq4_static_protocol.md`: seven-arm order/state/rollback and C0-C3 static contract.
 - `docs/datasets/2026-10-05_rq2_source_label_split_power_application_v1.md`: exact SOURCE/LABEL/SPLIT/POWER request, pending user approval and no download.

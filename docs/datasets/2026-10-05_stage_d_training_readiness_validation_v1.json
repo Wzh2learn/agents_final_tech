@@ -1,6 +1,9 @@
 {
-  "config_sha256": "a50e467ac9367a3dc2fe2cc5ef8aef6400ebe1fafe3b7c140390ab0b81e54abf",
+  "config_sha256": "014da794ac6906de656441fd8f38aa685566b6b6ad3a849031896380500f9f44",
   "data_go": false,
+  "excluded_dependencies": {
+    "deepspeed": "intentionally_not_installed_single_device_qlora"
+  },
   "launch_conditions": [
     "MODEL_GO with exact model and tokenizer revisions",
     "TRAINING_GO with budget, window, stop conditions and output paths",
@@ -8,9 +11,7 @@
     "stage D necessity memo shows stable residual",
     "readiness dry-run and resource safety gates pass"
   ],
-  "missing_dependencies": [
-    "deepspeed"
-  ],
+  "missing_dependencies": [],
   "model_revision_ready": false,
   "paper_result": false,
   "phase2_initial_budget_status": "INITIAL_VALUES_APPROVED_NOT_FROZEN_FOR_FORMAL_RUN",
@@ -77,8 +78,10 @@
   },
   "record_type": "stage_d_training_readiness_validation",
   "record_version": "stage-d-training-readiness-validation-v1",
-  "stage_d_necessity_threshold_status": "PROPOSED_PENDING_USER_CONFIRMATION",
+  "smoke_model_revision_ready": true,
+  "stage_d_necessity_threshold_status": "APPROVED_INITIAL_VALUES",
   "status": "PASS_DRY_RUN_ONLY",
+  "student_model_revision_ready": false,
   "training_execution_authorized": false,
   "training_execution_status": "BLOCKED_PENDING_MODEL_GO_DEPENDENCIES_AND_DATA_GATES",
   "training_status": "NOT_RUN"

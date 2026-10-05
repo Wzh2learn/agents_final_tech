@@ -5,6 +5,8 @@
 
 ## 1. Current gate matrix
 
+Conditional authorization update: after all six user-specified conditions pass, S0 and A0/A1/A2 may proceed automatically without per-item confirmation. At the current checkpoint Qwen3-8B is not downloaded, the scientific gates fail or remain incomplete, and Stage D is `PILOT_ONLY`; therefore no training arm is currently authorized.
+
 | Gate | Status | Blocking fact |
 |---|---|---|
 | Stage D necessity | **FAIL** | `PILOT_ONLY`; stable residual and necessity are not established |
@@ -16,7 +18,7 @@
 | MODEL_GO | **PENDING** | exact model/tokenizer revision and weight licence are not approved |
 | TRAINING_GO | **PENDING** | budget, window, output paths and explicit launch decision are not approved |
 | SAFETY_GO | **READY_DESIGN_ONLY** | dry-run validator passes; runtime gate has not been executed |
-| Dependencies | **FAIL** | `peft`, `trl`, `deepspeed` absent; no alternative implementation approved |
+| Dependencies | **READY_WITH_APPROVED_ALTERNATIVE** | `peft==0.21.2`, `trl==1.14.1`, `datasets==5.0.1` installed; `accelerate==1.14.0` approved for single-device QLoRA; `deepspeed` intentionally not installed |
 
 ## 2. MODEL_GO fields requiring user decision
 
@@ -80,4 +82,16 @@ Only local GGUF inference artifacts were found:
 They are not HF QLoRA training checkpoints. Hugging Face metadata-only lookup timed out for both model families; immutable revision, tokenizer revision and licence evidence remain missing. See `docs/experiments/2026-10-05_qwen_model_candidate_metadata_audit.md`.
 ## 8. Model sync status (2026-10-05)
 
-Immutable model metadata is now known and bound in `docs/datasets/2026-10-05_qwen_model_metadata_v1.json`; however Qwen3-4B weight download is `MODEL_SYNC_BLOCKED` because `huggingface.co:443` is unreachable from GB10 and the local official path. No model artifact has landed and S0 is not started.
+Historical official-path status: before the approved mirror fallback, Qwen3-4B weight download was `MODEL_SYNC_BLOCKED` because `huggingface.co:443` was unreachable from GB10 and the local official path. The current artifact status is in section 9.
+
+## 9. Model sync addendum (2026-10-05)
+
+The official Hugging Face path remains blocked. Under the approved fallback, Qwen3-4B revision `1cfa9a7208912126459214e8b04321603b3df60c` was downloaded through `https://hf-mirror.com` with `token=false` and `HF_HUB_DISABLE_XET=1`.
+
+The 13 top-level model files and all 3 safetensors shards are present at `/home/testuser/wzh/models/hf/Qwen3-4B`; model index validation reports 398 weight entries and all shards present. The clean model-file manifest is `28860ecbda224e8d9ead8ec91e68abd6488dc3e33f46a768d0f33368203e456c`, and the full cache manifest is `fdba6de9068e02663fcbc7aec02125fd310fed82692cf37360f2924b81b1842a`. Apache-2.0 licence and mirror `X-Repo-Commit` were verified. Qwen3-4B is now `READY_FOR_ARTIFACT_VALIDATION`; Qwen3-8B remains `NOT_DOWNLOADED`.
+
+GB10 real validation subsequently passed: `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`. The canonical model-root-relative manifests are clean `3d1c2694...` and full `3584ef3d...`; receipt SHA-256 is `227576f2...`. Readiness reports `smoke_model_revision_ready=true`, `student_model_revision_ready=false`, and `model_revision_ready=false`. Qwen3-8B remains `NOT_DOWNLOADED`.
+
+This addendum does not grant MODEL_GO, TRAINING_GO, S0, A0-A3, Phase 2 or training execution. It only closes the Qwen3-4B artifact acquisition path and records third-party mirror provenance.
+
+The later conditional user authorization permits S0/A0-A2 automatically only after both models and every scientific/safety gate pass. It does not change the current blocked state or authorize A3, Phase 2, new data/licence, or external release.

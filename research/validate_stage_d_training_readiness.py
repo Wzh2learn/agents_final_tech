@@ -13,7 +13,8 @@ from pathlib import Path
 
 REQUIRED_ARMS = {"A0", "A1", "A2", "A3"}
 REQUIRED_SEEDS = [42, 43, 44]
-REQUIRED_DEPENDENCIES = {"torch", "accelerate", "transformers", "peft", "trl", "deepspeed"}
+REQUIRED_DEPENDENCIES = {"torch", "accelerate", "transformers", "peft", "trl", "datasets"}
+EXCLUDED_DEPENDENCIES = {"deepspeed": "intentionally_not_installed_single_device_qlora"}
 FORBIDDEN_A2_FILTER_INPUTS = {"ground_truth", "source_gold", "final_correctness", "gain", "collateral", "gate_decision", "model_prediction"}
 
 
@@ -100,7 +101,7 @@ def validate(config_path: Path) -> dict[str, object]:
     _require(windows.get("whole_cycle_hard_cap_gpu_hours") == 8, "whole_cycle_budget_mismatch")
     thresholds = config.get("stage_d_necessity_thresholds")
     _require(isinstance(thresholds, dict), "missing_stage_d_thresholds")
-    _require(thresholds.get("status") == "PROPOSED_PENDING_USER_CONFIRMATION", "stage_d_threshold_status_mismatch")
+    _require(thresholds.get("status") == "APPROVED_INITIAL_VALUES", "stage_d_threshold_status_mismatch")
     _require(thresholds.get("current_verdict_if_missing") == "PILOT_ONLY", "missing_threshold_verdict_mismatch")
 
     estimates = config.get("planning_estimates")
@@ -112,16 +113,26 @@ def validate(config_path: Path) -> dict[str, object]:
     packages = resources["current_snapshot"].get("packages", {})
     _require(set(packages) == REQUIRED_DEPENDENCIES, "dependency_inventory_mismatch", actual=sorted(packages))
     missing = sorted(name for name, present in packages.items() if not present)
-    model_revision = config["model_family"]["model_revision"]
-    revision_ready = isinstance(model_revision, str) and len(model_revision) == 64 and model_revision != "PENDING_MODEL_GO_SHA256"
+    model_sync = config.get("model_sync_status")
+    _require(isinstance(model_sync, dict), "missing_model_sync_status")
+    smoke_sync = model_sync.get("qwen3_4b", {})
+    student_sync = model_sync.get("qwen3_8b", {})
+    smoke_artifact_ready = smoke_sync.get("artifact_validation_status") == "PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO"
+    student_artifact_ready = student_sync.get("artifact_validation_status") == "PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO"
+    revisions = [config["model_family"]["model_revision"], config["model_family"]["smoke_revision"]]
+    revisions_ready = all(isinstance(value, str) and len(value) in {40, 64} and value != "PENDING_MODEL_GO_SHA256" for value in revisions)
+    model_revision_ready = revisions_ready and smoke_artifact_ready and student_artifact_ready
     return {
         "record_type": "stage_d_training_readiness_validation",
         "record_version": "stage-d-training-readiness-validation-v1",
         "status": "PASS_DRY_RUN_ONLY",
         "training_execution_status": "BLOCKED_PENDING_MODEL_GO_DEPENDENCIES_AND_DATA_GATES",
         "training_execution_authorized": False,
-        "model_revision_ready": revision_ready,
+        "model_revision_ready": model_revision_ready,
+        "smoke_model_revision_ready": revisions_ready and smoke_artifact_ready,
+        "student_model_revision_ready": revisions_ready and student_artifact_ready,
         "missing_dependencies": missing,
+        "excluded_dependencies": EXCLUDED_DEPENDENCIES,
         "launch_conditions": config["launch_conditions"],
         "planning_estimates": estimates,
         "phase2_initial_budget_status": config["phase2_initial_budget"]["status"],
@@ -140,7 +151,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     report = validate(args.config)
-    args.output.write_text(json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8", newline="\n")
+    args.output.write_text(json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, sort_keys=True))
     return 0
 
