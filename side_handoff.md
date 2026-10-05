@@ -34,11 +34,14 @@ The user conditionally authorized S0/A0-A2 to proceed automatically only after b
 
 Stage D necessity criteria are approved initial values: A2 coverage gain over B4 >=0.05, target exact non-inferiority margin <=0.02, maximum single-pair residual/gain share <=0.50, harmful-map risk upper <=0.10 in primary/pair-invalid/salted, and positive A2-B4 coverage-delta lower bounds in primary/pair-invalid. A2 is not run; the salted risk upper bound is 0.1250 and fails.
 
+Phase 2 duplicate JSON-key prerequisite is closed at the software-contract level: strict `object_pairs_hook`/`parse_constant` loading is covered by GB10 `22 passed`. Phase 2 remains `NOT_RUN`.
+
 1. Resolve or formally retain the Route V exact-annex gap: target >=40 is approved, but the fixed revision has only 10 eligible clusters and 0 new files.
 2. Recompute Stage D necessity and the SOURCE/LABEL/SPLIT/POWER/BASELINE/SAFETY gates from real artifacts.
 3. Keep A2 unrun until the scientific gates and signed power receipt pass; never tune the approved necessity criteria after results.
-4. Re-run readiness and safety validation; run S0/A0-A2 only after every conditional gate passes.
-5. Keep A0-A3 and Phase 2 blocked until Stage D necessity and SOURCE/LABEL/SPLIT/POWER/BASELINE gates pass.
+4. Keep Phase 2 blocked until RQ2/RQ3 prerequisites and its formal execution window pass; duplicate-key readiness is already closed.
+5. Re-run readiness and safety validation; run S0/A0-A2 only after every conditional gate passes.
+6. Keep A0-A3 blocked until Stage D necessity and SOURCE/LABEL/SPLIT/POWER/BASELINE gates pass.
 
 ## Notes for the next session
 

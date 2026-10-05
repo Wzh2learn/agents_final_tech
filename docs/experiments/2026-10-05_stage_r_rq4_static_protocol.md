@@ -31,7 +31,7 @@ The primary confirmatory contrast is the **strongest preregistered baseline** ve
 - `gain-only`, `collateral-only`, `confidence-only`, and `fixed-dual` retain their named gate semantics.
 - `independent-gate-validation` accepts or rejects against the frozen independent validation contract.
 - `rollback-versioning` maintains a best gate-validation snapshot. Rollback occurs only when the predeclared validation budget is exceeded or a safety stop fires.
-- `rollback_budget`, validation query budget, and candidate risk cap remain `PENDING_USER_APPROVAL`; no default is inferred.
+- `rollback_budget`, validation query budget, and candidate risk cap use the approved initial values in section 9. They are not frozen for a formal run and may be adjusted only before execution under the documented change policy.
 - A rollback restores the complete rule snapshot and retained-rule set. Partial state restoration is invalid.
 
 ## 4. Required metrics
@@ -99,3 +99,11 @@ Do not write:
 - Primary order is the frozen candidate manifest. Sensitivity orders are original, reverse, and seed 42/43/44 permutations.
 
 Pilot-scale adjustment is allowed for rollback budget and validation query budget before formal Phase 2. Neither these values nor `candidate_risk_cap` may change after harmful/retention outcomes are observed. Every adjustment requires config, hash, reason and effective time before execution.
+
+## 10. Duplicate JSON key execution gate
+
+Status: `PASS_SOFTWARE_CONTRACT / PHASE_2_NOT_RUN`.
+
+Commit `60eaa273d84a9fb89330a217c92a11e51279392a` changed Phase 2 input loading from bare `json.loads` to strict parsing with `object_pairs_hook` and `parse_constant`. Duplicate keys at dataset, config, or nested-object level now fail closed; NaN/Infinity also fail closed. The negative control proves that an unguarded parser would let a duplicated `min_source_gain` silently replace `0.1` with `0.0`.
+
+GB10 authoritative focused verification at head `e585c8b`: `tests/test_phase2_rule_gate_replay.py` = `22 passed`. The suite includes one strict-JSON positive, duplicate-key negatives for config/dataset/nested keys, a non-standard constant negative, and an unreadable-file regression. This closes the duplicate-key prerequisite only. It does not start Phase 2, generate replay results, or authorize training.
