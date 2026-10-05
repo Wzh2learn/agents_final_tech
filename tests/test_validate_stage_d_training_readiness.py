@@ -27,9 +27,9 @@ def test_readiness_passes_but_training_stays_blocked() -> None:
     assert report["phase2_status"] == "NOT_RUN"
     assert report["training_status"] == "NOT_RUN"
     assert report["missing_dependencies"] == []
-    assert report["model_revision_ready"] is False
+    assert report["model_revision_ready"] is True
     assert report["smoke_model_revision_ready"] is True
-    assert report["student_model_revision_ready"] is False
+    assert report["student_model_revision_ready"] is True
     assert report["excluded_dependencies"] == {"deepspeed": "intentionally_not_installed_single_device_qlora"}
     assert report["stage_d_necessity_threshold_status"] == "APPROVED_INITIAL_VALUES"
 
@@ -63,6 +63,7 @@ def test_estimate_must_be_unmeasured(tmp_path: Path) -> None:
     with pytest.raises(ReadinessError) as exc:
         validate(path)
     assert exc.value.code == "estimate_must_be_unmeasured"
+
 
 def test_a3_must_not_inherit_a1_a2(tmp_path: Path) -> None:
     path = _copy_config(tmp_path, lambda value: value["arms"]["A3"].update(inherits_from_A1_A2=True))

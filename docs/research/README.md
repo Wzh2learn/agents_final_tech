@@ -197,6 +197,8 @@ What survives is the methodology plus a clean negative result: a corpus frozen b
 
 2026-10-05 GB10 artifact validation addendum：Qwen3-4B 已在 GB10 完成真实 artifact validation，状态 `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`。13/13 immutable identity、3 个 safetensors header、398 个 tensor、tokenizer/licence、model-root-relative clean/full manifests 均通过；receipt 为 `docs/datasets/2026-10-05_qwen3_4b_artifact_validation_receipt_v1.json`。本机 synthetic 测试只记 `DEV_ONLY / NON_AUTHORITATIVE`。readiness 为 `PASS_DRY_RUN_ONLY`，`smoke_model_revision_ready=true`，但 Qwen3-8B 未下载，`model_revision_ready=false`。S0/A0-A2 仅在两模型与全部科学/安全门通过后按条件式授权自动执行；当前仍不运行。
 
+2026-10-05 Qwen3-8B sync/validation addendum：Qwen3-8B revision `b968826d...` 已通过 `hf-mirror.com` fallback 完成精确 15 文件同步与 GB10 真实 artifact validation。15/15 immutable identity、5 shard headers、399 tensors、tokenizer/licence、relative manifests 全过；见 `docs/experiments/2026-10-05_qwen3_8b_model_sync_and_validation.md`。readiness 现为 `model_revision_ready=true`，但科学门、stable Stage D residual 与训练窗口未全部满足，S0/A0-A2 仍不运行。
+
 - 当前内部稿：`paper/draft_v0_s1_s2_s6.md`
 - 老师审阅稿：`paper/teacher_review_draft_v1.md`
 - 老师审阅 Word：`paper/teacher_review_draft_v1.docx`

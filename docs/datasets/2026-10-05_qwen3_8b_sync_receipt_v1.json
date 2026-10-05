@@ -1,0 +1,31 @@
+{
+  "allowlist": [
+    ".gitattributes",
+    "LICENSE",
+    "README.md",
+    "config.json",
+    "generation_config.json",
+    "merges.txt",
+    "model-00001-of-00005.safetensors",
+    "model-00002-of-00005.safetensors",
+    "model-00003-of-00005.safetensors",
+    "model-00004-of-00005.safetensors",
+    "model-00005-of-00005.safetensors",
+    "model.safetensors.index.json",
+    "tokenizer.json",
+    "tokenizer_config.json",
+    "vocab.json"
+  ],
+  "endpoint": "https://hf-mirror.com",
+  "hf_hub_disable_xet": true,
+  "hf_hub_enable_hf_transfer": false,
+  "model_id": "Qwen/Qwen3-8B",
+  "model_load_started": false,
+  "record_type": "hf_snapshot_download",
+  "record_version": "hf-snapshot-download-v1",
+  "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "status": "DOWNLOADED_NOT_VALIDATED",
+  "target": "/home/testuser/wzh/models/hf/Qwen3-8B",
+  "token_sent": false,
+  "top_level_file_count": 15
+}

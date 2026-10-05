@@ -1,0 +1,186 @@
+{
+  "architectures": [
+    "Qwen3ForCausalLM"
+  ],
+  "files": [
+    {
+      "bytes": 1570,
+      "content_sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930",
+      "identity_mode": "git_blob_sha1",
+      "identity_value": "52373fe24473b1aa44333d318f578ae6bf04b49b",
+      "name": ".gitattributes"
+    },
+    {
+      "bytes": 11343,
+      "content_sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+      "identity_mode": "git_blob_sha1",
+      "identity_value": "6634c8cc3133b3848ec74b9f275acaaa1ea618ab",
+      "name": "LICENSE"
+    },
+    {
+      "bytes": 16660,
+      "content_sha256": "0f36caaff9c2516411a7738db384606263ba653c1e63e61d72f511606164d5a6",
+      "identity_mode": "git_blob_sha1",
+      "identity_value": "ecc3ebd0849aa08d9484bd911dddfd5261b10d30",
+      "name": "README.md"
+    },
+    {
+      "bytes": 728,
+      "content_sha256": "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30",
+      "identity_mode": "git_blob_sha1",
+      "identity_value": "d46195ac87f837ad233d02b2f80f148bf7c005e0",
+      "name": "config.json"
+    },
+    {
+      "bytes": 239,
+      "content_sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+      "identity_mode": "git_blob_sha1",
+      "identity_value": "20a8a9156fc8c3f25295ca067f61fdf120d517c5",
+      "name": "generation_config.json"
+    },
+    {
+      "bytes": 1671853,
+      "content_sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+      "identity_mode": "git_blob_sha1",
+      "identity_value": "31349551d90c7606f325fe0f11bbb8bd5fa0d7c7",
+      "name": "merges.txt"
+    },
+    {
+      "bytes": 3996250744,
+      "content_sha256": "31d6a825ae35f11fb85b195b4c42c146c051e446433125a215336abdf95cbf5f",
+      "identity_mode": "lfs_sha256",
+      "identity_value": "31d6a825ae35f11fb85b195b4c42c146c051e446433125a215336abdf95cbf5f",
+      "name": "model-00001-of-00005.safetensors"
+    },
+    {
+      "bytes": 3993160032,
+      "content_sha256": "5991236cea6fe21f3d43cab0f0e84448734fbbe0789816202989f2ddc9d18282",
+      "identity_mode": "lfs_sha256",
+      "identity_value": "5991236cea6fe21f3d43cab0f0e84448734fbbe0789816202989f2ddc9d18282",
+      "name": "model-00002-of-00005.safetensors"
+    },
+    {
+      "bytes": 3959604768,
+      "content_sha256": "c5185c4794be2d8a9784d5753c9922db38df478ce11f9ed0b415b7304d896836",
+      "identity_mode": "lfs_sha256",
+      "identity_value": "c5185c4794be2d8a9784d5753c9922db38df478ce11f9ed0b415b7304d896836",
+      "name": "model-00003-of-00005.safetensors"
+    },
+    {
+      "bytes": 3187841392,
+      "content_sha256": "b5ee7de71fbf17db3d5704e0c8f2bc7d005ca9e1d7ca2aeb19827b0cfcaa917a",
+      "identity_mode": "lfs_sha256",
+      "identity_value": "b5ee7de71fbf17db3d5704e0c8f2bc7d005ca9e1d7ca2aeb19827b0cfcaa917a",
+      "name": "model-00004-of-00005.safetensors"
+    },
+    {
+      "bytes": 1244659840,
+      "content_sha256": "20c2d6366ab85c90786ccdd829cd2b9e7d30ef3b2ebbb998280e7e4014b542ff",
+      "identity_mode": "lfs_sha256",
+      "identity_value": "20c2d6366ab85c90786ccdd829cd2b9e7d30ef3b2ebbb998280e7e4014b542ff",
+      "name": "model-00005-of-00005.safetensors"
+    },
+    {
+      "bytes": 32878,
+      "content_sha256": "f9fdbcb91c23971c13ec5d5f2573d2349e8f61f2f049371ec699281748fdb1bc",
+      "identity_mode": "git_blob_sha1",
+      "identity_value": "2b85c00f1b118961cd7a477e2bba0fe197a4ce1a",
+      "name": "model.safetensors.index.json"
+    },
+    {
+      "bytes": 11422654,
+      "content_sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "identity_mode": "lfs_sha256",
+      "identity_value": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+      "name": "tokenizer.json"
+    },
+    {
+      "bytes": 9732,
+      "content_sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+      "identity_mode": "git_blob_sha1",
+      "identity_value": "417d038a63fa3de29cfde265caedae14d1a58d92",
+      "name": "tokenizer_config.json"
+    },
+    {
+      "bytes": 2776833,
+      "content_sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "identity_mode": "git_blob_sha1",
+      "identity_value": "4783fe10ac3adce15ac8f358ef5462739852c569",
+      "name": "vocab.json"
+    }
+  ],
+  "immutable_identity_checks": {
+    "checked_files": 15,
+    "git_blob_sha1_files": 9,
+    "lfs_sha256_files": 6,
+    "status": "PASS"
+  },
+  "license": "apache-2.0",
+  "manifests": {
+    "clean": {
+      "aggregate_sha256": "e47b9aca03bbdb25886318a0f1bea76e13303f2971c21ecb8e0ffe69029172bb",
+      "entries": 15,
+      "format": "model_root_relative_sorted_v1",
+      "path": "/home/testuser/wzh/model_sync_logs/qwen3_8b_hfmirror_noxet_b968826d_20261005.model_files.sha256",
+      "status": "PASS"
+    },
+    "full": {
+      "aggregate_sha256": "6ba50550273e1b8573d0189ab1bebaac43bc173dcb5b464aade2c1f13895ebca",
+      "entries": 48,
+      "format": "model_root_relative_sorted_v1",
+      "path": "/home/testuser/wzh/model_sync_logs/qwen3_8b_hfmirror_noxet_b968826d_20261005.sha256",
+      "status": "PASS"
+    },
+    "legacy_download_clean_manifest_sha256": null,
+    "legacy_download_full_manifest_sha256": null
+  },
+  "model_go": false,
+  "model_id": "Qwen/Qwen3-8B",
+  "model_index": {
+    "shards": [
+      {
+        "bytes": 3996250744,
+        "header_parse": "PASS",
+        "path": "/home/testuser/wzh/models/hf/Qwen3-8B/model-00001-of-00005.safetensors",
+        "tensor_entries": 81
+      },
+      {
+        "bytes": 3993160032,
+        "header_parse": "PASS",
+        "path": "/home/testuser/wzh/models/hf/Qwen3-8B/model-00002-of-00005.safetensors",
+        "tensor_entries": 114
+      },
+      {
+        "bytes": 3959604768,
+        "header_parse": "PASS",
+        "path": "/home/testuser/wzh/models/hf/Qwen3-8B/model-00003-of-00005.safetensors",
+        "tensor_entries": 111
+      },
+      {
+        "bytes": 3187841392,
+        "header_parse": "PASS",
+        "path": "/home/testuser/wzh/models/hf/Qwen3-8B/model-00004-of-00005.safetensors",
+        "tensor_entries": 92
+      },
+      {
+        "bytes": 1244659840,
+        "header_parse": "PASS",
+        "path": "/home/testuser/wzh/models/hf/Qwen3-8B/model-00005-of-00005.safetensors",
+        "tensor_entries": 1
+      }
+    ],
+    "status": "PASS",
+    "weight_entries": 399
+  },
+  "model_load_started": false,
+  "model_type": "qwen3",
+  "record_type": "qwen_artifact_validation",
+  "record_version": "qwen-artifact-validation-v1",
+  "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "status": "PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO",
+  "tokenizer_class": "Qwen2Tokenizer",
+  "tokenizer_identity_method": "same immutable revision bound by mirror tree metadata",
+  "tokenizer_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "top_level_file_count": 15,
+  "training_go": false
+}

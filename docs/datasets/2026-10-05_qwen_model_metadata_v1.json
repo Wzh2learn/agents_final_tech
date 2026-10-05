@@ -1,7 +1,7 @@
 {
   "record_type": "qwen_model_metadata",
   "record_version": "qwen-model-metadata-v2",
-  "status": "QWEN3_4B_ARTIFACT_VALIDATED_QWEN3_8B_NOT_DOWNLOADED",
+  "status": "QWEN3_4B_AND_QWEN3_8B_ARTIFACTS_VALIDATED",
   "models": [
     {
       "id": "Qwen/Qwen3-4B",
@@ -258,10 +258,24 @@
         }
       ],
       "download_receipt": {
-        "status": "NOT_DOWNLOADED",
-        "artifact_validation_status": "NOT_DOWNLOADED",
-        "artifact_validation_receipt": null,
-        "endpoint": "pending",
+        "status": "ARTIFACT_VALIDATED_NOT_MODEL_GO",
+        "artifact_validation_status": "PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO",
+        "artifact_validation_receipt": "docs/datasets/2026-10-05_qwen3_8b_artifact_validation_receipt_v1.json",
+        "artifact_validation_receipt_sha256": "8c35a447d911caafb80a4f26526199b38658952cb7294ec5087600dd73c0aca8",
+        "sync_receipt": "docs/datasets/2026-10-05_qwen3_8b_sync_receipt_v1.json",
+        "sync_receipt_sha256": "684dfb9b6d9d91f92776ac771b975f560674a6234336ec9ebd12fce0d3d7a322",
+        "canonical_manifest_path_contract": "model_root_relative_sorted_v1",
+        "canonical_clean_manifest_sha256": "e47b9aca03bbdb25886318a0f1bea76e13303f2971c21ecb8e0ffe69029172bb",
+        "canonical_full_manifest_sha256": "6ba50550273e1b8573d0189ab1bebaac43bc173dcb5b464aade2c1f13895ebca",
+        "endpoint": "https://hf-mirror.com",
+        "target": "/home/testuser/wzh/models/hf/Qwen3-8B",
+        "mirror_repo_commit": "b968826d9c46dd6066d109eabc6255188de91218",
+        "top_level_file_count": 15,
+        "total_size_approx_gb": 16.0,
+        "model_index_weight_entries": 399,
+        "all_shards_present": true,
+        "license_verified": "Apache License 2.0",
+        "immutable_metadata_identity_check": {"status": "PASS", "checked_files": 15, "lfs_sha256_files": 6, "git_blob_sha1_files": 9},
         "official_endpoint_status": "BLOCKED",
         "token_sent": false,
         "model_load_started": false

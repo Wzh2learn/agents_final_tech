@@ -1,5 +1,7 @@
 # memory/THREADS.md — 未决线索
 
+[10-05] #QWEN3-8B-SYNC-ARTIFACT-VALIDATED: Qwen3-8B revision `b968826d...` 通过 `hf-mirror.com` fallback 精确 15 文件同步到 `/home/testuser/wzh/models/hf/Qwen3-8B`，`token=false`、Xet disabled、HF transfer disabled。monitor/download PID 3412262/3412266，13m41s，RC=0，无残留进程。GB10 真实 validator `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`：15/15 identity（6 LFS SHA256 + 9 Git blob SHA1）、5 shard headers、399 tensors、tokenizer/licence、clean `e47b9aca...`、full `6ba50550...`。readiness `model_revision_ready=true`；科学门/stable residual/训练窗口未全过，S0/A0-A2/Phase2/训练仍不运行。
+
 [10-05] #QWEN3-4B-ARTIFACT-VALIDATED-GB10: 本机 validator fixture 过程结果（含 3 failed / 1 passed）只记 `DEV_ONLY / NON_AUTHORITATIVE`，不作项目验收。GB10 focused contract tests `15 passed`；真实 Qwen3-4B validator `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`：13/13 immutable identity（4 LFS SHA256 + 9 Git blob SHA1）、3 shard headers、398 tensors、tokenizer/licence、canonical model-root-relative manifests 全过。receipt SHA256 `227576f2...`；readiness `PASS_DRY_RUN_ONLY`，`smoke_model_revision_ready=true`，但 Qwen3-8B `NOT_DOWNLOADED`，`model_revision_ready=false`。S0/A0-A2 已获条件式自动授权，但六项门尚未全过，当前仍 `NOT_RUN`；A3/Phase2/新数据/外发仍需另批。
 
 ## 当前科研阻塞与接续（2026-09-23）

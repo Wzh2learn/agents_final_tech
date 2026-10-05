@@ -5,7 +5,7 @@
 
 ## 1. Current gate matrix
 
-Conditional authorization update: after all six user-specified conditions pass, S0 and A0/A1/A2 may proceed automatically without per-item confirmation. At the current checkpoint Qwen3-8B is not downloaded, the scientific gates fail or remain incomplete, and Stage D is `PILOT_ONLY`; therefore no training arm is currently authorized.
+Conditional authorization update: after all six user-specified conditions pass, S0 and A0/A1/A2 may proceed automatically without per-item confirmation. Both model artifacts are now validated, but the scientific gates fail or remain incomplete and Stage D is `PILOT_ONLY`; therefore no training arm is currently authorized.
 
 | Gate | Status | Blocking fact |
 |---|---|---|
@@ -92,6 +92,10 @@ The 13 top-level model files and all 3 safetensors shards are present at `/home/
 
 GB10 real validation subsequently passed: `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`. The canonical model-root-relative manifests are clean `3d1c2694...` and full `3584ef3d...`; receipt SHA-256 is `227576f2...`. Readiness reports `smoke_model_revision_ready=true`, `student_model_revision_ready=false`, and `model_revision_ready=false`. Qwen3-8B remains `NOT_DOWNLOADED`.
 
+Qwen3-8B subsequently passed GB10 real validation at revision `b968826d...`: 15/15 identities, 5 shard headers, 399 tensors, tokenizer/licence, clean `e47b9aca...`, and full `6ba50550...`. Readiness now reports `student_model_revision_ready=true` and `model_revision_ready=true`. This closes model artifact readiness only; scientific gates, stable residual, and training window remain blocking.
+
 This addendum does not grant MODEL_GO, TRAINING_GO, S0, A0-A3, Phase 2 or training execution. It only closes the Qwen3-4B artifact acquisition path and records third-party mirror provenance.
 
 The later conditional user authorization permits S0/A0-A2 automatically only after both models and every scientific/safety gate pass. It does not change the current blocked state or authorize A3, Phase 2, new data/licence, or external release.
+
+The model downloads and artifact validations are complete, but no S0, A0, A1, A2, A3, Phase 2, model load, training, or external release has started.

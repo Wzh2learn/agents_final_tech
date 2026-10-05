@@ -1,5 +1,5 @@
 {
-  "config_sha256": "7f9ff29ee791e8890d297882209242019f199146981b65b47030b7723b21fddc",
+  "config_sha256": "5153f9e3c2890dce81dd10f37c1006264452589d196df5294069640169858901",
   "data_go": false,
   "excluded_dependencies": {
     "deepspeed": "intentionally_not_installed_single_device_qlora"
@@ -12,7 +12,7 @@
     "readiness dry-run and resource safety gates pass"
   ],
   "missing_dependencies": [],
-  "model_revision_ready": false,
+  "model_revision_ready": true,
   "paper_result": false,
   "phase2_initial_budget_status": "INITIAL_VALUES_APPROVED_NOT_FROZEN_FOR_FORMAL_RUN",
   "phase2_status": "NOT_RUN",
@@ -81,7 +81,7 @@
   "smoke_model_revision_ready": true,
   "stage_d_necessity_threshold_status": "APPROVED_INITIAL_VALUES",
   "status": "PASS_DRY_RUN_ONLY",
-  "student_model_revision_ready": false,
+  "student_model_revision_ready": true,
   "training_execution_authorized": false,
   "training_execution_status": "BLOCKED_PENDING_MODEL_GO_DEPENDENCIES_AND_DATA_GATES",
   "training_status": "NOT_RUN"
