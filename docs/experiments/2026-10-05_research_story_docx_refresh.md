@@ -20,17 +20,17 @@ Command run on GB10:
 
 ```text
 python research/build_teacher_review_docx.py \
-  --source /tmp/research_story_build_20261005/paper/research_story_v2.md \
-  --output /tmp/research_story_build_20261005/paper/research_story_v2.docx
+  --source paper/research_story_v2.md \
+  --output /tmp/research_story_det_a.docx
 ```
 
-The source was paired with `paper/figures/fig_evaluate_distill_evolve_v1.svg`, which the generator renders as a native three-stage Word table.
+The source was paired with `paper/figures/fig_evaluate_distill_evolve_v1.svg`, which the generator renders as a native three-stage Word table. The generator now normalizes DOCX ZIP timestamps; two GB10 reruns were byte-identical with SHA-256 `5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30`.
 
 Hashes:
 
-- Markdown: `c2a778f2ff84eedb5d9d6c74e76ee11867bc36a0fc7d84a201bd77d1e08d4b90`
-- DOCX: `51bead4cb738f46b2d1c8b86f340bf585cb06913564f8c4426fa6628390594b7`
-- Rendered QA PDF: `4788278f097679cc9e92faea021cfa5d83850bcb0823410f48c8de3c3000ab1b`
+- Markdown: `48c8768970e9529e44a490abccd2e02492466be7b4adf0b948da65cde67ccb5a`
+- DOCX: `5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30`
+- Rendered QA PDF: `34f713fe69ae810751581e75ec04cc83b3f601e21b49906b7d1816c384b1a9bd`
 
 ## 3. Quality checks
 

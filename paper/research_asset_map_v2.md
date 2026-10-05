@@ -212,4 +212,4 @@ Formal boundary: `docs/experiments/2026-10-05_stage_d_data_no_go_boundary_and_re
 These assets support a formal negative-result boundary only. They do not authorize archive download, adapter execution, A0-A3, Phase 2, B5, training, or external release.
 ## 2026-10-05 Route V DOCX refresh
 
-`paper/research_story_v2.md` and its derived `paper/research_story_v2.docx` were synchronized after the Route V negative-boundary decision. DOCX hash is `51bead4cb738f46b2d1c8b86f340bf585cb06913564f8c4426fa6628390594b7`; GB10 Office text/ZIP/PDF/page-4 visual checks passed. The mature Stage E teacher-review DOCX was not changed.
+`paper/research_story_v2.md` and its derived `paper/research_story_v2.docx` were synchronized after the Route V negative-boundary decision. DOCX hash is `5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30`; GB10 Office text/ZIP/PDF/page-4 visual checks passed. The mature Stage E teacher-review DOCX was not changed.
