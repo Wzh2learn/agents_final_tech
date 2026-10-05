@@ -117,7 +117,7 @@ Raw expert outputs, adjudication ledger, final label ledger, visibility receipt,
 
 ## 9. Boundary closure addendum (2026-10-04)
 
-The raw seal is not complete. See [docs/experiments/2026-10-04_q3_boundary_blocker_audit.md](2026-10-04_q3_boundary_blocker_audit.md) and [docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md](../datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md). Three invalid action references are pending user choice between reference quarantine and whole-pair INVALID. B0-B4 remain NOT_RUN; B5 remains PROPOSED_EXPLORATORY / NOT_RUN. No model, Phase 2, training, or download was started.
+Historical pre-run state: before execution, raw seal was incomplete and three invalid action references were pending Option A/B disposition. The current chain is summarized in [SUMMARY_q3_label_and_baselines.md](SUMMARY_q3_label_and_baselines.md); the original blocker audit is archived at [docs/archive/experiments/2026-10-04_q3_boundary_blocker_audit.md](../archive/experiments/2026-10-04_q3_boundary_blocker_audit.md).
 
 ## 10. Ruling status (2026-10-04)
 

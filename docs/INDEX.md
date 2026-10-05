@@ -133,6 +133,8 @@
 | [`governance/reference/`](governance/reference/) | 参考资料 | 外部治理模板，不描述项目现状 |
 | [`governance/2026-09-25_loop_a_sandbox_scoping_design.md`](governance/2026-09-25_loop_a_sandbox_scoping_design.md) | 活跃设计 | Loop A 沙箱分级（R 类 read-only / W 类 workspace-write / 禁 bypass）与派发核对清单（D-D 授权范围设计） |
 | [`archive/`](archive/) | 只读历史 | 已归档文档；不得作为当前状态依据 |
+| [`archive/session_assets/2026-08-29/`](archive/session_assets/2026-08-29/) | 归档会话资产 | 旧 `IMPLEMENTATION_PLAN.md`、`PROMPT.md`；已被当前 Goal、handoff 与计划件取代 |
+| [`../scripts/archive/_d3b_dispatch.sh`](../scripts/archive/_d3b_dispatch.sh) | 归档脚本 | 旧 D3B 派发脚本；含历史 crontab/tmux 操作，不作为现役执行入口 |
 | [`archive/side_handoff_20260827.md`](archive/side_handoff_20260827.md) | 归档 handoff | 08-28 历史快照；现役见 `../side_handoff.md` |
 | [`archive/side_handoff_20260829.md`](archive/side_handoff_20260829.md) | 归档 handoff | 长期侧线历史证据；现役见 `../side_handoff.md` |
 | [`archive/experiments/2026-10-04_q3_partial_delivery_validation.md`](archive/experiments/2026-10-04_q3_partial_delivery_validation.md) | 归档快照 | full raw package 到达前的 partial 状态 |

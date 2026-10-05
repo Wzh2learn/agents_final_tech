@@ -853,3 +853,5 @@
 [10-05] #MODEL-SYNC-MIRROR-SUCCESS: 官方 HF 路径仍阻塞；批准的 fallback 使用 `hf-mirror.com`、`token=false`、`HF_HUB_DISABLE_XET=1`，Qwen3-4B revision `1cfa9a72...` 已同步到 `/home/testuser/wzh/models/hf/Qwen3-4B`。13 个顶层文件、3 个分片、398 个 index 条目、Apache-2.0、镜像 `X-Repo-Commit`、clean/full manifest 全部验证。状态 `READY_FOR_ARTIFACT_VALIDATION`；不等于 MODEL_GO，未加载模型或启动 S0/A0-A3/Phase2/训练。provenance 必须写 third-party mirror fallback，不能写官方直连。
 
 [10-05] #DOCS-GOVERNANCE-COMPACTED: 新建 `side_handoff.md` 与 `docs/handoff/README.md` 作为现役交接入口；`side_handoff_20260827.md`、`side_handoff_20260829.md` 归档到 `docs/archive/`。Q3 partial/boundary blocker 与 official model-sync blocker 归档到 `docs/archive/experiments/`，新建 `SUMMARY_q3_label_and_baselines.md` 与 `SUMMARY_stage_d_readiness_and_model_sync.md` 收拢现役结论。论文 hash 证据件未移动，历史台账只更新路径/状态标签。
+
+[10-05] #WORKSPACE-RESIDUE-ARCHIVED: 根目录旧会话资产 `IMPLEMENTATION_PLAN.md`、`PROMPT.md` 归档到 `docs/archive/session_assets/2026-08-29/`，`_d3b_dispatch.sh` 归档到 `scripts/archive/`。本机旧 WSL `docs_lint_report.json` 已保存到 ignored `logs/graph/archive/docs_lint_report_2026-09-08_local_wsl.json`，tracked 路径恢复仓库基线；GB10 docs_lint 才是权威。未删除任何唯一证据。

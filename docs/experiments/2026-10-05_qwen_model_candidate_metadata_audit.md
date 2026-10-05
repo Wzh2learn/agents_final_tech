@@ -46,4 +46,4 @@ A local metadata-only API request succeeded after the GB10 timeout. Immutable re
 - Qwen3-8B revision `b968826d9c46dd6066d109eabc6255188de91218`;
 - both `apache-2.0`.
 
-The metadata manifest was corrected to bind LFS `sha256` values. Model weight download remains blocked because GB10 and the local official Hugging Face path both time out. See `docs/experiments/2026-10-05_model_sync_blocked.md`.
+The metadata manifest was corrected to bind LFS `sha256` values. At that historical point model weight download was blocked because GB10 and the local official Hugging Face path both timed out. The official-path diagnosis is archived at `docs/archive/experiments/2026-10-05_model_sync_blocked.md`; the current acquisition state is `docs/experiments/2026-10-05_model_sync_mirror_success.md`.

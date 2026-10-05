@@ -2,7 +2,7 @@
 
 > 状态：`USER_SELECTED_NOT_FROZEN / NOT_RUN` | Goal：`ACTIVE`
 > 运行边界：只准备协议；不运行 B0-B4/B5、不启动模型/Phase 2/训练、不新增下载
-> 关联：[`docs/experiments/2026-10-04_q3_boundary_blocker_audit.md`](../experiments/2026-10-04_q3_boundary_blocker_audit.md)
+> 关联：[`docs/experiments/SUMMARY_q3_label_and_baselines.md`](../experiments/SUMMARY_q3_label_and_baselines.md)；历史边界审计见 [`docs/archive/experiments/2026-10-04_q3_boundary_blocker_audit.md`](../archive/experiments/2026-10-04_q3_boundary_blocker_audit.md)
 
 ## 1. Purpose and evidence level
 
