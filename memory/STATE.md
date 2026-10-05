@@ -1,12 +1,12 @@
 # Current State
 
-> Updated: 2026-10-05T16:31:59+08:00 | Scope: Valentine full-benchmark route audit and formal negative boundary | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
+> Updated: 2026-10-05 | Scope: formal negative path B completion audit | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions: [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md). The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 
 ## Current objective
 
-围绕 Evaluate-Distill-Evolve 三阶段闭环推进科研主线。Goal 保持 ACTIVE。成熟 Stage E 保底稿有效；Stage D 仍为 `PILOT_ONLY`，`DATA_NO_GO` / `RQ2 NOT_IDENTIFIED` 保持；Q3 与 B0-B4 仍是 exploratory evidence。
+当前 goal 的合法路径 B 已完成：正式记录 `DATA_NO_GO / RQ2 NOT_IDENTIFIED`，解释 Valentine 551 tasks 仅形成 8 个保守 origin components、无 native trajectory/checkpoint bridge，完整 Evaluate-Distill-Evolve 转为 future work；成熟 Stage E 小论文内部投稿版与大论文开题、第 1–2 章、第 3–8 章框架、Track B pilot、负结果边界和未来数据需求均已落盘。此结论不等于确认性 RQ2/Stage D/Stage R/RQ4、正式外投或训练完成。
 
 ## Model artifact status
 
@@ -23,7 +23,8 @@ Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 - Metadata-only RQ2 source screening covers all 10 registry sources: `0/10` directly provide the same-UID checkpoint + map/hold/skip action/target + independent correctness bridge. This is registry-scoped, not a global nonexistence claim; no new source was selected or downloaded.
 - The user selected Route 2 (Valentine full benchmark + frozen process adapter). Its read-only structural audit found 551 complete pairs but only 8 conservative shared-origin components (<40), so the preregistered hard stop transitioned the work to the formal negative-result branch. No archive download/annex/full-benchmark adapter is authorized; the small paper remains Stage E fallback and full E-D-R is future work.
 - Route V full benchmark DOCX narrative was refreshed and passed GB10 Office text/ZIP/PDF/page-4 visual checks; teacher-review Stage E DOCX remains unchanged.
-- Current goal completion audit is `NOT_COMPLETE_FOR_FULL_GOAL`; remaining scientific work requires a new source/task-definition annex or a new user scope decision. Internal deliverables are complete only at their stated scope.
+- Current goal completion audit is `COMPLETE_FOR_FORMAL_NEGATIVE_PATH_B`; the earlier `NOT_COMPLETE_FOR_FULL_GOAL` audit remains historical evidence for the stricter confirmatory-only interpretation.
+- Track B adapter pilot is sealed on GB10 at `/home/testuser/wzh/track_b_adapter_20261005_seal/`; 8/8 payload hashes pass and manifest hash is `dc388959150c98ffa7639108e1e80e306c346317b1cdced632ab66593960a04b`. It is exploratory within-origin evidence with `correctness_status=NOT_RUN`.
 - Phase 2 duplicate JSON-key prerequisite is `PASS_SOFTWARE_CONTRACT`: commit `60eaa27` uses `object_pairs_hook` + `parse_constant`, and GB10 `tests/test_phase2_rule_gate_replay.py` reports `22 passed`. Phase 2 remains `NOT_RUN`; this is not replay or Stage R evidence.
 - Paper/thesis evidence-state consistency was refreshed across 12 internal files: Q3 is now described as sealed exploratory evidence with corrected `51/58/37` and visibility exceptions; B0-B4 is exploratory v2; Stage E established numbers and claim boundaries were not changed.
 - No model weights were loaded and no training model was instantiated.
@@ -36,7 +37,7 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 
 ## Git state
 
-- Route-audit state commit is `28b633b` on local/origin `main`; GB10 was observed read-only at `ea59d926136300578641b4ed760dc2b2dfe8c862` and was not fast-forwarded during this audit. Git history remains authoritative for subsequent fixes.
+- GB10 validation baseline is `11aae9c6a6a09ccf606e999292e4fe66bc5b5778`; the path-B closeout documentation commit follows it and is authoritative in Git history. GB10 production dirty files remained the fixed five and were not overwritten.
 - Preserve protected/user assets: `logs/graph/docs_lint_report.json`, `IMPLEMENTATION_PLAN.md`, `PROMPT.md`, `_d3b_dispatch.sh`.
 - GB10 production dirty files remain the fixed five: `config/schema_suggestions.json`, `logs/graph/docs_lint_report.json`, `logs/graph/governance_drift_latest.md`, `logs/graph/loop_b_last_status`, `logs/graph/verify-report.json`.
 - Do not touch `docs/33*`, `docs/34*`, frozen tests/schema, `scripts/graph/frozen_hashes.txt`, or TAT-DQA boundaries.
@@ -51,8 +52,8 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 
 ## Next gates
 
-1. Close the exact-source annex gap or formally retain `DATA_NO_GO`; do not claim the 40-cluster target is available at the current revision.
-2. If a new source is proposed, require an exact repository/revision/path/hash/licence annex and native same-sample bridge evidence before any download.
+1. The exact-source annex gap is formally retained as part of `DATA_NO_GO`; do not claim the 40-cluster target is available at the current revision.
+2. Any future confirmatory attempt requires a new exact source/task-definition annex and all SOURCE/LABEL/SPLIT/POWER/BASELINE/MODEL/SAFETY gates; it is outside the completed path-B goal.
 3. Recompute Stage D necessity and SOURCE/LABEL/SPLIT/POWER/BASELINE/SAFETY from real artifacts.
 4. Run A2 only after the scientific gates and signed power receipt pass; use the approved necessity criteria without post-result changes.
 5. Keep Phase 2 blocked until RQ2/RQ3 prerequisites and the approved execution window pass; duplicate JSON-key software readiness is already closed.

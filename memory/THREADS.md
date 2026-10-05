@@ -1,5 +1,7 @@
 # memory/THREADS.md — 未决线索
 
+[10-05] #FORMAL-NEGATIVE-PATH-B-COMPLETE: 当前 goal 的合法路径 B 已完成并落盘 `docs/experiments/2026-10-05_formal_negative_path_b_completion_audit.md`。六项完成标准均 PROVEN：`DATA_NO_GO / RQ2 NOT_IDENTIFIED`；Valentine 551 tasks 仅 8 个保守 origin components；无 native trajectory/checkpoint bridge；完整 E-D-R 转 future work；Stage E 小论文内部投稿版完成；大论文开题/第1–2章/第3–8章框架、Track B pilot、负结果边界与未来数据需求完成。GB10 `11aae9c` 全量 `870 passed / 13 skipped / 1 deselected`，focused `27 passed`，claims `74/74`，submission `10/10`，docs_lint `0 fail / 4 warn`。Track B 封存 `/home/testuser/wzh/track_b_adapter_20261005_seal/`，manifest hash `dc3889...`，correctness 仍 `NOT_RUN`。外部投稿、Stage D/R/RQ4、训练和发布仍不完成。
+
 [10-05] #VALENTINE-FULL-ROUTE-NEGATIVE-BOUNDARY: 用户选择第二路线（Valentine full benchmark + frozen process adapter）。Zenodo Valentine full benchmark 只读结构审计确认 551 个完整 pair，但保守 shared-origin components 仅 8（`miller2`/`prospect`/`assays`/`Musicians` + Magellan 3/2/1/1），低于 40，预注册硬止损因此自动转入第三路线：接受 `DATA_NO_GO / RQ2_NOT_IDENTIFIED` 为正式负结果，完整 E-D-R 转 future work，小论文保持 Stage E。未下载 archive、未提交 selected-pair annex、未运行 full-benchmark adapter/A0-A3/Phase2/B5/训练。
 
 [10-05] #GOAL-COMPLETION-AUDIT-EXTERNAL-INPUT-BLOCKER: 完成审计结论 `NOT_COMPLETE_FOR_FULL_GOAL / INTERNAL_DELIVERABLES_COMPLETE`。RQ2 same-sample mother pool 仍无可用来源；registry screen `0/10`，Route V gap 30，Stage D/R/RQ4 仍无确认性结果。剩余工作需要用户提供新的精确 source/task-definition annex、批准 adapter 路线，或明确接受正式负结果边界；在此之前不运行 A2、Phase 2、训练或外发。

@@ -213,3 +213,8 @@ These assets support a formal negative-result boundary only. They do not authori
 ## 2026-10-05 Route V DOCX refresh
 
 `paper/research_story_v2.md` and its derived `paper/research_story_v2.docx` were synchronized after the Route V negative-boundary decision. DOCX hash is `5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30`; GB10 Office text/ZIP/PDF/page-4 visual checks passed. The mature Stage E teacher-review DOCX was not changed.
+## 2026-10-05 Track B pilot and formal negative path B closure
+
+- Track B pilot receipt: `docs/experiments/2026-10-05_track_b_adapter_pilot_receipt.md`. Durable GB10 package: `/home/testuser/wzh/track_b_adapter_20261005_seal/`; manifest hash `dc388959150c98ffa7639108e1e80e306c346317b1cdced632ab66593960a04b`. Primary is 10 pairs / 146 columns / 657 events; pair-invalid sensitivity is 9 pairs / 130 columns / 573 events. `ground_truth_read=false`, `correctness_status=NOT_RUN`, `paper_result=false`.
+- Formal negative completion audit: `docs/experiments/2026-10-05_formal_negative_path_b_completion_audit.md`. The current goal's path B is complete: `DATA_NO_GO / RQ2 NOT_IDENTIFIED`, 551-to-8 origin explanation, no native trajectory/checkpoint bridge, Stage E internal submission, and thesis proposal/chapters 1-2/framework plus pilot, negative-boundary and future-data evidence are all present.
+- Evidence classification remains strict: Stage E is established; Q3, B0-B4 and Track B are exploratory/within-origin pilot; Stage D/R/RQ4 remain plans or empty slots; model artifacts are readiness only; A0-A3, Phase 2, B5, external submission and release are not completed.

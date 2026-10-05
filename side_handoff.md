@@ -1,64 +1,45 @@
 # Project: JinRongAgents
-# Last updated: 2026-10-05T16:31:59+08:00 by Loop D Valentine full-route boundary clarification
+# Last updated: 2026-10-05 by Loop D formal-negative path B closeout
 
-## What's done
+## Current status
 
-- Internal research deliverables are complete at the stated scope: mature Stage E paper, thesis proposal, chapters 1-2, and chapters 3-8 framework.
-- Q3 raw review package is sealed with visibility exceptions. The corrected ledger is `map_to=51 / skip=58 / hold=37`.
-- B0-B4 exploratory v2 is complete. B4 is the simple baseline to beat; dedicated-student necessity remains `NOT_ESTABLISHED`.
-- Stage D readiness, A3 constraints, Phase 2 initial budgets, and execution windows are recorded.
-- `peft`, `trl`, `datasets`, and `accelerate` are installed; `deepspeed` is intentionally omitted for the single-device path.
-- Both Qwen3-4B and Qwen3-8B exact-revision artifacts are hash-verified through the approved `hf-mirror.com` fallback.
-- GB10 real Qwen3-4B artifact validation passes: 13/13 identities, 3 shard headers, 398 tensors, tokenizer/licence, and canonical relative manifests.
-- Qwen3-8B artifact validation passes: 15/15 identities, 5 shard headers, 399 tensors, tokenizer/licence, and canonical relative manifests.
-- GB10 readiness dry-run passes with `smoke_model_revision_ready=true`; `model_revision_ready=false` because Qwen3-8B is not downloaded.
+- The current goal is complete through its allowed formal-negative path B. The audit is `docs/experiments/2026-10-05_formal_negative_path_b_completion_audit.md`.
+- The scientific outcome is `FORMAL_NEGATIVE_BOUNDARY`: `DATA_NO_GO / RQ2 NOT_IDENTIFIED`. The Valentine full benchmark has 551 complete tasks but only 8 conservative origin components and no native trajectory/checkpoint bridge. Full Evaluate-Distill-Evolve validation is future work.
+- The mature Stage E small paper is complete for internal submission scope. External submission is not ready and remains prohibited until the patent gate and external items are resolved.
+- The thesis proposal, chapters 1-2, and chapters 3-8 framework are complete as internal drafts/framework. Stage D, Stage R, and RQ4 slots remain plans or empty slots.
+- Q3, B0-B4, and Track B are exploratory evidence only. Q3 corrected distribution is `map_to=51 / skip=58 / hold=37`; B4 is the simple baseline to beat; Track B correctness remains `NOT_RUN`.
+- Track B adapter evidence is sealed at `/home/testuser/wzh/track_b_adapter_20261005_seal/`; 8/8 payload hashes pass and `sha256_manifest.txt` hash is `dc388959150c98ffa7639108e1e80e306c346317b1cdced632ab66593960a04b`.
+- Qwen3-4B and Qwen3-8B are `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`. No model was loaded and no S0/A0-A3, Phase 2, B5, or training ran.
 
-## What's in progress
+## Canonical evidence
 
-- Model artifact validation and readiness rebinding for Qwen3-4B.
-  Status: `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`; readiness is bound; no model load or S0 has started.
-  Files: `docs/experiments/2026-10-05_model_sync_mirror_success.md`, `docs/datasets/2026-10-05_qwen_model_metadata_v1.json`, `docs/datasets/2026-10-05_stage_d_training_readiness_config_v1.json`.
-  Known open issues: Qwen3-8B artifact and all scientific gates remain open; model presence and 4B validation are not MODEL_GO.
-- Qwen3-8B model sync.
-  Status: `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`; exact 15-file mirror sync and validation completed.
-  Files: `docs/datasets/2026-10-05_qwen_model_metadata_v1.json`.
-  Known open issues: scientific gates, stable residual, and training window remain open; no model load is authorized.
-- RQ2 acquisition gap.
-  Status: official Route V tree contains only the existing 10 eligible clusters; target gap is 30.
-  Files: `docs/datasets/2026-10-05_valentine_route_v_exact_annex_v1.json`.
-  Known open issues: no source/revision expansion without a new precise annex.
+- Path B completion audit: `docs/experiments/2026-10-05_formal_negative_path_b_completion_audit.md`
+- Valentine structure audit: `docs/experiments/2026-10-05_valentine_full_benchmark_structure_audit.md`
+- Track B pilot receipt: `docs/experiments/2026-10-05_track_b_adapter_pilot_receipt.md`
+- Stage E paper: `paper/teacher_review_draft_v1.md`
+- Thesis proposal/chapters/framework: `paper/thesis_proposal_v1.md`, `paper/thesis_ch1_ch2_draft_v1.md`, `paper/thesis_manuscript_scaffold_v1.md`
+- Evidence ledger: `paper/research_asset_map_v2.md`
+- Current summaries: `docs/experiments/SUMMARY_q3_label_and_baselines.md`, `docs/experiments/SUMMARY_stage_d_readiness_and_model_sync.md`
 
-## What's next (recommended)
+## Validation baseline
 
-The user conditionally authorized S0/A0-A2 to proceed automatically only after both model artifacts and SOURCE/LABEL/SPLIT/POWER/BASELINE/MODEL/SAFETY, stable Stage D residual, A2-vs-B4 criteria, frozen execution controls, and GB10 single-heavy-task isolation all pass. Current state does not satisfy those conditions.
+GB10 commit `11aae9c6a6a09ccf606e999292e4fe66bc5b5778`:
 
-Stage D necessity criteria are approved initial values: A2 coverage gain over B4 >=0.05, target exact non-inferiority margin <=0.02, maximum single-pair residual/gain share <=0.50, harmful-map risk upper <=0.10 in primary/pair-invalid/salted, and positive A2-B4 coverage-delta lower bounds in primary/pair-invalid. A2 is not run; the salted risk upper bound is 0.1250 and fails.
+- full pytest: `870 passed / 13 skipped / 1 deselected`
+- focused tests: `27 passed`; adapter contract tests: `11 passed`
+- paper claims: `74/74`
+- submission package: `10/10 mechanical PASS`, `PENDING_EXTERNAL_ITEMS`
+- docs_lint: `0 fail / 4 warn`
 
-Phase 2 duplicate JSON-key prerequisite is closed at the software-contract level: strict `object_pairs_hook`/`parse_constant` loading is covered by GB10 `22 passed`. Phase 2 remains `NOT_RUN`.
+## External and future work
 
-Twelve internal paper/thesis files now use the same Q3/B0-B4 evidence boundaries: Q3 sealed exploratory `51/58/37` with visibility exceptions; B0-B4 v2 exploratory; Stage E main results unchanged.
+1. External submission still requires official venue/template verification, authorship/affiliation, patent confirmation, anonymization, and camera-ready visual acceptance.
+2. Any future confirmatory RQ2 attempt requires a new exact source/task-definition annex with at least 40 conservative independent origin clusters, native same-sample checkpoint/action/correctness evidence, independent reviewer receipts, non-empty split roles, and signed power evidence.
+3. A0-A3, Phase 2, B5, formal training, arXiv, code release, and external distribution remain separately authorized future work.
+4. Frozen criteria, frozen hashes, TAT-DQA boundaries, null/adverse results, and the prohibition on external release before patent confirmation remain unchanged.
 
-Metadata-only RQ2 screening found `0/10` registry sources with a direct same-UID checkpoint/action/correctness bridge. This is not a global source claim; no new source or download is approved.
-The user selected Route 2 (Valentine full benchmark + frozen process adapter). Its read-only audit found 551 pairs but only 8 conservative shared-origin components, so the preregistered hard stop automatically selected the formal negative-result branch. Full E-D-R is future work; Stage E remains the paper route.
-The Route V research-story DOCX was regenerated and passed GB10 Office checks; the Stage E teacher-review DOCX was not modified.
-Current completion audit is `NOT_COMPLETE_FOR_FULL_GOAL`; internal deliverables are complete at scope, while the remaining scientific loop waits for a new source/task-definition annex or a new scope decision.
+## Session rules
 
-1. Resolve or formally retain the Route V exact-annex gap: target >=40 is approved, but the fixed revision has only 10 eligible clusters and 0 new files.
-2. If a new source is proposed, require exact repo/revision/path/hash/licence annex plus native same-sample bridge evidence before download.
-3. Recompute Stage D necessity and the SOURCE/LABEL/SPLIT/POWER/BASELINE/SAFETY gates from real artifacts.
-4. Keep A2 unrun until the scientific gates and signed power receipt pass; never tune the approved necessity criteria after results.
-5. Keep Phase 2 blocked until RQ2/RQ3 prerequisites and its formal execution window pass; duplicate-key readiness is already closed.
-6. Re-run readiness and safety validation; run S0/A0-A2 only after every conditional gate passes.
-7. Keep A0-A3 blocked until Stage D necessity and SOURCE/LABEL/SPLIT/POWER/BASELINE gates pass.
-8. Continue internal paper/thesis refinement only from independently accepted artifacts; no external submission while the patent gate is unresolved.
-
-## Notes for the next session
-
-- Official `huggingface.co:443` is blocked from GB10. The approved fallback is `https://hf-mirror.com` with `token=false`, `HF_HUB_DISABLE_XET=1`, and `HF_HUB_ENABLE_HF_TRANSFER=0`.
-- Never send or print the Hugging Face token. Mirror provenance must be recorded as third-party fallback, not official direct download.
-- For LFS files, validate `lfs_sha256`; `git_blob_sha1` identifies the pointer object, not the file content.
-- `DATA_NO_GO`, `RQ2 NOT_IDENTIFIED`, and Stage D `PILOT_ONLY` remain active.
-- Local synthetic validator tests are `DEV_ONLY / NON_AUTHORITATIVE`; only GB10 evidence updates project state.
-- Q3 and B0-B4 are exploratory. They are not Stage D, Stage R, RQ4, or training results.
-- The old dated side handoff is archived at `docs/archive/side_handoff_20260829.md`. Do not use it as current status.
+- GB10 is the only authoritative runtime/validation environment; local synthetic tests are `DEV_ONLY / NON_AUTHORITATIVE`.
+- Do not overwrite production dirty files, restart daemon/:5050, print tokens, or send model credentials to mirrors.
 - Git history wins if this handoff and the repository disagree.
