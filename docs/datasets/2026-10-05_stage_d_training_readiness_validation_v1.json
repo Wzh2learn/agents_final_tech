@@ -1,5 +1,5 @@
 {
-  "config_sha256": "87a3f13ac8b06532ea8ef55b1cdf49b69b356767b21807dc6434f9095c294c83",
+  "config_sha256": "513fb5c0534b605041b93d448ac8892d8e3a651fd7d5d53fb7df9b508208fef9",
   "data_go": false,
   "launch_conditions": [
     "MODEL_GO with exact model and tokenizer revisions",
@@ -15,6 +15,7 @@
   ],
   "model_revision_ready": false,
   "paper_result": false,
+  "phase2_initial_budget_status": "INITIAL_VALUES_APPROVED_NOT_FROZEN_FOR_FORMAL_RUN",
   "phase2_status": "NOT_RUN",
   "planning_estimates": {
     "A1_A2_per_seed": {
@@ -78,6 +79,7 @@
   },
   "record_type": "stage_d_training_readiness_validation",
   "record_version": "stage-d-training-readiness-validation-v1",
+  "stage_d_necessity_threshold_status": "PROPOSED_PENDING_USER_CONFIRMATION",
   "status": "PASS_DRY_RUN_ONLY",
   "training_execution_authorized": false,
   "training_execution_status": "BLOCKED_PENDING_MODEL_GO_DEPENDENCIES_AND_DATA_GATES",
