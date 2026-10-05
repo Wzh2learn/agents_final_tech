@@ -24,7 +24,7 @@
 
 ## 3 KD / agent distillation 的 future-work 边界
 
-`hinton2015distilling`、`gou2021kdsurvey`、`xu2024kdsurveyllm`、`qiu2025agentdistill`、`liu2025structuredagent`、`chen2026counteraction`、`ma2026mopd` 只能放 Discussion / future work。当前没有学生训练结果，不得把模型矩阵、60 对 DPO 素材或 146 列 Q3 输入包写成 distillation evidence。正式 KD 主实验仍受 `DATA_NO_GO`、`NOT_IDENTIFIED`、V2-3 与专利门约束。
+`hinton2015distilling`、`gou2021kdsurvey`、`xu2024kdsurveyllm`、`qiu2025agentdistill`、`liu2025structuredagent`、`chen2026counteraction`、`ma2026mopd` 只能放 Discussion / future work。当前没有学生训练结果，不得把模型矩阵、60 对 DPO 素材或已完成的 146 列 exploratory Q3 review 写成 distillation evidence。正式 KD 主实验仍受 `DATA_NO_GO`、`NOT_IDENTIFIED`、V2-3 与专利门约束。
 
 ## 4 投稿前检查
 

@@ -24,7 +24,7 @@
 1. 取得 venue 官方模板/CFP，确定页数、匿名、References 和 supplementary policy。
 2. 在不改变 claim/evidence 的前提下生成 venue 版 PDF，补齐作者/单位并复验图表打印尺寸。
 3. 专利确认后再决定任何外发、arXiv 或代码公开。
-4. 146 列 Q3 仍只作为 exploratory 输入包；只有 token/授权满足后才派发 R1/R2/ADJ，并先做独立审计。
+4. 146 列 Q3 已完成 R1/R2/ADJ 并封存 raw/ledger/hash，但带 visibility exceptions；它只作为 exploratory learnability evidence，不进入 Stage E 保底稿结果，也不得升级为 Stage D/RQ2。
 
 ## 3 当前判定
 

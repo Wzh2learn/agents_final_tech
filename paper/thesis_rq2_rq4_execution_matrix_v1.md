@@ -13,7 +13,7 @@
 | 必报 | action macro-F1、target exact、harmful-action acceptance、coverage、worst family、成本；自然量与 size/token/group-matched 两套口径 |
 | 确认性族 | 质量非劣、安全非劣、风险约束下覆盖；族内 Holm，其余指标/家族标 exploratory |
 | 门序 | SOURCE_GO → LABEL_GO → SPLIT_GO → POWER_GO → BASELINE_GO → MODEL_GO |
-| 当前状态 | **空槽**。模型矩阵不是蒸馏结果；146 列 Q3 只有输入包；`DATA_NO_GO` / `NOT_IDENTIFIED` 不变 |
+| 当前状态 | **空槽**。模型矩阵不是蒸馏结果；146 列 Q3 已完成 exploratory review，但带 visibility exceptions，不能升级为 Stage D/RQ2；`DATA_NO_GO` / `NOT_IDENTIFIED` 不变 |
 | 禁止写法 | 不得写“蒸馏已闭合”“RQ2 已确认”“学生优于基线”；4B 不作主实验或参数量消融 |
 
 ## 2 RQ3：经验能否安全积累
@@ -70,4 +70,4 @@ B0-B4 exploratory v2 is complete but does not pass a Stage D gate. Primary B4 is
 The risk-constrained gate is `PILOT_ONLY`: B4 satisfies harmful-map rate <= 0.10 in the primary and whole-pair sensitivity slices, but the salted slice has point rate 0.1053 and upper bound 0.1250 on only 2 test pairs / 19 columns. Stable risk-constrained coverage is false; dedicated-student necessity is `NOT_ESTABLISHED`; no A0-A2 run is authorized. The thesis retains all Stage D/R/RQ4 slots and labels B0-B4 as exploratory evidence.
 ## 8. Training readiness and static protocol addendum (2026-10-05)
 
-A0-A3 and 4B-smoke configuration, output/checkpoint/recovery rules, resource gates, and planning estimates are frozen as dry-run-only in `docs/datasets/2026-10-05_stage_d_training_readiness_config_v1.json`; validator output is `PASS_DRY_RUN_ONLY` with `training_execution_status=BLOCKED_PENDING_MODEL_GO_DEPENDENCIES_AND_DATA_GATES`. Stage R/RQ4 static order/state/rollback/C0-C3 protocol is in `docs/experiments/2026-10-05_stage_r_rq4_static_protocol.md`. No A0-A3 or Phase 2 execution is authorized.
+A0-A3 and 4B-smoke configuration, output/checkpoint/recovery rules, resource gates, and planning estimates are frozen as dry-run-only in `docs/datasets/2026-10-05_stage_d_training_readiness_config_v1.json`; validator output is `PASS_DRY_RUN_ONLY`; model artifacts are validated, but training remains blocked by scientific gates, stable residual and the formal execution window. Stage R/RQ4 static order/state/rollback/C0-C3 protocol is in `docs/experiments/2026-10-05_stage_r_rq4_static_protocol.md`. No A0-A3 or Phase 2 execution is authorized.

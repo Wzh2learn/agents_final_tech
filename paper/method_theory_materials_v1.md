@@ -416,7 +416,7 @@ $$x_{p,j}=(uid_p,\;j,\;h^{S}_{p,j},\;\mathcal H^{T}_{p}),$$
 
 对独立载体 $r\in\{R1,R2\}$，判定为 $(A_{p,j,r},T_{p,j,r})$，其中 $A_{p,j,r}\in\{\texttt{map\_to},\texttt{skip},\texttt{hold}\}$；仅当动作是 `map_to` 时 $T_{p,j,r}\in\mathcal H^{T}_{p}$，否则目标为 $\varnothing$。两载体的完整选择相同时直接形成 Q3 gold；动作或目标不同时进入独立裁决载体 ADJ，裁决选择成为 gold，并必须保留 `rationale_ref`。三载体必须互异且均不得是生成器。
 
-复核只报告：动作原始一致率、动作 Cohen’s $\kappa$、双方均为 `map_to` 时的目标 exact agreement、裁决率与各动作计数。缺失判定记 `unmeasurable` 或 `NOT_RUN`，不得补 0；当前这些量全部为空。
+复核只报告：动作原始一致率、动作 Cohen’s $\kappa$、双方均为 `map_to` 时的目标 exact agreement、裁决率与各动作计数。缺失判定记 `unmeasurable` 或 `NOT_RUN`，不得补 0。当前已封存值为：R1/R2 exact agreement $119/146$，action $\kappa=0.7265348595$，共同 `map_to` target agreement $41/41$，27 条 disagreement 全部进入 ADJ；corrected action counts 为 `map_to=51 / skip=58 / hold=37`。这些量仍是 exploratory evidence，不改变正式门。
 
 ### 11.3 源侧 gold 的事后收敛效度
 

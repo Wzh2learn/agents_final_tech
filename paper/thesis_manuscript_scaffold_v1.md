@@ -52,7 +52,7 @@ proposal/train（含内部 dev）、gate-validation、sealed test、future repla
 - 小论文的门控案例不能替代大论文规则自学习的效果验证。
 - 第二数据流与第二 scorer 未完成前，不作跨域或普适性主张。
 - 专利状态确认前，所有稿件仅限内部审阅。
-- G-D 的 146 列 Q3 复核只可写为 exploratory learnability evidence；当前仅有输入包和零 gold 可见性证据，尚无 R1/R2 判定、裁决、label ledger 或指标，不得写成 Stage D 闭合、RQ2 确认或 `DATA_GO`。
+- G-D 的 146 列 Q3 复核只可写为 exploratory learnability evidence；raw R1/R2/ADJ、corrected ledger 与 hash 已封存，corrected 分布为 `51/58/37`。R1 看到 lineage 分组且 R2/ADJ 缺独立签署 visibility receipt，故不得写成 Stage D 闭合、RQ2 确认或 `DATA_GO`。
 - V2-3 已正式关闭步级重执行路线；不得重开 v3、更换读法或申报 FinQA 官方算子材料来挽救原结果。
 
 ## 章节级框架加记（§x.y 级，2026-09-24；门注记更新于 2026-09-25；v1 正文不回改）
@@ -102,7 +102,7 @@ proposal/train（含内部 dev）、gate-validation、sealed test、future repla
 ## 9 当前证据指针（2026-10-04，零模型）
 
 - 第 3-4 章可直接继承评估保底稿与既有 artifact；matched-FPR null、OCR 盲区与停止条件保持原样。
-- 第 5 章只写方法/边界：D-B `licence_record` 已接受但仅覆盖 D-B annex 三件，仍无 label_ledger、student result 或 `DATA_GO`；146 列 Q3 仍是“已装配未复核”的 exploratory 输入包。
+- 第 5 章只写方法/边界：D-B `licence_record` 已接受但仅覆盖 D-B annex 三件，仍无 confirmatory label_ledger、student result 或 `DATA_GO`；146 列 Q3 已完成 exploratory review，但不能替代确认性标签或训练证据。
 - 第 6 章只写机制级门控与回填位；Phase 2、功效、gate-validation、rollback curve 仍是空槽，不得写成自学习效果。
 - 第 7 章复现材料见 `paper/reproducibility_statement_arr_www_v1.md`；第 8 章后写时只汇总已验收边界和开放问题，不把目标贡献改写成结果。
 - 第 5–6 章的 RQ2/RQ3/RQ4 臂、指标、门序与禁止写法见 `paper/thesis_rq2_rq4_execution_matrix_v1.md`；所有槽位在真实实验过门前保持空槽。

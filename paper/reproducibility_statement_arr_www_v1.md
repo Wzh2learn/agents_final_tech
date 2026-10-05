@@ -5,7 +5,7 @@
 
 ## 1 可复现性边界
 
-当前主稿是成熟评估保底稿，结论只覆盖冻结公开表格语料上的评估协议与缺陷可见性。所有正文数字均来自可追溯 artifact；FinQA 步级路线的负结果、`DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 与 146 列 Q3 的“已装配未复核”状态均原样保留。
+当前主稿是成熟评估保底稿，结论只覆盖冻结公开表格语料上的评估协议与缺陷可见性。所有正文数字均来自可追溯 artifact；FinQA 步级路线的负结果、`DATA_NO_GO`、RQ2 `NOT_IDENTIFIED` 均原样保留。146 列 Q3 raw package 已封存并形成 corrected ledger `51/58/37`，但带 visibility exceptions，只能作为 exploratory learnability evidence，不进入本保底稿的结果主张。
 
 ## 2 可公开候选材料
 

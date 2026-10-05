@@ -164,9 +164,9 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/test_distillation_data_audit.py 
 
 ## 2026-10-04 boundary/blocker addendum
 
-- Q3 raw closure: MISSING R1/R2/ADJ outputs, final label ledger, expert visibility/gold-isolation receipt, and output manifest/hash; user summary remains exploratory only.
-- Invalid action reference audit: DSNY pair has 3 final references to mgp_curb_pri_boro; reference quarantine and whole-pair INVALID are both pending user decision.
-- B0-B4 exploratory protocol: [docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md](../docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md), DRAFT_NOT_FROZEN / NOT_RUN.
+- Q3 raw closure: COMPLETE_WITH_VISIBILITY_EXCEPTIONS. R1/R2/ADJ outputs, corrected label ledger, receipts and hashes are sealed; authoritative distribution is `map_to=51 / skip=58 / hold=37`. R1 saw lineage grouping and R2/ADJ lack independent signed visibility receipts, so evidence remains exploratory only.
+- Invalid action reference audit: Option A quarantines turn 12/13/31 with `invalid_action_reference_count=3`; Option B whole-pair INVALID is the mandatory 9-cluster / 130-column sensitivity.
+- B0-B4 exploratory protocol: [docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md](../docs/datasets/2026-10-04_b0_b4_exploratory_split_protocol_v1.md), v2 executed on GB10 as exploratory evidence; first run remains invalidated by the salted B4 alignment bug.
 - B5: no locally verifiable source/licence/version/dependency/output capability for either candidate; PROPOSED_EXPLORATORY / NOT_RUN.
 
 ## 2026-10-04 ruling update

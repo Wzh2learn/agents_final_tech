@@ -53,5 +53,5 @@
 
 - 当前 `paper/claim_manifest_v1.json` 为 **5 条主张**：SP-C1..SP-C4 保持原状态，SP-C5 = `attempted_stopped_by_preregistration`，用于如实承载 V2-3 的停止结论。`paper/acceptance_report_v1.json` 已由 GB10 `research/validate_paper_claims.py --output` 重新生成，**PASS / 5 claims / 74 checks**，sha256 `cf6123638a042b9027db0f1a8a500571a75cc512c1866d04142b4b4a4a7b9d05`。
 - `tests/test_paper_claim_acceptance.py` 当前为 **9 passed**；两份导师向 DOCX 的 Office 视觉验收已于 2026-10-03 PASS（导师稿 8/8 页、故事稿 4/4 页；证据件 `docs/experiments/2026-10-03_office_visual_acceptance.md`）。
-- 小论文仍按成熟评估保底稿定稿。G-D 的 146 列 Q3 输入包已装配，但 review 未运行；因此本基线不含任何 146 列判定、指标或 Stage D 证据。V2-3 已关闭；`DATA_NO_GO` 与 RQ2 `NOT_IDENTIFIED` 继续有效。
+- 小论文仍按成熟评估保底稿定稿。G-D 的 146 列 Q3 review 已完成并封存 corrected ledger `51/58/37`，但带 visibility exceptions，仍是 exploratory evidence；本保底稿不纳入其判定或指标，更不构成 Stage D 证据。V2-3 已关闭；`DATA_NO_GO` 与 RQ2 `NOT_IDENTIFIED` 继续有效。
 - 外发门仍由专利状态控制：未确认前不上 arXiv、不公开代码、不外发。
