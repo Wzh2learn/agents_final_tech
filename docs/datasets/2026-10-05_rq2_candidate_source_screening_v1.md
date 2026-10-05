@@ -17,7 +17,7 @@ This screening uses only the metadata fields and checked revisions in the regist
 
 Evidence bindings:
 
-- registry: `docs/datasets/paper-public-source-registry-v1.json`, SHA-256 `37e28925955145bd21d04d5f38f6a9ecca62873fd184c190b8011dc55d479379`;
+- registry: `docs/datasets/paper-public-source-registry-v1.json`, SHA-256 `53fb2acb004925a71c75a1a2d7e86e64ada92eb606eb785370a59c2b0a045a58`;
 - RQ2 acquisition card: `docs/datasets/2026-10-04_rq2_identification_and_acquisition_card.md`, SHA-256 `05f345518658ce48de95b5887f94dea3ba64df2047381ff176180348ce094347`;
 - Route V exact annex: `docs/datasets/2026-10-05_valentine_route_v_exact_annex_v1.json`, SHA-256 `00e781a6917f7334a1ffcaa9b11d7c2fe1e8edc9415c449f7458ffbed9b6de17`.
 
