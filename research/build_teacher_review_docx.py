@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import argparse
 import re
+import zipfile
+import os
 from pathlib import Path
 
 from docx import Document
@@ -230,6 +232,26 @@ def add_three_stage_table(document: Document) -> None:
         run.font.size = Pt(9)
 
 
+def _normalize_docx_zip(output: Path) -> None:
+    """Rewrite DOCX entries with fixed ZIP timestamps for byte-deterministic output."""
+    temporary = output.with_suffix(output.suffix + ".normalized")
+    source_zip = zipfile.ZipFile(output, "r")
+    target_zip = zipfile.ZipFile(temporary, "w")
+    try:
+        for source_info in source_zip.infolist():
+            data = source_zip.read(source_info.filename)
+            target_info = zipfile.ZipInfo(source_info.filename, date_time=(1980, 1, 1, 0, 0, 0))
+            target_info.compress_type = source_info.compress_type
+            target_info.external_attr = source_info.external_attr
+            target_info.internal_attr = source_info.internal_attr
+            target_info.create_system = source_info.create_system
+            target_zip.writestr(target_info, data, compress_type=source_info.compress_type)
+    finally:
+        source_zip.close()
+        target_zip.close()
+    output.write_bytes(temporary.read_bytes())
+    temporary.unlink()
+
 def build(source: Path = SOURCE, output: Path = OUTPUT) -> Path:
     document = Document()
     style_document(document)
@@ -369,6 +391,7 @@ def build(source: Path = SOURCE, output: Path = OUTPUT) -> Path:
     document.core_properties.comments = f"Generated offline from {source_label}"
     output.parent.mkdir(parents=True, exist_ok=True)
     document.save(output)
+    _normalize_docx_zip(output)
     return output
 
 

@@ -5,6 +5,8 @@ emitted as raw LaTeX, and a table row could break across a page boundary mid-cel
 """
 from __future__ import annotations
 
+import time
+
 from docx import Document
 
 from research.build_teacher_review_docx import SOURCE, add_markdown_table, build, render_math
@@ -41,3 +43,11 @@ def test_built_docx_has_no_raw_latex_and_keeps_the_formulas(tmp_path):
     joined = "\n".join(paragraphs)
     for leftover in ("\\sum", "\\frac", "\\Gamma", "\\in"):
         assert leftover not in joined
+
+
+def test_built_docx_is_byte_deterministic(tmp_path):
+    first = build(source=SOURCE, output=tmp_path / "first.docx")
+    time.sleep(1.1)
+    second = build(source=SOURCE, output=tmp_path / "second.docx")
+
+    assert first.read_bytes() == second.read_bytes()
