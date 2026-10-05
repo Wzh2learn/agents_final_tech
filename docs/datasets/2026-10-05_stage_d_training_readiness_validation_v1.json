@@ -1,5 +1,5 @@
 {
-  "config_sha256": "f7ed6e7ffea5c1a4efab909959e29e546ff5566d6d43036f3e87ba4003dadbea",
+  "config_sha256": "a50e467ac9367a3dc2fe2cc5ef8aef6400ebe1fafe3b7c140390ab0b81e54abf",
   "data_go": false,
   "launch_conditions": [
     "MODEL_GO with exact model and tokenizer revisions",
