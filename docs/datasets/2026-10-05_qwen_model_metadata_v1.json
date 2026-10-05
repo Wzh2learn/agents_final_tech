@@ -1,0 +1,231 @@
+{
+  "record_type": "qwen_model_metadata",
+  "record_version": "qwen-model-metadata-v1",
+  "status": "METADATA_ONLY_NO_WEIGHT_DOWNLOAD",
+  "models": [
+    {
+      "id": "Qwen/Qwen3-4B",
+      "role": "S0_smoke_only",
+      "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+      "private": false,
+      "gated": false,
+      "license": "apache-2.0",
+      "file_count": 13,
+      "file_manifest_sha256": "36e7cde1c7b77d5fa44583cee21bfe5b689c2a7bbdc6e2d98ddecd8f1bdb424b",
+      "tokenizer_file_manifest_sha256": "cbd7aa9982a69dbbb4eb83304f7c603f98fce1db1f85f9293414e26950f05e23",
+      "planned_cache_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+      "files": [
+        {
+          "name": ".gitattributes",
+          "bytes": 1570,
+          "blob_id": "52373fe24473b1aa44333d318f578ae6bf04b49b",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "LICENSE",
+          "bytes": 11343,
+          "blob_id": "6634c8cc3133b3848ec74b9f275acaaa1ea618ab",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "README.md",
+          "bytes": 16857,
+          "blob_id": "2de5ee7eee214bb55ea33ec7505c5838a7adf7f6",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "config.json",
+          "bytes": 726,
+          "blob_id": "e49eccdc32f36da9c09cfa0e737084f9e0105e5e",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "generation_config.json",
+          "bytes": 239,
+          "blob_id": "20a8a9156fc8c3f25295ca067f61fdf120d517c5",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "merges.txt",
+          "bytes": 1671853,
+          "blob_id": "31349551d90c7606f325fe0f11bbb8bd5fa0d7c7",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "model-00001-of-00003.safetensors",
+          "bytes": 3957900840,
+          "blob_id": "546625baab99f4de2b975842100c119fec83919f",
+          "lfs_oid": null,
+          "lfs_size": 3957900840
+        },
+        {
+          "name": "model-00002-of-00003.safetensors",
+          "bytes": 3987450520,
+          "blob_id": "3e4d29aad0be87c083e078b50765cd056e793c51",
+          "lfs_oid": null,
+          "lfs_size": 3987450520
+        },
+        {
+          "name": "model-00003-of-00003.safetensors",
+          "bytes": 99630640,
+          "blob_id": "79fb0e18fca00d3a2ab04e5b732a2a740539b913",
+          "lfs_oid": null,
+          "lfs_size": 99630640
+        },
+        {
+          "name": "model.safetensors.index.json",
+          "bytes": 32819,
+          "blob_id": "95c0a0059df040d75dc6c396b174382cf61d2f91",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "tokenizer.json",
+          "bytes": 11422654,
+          "blob_id": "cd71f61a15a522601badb3dc960d800d9cb3766c",
+          "lfs_oid": null,
+          "lfs_size": 11422654
+        },
+        {
+          "name": "tokenizer_config.json",
+          "bytes": 9732,
+          "blob_id": "417d038a63fa3de29cfde265caedae14d1a58d92",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "vocab.json",
+          "bytes": 2776833,
+          "blob_id": "4783fe10ac3adce15ac8f358ef5462739852c569",
+          "lfs_oid": null,
+          "lfs_size": null
+        }
+      ]
+    },
+    {
+      "id": "Qwen/Qwen3-8B",
+      "role": "main_student_candidate",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "private": false,
+      "gated": false,
+      "license": "apache-2.0",
+      "file_count": 15,
+      "file_manifest_sha256": "294b8449b452cc7c6039042473e805f9aa7fa8d9cfe1428bd7d3a98129f5c136",
+      "tokenizer_file_manifest_sha256": "cbd7aa9982a69dbbb4eb83304f7c603f98fce1db1f85f9293414e26950f05e23",
+      "planned_cache_path": "/home/testuser/wzh/models/hf/Qwen3-8B",
+      "files": [
+        {
+          "name": ".gitattributes",
+          "bytes": 1570,
+          "blob_id": "52373fe24473b1aa44333d318f578ae6bf04b49b",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "LICENSE",
+          "bytes": 11343,
+          "blob_id": "6634c8cc3133b3848ec74b9f275acaaa1ea618ab",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "README.md",
+          "bytes": 16660,
+          "blob_id": "ecc3ebd0849aa08d9484bd911dddfd5261b10d30",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "config.json",
+          "bytes": 728,
+          "blob_id": "d46195ac87f837ad233d02b2f80f148bf7c005e0",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "generation_config.json",
+          "bytes": 239,
+          "blob_id": "20a8a9156fc8c3f25295ca067f61fdf120d517c5",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "merges.txt",
+          "bytes": 1671853,
+          "blob_id": "31349551d90c7606f325fe0f11bbb8bd5fa0d7c7",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "model-00001-of-00005.safetensors",
+          "bytes": 3996250744,
+          "blob_id": "8d46cf470aff053c27fd6d956d4d69af9460bd2a",
+          "lfs_oid": null,
+          "lfs_size": 3996250744
+        },
+        {
+          "name": "model-00002-of-00005.safetensors",
+          "bytes": 3993160032,
+          "blob_id": "e726a2bcb3b100cba7ae899689cc029d8a08b20c",
+          "lfs_oid": null,
+          "lfs_size": 3993160032
+        },
+        {
+          "name": "model-00003-of-00005.safetensors",
+          "bytes": 3959604768,
+          "blob_id": "c94db38adbcb837246c797986365b8e4603ef3ac",
+          "lfs_oid": null,
+          "lfs_size": 3959604768
+        },
+        {
+          "name": "model-00004-of-00005.safetensors",
+          "bytes": 3187841392,
+          "blob_id": "a6c92dd09e29e1f72271e087f89ee033b321101c",
+          "lfs_oid": null,
+          "lfs_size": 3187841392
+        },
+        {
+          "name": "model-00005-of-00005.safetensors",
+          "bytes": 1244659840,
+          "blob_id": "7bbb0cbc623d70925a3a82b301a99cb52ac9ed5b",
+          "lfs_oid": null,
+          "lfs_size": 1244659840
+        },
+        {
+          "name": "model.safetensors.index.json",
+          "bytes": 32878,
+          "blob_id": "2b85c00f1b118961cd7a477e2bba0fe197a4ce1a",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "tokenizer.json",
+          "bytes": 11422654,
+          "blob_id": "cd71f61a15a522601badb3dc960d800d9cb3766c",
+          "lfs_oid": null,
+          "lfs_size": 11422654
+        },
+        {
+          "name": "tokenizer_config.json",
+          "bytes": 9732,
+          "blob_id": "417d038a63fa3de29cfde265caedae14d1a58d92",
+          "lfs_oid": null,
+          "lfs_size": null
+        },
+        {
+          "name": "vocab.json",
+          "bytes": 2776833,
+          "blob_id": "4783fe10ac3adce15ac8f358ef5462739852c569",
+          "lfs_oid": null,
+          "lfs_size": null
+        }
+      ]
+    }
+  ]
+}

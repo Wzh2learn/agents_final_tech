@@ -11,10 +11,19 @@
   "model_family": {
     "student_main": "Qwen3-8B",
     "smoke_only": "Qwen3-4B",
-    "model_revision": "PENDING_MODEL_GO_SHA256",
-    "tokenizer_revision": "PENDING_MODEL_GO_MATCHED_SHA256",
-    "weight_license_review": "PENDING_MODEL_GO",
-    "revision_must_match_tokenizer": true
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "tokenizer_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "weight_license_review": "apache-2.0 / LICENSE blob 40-char identity bound in model metadata",
+    "revision_must_match_tokenizer": true,
+    "tokenizer_license": "apache-2.0",
+    "student_main_artifact_manifest_sha256": "294b8449b452cc7c6039042473e805f9aa7fa8d9cfe1428bd7d3a98129f5c136",
+    "smoke_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "smoke_artifact_manifest_sha256": "36e7cde1c7b77d5fa44583cee21bfe5b689c2a7bbdc6e2d98ddecd8f1bdb424b",
+    "tokenizer_file_manifest_sha256": "cbd7aa9982a69dbbb4eb83304f7c603f98fce1db1f85f9293414e26950f05e23",
+    "cache_paths": {
+      "Qwen3_4B": "/home/testuser/wzh/models/hf/Qwen3-4B",
+      "Qwen3_8B": "/home/testuser/wzh/models/hf/Qwen3-8B"
+    }
   },
   "template": {
     "id": "valentine-typed-action-v1",
