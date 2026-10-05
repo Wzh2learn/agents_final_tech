@@ -1,0 +1,29 @@
+{
+  "adapter_run": false,
+  "extraction_performed": false,
+  "ground_truth_read": false,
+  "record_type": "remote_zip_structure_audit",
+  "record_version": "remote-zip-structure-audit-v1",
+  "source": {
+    "archive_size": 602150347,
+    "url": "https://zenodo.org/api/records/5084605/files/Valentine-datasets.zip/content"
+  },
+  "status": "PASS_READ_ONLY_RANGE_AUDIT",
+  "transport": {
+    "block_size": 262144,
+    "fetched_bytes": 1578443,
+    "full_archive_downloaded": false,
+    "max_fetch_bytes": 8388608,
+    "mode": "HTTP_RANGE_ONLY",
+    "range_requests": 7,
+    "range_retries": 0,
+    "retry_error_types": []
+  },
+  "zip": {
+    "directory_count": 570,
+    "entry_count": 7746,
+    "file_count": 7176,
+    "total_compressed_bytes": 599348739,
+    "total_uncompressed_bytes": 3116134003
+  }
+}

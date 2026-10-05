@@ -39,6 +39,8 @@ Phase 2 duplicate JSON-key prerequisite is closed at the software-contract level
 Twelve internal paper/thesis files now use the same Q3/B0-B4 evidence boundaries: Q3 sealed exploratory `51/58/37` with visibility exceptions; B0-B4 v2 exploratory; Stage E main results unchanged.
 
 Metadata-only RQ2 screening found `0/10` registry sources with a direct same-UID checkpoint/action/correctness bridge. This is not a global source claim; no new source or download is approved.
+The user selected the formal negative-result route after the Valentine full-benchmark audit: 551 pairs but 8 conservative shared-origin components trigger the hard stop. Full E-D-R is future work; Stage E remains the paper route.
+The Route V research-story DOCX was regenerated and passed GB10 Office checks; the Stage E teacher-review DOCX was not modified.
 Current completion audit is `NOT_COMPLETE_FOR_FULL_GOAL`; internal deliverables are complete at scope, while the remaining scientific loop waits for a new source/task-definition annex or a new scope decision.
 
 1. Resolve or formally retain the Route V exact-annex gap: target >=40 is approved, but the fixed revision has only 10 eligible clusters and 0 new files.

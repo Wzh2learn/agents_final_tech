@@ -1,0 +1,3994 @@
+{
+  "adapter_run": false,
+  "ground_truth_use": "STRUCTURE_ONLY_NO_VALUES_DISCLOSED_NO_ACTION_TARGET_GENERATION",
+  "pairs": {
+    "Valentine-datasets/ChEMBL/View-Unionable/assays_both_0_1_ac4_av/assays_both_0_1_ac4_av": {
+      "files": {
+        "assays_both_0_1_ac4_av_mapping.json": {
+          "entry_size": 260,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "matches": {
+                  "item_schemas": [
+                    {
+                      "keys": {
+                        "source_column": {
+                          "type": "str"
+                        },
+                        "source_table": {
+                          "type": "str"
+                        },
+                        "target_column": {
+                          "type": "str"
+                        },
+                        "target_table": {
+                          "type": "str"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "length": 1,
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "assays_both_0_1_ac4_av_source.csv": {
+          "entry_size": 1034329,
+          "structure": {
+            "column_count": 12,
+            "columns": [
+              "assay_id",
+              "doc_id",
+              "description",
+              "assay_type",
+              "assay_test_type",
+              "assay_category",
+              "assay_organism",
+              "assay_tax_id",
+              "assay_strain",
+              "assay_tissue",
+              "assay_cell_type",
+              "assay_subcellular_fraction"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 7500,
+            "sample_values_disclosed": false
+          }
+        },
+        "assays_both_0_1_ac4_av_source.json": {
+          "entry_size": 759,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "assay_category": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assay_cell_type": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assay_id": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assay_organism": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assay_strain": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assay_subcellular_fraction": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assay_tax_id": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assay_test_type": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assay_tissue": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assay_type": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "description": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "doc_id": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "assays_both_0_1_ac4_av_target.csv": {
+          "entry_size": 473677,
+          "structure": {
+            "column_count": 12,
+            "columns": [
+              "assays_ASI",
+              "assays_Ti",
+              "assays_RELATT",
+              "assays_CONFSCO",
+              "assays_CURAB",
+              "assays_SRI",
+              "assays_SASSI",
+              "assays_CHEI",
+              "assays_CI",
+              "assays_BFOR",
+              "assays_TII",
+              "assays_VAI"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 7500,
+            "sample_values_disclosed": false
+          }
+        },
+        "assays_both_0_1_ac4_av_target.json": {
+          "entry_size": 725,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "assays_ASI": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_BFOR": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_CHEI": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_CI": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_CONFSCO": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_CURAB": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_RELATT": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_SASSI": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_SRI": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_TII": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_Ti": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "assays_VAI": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "config_assays_both_0_1_ac4_av.ini": {
+          "entry_size": 589,
+          "structure": {
+            "format": "ini",
+            "sections": {
+              "Approximation": [
+                "approx",
+                "approx_columns",
+                "approx_columns_type",
+                "approx_percentage",
+                "percentage"
+              ],
+              "Columns": [
+                "columns",
+                "pk",
+                "split_pk",
+                "split_random"
+              ],
+              "Files": [
+                "output_files",
+                "source_data",
+                "source_schema"
+              ],
+              "Paths": [
+                "home_dir",
+                "input_dir",
+                "output_dir"
+              ],
+              "Properties": [
+                "horizontal_split",
+                "overlap",
+                "random_overlap",
+                "vertical_split"
+              ]
+            },
+            "values_disclosed": false
+          }
+        }
+      },
+      "missing_optional_files": []
+    },
+    "Valentine-datasets/Magellan/amazon_google_exp/amazon_google_exp": {
+      "files": {
+        "amazon_google_exp_mapping.json": {
+          "entry_size": 865,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "matches": {
+                  "item_schemas": [
+                    {
+                      "keys": {
+                        "source_column": {
+                          "type": "str"
+                        },
+                        "source_table": {
+                          "type": "str"
+                        },
+                        "target_column": {
+                          "type": "str"
+                        },
+                        "target_table": {
+                          "type": "str"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "length": 4,
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "amazon_google_exp_source.csv": {
+          "entry_size": 82624,
+          "structure": {
+            "column_count": 4,
+            "columns": [
+              "id",
+              "title",
+              "manufacturer",
+              "price"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 1364,
+            "sample_values_disclosed": false
+          }
+        },
+        "amazon_google_exp_source.json": {
+          "entry_size": 185,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "id": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "manufacturer": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "price": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "title": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "amazon_google_exp_target.csv": {
+          "entry_size": 228139,
+          "structure": {
+            "column_count": 4,
+            "columns": [
+              "id",
+              "title",
+              "manufacturer",
+              "price"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 3226,
+            "sample_values_disclosed": false
+          }
+        },
+        "amazon_google_exp_target.json": {
+          "entry_size": 185,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "id": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "manufacturer": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "price": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "title": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        }
+      },
+      "missing_optional_files": [
+        "config_amazon_google_exp.ini"
+      ]
+    },
+    "Valentine-datasets/OpenData/Joinable/miller2_both_50_1_ac1_ev/miller2_both_50_1_ac1_ev": {
+      "files": {
+        "config_miller2_both_50_1_ac1_ev.ini": {
+          "entry_size": 595,
+          "structure": {
+            "format": "ini",
+            "sections": {
+              "Approximation": [
+                "approx",
+                "approx_columns",
+                "approx_columns_type",
+                "approx_percentage",
+                "percentage"
+              ],
+              "Columns": [
+                "columns",
+                "pk",
+                "split_pk",
+                "split_random"
+              ],
+              "Files": [
+                "output_files",
+                "source_data",
+                "source_schema"
+              ],
+              "Paths": [
+                "home_dir",
+                "input_dir",
+                "output_dir"
+              ],
+              "Properties": [
+                "horizontal_split",
+                "overlap",
+                "random_overlap",
+                "vertical_split"
+              ]
+            },
+            "values_disclosed": false
+          }
+        },
+        "miller2_both_50_1_ac1_ev_mapping.json": {
+          "entry_size": 275,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "matches": {
+                  "item_schemas": [
+                    {
+                      "keys": {
+                        "source_column": {
+                          "type": "str"
+                        },
+                        "source_table": {
+                          "type": "str"
+                        },
+                        "target_column": {
+                          "type": "str"
+                        },
+                        "target_table": {
+                          "type": "str"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "length": 1,
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "miller2_both_50_1_ac1_ev_source.csv": {
+          "entry_size": 2680791,
+          "structure": {
+            "column_count": 26,
+            "columns": [
+              "Fiscal year",
+              "Project number",
+              "Status",
+              "Maximum CIDA contribution (project-level)",
+              "Branch ID",
+              "Branch name",
+              "Division ID",
+              "Division name",
+              "Section ID",
+              "Section name",
+              "Regional program (marker)",
+              "Fund centre ID",
+              "Fund centre name",
+              "Untied amount(Project-level budget)",
+              "FSTC percent",
+              "IRTC percent",
+              "CFLI (marker)",
+              "CIDA business delivery model (old)",
+              "Programming process (new)",
+              "Bilateral aid (international marker)",
+              "PBA type",
+              "Enviromental sustainability (marker)",
+              "Climate change adaptation (marker)",
+              "Climate change mitigation (marker)",
+              "Desertification (marker)",
+              "Participatory development and good governance"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 11627,
+            "sample_values_disclosed": false
+          }
+        },
+        "miller2_both_50_1_ac1_ev_source.json": {
+          "entry_size": 1653,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "Bilateral aid (international marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Branch ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Branch name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CFLI (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CIDA business delivery model (old)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Climate change adaptation (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Climate change mitigation (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Desertification (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Division ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Division name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Enviromental sustainability (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "FSTC percent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fiscal year": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fund centre ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fund centre name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "IRTC percent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Maximum CIDA contribution (project-level)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "PBA type": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Participatory development and good governance": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Programming process (new)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Project number": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Regional program (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Section ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Section name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Status": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Untied amount(Project-level budget)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "miller2_both_50_1_ac1_ev_target.csv": {
+          "entry_size": 3713856,
+          "structure": {
+            "column_count": 26,
+            "columns": [
+              "miller2_FiscalYear",
+              "miller2_TradeDevelopment(marker)",
+              "miller2_Biodiversity(marker)",
+              "miller2_UrbanIssues(marker)",
+              "miller2_ChildrenIssues(marker)",
+              "miller2_YouthIssues(marker)",
+              "miller2_IndigenousIssues(marker)",
+              "miller2_DisabilityIssues(marker)",
+              "miller2_ICTAsAToolForDevelopment(marker)",
+              "miller2_KnowledgeForDevelopment(marker)",
+              "miller2_GenderEquality(marker)",
+              "miller2_OrganisationID",
+              "miller2_OrganisationName",
+              "miller2_OrganisationType",
+              "miller2_OrganisationClass",
+              "miller2_OrganisationSub-class",
+              "miller2_ContinentID",
+              "miller2_ContinentName",
+              "miller2_ProjectBrowserCountryID",
+              "miller2_CountryRegionID",
+              "miller2_CountryRegionName",
+              "miller2_CountryRegionPercent",
+              "miller2_SectorID",
+              "miller2_SectorName",
+              "miller2_SectorPercent",
+              "miller2_AmountSpent"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 17440,
+            "sample_values_disclosed": false
+          }
+        },
+        "miller2_both_50_1_ac1_ev_target.json": {
+          "entry_size": 1789,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "miller2_AmountSpent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_Biodiversity(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ChildrenIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ContinentID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ContinentName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CountryRegionID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CountryRegionName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CountryRegionPercent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_DisabilityIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_FiscalYear": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_GenderEquality(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ICTAsAToolForDevelopment(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_IndigenousIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_KnowledgeForDevelopment(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationClass": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationSub-class": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationType": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ProjectBrowserCountryID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectorID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectorName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectorPercent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_TradeDevelopment(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_UrbanIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_YouthIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        }
+      },
+      "missing_optional_files": []
+    },
+    "Valentine-datasets/OpenData/Semantically-Joinable/miller2_both_50_1_ac1_av/miller2_both_50_1_ac1_av": {
+      "files": {
+        "config_miller2_both_50_1_ac1_av.ini": {
+          "entry_size": 594,
+          "structure": {
+            "format": "ini",
+            "sections": {
+              "Approximation": [
+                "approx",
+                "approx_columns",
+                "approx_columns_type",
+                "approx_percentage",
+                "percentage"
+              ],
+              "Columns": [
+                "columns",
+                "pk",
+                "split_pk",
+                "split_random"
+              ],
+              "Files": [
+                "output_files",
+                "source_data",
+                "source_schema"
+              ],
+              "Paths": [
+                "home_dir",
+                "input_dir",
+                "output_dir"
+              ],
+              "Properties": [
+                "horizontal_split",
+                "overlap",
+                "random_overlap",
+                "vertical_split"
+              ]
+            },
+            "values_disclosed": false
+          }
+        },
+        "miller2_both_50_1_ac1_av_mapping.json": {
+          "entry_size": 275,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "matches": {
+                  "item_schemas": [
+                    {
+                      "keys": {
+                        "source_column": {
+                          "type": "str"
+                        },
+                        "source_table": {
+                          "type": "str"
+                        },
+                        "target_column": {
+                          "type": "str"
+                        },
+                        "target_table": {
+                          "type": "str"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "length": 1,
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "miller2_both_50_1_ac1_av_source.csv": {
+          "entry_size": 2669164,
+          "structure": {
+            "column_count": 26,
+            "columns": [
+              "Fiscal year",
+              "Project number",
+              "Status",
+              "Maximum CIDA contribution (project-level)",
+              "Branch ID",
+              "Branch name",
+              "Division ID",
+              "Division name",
+              "Section ID",
+              "Section name",
+              "Regional program (marker)",
+              "Fund centre ID",
+              "Fund centre name",
+              "Untied amount(Project-level budget)",
+              "FSTC percent",
+              "IRTC percent",
+              "CFLI (marker)",
+              "CIDA business delivery model (old)",
+              "Programming process (new)",
+              "Bilateral aid (international marker)",
+              "PBA type",
+              "Enviromental sustainability (marker)",
+              "Climate change adaptation (marker)",
+              "Climate change mitigation (marker)",
+              "Desertification (marker)",
+              "Participatory development and good governance"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 11627,
+            "sample_values_disclosed": false
+          }
+        },
+        "miller2_both_50_1_ac1_av_source.json": {
+          "entry_size": 1653,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "Bilateral aid (international marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Branch ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Branch name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CFLI (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CIDA business delivery model (old)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Climate change adaptation (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Climate change mitigation (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Desertification (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Division ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Division name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Enviromental sustainability (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "FSTC percent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fiscal year": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fund centre ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fund centre name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "IRTC percent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Maximum CIDA contribution (project-level)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "PBA type": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Participatory development and good governance": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Programming process (new)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Project number": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Regional program (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Section ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Section name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Status": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Untied amount(Project-level budget)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "miller2_both_50_1_ac1_av_target.csv": {
+          "entry_size": 3713856,
+          "structure": {
+            "column_count": 26,
+            "columns": [
+              "miller2_FiscalYear",
+              "miller2_TradeDevelopment(marker)",
+              "miller2_Biodiversity(marker)",
+              "miller2_UrbanIssues(marker)",
+              "miller2_ChildrenIssues(marker)",
+              "miller2_YouthIssues(marker)",
+              "miller2_IndigenousIssues(marker)",
+              "miller2_DisabilityIssues(marker)",
+              "miller2_ICTAsAToolForDevelopment(marker)",
+              "miller2_KnowledgeForDevelopment(marker)",
+              "miller2_GenderEquality(marker)",
+              "miller2_OrganisationID",
+              "miller2_OrganisationName",
+              "miller2_OrganisationType",
+              "miller2_OrganisationClass",
+              "miller2_OrganisationSub-class",
+              "miller2_ContinentID",
+              "miller2_ContinentName",
+              "miller2_ProjectBrowserCountryID",
+              "miller2_CountryRegionID",
+              "miller2_CountryRegionName",
+              "miller2_CountryRegionPercent",
+              "miller2_SectorID",
+              "miller2_SectorName",
+              "miller2_SectorPercent",
+              "miller2_AmountSpent"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 17440,
+            "sample_values_disclosed": false
+          }
+        },
+        "miller2_both_50_1_ac1_av_target.json": {
+          "entry_size": 1789,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "miller2_AmountSpent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_Biodiversity(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ChildrenIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ContinentID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ContinentName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CountryRegionID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CountryRegionName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CountryRegionPercent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_DisabilityIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_FiscalYear": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_GenderEquality(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ICTAsAToolForDevelopment(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_IndigenousIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_KnowledgeForDevelopment(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationClass": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationSub-class": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationType": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ProjectBrowserCountryID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectorID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectorName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectorPercent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_TradeDevelopment(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_UrbanIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_YouthIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        }
+      },
+      "missing_optional_files": []
+    },
+    "Valentine-datasets/OpenData/Unionable/miller2_horizontal_0_ac1_av/miller2_horizontal_0_ac1_av": {
+      "files": {
+        "config_miller2_horizontal_0_ac1_av.ini": {
+          "entry_size": 598,
+          "structure": {
+            "format": "ini",
+            "sections": {
+              "Approximation": [
+                "approx",
+                "approx_columns",
+                "approx_columns_type",
+                "approx_percentage",
+                "percentage"
+              ],
+              "Columns": [
+                "columns",
+                "pk",
+                "split_pk",
+                "split_random"
+              ],
+              "Files": [
+                "output_files",
+                "source_data",
+                "source_schema"
+              ],
+              "Paths": [
+                "home_dir",
+                "input_dir",
+                "output_dir"
+              ],
+              "Properties": [
+                "horizontal_split",
+                "overlap",
+                "random_overlap",
+                "vertical_split"
+              ]
+            },
+            "values_disclosed": false
+          }
+        },
+        "miller2_horizontal_0_ac1_av_mapping.json": {
+          "entry_size": 13862,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "matches": {
+                  "item_schemas": [
+                    {
+                      "keys": {
+                        "source_column": {
+                          "type": "str"
+                        },
+                        "source_table": {
+                          "type": "str"
+                        },
+                        "target_column": {
+                          "type": "str"
+                        },
+                        "target_table": {
+                          "type": "str"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "length": 51,
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "miller2_horizontal_0_ac1_av_source.csv": {
+          "entry_size": 5527626,
+          "structure": {
+            "column_count": 51,
+            "columns": [
+              "Fiscal year",
+              "Project number",
+              "Status",
+              "Maximum CIDA contribution (project-level)",
+              "Branch ID",
+              "Branch name",
+              "Division ID",
+              "Division name",
+              "Section ID",
+              "Section name",
+              "Regional program (marker)",
+              "Fund centre ID",
+              "Fund centre name",
+              "Untied amount(Project-level budget)",
+              "FSTC percent",
+              "IRTC percent",
+              "CFLI (marker)",
+              "CIDA business delivery model (old)",
+              "Programming process (new)",
+              "Bilateral aid (international marker)",
+              "PBA type",
+              "Enviromental sustainability (marker)",
+              "Climate change adaptation (marker)",
+              "Climate change mitigation (marker)",
+              "Desertification (marker)",
+              "Participatory development and good governance",
+              "Trade development (marker)",
+              "Biodiversity (marker)",
+              "Urban issues (marker)",
+              "Children issues (marker)",
+              "Youth issues (marker)",
+              "Indigenous issues (marker)",
+              "Disability issues (marker)",
+              "ICT as a tool for development (marker)",
+              "Knowledge for development (marker)",
+              "Gender equality (marker)",
+              "Organisation ID",
+              "Organisation name",
+              "Organisation type",
+              "Organisation class",
+              "Organisation sub-class",
+              "Continent ID",
+              "Continent name",
+              "Project Browser country ID",
+              "CountryRegion ID",
+              "CountryRegion name",
+              "CountryRegion percent",
+              "Sector ID",
+              "Sector name",
+              "Sector percent",
+              "Amount spent"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 11627,
+            "sample_values_disclosed": false
+          }
+        },
+        "miller2_horizontal_0_ac1_av_source.json": {
+          "entry_size": 3219,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "Amount spent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Bilateral aid (international marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Biodiversity (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Branch ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Branch name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CFLI (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CIDA business delivery model (old)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Children issues (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Climate change adaptation (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Climate change mitigation (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Continent ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Continent name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CountryRegion ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CountryRegion name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CountryRegion percent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Desertification (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Disability issues (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Division ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Division name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Enviromental sustainability (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "FSTC percent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fiscal year": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fund centre ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fund centre name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Gender equality (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "ICT as a tool for development (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "IRTC percent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Indigenous issues (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Knowledge for development (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Maximum CIDA contribution (project-level)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Organisation ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Organisation class": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Organisation name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Organisation sub-class": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Organisation type": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "PBA type": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Participatory development and good governance": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Programming process (new)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Project Browser country ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Project number": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Regional program (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Section ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Section name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Sector ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Sector name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Sector percent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Status": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Trade development (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Untied amount(Project-level budget)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Urban issues (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Youth issues (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "miller2_horizontal_0_ac1_av_target.csv": {
+          "entry_size": 5297117,
+          "structure": {
+            "column_count": 51,
+            "columns": [
+              "miller2_FiscalYear",
+              "miller2_ProjectNumber",
+              "miller2_Status",
+              "miller2_MaximumCIDAContribution(project-level)",
+              "miller2_BranchID",
+              "miller2_BranchName",
+              "miller2_DivisionID",
+              "miller2_DivisionName",
+              "miller2_SectionID",
+              "miller2_SectionName",
+              "miller2_RegionalProgram(marker)",
+              "miller2_FundCentreID",
+              "miller2_FundCentreName",
+              "miller2_UntiedAmount(Project-levelBudget)",
+              "miller2_FSTCPercent",
+              "miller2_IRTCPercent",
+              "miller2_CFLI(marker)",
+              "miller2_CIDABusinessDeliveryModel(old)",
+              "miller2_ProgrammingProcess(new)",
+              "miller2_BilateralAid(internationalMarker)",
+              "miller2_PBAType",
+              "miller2_EnviromentalSustainability(marker)",
+              "miller2_ClimateChangeAdaptation(marker)",
+              "miller2_ClimateChangeMitigation(marker)",
+              "miller2_Desertification(marker)",
+              "miller2_ParticipatoryDevelopmentAndGoodGovernance",
+              "miller2_TradeDevelopment(marker)",
+              "miller2_Biodiversity(marker)",
+              "miller2_UrbanIssues(marker)",
+              "miller2_ChildrenIssues(marker)",
+              "miller2_YouthIssues(marker)",
+              "miller2_IndigenousIssues(marker)",
+              "miller2_DisabilityIssues(marker)",
+              "miller2_ICTAsAToolForDevelopment(marker)",
+              "miller2_KnowledgeForDevelopment(marker)",
+              "miller2_GenderEquality(marker)",
+              "miller2_OrganisationID",
+              "miller2_OrganisationName",
+              "miller2_OrganisationType",
+              "miller2_OrganisationClass",
+              "miller2_OrganisationSub-class",
+              "miller2_ContinentID",
+              "miller2_ContinentName",
+              "miller2_ProjectBrowserCountryID",
+              "miller2_CountryRegionID",
+              "miller2_CountryRegionName",
+              "miller2_CountryRegionPercent",
+              "miller2_SectorID",
+              "miller2_SectorName",
+              "miller2_SectorPercent",
+              "miller2_AmountSpent"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 11627,
+            "sample_values_disclosed": false
+          }
+        },
+        "miller2_horizontal_0_ac1_av_target.json": {
+          "entry_size": 3541,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "miller2_AmountSpent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_BilateralAid(internationalMarker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_Biodiversity(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_BranchID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_BranchName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CFLI(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CIDABusinessDeliveryModel(old)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ChildrenIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ClimateChangeAdaptation(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ClimateChangeMitigation(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ContinentID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ContinentName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CountryRegionID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CountryRegionName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CountryRegionPercent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_Desertification(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_DisabilityIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_DivisionID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_DivisionName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_EnviromentalSustainability(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_FSTCPercent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_FiscalYear": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_FundCentreID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_FundCentreName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_GenderEquality(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ICTAsAToolForDevelopment(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_IRTCPercent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_IndigenousIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_KnowledgeForDevelopment(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_MaximumCIDAContribution(project-level)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationClass": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationSub-class": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganisationType": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_PBAType": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ParticipatoryDevelopmentAndGoodGovernance": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ProgrammingProcess(new)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ProjectBrowserCountryID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ProjectNumber": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_RegionalProgram(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectionID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectionName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectorID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectorName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SectorPercent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_Status": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_TradeDevelopment(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_UntiedAmount(Project-levelBudget)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_UrbanIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_YouthIssues(marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        }
+      },
+      "missing_optional_files": []
+    },
+    "Valentine-datasets/OpenData/View -Unionable/miller2_both_0_1_ac4_av/miller2_both_0_1_ac4_av": {
+      "files": {
+        "config_miller2_both_0_1_ac4_av.ini": {
+          "entry_size": 592,
+          "structure": {
+            "format": "ini",
+            "sections": {
+              "Approximation": [
+                "approx",
+                "approx_columns",
+                "approx_columns_type",
+                "approx_percentage",
+                "percentage"
+              ],
+              "Columns": [
+                "columns",
+                "pk",
+                "split_pk",
+                "split_random"
+              ],
+              "Files": [
+                "output_files",
+                "source_data",
+                "source_schema"
+              ],
+              "Paths": [
+                "home_dir",
+                "input_dir",
+                "output_dir"
+              ],
+              "Properties": [
+                "horizontal_split",
+                "overlap",
+                "random_overlap",
+                "vertical_split"
+              ]
+            },
+            "values_disclosed": false
+          }
+        },
+        "miller2_both_0_1_ac4_av_mapping.json": {
+          "entry_size": 267,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "matches": {
+                  "item_schemas": [
+                    {
+                      "keys": {
+                        "source_column": {
+                          "type": "str"
+                        },
+                        "source_table": {
+                          "type": "str"
+                        },
+                        "target_column": {
+                          "type": "str"
+                        },
+                        "target_table": {
+                          "type": "str"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "length": 1,
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "miller2_both_0_1_ac4_av_source.csv": {
+          "entry_size": 2669164,
+          "structure": {
+            "column_count": 26,
+            "columns": [
+              "Fiscal year",
+              "Project number",
+              "Status",
+              "Maximum CIDA contribution (project-level)",
+              "Branch ID",
+              "Branch name",
+              "Division ID",
+              "Division name",
+              "Section ID",
+              "Section name",
+              "Regional program (marker)",
+              "Fund centre ID",
+              "Fund centre name",
+              "Untied amount(Project-level budget)",
+              "FSTC percent",
+              "IRTC percent",
+              "CFLI (marker)",
+              "CIDA business delivery model (old)",
+              "Programming process (new)",
+              "Bilateral aid (international marker)",
+              "PBA type",
+              "Enviromental sustainability (marker)",
+              "Climate change adaptation (marker)",
+              "Climate change mitigation (marker)",
+              "Desertification (marker)",
+              "Participatory development and good governance"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 11627,
+            "sample_values_disclosed": false
+          }
+        },
+        "miller2_both_0_1_ac4_av_source.json": {
+          "entry_size": 1653,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "Bilateral aid (international marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Branch ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Branch name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CFLI (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "CIDA business delivery model (old)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Climate change adaptation (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Climate change mitigation (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Desertification (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Division ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Division name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Enviromental sustainability (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "FSTC percent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fiscal year": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fund centre ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Fund centre name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "IRTC percent": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Maximum CIDA contribution (project-level)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "PBA type": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Participatory development and good governance": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Programming process (new)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Project number": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Regional program (marker)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Section ID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Section name": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Status": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Untied amount(Project-level budget)": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "miller2_both_0_1_ac4_av_target.csv": {
+          "entry_size": 2446243,
+          "structure": {
+            "column_count": 26,
+            "columns": [
+              "miller2_FisY",
+              "miller2_TrDevel",
+              "miller2_Bio",
+              "miller2_UrIss",
+              "miller2_ChiIss",
+              "miller2_YoIss",
+              "miller2_IndiIs",
+              "miller2_DisabIss",
+              "miller2_ICTAATFDeve",
+              "miller2_KnoFDevel",
+              "miller2_GeEq",
+              "miller2_OrganiID",
+              "miller2_OrgNa",
+              "miller2_OrgaTy",
+              "miller2_OrganiCla",
+              "miller2_OrgS",
+              "miller2_ContiID",
+              "miller2_ContiN",
+              "miller2_ProBroCoID",
+              "miller2_CouRegID",
+              "miller2_CouRegN",
+              "miller2_CounRegPerc",
+              "miller2_SecID",
+              "miller2_SeN",
+              "miller2_SecPerc",
+              "miller2_AmSpe"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 11627,
+            "sample_values_disclosed": false
+          }
+        },
+        "miller2_both_0_1_ac4_av_target.json": {
+          "entry_size": 1486,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "miller2_AmSpe": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_Bio": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ChiIss": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ContiID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ContiN": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CouRegID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CouRegN": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_CounRegPerc": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_DisabIss": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_FisY": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_GeEq": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ICTAATFDeve": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_IndiIs": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_KnoFDevel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrgNa": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrgS": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrgaTy": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganiCla": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_OrganiID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_ProBroCoID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SeN": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SecID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_SecPerc": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_TrDevel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_UrIss": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "miller2_YoIss": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        }
+      },
+      "missing_optional_files": []
+    },
+    "Valentine-datasets/TPC-DI/View-Unionable/prospect_both_0_1_ac4_av/prospect_both_0_1_ac4_av": {
+      "files": {
+        "config_prospect_both_0_1_ac4_av.ini": {
+          "entry_size": 595,
+          "structure": {
+            "format": "ini",
+            "sections": {
+              "Approximation": [
+                "approx",
+                "approx_columns",
+                "approx_columns_type",
+                "approx_percentage",
+                "percentage"
+              ],
+              "Columns": [
+                "columns",
+                "pk",
+                "split_pk",
+                "split_random"
+              ],
+              "Files": [
+                "output_files",
+                "source_data",
+                "source_schema"
+              ],
+              "Paths": [
+                "home_dir",
+                "input_dir",
+                "output_dir"
+              ],
+              "Properties": [
+                "horizontal_split",
+                "overlap",
+                "random_overlap",
+                "vertical_split"
+              ]
+            },
+            "values_disclosed": false
+          }
+        },
+        "prospect_both_0_1_ac4_av_mapping.json": {
+          "entry_size": 267,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "matches": {
+                  "item_schemas": [
+                    {
+                      "keys": {
+                        "source_column": {
+                          "type": "str"
+                        },
+                        "source_table": {
+                          "type": "str"
+                        },
+                        "target_column": {
+                          "type": "str"
+                        },
+                        "target_table": {
+                          "type": "str"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "length": 1,
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "prospect_both_0_1_ac4_av_source.csv": {
+          "entry_size": 913062,
+          "structure": {
+            "column_count": 11,
+            "columns": [
+              "AgencyID",
+              "LastName",
+              "FirstName",
+              "MiddleInitial",
+              "Gender",
+              "AddressLine1",
+              "AddressLine2",
+              "PostalCode",
+              "City",
+              "State",
+              "Country"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 7491,
+            "sample_values_disclosed": false
+          }
+        },
+        "prospect_both_0_1_ac4_av_source.json": {
+          "entry_size": 645,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "AddressLine1": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "AddressLine2": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "AgencyID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "City": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Country": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "FirstName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "Gender": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "LastName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "MiddleInitial": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "PostalCode": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "State": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "prospect_both_0_1_ac4_av_target.csv": {
+          "entry_size": 613362,
+          "structure": {
+            "column_count": 12,
+            "columns": [
+              "prospect_AgID",
+              "prospect_Pho",
+              "prospect_In",
+              "prospect_NumC",
+              "prospect_NumChil",
+              "prospect_MariSt",
+              "prospect_A",
+              "prospect_CrRat",
+              "prospect_OORFl",
+              "prospect_Empl",
+              "prospect_NumCrCa",
+              "prospect_NWo"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 7491,
+            "sample_values_disclosed": false
+          }
+        },
+        "prospect_both_0_1_ac4_av_target.json": {
+          "entry_size": 754,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "prospect_A": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_AgID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_CrRat": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_Empl": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_In": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_MariSt": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_NWo": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_NumC": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_NumChil": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_NumCrCa": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_OORFl": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "prospect_Pho": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        }
+      },
+      "missing_optional_files": []
+    },
+    "Valentine-datasets/Wikidata/Musicians/Musicians_viewunion/musicians_viewunion": {
+      "files": {
+        "musicians_viewunion_mapping.json": {
+          "entry_size": 1360,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "matches": {
+                  "item_schemas": [
+                    {
+                      "keys": {
+                        "source_column": {
+                          "type": "str"
+                        },
+                        "source_table": {
+                          "type": "str"
+                        },
+                        "target_column": {
+                          "type": "str"
+                        },
+                        "target_table": {
+                          "type": "str"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ],
+                  "length": 6,
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "musicians_viewunion_source.csv": {
+          "entry_size": 689634,
+          "structure": {
+            "column_count": 13,
+            "columns": [
+              "musician",
+              "birthDate",
+              "familyNameLabel",
+              "givenNameLabel",
+              "numberOfChildren",
+              "websiteLabel",
+              "residenceLabel",
+              "ethnicityLabel",
+              "religionLabel",
+              "activityStart",
+              "twitterNameLabel",
+              "geniusNameLabel",
+              "recordLabelLabel"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 5422,
+            "sample_values_disclosed": false
+          }
+        },
+        "musicians_viewunion_source.json": {
+          "entry_size": 701,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "activityStart": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "birthDate": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "ethnicityLabel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "familyNameLabel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "geniusNameLabel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "givenNameLabel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "musician": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "numberOfChildren": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "recordLabelLabel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "religionLabel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "residenceLabel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "twitterNameLabel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "websiteLabel": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        },
+        "musicians_viewunion_target.csv": {
+          "entry_size": 602949,
+          "structure": {
+            "column_count": 13,
+            "columns": [
+              "musicianID",
+              "musicianName",
+              "genderType",
+              "birthDate",
+              "city",
+              "familyName",
+              "forename",
+              "fatherName",
+              "motherName",
+              "spouse",
+              "NChildren",
+              "kind",
+              "webpage"
+            ],
+            "format": "csv",
+            "row_count_excluding_header": 5423,
+            "sample_values_disclosed": false
+          }
+        },
+        "musicians_viewunion_target.json": {
+          "entry_size": 635,
+          "structure": {
+            "format": "json",
+            "schema": {
+              "keys": {
+                "NChildren": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "birthDate": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "city": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "familyName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "fatherName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "forename": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "genderType": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "kind": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "motherName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "musicianID": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "musicianName": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "spouse": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                },
+                "webpage": {
+                  "keys": {
+                    "type": {
+                      "type": "str"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "structure_only": true
+          }
+        }
+      },
+      "missing_optional_files": [
+        "config_musicians_viewunion.ini"
+      ]
+    }
+  },
+  "record_type": "remote_zip_schema_inspection",
+  "record_version": "remote-zip-schema-inspection-v1",
+  "source": {
+    "archive_size": 602150347,
+    "url": "https://zenodo.org/api/records/5084605/files/Valentine-datasets.zip/content"
+  },
+  "status": "PASS_STRUCTURE_ONLY",
+  "transport": {
+    "block_size": 262144,
+    "fetched_bytes": 6034891,
+    "full_archive_downloaded": false,
+    "max_fetch_bytes": 8388608,
+    "mode": "HTTP_RANGE_ONLY",
+    "range_requests": 24,
+    "range_retries": 0,
+    "retry_error_types": []
+  }
+}

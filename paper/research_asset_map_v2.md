@@ -200,3 +200,16 @@ Formal boundary: `docs/experiments/2026-10-05_stage_d_data_no_go_boundary_and_re
 - `docs/experiments/2026-10-05_stage_d_necessity_residual_memo.md`: A2 residual criteria and current `PILOT_ONLY` decision.
 - `docs/experiments/2026-10-05_stage_r_rq4_static_protocol.md`: seven-arm order/state/rollback and C0-C3 static contract.
 - `docs/datasets/2026-10-05_rq2_source_label_split_power_application_v1.md`: exact SOURCE/LABEL/SPLIT/POWER request, pending user approval and no download.
+
+## 2026-10-05 Valentine full benchmark structural audit
+
+- `docs/experiments/2026-10-05_valentine_full_benchmark_structure_audit.md`: read-only Zenodo ZIP Range audit of the 602,150,347-byte CC-BY-4.0 archive. It records 551 complete pairs, five families, four scenario classes, actual source/target/mapping/config structure, shared-origin components, and the `8 < 40` hard stop.
+- `docs/datasets/2026-10-05_valentine_full_remote_structure_receipt_v1.json`: transport receipt, 1,578,443 range bytes, 7 requests, 0 retries, no full download.
+- `docs/datasets/2026-10-05_valentine_full_entry_manifest_v1.json`: 7,746 ZIP entries with names, sizes, CRCs, compression modes, and offsets; includes `__MACOSX` metadata that is excluded from data counts.
+- `docs/datasets/2026-10-05_valentine_full_schema_audit_v1.json`: eight representative pairs across all five families/four generated scenarios; CSV headers/row counts, column-keyed JSON type maps, mapping structure, and INI section/key names only. No ground-truth values or action/target labels were generated.
+- `docs/datasets/2026-10-05_valentine_full_structure_summary_v1.json`: machine summary of inventory, scenario counts, shared-origin components, and the hard-stop decision.
+
+These assets support a formal negative-result boundary only. They do not authorize archive download, adapter execution, A0-A3, Phase 2, B5, training, or external release.
+## 2026-10-05 Route V DOCX refresh
+
+`paper/research_story_v2.md` and its derived `paper/research_story_v2.docx` were synchronized after the Route V negative-boundary decision. DOCX hash is `51bead4cb738f46b2d1c8b86f340bf585cb06913564f8c4426fa6628390594b7`; GB10 Office text/ZIP/PDF/page-4 visual checks passed. The mature Stage E teacher-review DOCX was not changed.

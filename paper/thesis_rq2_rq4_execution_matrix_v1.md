@@ -71,3 +71,8 @@ The risk-constrained gate is `PILOT_ONLY`: B4 satisfies harmful-map rate <= 0.10
 ## 8. Training readiness and static protocol addendum (2026-10-05)
 
 A0-A3 and 4B-smoke configuration, output/checkpoint/recovery rules, resource gates, and planning estimates are frozen as dry-run-only in `docs/datasets/2026-10-05_stage_d_training_readiness_config_v1.json`; validator output is `PASS_DRY_RUN_ONLY`; model artifacts are validated, but training remains blocked by scientific gates, stable residual and the formal execution window. Stage R/RQ4 static order/state/rollback/C0-C3 protocol is in `docs/experiments/2026-10-05_stage_r_rq4_static_protocol.md`. No A0-A3 or Phase 2 execution is authorized.
+## 9. Route V full benchmark structural decision (2026-10-05)
+
+The Zenodo Valentine full benchmark is structurally unsuitable for the current confirmatory RQ2 route under the frozen independence requirement. The archive has 551 pairs but only 8 conservative shared-origin components (`miller2`, `prospect`, `assays`, `Musicians`, and four Magellan components). Since `8 < 40`, the hard stop is active.
+
+No download annex or process adapter is submitted. `DATA_NO_GO / RQ2 NOT_IDENTIFIED` is a formal negative-result boundary; the small paper stays on Stage E fallback; Stage D, Stage R, and RQ4 move to future work pending a new source annex or an explicit future research scope.

@@ -256,3 +256,7 @@ GB10 是唯一权威运行 / 实验 / 验收环境；本机只做 git 同步、�
 
 上表 18 条与正文 18 处作者—年份标注一一对应；池内其余条目（如 `messing2026measurementerror`、
 `li2024pedants` 与 KD 簇其余件）在本开题正文**未被引用**，仅保留在池中供第 2 章与后续章节取用。
+
+## 8. Route V full benchmark structural decision (2026-10-05)
+
+The Zenodo Valentine full benchmark has 551 complete pair directories but only 8 conservative shared-origin components (`miller2`, `prospect`, `assays`, `Musicians`, and four Magellan components). Because `8 < 40`, the preregistered hard stop applies before archive download, precise annex submission, matcher instrumentation, or process-adapter execution. `DATA_NO_GO / RQ2 NOT_IDENTIFIED` is retained as the formal negative-result boundary, the small paper remains Stage E fallback, and full E-D-R validation is future work.

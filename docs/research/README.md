@@ -234,3 +234,5 @@ B0-B4 exploratory v2 has been interpreted under the approved risk limit 0.10. B4
 ## 2026-10-05 Stage D formal boundary
 
 `DATA_NO_GO / RQ2 NOT_IDENTIFIED` is now recorded as a formal boundary with exact recovery requirements in `docs/experiments/2026-10-05_stage_d_data_no_go_boundary_and_requirements.md`. The exploratory same-sample linkage exists for the 10-pair subset, but confirmatory identification still lacks independent clusters, non-empty split layers, strict visibility receipts, and a signed power receipt.
+
+2026-10-05 Route V full benchmark decision：Zenodo Valentine full benchmark 经只读 ZIP Range 结构审计，551 个完整 pair directories 仅形成 8 个保守 shared-origin components，低于 40 个独立 clusters。硬止损触发；不下载 archive、不提交 selected-pair annex、不运行 matcher/process adapter。`DATA_NO_GO / RQ2 NOT_IDENTIFIED` 作为正式负结果边界，小论文保持 Stage E 保底路线，完整 Evaluate-Distill-Evolve 验证转 future work。

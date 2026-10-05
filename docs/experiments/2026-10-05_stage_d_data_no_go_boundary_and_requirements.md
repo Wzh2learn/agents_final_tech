@@ -85,3 +85,11 @@ The model artifact side is ready, but only after SOURCE/LABEL/SPLIT/POWER/BASELI
 ## 4. Non-actions
 
 This boundary report does not download data, install B5, dispatch a model, start Phase 2, start 4B/8B training, alter frozen criteria, or authorize external release.
+
+## 5. Route V full benchmark structural-audit decision（2026-10-05）
+
+The user-selected Valentine full benchmark + frozen process adapter route was audited read-only before download. Zenodo `Valentine-datasets.zip` contains 551 complete pair directories across five families, but conservative shared-origin grouping yields only 8 independent origin components: 180 `miller2` pairs, 180 `prospect` pairs, 180 `assays` pairs, 4 `Musicians` pairs, and four Magellan components (3/2/1/1). A stricter family-level grouping yields 5.
+
+Because `8 < 40`, the hard stop applies. The route is stopped before archive download, precise annex submission, matcher instrumentation, or process-adapter execution. The archive has no native checkpoint/trajectory stream; any future matcher instrumentation would have to record only real emitted stages and leave missing stages unmeasurable. Ground truth remains reserved for post-hoc correctness joins after independent Q3/ADJ/final-ledger sealing.
+
+The accepted disposition is therefore **formal negative-result boundary**: `DATA_NO_GO / RQ2 NOT_IDENTIFIED` remains authoritative; the small paper stays on the mature Stage E fallback; full Evaluate-Distill-Evolve validation moves to future work. This does not authorize A0-A3, Phase 2, B5, training, external submission, arXiv, code release, or external distribution.

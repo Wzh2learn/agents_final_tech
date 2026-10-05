@@ -18,7 +18,7 @@
 | `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；独立审稿第 5 轮双 ACCEPT | `9d3e492694dda052a854c3cffac0b127ecda3aa383aa566abb75293fd7716f5c` |
 | `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | Office 视觉 PASS；尚未套 ARR/WWW venue 模板 | `4f0b88cf60dcad532e9871f4f3b3ca963f49ce1746b305497d9f0c4156498a5f` |
 | `paper/teacher_review_note_v2.md` | 中文说明 | 阅读顺序与边界说明 | `3677450844b136807dddc67576064788726e651a4e3a561d4a86e97dbaf37d5a` |
-| `paper/research_story_v2.md` / `.docx` | 三阶段叙事/方向材料 | 只作研究框架与后续回填，不作未完成实验结果 | `372153462d0fd5d52da8be77097c6375aaa6e05e53cc98c366aea69daf678c0c` / `311e0f625e785432f8dd3277faa466e60a4919b0a02034725bb48a0c5bea6a00` |
+| `paper/research_story_v2.md` / `.docx` | 三阶段叙事/方向材料 | 只作研究框架与后续回填，不作未完成实验结果 | `c2a778f2ff84eedb5d9d6c74e76ee11867bc36a0fc7d84a201bd77d1e08d4b90` / `51bead4cb738f46b2d1c8b86f340bf585cb06913564f8c4426fa6628390594b7` |
 | `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `62a119e8b6aca573ecfdfaf1ff38002298a99d8914bca99a0622807a142fafc5` |
 | `paper/acceptance_report_v1.json` | 机械验收 | PASS / 5 claims / 74 checks | `cf6123638a042b9027db0f1a8a500571a75cc512c1866d04142b4b4a4a7b9d05` |
 | `paper/references_v0.md` | 已核引用池 | arXiv/DOI 可追溯；venue 未核项不升级 | `8e89bef1bb8ea1a2d3fcb571c31d118bce4306c1c67eb957e8c5ccc155043eeb` |

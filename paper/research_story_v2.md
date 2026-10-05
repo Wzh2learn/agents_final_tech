@@ -99,3 +99,9 @@
 `paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` 是 Stage E 的成熟证据子稿，可作为评估章节或拆稿保底；它不再代表完整三阶段方向。24–48 小时内部方向包使用该子稿与当前故事；统一论文初稿须等实验过门。`paper/research_story_v2.docx` 由本文离线生成，Figure 1 在 Word 中用原生三阶段表展示；两者是概念展示件，不覆盖 Markdown 与执行计划。重生成后须核对结构和文字，Office 排版/分页另做视觉验收。
 
 专利公开状态未确认，不投稿、不上传预印本、不公开核心代码；内部方向包不代表已获公开许可。
+
+## 2026-10-05 Route V full benchmark structural decision
+
+The Zenodo Valentine full benchmark was structurally audited without downloading the 602 MB archive. The archive contains 551 complete pair directories across Magellan, OpenData, Wikidata, TPC-DI, and ChEMBL, but conservative shared-origin grouping yields only 8 independent origin components. This is below the required 40 clusters.
+
+Accordingly, the frozen hard stop applies: no download annex, matcher instrumentation, process adapter, A0-A3, Phase 2, B5, or training is started. `DATA_NO_GO / RQ2 NOT_IDENTIFIED` is the formal negative-result boundary. The small paper remains on the mature Stage E fallback; full Evaluate-Distill-Evolve validation moves to future work unless a new independently sourced annex later passes the same requirements.

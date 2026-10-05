@@ -35,6 +35,7 @@
 ## 工程、运行与架构
 
 - RQ2 candidate source screening: [2026-10-05_rq2_candidate_source_screening_v1.md](datasets/2026-10-05_rq2_candidate_source_screening_v1.md) - metadata-only 10-source screen; 0 direct bridges, no download
+- Valentine full benchmark read-only audit: [structure summary](datasets/2026-10-05_valentine_full_structure_summary_v1.json), [ZIP receipt](datasets/2026-10-05_valentine_full_remote_structure_receipt_v1.json), [entry manifest](datasets/2026-10-05_valentine_full_entry_manifest_v1.json), [schema audit](datasets/2026-10-05_valentine_full_schema_audit_v1.json) - 551 pairs / 8 conservative origin components / hard stop
 
 - Machine criteria status: [2026-10-05_stage_d_necessity_criteria_status_v1.json](datasets/2026-10-05_stage_d_necessity_criteria_status_v1.json) - approved A2 criteria with PASS/FAIL/NOT_ESTIMABLE current evidence
 

@@ -65,3 +65,9 @@
 - 主张与派生件：`tests/test_paper_claim_acceptance.py`、`tests/test_research_story_assets.py`。
 
 以上不是全仓运行健康证明。正式服务、模型、数据库和真实语料效果需单独授权、在指定执行面取证；冻结边界仍以 `AGENTS.md` 为准。
+
+## 2026-10-05 remote ZIP audit tooling
+
+- `research/audit_remote_zip_structure.py`: reads a remote ZIP central directory through bounded HTTP Range requests, emits entry metadata, and enforces a byte budget. It never extracts or downloads the archive.
+- `research/inspect_remote_zip_schemas.py`: reads selected entries through the same bounded reader and emits CSV headers/row counts, JSON key/type structure, and INI section/key names only. It never discloses ground-truth values or generates action/target labels.
+- `docs/datasets/2026-10-05_valentine_full_*`: GB10 receipts/manifests and the conservative shared-origin structure summary used for the Route V hard-stop decision.

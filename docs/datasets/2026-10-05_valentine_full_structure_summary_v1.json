@@ -1,0 +1,146 @@
+{
+  "record_type": "valentine_full_structure_summary",
+  "record_version": "valentine-full-structure-summary-v1",
+  "status": "STRUCTURE_AUDIT_PASS_ROUTE_STOP_CONSERVATIVE_CLUSTERS_LT_40",
+  "source": {
+    "doi": "10.5281/zenodo.5084605",
+    "title": "Valentine Datasets",
+    "archive": "Valentine-datasets.zip",
+    "archive_bytes": 602150347,
+    "archive_md5": "98da6d6701806538e5c685f4426b95f6",
+    "license": "CC-BY-4.0",
+    "content_url": "https://zenodo.org/api/records/5084605/files/Valentine-datasets.zip/content"
+  },
+  "read_only_transport": {
+    "mode": "HTTP_RANGE_ONLY",
+    "structure_audit_fetched_bytes": 1578443,
+    "schema_audit_fetched_bytes": 6034891,
+    "full_archive_downloaded": false,
+    "extraction_performed": false,
+    "adapter_run": false
+  },
+  "archive_inventory": {
+    "zip_entries": 7746,
+    "real_valentine_entries": 3873,
+    "real_files": 3303,
+    "real_directories": 570,
+    "macos_appledouble_entries_excluded": 3873,
+    "pair_count": 551,
+    "complete_five_file_pairs": 551,
+    "core_files": 2755,
+    "generated_config_files": 540,
+    "ds_store_files_excluded": 7,
+    "nested_auxiliary_zip_files_excluded": 1
+  },
+  "families": {
+    "Magellan": 7,
+    "OpenData": 180,
+    "Wikidata": 4,
+    "TPC-DI": 180,
+    "ChEMBL": 180
+  },
+  "normalized_scenarios": {
+    "Joinable": 145,
+    "Semantically-Joinable": 145,
+    "View-Unionable": 145,
+    "Unionable": 109,
+    "Magellan_legacy_unlabelled_by_scenario_path": 7
+  },
+  "core_file_contract": {
+    "per_pair": [
+      "<pair>_source.csv",
+      "<pair>_source.json",
+      "<pair>_target.csv",
+      "<pair>_target.json",
+      "<pair>_mapping.json"
+    ],
+    "generated_pairs_additional_file": "config_<pair>.ini",
+    "csv_structure": "header plus data rows",
+    "source_target_json_structure": "column-keyed object; each column value contains a type field",
+    "ground_truth_mapping_structure": "object with matches array; each match has source_table/source_column/target_table/target_column string fields",
+    "config_ini_sections": [
+      "Approximation",
+      "Columns",
+      "Files",
+      "Paths",
+      "Properties"
+    ]
+  },
+  "shared_origin_groups": [
+    {
+      "origin_id": "OpenData/miller2",
+      "pair_count": 180,
+      "reason": "all pair names derive from the single miller2 base prefix"
+    },
+    {
+      "origin_id": "TPC-DI/prospect",
+      "pair_count": 180,
+      "reason": "all pair names derive from the single prospect base prefix"
+    },
+    {
+      "origin_id": "ChEMBL/assays",
+      "pair_count": 180,
+      "reason": "all pair names derive from the single assays base prefix"
+    },
+    {
+      "origin_id": "Wikidata/Musicians",
+      "pair_count": 4,
+      "reason": "four scenarios are all derived from the Musicians base"
+    },
+    {
+      "origin_id": "Magellan/amazon_shared",
+      "pair_count": 3,
+      "pairs": [
+        "amazon_google_exp",
+        "walmart_amazon",
+        "itunes_amazon"
+      ],
+      "reason": "the three pair names share Amazon as an underlying source entity"
+    },
+    {
+      "origin_id": "Magellan/dblp_shared",
+      "pair_count": 2,
+      "pairs": [
+        "dblp_acm",
+        "dblp_scholar"
+      ],
+      "reason": "the two pair names share DBLP as an underlying source entity"
+    },
+    {
+      "origin_id": "Magellan/beeradvo_ratebeer",
+      "pair_count": 1,
+      "reason": "no shared source entity with another Magellan pair under the conservative name-based grouping"
+    },
+    {
+      "origin_id": "Magellan/fodors_zagats",
+      "pair_count": 1,
+      "reason": "no shared source entity with another Magellan pair under the conservative name-based grouping"
+    }
+  ],
+  "independence_assessment": {
+    "optimistic_pair_directories": 551,
+    "conservative_shared_origin_components": 8,
+    "strict_dataset_family_lower_bound": 5,
+    "required_conservative_clusters": 40,
+    "conservative_cluster_gap": 32,
+    "hard_stop_condition_triggered": true,
+    "hard_stop_reason": "conservative shared-origin components are below 40"
+  },
+  "checkpoint_evidence_assessment": {
+    "native_trajectory_files_in_archive": 0,
+    "native_checkpoint_files_in_archive": 0,
+    "input_files_support_matcher_execution": true,
+    "matcher_process_events_require_instrumentation": true,
+    "ground_truth_values_used_for_action_target_generation": false,
+    "adapter_route_status": "STOPPED_BEFORE_IMPLEMENTATION_DUE_TO_CLUSTER_HARD_STOP"
+  },
+  "decision": {
+    "selected_route": "FORMAL_NEGATIVE_BOUNDARY",
+    "rq2_status": "NOT_IDENTIFIED",
+    "data_status": "DATA_NO_GO",
+    "small_paper_route": "STAGE_E_FALLBACK",
+    "full_evaluate_distill_evolve_route": "FUTURE_WORK",
+    "annex_submitted": false,
+    "archive_download_authorized": false
+  }
+}

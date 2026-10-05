@@ -1,5 +1,7 @@
 # memory/THREADS.md — 未决线索
 
+[10-05] #VALENTINE-FULL-ROUTE-NEGATIVE-BOUNDARY: Zenodo Valentine full benchmark 只读结构审计确认 551 个完整 pair，但保守 shared-origin components 仅 8（`miller2`/`prospect`/`assays`/`Musicians` + Magellan 3/2/1/1），低于 40，硬止损触发。用户选择第三项：接受 `DATA_NO_GO / RQ2_NOT_IDENTIFIED` 为正式负结果，完整 E-D-R 转 future work，小论文保持 Stage E。未下载 archive、未提交 annex、未运行 adapter/A0-A3/Phase2/B5/训练。
+
 [10-05] #GOAL-COMPLETION-AUDIT-EXTERNAL-INPUT-BLOCKER: 完成审计结论 `NOT_COMPLETE_FOR_FULL_GOAL / INTERNAL_DELIVERABLES_COMPLETE`。RQ2 same-sample mother pool 仍无可用来源；registry screen `0/10`，Route V gap 30，Stage D/R/RQ4 仍无确认性结果。剩余工作需要用户提供新的精确 source/task-definition annex、批准 adapter 路线，或明确接受正式负结果边界；在此之前不运行 A2、Phase 2、训练或外发。
 
 [10-05] #RQ2-CANDIDATE-SOURCE-SCREENING-0OF10: 对 `paper-public-source-registry-v1.json` 的 10 个 metadata-only 候选逐项审计同一 UID 四要求（checkpoint evidence、map/hold/skip action/target、独立 correctness、independence/role fit），直接合格 `0/10`。FinQA/ConvFinQA 只有 process/program；MultiHiertt 等需 adapter；Valentine 仅 exploratory 且固定 revision 缺 30 clusters；其余为 QA/type/proposal labels。结论限定 registry 范围，不是全球不存在声明；未选新源、未下载、未扩许可，`DATA_NO_GO / RQ2_NOT_IDENTIFIED` 不变。
