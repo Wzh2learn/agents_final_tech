@@ -37,7 +37,7 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 
 ## Git state
 
-- GB10 validation baseline is `11aae9c6a6a09ccf606e999292e4fe66bc5b5778`; the path-B closeout documentation commit follows it and is authoritative in Git history. GB10 production dirty files remained the fixed five and were not overwritten.
+- GB10 validation content baseline is `f0764e714d21408a1a848ee0f327a22294eda73a`; the final metadata-only closeout commit follows it and is authoritative in Git history. GB10 production dirty files remained the fixed five and were not overwritten.
 - Preserve protected/user assets: `logs/graph/docs_lint_report.json`, `IMPLEMENTATION_PLAN.md`, `PROMPT.md`, `_d3b_dispatch.sh`.
 - GB10 production dirty files remain the fixed five: `config/schema_suggestions.json`, `logs/graph/docs_lint_report.json`, `logs/graph/governance_drift_latest.md`, `logs/graph/loop_b_last_status`, `logs/graph/verify-report.json`.
 - Do not touch `docs/33*`, `docs/34*`, frozen tests/schema, `scripts/graph/frozen_hashes.txt`, or TAT-DQA boundaries.

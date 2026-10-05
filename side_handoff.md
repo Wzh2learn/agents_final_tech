@@ -23,7 +23,7 @@
 
 ## Validation baseline
 
-GB10 commit `11aae9c6a6a09ccf606e999292e4fe66bc5b5778`:
+GB10 validation content baseline `f0764e714d21408a1a848ee0f327a22294eda73a` (the final metadata-only closeout commit follows):
 
 - full pytest: `870 passed / 13 skipped / 1 deselected`
 - focused tests: `27 passed`; adapter contract tests: `11 passed`

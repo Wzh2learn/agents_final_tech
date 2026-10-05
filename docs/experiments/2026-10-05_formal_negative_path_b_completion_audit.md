@@ -2,7 +2,7 @@
 
 > Verdict: `COMPLETE_FOR_FORMAL_NEGATIVE_PATH_B`
 > Scientific outcome: `FORMAL_NEGATIVE_BOUNDARY`
-> Evidence baseline: local = origin = GB10 `11aae9c6a6a09ccf606e999292e4fe66bc5b5778`
+> Validation content baseline: local = origin = GB10 `f0764e714d21408a1a848ee0f327a22294eda73a`; closeout metadata commit follows this baseline
 > Scope: the current goal explicitly allows formal negative closure when confirmatory data conditions cannot be met.
 
 ## 1. Requirement-by-requirement audit
