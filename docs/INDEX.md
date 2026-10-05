@@ -57,6 +57,7 @@
 | [`datasets/2026-10-05_stage_d_training_readiness_validation_v1.json`](datasets/2026-10-05_stage_d_training_readiness_validation_v1.json) | Dry-run validation | PASS_DRY_RUN_ONLY, training execution blocked |
 | [`experiments/2026-10-05_stage_d_training_readiness_report.md`](experiments/2026-10-05_stage_d_training_readiness_report.md) | Readiness report | resource/monitor/estimate summary; no training execution |
 | [`experiments/2026-10-05_training_dependency_audit.md`](experiments/2026-10-05_training_dependency_audit.md) | Dependency audit | peft/trl installed; deepspeed replaced by single-device accelerate |
+| [`experiments/2026-10-05_qwen_model_candidate_metadata_audit.md`](experiments/2026-10-05_qwen_model_candidate_metadata_audit.md) | Model metadata | local GGUF hashes; HF revision/licence unresolved |
 | [`datasets/2026-10-05_model_training_go_application_v1.md`](datasets/2026-10-05_model_training_go_application_v1.md) | Pending application | MODEL_GO / TRAINING_GO fields and blockers; not authorization |
 | [`experiments/2026-10-05_stage_d_necessity_residual_memo.md`](experiments/2026-10-05_stage_d_necessity_residual_memo.md) | Necessity memo | risk-constrained coverage and A2 residual criteria |
 | [`experiments/2026-10-05_stage_r_rq4_static_protocol.md`](experiments/2026-10-05_stage_r_rq4_static_protocol.md) | Static protocol | seven-arm order/state/rollback and C0-C3 analysis |

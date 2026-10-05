@@ -69,3 +69,12 @@
 ## 6. Non-approval statement
 
 This file is not MODEL_GO or TRAINING_GO. It does not lift `DATA_NO_GO`, `RQ2 NOT_IDENTIFIED`, B5 dormancy, Phase 2 closure, patent/publication restrictions, or any data-licensing boundary.
+
+## 7. Model candidate audit result (2026-10-05)
+
+Only local GGUF inference artifacts were found:
+
+- Qwen3-4B Q4_K_M sha256 `7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5`;
+- Qwen3-8B Q4_K_M sha256 `d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785`.
+
+They are not HF QLoRA training checkpoints. Hugging Face metadata-only lookup timed out for both model families; immutable revision, tokenizer revision and licence evidence remain missing. See `docs/experiments/2026-10-05_qwen_model_candidate_metadata_audit.md`.
