@@ -1,8 +1,8 @@
 # Current State
 
-> Updated: 2026-10-05T12:52:00+08:00 | Scope: Qwen3-8B model sync and both-model artifact readiness | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
+> Updated: 2026-10-05T13:00:00+08:00 | Scope: Qwen3-8B model sync and both-model artifact readiness | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
 
-Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions: [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
+Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions: [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md). The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 
 ## Current objective
 
@@ -28,7 +28,7 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 
 ## Git state
 
-- Verified prior baseline = `58496430a6bd3c1a5de45949471ed804a2f565fe`. This model-sync batch is in the working tree until its path-specific commit; Git history is authoritative for the final hash.
+- Verified prior baseline = `58496430a6bd3c1a5de45949471ed804a2f565fe`; model-sync batch commit is `5a16845`. Git history is authoritative for subsequent fixes.
 - Preserve protected/user assets: `logs/graph/docs_lint_report.json`, `IMPLEMENTATION_PLAN.md`, `PROMPT.md`, `_d3b_dispatch.sh`.
 - GB10 production dirty files remain the fixed five: `config/schema_suggestions.json`, `logs/graph/docs_lint_report.json`, `logs/graph/governance_drift_latest.md`, `logs/graph/loop_b_last_status`, `logs/graph/verify-report.json`.
 - Do not touch `docs/33*`, `docs/34*`, frozen tests/schema, `scripts/graph/frozen_hashes.txt`, or TAT-DQA boundaries.
