@@ -1,5 +1,16 @@
 # CONTEXT HANDOFF — 侧线职责与历史交接证据 · JinRongAgents（文件名沿用 20260829）
 
+> ARCHIVED 2026-10-05：本件保留历史交接证据，不再作为当前入口。现役 handoff 见 `../../side_handoff.md`。
+
+## 2026-09-25 侧线收尾（历史入口；09-23 及更早段落只作历史）
+
+- 当前基线：`local main / origin/main = 4ae2632`；GB10 production 观察时仍为 `24312df`，存在一轮待对齐。本地仅四件用户资产未提交，主线程未清理。
+- 用户裁定已入账：`D-A = 3`（label review 推迟到 P1-future）；`D-B = 批准四项 licence scope confirmation，仅限 annex 精确范围`；`D-C = 批准最小下载范围`；`D-D = 授权 Loop A 范围设计`；`D-E = MIMO 继续挂起`；`D-F = 专利未确认前维持不外发`。
+- D-C 下载观察时已在 GB10 仓外暂存 `~/wzh/phase1a_staging_20260925/` 启动，`fetch.pid = 3632578`，`finqa/train.json` 已出现但仍可能为部分落盘；下一轮侧线不得把当前文件大小当作完成态。
+- 已完成并核验：小论文 fallback 口径正文、图、Related Work、limitations、claim-evidence 对账、双模型 review、DOCX 视觉验收；大论文开题 v1、第 1-2 章 v1、章节框架；confidence manifest、runner、单测、独立审计、装配清单。队列 `DONE 3 / BLOCKED 4`。
+- 下一轮侧线重点：核 GB10 对齐到 `4ae2632` 后，D-C 是否严格只落 FinQA `train.json/dev.json` 与 Valentine 十个 NYC 目录 + `LICENSE` + `bench.py`，无额外文件；D-B 是否只填 annex 四项；D-D 是否只做范围设计；D-E/D/F 是否未越权。
+- 下一轮侧线入口：先读 `AGENTS.md`、`memory/CORE.md`、`memory/STATE.md`、`memory/THREADS.md`、`docs/research/README.md`、`docs/handoff/2026-09-24_user_decision_packet.md`，再读本节。不要从旧段落或历史快照推断现役状态。
+
 ## 2026-09-23 侧线现役接续（本轮只读观察；下文旧快照仅供追溯）
 
 - 本侧线仅提供只读核查、解释和给主线程的建议，不继承父线程历史任务，不派子代理。当前科研事实和未决项仍以 AGENTS、CORE、STATE、THREADS 与科研交接文档为准。
