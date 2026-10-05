@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-10-05T11:59:18+08:00 | Scope: GB10 Qwen3-4B artifact validation and conditional training authorization | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
+> Updated: 2026-10-05T12:12:00+08:00 | Scope: GB10 Qwen3-4B artifact validation and conditional training authorization | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions: [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md).
 
@@ -21,7 +21,7 @@ Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 
 ## Git state
 
-- Current committed head = `6ef8e5216dd3b8435c0eb26b226571fa10fd90c2`; local / origin / GB10 align at that head. This batch remains in the working tree and is not yet represented by a new three-way head.
+- Verified batch baseline = `5cd45fbe27db6d77852ad33244ac0b31b07a4e0b`; local / origin / GB10 aligned after the first push. The post-commit readiness-report synchronization is the immediately following commit; Git history is authoritative for its final hash.
 - Preserve protected/user assets: `logs/graph/docs_lint_report.json`, `IMPLEMENTATION_PLAN.md`, `PROMPT.md`, `_d3b_dispatch.sh`; do not add or alter them in this batch.
 - Production dirty files on GB10 remain the fixed five: `config/schema_suggestions.json`, `logs/graph/docs_lint_report.json`, `logs/graph/governance_drift_latest.md`, `logs/graph/loop_b_last_status`, `logs/graph/verify-report.json`.
 - Do not touch `docs/33*`, `docs/34*`, frozen tests/schema, `scripts/graph/frozen_hashes.txt`, or TAT-DQA boundaries.

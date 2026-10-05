@@ -1,5 +1,5 @@
 {
-  "config_sha256": "014da794ac6906de656441fd8f38aa685566b6b6ad3a849031896380500f9f44",
+  "config_sha256": "7f9ff29ee791e8890d297882209242019f199146981b65b47030b7723b21fddc",
   "data_go": false,
   "excluded_dependencies": {
     "deepspeed": "intentionally_not_installed_single_device_qlora"
