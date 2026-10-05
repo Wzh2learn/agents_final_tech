@@ -6,6 +6,8 @@
 
 Stage D necessity remains `PILOT_ONLY`. B4 is risk-admissible in the primary and pair-invalid slices, but the salted split remains unstable. A dedicated student is therefore not yet justified.
 
+The approved initial A2 criteria are now explicit: coverage gain over B4 `>=0.05`, target exact non-inferiority margin `<=0.02`, maximum single-pair residual/gain share `<=0.50`, harmful-map risk upper `<=0.10` in all three slices, and positive A2-B4 coverage-delta lower bounds in primary and pair-invalid. A2 is not run, so gain, target non-inferiority, gain concentration and coverage deltas are `NOT_ESTIMABLE`; the salted risk upper bound is `0.1250` and fails.
+
 Training readiness is prepared for Qwen3-4B smoke and Qwen3-8B QLoRA arms. `peft`, `trl`, `datasets`, and `accelerate` are installed; `deepspeed` is intentionally omitted on the single-device path.
 
 GB10 focused validator tests pass (`15 passed`). Qwen3-4B passed real artifact validation with 13/13 immutable identities, 3 valid safetensors shard headers, 398 covered tensor entries, tokenizer/licence parsing, and canonical model-root-relative manifests. The readiness dry-run reports `smoke_model_revision_ready=true`, `student_model_revision_ready=false`, and `model_revision_ready=false`; no model weights were loaded.

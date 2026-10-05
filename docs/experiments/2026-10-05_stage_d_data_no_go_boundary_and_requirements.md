@@ -27,7 +27,7 @@ Accordingly, `DATA_NO_GO` and `RQ2 NOT_IDENTIFIED` remain authoritative.
 | SPLIT_GO | BLOCKED | Valentine has 10 clusters and `proposal_train.dev=0`; G-A/G-B remain unapproved, so it cannot carry gate/sealed. |
 | POWER_GO | BLOCKED | No real development-side variance, MDE, minimum UID/family coverage, or signed power receipt. |
 | BASELINE_GO | PILOT_ONLY | B4 is the baseline to beat; risk admissibility is not stable across the mandatory salted sensitivity. |
-| MODEL_GO | NOT_AUTHORIZED | No student model, revision, tokenizer/template, training budget, or restore plan is approved. |
+| MODEL_GO | ARTIFACT_READY_NOT_AUTHORIZED | Qwen3-4B/Qwen3-8B revisions, tokenizer/licence and manifests are validated on GB10. Formal execution still waits for scientific gates, stable residual, and the conditional training window. |
 | SAFETY_GO | DESIGN_READY_NOT_RUN | GB10 thresholds and isolation rules exist, but no training/replay execution has been authorized. |
 
 ## 3. What would change the conclusion
@@ -75,9 +75,9 @@ B4 must be the comparator. Stage D becomes worth considering only if a stable re
 
 ### 3.6 Model and safety
 
-Only after SOURCE/LABEL/SPLIT/POWER/BASELINE gates pass and necessity is established:
+The model artifact side is ready, but only after SOURCE/LABEL/SPLIT/POWER/BASELINE gates pass and necessity is established:
 
-1. approve model/revision/tokenizer/template;
+1. revalidate the already-bound model/revision/tokenizer/template immediately before execution;
 2. freeze training configuration and seeds;
 3. sign MODEL_GO and SAFETY_GO;
 4. run in an isolated worktree/output directory with resource monitoring and stop conditions.

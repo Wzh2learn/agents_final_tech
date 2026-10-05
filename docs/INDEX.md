@@ -34,6 +34,8 @@
 
 ## 工程、运行与架构
 
+- Machine criteria status: [2026-10-05_stage_d_necessity_criteria_status_v1.json](datasets/2026-10-05_stage_d_necessity_criteria_status_v1.json) - approved A2 criteria with PASS/FAIL/NOT_ESTIMABLE current evidence
+
 | 文件 | 状态 | 用途 |
 |---|---|---|
 | [`datasets/2026-10-04_rq2_identification_and_acquisition_card.md`](datasets/2026-10-04_rq2_identification_and_acquisition_card.md) | 决策申请 | RQ2 identification、Route V/F、数据/许可/split/power 申报；不授权下载 |

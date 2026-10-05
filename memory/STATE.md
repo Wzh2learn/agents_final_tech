@@ -18,6 +18,8 @@ Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 - Artifact receipt: `docs/datasets/2026-10-05_qwen3_8b_artifact_validation_receipt_v1.json`, SHA-256 `8c35a447...`.
 - GB10 readiness: `PASS_DRY_RUN_ONLY`, `smoke_model_revision_ready=true`, `student_model_revision_ready=true`, `model_revision_ready=true`, `missing_dependencies=[]`.
 - `model_revision_ready=true` means immutable model/tokenizer artifacts are validated only. It is not MODEL_GO, TRAINING_GO, or a scientific result.
+- Approved initial Stage D necessity criteria are now explicit and hash-bound: A2 coverage gain over B4 `>=0.05`, target exact non-inferiority margin `<=0.02`, maximum single-pair residual/gain share `<=0.50`, harmful-map risk upper `<=0.10` in primary/pair-invalid/salted, and positive A2-B4 coverage-delta lower bounds in primary/pair-invalid. A2 is not run; gain/target/gain-share/deltas are `NOT_ESTIMABLE`, while the salted risk upper `0.1250` fails.
+- Route V target `>=40` clusters is approved at revision `5d5163f...`; the official tree supplies only 10 eligible clusters, eligible new clusters=0, gap=30. No exact new-directory annex exists and no download is possible without a new source/revision/file-scope annex.
 - No model weights were loaded and no training model was instantiated.
 
 ## Conditional execution authorization
@@ -43,7 +45,8 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 
 ## Next gates
 
-1. Advance the RQ2 identification, data, licence, split, and power package without expanding sources.
+1. Close the exact-source annex gap or formally retain `DATA_NO_GO`; do not claim the 40-cluster target is available at the current revision.
 2. Recompute Stage D necessity and SOURCE/LABEL/SPLIT/POWER/BASELINE/SAFETY from real artifacts.
-3. Only after every conditional gate passes may S0/A0/A1/A2 proceed automatically under the frozen controls.
-4. A3, Phase 2, new data/licence, formal submission, arXiv, code release, and external release remain separately authorized.
+3. Run A2 only after the scientific gates and signed power receipt pass; use the approved necessity criteria without post-result changes.
+4. Only after every conditional gate passes may S0/A0/A1/A2 proceed automatically under the frozen controls.
+5. A3, Phase 2, new data/licence, formal submission, arXiv, code release, and external release remain separately authorized.

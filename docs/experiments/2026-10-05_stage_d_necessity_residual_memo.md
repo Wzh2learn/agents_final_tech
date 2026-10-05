@@ -48,13 +48,20 @@ If these conditions are not met, the correct disposition is `SIMPLE_SUFFICIENT`,
 
 `stage_d_necessity = NOT_ESTABLISHED`.
 
-The current evidence supports preparing an A2 readiness package, but it does not support starting A0/A1/A2/A3. The package must remain a dry-run, mock, format, code-path, and resource-planning artifact until MODEL_GO, TRAINING_GO, the data gates, and the residual rule are separately approved.
+The current evidence supports preparing an A2 readiness package, but it does not support starting A0/A1/A2/A3. The package must remain a dry-run, mock, format, code-path, and resource-planning artifact until MODEL_GO, TRAINING_GO, the data gates pass, and the approved residual criteria are evaluated on real A2 evidence.
 
-## 5. Proposed decision thresholds pending confirmation
+## 5. Approved initial criteria and current evidence
 
-The following values are proposed to close the currently missing necessity criteria. Until confirmed and hash-bound, the verdict remains `PILOT_ONLY`:
+The user approved the following initial criteria. They are bound in `docs/datasets/2026-10-05_stage_d_training_readiness_config_v1.json` with `status=APPROVED_INITIAL_VALUES`. They may be adjusted only before a formal run and only with config, hash, reason, and effective time; they must not be changed after results are visible.
 
-- minimum A2 absolute correct-map coverage gain over B4: `0.05`;
-- target exact non-inferiority margin: `0.02`;
-- maximum share of total positive gain from one pair: `0.50`;
-- split sensitivity: A2-B4 coverage delta must be non-negative in primary, pair-invalid and salted slices, with positive lower cluster-bootstrap bounds in primary and pair-invalid, and A2 risk upper bound `<= 0.10` throughout.
+| Criterion | Approved initial value | Current evidence | Status |
+|---|---:|---|---|
+| A2 absolute correct-map coverage gain over B4 | `>= 0.05` | A2 is not run | `NOT_ESTIMABLE` |
+| target exact non-inferiority margin | `<= 0.02` | A2 is not run | `NOT_ESTIMABLE` |
+| maximum single-pair contribution to residual/gain | `<= 0.50` | B4 residual concentration is 6/13 = 46.2%; A2 gain share is not estimable | `DIAGNOSTIC_ONLY` |
+| harmful-map risk upper bound in primary, pair-invalid and salted slices | `<= 0.10` | 0.0948 PASS / 0.0991 PASS / 0.1250 FAIL | `FAIL` |
+| A2-B4 coverage delta lower bound in primary and pair-invalid | `> 0` | A2 is not run | `NOT_ESTIMABLE` |
+
+For orientation only, an A2 gain of at least `0.05` would require correct-map coverage of at least `0.3103` on the primary slice and `0.3038` on the pair-invalid slice if the threshold is enforced slice-by-slice. The formal decision must use the preregistered cluster-bootstrap deltas, not these point targets.
+
+Current verdict remains `PILOT_ONLY`: the mandatory salted risk upper bound fails, and no A2 residual/gain evidence exists. Training must not be used to cover this uncertainty.

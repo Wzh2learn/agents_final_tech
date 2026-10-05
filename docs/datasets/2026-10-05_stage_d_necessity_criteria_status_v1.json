@@ -1,0 +1,75 @@
+{
+  "record_type": "stage_d_necessity_criteria_status",
+  "record_version": "stage-d-necessity-criteria-status-v1",
+  "status": "PILOT_ONLY",
+  "stage_d_necessity": "NOT_ESTABLISHED",
+  "training_recommendation": "DO_NOT_TRAIN_YET",
+  "criteria_status": "APPROVED_INITIAL_VALUES",
+  "criteria_source": {
+    "path": "docs/datasets/2026-10-05_stage_d_training_readiness_config_v1.json",
+    "sha256": "5153f9e3c2890dce81dd10f37c1006264452589d196df5294069640169858901",
+    "adjustment_policy": "adjustable only before formal run with config, hash, reason and effective time; never after results are visible"
+  },
+  "result_source": {
+    "path": "docs/datasets/2026-10-04_b0_b4_exploratory_results_v2.json",
+    "sha256": "299d8148b8a09dc115254904dc531dffcb33f3cbcff3dee2c8a26719009101bd"
+  },
+  "criteria": {
+    "minimum_A2_absolute_correct_map_coverage_gain": {
+      "value": 0.05,
+      "current_status": "NOT_ESTIMABLE",
+      "reason": "A2 is not run"
+    },
+    "target_exact_noninferiority_margin": {
+      "value": 0.02,
+      "current_status": "NOT_ESTIMABLE",
+      "reason": "A2 is not run"
+    },
+    "maximum_single_pair_residual_or_gain_share": {
+      "value": 0.5,
+      "current_status": "DIAGNOSTIC_ONLY",
+      "b4_residual_max_pair_count": 6,
+      "b4_residual_total_count": 13,
+      "b4_residual_max_pair_share": 0.4615384615,
+      "a2_gain_share": "NOT_ESTIMABLE",
+      "reason": "the approved criterion applies to A2 residual/gain; A2 is not run"
+    },
+    "harmful_map_risk_upper_all_slices": {
+      "value": 0.1,
+      "current_status": "FAIL",
+      "primary_upper": 0.0948275862,
+      "pair_invalid_upper": 0.0990990991,
+      "salted_upper": 0.125,
+      "reason": "the salted slice exceeds the approved upper bound"
+    },
+    "A2_minus_B4_coverage_delta_lower_primary_and_pair_invalid": {
+      "value": "> 0",
+      "primary": "NOT_ESTIMABLE",
+      "pair_invalid": "NOT_ESTIMABLE",
+      "current_status": "NOT_ESTIMABLE",
+      "reason": "A2 is not run"
+    }
+  },
+  "risk_constrained_B4_coverage": {
+    "primary": {
+      "coverage": 0.2602739726,
+      "risk_admissible": true
+    },
+    "pair_invalid": {
+      "coverage": 0.2538461538,
+      "risk_admissible": true
+    },
+    "salted": {
+      "coverage": 0.3157894737,
+      "risk_admissible": false
+    },
+    "stable_cross_slice_coverage": false
+  },
+  "data_go": false,
+  "rq2_status": "NOT_IDENTIFIED",
+  "paper_result": false,
+  "training_status": "NOT_RUN",
+  "phase2_status": "NOT_RUN",
+  "b5_status": "DORMANT_NOT_RUN",
+  "reason": "Approved initial criteria are available, but A2 evidence is absent and the mandatory salted harmful-map risk upper bound fails."
+}

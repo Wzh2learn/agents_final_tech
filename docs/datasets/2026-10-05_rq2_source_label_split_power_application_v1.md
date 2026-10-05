@@ -1,6 +1,6 @@
 # RQ2 SOURCE / LABEL / SPLIT / POWER application v1（2026-10-05）
 
-> Status: `PENDING_USER_APPROVAL / NO_DOWNLOAD / NO_SCHEMA_CHANGE`
+> Status: `ROUTE_V_TARGET_APPROVED / EXACT_NEW_ANNEX_MISSING / NO_DOWNLOAD`
 > Purpose: exact application card for the next RQ2 data decision; this card does not authorize acquisition or training.
 
 ## 1. SOURCE
@@ -16,7 +16,7 @@
 | Optional process files | `_full.json`, `_result.json`, `_trajectory.json` require separate semantic and visibility approval |
 | Exclusions | FinQA test/private, PDF, other datasets, other Valentine directories, private data, unlisted files |
 | Licence | D-B covers only `training / tuning / evaluation / rule_acceptance`; every new directory needs owner, licence, covered hashes, permitted uses |
-| Current decision | G-C is not approved; no download is authorized |
+| Current decision | Route V target `>=40` clusters is approved at the fixed revision; the official tree contains only 10 eligible clusters, so eligible new clusters=0 and the gap is 30. No exact new-directory annex exists and no download is possible within the approved scope. |
 
 ## 2. LABEL
 
@@ -53,9 +53,9 @@
 
 ## 5. Decision request
 
-User approval is required for each of the following before any acquisition or execution:
+The Route V target in item 1 is already approved. The following remain required before any acquisition or execution:
 
-1. Route V target of at least 40 independent pair clusters;
+1. Route V target of at least 40 independent pair clusters - `APPROVED_TARGET_ONLY`; exact new files still require item 2;
 2. exact new pair directory list and file-level scope;
 3. licence/provenance annex for each new directory;
 4. confirmatory label visibility policy;
@@ -67,4 +67,4 @@ Until then: `DATA_NO_GO`, `RQ2 NOT_IDENTIFIED`, no new download, no schema/licen
 
 ## 6. Route V exact annex result (2026-10-05)
 
-The official approved revision contains exactly 10 eligible pair directories and 30 minimum-scope files. The exact annex is `docs/datasets/2026-10-05_valentine_route_v_exact_annex_v1.json`; eligible new clusters are 0, the 40-cluster gap is 30, and this batch authorizes no download. The target remains 40 clusters, but no other revision/repository may be substituted without a new authorization.
+The official approved revision contains exactly 10 eligible pair directories and 30 minimum-scope files. The exact annex is `docs/datasets/2026-10-05_valentine_route_v_exact_annex_v1.json`; eligible new clusters are 0, the 40-cluster gap is 30, and no download occurred. The target remains at least 40 clusters, but there are no additional eligible files to annex at this revision. Any other repository, revision, directory, or file scope requires a new exact annex and separate approval.
