@@ -21,6 +21,7 @@ Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 - Approved initial Stage D necessity criteria are now explicit and hash-bound: A2 coverage gain over B4 `>=0.05`, target exact non-inferiority margin `<=0.02`, maximum single-pair residual/gain share `<=0.50`, harmful-map risk upper `<=0.10` in primary/pair-invalid/salted, and positive A2-B4 coverage-delta lower bounds in primary/pair-invalid. A2 is not run; gain/target/gain-share/deltas are `NOT_ESTIMABLE`, while the salted risk upper `0.1250` fails.
 - Route V target `>=40` clusters is approved at revision `5d5163f...`; the official tree supplies only 10 eligible clusters, eligible new clusters=0, gap=30. No exact new-directory annex exists and no download is possible without a new source/revision/file-scope annex.
 - Phase 2 duplicate JSON-key prerequisite is `PASS_SOFTWARE_CONTRACT`: commit `60eaa27` uses `object_pairs_hook` + `parse_constant`, and GB10 `tests/test_phase2_rule_gate_replay.py` reports `22 passed`. Phase 2 remains `NOT_RUN`; this is not replay or Stage R evidence.
+- Paper/thesis evidence-state consistency was refreshed across 12 internal files: Q3 is now described as sealed exploratory evidence with corrected `51/58/37` and visibility exceptions; B0-B4 is exploratory v2; Stage E established numbers and claim boundaries were not changed.
 - No model weights were loaded and no training model was instantiated.
 
 ## Conditional execution authorization
@@ -50,5 +51,6 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 2. Recompute Stage D necessity and SOURCE/LABEL/SPLIT/POWER/BASELINE/SAFETY from real artifacts.
 3. Run A2 only after the scientific gates and signed power receipt pass; use the approved necessity criteria without post-result changes.
 4. Keep Phase 2 blocked until RQ2/RQ3 prerequisites and the approved execution window pass; duplicate JSON-key software readiness is already closed.
-5. Only after every conditional gate passes may S0/A0/A1/A2 proceed automatically under the frozen controls.
-6. A3, Phase 2, new data/licence, formal submission, arXiv, code release, and external release remain separately authorized.
+5. Continue paper/thesis work only by backfilling independently accepted evidence; keep Q3/B0-B4 outside Stage E main results until their evidence level changes.
+6. Only after every conditional gate passes may S0/A0/A1/A2 proceed automatically under the frozen controls.
+7. A3, Phase 2, new data/licence, formal submission, arXiv, code release, and external release remain separately authorized.

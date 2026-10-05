@@ -36,12 +36,15 @@ Stage D necessity criteria are approved initial values: A2 coverage gain over B4
 
 Phase 2 duplicate JSON-key prerequisite is closed at the software-contract level: strict `object_pairs_hook`/`parse_constant` loading is covered by GB10 `22 passed`. Phase 2 remains `NOT_RUN`.
 
+Twelve internal paper/thesis files now use the same Q3/B0-B4 evidence boundaries: Q3 sealed exploratory `51/58/37` with visibility exceptions; B0-B4 v2 exploratory; Stage E main results unchanged.
+
 1. Resolve or formally retain the Route V exact-annex gap: target >=40 is approved, but the fixed revision has only 10 eligible clusters and 0 new files.
 2. Recompute Stage D necessity and the SOURCE/LABEL/SPLIT/POWER/BASELINE/SAFETY gates from real artifacts.
 3. Keep A2 unrun until the scientific gates and signed power receipt pass; never tune the approved necessity criteria after results.
 4. Keep Phase 2 blocked until RQ2/RQ3 prerequisites and its formal execution window pass; duplicate-key readiness is already closed.
 5. Re-run readiness and safety validation; run S0/A0-A2 only after every conditional gate passes.
 6. Keep A0-A3 blocked until Stage D necessity and SOURCE/LABEL/SPLIT/POWER/BASELINE gates pass.
+7. Continue internal paper/thesis refinement only from independently accepted artifacts; no external submission while the patent gate is unresolved.
 
 ## Notes for the next session
 

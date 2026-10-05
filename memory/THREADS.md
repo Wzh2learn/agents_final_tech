@@ -1,5 +1,7 @@
 # memory/THREADS.md — 未决线索
 
+[10-05] #PAPER-EVIDENCE-STATE-REFRESHED: 已统一 12 份内部小论文/大论文材料的 Q3/B0-B4 状态：Q3 raw/ledger/hash 已封存、corrected 51/58/37、visibility exceptions 保留，仅 exploratory；B0-B4 v2 已完成但 Stage D 仍 `PILOT_ONLY`。同时修正 thesis/teacher-review/figure/reproducibility/submission/asset-map 中的“只有输入包/未复核/NOT_RUN”旧口径。Stage E 已成立数字、claim token、引用与公式未改；`DATA_NO_GO` / `RQ2 NOT_IDENTIFIED` / 外发边界不变。
+
 [10-05] #PHASE2-DUPLICATE-JSON-GATE-CLOSED: `research/phase2_rule_gate_replay.py` 的重复 JSON key 执行门已在历史 commit `60eaa27` 修复：`object_pairs_hook` 拒绝 dataset/config/nested duplicate key，`parse_constant` 拒绝 NaN/Infinity；负例覆盖 config `min_source_gain` 后值静默覆盖、dataset/nested key、NaN、unreadable file。GB10 `tests/test_phase2_rule_gate_replay.py` = `22 passed`。本项只闭合软件执行门，Phase 2 仍 `NOT_RUN`，不产生 replay、Stage R/RQ4 或训练证据。
 
 [10-05] #STAGE-D-NECESSITY-CRITERIA-ALIGNED: 已将五项 A2 necessity 初始判据从“待确认”纠正为 `APPROVED_INITIAL_VALUES`，绑定 training readiness config：coverage gain >=0.05、target exact non-inferiority margin <=0.02、single-pair residual/gain share <=0.50、三 slice harmful-map risk upper <=0.10、primary/pair-invalid A2-B4 coverage delta lower >0。当前 A2 未运行，gain/target/gain-share/deltas = `NOT_ESTIMABLE`；B4 residual 最大 pair 占比 6/13=46.2% 仅作诊断；salted risk upper 0.1250 FAIL，verdict 保持 `PILOT_ONLY`。Route V `>=40` 目标已批但官方 revision 仅 10 clusters、新增 0、缺口 30，缺 exact new-directory annex，不下载、不换源。
