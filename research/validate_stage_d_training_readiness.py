@@ -55,6 +55,9 @@ def validate(config_path: Path) -> dict[str, object]:
     _require(arms["A0"].get("train") is False, "a0_must_not_train")
     _require(arms["A2"].get("inherit_from") == "A1", "a2_must_match_a1")
     _require(arms["A3"].get("status") == "CONDITIONAL_NOT_RUN", "a3_must_be_conditional")
+    _require(arms["A3"].get("inherits_from_A1_A2") is False, "a3_must_not_inherit_a1_a2")
+    _require(arms["A3"].get("independent_parameters") == {"beta": 0.1, "learning_rate": 0.000005, "epochs": 1, "batch_size": 1, "gradient_accumulation": 8, "max_length": 1024, "seed_list": REQUIRED_SEEDS}, "a3_independent_parameters_mismatch")
+    _require(arms["A3"].get("preference_gate") == {"minimum_preference_pairs": 200, "minimum_independent_lineage_clusters": 10, "both_directions_required": True, "max_single_direction_share": 0.60, "max_single_cluster_share": 0.20, "failure_status": "CONDITIONAL_NOT_RUN"}, "a3_preference_gate_mismatch")
 
     template = config.get("template")
     _require(isinstance(template, dict), "missing_template")
@@ -87,6 +90,19 @@ def validate(config_path: Path) -> dict[str, object]:
     _require(resources["monitor"]["heartbeat_interval_seconds"] <= 300, "heartbeat_interval_too_long")
     _require(resources["monitor"]["process_reconciliation"] is True, "process_reconciliation_required")
 
+    phase2 = config.get("phase2_initial_budget")
+    _require(isinstance(phase2, dict), "missing_phase2_budget")
+    _require(phase2.get("candidate_risk_cap") == 0.10, "candidate_risk_cap_mismatch")
+    _require(phase2.get("validation_drawdown_stop") == 0.05, "validation_drawdown_stop_mismatch")
+    _require(phase2.get("post_result_adjustment_allowed") is False, "post_result_adjustment_must_be_false")
+    windows = config.get("execution_windows")
+    _require(isinstance(windows, dict), "missing_execution_windows")
+    _require(windows.get("whole_cycle_hard_cap_gpu_hours") == 8, "whole_cycle_budget_mismatch")
+    thresholds = config.get("stage_d_necessity_thresholds")
+    _require(isinstance(thresholds, dict), "missing_stage_d_thresholds")
+    _require(thresholds.get("status") == "PROPOSED_PENDING_USER_CONFIRMATION", "stage_d_threshold_status_mismatch")
+    _require(thresholds.get("current_verdict_if_missing") == "PILOT_ONLY", "missing_threshold_verdict_mismatch")
+
     estimates = config.get("planning_estimates")
     _require(isinstance(estimates, dict), "missing_estimates")
     _require(estimates.get("measurement_status") == "ESTIMATE_NOT_MEASURED", "estimate_must_be_unmeasured")
@@ -108,6 +124,8 @@ def validate(config_path: Path) -> dict[str, object]:
         "missing_dependencies": missing,
         "launch_conditions": config["launch_conditions"],
         "planning_estimates": estimates,
+        "phase2_initial_budget_status": config["phase2_initial_budget"]["status"],
+        "stage_d_necessity_threshold_status": config["stage_d_necessity_thresholds"]["status"],
         "config_sha256": _sha256(config_path),
         "paper_result": False,
         "data_go": False,

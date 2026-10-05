@@ -60,6 +60,7 @@
 | [`experiments/2026-10-05_stage_d_necessity_residual_memo.md`](experiments/2026-10-05_stage_d_necessity_residual_memo.md) | Necessity memo | risk-constrained coverage and A2 residual criteria |
 | [`experiments/2026-10-05_stage_r_rq4_static_protocol.md`](experiments/2026-10-05_stage_r_rq4_static_protocol.md) | Static protocol | seven-arm order/state/rollback and C0-C3 analysis |
 | [`datasets/2026-10-05_rq2_source_label_split_power_application_v1.md`](datasets/2026-10-05_rq2_source_label_split_power_application_v1.md) | Application | SOURCE/LABEL/SPLIT/POWER exact request, no download |
+| [`datasets/2026-10-05_valentine_route_v_exact_annex_v1.json`](datasets/2026-10-05_valentine_route_v_exact_annex_v1.json) | Exact annex | approved revision has 10 clusters, 0 eligible new, 30-cluster gap |
 | [`17_Graph_Engineering_多层Loop设计.md`](17_Graph_Engineering_多层Loop设计.md) | 设计依据 | 现役协作边界与历史架构；不提供任务授权或实时状态 |
 | [`18_多Agent编排工具演进计划.md`](18_多Agent编排工具演进计划.md) | 历史快照 | 已执行的多 Agent 演进计划 |
 | [`20_部署指南.md`](20_部署指南.md) | 历史快照 | 旧部署拓扑；当前启动以根 `serve.sh`/README 为准 |

@@ -64,3 +64,7 @@ User approval is required for each of the following before any acquisition or ex
 7. MODEL_GO / TRAINING_GO only after the previous gates and the necessity memo pass.
 
 Until then: `DATA_NO_GO`, `RQ2 NOT_IDENTIFIED`, no new download, no schema/licence expansion, no model or training.
+
+## 6. Route V exact annex result (2026-10-05)
+
+The official approved revision contains exactly 10 eligible pair directories and 30 minimum-scope files. The exact annex is `docs/datasets/2026-10-05_valentine_route_v_exact_annex_v1.json`; eligible new clusters are 0, the 40-cluster gap is 30, and this batch authorizes no download. The target remains 40 clusters, but no other revision/repository may be substituted without a new authorization.

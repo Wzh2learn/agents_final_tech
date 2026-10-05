@@ -89,3 +89,13 @@ Do not write:
 ## 8. Current boundary
 
 `DATA_NO_GO`, `RQ2 NOT_IDENTIFIED`, and `Phase 2 NOT_RUN` remain. This protocol does not authorize replay, training, model dispatch, or external release.
+
+## 9. Initial Phase 2 budget (approved values, not yet frozen for formal run)
+
+- `candidate_risk_cap = 0.10`.
+- `rollback_budget = accepted_candidates * 0.05`, bounded to at least 1 and at most 10 rollbacks.
+- `validation_query_budget = candidate_count * 1.10`; the extra 10% is a preregistered reserve.
+- `validation_drawdown_stop = 0.05`.
+- Primary order is the frozen candidate manifest. Sensitivity orders are original, reverse, and seed 42/43/44 permutations.
+
+Pilot-scale adjustment is allowed for rollback budget and validation query budget before formal Phase 2. Neither these values nor `candidate_risk_cap` may change after harmful/retention outcomes are observed. Every adjustment requires config, hash, reason and effective time before execution.

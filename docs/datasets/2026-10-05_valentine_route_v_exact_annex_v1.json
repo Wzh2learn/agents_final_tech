@@ -1,0 +1,524 @@
+{
+  "approved_revision": "5d5163f04da304985bd51a476ccf7653de3979c3",
+  "available_clusters_at_revision": 10,
+  "cluster_gap": 30,
+  "command": "git -C /home/testuser/wzh/valentine_route_v_meta_20261005 ls-tree -r --long FETCH_HEAD -- experiments/data",
+  "download_authorized_files": [],
+  "download_count": 0,
+  "eligible_new_clusters": 0,
+  "exit_code": 0,
+  "licence": {
+    "d_b_record": "docs/datasets/phase1a_licence_record_v1.json",
+    "data_upstream": "NYC Open Data terms",
+    "repository": "Apache-2.0"
+  },
+  "official_repo": "https://github.com/delftdata/valentine",
+  "optional_process_file_scope": [
+    "<pair>_full.json",
+    "<pair>_result.json",
+    "<pair>_trajectory.json"
+  ],
+  "owner": "delftdata/valentine",
+  "pairs": [
+    {
+      "files": [
+        {
+          "bytes": 274311,
+          "filename": "City_Government__Capital_Projects_full.json",
+          "git_blob_sha1": "450731898c2d79f3d23feec20d389371c38b3fe5",
+          "sha256": "7f66773eb691716d3b38eb49f191d766db4e4fefd23029b95a21a3791ba5974d",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1621,
+          "filename": "City_Government__Capital_Projects_result.json",
+          "git_blob_sha1": "5be30a0efdf249b30122e531e32360a3796ad843",
+          "sha256": "103c968fade11c798ba1bd1e7160cbac996cc5d95d6fa85dfd4044c30f0ea7e0",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 137922,
+          "filename": "City_Government__Capital_Projects_trajectory.json",
+          "git_blob_sha1": "c471bdda22f8f219b9ac7dca90c153391c238b0f",
+          "sha256": "cf3755c1b978a234ced1210eb4f7274a3f66f251b653219db71f75a957642d1a",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 8592,
+          "filename": "ground_truth.json",
+          "git_blob_sha1": "4920ef4bb4d4dca438815690c36a1c3e85aae493",
+          "sha256": "9b91b8d8aa9b7b318d3d47a2bc88732a040811313ae21d21ff1f602ab0324881",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 437994,
+          "filename": "source_table.csv",
+          "git_blob_sha1": "af3ec7c9b5cb7a0b67c1dfe908b25a2b1729f849",
+          "sha256": "36b7060e1c6d5aec5fe607c4da676142a053f7cdfaa2602aa60935ff5c5e72cc",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 285964,
+          "filename": "target_table.csv",
+          "git_blob_sha1": "01e8c0783c46e19b495c683a347dece5f78b4727",
+          "sha256": "389471f86eb6b1c88f22d106bd51dee43b790199c9f74066947c01d7061af8c0",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        }
+      ],
+      "pair_id": "City_Government__Capital_Projects"
+    },
+    {
+      "files": [
+        {
+          "bytes": 296639,
+          "filename": "City_Government__DCM_StreetCenterLine_full.json",
+          "git_blob_sha1": "74071bd789a19ee0b1a1954f2dfa9d0ade663ab0",
+          "sha256": "8d2abb4ccb965dca5b4726ab282c7b9708bca206fd955d83c3ecf482fc156b79",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1840,
+          "filename": "City_Government__DCM_StreetCenterLine_result.json",
+          "git_blob_sha1": "c8261da65eaebd48e7020ded401b914aadb0fe89",
+          "sha256": "596f607e212c000e474b0ece1d3e83a7bc7af03c2b22a1e7f11200302a6933cb",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 133037,
+          "filename": "City_Government__DCM_StreetCenterLine_trajectory.json",
+          "git_blob_sha1": "abf9165679e958f0ab3ebf96891363235007c457",
+          "sha256": "cb47d498cc7db151cae3213d8234059bcf35c19b5bf2da6dbcb381e9cb235567",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 11626,
+          "filename": "ground_truth.json",
+          "git_blob_sha1": "4bfadc85e00bd95fb197a21fac3276ba54e1a415",
+          "sha256": "a7b846c28769add706ba48aa5b4274fb886503ed15bcab52ed14763fb06c9669",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 2147508,
+          "filename": "source_table.csv",
+          "git_blob_sha1": "2a35750693cff93e6598c03a533846d1c77ad767",
+          "sha256": "62ac0077b9a02e4b72de68d89648c0c112fd4442ea38676f3202983da0043877",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 10383588,
+          "filename": "target_table.csv",
+          "git_blob_sha1": "116ae43020e808d04acc864fbadea7f1e59ca12e",
+          "sha256": "0533b7410cd75a7cbae93491f05021d770f46bebbd9ee62caab74a4ae3ce5c8e",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        }
+      ],
+      "pair_id": "City_Government__DCM_StreetCenterLine"
+    },
+    {
+      "files": [
+        {
+          "bytes": 654601,
+          "filename": "City_Government__DPR_AthleticFacilities_001_full.json",
+          "git_blob_sha1": "4ce2f6b60565c8e264a400c37150eba80e55c88e",
+          "sha256": "f7c8b96340ff9b7529035f279efc10bdcc366474e1f813a095d169ae1fd06db7",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1736,
+          "filename": "City_Government__DPR_AthleticFacilities_001_result.json",
+          "git_blob_sha1": "73c17eb034cdfca98914d434279eff3ab237801f",
+          "sha256": "3a74c89983d10d537cd8c8f2cb6159a0526eaafa6efddc63270b8ef485756815",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 279487,
+          "filename": "City_Government__DPR_AthleticFacilities_001_trajectory.json",
+          "git_blob_sha1": "45e956c4144c612ea85249a03df1b7cd59010a1c",
+          "sha256": "325e3da8a20754e6d54c97f5db1deafec5e9145e883f19ab90545c730bca8dbb",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 13098,
+          "filename": "ground_truth.json",
+          "git_blob_sha1": "bf99233d629713768f5e72f1260cc29eb33c9636",
+          "sha256": "74c485a39beed8bb0a6b8b8389382ebffe5d45cee329a7a6f4e5cd564e164bae",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 874887,
+          "filename": "source_table.csv",
+          "git_blob_sha1": "e4de2e7825f1016afc73112c51a61e40dbc395b7",
+          "sha256": "ac27b06dc7200eaf55e39017b9bd671194df035ad73734e189e161c5fe31f3d9",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 2269234,
+          "filename": "target_table.csv",
+          "git_blob_sha1": "7b910409d09680492ddf44faaf76750c2fc4415f",
+          "sha256": "5b844c1088cb9585ff21bbb8005f8f188e5174124ed64d37c31bcf12e414b206",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        }
+      ],
+      "pair_id": "City_Government__DPR_AthleticFacilities_001"
+    },
+    {
+      "files": [
+        {
+          "bytes": 436751,
+          "filename": "City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments_full.json",
+          "git_blob_sha1": "25cc043b41b7ef26761db3e1f066e124f0a70a3b",
+          "sha256": "4b17f5394fb9c6b75b151933ee1b6a0b21b2d0b42deef332c79286f4e39bc096",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1860,
+          "filename": "City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments_result.json",
+          "git_blob_sha1": "6c0399dd22600df6034dac6c53e8e5c6b6b6ae70",
+          "sha256": "aa7bffc3ea2cc2e9f562eae570394e2be06aad8b59f8f64ac1b9f291ef719243",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 183683,
+          "filename": "City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments_trajectory.json",
+          "git_blob_sha1": "5bf1dcb298c28b65e0e3cab528dcc88356e555e3",
+          "sha256": "d8130e53efc60e892c80dc11973172a4937c2e0fd5ba368b93f5e07da4c8fd7a",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 12073,
+          "filename": "ground_truth.json",
+          "git_blob_sha1": "d461983a650c5c7d51b113b5bc3167065c30fe58",
+          "sha256": "9733ba1b4d1713d4c0acf4034e6d059220497dc14cd75cc56c07fd789dad910d",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1580019,
+          "filename": "source_table.csv",
+          "git_blob_sha1": "3f9a81d27730806c33132bba15e1d6a8eff5697d",
+          "sha256": "78e031e099fa128699a32a8bff6200f6d1e731b2dd1773daca2e5136d1344f9e",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 3487,
+          "filename": "target_table.csv",
+          "git_blob_sha1": "c86b1dec3988155eccadad0cea13141ff4b13730",
+          "sha256": "abc9b9d8071da88188358f1773d1abbac22a2e915f9e6405d50c89dd8860a553",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        }
+      ],
+      "pair_id": "City_Government__DSNY_Districts_With_Disposal_Vendor_Assignments"
+    },
+    {
+      "files": [
+        {
+          "bytes": 429068,
+          "filename": "City_Government__NYC_Municipal_Building_Energy_Benchmarking_Results_full.json",
+          "git_blob_sha1": "b648968e221ace8075cabc8cacf3b52f6061f541",
+          "sha256": "388846c775b71a7763aee5cb9ebcc7f22f78b88fdc5b322bef4e018f8434ac06",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1801,
+          "filename": "City_Government__NYC_Municipal_Building_Energy_Benchmarking_Results_result.json",
+          "git_blob_sha1": "4b4f55a3650cd77dda4a36940eb591edf81d50cb",
+          "sha256": "36b8d999755524b890b3216bb59fa886bad2a866a23ce34c2d02020468ad0990",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 187049,
+          "filename": "City_Government__NYC_Municipal_Building_Energy_Benchmarking_Results_trajectory.json",
+          "git_blob_sha1": "2c413495a66dc640051ae2ebe3767830505b05b5",
+          "sha256": "f482cb4731d3206df354a58d795de2ddd7e36000e7d6605d288abe4e2077b9bc",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 6586,
+          "filename": "ground_truth.json",
+          "git_blob_sha1": "1fdd858f0c14158cf53778792e310553c2026afb",
+          "sha256": "0a66be2327182ce2f5a16ba1ac0cfd4329bb0af28420fe31be5a37be688d3ffa",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 109344,
+          "filename": "source_table.csv",
+          "git_blob_sha1": "4b0412af2c55bb953d212babc529dc37eeda4404",
+          "sha256": "e05c203ec436bcd89835bdef78b40c5c57f9270ce5d6e9fb8691f33bc90ea170",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 73772,
+          "filename": "target_table.csv",
+          "git_blob_sha1": "23bdf12e167e7a25cbe66576e5f1beb8562579c3",
+          "sha256": "06c7d6fc2acfbdfe033854ca0dceb681fd1748142a6bcc0f1856ec92e8e2111a",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        }
+      ],
+      "pair_id": "City_Government__NYC_Municipal_Building_Energy_Benchmarking_Results"
+    },
+    {
+      "files": [
+        {
+          "bytes": 289997,
+          "filename": "Education__COVID-19_Free_Meals_Locations_full.json",
+          "git_blob_sha1": "04719fb45248085aa7841b21f130820c3267cff8",
+          "sha256": "6a53284394066b4b0d3d38f90edbf5c0fcb5f22fc42e2a0391573b93f514167a",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1630,
+          "filename": "Education__COVID-19_Free_Meals_Locations_result.json",
+          "git_blob_sha1": "d30bfb09b3f096e10fb6678945509d6857afebdd",
+          "sha256": "7522cb31117f0d96d6fee071376a2a3afeb1792dd0ad2855268b89e0bb8f8401",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 142364,
+          "filename": "Education__COVID-19_Free_Meals_Locations_trajectory.json",
+          "git_blob_sha1": "4429987a1b8c2de30d3f27d6c92108943e842f43",
+          "sha256": "e81686beb2cf646f64f6af03b38d2657c60478de441f025b08c551f4ba4bc9ee",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 6028,
+          "filename": "ground_truth.json",
+          "git_blob_sha1": "f359ebf4226ca86c7dfad382e2c976bdb19a53b6",
+          "sha256": "edfb3a7c198039c8d544122264b9877b1566373d628141f37812991fdb2a7ade",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 17577,
+          "filename": "source_table.csv",
+          "git_blob_sha1": "63d40d3d7335bb9b1dc56b3491aa1b23d0927178",
+          "sha256": "971cf15d40c884931d89c817fb0f57cf430384c1ca0b15362b8f4b6c5da0a383",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 14688,
+          "filename": "target_table.csv",
+          "git_blob_sha1": "b95e5afd363def20ecd8cd89d6d0623e53d14444",
+          "sha256": "2d33db4a5c1427bb2ff6da526c69b39ab407748ef4bc951bc34ce76fe9e04c49",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        }
+      ],
+      "pair_id": "Education__COVID-19_Free_Meals_Locations"
+    },
+    {
+      "files": [
+        {
+          "bytes": 412475,
+          "filename": "Housing_&_Development__Housing_Maintenance_Code_Complaints_and_Problems_full.json",
+          "git_blob_sha1": "6b1af64f41b2eb1e8ac16ab072655dafa47d1759",
+          "sha256": "1ea431bb813b799cf8e824aaf432c414bdf1383518d98f60cd7ce001aae3e793",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1828,
+          "filename": "Housing_&_Development__Housing_Maintenance_Code_Complaints_and_Problems_result.json",
+          "git_blob_sha1": "a0b53dd9921ce60817274b50a456a993fba2b089",
+          "sha256": "6ddaf473defb6f72afbd7eb41cea128d87e3dd215e662ca624d8919cc57a8f66",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 201809,
+          "filename": "Housing_&_Development__Housing_Maintenance_Code_Complaints_and_Problems_trajectory.json",
+          "git_blob_sha1": "a61e958fe836563b4c082469a61731c3e7f1d947",
+          "sha256": "ae267504162f9d05ef6e0de94c2ddba732cfd12844394de26f96901f82f11fa3",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 10822,
+          "filename": "ground_truth.json",
+          "git_blob_sha1": "1a5fb14cc803bf572ff7798922e03e93436b00dd",
+          "sha256": "71b6c7cc43c7ee7771f3c5fdfacba35351da8c0e2e739401f3d2ae5dfc37134b",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 13426211,
+          "filename": "source_table.csv",
+          "git_blob_sha1": "5f0bb666cad38abab2ccb99d896e72e476268a80",
+          "sha256": "4fb95b9209d91433f7d1dc07433b7b459025dff2abbb6da85c35075d63ed824a",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 26489762,
+          "filename": "target_table.csv",
+          "git_blob_sha1": "19898230e4fb66d40ed6457f82a5bddbdbf6543e",
+          "sha256": "873db19234ba05fd6eca261517bfb71d233f1fb13fc080efa4774e5e71d655d4",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        }
+      ],
+      "pair_id": "Housing_&_Development__Housing_Maintenance_Code_Complaints_and_Problems"
+    },
+    {
+      "files": [
+        {
+          "bytes": 487982,
+          "filename": "Housing_&_Development__Public_Design_Commission_Outdoor_Public_Art_Invent_full.json",
+          "git_blob_sha1": "fb43b3b29d0717d20fb81075fa5bba860b142dc5",
+          "sha256": "a0eeee10fe52487fd715151a8856b984f7fafd8906b733c08732e291c82be642",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 2017,
+          "filename": "Housing_&_Development__Public_Design_Commission_Outdoor_Public_Art_Invent_result.json",
+          "git_blob_sha1": "1439bea04dd75c9cae9360d06140f8ddce927712",
+          "sha256": "d708eebe657627e6c001d47720976f8b0ac2ba4c957efe7c3836ac4ad28624df",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 226429,
+          "filename": "Housing_&_Development__Public_Design_Commission_Outdoor_Public_Art_Invent_trajectory.json",
+          "git_blob_sha1": "289053c9179dfe9fd8b05c31c80976ba54c485e4",
+          "sha256": "cf622c6461e586109aff07a3e7fa1e10d77186e7025b0dd214c856ecdfcb56e0",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 21493,
+          "filename": "ground_truth.json",
+          "git_blob_sha1": "9e6bf2cff16807d7ba970f0fa4f0fb261f01634e",
+          "sha256": "233e18480f71b7fb9268820823eb1e3fd9e7ccc9250f694f9582ce2a8580414d",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 225457,
+          "filename": "source_table.csv",
+          "git_blob_sha1": "47f6ba0b88e57f54a999d12b2f43ce51b10ffc7e",
+          "sha256": "86bbb09d72cfbcc9fc1713acf1663be3a8d6364a69ae5f4146c99517df73e2a8",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 227839,
+          "filename": "target_table.csv",
+          "git_blob_sha1": "38504bcb0f586e19837fce64ebd8e30c92623e5b",
+          "sha256": "de3418d5d4d950a8045c8044ca57e1934f20051a105a1c92c6951b4f51f3f596",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        }
+      ],
+      "pair_id": "Housing_&_Development__Public_Design_Commission_Outdoor_Public_Art_Invent"
+    },
+    {
+      "files": [
+        {
+          "bytes": 210997,
+          "filename": "Recreation__Swim_for_Life__2016_to_2020_full.json",
+          "git_blob_sha1": "cc52e23eb6b7042537168fb984783c523487cbb3",
+          "sha256": "96fe6ef69f65c4f73e5b3a4bf1f1a5357740dfc7eb70773d16dc4dc90c4722fa",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1526,
+          "filename": "Recreation__Swim_for_Life__2016_to_2020_result.json",
+          "git_blob_sha1": "79cba79a7afb21d25f0e1b45f752e11afe5d81fe",
+          "sha256": "f4b5ded638eb50401ede274ad2a4a635c304c0238f6e91170ba6df8600f8143f",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 104854,
+          "filename": "Recreation__Swim_for_Life__2016_to_2020_trajectory.json",
+          "git_blob_sha1": "106674a6e6a927ef7b005003cadef8235bcf0da6",
+          "sha256": "7a50fc38dc0a2a68af84290d821a83e294865e582ee7eb858fff7a8f237fac16",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 4467,
+          "filename": "ground_truth.json",
+          "git_blob_sha1": "eb67900e451879070ba6a5ef6460d360f42c78d7",
+          "sha256": "02489ddffe49f42d7c6b578c0cb41534bbce4994ac1dde354577ce3d3501fbb7",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 852510,
+          "filename": "source_table.csv",
+          "git_blob_sha1": "b5d40d08eb97e1a23080f37e58cd2a5662e49517",
+          "sha256": "1aea7318e570a5ab97c10aa5977af751cc6c68920c28431e6deb93feccc0a3c3",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1049578,
+          "filename": "target_table.csv",
+          "git_blob_sha1": "7acf3313f05a26143522f81f90e7f245b9fd0f66",
+          "sha256": "0662b2c2b86ab1103616a883bc8a7ad8476c7688296c725d30e7448f3b6cf7dc",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        }
+      ],
+      "pair_id": "Recreation__Swim_for_Life__2016_to_2020"
+    },
+    {
+      "files": [
+        {
+          "bytes": 193884,
+          "filename": "Transportation__DOT_In-house_Street_Resurfacing_Projects_full.json",
+          "git_blob_sha1": "2df0dbe1f136aab7fa69f2f7544a75ff03b53947",
+          "sha256": "102c2b4c195bc5fd8e3f2ffa52ff96272ac056c5409b0fc001e72866b1aed945",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 1579,
+          "filename": "Transportation__DOT_In-house_Street_Resurfacing_Projects_result.json",
+          "git_blob_sha1": "c8ff8a0247bfced2368fc3c8a24820beab689699",
+          "sha256": "f094121e2063770dff740377f8ee1a48c342286ca162f2e96ae4058bf184979e",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 100313,
+          "filename": "Transportation__DOT_In-house_Street_Resurfacing_Projects_trajectory.json",
+          "git_blob_sha1": "51abb06f9e7401c9ac3825b37f1faa41f31aa4fb",
+          "sha256": "2f9d4de76297f10081489c970b19a5178e95b50db7bb35949ad48a0737609921",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 4880,
+          "filename": "ground_truth.json",
+          "git_blob_sha1": "88e9e84c59a2c5fc0d4b985a0a42b10c145e5aeb",
+          "sha256": "204357713b7bd6b64910663d8e33dc6485297a62795d1fbe65a4052c0928e374",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 4594472,
+          "filename": "source_table.csv",
+          "git_blob_sha1": "e99a0878fe68ba0a57c1db6f49ec8eaabd193405",
+          "sha256": "23c793ad9be40a34a33b58363d433a338bdfb6d58aba3f5b4ee2dbb7d7d176f7",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        },
+        {
+          "bytes": 40670548,
+          "filename": "target_table.csv",
+          "git_blob_sha1": "2ed17395d67ef80c64f0765d5b76b6dbed522767",
+          "sha256": "6aee22b8f6f0365e8a5ba2fa9fd30e694d18236e46912444e4d7474de0214f2a",
+          "sha256_status": "VERIFIED_FROM_EXISTING_STAGING"
+        }
+      ],
+      "pair_id": "Transportation__DOT_In-house_Street_Resurfacing_Projects"
+    }
+  ],
+  "permitted_uses": [
+    "training",
+    "tuning",
+    "evaluation",
+    "rule_acceptance"
+  ],
+  "process_file_rule": "allowed only in isolated staging and only through gold-free adapter; never direct reviewer/feature/student input",
+  "prohibited_expansions": [
+    "other revision",
+    "other repository",
+    "FinQA test/private",
+    "PDF",
+    "unlisted directory",
+    "private data"
+  ],
+  "record_type": "valentine_route_v_exact_directory_file_annex",
+  "record_version": "valentine-route-v-exact-annex-v1",
+  "required_min_file_scope": [
+    "source_table.csv",
+    "target_table.csv",
+    "ground_truth.json"
+  ],
+  "status": "NO_ELIGIBLE_NEW_DIRECTORIES_AT_APPROVED_REVISION",
+  "target_clusters": 40,
+  "tree_metadata": {
+    "candidate_min_files": 30,
+    "experiments_data_tree_lines": 60,
+    "experiments_data_tree_sha256": "56a078d67b4fb887fe98cc4b2c8957ca24c22a082383c162dad84e0e4c3d90ec",
+    "full_tree_sha256": "1566ebc9563851e4aa7a83fe07f00e78024bfb503bedc2ad92292293a794a996"
+  }
+}

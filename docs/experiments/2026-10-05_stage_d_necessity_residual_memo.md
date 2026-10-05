@@ -49,3 +49,12 @@ If these conditions are not met, the correct disposition is `SIMPLE_SUFFICIENT`,
 `stage_d_necessity = NOT_ESTABLISHED`.
 
 The current evidence supports preparing an A2 readiness package, but it does not support starting A0/A1/A2/A3. The package must remain a dry-run, mock, format, code-path, and resource-planning artifact until MODEL_GO, TRAINING_GO, the data gates, and the residual rule are separately approved.
+
+## 5. Proposed decision thresholds pending confirmation
+
+The following values are proposed to close the currently missing necessity criteria. Until confirmed and hash-bound, the verdict remains `PILOT_ONLY`:
+
+- minimum A2 absolute correct-map coverage gain over B4: `0.05`;
+- target exact non-inferiority margin: `0.02`;
+- maximum share of total positive gain from one pair: `0.50`;
+- split sensitivity: A2-B4 coverage delta must be non-negative in primary, pair-invalid and salted slices, with positive lower cluster-bootstrap bounds in primary and pair-invalid, and A2 risk upper bound `<= 0.10` throughout.

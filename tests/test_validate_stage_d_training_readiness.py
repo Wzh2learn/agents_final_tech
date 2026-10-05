@@ -58,3 +58,26 @@ def test_estimate_must_be_unmeasured(tmp_path: Path) -> None:
     with pytest.raises(ReadinessError) as exc:
         validate(path)
     assert exc.value.code == "estimate_must_be_unmeasured"
+
+def test_a3_must_not_inherit_a1_a2(tmp_path: Path) -> None:
+    path = _copy_config(tmp_path, lambda value: value["arms"]["A3"].update(inherits_from_A1_A2=True))
+    with pytest.raises(ReadinessError) as exc:
+        validate(path)
+    assert exc.value.code == "a3_must_not_inherit_a1_a2"
+
+
+def test_a3_preference_distribution_gate_is_required(tmp_path: Path) -> None:
+    def mutate(value):
+        value["arms"]["A3"]["preference_gate"]["max_single_direction_share"] = 0.8
+
+    path = _copy_config(tmp_path, mutate)
+    with pytest.raises(ReadinessError) as exc:
+        validate(path)
+    assert exc.value.code == "a3_preference_gate_mismatch"
+
+
+def test_phase2_budgets_cannot_change_after_results(tmp_path: Path) -> None:
+    path = _copy_config(tmp_path, lambda value: value["phase2_initial_budget"].update(post_result_adjustment_allowed=True))
+    with pytest.raises(ReadinessError) as exc:
+        validate(path)
+    assert exc.value.code == "post_result_adjustment_must_be_false"

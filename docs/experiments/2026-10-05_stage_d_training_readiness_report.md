@@ -72,3 +72,9 @@ The validator result is `PASS_DRY_RUN_ONLY`, but training execution remains bloc
 5. explicit MODEL_GO/TRAINING_GO with budget, window, output paths, and stop conditions.
 
 No A0/A1/A2/A3, 4B smoke, Phase 2, model dispatch, download, or external release is authorized.
+
+## 7. Added execution parameters and windows
+
+A3 is independent of A1/A2 and remains `CONDITIONAL_NOT_RUN`: preference pairs >=200, independent lineage clusters >=10, both directions present, no direction >60%, no cluster >20%, beta 0.1, LR 5e-6, epochs 1, batch 1, accumulation 8, max length 1024, seeds 42/43/44.
+
+Windows: S0 4B smoke 30 minutes; A1/A2 pilot one seed per arm and 2 hours total; A1/A2 full 2-6 GPU-hours with 6 GPU-hour batch cap; A3 0.75-2.25 GPU-hours and no default parallelism; whole cycle hard cap 8 GPU-hours.
