@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-10-05T13:00:00+08:00 | Scope: Qwen3-8B model sync and both-model artifact readiness | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
+> Updated: 2026-10-05T16:31:59+08:00 | Scope: Valentine full-benchmark route audit and formal negative boundary | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions: [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md). The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 
@@ -21,7 +21,7 @@ Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
 - Approved initial Stage D necessity criteria are now explicit and hash-bound: A2 coverage gain over B4 `>=0.05`, target exact non-inferiority margin `<=0.02`, maximum single-pair residual/gain share `<=0.50`, harmful-map risk upper `<=0.10` in primary/pair-invalid/salted, and positive A2-B4 coverage-delta lower bounds in primary/pair-invalid. A2 is not run; gain/target/gain-share/deltas are `NOT_ESTIMABLE`, while the salted risk upper `0.1250` fails.
 - Route V target `>=40` clusters is approved at revision `5d5163f...`; the official tree supplies only 10 eligible clusters, eligible new clusters=0, gap=30. No exact new-directory annex exists and no download is possible without a new source/revision/file-scope annex.
 - Metadata-only RQ2 source screening covers all 10 registry sources: `0/10` directly provide the same-UID checkpoint + map/hold/skip action/target + independent correctness bridge. This is registry-scoped, not a global nonexistence claim; no new source was selected or downloaded.
-- The user selected the formal negative-result option after the Valentine full-benchmark audit: 551 complete pairs but only 8 conservative shared-origin components (<40) trigger the hard stop. No archive download/annex/adapter is authorized; the small paper remains Stage E fallback and full E-D-R is future work.
+- The user selected Route 2 (Valentine full benchmark + frozen process adapter). Its read-only structural audit found 551 complete pairs but only 8 conservative shared-origin components (<40), so the preregistered hard stop transitioned the work to the formal negative-result branch. No archive download/annex/full-benchmark adapter is authorized; the small paper remains Stage E fallback and full E-D-R is future work.
 - Route V full benchmark DOCX narrative was refreshed and passed GB10 Office text/ZIP/PDF/page-4 visual checks; teacher-review Stage E DOCX remains unchanged.
 - Current goal completion audit is `NOT_COMPLETE_FOR_FULL_GOAL`; remaining scientific work requires a new source/task-definition annex or a new user scope decision. Internal deliverables are complete only at their stated scope.
 - Phase 2 duplicate JSON-key prerequisite is `PASS_SOFTWARE_CONTRACT`: commit `60eaa27` uses `object_pairs_hook` + `parse_constant`, and GB10 `tests/test_phase2_rule_gate_replay.py` reports `22 passed`. Phase 2 remains `NOT_RUN`; this is not replay or Stage R evidence.
