@@ -36,7 +36,7 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 
 ## Git state
 
-- Verified prior baseline = `58496430a6bd3c1a5de45949471ed804a2f565fe`; model-sync batch commit is `5a16845`. Git history is authoritative for subsequent fixes.
+- Route-audit state commit is `28b633b` on local/origin `main`; GB10 was observed read-only at `ea59d926136300578641b4ed760dc2b2dfe8c862` and was not fast-forwarded during this audit. Git history remains authoritative for subsequent fixes.
 - Preserve protected/user assets: `logs/graph/docs_lint_report.json`, `IMPLEMENTATION_PLAN.md`, `PROMPT.md`, `_d3b_dispatch.sh`.
 - GB10 production dirty files remain the fixed five: `config/schema_suggestions.json`, `logs/graph/docs_lint_report.json`, `logs/graph/governance_drift_latest.md`, `logs/graph/loop_b_last_status`, `logs/graph/verify-report.json`.
 - Do not touch `docs/33*`, `docs/34*`, frozen tests/schema, `scripts/graph/frozen_hashes.txt`, or TAT-DQA boundaries.
