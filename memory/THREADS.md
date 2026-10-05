@@ -1,5 +1,7 @@
 # memory/THREADS.md — 未决线索
 
+[10-05] #GOAL-COMPLETION-AUDIT-EXTERNAL-INPUT-BLOCKER: 完成审计结论 `NOT_COMPLETE_FOR_FULL_GOAL / INTERNAL_DELIVERABLES_COMPLETE`。RQ2 same-sample mother pool 仍无可用来源；registry screen `0/10`，Route V gap 30，Stage D/R/RQ4 仍无确认性结果。剩余工作需要用户提供新的精确 source/task-definition annex、批准 adapter 路线，或明确接受正式负结果边界；在此之前不运行 A2、Phase 2、训练或外发。
+
 [10-05] #RQ2-CANDIDATE-SOURCE-SCREENING-0OF10: 对 `paper-public-source-registry-v1.json` 的 10 个 metadata-only 候选逐项审计同一 UID 四要求（checkpoint evidence、map/hold/skip action/target、独立 correctness、independence/role fit），直接合格 `0/10`。FinQA/ConvFinQA 只有 process/program；MultiHiertt 等需 adapter；Valentine 仅 exploratory 且固定 revision 缺 30 clusters；其余为 QA/type/proposal labels。结论限定 registry 范围，不是全球不存在声明；未选新源、未下载、未扩许可，`DATA_NO_GO / RQ2_NOT_IDENTIFIED` 不变。
 
 [10-05] #PAPER-EVIDENCE-STATE-REFRESHED: 已统一 12 份内部小论文/大论文材料的 Q3/B0-B4 状态：Q3 raw/ledger/hash 已封存、corrected 51/58/37、visibility exceptions 保留，仅 exploratory；B0-B4 v2 已完成但 Stage D 仍 `PILOT_ONLY`。同时修正 thesis/teacher-review/figure/reproducibility/submission/asset-map 中的“只有输入包/未复核/NOT_RUN”旧口径。Stage E 已成立数字、claim token、引用与公式未改；`DATA_NO_GO` / `RQ2 NOT_IDENTIFIED` / 外发边界不变。
