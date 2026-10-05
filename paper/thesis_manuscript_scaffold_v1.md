@@ -109,4 +109,8 @@ proposal/train（含内部 dev）、gate-validation、sealed test、future repla
 
 ## 10. Route V structural-audit addendum (2026-10-05)
 
-The Valentine full benchmark was audited through bounded ZIP Range reads only. Although it contains 551 complete pair directories, conservative shared-origin grouping yields 8 independent origin components, below the required 40. The adapter route is stopped before download/implementation. Chapters 5-8 therefore retain Stage D/R/RQ4 as future-work slots and cannot be backfilled from this benchmark.
+The Valentine full benchmark was audited through bounded ZIP Range reads only. Although it contains 551 complete pair directories, conservative shared-origin grouping yields 8 independent origin components, below the required 40. The archive also has no native trajectory/checkpoint bridge. The adapter route is stopped before download/implementation. Chapters 5-8 therefore retain Stage D/R/RQ4 as future-work slots and cannot be backfilled from this benchmark.
+
+Track B evidence is explicitly within-origin and exploratory: Q3 is sealed with visibility exceptions and corrected `map_to=51 / skip=58 / hold=37`; Option A quarantines three invalid action references; Option B is the mandatory 9-cluster / 130-column pair-invalid sensitivity; B0-B4 v2 is a baseline/pilot surface, not student-training evidence. No Track B item confirms RQ2, Stage D, Stage R, RQ4, or the full E-D-R loop.
+
+Future work requires a new exact source/task-definition annex with at least 40 conservative independent origin clusters, immutable paths/hashes/licence scope, native same-sample checkpoint evidence plus action/target and correctness, independent reviewer visibility receipts, non-empty split roles, and real variance-based power receipts. Chapters 5-8 remain open until those gates pass; the current negative boundary is `DATA_NO_GO / RQ2 NOT_IDENTIFIED`.
