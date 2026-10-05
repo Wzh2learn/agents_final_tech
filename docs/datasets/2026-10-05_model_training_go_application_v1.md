@@ -78,3 +78,6 @@ Only local GGUF inference artifacts were found:
 - Qwen3-8B Q4_K_M sha256 `d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785`.
 
 They are not HF QLoRA training checkpoints. Hugging Face metadata-only lookup timed out for both model families; immutable revision, tokenizer revision and licence evidence remain missing. See `docs/experiments/2026-10-05_qwen_model_candidate_metadata_audit.md`.
+## 8. Model sync status (2026-10-05)
+
+Immutable model metadata is now known and bound in `docs/datasets/2026-10-05_qwen_model_metadata_v1.json`; however Qwen3-4B weight download is `MODEL_SYNC_BLOCKED` because `huggingface.co:443` is unreachable from GB10 and the local official path. No model artifact has landed and S0 is not started.

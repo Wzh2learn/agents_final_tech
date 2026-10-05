@@ -37,3 +37,13 @@ Before S0 or any A arm:
 5. re-run readiness/safety validation.
 
 No model was loaded and no training was started.
+
+## 4. Metadata correction and sync status (2026-10-05)
+
+A local metadata-only API request succeeded after the GB10 timeout. Immutable revisions and licence metadata are recorded in `docs/datasets/2026-10-05_qwen_model_metadata_v1.json`:
+
+- Qwen3-4B revision `1cfa9a7208912126459214e8b04321603b3df60c`;
+- Qwen3-8B revision `b968826d9c46dd6066d109eabc6255188de91218`;
+- both `apache-2.0`.
+
+The metadata manifest was corrected to bind LFS `sha256` values. Model weight download remains blocked because GB10 and the local official Hugging Face path both time out. See `docs/experiments/2026-10-05_model_sync_blocked.md`.

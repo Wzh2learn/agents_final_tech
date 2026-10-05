@@ -16,10 +16,10 @@
     "weight_license_review": "apache-2.0 / LICENSE blob 40-char identity bound in model metadata",
     "revision_must_match_tokenizer": true,
     "tokenizer_license": "apache-2.0",
-    "student_main_artifact_manifest_sha256": "294b8449b452cc7c6039042473e805f9aa7fa8d9cfe1428bd7d3a98129f5c136",
+    "student_main_artifact_manifest_sha256": "bf55881c3e44b00642648b15ed36510a470bffa88c40136461df2a379b3c0bc6",
     "smoke_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
-    "smoke_artifact_manifest_sha256": "36e7cde1c7b77d5fa44583cee21bfe5b689c2a7bbdc6e2d98ddecd8f1bdb424b",
-    "tokenizer_file_manifest_sha256": "cbd7aa9982a69dbbb4eb83304f7c603f98fce1db1f85f9293414e26950f05e23",
+    "smoke_artifact_manifest_sha256": "0f967e91a45dfb1ff799e1c131cd744ad80f627ced9d55e73f3a598bc25cdf2c",
+    "tokenizer_file_manifest_sha256": "9c4daea59865e890b7b9e150e924fd0633942b0b535a17c4e4803cd823358811",
     "cache_paths": {
       "Qwen3_4B": "/home/testuser/wzh/models/hf/Qwen3-4B",
       "Qwen3_8B": "/home/testuser/wzh/models/hf/Qwen3-8B"
