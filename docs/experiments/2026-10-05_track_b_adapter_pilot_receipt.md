@@ -91,6 +91,8 @@ Absent or partial stages remain `unmeasurable/not_present`; they are not fabrica
 
 ## 4. Evidence boundary
 
-This pilot proves that a gold-free adapter can extract a partial process/checkpoint view from the existing within-origin NYC trajectories. It does not prove action-policy transfer, correctness, dedicated-student necessity, cross-origin generalization, safe continual improvement, or the Evaluate-Distill-Evolve loop.
+This receipt supports `COMPLETE_FOR_FORMAL_NEGATIVE_PATH_B`. It proves only that a gold-free adapter can extract a partial process/checkpoint view from the existing within-origin NYC trajectories. It does not prove action-policy transfer, correctness, dedicated-student necessity, cross-origin generalization, safe continual improvement, or the Evaluate-Distill-Evolve loop. Full Evaluate-Distill-Evolve validation remains future work.
 
-Q3 corrected labels and B0-B4 results remain separate exploratory evidence. Correctness may only be joined later from sealed source ground truth after independent review and final-ledger binding; this receipt performs no such join. The confirmatory route remains `DATA_NO_GO / RQ2 NOT_IDENTIFIED`.
+Q3 corrected labels and B0-B4 results remain separate exploratory evidence. Correctness may only be joined later from sealed source ground truth after independent review and final-ledger binding; this receipt performs no such join. The confirmatory route remains `DATA_NO_GO / RQ2 NOT_IDENTIFIED`; the formal small-paper route is the mature Stage E internal submission version. External submission, patent/venue/authorship/camera-ready, Stage D/R/RQ4, training, Phase 2 and external release remain incomplete.
+
+Scientific/test source: `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head. `652c9c6` is metadata-only and `1d5a7ff` is documentation/workspace neat; neither changes these artifacts or running code.

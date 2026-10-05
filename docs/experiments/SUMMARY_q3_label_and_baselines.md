@@ -27,6 +27,12 @@ B0-B4 v2 is the valid exploratory baseline run. The first run is invalidated by 
 - `docs/archive/experiments/2026-10-04_q3_boundary_blocker_audit.md` records the earlier raw-missing and invalid-reference blockers before Option A/B were implemented.
 - `docs/datasets/2026-10-04_b0_b4_exploratory_freeze_v1.json` is superseded by `freeze_v2.json`.
 
+## Closure context
+
+The current goal is `COMPLETE_FOR_FORMAL_NEGATIVE_PATH_B`. The confirmatory boundary is `DATA_NO_GO / RQ2 NOT_IDENTIFIED`: Valentine's 551 tasks collapse to 8 conservative origin components, and the archive has no native trajectory/checkpoint bridge. Full Evaluate-Distill-Evolve validation is future work. Track B is a within-origin exploratory pilot sealed at `/home/testuser/wzh/track_b_adapter_20261005_seal/` with manifest hash `dc388959150c98ffa7639108e1e80e306c346317b1cdced632ab66593960a04b`; it is not RQ2, Stage D, Stage R or RQ4.
+
+The formal small-paper route is the mature Stage E internal submission version. External submission, patent/venue/authorship/camera-ready, Stage D/R/RQ4, training, Phase 2 and external release remain incomplete. Scientific/test evidence comes from `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head; `652c9c6` is metadata-only and `1d5a7ff` is documentation/workspace neat.
+
 ## Boundary
 
 This chain is exploratory learnability evidence. It does not lift `DATA_NO_GO`, does not identify RQ2, and does not establish Stage D, Stage R, RQ4, or training results. B5 remains `PROPOSED_EXPLORATORY / NOT_RUN`.

@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-10-05 | Scope: formal negative path B completion audit | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
+> Updated: 2026-10-05 | Scope: formal negative path B documentation and Git neat closeout | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions: [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md). The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 
@@ -37,7 +37,9 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 
 ## Git state
 
-- GB10 validation content baseline is `f0764e714d21408a1a848ee0f327a22294eda73a`; the final metadata-only closeout commit follows it and is authoritative in Git history. GB10 production dirty files remained the fixed five and were not overwritten.
+- Scientific/test evidence source: full pytest, claims, submission, focused tests and docs_lint ran authoritatively at `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head.
+- `652c9c6cadc2b62b731ee13ed34663562f88dc65` is an audit metadata-baseline correction only. `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b` is the documentation archive/link-repair/workspace-neat commit. Neither changes scientific results or running code.
+- Pre-neat baseline is `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b`; the present documentation synchronization commit is tracked as the subsequent Git head. GB10 production dirty files remained the fixed five and were not overwritten.
 - Legacy session residue is archived: `docs/archive/session_assets/2026-08-29/` holds `IMPLEMENTATION_PLAN.md` and `PROMPT.md`; `scripts/archive/_d3b_dispatch.sh` holds the old dispatch script. The local WSL `docs_lint_report.json` copy is preserved under ignored `logs/graph/archive/`; the tracked report path is restored to repository baseline and is not authoritative over GB10.
 - GB10 production dirty files remain the fixed five: `config/schema_suggestions.json`, `logs/graph/docs_lint_report.json`, `logs/graph/governance_drift_latest.md`, `logs/graph/loop_b_last_status`, `logs/graph/verify-report.json`.
 - Do not touch `docs/33*`, `docs/34*`, frozen tests/schema, `scripts/graph/frozen_hashes.txt`, or TAT-DQA boundaries.

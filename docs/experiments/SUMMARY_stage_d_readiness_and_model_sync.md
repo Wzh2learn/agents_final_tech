@@ -35,6 +35,14 @@ Both Qwen3-4B and Qwen3-8B exact-revision artifacts are present and validated on
 
 `docs/archive/experiments/2026-10-05_model_sync_blocked.md` records the official Hugging Face path failure before the mirror fallback succeeded. It is not the current acquisition state.
 
+
+
+## Formal negative closure context
+
+The current goal is `COMPLETE_FOR_FORMAL_NEGATIVE_PATH_B`. The formal scientific boundary is `DATA_NO_GO / RQ2 NOT_IDENTIFIED`: Valentine's 551 tasks provide only 8 conservative origin components, the archive has no native trajectory/checkpoint bridge, and full Evaluate-Distill-Evolve validation is future work. Track B is a within-origin exploratory pilot sealed at `/home/testuser/wzh/track_b_adapter_20261005_seal/` with manifest hash `dc388959150c98ffa7639108e1e80e306c346317b1cdced632ab66593960a04b`; it is not RQ2, Stage D, Stage R or RQ4.
+
+The formal small-paper route is the mature Stage E internal submission version. External submission, patent/venue/authorship/camera-ready, Stage D/R/RQ4, training, Phase 2 and external release remain incomplete. Scientific/test evidence comes from `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head; `652c9c6` is metadata-only and `1d5a7ff` is documentation/workspace neat.
+
 ## Boundary
 
 Both model artifacts are validated, but this is not MODEL_GO. No model load, S0, A0-A3, Phase 2, or training has started. The user has conditionally authorized automatic S0/A0-A2 only after all scientific/safety gates and stable Stage D residual pass; current gates do not pass. `DATA_NO_GO`, `RQ2 NOT_IDENTIFIED`, and Stage D `PILOT_ONLY` remain active. Route V still has a 30-cluster acquisition gap against the 40-cluster target.

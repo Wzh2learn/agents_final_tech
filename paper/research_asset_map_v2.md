@@ -1,6 +1,6 @@
 # 三阶段科研资产地图 v2
 
-> 状态：当前索引 | 更新：2026-10-03 | 范围：论文相关仓内资产与已知仓外证据
+> 状态：当前索引 | 更新：2026-10-05 | 范围：论文相关仓内资产与已知仓外证据
 
 ## 1. 账本职责与阅读顺序
 
@@ -217,4 +217,6 @@ These assets support a formal negative-result boundary only. They do not authori
 
 - Track B pilot receipt: `docs/experiments/2026-10-05_track_b_adapter_pilot_receipt.md`. Durable GB10 package: `/home/testuser/wzh/track_b_adapter_20261005_seal/`; manifest hash `dc388959150c98ffa7639108e1e80e306c346317b1cdced632ab66593960a04b`. Primary is 10 pairs / 146 columns / 657 events; pair-invalid sensitivity is 9 pairs / 130 columns / 573 events. `ground_truth_read=false`, `correctness_status=NOT_RUN`, `paper_result=false`.
 - Formal negative completion audit: `docs/experiments/2026-10-05_formal_negative_path_b_completion_audit.md`. The current goal's path B is complete: `DATA_NO_GO / RQ2 NOT_IDENTIFIED`, 551-to-8 origin explanation, no native trajectory/checkpoint bridge, Stage E internal submission, and thesis proposal/chapters 1-2/framework plus pilot, negative-boundary and future-data evidence are all present.
-- Evidence classification remains strict: Stage E is established; Q3, B0-B4 and Track B are exploratory/within-origin pilot; Stage D/R/RQ4 remain plans or empty slots; model artifacts are readiness only; A0-A3, Phase 2, B5, external submission and release are not completed.
+- Evidence classification remains strict: Stage E is the formal small-paper route at internal submission scope; Q3, B0-B4 and Track B are exploratory/within-origin pilot and are not RQ2, Stage D, Stage R or RQ4; Stage D/R/RQ4 remain plans or empty slots; model artifacts are readiness only.
+- External submission, patent, venue, authorship, camera-ready, Stage D/R/RQ4, training, Phase 2 and external release remain incomplete.
+- Git source relationship: `f0764e714d21408a1a848ee0f327a22294eda73a` is the scientific/test content source or equivalent GB10 baseline; `652c9c6cadc2b62b731ee13ed34663562f88dc65` is metadata-only; `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b` is documentation archive/link/workspace neat. The latter two do not change scientific results or running code.

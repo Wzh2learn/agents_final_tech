@@ -23,7 +23,11 @@
 
 ## Validation baseline
 
-GB10 validation content baseline `f0764e714d21408a1a848ee0f327a22294eda73a` (the final metadata-only closeout commit follows):
+Scientific/test evidence source: full pytest, claims, submission, focused tests and docs_lint ran authoritatively at `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head.
+
+`652c9c6cadc2b62b731ee13ed34663562f88dc65` is an audit metadata-baseline correction only. `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b` is the documentation archive/link-repair/workspace-neat commit. Neither changes scientific results or running code. Pre-neat baseline is `1d5a7ff`; the present documentation synchronization commit is the subsequent Git head.
+
+Recorded evidence:
 
 - full pytest: `870 passed / 13 skipped / 1 deselected`
 - focused tests: `27 passed`; adapter contract tests: `11 passed`

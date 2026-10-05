@@ -2,8 +2,16 @@
 
 > Verdict: `COMPLETE_FOR_FORMAL_NEGATIVE_PATH_B`
 > Scientific outcome: `FORMAL_NEGATIVE_BOUNDARY`
-> Validation content baseline: local = origin = GB10 `f0764e714d21408a1a848ee0f327a22294eda73a`; closeout metadata commit follows this baseline
+> Scientific/test source: `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head | Pre-neat Git baseline: `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b`
 > Scope: the current goal explicitly allows formal negative closure when confirmatory data conditions cannot be met.
+
+## Git source relationship
+
+- `f0764e714d21408a1a848ee0f327a22294eda73a` is the scientific validation content baseline. Full pytest, claims, submission, focused tests and docs_lint ran authoritatively at this head or an equivalent GB10 head.
+- `652c9c6cadc2b62b731ee13ed34663562f88dc65` is an audit metadata-baseline correction only.
+- `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b` is the documentation archive/link-repair/workspace-neat commit and the pre-neat baseline for this synchronization batch.
+- The latter two commits do not change scientific results or running code.
+
 
 ## 1. Requirement-by-requirement audit
 
@@ -57,4 +65,4 @@ The earlier `NOT_COMPLETE_FOR_FULL_GOAL` audit remains historical evidence for t
 
 `COMPLETE_FOR_FORMAL_NEGATIVE_PATH_B`.
 
-The small paper is complete at internal submission scope. The thesis proposal, chapters 1-2, later-chapter framework, Track B pilot evidence, formal negative boundary, and future data requirements are present and evidence-linked. Confirmatory Stage D/R/RQ4 and external release remain future or separately authorized work.
+The formal small-paper route is the mature Stage E internal submission version. The thesis proposal, chapters 1-2, later-chapter framework, Track B pilot evidence, formal negative boundary, and future data requirements are present and evidence-linked. External submission, patent/venue/authorship/camera-ready, confirmatory Stage D/R/RQ4, training, Phase 2 and external release remain future or separately authorized work.
