@@ -1,5 +1,5 @@
 {
-  "config_sha256": "513fb5c0534b605041b93d448ac8892d8e3a651fd7d5d53fb7df9b508208fef9",
+  "config_sha256": "f7ed6e7ffea5c1a4efab909959e29e546ff5566d6d43036f3e87ba4003dadbea",
   "data_go": false,
   "launch_conditions": [
     "MODEL_GO with exact model and tokenizer revisions",
@@ -9,9 +9,7 @@
     "readiness dry-run and resource safety gates pass"
   ],
   "missing_dependencies": [
-    "deepspeed",
-    "peft",
-    "trl"
+    "deepspeed"
   ],
   "model_revision_ready": false,
   "paper_result": false,
