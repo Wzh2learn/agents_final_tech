@@ -34,6 +34,8 @@
 
 ## 工程、运行与架构
 
+- RQ2 candidate source screening: [2026-10-05_rq2_candidate_source_screening_v1.md](datasets/2026-10-05_rq2_candidate_source_screening_v1.md) - metadata-only 10-source screen; 0 direct bridges, no download
+
 - Machine criteria status: [2026-10-05_stage_d_necessity_criteria_status_v1.json](datasets/2026-10-05_stage_d_necessity_criteria_status_v1.json) - approved A2 criteria with PASS/FAIL/NOT_ESTIMABLE current evidence
 
 | 文件 | 状态 | 用途 |

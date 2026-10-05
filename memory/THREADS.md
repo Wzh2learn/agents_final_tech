@@ -1,5 +1,7 @@
 # memory/THREADS.md — 未决线索
 
+[10-05] #RQ2-CANDIDATE-SOURCE-SCREENING-0OF10: 对 `paper-public-source-registry-v1.json` 的 10 个 metadata-only 候选逐项审计同一 UID 四要求（checkpoint evidence、map/hold/skip action/target、独立 correctness、independence/role fit），直接合格 `0/10`。FinQA/ConvFinQA 只有 process/program；MultiHiertt 等需 adapter；Valentine 仅 exploratory 且固定 revision 缺 30 clusters；其余为 QA/type/proposal labels。结论限定 registry 范围，不是全球不存在声明；未选新源、未下载、未扩许可，`DATA_NO_GO / RQ2_NOT_IDENTIFIED` 不变。
+
 [10-05] #PAPER-EVIDENCE-STATE-REFRESHED: 已统一 12 份内部小论文/大论文材料的 Q3/B0-B4 状态：Q3 raw/ledger/hash 已封存、corrected 51/58/37、visibility exceptions 保留，仅 exploratory；B0-B4 v2 已完成但 Stage D 仍 `PILOT_ONLY`。同时修正 thesis/teacher-review/figure/reproducibility/submission/asset-map 中的“只有输入包/未复核/NOT_RUN”旧口径。Stage E 已成立数字、claim token、引用与公式未改；`DATA_NO_GO` / `RQ2 NOT_IDENTIFIED` / 外发边界不变。
 
 [10-05] #PHASE2-DUPLICATE-JSON-GATE-CLOSED: `research/phase2_rule_gate_replay.py` 的重复 JSON key 执行门已在历史 commit `60eaa27` 修复：`object_pairs_hook` 拒绝 dataset/config/nested duplicate key，`parse_constant` 拒绝 NaN/Infinity；负例覆盖 config `min_source_gain` 后值静默覆盖、dataset/nested key、NaN、unreadable file。GB10 `tests/test_phase2_rule_gate_replay.py` = `22 passed`。本项只闭合软件执行门，Phase 2 仍 `NOT_RUN`，不产生 replay、Stage R/RQ4 或训练证据。
