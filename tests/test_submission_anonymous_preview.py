@@ -13,8 +13,8 @@ from research.build_submission_anonymous_preview import (
 REPO = Path(__file__).resolve().parents[1]
 TRACKED_OUTPUT = REPO / "paper" / "submission_draft_arr_www_anonymous_v0.md"
 TRACKED_MAP = REPO / "paper" / "submission_redaction_map_v1.json"
-TRACKED_OUTPUT_SHA256 = "79ee31a6646fbc02926da69c37104d7aae0c0a8904370e5440fb0fe6ab50ee19"
-TRACKED_MAP_SHA256 = "0aebbc84721b967aae0127ab655a8a3c00621ac0a4ce6db20f4fa5096ca40496"
+TRACKED_OUTPUT_SHA256 = "fcce418a840373ccde8eece23f28fe0b2258de355a346184b82ffc2a70858d35"
+TRACKED_MAP_SHA256 = "9fedc04e673aebb0afc6847b394085e5cc7f007981876c740dc6cd57b915e7db"
 FORBIDDEN = (
     "logs/graph",
     "docs/experiments",

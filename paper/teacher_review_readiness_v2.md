@@ -3,6 +3,14 @@
 > 结论日期：2026-09-22
 > 判定：**评估子稿可作为导师讨论材料，但不应再被称为完整小论文；不可对外投稿或公开。**
 
+## Latest status: 2026-10-07
+
+- Stage E ready for advisor review.
+- Office/PDF visual check: PASS.
+- Stage D remains `DATA_NO_GO / RQ2 NOT_IDENTIFIED`.
+- Only two advisor decisions remain: multi-leaf versus second dataflow; harmfulness definition selection.
+
+
 ## 送审范围
 
 - 主稿：`paper/teacher_review_draft_v1.docx`
