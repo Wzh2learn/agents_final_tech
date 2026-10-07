@@ -15,8 +15,8 @@
 
 | 材料 | 角色 | 当前状态 | sha256 |
 |---|---|---|---|
-| `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；2026-10-07 完成叙事重构，不改实验数字 | `d0ffc88dda40a42535ed093cda2ccdc36976a3ae9cdad1d4a1736725250b70b6` |
-| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随叙事重构确定性重建；GB10 Office PDF 8 页，抽样 1/4/5/8 页视觉 PASS | `646326792be71cd7c1912d37fdd0cceade703c969f19dc29145241731cc59d2d` |
+| `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；已收敛为 evaluation-protocol measurement validity | `bb67196adbfa55c497fdd33792efe3347057ba77b9a9bf97166f300cdfff1321` |
+| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随身份收敛稿重建；需本轮 GB10 复验 | `987c70f619f7c057c5f2379534a98c0629a737251ae717618c1082ae2b61b288` |
 | `paper/teacher_review_note_v2.md` | 中文说明 | 阅读顺序与边界说明 | `3677450844b136807dddc67576064788726e651a4e3a561d4a86e97dbaf37d5a` |
 | `paper/research_story_v2.md` / `.docx` | 三阶段叙事/方向材料 | 只作研究框架与后续回填，不作未完成实验结果 | `48c8768970e9529e44a490abccd2e02492466be7b4adf0b948da65cde67ccb5a` / `5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30` |
 | `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `62a119e8b6aca573ecfdfaf1ff38002298a99d8914bca99a0622807a142fafc5` |
@@ -24,12 +24,12 @@
 | `paper/references_v0.md` | 已核引用池 | arXiv/DOI 可追溯；venue 未核项不升级 | `8e89bef1bb8ea1a2d3fcb571c31d118bce4306c1c67eb957e8c5ccc155043eeb` |
 | `paper/submission_references_arr_www_v1.md` | 投稿引用映射/BibTeX | 主稿 15 条逐条映射；Li 2025a/b 已固定消歧 | `1b49c7ffb1f9856e092d1a47199050c4d813e1421c5f1ca4ac77d179d22a7b82` |
 | `paper/reproducibility_statement_arr_www_v1.md` | 可复现性/工件披露 | 区分可公开候选与不外发材料；纳入 D-B licence_record 边界 | `4f25ad69acf289301b895b4dc6593e60b1888050c35e6215a9006e5389467462` |
-| `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；已随叙事重构再生；不是 camera-ready | `afb86865b3faa8aad285712db8b5ea770e5873cabbceccf80571b176c5f73891` |
-| `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `7276a0655e0ca13a9b0e5844148cf53fb87d989e2e288dcd9e28d99a62b480cb` |
+| `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；已随身份收敛稿再生 | `088928018006bf1311ae8400d961a81e5702978107e636c60d915d369704a0b5` |
+| `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `f537d476d2ebd348995c3d57a483c57b172da32393db5ef75212f3f4988fb300` |
 | `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `3e1a84faebe507c1c2f373e872330e09fc71b9334f5221ba948726fb8d0db2f6` |
-| `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 已补叙事风险、独立证据 ceiling 与新版视觉复验 | `64730f8a7f17f17ffbaaf40177b909f8686f1cdc8fa088dc85854be4a9126afc` |
+| `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 已补身份收敛后的五点 skeptical review | `878ea15c640b531a290a99d511c5fd24c839f93b0a77d65ce58ecd86e16cb69e` |
 | `paper/related_work_contribution_matrix_v1.md` | Related Work 贡献边界矩阵 | 四簇代表工作、差异边界与 KD future-work 隔离 | `602dfb797abee94319914384f42a259ba7f1914e429be916135ff015da5addd0` |
-| `paper/submission_language_audit_v1.md` | 语言/术语审计 | 已补 2026-10-07 叙事重构审计 | `e66bf729f108b627f7fc6d56f1c44652cbe8b564850b6998fa30831ed184ad02` |
+| `paper/submission_language_audit_v1.md` | 语言/术语审计 | 已补身份收敛与降级边界审计 | `cbe1bb82aaa6316e8ddf845646cf4d2e88dfa413ea297885629e03fa90b0751e` |
 | `docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg` | Figure 1 | 已入稿 | `983f4f4657e83ff8d8996e9add265bee9bab4f69dca20be810899f3330911e7e` |
 | `docs/experiments/figures_paper/fig_visibility_spectrum.png` | Figure 2 | 已入稿；视觉验收记录在案 | `d9da2f7b2e290d557f14ef14bc163850f5c6a55117432137848e8b49a0e27226` |
 | `paper/figures/fig_evaluate_distill_evolve_v1.svg` | 三阶段总架构 | 研究框架图；不是实验结果图 | `3e8500b773f92291042fb0503df0e9b646f7ed5a07599465c8fea8f66ae15240` |

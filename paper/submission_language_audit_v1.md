@@ -38,3 +38,11 @@
 - Introduction contributions now follow the order: three-way distinction, hierarchical evidence instrument, controlled protocol audit.
 - Section 5.2 leads with the threshold-artifact interpretation; Section 6 separates scientific limitations from deferred independent evidence.
 - No new strong-claim language was introduced. Future dataflow/scorer/localization work is explicitly deferred and does not change current claim status.
+
+## 6. 2026-10-07 identity-convergence review
+
+- The manuscript now states `We study evaluation-protocol validity rather than proposing a stronger detector` in both Abstract and Introduction.
+- Contributions are ordered as construct separation, evidence instrument, and protocol audit; hierarchy is explicitly not an algorithmic novelty.
+- The mutation-testing comparison now refines surviving/non-detected mutants instead of claiming a universally new third outcome.
+- Section 5.5 is a boundary case, Section 6.2 is concise, and detailed deferred-evidence governance is preserved in Appendix A.
+- No experiment number, claim token, preregistered stopping rule, or harmfulness definition was changed.

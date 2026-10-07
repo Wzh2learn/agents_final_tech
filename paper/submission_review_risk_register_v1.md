@@ -32,3 +32,8 @@
 ## 3 当前判定
 
 没有发现新的 manuscript blocking issue；当前 blocking 全部是外部投稿条件，不能用内部 mechanical audit 绿灯替代。
+| RR-14 | 仍被误读为 hierarchical evaluator 方法论文 | should-fix | 标题、Abstract、贡献和 Method 均明确 measurement validity；hierarchy 明示为 instrument | **closed**；身份已收敛 |
+| RR-15 | 被误读为 schema-matching robustness 论文 | should-fix | §4.1 明示 schema/header matching 是 perturbation carrier，研究对象是 observation boundary | **closed for positioning**；跨 pipeline 泛化仍是 evidence ceiling |
+| RR-16 | visibility / detection / harmfulness 概念混淆 | should-fix | §3.2 增加 visibility × detection 矩阵，harmfulness 明确为 orthogonal annotation | **closed** |
+| RR-17 | single responsive leaf 被掩盖 | major limitation | Abstract、§3.1、§5.2、§6.1 和 Conclusion 均明示 localization 未建立 | **controlled/open**；等待导师决策后续证据优先级 |
+| RR-18 | null result 被解释为方法失败 | should-fix | §5.2 明示 threshold confounding diagnostic；PSO 明示 informative null；Stage R 明示 boundary case | **closed** |
