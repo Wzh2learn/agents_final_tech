@@ -1,5 +1,5 @@
 {
-  "anonymous_preview_sha256": "088928018006bf1311ae8400d961a81e5702978107e636c60d915d369704a0b5",
+  "anonymous_preview_sha256": "79ee31a6646fbc02926da69c37104d7aae0c0a8904370e5440fb0fe6ab50ee19",
   "audit_type": "submission-package-integrity",
   "checks": [
     {
@@ -61,9 +61,9 @@
     {
       "check": "redaction_map_hashes",
       "detail": {
-        "map": "f537d476d2ebd348995c3d57a483c57b172da32393db5ef75212f3f4988fb300",
-        "preview": "088928018006bf1311ae8400d961a81e5702978107e636c60d915d369704a0b5",
-        "source": "bb67196adbfa55c497fdd33792efe3347057ba77b9a9bf97166f300cdfff1321"
+        "map": "0aebbc84721b967aae0127ab655a8a3c00621ac0a4ce6db20f4fa5096ca40496",
+        "preview": "79ee31a6646fbc02926da69c37104d7aae0c0a8904370e5440fb0fe6ab50ee19",
+        "source": "317ff9a7591650f62046076f32823cc8cb84df22eb98acf99e2fbc3ac5840133"
       },
       "pass": true
     },
@@ -95,8 +95,8 @@
     "patent_status_confirmation",
     "camera_ready_pdf_visual_acceptance"
   ],
-  "redaction_map_sha256": "f537d476d2ebd348995c3d57a483c57b172da32393db5ef75212f3f4988fb300",
+  "redaction_map_sha256": "0aebbc84721b967aae0127ab655a8a3c00621ac0a4ce6db20f4fa5096ca40496",
   "schema_version": 1,
-  "source_sha256": "bb67196adbfa55c497fdd33792efe3347057ba77b9a9bf97166f300cdfff1321",
+  "source_sha256": "317ff9a7591650f62046076f32823cc8cb84df22eb98acf99e2fbc3ac5840133",
   "submission_status": "PENDING_EXTERNAL_ITEMS"
 }

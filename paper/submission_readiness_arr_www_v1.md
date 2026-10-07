@@ -26,7 +26,7 @@
 | `paper/reproducibility_statement_arr_www_v1.md` | 可复现性/工件披露 | 区分可公开候选与不外发材料；纳入 D-B licence_record 边界 | `4f25ad69acf289301b895b4dc6593e60b1888050c35e6215a9006e5389467462` |
 | `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；已随身份收敛稿再生 | `79ee31a6646fbc02926da69c37104d7aae0c0a8904370e5440fb0fe6ab50ee19` |
 | `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `0aebbc84721b967aae0127ab655a8a3c00621ac0a4ce6db20f4fa5096ca40496` |
-| `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `1329b5253ceeb3638f393fe3b312019ddae33fb0fc5c9de3d917ee446a8f2777` |
+| `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `11dfde797040b9b7a03e0d011e0f9b3d3995ad648e002998234549e97ffec602` |
 | `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 已补身份收敛后的五点 skeptical review | `878ea15c640b531a290a99d511c5fd24c839f93b0a77d65ce58ecd86e16cb69e` |
 | `paper/related_work_contribution_matrix_v1.md` | Related Work 贡献边界矩阵 | 四簇代表工作、差异边界与 KD future-work 隔离 | `602dfb797abee94319914384f42a259ba7f1914e429be916135ff015da5addd0` |
 | `paper/submission_language_audit_v1.md` | 语言/术语审计 | 已补身份收敛与降级边界审计 | `cbe1bb82aaa6316e8ddf845646cf4d2e88dfa413ea297885629e03fa90b0751e` |
