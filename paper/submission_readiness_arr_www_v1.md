@@ -16,7 +16,7 @@
 | 材料 | 角色 | 当前状态 | sha256 |
 |---|---|---|---|
 | `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；已收敛为 evaluation-protocol measurement validity | `317ff9a7591650f62046076f32823cc8cb84df22eb98acf99e2fbc3ac5840133` |
-| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随身份收敛稿重建；概念矩阵同页排版 | `4fccc7538636999ab714f90f3ecb091a554f9679113783d8e815a0b1c7da9f26` |
+| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随身份收敛稿重建；GB10 PDF 9 页，概念矩阵同页，抽查无溢出 | `4fccc7538636999ab714f90f3ecb091a554f9679113783d8e815a0b1c7da9f26` |
 | `paper/teacher_review_note_v2.md` | 中文说明 | 阅读顺序与边界说明 | `3677450844b136807dddc67576064788726e651a4e3a561d4a86e97dbaf37d5a` |
 | `paper/research_story_v2.md` / `.docx` | 三阶段叙事/方向材料 | 只作研究框架与后续回填，不作未完成实验结果 | `48c8768970e9529e44a490abccd2e02492466be7b4adf0b948da65cde67ccb5a` / `5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30` |
 | `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `62a119e8b6aca573ecfdfaf1ff38002298a99d8914bca99a0622807a142fafc5` |

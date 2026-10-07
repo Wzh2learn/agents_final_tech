@@ -67,7 +67,7 @@ Future evidence required before making broader or stronger claims:
 
 These are future independent-evidence requirements, not missing paragraphs to be filled with planned results.
 
-GB10 rebuilt the revised DOCX and converted it to an 8-page PDF with LibreOffice. Pages 1, 4, 5, and 8 were visually inspected: the revised title and abstract fit, formulas and Figure 2 render correctly, Table 1 rows remain intact, and the conclusion/references have no overflow. This validates the internal teacher-review layout, not a venue camera-ready.
+GB10 rebuilt the identity-converged DOCX and converted it to a 9-page PDF with LibreOffice. The visibility-by-detection matrix remains on one page, formulas and figures render correctly, tables do not split rows, and the appendix is readable. PDF text/bbox checks and sampled page inspection found no overflow. This validates the internal teacher-review layout, not a venue camera-ready.
 
 ## Pending advisor decisions
 
