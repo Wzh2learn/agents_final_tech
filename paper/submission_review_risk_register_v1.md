@@ -15,7 +15,7 @@
 | RR-05 | 匿名预览中的 artifact 路径/模型身份脱敏后，复现细节不够 | should-fix | `submission_draft_arr_www_anonymous_v0.md` 禁词 0；`reproducibility_statement` 列出可公开候选与不外发边界 | **pending-external**；venue 版需补匿名补充材料编号 |
 | RR-06 | venue 模板、作者/单位、匿名、专利门未完成 | blocking-submission | `submission_package_audit` 明确 `PENDING_EXTERNAL_ITEMS` | **open**；不得投稿/上传/公开 |
 | RR-07 | Related Work 部分 venue 标签未全部核验 | should-fix | `references_v0` 坚持未核 venue 写 `arXiv preprint`；15 条主稿引用集合已机械闭合 | **controlled/open**；venue 官方核验后才能改 |
-| RR-08 | 图表在打印尺寸下的可读性 | should-fix | Office 8/8 + 4/4 视觉 PASS；Figure 2 柱顶 absorbed 标签修复 | **closed**；camera-ready 仍需 venue 版式复验 |
+| RR-08 | 图表在打印尺寸下的可读性 | should-fix | 叙事修订版 DOCX 已重建，GB10 PDF 8 页，抽样 1/4/5/8 页 PASS；Figure 2 与 Table 1 完整 | **closed for internal review**；camera-ready 仍需 venue 版式复验 |
 | RR-09 | round5 N-1/N-2 簿记/证据锚点 | minor | N-1 `audit_status=round5` 已更新；N-2 已补 FinQA process structure evidence，claims 74/74 | **closed** |
 | RR-10 | Loop B `adv_cross_doc` 间歇 source retrieval 缺失 | operational | `5f82efb` 自然周期 `sources empty`，上一周期同题 PASS | **tracked**；不阻塞论文文本，不隐藏、不重置 |
 | RR-11 | 标题/摘要未把反直觉结论放在首屏 | should-fix | 已改为 `Visibility Is Not Detection`，摘要、Introduction、结果标题与 Conclusion 同步 | **closed**；写作层修复，不改数字或 claim |

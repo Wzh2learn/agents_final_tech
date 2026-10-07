@@ -16,7 +16,7 @@
 | 材料 | 角色 | 当前状态 | sha256 |
 |---|---|---|---|
 | `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；2026-10-07 完成叙事重构，不改实验数字 | `d0ffc88dda40a42535ed093cda2ccdc36976a3ae9cdad1d4a1736725250b70b6` |
-| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随叙事重构确定性重建；GB10 结构/视觉复验见本轮收口 | `646326792be71cd7c1912d37fdd0cceade703c969f19dc29145241731cc59d2d` |
+| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随叙事重构确定性重建；GB10 Office PDF 8 页，抽样 1/4/5/8 页视觉 PASS | `646326792be71cd7c1912d37fdd0cceade703c969f19dc29145241731cc59d2d` |
 | `paper/teacher_review_note_v2.md` | 中文说明 | 阅读顺序与边界说明 | `3677450844b136807dddc67576064788726e651a4e3a561d4a86e97dbaf37d5a` |
 | `paper/research_story_v2.md` / `.docx` | 三阶段叙事/方向材料 | 只作研究框架与后续回填，不作未完成实验结果 | `48c8768970e9529e44a490abccd2e02492466be7b4adf0b948da65cde67ccb5a` / `5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30` |
 | `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `62a119e8b6aca573ecfdfaf1ff38002298a99d8914bca99a0622807a142fafc5` |
@@ -27,7 +27,7 @@
 | `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；已随叙事重构再生；不是 camera-ready | `afb86865b3faa8aad285712db8b5ea770e5873cabbceccf80571b176c5f73891` |
 | `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `7276a0655e0ca13a9b0e5844148cf53fb87d989e2e288dcd9e28d99a62b480cb` |
 | `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `3e1a84faebe507c1c2f373e872330e09fc71b9334f5221ba948726fb8d0db2f6` |
-| `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 已补叙事风险与独立证据 ceiling | `21321386647f537d8e867610bdf4ea84880a9dccf7edd75fdc0ac437f3846e03` |
+| `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 已补叙事风险、独立证据 ceiling 与新版视觉复验 | `64730f8a7f17f17ffbaaf40177b909f8686f1cdc8fa088dc85854be4a9126afc` |
 | `paper/related_work_contribution_matrix_v1.md` | Related Work 贡献边界矩阵 | 四簇代表工作、差异边界与 KD future-work 隔离 | `602dfb797abee94319914384f42a259ba7f1914e429be916135ff015da5addd0` |
 | `paper/submission_language_audit_v1.md` | 语言/术语审计 | 已补 2026-10-07 叙事重构审计 | `e66bf729f108b627f7fc6d56f1c44652cbe8b564850b6998fa30831ed184ad02` |
 | `docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg` | Figure 1 | 已入稿 | `983f4f4657e83ff8d8996e9add265bee9bab4f69dca20be810899f3330911e7e` |

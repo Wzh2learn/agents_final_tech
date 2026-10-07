@@ -66,3 +66,5 @@ Future evidence required before making broader or stronger claims:
 5. **Claim upgrade discipline:** none of these future items may be reported as current Stage E evidence until the artifact, split, scorer independence, and review receipts are complete.
 
 These are future independent-evidence requirements, not missing paragraphs to be filled with planned results.
+
+GB10 rebuilt the revised DOCX and converted it to an 8-page PDF with LibreOffice. Pages 1, 4, 5, and 8 were visually inspected: the revised title and abstract fit, formulas and Figure 2 render correctly, Table 1 rows remain intact, and the conclusion/references have no overflow. This validates the internal teacher-review layout, not a venue camera-ready.
