@@ -22,9 +22,9 @@ READINESS = REPO / "paper" / "submission_readiness_arr_www_v1.md"
 REPRO_STATEMENT = REPO / "paper" / "reproducibility_statement_arr_www_v1.md"
 LICENCE_RECORD = REPO / "docs" / "datasets" / "phase1a_licence_record_v1.json"
 
-EXPECTED_OUTPUT_SHA256 = "6af1dfc661f56cd29b63ecc727a4ee35e0df93adf42e887254ba017de1f1b30e"
-EXPECTED_MAP_SHA256 = "30f1be4b82759ef151d148f71ddf146cbdda75d84bfca3b1c1d93ea5a2af03a6"
-EXPECTED_SOURCE_SHA256 = "9d3e492694dda052a854c3cffac0b127ecda3aa383aa566abb75293fd7716f5c"
+EXPECTED_OUTPUT_SHA256 = "afb86865b3faa8aad285712db8b5ea770e5873cabbceccf80571b176c5f73891"
+EXPECTED_MAP_SHA256 = "7276a0655e0ca13a9b0e5844148cf53fb87d989e2e288dcd9e28d99a62b480cb"
+EXPECTED_SOURCE_SHA256 = "d0ffc88dda40a42535ed093cda2ccdc36976a3ae9cdad1d4a1736725250b70b6"
 EXPECTED_USES = ["training", "tuning", "evaluation", "rule_acceptance"]
 EXPECTED_LICENCE_HASHES = {
     "finqa_repo_license": "92c0e67bd762c15c07ba60de09558338315a8ebf99aac4f51f487179809ac087",
@@ -203,8 +203,8 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     result = audit()
-    args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-                           encoding="utf-8", newline="\n")
+    with args.output.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
     print(json.dumps({
         "mechanical_status": result["mechanical_status"],
         "submission_status": result["submission_status"],

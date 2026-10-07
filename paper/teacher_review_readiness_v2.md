@@ -52,3 +52,17 @@
 本附记更新上文 2026-09-22 的阶段性判断：两份 DOCX 的 Office 视觉验收已完成并 PASS；当前 claim manifest 为 5 条主张，GB10 `validate_paper_claims` 为 PASS / 74 checks，专用验收测试为 9 passed。G-A、G-B、G-C 不批，G-D 只批准 `target_table.csv` 表头作 canonical 参考，G-E 接受 `DATA_NO_GO` / RQ2 `NOT_IDENTIFIED`；V2-3 已关闭。146 列 Q3 review 已完成并封存 corrected ledger `51/58/37`，但 visibility exceptions 保留，只能作为 exploratory evidence，不能作为 Stage D、RQ2 或训练证据。
 
 当前唯一执行计划仍为 `docs/handoff/2026-09-22-paper-research-next-phase.md`；本附记只更新状态，不另立平行计划。
+
+## 2026-10-07 narrative revision and independent-evidence backlog
+
+The Stage E manuscript now leads with the counterintuitive result `Visibility Is Not Detection`: hierarchical checkpoints decompose evidence but do not improve matched-FPR discrimination in the current instantiation. The abstract, introduction, method framing, result heading, limitations structure, and conclusion were synchronized without changing any measured value or claim boundary.
+
+Future evidence required before making broader or stronger claims:
+
+1. **Second dataflow:** a corpus with a real table layer, UID-disjoint split roles, and controlled perturbations must reproduce the visibility profile without changing the frozen criteria.
+2. **Independent second scorer:** a scorer independent of the current semantic-judge endpoint must reproduce the frozen leaf-state cells; the stopped step-level route does not satisfy this clause.
+3. **Multi-leaf responsiveness:** localization claims require more than one scored leaf to vary with the injected input; otherwise localization remains unestablished.
+4. **External scenarios:** later work may test financial audit, compliance review, enterprise table processing, and other long-horizon document workflows. Each scenario must define its own observability and harmfulness criteria before results are compared.
+5. **Claim upgrade discipline:** none of these future items may be reported as current Stage E evidence until the artifact, split, scorer independence, and review receipts are complete.
+
+These are future independent-evidence requirements, not missing paragraphs to be filled with planned results.

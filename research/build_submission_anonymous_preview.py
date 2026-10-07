@@ -123,12 +123,10 @@ def build(source: Path, output: Path, map_output: Path) -> dict[str, object]:
         "source_sha256": source_hash,
         "output_path": _display_path(output),
     })
-    output.write_text(anonymous_text, encoding="utf-8", newline="\n")
-    map_output.write_text(
-        json.dumps(redaction_map, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-        newline="\n",
-    )
+    with output.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(anonymous_text)
+    with map_output.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(redaction_map, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
     return {
         "source_sha256": source_hash,
         "output_sha256": _sha256(output),

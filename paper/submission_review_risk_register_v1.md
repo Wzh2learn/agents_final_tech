@@ -18,6 +18,9 @@
 | RR-08 | 图表在打印尺寸下的可读性 | should-fix | Office 8/8 + 4/4 视觉 PASS；Figure 2 柱顶 absorbed 标签修复 | **closed**；camera-ready 仍需 venue 版式复验 |
 | RR-09 | round5 N-1/N-2 簿记/证据锚点 | minor | N-1 `audit_status=round5` 已更新；N-2 已补 FinQA process structure evidence，claims 74/74 | **closed** |
 | RR-10 | Loop B `adv_cross_doc` 间歇 source retrieval 缺失 | operational | `5f82efb` 自然周期 `sources empty`，上一周期同题 PASS | **tracked**；不阻塞论文文本，不隐藏、不重置 |
+| RR-11 | 标题/摘要未把反直觉结论放在首屏 | should-fix | 已改为 `Visibility Is Not Detection`，摘要、Introduction、结果标题与 Conclusion 同步 | **closed**；写作层修复，不改数字或 claim |
+| RR-12 | 第二数据流、独立 scorer 与多 leaf localization 证据不足 | major limitation | 当前仍为 deferred/unestablished；计划见 `teacher_review_readiness_v2.md` | **open**；只允许 future work，不升级当前主张 |
+| RR-13 | 社会价值场景过于单一 | should-fix | 当前只保留金融文档动机；通用场景列入 readiness backlog | **pending**；后续可在不改变技术结论的前提下扩展场景 |
 
 ## 2 首要投稿前动作
 

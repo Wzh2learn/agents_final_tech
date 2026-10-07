@@ -31,3 +31,10 @@
 ## 4 结果
 
 未发现 blocking language issue；本次不改主稿。剩余工作属于 venue 官方格式、作者/匿名、专利和 camera-ready 外部项。
+
+## 5. 2026-10-07 narrative revision audit
+
+- Title and abstract now foreground `Visibility Is Not Detection`; the abstract uses the same claim tokens and measured values as the body.
+- Introduction contributions now follow the order: three-way distinction, hierarchical evidence instrument, controlled protocol audit.
+- Section 5.2 leads with the threshold-artifact interpretation; Section 6 separates scientific limitations from deferred independent evidence.
+- No new strong-claim language was introduced. Future dataflow/scorer/localization work is explicitly deferred and does not change current claim status.

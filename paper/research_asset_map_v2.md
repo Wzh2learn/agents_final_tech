@@ -220,3 +220,10 @@ These assets support a formal negative-result boundary only. They do not authori
 - Evidence classification remains strict: Stage E is the formal small-paper route at internal submission scope; Q3, B0-B4 and Track B are exploratory/within-origin pilot and are not RQ2, Stage D, Stage R or RQ4; Stage D/R/RQ4 remain plans or empty slots; model artifacts are readiness only.
 - External submission, patent, venue, authorship, camera-ready, Stage D/R/RQ4, training, Phase 2 and external release remain incomplete.
 - Git source relationship: `f0764e714d21408a1a848ee0f327a22294eda73a` is the scientific/test content source or equivalent GB10 baseline; `652c9c6cadc2b62b731ee13ed34663562f88dc65` is metadata-only; `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b` is documentation archive/link/workspace neat. The latter two do not change scientific results or running code.
+
+## 2026-10-07 Stage E narrative and independent-evidence boundary
+
+- The Stage E manuscript now uses `Visibility Is Not Detection` as its primary narrative: the evaluator's observability, protocol detection, and equivalence-dependent harmfulness are separated before any system-level interpretation.
+- The current result remains narrow: hierarchical checkpoints improve evidence decomposition but not matched-FPR discriminability in the single-varying-leaf instantiation. No localization or cross-domain claim is promoted.
+- Future independent evidence is tracked in `paper/teacher_review_readiness_v2.md`: second dataflow, independent second scorer, multi-leaf responsiveness, and external document scenarios such as financial audit, compliance review, and enterprise table processing.
+- These future items require new artifacts and independent review before they can replace current limitations or become paper results.

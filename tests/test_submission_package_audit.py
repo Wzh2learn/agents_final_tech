@@ -35,14 +35,14 @@ def test_audit_checks_cover_required_artifact_contracts() -> None:
         "d_b_licence_scope",
         "reproducibility_boundary",
     } <= names
-    assert result["source_sha256"] == "9d3e492694dda052a854c3cffac0b127ecda3aa383aa566abb75293fd7716f5c"
-    assert result["anonymous_preview_sha256"] == "6af1dfc661f56cd29b63ecc727a4ee35e0df93adf42e887254ba017de1f1b30e"
+    assert result["source_sha256"] == "d0ffc88dda40a42535ed093cda2ccdc36976a3ae9cdad1d4a1736725250b70b6"
+    assert result["anonymous_preview_sha256"] == "afb86865b3faa8aad285712db8b5ea770e5873cabbceccf80571b176c5f73891"
 
 
 def test_audit_output_is_json_serializable(tmp_path: Path) -> None:
     result = audit()
     output = tmp_path / "audit.json"
     output.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-                      encoding="utf-8", newline="\n")
+                      encoding="utf-8")
     loaded = json.loads(output.read_text(encoding="utf-8"))
     assert loaded == result

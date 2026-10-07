@@ -1,10 +1,10 @@
-# Discriminability-Aware Evaluation of Long-Horizon Document AI Pipelines via Hierarchical Checkpoints and Defect Visibility Analysis
+# Visibility Is Not Detection: Auditing Blind Spots in Long-Horizon Document AI Evaluation
 
 > Anonymous submission-source preview. Author and affiliation are omitted; venue-specific formatting and final submission authorization remain pending.
 
 ## Abstract
 
-Long-horizon document intelligence systems combine parsing, schema mapping, retrieval, reasoning, and answer generation. Their evaluation commonly reduces the entire pipeline to final-answer correctness. This hides two different outcomes: a defect may be detected by an intermediate checkpoint, or it may be silently absorbed while the final output remains unchanged. We present a discriminability-aware evaluation framework that treats the evaluation protocol itself as an object of study. The framework organizes deterministic contracts and leakage-protected semantic judges into hierarchical checkpoint trees, retains evidence at every checkpoint, and measures defect visibility under controlled perturbations. On a frozen public tabular corpus containing 95 tables and 118 synthetic header-drift injections, checkpoint-level analysis makes 96 injections visible, but visibility is strongly type-dependent: character-level OCR-like perturbations remain invisible in all 13 cases across five thresholds. Protocol-level results vary sharply on the same corpus: end-to-end, flat, and hierarchical expert-weight aggregation detect 112, 85, and 13 injections, respectively. These protocol-level counts use a different signal from checkpoint visibility (threshold crossings of the final mapping text, or of aggregated scores), so they are not a partition of the 96 visible injections; Section 5.2 closes the checkpoint-level accounting explicitly. After false-positive-rate matching, flat and hierarchical scores are affinely equivalent on this corpus, showing that the raw gap is caused by threshold placement rather than better discrimination. These results support a deliberately narrow conclusion: hierarchical structure provides evidence decomposition, not better detection sensitivity in the current setting; additional localization value remains unestablished because only one scored leaf varies with the injected input. We argue that evaluation reports for long-horizon systems should pair aggregate scores with per-family visibility profiles, explicit validity boundaries, and reproducible evidence chains.
+Long-horizon document intelligence systems are usually scored on final-answer correctness, which cannot distinguish a defect observed by an intermediate checkpoint from one that was silently absorbed, nor reveal that the evaluator itself was blind to the defect. We introduce a discriminability-aware meta-evaluation protocol that separates checkpoint-level visibility, protocol-level detection, and equivalence-dependent harmfulness through hierarchical checkpoint evidence and per-family visibility profiles. On a frozen public tabular corpus containing 95 tables and 118 synthetic header-drift injections, checkpoint-level analysis yields 96/118 visible injections, while OCR-like perturbations are visible in 0/13 cases across five thresholds. End-to-end, flat, and hierarchical protocols detect 112/118, 85/118, and 13/118 injections under different decision signals; after matched-false-positive-rate calibration, flat and hierarchical scores are affinely equivalent with a [0,0] protocol-difference interval because only one scored leaf responds to the injected input. The result is deliberately narrow: hierarchical structure decomposes evidence but does not improve detection sensitivity or establish localization in the current setting. Long-horizon evaluation reports should therefore publish per-family visibility profiles, validity boundaries, and reproducible evidence chains alongside aggregate scores.
 
 ## 1. Introduction
 
@@ -12,13 +12,13 @@ Document intelligence systems are increasingly implemented as pipelines rather t
 
 This creates a second problem that is easier to overlook: the evaluation protocol may itself be unable to observe particular defects. If a perturbed header is normalized back to the original field before the first measured checkpoint, every downstream score can remain unchanged. A correct final answer then has at least two explanations—the pipeline was robust to the perturbation, or the evaluation was blind to it. A single end-to-end score cannot separate these cases.
 
-We study this problem through controlled fault injection. A frozen public tabular corpus contains 95 tables and 118 synthetic header perturbations across six families: alias variation, mixed language, unit suffix, date variation, OCR-like character substitution, and prefix noise. We evaluate each perturbation at two levels. Checkpoint-level visibility records whether any measured intermediate state moves. Protocol-level detection records whether an aggregated score crosses a calibrated threshold. The distinction is essential: the same corpus contains 96/118 visible injections, while flat and hierarchical protocols detect 85/118 and 13/118, respectively.
+We study this problem through controlled fault injection. A frozen public tabular corpus contains 95 tables and 118 synthetic header perturbations across six families: alias variation, mixed language, unit suffix, date variation, OCR-like character substitution, and prefix noise. We separate three questions that aggregate scores usually collapse: whether a checkpoint observes a change, whether a protocol turns that observation into a detection decision, and whether the perturbation is harmful under a stated equivalence criterion. This separation exposes a strong family effect: OCR-like perturbations are visible in 0/13 cases across five thresholds, whereas the raw gap between flat and hierarchical detection later disappears after false-positive-rate calibration.
 
-Our goal is not to introduce a stronger detector. Instead, we ask whether an evaluation protocol can characterize its own blind regions and disclose how its structure changes the interpretation of a result. This leads to three contributions:
+Our goal is not to introduce a stronger detector. We ask the prior question: can the evaluation protocol observe the defect at all, and can it disclose the blind regions that make a result ambiguous? This reframes hierarchy as an evidence instrument rather than an automatic sensitivity gain, and leads to three contributions:
 
-1. We formulate a hierarchical checkpoint framework that combines deterministic contracts, leakage-protected semantic judges, explicit missing-evidence policies, and per-check evidence retention.
-2. We define a defect visibility profile that separates detected, silently absorbed, and equivalence-dependent perturbations by defect family rather than collapsing them into one mutation score.
-3. We audit the protocol itself through threshold sensitivity, seed variation, cross-matcher checks, matched-false-positive-rate comparison, and weight-search controls. The audit exposes a negative but actionable result: hierarchy provides evidence decomposition, but no discriminability gain at matched false-positive rate on the current corpus; its additional localization value cannot yet be established.
+1. We separate checkpoint-level visibility, protocol-level detection, and equivalence-dependent harmfulness, and summarize them in a per-family defect visibility profile rather than a single mutation score.
+2. We implement the audit with hierarchical checkpoint evidence that combines deterministic contracts, leakage-protected semantic judges, explicit missing-evidence policies, and per-check evidence retention.
+3. We audit the protocol through threshold sensitivity, seed variation, cross-matcher checks, matched-false-positive-rate comparison, and weight-search controls. The central result is negative but actionable: hierarchy provides evidence decomposition but no discriminability gain at matched false-positive rate on the current corpus, and its localization value remains unestablished.
 
 This positioning keeps the empirical claim commensurate with the evidence. We do not claim universal coverage, superior hierarchical detection, a formal geometric “blind cone,” or significant downstream gains from the gated self-improvement case.
 
@@ -38,11 +38,13 @@ Mutation testing and metamorphic testing introduce controlled changes to measure
 
 ### 2.4 Reliability of semantic judges
 
-LLM judges are useful for open-semantic qualities but exhibit position, verbosity, self-preference, and perturbation sensitivity [Zheng et al., 2023; Li et al., 2025a; Li et al., 2025b]. We therefore reserve deterministic checks for contractible properties, use a judge only for semantic dimensions, hide injected ground truth from the judge prompt, and report the judge's resolution and sample limits explicitly.
+LLM judges are useful for open-semantic qualities but exhibit position, verbosity, self-preference, and perturbation sensitivity [Zheng et al., 2023; Li et al., 2025a; Li et al., 2025b]. We therefore reserve deterministic checks for contractible properties, use a judge only for semantic dimensions, hide injected ground truth from the judge prompt, and report the judge's resolution and sample limits explicitly. The distinction from prior process-level work is deliberate: those methods diagnose system behavior, whereas this paper first audits whether the evaluator can observe a controlled defect before interpreting that behavior.
 
 ## 3. Method
 
-### 3.1 Checkpoint forest
+The conceptual core is a three-way audit of visibility, detection, and harmfulness; the hierarchical checkpoint forest is the evidence instrument that makes the audit reproducible.
+
+### 3.1 Evidence instrument: checkpoint forest
 
 We model the pipeline as two checkpoint trees. The parsing tree covers document ingestion, table structure, field mapping, and arithmetic reconciliation. The QA tree covers retrieval grounding, faithfulness, numeric correctness, citation quality, and appropriate refusal. Together the trees contain 12 scored leaves.
 
@@ -60,7 +62,7 @@ S(n)=\sum_{c\in C(n)} \frac{w(c)}{\sum_{j\in C(n)}w(j)}S(c).
 
 For a leaf, S(n) is the mapped contract or judge score. A tree is stable only when at least 90% of its leaves exceed the selected threshold and every hinge leaf scores at least 7. The implementation is deterministic once the evidence artifacts are fixed.
 
-### 3.2 Visibility outcomes
+### 3.2 Separating visibility, detection, and harmfulness
 
 For an injected defect d, visibility and protocol detection are separate observations:
 
@@ -112,9 +114,9 @@ The blind family remains the same under four edit-distance matcher configuration
 
 The harmfulness label is also criterion-dependent. An instance-level oracle rejects all seven members previously placed in a type-level equivalence class. Across eight paired comparisons, five disagree, and the disagreements align with criterion kind—canonical-form preservation versus reader-referent recoverability—rather than appearing as random case-level noise. We therefore report the evaluator's blindness directly while treating whether that blindness is harmful as a boundary question.
 
-### 5.2 Protocol structure changes raw detection counts
+### 5.2 The raw hierarchy gap is a threshold artifact
 
-Table 1 compares the three transferable protocols. Here end-to-end detection tests whether the final mapping text changes; it is not the canonical-correspondence visibility criterion behind 96/118. A changed source-header string can therefore count as end-to-end detection even when the canonical match is preserved, explaining why 112/118 exceeds 96/118. Table-level counts apply all assigned injections together, whereas injection-level counts apply one perturbation at a time; the 20 detected tables and 13 individually detected injections are not nested counts. Hierarchical scoring is not a more sensitive detector at the frozen threshold.
+The apparent advantage of one protocol over another is not a sensitivity gain. Table 1 compares three transferable protocols under different decision predicates: end-to-end detection tests whether the final mapping text changes, whereas flat and hierarchical scoring test calibrated score drops. A changed source-header string can therefore count as end-to-end detection even when the canonical match is preserved, explaining why 112/118 exceeds the 96/118 visibility count. Table-level counts apply all assigned injections together, whereas injection-level counts apply one perturbation at a time; the 20 detected tables and 13 individually detected injections are not nested counts. At the frozen threshold, hierarchical scoring is not a more sensitive detector.
 
 | Protocol | Detection signal | Tables detected | Injections detected |
 |---|---|---:|---:|
@@ -140,7 +142,7 @@ Judge calibration covers 120 leaf-state cells; this calibration window is distin
 
 PSO and greedy coordinate ascent reach the same mean separation of 1.432574. PSO repeats the result on all five seeds but requires 7,650 evaluations, compared with 67 for greedy search. A minimax variant improves worst-case separation to 0.35714 while reducing mean separation to 1.25605. We therefore do not claim PSO superiority. The result instead shows that objective choice matters more than optimizer sophistication in the present search space.
 
-### 5.5 Evaluation-driven rule consolidation is a mechanism case
+### 5.5 Boundary case outside the main contribution
 
 Role of this section: it is boundary evidence for the third stage of the broader research program, not part of the evaluation-track contribution. It is included to mark where the evaluation evidence stops and the program's prospective claims begin.
 
@@ -150,9 +152,13 @@ This is not an efficacy claim. Across 15 collision tables, the mean paired diffe
 
 ## 6. Discussion and Limitations
 
+### 6.1 Scientific limitations
+
 The main finding is methodological. Aggregate evaluation can hide both system defects and evaluator blind spots. A checkpoint forest makes evidence decomposable, while a visibility profile shows which defect families are observable. Yet structure alone does not guarantee sensitivity: on the current corpus, flat and hierarchical protocols are equivalent after calibration.
 
 Four limitations bound the claim. First, the evidence comes from one public tabular corpus with synthetic perturbations; no cross-domain generalization is claimed. Second, the OCR-like family is blind under the evaluator, but whether each perturbation is harmful depends on the equivalence definition. Third, the semantic boundary analysis uses one judge on 28 cases; mixed-language and unit-suffix families receive no calls in that window (a separate window from the 120-cell judge calibration of Section 5.3). Fourth, matching competition reduces the oracle correctness ceiling from 0.952381 to 0.597015 under shared-header overlays, while global assignment changes no decision, locating the problem in score construction rather than allocation.
+
+### 6.2 Deferred independent evidence
 
 A second dataflow and a second scorer were preregistered but are not reported as results; the final two paragraphs of this section report the measured boundaries and the fired stop condition from those attempts. The transfer corpus lacks the table layer required to define per-family constructible sample counts, so the transfer arm was deferred rather than silently replaced. The criterion-relativity claim consequently remains limited to the current evaluator and corpus.
 
@@ -164,7 +170,7 @@ Criterion (ii) has not been tested, and one candidate route toward it was stoppe
 
 ## 7. Conclusion
 
-Final correctness is not evidence that every step in a long-horizon document pipeline is reliable, and a single evaluation score cannot reveal whether the evaluator is blind to a defect family. We introduced a hierarchical checkpoint framework and a defect visibility profile that preserve intermediate evidence and expose silent absorption. On 118 controlled injections, visibility and detection depend strongly on defect family and scoring protocol. The most important result is negative but useful: hierarchical structure improves decomposition, not matched-FPR discriminability, in the current setting. Long-horizon evaluations should therefore report the protocol's own sensitivity, validity boundaries, and reproducible evidence chain alongside aggregate system performance.
+Final correctness cannot tell whether a defect was observed at an intermediate checkpoint, silently absorbed, or invisible to the evaluator itself. We introduced a three-way audit of visibility, detection, and harmfulness, implemented with hierarchical checkpoint evidence and per-family visibility profiles. On 118 controlled injections, observability and detection depend strongly on defect family and decision protocol. The central result is negative but useful: hierarchy improves evidence decomposition, not matched-FPR discriminability, in the current setting. Long-horizon evaluations should therefore report the protocol's own sensitivity, validity boundaries, and reproducible evidence chain alongside aggregate system performance.
 
 ## References
 

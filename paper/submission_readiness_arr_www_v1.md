@@ -15,8 +15,8 @@
 
 | 材料 | 角色 | 当前状态 | sha256 |
 |---|---|---|---|
-| `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；独立审稿第 5 轮双 ACCEPT | `9d3e492694dda052a854c3cffac0b127ecda3aa383aa566abb75293fd7716f5c` |
-| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | Office 视觉 PASS；尚未套 ARR/WWW venue 模板 | `4f0b88cf60dcad532e9871f4f3b3ca963f49ce1746b305497d9f0c4156498a5f` |
+| `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；2026-10-07 完成叙事重构，不改实验数字 | `d0ffc88dda40a42535ed093cda2ccdc36976a3ae9cdad1d4a1736725250b70b6` |
+| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随叙事重构确定性重建；GB10 结构/视觉复验见本轮收口 | `646326792be71cd7c1912d37fdd0cceade703c969f19dc29145241731cc59d2d` |
 | `paper/teacher_review_note_v2.md` | 中文说明 | 阅读顺序与边界说明 | `3677450844b136807dddc67576064788726e651a4e3a561d4a86e97dbaf37d5a` |
 | `paper/research_story_v2.md` / `.docx` | 三阶段叙事/方向材料 | 只作研究框架与后续回填，不作未完成实验结果 | `48c8768970e9529e44a490abccd2e02492466be7b4adf0b948da65cde67ccb5a` / `5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30` |
 | `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `62a119e8b6aca573ecfdfaf1ff38002298a99d8914bca99a0622807a142fafc5` |
@@ -24,12 +24,12 @@
 | `paper/references_v0.md` | 已核引用池 | arXiv/DOI 可追溯；venue 未核项不升级 | `8e89bef1bb8ea1a2d3fcb571c31d118bce4306c1c67eb957e8c5ccc155043eeb` |
 | `paper/submission_references_arr_www_v1.md` | 投稿引用映射/BibTeX | 主稿 15 条逐条映射；Li 2025a/b 已固定消歧 | `1b49c7ffb1f9856e092d1a47199050c4d813e1421c5f1ca4ac77d179d22a7b82` |
 | `paper/reproducibility_statement_arr_www_v1.md` | 可复现性/工件披露 | 区分可公开候选与不外发材料；纳入 D-B licence_record 边界 | `4f25ad69acf289301b895b4dc6593e60b1888050c35e6215a9006e5389467462` |
-| `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；不是 camera-ready | `6af1dfc661f56cd29b63ecc727a4ee35e0df93adf42e887254ba017de1f1b30e` |
-| `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `30f1be4b82759ef151d148f71ddf146cbdda75d84bfca3b1c1d93ea5a2af03a6` |
+| `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；已随叙事重构再生；不是 camera-ready | `afb86865b3faa8aad285712db8b5ea770e5873cabbceccf80571b176c5f73891` |
+| `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `7276a0655e0ca13a9b0e5844148cf53fb87d989e2e288dcd9e28d99a62b480cb` |
 | `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `094e581789c75bbab66a1b74d0d04ff18cdb26fa23fe5bb285ef37503d9b278a` |
-| `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 阻断项/受控风险/外部 pending 分离 | `52bfcedae13a0b7f96cd7b5702e747515bc8c41d1ecc54cdb8ad7276668c8768` |
+| `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 已补叙事风险与独立证据 ceiling | `21321386647f537d8e867610bdf4ea84880a9dccf7edd75fdc0ac437f3846e03` |
 | `paper/related_work_contribution_matrix_v1.md` | Related Work 贡献边界矩阵 | 四簇代表工作、差异边界与 KD future-work 隔离 | `602dfb797abee94319914384f42a259ba7f1914e429be916135ff015da5addd0` |
-| `paper/submission_language_audit_v1.md` | 语言/术语审计 | AI 套话、强主张、术语一致性与版本同步 | `0c1ad69ec1c99f2a11c8e6108e66129085cca32c09cc6591eeca74bc559c2384` |
+| `paper/submission_language_audit_v1.md` | 语言/术语审计 | 已补 2026-10-07 叙事重构审计 | `e66bf729f108b627f7fc6d56f1c44652cbe8b564850b6998fa30831ed184ad02` |
 | `docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg` | Figure 1 | 已入稿 | `983f4f4657e83ff8d8996e9add265bee9bab4f69dca20be810899f3330911e7e` |
 | `docs/experiments/figures_paper/fig_visibility_spectrum.png` | Figure 2 | 已入稿；视觉验收记录在案 | `d9da2f7b2e290d557f14ef14bc163850f5c6a55117432137848e8b49a0e27226` |
 | `paper/figures/fig_evaluate_distill_evolve_v1.svg` | 三阶段总架构 | 研究框架图；不是实验结果图 | `3e8500b773f92291042fb0503df0e9b646f7ed5a07599465c8fea8f66ae15240` |
@@ -70,3 +70,9 @@
 Stage D necessity gate is `PILOT_ONLY`, with `stage_d_necessity=NOT_ESTABLISHED` and `training_recommendation=DO_NOT_TRAIN_YET`. Therefore the internal submission route remains the mature Stage E evaluation fallback. The internal manuscript content is finalized for internal submission review; Q3 and B0-B4 exploratory evidence stays outside the main result tables and is referenced only as future-work/limitations evidence.
 
 External submission remains blocked by venue/template verification, authorship, patent confirmation, anonymization, and camera-ready acceptance. This route decision does not make the package ready for external submission.
+
+## 7. Narrative revision and future independent evidence (2026-10-07)
+
+The main narrative now leads with `Visibility Is Not Detection`: hierarchy improves evidence decomposition but does not improve matched-FPR discriminability in the current single-varying-leaf setting. The scientific numbers and claim boundaries are unchanged.
+
+Future independent evidence is tracked in `paper/teacher_review_readiness_v2.md`: second dataflow, independent second scorer, multi-leaf responsiveness, and external document scenarios such as financial audit, compliance review, and enterprise table processing. These items require new artifacts and independent review before they can become results.
