@@ -64,14 +64,6 @@ For a leaf, S(n) is the mapped contract or judge score. A tree is stable only wh
 
 ### 3.2 Separating visibility, detection, and harmfulness
 
-For an injected defect d, visibility and protocol detection are separate observations:
-
-- **Detected:** the selected protocol satisfies its detection predicate, which may test a mapping change or a score threshold.
-- **Visible but not detected:** the checkpoint exposes a difference, but the selected protocol does not satisfy its detection predicate.
-- **Silently absorbed:** normalization or matching preserves the canonical correspondence, so that checkpoint does not expose the perturbation.
-
-Harmfulness is a separate, **equivalence-dependent** judgment, not a mutually exclusive visibility outcome: canonical-form preservation and reader-referent recoverability need not agree.
-
 The primary conceptual structure is the following visibility-by-detection matrix:
 
 | Checkpoint evidence | Protocol detects | Protocol does not detect |
@@ -80,6 +72,14 @@ The primary conceptual structure is the following visibility-by-detection matrix
 | Not visible | Detection through a different signal or predicate | Silently absorbed or unobservable |
 
 Harmfulness is orthogonal to this matrix and is annotated separately as harmful, equivalent, or unresolved under the selected equivalence criterion.
+
+For an injected defect d, visibility and protocol detection are separate observations:
+
+- **Detected:** the selected protocol satisfies its detection predicate, which may test a mapping change or a score threshold.
+- **Visible but not detected:** the checkpoint exposes a difference, but the selected protocol does not satisfy its detection predicate.
+- **Silently absorbed:** normalization or matching preserves the canonical correspondence, so that checkpoint does not expose the perturbation.
+
+Harmfulness is a separate, **equivalence-dependent** judgment, not a mutually exclusive visibility outcome: canonical-form preservation and reader-referent recoverability need not agree.
 
 The defect visibility profile reports visibility separately for each family. This preserves information lost by a single mutation score and distinguishes a missing checkpoint from a genuinely robust stage.
 
