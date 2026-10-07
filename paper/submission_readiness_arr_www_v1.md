@@ -26,7 +26,7 @@
 | `paper/reproducibility_statement_arr_www_v1.md` | 可复现性/工件披露 | 区分可公开候选与不外发材料；纳入 D-B licence_record 边界 | `4f25ad69acf289301b895b4dc6593e60b1888050c35e6215a9006e5389467462` |
 | `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；已随叙事重构再生；不是 camera-ready | `afb86865b3faa8aad285712db8b5ea770e5873cabbceccf80571b176c5f73891` |
 | `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `7276a0655e0ca13a9b0e5844148cf53fb87d989e2e288dcd9e28d99a62b480cb` |
-| `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `094e581789c75bbab66a1b74d0d04ff18cdb26fa23fe5bb285ef37503d9b278a` |
+| `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `3e1a84faebe507c1c2f373e872330e09fc71b9334f5221ba948726fb8d0db2f6` |
 | `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 已补叙事风险与独立证据 ceiling | `21321386647f537d8e867610bdf4ea84880a9dccf7edd75fdc0ac437f3846e03` |
 | `paper/related_work_contribution_matrix_v1.md` | Related Work 贡献边界矩阵 | 四簇代表工作、差异边界与 KD future-work 隔离 | `602dfb797abee94319914384f42a259ba7f1914e429be916135ff015da5addd0` |
 | `paper/submission_language_audit_v1.md` | 语言/术语审计 | 已补 2026-10-07 叙事重构审计 | `e66bf729f108b627f7fc6d56f1c44652cbe8b564850b6998fa30831ed184ad02` |
