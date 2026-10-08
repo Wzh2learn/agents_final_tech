@@ -1,6 +1,6 @@
 # 科研主线与论文验收入口
 
-> 状态: 活跃 | 更新: 2026-10-05 | 取代/被取代: 不取代受保护路线文档；作为当前执行与验收入口
+> 状态: 活跃 | 更新: 2026-10-08 | 取代/被取代: 不取代受保护路线文档；作为当前执行与验收入口
 
 本文只回答三个问题：小论文在证明什么、大论文如何承接、下一项工作怎样验收。历史实验过程仍保留在 `docs/experiments/`，不在这里重复。
 
@@ -12,10 +12,10 @@
 |---|---|---|
 | 导航入口 | 本文件；全仓目录见 `docs/INDEX.md` | 指定阅读顺序与冲突裁定，不另存实验数字真值 |
 | 战略/导师政策依据 | `docs/33_导师指导吸收_科研三线升级.md`、`docs/34_专利_小论文_大论文协同研究路线.md` | 两件受保护、只读；导师要求与专利公开边界继续有效，旧小论文范围/排期不覆盖本次校准 |
-| 当前论文叙事 | `paper/research_story_v2.md` | 唯一现役故事、RQ 与主张边界；目标贡献不等于结果 |
-| 证据与资产账本 | `paper/research_asset_map_v2.md`；评估子稿细账为 `paper/claim_manifest_v1.json` | 区分已成立、机制级、needs-evidence 与历史素材；数字真值仍来自原始工件 |
+| Stage E 当前小论文 | `paper/teacher_review_draft_v1.md` | 当前正式内部投稿路线与 measurement-validity 主张边界；不含 Stage D/R/RQ4 结果 |
+| 证据与资产账本 | `paper/research_asset_map_v2.md`；Stage E 主张细账为 `paper/claim_manifest_v1.json` | 区分已成立、机制级、needs-evidence 与历史素材；数字真值仍来自原始工件 |
 | 当前执行计划 | `docs/handoff/2026-09-22-paper-research-next-phase.md` | 唯一下一阶段任务顺序、四层数据边界、阶段门与拆稿条件；不得再建平行计划 |
-| 成熟评估保底稿 | `paper/teacher_review_draft_v1.md`、`paper/teacher_review_draft_v1.docx` | 仅 Stage E；其主张仍受 `docs/experiments/2026-08-30_phase_a_autopsy_and_claim_set_v2.md` 约束，不定义完整三阶段方向 |
+| 长期研究叙事 | `paper/research_story_v2.md`、`paper/research_asset_map_v2.md` | Evaluate-Distill-Evolve 是大论文/后续研究框架；目标贡献不等于当前小论文结果 |
 | 数字真值 | `logs/graph/eval/` 下原始 JSON + 对应生成代码/冻结协议 | 原始数字优于文字摘要；历史实验只能支持原协议内的结论，不能反推新实验已经完成 |
 | 历史/已取代过程稿 | `docs/30_科研线规划.md`、`docs/superpowers/plans/2026-08-29-long-horizon-evaluation-paper.md`、评估蓝图、旧大论文骨架、多轮审稿与旧任务卡 | 保留追溯/证据价值，不再控制当前方向或排期 |
 
@@ -35,47 +35,45 @@
 
 ## 2. 统一科研主线
 
-### 2.1 会议小论文：评估—蒸馏—规则进化
+### 2.1 长期研究主线（大论文/后续工作）：Evaluate-Distill-Evolve
 
-当前目标故事见 `paper/research_story_v2.md`：大模型流程评估 → checkpoint 引导的小模型规则动作蒸馏 → 验证门控的规则自学习与版本化回滚。`research/vgmc_exp1.py` 主要记录动作事件，不是完整推理轨迹，近期只能称“动作策略蒸馏/规则候选蒸馏”。小模型负责候选提出和验证预筛，不替代最终确定性验证门。
+长期目标故事见 `paper/research_story_v2.md`：大模型流程评估 → checkpoint 引导的小模型规则动作蒸馏 → 验证门控的规则自学习与版本化回滚。`research/vgmc_exp1.py` 主要记录动作事件，不是完整推理轨迹，近期只能称“动作策略蒸馏/规则候选蒸馏”。小模型负责候选提出和验证预筛，不替代最终确定性验证门。
 
-| 阶段 | 论文责任 | 当前资产 | 成熟度 |
+| 阶段 | 大论文/未来责任 | 当前资产 | 当前成熟度 |
 |---|---|---|---|
-| E 大模型流程评估 | 提供经审计的 checkpoint 信号 | 95 表、118 注入、检查点树、可见性与协议审计 | 评估子稿已闭环；不代表动作标签天然正确 |
-| D 小模型蒸馏 | 8B 主学生学习规则动作；4B 仅训练链 smoke | 零样本矩阵、文献、60 对单向 DPO 偏好 | 本地 P1 已审、未放行训练；服务器测试与后续实验分别接手/待批 |
-| R 自学习规则进化 | 把稳定经验固化为可审计规则 | gain–collateral 门、碰撞/对抗实验、bandit/DPO 工件 | 机制级；独立验证、强基线与功效待补 |
+| E 大模型流程评估 | 提供经审计的 checkpoint 信号 | 95 表、118 注入、检查点树、可见性与协议审计 | Stage E 当前小论文证据底座；不代表动作标签天然正确 |
+| D 小模型蒸馏 | 8B 主学生学习规则动作；4B 仅训练链 smoke | 零样本矩阵、文献、偏好素材、训练 readiness | `DATA_NO_GO / PILOT_ONLY`；无训练结果 |
+| R 自学习规则进化 | 把稳定经验固化为可审计规则 | gain–collateral 门、碰撞/对抗实验、静态协议 | 机制级；Stage R 未形成安全持续收益 |
 
-`paper/teacher_review_draft_v1.md` / `paper/teacher_review_draft_v1.docx` 只覆盖 E 阶段，现定位为成熟证据子稿或分拆投稿备选，不再代表完整小论文。
+`paper/teacher_review_draft_v1.md` / `.docx` 是当前 Stage E 内部投稿路线；Evaluate-Distill-Evolve 三阶段属于大论文和 future work，不写成当前小论文已有贡献。
 
-### 2.2 评估子稿：已完成的证据底座
+### 2.2 Stage E 小论文：当前正式内部投稿路线
 
-暂定题目：*Discriminability-Aware Evaluation of Long-Horizon Document AI Pipelines via Hierarchical Checkpoints and Defect Visibility Analysis*。
+当前题目：*Visibility Is Not Detection: Auditing Blind Spots in Long-Horizon Document AI Evaluation*。
 
-唯一主问题：最终答案正确时，长流程系统的中间缺陷是否仍可能被静默吸收，以及评测协议本身能否发现这种缺陷？
+核心科学问题是 measurement-validity / meta-evaluation：评测协议自身有什么 observation boundary，以及为什么 visibility、detection、harmfulness 是三个不能被 aggregate score 混为一谈的 construct。
 
-| 研究问题 | 稿件责任 | 当前证据 | 当前结论边界 |
-|---|---|---|---|
-| SP-RQ1：缺陷在哪一层可见、在哪一层被吸收？ | 主贡献 | 95 表、118 注入、阈值网格和可见性谱 | 只主张受测文档管线；字符扰动危害性依赖等价类定义 |
-| SP-RQ2：分层检查点带来什么？ | 主贡献 | 端到端、扁平、层级协议与 matched-FPR 对照 | 当前只证实证据分解；不主张检出率更高，额外定位收益仍待多 leaf 变化场景验证 |
-| SP-RQ3：结论是否依赖协议、匹配器和评分口径？ | 严谨性贡献 | 跨匹配器、匹配竞争、judge 校准、种子与敏感性分析 | 第二数据流和第二 scorer 尚未闭合，不外推为普遍定律 |
-| SP-RQ4：评测发现能否反馈系统改进？ | 半页机制案例 | VGRM 门拒、规则固化与回归记录 | 不主张 VGRM 显著净收益；PSO 仅报告 null/负面结果 |
+| 最终贡献 | 内容 | 证据边界 |
+|---|---|---|
+| C1 construct separation | 分离 checkpoint visibility、protocol detection、equivalence-dependent harmfulness | 只覆盖当前冻结表格语料与注入族 |
+| C2 evidence instrument | hierarchical checkpoint evidence + per-family visibility profiles | hierarchy 是 evidence instrument，不是算法创新 |
+| C3 protocol audit | threshold、matcher、seed、matched-FPR 等审计揭示 measurement confounding | `[0,0]` 是 threshold-confounding 诊断，不是理论创新 |
 
-**评估子稿**明确不承担：VGRM 显著效果、PSO 优越性、严格“盲锥”理论、RL/DPO/bandit 扩展、任意长流程系统的普遍外推。完整三阶段方向中的 DPO 仍是条件臂，不能由这一历史子稿范围推导为永久取消，也不能预写增益。
-
+Stage E 明确不承担 VGRM 显著效果、PSO 优越性、严格“盲锥”理论、RL/DPO/bandit 扩展、任意长流程系统的普遍外推。PSO 是 informative null；Stage R 只保留 mechanism/boundary case；完整 E-D-R 是 future work。
 ### 2.3 研究生大论文：展开三阶段并验证长期闭环
 
 | 创新点 | 核心问题 | 与小论文关系 | 独立验收条件 | 成熟度 |
 |---|---|---|---|---|
-| TH-I1 判别力感知的分层评测 | 如何以可控成本获得可诊断证据？ | 小论文 SP-RQ2/RQ3 是主体证据 | 强基线、多种子、不确定性、成本口径、第二类长流程 | 中高 |
-| TH-I2 缺陷可见性与静默吸收 | 哪些缺陷为何不可见？ | 小论文 SP-RQ1 是主体证据 | 等价类、强度梯度、匹配器边界和跨数据流复现 | 中高 |
-| TH-I3 评估引导的小模型动作策略蒸馏 | 如何将可靠规则动作迁移到低成本学生？ | 小论文 D 阶段 | 4B 仅 smoke、8B 主学生、SFT/条件 DPO、四层隔离、未见家族、质量—成本 Pareto | 低，先数据与可学性审计 |
-| TH-I4 验证门控的规则自学习 | 如何安全固化并回滚？ | 小论文 R 阶段 | no-gate/gain-only/collateral-only/confidence-only/fixed-dual/gate-validation/rollback 强基线，功效分析 | 中 |
+| TH-I1 判别力感知的分层评测 | 如何以可控成本获得可诊断证据？ | Stage E C2/C3 是主体证据 | 强基线、多种子、不确定性、成本口径、第二类长流程 | 中高 |
+| TH-I2 缺陷可见性与静默吸收 | 哪些缺陷为何不可见？ | Stage E C1 是主体证据 | 等价类、强度梯度、匹配器边界和跨数据流复现 | 中高 |
+| TH-I3 评估引导的小模型动作策略蒸馏 | 如何将可靠规则动作迁移到低成本学生？ | 长期扩展；当前小论文无训练结果 | 4B 仅 smoke、8B 主学生、SFT/条件 DPO、四层隔离、未见家族、质量—成本 Pareto | 低，先数据与可学性审计 |
+| TH-I4 验证门控的规则自学习 | 如何安全固化并回滚？ | Stage R 机制边界/future work；非当前小论文结果 | no-gate/gain-only/collateral-only/confidence-only/fixed-dual/gate-validation/rollback 强基线，功效分析 | 中 |
 
 大论文不是把小论文拉长。TH-I1/TH-I2 复用评估底座，TH-I3 扩展多学生/多教师和泛化，TH-I4 扩展长期安全性与学习门。视觉补盲仅作 TH-I2 的条件性实验。
 
 ## 3. 论文导向验收体系
 
-任何新测试、脚本或实验必须先绑定当前叙事 `RQ1–RQ4`、评估子稿 `SP-RQ*` 或大论文 `TH-I*`，并写清命名空间；三阶段蒸馏是 RQ2/TH-I3，不能混同评估子稿 SP-RQ2。不能回答论文问题的“全链路通过”只算工程健康检查，不算科研验收。
+任何新测试、脚本或实验必须先绑定当前 Stage E `C1-C3`、长期大论文 `TH-I*` 或明确的历史 `SP-RQ*` 命名空间；三阶段蒸馏是 RQ2/TH-I3，不能混同 Stage E 的 measurement-validity 贡献。不能回答论文问题的“全链路通过”只算工程健康检查，不算科研验收。
 
 | 门 | 必须回答 | 通过证据 | 失败时处理 |
 |---|---|---|---|
@@ -101,12 +99,10 @@
 
 ### 小论文
 
-- T1/T2/T6 实验与 T7 回填已完成；Algorithm 1 已入稿并有实现对位表。
-- 2026-09-21 双模型独立审稿均判定 `REVISE`；随后已完成口径、hinge、算法编号、门控披露等 P0 文本修订。
-- 评估子稿已完成干净稿、Related Work、claim—number—artifact 机械验收。
-- 完整三阶段小论文的最高价值缺口是蒸馏 MVP；第二数据流/第二 scorer 次于该缺口。
-- 完整三阶段稿尚未达到投稿就绪；即使科研验收通过，专利公开状态仍是独立外发硬门。
-
+- 当前正式路线是 Stage E 内部投稿版 `paper/teacher_review_draft_v1.md` / `.docx`，身份为 evaluation-protocol measurement-validity / meta-evaluation。
+- Stage E 已完成干净稿、Related Work、limitations、reproducibility 和 claim-evidence 机械验收；当前状态是 `ready for advisor review`。
+- Office/PDF visual check PASS；claims `74/74`、submission `10/10`。这些是内部投稿范围验收，不是正式投稿完成。
+- 外部投稿仍受专利、venue、作者/单位、匿名模板和 camera-ready 门控制；不上传 arXiv、不公开代码、不外发。
 ### 大论文
 
 - TH-I1/TH-I2 已有较完整的小论文证据底座。
@@ -148,7 +144,7 @@ PYTHONPATH=. python3 -m pytest tests/test_paper_claim_acceptance.py -q
 .venv/bin/python research/build_teacher_review_docx.py
 ```
 
-评估子稿原有 G5 静态门已补充语义反向负控；OCR 可见性方向和表格检测信号已修正，两份导师 DOCX 已重生成。P1 本地审计已交付：动作 SFT/风险预筛 DATA_NO_GO，DPO 仅为审计素材的 PILOT_ONLY，均不导出训练数据；依据见资产账本 §3.1。本轮新增仓内补充包合同、五基线探针、七臂 replay 状态机及论文数据接口的合成测试，未生成正式实验数字；Office 视觉核对已完成并 PASS；GB10 私有包验收仍未执行，Phase 1a/2 及后续实验等待各自明确批准。近期使用评估保底稿与方向说明，不等训练、不代发；详细停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
+Stage E 旧评估稿的 G5 静态门已补充语义反向负控；OCR 可见性方向和表格检测信号已修正，两份导师 DOCX 已重生成。P1 本地审计已交付：动作 SFT/风险预筛 DATA_NO_GO，DPO 仅为审计素材的 PILOT_ONLY，均不导出训练数据；依据见资产账本 §3.1。本轮新增仓内补充包合同、五基线探针、七臂 replay 状态机及论文数据接口的合成测试，未生成正式实验数字；Office 视觉核对已完成并 PASS；GB10 私有包验收仍未执行，Phase 1a/2 及后续实验等待各自明确批准。当前使用 Stage E 内部投稿版和长期方向说明，不等训练、不代发；详细停止条件只维护在 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
 
 本批不包含：生产探测、模型调用、TAT-DQA 解冻、D4 执行、专利公开状态判断或对外发送。
 

@@ -1,5 +1,5 @@
 # Project: JinRongAgents
-# Last updated: 2026-10-08 by Loop D Stage E advisor-review readiness closeout
+# Last updated: 2026-10-08 by Loop D governance neat and self-check closeout
 
 ## Current status
 
@@ -11,6 +11,7 @@
 - Track B adapter evidence is sealed at `/home/testuser/wzh/track_b_adapter_20261005_seal/`; 8/8 payload hashes pass and `sha256_manifest.txt` hash is `dc388959150c98ffa7639108e1e80e306c346317b1cdced632ab66593960a04b`.
 - Qwen3-4B and Qwen3-8B are `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`. No model was loaded and no S0/A0-A3, Phase 2, B5, or training ran.
 - Stage E is ready for advisor review. Office/PDF visual check is PASS. The two pending advisor decisions are multi-leaf versus second dataflow, and harmfulness definition selection.
+- Governance additions and mechanical guards are synchronized through repository head `8c0b248ddfe19c937e815003ac31db48a54bc091`; this does not change the Stage E evidence package or scientific result boundaries.
 
 ## Canonical evidence
 
@@ -27,7 +28,7 @@
 Scientific/test evidence source: full pytest ran authoritatively at `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head. The current Stage E package head is `62274ef1fa624912390d4f0a05828c038a938ccb`, where claims are `74/74`, submission audit is `10/10`, focused tests are `22 passed`, and the 9-page Office/PDF visual check is PASS.
 The commits through `62274ef` change manuscript/package/hashes only; they do not change frozen numbers, preregistered criteria, claim boundaries, or running code.
 
-Historical source roles remain: `652c9c6` is audit metadata only; `1d5a7ff` is documentation archive/link/workspace neat; the current final head is `62274ef`.
+Historical source roles remain: `652c9c6` is audit metadata only; `1d5a7ff` is documentation archive/link/workspace neat. The Stage E package head is `62274ef`; the current repository head is `8c0b248`.
 
 Recorded evidence:
 
@@ -35,7 +36,8 @@ Recorded evidence:
 - current Stage E focused tests: `22 passed`; historical Track B adapter contract tests: `11 passed`
 - paper claims: `74/74`
 - submission package: `10/10 mechanical PASS`, `PENDING_EXTERNAL_ITEMS`
-- docs_lint: `0 fail / 4 warn`
+- docs_lint: current GB10 run on 2026-10-08 is `0 fail / 7 warn`; the earlier package-closeout `0 fail / 4 warn` is historical
+- governance focused tests: `13 passed`; tracked secret scan: clean; `skill-doctor`: `0 errors / 106 warnings / 0 fixes`
 
 ## External and future work
 

@@ -1,6 +1,6 @@
 # Current State
 
-> Updated: 2026-10-08 | Scope: Stage E advisor-review readiness and Git neat closeout | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
+> Updated: 2026-10-08 | Scope: formal negative path B, Stage E advisor review, and governance neat closeout | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions: [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md). The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 
@@ -37,15 +37,21 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 
 ## Git state
 
-- Scientific/test source split: full pytest ran authoritatively at `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head; current Stage E claims, submission audit, focused tests and docs_lint are validated against the final head chain through `62274ef1fa624912390d4f0a05828c038a938ccb`.
+- Scientific/test source split: full pytest ran authoritatively at `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head; Stage E package claims, submission audit, focused tests and Office/PDF checks are bound through `62274ef1fa624912390d4f0a05828c038a938ccb`; the repository governance/self-check head is `8c0b248ddfe19c937e815003ac31db48a54bc091`.
 - `652c9c6cadc2b62b731ee13ed34663562f88dc65` is an audit metadata-baseline correction only. `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b` is the documentation archive/link-repair/workspace-neat commit. Neither changes scientific results or running code.
-- Current final head: `62274ef1fa624912390d4f0a05828c038a938ccb`, aligned across local/origin/GB10. Latest Stage E package validation: claims `74/74`, submission `10/10`, focused tests `22 passed`, Office/PDF visual PASS on 9 pages.
-- Revisions through `62274ef` are manuscript/package/hashing changes only; they do not alter frozen experiment numbers, preregistered criteria, claim boundaries, or running code.
+- Current repository head: `8c0b248ddfe19c937e815003ac31db48a54bc091`, aligned across local/origin/GB10. Stage E package head: `62274ef1fa624912390d4f0a05828c038a938ccb`. Latest Stage E package validation: claims `74/74`, submission `10/10`, focused tests `22 passed`, Office/PDF visual PASS on 9 pages.
+- Commits `c39b301..8c0b248` are governance docs/tools only; they do not alter frozen experiment numbers, preregistered criteria, claim boundaries, paper results, or production code.
 - Pre-neat baseline remains `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b`; GB10 production dirty files remained the fixed five and were not overwritten.
 - Legacy session residue is archived: `docs/archive/session_assets/2026-08-29/` holds `IMPLEMENTATION_PLAN.md` and `PROMPT.md`; `scripts/archive/_d3b_dispatch.sh` holds the old dispatch script. The local WSL `docs_lint_report.json` copy is preserved under ignored `logs/graph/archive/`; the tracked report path is restored to repository baseline and is not authoritative over GB10.
-- GB10 production dirty files remain the fixed five: `config/schema_suggestions.json`, `logs/graph/docs_lint_report.json`, `logs/graph/governance_drift_latest.md`, `logs/graph/loop_b_last_status`, `logs/graph/verify-report.json`.
+- GB10 protected production dirty files remain the fixed five; `logs/graph/dispatch_log.md` is an additional runtime ledger and is also left untouched: `config/schema_suggestions.json`, `logs/graph/docs_lint_report.json`, `logs/graph/governance_drift_latest.md`, `logs/graph/loop_b_last_status`, `logs/graph/verify-report.json`.
 - Do not touch `docs/33*`, `docs/34*`, frozen tests/schema, `scripts/graph/frozen_hashes.txt`, or TAT-DQA boundaries.
 
+## Governance self-check
+
+- Four governance batches are committed and synchronized: `c39b301`, `3e57191`, `69f93c3`, `8c0b248`.
+- GB10 focused governance tests: `13 passed`; tracked secret scan: clean; docs_lint on 2026-10-08: `0 fail / 7 warn`. The earlier `0 fail / 4 warn` package closeout remains historical evidence, not the current time-based warning count.
+- `skill-doctor`: `0 errors / 106 warnings / 0 fixes`; warnings are existing catalog hygiene debt and were not auto-fixed.
+- Guard source and tests are committed; global hook settings were not modified. `registry_check.py` and `loopkit_ledger.py` remain intentionally not imported.
 ## Research boundaries
 
 - Q3 corrected ledger remains `map_to=51 / skip=58 / hold=37`, `SEALED_WITH_VISIBILITY_EXCEPTIONS`; exploratory only.

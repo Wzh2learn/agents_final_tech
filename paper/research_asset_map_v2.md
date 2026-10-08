@@ -230,6 +230,6 @@ These assets support a formal negative-result boundary only. They do not authori
 
 ## 2026-10-08 Stage E advisor-review readiness
 
-- Current final head: `62274ef1fa624912390d4f0a05828c038a938ccb`, aligned across local/origin/GB10.
+- Stage E package head: `62274ef1fa624912390d4f0a05828c038a938ccb`; current repository head: `8c0b248ddfe19c937e815003ac31db48a54bc091`, aligned across local/origin/GB10. Post-package commits are governance-only and do not change paper evidence.
 - Canonical package hashes: source `abab44657e17936badf371a606198886ccd333a4c1489600c8922f78a6c57e80`; DOCX `6cfa6d9d329c172028cca18312921842fc2747bda3c6b331655cc7cacf7e4e85`; anonymous preview `fcce418a840373ccde8eece23f28fe0b2258de355a346184b82ffc2a70858d35`; submission audit `8cb1bce3c11344b3083004e6850206e4023964d82a7b21b318a2e31d161421ed`.
 - Current status is `Stage E ready for advisor review`; Office/PDF visual check is PASS. Pending advisor decisions remain multi-leaf versus second dataflow and harmfulness definition selection.
