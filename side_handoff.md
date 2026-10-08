@@ -46,6 +46,12 @@ Recorded evidence:
 3. A0-A3, Phase 2, B5, formal training, arXiv, code release, and external distribution remain separately authorized future work.
 4. Frozen criteria, frozen hashes, TAT-DQA boundaries, null/adverse results, and the prohibition on external release before patent confirmation remain unchanged.
 
+## Next-session handoff
+
+- Resume at metadata-only literature/dataset screening and experiment design for the Stage E evidence gap. The nine-method inquiry was applied conceptually; no new experiment, model call, dataset download, or claim upgrade was performed.
+- OpenAlex metadata API configuration is stored outside the repository at `C:\Users\王中华\.config\openalex.env` and `/home/testuser/.config/openalex.env`. The GB10 file is mode `600`; local and GB10 API loading both returned HTTP 200. The key is not recorded in Git, project docs, logs, or prompts.
+- Crossref/OpenAlex confirmed paper-level candidates include FinQA, TAT-QA, TabFact, PubTables-1M, and FeTaQA. Dataset download scope, licence, provenance, native checkpoint/action/correctness bridge, and independent origin clusters remain `UNVERIFIED` until the next session performs the exact annex audit.
+- Keep `DATA_NO_GO / RQ2 NOT_IDENTIFIED`, Stage D `PILOT_ONLY`, and the Stage E internal-submission boundary unchanged.
 ## Session rules
 
 - GB10 is the only authoritative runtime/validation environment; local synthetic tests are `DEV_ONLY / NON_AUTHORITATIVE`.

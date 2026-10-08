@@ -1,5 +1,7 @@
 # memory/THREADS.md — 未决线索
 
+[10-08] #OPENALEX-METADATA-HANDOFF: OpenAlex key configured outside repository and validated HTTP 200 locally and on GB10; no key stored in Git/docs/logs. Crossref/OpenAlex paper candidates identified for FinQA, TAT-QA, TabFact, PubTables-1M, FeTaQA. Dataset licence/provenance/native bridge/independent-origin audit is still open and must resume in a new session; no download, experiment, model call, or claim upgrade occurred.
+
 [10-08] #NEAT-CACHE-CLEANUP-COMPLETE: 用户看过完整报告后确认删除候选与缓存清理。已删除本地误同步临时树和项目 `__pycache__/.pytest_cache/.ruff_cache`；GB10 同类缓存已清零并显式保留 `venv/.venv`。未删除唯一证据、凭证、模型、数据、production 脏件或运行态台账。清理验证时 local/origin/GB10 对齐于 `8a36913dcd5ad62c06550e6a39a4972b200cb145`；当前 head 以 `git rev-parse HEAD` 为准。无源代码或实验状态变化。
 
 [10-08] #NEAT-SELF-CHECK-GOVERNANCE main@8c0b248: 四批治理补充已同步到 local/origin/GB10；GB10 focused governance `13 passed`、tracked secret scan clean、docs_lint `0 fail / 7 warn`、skill-doctor `0 errors / 106 warnings / 0 fixes`。Stage E package 证据仍绑定 `62274ef`，后续治理提交不改科研数字或边界。删除候选仅一件：仓库根的异常 `C<private-use colon>` 目录，内含此前 Windows/WSL 路径误同步产生的 `audit-cycle` 临时副本；已确认无唯一证据，但按 neat 清场规则未删除，等待用户看过报告后明确确认。全局 hook 配置未改；registry_check/loopkit_ledger 未导入。

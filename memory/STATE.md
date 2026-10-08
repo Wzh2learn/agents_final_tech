@@ -52,6 +52,7 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 - GB10 focused governance tests: `14 passed`; tracked secret scan: clean; docs_lint on 2026-10-08: `0 fail / 6 warn`. The earlier `0 fail / 4 warn` package closeout remains historical evidence, not the current time-based warning count.
 - `skill-doctor`: `0 errors / 139 warnings / 0 fixes`; warnings are existing catalog hygiene debt and were not auto-fixed.
 - Guard source and tests are committed; global hook settings were not modified.
+- OpenAlex metadata API configuration is external-only and validated with HTTP 200 on local and GB10; the key is not stored in the repository. Literature/dataset screening remains incomplete and is handed off as open work.
 - `inquiry-methods` is added as one progressive-dispatch router for learning, research, problem-solving, fact-checking, and decisions; Loop A/C and task-card routing reference it without granting execution authority. `registry_check.py` and `loopkit_ledger.py` remain intentionally not imported.
 ## Research boundaries
 
