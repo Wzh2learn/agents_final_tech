@@ -36,8 +36,8 @@ Recorded evidence:
 - current Stage E focused tests: `22 passed`; historical Track B adapter contract tests: `11 passed`
 - paper claims: `74/74`
 - submission package: `10/10 mechanical PASS`, `PENDING_EXTERNAL_ITEMS`
-- docs_lint: current GB10 run on 2026-10-08 is `0 fail / 7 warn`; the earlier package-closeout `0 fail / 4 warn` is historical
-- governance focused tests: `13 passed`; tracked secret scan: clean; `skill-doctor`: `0 errors / 106 warnings / 0 fixes`
+- docs_lint: current GB10 run on 2026-10-08 is `0 fail / 6 warn`; the earlier package-closeout `0 fail / 4 warn` is historical
+- governance focused tests: `14 passed`; tracked secret scan: clean; `skill-doctor`: `0 errors / 139 warnings / 0 fixes`
 
 ## External and future work
 
