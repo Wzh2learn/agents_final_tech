@@ -66,6 +66,27 @@ def test_review_governance_patterns_resolve() -> None:
     for name in names:
         assert name in task_card, name
 
+def test_inquiry_methods_registered_and_wired() -> None:
+    skill = REPO_ROOT / "skills" / "inquiry-methods"
+    assert (skill / "SKILL.md").is_file()
+    for relative in (
+        "references/learning.md",
+        "references/problem-solving.md",
+        "references/decision.md",
+        "assets/output-contracts.md",
+    ):
+        assert (skill / relative).is_file(), relative
+
+    sync = (REPO_ROOT / "scripts" / "graph" / "sync_skills.sh").read_text(encoding="utf-8")
+    registry = (REPO_ROOT / "docs" / "governance" / "SKILL_REGISTRY.md").read_text(encoding="utf-8")
+    routing = (REPO_ROOT / "docs" / "SKILL_ROUTING.md").read_text(encoding="utf-8")
+    task_card = (REPO_ROOT / "templates" / "task_card_template.md").read_text(encoding="utf-8")
+    loop_a = (REPO_ROOT / "scripts" / "graph" / "loop_a_exec_constraints.md").read_text(encoding="utf-8")
+    loop_c = (REPO_ROOT / "scripts" / "graph" / "loop_c_audit_prompt.md").read_text(encoding="utf-8")
+
+    for text in (sync, registry, routing, task_card, loop_a, loop_c):
+        assert "inquiry-methods" in text
+
 def test_current_state_and_docs_index_are_navigational() -> None:
     state = (REPO_ROOT / "memory" / "STATE.md").read_text(encoding="utf-8")
     index = (REPO_ROOT / "docs" / "INDEX.md").read_text(encoding="utf-8")

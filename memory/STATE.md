@@ -51,7 +51,8 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 - Four governance batches are committed and synchronized: `c39b301`, `3e57191`, `69f93c3`, `8c0b248`.
 - GB10 focused governance tests: `13 passed`; tracked secret scan: clean; docs_lint on 2026-10-08: `0 fail / 7 warn`. The earlier `0 fail / 4 warn` package closeout remains historical evidence, not the current time-based warning count.
 - `skill-doctor`: `0 errors / 106 warnings / 0 fixes`; warnings are existing catalog hygiene debt and were not auto-fixed.
-- Guard source and tests are committed; global hook settings were not modified. `registry_check.py` and `loopkit_ledger.py` remain intentionally not imported.
+- Guard source and tests are committed; global hook settings were not modified.
+- `inquiry-methods` is added as one progressive-dispatch router for learning, research, problem-solving, fact-checking, and decisions; Loop A/C and task-card routing reference it without granting execution authority. `registry_check.py` and `loopkit_ledger.py` remain intentionally not imported.
 ## Research boundaries
 
 - Q3 corrected ledger remains `map_to=51 / skip=58 / hold=37`, `SEALED_WITH_VISIBILITY_EXCEPTIONS`; exploratory only.
