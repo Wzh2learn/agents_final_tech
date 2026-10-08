@@ -118,11 +118,9 @@ When adopting on existing projects:
 - Historical imports don't count toward "zero backfill" metrics
 - Only prospective records measured for system health
 
-## Working implementation
+## External implementation status
 
-[`tools/loopkit_ledger.py`](../../tools/loopkit_ledger.py) — single file, standard library
-only, six record types, six semantic audit checks, 27 negative tests. See
-[`tools/LOOPKIT_LEDGER.md`](../../tools/LOOPKIT_LEDGER.md).
+The external `tools/loopkit_ledger.py` implementation and its `tools/LOOPKIT_LEDGER.md` guide are not imported into this repository. Current Markdown ledgers remain authoritative; importing a stronger hash-chain implementation requires a separate dependency and migration decision.
 
 Three decisions in it that this document argues for and the code enforces:
 

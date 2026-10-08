@@ -19,6 +19,7 @@ BASH_AVAILABLE = shutil.which("bash") is not None
     (
         "tests/graph_tools/test_git_commit_guard.sh",
         "tests/graph_tools/test_secret_scan.sh",
+        "tests/graph_tools/test_gpu_lock_guard.sh",
     ),
 )
 def test_graph_guard_shell_suite(script: str) -> None:

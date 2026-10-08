@@ -49,6 +49,7 @@
 
 - Mechanical guard: [`../scripts/graph/hooks/git-commit-guard.sh`](../scripts/graph/hooks/git-commit-guard.sh) - PreToolUse source for blocking force push and commit --amend; install explicitly in a Claude-compatible hook config
 - Mechanical scanner: [`../scripts/graph/tools/secret_scan.sh`](../scripts/graph/tools/secret_scan.sh) - universal credential-shape scan with optional maintainer lists and Git-history identity review
+- Mechanical guard: [`../scripts/graph/hooks/gpu-lock-guard.sh`](../scripts/graph/hooks/gpu-lock-guard.sh) - blocks GPU-heavy commands when the shared lock is held or cannot be verified
 - Machine criteria status: [2026-10-05_stage_d_necessity_criteria_status_v1.json](datasets/2026-10-05_stage_d_necessity_criteria_status_v1.json) - approved A2 criteria with PASS/FAIL/NOT_ESTIMABLE current evidence
 
 | 文件 | 状态 | 用途 |

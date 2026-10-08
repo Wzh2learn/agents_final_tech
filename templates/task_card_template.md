@@ -34,6 +34,7 @@ skills:                        # skill 装载清单（≤5 + 红线常备, 依 d
 - 外部/新会话审稿请求与回执：`docs/governance/reference/EXPERT_REVIEW_REQUEST_PATTERN.md`；必须绑定 exact commit、证据边界和未运行项。
 - 高风险决策的独立生产：`docs/governance/reference/TRIPLE_AUDIT_PATTERN.md`；独立件不得预读彼此输出，裁决权仍归 user。
 - 验收必须报告 `docs/governance/reference/TIERED_EVAL_PATTERN.md` 的实际 tier 与范围，不把 Tier 0/1 写成完整回放。
+- 运行时数据按 `RUNTIME_REDACTION_PATTERN.md` 与 `UNTRUSTED_CHANNEL_DEFENSE_PATTERN.md` 处理；模型/工具调用按 `SPEND_BUDGET_PATTERN.md` 与 `EXTERNAL_CALL_RELIABILITY_PATTERN.md` 设硬预算和停止条件。
 ## 2. 前提假设清单（必填）
 
 | # | 假设 | 一分钟证伪方式 | 实测结论（执行前填） |

@@ -54,6 +54,10 @@ def test_review_governance_patterns_resolve() -> None:
         "EXPERT_REVIEW_REQUEST_PATTERN.md",
         "TRIPLE_AUDIT_PATTERN.md",
         "TIERED_EVAL_PATTERN.md",
+        "RUNTIME_REDACTION_PATTERN.md",
+        "UNTRUSTED_CHANNEL_DEFENSE_PATTERN.md",
+        "SPEND_BUDGET_PATTERN.md",
+        "EXTERNAL_CALL_RELIABILITY_PATTERN.md",
     )
     for name in names:
         assert (reference / name).is_file(), name
