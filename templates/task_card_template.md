@@ -28,6 +28,12 @@ skills:                        # skill 装载清单（≤5 + 红线常备, 依 d
 
 <列出本任务实际装载件; 推断装载附一句理由; 收口时回报"装了没用/没用装"浪费信号>
 
+## 1.6 论文/审计协作协议（适用时必填）
+
+- 研究 → 写作动作清单：`docs/governance/reference/ACTION_FORMAT_SPEC.md`；无结构建议不得直接进入修改序。
+- 外部/新会话审稿请求与回执：`docs/governance/reference/EXPERT_REVIEW_REQUEST_PATTERN.md`；必须绑定 exact commit、证据边界和未运行项。
+- 高风险决策的独立生产：`docs/governance/reference/TRIPLE_AUDIT_PATTERN.md`；独立件不得预读彼此输出，裁决权仍归 user。
+- 验收必须报告 `docs/governance/reference/TIERED_EVAL_PATTERN.md` 的实际 tier 与范围，不把 Tier 0/1 写成完整回放。
 ## 2. 前提假设清单（必填）
 
 | # | 假设 | 一分钟证伪方式 | 实测结论（执行前填） |

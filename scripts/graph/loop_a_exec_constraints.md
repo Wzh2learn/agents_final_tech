@@ -15,6 +15,7 @@
 ## 协作与执行纪律
 
 - D 定目标/授权 → A 执行 → B 独立验证 → C 独立审计 → D 验收。设计依据为 `docs/17_Graph_Engineering_多层Loop设计.md`，工程路线为 `docs/29_graph_engineering_roadmap.md`。
+- 论文动作交接用 `docs/governance/reference/ACTION_FORMAT_SPEC.md`；外部审稿、独立双稿和验证深度分别遵循 `EXPERT_REVIEW_REQUEST_PATTERN.md`、`TRIPLE_AUDIT_PATTERN.md`、`TIERED_EVAL_PATTERN.md`。
 - 先检查 Git 现场，保留其他 Agent/用户的未提交工作。一次推进一个有界任务；只有明确分离文件与验收责任后才并行。
 - 行为缺陷先失败测试再修复。可以按授权新增或修改非冻结测试；不能削弱判据来制造通过。
 - 区分执行、分析与报告。报告中断不构成重跑实验的理由；优先消费已有工件。

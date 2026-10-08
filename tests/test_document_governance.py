@@ -47,6 +47,21 @@ def test_audit_cycle_governance_references_resolve() -> None:
         assert (REPO_ROOT / relative).is_file(), relative
 
 
+def test_review_governance_patterns_resolve() -> None:
+    reference = REPO_ROOT / "docs" / "governance" / "reference"
+    names = (
+        "ACTION_FORMAT_SPEC.md",
+        "EXPERT_REVIEW_REQUEST_PATTERN.md",
+        "TRIPLE_AUDIT_PATTERN.md",
+        "TIERED_EVAL_PATTERN.md",
+    )
+    for name in names:
+        assert (reference / name).is_file(), name
+
+    task_card = (REPO_ROOT / "templates" / "task_card_template.md").read_text(encoding="utf-8")
+    for name in names:
+        assert name in task_card, name
+
 def test_current_state_and_docs_index_are_navigational() -> None:
     state = (REPO_ROOT / "memory" / "STATE.md").read_text(encoding="utf-8")
     index = (REPO_ROOT / "docs" / "INDEX.md").read_text(encoding="utf-8")

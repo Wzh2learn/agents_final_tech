@@ -11,6 +11,7 @@
 - 执行面以 `docs/governance/2026-09-07_execution_plane_boundary.md` 为准。默认只读，可运行任务卡允许的本地离线测试；API、模型、数据库和真实样本解析必须另有明确授权，正式新实验事实归 GB10。
 - 本轮服务器环境/语料/模型依赖未核验，不主动补连或重建。本地缺件不等于资产丢失、研究失败或远端可运行。
 - 审计覆盖当前任务的代码、科研工件、文档关系和 harness 合同，不再强制所有变更都服务于 M1。
+- 外部审稿请求使用 `docs/governance/reference/EXPERT_REVIEW_REQUEST_PATTERN.md`；高风险独立审查使用 `TRIPLE_AUDIT_PATTERN.md`；验证报告按 `TIERED_EVAL_PATTERN.md` 明示实际层级。
 
 ## 审计步骤
 

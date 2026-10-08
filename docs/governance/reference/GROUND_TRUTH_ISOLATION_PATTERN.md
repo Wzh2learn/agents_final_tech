@@ -90,10 +90,10 @@ Before trusting any evaluation number produced by an agentic pipeline:
 
 | Pattern | Covers | Distinct because |
 |---------|--------|-----------------|
-| [`../../skills/verification/self-eval-bias/`](../../skills/verification/self-eval-bias/) | Same context grading its own output | About *reasoning* contamination; this doc is about *answer-key* contamination |
-| [`TRIPLE_AUDIT.md`](TRIPLE_AUDIT.md) | Reviewer anchored by reading the draft first | Anchoring between agents; this is leakage from the eval artifact |
-| [`FOUR_CONCEPT_SEPARATION.md`](FOUR_CONCEPT_SEPARATION.md) | Completion impersonating judgment | Once ground truth leaks, even a correctly-typed CheckResult is measuring the wrong thing |
-| [`DEATH_PATTERN_MATCHER.md`](DEATH_PATTERN_MATCHER.md) | Blind replay of historical cases | Its role separation (case author ≠ executor ≠ answer-checker) is this pattern applied to a replay |
+| [`../../../skills/self-eval-bias/`](../../../skills/self-eval-bias/) | Same context grading its own output | About *reasoning* contamination; this doc is about *answer-key* contamination |
+| [`TRIPLE_AUDIT_PATTERN.md`](TRIPLE_AUDIT_PATTERN.md) | Reviewer anchored by reading the draft first | Anchoring between agents; this is leakage from the eval artifact |
+| [`FOUR_CONCEPT_SEPARATION_PATTERN.md`](FOUR_CONCEPT_SEPARATION_PATTERN.md) | Completion impersonating judgment | Once ground truth leaks, even a correctly-typed CheckResult is measuring the wrong thing |
+| `DEATH_PATTERN_MATCHER.md` (not imported) | Blind replay of historical cases | Its role separation (case author ≠ executor ≠ answer-checker) is this pattern applied to a replay |
 
 ---
 
