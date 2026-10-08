@@ -25,7 +25,8 @@
 | 路径 B 完成审计 | [`experiments/2026-10-05_formal_negative_path_b_completion_audit.md`](experiments/2026-10-05_formal_negative_path_b_completion_audit.md) | `COMPLETE_FOR_FORMAL_NEGATIVE_PATH_B`；`DATA_NO_GO / RQ2 NOT_IDENTIFIED` |
 | Track B pilot 封存 | [`experiments/2026-10-05_track_b_adapter_pilot_receipt.md`](experiments/2026-10-05_track_b_adapter_pilot_receipt.md) | within-origin exploratory；不是 RQ2/Stage D/Stage R/RQ4 |
 | 论文证据账本 | [`../paper/research_asset_map_v2.md`](../paper/research_asset_map_v2.md) | Stage E 内部投稿版是小论文正式路线 |
-| 来源关系 | [`experiments/2026-10-05_formal_negative_path_b_completion_audit.md`](experiments/2026-10-05_formal_negative_path_b_completion_audit.md) | `f0764e7` 科学/测试；`652c9c6` 元数据；`1d5a7ff` 文档/链接/workspace neat |
+| 来源关系 | [`experiments/2026-10-05_formal_negative_path_b_completion_audit.md`](experiments/2026-10-05_formal_negative_path_b_completion_audit.md) | `f0764e7` 科学/测试；`652c9c6` 元数据；`1d5a7ff` 文档/链接；当前 head `62274ef` |
+| Stage E 当前状态 | [`../paper/teacher_review_readiness_v2.md`](../paper/teacher_review_readiness_v2.md) | advisor-review ready；Office/PDF PASS；两项导师决策 pending |
 
 ## 产品与交付
 

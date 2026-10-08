@@ -7,9 +7,10 @@
 
 ## Git source relationship
 
-- `f0764e714d21408a1a848ee0f327a22294eda73a` is the scientific validation content baseline. Full pytest, claims, submission, focused tests and docs_lint ran authoritatively at this head or an equivalent GB10 head.
+- `f0764e714d21408a1a848ee0f327a22294eda73a` is the scientific full-pytest content baseline or an equivalent GB10 head. Current Stage E claims, submission, focused tests and docs_lint are validated through the final writing/package head `62274ef1fa624912390d4f0a05828c038a938ccb`.
 - `652c9c6cadc2b62b731ee13ed34663562f88dc65` is an audit metadata-baseline correction only.
-- `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b` is the documentation archive/link-repair/workspace-neat commit and the pre-neat baseline for this synchronization batch.
+- `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b` is the documentation archive/link-repair/workspace-neat commit and the pre-neat baseline for the synchronization batch.
+- Stage E manuscript/package revisions through `62274ef1fa624912390d4f0a05828c038a938ccb` are writing, derivation and hash-contract changes only; they do not alter frozen experiment numbers, preregistered criteria, claim boundaries, or running code.
 - The latter two commits do not change scientific results or running code.
 
 

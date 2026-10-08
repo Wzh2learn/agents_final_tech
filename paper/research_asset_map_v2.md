@@ -227,3 +227,9 @@ These assets support a formal negative-result boundary only. They do not authori
 - The current result remains narrow: hierarchical checkpoints improve evidence decomposition but not matched-FPR discriminability in the single-varying-leaf instantiation. No localization or cross-domain claim is promoted.
 - Future independent evidence is tracked in `paper/teacher_review_readiness_v2.md`: second dataflow, independent second scorer, multi-leaf responsiveness, and external document scenarios such as financial audit, compliance review, and enterprise table processing.
 - These future items require new artifacts and independent review before they can replace current limitations or become paper results.
+
+## 2026-10-08 Stage E advisor-review readiness
+
+- Current final head: `62274ef1fa624912390d4f0a05828c038a938ccb`, aligned across local/origin/GB10.
+- Canonical package hashes: source `abab44657e17936badf371a606198886ccd333a4c1489600c8922f78a6c57e80`; DOCX `6cfa6d9d329c172028cca18312921842fc2747bda3c6b331655cc7cacf7e4e85`; anonymous preview `fcce418a840373ccde8eece23f28fe0b2258de355a346184b82ffc2a70858d35`; submission audit `8cb1bce3c11344b3083004e6850206e4023964d82a7b21b318a2e31d161421ed`.
+- Current status is `Stage E ready for advisor review`; Office/PDF visual check is PASS. Pending advisor decisions remain multi-leaf versus second dataflow and harmfulness definition selection.

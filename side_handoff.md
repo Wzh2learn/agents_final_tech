@@ -1,5 +1,5 @@
 # Project: JinRongAgents
-# Last updated: 2026-10-05 by Loop D formal-negative path B closeout
+# Last updated: 2026-10-08 by Loop D Stage E advisor-review readiness closeout
 
 ## Current status
 
@@ -10,6 +10,7 @@
 - Q3, B0-B4, and Track B are exploratory evidence only. Q3 corrected distribution is `map_to=51 / skip=58 / hold=37`; B4 is the simple baseline to beat; Track B correctness remains `NOT_RUN`.
 - Track B adapter evidence is sealed at `/home/testuser/wzh/track_b_adapter_20261005_seal/`; 8/8 payload hashes pass and `sha256_manifest.txt` hash is `dc388959150c98ffa7639108e1e80e306c346317b1cdced632ab66593960a04b`.
 - Qwen3-4B and Qwen3-8B are `PASS_ARTIFACT_VALIDATION_NOT_MODEL_GO`. No model was loaded and no S0/A0-A3, Phase 2, B5, or training ran.
+- Stage E is ready for advisor review. Office/PDF visual check is PASS. The two pending advisor decisions are multi-leaf versus second dataflow, and harmfulness definition selection.
 
 ## Canonical evidence
 
@@ -23,14 +24,15 @@
 
 ## Validation baseline
 
-Scientific/test evidence source: full pytest, claims, submission, focused tests and docs_lint ran authoritatively at `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head.
+Scientific/test evidence source: full pytest ran authoritatively at `f0764e714d21408a1a848ee0f327a22294eda73a` or an equivalent GB10 head. The current Stage E package head is `62274ef1fa624912390d4f0a05828c038a938ccb`, where claims are `74/74`, submission audit is `10/10`, focused tests are `22 passed`, and the 9-page Office/PDF visual check is PASS.
+The commits through `62274ef` change manuscript/package/hashes only; they do not change frozen numbers, preregistered criteria, claim boundaries, or running code.
 
-`652c9c6cadc2b62b731ee13ed34663562f88dc65` is an audit metadata-baseline correction only. `1d5a7ff8218fa9ec073cebcd81a0a39523d7c14b` is the documentation archive/link-repair/workspace-neat commit. Neither changes scientific results or running code. Pre-neat baseline is `1d5a7ff`; the present documentation synchronization commit is the subsequent Git head.
+Historical source roles remain: `652c9c6` is audit metadata only; `1d5a7ff` is documentation archive/link/workspace neat; the current final head is `62274ef`.
 
 Recorded evidence:
 
 - full pytest: `870 passed / 13 skipped / 1 deselected`
-- focused tests: `27 passed`; adapter contract tests: `11 passed`
+- current Stage E focused tests: `22 passed`; historical Track B adapter contract tests: `11 passed`
 - paper claims: `74/74`
 - submission package: `10/10 mechanical PASS`, `PENDING_EXTERNAL_ITEMS`
 - docs_lint: `0 fail / 4 warn`
