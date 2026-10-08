@@ -140,7 +140,7 @@
 | [`governance/2026-09-11_serving_stack_provenance.md`](governance/2026-09-11_serving_stack_provenance.md) | 取证快照 | GB10 serving 栈来源证据 |
 | [`governance/2026-09-24_gb10_experiment_safety_gates.md`](governance/2026-09-24_gb10_experiment_safety_gates.md) | 活跃 | GB10 实验安全与资源门：开工/停止阈值、并发与预算、进程回收、隔离纪律；含两处不可直接测量项（内存 free vs available、GB10 统一内存无独立 VRAM） |
 | [`governance/audit/`](governance/audit/) | 只读证据集 | Harness 审计工件 |
-| [`governance/reference/`](governance/reference/) | 参考资料 | 外部治理模板，不描述项目现状 |
+| [`governance/reference/`](governance/reference/) | 参考资料 | 外部治理模板与证据模式；仅提炼规则，不直接描述项目现状 |
 | [`governance/2026-09-25_loop_a_sandbox_scoping_design.md`](governance/2026-09-25_loop_a_sandbox_scoping_design.md) | 活跃设计 | Loop A 沙箱分级（R 类 read-only / W 类 workspace-write / 禁 bypass）与派发核对清单（D-D 授权范围设计） |
 | [`archive/`](archive/) | 只读历史 | 已归档文档；不得作为当前状态依据 |
 | [`archive/session_assets/2026-08-29/`](archive/session_assets/2026-08-29/) | 归档会话资产 | 旧 `IMPLEMENTATION_PLAN.md`、`PROMPT.md`；已被当前 Goal、handoff 与计划件取代 |

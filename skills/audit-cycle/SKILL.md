@@ -155,6 +155,6 @@ is a valid output — do not manufacture findings to justify the pass.**
 
 - `verification/verify-before-done` — hostile review of a single diff; the completion contract this feeds
 - `loop-engineering/repo-audit` — repo-wide governance sweep that calls into this
-- `governance/patterns/GOVERNANCE_INVENTORY.md` — the three mismatch types this classifies into
-- `governance/patterns/APPEND_ONLY_LEDGER.md` — why the auditor cannot forge an entry
-- `governance/patterns/FOUR_CONCEPT_SEPARATION.md` — "executed successfully" and "result is recorded" are two different facts
+- `docs/governance/reference/GOVERNANCE_INVENTORY_PATTERN.md` — the three mismatch types this classifies into
+- `docs/governance/reference/APPEND_ONLY_LEDGER_PATTERN.md` — why the auditor cannot forge an entry
+- `docs/governance/reference/FOUR_CONCEPT_SEPARATION_PATTERN.md` — "executed successfully" and "result is recorded" are two different facts

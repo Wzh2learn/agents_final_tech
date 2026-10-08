@@ -36,6 +36,17 @@ def test_agent_rules_are_a_thin_entry_point() -> None:
         assert required in text
 
 
+def test_audit_cycle_governance_references_resolve() -> None:
+    text = (REPO_ROOT / "skills" / "audit-cycle" / "SKILL.md").read_text(encoding="utf-8")
+    for relative in (
+        "docs/governance/reference/APPEND_ONLY_LEDGER_PATTERN.md",
+        "docs/governance/reference/FOUR_CONCEPT_SEPARATION_PATTERN.md",
+        "docs/governance/reference/GOVERNANCE_INVENTORY_PATTERN.md",
+    ):
+        assert relative in text, relative
+        assert (REPO_ROOT / relative).is_file(), relative
+
+
 def test_current_state_and_docs_index_are_navigational() -> None:
     state = (REPO_ROOT / "memory" / "STATE.md").read_text(encoding="utf-8")
     index = (REPO_ROOT / "docs" / "INDEX.md").read_text(encoding="utf-8")
