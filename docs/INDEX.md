@@ -47,6 +47,8 @@
 - RQ2 candidate source screening: [2026-10-05_rq2_candidate_source_screening_v1.md](datasets/2026-10-05_rq2_candidate_source_screening_v1.md) - metadata-only 10-source screen; 0 direct bridges, no download
 - Valentine full benchmark read-only audit: [structure summary](datasets/2026-10-05_valentine_full_structure_summary_v1.json), [ZIP receipt](datasets/2026-10-05_valentine_full_remote_structure_receipt_v1.json), [entry manifest](datasets/2026-10-05_valentine_full_entry_manifest_v1.json), [schema audit](datasets/2026-10-05_valentine_full_schema_audit_v1.json) - 551 pairs / 8 conservative origin components / hard stop
 
+- Mechanical guard: [`../scripts/graph/hooks/git-commit-guard.sh`](../scripts/graph/hooks/git-commit-guard.sh) - PreToolUse source for blocking force push and commit --amend; install explicitly in a Claude-compatible hook config
+- Mechanical scanner: [`../scripts/graph/tools/secret_scan.sh`](../scripts/graph/tools/secret_scan.sh) - universal credential-shape scan with optional maintainer lists and Git-history identity review
 - Machine criteria status: [2026-10-05_stage_d_necessity_criteria_status_v1.json](datasets/2026-10-05_stage_d_necessity_criteria_status_v1.json) - approved A2 criteria with PASS/FAIL/NOT_ESTIMABLE current evidence
 
 | 文件 | 状态 | 用途 |
