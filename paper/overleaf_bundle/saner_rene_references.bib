@@ -1,43 +1,35 @@
-% SANER RENE 2027 submission references (verified 2026-10-11)
-% Verification rule: each entry confirms title+authors+year+venue+DOI/URL via >=2 primary sources
-% (arXiv API and Crossref for papers; nist.gov/Crossref for NIST; official SANER RENE track page + Crossref for precedents).
-
-% --- Verified SANER RENE precedents (official SANER RENE track page + Crossref DOI) ---
+% SANER RENE 2027 submission references (verified 2026-10-11). Acronyms brace-protected for IEEEtran.
 @inproceedings{gerhold2024limits,
   author    = {Gerhold, Marcus and Solovyeva, Lola and Zaytsev, Vadim},
-  title     = {The Limits of the Identifiable: Challenges in Python Version Identification with Deep Learning},
+  title     = {The limits of the identifiable: Challenges in {Python} version identification with deep learning},
   booktitle = {Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE Track},
   year      = {2024},
   doi       = {10.1109/SANER60148.2024.00022}
 }
 @inproceedings{hoess2025does,
   author    = {Hoess, Nicole and Paradis, Carlos and Kazman, Rick and Mauerer, Wolfgang},
-  title     = {Does the Tool Matter? Exploring Some Causes of Threats to Validity in Mining Software Repositories},
+  title     = {Does the tool matter? Exploring some causes of threats to validity in mining software repositories},
   booktitle = {Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE Track},
   year      = {2025},
   doi       = {10.1109/SANER64311.2025.00067}
 }
 @inproceedings{berndt2026flaky,
-  author       = {Berndt, Alexander and Bekmyradov, Vekil and Gemulla, Rainer and Kessel, Marcus and Bach, Thomas and Baltes, Sebastian},
-  title        = {Can We Classify Flaky Tests Using Only Test Code? An LLM-Based Empirical Study},
-  booktitle    = {Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE Track},
-  year         = {2026},
-  doi          = {10.1109/SANER67736.2026.00016},
-  eprint       = {2602.05465},
-  archivePrefix= {arXiv}
+  author    = {Berndt, Alexander and Bekmyradov, Vekil and Gemulla, Rainer and Kessel, Marcus and Bach, Thomas and Baltes, Sebastian},
+  title     = {Can we classify flaky tests using only test code? An {LLM}-based empirical study},
+  booktitle = {Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE Track},
+  year      = {2026},
+  doi       = {10.1109/SANER67736.2026.00016}
 }
 @inproceedings{kummita2026static,
   author    = {Kummita, Sriteja and Schiebel, Fabian and Bodden, Eric and Miao, Miao and Wei, Shiyi},
-  title     = {Static Analysis Traces can Help Dynamic Symbolic Execution: a Replication Study},
+  title     = {Static analysis traces can help dynamic symbolic execution: A replication study},
   booktitle = {Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE Track},
   year      = {2026},
   doi       = {10.1109/SANER67736.2026.00114}
 }
-
-% --- NIST (motivation only; verified on nist.gov + Crossref) ---
 @techreport{nist2023airmf,
   author      = {{National Institute of Standards and Technology}},
-  title       = {Artificial Intelligence Risk Management Framework (AI RMF 1.0)},
+  title       = {Artificial intelligence risk management framework ({AI} {RMF} 1.0)},
   institution = {National Institute of Standards and Technology},
   number      = {NIST AI 100-1},
   year        = {2023},
@@ -45,28 +37,24 @@
 }
 @techreport{nist2024genai,
   author      = {{National Institute of Standards and Technology}},
-  title       = {Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile},
+  title       = {Artificial intelligence risk management framework: Generative artificial intelligence profile},
   institution = {National Institute of Standards and Technology},
   number      = {NIST AI 600-1},
   year        = {2024},
   doi         = {10.6028/NIST.AI.600-1}
 }
-
-% --- Meta-evaluation and metric validity (arXiv IDs verified via arXiv API) ---
-@misc{amrhein2022aces, author={Amrhein, Chantal and Moghe, Nikita and Guillou, Liane}, title={ACES: Translation Accuracy Challenge Sets for Evaluating Machine Translation Metrics}, year={2022}, eprint={2210.15615}, archivePrefix={arXiv}}
-@misc{amrhein2023aces, author={Amrhein, Chantal and Moghe, Nikita and Guillou, Liane}, title={ACES: Translation Accuracy Challenge Sets at WMT 2023}, year={2023}, eprint={2311.01153}, archivePrefix={arXiv}}
-@misc{moghe2024mtmeta, author={Moghe, Nikita and Fazla, Asa and Amrhein, Chantal and others}, title={Machine Translation Meta Evaluation through Translation Accuracy Challenge Sets}, year={2024}, eprint={2401.16313}, archivePrefix={arXiv}}
-@misc{deviyani2025contextual, author={Deviyani, Aparna and Diaz, Fernando}, title={Contextual Metric Meta-Evaluation by Measuring Local Metric Accuracy}, year={2025}, eprint={2503.19828}, archivePrefix={arXiv}}
-@misc{kendiukhov2026ranking, author={Kendiukhov, Ilya}, title={Quantifying Ranking Instability Across Evaluation Protocol Axes in Gene Regulatory Network Benchmarking}, year={2026}, eprint={2603.03493}, archivePrefix={arXiv}}
-@misc{du2026stability, author={Du, Shuyu and Liang, Ping and Shen, Yong and others}, title={On the Stability of Prompt Ranking in Large Language Model Evaluation}, year={2026}, eprint={2606.24381}, archivePrefix={arXiv}}
-@misc{ross2024metric, author={Ross, Candace and Hall, Melissa and Romero Soriano, Adrian and Williams, Adina}, title={What Makes a Good Metric? Evaluating Automatic Metrics for Text-to-Image Consistency}, year={2024}, eprint={2412.13989}, archivePrefix={arXiv}}
-@misc{zheng2023judging, author={Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and others}, title={Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena}, year={2023}, eprint={2306.05685}, archivePrefix={arXiv}}
-@misc{liq2025scoringbias, author={Li, Qingquan and Dou, Shuo and Shao, Kun and Chen, Cheng and Hu, Hao}, title={Evaluating Scoring Bias in LLM-as-a-Judge}, year={2025}, eprint={2506.22316}, archivePrefix={arXiv}}
-@misc{lis2025llmjduge, author={Li, Siyuan and Xu, Chen and Wang, Jialong and others}, title={LLMs Cannot Reliably Judge (Yet?): A Comprehensive Assessment on the Robustness of LLM-as-a-Judge}, year={2025}, eprint={2506.09443}, archivePrefix={arXiv}}
-
-% --- Testing, process-level evaluation, and fault injection (arXiv IDs verified via arXiv API) ---
-@misc{cho2025metamorphic, author={Cho, Seonghyeon and Ruberto, Stefano and Terragni, Valerio}, title={Metamorphic Testing of Large Language Models for Natural Language Processing}, year={2025}, eprint={2511.02108}, archivePrefix={arXiv}}
-@misc{tan2026agentchaos, author={Tan, Gen and Sun, Zhiwei and Shi, Jinfan and others}, title={AgentChaos: Chaos Engineering for Agent Systems via Programmatic Fault Injection}, year={2026}, eprint={2608.06790}, archivePrefix={arXiv}}
-@misc{fan2026agentprocessbench, author={Fan, Shuo and Ye, Xin and Huo, Yuxuan and others}, title={AgentProcessBench: Diagnosing Step-Level Process Quality in Tool-Using Agents}, year={2026}, eprint={2603.14465}, archivePrefix={arXiv}}
-@misc{chung2026process, author={Chung, John and Byun, Jaewon and Vineet, Vibhav and Kim, Sung Ju}, title={Where Did It Go Wrong? Process-Level Evaluation of Web Agents with Semantic State Tracking}, year={2026}, eprint={2606.15673}, archivePrefix={arXiv}}
-@misc{wang2026gta2, author={Wang, Jun and others}, title={GTA-2: Benchmarking General Tool Agents from Atomic Tool-Use to Open-Ended Workflows}, year={2026}, eprint={2604.15715}, archivePrefix={arXiv}}
+@misc{amrhein2022aces, author={Amrhein, Chantal and Moghe, Nikita and Guillou, Liane}, title={{ACES}: Translation accuracy challenge sets for evaluating machine translation metrics}, year={2022}, eprint={2210.15615}, archivePrefix={arXiv}}
+@misc{amrhein2023aces, author={Amrhein, Chantal and Moghe, Nikita and Guillou, Liane}, title={{ACES}: Translation accuracy challenge sets at {WMT} 2023}, year={2023}, eprint={2311.01153}, archivePrefix={arXiv}}
+@misc{moghe2024mtmeta, author={Moghe, Nikita and Fazla, Asa and Amrhein, Chantal and others}, title={Machine translation meta evaluation through translation accuracy challenge sets}, year={2024}, eprint={2401.16313}, archivePrefix={arXiv}}
+@misc{deviyani2025contextual, author={Deviyani, Aparna and Diaz, Fernando}, title={Contextual metric meta-evaluation by measuring local metric accuracy}, year={2025}, eprint={2503.19828}, archivePrefix={arXiv}}
+@misc{kendiukhov2026ranking, author={Kendiukhov, Ilya}, title={Quantifying ranking instability across evaluation protocol axes in gene regulatory network benchmarking}, year={2026}, eprint={2603.03493}, archivePrefix={arXiv}}
+@misc{du2026stability, author={Du, Shuyu and Liang, Ping and Shen, Yong and others}, title={On the stability of prompt ranking in large language model evaluation}, year={2026}, eprint={2606.24381}, archivePrefix={arXiv}}
+@misc{ross2024metric, author={Ross, Candace and Hall, Melissa and Romero Soriano, Adrian and Williams, Adina}, title={What makes a good metric? Evaluating automatic metrics for text-to-image consistency}, year={2024}, eprint={2412.13989}, archivePrefix={arXiv}}
+@misc{zheng2023judging, author={Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and others}, title={Judging {LLM}-as-a-judge with {MT}-Bench and Chatbot Arena}, year={2023}, eprint={2306.05685}, archivePrefix={arXiv}}
+@misc{liq2025scoringbias, author={Li, Qingquan and Dou, Shuo and Shao, Kun and Chen, Cheng and Hu, Hao}, title={Evaluating scoring bias in {LLM}-as-a-judge}, year={2025}, eprint={2506.22316}, archivePrefix={arXiv}}
+@misc{lis2025llmjduge, author={Li, Siyuan and Xu, Chen and Wang, Jialong and others}, title={{LLMs} cannot reliably judge (yet?): A comprehensive assessment on the robustness of {LLM}-as-a-judge}, year={2025}, eprint={2506.09443}, archivePrefix={arXiv}}
+@misc{cho2025metamorphic, author={Cho, Seonghyeon and Ruberto, Stefano and Terragni, Valerio}, title={Metamorphic testing of large language models for natural language processing}, year={2025}, eprint={2511.02108}, archivePrefix={arXiv}}
+@misc{tan2026agentchaos, author={Tan, Gen and Sun, Zhiwei and Shi, Jinfan and others}, title={AgentChaos: Chaos engineering for agent systems via programmatic fault injection}, year={2026}, eprint={2608.06790}, archivePrefix={arXiv}}
+@misc{fan2026agentprocessbench, author={Fan, Shuo and Ye, Xin and Huo, Yuxuan and others}, title={AgentProcessBench: Diagnosing step-level process quality in tool-using agents}, year={2026}, eprint={2603.14465}, archivePrefix={arXiv}}
+@misc{chung2026process, author={Chung, John and Byun, Jaewon and Vineet, Vibhav and Kim, Sung Ju}, title={Where did it go wrong? Process-level evaluation of web agents with semantic state tracking}, year={2026}, eprint={2606.15673}, archivePrefix={arXiv}}
+@misc{wang2026gta2, author={Wang, Jun and others}, title={{GTA-2}: Benchmarking general tool agents from atomic tool-use to open-ended workflows}, year={2026}, eprint={2604.15715}, archivePrefix={arXiv}}

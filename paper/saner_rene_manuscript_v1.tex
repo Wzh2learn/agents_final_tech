@@ -9,9 +9,12 @@
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{amsmath}
+\usepackage{seqsplit}
 \hyphenation{op-tical net-works semi-conduc-tor}
+\setlength{\emergencystretch}{3em}
 \begin{document}
 \title{Visibility Is Not Detection: Auditing Observation Boundaries in Long-Horizon AI Evaluation}
+\hypersetup{pdfauthor={},pdfsubject={},pdftitle={Visibility Is Not Detection: Auditing Observation Boundaries in Long-Horizon AI Evaluation}}
 \author{Anonymous Submission}
 \maketitle
 \begin{abstract}
@@ -42,16 +45,18 @@ We model the pipeline as two checkpoint trees. The parsing tree covers document 
 The twelve scored nodes are five in the parsing tree (document status, document throughput, table regression, field hit-rate, reconciliation equations) and seven in the QA tree (retrieval contract, faithfulness judge, numeric contract, number grounding, citation judge, refusal judge, refusal contract), per config/eval\_checkpoint\_trees.json v0.1.0. The visibility audit exercises the parsing-tree leaves whose evidence is the mapping and regression artifacts; under the frozen drop rule (drop = (H\_orig - H\_inj) x 10, threshold 2.0) only the field hit-rate leaf responds to header drift, while QA-tree leaves keep their frozen evidence and the QA arm is reported separately (12 calls at the same endpoint). This is precisely why additional localization value remains unestablished in the current instantiation. In Table 1, the label 'Pruned parsing-root drop' denotes exactly this operation: the parsing root is collapsed to its single input-responsive leaf (the field hit-rate leaf) and the drop rule above is applied there.
 Each leaf receives a score in [0,10]. Contractible properties use deterministic checks; semantic properties use a 0–5 judge score mapped to [0,10]. Sibling weights are normalized locally before bottom-up aggregation. Missing evidence is explicit: the parsing tree assigns 0, whereas the QA tree assigns a neutral 5. Hinge leaves affect the stability verdict, not the missing-evidence score. Every leaf stores its evidence and degradation reason.
 For node n with children C(n), the recursive score is
-\textbackslash\{\}[
-S(n)=\textbackslash\{\}sum\_\{c\textbackslash\{\}in C(n)\} \textbackslash\{\}frac\{w(c)\}\{\textbackslash\{\}sum\_\{j\textbackslash\{\}in C(n)\}w(j)\}S(c).
-\textbackslash\{\}]
+\[
+S(n)=\sum_{c\in C(n)} \frac{w(c)}{\sum_{j\in C(n)}w(j)}S(c).
+\]
 For a leaf, S(n) is the mapped contract or judge score. A tree is stable only when at least 90\% of its leaves exceed the selected threshold and every hinge leaf scores at least 7. The implementation is deterministic once the evidence artifacts are fixed.
 \subsection{Separating visibility, detection, and harmfulness}
 Visibility is defined relative to the selected checkpoint evidence surface, whereas protocol detection may use a different downstream signal.
 The primary conceptual structure is the following visibility-by-detection matrix:
 \begin{table}[t]
 \centering
-\begin{tabular}{lll}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.293\columnwidth}p{0.293\columnwidth}p{0.293\columnwidth}}
 \hline
 Checkpoint evidence & Protocol detects & Protocol does not detect \\
 \hline
@@ -78,10 +83,10 @@ The second dataflow is a program-perturbation corpus built from FinQA reasoning 
 \section{Experimental Setup}
 \subsection{Corpus and perturbations}
 The study uses a frozen public tabular base and contains no client data. It includes 95 tables and 118 synthetic injections across six header-drift families. Schema and header matching are the perturbation carrier in this instantiation; the object of study is the evaluation protocol's observation boundary. Each injected record preserves its source table, family, seed, changed field, and expected observation surface.
-Concretely, the base is the frozen drift-v0 table set derived from public TAT-QA tables (data/research/drift\_v0/input/tatqa\_tables.json, sha256 3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302); the corpus was frozen before this study's data gates and no new TAT-QA use is introduced. The perturbations are the fully synthetic injection map (data/research/drift\_v0/output/injection\_map.json, sha256 d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e; deterministic, seed 42, ratio 0.3). The primary matcher is the production greedy header matcher (scripts/m1\_statement\_parser.py, map\_headers); the cross-matcher audit adds greedy-normalized, hungarian-production, and hungarian-normalized configurations. Semantic leaves are scored by the M2 judge pipeline (source tag m2\_judge in config/eval\_checkpoint\_trees.json), i.e. Qwen3.6-35B-A3B (Q4\_K\_M GGUF) served at 127.0.0.1:8004, with 0-5 dimension scores mapped to [0,10]. The primary threshold grid is
-\textbackslash\{\}[
-\textbackslash\{\}Gamma=\textbackslash\{\}\{0.2,0.3,0.5,0.7,0.9\textbackslash\{\}\}.
-\textbackslash\{\}]
+Concretely, the base is the frozen drift-v0 table set derived from public TAT-QA tables (data/research/drift\_v0/input/tatqa\_tables.json, sha256 \seqsplit{3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302}); the corpus was frozen before this study's data gates and no new TAT-QA use is introduced. The perturbations are the fully synthetic injection map (data/research/drift\_v0/output/injection\_map.json, sha256 \seqsplit{d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e}; deterministic, seed 42, ratio 0.3). The primary matcher is the production greedy header matcher (scripts/m1\_statement\_parser.py, map\_headers); the cross-matcher audit adds greedy-normalized, hungarian-production, and hungarian-normalized configurations. Semantic leaves are scored by the M2 judge pipeline (source tag m2\_judge in config/eval\_checkpoint\_trees.json), i.e. Qwen3.6-35B-A3B (Q4\_K\_M GGUF) served at 127.0.0.1:8004, with 0-5 dimension scores mapped to [0,10]. The primary threshold grid is
+\[
+\Gamma=\{0.2,0.3,0.5,0.7,0.9\}.
+\]
 The OCR-like family contains 13 single-token, lowercase Levenshtein-distance-one substitutions with unchanged column values. These properties are mechanically recomputed before interpretation.
 \subsection{Baselines and controls}
 The protocol baselines are end-to-end scoring, flat leaf scoring, and hierarchical scoring with expert weights. Weight-search controls include equal weights, expert weights, 30 random trials, greedy coordinate ascent, particle-swarm optimization (PSO), and a minimax objective. Assignment controls compare greedy matching with Hungarian global assignment and include a positive solver test.
@@ -107,7 +112,9 @@ The raw detection counts are not evidence of protocol discriminability. Table 1 
 \textbf{Table 1. Protocol-level detection under different decision predicates.}
 \begin{table}[t]
 \centering
-\begin{tabular}{llll}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.220\columnwidth}p{0.220\columnwidth}p{0.220\columnwidth}p{0.220\columnwidth}}
 \hline
 Protocol & Detection signal & Tables detected & Injections detected \\
 \hline

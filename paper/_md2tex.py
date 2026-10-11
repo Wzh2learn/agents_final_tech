@@ -41,13 +41,14 @@ def inline(s):
     s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", lambda m: r"\href{%s}{%s}" % (m.group(2), m.group(1)), s)
     s = re.sub(r"\*\*([^*]+)\*\*", lambda m: r"\textbf{%s}" % m.group(1), s)
     s = re.sub(r"(?<!\*)\*([^*]+)\*(?!\*)", lambda m: r"\emph{%s}" % m.group(1), s)
+    s = re.sub(r"([0-9a-f]{40,64})", lambda m: r"\seqsplit{%s}" % m.group(1), s)
     for i,c in enumerate(codes):
         s = s.replace("\x00%d\x00" % i, r"\texttt{%s}" % esc(c))
     return s
 
 lines = io.open(SRC, encoding="utf-8").read().split("\n")
 body=[]; i=0; title=""; in_abstract=False; fig_n=0
-list_items=[]; list_ordered=False
+list_items=[]; list_ordered=False; in_math=False
 def flush_pending():
     global list_items
     if list_items:
@@ -59,6 +60,12 @@ def flush_pending():
 
 while i < len(lines):
     ln = lines[i].rstrip()
+    if ln.strip() == r"\[":
+        flush_pending(); in_math=True; body.append(r"\["); i+=1; continue
+    if in_math:
+        if ln.strip() == r"\]":
+            in_math=False; body.append(r"\]"); i+=1; continue
+        body.append(ln); i+=1; continue
     if ln.startswith("# ") and not title:
         title = ln[2:].strip(); i+=1; continue
     if ln.strip() == "## Abstract":
@@ -104,7 +111,7 @@ while i < len(lines):
             if not all(re.fullmatch(r":?-{2,}:?", c or "") for c in cells): rows.append(cells)
             i+=1
         ncol=max(len(r) for r in rows)
-        body.append(r"\begin{table}[t]"); body.append(r"\centering"); body.append(r"\begin{tabular}{"+"l"*ncol+"}"); body.append(r"\hline")
+        colw = 0.88/ncol; spec = "".join("p{%.3f\\columnwidth}" % colw for _ in range(ncol)); body.append(r"\begin{table}[t]"); body.append(r"\centering"); body.append(r"\small"); body.append(r"\setlength{\tabcolsep}{3pt}"); body.append(r"\begin{tabular}{"+spec+"}"); body.append(r"\hline")
         for ri,r in enumerate(rows):
             body.append(" & ".join(inline(c) for c in r)+r" \\")
             if ri==0: body.append(r"\hline")
@@ -128,9 +135,12 @@ header = r"""% SANER 2027 RENE submission (RENE: NegativeResult)
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{amsmath}
+\usepackage{seqsplit}
 \hyphenation{op-tical net-works semi-conduc-tor}
+\setlength{\emergencystretch}{3em}
 \begin{document}
 \title{@@TITLE@@}
+\hypersetup{pdfauthor={},pdfsubject={},pdftitle={@@TITLE@@}}
 \author{Anonymous Submission}
 \maketitle
 """.replace("@@TITLE@@", inline(title))
