@@ -82,3 +82,14 @@ docs/experiments/2026-08-25_demo_video_v3/segs/
 docs/experiments/2026-08-25_demo_video_v3/work/
 docs/experiments/2026-08-25_demo_video_v3/audio/
 docs/experiments/2026-08-25_demo_video_v3/demo_v3.mp4
+
+# --- Runtime-only outputs produced on GB10 (never tracked; added 2026-10-12) ---
+research/positive_repair_20261011/runs/
+research/positive_repair_20261011/runs_logs/
+research/prm_reference_training_smoke_20261010/C2/
+research/prm_reference_training_smoke_20261010/C4/
+research/stage_e_method_revision_20261009/sources/
+research/stage_e_stage_d_20261009/sources/
+research/stage_e_method_revision_20261009/agent_distillation_derived_ids.jsonl
+research/stage_e_method_revision_20261009/agent_distillation_tcv_execution_smoke.json
+research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_bootstrap_replicates.jsonl
