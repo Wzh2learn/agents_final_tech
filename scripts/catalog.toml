@@ -53,8 +53,6 @@ files = [
   "smoke_test_tabular_model.py",
   "smoke_test_vision_mcp_server.py",
   "smoke_test_vision_model.py",
-  "supervisor_m1.sh",
-  "supervisor_qoder.sh",
   "switch_codex_model.sh",
   "verify_config.py",
   "vllm_probe_serve.sh",
