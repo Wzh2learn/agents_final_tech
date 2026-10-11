@@ -81,3 +81,5 @@ GB10 rebuilt the identity-converged DOCX and converted it to a 9-page PDF with L
 
 1. **Next evidence priority:** multi-leaf/multi-stage injection versus a second dataflow with a changed pipeline structure. No choice is made in this revision.
 2. **Harmfulness definition:** canonical equivalence as primary, reader-referent equivalence as primary, or both reported as parallel constructs. The current paper retains the existing equivalence-dependent wording and does not select a new primary definition.
+
+> SUPERSEDED 2026-10-11: multi-leaf evidence is complete and adopted; Route B is `NO / STOP_BRANCH`; FinQA is `SECOND_FLOW_MIXED` with accepted `MEASUREMENT_OBJECT_MISMATCH` interpretation. The historical bullets below are retained as a dated snapshot.

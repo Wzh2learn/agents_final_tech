@@ -36,8 +36,8 @@
     {
       "id": "SP-C1",
       "status": "supported_with_scope_limit",
-      "claim": "Defect visibility is type-dependent and OCR-like perturbations are fully blind in the tested evaluator.",
-      "manuscript_tokens": ["96/118", "are visible in 0/13 cases", "five thresholds"],
+      "claim": "Defect visibility is type-dependent, and no OCR-like injection was checkpoint-visible in the tested evaluator across the frozen threshold grid.",
+      "manuscript_tokens": ["96/118", "0/13 OCR-like injections were visible across 11 table clusters", "all five thresholds"],
       "evidence": [
         "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
         "logs/graph/eval/t2_visibility_sensitivity.json",
@@ -47,14 +47,16 @@
     },
     {
       "id": "SP-C2",
-      "status": "supported_as_diagnostic_not_superiority",
-      "claim": "Hierarchical checkpoints provide decomposition but do not improve matched-FPR discrimination on the current corpus.",
-      "manuscript_tokens": ["112/118", "85/118", "13/118", "[0,0]"],
+      "status": "structural_result_with_empirical_nonidentifiability",
+      "claim": "In the current single-responsive-leaf instantiation, flat and hierarchical scores are affine/rank-equivalent, while clean-only matched-FPR equality is not empirically identifiable.",
+      "manuscript_tokens": ["112/118", "85/118", "13/118", "positive affine transformations", "identical rankings and ROC geometry", "not empirically identifiable", "historical fixed-threshold equality"],
       "evidence": [
         "logs/graph/eval/t1_eval_baseline_comparison.json",
-        "logs/graph/eval/d3_matched_fpr_stage_a.json"
+        "logs/graph/eval/d3_matched_fpr_stage_a.json",
+        "docs/research/stage_e_matched_fpr_reanalysis_v1.md",
+        "research/stage_e_method_revision_20261009/matched_fpr_reanalysis.json"
       ],
-      "scope_limit": "Localization value cannot be established while only one input-varying leaf is present."
+      "scope_limit": "The affine/ranking result is limited to the current single-responsive-leaf construction. Historical 90/111 and [0,0] values are sensitivity evidence only; localization remains unestablished until multiple leaves respond."
     },
     {
       "id": "SP-C3",
