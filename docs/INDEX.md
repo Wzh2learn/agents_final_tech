@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-10-08 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-10-11 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -32,22 +32,16 @@
 
 | 文件 | 状态 | 用途 |
 |---|---|---|
-| [`23_甲方阶段汇报.md`](23_甲方阶段汇报.md) | 已发送快照 | 对甲方阶段汇报源文 |
-| `23_甲方阶段汇报_发送版.docx` | 已发送冻结件 | 对外发送版 |
-| [`19_系统能力说明书.md`](19_系统能力说明书.md) | 历史快照 | 2026-08-05 能力口径，不代表当前实现 |
-| [`24_交付决策菜单.md`](24_交付决策菜单.md) | 历史快照 | 已消费的反馈与决策菜单 |
-| [`25_交付架构决策.md`](25_交付架构决策.md) | 历史快照 | OpenCode 交付链决策过程 |
-| [`26_选择题体验设计.md`](26_选择题体验设计.md) | 历史快照 | 体验方案 |
-| [`27_M1M2页面改版_两个设计方向.md`](27_M1M2页面改版_两个设计方向.md) | 已实施 | 页面方向 A 的设计依据 |
-| [`31_导师进展汇报.md`](31_导师进展汇报.md) | 已取代 | 旧导师汇报 |
-| [`31_导师进展汇报_v2_20260825.md`](31_导师进展汇报_v2_20260825.md) | 冻结快照 | 导师汇报 v2 |
+| [23](23_甲方阶段汇报.md) / frozen DOCX; [19](19_系统能力说明书.md), [24](24_交付决策菜单.md), [25](25_交付架构决策.md), [26](26_选择题体验设计.md) | historical snapshots | 2026-08 delivery/capability/design records |
+| [27](27_M1M2页面改版_两个设计方向.md) | implemented | page-direction basis |
+| [31](31_导师进展汇报.md) / [31 v2](31_导师进展汇报_v2_20260825.md) | superseded / frozen | advisor report history |
 
 ## 工程、运行与架构
 
 - RQ2 candidate source screening: [2026-10-05_rq2_candidate_source_screening_v1.md](datasets/2026-10-05_rq2_candidate_source_screening_v1.md) - metadata-only 10-source screen; 0 direct bridges, no download
 - Valentine full benchmark read-only audit: [structure summary](datasets/2026-10-05_valentine_full_structure_summary_v1.json), [ZIP receipt](datasets/2026-10-05_valentine_full_remote_structure_receipt_v1.json), [entry manifest](datasets/2026-10-05_valentine_full_entry_manifest_v1.json), [schema audit](datasets/2026-10-05_valentine_full_schema_audit_v1.json) - 551 pairs / 8 conservative origin components / hard stop
 
-- Mechanical guard: [`../scripts/graph/hooks/git-commit-guard.sh`](../scripts/graph/hooks/git-commit-guard.sh) - PreToolUse source for blocking force push and commit --amend; install explicitly in a Claude-compatible hook config
+- Mechanical guards/tools: [git-commit-guard](../scripts/graph/hooks/git-commit-guard.sh), [secret-scan](../scripts/graph/tools/secret_scan.sh), [gpu-lock-guard](../scripts/graph/hooks/gpu-lock-guard.sh), [agent-env](../scripts/graph/agent_env.sh), [agent-env-preflight](../scripts/graph/agent_env_preflight.sh), [formal-preflight](../scripts/graph/formal_experiment_preflight.py), [repository-receipt](../scripts/graph/generate_repository_receipt.py), [loop-ac-launcher](../scripts/graph/loop_ac_launcher.sh)
 - Mechanical scanner: [`../scripts/graph/tools/secret_scan.sh`](../scripts/graph/tools/secret_scan.sh) - universal credential-shape scan with optional maintainer lists and Git-history identity review
 - Mechanical guard: [`../scripts/graph/hooks/gpu-lock-guard.sh`](../scripts/graph/hooks/gpu-lock-guard.sh) - blocks GPU-heavy commands when the shared lock is held or cannot be verified
 - Machine criteria status: [2026-10-05_stage_d_necessity_criteria_status_v1.json](datasets/2026-10-05_stage_d_necessity_criteria_status_v1.json) - approved A2 criteria with PASS/FAIL/NOT_ESTIMABLE current evidence
@@ -145,6 +139,9 @@
 | [`governance/audit/`](governance/audit/) | 只读证据集 | Harness 审计工件 |
 | [`governance/reference/`](governance/reference/) | 参考资料 | 外部治理模板与证据模式；仅提炼规则，不直接描述项目现状 |
 | [`governance/2026-09-25_loop_a_sandbox_scoping_design.md`](governance/2026-09-25_loop_a_sandbox_scoping_design.md) | 活跃设计 | Loop A 沙箱分级（R 类 read-only / W 类 workspace-write / 禁 bypass）与派发核对清单（D-D 授权范围设计） |
+| [governance/loop_ac_launcher_v1.md](governance/loop_ac_launcher_v1.md) | 活跃 | GB10 Loop A/C detached launcher、timeout、status/log 与预检入口 |
+| [governance/agent_environment_v1.md](governance/agent_environment_v1.md) | 活跃 | 本机/GB10 通用路径解析、秘密文件边界与环境预检 |
+| [governance/loop_ac_environment_closeout_v1.md](governance/loop_ac_environment_closeout_v1.md) | 活跃 | 路径/派发器/陈旧入口 neat 收口与验证回执 |
 | [`archive/`](archive/) | 只读历史 | 已归档文档；不得作为当前状态依据 |
 | [`archive/session_assets/2026-08-29/`](archive/session_assets/2026-08-29/) | 归档会话资产 | 旧 `IMPLEMENTATION_PLAN.md`、`PROMPT.md`；已被当前 Goal、handoff 与计划件取代 |
 | [`../scripts/archive/_d3b_dispatch.sh`](../scripts/archive/_d3b_dispatch.sh) | 归档脚本 | 旧 D3B 派发脚本；含历史 crontab/tmux 操作，不作为现役执行入口 |
@@ -153,7 +150,6 @@
 | [`archive/experiments/2026-10-04_q3_partial_delivery_validation.md`](archive/experiments/2026-10-04_q3_partial_delivery_validation.md) | 归档快照 | full raw package 到达前的 partial 状态 |
 | [`archive/experiments/2026-10-04_q3_boundary_blocker_audit.md`](archive/experiments/2026-10-04_q3_boundary_blocker_audit.md) | 归档审计 | raw MISSING 与异常引用处置前的边界记录 |
 | [`archive/experiments/2026-10-05_model_sync_blocked.md`](archive/experiments/2026-10-05_model_sync_blocked.md) | 归档诊断 | official Hugging Face path 阻塞记录；已被 mirror success 取代 |
-
 ## 维护规则
 
 1. 顶层、`architecture/`、`datasets/` 和 `governance/` 的现役文件逐项登记。
@@ -162,3 +158,23 @@
 4. 顶层存活文档必须包含“状态 / 更新 / 取代或被取代”头部。
 5. 当前状态只写 `memory/STATE.md`；未决事项只写 `memory/THREADS.md`；已结案历史保存在 Git、`memory/archive/` 或 `docs/archive/`。
 6. `HANDOFF.md` 是冻结历史快照，不再作为当前入口。
+## 导师讨论包（2026-10-09）
+
+| 文件 | 状态 | 用途 |
+|---|---|---|
+| [`../paper/advisor_discussion_brief_2026-10-09.md`](../paper/advisor_discussion_brief_2026-10-09.md) | 内部讨论草稿 | 30 秒研究故事、Stage E 证据、evidence ceiling 与两项导师决策 |
+| [`../paper/advisor_decision_tables_2026-10-09.md`](../paper/advisor_decision_tables_2026-10-09.md) | `RECOMMENDATION_ONLY` | multi-leaf vs second dataflow、harmfulness 三种定义决策表 |
+| [`handoff/current_status_reconciliation_proposal.md`](handoff/current_status_reconciliation_proposal.md) | `PROPOSAL_ONLY` | stale statement 标记与 README/STATE patch proposal；尚未应用 |
+| [`handoff/2026-10-09_advisor_decision_candidate_paths.md`](handoff/2026-10-09_advisor_decision_candidate_paths.md) | `AWAITING_ADVISOR_DECISION` | Path M / Path D 候选执行计划；禁止自动执行 |
+
+## Stage E 方法修正与 Stage D 参考轨（2026-10-09）
+Deliverables: [metric priority](research/stage_e_metric_priority_v2.md), [HBR boundary](research/stage_e_harmfulness_metric_boundary_v1.md), [zero-event uncertainty](research/stage_e_zero_event_uncertainty_note_v1.md), [matched-FPR protocol](research/stage_e_matched_fpr_reanalysis_protocol_v1.md), [matched-FPR reanalysis](research/stage_e_matched_fpr_reanalysis_v1.md), [NIST ledger](research/nist_measurement_validity_ledger_v2.md), [multi-leaf preregistration](research/stage_e_multileaf_preregistration_v1.md), [power plan](research/stage_e_multileaf_power_plan_v1.md), [PRM800K audit](research/prm800k_reference_track_audit_v1.md), [Math-Shepherd audit](research/math_shepherd_reference_track_audit_v1.md), [process-signal requirements](research/stage_d_process_signal_requirements_v1.md), [paper upgrade plan](research/stage_e_paper_upgrade_plan_v1.md).
+Supporting validation: [`../research/stage_e_method_revision_20261009/stage_e_method_revision_receipt.json`](../research/stage_e_method_revision_20261009/stage_e_method_revision_receipt.json).
+## Independent C Audits (2026-10-10)
+
+[multi-leaf](experiments/2026-10-10_loop_c_multileaf_audit.md), [PRM smoke](experiments/2026-10-10_loop_c_prm_smoke_audit.md), [binding-v2](experiments/2026-10-10_loop_c_finqa_v2_binding_v2_audit.md), and [Graph Loop governance](experiments/2026-10-10_loop_c_graph_loop_meta_retrospective_audit.md).
+
+## SANER Route Lock and Repository Governance (2026-10-11)
+
+Route A scope: [scope lock](../paper/saner_rene_manuscript_scope_lock_v1.md) and [claim matrix](../paper/saner_rene_claim_matrix_v1.json). Route B is [NO / STOP_BRANCH](research/route_b_read_only_qualification_2026-10-11.md). FinQA interpretation is recorded in [measurement-object autopsy](research/finqa_v2_measurement_object_mismatch_autopsy_v1.md). Governance inventory, lineage and [commit manifest](handoff/repository_governance_commit_manifest_2026-10-11.json) are in [handoff](handoff/repository_governance_and_sync_2026-10-11.md) and [FinQA lineage](research/finqa_v2_asset_lineage_v1.md) and [final C audit](experiments/2026-10-11_loop_c_repository_governance_final_audit.md) and [cross-host PASS receipt](experiments/2026-10-11_cross_host_receipt_verification.json).
+Formal-v3 authorization/task-ID reconciliation is recorded in [activation record](research/finqa_v2_formal_v3_activation_record_v1.md).

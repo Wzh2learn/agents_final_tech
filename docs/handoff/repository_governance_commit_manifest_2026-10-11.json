@@ -1,0 +1,1831 @@
+{
+  "schema_version": 1,
+  "task_id": "repository-governance-and-sync-20261011",
+  "generated_at": "2026-10-11",
+  "authority": "FINAL_COMMIT_CANDIDATE_MANIFEST",
+  "self_path": "docs/handoff/repository_governance_commit_manifest_2026-10-11.json",
+  "self_excluded_from_covered_set": "receipt avoids self-hash recursion",
+  "reconciliation": {
+    "classification_commit_candidates": 324,
+    "archive_deletion_paths": 2,
+    "additional_current_records": 9,
+    "covered_paths": 353,
+    "manifest_receipts": 1,
+    "duplicate_hold_paths": 8,
+    "external_or_hold_paths": 75,
+    "fallback_receipt_delta": 18
+  },
+  "entries": [
+    {
+      "path": "docs/handoff/repository_asset_classification_2026-10-11.json",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/handoff/repository_governance_and_sync_2026-10-11.md",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/handoff/repository_governance_inventory_loop_a_contract.md",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/INDEX.md",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_v2_asset_lineage_v1.md",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/dispatch_log.md",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/17_Graph_Engineering_多层Loop设计.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/governance/agent_environment_v1.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/governance/audit/graph_loop_meta_retrospective_2026-10-10.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/governance/GRAPH_LOOP_AUTHORITY_MAP_V1.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/governance/loop_ac_environment_closeout_v1.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/governance/loop_ac_launcher_v1.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/governance/reference/SESSION_HANDOFF_TEMPLATE.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/governance/reference/TIERED_EVAL_PATTERN.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/handoff/2026-10-09_advisor_decision_candidate_paths.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/handoff/current_status_reconciliation_proposal.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/handoff/overnight_graph_loop_handoff_2026-10-10.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/handoff/repository_governance_audit_loop_c_contract.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/handoff/repository_governance_local_truth_addendum_2026-10-11.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/SKILL_ROUTING.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/blocked_questions.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/docs_lint_report.json",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/governance_drift_latest.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/loop_b_last_status",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/verify-report.json",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "memory/archive/STATE_2026-10-11_pre_repository_governance.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "memory/CORE.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "memory/DECISIONS.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "memory/STATE.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "memory/THREADS.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "side_handoff.md",
+      "group": "G1_CURRENT_GOVERNANCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_artifact_binding_contract_v2.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v2/FINQA_V2_ARTIFACT_BINDING_CONTRACT_V2.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_binding_v2_receipt.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v2/FINQA_V2_MINIMAL_RERUN_TASK_CARD.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_normalization_audit.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_raw_normalized_mapping.jsonl",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_scorer_runtime_binding_v2.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_binding_v3_qualification_receipt.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_binding_v3_qualification_rows.jsonl",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_binding_v3_qualification_summary.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_runtime_binding_interface_v3.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v3/FINQA_V2_RUNTIME_BINDING_INTERFACE_V3.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_runtime_binding_v3.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_analysis_plan_hash_manifest.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_analysis_plan.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_analysis_preresult_freeze_receipt.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_dependency_freeze.txt",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_execution_freeze_packet.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/FINQA_V2_EXECUTION_FREEZE_PACKET.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/FINQA_V2_FORMAL_EXPERIMENT_TASK_CARD.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_frozen_sample_manifest.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_paired_artifact_manifest.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_preresult_freeze_receipt.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_scoped_environment_snapshot.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_scoped_source_diff.patch",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_scorer_binding_manifest.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_split_manifest.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/materialize_finqa_v2_binding_v2_rerun_invalid.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/materialize_finqa_v2_formal_invalid.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_certificate.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_manifest.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_receipt.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/preflight_v1/FINQA_V2_FORMAL_RERUN_V3_TASK_CARD.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/preflight_v1/materialize_finqa_v2_end_to_end_preflight.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_bootstrap_replicates.jsonl",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_execution_receipt.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v2_rerun/FINQA_V2_FORMAL_RESULT_REPORT.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_results.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_sample_rows.jsonl",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_scorer_failures.jsonl",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results/finqa_v2_bootstrap_replicates.jsonl",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results/finqa_v2_formal_execution_receipt.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results/FINQA_V2_FORMAL_RESULT_REPORT.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results/finqa_v2_formal_results.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results/finqa_v2_formal_sample_rows.jsonl",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results/finqa_v2_formal_scorer_failures.jsonl",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/run_finqa_v2_binding_v2_rerun.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/run_finqa_v2_formal_experiment.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_analysis_freeze_loop_a_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_analysis_freeze_loop_c_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_binding_audit_loop_c_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_binding_repair_loop_a_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_binding_v3_qualification_loop_a_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_formal_audit_loop_c_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_formal_experiment_loop_a_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_minimal_rerun_audit_loop_c_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_preresult_freeze_loop_a_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_preresult_freeze_loop_c_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_test_execution_loop_c_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/loop_a_finqa_v2_formal_rerun_v3_dispatch.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/loop_c_finqa_v2_formal_v3_recompute_task_contract.md",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/finqa_v2_candidate_sample_manifest.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/finqa_v2_overlap_feasibility.json",
+      "group": "G2_FINQA_FREEZE_INVALID_HISTORY",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_v2_formal_v3_activation_record_v1.md",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_causal_exposure_20261010/finqa_causal_exposure_design.json",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_causal_exposure_20261010/finqa_causal_exposure_feasibility.json",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_causal_exposure_20261010/FINQA_CAUSAL_EXPOSURE_LATER_EXECUTION_TASK_CARD_NOT_EXECUTED.md",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_causal_exposure_20261010/finqa_causal_exposure_proposal_receipt.json",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_causal_exposure_20261010/finqa_causal_exposure_source_ledger.json",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_exclusions_and_failure_accounting.json",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_formal_execution_receipt.json",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v3_rerun/FINQA_V2_FORMAL_RESULT_REPORT.md",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_formal_results.json",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_formal_sample_rows.jsonl",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_v_d_o_rows.jsonl",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v3_rerun/materialize_finqa_v2_binding_v3_receipt.py",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v3_rerun/run_finqa_v2_binding_v3_rerun.py",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/loop_a_finqa_causal_exposure_design_contract.md",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/loop_c_finqa_causal_exposure_challenge_contract.md",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/loop_c_finqa_v2_result_autopsy_task_contract.md",
+      "group": "G3_FINQA_FORMAL_SCIENCE",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/datasets/2026-10-08_stage_e_public_source_metadata_audit_v1.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/experiments/2026-10-08_stage_e_inquiry_loop_a_task_card.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/experiments/2026-10-10_loop_c_finqa_v2_binding_v2_audit.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/experiments/2026-10-10_loop_c_finqa_v2_formal_v3_recompute_audit.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/experiments/2026-10-10_loop_c_graph_loop_meta_retrospective_audit.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/experiments/2026-10-10_loop_c_multileaf_audit.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/experiments/2026-10-10_loop_c_prm_smoke_audit.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/experiments/2026-10-11_loop_c_causal_checkpoint_mvp_design_audit.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/2026-10-08_stage_e_inquiry_and_experiment_design_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/agent_distillation_adapter_provenance_audit_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/agent_distillation_tcv_execution_smoke_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/derived_process_supervision_design_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/figures_multileaf/fig_multileaf_flat_hierarchy_relation.png",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/figures_multileaf/fig_multileaf_flat_hierarchy_relation.svg",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/figures_multileaf/fig_multileaf_localization_ablation.png",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/figures_multileaf/fig_multileaf_localization_ablation.svg",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/figures_multileaf/fig_multileaf_response_signatures.png",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/figures_multileaf/fig_multileaf_response_signatures.svg",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/figures_multileaf/manifest.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_causal_exposure_preregistration_proposal_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_numeric_token_canonicalization_v2.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_process_checkpoint_v2_preregistration_draft_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_v2_candidate_sample_manifest_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_v2_causal_join_audit_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_v2_gate_reconciliation_v2.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_v2_gate_reconciliation_v2.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_v2_gate_status_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/finqa_v2_overlap_feasibility_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/itil_ai_governance_background_evidence_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/math_shepherd_label_quality_sensitivity_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/math_shepherd_label_smoke_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/math_shepherd_reference_track_audit_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/multileaf_mechanism_generalization_audit_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/multileaf_preresult_freeze_receipt_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/nist_measurement_validity_ledger_v2.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/nist_tevv_background_evidence_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/prm_c2_c4_selection_dryrun_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/prm_reference_training_smoke_audit_addendum_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/prm_reference_training_smoke_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/prm800k_reference_track_audit_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/process_supervision_adaptation_review_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/route_b_read_only_qualification_2026-10-11.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_d_minimal_experiment_v2.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_d_prm_formal_pilot_proposal_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_d_process_signal_requirements_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_118_quantification_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_harmfulness_metric_boundary_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_independent_scorer_feasibility_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_matched_fpr_reanalysis_protocol_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_matched_fpr_reanalysis_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_metric_precedent_review_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_metric_priority_v2.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_multileaf_power_plan_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_multileaf_preregistration_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_multileaf_protocol_v2.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_multileaf_result_packet_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_multileaf_signature_ablation_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_multileaf_v2_robustness_preregistration_delta_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_narrative_after_advisor_feedback_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_observability_metrics_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_paper_upgrade_plan_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_second_dataflow_candidate_qualification_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_stage_d_unified_story_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_threshold_visibility_analysis_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_version_b_figure_spec_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_version_b_revision_proposal_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/research/stage_e_zero_event_uncertainty_note_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/audit_submission_package.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/causal_checkpoint_selection_mvp_20261011/loop_a_dev_smoke_contract.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/causal_checkpoint_selection_mvp_20261011/loop_c_design_audit_contract.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/causal_checkpoint_selection_mvp_20261011/METHOD_DESIGN_QUALIFICATION_V1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/causal_checkpoint_selection_mvp_20261011/smoke/causal_checkpoint_selection_mvp.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/causal_checkpoint_selection_mvp_20261011/smoke/dev_smoke_input_manifest.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/causal_checkpoint_selection_mvp_20261011/smoke/dev_smoke_receipt.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/causal_checkpoint_selection_mvp_20261011/smoke/dev_smoke_result.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_evidence_argument_resolver_v2.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_independent_observation_scorer_v2.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_numeric_token_canonicalization_v2.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/loop_a_end_to_end_preflight_task_contract.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/loop_c_end_to_end_preflight_certification_task_contract.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/loop_c_graph_loop_meta_retrospective_task_contract.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/math_shepherd_label_smoke_20261010/smoke_config.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/math_shepherd_label_smoke_20261010/smoke_results.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/prm_reference_training_smoke_20261010_failed_triton_python_h/smoke_config.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/prm_reference_training_smoke_20261010/smoke_config.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/prm_reference_training_smoke_20261010/smoke_metrics.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_2026-10-09/loop_c_method_revision_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/agent_distillation_adapter_provenance_audit.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/audit_agent_distillation_adapter.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/audit_agent_distillation_tcv_smoke.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/build_multileaf_freeze.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/loop_c_prm_smoke_audit_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/matched_fpr_reanalysis.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/multileaf_freeze.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/multileaf_power_analysis.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/multileaf_power_analysis.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/prm_c2_c4_selection_dryrun.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/prm_reference_smoke.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/prm_reference_smoke.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/qualify_stage_d_reference_sources.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/run_math_shepherd_label_smoke.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/run_prm_c2_c4_dryrun.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/run_prm_reference_training_smoke.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/stage_d_reference_source_qualification.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/stage_e_execution_revision_receipt.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/stage_e_matched_fpr_reanalysis.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/stage_e_method_revision_receipt.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/validate_stage_e_execution_revision.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/validate_stage_e_method_revision.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/analyze_multileaf_signature_ablation.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/audit_multileaf_generalization.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/build_multileaf_figures.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/build_multileaf_preresult_freeze.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/build_stage_e_evidence_strengthening_repair_receipt.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/independent_multileaf_contract_audit.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/loop_a_evidence_strengthening_fix_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/loop_a_evidence_strengthening_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/loop_c_evidence_strengthening_fix_reaudit_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/loop_c_evidence_strengthening_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/loop_c_multileaf_audit_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_d_prm_formal_pilot_proposal_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_independent_scorer_feasibility_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_multileaf_result_packet_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_revision_proposal_v1.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_environment_snapshot.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_mechanism_generalization_audit.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.sha256",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_git_diff.patch",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/render_multileaf_localization_ablation_v2.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/independent_contract_audit.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/independent_validation_receipt.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_bootstrap_intervals.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_formal_results.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_formal_results.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_permutation_null.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_run_receipt.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/run_multileaf_formal.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_receipt.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_receipt.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/validate_multileaf_formal_results.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_2026-10-09/loop_c_final_recheck_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_2026-10-09/loop_c_recheck_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/analysis_summary.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/contract/IMPLEMENTATION_PLAN.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/contract/loop_a_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/contract/loop_c_prompt.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/contract/openalex_search.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/contract/PROMPT.md",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/final_validation.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/finalize_loop_c_conditions.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/loop_a_receipt.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/loop_c_verdict.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/metadata_network_accounting.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/metadata_url_manifest.txt",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/quantify_stage_e.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/repair_loop_c_conditions.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/resolve_final_conditions.py",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/source_audit_v1.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/source_data_receipt.json",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/threshold_visibility_source.csv",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/threshold_visibility.png",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/threshold_visibility.svg",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/visibility_detection_source.csv",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/visibility_detection.png",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/visibility_detection.svg",
+      "group": "G4_OTHER_RESEARCH",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/advisor_decision_tables_2026-10-09.md",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/advisor_discussion_brief_2026-10-09.md",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/claim_manifest_v1.json",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/research_asset_map_v2.md",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/saner_rene_claim_matrix_v1.json",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/submission_draft_arr_www_anonymous_v0.md",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/submission_package_audit_v1.json",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/submission_readiness_arr_www_v1.md",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/submission_redaction_map_v1.json",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/teacher_review_draft_v1.docx",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/teacher_review_draft_v1.md",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "paper/teacher_review_readiness_v2.md",
+      "group": "G5_PAPER",
+      "action": "COMMIT"
+    },
+    {
+      "path": "config/schema_suggestions.json",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/15_远程开发机_Codex_CLI_与_OpenCode_配置.md",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/causal_checkpoint_selection_mvp_20261011/smoke/test_causal_checkpoint_selection_mvp.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v3/tests/test_finqa_v2_runtime_binding_v3_integration.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/archive/loop_ac_supervisor_m1_legacy.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/archive/loop_ac_supervisor_qoder_legacy.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/deploy_proxy_gb10.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/docs_lint.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/agent_env_preflight.ps1",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/agent_env_preflight.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/agent_env.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/dispatch_loop_ac.ps1",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/formal_experiment_preflight.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/graph_orchestrator.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/loop_ac_launcher.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/loop_d_daemon.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/loop_d_monitor.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/status.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/setup_codex_gb10.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/supervisor_m1.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "ARCHIVE_MOVE_DELETE_OLD_PATH"
+    },
+    {
+      "path": "scripts/supervisor_qoder.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "ARCHIVE_MOVE_DELETE_OLD_PATH"
+    },
+    {
+      "path": "scripts/switch_codex_model.sh",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "tests/test_finqa_evidence_argument_resolver_v2.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "tests/test_finqa_independent_observation_scorer_v2.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "tests/test_finqa_numeric_token_canonicalization_v2.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "tests/test_finqa_v2_execution_freeze.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "tests/test_finqa_v2_scorer_runtime_binding_v2.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "tests/test_formal_experiment_preflight.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "tests/test_multileaf_formal_contract.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "tests/test_paper_claim_acceptance.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "tests/test_submission_anonymous_preview.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "tests/test_submission_package_audit.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/experiments/2026-10-11_cross_host_receipt_verification.json",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/local_repository_receipt.json.sha256",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/local_repository_receipt.json",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/local_docs_lint.json",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/local_submission_audit.json",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/local_claims_audit.json",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/local_focused_pytest.exit_code",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/local_focused_pytest.log",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/gb10_repository_receipt.json.sha256",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/gb10_docs_lint.json",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/gb10_submission_audit.json",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/gb10_claims_audit.json",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/gb10_full_pytest.exit_code",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/gb10_full_pytest.log",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "scripts/graph/generate_repository_receipt.py",
+      "group": "G6_ENGINEERING_TESTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/experiments/2026-10-11_loop_c_repository_governance_final_audit.md",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "logs/graph/receipts/2026-10-11/gb10_repository_receipt.json",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    },
+    {
+      "path": "docs/experiments/2026-10-11_cross_host_receipt_verification.json.sha256",
+      "group": "G0_REQUIRED_REPORTS",
+      "action": "COMMIT"
+    }
+  ],
+  "duplicate_holds": [
+    {
+      "path": "research/stage_e_method_revision_2026-10-09/multileaf_power_analysis.py",
+      "status": "SUPERSEDED_DUPLICATE_DO_NOT_COMMIT",
+      "reason": "byte-identical to canonical research/*_20261009 file"
+    },
+    {
+      "path": "research/stage_e_method_revision_2026-10-09/prm_reference_smoke.py",
+      "status": "SUPERSEDED_DUPLICATE_DO_NOT_COMMIT",
+      "reason": "byte-identical to canonical research/*_20261009 file"
+    },
+    {
+      "path": "research/stage_e_method_revision_2026-10-09/stage_e_matched_fpr_reanalysis.py",
+      "status": "SUPERSEDED_DUPLICATE_DO_NOT_COMMIT",
+      "reason": "byte-identical to canonical research/*_20261009 file"
+    },
+    {
+      "path": "research/stage_e_method_revision_2026-10-09/validate_stage_e_method_revision.py",
+      "status": "SUPERSEDED_DUPLICATE_DO_NOT_COMMIT",
+      "reason": "byte-identical to canonical research/*_20261009 file"
+    },
+    {
+      "path": "research/stage_e_stage_d_2026-10-09/finalize_loop_c_conditions.py",
+      "status": "SUPERSEDED_DUPLICATE_DO_NOT_COMMIT",
+      "reason": "byte-identical to canonical research/*_20261009 file"
+    },
+    {
+      "path": "research/stage_e_stage_d_2026-10-09/loop_a_prompt.md",
+      "status": "SUPERSEDED_DUPLICATE_DO_NOT_COMMIT",
+      "reason": "byte-identical to canonical research/*_20261009 file"
+    },
+    {
+      "path": "research/stage_e_stage_d_2026-10-09/repair_loop_c_conditions.py",
+      "status": "SUPERSEDED_DUPLICATE_DO_NOT_COMMIT",
+      "reason": "byte-identical to canonical research/*_20261009 file"
+    },
+    {
+      "path": "research/stage_e_stage_d_2026-10-09/resolve_final_conditions.py",
+      "status": "SUPERSEDED_DUPLICATE_DO_NOT_COMMIT",
+      "reason": "byte-identical to canonical research/*_20261009 file"
+    }
+  ],
+  "external_hold_policy": "G7 external/large assets and G8 history holds remain outside this commit manifest; no UNKNOWN deletion",
+  "runtime_receipt_policy": "logs/graph/verify-report.json and loop_b_last_status are historical runtime snapshots, not current task verification authority",
+  "git_sync_status": "STOP_GIT_SYNC_PENDING_CROSS_HOST_RECEIPT_PASS",
+  "fallback_receipt_policy": "Fallback is limited to materializing existing test/audit outputs and deterministic host receipts; no new gate hierarchy or scientific workflow."
+}

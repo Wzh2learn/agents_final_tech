@@ -1,0 +1,326 @@
+{
+  "status": "PASS",
+  "paper": "paper/teacher_review_draft_v1.md",
+  "claims": 5,
+  "checks_total": 79,
+  "checks_passed": 79,
+  "errors": [],
+  "checks": [
+    {
+      "check": "section:Abstract",
+      "pass": true
+    },
+    {
+      "check": "section:Introduction",
+      "pass": true
+    },
+    {
+      "check": "section:Related Work",
+      "pass": true
+    },
+    {
+      "check": "section:Method",
+      "pass": true
+    },
+    {
+      "check": "section:Experimental Setup",
+      "pass": true
+    },
+    {
+      "check": "section:Results",
+      "pass": true
+    },
+    {
+      "check": "section:Discussion and Limitations",
+      "pass": true
+    },
+    {
+      "check": "section:Conclusion",
+      "pass": true
+    },
+    {
+      "check": "section:References",
+      "pass": true
+    },
+    {
+      "check": "forbidden:TODO",
+      "pass": true
+    },
+    {
+      "check": "forbidden:append-only",
+      "pass": true
+    },
+    {
+      "check": "forbidden:main thread",
+      "pass": true
+    },
+    {
+      "check": "forbidden:Loop D",
+      "pass": true
+    },
+    {
+      "check": "forbidden:Ruling ",
+      "pass": true
+    },
+    {
+      "check": "forbidden:ruling ",
+      "pass": true
+    },
+    {
+      "check": "forbidden:[logs/graph/eval/",
+      "pass": true
+    },
+    {
+      "check": "forbidden:[docs/experiments/",
+      "pass": true
+    },
+    {
+      "check": "forbidden:主线程",
+      "pass": true
+    },
+    {
+      "check": "forbidden:决策 ",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:token:96/118",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:token:0/13 OCR-like injections were visible across 11 table clusters",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:token:all five thresholds",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:evidence:logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:evidence:logs/graph/eval/t2_visibility_sensitivity.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C1:evidence:logs/graph/eval/d1_mutant_validity_audit.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:112/118",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:85/118",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:13/118",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:positive affine transformations",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:identical rankings and ROC geometry",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:not empirically identifiable",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:token:historical fixed-threshold equality",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:evidence:logs/graph/eval/t1_eval_baseline_comparison.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:evidence:logs/graph/eval/d3_matched_fpr_stage_a.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:evidence:docs/research/stage_e_matched_fpr_reanalysis_v1.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C2:evidence:research/stage_e_method_revision_20261009/matched_fpr_reanalysis.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:token:0.7895",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:token:0.7835",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:token:0.7556",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:token:five class flips",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:evidence:logs/graph/eval/d2_cross_matcher_det.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C3:evidence:logs/graph/eval/t4_pso_fair_comparison.json",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:token:all 7",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:token:all 5",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:token:p=0.375",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:evidence:docs/experiments/2026-08-28_adversarial_arm_experiment.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:evidence:docs/experiments/2026-08-29_collision_expansion_experiment.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C4:evidence:docs/experiments/2026-08-29_column_sensitivity_analysis.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:2409 lineage UIDs",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:768 report clusters",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:1970 frozen step-level records",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:0.0298",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:0.2233",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:pre-set 0.5",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:ten table-pair clusters",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:16.3% to 23.7%",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:four role layers",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:7134 examples",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:two to eleven columns",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:322 records of 1970",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:467 under the one yielding 0.2233",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:token:44 and 330 matches out of 1478 percent-form steps",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:evidence:docs/experiments/2026-09-25_source_go_p1p2_staging.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:evidence:docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:evidence:docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:evidence:docs/datasets/2026-09-25_finqa_process_structure_and_checkpoint_semantics.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_review_teacher_review_v2_qwen3.8-max.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_review_teacher_review_v2_deepseek-v4-pro.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_review_v2_divergence_table.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_confirm_review_v2_qwen3.8-max.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_confirm_review_v2_deepseek-v4-pro.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_confirm_review_v2_round5_qwen3.8-max.md",
+      "pass": true
+    },
+    {
+      "check": "SP-C5:audit_record:docs/experiments/2026-09-25_loopc_confirm_review_v2_round5_deepseek-v4-pro.md",
+      "pass": true
+    },
+    {
+      "check": "figure:docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg",
+      "pass": true
+    },
+    {
+      "check": "figure:docs/experiments/figures_paper/fig_visibility_spectrum.png",
+      "pass": true
+    },
+    {
+      "check": "delivery:paper/teacher_review_draft_v1.md",
+      "pass": true
+    },
+    {
+      "check": "delivery:paper/teacher_review_draft_v1.docx",
+      "pass": true
+    },
+    {
+      "check": "delivery:paper/teacher_review_note_v2.md",
+      "pass": true
+    },
+    {
+      "check": "delivery:paper/teacher_review_readiness_v2.md",
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+..................F...............F........................              [100%]
+================================== FAILURES ===================================
+__________ test_premise_identity_counts_and_source_hashes_are_exact ___________
+
+    def test_premise_identity_counts_and_source_hashes_are_exact():
+        candidate = json.loads(PATHS["candidate_manifest"].read_text(encoding="utf-8"))
+        sample_ids = [
+            sample["sample_id"]
+            for stage in STAGES
+            for sample in candidate["samples"][stage]
+        ]
+        assert len(sample_ids) == 216
+        assert len(set(sample_ids)) == 216
+        assert {stage: len(candidate["samples"][stage]) for stage in STAGES} == {"E": 72, "P": 72, "N": 72}
+        for raw_path, expected in candidate["source_files"].items():
+            path = Path(raw_path)
+>           assert path.stat().st_size == expected["bytes"]
+                   ^^^^^^^^^^^
+
+tests\test_finqa_v2_execution_freeze.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('/home/testuser/wzh/phase1a_staging_20260925/finqa/dev.json')
+
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [WinError 3] 系统找不到指定的路径。: '\\home\\testuser\\wzh\\phase1a_staging_20260925\\finqa\\dev.json'
+
+C:\Users\王中华\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1013: FileNotFoundError
+________________ test_old_invalid_run_hashes_remain_unchanged _________________
+
+    def test_old_invalid_run_hashes_remain_unchanged() -> None:
+        audit = read_json(AUDIT_PATH)
+        immutable = audit["old_invalid_run"]["immutable_output_sha256"]
+        results = read_json(RESULTS_DIR / "finqa_v2_formal_results.json")
+        receipt = read_json(RESULTS_DIR / "finqa_v2_formal_execution_receipt.json")
+    
+        for name, expected in immutable.items():
+>           observed = hashlib.sha256((RESULTS_DIR / name).read_bytes()).hexdigest()
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_finqa_v2_scorer_runtime_binding_v2.py:310: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\王中华\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1050: in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('research/finqa_v2_20261010/results/finqa_v2_focused_preflight.log')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'research\\finqa_v2_20261010\\results\\finqa_v2_focused_preflight.log'
+
+C:\Users\王中华\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1044: FileNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/test_finqa_v2_execution_freeze.py::test_premise_identity_counts_and_source_hashes_are_exact
+FAILED tests/test_finqa_v2_scorer_runtime_binding_v2.py::test_old_invalid_run_hashes_remain_unchanged
+2 failed, 57 passed in 4.69s

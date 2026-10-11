@@ -1,0 +1,2236 @@
+{
+  "authoritative_assets": {
+    "docs/experiments/2026-10-11_loop_c_repository_governance_final_audit.md": "da8eeba5ba25849f094b088a473345acf38e145754a9fe4ee5bed36c19b7de46",
+    "docs/handoff/repository_asset_classification_2026-10-11.json": "95959a71a4fd57d282c14424e58c7997f7dc2e1f755aa5ac8b0c2635c41b4aed",
+    "docs/handoff/repository_governance_and_sync_2026-10-11.md": "5ac6b917ce69450e162aedce15d2e41dfea73828febb712129db35450b3dab29",
+    "docs/handoff/repository_governance_commit_manifest_2026-10-11.json": "e81187d6bae4cfe18e9c07b1445aecb59cabbcd4699906b5b4058ab8178fb5e0",
+    "docs/research/finqa_v2_asset_lineage_v1.md": "88c0e90d34c1c39cbfc5344c01f25a5cdc2c994dff86e4b53ae255628f552c2b"
+  },
+  "commit_manifest": {
+    "archive_move_paths": [
+      "scripts/supervisor_m1.sh",
+      "scripts/supervisor_qoder.sh"
+    ],
+    "covered_paths": 353,
+    "entry_count": 353,
+    "entry_paths_sha256": "877d3808ea3b0fe12203489788371743f39c19dcec40274de95a6d96b3f0ceff",
+    "path": "docs/handoff/repository_governance_commit_manifest_2026-10-11.json",
+    "sha256": "e81187d6bae4cfe18e9c07b1445aecb59cabbcd4699906b5b4058ab8178fb5e0",
+    "unique_entry_paths": true
+  },
+  "generated_at": "2026-10-11T03:22:09.213958+00:00",
+  "generation_mode": "DETERMINISTIC_CROSS_HOST_RECEIPT",
+  "git": {
+    "ahead": "0",
+    "behind": "0",
+    "branch": "main",
+    "diff_stat": " config/schema_suggestions.json                     |   6 +--\n ...\ufffd\ufffd\u7a0b\u5f00\u53d1\u673a_Codex_CLI_\u4e0e_OpenCode_\u914d\u7f6e.md |   6 +--\n docs/17_Graph_Engineering_\u591a\u5c42Loop\u8bbe\u8ba1.md      |  13 ++---\n docs/INDEX.md                                      |  38 ++++++++++----\n docs/SKILL_ROUTING.md                              |   2 +\n .../reference/SESSION_HANDOFF_TEMPLATE.md          |  13 +++++\n docs/governance/reference/TIERED_EVAL_PATTERN.md   |  13 +++++\n logs/graph/blocked_questions.md                    |   4 ++\n logs/graph/dispatch_log.md                         |   4 ++\n logs/graph/docs_lint_report.json                   |  16 +++---\n logs/graph/governance_drift_latest.md              |  31 +++++-------\n logs/graph/loop_b_last_status                      |   2 +-\n logs/graph/verify-report.json                      |  15 +++---\n memory/CORE.md                                     |  13 ++---\n memory/DECISIONS.md                                |   5 ++\n memory/STATE.md                                    |  44 +++++++++++-----\n memory/THREADS.md                                  |  29 +++++++++++\n paper/claim_manifest_v1.json                       |  16 +++---\n paper/research_asset_map_v2.md                     |   2 +\n paper/submission_draft_arr_www_anonymous_v0.md     |  28 ++++++-----\n paper/submission_package_audit_v1.json             |  12 ++---\n paper/submission_readiness_arr_www_v1.md           |  40 ++++++++++++---\n paper/submission_redaction_map_v1.json             |   2 +-\n paper/teacher_review_draft_v1.docx                 | Bin 98122 -> 98493 bytes\n paper/teacher_review_draft_v1.md                   |  28 ++++++-----\n paper/teacher_review_readiness_v2.md               |   2 +\n research/audit_submission_package.py               |   6 +--\n scripts/archive/loop_ac_supervisor_qoder_legacy.sh |   4 +-\n scripts/deploy_proxy_gb10.sh                       |   3 ++\n scripts/docs_lint.py                               |  20 ++++++--\n scripts/graph/graph_orchestrator.sh                |  56 +++++++++++----------\n scripts/graph/loop_d_daemon.sh                     |   2 +-\n scripts/graph/loop_d_monitor.sh                    |  36 ++++++-------\n scripts/graph/status.sh                            |   1 +\n scripts/graph/sync_skills.sh                       |  11 ++--\n scripts/setup_codex_gb10.sh                        |   3 ++\n scripts/switch_codex_model.sh                      |  12 +++--\n side_handoff.md                                    |  10 ++--\n tests/test_paper_claim_acceptance.py               |  15 +++++-\n tests/test_submission_anonymous_preview.py         |   4 +-\n tests/test_submission_package_audit.py             |   4 +-\n 41 files changed, 378 insertions(+), 193 deletions(-)\n",
+    "head_sha": "e97340387888290e69fbfff122ab163de971b37e",
+    "upstream": "origin/main"
+  },
+  "git_status": {
+    "porcelain_v1_z_sha256": "6b85833e4c46e7568ed91b6b38cfaaf312225f84de58af932d0bb7488cf48fea",
+    "records": [
+      {
+        "original_path": null,
+        "path": "config/schema_suggestions.json",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "docs/15_\u8fdc\u7a0b\u5f00\u53d1\u673a_Codex_CLI_\u4e0e_OpenCode_\u914d\u7f6e.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "docs/17_Graph_Engineering_\u591a\u5c42Loop\u8bbe\u8ba1.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "docs/INDEX.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "docs/SKILL_ROUTING.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "docs/governance/reference/SESSION_HANDOFF_TEMPLATE.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "docs/governance/reference/TIERED_EVAL_PATTERN.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "logs/graph/blocked_questions.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "logs/graph/dispatch_log.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "logs/graph/docs_lint_report.json",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "logs/graph/governance_drift_latest.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "logs/graph/loop_b_last_status",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "logs/graph/verify-report.json",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "memory/CORE.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "memory/DECISIONS.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "memory/STATE.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "memory/THREADS.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/acceptance_report_v1.json",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/claim_manifest_v1.json",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/figures/fig_evaluate_distill_evolve_v1.svg",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/references_v0.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/research_asset_map_v2.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/research_story_v2.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/submission_draft_arr_www_anonymous_v0.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/submission_package_audit_v1.json",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/submission_readiness_arr_www_v1.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/submission_redaction_map_v1.json",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/teacher_review_draft_v1.docx",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/teacher_review_draft_v1.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/teacher_review_note_v2.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "paper/teacher_review_readiness_v2.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "research/audit_submission_package.py",
+        "xy": " M"
+      },
+      {
+        "original_path": "scripts/supervisor_m1.sh",
+        "path": "scripts/archive/loop_ac_supervisor_m1_legacy.sh",
+        "xy": "RM"
+      },
+      {
+        "original_path": "scripts/supervisor_qoder.sh",
+        "path": "scripts/archive/loop_ac_supervisor_qoder_legacy.sh",
+        "xy": "RM"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/deploy_proxy_gb10.sh",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/docs_lint.py",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/graph_orchestrator.sh",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/loop_d_daemon.sh",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/loop_d_monitor.sh",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/status.sh",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/sync_skills.sh",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/setup_codex_gb10.sh",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/switch_codex_model.sh",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "side_handoff.md",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "tests/test_paper_claim_acceptance.py",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "tests/test_submission_anonymous_preview.py",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "tests/test_submission_package_audit.py",
+        "xy": " M"
+      },
+      {
+        "original_path": null,
+        "path": "docs/15_\u6769\u6ec5\u25bc\u5bee\u20ac\u9359\u621e\u6e80_Codex_CLI_\u6d93\u5dc1OpenCode_\u95b0\u5d87\u7586.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/17_Graph_Engineering_\u6fb6\u6c2c\u7730Loop\u7481\u6350\ue178.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/datasets/2026-10-08_stage_e_public_source_metadata_audit_v1.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/experiments/2026-10-08_stage_e_inquiry_loop_a_task_card.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/experiments/2026-10-10_loop_c_finqa_v2_binding_v2_audit.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/experiments/2026-10-10_loop_c_finqa_v2_formal_v3_recompute_audit.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/experiments/2026-10-10_loop_c_graph_loop_meta_retrospective_audit.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/experiments/2026-10-10_loop_c_multileaf_audit.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/experiments/2026-10-10_loop_c_prm_smoke_audit.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/experiments/2026-10-11_loop_c_causal_checkpoint_mvp_design_audit.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/experiments/2026-10-11_loop_c_repository_governance_final_audit.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/governance/GRAPH_LOOP_AUTHORITY_MAP_V1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/governance/agent_environment_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/governance/audit/graph_loop_meta_retrospective_2026-10-10.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/governance/loop_ac_environment_closeout_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/governance/loop_ac_launcher_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/handoff/2026-10-09_advisor_decision_candidate_paths.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/handoff/current_status_reconciliation_proposal.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/handoff/overnight_graph_loop_handoff_2026-10-10.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/handoff/repository_asset_classification_2026-10-11.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/handoff/repository_governance_and_sync_2026-10-11.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/handoff/repository_governance_audit_loop_c_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/handoff/repository_governance_commit_manifest_2026-10-11.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/handoff/repository_governance_inventory_loop_a_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/handoff/repository_governance_local_truth_addendum_2026-10-11.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/2026-10-08_stage_e_inquiry_and_experiment_design_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/agent_distillation_adapter_provenance_audit_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/agent_distillation_tcv_execution_smoke_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/derived_process_supervision_design_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/figures_multileaf/fig_multileaf_flat_hierarchy_relation.png",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/figures_multileaf/fig_multileaf_flat_hierarchy_relation.svg",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/figures_multileaf/fig_multileaf_localization_ablation.png",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/figures_multileaf/fig_multileaf_localization_ablation.svg",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/figures_multileaf/fig_multileaf_response_signatures.png",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/figures_multileaf/fig_multileaf_response_signatures.svg",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/figures_multileaf/manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_causal_exposure_preregistration_proposal_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_numeric_token_canonicalization_v2.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_process_checkpoint_v2_preregistration_draft_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_v2_asset_lineage_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_v2_candidate_sample_manifest_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_v2_causal_join_audit_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_v2_formal_v3_activation_record_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_v2_gate_reconciliation_v2.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_v2_gate_reconciliation_v2.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_v2_gate_status_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/finqa_v2_overlap_feasibility_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/itil_ai_governance_background_evidence_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/math_shepherd_label_quality_sensitivity_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/math_shepherd_label_smoke_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/math_shepherd_reference_track_audit_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/multileaf_mechanism_generalization_audit_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/multileaf_preresult_freeze_receipt_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/nist_measurement_validity_ledger_v2.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/nist_tevv_background_evidence_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/prm800k_reference_track_audit_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/prm_c2_c4_selection_dryrun_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/prm_reference_training_smoke_audit_addendum_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/prm_reference_training_smoke_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/process_supervision_adaptation_review_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/route_b_read_only_qualification_2026-10-11.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_d_minimal_experiment_v2.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_d_prm_formal_pilot_proposal_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_d_process_signal_requirements_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_118_quantification_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_harmfulness_metric_boundary_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_independent_scorer_feasibility_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_matched_fpr_reanalysis_protocol_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_matched_fpr_reanalysis_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_metric_precedent_review_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_metric_priority_v2.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_multileaf_power_plan_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_multileaf_preregistration_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_multileaf_protocol_v2.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_multileaf_result_packet_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_multileaf_signature_ablation_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_multileaf_v2_robustness_preregistration_delta_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_narrative_after_advisor_feedback_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_observability_metrics_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_paper_upgrade_plan_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_second_dataflow_candidate_qualification_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_stage_d_unified_story_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_threshold_visibility_analysis_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_version_b_figure_spec_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_version_b_revision_proposal_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "docs/research/stage_e_zero_event_uncertainty_note_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "memory/archive/STATE_2026-10-11_pre_repository_governance.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "paper/advisor_decision_tables_2026-10-09.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "paper/advisor_discussion_brief_2026-10-09.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "paper/saner_rene_claim_matrix_v1.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/causal_checkpoint_selection_mvp_20261011/METHOD_DESIGN_QUALIFICATION_V1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/causal_checkpoint_selection_mvp_20261011/loop_a_dev_smoke_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/causal_checkpoint_selection_mvp_20261011/loop_c_design_audit_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/causal_checkpoint_selection_mvp_20261011/smoke/causal_checkpoint_selection_mvp.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/causal_checkpoint_selection_mvp_20261011/smoke/dev_smoke_input_manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/causal_checkpoint_selection_mvp_20261011/smoke/dev_smoke_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/causal_checkpoint_selection_mvp_20261011/smoke/dev_smoke_result.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/causal_checkpoint_selection_mvp_20261011/smoke/test_causal_checkpoint_selection_mvp.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_causal_exposure_20261010/FINQA_CAUSAL_EXPOSURE_LATER_EXECUTION_TASK_CARD_NOT_EXECUTED.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_causal_exposure_20261010/finqa_causal_exposure_design.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_causal_exposure_20261010/finqa_causal_exposure_feasibility.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_causal_exposure_20261010/finqa_causal_exposure_proposal_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_causal_exposure_20261010/finqa_causal_exposure_source_ledger.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_evidence_argument_resolver_v2.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_independent_observation_scorer_v2.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_numeric_token_canonicalization_v2.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/FINQA_V2_EXECUTION_FREEZE_PACKET.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/FINQA_V2_FORMAL_EXPERIMENT_TASK_CARD.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v2/FINQA_V2_ARTIFACT_BINDING_CONTRACT_V2.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v2/FINQA_V2_MINIMAL_RERUN_TASK_CARD.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_artifact_binding_contract_v2.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_binding_v2_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_normalization_audit.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_raw_normalized_mapping.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_scorer_runtime_binding_v2.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v3/FINQA_V2_RUNTIME_BINDING_INTERFACE_V3.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_binding_v3_qualification_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_binding_v3_qualification_rows.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_binding_v3_qualification_summary.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_runtime_binding_interface_v3.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_runtime_binding_v3.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/binding_v3/tests/test_finqa_v2_runtime_binding_v3_integration.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_analysis_plan.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_analysis_plan_hash_manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_analysis_preresult_freeze_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_dependency_freeze.txt",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_execution_freeze_packet.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_frozen_sample_manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_paired_artifact_manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_preresult_freeze_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_scoped_environment_snapshot.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_scoped_source_diff.patch",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_scorer_binding_manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/finqa_v2_split_manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/materialize_finqa_v2_binding_v2_rerun_invalid.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/materialize_finqa_v2_formal_invalid.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/preflight_v1/FINQA_V2_FORMAL_RERUN_V3_TASK_CARD.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_certificate.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/preflight_v1/materialize_finqa_v2_end_to_end_preflight.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results/FINQA_V2_FORMAL_RESULT_REPORT.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results/finqa_v2_bootstrap_replicates.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results/finqa_v2_formal_execution_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results/finqa_v2_formal_results.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results/finqa_v2_formal_sample_rows.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results/finqa_v2_formal_scorer_failures.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v2_rerun/FINQA_V2_FORMAL_RESULT_REPORT.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_bootstrap_replicates.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_execution_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_results.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_sample_rows.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_scorer_failures.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v3_rerun/FINQA_V2_FORMAL_RESULT_REPORT.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_exclusions_and_failure_accounting.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_formal_execution_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_formal_results.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_formal_sample_rows.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_v_d_o_rows.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v3_rerun/materialize_finqa_v2_binding_v3_receipt.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/results_binding_v3_rerun/run_finqa_v2_binding_v3_rerun.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/run_finqa_v2_binding_v2_rerun.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_20261010/run_finqa_v2_formal_experiment.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_analysis_freeze_loop_a_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_analysis_freeze_loop_c_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_binding_audit_loop_c_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_binding_repair_loop_a_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_binding_v3_qualification_loop_a_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_formal_audit_loop_c_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_formal_experiment_loop_a_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_minimal_rerun_audit_loop_c_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_preresult_freeze_loop_a_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_preresult_freeze_loop_c_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/finqa_v2_test_execution_loop_c_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/loop_a_end_to_end_preflight_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/loop_a_finqa_causal_exposure_design_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/loop_a_finqa_v2_formal_rerun_v3_dispatch.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/loop_c_end_to_end_preflight_certification_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/loop_c_finqa_causal_exposure_challenge_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/loop_c_finqa_v2_formal_v3_recompute_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/loop_c_finqa_v2_result_autopsy_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/loop_c_graph_loop_meta_retrospective_task_contract.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/math_shepherd_label_smoke_20261010/smoke_config.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/math_shepherd_label_smoke_20261010/smoke_results.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/prm_reference_training_smoke_20261010/smoke_config.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/prm_reference_training_smoke_20261010/smoke_metrics.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/prm_reference_training_smoke_20261010_failed_triton_python_h/smoke_config.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_2026-10-09/loop_c_method_revision_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_2026-10-09/multileaf_power_analysis.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_2026-10-09/prm_reference_smoke.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_2026-10-09/stage_e_matched_fpr_reanalysis.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_2026-10-09/validate_stage_e_method_revision.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/agent_distillation_adapter_provenance_audit.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/audit_agent_distillation_adapter.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/audit_agent_distillation_tcv_smoke.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/build_multileaf_freeze.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/loop_c_prm_smoke_audit_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/matched_fpr_reanalysis.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/multileaf_freeze.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/multileaf_power_analysis.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/multileaf_power_analysis.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/prm_c2_c4_selection_dryrun.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/prm_reference_smoke.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/prm_reference_smoke.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/qualify_stage_d_reference_sources.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/run_math_shepherd_label_smoke.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/run_prm_c2_c4_dryrun.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/run_prm_reference_training_smoke.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/stage_d_reference_source_qualification.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/stage_e_execution_revision_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/stage_e_matched_fpr_reanalysis.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/stage_e_method_revision_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/validate_stage_e_execution_revision.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_method_revision_20261009/validate_stage_e_method_revision.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/analyze_multileaf_signature_ablation.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/audit_multileaf_generalization.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/build_multileaf_figures.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/build_multileaf_preresult_freeze.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/build_stage_e_evidence_strengthening_repair_receipt.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/finqa_v2_candidate_sample_manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/finqa_v2_overlap_feasibility.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/independent_multileaf_contract_audit.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/loop_a_evidence_strengthening_fix_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/loop_a_evidence_strengthening_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/loop_c_evidence_strengthening_fix_reaudit_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/loop_c_evidence_strengthening_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/loop_c_multileaf_audit_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_d_prm_formal_pilot_proposal_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_independent_scorer_feasibility_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_multileaf_result_packet_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_revision_proposal_v1.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/multileaf_environment_snapshot.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/multileaf_mechanism_generalization_audit.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.sha256",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/multileaf_preresult_git_diff.patch",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/render_multileaf_localization_ablation_v2.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/results/independent_contract_audit.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/results/independent_validation_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/results/multileaf_bootstrap_intervals.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/results/multileaf_formal_results.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/results/multileaf_formal_results.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/results/multileaf_permutation_null.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/results/multileaf_run_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/run_multileaf_formal.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_multileaf_20261010/validate_multileaf_formal_results.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_2026-10-09/finalize_loop_c_conditions.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_2026-10-09/loop_a_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_2026-10-09/loop_c_final_recheck_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_2026-10-09/loop_c_recheck_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_2026-10-09/repair_loop_c_conditions.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_2026-10-09/resolve_final_conditions.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/analysis_summary.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/contract/IMPLEMENTATION_PLAN.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/contract/PROMPT.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/contract/loop_a_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/contract/loop_c_prompt.md",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/contract/openalex_search.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/final_validation.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/finalize_loop_c_conditions.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/loop_a_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/loop_c_verdict.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/metadata_network_accounting.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/metadata_url_manifest.txt",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/quantify_stage_e.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/repair_loop_c_conditions.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/resolve_final_conditions.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/source_audit_v1.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/source_data_receipt.json",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/threshold_visibility.png",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/threshold_visibility.svg",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/threshold_visibility_source.csv",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/visibility_detection.png",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/visibility_detection.svg",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "research/stage_e_stage_d_20261009/visibility_detection_source.csv",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/agent_env.sh",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/agent_env_preflight.ps1",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/agent_env_preflight.sh",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/dispatch_loop_ac.ps1",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/formal_experiment_preflight.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/generate_repository_receipt.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "scripts/graph/loop_ac_launcher.sh",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "tests/test_finqa_evidence_argument_resolver_v2.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "tests/test_finqa_independent_observation_scorer_v2.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "tests/test_finqa_numeric_token_canonicalization_v2.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "tests/test_finqa_v2_execution_freeze.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "tests/test_finqa_v2_scorer_runtime_binding_v2.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "tests/test_formal_experiment_preflight.py",
+        "xy": "??"
+      },
+      {
+        "original_path": null,
+        "path": "tests/test_multileaf_formal_contract.py",
+        "xy": "??"
+      }
+    ],
+    "staged_paths": [
+      "scripts/archive/loop_ac_supervisor_m1_legacy.sh",
+      "scripts/archive/loop_ac_supervisor_qoder_legacy.sh"
+    ],
+    "unstaged_paths": [
+      "config/schema_suggestions.json",
+      "docs/15_\u8fdc\u7a0b\u5f00\u53d1\u673a_Codex_CLI_\u4e0e_OpenCode_\u914d\u7f6e.md",
+      "docs/17_Graph_Engineering_\u591a\u5c42Loop\u8bbe\u8ba1.md",
+      "docs/INDEX.md",
+      "docs/SKILL_ROUTING.md",
+      "docs/experiments/figures_paper/fig_checkpoint_trees_v2.svg",
+      "docs/governance/reference/SESSION_HANDOFF_TEMPLATE.md",
+      "docs/governance/reference/TIERED_EVAL_PATTERN.md",
+      "logs/graph/blocked_questions.md",
+      "logs/graph/dispatch_log.md",
+      "logs/graph/docs_lint_report.json",
+      "logs/graph/governance_drift_latest.md",
+      "logs/graph/loop_b_last_status",
+      "logs/graph/verify-report.json",
+      "memory/CORE.md",
+      "memory/DECISIONS.md",
+      "memory/STATE.md",
+      "memory/THREADS.md",
+      "paper/acceptance_report_v1.json",
+      "paper/claim_manifest_v1.json",
+      "paper/figures/fig_evaluate_distill_evolve_v1.svg",
+      "paper/references_v0.md",
+      "paper/research_asset_map_v2.md",
+      "paper/research_story_v2.md",
+      "paper/submission_draft_arr_www_anonymous_v0.md",
+      "paper/submission_package_audit_v1.json",
+      "paper/submission_readiness_arr_www_v1.md",
+      "paper/submission_redaction_map_v1.json",
+      "paper/teacher_review_draft_v1.docx",
+      "paper/teacher_review_draft_v1.md",
+      "paper/teacher_review_note_v2.md",
+      "paper/teacher_review_readiness_v2.md",
+      "research/audit_submission_package.py",
+      "scripts/archive/loop_ac_supervisor_m1_legacy.sh",
+      "scripts/archive/loop_ac_supervisor_qoder_legacy.sh",
+      "scripts/deploy_proxy_gb10.sh",
+      "scripts/docs_lint.py",
+      "scripts/graph/graph_orchestrator.sh",
+      "scripts/graph/loop_d_daemon.sh",
+      "scripts/graph/loop_d_monitor.sh",
+      "scripts/graph/status.sh",
+      "scripts/graph/sync_skills.sh",
+      "scripts/setup_codex_gb10.sh",
+      "scripts/switch_codex_model.sh",
+      "side_handoff.md",
+      "tests/test_paper_claim_acceptance.py",
+      "tests/test_submission_anonymous_preview.py",
+      "tests/test_submission_package_audit.py"
+    ],
+    "untracked_paths": [
+      "docs/15_\u6769\u6ec5\u25bc\u5bee\u20ac\u9359\u621e\u6e80_Codex_CLI_\u6d93\u5dc1OpenCode_\u95b0\u5d87\u7586.md",
+      "docs/17_Graph_Engineering_\u6fb6\u6c2c\u7730Loop\u7481\u6350\ue178.md",
+      "docs/datasets/2026-10-08_stage_e_public_source_metadata_audit_v1.json",
+      "docs/experiments/2026-10-08_stage_e_inquiry_loop_a_task_card.md",
+      "docs/experiments/2026-10-10_loop_c_finqa_v2_binding_v2_audit.md",
+      "docs/experiments/2026-10-10_loop_c_finqa_v2_formal_v3_recompute_audit.md",
+      "docs/experiments/2026-10-10_loop_c_graph_loop_meta_retrospective_audit.md",
+      "docs/experiments/2026-10-10_loop_c_multileaf_audit.md",
+      "docs/experiments/2026-10-10_loop_c_prm_smoke_audit.md",
+      "docs/experiments/2026-10-11_loop_c_causal_checkpoint_mvp_design_audit.md",
+      "docs/experiments/2026-10-11_loop_c_repository_governance_final_audit.md",
+      "docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+      "docs/governance/GRAPH_LOOP_AUTHORITY_MAP_V1.md",
+      "docs/governance/agent_environment_v1.md",
+      "docs/governance/audit/graph_loop_meta_retrospective_2026-10-10.md",
+      "docs/governance/loop_ac_environment_closeout_v1.md",
+      "docs/governance/loop_ac_launcher_v1.md",
+      "docs/handoff/2026-10-09_advisor_decision_candidate_paths.md",
+      "docs/handoff/current_status_reconciliation_proposal.md",
+      "docs/handoff/overnight_graph_loop_handoff_2026-10-10.md",
+      "docs/handoff/repository_asset_classification_2026-10-11.json",
+      "docs/handoff/repository_governance_and_sync_2026-10-11.md",
+      "docs/handoff/repository_governance_audit_loop_c_contract.md",
+      "docs/handoff/repository_governance_commit_manifest_2026-10-11.json",
+      "docs/handoff/repository_governance_inventory_loop_a_contract.md",
+      "docs/handoff/repository_governance_local_truth_addendum_2026-10-11.md",
+      "docs/research/2026-10-08_stage_e_inquiry_and_experiment_design_v1.md",
+      "docs/research/agent_distillation_adapter_provenance_audit_v1.md",
+      "docs/research/agent_distillation_tcv_execution_smoke_v1.md",
+      "docs/research/derived_process_supervision_design_v1.md",
+      "docs/research/figures_multileaf/fig_multileaf_flat_hierarchy_relation.png",
+      "docs/research/figures_multileaf/fig_multileaf_flat_hierarchy_relation.svg",
+      "docs/research/figures_multileaf/fig_multileaf_localization_ablation.png",
+      "docs/research/figures_multileaf/fig_multileaf_localization_ablation.svg",
+      "docs/research/figures_multileaf/fig_multileaf_response_signatures.png",
+      "docs/research/figures_multileaf/fig_multileaf_response_signatures.svg",
+      "docs/research/figures_multileaf/manifest.json",
+      "docs/research/finqa_causal_exposure_preregistration_proposal_v1.md",
+      "docs/research/finqa_numeric_token_canonicalization_v2.md",
+      "docs/research/finqa_process_checkpoint_v2_preregistration_draft_v1.md",
+      "docs/research/finqa_v2_asset_lineage_v1.md",
+      "docs/research/finqa_v2_candidate_sample_manifest_v1.md",
+      "docs/research/finqa_v2_causal_join_audit_v1.md",
+      "docs/research/finqa_v2_formal_v3_activation_record_v1.md",
+      "docs/research/finqa_v2_gate_reconciliation_v2.json",
+      "docs/research/finqa_v2_gate_reconciliation_v2.md",
+      "docs/research/finqa_v2_gate_status_v1.md",
+      "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md",
+      "docs/research/finqa_v2_overlap_feasibility_v1.md",
+      "docs/research/itil_ai_governance_background_evidence_v1.md",
+      "docs/research/math_shepherd_label_quality_sensitivity_v1.md",
+      "docs/research/math_shepherd_label_smoke_v1.md",
+      "docs/research/math_shepherd_reference_track_audit_v1.md",
+      "docs/research/multileaf_mechanism_generalization_audit_v1.md",
+      "docs/research/multileaf_preresult_freeze_receipt_v1.md",
+      "docs/research/nist_measurement_validity_ledger_v2.md",
+      "docs/research/nist_tevv_background_evidence_v1.md",
+      "docs/research/prm800k_reference_track_audit_v1.md",
+      "docs/research/prm_c2_c4_selection_dryrun_v1.md",
+      "docs/research/prm_reference_training_smoke_audit_addendum_v1.md",
+      "docs/research/prm_reference_training_smoke_v1.md",
+      "docs/research/process_supervision_adaptation_review_v1.md",
+      "docs/research/route_b_read_only_qualification_2026-10-11.md",
+      "docs/research/stage_d_minimal_experiment_v2.md",
+      "docs/research/stage_d_prm_formal_pilot_proposal_v1.md",
+      "docs/research/stage_d_process_signal_requirements_v1.md",
+      "docs/research/stage_e_118_quantification_v1.md",
+      "docs/research/stage_e_harmfulness_metric_boundary_v1.md",
+      "docs/research/stage_e_independent_scorer_feasibility_v1.md",
+      "docs/research/stage_e_matched_fpr_reanalysis_protocol_v1.md",
+      "docs/research/stage_e_matched_fpr_reanalysis_v1.md",
+      "docs/research/stage_e_metric_precedent_review_v1.md",
+      "docs/research/stage_e_metric_priority_v2.md",
+      "docs/research/stage_e_multileaf_power_plan_v1.md",
+      "docs/research/stage_e_multileaf_preregistration_v1.md",
+      "docs/research/stage_e_multileaf_protocol_v2.md",
+      "docs/research/stage_e_multileaf_result_packet_v1.md",
+      "docs/research/stage_e_multileaf_signature_ablation_v1.md",
+      "docs/research/stage_e_multileaf_v2_robustness_preregistration_delta_v1.md",
+      "docs/research/stage_e_narrative_after_advisor_feedback_v1.md",
+      "docs/research/stage_e_observability_metrics_v1.md",
+      "docs/research/stage_e_paper_upgrade_plan_v1.md",
+      "docs/research/stage_e_second_dataflow_candidate_qualification_v1.md",
+      "docs/research/stage_e_stage_d_unified_story_v1.md",
+      "docs/research/stage_e_threshold_visibility_analysis_v1.md",
+      "docs/research/stage_e_version_b_figure_spec_v1.md",
+      "docs/research/stage_e_version_b_revision_proposal_v1.md",
+      "docs/research/stage_e_zero_event_uncertainty_note_v1.md",
+      "memory/archive/STATE_2026-10-11_pre_repository_governance.md",
+      "paper/advisor_decision_tables_2026-10-09.md",
+      "paper/advisor_discussion_brief_2026-10-09.md",
+      "paper/saner_rene_claim_matrix_v1.json",
+      "paper/saner_rene_manuscript_scope_lock_v1.md",
+      "research/causal_checkpoint_selection_mvp_20261011/METHOD_DESIGN_QUALIFICATION_V1.md",
+      "research/causal_checkpoint_selection_mvp_20261011/loop_a_dev_smoke_contract.md",
+      "research/causal_checkpoint_selection_mvp_20261011/loop_c_design_audit_contract.md",
+      "research/causal_checkpoint_selection_mvp_20261011/smoke/causal_checkpoint_selection_mvp.py",
+      "research/causal_checkpoint_selection_mvp_20261011/smoke/dev_smoke_input_manifest.json",
+      "research/causal_checkpoint_selection_mvp_20261011/smoke/dev_smoke_receipt.json",
+      "research/causal_checkpoint_selection_mvp_20261011/smoke/dev_smoke_result.json",
+      "research/causal_checkpoint_selection_mvp_20261011/smoke/test_causal_checkpoint_selection_mvp.py",
+      "research/finqa_causal_exposure_20261010/FINQA_CAUSAL_EXPOSURE_LATER_EXECUTION_TASK_CARD_NOT_EXECUTED.md",
+      "research/finqa_causal_exposure_20261010/finqa_causal_exposure_design.json",
+      "research/finqa_causal_exposure_20261010/finqa_causal_exposure_feasibility.json",
+      "research/finqa_causal_exposure_20261010/finqa_causal_exposure_proposal_receipt.json",
+      "research/finqa_causal_exposure_20261010/finqa_causal_exposure_source_ledger.json",
+      "research/finqa_evidence_argument_resolver_v2.py",
+      "research/finqa_independent_observation_scorer_v2.py",
+      "research/finqa_numeric_token_canonicalization_v2.py",
+      "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md",
+      "research/finqa_v2_20261010/FINQA_V2_EXECUTION_FREEZE_PACKET.md",
+      "research/finqa_v2_20261010/FINQA_V2_FORMAL_EXPERIMENT_TASK_CARD.md",
+      "research/finqa_v2_20261010/binding_v2/FINQA_V2_ARTIFACT_BINDING_CONTRACT_V2.md",
+      "research/finqa_v2_20261010/binding_v2/FINQA_V2_MINIMAL_RERUN_TASK_CARD.md",
+      "research/finqa_v2_20261010/binding_v2/finqa_v2_artifact_binding_contract_v2.json",
+      "research/finqa_v2_20261010/binding_v2/finqa_v2_binding_v2_receipt.json",
+      "research/finqa_v2_20261010/binding_v2/finqa_v2_normalization_audit.json",
+      "research/finqa_v2_20261010/binding_v2/finqa_v2_raw_normalized_mapping.jsonl",
+      "research/finqa_v2_20261010/binding_v2/finqa_v2_scorer_runtime_binding_v2.py",
+      "research/finqa_v2_20261010/binding_v3/FINQA_V2_RUNTIME_BINDING_INTERFACE_V3.md",
+      "research/finqa_v2_20261010/binding_v3/finqa_v2_binding_v3_qualification_receipt.json",
+      "research/finqa_v2_20261010/binding_v3/finqa_v2_binding_v3_qualification_rows.jsonl",
+      "research/finqa_v2_20261010/binding_v3/finqa_v2_binding_v3_qualification_summary.json",
+      "research/finqa_v2_20261010/binding_v3/finqa_v2_runtime_binding_interface_v3.json",
+      "research/finqa_v2_20261010/binding_v3/finqa_v2_runtime_binding_v3.py",
+      "research/finqa_v2_20261010/binding_v3/tests/test_finqa_v2_runtime_binding_v3_integration.py",
+      "research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py",
+      "research/finqa_v2_20261010/finqa_v2_analysis_plan.json",
+      "research/finqa_v2_20261010/finqa_v2_analysis_plan_hash_manifest.json",
+      "research/finqa_v2_20261010/finqa_v2_analysis_preresult_freeze_receipt.json",
+      "research/finqa_v2_20261010/finqa_v2_dependency_freeze.txt",
+      "research/finqa_v2_20261010/finqa_v2_execution_freeze_packet.json",
+      "research/finqa_v2_20261010/finqa_v2_frozen_sample_manifest.json",
+      "research/finqa_v2_20261010/finqa_v2_paired_artifact_manifest.json",
+      "research/finqa_v2_20261010/finqa_v2_preresult_freeze_receipt.json",
+      "research/finqa_v2_20261010/finqa_v2_scoped_environment_snapshot.json",
+      "research/finqa_v2_20261010/finqa_v2_scoped_source_diff.patch",
+      "research/finqa_v2_20261010/finqa_v2_scorer_binding_manifest.json",
+      "research/finqa_v2_20261010/finqa_v2_split_manifest.json",
+      "research/finqa_v2_20261010/materialize_finqa_v2_binding_v2_rerun_invalid.py",
+      "research/finqa_v2_20261010/materialize_finqa_v2_formal_invalid.py",
+      "research/finqa_v2_20261010/preflight_v1/FINQA_V2_FORMAL_RERUN_V3_TASK_CARD.md",
+      "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_certificate.json",
+      "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_manifest.json",
+      "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_receipt.json",
+      "research/finqa_v2_20261010/preflight_v1/materialize_finqa_v2_end_to_end_preflight.py",
+      "research/finqa_v2_20261010/results/FINQA_V2_FORMAL_RESULT_REPORT.md",
+      "research/finqa_v2_20261010/results/finqa_v2_bootstrap_replicates.jsonl",
+      "research/finqa_v2_20261010/results/finqa_v2_formal_execution_receipt.json",
+      "research/finqa_v2_20261010/results/finqa_v2_formal_results.json",
+      "research/finqa_v2_20261010/results/finqa_v2_formal_sample_rows.jsonl",
+      "research/finqa_v2_20261010/results/finqa_v2_formal_scorer_failures.jsonl",
+      "research/finqa_v2_20261010/results_binding_v2_rerun/FINQA_V2_FORMAL_RESULT_REPORT.md",
+      "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_bootstrap_replicates.jsonl",
+      "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_execution_receipt.json",
+      "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_results.json",
+      "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_sample_rows.jsonl",
+      "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_scorer_failures.jsonl",
+      "research/finqa_v2_20261010/results_binding_v3_rerun/FINQA_V2_FORMAL_RESULT_REPORT.md",
+      "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_exclusions_and_failure_accounting.json",
+      "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_formal_execution_receipt.json",
+      "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_formal_results.json",
+      "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_formal_sample_rows.jsonl",
+      "research/finqa_v2_20261010/results_binding_v3_rerun/finqa_v2_v_d_o_rows.jsonl",
+      "research/finqa_v2_20261010/results_binding_v3_rerun/materialize_finqa_v2_binding_v3_receipt.py",
+      "research/finqa_v2_20261010/results_binding_v3_rerun/run_finqa_v2_binding_v3_rerun.py",
+      "research/finqa_v2_20261010/run_finqa_v2_binding_v2_rerun.py",
+      "research/finqa_v2_20261010/run_finqa_v2_formal_experiment.py",
+      "research/finqa_v2_analysis_freeze_loop_a_task_contract.md",
+      "research/finqa_v2_analysis_freeze_loop_c_task_contract.md",
+      "research/finqa_v2_binding_audit_loop_c_task_contract.md",
+      "research/finqa_v2_binding_repair_loop_a_task_contract.md",
+      "research/finqa_v2_binding_v3_qualification_loop_a_task_contract.md",
+      "research/finqa_v2_formal_audit_loop_c_task_contract.md",
+      "research/finqa_v2_formal_experiment_loop_a_task_contract.md",
+      "research/finqa_v2_minimal_rerun_audit_loop_c_task_contract.md",
+      "research/finqa_v2_preresult_freeze_loop_a_task_contract.md",
+      "research/finqa_v2_preresult_freeze_loop_c_task_contract.md",
+      "research/finqa_v2_test_execution_loop_c_task_contract.md",
+      "research/loop_a_end_to_end_preflight_task_contract.md",
+      "research/loop_a_finqa_causal_exposure_design_contract.md",
+      "research/loop_a_finqa_v2_formal_rerun_v3_dispatch.md",
+      "research/loop_c_end_to_end_preflight_certification_task_contract.md",
+      "research/loop_c_finqa_causal_exposure_challenge_contract.md",
+      "research/loop_c_finqa_v2_formal_v3_recompute_task_contract.md",
+      "research/loop_c_finqa_v2_result_autopsy_task_contract.md",
+      "research/loop_c_graph_loop_meta_retrospective_task_contract.md",
+      "research/math_shepherd_label_smoke_20261010/smoke_config.json",
+      "research/math_shepherd_label_smoke_20261010/smoke_results.json",
+      "research/prm_reference_training_smoke_20261010/smoke_config.json",
+      "research/prm_reference_training_smoke_20261010/smoke_metrics.json",
+      "research/prm_reference_training_smoke_20261010_failed_triton_python_h/smoke_config.json",
+      "research/stage_e_method_revision_2026-10-09/loop_c_method_revision_prompt.md",
+      "research/stage_e_method_revision_2026-10-09/multileaf_power_analysis.py",
+      "research/stage_e_method_revision_2026-10-09/prm_reference_smoke.py",
+      "research/stage_e_method_revision_2026-10-09/stage_e_matched_fpr_reanalysis.py",
+      "research/stage_e_method_revision_2026-10-09/validate_stage_e_method_revision.py",
+      "research/stage_e_method_revision_20261009/agent_distillation_adapter_provenance_audit.json",
+      "research/stage_e_method_revision_20261009/audit_agent_distillation_adapter.py",
+      "research/stage_e_method_revision_20261009/audit_agent_distillation_tcv_smoke.py",
+      "research/stage_e_method_revision_20261009/build_multileaf_freeze.py",
+      "research/stage_e_method_revision_20261009/loop_c_prm_smoke_audit_prompt.md",
+      "research/stage_e_method_revision_20261009/matched_fpr_reanalysis.json",
+      "research/stage_e_method_revision_20261009/multileaf_freeze.json",
+      "research/stage_e_method_revision_20261009/multileaf_power_analysis.json",
+      "research/stage_e_method_revision_20261009/multileaf_power_analysis.py",
+      "research/stage_e_method_revision_20261009/prm_c2_c4_selection_dryrun.json",
+      "research/stage_e_method_revision_20261009/prm_reference_smoke.json",
+      "research/stage_e_method_revision_20261009/prm_reference_smoke.py",
+      "research/stage_e_method_revision_20261009/qualify_stage_d_reference_sources.py",
+      "research/stage_e_method_revision_20261009/run_math_shepherd_label_smoke.py",
+      "research/stage_e_method_revision_20261009/run_prm_c2_c4_dryrun.py",
+      "research/stage_e_method_revision_20261009/run_prm_reference_training_smoke.py",
+      "research/stage_e_method_revision_20261009/stage_d_reference_source_qualification.json",
+      "research/stage_e_method_revision_20261009/stage_e_execution_revision_receipt.json",
+      "research/stage_e_method_revision_20261009/stage_e_matched_fpr_reanalysis.py",
+      "research/stage_e_method_revision_20261009/stage_e_method_revision_receipt.json",
+      "research/stage_e_method_revision_20261009/validate_stage_e_execution_revision.py",
+      "research/stage_e_method_revision_20261009/validate_stage_e_method_revision.py",
+      "research/stage_e_multileaf_20261010/analyze_multileaf_signature_ablation.py",
+      "research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py",
+      "research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py",
+      "research/stage_e_multileaf_20261010/audit_multileaf_generalization.py",
+      "research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py",
+      "research/stage_e_multileaf_20261010/build_multileaf_figures.py",
+      "research/stage_e_multileaf_20261010/build_multileaf_preresult_freeze.py",
+      "research/stage_e_multileaf_20261010/build_stage_e_evidence_strengthening_repair_receipt.py",
+      "research/stage_e_multileaf_20261010/finqa_v2_candidate_sample_manifest.json",
+      "research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json",
+      "research/stage_e_multileaf_20261010/finqa_v2_overlap_feasibility.json",
+      "research/stage_e_multileaf_20261010/independent_multileaf_contract_audit.py",
+      "research/stage_e_multileaf_20261010/loop_a_evidence_strengthening_fix_prompt.md",
+      "research/stage_e_multileaf_20261010/loop_a_evidence_strengthening_prompt.md",
+      "research/stage_e_multileaf_20261010/loop_c_evidence_strengthening_fix_reaudit_prompt.md",
+      "research/stage_e_multileaf_20261010/loop_c_evidence_strengthening_prompt.md",
+      "research/stage_e_multileaf_20261010/loop_c_multileaf_audit_prompt.md",
+      "research/stage_e_multileaf_20261010/loop_d_inputs/stage_d_prm_formal_pilot_proposal_v1.md",
+      "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_independent_scorer_feasibility_v1.md",
+      "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_multileaf_result_packet_v1.md",
+      "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
+      "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_revision_proposal_v1.md",
+      "research/stage_e_multileaf_20261010/multileaf_environment_snapshot.json",
+      "research/stage_e_multileaf_20261010/multileaf_mechanism_generalization_audit.json",
+      "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json",
+      "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.sha256",
+      "research/stage_e_multileaf_20261010/multileaf_preresult_git_diff.patch",
+      "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json",
+      "research/stage_e_multileaf_20261010/render_multileaf_localization_ablation_v2.py",
+      "research/stage_e_multileaf_20261010/results/independent_contract_audit.json",
+      "research/stage_e_multileaf_20261010/results/independent_validation_receipt.json",
+      "research/stage_e_multileaf_20261010/results/multileaf_bootstrap_intervals.json",
+      "research/stage_e_multileaf_20261010/results/multileaf_formal_results.json",
+      "research/stage_e_multileaf_20261010/results/multileaf_formal_results.md",
+      "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl",
+      "research/stage_e_multileaf_20261010/results/multileaf_permutation_null.json",
+      "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl",
+      "research/stage_e_multileaf_20261010/results/multileaf_run_receipt.json",
+      "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+      "research/stage_e_multileaf_20261010/run_multileaf_formal.py",
+      "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_receipt.json",
+      "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_receipt.json",
+      "research/stage_e_multileaf_20261010/validate_multileaf_formal_results.py",
+      "research/stage_e_stage_d_2026-10-09/finalize_loop_c_conditions.py",
+      "research/stage_e_stage_d_2026-10-09/loop_a_prompt.md",
+      "research/stage_e_stage_d_2026-10-09/loop_c_final_recheck_prompt.md",
+      "research/stage_e_stage_d_2026-10-09/loop_c_recheck_prompt.md",
+      "research/stage_e_stage_d_2026-10-09/repair_loop_c_conditions.py",
+      "research/stage_e_stage_d_2026-10-09/resolve_final_conditions.py",
+      "research/stage_e_stage_d_20261009/analysis_summary.json",
+      "research/stage_e_stage_d_20261009/contract/IMPLEMENTATION_PLAN.md",
+      "research/stage_e_stage_d_20261009/contract/PROMPT.md",
+      "research/stage_e_stage_d_20261009/contract/loop_a_prompt.md",
+      "research/stage_e_stage_d_20261009/contract/loop_c_prompt.md",
+      "research/stage_e_stage_d_20261009/contract/openalex_search.py",
+      "research/stage_e_stage_d_20261009/final_validation.json",
+      "research/stage_e_stage_d_20261009/finalize_loop_c_conditions.py",
+      "research/stage_e_stage_d_20261009/loop_a_receipt.json",
+      "research/stage_e_stage_d_20261009/loop_c_verdict.json",
+      "research/stage_e_stage_d_20261009/metadata_network_accounting.json",
+      "research/stage_e_stage_d_20261009/metadata_url_manifest.txt",
+      "research/stage_e_stage_d_20261009/quantify_stage_e.py",
+      "research/stage_e_stage_d_20261009/repair_loop_c_conditions.py",
+      "research/stage_e_stage_d_20261009/resolve_final_conditions.py",
+      "research/stage_e_stage_d_20261009/source_audit_v1.json",
+      "research/stage_e_stage_d_20261009/source_data_receipt.json",
+      "research/stage_e_stage_d_20261009/threshold_visibility.png",
+      "research/stage_e_stage_d_20261009/threshold_visibility.svg",
+      "research/stage_e_stage_d_20261009/threshold_visibility_source.csv",
+      "research/stage_e_stage_d_20261009/visibility_detection.png",
+      "research/stage_e_stage_d_20261009/visibility_detection.svg",
+      "research/stage_e_stage_d_20261009/visibility_detection_source.csv",
+      "scripts/graph/agent_env.sh",
+      "scripts/graph/agent_env_preflight.ps1",
+      "scripts/graph/agent_env_preflight.sh",
+      "scripts/graph/dispatch_loop_ac.ps1",
+      "scripts/graph/formal_experiment_preflight.py",
+      "scripts/graph/generate_repository_receipt.py",
+      "scripts/graph/loop_ac_launcher.sh",
+      "tests/test_finqa_evidence_argument_resolver_v2.py",
+      "tests/test_finqa_independent_observation_scorer_v2.py",
+      "tests/test_finqa_numeric_token_canonicalization_v2.py",
+      "tests/test_finqa_v2_execution_freeze.py",
+      "tests/test_finqa_v2_scorer_runtime_binding_v2.py",
+      "tests/test_formal_experiment_preflight.py",
+      "tests/test_multileaf_formal_contract.py"
+    ]
+  },
+  "host_id": "LOCAL_WINDOWS",
+  "identity_payload_sha256": "e5d125096349cd6bbef5c54559a9a0dac15292d99ea614f632a3239b40957591",
+  "identity_policy": {
+    "raw_byte_identity_required_only_for_frozen_scientific_artifacts": true,
+    "timestamp_is_metadata_not_identity": true,
+    "tracked_source_identity": "git_blob_or_normalized_content"
+  },
+  "invalid_runs": {
+    "research/finqa_v2_20261010/results/finqa_v2_formal_execution_receipt.json": {
+      "expected_sha256": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f",
+      "match": true,
+      "sha256": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f"
+    },
+    "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_execution_receipt.json": {
+      "expected_sha256": "8a0017e1ae5f065fe73a01bb1af1a0f5033199fbe25369263d4184c27d8eb071",
+      "match": true,
+      "sha256": "8a0017e1ae5f065fe73a01bb1af1a0f5033199fbe25369263d4184c27d8eb071"
+    }
+  },
+  "repo_identity": {
+    "absolute_path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech",
+    "git_top_level": "D:/AIRcommend/JinRongAgents/agents_final_tech"
+  },
+  "schema_version": 1,
+  "scientific_authority": {
+    "lineage_invalid_hashes_present": {
+      "research/finqa_v2_20261010/results/finqa_v2_formal_execution_receipt.json": true,
+      "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_execution_receipt.json": true
+    },
+    "state_tokens_present": {
+      "B_QUALIFICATION=NO / STOP_BRANCH": true,
+      "MEASUREMENT_OBJECT_MISMATCH": true,
+      "PRIMARY_ROUTE=A": true,
+      "SECOND_FLOW_MIXED": true
+    }
+  },
+  "test_receipts": {
+    "claims": {
+      "checks_passed": 79,
+      "checks_total": 79,
+      "claims": 5,
+      "errors": [],
+      "path": "logs/graph/receipts/2026-10-11/local_claims_audit.json",
+      "sha256": "5a8fc0271a8718028325e953758228a7fd97391bd9e5eaccb321305ff6c12ed4",
+      "status": "PASS"
+    },
+    "docs_lint": {
+      "fail_count": 0,
+      "overall": "PASS",
+      "path": "logs/graph/receipts/2026-10-11/local_docs_lint.json",
+      "sha256": "330a90b11782a4c63c163b72093ba5f67f6f42b40ab6e3d844ec23bc7747f2c4",
+      "warn_count": 6
+    },
+    "pytest": {
+      "command": "PYTHONUTF8=1 PYTHONPATH=src .\\\\venv\\\\Scripts\\\\python.exe -m pytest tests/test_paper_claim_acceptance.py tests/test_submission_anonymous_preview.py tests/test_submission_package_audit.py tests/test_finqa_v2_execution_freeze.py tests/test_finqa_v2_scorer_runtime_binding_v2.py tests/test_formal_experiment_preflight.py tests/test_multileaf_formal_contract.py -q",
+      "exit_code": 1,
+      "exit_code_path": "logs/graph/receipts/2026-10-11/local_focused_pytest.exit_code",
+      "exit_code_sha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "log_path": "logs/graph/receipts/2026-10-11/local_focused_pytest.log",
+      "log_sha256": "0b7744e88c1d25d81845b05ae482b2dc6a5a2896b1e82e06e3ec7412edfed434",
+      "summary_lines": [
+        "2 failed, 57 passed in 4.69s"
+      ]
+    },
+    "submission": {
+      "checks_passed": null,
+      "checks_total": null,
+      "mechanical_status": "PASS",
+      "path": "logs/graph/receipts/2026-10-11/local_submission_audit.json",
+      "sha256": "1fb9e5b6413a0e6fb08cb64d59dad1280f5bbe70744356eb840dae0a2757066f",
+      "submission_status": "PENDING_EXTERNAL_ITEMS"
+    }
+  },
+  "verification_mode": "RECEIPT_VERIFIED"
+}

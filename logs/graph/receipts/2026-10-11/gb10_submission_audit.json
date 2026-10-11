@@ -1,0 +1,102 @@
+{
+  "anonymous_preview_sha256": "b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc",
+  "audit_type": "submission-package-integrity",
+  "checks": [
+    {
+      "check": "required_sections_source",
+      "detail": {
+        "Abstract": true,
+        "Conclusion": true,
+        "Discussion and Limitations": true,
+        "Experimental Setup": true,
+        "Introduction": true,
+        "Method": true,
+        "References": true,
+        "Related Work": true,
+        "Results": true
+      },
+      "pass": true
+    },
+    {
+      "check": "required_sections_anonymous_preview",
+      "detail": {
+        "Abstract": true,
+        "Conclusion": true,
+        "Discussion and Limitations": true,
+        "Experimental Setup": true,
+        "Introduction": true,
+        "Method": true,
+        "References": true,
+        "Related Work": true,
+        "Results": true
+      },
+      "pass": true
+    },
+    {
+      "check": "claim_tokens_source",
+      "detail": [],
+      "pass": true
+    },
+    {
+      "check": "claim_tokens_anonymous_preview",
+      "detail": [],
+      "pass": true
+    },
+    {
+      "check": "reference_sets",
+      "detail": {
+        "bib": 15,
+        "main": 15,
+        "main_only": [],
+        "map": 15,
+        "map_only": []
+      },
+      "pass": true
+    },
+    {
+      "check": "anonymous_preview_forbidden_markers",
+      "detail": [],
+      "pass": true
+    },
+    {
+      "check": "redaction_map_hashes",
+      "detail": {
+        "map": "9d505e038a794f594d1f4f54641c3ab92ecdd3e45134aed87ae686508a202386",
+        "preview": "b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc",
+        "source": "cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9"
+      },
+      "pass": true
+    },
+    {
+      "check": "readiness_hashes",
+      "detail": [],
+      "pass": true
+    },
+    {
+      "check": "d_b_licence_scope",
+      "detail": {
+        "finqa_readme": "eb86779cfed6f0a253913761d8e4fabe032a29d9fcf2944e56c23bf007064605",
+        "finqa_repo_license": "92c0e67bd762c15c07ba60de09558338315a8ebf99aac4f51f487179809ac087",
+        "valentine_repo_license": "f4960433bd98568685898d782e724fc28b5481be2a4b57b6280bf6e8c262e99d"
+      },
+      "pass": true
+    },
+    {
+      "check": "reproducibility_boundary",
+      "detail": true,
+      "pass": true
+    }
+  ],
+  "mechanical_status": "PASS",
+  "overall": "NOT_READY_FOR_SUBMISSION",
+  "pending_external_items": [
+    "venue_official_template_and_cfp_verification",
+    "author_affiliation_and_anonymization",
+    "patent_status_confirmation",
+    "camera_ready_pdf_visual_acceptance"
+  ],
+  "redaction_map_sha256": "9d505e038a794f594d1f4f54641c3ab92ecdd3e45134aed87ae686508a202386",
+  "schema_version": 1,
+  "source_sha256": "cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9",
+  "submission_status": "PENDING_EXTERNAL_ITEMS"
+}

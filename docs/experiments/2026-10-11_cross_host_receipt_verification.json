@@ -1,0 +1,22 @@
+{
+  "verdict": "PASS",
+  "verification_mode": "RECEIPT_VERIFIED",
+  "direct_live_scope": "GB10 repository and in-repo receipts verified directly; LOCAL represented by the LOCAL receipt",
+  "content_semantic_match": true,
+  "raw_byte_match_scope": "Both receipt files match their .sha256 sidecars; authoritative_assets (5 files incl. commit manifest e81187d6bae4cfe18e9c07b1445aecb59cabbcd4699906b5b4058ab8178fb5e0), both frozen INVALID run receipts (2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f, 8a0017e1ae5f065fe73a01bb1af1a0f5033199fbe25369263d4184c27d8eb071), and the submission audit receipt (1fb9e5b6413a0e6fb08cb64d59dad1280f5bbe70744356eb840dae0a2757066f) are raw-byte identical across hosts and match live GB10 hashes; LOCAL artifact copies in-repo match LOCAL receipt bindings; host-generated claims/docs-lint/pytest artifacts byte-differ per host by design",
+  "head_equal": true,
+  "manifest_consistent": true,
+  "hash_chain_valid": true,
+  "test_receipts_valid": true,
+  "scientific_authority_consistent": true,
+  "host_specific_differences": [
+    "host_id: LOCAL_WINDOWS vs GB10_LINUX",
+    "repo_identity.absolute_path and git_top_level: D:\\AIRcommend\\JinRongAgents\\agents_final_tech vs /home/testuser/wzh/projects/agents_final_tech",
+    "generated_at timestamps (metadata per identity_policy.timestamp_is_metadata_not_identity)",
+    "git.diff_stat and git_status dirty records (porcelain_v1_z_sha256 plus staged/unstaged/untracked path sets)",
+    "test_receipts.pytest command/exit_code/summary: GB10 full run exit=0 '929 passed, 13 skipped, 1 deselected, 10 warnings in'; LOCAL focused run exit=1 '2 failed, 57 passed' with both failures FileNotFoundError on Windows paths (missing staging dataset and missing focused preflight log), not hash divergence",
+    "host-generated claims and docs_lint audit artifact paths/sha256 (each host's own file); submission audit receipt identical across hosts",
+    "per-host identity_payload_sha256 values (payload embeds host_id, repo paths, git dirty state, and host pytest receipt by design); recomputation over canonical ASCII compact sorted JSON with generated_at and identity_payload_sha256 deleted equals stored values on both receipts"
+  ],
+  "exact_failures": []
+}
