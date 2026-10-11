@@ -1,0 +1,88 @@
+{
+  "allowed_reads": [
+    "/home/testuser/wzh/projects/agents_final_tech/research/positive_repair_20261011/runs/PR-EXP-03-v3/experiment_v3.py"
+  ],
+  "experiment_id": "PR-EXP-03",
+  "fixture": "inline toy tables",
+  "metric_entrypoint": "experiment_v3.py::evaluate",
+  "pins": {
+    "config/eval_checkpoint_trees.json": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+    "data/research/drift_v0/input/tatqa_tables.json": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693",
+    "research/stage_e_multileaf_20261010/run_multileaf_formal.py": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4"
+  },
+  "predicates": [
+    "eligible(table): nonempty table, header width>=2",
+    "field_hit total under PATH A (empty header -> 0)"
+  ],
+  "required_files": [
+    {
+      "path": "data/research/drift_v0/input/tatqa_tables.json",
+      "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+    },
+    {
+      "path": "data/research/drift_v0/output/injection_map.json",
+      "sha256": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json",
+      "sha256": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json",
+      "sha256": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/multileaf_freeze.json",
+      "sha256": "7239feb678dcbecc4f1bb374cc37e313fd0a74354a23349caa556419fabfa34d"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl",
+      "sha256": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/run_multileaf_formal.py",
+      "sha256": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4"
+    },
+    {
+      "path": "scripts/m1_statement_parser.py",
+      "sha256": "747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b"
+    },
+    {
+      "path": "src/biz/m1_statement_parser.py",
+      "sha256": "d4f9ed86c8d0fa466462c8132308a31bf51e7e4439042c4d147da9f99550d8a8"
+    },
+    {
+      "path": "config/eval_checkpoint_trees.json",
+      "sha256": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25"
+    },
+    {
+      "path": "research/positive_repair_20261011/contracts/shared_surface_freeze_v1.json",
+      "sha256": "d084e7f66cbc3f6f841683c57e97286d9a049a611d787fcb245dbea453f811a4"
+    },
+    {
+      "path": "research/positive_repair_20261011/contracts/SOURCE_LOCAL_RESPONSE_v1.md",
+      "sha256": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290"
+    },
+    {
+      "path": "research/positive_repair_20261011/preregs/PR-EXP-03_prereg_v3.md",
+      "sha256": "af8a259e57dcf776ec0a75ebdfbcaac0c16fd8c1d0d7b761c82eaa71f265b079"
+    },
+    {
+      "path": "research/positive_repair_20261011/runs/PR-EXP-03-v3/implementation_contract.md",
+      "sha256": "38d93283f9f0469f4c473345b544ee0ed2b8b13947a04cae1440bdd5054fa5d3"
+    },
+    {
+      "path": "research/positive_repair_20261011/runs/PR-EXP-03-v3/implementation_contract.sha256",
+      "sha256": "2a2a860caceff30801699a8e0f5f8b019b469f91b68dbe808deaff8d01593b7b"
+    }
+  ],
+  "schema_assertions": [
+    "tatqa:uid,table",
+    "manifest:sample_id,cluster_id,source_uid,stage,injection_operation",
+    "freeze:samples[M,R,N]",
+    "paired:response_vector"
+  ],
+  "version": "v3",
+  "writer_entrypoint": "experiment_v3.py::evaluate"
+}

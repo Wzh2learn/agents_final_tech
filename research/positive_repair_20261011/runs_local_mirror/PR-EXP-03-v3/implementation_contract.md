@@ -1,46 +1,30 @@
-# PR-EXP-03 v3 Implementation Contract (for Loop A)
+# PR-EXP-03 v3 implementation contract (frozen before the v3 formal run)
 
-> date: 2026-10-11 | author: Loop D | for: Loop A implementation + EXECUTION_PREFLIGHT | authority: PR-EXP-03_prereg_v3.md + PR-03_v3_design_decision_v1.md
-> This is a specification. It does NOT authorize a formal run: Loop A implements, then runs EXECUTION_PREFLIGHT (toy/fixture only), then Loop C pre-result audit, then the owner/manager authorizes the formal run.
+experiment_id = PR-EXP-03
+version = v3
+PREREG_SHA256 = 4c632300a588e2b20d05a66ee0d5b104490313959c8c12a14c94bf316f658445
+shared_surface_freeze = research/positive_repair_20261011/contracts/shared_surface_freeze_v1.json
+implementation_freeze_order = source hashes -> this contract hash -> P1 generation -> evaluation
+stop_semantics = missing input -> INPUT_MISSING; shared/prereg/source mismatch -> HASH_MISMATCH or PREREG_MISMATCH; undefined oracle cell -> NOT_EVALUABLE cell; sanity-gate failure -> INVALID
+v3_change_1 = PATH A: field_hit is total (empty/header-less table -> 0 observable hits -> response 0); no population exclusion
+v3_change_2 = sanity gate replaced: non-degeneracy = oracle fires on P1 (>=1) AND A0/A1 structural false positives == 0 AND oracle differs from field-hit on >=1 P1 row. The round-1 carrier-monotonicity clause is removed (unsatisfiable-by-construction on structurally-null carriers).
+unchanged = oracle semantics, populations, split, bootstrap seed 20261012 / 10000 reps, arms A0/A1/A2/A3, metrics, outcome taxonomy, and all SOURCE_HASH inputs below
 
-## 1. Environment and inputs
-- Run on GB10 (the authoritative host): repo `wzh/projects/agents_final_tech` at the frozen revision.
-- Inputs (paths frozen before outcomes):
-  - Round-1 P1 manifest: `research/positive_repair_20261011/runs_local_mirror/PR-EXP-03/p1_generation_manifest.json`.
-  - Frozen carriers: the drift-v0 tables and injection map (GB10: `data/research/drift_v0/...`).
-  - Canonicalizer + field-hit matcher: `scripts/m1_statement_parser.py` (`map_headers`), pinned by host-raw sha256.
-  - Checkpoint config: `config/eval_checkpoint_trees.json`.
-- Deterministic; no network; no model/endpoint calls; zero writes to frozen artifacts.
+## SOURCE_HASH inventory (verified against GB10 raw bytes)
+SOURCE_HASH data/research/drift_v0/input/tatqa_tables.json = 3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302
+SOURCE_HASH data/research/drift_v0/output/injection_map.json = d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e
+SOURCE_HASH research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json = 8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693
+SOURCE_HASH research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json = 15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163
+SOURCE_HASH research/stage_e_method_revision_20261009/multileaf_freeze.json = 7239feb678dcbecc4f1bb374cc37e313fd0a74354a23349caa556419fabfa34d
+SOURCE_HASH research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl = 39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f
+SOURCE_HASH research/stage_e_multileaf_20261010/run_multileaf_formal.py = d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4
+SOURCE_HASH scripts/m1_statement_parser.py = 747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b
+SOURCE_HASH src/biz/m1_statement_parser.py = d4f9ed86c8d0fa466462c8132308a31bf51e7e4439042c4d147da9f99550d8a8
+SOURCE_HASH config/eval_checkpoint_trees.json = 0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25
+SOURCE_HASH research/positive_repair_20261011/contracts/shared_surface_freeze_v1.json = d084e7f66cbc3f6f841683c57e97286d9a049a611d787fcb245dbea453f811a4
+SOURCE_HASH research/positive_repair_20261011/contracts/SOURCE_LOCAL_RESPONSE_v1.md = 4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290
+SOURCE_HASH research/positive_repair_20261011/preregs/PR-EXP-03_prereg_v3.md = 4c632300a588e2b20d05a66ee0d5b104490313959c8c12a14c94bf316f658445
 
-## 2. Oracles (single changed factor = the oracle's measurement object)
-- O_FH (BEFORE): field-hit response = 1 if injected hit-rate < baseline hit-rate else 0. Where the header is entirely empty, the semantic value is zero observable hits -> hit-rate 0 -> response 0 (defined by task semantics, not a per-case patch).
-- O_TS (AFTER): structural signature = (column_count, ordered positional header-token sequence under the pinned canonicalizer with "" allowed as a token, row_count). Response = 1 iff the injected signature differs from the baseline signature, else 0. Total (defined on every P1 case).
-
-## 3. Population and split
-- P1 carriers per the round-1 manifest, incl. the 2 all-empty-header tables (RETIRED; retained under PATH A).
-- Arms: A0 identity (expect 0), A1 value-only (expect 0), structural control set (expect 1).
-- Split: frozen rule (sorted carrier UID index modulo k), group-disjoint, assigned before reading outcomes.
-
-## 4. Non-degeneracy gate (before any P1 outcome)
-(a) O_TS fires on the structural control set;
-(b) O_TS returns 0 on A0 and A1;
-(c) O_TS differs from O_FH on >=1 P1 case.
-Fail any -> INVALID (gate), record provenance.
-
-## 5. Execution preflight (10 checks; toy/fixture only; zero held-out reads)
-Per `execution_preflight/EXECUTION_PREFLIGHT_SPEC_v1.md`. Emit `execution_preflight/PR-EXP-03_v3_preflight_receipt.json` with per-check PASS/FAIL. Target: `EXECUTION_PREFLIGHT_PASS`.
-
-## 6. Formal run outputs (only after Loop C pre-result audit PASS)
-- `result.json`: per-case O_FH/O_TS responses, coverage, stage/family components, unique catches, M1 regression, cost.
-- `metrics.json`: primary (incremental coverage delta; stage/family diagnosability delta) and secondary.
-- `receipt.json`: harmonized provenance (input hashes, split map, gate result, prereg hash).
-- `undefined_cells.json`: must be empty under PATH A; if non-empty, that is the NOT_EVALUABLE trigger.
-
-## 7. Classification
-POSITIVE / NULL / NEGATIVE / INVALID / NOT_EVALUABLE (never merge NOT_EVALUABLE into NULL). POSITIVE requires the gate to pass AND a non-source-local held-out diagnostic gain AND no unacceptable M1 regression AND comparable cost.
-
-## 8. Stop condition
-If v3 stops at schema / gate / provenance / undefined-domain WITHOUT entering effect measurement -> `PR-03 = NOT_EVALUABLE_FINAL`, branch stopped, no fourth repair.
-
-## 9. Provenance
-Every output records: prereg sha256 (bbc9910c2d0b104897af6737393583c9b2efaa2e27ec328460b504d6072fa6b1, placeholder convention), input file sha256s, git revision, and the exact command line.
+## Notes
+- The oracle, drift membership, UID list/exclusion registry, pair rule, arms, and bootstrap rules are unchanged from the v2 contract and remain in force; see research/positive_repair_20261011/runs/PR-EXP-03/implementation_contract.md for the verbatim v2 detail retained by reference.
+- Frozen multileaf carriers, D3 inputs, drift outputs, config/eval_checkpoint_trees.json, tests, and frozen hashes remain read-only.

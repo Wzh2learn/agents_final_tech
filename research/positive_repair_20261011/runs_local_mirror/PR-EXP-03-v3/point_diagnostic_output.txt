@@ -1,0 +1,12 @@
+PR-EXP-03 v3 POINT DIAGNOSTIC output (GB10, 2026-10-11) - no 10k diagnostic bootstrap
+{
+  "d_P1": 2431, "undefined": 0,
+  "new_coverage": [1973, 2431], "standalone_field_hit_coverage": [0, 2431], "v1_alias_coverage": [0, 2431],
+  "delta_new_minus_alias": 0.811600164541341, "delta_ci_lower": 0.7959687371452078,
+  "a0_fp": 0, "a1_fp": 0, "a3_fp_M": 72, "A3_M_denominator": 72,
+  "stage_macro_f1_new": 0.22428122192273137, "stage_macro_f1_alias": 0.004840661557079467,
+  "family_macro_f1_new": 0.004750123701138051, "family_macro_f1_alias": 0.2,
+  "diag_delta_min": -0.19524987629886195,
+  "gate_pass": true, "attribution_pass": true, "unique_new_catches": 1973,
+  "field_hit_constant_probe": 1.0, "frozen_rule_outcome": "NEGATIVE"
+}

@@ -1,0 +1,94 @@
+{
+  "checks": {
+    "field_names_match_payload": {
+      "note": "runtime dereferences use the payload key names verbatim",
+      "source_uses_keys": true,
+      "status": "PASS"
+    },
+    "group_split_ids_resolve": {
+      "manifest_cluster_count": 72,
+      "sample_groups": [
+        "M:2266f020-d5ef-4343-86d3-64f3fe883976",
+        "M:233252a6-3a26-489a-9e55-0b8fd9004c71",
+        "M:2cb3ef36-9d41-4357-8b09-205ca457a263"
+      ],
+      "status": "PASS",
+      "toy_split_group_disjoint": true
+    },
+    "metric_pipeline_on_fixture": {
+      "note": "function-level exercise of the frozen oracle + classifier + summary machinery on synthetic rows; the full frozen evaluate() pipeline is exercised only under the formal run",
+      "self_test": "PASS",
+      "status": "PASS",
+      "toy_classification_macro_f1": 0.4,
+      "toy_summary_rate": 0.6666666666666666
+    },
+    "no_heldout_read": {
+      "files_read": [
+        "/home/testuser/wzh/projects/agents_final_tech/research/positive_repair_20261011/runs/PR-EXP-03-v3/experiment_v3.py"
+      ],
+      "heldout_path_env": "<none>",
+      "note": "no frozen evaluation result or label was read",
+      "read_scope": "fixtures + schema + frozen non-evaluation inputs",
+      "status": "PASS"
+    },
+    "pins_resolve": {
+      "contract_sidecar_match": true,
+      "pins": {
+        "config/eval_checkpoint_trees.json": true,
+        "data/research/drift_v0/input/tatqa_tables.json": true,
+        "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json": true,
+        "research/stage_e_multileaf_20261010/run_multileaf_formal.py": true
+      },
+      "prereg_sha_match": false,
+      "status": "PASS"
+    },
+    "predicate_defined_on_population": {
+      "eligible": 2479,
+      "predicate_total_on_allowed_inputs": true,
+      "status": "PASS",
+      "total": 2479
+    },
+    "provenance_writer_attribution": {
+      "experiment_id": "PR-EXP-03",
+      "status": "PASS",
+      "writer_entrypoint": "experiment_v3.py::evaluate",
+      "writes_receipt": true
+    },
+    "required_files_exist": {
+      "count": 15,
+      "evidence": "sha256 recorded for each present file",
+      "missing": [],
+      "sample": {
+        "data/research/drift_v0/input/tatqa_tables.json": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+        "data/research/drift_v0/output/injection_map.json": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+        "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693"
+      },
+      "status": "PASS"
+    },
+    "schema_fields_exist": {
+      "freeze_stage_samples": true,
+      "manifest_keys": true,
+      "paired_response_vector": true,
+      "status": "PASS",
+      "tatqa_uid_table": true
+    },
+    "scorer_oracle_total_on_allowed_inputs": {
+      "evidence": {
+        "field_hit_empty_header_is_zero": true,
+        "field_response_empty_defined": true,
+        "no_table_defined": true,
+        "structural_empty_header_defined": true,
+        "toy_field_misses_permutation": true,
+        "toy_transpose_fires": true
+      },
+      "status": "PASS"
+    }
+  },
+  "end_utc": "2026-10-11T13:43:03Z",
+  "experiment_id": "PR-EXP-03",
+  "heldout_reads": 0,
+  "model_calls": 0,
+  "overall": "EXECUTION_PREFLIGHT_PASS",
+  "start_utc": "2026-10-11T13:43:03Z",
+  "version": "v3"
+}

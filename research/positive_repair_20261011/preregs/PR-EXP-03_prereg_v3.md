@@ -59,4 +59,4 @@ If v3 stops at schema / gate / provenance / undefined-domain WITHOUT entering ef
 This prereg -> Loop A implementation + EXECUTION_PREFLIGHT_PASS -> Loop C fresh-context pre-result audit -> formal run -> Loop C post-result recompute.
 
 ## 13. Prereg hash
-sha256 = bbc9910c2d0b104897af6737393583c9b2efaa2e27ec328460b504d6072fa6b1  (convention: this value is the sha256 of this file with the hash field left as the literal placeholder '@@HASH@@'; recompute against that placeholder version)
+The prereg hash is recorded as `PREREG_SHA256` in the v3 implementation contract (research/positive_repair_20261011/runs/PR-EXP-03-v3/implementation_contract.md); its value is the sha256 of this frozen file.
