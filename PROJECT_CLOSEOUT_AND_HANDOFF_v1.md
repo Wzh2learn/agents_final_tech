@@ -95,12 +95,12 @@
 ### 仍未完成清单（诚实记录）
 | 项 | 状态 | 说明 |
 |---|---|---|
-| 独立 Loop C 复核（PR-03 v3 / 溢出审计 / 投稿包） | **未交付** | packet 已就绪（`INDEPENDENT_AUDIT_PACKET_v1.md`），但真正的独立审计仍缺；当前均为 Loop D self-audit |
+| 独立 Loop C 复核（PR-03 v3 / 溢出审计 / 投稿包） | **本轮已派发** | 已按 `INDEPENDENT_AUDIT_PACKET_v1.md` 派出 fresh-context 审计 agent（三项审计 + 每题 FACT/INFERENCE/UNVERIFIED + 三条 verdict）；结果待回收后写入本文件 |
 | PR-03 v3 的 diagnostic bootstrap CI | **不可得** | 冻结 `predict_loco` O(groups^2) 使其计算不可行；结论为点估计判定 |
-| claim↔evidence 校验覆盖面 | **部分** | 只覆盖 claim matrix 的 15 条；图表 manifest、PDF 内数字未纳入自动校验 |
+| claim↔evidence 校验覆盖面 | **已扩展** | `scripts/verify_claim_evidence.py` v2 覆盖 4 组：claim matrix(15) + 图件绑定(20) + 引用一致性(21/21) + prereg pin；`WIDE_EVIDENCE_CHECK = PASS`。仍未覆盖：PDF 正文内数字与 manifest 的逐条对应 |
 | preflight v2 | **仅规范** | 已升级为 12 项，但既有实验不会追溯满足；下次实验才生效 |
 | precedent 全文核对 | **未做** | 仍停在 abstract 级（IEEE 付费墙）；已登记为 camera-ready 待办 |
 | 语言润色（native pass） | **未做** | 稿件处于科学冻结期，只做过只读语言审计 |
-| memory 维护自动化 | **未做** | THREADS 归档是手工执行；"何时归档"规则已写入本文件，但无自动触发 |
+| memory 维护自动化 | **已完成** | 已创建双周 heartbeat automation `memory-hygiene`：自动检查 THREADS 体积/条目年龄、超阈值则按块字节级归档、校验 STATE/side_handoff/INDEX 的 canonical 路径、扫 repo 与父目录的 scratch、运行证据校验器；无事静默 |
 | 单点权威主机（GB10） | **未缓解** | 无镜像 / 无第二主机复算路径；已在依赖清单登记 |
 | 父目录剩余非引用物 | **已判定保留** | 见上；不再动 |
