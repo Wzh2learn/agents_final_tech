@@ -22,3 +22,8 @@
 
 ## Not authorized yet
 No public or private artifact release, and no hosted DOI, until the owner confirms the venue and authorship. The Data Availability statement in the manuscript points to an anonymized repository placeholder to be filled at submission time.
+## External dependencies (not redistributable)
+- Semantic judge: Qwen3.6-35B-A3B (Q4_K_M GGUF) served at 127.0.0.1:8004. Third-party weights; cite and document the access path, do NOT redistribute. Reproduction of the semantic-leaf scoring requires the reader to obtain the same model.
+- TeX toolchain: not vendored. See paper/overleaf_bundle/BUILD_README.md ("Toolchain bootstrap") for the exact tectonic release and sha256, or compile on Overleaf.
+- Python: the deterministic scripts are stdlib-only (plus numpy for the multi-leaf analysis); the judge path needs a model server.
+- GB10 is the authoritative run host. There is currently no second-host verification path for the frozen carriers; a mirror + a second-host recompute is the recommended future hardening.

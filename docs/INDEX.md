@@ -33,6 +33,9 @@
 | Abstract 注册包 | [`../research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md`](../research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md) | READY（余 owner 两项） |
 | Track P registry / 收束 | [`../research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json`](../research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json) | CLOSED；LEVEL_0；PR-03 = NEGATIVE / DECLINE_CITE |
 | PR-03 溢出审计 | [`../research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md`](../research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md) | PASS (CLEAN) |
+| 独立审计包（待交付） | [`../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md`](../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md) | READY_TO_RUN；列出 pending 的 Loop C 复核项 |
+| 实验执行前置规范 v2 | [`../research/positive_repair_20261011/execution_preflight/EXECUTION_PREFLIGHT_SPEC_v2.md`](../research/positive_repair_20261011/execution_preflight/EXECUTION_PREFLIGHT_SPEC_v2.md) | 12 项检查；check 9 改为端到端；新增 runtime-path 与 attribution |
+| Camera-ready 清单 | [`handoff/CAMERA_READY_CHECKLIST_v1.md`](handoff/CAMERA_READY_CHECKLIST_v1.md) | 录用后的作者/版权/preprint/仓库义务 |
 ## 科研收口
 
 | 需要 | 权威入口 | 当前口径 |

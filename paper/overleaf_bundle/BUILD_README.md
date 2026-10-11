@@ -25,3 +25,13 @@ Compiled and verified. Build method actually used: portable tectonic 0.15.0 (use
 - Figures 2 and 3 are the bound PNGs, hash-pinned in `docs/research/figures_saner/figure_source_binding_manifest.json`.
 - Before submission: replace "Anonymous Submission" with the frozen author list (H1) and wire the Data Availability statement to a real anonymized repository link.
 - Target page budget (RENE): at most 10 pages including figures and appendices, plus up to 2 references-only pages. Current build is 8 pages total.
+## Toolchain bootstrap (PDF build)
+The PDF was built with a portable, user-space tectonic binary (no system TeX install):
+- version: `tectonic 0.15.0`
+- source: https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-pc-windows-msvc.zip
+- local path used: `D:\AIRcommend\_tools\tectonic\tectonic.exe` (OUTSIDE the repository)
+- sha256 (binary): 6760c6368d3219c687eb1811e55379af9526fbd97e97fa954968267f5241deb9
+- sha256 (zip): 1d6bb76f049c8a3774f6e9d66e4b04e1a8c3dcb37527b6b41b7e894328e7bf29
+- command: `tectonic saner_rene_manuscript_v1.tex` in this directory (runs bibtex internally; the first run downloads the TeX bundle).
+
+On a fresh machine either download the same release and verify the hash above, or compile on Overleaf (`ieeetran` is provided there). A system TeX installation is NOT required and was deliberately avoided.

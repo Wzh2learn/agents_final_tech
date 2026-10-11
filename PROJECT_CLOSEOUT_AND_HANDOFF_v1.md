@@ -79,3 +79,29 @@
 2. **若要继续 Track P 科研**：PR-04-R（generalization，contract 修复点已知）或 PR-01 v3（checker 修复点已知）；两者都需要一个可靠的 Loop A 委派，且不得影响 submission package。
 3. **明确不要重开**：Route B、FinQA binding、PR-03（含任何 metric/baseline/runtime 优化）。
 4. **若 venue 改判**：先读 `VENUE_PORTABILITY_NOTE_v1.md`，再决定 reframe 工作量；不要先改稿。
+## 8. 依赖/风险债与环境残留（2026-10-11 第二轮治理）
+
+### 外部依赖（不可再分发）
+- 语义 judge = Qwen3.6-35B-A3B（Q4_K_M GGUF，127.0.0.1:8004）：第三方权重，引用而非分发；复现需读者自行获取同一模型。
+- TeX 工具链不随仓库分发：见 `paper/overleaf_bundle/BUILD_README.md` 的 "Toolchain bootstrap"（tectonic 0.15.0 + sha256），或直接在 Overleaf 编译。
+- GB10 是唯一权威运行主机；目前没有第二主机的验证路径（建议未来做镜像 + 二次复算）。
+
+### 父目录 scratch 清单（仓库之外，只读盘点，未删除）
+| 目录 | 大小 | 最近修改 | 说明 |
+|---|---:|---|---|
+| `_cleanup_backup_20260812` | 4.95 MB | 2026-08-12 | 旧清理备份 |
+| `gemini_notebook_export_20261011` | 2.37 MB | 2026-10-11 | 用户提供的 Gemini 评审输入包（外部输入，非证据） |
+| `_overnight_20261010` | 1.59 MB | 2026-10-10 | 过夜运行暂存 |
+| `_review_skills_loop_engineering` | 1.08 MB | 2026-10-08 | skill/loop 工程评审材料 |
+| `_framecheck` | 0.91 MB | 2026-08-26 | 帧检查暂存 |
+| `_rehearsal_files` | 0.66 MB | 2026-08-18 | 演练文件 |
+| `_uitmp` | 0.20 MB | 2026-10-11 | 本 session 的 UI/探针临时文件（agent 产物） |
+| `_stage_e_exec_20261009` | 0.18 MB | 2026-10-10 | Stage E 执行暂存 |
+| `_mcp_out` | 0.28 MB | 2026-09-17 | MCP 输出暂存 |
+| `_evidence_strengthening` | 0.08 MB | 2026-10-10 | 证据强化暂存 |
+| `_finqa_v2_preresult_freeze` | 0.08 MB | 2026-10-11 | FinQA 预结果冻结暂存 |
+| `_repair_portfolio_20261011` | 0.03 MB | 2026-10-11 | Track P 早期 staging |
+| `_r1_staging` | 0.02 MB | 2026-08-13 | 早期 staging |
+| `.workbuddy` | 0.01 MB | 2026-10-11 | 工具残留 |
+
+处置建议（未执行，需 owner 决定）：`_uitmp` 与 `.workbuddy` 是本 session 的临时残留，可安全删除；其余多数是历史暂存，建议整体移入一个带日期的父级 `_archive_2026-10-11/` 或保持原位并在本表登记。**不建议在投稿冻结期做批量删除或移动。**
