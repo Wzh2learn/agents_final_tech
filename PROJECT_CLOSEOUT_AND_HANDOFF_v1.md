@@ -61,13 +61,17 @@
 - **匿名 artifact URL**：投稿前建立匿名库并做去匿名测试。
 - **正式流程**：abstract 注册（10/19 AoE）与 submission（10/23 AoE）必须由 owner 触发；本仓库不得自动提交。
 
-## 6. 已知技术债
+## 6. 已知技术债（2026-10-11 第二轮治理后）
 
-- **Subagent/harness**：本 session 多次出现 spawned agent 未收到任务（role leak / no-task delivery），导致 Loop C 独立审计与 Loop A 委派不可靠。当前策略：可委派但必须自行复核输出；关键审计由 Loop D 直接完成并标注为 self-audit。
-- **Track P round-1 lineage**：冻结的 v2 实现不可执行（`a1_table` shadowing bug），其 diagnostic bootstrap 计算上不可行；已 supersede，保留仅为 provenance。
-- **Build**：编译产物有 196 个 cosmetic underfull \hbox（不影响版面）；Figure-3 图内 status labels 未渲染（caption 已承载 identity，环境缺字体）。
-- **memory/THREADS.md**：约 900 KB、起点为 [10-09]，需在下一次 neat pass 做归档裁剪（历史条目转入 archive/）。
-- **Windows EOL**：6 个 tracked 文件存在 CRLF stat churn，已在 closeout 提交中刷新。
+- **已解决：memory/THREADS.md 体积**。888 KB -> 170 KB；日期 <= 09-30 的 202 条按块字节级原样移入 `memory/archive/THREADS_archive_pre_2026-10-01.md`（守恒式：条目 276 = 202 + 74；块字节 908906 = 735658 + 173248）。
+- **已解决：Figure 链的跨主机 EOL 漂移**。新增 `.gitattributes`（`docs/research/figures_saner/*.{svg,json,csv} -text`），并用 blob 字节重写了 5 个受影响的文本资产；现在 fig1/fig2/fig3 + manifest 在 LOCAL 与 GB10 的 sha256 完全一致。
+- **已改善：PDF underfull**。196 -> 63（表格 p-column 改为 `>{\raggedright\arraybackslash}`）；overfull 保持 0，页数仍为 8。剩余 63 条均为 cosmetic（主要是 artifacts/hash 段落与短末行），不影响版面。
+- **已澄清（非债务）：Figure-3 图内 status labels**。经核对 `stage_e_version_b_figure_spec_v1.md`，已批准的 Figure 3 规格只要求两个面板与指定 caption，未要求图内标签；identity 由 caption 承载。判定为可选 polish，不改动冻结图件。
+- **未修复（有理由）：figure renderer 的可移植性**。renderer 把自身 sha256 写进输出 metadata，因此任何对 renderer 的修改都会改变图件哈希，属于“重新绑定事件”而非普通修复；已回滚，保持冻结链不动。若未来要重渲染，必须走一次完整的 re-bind + 复核。
+- **Subagent/harness**：spawned agent 仍经常收不到任务（role leak / no-task）。委派后必须自行复核；关键审计由 Loop D 直接完成并标注 self-audit。
+- **已知小瑕疵**：`figure_source_binding_manifest.json` 记录的 `fig2_source.csv` 哈希（a61d75fd…）与当前 GB10 文件（f788c96a…）不一致。该 CSV 只是 Figure 2 的便利导出，不参与图件渲染或 claim 证据链；保留原样并在此登记，不在投稿前改动。
+- **Track P round-1 lineage**：冻结 v2 实现不可执行（`a1_table` shadowing）且 diagnostic bootstrap 计算不可行；已标 `SUPERSEDED_FOR_SCIENTIFIC_INTERPRETATION`，保留 provenance，禁止作为证据。
+- **Windows EOL（其余文本资产）**：未纳入 `.gitattributes` 的文本文件在 LOCAL 仍会被规范化；跨主机哈希的权威口径仍是 GB10 raw bytes。
 
 ## 7. 后续研究从哪里继续
 

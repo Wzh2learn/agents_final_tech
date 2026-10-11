@@ -1,0 +1,5 @@
+# Hash-bound artifacts: store and check out raw bytes with no EOL conversion.
+# Authority for these hashes is the GB10 raw bytes; Windows checkouts must not convert them.
+docs/research/figures_saner/*.svg -text
+docs/research/figures_saner/*.json -text
+docs/research/figures_saner/*.csv -text
