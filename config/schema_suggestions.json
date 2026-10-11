@@ -150,9 +150,9 @@
       "reason": "列名完全匹配标准字段名",
       "sample": "tmpbogalgsp.txt",
       "table": "交易对账单",
-      "count": 333,
+      "count": 342,
       "first_seen": "2026-08-14 00:24",
-      "last_seen": "2026-08-29 12:20"
+      "last_seen": "2026-09-17 16:37"
     },
     {
       "raw_column": "元（单位",

@@ -11,7 +11,9 @@
 
 set -euo pipefail
 
-PROJECT_DIR="$HOME/wzh/projects/agents_final_tech"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/agent_env.sh"
+PROJECT_DIR="$AGENT_PROJECT_ROOT"
 LOG_DIR="$PROJECT_DIR/logs/graph"
 
 echo "============================================"
@@ -30,20 +32,22 @@ app=$(curl -s -o /dev/null -w '%{http_code}' "${M1_API_BASE:-http://127.0.0.1:50
 [[ "$m8004" -ge 1 ]] && echo "  :8004 main model    [OK]" || echo "  :8004 main model    [DOWN]"
 [[ "$m8006" == "200" ]] && echo "  :8006 vllm 27B      [OK]" || echo "  :8006 vllm 27B      [DOWN]"
 echo "  :8005 aux model     [RETIRED 2026-08-17]"
-[[ "$app" == "200" ]] && echo "  :5000 FastAPI       [OK]" || echo "  :5000 FastAPI       [DOWN: $app]"
+[[ "$app" == "200" ]] && echo "  :5050 FastAPI       [OK]" || echo "  :5050 FastAPI       [DOWN: $app]"
 echo
 
 # 2. Loop status
 echo "[2] LOOP STATUS"
-for loop in graph-loop-a graph-loop-b graph-loop-c; do
-  if tmux has-session -t "$loop" 2>/dev/null; then
-    echo "  $loop  [RUNNING]"
-  else
-    echo "  $loop  [STOPPED]"
-  fi
-done
-legacy=$(tmux ls 2>/dev/null | grep -v graph-loop | grep -v download | grep -v coding-jinrong | wc -l)
-[[ "$legacy" -gt 0 ]] && echo "  (legacy tmux sessions: $legacy)"
+if tmux has-session -t graph-loop-b 2>/dev/null; then
+  echo "  graph-loop-b [RUNNING]"
+else
+  echo "  graph-loop-b [STOPPED]"
+fi
+ac_sessions=$(tmux ls 2>/dev/null | grep -E '^loop-(a|c)-' || true)
+if [[ -n "$ac_sessions" ]]; then
+  echo "$ac_sessions" | sed 's/^/  /'
+else
+  echo "  Loop A/C detached tasks: none"
+fi
 echo
 
 # 3. Loop B verdict
@@ -80,7 +84,6 @@ echo "  Last 5 commits:"
 git log --oneline -5 | sed 's/^/    /'
 dirty=$(git status --porcelain | wc -l)
 echo "  Uncommitted changes: $dirty files"
-git fetch origin main --quiet 2>/dev/null || true
 behind=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo "?")
 ahead=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo "?")
 echo "  vs origin/main: +$ahead / -$behind"
@@ -121,14 +124,7 @@ echo
 
 # 8. Pending items
 echo "[8] PENDING"
-if tmux has-session -t download-72b 2>/dev/null; then
-  progress=$(tmux capture-pane -t download-72b -p 2>/dev/null | grep -oP '\d+%' | tail -1 || echo "?")
-  echo "  Qwen3-72B download: $progress"
-else
-  f="$HOME/wzh/models/gguf/qwen3-72b/Qwen3-72B-Instruct.Q4_K_M.gguf"
-  [[ -f "$f" ]] && echo "  Qwen3-72B: DOWNLOADED ($(du -h "$f" | cut -f1))" || echo "  Qwen3-72B: not found"
-fi
-echo "  Codex CLI + GLM 5.2: FAILED (pending investigation)"
+echo "  Loop A/C: use loop_ac_launcher.sh status <task-id> [a|c]"
 echo "  TAT-DQA: FROZEN"
 echo
 echo "============================================"

@@ -1,6 +1,6 @@
 # 远程开发机配置：Codex CLI + OpenCode
 
-> 状态: 历史快照（08-23 定性: 安装与配置流程已完成且稳定; 现行模型拓扑/端点以 DECISIONS 模型卡 + architecture/gb10_vllm_startup_sop.md 为准） | 更新: 2026-08-23 | 取代/被取代: 现状口径被 DECISIONS + SOP 取代
+> 状态: 历史快照（安装流程历史保留；2026-10-09 模型路由已收敛到 DECISIONS + memory/CORE：Loop A `mimo-v2.6-flash`，Loop C `mimo-v2.6-pro`） | 更新: 2026-10-09 | 取代/被取代: 本文模型段仅作历史，不再控制现役路由
 
 **日期：2026-07-27。** 本文覆盖 GB10 开发机上两套工具的安装与验证。
 
@@ -45,14 +45,14 @@ codex --version
 
 ```bash
 # 写入 shell 配置（不要提交到 Git）
-echo 'export OPENAI_API_KEY="sk-..."' >> ~/.bashrc
+echo 'export OPENAI_API_KEY="<TOKEN_FROM_SECURE_ENV>"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
 或者每次会话临时设置：
 
 ```bash
-export OPENAI_API_KEY="sk-..."
+export OPENAI_API_KEY="<TOKEN_FROM_SECURE_ENV>"
 ```
 
 ### 首次使用

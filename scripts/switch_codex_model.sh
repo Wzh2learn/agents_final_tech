@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
 # Switch the GB10 Codex CLI default model/provider (Token Plan).
-# Usage: bash scripts/switch_codex_model.sh [qwen|glm|deepseek]
+# Usage: bash scripts/switch_codex_model.sh [mimo-flash|mimo-pro|qwen|glm|deepseek]
 set -uo pipefail
-MODE="${1:-qwen}"
+MODE="${1:-mimo-flash}"
 CFG="$HOME/.codex/config.toml"
 case "$MODE" in
+  mimo-flash) MODEL="mimo-v2.6-flash"; PROV="Xiaomi_Token_Plan" ;;
+  mimo-pro)   MODEL="mimo-v2.6-pro";   PROV="Xiaomi_Token_Plan" ;;
   qwen)     MODEL="qwen3.8-max-preview"; PROV="Token_Plan" ;;
   glm)      MODEL="glm-5.2";            PROV="Token_Plan_Chat" ;;
   deepseek) MODEL="deepseek-v4-pro";    PROV="Token_Plan_Chat" ;;
-  *) echo "usage: $0 [qwen|glm|deepseek]"; exit 2 ;;
+  *) echo "usage: $0 [mimo-flash|mimo-pro|qwen|glm|deepseek]"; exit 2 ;;
 esac
-if [ "$PROV" = "Token_Plan_Chat" ]; then
+if [ "$PROV" = "Xiaomi_Token_Plan" ]; then
+  echo "using Xiaomi Token Plan provider; no local proxy required"
+elif [ "$PROV" = "Token_Plan_Chat" ]; then
   if [ -x "$HOME/start_proxy.sh" ]; then
     bash "$HOME/start_proxy.sh" >/dev/null 2>&1 || true
   else

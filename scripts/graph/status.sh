@@ -67,6 +67,7 @@ RUNTIME_PREFIXES = ("logs/",)     # 脏件清单中属运行产物 => 只列不�
 # 外部写入者白名单: Loop B (scripts/graph/loop_b_verify.sh:222 同口径) 每 30 分钟
 # 与夜间 cron 会写这些 tracked 运行产物。它们若在一次 status.sh 运行窗口内变动,
 # 归因是外部进程而非本命令, 故单列 external_writer_touches, 不计入 repo_writes。
+# Loop A/C task logs normally live under AGENT_RUNTIME_ROOT; legacy paths remain whitelisted.
 EXTERNAL_WRITERS = (
     "logs/graph/dispatch_log.md", "logs/graph/docs_lint_report.json",
     "logs/graph/verify-report.json", "logs/graph/loop_b_last_status",

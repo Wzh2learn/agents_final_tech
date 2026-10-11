@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
 # Deploy responses2chat proxy on GB10 and configure Codex dual-provider.
 # Usage: bash deploy_proxy_gb10.sh
 set -euo pipefail
@@ -45,6 +46,7 @@ echo "  config.toml written with dual providers"
 echo "[3/5] Creating proxy launcher scripts..."
 cat > "$HOME/start_proxy.sh" << 'LAUNCHER'
 #!/usr/bin/env bash
+# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
 PROXY="$HOME/.local/bin/responses2chat_proxy.py"
 PIDFILE="/tmp/responses2chat_proxy.pid"
 if [ -f "$PIDFILE" ] && kill -0 "$(cat $PIDFILE)" 2>/dev/null; then
@@ -65,6 +67,7 @@ chmod +x "$HOME/start_proxy.sh"
 
 cat > "$HOME/stop_proxy.sh" << 'STOPPER'
 #!/usr/bin/env bash
+# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
 PIDFILE="/tmp/responses2chat_proxy.pid"
 if [ -f "$PIDFILE" ]; then
     kill "$(cat $PIDFILE)" 2>/dev/null && echo "Proxy stopped" || echo "Not running"

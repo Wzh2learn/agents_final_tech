@@ -1,6 +1,6 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 # v2 supervisor: backstop D if old supervisor skips it, then run Qoder recon.
-# Independent of supervisor_m1.sh; mutually-exclusive with it on D (no double-launch).
+# Independent historical supervisor; archived alongside loop_ac_supervisor_m1_legacy.sh.
 set -uo pipefail
 source ~/.bashrc 2>/dev/null
 export PATH="$HOME/.npm-global/bin:$PATH"

@@ -22,15 +22,16 @@ def test_ocr_visibility_wording_matches_stored_evidence() -> None:
     markdown = (DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md").read_text()
     docx = Document(DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.docx")
     for text in (markdown, "\n".join(p.text for p in docx.paragraphs)):
-        assert re.search(r"OCR-like perturbations are visible in 0/13 cases", text)
+        assert re.search(r"0/13 OCR-like injections were visible across 11 table clusters", text)
         assert "invisible in 0/13" not in text
+        assert "clustered confidence interval for injection-level visibility" in text
 
 
 def test_acceptance_rejects_reversed_visibility_claim(tmp_path) -> None:
     manifest = json.loads(DEFAULT_MANIFEST.read_text())
     source = (DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md").read_text()
     broken = tmp_path / "broken.md"
-    broken.write_text(source.replace("are visible in 0/13 cases", "are invisible in 0/13 cases"))
+    broken.write_text(source.replace("0/13 OCR-like injections were visible", "0/13 OCR-like injections were invisible"))
     manifest["paper"] = str(broken)
     path = tmp_path / "manifest.json"
     path.write_text(json.dumps(manifest))
@@ -96,3 +97,13 @@ def test_teacher_review_docx_keeps_patent_gate_closed() -> None:
         assert heading in text
     for marker in ("TODO", "Loop D", "logs/graph/eval", "docs/experiments/"):
         assert marker not in text
+
+def test_matched_fpr_claim_separates_structure_from_identifiability() -> None:
+    markdown = (DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md").read_text()
+    docx = Document(DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.docx")
+    for text in (markdown, "\n".join(p.text for p in docx.paragraphs)):
+        assert "positive affine transformations" in text
+        assert "not empirically identifiable" in text
+        assert "every bootstrap replicate has zero protocol difference" not in text
+        assert "after matched-false-positive-rate calibration" not in text
+        assert "historical fixed-threshold equality" in text

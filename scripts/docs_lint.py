@@ -75,7 +75,7 @@ def check_index() -> tuple[list, list]:
     # coverage: tracked md basename must appear in INDEX
     try:
         tracked = subprocess.run(
-            ["git", "-c", "core.quotepath=false", "ls-files", "docs"], capture_output=True, text=True,
+            ["git", "-c", "core.quotepath=false", "ls-files", "docs"], capture_output=True, text=True, encoding="utf-8", errors="replace",
             cwd=REPO_ROOT).stdout.splitlines()
     except Exception as e:
         return [f"git ls-files 失败: {e}"], []
@@ -164,11 +164,23 @@ def check_skill_sync() -> tuple[list, list]:
     fails, warns = [], []
     script = os.path.join(REPO_ROOT, "scripts", "graph", "sync_skills.sh")
     try:
-        r = subprocess.run(["bash", script, "--check"], capture_output=True,
-                           text=True, timeout=60)
+        if os.name == "nt":
+            def to_wsl_path(path: str) -> str:
+                drive, tail = os.path.splitdrive(os.path.abspath(path))
+                return "/mnt/" + drive[0].lower() + tail.replace("\\", "/")
+
+            command = [
+                "wsl.exe", "-e", "bash", to_wsl_path(script), "--check",
+                to_wsl_path(os.path.join(os.path.expanduser("~"), ".codex", "skills")),
+                to_wsl_path(os.path.join(os.path.expanduser("~"), ".claude", "skills")),
+            ]
+        else:
+            command = ["bash", script, "--check"]
+        r = subprocess.run(command, capture_output=True,
+                           text=True, encoding="utf-8", errors="replace", timeout=240)
         if r.returncode != 0:
             fails.append("[4] skill 安装漂移 (sync_skills.sh --check): "
-                         + "; ".join(l for l in r.stdout.splitlines() if "DRIFT" in l)[:300])
+                         + "; ".join(l for l in (r.stdout or "").splitlines() if "DRIFT" in l)[:300] or (r.stderr or "").strip()[:300])
     except Exception as e:
         fails.append(f"[4] sync_skills --check 执行失败: {e}")
     return fails, warns

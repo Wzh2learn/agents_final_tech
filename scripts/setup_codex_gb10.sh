@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
 # ============================================================
 # GB10 Codex CLI 一键配置脚本
 # 在远程 Linux 开发机上原生运行，不经过 PowerShell 转义
@@ -140,6 +141,7 @@ echo "[6/6] Setting up tmux helper..."
 # 创建 tmux 启动脚本
 cat > "$HOME/start_codex_tmux.sh" << 'TMUX_SCRIPT'
 #!/usr/bin/env bash
+# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
 # 在 tmux 后台启动 Codex CLI 会话
 # 用法: bash ~/start_codex_tmux.sh [session_name]
 SESSION="${1:-codex-dev}"
@@ -161,6 +163,7 @@ chmod +x "$HOME/start_codex_tmux.sh"
 # 创建模型切换脚本
 cat > "$HOME/switch_codex_model.sh" << 'SWITCH_SCRIPT'
 #!/usr/bin/env bash
+# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
 # 切换 Codex CLI 默认模型
 # 用法: bash ~/switch_codex_model.sh <model_name>
 # 可用: qwen3.8-max-preview qwen3.7-max qwen3.7-plus qwen3.6-flash deepseek-v4-pro

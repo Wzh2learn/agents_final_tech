@@ -11,7 +11,7 @@ while true; do
     echo "----- Loop B verify-report -----"
     cat "$PROJECT_DIR/logs/graph/verify-report.json" 2>/dev/null || echo "[no verify-report yet]"
     echo "----- tmux graph sessions -----"
-    tmux list-sessions 2>/dev/null | grep -E "graph-loop" || echo "[no graph sessions]"
+    tmux list-sessions 2>/dev/null | grep -E "graph-loop-b|^loop-(a|c)-" || echo "[no graph sessions]"
   } > "$DASH" 2>&1
   echo "[$(date '+%m-%d %H:%M:%S')] heartbeat" >> "$HIST"
   sleep "$INTERVAL"

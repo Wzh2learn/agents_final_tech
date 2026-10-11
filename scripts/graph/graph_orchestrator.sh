@@ -34,21 +34,25 @@ start_loop_b() {
 
 start_loop_a() {
   cat <<'EOF_LOOPA'
-[Loop A] 未启动；本分支只显示派发入口。
-  规则/状态: AGENTS.md、memory/STATE.md、memory/THREADS.md。
-  按 templates/task_card_template.md 明确目标、验收、预算和当前授权。
+[Loop A] 当前派发入口是 scripts/graph/loop_ac_launcher.sh。
+  本 orchestrator 只管理 Loop B，不自动启动 A/C。
+  先运行 launcher preflight，再用 start a <task-id> <prompt-file> 启动 detached task。
+  规则与任务授权仍由 AGENTS.md、memory/STATE.md、memory/THREADS.md 和任务卡决定。
   执行约束: scripts/graph/loop_a_exec_constraints.md。
+  任务合同: templates/task_card_template.md。
   执行面: docs/governance/2026-09-07_execution_plane_boundary.md。
-  CLI、模型、profile 与窗口按当前任务授权确认，不沿用历史配置自动派发。
 EOF_LOOPA
 }
 
 start_loop_c() {
   cat <<'EOF_LOOPC'
-[Loop C] 未启动；本分支只显示独立审计入口。
-  按当前任务范围读取 scripts/graph/loop_c_audit_prompt.md。
-  审计须绑定实际提交/工作区 diff 和验证证据；A 自测不等于 B/C 已验收。
-  模型、服务、数据库和真实样本解析须另有明确授权，不默认执行。
+[Loop C] 当前派发入口是 scripts/graph/loop_ac_launcher.sh。
+  本 orchestrator 只管理 Loop B，不自动启动 A/C。
+  先运行 launcher preflight，再用 start c <task-id> <prompt-file> 启动 detached task。
+  Loop C 保持独立只读审计；模型、服务、数据库和真实样本解析须按任务卡授权。
+  审计约束: scripts/graph/loop_c_audit_prompt.md。
+  任务合同: templates/task_card_template.md。
+  执行面: docs/governance/2026-09-07_execution_plane_boundary.md。
 EOF_LOOPC
 }
 
@@ -63,13 +67,17 @@ show_status() {
 
   # tmux sessions
   echo "--- tmux sessions ---"
-  for loop in graph-loop-a graph-loop-b graph-loop-c; do
-    if tmux has-session -t "$loop" 2>/dev/null; then
-      echo "  $loop: RUNNING"
-    else
-      echo "  $loop: STOPPED"
-    fi
-  done
+  if tmux has-session -t graph-loop-b 2>/dev/null; then
+    echo "  graph-loop-b: RUNNING"
+  else
+    echo "  graph-loop-b: STOPPED"
+  fi
+  ac_sessions=$(tmux ls 2>/dev/null | grep -E '^loop-(a|c)-' || true)
+  if [[ -n "$ac_sessions" ]]; then
+    echo "$ac_sessions" | sed 's/^/  /'
+  else
+    echo "  Loop A/C detached tasks: none"
+  fi
   echo
 
   # Model services
@@ -131,21 +139,17 @@ show_logs() {
   echo "=== Loop B (last 20 lines) ==="
   tail -20 "$LOG_DIR/loop_b.log" 2>/dev/null || echo "  No log"
   echo
-  echo "=== Loop A (last 10 lines) ==="
-  tail -10 "$LOG_DIR/loop_a.log" 2>/dev/null || echo "  No log"
-  echo
-  echo "=== Loop C (last 10 lines) ==="
-  tail -10 "$LOG_DIR/loop_c.log" 2>/dev/null || echo "  No log"
+  echo "=== Loop A/C ==="
+  echo "  Use: bash scripts/graph/loop_ac_launcher.sh logs <task-id> <a|c> [lines]"
 }
 
 # ---- Stop ----
 stop_all() {
-  for loop in graph-loop-a graph-loop-b graph-loop-c; do
-    if tmux has-session -t "$loop" 2>/dev/null; then
-      tmux kill-session -t "$loop"
-      echo "[${loop}] Stopped"
-    fi
-  done
+  if tmux has-session -t graph-loop-b 2>/dev/null; then
+    tmux kill-session -t graph-loop-b
+    echo "[graph-loop-b] Stopped"
+  fi
+  echo "Loop A/C tasks are managed by loop_ac_launcher.sh stop <task-id> <a|c>"
 }
 
 # ---- Entry Point ----
