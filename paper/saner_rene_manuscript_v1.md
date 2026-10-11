@@ -16,22 +16,17 @@ We study these distinctions through controlled fault injection on a frozen publi
 
 ## 2. Related Work
 
-### 2.1 Meta-evaluation
+### 2.1 Measurement validity and construct validity
 
-Machine-translation challenge sets such as ACES evaluate whether a metric can distinguish genuine errors from acceptable variants [Amrhein et al., 2022; Amrhein et al., 2023; Moghe et al., 2024]. Contextual metric meta-evaluation extends this view to local, context-dependent correctness [Deviyani and Diaz, 2025]. More recent studies show that rankings can change with protocol axes, prompt subsets, seeds, or the property a metric is intended to measure [Kendiukhov, 2026; Du et al., 2026; Ross et al., 2024]. We adopt the same meta-evaluation principle but focus on a prior question: whether a long-horizon protocol can observe an injected defect at all.
+Meta-evaluation asks whether a metric measures what it claims. Machine-translation challenge sets such as ACES test whether a metric separates genuine errors from acceptable variants [Amrhein et al., 2022; Amrhein et al., 2023; Moghe et al., 2024], and contextual metric meta-evaluation extends this to local, context-dependent correctness [Deviyani and Diaz, 2025]. Rankings can change with protocol axes, prompt subsets, seeds, or the property a metric targets [Kendiukhov, 2026; Du et al., 2026; Ross et al., 2024]. Reliability work on LLM-as-a-judge documents position, verbosity, self-preference, and perturbation sensitivity [Zheng et al., 2023; Li et al., 2025a; Li et al., 2025b]. Construct-validity guidance frames the same concern normatively: NIST AI 100-1 asks that TEVV metrics and processes be appropriate and effective and that measurement types be reviewed for unique and meaningful information, and NIST AI 600-1 asks that construct validity be demonstrated for each metric [NIST, 2023; NIST, 2024]. We share the meta-evaluation aim but ask a prior question: whether the evaluation surface can observe a controlled defect at all. We keep visibility, detection, and harmfulness as separate constructs so that a protocol comparison is not read into counts that different decision rules produce.
 
-### 2.2 Process-level and hierarchical evaluation
+### 2.2 Testing, oracles, and diagnosability
 
-Process-oriented benchmarks diagnose intermediate behavior in tool-using and web agents rather than scoring only final success [Fan et al., 2026; Chung et al., 2026]. GTA-2 represents a task as recursively aggregated checkpoints [Wang et al., 2026]. Our aggregation follows this structure, while adding deterministic contracts, explicit missing-evidence behavior, and controlled injections that expose the evaluator's sensitivity by defect family.
+Mutation testing and metamorphic testing introduce controlled changes to measure whether a test or metric notices them [Cho et al., 2025]; AgentChaos applies programmatic fault injection to agent systems [Tan et al., 2026]. Fault-based reasoning separates whether a fault is reached, whether it changes intermediate state, and whether its effect propagates to an observable output; non-detection can arise at any of these stages, and an oracle that does not respond to a propagated effect is insensitive by construction. Process-level work evaluates intermediate behavior rather than only final success [Fan et al., 2026; Chung et al., 2026], and GTA-2 aggregates checkpoints recursively [Wang et al., 2026]. We follow the mutation and fault-injection tradition but refine non-detection into distinct mechanisms, and we treat a checkpoint forest as an evidence instrument whose diagnosability must be audited rather than assumed.
 
-### 2.3 Mutation testing and fault injection
+### 2.3 Verified SANER RENE precedent
 
-Mutation testing and metamorphic testing introduce controlled changes to measure whether a test or metric notices them [Cho et al., 2025]. AgentChaos applies programmatic fault injection to agent systems [Tan et al., 2026]. These traditions usually summarize each mutant as killed or surviving. We refine surviving or non-detected mutants by distinguishing silent absorption, unobservability at the scored layer, and equivalence-dependent interpretation, then report those mechanisms by defect family. We distinguish evaluator blindness from mutants whose intended effect is not represented on the scored observation surface. We reserve the term invalid mutant for cases that fail a separate validity audit.
-
-### 2.4 Reliability of semantic judges
-
-LLM judges are useful for open-semantic qualities but exhibit position, verbosity, self-preference, and perturbation sensitivity [Zheng et al., 2023; Li et al., 2025a; Li et al., 2025b]. We therefore reserve deterministic checks for contractible properties, use a judge only for semantic dimensions, hide injected ground truth from the judge prompt, and report the judge's resolution and sample limits explicitly. The distinction from prior process-level work is deliberate: those methods diagnose system behavior, whereas this paper first audits whether the evaluator can observe a controlled defect before interpreting that behavior.
-
+The RENE track publishes reproducibility studies and negative results. Four recent papers define the surrounding practice; we describe each from its abstract. The Limits of the Identifiable [Gerhold et al., 2024] extends deep-learning Python version identification to larger, realistic files and finds that accuracy falls from short snippets to longer segments, with import-statement analysis reaching only 30 percent, exposing limits of the approach. Does the Tool Matter? [Hoess et al., 2025] compares two mining tools across ten projects and finds that even simple metrics such as commit and developer counts can differ by up to 500 percent, often from minor technical details, and hypothesises similar uncertainty in other analysis tools. Can We Classify Flaky Tests Using Only Test Code? [Berndt et al., 2026] evaluates three LLMs with three prompting techniques on two benchmarks and reports that classifiers are only marginally better than random, and that the test code alone does not necessarily carry enough information for a flakiness decision. Static Analysis Traces can Help Dynamic Symbolic Execution: a Replication Study [Kummita et al., 2026] replicates a prior study, extends it with PhASAR-based tools and a second benchmark, and reports a conclusion different from the original: traces let KLEE find vulnerabilities about 1.4 times faster, though KLEE also confirms fewer vulnerabilities on one benchmark. These papers share our concern with measurement validity and information sufficiency; we differ in scope, auditing the observation surface of a staged document-intelligence evaluator with controlled, family-resolved injections and an explicit boundary between visibility, detection, and harmfulness.
 ## 3. Method
 
 The conceptual core is a three-way audit of visibility, detection, and harmfulness; the hierarchical checkpoint forest is the evidence instrument that makes the audit reproducible.
@@ -205,21 +200,25 @@ Final correctness cannot tell whether a defect was observed at an intermediate c
 
 - Amrhein, C., Moghe, N., and Guillou, L. ACES: Translation Accuracy Challenge Sets for Evaluating Machine Translation Metrics. arXiv:2210.15615, 2022.
 - Amrhein, C., Moghe, N., and Guillou, L. ACES: Translation Accuracy Challenge Sets at WMT 2023. arXiv:2311.01153, 2023.
-- Chung, J., Byun, J., Vineet, V., and Kim, S. J. Where Did It Go Wrong? Process-Level Evaluation of Web Agents with Semantic State Tracking. arXiv:2606.15673, 2026.
+- Berndt, A., Bekmyradov, V., Gemulla, R., Kessel, M., Bach, T., and Baltes, S. Can We Classify Flaky Tests Using Only Test Code? An LLM-Based Empirical Study. In Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE track, 2026. DOI: 10.1109/SANER67736.2026.00016.
 - Cho, S., Ruberto, S., and Terragni, V. Metamorphic Testing of Large Language Models for Natural Language Processing. arXiv:2511.02108, 2025.
+- Chung, J., Byun, J., Vineet, V., and Kim, S. J. Where Did It Go Wrong? Process-Level Evaluation of Web Agents with Semantic State Tracking. arXiv:2606.15673, 2026.
 - Deviyani, A., and Diaz, F. Contextual Metric Meta-Evaluation by Measuring Local Metric Accuracy. arXiv:2503.19828, 2025.
 - Du, S., Liang, P., Shen, Y., et al. On the Stability of Prompt Ranking in Large Language Model Evaluation. arXiv:2606.24381, 2026.
 - Fan, S., Ye, X., Huo, Y., et al. AgentProcessBench: Diagnosing Step-Level Process Quality in Tool-Using Agents. arXiv:2603.14465, 2026.
+- Gerhold, M., Solovyeva, L., and Zaytsev, V. The Limits of the Identifiable: Challenges in Python Version Identification with Deep Learning. In Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE track, 2024. DOI: 10.1109/SANER60148.2024.00022.
+- Hoess, N., Paradis, C., Kazman, R., and Mauerer, W. Does the Tool Matter? Exploring Some Causes of Threats to Validity in Mining Software Repositories. In Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE track, 2025. DOI: 10.1109/SANER64311.2025.00067.
 - Kendiukhov, I. Quantifying Ranking Instability Across Evaluation Protocol Axes in Gene Regulatory Network Benchmarking. arXiv:2603.03493, 2026.
+- Kummita, S., Schiebel, F., Bodden, E., Miao, M., and Wei, S. Static Analysis Traces can Help Dynamic Symbolic Execution: a Replication Study. In Proc. IEEE Int. Conf. on Software Analysis, Evolution and Reengineering (SANER), RENE track, 2026. DOI: 10.1109/SANER67736.2026.00114.
 - Li, Q., Dou, S., Shao, K., Chen, C., and Hu, H. Evaluating Scoring Bias in LLM-as-a-Judge. arXiv:2506.22316, 2025.
 - Li, S., Xu, C., Wang, J., et al. LLMs Cannot Reliably Judge (Yet?): A Comprehensive Assessment on the Robustness of LLM-as-a-Judge. arXiv:2506.09443, 2025.
 - Moghe, N., Fazla, A., Amrhein, C., et al. Machine Translation Meta Evaluation through Translation Accuracy Challenge Sets. arXiv:2401.16313, 2024.
 - National Institute of Standards and Technology. Artificial Intelligence Risk Management Framework (AI RMF 1.0). NIST AI 100-1, January 2023. https://doi.org/10.6028/NIST.AI.100-1.
+- National Institute of Standards and Technology. Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile. NIST AI 600-1, July 2024. https://doi.org/10.6028/NIST.AI.600-1.
 - Ross, C., Hall, M., Romero Soriano, A., and Williams, A. What Makes a Good Metric? Evaluating Automatic Metrics for Text-to-Image Consistency. arXiv:2412.13989, 2024.
 - Tan, G., Sun, Z., Shi, J., et al. AgentChaos: Chaos Engineering for Agent Systems via Programmatic Fault Injection. arXiv:2608.06790, 2026.
 - Wang, J., et al. GTA-2: Benchmarking General Tool Agents from Atomic Tool-Use to Open-Ended Workflows. arXiv:2604.15715, 2026.
 - Zheng, L., Chiang, W.-L., Sheng, Y., et al. Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. arXiv:2306.05685, 2023.
-
 ## Appendix A. Deferred independent-evidence record
 
 This appendix preserves the internal evidence and preregistration record for deferred extensions. These materials are boundary records, not Stage E results.
