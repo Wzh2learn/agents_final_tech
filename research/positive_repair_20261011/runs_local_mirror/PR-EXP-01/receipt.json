@@ -1,0 +1,722 @@
+{
+  "claim_object": "SYNTHETIC_NULL_SUPPORT_REPAIR",
+  "cost": {
+    "database_calls": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "service_calls": 0,
+    "training_runs": 0,
+    "wall_seconds": 10.102562
+  },
+  "deviations": [],
+  "end_utc": "2026-10-11T08:32:03.010155Z",
+  "experiment_id": "PR-EXP-01",
+  "harmful_semantic_read_utc": null,
+  "implementation_contract_sha256": "b3447ddb17da3e81eceb5347bb8f28468c2fb66b4f751aa457e78ff37c51f9ab",
+  "implementation_hashes": {
+    "check_null_panel.py": "53a9cc017d0382869afe1ed019696d962d8d516e7343ae8373aad76616a02228",
+    "generate_null_panel.py": "fbade41436b12724a1ca9ea7f58cf86cfa8d3fb01f87b1cacbedbb5b2093c0f8",
+    "run_pr_exp_01.py": "f66dfbeeaded20ba9dfe243ec4d3769db32cb8e6b3a110415f9166aba5fccb10"
+  },
+  "input_hashes": {
+    "config/eval_checkpoint_trees.json": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+    "data/research/drift_v0/input/tatqa_tables.json": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "data/research/drift_v0/output/injection_map.json": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+    "research/paper_d3_matched_fpr_stage_a.py": "56f0c8519236f4420a63835bf95ea6c6853bb838d94527486519a3e9482d8f9f",
+    "research/paper_t1_eval_baselines.py": "01772e84efb3f579a1146c7c0b0e76f42b1e77625eee1124f901ab03b4c29f79",
+    "research/positive_repair_20261011/contracts/SOURCE_LOCAL_RESPONSE_v1.md": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290",
+    "research/positive_repair_20261011/contracts/shared_surface_freeze_v1.json": "d084e7f66cbc3f6f841683c57e97286d9a049a611d787fcb245dbea453f811a4",
+    "research/positive_repair_20261011/loop_a_cards/loop_a_PR-EXP-01.md": "424bc01707bdd9aa075196725b0f35b8aa1193f923e68bc07cebfbd0b4aa71e8",
+    "research/positive_repair_20261011/loop_a_cards/residual_notes_v1.md": "a87758a125f9ea0625f1c3b891fa465f55929e2e01d19bc6c9f2ef7479bbb569",
+    "research/positive_repair_20261011/loop_c_prereg_audit_recheck_result_raw.log": "a437792b4ff5997e18a5f2600b9778752b037173de616263431fdec6c0f7399d",
+    "research/positive_repair_20261011/prereg_freeze_manifest_v2.json": "b543953952c3af87b9db98f360b7d5b57d02a6dfe399cab8621c822b2b0dda5f",
+    "research/positive_repair_20261011/preregs/PR-EXP-01_prereg_v2.md": "41c6c3cd14b5d0dd1e00abef9bd15953ba9bf1cb1d8463910270f67b94af0cd3",
+    "research/positive_repair_20261011/round_receipt_v4_hashfix.json": "7c942208c92c49fa4e54a066e7ce479b8d23a130d2dd5fadf80a6eb4fd87aa26",
+    "research/stage_e_method_revision_20261009/stage_e_matched_fpr_reanalysis.py": "f926c63d602db9ecbd2c64a8cdb0fff5850875a16ea88d386e905cc8bcb24489",
+    "scripts/m1_statement_parser.py:git_blob": "def5161dd17fc14345d340879174ed01e0277626",
+    "src/biz/m1_statement_parser.py": "d4f9ed86c8d0fa466462c8132308a31bf51e7e4439042c4d147da9f99550d8a8"
+  },
+  "outcome_label": "NOT_EVALUABLE",
+  "output_hashes": {
+    "generator_summary.json": "a76e2c2212f330d720e7322134b862bab114ec044a6dabffda02463433c8c073",
+    "panel.jsonl": "2baa68e1600aae446fcf5ac825593f5993b1c7274e857bc9736522e0c8372cd7",
+    "phase0_qualification.json": "3bb1092c641dec51caede00a34d9efc796541368dd3d552f690ea5eeb878c735",
+    "result.json": "991a21ce67636ea01b6122a88caa327c62d79b5102e7e79ecb0552aa9a7d8011"
+  },
+  "phase_reached": "PHASE_0_STOP",
+  "prereg_sha256": "41c6c3cd14b5d0dd1e00abef9bd15953ba9bf1cb1d8463910270f67b94af0cd3",
+  "raw_metrics": {
+    "bridge": "not applicable: no frozen threshold",
+    "calibration": "not applicable: Phase 0 stopped before scoring",
+    "generator_summary": {
+      "admitted_count": 9566,
+      "candidate_scope": "every cell of every usable non-injected source table × every DSL rule",
+      "counts": {
+        "admitted": 9566,
+        "candidate_applications": 37900,
+        "candidate_identity_at_rule": 12339,
+        "clean_usable_tables": 2382,
+        "excluded_injected_uid": 95,
+        "excluded_no_canonical": 2,
+        "rejected_task_truth_mismatch": 15995,
+        "source_tables": 2479
+      },
+      "edit_dsl_rules": [
+        "edge_space_prefix",
+        "edge_space_suffix",
+        "internal_single_space_removed",
+        "case_swap"
+      ],
+      "injection_map_sha256": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+      "namespace": "PR-EXP-01_null_panel_generator_v1",
+      "panel_completeness": "all and only candidate applications satisfying raw nonidentity and task-truth hash identity; no sampling",
+      "panel_sha256": "2baa68e1600aae446fcf5ac825593f5993b1c7274e857bc9736522e0c8372cd7",
+      "source_tables_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+    },
+    "harmful": "not read",
+    "heldout_null": "not applicable: Phase 0 stopped before scoring",
+    "phase0": {
+      "admission_failure_count": 15995,
+      "admission_failures": [
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "000abf67-dc6c-4c08-a922-70664fb01b4b"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "000abf67-dc6c-4c08-a922-70664fb01b4b"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "000abf67-dc6c-4c08-a922-70664fb01b4b"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "000abf67-dc6c-4c08-a922-70664fb01b4b"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "001781c6-0e17-4fdd-b000-011e3ed66d6e"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "001781c6-0e17-4fdd-b000-011e3ed66d6e"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "001781c6-0e17-4fdd-b000-011e3ed66d6e"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "001781c6-0e17-4fdd-b000-011e3ed66d6e"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "001781c6-0e17-4fdd-b000-011e3ed66d6e"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "001781c6-0e17-4fdd-b000-011e3ed66d6e"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "001781c6-0e17-4fdd-b000-011e3ed66d6e"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "001781c6-0e17-4fdd-b000-011e3ed66d6e"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "001781c6-0e17-4fdd-b000-011e3ed66d6e"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "001e29d7-77e9-4434-9a3d-f72ef640fa79"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "001e29d7-77e9-4434-9a3d-f72ef640fa79"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "001e29d7-77e9-4434-9a3d-f72ef640fa79"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "001e29d7-77e9-4434-9a3d-f72ef640fa79"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 4,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 4,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 4,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 5,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 5,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 5,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "00234411-6779-46a1-915a-d58e3e27716a"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "0024d75d-53db-4d93-8d6f-c207ae3f2fe7"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "0024d75d-53db-4d93-8d6f-c207ae3f2fe7"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "0024d75d-53db-4d93-8d6f-c207ae3f2fe7"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "0024d75d-53db-4d93-8d6f-c207ae3f2fe7"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "0027cf6e-f6e8-4d8b-b4ee-0b9f9aeb1f54"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "003a9449-5c23-446f-ae11-1d478c7f6719"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "003a9449-5c23-446f-ae11-1d478c7f6719"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "003a9449-5c23-446f-ae11-1d478c7f6719"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "003a9449-5c23-446f-ae11-1d478c7f6719"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "0042d133-e5c2-4260-bc73-f8168cdf6001"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "0042d133-e5c2-4260-bc73-f8168cdf6001"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "0042d133-e5c2-4260-bc73-f8168cdf6001"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "0042d133-e5c2-4260-bc73-f8168cdf6001"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "004dd600-f3df-4212-8ef9-e3b16ced923e"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "004dd600-f3df-4212-8ef9-e3b16ced923e"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "004dd600-f3df-4212-8ef9-e3b16ced923e"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "004dd600-f3df-4212-8ef9-e3b16ced923e"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "008149bc-f997-49d9-a981-f01f19579451"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "008149bc-f997-49d9-a981-f01f19579451"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "008149bc-f997-49d9-a981-f01f19579451"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "008149bc-f997-49d9-a981-f01f19579451"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "008149bc-f997-49d9-a981-f01f19579451"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "008149bc-f997-49d9-a981-f01f19579451"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "008149bc-f997-49d9-a981-f01f19579451"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "008149bc-f997-49d9-a981-f01f19579451"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "00842ff1-169b-4246-9208-7cfef29a4363"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "00842ff1-169b-4246-9208-7cfef29a4363"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "00842ff1-169b-4246-9208-7cfef29a4363"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "00842ff1-169b-4246-9208-7cfef29a4363"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "008eaf4e-4d70-496b-aa25-b842b05a3560"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "008eaf4e-4d70-496b-aa25-b842b05a3560"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "internal_single_space_removed",
+          "uid": "008eaf4e-4d70-496b-aa25-b842b05a3560"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "case_swap",
+          "uid": "008eaf4e-4d70-496b-aa25-b842b05a3560"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "008eaf4e-4d70-496b-aa25-b842b05a3560"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "008eaf4e-4d70-496b-aa25-b842b05a3560"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "008eaf4e-4d70-496b-aa25-b842b05a3560"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "008eaf4e-4d70-496b-aa25-b842b05a3560"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "00a11cc5-dc80-4e56-baea-d12d74ca79f5"
+        },
+        {
+          "index": 1,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "00a11cc5-dc80-4e56-baea-d12d74ca79f5"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "00a11cc5-dc80-4e56-baea-d12d74ca79f5"
+        },
+        {
+          "index": 2,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "00a11cc5-dc80-4e56-baea-d12d74ca79f5"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "00a11cc5-dc80-4e56-baea-d12d74ca79f5"
+        },
+        {
+          "index": 3,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "00a11cc5-dc80-4e56-baea-d12d74ca79f5"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_prefix",
+          "uid": "00a5764e-8bb7-48f1-a4cb-bea0edf188b1"
+        },
+        {
+          "index": 0,
+          "kind": "truth_mismatch",
+          "rule": "edge_space_suffix",
+          "uid": "00a5764e-8bb7-48f1-a4cb-bea0edf188b1"
+        }
+      ],
+      "admitted_count_observed": 9566,
+      "admitted_count_recomputed": 9566,
+      "ast_independence": {
+        "generator_imports": [],
+        "imports": [
+          "__future__",
+          "argparse",
+          "ast",
+          "biz.m1_statement_parser",
+          "collections",
+          "hashlib",
+          "importlib.util",
+          "json",
+          "pathlib",
+          "sys"
+        ],
+        "passes": true
+      },
+      "candidate_count_recomputed": 37900,
+      "checker_path": "research/positive_repair_20261011/runs/PR-EXP-01/check_null_panel.py",
+      "checker_sha256": "53a9cc017d0382869afe1ed019696d962d8d516e7343ae8373aad76616a02228",
+      "duplicate_candidate_ids": 0,
+      "empty_admission": false,
+      "generator_path": "research/positive_repair_20261011/runs/PR-EXP-01/generate_null_panel.py",
+      "generator_sha256": "fbade41436b12724a1ca9ea7f58cf86cfa8d3fb01f87b1cacbedbb5b2093c0f8",
+      "namespace": "PR-EXP-01_independent_panel_checker_v1",
+      "panel_exact_complete_match": true,
+      "separate_file_hash_lineage": true,
+      "status": "FAIL",
+      "unverifiable_identity": true
+    }
+  },
+  "start_utc": "2026-10-11T08:31:52.907590Z",
+  "status": "NOT_EVALUABLE",
+  "threshold_frozen_before_harmful_semantic_read": false,
+  "threshold_frozen_utc": null,
+  "unverified_items": [
+    "No scoring or harmful-side claim is made because Phase 0 failed."
+  ]
+}

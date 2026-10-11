@@ -1,0 +1,138 @@
+{
+  "deviations": [],
+  "end_utc": "2026-10-11T08:21:28Z",
+  "endpoint_calls": 0,
+  "inputs": [
+    {
+      "bytes": 5980,
+      "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
+      "sha256": "e516e6c7a94ed7e24ffd2fab8e00f9a42f564ecb164c644e03fc1d65653ccd3d"
+    },
+    {
+      "bytes": 2701,
+      "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
+      "sha256": "28549d5438e00aef8199c83dbd16c6081f49b51534cfef4a80a905c1c1df7cb5"
+    },
+    {
+      "bytes": 4260,
+      "path": "paper/figure_plan_v1.md",
+      "sha256": "80904d311a6ee28fc0b9592f3459763eb27fc37f6e4127c4cf776ec3aa782dfe"
+    },
+    {
+      "bytes": 201665,
+      "path": "logs/graph/eval/t2_visibility_sensitivity.json",
+      "sha256": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5"
+    },
+    {
+      "bytes": 82006,
+      "path": "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+      "sha256": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72"
+    },
+    {
+      "bytes": 20157,
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+      "sha256": "0518c5bfc40bf2b4e82312887b9426bbb8833df326d4d782cd1cbe63d052571d"
+    },
+    {
+      "bytes": 2265,
+      "path": "docs/research/figures_multileaf/manifest.json",
+      "sha256": "9438bd6db6c15b5680da68ee28a041b9cea66015a25d49a52d63cc74f125dbae"
+    },
+    {
+      "bytes": 8689,
+      "path": "docs/research/figures_multileaf/fig_multileaf_localization_ablation.svg",
+      "sha256": "2ef011b4e960e2ea58e1ad013a44c1a3fd62c6c4201586b4c55f50abc0a02fff"
+    },
+    {
+      "bytes": 79649,
+      "path": "docs/research/figures_multileaf/fig_multileaf_localization_ablation.png",
+      "sha256": "20f667e074365978d38a1c3df9e81e5e218a2a9267cb03398d73bb73d929c4f1"
+    },
+    {
+      "bytes": 10899,
+      "path": "research/stage_e_multileaf_20261010/render_multileaf_localization_ablation_v2.py",
+      "sha256": "6df2e97e882bf0fe4018bfb3f8af2e22d5461505eab3cb55d6423ea3bd9f30ef"
+    },
+    {
+      "bytes": 11792,
+      "path": "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_receipt.json",
+      "sha256": "61fbbbdbcdbf4b4ef6fac6abfe781324e9a0e069ab91c0bf9e3e6a4583c18e08"
+    }
+  ],
+  "judge_calls": 0,
+  "model_calls": 0,
+  "outputs": [
+    {
+      "bytes": 6009,
+      "path": "docs/research/figures_saner/fig1_measurement_chain.svg",
+      "sha256": "95fff20876ec9fc721866308cdfdcdce1fcff55668c3e38b4c9f0c67fb02d506"
+    },
+    {
+      "bytes": 16932,
+      "path": "docs/research/figures_saner/fig2_family_visibility_matrix.svg",
+      "sha256": "1985185d08d3cf1c676810fc45a1cabee675cd60be836b471a144bcfc6484b02"
+    },
+    {
+      "bytes": 107930,
+      "path": "docs/research/figures_saner/fig2_family_visibility_matrix.png",
+      "sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d"
+    },
+    {
+      "bytes": 8188,
+      "path": "docs/research/figures_saner/fig2_source.csv",
+      "sha256": "a61d75fda37c84aa058472f06a2b1898052dd0e6fde49598467da72997f1b3ec"
+    },
+    {
+      "bytes": 6218,
+      "path": "docs/research/figures_saner/fig3_localization_ablation.svg",
+      "sha256": "d73cc549e34fc2aa508b7cbb418bd3c50dd489ee75a04656bf579b1311120015"
+    },
+    {
+      "bytes": 72520,
+      "path": "docs/research/figures_saner/fig3_localization_ablation.png",
+      "sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64"
+    },
+    {
+      "bytes": 33348,
+      "path": "docs/research/figures_saner/figure_source_binding_manifest.json",
+      "sha256": "f02cfa455fe3a81a6c5f30a893592a15e90b0f1753bb97ba57ab806f4350e100"
+    },
+    {
+      "bytes": 33763,
+      "path": "docs/research/figures_saner/render_saner_figures.py",
+      "sha256": "dadc285c514200220e7f3700849e4d4a783f30b202be2255712650fc555c6e57"
+    },
+    {
+      "bytes": 21030,
+      "path": "docs/research/figures_saner/verify_saner_figures.py",
+      "sha256": "b3cfa2881a692b6221c0eb9ab2560d364c091a80968f923d0bb03a00636756d5"
+    }
+  ],
+  "receipt": {
+    "hash_contract": "SHA-256 of canonical compact sorted JSON excluding receipt",
+    "self_hash_excluded_from_outputs": true,
+    "self_sha256": "10508f35d66030f87362f73d8d7965595b50f73f4d5b5a2373a3c3aeb6280a6b"
+  },
+  "schema_version": 1,
+  "scope": {
+    "figure_ledger_modified": false,
+    "frozen_source_artifacts_modified": false,
+    "manuscript_body_modified": false,
+    "other_figure_folders_modified": false
+  },
+  "start_utc": "2026-10-11T08:07:47Z",
+  "status": "COMPLETE",
+  "unverified_items": [],
+  "verification_notes": [
+    "All manifest-listed source and output SHA-256 values recompute exactly.",
+    "All 30 Figure 2 cells recompute from t2_visibility_sensitivity.json; injection counts cross-check against checkpoint_discrimination_tables_v2.json.",
+    "Figure 2 has 98 numeric bindings covering gamma labels, cell rates, visible/injection counts, and the OCR 0/13/11 note.",
+    "Figure 3 full/direct/non-direct values recompute from multileaf_signature_ablation.json; majority and chance baselines derive from three balanced classes.",
+    "Existing Figure 3 candidate PNG/SVG and renderer hashes match both the candidate manifest and repair receipt.",
+    "Required caption texts match specification exactly; all three forbidden Figure 3 phrases are absent.",
+    "SVG XML, PNG dimensions/source metadata, CSV cardinality, and required rendered annotations pass.",
+    "Local raster visual inspection found no clipping or overlapping text in the three figure views.",
+    "No paper/manuscript path or other figure folder is modified by this run.",
+    "The existing figure ledger remains unchanged."
+  ]
+}

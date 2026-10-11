@@ -1,0 +1,25 @@
+{
+  "admitted_count": 9566,
+  "candidate_scope": "every cell of every usable non-injected source table × every DSL rule",
+  "counts": {
+    "admitted": 9566,
+    "candidate_applications": 37900,
+    "candidate_identity_at_rule": 12339,
+    "clean_usable_tables": 2382,
+    "excluded_injected_uid": 95,
+    "excluded_no_canonical": 2,
+    "rejected_task_truth_mismatch": 15995,
+    "source_tables": 2479
+  },
+  "edit_dsl_rules": [
+    "edge_space_prefix",
+    "edge_space_suffix",
+    "internal_single_space_removed",
+    "case_swap"
+  ],
+  "injection_map_sha256": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+  "namespace": "PR-EXP-01_null_panel_generator_v1",
+  "panel_completeness": "all and only candidate applications satisfying raw nonidentity and task-truth hash identity; no sampling",
+  "panel_sha256": "2baa68e1600aae446fcf5ac825593f5993b1c7274e857bc9736522e0c8372cd7",
+  "source_tables_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+}

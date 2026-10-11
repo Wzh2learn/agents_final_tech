@@ -1,0 +1,18 @@
+{
+  "expected_rows": 216,
+  "excluded_rows": 216,
+  "observed_source_rows": 216,
+  "proof_missing_rows": 0,
+  "retained_rows": 0,
+  "rows_by_exclusion_reason": {
+    "cluster_missing": 0,
+    "feature_row_missing": 0,
+    "label_missing": 0,
+    "label_provenance_field_schema_mismatch": 216,
+    "missing_pair_member": 0,
+    "nonfinite_feature": 0,
+    "proof_missing": 0,
+    "row_alignment_failure": 0
+  },
+  "reason": "The frozen contract requires paired-carrier field expected_first_affected_stage; the carrier schema exposes expected_first_stage instead. The schema-mismatch fallback was not authorized and was not applied."
+}

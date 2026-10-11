@@ -1,0 +1,18 @@
+{
+  "file": "shared_surface_freeze_v1",
+  "frozen": "2026-10-11",
+  "amended": "2026-10-11T08:30Z — canonicalizer identity-rule fix (git_blob) per re-audit execution residual; no scientific scope change (see round_receipt_v4_hashfix.json)",
+  "rule": "Locked first per audit-v1 GLOBAL ordering constraint: verify before any run; no edits after any P1/N2/panel observation; dependent freezes invalidated on edit. Identity verification: identity_rule=git_blob -> verify `git rev-parse HEAD:<path>` AND `git hash-object <path>` both equal the pinned git_blob_sha1 (raw sha256 is informational; it differs by host EOL presentation); identity_rule=raw_sha256 -> verify raw bytes.",
+  "pinned": {
+    "multileaf_response_rule_and_runner": {"path": "research/stage_e_multileaf_20261010/run_multileaf_formal.py", "sha256": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4", "identity_rule": "raw_sha256", "note": "GB10-calibrated; matched on GB10 2026-10-11"},
+    "multileaf_paired_artifacts": {"path": "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl", "sha256": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f", "identity_rule": "raw_sha256", "note": "GB10-calibrated; matched on GB10 2026-10-11"},
+    "multileaf_prediction_rows": {"path": "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl", "sha256": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06", "identity_rule": "raw_sha256", "note": "GB10-calibrated; matched on GB10 2026-10-11"},
+    "multileaf_preresult_freeze_manifest": {"path": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json", "sha256": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163", "identity_rule": "raw_sha256", "note": "GB10-calibrated; matched on GB10 2026-10-11"},
+    "canonicalizer_file": {"path": "scripts/m1_statement_parser.py", "identity_rule": "git_blob", "git_blob_sha1": "def5161dd17fc14345d340879174ed01e0277626", "raw_sha256_hosts": {"LOCAL": "f9f1bc92c9d2963b3f346c0557f2b6a59d22201277b2023400f6953c59ac4aee", "GB10": "747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b"}, "note": "raw differs by EOL presentation only; git blob identical on both hosts (verified 2026-10-11). Raw values recorded as informational."},
+    "source_local_term_sheet": {"path": "research/positive_repair_20261011/contracts/SOURCE_LOCAL_RESPONSE_v1.md", "sha256": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290", "identity_rule": "raw_sha256", "note": "matched identical on both hosts 2026-10-11"}
+  },
+  "gb10_only_inputs": [
+    {"path": "data/research/drift_v0/input/tatqa_tables.json", "sha256_prefix_known": "3e7e0568", "note": "full hash pinned by Loop A in the implementation contract"},
+    {"path": "data/research/drift_v0/output/injection_map.json", "sha256_prefix_known": "d7612405", "note": "full hash pinned by Loop A in the implementation contract"}
+  ]
+}

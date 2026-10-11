@@ -1,0 +1,128 @@
+{
+  "analysis_plan": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261012,
+    "ci_method": "95% percentile cluster bootstrap",
+    "classifier": "frozen nearest-centroid with Euclidean distance and tie=failure",
+    "direct_control": "same classifier restricted to M/R/N direct leaves",
+    "directions": [
+      "N1_to_N2",
+      "N2_to_N1"
+    ],
+    "estimands": [
+      "macro_f1",
+      "top1_accuracy"
+    ],
+    "exclusions": "fail-closed on missing input/hash/class/group",
+    "loco": "remove target cluster from source population before centroid fitting",
+    "permutation": "NOT_USED"
+  },
+  "commands": [
+    "python3 research/positive_repair_20261011/runs/PR-EXP-04/run_pr_exp_04.py preflight"
+  ],
+  "completed_utc": "2026-10-11T08:33:15Z",
+  "environment": {
+    "numpy": "2.4.3",
+    "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39",
+    "python": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]"
+  },
+  "experiment_id": "PR-EXP-04",
+  "hash_domain": {
+    "canonicalizer_runtime": "git_blob",
+    "raw_provenance": "raw_sha256",
+    "verified_records": 17
+  },
+  "implementation_contract_sha256": "0fe3d3ec47b4b0671753fe7f8b9ba9f9a3077923b8a644bae30bdd5918dbc529",
+  "integration_trace": {
+    "leaf_count": 12,
+    "n1_class_counts": {
+      "M": 72,
+      "N": 72,
+      "R": 72
+    },
+    "n1_paired_rows": 216,
+    "n1_regeneration_rows": 72,
+    "n1_response_matrix_sha256": "13edbaa827f8410072bb6072be59efa2fd434829f2545e9e151f270d7068d221",
+    "n2_class_counts": {
+      "M": 72,
+      "N": 72,
+      "R": 72
+    },
+    "n2_double_run_byte_identical": true,
+    "n2_generated_rows": 72,
+    "n2_groups": 24,
+    "n2_population_rows": 216,
+    "n2_response_matrix_sha256": "5fe3d9d1da57990c214ab39aef09921f11f7801da89384f91e2594399d437649"
+  },
+  "model_calls": 0,
+  "prereg_sha256": "c28574b19748ff6cb626cd484af4c08256aa6b449fe9f8a8d1db6aa89a76b038",
+  "previous_run_immutability": {
+    "shared_hash_mismatches": 0,
+    "status": "PASS"
+  },
+  "runtime_interface": {
+    "missing_values_raise": true,
+    "required_metadata": [
+      "experiment_id",
+      "prereg_sha256",
+      "implementation_contract_sha256",
+      "start_utc",
+      "end_utc",
+      "input_hashes",
+      "output_hashes",
+      "raw_metrics",
+      "canonical_outcome_label",
+      "cost",
+      "unverified_items",
+      "deviations"
+    ],
+    "silent_defaults": false
+  },
+  "sample_group_identity": {
+    "leaf_count": 12,
+    "n1_class_counts": {
+      "M": 72,
+      "N": 72,
+      "R": 72
+    },
+    "n1_paired_rows": 216,
+    "n1_regeneration_rows": 72,
+    "n1_response_matrix_sha256": "13edbaa827f8410072bb6072be59efa2fd434829f2545e9e151f270d7068d221",
+    "n2_class_counts": {
+      "M": 72,
+      "N": 72,
+      "R": 72
+    },
+    "n2_double_run_byte_identical": true,
+    "n2_generated_rows": 72,
+    "n2_groups": 24,
+    "n2_population_rows": 216,
+    "n2_response_matrix_sha256": "5fe3d9d1da57990c214ab39aef09921f11f7801da89384f91e2594399d437649"
+  },
+  "scorer_binding": {
+    "checkpoint_trees_sha256": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+    "measurement_object": "frozen 12-leaf response vector plus frozen contract checks",
+    "runner_sha256": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4",
+    "shared_fault_adapter": false,
+    "stage_e_aggregation_changed": false
+  },
+  "split_determinism": {
+    "cross_role_uid_overlap": "checked during formal execution; preflight construction uses the frozen exclusion rule",
+    "replay_byte_identical": true,
+    "rule": "ascending SHA-256 over frozen seed:namespace:key",
+    "seed": 20261011
+  },
+  "started_utc": "2026-10-11T08:33:15Z",
+  "test_output_hashes": {
+    "py_compile_command": "python3 -m py_compile research/positive_repair_20261011/runs/PR-EXP-04/run_pr_exp_04.py research/positive_repair_20261011/runs/PR-EXP-04/validate_pr_exp_04.py",
+    "py_compile_exit_code": 0,
+    "py_compile_stdout_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "verification_level": "END_TO_END_PREFLIGHT_PASS",
+  "zero_output_scan": {
+    "independent_validation_exists": false,
+    "receipt_json_exists": false,
+    "result_json_exists": false,
+    "scientific_outputs_absent": true
+  }
+}

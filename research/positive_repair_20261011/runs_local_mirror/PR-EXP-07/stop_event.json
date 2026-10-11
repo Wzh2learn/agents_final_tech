@@ -1,0 +1,9 @@
+{
+  "event": "INPUT_MISSING",
+  "exception": "KeyError",
+  "exception_detail": "expected_first_affected_stage",
+  "observed_utc": "2026-10-11T08:28:13.127189Z",
+  "source": "evaluate_pr_exp_07.py:232",
+  "status": "STOPPED_BEFORE_EVALUATION",
+  "unauthorized_fallback_applied": false
+}

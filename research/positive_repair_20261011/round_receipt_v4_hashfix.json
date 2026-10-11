@@ -1,0 +1,9 @@
+{
+  "segment": "dispatch-amendment-2-hashfix",
+  "date": "2026-10-11",
+  "issue": "All four r2 Loop A attempts stopped fail-closed with HASH_MISMATCH on the canonicalizer pin: the shared-surface freeze pinned scripts/m1_statement_parser.py by LOCAL raw sha256 (f9f1bc92..., CRLF presentation), while GB10 raw is 747b7eb6... (LF). Git blob identity is identical on both hosts (def5161dd17fc14345d340879174ed01e0277626; clean working tree on both). This was exactly the execution-time residual flagged by the re-audit ('re-verified by Loop A before runs').",
+  "fix": "shared_surface_freeze_v1.json amended: canonicalizer now pinned by identity_rule=git_blob (def5161d...); raw sha256 per host recorded as informational. SOURCE_LOCAL_RESPONSE term sheet pinned by raw sha256 (4c3d6f06..., identical both hosts). Cards updated with the hash-rules update. No scientific scope change; no prereg revision.",
+  "evidence": "r2 attempt logs retained under ~/wzh/loop_runs/positive-repair-0X-a2-20261011/a.log (GB10); summaries: all four stopped pre-run, zero side effects, zero model calls.",
+  "next": "r3 re-dispatch after on-GB10 pre-verification of all pins (positive-repair-0X-a3-20261011).",
+  "counts_note": "infrastructure attempts consumed (a1: INPUT_MISSING x4; a2: HASH_MISMATCH x4); none produced scientific outcomes; none affect registry result classes (still PENDING)."
+}

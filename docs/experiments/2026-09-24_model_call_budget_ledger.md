@@ -85,3 +85,20 @@ streams 留 /tmp/lc_audit2.stream 与 /tmp/lc_review_qwen2.stream 备查。按�
   派发偏差如实记录：首次以 `-p "$(cat packet)"` 传参触发 `nohup: 参数列表过长` 立即退出（stderr 74 B、无输出），
   改 stdin 重定向后成功；先用小 prompt 验证 stdin 通路（STDIN_OK）再派发，未换模型、未缩减 packet。
 - 累计更新：主仓会话 57 turns；加分支 5、canary 5、被 kill 上限 38 ⇒ **≤105 < 200**，未触顶、未 top-up。
+## 8 回写（2026-10-11，Track P round 1）
+
+- Loop C fresh-context 设计挑战（Track P 候选集，1 turn，rc=0）：2026-10-11T05:36:45Z → 05:42:24Z（约 5m40s）；路由 = Loop C 默认（launcher 任务 `positive-repair-challenge-c-20261011`，无 override）；packet 12,094 B，sha256 `93151e01…`；输出落档 `research/positive_repair_20261011/loop_c_challenge_result_raw.log`（18,806 B，sha256 `3ea95284…`）。
+- 台账说明：本件自 2026-09-25 后未逐次回写（09-26..10-10 期间调用记录在各 receipt/审计件头部）；本次仅登记本轮调用。登记口径：主仓会话 +1 turn ⇒ 58；canary 5、分支 5、被 kill 上限 38 不变 ⇒ 上限口径 ≤106 < 200，未触顶、未 top-up。
+## 9 回写（2026-10-11，Track P round 2：prereg 修订 + 双轮审计）
+
+- prereg audit v1（4 份 prereg；packet 16,152 B sha256 `82d68ec3…`）：1 turn，rc=0，约 12m20s；输出 `research/positive_repair_20261011/loop_c_prereg_audit_result_raw.log`（21,933 B，sha256 `5b8333f6…`）；判定 CONDITIONAL×4。
+- prereg re-audit（v2 修订版；packet 27,078 B sha256 `18205b14…`）：1 turn，rc=0，约 31m38s；输出 `research/positive_repair_20261011/loop_c_prereg_audit_recheck_result_raw.log`（5,527 B，sha256 `a437792b…`；首段捕获缺失已记录）；判定 PASS×4。
+- 累计更新：主仓口径 +2 turns ⇒ 60；canary 5、分支 5、被 kill 上限 38 不变 ⇒ ≤108 < 200，未触顶、未 top-up。
+- 备注：本轮另有 Codex 协作子代理会话（3 mining + 1 qualification）与 4 个 Loop A、1 个 Track A 执行任务；执行任务按完成时各自 num_turns 登记（另见 round_receipt_v2.json）。
+- addendum（2026-10-11 16:1x）：Loop A 基建层两轮 fail-closed（a1 INPUT_MISSING×4、a2 HASH_MISMATCH×4）与 r3 重派详见 `round_receipt_v3_dispatch_amendment.json` / `round_receipt_v4_hashfix.json`；Loop A 执行任务不计入本台账历史口径（各自运行时路由记账）。
+
+## 10 回写（2026-10-11，Track P round 1 closeout：四个 post-result audit + Track A reviewer audit）
+
+- PR-EXP-01/03/04/07 post-result audits（Loop C，fresh context，packet-only）：各 1 turn，rc=0；packet 80,705 / 60,715 / 79,021 / 37,864 B；输出 `research/positive_repair_20261011/loop_c_postaudit0{1,3,4,7}_result_raw.log`（14,224 / 17,723 / 15,379 / 19,444 B）。
+- Track A reviewer-attack claim audit（Loop C）：1 turn，rc=0；packet 66,802 B；输出 `track_a_reviewer_attack_audit_result_raw.log`（34,915 B）。
+- 累计更新：主仓口径 +5 turns ⇒ 65；canary 5、分支 5、被 kill 上限 38 不变 ⇒ ≤113 < 200，未触顶、未 top-up。（Loop A 执行任务另计：a1×4 + a2×4 基建失败已隔离；r3×4 各 ≥1 turn，见 round_receipt_v2/v3/v4 与 registry。）

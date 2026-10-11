@@ -1,0 +1,345 @@
+{
+  "attribution_audit": {
+    "A0_A1_clean": true,
+    "complete_case_denominator": 2429,
+    "constant1_specificity_failure_documented": true,
+    "reason": "full-population duplicate-catch test cannot be concluded with 2 undefined baseline cells",
+    "status": "NOT_EVALUABLE",
+    "undefined_count": 2,
+    "unique_new_catches_vs_both_baselines_complete_cases": true,
+    "unique_vs_standalone_numerator": 1973,
+    "unique_vs_v1_alias_numerator": 1973
+  },
+  "constant1_control": {
+    "A0_false_positive": {
+      "ci95_wilson": [
+        0.9984222961183868,
+        1.0
+      ],
+      "denominator": 2431,
+      "numerator": 2431,
+      "rate": 1.0
+    },
+    "A1_false_positive": {
+      "ci95_wilson": [
+        0.9984222961183868,
+        1.0
+      ],
+      "denominator": 2431,
+      "numerator": 2431,
+      "rate": 1.0
+    },
+    "P1_coverage": {
+      "ci95_wilson": [
+        0.9984222961183868,
+        1.0
+      ],
+      "denominator": 2431,
+      "numerator": 2431,
+      "rate": 1.0
+    },
+    "specificity_failure_documented": true
+  },
+  "cost": {
+    "check_count_attempted_equality": true,
+    "check_counts": {
+      "A0": {
+        "attempted_equal": true,
+        "baseline_leaf_responses": 2431,
+        "new_leaf_responses": 2431
+      },
+      "A1": {
+        "attempted_equal": true,
+        "baseline_leaf_responses": 2431,
+        "new_leaf_responses": 2431
+      },
+      "A3": {
+        "attempted_equal": true,
+        "baseline_leaf_responses": 72,
+        "new_leaf_responses": 72
+      },
+      "P1": {
+        "attempted_equal": true,
+        "baseline_leaf_responses": 2431,
+        "new_leaf_responses": 2431
+      },
+      "mixed_diagnosability": {
+        "attempted_equal": true,
+        "baseline_leaf_responses": 2503,
+        "new_leaf_responses": 2503
+      }
+    },
+    "database_calls": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "production_service_calls": 0,
+    "runtime_claim": false,
+    "training_runs": 0
+  },
+  "coverage": {
+    "P1_new": {
+      "ci95": [
+        0.7955688919245218,
+        0.8266482115799438
+      ],
+      "denominator": 2431,
+      "intended_denominator": 2431,
+      "numerator": 1973,
+      "rate": 0.811600164541341,
+      "status": "NEW_DEFINED_BASELINE_UNDEFINED_ON_2",
+      "undefined_count": 2
+    },
+    "P1_standalone_field_hit_complete_cases": {
+      "ci95": [
+        0.0,
+        0.0015790008867064649
+      ],
+      "denominator": 2429,
+      "intended_denominator": 2431,
+      "numerator": 0,
+      "rate": 0.0,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 2
+    },
+    "P1_v1_alias_complete_cases": {
+      "ci95": [
+        0.0,
+        0.0015790008867064649
+      ],
+      "denominator": 2429,
+      "intended_denominator": 2431,
+      "numerator": 0,
+      "rate": 0.0,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 2
+    },
+    "delta_cluster_bootstrap_ci95_complete_cases": [
+      0.7966241251543845,
+      0.8275010292301359
+    ],
+    "delta_cluster_bootstrap_replicates": 10000,
+    "delta_cluster_bootstrap_seed": 20261012,
+    "delta_new_minus_v1_alias_complete_cases": 0.8122684232194318,
+    "primary_status": "NOT_EVALUABLE",
+    "reason": "baseline field-hit undefined on 2 held-out P1 artifacts"
+  },
+  "diagnosability": {
+    "delta_diag_min_stage_family": {
+      "ci95": [
+        null,
+        null
+      ],
+      "denominator": null,
+      "intended_denominator": 2503,
+      "numerator": null,
+      "rate": null,
+      "status": "NOT_EVALUABLE",
+      "undefined_count": 2
+    },
+    "family_delta": {
+      "ci95": [
+        null,
+        null
+      ],
+      "denominator": null,
+      "intended_denominator": 2503,
+      "numerator": null,
+      "rate": null,
+      "status": "NOT_EVALUABLE",
+      "undefined_count": 2
+    },
+    "materiality_margin": -0.02,
+    "mixed_population_complete_case_denominator": 2501,
+    "mixed_population_intended_denominator": 2503,
+    "reason": "mixed-population baseline field-hit is undefined on 2 P1 rows",
+    "stage_delta": {
+      "ci95": [
+        null,
+        null
+      ],
+      "denominator": null,
+      "intended_denominator": 2503,
+      "numerator": null,
+      "rate": null,
+      "status": "NOT_EVALUABLE",
+      "undefined_count": 2
+    },
+    "status": "NOT_EVALUABLE",
+    "undefined_count": 2
+  },
+  "experiment_id": "PR-EXP-03",
+  "generator": {
+    "byte_identical": true,
+    "row_count": 2431,
+    "run1_sha256": "8171a0a263f12f13591e5bbb934b6b830f79646d179c0ae0c1cbe234946e3a69",
+    "run2_sha256": "8171a0a263f12f13591e5bbb934b6b830f79646d179c0ae0c1cbe234946e3a69"
+  },
+  "outcome": {
+    "invalid_reasons": [
+      "sanity_gate_failure"
+    ],
+    "label": "INVALID",
+    "reason": "Sanity gate failed: the structural carrier column is a monotone function of field-hit on all 216 frozen carriers; 2 additional baseline field-hit cells are undefined and leave diagnosability/attribution unverified.",
+    "taxonomy": [
+      "POSITIVE",
+      "DIAG_ONLY",
+      "NULL",
+      "NEGATIVE",
+      "INVALID",
+      "NOT_EVALUABLE"
+    ]
+  },
+  "population_inventory": {
+    "P1_complete_case_denominator": 2429,
+    "P1_intended_denominator": 2431,
+    "P1_undefined_count": 2,
+    "UID_overlap_count": 0,
+    "all_uid_list_sha256": "b030d9df505eb406c00767947e6eab101a61a8f969c8e20550e68f3802be024a",
+    "carrier_carrier_count": 216,
+    "carrier_cluster_count": 72,
+    "carrier_family_counts": {
+      "mutate_one_numeric_operand_while_preserving_labels_schema_and_identity_contract": 24,
+      "remove_required_source_blocks_from_retrieval_candidate_bundle": 24,
+      "replace_one_header_token_with_out_of_vocabulary_token": 24
+    },
+    "carrier_stage_counts": {
+      "M": 24,
+      "N": 24,
+      "R": 24
+    },
+    "carrier_subsample_count": 72,
+    "carrier_subsample_sample_id_list_sha256": "e99f83f8f71337189a0fe44f151917acc39738bca515e841ab75249a4c5b1f90",
+    "eligible_uid_count": 2431,
+    "eligible_uid_list_sha256": "7a83aa01063be5bc10f5645236bd086771a2a16f9f2fa09b47dad782dedf8675",
+    "excluded_uid_count": 48,
+    "excluded_uid_list_sha256": "e511b6ed7ad40d0b336cdf49362af728b7301b6d696322bd3ede87b883ef99cd",
+    "mixed_complete_case_denominator": 2501,
+    "mixed_intended_denominator": 2503,
+    "ordered_p1_uid_count": 2431,
+    "ordered_p1_uid_list_sha256": "dc1315d6615d79f7891ee578d5571ba803fe440d00bb84ff168817a42aaafacc",
+    "table_record_count": 2479,
+    "unique_uid_count": 2479
+  },
+  "sanity_gate": {
+    "P1_complete_case_denominator": 2429,
+    "P1_intended_denominator": 2431,
+    "P1_structural_differs_from_field_hit_complete_cases": 1973,
+    "P1_undefined_count": 2,
+    "carrier_denominator": 216,
+    "carrier_structural_monotone_function_of_field_hit": true,
+    "partial_status": false,
+    "reason": "P1 existential difference observed on 1973 defined cases; carrier monotonicity condition failed on all 216 carriers; 2 P1 baseline cells remain undefined.",
+    "status": "FAIL"
+  },
+  "secondary": {
+    "A0_false_positive_new": {
+      "ci95": [
+        0.0,
+        0.0015777038816131878
+      ],
+      "denominator": 2431,
+      "intended_denominator": null,
+      "numerator": 0,
+      "rate": 0.0,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 0
+    },
+    "A0_false_positive_v1_alias_defined_cells": {
+      "ci95": [
+        0.0,
+        0.0015790008867064649
+      ],
+      "denominator": 2429,
+      "intended_denominator": 2431,
+      "numerator": 0,
+      "rate": 0.0,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 2
+    },
+    "A1_false_positive_new": {
+      "ci95": [
+        0.0,
+        0.0015777038816131878
+      ],
+      "denominator": 2431,
+      "intended_denominator": null,
+      "numerator": 0,
+      "rate": 0.0,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 0
+    },
+    "A1_false_positive_v1_alias_defined_cells": {
+      "ci95": [
+        0.0,
+        0.0015790008867064649
+      ],
+      "denominator": 2429,
+      "intended_denominator": 2431,
+      "numerator": 0,
+      "rate": 0.0,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 2
+    },
+    "A3_M1_regression_new": {
+      "ci95": [
+        0.9493488274035422,
+        1.0
+      ],
+      "denominator": 72,
+      "intended_denominator": null,
+      "numerator": 72,
+      "rate": 1.0,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 0
+    },
+    "disagreement_new_vs_standalone_complete_cases": {
+      "ci95": [
+        0.7962504520935175,
+        0.8273002501110384
+      ],
+      "denominator": 2429,
+      "intended_denominator": 2431,
+      "numerator": 1973,
+      "rate": 0.8122684232194318,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 2
+    },
+    "disagreement_new_vs_v1_alias_complete_cases": {
+      "ci95": [
+        0.7962504520935175,
+        0.8273002501110384
+      ],
+      "denominator": 2429,
+      "intended_denominator": 2431,
+      "numerator": 1973,
+      "rate": 0.8122684232194318,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 2
+    },
+    "unique_catch_vs_standalone_complete_cases": {
+      "ci95": [
+        0.7962504520935175,
+        0.8273002501110384
+      ],
+      "denominator": 2429,
+      "intended_denominator": 2431,
+      "numerator": 1973,
+      "rate": 0.8122684232194318,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 2
+    },
+    "unique_catch_vs_v1_alias_complete_cases": {
+      "ci95": [
+        0.7962504520935175,
+        0.8273002501110384
+      ],
+      "denominator": 2429,
+      "intended_denominator": 2431,
+      "numerator": 1973,
+      "rate": 0.8122684232194318,
+      "status": "COMPLETE_CASE_PARTIAL",
+      "undefined_count": 2
+    }
+  }
+}

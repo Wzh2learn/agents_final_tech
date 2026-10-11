@@ -1,0 +1,42 @@
+{
+  "components": [
+    "presence_min",
+    "presence_max",
+    "presence_xor",
+    "score_min",
+    "score_max",
+    "score_abs_diff",
+    "score_sum"
+  ],
+  "direct_codebook": [
+    "parse.field.hit_rate",
+    "qa.retrieval.source_required",
+    "parse.reconcile.equations"
+  ],
+  "full": [
+    "parse.doc.ok",
+    "parse.doc.throughput",
+    "parse.table.regression",
+    "parse.field.hit_rate",
+    "parse.reconcile.equations",
+    "qa.retrieval.source_required",
+    "qa.faithfulness.judge",
+    "qa.numeric.exact",
+    "qa.numeric.number_grounding",
+    "qa.citation.judge",
+    "qa.refusal.judge",
+    "qa.refusal.deterministic"
+  ],
+  "non_direct": [
+    "parse.doc.ok",
+    "parse.doc.throughput",
+    "parse.table.regression",
+    "qa.faithfulness.judge",
+    "qa.numeric.exact",
+    "qa.numeric.number_grounding",
+    "qa.citation.judge",
+    "qa.refusal.judge",
+    "qa.refusal.deterministic"
+  ],
+  "score_scale": 10.0
+}

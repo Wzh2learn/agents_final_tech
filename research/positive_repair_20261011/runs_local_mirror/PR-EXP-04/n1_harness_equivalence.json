@@ -1,0 +1,11 @@
+{
+  "byte_identical_response_vectors": true,
+  "expected_rows": 72,
+  "frozen_n1_response_bytes_sha256": "7ada4e20c6271bb18c50cc2b14ebe409bef983664962975f727113ee62bd9dc0",
+  "frozen_rows": 72,
+  "matched_rows": 72,
+  "mismatched_rows": 0,
+  "mismatches": [],
+  "regenerated_bytes_sha256": "90a84b0e2924db8904591b278868d3720116bbcefeb3f8dce63d0a9289405dfe",
+  "regenerated_rows": 72
+}

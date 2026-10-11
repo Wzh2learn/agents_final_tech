@@ -1,0 +1,13 @@
+{
+  "manifest": "positive_repair_prereg_freeze_v1",
+  "frozen": "2026-10-11",
+  "frozen_by": "Loop D",
+  "authority": "Human decision 2026-10-11 (first wave); execution additionally requires Loop C pre-result verdict PASS",
+  "rule": "Any revision after this manifest requires a new manifest version and at most one re-audit (user rule).",
+  "preregs": [
+    {"experiment_id": "PR-EXP-03", "path": "research/positive_repair_20261011/preregs/PR-EXP-03_prereg.md", "sha256": "4430f2db951b73453dee6f64ea8edbee25f0cf2b3b8d676d019539f2edc1ea51"},
+    {"experiment_id": "PR-EXP-01", "path": "research/positive_repair_20261011/preregs/PR-EXP-01_prereg.md", "sha256": "5685794fe0253bc559e97f189ab722c365d81aa1a906a507b83f7b541bf8e371"},
+    {"experiment_id": "PR-EXP-04", "path": "research/positive_repair_20261011/preregs/PR-EXP-04_prereg.md", "sha256": "f387877654e0e045df1c1a4d440121f231ade49e6c1324787a1e77ac068eae3b"},
+    {"experiment_id": "PR-EXP-07", "path": "research/positive_repair_20261011/preregs/PR-EXP-07_prereg.md", "sha256": "70eaa6d9515a85d2c1d3869434d6d838fdb467cc540f8d73d0da60d25691568e"}
+  ]
+}

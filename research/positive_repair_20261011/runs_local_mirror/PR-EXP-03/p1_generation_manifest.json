@@ -1,0 +1,8 @@
+{
+  "double_run_byte_identical": true,
+  "experiment_id": "PR-EXP-03",
+  "generated_at_utc": "2026-10-11T08:34:06Z",
+  "row_count": 2431,
+  "run1_sha256": "8171a0a263f12f13591e5bbb934b6b830f79646d179c0ae0c1cbe234946e3a69",
+  "run2_sha256": "8171a0a263f12f13591e5bbb934b6b830f79646d179c0ae0c1cbe234946e3a69"
+}

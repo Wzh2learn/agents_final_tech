@@ -1,0 +1,95 @@
+{
+  "code_and_definitions": [
+    {
+      "path": "extractor.py",
+      "sha256": "8b136537189343f479506b9191908ce7d607805a29330b0890cf999c417e2d9c"
+    },
+    {
+      "path": "extract_features.py",
+      "sha256": "3419dba7f52497ba1c1fa721022a1b0a39d9e645c0b6afb0078dc2b105f0e2be"
+    },
+    {
+      "path": "evaluate_pr_exp_07.py",
+      "sha256": "5f8310d0e86860915b55406b1a5eb82a94879f1ea2d73f6184780e84b0ce0dd1"
+    },
+    {
+      "path": "feature_sets.json",
+      "sha256": "931f2a2a4c1cf37a39a0b3cd26b6387a9a322387cec3f0702c5fa9ff9aac7a45"
+    },
+    {
+      "path": "pairing_rule.json",
+      "sha256": "873f7ca3b26d2f88c52c20cb6063cca5b333e67da6187cb2f278bc0565d05b40"
+    }
+  ],
+  "implementation_contract_sha256": "f13a748fddd4f2aefb8fd28f921555caad84cb0563d582786a82dd5b3e73f4b3",
+  "scientific_inputs": [
+    {
+      "path": "research/positive_repair_20261011/preregs/PR-EXP-07_prereg_v2.md",
+      "sha256": "4724e53ebaf86633384f1955e5182bd7c5b886994603b59a6146c45ce6426d5f"
+    },
+    {
+      "path": "research/positive_repair_20261011/contracts/shared_surface_freeze_v1.json",
+      "sha256": "d084e7f66cbc3f6f841683c57e97286d9a049a611d787fcb245dbea453f811a4"
+    },
+    {
+      "path": "research/positive_repair_20261011/contracts/SOURCE_LOCAL_RESPONSE_v1.md",
+      "sha256": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290"
+    },
+    {
+      "path": "research/positive_repair_20261011/loop_a_cards/residual_notes_v1.md",
+      "sha256": "a87758a125f9ea0625f1c3b891fa465f55929e2e01d19bc6c9f2ef7479bbb569"
+    },
+    {
+      "path": "research/positive_repair_20261011/loop_a_cards/loop_a_PR-EXP-07.md",
+      "sha256": "448fe0868fdfc427d88aef72f4094fc54610b3380cbb084ca93ddfef13563d3a"
+    },
+    {
+      "path": "research/positive_repair_20261011/loop_c_prereg_audit_recheck_result_raw.log",
+      "sha256": "a437792b4ff5997e18a5f2600b9778752b037173de616263431fdec6c0f7399d"
+    },
+    {
+      "path": "docs/research/multileaf_preresult_freeze_receipt_v1.md",
+      "sha256": "a167f770f5b2e42cca69579ec60efafd233c7e8ed742c7178f244dbc6c78eaf1"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json",
+      "sha256": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json",
+      "sha256": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/run_multileaf_formal.py",
+      "sha256": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4"
+    },
+    {
+      "path": "config/eval_checkpoint_trees.json",
+      "sha256": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl",
+      "sha256": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl",
+      "sha256": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_formal_results.json",
+      "sha256": "ae9cf1cf37e2742e3895ec2bd0e4cf0c150a18c927eb9a618f612782b3d9cbb0"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_bootstrap_intervals.json",
+      "sha256": "0dbfebc34aebafbafcebdcb7c944668ea8c235a87fd692454536a4444a91887a"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+      "sha256": "0518c5bfc40bf2b4e82312887b9426bbb8833df326d4d782cd1cbe63d052571d"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_run_receipt.json",
+      "sha256": "66ab58fa4847e6ee25567443310781628ee92bd952cfc3a469d323efd9c11956"
+    }
+  ]
+}

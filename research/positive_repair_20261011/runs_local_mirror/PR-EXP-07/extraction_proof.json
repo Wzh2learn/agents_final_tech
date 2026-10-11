@@ -1,0 +1,13 @@
+{
+  "extractor_input_contract": "exactly one unordered pair of observation-state mappings",
+  "extractor_sha256": "8b136537189343f479506b9191908ce7d607805a29330b0890cf999c417e2d9c",
+  "forbidden_fields_accessed": [],
+  "order_counts": {
+    "baseline_first": 113,
+    "injected_first": 103
+  },
+  "pair_order_seed": 2026101107,
+  "row_count": 216,
+  "source_sha256": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+  "status": "PASS"
+}

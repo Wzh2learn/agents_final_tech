@@ -1,0 +1,8 @@
+{
+  "comparison": "feature(P) == feature(swap(P)) exactly for every row",
+  "failures": [],
+  "rows_failed": 0,
+  "rows_passed": 216,
+  "rows_tested": 216,
+  "status": "PASS"
+}

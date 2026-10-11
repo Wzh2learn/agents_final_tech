@@ -1,0 +1,9 @@
+{
+  "pair_membership": "Within one frozen multileaf_paired_artifacts.jsonl record, pair baseline_scores with injected_scores; no cross-record search, matching, or response-value selection is performed.",
+  "pair_order_rule": "Process records in frozen file order; draw one bit per record from Python random.Random(2026101107) and reverse the two states exactly when the bit is 1.",
+  "pair_order_seed": 2026101107,
+  "proof": "extractor.extract accepts only a two-member sequence; extract_features.py accesses only baseline_scores and injected_scores before calling it. Pair membership is fixed by frozen materialization inside each record, while order is seed-driven and all seven per-leaf components are symmetric min/max/XOR/sum functions.",
+  "response_value_read_during_pairing": false,
+  "source_file": "research/stage_e_multileaf_20261010/run_multileaf_formal.py",
+  "source_sha256": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4"
+}

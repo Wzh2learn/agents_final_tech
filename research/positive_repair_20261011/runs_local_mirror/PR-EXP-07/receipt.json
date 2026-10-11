@@ -1,0 +1,71 @@
+{
+  "cost": {
+    "database_calls": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "network_requests": 0,
+    "service_calls": 0,
+    "training_runs": 0
+  },
+  "deviations": [],
+  "end_utc": "2026-10-11T08:29:16.245091Z",
+  "experiment_id": "PR-EXP-07",
+  "implementation_contract_sha256": "f13a748fddd4f2aefb8fd28f921555caad84cb0563d582786a82dd5b3e73f4b3",
+  "input_hashes": {
+    "config/eval_checkpoint_trees.json": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+    "docs/research/multileaf_preresult_freeze_receipt_v1.md": "a167f770f5b2e42cca69579ec60efafd233c7e8ed742c7178f244dbc6c78eaf1",
+    "research/positive_repair_20261011/contracts/SOURCE_LOCAL_RESPONSE_v1.md": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290",
+    "research/positive_repair_20261011/contracts/shared_surface_freeze_v1.json": "d084e7f66cbc3f6f841683c57e97286d9a049a611d787fcb245dbea453f811a4",
+    "research/positive_repair_20261011/loop_a_cards/loop_a_PR-EXP-07.md": "448fe0868fdfc427d88aef72f4094fc54610b3380cbb084ca93ddfef13563d3a",
+    "research/positive_repair_20261011/loop_a_cards/residual_notes_v1.md": "a87758a125f9ea0625f1c3b891fa465f55929e2e01d19bc6c9f2ef7479bbb569",
+    "research/positive_repair_20261011/loop_c_prereg_audit_recheck_result_raw.log": "a437792b4ff5997e18a5f2600b9778752b037173de616263431fdec6c0f7399d",
+    "research/positive_repair_20261011/preregs/PR-EXP-07_prereg_v2.md": "4724e53ebaf86633384f1955e5182bd7c5b886994603b59a6146c45ce6426d5f",
+    "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163",
+    "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693",
+    "research/stage_e_multileaf_20261010/results/multileaf_bootstrap_intervals.json": "0dbfebc34aebafbafcebdcb7c944668ea8c235a87fd692454536a4444a91887a",
+    "research/stage_e_multileaf_20261010/results/multileaf_formal_results.json": "ae9cf1cf37e2742e3895ec2bd0e4cf0c150a18c927eb9a618f612782b3d9cbb0",
+    "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+    "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06",
+    "research/stage_e_multileaf_20261010/results/multileaf_run_receipt.json": "66ab58fa4847e6ee25567443310781628ee92bd952cfc3a469d323efd9c11956",
+    "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json": "0518c5bfc40bf2b4e82312887b9426bbb8833df326d4d782cd1cbe63d052571d",
+    "research/stage_e_multileaf_20261010/run_multileaf_formal.py": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4",
+    "scripts/m1_statement_parser.py": "747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b"
+  },
+  "outcome_label": "NOT_EVALUABLE",
+  "output_hashes": {
+    "attrition.json": "7c94c1815cade08d2ad428edd726c22a02df116fb50ce3dab8f8e953eb9dacd7",
+    "evaluate_pr_exp_07.py": "5f8310d0e86860915b55406b1a5eb82a94879f1ea2d73f6184780e84b0ce0dd1",
+    "extraction_proof.json": "1260b648839edd150fcff6ded6de921d56c53c4f91a826e3e6f55753735b857b",
+    "extractor.py": "8b136537189343f479506b9191908ce7d607805a29330b0890cf999c417e2d9c",
+    "extract_features.py": "3419dba7f52497ba1c1fa721022a1b0a39d9e645c0b6afb0078dc2b105f0e2be",
+    "feature_sets.json": "931f2a2a4c1cf37a39a0b3cd26b6387a9a322387cec3f0702c5fa9ff9aac7a45",
+    "feature_values.jsonl": "763247c4b96a9ce07e2608f48fee36500be254f773fd8df2fc882c086c498408",
+    "frozen_inputs.json": "6b69ecb36ccaf67682e0f62d7ba84acec422d89814ee27576402a3b24ee824ad",
+    "implementation_contract.md": "f13a748fddd4f2aefb8fd28f921555caad84cb0563d582786a82dd5b3e73f4b3",
+    "implementation_contract.sha256": "c0604de9969d1331ffaac97fb4f26e83ba47387e8fa09a94b186a6ecce76e1c2",
+    "pairing_rule.json": "873f7ca3b26d2f88c52c20cb6063cca5b333e67da6187cb2f278bc0565d05b40",
+    "result.json": "221332f8a74e82dadec6b55d911cba2516a3175437432e810a2ebdda50172984",
+    "stop_event.json": "dbb4ba29041119c9d07ec73ac1e4e40d74c083463fcca6ec1fa49d2996c0f946",
+    "swap_invariance_proof.json": "093bfc488e42bedee61583c94612cbfc950513c57f8f203532f381b4fec6da64"
+  },
+  "prereg_sha256": "4724e53ebaf86633384f1955e5182bd7c5b886994603b59a6146c45ce6426d5f",
+  "raw_metrics": {
+    "ci95": null,
+    "denominator": null,
+    "not_evaluated": true,
+    "numerator": null
+  },
+  "receipt_self_hash_note": "receipt.json self-hash is intentionally not embedded; it is verified externally after writing.",
+  "shared_surface_identity": {
+    "canonicalizer_git_blob_sha1": "def5161dd17fc14345d340879174ed01e0277626",
+    "canonicalizer_identity_rule": "git_blob",
+    "canonicalizer_raw_sha256": "747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b"
+  },
+  "start_time_basis": "Earliest generated feature artifact mtime; the frozen evaluator did not checkpoint a start timestamp before the schema stop.",
+  "start_utc": "2026-10-11T08:27:31.173304Z",
+  "status": "STOPPED_INPUT_MISSING",
+  "stop_reason": "The frozen paired carrier lacks contract-pinned field expected_first_affected_stage; no fallback to expected_first_stage was applied.",
+  "unverified_items": [
+    "Label-provenance equality under the contract-pinned paired-carrier schema."
+  ]
+}

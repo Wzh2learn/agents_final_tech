@@ -1,0 +1,566 @@
+{
+  "cost": {
+    "check_count_attempted_equality": true,
+    "check_counts": {
+      "A0": {
+        "attempted_equal": true,
+        "baseline_leaf_responses": 2431,
+        "new_leaf_responses": 2431
+      },
+      "A1": {
+        "attempted_equal": true,
+        "baseline_leaf_responses": 2431,
+        "new_leaf_responses": 2431
+      },
+      "A3": {
+        "attempted_equal": true,
+        "baseline_leaf_responses": 72,
+        "new_leaf_responses": 72
+      },
+      "P1": {
+        "attempted_equal": true,
+        "baseline_leaf_responses": 2431,
+        "new_leaf_responses": 2431
+      },
+      "mixed_diagnosability": {
+        "attempted_equal": true,
+        "baseline_leaf_responses": 2503,
+        "new_leaf_responses": 2503
+      }
+    },
+    "database_calls": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "production_service_calls": 0,
+    "runtime_seconds": 275.0,
+    "training_runs": 0
+  },
+  "deviations": [],
+  "end_utc": "2026-10-11T08:35:22Z",
+  "environment": {
+    "execution_label": "GB10",
+    "hostname": "promaxgb10-0b48",
+    "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39",
+    "python": "3.12.3"
+  },
+  "experiment_id": "PR-EXP-03",
+  "fail_closed_note": "INVALID is determined by the preregistered sanity gate. Two undefined baseline field-hit cells independently prevent full-population diagnosability and attribution metrics; partial complete-case values are recorded and do not rescue the outcome.",
+  "implementation_contract_sha256": "0d159746490b43c3c0209f7a4df6d6a1fbf7a666ed40d8eec4870b4a3e31db16",
+  "input_hashes": {
+    "baseline_runner": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4",
+    "canonicalizer_implementation": "d4f9ed86c8d0fa466462c8132308a31bf51e7e4439042c4d147da9f99550d8a8",
+    "canonicalizer_wrapper": "747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b",
+    "drift_corpus_tables": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "experiment_source": "d75afca6004c0ad3d76ba1f00203aa27d863161ad528af532f4d40cf592f57e3",
+    "implementation_contract": "0d159746490b43c3c0209f7a4df6d6a1fbf7a666ed40d8eec4870b4a3e31db16",
+    "injection_map_informational_not_used": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+    "multileaf_freeze": "7239feb678dcbecc4f1bb374cc37e313fd0a74354a23349caa556419fabfa34d",
+    "multileaf_paired_artifacts": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+    "multileaf_prediction_rows_informational_not_used": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06",
+    "multileaf_preresult_freeze_manifest": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163",
+    "multileaf_sample_manifest": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693",
+    "prereg": "f3398a329a12ef23e528eb41d0bd90c8b4c5cee807c3d2c76c5afd0ac753f250",
+    "shared_surface_freeze": "d084e7f66cbc3f6f841683c57e97286d9a049a611d787fcb245dbea453f811a4",
+    "source_local_term_sheet": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290"
+  },
+  "invalid_reasons": [
+    "sanity_gate_failure"
+  ],
+  "outcome_label": "INVALID",
+  "outcome_taxonomy": [
+    "POSITIVE",
+    "DIAG_ONLY",
+    "NULL",
+    "NEGATIVE",
+    "INVALID",
+    "NOT_EVALUABLE"
+  ],
+  "output_hashes": {
+    "implementation_contract": "0d159746490b43c3c0209f7a4df6d6a1fbf7a666ed40d8eec4870b4a3e31db16",
+    "metrics": "7eacf37b5b2666d0770ef21972964ddfbcc88cac030e30d576db790ef6f49650",
+    "p1_generation_manifest": "ad941ade2dc735c8e454d27d28d7496889dc8696304847717716473735607b1f",
+    "p1_run1": "8171a0a263f12f13591e5bbb934b6b830f79646d179c0ae0c1cbe234946e3a69",
+    "p1_run2": "8171a0a263f12f13591e5bbb934b6b830f79646d179c0ae0c1cbe234946e3a69",
+    "undefined_cells": "0972f895f51439c22a88ff20810d1e0e7e3022e082b0a699b6b45b638a9d875b"
+  },
+  "prereg_sha256": "f3398a329a12ef23e528eb41d0bd90c8b4c5cee807c3d2c76c5afd0ac753f250",
+  "raw_metrics": {
+    "attribution_audit": {
+      "A0_A1_clean": true,
+      "complete_case_denominator": 2429,
+      "constant1_specificity_failure_documented": true,
+      "reason": "full-population duplicate-catch test cannot be concluded with 2 undefined baseline cells",
+      "status": "NOT_EVALUABLE",
+      "undefined_count": 2,
+      "unique_new_catches_vs_both_baselines_complete_cases": true,
+      "unique_vs_standalone_numerator": 1973,
+      "unique_vs_v1_alias_numerator": 1973
+    },
+    "constant1_control": {
+      "A0_false_positive": {
+        "ci95_wilson": [
+          0.9984222961183868,
+          1.0
+        ],
+        "denominator": 2431,
+        "numerator": 2431,
+        "rate": 1.0
+      },
+      "A1_false_positive": {
+        "ci95_wilson": [
+          0.9984222961183868,
+          1.0
+        ],
+        "denominator": 2431,
+        "numerator": 2431,
+        "rate": 1.0
+      },
+      "P1_coverage": {
+        "ci95_wilson": [
+          0.9984222961183868,
+          1.0
+        ],
+        "denominator": 2431,
+        "numerator": 2431,
+        "rate": 1.0
+      },
+      "specificity_failure_documented": true
+    },
+    "cost": {
+      "check_count_attempted_equality": true,
+      "check_counts": {
+        "A0": {
+          "attempted_equal": true,
+          "baseline_leaf_responses": 2431,
+          "new_leaf_responses": 2431
+        },
+        "A1": {
+          "attempted_equal": true,
+          "baseline_leaf_responses": 2431,
+          "new_leaf_responses": 2431
+        },
+        "A3": {
+          "attempted_equal": true,
+          "baseline_leaf_responses": 72,
+          "new_leaf_responses": 72
+        },
+        "P1": {
+          "attempted_equal": true,
+          "baseline_leaf_responses": 2431,
+          "new_leaf_responses": 2431
+        },
+        "mixed_diagnosability": {
+          "attempted_equal": true,
+          "baseline_leaf_responses": 2503,
+          "new_leaf_responses": 2503
+        }
+      },
+      "database_calls": 0,
+      "judge_calls": 0,
+      "model_calls": 0,
+      "network_calls": 0,
+      "production_service_calls": 0,
+      "runtime_claim": false,
+      "training_runs": 0
+    },
+    "coverage": {
+      "P1_new": {
+        "ci95": [
+          0.7955688919245218,
+          0.8266482115799438
+        ],
+        "denominator": 2431,
+        "intended_denominator": 2431,
+        "numerator": 1973,
+        "rate": 0.811600164541341,
+        "status": "NEW_DEFINED_BASELINE_UNDEFINED_ON_2",
+        "undefined_count": 2
+      },
+      "P1_standalone_field_hit_complete_cases": {
+        "ci95": [
+          0.0,
+          0.0015790008867064649
+        ],
+        "denominator": 2429,
+        "intended_denominator": 2431,
+        "numerator": 0,
+        "rate": 0.0,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 2
+      },
+      "P1_v1_alias_complete_cases": {
+        "ci95": [
+          0.0,
+          0.0015790008867064649
+        ],
+        "denominator": 2429,
+        "intended_denominator": 2431,
+        "numerator": 0,
+        "rate": 0.0,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 2
+      },
+      "delta_cluster_bootstrap_ci95_complete_cases": [
+        0.7966241251543845,
+        0.8275010292301359
+      ],
+      "delta_cluster_bootstrap_replicates": 10000,
+      "delta_cluster_bootstrap_seed": 20261012,
+      "delta_new_minus_v1_alias_complete_cases": 0.8122684232194318,
+      "primary_status": "NOT_EVALUABLE",
+      "reason": "baseline field-hit undefined on 2 held-out P1 artifacts"
+    },
+    "diagnosability": {
+      "delta_diag_min_stage_family": {
+        "ci95": [
+          null,
+          null
+        ],
+        "denominator": null,
+        "intended_denominator": 2503,
+        "numerator": null,
+        "rate": null,
+        "status": "NOT_EVALUABLE",
+        "undefined_count": 2
+      },
+      "family_delta": {
+        "ci95": [
+          null,
+          null
+        ],
+        "denominator": null,
+        "intended_denominator": 2503,
+        "numerator": null,
+        "rate": null,
+        "status": "NOT_EVALUABLE",
+        "undefined_count": 2
+      },
+      "materiality_margin": -0.02,
+      "mixed_population_complete_case_denominator": 2501,
+      "mixed_population_intended_denominator": 2503,
+      "reason": "mixed-population baseline field-hit is undefined on 2 P1 rows",
+      "stage_delta": {
+        "ci95": [
+          null,
+          null
+        ],
+        "denominator": null,
+        "intended_denominator": 2503,
+        "numerator": null,
+        "rate": null,
+        "status": "NOT_EVALUABLE",
+        "undefined_count": 2
+      },
+      "status": "NOT_EVALUABLE",
+      "undefined_count": 2
+    },
+    "population_inventory": {
+      "P1_complete_case_denominator": 2429,
+      "P1_intended_denominator": 2431,
+      "P1_undefined_count": 2,
+      "UID_overlap_count": 0,
+      "all_uid_list_sha256": "b030d9df505eb406c00767947e6eab101a61a8f969c8e20550e68f3802be024a",
+      "carrier_carrier_count": 216,
+      "carrier_cluster_count": 72,
+      "carrier_family_counts": {
+        "mutate_one_numeric_operand_while_preserving_labels_schema_and_identity_contract": 24,
+        "remove_required_source_blocks_from_retrieval_candidate_bundle": 24,
+        "replace_one_header_token_with_out_of_vocabulary_token": 24
+      },
+      "carrier_stage_counts": {
+        "M": 24,
+        "N": 24,
+        "R": 24
+      },
+      "carrier_subsample_count": 72,
+      "carrier_subsample_sample_id_list_sha256": "e99f83f8f71337189a0fe44f151917acc39738bca515e841ab75249a4c5b1f90",
+      "eligible_uid_count": 2431,
+      "eligible_uid_list_sha256": "7a83aa01063be5bc10f5645236bd086771a2a16f9f2fa09b47dad782dedf8675",
+      "excluded_uid_count": 48,
+      "excluded_uid_list_sha256": "e511b6ed7ad40d0b336cdf49362af728b7301b6d696322bd3ede87b883ef99cd",
+      "mixed_complete_case_denominator": 2501,
+      "mixed_intended_denominator": 2503,
+      "ordered_p1_uid_count": 2431,
+      "ordered_p1_uid_list_sha256": "dc1315d6615d79f7891ee578d5571ba803fe440d00bb84ff168817a42aaafacc",
+      "table_record_count": 2479,
+      "unique_uid_count": 2479
+    },
+    "sanity_gate": {
+      "P1_complete_case_denominator": 2429,
+      "P1_intended_denominator": 2431,
+      "P1_structural_differs_from_field_hit_complete_cases": 1973,
+      "P1_undefined_count": 2,
+      "carrier_denominator": 216,
+      "carrier_structural_monotone_function_of_field_hit": true,
+      "partial_status": false,
+      "reason": "P1 existential difference observed on 1973 defined cases; carrier monotonicity condition failed on all 216 carriers; 2 P1 baseline cells remain undefined.",
+      "status": "FAIL"
+    },
+    "secondary": {
+      "A0_false_positive_new": {
+        "ci95": [
+          0.0,
+          0.0015777038816131878
+        ],
+        "denominator": 2431,
+        "intended_denominator": null,
+        "numerator": 0,
+        "rate": 0.0,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 0
+      },
+      "A0_false_positive_v1_alias_defined_cells": {
+        "ci95": [
+          0.0,
+          0.0015790008867064649
+        ],
+        "denominator": 2429,
+        "intended_denominator": 2431,
+        "numerator": 0,
+        "rate": 0.0,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 2
+      },
+      "A1_false_positive_new": {
+        "ci95": [
+          0.0,
+          0.0015777038816131878
+        ],
+        "denominator": 2431,
+        "intended_denominator": null,
+        "numerator": 0,
+        "rate": 0.0,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 0
+      },
+      "A1_false_positive_v1_alias_defined_cells": {
+        "ci95": [
+          0.0,
+          0.0015790008867064649
+        ],
+        "denominator": 2429,
+        "intended_denominator": 2431,
+        "numerator": 0,
+        "rate": 0.0,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 2
+      },
+      "A3_M1_regression_new": {
+        "ci95": [
+          0.9493488274035422,
+          1.0
+        ],
+        "denominator": 72,
+        "intended_denominator": null,
+        "numerator": 72,
+        "rate": 1.0,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 0
+      },
+      "disagreement_new_vs_standalone_complete_cases": {
+        "ci95": [
+          0.7962504520935175,
+          0.8273002501110384
+        ],
+        "denominator": 2429,
+        "intended_denominator": 2431,
+        "numerator": 1973,
+        "rate": 0.8122684232194318,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 2
+      },
+      "disagreement_new_vs_v1_alias_complete_cases": {
+        "ci95": [
+          0.7962504520935175,
+          0.8273002501110384
+        ],
+        "denominator": 2429,
+        "intended_denominator": 2431,
+        "numerator": 1973,
+        "rate": 0.8122684232194318,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 2
+      },
+      "unique_catch_vs_standalone_complete_cases": {
+        "ci95": [
+          0.7962504520935175,
+          0.8273002501110384
+        ],
+        "denominator": 2429,
+        "intended_denominator": 2431,
+        "numerator": 1973,
+        "rate": 0.8122684232194318,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 2
+      },
+      "unique_catch_vs_v1_alias_complete_cases": {
+        "ci95": [
+          0.7962504520935175,
+          0.8273002501110384
+        ],
+        "denominator": 2429,
+        "intended_denominator": 2431,
+        "numerator": 1973,
+        "rate": 0.8122684232194318,
+        "status": "COMPLETE_CASE_PARTIAL",
+        "undefined_count": 2
+      }
+    }
+  },
+  "receipt_hash_note": "receipt_sha256 omitted because a file cannot contain its own stable hash",
+  "shared_surface_hash_checks": {
+    "canonicalizer_file": {
+      "actual_hash_object": "def5161dd17fc14345d340879174ed01e0277626",
+      "actual_rev_parse": "def5161dd17fc14345d340879174ed01e0277626",
+      "expected_git_blob_sha1": "def5161dd17fc14345d340879174ed01e0277626",
+      "identity_rule": "git_blob",
+      "pass": true,
+      "path": "scripts/m1_statement_parser.py",
+      "raw_sha256_hosts": {
+        "GB10": "747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b",
+        "LOCAL": "f9f1bc92c9d2963b3f346c0557f2b6a59d22201277b2023400f6953c59ac4aee"
+      },
+      "raw_sha256_informational": "747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b"
+    },
+    "gb10_only_inputs[1]": {
+      "actual_full_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+      "expected_prefix": "3e7e0568",
+      "identity_rule": "sha256_prefix",
+      "pass": true,
+      "path": "data/research/drift_v0/input/tatqa_tables.json"
+    },
+    "gb10_only_inputs[2]": {
+      "actual_full_sha256": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+      "expected_prefix": "d7612405",
+      "identity_rule": "sha256_prefix",
+      "pass": true,
+      "path": "data/research/drift_v0/output/injection_map.json"
+    },
+    "multileaf_paired_artifacts": {
+      "actual": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+      "expected": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+      "identity_rule": "raw_sha256",
+      "pass": true,
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl"
+    },
+    "multileaf_prediction_rows": {
+      "actual": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06",
+      "expected": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06",
+      "identity_rule": "raw_sha256",
+      "pass": true,
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl"
+    },
+    "multileaf_preresult_freeze_manifest": {
+      "actual": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163",
+      "expected": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163",
+      "identity_rule": "raw_sha256",
+      "pass": true,
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json"
+    },
+    "multileaf_response_rule_and_runner": {
+      "actual": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4",
+      "expected": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4",
+      "identity_rule": "raw_sha256",
+      "pass": true,
+      "path": "research/stage_e_multileaf_20261010/run_multileaf_formal.py"
+    },
+    "source_local_term_sheet": {
+      "actual": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290",
+      "expected": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290",
+      "identity_rule": "raw_sha256",
+      "pass": true,
+      "path": "research/positive_repair_20261011/contracts/SOURCE_LOCAL_RESPONSE_v1.md"
+    }
+  },
+  "source_freeze_checks": {
+    "implementation_contract_sha256": "0d159746490b43c3c0209f7a4df6d6a1fbf7a666ed40d8eec4870b4a3e31db16",
+    "source_hashes": {
+      "config/eval_checkpoint_trees.json": {
+        "actual": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+        "expected": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+        "pass": true
+      },
+      "data/research/drift_v0/input/tatqa_tables.json": {
+        "actual": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+        "expected": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+        "pass": true
+      },
+      "data/research/drift_v0/output/injection_map.json": {
+        "actual": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+        "expected": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+        "pass": true
+      },
+      "research/positive_repair_20261011/contracts/SOURCE_LOCAL_RESPONSE_v1.md": {
+        "actual": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290",
+        "expected": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290",
+        "pass": true
+      },
+      "research/positive_repair_20261011/contracts/shared_surface_freeze_v1.json": {
+        "actual": "d084e7f66cbc3f6f841683c57e97286d9a049a611d787fcb245dbea453f811a4",
+        "expected": "d084e7f66cbc3f6f841683c57e97286d9a049a611d787fcb245dbea453f811a4",
+        "pass": true
+      },
+      "research/positive_repair_20261011/loop_a_cards/residual_notes_v1.md": {
+        "actual": "a87758a125f9ea0625f1c3b891fa465f55929e2e01d19bc6c9f2ef7479bbb569",
+        "expected": "a87758a125f9ea0625f1c3b891fa465f55929e2e01d19bc6c9f2ef7479bbb569",
+        "pass": true
+      },
+      "research/positive_repair_20261011/preregs/PR-EXP-03_prereg_v2.md": {
+        "actual": "f3398a329a12ef23e528eb41d0bd90c8b4c5cee807c3d2c76c5afd0ac753f250",
+        "expected": "f3398a329a12ef23e528eb41d0bd90c8b4c5cee807c3d2c76c5afd0ac753f250",
+        "pass": true
+      },
+      "research/positive_repair_20261011/runs/PR-EXP-03/experiment.py": {
+        "actual": "d75afca6004c0ad3d76ba1f00203aa27d863161ad528af532f4d40cf592f57e3",
+        "expected": "d75afca6004c0ad3d76ba1f00203aa27d863161ad528af532f4d40cf592f57e3",
+        "pass": true
+      },
+      "research/stage_e_method_revision_20261009/multileaf_freeze.json": {
+        "actual": "7239feb678dcbecc4f1bb374cc37e313fd0a74354a23349caa556419fabfa34d",
+        "expected": "7239feb678dcbecc4f1bb374cc37e313fd0a74354a23349caa556419fabfa34d",
+        "pass": true
+      },
+      "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json": {
+        "actual": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163",
+        "expected": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163",
+        "pass": true
+      },
+      "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json": {
+        "actual": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693",
+        "expected": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693",
+        "pass": true
+      },
+      "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl": {
+        "actual": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+        "expected": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+        "pass": true
+      },
+      "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl": {
+        "actual": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06",
+        "expected": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06",
+        "pass": true
+      },
+      "research/stage_e_multileaf_20261010/run_multileaf_formal.py": {
+        "actual": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4",
+        "expected": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4",
+        "pass": true
+      },
+      "scripts/m1_statement_parser.py": {
+        "actual": "747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b",
+        "expected": "747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b",
+        "pass": true
+      },
+      "src/biz/m1_statement_parser.py": {
+        "actual": "d4f9ed86c8d0fa466462c8132308a31bf51e7e4439042c4d147da9f99550d8a8",
+        "expected": "d4f9ed86c8d0fa466462c8132308a31bf51e7e4439042c4d147da9f99550d8a8",
+        "pass": true
+      }
+    }
+  },
+  "start_utc": "2026-10-11T08:30:47Z",
+  "unverified_items": [
+    "full-population stage/family diagnosability delta",
+    "full-population attribution duplicate-catch conclusion"
+  ]
+}

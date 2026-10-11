@@ -1,0 +1,55 @@
+{
+  "task": "track-p-round1-mining-and-selection",
+  "date": "2026-10-11",
+  "status": "COMPLETE_PENDING_USER_APPROVAL_FOR_EXECUTION",
+  "executed_scientific_experiments": 0,
+  "frozen_artifacts_modified": 0,
+  "artifacts": [
+    "research/positive_repair_20261011/CANDIDATE_POOL_v1.md",
+    "research/positive_repair_20261011/loop_c_challenge_prompt.md",
+    "research/positive_repair_20261011/loop_c_challenge_result_raw.log",
+    "research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json",
+    "research/positive_repair_20261011/SPRINT_PLAN_v1.md",
+    "research/positive_repair_20261011/SELECTION_v1.md",
+    "research/positive_repair_20261011/mining/ (mirrored subagent mining reports)"
+  ],
+  "loop_c_dispatch": {
+    "task_id": "positive-repair-challenge-c-20261011",
+    "launcher": "scripts/graph/loop_ac_launcher.sh",
+    "start_utc": "2026-10-11T05:36:45Z",
+    "end_utc": "2026-10-11T05:42:24Z",
+    "elapsed_s": 339,
+    "rc": 0,
+    "model_route": "Loop C default route via launcher (no overrides; settings-defined)",
+    "turns": 1,
+    "endpoint_scope": "one one-shot model call; zero tools; offline packet",
+    "packet_sha256": "93151e01553e4d15af89cf2916d6561c4aa242d43bc4bb2300936e672097fd45",
+    "output_path": "~/wzh/loop_runs/positive-repair-challenge-c-20261011/c.log",
+    "output_sha256": "3ea95284677cb7e00fbc362b4941274e711978e023fdd5068da76a5eb96945f7"
+  },
+  "verdicts": {
+    "PR-01": "REVISE",
+    "PR-02": "REVISE",
+    "PR-03": "REVISE",
+    "PR-04": "REVISE",
+    "PR-05": "REVISE",
+    "PR-06": "FAIL",
+    "PR-07": "REVISE",
+    "PR-08": "KEEP"
+  },
+  "selection": [
+    "PR-EXP-03",
+    "PR-EXP-05",
+    "PR-EXP-07",
+    "PR-EXP-04",
+    "PR-EXP-01"
+  ],
+  "backup": "PR-EXP-08",
+  "incidents": [
+    "subagent bootstrap identity mix-up (miner_code, miner_finqa) - recovered; all three delivered",
+    "apply_patch tool channel malfunction - artifacts written via controlled shell writes, content verified",
+    "Loop C noted session-hook magic-keyword false positive (ai-slop-cleaner); correctly not invoked"
+  ],
+  "repo_state": "no commit; no push; new untracked artifacts under research/positive_repair_20261011/; dispatch_log and budget ledger appends pending in same round",
+  "notes": "Stage-E/code/FinQA mining reports delivered by three read-only subagents; this receipt binds the round-level accounting only."
+}

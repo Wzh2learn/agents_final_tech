@@ -1,0 +1,17 @@
+{
+  "manifest": "positive_repair_prereg_freeze_v2",
+  "supersedes": "positive_repair_prereg_freeze_v1 (all four preregs went CONDITIONAL in audit v1; revision 1 applied 2026-10-11)",
+  "frozen": "2026-10-11",
+  "frozen_by": "Loop D",
+  "authority": "Human decision 2026-10-11 (first wave); execution requires Loop C RE-audit verdict PASS (one re-audit budget)",
+  "preregs": [
+    {"experiment_id": "PR-EXP-03", "path": "research/positive_repair_20261011/preregs/PR-EXP-03_prereg_v2.md", "sha256": "f3398a329a12ef23e528eb41d0bd90c8b4c5cee807c3d2c76c5afd0ac753f250"},
+    {"experiment_id": "PR-EXP-01", "path": "research/positive_repair_20261011/preregs/PR-EXP-01_prereg_v2.md", "sha256": "41c6c3cd14b5d0dd1e00abef9bd15953ba9bf1cb1d8463910270f67b94af0cd3"},
+    {"experiment_id": "PR-EXP-04", "path": "research/positive_repair_20261011/preregs/PR-EXP-04_prereg_v2.md", "sha256": "c28574b19748ff6cb626cd484af4c08256aa6b449fe9f8a8d1db6aa89a76b038"},
+    {"experiment_id": "PR-EXP-07", "path": "research/positive_repair_20261011/preregs/PR-EXP-07_prereg_v2.md", "sha256": "4724e53ebaf86633384f1955e5182bd7c5b886994603b59a6146c45ce6426d5f"}
+  ],
+  "shared_contracts": [
+    {"file": "research/positive_repair_20261011/contracts/SOURCE_LOCAL_RESPONSE_v1.md", "sha256": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290"},
+    {"file": "research/positive_repair_20261011/contracts/shared_surface_freeze_v1.json", "sha256": "e02e412f88e2e446265bf3963c974aaafb0cd59d914e5cf95c772588504a3b8f"}
+  ]
+}

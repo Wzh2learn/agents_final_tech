@@ -1,0 +1,272 @@
+{
+  "experiment_id": "PR-EXP-04",
+  "status": "INVALID",
+  "prereg_sha256": "c28574b19748ff6cb626cd484af4c08256aa6b449fe9f8a8d1db6aa89a76b038",
+  "implementation_contract_sha256": "0fe3d3ec47b4b0671753fe7f8b9ba9f9a3077923b8a644bae30bdd5918dbc529",
+  "start_utc": "2026-10-11T08:33:15Z",
+  "end_utc": "2026-10-11T08:35:42Z",
+  "input_hashes": [
+    {
+      "path": "config/eval_checkpoint_trees.json",
+      "identity_rule": "raw_sha256",
+      "sha256": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+      "status": "PASS"
+    },
+    {
+      "path": "data/research/drift_v0/input/tatqa_tables.json",
+      "identity_rule": "raw_sha256",
+      "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+      "status": "PASS"
+    },
+    {
+      "path": "data/research/drift_v0/output/injection_map.json",
+      "identity_rule": "raw_sha256",
+      "sha256": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+      "status": "PASS"
+    },
+    {
+      "path": "research/positive_repair_20261011/contracts/SOURCE_LOCAL_RESPONSE_v1.md",
+      "identity_rule": "raw_sha256",
+      "sha256": "4c3d6f06ff49e4aa3bfd7f575c3e03d8d4c675909074d4275745c219b9240290",
+      "status": "PASS"
+    },
+    {
+      "path": "research/positive_repair_20261011/contracts/shared_surface_freeze_v1.json",
+      "identity_rule": "raw_sha256",
+      "sha256": "d084e7f66cbc3f6f841683c57e97286d9a049a611d787fcb245dbea453f811a4",
+      "status": "PASS"
+    },
+    {
+      "path": "research/positive_repair_20261011/loop_a_cards/residual_notes_v1.md",
+      "identity_rule": "raw_sha256",
+      "sha256": "a87758a125f9ea0625f1c3b891fa465f55929e2e01d19bc6c9f2ef7479bbb569",
+      "status": "PASS"
+    },
+    {
+      "path": "research/positive_repair_20261011/preregs/PR-EXP-04_prereg_v2.md",
+      "identity_rule": "raw_sha256",
+      "sha256": "c28574b19748ff6cb626cd484af4c08256aa6b449fe9f8a8d1db6aa89a76b038",
+      "status": "PASS"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/build_multileaf_freeze.py",
+      "identity_rule": "raw_sha256",
+      "sha256": "1c78a7349b989b3701f1820c70d3b0c784c0428455ddabe0e176ff292c0c27c1",
+      "status": "PASS"
+    },
+    {
+      "path": "research/stage_e_method_revision_20261009/multileaf_freeze.json",
+      "identity_rule": "raw_sha256",
+      "sha256": "7239feb678dcbecc4f1bb374cc37e313fd0a74354a23349caa556419fabfa34d",
+      "status": "PASS"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_mechanism_generalization_audit.json",
+      "identity_rule": "raw_sha256",
+      "sha256": "bd412df8d7d8f38b748b6a01c3fd90d070baf48287ee81983d1595c1b9def6ef",
+      "status": "PASS"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json",
+      "identity_rule": "raw_sha256",
+      "sha256": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163",
+      "status": "PASS"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json",
+      "identity_rule": "raw_sha256",
+      "sha256": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693",
+      "status": "PASS"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl",
+      "identity_rule": "raw_sha256",
+      "sha256": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+      "status": "PASS"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl",
+      "identity_rule": "raw_sha256",
+      "sha256": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06",
+      "status": "PASS"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+      "identity_rule": "raw_sha256",
+      "sha256": "0518c5bfc40bf2b4e82312887b9426bbb8833df326d4d782cd1cbe63d052571d",
+      "status": "PASS"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/run_multileaf_formal.py",
+      "identity_rule": "raw_sha256",
+      "sha256": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4",
+      "status": "PASS"
+    },
+    {
+      "path": "scripts/m1_statement_parser.py",
+      "identity_rule": "git_blob",
+      "sha256": "def5161dd17fc14345d340879174ed01e0277626",
+      "git_rev_parse": "def5161dd17fc14345d340879174ed01e0277626",
+      "git_hash_object": "def5161dd17fc14345d340879174ed01e0277626",
+      "raw_sha256_informational": "747b7eb6e5d33a33a2d34572d0491aac212c0c01100890daff18cb6ae64d372b",
+      "status": "PASS"
+    }
+  ],
+  "output_hashes": [
+    {
+      "path": "implementation_contract.md",
+      "sha256": "0fe3d3ec47b4b0671753fe7f8b9ba9f9a3077923b8a644bae30bdd5918dbc529"
+    },
+    {
+      "path": "implementation_contract.sha256",
+      "sha256": "c9d5c72650ff24a22888d0310ad6060caba46307a24786a6f11e62096ab066b7"
+    },
+    {
+      "path": "n1_harness_equivalence.json",
+      "sha256": "92a45d0ff1508df8f699180453de0961807ad05bc7c74e7a7e32e8ca0d860cb8"
+    },
+    {
+      "path": "n2_generation_run1.jsonl",
+      "sha256": "3266afb95be799fa8d32fba5ab5597f57cd5cae43ee6bc670199a7ffc6d5d8df"
+    },
+    {
+      "path": "n2_generation_run2.jsonl",
+      "sha256": "3266afb95be799fa8d32fba5ab5597f57cd5cae43ee6bc670199a7ffc6d5d8df"
+    },
+    {
+      "path": "preflight_receipt.json",
+      "sha256": "4810e16add4c3a103fdb707e4078423ba0c6c53f99d731cb326729e948de996f"
+    },
+    {
+      "path": "result.json",
+      "sha256": "1d3b5877fe6fab638d42d7cbfcda6e31448afb465d1e91b2abb357351ded4994"
+    },
+    {
+      "path": "run_pr_exp_04.py",
+      "sha256": "945f936e229b9df252a9e495c4de45c56a5da0f32ccd049bec4f2587ec63c8f3"
+    },
+    {
+      "path": "validate_pr_exp_04.py",
+      "sha256": "dad54b0a68399c50a2697161603cc6f37e888a7f3588d6b7768a9aa8b45ba93f"
+    }
+  ],
+  "raw_metrics": {
+    "n1_harness_equivalence": {
+      "numerator": 72,
+      "denominator": 72,
+      "mismatches": 0,
+      "fraction": 1.0,
+      "ci95": [1.0, 1.0],
+      "ci_reason": "DETERMINISTIC_EXACT_CONTROL"
+    },
+    "n2_double_run": {
+      "numerator": 1,
+      "denominator": 1,
+      "fraction": 1.0,
+      "ci95": [1.0, 1.0],
+      "ci_reason": "DETERMINISTIC_EXACT_CONTROL",
+      "rows_each_run": 72
+    },
+    "n1_visibility": {
+      "visible_rows": 72,
+      "total_rows": 72,
+      "row_fraction": 1.0,
+      "row_ci95_cluster_bootstrap": [1.0, 1.0],
+      "responding_groups": 24,
+      "total_groups": 24,
+      "group_fraction": 1.0,
+      "group_ci95_cluster_bootstrap": [1.0, 1.0]
+    },
+    "n2_visibility": {
+      "visible_rows": 72,
+      "total_rows": 72,
+      "row_gate_required": 48,
+      "row_fraction": 1.0,
+      "row_ci95_cluster_bootstrap": [1.0, 1.0],
+      "responding_groups": 24,
+      "total_groups": 24,
+      "group_gate_required": 6,
+      "group_fraction": 1.0,
+      "group_ci95_cluster_bootstrap": [1.0, 1.0],
+      "gate_pass": true
+    },
+    "responsive_leaf_overlap": {
+      "intersection_numerator": 1,
+      "union_denominator": 1,
+      "jaccard": 1.0,
+      "ci95": null,
+      "ci_reason": "NOT_APPLICABLE_DETERMINISTIC_SET_OVERLAP"
+    },
+    "n1_to_n2_full": {
+      "status": "NOT_COMPUTED",
+      "macro_f1": null,
+      "macro_f1_ci95": null,
+      "top1_accuracy": null,
+      "top1_ci95": null,
+      "reason": "FROZEN_IMPLEMENTATION_FAILURE_BEFORE_METRIC_EVALUATION"
+    },
+    "n1_to_n2_direct_codebook": {
+      "status": "NOT_COMPUTED",
+      "macro_f1": null,
+      "macro_f1_ci95": null,
+      "top1_accuracy": null,
+      "top1_ci95": null,
+      "reason": "FROZEN_IMPLEMENTATION_FAILURE_BEFORE_METRIC_EVALUATION"
+    },
+    "n2_to_n1_full": {
+      "status": "NOT_COMPUTED",
+      "macro_f1": null,
+      "macro_f1_ci95": null,
+      "top1_accuracy": null,
+      "top1_ci95": null,
+      "reason": "FROZEN_IMPLEMENTATION_FAILURE_BEFORE_METRIC_EVALUATION"
+    },
+    "n2_to_n1_direct_codebook": {
+      "status": "NOT_COMPUTED",
+      "macro_f1": null,
+      "macro_f1_ci95": null,
+      "top1_accuracy": null,
+      "top1_ci95": null,
+      "reason": "FROZEN_IMPLEMENTATION_FAILURE_BEFORE_METRIC_EVALUATION"
+    },
+    "baselines": {
+      "chance_top1": 0.3333333333333333,
+      "uniform_class_macro_f1": 0.3333333333333333,
+      "majority_macro_f1": 0.1666666666666667,
+      "frozen_ablation_full": 1.0,
+      "frozen_ablation_direct": 1.0,
+      "frozen_ablation_non_direct": 0.3333
+    }
+  },
+  "canonical_outcome_label": "INVALID",
+  "canonical_outcome_label_satisfied": true,
+  "supporting_only": true,
+  "counts_toward_repair_count": false,
+  "preflight_verification_level": "END_TO_END_PREFLIGHT_PASS",
+  "cost": {
+    "runtime_seconds": 147.0,
+    "model_calls": 0,
+    "judge_calls": 0,
+    "network_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "production_service_calls": 0
+  },
+  "unverified_items": [
+    "N1-to-N2 and N2-to-N1 macro-F1/top-1 points and cluster-bootstrap CIs were not computed.",
+    "Direct-codebook cross-direction control metrics were not computed.",
+    "Final mechanism UID-leakage audit and independent FORMAL_RUN_PASS validation were not completed."
+  ],
+  "deviations": [
+    {
+      "type": "FROZEN_IMPLEMENTATION_FAILURE",
+      "stage": "formal_run_after_generation_and_gates",
+      "exception": "KeyError: 'group_uid'",
+      "location": "run_pr_exp_04.py:690 in build_scientific_result",
+      "consequence": "Cross-mechanism evaluation and independent metric recomputation were not executed.",
+      "rescue_attempted": false,
+      "post_generation_source_edit": false
+    }
+  ],
+  "stop_reason": "The frozen implementation raised KeyError before population leakage finalization or metric evaluation; editing after generation would violate the implementation freeze, so execution stopped as INVALID."
+}

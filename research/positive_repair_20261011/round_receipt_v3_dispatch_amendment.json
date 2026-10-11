@@ -1,0 +1,13 @@
+{
+  "segment": "dispatch-amendment-1",
+  "date": "2026-10-11",
+  "issue": "Input-sync miss: at the first Loop A dispatch (08:03:51Z) the GB10 repo checkout lacked research/positive_repair_20261011/ (files existed only on LOCAL). All four experiments fail-closed correctly with INPUT_MISSING (zero side effects, zero model calls). Evidence preserved: runs_logs/input_missing_attempt1/ (03/01/07 a.logs, 04 stop-receipt) + original GB10 run dirs under the -a task ids.",
+  "fix": "Round folder synced to GB10 repo research/positive_repair_20261011/ and verified (prereg v2 + shared contracts sha256 match); stale runs/PR-EXP-04 stop-receipt relocated; runs/ cleared.",
+  "redispatch": {
+    "ids": ["positive-repair-03-a2-20261011", "positive-repair-01-a2-20261011", "positive-repair-04-a2-20261011", "positive-repair-07-a2-20261011"],
+    "started_utc": "2026-10-11T08:07:29Z",
+    "status": "RUNNING"
+  },
+  "track_a": "track-a-figures-binding-20261011 unaffected (all its inputs pre-existed); continues RUNNING.",
+  "registry_note": "All four first-attempt records remain in evidence; scientific outcome labels remain PENDING until the r2 runs complete with Loop C post-result audit."
+}

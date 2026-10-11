@@ -1,0 +1,849 @@
+{
+  "figures": {
+    "fig1": {
+      "caption": "NIST motivates measurement effectiveness, not this paper's blind-spot framework.",
+      "numeric_bindings": [],
+      "outputs": [
+        {
+          "bytes": 6009,
+          "path": "docs/research/figures_saner/fig1_measurement_chain.svg",
+          "sha256": "95fff20876ec9fc721866308cdfdcdce1fcff55668c3e38b4c9f0c67fb02d506"
+        }
+      ],
+      "renderer_scripts": [
+        {
+          "path": "docs/research/figures_saner/render_saner_figures.py",
+          "role": "deterministic renderer",
+          "sha256": "dadc285c514200220e7f3700849e4d4a783f30b202be2255712650fc555c6e57"
+        }
+      ],
+      "source_artifacts": [
+        {
+          "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
+          "role": "frozen figure definition and caption boundary",
+          "sha256": "e516e6c7a94ed7e24ffd2fab8e00f9a42f564ecb164c644e03fc1d65653ccd3d"
+        },
+        {
+          "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
+          "role": "approved figure specification",
+          "sha256": "28549d5438e00aef8199c83dbd16c6081f49b51534cfef4a80a905c1c1df7cb5"
+        },
+        {
+          "path": "paper/figure_plan_v1.md",
+          "role": "existing figure ledger (read-only reference)",
+          "sha256": "80904d311a6ee28fc0b9592f3459763eb27fc37f6e4127c4cf776ec3aa782dfe"
+        }
+      ]
+    },
+    "fig2": {
+      "caption": "Figure 2. Defect family × checkpoint visibility. This is a visibility matrix, not a harmfulness matrix; cell values are visibility rates and annotations are visible/injection counts.",
+      "caption_boundary": "visibility matrix, not harmfulness matrix",
+      "numeric_bindings": [
+        {
+          "display": "0.2",
+          "field_path": "$.meta.gammas[0]",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.2
+        },
+        {
+          "display": "0.7660",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"alias_variant\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.766
+        },
+        {
+          "display": "36",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"alias_variant\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 36
+        },
+        {
+          "display": "47",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"alias_variant\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 47
+        },
+        {
+          "display": "0.7059",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"date_variant\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.7059
+        },
+        {
+          "display": "12",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"date_variant\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 12
+        },
+        {
+          "display": "17",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"date_variant\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 17
+        },
+        {
+          "display": "0.9500",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"mixed_lang\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.95
+        },
+        {
+          "display": "19",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"mixed_lang\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 19
+        },
+        {
+          "display": "20",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"mixed_lang\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 20
+        },
+        {
+          "display": "0.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"ocr_similar\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"ocr_similar\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "13",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"ocr_similar\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 13
+        },
+        {
+          "display": "0.8125",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"prefix_noise\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.8125
+        },
+        {
+          "display": "13",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"prefix_noise\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 13
+        },
+        {
+          "display": "16",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"prefix_noise\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 16
+        },
+        {
+          "display": "1.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"unit_suffix\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 1.0
+        },
+        {
+          "display": "5",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"unit_suffix\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 5
+        },
+        {
+          "display": "5",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"unit_suffix\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 5
+        },
+        {
+          "display": "0.3",
+          "field_path": "$.meta.gammas[1]",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.3
+        },
+        {
+          "display": "0.3191",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"alias_variant\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.3191
+        },
+        {
+          "display": "15",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"alias_variant\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 15
+        },
+        {
+          "display": "47",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"alias_variant\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 47
+        },
+        {
+          "display": "0.6471",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"date_variant\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.6471
+        },
+        {
+          "display": "11",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"date_variant\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 11
+        },
+        {
+          "display": "17",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"date_variant\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 17
+        },
+        {
+          "display": "0.6000",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"mixed_lang\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.6
+        },
+        {
+          "display": "12",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"mixed_lang\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 12
+        },
+        {
+          "display": "20",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"mixed_lang\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 20
+        },
+        {
+          "display": "0.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"ocr_similar\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"ocr_similar\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "13",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"ocr_similar\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 13
+        },
+        {
+          "display": "0.3750",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"prefix_noise\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.375
+        },
+        {
+          "display": "6",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"prefix_noise\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 6
+        },
+        {
+          "display": "16",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"prefix_noise\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 16
+        },
+        {
+          "display": "0.2000",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"unit_suffix\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.2
+        },
+        {
+          "display": "1",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"unit_suffix\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 1
+        },
+        {
+          "display": "5",
+          "field_path": "$.e2_1_gamma_grid[\"0.3\"].by_type[\"unit_suffix\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 5
+        },
+        {
+          "display": "0.5",
+          "field_path": "$.meta.gammas[2]",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.5
+        },
+        {
+          "display": "0.1702",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"alias_variant\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.1702
+        },
+        {
+          "display": "8",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"alias_variant\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 8
+        },
+        {
+          "display": "47",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"alias_variant\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 47
+        },
+        {
+          "display": "0.5882",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"date_variant\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.5882
+        },
+        {
+          "display": "10",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"date_variant\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 10
+        },
+        {
+          "display": "17",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"date_variant\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 17
+        },
+        {
+          "display": "0.5000",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"mixed_lang\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.5
+        },
+        {
+          "display": "10",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"mixed_lang\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 10
+        },
+        {
+          "display": "20",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"mixed_lang\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 20
+        },
+        {
+          "display": "0.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"ocr_similar\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"ocr_similar\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "13",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"ocr_similar\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 13
+        },
+        {
+          "display": "0.0625",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"prefix_noise\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0625
+        },
+        {
+          "display": "1",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"prefix_noise\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 1
+        },
+        {
+          "display": "16",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"prefix_noise\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 16
+        },
+        {
+          "display": "0.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"unit_suffix\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"unit_suffix\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "5",
+          "field_path": "$.e2_1_gamma_grid[\"0.5\"].by_type[\"unit_suffix\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 5
+        },
+        {
+          "display": "0.7",
+          "field_path": "$.meta.gammas[3]",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.7
+        },
+        {
+          "display": "0.0426",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"alias_variant\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0426
+        },
+        {
+          "display": "2",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"alias_variant\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 2
+        },
+        {
+          "display": "47",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"alias_variant\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 47
+        },
+        {
+          "display": "0.2941",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"date_variant\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.2941
+        },
+        {
+          "display": "5",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"date_variant\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 5
+        },
+        {
+          "display": "17",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"date_variant\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 17
+        },
+        {
+          "display": "0.3000",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"mixed_lang\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.3
+        },
+        {
+          "display": "6",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"mixed_lang\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 6
+        },
+        {
+          "display": "20",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"mixed_lang\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 20
+        },
+        {
+          "display": "0.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"ocr_similar\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"ocr_similar\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "13",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"ocr_similar\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 13
+        },
+        {
+          "display": "0.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"prefix_noise\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"prefix_noise\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "16",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"prefix_noise\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 16
+        },
+        {
+          "display": "0.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"unit_suffix\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"unit_suffix\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "5",
+          "field_path": "$.e2_1_gamma_grid[\"0.7\"].by_type[\"unit_suffix\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 5
+        },
+        {
+          "display": "0.9",
+          "field_path": "$.meta.gammas[4]",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.9
+        },
+        {
+          "display": "0.0426",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"alias_variant\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0426
+        },
+        {
+          "display": "2",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"alias_variant\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 2
+        },
+        {
+          "display": "47",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"alias_variant\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 47
+        },
+        {
+          "display": "0.2941",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"date_variant\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.2941
+        },
+        {
+          "display": "5",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"date_variant\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 5
+        },
+        {
+          "display": "17",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"date_variant\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 17
+        },
+        {
+          "display": "0.3000",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"mixed_lang\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.3
+        },
+        {
+          "display": "6",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"mixed_lang\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 6
+        },
+        {
+          "display": "20",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"mixed_lang\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 20
+        },
+        {
+          "display": "0.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"ocr_similar\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"ocr_similar\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "13",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"ocr_similar\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 13
+        },
+        {
+          "display": "0.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"prefix_noise\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"prefix_noise\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "16",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"prefix_noise\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 16
+        },
+        {
+          "display": "0.0000",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"unit_suffix\"].visibility_rate",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0.0
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"unit_suffix\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "5",
+          "field_path": "$.e2_1_gamma_grid[\"0.9\"].by_type[\"unit_suffix\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 5
+        },
+        {
+          "display": "0",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"ocr_similar\"].visible",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 0
+        },
+        {
+          "display": "13",
+          "field_path": "$.e2_1_gamma_grid[\"0.2\"].by_type[\"ocr_similar\"].n",
+          "source": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "value": 13
+        },
+        {
+          "display": "11",
+          "field_path": "$.by_type[\"ocr_similar\"].n_tables",
+          "source": "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+          "value": 11
+        }
+      ],
+      "ocr_note": "0/13 OCR-like injections were visible across 11 table clusters",
+      "outputs": [
+        {
+          "bytes": 16932,
+          "path": "docs/research/figures_saner/fig2_family_visibility_matrix.svg",
+          "sha256": "1985185d08d3cf1c676810fc45a1cabee675cd60be836b471a144bcfc6484b02"
+        },
+        {
+          "bytes": 107930,
+          "path": "docs/research/figures_saner/fig2_family_visibility_matrix.png",
+          "sha256": "f0281da58e456402b54783c5041de98044360244c9cfcd5f5a552c54185dff5d"
+        },
+        {
+          "bytes": 8188,
+          "path": "docs/research/figures_saner/fig2_source.csv",
+          "sha256": "a61d75fda37c84aa058472f06a2b1898052dd0e6fde49598467da72997f1b3ec"
+        }
+      ],
+      "renderer_scripts": [
+        {
+          "path": "docs/research/figures_saner/render_saner_figures.py",
+          "role": "deterministic renderer",
+          "sha256": "dadc285c514200220e7f3700849e4d4a783f30b202be2255712650fc555c6e57"
+        }
+      ],
+      "source_artifacts": [
+        {
+          "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
+          "role": "frozen caption boundary",
+          "sha256": "e516e6c7a94ed7e24ffd2fab8e00f9a42f564ecb164c644e03fc1d65653ccd3d"
+        },
+        {
+          "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
+          "role": "approved matrix encoding",
+          "sha256": "28549d5438e00aef8199c83dbd16c6081f49b51534cfef4a80a905c1c1df7cb5"
+        },
+        {
+          "path": "paper/figure_plan_v1.md",
+          "role": "existing figure ledger (read-only reference)",
+          "sha256": "80904d311a6ee28fc0b9592f3459763eb27fc37f6e4127c4cf776ec3aa782dfe"
+        },
+        {
+          "path": "logs/graph/eval/t2_visibility_sensitivity.json",
+          "role": "threshold-specific visibility rates and counts",
+          "sha256": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5"
+        },
+        {
+          "path": "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+          "role": "frozen injection and OCR cluster counts",
+          "sha256": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72"
+        }
+      ]
+    },
+    "fig3": {
+      "caption": "Full and direct-codebook localization are perfect on the explicitly instrumented M/R/N observation surface. When directly targeted checkpoints are removed, top-1 falls to chance. The result reflects stage-aligned instrumentation, not emergent localization from the remaining hierarchy.",
+      "forbidden_caption_language": [
+        "hierarchy localizes failures",
+        "natural failures are localized",
+        "distributed downstream evidence is sufficient"
+      ],
+      "numeric_bindings": [
+        {
+          "derivation": null,
+          "display": "1.0000",
+          "field_path": "$.feature_sets.full_vector.macro_f1",
+          "source": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+          "value": 1.0
+        },
+        {
+          "derivation": null,
+          "display": "1.0000",
+          "field_path": "$.feature_sets.direct_target_codebook.macro_f1",
+          "source": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+          "value": 1.0
+        },
+        {
+          "derivation": null,
+          "display": "0.3333",
+          "field_path": "$.feature_sets.non_direct_leaves_only.macro_f1",
+          "source": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+          "value": 0.3333333333333333
+        },
+        {
+          "derivation": {
+            "K": 3,
+            "basis_field_path": "$.feature_sets.full_vector.confusion",
+            "class_field_paths": [
+              "$.feature_sets.full_vector.confusion.M",
+              "$.feature_sets.full_vector.confusion.N",
+              "$.feature_sets.full_vector.confusion.R"
+            ],
+            "formula": "1/(2K)"
+          },
+          "display": "0.1667",
+          "field_path": "$.feature_sets.full_vector.confusion",
+          "source": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+          "value": 0.16666666666666666
+        },
+        {
+          "derivation": null,
+          "display": "1.0000",
+          "field_path": "$.feature_sets.full_vector.top1_accuracy",
+          "source": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+          "value": 1.0
+        },
+        {
+          "derivation": null,
+          "display": "1.0000",
+          "field_path": "$.feature_sets.direct_target_codebook.top1_accuracy",
+          "source": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+          "value": 1.0
+        },
+        {
+          "derivation": null,
+          "display": "0.3333",
+          "field_path": "$.feature_sets.non_direct_leaves_only.top1_accuracy",
+          "source": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+          "value": 0.3333333333333333
+        },
+        {
+          "derivation": {
+            "K": 3,
+            "basis_field_path": "$.signature_counts",
+            "class_field_paths": [
+              "$.signature_counts.M",
+              "$.signature_counts.N",
+              "$.signature_counts.R"
+            ],
+            "formula": "1/K"
+          },
+          "display": "0.3333",
+          "field_path": "$.signature_counts",
+          "source": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+          "value": 0.3333333333333333
+        }
+      ],
+      "outputs": [
+        {
+          "bytes": 6218,
+          "path": "docs/research/figures_saner/fig3_localization_ablation.svg",
+          "sha256": "d73cc549e34fc2aa508b7cbb418bd3c50dd489ee75a04656bf579b1311120015"
+        },
+        {
+          "bytes": 72520,
+          "path": "docs/research/figures_saner/fig3_localization_ablation.png",
+          "sha256": "1e3d9709451807f938ad91e25472892c23df045669efcdfe00a0899d10ae2c64"
+        }
+      ],
+      "renderer_scripts": [
+        {
+          "path": "docs/research/figures_saner/render_saner_figures.py",
+          "role": "deterministic renderer",
+          "sha256": "dadc285c514200220e7f3700849e4d4a783f30b202be2255712650fc555c6e57"
+        },
+        {
+          "path": "research/stage_e_multileaf_20261010/render_multileaf_localization_ablation_v2.py",
+          "role": "candidate source renderer",
+          "sha256": "6df2e97e882bf0fe4018bfb3f8af2e22d5461505eab3cb55d6423ea3bd9f30ef"
+        }
+      ],
+      "source_artifacts": [
+        {
+          "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
+          "role": "frozen caption boundary",
+          "sha256": "e516e6c7a94ed7e24ffd2fab8e00f9a42f564ecb164c644e03fc1d65653ccd3d"
+        },
+        {
+          "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
+          "role": "required caption and forbidden language",
+          "sha256": "28549d5438e00aef8199c83dbd16c6081f49b51534cfef4a80a905c1c1df7cb5"
+        },
+        {
+          "path": "paper/figure_plan_v1.md",
+          "role": "existing figure ledger (read-only reference)",
+          "sha256": "80904d311a6ee28fc0b9592f3459763eb27fc37f6e4127c4cf776ec3aa782dfe"
+        },
+        {
+          "path": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+          "role": "full, direct, non-direct, class-support derivation",
+          "sha256": "0518c5bfc40bf2b4e82312887b9426bbb8833df326d4d782cd1cbe63d052571d"
+        },
+        {
+          "path": "docs/research/figures_multileaf/fig_multileaf_localization_ablation.svg",
+          "role": "existing candidate SVG",
+          "sha256": "2ef011b4e960e2ea58e1ad013a44c1a3fd62c6c4201586b4c55f50abc0a02fff"
+        },
+        {
+          "path": "docs/research/figures_multileaf/fig_multileaf_localization_ablation.png",
+          "role": "existing candidate PNG",
+          "sha256": "20f667e074365978d38a1c3df9e81e5e218a2a9267cb03398d73bb73d929c4f1"
+        },
+        {
+          "path": "docs/research/figures_multileaf/manifest.json",
+          "role": "candidate output hash manifest",
+          "sha256": "9438bd6db6c15b5680da68ee28a041b9cea66015a25d49a52d63cc74f125dbae"
+        },
+        {
+          "path": "research/stage_e_multileaf_20261010/render_multileaf_localization_ablation_v2.py",
+          "role": "candidate renderer hash",
+          "sha256": "6df2e97e882bf0fe4018bfb3f8af2e22d5461505eab3cb55d6423ea3bd9f30ef"
+        },
+        {
+          "path": "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_receipt.json",
+          "role": "candidate hash-chain validation",
+          "sha256": "61fbbbdbcdbf4b4ef6fac6abfe781324e9a0e069ab91c0bf9e3e6a4583c18e08"
+        }
+      ],
+      "source_verification": [
+        "Figure 3 candidate SVG/PNG hashes match the candidate manifest and repair receipt.",
+        "Figure 3 candidate renderer hash matches the repair receipt.",
+        "Figure 3 candidate SVG contains all required formatted values and no forbidden caption phrase."
+      ]
+    }
+  },
+  "model_calls": 0,
+  "namespace": "SANER_FIGURE_SOURCE_BINDING",
+  "schema_version": 1,
+  "status": "COMPLETE"
+}

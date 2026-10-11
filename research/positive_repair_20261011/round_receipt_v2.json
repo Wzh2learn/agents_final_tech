@@ -1,0 +1,24 @@
+{
+  "segment": "track-p-round2-prereg-revision-and-dispatch",
+  "date": "2026-10-11",
+  "status": "FIRST_WAVE_DISPATCHED_RUNNING",
+  "registry_reclassification": "experiment_role A-E applied; only INTERVENTION_REPAIR counts toward the synthesis gate; PR-05 -> second wave; PR-08 qualification IN_PROGRESS at decision time -> KEEP_BACKUP",
+  "pr08_qualification": {"verdict": "KEEP_BACKUP", "file": "research/positive_repair_20261011/qualification_PR08_v1.md", "reason": "conflation confirmed (parse 0=FAIL; qa 5=mid; un-filed 10=full-marks on absent contract/NF) but zero no-evidence cells on existing frozen surfaces -> no held-out measurable headroom"},
+  "prereg_revision": {"from": "prereg_freeze_manifest_v1.json", "to": "prereg_freeze_manifest_v2.json", "note": "one batched revision per experiment closed all audit-v1 conditions (a-e); shared contracts added"},
+  "loop_c_calls": {
+    "prereg_audit_v1": {"task": "positive-repair-preregs-audit-c-20261011", "rc": 0, "elapsed_min": 12.3, "packet_sha256": "82d68ec372c36c7cd0d49796057791018f3ce77628a512bf55ac8e1f6db737aa", "output_sha256": "5b8333f68804e3fcfe2606b0f4770b059cfe4509ce06c9b02f54c2aaa34ab3c1", "verdicts": "CONDITIONAL x4", "output_file": "loop_c_prereg_audit_result_raw.log"},
+    "recheck": {"task": "positive-repair-preregs-audit-recheck-c-20261011", "rc": 0, "elapsed_min": 31.6, "packet_sha256": "18205b1414455c842f36bdb439e5853989c18ee0f38bc689aa665c11b87487b5", "output_sha256": "a437792b4ff5997e18a5f2600b9778752b037173de616263431fdec6c0f7399d", "verdicts": "PASS x4 (auto-dispatch authorized)", "output_file": "loop_c_prereg_audit_recheck_result_raw.log"}
+  },
+  "recheck_capture_loss_incident": "The re-audit log lost its leading per-experiment sections in capture (file begins mid-GLOBAL). Verdicts and residual enumeration recovered from the GLOBAL section; no re-run performed (single re-audit budget spent). Recorded.",
+  "residual_notes": "loop_a_cards/residual_notes_v1.md (binding pre-execution addendum; folded into all four Loop A cards before dispatch)",
+  "loop_a_dispatches": [
+    {"task_id": "positive-repair-03-a-20261011", "experiment": "PR-EXP-03", "started_utc": "2026-10-11T08:03:51Z", "status": "RUNNING"},
+    {"task_id": "positive-repair-01-a-20261011", "experiment": "PR-EXP-01", "started_utc": "2026-10-11T08:03:51Z", "status": "RUNNING"},
+    {"task_id": "positive-repair-04-a-20261011", "experiment": "PR-EXP-04", "started_utc": "2026-10-11T08:03:51Z", "status": "RUNNING"},
+    {"task_id": "positive-repair-07-a-20261011", "experiment": "PR-EXP-07", "started_utc": "2026-10-11T08:03:51Z", "status": "RUNNING"}
+  ],
+  "track_a_dispatch": {"task_id": "track-a-figures-binding-20261011", "started_utc": "2026-10-11T08:04:22Z", "status": "RUNNING", "scope": "Figure 1/2/3 source binding only (no manuscript edit)"},
+  "incidents": ["re-audit capture loss (recorded)", "qual_pr08 disclosed 3 incidental read-only ssh checks (zero writes)", "subagent identity mixups (recovered)"],
+  "post_result_plan": "per run: Loop C post-result recomputation/claim challenge; registry outcome labels (POSITIVE/NULL/NEGATIVE/INVALID/NOT_EVALUABLE); round-1 closeout report per the 12-item format; no auto-synthesis",
+  "no_commit": true
+}

@@ -1,0 +1,64 @@
+{
+  "attrition": {
+    "expected_rows": 216,
+    "excluded_rows": 216,
+    "observed_source_rows": 216,
+    "retained_rows": 0,
+    "rows_by_exclusion_reason": {
+      "cluster_missing": 0,
+      "feature_row_missing": 0,
+      "label_missing": 0,
+      "label_provenance_field_schema_mismatch": 216,
+      "missing_pair_member": 0,
+      "nonfinite_feature": 0,
+      "proof_missing": 0,
+      "row_alignment_failure": 0
+    }
+  },
+  "claim_lowering_note": null,
+  "counts_toward_repair_count": false,
+  "deviations": [],
+  "experiment_id": "PR-EXP-07",
+  "metrics": {
+    "direct_codebook": null,
+    "full": null,
+    "non_direct": null,
+    "not_evaluated": true,
+    "original_frozen": null,
+    "shuffled_label_control": null
+  },
+  "outcome_label": "NOT_EVALUABLE",
+  "outcome_reason": "INPUT_MISSING: frozen paired-carrier schema lacks the contract-pinned label-provenance field expected_first_affected_stage; no fallback was authorized.",
+  "population": {
+    "clusters": 72,
+    "evaluated_rows": 0,
+    "expected_rows": 216,
+    "observed_rows": 216
+  },
+  "proof_status": {
+    "leakage": "PASS",
+    "pairing": "PASS",
+    "swap_invariance": "PASS"
+  },
+  "qualification_status": "NOT_EVALUABLE",
+  "raw_metrics": {
+    "ci95": null,
+    "denominator": null,
+    "not_evaluated": true,
+    "numerator": null
+  },
+  "role": "ROBUSTNESS_ANTI_TAUTOLOGY_SUPPORTING_ONLY",
+  "stop_event": "stop_event.json",
+  "supporting_only": true,
+  "taxonomy_priority": [
+    "NOT_EVALUABLE",
+    "INVALID",
+    "ROBUST",
+    "NULL",
+    "NULL_AT_CHANCE",
+    "NULL_DIRECT_CONCENTRATED"
+  ],
+  "unverified_items": [
+    "Label provenance equality could not be checked under the contract-pinned schema because expected_first_affected_stage is absent from the paired carrier."
+  ]
+}
