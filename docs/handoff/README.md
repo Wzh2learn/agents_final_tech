@@ -1,6 +1,6 @@
 # Handoff Index
 
-> Status: active | Updated: 2026-10-05 | Supersedes date-named side-handoff navigation
+> Status: active | Updated: 2026-10-11 | Current entry: `../../side_handoff.md`
 
 This directory answers only where a new session should resume. Current state remains in `memory/STATE.md`; open work remains in `memory/THREADS.md`.
 

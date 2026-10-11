@@ -97,4 +97,4 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 - Repository governance is `PASS / CROSS_HOST_RECEIPT_VERIFIED`; direct-live GB10 plus deterministic LOCAL/GB10 receipts passed, and logical commit/push is recorded in Git history.
 - Paper package mechanical validation is current at claim `79/79` and submission `10/10 / PENDING_EXTERNAL_ITEMS`; external venue/authorship/patent/camera-ready items remain open.
 - Loop A uses approved Xiaomi mimo-v2.6 execution routes; Loop C uses the approved Claude Code audit route. Old deepseek/qwen role wording is historical.
-- Reversible session archive is retained. OpenCode session trimming and attached tmux closure require explicit cleanup confirmation; no credentials were copied into Git.
+- Next session resumes from `side_handoff.md` at the current repository HEAD with SANER Route A as the only primary task. Reversible session archives and workspace holds remain preserved; no credentials were copied into Git.
