@@ -86,22 +86,21 @@
 - TeX 工具链不随仓库分发：见 `paper/overleaf_bundle/BUILD_README.md` 的 "Toolchain bootstrap"（tectonic 0.15.0 + sha256），或直接在 Overleaf 编译。
 - GB10 是唯一权威运行主机；目前没有第二主机的验证路径（建议未来做镜像 + 二次复算）。
 
-### 父目录 scratch 清单（仓库之外，只读盘点，未删除）
-| 目录 | 大小 | 最近修改 | 说明 |
-|---|---:|---|---|
-| `_cleanup_backup_20260812` | 4.95 MB | 2026-08-12 | 旧清理备份 |
-| `gemini_notebook_export_20261011` | 2.37 MB | 2026-10-11 | 用户提供的 Gemini 评审输入包（外部输入，非证据） |
-| `_overnight_20261010` | 1.59 MB | 2026-10-10 | 过夜运行暂存 |
-| `_review_skills_loop_engineering` | 1.08 MB | 2026-10-08 | skill/loop 工程评审材料 |
-| `_framecheck` | 0.91 MB | 2026-08-26 | 帧检查暂存 |
-| `_rehearsal_files` | 0.66 MB | 2026-08-18 | 演练文件 |
-| `_uitmp` | 0.20 MB | 2026-10-11 | 本 session 的 UI/探针临时文件（agent 产物） |
-| `_stage_e_exec_20261009` | 0.18 MB | 2026-10-10 | Stage E 执行暂存 |
-| `_mcp_out` | 0.28 MB | 2026-09-17 | MCP 输出暂存 |
-| `_evidence_strengthening` | 0.08 MB | 2026-10-10 | 证据强化暂存 |
-| `_finqa_v2_preresult_freeze` | 0.08 MB | 2026-10-11 | FinQA 预结果冻结暂存 |
-| `_repair_portfolio_20261011` | 0.03 MB | 2026-10-11 | Track P 早期 staging |
-| `_r1_staging` | 0.02 MB | 2026-08-13 | 早期 staging |
-| `.workbuddy` | 0.01 MB | 2026-10-11 | 工具残留 |
+### 父目录 scratch 清理（2026-10-11 已执行）
+- 方法：先做全库 token 扫描（1,134 个 repo 文件，排除我自己的盘点文档），区分"被引用的历史证据"与"零引用临时物"。
+- **已归档**（移动，非删除）到 `../_archive_2026-10-11/`（自述见其 README.md）：19 个 `_tmp_*`/备份文件 + 8 个零引用目录（`__pycache__`、`_uitmp`、`.workbuddy`、`_stage_e_exec_20261009`、`_overnight_20261010`、`_review_skills_loop_engineering`、`_mcp_out`、`_r1_staging`）。
+- **原地保留**（repo 文档仍以文本引用，移动会破坏引用）：`_evidence_strengthening`(58)、`external_stage_d_repro`(54)、`hbkeyan`(36)、`skills-loop-engineering`(21)、`harness_audit_20260905`(14)、`side_backups`(11)、`advisor_send_0826`(5)，以及低引用但含 provenance 的 `_cleanup_backup_20260812`、`_finqa_v2_preresult_freeze`、`_framecheck`、`_rehearsal_files`、`_repair_portfolio_20261011`、`agents_final_tech_test`。
+- 注意：本 session 的执行策略禁止删除（连单文件 `Remove-Item` 都被拦），因此采用"归档"而非"清除"；这同时也是对 provenance 更安全的选择。
 
-处置建议（未执行，需 owner 决定）：`_uitmp` 与 `.workbuddy` 是本 session 的临时残留，可安全删除；其余多数是历史暂存，建议整体移入一个带日期的父级 `_archive_2026-10-11/` 或保持原位并在本表登记。**不建议在投稿冻结期做批量删除或移动。**
+### 仍未完成清单（诚实记录）
+| 项 | 状态 | 说明 |
+|---|---|---|
+| 独立 Loop C 复核（PR-03 v3 / 溢出审计 / 投稿包） | **未交付** | packet 已就绪（`INDEPENDENT_AUDIT_PACKET_v1.md`），但真正的独立审计仍缺；当前均为 Loop D self-audit |
+| PR-03 v3 的 diagnostic bootstrap CI | **不可得** | 冻结 `predict_loco` O(groups^2) 使其计算不可行；结论为点估计判定 |
+| claim↔evidence 校验覆盖面 | **部分** | 只覆盖 claim matrix 的 15 条；图表 manifest、PDF 内数字未纳入自动校验 |
+| preflight v2 | **仅规范** | 已升级为 12 项，但既有实验不会追溯满足；下次实验才生效 |
+| precedent 全文核对 | **未做** | 仍停在 abstract 级（IEEE 付费墙）；已登记为 camera-ready 待办 |
+| 语言润色（native pass） | **未做** | 稿件处于科学冻结期，只做过只读语言审计 |
+| memory 维护自动化 | **未做** | THREADS 归档是手工执行；"何时归档"规则已写入本文件，但无自动触发 |
+| 单点权威主机（GB10） | **未缓解** | 无镜像 / 无第二主机复算路径；已在依赖清单登记 |
+| 父目录剩余非引用物 | **已判定保留** | 见上；不再动 |
