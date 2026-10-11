@@ -32,3 +32,7 @@
 
 ## Verdict
 PDF_LAYOUT_AUDIT = PASS. The compiled PDF exists, page count verified, references resolved, figures visually verified, no overfull boxes, metadata anonymous.
+## Language pass (2026-10-11)
+- Normalised spelling to US English: localisation -> localization (3), organisation -> organization (2).
+- Replaced 5 spaced-hyphen dashes with grammatical punctuation (comma/colon/clause); kept the one inside the math expression (H_orig - H_inj).
+- Rebuilt the .tex, the bundle and the PDF afterwards: still 8 pages, 0 overfull, 63 underfull, metadata anonymous, no forbidden claim introduced. All reported numbers are unchanged (spot-checked: 96/118, 0/13, 2,382, 0.375, 1.0, 0.3333, 0.6667, 0.1667, 89/89, 112/118, 75/95, 20/95).
