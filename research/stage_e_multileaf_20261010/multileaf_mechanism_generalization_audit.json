@@ -1,0 +1,95 @@
+{
+  "cross_stage": {
+    "M_N_uid_intersection": [],
+    "R_document_namespace_is_separate": true,
+    "all_three_stages_share_one_dataset_family": false,
+    "financial_domain_only": true,
+    "origin_alias_provenance": "UNVERIFIED beyond literal source IDs"
+  },
+  "feasibility": {
+    "leave_one_mutation_mechanism_out": "NOT_FEASIBLE",
+    "leave_one_template_out_within_stage": "POSSIBLE_DESCRIPTIVE_ONLY",
+    "minimum_required_mechanisms_per_stage": 2,
+    "observed_mechanisms_per_stage": {
+      "M": 1,
+      "N": 1,
+      "R": 1
+    },
+    "reason": "each stage has exactly one frozen injection operation; templates vary but are not independent mechanisms",
+    "train_on_one_mechanism_test_on_another": "NOT_IDENTIFIED"
+  },
+  "freeze_sha256": "7239feb678dcbecc4f1bb374cc37e313fd0a74354a23349caa556419fabfa34d",
+  "namespace": "MULTILEAF_MECHANISM_GENERALIZATION_AUDIT",
+  "stages": {
+    "M": {
+      "clusters": 24,
+      "injection_operation_counts": {
+        "replace_one_header_token_with_out_of_vocabulary_token": 72
+      },
+      "mechanism_count": 1,
+      "rows": 72,
+      "source_ids": 24,
+      "source_namespace": "TAT-QA financial tables",
+      "template_count": 65,
+      "template_examples": [
+        "Years ended December 31",
+        "€ million",
+        "Years Ended",
+        "July 27, 2019",
+        "Total",
+        "Total FY17 PRUs Vested at end of FY19",
+        "Total FY17 PRUs Earned and Vested (1)",
+        "NEO",
+        "Operating Leases",
+        "Finance Lease"
+      ]
+    },
+    "N": {
+      "clusters": 24,
+      "injection_operation_counts": {
+        "mutate_one_numeric_operand_while_preserving_labels_schema_and_identity_contract": 72
+      },
+      "mechanism_count": 1,
+      "rows": 72,
+      "source_ids": 24,
+      "source_namespace": "TAT-QA financial tables",
+      "template_count": 50,
+      "template_examples": [
+        "r4c1 + r5c1 = r6c1",
+        "r1c1 + r2c1 = r3c1",
+        "r3c1 + r4c1 + r5c1 = r6c1",
+        "r3c2 + r4c2 + r5c2 + r6c2 + r7c2 = r8c2",
+        "r1c1 + r2c1 + r3c1 + r4c1 + r5c1 + r6c1 = r7c1",
+        "r1c2 + r2c2 = r3c2",
+        "r3c2 + r4c2 + r5c2 = r6c2",
+        "r4c2 + r5c2 = r6c2",
+        "r1c1 + r2c1 + r3c1 + r4c1 = r5c1",
+        "r5c1 + r5c2 = r5c3"
+      ]
+    },
+    "R": {
+      "clusters": 24,
+      "injection_operation_counts": {
+        "remove_required_source_blocks_from_retrieval_candidate_bundle": 72
+      },
+      "mechanism_count": 1,
+      "rows": 72,
+      "source_ids": 24,
+      "source_namespace": "TAT-DQA QA/evidence records",
+      "template_count": 72,
+      "template_examples": [
+        "b6efc4b7ef79d772d488b4cb2dae34fd",
+        "32ec71db9a40acf61349735e96d7ca07",
+        "0852f941f7894a8fe76aac8bbc947ec7",
+        "87db001894710233bf85796e43f9e539",
+        "b99492f52fb7d573a0e2246b1d1a3309",
+        "a458922482f8cbbba867e76625c45516",
+        "b349046963d07665d2de06d5b0e78811",
+        "277bcbb5498a2eed9e0074bde8704f91",
+        "023463ed6b966ffaea37ba3320c0e2c4",
+        "7aecb33704dac3af6834d4b878f04731"
+      ]
+    }
+  },
+  "status": "MECHANISM_GENERALIZATION_NOT_IDENTIFIED"
+}

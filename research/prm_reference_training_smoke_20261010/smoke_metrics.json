@@ -1,0 +1,58 @@
+{
+  "arms": {
+    "C2": {
+      "adapter_files": [
+        "README.md",
+        "adapter_config.json",
+        "adapter_model.safetensors",
+        "chat_template.jinja",
+        "tokenizer.json",
+        "tokenizer_config.json",
+        "training_args.bin"
+      ],
+      "adapter_path": "/home/testuser/wzh/projects/agents_final_tech/research/prm_reference_training_smoke_20261010/C2/final_adapter",
+      "arm": "C2",
+      "checkpoint_present": true,
+      "eval_examples": 4,
+      "eval_loss": 1.3998441696166992,
+      "eval_runtime_seconds": 0.4453,
+      "generation_smoke_rows": 2,
+      "global_step": 2,
+      "train_examples": 8,
+      "train_loss": 1.1002815663814545,
+      "train_runtime_seconds": 3.2427
+    },
+    "C4": {
+      "adapter_files": [
+        "README.md",
+        "adapter_config.json",
+        "adapter_model.safetensors",
+        "chat_template.jinja",
+        "tokenizer.json",
+        "tokenizer_config.json",
+        "training_args.bin"
+      ],
+      "adapter_path": "/home/testuser/wzh/projects/agents_final_tech/research/prm_reference_training_smoke_20261010/C4/final_adapter",
+      "arm": "C4",
+      "checkpoint_present": true,
+      "eval_examples": 4,
+      "eval_loss": 1.4015705585479736,
+      "eval_runtime_seconds": 0.327,
+      "generation_smoke_rows": 2,
+      "global_step": 2,
+      "train_examples": 8,
+      "train_loss": 1.0986867249011993,
+      "train_runtime_seconds": 1.1631
+    }
+  },
+  "chain": {
+    "checkpoint": "PASS",
+    "dataset": "PASS",
+    "evaluation": "PASS",
+    "selection": "PASS",
+    "training": "PASS"
+  },
+  "config_sha256": "7db152e87209126c9dc681ce6dd8cfb9246b6b64ead8d28c93d021566a9165b5",
+  "paper_result": false,
+  "status": "PIPELINE_CLOSED"
+}

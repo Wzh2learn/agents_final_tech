@@ -1,0 +1,230 @@
+{
+  "audit_date": "2026-10-09",
+  "evidence_labels": {
+    "FACT": "directly supported by the named official source or frozen repository metadata",
+    "INFERENCE": "bounded interpretation of a source claim",
+    "VALUE": "priority or normative choice",
+    "UNVERIFIED": "source identity, revision, licence, schema, or join could not be established"
+  },
+  "call_counts": {
+    "credential_file_calls": 0,
+    "model_calls": 0,
+    "judge_calls": 0,
+    "paid_api_calls": 0,
+    "database_calls": 0,
+    "production_service_calls": 0,
+    "package_install_calls": 0,
+    "metadata_http_logical_attempts": 29,
+    "metadata_http_unique_urls": 26,
+    "metadata_redirect_attempts": "UNVERIFIED_NOT_SEPARATELY_LOGGED",
+    "scientific_model_calls": 0,
+    "openalex_result_files": 8,
+    "metadata_http_logical_attempts_curl_only": 29,
+    "metadata_http_unique_urls_curl_only": 26,
+    "openalex_query_definitions": 8,
+    "openalex_executed_request_count": "UNVERIFIED_NO_INDEPENDENT_REQUEST_LOG"
+  },
+  "sources": [
+    {
+      "id": "prm800k_repository",
+      "identity": "OpenAI PRM800K, Let's Verify Step by Step",
+      "paper_url": "https://arxiv.org/abs/2305.20050",
+      "repository_url": "https://github.com/openai/prm800k",
+      "revision": "7ecc794703b2877f63226f2477a49b34f9b25163",
+      "revision_evidence": "GitHub commits API, latest commit dated 2023-06-01T17:40:59Z",
+      "paper_revision": "arXiv API record published 2023-05-31; repository links arXiv:2305.20050",
+      "repository_licence": {
+        "status": "MIT",
+        "url": "https://github.com/openai/prm800k/blob/main/LICENSE",
+        "scope": "root repository license text; data-specific permission remains UNVERIFIED"
+      },
+      "data_schema_evidence": [
+        "README states data/ contains newline-delimited JSON lines, one full solution per line",
+        "Record fields documented by README include labeler, timestamp, generation, quality-control and screening flags, question metadata, pre_generated_steps, pre_generated_answer, pre_generated_verifier_score",
+        "label.steps contains completions with text, rating, flagged, human_completion, and chosen_completion; label includes total_time and finish_reason"
+      ],
+      "dataset_revision": "UNVERIFIED",
+      "dataset_licence": "UNVERIFIED; no dataset-specific notice was found separately from the root MIT license",
+      "model_licence": "UNVERIFIED; no model card was required or accessed",
+      "blockers": [
+        "Data bodies were not downloaded.",
+        "Git LFS object revisions were not enumerated.",
+        "The root MIT text does not by itself prove a separate dataset licence."
+      ],
+      "label": "FACT repository identity/schema; UNVERIFIED dataset revision and data-specific licence"
+    },
+    {
+      "id": "math_shepherd_paper",
+      "identity": "Math-Shepherd: Verify and Reinforce LLMs Step-by-step without Human Annotations",
+      "paper_urls": [
+        "https://aclanthology.org/2024.acl-long.510/",
+        "https://aclanthology.org/2024.acl-long.510.pdf",
+        "https://arxiv.org/abs/2312.08935",
+        "https://doi.org/10.18653/v1/2024.acl-long.510"
+      ],
+      "revision": "arXiv v3, updated 2024-02-19T14:07:53Z; ACL Anthology 2024.acl-long.510, pages 9426-9439",
+      "paper_licence": "UNVERIFIED; Crossref returned no license field and no dataset-specific licence was stated in inspected material",
+      "official_repository": "NOT_ESTABLISHED",
+      "repository_licence": "UNVERIFIED",
+      "dataset_revision": "UNVERIFIED",
+      "dataset_licence": "UNVERIFIED",
+      "schema_evidence_from_paper": [
+        "Automatic construction starts from a problem, intermediate solution steps, and a golden answer.",
+        "A completer generates multiple subsequent paths from each prefix.",
+        "Hard estimation labels a step by whether any decoded continuation reaches the golden answer; soft estimation uses the proportion of successful continuations.",
+        "The paper reports GSM8K and MATH construction/evaluation but does not provide a released-record JSON schema."
+      ],
+      "blockers": [
+        "No official project repository or dataset card was located from the official paper, ACL Anthology record, or bounded repository search.",
+        "The github.com/deepseek-ai/DeepSeek-LLM link in the paper bibliography is a cited DeepSeek-LLM repository, not a Math-Shepherd project repository.",
+        "No released dataset body or data schema was accessed."
+      ],
+      "label": "FACT official paper and revision; UNVERIFIED official repository, data revision, schema, and licence"
+    },
+    {
+      "id": "nist_ai_rmf",
+      "identity": "NIST Artificial Intelligence Risk Management Framework 1.0",
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "publication_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
+      "doi": "https://doi.org/10.6028/NIST.AI.100-1",
+      "revision": "January 2023; official page states released 2023-01-26 and AI RMF 1.0 is being revised",
+      "licence": "NIST technical-series statement grants reprint/derivative rights for NIST-authored works; third-party-authored NIST works may be copyrighted",
+      "licence_url": "https://www.nist.gov/open/copyright-fair-use-and-licensing-statements-srd-data-software-and-technical-series-publications",
+      "schema_evidence": [
+        "Core functions are GOVERN, MAP, MEASURE, and MANAGE.",
+        "MEASURE 2.13 calls for evaluation of the effectiveness of employed TEVV metrics and processes.",
+        "MEASURE 3.2 addresses settings where metrics are unavailable or difficult to assess.",
+        "MANAGE includes post-deployment monitoring and measurable continual-improvement activities."
+      ],
+      "blockers": [
+        "Official page states AI RMF 1.0 is under revision; future revision identity is unavailable.",
+        "The framework is a risk-management framework, not a source for the project-specific visibility formula."
+      ],
+      "label": "FACT official source wording; INFERENCE bounded mapping to Stage E governance"
+    },
+    {
+      "id": "nist_airc_tevv",
+      "identity": "NIST AI Resource Center",
+      "url": "https://airc.nist.gov/",
+      "revision": "current page observed 2026-10-09; no semantic version exposed",
+      "licence": "NIST web information is public unless marked copyrighted; see https://www.nist.gov/copyrights-disclaimers",
+      "source_claim": "AIRC provides technical documents, software tools, and guidance to assist testing, evaluation, verification, and validation of AI.",
+      "blockers": [
+        "No revision identifier on the AIRC landing page.",
+        "The source claim does not define checkpoint visibility."
+      ],
+      "label": "FACT source claim; INFERENCE Stage E uses TEVV as governance framing"
+    },
+    {
+      "id": "nist_ai_600_1",
+      "identity": "NIST AI 600-1 Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      "revision": "July 2024; official AI RMF page states released 2024-07-26",
+      "licence": "NIST technical-series statement; third-party-authored works may be copyrighted",
+      "schema_evidence": [
+        "Profiles extend AI RMF concepts to generative-AI contexts.",
+        "MEASURE 2.13 evaluates effectiveness of TEVV metrics and processes.",
+        "MEASURE 4.2 documents trustworthiness measurement results in deployment contexts and across the lifecycle."
+      ],
+      "blockers": [
+        "The profile does not prescribe this project's metric definitions."
+      ],
+      "label": "FACT official publication claim; INFERENCE bounded governance mapping"
+    },
+    {
+      "id": "nist_ai_rmf_core",
+      "identity": "NIST AI RMF Core",
+      "url": "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/",
+      "revision": "official page metadata updated 2026-06-18; represents AI RMF 1.0 Core and states a revised version is in progress",
+      "licence": "NIST web information is public unless marked copyrighted; AI RMF technical publication follows the NIST technical-series statement",
+      "schema_evidence": [
+        "The Core operationalizes GOVERN, MAP, MEASURE, and MANAGE outcomes.",
+        "MEASURE calls for documented, repeatable, scalable TEVV processes, metrics, methods, and methodologies.",
+        "Measure 2.13 addresses evaluation of the effectiveness of employed TEVV metrics and processes."
+      ],
+      "blockers": [
+        "The Core does not define checkpoint visibility or this project's family macro metric.",
+        "The official page says AI RMF 1.0 is being updated."
+      ],
+      "label": "FACT official Core wording; INFERENCE bounded Stage E metric-governance mapping"
+    },
+    {
+      "id": "nist_ai_rmf_playbook",
+      "identity": "NIST AI RMF Playbook",
+      "url": "https://airc.nist.gov/airmf-resources/playbook/",
+      "revision": "official page metadata updated 2026-06-18; page says the Playbook will be updated after AI RMF 1.0 is revised",
+      "licence": "NIST web information is public unless marked copyrighted; third-party cited references retain their own terms",
+      "schema_evidence": [
+        "The Playbook provides suggested actions aligned to AI RMF Core subcategories under GOVERN, MAP, MEASURE, and MANAGE.",
+        "The page states that the Playbook is neither a checklist nor a set of steps to be followed in its entirety.",
+        "The page states that Playbook suggestions are voluntary."
+      ],
+      "blockers": [
+        "No Playbook suggestion supplies a checkpoint-visibility definition or acceptance threshold.",
+        "Future Playbook revision timing depends on the ongoing AI RMF update."
+      ],
+      "label": "FACT official Playbook wording; INFERENCE/VALUE Stage E governance application"
+    },
+    {
+      "id": "peoplecert_itil_4_foundation",
+      "identity": "PeopleCert ITIL 4 Foundation",
+      "url": "https://www.peoplecert.org/browse-certifications/it-governance-and-service-management/ITIL-1/itil-4-foundation-2565",
+      "revision": "page observed 2026-10-09; no public revision identifier",
+      "licence": "PROPRIETARY / UNVERIFIED for framework content; page footer states PeopleCert copyright and all rights reserved",
+      "source_claim": "Official course descriptions cover the service value system, service value chain, seven guiding principles, governance, and continual improvement.",
+      "blockers": [
+        "No open licence for ITIL content was found.",
+        "The public product page is not a normative full framework text."
+      ],
+      "label": "FACT official PeopleCert wording; VALUE organizational interpretation only"
+    },
+    {
+      "id": "peoplecert_itil_ai_governance_v5",
+      "identity": "PeopleCert ITIL AI Governance (Version 5)",
+      "url": "https://www.peoplecert.org/browse-certifications/it-governance-and-service-management/ITIL-1/itil-ai-governance-version-5-4234",
+      "revision": "Version 5 product page observed 2026-10-09",
+      "licence": "PROPRIETARY / UNVERIFIED for framework content; page footer states all rights reserved",
+      "source_claim": "The page describes responsible adoption, oversight, accountability, transparency, ethical safeguards, risk, and an ITIL AI Governance Improvement Model.",
+      "blockers": [
+        "No normative clause text or open licence was accessed.",
+        "The course page does not validate Stage E metrics."
+      ],
+      "label": "FACT official product wording; INFERENCE/VALUE bounded Stage E mapping"
+    },
+    {
+      "id": "mutation_metric_precedent",
+      "identity": "An Analysis and Survey of the Development of Mutation Testing",
+      "url": "https://doi.org/10.1109/TSE.2010.62",
+      "revision": "published September 2011",
+      "licence": "IEEE license terms apply; Crossref points to IEEE license information",
+      "schema_evidence": "Mutation testing distinguishes test detection/kill outcomes from equivalent mutants; the denominator therefore depends on mutant validity.",
+      "blockers": [
+        "Publication full text was not downloaded in this task."
+      ],
+      "label": "FACT bibliographic metadata; INFERENCE analogy to visibility/harmfulness denominators"
+    },
+    {
+      "id": "fault_localization_metric_precedent",
+      "identity": "On the Accuracy of Spectrum-based Fault Localization",
+      "url": "https://doi.org/10.1109/TAIC.PART.2007.13",
+      "revision": "published September 2007",
+      "licence": "publisher terms indicated by Crossref; not an open licence",
+      "schema_evidence": "Fault-localization evaluation separates ranking/localization accuracy from fault detection.",
+      "blockers": [
+        "Publication full text was not downloaded in this task."
+      ],
+      "label": "FACT bibliographic metadata; INFERENCE analogy to detection-versus-localization separation"
+    }
+  ],
+  "reused_external_audits": [
+    "/home/testuser/wzh/external_stage_d_repro/reports/external_related_work_matrix_v1.md",
+    "/home/testuser/wzh/external_stage_d_repro/reports/stage_e_external_candidate_matrix_v1.md",
+    "/home/testuser/wzh/external_stage_d_repro/reports/evaluation_guided_distillation_design_v1.md",
+    "/home/testuser/wzh/external_stage_d_repro/reports/phase_g_stop_report_v1.md"
+  ],
+  "negative_results": [
+    "No official Math-Shepherd repository or released data card was established.",
+    "No inspected external source proves an executable changed Stage E dataflow.",
+    "No source establishes semantic harmfulness-conditional blindness from the current frozen labels."
+  ]
+}

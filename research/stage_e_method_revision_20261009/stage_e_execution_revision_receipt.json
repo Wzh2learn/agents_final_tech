@@ -1,0 +1,586 @@
+{
+  "status": "PASS",
+  "scope": "authorized Stage E matched-FPR claim correction plus multi-leaf/Stage D freeze; no formal multi-leaf or training",
+  "files": {
+    "paper/teacher_review_draft_v1.md": {
+      "sha256": "cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9",
+      "bytes": 31843
+    },
+    "paper/teacher_review_draft_v1.docx": {
+      "sha256": "363ce4876f52b6c25b1e34c483c73ce033a51f8be94c956569e8387457fe2750",
+      "bytes": 98493
+    },
+    "paper/claim_manifest_v1.json": {
+      "sha256": "dacb9850ef4e35fe4ba1dadb17ac32fbc0cddac95942a9970a282a0d23dd85e1",
+      "bytes": 6776
+    },
+    "paper/teacher_review_readiness_v2.md": {
+      "sha256": "2701a3167b69b8a9ac03f50364d3d67fabbf3e01199ef799984c395425881be0",
+      "bytes": 8716
+    },
+    "docs/research/stage_e_multileaf_preregistration_v1.md": {
+      "sha256": "e489c32cc50bdadc34247e3102d896bd23ac185507ca225acc53906504766934",
+      "bytes": 10886
+    },
+    "docs/research/stage_e_multileaf_power_plan_v1.md": {
+      "sha256": "3a5778bd8a4bac580be2d3bb0c969128a7d6ff8dde2aa522336e167401825a62",
+      "bytes": 3137
+    },
+    "docs/research/prm800k_reference_track_audit_v1.md": {
+      "sha256": "cc31792049d4e93b3a1b6f23e8e27f91266b3bc9887326f6fbdc4b6d0ba53fa5",
+      "bytes": 5139
+    },
+    "docs/research/stage_d_process_signal_requirements_v1.md": {
+      "sha256": "a47e9d7a5334c2d65fa39418f64c3c0adac9a1168d91f75f55b700171151ef57",
+      "bytes": 5167
+    },
+    "docs/research/stage_e_paper_upgrade_plan_v1.md": {
+      "sha256": "17bf8bf1c3735a30b62c1aadbf6e738bd1c68020d4f0509513892968155561a7",
+      "bytes": 3634
+    },
+    "research/stage_e_method_revision_20261009/multileaf_freeze.json": {
+      "sha256": "7239feb678dcbecc4f1bb374cc37e313fd0a74354a23349caa556419fabfa34d",
+      "bytes": 558712
+    },
+    "research/stage_e_method_revision_20261009/stage_d_reference_source_qualification.json": {
+      "sha256": "f0a4da5d1441cd97cbc6e8d0de5de50f9d615787bfdc41008384ad00ce0954a7",
+      "bytes": 9334
+    }
+  },
+  "checks_passed": 105,
+  "checks_total": 105,
+  "errors": [],
+  "checks": [
+    {
+      "check": "markdown:required:0/13 OCR-like injections were visible across 11 table clusters",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:required:positive affine transformations",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:required:identical rankings and ROC geometry",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:required:not empirically identifiable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:required:historical fixed-threshold equality",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:required:[0, 24.71%]",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:required:[0, 28.49%]",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:forbidden:after matched-false-positive-rate calibration",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:forbidden:every bootstrap replicate has zero protocol difference",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:forbidden:do not improve matched-FPR discrimination",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:forbidden:not matched-FPR discriminability",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "markdown:forbidden:equivalent after calibration",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:required:0/13 OCR-like injections were visible across 11 table clusters",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:required:positive affine transformations",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:required:identical rankings and ROC geometry",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:required:not empirically identifiable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:required:historical fixed-threshold equality",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:required:[0, 24.71%]",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:required:[0, 28.49%]",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:forbidden:after matched-false-positive-rate calibration",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:forbidden:every bootstrap replicate has zero protocol difference",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:forbidden:do not improve matched-FPR discrimination",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:forbidden:not matched-FPR discriminability",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "docx:forbidden:equivalent after calibration",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "zero_note:injection_interval",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "zero_note:table_interval",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "zero_note:distinct_estimands",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "zero_note:no_fake_clustered_ci",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C1:96/118",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C1:0/13 OCR-like injections were visible across 11 table clusters",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C1:all five thresholds",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C1:evidence:logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C1:evidence:logs/graph/eval/t2_visibility_sensitivity.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C1:evidence:logs/graph/eval/d1_mutant_validity_audit.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:112/118",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:85/118",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:13/118",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:positive affine transformations",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:identical rankings and ROC geometry",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:not empirically identifiable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:historical fixed-threshold equality",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:evidence:logs/graph/eval/t1_eval_baseline_comparison.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:evidence:logs/graph/eval/d3_matched_fpr_stage_a.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:evidence:docs/research/stage_e_matched_fpr_reanalysis_v1.md",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C2:evidence:research/stage_e_method_revision_20261009/matched_fpr_reanalysis.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C3:0.7895",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C3:0.7835",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C3:0.7556",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C3:five class flips",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C3:evidence:logs/graph/eval/d2_cross_matcher_det.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C3:evidence:logs/graph/eval/t4_pso_fair_comparison.json",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C4:all 7",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C4:all 5",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C4:p=0.375",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C4:evidence:docs/experiments/2026-08-28_adversarial_arm_experiment.md",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C4:evidence:docs/experiments/2026-08-29_collision_expansion_experiment.md",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C4:evidence:docs/experiments/2026-08-29_column_sensitivity_analysis.md",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:2409 lineage UIDs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:768 report clusters",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:1970 frozen step-level records",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:0.0298",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:0.2233",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:pre-set 0.5",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:ten table-pair clusters",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:16.3% to 23.7%",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:four role layers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:7134 examples",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:two to eleven columns",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:322 records of 1970",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:467 under the one yielding 0.2233",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:44 and 330 matches out of 1478 percent-form steps",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:evidence:docs/experiments/2026-09-25_source_go_p1p2_staging.md",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:evidence:docs/datasets/2026-09-25_phase1a_split_design_and_layer_capacity.md",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:evidence:docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "manifest:SP-C5:evidence:docs/datasets/2026-09-25_finqa_process_structure_and_checkpoint_semantics.md",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:gate",
+      "pass": true,
+      "detail": "MULTILEAF_READY_FOR_EXECUTION"
+    },
+    {
+      "check": "multileaf:not_executed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:M:clusters",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:M:injections",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:M:sample_rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:R:clusters",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:R:injections",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:R:sample_rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:N:clusters",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:N:injections",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:N:sample_rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:classifier",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:tie_rule",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:permutation_seed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:permutation_replicates",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:bootstrap_seed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:bootstrap_replicates",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:generator_hash",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:N_original_identity",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "multileaf:N_mutated_identity",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "stage_d:licence_policy",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "prm:gate",
+      "pass": true,
+      "detail": "PRM_REFERENCE_READY"
+    },
+    {
+      "check": "prm:official_correct",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "prm:official_incorrect",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "prm:data_licence",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "agent:gate",
+      "pass": true,
+      "detail": "DATA_CAPABLE_LICENCE_PENDING_NOT_PILOT_READY"
+    },
+    {
+      "check": "agent:rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "agent:no_step_reward",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "agent:no_negative_terminal",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "agent:data_licence",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "forbidden_action_counts": {
+    "formal_multileaf_runs": 0,
+    "training_runs": 0,
+    "gpu_calls": 0,
+    "judge_calls": 0
+  }
+}

@@ -1,0 +1,334 @@
+{
+  "namespace": "stage_e_matched_fpr_reanalysis_v1",
+  "status": "BLOCKER_CLEAN_THRESHOLD_NOT_IDENTIFIABLE",
+  "alpha_target": 0.05,
+  "clean_only_contract": {
+    "calibration_inputs": "clean-table flat/layered contrastive scores only",
+    "prohibited_inputs": [
+      "injected scores",
+      "H/HI labels",
+      "evaluation-fold TPR"
+    ],
+    "fold_assignment": "sorted(table uid) index modulo 5",
+    "replicate_recalibration": "required for future confirmatory analysis; impossible here because clean support has no positive scores"
+  },
+  "data": {
+    "n_clean_usable": 2382,
+    "n_harmful_H_union_HI": 111,
+    "n_equivalent_excluded": 7,
+    "clean_flat_support": [
+      0.0
+    ],
+    "clean_layered_support": [
+      0.0
+    ],
+    "positive_clean_flat": 0,
+    "positive_clean_layered": 0
+  },
+  "identification": {
+    "threshold_identifiable": false,
+    "score_construction_note": "The second hit-rate observation repeats the same computation on the unmodified row, so the current contrastive score is zero by construction.",
+    "reason": "No unmodified clean panel can produce nonzero support under this exact score definition; any positive threshold has FPR 0 and cannot be selected uniquely without harmful outcomes.",
+    "required_missing_evidence": "A revised score definition with nonzero clean support or a separately preregistered pseudo-injection/null-mutation panel. More clean rows under the same zero-by-construction score do not resolve identification."
+  },
+  "cross_fit": [
+    {
+      "fold": 0,
+      "n_clean_calibration": 1908,
+      "n_harmful_evaluation": 24,
+      "clean_positive_support": {
+        "flat": 0,
+        "layered": 0
+      },
+      "clean_only_threshold_identifiable": false,
+      "threshold_status": "UNIDENTIFIED_ZERO_CLEAN_SUPPORT",
+      "fixed_affine_grid_sensitivity": [
+        {
+          "theta_flat_drop10": 0.1,
+          "theta_layered_root_drop": 0.037500000000000006,
+          "flat_detected": 21,
+          "layered_detected": 21,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 0.2,
+          "theta_layered_root_drop": 0.07500000000000001,
+          "flat_detected": 21,
+          "layered_detected": 21,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 0.5,
+          "theta_layered_root_drop": 0.1875,
+          "flat_detected": 21,
+          "layered_detected": 21,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 1.0,
+          "theta_layered_root_drop": 0.375,
+          "flat_detected": 21,
+          "layered_detected": 21,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 1.428571,
+          "theta_layered_root_drop": 0.535714125,
+          "flat_detected": 21,
+          "layered_detected": 21,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 2.0,
+          "theta_layered_root_drop": 0.75,
+          "flat_detected": 15,
+          "layered_detected": 15,
+          "difference": 0
+        }
+      ]
+    },
+    {
+      "fold": 1,
+      "n_clean_calibration": 1906,
+      "n_harmful_evaluation": 24,
+      "clean_positive_support": {
+        "flat": 0,
+        "layered": 0
+      },
+      "clean_only_threshold_identifiable": false,
+      "threshold_status": "UNIDENTIFIED_ZERO_CLEAN_SUPPORT",
+      "fixed_affine_grid_sensitivity": [
+        {
+          "theta_flat_drop10": 0.1,
+          "theta_layered_root_drop": 0.037500000000000006,
+          "flat_detected": 21,
+          "layered_detected": 21,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 0.2,
+          "theta_layered_root_drop": 0.07500000000000001,
+          "flat_detected": 21,
+          "layered_detected": 21,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 0.5,
+          "theta_layered_root_drop": 0.1875,
+          "flat_detected": 21,
+          "layered_detected": 21,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 1.0,
+          "theta_layered_root_drop": 0.375,
+          "flat_detected": 21,
+          "layered_detected": 21,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 1.428571,
+          "theta_layered_root_drop": 0.535714125,
+          "flat_detected": 21,
+          "layered_detected": 21,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 2.0,
+          "theta_layered_root_drop": 0.75,
+          "flat_detected": 17,
+          "layered_detected": 17,
+          "difference": 0
+        }
+      ]
+    },
+    {
+      "fold": 2,
+      "n_clean_calibration": 1906,
+      "n_harmful_evaluation": 22,
+      "clean_positive_support": {
+        "flat": 0,
+        "layered": 0
+      },
+      "clean_only_threshold_identifiable": false,
+      "threshold_status": "UNIDENTIFIED_ZERO_CLEAN_SUPPORT",
+      "fixed_affine_grid_sensitivity": [
+        {
+          "theta_flat_drop10": 0.1,
+          "theta_layered_root_drop": 0.037500000000000006,
+          "flat_detected": 15,
+          "layered_detected": 15,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 0.2,
+          "theta_layered_root_drop": 0.07500000000000001,
+          "flat_detected": 15,
+          "layered_detected": 15,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 0.5,
+          "theta_layered_root_drop": 0.1875,
+          "flat_detected": 15,
+          "layered_detected": 15,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 1.0,
+          "theta_layered_root_drop": 0.375,
+          "flat_detected": 15,
+          "layered_detected": 15,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 1.428571,
+          "theta_layered_root_drop": 0.535714125,
+          "flat_detected": 15,
+          "layered_detected": 15,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 2.0,
+          "theta_layered_root_drop": 0.75,
+          "flat_detected": 13,
+          "layered_detected": 13,
+          "difference": 0
+        }
+      ]
+    },
+    {
+      "fold": 3,
+      "n_clean_calibration": 1907,
+      "n_harmful_evaluation": 22,
+      "clean_positive_support": {
+        "flat": 0,
+        "layered": 0
+      },
+      "clean_only_threshold_identifiable": false,
+      "threshold_status": "UNIDENTIFIED_ZERO_CLEAN_SUPPORT",
+      "fixed_affine_grid_sensitivity": [
+        {
+          "theta_flat_drop10": 0.1,
+          "theta_layered_root_drop": 0.037500000000000006,
+          "flat_detected": 19,
+          "layered_detected": 19,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 0.2,
+          "theta_layered_root_drop": 0.07500000000000001,
+          "flat_detected": 19,
+          "layered_detected": 19,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 0.5,
+          "theta_layered_root_drop": 0.1875,
+          "flat_detected": 19,
+          "layered_detected": 19,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 1.0,
+          "theta_layered_root_drop": 0.375,
+          "flat_detected": 19,
+          "layered_detected": 19,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 1.428571,
+          "theta_layered_root_drop": 0.535714125,
+          "flat_detected": 19,
+          "layered_detected": 19,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 2.0,
+          "theta_layered_root_drop": 0.75,
+          "flat_detected": 10,
+          "layered_detected": 10,
+          "difference": 0
+        }
+      ]
+    },
+    {
+      "fold": 4,
+      "n_clean_calibration": 1901,
+      "n_harmful_evaluation": 19,
+      "clean_positive_support": {
+        "flat": 0,
+        "layered": 0
+      },
+      "clean_only_threshold_identifiable": false,
+      "threshold_status": "UNIDENTIFIED_ZERO_CLEAN_SUPPORT",
+      "fixed_affine_grid_sensitivity": [
+        {
+          "theta_flat_drop10": 0.1,
+          "theta_layered_root_drop": 0.037500000000000006,
+          "flat_detected": 14,
+          "layered_detected": 14,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 0.2,
+          "theta_layered_root_drop": 0.07500000000000001,
+          "flat_detected": 14,
+          "layered_detected": 14,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 0.5,
+          "theta_layered_root_drop": 0.1875,
+          "flat_detected": 14,
+          "layered_detected": 14,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 1.0,
+          "theta_layered_root_drop": 0.375,
+          "flat_detected": 14,
+          "layered_detected": 14,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 1.428571,
+          "theta_layered_root_drop": 0.535714125,
+          "flat_detected": 12,
+          "layered_detected": 12,
+          "difference": 0
+        },
+        {
+          "theta_flat_drop10": 2.0,
+          "theta_layered_root_drop": 0.75,
+          "flat_detected": 7,
+          "layered_detected": 7,
+          "difference": 0
+        }
+      ]
+    }
+  ],
+  "structural_equivalence": {
+    "positive_harmful_pairs": 90,
+    "slope_layered_over_flat": [
+      0.3749999125,
+      0.374999925,
+      0.375,
+      0.3750000375
+    ],
+    "max_abs_slope_deviation_from_0.375": 8.750002622459618e-08,
+    "spearman_rank_correlation": 1.0,
+    "ranking_equivalent": true,
+    "roc_equivalent": true,
+    "reason": "The hierarchical score is a positive affine transform of the flat score on the current single-responsive-leaf construction."
+  },
+  "claims": {
+    "claim_a_structural_affine_equivalence": "SUPPORTED",
+    "claim_b_empirical_clean_matched_fpr_equality": "NOT_IDENTIFIABLE",
+    "old_90_111_comparison": "SUPPORTING_SENSITIVITY_ONLY"
+  },
+  "frozen_inputs": {
+    "d3_matched_fpr_stage_a": "3318ac178a0c3317ce18d69663b942e289c2668f4b604082606a549172f2ab10",
+    "d1_mutant_validity_audit": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b"
+  }
+}

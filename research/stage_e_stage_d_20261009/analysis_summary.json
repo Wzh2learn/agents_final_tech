@@ -1,0 +1,407 @@
+{
+  "anchor_checks": {
+    "blind_micro": true,
+    "end_to_end_detected": true,
+    "flat_detected": true,
+    "harmful_denominator": true,
+    "hierarchical_detected": true,
+    "injections": true,
+    "matched_difference_ci95": true,
+    "matched_flat_detected": true,
+    "matched_layered_detected": true,
+    "ocr_total": true,
+    "ocr_visible": true,
+    "tables": true,
+    "visible_micro": true
+  },
+  "cluster_bootstrap": {
+    "ci_level": 0.95,
+    "intervals": {
+      "end_to_end:blindness_among_undetected": [
+        0.0,
+        0.0
+      ],
+      "end_to_end:p_detect_given_blind": [
+        1.0,
+        1.0
+      ],
+      "end_to_end:p_detect_given_visible": [
+        0.8627281947261664,
+        1.0
+      ],
+      "end_to_end:p_visible_given_detect": [
+        0.7130414653784218,
+        0.8788009404388714
+      ],
+      "flat:blindness_among_undetected": [
+        0.5,
+        0.8620689655172413
+      ],
+      "flat:p_detect_given_blind": [
+        0.0,
+        0.0
+      ],
+      "flat:p_detect_given_visible": [
+        0.8,
+        0.961038961038961
+      ],
+      "flat:p_visible_given_detect": [
+        1.0,
+        1.0
+      ],
+      "hierarchical_expert:blindness_among_undetected": [
+        0.12962962962962962,
+        0.3021070075757574
+      ],
+      "hierarchical_expert:p_detect_given_blind": [
+        0.0,
+        0.0
+      ],
+      "hierarchical_expert:p_detect_given_visible": [
+        0.06930693069306931,
+        0.2111111111111111
+      ],
+      "hierarchical_expert:p_visible_given_detect": [
+        1.0,
+        1.0
+      ],
+      "visibility_rate": [
+        0.7287949747249479,
+        0.8849630059480633
+      ]
+    },
+    "method": "table-cluster nonparametric bootstrap; retain all injections per sampled table",
+    "n_boot": 2000,
+    "n_clusters": 95,
+    "replicates_with_defined_value": {
+      "end_to_end:blindness_among_undetected": 1898,
+      "end_to_end:p_detect_given_blind": 2000,
+      "end_to_end:p_detect_given_visible": 2000,
+      "end_to_end:p_visible_given_detect": 2000,
+      "flat:blindness_among_undetected": 2000,
+      "flat:p_detect_given_blind": 2000,
+      "flat:p_detect_given_visible": 2000,
+      "flat:p_visible_given_detect": 2000,
+      "hierarchical_expert:blindness_among_undetected": 2000,
+      "hierarchical_expert:p_detect_given_blind": 2000,
+      "hierarchical_expert:p_detect_given_visible": 2000,
+      "hierarchical_expert:p_visible_given_detect": 2000,
+      "visibility_rate": 2000
+    },
+    "seed": 20260830
+  },
+  "denominators": {
+    "equivalent_operational_E": 7,
+    "harmful_operational_H_union_HI": 111,
+    "injections": 118,
+    "tables": 95,
+    "warning": "95 tables, 118 injections and 111 operational harmful injections are distinct denominators, not one partition"
+  },
+  "endpoint_counts": {
+    "database_calls": 0,
+    "gpu_training_calls": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "package_install_calls": 0,
+    "paid_api_calls": 0,
+    "production_service_calls": 0
+  },
+  "evidence_labels": {
+    "FACT": "recomputed directly from named frozen JSON fields",
+    "INFERENCE": "interpretation bounded by the frozen construct and denominators",
+    "UNVERIFIED": "not identifiable from current labels or source metadata",
+    "VALUE": "priority or normative choice"
+  },
+  "frozen_anchors": {
+    "blind_micro": 22,
+    "end_to_end_detected": 112,
+    "flat_detected": 85,
+    "harmful_denominator": 111,
+    "hierarchical_detected": 13,
+    "injections": 118,
+    "matched_difference_ci95": [
+      0.0,
+      0.0
+    ],
+    "matched_flat_detected": 90,
+    "matched_layered_detected": 90,
+    "ocr_total": 13,
+    "ocr_visible": 0,
+    "operational_classes": {
+      "E": 7,
+      "H": 85,
+      "HI": 26,
+      "absorbed_and_detected_at_anchor": 0,
+      "absorbed_strict_total": 22,
+      "anchor_detected_by_type": {
+        "alias_variant": 36,
+        "date_variant": 12,
+        "mixed_lang": 19,
+        "ocr_similar": 0,
+        "prefix_noise": 13,
+        "unit_suffix": 5
+      },
+      "anchor_detected_total": 85,
+      "by_class_by_type": {
+        "E": {
+          "alias_variant": 4,
+          "prefix_noise": 3
+        },
+        "H": {
+          "alias_variant": 36,
+          "date_variant": 12,
+          "mixed_lang": 19,
+          "prefix_noise": 13,
+          "unit_suffix": 5
+        },
+        "HI": {
+          "alias_variant": 7,
+          "date_variant": 5,
+          "mixed_lang": 1,
+          "ocr_similar": 13
+        }
+      },
+      "hi_by_mechanism": {
+        "absorption_silent": 15,
+        "threshold_dilution": 11
+      },
+      "keyset_identical_total": 19,
+      "n_by_type": {
+        "alias_variant": 47,
+        "date_variant": 17,
+        "mixed_lang": 20,
+        "ocr_similar": 13,
+        "prefix_noise": 16,
+        "unit_suffix": 5
+      },
+      "n_tables": 95,
+      "total": 118,
+      "undetected_at_anchor_total": 33
+    },
+    "tables": 95,
+    "visible_micro": 96
+  },
+  "operational_class_identifiability": {
+    "reason": "H/HI/E labels are partly defined through detection/equivalence paths; semantic harmfulness-conditional blindness is not independently identifiable",
+    "status": "UNVERIFIED"
+  },
+  "operational_class_visibility_cells": {
+    "E": {
+      "blind": 7,
+      "n": 7,
+      "visible": 0
+    },
+    "H": {
+      "blind": 0,
+      "n": 85,
+      "visible": 85
+    },
+    "HI": {
+      "blind": 15,
+      "n": 26,
+      "visible": 11
+    }
+  },
+  "threshold_gamma": [
+    {
+      "alias_variant_n": 47,
+      "alias_variant_visible": 36,
+      "blind_injections": 33,
+      "date_variant_n": 17,
+      "date_variant_visible": 12,
+      "detected_tables": 75,
+      "gamma": 0.2,
+      "mixed_lang_n": 20,
+      "mixed_lang_visible": 19,
+      "ocr_similar_n": 13,
+      "ocr_similar_visible": 0,
+      "prefix_noise_n": 16,
+      "prefix_noise_visible": 13,
+      "unit_suffix_n": 5,
+      "unit_suffix_visible": 5,
+      "visible_injections": 85
+    },
+    {
+      "alias_variant_n": 47,
+      "alias_variant_visible": 15,
+      "blind_injections": 73,
+      "date_variant_n": 17,
+      "date_variant_visible": 11,
+      "detected_tables": 49,
+      "gamma": 0.3,
+      "mixed_lang_n": 20,
+      "mixed_lang_visible": 12,
+      "ocr_similar_n": 13,
+      "ocr_similar_visible": 0,
+      "prefix_noise_n": 16,
+      "prefix_noise_visible": 6,
+      "unit_suffix_n": 5,
+      "unit_suffix_visible": 1,
+      "visible_injections": 45
+    },
+    {
+      "alias_variant_n": 47,
+      "alias_variant_visible": 8,
+      "blind_injections": 89,
+      "date_variant_n": 17,
+      "date_variant_visible": 10,
+      "detected_tables": 31,
+      "gamma": 0.5,
+      "mixed_lang_n": 20,
+      "mixed_lang_visible": 10,
+      "ocr_similar_n": 13,
+      "ocr_similar_visible": 0,
+      "prefix_noise_n": 16,
+      "prefix_noise_visible": 1,
+      "unit_suffix_n": 5,
+      "unit_suffix_visible": 0,
+      "visible_injections": 29
+    },
+    {
+      "alias_variant_n": 47,
+      "alias_variant_visible": 2,
+      "blind_injections": 105,
+      "date_variant_n": 17,
+      "date_variant_visible": 5,
+      "detected_tables": 17,
+      "gamma": 0.7,
+      "mixed_lang_n": 20,
+      "mixed_lang_visible": 6,
+      "ocr_similar_n": 13,
+      "ocr_similar_visible": 0,
+      "prefix_noise_n": 16,
+      "prefix_noise_visible": 0,
+      "unit_suffix_n": 5,
+      "unit_suffix_visible": 0,
+      "visible_injections": 13
+    },
+    {
+      "alias_variant_n": 47,
+      "alias_variant_visible": 2,
+      "blind_injections": 105,
+      "date_variant_n": 17,
+      "date_variant_visible": 5,
+      "detected_tables": 16,
+      "gamma": 0.9,
+      "mixed_lang_n": 20,
+      "mixed_lang_visible": 6,
+      "ocr_similar_n": 13,
+      "ocr_similar_visible": 0,
+      "prefix_noise_n": 16,
+      "prefix_noise_visible": 0,
+      "unit_suffix_n": 5,
+      "unit_suffix_visible": 0,
+      "visible_injections": 13
+    }
+  ],
+  "visibility": {
+    "by_family": {
+      "alias_variant": {
+        "blind": 4,
+        "blindness_rate": 0.0851063829787234,
+        "n": 47,
+        "visibility_rate": 0.9148936170212766,
+        "visible": 43
+      },
+      "date_variant": {
+        "blind": 2,
+        "blindness_rate": 0.11764705882352941,
+        "n": 17,
+        "visibility_rate": 0.8823529411764706,
+        "visible": 15
+      },
+      "mixed_lang": {
+        "blind": 0,
+        "blindness_rate": 0.0,
+        "n": 20,
+        "visibility_rate": 1.0,
+        "visible": 20
+      },
+      "ocr_similar": {
+        "blind": 13,
+        "blindness_rate": 1.0,
+        "n": 13,
+        "visibility_rate": 0.0,
+        "visible": 0
+      },
+      "prefix_noise": {
+        "blind": 3,
+        "blindness_rate": 0.1875,
+        "n": 16,
+        "visibility_rate": 0.8125,
+        "visible": 13
+      },
+      "unit_suffix": {
+        "blind": 0,
+        "blindness_rate": 0.0,
+        "n": 5,
+        "visibility_rate": 1.0,
+        "visible": 5
+      }
+    },
+    "definition": "visible_frozen in T2; absorption-based checkpoint visibility, not the gamma-dependent score predicate",
+    "macro_family_rate": 0.7682910930329578,
+    "micro": {
+      "blind": 22,
+      "blindness_rate": 0.1864406779661017,
+      "rate": 0.8135593220338984,
+      "visible": 96
+    }
+  },
+  "visibility_by_detection": {
+    "end_to_end": {
+      "cells": {
+        "blind_detected": 22,
+        "blind_undetected": 0,
+        "visible_detected": 90,
+        "visible_undetected": 6
+      },
+      "conditional_rates": {
+        "blindness_among_undetected": 0.0,
+        "p_detect_given_blind": 1.0,
+        "p_detect_given_visible": 0.9375,
+        "p_visible_given_detect": 0.8035714285714286
+      },
+      "margins": {
+        "detected": 112,
+        "undetected": 6
+      }
+    },
+    "flat": {
+      "cells": {
+        "blind_detected": 0,
+        "blind_undetected": 22,
+        "visible_detected": 85,
+        "visible_undetected": 11
+      },
+      "conditional_rates": {
+        "blindness_among_undetected": 0.6666666666666666,
+        "p_detect_given_blind": 0.0,
+        "p_detect_given_visible": 0.8854166666666666,
+        "p_visible_given_detect": 1.0
+      },
+      "margins": {
+        "detected": 85,
+        "undetected": 33
+      }
+    },
+    "hierarchical_expert": {
+      "cells": {
+        "blind_detected": 0,
+        "blind_undetected": 22,
+        "visible_detected": 13,
+        "visible_undetected": 83
+      },
+      "conditional_rates": {
+        "blindness_among_undetected": 0.20952380952380953,
+        "p_detect_given_blind": 0.0,
+        "p_detect_given_visible": 0.13541666666666666,
+        "p_visible_given_detect": 1.0
+      },
+      "margins": {
+        "detected": 13,
+        "undetected": 105
+      }
+    }
+  }
+}

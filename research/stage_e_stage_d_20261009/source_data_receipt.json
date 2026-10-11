@@ -1,0 +1,96 @@
+{
+  "bootstrap": {
+    "cluster": "table uid",
+    "n_boot": 2000,
+    "seed": 20260830
+  },
+  "endpoint_counts": {
+    "database_calls": 0,
+    "gpu_training_calls": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "package_install_calls": 0,
+    "paid_api_calls": 0,
+    "production_service_calls": 0
+  },
+  "formulas": {
+    "blindness_among_undetected": "count(blind AND undetected) / count(undetected)",
+    "macro_family_visibility": "mean(family_visible / family_n) over the six frozen families",
+    "micro_blindness": "(118 - sum(visible_frozen)) / 118",
+    "micro_visibility": "sum(visible_frozen) / 118",
+    "p_detect_given_blind": "count(blind AND detected) / count(blind)",
+    "p_detect_given_visible": "count(visible AND detected) / count(visible)",
+    "p_visible_given_detect": "count(visible AND detected) / count(detected)",
+    "threshold_visibility": "count(visible_by_gamma[gamma]) / family_or_overall denominator"
+  },
+  "inputs": {
+    "checkpoint_discrimination_tables_v2": {
+      "path": "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+      "sha256": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72"
+    },
+    "d1_mutant_validity_audit": {
+      "path": "logs/graph/eval/d1_mutant_validity_audit.json",
+      "sha256": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b"
+    },
+    "d2_cross_matcher_det": {
+      "path": "logs/graph/eval/d2_cross_matcher_det.json",
+      "sha256": "7bb268e5da19590c9f58e71e293c3b66e4e5071f53932b41792ec8fb0ea1f146"
+    },
+    "d3_matched_fpr_stage_a": {
+      "path": "logs/graph/eval/d3_matched_fpr_stage_a.json",
+      "sha256": "3318ac178a0c3317ce18d69663b942e289c2668f4b604082606a549172f2ab10"
+    },
+    "t1_eval_baseline_comparison": {
+      "path": "logs/graph/eval/t1_eval_baseline_comparison.json",
+      "sha256": "6993512c7e7fa9e6b4a90a6602d5107d62e55c1fcba066c3d43a18f444b63c87"
+    },
+    "t2_visibility_sensitivity": {
+      "path": "logs/graph/eval/t2_visibility_sensitivity.json",
+      "sha256": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5"
+    },
+    "t4_pso_fair_comparison": {
+      "path": "logs/graph/eval/t4_pso_fair_comparison.json",
+      "sha256": "d82922141717d933c26931c17fe79d0664ed007c0ac0af70b5b7d0e1b8194b15"
+    }
+  },
+  "join_keys": [
+    "uid",
+    "col"
+  ],
+  "negative_results": [
+    "No matplotlib dependency was used; PNG/SVG are rendered by the checked standard-library script.",
+    "Semantic harmfulness-conditional blindness remains UNVERIFIED because operational labels are not an independent semantic oracle."
+  ],
+  "outputs": {
+    "analysis_summary.json": {
+      "bytes": 10721,
+      "sha256": "bf36dfe60cd866b2064cbf5d51ee43b6916c40be7e557a3a524ce101035c312d"
+    },
+    "threshold_visibility.png": {
+      "bytes": 13746,
+      "sha256": "d51900158d6e0f6834a92e9b73e1fe21bfd75bedf80fcf583b668b3be09c19c2"
+    },
+    "threshold_visibility.svg": {
+      "bytes": 7888,
+      "sha256": "12a05b2af83fb5b61b09f845e8bd9257ada611d4f1293699c14d3084bd6afed1"
+    },
+    "threshold_visibility_source.csv": {
+      "bytes": 495,
+      "sha256": "b56ad77062937caf729bd5004de484831383e1a2e4b1e29742732ed8cd7c1e8b"
+    },
+    "visibility_detection.png": {
+      "bytes": 6781,
+      "sha256": "b27ff48c5fff2f5ebd6e1128145f4d259be0fee278415eb6d719247562c8e1c6"
+    },
+    "visibility_detection.svg": {
+      "bytes": 3194,
+      "sha256": "4d6be977cabc1833eb0f083c8a50dd470ef258d2485397bf7e7820c3be4446c2"
+    },
+    "visibility_detection_source.csv": {
+      "bytes": 149,
+      "sha256": "9113f29e424dbae7b8becebef231f9d842b8cff065ce285f8490b46e5ff063e9"
+    }
+  },
+  "script": "research/stage_e_stage_d_20261009/quantify_stage_e.py",
+  "script_sha256": "0c9827bc444ca1bd6ce6d44aed9443d1bf389cb4a7d6b57732cead9e89b07fc5"
+}

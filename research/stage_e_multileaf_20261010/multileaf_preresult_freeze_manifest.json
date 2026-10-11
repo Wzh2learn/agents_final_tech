@@ -1,0 +1,162 @@
+{
+  "captured_at": "2026-10-10T01:01:51+08:00",
+  "environment": {
+    "bytes": 564,
+    "path": "research/stage_e_multileaf_20261010/multileaf_environment_snapshot.json",
+    "sha256": "190474fdba454e8da735ec5b1ecbb7fa96b6a4e6a30ee9211a0418897a7d5293"
+  },
+  "expected_checkpoint_contract": {
+    "M": {
+      "direct_target_leaf": "parse.field.hit_rate",
+      "expected_first_checkpoint": "parse.field.hit_rate"
+    },
+    "N": {
+      "direct_target_leaf": "parse.reconcile.equations",
+      "expected_first_checkpoint": "parse.reconcile.equations"
+    },
+    "R": {
+      "direct_target_leaf": "qa.retrieval.source_required",
+      "expected_first_checkpoint": "qa.retrieval.source_required"
+    }
+  },
+  "expected_stage_rule": "ascending SHA-256 of seed:namespace:key; no evaluator output or visibility result is read",
+  "formal_runner": {
+    "bytes": 35423,
+    "path": "research/stage_e_multileaf_20261010/run_multileaf_formal.py",
+    "sha256": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4"
+  },
+  "frozen_files": {
+    "/home/testuser/wzh/datasets/tat-dqa/raw/tatdqa_dataset_dev.json": {
+      "bytes": 1210555,
+      "path": "/home/testuser/wzh/datasets/tat-dqa/raw/tatdqa_dataset_dev.json",
+      "sha256": "07395642f317754ed22bd8330525af7c1e15b7189efdf046cd0a257fc3178fcb"
+    },
+    "/home/testuser/wzh/datasets/tat-dqa/raw/tatdqa_dataset_test_gold.json": {
+      "bytes": 1229595,
+      "path": "/home/testuser/wzh/datasets/tat-dqa/raw/tatdqa_dataset_test_gold.json",
+      "sha256": "e6758315b839203a72e05f8849ce4d56fc8d6d7c34dc0240352769014807f5da"
+    },
+    "/home/testuser/wzh/datasets/tat-dqa/raw/tatdqa_dataset_train.json": {
+      "bytes": 9722633,
+      "path": "/home/testuser/wzh/datasets/tat-dqa/raw/tatdqa_dataset_train.json",
+      "sha256": "3025b4ca9c3c87f5ecd2c504371e1ee92929ef1f31d8a3ac38bc3a5376582fab"
+    },
+    "config/eval_checkpoint_trees.json": {
+      "bytes": 7215,
+      "path": "config/eval_checkpoint_trees.json",
+      "sha256": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25"
+    },
+    "data/research/drift_v0/input/tatqa_tables.json": {
+      "bytes": 1442890,
+      "path": "data/research/drift_v0/input/tatqa_tables.json",
+      "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+    },
+    "docs/research/stage_e_multileaf_power_plan_v1.md": {
+      "bytes": 3137,
+      "path": "docs/research/stage_e_multileaf_power_plan_v1.md",
+      "sha256": "3a5778bd8a4bac580be2d3bb0c969128a7d6ff8dde2aa522336e167401825a62"
+    },
+    "docs/research/stage_e_multileaf_preregistration_v1.md": {
+      "bytes": 10886,
+      "path": "docs/research/stage_e_multileaf_preregistration_v1.md",
+      "sha256": "e489c32cc50bdadc34247e3102d896bd23ac185507ca225acc53906504766934"
+    },
+    "research/stage_e_method_revision_20261009/multileaf_freeze.json": {
+      "bytes": 558712,
+      "path": "research/stage_e_method_revision_20261009/multileaf_freeze.json",
+      "sha256": "7239feb678dcbecc4f1bb374cc37e313fd0a74354a23349caa556419fabfa34d"
+    },
+    "research/stage_e_multileaf_20261010/build_multileaf_preresult_freeze.py": {
+      "bytes": 13235,
+      "path": "research/stage_e_multileaf_20261010/build_multileaf_preresult_freeze.py",
+      "sha256": "b60c3e5fa16b4e446743dccc360bc85880d147594c44a2b762de3b26c003664c"
+    },
+    "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json": {
+      "bytes": 182830,
+      "path": "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json",
+      "sha256": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693"
+    },
+    "research/stage_e_multileaf_20261010/run_multileaf_formal.py": {
+      "bytes": 35423,
+      "path": "research/stage_e_multileaf_20261010/run_multileaf_formal.py",
+      "sha256": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4"
+    },
+    "tests/test_multileaf_formal_contract.py": {
+      "bytes": 1996,
+      "path": "tests/test_multileaf_formal_contract.py",
+      "sha256": "b315f926ea34d4c6eae83e7e5d4b8f93d7b6ee797134cbec3637e68b4e31a22a"
+    }
+  },
+  "git_state": {
+    "diff_bytes": 153899,
+    "diff_path": "research/stage_e_multileaf_20261010/multileaf_preresult_git_diff.patch",
+    "diff_sha256": "be2c114561d3798e4227897612b51f8fc0de9e616dbc5863516d9cde248e2ad8",
+    "head": "e97340387888290e69fbfff122ab163de971b37e",
+    "status_porcelain_sha256": "dc4403e0de6d3d4a4e7f8825b332fd0197df326964e1975ef531dcdbfb4b16dd"
+  },
+  "immutable_manifest_path": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json",
+  "namespace": "MULTILEAF_PRERESULT_FREEZE",
+  "predictor_contract": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261012,
+    "chance_top1": 0.3333333333333333,
+    "classes": [
+      "M",
+      "R",
+      "N"
+    ],
+    "classifier": "deterministic nearest-centroid with Euclidean distance on leave-one-cluster-out training folds",
+    "input": "all leaves from config/eval_checkpoint_trees.json in frozen tree order; binary paired response vector",
+    "loco_rule": "leave one stage-namespaced table/document/origin cluster out; all three repeated injections stay in the held-out fold",
+    "majority_baseline": "predict the first frozen class M; top-1=1/3 and macro-F1=1/6 on the balanced freeze",
+    "permutation_replicates": 10000,
+    "permutation_seed": 20261011,
+    "primary_metrics": [
+      "macro-F1",
+      "top-1 stage accuracy"
+    ],
+    "signature_separability": "leave-one-cluster-out macro-F1 compared with a cluster-label permutation null",
+    "tie_rule": "a distance tie is scored incorrect; M/R/N lexical order is used only to serialize a deterministic output"
+  },
+  "result_artifacts_absent_at_freeze": true,
+  "sample_manifest": {
+    "bytes": 182830,
+    "path": "research/stage_e_multileaf_20261010/multileaf_preresult_sample_manifest.json",
+    "sha256": "8e9121f2c1c030f1db7626c56bed6c82bef89d119cd952b3514a91ff1e691693"
+  },
+  "sample_size_tier": {
+    "claim_scope": "pooled/macro localization only",
+    "clusters_per_stage": 24,
+    "injections_per_cluster": 3,
+    "tier": "TARGET",
+    "total_clusters": 72,
+    "total_injections": 216
+  },
+  "secondary_flat_hierarchy_contract": {
+    "claim_boundary": "secondary analysis only; aggregation is not changed after results",
+    "diagnostics": [
+      "Pearson and Spearman relation",
+      "linear affine fit and residual",
+      "score supports",
+      "clean-versus-injected AUROC",
+      "clean-only matched operating-point feasibility"
+    ],
+    "flat_score": "10 * mean(full binary response vector)",
+    "hierarchical_score": "10 * weighted sum(full binary response vector) using effective checkpoint-tree leaf weights"
+  },
+  "status": "FREEZE_COMPLETE",
+  "stop_conditions": [
+    "Any M/R/N stage contract fails: STOP_THAT_STAGE and classify confirmatory result INVALID.",
+    "Any UID/origin leakage or fold contamination: classify INVALID.",
+    "Fewer than two population-responsive leaves: localization remains unestablished.",
+    "Expected-stage or predictor definitions change after result access: classify INVALID.",
+    "Any flat/hierarchy secondary result cannot overwrite the primary localization result."
+  ],
+  "task_card": {
+    "section": "## 8. Formal execution task card",
+    "sha256": "023f5a58ce7fb56235f7a613bce4e537541794dedab52b845dfbccd2bdd1a42a",
+    "source": "docs/research/stage_e_multileaf_preregistration_v1.md",
+    "text": "## 8. Formal execution task card\n\nStatus: `READY_TO_EXECUTE_NEEDS_USER_APPROVAL`; this preregistration does not authorize execution.\n\n1. Verify `multileaf_freeze.json` source/generator hashes.\n2. Materialize paired clean/injected artifacts from the frozen sample IDs only.\n3. Run deterministic M/R/N target checks without model/judge calls.\n4. Run the fixed checkpoint aggregation over the frozen leaf order.\n5. Verify the already frozen permutation/bootstrap seeds and replicate counts before inspecting class performance.\n6. Execute leave-one-cluster-out nearest-centroid analysis.\n7. Report macro-F1, permutation p-value, top-1 accuracy and cluster interval, per-stage confusion matrix and contract failures.\n8. Stop and report `MULTILEAF_BLOCKED` if fewer than two population-responsive leaves or any expected-stage contract fails.\n\nGPU/API requirement for the deterministic fixture: `0/0`. Any judge-based downstream leaf requires a separately approved resource plan.\n"
+  },
+  "temporal_order": "FREEZE_COMPLETE -> materialize formal evaluator outputs"
+}

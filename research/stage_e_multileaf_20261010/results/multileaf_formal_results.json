@@ -1,0 +1,233 @@
+{
+  "baseline": {
+    "chance_top1": 0.3333333333333333,
+    "majority_macro_f1": 0.16666666666666666,
+    "majority_top1": 0.3333333333333333
+  },
+  "claim_allowed": "Checkpoint evidence contains stage-localizing information under the frozen M/R/N controlled injections.",
+  "claim_forbidden": "The hierarchy localizes failures.",
+  "confusion_matrix": {
+    "M": {
+      "M": 72,
+      "N": 0,
+      "R": 0,
+      "__TIE__": 0
+    },
+    "N": {
+      "M": 0,
+      "N": 72,
+      "R": 0,
+      "__TIE__": 0
+    },
+    "R": {
+      "M": 0,
+      "N": 0,
+      "R": 72,
+      "__TIE__": 0
+    },
+    "columns": [
+      "M",
+      "R",
+      "N",
+      "__TIE__"
+    ]
+  },
+  "contracts": {
+    "M": {
+      "clusters": 24,
+      "contract_status": "PASS",
+      "injections": 72
+    },
+    "N": {
+      "clusters": 24,
+      "contract_status": "PASS",
+      "injections": 72
+    },
+    "R": {
+      "clusters": 24,
+      "contract_status": "PASS",
+      "injections": 72
+    }
+  },
+  "generated_at": "2026-10-10T01:02:44+08:00",
+  "leakage_audit": {
+    "detail": "{\"expected_stage_matches\": true, \"m_n_uid_disjoint\": true, \"one_stage_per_cluster\": true, \"sample_ids_unique\": true, \"three_repeated_injections_per_cluster\": true}",
+    "status": "PASS"
+  },
+  "per_stage_profiles": {
+    "M": {
+      "any_response_rate": 1.0,
+      "direct_leaf": "parse.field.hit_rate",
+      "direct_visibility_rate": 1.0,
+      "response_counts_by_leaf": {
+        "parse.doc.ok": 0,
+        "parse.doc.throughput": 0,
+        "parse.field.hit_rate": 72,
+        "parse.reconcile.equations": 0,
+        "parse.table.regression": 72,
+        "qa.citation.judge": 0,
+        "qa.faithfulness.judge": 0,
+        "qa.numeric.exact": 0,
+        "qa.numeric.number_grounding": 0,
+        "qa.refusal.deterministic": 0,
+        "qa.refusal.judge": 0,
+        "qa.retrieval.source_required": 0
+      },
+      "responsive_leaves": 2
+    },
+    "N": {
+      "any_response_rate": 1.0,
+      "direct_leaf": "parse.reconcile.equations",
+      "direct_visibility_rate": 1.0,
+      "response_counts_by_leaf": {
+        "parse.doc.ok": 0,
+        "parse.doc.throughput": 0,
+        "parse.field.hit_rate": 0,
+        "parse.reconcile.equations": 72,
+        "parse.table.regression": 0,
+        "qa.citation.judge": 0,
+        "qa.faithfulness.judge": 0,
+        "qa.numeric.exact": 0,
+        "qa.numeric.number_grounding": 0,
+        "qa.refusal.deterministic": 0,
+        "qa.refusal.judge": 0,
+        "qa.retrieval.source_required": 0
+      },
+      "responsive_leaves": 1
+    },
+    "R": {
+      "any_response_rate": 1.0,
+      "direct_leaf": "qa.retrieval.source_required",
+      "direct_visibility_rate": 1.0,
+      "response_counts_by_leaf": {
+        "parse.doc.ok": 0,
+        "parse.doc.throughput": 0,
+        "parse.field.hit_rate": 0,
+        "parse.reconcile.equations": 0,
+        "parse.table.regression": 0,
+        "qa.citation.judge": 0,
+        "qa.faithfulness.judge": 0,
+        "qa.numeric.exact": 0,
+        "qa.numeric.number_grounding": 0,
+        "qa.refusal.deterministic": 0,
+        "qa.refusal.judge": 0,
+        "qa.retrieval.source_required": 72
+      },
+      "responsive_leaves": 1
+    }
+  },
+  "pre_result_freeze": {
+    "git_head": "e97340387888290e69fbfff122ab163de971b37e",
+    "manifest": "research/stage_e_multileaf_20261010/multileaf_preresult_freeze_manifest.json",
+    "receipt": "docs/research/multileaf_preresult_freeze_receipt_v1.md"
+  },
+  "pre_result_manifest_sha256": "15639e1e6014bab79620d2a845645fa89f0977ae53c1d5db367aaed7c32e5163",
+  "primary": {
+    "bootstrap_replicates": 10000,
+    "macro_f1": 1.0,
+    "macro_f1_ci95": [
+      1.0,
+      1.0
+    ],
+    "permutation_p_macro_f1": 9.999000099990002e-05,
+    "permutation_p_top1": 9.999000099990002e-05,
+    "permutation_replicates": 10000,
+    "top1_accuracy": 1.0,
+    "top1_ci95": [
+      1.0,
+      1.0
+    ]
+  },
+  "response_signatures": {
+    "M": [
+      [
+        [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        72
+      ]
+    ],
+    "N": [
+      [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        72
+      ]
+    ],
+    "R": [
+      [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        72
+      ]
+    ]
+  },
+  "responsive_leaves": [
+    "parse.field.hit_rate",
+    "parse.reconcile.equations",
+    "parse.table.regression",
+    "qa.retrieval.source_required"
+  ],
+  "result_status": "POSITIVE",
+  "retained": {
+    "clusters": 72,
+    "injections": 216
+  },
+  "secondary_flat_hierarchy": {
+    "affine_degeneracy_broken": true,
+    "auroc_flat": 1.0,
+    "auroc_hier": 1.0,
+    "flat_support": [
+      0.833333,
+      1.666667
+    ],
+    "hierarchical_support": [
+      0.833333,
+      1.363636,
+      2.272727
+    ],
+    "intercept": -0.07575757575757587,
+    "matched_operating_point": "NOT_IDENTIFIABLE_CLEAN_SUPPORT_ZERO",
+    "max_abs_residual": 0.2651515151515167,
+    "pearson_r": 0.9313047405954701,
+    "r2": 0.8673285198555957,
+    "slope": 1.4090909090909074,
+    "spearman_r": 0.8660254037844385
+  },
+  "tie_count": 0
+}

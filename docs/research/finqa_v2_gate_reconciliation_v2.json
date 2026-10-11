@@ -1,0 +1,81 @@
+{
+  "as_of": "2026-10-10",
+  "canonical_six_gate_table": {
+    "ID_GO": "PASS_CANDIDATE_IDS_FROZEN_NOT_EXECUTION",
+    "JOIN_GO": "PASS_RESOLVER_AND_CANDIDATES_NOT_FORMAL",
+    "PREREG_GO": "BLOCKED_PENDING_SPLIT_GO_AND_SCORER_FREEZE",
+    "SCORER_GO": "PROTOTYPE_PASS_NOT_FROZEN",
+    "SOURCE_GO": "PASS_SOURCE_IDENTITY_AND_HASHES",
+    "SPLIT_GO": "BLOCKED_SPLIT_ROLE_NOT_FROZEN"
+  },
+  "evidence_class": "SECONDARY",
+  "experimental_actions": {
+    "formal_finqa_v2_run": false,
+    "model_calls": 0,
+    "source_json_rewritten": false,
+    "training_runs": 0
+  },
+  "frozen_source_json": {
+    "modified": false,
+    "research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json": "280c563c5e701cf81f75d85664f6880f8133723693ddbc63a641db804a909ca7",
+    "research/stage_e_multileaf_20261010/finqa_v2_candidate_sample_manifest.json": "71e6e2c4e2f59721644098cae20e1b850692edd20e0c138f87f27bedd4f25b77"
+  },
+  "namespace": "FINQA_V2_GATE_RECONCILIATION",
+  "overall_gate": "SECOND_FLOW_BLOCKED",
+  "schema_version": 2,
+  "status": "CANONICAL_RECONCILIATION_NOT_FORMAL_GO",
+  "stale_snapshots": [
+    {
+      "classification": "STALE_STAGE_SCOPED",
+      "observed_gate_snapshot": {
+        "ID_GO": "BLOCKED_EXACT_SAMPLE_IDS_NOT_FROZEN",
+        "JOIN_GO": "PASS_CANDIDATE_NOT_FROZEN",
+        "PREREG_GO": "BLOCKED_PENDING_JOING_GO_ID_GO_SPLIT_GO_SCORER_GO",
+        "SCORER_GO": "BLOCKED_INDEPENDENT_SCORER_NOT_LINKED_TO_EXACT_IDS",
+        "SOURCE_GO": "PASS_SOURCE_IDENTITY_AND_HASHES",
+        "SPLIT_GO": "BLOCKED_ROLE_SCOPE_NOT_FROZEN"
+      },
+      "path": "research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json",
+      "sha256": "280c563c5e701cf81f75d85664f6880f8133723693ddbc63a641db804a909ca7"
+    },
+    {
+      "classification": "STALE_DERIVED",
+      "path": "docs/research/finqa_v2_causal_join_audit_v1.md",
+      "sha256": "5f821f91619a70d9835d3ea5614ea55e41c89b8c57f967e184004cfd29d10388"
+    },
+    {
+      "classification": "STALE_INCOMPLETE",
+      "observed_gate_snapshot": {
+        "ID_GO": "PASS_CANDIDATE_IDS_FROZEN_NOT_EXECUTION",
+        "JOIN_GO": "PASS_RESOLVER_AND_CANDIDATES_NOT_FORMAL",
+        "PREREG_GO": "BLOCKED_UNTIL_SCORER_AND_SPLIT_FREEZE",
+        "SCORER_GO": null,
+        "SOURCE_GO": null,
+        "SPLIT_GO": "BLOCKED_SPLIT_ROLE_NOT_FROZEN"
+      },
+      "path": "research/stage_e_multileaf_20261010/finqa_v2_candidate_sample_manifest.json",
+      "sha256": "71e6e2c4e2f59721644098cae20e1b850692edd20e0c138f87f27bedd4f25b77"
+    },
+    {
+      "classification": "STALE_DERIVED",
+      "path": "docs/research/finqa_v2_candidate_sample_manifest_v1.md",
+      "sha256": "5171ee51030e1b6d15991b563ffc524c67e2176c3b0d67f5f52c2a927ae051fe"
+    },
+    {
+      "classification": "STALE_PRE_RECONCILIATION",
+      "path": "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_receipt.json",
+      "sha256": "09d3e0ed3b4d226ec001ead3da9e2527eee5abb5e4afa0886772611812db49ee"
+    },
+    {
+      "classification": "STALE_PRE_RECONCILIATION",
+      "path": "docs/research/finqa_v2_gate_status_v1.md",
+      "sha256": "273a08c4c6930225e1c93d93c0db7e3c35641f8060b00e53b2c27cf35b476cf5"
+    }
+  ],
+  "unresolved_accounting": {
+    "causal_audit_multi_step_unique_join_clusters": 627,
+    "candidate_manifest_e_stage_eligible_clusters_after_stage_disjointness": 594,
+    "explanation": null,
+    "status": "NOT_YET_RESOLVED"
+  }
+}

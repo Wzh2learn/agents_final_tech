@@ -1,0 +1,93 @@
+{
+  "data_path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k/phase2_test.jsonl",
+  "data_sha256": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad",
+  "eval_problem_hashes": [
+    "0c9bf35e7280f37a8168eb29585fe0c13c108eb3b95e0522f7549f5d046c4a69",
+    "0f428a2fcac49937e7ea597c684b3ab36cd26465741f4b3c505c349fe0a2b370",
+    "0f74f3328993b34b009396e2a5f17df1b64539b3d64cba7893b334d3f9c41066",
+    "0f8bfc43c716b9e152190ae738a1960fb7c90f8c7f157d32e05c8bfa8dd57978"
+  ],
+  "formal_training": false,
+  "licences": {
+    "code": "MIT PRM800K repository root",
+    "data": "LICENCE_PENDING_NONCOMMERCIAL_ACADEMIC_SMOKE_ONLY",
+    "model": "Qwen model licence recorded separately; local non-commercial smoke only"
+  },
+  "model_config_sha256": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a",
+  "model_index_sha256": "6dc0981b8829fead746441f68f38f24c5ca4a3a66351f652c26c6df0efc43ab2",
+  "model_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+  "namespace": "PRM_REFERENCE_TRAINING_SMOKE",
+  "row_hashes": {
+    "C2_eval": [
+      "3e48f9864416ea6699769a27254ec0f351f997a1f3c536f45da9f92e167fcc26",
+      "960465402f076949a5f07688d8fc0f65b15ed18977157be7aec58dd35ab84d09",
+      "dd15e92b7522ec96bbedd3b5339c68e2627415f00982a695992f8683515cd57f",
+      "52b2fa42c6dc1fbf22e81c356909d81b2f7e0b6d7c01ff6e5fe66b8ac1edf648"
+    ],
+    "C2_train": [
+      "90e32701ac80f25f8ae0afaf1535249addbd1133006bbd4bc6b900fd5313abd9",
+      "6ea6fd6452214fdeb6473313cb6d7e5fb757228fbbda309421b5d099f86eed16",
+      "b1b29149d667e356917930f2d87f9f8b5da2b9557446b8f70b02de724b2c6f06",
+      "2c0907589d14bc800a34239ae0db37dbd0648878b32e0dddb4cc6a41c0249a03",
+      "aa7f11727a9f04c446422f9102ad86fb1a9a9ebac6f72ba82ebc37db45eca49a",
+      "a0ea8c471315e57c13b9542bbda10ee59f8c545985255a7c9e60c1d69ba59ec8",
+      "b9f3e2743bd55479c030c77d028f2e016e50851acb60555df74c2df3a9163711",
+      "8eecf83fc75a8625c5e343f56a6da78e23470eca0e5e9da93b19f006998d86f4"
+    ],
+    "C4_eval": [
+      "44698dff053f646547d76729b8556fc67eab05aaedde5e095d1cee444d394e0e",
+      "40d118e151dee8aa5e03578bb7c03bba21a86cd9d0295ca807d807c5f7cb55cf",
+      "dd15e92b7522ec96bbedd3b5339c68e2627415f00982a695992f8683515cd57f",
+      "52b2fa42c6dc1fbf22e81c356909d81b2f7e0b6d7c01ff6e5fe66b8ac1edf648"
+    ],
+    "C4_train": [
+      "90e32701ac80f25f8ae0afaf1535249addbd1133006bbd4bc6b900fd5313abd9",
+      "92d42d5f25601c57762ff7d082082c35815ac57384b11a50ab54dbe2af9de08d",
+      "b1b29149d667e356917930f2d87f9f8b5da2b9557446b8f70b02de724b2c6f06",
+      "2c0907589d14bc800a34239ae0db37dbd0648878b32e0dddb4cc6a41c0249a03",
+      "aa7f11727a9f04c446422f9102ad86fb1a9a9ebac6f72ba82ebc37db45eca49a",
+      "a0ea8c471315e57c13b9542bbda10ee59f8c545985255a7c9e60c1d69ba59ec8",
+      "b9f3e2743bd55479c030c77d028f2e016e50851acb60555df74c2df3a9163711",
+      "8eecf83fc75a8625c5e343f56a6da78e23470eca0e5e9da93b19f006998d86f4"
+    ]
+  },
+  "seed": 20261013,
+  "selection": {
+    "eval_problem_groups": 4,
+    "matched_pairs_available": 12,
+    "source_rows": 2762,
+    "train_problem_groups": 8
+  },
+  "status": "AUTHORIZED_REFERENCE_TRAINING_SMOKE_NOT_PAPER_RESULT",
+  "tokenizer_sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+  "train_problem_hashes": [
+    "0113676309c9dc599829cfc763b3c1ff4bbe09efec8844660ba3af24654e62ce",
+    "02480d2c0415a28153e0ac654e2afb21e83a856d14503689ba3332db1548ffdc",
+    "05eb5a170e9f052e5fe71a386076276423eafd190de2cfb91fafcd66052e65ad",
+    "0809a483e113340db8da3c4f16443001d12ab90d03150053e819ee5539dae187",
+    "08306232ef9ba7aa229594b9a52f8dcebd100aae1b7197cc844ad8f9725b7604",
+    "0a1707d5b4f6518f4f93b0dc3769dc3df28c4d4dbdee20ba812bfe692b1399f0",
+    "0a44d33216778365bc679c332711e6b807edb57bc5bf7c3cefa22152ba1f1106",
+    "0c7d885aab7f7eb7d77ab47bd165af83b8a8ff150f4cbb3a7fc225284d19e0f1"
+  ],
+  "training": {
+    "checkpoint": "one checkpoint at final smoke step",
+    "evaluation": "held-out matched-pair LM loss plus two greedy generation smoke rows",
+    "external_api_calls": 0,
+    "hyperparameter_search": false,
+    "learning_rate": 0.0002,
+    "lora_alpha": 16,
+    "lora_r": 8,
+    "max_length": 256,
+    "max_steps": 2,
+    "method": "LoRA SFT",
+    "model": "Qwen3-4B",
+    "optimizer": "adamw_torch",
+    "per_device_batch_size": 1,
+    "precision": "bf16",
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ]
+  }
+}

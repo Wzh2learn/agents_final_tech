@@ -1,0 +1,134 @@
+{
+  "checkpoint_count": 12,
+  "checkpoint_inventory": [
+    {
+      "check_count": 1,
+      "checkpoint_id": "parse.doc.ok",
+      "family": "parse",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "parse.doc.throughput",
+      "family": "parse",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "parse.table.regression",
+      "family": "parse",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "parse.field.hit_rate",
+      "family": "parse",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "parse.reconcile.equations",
+      "family": "parse",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.retrieval.source_required",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.faithfulness.judge",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 1
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.numeric.exact",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.numeric.number_grounding",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.citation.judge",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 1
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.refusal.judge",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 1
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.refusal.deterministic",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    }
+  ],
+  "endpoint_calls": 0,
+  "evidence_class": "ENGINEERING / DEV_ONLY",
+  "formal_scientific_dataset_created": false,
+  "input_hashes": {
+    "config/eval_checkpoint_trees.json": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+    "research/causal_checkpoint_selection_mvp_20261011/METHOD_DESIGN_QUALIFICATION_V1.md": "bcd83b665b19465e7757164cbac071a40c43afd28c1b541fa6f2eb0f6fd301a3",
+    "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+    "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06"
+  },
+  "input_shape": {
+    "checkpoint_count": 12,
+    "response_field_ids": [
+      "parse.doc.ok",
+      "parse.doc.throughput",
+      "parse.field.hit_rate",
+      "parse.reconcile.equations",
+      "parse.table.regression",
+      "qa.citation.judge",
+      "qa.faithfulness.judge",
+      "qa.numeric.exact",
+      "qa.numeric.number_grounding",
+      "qa.refusal.deterministic",
+      "qa.refusal.judge",
+      "qa.retrieval.source_required"
+    ],
+    "response_fields": 12,
+    "rows": 216,
+    "shape_status": "PASS_216_X_12"
+  },
+  "mechanism_holdout": "NOT_AVAILABLE",
+  "random_seed": 20261011,
+  "receipt_label": "ALGORITHM_SMOKE_DEV_ONLY",
+  "schema_version": "causal_checkpoint_selection_dev_smoke_input_manifest_v1",
+  "smoke_budgets": [
+    {
+      "B_call": 0,
+      "B_check": 4
+    },
+    {
+      "B_call": 2,
+      "B_check": 8
+    }
+  ],
+  "split_label": "DEV_ONLY_PSEUDO_FOLD",
+  "split_seed": 20261011
+}

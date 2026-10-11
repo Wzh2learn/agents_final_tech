@@ -1,0 +1,239 @@
+{
+  "status": "PASS",
+  "docs_expected": 12,
+  "docs_present_nonempty": 12,
+  "docs": {
+    "stage_e_metric_priority_v2.md": {
+      "exists_nonempty": true,
+      "sha256": "815406a65bf8e5f1bcb28cff323c9ac02f3dd8b5639831c692fd0455467a61cc",
+      "bytes": 2908
+    },
+    "stage_e_harmfulness_metric_boundary_v1.md": {
+      "exists_nonempty": true,
+      "sha256": "0d05323143df183f6e560a7fcf4708910e6310c2cff36439be60b29af1b2963c",
+      "bytes": 1602
+    },
+    "stage_e_zero_event_uncertainty_note_v1.md": {
+      "exists_nonempty": true,
+      "sha256": "97ccc92ccd7d31b9c3e37b1d8250d439f21d0e79c251f298254355097a57a5b7",
+      "bytes": 1657
+    },
+    "stage_e_matched_fpr_reanalysis_protocol_v1.md": {
+      "exists_nonempty": true,
+      "sha256": "3fdd87e938e5a3ff47036b671f31a6b5eb638b690dfa798ea25479ea727e9d09",
+      "bytes": 1661
+    },
+    "stage_e_matched_fpr_reanalysis_v1.md": {
+      "exists_nonempty": true,
+      "sha256": "611b2c2f2e2cabf62a007e281fcd999f913df2f4e220474f7d1a31a1ce4bc1e9",
+      "bytes": 2506
+    },
+    "nist_measurement_validity_ledger_v2.md": {
+      "exists_nonempty": true,
+      "sha256": "84cb4621b1bde099a9a4c76b04c033eb91cd2af1fe25bbf1b63e3a404a145cec",
+      "bytes": 4071
+    },
+    "stage_e_multileaf_preregistration_v1.md": {
+      "exists_nonempty": true,
+      "sha256": "402821bd1d304d7fcdabfeaeec93f435d18b5211d5ecd7e2b55e465fc9b171b0",
+      "bytes": 4817
+    },
+    "stage_e_multileaf_power_plan_v1.md": {
+      "exists_nonempty": true,
+      "sha256": "c646a990578567c089e551b32dc34e13b1bb5a64c20729c7648ef38e777023f8",
+      "bytes": 2590
+    },
+    "prm800k_reference_track_audit_v1.md": {
+      "exists_nonempty": true,
+      "sha256": "c96607d6eca8348a195d0ce35e29457b70c48590b292e54a5b16e069ab50cb37",
+      "bytes": 4029
+    },
+    "math_shepherd_reference_track_audit_v1.md": {
+      "exists_nonempty": true,
+      "sha256": "8ecccfa8054b82f3fd114b307d5172db913d501f4ba6e936b631a068f1682eda",
+      "bytes": 2291
+    },
+    "stage_d_process_signal_requirements_v1.md": {
+      "exists_nonempty": true,
+      "sha256": "6195677a4160fe870c2fd048cbf2087b165f7597f41096ca740eb4a1aa133b8a",
+      "bytes": 2744
+    },
+    "stage_e_paper_upgrade_plan_v1.md": {
+      "exists_nonempty": true,
+      "sha256": "2a4333c113a559c26edfd9bad551e827bab3add8735b500c6ffd94cb137aba74",
+      "bytes": 2628
+    }
+  },
+  "broken_links": [],
+  "matched_fpr_status": "BLOCKER_CLEAN_THRESHOLD_NOT_IDENTIFIABLE",
+  "matched_fpr_claim_a": "SUPPORTED",
+  "matched_fpr_claim_b": "NOT_IDENTIFIABLE",
+  "power_plan_names": [
+    "MINIMAL",
+    "TARGET",
+    "STRONG"
+  ],
+  "prm_reference_status": "STATIC_REFERENCE_SMOKE_NOT_TRAINING",
+  "prm_rows": 2762,
+  "protected_paths_changed": [],
+  "source_file_hashes": [
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/math_shepherd/2024.acl-long.510.pdf",
+      "sha256": "a4cfa69348ebd08e1fc3fad8f149c9db8159c707f54d5fdcb9d88a53035d1161",
+      "bytes": 651122
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/math_shepherd/2024.acl-long.510.txt",
+      "sha256": "2efd31850e621d162d202176ecda7fd2dfa1ab6117bce4af7e61104c874bad7a",
+      "bytes": 80790
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/math_shepherd/acl_page.html",
+      "sha256": "079f2a97adf418344e86a483e6c7be590d350a3c9b856c0e6a40f479f241ec1e",
+      "bytes": 44629
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/math_shepherd/dujh22_contents.json",
+      "sha256": "54165519a304b45594acb3f12ca861229f5f114009ba6758fb50f83354b45990",
+      "bytes": 1649
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/math_shepherd/dujh22_repo.json",
+      "sha256": "13f51aedc00fb5b312ec10e1b6625238c51c2e05037102a014c3fe6f0e592b9a",
+      "bytes": 5538
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/math_shepherd/github_repo_search.json",
+      "sha256": "9798e7fd1703788a5ddb6acfa6f5e9a9e480664b249ae4dd7f0c1c852840f66e",
+      "bytes": 26993
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/nist/NIST.AI.100-1.pdf",
+      "sha256": "7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1",
+      "bytes": 1946127
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/nist/NIST.AI.100-1.txt",
+      "sha256": "b2eebd6b11d4beeb8ad4e4bf74789758439e5401930171d8f3c2182cab40ca2d",
+      "bytes": 122706
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/nist/NIST.AI.600-1.pdf",
+      "sha256": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a",
+      "bytes": 1174643
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/nist/NIST.AI.600-1.txt",
+      "sha256": "e2db91a3d2891cd6bc4395cd6cea107d191f6e976b174665bf027e2061900d68",
+      "bytes": 206681
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/nist/airc_home.html",
+      "sha256": "300bd0b297b97aed752cb84aa6a264f46953e54a1b20fb4fdb2048c05c26d63a",
+      "bytes": 34240
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/nist/nist_search_tevv_athlon.html",
+      "sha256": "bb70291657535b96e2464f796128cdb8defd92546496b499e8534369f4adee97",
+      "bytes": 79882
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/nist/tevv_athlon.html",
+      "sha256": "dad466f2da762f5a3b1b50c124054cc28b0cac727e0026e5d5c115ad44929915",
+      "bytes": 86776
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k/phase1_test.jsonl",
+      "sha256": "f4b3bc5b095e45c816453dc4d748b755c680d61d55f9895d929a335b487c727d",
+      "bytes": 829105
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k/phase2_test.jsonl",
+      "sha256": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad",
+      "bytes": 12240719
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/.gitattributes",
+      "sha256": "572d7057e230ef74592d9f0cdc5badeec7edfe5651cd3bfb74edc9bb32e5a7c6",
+      "bytes": 44
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/LICENSE",
+      "sha256": "22d61a2226e035da51c56149c3358c36d1f61716435866bc6e6fe0e54c7270db",
+      "bytes": 1062
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/README.md",
+      "sha256": "a721d8d35cd77c128352acb3378dd32c223a41b5d0f6ca2e8b85fb4bfe88b5fe",
+      "bytes": 11718
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/prm800k/data/phase1_test.jsonl",
+      "sha256": "9ef6368569292631d06a3da178d83e1d45eea0612b6974d62f933a9eb1ef650e",
+      "bytes": 131
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/prm800k/data/phase1_train.jsonl",
+      "sha256": "720e36e8a1735b08387382e79856725dc23d5ad680aeeb1825778fe49c902692",
+      "bytes": 132
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/prm800k/data/phase2_test.jsonl",
+      "sha256": "35f0e5d68986a71cecf8ba8bcb14f8ae2a630b49271695a2f76c9ea6ded65695",
+      "bytes": 133
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/prm800k/data/phase2_train.jsonl",
+      "sha256": "76ec61fe30cc21b1702b4cbf85213f64c4ef8cadb2693395ec109eceddeac331",
+      "bytes": 134
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/prm800k/grading/grader.py",
+      "sha256": "9e8bbb6f504ee0d8068e1eca031d78174f1c925cfec391996fdf45c21bb016a9",
+      "bytes": 8101
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/prm800k/grading/math_normalize.py",
+      "sha256": "13998bf8c35bdc8a76868c84e1704a78567e2552557fda69027cc186568d3a4d",
+      "bytes": 4598
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/prm800k/math_splits/test.jsonl",
+      "sha256": "bf4bf2b73edea199aed01c5b3bdc90404d7f2419daf6931fc9a79622fcbf0cf2",
+      "bytes": 131
+    },
+    {
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k_repo_snapshot/prm800k/math_splits/train.jsonl",
+      "sha256": "44a61c1e7666168a74994e1fffa32fe208c13526670ff8f3f5cf223777abaa50",
+      "bytes": 133
+    }
+  ],
+  "verification_evidence": {
+    "full_pytest": {
+      "command": "./venv/bin/python -m pytest -q",
+      "head_commit": "e97340387888290e69fbfff122ab163de971b37e",
+      "summary": "876 passed, 13 skipped, 1 deselected, 10 warnings in 139.79s (0:02:19)",
+      "passed": 876,
+      "skipped": 13,
+      "deselected": 1,
+      "warnings": 10,
+      "result": "PASS"
+    },
+    "docs_lint": {
+      "command": "./venv/bin/python scripts/docs_lint.py --json /tmp/method_revision_docs_lint.json",
+      "result": "PASS",
+      "fail_count": 0,
+      "warning_count": 6,
+      "warning_baseline": "logs/graph/docs_lint_warn_baseline.md"
+    }
+  },
+  "forbidden_action_counts": {
+    "model_calls": 0,
+    "judge_calls": 0,
+    "training_calls": 0,
+    "gpu_calls": 0,
+    "production_service_calls": 0,
+    "database_calls": 0,
+    "phase2_stage_r_e_d_r_calls": 0
+  }
+}

@@ -1,0 +1,312 @@
+{
+  "claim_boundary": {
+    "allowed": "Preregistered controlled perturbations at mapping, retrieval, and numeric stages induce perfectly separable stage-aligned checkpoint signatures on the explicitly instrumented observation surface.",
+    "forbidden": [
+      "The hierarchy localizes failures.",
+      "Distributed downstream evidence is sufficient for localization.",
+      "Hierarchy itself causes localization.",
+      "The result establishes localization on natural long-horizon tasks.",
+      "Every individual stage has a separately powered confirmatory result.",
+      "The result establishes clean-only matched-FPR protocol superiority."
+    ],
+    "primary_negative": "When the directly targeted checkpoints are removed, localization collapses to approximately chance, showing that the result reflects explicit stage-aligned instrumentation rather than emergent localization from the remaining hierarchy.",
+    "scientific_implication": "Visibility requires appropriate instrumentation; hierarchy alone does not imply localization."
+  },
+  "evidence_classes": {
+    "ENGINEERING": "scorer/resolver implementation and validation receipts",
+    "EXPLORATORY": "Figure 3 and mechanism-feasibility summaries",
+    "NEGATIVE": "mechanism generalization not identified and formal pilot not ready",
+    "PRIMARY": "claim-boundary and frozen multi-leaf interpretation",
+    "SECONDARY": "FinQA gate status and PRM contract"
+  },
+  "execution_counts": {
+    "formal_finqa_v2_runs": 0,
+    "frozen_multileaf_json_modified": false,
+    "model_endpoint_calls": 0,
+    "old_d3_artifacts_modified": false,
+    "post_result_mutation_rule_tuning": 0,
+    "post_result_predictor_tuning": 0,
+    "post_result_sample_selection": 0,
+    "post_result_threshold_tuning": 0,
+    "prm_c0_c1_c2_c4_training_runs": 0,
+    "stage_e_source_evidence_modified": false
+  },
+  "execution_role": "LOOP_A_GB10",
+  "figure_3": {
+    "data_missing": false,
+    "manifest_hash_verified": true,
+    "source_values": {
+      "panel_a_macro_f1": {
+        "direct_codebook": 1.0,
+        "full_vector": 1.0,
+        "majority_baseline": 0.16666666666666666,
+        "non_direct_leaves": 0.3333333333333333
+      },
+      "panel_b_top1": {
+        "chance_baseline": 0.3333333333333333,
+        "direct_codebook": 1.0,
+        "full_vector": 1.0,
+        "non_direct_leaves": 0.3333333333333333
+      }
+    }
+  },
+  "generated_at": "2026-10-10T11:22:01+08:00",
+  "input_binding": {
+    "all_required_inputs_present": true,
+    "loop_d_inputs": [
+      {
+        "bytes": 5885,
+        "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_d_prm_formal_pilot_proposal_v1.md",
+        "sha256": "d43ae57983650f05890293bc0351d47ae3f3e7e44b1d12c6a4329aae2c3adf3e"
+      },
+      {
+        "bytes": 4013,
+        "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_independent_scorer_feasibility_v1.md",
+        "sha256": "e97f2d19e494a31e06db12f1d69668dfdae26e915bd7c9e447076a4505082df7"
+      },
+      {
+        "bytes": 10921,
+        "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_multileaf_result_packet_v1.md",
+        "sha256": "1d0eb7a646308e30ea14f6b844feadec7e8d50d8886e4706c43b132776cda57a"
+      },
+      {
+        "bytes": 2701,
+        "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
+        "sha256": "28549d5438e00aef8199c83dbd16c6081f49b51534cfef4a80a905c1c1df7cb5"
+      },
+      {
+        "bytes": 6595,
+        "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_revision_proposal_v1.md",
+        "sha256": "dee3d6fe2f53dbf86e9406902bfa25ae6c5e881c50a9b33c98bcc0878e3e9c8a"
+      }
+    ],
+    "loop_d_to_document_exact_match": {
+      "docs/research/stage_d_prm_formal_pilot_proposal_v1.md": true,
+      "docs/research/stage_e_independent_scorer_feasibility_v1.md": true,
+      "docs/research/stage_e_multileaf_result_packet_v1.md": true,
+      "docs/research/stage_e_version_b_figure_spec_v1.md": true,
+      "docs/research/stage_e_version_b_revision_proposal_v1.md": true
+    },
+    "required_inputs": [
+      {
+        "bytes": 5424,
+        "path": "research/stage_e_multileaf_20261010/results/multileaf_formal_results.json",
+        "sha256": "ae9cf1cf37e2742e3895ec2bd0e4cf0c150a18c927eb9a618f612782b3d9cbb0"
+      },
+      {
+        "bytes": 20157,
+        "path": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+        "sha256": "0518c5bfc40bf2b4e82312887b9426bbb8833df326d4d782cd1cbe63d052571d"
+      },
+      {
+        "bytes": 3127,
+        "path": "research/stage_e_multileaf_20261010/multileaf_mechanism_generalization_audit.json",
+        "sha256": "bd412df8d7d8f38b748b6a01c3fd90d070baf48287ee81983d1595c1b9def6ef"
+      },
+      {
+        "bytes": 11997,
+        "path": "research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json",
+        "sha256": "280c563c5e701cf81f75d85664f6880f8133723693ddbc63a641db804a909ca7"
+      },
+      {
+        "bytes": 217141,
+        "path": "research/stage_e_multileaf_20261010/finqa_v2_candidate_sample_manifest.json",
+        "sha256": "71e6e2c4e2f59721644098cae20e1b850692edd20e0c138f87f27bedd4f25b77"
+      },
+      {
+        "bytes": 5428,
+        "path": "research/finqa_independent_observation_scorer_v2.py",
+        "sha256": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5"
+      },
+      {
+        "bytes": 3980,
+        "path": "tests/test_finqa_independent_observation_scorer_v2.py",
+        "sha256": "2146f847f4da0dab7295e615420eefbf55bc45167c5ce62360908153589db7d1"
+      },
+      {
+        "bytes": 2032,
+        "path": "research/finqa_evidence_argument_resolver_v2.py",
+        "sha256": "f60812f77695cb9d5a153a7986f1043e45043a08ec7b9bcf8c0c4be6d4b7201f"
+      },
+      {
+        "bytes": 1422,
+        "path": "tests/test_finqa_evidence_argument_resolver_v2.py",
+        "sha256": "ac51401a55f8e1ff5eb153f9cabf9dc17824a0be114eb931aed27dfc6544912e"
+      }
+    ]
+  },
+  "mechanism_boundary": {
+    "claim_hierarchy_localization": false,
+    "claim_natural_failure_localization": false,
+    "claim_semantic_process_correctness": false,
+    "status": "MECHANISM_GENERALIZATION_NOT_IDENTIFIED"
+  },
+  "namespace": "STAGE_E_EVIDENCE_STRENGTHENING_RECEIPT_V1",
+  "output_binding": {
+    "outputs": [
+      {
+        "bytes": 10921,
+        "path": "docs/research/stage_e_multileaf_result_packet_v1.md",
+        "sha256": "1d0eb7a646308e30ea14f6b844feadec7e8d50d8886e4706c43b132776cda57a"
+      },
+      {
+        "bytes": 6595,
+        "path": "docs/research/stage_e_version_b_revision_proposal_v1.md",
+        "sha256": "dee3d6fe2f53dbf86e9406902bfa25ae6c5e881c50a9b33c98bcc0878e3e9c8a"
+      },
+      {
+        "bytes": 4013,
+        "path": "docs/research/stage_e_independent_scorer_feasibility_v1.md",
+        "sha256": "e97f2d19e494a31e06db12f1d69668dfdae26e915bd7c9e447076a4505082df7"
+      },
+      {
+        "bytes": 5885,
+        "path": "docs/research/stage_d_prm_formal_pilot_proposal_v1.md",
+        "sha256": "d43ae57983650f05890293bc0351d47ae3f3e7e44b1d12c6a4329aae2c3adf3e"
+      },
+      {
+        "bytes": 2701,
+        "path": "docs/research/stage_e_version_b_figure_spec_v1.md",
+        "sha256": "28549d5438e00aef8199c83dbd16c6081f49b51534cfef4a80a905c1c1df7cb5"
+      },
+      {
+        "bytes": 5614,
+        "path": "docs/research/finqa_v2_gate_status_v1.md",
+        "sha256": "273a08c4c6930225e1c93d93c0db7e3c35641f8060b00e53b2c27cf35b476cf5"
+      },
+      {
+        "bytes": 70510,
+        "path": "docs/research/figures_multileaf/fig_multileaf_localization_ablation.png",
+        "sha256": "a360f9b1f187379e3adb5106a331fb314458945b977495756ebd1797fd94995c"
+      },
+      {
+        "bytes": 8736,
+        "path": "docs/research/figures_multileaf/fig_multileaf_localization_ablation.svg",
+        "sha256": "d8187af983c446443a08bb428040e94415ff0fdfc462bb39dbbddb0d478647a6"
+      },
+      {
+        "bytes": 2265,
+        "path": "docs/research/figures_multileaf/manifest.json",
+        "sha256": "5563ba53c88071d9398d7d756ed70f2a310039b51a03a7bc1583756cbf597d70"
+      },
+      {
+        "bytes": 26252,
+        "path": "docs/INDEX.md",
+        "sha256": "6501e36d7b4990a5861380fc479304465e3fd0962eaba3fbc55ee134f065ab6f"
+      }
+    ],
+    "receipt_path": "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_receipt.json",
+    "receipt_self_hash_contract": "SHA-256 of canonical compact sorted JSON after removing receipt.self_sha256"
+  },
+  "receipt": {
+    "hash_contract": "SHA-256 of canonical compact sorted JSON after removing receipt.self_sha256",
+    "self_sha256": "1d243fd6e170bfad5da095f68e907d777a01964dbcdafa292bb96f8878a55746"
+  },
+  "receipt_type": "stage-e-evidence-strengthening-execution",
+  "research_question": "Can Paper E evidence be strengthened without re-analyzing the same M/R/N direct codebook or starting formal FinQA/PRM training?",
+  "schema_version": 1,
+  "six_gate_status": {
+    "ID_GO": "PASS_CANDIDATE_IDS_FROZEN_NOT_EXECUTION",
+    "JOIN_GO": "PASS_RESOLVER_AND_CANDIDATES_NOT_FORMAL",
+    "PREREG_GO": "BLOCKED_PENDING_SPLIT_GO_AND_SCORER_FREEZE",
+    "SCORER_GO": "PROTOTYPE_PASS_NOT_FROZEN",
+    "SOURCE_GO": "PASS_SOURCE_IDENTITY_AND_HASHES",
+    "SPLIT_GO": "BLOCKED_SPLIT_ROLE_NOT_FROZEN"
+  },
+  "statuses": {
+    "figure_spec": "FIGURE_SPEC_APPROVED_FOR_USER_REVIEW",
+    "finqa_v2": "FINQA_V2_FORMAL_EXPERIMENT_NOT_READY",
+    "finqa_v2_overall_gate": "SECOND_FLOW_BLOCKED",
+    "independent_scorer": "PROTOTYPE_PASS_NOT_FROZEN",
+    "mechanism_generalization": "MECHANISM_GENERALIZATION_NOT_IDENTIFIED",
+    "paper_body_modified": false,
+    "paper_e_claim_boundary": "APPLIED_LOOP_D_WORDING",
+    "prm_formal_pilot": "PRM_FORMAL_PILOT_NOT_READY"
+  },
+  "stop_conditions": {
+    "FIGURE_DATA_MISSING": false,
+    "INPUT_MISSING": false,
+    "SCORER_NOT_INDEPENDENT": false,
+    "VALIDATOR_FAILURE": false
+  },
+  "validation": {
+    "assertions_relaxed": false,
+    "checks": [
+      {
+        "name": "python_compile_scorer_resolver",
+        "status": "PASS"
+      },
+      {
+        "failed": 0,
+        "name": "independent_scorer_tests",
+        "passed": 5,
+        "status": "PASS"
+      },
+      {
+        "failed": 0,
+        "name": "evidence_argument_resolver_tests",
+        "passed": 3,
+        "status": "PASS"
+      },
+      {
+        "failed": 0,
+        "name": "multileaf_formal_contract_tests",
+        "passed": 3,
+        "status": "PASS"
+      },
+      {
+        "failed": 0,
+        "name": "paper_claim_acceptance_tests",
+        "passed": 10,
+        "status": "PASS"
+      },
+      {
+        "failed": 0,
+        "name": "submission_anonymous_preview_tests",
+        "passed": 5,
+        "status": "PASS"
+      },
+      {
+        "failed": 0,
+        "name": "submission_package_audit_tests",
+        "passed": 3,
+        "status": "PASS"
+      },
+      {
+        "checks_passed": 10,
+        "checks_total": 10,
+        "name": "submission_package_mechanical_validator",
+        "status": "PASS",
+        "submission_status": "PENDING_EXTERNAL_ITEMS"
+      },
+      {
+        "name": "required_json_parsing",
+        "status": "PASS"
+      },
+      {
+        "fails": 0,
+        "info": 1,
+        "name": "docs_lint",
+        "status": "PASS",
+        "warns": 6
+      },
+      {
+        "name": "figure_manifest_hash_verification",
+        "status": "PASS"
+      },
+      {
+        "name": "loop_d_exact_document_match",
+        "status": "PASS"
+      }
+    ],
+    "docs_lint_warnings_preserved": [
+      "[2] 活跃但 18 天未更新: docs/29_graph_engineering_roadmap.md (更新: 2026-09-22)",
+      "[2] 活跃但 29 天未更新: docs/32_模型升级与多agent再思考.md (更新: 2026-09-11)",
+      "[2] 活跃但 29 天未更新: docs/33_导师指导吸收_科研三线升级.md (更新: 2026-09-11)",
+      "[2] 活跃但 42 天未更新: docs/34_专利_小论文_大论文协同研究路线.md (更新: 2026-08-29)",
+      "[2] 活跃但 18 天未更新: docs/CLAUDE.md (更新: 2026-09-22)",
+      "[2] 活跃但 29 天未更新: docs/m1_coldstart_candidates.md (更新: 2026-09-11)"
+    ],
+    "failed_validators": []
+  }
+}

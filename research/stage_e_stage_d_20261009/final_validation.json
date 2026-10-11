@@ -1,0 +1,10 @@
+{
+  "status": "PASS_PENDING_INDEPENDENT_FINAL_CONFIRMATION",
+  "source_audit_sha256": "c2528de46da197a40cecb0f5e0ec57bfc38b7cbab6842c1224f76a12661a9fc9",
+  "source_audit_bytes": 13664,
+  "network_accounting_sha256": "4fab54a963bb158af1c3d765861733ff60348bb90954bbaaa5c4a2ea5a80d4a1",
+  "external_copy_hashes_recorded": 13,
+  "external_copies_all_match": true,
+  "openalex_executed_request_count": "UNVERIFIED_NO_INDEPENDENT_REQUEST_LOG",
+  "forbidden_runtime_log_attribution": "UNVERIFIED_RUNTIME_WRITER_ATTRIBUTION"
+}

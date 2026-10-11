@@ -1,0 +1,1037 @@
+{
+  "feature_sets": {
+    "any_response_scalar": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "features": [
+        "any_response"
+      ],
+      "macro_f1": 0.0,
+      "tie_rate": 1.0,
+      "top1_accuracy": 0.0
+    },
+    "direct_target_codebook": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "features": [
+        "parse.field.hit_rate",
+        "qa.retrieval.source_required",
+        "parse.reconcile.equations"
+      ],
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "full_vector": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "features": [
+        "parse.doc.ok",
+        "parse.doc.throughput",
+        "parse.field.hit_rate",
+        "parse.reconcile.equations",
+        "parse.table.regression",
+        "qa.citation.judge",
+        "qa.faithfulness.judge",
+        "qa.numeric.exact",
+        "qa.numeric.number_grounding",
+        "qa.refusal.deterministic",
+        "qa.refusal.judge",
+        "qa.retrieval.source_required"
+      ],
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "full_without_parse_field_hit_rate": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "features": [
+        "parse.doc.ok",
+        "parse.doc.throughput",
+        "parse.reconcile.equations",
+        "parse.table.regression",
+        "qa.citation.judge",
+        "qa.faithfulness.judge",
+        "qa.numeric.exact",
+        "qa.numeric.number_grounding",
+        "qa.refusal.deterministic",
+        "qa.refusal.judge",
+        "qa.retrieval.source_required"
+      ],
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "full_without_parse_reconcile": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "features": [
+        "parse.doc.ok",
+        "parse.doc.throughput",
+        "parse.field.hit_rate",
+        "parse.table.regression",
+        "qa.citation.judge",
+        "qa.faithfulness.judge",
+        "qa.numeric.exact",
+        "qa.numeric.number_grounding",
+        "qa.refusal.deterministic",
+        "qa.refusal.judge",
+        "qa.retrieval.source_required"
+      ],
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "full_without_parse_table_regression": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "features": [
+        "parse.doc.ok",
+        "parse.doc.throughput",
+        "parse.field.hit_rate",
+        "parse.reconcile.equations",
+        "qa.citation.judge",
+        "qa.faithfulness.judge",
+        "qa.numeric.exact",
+        "qa.numeric.number_grounding",
+        "qa.refusal.deterministic",
+        "qa.refusal.judge",
+        "qa.retrieval.source_required"
+      ],
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "full_without_qa_source_required": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "features": [
+        "parse.doc.ok",
+        "parse.doc.throughput",
+        "parse.field.hit_rate",
+        "parse.reconcile.equations",
+        "parse.table.regression",
+        "qa.citation.judge",
+        "qa.faithfulness.judge",
+        "qa.numeric.exact",
+        "qa.numeric.number_grounding",
+        "qa.refusal.deterministic",
+        "qa.refusal.judge"
+      ],
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "non_direct_leaves_only": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "features": [
+        "parse.doc.ok",
+        "parse.doc.throughput",
+        "parse.table.regression",
+        "qa.citation.judge",
+        "qa.faithfulness.judge",
+        "qa.numeric.exact",
+        "qa.numeric.number_grounding",
+        "qa.refusal.deterministic",
+        "qa.refusal.judge"
+      ],
+      "macro_f1": 0.3333333333333333,
+      "tie_rate": 0.6666666666666666,
+      "top1_accuracy": 0.3333333333333333
+    }
+  },
+  "formal_result_changed": false,
+  "key_findings": {
+    "full_equals_direct_codebook": true,
+    "incremental_information_from_non_direct_leaves": true,
+    "interpretation": "The fixed three-direct-leaf codebook is sufficient for perfect stage decoding. This confirms Loop C's tautology concern and limits the claim to the constructed observation surface."
+  },
+  "leave_one_leaf_out": {
+    "parse.doc.ok": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "parse.doc.throughput": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "parse.field.hit_rate": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "parse.reconcile.equations": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "parse.table.regression": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "qa.citation.judge": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "qa.faithfulness.judge": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "qa.numeric.exact": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "qa.numeric.number_grounding": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "qa.refusal.deterministic": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "qa.refusal.judge": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    },
+    "qa.retrieval.source_required": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 1.0,
+      "tie_rate": 0.0,
+      "top1_accuracy": 1.0
+    }
+  },
+  "namespace": "MULTILEAF_SIGNATURE_ABLATION",
+  "per_leaf": {
+    "parse.doc.ok": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.0,
+      "mutual_information_bits": 0.0,
+      "response_counts": {
+        "M": 0,
+        "N": 0,
+        "R": 0
+      },
+      "tie_rate": 1.0,
+      "top1_accuracy": 0.0
+    },
+    "parse.doc.throughput": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.0,
+      "mutual_information_bits": 0.0,
+      "response_counts": {
+        "M": 0,
+        "N": 0,
+        "R": 0
+      },
+      "tie_rate": 1.0,
+      "top1_accuracy": 0.0
+    },
+    "parse.field.hit_rate": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.3333333333333333,
+      "mutual_information_bits": 0.9182958340544893,
+      "response_counts": {
+        "M": 72,
+        "N": 0,
+        "R": 0
+      },
+      "tie_rate": 0.6666666666666666,
+      "top1_accuracy": 0.3333333333333333
+    },
+    "parse.reconcile.equations": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 72,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.3333333333333333,
+      "mutual_information_bits": 0.9182958340544893,
+      "response_counts": {
+        "M": 0,
+        "N": 72,
+        "R": 0
+      },
+      "tie_rate": 0.6666666666666666,
+      "top1_accuracy": 0.3333333333333333
+    },
+    "parse.table.regression": {
+      "confusion": {
+        "M": {
+          "M": 72,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 0
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.3333333333333333,
+      "mutual_information_bits": 0.9182958340544893,
+      "response_counts": {
+        "M": 72,
+        "N": 0,
+        "R": 0
+      },
+      "tie_rate": 0.6666666666666666,
+      "top1_accuracy": 0.3333333333333333
+    },
+    "qa.citation.judge": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.0,
+      "mutual_information_bits": 0.0,
+      "response_counts": {
+        "M": 0,
+        "N": 0,
+        "R": 0
+      },
+      "tie_rate": 1.0,
+      "top1_accuracy": 0.0
+    },
+    "qa.faithfulness.judge": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.0,
+      "mutual_information_bits": 0.0,
+      "response_counts": {
+        "M": 0,
+        "N": 0,
+        "R": 0
+      },
+      "tie_rate": 1.0,
+      "top1_accuracy": 0.0
+    },
+    "qa.numeric.exact": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.0,
+      "mutual_information_bits": 0.0,
+      "response_counts": {
+        "M": 0,
+        "N": 0,
+        "R": 0
+      },
+      "tie_rate": 1.0,
+      "top1_accuracy": 0.0
+    },
+    "qa.numeric.number_grounding": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.0,
+      "mutual_information_bits": 0.0,
+      "response_counts": {
+        "M": 0,
+        "N": 0,
+        "R": 0
+      },
+      "tie_rate": 1.0,
+      "top1_accuracy": 0.0
+    },
+    "qa.refusal.deterministic": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.0,
+      "mutual_information_bits": 0.0,
+      "response_counts": {
+        "M": 0,
+        "N": 0,
+        "R": 0
+      },
+      "tie_rate": 1.0,
+      "top1_accuracy": 0.0
+    },
+    "qa.refusal.judge": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        }
+      },
+      "macro_f1": 0.0,
+      "mutual_information_bits": 0.0,
+      "response_counts": {
+        "M": 0,
+        "N": 0,
+        "R": 0
+      },
+      "tie_rate": 1.0,
+      "top1_accuracy": 0.0
+    },
+    "qa.retrieval.source_required": {
+      "confusion": {
+        "M": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "N": {
+          "M": 0,
+          "N": 0,
+          "R": 0,
+          "__TIE__": 72
+        },
+        "R": {
+          "M": 0,
+          "N": 0,
+          "R": 72,
+          "__TIE__": 0
+        }
+      },
+      "macro_f1": 0.3333333333333333,
+      "mutual_information_bits": 0.9182958340544893,
+      "response_counts": {
+        "M": 0,
+        "N": 0,
+        "R": 72
+      },
+      "tie_rate": 0.6666666666666666,
+      "top1_accuracy": 0.3333333333333333
+    }
+  },
+  "signature_counts": {
+    "M": [
+      [
+        [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        72
+      ]
+    ],
+    "N": [
+      [
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        72
+      ]
+    ],
+    "R": [
+      [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        72
+      ]
+    ]
+  },
+  "source": {
+    "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl",
+    "rows": 216,
+    "sha256": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06"
+  },
+  "status": "EXPLORATORY_POST_HOC"
+}

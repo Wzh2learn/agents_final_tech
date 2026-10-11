@@ -1,0 +1,18 @@
+{
+  "captured_at": "2026-10-10T01:01:51+08:00",
+  "cpu_count": 20,
+  "git": {
+    "head": "e97340387888290e69fbfff122ab163de971b37e",
+    "status_porcelain_sha256": "dc4403e0de6d3d4a4e7f8825b332fd0197df326964e1975ef531dcdbfb4b16dd"
+  },
+  "machine": "aarch64",
+  "packages": {
+    "numpy": "2.5.1"
+  },
+  "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39",
+  "processor": "aarch64",
+  "python": {
+    "executable": "/home/testuser/wzh/projects/agents_final_tech/venv/bin/python",
+    "version": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "namespace": "stage_e_multileaf_power_plan_v1",
+  "primary_estimand": "macro-average stage-level top-1 localization accuracy difference versus the preregistered non-localization baseline",
+  "primary_unit": "independent table/origin cluster",
+  "assumptions": {
+    "alpha_two_sided": 0.05,
+    "effect_delta": 0.1,
+    "cluster_difference_sd": 0.25,
+    "power_target": 0.8,
+    "seed": 20261009,
+    "simulation_replicates": 200000,
+    "effect_status": "DESIGN ASSUMPTION, NOT AN OBSERVED EFFECT",
+    "variance_status": "SENSITIVITY ASSUMPTION, NOT ESTIMATED FROM DATA"
+  },
+  "plans": [
+    {
+      "plan": "MINIMAL",
+      "independent_table_clusters_per_stage": 12,
+      "injections_per_cluster_per_stage": 2,
+      "total_independent_clusters": 36,
+      "total_injections": 72,
+      "expected_localization_effect_delta": 0.1,
+      "cluster_difference_sd_assumption": 0.25,
+      "pooled_macro_power_exact": 0.6457331914173321,
+      "pooled_macro_power_simulated": 0.64769,
+      "per_stage_power_exact": 0.24462548062955025,
+      "approx_95pct_ci_half_width": 0.08166666666666667,
+      "target_power": 0.8,
+      "gpu_api_cost": "0 GPU / 0 API for deterministic multi-leaf fixture",
+      "cpu_cost_note": "bootstrap and deterministic injection checks scale with total_injections; no model or judge call is included"
+    },
+    {
+      "plan": "TARGET",
+      "independent_table_clusters_per_stage": 24,
+      "injections_per_cluster_per_stage": 3,
+      "total_independent_clusters": 72,
+      "total_injections": 216,
+      "expected_localization_effect_delta": 0.1,
+      "cluster_difference_sd_assumption": 0.25,
+      "pooled_macro_power_exact": 0.9174149065432161,
+      "pooled_macro_power_simulated": 0.9163,
+      "per_stage_power_exact": 0.4672401487148703,
+      "approx_95pct_ci_half_width": 0.057747053796901385,
+      "target_power": 0.8,
+      "gpu_api_cost": "0 GPU / 0 API for deterministic multi-leaf fixture",
+      "cpu_cost_note": "bootstrap and deterministic injection checks scale with total_injections; no model or judge call is included"
+    },
+    {
+      "plan": "STRONG",
+      "independent_table_clusters_per_stage": 50,
+      "injections_per_cluster_per_stage": 4,
+      "total_independent_clusters": 150,
+      "total_injections": 600,
+      "expected_localization_effect_delta": 0.1,
+      "cluster_difference_sd_assumption": 0.25,
+      "pooled_macro_power_exact": 0.9981767155728719,
+      "pooled_macro_power_simulated": 0.998045,
+      "per_stage_power_exact": 0.7917871892678126,
+      "approx_95pct_ci_half_width": 0.040008332465458575,
+      "target_power": 0.8,
+      "gpu_api_cost": "0 GPU / 0 API for deterministic multi-leaf fixture",
+      "cpu_cost_note": "bootstrap and deterministic injection checks scale with total_injections; no model or judge call is included"
+    }
+  ],
+  "sensitivity": [
+    {
+      "effect": 0.05,
+      "sigma": 0.2,
+      "MINIMAL_pooled_power": 0.3084903690179791,
+      "TARGET_pooled_power": 0.5527747619148313,
+      "STRONG_pooled_power": 0.860397311634135,
+      "STRONG_per_stage_power": 0.4103806417610206
+    },
+    {
+      "effect": 0.05,
+      "sigma": 0.25,
+      "MINIMAL_pooled_power": 0.21485016220331968,
+      "TARGET_pooled_power": 0.387632064768906,
+      "STRONG_pooled_power": 0.6821529719887242,
+      "STRONG_per_stage_power": 0.2835924146674736
+    },
+    {
+      "effect": 0.05,
+      "sigma": 0.35,
+      "MINIMAL_pooled_power": 0.1326536107164865,
+      "TARGET_pooled_power": 0.22319198534890958,
+      "STRONG_pooled_power": 0.4124185113523177,
+      "STRONG_per_stage_power": 0.16772954569808343
+    },
+    {
+      "effect": 0.1,
+      "sigma": 0.2,
+      "MINIMAL_pooled_power": 0.8306656074128485,
+      "TARGET_pooled_power": 0.9869470781796874,
+      "STRONG_pooled_power": 0.999981375312568,
+      "STRONG_per_stage_power": 0.933897581261369
+    },
+    {
+      "effect": 0.1,
+      "sigma": 0.25,
+      "MINIMAL_pooled_power": 0.6457331914173321,
+      "TARGET_pooled_power": 0.9174149065432161,
+      "STRONG_pooled_power": 0.9981767155728719,
+      "STRONG_per_stage_power": 0.7917871892678126
+    },
+    {
+      "effect": 0.1,
+      "sigma": 0.35,
+      "MINIMAL_pooled_power": 0.3850200983989289,
+      "TARGET_pooled_power": 0.6669562001339072,
+      "STRONG_pooled_power": 0.9353243358848262,
+      "STRONG_per_stage_power": 0.5082869713176243
+    },
+    {
+      "effect": 0.15,
+      "sigma": 0.2,
+      "MINIMAL_pooled_power": 0.9920999582287137,
+      "TARGET_pooled_power": 0.9999920596730921,
+      "STRONG_pooled_power": 0.9999999999996123,
+      "STRONG_per_stage_power": 0.9993959890585562
+    },
+    {
+      "effect": 0.15,
+      "sigma": 0.25,
+      "MINIMAL_pooled_power": 0.9381725496330754,
+      "TARGET_pooled_power": 0.998898065714749,
+      "STRONG_pooled_power": 0.9999999536698072,
+      "STRONG_per_stage_power": 0.9860313448023349
+    },
+    {
+      "effect": 0.15,
+      "sigma": 0.35,
+      "MINIMAL_pooled_power": 0.7055402627683389,
+      "TARGET_pooled_power": 0.9481281934364495,
+      "STRONG_pooled_power": 0.999432738626157,
+      "STRONG_per_stage_power": 0.8438960977659297
+    }
+  ],
+  "multiple_comparison_plan": {
+    "primary": "one pooled macro top-1 test at alpha=.05",
+    "secondary_stage_top1": "Holm correction across Stage M/R/N",
+    "exploratory": "top-k, first-visible-stage distance, propagation depth, silent absorption stage remain exploratory until precedent and preregistration are complete"
+  },
+  "interpretation": {
+    "MINIMAL": "feasibility only; pooled power is below 0.80",
+    "TARGET": "minimum plan for pooled macro effect under the stated delta/sigma",
+    "STRONG": "supports pooled macro effect and approximately 0.80 per-stage power under the stated delta/sigma",
+    "caveat": "The same table must not contribute independent power through multiple injections; all injections remain inside their cluster."
+  }
+}

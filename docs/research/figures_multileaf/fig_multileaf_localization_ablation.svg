@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#ffffff"/>
+  <text x="80" y="93" fill="#172033" font-family="DejaVu Sans" font-size="38" font-weight="700" text-anchor="start">Figure 3. Multi-leaf localization and construct-sensitive ablation</text>
+  <text x="80" y="147" fill="#66748d" font-family="DejaVu Sans" font-size="22" font-weight="400" text-anchor="start">Controlled, explicitly instrumented M/R/N surface; perfect full/direct bars are construct-sensitive</text>
+  <text x="155" y="205" fill="#172033" font-family="DejaVu Sans" font-size="30" font-weight="700" text-anchor="start">Panel A · Macro-F1</text>
+  <line x1="155" y1="570" x2="745" y2="570" stroke="#dce7f5" stroke-width="2"/>
+  <text x="139" y="577" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="end">0.00</text>
+  <line x1="155" y1="491" x2="745" y2="491" stroke="#dce7f5" stroke-width="2"/>
+  <text x="139" y="498" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="end">0.25</text>
+  <line x1="155" y1="412" x2="745" y2="412" stroke="#dce7f5" stroke-width="2"/>
+  <text x="139" y="419" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="end">0.50</text>
+  <line x1="155" y1="334" x2="745" y2="334" stroke="#dce7f5" stroke-width="2"/>
+  <text x="139" y="341" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="end">0.75</text>
+  <line x1="155" y1="255" x2="745" y2="255" stroke="#dce7f5" stroke-width="2"/>
+  <text x="139" y="262" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="end">1.00</text>
+  <line x1="155" y1="255" x2="155" y2="570" stroke="#172033" stroke-width="3"/>
+  <line x1="155" y1="570" x2="745" y2="570" stroke="#172033" stroke-width="3"/>
+  <rect x="234" y="255" width="78" height="315" rx="8" fill="#38678f" stroke="#172033" stroke-width="2"/>
+  <text x="273" y="241" fill="#172033" font-family="DejaVu Sans" font-size="19" font-weight="700" text-anchor="middle">1.0000</text>
+  <text x="273" y="611" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">Full</text>
+  <text x="273" y="633" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">vector</text>
+  <rect x="352" y="255" width="78" height="315" rx="8" fill="#3d968f" stroke="#172033" stroke-width="2"/>
+  <text x="391" y="241" fill="#172033" font-family="DejaVu Sans" font-size="19" font-weight="700" text-anchor="middle">1.0000</text>
+  <text x="391" y="611" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">Direct</text>
+  <text x="391" y="633" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">codebook</text>
+  <rect x="470" y="465" width="78" height="105" rx="8" fill="#db7b4a" stroke="#172033" stroke-width="2"/>
+  <text x="509" y="451" fill="#172033" font-family="DejaVu Sans" font-size="19" font-weight="700" text-anchor="middle">0.3333 = uniform</text>
+  <text x="509" y="611" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">Non-direct</text>
+  <text x="509" y="633" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">leaves</text>
+  <rect x="588" y="518" width="78" height="52" rx="8" fill="#adb6c4" stroke="#172033" stroke-width="2"/>
+  <text x="627" y="504" fill="#172033" font-family="DejaVu Sans" font-size="19" font-weight="700" text-anchor="middle">0.1667</text>
+  <text x="627" y="611" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">Majority</text>
+  <text x="627" y="633" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">baseline</text>
+  <text x="915" y="205" fill="#172033" font-family="DejaVu Sans" font-size="30" font-weight="700" text-anchor="start">Panel B · Top-1</text>
+  <line x1="915" y1="570" x2="1505" y2="570" stroke="#dce7f5" stroke-width="2"/>
+  <text x="899" y="577" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="end">0.00</text>
+  <line x1="915" y1="491" x2="1505" y2="491" stroke="#dce7f5" stroke-width="2"/>
+  <text x="899" y="498" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="end">0.25</text>
+  <line x1="915" y1="412" x2="1505" y2="412" stroke="#dce7f5" stroke-width="2"/>
+  <text x="899" y="419" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="end">0.50</text>
+  <line x1="915" y1="334" x2="1505" y2="334" stroke="#dce7f5" stroke-width="2"/>
+  <text x="899" y="341" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="end">0.75</text>
+  <line x1="915" y1="255" x2="1505" y2="255" stroke="#dce7f5" stroke-width="2"/>
+  <text x="899" y="262" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="end">1.00</text>
+  <line x1="915" y1="255" x2="915" y2="570" stroke="#172033" stroke-width="3"/>
+  <line x1="915" y1="570" x2="1505" y2="570" stroke="#172033" stroke-width="3"/>
+  <rect x="994" y="255" width="78" height="315" rx="8" fill="#38678f" stroke="#172033" stroke-width="2"/>
+  <text x="1033" y="241" fill="#172033" font-family="DejaVu Sans" font-size="19" font-weight="700" text-anchor="middle">1.0000</text>
+  <text x="1033" y="611" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">Full</text>
+  <text x="1033" y="633" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">vector</text>
+  <rect x="1112" y="255" width="78" height="315" rx="8" fill="#3d968f" stroke="#172033" stroke-width="2"/>
+  <text x="1151" y="241" fill="#172033" font-family="DejaVu Sans" font-size="19" font-weight="700" text-anchor="middle">1.0000</text>
+  <text x="1151" y="611" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">Direct</text>
+  <text x="1151" y="633" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">codebook</text>
+  <rect x="1230" y="465" width="78" height="105" rx="8" fill="#db7b4a" stroke="#172033" stroke-width="2"/>
+  <text x="1269" y="424" fill="#172033" font-family="DejaVu Sans" font-size="19" font-weight="700" text-anchor="middle">0.3333 = chance</text>
+  <text x="1269" y="611" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">Non-direct</text>
+  <text x="1269" y="633" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">leaves</text>
+  <rect x="1348" y="465" width="78" height="105" rx="8" fill="#adb6c4" stroke="#172033" stroke-width="2"/>
+  <text x="1387" y="459" fill="#172033" font-family="DejaVu Sans" font-size="19" font-weight="700" text-anchor="middle">0.3333</text>
+  <text x="1387" y="611" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">Chance</text>
+  <text x="1387" y="633" fill="#172033" font-family="DejaVu Sans" font-size="18" font-weight="400" text-anchor="middle">baseline</text>
+  <text x="80" y="695" fill="#172033" font-family="DejaVu Sans" font-size="20" font-weight="700" text-anchor="start">Required caption</text>
+  <text x="80" y="736" fill="#172033" font-family="DejaVu Sans" font-size="21" font-weight="400" text-anchor="start">Perfect full-vector and direct-codebook bars are construct-sensitive on the explicitly instrumented controlled M/R/N observation surface.</text>
+  <text x="80" y="766" fill="#172033" font-family="DejaVu Sans" font-size="21" font-weight="400" text-anchor="start">After directly targeted checkpoints are removed, non-direct top-1 equals chance (0.3333); non-direct macro-F1 equals the uniform-class</text>
+  <text x="80" y="796" fill="#172033" font-family="DejaVu Sans" font-size="21" font-weight="400" text-anchor="start">macro-F1 baseline (0.3333) but remains above the plotted majority macro-F1 baseline (0.1667). The result reflects stage-aligned</text>
+  <text x="80" y="826" fill="#172033" font-family="DejaVu Sans" font-size="21" font-weight="400" text-anchor="start">instrumentation, not emergent localization from the remaining hierarchy.</text>
+  <text x="80" y="872" fill="#66748d" font-family="DejaVu Sans" font-size="17" font-weight="400" text-anchor="start">Frozen source: multileaf_signature_ablation.json only; no tuning, derived scientific data, or experiment rerun.</text>
+</svg>

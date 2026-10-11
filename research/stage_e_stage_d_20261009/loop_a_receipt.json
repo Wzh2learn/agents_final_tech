@@ -1,0 +1,818 @@
+{
+  "receipt_version": "1.0",
+  "date": "2026-10-09",
+  "status": "LOOP_A_COMPLETE_READY_FOR_INDEPENDENT_REVIEW",
+  "mode": "local deterministic analysis and bounded public-source verification",
+  "evidence_labels": [
+    "FACT",
+    "INFERENCE",
+    "VALUE",
+    "UNVERIFIED"
+  ],
+  "contract": {
+    "prompt": {
+      "path": "/home/testuser/wzh/research_stage_e_d_20261009/PROMPT.md",
+      "sha256": "a5ff393af9595523b67e80e824de809f9df65d07463c4567087f4518d4a58625",
+      "lines": 35
+    },
+    "implementation_plan": {
+      "path": "/home/testuser/wzh/research_stage_e_d_20261009/IMPLEMENTATION_PLAN.md",
+      "sha256": "e08b46291c1b02e687de2e781646e8ec5b5e981b4080ed7194ef4a02f95603e3"
+    },
+    "loop_a_prompt": {
+      "path": "/home/testuser/wzh/research_stage_e_d_20261009/loop_a_prompt.md",
+      "sha256": "95dc9e3c594063b5621b66ed277ca63306b40381f1b2c48629876ad7310f9597"
+    },
+    "repository_agents": {
+      "path": "AGENTS.md",
+      "sha256": "2d9fd03d45cc5d9e0a3a96081d1727236b5b888fa7ce3d192618cee67836d4cb"
+    },
+    "research_index": {
+      "path": "docs/research/README.md",
+      "sha256": "c380c0d09f0a4be65a68fc833b3d0ea0d18fed512744eda5e5489f0bad63885d"
+    }
+  },
+  "frozen_inputs": [
+    {
+      "path": "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+      "expected_sha256": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+      "actual_sha256": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+      "match": true
+    },
+    {
+      "path": "logs/graph/eval/t2_visibility_sensitivity.json",
+      "expected_sha256": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5",
+      "actual_sha256": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5",
+      "match": true
+    },
+    {
+      "path": "logs/graph/eval/d1_mutant_validity_audit.json",
+      "expected_sha256": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+      "actual_sha256": "ef1d46ed9ca1ae3832f35d2796b3a51be34c912897d68b40d73c9413d8651a2b",
+      "match": true
+    },
+    {
+      "path": "logs/graph/eval/t1_eval_baseline_comparison.json",
+      "expected_sha256": "6993512c7e7fa9e6b4a90a6602d5107d62e55c1fcba066c3d43a18f444b63c87",
+      "actual_sha256": "6993512c7e7fa9e6b4a90a6602d5107d62e55c1fcba066c3d43a18f444b63c87",
+      "match": true
+    },
+    {
+      "path": "logs/graph/eval/d3_matched_fpr_stage_a.json",
+      "expected_sha256": "3318ac178a0c3317ce18d69663b942e289c2668f4b604082606a549172f2ab10",
+      "actual_sha256": "3318ac178a0c3317ce18d69663b942e289c2668f4b604082606a549172f2ab10",
+      "match": true
+    },
+    {
+      "path": "logs/graph/eval/d2_cross_matcher_det.json",
+      "expected_sha256": "7bb268e5da19590c9f58e71e293c3b66e4e5071f53932b41792ec8fb0ea1f146",
+      "actual_sha256": "7bb268e5da19590c9f58e71e293c3b66e4e5071f53932b41792ec8fb0ea1f146",
+      "match": true
+    },
+    {
+      "path": "logs/graph/eval/t4_pso_fair_comparison.json",
+      "expected_sha256": "d82922141717d933c26931c17fe79d0664ed007c0ac0af70b5b7d0e1b8194b15",
+      "actual_sha256": "d82922141717d933c26931c17fe79d0664ed007c0ac0af70b5b7d0e1b8194b15",
+      "match": true
+    }
+  ],
+  "derived_results": {
+    "tables": 95,
+    "injections": 118,
+    "visibility": {
+      "micro_visible": 96,
+      "micro_blind": 22,
+      "macro_family_rate": 0.7682910930329578,
+      "table_cluster_bootstrap_ci95": [
+        0.7287949747249479,
+        0.8849630059480633
+      ],
+      "families": {
+        "alias_variant": "43/47",
+        "date_variant": "15/17",
+        "mixed_lang": "20/20",
+        "ocr_similar": "0/13",
+        "prefix_noise": "13/16",
+        "unit_suffix": "5/5"
+      },
+      "micro_fraction": "96/118"
+    },
+    "visibility_by_detection": {
+      "end_to_end": {
+        "VD": 90,
+        "VU": 6,
+        "BD": 22,
+        "BU": 0,
+        "p_detect_given_visible": 0.9375,
+        "p_detect_given_blind": 1.0,
+        "p_visible_given_detect": 0.8035714285714286
+      },
+      "flat": {
+        "VD": 85,
+        "VU": 11,
+        "BD": 0,
+        "BU": 22,
+        "p_detect_given_visible": 0.8854166666666666,
+        "p_detect_given_blind": 0.0,
+        "p_visible_given_detect": 1.0
+      },
+      "hierarchical_expert": {
+        "VD": 13,
+        "VU": 83,
+        "BD": 0,
+        "BU": 22,
+        "p_detect_given_visible": 0.13541666666666666,
+        "p_detect_given_blind": 0.0,
+        "p_visible_given_detect": 1.0
+      }
+    },
+    "raw_detection": {
+      "end_to_end": "112/118",
+      "flat": "85/118",
+      "hierarchical": "13/118"
+    },
+    "matched_fpr": {
+      "denominator": 111,
+      "flat_detected": 90,
+      "hierarchical_detected": 90,
+      "difference_ci95": [
+        0.0,
+        0.0
+      ],
+      "bootstrap_replicates": 2000,
+      "seed": 20260830,
+      "clusters": 88,
+      "thresholds": {
+        "flat": 1.4285714285714286,
+        "hierarchical": 0.5357142857142857
+      }
+    },
+    "threshold_visibility": [
+      {
+        "gamma": 0.2,
+        "visible": 85,
+        "denominator": 118,
+        "family_visible": {
+          "alias": 36,
+          "date": 12,
+          "mixed": 19,
+          "ocr": 0,
+          "prefix": 13,
+          "unit": 5
+        },
+        "detected_tables": 75
+      },
+      {
+        "gamma": 0.3,
+        "visible": 45,
+        "denominator": 118,
+        "family_visible": {
+          "alias": 15,
+          "date": 11,
+          "mixed": 12,
+          "ocr": 0,
+          "prefix": 6,
+          "unit": 1
+        },
+        "detected_tables": 49
+      },
+      {
+        "gamma": 0.5,
+        "visible": 29,
+        "denominator": 118,
+        "family_visible": {
+          "alias": 8,
+          "date": 10,
+          "mixed": 10,
+          "ocr": 0,
+          "prefix": 1,
+          "unit": 0
+        },
+        "detected_tables": 31
+      },
+      {
+        "gamma": 0.7,
+        "visible": 13,
+        "denominator": 118,
+        "family_visible": {
+          "alias": 2,
+          "date": 5,
+          "mixed": 6,
+          "ocr": 0,
+          "prefix": 0,
+          "unit": 0
+        },
+        "detected_tables": 17
+      },
+      {
+        "gamma": 0.9,
+        "visible": 13,
+        "denominator": 118,
+        "family_visible": {
+          "alias": 2,
+          "date": 5,
+          "mixed": 6,
+          "ocr": 0,
+          "prefix": 0,
+          "unit": 0
+        },
+        "detected_tables": 16
+      }
+    ],
+    "operational_classes": {
+      "H": 85,
+      "HI": 26,
+      "E": 7
+    },
+    "negative_result": "Semantic harmfulness-conditional blindness remains UNVERIFIED because operational labels partly depend on detection/equivalence paths and the semantic-boundary analysis covers only 28 judged cases."
+  },
+  "supporting_artifacts": [
+    {
+      "path": "research/stage_e_stage_d_20261009/quantify_stage_e.py",
+      "sha256": "0c9827bc444ca1bd6ce6d44aed9443d1bf389cb4a7d6b57732cead9e89b07fc5",
+      "bytes": 22688
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/analysis_summary.json",
+      "sha256": "bf36dfe60cd866b2064cbf5d51ee43b6916c40be7e557a3a524ce101035c312d",
+      "bytes": 10721
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/source_data_receipt.json",
+      "sha256": "1468ad215cadbd8e184c6284755f769412ec303b897a8d8dda595330198365cb",
+      "bytes": 3799
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/source_audit_v1.json",
+      "sha256": "c2528de46da197a40cecb0f5e0ec57bfc38b7cbab6842c1224f76a12661a9fc9",
+      "bytes": 13664
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/threshold_visibility_source.csv",
+      "sha256": "b56ad77062937caf729bd5004de484831383e1a2e4b1e29742732ed8cd7c1e8b",
+      "bytes": 495
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/visibility_detection_source.csv",
+      "sha256": "9113f29e424dbae7b8becebef231f9d842b8cff065ce285f8490b46e5ff063e9",
+      "bytes": 149
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/threshold_visibility.png",
+      "sha256": "d51900158d6e0f6834a92e9b73e1fe21bfd75bedf80fcf583b668b3be09c19c2",
+      "bytes": 13746,
+      "file_type": "PNG image data, 1200 x 760, 8-bit/color RGB"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/threshold_visibility.svg",
+      "sha256": "12a05b2af83fb5b61b09f845e8bd9257ada611d4f1293699c14d3084bd6afed1",
+      "bytes": 7888,
+      "file_type": "SVG Scalable Vector Graphics image"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/visibility_detection.png",
+      "sha256": "b27ff48c5fff2f5ebd6e1128145f4d259be0fee278415eb6d719247562c8e1c6",
+      "bytes": 6781,
+      "file_type": "PNG image data, 1200 x 760, 8-bit/color RGB"
+    },
+    {
+      "path": "research/stage_e_stage_d_20261009/visibility_detection.svg",
+      "sha256": "4d6be977cabc1833eb0f083c8a50dd470ef258d2485397bf7e7820c3be4446c2",
+      "bytes": 3194,
+      "file_type": "SVG Scalable Vector Graphics image"
+    }
+  ],
+  "deliverables": [
+    {
+      "path": "docs/research/stage_e_observability_metrics_v1.md",
+      "sha256": "204f178f35ce28398f9b770453a4edf1904ee933e37cbbc378fbde3bb11e38c1",
+      "bytes": 5317,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/stage_e_metric_precedent_review_v1.md",
+      "sha256": "01bf6fe97668ff0f30ec23e656ffd96e6fe03a5feef6f6ef2834ad2224287102",
+      "bytes": 4664,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/stage_e_118_quantification_v1.md",
+      "sha256": "39134a1359cd153175f793e0b1d5ff8ebaed5ee8df8e415a79fcfb42a9ff9084",
+      "bytes": 5157,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/stage_e_threshold_visibility_analysis_v1.md",
+      "sha256": "9f744cc6e729268c7a2803d6fdcabfdb8621844f90caa27ff7bf51dd3f88ea1d",
+      "bytes": 2932,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/stage_e_multileaf_protocol_v2.md",
+      "sha256": "0a0e6cfb0c54cffd1e546f288ec6e26b9922c1539370fb8638e5b5507f3d0d55",
+      "bytes": 8659,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/nist_tevv_background_evidence_v1.md",
+      "sha256": "ff1bd53d301675a2c848ca210f0f2d04b28e764579e019e1a15ea2b51949398d",
+      "bytes": 5832,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/itil_ai_governance_background_evidence_v1.md",
+      "sha256": "7c458c1555d2b3efd2bf825a5eac5fefb98dbe7e45725056d3a4fd99bd7923a2",
+      "bytes": 5139,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/stage_e_narrative_after_advisor_feedback_v1.md",
+      "sha256": "d12c10e06ec2f93da225ce4c6c9af9339d44a6072d1406f2061688804968465c",
+      "bytes": 6411,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/process_supervision_adaptation_review_v1.md",
+      "sha256": "60ef4c30f1dee17b8125b769f59158ed1f85c07c6f69dd6736a01f11bdbac3c8",
+      "bytes": 8437,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/derived_process_supervision_design_v1.md",
+      "sha256": "5917e88708f52ca02fa0ed91623605b469f50fc5b6338204982a12e1d475cd0c",
+      "bytes": 8862,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/stage_d_minimal_experiment_v2.md",
+      "sha256": "bcae115947152a85afcaa145f79009489bf16a0796eb5da4cdf8114d3939955f",
+      "bytes": 8006,
+      "exists_nonempty": true
+    },
+    {
+      "path": "docs/research/stage_e_stage_d_unified_story_v1.md",
+      "sha256": "6488043f38251a3d99727e55486202f64e967ee52c1268529652e27065708ed7",
+      "bytes": 6575,
+      "exists_nonempty": true
+    }
+  ],
+  "source_record_index": {
+    "workspace_contract_dir": "research/stage_e_stage_d_20261009/contract",
+    "workspace_sources_dir": "research/stage_e_stage_d_20261009/sources",
+    "external_source_dir_preserved": "/home/testuser/wzh/research_stage_e_d_20261009/sources",
+    "workspace_file_hashes": {
+      "contract/IMPLEMENTATION_PLAN.md": {
+        "sha256": "e08b46291c1b02e687de2e781646e8ec5b5e981b4080ed7194ef4a02f95603e3",
+        "bytes": 2603
+      },
+      "contract/PROMPT.md": {
+        "sha256": "a5ff393af9595523b67e80e824de809f9df65d07463c4567087f4518d4a58625",
+        "bytes": 2293
+      },
+      "contract/loop_a_prompt.md": {
+        "sha256": "95dc9e3c594063b5621b66ed277ca63306b40381f1b2c48629876ad7310f9597",
+        "bytes": 2935
+      },
+      "contract/loop_c_prompt.md": {
+        "sha256": "be2603e902a6d358e5ffcf6bca4e280a2d00d22b815ba4fe5810bbf2ea243f95",
+        "bytes": 1955
+      },
+      "contract/openalex_search.py": {
+        "sha256": "bcbce225affd51a0b77d47d74a8ce572986bd5319ab15ca4fad8fa5f4c767985",
+        "bytes": 2493
+      },
+      "sources/openalex/diagnostic_coverage.json": {
+        "sha256": "2a976ff30d44a309fadf2bbc43871df9715c6187718926c77e99381c8c791c72",
+        "bytes": 59985
+      },
+      "sources/openalex/fault_localization_metrics.json": {
+        "sha256": "2aafc0dd0dd56df547507f4fb306e2bcb9ee8eec04aab004fb11d388e15893a8",
+        "bytes": 63534
+      },
+      "sources/openalex/lets_verify.json": {
+        "sha256": "31e5caf1526161ad2d955e181c87c2e2053f096a33060f1c69692a58ab58c1d8",
+        "bytes": 98865
+      },
+      "sources/openalex/math_shepherd.json": {
+        "sha256": "4c90d13711166ba344a6d836dc6e5c7806b0f7a99ca163dfc80e5ddccc15c8be",
+        "bytes": 99985
+      },
+      "sources/openalex/measurement_metaevaluation.json": {
+        "sha256": "1da1d65c58512e1c42ef861914d3406e25cd85fd2b3bef24e1fe4cc8c52aa00a",
+        "bytes": 74856
+      },
+      "sources/openalex/metric_precedent.json": {
+        "sha256": "786f803ca55e0b61db8a10c8388b437219018c8d1222c426bbf4ff9f55cb32bb",
+        "bytes": 44764
+      },
+      "sources/openalex/observability_metrics.json": {
+        "sha256": "5f6de348115d15c68b898024c79cb9419fbd614e812203b5d67582d2f532402c",
+        "bytes": 30574
+      },
+      "sources/openalex/process_evaluation.json": {
+        "sha256": "165cc2cc6d15d148b591c3960fe9f82cc1f3c55b9ad80a4cbe8948746f37b0d3",
+        "bytes": 83630
+      }
+    },
+    "external_copy_matches": {
+      "contract/IMPLEMENTATION_PLAN.md": {
+        "workspace_sha256": "e08b46291c1b02e687de2e781646e8ec5b5e981b4080ed7194ef4a02f95603e3",
+        "external_sha256": "e08b46291c1b02e687de2e781646e8ec5b5e981b4080ed7194ef4a02f95603e3",
+        "match": true
+      },
+      "contract/PROMPT.md": {
+        "workspace_sha256": "a5ff393af9595523b67e80e824de809f9df65d07463c4567087f4518d4a58625",
+        "external_sha256": "a5ff393af9595523b67e80e824de809f9df65d07463c4567087f4518d4a58625",
+        "match": true
+      },
+      "contract/loop_a_prompt.md": {
+        "workspace_sha256": "95dc9e3c594063b5621b66ed277ca63306b40381f1b2c48629876ad7310f9597",
+        "external_sha256": "95dc9e3c594063b5621b66ed277ca63306b40381f1b2c48629876ad7310f9597",
+        "match": true
+      },
+      "contract/loop_c_prompt.md": {
+        "workspace_sha256": "be2603e902a6d358e5ffcf6bca4e280a2d00d22b815ba4fe5810bbf2ea243f95",
+        "external_sha256": "be2603e902a6d358e5ffcf6bca4e280a2d00d22b815ba4fe5810bbf2ea243f95",
+        "match": true
+      },
+      "contract/openalex_search.py": {
+        "workspace_sha256": "bcbce225affd51a0b77d47d74a8ce572986bd5319ab15ca4fad8fa5f4c767985",
+        "external_sha256": "bcbce225affd51a0b77d47d74a8ce572986bd5319ab15ca4fad8fa5f4c767985",
+        "match": true
+      },
+      "sources/openalex/diagnostic_coverage.json": {
+        "workspace_sha256": "2a976ff30d44a309fadf2bbc43871df9715c6187718926c77e99381c8c791c72",
+        "external_sha256": "2a976ff30d44a309fadf2bbc43871df9715c6187718926c77e99381c8c791c72",
+        "match": true
+      },
+      "sources/openalex/fault_localization_metrics.json": {
+        "workspace_sha256": "2aafc0dd0dd56df547507f4fb306e2bcb9ee8eec04aab004fb11d388e15893a8",
+        "external_sha256": "2aafc0dd0dd56df547507f4fb306e2bcb9ee8eec04aab004fb11d388e15893a8",
+        "match": true
+      },
+      "sources/openalex/lets_verify.json": {
+        "workspace_sha256": "31e5caf1526161ad2d955e181c87c2e2053f096a33060f1c69692a58ab58c1d8",
+        "external_sha256": "31e5caf1526161ad2d955e181c87c2e2053f096a33060f1c69692a58ab58c1d8",
+        "match": true
+      },
+      "sources/openalex/math_shepherd.json": {
+        "workspace_sha256": "4c90d13711166ba344a6d836dc6e5c7806b0f7a99ca163dfc80e5ddccc15c8be",
+        "external_sha256": "4c90d13711166ba344a6d836dc6e5c7806b0f7a99ca163dfc80e5ddccc15c8be",
+        "match": true
+      },
+      "sources/openalex/measurement_metaevaluation.json": {
+        "workspace_sha256": "1da1d65c58512e1c42ef861914d3406e25cd85fd2b3bef24e1fe4cc8c52aa00a",
+        "external_sha256": "1da1d65c58512e1c42ef861914d3406e25cd85fd2b3bef24e1fe4cc8c52aa00a",
+        "match": true
+      },
+      "sources/openalex/metric_precedent.json": {
+        "workspace_sha256": "786f803ca55e0b61db8a10c8388b437219018c8d1222c426bbf4ff9f55cb32bb",
+        "external_sha256": "786f803ca55e0b61db8a10c8388b437219018c8d1222c426bbf4ff9f55cb32bb",
+        "match": true
+      },
+      "sources/openalex/observability_metrics.json": {
+        "workspace_sha256": "5f6de348115d15c68b898024c79cb9419fbd614e812203b5d67582d2f532402c",
+        "external_sha256": "5f6de348115d15c68b898024c79cb9419fbd614e812203b5d67582d2f532402c",
+        "match": true
+      },
+      "sources/openalex/process_evaluation.json": {
+        "workspace_sha256": "165cc2cc6d15d148b591c3960fe9f82cc1f3c55b9ad80a4cbe8948746f37b0d3",
+        "external_sha256": "165cc2cc6d15d148b591c3960fe9f82cc1f3c55b9ad80a4cbe8948746f37b0d3",
+        "match": true
+      }
+    },
+    "all_external_copies_match": true,
+    "metadata_network_accounting": {
+      "path": "research/stage_e_stage_d_20261009/metadata_network_accounting.json",
+      "sha256": "4fab54a963bb158af1c3d765861733ff60348bb90954bbaaa5c4a2ea5a80d4a1"
+    },
+    "metadata_url_manifest": {
+      "path": "research/stage_e_stage_d_20261009/metadata_url_manifest.txt",
+      "sha256": "1485bf9724cf9f385b9975e2fb2ed99de4394619a49600d6baedc7872ebd7a85"
+    }
+  },
+  "validation": [
+    {
+      "command": "./venv/bin/python research/stage_e_stage_d_20261009/quantify_stage_e.py",
+      "result": "PASS",
+      "details": "Frozen anchors reproduced: 95 tables, 118 injections, 96 visible, 22 blind, OCR 0/13, detection 112/85/13, matched 90/90 with [0,0], harmful denominator 111."
+    },
+    {
+      "command": "./venv/bin/python -m json.tool research/stage_e_stage_d_20261009/*.json",
+      "result": "PASS",
+      "details": "analysis_summary.json, source_audit_v1.json and source_data_receipt.json parse as JSON."
+    },
+    {
+      "command": "SHA-256 comparison for seven frozen Stage E inputs",
+      "result": "PASS",
+      "details": "All seven actual hashes equal expected hashes."
+    },
+    {
+      "command": "twelve-file existence and size check",
+      "result": "PASS",
+      "details": "12/12 requested Markdown files exist and are nonempty."
+    },
+    {
+      "command": "evidence-label and local-link validator",
+      "result": "PASS",
+      "details": "12/12 contain FACT, INFERENCE, VALUE and UNVERIFIED; all local Markdown links resolve."
+    },
+    {
+      "command": "file figure-type check",
+      "result": "PASS",
+      "details": "Two PNG files are 1200x760 RGB; two SVG files parse as SVG."
+    },
+    {
+      "command": "git status before/after comparison",
+      "result": "PASS",
+      "details": "Baseline 34 lines, after 47 lines; 13 additions, 0 removals, 0 baseline-line changes. Added paths are exactly twelve requested deliverables plus the intended support directory."
+    },
+    {
+      "command": "python3 scripts/docs_lint.py --json /tmp/loop_a_docs_lint_report.json",
+      "result": "PASS_WITH_6_WARNINGS",
+      "details": "0 failures and 6 pre-existing staleness warnings; report written outside the repository and warnings were not suppressed."
+    },
+    {
+      "command": "protected-path status comparison",
+      "result": "PASS",
+      "details": "No protected or pre-existing dirty path was added or changed by this task; all status differences are intended new paths."
+    },
+    {
+      "command": "python research/stage_e_stage_d_20261009/repair_loop_c_conditions.py",
+      "result": "PASS",
+      "details": "Loop C conditions repaired; frozen inputs untouched; receipt floats and CI now derive from analysis_summary.json; workspace evidence packet copied; OCR grouped uncertainty added; metadata HTTP accounting recorded."
+    },
+    {
+      "command": "python research/stage_e_stage_d_20261009/repair_loop_c_conditions.py",
+      "result": "PASS",
+      "details": "Loop C conditions repaired; frozen inputs untouched; receipt floats and CI now derive from analysis_summary.json; workspace evidence packet copied; OCR grouped uncertainty added; metadata HTTP accounting recorded."
+    },
+    {
+      "command": "python research/stage_e_stage_d_20261009/repair_loop_c_conditions.py",
+      "result": "PASS",
+      "details": "Loop C conditions repaired; frozen inputs untouched; receipt floats and CI now derive from analysis_summary.json; workspace evidence packet copied; OCR grouped uncertainty added; metadata HTTP accounting recorded."
+    },
+    {
+      "command": "./venv/bin/python research/stage_e_stage_d_20261009/finalize_loop_c_conditions.py",
+      "result": "PASS",
+      "details": "Receipt digests refreshed; workspace contract/source hashes recorded; network manifest pinned; L0-L5 ladder added; float and OpenAlex counters disambiguated."
+    },
+    {
+      "command": "./venv/bin/python research/stage_e_stage_d_20261009/finalize_loop_c_conditions.py",
+      "result": "PASS",
+      "details": "Receipt digests refreshed; workspace contract/source hashes recorded; network manifest pinned; L0-L5 ladder added; float and OpenAlex counters disambiguated."
+    },
+    {
+      "command": "./venv/bin/python research/stage_e_stage_d_20261009/resolve_final_conditions.py",
+      "result": "PASS",
+      "details": "Final counter aliases removed; OpenAlex request count marked UNVERIFIED; curl-only scope declared; external per-file hashes recorded; runtime-log attribution marked UNVERIFIED; L3/L5 wording repaired."
+    }
+  ],
+  "git_status_comparison": {
+    "baseline_path": "/tmp/loop_a_status_before.txt",
+    "baseline_sha256": "fa505dadb84fb18851290fc48c5bbb6e5950b26ee1e0c03acfb9e046ec4060c7",
+    "baseline_lines": 34,
+    "after_path": "/tmp/loop_a_status_after.txt",
+    "after_sha256": "64a8ef05b2998c6cbcea8e9092c7be3c252747779771c6970f6339851ecd5be0",
+    "after_lines": 47,
+    "added_lines": 13,
+    "removed_lines": 0,
+    "changed_baseline_lines": 0,
+    "intended_additions": [
+      "docs/research/stage_e_observability_metrics_v1.md",
+      "docs/research/stage_e_metric_precedent_review_v1.md",
+      "docs/research/stage_e_118_quantification_v1.md",
+      "docs/research/stage_e_threshold_visibility_analysis_v1.md",
+      "docs/research/stage_e_multileaf_protocol_v2.md",
+      "docs/research/nist_tevv_background_evidence_v1.md",
+      "docs/research/itil_ai_governance_background_evidence_v1.md",
+      "docs/research/stage_e_narrative_after_advisor_feedback_v1.md",
+      "docs/research/process_supervision_adaptation_review_v1.md",
+      "docs/research/derived_process_supervision_design_v1.md",
+      "docs/research/stage_d_minimal_experiment_v2.md",
+      "docs/research/stage_e_stage_d_unified_story_v1.md",
+      "research/stage_e_stage_d_20261009/"
+    ]
+  },
+  "execution_accounting": {
+    "model_calls": 0,
+    "judge_calls": 0,
+    "model_endpoint_calls": 0,
+    "judge_endpoint_calls": 0,
+    "gpu_training_calls": 0,
+    "formal_c0_c1_c2_c4_runs": 0,
+    "phase_2_runs": 0,
+    "stage_r_runs": 0,
+    "e_d_r_runs": 0,
+    "production_service_calls": 0,
+    "database_calls": 0,
+    "package_install_calls": 0,
+    "paid_api_calls": 0,
+    "credential_file_calls": 0,
+    "read_only_health_probes": 0,
+    "dataset_body_downloads": 0,
+    "git_commits": 0,
+    "git_pushes": 0,
+    "git_amends": 0,
+    "history_rewrites": 0,
+    "metadata_http_logical_attempts": 29,
+    "metadata_http_unique_urls": 26,
+    "metadata_redirect_attempts": "UNVERIFIED_NOT_SEPARATELY_LOGGED",
+    "scientific_model_calls": 0,
+    "openalex_result_files": 8,
+    "metadata_http_logical_attempts_curl_only": 29,
+    "metadata_http_unique_urls_curl_only": 26,
+    "openalex_query_definitions": 8,
+    "openalex_executed_request_count": "UNVERIFIED_NO_INDEPENDENT_REQUEST_LOG"
+  },
+  "forbidden_action_check": {
+    "frozen_stage_e_values_changed": false,
+    "frozen_hashes_changed": false,
+    "frozen_schemas_changed": false,
+    "frozen_tests_changed": false,
+    "protected_docs_33_34_changed": false,
+    "memory_state_changed": false,
+    "memory_threads_changed": false,
+    "canonical_manuscript_changed": false,
+    "claim_manifest_changed": false,
+    "existing_dirty_runtime_logs_changed": "UNVERIFIED_RUNTIME_WRITER_ATTRIBUTION",
+    "credentials_written": false,
+    "gpu_training_or_formal_arms_run": false,
+    "phase_2_stage_r_or_e_d_r_run": false,
+    "production_or_database_access": false,
+    "git_history_modified": false,
+    "runtime_log_attribution_note": "logs/graph/docs_lint_report.json and logs/graph/verify-report.json mtimes moved in the window; standing writers include docs_lint/status/Loop B, but exact attribution is not proved."
+  },
+  "question_source_status": "MISSING_FROM_PROMPT",
+  "question_source_blocker_label": "UNVERIFIED",
+  "question_source_explanation": "The required PROMPT.md contains 35 lines and only says that the final report answers all 17 required research questions; it does not enumerate or state their text. Therefore the 17 items below are a transparent NON_AUTHORITATIVE_RECONSTRUCTION derived from the Goal, Done When, Never Touch and deliverable contract. They must not be represented as the author's original questions.",
+  "research_questions_response": [
+    {
+      "id": 1,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "Which frozen artifacts and hashes anchor the Stage E recomputation?",
+      "answer": "Seven frozen JSON artifacts are listed under frozen_inputs; every actual SHA-256 equals its expected value. The checked script reads only these files and verifies 95 tables, 118 injections, 96 visible, 22 blind, OCR 0/13, detection 112/85/13, matched 90/90 with [0,0], and harmful denominator 111.",
+      "label": "FACT"
+    },
+    {
+      "id": 2,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What minimal metric set keeps visibility, detection and harmfulness distinct?",
+      "answer": "Micro and family visibility use injection denominators; detection uses its protocol denominator; matched-FPR uses harmful H union HI denominator 111; table-level results use 95 tables. Conditional cells and family macro rates remain separate and never form one partition.",
+      "label": "VALUE"
+    },
+    {
+      "id": 3,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What is the headline Stage E observability result?",
+      "answer": "Visible is 96/118 = 81.36%, blind is 22/118 = 18.64%, and macro family visibility is 76.83%. Families are alias 43/47, date 15/17, mixed 20/20, OCR 0/13, prefix 13/16 and unit 5/5.",
+      "label": "FACT"
+    },
+    {
+      "id": 4,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "How is uncertainty reported without treating injections as independent?",
+      "answer": "The table-cluster bootstrap resamples table UID with 2,000 replicates and seed 20260830; the frozen visibility interval is [72.88%, 88.50%]. OCR 0/13 is a clustered structural observation, not a naive independent-Bernoulli certainty.",
+      "label": "FACT"
+    },
+    {
+      "id": 5,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What do visibility-by-detection cells show?",
+      "answer": "End-to-end is (VD,VU,BD,BU)=(90,6,22,0), flat is (85,11,0,22), and hierarchical is (13,83,0,22). This proves construct divergence, not that one checkpoint repairs another.",
+      "label": "FACT"
+    },
+    {
+      "id": 6,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What survives matched-FPR comparison?",
+      "answer": "On harmful denominator 111, flat and hierarchical both detect 90 with difference CI [0,0] from 2,000 table-cluster bootstraps over 88 clusters. The result is NOT_IDENTIFIED for superiority; raw 85 versus 13 is operating-point dependent.",
+      "label": "FACT"
+    },
+    {
+      "id": 7,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "How does threshold sensitivity change visibility?",
+      "answer": "Threshold-conditioned visibility is 85, 45, 29, 13 and 13 of 118 at gamma 0.2, 0.3, 0.5, 0.7 and 0.9. These differ from absorption-based visible_frozen 96/118; OCR remains 0/13 and the literal family-range predicate failure at gamma 0.7/0.9 is preserved.",
+      "label": "FACT"
+    },
+    {
+      "id": 8,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "Can semantic harmfulness-conditional blindness be identified?",
+      "answer": "No. Operational H/HI/E labels partly depend on detection/equivalence paths and semantic analysis covers only 28 judged cases with no mixed-language or unit-suffix calls, so the quantity remains UNVERIFIED.",
+      "label": "UNVERIFIED"
+    },
+    {
+      "id": 9,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What metric precedent was established?",
+      "answer": "Mutation testing supports validity-aware denominators; fault localization separates localization from detection; NIST supports documented TEVV metric effectiveness. No inspected source supplies the exact combined Stage E battery, so it is project-defined rather than an external standard.",
+      "label": "INFERENCE"
+    },
+    {
+      "id": 10,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What NIST/TEVV claims are supported?",
+      "answer": "Official AI RMF/Core/Playbook/AIRC/AI 600-1 wording supports GOVERN-MAP-MEASURE-MANAGE, documented repeatable TEVV, metric-effectiveness review and voluntary suggestions. These motivate governance framing but do not validate Stage E formulas or imply certification.",
+      "label": "FACT"
+    },
+    {
+      "id": 11,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What ITIL/AI-governance claims are supported?",
+      "answer": "PeopleCert official pages support bounded wording about service value system/value chain/governance/continual improvement and responsible AI oversight/accountability/transparency. Framework content is proprietary and no normative full text or open licence was accessed; mapping is organizational interpretation only.",
+      "label": "FACT"
+    },
+    {
+      "id": 12,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What was established for PRM800K?",
+      "answer": "Official repository commit 7ecc794... has root MIT licence and README-documented newline-delimited step-label schema. Dataset revision, dataset-specific licence, bodies, LFS revisions and released joins remain UNVERIFIED, so it is metadata-only.",
+      "label": "FACT"
+    },
+    {
+      "id": 13,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What was established for Math-Shepherd?",
+      "answer": "Official ACL/arXiv paper and revisions establish automatic hard/soft continuation labels. No official project repository, released data card, body, schema, revision or licence was established; those fields remain UNVERIFIED.",
+      "label": "FACT"
+    },
+    {
+      "id": 14,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "How were existing external process-supervision audits reused?",
+      "answer": "Agent Distillation, ToolAlpaca, TheAgentCompany, AgentTuning, Agent-FLAN and SOD fixed-revision audits are reused by path rather than repeated. No inspected source proves an admitted same-sample trajectory/checkpoint/action/outcome bridge or executable changed Stage E dataflow.",
+      "label": "FACT"
+    },
+    {
+      "id": 15,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What Stage E multi-leaf protocol is proposed?",
+      "answer": "A design-only protocol requires at least two responsive leaves, independent table/origin clusters, hash-bound pre-score splits, clean calibration, matched-FPR hierarchical-minus-flat primary analysis and explicit stops. Frozen 96/118, 0/13, 112/118, 85/118, 13/118 and [0,0] remain immutable references.",
+      "label": "VALUE"
+    },
+    {
+      "id": 16,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What is the bounded Stage D experiment design?",
+      "answer": "Design-only C0 unfiltered, C1 matched random, C2 terminal-only and C4 native-process arms use 64M non-padding tokens per arm/seed, five seeds, matched token/group budgets, origin-group clustered paired bootstrap with 10,000 resamples, and a power gate requiring 80%, alpha .05, at least 24 groups and at least 8 per major family where available. No run occurred.",
+      "label": "VALUE"
+    },
+    {
+      "id": 17,
+      "question_status": "NON_AUTHORITATIVE_RECONSTRUCTION",
+      "question": "What unified story and status may be reported now?",
+      "answer": "Stage E is mature internal evidence; Stage D is DESIGN_ONLY_NOT_AUTHORIZED; Stage R and E-D-R are future only. The bridge is measurement discipline and evidence provenance, not completed training or a closed loop. All forbidden endpoint and history counts are zero.",
+      "label": "VALUE"
+    }
+  ],
+  "top_3_next_actions": [
+    "Run an independent read-only Loop C audit against this receipt, the twelve deliverables, frozen hashes and source receipts.",
+    "If that audit passes, close one exact-revision/licence/schema card and prove one stable same-sample trajectory/checkpoint/action/outcome join without loading dataset bodies.",
+    "Only after independent review and all source, split, evidence-level, matching and power gates pass, submit a separate explicit execution-authorization request for static C0/C1/C2/C4 feasibility checks."
+  ],
+  "loop_c_condition_repair": {
+    "status": "REPAIRED_PENDING_LOOP_C_REVIEW",
+    "micro_rate_source": "analysis_summary.json",
+    "bootstrap_ci_source": "analysis_summary.json",
+    "analysis_rerun_rc": 0,
+    "analysis_rerun_changed_outputs": [],
+    "workspace_contract_copied": true,
+    "workspace_sources_copied": true,
+    "metadata_http_accounting": {
+      "metadata_http_logical_attempts": 29,
+      "metadata_http_unique_urls": 26,
+      "metadata_redirect_attempts": "UNVERIFIED_NOT_SEPARATELY_LOGGED",
+      "scientific_model_calls": 0,
+      "judge_calls": 0
+    },
+    "ocr_grouped_uncertainty_added": true
+  },
+  "loop_c_verdict_before_repair": {
+    "path": "research/stage_e_stage_d_20261009/loop_c_verdict.json",
+    "sha256": "5457b4939656014aa2a9009ceb8da58001cab0db237227be9a8d1e648807b1c3",
+    "verdict": "CONDITIONAL",
+    "status": "EXT_D_REPRO_RESEARCH_BLOCKED"
+  },
+  "representation_notes": {
+    "micro_fraction": "96/118 is authoritative; analysis_summary.json visibility.micro.rate is a convenience float only.",
+    "openalex_accounting": "Eight query definitions and eight result files are verified. The exact executed OpenAlex request count is UNVERIFIED because no independent request log was preserved.",
+    "metadata_http_scope": "curl-based metadata fetches parsed from the Loop A run log; excludes OpenAlex client requests"
+  },
+  "final_loop_c_condition_repair": {
+    "status": "REPAIRED_PENDING_INDEPENDENT_FINAL_CONFIRMATION",
+    "source_audit_digest_refreshed": true,
+    "workspace_file_hashes_recorded": 13,
+    "all_external_copies_match": true,
+    "openalex_accounting_disambiguated": true,
+    "convenience_float_annotated": true,
+    "label_quality_ladder_l0_l5_added": true,
+    "openalex_request_count_marked_unverified": true,
+    "counter_aliases_removed": true,
+    "curl_only_scope_declared": true,
+    "external_per_file_hashes_recorded": true,
+    "runtime_log_attribution_marked_unverified": true,
+    "native_level_wording_repaired": true
+  }
+}

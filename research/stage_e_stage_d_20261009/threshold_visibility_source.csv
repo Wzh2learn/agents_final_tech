@@ -1,0 +1,6 @@
+gamma,visible_injections,blind_injections,detected_tables,alias_variant_visible,alias_variant_n,date_variant_visible,date_variant_n,mixed_lang_visible,mixed_lang_n,ocr_similar_visible,ocr_similar_n,prefix_noise_visible,prefix_noise_n,unit_suffix_visible,unit_suffix_n
+0.2,85,33,75,36,47,12,17,19,20,0,13,13,16,5,5
+0.3,45,73,49,15,47,11,17,12,20,0,13,6,16,1,5
+0.5,29,89,31,8,47,10,17,10,20,0,13,1,16,0,5
+0.7,13,105,17,2,47,5,17,6,20,0,13,0,16,0,5
+0.9,13,105,16,2,47,5,17,6,20,0,13,0,16,0,5

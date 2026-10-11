@@ -1,0 +1,240 @@
+{
+  "namespace": "STAGE_D_REFERENCE_SOURCE_QUALIFICATION",
+  "status": "QUALIFIED_FOR_NONCOMMERCIAL_ACADEMIC_REFERENCE_WORK",
+  "licence_policy": {
+    "code": "Apache-2.0/MIT/BSD code may be cloned, modified, run, reproduced and adapted for academic experiments",
+    "data_model": "record separately and mark LICENCE_PENDING until explicit terms are verified",
+    "restriction": "no redistribution, commercial use, or large-scale final-result training while data/model licence is pending"
+  },
+  "prm800k": {
+    "source": "PRM800K",
+    "repo_commit": "7ecc794703b2877f63226f2477a49b34f9b25163",
+    "code_licence": "MIT",
+    "data_licence": "LICENCE_PENDING",
+    "inspection_scope": "non-commercial academic metadata/schema/small-sample/reference-contract validation",
+    "files": {
+      "phase1_test": {
+        "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k/phase1_test.jsonl",
+        "sha256": "f4b3bc5b095e45c816453dc4d748b755c680d61d55f9895d929a335b487c727d",
+        "rows": 106,
+        "top_level_fields": [
+          "generation",
+          "is_initial_screening_question",
+          "is_quality_control_question",
+          "label",
+          "labeler",
+          "question",
+          "timestamp"
+        ],
+        "question_fields": [
+          "ground_truth_answer",
+          "problem"
+        ],
+        "label_fields": [
+          "finish_reason",
+          "steps",
+          "total_time"
+        ],
+        "step_fields": [
+          "chosen_completion",
+          "completions",
+          "human_completion"
+        ],
+        "completion_fields": [
+          "flagged",
+          "rating",
+          "text"
+        ],
+        "selected_rating_counts": {
+          "1": 1603
+        },
+        "rows_without_any_selected_rating": 3,
+        "rows_with_partial_missing_selected_rating": 70,
+        "unique_problem_text_hashes": 101,
+        "duplicate_problem_text_groups": 5,
+        "max_rows_per_problem_text": 2,
+        "native_problem_id_field_present": false,
+        "grouping_rule_available": "derived SHA-256 of question.problem; no native problem-family ID in inspected schema"
+      },
+      "phase2_test": {
+        "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k/phase2_test.jsonl",
+        "sha256": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad",
+        "rows": 2762,
+        "top_level_fields": [
+          "generation",
+          "is_initial_screening_question",
+          "is_quality_control_question",
+          "label",
+          "labeler",
+          "question",
+          "timestamp"
+        ],
+        "question_fields": [
+          "ground_truth_answer",
+          "ground_truth_solution",
+          "pre_generated_answer",
+          "pre_generated_steps",
+          "pre_generated_verifier_score",
+          "problem"
+        ],
+        "label_fields": [
+          "finish_reason",
+          "steps",
+          "total_time"
+        ],
+        "step_fields": [
+          "chosen_completion",
+          "completions",
+          "human_completion"
+        ],
+        "completion_fields": [
+          "flagged",
+          "rating",
+          "text"
+        ],
+        "selected_rating_counts": {
+          "-1": 31,
+          "0": 1224,
+          "1": 15226
+        },
+        "rows_without_any_selected_rating": 238,
+        "rows_with_partial_missing_selected_rating": 1922,
+        "unique_problem_text_hashes": 458,
+        "duplicate_problem_text_groups": 458,
+        "max_rows_per_problem_text": 8,
+        "native_problem_id_field_present": false,
+        "grouping_rule_available": "derived SHA-256 of question.problem; no native problem-family ID in inspected schema"
+      }
+    },
+    "full_split_payload_status": {
+      "phase1_train.jsonl": {
+        "path": "/home/testuser/wzh/external_stage_d_repro/repos/prm800k/prm800k/data/phase1_train.jsonl",
+        "bytes": 132,
+        "status": "LFS_POINTER_ONLY",
+        "sha256": "720e36e8a1735b08387382e79856725dc23d5ad680aeeb1825778fe49c902692"
+      },
+      "phase2_train.jsonl": {
+        "path": "/home/testuser/wzh/external_stage_d_repro/repos/prm800k/prm800k/data/phase2_train.jsonl",
+        "bytes": 134,
+        "status": "LFS_POINTER_ONLY",
+        "sha256": "76ec61fe30cc21b1702b4cbf85213f64c4ef8cadb2693395ec109eceddeac331"
+      },
+      "math_splits/train.jsonl": {
+        "path": "/home/testuser/wzh/external_stage_d_repro/repos/prm800k/prm800k/math_splits/train.jsonl",
+        "bytes": 133,
+        "status": "LFS_POINTER_ONLY",
+        "sha256": "44a61c1e7666168a74994e1fffa32fe208c13526670ff8f3f5cf223777abaa50"
+      },
+      "math_splits/test.jsonl": {
+        "path": "/home/testuser/wzh/external_stage_d_repro/repos/prm800k/prm800k/math_splits/test.jsonl",
+        "bytes": 131,
+        "status": "LFS_POINTER_ONLY",
+        "sha256": "bf4bf2b73edea199aed01c5b3bdc90404d7f2419daf6931fc9a79622fcbf0cf2"
+      }
+    },
+    "phase2_terminal_answer_correctness": {
+      "method": "official grading.grader.grade_answer",
+      "correct": 659,
+      "incorrect": 2103,
+      "normalize_subset_correct": 606,
+      "official_vs_normalize_disagreements": 53
+    },
+    "reference_contract": {
+      "C2_reference": "terminal answer correctness from official grade_answer",
+      "C4_reference": "human selected-path step labels, with missing selected ratings excluded and reported",
+      "group": "derived question.problem hash unless a native problem ID is later verified",
+      "split": "phase2_test for the first reference smoke; train payloads remain LFS pointers"
+    },
+    "gate": "PRM_REFERENCE_READY",
+    "gate_scope": "reference-track contract validation and local non-commercial academic smoke only",
+    "formal_training_as_final_main_result": "NOT_AUTHORIZED_UNTIL_DATA_LICENCE_AND_PROTOCOL_GATES_CLOSE"
+  },
+  "agent_distillation": {
+    "source": "Agent Distillation baseline trajectories",
+    "dataset_revision": "cbd8971069aeb04ec3cc95282ef2397e8206a817",
+    "dataset_path": "/home/testuser/wzh/external_stage_d_repro/datasets/agent_distillation/Qwen2.5-32B-Instruct_agent_trajectories_2k.jsonl",
+    "dataset_sha256": "ba36277510a35b51125c9b0a0a6847f18a6403488152f4afff4a51841da565df",
+    "dataset_bytes": 47349288,
+    "rows": 1928,
+    "code_repo_commit": "8884b80ea3d22e53a2e1e4b9fd324600d13e0430",
+    "code_licence": "Apache-2.0",
+    "data_licence": "LICENCE_PENDING",
+    "model_licence": "NOT_APPLICABLE_TO_PAYLOAD_INSPECTION",
+    "top_level_fields": [
+      "cost",
+      "dataset_name",
+      "explanation",
+      "generated_answer",
+      "log_data",
+      "model_id",
+      "question",
+      "score",
+      "true_answer"
+    ],
+    "nested_log_key_count": 30,
+    "log_parse_failures": 0,
+    "message_role_counts": {
+      "MessageRole.ASSISTANT": 113,
+      "MessageRole.SYSTEM": 50,
+      "MessageRole.TOOL_CALL": 113,
+      "MessageRole.TOOL_RESPONSE": 113,
+      "MessageRole.USER": 50,
+      "assistant": 4352,
+      "system": 1878,
+      "tool-call": 4331,
+      "tool-response": 4352,
+      "user": 1878
+    },
+    "original_memory_step_count": 1928,
+    "raw_score_counts": {
+      "": 547,
+      "1": 597,
+      "True": 784
+    },
+    "normalized_score_counts": {
+      "positive": 1381,
+      "negative": 0,
+      "missing_or_non_binary": 547
+    },
+    "explicit_id_field_counts": {
+      "task_id": 0,
+      "trajectory_id": 0,
+      "origin_id": 0,
+      "origin_group": 0,
+      "split": 0,
+      "dataset_name": 1928,
+      "question": 1928
+    },
+    "step_reward_rows": 0,
+    "field_interpretation": {
+      "action_observation": "tool-call and tool-response message roles are present in actual payload",
+      "terminal_outcome": "score is present but mixed-string/boolean/blank and needs normalization plus missingness reporting",
+      "process_signal": "no released step_reward; deterministic tool/error/observation consistency signals can be derived only with provenance marked derived",
+      "origin_group": "dataset_name is a coarse task family, not a verified independent origin group",
+      "split": "no native row-level split field in inspected payload"
+    },
+    "c2_c4_requirements": {
+      "mother_pool": "available: actual 1,928-row baseline payload",
+      "terminal_outcome": "partially available: 1,381 normalized positive/non-positive values and 547 missing/non-binary",
+      "step_action_observation": "available through nested messages and memory steps",
+      "process_signal": "not native; deterministic-derived candidate only",
+      "origin_grouping": "derived IDs/groups required",
+      "split": "derived split required",
+      "licence": "LICENCE_PENDING for data/model; Apache-2.0 code is usable for academic adaptation"
+    },
+    "gate": "DATA_CAPABLE_LICENCE_PENDING_NOT_PILOT_READY",
+    "allowed_now": [
+      "metadata/schema inspection",
+      "small-sample inspection",
+      "adapter development",
+      "preprocessing and deterministic smoke",
+      "local non-commercial academic method validation"
+    ],
+    "blocked_now": [
+      "public redistribution or released derived dataset",
+      "commercial use",
+      "large-scale formal training used as final paper main result",
+      "calling derived process labels native step_reward"
+    ]
+  }
+}

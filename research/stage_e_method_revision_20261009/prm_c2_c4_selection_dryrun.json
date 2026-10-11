@@ -1,0 +1,112 @@
+{
+  "arms": {
+    "C2_reference": {
+      "eligible_rows": 2762,
+      "rule": "official grading.grader.grade_answer terminal correctness == True",
+      "selected_rows": 659
+    },
+    "C4_reference_primary": {
+      "eligible_rows": 602,
+      "rule": "every selected-path step rating is observed and strictly positive",
+      "selected_rows": 451
+    },
+    "C4_reference_sensitivity": {
+      "eligible_rows": 2524,
+      "rule": "at least one observed selected-path rating and all observed ratings are non-negative",
+      "selected_rows": 2494
+    }
+  },
+  "data": {
+    "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k/phase2_test.jsonl",
+    "rows": 2762,
+    "sha256": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad",
+    "split": "phase2_test"
+  },
+  "disagreement": {
+    "terminal_correct_but_not_strict_process_pass": 262,
+    "terminal_correct_but_process_contains_negative": 1,
+    "terminal_incorrect_but_complete_all_positive": 54,
+    "terminal_incorrect_but_known_no_negative": 1851,
+    "terminal_incorrect_but_partial_process_locally_correct": 1336
+  },
+  "interpretation": {
+    "forbidden_claims": [
+      "C4 training superiority",
+      "PRM800K paper reproduction",
+      "native token matching",
+      "formal Stage D result"
+    ],
+    "process_incremental_information_supported_for_reference_contract": true,
+    "terminal_process_disagreement_real": true
+  },
+  "leakage_audit": {
+    "cross_split_overlap": "NOT_APPLICABLE_WITHIN_PHASE2_TEST_DRYRUN",
+    "problem_group_join": "problem hash preserved across C2/C4 matching",
+    "risk": "LOW_FOR_DRYRUN; training split/leakage gates remain open",
+    "single_fixed_split": true
+  },
+  "licence": {
+    "allowed_scope": "non-commercial academic local analysis and non-training dry-run",
+    "code": "MIT repository root",
+    "data": "LICENCE_PENDING"
+  },
+  "matching": {
+    "matched_pairs": 407,
+    "native_token_count": "NOT_AVAILABLE",
+    "process_char_abs_diff": {
+      "max_abs": 1950.0,
+      "mean": 95.93857493857494,
+      "median": 0.0
+    },
+    "rule": "within problem hash, deterministic nearest proxy match on step count, whitespace tokens, process characters and row hash without replacement",
+    "step_count_abs_diff": {
+      "max_abs": 21.0,
+      "mean": 0.9828009828009828,
+      "median": 0.0
+    },
+    "token_match_status": "PROXY_ONLY_FEASIBLE_NOT_NATIVE_TOKEN_MATCHED",
+    "unmatched_C2": 252,
+    "unmatched_C4_strict": 44,
+    "whitespace_token_abs_diff": {
+      "max_abs": 357.0,
+      "mean": 18.41031941031941,
+      "median": 0.0
+    }
+  },
+  "missing_label_impact": {
+    "lenient_rows_with_missing_labels": 1908,
+    "rows_with_any_missing_selected_rating": 2160,
+    "rows_with_complete_selected_ratings": 602,
+    "rows_without_any_selected_rating": 238,
+    "strict_eligible_rows": 451,
+    "strict_rows_lost_to_missing_labels": 1438
+  },
+  "namespace": "PRM_C2_C4_SELECTION_DRYRUN",
+  "overlap": {
+    "C2_and_C4_strict": 397,
+    "C2_only": 262,
+    "C4_strict_only": 54,
+    "cross_tab_lenient": {
+      "False_False": 252,
+      "False_True": 1851,
+      "True_False": 16,
+      "True_True": 643
+    },
+    "cross_tab_strict": {
+      "False_False": 2049,
+      "False_True": 54,
+      "True_False": 262,
+      "True_True": 397
+    },
+    "neither": 2049
+  },
+  "problem_groups": {
+    "all": 458,
+    "grouping_key": "DERIVED SHA-256 of question.problem",
+    "with_C2": 296,
+    "with_C4_strict": 232,
+    "with_both": 217
+  },
+  "status": "VALIDATED_NON_TRAINING",
+  "training_runs": 0
+}

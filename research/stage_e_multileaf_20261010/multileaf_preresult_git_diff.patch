@@ -1,0 +1,1826 @@
+diff --git a/config/schema_suggestions.json b/config/schema_suggestions.json
+index cac58a5e9..ab452ab47 100644
+--- a/config/schema_suggestions.json
++++ b/config/schema_suggestions.json
+@@ -150,9 +150,9 @@
+       "reason": "列名完全匹配标准字段名",
+       "sample": "tmpbogalgsp.txt",
+       "table": "交易对账单",
+-      "count": 333,
++      "count": 342,
+       "first_seen": "2026-08-14 00:24",
+-      "last_seen": "2026-08-29 12:20"
++      "last_seen": "2026-09-17 16:37"
+     },
+     {
+       "raw_column": "元（单位",
+@@ -276,4 +276,4 @@
+       "last_seen": "2026-08-28 18:04"
+     }
+   ]
+-}
+\ No newline at end of file
++}
+diff --git "a/docs/15_\350\277\234\347\250\213\345\274\200\345\217\221\346\234\272_Codex_CLI_\344\270\216_OpenCode_\351\205\215\347\275\256.md" "b/docs/15_\350\277\234\347\250\213\345\274\200\345\217\221\346\234\272_Codex_CLI_\344\270\216_OpenCode_\351\205\215\347\275\256.md"
+index 3c3c80dec..2dff17b52 100644
+--- "a/docs/15_\350\277\234\347\250\213\345\274\200\345\217\221\346\234\272_Codex_CLI_\344\270\216_OpenCode_\351\205\215\347\275\256.md"
++++ "b/docs/15_\350\277\234\347\250\213\345\274\200\345\217\221\346\234\272_Codex_CLI_\344\270\216_OpenCode_\351\205\215\347\275\256.md"
+@@ -1,6 +1,6 @@
+ # 远程开发机配置：Codex CLI + OpenCode
+ 
+-> 状态: 历史快照（08-23 定性: 安装与配置流程已完成且稳定; 现行模型拓扑/端点以 DECISIONS 模型卡 + architecture/gb10_vllm_startup_sop.md 为准） | 更新: 2026-08-23 | 取代/被取代: 现状口径被 DECISIONS + SOP 取代
++> 状态: 历史快照（安装流程历史保留；2026-10-09 模型路由已收敛到 DECISIONS + memory/CORE：Loop A `mimo-v2.6-flash`，Loop C `mimo-v2.6-pro`） | 更新: 2026-10-09 | 取代/被取代: 本文模型段仅作历史，不再控制现役路由
+ 
+ **日期：2026-07-27。** 本文覆盖 GB10 开发机上两套工具的安装与验证。
+ 
+@@ -45,14 +45,14 @@ codex --version
+ 
+ ```bash
+ # 写入 shell 配置（不要提交到 Git）
+-echo 'export OPENAI_API_KEY="sk-..."' >> ~/.bashrc
++echo 'export OPENAI_API_KEY="<TOKEN_FROM_SECURE_ENV>"' >> ~/.bashrc
+ source ~/.bashrc
+ ```
+ 
+ 或者每次会话临时设置：
+ 
+ ```bash
+-export OPENAI_API_KEY="sk-..."
++export OPENAI_API_KEY="<TOKEN_FROM_SECURE_ENV>"
+ ```
+ 
+ ### 首次使用
+diff --git "a/docs/17_Graph_Engineering_\345\244\232\345\261\202Loop\350\256\276\350\256\241.md" "b/docs/17_Graph_Engineering_\345\244\232\345\261\202Loop\350\256\276\350\256\241.md"
+index b01c8bee1..a3e372781 100644
+--- "a/docs/17_Graph_Engineering_\345\244\232\345\261\202Loop\350\256\276\350\256\241.md"
++++ "b/docs/17_Graph_Engineering_\345\244\232\345\261\202Loop\350\256\276\350\256\241.md"
+@@ -85,7 +85,7 @@
+                         │ 目标 + 约束 + 冻结指令
+  ┌──────────────────────▼──────────────────────────────────┐
+  │  Loop C: 质量审计 (慢)                                   │
+- │  载体: Claude Code + qwen3.8-max (2026-08-03 起)          │
++ │  载体: Claude Code + mimo-v2.6-pro (2026-10-09 起)          │
+  │  频率: 每轮执行完成后 / 每 4-6 小时                       │
+  │  职责:                                                   │
+  │    - 用真实甲方样本 (~/wzh/m1_samples/) 端到端验证        │
+@@ -206,9 +206,9 @@
+ 
+  ## 5. 待办事项 (Pending)
+ 
+- ### 5.1 [P1] Codex CLI + GLM 5.2 模型配置测试
++ ### 5.1 [HISTORICAL][P1] Codex CLI + GLM 5.2 模型配置测试
+ 
+- **状态**: 失败, 待后续排查
++ **状态**: 历史失败记录，已被 2026-10-09 Xiaomi/agent_env 路由与 loop_ac_launcher 取代
+ 
+  之前尝试在远端 Codex CLI 中配置 GLM 5.2 模型 (通过千问平台 Token Plan),
+  配置后测试失败, 模型不可用。具体表现:
+@@ -267,7 +267,7 @@
+  - 检查代码变更是否引入不必要的复杂度或架构漂移。
+  - 检查冻结文件是否被篡改 (配合 Loop B 的 hash 校验)。
+  - 你的审计报告写入 docs/experiments/, 格式: YYYY-MM-DD_audit_*.md。
+- - 你的载体是 Claude Code (qwen3.8-max, Anthropic 兼容端点, 2026-08-03 起); 审计 prompt 见 scripts/graph/loop_c_audit_prompt.md。
++ - 你的载体是 Claude Code (mimo-v2.6-pro, Xiaomi Anthropic 兼容端点, 2026-10-09 smoke PASS); 审计 prompt 见 scripts/graph/loop_c_audit_prompt.md。
+  - 你可以驳回 Loop A 的产出, 但不能自行修改代码。
+  ```
+ 
+@@ -325,10 +325,7 @@
+  ### 从本机 (Loop D) 远程监控
+ 
+ 
+-> **Loop A / Loop C 派活说明 (2026-08-04)**: Loop A 与 Loop C 均为一次性派活, 非常驻进程。
+-> - Loop A: `tmux new-session -d -s loop-a-taskN "cd $PROJ && source ~/.bashrc && cat scripts/graph/loop_a_exec_constraints.md /tmp/task.md | codex exec --dangerously-bypass-approvals-and-sandbox 2>&1 | tee -a logs/graph/loop_a.log"`
+-> - Loop C: `claude -p "<审计指令>"` (模型 qwen3.8-max, 2026-08-03 验证 tool_use 正常)
+-> 完整口径见根 AGENTS.md 与 memory/CORE.md「分发通道」。
++> **Loop A / Loop C 派活说明 (2026-10-09)**: 两者均为一次性派活，统一入口是 `scripts/graph/loop_ac_launcher.sh`。launcher 使用 detached tmux、外层 timeout、status JSON 和日志，避免 SSH 断线或前台超时杀掉任务。先 `preflight`，再 `start a|c <task-id> <prompt-file> [timeout-seconds]`；状态用 `status`，日志用 `logs`。旧手工 tmux 命令仅作历史记录，不再是现役派发入口。完整口径见 `docs/governance/loop_ac_launcher_v1.md`。
+ 
+  ```powershell
+  # 战略层状态一览
+diff --git a/docs/INDEX.md b/docs/INDEX.md
+index e6f21e02e..89c6f175e 100644
+--- a/docs/INDEX.md
++++ b/docs/INDEX.md
+@@ -145,6 +145,9 @@
+ | [`governance/audit/`](governance/audit/) | 只读证据集 | Harness 审计工件 |
+ | [`governance/reference/`](governance/reference/) | 参考资料 | 外部治理模板与证据模式；仅提炼规则，不直接描述项目现状 |
+ | [`governance/2026-09-25_loop_a_sandbox_scoping_design.md`](governance/2026-09-25_loop_a_sandbox_scoping_design.md) | 活跃设计 | Loop A 沙箱分级（R 类 read-only / W 类 workspace-write / 禁 bypass）与派发核对清单（D-D 授权范围设计） |
++| [governance/loop_ac_launcher_v1.md](governance/loop_ac_launcher_v1.md) | 活跃 | GB10 Loop A/C detached launcher、timeout、status/log 与预检入口 |
++| [governance/agent_environment_v1.md](governance/agent_environment_v1.md) | 活跃 | 本机/GB10 通用路径解析、秘密文件边界与环境预检 |
++| [governance/loop_ac_environment_closeout_v1.md](governance/loop_ac_environment_closeout_v1.md) | 活跃 | 路径/派发器/陈旧入口 neat 收口与验证回执 |
+ | [`archive/`](archive/) | 只读历史 | 已归档文档；不得作为当前状态依据 |
+ | [`archive/session_assets/2026-08-29/`](archive/session_assets/2026-08-29/) | 归档会话资产 | 旧 `IMPLEMENTATION_PLAN.md`、`PROMPT.md`；已被当前 Goal、handoff 与计划件取代 |
+ | [`../scripts/archive/_d3b_dispatch.sh`](../scripts/archive/_d3b_dispatch.sh) | 归档脚本 | 旧 D3B 派发脚本；含历史 crontab/tmux 操作，不作为现役执行入口 |
+@@ -162,3 +165,15 @@
+ 4. 顶层存活文档必须包含“状态 / 更新 / 取代或被取代”头部。
+ 5. 当前状态只写 `memory/STATE.md`；未决事项只写 `memory/THREADS.md`；已结案历史保存在 Git、`memory/archive/` 或 `docs/archive/`。
+ 6. `HANDOFF.md` 是冻结历史快照，不再作为当前入口。
++## 导师讨论包（2026-10-09）
++
++| 文件 | 状态 | 用途 |
++|---|---|---|
++| [`../paper/advisor_discussion_brief_2026-10-09.md`](../paper/advisor_discussion_brief_2026-10-09.md) | 内部讨论草稿 | 30 秒研究故事、Stage E 证据、evidence ceiling 与两项导师决策 |
++| [`../paper/advisor_decision_tables_2026-10-09.md`](../paper/advisor_decision_tables_2026-10-09.md) | `RECOMMENDATION_ONLY` | multi-leaf vs second dataflow、harmfulness 三种定义决策表 |
++| [`handoff/current_status_reconciliation_proposal.md`](handoff/current_status_reconciliation_proposal.md) | `PROPOSAL_ONLY` | stale statement 标记与 README/STATE patch proposal；尚未应用 |
++| [`handoff/2026-10-09_advisor_decision_candidate_paths.md`](handoff/2026-10-09_advisor_decision_candidate_paths.md) | `AWAITING_ADVISOR_DECISION` | Path M / Path D 候选执行计划；禁止自动执行 |
++
++## Stage E 方法修正与 Stage D 参考轨（2026-10-09）
++Deliverables: [metric priority](research/stage_e_metric_priority_v2.md), [HBR boundary](research/stage_e_harmfulness_metric_boundary_v1.md), [zero-event uncertainty](research/stage_e_zero_event_uncertainty_note_v1.md), [matched-FPR protocol](research/stage_e_matched_fpr_reanalysis_protocol_v1.md), [matched-FPR reanalysis](research/stage_e_matched_fpr_reanalysis_v1.md), [NIST ledger](research/nist_measurement_validity_ledger_v2.md), [multi-leaf preregistration](research/stage_e_multileaf_preregistration_v1.md), [power plan](research/stage_e_multileaf_power_plan_v1.md), [PRM800K audit](research/prm800k_reference_track_audit_v1.md), [Math-Shepherd audit](research/math_shepherd_reference_track_audit_v1.md), [process-signal requirements](research/stage_d_process_signal_requirements_v1.md), [paper upgrade plan](research/stage_e_paper_upgrade_plan_v1.md).
++Supporting validation: [`../research/stage_e_method_revision_20261009/stage_e_method_revision_receipt.json`](../research/stage_e_method_revision_20261009/stage_e_method_revision_receipt.json).
+\ No newline at end of file
+diff --git a/logs/graph/dispatch_log.md b/logs/graph/dispatch_log.md
+index be6336c8b..e2f668050 100644
+--- a/logs/graph/dispatch_log.md
++++ b/logs/graph/dispatch_log.md
+@@ -1267,3 +1267,10 @@ echo dispatch_log updated
+ [01:01] TRAINING-READINESS-AND-PROTOCOLS main@20815b0: Stage D residual memo + A0/A1/A2/A3/4B readiness config + GB10 dry-run validator + RQ2 four-gate application + Stage R/RQ4 static protocol complete. validator cmp0, focused tests 5/8, full pytest855/13/1, docs_lint0/4. missing deps peft/trl/deepspeed, model revision/data gates pending; no training/Phase2/download/model dispatch.
+ [01:04] MODEL-TRAINING-GO-APPLICATION-PREPARED main@e449ddd: separate MODEL_GO/TRAINING_GO application prepared with exact revision/licence/budget/window/stop fields. current gates fail necessity/source/label/split/power/baseline and dependency readiness. docs_lint0/4; no install/model load/A0-A3/Phase2/training.
+ [10:36] ROUTE-V-READINESS-MODEL-SYNC-BLOCKED main@e90b818: Route V exact annex 10 clusters/0 eligible new/30 gap/download0; A3 and Phase2 params/windows bound; peft/trl installed, deepspeed replaced by accelerate; Qwen revisions/licences/manifests bound. GB10 and local HF paths time out, MODEL_SYNC_BLOCKED, 0 bytes, no S0/A0-A3/Phase2/training.
++[14:30] TASK-CLEANUP-TMP-WINDOWS-ZHIKUN -> /tmp 3404 items quarantined to /home/testuser/tmp_quarantine_20261008 (0 move errors; 34 recent/runtime retained) + closed coding-jinrong:codex-idle and idle terminal 1275663 + zhikuncode stopped restart=no with volume/bind preserved -> commit=N/A
++[10-09 00:26] TASK-20261008-STAGEE-INQUIRY-A1 result=COMPLETED_WITH_BUDGET_EXCEPTION changed=docs/datasets/2026-10-08_stage_e_public_source_metadata_audit_v1.json,docs/research/2026-10-08_stage_e_inquiry_and_experiment_design_v1.md,memory/STATE.md,memory/THREADS.md,logs/graph/dispatch_log.md verification="sha256sum rc0 exact abab4465...; python3 -m json.tool rc0; rg 12-section headings rc0; rg required tokens rc0; git diff --check rc0; python3 scripts/docs_lint.py rc0 (0 fail/6 stale-doc warnings); git status rc0 (six pre-existing dirty paths preserved plus four allowed task paths)" calls="HTTP 94 attempts/72 URLs, limit 80, overage 14, EXCEEDED_TRANSPARENTLY_REPORTED, no further HTTP; model/judge/service/database/download/ground-truth/training/Phase2/formal-experiment/release all 0; skills=4; pytest=NOT_RUN" commit=NOT_AUTHORIZED
++[10-09 10:53] LOOP-C-MIMO26-PRO-SMOKE -> provider OpenAI /v1/chat/completions HTTP200 model=mimo-v2.6-pro content=OK usage_total=26; Claude Code --bare model=mimo-v2.6-pro failed with zero-token aborted_streaming for base URL without and with /v1; Anthropic /v1/messages HTTP404; verdict=MODEL_PROVIDER_OK_LOOP_C_ROUTE_NOT_COMPATIBLE; config_changes=0 commit=N/A
++[10-09 11:00] LOOP-C-MIMO26-PRO-CONFIG-REPAIR -> found existing ~/.claude/settings.json route base=https://token-plan-cn.xiaomimimo.com/anthropic model=mimo-v2.6-pro; stale ANTHROPIC_AUTH_TOKEN replaced from token_plan.env; backup=/home/testuser/.claude/settings.json.bak-20261009-loopc-mimo26pro; explicit-settings smoke OK and default claude -p smoke OK (result=OK, modelUsage=mimo-v2.6-pro, stop_reason=end_turn); config_changes=repository:0 external_settings:1 commit=N/A
++[10-09 11:37] NEAT-CONFIG-SESSION-CLOSEOUT -> routes=LoopA(mimo-v2.6-flash,mimo-v2.6-pro)/LoopC(mimo-v2.6-pro anthropic) docs=CORE,DECISIONS,docs/15,docs/17,side_handoff scripts=switch/setup/deploy; Codex sessions archived=149 reversible; OpenCode sessions=50 pending trim; tmux=5 with attached coding-jinrong preserved; skill-doctor=0 errors/139 warnings/0 fixes; skill-map=114 skills/1 duplicate/27 unresolved; pytest=876 passed/13 skipped/1 deselected; docs_lint=PASS 0 fail/6 warn; diff_check=0; switch_smoke=PASS; loopa-exec profile smoke=429_RATE_LIMITED; commit=N/A
++[10-09 11:39] NEAT-ARCHIVE-COUNT-CORRECTION -> previous receipt archived=149 corrected to 150 after final profile-smoke session archive; remaining Codex session files=0; commit=N/A
++[10-09 11:45] NEAT-CLEANUP-ACTION-COMPLETED user_confirmed=true -> OpenCode sessions 50->20 (official cleanup partial 50->48 with one stale 404, then live-list retry deleted 28/28); old config backups deleted=9, remaining current backups=3; Codex active sessions=0; tmux unchanged=5; attached coding-jinrong preserved; no service restart; commit=N/A
+diff --git a/logs/graph/docs_lint_report.json b/logs/graph/docs_lint_report.json
+index cd3b7768d..8ff6ac3a7 100644
+--- a/logs/graph/docs_lint_report.json
++++ b/logs/graph/docs_lint_report.json
+@@ -1,12 +1,16 @@
+ {
+- "date": "2026-09-06T14:49:04",
++ "date": "2026-10-10T01:01:32",
+  "fails": [],
+  "warns": [
+-  "[2] 活跃但 15 天未更新: docs/19_系统能力说明书.md (更新: 2026-08-22)",
+-  "[2] 活跃但 15 天未更新: docs/29_graph_engineering_roadmap.md (更新: 2026-08-22)",
+-  "[2] 活跃但 15 天未更新: docs/30_科研线规划.md (更新: 2026-08-22)",
+-  "[2] 活跃但 15 天未更新: docs/32_模型升级与多agent再思考.md (更新: 2026-08-22)",
+-  "[2] 活跃但 19 天未更新: docs/33_导师指导吸收_科研三线升级.md (更新: 2026-08-18)"
++  "[2] 活跃但 18 天未更新: docs/29_graph_engineering_roadmap.md (更新: 2026-09-22)",
++  "[2] 活跃但 29 天未更新: docs/32_模型升级与多agent再思考.md (更新: 2026-09-11)",
++  "[2] 活跃但 29 天未更新: docs/33_导师指导吸收_科研三线升级.md (更新: 2026-09-11)",
++  "[2] 活跃但 42 天未更新: docs/34_专利_小论文_大论文协同研究路线.md (更新: 2026-08-29)",
++  "[2] 活跃但 18 天未更新: docs/CLAUDE.md (更新: 2026-09-22)",
++  "[2] 活跃但 29 天未更新: docs/m1_coldstart_candidates.md (更新: 2026-09-11)"
++ ],
++ "info": [
++  "[5] 注册表标 DEPRECATED 且未分发（预期）: A verification-before-completion"
+  ],
+  "overall": "PASS"
+ }
+\ No newline at end of file
+diff --git a/logs/graph/governance_drift_latest.md b/logs/graph/governance_drift_latest.md
+index bf41626a2..2b094ab44 100644
+--- a/logs/graph/governance_drift_latest.md
++++ b/logs/graph/governance_drift_latest.md
+@@ -1,22 +1,15 @@
+-# 治理漂移扫描报告 2026-09-06 14:47
++# 治理漂移扫描报告 2026-10-09 03:30
+ 
+-命中 16 项（模式: 收口登记）
++命中 9 项（模式: cron 轻扫）
+ 
+-- [INDEX 状态词[待批]] 2026-08-21_dspark_k5_ab_plan.md (L107, fp=3ef80c8d7a)
+-- [INDEX 状态词[待批]] 2026-08-22_l3_dflash2_image_feasibility.md (L110, fp=d98aa05659)
+-- [INDEX 状态词[待批]] 2026-08-25_fk_watermark_fix_draft.md (L139, fp=2419be9be9)
+-- [INDEX 状态词[待发送]] 31_导师进展汇报_v2_20260825.md (L140, fp=56ffec5f8f)
+-- [INDEX 状态词[待发送]] 2026-08-25_demo_video_v3/steps.md (L142, fp=f83c3df328)
+-- [INDEX 状态词[待批]] 2026-08-26_c4_visual_prep.md (L154, fp=d152c79eac)
+-- [INDEX 状态词[待批]] 2026-08-27_small_a_baseline_protocol_design.md (L164, fp=ccbb15b64d)
+-- [INDEX 状态词[待执行]] | 2026-08-30_t1_eval_baseline_comparison (L196, fp=9d351bba09)
+-- [INDEX 状态词[待执行]] | 2026-08-30_t2_visibility_sensitivity_d (L197, fp=ec550aa5d4)
+-- [INDEX 状态词[待执行]] | 2026-08-30_t6_matching_competition_des (L198, fp=193b26038b)
+-- [INDEX 状态词[待执行]] | superpowers/plans/2026-08-29-long-hori (L205, fp=7bc9b19655)
+-- [INDEX 状态词[待勾选]] 2026-08-27_round3_dialectic_record.md (L212, fp=e1665f1072)
+-- [INDEX 状态词[待执行]] 2026-08-25_send_checklist.md (L215, fp=d14b111446)
+-- [INDEX 状态词[待批]] scripts/graph/governance_drift_scan.py (L318, fp=295daec7e4)
+-- [日期超期[32天]] README.md (L1, fp=77bcec84bb)
+-- [日期超期[19天]] 33_导师指导吸收_科研三线升级.md (L1, fp=c2a146fed7)
++- [日期超期[28天]] m1_coldstart_candidates.md (L1, fp=3d182c433e)
++- [日期超期[41天]] 34_专利_小论文_大论文协同研究路线.md (L1, fp=d340a43189)
++- [日期超期[65天]] README.md (L1, fp=77bcec84bb)
++- [日期超期[28天]] 33_导师指导吸收_科研三线升级.md (L1, fp=c2a146fed7)
++- [日期超期[17天]] CLAUDE.md (L1, fp=f32dfb5056)
++- [日期超期[28天]] 32_模型升级与多agent再思考.md (L1, fp=3df1eb4557)
++- [日期超期[17天]] 29_graph_engineering_roadmap.md (L1, fp=b0676e4e96)
++- [仓外资产未登记] /home/testuser/wzh/models/hf/Qwen3-4B (L0, fp=b6c4022e7e)
++- [仓外资产未登记] /home/testuser/wzh/models/hf/Qwen3-8B (L0, fp=9e25dde742)
+ 
+-新登记 backlog: 0 项
++（cron 模式不登记）
+diff --git a/logs/graph/loop_b_last_status b/logs/graph/loop_b_last_status
+index 94e1707e8..7ef22e9a4 100644
+--- a/logs/graph/loop_b_last_status
++++ b/logs/graph/loop_b_last_status
+@@ -1 +1 @@
+-FAIL
++PASS
+diff --git a/logs/graph/verify-report.json b/logs/graph/verify-report.json
+index 5a1f5428b..499d4a11e 100644
+--- a/logs/graph/verify-report.json
++++ b/logs/graph/verify-report.json
+@@ -1,9 +1,12 @@
+ {
+   "loop": "B",
+   "role": "independent_verification",
+-  "timestamp": "2026-09-06T14:20:01.510658",
+-  "head_commit": "654dc90",
+-  "overall": "FAIL",
++  "timestamp": "2026-10-10T01:01:32.479209",
++  "head_commit": "e97340387",
++  "overall": "PASS",
++  "verdict_source": "loop_b_verify.sh (single source)",
++  "verdict_derived_from_counts": "PASS",
++  "verdict_consistency": "OK",
+   "checks": {
+     "frozen_nodes": {
+       "status": "PASS",
+@@ -22,8 +25,8 @@
+       "failures": 0
+     },
+     "git_alignment": {
+-      "status": "FAIL",
+-      "violations": 1
++      "status": "PASS",
++      "violations": 0
+     },
+     "docs_lint": {
+       "status": "PASS",
+@@ -42,5 +45,5 @@
+       "violations": 0
+     }
+   },
+-  "action": "HALT: Loop A must fix before proceeding"
++  "action": "Loop A may continue"
+ }
+\ No newline at end of file
+diff --git a/memory/CORE.md b/memory/CORE.md
+index eecdfa22a..af7ee5ff9 100644
+--- a/memory/CORE.md
++++ b/memory/CORE.md
+@@ -1,6 +1,6 @@
+ # memory/CORE.md — 永久事实（始终加载，<100 行）
+ 
+-更新: 2026-09-22（文档指针治理；运行拓扑仍为 2026-08-22 最后正式记录，非实时健康声明）
++更新: 2026-10-09（Loop A/C Xiaomi 模型路由收敛；运行拓扑仍按现场服务核验）
+ 
+ ## 系统拓扑（GB10 开发机: ssh jinrong-dev, testuser@10.129.237.26, ARM64）
+ 
+@@ -15,12 +15,13 @@
+ | :15432 | PostgreSQL + PGVector (docker) | vector_db, collection m1_parsed_statements |
+ | :8090 | ZhikunCode (docker) | Multi-Agent 平台，可选扩展面 |
+ 
+-## 模型路由（历史记录；当前任务不得据此派发）
++## 模型路由（2026-10-09 现役）
+ 
+-- Loop A (Codex CLI): qwen3.8-max，Token Plan 直连 Responses API（~/.codex/config.toml）
+-- Loop C (Claude Code): qwen3.8-max，Anthropic 兼容端点（~/.claude/settings.json）；不兼容的仅是 qwen3.8-max-preview
+-- qwen_harness_tools.py: qwen3.8-max-preview（独立于 Loop 路由）
+-- 禁止: 加载 72B（已删除; 硬禁 08-17 作废, 改模型准入预算门, 见 DECISIONS）；PaddleOCR（ARM64 SIGSEGV）；VLM :8007/Triton 线已关闭
++- Loop A (Codex CLI): `mimo-v2.6-flash` via `Xiaomi_Token_Plan`，执行 profile `~/.codex/loopa-exec.config.toml`；诊断 profile 使用 `mimo-v2.6-pro`。
++- Loop C (Claude Code): `mimo-v2.6-pro` via Anthropic-compatible endpoint `https://token-plan-cn.xiaomimimo.com/anthropic`（`~/.claude/settings.json`；2026-10-09 默认入口 smoke PASS）。
++- qwen_harness_tools.py: qwen3.8-max-preview（独立于 Loop 路由，仍属历史/工具线）。
++- 凭证只存外部受保护环境文件；不写入 Git、文档、日志或 prompt。
++- 禁止: 加载 72B（已删除; 硬禁 08-17 作废, 改模型准入预算门, 见 DECISIONS）；PaddleOCR（ARM64 SIGSEGV）；VLM :8007/Triton 线已关闭。
+ 
+ ## Graph 四层 Loop
+ 
+diff --git a/memory/DECISIONS.md b/memory/DECISIONS.md
+index 49340d092..de68de34e 100644
+--- a/memory/DECISIONS.md
++++ b/memory/DECISIONS.md
+@@ -227,3 +227,8 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
+ - Invalid references: Option A reference quarantine primary; Option B whole-pair INVALID mandatory sensitivity; 146 summary preserved and 9-cluster/130-column sensitivity reported separately.
+ - B0-B4: leave-one-pair-out primary; salted split sensitivity; bootstrap 2000 with seeds [42,43,44] for exploratory uncertainty only.
+ - B5: dormant / NOT_RUN; metadata-only audit at most; install/run needs separate authorization.
++
++## [2026-10-09] Loop A/C Xiaomi model route convergence
++
++结论: Loop A 执行 profile 固定为 `mimo-v2.6-flash` / `Xiaomi_Token_Plan`，诊断 profile 固定为 `mimo-v2.6-pro` / `Xiaomi_Token_Plan`；Loop C (Claude Code) 固定为 `mimo-v2.6-pro`，使用 Anthropic-compatible endpoint `https://token-plan-cn.xiaomimimo.com/anthropic`。旧 `deepseek-v4.1-flash + Token_Plan_Chat` profile 和 `qwen3.8-max` Loop C 路由均为历史口径，不再作为现役默认。
++理由: 2026-10-09 实测 Xiaomi OpenAI-compatible 模型面可用；Claude Code 使用旧 token 和错误 base URL 时为零 token 中止，更新外部 token 并使用 `/anthropic` 后，默认 `claude -p` 返回 `result=OK`、`modelUsage=mimo-v2.6-pro`、`stop_reason=end_turn`。凭证仅存外部受保护配置，不进入本记录。
+diff --git a/memory/STATE.md b/memory/STATE.md
+index fc4b852d1..7f31afe0c 100644
+--- a/memory/STATE.md
++++ b/memory/STATE.md
+@@ -8,6 +8,8 @@ Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions:
+ 
+ 当前 goal 的合法路径 B 已完成：正式记录 `DATA_NO_GO / RQ2 NOT_IDENTIFIED`，解释 Valentine 551 tasks 仅形成 8 个保守 origin components、无 native trajectory/checkpoint bridge，完整 Evaluate-Distill-Evolve 转为 future work；成熟 Stage E 小论文内部投稿版与大论文开题、第 1–2 章、第 3–8 章框架、Track B pilot、负结果边界和未来数据需求均已落盘。Stage E 现为 `ready for advisor review`；仅剩两个导师决策项：multi-leaf vs second dataflow、harmfulness 定义选择。此结论不等于确认性 RQ2/Stage D/Stage R/RQ4、正式外投或训练完成。
+ 
++- [2026-10-08] Stage E metadata-only source audit and 12-section inquiry/experiment-design report are complete as `DESIGN_ONLY_NOT_AUTHORIZED`; 94 HTTP attempts over 72 URLs exceeded the 80-attempt budget by 14 and are transparently recorded. Zero model/service/database/download/training calls occurred; `DATA_NO_GO / RQ2 NOT_IDENTIFIED` remains active and commit is `NOT_AUTHORIZED`.
++
+ ## Model artifact status
+ 
+ - Execution authority is GB10-only. Local fixture runs are `DEV_ONLY / NON_AUTHORITATIVE`.
+@@ -78,3 +80,11 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
+ 6. Continue paper/thesis work only by backfilling independently accepted evidence; keep Q3/B0-B4 outside Stage E main results until their evidence level changes.
+ 7. Only after every conditional gate passes may S0/A0/A1/A2 proceed automatically under the frozen controls.
+ 8. A3, Phase 2, new data/licence, formal submission, arXiv, code release, and external release remain separately authorized.
++
++## Configuration and session neat status (2026-10-09)
++- Loop A execution/diagnostic profiles and Loop C Claude Code route now use the approved Xiaomi mimo-v2.6 routes. Old deepseek profile and qwen Loop C wording are historical only.
++- Codex history sessions were archived reversibly; OpenCode session deletion and attached tmux closure remain pending explicit cleanup confirmation.
++- Config backups are retained outside Git; no credentials were copied into repository files.
++
++
++- Final neat verification: GB10 full pytest 876 passed / 13 skipped / 1 deselected; docs_lint PASS with 6 existing warnings; skill-doctor 0 errors / 139 warnings; skill-map 114 skills / 1 duplicate / 27 unresolved; Codex archive 150 reversible. OpenCode session trimming and tmux closure remain pending confirmation.
+diff --git a/memory/THREADS.md b/memory/THREADS.md
+index bd78372b5..9aefa3fba 100644
+--- a/memory/THREADS.md
++++ b/memory/THREADS.md
+@@ -1,5 +1,12 @@
+ # memory/THREADS.md — 未决线索
+ 
++[10-09] #NEAT-CLEANUP-ACTION-COMPLETED: user confirmed deletion after full report; OpenCode sessions reduced 50->20, nine old config backups deleted, three current backups retained. Post-cleanup audit passed; attached tmux and legacy warnings remain untouched.
++[10-09] #NEAT-ARCHIVE-COUNT-CORRECTION: previous 149 count is corrected to 150 after the final completed profile-smoke session was archived; active Codex session files=0.
++[10-09] #NEAT-CONFIG-SESSION-CLOSEOUT: Loop A/C Xiaomi routes synchronized; 149 Codex sessions archived reversibly. OpenCode session trim and attached tmux closure are preview-only pending user confirmation after the complete report. No repo commit/push.
++[10-08] #STAGE-E-INQUIRY-OPEN-DECISIONS: 公开元数据审计与 12-section Stage E inquiry/report 已完成，但实验状态仍为 `DESIGN_ONLY_NOT_AUTHORIZED`。待用户拍板：(1) multi-leaf synthetic 优先于 second dataflow；(2) harmfulness 定义维持 equivalence-dependent construct 还是比较新定义；(3) synthetic matrix、responsive-leaf minimum、table-origin split 与 independent-scorer scope 如何冻结。不得据此启动实验、下载、训练或外发。
++
++[10-08] #STAGE-E-METADATA-BUDGET-EXCEPTION: 2026-10-08 metadata acquisition 使用 72 distinct URLs、94 actual HTTP attempts，超过 80-attempt budget 14 次；状态 `EXCEEDED_TRANSPARENTLY_REPORTED`。之后停止全部 HTTP。失败/回退项（TabFact DOI、PubTables official dataset entry、DeepMatcher exact record 及 rate-limited fallback）保持 `UNVERIFIED`，不得猜测补齐。
++
+ [10-08] #OPENALEX-METADATA-HANDOFF: OpenAlex key configured outside repository and validated HTTP 200 locally and on GB10; no key stored in Git/docs/logs. Crossref/OpenAlex paper candidates identified for FinQA, TAT-QA, TabFact, PubTables-1M, FeTaQA. Dataset licence/provenance/native bridge/independent-origin audit is still open and must resume in a new session; no download, experiment, model call, or claim upgrade occurred.
+ 
+ [10-08] #NEAT-CACHE-CLEANUP-COMPLETE: 用户看过完整报告后确认删除候选与缓存清理。已删除本地误同步临时树和项目 `__pycache__/.pytest_cache/.ruff_cache`；GB10 同类缓存已清零并显式保留 `venv/.venv`。未删除唯一证据、凭证、模型、数据、production 脏件或运行态台账。清理验证时 local/origin/GB10 对齐于 `8a36913dcd5ad62c06550e6a39a4972b200cb145`；当前 head 以 `git rev-parse HEAD` 为准。无源代码或实验状态变化。
+diff --git a/paper/claim_manifest_v1.json b/paper/claim_manifest_v1.json
+index 0f5dc1b66..2a075eede 100644
+--- a/paper/claim_manifest_v1.json
++++ b/paper/claim_manifest_v1.json
+@@ -36,8 +36,8 @@
+     {
+       "id": "SP-C1",
+       "status": "supported_with_scope_limit",
+-      "claim": "Defect visibility is type-dependent and OCR-like perturbations are fully blind in the tested evaluator.",
+-      "manuscript_tokens": ["96/118", "are visible in 0/13 cases", "five thresholds"],
++      "claim": "Defect visibility is type-dependent, and no OCR-like injection was checkpoint-visible in the tested evaluator across the frozen threshold grid.",
++      "manuscript_tokens": ["96/118", "0/13 OCR-like injections were visible across 11 table clusters", "all five thresholds"],
+       "evidence": [
+         "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+         "logs/graph/eval/t2_visibility_sensitivity.json",
+@@ -47,14 +47,16 @@
+     },
+     {
+       "id": "SP-C2",
+-      "status": "supported_as_diagnostic_not_superiority",
+-      "claim": "Hierarchical checkpoints provide decomposition but do not improve matched-FPR discrimination on the current corpus.",
+-      "manuscript_tokens": ["112/118", "85/118", "13/118", "[0,0]"],
++      "status": "structural_result_with_empirical_nonidentifiability",
++      "claim": "In the current single-responsive-leaf instantiation, flat and hierarchical scores are affine/rank-equivalent, while clean-only matched-FPR equality is not empirically identifiable.",
++      "manuscript_tokens": ["112/118", "85/118", "13/118", "positive affine transformations", "identical rankings and ROC geometry", "not empirically identifiable", "historical fixed-threshold equality"],
+       "evidence": [
+         "logs/graph/eval/t1_eval_baseline_comparison.json",
+-        "logs/graph/eval/d3_matched_fpr_stage_a.json"
++        "logs/graph/eval/d3_matched_fpr_stage_a.json",
++        "docs/research/stage_e_matched_fpr_reanalysis_v1.md",
++        "research/stage_e_method_revision_20261009/matched_fpr_reanalysis.json"
+       ],
+-      "scope_limit": "Localization value cannot be established while only one input-varying leaf is present."
++      "scope_limit": "The affine/ranking result is limited to the current single-responsive-leaf construction. Historical 90/111 and [0,0] values are sensitivity evidence only; localization remains unestablished until multiple leaves respond."
+     },
+     {
+       "id": "SP-C3",
+diff --git a/paper/research_asset_map_v2.md b/paper/research_asset_map_v2.md
+index 9836d5fc3..f6136792e 100644
+--- a/paper/research_asset_map_v2.md
++++ b/paper/research_asset_map_v2.md
+@@ -224,12 +224,12 @@ These assets support a formal negative-result boundary only. They do not authori
+ ## 2026-10-07 Stage E narrative and independent-evidence boundary
+ 
+ - The Stage E manuscript now uses `Visibility Is Not Detection` as its primary narrative: the evaluator's observability, protocol detection, and equivalence-dependent harmfulness are separated before any system-level interpretation.
+-- The current result remains narrow: hierarchical checkpoints improve evidence decomposition but not matched-FPR discriminability in the single-varying-leaf instantiation. No localization or cross-domain claim is promoted.
++- The current result remains narrow: the single-varying-leaf flat/hierarchical scores are affine/rank-equivalent, while clean-only matched-FPR equality is not identifiable. No localization or cross-domain claim is promoted.
+ - Future independent evidence is tracked in `paper/teacher_review_readiness_v2.md`: second dataflow, independent second scorer, multi-leaf responsiveness, and external document scenarios such as financial audit, compliance review, and enterprise table processing.
+ - These future items require new artifacts and independent review before they can replace current limitations or become paper results.
+ 
+ ## 2026-10-08 Stage E advisor-review readiness
+ 
+ - Stage E package head: `62274ef1fa624912390d4f0a05828c038a938ccb`; current repository head: resolve with `git rev-parse HEAD` on local/origin/GB10; pre-closeout synchronized head: `8c0b248ddfe19c937e815003ac31db48a54bc091`. Post-package commits are governance-only and do not change paper evidence.
+-- Canonical package hashes: source `abab44657e17936badf371a606198886ccd333a4c1489600c8922f78a6c57e80`; DOCX `6cfa6d9d329c172028cca18312921842fc2747bda3c6b331655cc7cacf7e4e85`; anonymous preview `fcce418a840373ccde8eece23f28fe0b2258de355a346184b82ffc2a70858d35`; submission audit `8cb1bce3c11344b3083004e6850206e4023964d82a7b21b318a2e31d161421ed`.
++- Canonical package hashes: source `cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9`; DOCX `363ce4876f52b6c25b1e34c483c73ce033a51f8be94c956569e8387457fe2750`; anonymous preview `b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc`; submission audit `1fb9e5b6413a0e6fb08cb64d59dad1280f5bbe70744356eb840dae0a2757066f`.
+ - Current status is `Stage E ready for advisor review`; Office/PDF visual check is PASS. Pending advisor decisions remain multi-leaf versus second dataflow and harmfulness definition selection.
+diff --git a/paper/submission_draft_arr_www_anonymous_v0.md b/paper/submission_draft_arr_www_anonymous_v0.md
+index 496d03321..8bae42aab 100644
+--- a/paper/submission_draft_arr_www_anonymous_v0.md
++++ b/paper/submission_draft_arr_www_anonymous_v0.md
+@@ -4,7 +4,7 @@
+ 
+ ## Abstract
+ 
+-Long-horizon document intelligence systems are usually scored on final-answer correctness, which cannot distinguish a defect observed by an intermediate checkpoint from one that was silently absorbed, nor reveal that the evaluator itself was blind to the defect. We study evaluation-protocol validity rather than proposing a stronger detector. Our meta-evaluation separates checkpoint-level visibility, protocol-level detection, and equivalence-dependent harmfulness, using hierarchical checkpoint evidence as an instrument and per-family visibility profiles as the reporting surface. On a frozen public tabular corpus containing 95 tables and 118 synthetic header-drift injections, checkpoint-level analysis yields 96/118 visible injections, while OCR-like perturbations are visible in 0/13 cases across five thresholds. End-to-end, flat, and hierarchical protocols detect 112/118, 85/118, and 13/118 injections under different decision signals; after matched-false-positive-rate calibration, flat and hierarchical scores are affinely equivalent with a [0,0] protocol-difference interval because only one scored leaf responds to the injected input. This diagnosis shows that protocol comparisons without calibrated operating points can create misleading superiority stories: hierarchy decomposes evidence but does not improve detection sensitivity or establish localization in the current setting. Our results motivate evaluation reports that publish per-family visibility profiles, explicit construct definitions, validity boundaries, and reproducible evidence chains alongside aggregate scores.
++Long-horizon document intelligence systems are usually scored on final-answer correctness, which cannot distinguish a defect observed by an intermediate checkpoint from one that was silently absorbed, nor reveal that the evaluator itself was blind to the defect. We study evaluation-protocol validity rather than proposing a stronger detector. Our meta-evaluation separates checkpoint-level visibility, protocol-level detection, and equivalence-dependent harmfulness, using hierarchical checkpoint evidence as an instrument and per-family visibility profiles as the reporting surface. On a frozen public tabular corpus containing 95 tables and 118 synthetic header-drift injections, checkpoint-level analysis yields 96/118 visible injections; 0/13 OCR-like injections were visible across 11 table clusters. End-to-end, flat, and hierarchical protocols detect 112/118, 85/118, and 13/118 injections under different decision signals. In the current single-responsive-leaf instantiation, the flat and hierarchical contrastive scores are positive affine transformations and therefore induce identical rankings and ROC geometry. A clean-only matched-FPR operating point is not empirically identifiable because all 2,382 clean scores are zero; historical fixed-threshold equality is retained only as sensitivity evidence. This diagnosis shows that protocol comparisons without identifiable operating points can create misleading superiority stories: hierarchy decomposes evidence, while detection sensitivity and localization remain separate questions. Our results motivate evaluation reports that publish per-family visibility profiles, explicit construct definitions, validity boundaries, and reproducible evidence chains alongside aggregate scores.
+ 
+ ## 1. Introduction
+ 
+@@ -12,13 +12,13 @@ Document intelligence systems are increasingly implemented as pipelines rather t
+ 
+ This creates a second problem that is easier to overlook: the evaluation protocol may itself be unable to observe particular defects. If a perturbed header is normalized back to the original field before the first measured checkpoint, every downstream score can remain unchanged. A correct final answer then has at least two explanations—the pipeline was robust to the perturbation, or the evaluation was blind to it. A single end-to-end score cannot separate these cases.
+ 
+-We study this problem through controlled fault injection. A frozen public tabular corpus contains 95 tables and 118 synthetic header perturbations across six families: alias variation, mixed language, unit suffix, date variation, OCR-like character substitution, and prefix noise. We separate three questions that aggregate scores usually collapse: whether a checkpoint observes a change, whether a protocol turns that observation into a detection decision, and whether the perturbation is harmful under a stated equivalence criterion. This separation exposes a strong family effect: OCR-like perturbations are visible in 0/13 cases across five thresholds, whereas the raw gap between flat and hierarchical detection later disappears after false-positive-rate calibration.
++We study this problem through controlled fault injection. A frozen public tabular corpus contains 95 tables and 118 synthetic header perturbations across six families: alias variation, mixed language, unit suffix, date variation, OCR-like character substitution, and prefix noise. We separate three questions that aggregate scores usually collapse: whether a checkpoint observes a change, whether a protocol turns that observation into a detection decision, and whether the perturbation is harmful under a stated equivalence criterion. This separation exposes a strong family effect: 0/13 OCR-like injections were visible across 11 table clusters. The raw flat--hierarchical gap is instead traced to score and threshold structure; a clean-only matched-FPR operating point is not identifiable on the frozen clean scores.
+ 
+ We study evaluation-protocol validity rather than proposing a stronger detector. We ask the prior question: can the evaluation protocol observe the defect at all, and can it disclose the blind regions that make a result ambiguous? This reframes hierarchy as an evidence instrument rather than an automatic sensitivity gain, and leads to three contributions:
+ 
+ 1. **Construct separation.** We distinguish checkpoint-level visibility, protocol-level detection, and equivalence-dependent harmfulness, which aggregate scores usually collapse into one outcome.
+-2. **Evidence instrument.** We organize reproducible checkpoint evidence and per-family visibility profiles with deterministic contracts, leakage-protected semantic judges, explicit missing-evidence policies, and per-check retention; hierarchy is an instrument, not an algorithmic novelty.
+-3. **Protocol audit.** We vary thresholds, seeds, matchers, normalizations, matched false-positive rates, and weight-search controls to expose measurement confounding. The central result is negative but actionable: hierarchy provides evidence decomposition but no discriminability gain at matched false-positive rate on the current corpus, and its localization value remains unestablished.
++2. **Quantified observation boundaries.** We report per-family visibility rate, micro visibility, worst-family visibility, and visibility-conditioned protocol use, so aggregate accuracy cannot hide a family that the evaluator cannot observe.
++3. **Structural protocol identifiability audit.** We show that the apparent hierarchical detection advantage in the current single-responsive-leaf setting is explained by score and threshold structure: flat and hierarchical scores are affine/rank-equivalent, while clean-only matched-FPR equality is not empirically identifiable.
+ 
+ This positioning keeps the empirical claim commensurate with the evidence. We do not claim universal coverage, superior hierarchical detection, a formal geometric “blind cone,” or significant downstream gains from the gated self-improvement case.
+ 
+@@ -87,7 +87,7 @@ The defect visibility profile reports visibility separately for each family. Thi
+ 
+ ### 3.3 Evaluating the evaluator
+ 
+-We compare four protocols on frozen evidence: end-to-end roots, a flat leaf average, hierarchical expert weights, and hierarchical searched weights. We measure table-level detection, injection-level detection, mean separation between clean and perturbed states, worst-family behavior, localization, and evaluation cost. Because raw thresholds can manufacture differences, we also compare flat and hierarchical protocols at matched false-positive rates calibrated on clean tables.
++We compare four protocols on frozen evidence: end-to-end roots, a flat leaf average, hierarchical expert weights, and hierarchical searched weights. We measure table-level detection, injection-level detection, mean separation between clean and perturbed states, worst-family behavior, localization, and evaluation cost. Because raw thresholds can manufacture differences, we separately audit (i) structural score/ranking equivalence and (ii) whether a matched-FPR operating point is identifiable from clean scores alone.
+ 
+ The audit further varies the injection seed, visibility threshold, matching algorithm, and scoring normalization. A semantic-judge arm is evaluated separately and never substituted for deterministic evidence when a contract exists.
+ 
+@@ -111,13 +111,13 @@ The protocol baselines are end-to-end scoring, flat leaf scoring, and hierarchic
+ 
+ ### 4.3 Statistical discipline
+ 
+-We freeze inputs and decision criteria before reading each result. Confidence intervals are reported on table-level clustered units where available. Seed sensitivity uses three injection seeds. Matched-FPR comparison recalibrates each protocol on clean tables within every bootstrap replicate. Null and adverse findings are retained rather than relabeled as improvements.
++We freeze inputs and decision criteria before reading each result. Confidence intervals are reported on table-level clustered units where available. Seed sensitivity uses three injection seeds. For the clean-only matched-FPR audit, threshold selection may use clean scores only; injected and harmful outcomes are prohibited from calibration. Because the frozen clean supports are degenerate, non-identifiability is reported rather than forced into an empirical equality. Null and adverse findings are retained rather than relabeled as improvements.
+ 
+ ## 5. Results
+ 
+ ### 5.1 Visibility is strongly defect-type dependent
+ 
+-Checkpoint-level analysis makes 96/118 injections visible, but the aggregate hides a large family effect. OCR-like perturbations are visible in 0/13 cases across all five thresholds; all 13 are silently absorbed under this observation criterion. Other families range from 0.81 to 1.00 visibility at the primary setting.
++Checkpoint-level analysis makes 96/118 injections visible, but the aggregate hides a large family effect. 0/13 OCR-like injections were visible across 11 table clusters under all five thresholds; all 13 were invisible under this observation criterion. Other families range from 0.81 to 1.00 visibility at the primary setting. For uncertainty, the injection-level reference estimand is 0/13 with an exact binomial 95% interval of [0, 24.71%] under an independent-injection assumption; the distinct table-level event estimand is 0/11 with an exact binomial interval of [0, 28.49%]. The latter is not a clustered confidence interval for injection-level visibility.
+ 
+ ![Figure 2. Defect visibility varies strongly across perturbation families.](figures/fig_visibility_spectrum.png)
+ 
+@@ -125,9 +125,9 @@ The blind family remains the same under four edit-distance matcher configuration
+ 
+ The harmfulness label is also criterion-dependent. An instance-level oracle rejects all seven members previously placed in a type-level equivalence class. Across eight paired comparisons, five disagree, and the disagreements align with criterion kind—canonical-form preservation versus reader-referent recoverability—rather than appearing as random case-level noise. We therefore report the evaluator's blindness directly while treating whether that blindness is harmful as a boundary question.
+ 
+-### 5.2 The raw hierarchy gap is a threshold artifact
++### 5.2 The raw hierarchy gap is a threshold-placement artifact
+ 
+-The raw detection counts are not evidence of protocol discriminability. Table 1 compares three transferable protocols under different decision predicates: end-to-end detection tests whether the final mapping text changes, whereas flat and hierarchical scoring test calibrated score drops. A changed source-header string can therefore count as end-to-end detection even when the canonical match is preserved, explaining why 112/118 exceeds the 96/118 visibility count. Table-level counts apply all assigned injections together, whereas injection-level counts apply one perturbation at a time; the 20 detected tables and 13 individually detected injections are not nested counts. At the frozen threshold, hierarchical scoring is not a more sensitive detector.
++The raw detection counts are not evidence of protocol discriminability. Table 1 compares three transferable protocols under different decision predicates: end-to-end detection tests whether the final mapping text changes, whereas flat and hierarchical scoring use frozen score-drop thresholds. A changed source-header string can therefore count as end-to-end detection even when the canonical match is preserved, explaining why 112/118 exceeds the 96/118 visibility count. Table-level counts apply all assigned injections together, whereas injection-level counts apply one perturbation at a time; the 20 detected tables and 13 individually detected injections are not nested counts. At the frozen threshold, hierarchical scoring is not a more sensitive detector.
+ 
+ | Protocol | Detection signal | Tables detected | Injections detected |
+ |---|---|---:|---:|
+@@ -135,7 +135,7 @@ The raw detection counts are not evidence of protocol discriminability. Table 1
+ | Flat | Field-hit-rate drop | 75/95 (0.7895; 95% CI [0.6947, 0.8737]) | 85/118 (0.7203) |
+ | Hierarchical, expert weights | Pruned parsing-root drop | 20/95 (0.2105; 95% CI [0.1263, 0.2947]) | 13/118 (0.1102) |
+ 
+-The raw flat–hierarchical gap does not establish inferior ranking quality. At matched false-positive rate, the two protocols are affinely equivalent on the current corpus because only one scored leaf varies with the input. Formally, let x be the single input-responsive leaf score and write the calibrated flat and hierarchical protocol scores as s_F = a_F x + b_F and s_H = a_H x + b_H with positive slopes. The two scores then induce the same ordering and the same threshold crossings, so every table-cluster bootstrap replicate has zero protocol difference. Under this single-varying-leaf construction, a 2,000-replicate table-cluster bootstrap yields a protocol-difference confidence interval of [0,0]. The raw gap is therefore a threshold-placement effect. This is an explanatory diagnosis of threshold confounding, not a theoretical contribution or a general equivalence theorem: when more than one leaf varies with the input, the ordering need not be preserved. Under this construction, hierarchy supplies decomposable evidence but cannot demonstrate additional localization value until more than one leaf varies.
++The raw flat--hierarchical gap does not establish inferior ranking quality. In the current single-responsive-leaf construction, the hierarchical contrastive score is a positive affine transform of the flat contrastive score with slope approximately 0.375. The scores therefore induce identical rankings and, by implication, identical ROC/AUROC geometry; corresponding thresholds satisfy theta_H = 0.375 theta_F. This is a structural result, not an empirical matched-FPR equality. The derived clean-only reanalysis contains 2,382 usable clean records with both score supports exactly {0}; every positive threshold has observed FPR zero, so the clean set cannot identify a unique operating threshold. Selecting a threshold by harmful TPR would violate the clean-only contract. Historical fixed-threshold sensitivity evidence is retained in Appendix A.4, but the old [0,0] interval is not a clean-calibrated confirmatory result. When more than one leaf varies with the input, neither affine nor ranking equivalence is guaranteed.
+ 
+ The 118 injections close at the checkpoint level as 96 visible plus 22 silently absorbed; by family (injections / visible / absorbed): alias variant 47/43/4, date variant 17/15/2, mixed language 20/20/0, OCR-like 13/0/13, prefix noise 16/13/3, unit suffix 5/5/0 (the frozen sensitivity artifact). The protocol-level counts in Table 1 are measured on different signals and are therefore not a partition of the 96.
+ 
+@@ -164,7 +164,7 @@ In a compact feedback example, a gain–collateral gate rejects all 7 adversaria
+ 
+ ### 6.1 Scientific limitations
+ 
+-The main finding is methodological. Aggregate evaluation can hide both system defects and evaluator blind spots. A checkpoint forest makes evidence decomposable, while a visibility profile shows which defect families are observable. Yet structure alone does not guarantee sensitivity: on the current corpus, flat and hierarchical protocols are equivalent after calibration.
++The main finding is methodological. Aggregate evaluation can hide both system defects and evaluator blind spots. A checkpoint forest makes evidence decomposable, while a visibility profile shows which defect families are observable. Yet structure alone does not guarantee sensitivity: in the current single-responsive-leaf construction, flat and hierarchical scores are affine/rank-equivalent, while a clean-only empirical matched-FPR operating point is not identifiable.
+ 
+ Four limitations bound the claim. First, the evidence comes from one public tabular corpus with synthetic perturbations; no cross-domain generalization is claimed. Second, the OCR-like family is blind under the evaluator, but whether each perturbation is harmful depends on the equivalence definition. Third, the semantic boundary analysis uses one judge on 28 cases; mixed-language and unit-suffix families receive no calls in that window (a separate window from the 120-cell judge calibration of Section 5.3). Fourth, matching competition reduces the oracle correctness ceiling from 0.952381 to 0.597015 under shared-header overlays, while global assignment changes no decision, locating the problem in score construction rather than allocation.
+ 
+@@ -177,7 +177,7 @@ A preregistered second-dataflow extension did not satisfy its structural prerequ
+ 
+ ## 7. Conclusion
+ 
+-Final correctness cannot tell whether a defect was observed at an intermediate checkpoint, silently absorbed, or invisible to the evaluator itself. We introduced a three-way audit of visibility, detection, and harmfulness, implemented with hierarchical checkpoint evidence and per-family visibility profiles. On 118 controlled injections, observability and detection depend strongly on defect family and decision protocol. The central result is negative but useful: hierarchy improves evidence decomposition, not matched-FPR discriminability, in the current setting. Long-horizon evaluations should therefore report the protocol's own sensitivity, validity boundaries, and reproducible evidence chain alongside aggregate system performance.
++Final correctness cannot tell whether a defect was observed at an intermediate checkpoint, silently absorbed, or invisible to the evaluator itself. We introduced a three-way audit of visibility, detection, and harmfulness, implemented with hierarchical checkpoint evidence and per-family visibility profiles. On 118 controlled injections, observability and detection depend strongly on defect family and decision protocol. The central result is structural rather than a detector ranking: flat and hierarchical scores are affine/rank-equivalent in the single-responsive-leaf setting, while clean-only matched-FPR equality is not identifiable. Long-horizon evaluations should therefore report the protocol's own observation boundary, validity limits, and reproducible evidence chain alongside aggregate system performance.
+ 
+ ## References
+ 
+@@ -212,3 +212,7 @@ Progress against criterion (i) is now measurable, clause by clause. Three corpor
+ ### A.3 Independent-scorer record
+ 
+ Criterion (ii) has not been tested, and one candidate route toward it was stopped by its own pre-registration. A model-free detector, independent of the :8004 judge, was built over a corpus of 1970 frozen step-level records whose contents and fault families were fixed before any detector existed, and whose percent-convention stop threshold was pre-registered before the second detector run produced any output. Its pre-registration fixed a fidelity threshold in advance, and that threshold was not reached: fidelity of the reconstructed step semantics on percent-form results was 0.0298 under one percent convention and 0.2233 under the other (44 and 330 matches out of 1478 percent-form steps, respectively), both below the pre-set 0.5, so the route was stopped rather than re-parameterized. Because that detector measures reasoning-step checkpoints while criterion (ii) concerns reproduction of the frozen header-injection leaf-state cells, the two are different measurement objects; the leaf-state reproduction clause therefore remains untested rather than failed, and what the fired stop condition establishes is the boundary of the step-level route itself. The portion of that corpus with faithful reconstruction covers 322 records of 1970 under the convention yielding 0.0298, and 467 under the one yielding 0.2233, i.e. 16.3% to 23.7%, and is reported to bound the route, not as a capability.
++
++### A.4 Historical matched-FPR sensitivity
++
++The older D3 analysis reported 90/111 for both flat and hierarchical protocols and a zero-difference bootstrap interval under a historical fixed-threshold sensitivity setup. Those numbers remain archived evidence for that setup only. The newer clean-only cross-fitted audit found zero-valued clean score supports and therefore could not identify a unique FPR-constrained threshold. Accordingly, the historical equality is not promoted to a clean-calibrated confirmatory claim and is not used to rank the protocols.
+diff --git a/paper/submission_package_audit_v1.json b/paper/submission_package_audit_v1.json
+index 9860c138e..b03607fab 100644
+--- a/paper/submission_package_audit_v1.json
++++ b/paper/submission_package_audit_v1.json
+@@ -1,5 +1,5 @@
+ {
+-  "anonymous_preview_sha256": "fcce418a840373ccde8eece23f28fe0b2258de355a346184b82ffc2a70858d35",
++  "anonymous_preview_sha256": "b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc",
+   "audit_type": "submission-package-integrity",
+   "checks": [
+     {
+@@ -61,9 +61,9 @@
+     {
+       "check": "redaction_map_hashes",
+       "detail": {
+-        "map": "9fedc04e673aebb0afc6847b394085e5cc7f007981876c740dc6cd57b915e7db",
+-        "preview": "fcce418a840373ccde8eece23f28fe0b2258de355a346184b82ffc2a70858d35",
+-        "source": "abab44657e17936badf371a606198886ccd333a4c1489600c8922f78a6c57e80"
++        "map": "9d505e038a794f594d1f4f54641c3ab92ecdd3e45134aed87ae686508a202386",
++        "preview": "b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc",
++        "source": "cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9"
+       },
+       "pass": true
+     },
+@@ -95,8 +95,8 @@
+     "patent_status_confirmation",
+     "camera_ready_pdf_visual_acceptance"
+   ],
+-  "redaction_map_sha256": "9fedc04e673aebb0afc6847b394085e5cc7f007981876c740dc6cd57b915e7db",
++  "redaction_map_sha256": "9d505e038a794f594d1f4f54641c3ab92ecdd3e45134aed87ae686508a202386",
+   "schema_version": 1,
+-  "source_sha256": "abab44657e17936badf371a606198886ccd333a4c1489600c8922f78a6c57e80",
++  "source_sha256": "cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9",
+   "submission_status": "PENDING_EXTERNAL_ITEMS"
+ }
+diff --git a/paper/submission_readiness_arr_www_v1.md b/paper/submission_readiness_arr_www_v1.md
+index ee546b58b..5064462c5 100644
+--- a/paper/submission_readiness_arr_www_v1.md
++++ b/paper/submission_readiness_arr_www_v1.md
+@@ -15,18 +15,18 @@
+ 
+ | 材料 | 角色 | 当前状态 | sha256 |
+ |---|---|---|---|
+-| `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；已收敛为 evaluation-protocol measurement validity | `abab44657e17936badf371a606198886ccd333a4c1489600c8922f78a6c57e80` |
+-| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随身份收敛稿重建；GB10 PDF 9 页，概念矩阵同页，抽查无溢出 | `6cfa6d9d329c172028cca18312921842fc2747bda3c6b331655cc7cacf7e4e85` |
++| `paper/teacher_review_draft_v1.md` | 可追踪英文评估主稿 | 9 个必需章节；claim 5 条；matched-FPR 已拆分为结构结论与 clean-only 不可识别 | `cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9` |
++| `paper/teacher_review_draft_v1.docx` | 导师向送审形态 | 已随 matched-FPR claim 修正稿重建 | `363ce4876f52b6c25b1e34c483c73ce033a51f8be94c956569e8387457fe2750` |
+ | `paper/teacher_review_note_v2.md` | 中文说明 | 阅读顺序与边界说明 | `3677450844b136807dddc67576064788726e651a4e3a561d4a86e97dbaf37d5a` |
+ | `paper/research_story_v2.md` / `.docx` | 三阶段叙事/方向材料 | 只作研究框架与后续回填，不作未完成实验结果 | `48c8768970e9529e44a490abccd2e02492466be7b4adf0b948da65cde67ccb5a` / `5a506de6723a3364a06315c35581554406a4dce34e1efc90ec8a8ed498e8ef30` |
+-| `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；含 SP-C5 预注册停止结论 | `62a119e8b6aca573ecfdfaf1ff38002298a99d8914bca99a0622807a142fafc5` |
++| `paper/claim_manifest_v1.json` | claim-evidence 映射 | 5 claims；SP-C2 改为 structural result + empirical non-identifiability | `dacb9850ef4e35fe4ba1dadb17ac32fbc0cddac95942a9970a282a0d23dd85e1` |
+ | `paper/acceptance_report_v1.json` | 机械验收 | PASS / 5 claims / 74 checks | `cf6123638a042b9027db0f1a8a500571a75cc512c1866d04142b4b4a4a7b9d05` |
+ | `paper/references_v0.md` | 已核引用池 | arXiv/DOI 可追溯；venue 未核项不升级 | `8e89bef1bb8ea1a2d3fcb571c31d118bce4306c1c67eb957e8c5ccc155043eeb` |
+ | `paper/submission_references_arr_www_v1.md` | 投稿引用映射/BibTeX | 主稿 15 条逐条映射；Li 2025a/b 已固定消歧 | `1b49c7ffb1f9856e092d1a47199050c4d813e1421c5f1ca4ac77d179d22a7b82` |
+ | `paper/reproducibility_statement_arr_www_v1.md` | 可复现性/工件披露 | 区分可公开候选与不外发材料；纳入 D-B licence_record 边界 | `4f25ad69acf289301b895b4dc6593e60b1888050c35e6215a9006e5389467462` |
+-| `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；已随身份收敛稿再生 | `fcce418a840373ccde8eece23f28fe0b2258de355a346184b82ffc2a70858d35` |
+-| `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `9fedc04e673aebb0afc6847b394085e5cc7f007981876c740dc6cd57b915e7db` |
+-| `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `8cb1bce3c11344b3083004e6850206e4023964d82a7b21b318a2e31d161421ed` |
++| `paper/submission_draft_arr_www_anonymous_v0.md` | 匿名投稿源预览 | 11 处机械脱敏；claim tokens 全保留；已随 claim 修正稿再生 | `b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc` |
++| `paper/submission_redaction_map_v1.json` | 内部脱敏审计图 | 只供内部核对，不随稿外发 | `9d505e038a794f594d1f4f54641c3ab92ecdd3e45134aed87ae686508a202386` |
++| `paper/submission_package_audit_v1.json` | 投稿包机器审计 | mechanical PASS / submission PENDING_EXTERNAL_ITEMS | `1fb9e5b6413a0e6fb08cb64d59dad1280f5bbe70744356eb840dae0a2757066f` |
+ | `paper/submission_review_risk_register_v1.md` | Reviewer 风险登记 | 已补身份收敛后的五点 skeptical review | `878ea15c640b531a290a99d511c5fd24c839f93b0a77d65ce58ecd86e16cb69e` |
+ | `paper/related_work_contribution_matrix_v1.md` | Related Work 贡献边界矩阵 | 四簇代表工作、差异边界与 KD future-work 隔离 | `602dfb797abee94319914384f42a259ba7f1914e429be916135ff015da5addd0` |
+ | `paper/submission_language_audit_v1.md` | 语言/术语审计 | 已补身份收敛与降级边界审计 | `cbe1bb82aaa6316e8ddf845646cf4d2e88dfa413ea297885629e03fa90b0751e` |
+@@ -42,7 +42,7 @@
+ 4. **引用与参考文献**：以 `paper/references_v0.md` 为候选池，投稿版逐条复核 DOI/arXiv 与 venue；未核 venue 保持 `arXiv preprint`，不得补写推测会议名。GTA-2 只引已核的 `arXiv:2604.15715` 版本。
+ 5. **图表与版式**：按 venue 模板重排 Figure 1/2、表 caption、字体和引用；重新做 PDF 视觉验收，不能直接把导师向 DOCX 当 camera-ready。
+ 6. **可复现性附件**：只准备公开可披露的脚本/协议/聚合收据清单；私有数据、完整 manifest、模型输出、token 配置和生产路径不得随稿外发。
+-7. **统计与限制段**：保留 matched-FPR 仿射等价、PSO null、门控无显著收益、FinQA 步级停止条件和 `DATA_NO_GO` / `NOT_IDENTIFIED` 边界；不把 146 列 exploratory Q3 review 写成 Stage E 主结果或 Stage D/RQ2 证据。
++7. **统计与限制段**：保留 single-responsive-leaf affine/rank equivalence、clean-only matched-FPR non-identifiability、历史 D3 sensitivity、PSO null、门控无显著收益、FinQA 步级停止条件和 `DATA_NO_GO` / `NOT_IDENTIFIED` 边界；不把 146 列 exploratory Q3 review 写成 Stage E 主结果或 Stage D/RQ2 证据。
+ 
+ ## 4 硬阻塞与可并行工作
+ 
+@@ -73,6 +73,6 @@ External submission remains blocked by venue/template verification, authorship,
+ 
+ ## 7. Narrative revision and future independent evidence (2026-10-07)
+ 
+-The main narrative now leads with `Visibility Is Not Detection`: hierarchy improves evidence decomposition but does not improve matched-FPR discriminability in the current single-varying-leaf setting. The scientific numbers and claim boundaries are unchanged.
++The main narrative now leads with `Visibility Is Not Detection`. In the current single-responsive-leaf setting, flat and hierarchical scores are affine/rank-equivalent; a clean-only matched-FPR operating point is not identifiable because all clean scores are zero. Frozen Stage E measurements are unchanged, while the historical D3 equality is demoted to sensitivity evidence.
+ 
+ Future independent evidence is tracked in `paper/teacher_review_readiness_v2.md`: second dataflow, independent second scorer, multi-leaf responsiveness, and external document scenarios such as financial audit, compliance review, and enterprise table processing. These items require new artifacts and independent review before they can become results.
+diff --git a/paper/submission_redaction_map_v1.json b/paper/submission_redaction_map_v1.json
+index 98c180c07..32ae978b1 100644
+--- a/paper/submission_redaction_map_v1.json
++++ b/paper/submission_redaction_map_v1.json
+@@ -65,5 +65,5 @@
+   ],
+   "schema_version": 1,
+   "source_path": "paper/teacher_review_draft_v1.md",
+-  "source_sha256": "abab44657e17936badf371a606198886ccd333a4c1489600c8922f78a6c57e80"
++  "source_sha256": "cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9"
+ }
+diff --git a/paper/teacher_review_draft_v1.docx b/paper/teacher_review_draft_v1.docx
+index 6019098894766eb1e1274f26aac317e116f38360..32859659663c3cf2c9014ce912353dcf444f4165 100644
+GIT binary patch
+delta 14258
+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
+E161qtbpQYW
+
+delta 13768
+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
+
+diff --git a/paper/teacher_review_draft_v1.md b/paper/teacher_review_draft_v1.md
+index c4b2f1d85..d2cc83322 100644
+--- a/paper/teacher_review_draft_v1.md
++++ b/paper/teacher_review_draft_v1.md
+@@ -4,7 +4,7 @@
+ 
+ ## Abstract
+ 
+-Long-horizon document intelligence systems are usually scored on final-answer correctness, which cannot distinguish a defect observed by an intermediate checkpoint from one that was silently absorbed, nor reveal that the evaluator itself was blind to the defect. We study evaluation-protocol validity rather than proposing a stronger detector. Our meta-evaluation separates checkpoint-level visibility, protocol-level detection, and equivalence-dependent harmfulness, using hierarchical checkpoint evidence as an instrument and per-family visibility profiles as the reporting surface. On a frozen public tabular corpus containing 95 tables and 118 synthetic header-drift injections, checkpoint-level analysis yields 96/118 visible injections, while OCR-like perturbations are visible in 0/13 cases across five thresholds. End-to-end, flat, and hierarchical protocols detect 112/118, 85/118, and 13/118 injections under different decision signals; after matched-false-positive-rate calibration, flat and hierarchical scores are affinely equivalent with a [0,0] protocol-difference interval because only one scored leaf responds to the injected input. This diagnosis shows that protocol comparisons without calibrated operating points can create misleading superiority stories: hierarchy decomposes evidence but does not improve detection sensitivity or establish localization in the current setting. Our results motivate evaluation reports that publish per-family visibility profiles, explicit construct definitions, validity boundaries, and reproducible evidence chains alongside aggregate scores.
++Long-horizon document intelligence systems are usually scored on final-answer correctness, which cannot distinguish a defect observed by an intermediate checkpoint from one that was silently absorbed, nor reveal that the evaluator itself was blind to the defect. We study evaluation-protocol validity rather than proposing a stronger detector. Our meta-evaluation separates checkpoint-level visibility, protocol-level detection, and equivalence-dependent harmfulness, using hierarchical checkpoint evidence as an instrument and per-family visibility profiles as the reporting surface. On a frozen public tabular corpus containing 95 tables and 118 synthetic header-drift injections, checkpoint-level analysis yields 96/118 visible injections; 0/13 OCR-like injections were visible across 11 table clusters. End-to-end, flat, and hierarchical protocols detect 112/118, 85/118, and 13/118 injections under different decision signals. In the current single-responsive-leaf instantiation, the flat and hierarchical contrastive scores are positive affine transformations and therefore induce identical rankings and ROC geometry. A clean-only matched-FPR operating point is not empirically identifiable because all 2,382 clean scores are zero; historical fixed-threshold equality is retained only as sensitivity evidence. This diagnosis shows that protocol comparisons without identifiable operating points can create misleading superiority stories: hierarchy decomposes evidence, while detection sensitivity and localization remain separate questions. Our results motivate evaluation reports that publish per-family visibility profiles, explicit construct definitions, validity boundaries, and reproducible evidence chains alongside aggregate scores.
+ 
+ ## 1. Introduction
+ 
+@@ -12,13 +12,13 @@ Document intelligence systems are increasingly implemented as pipelines rather t
+ 
+ This creates a second problem that is easier to overlook: the evaluation protocol may itself be unable to observe particular defects. If a perturbed header is normalized back to the original field before the first measured checkpoint, every downstream score can remain unchanged. A correct final answer then has at least two explanations—the pipeline was robust to the perturbation, or the evaluation was blind to it. A single end-to-end score cannot separate these cases.
+ 
+-We study this problem through controlled fault injection. A frozen public tabular corpus contains 95 tables and 118 synthetic header perturbations across six families: alias variation, mixed language, unit suffix, date variation, OCR-like character substitution, and prefix noise. We separate three questions that aggregate scores usually collapse: whether a checkpoint observes a change, whether a protocol turns that observation into a detection decision, and whether the perturbation is harmful under a stated equivalence criterion. This separation exposes a strong family effect: OCR-like perturbations are visible in 0/13 cases across five thresholds, whereas the raw gap between flat and hierarchical detection later disappears after false-positive-rate calibration.
++We study this problem through controlled fault injection. A frozen public tabular corpus contains 95 tables and 118 synthetic header perturbations across six families: alias variation, mixed language, unit suffix, date variation, OCR-like character substitution, and prefix noise. We separate three questions that aggregate scores usually collapse: whether a checkpoint observes a change, whether a protocol turns that observation into a detection decision, and whether the perturbation is harmful under a stated equivalence criterion. This separation exposes a strong family effect: 0/13 OCR-like injections were visible across 11 table clusters. The raw flat--hierarchical gap is instead traced to score and threshold structure; a clean-only matched-FPR operating point is not identifiable on the frozen clean scores.
+ 
+ We study evaluation-protocol validity rather than proposing a stronger detector. We ask the prior question: can the evaluation protocol observe the defect at all, and can it disclose the blind regions that make a result ambiguous? This reframes hierarchy as an evidence instrument rather than an automatic sensitivity gain, and leads to three contributions:
+ 
+ 1. **Construct separation.** We distinguish checkpoint-level visibility, protocol-level detection, and equivalence-dependent harmfulness, which aggregate scores usually collapse into one outcome.
+-2. **Evidence instrument.** We organize reproducible checkpoint evidence and per-family visibility profiles with deterministic contracts, leakage-protected semantic judges, explicit missing-evidence policies, and per-check retention; hierarchy is an instrument, not an algorithmic novelty.
+-3. **Protocol audit.** We vary thresholds, seeds, matchers, normalizations, matched false-positive rates, and weight-search controls to expose measurement confounding. The central result is negative but actionable: hierarchy provides evidence decomposition but no discriminability gain at matched false-positive rate on the current corpus, and its localization value remains unestablished.
++2. **Quantified observation boundaries.** We report per-family visibility rate, micro visibility, worst-family visibility, and visibility-conditioned protocol use, so aggregate accuracy cannot hide a family that the evaluator cannot observe.
++3. **Structural protocol identifiability audit.** We show that the apparent hierarchical detection advantage in the current single-responsive-leaf setting is explained by score and threshold structure: flat and hierarchical scores are affine/rank-equivalent, while clean-only matched-FPR equality is not empirically identifiable.
+ 
+ This positioning keeps the empirical claim commensurate with the evidence. We do not claim universal coverage, superior hierarchical detection, a formal geometric “blind cone,” or significant downstream gains from the gated self-improvement case.
+ 
+@@ -87,7 +87,7 @@ The defect visibility profile reports visibility separately for each family. Thi
+ 
+ ### 3.3 Evaluating the evaluator
+ 
+-We compare four protocols on frozen evidence: end-to-end roots, a flat leaf average, hierarchical expert weights, and hierarchical searched weights. We measure table-level detection, injection-level detection, mean separation between clean and perturbed states, worst-family behavior, localization, and evaluation cost. Because raw thresholds can manufacture differences, we also compare flat and hierarchical protocols at matched false-positive rates calibrated on clean tables.
++We compare four protocols on frozen evidence: end-to-end roots, a flat leaf average, hierarchical expert weights, and hierarchical searched weights. We measure table-level detection, injection-level detection, mean separation between clean and perturbed states, worst-family behavior, localization, and evaluation cost. Because raw thresholds can manufacture differences, we separately audit (i) structural score/ranking equivalence and (ii) whether a matched-FPR operating point is identifiable from clean scores alone.
+ 
+ The audit further varies the injection seed, visibility threshold, matching algorithm, and scoring normalization. A semantic-judge arm is evaluated separately and never substituted for deterministic evidence when a contract exists.
+ 
+@@ -111,13 +111,13 @@ The protocol baselines are end-to-end scoring, flat leaf scoring, and hierarchic
+ 
+ ### 4.3 Statistical discipline
+ 
+-We freeze inputs and decision criteria before reading each result. Confidence intervals are reported on table-level clustered units where available. Seed sensitivity uses three injection seeds. Matched-FPR comparison recalibrates each protocol on clean tables within every bootstrap replicate. Null and adverse findings are retained rather than relabeled as improvements.
++We freeze inputs and decision criteria before reading each result. Confidence intervals are reported on table-level clustered units where available. Seed sensitivity uses three injection seeds. For the clean-only matched-FPR audit, threshold selection may use clean scores only; injected and harmful outcomes are prohibited from calibration. Because the frozen clean supports are degenerate, non-identifiability is reported rather than forced into an empirical equality. Null and adverse findings are retained rather than relabeled as improvements.
+ 
+ ## 5. Results
+ 
+ ### 5.1 Visibility is strongly defect-type dependent
+ 
+-Checkpoint-level analysis makes 96/118 injections visible, but the aggregate hides a large family effect. OCR-like perturbations are visible in 0/13 cases across all five thresholds; all 13 are silently absorbed under this observation criterion. Other families range from 0.81 to 1.00 visibility at the primary setting.
++Checkpoint-level analysis makes 96/118 injections visible, but the aggregate hides a large family effect. 0/13 OCR-like injections were visible across 11 table clusters under all five thresholds; all 13 were invisible under this observation criterion. Other families range from 0.81 to 1.00 visibility at the primary setting. For uncertainty, the injection-level reference estimand is 0/13 with an exact binomial 95% interval of [0, 24.71%] under an independent-injection assumption; the distinct table-level event estimand is 0/11 with an exact binomial interval of [0, 28.49%]. The latter is not a clustered confidence interval for injection-level visibility.
+ 
+ ![Figure 2. Defect visibility varies strongly across perturbation families.](../docs/experiments/figures_paper/fig_visibility_spectrum.png)
+ 
+@@ -125,9 +125,9 @@ The blind family remains the same under four edit-distance matcher configuration
+ 
+ The harmfulness label is also criterion-dependent. An instance-level oracle rejects all seven members previously placed in a type-level equivalence class. Across eight paired comparisons, five disagree, and the disagreements align with criterion kind—canonical-form preservation versus reader-referent recoverability—rather than appearing as random case-level noise. We therefore report the evaluator's blindness directly while treating whether that blindness is harmful as a boundary question.
+ 
+-### 5.2 The raw hierarchy gap is a threshold artifact
++### 5.2 The raw hierarchy gap is a threshold-placement artifact
+ 
+-The raw detection counts are not evidence of protocol discriminability. Table 1 compares three transferable protocols under different decision predicates: end-to-end detection tests whether the final mapping text changes, whereas flat and hierarchical scoring test calibrated score drops. A changed source-header string can therefore count as end-to-end detection even when the canonical match is preserved, explaining why 112/118 exceeds the 96/118 visibility count. Table-level counts apply all assigned injections together, whereas injection-level counts apply one perturbation at a time; the 20 detected tables and 13 individually detected injections are not nested counts. At the frozen threshold, hierarchical scoring is not a more sensitive detector.
++The raw detection counts are not evidence of protocol discriminability. Table 1 compares three transferable protocols under different decision predicates: end-to-end detection tests whether the final mapping text changes, whereas flat and hierarchical scoring use frozen score-drop thresholds. A changed source-header string can therefore count as end-to-end detection even when the canonical match is preserved, explaining why 112/118 exceeds the 96/118 visibility count. Table-level counts apply all assigned injections together, whereas injection-level counts apply one perturbation at a time; the 20 detected tables and 13 individually detected injections are not nested counts. At the frozen threshold, hierarchical scoring is not a more sensitive detector.
+ 
+ | Protocol | Detection signal | Tables detected | Injections detected |
+ |---|---|---:|---:|
+@@ -135,7 +135,7 @@ The raw detection counts are not evidence of protocol discriminability. Table 1
+ | Flat | Field-hit-rate drop | 75/95 (0.7895; 95% CI [0.6947, 0.8737]) | 85/118 (0.7203) |
+ | Hierarchical, expert weights | Pruned parsing-root drop | 20/95 (0.2105; 95% CI [0.1263, 0.2947]) | 13/118 (0.1102) |
+ 
+-The raw flat–hierarchical gap does not establish inferior ranking quality. At matched false-positive rate, the two protocols are affinely equivalent on the current corpus because only one scored leaf varies with the input. Formally, let x be the single input-responsive leaf score and write the calibrated flat and hierarchical protocol scores as s_F = a_F x + b_F and s_H = a_H x + b_H with positive slopes. The two scores then induce the same ordering and the same threshold crossings, so every table-cluster bootstrap replicate has zero protocol difference. Under this single-varying-leaf construction, a 2,000-replicate table-cluster bootstrap yields a protocol-difference confidence interval of [0,0]. The raw gap is therefore a threshold-placement effect. This is an explanatory diagnosis of threshold confounding, not a theoretical contribution or a general equivalence theorem: when more than one leaf varies with the input, the ordering need not be preserved. Under this construction, hierarchy supplies decomposable evidence but cannot demonstrate additional localization value until more than one leaf varies.
++The raw flat--hierarchical gap does not establish inferior ranking quality. In the current single-responsive-leaf construction, the hierarchical contrastive score is a positive affine transform of the flat contrastive score with slope approximately 0.375. The scores therefore induce identical rankings and, by implication, identical ROC/AUROC geometry; corresponding thresholds satisfy theta_H = 0.375 theta_F. This is a structural result, not an empirical matched-FPR equality. The derived clean-only reanalysis contains 2,382 usable clean records with both score supports exactly {0}; every positive threshold has observed FPR zero, so the clean set cannot identify a unique operating threshold. Selecting a threshold by harmful TPR would violate the clean-only contract. Historical fixed-threshold sensitivity evidence is retained in Appendix A.4, but the old [0,0] interval is not a clean-calibrated confirmatory result. When more than one leaf varies with the input, neither affine nor ranking equivalence is guaranteed.
+ 
+ The 118 injections close at the checkpoint level as 96 visible plus 22 silently absorbed; by family (injections / visible / absorbed): alias variant 47/43/4, date variant 17/15/2, mixed language 20/20/0, OCR-like 13/0/13, prefix noise 16/13/3, unit suffix 5/5/0 (frozen artifact t2_visibility_sensitivity.json; path in the evidence ledger). The protocol-level counts in Table 1 are measured on different signals and are therefore not a partition of the 96.
+ 
+@@ -164,7 +164,7 @@ In a compact feedback example, a gain–collateral gate rejects all 7 adversaria
+ 
+ ### 6.1 Scientific limitations
+ 
+-The main finding is methodological. Aggregate evaluation can hide both system defects and evaluator blind spots. A checkpoint forest makes evidence decomposable, while a visibility profile shows which defect families are observable. Yet structure alone does not guarantee sensitivity: on the current corpus, flat and hierarchical protocols are equivalent after calibration.
++The main finding is methodological. Aggregate evaluation can hide both system defects and evaluator blind spots. A checkpoint forest makes evidence decomposable, while a visibility profile shows which defect families are observable. Yet structure alone does not guarantee sensitivity: in the current single-responsive-leaf construction, flat and hierarchical scores are affine/rank-equivalent, while a clean-only empirical matched-FPR operating point is not identifiable.
+ 
+ Four limitations bound the claim. First, the evidence comes from one public tabular corpus with synthetic perturbations; no cross-domain generalization is claimed. Second, the OCR-like family is blind under the evaluator, but whether each perturbation is harmful depends on the equivalence definition. Third, the semantic boundary analysis uses one judge on 28 cases; mixed-language and unit-suffix families receive no calls in that window (a separate window from the 120-cell judge calibration of Section 5.3). Fourth, matching competition reduces the oracle correctness ceiling from 0.952381 to 0.597015 under shared-header overlays, while global assignment changes no decision, locating the problem in score construction rather than allocation.
+ 
+@@ -177,7 +177,7 @@ A preregistered second-dataflow extension did not satisfy its structural prerequ
+ 
+ ## 7. Conclusion
+ 
+-Final correctness cannot tell whether a defect was observed at an intermediate checkpoint, silently absorbed, or invisible to the evaluator itself. We introduced a three-way audit of visibility, detection, and harmfulness, implemented with hierarchical checkpoint evidence and per-family visibility profiles. On 118 controlled injections, observability and detection depend strongly on defect family and decision protocol. The central result is negative but useful: hierarchy improves evidence decomposition, not matched-FPR discriminability, in the current setting. Long-horizon evaluations should therefore report the protocol's own sensitivity, validity boundaries, and reproducible evidence chain alongside aggregate system performance.
++Final correctness cannot tell whether a defect was observed at an intermediate checkpoint, silently absorbed, or invisible to the evaluator itself. We introduced a three-way audit of visibility, detection, and harmfulness, implemented with hierarchical checkpoint evidence and per-family visibility profiles. On 118 controlled injections, observability and detection depend strongly on defect family and decision protocol. The central result is structural rather than a detector ranking: flat and hierarchical scores are affine/rank-equivalent in the single-responsive-leaf setting, while clean-only matched-FPR equality is not identifiable. Long-horizon evaluations should therefore report the protocol's own observation boundary, validity limits, and reproducible evidence chain alongside aggregate system performance.
+ 
+ ## References
+ 
+@@ -212,3 +212,7 @@ Progress against criterion (i) is now measurable, clause by clause. Three corpor
+ ### A.3 Independent-scorer record
+ 
+ Criterion (ii) has not been tested, and one candidate route toward it was stopped by its own pre-registration. A model-free detector, independent of the :8004 judge, was built over a corpus of 1970 frozen step-level records whose contents and fault families were fixed before any detector existed, and whose percent-convention stop threshold was pre-registered before the second detector run produced any output. Its pre-registration fixed a fidelity threshold in advance, and that threshold was not reached: fidelity of the reconstructed step semantics on percent-form results was 0.0298 under one percent convention and 0.2233 under the other (44 and 330 matches out of 1478 percent-form steps, respectively), both below the pre-set 0.5, so the route was stopped rather than re-parameterized. Because that detector measures reasoning-step checkpoints while criterion (ii) concerns reproduction of the frozen header-injection leaf-state cells, the two are different measurement objects; the leaf-state reproduction clause therefore remains untested rather than failed, and what the fired stop condition establishes is the boundary of the step-level route itself. The portion of that corpus with faithful reconstruction covers 322 records of 1970 under the convention yielding 0.0298, and 467 under the one yielding 0.2233, i.e. 16.3% to 23.7%, and is reported to bound the route, not as a capability.
++
++### A.4 Historical matched-FPR sensitivity
++
++The older D3 analysis reported 90/111 for both flat and hierarchical protocols and a zero-difference bootstrap interval under a historical fixed-threshold sensitivity setup. Those numbers remain archived evidence for that setup only. The newer clean-only cross-fitted audit found zero-valued clean score supports and therefore could not identify a unique FPR-constrained threshold. Accordingly, the historical equality is not promoted to a clean-calibrated confirmatory claim and is not used to rank the protocols.
+diff --git a/paper/teacher_review_readiness_v2.md b/paper/teacher_review_readiness_v2.md
+index 1632e5d53..a52770f0c 100644
+--- a/paper/teacher_review_readiness_v2.md
++++ b/paper/teacher_review_readiness_v2.md
+@@ -29,7 +29,7 @@
+ | 评估子稿故事 | 通过 | 问题、方法、结果和限制均围绕“评测协议能否看见缺陷”展开 |
+ | 用户原始三阶段方向 | 未闭环 | 蒸馏尚无训练结果；规则进化只有机制与受限收益证据 |
+ | Claim–Evidence 结构 | 静态通过 | 5 条主张、73 项章节/措辞/路径/证据检查；不替代原始数字复算或科研有效性审计 |
+-| 实验诚实性 | 通过 | matched-FPR 等价、PSO null、门控无显著收益均保留 |
++| 实验诚实性 | 通过 | 结构 affine/rank 等价、clean-only matched-FPR 不可识别、PSO null、门控无显著收益均分层保留 |
+ | 表述边界 | 通过 | 不再主张已证明额外定位收益；第二数据流/第二 scorer 明示缺失 |
+ | 老师阅读形态 | 通过 | Word 结构完整；两份 DOCX 已于 2026-10-03 完成 Office 排版/分页视觉验收并 PASS |
+ | 对外公开 | 阻塞 | 专利状态尚未由用户确认；作者、单位和目标会议模板未填写 |
+@@ -63,7 +63,7 @@
+ 
+ ## 2026-10-07 narrative revision and independent-evidence backlog
+ 
+-The Stage E manuscript now leads with the counterintuitive result `Visibility Is Not Detection`: hierarchical checkpoints decompose evidence but do not improve matched-FPR discrimination in the current instantiation. The abstract, introduction, method framing, result heading, limitations structure, and conclusion were synchronized without changing any measured value or claim boundary.
++The Stage E manuscript now leads with `Visibility Is Not Detection` and separates three claims: checkpoint visibility, protocol detection, and structural protocol identifiability. In the single-responsive-leaf instantiation, flat and hierarchical scores are affine/rank-equivalent; a clean-only matched-FPR operating point is not identifiable because all frozen clean scores are zero. Historical `90/111` and `[0,0]` remain sensitivity evidence only.
+ 
+ Future evidence required before making broader or stronger claims:
+ 
+@@ -81,3 +81,11 @@ GB10 rebuilt the identity-converged DOCX and converted it to a 9-page PDF with L
+ 
+ 1. **Next evidence priority:** multi-leaf/multi-stage injection versus a second dataflow with a changed pipeline structure. No choice is made in this revision.
+ 2. **Harmfulness definition:** canonical equivalence as primary, reader-referent equivalence as primary, or both reported as parallel constructs. The current paper retains the existing equivalence-dependent wording and does not select a new primary definition.
++
++## 2026-10-10 matched-FPR correction and execution gates
++
++- Paper claim alignment: `PASS`. Abstract, Introduction, Contributions, §3.3, §4.3, §5.2, Discussion, Conclusion and Appendix A.4 now distinguish structural affine/ranking equivalence from empirical clean-only matched-FPR non-identifiability.
++- OCR wording: `PASS`. The manuscript reports `0/13 OCR-like injections were visible across 11 table clusters`, with the injection-level and table-level reference intervals labelled as different estimands.
++- Multi-leaf: `DESIGN_FROZEN_NOT_EXECUTED`. The preregistration freezes M/R/N gold, predictor, tie rule, metrics and sample manifest before formal scoring; execution still requires explicit user authorization.
++- Stage D: PRM800K is `PRM_REFERENCE_READY` for non-commercial academic contract validation. Agent Distillation is `DATA-CAPABLE` after actual payload inspection but remains `LICENCE_PENDING` and is not yet a clean C2/C4 pilot mother pool because native process provenance and stable origin/split IDs are absent.
++- Paper E status: `QUANTIFICATION_READY`; Version B multi-leaf evidence is future work and Stage D is not merged into Paper E.
+diff --git a/research/audit_submission_package.py b/research/audit_submission_package.py
+index aeeef63b0..aa61d32da 100644
+--- a/research/audit_submission_package.py
++++ b/research/audit_submission_package.py
+@@ -22,9 +22,9 @@ READINESS = REPO / "paper" / "submission_readiness_arr_www_v1.md"
+ REPRO_STATEMENT = REPO / "paper" / "reproducibility_statement_arr_www_v1.md"
+ LICENCE_RECORD = REPO / "docs" / "datasets" / "phase1a_licence_record_v1.json"
+ 
+-EXPECTED_OUTPUT_SHA256 = "fcce418a840373ccde8eece23f28fe0b2258de355a346184b82ffc2a70858d35"
+-EXPECTED_MAP_SHA256 = "9fedc04e673aebb0afc6847b394085e5cc7f007981876c740dc6cd57b915e7db"
+-EXPECTED_SOURCE_SHA256 = "abab44657e17936badf371a606198886ccd333a4c1489600c8922f78a6c57e80"
++EXPECTED_OUTPUT_SHA256 = "b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc"
++EXPECTED_MAP_SHA256 = "9d505e038a794f594d1f4f54641c3ab92ecdd3e45134aed87ae686508a202386"
++EXPECTED_SOURCE_SHA256 = "cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9"
+ EXPECTED_USES = ["training", "tuning", "evaluation", "rule_acceptance"]
+ EXPECTED_LICENCE_HASHES = {
+     "finqa_repo_license": "92c0e67bd762c15c07ba60de09558338315a8ebf99aac4f51f487179809ac087",
+diff --git a/scripts/deploy_proxy_gb10.sh b/scripts/deploy_proxy_gb10.sh
+index 285d236f6..ebd80f35f 100644
+--- a/scripts/deploy_proxy_gb10.sh
++++ b/scripts/deploy_proxy_gb10.sh
+@@ -1,4 +1,5 @@
+ #!/usr/bin/env bash
++# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
+ # Deploy responses2chat proxy on GB10 and configure Codex dual-provider.
+ # Usage: bash deploy_proxy_gb10.sh
+ set -euo pipefail
+@@ -45,6 +46,7 @@ echo "  config.toml written with dual providers"
+ echo "[3/5] Creating proxy launcher scripts..."
+ cat > "$HOME/start_proxy.sh" << 'LAUNCHER'
+ #!/usr/bin/env bash
++# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
+ PROXY="$HOME/.local/bin/responses2chat_proxy.py"
+ PIDFILE="/tmp/responses2chat_proxy.pid"
+ if [ -f "$PIDFILE" ] && kill -0 "$(cat $PIDFILE)" 2>/dev/null; then
+@@ -65,6 +67,7 @@ chmod +x "$HOME/start_proxy.sh"
+ 
+ cat > "$HOME/stop_proxy.sh" << 'STOPPER'
+ #!/usr/bin/env bash
++# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
+ PIDFILE="/tmp/responses2chat_proxy.pid"
+ if [ -f "$PIDFILE" ]; then
+     kill "$(cat $PIDFILE)" 2>/dev/null && echo "Proxy stopped" || echo "Not running"
+diff --git a/scripts/docs_lint.py b/scripts/docs_lint.py
+index 3d761ecc5..5a400643c 100644
+--- a/scripts/docs_lint.py
++++ b/scripts/docs_lint.py
+@@ -75,7 +75,7 @@ def check_index() -> tuple[list, list]:
+     # coverage: tracked md basename must appear in INDEX
+     try:
+         tracked = subprocess.run(
+-            ["git", "-c", "core.quotepath=false", "ls-files", "docs"], capture_output=True, text=True,
++            ["git", "-c", "core.quotepath=false", "ls-files", "docs"], capture_output=True, text=True, encoding="utf-8", errors="replace",
+             cwd=REPO_ROOT).stdout.splitlines()
+     except Exception as e:
+         return [f"git ls-files 失败: {e}"], []
+@@ -165,10 +165,10 @@ def check_skill_sync() -> tuple[list, list]:
+     script = os.path.join(REPO_ROOT, "scripts", "graph", "sync_skills.sh")
+     try:
+         r = subprocess.run(["bash", script, "--check"], capture_output=True,
+-                           text=True, timeout=60)
++                           text=True, encoding="utf-8", errors="replace", timeout=60)
+         if r.returncode != 0:
+             fails.append("[4] skill 安装漂移 (sync_skills.sh --check): "
+-                         + "; ".join(l for l in r.stdout.splitlines() if "DRIFT" in l)[:300])
++                         + "; ".join(l for l in (r.stdout or "").splitlines() if "DRIFT" in l)[:300] or (r.stderr or "").strip()[:300])
+     except Exception as e:
+         fails.append(f"[4] sync_skills --check 执行失败: {e}")
+     return fails, warns
+diff --git a/scripts/graph/graph_orchestrator.sh b/scripts/graph/graph_orchestrator.sh
+index 10700f097..51e50ca27 100644
+--- a/scripts/graph/graph_orchestrator.sh
++++ b/scripts/graph/graph_orchestrator.sh
+@@ -34,21 +34,25 @@ start_loop_b() {
+ 
+ start_loop_a() {
+   cat <<'EOF_LOOPA'
+-[Loop A] 未启动；本分支只显示派发入口。
+-  规则/状态: AGENTS.md、memory/STATE.md、memory/THREADS.md。
+-  按 templates/task_card_template.md 明确目标、验收、预算和当前授权。
++[Loop A] 当前派发入口是 scripts/graph/loop_ac_launcher.sh。
++  本 orchestrator 只管理 Loop B，不自动启动 A/C。
++  先运行 launcher preflight，再用 start a <task-id> <prompt-file> 启动 detached task。
++  规则与任务授权仍由 AGENTS.md、memory/STATE.md、memory/THREADS.md 和任务卡决定。
+   执行约束: scripts/graph/loop_a_exec_constraints.md。
++  任务合同: templates/task_card_template.md。
+   执行面: docs/governance/2026-09-07_execution_plane_boundary.md。
+-  CLI、模型、profile 与窗口按当前任务授权确认，不沿用历史配置自动派发。
+ EOF_LOOPA
+ }
+ 
+ start_loop_c() {
+   cat <<'EOF_LOOPC'
+-[Loop C] 未启动；本分支只显示独立审计入口。
+-  按当前任务范围读取 scripts/graph/loop_c_audit_prompt.md。
+-  审计须绑定实际提交/工作区 diff 和验证证据；A 自测不等于 B/C 已验收。
+-  模型、服务、数据库和真实样本解析须另有明确授权，不默认执行。
++[Loop C] 当前派发入口是 scripts/graph/loop_ac_launcher.sh。
++  本 orchestrator 只管理 Loop B，不自动启动 A/C。
++  先运行 launcher preflight，再用 start c <task-id> <prompt-file> 启动 detached task。
++  Loop C 保持独立只读审计；模型、服务、数据库和真实样本解析须按任务卡授权。
++  审计约束: scripts/graph/loop_c_audit_prompt.md。
++  任务合同: templates/task_card_template.md。
++  执行面: docs/governance/2026-09-07_execution_plane_boundary.md。
+ EOF_LOOPC
+ }
+ 
+@@ -63,13 +67,17 @@ show_status() {
+ 
+   # tmux sessions
+   echo "--- tmux sessions ---"
+-  for loop in graph-loop-a graph-loop-b graph-loop-c; do
+-    if tmux has-session -t "$loop" 2>/dev/null; then
+-      echo "  $loop: RUNNING"
+-    else
+-      echo "  $loop: STOPPED"
+-    fi
+-  done
++  if tmux has-session -t graph-loop-b 2>/dev/null; then
++    echo "  graph-loop-b: RUNNING"
++  else
++    echo "  graph-loop-b: STOPPED"
++  fi
++  ac_sessions=$(tmux ls 2>/dev/null | grep -E '^loop-(a|c)-' || true)
++  if [[ -n "$ac_sessions" ]]; then
++    echo "$ac_sessions" | sed 's/^/  /'
++  else
++    echo "  Loop A/C detached tasks: none"
++  fi
+   echo
+ 
+   # Model services
+@@ -131,21 +139,17 @@ show_logs() {
+   echo "=== Loop B (last 20 lines) ==="
+   tail -20 "$LOG_DIR/loop_b.log" 2>/dev/null || echo "  No log"
+   echo
+-  echo "=== Loop A (last 10 lines) ==="
+-  tail -10 "$LOG_DIR/loop_a.log" 2>/dev/null || echo "  No log"
+-  echo
+-  echo "=== Loop C (last 10 lines) ==="
+-  tail -10 "$LOG_DIR/loop_c.log" 2>/dev/null || echo "  No log"
++  echo "=== Loop A/C ==="
++  echo "  Use: bash scripts/graph/loop_ac_launcher.sh logs <task-id> <a|c> [lines]"
+ }
+ 
+ # ---- Stop ----
+ stop_all() {
+-  for loop in graph-loop-a graph-loop-b graph-loop-c; do
+-    if tmux has-session -t "$loop" 2>/dev/null; then
+-      tmux kill-session -t "$loop"
+-      echo "[${loop}] Stopped"
+-    fi
+-  done
++  if tmux has-session -t graph-loop-b 2>/dev/null; then
++    tmux kill-session -t graph-loop-b
++    echo "[graph-loop-b] Stopped"
++  fi
++  echo "Loop A/C tasks are managed by loop_ac_launcher.sh stop <task-id> <a|c>"
+ }
+ 
+ # ---- Entry Point ----
+diff --git a/scripts/graph/loop_d_daemon.sh b/scripts/graph/loop_d_daemon.sh
+old mode 100755
+new mode 100644
+index 18a1a7da1..f356847bb
+--- a/scripts/graph/loop_d_daemon.sh
++++ b/scripts/graph/loop_d_daemon.sh
+@@ -11,7 +11,7 @@ while true; do
+     echo "----- Loop B verify-report -----"
+     cat "$PROJECT_DIR/logs/graph/verify-report.json" 2>/dev/null || echo "[no verify-report yet]"
+     echo "----- tmux graph sessions -----"
+-    tmux list-sessions 2>/dev/null | grep -E "graph-loop" || echo "[no graph sessions]"
++    tmux list-sessions 2>/dev/null | grep -E "graph-loop-b|^loop-(a|c)-" || echo "[no graph sessions]"
+   } > "$DASH" 2>&1
+   echo "[$(date '+%m-%d %H:%M:%S')] heartbeat" >> "$HIST"
+   sleep "$INTERVAL"
+diff --git a/scripts/graph/loop_d_monitor.sh b/scripts/graph/loop_d_monitor.sh
+index a596f099d..a53ab5686 100644
+--- a/scripts/graph/loop_d_monitor.sh
++++ b/scripts/graph/loop_d_monitor.sh
+@@ -11,7 +11,9 @@
+ 
+ set -euo pipefail
+ 
+-PROJECT_DIR="$HOME/wzh/projects/agents_final_tech"
++SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
++source "$SCRIPT_DIR/agent_env.sh"
++PROJECT_DIR="$AGENT_PROJECT_ROOT"
+ LOG_DIR="$PROJECT_DIR/logs/graph"
+ 
+ echo "============================================"
+@@ -30,20 +32,22 @@ app=$(curl -s -o /dev/null -w '%{http_code}' "${M1_API_BASE:-http://127.0.0.1:50
+ [[ "$m8004" -ge 1 ]] && echo "  :8004 main model    [OK]" || echo "  :8004 main model    [DOWN]"
+ [[ "$m8006" == "200" ]] && echo "  :8006 vllm 27B      [OK]" || echo "  :8006 vllm 27B      [DOWN]"
+ echo "  :8005 aux model     [RETIRED 2026-08-17]"
+-[[ "$app" == "200" ]] && echo "  :5000 FastAPI       [OK]" || echo "  :5000 FastAPI       [DOWN: $app]"
++[[ "$app" == "200" ]] && echo "  :5050 FastAPI       [OK]" || echo "  :5050 FastAPI       [DOWN: $app]"
+ echo
+ 
+ # 2. Loop status
+ echo "[2] LOOP STATUS"
+-for loop in graph-loop-a graph-loop-b graph-loop-c; do
+-  if tmux has-session -t "$loop" 2>/dev/null; then
+-    echo "  $loop  [RUNNING]"
+-  else
+-    echo "  $loop  [STOPPED]"
+-  fi
+-done
+-legacy=$(tmux ls 2>/dev/null | grep -v graph-loop | grep -v download | grep -v coding-jinrong | wc -l)
+-[[ "$legacy" -gt 0 ]] && echo "  (legacy tmux sessions: $legacy)"
++if tmux has-session -t graph-loop-b 2>/dev/null; then
++  echo "  graph-loop-b [RUNNING]"
++else
++  echo "  graph-loop-b [STOPPED]"
++fi
++ac_sessions=$(tmux ls 2>/dev/null | grep -E '^loop-(a|c)-' || true)
++if [[ -n "$ac_sessions" ]]; then
++  echo "$ac_sessions" | sed 's/^/  /'
++else
++  echo "  Loop A/C detached tasks: none"
++fi
+ echo
+ 
+ # 3. Loop B verdict
+@@ -80,7 +84,6 @@ echo "  Last 5 commits:"
+ git log --oneline -5 | sed 's/^/    /'
+ dirty=$(git status --porcelain | wc -l)
+ echo "  Uncommitted changes: $dirty files"
+-git fetch origin main --quiet 2>/dev/null || true
+ behind=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo "?")
+ ahead=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo "?")
+ echo "  vs origin/main: +$ahead / -$behind"
+@@ -121,14 +124,7 @@ echo
+ 
+ # 8. Pending items
+ echo "[8] PENDING"
+-if tmux has-session -t download-72b 2>/dev/null; then
+-  progress=$(tmux capture-pane -t download-72b -p 2>/dev/null | grep -oP '\d+%' | tail -1 || echo "?")
+-  echo "  Qwen3-72B download: $progress"
+-else
+-  f="$HOME/wzh/models/gguf/qwen3-72b/Qwen3-72B-Instruct.Q4_K_M.gguf"
+-  [[ -f "$f" ]] && echo "  Qwen3-72B: DOWNLOADED ($(du -h "$f" | cut -f1))" || echo "  Qwen3-72B: not found"
+-fi
+-echo "  Codex CLI + GLM 5.2: FAILED (pending investigation)"
++echo "  Loop A/C: use loop_ac_launcher.sh status <task-id> [a|c]"
+ echo "  TAT-DQA: FROZEN"
+ echo
+ echo "============================================"
+diff --git a/scripts/graph/status.sh b/scripts/graph/status.sh
+old mode 100755
+new mode 100644
+index 3293d07c4..413f9bbc9
+--- a/scripts/graph/status.sh
++++ b/scripts/graph/status.sh
+@@ -67,6 +67,7 @@ RUNTIME_PREFIXES = ("logs/",)     # 脏件清单中属运行产物 => 只列不
+ # 外部写入者白名单: Loop B (scripts/graph/loop_b_verify.sh:222 同口径) 每 30 分钟
+ # 与夜间 cron 会写这些 tracked 运行产物。它们若在一次 status.sh 运行窗口内变动,
+ # 归因是外部进程而非本命令, 故单列 external_writer_touches, 不计入 repo_writes。
++# Loop A/C task logs normally live under AGENT_RUNTIME_ROOT; legacy paths remain whitelisted.
+ EXTERNAL_WRITERS = (
+     "logs/graph/dispatch_log.md", "logs/graph/docs_lint_report.json",
+     "logs/graph/verify-report.json", "logs/graph/loop_b_last_status",
+diff --git a/scripts/setup_codex_gb10.sh b/scripts/setup_codex_gb10.sh
+index ae1e2bf05..a1bb52896 100644
+--- a/scripts/setup_codex_gb10.sh
++++ b/scripts/setup_codex_gb10.sh
+@@ -1,4 +1,5 @@
+ #!/usr/bin/env bash
++# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
+ # ============================================================
+ # GB10 Codex CLI 一键配置脚本
+ # 在远程 Linux 开发机上原生运行，不经过 PowerShell 转义
+@@ -140,6 +141,7 @@ echo "[6/6] Setting up tmux helper..."
+ # 创建 tmux 启动脚本
+ cat > "$HOME/start_codex_tmux.sh" << 'TMUX_SCRIPT'
+ #!/usr/bin/env bash
++# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
+ # 在 tmux 后台启动 Codex CLI 会话
+ # 用法: bash ~/start_codex_tmux.sh [session_name]
+ SESSION="${1:-codex-dev}"
+@@ -161,6 +163,7 @@ chmod +x "$HOME/start_codex_tmux.sh"
+ # 创建模型切换脚本
+ cat > "$HOME/switch_codex_model.sh" << 'SWITCH_SCRIPT'
+ #!/usr/bin/env bash
++# DEPRECATED 2026-10-09: current routes are Xiaomi_Token_Plan mimo-v2.6-flash/pro. Do not run this legacy installer without explicit approval.
+ # 切换 Codex CLI 默认模型
+ # 用法: bash ~/switch_codex_model.sh <model_name>
+ # 可用: qwen3.8-max-preview qwen3.7-max qwen3.7-plus qwen3.6-flash deepseek-v4-pro
+diff --git a/scripts/supervisor_m1.sh b/scripts/supervisor_m1.sh
+deleted file mode 100644
+index 356cfa0b2..000000000
+--- a/scripts/supervisor_m1.sh
++++ /dev/null
+@@ -1,61 +0,0 @@
+-﻿#!/usr/bin/env bash
+-# Remote autonomous supervisor for the client-M1 loop chain.
+-# Waits for already-running A (schema) and B (ocr) loops to finish, then
+-# launches C (LLM header mapping) after A, and D (multi-agent delegation)
+-# after B and C. Runs detached via nohup; does NOT depend on any live session.
+-set -uo pipefail
+-source ~/.bashrc 2>/dev/null
+-export PATH="$HOME/.npm-global/bin:$PATH"
+-PROJ="$HOME/wzh/projects/agents_final_tech"
+-EXP="$PROJ/docs/experiments"
+-LOG=/tmp/supervisor.log
+-{ echo; echo "===== supervisor start $(date '+%m-%d %T') pid=$$ ====="; } > "$LOG"
+-log() { echo "[$(date '+%m-%d %T')] $*" | tee -a "$LOG"; }
+-
+-# wait for a glob marker; if a tmux session name is given, fail early when it
+-# dies without producing the marker (loop crashed).
+-wait_for() {
+-  local pat="$1" to="$2" tm="${3:-}"
+-  local dl=$(( SECONDS + to ))
+-  while [ $SECONDS -lt $dl ]; do
+-    ls $pat >/dev/null 2>&1 && return 0
+-    if [ -n "$tm" ] && ! tmux has-session -t "$tm" 2>/dev/null; then
+-      sleep 15; ls $pat >/dev/null 2>&1 && return 0; return 1
+-    fi
+-    sleep 20
+-  done
+-  return 1
+-}
+-launch() {
+-  local name="$1" loop="$2"
+-  log "LAUNCH $name ($loop)"
+-  tmux kill-session -t "$name" 2>/dev/null
+-  tmux new-session -d -s "$name" "cd $PROJ && source ~/.bashrc && cat $loop | codex exec --dangerously-bypass-approvals-and-sandbox > /tmp/codex_$name.log 2>&1"
+-}
+-
+-C_LAUNCHED=0
+-log "waiting A (schema_reconcile, tmux codex-m1-schema)"
+-if wait_for "$EXP/*_m1_schema_reconcile.md" 4200 codex-m1-schema; then
+-  log "A done -> launch C"
+-  launch codex-m1-llmap scripts/loop_m1_header_mapping_llm.md
+-  C_LAUNCHED=1
+-else
+-  log "A timeout/crash -> skip C"
+-fi
+-
+-log "waiting B (ocr_fallback, tmux codex-m1-ocr) [C runs in parallel if launched]"
+-wait_for "$EXP/*_m1_ocr_fallback.md" 5400 codex-m1-ocr || log "B timeout/crash (continue)"
+-
+-if [ "$C_LAUNCHED" = 1 ]; then
+-  log "waiting C (header_mapping_llm, tmux codex-m1-llmap)"
+-  wait_for "$EXP/*_m1_header_mapping_llm.md" 5400 codex-m1-llmap || log "C timeout/crash (continue)"
+-fi
+-
+-if ls "$EXP"/*_m1_ocr_fallback.md >/dev/null 2>&1 && ls "$EXP"/*_m1_header_mapping_llm.md >/dev/null 2>&1; then
+-  log "B+C done -> launch D"
+-  launch codex-m1-multi scripts/loop_m1_multiagent_delegation.md
+-  wait_for "$EXP/*_m1_multiagent_delegation.md" 5400 codex-m1-multi || log "D timeout/crash"
+-else
+-  log "B or C marker missing -> skip D"
+-fi
+-log "===== supervisor chain finished $(date '+%m-%d %T') ====="
+diff --git a/scripts/supervisor_qoder.sh b/scripts/supervisor_qoder.sh
+deleted file mode 100644
+index c3e731680..000000000
+--- a/scripts/supervisor_qoder.sh
++++ /dev/null
+@@ -1,72 +0,0 @@
+-﻿#!/usr/bin/env bash
+-# v2 supervisor: backstop D if old supervisor skips it, then run Qoder recon.
+-# Independent of supervisor_m1.sh; mutually-exclusive with it on D (no double-launch).
+-set -uo pipefail
+-source ~/.bashrc 2>/dev/null
+-export PATH="$HOME/.npm-global/bin:$PATH"
+-PROJ="$HOME/wzh/projects/agents_final_tech"
+-EXP="$PROJ/docs/experiments"
+-LOG=/tmp/supervisor_qoder.log
+-{ echo; echo "===== supervisor_qoder start $(date '+%m-%d %T') pid=$$ ====="; } > "$LOG"
+-log() { echo "[$(date '+%m-%d %T')] $*" | tee -a "$LOG"; }
+-has() { ls $1 >/dev/null 2>&1; }
+-tmux_has() { tmux has-session -t "$1" 2>/dev/null; }
+-wait_for() {
+-  local pat="$1" to="$2" tm="${3:-}" dl=$(( SECONDS + to ))
+-  while [ $SECONDS -lt $dl ]; do
+-    has "$pat" && return 0
+-    if [ -n "$tm" ] && ! tmux_has "$tm"; then sleep 15; has "$pat" && return 0; return 1; fi
+-    sleep 20
+-  done
+-  return 1
+-}
+-launch() {
+-  local name="$1" loop="$2"
+-  log "LAUNCH $name ($loop)"
+-  tmux kill-session -t "$name" 2>/dev/null
+-  tmux new-session -d -s "$name" "cd $PROJ && source ~/.bashrc && cat $loop | codex exec --dangerously-bypass-approvals-and-sandbox > /tmp/codex_$name.log 2>&1"
+-}
+-
+-log "wait C (header_mapping_llm)"
+-wait_for "$EXP/*_m1_header_mapping_llm.md" 5400 codex-m1-llmap || log "C timeout/crash (continue; qoder recon independent)"
+-
+-log "settle B (ocr_fallback): marker or ocr tmux gone or 6000s"
+-B_OK=0
+-dl=$(( SECONDS + 6000 ))
+-while [ $SECONDS -lt $dl ]; do
+-  if has "$EXP/*_m1_ocr_fallback.md"; then B_OK=1; break; fi
+-  if ! tmux_has codex-m1-ocr; then sleep 15; has "$EXP/*_m1_ocr_fallback.md" && B_OK=1; break; fi
+-  sleep 20
+-done
+-log "B_OK=$B_OK"
+-
+-D_DONE=0; has "$EXP/*_m1_multiagent_delegation.md" && D_DONE=1
+-if [ $D_DONE = 1 ]; then
+-  log "D already done"
+-elif tmux_has codex-m1-multi; then
+-  log "D running; v2 waits only"
+-else
+-  if [ $B_OK = 1 ]; then
+-    log "B ok, D not running: give old supervisor 120s to start D, else v2 backstops"
+-    for i in $(seq 1 8); do
+-      sleep 15
+-      tmux_has codex-m1-multi && break
+-      has "$EXP/*_m1_multiagent_delegation.md" && break
+-    done
+-    if ! tmux_has codex-m1-multi && ! has "$EXP/*_m1_multiagent_delegation.md"; then
+-      log "old supervisor did not start D -> v2 backstops D"
+-      launch codex-m1-multi scripts/loop_m1_multiagent_delegation.md
+-    fi
+-  else
+-    log "B failed and D not started -> v2 launches D"
+-    launch codex-m1-multi scripts/loop_m1_multiagent_delegation.md
+-  fi
+-fi
+-
+-log "wait D"
+-wait_for "$EXP/*_m1_multiagent_delegation.md" 5400 codex-m1-multi || log "D timeout/crash (continue to qoder recon anyway)"
+-
+-log "launch Qoder recon"
+-launch codex-qoder-recon /tmp/loop_qoder_recon.md
+-wait_for "$EXP/*_qoder_recon.md" 3600 codex-qoder-recon || log "qoder recon timeout/crash"
+-log "===== supervisor_qoder finished $(date '+%m-%d %T') ====="
+diff --git a/scripts/switch_codex_model.sh b/scripts/switch_codex_model.sh
+index 48b24a54b..f6f1697d0 100644
+--- a/scripts/switch_codex_model.sh
++++ b/scripts/switch_codex_model.sh
+@@ -1,16 +1,20 @@
+ #!/usr/bin/env bash
+ # Switch the GB10 Codex CLI default model/provider (Token Plan).
+-# Usage: bash scripts/switch_codex_model.sh [qwen|glm|deepseek]
++# Usage: bash scripts/switch_codex_model.sh [mimo-flash|mimo-pro|qwen|glm|deepseek]
+ set -uo pipefail
+-MODE="${1:-qwen}"
++MODE="${1:-mimo-flash}"
+ CFG="$HOME/.codex/config.toml"
+ case "$MODE" in
++  mimo-flash) MODEL="mimo-v2.6-flash"; PROV="Xiaomi_Token_Plan" ;;
++  mimo-pro)   MODEL="mimo-v2.6-pro";   PROV="Xiaomi_Token_Plan" ;;
+   qwen)     MODEL="qwen3.8-max-preview"; PROV="Token_Plan" ;;
+   glm)      MODEL="glm-5.2";            PROV="Token_Plan_Chat" ;;
+   deepseek) MODEL="deepseek-v4-pro";    PROV="Token_Plan_Chat" ;;
+-  *) echo "usage: $0 [qwen|glm|deepseek]"; exit 2 ;;
++  *) echo "usage: $0 [mimo-flash|mimo-pro|qwen|glm|deepseek]"; exit 2 ;;
+ esac
+-if [ "$PROV" = "Token_Plan_Chat" ]; then
++if [ "$PROV" = "Xiaomi_Token_Plan" ]; then
++  echo "using Xiaomi Token Plan provider; no local proxy required"
++elif [ "$PROV" = "Token_Plan_Chat" ]; then
+   if [ -x "$HOME/start_proxy.sh" ]; then
+     bash "$HOME/start_proxy.sh" >/dev/null 2>&1 || true
+   else
+diff --git a/side_handoff.md b/side_handoff.md
+index 073c031b4..890f2d6e4 100644
+--- a/side_handoff.md
++++ b/side_handoff.md
+@@ -1,5 +1,5 @@
+ # Project: JinRongAgents
+-# Last updated: 2026-10-08 by Loop D governance neat and self-check closeout
++# Last updated: 2026-10-09 by Loop D configuration and session neat closeout
+ 
+ ## Current status
+ 
+@@ -48,9 +48,9 @@ Recorded evidence:
+ 
+ ## Next-session handoff
+ 
+-- Resume at metadata-only literature/dataset screening and experiment design for the Stage E evidence gap. The nine-method inquiry was applied conceptually; no new experiment, model call, dataset download, or claim upgrade was performed.
+-- OpenAlex metadata API configuration is stored outside the repository at `C:\Users\王中华\.config\openalex.env` and `/home/testuser/.config/openalex.env`. The GB10 file is mode `600`; local and GB10 API loading both returned HTTP 200. The key is not recorded in Git, project docs, logs, or prompts.
+-- Crossref/OpenAlex confirmed paper-level candidates include FinQA, TAT-QA, TabFact, PubTables-1M, and FeTaQA. Dataset download scope, licence, provenance, native checkpoint/action/correctness bridge, and independent origin clusters remain `UNVERIFIED` until the next session performs the exact annex audit.
++- The 2026-10-08 Stage E metadata/inquiry package is complete as `DESIGN_ONLY_NOT_AUTHORIZED`; remaining source, licence, lineage and bridge gaps stay `UNVERIFIED`.
++- Current model routes: Loop A execution uses `mimo-v2.6-flash` via `Xiaomi_Token_Plan`; Loop A diagnostics use `mimo-v2.6-pro`; Loop C uses `mimo-v2.6-pro` through `https://token-plan-cn.xiaomimimo.com/anthropic`.
++- A new user task is pending. Do not infer or start experiments, downloads, training, Phase 2, submission or external release.
+ - Keep `DATA_NO_GO / RQ2 NOT_IDENTIFIED`, Stage D `PILOT_ONLY`, and the Stage E internal-submission boundary unchanged.
+ ## Session rules
+ 
+diff --git a/tests/test_paper_claim_acceptance.py b/tests/test_paper_claim_acceptance.py
+index e7a07bbb0..e7231e6a8 100644
+--- a/tests/test_paper_claim_acceptance.py
++++ b/tests/test_paper_claim_acceptance.py
+@@ -22,15 +22,16 @@ def test_ocr_visibility_wording_matches_stored_evidence() -> None:
+     markdown = (DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md").read_text()
+     docx = Document(DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.docx")
+     for text in (markdown, "\n".join(p.text for p in docx.paragraphs)):
+-        assert re.search(r"OCR-like perturbations are visible in 0/13 cases", text)
++        assert re.search(r"0/13 OCR-like injections were visible across 11 table clusters", text)
+         assert "invisible in 0/13" not in text
++        assert "clustered confidence interval for injection-level visibility" in text
+ 
+ 
+ def test_acceptance_rejects_reversed_visibility_claim(tmp_path) -> None:
+     manifest = json.loads(DEFAULT_MANIFEST.read_text())
+     source = (DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md").read_text()
+     broken = tmp_path / "broken.md"
+-    broken.write_text(source.replace("are visible in 0/13 cases", "are invisible in 0/13 cases"))
++    broken.write_text(source.replace("0/13 OCR-like injections were visible", "0/13 OCR-like injections were invisible"))
+     manifest["paper"] = str(broken)
+     path = tmp_path / "manifest.json"
+     path.write_text(json.dumps(manifest))
+@@ -96,3 +97,13 @@ def test_teacher_review_docx_keeps_patent_gate_closed() -> None:
+         assert heading in text
+     for marker in ("TODO", "Loop D", "logs/graph/eval", "docs/experiments/"):
+         assert marker not in text
++
++def test_matched_fpr_claim_separates_structure_from_identifiability() -> None:
++    markdown = (DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.md").read_text()
++    docx = Document(DEFAULT_MANIFEST.parent / "teacher_review_draft_v1.docx")
++    for text in (markdown, "\n".join(p.text for p in docx.paragraphs)):
++        assert "positive affine transformations" in text
++        assert "not empirically identifiable" in text
++        assert "every bootstrap replicate has zero protocol difference" not in text
++        assert "after matched-false-positive-rate calibration" not in text
++        assert "historical fixed-threshold equality" in text
+diff --git a/tests/test_submission_anonymous_preview.py b/tests/test_submission_anonymous_preview.py
+index 968e6eccc..4e439ac0b 100644
+--- a/tests/test_submission_anonymous_preview.py
++++ b/tests/test_submission_anonymous_preview.py
+@@ -13,8 +13,8 @@ from research.build_submission_anonymous_preview import (
+ REPO = Path(__file__).resolve().parents[1]
+ TRACKED_OUTPUT = REPO / "paper" / "submission_draft_arr_www_anonymous_v0.md"
+ TRACKED_MAP = REPO / "paper" / "submission_redaction_map_v1.json"
+-TRACKED_OUTPUT_SHA256 = "fcce418a840373ccde8eece23f28fe0b2258de355a346184b82ffc2a70858d35"
+-TRACKED_MAP_SHA256 = "9fedc04e673aebb0afc6847b394085e5cc7f007981876c740dc6cd57b915e7db"
++TRACKED_OUTPUT_SHA256 = "b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc"
++TRACKED_MAP_SHA256 = "9d505e038a794f594d1f4f54641c3ab92ecdd3e45134aed87ae686508a202386"
+ FORBIDDEN = (
+     "logs/graph",
+     "docs/experiments",
+diff --git a/tests/test_submission_package_audit.py b/tests/test_submission_package_audit.py
+index ec885892b..7f979fe98 100644
+--- a/tests/test_submission_package_audit.py
++++ b/tests/test_submission_package_audit.py
+@@ -35,8 +35,8 @@ def test_audit_checks_cover_required_artifact_contracts() -> None:
+         "d_b_licence_scope",
+         "reproducibility_boundary",
+     } <= names
+-    assert result["source_sha256"] == "abab44657e17936badf371a606198886ccd333a4c1489600c8922f78a6c57e80"
+-    assert result["anonymous_preview_sha256"] == "fcce418a840373ccde8eece23f28fe0b2258de355a346184b82ffc2a70858d35"
++    assert result["source_sha256"] == "cacf33b347579f123480b3a4f1b18c6c0147984db8c7ec7dffd315f4362903e9"
++    assert result["anonymous_preview_sha256"] == "b712539ad036c61b6a283e4a8056152cb85c3410f2a235f8e876be311a0446dc"
+ 
+ 
+ def test_audit_output_is_json_serializable(tmp_path: Path) -> None:

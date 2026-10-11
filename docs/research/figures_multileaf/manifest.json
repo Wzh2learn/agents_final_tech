@@ -1,0 +1,41 @@
+{
+  "caption_boundaries": {
+    "flat_hierarchy": "secondary score relation; no hierarchy superiority or matched-FPR claim",
+    "localization_ablation": "controlled explicitly instrumented stage surface; no hierarchy localization, natural-failure localization, or distributed-evidence sufficiency claim",
+    "signatures": "three controlled stage classes; direct/derived codebook, not natural trace"
+  },
+  "namespace": "MULTILEAF_FIGURE_CANDIDATES",
+  "outputs": {
+    "fig_multileaf_flat_hierarchy_relation.png": {
+      "bytes": 60631,
+      "sha256": "746994b114b39d43e8fd0589e9c73a47ef380fdc5e84801f5f2c456cbd98272c"
+    },
+    "fig_multileaf_flat_hierarchy_relation.svg": {
+      "bytes": 43804,
+      "sha256": "d43acb5173da9dd8d22e749e8bd1dc85683493b1abfaf6a957e5a7e771501603"
+    },
+    "fig_multileaf_localization_ablation.png": {
+      "bytes": 79649,
+      "sha256": "20f667e074365978d38a1c3df9e81e5e218a2a9267cb03398d73bb73d929c4f1"
+    },
+    "fig_multileaf_localization_ablation.svg": {
+      "bytes": 8689,
+      "sha256": "2ef011b4e960e2ea58e1ad013a44c1a3fd62c6c4201586b4c55f50abc0a02fff"
+    },
+    "fig_multileaf_response_signatures.png": {
+      "bytes": 78600,
+      "sha256": "670fe1596d16b361092aeb3d6749611e146ce927fce9bb2c38ab68b3b6a17b1e"
+    },
+    "fig_multileaf_response_signatures.svg": {
+      "bytes": 65438,
+      "sha256": "ac4792436174c47011e0601f3947d511fd1fedc405e3ccbdb53c80bb7849af35"
+    }
+  },
+  "sources": {
+    "/home/testuser/wzh/projects/agents_final_tech/config/eval_checkpoint_trees.json": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+    "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/results/multileaf_formal_results.json": "ae9cf1cf37e2742e3895ec2bd0e4cf0c150a18c927eb9a618f612782b3d9cbb0",
+    "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06",
+    "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json": "0518c5bfc40bf2b4e82312887b9426bbb8833df326d4d782cd1cbe63d052571d"
+  },
+  "status": "EXPLORATORY_VISUALIZATION_NOT_INSERTED_IN_PAPER"
+}

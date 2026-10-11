@@ -1,0 +1,118 @@
+{
+  "namespace": "PRM_REFERENCE_TRACK",
+  "status": "STATIC_REFERENCE_SMOKE_NOT_TRAINING",
+  "repo_commit": "7ecc794703b2877f63226f2477a49b34f9b25163",
+  "dataset_file": {
+    "path": "/home/testuser/wzh/research_stage_e_method_revision_20261009/sources/prm800k/phase2_test.jsonl",
+    "sha256": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad",
+    "rows": 2762,
+    "source_lfs_oid": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad",
+    "source_lfs_size": 12240719
+  },
+  "schema_observation": {
+    "top_keys": [
+      "generation",
+      "is_initial_screening_question",
+      "is_quality_control_question",
+      "label",
+      "labeler",
+      "question",
+      "timestamp"
+    ],
+    "question_keys": [
+      "ground_truth_answer",
+      "ground_truth_solution",
+      "pre_generated_answer",
+      "pre_generated_steps",
+      "pre_generated_verifier_score",
+      "problem"
+    ],
+    "label_keys": [
+      "finish_reason",
+      "steps",
+      "total_time"
+    ],
+    "step_keys": [
+      "chosen_completion",
+      "completions",
+      "human_completion"
+    ],
+    "completion_keys": [
+      "flagged",
+      "rating",
+      "text"
+    ],
+    "rating_values": [
+      -1,
+      0,
+      1
+    ],
+    "rating_counts": {
+      "-1": 31,
+      "0": 1224,
+      "1": 15226
+    },
+    "rating_counts_scope": "selected-path completion ratings only",
+    "finish_reason_counts": {
+      "found_error": 2077,
+      "give_up": 98,
+      "solution": 587
+    }
+  },
+  "label_semantics_from_readme": {
+    "rating": "-1 incorrect, 0 no progress/not incorrect, +1 good step; exact labeler protocol is documented in phase instructions, not re-derived here",
+    "flagged": "labeler could flag steps they did not know how to label",
+    "chosen_completion": "index of selected candidate; null indicates human_completion path",
+    "human_completion": "phase-1 human-written alternative; null for phase-2 pre-generated paths",
+    "finish_reason": "found_error / solution / bad_problem / give_up"
+  },
+  "outcome_process_smoke": {
+    "terminal_metric": "official math_normalize.normalize_answer string-equality subset",
+    "official_grade_answer_status": "NOT_RUN_MISSING_PYLATEXENC_DEPENDENCY",
+    "terminal_correct": 606,
+    "terminal_incorrect": 2156,
+    "selected_path_no_negative": 2494,
+    "selected_path_all_positive": 1889,
+    "selected_path_rating_denominator": 2524,
+    "rows_without_selected_rating": 238,
+    "terminal_x_no_negative": {
+      "False_False": 254,
+      "False_True": 1902,
+      "True_False": 14,
+      "True_True": 592
+    },
+    "first_negative_step_counts": {
+      "0": 4,
+      "1": 9,
+      "11": 1,
+      "2": 1,
+      "3": 4,
+      "4": 3,
+      "5": 2,
+      "6": 5,
+      "7": 1,
+      "null": 2732
+    },
+    "interpretation": "This is a data/matching smoke using the official normalization subset. It does not execute the full official grader, train a PRM, or reproduce the paper's model results."
+  },
+  "process_vs_outcome_comparison_design": {
+    "C2_reference": "filter by terminal answer correctness from grader.grade_answer",
+    "C4_reference": "filter by selected human step labels, e.g. no negative rating or all-positive path",
+    "required_matching": [
+      "MATH problem ID",
+      "solution length",
+      "answer token count",
+      "problem split"
+    ],
+    "forbidden_claims": [
+      "PRM800K result is our novelty",
+      "this smoke proves C4 superiority"
+    ]
+  },
+  "licence_and_scope": {
+    "repository_licence": "MIT root licence present",
+    "dataset_specific_licence": "UNVERIFIED",
+    "training_use": "NOT_AUTHORIZED",
+    "inspection_use": "AUTHORIZED for this static reference-track audit"
+  }
+}

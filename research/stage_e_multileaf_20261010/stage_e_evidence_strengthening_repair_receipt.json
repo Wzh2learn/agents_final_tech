@@ -1,0 +1,189 @@
+{
+  "changed_files": [
+    "docs/research/figures_multileaf/fig_multileaf_localization_ablation.png",
+    "docs/research/figures_multileaf/fig_multileaf_localization_ablation.svg",
+    "docs/research/figures_multileaf/manifest.json",
+    "docs/research/finqa_numeric_token_canonicalization_v2.md",
+    "docs/research/finqa_v2_gate_reconciliation_v2.json",
+    "docs/research/finqa_v2_gate_reconciliation_v2.md",
+    "docs/research/stage_e_multileaf_result_packet_v1.md",
+    "docs/research/stage_e_version_b_figure_spec_v1.md",
+    "docs/research/stage_e_version_b_revision_proposal_v1.md",
+    "research/finqa_evidence_argument_resolver_v2.py",
+    "research/finqa_numeric_token_canonicalization_v2.py",
+    "research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py",
+    "research/stage_e_multileaf_20261010/build_stage_e_evidence_strengthening_repair_receipt.py",
+    "research/stage_e_multileaf_20261010/render_multileaf_localization_ablation_v2.py",
+    "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_receipt.json",
+    "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_tests.log",
+    "tests/test_finqa_numeric_token_canonicalization_v2.py"
+  ],
+  "commands": [
+    "PYTHONPATH=src ./venv/bin/python -m py_compile research/finqa_numeric_token_canonicalization_v2.py research/finqa_evidence_argument_resolver_v2.py research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py research/stage_e_multileaf_20261010/render_multileaf_localization_ablation_v2.py tests/test_finqa_numeric_token_canonicalization_v2.py",
+    "PYTHONPATH=src ./venv/bin/python research/stage_e_multileaf_20261010/render_multileaf_localization_ablation_v2.py",
+    "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_finqa_evidence_argument_resolver_v2.py -q",
+    "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_finqa_independent_observation_scorer_v2.py -q",
+    "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_finqa_numeric_token_canonicalization_v2.py -q",
+    "python3 sha256/JSON/SVG/PNG/wording/py_compile/diff-check validation script (PASS)",
+    "python3 scripts/docs_lint.py --json /tmp/loopa_repair_docs_lint.json (0 fail / 6 warn)"
+  ],
+  "evidence_classes": {
+    "ENGINEERING": "numeric-token canonicalization and focused test verification",
+    "EXPLORATORY": "Figure 3 presentation repair from frozen ablation values",
+    "NEGATIVE": "F6 remains OPEN; F8 remains NOT_YET_RESOLVED",
+    "PRIMARY": "corrected metric boundaries and retained construct-sensitive scope",
+    "SECONDARY": "canonical six-gate reconciliation with preserved stale hashes"
+  },
+  "experiment_boundary": {
+    "finqa_v2_formal_experiments_run": 0,
+    "health_or_endpoint_probes": 0,
+    "m_r_n_experiment_reruns": 0,
+    "model_calls": 0,
+    "paper_body_modified": false,
+    "prm_training_runs": 0,
+    "training_runs": 0
+  },
+  "input_sha256": {
+    "/home/testuser/wzh/loop_runs/paper-evidence-strengthening-c-20261010/c.log": "1182fb62602f57888837801de1fbca4ee1e363a6fca4fc837d9f16d1764e342a",
+    "docs/research/figures_multileaf/fig_multileaf_localization_ablation.png": "a360f9b1f187379e3adb5106a331fb314458945b977495756ebd1797fd94995c",
+    "docs/research/figures_multileaf/fig_multileaf_localization_ablation.svg": "d8187af983c446443a08bb428040e94415ff0fdfc462bb39dbbddb0d478647a6",
+    "docs/research/figures_multileaf/manifest.json": "5563ba53c88071d9398d7d756ed70f2a310039b51a03a7bc1583756cbf597d70",
+    "docs/research/finqa_v2_gate_status_v1.md": "273a08c4c6930225e1c93d93c0db7e3c35641f8060b00e53b2c27cf35b476cf5",
+    "docs/research/stage_e_multileaf_result_packet_v1.md": "1d0eb7a646308e30ea14f6b844feadec7e8d50d8886e4706c43b132776cda57a",
+    "docs/research/stage_e_version_b_figure_spec_v1.md": "28549d5438e00aef8199c83dbd16c6081f49b51534cfef4a80a905c1c1df7cb5",
+    "docs/research/stage_e_version_b_revision_proposal_v1.md": "dee3d6fe2f53dbf86e9406902bfa25ae6c5e881c50a9b33c98bcc0878e3e9c8a",
+    "research/finqa_evidence_argument_resolver_v2.py": "f60812f77695cb9d5a153a7986f1043e45043a08ec7b9bcf8c0c4be6d4b7201f",
+    "research/finqa_independent_observation_scorer_v2.py": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5",
+    "research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py": "be0419700b52217405c9afbe298d2d9f05479320974bdcf6716abf8a705f2286",
+    "research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py": "918e067d708756246f9923b6beeebe498c24243565c0588401ace6030e9d0881",
+    "research/stage_e_multileaf_20261010/finqa_v2_candidate_sample_manifest.json": "71e6e2c4e2f59721644098cae20e1b850692edd20e0c138f87f27bedd4f25b77",
+    "research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json": "280c563c5e701cf81f75d85664f6880f8133723693ddbc63a641db804a909ca7",
+    "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json": "0518c5bfc40bf2b4e82312887b9426bbb8833df326d4d782cd1cbe63d052571d",
+    "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_receipt.json": "09d3e0ed3b4d226ec001ead3da9e2527eee5abb5e4afa0886772611812db49ee",
+    "tests/test_finqa_evidence_argument_resolver_v2.py": "ac51401a55f8e1ff5eb153f9cabf9dc17824a0be114eb931aed27dfc6544912e",
+    "tests/test_finqa_independent_observation_scorer_v2.py": "2146f847f4da0dab7295e615420eefbf55bc45167c5ce62360908153589db7d1"
+  },
+  "loop_c_findings_status_matrix": [
+    {
+      "finding": "F2",
+      "status": "CLOSED",
+      "summary": "Metric-specific chance, uniform-class, and majority-baseline identities are explicit in Figure 3 and active wording."
+    },
+    {
+      "finding": "F3",
+      "status": "CLOSED",
+      "summary": "Canonical six-gate v2 table includes SCORER_GO and declares six older snapshots stale with preserved hashes."
+    },
+    {
+      "finding": "F4",
+      "status": "CLOSED",
+      "summary": "Selection and causal logic share exact Decimal fixed-point token identity; ambiguity remains fail-closed."
+    },
+    {
+      "finding": "F5",
+      "status": "CLOSED",
+      "summary": "Frozen key remains untouched, while the active result packet explicitly states its predicate does not prove non-direct incremental information."
+    },
+    {
+      "finding": "F6",
+      "status": "OPEN",
+      "summary": "Frozen template_count semantics remain unreconciled because the mechanism-audit artifact was not authorized for editing."
+    },
+    {
+      "finding": "F7",
+      "status": "PARTIAL",
+      "summary": "Construct-sensitive scope is retained in figure/proposal/result wording; the historical power-plan artifact remains unchanged."
+    },
+    {
+      "finding": "F8",
+      "status": "NOT_YET_RESOLVED",
+      "summary": "The 627-versus-594 relationship has no invented explanation; section-order and row-count proposal edits remain out of scope."
+    }
+  ],
+  "output_sha256": {
+    "docs/research/figures_multileaf/fig_multileaf_localization_ablation.png": "20f667e074365978d38a1c3df9e81e5e218a2a9267cb03398d73bb73d929c4f1",
+    "docs/research/figures_multileaf/fig_multileaf_localization_ablation.svg": "2ef011b4e960e2ea58e1ad013a44c1a3fd62c6c4201586b4c55f50abc0a02fff",
+    "docs/research/figures_multileaf/manifest.json": "9438bd6db6c15b5680da68ee28a041b9cea66015a25d49a52d63cc74f125dbae",
+    "docs/research/finqa_numeric_token_canonicalization_v2.md": "28b576b82dea82f13726a7d1c5724d496495fcde53573c6c25fdd49c931f8cf5",
+    "docs/research/finqa_v2_gate_reconciliation_v2.json": "6ad640b267e7e313e99de47afb3651d17e7bd66d3223cf9808f9dd6fdc749cc7",
+    "docs/research/finqa_v2_gate_reconciliation_v2.md": "6d9aebcdbbd028a81e0173b73c7252747617bfc2f8ede34f7b4d99e882e2f5f3",
+    "docs/research/stage_e_multileaf_result_packet_v1.md": "99ccc81b92db2d5350aafdefb44ce73ec055ab8e33008e54aed5456ec3d9cbb8",
+    "docs/research/stage_e_version_b_figure_spec_v1.md": "22dde11213c36e410d8037c341d19daa244df3369bd3bb3d89e0881989d78f43",
+    "docs/research/stage_e_version_b_revision_proposal_v1.md": "be6eebac00cd09a930156d44727daf173a37a08877bc3486001864fefd91b7cc",
+    "research/finqa_evidence_argument_resolver_v2.py": "85e84a5f5296e366ec1f567ba59e5a5646e61e564d55806ad2f4f3e1747bffca",
+    "research/finqa_numeric_token_canonicalization_v2.py": "d4210fa9ac453a8a994827f5962d5a43c12ba589208917627dc9bce9c7a4ae3b",
+    "research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py": "6482c518995294b5eb0cc91a9cd460716947cd0ce7f1d3657edd729c20510557",
+    "research/stage_e_multileaf_20261010/build_stage_e_evidence_strengthening_repair_receipt.py": "a3a2483f8a24a2d70ab43b766ae19b131a3994abcbc30b50c6a97348e93af2c0",
+    "research/stage_e_multileaf_20261010/render_multileaf_localization_ablation_v2.py": "6df2e97e882bf0fe4018bfb3f8af2e22d5461505eab3cb55d6423ea3bd9f30ef",
+    "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_tests.log": "7c41117bb41b514716308714dfddd1a1289ee6c0797e90f60ff235bfde2f1b0b",
+    "tests/test_finqa_numeric_token_canonicalization_v2.py": "a9282ea2ee597f50eeeb1b9551ec20b7e1ff0a1ad61a915093ecc2aa6f356d39"
+  },
+  "preserved_frozen_inputs": {
+    "finqa_v2_candidate_sample_manifest_json": "71e6e2c4e2f59721644098cae20e1b850692edd20e0c138f87f27bedd4f25b77",
+    "finqa_v2_causal_join_audit_json": "280c563c5e701cf81f75d85664f6880f8133723693ddbc63a641db804a909ca7",
+    "modified": false,
+    "multileaf_signature_ablation_json": "0518c5bfc40bf2b4e82312887b9426bbb8833df326d4d782cd1cbe63d052571d"
+  },
+  "question_answer": "YES for blocking F2-F4 without changing frozen scientific evidence or running a formal experiment; F5/F7 are not uniformly closed, F6 remains OPEN, and F8 remains NOT_YET_RESOLVED.",
+  "receipt": {
+    "hash_contract": "SHA-256 of canonical compact sorted JSON after removing receipt.self_sha256",
+    "self_sha256": "e3e7bd49d0792fb2265d6c951881f38700401ac88383483ae34c90e9ddcdd5c1"
+  },
+  "receipt_type": "stage-e-evidence-strengthening-repair",
+  "schema_version": 2,
+  "status": "REPAIR_VALIDATION_PASSED",
+  "stop_conditions": {
+    "FIGURE_REPAIR_INPUT_MISSING": false,
+    "OUT_OF_SCOPE": false,
+    "REPAIR_VALIDATION_FAILED": false,
+    "TOKEN_IDENTITY_NEW_NAMESPACE_REQUIRED": false
+  },
+  "test_log": {
+    "path": "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_tests.log",
+    "sha256": "7c41117bb41b514716308714dfddd1a1289ee6c0797e90f60ff235bfde2f1b0b"
+  },
+  "tests": {
+    "aggregate": {
+      "failed": 0,
+      "passed": 11,
+      "status": "PASS",
+      "summary": "3 resolver + 5 scorer + 3 canonicalization = 11 tests"
+    },
+    "canonicalization": {
+      "command": "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_finqa_numeric_token_canonicalization_v2.py -q",
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 3,
+      "status": "PASS",
+      "test_path": "tests/test_finqa_numeric_token_canonicalization_v2.py"
+    },
+    "resolver": {
+      "command": "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_finqa_evidence_argument_resolver_v2.py -q",
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 3,
+      "status": "PASS",
+      "test_path": "tests/test_finqa_evidence_argument_resolver_v2.py"
+    },
+    "scorer": {
+      "command": "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_finqa_independent_observation_scorer_v2.py -q",
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 5,
+      "status": "PASS",
+      "test_path": "tests/test_finqa_independent_observation_scorer_v2.py"
+    }
+  },
+  "validation": {
+    "docs_lint": {
+      "fails": 0,
+      "status": "PASS",
+      "warns": 6
+    },
+    "frozen_source_hashes": "PASS",
+    "gate_reconciliation_and_stale_hashes": "PASS",
+    "python_compile_and_diff_check": "PASS",
+    "svg_xml_png_dimensions_and_manifest_hashes": "PASS",
+    "unqualified_approximately_chance_phrase_count": 0
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "continuations_per_prefix": 4,
+  "data_path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_method_revision_20261009/sources/prm800k/phase2_test.jsonl",
+  "data_sha256": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad",
+  "formal_training": false,
+  "label_rules": {
+    "gold_dependence": "ground_truth_answer is required",
+    "hard": "1 if at least one sampled continuation has a parseable final answer graded correct, else 0",
+    "human_comparison": "selected PRM rating at the same zero-based step index",
+    "no_final_answer": "counted incorrect and reported separately",
+    "soft": "correct parsed continuations / 4"
+  },
+  "licence": {
+    "data": "LICENCE_PENDING_NONCOMMERCIAL_ACADEMIC_SMOKE_ONLY",
+    "model": "Qwen model licence recorded separately; local non-commercial smoke only"
+  },
+  "max_new_tokens": 160,
+  "model_calls": 16,
+  "model_config_sha256": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a",
+  "model_path": "/home/testuser/wzh/models/hf/Qwen3-4B",
+  "namespace": "MATH_SHEPHERD_STYLE_LABEL_CONSTRUCTION_SMOKE",
+  "rows": 4,
+  "seed": 20261014,
+  "selected_problem_hashes": [
+    "0a1707d5b4f6518f4f93b0dc3769dc3df28c4d4dbdee20ba812bfe692b1399f0",
+    "c667b151ed654a873320e97c14d0cde3592c566c59f054b06c16d4d4d8dd6554",
+    "24079eb223b816229049509795eb8ee6bfcdc8134b463d6a2b0c3d7506d6dd66",
+    "79b7b095949bd64cba563c068359e6ebb6c9fedd0b97216d62df474291741bd2"
+  ],
+  "selected_row_hashes": [
+    "4465498914bc656f66c0ae2d6906ee83ec124a63b1a84f71bbeb25685703a7ae",
+    "f3689808ac72236740312ab71477256c16b8d10cd41a95ea089c17cdc70db8d3",
+    "ba77d5987182777667bb57a127c5fb09f16a3537e25d1c10a3dcacfa5502ed5a",
+    "bd7bf527f55cb19024643c5fceed3cebef65516f1ccc39143b45642803ad250c"
+  ],
+  "status": "REFERENCE_LABEL_CONSTRUCTION_SMOKE_NOT_PAPER_RESULT",
+  "step_index": 1,
+  "temperature": 0.7,
+  "top_p": 0.95
+}

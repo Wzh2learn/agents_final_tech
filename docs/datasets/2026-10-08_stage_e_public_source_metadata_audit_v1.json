@@ -1,0 +1,2033 @@
+{
+  "schema_version": "stage-e-public-source-metadata-audit-v1",
+  "task_id": "TASK-20261008-STAGEE-INQUIRY-A1",
+  "status": "METADATA_ONLY_NOT_DOWNLOAD_APPROVAL",
+  "generated_at_access_date": "2026-10-08",
+  "evidence_boundary": {
+    "contains_data_bodies": false,
+    "contains_ground_truth": false,
+    "contains_credentials": false,
+    "download_authorized": false,
+    "experiment_authorized": false,
+    "external_release_authorized": false,
+    "source_order": [
+      "Crossref DOI/search",
+      "arXiv Atom",
+      "OpenAlex/Semantic Scholar attempts",
+      "official GitHub repository metadata/README",
+      "Zenodo metadata",
+      "Hugging Face dataset metadata"
+    ],
+    "rate_limit_policy": "One retry only on 429/403; after failure mark UNVERIFIED and use a different metadata source or repository artifact."
+  },
+  "budget": {
+    "declared_max_http_attempts": 80,
+    "distinct_urls": 72,
+    "actual_http_attempts": 94,
+    "allowed_retry_attempts": 22,
+    "overage_attempts": 14,
+    "status": "EXCEEDED_TRANSPARENTLY_REPORTED",
+    "note": "No further HTTP call is made after this disclosure."
+  },
+  "forbidden_call_counts": {
+    "model_or_judge_endpoints": 0,
+    "database_or_service_probes": 0,
+    "dataset_body_downloads": 0,
+    "ground_truth_reads": 0,
+    "training_runs": 0,
+    "phase_2_runs": 0,
+    "formal_experiments": 0,
+    "arxiv_or_submission_calls": 0,
+    "external_release_calls": 0
+  },
+  "premise_checks": {
+    "P1": "PASS e97340387888290e69fbfff122ab163de971b37e",
+    "P2": "PASS abab44657e17936badf371a606198886ccd333a4c1489600c8922f78a6c57e80",
+    "P3": "PASS by supplied task-card text and command accounting; the card’s expected docs/experiments path is absent and no extra task-card file was created.",
+    "P4": "PASS query 0 HTTP 200",
+    "P5": "PASS baseline dirty set preserved; final status checked after writes."
+  },
+  "query_log": [
+    {
+      "query_id": 0,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.18653%2Fv1%2F2021.emnlp-main.300",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 2972,
+      "response_sha256": "c5deb1aec7268c7b1ecfe956a162e0f54ebebd278fde74e936ece241d0664645",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 1,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=TAT-QA%20A%20Question%20Answering%20Benchmark%20on%20a%20Hybrid%20of%20Tabular%20and%20Textual%20Content%20in%20Finance&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 33885,
+      "response_sha256": "48d6234a7c2a426cfd87a11aa39f7f730f5edaa3c3b359fa113b178b78779f24",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 2,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=TabFact%20A%20Large-scale%20Dataset%20for%20Table-based%20Fact%20Verification&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 16328,
+      "response_sha256": "4c47152069458655a94210d0e8786537be8d485cf2579dc073f853490fc6ae5e",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 3,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=Learning%20to%20Reason%20over%20Table%20Structures&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 3668,
+      "response_sha256": "2a9a0f446f2f8c8cbe45a4ab410ea56da5b21fe857ca0d889760b80e2109221f",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 4,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=PubTables-1M%20Towards%20comprehensive%20table%20extraction%20from%20unstructured%20documents&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 8570,
+      "response_sha256": "c1b36babec5cb695de5c467826274a6df173e22c0eb51d7b063e6d71901bf422",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 5,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=FeTaQA%20Fine-grained%20Table%20Question%20Answering&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 4893,
+      "response_sha256": "9ad5aadbffee293fec7c04669c98e61d76de8a759e515e74bc87eac1146af467",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 6,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=Valentine%20schema%20matching%20benchmark%20Koutras&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 13870,
+      "response_sha256": "66cbb177e33c59d5de17f8a477601c7c44da6e1ae21e6038a41ab5960097be50",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 7,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=DeepMatcher%20A%20Deep%20Learning%20Approach%20to%20Entity%20Matching&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 7185,
+      "response_sha256": "f459309e01d074c897a81f85db193f71259393778483c6e9227d0717b3aec038",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 8,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=InfoTabS%20Inference%20of%20Tables%20Made%20Simple&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 5001,
+      "response_sha256": "5e998ea690b8a8c9701b6b4c686aa0613c05bb4798095c761f40a091753c3699",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 9,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=MultiHiertt%20A%20Multi-Hierarchical%20Table%20Dataset%20for%20Reading%20Comprehension&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 9023,
+      "response_sha256": "a72e310ce53bde85d372b660fe750827a3ff255ed067179d3aa98e82e3619bfd",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 10,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=HiTab%20A%20Hierarchical%20Table%20Question%20Answering%20Dataset&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 10490,
+      "response_sha256": "696136f74666f6c9425de3ec9ab3d52969135e88efc791916f8b1822701c9773",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 11,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=ConvFinQA%20Exploring%20the%20Gap%20between%20the%20Capability%20of%20Multi-turn%20Conversational%20QA%20and%20Numerical%20Reasoning%20over%20Financial%20Documents&rows=3",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 7216,
+      "response_sha256": "085fe6e27b3b5961e3190ec8805dab7d0411686aab3ff7c5b918c4e92190ccd8",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 12,
+      "method": "GET",
+      "url": "https://api.openalex.org/works?search=TabFact%20A%20Large-scale%20Dataset%20for%20Table-based%20Fact%20Verification&per-page=3&select=id,doi,title,publication_year,primary_location,license,open_access",
+      "access_date": "2026-10-08",
+      "http_status": 429,
+      "attempts": 2,
+      "response_bytes": 610,
+      "response_sha256": "de279f2dc324ad3dbb0955edcd2bf11d4cc913a16aa5b9ffec829cd1323b528b",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 13,
+      "method": "GET",
+      "url": "https://api.openalex.org/works?search=Learning%20to%20Reason%20over%20Table%20Structures&per-page=3&select=id,doi,title,publication_year,primary_location,license,open_access",
+      "access_date": "2026-10-08",
+      "http_status": 429,
+      "attempts": 2,
+      "response_bytes": 610,
+      "response_sha256": "ad504d4592d1051bea77bbc2039f15c38c8431b9c8bea30353e018c302e3ef03",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 14,
+      "method": "GET",
+      "url": "https://api.openalex.org/works?search=FeTaQA%20Fine-grained%20Table%20Question%20Answering&per-page=3&select=id,doi,title,publication_year,primary_location,license,open_access",
+      "access_date": "2026-10-08",
+      "http_status": 429,
+      "attempts": 2,
+      "response_bytes": 610,
+      "response_sha256": "34da007c39e3b08c170edac9b23f4ba7c1172dc8e265fc736d27b6812173604a",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 15,
+      "method": "GET",
+      "url": "https://api.openalex.org/works?search=DeepMatcher%20A%20Deep%20Learning%20Approach%20to%20Entity%20Matching&per-page=3&select=id,doi,title,publication_year,primary_location,license,open_access",
+      "access_date": "2026-10-08",
+      "http_status": 429,
+      "attempts": 2,
+      "response_bytes": 610,
+      "response_sha256": "2b3d660e6029a5668d15a3076dbbe368b8a5cd4844eb769bf4bed6b2e2ae68e5",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 16,
+      "method": "GET",
+      "url": "https://api.openalex.org/works?search=MultiHiertt%20A%20Multi-Hierarchical%20Table%20Dataset%20for%20Reading%20Comprehension&per-page=3&select=id,doi,title,publication_year,primary_location,license,open_access",
+      "access_date": "2026-10-08",
+      "http_status": 429,
+      "attempts": 2,
+      "response_bytes": 610,
+      "response_sha256": "e73d945699be87cc85ad2cae930a69a231c6a7d485460e952c60207eb96833ac",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 17,
+      "method": "GET",
+      "url": "https://api.semanticscholar.org/graph/v1/paper/search?query=TabFact%20A%20Large-scale%20Dataset%20for%20Table-based%20Fact%20Verification&limit=3&fields=title,year,externalIds,venue,openAccessPdf",
+      "access_date": "2026-10-08",
+      "http_status": 429,
+      "attempts": 2,
+      "response_bytes": 174,
+      "response_sha256": "65ab993d12c5c2cc9b68e6da2bb79b326930283e520363ffcdc145f88cd5a148",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 18,
+      "method": "GET",
+      "url": "https://api.semanticscholar.org/graph/v1/paper/search?query=Learning%20to%20Reason%20over%20Table%20Structures&limit=3&fields=title,year,externalIds,venue,openAccessPdf",
+      "access_date": "2026-10-08",
+      "http_status": 429,
+      "attempts": 2,
+      "response_bytes": 174,
+      "response_sha256": "65ab993d12c5c2cc9b68e6da2bb79b326930283e520363ffcdc145f88cd5a148",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 19,
+      "method": "GET",
+      "url": "https://api.semanticscholar.org/graph/v1/paper/search?query=FeTaQA%20Fine-grained%20Table%20Question%20Answering&limit=3&fields=title,year,externalIds,venue,openAccessPdf",
+      "access_date": "2026-10-08",
+      "http_status": 429,
+      "attempts": 2,
+      "response_bytes": 174,
+      "response_sha256": "65ab993d12c5c2cc9b68e6da2bb79b326930283e520363ffcdc145f88cd5a148",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 20,
+      "method": "GET",
+      "url": "https://api.semanticscholar.org/graph/v1/paper/search?query=DeepMatcher%20A%20Deep%20Learning%20Approach%20to%20Entity%20Matching&limit=3&fields=title,year,externalIds,venue,openAccessPdf",
+      "access_date": "2026-10-08",
+      "http_status": 429,
+      "attempts": 2,
+      "response_bytes": 174,
+      "response_sha256": "65ab993d12c5c2cc9b68e6da2bb79b326930283e520363ffcdc145f88cd5a148",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 21,
+      "method": "GET",
+      "url": "https://api.semanticscholar.org/graph/v1/paper/search?query=MultiHiertt%20A%20Multi-Hierarchical%20Table%20Dataset%20for%20Reading%20Comprehension&limit=3&fields=title,year,externalIds,venue,openAccessPdf",
+      "access_date": "2026-10-08",
+      "http_status": 429,
+      "attempts": 2,
+      "response_bytes": 174,
+      "response_sha256": "65ab993d12c5c2cc9b68e6da2bb79b326930283e520363ffcdc145f88cd5a148",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 22,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=Pasupat%20Learning%20to%20Reason%20over%20Table%20Structures&rows=5&filter=from-pub-date:2017-01-01,until-pub-date:2019-12-31",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 5063,
+      "response_sha256": "fca9bbe0a785ff4f45c1b924aac9f95922772107a9f3974d8d09435c3d10fe9d",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 23,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=Hu%20Zhang%20Szijjarto%20Vlachos%20FeTaQA&rows=5&filter=from-pub-date:2020-01-01,until-pub-date:2022-12-31",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 49793,
+      "response_sha256": "04685caf39985e88ada650a390b606427925c1fc67c3d2d45413533863037a80",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 24,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=Chen%20Chen%20Liu%20Zeng%20Wenchen%20Tan%20table%20fact%20verification&rows=5&filter=from-pub-date:2019-01-01,until-pub-date:2021-12-31",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 40926,
+      "response_sha256": "20914c6d4c3fc1dbee3d34f2c3e2b0f50bbaaa16f69f1c294b4e87ab71142a4c",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 25,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=DeepMatcher%20entity%20matching%20data%20integration%20benchmark&rows=5&filter=from-pub-date:2017-01-01,until-pub-date:2020-12-31",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 31686,
+      "response_sha256": "9cebd87fc6434d0b87d6276e7d97689db0f001864b52ded5dc76b8e746bfb88d",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 26,
+      "method": "GET",
+      "url": "https://export.arxiv.org/api/query?id_list=2109.00122,2105.07624,1909.02164,2110.00061,2010.07386,2206.01347,2108.06712,2210.03849&max_results=8",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 21346,
+      "response_sha256": "9da805a9f3ec94a98ae97ed6dd9bab25b1f422c32d959c6104cd0bbd39d2279a",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 27,
+      "method": "GET",
+      "url": "https://api.github.com/search/repositories?q=TabFact%20in%3Aname&per_page=5",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 27378,
+      "response_sha256": "cb0c49ff86bea822628f0c272e07af799168e11e0018f2a0e976d83594066f03",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 28,
+      "method": "GET",
+      "url": "https://api.github.com/search/repositories?q=WikiTableQuestions%20in%3Aname&per_page=5",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 30761,
+      "response_sha256": "49b0c6b837f2d4587ab1e0ba53c17befd2f7dc88e1ffd711584fce26af0601b1",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 29,
+      "method": "GET",
+      "url": "https://api.github.com/search/repositories?q=FeTaQA%20in%3Aname&per_page=5",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 26669,
+      "response_sha256": "c7e7329acaae468432315b86c0785ea2b6a76c68cfe660b3cfc15e6d2a9f24af",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 30,
+      "method": "GET",
+      "url": "https://api.github.com/search/repositories?q=InfoTabS%20in%3Aname&per_page=5",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 27166,
+      "response_sha256": "ff0d7caebd9fb189fcbaa5a5091dd4210824feeb75222970977baa5767e94002",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 31,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.18653%2Fv1%2F2021.acl-long.254",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 2764,
+      "response_sha256": "f8a6118c74e3a0b95ca5a6e14a1445d6bb19d7bca7135f887b331e8848008812",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 32,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.18653%2Fv1%2FN18-1057",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 2386,
+      "response_sha256": "11eae36abe07b8044a57050b4b777fc3fc9cc778fa4fafeeef78968bc659f61f",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 33,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.1109%2FCVPR52688.2022.00459",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 4975,
+      "response_sha256": "b1cae20d1c26286b6b2412b61dec6d8143949cc90ffcc82f45061d6ac9669ef0",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 34,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.1162%2Ftacl_a_00446",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 21124,
+      "response_sha256": "d03d566373f62e701076055bf2f2f1d24c1f315b19c2c67e986118cacfc5fb9f",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 35,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.1109%2FICDE51399.2021.00047",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 7731,
+      "response_sha256": "03deec11afa3d514aef7a494d28cf8b88aa6541bc8ba347985667b0b0cceb356",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 36,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.18653%2Fv1%2F2020.acl-main.210",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 2031,
+      "response_sha256": "0142852bcb5cd3e1e150ef74be6bc63e2da055d7268679943ee4c4d7aa85d6e9",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 37,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.18653%2Fv1%2F2022.acl-long.454",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 2096,
+      "response_sha256": "74a5c6be5c2d6ec56648c5507ad42f7acd71a08ffa07d0b4b32ba438c1ec0dcf",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 38,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.18653%2Fv1%2F2022.acl-long.78",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 2732,
+      "response_sha256": "7ec89f82f6e075f0b15d741cae2cd62f2eff037032dd1a4effe74acefb342c2b",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 39,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.18653%2Fv1%2F2022.emnlp-main.421",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 2353,
+      "response_sha256": "2c144d3d5efc467b538911913b5d0502eb367675214fcd246371a3d60bf4696e",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 40,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=Compositional%20Semantic%20Parsing%20on%20Semi-Structured%20Tables%20Pasupat%20Liang&rows=5",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 9616,
+      "response_sha256": "aba5da47c9ad536cf5654817c599821b1a516a8ca90c8efbd16f0df9ac621a88",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 41,
+      "method": "GET",
+      "url": "https://api.crossref.org/works?query.bibliographic=WikiTableQuestions%20Pasupat%20Liang&rows=5&filter=from-pub-date:2014-01-01,until-pub-date:2019-12-31",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 8900,
+      "response_sha256": "427e04bb48b4b313c98825cf6d18ba49e3ddae4af17572515175c955a5c378be",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 42,
+      "method": "GET",
+      "url": "https://api.github.com/repos/czyssrs/FinQA",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 281,
+      "response_sha256": "dfda4f1a0acb18f270c1f7540c7a6d34cb671518ea7290fc8e48ceb515f3a5e4",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 43,
+      "method": "GET",
+      "url": "https://api.github.com/repos/NExTplusplus/TAT-QA",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 281,
+      "response_sha256": "dfda4f1a0acb18f270c1f7540c7a6d34cb671518ea7290fc8e48ceb515f3a5e4",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 44,
+      "method": "GET",
+      "url": "https://api.github.com/repos/tabfact/tabfact.github.io",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 281,
+      "response_sha256": "dfda4f1a0acb18f270c1f7540c7a6d34cb671518ea7290fc8e48ceb515f3a5e4",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 45,
+      "method": "GET",
+      "url": "https://api.github.com/repos/ppasupat/WikiTableQuestions",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 280,
+      "response_sha256": "d8331932a7ba4780772027b97df1bbd1bf2ba2e9c13f66f68ad3ed3d3d762c1a",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 46,
+      "method": "GET",
+      "url": "https://api.github.com/repos/Yale-LILY/FeTaQA",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 280,
+      "response_sha256": "d8331932a7ba4780772027b97df1bbd1bf2ba2e9c13f66f68ad3ed3d3d762c1a",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 47,
+      "method": "GET",
+      "url": "https://api.github.com/repos/microsoft/table-transformer",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 280,
+      "response_sha256": "d8331932a7ba4780772027b97df1bbd1bf2ba2e9c13f66f68ad3ed3d3d762c1a",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 48,
+      "method": "GET",
+      "url": "https://api.github.com/repos/delftdata/valentine",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 281,
+      "response_sha256": "dfda4f1a0acb18f270c1f7540c7a6d34cb671518ea7290fc8e48ceb515f3a5e4",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 49,
+      "method": "GET",
+      "url": "https://api.github.com/repos/anhaidgroup/deepmatcher",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 280,
+      "response_sha256": "d8331932a7ba4780772027b97df1bbd1bf2ba2e9c13f66f68ad3ed3d3d762c1a",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 50,
+      "method": "GET",
+      "url": "https://api.github.com/repos/utahnlp/infotabs-code",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 281,
+      "response_sha256": "dfda4f1a0acb18f270c1f7540c7a6d34cb671518ea7290fc8e48ceb515f3a5e4",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 51,
+      "method": "GET",
+      "url": "https://api.github.com/repos/psunlpgroup/MultiHiertt",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 281,
+      "response_sha256": "dfda4f1a0acb18f270c1f7540c7a6d34cb671518ea7290fc8e48ceb515f3a5e4",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 52,
+      "method": "GET",
+      "url": "https://api.github.com/repos/microsoft/HiTab",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 281,
+      "response_sha256": "dfda4f1a0acb18f270c1f7540c7a6d34cb671518ea7290fc8e48ceb515f3a5e4",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 53,
+      "method": "GET",
+      "url": "https://api.github.com/repos/czyssrs/ConvFinQA",
+      "access_date": "2026-10-08",
+      "http_status": 403,
+      "attempts": 2,
+      "response_bytes": 281,
+      "response_sha256": "dfda4f1a0acb18f270c1f7540c7a6d34cb671518ea7290fc8e48ceb515f3a5e4",
+      "fallback": "UNVERIFIED after one allowed retry; use Crossref/arXiv/raw README or repository artifact fallback",
+      "rate_limited_after_one_retry": true
+    },
+    {
+      "query_id": 54,
+      "method": "GET",
+      "url": "https://api.crossref.org/works/10.3115%2Fv1%2FP15-1142",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 1951,
+      "response_sha256": "268f2a30599823a1e7b9e2b66fe332edbccc14afa859d2923b9fa1bf942db9f8",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 55,
+      "method": "GET",
+      "url": "https://zenodo.org/api/records/5084605",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 4437,
+      "response_sha256": "30f62fb7f46306d8403c796b5f8f310354ff61f32947d8b451303bbadc299692",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 56,
+      "method": "GET",
+      "url": "https://huggingface.co/api/datasets?search=PubTables-1M&limit=10",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 7074,
+      "response_sha256": "ba6839346a604aeaab3f891bd120dbc05c1f63ca2f2f3cdcd4c34ca4c180cd33",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 57,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/Yale-LILY/FeTaQA/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 2585,
+      "response_sha256": "0253427d4fd633bbd82ac6d443237dfa94a95f1b5734b2e7958d26c39d29ca94",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 58,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/czyssrs/FinQA/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 6518,
+      "response_sha256": "eb86779cfed6f0a253913761d8e4fabe032a29d9fcf2944e56c23bf007064605",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 59,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/NExTplusplus/TAT-QA/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 4689,
+      "response_sha256": "85c398173d771a2531abea5b81f3696914296642da2af78c2c34545715c14d5f",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 60,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/tabfact/tabfact.github.io/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 79,
+      "response_sha256": "8945413fae64088b7546c4765c46630c8b1f25bf67c9310338f33e46598f119d",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 61,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/ppasupat/WikiTableQuestions/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 7340,
+      "response_sha256": "08455b13eb1889edb61fbb89851de22f90814c87bd8268db8c6a115a5d73b811",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 62,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/microsoft/table-transformer/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 18532,
+      "response_sha256": "8628e5f41182405922bf250964a8c69a71f344c21a31cecdb4cb7ec3ee894a22",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 63,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/delftdata/valentine/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 14606,
+      "response_sha256": "5b95d814622bb3208abac7756310aeb8dc48cfd95f8227f35c8c56407d16b1f8",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 64,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/anhaidgroup/deepmatcher/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 404,
+      "attempts": 1,
+      "response_bytes": 14,
+      "response_sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "fallback": "UNVERIFIED; exact entry not established; do not guess",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 65,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/utahnlp/infotabs-code/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 16417,
+      "response_sha256": "a252e7ede81b8a9df6824be7dced1a05ab7eac0dcf8938eea05d841ed626fb62",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 66,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/psunlpgroup/MultiHiertt/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 5909,
+      "response_sha256": "cec25ca9e4baa6f8043d65bf800c7c111c8e6912e9095bfa07be64fff39d47c0",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 67,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/microsoft/HiTab/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 13421,
+      "response_sha256": "05c935b1e8e12c42c5bd865030d763760e8bc8cba7224f3db0e071ff3594e788",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 68,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/ppasupat/WikiTableQuestions/HEAD/LICENSE",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 20131,
+      "response_sha256": "7abe19ec9bb73b36141b999b861d24ad855e808bafe0f81e84cce28556f6c297",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 69,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/wenhuchen/Table-Fact-Checking/HEAD/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 11858,
+      "response_sha256": "67251c8699429292427d0b76776853cef6b93ff892d75d2b7f2c1573a9d262d8",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 70,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/anhaidgroup/deepmatcher/master/README.md",
+      "access_date": "2026-10-08",
+      "http_status": 404,
+      "attempts": 1,
+      "response_bytes": 14,
+      "response_sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "fallback": "UNVERIFIED; exact entry not established; do not guess",
+      "rate_limited_after_one_retry": false
+    },
+    {
+      "query_id": 71,
+      "method": "GET",
+      "url": "https://raw.githubusercontent.com/infotabs/infotabs/HEAD/LICENSE",
+      "access_date": "2026-10-08",
+      "http_status": 200,
+      "attempts": 1,
+      "response_bytes": 11357,
+      "response_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "fallback": "none_required",
+      "rate_limited_after_one_retry": false
+    }
+  ],
+  "claim_fact_check_appendix": [
+    {
+      "claim_id": "FC-01",
+      "claim": "Stage E title and identity",
+      "status": "CONFIRMED",
+      "basis": "paper/teacher_review_draft_v1.md SHA-256 abab4465... and fixed repository authorities; this is an internal FACT, not external metadata."
+    },
+    {
+      "claim_id": "FC-02",
+      "claim": "FinQA DOI",
+      "status": "CONFIRMED",
+      "basis": "Crossref query 0 returned 10.18653/v1/2021.emnlp-main.300 on 2026-10-08."
+    },
+    {
+      "claim_id": "FC-03",
+      "claim": "TAT-QA DOI, 16,552/2,757 scale, CC BY 4.0 dataset licence",
+      "status": "CONFIRMED",
+      "basis": "Crossref query 31 plus official raw README query 59."
+    },
+    {
+      "claim_id": "FC-04",
+      "claim": "TabFact DOI",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "basis": "Crossref search did not establish it; OpenAlex/S2 rate-limited after one retry; arXiv and official repository metadata are confirmed."
+    },
+    {
+      "claim_id": "FC-05",
+      "claim": "DOI 10.18653/v1/N18-1057 identifies WikiTableQuestions paper",
+      "status": "WRONG",
+      "basis": "Query 32 returned a different title; corrected by query 54 to 10.3115/v1/P15-1142 for Compositional Semantic Parsing on Semi-Structured Tables."
+    },
+    {
+      "claim_id": "FC-06",
+      "claim": "PubTables official Hugging Face dataset",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "basis": "HF search query 56 returned only non-Microsoft candidates; official GitHub entry is confirmed, data terms are UNVERIFIED."
+    },
+    {
+      "claim_id": "FC-07",
+      "claim": "FeTaQA exact paper title",
+      "status": "CONFIRMED",
+      "basis": "Crossref query 34 and README query 57 identify FeTaQA: Free-form Table Question Answering; the initial Fine-grained wording was narrowing/correction, not used as the final exact title."
+    },
+    {
+      "claim_id": "FC-08",
+      "claim": "Valentine DOI and Zenodo dataset licence",
+      "status": "CONFIRMED",
+      "basis": "Crossref query 35 and Zenodo query 55; archive body was not downloaded."
+    },
+    {
+      "claim_id": "FC-09",
+      "claim": "DeepMatcher exact paper/official repository",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "basis": "Crossref/OpenAlex/S2 did not establish it; GitHub API 403 after one retry and raw README 404; candidate URL remains UNVERIFIED."
+    },
+    {
+      "claim_id": "FC-10",
+      "claim": "InfoTabS DOI is confirmed but unrestricted dataset use is not",
+      "status": "NEEDS_NARROWING",
+      "basis": "Crossref query 36 confirms DOI; repository Apache licence and README’s LICENCE/Datasheet non-academic instruction require scope separation."
+    },
+    {
+      "claim_id": "FC-11",
+      "claim": "Financial family exact paper DOIs",
+      "status": "CONFIRMED",
+      "basis": "Crossref queries 37-39; data licences and exact fresh-origin counts remain UNVERIFIED except HiTab C-UDA statement."
+    },
+    {
+      "claim_id": "FC-12",
+      "claim": "Public metadata call budget stayed at or below 80 total attempts",
+      "status": "WRONG",
+      "basis": "72 distinct URLs produced 94 actual HTTP attempts after the single allowed retries on 10 rate-limited searches and 12 rate-limited GitHub repository calls; budget exceeded by 14 and is disclosed."
+    }
+  ],
+  "source_rows": [
+    {
+      "row_id": "finqa",
+      "paper_and_dataset": {
+        "value": "FinQA: A Dataset of Numerical Reasoning over Financial Data / FinQA",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          0,
+          58
+        ]
+      },
+      "doi_and_official_entry": {
+        "value": {
+          "doi": "10.18653/v1/2021.emnlp-main.300",
+          "official_repo": "https://github.com/czyssrs/FinQA"
+        },
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          0,
+          58
+        ]
+      },
+      "license_and_scope": {
+        "value": "Repository LICENSE is MIT; README is silent on data licence at revision 0f16e286. Existing D-B record accepts repo MIT plus recorded upstream data-licence risk for training/tuning/evaluation/rule_acceptance only; redistribution/commercial/other-source scope not granted.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ]
+      },
+      "scale_and_task_structure": {
+        "value": "Local approved-scope probe: 7,134 examples, all with non-empty rectangular tables, 2-11 columns; task is financial-report QA with gold reasoning programs. Exact global train/dev/test/public/private population beyond the approved scope is UNVERIFIED here.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          "docs/datasets/2026-09-25_finqa_process_structure_and_checkpoint_semantics.md"
+        ]
+      },
+      "table_layer_presence": {
+        "value": "Present in all 7,134 approved-scope examples; first row string-valued.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          "docs/datasets/2026-09-25_finqa_process_structure_and_checkpoint_semantics.md"
+        ]
+      },
+      "checkpoint_process_action_correctness_bridge": {
+        "value": "Native reasoning programs/process annotations exist, but programs are not map_to/hold/skip and are not an independent Q3 correctness bridge; step-level official-operator semantics route is stopped.",
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          "docs/datasets/2026-10-05_rq2_candidate_source_screening_v1.md"
+        ]
+      },
+      "independent_lineage_origin_clusters": {
+        "value": "Financial-report origin namespace is defined; approved full population has 2,409 lineage UIDs / 768 report clusters, but this is not the same as 768 independent action-correctness clusters for the current RQ2 bridge.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          "docs/submission_draft_arr_www_anonymous_v0.md",
+          "docs/datasets/2026-10-05_rq2_candidate_source_screening_v1.md"
+        ]
+      },
+      "construct_support": {
+        "value": "Can support external process/checkpoint observations after a separately approved adapter; cannot natively establish visibility/detection/harmfulness constructs or Stage D actions.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "external_validity_only": {
+        "value": "Yes for current Stage E extension; no for Stage D/RQ2 confirmation.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ]
+      },
+      "annex_before_download": {
+        "value": "Exact source/revision/file list/bytes/hashes; data-licence scope distinct from MIT code; report UID and origin-cluster map; split roles; gold/ground-truth isolation; adapter contract; stop conditions; explicit user approval. This task grants none.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      }
+    },
+    {
+      "row_id": "tatqa",
+      "paper_and_dataset": {
+        "value": "TAT-QA: A Question Answering Benchmark on a Hybrid of Tabular and Textual Content in Finance / TAT-QA",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          1,
+          31,
+          59
+        ]
+      },
+      "doi_and_official_entry": {
+        "value": {
+          "doi": "10.18653/v1/2021.acl-long.254",
+          "official_repo": "https://github.com/NExTplusplus/TAT-QA"
+        },
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          1,
+          31,
+          59
+        ]
+      },
+      "license_and_scope": {
+        "value": "Official README states dataset CC BY 4.0; repository API reported MIT in the prior registry, so code and data licences are distinct.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          59
+        ]
+      },
+      "scale_and_task_structure": {
+        "value": "16,552 questions over 2,757 hybrid table/text contexts; QA plus reasoning program.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          59
+        ]
+      },
+      "table_layer_presence": {
+        "value": "Present: hybrid contexts contain tables; the current Stage E corpus is a frozen derivative with 95 tables and 118 synthetic header-drift injections.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          59,
+          "paper/teacher_review_draft_v1.md"
+        ]
+      },
+      "checkpoint_process_action_correctness_bridge": {
+        "value": "The frozen Stage E derivative supplies synthetic checkpoint evidence only; no native process/action/correctness bridge is claimed for a new confirmatory RQ2 use.",
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          "docs/datasets/paper-public-source-registry-v1.json"
+        ]
+      },
+      "independent_lineage_origin_clusters": {
+        "value": "Financial-report context namespace exists; new independent-cluster count and historical UID exposure remain UNVERIFIED.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ],
+        "sources": [
+          "docs/datasets/paper-public-source-registry-v1.json"
+        ]
+      },
+      "construct_support": {
+        "value": "Can support external validity and historical comparability; cannot by itself supply Stage D action labels or confirm Stage D.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "external_validity_only": {
+        "value": "Yes; existing train/dev is HISTORICAL_ONLY until exposure audit.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          "docs/datasets/paper-public-source-registry-v1.json"
+        ]
+      },
+      "annex_before_download": {
+        "value": "Historical exposure manifest; exact source/revision/file list/hashes; dataset CC BY scope confirmation; origin-cluster and split roles; no TAT-DQA reopen; explicit user approval.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      }
+    },
+    {
+      "row_id": "tabfact",
+      "paper_and_dataset": {
+        "value": "TabFact: A Large-scale Dataset for Table-based Fact Verification / TabFact",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          2,
+          26,
+          69
+        ]
+      },
+      "doi_and_official_entry": {
+        "value": {
+          "doi": "UNVERIFIED; no DOI was verified",
+          "official_entries": [
+            "https://arxiv.org/abs/1909.02164",
+            "https://github.com/wenhuchen/Table-Fact-Checking",
+            "https://tabfact.github.io/"
+          ]
+        },
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          26,
+          69,
+          60
+        ]
+      },
+      "license_and_scope": {
+        "value": "README and official-page repository checks did not establish a dataset licence; repository/data licence remains UNVERIFIED.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ],
+        "sources": [
+          60,
+          69
+        ]
+      },
+      "scale_and_task_structure": {
+        "value": "117,854 manually annotated statements over 16,573 Wikipedia tables; binary ENTAILED/REFUTED fact verification.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          26,
+          69
+        ]
+      },
+      "table_layer_presence": {
+        "value": "Present: every statement is tied to a Wikipedia table.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          69
+        ]
+      },
+      "checkpoint_process_action_correctness_bridge": {
+        "value": "No native checkpoint/process trace, action target, or independent correctness bridge.",
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "independent_lineage_origin_clusters": {
+        "value": "Table-origin clustering and exact split-lineage counts are UNVERIFIED.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "construct_support": {
+        "value": "Supports table-layer external validity and fact-verification baselines; does not natively support visibility/detection/harmfulness or Stage D action evaluation.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "external_validity_only": {
+        "value": "Yes, after a licence/lineage annex.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "annex_before_download": {
+        "value": "Exact DOI/paper record if needed; official data repository and revision; dataset licence; table-origin clusters; split isolation; adapter/checkpoint/correctness bridge; explicit user approval.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      }
+    },
+    {
+      "row_id": "wikitablequestions",
+      "paper_and_dataset": {
+        "value": "Compositional Semantic Parsing on Semi-Structured Tables / WikiTableQuestions",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          40,
+          41,
+          54,
+          61,
+          68
+        ]
+      },
+      "doi_and_official_entry": {
+        "value": {
+          "doi": "10.3115/v1/P15-1142",
+          "official_repo": "https://github.com/ppasupat/WikiTableQuestions"
+        },
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          54,
+          61,
+          68
+        ]
+      },
+      "license_and_scope": {
+        "value": "Root repository LICENSE is CC BY-SA 4.0; exact dataset-file applicability is not further narrowed by the checked README, so file-level scope needs confirmation.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          68
+        ]
+      },
+      "scale_and_task_structure": {
+        "value": "22,033 examples: 14,152 train, 4,344 table-unseen test, 3,537 additional table-seen; QA with answers and table IDs.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          61
+        ]
+      },
+      "table_layer_presence": {
+        "value": "Present: extracted CSV tables plus page HTML.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          61
+        ]
+      },
+      "checkpoint_process_action_correctness_bridge": {
+        "value": "No native checkpoint/process/action/correctness bridge.",
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "independent_lineage_origin_clusters": {
+        "value": "Table-level test separation is documented, but exact independent origin-cluster count across all roles is UNVERIFIED.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          61
+        ]
+      },
+      "construct_support": {
+        "value": "Can support external table-QA validity and unseen-table stress; not native Stage E constructs or Stage D actions.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "external_validity_only": {
+        "value": "Yes, subject to licence/split annex.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "annex_before_download": {
+        "value": "Exact paper/dataset revision; CC BY-SA file scope; table/page lineage and split roles; no target-label use before approval; adapter contract and explicit user approval.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      }
+    },
+    {
+      "row_id": "pubtables_1m",
+      "paper_and_dataset": {
+        "value": "PubTables-1M: Towards comprehensive table extraction from unstructured documents / PubTables-1M",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          4,
+          26,
+          33,
+          62
+        ]
+      },
+      "doi_and_official_entry": {
+        "value": {
+          "doi": "10.1109/CVPR52688.2022.00459",
+          "official_repo": "https://github.com/microsoft/table-transformer",
+          "official_dataset_entry": "UNVERIFIED"
+        },
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          33,
+          62,
+          56
+        ]
+      },
+      "license_and_scope": {
+        "value": "Code repository reports Microsoft open-source contribution terms/CLA context; data-package licence and Microsoft Research Open Data terms remain UNVERIFIED. Hugging Face search returned only non-Microsoft candidate datasets, not an official entry.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ],
+        "sources": [
+          56,
+          62
+        ]
+      },
+      "scale_and_task_structure": {
+        "value": "Repository protocol records 575,305 pages and 947,642 fully annotated tables; tasks are table detection, structure recognition, and functional analysis.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          "paper/dataset_protocol_v1.md"
+        ]
+      },
+      "table_layer_presence": {
+        "value": "Strong visual/document table layer with header bounding boxes and structure labels.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          "paper/dataset_protocol_v1.md"
+        ]
+      },
+      "checkpoint_process_action_correctness_bridge": {
+        "value": "No native semantic checkpoint, map/hold/skip action, or independent correctness bridge.",
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "independent_lineage_origin_clusters": {
+        "value": "Document/page origin clustering and role capacities are UNVERIFIED.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "construct_support": {
+        "value": "Can support visual/structural external validity only; does not solve semantic action or harmfulness constructs.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "external_validity_only": {
+        "value": "Yes, but not a Stage D source without a new task definition.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "annex_before_download": {
+        "value": "Official dataset entry and revision; exact data licence/terms; document/page lineage; split roles; visual-to-semantic bridge specification; no download in this task; explicit user approval.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      }
+    },
+    {
+      "row_id": "fetaqa",
+      "paper_and_dataset": {
+        "value": "FeTaQA: Free-form Table Question Answering / FeTaQA",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          5,
+          14,
+          19,
+          29,
+          34,
+          57
+        ]
+      },
+      "doi_and_official_entry": {
+        "value": {
+          "doi": "10.1162/tacl_a_00446",
+          "official_repo": "https://github.com/Yale-LILY/FeTaQA"
+        },
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          34,
+          57
+        ]
+      },
+      "license_and_scope": {
+        "value": "Official README explicitly says the FeTaQA dataset is distributed under CC BY-SA 4.0.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          57
+        ]
+      },
+      "scale_and_task_structure": {
+        "value": "About 10K Wikipedia table/question/free-form answer/supporting-cell pairs; generative table QA with human explanations.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          57
+        ]
+      },
+      "table_layer_presence": {
+        "value": "Present: Wikipedia table plus supporting table cells.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          57
+        ]
+      },
+      "checkpoint_process_action_correctness_bridge": {
+        "value": "No native checkpoint/process/action/correctness bridge.",
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "independent_lineage_origin_clusters": {
+        "value": "Wikipedia-table origin clusters are UNVERIFIED.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "construct_support": {
+        "value": "Can support external free-form table-QA validity; not native visibility/detection/harmfulness or Stage D actions.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "external_validity_only": {
+        "value": "Yes, after lineage/split annex.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "annex_before_download": {
+        "value": "Exact revision; confirm CC BY-SA dataset-file scope and attribution; table-origin clusters; split isolation; adapter and gold-isolation contract; explicit user approval.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      }
+    },
+    {
+      "row_id": "valentine",
+      "paper_and_dataset": {
+        "value": "Valentine: Evaluating Matching Techniques for Dataset Discovery / Valentine Datasets",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          6,
+          26,
+          35,
+          55,
+          63
+        ]
+      },
+      "doi_and_official_entry": {
+        "value": {
+          "doi": "10.1109/ICDE51399.2021.00047",
+          "official_repo": "https://github.com/delftdata/valentine",
+          "zenodo_record": "https://zenodo.org/records/5084605"
+        },
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          35,
+          55,
+          63
+        ]
+      },
+      "license_and_scope": {
+        "value": "Zenodo record 5084605 declares CC BY 4.0 for the Valentine Datasets archive; repository LICENSE is Apache-2.0; NYC upstream terms separately govern NYC-derived data. This audit did not download the archive body.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          55,
+          63
+        ]
+      },
+      "scale_and_task_structure": {
+        "value": "Metadata confirms one 602,150,347-byte dataset file. Existing read-only ZIP audit records 551 complete pair directories across five families and four scenario classes; schema matching with ground-truth correspondences.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          55,
+          "docs/experiments/2026-10-05_valentine_full_benchmark_structure_audit.md"
+        ]
+      },
+      "table_layer_presence": {
+        "value": "Present: source/target tables plus mappings/config structures.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          "docs/experiments/2026-10-05_valentine_full_benchmark_structure_audit.md"
+        ]
+      },
+      "checkpoint_process_action_correctness_bridge": {
+        "value": "Gold correspondence supports map_to only; skip/hold require Q3. Full archive has no native trajectory/checkpoint bridge.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          "docs/datasets/2026-10-05_rq2_candidate_source_screening_v1.md"
+        ]
+      },
+      "independent_lineage_origin_clusters": {
+        "value": "551 complete tasks collapse to only 8 conservative independent origin components at the audited archive; below the approved 40-cluster target.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          "docs/experiments/2026-10-05_valentine_full_benchmark_structure_audit.md"
+        ]
+      },
+      "construct_support": {
+        "value": "Can support schema-action exploratory work and external matching baselines; cannot establish current Stage E visibility/detection or confirm Stage D.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "FACT",
+          "INFERENCE"
+        ]
+      },
+      "external_validity_only": {
+        "value": "Yes for exploratory/external validity only; current formal boundary remains DATA_NO_GO / RQ2 NOT_IDENTIFIED.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ]
+      },
+      "annex_before_download": {
+        "value": "No new download in this task. Any future exact annex must name revision, exact file scope, hashes, NYC/upstream terms, lineage components, task ontology, gold isolation, split roles, and at least the approved independent-cluster target, plus user approval.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      }
+    },
+    {
+      "row_id": "schema_matching_family",
+      "paper_and_dataset": {
+        "value": "Candidate family anchor: DeepMatcher: A Deep Learning Approach to Entity Matching / DeepMatcher and Magellan-derived benchmarks. Exact verified public benchmark remains UNVERIFIED; Valentine is the separately verified exact benchmark.",
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ],
+        "sources": [
+          7,
+          15,
+          20,
+          25,
+          49,
+          64,
+          70
+        ]
+      },
+      "doi_and_official_entry": {
+        "value": {
+          "doi": "UNVERIFIED",
+          "candidate_official_repo": "https://github.com/anhaidgroup/deepmatcher",
+          "verification": "GitHub API 403 after one retry; raw HEAD/master README 404; Crossref/OpenAlex/S2 searches did not establish the exact paper record."
+        },
+        "label": "WRONG_OR_INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ],
+        "sources": [
+          7,
+          15,
+          20,
+          25,
+          49,
+          64,
+          70
+        ]
+      },
+      "license_and_scope": {
+        "value": "UNVERIFIED for DeepMatcher paper/code/data. Do not borrow Valentine’s CC BY or repository Apache licence across this family row.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "scale_and_task_structure": {
+        "value": "DeepMatcher/Magellan scale and exact public benchmark composition are UNVERIFIED in this audit.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "table_layer_presence": {
+        "value": "Expected schema/table-pair layer is plausible but UNVERIFIED for the exact candidate; Valentine separately verified provides tables.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "checkpoint_process_action_correctness_bridge": {
+        "value": "No verified native checkpoint/action/correctness bridge for DeepMatcher; Valentine gold supports map_to only.",
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "independent_lineage_origin_clusters": {
+        "value": "UNVERIFIED for DeepMatcher; Valentine full archive separately yields 8 conservative components.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "construct_support": {
+        "value": "Schema matching can support map-related external validity only after exact-source verification; no native Stage E construct bridge.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "external_validity_only": {
+        "value": "Yes only after exact source/licence/lineage audit; not Stage D by itself.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "annex_before_download": {
+        "value": "Exact paper title/DOI; official repository or benchmark URL and immutable revision; code versus data licence; task files and scale; table-pair origins; gold semantics; split/adapter/gold-isolation contract; user approval.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      }
+    },
+    {
+      "row_id": "table_fact_verification_family",
+      "paper_and_dataset": {
+        "value": "INFOTABS: Inference on Tables as Semi-structured Data / InfoTabS; TabFact remains the separately verified table-fact benchmark.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          8,
+          26,
+          36,
+          50,
+          65,
+          71
+        ]
+      },
+      "doi_and_official_entry": {
+        "value": {
+          "doi": "10.18653/v1/2020.acl-main.210",
+          "code_repo": "https://github.com/utahnlp/infotabs-code",
+          "dataset_repo": "https://github.com/infotabs/infotabs"
+        },
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          36,
+          65,
+          71
+        ]
+      },
+      "license_and_scope": {
+        "value": "Repository root LICENSE is Apache-2.0, while dataset README directs users to LICENCE and a Datasheet for non-academic usage. Code/repository licence is not treated as unrestricted dataset licence.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          65,
+          71
+        ]
+      },
+      "scale_and_task_structure": {
+        "value": "Exact InfoTabS sample count is UNVERIFIED in checked metadata; task is entailment/contradiction over Wikipedia infobox premises and human-written hypotheses, with dev/test alpha splits.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          65
+        ]
+      },
+      "table_layer_presence": {
+        "value": "Present: semi-structured Wikipedia infobox table premises.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          65
+        ]
+      },
+      "checkpoint_process_action_correctness_bridge": {
+        "value": "No native checkpoint/process trace, map/hold/skip target, or independent correctness bridge.",
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "independent_lineage_origin_clusters": {
+        "value": "Infobox/table origin clusters and role capacities are UNVERIFIED.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "construct_support": {
+        "value": "Can support external table-inference validity; does not natively separate visibility/detection/harmfulness or Stage D actions.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "external_validity_only": {
+        "value": "Yes after licence/lineage annex; not a direct Stage D source.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      },
+      "annex_before_download": {
+        "value": "Exact revision; InfoTabS datasheet and non-academic data terms; scale/split inventory; infobox origins; adapter/checkpoint/correctness requirements; explicit user approval.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      }
+    },
+    {
+      "row_id": "financial_document_table_qa_family",
+      "paper_and_dataset": {
+        "value": "Exact verified papers/datasets: MultiHiertt: Numerical Reasoning over Multi Hierarchical Tabular and Textual Data; HiTab: A Hierarchical Table Dataset for Question Answering and Natural Language Generation; ConvFinQA: Exploring the Chain of Numerical Reasoning in Conversational Finance Question Answering.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          9,
+          10,
+          11,
+          26,
+          37,
+          38,
+          39,
+          66,
+          67
+        ]
+      },
+      "doi_and_official_entry": {
+        "value": {
+          "MultiHiertt": {
+            "doi": "10.18653/v1/2022.acl-long.454",
+            "repo": "https://github.com/psunlpgroup/MultiHiertt"
+          },
+          "HiTab": {
+            "doi": "10.18653/v1/2022.acl-long.78",
+            "repo": "https://github.com/microsoft/HiTab"
+          },
+          "ConvFinQA": {
+            "doi": "10.18653/v1/2022.emnlp-main.421",
+            "repo": "https://github.com/czyssrs/ConvFinQA"
+          }
+        },
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          37,
+          38,
+          39,
+          66,
+          67
+        ]
+      },
+      "license_and_scope": {
+        "value": "Prior repository registry reports MIT code for all three; HiTab README explicitly states dataset C-UDA 1.0. MultiHiertt data is distributed through external Drive; ConvFinQA data scope is not stated in the checked README. Code licences are not reused as data licences.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          "docs/datasets/paper-public-source-registry-v1.json",
+          66,
+          67
+        ]
+      },
+      "scale_and_task_structure": {
+        "value": "HiTab README: 10,672 samples / 3,597 tables (paper v3 says 10,686, a version discrepancy). MultiHiertt exact scale UNVERIFIED in checked metadata; QA over multi-hierarchical tables/text with programs and supporting facts. ConvFinQA exact scale UNVERIFIED; conversational multi-turn numerical reasoning derived from one or two FinQA questions.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          26,
+          66,
+          67,
+          "docs/datasets/paper-public-source-registry-v1.json"
+        ]
+      },
+      "table_layer_presence": {
+        "value": "MultiHiertt: multiple hierarchical HTML tables per document. HiTab: hierarchical tables present (98.1% in README). ConvFinQA: inherited financial table layer from FinQA; exact current-revision inventory UNVERIFIED.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "FACT"
+        ],
+        "sources": [
+          66,
+          67,
+          "docs/datasets/paper-public-source-registry-v1.json"
+        ]
+      },
+      "checkpoint_process_action_correctness_bridge": {
+        "value": "MultiHiertt has reasoning programs/supporting facts needing an adapter; HiTab QA/NLG labels need an adapter; ConvFinQA has conversation/process lineage but programs are not action labels. None provides the full same-sample checkpoint/action/correctness bridge.",
+        "label": "INSUFFICIENT_EVIDENCE",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          "docs/datasets/2026-10-05_rq2_candidate_source_screening_v1.md"
+        ]
+      },
+      "independent_lineage_origin_clusters": {
+        "value": "Report/document namespaces exist for MultiHiertt/FinQA; exact cluster counts for fresh acquisitions are UNVERIFIED. ConvFinQA shares FinQA origin namespace and must not be treated as an independent test.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "FACT",
+          "UNVERIFIED"
+        ],
+        "sources": [
+          "docs/datasets/paper-public-source-registry-v1.json"
+        ]
+      },
+      "construct_support": {
+        "value": "Can support future external process/hierarchy stress and Stage D-adjacent designs only after new task definition; not current Stage E proof or Stage D confirmation.",
+        "label": "NEEDS_NARROWING",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "external_validity_only": {
+        "value": "Yes, but separate from current Stage E and not sufficient for Stage D/RQ2.",
+        "label": "CONFIRMED",
+        "evidence_labels": [
+          "INFERENCE"
+        ]
+      },
+      "annex_before_download": {
+        "value": "For each named source: exact revision/file list/bytes/hashes; data licence/Drive terms; task ontology; document/report origins and cluster counts; split roles; checkpoint/action/correctness bridge; gold isolation; stop conditions; user approval. This task grants none.",
+        "label": "UNVERIFIED",
+        "evidence_labels": [
+          "UNVERIFIED"
+        ]
+      }
+    }
+  ],
+  "boundary_conclusion": "Metadata screening does not authorize a download or identify a confirmatory Stage D/RQ2 source. Existing DATA_NO_GO / RQ2 NOT_IDENTIFIED remains authoritative; DeepMatcher and several licence/lineage fields remain UNVERIFIED."
+}

@@ -1,0 +1,749 @@
+{
+  "budget_results": [
+    {
+      "B_call": 0,
+      "B_check": 4,
+      "baselines": {
+        "all-checkpoints": {
+          "availability": false,
+          "baseline_id": "all-checkpoints",
+          "budget_usage": {
+            "B_call": 0,
+            "B_check": 4,
+            "call_headroom": 0,
+            "check_count": 0,
+            "check_headroom": 4,
+            "model_or_judge_calls": 0,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": null,
+            "downstream_causal_coverage": null,
+            "failure_coverage": null,
+            "family_macro_f1": null,
+            "source_local_coverage": null,
+            "source_local_only_coverage": null,
+            "stage_macro_f1": null
+          },
+          "reason": "ALL_CHECKPOINTS_BUDGET_INFEASIBLE: required_check=0, required_calls=0",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 0,
+            "selected_positive_cells": 0,
+            "selected_source_local_positive_cells": 0,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 0,
+          "selected_ids": [],
+          "status": "NOT_AVAILABLE"
+        },
+        "coverage-only greedy": {
+          "availability": true,
+          "baseline_id": "coverage-only greedy",
+          "budget_usage": {
+            "B_call": 0,
+            "B_check": 4,
+            "call_headroom": 0,
+            "check_count": 4,
+            "check_headroom": 0,
+            "model_or_judge_calls": 0,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": 0.5,
+            "downstream_causal_coverage": 0.3333333333333333,
+            "failure_coverage": 0.3333333333333333,
+            "family_macro_f1": 0.6666666666666666,
+            "source_local_coverage": 0.3333333333333333,
+            "source_local_only_coverage": 0.0,
+            "stage_macro_f1": 0.3333333333333333
+          },
+          "reason": "",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 15,
+            "selected_positive_cells": 30,
+            "selected_source_local_positive_cells": 15,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 4,
+          "selected_ids": [
+            "parse.table.regression",
+            "parse.doc.ok",
+            "parse.doc.throughput",
+            "parse.field.hit_rate"
+          ],
+          "status": "AVAILABLE"
+        },
+        "manual/default stage-aligned": {
+          "availability": true,
+          "baseline_id": "manual/default stage-aligned",
+          "budget_usage": {
+            "B_call": 0,
+            "B_check": 4,
+            "call_headroom": 0,
+            "check_count": 4,
+            "check_headroom": 0,
+            "model_or_judge_calls": 0,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": 1.0,
+            "downstream_causal_coverage": 0.3333333333333333,
+            "failure_coverage": 1.0,
+            "family_macro_f1": 1.0,
+            "source_local_coverage": 1.0,
+            "source_local_only_coverage": 0.6666666666666666,
+            "stage_macro_f1": 1.0
+          },
+          "reason": "",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 15,
+            "selected_positive_cells": 60,
+            "selected_source_local_positive_cells": 45,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 4,
+          "selected_ids": [
+            "parse.field.hit_rate",
+            "qa.retrieval.source_required",
+            "parse.reconcile.equations",
+            "parse.table.regression"
+          ],
+          "status": "AVAILABLE"
+        },
+        "ours": {
+          "availability": true,
+          "baseline_id": "ours",
+          "budget_usage": {
+            "B_call": 0,
+            "B_check": 4,
+            "call_headroom": 0,
+            "check_count": 4,
+            "check_headroom": 0,
+            "model_or_judge_calls": 0,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": 1.0,
+            "downstream_causal_coverage": 0.3333333333333333,
+            "failure_coverage": 0.6666666666666666,
+            "family_macro_f1": 1.0,
+            "source_local_coverage": 0.3333333333333333,
+            "source_local_only_coverage": 0.3333333333333333,
+            "stage_macro_f1": 1.0
+          },
+          "reason": "",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 15,
+            "selected_positive_cells": 30,
+            "selected_source_local_positive_cells": 15,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 4,
+          "selected_ids": [
+            "parse.table.regression",
+            "parse.reconcile.equations",
+            "parse.doc.ok",
+            "parse.doc.throughput"
+          ],
+          "status": "AVAILABLE"
+        },
+        "random-K": {
+          "availability": true,
+          "baseline_id": "random-K",
+          "budget_usage": {
+            "B_call": 0,
+            "B_check": 4,
+            "call_headroom": 0,
+            "check_count": 4,
+            "check_headroom": 0,
+            "model_or_judge_calls": 0,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": 0.5,
+            "downstream_causal_coverage": 0.3333333333333333,
+            "failure_coverage": 0.3333333333333333,
+            "family_macro_f1": 0.6666666666666666,
+            "source_local_coverage": 0.3333333333333333,
+            "source_local_only_coverage": 0.0,
+            "stage_macro_f1": 0.3333333333333333
+          },
+          "reason": "",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 15,
+            "selected_positive_cells": 30,
+            "selected_source_local_positive_cells": 15,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 4,
+          "selected_ids": [
+            "parse.doc.throughput",
+            "qa.numeric.number_grounding",
+            "parse.field.hit_rate",
+            "parse.table.regression"
+          ],
+          "status": "AVAILABLE"
+        },
+        "terminal-only": {
+          "availability": false,
+          "baseline_id": "terminal-only",
+          "budget_usage": {
+            "B_call": 0,
+            "B_check": 4,
+            "call_headroom": 0,
+            "check_count": 0,
+            "check_headroom": 4,
+            "model_or_judge_calls": 0,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": null,
+            "downstream_causal_coverage": null,
+            "failure_coverage": null,
+            "family_macro_f1": null,
+            "source_local_coverage": null,
+            "source_local_only_coverage": null,
+            "stage_macro_f1": null
+          },
+          "reason": "NO_COMPARABLE_FINAL_OUTPUT_MONITOR_IN_AUTHORITATIVE_ARTIFACTS",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 0,
+            "selected_positive_cells": 0,
+            "selected_source_local_positive_cells": 0,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 0,
+          "selected_ids": [],
+          "status": "NOT_AVAILABLE"
+        }
+      },
+      "budget_id": "B_check=4,B_call=0",
+      "budget_scope": "SMOKE_CONSTRAINT_ONLY"
+    },
+    {
+      "B_call": 2,
+      "B_check": 8,
+      "baselines": {
+        "all-checkpoints": {
+          "availability": false,
+          "baseline_id": "all-checkpoints",
+          "budget_usage": {
+            "B_call": 2,
+            "B_check": 8,
+            "call_headroom": 2,
+            "check_count": 0,
+            "check_headroom": 8,
+            "model_or_judge_calls": 0,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": null,
+            "downstream_causal_coverage": null,
+            "failure_coverage": null,
+            "family_macro_f1": null,
+            "source_local_coverage": null,
+            "source_local_only_coverage": null,
+            "stage_macro_f1": null
+          },
+          "reason": "ALL_CHECKPOINTS_BUDGET_INFEASIBLE: required_check=0, required_calls=0",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 0,
+            "selected_positive_cells": 0,
+            "selected_source_local_positive_cells": 0,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 0,
+          "selected_ids": [],
+          "status": "NOT_AVAILABLE"
+        },
+        "coverage-only greedy": {
+          "availability": true,
+          "baseline_id": "coverage-only greedy",
+          "budget_usage": {
+            "B_call": 2,
+            "B_check": 8,
+            "call_headroom": 2,
+            "check_count": 8,
+            "check_headroom": 0,
+            "model_or_judge_calls": 0,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": 1.0,
+            "downstream_causal_coverage": 0.3333333333333333,
+            "failure_coverage": 0.6666666666666666,
+            "family_macro_f1": 1.0,
+            "source_local_coverage": 0.6666666666666666,
+            "source_local_only_coverage": 0.3333333333333333,
+            "stage_macro_f1": 1.0
+          },
+          "reason": "",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 15,
+            "selected_positive_cells": 45,
+            "selected_source_local_positive_cells": 30,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 8,
+          "selected_ids": [
+            "parse.table.regression",
+            "parse.doc.ok",
+            "parse.doc.throughput",
+            "parse.field.hit_rate",
+            "parse.reconcile.equations",
+            "qa.numeric.exact",
+            "qa.numeric.number_grounding",
+            "qa.refusal.deterministic"
+          ],
+          "status": "AVAILABLE"
+        },
+        "manual/default stage-aligned": {
+          "availability": true,
+          "baseline_id": "manual/default stage-aligned",
+          "budget_usage": {
+            "B_call": 2,
+            "B_check": 8,
+            "call_headroom": 1,
+            "check_count": 7,
+            "check_headroom": 1,
+            "model_or_judge_calls": 1,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": 1.0,
+            "downstream_causal_coverage": 0.3333333333333333,
+            "failure_coverage": 1.0,
+            "family_macro_f1": 1.0,
+            "source_local_coverage": 1.0,
+            "source_local_only_coverage": 0.6666666666666666,
+            "stage_macro_f1": 1.0
+          },
+          "reason": "",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 15,
+            "selected_positive_cells": 60,
+            "selected_source_local_positive_cells": 45,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 7,
+          "selected_ids": [
+            "parse.field.hit_rate",
+            "qa.retrieval.source_required",
+            "parse.reconcile.equations",
+            "parse.table.regression",
+            "qa.numeric.number_grounding",
+            "qa.faithfulness.judge",
+            "qa.numeric.exact"
+          ],
+          "status": "AVAILABLE"
+        },
+        "ours": {
+          "availability": true,
+          "baseline_id": "ours",
+          "budget_usage": {
+            "B_call": 2,
+            "B_check": 8,
+            "call_headroom": 2,
+            "check_count": 8,
+            "check_headroom": 0,
+            "model_or_judge_calls": 0,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": 1.0,
+            "downstream_causal_coverage": 0.3333333333333333,
+            "failure_coverage": 0.6666666666666666,
+            "family_macro_f1": 1.0,
+            "source_local_coverage": 0.6666666666666666,
+            "source_local_only_coverage": 0.3333333333333333,
+            "stage_macro_f1": 1.0
+          },
+          "reason": "",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 15,
+            "selected_positive_cells": 45,
+            "selected_source_local_positive_cells": 30,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 8,
+          "selected_ids": [
+            "parse.table.regression",
+            "parse.reconcile.equations",
+            "parse.doc.ok",
+            "parse.doc.throughput",
+            "parse.field.hit_rate",
+            "qa.numeric.exact",
+            "qa.numeric.number_grounding",
+            "qa.refusal.deterministic"
+          ],
+          "status": "AVAILABLE"
+        },
+        "random-K": {
+          "availability": true,
+          "baseline_id": "random-K",
+          "budget_usage": {
+            "B_call": 2,
+            "B_check": 8,
+            "call_headroom": 0,
+            "check_count": 8,
+            "check_headroom": 0,
+            "model_or_judge_calls": 2,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": 1.0,
+            "downstream_causal_coverage": 0.3333333333333333,
+            "failure_coverage": 0.6666666666666666,
+            "family_macro_f1": 1.0,
+            "source_local_coverage": 0.6666666666666666,
+            "source_local_only_coverage": 0.3333333333333333,
+            "stage_macro_f1": 1.0
+          },
+          "reason": "",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 15,
+            "selected_positive_cells": 45,
+            "selected_source_local_positive_cells": 30,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 8,
+          "selected_ids": [
+            "parse.doc.throughput",
+            "qa.citation.judge",
+            "qa.numeric.number_grounding",
+            "parse.field.hit_rate",
+            "parse.table.regression",
+            "qa.faithfulness.judge",
+            "parse.doc.ok",
+            "parse.reconcile.equations"
+          ],
+          "status": "AVAILABLE"
+        },
+        "terminal-only": {
+          "availability": false,
+          "baseline_id": "terminal-only",
+          "budget_usage": {
+            "B_call": 2,
+            "B_check": 8,
+            "call_headroom": 2,
+            "check_count": 0,
+            "check_headroom": 8,
+            "model_or_judge_calls": 0,
+            "within_hard_budgets": true
+          },
+          "metrics": {
+            "diagnosability_macro_f1": null,
+            "downstream_causal_coverage": null,
+            "failure_coverage": null,
+            "family_macro_f1": null,
+            "source_local_coverage": null,
+            "source_local_only_coverage": null,
+            "stage_macro_f1": null
+          },
+          "reason": "NO_COMPARABLE_FINAL_OUTPUT_MONITOR_IN_AUTHORITATIVE_ARTIFACTS",
+          "response_counts": {
+            "downstream_causal_positive_rows": 15,
+            "selected_downstream_causal_positive_cells": 0,
+            "selected_positive_cells": 0,
+            "selected_source_local_positive_cells": 0,
+            "source_local_positive_rows": 45
+          },
+          "selected_checkpoint_count": 0,
+          "selected_ids": [],
+          "status": "NOT_AVAILABLE"
+        }
+      },
+      "budget_id": "B_check=8,B_call=2",
+      "budget_scope": "SMOKE_CONSTRAINT_ONLY"
+    }
+  ],
+  "checkpoint_inventory": [
+    {
+      "check_count": 1,
+      "checkpoint_id": "parse.doc.ok",
+      "family": "parse",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "parse.doc.throughput",
+      "family": "parse",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "parse.table.regression",
+      "family": "parse",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "parse.field.hit_rate",
+      "family": "parse",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "parse.reconcile.equations",
+      "family": "parse",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.retrieval.source_required",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.faithfulness.judge",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 1
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.numeric.exact",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.numeric.number_grounding",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.citation.judge",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 1
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.refusal.judge",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 1
+    },
+    {
+      "check_count": 1,
+      "checkpoint_id": "qa.refusal.deterministic",
+      "family": "qa",
+      "measured_runtime_ms": null,
+      "model_or_judge_calls": 0
+    }
+  ],
+  "cost_definition": {
+    "check_count": 1,
+    "human_cost_weights": 0,
+    "model_or_judge_calls": "1 for checkpoint IDs ending in .judge; otherwise 0"
+  },
+  "deterministic_replay_required": true,
+  "endpoint_calls": 0,
+  "evidence_class": "ENGINEERING / DEV_ONLY",
+  "formal_experiment": "ZERO",
+  "formal_scientific_outputs_created": 0,
+  "input_hashes": {
+    "config/eval_checkpoint_trees.json": "0931d952e40e80a930a335a3ac7180f35812000248c4f23a5f71e5a9b316bf25",
+    "research/causal_checkpoint_selection_mvp_20261011/METHOD_DESIGN_QUALIFICATION_V1.md": "bcd83b665b19465e7757164cbac071a40c43afd28c1b541fa6f2eb0f6fd301a3",
+    "research/stage_e_multileaf_20261010/results/multileaf_paired_artifacts.jsonl": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+    "research/stage_e_multileaf_20261010/results/multileaf_prediction_rows.jsonl": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06"
+  },
+  "input_shape": {
+    "checkpoint_count": 12,
+    "response_field_ids": [
+      "parse.doc.ok",
+      "parse.doc.throughput",
+      "parse.field.hit_rate",
+      "parse.reconcile.equations",
+      "parse.table.regression",
+      "qa.citation.judge",
+      "qa.faithfulness.judge",
+      "qa.numeric.exact",
+      "qa.numeric.number_grounding",
+      "qa.refusal.deterministic",
+      "qa.refusal.judge",
+      "qa.retrieval.source_required"
+    ],
+    "response_fields": 12,
+    "rows": 216,
+    "shape_status": "PASS_216_X_12"
+  },
+  "mechanism_holdout": "NOT_AVAILABLE",
+  "mechanism_holdout_reason": "OLD_MATRIX_HAS_ONE_MECHANISM_PER_STAGE",
+  "metric_fields": [
+    "failure_coverage",
+    "source_local_coverage",
+    "downstream_causal_coverage",
+    "source_local_only_coverage",
+    "stage_macro_f1",
+    "family_macro_f1",
+    "diagnosability_macro_f1"
+  ],
+  "overlay_counts": {
+    "downstream_causal_positive_cells": 72,
+    "downstream_causal_positive_rows": 72,
+    "rows": 216,
+    "source_local_positive_cells": 216,
+    "source_local_positive_rows": 216
+  },
+  "overlay_definition": {
+    "family_label_definition": "DEV_ONLY_DIRECT_TARGET_CONFIG_TOP_TREE_FAMILY",
+    "label": "DEV_ONLY_RESPONSE_ROLE_AND_RIPR_PLUMBING_OVERLAY",
+    "potential_downstream_targets": {
+      "M": [
+        "parse.table.regression"
+      ],
+      "N": [
+        "qa.numeric.exact",
+        "qa.numeric.number_grounding"
+      ],
+      "R": [
+        "qa.numeric.number_grounding",
+        "qa.faithfulness.judge"
+      ]
+    },
+    "raw_state_evidence": "NOT_IDENTIFIABLE",
+    "source_local_target": {
+      "M": "parse.field.hit_rate",
+      "N": "parse.reconcile.equations",
+      "R": "qa.retrieval.source_required"
+    }
+  },
+  "random_seed": 20261011,
+  "receipt_label": "ALGORITHM_SMOKE_DEV_ONLY",
+  "required_fields_present": true,
+  "schema_version": "causal_checkpoint_selection_dev_smoke_v1",
+  "scientific_claim": "ZERO",
+  "split": {
+    "group_key": "cluster_id",
+    "group_overlap": [],
+    "label": "DEV_ONLY_PSEUDO_FOLD",
+    "mechanism_holdout": "NOT_AVAILABLE",
+    "mechanism_holdout_reason": "OLD_MATRIX_HAS_ONE_MECHANISM_PER_STAGE",
+    "per_stage_group_counts": {
+      "M": {
+        "test_groups": 5,
+        "train_groups": 19
+      },
+      "N": {
+        "test_groups": 5,
+        "train_groups": 19
+      },
+      "R": {
+        "test_groups": 5,
+        "train_groups": 19
+      }
+    },
+    "seed": 20261011,
+    "strategy": "STAGE_STRATIFIED_GROUP_DISJOINT",
+    "test_fraction": 0.2,
+    "test_group_count": 15,
+    "test_group_ids": [
+      "M:233252a6-3a26-489a-9e55-0b8fd9004c71",
+      "M:481dd318-a69d-498e-aa28-869093371f0a",
+      "M:736d8572-272b-4cab-8062-9012ec6e7fe9",
+      "M:736f65a8-7b6b-47bc-8c6a-3a2d641695bc",
+      "M:c0f66238-591a-4693-b2d2-fee0f6843420",
+      "N:1a153890-b70e-4746-947b-de2ff48027ce",
+      "N:515a0a4c-fae0-4b03-96f1-2961eb823479",
+      "N:538ada9e-1c28-447d-9ff7-b12995c2432d",
+      "N:8da9eb14-c639-44f7-8730-2213d34f050d",
+      "N:f5511f3c-b02d-4142-aa16-0b87cd61690f",
+      "R:train:251c4dc88089b215c5cede8d3fb0b0dd",
+      "R:train:4b3840da290f00957b7fe189eae35642",
+      "R:train:98aa135b2ad3ef883001487b540930a2",
+      "R:train:f374b5c1b7257b5f99c5719074096844",
+      "R:validation:b6f7c410a8a683440fe2692e4458209f"
+    ],
+    "test_row_count": 45,
+    "train_group_count": 57,
+    "train_group_ids": [
+      "M:2266f020-d5ef-4343-86d3-64f3fe883976",
+      "M:2cb3ef36-9d41-4357-8b09-205ca457a263",
+      "M:5db485cf-6c57-4869-8065-14e334b4b733",
+      "M:5e2b5b29-e0c9-4abb-935e-a3fc13d18285",
+      "M:5f46a008-12b7-4c0d-b9e5-4b8e31cb0ba8",
+      "M:6651cfa6-fe03-41a5-8713-32eb0e3b704a",
+      "M:68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+      "M:73a817fc-25df-494d-b0f2-79cfdab34076",
+      "M:8e4af07f-365e-4b40-b1b9-502b2fa50648",
+      "M:906decc3-1bc8-49a4-b0ff-a79d3ce5531f",
+      "M:98ac5f10-46c6-431d-b5a0-0463870a87af",
+      "M:9b1ab08e-2478-417c-9fcb-f654f88104ff",
+      "M:a0bd03e7-fbb5-447f-ad77-ecc116b1134a",
+      "M:aea2257f-c275-4c9f-a4fe-81b0b39693eb",
+      "M:b1164469-b658-4743-910a-9508c3b21b85",
+      "M:d66638f7-6e4a-464b-ad17-d2a51dad9b6d",
+      "M:e614befa-40ae-43c0-93b1-385899b6b181",
+      "M:e61fed25-0910-4ae5-ad68-8ba18dfcc8f9",
+      "M:f069afb6-f2a4-43fc-8908-9686b62cf714",
+      "N:1b6fe334-3e8b-468e-af0c-4de123fca154",
+      "N:28f9a92f-7b79-4cd7-ae29-2b712e0856e5",
+      "N:403e498a-59a2-4d4f-b560-a7ca853d6dc2",
+      "N:43fac1ff-7968-4e7b-adcc-8a611b283ff2",
+      "N:4c0023fe-f2df-49a5-babf-bc9bcf5367ba",
+      "N:4fa0f9f0-4665-4faa-89e8-7d0f208331d1",
+      "N:5728e846-a3da-4e10-b117-738cbbce305c",
+      "N:6bf238a5-0a3e-492d-91f8-7f62d3b37fba",
+      "N:6e698627-eeee-46e3-b1b0-76dae40aa474",
+      "N:725f49da-9041-4f26-8b57-62427b0a3f92",
+      "N:7cea4c2f-f2a9-4a25-a459-6b193e821841",
+      "N:8692f92d-668a-452d-be7a-2b491ee27585",
+      "N:a9bb6c15-8103-456a-b273-7b35b2eed202",
+      "N:d123906f-d70e-4313-9489-3e9f38347895",
+      "N:de1c7388-c0ab-45d5-9c5a-259273d3f42c",
+      "N:ed31537b-9e9b-4645-ba47-3a2af77411f8",
+      "N:ef1bb586-08a6-4a28-b556-191841742424",
+      "N:f440390f-d988-4765-b573-273d5e351be2",
+      "N:f77930d9-10f3-4ea3-8557-c6554fc9c823",
+      "R:test:3c70a27ee159768e51821887c914a814",
+      "R:test:e9b2c30146c37a6dd9e622e1fa3c69d3",
+      "R:train:193bf2973721d8a1b6c8e98d6e907ed4",
+      "R:train:2c85bbf7e1076b32a782a6e6d2ee0358",
+      "R:train:3bdbefd3bed8598a8f797ca83d1a4f9c",
+      "R:train:845fc7eba809d6bf2e4b4f84dfa8e2d3",
+      "R:train:b3b9369747c0519ae1f443c513cf2886",
+      "R:train:bc576ba61d26d3eea609295d5e7029fe",
+      "R:train:d09d567847cbc709e1cf142f80217020",
+      "R:train:e423eb74321d49812d3323261ccbe617",
+      "R:train:e59a1617c93521a57fe0802f1311ce7d",
+      "R:train:f240b82a1c6437394931e50aec32bb00",
+      "R:train:f6f70ece404a5951be2133a7fe624bd9",
+      "R:validation:60e406f5b6f6ae7121f8684fb3e4b05e",
+      "R:validation:6190e50da43451c5463fc1fb5ba7db45",
+      "R:validation:d7b3282af1c3f4a52958cb156b6cca98",
+      "R:validation:e1205f43bab3275a1587860c41df6a47",
+      "R:validation:e1ea6e253bcba794b65f0dc1bbe6de58",
+      "R:validation:e75ae83697fa878824fb62a150fa6d92"
+    ],
+    "train_row_count": 171
+  },
+  "tie_rule": [
+    "fewer_model_or_judge_calls",
+    "lower_check_count",
+    "lower_measured_runtime_when_available",
+    "fixed_checkpoint_id"
+  ]
+}

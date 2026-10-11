@@ -1,0 +1,141 @@
+{
+  "checks": [
+    {
+      "check": "row_counts",
+      "detail": [
+        216,
+        216
+      ],
+      "pass": true
+    },
+    {
+      "check": "macro_f1_recomputed",
+      "detail": 1.0,
+      "pass": true
+    },
+    {
+      "check": "top1_recomputed",
+      "detail": 1.0,
+      "pass": true
+    },
+    {
+      "check": "perfect_separation_recomputed",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "confusion_recomputed",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "contracts_recomputed",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "expected_stage_recomputed",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "signatures_recomputed",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "permutation_lengths",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "permutation_p_macro_recomputed",
+      "detail": 9.999000099990002e-05,
+      "pass": true
+    },
+    {
+      "check": "permutation_p_top1_recomputed",
+      "detail": 9.999000099990002e-05,
+      "pass": true
+    },
+    {
+      "check": "bootstrap_lengths",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "bootstrap_macro_ci_recomputed",
+      "detail": [
+        1.0,
+        1.0
+      ],
+      "pass": true
+    },
+    {
+      "check": "bootstrap_top1_ci_recomputed",
+      "detail": [
+        1.0,
+        1.0
+      ],
+      "pass": true
+    },
+    {
+      "check": "run_receipt_hash:result_json_sha256",
+      "detail": "ae9cf1cf37e2742e3895ec2bd0e4cf0c150a18c927eb9a618f612782b3d9cbb0",
+      "pass": true
+    },
+    {
+      "check": "run_receipt_hash:result_md_sha256",
+      "detail": "96adaa5a434c51547d35a2f166efbea17ac091bc67c144617141917b57b9d539",
+      "pass": true
+    },
+    {
+      "check": "run_receipt_hash:paired_artifacts_sha256",
+      "detail": "39c3a2c5c37949928b1250ec41ddf04059524853032dff2173cebec36265e53f",
+      "pass": true
+    },
+    {
+      "check": "run_receipt_hash:predictions_sha256",
+      "detail": "37bb360133e4c85129a13f9d56db04d57ec2202ad0409491c20f79bd892afa06",
+      "pass": true
+    },
+    {
+      "check": "run_receipt_hash:formal_runner_sha256",
+      "detail": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4",
+      "pass": true
+    },
+    {
+      "check": "pre_result_manifest_hash",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "pre_result_hash_recorded_in_results",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "check": "claim_boundary",
+      "detail": null,
+      "pass": true
+    }
+  ],
+  "checks_passed": 22,
+  "checks_total": 22,
+  "errors": [],
+  "recomputed": {
+    "macro_f1": 1.0,
+    "macro_f1_ci95": [
+      1.0,
+      1.0
+    ],
+    "permutation_p_macro_f1": 9.999000099990002e-05,
+    "permutation_p_top1": 9.999000099990002e-05,
+    "top1_accuracy": 1.0,
+    "top1_ci95": [
+      1.0,
+      1.0
+    ]
+  },
+  "status": "PASS"
+}
