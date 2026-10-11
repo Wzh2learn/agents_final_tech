@@ -1,6 +1,6 @@
 # PROJECT_CLOSEOUT_AND_HANDOFF_v1.md
 
-> date: 2026-10-11 | owner: Loop D | scope: SANER Route A submission package + Track P closeout + repo governance
+> date: 2026-10-12 (final neat closeout) | owner: Loop D | scope: SANER Route A submission package + Track P closeout + repo governance
 > HEAD at closeout: see `git rev-parse HEAD` (this file is committed in the same commit). LOCAL = origin/main = GB10.
 > 本文件是 fresh-session 的第一入口；细节状态见 memory/STATE.md，未决事项见 memory/THREADS.md，导航见 docs/INDEX.md。
 
@@ -52,6 +52,10 @@
 | PR-03 spillover audit | `research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md` |
 | PR-03 v3 结论 | `research/positive_repair_20261011/PR-03_v3_RESULT_v1.md` |
 | Venue portability（只读） | `research/positive_repair_20261011/VENUE_PORTABILITY_NOTE_v1.md` |
+| Loop C 审计结果（self-audit） | `research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md` |
+| 证据完整性校验器（4 组） | `scripts/verify_claim_evidence.py` |
+| 陈旧文件扫描（结论：无需动作） | `research/positive_repair_20261011/STALE_ARTIFACT_SCAN_v1.md` |
+| 父目录归档 | `../_archive_2026-10-11/README.md` |
 | 匿名 artifact 发布计划（未执行） | `research/positive_repair_20261011/ANONYMOUS_ARTIFACT_RELEASE_PLAN_v1.md` |
 
 ## 5. Human-only blockers
@@ -95,7 +99,7 @@
 ### 仍未完成清单（诚实记录）
 | 项 | 状态 | 说明 |
 |---|---|---|
-| 独立 Loop C 复核（PR-03 v3 / 溢出审计 / 投稿包） | **本轮已派发** | 已按 `INDEPENDENT_AUDIT_PACKET_v1.md` 派出 fresh-context 审计 agent（三项审计 + 每题 FACT/INFERENCE/UNVERIFIED + 三条 verdict）；结果待回收后写入本文件 |
+| 独立 Loop C 复核（PR-03 v3 / 溢出审计 / 投稿包） | **已交付，但为 self-audit** | 委派三次全部失败（无输出/卡住），按用户指示由 Loop D 亲自执行：`LOOP_C_SELF_AUDIT_v1.md`，A/B/C 三项 = PASS，且全部为当场机械取证（symtable 证明 shadowing、实测 3.63s×40,000≈40.3h vs 记录 275s、零污染扫描、PDF 文本抽取核验）。**非独立**：真独立复核仍待委派通道恢复后按 packet 执行 |
 | PR-03 v3 的 diagnostic bootstrap CI | **不可得** | 冻结 `predict_loco` O(groups^2) 使其计算不可行；结论为点估计判定 |
 | claim↔evidence 校验覆盖面 | **已扩展** | `scripts/verify_claim_evidence.py` v2 覆盖 4 组：claim matrix(15) + 图件绑定(20) + 引用一致性(21/21) + prereg pin；`WIDE_EVIDENCE_CHECK = PASS`。仍未覆盖：PDF 正文内数字与 manifest 的逐条对应 |
 | preflight v2 | **仅规范** | 已升级为 12 项，但既有实验不会追溯满足；下次实验才生效 |

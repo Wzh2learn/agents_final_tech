@@ -106,3 +106,11 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 - Paper package mechanical validation is current at claim `79/79` and submission `10/10 / PENDING_EXTERNAL_ITEMS`; external venue/authorship/patent/camera-ready items remain open.
 - Loop A uses approved Xiaomi mimo-v2.6 execution routes; Loop C uses the approved Claude Code audit route. Old deepseek/qwen role wording is historical.
 - Next session resumes from `side_handoff.md` at the current repository HEAD with SANER Route A as the only primary task. Reversible session archives and workspace holds remain preserved; no credentials were copied into Git.
+## 2026-10-12 final neat closeout (Loop D)
+
+- Track A package unchanged and still frozen: `SUBMISSION_DRAFT_COMPLETE = YES`, 8-page PDF, 0 overfull, references resolved, metadata anonymous.
+- Native language pass applied to the manuscript source (US spelling normalisation + 5 grammatical dash fixes) and the bundle/PDF rebuilt; all reported numbers unchanged.
+- Evidence integrity automated: `scripts/verify_claim_evidence.py` covers claim matrix (15), figure binding (20), citation resolution (21/21) and prereg pins; `WIDE_EVIDENCE_CHECK = PASS`. Two stale figure-manifest source pins were re-pinned with a note.
+- Loop C content delivered as a SELF-AUDIT: `research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md` (A/B/C = PASS; mechanical proofs: symtable shadowing proof, measured 3.63 s x 40,000 calls ~ 40.3 h vs the recorded 275 s, zero-contamination sweep, PDF text extraction). Independence is still missing.
+- Governance hygiene: biweekly `memory-hygiene` automation created; parent-workspace scratch archived to `../_archive_2026-10-11/`; `memory/THREADS.md` trimmed to 170 KB with the pre-10-01 archive retained.
+- Stale-artifact scan: 164 zero-reference/old files, all already in designated historical locations -> no action required.

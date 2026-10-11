@@ -1,5 +1,5 @@
 # Project: JinRongAgents
-# Last updated: 2026-10-11 by Loop D submission-completion + Track P closeout
+# Last updated: 2026-10-12 by Loop D final neat closeout (language pass, evidence verifier, memory automation, Loop C self-audit)
 # Scope: fresh-session handoff for SANER Route A
 
 ## Start here
@@ -13,7 +13,8 @@ Read `PROJECT_CLOSEOUT_AND_HANDOFF_v1.md` first. It carries the current status, 
 - Manuscript science is FROZEN for this stage: `paper/saner_rene_manuscript_v1.md` is the source of truth; do not modify title, abstract, contributions, results, discussion, or conclusion without a new user decision.
 - Route B is `B_QUALIFICATION = NO / STOP_BRANCH`. Do not reopen it.
 - Track P is CLOSED: PR-03 v3 = NEGATIVE, Evidence Ladder = LEVEL_0, no fourth recovery, spillover audit CLEAN. PR-EXP-01/04/07 remain frozen.
-- Repository governance is `PASS`. LOCAL, GB10, and `origin/main` reconcile at the commit containing this handoff.
+- Repository governance is `PASS`. LOCAL, GB10, and `origin/main` reconcile at the commit containing this handoff (tree hashes verified equal).
+- 2026-10-12 additions: native language pass (US spelling + dash grammar; rebuilt PDF still 8 pages, 0 overfull); `scripts/verify_claim_evidence.py` now checks four groups (claim matrix, figure binding, citation resolution, prereg pins) and returns `WIDE_EVIDENCE_CHECK = PASS`; two stale figure-manifest source pins were re-pinned with a provenance note; a biweekly `memory-hygiene` automation was created; parent-workspace scratch was archived to `../_archive_2026-10-11/`; and `research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md` records the Loop C content as a self-audit (A/B/C all PASS with mechanical proofs) because every delegated audit failed to return.
 
 ## Scientific and claim boundary
 
