@@ -1,0 +1,70 @@
+{
+  "all_expected_evaluation_rows_preserved": true,
+  "counts": {
+    "candidate_injections": 216,
+    "excluded_before_split": 1,
+    "expected_evaluation_records": 89,
+    "invalid_retained_records": 0,
+    "missing_retained_records": 0,
+    "preserved_evaluation_rows": 89,
+    "retained_paired_injections": 215,
+    "scored_evaluation_records": 89,
+    "scorer_failures": 0,
+    "unevaluable_evaluation_records": 0
+  },
+  "denominator_reduced": false,
+  "failure_accounting": {
+    "failure_accounting.invalid_record_count": 0,
+    "failure_accounting.missing_count": 0,
+    "failure_accounting.scorer_failure_count": 0,
+    "failure_accounting.unevaluable_count": 0
+  },
+  "frozen_exclusions": [
+    {
+      "arg_name": "arg2",
+      "argument_before": "95.7",
+      "cluster_id": "N:ZBH/2007",
+      "event_key": "N:ZBH/2007/page_80.pdf-4:0:arg2",
+      "exclusion_reason": "JOIN_AMBIGUOUS",
+      "exclusion_stage": "BEFORE_SPLIT_ASSIGNMENT",
+      "expected_first_checkpoint": "program.argument_consistency",
+      "expected_first_stage": "N",
+      "id_provenance": "DERIVED_OUTCOME_BLIND_CANDIDATE",
+      "join_status": "AMBIGUOUS",
+      "joined_evidence_id": null,
+      "n_steps": 2,
+      "operation": "mutate_numeric_literal_argument_by_fixed_nonzero_delta",
+      "provenance": {
+        "argument_token": "95.7",
+        "canonical_token": "95.7",
+        "evidence_text_sha256": null,
+        "normalized_source_identity": "53829390ba1ae2310f619b51a996988af54992ddcea399c2464b7668fa523070",
+        "record_id": "ZBH/2007/page_80.pdf-4",
+        "record_sha256": "38e88b687cb6c8f7beae807890131f35590ef1d14978fb56741bead080953420",
+        "report_cluster_id": "ZBH/2007",
+        "resolver_version": {
+          "contract_version": "finqa-evidence-argument-resolver-v2",
+          "source_sha256": "85e84a5f5296e366ec1f567ba59e5a5646e61e564d55806ad2f4f3e1747bffca"
+        },
+        "source_array_index": 2067,
+        "source_file": "/home/testuser/wzh/phase1a_staging_20260925/finqa/train.json",
+        "source_locator": "json_array[2067]"
+      },
+      "question_sha256": "4f765d7929147e67afeb0858d09abc8fe516a0c5d37fc4de2795b81b20fa7e34",
+      "record_id": "ZBH/2007/page_80.pdf-4",
+      "record_sha256": "38e88b687cb6c8f7beae807890131f35590ef1d14978fb56741bead080953420",
+      "repeat_within_cluster": 2,
+      "report_cluster": "ZBH/2007",
+      "retained": false,
+      "sample_id": "FINQA-V2-N-71dc5f1550d1-215743c06c8b",
+      "source_split": "train",
+      "split_role": "NOT_YET_FROZEN",
+      "stage": "N",
+      "step_index": 0
+    }
+  ],
+  "missing_or_failed_scorer_rows": 0,
+  "namespace": "FINQA_V2_EXCLUSIONS_AND_FAILURE_ACCOUNTING",
+  "result_dependent_exclusion": false,
+  "task_id": "finqa-v2-formal-rerun-v3-loop-a-20261010"
+}

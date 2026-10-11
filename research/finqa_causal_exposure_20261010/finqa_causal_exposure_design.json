@@ -1,0 +1,236 @@
+{
+  "schema_version": "finqa-causal-exposure-design-v1",
+  "task_id": "finqa-causal-exposure-design-a-20261010",
+  "status": "PROPOSAL_FROZEN_NOT_EXECUTED",
+  "execution_authorized": false,
+  "scope": "design_and_frozen_proposal_only",
+  "window": {
+    "zero_endpoint": true,
+    "formal_execution": false,
+    "model_calls": 0,
+    "api_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "scientific_scorer_outputs": 0
+  },
+  "inquiry_mode": {
+    "primary": "first-principles",
+    "secondary": "minimal-experiment",
+    "secondary_use": "specify_future_validation_tests_only",
+    "loaded_references": [
+      "inquiry-methods/references/problem-solving.md",
+      "inquiry-methods/references/decision.md",
+      "inquiry-methods/assets/output-contracts.md"
+    ],
+    "loaded_skills": [
+      "inquiry-methods",
+      "research-driven-design",
+      "structured-output"
+    ]
+  },
+  "old_result": {
+    "value": "FAILED TRANSFER DUE TO MEASUREMENT-OBJECT MISMATCH",
+    "modified": false,
+    "scorer_semantics_modified": false,
+    "metrics_modified": false,
+    "thresholds_modified": false,
+    "split_modified": false,
+    "sample_ids_modified": false,
+    "results_modified": false
+  },
+  "scientific_question": "When a controlled FinQA perturbation is allowed to causally propagate through program execution into the fields consumed by the frozen detection rule, what is the relationship between checkpoint visibility and protocol detection?",
+  "outcome_assumptions": {
+    "d_assumed_one": false,
+    "target_non_degenerate_vxd_distribution": false,
+    "outcome_driven_case_selection": false
+  },
+  "frozen_detection_rule": {
+    "v": "V = 1 iff at least one of evidence_required_hit, operator_consistency, argument_consistency, step_result_consistency, answer_consistency equals 1; otherwise V = 0",
+    "d": "D = 1 iff step_result_consistency == 1 OR answer_consistency == 1; otherwise D = 0",
+    "source": "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md:43-44",
+    "reimplemented": false
+  },
+  "causal_graph_contract": "injection target -> downstream computation -> res -> answer -> D input",
+  "causal_families": {
+    "E": {
+      "injection": "evidence_mutation",
+      "classification": "NOT_CAUSALLY_EXPOSED_TO_D",
+      "pipeline_condition": "fixed gold-program and fixed gold-argument execution path",
+      "reason": "evidence does not enter program execution or terminal answer under this fixed path",
+      "primary_analysis": false,
+      "role": "visibility_only_or_instrumentation_control",
+      "extraction_stage_included": false
+    },
+    "P": {
+      "injection": "operator_mutation",
+      "classification": "CANDIDATE_CAUSALLY_EXPOSED_TO_D_CONDITIONAL_ON_REPLAY",
+      "admission_condition": "deterministic executor recomputes target res, all downstream dependent res values, and terminal answer",
+      "d_implied": false,
+      "primary_analysis": true
+    },
+    "N": {
+      "injection": "argument_mutation",
+      "classification": "CANDIDATE_CAUSALLY_EXPOSED_TO_D_CONDITIONAL_ON_REPLAY",
+      "admission_condition": "deterministic executor recomputes target res, all downstream dependent res values, and terminal answer",
+      "d_implied": false,
+      "primary_analysis": true
+    }
+  },
+  "graphs": {
+    "E": "evidence mutation -> fixed gold-program/argument path -> unchanged res -> unchanged answer -> unchanged D input",
+    "P": "operator mutation -> executor recomputes target/downstream res -> executor derives answer -> D input",
+    "N": "argument mutation -> executor recomputes target/downstream res -> executor derives answer -> D input",
+    "canonical": "injection target -> downstream computation -> res -> answer -> D input"
+  },
+  "eligibility": {
+    "mother_pool_definition": "hash-bound FinQA train/dev source records",
+    "mother_pool_denominator": 7134,
+    "multi_step_structural_base": 2894,
+    "criteria": [
+      "multi-step FinQA record",
+      "deterministic exact clean replay passes",
+      "planned mutation is legal P or N",
+      "mutation target and downstream execution path are known",
+      "report-cluster group is unique and split-safe",
+      "no V, D, O, correctness, expected effect, result-class, or target-cell input"
+    ],
+    "eligible_count_status": "NOT_ESTIMABLE_PRE_EXECUTION",
+    "eligible_rate_status": "NOT_ESTIMABLE_PRE_EXECUTION",
+    "eligible_rate_formula": "causal_exposure_eligible_count / 7134",
+    "frozen_before_v_d_o": true,
+    "existing_overlap_counts_are_eligibility": false
+  },
+  "controls": [
+    {
+      "id": "A_SHAM",
+      "case_role": "CONTROL",
+      "intervention": "unchanged_sham_pair",
+      "expected_v": 0,
+      "expected_d": 0,
+      "interpretation": "measurement_sanity_only"
+    },
+    {
+      "id": "B_V_POSITIVE",
+      "case_role": "CONTROL",
+      "intervention": "visible_upstream_or_evidence_only_change",
+      "expected_v": 1,
+      "substantive_d_claim": false,
+      "interpretation": "visibility_instrumentation_only"
+    },
+    {
+      "id": "C_D_POSITIVE",
+      "case_role": "CONTROL",
+      "intervention": "direct_res_or_terminal_answer_perturbation",
+      "expected_d": 1,
+      "interpretation": "detector_reachability_only"
+    },
+    {
+      "id": "D_P_N_CAUSAL",
+      "case_role": "PRIMARY",
+      "intervention": "executor_propagated_legal_P_or_N_mutation",
+      "interpretation": "only_primary_scientific_population"
+    }
+  ],
+  "controls_pooled_into_primary": false,
+  "estimands": [
+    {
+      "id": "V_count_rate",
+      "population": "PRIMARY",
+      "definition": "count and rate of V=1"
+    },
+    {
+      "id": "D_count_rate",
+      "population": "PRIMARY",
+      "definition": "count and rate of D=1"
+    },
+    {
+      "id": "VxD_table",
+      "population": "PRIMARY",
+      "definition": "counts and rates for cells (0,0), (0,1), (1,0), (1,1)"
+    },
+    {
+      "id": "P_D_given_V1",
+      "population": "PRIMARY",
+      "definition": "P(D=1 | V=1)"
+    },
+    {
+      "id": "P_D_given_V0",
+      "population": "PRIMARY",
+      "definition": "P(D=1 | V=0) if identifiable; otherwise NOT_IDENTIFIABLE"
+    },
+    {
+      "id": "per_family_P_N_profiles",
+      "population": "PRIMARY",
+      "definition": "P and N V count/rate, D count/rate, and four-cell VxD table"
+    },
+    {
+      "id": "causal_exposure_eligible_rate",
+      "population": "MOTHER_POOL",
+      "definition": "eligible count / 7134"
+    },
+    {
+      "id": "clean_replay_validity_and_exclusions",
+      "population": "MOTHER_POOL",
+      "definition": "clean replay valid count/rate and all exclusion counts by frozen code"
+    }
+  ],
+  "additional_scientific_metrics_authorized": false,
+  "required_future_tests": [
+    {
+      "id": "clean_replay_exactness",
+      "test": "execute clean programs and require exact equality of every generated res and terminal answer to gold under the frozen serializer",
+      "fail_action": "exclude_with_code_before_mutation"
+    },
+    {
+      "id": "deterministic_P_N_propagation",
+      "test": "execute each admitted pair twice and require byte-identical serialized downstream res values and terminal answer",
+      "fail_action": "fail_closed_no_admission"
+    },
+    {
+      "id": "no_manual_res_answer_edit",
+      "test": "mutation schema and provenance audit deny substantive writes to res and answer; executor owns generated outputs",
+      "fail_action": "invalid_case_or_formal_run"
+    },
+    {
+      "id": "controls_separate",
+      "test": "assert control and primary IDs are disjoint and primary estimand queries require case_role=PRIMARY",
+      "fail_action": "invalid_run"
+    },
+    {
+      "id": "outcome_blind_eligibility",
+      "test": "allowlist eligibility inputs and invariance-test eligibility after changing only synthetic V, D, O, and correctness fields",
+      "fail_action": "invalid_eligibility_manifest"
+    },
+    {
+      "id": "unsupported_operations_fail_closed",
+      "test": "unknown operation, unresolved argument, percent ambiguity, zero divisor, compare tie, malformed/other result, and answer ambiguity return explicit exclusions",
+      "fail_action": "never_guess_or_pass"
+    }
+  ],
+  "stop_conditions": [
+    "no deterministic execution semantics for P or N",
+    "clean replay cannot reproduce every gold res and terminal answer exactly",
+    "causal path requires manual res or answer editing",
+    "eligibility can use V, D, O, correctness, or expected effect",
+    "controls cannot be separated from substantive cases",
+    "missing executor contract remains incomplete"
+  ],
+  "current_stop_state": "STOP_CONDITION_ACTIVE_PENDING_LOOP_C_CHALLENGE_AND_EXECUTOR_CONTRACT",
+  "forbidden_actions": [
+    "execute causal-exposure experiment",
+    "run model, API, database, or training calls",
+    "modify frozen FinQA v2 artifacts or Paper E",
+    "add scientific hypotheses or metrics",
+    "force E into primary D analysis",
+    "select or drop cases based on V, D, O, correctness, or expected effect"
+  ],
+  "required_outputs": [
+    "docs/research/finqa_causal_exposure_preregistration_proposal_v1.md",
+    "research/finqa_causal_exposure_20261010/finqa_causal_exposure_design.json",
+    "research/finqa_causal_exposure_20261010/finqa_causal_exposure_feasibility.json",
+    "research/finqa_causal_exposure_20261010/finqa_causal_exposure_source_ledger.json",
+    "research/finqa_causal_exposure_20261010/FINQA_CAUSAL_EXPOSURE_LATER_EXECUTION_TASK_CARD_NOT_EXECUTED.md",
+    "research/finqa_causal_exposure_20261010/finqa_causal_exposure_proposal_receipt.json"
+  ],
+  "completion_boundary": "proposal completed; review judgment not produced; execution not authorized; experiment not executed; result not accepted"
+}

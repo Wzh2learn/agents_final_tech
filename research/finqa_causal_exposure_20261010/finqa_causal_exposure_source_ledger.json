@@ -1,0 +1,199 @@
+{
+  "schema_version": "finqa-causal-exposure-source-assumption-uncertainty-ledger-v1",
+  "task_id": "finqa-causal-exposure-design-a-20261010",
+  "status": "PROPOSAL_LEDGER_FROZEN_NOT_EXECUTED",
+  "evidence_label_definitions": {
+    "FACT": "directly supported by a cited or mechanically verified artifact",
+    "INFERENCE": "derived from facts with the reasoning recorded",
+    "VALUE": "priority or normative judgment",
+    "UNVERIFIED": "plausible but lacks adequate evidence"
+  },
+  "sources": [
+    {
+      "id": "S01",
+      "label": "FACT",
+      "path": "research/loop_a_finqa_causal_exposure_design_contract.md",
+      "lines": "9-17",
+      "sha256": "e1e1f0351ab02e4983aa7ecd7631ab1c6c876ac91920898d112323ae12d055cd",
+      "claim": "Frozen scientific question, design-only scope, zero-endpoint window, and exact old-result preservation string."
+    },
+    {
+      "id": "S02",
+      "label": "FACT",
+      "path": "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md",
+      "lines": "27-47",
+      "sha256": "57f8b0d68195ec471842d4b6a4092c657876e9f133d0c1724f8aa5b2289d1e61",
+      "claim": "Frozen observation fields and exact V and D definitions; V uses any of five fields and D uses step_result_consistency or answer_consistency."
+    },
+    {
+      "id": "S03",
+      "label": "FACT",
+      "path": "research/finqa_independent_observation_scorer_v2.py",
+      "lines": "16-22, 73-145",
+      "sha256": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5",
+      "claim": "Paired res and terminal-answer differences set the two D-consumed observation fields without changing the detection rule."
+    },
+    {
+      "id": "S04",
+      "label": "FACT",
+      "path": "docs/datasets/2026-09-25_finqa_process_structure_and_checkpoint_semantics.md",
+      "lines": "7-26",
+      "sha256": "0b81cd9f418bc148a5ddb04e5f515a5e4ce557b1063f17a4c46d8972d7a20fcf",
+      "claim": "7134 records, 10960 steps, 2894 multi-step records, fixed step keys, and terminal answer types float=7000, yes=80, no=54."
+    },
+    {
+      "id": "S05",
+      "label": "FACT",
+      "path": "research/finqa_step_checkpoint_scorer.py",
+      "lines": "81-159, 171-227",
+      "sha256": "f9cc9ef56c53e111a1baac5609d9cf28ece5fc3a86db9ac66b79d3e080adb135",
+      "claim": "Candidate reconstructed grammar, arithmetic rules, percent handling, dependency resolution, comparison tolerance, and fail-closed unevaluable behavior."
+    },
+    {
+      "id": "S06",
+      "label": "FACT",
+      "path": "docs/experiments/2026-09-25_step_checkpoint_scorer_preregistration_v2.md",
+      "lines": "1-46",
+      "sha256": "6ee1d06b2e62ba1e0a70c60ac1226c44e7adc4636a3d13db6cbd95b2a5f0a986",
+      "claim": "The two percent readings were fixed in advance and the line was stopped if both pct fidelity values remained below 0.5."
+    },
+    {
+      "id": "S07",
+      "label": "FACT",
+      "path": "docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md",
+      "lines": "8-66",
+      "sha256": "7e71a6714033441ecec3faf95f3934f4ddba56054663cc942784400606a3bcca",
+      "claim": "Pct fidelity was 44/1478 and 330/1478, both below 0.5; the stop condition fired; numeric mismatch remained 518/3096 and official semantics were not established."
+    },
+    {
+      "id": "S08",
+      "label": "FACT",
+      "path": "docs/research/finqa_v2_overlap_feasibility_v1.md",
+      "lines": "7-17",
+      "sha256": "5146201f779bbe4d9e3b97d16cb2176edd400ab81225cba0874b22b2403cd810",
+      "claim": "Existing overlap feasibility counts are E=7134, P=6794, N=6929 and are not causal-exposure eligibility or V/D/O outcomes."
+    },
+    {
+      "id": "S09",
+      "label": "FACT",
+      "path": "docs/research/finqa_v2_causal_join_audit_v1.md",
+      "lines": "7-24",
+      "sha256": "5f821f91619a70d9835d3ea5614ea55e41c89b8c57f967e184004cfd29d10388",
+      "claim": "The evidence join is only a lexical candidate and exact IDs, split, and independent scorer bindings remain separate gates."
+    },
+    {
+      "id": "S10",
+      "label": "FACT",
+      "path": "docs/experiments/2026-09-25_source_go_p1p2_staging.md",
+      "lines": "9-34",
+      "sha256": "a1cdea5477c28b5400cff471b5adc61e164b09d3cdd480d24366453098ca532a",
+      "claim": "Approved FinQA source identity, revision, staged file hashes, and data-not-in-Git boundary."
+    },
+    {
+      "id": "S11",
+      "label": "FACT",
+      "path": "/home/testuser/wzh/phase1a_staging_20260925/finqa/train.json",
+      "sha256": "49f237eb9779b569473b26b08048867d04635a7cc39ad6a7a5664c55bb428db6",
+      "verification": "THIS_RE_VERIFICATION",
+      "claim": "Approved train source identity re-verified before structural scanning."
+    },
+    {
+      "id": "S12",
+      "label": "FACT",
+      "path": "/home/testuser/wzh/phase1a_staging_20260925/finqa/dev.json",
+      "sha256": "a847fb7e0d61a3125a1e2909852df6b89f1ee64d2c5ff1bf689e332214deee51",
+      "verification": "THIS_RE_VERIFICATION",
+      "claim": "Approved dev source identity re-verified before structural scanning."
+    },
+    {
+      "id": "S13",
+      "label": "FACT",
+      "path": "S11 + S12",
+      "verification": "THIS_RE_VERIFICATION_STATIC_READ_ONLY_SCAN",
+      "claim": "7134 records, 10960 steps, 2894 multi-step records, 65 raw op tokens, 3818 #k references, 0 forward refs, 0 out-of-range refs; argument and result form counts are recorded in finqa_causal_exposure_feasibility.json.",
+      "no_scorer_output_produced": true
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A01",
+      "label": "FACT",
+      "claim": "The old result must remain exactly FAILED TRANSFER DUE TO MEASUREMENT-OBJECT MISMATCH and must not be merged with the new proposal.",
+      "basis": "S01",
+      "required_for": "boundary integrity"
+    },
+    {
+      "id": "A02",
+      "label": "INFERENCE",
+      "claim": "Under a fixed gold-program and gold-argument path, E mutation can affect visibility fields but cannot affect res, answer, or D input.",
+      "basis": "S02, S03, S13",
+      "condition": "no separate deterministic evidence-to-argument extraction stage exists"
+    },
+    {
+      "id": "A03",
+      "label": "INFERENCE",
+      "claim": "P and N can be causally exposed to D only if an admitted deterministic executor recomputes target res, dependent descendants, and terminal answer.",
+      "basis": "S01, S02, S03",
+      "condition": "executor contract and exact clean replay pass"
+    },
+    {
+      "id": "A04",
+      "label": "DESIGN_REQUIREMENT",
+      "claim": "Only the executor may write substantive res and terminal answer fields; the mutation stage writes only legal P or N target fields.",
+      "basis": "S01",
+      "status": "TO_BE_TESTED_LATER"
+    },
+    {
+      "id": "A05",
+      "label": "DESIGN_REQUIREMENT",
+      "claim": "Eligibility uses structural inputs and replay status only, never V, D, O, correctness, or expected effect.",
+      "basis": "S01",
+      "status": "TO_BE_TESTED_LATER"
+    }
+  ],
+  "uncertainties": [
+    {
+      "id": "U01",
+      "label": "UNVERIFIED",
+      "claim": "Official FinQA arithmetic, percent, rounding, variant, precision, and serialization semantics are not established from the approved staged artifacts.",
+      "impact": "P/N execution must remain conditional and stopped.",
+      "resolution": "hash-bound official or independently reviewed executor contract"
+    },
+    {
+      "id": "U02",
+      "label": "CONTESTED",
+      "claim": "The structure document reports 21 op roots, while the static parser over the same source counts 22 family-plus-variant roots before position suffix removal.",
+      "impact": "operator coverage and exclusion inventory cannot be finalized",
+      "resolution": "freeze the raw-token and root-count definition in the executor contract"
+    },
+    {
+      "id": "U03",
+      "label": "UNVERIFIED",
+      "claim": "Terminal answer derivation for percent, boolean, and seven other result forms is not specified by an admitted executor.",
+      "impact": "answer_consistency and D cannot be causally generated without missing semantics",
+      "resolution": "freeze terminal-answer derivation and serializer"
+    },
+    {
+      "id": "U04",
+      "label": "UNVERIFIED",
+      "claim": "Legal P replacement sets and N mutation rules are not frozen.",
+      "impact": "mutation admission and outcome-blind selection are undefined",
+      "resolution": "freeze mutation grammar before any eligibility or outcome access"
+    },
+    {
+      "id": "U05",
+      "label": "UNVERIFIED",
+      "claim": "All-record exact clean replay has not been run under this proposal.",
+      "impact": "eligible count and eligible rate remain NOT_ESTIMABLE_PRE_EXECUTION",
+      "resolution": "authorized later implementation run with exact two-run evidence"
+    },
+    {
+      "id": "U06",
+      "label": "UNVERIFIED",
+      "claim": "Report-cluster uniqueness and split safety for the later causal-exposure population are not frozen here.",
+      "impact": "primary population cannot be declared",
+      "resolution": "freeze outcome-blind cluster and split manifests before execution"
+    }
+  ],
+  "completion_boundary": "analysis of sources complete; assumptions explicit; execution not authorized; no result accepted"
+}

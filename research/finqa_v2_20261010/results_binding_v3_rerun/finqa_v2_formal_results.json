@@ -1,0 +1,1601 @@
+{
+  "A_RECOMMENDED_CLASS": "SECOND_FLOW_MIXED",
+  "accounting": {
+    "candidate_injections": 216,
+    "excluded_before_split": 1,
+    "expected_evaluation_records": 89,
+    "invalid_retained_records": 0,
+    "missing_retained_records": 0,
+    "preserved_evaluation_rows": 89,
+    "retained_paired_injections": 215,
+    "scored_evaluation_records": 89,
+    "scorer_failures": 0,
+    "unevaluable_evaluation_records": 0
+  },
+  "analysis_plan_contract": {
+    "permutation_contract": {
+      "PERMUTATION_TEST": "NOT_USED",
+      "post_result_addition_allowed": false
+    },
+    "primary": [
+      {
+        "formula": "N(V=1)",
+        "id": "visibility_count"
+      },
+      {
+        "formula": "N(V=1)/N_eval",
+        "id": "visibility_rate"
+      },
+      {
+        "formula": "N(D=1)",
+        "id": "detection_count"
+      },
+      {
+        "formula": "N(D=1)/N_eval",
+        "id": "detection_rate"
+      },
+      {
+        "formula": "counts and N_eval rates for (V,D)=(0,0),(0,1),(1,0),(1,1)",
+        "id": "visibility_detection_2x2"
+      },
+      {
+        "formula": "N(V=1,D=1)/N(V=1)",
+        "id": "detection_rate_given_visibility_positive"
+      },
+      {
+        "formula": "N(V=0,D=1)/N(V=0)",
+        "id": "detection_rate_given_visibility_negative"
+      }
+    ],
+    "secondary": [
+      {
+        "formula": "E/P/N visibility count/rate, detection count/rate, and 2x2 count/rate",
+        "id": "per_stage_profiles"
+      },
+      {
+        "formula": "N(O=1)",
+        "id": "terminal_outcome_count"
+      },
+      {
+        "formula": "N(O=1)/N_eval",
+        "id": "terminal_outcome_rate"
+      },
+      {
+        "formula": "explicit counts reconciled to all 89 expected evaluation samples; no denominator reduction",
+        "id": "missing_invalid_scorer_failure_unevaluable_accounting"
+      }
+    ],
+    "uncertainty": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "interval": "95% percentile",
+      "per_stage_resampling": "sample the 10 frozen evaluation report clusters within stage with replacement and retain all paired samples in each selected cluster",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate_weighting": "sample_weighted",
+      "primary_resampling": "sample 30 frozen evaluation report clusters with replacement and retain all paired samples in each selected cluster",
+      "replicate_count": 10000,
+      "required_per_estimand_fields": [
+        "seed",
+        "replicate_count",
+        "valid_replicate_count",
+        "failed_replicate_count",
+        "cluster_unit",
+        "ci_method"
+      ],
+      "seed": 20261017
+    }
+  },
+  "binding_v3": {
+    "evaluation_trace_rows_matched": 420,
+    "evaluation_trace_rows_total": 420,
+    "group_drift": 0,
+    "identity_drift": 0,
+    "raw_normalized_hash_distinct_rows": 89,
+    "runtime_bindings_pass": 89,
+    "runtime_bindings_total": 89,
+    "silent_defaults": 0,
+    "split_drift": 0
+  },
+  "bootstrap_contract": {
+    "ci_method": "PERCENTILE",
+    "cluster_unit": "report_cluster_id",
+    "percentiles": [
+      2.5,
+      97.5
+    ],
+    "permutation_test": "NOT_USED",
+    "replicate_count": 10000,
+    "rng": "numpy.random.default_rng(20261017)",
+    "sampling_order": "overall_30_then_E_10_then_P_10_then_N_10_per_replicate",
+    "seed": 20261017,
+    "valid_failed_accounting_per_estimand": true
+  },
+  "bootstrap_summary": {
+    "detection_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "detection_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "detection_rate_given_visibility_negative": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 10000,
+      "interval": "NOT_IDENTIFIABLE",
+      "interval_label": "NOT_IDENTIFIABLE",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": null,
+      "point_estimate_status": "NOT_IDENTIFIABLE",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "detection_rate_given_visibility_positive": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "failure_accounting.invalid_record_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "failure_accounting.missing_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "failure_accounting.scorer_failure_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "failure_accounting.unevaluable_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.detection_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.detection_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.visibility_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        30.0,
+        30.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 30,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.visibility_detection_2x2.v0_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.visibility_detection_2x2.v0_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.visibility_detection_2x2.v0_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.visibility_detection_2x2.v0_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.visibility_detection_2x2.v1_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        30.0,
+        30.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 30,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.visibility_detection_2x2.v1_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        1.0,
+        1.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 1.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.visibility_detection_2x2.v1_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.visibility_detection_2x2.v1_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.E.visibility_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        1.0,
+        1.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 1.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.detection_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.detection_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.visibility_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        27.0,
+        30.0
+      ],
+      "interval_label": "PERCENTILE_95",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 29,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.visibility_detection_2x2.v0_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.visibility_detection_2x2.v0_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.visibility_detection_2x2.v0_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.visibility_detection_2x2.v0_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.visibility_detection_2x2.v1_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        27.0,
+        30.0
+      ],
+      "interval_label": "PERCENTILE_95",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 29,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.visibility_detection_2x2.v1_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        1.0,
+        1.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 1.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.visibility_detection_2x2.v1_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.visibility_detection_2x2.v1_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.N.visibility_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        1.0,
+        1.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 1.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.detection_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.detection_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.visibility_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        30.0,
+        30.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 30,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.visibility_detection_2x2.v0_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.visibility_detection_2x2.v0_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.visibility_detection_2x2.v0_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.visibility_detection_2x2.v0_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.visibility_detection_2x2.v1_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        30.0,
+        30.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 30,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.visibility_detection_2x2.v1_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        1.0,
+        1.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 1.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.visibility_detection_2x2.v1_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.visibility_detection_2x2.v1_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "stage.P.visibility_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        1.0,
+        1.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 1.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "terminal_outcome_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "terminal_outcome_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "visibility_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        87.0,
+        90.0
+      ],
+      "interval_label": "PERCENTILE_95",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 89,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "visibility_detection_2x2.v0_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "visibility_detection_2x2.v0_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "visibility_detection_2x2.v0_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "visibility_detection_2x2.v0_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "visibility_detection_2x2.v1_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        87.0,
+        90.0
+      ],
+      "interval_label": "PERCENTILE_95",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 89,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "visibility_detection_2x2.v1_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        1.0,
+        1.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 1.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "visibility_detection_2x2.v1_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "visibility_detection_2x2.v1_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        0.0,
+        0.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 0.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    },
+    "visibility_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": [
+        1.0,
+        1.0
+      ],
+      "interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "percentile_interpolation": "linear",
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "point_estimate": 1.0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 10000,
+      "seed": 20261017,
+      "valid_replicate_count": 10000
+    }
+  },
+  "case_accounting": {
+    "all_89_evaluation_rows_preserved": true,
+    "categories": {
+      "detection_without_visibility_v0_d1": [],
+      "null_identity_v0_d0": [],
+      "null_identity_v1_d1": [],
+      "visibility_without_detection_v1_d0": [
+        "FINQA-V2-E-0ad6193ab515-03e9aee62934",
+        "FINQA-V2-E-0ad6193ab515-15589442e572",
+        "FINQA-V2-E-0ad6193ab515-3832c7923716",
+        "FINQA-V2-E-12e4c9733807-0f3a084bbc27",
+        "FINQA-V2-E-12e4c9733807-85e42f9df8d1",
+        "FINQA-V2-E-12e4c9733807-c23863814b77",
+        "FINQA-V2-E-1abce520dbc2-1e29610e4b37",
+        "FINQA-V2-E-1abce520dbc2-2b20c880c58c",
+        "FINQA-V2-E-1abce520dbc2-b6eb5910d322",
+        "FINQA-V2-E-2d0f815f83b6-593e3c3b5b39",
+        "FINQA-V2-E-2d0f815f83b6-adc1ba394684",
+        "FINQA-V2-E-2d0f815f83b6-ee922f1e59d3",
+        "FINQA-V2-E-47aba3b54210-5693c9492551",
+        "FINQA-V2-E-47aba3b54210-67b2bc4a6035",
+        "FINQA-V2-E-47aba3b54210-7207908051b4",
+        "FINQA-V2-E-6157cf7ec9f9-2d1014a0a662",
+        "FINQA-V2-E-6157cf7ec9f9-7dab6842ce61",
+        "FINQA-V2-E-6157cf7ec9f9-f6837ffca6e1",
+        "FINQA-V2-E-7383b0ff36a2-01acaad3e249",
+        "FINQA-V2-E-7383b0ff36a2-ef22c82ae693",
+        "FINQA-V2-E-7383b0ff36a2-f256e726458c",
+        "FINQA-V2-E-b6742b01e7a9-03d0ed8dcfa1",
+        "FINQA-V2-E-b6742b01e7a9-b846e353cc2e",
+        "FINQA-V2-E-b6742b01e7a9-d6a090b514e0",
+        "FINQA-V2-E-c2d624fd6dfb-2211025d699b",
+        "FINQA-V2-E-c2d624fd6dfb-4c22a38cb1f9",
+        "FINQA-V2-E-c2d624fd6dfb-aad1127df362",
+        "FINQA-V2-E-fb0bb367502e-25ed4d6fc8af",
+        "FINQA-V2-E-fb0bb367502e-a8e4699de354",
+        "FINQA-V2-E-fb0bb367502e-f172a3756216",
+        "FINQA-V2-N-012599f44c0a-9e4a52ee233a",
+        "FINQA-V2-N-012599f44c0a-d74f79b7aae2",
+        "FINQA-V2-N-012599f44c0a-e601fe4e70f4",
+        "FINQA-V2-N-384814000338-36fbc9ff3c19",
+        "FINQA-V2-N-384814000338-85d4e8387659",
+        "FINQA-V2-N-384814000338-9baad237d8e0",
+        "FINQA-V2-N-47f2f9e647c0-87ec6f516235",
+        "FINQA-V2-N-47f2f9e647c0-b601b9f536b2",
+        "FINQA-V2-N-47f2f9e647c0-c4c349b4c7e6",
+        "FINQA-V2-N-71dc5f1550d1-56aba910a22b",
+        "FINQA-V2-N-71dc5f1550d1-e7ea68412e28",
+        "FINQA-V2-N-75e4ed7c3917-8c44790b0fa0",
+        "FINQA-V2-N-75e4ed7c3917-e4900998151d",
+        "FINQA-V2-N-75e4ed7c3917-f7adee3004b1",
+        "FINQA-V2-N-8698c7ece981-24841251f36b",
+        "FINQA-V2-N-8698c7ece981-5277e8136539",
+        "FINQA-V2-N-8698c7ece981-beaf473c60d5",
+        "FINQA-V2-N-91c89397ed00-2bf6b64b5804",
+        "FINQA-V2-N-91c89397ed00-859b801883cb",
+        "FINQA-V2-N-91c89397ed00-9579c5529eba",
+        "FINQA-V2-N-a33fb221f5f0-943c03bfac8a",
+        "FINQA-V2-N-a33fb221f5f0-c8c749b88a34",
+        "FINQA-V2-N-a33fb221f5f0-e1b9c0f2fbb7",
+        "FINQA-V2-N-a4af0d78efcc-3c312e570a29",
+        "FINQA-V2-N-a4af0d78efcc-73f9c07525bd",
+        "FINQA-V2-N-a4af0d78efcc-9f8e8133aedd",
+        "FINQA-V2-N-f8ee1f8dfb12-c1a1dcdad558",
+        "FINQA-V2-N-f8ee1f8dfb12-defd734ed0b7",
+        "FINQA-V2-N-f8ee1f8dfb12-e9811a099d00",
+        "FINQA-V2-P-00eb8c9edf7d-68dcbde775e6",
+        "FINQA-V2-P-00eb8c9edf7d-acf9793b9b53",
+        "FINQA-V2-P-00eb8c9edf7d-e05f40437882",
+        "FINQA-V2-P-2070aefd6f6c-a5e7dc2d83aa",
+        "FINQA-V2-P-2070aefd6f6c-c87fbb17fb37",
+        "FINQA-V2-P-2070aefd6f6c-f4c201172978",
+        "FINQA-V2-P-466db4b74779-bb040b6a621a",
+        "FINQA-V2-P-466db4b74779-d27b7f0ce7e7",
+        "FINQA-V2-P-466db4b74779-f4fb1e1e4a35",
+        "FINQA-V2-P-63c8b0d9a47f-7a2fef9ea21a",
+        "FINQA-V2-P-63c8b0d9a47f-7b1a6931f084",
+        "FINQA-V2-P-63c8b0d9a47f-a5495fa66249",
+        "FINQA-V2-P-a534d902e8f3-6dab51f160fa",
+        "FINQA-V2-P-a534d902e8f3-aefa9f4b7e75",
+        "FINQA-V2-P-a534d902e8f3-e73137403d50",
+        "FINQA-V2-P-b1d4a0a6e93e-187d56b99969",
+        "FINQA-V2-P-b1d4a0a6e93e-412ab2d046a9",
+        "FINQA-V2-P-b1d4a0a6e93e-d293878bab3f",
+        "FINQA-V2-P-d1e7ee422519-032f23ed6330",
+        "FINQA-V2-P-d1e7ee422519-8399f92ac4b7",
+        "FINQA-V2-P-d1e7ee422519-89aff075d0e5",
+        "FINQA-V2-P-e8cccb0aa02c-47459d0f0fa5",
+        "FINQA-V2-P-e8cccb0aa02c-78a14218ddcb",
+        "FINQA-V2-P-e8cccb0aa02c-c5e3ce5a6f8b",
+        "FINQA-V2-P-eb0ec3680138-2419f4b32330",
+        "FINQA-V2-P-eb0ec3680138-b7ce108f883e",
+        "FINQA-V2-P-eb0ec3680138-e37b5835f8a7",
+        "FINQA-V2-P-f7c1898e0344-0dae549671c3",
+        "FINQA-V2-P-f7c1898e0344-56771ffeede9",
+        "FINQA-V2-P-f7c1898e0344-a40c7b345472"
+      ]
+    },
+    "counts": {
+      "detection_without_visibility_v0_d1": 0,
+      "null_identity_v0_d0": 0,
+      "null_identity_v1_d1": 0,
+      "visibility_without_detection_v1_d0": 89
+    },
+    "per_stage": {
+      "E": {
+        "v0_d1": 0,
+        "v1_d0": 30,
+        "v_eq_d": 0
+      },
+      "N": {
+        "v0_d1": 0,
+        "v1_d0": 29,
+        "v_eq_d": 0
+      },
+      "P": {
+        "v0_d1": 0,
+        "v1_d0": 30,
+        "v_eq_d": 0
+      }
+    }
+  },
+  "claim_boundary": {
+    "allowed": [
+      "Report frozen estimands and intervals exactly as materialized",
+      "Use A_RECOMMENDED_CLASS only pending Loop C audit and Loop D decision"
+    ],
+    "forbidden": [
+      "hierarchy_beats_flat",
+      "hierarchy_localization",
+      "semantic_correctness",
+      "harmfulness",
+      "natural_failure_localization",
+      "automatic_stage_e_transfer"
+    ]
+  },
+  "evidence_grading": {
+    "adverse_and_null_cases": "NEGATIVE",
+    "overall_visibility_detection": "CONFIRMATORY",
+    "per_stage_outcome_and_bootstrap": "SECONDARY"
+  },
+  "execution": {
+    "completed_at": "2026-10-10T21:49:34+08:00",
+    "database_calls": 0,
+    "endpoint_calls": 0,
+    "focused_tests_passed": "NOT_RERUN_PER_TASK_CARD",
+    "formal_outputs_before_execution": 0,
+    "frozen_hash_checks": 60,
+    "frozen_hash_mismatches": 0,
+    "loaded_evaluation_rows": 89,
+    "model_calls": 0,
+    "nested_paired_artifact_hash_checks": 645,
+    "non_evaluation_scoring_calls": 0,
+    "permutation_runs": 0,
+    "preflight_status": "PASS",
+    "prm_runs": 0,
+    "runtime_bindings": 89,
+    "scorer_calls": 89,
+    "started_at": "2026-10-10T21:49:32+08:00",
+    "training_runs": 0
+  },
+  "final_class_status": "DEFERRED_TO_LOOP_D_AFTER_LOOP_C_AUDIT",
+  "frozen_research_question": "Does the visibility-detection separation transfer to a different reasoning-oriented dataflow under an independently implemented observation scorer?",
+  "generated_at": "2026-10-10T21:49:34+08:00",
+  "leakage_audit": {
+    "assignment_checks": "PASS",
+    "group_disjointness": "PASS",
+    "result_dependent_exclusion": false,
+    "scorer_independence": "PASS",
+    "stage_labels_used_for_secondary_profile_only": true,
+    "threshold_search_performed": false
+  },
+  "namespace": "FINQA_V2_FORMAL_BINDING_V3_RERUN_RESULTS",
+  "point_estimates": {
+    "detection_count": 0,
+    "detection_rate": 0.0,
+    "detection_rate_given_visibility_negative": null,
+    "detection_rate_given_visibility_positive": 0.0,
+    "failure_accounting.invalid_record_count": 0,
+    "failure_accounting.missing_count": 0,
+    "failure_accounting.scorer_failure_count": 0,
+    "failure_accounting.unevaluable_count": 0,
+    "stage.E.detection_count": 0,
+    "stage.E.detection_rate": 0.0,
+    "stage.E.visibility_count": 30,
+    "stage.E.visibility_detection_2x2.v0_d0_count": 0,
+    "stage.E.visibility_detection_2x2.v0_d0_rate": 0.0,
+    "stage.E.visibility_detection_2x2.v0_d1_count": 0,
+    "stage.E.visibility_detection_2x2.v0_d1_rate": 0.0,
+    "stage.E.visibility_detection_2x2.v1_d0_count": 30,
+    "stage.E.visibility_detection_2x2.v1_d0_rate": 1.0,
+    "stage.E.visibility_detection_2x2.v1_d1_count": 0,
+    "stage.E.visibility_detection_2x2.v1_d1_rate": 0.0,
+    "stage.E.visibility_rate": 1.0,
+    "stage.N.detection_count": 0,
+    "stage.N.detection_rate": 0.0,
+    "stage.N.visibility_count": 29,
+    "stage.N.visibility_detection_2x2.v0_d0_count": 0,
+    "stage.N.visibility_detection_2x2.v0_d0_rate": 0.0,
+    "stage.N.visibility_detection_2x2.v0_d1_count": 0,
+    "stage.N.visibility_detection_2x2.v0_d1_rate": 0.0,
+    "stage.N.visibility_detection_2x2.v1_d0_count": 29,
+    "stage.N.visibility_detection_2x2.v1_d0_rate": 1.0,
+    "stage.N.visibility_detection_2x2.v1_d1_count": 0,
+    "stage.N.visibility_detection_2x2.v1_d1_rate": 0.0,
+    "stage.N.visibility_rate": 1.0,
+    "stage.P.detection_count": 0,
+    "stage.P.detection_rate": 0.0,
+    "stage.P.visibility_count": 30,
+    "stage.P.visibility_detection_2x2.v0_d0_count": 0,
+    "stage.P.visibility_detection_2x2.v0_d0_rate": 0.0,
+    "stage.P.visibility_detection_2x2.v0_d1_count": 0,
+    "stage.P.visibility_detection_2x2.v0_d1_rate": 0.0,
+    "stage.P.visibility_detection_2x2.v1_d0_count": 30,
+    "stage.P.visibility_detection_2x2.v1_d0_rate": 1.0,
+    "stage.P.visibility_detection_2x2.v1_d1_count": 0,
+    "stage.P.visibility_detection_2x2.v1_d1_rate": 0.0,
+    "stage.P.visibility_rate": 1.0,
+    "terminal_outcome_count": 0,
+    "terminal_outcome_rate": 0.0,
+    "visibility_count": 89,
+    "visibility_detection_2x2.v0_d0_count": 0,
+    "visibility_detection_2x2.v0_d0_rate": 0.0,
+    "visibility_detection_2x2.v0_d1_count": 0,
+    "visibility_detection_2x2.v0_d1_rate": 0.0,
+    "visibility_detection_2x2.v1_d0_count": 89,
+    "visibility_detection_2x2.v1_d0_rate": 1.0,
+    "visibility_detection_2x2.v1_d1_count": 0,
+    "visibility_detection_2x2.v1_d1_rate": 0.0,
+    "visibility_rate": 1.0
+  },
+  "population": {
+    "by_stage": {
+      "E": {
+        "report_clusters": 10,
+        "samples": 30
+      },
+      "N": {
+        "report_clusters": 10,
+        "samples": 29
+      },
+      "P": {
+        "report_clusters": 10,
+        "samples": 30
+      }
+    },
+    "calibration_samples_not_scored": 45,
+    "report_clusters": 30,
+    "role": "evaluation",
+    "samples": 89,
+    "train_samples_not_scored": 81
+  },
+  "run_status": "FORMAL_RUN_COMPLETE_AWAITING_LOOP_C_RECOMPUTATION",
+  "tables": {
+    "overall": {
+      "cluster_denominator": 30,
+      "detection_count": 0,
+      "detection_rate": 0.0,
+      "detection_rate_given_visibility_negative": null,
+      "detection_rate_given_visibility_positive": 0.0,
+      "sample_denominator": 89,
+      "terminal_outcome_count": 0,
+      "terminal_outcome_rate": 0.0,
+      "visibility_count": 89,
+      "visibility_detection_2x2": {
+        "00": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "01": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "10": {
+          "count": 89,
+          "rate": 1.0
+        },
+        "11": {
+          "count": 0,
+          "rate": 0.0
+        }
+      },
+      "visibility_rate": 1.0
+    },
+    "per_stage": {
+      "E": {
+        "cluster_denominator": 10,
+        "detection_count": 0,
+        "detection_rate": 0.0,
+        "sample_denominator": 30,
+        "visibility_count": 30,
+        "visibility_detection_2x2": {
+          "00": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "01": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "10": {
+            "count": 30,
+            "rate": 1.0
+          },
+          "11": {
+            "count": 0,
+            "rate": 0.0
+          }
+        },
+        "visibility_rate": 1.0
+      },
+      "N": {
+        "cluster_denominator": 10,
+        "detection_count": 0,
+        "detection_rate": 0.0,
+        "sample_denominator": 29,
+        "visibility_count": 29,
+        "visibility_detection_2x2": {
+          "00": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "01": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "10": {
+            "count": 29,
+            "rate": 1.0
+          },
+          "11": {
+            "count": 0,
+            "rate": 0.0
+          }
+        },
+        "visibility_rate": 1.0
+      },
+      "P": {
+        "cluster_denominator": 10,
+        "detection_count": 0,
+        "detection_rate": 0.0,
+        "sample_denominator": 30,
+        "visibility_count": 30,
+        "visibility_detection_2x2": {
+          "00": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "01": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "10": {
+            "count": 30,
+            "rate": 1.0
+          },
+          "11": {
+            "count": 0,
+            "rate": 0.0
+          }
+        },
+        "visibility_rate": 1.0
+      }
+    }
+  },
+  "task_id": "finqa-v2-formal-rerun-v3-loop-a-20261010"
+}

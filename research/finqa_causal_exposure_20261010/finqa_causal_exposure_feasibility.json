@@ -1,0 +1,176 @@
+{
+  "schema_version": "finqa-causal-exposure-feasibility-v1",
+  "task_id": "finqa-causal-exposure-design-a-20261010",
+  "status": "EXECUTOR_FEASIBILITY_CONDITIONAL",
+  "execution_admissible": false,
+  "formal_execution_performed": false,
+  "source": {
+    "repository": "https://github.com/czyssrs/FinQA",
+    "revision": "0f16e2867befa6840783e58be38c9efb9229d742",
+    "approved_staged_files": [
+      {
+        "path": "finqa/train.json",
+        "sha256": "49f237eb9779b569473b26b08048867d04635a7cc39ad6a7a5664c55bb428db6",
+        "bytes": 78216616
+      },
+      {
+        "path": "finqa/dev.json",
+        "sha256": "a847fb7e0d61a3125a1e2909852df6b89f1ee64d2c5ff1bf689e332214deee51",
+        "bytes": 10954658
+      }
+    ],
+    "official_execution_code_staged": false
+  },
+  "structural_audit": {
+    "verification_label": "THIS_RE_VERIFICATION",
+    "records": 7134,
+    "train_records": 6251,
+    "dev_records": 883,
+    "steps": 10960,
+    "multi_step_records": 2894,
+    "step_keys": [
+      "op",
+      "arg1",
+      "arg2",
+      "res"
+    ],
+    "raw_operator_tokens": 65,
+    "family_variant_roots_under_position_parser": 22,
+    "existing_structure_document_root_count": 21,
+    "root_count_discrepancy": "UNRESOLVED_DEFINITION_OR_COUNT_DISCREPANCY",
+    "argument_tokens": {
+      "numeric_literal": 15840,
+      "percent_literal": 324,
+      "const_literal": 1464,
+      "step_reference": 3818,
+      "none_literal": 238,
+      "free_text": 236
+    },
+    "reference_audit": {
+      "total_k_references": 3818,
+      "forward_references": 0,
+      "out_of_range_references": 0
+    },
+    "result_forms": {
+      "numeric": 6841,
+      "percent": 3980,
+      "boolean": 132,
+      "other": 7
+    },
+    "terminal_answer_types_from_existing_structure_evidence": {
+      "float": 7000,
+      "yes": 80,
+      "no": 54
+    }
+  },
+  "candidate_reconstructed_semantics": {
+    "authority": "NOT_OFFICIAL_EXECUTOR_AUTHORITY",
+    "source_file": "research/finqa_step_checkpoint_scorer.py",
+    "source_sha256": "f9cc9ef56c53e111a1baac5609d9cf28ece5fc3a86db9ac66b79d3e080adb135",
+    "supported_normalized_families": [
+      "add",
+      "sum",
+      "minus",
+      "multiply",
+      "divide",
+      "average",
+      "max",
+      "min",
+      "exp",
+      "compare_larger"
+    ],
+    "argument_grammar": {
+      "numeric_literal": "finite Decimal",
+      "percent_literal": "mantissa divided by 100",
+      "const_literal": "const_d -> d; const_md -> -d",
+      "step_reference": "#k -> prior step result k; percent result consumed as mantissa / 100",
+      "none": "unresolved",
+      "free_text": "unresolved; never guessed and never set to zero"
+    },
+    "arithmetic_rules": {
+      "add": "a1 + a2",
+      "sum": "a1 + a2",
+      "minus": "a1 - a2",
+      "multiply": "a1 * a2",
+      "divide": "a1 / a2 with local precision 50; zero divisor unresolved",
+      "average": "(a1 + a2) / 2 with local precision 50",
+      "max": "max(a1, a2)",
+      "min": "min(a1, a2)",
+      "exp": "a1 ** a2; invalid or non-finite result unresolved",
+      "compare_larger": "tie unresolved; yes iff a1 > a2; otherwise no"
+    },
+    "historical_numeric_comparison_tolerance": "1e-9 relative tolerance in the historical reconstructed scorer; not an exact clean-replay contract",
+    "percent_readings": [
+      "mantissa_direct",
+      "mantissa_scaled"
+    ],
+    "unknown_or_unresolvable_behavior": "UNEVALUABLE"
+  },
+  "historical_feasibility_evidence": {
+    "step_reexecution_line_status": "STOPPED_BY_PRE_REGISTERED_V2_3",
+    "percent_form_matches_direct": 44,
+    "percent_form_matches_scaled": 330,
+    "percent_form_denominator": 1478,
+    "percent_fidelity_direct": 0.0298,
+    "percent_fidelity_scaled": 0.2233,
+    "numeric_form_matches": 2571,
+    "numeric_form_mismatches": 518,
+    "numeric_form_unevaluable": 7,
+    "numeric_form_denominator": 3096,
+    "numeric_form_mismatch_rate": 0.1696,
+    "interpretation": "official percent, variant, rounding, and remaining numeric semantics were not established; no v3 convention search is allowed",
+    "source": "docs/experiments/2026-09-25_step_checkpoint_score_v2_results.md"
+  },
+  "dependency_resolution": {
+    "available_from_source_schema": true,
+    "rule_candidate": "resolve #k to prior indexed step result and recompute every dependent descendant",
+    "static_reference_result": "3818 references; 0 forward; 0 out of range",
+    "executor_recomputation_evidence": false
+  },
+  "clean_replay": {
+    "criterion": "every gold step res and terminal exe_ans reproduced exactly under one frozen serializer; two runs byte-identical; no repair",
+    "all_record_run_performed": false,
+    "current_count": "NOT_ESTIMABLE_PRE_EXECUTION",
+    "mutation_admission_allowed": false
+  },
+  "unsupported_or_ambiguous_policy": {
+    "policy": "FAIL_CLOSED_EXCLUDE_BEFORE_MUTATION",
+    "codes_required": [
+      "UNSUPPORTED_OPERATOR",
+      "UNRESOLVED_ARGUMENT",
+      "AMBIGUOUS_PERCENT_SEMANTICS",
+      "AMBIGUOUS_ROUNDING_OR_SERIALIZATION",
+      "ZERO_DIVISOR",
+      "COMPARE_TIE",
+      "NONFINITE_OR_OVERFLOW_RESULT",
+      "MALFORMED_OR_OTHER_RESULT",
+      "AMBIGUOUS_TERMINAL_ANSWER_DERIVATION",
+      "FORWARD_OR_OUT_OF_RANGE_REFERENCE",
+      "CLEAN_REPLAY_MISMATCH",
+      "NONDETERMINISTIC_REPLAY",
+      "MANUAL_RESULT_OR_ANSWER_EDIT"
+    ],
+    "silent_default_allowed": false,
+    "denominator_shrink_allowed": false
+  },
+  "propagation_feasibility": {
+    "P_without_manual_result_editing": "CONDITIONAL",
+    "N_without_manual_result_editing": "CONDITIONAL",
+    "required_mechanism": "mutation stage writes only legal op or argument target; executor writes every res and terminal answer; scorer consumes executor outputs",
+    "implemented_and_verified": false
+  },
+  "missing_contract": [
+    "official or independently reviewed semantics for all 65 raw operator tokens and the family/variant/position encoding",
+    "exact arithmetic, rounding, precision, percent rendering, and comparison rules",
+    "complete argument grammar including constants, percent, #k, none, and free text",
+    "deterministic downstream recomputation and terminal-answer derivation for numeric, percent, boolean, and other results",
+    "exact serializer and equality rule for clean replay",
+    "fixed fail-closed error and exclusion code contract",
+    "legal P replacement sets and N mutation/value/reference rules selected without outcomes",
+    "provenance contract proving only the executor writes res and terminal answer",
+    "all-record exact deterministic clean replay evidence",
+    "outcome-blind report-cluster uniqueness and split-safety contract"
+  ],
+  "stop_condition_active": true,
+  "recommendation": "Do not execute. Submit the conditional proposal to Loop C and obtain the missing executor contract before any later execution request."
+}
