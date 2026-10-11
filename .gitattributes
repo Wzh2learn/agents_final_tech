@@ -5,4 +5,4 @@ docs/research/figures_saner/*.json -text
 docs/research/figures_saner/*.csv -text
 docs/experiments/2026-08-18_drift_injection_v0.md -text
 logs/graph/eval/checkpoint_discrimination_tables_v2.json -text
-logs/graph/eval/t2_visibility_sensitivity.json -text
+logs/graph/eval/t2_visibility_sensitivity.json -textpaper/figure_plan_v1.md -text

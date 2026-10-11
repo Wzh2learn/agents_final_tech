@@ -21,7 +21,7 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen figure definition and caption boundary",
-          "sha256": "e516e6c7a94ed7e24ffd2fab8e00f9a42f564ecb164c644e03fc1d65653ccd3d"
+          "sha256": "f4feb3dcf8caf9167f62cae59a699658a581701baf2bca8999b1dd8cb4bcf01f"
         },
         {
           "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
@@ -643,7 +643,7 @@
         {
           "bytes": 8188,
           "path": "docs/research/figures_saner/fig2_source.csv",
-          "sha256": "a61d75fda37c84aa058472f06a2b1898052dd0e6fde49598467da72997f1b3ec"
+          "sha256": "f788c96a91aad8bb29bb276cd82495738b349189aff7d6a45150eeb8f723306a"
         }
       ],
       "renderer_scripts": [
@@ -657,7 +657,7 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen caption boundary",
-          "sha256": "e516e6c7a94ed7e24ffd2fab8e00f9a42f564ecb164c644e03fc1d65653ccd3d"
+          "sha256": "f4feb3dcf8caf9167f62cae59a699658a581701baf2bca8999b1dd8cb4bcf01f"
         },
         {
           "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
@@ -792,7 +792,7 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen caption boundary",
-          "sha256": "e516e6c7a94ed7e24ffd2fab8e00f9a42f564ecb164c644e03fc1d65653ccd3d"
+          "sha256": "f4feb3dcf8caf9167f62cae59a699658a581701baf2bca8999b1dd8cb4bcf01f"
         },
         {
           "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
@@ -845,5 +845,6 @@
   "model_calls": 0,
   "namespace": "SANER_FIGURE_SOURCE_BINDING",
   "schema_version": 1,
-  "status": "COMPLETE"
+  "status": "COMPLETE",
+  "repin_note": "2026-10-11: re-pinned two SOURCE entries after a post-generation provenance review. (1) paper/saner_rene_manuscript_scope_lock_v1.md was corrected at commit ed63fff (reviewer-attack F1-F6: claim wording tightened). Its Figure Definitions section was NOT changed, so the figures still implement it; only the recorded source hash was stale. (2) docs/research/figures_saner/fig2_source.csv recorded a Windows/CRLF-era hash; the GB10 raw-byte hash is now recorded. Figure OUTPUT hashes are unchanged and still bind."
 }
