@@ -196,6 +196,10 @@ Three results share one structure. First, the frozen evaluation surface has a fa
 
 Final correctness cannot tell whether a defect was observed at an intermediate checkpoint, silently absorbed, or invisible to the evaluator itself. We introduced a three-way audit of visibility, detection, and harmfulness, implemented with hierarchical checkpoint evidence and per-family visibility profiles. On 118 controlled injections, observability and detection depend strongly on defect family and decision protocol. The central result is structural rather than a detector ranking: flat and hierarchical scores are affine/rank-equivalent in the single-responsive-leaf setting, while clean-only matched-FPR equality is not identifiable. Long-horizon evaluations should therefore report the protocol's own observation boundary, validity limits, and reproducible evidence chain alongside aggregate system performance.
 
+## Data Availability
+
+The evaluation corpus is derived from the public TAT-QA tables; the frozen drift-v0 injector, the checkpoint-tree configuration, the aggregation code, and the analysis scripts are released as an anonymized artifact, with the exact revisions and content hashes listed in the artifact manifest. The FinQA second-flow execution is described by its frozen activation record and is reproducible from the released scripts; the semantic-judge model weights are third-party and are cited rather than redistributed. Study materials and intermediate artifacts are provided to reviewers through the anonymized repository referenced in the submission's additional-material field, and will be hosted with a persistent DOI upon acceptance. No client or proprietary data is used.
+
 ## References
 
 - Amrhein, C., Moghe, N., and Guillou, L. ACES: Translation Accuracy Challenge Sets for Evaluating Machine Translation Metrics. arXiv:2210.15615, 2022.
