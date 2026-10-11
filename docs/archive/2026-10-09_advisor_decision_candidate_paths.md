@@ -1,3 +1,5 @@
+> SUPERSEDED_BY: [`../../side_handoff.md`](../../side_handoff.md) | Historical Advisor candidate paths; archived after the 2026-10-11 session handoff.
+
 # Advisor-Gated Candidate Paths: Multi-leaf vs Second Dataflow
 
 > **For agentic workers:** REQUIRED SUB-SKILL: use `executing-plans` only after explicit user/mentor approval. This document is a decision-gated plan. It is not an execution authorization.

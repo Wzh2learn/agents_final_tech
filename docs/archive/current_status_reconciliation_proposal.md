@@ -1,3 +1,5 @@
+> SUPERSEDED_BY: [`../../side_handoff.md`](../../side_handoff.md) | Historical Status reconciliation proposal; archived after the 2026-10-11 session handoff.
+
 # Current Status Reconciliation Proposal
 
 > 状态: `PROPOSAL_ONLY / NOT_APPLIED / READ_ONLY_RECONCILIATION`

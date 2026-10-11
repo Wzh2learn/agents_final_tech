@@ -1,3 +1,5 @@
+> SUPERSEDED_BY: [`../../side_handoff.md`](../../side_handoff.md) | Historical Overnight handoff; archived after the 2026-10-11 session handoff.
+
 # Overnight Graph Loop Handoff 2026-10-10
 
 > Window: 2026-10-10 00:51–02:35 Asia/Shanghai | Execution host: GB10 | Formal Stage D training not run
