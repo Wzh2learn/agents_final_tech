@@ -2,7 +2,7 @@
 
 > Status: `FROZEN_SCOPE_NOT_PAPER_BODY`
 > Primary route: `A`
-> Optional route: `B / READ_ONLY_48H_QUALIFICATION`
+> Optional route: `B — STOPPED (STOP_BRANCH 2026-10-11; retained as history only)`
 > Manuscript hard freeze: `2026-10-20 18:00 Asia/Shanghai`
 
 ## Tentative Title
@@ -11,13 +11,13 @@
 
 ## One-Sentence Thesis
 
-Long-horizon evaluation validity depends on auditing the observation surface itself: controlled perturbations expose family-specific visibility blind spots, hierarchy alone does not guarantee diagnosability, and cross-dataflow transfer fails when visibility and detection measurement objects are not causally aligned.
+Long-horizon evaluation validity depends on auditing the observation surface itself: controlled perturbations expose family-specific observation boundaries, hierarchy alone does not guarantee diagnosability, and cross-dataflow transfer requires causally aligned measurement objects (stated as a design requirement, not a validated law).
 
 ## Frozen Contributions
 
 1. **Construct separation and observation boundaries.** Separate visibility, detection and harmfulness, quantify family-level visibility and report the OCR-like `0/13` boundary.
-2. **Structural identifiability and instrumentation.** Show that single-responsive-leaf flat/hierarchical scores are affine/rank-equivalent and that clean-only matched-FPR equality is not identifiable; show that explicit stage-aligned instrumentation, not hierarchy alone, produces the controlled localization signal.
-3. **Measurement-object alignment and failed transfer.** Treat FinQA v2 as a failed-transfer autopsy caused by measurement-object mismatch, and use NIST/TEVV construct-validity language to motivate auditing observation surfaces.
+2. **Structural identifiability and instrumentation.** Show that single-responsive-leaf flat/hierarchical scores are affine/rank-equivalent and that clean-only matched-FPR equality is not identifiable; show that, in a contract-derived construction, explicit stage-aligned instrumentation carries the separable controlled signature, while hierarchy alone produces no emergent localisation.
+3. **Measurement-object alignment and failed transfer.** Treat FinQA v2 as a failed-transfer autopsy consistent with a measurement-object mismatch, and use NIST/TEVV construct-validity language to motivate auditing observation surfaces.
 
 ## Allowed Claims
 
@@ -26,14 +26,15 @@ Long-horizon evaluation validity depends on auditing the observation surface its
 - OCR-like injections were invisible in the frozen Stage E surface: `0/13` across `11` table clusters.
 - Single-responsive-leaf flat/hierarchical scores are affine/rank-equivalent in the current construction.
 - Clean-only matched-FPR equality is not empirically identifiable when clean score support is zero.
-- Explicit stage-aligned instrumentation can produce separable controlled signatures; non-direct leaves do not establish emergent localization.
-- FinQA v2 demonstrates a failed transfer/measurement-object mismatch, not protocol blindness.
+- Explicit stage-aligned instrumentation can produce separable controlled signatures in the contract-derived construction; non-direct leaves do not establish emergent localization.
+- FinQA v2 is consistent with a failed transfer / measurement-object mismatch; it is not evidence of protocol blindness (both terms defined in `paper/saner_rene_claim_matrix_v1.json`).
 - NIST motivates evaluation of metric and TEVV effectiveness; it does not certify this project's metrics.
 
 ## Forbidden Claims
 
 - Universal blind spots across AI systems.
 - Hierarchy localizes natural failures.
+- Hierarchy alone produces emergent localisation.
 - Visibility-detection separation universally transfers across dataflows.
 - FinQA confirms protocol blindness.
 - A causal-aware checkpoint-selection method has been validated.
@@ -83,7 +84,7 @@ Panel B: FinQA failed-transfer boundary (`V=89/89`, `D=0/89`, `O=0/89`) labelled
 - One frozen public tabular corpus and synthetic controlled perturbations.
 - Limited mutation mechanisms; no natural-failure distribution.
 - Harmfulness is equivalence-dependent.
-- FinQA transfer failed because measurement objects were not causally aligned.
+- FinQA transfer is consistent with unaligned measurement objects; alternative explanations (scorer non-portability, threshold non-transfer, corpus shift) are not excluded.
 - No positive causal-aware checkpoint-selection method is claimed.
 - Per-stage multi-leaf inference is descriptive at the current sample size.
 

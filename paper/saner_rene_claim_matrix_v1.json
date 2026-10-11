@@ -1,11 +1,12 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "status": "FROZEN_SCOPE_NOT_PAPER_BODY",
   "primary_route": "A",
-  "optional_route": "B_READ_ONLY_48H_QUALIFICATION",
+  "optional_route": "B - STOPPED (STOP_BRANCH as of 2026-10-11; retained as history only, not an active option)",
   "hard_freeze": "2026-10-20T18:00:00+08:00",
   "title": "Visibility Is Not Detection: Auditing Observation Boundaries in Long-Horizon AI Evaluation",
-  "thesis": "Long-horizon evaluation validity depends on auditing the observation surface itself: controlled perturbations expose family-specific visibility blind spots, hierarchy alone does not guarantee diagnosability, and cross-dataflow transfer fails when visibility and detection measurement objects are not causally aligned.",
+  "title_note": "Single active title (2026-10-11 fix). Earlier working variants used 'Blind Spots'/'Quantifying Observation Boundaries'; both are retired.",
+  "thesis": "Long-horizon evaluation validity depends on auditing the observation surface itself: controlled perturbations expose family-specific observation boundaries, hierarchy alone does not guarantee diagnosability, and cross-dataflow transfer requires causally aligned measurement objects (stated as a design requirement, not a validated law).",
   "claims": [
     {
       "id": "C1",
@@ -20,7 +21,7 @@
     },
     {
       "id": "C2",
-      "claim": "Single-responsive-leaf flat/hierarchical scores are affine/rank-equivalent and clean-only matched-FPR equality is not identifiable; explicit stage-aligned instrumentation is required for controlled localization.",
+      "claim": "Single-responsive-leaf flat/hierarchical scores are affine/rank-equivalent (structural diagnosis) and clean-only matched-FPR equality is not identifiable (a statement about the frozen evidence, not a ranking of the protocols); in the controlled multi-leaf construction (features contract-derived and separable by construction), stage-aligned instrumentation carries the separable signature, and hierarchical organisation alone does not produce emergent localisation.",
       "evidence": [
         "docs/research/stage_e_matched_fpr_reanalysis_v1.md",
         "docs/research/stage_e_multileaf_result_packet_v1.md",
@@ -30,23 +31,35 @@
     },
     {
       "id": "C3",
-      "claim": "Cross-dataflow transfer requires causal alignment of measurement objects; the current FinQA v2 result is a failed-transfer/measurement-object-mismatch autopsy, not protocol blindness.",
+      "claim": "Cross-dataflow transfer requires causal alignment of measurement objects (stated as a design requirement, not a validated law). The frozen FinQA v2 second-dataflow result (formal class SECOND_FLOW_MIXED) is consistent with a failed-transfer / measurement-object mismatch; it is not evidence of protocol blindness (both terms are defined in `definitions`), because the detection predicate was undefined by construction for the perturbed object.",
       "evidence": [
         "docs/experiments/2026-10-10_loop_c_finqa_v2_formal_v3_recompute_audit.md",
         "docs/research/finqa_causal_exposure_preregistration_proposal_v1.md",
-        "docs/experiments/2026-10-11_loop_c_causal_checkpoint_mvp_design_audit.md"
+        "docs/experiments/2026-10-11_loop_c_causal_checkpoint_mvp_design_audit.md",
+        "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md",
+        "docs/research/finqa_v2_formal_v3_activation_record_v1.md"
       ],
       "allowed": true
     }
   ],
+  "definitions": {
+    "protocol blindness": "An evaluation protocol that cannot observe a defect under any tested observation surface or threshold within its frozen configuration. Used only as a defined alternative; the paper does not claim or exclude it without this definition.",
+    "MEASUREMENT_OBJECT_MISMATCH": "The perturbation and the detection rule operate on different measurement objects, so the detection predicate cannot respond to the perturbation by construction; this is a statement about object alignment, not about detector quality.",
+    "SECOND_FLOW_MIXED": "The frozen formal result class of the FinQA v2 second-dataflow run: a mixed observation/detection pattern produced under a construction that was not causally aligned. A classification only; it is not a performance or transfer claim.",
+    "M aliasing (Route B)": "Two M-stage leaf slots written from the same predicate, so the source-local / downstream partition is not separable (MVP design audit, filed HIGH).",
+    "R/N downstream non-estimability (Route B)": "For stages R and N no downstream checkpoint responded on the frozen carriers, so the downstream causal term could not be estimated.",
+    "harmfulness equivalence-dependence": "Harmfulness is defined relative to a stated equivalence contract; changing the contract can change the label (hence the boundary framing)."
+  },
   "forbidden_claims": [
     "universal blind spots across AI systems",
     "hierarchy localizes natural failures",
+    "hierarchy alone produces emergent localisation",
     "visibility-detection separation universally transfers",
     "FinQA confirms protocol blindness",
     "causal-aware checkpoint selection is validated",
     "automatic checkpoint or oracle generation",
     "complete causal discovery",
+    "semantic process correctness or harmfulness beyond the stated equivalence contract",
     "Stage D/C4 or PRM performance"
   ],
   "figures": {
@@ -55,20 +68,28 @@
     "figure_3": "multi-leaf full/direct/non-direct ablation plus FinQA failed-transfer measurement-object boundary"
   },
   "evidence_hashes": {
-    "stage_e_118_quantification_v1.md": "39134a1359cd153175f793e0b1d5ff8ebaed5ee8df8e415a79fcfb42a9ff9084",
-    "stage_e_zero_event_uncertainty_note_v1.md": "97ccc92ccd7d31b9c3e37b1d8250d439f21d0e79c251f298254355097a57a5b7",
-    "stage_e_matched_fpr_reanalysis_v1.md": "611b2c2f2e2cabf62a007e281fcd999f913df2f4e220474f7d1a31a1ce4bc1e9",
-    "stage_e_multileaf_result_packet_v1.md": "99ccc81b92db2d5350aafdefb44ce73ec055ab8e33008e54aed5456ec3d9cbb8",
-    "stage_e_multileaf_signature_ablation_v1.md": "4d4961d4eb274ce8adaa786920bbb33c41c5b3be473bcc941380f5fafd089c3d",
-    "nist_measurement_validity_ledger_v2.md": "84cb4621b1bde099a9a4c76b04c033eb91cd2af1fe25bbf1b63e3a404a145cec",
-    "finqa_formal_v3_recompute_audit.md": "2435b838537c8bdbf5d687fb3b6c71e6db35fc0c06a094915f549c801bdfd3a6",
-    "causal_checkpoint_design_audit.md": "7ccc685d466f91299e42b77612f216c74cfda1eeeb60e73c2645a176b1005182"
+    "docs/research/stage_e_118_quantification_v1.md": "39134a1359cd153175f793e0b1d5ff8ebaed5ee8df8e415a79fcfb42a9ff9084",
+    "docs/research/stage_e_observability_metrics_v1.md": "204f178f35ce28398f9b770453a4edf1904ee933e37cbbc378fbde3bb11e38c1",
+    "logs/graph/eval/checkpoint_discrimination_tables_v2.json": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+    "logs/graph/eval/t2_visibility_sensitivity.json": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5",
+    "docs/research/stage_e_zero_event_uncertainty_note_v1.md": "97ccc92ccd7d31b9c3e37b1d8250d439f21d0e79c251f298254355097a57a5b7",
+    "docs/research/stage_e_matched_fpr_reanalysis_v1.md": "611b2c2f2e2cabf62a007e281fcd999f913df2f4e220474f7d1a31a1ce4bc1e9",
+    "docs/research/stage_e_multileaf_result_packet_v1.md": "99ccc81b92db2d5350aafdefb44ce73ec055ab8e33008e54aed5456ec3d9cbb8",
+    "docs/research/stage_e_multileaf_signature_ablation_v1.md": "4d4961d4eb274ce8adaa786920bbb33c41c5b3be473bcc941380f5fafd089c3d",
+    "docs/experiments/2026-10-10_loop_c_finqa_v2_formal_v3_recompute_audit.md": "2435b838537c8bdbf5d687fb3b6c71e6db35fc0c06a094915f549c801bdfd3a6",
+    "docs/research/finqa_causal_exposure_preregistration_proposal_v1.md": "6a9d6965988f80dcd3be3702577540eeba16138a2c7754ba34930d1ce0cb6216",
+    "docs/experiments/2026-10-11_loop_c_causal_checkpoint_mvp_design_audit.md": "7ccc685d466f91299e42b77612f216c74cfda1eeeb60e73c2645a176b1005182",
+    "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md": "340794d244aa29f1846c02f04237cb6d757d6f0e73dcfc229f7f2431fafedf67",
+    "docs/research/finqa_v2_formal_v3_activation_record_v1.md": "a74aed656f63f560b274c9a465e47766d8931c7ee60d33a6e009f8311bfa105f",
+    "docs/research/nist_measurement_validity_ledger_v2.md": "84cb4621b1bde099a9a4c76b04c033eb91cd2af1fe25bbf1b63e3a404a145cec",
+    "docs/experiments/2026-08-18_drift_injection_v0.md": "a9a9fea11854cef68f6b90a8786948de694a9412e6d2e5214dc61b71084a2bc8"
   },
+  "hash_binding_note": "sha256 values are bound to GB10 raw bytes (the authoritative host) and were all recomputed/verified on 2026-10-11. Every cited evidence path has an entry; no cited path is unbound.",
+  "corpus_note": "Frozen evaluation corpus: normalized public TAT-QA table base (no client data); the drift-v0 injector (seed 42, ratio 0.3, deterministic) marks the injection-carrier tables; the frozen surface uses the 95 such tables and their 118 injections (docs/experiments/2026-08-18_drift_injection_v0.md).",
+  "internal_manifest_note": "paper/claim_manifest_v1.json is the finer-grained Stage-E internal claim ledger; this matrix is the SANER Route A authority. Residual: a clause-level mapping between the two is not yet enumerated; cite this matrix.",
   "route_b_qualification": {
     "status": "NO",
     "decision": "STOP_BRANCH",
-    "reason": "No two execution-confirmed downstream stages with source-local/downstream separation and two genuine mechanisms per stage; current C audit finds M aliasing and R/N downstream non-estimability."
+    "reason": "No two execution-confirmed downstream stages with source-local/downstream separation and two genuine mechanisms per stage; the C audit found M aliasing and R/N downstream non-estimability (both defined in `definitions`)."
   }
 }
-        "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md",
-        "docs/research/finqa_v2_formal_v3_activation_record_v1.md",

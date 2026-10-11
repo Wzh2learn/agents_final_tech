@@ -378,7 +378,7 @@ n canonical headers can move the score by at most 1/n and only narrow tables rem
 gamma [logs/graph/eval/t2_visibility_sensitivity.json, prereg_predicates]. Injector-seed
 sensitivity is bounded separately: re-running the flat protocol under three seeds with
 everything else held fixed gives table-detection rates of 0.7895, 0.7835 and 0.7556, a
-spread of 0.0339, pooled 0.7766 with CI95 [0.727, 0.8227], and the seed-42 run reproduces
+spread of 0.0339, denominator-weighted pooled 219/282 = 0.7766 with percentile bootstrap CI95 [0.727, 0.8227] over the pooled 282 table units (per-seed 75/95, 76/97, 68/90; seed 20260830; endpoints on the k/282 grid), and the seed-42 run reproduces
 the frozen artifact byte-for-byte
 [logs/graph/eval/t4_pso_fair_comparison.json, payload.e1_6.seed_distribution_E1_2_flat /
 .pooled_across_seeds / .gate_seed42_byte_identity].
@@ -444,7 +444,7 @@ harm jointly determine gating value.
 Matching competition. Under overlay shared headers, multiple canonical
 variants of the same column compete for a single slot; even when every
 ground-truth rule is present, inter-column competition compresses the
-correctness ceiling (oracle: plain 0.952381 vs collision 0.597015). Gating
+correctness ceiling (oracle: plain 20/21 = 0.952381 vs collision 40/67 = 0.597015; different denominators, not a ratio comparison). Gating
 blocks incremental harm only, not the stock competition
 [logs/graph/eval/t6_matching_competition.json].
 
@@ -541,7 +541,7 @@ scorer effects was pre-registered and is now deferred, so the claim stays at its
 evidence level rather than being upgraded. Third, the matching-competition ceiling is a
 property of the scoring layer rather than of the assignment algorithm: greedy is already
 globally optimal here (0 flips against Hungarian) while the oracle correctness ceiling drops
-from 0.952381 to 0.597015 under overlay sharing, so no post-hoc assignment fix is proposed
+from 20/21 = 0.952381 to 40/67 = 0.597015 (different denominators) under overlay sharing, so no post-hoc assignment fix is proposed
 [logs/graph/eval/t6_matching_competition.json, gates.g4_oracle_plain /
 .g4_oracle_overlay].
 

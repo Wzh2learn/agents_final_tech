@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_SCOPE_NOT_PAPER_BODY",
+  "primary_route": "A",
+  "optional_route": "B_READ_ONLY_48H_QUALIFICATION",
+  "hard_freeze": "2026-10-20T18:00:00+08:00",
+  "title": "Visibility Is Not Detection: Auditing Observation Boundaries in Long-Horizon AI Evaluation",
+  "thesis": "Long-horizon evaluation validity depends on auditing the observation surface itself: controlled perturbations expose family-specific visibility blind spots, hierarchy alone does not guarantee diagnosability, and cross-dataflow transfer fails when visibility and detection measurement objects are not causally aligned.",
+  "claims": [
+    {
+      "id": "C1",
+      "claim": "Visibility, detection and harmfulness are distinct constructs and the frozen evaluator has family-specific observation boundaries.",
+      "evidence": [
+        "docs/research/stage_e_118_quantification_v1.md",
+        "docs/research/stage_e_observability_metrics_v1.md",
+        "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+        "logs/graph/eval/t2_visibility_sensitivity.json"
+      ],
+      "allowed": true
+    },
+    {
+      "id": "C2",
+      "claim": "Single-responsive-leaf flat/hierarchical scores are affine/rank-equivalent and clean-only matched-FPR equality is not identifiable; explicit stage-aligned instrumentation is required for controlled localization.",
+      "evidence": [
+        "docs/research/stage_e_matched_fpr_reanalysis_v1.md",
+        "docs/research/stage_e_multileaf_result_packet_v1.md",
+        "docs/research/stage_e_multileaf_signature_ablation_v1.md"
+      ],
+      "allowed": true
+    },
+    {
+      "id": "C3",
+      "claim": "Cross-dataflow transfer requires causal alignment of measurement objects; the current FinQA v2 result is a failed-transfer/measurement-object-mismatch autopsy, not protocol blindness.",
+      "evidence": [
+        "docs/experiments/2026-10-10_loop_c_finqa_v2_formal_v3_recompute_audit.md",
+        "docs/research/finqa_causal_exposure_preregistration_proposal_v1.md",
+        "docs/experiments/2026-10-11_loop_c_causal_checkpoint_mvp_design_audit.md"
+      ],
+      "allowed": true
+    }
+  ],
+  "forbidden_claims": [
+    "universal blind spots across AI systems",
+    "hierarchy localizes natural failures",
+    "visibility-detection separation universally transfers",
+    "FinQA confirms protocol blindness",
+    "causal-aware checkpoint selection is validated",
+    "automatic checkpoint or oracle generation",
+    "complete causal discovery",
+    "Stage D/C4 or PRM performance"
+  ],
+  "figures": {
+    "figure_1": "NIST/long-horizon motivation -> failure -> checkpoint visibility -> protocol detection -> outcome/harm",
+    "figure_2": "six defect families x visibility surface; OCR-like 0/13 across 11 clusters",
+    "figure_3": "multi-leaf full/direct/non-direct ablation plus FinQA failed-transfer measurement-object boundary"
+  },
+  "evidence_hashes": {
+    "stage_e_118_quantification_v1.md": "39134a1359cd153175f793e0b1d5ff8ebaed5ee8df8e415a79fcfb42a9ff9084",
+    "stage_e_zero_event_uncertainty_note_v1.md": "97ccc92ccd7d31b9c3e37b1d8250d439f21d0e79c251f298254355097a57a5b7",
+    "stage_e_matched_fpr_reanalysis_v1.md": "611b2c2f2e2cabf62a007e281fcd999f913df2f4e220474f7d1a31a1ce4bc1e9",
+    "stage_e_multileaf_result_packet_v1.md": "99ccc81b92db2d5350aafdefb44ce73ec055ab8e33008e54aed5456ec3d9cbb8",
+    "stage_e_multileaf_signature_ablation_v1.md": "4d4961d4eb274ce8adaa786920bbb33c41c5b3be473bcc941380f5fafd089c3d",
+    "nist_measurement_validity_ledger_v2.md": "84cb4621b1bde099a9a4c76b04c033eb91cd2af1fe25bbf1b63e3a404a145cec",
+    "finqa_formal_v3_recompute_audit.md": "2435b838537c8bdbf5d687fb3b6c71e6db35fc0c06a094915f549c801bdfd3a6",
+    "causal_checkpoint_design_audit.md": "7ccc685d466f91299e42b77612f216c74cfda1eeeb60e73c2645a176b1005182"
+  },
+  "route_b_qualification": {
+    "status": "NO",
+    "decision": "STOP_BRANCH",
+    "reason": "No two execution-confirmed downstream stages with source-local/downstream separation and two genuine mechanisms per stage; current C audit finds M aliasing and R/N downstream non-estimability."
+  }
+}
+        "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md",
+        "docs/research/finqa_v2_formal_v3_activation_record_v1.md",

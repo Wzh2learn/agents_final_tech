@@ -4,21 +4,21 @@
 
 ## 1. Proposed title
 
-**Visibility Is Not Detection: Quantifying Observation Boundaries in Long-Horizon AI Evaluation**
+**Visibility Is Not Detection: Auditing Observation Boundaries in Long-Horizon AI Evaluation**
 
 ## 2. Three contributions
 
 1. **Construct separation and observation boundaries.** Separate visibility, detection, and harmfulness as distinct evaluation constructs, and quantify family-level observation boundaries.
 2. **Protocol identifiability.** Show that single-responsive-leaf hierarchy scores collapse to an affine/rank-equivalent measurement, while clean-only matched operating points are not identifiable under zero-support clean scores.
-3. **Instrumentation-aligned controlled localization.** Using preregistered mapping/retrieval/numeric perturbations, show that explicit stage-aligned checkpoints produce separable visibility signatures; ablation demonstrates that localization disappears without directly instrumented stage signals.
+3. **Stage-aligned instrumentation (contract-derived signature).** Using preregistered mapping/retrieval/numeric perturbations, show that explicit stage-aligned checkpoints carry the separable stage signature in a contract-derived construction; the exploratory ablation shows the boundary - when directly targeted checkpoints are removed, LOCO macro-F1 falls to the three-class chance level (0.3333). This is not a claim of controlled localization or of hierarchy-based localisation.
 
-Scientific implication: **Structured evaluation can support diagnosis only when its observation surface is aligned with the failure stages; hierarchical organization alone is insufficient.**
+Scientific implication: **In our construction, structured evaluation supports diagnosis only when its observation surface is aligned with the failure stages; hierarchical organisation alone does not guarantee diagnosability.**
 
 The third contribution must not be shortened to “hierarchy localizes failures.”
 
 ## 3. Abstract candidate
 
-Long-horizon AI systems are commonly evaluated by final answers, which conflate three distinct questions: whether an intermediate checkpoint observes a defect, whether the evaluation protocol detects it, and whether the defect is harmful under a stated equivalence contract. We introduce an evaluation-protocol audit that separates these constructs and reports observation boundaries rather than only aggregate accuracy. On a frozen public tabular corpus of 95 tables and 118 controlled injections, 96 injections are checkpoint-visible, while 0/13 OCR-like injections are visible across 11 table clusters. Protocol counts use different detection signals and therefore do not form a single partition of visibility. In the current single-responsive-leaf construction, flat and hierarchical scores are positive affine transformations with identical rankings and ROC geometry; a clean-only matched-FPR operating point is not empirically identifiable because all clean scores are zero. Preregistered mapping, retrieval, and numeric perturbations induce perfectly separable stage-aligned signatures on an explicitly instrumented observation surface. When directly targeted checkpoints are removed, localization collapses to approximately chance, showing that the result reflects stage-aligned instrumentation rather than emergent localization from the remaining hierarchy. Structured evaluation can support diagnosis only when its observation surface is aligned with failure stages; hierarchical organization alone is insufficient.
+Long-horizon AI systems are commonly evaluated by final answers, which conflate three distinct questions: whether an intermediate checkpoint observes a defect, whether the evaluation protocol detects it, and whether the defect is harmful under a stated equivalence contract. We introduce an evaluation-protocol audit that separates these constructs and reports observation boundaries rather than only aggregate accuracy. On a frozen public tabular corpus of 95 tables and 118 controlled injections, 96 injections are checkpoint-visible, while 0/13 OCR-like injections are visible across 11 table clusters. Protocol counts use different detection signals and therefore do not form a single partition of visibility. In the current single-responsive-leaf construction, flat and hierarchical scores are positive affine transformations with identical rankings and ROC geometry; a clean-only matched-FPR operating point is not empirically identifiable because all clean scores are zero. Preregistered mapping, retrieval, and numeric perturbations induce perfectly separable stage-aligned signatures on an explicitly instrumented observation surface (the features are contract-derived and separable by construction; the full vector equals the direct three-leaf codebook at macro-F1 1.0). When directly targeted checkpoints are removed, LOCO macro-F1 falls to the three-class chance level (0.3333), showing that the result reflects stage-aligned instrumentation rather than emergent localisation from the remaining hierarchy. In our construction, structured evaluation supports diagnosis only when its observation surface is aligned with failure stages; hierarchical organisation alone does not guarantee it.
 
 ## 4. Introduction logic
 
@@ -42,7 +42,7 @@ Long-horizon AI systems are commonly evaluated by final answers, which conflate 
 | clean-only matched-FPR equality | `NOT IDENTIFIABLE` | negative boundary |
 | M/R/N 24 clusters/stage, 216 injections | controlled | multi-stage stress test |
 | LOCO macro-F1/top-1 = 1.0 | controlled | positive but construct-sensitive |
-| direct-codebook ablation = 1.0 | exploratory | limitation/negative evidence |
+| direct-codebook ablation = 1.0 (canonical triple: full 1.0 / direct 1.0 / non-direct 0.3333) | exploratory | limitation/negative evidence |
 | second dataflow / natural signatures | future | external validity |
 
 ## 6. Required limitations
