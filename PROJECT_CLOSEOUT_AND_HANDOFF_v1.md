@@ -100,7 +100,7 @@
 | claim↔evidence 校验覆盖面 | **已扩展** | `scripts/verify_claim_evidence.py` v2 覆盖 4 组：claim matrix(15) + 图件绑定(20) + 引用一致性(21/21) + prereg pin；`WIDE_EVIDENCE_CHECK = PASS`。仍未覆盖：PDF 正文内数字与 manifest 的逐条对应 |
 | preflight v2 | **仅规范** | 已升级为 12 项，但既有实验不会追溯满足；下次实验才生效 |
 | precedent 全文核对 | **未做** | 仍停在 abstract 级（IEEE 付费墙）；已登记为 camera-ready 待办 |
-| 语言润色（native pass） | **未做** | 稿件处于科学冻结期，只做过只读语言审计 |
+| 语言润色（native pass） | **已完成** | 美式拼写统一（localisation→localization 3 处、organisation→organization 2 处）+ 5 处破折号语法修正；重建 tex/bundle/PDF 后仍 8 页 / 0 overfull；所有数字未变。见 `PDF_LAYOUT_AUDIT_v1.md` 的 Language pass 节 |
 | memory 维护自动化 | **已完成** | 已创建双周 heartbeat automation `memory-hygiene`：自动检查 THREADS 体积/条目年龄、超阈值则按块字节级归档、校验 STATE/side_handoff/INDEX 的 canonical 路径、扫 repo 与父目录的 scratch、运行证据校验器；无事静默 |
 | 单点权威主机（GB10） | **未缓解** | 无镜像 / 无第二主机复算路径；已在依赖清单登记 |
 | 父目录剩余非引用物 | **已判定保留** | 见上；不再动 |
