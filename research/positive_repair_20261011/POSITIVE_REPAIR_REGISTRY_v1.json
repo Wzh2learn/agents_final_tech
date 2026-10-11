@@ -1,7 +1,7 @@
 {
   "schema_version": "positive_repair_registry_v3_closeout",
   "created": "2026-10-11",
-  "updated": "2026-10-11 PR-03 v3 executed (gate PASS; frozen rule = NEGATIVE; no genuine repair positive)",
+  "updated": "2026-10-11 PR-03 v3 = NEGATIVE; PR03_SPILLOVER_AUDIT = PASS (CLEAN); round-1 PR-EXP-03 metrics/receipt superseded for scientific interpretation",
   "namespace": "TRACK_P_POSITIVE_REPAIR",
   "authority_note": "REGISTRY ONLY. No experiment is authorized by this file.",
   "counting_rule": "Only experiment_role = INTERVENTION_REPAIR AND result = POSITIVE counts toward the synthesis gate. Supporting roles never count. Engineering failures are never counted as scientific classes.",
@@ -211,5 +211,26 @@
       "A3 counts the 72 M positive controls as false positives, so PATH A POSITIVE is unreachable by the frozen rule"
     ],
     "notes": "Gate PASS; effect measurement entered; frozen rule returns NEGATIVE. Branch concluded (no positive to chase); no fourth recovery."
+  },
+  "supersession": {
+    "scope": [
+      "research/positive_repair_20261011/runs_local_mirror/PR-EXP-03/metrics.json",
+      "research/positive_repair_20261011/runs_local_mirror/PR-EXP-03/receipt.json"
+    ],
+    "status": "SUPERSEDED_FOR_SCIENTIFIC_INTERPRETATION",
+    "reason": "not reproducible by the delivered frozen implementation (a1_table shadowing bug; predict_loco O(groups^2) makes the frozen diagnostic bootstrap infeasible)",
+    "retention": "files retained; deletion forbidden; barred from manuscript-evidence use",
+    "marker": "research/positive_repair_20261011/runs_local_mirror/PR-EXP-03/SUPERSEDED_FOR_SCIENTIFIC_INTERPRETATION.md"
+  },
+  "spillover_audit": {
+    "audit": "research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md",
+    "verdict": "PASS_CLEAN",
+    "defects_checked": [
+      "A runtime shadowing bug",
+      "B predict_loco runtime/provenance mismatch",
+      "C dead field_hit baseline"
+    ],
+    "result": "NO_SPILLOVER into any Track A asset; multi-leaf headline numbers provenance independent of the PR-EXP-03 lineage",
+    "submission_draft_complete": "YES (unchanged)"
   }
 }
