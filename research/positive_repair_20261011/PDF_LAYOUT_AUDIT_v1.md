@@ -16,7 +16,7 @@
 - Equations: the aggregation recursion S(n) and the threshold set Gamma render correctly.
 - Citations: all 21 resolve; zero "??" and zero LaTeX citation warnings.
 - Overfull \hbox: 0.
-- Underfull \hbox: 196 (cosmetic; almost all inside fixed-width table cells and one artifact/path paragraph; no visible defect).
+- Underfull \hbox: 63 (cosmetic; reduced from 196 by switching table p-columns to ragged-right (>{\raggedright\arraybackslash}); the remainder is one artifact/path paragraph with long break-resistant tokens plus normal short final lines). No visible defect.
 - Two-column balance, section headings, and float placement: acceptable; no broken headings or runaway floats observed.
 
 ## Visual QA (page images rendered at 2.2x and inspected)

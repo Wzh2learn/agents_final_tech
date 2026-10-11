@@ -8,6 +8,7 @@
 \usepackage{url}
 \usepackage{amsmath}
 \usepackage{seqsplit}
+\usepackage{array}
 \hyphenation{op-tical net-works semi-conduc-tor}
 \setlength{\emergencystretch}{3em}
 \begin{document}
@@ -54,7 +55,7 @@ The primary conceptual structure is the following visibility-by-detection matrix
 \centering
 \small
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{p{0.293\columnwidth}p{0.293\columnwidth}p{0.293\columnwidth}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.293\columnwidth}>{\raggedright\arraybackslash}p{0.293\columnwidth}>{\raggedright\arraybackslash}p{0.293\columnwidth}}
 \hline
 Checkpoint evidence & Protocol detects & Protocol does not detect \\
 \hline
@@ -112,7 +113,7 @@ The raw detection counts are not evidence of protocol discriminability. Table 1 
 \centering
 \small
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{p{0.220\columnwidth}p{0.220\columnwidth}p{0.220\columnwidth}p{0.220\columnwidth}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.220\columnwidth}>{\raggedright\arraybackslash}p{0.220\columnwidth}>{\raggedright\arraybackslash}p{0.220\columnwidth}>{\raggedright\arraybackslash}p{0.220\columnwidth}}
 \hline
 Protocol & Detection signal & Tables detected & Injections detected \\
 \hline

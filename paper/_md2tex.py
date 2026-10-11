@@ -111,7 +111,7 @@ while i < len(lines):
             if not all(re.fullmatch(r":?-{2,}:?", c or "") for c in cells): rows.append(cells)
             i+=1
         ncol=max(len(r) for r in rows)
-        colw = 0.88/ncol; spec = "".join("p{%.3f\\columnwidth}" % colw for _ in range(ncol)); body.append(r"\begin{table}[t]"); body.append(r"\centering"); body.append(r"\small"); body.append(r"\setlength{\tabcolsep}{3pt}"); body.append(r"\begin{tabular}{"+spec+"}"); body.append(r"\hline")
+        colw = 0.88/ncol; spec = "".join(">{\\raggedright\\arraybackslash}p{%.3f\\columnwidth}" % colw for _ in range(ncol)); body.append(r"\begin{table}[t]"); body.append(r"\centering"); body.append(r"\small"); body.append(r"\setlength{\tabcolsep}{3pt}"); body.append(r"\begin{tabular}{"+spec+"}"); body.append(r"\hline")
         for ri,r in enumerate(rows):
             body.append(" & ".join(inline(c) for c in r)+r" \\")
             if ri==0: body.append(r"\hline")
@@ -136,6 +136,7 @@ header = r"""% SANER 2027 RENE submission (RENE: NegativeResult)
 \usepackage{url}
 \usepackage{amsmath}
 \usepackage{seqsplit}
+\usepackage{array}
 \hyphenation{op-tical net-works semi-conduc-tor}
 \setlength{\emergencystretch}{3em}
 \begin{document}
