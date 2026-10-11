@@ -18,6 +18,20 @@
 | 科研主线与论文验收 | [`research/README.md`](research/README.md) |
 | 会话/侧线交接 | [`../side_handoff.md`](../side_handoff.md)；索引见 [`handoff/README.md`](handoff/README.md) |
 
+## SANER 投稿（Route A，submission-completion）
+
+| 需要 | 权威入口 | 当前口径 |
+|---|---|---|
+| Fresh-session 第一入口 | [`../PROJECT_CLOSEOUT_AND_HANDOFF_v1.md`](../PROJECT_CLOSEOUT_AND_HANDOFF_v1.md) | 项目状态、canonical 资产、分支台账、blockers、技术债 |
+| Venue 官方要求 | [`../paper/SANER_RENE_2027_REQUIREMENTS.md`](../paper/SANER_RENE_2027_REQUIREMENTS.md) | primary-source 核实；`RENE: NegativeResult`；10 页 + 2 页 references-only |
+| Claim 边界（唯一权威） | [`../paper/saner_rene_claim_matrix_v1.json`](../paper/saner_rene_claim_matrix_v1.json) | C1–C3 + forbidden claims |
+| Scope lock | [`../paper/saner_rene_manuscript_scope_lock_v1.md`](../paper/saner_rene_manuscript_scope_lock_v1.md) | 标题、贡献、figure definitions |
+| Manuscript 源文件 | [`../paper/saner_rene_manuscript_v1.md`](../paper/saner_rene_manuscript_v1.md) | 科学内容为准；本阶段 FROZEN |
+| 投稿 bundle（含已编译 PDF） | [`../paper/overleaf_bundle/`](../paper/overleaf_bundle/) | tex + bib + figures + PDF（8 页） |
+| 版面/匿名审计 | [`../research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md`](../research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md) | PASS |
+| Abstract 注册包 | [`../research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md`](../research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md) | READY（余 owner 两项） |
+| Track P registry / 收束 | [`../research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json`](../research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json) | CLOSED；LEVEL_0；PR-03 = NEGATIVE / DECLINE_CITE |
+| PR-03 溢出审计 | [`../research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md`](../research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md) | PASS (CLEAN) |
 ## 科研收口
 
 | 需要 | 权威入口 | 当前口径 |

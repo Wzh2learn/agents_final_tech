@@ -1,6 +1,14 @@
 # Current State
 
-> Updated: 2026-10-11 | Scope: SANER Route A, FinQA interpretation closure, and repository governance | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
+> Updated: 2026-10-11 (submission-completion + Track P closeout) | Scope: SANER Route A submission package, Track P closure, repository governance | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
+
+## 2026-10-11 submission closeout (Loop D)
+
+- `SUBMISSION_DRAFT_COMPLETE = YES`: compiled PDF `paper/overleaf_bundle/saner_rene_manuscript_v1.pdf` (8 pages, 0 overfull boxes, references resolved, figures verified, layout audit PASS, anonymization + PDF metadata PASS).
+- Manuscript science is frozen for this stage; canonical source `paper/saner_rene_manuscript_v1.md`; claim authority `paper/saner_rene_claim_matrix_v1.json`; venue rules `paper/SANER_RENE_2027_REQUIREMENTS.md`.
+- Human-only blockers: H1 coauthor ordering/corresponding author, final venue decision (SANER RENE default), anonymized artifact URL, owner authorization for abstract registration (10/19 AoE) and submission (10/23 AoE).
+- Track P CLOSED: PR-03 v3 = `NEGATIVE` (gate PASS, effect measurement entered; frozen rule returns NEGATIVE), Evidence Ladder = LEVEL_0, no fourth recovery. Round-1 PR-EXP-03 metrics/receipts marked `SUPERSEDED_FOR_SCIENTIFIC_INTERPRETATION` (frozen v2 implementation is non-executable and its diagnostic bootstrap is infeasible). `PR03_SPILLOVER_AUDIT = PASS (CLEAN)`: no Track P lineage touches any Track A evidence.
+- Fresh-session entry: `PROJECT_CLOSEOUT_AND_HANDOFF_v1.md`.
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions: [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md). The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 

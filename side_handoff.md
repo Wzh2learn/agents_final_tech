@@ -1,55 +1,63 @@
 # Project: JinRongAgents
-# Last updated: 2026-10-11 by Loop D repository-governance closeout
+# Last updated: 2026-10-11 by Loop D submission-completion + Track P closeout
 # Scope: fresh-session handoff for SANER Route A
+
+## Start here
+
+Read `PROJECT_CLOSEOUT_AND_HANDOFF_v1.md` first. It carries the current status, the canonical asset entry points, the branch ledger, the human-only blockers, the known debt, and the recommended continuation. This file is the short pointer; that file is the authority.
 
 ## Current status
 
-- `PRIMARY_ROUTE = A`. Resume the SANER RENE manuscript from `paper/saner_rene_manuscript_scope_lock_v1.md` and `paper/saner_rene_claim_matrix_v1.json`.
-- Route B is `B_QUALIFICATION = NO / STOP_BRANCH`. Do not reopen it without a new user decision.
-- Repository governance is `PASS / CROSS_HOST_RECEIPT_VERIFIED`. LOCAL, GB10, and `origin/main` reconcile at the commit containing this handoff.
-- No new formal scientific experiment is required or authorized for the next Route A writing step.
+- `PRIMARY_ROUTE = A` (SANER 2027 RENE, submission type `RENE: NegativeResult`).
+- `SUBMISSION_DRAFT_COMPLETE = YES`. The bundle is compiled and audited: `paper/overleaf_bundle/saner_rene_manuscript_v1.pdf` (8 pages, 0 overfull boxes, references resolved, figures verified).
+- Manuscript science is FROZEN for this stage: `paper/saner_rene_manuscript_v1.md` is the source of truth; do not modify title, abstract, contributions, results, discussion, or conclusion without a new user decision.
+- Route B is `B_QUALIFICATION = NO / STOP_BRANCH`. Do not reopen it.
+- Track P is CLOSED: PR-03 v3 = NEGATIVE, Evidence Ladder = LEVEL_0, no fourth recovery, spillover audit CLEAN. PR-EXP-01/04/07 remain frozen.
+- Repository governance is `PASS`. LOCAL, GB10, and `origin/main` reconcile at the commit containing this handoff.
 
 ## Scientific and claim boundary
 
 - FinQA formal-v3 remains `SECOND_FLOW_MIXED`; the accepted interpretation is `MEASUREMENT_OBJECT_MISMATCH`, not protocol blindness or confirmed transfer.
-- Both FinQA INVALID runs remain `INVALID_BUT_PRESERVED` and support no positive scientific claim.
-- Multi-leaf evidence remains positive but construct-sensitive: the direct-codebook ablation is also `1.0`, so claims must preserve that boundary.
-- The current paper story is: blind spots exist; hierarchy alone does not create diagnosability; stage-aligned instrumentation matters; measurement objects must be causally aligned; observation surfaces themselves require validity auditing.
+- Multi-leaf evidence is positive but construct-sensitive: the direct-codebook ablation is also `1.0`, so claims must preserve that boundary.
+- Stage E: 96/118 visible, OCR-like `0/13` across 11 clusters; single-responsive-leaf flat/hierarchy are affine/rank-equivalent; clean-only matched-FPR is `NOT_IDENTIFIABLE`.
+- Paper story: blind spots exist; hierarchy alone does not create diagnosability; stage-aligned instrumentation matters; measurement objects must be causally aligned; observation surfaces themselves require validity auditing.
 
 ## Canonical evidence
 
-- Route A scope: `paper/saner_rene_manuscript_scope_lock_v1.md`
 - Claim authority: `paper/saner_rene_claim_matrix_v1.json`
-- Paper asset ledger: `paper/research_asset_map_v2.md`
+- Scope lock: `paper/saner_rene_manuscript_scope_lock_v1.md`
+- Venue requirements: `paper/SANER_RENE_2027_REQUIREMENTS.md`
+- Submission bundle: `paper/overleaf_bundle/`
+- Layout audit: `research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md`
+- Abstract registration pack: `research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md`
+- Track P registry + PR-03 closeout: `research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json`, `PR-03_v3_RESULT_v1.md`, `PR03_SPILLOVER_AUDIT_v1.md`
 - FinQA interpretation: `docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md`
-- FinQA lineage: `docs/research/finqa_v2_asset_lineage_v1.md`
-- Cross-host PASS: `docs/experiments/2026-10-11_cross_host_receipt_verification.json`
-- Governance closeout: `docs/handoff/repository_governance_and_sync_2026-10-11.md`
 
 ## Verification baseline
 
-- GB10 full pytest: `929 passed / 13 skipped / 1 deselected / 10 warnings`
-- Final focused checks: `26 passed`
-- Paper claims: `PASS 79/79`, 5 claims
-- Submission package: `PASS 10/10`, `PENDING_EXTERNAL_ITEMS`, not submission-ready
-- Docs lint: `PASS 0 fail / 6 existing warnings`
-- Frozen hashes: `5/5`, 0 violations
-- Cross-host receipts: `RECEIPT_VERIFIED`, content-semantic match and identity hash chains valid
-- Raw-byte note: one LOCAL receipt sidecar changes under Windows/Git EOL normalization; normalized identity hash remains valid and is the cross-host authority.
+- Compiled PDF: 8 pages, 0 overfull `\hbox`, 0 undefined citations, 196 cosmetic underfull boxes.
+- Anonymization: source scan PASS; PDF metadata Author empty, Title set.
+- References: 21 entries, all verified (arXiv API + Crossref + official SANER RENE pages + NIST DOIs).
+- GB10 full pytest: `929 passed / 13 skipped / 1 deselected / 10 warnings` (unchanged).
+- Paper claims: `PASS 79/79` (5 claims) at the last governance audit.
+- Cross-host receipts: `RECEIPT_VERIFIED`.
+- Raw-byte note: one LOCAL receipt sidecar changes under Windows/Git EOL normalization; the normalized identity hash remains the cross-host authority.
 
 ## Next-session handoff
 
-1. Resume Route A writing and evidence integration only.
-2. Highest-ROI first task: bind Figure 1/2/3 source artifacts and complete the reviewer-attack claim audit.
-3. Keep FinQA as a methodological boundary/failed-transfer autopsy, not transfer evidence.
-4. Use NIST/construct-validity framing to connect the existing negative and construct-sensitive results.
-5. Treat causal cost-aware checkpoint selection as future work, not a prerequisite for the SANER manuscript.
-6. Do not modify frozen scientific results, metrics, thresholds, splits, joins, or sample populations.
+1. Wait for the owner decisions in `PROJECT_CLOSEOUT_AND_HANDOFF_v1.md` section 5 (coauthor ordering, corresponding author, final venue, anonymized artifact URL).
+2. Then: fill the Data Availability anonymized URL, register the abstract (deadline 2026-10-19 AoE), and submit (deadline 2026-10-23 AoE). These are owner-triggered; the repository must not self-submit.
+3. If continuing science, the only sanctioned next experiments are PR-04-R (generalization) and PR-01 v3 (checker fix); both need a reliable Loop A dispatch and must not touch the submission package.
+4. Do not reopen Route B, the FinQA binding questions, or PR-03 (including any metric, baseline, or runtime optimization).
+5. Do not modify frozen scientific results, metrics, thresholds, splits, joins, or sample populations.
 
 ## External blockers
 
-External submission still requires official venue/template verification, authorship and affiliation, patent confirmation, anonymization, and camera-ready visual acceptance. None of these is solved by the repository-governance closeout.
+- H1: coauthor ordering and corresponding author (advisor).
+- Venue: final venue decision (SANER RENE is the default; CAIN/ICST are candidates).
+- Anonymized artifact repository URL and its de-anonymization test.
+- Owner authorization for abstract registration and submission.
 
 ## Workspace residue
 
-No cleanup was performed. Preserved items include GB10 stashes/worktrees, external repro/data/model assets, 8 duplicate script holds, 2 UNKNOWN copies, two GB10 runtime-log snapshots, and LOCAL EOL/stat-only surfaces. They are explained holds, not current scientific authorities.
+Closeout removed two mojibake-named duplicate docs (byte-identical to their tracked namesakes) and committed eight previously untracked Stage E / Stage D scripts that tracked docs already reference. Remaining explained holds: GB10 runtime logs and untracked run directories (`research/positive_repair_20261011/runs/`), external repro/data/model assets, and LOCAL EOL-normalized surfaces. None of these is a current scientific authority.
