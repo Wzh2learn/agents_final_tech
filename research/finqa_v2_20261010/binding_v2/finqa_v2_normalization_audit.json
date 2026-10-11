@@ -1,0 +1,341 @@
+{
+  "accounting": {
+    "clean_steps": 497,
+    "endpoint_calls": 0,
+    "evaluation_failures": 89,
+    "frozen_pairs_scored": 0,
+    "model_calls": 0,
+    "mutant_steps": 497,
+    "new_formal_scoring_calls": 0,
+    "pairs": 215,
+    "steps": 994,
+    "training_runs": 0,
+    "unique_trace_keys": 994
+  },
+  "authorization": "All decision flags pass; proceed to binding-v2 implementation and tests, then stop for Loop C independent audit before any formal rerun.",
+  "decision_flags": {
+    "BIJECTIVE_OR_TRACEABLE": true,
+    "DETERMINISTIC": true,
+    "NO_LEAKAGE": true,
+    "NO_SAMPLE_ID_CHANGE": true,
+    "SEMANTICS_PRESERVING": true
+  },
+  "hash_domains": {
+    "component_deltas": {
+      "answer_value_changed_pairs": 0,
+      "evidence_lists_changed_pairs": 0,
+      "raw_op_to_family_changed_steps": 994,
+      "required_order_changed_pairs": 0,
+      "step_records_changed": 994,
+      "stored_raw_artifacts_changed": 0
+    },
+    "evaluation_failure_hashes_reproduced": 89,
+    "normalized_matches_independent_and_scorer_hash": 215,
+    "normalized_payload_sha256": "sha256(canonical_json(score_pair bound_payload))",
+    "raw_matches_manifest": 215,
+    "raw_normalized_pairs_differing": 215,
+    "raw_payload_sha256": "sha256(canonical_json(raw stored artifact))"
+  },
+  "input_sha256": {
+    "../finqa_independent_observation_scorer_v2.py": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5",
+    "finqa_v2_frozen_sample_manifest.json": "802798a3621fa995feddee31c02fae5bd4e30f80473ca282e3c6c3809a618b18",
+    "finqa_v2_paired_artifact_manifest.json": "693cb548be268a08ca1a12de1615f3cd67a457bfd4caa75d6fb94b43dddbae6c",
+    "finqa_v2_scorer_binding_manifest.json": "2ec7caceda048b71ade13780f97f33888122fe02b253aad380e32a7a1f949a8b",
+    "finqa_v2_split_manifest.json": "aa69ca1371922f2be0cfd44bf592ff2ace27ea9f6b46c957befe837a658573ab",
+    "results/finqa_v2_formal_execution_receipt.json": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f",
+    "results/finqa_v2_formal_scorer_failures.jsonl": "e232e8ae78c48e9e9e6fdac71e4671556e5ba7c46985aea6a143cd94576fff2c"
+  },
+  "invariants": {
+    "answer_value_preservation": 215,
+    "evidence_list_preservation": 215,
+    "group_and_split_membership_checks_passed": 215,
+    "identity_crossbind_checks_passed": 215,
+    "old_scorer_modified": false,
+    "raw_stored_payload_hash_preservation": 215,
+    "required_evidence_order_preservation": 215,
+    "sample_id_sets_equal": true,
+    "step_count_preservation": 215,
+    "stored_raw_artifacts_modified": false
+  },
+  "leakage_audit": {
+    "forbidden_hash_fields": [
+      "label",
+      "labels",
+      "outcome",
+      "outcomes",
+      "stage",
+      "V",
+      "D",
+      "O",
+      "record_status",
+      "result",
+      "results",
+      "split_role",
+      "cluster_id",
+      "report_cluster",
+      "sample_id",
+      "artifact_id"
+    ],
+    "forbidden_hash_fields_present": [],
+    "hash_input_field_paths": [
+      "required_evidence_ids",
+      "clean.evidence_ids",
+      "clean.steps[].op_family",
+      "clean.steps[].arg1",
+      "clean.steps[].arg2",
+      "clean.steps[].res",
+      "clean.answer",
+      "mutant.evidence_ids",
+      "mutant.steps[].op_family",
+      "mutant.steps[].arg1",
+      "mutant.steps[].arg2",
+      "mutant.steps[].res",
+      "mutant.answer"
+    ],
+    "passed": true,
+    "raw_side_fields": [
+      "answer",
+      "evidence_ids",
+      "steps"
+    ],
+    "raw_stored_payload_fields": [
+      "clean",
+      "mutant",
+      "required_evidence_ids"
+    ]
+  },
+  "mapping": {
+    "one_to_one": true,
+    "path": "finqa_v2_raw_normalized_mapping.jsonl",
+    "schema": "finqa_v2_raw_normalized_mapping_v2",
+    "sha256": "4c5c1d3077038d4ca5636e2489f689ce18b784c9d3b38e987ff9220f5aef1ddd",
+    "trace_key_format": "{artifact_id}::{clean|mutant}::{step_index:04d}"
+  },
+  "namespace": "FINQA_V2_NORMALIZATION_AUDIT_V2",
+  "normalization": {
+    "deterministic_replay_pairs": 215,
+    "function": "finqa_independent_observation_scorer_v2.py::_normalized_steps + artifact_hash",
+    "lossy_op_collapse": {
+      "bijective": false,
+      "lossy": true,
+      "lossy_op_families": [
+        "add",
+        "divide",
+        "minus",
+        "multiply",
+        "sum"
+      ],
+      "lossy_raw_op_variant_count": 34,
+      "lossy_step_occurrences": 992,
+      "raw_identity_preserved_by_trace": true
+    },
+    "normalized_op_families": 6,
+    "raw_op_full_replay_steps": 994,
+    "raw_op_variants": 35,
+    "raw_to_family_mappings": [
+      {
+        "op_family": "add",
+        "raw_op": "add1-1",
+        "step_count": 70
+      },
+      {
+        "op_family": "add",
+        "raw_op": "add1-2",
+        "step_count": 44
+      },
+      {
+        "op_family": "add",
+        "raw_op": "add1-3",
+        "step_count": 8
+      },
+      {
+        "op_family": "add",
+        "raw_op": "add1-4",
+        "step_count": 2
+      },
+      {
+        "op_family": "add",
+        "raw_op": "add1-5",
+        "step_count": 2
+      },
+      {
+        "op_family": "add",
+        "raw_op": "add2-1",
+        "step_count": 56
+      },
+      {
+        "op_family": "add",
+        "raw_op": "add2-2",
+        "step_count": 32
+      },
+      {
+        "op_family": "add",
+        "raw_op": "add2-3",
+        "step_count": 17
+      },
+      {
+        "op_family": "compare_larger",
+        "raw_op": "compare_larger2-3",
+        "step_count": 2
+      },
+      {
+        "op_family": "divide",
+        "raw_op": "divide0-0",
+        "step_count": 21
+      },
+      {
+        "op_family": "divide",
+        "raw_op": "divide1-1",
+        "step_count": 13
+      },
+      {
+        "op_family": "divide",
+        "raw_op": "divide1-2",
+        "step_count": 131
+      },
+      {
+        "op_family": "divide",
+        "raw_op": "divide1-3",
+        "step_count": 16
+      },
+      {
+        "op_family": "divide",
+        "raw_op": "divide1-4",
+        "step_count": 4
+      },
+      {
+        "op_family": "divide",
+        "raw_op": "divide2-1",
+        "step_count": 18
+      },
+      {
+        "op_family": "divide",
+        "raw_op": "divide2-2",
+        "step_count": 140
+      },
+      {
+        "op_family": "divide",
+        "raw_op": "divide2-3",
+        "step_count": 12
+      },
+      {
+        "op_family": "divide",
+        "raw_op": "divide2-4",
+        "step_count": 8
+      },
+      {
+        "op_family": "minus",
+        "raw_op": "minus1-1",
+        "step_count": 124
+      },
+      {
+        "op_family": "minus",
+        "raw_op": "minus1-2",
+        "step_count": 22
+      },
+      {
+        "op_family": "minus",
+        "raw_op": "minus1-3",
+        "step_count": 2
+      },
+      {
+        "op_family": "minus",
+        "raw_op": "minus2-1",
+        "step_count": 132
+      },
+      {
+        "op_family": "minus",
+        "raw_op": "minus2-2",
+        "step_count": 10
+      },
+      {
+        "op_family": "minus",
+        "raw_op": "minus2-3",
+        "step_count": 17
+      },
+      {
+        "op_family": "minus",
+        "raw_op": "minus2-4",
+        "step_count": 2
+      },
+      {
+        "op_family": "minus",
+        "raw_op": "minus2-5",
+        "step_count": 6
+      },
+      {
+        "op_family": "multiply",
+        "raw_op": "multiply0-0",
+        "step_count": 1
+      },
+      {
+        "op_family": "multiply",
+        "raw_op": "multiply1-1",
+        "step_count": 9
+      },
+      {
+        "op_family": "multiply",
+        "raw_op": "multiply1-2",
+        "step_count": 17
+      },
+      {
+        "op_family": "multiply",
+        "raw_op": "multiply1-3",
+        "step_count": 6
+      },
+      {
+        "op_family": "multiply",
+        "raw_op": "multiply2-1",
+        "step_count": 2
+      },
+      {
+        "op_family": "multiply",
+        "raw_op": "multiply2-2",
+        "step_count": 26
+      },
+      {
+        "op_family": "multiply",
+        "raw_op": "multiply2-3",
+        "step_count": 16
+      },
+      {
+        "op_family": "sum",
+        "raw_op": "sum1-1",
+        "step_count": 2
+      },
+      {
+        "op_family": "sum",
+        "raw_op": "sum2-1",
+        "step_count": 4
+      }
+    ],
+    "version": "finqa_v2_scorer_normalization_20261010_v1"
+  },
+  "old_invalid_run": {
+    "immutable_output_sha256": {
+      "FINQA_V2_FORMAL_RESULT_REPORT.md": "70c85f81375cf0490db48080f25bbe8cdb619363223d7fcfee5a19c8ed1c592a",
+      "finqa_v2_bootstrap_replicates.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "finqa_v2_focused_preflight.log": "f1b6a75e3089a1a27e5066b8e651e12b3fe041187ffa9d9b89d09a5bf68e3c03",
+      "finqa_v2_formal_environment.log": "6029d096fec76e46432d40435f7e579e59f5f48505401228e36e288622d379b0",
+      "finqa_v2_formal_execution.log": "f7813a591203636e52871fabeba887ba4bf03c85f158ed682f1a09294cf5efce",
+      "finqa_v2_formal_execution_receipt.json": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f",
+      "finqa_v2_formal_pre_scorer_attempt_1.log": "5c4ffec1055f22d6ce45080352ab9ea636e1c1663fedead66b2500498792032d",
+      "finqa_v2_formal_pre_scorer_attempt_2.log": "14bd134b4b62d7568349cb5ef4a9dc68475f84037d5214e1cf1363ba76af718a",
+      "finqa_v2_formal_results.json": "1c6e695b6d175c1fd0227007fda893270d6ae40fa5003cee63b511bf1fb4f67b",
+      "finqa_v2_formal_sample_rows.jsonl": "1aacc2f54fe8dafe8e4e13bfbf639b32eaa35b4d8b22fed501091946984e8530",
+      "finqa_v2_formal_scorer_failures.jsonl": "e232e8ae78c48e9e9e6fdac71e4671556e5ba7c46985aea6a143cd94576fff2c",
+      "finqa_v2_frozen_hash_verification.log": "c5cf3c6a51347824948fe921c9fd575ead280511be4505de9edbaf6d07a9e829"
+    },
+    "run_status": "FORMAL_RUN_INVALID",
+    "scientific_status": "SECOND_FLOW_INVALID",
+    "superseded_scientifically": false
+  },
+  "root_cause": {
+    "code": "RAW_NORMALIZED_HASH_DOMAIN_MISMATCH",
+    "confirmed": true,
+    "explanation": "The frozen manifest binds canonical JSON of the raw stored artifact, while score_pair validates canonical JSON of its bound payload. On all frozen inputs the actual serialization delta is step op -> op_family; evidence sorting, required-order preservation, and answer coercion are no-ops.",
+    "old_failure_reproduced": true
+  },
+  "status": "DIAGNOSIS_COMPLETE_BINDING_V2_AUTHORIZED_FOR_LOOP_C_AUDIT",
+  "task_id": "finqa-v2-binding-repair-a-20261010"
+}

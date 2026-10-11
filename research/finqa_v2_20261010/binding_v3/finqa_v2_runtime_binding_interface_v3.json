@@ -1,0 +1,205 @@
+{
+  "contract_version": "finqa-v2-runtime-binding-interface-v3",
+  "frozen_root_cause": {
+    "code": "RUNTIME_METADATA_NOT_FORWARDED_TO_BINDING_SEAM",
+    "confirmed": true,
+    "explanation": "The binding-v2 runner omitted split_role, stage, cluster_id, and report_cluster when calling the adapter; the adapter then failed its frozen trace cross-check."
+  },
+  "immutable_identity": {
+    "fields": [
+      "source_artifact_id",
+      "sample_id",
+      "raw_payload_sha256",
+      "normalized_payload_sha256",
+      "normalization_version"
+    ],
+    "mutability": "immutable_for_binding_and_trace_validation",
+    "missing_value_behavior": "typed fail-closed error",
+    "role": "artifact, sample, hash-domain, and normalization identity only"
+  },
+  "namespace": "FINQA_V2_RUNTIME_BINDING_INTERFACE_V3",
+  "pipeline": [
+    {
+      "boundary": "runner",
+      "contract": "load frozen evaluation rows and forward immutable identity plus all four runtime metadata fields explicitly"
+    },
+    {
+      "boundary": "binding adapter v3",
+      "contract": "reject missing, null, or empty runtime metadata; validate immutable identity; construct the unchanged scorer input without invoking scientific scoring"
+    },
+    {
+      "boundary": "scorer input construction",
+      "contract": "build raw payload plus artifact_sha256=normalized_payload_sha256 and stop before scorer execution"
+    },
+    {
+      "boundary": "raw/normalized hash validation",
+      "contract": "recompute and compare both frozen hash domains without rewriting either payload"
+    },
+    {
+      "boundary": "trace validation",
+      "contract": "recompute 420 frozen evaluation trace rows and require exact row equality"
+    },
+    {
+      "boundary": "stop",
+      "contract": "STOP BEFORE score_pair / observation vector / V / D / O / estimands / bootstrap"
+    }
+  ],
+  "qualification": {
+    "binding_rows": 89,
+    "expected_evaluation_trace_rows": 420,
+    "report_clusters": 30,
+    "stage_bindings": {
+      "E": 30,
+      "N": 29,
+      "P": 30
+    },
+    "stage_report_clusters": {
+      "E": 10,
+      "N": 10,
+      "P": 10
+    },
+    "required_controls": [
+      "missing split_role fails closed",
+      "missing stage fails closed",
+      "missing cluster_id fails closed",
+      "missing report_cluster fails closed",
+      "raw payload corruption fails closed",
+      "deterministic replay matches"
+    ],
+    "required_zero_counters": {
+      "group_drift": 0,
+      "identity_drift": 0,
+      "leakage": 0,
+      "new_scientific_outputs": 0,
+      "silent_defaults": 0,
+      "split_drift": 0
+    },
+    "success_exit": "89/89 runtime bindings PASS; 420/420 evaluation trace rows MATCH; all integration controls pass; stop for Loop C independent review"
+  },
+  "runtime_metadata": {
+    "cross_check_role": "runtime metadata used only to cross-check frozen split/group/trace context",
+    "fields": {
+      "cluster_id": {
+        "empty_allowed": false,
+        "null_allowed": false,
+        "required": true,
+        "type": "nonempty string"
+      },
+      "report_cluster": {
+        "empty_allowed": false,
+        "null_allowed": false,
+        "required": true,
+        "type": "nonempty string"
+      },
+      "split_role": {
+        "empty_allowed": false,
+        "null_allowed": false,
+        "required": true,
+        "type": "nonempty string"
+      },
+      "stage": {
+        "empty_allowed": false,
+        "null_allowed": false,
+        "required": true,
+        "type": "nonempty string"
+      }
+    },
+    "field_order": [
+      "split_role",
+      "stage",
+      "cluster_id",
+      "report_cluster"
+    ],
+    "missing_value_behavior": "typed fail-closed error",
+    "silent_default_policy": "forbidden; no empty-string or null default exists in the runner or adapter seam"
+  },
+  "scope": {
+    "excluded": [
+      "SOURCE",
+      "ID",
+      "JOIN",
+      "SPLIT",
+      "analysis plan",
+      "scorer measurement object",
+      "scientific scoring",
+      "V/D/O",
+      "estimands",
+      "bootstrap"
+    ],
+    "included": "binding/runtime interface only",
+    "window": "zero-endpoint, non-training, zero scientific scoring"
+  },
+  "status": "SUPERSEDING_BINDING_INTERFACE_V3",
+  "task_id": "finqa-v2-binding-v3-qualification-a-20261010",
+  "trace_map": {
+    "classification": {
+      "immutable_step_and_artifact_identity": [
+        "source_artifact_id",
+        "sample_id",
+        "raw_payload_sha256",
+        "normalized_payload_sha256",
+        "normalization_version",
+        "trace_key",
+        "step_side",
+        "step_index",
+        "raw_step_identity",
+        "normalized_step_identity",
+        "raw_step_payload_sha256",
+        "normalized_step_payload_sha256"
+      ],
+      "runtime_metadata_cross_check_only": [
+        "split_role",
+        "stage",
+        "cluster_id",
+        "report_cluster"
+      ]
+    },
+    "exact_match_required": true,
+    "frozen_mapping_path": "../binding_v2/finqa_v2_raw_normalized_mapping.jsonl",
+    "frozen_mapping_sha256": "4c5c1d3077038d4ca5636e2489f689ce18b784c9d3b38e987ff9220f5aef1ddd",
+    "lossy_normalization_retained_as_traceable": true,
+    "trace_key_format": "{source_artifact_id}::{clean|mutant}::{step_index:04d}"
+  },
+  "unchanged_surfaces": {
+    "frozen_input_sha256": {
+      "../finqa_independent_observation_scorer_v2.py": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5",
+      "finqa_v2_frozen_sample_manifest.json": "802798a3621fa995feddee31c02fae5bd4e30f80473ca282e3c6c3809a618b18",
+      "finqa_v2_paired_artifact_manifest.json": "693cb548be268a08ca1a12de1615f3cd67a457bfd4caa75d6fb94b43dddbae6c",
+      "finqa_v2_scorer_binding_manifest.json": "2ec7caceda048b71ade13780f97f33888122fe02b253aad380e32a7a1f949a8b",
+      "finqa_v2_split_manifest.json": "aa69ca1371922f2be0cfd44bf592ff2ace27ea9f6b46c957befe837a658573ab"
+    },
+    "normalization_function": "finqa_independent_observation_scorer_v2.py::_normalized_steps + artifact_hash",
+    "normalization_version": "finqa_v2_scorer_normalization_20261010_v1",
+    "surfaces": [
+      "scorer source",
+      "frozen manifests",
+      "SOURCE/ID/JOIN/SPLIT",
+      "analysis plan",
+      "metrics and thresholds",
+      "binding_v2 artifacts",
+      "both prior FORMAL_RUN_INVALID runs"
+    ]
+  },
+  "forbidden_outputs": [
+    "score_pair invocation output",
+    "observation_vector",
+    "V",
+    "D",
+    "O",
+    "estimand",
+    "bootstrap replicate",
+    "scientific result"
+  ],
+  "prior_invalid_runs": [
+    {
+      "path": "../results",
+      "receipt_sha256": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f",
+      "status": "FORMAL_RUN_INVALID"
+    },
+    {
+      "path": "../results_binding_v2_rerun",
+      "receipt_sha256": "8a0017e1ae5f065fe73a01bb1af1a0f5033199fbe25369263d4184c27d8eb071",
+      "status": "FORMAL_RUN_INVALID"
+    }
+  ]
+}

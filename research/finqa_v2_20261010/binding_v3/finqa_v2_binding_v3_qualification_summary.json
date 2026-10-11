@@ -1,0 +1,147 @@
+{
+  "controls": {
+    "corruption": {
+      "control": "PASS",
+      "error_code": "RAW_PAYLOAD_HASH_MISMATCH",
+      "error_type": "BindingIntegrityError"
+    },
+    "deterministic_replay": {
+      "control": "PASS",
+      "equal_rows": 89
+    },
+    "missing_metadata": {
+      "cluster_id": {
+        "control": "PASS",
+        "error_code": "RUNTIME_METADATA_MISSING",
+        "error_type": "MissingRequiredFieldError",
+        "field": "cluster_id"
+      },
+      "report_cluster": {
+        "control": "PASS",
+        "error_code": "RUNTIME_METADATA_MISSING",
+        "error_type": "MissingRequiredFieldError",
+        "field": "report_cluster"
+      },
+      "split_role": {
+        "control": "PASS",
+        "error_code": "RUNTIME_METADATA_MISSING",
+        "error_type": "MissingRequiredFieldError",
+        "field": "split_role"
+      },
+      "stage": {
+        "control": "PASS",
+        "error_code": "RUNTIME_METADATA_MISSING",
+        "error_type": "MissingRequiredFieldError",
+        "field": "stage"
+      }
+    }
+  },
+  "counts": {
+    "evaluation_trace_rows_match": 420,
+    "evaluation_trace_rows_total": 420,
+    "report_clusters": 30,
+    "runtime_bindings_pass": 89,
+    "runtime_bindings_total": 89,
+    "stage_bindings": {
+      "E": 30,
+      "N": 29,
+      "P": 30
+    },
+    "stage_report_clusters": {
+      "E": 10,
+      "N": 10,
+      "P": 10
+    }
+  },
+  "drift": {
+    "group": 0,
+    "leakage": 0,
+    "sample_identity": 0,
+    "split": 0
+  },
+  "gates": {
+    "group_disjointness": true,
+    "leakage_fail_closed": true,
+    "split_assignment": true
+  },
+  "interface": {
+    "contract_version": "finqa-v2-runtime-binding-interface-v3",
+    "immutable_identity_fields": [
+      "source_artifact_id",
+      "sample_id",
+      "raw_payload_sha256",
+      "normalized_payload_sha256",
+      "normalization_version"
+    ],
+    "runtime_metadata_fields": [
+      "split_role",
+      "stage",
+      "cluster_id",
+      "report_cluster"
+    ]
+  },
+  "metadata": {
+    "empty": 0,
+    "field_consistency": {
+      "cluster_id": 89,
+      "report_cluster": 89,
+      "split_role": 89,
+      "stage": 89
+    },
+    "field_presence": {
+      "cluster_id": 89,
+      "report_cluster": 89,
+      "split_role": 89,
+      "stage": 89
+    },
+    "missing": 0,
+    "null": 0,
+    "silent_defaults": 0
+  },
+  "namespace": "FINQA_V2_BINDING_V3_QUALIFICATION_SUMMARY",
+  "pipeline": {
+    "normalized_hash_validation": "89/89 MATCH",
+    "raw_hash_validation": "89/89 MATCH",
+    "runner_to_adapter_explicit_fields": true,
+    "scorer_input_construction_status": "CONSTRUCTED_NOT_EXECUTED",
+    "stop_boundary": "BEFORE_SCIENTIFIC_SCORING",
+    "trace_validation": "420/420 MATCH"
+  },
+  "prior_invalid_runs": {
+    "results": {
+      "file_count": 12,
+      "manifest_sha256": "a14b595df597c2d3a3e4df2dc9875049288d4158f8c9226de1e87588bc5b9078",
+      "receipt_sha256": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f",
+      "status": "FORMAL_RUN_INVALID",
+      "unchanged": true
+    },
+    "results_binding_v2_rerun": {
+      "file_count": 12,
+      "manifest_sha256": "824f34bce5da3d59d48effa434e32549ffc5a633286bf74a8161f0d67ab72f8a",
+      "receipt_sha256": "8a0017e1ae5f065fe73a01bb1af1a0f5033199fbe25369263d4184c27d8eb071",
+      "status": "FORMAL_RUN_INVALID",
+      "unchanged": true
+    }
+  },
+  "receipt_required": "generated only after exact integration-test and qualification logs are final",
+  "status": "QUALIFICATION_PASS_PENDING_LOOP_C_INDEPENDENT_REVIEW",
+  "task_id": "finqa-v2-binding-v3-qualification-a-20261010",
+  "zero_counters": {
+    "D_outputs": 0,
+    "O_outputs": 0,
+    "V_outputs": 0,
+    "bootstrap_outputs": 0,
+    "endpoint_calls": 0,
+    "estimand_outputs": 0,
+    "group_drift": 0,
+    "identity_drift": 0,
+    "leakage": 0,
+    "model_calls": 0,
+    "observation_vector_outputs": 0,
+    "scientific_output_files": 0,
+    "scientific_scoring_calls": 0,
+    "silent_defaults": 0,
+    "split_drift": 0,
+    "training_runs": 0
+  }
+}

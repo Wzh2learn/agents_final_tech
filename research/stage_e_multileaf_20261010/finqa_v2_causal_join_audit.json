@@ -1,0 +1,468 @@
+{
+  "counts": {
+    "clusters_with_unique_join": 766,
+    "clusters_with_unique_join_and_multi_step": 627,
+    "literal_join_events": 15840,
+    "records": 7134,
+    "report_clusters": 768,
+    "rows_with_any_literal_arg": 6836,
+    "rows_with_unique_join": 6794,
+    "rows_with_unique_join_and_multi_step": 2851,
+    "unique_join_event_counts": {
+      "false": 472,
+      "true": 15368
+    },
+    "unique_join_events": 15368
+  },
+  "examples": [
+    {
+      "gold_evidence_count": 1,
+      "id": "ADI/2009/page_49.pdf-1",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "text_1"
+          ],
+          "join_evidence_id": "text_1",
+          "step_index": 0,
+          "token": "100.0000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "text_1"
+          ],
+          "join_evidence_id": "text_1",
+          "step_index": 0,
+          "token": "100.0000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "text_1"
+          ],
+          "join_evidence_id": "text_1",
+          "step_index": 1,
+          "token": "3.8000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 3,
+      "n_steps": 2,
+      "report_cluster": "ADI/2009",
+      "source_split": "train",
+      "unique_join_count": 3
+    },
+    {
+      "gold_evidence_count": 2,
+      "id": "ABMD/2012/page_75.pdf-1",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "table_2"
+          ],
+          "join_evidence_id": "table_2",
+          "step_index": 0,
+          "token": "607.0000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_2"
+          ],
+          "join_evidence_id": "table_2",
+          "step_index": 0,
+          "token": "18.1300000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "text_15"
+          ],
+          "join_evidence_id": "text_15",
+          "step_index": 2,
+          "token": "3.3000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 3,
+      "n_steps": 4,
+      "report_cluster": "ABMD/2012",
+      "source_split": "train",
+      "unique_join_count": 3
+    },
+    {
+      "gold_evidence_count": 1,
+      "id": "AAL/2018/page_13.pdf-2",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "table_1"
+          ],
+          "join_evidence_id": "table_1",
+          "step_index": 0,
+          "token": "9896.0000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 1,
+      "n_steps": 1,
+      "report_cluster": "AAL/2018",
+      "source_split": "train",
+      "unique_join_count": 1
+    },
+    {
+      "gold_evidence_count": 2,
+      "id": "INTC/2013/page_71.pdf-4",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "table_1"
+          ],
+          "join_evidence_id": "table_1",
+          "step_index": 0,
+          "token": "14001.0000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_8"
+          ],
+          "join_evidence_id": "table_8",
+          "step_index": 0,
+          "token": "26302.0000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 2,
+      "n_steps": 1,
+      "report_cluster": "INTC/2013",
+      "source_split": "train",
+      "unique_join_count": 2
+    },
+    {
+      "gold_evidence_count": 2,
+      "id": "ETR/2008/page_313.pdf-3",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "table_6"
+          ],
+          "join_evidence_id": "table_6",
+          "step_index": 0,
+          "token": "959.2000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_1"
+          ],
+          "join_evidence_id": "table_1",
+          "step_index": 0,
+          "token": "991.1000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_1"
+          ],
+          "join_evidence_id": "table_1",
+          "step_index": 1,
+          "token": "991.1000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 3,
+      "n_steps": 2,
+      "report_cluster": "ETR/2008",
+      "source_split": "train",
+      "unique_join_count": 3
+    },
+    {
+      "gold_evidence_count": 2,
+      "id": "C/2010/page_272.pdf-1",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "table_1",
+            "table_2"
+          ],
+          "join_evidence_id": null,
+          "step_index": 0,
+          "token": "2.5000000000",
+          "unique_join": false
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_2"
+          ],
+          "join_evidence_id": "table_2",
+          "step_index": 0,
+          "token": "1.6000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_2"
+          ],
+          "join_evidence_id": "table_2",
+          "step_index": 1,
+          "token": "1.6000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 3,
+      "n_steps": 2,
+      "report_cluster": "C/2010",
+      "source_split": "train",
+      "unique_join_count": 2
+    },
+    {
+      "gold_evidence_count": 2,
+      "id": "AMT/2012/page_121.pdf-1",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "text_0"
+          ],
+          "join_evidence_id": "text_0",
+          "step_index": 0,
+          "token": "75.0000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "text_0"
+          ],
+          "join_evidence_id": "text_0",
+          "step_index": 0,
+          "token": "72.7000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "text_1"
+          ],
+          "join_evidence_id": "text_1",
+          "step_index": 1,
+          "token": "20.0000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 3,
+      "n_steps": 2,
+      "report_cluster": "AMT/2012",
+      "source_split": "train",
+      "unique_join_count": 3
+    },
+    {
+      "gold_evidence_count": 2,
+      "id": "GIS/2019/page_45.pdf-1",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "table_1"
+          ],
+          "join_evidence_id": "table_1",
+          "step_index": 0,
+          "token": "1786.2000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_15"
+          ],
+          "join_evidence_id": "table_15",
+          "step_index": 0,
+          "token": "2807.0000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 2,
+      "n_steps": 1,
+      "report_cluster": "GIS/2019",
+      "source_split": "train",
+      "unique_join_count": 2
+    },
+    {
+      "gold_evidence_count": 2,
+      "id": "IPG/2009/page_89.pdf-3",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "table_1"
+          ],
+          "join_evidence_id": "table_1",
+          "step_index": 0,
+          "token": "34.8000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_1"
+          ],
+          "join_evidence_id": "table_1",
+          "step_index": 0,
+          "token": "1.2000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_1"
+          ],
+          "join_evidence_id": "table_1",
+          "step_index": 1,
+          "token": "34.8000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 3,
+      "n_steps": 3,
+      "report_cluster": "IPG/2009",
+      "source_split": "train",
+      "unique_join_count": 3
+    },
+    {
+      "gold_evidence_count": 1,
+      "id": "CDNS/2018/page_32.pdf-2",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "table_3"
+          ],
+          "join_evidence_id": "table_3",
+          "step_index": 0,
+          "token": "1327657.0000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_3"
+          ],
+          "join_evidence_id": "table_3",
+          "step_index": 0,
+          "token": "42.6100000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 2,
+      "n_steps": 2,
+      "report_cluster": "CDNS/2018",
+      "source_split": "train",
+      "unique_join_count": 2
+    },
+    {
+      "gold_evidence_count": 1,
+      "id": "GIS/2008/page_83.pdf-1",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "text_4"
+          ],
+          "join_evidence_id": "text_4",
+          "step_index": 0,
+          "token": "2309.9000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "text_4"
+          ],
+          "join_evidence_id": "text_4",
+          "step_index": 0,
+          "token": "2303.0000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 2,
+      "n_steps": 1,
+      "report_cluster": "GIS/2008",
+      "source_split": "train",
+      "unique_join_count": 2
+    },
+    {
+      "gold_evidence_count": 2,
+      "id": "PNC/2012/page_110.pdf-3",
+      "joins": [
+        {
+          "arg_name": "arg1",
+          "evidence_ids": [
+            "table_7"
+          ],
+          "join_evidence_id": "table_7",
+          "step_index": 0,
+          "token": "15553.0000000000",
+          "unique_join": true
+        },
+        {
+          "arg_name": "arg2",
+          "evidence_ids": [
+            "table_7"
+          ],
+          "join_evidence_id": "table_7",
+          "step_index": 0,
+          "token": "7376.0000000000",
+          "unique_join": true
+        }
+      ],
+      "literal_arg_count": 2,
+      "n_steps": 1,
+      "report_cluster": "PNC/2012",
+      "source_split": "train",
+      "unique_join_count": 2
+    }
+  ],
+  "gate_interpretation": {
+    "ID_GO": "BLOCKED_EXACT_SAMPLE_IDS_NOT_FROZEN",
+    "JOIN_GO": "PASS_CANDIDATE_NOT_FROZEN",
+    "PREREG_GO": "BLOCKED_PENDING_JOING_GO_ID_GO_SPLIT_GO_SCORER_GO",
+    "SCORER_GO": "BLOCKED_INDEPENDENT_SCORER_NOT_LINKED_TO_EXACT_IDS",
+    "SOURCE_GO": "PASS_SOURCE_IDENTITY_AND_HASHES",
+    "SPLIT_GO": "BLOCKED_ROLE_SCOPE_NOT_FROZEN"
+  },
+  "join_rule": {
+    "causal_test": "the resolver returns that token with the evidence present and returns UNRESOLVED after removing that evidence",
+    "definition": "a numeric literal argument token occurs in exactly one qa.gold_inds evidence text",
+    "limitation": "lexical evidence-to-argument join, not native pipeline provenance; resolver contract must be frozen"
+  },
+  "namespace": "FINQA_V2_CAUSAL_JOIN_AUDIT",
+  "source_files": {
+    "/home/testuser/wzh/phase1a_staging_20260925/finqa/dev.json": {
+      "bytes": 10954658,
+      "sha256": "a847fb7e0d61a3125a1e2909852df6b89f1ee64d2c5ff1bf689e332214deee51"
+    },
+    "/home/testuser/wzh/phase1a_staging_20260925/finqa/train.json": {
+      "bytes": 78216616,
+      "sha256": "49f237eb9779b569473b26b08048867d04635a7cc39ad6a7a5664c55bb428db6"
+    }
+  },
+  "status": "JOIN_CANDIDATE_IDENTIFIED_NOT_FROZEN",
+  "target_unique_clusters": 24
+}

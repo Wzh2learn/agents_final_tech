@@ -1,0 +1,169 @@
+{
+  "task_id": "finqa-v2-analysis-freeze-a-20261010",
+  "namespace": "FINQA_V2_ANALYSIS_PLAN",
+  "status": "FROZEN_PRERESULT_ANALYSIS_PLAN_NOT_EXECUTED",
+  "evidence_class": "PRIMARY_PREREGISTRATION_AND_HASH_CLOSURE",
+  "window": {
+    "zero_endpoint": true,
+    "non_training": true,
+    "formal_scorer_outputs_before_plan_creation": 0
+  },
+  "frozen_research_question": "Does the visibility-detection separation transfer to a different reasoning-oriented dataflow under an independently implemented observation scorer?",
+  "immutable_contract": {
+    "existing_freeze_packet_or_receipt_modified": false,
+    "sample_ids_modified": false,
+    "retained_or_excluded_records_modified": false,
+    "split_modified": false,
+    "causal_join_or_paired_artifacts_modified": false,
+    "scorer_or_measurement_object_modified": false,
+    "task_card_question_or_claim_boundaries_modified": false
+  },
+  "population": {
+    "role": "evaluation",
+    "sample_count": 89,
+    "report_cluster_count": 30,
+    "point_weighting": "sample_weighted",
+    "cluster_unit": "report_cluster_id",
+    "cluster_binding": {
+      "split_manifest_field": "canonical_group_id",
+      "sample_manifest_field": "cluster_id",
+      "recomputation_from_results": false
+    },
+    "by_stage": {
+      "E": {
+        "sample_count": 30,
+        "report_cluster_count": 10
+      },
+      "P": {
+        "sample_count": 30,
+        "report_cluster_count": 10
+      },
+      "N": {
+        "sample_count": 29,
+        "report_cluster_count": 10
+      }
+    }
+  },
+  "measurement_object": "paired_checkpoint_observation_reproduction",
+  "scorer_fields": [
+    "evidence_required_hit",
+    "operator_consistency",
+    "argument_consistency",
+    "step_result_consistency",
+    "answer_consistency"
+  ],
+  "binary_definitions": {
+    "V": "1 iff at least one scorer field equals 1; otherwise 0",
+    "D": "1 iff step_result_consistency == 1 OR answer_consistency == 1; otherwise 0",
+    "O": "1 iff answer_consistency == 1; otherwise 0"
+  },
+  "estimands": {
+    "primary": [
+      {
+        "id": "visibility_count",
+        "formula": "N(V=1)"
+      },
+      {
+        "id": "visibility_rate",
+        "formula": "N(V=1)/N_eval"
+      },
+      {
+        "id": "detection_count",
+        "formula": "N(D=1)"
+      },
+      {
+        "id": "detection_rate",
+        "formula": "N(D=1)/N_eval"
+      },
+      {
+        "id": "visibility_detection_2x2",
+        "formula": "counts and N_eval rates for (V,D)=(0,0),(0,1),(1,0),(1,1)"
+      },
+      {
+        "id": "detection_rate_given_visibility_positive",
+        "formula": "N(V=1,D=1)/N(V=1)"
+      },
+      {
+        "id": "detection_rate_given_visibility_negative",
+        "formula": "N(V=0,D=1)/N(V=0)"
+      }
+    ],
+    "secondary": [
+      {
+        "id": "per_stage_profiles",
+        "formula": "E/P/N visibility count/rate, detection count/rate, and 2x2 count/rate"
+      },
+      {
+        "id": "terminal_outcome_count",
+        "formula": "N(O=1)"
+      },
+      {
+        "id": "terminal_outcome_rate",
+        "formula": "N(O=1)/N_eval"
+      },
+      {
+        "id": "missing_invalid_scorer_failure_unevaluable_accounting",
+        "formula": "explicit counts reconciled to all 89 expected evaluation samples; no denominator reduction"
+      }
+    ],
+    "additional_result_metrics_authorized": false
+  },
+  "uncertainty": {
+    "cluster_unit": "report_cluster_id",
+    "primary_resampling": "sample 30 frozen evaluation report clusters with replacement and retain all paired samples in each selected cluster",
+    "per_stage_resampling": "sample the 10 frozen evaluation report clusters within stage with replacement and retain all paired samples in each selected cluster",
+    "seed": 20261017,
+    "replicate_count": 10000,
+    "interval": "95% percentile",
+    "percentiles": [
+      2.5,
+      97.5
+    ],
+    "ci_method": "PERCENTILE",
+    "point_estimate_weighting": "sample_weighted",
+    "required_per_estimand_fields": [
+      "seed",
+      "replicate_count",
+      "valid_replicate_count",
+      "failed_replicate_count",
+      "cluster_unit",
+      "ci_method"
+    ]
+  },
+  "permutation_test": "NOT_USED",
+  "failure_handling": {
+    "zero_conditional_denominator": "NOT_IDENTIFIABLE",
+    "zero_denominator_replicate": "failed_for_that_estimand_only_and_excluded_from_that_estimand_percentiles",
+    "all_replicates_failed": "NOT_IDENTIFIABLE",
+    "all_valid_replicates_identical": {
+      "interval": "[x,x]",
+      "label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "ci_method_change": false
+    },
+    "missing_invalid_retained_record_or_scorer_failure_after_split": "FORMAL_RUN_INVALID",
+    "silent_exclusion": false,
+    "threshold_change": false,
+    "metric_or_test_addition": false,
+    "adverse_case_deletion": false,
+    "result_dependent_claim_change": false
+  },
+  "result_classes": {
+    "SECOND_FLOW_POSITIVE": "contract valid, C audit passes, both V and D are nonconstant, and at least one sample has V=1,D=0",
+    "SECOND_FLOW_MIXED": "contract valid but transfer is present for only a subset of stages or one construct is degenerate while nonidentity remains informative",
+    "SECOND_FLOW_NULL": "contract valid and V=D for every evaluation sample, or no informative nonidentity is observed",
+    "SECOND_FLOW_INVALID": "contract/leakage/scorer/split/failure-handling violation",
+    "modifiable_after_outputs": false
+  },
+  "forbidden_actions": [
+    "run formal scorer outputs or experiments",
+    "modify existing frozen artifacts",
+    "add metrics, tests, thresholds, or permutation tests after results",
+    "use result fields to design the plan",
+    "execute PRM or model training",
+    "make hierarchy, localization, semantic-correctness, or automatic transfer claims"
+  ],
+  "permutation_contract": {
+    "PERMUTATION_TEST": "NOT_USED",
+    "post_result_addition_allowed": false
+  }
+}

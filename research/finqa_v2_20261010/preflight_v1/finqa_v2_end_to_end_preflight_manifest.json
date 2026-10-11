@@ -1,0 +1,182 @@
+{
+  "analysis_plan_resolution": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261017,
+    "ci_percentiles": [
+      2.5,
+      97.5
+    ],
+    "cluster_unit": "report_cluster_id",
+    "json_path": "research/finqa_v2_20261010/finqa_v2_analysis_plan.json",
+    "json_sha256": "02607daed45d19aae9697302122cf37493c1d6ddd8d2078ac3a4084b3ff64b35",
+    "markdown_path": "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md",
+    "markdown_sha256": "57f8b0d68195ec471842d4b6a4092c657876e9f133d0c1724f8aa5b2289d1e61",
+    "permutation_test": "NOT_USED",
+    "report_cluster_count": 30,
+    "sample_count": 89,
+    "status": "FROZEN_PRERESULT_ANALYSIS_PLAN_NOT_EXECUTED"
+  },
+  "authority_resolution": {
+    "authority_map_path": "docs/governance/GRAPH_LOOP_AUTHORITY_MAP_V1.md",
+    "authority_map_sha256": "9895efad45d56c5b37644eee6ecdd83d5451834f71de14c61adb9ea6ccd05b5c",
+    "required_authority_paths": [
+      "research/finqa_independent_observation_scorer_v2.py",
+      "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md",
+      "research/finqa_v2_20261010/binding_v2/FINQA_V2_MINIMAL_RERUN_TASK_CARD.md",
+      "research/finqa_v2_20261010/binding_v3/FINQA_V2_RUNTIME_BINDING_INTERFACE_V3.md",
+      "research/finqa_v2_20261010/finqa_v2_analysis_plan.json",
+      "research/finqa_v2_20261010/finqa_v2_frozen_sample_manifest.json",
+      "research/finqa_v2_20261010/finqa_v2_scorer_binding_manifest.json",
+      "research/finqa_v2_20261010/finqa_v2_split_manifest.json",
+      "research/finqa_v2_20261010/results/finqa_v2_formal_execution_receipt.json",
+      "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_execution_receipt.json"
+    ],
+    "required_object_count": 9,
+    "resolved_artifact_count": 11
+  },
+  "chain_stages": [
+    "authority resolution",
+    "sample/split loading",
+    "runner payload construction",
+    "binding_v3",
+    "adapter",
+    "scorer input construction",
+    "hash/trace validation",
+    "analysis-plan resolution",
+    "STOP BEFORE V/D/O"
+  ],
+  "expected_population": {
+    "candidate_injections": 216,
+    "groups": 30,
+    "retained_injections": 215,
+    "samples": 89
+  },
+  "expected_qualification": {
+    "empty_set_bypasses": 0,
+    "evaluation_trace_rows_match": 420,
+    "evaluation_trace_rows_total": 420,
+    "identity_drift": 0,
+    "missing_metadata": 0,
+    "previous_invalid_run_drift": 0,
+    "report_clusters": 30,
+    "runtime_bindings_pass": 89,
+    "runtime_bindings_total": 89,
+    "scientific_outputs": 0,
+    "silent_defaults": 0,
+    "split_drift": 0
+  },
+  "hash_bindings": [
+    {
+      "path": "research/finqa_independent_observation_scorer_v2.py",
+      "sha256": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5"
+    },
+    {
+      "path": "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md",
+      "sha256": "57f8b0d68195ec471842d4b6a4092c657876e9f133d0c1724f8aa5b2289d1e61"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v2/FINQA_V2_MINIMAL_RERUN_TASK_CARD.md",
+      "sha256": "555fdb792b2545f163fb88033b940e6cc4d52db1ca3910d5a31e2259108a246a"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v3/FINQA_V2_RUNTIME_BINDING_INTERFACE_V3.md",
+      "sha256": "144f45714ca2ab28de763661353bede65597ca63a673201a35a1fc952c08d7a1"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_analysis_plan.json",
+      "sha256": "02607daed45d19aae9697302122cf37493c1d6ddd8d2078ac3a4084b3ff64b35"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_frozen_sample_manifest.json",
+      "sha256": "802798a3621fa995feddee31c02fae5bd4e30f80473ca282e3c6c3809a618b18"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_scorer_binding_manifest.json",
+      "sha256": "2ec7caceda048b71ade13780f97f33888122fe02b253aad380e32a7a1f949a8b"
+    },
+    {
+      "path": "research/finqa_v2_20261010/finqa_v2_split_manifest.json",
+      "sha256": "aa69ca1371922f2be0cfd44bf592ff2ace27ea9f6b46c957befe837a658573ab"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results/finqa_v2_formal_execution_receipt.json",
+      "sha256": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_execution_receipt.json",
+      "sha256": "8a0017e1ae5f065fe73a01bb1af1a0f5033199fbe25369263d4184c27d8eb071"
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json",
+      "sha256": "280c563c5e701cf81f75d85664f6880f8133723693ddbc63a641db804a909ca7"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_runtime_binding_interface_v3.json",
+      "sha256": "ae7cc08a750177ccd0562597f465a68f3c8bedb152607eda9b65e1bda70b4ea1"
+    },
+    {
+      "path": "research/finqa_v2_20261010/binding_v3/finqa_v2_runtime_binding_v3.py",
+      "sha256": "997d914fc1250f82cbacf8daa9baf1027ebd6607e30a9922d6ae861602d83395"
+    },
+    {
+      "path": "docs/governance/GRAPH_LOOP_AUTHORITY_MAP_V1.md",
+      "sha256": "9895efad45d56c5b37644eee6ecdd83d5451834f71de14c61adb9ea6ccd05b5c"
+    }
+  ],
+  "namespace": "FINQA_V2_END_TO_END_PREFLIGHT_MANIFEST",
+  "previous_invalid_runs": [
+    {
+      "path": "research/finqa_v2_20261010/results/finqa_v2_formal_execution_receipt.json",
+      "sha256": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f"
+    },
+    {
+      "path": "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_execution_receipt.json",
+      "sha256": "8a0017e1ae5f065fe73a01bb1af1a0f5033199fbe25369263d4184c27d8eb071"
+    }
+  ],
+  "qualification_summary": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_certificate.json",
+  "required_authority_paths": [
+    "research/finqa_independent_observation_scorer_v2.py",
+    "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md",
+    "research/finqa_v2_20261010/binding_v2/FINQA_V2_MINIMAL_RERUN_TASK_CARD.md",
+    "research/finqa_v2_20261010/binding_v3/FINQA_V2_RUNTIME_BINDING_INTERFACE_V3.md",
+    "research/finqa_v2_20261010/finqa_v2_analysis_plan.json",
+    "research/finqa_v2_20261010/finqa_v2_frozen_sample_manifest.json",
+    "research/finqa_v2_20261010/finqa_v2_scorer_binding_manifest.json",
+    "research/finqa_v2_20261010/finqa_v2_split_manifest.json",
+    "research/finqa_v2_20261010/results/finqa_v2_formal_execution_receipt.json",
+    "research/finqa_v2_20261010/results_binding_v2_rerun/finqa_v2_formal_execution_receipt.json"
+  ],
+  "required_metadata": [
+    "split_role",
+    "stage",
+    "cluster_id",
+    "report_cluster"
+  ],
+  "role": "Loop A / GB10 repair and materialization",
+  "runtime_interface_json": "research/finqa_v2_20261010/binding_v3/finqa_v2_runtime_binding_interface_v3.json",
+  "runtime_interface_source": "research/finqa_v2_20261010/binding_v3/finqa_v2_runtime_binding_v3.py",
+  "runtime_metadata_policy": {
+    "empty": "RAISE",
+    "missing": "RAISE",
+    "null": "RAISE",
+    "silent_defaults": "FORBIDDEN"
+  },
+  "sample_manifest": "research/finqa_v2_20261010/finqa_v2_frozen_sample_manifest.json",
+  "scientific_output_paths": [
+    "research/finqa_v2_20261010/preflight_v1/finqa_v2_formal_sample_rows.jsonl",
+    "research/finqa_v2_20261010/preflight_v1/finqa_v2_formal_results.json",
+    "research/finqa_v2_20261010/preflight_v1/finqa_v2_observation_vectors.jsonl",
+    "research/finqa_v2_20261010/preflight_v1/finqa_v2_estimands.json",
+    "research/finqa_v2_20261010/preflight_v1/finqa_v2_bootstrap_replicates.jsonl",
+    "research/finqa_v2_20261010/preflight_v1/FINQA_V2_FORMAL_RESULT_REPORT.md"
+  ],
+  "scientific_scoring_calls": 0,
+  "split_manifest": "research/finqa_v2_20261010/finqa_v2_split_manifest.json",
+  "status": "END_TO_END_PREFLIGHT_PASS_CANDIDATE_PENDING_LOOP_C",
+  "stop_before_vdo": true,
+  "task_id": "finqa-v2-end-to-end-preflight-a-20261010",
+  "verification_level": "END_TO_END_PREFLIGHT_PASS",
+  "window": "zero-endpoint, non-training, zero scientific output",
+  "zero_endpoint": true
+}

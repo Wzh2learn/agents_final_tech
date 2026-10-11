@@ -1,0 +1,133 @@
+{
+  "audit_sha256": "4113eec0b27487d2ee40d6dedfd778817c4f010fe3f4a6569c1527303083bf89",
+  "authorization": {
+    "binding_repair": "AUTHORIZED_FOR_LOOP_C_AUDIT",
+    "formal_rerun": false,
+    "formal_scoring": false,
+    "stop_for": "LOOP_C_INDEPENDENT_AUDIT_BEFORE_ANY_FORMAL_RERUN"
+  },
+  "contract_sha256": "668f52fd5e2480155443c6e7cbe8b59a9c88c47f13e38973867366032806f204",
+  "counts": {
+    "clean_steps": 497,
+    "endpoint_calls": 0,
+    "evaluation_failures": 89,
+    "frozen_pairs_scored": 0,
+    "model_calls": 0,
+    "mutant_steps": 497,
+    "new_formal_scoring_calls": 0,
+    "pairs": 215,
+    "steps": 994,
+    "training_runs": 0,
+    "unique_trace_keys": 994
+  },
+  "decision_flags": {
+    "BIJECTIVE_OR_TRACEABLE": true,
+    "DETERMINISTIC": true,
+    "NO_LEAKAGE": true,
+    "NO_SAMPLE_ID_CHANGE": true,
+    "SEMANTICS_PRESERVING": true
+  },
+  "immutable_input_hashes": {
+    "../finqa_independent_observation_scorer_v2.py": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5",
+    "finqa_v2_frozen_sample_manifest.json": "802798a3621fa995feddee31c02fae5bd4e30f80473ca282e3c6c3809a618b18",
+    "finqa_v2_paired_artifact_manifest.json": "693cb548be268a08ca1a12de1615f3cd67a457bfd4caa75d6fb94b43dddbae6c",
+    "finqa_v2_scorer_binding_manifest.json": "2ec7caceda048b71ade13780f97f33888122fe02b253aad380e32a7a1f949a8b",
+    "finqa_v2_split_manifest.json": "aa69ca1371922f2be0cfd44bf592ff2ace27ea9f6b46c957befe837a658573ab",
+    "results/finqa_v2_formal_execution_receipt.json": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f",
+    "results/finqa_v2_formal_scorer_failures.jsonl": "e232e8ae78c48e9e9e6fdac71e4671556e5ba7c46985aea6a143cd94576fff2c"
+  },
+  "input_hashes": {
+    "frozen_sample_manifest": "802798a3621fa995feddee31c02fae5bd4e30f80473ca282e3c6c3809a618b18",
+    "old_execution_receipt": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f",
+    "old_scorer_failures": "e232e8ae78c48e9e9e6fdac71e4671556e5ba7c46985aea6a143cd94576fff2c",
+    "paired_artifact_manifest": "693cb548be268a08ca1a12de1615f3cd67a457bfd4caa75d6fb94b43dddbae6c",
+    "scorer_binding_manifest": "2ec7caceda048b71ade13780f97f33888122fe02b253aad380e32a7a1f949a8b",
+    "scorer_source": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5",
+    "split_manifest": "aa69ca1371922f2be0cfd44bf592ff2ace27ea9f6b46c957befe837a658573ab"
+  },
+  "mapping_sha256": "4c5c1d3077038d4ca5636e2489f689ce18b784c9d3b38e987ff9220f5aef1ddd",
+  "namespace": "FINQA_V2_BINDING_V2_RECEIPT",
+  "normalization": {
+    "function": "finqa_independent_observation_scorer_v2.py::_normalized_steps + artifact_hash",
+    "lossy_op_collapse": {
+      "bijective": false,
+      "lossy": true,
+      "lossy_op_families": [
+        "add",
+        "divide",
+        "minus",
+        "multiply",
+        "sum"
+      ],
+      "lossy_raw_op_variant_count": 34,
+      "lossy_step_occurrences": 992,
+      "raw_identity_preserved_by_trace": true
+    },
+    "scorer_sha256": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5",
+    "version": "finqa_v2_scorer_normalization_20261010_v1"
+  },
+  "old_invalid_run": {
+    "failure_hidden_or_removed": false,
+    "immutable_output_sha256": {
+      "FINQA_V2_FORMAL_RESULT_REPORT.md": "70c85f81375cf0490db48080f25bbe8cdb619363223d7fcfee5a19c8ed1c592a",
+      "finqa_v2_bootstrap_replicates.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "finqa_v2_focused_preflight.log": "f1b6a75e3089a1a27e5066b8e651e12b3fe041187ffa9d9b89d09a5bf68e3c03",
+      "finqa_v2_formal_environment.log": "6029d096fec76e46432d40435f7e579e59f5f48505401228e36e288622d379b0",
+      "finqa_v2_formal_execution.log": "f7813a591203636e52871fabeba887ba4bf03c85f158ed682f1a09294cf5efce",
+      "finqa_v2_formal_execution_receipt.json": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f",
+      "finqa_v2_formal_pre_scorer_attempt_1.log": "5c4ffec1055f22d6ce45080352ab9ea636e1c1663fedead66b2500498792032d",
+      "finqa_v2_formal_pre_scorer_attempt_2.log": "14bd134b4b62d7568349cb5ef4a9dc68475f84037d5214e1cf1363ba76af718a",
+      "finqa_v2_formal_results.json": "1c6e695b6d175c1fd0227007fda893270d6ae40fa5003cee63b511bf1fb4f67b",
+      "finqa_v2_formal_sample_rows.jsonl": "1aacc2f54fe8dafe8e4e13bfbf639b32eaa35b4d8b22fed501091946984e8530",
+      "finqa_v2_formal_scorer_failures.jsonl": "e232e8ae78c48e9e9e6fdac71e4671556e5ba7c46985aea6a143cd94576fff2c",
+      "finqa_v2_frozen_hash_verification.log": "c5cf3c6a51347824948fe921c9fd575ead280511be4505de9edbaf6d07a9e829"
+    },
+    "path": "../results",
+    "run_status": "FORMAL_RUN_INVALID",
+    "scientific_status": "SECOND_FLOW_INVALID",
+    "superseded_scientifically": false
+  },
+  "output_hashes": {
+    "audit_json": "4113eec0b27487d2ee40d6dedfd778817c4f010fe3f4a6569c1527303083bf89",
+    "contract_json": "668f52fd5e2480155443c6e7cbe8b59a9c88c47f13e38973867366032806f204",
+    "contract_md": "1f4e4b9dec22af0871a2b4bd8f93c84e46834e8030de453dd6fca2462ff2dd75",
+    "mapping_jsonl": "4c5c1d3077038d4ca5636e2489f689ce18b784c9d3b38e987ff9220f5aef1ddd",
+    "reproduction_log": "ba23c462d0677d18e94e8a32e19276bada24928184d573d3037d2bc54cead083",
+    "runtime_adapter": "038303f6575247f42a223e27543c3fb3ceadb3c5209422bdbba24d3bc1dead3d",
+    "test_log": "6bb6b126a9d815d1f6baa7fd6208636ff1bbbabee4f2a0f1fa352417df484945",
+    "tests": "fd024376c496945df2f633defc58c6a304989baf35717ca0cc3549a3f65f020d"
+  },
+  "receipt_hash_definition": "sha256(canonical compact sorted JSON of receipt without self_sha256)",
+  "root_cause": "RAW_NORMALIZED_HASH_DOMAIN_MISMATCH",
+  "root_cause_confirmed": true,
+  "runtime_adapter_sha256": "038303f6575247f42a223e27543c3fb3ceadb3c5209422bdbba24d3bc1dead3d",
+  "self_sha256": "9f605bc597e90584c155d3860c7562efc1347cb2ebce606e9b033e8d5f915272",
+  "status": "BINDING_V2_REPAIR_COMPLETE_PENDING_LOOP_C_AUDIT",
+  "task_id": "finqa-v2-binding-repair-a-20261010",
+  "test_evidence": {
+    "focused": {
+      "command": "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_finqa_v2_scorer_runtime_binding_v2.py -q",
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 10,
+      "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_binding_v2_tests.log",
+      "raw_log_contains_10_passed": true,
+      "raw_log_contains_exit_zero": true,
+      "sha256": "6bb6b126a9d815d1f6baa7fd6208636ff1bbbabee4f2a0f1fa352417df484945"
+    },
+    "reproduction": {
+      "exit_code": 2,
+      "expected_pre_fix_failure": true,
+      "observed_failure": "ModuleNotFoundError: finqa_v2_scorer_runtime_binding_v2",
+      "path": "research/finqa_v2_20261010/binding_v2/finqa_v2_binding_v2_reproduction.log",
+      "sha256": "ba23c462d0677d18e94e8a32e19276bada24928184d573d3037d2bc54cead083"
+    }
+  },
+  "zero_endpoint_counters": {
+    "endpoint_calls": 0,
+    "frozen_pairs_scored": 0,
+    "model_calls": 0,
+    "new_formal_scoring_calls": 0,
+    "training_runs": 0
+  }
+}

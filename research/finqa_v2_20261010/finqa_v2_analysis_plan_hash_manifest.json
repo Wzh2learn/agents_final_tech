@@ -1,0 +1,171 @@
+{
+  "task_id": "finqa-v2-analysis-freeze-a-20261010",
+  "namespace": "FINQA_V2_ANALYSIS_PLAN_HASH_MANIFEST",
+  "status": "PRERESULT_ANALYSIS_PLAN_HASH_BINDINGS_FROZEN_NOT_EXECUTED",
+  "hash_contract": "SHA-256 of raw file bytes for each bound_file; SHA-256 of canonical compact sorted JSON after removing self_sha256 for this manifest",
+  "bound_files": {
+    "analysis_task_contract": {
+      "bytes": 5665,
+      "path": "research/finqa_v2_analysis_freeze_loop_a_task_contract.md",
+      "sha256": "c2c9d4ed76031a04804e673dd69737d2af3b5e4d587d0d88069947146ba21a74"
+    },
+    "analysis_plan_markdown": {
+      "bytes": 6802,
+      "path": "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md",
+      "sha256": "57f8b0d68195ec471842d4b6a4092c657876e9f133d0c1724f8aa5b2289d1e61"
+    },
+    "analysis_plan_json": {
+      "bytes": 5857,
+      "path": "research/finqa_v2_20261010/finqa_v2_analysis_plan.json",
+      "sha256": "02607daed45d19aae9697302122cf37493c1d6ddd8d2078ac3a4084b3ff64b35"
+    },
+    "formal_task_card": {
+      "bytes": 4538,
+      "path": "research/finqa_v2_20261010/FINQA_V2_FORMAL_EXPERIMENT_TASK_CARD.md",
+      "sha256": "be154a73ce3bddc425e72dd3ada638d537f96657bc2dd28be0c16ff6f47cfee4"
+    },
+    "sample_manifest": {
+      "bytes": 491607,
+      "path": "research/finqa_v2_20261010/finqa_v2_frozen_sample_manifest.json",
+      "sha256": "802798a3621fa995feddee31c02fae5bd4e30f80473ca282e3c6c3809a618b18"
+    },
+    "split_manifest": {
+      "bytes": 60231,
+      "path": "research/finqa_v2_20261010/finqa_v2_split_manifest.json",
+      "sha256": "aa69ca1371922f2be0cfd44bf592ff2ace27ea9f6b46c957befe837a658573ab"
+    },
+    "paired_artifact_manifest": {
+      "bytes": 522553,
+      "path": "research/finqa_v2_20261010/finqa_v2_paired_artifact_manifest.json",
+      "sha256": "693cb548be268a08ca1a12de1615f3cd67a457bfd4caa75d6fb94b43dddbae6c"
+    },
+    "scorer_binding_manifest": {
+      "bytes": 66622,
+      "path": "research/finqa_v2_20261010/finqa_v2_scorer_binding_manifest.json",
+      "sha256": "2ec7caceda048b71ade13780f97f33888122fe02b253aad380e32a7a1f949a8b"
+    },
+    "scorer_source": {
+      "bytes": 5428,
+      "path": "research/finqa_independent_observation_scorer_v2.py",
+      "sha256": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5"
+    },
+    "scorer_tests": [
+      {
+        "bytes": 2384,
+        "path": "tests/test_finqa_numeric_token_canonicalization_v2.py",
+        "sha256": "a9282ea2ee597f50eeeb1b9551ec20b7e1ff0a1ad61a915093ecc2aa6f356d39"
+      },
+      {
+        "bytes": 1422,
+        "path": "tests/test_finqa_evidence_argument_resolver_v2.py",
+        "sha256": "ac51401a55f8e1ff5eb153f9cabf9dc17824a0be114eb931aed27dfc6544912e"
+      },
+      {
+        "bytes": 3980,
+        "path": "tests/test_finqa_independent_observation_scorer_v2.py",
+        "sha256": "2146f847f4da0dab7295e615420eefbf55bc45167c5ce62360908153589db7d1"
+      },
+      {
+        "bytes": 7912,
+        "path": "tests/test_finqa_v2_execution_freeze.py",
+        "sha256": "175255f8f49d1b8fbb9815b476b729cd44606e650c486d83cae668a724e56992"
+      }
+    ],
+    "prior_freeze_packet_markdown": {
+      "bytes": 3313,
+      "path": "research/finqa_v2_20261010/FINQA_V2_EXECUTION_FREEZE_PACKET.md",
+      "sha256": "bc8deb435da5ec80b7048c26c42848b39680062f0760a84f197842af1182d41b"
+    },
+    "prior_freeze_packet_json": {
+      "bytes": 16302,
+      "path": "research/finqa_v2_20261010/finqa_v2_execution_freeze_packet.json",
+      "sha256": "f7b633c7fb5f8e0ad313d70d8edcf52189ea223815fffd24dc2e4427a0b7b94b"
+    },
+    "prior_freeze_receipt": {
+      "bytes": 11660,
+      "path": "research/finqa_v2_20261010/finqa_v2_preresult_freeze_receipt.json",
+      "sha256": "1e935e4c37b66f4737a8cace6cad2587b290e48319d1f7c7992bf8bb809d02b6"
+    }
+  },
+  "frozen_analysis_contract": {
+    "population": {
+      "role": "evaluation",
+      "sample_count": 89,
+      "report_cluster_count": 30,
+      "stages": {
+        "E": {
+          "sample_count": 30,
+          "report_cluster_count": 10
+        },
+        "P": {
+          "sample_count": 30,
+          "report_cluster_count": 10
+        },
+        "N": {
+          "sample_count": 29,
+          "report_cluster_count": 10
+        }
+      }
+    },
+    "scorer_fields": [
+      "evidence_required_hit",
+      "operator_consistency",
+      "argument_consistency",
+      "step_result_consistency",
+      "answer_consistency"
+    ],
+    "metric_definitions": {
+      "V": "1 iff at least one of the five observation-vector fields equals 1; otherwise 0",
+      "D": "1 iff step_result_consistency == 1 OR answer_consistency == 1; otherwise 0",
+      "O": "1 iff answer_consistency == 1; otherwise 0",
+      "point_weighting": "sample_weighted",
+      "permitted_estimands": [
+        "N(V=1)",
+        "N(V=1)/N_eval",
+        "N(D=1)",
+        "N(D=1)/N_eval",
+        "2x2 counts and rates for (V,D)=(0,0),(0,1),(1,0),(1,1)",
+        "N(V=1,D=1)/N(V=1)",
+        "N(V=0,D=1)/N(V=0)",
+        "per-stage E/P/N visibility, detection, and 2x2 profiles",
+        "N(O=1)",
+        "N(O=1)/N_eval",
+        "missing/invalid/scorer-failure/unevaluable accounting"
+      ],
+      "additional_result_metrics_authorized": false
+    },
+    "uncertainty": {
+      "cluster_unit": "report_cluster_id",
+      "seed": 20261017,
+      "replicate_count": 10000,
+      "ci_method": "PERCENTILE_95_PERCENTILES_2_5_AND_97_5",
+      "point_estimate_weighting": "sample_weighted"
+    },
+    "permutation_test": "NOT_USED",
+    "failure_handling": {
+      "zero_conditional_denominator": "NOT_IDENTIFIABLE",
+      "zero_denominator_replicate": "mark failed and exclude only from that estimand's percentile calculation",
+      "all_replicates_failed": "NOT_IDENTIFIABLE",
+      "all_valid_replicates_identical": "report [x,x], label DEGENERATE_EMPIRICAL_INTERVAL, and retain the CI method",
+      "missing_invalid_retained_record_or_scorer_failure_after_split": "FORMAL_RUN_INVALID",
+      "silent_exclusion": false,
+      "threshold_change": false,
+      "metric_addition": false,
+      "adverse_case_deletion": false,
+      "result_dependent_claim_change": false
+    },
+    "result_class_rules": {
+      "SECOND_FLOW_POSITIVE": "contract valid, C audit passes, both V and D are nonconstant, and at least one sample has V=1,D=0",
+      "SECOND_FLOW_MIXED": "contract valid but transfer is present for only a subset of stages or one construct is degenerate while nonidentity remains informative",
+      "SECOND_FLOW_NULL": "contract valid and V=D for every evaluation sample, or no informative nonidentity is observed",
+      "SECOND_FLOW_INVALID": "contract/leakage/scorer/split/failure-handling violation",
+      "modifiable_after_outputs": false
+    }
+  },
+  "pre_plan_verification": {
+    "prior_freeze_hash_checks": 51,
+    "prior_freeze_hash_mismatches": 0,
+    "formal_scorer_outputs_before_plan_creation": 0
+  },
+  "self_sha256": "b9899ad304bf4a567b67abedc4766b68e6707621fce1e86092726bb2508fbec4"
+}

@@ -1,0 +1,110 @@
+{
+  "certificate": {
+    "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_certificate.json",
+    "sha256": "083f4e4cb7747bd03e54b0fbed0222bba05e6133040c460299b44ed27d867d02"
+  },
+  "chain": [
+    "authority resolution",
+    "sample/split loading",
+    "runner payload construction",
+    "binding_v3",
+    "adapter",
+    "scorer input construction",
+    "hash/trace validation",
+    "analysis-plan resolution",
+    "STOP BEFORE V/D/O"
+  ],
+  "checker": {
+    "exit_code": 0,
+    "failures": [],
+    "hash_bindings_checked": 14,
+    "path": "scripts/graph/formal_experiment_preflight.py",
+    "sha256": "e328c53ec1ef04ca164750936c776c25e74c546d70d3c0dfa58c88aca3109a80",
+    "status": "PASS"
+  },
+  "counts": {
+    "empty_set_bypasses": 0,
+    "evaluation_trace_rows": "420/420",
+    "identity_drift": 0,
+    "missing_metadata": 0,
+    "previous_invalid_run_drift": 0,
+    "report_groups": "30/30",
+    "runtime_bindings": "89/89",
+    "scientific_outputs": 0,
+    "silent_defaults": 0,
+    "split_drift": 0
+  },
+  "evidence": {
+    "finqa_v2_end_to_end_preflight_checker.log": {
+      "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_checker.log",
+      "sha256": "0757216ae3b6dd50be2684fe65417f000b3b393aa904b26a7e86be69c35cc9d8"
+    },
+    "finqa_v2_end_to_end_preflight_command.log": {
+      "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_command.log",
+      "sha256": "b65ca5de72e5c8415c166ac4670437dee64e38bcc0e62198f9ac22457f2c16ad"
+    },
+    "finqa_v2_end_to_end_preflight_environment.log": {
+      "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_environment.log",
+      "sha256": "e6c87e53104232b4974ae45517d77114e2f972039ed32d46b9d84438b1d857b1"
+    },
+    "finqa_v2_end_to_end_preflight_execution.log": {
+      "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_execution.log",
+      "sha256": "bef98e72255df46b219fe557a4458244e034558d414ac6e37142e96139c4e5f9"
+    },
+    "finqa_v2_end_to_end_preflight_hashes.log": {
+      "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_hashes.log",
+      "sha256": "522136eb4920f7a1ab65c7498d4d579fd4613a1e9c79fc6d35deeb834ea1c1d3"
+    },
+    "finqa_v2_end_to_end_preflight_tests.log": {
+      "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_tests.log",
+      "sha256": "7ab872da6cd530808011d6b04a7c92ce11c6b6758a7f509c6bcb2e9b5670f3a3"
+    }
+  },
+  "focused_tests": {
+    "command": "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_formal_experiment_preflight.py -q",
+    "exit_code": 0,
+    "expected": "20 passed"
+  },
+  "handoff": {
+    "candidate_status": "END_TO_END_PREFLIGHT_PASS_CANDIDATE_PENDING_LOOP_C",
+    "governance_ready_for_next_formal_run": false,
+    "review_required": true,
+    "target": "Loop C"
+  },
+  "hash_contract": "SHA-256 of raw file bytes; receipt self_sha256 excludes only self_sha256",
+  "manifest": {
+    "path": "research/finqa_v2_20261010/preflight_v1/finqa_v2_end_to_end_preflight_manifest.json",
+    "sha256": "3a080261173051d5250deb0332fa4cc89c072b2eb3fa3401d46cd4ee9c9b4246"
+  },
+  "namespace": "FINQA_V2_END_TO_END_PREFLIGHT_RECEIPT",
+  "qualification": {
+    "empty_set_bypasses": 0,
+    "evaluation_trace_rows_match": 420,
+    "evaluation_trace_rows_total": 420,
+    "identity_drift": 0,
+    "missing_metadata": 0,
+    "previous_invalid_run_drift": 0,
+    "report_clusters": 30,
+    "runtime_bindings_pass": 89,
+    "runtime_bindings_total": 89,
+    "scientific_outputs": 0,
+    "silent_defaults": 0,
+    "split_drift": 0
+  },
+  "role": "Loop A / GB10 repair and materialization",
+  "self_sha256": "157cba61a85aea65908e1e1e15e6072af03b889925c56dc7eb21378da4ea1bd3",
+  "status": "END_TO_END_PREFLIGHT_PASS_CANDIDATE_PENDING_LOOP_C",
+  "stop_boundary": "STOP_BEFORE_V_D_O",
+  "task_id": "finqa-v2-end-to-end-preflight-a-20261010",
+  "verification_level": "END_TO_END_PREFLIGHT_PASS",
+  "zero_endpoint_counters": {
+    "database_calls": 0,
+    "endpoint_calls": 0,
+    "model_calls": 0,
+    "prm_runs": 0,
+    "scientific_outputs": 0,
+    "scientific_scoring_calls": 0,
+    "stage_d_runs": 0,
+    "training_runs": 0
+  }
+}

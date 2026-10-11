@@ -1,0 +1,85 @@
+{
+  "dependency_freeze": {
+    "bytes": 2434,
+    "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_dependency_freeze.txt",
+    "sha256": "6a5393a8019ad8dace07315ecc9315bb96418a8347a68d816fafc96877ca3afc"
+  },
+  "endpoint_calls": 0,
+  "git_head": "e97340387888290e69fbfff122ab163de971b37e",
+  "model_calls": 0,
+  "namespace": "FINQA_V2_SCOPED_ENVIRONMENT_SNAPSHOT",
+  "packages": {
+    "pydantic": "2.12.5"
+  },
+  "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39",
+  "python": {
+    "executable": "/usr/bin/python3",
+    "implementation": "CPython",
+    "version": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]"
+  },
+  "relevant_diff_sha256": "8ab2531427c45d7af5eebceb96872c54c842ca19d41620b26f61c16acecb1357",
+  "scoped_files": {
+    "research/finqa_evidence_argument_resolver_v2.py": {
+      "bytes": 1461,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_evidence_argument_resolver_v2.py",
+      "sha256": "85e84a5f5296e366ec1f567ba59e5a5646e61e564d55806ad2f4f3e1747bffca"
+    },
+    "research/finqa_independent_observation_scorer_v2.py": {
+      "bytes": 5428,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_independent_observation_scorer_v2.py",
+      "sha256": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5"
+    },
+    "research/finqa_numeric_token_canonicalization_v2.py": {
+      "bytes": 2878,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_numeric_token_canonicalization_v2.py",
+      "sha256": "d4210fa9ac453a8a994827f5962d5a43c12ba589208917627dc9bce9c7a4ae3b"
+    },
+    "research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py": {
+      "bytes": 43854,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py",
+      "sha256": "90797645d7393e773f1ef3806c5ad0e930556b8f900ac60a0fd14c28980e5c76"
+    },
+    "research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py": {
+      "bytes": 7846,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py",
+      "sha256": "6482c518995294b5eb0cc91a9cd460716947cd0ce7f1d3657edd729c20510557"
+    },
+    "research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py": {
+      "bytes": 8017,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py",
+      "sha256": "6c722b0fbea76f736a2519b0dc262e2f1edbd591a42af60685d808d239161092"
+    },
+    "research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py": {
+      "bytes": 11471,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py",
+      "sha256": "dce02a42a79b373a9b9499619ab84fc0ef2a84b6b6d68d50afcc301fbb5c13ef"
+    },
+    "tests/test_finqa_evidence_argument_resolver_v2.py": {
+      "bytes": 1422,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/tests/test_finqa_evidence_argument_resolver_v2.py",
+      "sha256": "ac51401a55f8e1ff5eb153f9cabf9dc17824a0be114eb931aed27dfc6544912e"
+    },
+    "tests/test_finqa_independent_observation_scorer_v2.py": {
+      "bytes": 3980,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/tests/test_finqa_independent_observation_scorer_v2.py",
+      "sha256": "2146f847f4da0dab7295e615420eefbf55bc45167c5ce62360908153589db7d1"
+    },
+    "tests/test_finqa_numeric_token_canonicalization_v2.py": {
+      "bytes": 2384,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/tests/test_finqa_numeric_token_canonicalization_v2.py",
+      "sha256": "a9282ea2ee597f50eeeb1b9551ec20b7e1ff0a1ad61a915093ecc2aa6f356d39"
+    },
+    "tests/test_finqa_v2_execution_freeze.py": {
+      "bytes": 7912,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/tests/test_finqa_v2_execution_freeze.py",
+      "sha256": "175255f8f49d1b8fbb9815b476b729cd44606e650c486d83cae668a724e56992"
+    }
+  },
+  "scoped_source_diff": {
+    "bytes": 103408,
+    "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_scoped_source_diff.patch",
+    "sha256": "8ab2531427c45d7af5eebceb96872c54c842ca19d41620b26f61c16acecb1357"
+  },
+  "task_id": "finqa-v2-preresult-freeze-a-20261010",
+  "training_runs": 0
+}

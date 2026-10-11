@@ -1,0 +1,2050 @@
+{
+  "allocation": {
+    "counts": {
+      "E": {
+        "calibration": {
+          "groups": 5,
+          "samples": 15
+        },
+        "evaluation": {
+          "groups": 10,
+          "samples": 30
+        },
+        "train": {
+          "groups": 9,
+          "samples": 27
+        }
+      },
+      "N": {
+        "calibration": {
+          "groups": 5,
+          "samples": 15
+        },
+        "evaluation": {
+          "groups": 10,
+          "samples": 29
+        },
+        "train": {
+          "groups": 9,
+          "samples": 27
+        }
+      },
+      "P": {
+        "calibration": {
+          "groups": 5,
+          "samples": 15
+        },
+        "evaluation": {
+          "groups": 10,
+          "samples": 30
+        },
+        "train": {
+          "groups": 9,
+          "samples": 27
+        }
+      }
+    },
+    "deviations": {
+      "E": {
+        "calibration": 1,
+        "evaluation": 1,
+        "train": 0
+      },
+      "N": {
+        "calibration": 1,
+        "evaluation": 1,
+        "train": 0
+      },
+      "P": {
+        "calibration": 1,
+        "evaluation": 1,
+        "train": 0
+      }
+    }
+  },
+  "assignment_checks": {
+    "allowed_input_fields": [
+      "record_id",
+      "record_sha256",
+      "report_cluster",
+      "sample_id",
+      "source_identity",
+      "stage"
+    ],
+    "forbidden_identifier_hits": [],
+    "function_sha256": "8919dcc414ea341ab2a11947c0f1e30db88950ed4fcd2e31bc7f04f0e24903d5",
+    "passed": true,
+    "unexpected_field_policy": "fail_closed"
+  },
+  "assignments": [
+    {
+      "canonical_group_id": "71e76358fdf5e77d997f7bdee3d4518612542987fa73ac3fa2ddf34813c92885",
+      "order_key": "0c437024ab04892d2f866337b1310ad60b96adf7ab014b2b5a7c0b7fe99e2fe7",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-E-ba12e4698c55-640e1f8a97dd",
+        "FINQA-V2-E-ba12e4698c55-6f87c64f3e80",
+        "FINQA-V2-E-ba12e4698c55-e40fbfea5fdd"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "d05e22b3d5f3266ae60adef7248c48501d5247404360f369ab64eed0e92e37e6",
+      "order_key": "25c0ffc4e394f7e7703214149e7d8ab18ce033b1129ea6c90bf782702131ab43",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-E-c1cbb35c3238-3649e3913bf1",
+        "FINQA-V2-E-c1cbb35c3238-89373d60708d",
+        "FINQA-V2-E-c1cbb35c3238-d1d19cfa8629"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "9041c2950ebd5cc6bf7ec3cd1da4359c9d615ce9d3d836aa5ae9db1020915228",
+      "order_key": "25cf2c3d72dc2c40e2adff83c07bec53d501b331a42567eb8a8e63afeec37b6c",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-E-3bd21a7726a1-3d539956fb09",
+        "FINQA-V2-E-3bd21a7726a1-9a213590e649",
+        "FINQA-V2-E-3bd21a7726a1-aa387b3544e2"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "35a99e34a6336b8c895456b3a9b43cee40202819c92217ac2680084ca63cfb93",
+      "order_key": "40f95581097ae25249023363fd51e297ec86c256ea29682b38613c3817e559cb",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-E-54476c874889-680b0a4acc57",
+        "FINQA-V2-E-54476c874889-bb88c990f524",
+        "FINQA-V2-E-54476c874889-dbc5612a5488"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "dc9a051843d85012aee19882ec1d141b8ae8d68ee0e6d3464ab1632b587a2f0e",
+      "order_key": "4194297c96b63a9c15def435f09be7bdd56d65c181b55ccd247439e99a72bfbb",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-E-48acf8c30331-32f3968e8a54",
+        "FINQA-V2-E-48acf8c30331-342a4edf06c4",
+        "FINQA-V2-E-48acf8c30331-d5ee68914277"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "3e72bef276a74574575a6927fe6a97370c9c92121235f481b6de482662ccb94b",
+      "order_key": "4ae3227180a4e6e14f1c86f96bafcb797c9af36a982aa0a895f6df96be84db39",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-E-c6a24ea1d168-0a329d85ea75",
+        "FINQA-V2-E-c6a24ea1d168-903ddf57d107",
+        "FINQA-V2-E-c6a24ea1d168-e42c5b18ca82"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "33d670b4d91447f666d6f99d2bf1f11a66f25aff7f2546a766437c167e7d05bb",
+      "order_key": "4f38c196e6c01dfa1ddfb4c026a130f852098389803331f6f841b54873ec4441",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-E-555ebc9047db-6c7a335e94ab",
+        "FINQA-V2-E-555ebc9047db-708fb95052db",
+        "FINQA-V2-E-555ebc9047db-f8856754f37b"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "75da4b63632019dd314c335da790b5e9aa60ab80e5e4f746ef796c3befaa872a",
+      "order_key": "57d6d09df4eb05c1c423314cee82259b052963a6d05c47ceb566cd2d41999fcc",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-E-ba725eaea842-9eb80aee888f",
+        "FINQA-V2-E-ba725eaea842-e0d47c5a80f3",
+        "FINQA-V2-E-ba725eaea842-ede4b948dcf8"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "a44e4bd4b4f9f734609c7dce0a057ad81f8d66a62291cb6127ad8585ed07d594",
+      "order_key": "6b734fe5ee7cf0fa9c23b0863d6b6e5e46b03cbdf342910685c16ba8afffb529",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-E-19fe0955f8e6-1bc6209f72ee",
+        "FINQA-V2-E-19fe0955f8e6-4478b9a75b2c",
+        "FINQA-V2-E-19fe0955f8e6-a4ee273ec4be"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "5948b59bdc8384aa6d3e43507e0ec13e982a311e5a9b5cee7b2e4d4ff8e601d7",
+      "order_key": "6be5cd5327e09d69a0fb330da9c41645eb1bfabe165ed042212a52e419713917",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-E-fed8814259fd-124f52ad5889",
+        "FINQA-V2-E-fed8814259fd-b042c1c77bc2",
+        "FINQA-V2-E-fed8814259fd-b6e1c5690f73"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "b3588c99d538c18630d6b3a8ce9f13a86886285e0f6268a268ada8f88b856ad8",
+      "order_key": "71907896c5520deabf4865782e3d8db9361bed994c55ffe76c047fb20d4d8320",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-E-0b936c88eb56-01a9f2438991",
+        "FINQA-V2-E-0b936c88eb56-2cc648c97f0c",
+        "FINQA-V2-E-0b936c88eb56-a8282be75190"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "4259b986bec5b32cbb77b377f9f7937c355fc4538de636888ea73565a24a320a",
+      "order_key": "74ccdcf9b53f8051475c852310336663d386460e021e5af97578320a882f39f6",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-E-2d1743cee897-570d24d3217f",
+        "FINQA-V2-E-2d1743cee897-bf14c8a3eaa7",
+        "FINQA-V2-E-2d1743cee897-d9d50b4a5fba"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "4c91fd87da77b3c329e7d550c49f73201773102e64f881bdf8b241e7424be776",
+      "order_key": "7ce012d8c87907425dcd88c140a9db84c53e224e83e9920c8a18a1889949ef72",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-E-4909cc822a60-1f2c8f78670e",
+        "FINQA-V2-E-4909cc822a60-2a52ffa1a9ca",
+        "FINQA-V2-E-4909cc822a60-f46cfa23378d"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "6957f2cc0373f7509f26e81ffdbd0d2d627d83681da4f0d351b776a655adf8fe",
+      "order_key": "7f6f48fbe611357b9567df42b2c832c5a7e7a7b637cd454bd167213c133bf27d",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-E-b350ecb55a7b-60c27d2e92c4",
+        "FINQA-V2-E-b350ecb55a7b-79fad253211b",
+        "FINQA-V2-E-b350ecb55a7b-eafaa6abc899"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "b6b9f34a1087494a26001083856065f99e9b107d25b02f29298133135cf31d2c",
+      "order_key": "a39c6ea280d1c2e84d2c1731b9af138866f422fe840bdc9b771610a70e9bf6f3",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-E-0ad6193ab515-03e9aee62934",
+        "FINQA-V2-E-0ad6193ab515-15589442e572",
+        "FINQA-V2-E-0ad6193ab515-3832c7923716"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "652c2eaf68f6688784b9ce8a725f464624663989dfeee51b859ff320fba4173a",
+      "order_key": "a470c23305819509d38562d3082ec398b0b08435f46b57585d7434ee8226d2f8",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-E-47aba3b54210-5693c9492551",
+        "FINQA-V2-E-47aba3b54210-67b2bc4a6035",
+        "FINQA-V2-E-47aba3b54210-7207908051b4"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "471b38d10234a78e99550433a6f8ed278e716cc94b2eb47bb23d5807587b8931",
+      "order_key": "a9bd03bbc154229afa4c9eb927b20011a17604e17a1193a399ff9cc93ec8775f",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-E-12e4c9733807-0f3a084bbc27",
+        "FINQA-V2-E-12e4c9733807-85e42f9df8d1",
+        "FINQA-V2-E-12e4c9733807-c23863814b77"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "1b5aebca54b13d50232a91ce060da9f123de00752c498aa173390b8f8e48acaf",
+      "order_key": "afebba16ea8f2caccc35a8910dbcb904964225c3f87128584160379ba479cf70",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-E-c2d624fd6dfb-2211025d699b",
+        "FINQA-V2-E-c2d624fd6dfb-4c22a38cb1f9",
+        "FINQA-V2-E-c2d624fd6dfb-aad1127df362"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "a9468b4ab36a0306762fca6aa64195476bb902529ca28944352d4b5563991747",
+      "order_key": "b58517bb784a48f75f7990e5cdeb6928d6b5f9a1d76f0017fe073a46a2f6a6e4",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-E-6157cf7ec9f9-2d1014a0a662",
+        "FINQA-V2-E-6157cf7ec9f9-7dab6842ce61",
+        "FINQA-V2-E-6157cf7ec9f9-f6837ffca6e1"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "8064db04c5e53a00ea8aef8c1ef8f1a38edd73c0aa7dd08913ad65401c509945",
+      "order_key": "cb6021e934b066c83d53cf155a294b30ebb448f27a9db8cc5dd8ef2d0020f3b3",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-E-7383b0ff36a2-01acaad3e249",
+        "FINQA-V2-E-7383b0ff36a2-ef22c82ae693",
+        "FINQA-V2-E-7383b0ff36a2-f256e726458c"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "90f5b21ac1e3f9e3f603d2ce8f2e8e659523016a5ad8aed8c7e7160d0a727bcd",
+      "order_key": "ccad46f52763238e8a54ff1faa7e95cc84fd61331f25f99d78962e81b530fd52",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-E-fb0bb367502e-25ed4d6fc8af",
+        "FINQA-V2-E-fb0bb367502e-a8e4699de354",
+        "FINQA-V2-E-fb0bb367502e-f172a3756216"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "130fd1cdc3cec7d9fa62c60d6fb20b9645b2e2d1efbd249e55e071bf5dd7936a",
+      "order_key": "dbd308fa6526064fc1826e6a3f2f1dac3fa9bae05d400299d6d1ac0c2eec5471",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-E-b6742b01e7a9-03d0ed8dcfa1",
+        "FINQA-V2-E-b6742b01e7a9-b846e353cc2e",
+        "FINQA-V2-E-b6742b01e7a9-d6a090b514e0"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "7d2a46fb94380bdfbfb66bd4bd3500b95a36845a05c8b3b8fc6e03084818aa87",
+      "order_key": "f37367bd6f445d3a6a1e6eb2ade1225428740fe43751e9e5bd32130142feb9cf",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-E-2d0f815f83b6-593e3c3b5b39",
+        "FINQA-V2-E-2d0f815f83b6-adc1ba394684",
+        "FINQA-V2-E-2d0f815f83b6-ee922f1e59d3"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "eab5d048a92755fdecafc30a2aab8b48c12fd63f03d99996919b1c9199a87330",
+      "order_key": "fcdc0ed5ea11b4357e7496ff39e018cc2358e4100e28b14e953ec8ae17208f36",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-E-1abce520dbc2-1e29610e4b37",
+        "FINQA-V2-E-1abce520dbc2-2b20c880c58c",
+        "FINQA-V2-E-1abce520dbc2-b6eb5910d322"
+      ],
+      "stage": "E"
+    },
+    {
+      "canonical_group_id": "dfcc9a3deba2c3f9a5cd8008bb6c8f0dfe4b12ff9fad39704eda32152a7dbf64",
+      "order_key": "1025237581b8efecbbce382aae348228419a81c6910909ed52d800d412c91af1",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-N-859601aa4b6c-2350fb8116d3",
+        "FINQA-V2-N-859601aa4b6c-5937aa2571a8",
+        "FINQA-V2-N-859601aa4b6c-e2a7324fe8c0"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "91204baf4e90917dcffadbdef34f503774f652ee6ba29f46a2266447f640ed75",
+      "order_key": "1059fcad3e8b775348bdba50702b256dcf995051ff455e7db3adad32000d13da",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-N-a232a7d49275-5ca8f5f0a155",
+        "FINQA-V2-N-a232a7d49275-82067f49d367",
+        "FINQA-V2-N-a232a7d49275-f8e71b2f737c"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "fc5e0f605a61fbecadfc96da736b6e68c5812a806274ad125814b82588aaf975",
+      "order_key": "462789d226687660e502fe4026fb7bc488218649930ca28242ce90c16af164e6",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-N-cfd5850c5d40-0cc5178548ad",
+        "FINQA-V2-N-cfd5850c5d40-932bdbc98c21",
+        "FINQA-V2-N-cfd5850c5d40-a92c0d374804"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "c0591c880dad67d70b0bfc7577f2ebcb7a3b607d3175e878ac69fc9d6c6cd00f",
+      "order_key": "5646e5f96cee73b3350a5709408ce2d3cd66343fe4e219c7a77bbe521e54a844",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-N-d80321808854-4377a5ca9c6a",
+        "FINQA-V2-N-d80321808854-807b4462b4da",
+        "FINQA-V2-N-d80321808854-9b6f1d4a12c6"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "2d3a4f287c6f92b5d3218ebd3e735d96dc70fd082b02d4e0fd549e0524afc7c2",
+      "order_key": "5728213f03ec2d6034dd9b16dc09b0bace8a1610a18b5b4ad5e8eac990ea2771",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-N-e5f3752b1438-008adea58be9",
+        "FINQA-V2-N-e5f3752b1438-07c2337b60bd",
+        "FINQA-V2-N-e5f3752b1438-8def75892f60"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "18d4b42bbf6fa57760a766d75fa3e4c5ae539fd0ab9546b74e107b8f2daaf2d2",
+      "order_key": "5a36f19a3d55bb08b765c137f24779e8ce4318e9538927a3cd4b1160d243d901",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-N-3f69c4884cc2-2635f9cd07be",
+        "FINQA-V2-N-3f69c4884cc2-4f8969cf5d7f",
+        "FINQA-V2-N-3f69c4884cc2-6e9310c687d3"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "4a60779d0bca98483d97366fa02c85b923bd129f0db69f85226e41bfbd5ded22",
+      "order_key": "5aaacfc1ecccffef018cdfe961a0d21ccf6b364228dd78f4948f8a419988e422",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-N-cf8a14c210a4-1819cb39ae4c",
+        "FINQA-V2-N-cf8a14c210a4-9a0e1da3ed57",
+        "FINQA-V2-N-cf8a14c210a4-fca3706bc67f"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "06c6cf7c1e5155608dab71b13502dd610ba0ca719253603c37357b5cda6ca6a5",
+      "order_key": "7c782eb1321e36bf3b5a60e8832fd1397c02f6e3fdb2a64a17fd7267c6fb3dcf",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-N-72cd9a3bd179-4512e81289fc",
+        "FINQA-V2-N-72cd9a3bd179-54e9cf36316c",
+        "FINQA-V2-N-72cd9a3bd179-c16c7344a477"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "c442e573c4c03d990e61694a5c37df87b28569fb72e2ea0ffb7ee4412559cfa2",
+      "order_key": "7d447001e341b0b35e18f8346758bf18f2fe3acf24731e85cdb026ffc3e78d17",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-N-077d8fb584a4-7efd5f807fed",
+        "FINQA-V2-N-077d8fb584a4-94530144a988",
+        "FINQA-V2-N-077d8fb584a4-f557b5d828b3"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "03a77db03de544e0263cc6d4c57a2e65721cfa5e4cb81535ac756ad6336cc4a5",
+      "order_key": "85ad97d81579ecfedfb0feacefa84cb759171b7d46488b68ffab711936471869",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-N-1aa153106c53-a8083c733294",
+        "FINQA-V2-N-1aa153106c53-bdc87db85c60",
+        "FINQA-V2-N-1aa153106c53-c27c4d38f7f4"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "7d73cab8d2737316d9475487a17bcd07d01ab808a3d3a4b520d1dea18402c9f6",
+      "order_key": "86990297bd7a1a243b220bdc899cb4dad1d8ebb34d8e7c27bc8e726c2572d4e9",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-N-f24c392d61c3-17f23da1c36a",
+        "FINQA-V2-N-f24c392d61c3-6ef1fe1cdb5d",
+        "FINQA-V2-N-f24c392d61c3-82b375ed1c1b"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "81735967a1dac5eb679bee4e3f2c44cbdb800eaf4d8b1cebd23b0e1dc8873fd6",
+      "order_key": "86f3e1d84a551b42ea0e81b46a435e25a9defde76139d9d137cb74239fdfc0d8",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-N-e6951beb3b4e-5a52076813b7",
+        "FINQA-V2-N-e6951beb3b4e-a3b66c3a61c9",
+        "FINQA-V2-N-e6951beb3b4e-e933edba3b56"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "7c0392687f991334dbc9043ee13f295518047b07ed7cb722d5ebf53e64eb93bf",
+      "order_key": "91c40df9dcd1adad88186df680470f97ea3beab9a82d0aa17bbc45d443cf5581",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-N-d5c735605f32-4dee58173bbc",
+        "FINQA-V2-N-d5c735605f32-932e9b82f474",
+        "FINQA-V2-N-d5c735605f32-f9bd0d5c2ecc"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "01bd827e06d6058eeb632ee2364181b2e83830e7388bd39dddfe356b0e345480",
+      "order_key": "a200a025495793aeac6dec95f2e9c84cede9def23b6c007d52cbf2ddbf56fd32",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-N-a8fddb6ebbfa-4e0a7b49788a",
+        "FINQA-V2-N-a8fddb6ebbfa-a897fc14e9be",
+        "FINQA-V2-N-a8fddb6ebbfa-fd70e662a05b"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "da9eefbf3034d3174bbbedb82d0171914d1c43f16ab954a20d7bbbb2faa5e02f",
+      "order_key": "a5ae00540e38d311a6e01402ab9972c8b4234139272f43287b9347b2ca8511f6",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-N-012599f44c0a-9e4a52ee233a",
+        "FINQA-V2-N-012599f44c0a-d74f79b7aae2",
+        "FINQA-V2-N-012599f44c0a-e601fe4e70f4"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "e193aea3bb9d09ea551e05e1b0caa56275b8d88c1dbdf61f514d747e02c695fa",
+      "order_key": "a796c5cf3a94940288a450bb7dd8ae31ec756ec2a4eb05e12329cda2ca95bff9",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-N-a4af0d78efcc-3c312e570a29",
+        "FINQA-V2-N-a4af0d78efcc-73f9c07525bd",
+        "FINQA-V2-N-a4af0d78efcc-9f8e8133aedd"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "5b1604772a3b9efa8c1eea5960a96cf57e12e52d4bcae9dc3b84fb751389a09f",
+      "order_key": "a978f8a19e374e1eed94a4ba80f40a6a9263a83ba32697623500de62b843272f",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-N-8698c7ece981-24841251f36b",
+        "FINQA-V2-N-8698c7ece981-5277e8136539",
+        "FINQA-V2-N-8698c7ece981-beaf473c60d5"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "c7a1cb882e9cb3dee0d27272a96fc50a346bf95aab69cdc070d0d015acda60c1",
+      "order_key": "b096470acdf65b24cc60dec4b1fbbdb3c91dc3d8d57a60f43bec799370343ec6",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-N-71dc5f1550d1-56aba910a22b",
+        "FINQA-V2-N-71dc5f1550d1-e7ea68412e28"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "8d7c25a2d8cd1c9fee6bb588df9ead991bbb801075553e3e628780a1f31452a7",
+      "order_key": "b2afc2a5ce3165d1f3572f0c2ac9fcc08b7c1bcde2910289c741caccb79701bc",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-N-47f2f9e647c0-87ec6f516235",
+        "FINQA-V2-N-47f2f9e647c0-b601b9f536b2",
+        "FINQA-V2-N-47f2f9e647c0-c4c349b4c7e6"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "16965e193555c705538a9549c460ca0fea945b36361a750498cc31736f8e6d1e",
+      "order_key": "cf2020518ca5a6dfc90e158881cfd099eb7ffe6a2ffa8e3aef4fb1b66c937766",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-N-75e4ed7c3917-8c44790b0fa0",
+        "FINQA-V2-N-75e4ed7c3917-e4900998151d",
+        "FINQA-V2-N-75e4ed7c3917-f7adee3004b1"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "26cb5184c3e377e644bfec0d478c25422979402e491c329dd42f7983184fbbee",
+      "order_key": "cf72a3ca1f8f09b535eba62c96aea963809fbb2e25527655e31545b37ca63a83",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-N-91c89397ed00-2bf6b64b5804",
+        "FINQA-V2-N-91c89397ed00-859b801883cb",
+        "FINQA-V2-N-91c89397ed00-9579c5529eba"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "84c4710b549604476633993d56be631fdc0a7eb2405199c829586298b3bc4ff8",
+      "order_key": "dd4ff63c8d08a99a2f23ab1e78965360b8e8bc6a5845493445c33ce4d3ebd32f",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-N-f8ee1f8dfb12-c1a1dcdad558",
+        "FINQA-V2-N-f8ee1f8dfb12-defd734ed0b7",
+        "FINQA-V2-N-f8ee1f8dfb12-e9811a099d00"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "f75cf7272933750b88818dc7fc922efbcba82eba84d090b5d5909379f8d880fa",
+      "order_key": "e94345c64f6d912f0f7fcfcbde1fc065443383369018e189674bace7d4a2ca62",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-N-a33fb221f5f0-943c03bfac8a",
+        "FINQA-V2-N-a33fb221f5f0-c8c749b88a34",
+        "FINQA-V2-N-a33fb221f5f0-e1b9c0f2fbb7"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "97a451bdcdd3ac7d398f5db4242469ec63feef6456f16151a70e949f88915256",
+      "order_key": "ed29c0af023e38a67e0f83c94fe63879bc57b8aff479decf3ea667ea04b80f80",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-N-384814000338-36fbc9ff3c19",
+        "FINQA-V2-N-384814000338-85d4e8387659",
+        "FINQA-V2-N-384814000338-9baad237d8e0"
+      ],
+      "stage": "N"
+    },
+    {
+      "canonical_group_id": "4b8690189b88fc3fa18c1545bba62c90f91ba2392f9bbfa1e013a506b77f4811",
+      "order_key": "1100f419e19780479f770be5060640a60641ece17513fa27ecca0b37aa4110c2",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-P-8c9821e8f65e-03c886050c53",
+        "FINQA-V2-P-8c9821e8f65e-1a94cb0adf7f",
+        "FINQA-V2-P-8c9821e8f65e-5218f73d51b9"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "e2e770af8a9d5b7c7416b016231b375cf4167e2d3197ba6e4812b333a7a12fae",
+      "order_key": "11f13d3a6e01a302a15e2c03281b9b6a94ddc15c70cd7ea88414185a716b4784",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-P-b650c9f8d6ed-a268239dcf4e",
+        "FINQA-V2-P-b650c9f8d6ed-ace1f8635c0e",
+        "FINQA-V2-P-b650c9f8d6ed-fefa239411a3"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "d8e4a8a55040afacc8decfc4bd2f85157af847ccf4e926d0f701dc2f2da4f94b",
+      "order_key": "1ac6716023427d98dbf2c1cd56afff3eb89840099f98c3b207e244c69aa9e1bf",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-P-1c692a1ec9cc-447c13d4cc30",
+        "FINQA-V2-P-1c692a1ec9cc-bbbea69aea02",
+        "FINQA-V2-P-1c692a1ec9cc-fcb02cfe9b3d"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "d83e39ec483b81c1bf3bc79dfd165649a68ba07d6563d9d55ef15daf2aacf99e",
+      "order_key": "1eebe64fe1e97ce630ed1862d1e6eaf777cbbd4c5c6e85d4564e15a69f526320",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-P-c732b1598ea7-664dda3ce3d4",
+        "FINQA-V2-P-c732b1598ea7-9ea7d0ebe9bc",
+        "FINQA-V2-P-c732b1598ea7-ebef5c3967c2"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "2263e08021421cd199996564c833415e4d6ddfbafa085ec17e007cc7477eb5b0",
+      "order_key": "2df4c7b0635acfe04a6bb3b49d15b94c26d8d4f8c7479fd6a14205aff2742ae1",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-P-18c4b02375c3-c4fae8dcbd01",
+        "FINQA-V2-P-18c4b02375c3-e374b072a6da",
+        "FINQA-V2-P-18c4b02375c3-f42a33b80163"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "c66b19f0c84947dd768731c2a94e164277148e25c77a093e098643ad8fe1d0f1",
+      "order_key": "57511a25d3dd75c760d132bf2feedb95af020981fcecc7cd8c8fbab055791b06",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-P-0c5142006825-1fed0a1412e3",
+        "FINQA-V2-P-0c5142006825-55bc11f01ee2",
+        "FINQA-V2-P-0c5142006825-aacb21eb0b60"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "0e70d4140d5032f3ee4ad28095a3db92044937839a0844bea22b7f11f392f7f4",
+      "order_key": "5bda58018c41d2db64a7dd0fa82a18ff6eea18bfffa1497f61c2e45b1c4121d8",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-P-4ebf50804d61-5e58a16ed7e5",
+        "FINQA-V2-P-4ebf50804d61-77750d8205cb",
+        "FINQA-V2-P-4ebf50804d61-9dcbba2395ed"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "3f1ba4dd2c2f1e51bda1760db6820380899e537f488ae1c9cd95eaf47ced12b8",
+      "order_key": "5bebc062277ff55c3752594f3a4d705f1d031b0c71ac45dd31cfbdde0f6d4993",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-P-3217e30fddbc-40ff4ca909cb",
+        "FINQA-V2-P-3217e30fddbc-5f21f2567362",
+        "FINQA-V2-P-3217e30fddbc-6ddf282b4d60"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "8aa75a97e41532b92f4e0a7d39f3463db290ccfdc6933fad420d9592b4c77663",
+      "order_key": "6624188064815913f2ce13af35af7b658a41e3ccc169889fc429df59d0710a8a",
+      "role": "train",
+      "sample_ids": [
+        "FINQA-V2-P-01849bd42b75-c2e07039106d",
+        "FINQA-V2-P-01849bd42b75-c665d26e1b6c",
+        "FINQA-V2-P-01849bd42b75-f3b5522da5e7"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "ee891986ee487c88575cfaffee83acb4a8c0ed92107d2ecebff9097cd4cf5584",
+      "order_key": "77754838e2438a619d12bd98ad10e7974673113f7295a1b4504bcd104cee6a6b",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-P-062f44ddbd65-178beb6c56b2",
+        "FINQA-V2-P-062f44ddbd65-451112fd1c78",
+        "FINQA-V2-P-062f44ddbd65-a6864e0d4a2b"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "d53cd2767245c71abe913cb4b7d056ec089e34c56f928fd0187b88f4f27bb8f1",
+      "order_key": "7f702ae6ddb811e18fd70d810b670436a3a655b628cebbe51a7d3aa6c66b2e5f",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-P-5fc42744e4f4-3359c894fbd0",
+        "FINQA-V2-P-5fc42744e4f4-81a6173ee971",
+        "FINQA-V2-P-5fc42744e4f4-9a874b9f2df7"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "57ed91afbd90bb46b1fbb3d28398cad46fdfafa3e09775e70be45eef39e9d1b3",
+      "order_key": "9b61c0945978077b2b3a4fc30fc715562cb72777687692d9994c013577f4d554",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-P-c0e2367fc46f-08bfe65ccaf0",
+        "FINQA-V2-P-c0e2367fc46f-fa5ed2cc2d63",
+        "FINQA-V2-P-c0e2367fc46f-ff53bcd03ff2"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "4a2a01fe0c8246134b185bd61d1a7099dcb96123a32374f6b00f5e7f79ad6cdd",
+      "order_key": "9cb598ed0de940d476f61ea08e9300aebff04747e791f02f2a2769be7a806aa4",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-P-a3cfe8b82bd0-063facbe88b3",
+        "FINQA-V2-P-a3cfe8b82bd0-1a3e7bf69896",
+        "FINQA-V2-P-a3cfe8b82bd0-4e4196680f84"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "739d8660484d45d6e269afd51b938094c17c97bc991d6215cc3a1204371dab58",
+      "order_key": "9fbaa75914e757cdc6259fa4d032ee257666c2883ac406cd1db8f7f6ff77623c",
+      "role": "calibration",
+      "sample_ids": [
+        "FINQA-V2-P-0d9e2720f58a-8819a7c40dbb",
+        "FINQA-V2-P-0d9e2720f58a-c62288587728",
+        "FINQA-V2-P-0d9e2720f58a-eed3fb2cf7b5"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "95f74a99e478ff51282711bdb58579eb15629b39835b7ed18e6f948bea493923",
+      "order_key": "a2949536c2874ba9dbb86ab0261f52b4fc633591213938326a7c9b44964ce86c",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-P-b1d4a0a6e93e-187d56b99969",
+        "FINQA-V2-P-b1d4a0a6e93e-412ab2d046a9",
+        "FINQA-V2-P-b1d4a0a6e93e-d293878bab3f"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "dbc0fa26b3cfa7c44bf5b8e9e62d390aefcefa2b2fb5704fe683932915bb9213",
+      "order_key": "a96febb8def2449d949b8f23960b6028366aa8a58e058087511cc5b32af9905f",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-P-00eb8c9edf7d-68dcbde775e6",
+        "FINQA-V2-P-00eb8c9edf7d-acf9793b9b53",
+        "FINQA-V2-P-00eb8c9edf7d-e05f40437882"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "d43fb2d8fad7b1549351031a35484a30583a40478b9db93d2ca452a9390265b1",
+      "order_key": "a9a08780845aca02efc2ade90b0de7a4cd302c468e36c1246207b40843104a2c",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-P-63c8b0d9a47f-7a2fef9ea21a",
+        "FINQA-V2-P-63c8b0d9a47f-7b1a6931f084",
+        "FINQA-V2-P-63c8b0d9a47f-a5495fa66249"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "a022dc2ce041b62151f25da234ff8326a64723b1fe98eac7731b809768bad300",
+      "order_key": "b928be3b22a9fbbe1d4678e182557c7f9e3898c5080e7d923628dbf9637c1e66",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-P-a534d902e8f3-6dab51f160fa",
+        "FINQA-V2-P-a534d902e8f3-aefa9f4b7e75",
+        "FINQA-V2-P-a534d902e8f3-e73137403d50"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "c84dd5da7be95c60a3408894f5e7099cf6c43c543a79cacf85ad4ed2b99113eb",
+      "order_key": "bba79f5dc5102dad0dd371e1fbe9aa0b1ed4b2106c354164c073b95090340a6b",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-P-eb0ec3680138-2419f4b32330",
+        "FINQA-V2-P-eb0ec3680138-b7ce108f883e",
+        "FINQA-V2-P-eb0ec3680138-e37b5835f8a7"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "2c344bd129e0ab8bd14e78418da3e717774c6eb50a433ccd672c353bd0b25a86",
+      "order_key": "c4bbd235e898b9a44366d2690e1b0c9430a3b86b86875b47ebe02784c1b8af4e",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-P-466db4b74779-bb040b6a621a",
+        "FINQA-V2-P-466db4b74779-d27b7f0ce7e7",
+        "FINQA-V2-P-466db4b74779-f4fb1e1e4a35"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "0b7ef54ffe2b4014dcf2fbcef2c046354a0bd3afe0522bce43f9e7029960c8df",
+      "order_key": "d45e685e43cd823948ade00e6f4003ea31817436fd1434900d704aee463a4a31",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-P-e8cccb0aa02c-47459d0f0fa5",
+        "FINQA-V2-P-e8cccb0aa02c-78a14218ddcb",
+        "FINQA-V2-P-e8cccb0aa02c-c5e3ce5a6f8b"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "a76350fb88c645142b75b4c2f94ef92c696dcd2ac25ff8e9698c69cc839c01b7",
+      "order_key": "df5d42f54e51717ee9609bca5b44c5bb989ced23c2b7fd637efc1f31248728d1",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-P-d1e7ee422519-032f23ed6330",
+        "FINQA-V2-P-d1e7ee422519-8399f92ac4b7",
+        "FINQA-V2-P-d1e7ee422519-89aff075d0e5"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "46e7a5245ef3318511e01632e9c26ce33656212ef727f069677f87389c834156",
+      "order_key": "e215f82f24ccf4b323d7a43447e370cf80f49b6335b73c12c25e4800e07ddf65",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-P-f7c1898e0344-0dae549671c3",
+        "FINQA-V2-P-f7c1898e0344-56771ffeede9",
+        "FINQA-V2-P-f7c1898e0344-a40c7b345472"
+      ],
+      "stage": "P"
+    },
+    {
+      "canonical_group_id": "c6f8c07f965e090eef2a187e6fb2ec77b2ffc9b3cbce7418a348bfee3de03f18",
+      "order_key": "eeca779ab7876d0fd9ba10ba9fc0518cbd2b6ed43134c464a6ee53df9a777c53",
+      "role": "evaluation",
+      "sample_ids": [
+        "FINQA-V2-P-2070aefd6f6c-a5e7dc2d83aa",
+        "FINQA-V2-P-2070aefd6f6c-c87fbb17fb37",
+        "FINQA-V2-P-2070aefd6f6c-f4c201172978"
+      ],
+      "stage": "P"
+    }
+  ],
+  "contract": {
+    "assignment_access": "identity fields only",
+    "cross_stage_policy": "SPLIT_GROUP_COLLISION",
+    "deterministic_order": "SHA256(\"finqa-v2-split-v1|20261016|<stage>|<canonical_group_id>\")",
+    "group_closure": "union records sharing exact normalized source identity, source hash, or duplicate record identity",
+    "primary_group": "report_cluster_id",
+    "roles": [
+      "train",
+      "calibration",
+      "evaluation"
+    ],
+    "singleton_quota": {
+      "groups": [
+        9,
+        5,
+        10
+      ],
+      "injections": [
+        81,
+        45,
+        90
+      ]
+    },
+    "stage_targets": {
+      "calibration": "20%",
+      "evaluation": "40%",
+      "train": "40%"
+    },
+    "stages": [
+      "E",
+      "P",
+      "N"
+    ]
+  },
+  "counts_by_stage_and_role": {
+    "E": {
+      "calibration": {
+        "groups": 5,
+        "samples": 15
+      },
+      "evaluation": {
+        "groups": 10,
+        "samples": 30
+      },
+      "train": {
+        "groups": 9,
+        "samples": 27
+      }
+    },
+    "N": {
+      "calibration": {
+        "groups": 5,
+        "samples": 15
+      },
+      "evaluation": {
+        "groups": 10,
+        "samples": 29
+      },
+      "train": {
+        "groups": 9,
+        "samples": 27
+      }
+    },
+    "P": {
+      "calibration": {
+        "groups": 5,
+        "samples": 15
+      },
+      "evaluation": {
+        "groups": 10,
+        "samples": 30
+      },
+      "train": {
+        "groups": 9,
+        "samples": 27
+      }
+    }
+  },
+  "group_disjointness": {
+    "cross_stage_components": 0,
+    "passed": true,
+    "sample_in_multiple_roles": 0
+  },
+  "leakage_fail_closed": {
+    "allowed_input_fields": [
+      "record_id",
+      "record_sha256",
+      "report_cluster",
+      "sample_id",
+      "source_identity",
+      "stage"
+    ],
+    "forbidden_identifier_hits": [],
+    "function_sha256": "8919dcc414ea341ab2a11947c0f1e30db88950ed4fcd2e31bc7f04f0e24903d5",
+    "passed": true,
+    "unexpected_field_policy": "fail_closed"
+  },
+  "namespace": "FINQA_V2_SPLIT_MANIFEST",
+  "samples": [
+    {
+      "sample_id": "FINQA-V2-E-0ad6193ab515-03e9aee62934",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-0ad6193ab515-15589442e572",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-0ad6193ab515-3832c7923716",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-0b936c88eb56-01a9f2438991",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-0b936c88eb56-2cc648c97f0c",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-0b936c88eb56-a8282be75190",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-12e4c9733807-0f3a084bbc27",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-12e4c9733807-85e42f9df8d1",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-12e4c9733807-c23863814b77",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-19fe0955f8e6-1bc6209f72ee",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-19fe0955f8e6-4478b9a75b2c",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-19fe0955f8e6-a4ee273ec4be",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-1abce520dbc2-1e29610e4b37",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-1abce520dbc2-2b20c880c58c",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-1abce520dbc2-b6eb5910d322",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-2d0f815f83b6-593e3c3b5b39",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-2d0f815f83b6-adc1ba394684",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-2d0f815f83b6-ee922f1e59d3",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-2d1743cee897-570d24d3217f",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-2d1743cee897-bf14c8a3eaa7",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-2d1743cee897-d9d50b4a5fba",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-3bd21a7726a1-3d539956fb09",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-3bd21a7726a1-9a213590e649",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-3bd21a7726a1-aa387b3544e2",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-47aba3b54210-5693c9492551",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-47aba3b54210-67b2bc4a6035",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-47aba3b54210-7207908051b4",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-48acf8c30331-32f3968e8a54",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-48acf8c30331-342a4edf06c4",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-48acf8c30331-d5ee68914277",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-4909cc822a60-1f2c8f78670e",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-4909cc822a60-2a52ffa1a9ca",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-4909cc822a60-f46cfa23378d",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-54476c874889-680b0a4acc57",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-54476c874889-bb88c990f524",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-54476c874889-dbc5612a5488",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-555ebc9047db-6c7a335e94ab",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-555ebc9047db-708fb95052db",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-555ebc9047db-f8856754f37b",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-6157cf7ec9f9-2d1014a0a662",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-6157cf7ec9f9-7dab6842ce61",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-6157cf7ec9f9-f6837ffca6e1",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-7383b0ff36a2-01acaad3e249",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-7383b0ff36a2-ef22c82ae693",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-7383b0ff36a2-f256e726458c",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-b350ecb55a7b-60c27d2e92c4",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-b350ecb55a7b-79fad253211b",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-b350ecb55a7b-eafaa6abc899",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-b6742b01e7a9-03d0ed8dcfa1",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-b6742b01e7a9-b846e353cc2e",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-b6742b01e7a9-d6a090b514e0",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-ba12e4698c55-640e1f8a97dd",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-ba12e4698c55-6f87c64f3e80",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-ba12e4698c55-e40fbfea5fdd",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-ba725eaea842-9eb80aee888f",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-ba725eaea842-e0d47c5a80f3",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-ba725eaea842-ede4b948dcf8",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-c1cbb35c3238-3649e3913bf1",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-c1cbb35c3238-89373d60708d",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-c1cbb35c3238-d1d19cfa8629",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-c2d624fd6dfb-2211025d699b",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-c2d624fd6dfb-4c22a38cb1f9",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-c2d624fd6dfb-aad1127df362",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-c6a24ea1d168-0a329d85ea75",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-c6a24ea1d168-903ddf57d107",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-c6a24ea1d168-e42c5b18ca82",
+      "split_role": "train",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-fb0bb367502e-25ed4d6fc8af",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-fb0bb367502e-a8e4699de354",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-fb0bb367502e-f172a3756216",
+      "split_role": "evaluation",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-fed8814259fd-124f52ad5889",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-fed8814259fd-b042c1c77bc2",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-E-fed8814259fd-b6e1c5690f73",
+      "split_role": "calibration",
+      "stage": "E"
+    },
+    {
+      "sample_id": "FINQA-V2-N-012599f44c0a-9e4a52ee233a",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-012599f44c0a-d74f79b7aae2",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-012599f44c0a-e601fe4e70f4",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-077d8fb584a4-7efd5f807fed",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-077d8fb584a4-94530144a988",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-077d8fb584a4-f557b5d828b3",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-1aa153106c53-a8083c733294",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-1aa153106c53-bdc87db85c60",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-1aa153106c53-c27c4d38f7f4",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-384814000338-36fbc9ff3c19",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-384814000338-85d4e8387659",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-384814000338-9baad237d8e0",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-3f69c4884cc2-2635f9cd07be",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-3f69c4884cc2-4f8969cf5d7f",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-3f69c4884cc2-6e9310c687d3",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-47f2f9e647c0-87ec6f516235",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-47f2f9e647c0-b601b9f536b2",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-47f2f9e647c0-c4c349b4c7e6",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-71dc5f1550d1-56aba910a22b",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-71dc5f1550d1-e7ea68412e28",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-72cd9a3bd179-4512e81289fc",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-72cd9a3bd179-54e9cf36316c",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-72cd9a3bd179-c16c7344a477",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-75e4ed7c3917-8c44790b0fa0",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-75e4ed7c3917-e4900998151d",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-75e4ed7c3917-f7adee3004b1",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-859601aa4b6c-2350fb8116d3",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-859601aa4b6c-5937aa2571a8",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-859601aa4b6c-e2a7324fe8c0",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-8698c7ece981-24841251f36b",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-8698c7ece981-5277e8136539",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-8698c7ece981-beaf473c60d5",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-91c89397ed00-2bf6b64b5804",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-91c89397ed00-859b801883cb",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-91c89397ed00-9579c5529eba",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a232a7d49275-5ca8f5f0a155",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a232a7d49275-82067f49d367",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a232a7d49275-f8e71b2f737c",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a33fb221f5f0-943c03bfac8a",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a33fb221f5f0-c8c749b88a34",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a33fb221f5f0-e1b9c0f2fbb7",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a4af0d78efcc-3c312e570a29",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a4af0d78efcc-73f9c07525bd",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a4af0d78efcc-9f8e8133aedd",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a8fddb6ebbfa-4e0a7b49788a",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a8fddb6ebbfa-a897fc14e9be",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-a8fddb6ebbfa-fd70e662a05b",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-cf8a14c210a4-1819cb39ae4c",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-cf8a14c210a4-9a0e1da3ed57",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-cf8a14c210a4-fca3706bc67f",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-cfd5850c5d40-0cc5178548ad",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-cfd5850c5d40-932bdbc98c21",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-cfd5850c5d40-a92c0d374804",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-d5c735605f32-4dee58173bbc",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-d5c735605f32-932e9b82f474",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-d5c735605f32-f9bd0d5c2ecc",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-d80321808854-4377a5ca9c6a",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-d80321808854-807b4462b4da",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-d80321808854-9b6f1d4a12c6",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-e5f3752b1438-008adea58be9",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-e5f3752b1438-07c2337b60bd",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-e5f3752b1438-8def75892f60",
+      "split_role": "train",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-e6951beb3b4e-5a52076813b7",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-e6951beb3b4e-a3b66c3a61c9",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-e6951beb3b4e-e933edba3b56",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-f24c392d61c3-17f23da1c36a",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-f24c392d61c3-6ef1fe1cdb5d",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-f24c392d61c3-82b375ed1c1b",
+      "split_role": "calibration",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-f8ee1f8dfb12-c1a1dcdad558",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-f8ee1f8dfb12-defd734ed0b7",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-N-f8ee1f8dfb12-e9811a099d00",
+      "split_role": "evaluation",
+      "stage": "N"
+    },
+    {
+      "sample_id": "FINQA-V2-P-00eb8c9edf7d-68dcbde775e6",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-00eb8c9edf7d-acf9793b9b53",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-00eb8c9edf7d-e05f40437882",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-01849bd42b75-c2e07039106d",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-01849bd42b75-c665d26e1b6c",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-01849bd42b75-f3b5522da5e7",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-062f44ddbd65-178beb6c56b2",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-062f44ddbd65-451112fd1c78",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-062f44ddbd65-a6864e0d4a2b",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-0c5142006825-1fed0a1412e3",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-0c5142006825-55bc11f01ee2",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-0c5142006825-aacb21eb0b60",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-0d9e2720f58a-8819a7c40dbb",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-0d9e2720f58a-c62288587728",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-0d9e2720f58a-eed3fb2cf7b5",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-18c4b02375c3-c4fae8dcbd01",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-18c4b02375c3-e374b072a6da",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-18c4b02375c3-f42a33b80163",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-1c692a1ec9cc-447c13d4cc30",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-1c692a1ec9cc-bbbea69aea02",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-1c692a1ec9cc-fcb02cfe9b3d",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-2070aefd6f6c-a5e7dc2d83aa",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-2070aefd6f6c-c87fbb17fb37",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-2070aefd6f6c-f4c201172978",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-3217e30fddbc-40ff4ca909cb",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-3217e30fddbc-5f21f2567362",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-3217e30fddbc-6ddf282b4d60",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-466db4b74779-bb040b6a621a",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-466db4b74779-d27b7f0ce7e7",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-466db4b74779-f4fb1e1e4a35",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-4ebf50804d61-5e58a16ed7e5",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-4ebf50804d61-77750d8205cb",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-4ebf50804d61-9dcbba2395ed",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-5fc42744e4f4-3359c894fbd0",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-5fc42744e4f4-81a6173ee971",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-5fc42744e4f4-9a874b9f2df7",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-63c8b0d9a47f-7a2fef9ea21a",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-63c8b0d9a47f-7b1a6931f084",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-63c8b0d9a47f-a5495fa66249",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-8c9821e8f65e-03c886050c53",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-8c9821e8f65e-1a94cb0adf7f",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-8c9821e8f65e-5218f73d51b9",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-a3cfe8b82bd0-063facbe88b3",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-a3cfe8b82bd0-1a3e7bf69896",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-a3cfe8b82bd0-4e4196680f84",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-a534d902e8f3-6dab51f160fa",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-a534d902e8f3-aefa9f4b7e75",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-a534d902e8f3-e73137403d50",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-b1d4a0a6e93e-187d56b99969",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-b1d4a0a6e93e-412ab2d046a9",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-b1d4a0a6e93e-d293878bab3f",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-b650c9f8d6ed-a268239dcf4e",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-b650c9f8d6ed-ace1f8635c0e",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-b650c9f8d6ed-fefa239411a3",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-c0e2367fc46f-08bfe65ccaf0",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-c0e2367fc46f-fa5ed2cc2d63",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-c0e2367fc46f-ff53bcd03ff2",
+      "split_role": "calibration",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-c732b1598ea7-664dda3ce3d4",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-c732b1598ea7-9ea7d0ebe9bc",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-c732b1598ea7-ebef5c3967c2",
+      "split_role": "train",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-d1e7ee422519-032f23ed6330",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-d1e7ee422519-8399f92ac4b7",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-d1e7ee422519-89aff075d0e5",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-e8cccb0aa02c-47459d0f0fa5",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-e8cccb0aa02c-78a14218ddcb",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-e8cccb0aa02c-c5e3ce5a6f8b",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-eb0ec3680138-2419f4b32330",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-eb0ec3680138-b7ce108f883e",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-eb0ec3680138-e37b5835f8a7",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-f7c1898e0344-0dae549671c3",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-f7c1898e0344-56771ffeede9",
+      "split_role": "evaluation",
+      "stage": "P"
+    },
+    {
+      "sample_id": "FINQA-V2-P-f7c1898e0344-a40c7b345472",
+      "split_role": "evaluation",
+      "stage": "P"
+    }
+  ],
+  "source_sample_manifest_sha256": "802798a3621fa995feddee31c02fae5bd4e30f80473ca282e3c6c3809a618b18",
+  "status": "DETERMINISTIC_GROUP_DISJOINT_SPLIT_FROZEN_NOT_EXECUTED",
+  "task_id": "finqa-v2-preresult-freeze-a-20261010"
+}

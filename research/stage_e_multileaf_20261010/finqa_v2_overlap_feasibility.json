@@ -1,0 +1,382 @@
+{
+  "counts": {
+    "E1_N_overlap_clusters": 768,
+    "E1_N_overlap_clusters_with_multi_step": 628,
+    "E1_N_overlap_records": 6915,
+    "E_clusters": 768,
+    "E_records": 7134,
+    "N_clusters": 768,
+    "N_records": 6929,
+    "P_N_overlap_clusters": 767,
+    "P_N_overlap_clusters_with_multi_step": 628,
+    "P_N_overlap_records": 6794,
+    "P_clusters": 767,
+    "P_records": 6794,
+    "multi_step_records": 2894,
+    "records": 7134,
+    "report_clusters": 768
+  },
+  "details_sample": [
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 1,
+      "id": "ADI/2009/page_49.pdf-1",
+      "n_candidate": true,
+      "n_steps": 2,
+      "numeric_arg_evidence_overlap_count": 2,
+      "op_families": [
+        "divide",
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "ADI/2009",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "ABMD/2012/page_75.pdf-1",
+      "n_candidate": true,
+      "n_steps": 4,
+      "numeric_arg_evidence_overlap_count": 2,
+      "op_families": [
+        "multiply",
+        "multiply",
+        "multiply",
+        "compare_larger"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "ABMD/2012",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 1,
+      "id": "AAL/2018/page_13.pdf-2",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "AAL/2018",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "INTC/2013/page_71.pdf-4",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "INTC/2013",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "ETR/2008/page_313.pdf-3",
+      "n_candidate": true,
+      "n_steps": 2,
+      "numeric_arg_evidence_overlap_count": 2,
+      "op_families": [
+        "minus",
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "ETR/2008",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "C/2010/page_272.pdf-1",
+      "n_candidate": true,
+      "n_steps": 2,
+      "numeric_arg_evidence_overlap_count": 2,
+      "op_families": [
+        "divide",
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "C/2010",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "AMT/2012/page_121.pdf-1",
+      "n_candidate": true,
+      "n_steps": 2,
+      "numeric_arg_evidence_overlap_count": 2,
+      "op_families": [
+        "add",
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "AMT/2012",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "GIS/2019/page_45.pdf-1",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "GIS/2019",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "IPG/2009/page_89.pdf-3",
+      "n_candidate": true,
+      "n_steps": 3,
+      "numeric_arg_evidence_overlap_count": 2,
+      "op_families": [
+        "minus",
+        "divide",
+        "multiply"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "IPG/2009",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 1,
+      "id": "CDNS/2018/page_32.pdf-2",
+      "n_candidate": true,
+      "n_steps": 2,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "multiply",
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "CDNS/2018",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 1,
+      "id": "GIS/2008/page_83.pdf-1",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "minus"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "GIS/2008",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "PNC/2012/page_110.pdf-3",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "add"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "PNC/2012",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "AAL/2015/page_74.pdf-1",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "AAL/2015",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 4,
+      "id": "ETR/2008/page_376.pdf-2",
+      "n_candidate": true,
+      "n_steps": 2,
+      "numeric_arg_evidence_overlap_count": 2,
+      "op_families": [
+        "minus",
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "ETR/2008",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "GS/2014/page_47.pdf-3",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "GS/2014",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "AAL/2014/page_89.pdf-3",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "AAL/2014",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "SWKS/2011/page_82.pdf-1",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "SWKS/2011",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 1,
+      "id": "WRK/2018/page_56.pdf-3",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "WRK/2018",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 5,
+      "id": "KHC/2017/page_21.pdf-4",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "KHC/2017",
+      "source_split": "train"
+    },
+    {
+      "e1_n_overlap": true,
+      "e_candidate": true,
+      "gold_evidence_count": 2,
+      "id": "INTC/2013/page_71.pdf-2",
+      "n_candidate": true,
+      "n_steps": 1,
+      "numeric_arg_evidence_overlap_count": 1,
+      "op_families": [
+        "divide"
+      ],
+      "p_candidate": true,
+      "p_n_overlap": true,
+      "report_cluster": "INTC/2013",
+      "source_split": "train"
+    }
+  ],
+  "interpretation": {
+    "E1_definition": "a numeric token in a program argument also occurs in the gold evidence text",
+    "P_N_overlap_definition": "at least one arithmetic step and one argument/reference candidate coexist",
+    "warning": "numeric-string overlap is a feasibility proxy, not a causal evidence-to-argument join"
+  },
+  "namespace": "FINQA_V2_OVERLAP_FEASIBILITY",
+  "op_family_counts": {
+    "add": 1411,
+    "average": 6,
+    "compare_larger": 15,
+    "divide": 2665,
+    "exp": 6,
+    "max": 3,
+    "min": 2,
+    "minus": 2134,
+    "multiply": 466,
+    "sum": 12
+  },
+  "source_files": {
+    "/home/testuser/wzh/phase1a_staging_20260925/finqa/dev.json": {
+      "bytes": 10954658,
+      "sha256": "a847fb7e0d61a3125a1e2909852df6b89f1ee64d2c5ff1bf689e332214deee51"
+    },
+    "/home/testuser/wzh/phase1a_staging_20260925/finqa/train.json": {
+      "bytes": 78216616,
+      "sha256": "49f237eb9779b569473b26b08048867d04635a7cc39ad6a7a5664c55bb428db6"
+    }
+  },
+  "status": "OVERLAP_DESIGN_FEASIBLE",
+  "target_clusters_per_stage": 24
+}

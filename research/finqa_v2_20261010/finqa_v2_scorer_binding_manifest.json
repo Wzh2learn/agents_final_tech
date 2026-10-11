@@ -1,0 +1,1372 @@
+{
+  "bindings": [
+    {
+      "artifact_id": "FINQA-V2-ART-dd3c259cb48337f175f45cc5",
+      "artifact_sha256": "3d2b6c633fb7af47d3dbb5b15c1312b9dc547303cd61611d1ee35328aeb3bbc0",
+      "sample_id": "FINQA-V2-E-0ad6193ab515-03e9aee62934",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-08c2a30a92ba266cf02d0a53",
+      "artifact_sha256": "a305e06a43c323b3a565e9128bce71fa915892e4a6096829e21d28f92f8a0705",
+      "sample_id": "FINQA-V2-E-0ad6193ab515-15589442e572",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-adec81105e5ee04c9cacf8bb",
+      "artifact_sha256": "a305e06a43c323b3a565e9128bce71fa915892e4a6096829e21d28f92f8a0705",
+      "sample_id": "FINQA-V2-E-0ad6193ab515-3832c7923716",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f80fa04f7dd9ab6d6491e9d0",
+      "artifact_sha256": "1f422e4d2c67132f1d011a7a7e33fd339a71cb99e63cb47d629bee0b79216085",
+      "sample_id": "FINQA-V2-E-0b936c88eb56-01a9f2438991",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-8858c78f41403ad882b8e1cb",
+      "artifact_sha256": "46c8029ad72d896dcaf3669773921147970bdf9e6c1a55ec8bb88cb7e47f58a2",
+      "sample_id": "FINQA-V2-E-0b936c88eb56-2cc648c97f0c",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c17efa407eeb16b7ff459b7a",
+      "artifact_sha256": "46c8029ad72d896dcaf3669773921147970bdf9e6c1a55ec8bb88cb7e47f58a2",
+      "sample_id": "FINQA-V2-E-0b936c88eb56-a8282be75190",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-2b92f4d7c9068b326caa9e81",
+      "artifact_sha256": "49e932007aeb8ee1de6bca11b7f1f7ed7b231761d80405ad6a5a7ab5eeb8dc22",
+      "sample_id": "FINQA-V2-E-12e4c9733807-0f3a084bbc27",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-b3ae96a44cff49571f582ada",
+      "artifact_sha256": "9b344c61c59504957590bb75bd68d80166002d9a658892a30f4105b198e5a466",
+      "sample_id": "FINQA-V2-E-12e4c9733807-85e42f9df8d1",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-8d22c5e02ebf6c830dc4049d",
+      "artifact_sha256": "c6230f73caf8b451efeace1417045a8cef4705016b72c5256bd91692a84771dd",
+      "sample_id": "FINQA-V2-E-12e4c9733807-c23863814b77",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-d00675ce561c5e462b8deb6f",
+      "artifact_sha256": "4c0dae376dfc7f610888f519f01181fa056e1854636568d8a4220a177a312b83",
+      "sample_id": "FINQA-V2-E-19fe0955f8e6-1bc6209f72ee",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-df4dc96d254e47681fd33b39",
+      "artifact_sha256": "baa8271bc867fac710665cd9e215e26560b74fdb2a5b00cdb2b1ae28ea605c6e",
+      "sample_id": "FINQA-V2-E-19fe0955f8e6-4478b9a75b2c",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-3b6195853a833dc847ca9541",
+      "artifact_sha256": "4c0dae376dfc7f610888f519f01181fa056e1854636568d8a4220a177a312b83",
+      "sample_id": "FINQA-V2-E-19fe0955f8e6-a4ee273ec4be",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-0b45fb2f257c709dcd49762f",
+      "artifact_sha256": "61db263a7becf5614a930bdc42f9ceac125fa1b7a934791ed83d473c8f30a22d",
+      "sample_id": "FINQA-V2-E-1abce520dbc2-1e29610e4b37",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-8ad3f2f1e03f131ef87170ab",
+      "artifact_sha256": "61db263a7becf5614a930bdc42f9ceac125fa1b7a934791ed83d473c8f30a22d",
+      "sample_id": "FINQA-V2-E-1abce520dbc2-2b20c880c58c",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-ed590811812df50dd295dfc9",
+      "artifact_sha256": "877218a2148580c12b8d262a8497cab1f1622f22c1d2a35b48783a7a04fc0cdc",
+      "sample_id": "FINQA-V2-E-1abce520dbc2-b6eb5910d322",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-472bc7f74dd24d32884a6249",
+      "artifact_sha256": "e5703fab4d84921df2690fadbf61c36584bb27e08274645137fe9f13790e49e9",
+      "sample_id": "FINQA-V2-E-2d0f815f83b6-593e3c3b5b39",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-4c73345e8db9aee8b9b3d109",
+      "artifact_sha256": "e5703fab4d84921df2690fadbf61c36584bb27e08274645137fe9f13790e49e9",
+      "sample_id": "FINQA-V2-E-2d0f815f83b6-adc1ba394684",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-a1b564c9412b1ce373412431",
+      "artifact_sha256": "e5703fab4d84921df2690fadbf61c36584bb27e08274645137fe9f13790e49e9",
+      "sample_id": "FINQA-V2-E-2d0f815f83b6-ee922f1e59d3",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f26e3a6f48acf696e3b526ab",
+      "artifact_sha256": "7dad45368e0714dd46c96e02119723af1bc5dcdc553837bd1399e02fd84513ad",
+      "sample_id": "FINQA-V2-E-2d1743cee897-570d24d3217f",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e5b40b2ea4769bbef22dea5d",
+      "artifact_sha256": "79ed4c5b28acc2d87b292bb2ddfde962c0120f8c6927a4dda42358c7d880d762",
+      "sample_id": "FINQA-V2-E-2d1743cee897-bf14c8a3eaa7",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-273ee2355c44a7ff65d1f763",
+      "artifact_sha256": "7dad45368e0714dd46c96e02119723af1bc5dcdc553837bd1399e02fd84513ad",
+      "sample_id": "FINQA-V2-E-2d1743cee897-d9d50b4a5fba",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-3eb2a064f616b065322049c4",
+      "artifact_sha256": "16c490c1ce8e96bd6f0906a532f8cab7fda7c4fbec5c0ebf9ec1db866c04940c",
+      "sample_id": "FINQA-V2-E-3bd21a7726a1-3d539956fb09",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-0609a5b21318852e020dd79a",
+      "artifact_sha256": "74fdabc44048f809184a54fd81c3a10c5c606819be75dff5177ce6f8e854c6b0",
+      "sample_id": "FINQA-V2-E-3bd21a7726a1-9a213590e649",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-1c1430150d2c930aaaa2f3e4",
+      "artifact_sha256": "2e8b851455cdabcf720d184676b625b0d4e700b8dc52862ee8f123d57a16b1d6",
+      "sample_id": "FINQA-V2-E-3bd21a7726a1-aa387b3544e2",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c2e4431d4d2aae2669b0dda1",
+      "artifact_sha256": "d5a7e724d6dff5b48ad709260c53844ba66eede632e3b43c47419950088fedf8",
+      "sample_id": "FINQA-V2-E-47aba3b54210-5693c9492551",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e8f5c9702d9dc1b322c59c75",
+      "artifact_sha256": "c8596456737b4a94e257040eafa130f7960b69b72cd3a1ff9227fa26cebc348f",
+      "sample_id": "FINQA-V2-E-47aba3b54210-67b2bc4a6035",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6ffe4434d81cbd10e806a7b1",
+      "artifact_sha256": "d5a7e724d6dff5b48ad709260c53844ba66eede632e3b43c47419950088fedf8",
+      "sample_id": "FINQA-V2-E-47aba3b54210-7207908051b4",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-8f3c7cc03c331b5fff506845",
+      "artifact_sha256": "189732cfdc7133e2cec4493bda904b796a7d5037cdbdf8b91c1beb177ede3d9e",
+      "sample_id": "FINQA-V2-E-48acf8c30331-32f3968e8a54",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-aa2cc26bf564a9f1fccc5e84",
+      "artifact_sha256": "189732cfdc7133e2cec4493bda904b796a7d5037cdbdf8b91c1beb177ede3d9e",
+      "sample_id": "FINQA-V2-E-48acf8c30331-342a4edf06c4",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-2faac412c46c2cd9bab1a70a",
+      "artifact_sha256": "189732cfdc7133e2cec4493bda904b796a7d5037cdbdf8b91c1beb177ede3d9e",
+      "sample_id": "FINQA-V2-E-48acf8c30331-d5ee68914277",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-ceec6fc50d42ef5618e83029",
+      "artifact_sha256": "f7c5c21c241dff855ef30032e2d5dd49a67cdd78163d45b4d5ab2ee7536cc1b2",
+      "sample_id": "FINQA-V2-E-4909cc822a60-1f2c8f78670e",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-758b3ba9327f41581d8a9027",
+      "artifact_sha256": "f7c5c21c241dff855ef30032e2d5dd49a67cdd78163d45b4d5ab2ee7536cc1b2",
+      "sample_id": "FINQA-V2-E-4909cc822a60-2a52ffa1a9ca",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-90fc86d17f417eb63c64a5a7",
+      "artifact_sha256": "f7c5c21c241dff855ef30032e2d5dd49a67cdd78163d45b4d5ab2ee7536cc1b2",
+      "sample_id": "FINQA-V2-E-4909cc822a60-f46cfa23378d",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6f2dbcce2f63b404e3ea44bf",
+      "artifact_sha256": "2c2d050ac0a8dad2f2bb0622fc02426ad1c8cca2da9a2e96ba3295315d2a5e69",
+      "sample_id": "FINQA-V2-E-54476c874889-680b0a4acc57",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e78276326c169885a86a3a83",
+      "artifact_sha256": "808607e4fe406a6710f9881a4ed483f8b435e7248df6c091a280e6233bfbc98c",
+      "sample_id": "FINQA-V2-E-54476c874889-bb88c990f524",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-804c879f430db352605b8f95",
+      "artifact_sha256": "fa2171827fb295841f85ce30d980b2f635f50effa211cef5cc8ca8a7f484b115",
+      "sample_id": "FINQA-V2-E-54476c874889-dbc5612a5488",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-22b5c166b5fa4421c34040f9",
+      "artifact_sha256": "d679fb4ec495101c2f3b154f6f7c0d4aa6c37ba3d10ace77ce2489895e712567",
+      "sample_id": "FINQA-V2-E-555ebc9047db-6c7a335e94ab",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-aa2c900091bf77d69662104f",
+      "artifact_sha256": "3807778c2df60b9c4fb31049609bc4c8edefa89498fac1b9a395a59de8e31900",
+      "sample_id": "FINQA-V2-E-555ebc9047db-708fb95052db",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-d0eb083346abe4d25512efd2",
+      "artifact_sha256": "3807778c2df60b9c4fb31049609bc4c8edefa89498fac1b9a395a59de8e31900",
+      "sample_id": "FINQA-V2-E-555ebc9047db-f8856754f37b",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-4cbde437a89ca6543f1b0a66",
+      "artifact_sha256": "cd4ed5f6714af630905584ccc01a9ba8657721d6ca8da9127b85ba710e0ed18b",
+      "sample_id": "FINQA-V2-E-6157cf7ec9f9-2d1014a0a662",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6f6125d30f541bc723735d76",
+      "artifact_sha256": "cd4ed5f6714af630905584ccc01a9ba8657721d6ca8da9127b85ba710e0ed18b",
+      "sample_id": "FINQA-V2-E-6157cf7ec9f9-7dab6842ce61",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-da25a9b0f984c8f66e70f6cc",
+      "artifact_sha256": "cd4ed5f6714af630905584ccc01a9ba8657721d6ca8da9127b85ba710e0ed18b",
+      "sample_id": "FINQA-V2-E-6157cf7ec9f9-f6837ffca6e1",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-b1e0f37b30fe3ec3ea12124f",
+      "artifact_sha256": "cc537515e72cf91f6462e07d474ecd832df8506dc699247a9707912190d7203b",
+      "sample_id": "FINQA-V2-E-7383b0ff36a2-01acaad3e249",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e32960b2597ce9828077ae92",
+      "artifact_sha256": "7c9ad36fc7d70932874597c7998fb44c2a0f03a3f805a71b49849c72b996cb18",
+      "sample_id": "FINQA-V2-E-7383b0ff36a2-ef22c82ae693",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-0859d672639805d748535980",
+      "artifact_sha256": "00ddd287d79f6dd60609007d3769557a99bc727b64dec7ffbb82e2eadb8f3655",
+      "sample_id": "FINQA-V2-E-7383b0ff36a2-f256e726458c",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-5ed9e7e01ba12061381f4168",
+      "artifact_sha256": "e6bde9d319630fe15cba5b9ee24a23e1c8f92fcb5570d81f1af75e92421a8141",
+      "sample_id": "FINQA-V2-E-b350ecb55a7b-60c27d2e92c4",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-9d57a0a2e9a012a9f68691d0",
+      "artifact_sha256": "f65a3e123cf14f5f1a9f2c6327b3c8760d7e26595a5a9e63eae041fd6e0e44c1",
+      "sample_id": "FINQA-V2-E-b350ecb55a7b-79fad253211b",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-ef53cfd8c223f597ee1226ba",
+      "artifact_sha256": "f65a3e123cf14f5f1a9f2c6327b3c8760d7e26595a5a9e63eae041fd6e0e44c1",
+      "sample_id": "FINQA-V2-E-b350ecb55a7b-eafaa6abc899",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-8302c3199123854d5145b55d",
+      "artifact_sha256": "d7882a0f75e528bceef62a05c78c9fea8c19a4e8d10c6d004f4d0e7784603c3d",
+      "sample_id": "FINQA-V2-E-b6742b01e7a9-03d0ed8dcfa1",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-2b48b4943b01c67b7709a3e5",
+      "artifact_sha256": "d7882a0f75e528bceef62a05c78c9fea8c19a4e8d10c6d004f4d0e7784603c3d",
+      "sample_id": "FINQA-V2-E-b6742b01e7a9-b846e353cc2e",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-fdb916272f630ac53f68bb7d",
+      "artifact_sha256": "d7882a0f75e528bceef62a05c78c9fea8c19a4e8d10c6d004f4d0e7784603c3d",
+      "sample_id": "FINQA-V2-E-b6742b01e7a9-d6a090b514e0",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-003941ff4dcaed7931866f16",
+      "artifact_sha256": "d6a9801efb927b39f9053979559de6e48532a5ad57d5974ac9898279149c2161",
+      "sample_id": "FINQA-V2-E-ba12e4698c55-640e1f8a97dd",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-30686ac01fe9ec6dcd8bb7fd",
+      "artifact_sha256": "bec03079e4ea13f5e9e526a769c4a1500f0c204a3ab5aa6c3480d5f96e9ed061",
+      "sample_id": "FINQA-V2-E-ba12e4698c55-6f87c64f3e80",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-5a74fc40338df42d9560f513",
+      "artifact_sha256": "a2e1092dd5600a68733abed02d3129d7eb6a6aabd8fd4b49b3e9f650b40b88e5",
+      "sample_id": "FINQA-V2-E-ba12e4698c55-e40fbfea5fdd",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-71d5c53f5727efb3915de41e",
+      "artifact_sha256": "59a92f25a7f332a1cc2cf2658fec08761a4451ecd2e041913db436af1edec1b9",
+      "sample_id": "FINQA-V2-E-ba725eaea842-9eb80aee888f",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-164b5702f346c2b78ccbc056",
+      "artifact_sha256": "d95d6d9939d1ba1e849879566d8a04e85a99801312e119a72575b735c48bffe5",
+      "sample_id": "FINQA-V2-E-ba725eaea842-e0d47c5a80f3",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6266471f55e5b9c17d1eb49b",
+      "artifact_sha256": "4476725507b7b71070db47a4d420dd3025df30824aef88856ff4bd3980ac058d",
+      "sample_id": "FINQA-V2-E-ba725eaea842-ede4b948dcf8",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-5cc88fbf5eaf11f52174fa15",
+      "artifact_sha256": "49b6b853d4b78f5098e3ec7172c59ac6deada6e01fbb0ff4fdc8e7b823955b41",
+      "sample_id": "FINQA-V2-E-c1cbb35c3238-3649e3913bf1",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-da40b7282337d44e060587d2",
+      "artifact_sha256": "b5e15eb5499ea880634b3e3e0ef6c83c55dd4677a908ee0bfdc7b03b95b57114",
+      "sample_id": "FINQA-V2-E-c1cbb35c3238-89373d60708d",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e54327e2b40d7a548f703807",
+      "artifact_sha256": "49b6b853d4b78f5098e3ec7172c59ac6deada6e01fbb0ff4fdc8e7b823955b41",
+      "sample_id": "FINQA-V2-E-c1cbb35c3238-d1d19cfa8629",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-23d489ba4bc7bc0679c7cd54",
+      "artifact_sha256": "9d44a70a8ec8d23c96795ea34fbd0d0c88781a89db12297cf0f8856ef5939971",
+      "sample_id": "FINQA-V2-E-c2d624fd6dfb-2211025d699b",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-cc7be57ed3094991e3495337",
+      "artifact_sha256": "9d44a70a8ec8d23c96795ea34fbd0d0c88781a89db12297cf0f8856ef5939971",
+      "sample_id": "FINQA-V2-E-c2d624fd6dfb-4c22a38cb1f9",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-db717ff29db464a9bff99371",
+      "artifact_sha256": "158a9d2191bef8dd0468f8186b2ed0fa279b2260aefa032ee2cf3207f230bc64",
+      "sample_id": "FINQA-V2-E-c2d624fd6dfb-aad1127df362",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-fdc242b081f12a03fc55d448",
+      "artifact_sha256": "1895ba8e9d172850c29c3dbc150156c72273b7f3bbdb8eade16e50367bd8e40d",
+      "sample_id": "FINQA-V2-E-c6a24ea1d168-0a329d85ea75",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-8bf6581af58a0157c8f6747f",
+      "artifact_sha256": "ff844f14ed94140de06f16bf990fa1138540339df6ad717d5f4dff97641da89a",
+      "sample_id": "FINQA-V2-E-c6a24ea1d168-903ddf57d107",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-64337675ff95f90c64d1a58b",
+      "artifact_sha256": "4dc50c950cfc7fbaef6d73b5e3da269b7e704698694bd16edbcdb86a3946a06d",
+      "sample_id": "FINQA-V2-E-c6a24ea1d168-e42c5b18ca82",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f2b6b5f39d581fce801550ff",
+      "artifact_sha256": "3c18c206f26855b9690ab93514600331bfa4f211dc6364b4888b32beda50a429",
+      "sample_id": "FINQA-V2-E-fb0bb367502e-25ed4d6fc8af",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-d5b6dc6c8747e5f254ad40e6",
+      "artifact_sha256": "3c18c206f26855b9690ab93514600331bfa4f211dc6364b4888b32beda50a429",
+      "sample_id": "FINQA-V2-E-fb0bb367502e-a8e4699de354",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-61461837623629777e899f24",
+      "artifact_sha256": "6c6e850a221338e75d102f8ec389601c1a25d64cdb7a7a4adf5449ed93d307ed",
+      "sample_id": "FINQA-V2-E-fb0bb367502e-f172a3756216",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-ad19524a027a51cd77e74414",
+      "artifact_sha256": "4d9fbf6773a7a86b61c7df7cdcd5fb7213d9de59c59df799d7af4c99c30bbd67",
+      "sample_id": "FINQA-V2-E-fed8814259fd-124f52ad5889",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-113b9ace7f519f0c23616710",
+      "artifact_sha256": "f684332eb9d655781e0393dcb94df51d77724f6d24024cc49be5b64460a5fbff",
+      "sample_id": "FINQA-V2-E-fed8814259fd-b042c1c77bc2",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-05e13971d3c189dfc6f67c4a",
+      "artifact_sha256": "4d9fbf6773a7a86b61c7df7cdcd5fb7213d9de59c59df799d7af4c99c30bbd67",
+      "sample_id": "FINQA-V2-E-fed8814259fd-b6e1c5690f73",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6b675a2934b3c873f8a9cf9a",
+      "artifact_sha256": "b67ed7c5cc85ada838c4e83c1713e2a78096ab1c4076990334282b961e6d1220",
+      "sample_id": "FINQA-V2-N-012599f44c0a-9e4a52ee233a",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-28caf90c545b04ca4b5f302a",
+      "artifact_sha256": "cf24ea54365038229efcd1f8bc75e91ee4884f7c393f66c5c8014ccbfe0d330d",
+      "sample_id": "FINQA-V2-N-012599f44c0a-d74f79b7aae2",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-9cb186992a498898deb220bf",
+      "artifact_sha256": "c7e8d859ce4d8f8720e70516880608727729e1b68eafac1821bc7464a23d8539",
+      "sample_id": "FINQA-V2-N-012599f44c0a-e601fe4e70f4",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-0247b7e6670aa5f3849cb04a",
+      "artifact_sha256": "b8342cf422f7297d69162936e4c268d5f8418899a25ba281cadd3aeead7c0557",
+      "sample_id": "FINQA-V2-N-077d8fb584a4-7efd5f807fed",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e513513f704c922478cf6702",
+      "artifact_sha256": "26324967920ba759b7422c5b838ff2aef7c7cb5b16cf9e6a625ceea9b0578d89",
+      "sample_id": "FINQA-V2-N-077d8fb584a4-94530144a988",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e3841cc27cf324cd2ed35498",
+      "artifact_sha256": "a632af6efdd284c5f9a39e249d0c0226dbca385088c12b8d9d49c0a60a2b1551",
+      "sample_id": "FINQA-V2-N-077d8fb584a4-f557b5d828b3",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-39c89cfe80da721d285f94a2",
+      "artifact_sha256": "e76f81c23bdf9abbdfe90a52230d36488e98eb9ea7f4ab871febd6691d873873",
+      "sample_id": "FINQA-V2-N-1aa153106c53-a8083c733294",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f8dba6ef8974d45d0f40c9bf",
+      "artifact_sha256": "d285d1aaee70c71dd8874c084ee034ea15ff2fd77896dc9998c8b667b0a59d1b",
+      "sample_id": "FINQA-V2-N-1aa153106c53-bdc87db85c60",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-a494d79071f3e9fb57e99757",
+      "artifact_sha256": "a4663cbc68504aa120d83471f480ad48e7595791fa129ed6c6c86a88e431647b",
+      "sample_id": "FINQA-V2-N-1aa153106c53-c27c4d38f7f4",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-03fdd88935b715187c743259",
+      "artifact_sha256": "37f8a4babeff3aa59891c62c888c0f5b661268f9cbacdee405e8ac3b628f3027",
+      "sample_id": "FINQA-V2-N-384814000338-36fbc9ff3c19",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-953060cc8351047e12b76f58",
+      "artifact_sha256": "0a2fd4eb1f7b61bd7232fba17b7e583e116b14087c200e661cc674d097738d55",
+      "sample_id": "FINQA-V2-N-384814000338-85d4e8387659",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-69e01d153ef06b63b5bf0fc4",
+      "artifact_sha256": "8bf1894f5e87f63e5928bb4d5d7baaa295b7ec7cbccf941126084297c245756d",
+      "sample_id": "FINQA-V2-N-384814000338-9baad237d8e0",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-ea7baeefbf919eb44f6aefa4",
+      "artifact_sha256": "40c333a57bbdcd316c35b6f6326ac045e63a529bbe35323693f5b1159b04631f",
+      "sample_id": "FINQA-V2-N-3f69c4884cc2-2635f9cd07be",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-97ab716dad749fc2c33ff3d5",
+      "artifact_sha256": "eb940c6d2830c3feff009af9c0bdc6992a9c7159ec57f80d7a67ebafc113ad58",
+      "sample_id": "FINQA-V2-N-3f69c4884cc2-4f8969cf5d7f",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6ad2703b81dde88d9b825dad",
+      "artifact_sha256": "43bb9568f71e2e344267890f7a3a41b659d7061354cb2308b5e4fb5e22f532a3",
+      "sample_id": "FINQA-V2-N-3f69c4884cc2-6e9310c687d3",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-25c3515b77e10485119b6352",
+      "artifact_sha256": "b6b73ee1be751ede8811e03c57986a72a000dc4fb48e134b0bb8313f93bc6118",
+      "sample_id": "FINQA-V2-N-47f2f9e647c0-87ec6f516235",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-0d12a212b5872fb5920b3af8",
+      "artifact_sha256": "45524ae16e4af985e2ab8a7e2a23038535d07134a0b64004ca9312a67c7e95ea",
+      "sample_id": "FINQA-V2-N-47f2f9e647c0-b601b9f536b2",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-1eb860eb471bd46aabba3d9d",
+      "artifact_sha256": "91c4a437526c4c445e57c25aa3b3e9061136b1f424ac105a36f973932c78d9b7",
+      "sample_id": "FINQA-V2-N-47f2f9e647c0-c4c349b4c7e6",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-460c02505c4bb3d1ecb2c0aa",
+      "artifact_sha256": "0def9a644cf168bf455868a9e0cfad9e81b4639636a822863d46afae82cf4fb2",
+      "sample_id": "FINQA-V2-N-71dc5f1550d1-56aba910a22b",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-548806813bfbe66d78c932da",
+      "artifact_sha256": "c54048a98dca7732c82c87ecb4a1cee2cf91e09e545a3193b9c25ef718e5d0af",
+      "sample_id": "FINQA-V2-N-71dc5f1550d1-e7ea68412e28",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c1dce0d3256ad2b5c07497ce",
+      "artifact_sha256": "acad13365e6a3d8d1ef4cc66443784095b68c99ae70412de2161260c22c145fe",
+      "sample_id": "FINQA-V2-N-72cd9a3bd179-4512e81289fc",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-2880de5fcb0364a3b6dba70e",
+      "artifact_sha256": "8e0a033b5e8c194b021ac3b5c4f76759d339081d745d8fb3febc4096f6ba652d",
+      "sample_id": "FINQA-V2-N-72cd9a3bd179-54e9cf36316c",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c88b96b9b44ce6aa52841cbd",
+      "artifact_sha256": "76933232ef9a37e1a2e5e178594aa1ec475dff6d247fb24aaabf0e93cb62d17b",
+      "sample_id": "FINQA-V2-N-72cd9a3bd179-c16c7344a477",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c87639506224da6024f37005",
+      "artifact_sha256": "1d52030aa1fcbeb6f0e8d92d6ec4b0c8d9f4b8ab950c10eb029e1b82b3ada902",
+      "sample_id": "FINQA-V2-N-75e4ed7c3917-8c44790b0fa0",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-0eb65203c0385e5c3293e891",
+      "artifact_sha256": "4ef5a4aa0147bef9628d73f187ee2a14d10b9c85e4660f4356a206a799f69040",
+      "sample_id": "FINQA-V2-N-75e4ed7c3917-e4900998151d",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-18cbc455198ff05fbfeac7c7",
+      "artifact_sha256": "f525e48d7b059a91162ab57e1417826f3d0950fdd431bb2676a5aa4ca5ff0711",
+      "sample_id": "FINQA-V2-N-75e4ed7c3917-f7adee3004b1",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-1d64c168648e4b9c3ff583b8",
+      "artifact_sha256": "3b2cfb89096129aa48b84db16790170cf1f23f577b0cbdb29649f75d82de0157",
+      "sample_id": "FINQA-V2-N-859601aa4b6c-2350fb8116d3",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-a9ede14c7539c2c9bb7cc3cf",
+      "artifact_sha256": "96460fac7328d8439b3250044a0381abf6014f845346467793f12ed2a0c767dc",
+      "sample_id": "FINQA-V2-N-859601aa4b6c-5937aa2571a8",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f5e6f7adc51d6d146d3312d8",
+      "artifact_sha256": "3b2cfb89096129aa48b84db16790170cf1f23f577b0cbdb29649f75d82de0157",
+      "sample_id": "FINQA-V2-N-859601aa4b6c-e2a7324fe8c0",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-fa69d06272475104cf252dbf",
+      "artifact_sha256": "341a4b1b04da4e7f847a69b8c864dfd51b1edb1adad125c0defe8633b15cbf21",
+      "sample_id": "FINQA-V2-N-8698c7ece981-24841251f36b",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e3dba2584f649a54e2ab34e0",
+      "artifact_sha256": "158e0894852dc421505378240418851f4e87819b5886a6d4f06fe592a89740b2",
+      "sample_id": "FINQA-V2-N-8698c7ece981-5277e8136539",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-9fa5ca7aba4c836f2d543d65",
+      "artifact_sha256": "42eee311234cf5acdc7efaa81f63551e172898eea66fe2acd98cd71c44450764",
+      "sample_id": "FINQA-V2-N-8698c7ece981-beaf473c60d5",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-26670a049f6773f0c0a7ed69",
+      "artifact_sha256": "74a4b83956891157c6cae2b41e44883ebbcfe37972d8d773bbab7052fa75beb9",
+      "sample_id": "FINQA-V2-N-91c89397ed00-2bf6b64b5804",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-28fa189cd33b1d1db990c4bf",
+      "artifact_sha256": "70816cd20822dc3531c90224fbf14c05b41e0528475fa369b65646b86c4b14ca",
+      "sample_id": "FINQA-V2-N-91c89397ed00-859b801883cb",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-cfba552de25fd8eb284ffef6",
+      "artifact_sha256": "0d5ae67dae55988620759070533c7ed0224da9725d08a27d211ec3001e2529d0",
+      "sample_id": "FINQA-V2-N-91c89397ed00-9579c5529eba",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e00a46924c7da5b382bef172",
+      "artifact_sha256": "f94ab8bdca3215f91f5ea14f6b682123232a0ddbab0efe94216fe37fa666ec72",
+      "sample_id": "FINQA-V2-N-a232a7d49275-5ca8f5f0a155",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-130289a16307a08839212d74",
+      "artifact_sha256": "9acadffc34bc1d6d0e6eb1e2cf4ea30fc2bbfb8ce30e05ec24305e5cdcb2a26c",
+      "sample_id": "FINQA-V2-N-a232a7d49275-82067f49d367",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-96c68217beab05be6a9c9961",
+      "artifact_sha256": "d51080a8195ef4c10eb5ee4682795a12c9cebe0275bfe2889ef81fc28c3e5227",
+      "sample_id": "FINQA-V2-N-a232a7d49275-f8e71b2f737c",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c3d65023d6fae4dea5d0df24",
+      "artifact_sha256": "57192afc9563235aa560ebd74044d43d4f3631cc6675861e82b52a30c5a591a8",
+      "sample_id": "FINQA-V2-N-a33fb221f5f0-943c03bfac8a",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6563c3fe6d37c9c363aca90a",
+      "artifact_sha256": "cf6dc94648568ea089f19faab64e6e2b2bc214f89cff9603dbd8b520539391a0",
+      "sample_id": "FINQA-V2-N-a33fb221f5f0-c8c749b88a34",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-42ad5081791b0c43de8659a8",
+      "artifact_sha256": "470a6f4db57b07396f0961ece6116e6239da83d5ebbee807be196f25bc0478aa",
+      "sample_id": "FINQA-V2-N-a33fb221f5f0-e1b9c0f2fbb7",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c8bcfb848a401652cf748f3d",
+      "artifact_sha256": "4370c8c2ec6fb37d94a24cbc91bdb31e474c9b12b711827f0d953c92872bd7c1",
+      "sample_id": "FINQA-V2-N-a4af0d78efcc-3c312e570a29",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-61195dd8b05dbfb7a837a448",
+      "artifact_sha256": "f07707d31430d9c0034af32bda4da56d5c58e1a1422df7c6f5f961612625519e",
+      "sample_id": "FINQA-V2-N-a4af0d78efcc-73f9c07525bd",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f43ac7ac08cef0bcf68501bb",
+      "artifact_sha256": "a73b0ff650d01085e0d20e00ba61f3a54db74c46a922204f019c42ae1e3fb143",
+      "sample_id": "FINQA-V2-N-a4af0d78efcc-9f8e8133aedd",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6a042a02a1d63c13c7a3bf5d",
+      "artifact_sha256": "d39291c31a266547dda0556b38f3c5b4397b4fc2f4c1f57d3723aed045b9bbc5",
+      "sample_id": "FINQA-V2-N-a8fddb6ebbfa-4e0a7b49788a",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-81b78d2936e542cbbe9ce638",
+      "artifact_sha256": "0c3973976656ef243f1c084719a07403f60ce1db310e53c1f975e24e6ccb8e69",
+      "sample_id": "FINQA-V2-N-a8fddb6ebbfa-a897fc14e9be",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c144c94c2e2fabbae43ff8d3",
+      "artifact_sha256": "91ac7a3e79ec4615902e105e5bf628299b2fcb621b9dd436abd57525ab89372a",
+      "sample_id": "FINQA-V2-N-a8fddb6ebbfa-fd70e662a05b",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-7b8fc5f3dff39c28867fea5b",
+      "artifact_sha256": "f7325fdc234833689d175fd8ef1db17825d741e9c2521edf99549044a5d60a55",
+      "sample_id": "FINQA-V2-N-cf8a14c210a4-1819cb39ae4c",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-b561c2733726da7d6a6e88b8",
+      "artifact_sha256": "b37179f67cf5a7041ef316edd8abf91550fce687464e9fd2804acd24de57e049",
+      "sample_id": "FINQA-V2-N-cf8a14c210a4-9a0e1da3ed57",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-b8b917c2571973767d9e4d9f",
+      "artifact_sha256": "3c42fe0247e9431ce3a5009541e4b053101c89d3d3690105d5c259f5d42d738a",
+      "sample_id": "FINQA-V2-N-cf8a14c210a4-fca3706bc67f",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c1b80794b18e4e4764472700",
+      "artifact_sha256": "2e24adb604ca86e85ff4a3ba0cfa2ada2d135d18327a070552a65c26ece6430f",
+      "sample_id": "FINQA-V2-N-cfd5850c5d40-0cc5178548ad",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-2cbba72b7e5498eba249f16c",
+      "artifact_sha256": "db8fbb3a4de72042cdca2e1c7d7e78f4fd5aeeee987c3af5b23c0bbc1b8c7363",
+      "sample_id": "FINQA-V2-N-cfd5850c5d40-932bdbc98c21",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-308af1fd18abb5a6a0fc90db",
+      "artifact_sha256": "a53334fa767066c81b8023b4b27836794802d0d101ab4cc277b02a50122379f9",
+      "sample_id": "FINQA-V2-N-cfd5850c5d40-a92c0d374804",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-7add2bdf1bd0cabc41a338a8",
+      "artifact_sha256": "d26da5cab33d952d7aae23c106aff14081cb1af6fafdc4700a6ac45e893003e8",
+      "sample_id": "FINQA-V2-N-d5c735605f32-4dee58173bbc",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-17cc3221512d2a6ea684a8d4",
+      "artifact_sha256": "446c2cff0b4cbe44f822dcb7e2b6d2caddccaa8d8a19a4dcf062137a73cfa010",
+      "sample_id": "FINQA-V2-N-d5c735605f32-932e9b82f474",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f6c9569b12fc09085b02acd1",
+      "artifact_sha256": "1cf884c44eb68dc8900a0772e47d66f723e967592f5c77888562ac345bd0fbc7",
+      "sample_id": "FINQA-V2-N-d5c735605f32-f9bd0d5c2ecc",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-59457f71f58e94c2941f0926",
+      "artifact_sha256": "f6ecba53caf226bf1190e90c8c412032a5adec58b051c21f65d6506b358faf1f",
+      "sample_id": "FINQA-V2-N-d80321808854-4377a5ca9c6a",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-fa6fab4646735b26bb2f04bd",
+      "artifact_sha256": "502de516d52cfa732d6d67c5141d595c43c8317b2726a6478a4ec804eedc0069",
+      "sample_id": "FINQA-V2-N-d80321808854-807b4462b4da",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6e6659888aa5d219028b5afa",
+      "artifact_sha256": "5d19f2550b7a7de21911e7edfbbf83e6493d53221482833074ee15efaa8b5975",
+      "sample_id": "FINQA-V2-N-d80321808854-9b6f1d4a12c6",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-4ea42a01b468731f2e9e3619",
+      "artifact_sha256": "6cd568b5da6ad1001fe787a8b623204f7926778abea755c93755c3d15c04f18b",
+      "sample_id": "FINQA-V2-N-e5f3752b1438-008adea58be9",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-19535dee1a7b5bd92ff4e2c1",
+      "artifact_sha256": "aac9491d6f43f1d36635f48ecd6dffc6b8a676042457fe0e75be46f04893eb27",
+      "sample_id": "FINQA-V2-N-e5f3752b1438-07c2337b60bd",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-445974cf73e886f2370be04a",
+      "artifact_sha256": "ca9e72f2f7deadda21de45eea4d89d814c3e875445dc5cab9aa9ff574f2c55dd",
+      "sample_id": "FINQA-V2-N-e5f3752b1438-8def75892f60",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-b58d54429766197b47e7f663",
+      "artifact_sha256": "64fe068f91fdac16cfef93a9a5d28b56a6a9830b1eec6514ead47f17ac79ebc9",
+      "sample_id": "FINQA-V2-N-e6951beb3b4e-5a52076813b7",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-33e9379ba23ad56c6dd81a9e",
+      "artifact_sha256": "962c734233a7f999118d80ed4ce05e946898c3103b9e55840b8d15b14ae5eca9",
+      "sample_id": "FINQA-V2-N-e6951beb3b4e-a3b66c3a61c9",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-85b5f7c4a3ffdef11aae244f",
+      "artifact_sha256": "4a58a1ea7e3c21916a12ff49ac0f04819a3e8e35092c3318c24b1562089fc565",
+      "sample_id": "FINQA-V2-N-e6951beb3b4e-e933edba3b56",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-2295b99ced5219dfc6477b96",
+      "artifact_sha256": "ff66c0490d7b3abeafef6dcb6964c9f0f1882f7ca2d1c24658e608b94e5a7da3",
+      "sample_id": "FINQA-V2-N-f24c392d61c3-17f23da1c36a",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-46f2325abbd515f4fe26043a",
+      "artifact_sha256": "057846933f10f19f73ce6a8dbbbbe29f33e526b69a79ee41b1a44af35fe1db32",
+      "sample_id": "FINQA-V2-N-f24c392d61c3-6ef1fe1cdb5d",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-8beeec00bac763ade453a712",
+      "artifact_sha256": "902074ec34329a9ca4952a28c634088e15534fed61e1f4d30280141885f83cd8",
+      "sample_id": "FINQA-V2-N-f24c392d61c3-82b375ed1c1b",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-d32112063294fee9b6a2f5c9",
+      "artifact_sha256": "e312eeb167f308cb8b99797d63b89ffa15d0494d78b9a662da93d7ad4b6d574e",
+      "sample_id": "FINQA-V2-N-f8ee1f8dfb12-c1a1dcdad558",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-7a5a39a765408658ede61c56",
+      "artifact_sha256": "ab8a1f63067f23431c1fb1754d5c24f7eae2bb959a70fce9b39795dad04bece2",
+      "sample_id": "FINQA-V2-N-f8ee1f8dfb12-defd734ed0b7",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-18f4c6f00a1f660e237fdc8f",
+      "artifact_sha256": "ea478020b0c61c5a027cfacbdf14eabba3c7eba41abcbd42540ebe877db489f4",
+      "sample_id": "FINQA-V2-N-f8ee1f8dfb12-e9811a099d00",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-a3fe94540f6f40435700fc73",
+      "artifact_sha256": "7c60019bd17eade1ef6412c58d693f866d1592c167e5901bd4b20a851525e75d",
+      "sample_id": "FINQA-V2-P-00eb8c9edf7d-68dcbde775e6",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-53426401a56053df83ee0a56",
+      "artifact_sha256": "06d8169bd99516882e606e3fea671041c536f2aed1c7f6b6426faaf27c3ba503",
+      "sample_id": "FINQA-V2-P-00eb8c9edf7d-acf9793b9b53",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-001a9e1e371cad86bf05cdc6",
+      "artifact_sha256": "805377e7cacc453dc7f709572026a0f420f0e8eeac9069edeae59ec63a9a7a82",
+      "sample_id": "FINQA-V2-P-00eb8c9edf7d-e05f40437882",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-4b62ea849155a96271affc30",
+      "artifact_sha256": "d39de53030028bc8f52bcb26af6d25107dd396b8ed4f520b9d71f0cdfa8b41d2",
+      "sample_id": "FINQA-V2-P-01849bd42b75-c2e07039106d",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-061d9ebf3304d053736a19b1",
+      "artifact_sha256": "5b103150df80e190d7717964e55226e8f9bd5ee93d7b17d3b587b8cd9b11fd22",
+      "sample_id": "FINQA-V2-P-01849bd42b75-c665d26e1b6c",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-56fdbc459165a2abc9ac3c09",
+      "artifact_sha256": "5beddc38fffa415600e2b6ca763b7b7e25bbb1101d8425f66c78c8c464f55f70",
+      "sample_id": "FINQA-V2-P-01849bd42b75-f3b5522da5e7",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c9066dec94499bd50d6f5018",
+      "artifact_sha256": "85445b06dc78bc75b1ae6c346443d360025b58df07c47b2287b9e0fc0d841616",
+      "sample_id": "FINQA-V2-P-062f44ddbd65-178beb6c56b2",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-142b535b4c20b16ca3ea8fbe",
+      "artifact_sha256": "8f2850e8ca3871290fa93d56077375171664f9f30129501e575fd18a116303a9",
+      "sample_id": "FINQA-V2-P-062f44ddbd65-451112fd1c78",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-966a43ab4641b33aec4922d0",
+      "artifact_sha256": "448838c68bb2db92d886e752fba7fa0118c6ea4d3fb091f308638d8a8a2074f1",
+      "sample_id": "FINQA-V2-P-062f44ddbd65-a6864e0d4a2b",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-1a3b90a59c6e11ea7e560882",
+      "artifact_sha256": "904d52cc0b7723109595fbbe00b1273f4a6c7224395461433ce81558d21d2d19",
+      "sample_id": "FINQA-V2-P-0c5142006825-1fed0a1412e3",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f8630b8503f6dd05d6f283b4",
+      "artifact_sha256": "7cff993dafe117c53d452a090a4b420107f50944801df1539e7e508fad6ea254",
+      "sample_id": "FINQA-V2-P-0c5142006825-55bc11f01ee2",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-150a8c6615413ecd817737a2",
+      "artifact_sha256": "d0156cddb497ec66b217da5b17b8f102befbe9a5cde5c131712c5a4dcd51baf5",
+      "sample_id": "FINQA-V2-P-0c5142006825-aacb21eb0b60",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-4a4a2c82f184f67632f4177b",
+      "artifact_sha256": "110b22612b295acc8367e0b367f53e260ec289a23d521519f4ebbb328ad4c581",
+      "sample_id": "FINQA-V2-P-0d9e2720f58a-8819a7c40dbb",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-4f981e5ec6a28beb4be66b59",
+      "artifact_sha256": "f08b7096e0987a50370c5cf8f54be40be11517e61cec4c4342259e8a82ea38cc",
+      "sample_id": "FINQA-V2-P-0d9e2720f58a-c62288587728",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-fe3ee49303b42e7a3fd182e8",
+      "artifact_sha256": "1dfbba4dfc078d8a8c97fdb39f2d2f1f904de190a2a9ae9667f8f415d48ed51d",
+      "sample_id": "FINQA-V2-P-0d9e2720f58a-eed3fb2cf7b5",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-3dea2c5337aec6e2d586e396",
+      "artifact_sha256": "f336020e05431e58cbce9eff4533790fe03afeb4dcb87a186ec0b733920e2839",
+      "sample_id": "FINQA-V2-P-18c4b02375c3-c4fae8dcbd01",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-ad006b2a362842ec7dfce74a",
+      "artifact_sha256": "78804d5c60866d26dda193ed86d2aa7254857494f3fe0231df50980277f512f4",
+      "sample_id": "FINQA-V2-P-18c4b02375c3-e374b072a6da",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c58bdd03842670c41ef53f2d",
+      "artifact_sha256": "a471f3bf67f6162574903645ee067e5f0f4b7117795abe9326ecd99dd0b9f9ff",
+      "sample_id": "FINQA-V2-P-18c4b02375c3-f42a33b80163",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-0b936d5801c2da3ee3987bd1",
+      "artifact_sha256": "2a47a3174e500e5062e964d4f74762af2b7a5a4debbeb7cb2b764c01f2ee6bf0",
+      "sample_id": "FINQA-V2-P-1c692a1ec9cc-447c13d4cc30",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-0c7067d6164f622df17774e6",
+      "artifact_sha256": "c4a5a6dc6c50234c74f7db53cdc5953a6c2c89b31a338a9e26944dccda026ec8",
+      "sample_id": "FINQA-V2-P-1c692a1ec9cc-bbbea69aea02",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f5330aca6f154f1afa3c5c96",
+      "artifact_sha256": "b9b294c13c8e979ba8d6e72a9a8be10cc9bee90c9e898112c9ff883a0a47a3f1",
+      "sample_id": "FINQA-V2-P-1c692a1ec9cc-fcb02cfe9b3d",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-ac74bc346dfc23b5677d51fb",
+      "artifact_sha256": "ceebe5e9de66a565681f82103e70b1bba6ff4af5a7d9d89044eb75e83c9b298b",
+      "sample_id": "FINQA-V2-P-2070aefd6f6c-a5e7dc2d83aa",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-64c6e5ce38e2ad05324c0562",
+      "artifact_sha256": "0c4fec0e8bdbfaf3e3071b3cd897e69f3a50992fe38b2574ce874b97d10d9f48",
+      "sample_id": "FINQA-V2-P-2070aefd6f6c-c87fbb17fb37",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-ee24f3dbc9eae80824cedd48",
+      "artifact_sha256": "404adebb59a9ff6062846f07bca072d78046f9a42b98d1ebfae8c738e4a02d8c",
+      "sample_id": "FINQA-V2-P-2070aefd6f6c-f4c201172978",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-4ff00e3ad7952fe0f076dda3",
+      "artifact_sha256": "cfc895531ceebe9f4b903eb39a828ae88e31b391fc222c8b83cc4d98fbd4b5b6",
+      "sample_id": "FINQA-V2-P-3217e30fddbc-40ff4ca909cb",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-033e5adcc4967c74a8210c71",
+      "artifact_sha256": "e6b6a37671ea0ff8aad84ee2372346d1deb2fa1cb030b1b3230fd26bb15a17d0",
+      "sample_id": "FINQA-V2-P-3217e30fddbc-5f21f2567362",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f307ed3156c5f836acedf32a",
+      "artifact_sha256": "257805cd9daa0c89dc6c8937ac9c5fb634ee11003509d0ffc35506db32bc71ed",
+      "sample_id": "FINQA-V2-P-3217e30fddbc-6ddf282b4d60",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-1f193d00fa22ed8d70f6d80d",
+      "artifact_sha256": "2afeba04411c26fcd575f5a4d1fdc2da1af3139e6021740004e0c8eaf00657e3",
+      "sample_id": "FINQA-V2-P-466db4b74779-bb040b6a621a",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-cb443d6bc82ebaaa41bc949e",
+      "artifact_sha256": "b3618fb3a7770995418e590f64e72049ad9bd31466bbb29677e2ac837f2b1283",
+      "sample_id": "FINQA-V2-P-466db4b74779-d27b7f0ce7e7",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-126499a1c3f26008b5c7c9ba",
+      "artifact_sha256": "d0fe7f8ab235b2638bd8a7aa5edfe046cb862f48cebcd7c3797f951a34260c83",
+      "sample_id": "FINQA-V2-P-466db4b74779-f4fb1e1e4a35",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-dc8fa9f671ad641b75300cd1",
+      "artifact_sha256": "4571bbac80b0093b0c86d576d4b3c14ec178845aee988dc24a7fedb1d8ef381c",
+      "sample_id": "FINQA-V2-P-4ebf50804d61-5e58a16ed7e5",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-36016622cf15ed9660b34963",
+      "artifact_sha256": "ab3a2836690a51c12bb8ef8c41396fab1155358edb5d94c3c369061e4e91bc18",
+      "sample_id": "FINQA-V2-P-4ebf50804d61-77750d8205cb",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f323c65872c2386e0fa650c1",
+      "artifact_sha256": "1dedee504c32ceada0295f3c98071431a906586c7bd6b753d6359704ac31e0de",
+      "sample_id": "FINQA-V2-P-4ebf50804d61-9dcbba2395ed",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-68ccadeb646ede9744edf12c",
+      "artifact_sha256": "da6c0ef5fc729cd0acd45e2467a98a332034b5505670e4a7e8363e1c717525c5",
+      "sample_id": "FINQA-V2-P-5fc42744e4f4-3359c894fbd0",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-59f4b5690b2f209a4d087828",
+      "artifact_sha256": "2b7fc56751d76bb471711e1c96e6f751b2e236668a7bee85933c45bb4cc862f9",
+      "sample_id": "FINQA-V2-P-5fc42744e4f4-81a6173ee971",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-96a109baf406aed0a6caccc4",
+      "artifact_sha256": "87f191bd8bdd30d4a7f525b51900d7a48a60e6b73860dec55989a6d743bacc73",
+      "sample_id": "FINQA-V2-P-5fc42744e4f4-9a874b9f2df7",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-49e33d0d6e8bbb49dbb4deb9",
+      "artifact_sha256": "c11cf4ff6d459616031b4bfcec2b287eec6b1444aed0188562db3964187fd1cd",
+      "sample_id": "FINQA-V2-P-63c8b0d9a47f-7a2fef9ea21a",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-0a363b31fe5b178c14334334",
+      "artifact_sha256": "f72acbe16e679aa0d928738545fb0b471e6b604727848b3f988b67b25ebbc5e4",
+      "sample_id": "FINQA-V2-P-63c8b0d9a47f-7b1a6931f084",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-47a1779bf6d5cbdf8cb64825",
+      "artifact_sha256": "533fe05493ce1c8f95faa7b71b92889564388ae5e6faadd070c4e1c5ded71fab",
+      "sample_id": "FINQA-V2-P-63c8b0d9a47f-a5495fa66249",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6dd458b487afecfa7e0adad0",
+      "artifact_sha256": "9654df24102702d84a87f39ea126aa83e98f660bb7c68ec1c3005bf5e2c400cf",
+      "sample_id": "FINQA-V2-P-8c9821e8f65e-03c886050c53",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-51c9b5a0f958f3faf96ae5ba",
+      "artifact_sha256": "8c5aad919fd00d050caf11fae54edbfa38b8dbcb80176177f0f7a0077f9f7d56",
+      "sample_id": "FINQA-V2-P-8c9821e8f65e-1a94cb0adf7f",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e71f62fddb38e641d11189fd",
+      "artifact_sha256": "0dac161cd7bb1caeedb6adc0b9b0acedccc6fadd94f7d52321c9392db7576bab",
+      "sample_id": "FINQA-V2-P-8c9821e8f65e-5218f73d51b9",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-cd9b6d904f9ce999a6d88e7a",
+      "artifact_sha256": "d09af3472c962d298860f1f56cb137601e145553713cf65632c0410228107db6",
+      "sample_id": "FINQA-V2-P-a3cfe8b82bd0-063facbe88b3",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-3bec073bedfe32a8e5bbdcba",
+      "artifact_sha256": "e7914bd2b9d6876745404b21615e7d1579766cc25aae684d9e71a9e0eaddc5e3",
+      "sample_id": "FINQA-V2-P-a3cfe8b82bd0-1a3e7bf69896",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e8ef1040e940bfa791b8b39d",
+      "artifact_sha256": "ee06d7e9136bdd5f84323bac3252685f4f5be69abb26daa82caa3db26242aa1b",
+      "sample_id": "FINQA-V2-P-a3cfe8b82bd0-4e4196680f84",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-8ef34c068c75e03fddc4d67b",
+      "artifact_sha256": "fbb812379c5a07bf03e4880d912f76e2189a2abeb66e2e56774960e4c925a036",
+      "sample_id": "FINQA-V2-P-a534d902e8f3-6dab51f160fa",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e6360026f21d1ea558b666d3",
+      "artifact_sha256": "9787a8784385f6f6d526038517419406fb567bb8b5acb662fbfea042e76ce776",
+      "sample_id": "FINQA-V2-P-a534d902e8f3-aefa9f4b7e75",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-7d8b300a3b6724223957329a",
+      "artifact_sha256": "e6df3b2f05e7c57a6874ef6c579d3945e8cebfb711f2a0d93b9acd6c9131fcc2",
+      "sample_id": "FINQA-V2-P-a534d902e8f3-e73137403d50",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-d5997358360cbf4f59f1df9d",
+      "artifact_sha256": "c17ba3f73d57857c522755ecc47bad7a1800a16fc62ebe7954f4c77c759a1de2",
+      "sample_id": "FINQA-V2-P-b1d4a0a6e93e-187d56b99969",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6b12b8d10b128e0b4607fc92",
+      "artifact_sha256": "3adafe591ad1e227a0dc3aedf27c4ea88083c9f5cfb46c336a137c22ea37041d",
+      "sample_id": "FINQA-V2-P-b1d4a0a6e93e-412ab2d046a9",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c5c439a65d7944c56bf7f934",
+      "artifact_sha256": "51a37f56f499d89078295a6c7d0149598806a22e29054a645a6d86e98609814b",
+      "sample_id": "FINQA-V2-P-b1d4a0a6e93e-d293878bab3f",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f65f54cc99eafa9244a99ec5",
+      "artifact_sha256": "edf7b1616052f8c36c2cc55181aa74c0e62580411bbfa49deb2a1ccab24f97ce",
+      "sample_id": "FINQA-V2-P-b650c9f8d6ed-a268239dcf4e",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-22a2971113e67d0cfce11606",
+      "artifact_sha256": "cff1b6bc8a11da690f08bbc963214375b18f2d7dd018b0931b9116f1d30937be",
+      "sample_id": "FINQA-V2-P-b650c9f8d6ed-ace1f8635c0e",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-d7a0a19238c746283a838e71",
+      "artifact_sha256": "52d94db8accfeb34c48ab80f34a182bf36b8a3bca977ba93b3a2fa18acd83d76",
+      "sample_id": "FINQA-V2-P-b650c9f8d6ed-fefa239411a3",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-38a9ecf7ad9eda08f3ccbf2c",
+      "artifact_sha256": "845411472e203895056dd3aaa63a19d02870908287164fc376efaf68f1ba388e",
+      "sample_id": "FINQA-V2-P-c0e2367fc46f-08bfe65ccaf0",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-e536695558ba4ecaf21b2ac3",
+      "artifact_sha256": "bc9296f8572fb105d6d6125a4bc9210cf9e468599e2a25a0d1210db3f2edcd23",
+      "sample_id": "FINQA-V2-P-c0e2367fc46f-fa5ed2cc2d63",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-a6de7cd4e03e27df2786195c",
+      "artifact_sha256": "a8f76f0902b3a81e67bf9481da7f4ec0cd3d52f6ef294d2803448c882920e64f",
+      "sample_id": "FINQA-V2-P-c0e2367fc46f-ff53bcd03ff2",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-8d51a6c1a9298312998a18b8",
+      "artifact_sha256": "84fe79635f356120e263f17ebf4759fefd7e245d0afdc49993659a76a984d453",
+      "sample_id": "FINQA-V2-P-c732b1598ea7-664dda3ce3d4",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-a39b2d038e6563b58feaf19e",
+      "artifact_sha256": "4e69cde84532ed615236c1b736972c2859ff67276ade80769b75e708e2a49665",
+      "sample_id": "FINQA-V2-P-c732b1598ea7-9ea7d0ebe9bc",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-acb275410a555bb2f8f514e5",
+      "artifact_sha256": "d670adc55b7087634db29f7ebe5806e6649e6f9b988953386aa32d1b146e0df7",
+      "sample_id": "FINQA-V2-P-c732b1598ea7-ebef5c3967c2",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-908c7be6babefb4dad2201b0",
+      "artifact_sha256": "ccf4dfa60c49d894f7b37babdd312e47ef301fa2552c916b2a270d381a0fc2fd",
+      "sample_id": "FINQA-V2-P-d1e7ee422519-032f23ed6330",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-d159e9fb18ebb470aae8506a",
+      "artifact_sha256": "916f0c9e50d5e901603d567d106d91cefa273a63aa7f9cc52be5598ffb2c1f4a",
+      "sample_id": "FINQA-V2-P-d1e7ee422519-8399f92ac4b7",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-fb18bddc0be5ceb356b61788",
+      "artifact_sha256": "50ede3165a54fb838e0d108f388a867bd228a3c0b8ead99cbd4598359889d2ff",
+      "sample_id": "FINQA-V2-P-d1e7ee422519-89aff075d0e5",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-637c73ec9ff0c59be6261e07",
+      "artifact_sha256": "9318b12ef59ccb663f129f134a19781a1bfa4ffdbf02f809ba7fe034832ac095",
+      "sample_id": "FINQA-V2-P-e8cccb0aa02c-47459d0f0fa5",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-61d4898c47d80d8398822e37",
+      "artifact_sha256": "3a70ddad60ade2607e59c7cf31061f0646f31c597bad0d3c5cf654ec638a135e",
+      "sample_id": "FINQA-V2-P-e8cccb0aa02c-78a14218ddcb",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-a55cc09fe9d760ca74db111a",
+      "artifact_sha256": "257a1054a0a14727cf6e2837f34c4f634f50c2eba16c04f0a03414bb552b3930",
+      "sample_id": "FINQA-V2-P-e8cccb0aa02c-c5e3ce5a6f8b",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-c94d4f582723212a114e708a",
+      "artifact_sha256": "c14d17a2ebce96ceb6b24f99d78dcd0f1758db2d2ad508ff1892c9ff61ddc9dc",
+      "sample_id": "FINQA-V2-P-eb0ec3680138-2419f4b32330",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-6f5d88b57c604f5a8d57d671",
+      "artifact_sha256": "5b1456684efdd8e4f5568f2dc690a3466ff9531b9fcb076c38d0afe777564ada",
+      "sample_id": "FINQA-V2-P-eb0ec3680138-b7ce108f883e",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-4d994c2491f8934e6bca411d",
+      "artifact_sha256": "9a0b8f47f40d5805e715ac84865de12c59f5cf11bad5b73c09b4fc0376141cce",
+      "sample_id": "FINQA-V2-P-eb0ec3680138-e37b5835f8a7",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-99361b145eada8357782f1c9",
+      "artifact_sha256": "1e519451f9919b22ecf2dcb3514d8026df064c715659b1e997c8f6787428e603",
+      "sample_id": "FINQA-V2-P-f7c1898e0344-0dae549671c3",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-f44a0144c6513d53fe03cf4f",
+      "artifact_sha256": "839f63b14ce7cde819deb798a76ad208d7e7f5a40bee9d3fcd6f4b898d1bb97b",
+      "sample_id": "FINQA-V2-P-f7c1898e0344-56771ffeede9",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    },
+    {
+      "artifact_id": "FINQA-V2-ART-1f15aa0b7473388c2e41c7e7",
+      "artifact_sha256": "c99f4b329806fd87c7a86bfbac55dd865b885f9ac5518b3ab150c77070c0a83f",
+      "sample_id": "FINQA-V2-P-f7c1898e0344-a40c7b345472",
+      "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION"
+    }
+  ],
+  "decision_predicate": "No threshold, classifier, hierarchy comparison, or formal decision is materialized; score_pair reports only the frozen five-field observation vector.",
+  "formal_evaluator_outputs_materialized": 0,
+  "independence": {
+    "actual_frozen_pairs_scored": 0,
+    "forbidden_import_hits": [],
+    "imports": [
+      "__future__",
+      "hashlib",
+      "json",
+      "re",
+      "typing"
+    ],
+    "independent_of_shared_fault_adapter": true,
+    "independent_of_stage_e_aggregation": true,
+    "passed": true
+  },
+  "input_manifests": {
+    "paired_artifacts": {
+      "bytes": 522553,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_paired_artifact_manifest.json",
+      "sha256": "693cb548be268a08ca1a12de1615f3cd67a457bfd4caa75d6fb94b43dddbae6c"
+    },
+    "sample": {
+      "bytes": 491607,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_frozen_sample_manifest.json",
+      "sha256": "802798a3621fa995feddee31c02fae5bd4e30f80473ca282e3c6c3809a618b18"
+    },
+    "split": {
+      "bytes": 60231,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_split_manifest.json",
+      "sha256": "aa69ca1371922f2be0cfd44bf592ff2ace27ea9f6b46c957befe837a658573ab"
+    }
+  },
+  "measurement_object": "paired_checkpoint_observation_reproduction",
+  "namespace": "FINQA_V2_SCORER_BINDING_MANIFEST",
+  "observation_surface": [
+    "evidence_required_hit",
+    "operator_consistency",
+    "argument_consistency",
+    "step_result_consistency",
+    "answer_consistency"
+  ],
+  "predicate_version": "finqa-v2-independent-observation-predicate-v1",
+  "semantic_correctness_claim": false,
+  "source": {
+    "bytes": 5428,
+    "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_independent_observation_scorer_v2.py",
+    "sha256": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5"
+  },
+  "status": "INDEPENDENT_SCORER_BINDINGS_FROZEN_NOT_EXECUTED",
+  "task_id": "finqa-v2-preresult-freeze-a-20261010",
+  "tests": [
+    {
+      "bytes": 2384,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/tests/test_finqa_numeric_token_canonicalization_v2.py",
+      "sha256": "a9282ea2ee597f50eeeb1b9551ec20b7e1ff0a1ad61a915093ecc2aa6f356d39"
+    },
+    {
+      "bytes": 1422,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/tests/test_finqa_evidence_argument_resolver_v2.py",
+      "sha256": "ac51401a55f8e1ff5eb153f9cabf9dc17824a0be114eb931aed27dfc6544912e"
+    },
+    {
+      "bytes": 3980,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/tests/test_finqa_independent_observation_scorer_v2.py",
+      "sha256": "2146f847f4da0dab7295e615420eefbf55bc45167c5ce62360908153589db7d1"
+    },
+    {
+      "bytes": 7912,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/tests/test_finqa_v2_execution_freeze.py",
+      "sha256": "175255f8f49d1b8fbb9815b476b729cd44606e650c486d83cae668a724e56992"
+    }
+  ],
+  "unevaluable_denominators": {
+    "bound_artifacts": 215,
+    "formal_scoring_calls": 0,
+    "unevaluable_before_later_authorized_execution": 215
+  }
+}

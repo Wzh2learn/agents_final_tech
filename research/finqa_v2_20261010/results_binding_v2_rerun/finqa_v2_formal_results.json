@@ -1,0 +1,1300 @@
+{
+  "A_RECOMMENDED_CLASS": "SECOND_FLOW_INVALID",
+  "accounting": {
+    "candidate_injections": 216,
+    "excluded_before_split": 1,
+    "expected_evaluation_records": 89,
+    "invalid_retained_records": 0,
+    "missing_retained_records": 0,
+    "preserved_evaluation_rows": 89,
+    "retained_paired_injections": 215,
+    "scorer_calls": 89,
+    "scorer_failures": 89,
+    "scorer_successes": 0,
+    "unevaluable_evaluation_records": 89
+  },
+  "binding_v2_contract": {
+    "contract_sha256": "668f52fd5e2480155443c6e7cbe8b59a9c88c47f13e38973867366032806f204",
+    "mapping_rows": 994,
+    "mapping_sha256": "4c5c1d3077038d4ca5636e2489f689ce18b784c9d3b38e987ff9220f5aef1ddd",
+    "normalization_version": "finqa_v2_scorer_normalization_20261010_v1",
+    "normalized_hash_field": "normalized_payload_sha256",
+    "op_family_is_raw_operator_identity": false,
+    "raw_hash_field": "raw_payload_sha256",
+    "runtime_sha256": "038303f6575247f42a223e27543c3fb3ceadb3c5209422bdbba24d3bc1dead3d",
+    "trace_map_retained": true
+  },
+  "bootstrap_contract": {
+    "attempted_replicate_count": 0,
+    "ci_method": "PERCENTILE",
+    "cluster_unit": "report_cluster_id",
+    "failed_replicate_count": 0,
+    "not_attempted_replicate_count": 10000,
+    "percentiles": [
+      2.5,
+      97.5
+    ],
+    "permutation_test": "NOT_USED",
+    "planned_replicate_count": 10000,
+    "seed": 20261017,
+    "status": "NOT_RUN_FORMAL_RUN_INVALID",
+    "valid_replicate_count": 0
+  },
+  "bootstrap_summary": {
+    "detection_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "detection_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "detection_rate_given_visibility_negative": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "detection_rate_given_visibility_positive": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "failure_accounting.invalid_record_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "failure_accounting.missing_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": 0,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "failure_accounting.scorer_failure_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": 89,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "failure_accounting.unevaluable_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": 89,
+      "point_estimate_status": "ESTIMATED",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.detection_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.detection_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.visibility_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.visibility_detection_2x2.v0_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.visibility_detection_2x2.v0_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.visibility_detection_2x2.v0_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.visibility_detection_2x2.v0_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.visibility_detection_2x2.v1_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.visibility_detection_2x2.v1_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.visibility_detection_2x2.v1_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.visibility_detection_2x2.v1_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.E.visibility_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.detection_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.detection_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.visibility_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.visibility_detection_2x2.v0_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.visibility_detection_2x2.v0_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.visibility_detection_2x2.v0_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.visibility_detection_2x2.v0_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.visibility_detection_2x2.v1_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.visibility_detection_2x2.v1_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.visibility_detection_2x2.v1_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.visibility_detection_2x2.v1_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.N.visibility_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.detection_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.detection_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.visibility_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.visibility_detection_2x2.v0_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.visibility_detection_2x2.v0_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.visibility_detection_2x2.v0_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.visibility_detection_2x2.v0_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.visibility_detection_2x2.v1_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.visibility_detection_2x2.v1_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.visibility_detection_2x2.v1_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.visibility_detection_2x2.v1_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "stage.P.visibility_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "terminal_outcome_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "terminal_outcome_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "visibility_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "visibility_detection_2x2.v0_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "visibility_detection_2x2.v0_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "visibility_detection_2x2.v0_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "visibility_detection_2x2.v0_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "visibility_detection_2x2.v1_d0_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "visibility_detection_2x2.v1_d0_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "visibility_detection_2x2.v1_d1_count": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "visibility_detection_2x2.v1_d1_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    },
+    "visibility_rate": {
+      "ci_method": "PERCENTILE",
+      "cluster_unit": "report_cluster_id",
+      "failed_replicate_count": 0,
+      "interval": "NOT_RUN_FORMAL_RUN_INVALID",
+      "interval_label": "NOT_RUN_FORMAL_RUN_INVALID",
+      "not_attempted_replicate_count": 10000,
+      "percentiles": [
+        2.5,
+        97.5
+      ],
+      "planned_replicate_count": 10000,
+      "point_estimate": null,
+      "point_estimate_status": "NOT_RUN_FORMAL_RUN_INVALID",
+      "replicate_count": 0,
+      "seed": 20261017,
+      "valid_replicate_count": 0
+    }
+  },
+  "case_accounting": {
+    "all_89_evaluation_rows_preserved": true,
+    "status": "NOT_COMPUTABLE_SCORER_FAILED"
+  },
+  "claim_boundary": {
+    "allowed": [
+      "FORMAL_RUN_INVALID",
+      "89 attempted, 0 successful, 89 binding trace failures",
+      "89 preserved rows with null V/D/O"
+    ],
+    "forbidden": [
+      "visibility_detection_transfer_claim",
+      "hierarchy_beats_flat",
+      "hierarchy_localization",
+      "semantic_correctness",
+      "harmfulness",
+      "natural_failure_localization",
+      "automatic_stage_e_transfer"
+    ]
+  },
+  "evidence_grading": {
+    "binding_trace_failure": "NEGATIVE",
+    "scientific_estimands": "NOT_GRADED"
+  },
+  "execution": {
+    "binding_v2_tests_passed": 10,
+    "database_calls": 0,
+    "endpoint_calls": 0,
+    "focused_tests_passed": 19,
+    "formal_outputs_before_execution": 0,
+    "frozen_hash_checks": 60,
+    "frozen_hash_mismatches": 0,
+    "model_calls": 0,
+    "nested_paired_artifact_hash_checks": 645,
+    "permutation_runs": 0,
+    "pre_scorer_command_failures": 1,
+    "prm_runs": 0,
+    "scorer_calls": 89,
+    "scorer_failures": 89,
+    "scorer_successes": 0,
+    "training_runs": 0
+  },
+  "final_class_status": "DEFERRED_TO_LOOP_C_AUDIT",
+  "frozen_research_question": "Does the visibility-detection separation transfer to a different reasoning-oriented dataflow under an independently implemented observation scorer?",
+  "generated_at": "2026-10-10T17:51:42+08:00",
+  "leakage_audit": {
+    "assignment_checks": "PASS",
+    "group_disjointness": "PASS",
+    "result_dependent_exclusion": false,
+    "scorer_independence": "PASS",
+    "stage_labels_used_for_secondary_profile_only": true,
+    "threshold_search_performed": false
+  },
+  "namespace": "FINQA_V2_BINDING_V2_MINIMAL_RERUN_RESULTS",
+  "point_estimates": {
+    "detection_count": null,
+    "detection_rate": null,
+    "detection_rate_given_visibility_negative": null,
+    "detection_rate_given_visibility_positive": null,
+    "failure_accounting.invalid_record_count": 0,
+    "failure_accounting.missing_count": 0,
+    "failure_accounting.scorer_failure_count": 89,
+    "failure_accounting.unevaluable_count": 89,
+    "stage.E.detection_count": null,
+    "stage.E.detection_rate": null,
+    "stage.E.visibility_count": null,
+    "stage.E.visibility_detection_2x2.v0_d0_count": null,
+    "stage.E.visibility_detection_2x2.v0_d0_rate": null,
+    "stage.E.visibility_detection_2x2.v0_d1_count": null,
+    "stage.E.visibility_detection_2x2.v0_d1_rate": null,
+    "stage.E.visibility_detection_2x2.v1_d0_count": null,
+    "stage.E.visibility_detection_2x2.v1_d0_rate": null,
+    "stage.E.visibility_detection_2x2.v1_d1_count": null,
+    "stage.E.visibility_detection_2x2.v1_d1_rate": null,
+    "stage.E.visibility_rate": null,
+    "stage.N.detection_count": null,
+    "stage.N.detection_rate": null,
+    "stage.N.visibility_count": null,
+    "stage.N.visibility_detection_2x2.v0_d0_count": null,
+    "stage.N.visibility_detection_2x2.v0_d0_rate": null,
+    "stage.N.visibility_detection_2x2.v0_d1_count": null,
+    "stage.N.visibility_detection_2x2.v0_d1_rate": null,
+    "stage.N.visibility_detection_2x2.v1_d0_count": null,
+    "stage.N.visibility_detection_2x2.v1_d0_rate": null,
+    "stage.N.visibility_detection_2x2.v1_d1_count": null,
+    "stage.N.visibility_detection_2x2.v1_d1_rate": null,
+    "stage.N.visibility_rate": null,
+    "stage.P.detection_count": null,
+    "stage.P.detection_rate": null,
+    "stage.P.visibility_count": null,
+    "stage.P.visibility_detection_2x2.v0_d0_count": null,
+    "stage.P.visibility_detection_2x2.v0_d0_rate": null,
+    "stage.P.visibility_detection_2x2.v0_d1_count": null,
+    "stage.P.visibility_detection_2x2.v0_d1_rate": null,
+    "stage.P.visibility_detection_2x2.v1_d0_count": null,
+    "stage.P.visibility_detection_2x2.v1_d0_rate": null,
+    "stage.P.visibility_detection_2x2.v1_d1_count": null,
+    "stage.P.visibility_detection_2x2.v1_d1_rate": null,
+    "stage.P.visibility_rate": null,
+    "terminal_outcome_count": null,
+    "terminal_outcome_rate": null,
+    "visibility_count": null,
+    "visibility_detection_2x2.v0_d0_count": null,
+    "visibility_detection_2x2.v0_d0_rate": null,
+    "visibility_detection_2x2.v0_d1_count": null,
+    "visibility_detection_2x2.v0_d1_rate": null,
+    "visibility_detection_2x2.v1_d0_count": null,
+    "visibility_detection_2x2.v1_d0_rate": null,
+    "visibility_detection_2x2.v1_d1_count": null,
+    "visibility_detection_2x2.v1_d1_rate": null,
+    "visibility_rate": null
+  },
+  "population": {
+    "by_stage": {
+      "E": {
+        "report_clusters": 10,
+        "samples": 30
+      },
+      "N": {
+        "report_clusters": 10,
+        "samples": 29
+      },
+      "P": {
+        "report_clusters": 10,
+        "samples": 30
+      }
+    },
+    "calibration_samples_not_scored": 45,
+    "report_clusters": 30,
+    "role": "evaluation",
+    "samples": 89,
+    "train_samples_not_scored": 81
+  },
+  "run_status": "FORMAL_RUN_INVALID",
+  "tables": {
+    "overall": {
+      "cluster_denominator": 30,
+      "detection_count": null,
+      "detection_rate": null,
+      "detection_rate_given_visibility_negative": null,
+      "detection_rate_given_visibility_positive": null,
+      "sample_denominator": 89,
+      "terminal_outcome_count": null,
+      "terminal_outcome_rate": null,
+      "visibility_count": null,
+      "visibility_detection_2x2": {
+        "00": {
+          "count": null,
+          "rate": null
+        },
+        "01": {
+          "count": null,
+          "rate": null
+        },
+        "10": {
+          "count": null,
+          "rate": null
+        },
+        "11": {
+          "count": null,
+          "rate": null
+        }
+      },
+      "visibility_rate": null
+    },
+    "per_stage": {
+      "E": {
+        "cluster_denominator": 10,
+        "detection_count": null,
+        "detection_rate": null,
+        "sample_denominator": 30,
+        "visibility_count": null,
+        "visibility_detection_2x2": {
+          "00": {
+            "count": null,
+            "rate": null
+          },
+          "01": {
+            "count": null,
+            "rate": null
+          },
+          "10": {
+            "count": null,
+            "rate": null
+          },
+          "11": {
+            "count": null,
+            "rate": null
+          }
+        },
+        "visibility_rate": null
+      },
+      "N": {
+        "cluster_denominator": 10,
+        "detection_count": null,
+        "detection_rate": null,
+        "sample_denominator": 29,
+        "visibility_count": null,
+        "visibility_detection_2x2": {
+          "00": {
+            "count": null,
+            "rate": null
+          },
+          "01": {
+            "count": null,
+            "rate": null
+          },
+          "10": {
+            "count": null,
+            "rate": null
+          },
+          "11": {
+            "count": null,
+            "rate": null
+          }
+        },
+        "visibility_rate": null
+      },
+      "P": {
+        "cluster_denominator": 10,
+        "detection_count": null,
+        "detection_rate": null,
+        "sample_denominator": 30,
+        "visibility_count": null,
+        "visibility_detection_2x2": {
+          "00": {
+            "count": null,
+            "rate": null
+          },
+          "01": {
+            "count": null,
+            "rate": null
+          },
+          "10": {
+            "count": null,
+            "rate": null
+          },
+          "11": {
+            "count": null,
+            "rate": null
+          }
+        },
+        "visibility_rate": null
+      }
+    }
+  },
+  "task_id": "finqa-v2-minimal-rerun-pending-execution-20261010"
+}

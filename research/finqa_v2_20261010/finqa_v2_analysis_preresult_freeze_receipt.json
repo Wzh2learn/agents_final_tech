@@ -1,0 +1,122 @@
+{
+  "task_id": "finqa-v2-analysis-freeze-a-20261010",
+  "namespace": "FINQA_V2_ANALYSIS_PRERESULT_FREEZE_RECEIPT",
+  "status": "ANALYSIS_PLAN_PRERESULT_FREEZE_COMPLETE_READY_FOR_LOOP_C_AUDIT_NOT_EXECUTION",
+  "evidence_class": "PRIMARY_PREREGISTRATION_AND_HASH_CLOSURE",
+  "created_at": "2026-10-10T14:49:11+08:00",
+  "sequence": [
+    "prior_freeze_hash_verification",
+    "formal_output_precheck",
+    "analysis_plan_markdown",
+    "analysis_plan_json",
+    "analysis_plan_hash_manifest",
+    "formal_output_postcheck",
+    "analysis_preresult_freeze_receipt"
+  ],
+  "hash_contract": "SHA-256 of raw file bytes; receipt self_sha256 is SHA-256 of canonical compact sorted JSON after removing self_sha256",
+  "analysis_plan": {
+    "markdown": {
+      "path": "research/finqa_v2_20261010/FINQA_V2_ANALYSIS_PLAN.md",
+      "bytes": 6802,
+      "sha256": "57f8b0d68195ec471842d4b6a4092c657876e9f133d0c1724f8aa5b2289d1e61"
+    },
+    "json": {
+      "path": "research/finqa_v2_20261010/finqa_v2_analysis_plan.json",
+      "bytes": 5857,
+      "sha256": "02607daed45d19aae9697302122cf37493c1d6ddd8d2078ac3a4084b3ff64b35"
+    }
+  },
+  "hash_manifest": {
+    "path": "research/finqa_v2_20261010/finqa_v2_analysis_plan_hash_manifest.json",
+    "bytes": 6979,
+    "sha256": "8e04a76ebcce2a2e45f44b5dbbea3e38f19f124285954aa27f4c2e13f63b8062",
+    "self_sha256": "b9899ad304bf4a567b67abedc4766b68e6707621fce1e86092726bb2508fbec4",
+    "bound_file_count": 16,
+    "bound_file_mismatches": 0
+  },
+  "prior_freeze_verification": {
+    "hash_checks": 51,
+    "hash_mismatches": 0,
+    "existing_packet_status": "READY_FOR_LOOP_C_INDEPENDENT_REVIEW_NOT_EXECUTION",
+    "existing_receipt_status": "PRERESULT_FREEZE_COMPLETE_PENDING_LOOP_C_REVIEW",
+    "existing_packet_or_receipt_modified": false
+  },
+  "formal_scorer_outputs_before_plan_creation": 0,
+  "formal_scorer_outputs_after_plan_creation": 0,
+  "formal_scorer_output_scan": {
+    "namespace": "research/finqa_v2_20261010/",
+    "matching_output_file_count": 0,
+    "matching_output_paths": [],
+    "structured_fields": {
+      "prior_packet_formal_evaluator_outputs": 0,
+      "prior_packet_formal_evaluator_output_paths": 0,
+      "prior_receipt_formal_evaluator_outputs_before_receipt": 0,
+      "scorer_binding_formal_evaluator_outputs_materialized": 0,
+      "scorer_binding_actual_frozen_pairs_scored": 0
+    }
+  },
+  "execution_counters": {
+    "formal_scorer_calls": 0,
+    "endpoint_calls": 0,
+    "model_calls": 0,
+    "training_runs": 0,
+    "prm_runs": 0,
+    "formal_experiments": 0
+  },
+  "frozen_analysis_contract": {
+    "population_role": "evaluation",
+    "population_samples": 89,
+    "population_report_clusters": 30,
+    "per_stage": {
+      "E": "30 samples / 10 clusters",
+      "P": "30 samples / 10 clusters",
+      "N": "29 samples / 10 clusters"
+    },
+    "scorer_fields": [
+      "evidence_required_hit",
+      "operator_consistency",
+      "argument_consistency",
+      "step_result_consistency",
+      "answer_consistency"
+    ],
+    "binary_variables": {
+      "V": "1 iff at least one of the five observation-vector fields equals 1; otherwise 0",
+      "D": "1 iff step_result_consistency == 1 OR answer_consistency == 1; otherwise 0",
+      "O": "1 iff answer_consistency == 1; otherwise 0"
+    },
+    "seed": 20261017,
+    "replicate_count": 10000,
+    "cluster_unit": "report_cluster_id",
+    "ci_method": "PERCENTILE_95_PERCENTILES_2_5_AND_97_5",
+    "permutation_test": "NOT_USED",
+    "failure_handling": {
+      "zero_conditional_denominator": "NOT_IDENTIFIABLE",
+      "all_replicates_failed": "NOT_IDENTIFIABLE",
+      "degenerate_interval_label": "DEGENERATE_EMPIRICAL_INTERVAL",
+      "missing_invalid_retained_record_or_scorer_failure_after_split": "FORMAL_RUN_INVALID"
+    }
+  },
+  "pre_result_guards": {
+    "result_fields_used_to_design_plan": false,
+    "metrics_added_after_results": false,
+    "threshold_changes_authorized": false,
+    "permutation_tests_authorized": false,
+    "frozen_population_or_split_changed": false,
+    "scorer_or_measurement_object_changed": false,
+    "task_card_question_or_claim_boundaries_changed": false,
+    "formal_outputs_present": false
+  },
+  "stop_conditions": {
+    "EXISTING_FREEZE_HASH_MISMATCH": false,
+    "FORMAL_OUTPUT_ALREADY_EXISTS": false,
+    "POPULATION_SCORER_BINDING_UNAVAILABLE": false,
+    "RQ_OR_MEASUREMENT_OBJECT_CHANGE_REQUESTED": false
+  },
+  "gate_recommendation": {
+    "ANALYSIS_PLAN_FREEZE": {
+      "evidence": "16 bound files match; prior freeze hash checks have zero mismatches; formal scorer outputs are zero before and after plan creation.",
+      "recommendation": "RECOMMEND_PASS_READY_FOR_FRESH_CONTEXT_LOOP_C_AUDIT_NOT_EXECUTION"
+    }
+  },
+  "self_sha256": "4b4393d5f0ce8ca20aa2d41ec50c1ebe9280b38194eab375aece7b7102ee22e2"
+}

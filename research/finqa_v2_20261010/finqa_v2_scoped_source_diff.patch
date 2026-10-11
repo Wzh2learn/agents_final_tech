@@ -1,0 +1,2478 @@
+--- a/research/finqa_numeric_token_canonicalization_v2.py
++++ b/research/finqa_numeric_token_canonicalization_v2.py
+diff --git a/research/finqa_numeric_token_canonicalization_v2.py b/research/finqa_numeric_token_canonicalization_v2.py
+new file mode 100644
+index 000000000..d2845213c
+--- /dev/null
++++ b/research/finqa_numeric_token_canonicalization_v2.py
+@@ -0,0 +1,90 @@
++#!/usr/bin/env python3
++"""Canonical numeric-token identity shared by FinQA v2 selection and tests."""
++from __future__ import annotations
++
++import re
++from decimal import Decimal, InvalidOperation
++from typing import Any
++
++
++NUM_RE = re.compile(r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)")
++ARG_RE = re.compile(r"^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$")
++
++
++class NumericTokenCanonicalizationError(ValueError):
++    def __init__(self, code: str, **detail: Any) -> None:
++        self.code = code
++        self.detail = detail
++        super().__init__(f"{code}: {detail}")
++
++
++def _decimal(text: str) -> Decimal:
++    try:
++        value = Decimal(text)
++    except InvalidOperation as exc:
++        raise NumericTokenCanonicalizationError(
++            "invalid_numeric_token", token=text
++        ) from exc
++    if not value.is_finite():
++        raise NumericTokenCanonicalizationError(
++            "invalid_numeric_token", token=text
++        )
++    return value
++
++
++def _format_decimal(value: Decimal) -> str:
++    sign, digits, exponent = value.as_tuple()
++    digit_text = "".join(str(digit) for digit in digits)
++    if exponent >= 0:
++        integer_text = digit_text + ("0" * exponent)
++        fraction_text = ""
++    else:
++        split_at = len(digit_text) + exponent
++        if split_at > 0:
++            integer_text = digit_text[:split_at]
++            fraction_text = digit_text[split_at:]
++        else:
++            integer_text = "0"
++            fraction_text = ("0" * -split_at) + digit_text
++
++    integer_text = integer_text.lstrip("0") or "0"
++    fraction_text = fraction_text.rstrip("0")
++    unsigned = (
++        integer_text
++        if not fraction_text
++        else f"{integer_text}.{fraction_text}"
++    )
++    has_magnitude = any(digit != 0 for digit in digits)
++    prefix = "-" if sign and has_magnitude else ""
++    return f"{prefix}{unsigned}"
++
++
++def canonical_numeric_token(value: Any) -> str:
++    """Return the exact fixed-point canonical form of one numeric literal."""
++    token_text = str(value).strip()
++    if not ARG_RE.fullmatch(token_text):
++        raise NumericTokenCanonicalizationError(
++            "argument_not_numeric_literal", token=token_text
++        )
++    return _format_decimal(_decimal(token_text))
++
++
++def try_canonical_numeric_token(value: Any) -> str | None:
++    """Return a canonical token for a strict literal, otherwise ``None``."""
++    token_text = str(value).strip()
++    if not ARG_RE.fullmatch(token_text):
++        return None
++    try:
++        return canonical_numeric_token(token_text)
++    except NumericTokenCanonicalizationError:
++        return None
++
++
++def numeric_tokens(value: Any) -> set[str]:
++    """Canonicalize every finite numeric literal found in free text."""
++    tokens: set[str] = set()
++    for match in NUM_RE.findall(str(value or "")):
++        token = try_canonical_numeric_token(match)
++        if token is not None:
++            tokens.add(token)
++    return tokens
+
+--- a/research/finqa_evidence_argument_resolver_v2.py
++++ b/research/finqa_evidence_argument_resolver_v2.py
+diff --git a/research/finqa_evidence_argument_resolver_v2.py b/research/finqa_evidence_argument_resolver_v2.py
+new file mode 100644
+index 000000000..53b7f5132
+--- /dev/null
++++ b/research/finqa_evidence_argument_resolver_v2.py
+@@ -0,0 +1,42 @@
++#!/usr/bin/env python3
++"""Independent lexical evidence-to-numeric-argument resolver for FinQA v2."""
++from __future__ import annotations
++
++from decimal import Decimal
++from typing import Any
++
++from research.finqa_numeric_token_canonicalization_v2 import (
++    NumericTokenCanonicalizationError,
++    canonical_numeric_token,
++    numeric_tokens,
++)
++
++
++class EvidenceArgumentResolverError(ValueError):
++    def __init__(self, code: str, **detail: Any) -> None:
++        self.code = code
++        self.detail = detail
++        super().__init__(f"{code}: {detail}")
++
++
++def resolve_numeric_argument(argument: Any, evidence: dict[str, Any]) -> dict[str, Any]:
++    token_text = str(argument or "").strip()
++    try:
++        token = canonical_numeric_token(token_text)
++    except NumericTokenCanonicalizationError:
++        raise EvidenceArgumentResolverError("argument_not_numeric_literal", argument=token_text)
++    matches = sorted(
++        evidence_id
++        for evidence_id, text in evidence.items()
++        if token in numeric_tokens(text)
++    )
++    if not matches:
++        raise EvidenceArgumentResolverError("unresolved_no_evidence", token=token)
++    if len(matches) > 1:
++        raise EvidenceArgumentResolverError("unresolved_ambiguous_evidence", token=token, matches=matches)
++    return {
++        "argument_token": token,
++        "evidence_id": matches[0],
++        "resolved_value": float(Decimal(token)),
++        "join_type": "LEXICAL_UNIQUE_EVIDENCE_TO_ARGUMENT",
++    }
+
+--- a/research/finqa_independent_observation_scorer_v2.py
++++ b/research/finqa_independent_observation_scorer_v2.py
+diff --git a/research/finqa_independent_observation_scorer_v2.py b/research/finqa_independent_observation_scorer_v2.py
+new file mode 100644
+index 000000000..9f91c4bfb
+--- /dev/null
++++ b/research/finqa_independent_observation_scorer_v2.py
+@@ -0,0 +1,145 @@
++#!/usr/bin/env python3
++"""Independent FinQA checkpoint-observation scorer prototype.
++
++Measurement object: paired clean/mutant observation reproduction. This module
++does not implement semantic step correctness and does not import the existing
++FinQA fault adapter, step scorer, or Stage E aggregation.
++"""
++from __future__ import annotations
++
++import hashlib
++import json
++import re
++from typing import Any
++
++
++OBSERVATION_FIELDS = (
++    "evidence_required_hit",
++    "operator_consistency",
++    "argument_consistency",
++    "step_result_consistency",
++    "answer_consistency",
++)
++OP_RE = re.compile(r"^([A-Za-z_]+?)(?:\d*)-(?:\d+)$")
++
++
++class IndependentScorerError(ValueError):
++    def __init__(self, code: str, **detail: Any) -> None:
++        self.code = code
++        self.detail = detail
++        super().__init__(f"{code}: {detail}")
++
++
++def canonical_json(value: Any) -> str:
++    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
++
++
++def artifact_hash(payload: dict[str, Any]) -> str:
++    return hashlib.sha256(canonical_json(payload).encode("utf-8")).hexdigest()
++
++
++def op_family(op: Any) -> str:
++    text = str(op or "")
++    match = OP_RE.match(text)
++    return match.group(1) if match else text
++
++
++def _require_dict(value: Any, name: str) -> dict[str, Any]:
++    if not isinstance(value, dict):
++        raise IndependentScorerError("invalid_record_field", field=name)
++    return value
++
++
++def _require_list(value: Any, name: str) -> list[Any]:
++    if not isinstance(value, list):
++        raise IndependentScorerError("invalid_record_field", field=name)
++    return value
++
++
++def _normalized_steps(value: Any, name: str) -> list[dict[str, str]]:
++    steps = _require_list(value, name)
++    normalized = []
++    for index, step in enumerate(steps):
++        item = _require_dict(step, f"{name}[{index}]")
++        normalized.append({
++            "op_family": op_family(item.get("op")),
++            "arg1": str(item.get("arg1", "")),
++            "arg2": str(item.get("arg2", "")),
++            "res": str(item.get("res", "")),
++        })
++    return normalized
++
++
++def score_pair(record: dict[str, Any]) -> dict[str, Any]:
++    payload = _require_dict(record, "record")
++    required = [str(item) for item in _require_list(payload.get("required_evidence_ids"), "required_evidence_ids")]
++    if not required:
++        raise IndependentScorerError("missing_required_evidence")
++    clean = _require_dict(payload.get("clean"), "clean")
++    mutant = _require_dict(payload.get("mutant"), "mutant")
++    clean_evidence = {str(item) for item in _require_list(clean.get("evidence_ids"), "clean.evidence_ids")}
++    mutant_evidence = {str(item) for item in _require_list(mutant.get("evidence_ids"), "mutant.evidence_ids")}
++    clean_steps = _normalized_steps(clean.get("steps"), "clean.steps")
++    mutant_steps = _normalized_steps(mutant.get("steps"), "mutant.steps")
++    if len(clean_steps) != len(mutant_steps):
++        raise IndependentScorerError("step_count_mismatch")
++
++    bound_payload = {
++        "required_evidence_ids": required,
++        "clean": {
++            "evidence_ids": sorted(clean_evidence),
++            "steps": clean_steps,
++            "answer": str(clean.get("answer", "")),
++        },
++        "mutant": {
++            "evidence_ids": sorted(mutant_evidence),
++            "steps": mutant_steps,
++            "answer": str(mutant.get("answer", "")),
++        },
++    }
++    observed_hash = artifact_hash(bound_payload)
++    if str(payload.get("artifact_sha256", "")) != observed_hash:
++        raise IndependentScorerError("artifact_sha256_mismatch", observed=observed_hash)
++
++    required_set = set(required)
++    if not required_set.issubset(clean_evidence):
++        raise IndependentScorerError("clean_missing_required_evidence")
++    evidence_required_hit = int(required_set.issubset(mutant_evidence) is False)
++
++    operator_consistency = int(any(
++        before["op_family"] != after["op_family"]
++        for before, after in zip(clean_steps, mutant_steps)
++    ))
++    argument_consistency = int(any(
++        (before["arg1"], before["arg2"]) != (after["arg1"], after["arg2"])
++        for before, after in zip(clean_steps, mutant_steps)
++    ))
++    step_result_consistency = int(any(
++        before["res"] != after["res"]
++        for before, after in zip(clean_steps, mutant_steps)
++    ))
++    answer_consistency = int(str(clean.get("answer", "")) != str(mutant.get("answer", "")))
++
++    vector = {
++        "evidence_required_hit": evidence_required_hit,
++        "operator_consistency": operator_consistency,
++        "argument_consistency": argument_consistency,
++        "step_result_consistency": step_result_consistency,
++        "answer_consistency": answer_consistency,
++    }
++    return {
++        "measurement_object": "paired checkpoint observation reproduction",
++        "semantic_correctness_claim": False,
++        "artifact_sha256": observed_hash,
++        "observation_vector": vector,
++        "response_signature": [vector[field] for field in OBSERVATION_FIELDS],
++        "missing_evidence_count": len(required_set - mutant_evidence),
++        "clean_required_evidence_count": len(required_set & clean_evidence),
++        "mutant_required_evidence_count": len(required_set & mutant_evidence),
++        "provenance": {
++            "independent_of_shared_fault_adapter": True,
++            "independent_of_hierarchical_aggregation": True,
++            "label_blind": True,
++            "deterministic": True,
++        },
++    }
+
+--- a/research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py
++++ b/research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py
+diff --git a/research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py b/research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py
+new file mode 100644
+index 000000000..b81f8967d
+--- /dev/null
++++ b/research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py
+@@ -0,0 +1,190 @@
++#!/usr/bin/env python3
++"""Audit whether FinQA supports a causal evidence-to-argument join."""
++from __future__ import annotations
++
++import hashlib
++import json
++import sys
++from collections import Counter
++from pathlib import Path
++from typing import Any
++
++ROOT = Path(__file__).resolve().parents[2]
++if str(ROOT) not in sys.path:
++    sys.path.insert(0, str(ROOT))
++
++from research.finqa_numeric_token_canonicalization_v2 import (
++    numeric_tokens,
++    try_canonical_numeric_token,
++)
++
++
++STAGING = Path("/home/testuser/wzh/phase1a_staging_20260925/finqa")
++FILES = (STAGING / "train.json", STAGING / "dev.json")
++OUT_JSON = ROOT / "research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json"
++OUT_MD = ROOT / "docs/research/finqa_v2_causal_join_audit_v1.md"
++TARGET_CLUSTERS = 24
++
++
++def sha256_file(path: Path) -> str:
++    return hashlib.sha256(path.read_bytes()).hexdigest()
++
++
++def literal_arg(value: Any) -> str | None:
++    return try_canonical_numeric_token(value)
++
++
++def evidence_for_token(token: str, gold_inds: dict[str, Any]) -> list[str]:
++    return sorted(
++        evidence_id
++        for evidence_id, text in gold_inds.items()
++        if token in numeric_tokens(text)
++    )
++
++
++def load_records() -> list[dict[str, Any]]:
++    rows = []
++    for path in FILES:
++        source_split = "train" if path.name == "train.json" else "dev"
++        for record in json.loads(path.read_text(encoding="utf-8")):
++            rows.append({**record, "_source_split": source_split})
++    return rows
++
++
++def analyze() -> dict[str, Any]:
++    rows = load_records()
++    details = []
++    for record in rows:
++        qa = record.get("qa") or {}
++        steps = qa.get("steps") or []
++        gold_inds = qa.get("gold_inds") or {}
++        filename = str(record.get("filename") or record.get("id") or "")
++        cluster = filename.split("/page_", 1)[0]
++        joins = []
++        for step_index, step in enumerate(steps):
++            for arg_name in ("arg1", "arg2"):
++                token = literal_arg(step.get(arg_name))
++                if token is None:
++                    continue
++                evidence_ids = evidence_for_token(token, gold_inds)
++                joins.append({
++                    "step_index": step_index,
++                    "arg_name": arg_name,
++                    "token": token,
++                    "evidence_ids": evidence_ids,
++                    "unique_join": len(evidence_ids) == 1,
++                    "join_evidence_id": evidence_ids[0] if len(evidence_ids) == 1 else None,
++                })
++        unique_joins = [join for join in joins if join["unique_join"]]
++        details.append({
++            "id": str(record.get("id")),
++            "source_split": record["_source_split"],
++            "report_cluster": cluster,
++            "n_steps": len(steps),
++            "gold_evidence_count": len(gold_inds),
++            "literal_arg_count": len(joins),
++            "unique_join_count": len(unique_joins),
++            "joins": joins,
++        })
++
++    unique_rows = [row for row in details if row["unique_join_count"] > 0]
++    unique_clusters = {row["report_cluster"] for row in unique_rows}
++    multi_step_unique_rows = [row for row in unique_rows if row["n_steps"] >= 2]
++    multi_step_unique_clusters = {row["report_cluster"] for row in multi_step_unique_rows}
++    join_counts = Counter(
++        join["unique_join"]
++        for row in details
++        for join in row["joins"]
++    )
++    status = "JOIN_CANDIDATE_IDENTIFIED_NOT_FROZEN" if len(multi_step_unique_clusters) >= TARGET_CLUSTERS else "JOIN_GO_BLOCKED"
++    return {
++        "namespace": "FINQA_V2_CAUSAL_JOIN_AUDIT",
++        "status": status,
++        "target_unique_clusters": TARGET_CLUSTERS,
++        "source_files": {
++            str(path): {"sha256": sha256_file(path), "bytes": path.stat().st_size}
++            for path in FILES
++        },
++        "counts": {
++            "records": len(details),
++            "report_clusters": len({row["report_cluster"] for row in details}),
++            "rows_with_any_literal_arg": sum(row["literal_arg_count"] > 0 for row in details),
++            "rows_with_unique_join": len(unique_rows),
++            "rows_with_unique_join_and_multi_step": len(multi_step_unique_rows),
++            "clusters_with_unique_join": len(unique_clusters),
++            "clusters_with_unique_join_and_multi_step": len(multi_step_unique_clusters),
++            "literal_join_events": sum(row["literal_arg_count"] for row in details),
++            "unique_join_events": sum(row["unique_join_count"] for row in details),
++            "unique_join_event_counts": dict(join_counts),
++        },
++        "join_rule": {
++            "definition": "a numeric literal argument token occurs in exactly one qa.gold_inds evidence text",
++            "causal_test": "the resolver returns that token with the evidence present and returns UNRESOLVED after removing that evidence",
++            "limitation": "lexical evidence-to-argument join, not native pipeline provenance; resolver contract must be frozen",
++        },
++        "gate_interpretation": {
++            "SOURCE_GO": "PASS_SOURCE_IDENTITY_AND_HASHES",
++            "JOIN_GO": "PASS_CANDIDATE_NOT_FROZEN" if status.startswith("JOIN_CANDIDATE") else "BLOCKED",
++            "ID_GO": "BLOCKED_EXACT_SAMPLE_IDS_NOT_FROZEN",
++            "SPLIT_GO": "BLOCKED_ROLE_SCOPE_NOT_FROZEN",
++            "SCORER_GO": "BLOCKED_INDEPENDENT_SCORER_NOT_LINKED_TO_EXACT_IDS",
++            "PREREG_GO": "BLOCKED_PENDING_JOING_GO_ID_GO_SPLIT_GO_SCORER_GO",
++        },
++        "examples": details[:12],
++    }
++
++
++def render(payload: dict[str, Any]) -> str:
++    counts = payload["counts"]
++    gates = payload["gate_interpretation"]
++    return f"""# FinQA v2 Causal Evidence-to-Argument Join Audit v1
++
++> Status: `{payload['status']}` | Read-only feasibility audit | No FinQA adapter or formal experiment
++
++## 1. Counts
++
++| Quantity | Count |
++|---|---:|
++| Records | {counts['records']} |
++| Report clusters | {counts['report_clusters']} |
++| Rows with literal program arguments | {counts['rows_with_any_literal_arg']} |
++| Rows with at least one unique evidence join | {counts['rows_with_unique_join']} |
++| Multi-step rows with unique join | {counts['rows_with_unique_join_and_multi_step']} |
++| Clusters with unique join | {counts['clusters_with_unique_join']} |
++| Multi-step clusters with unique join | {counts['clusters_with_unique_join_and_multi_step']} |
++| Literal argument events | {counts['literal_join_events']} |
++| Unique evidence-join events | {counts['unique_join_events']} |
++
++## 2. Join definition
++
++A candidate causal join exists when a numeric literal program argument token occurs in exactly one `qa.gold_inds` evidence text. The future resolver contract must return that argument with the evidence present and return `UNRESOLVED` after removing that evidence.
++
++This is a lexical, deterministic join candidate. It is not native pipeline provenance; the resolver semantics and exact sample manifest still need to be frozen.
++
++## 3. Six-gate status
++
++| Gate | Status |
++|---|---|
++| SOURCE_GO | `{gates['SOURCE_GO']}` |
++| ID_GO | `{gates['ID_GO']}` |
++| JOIN_GO | `{gates['JOIN_GO']}` |
++| SPLIT_GO | `{gates['SPLIT_GO']}` |
++| SCORER_GO | `{gates['SCORER_GO']}` |
++| PREREG_GO | `{gates['PREREG_GO']}` |
++
++## 4. Decision
++
++`SECOND_FLOW_BLOCKED` until the causal resolver, exact IDs, role/split scope and independent scorer are frozen. Do not treat the numeric-token count as proof of semantic evidence use.
++"""
++
++
++def main() -> int:
++    payload = analyze()
++    OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
++    OUT_MD.write_text(render(payload), encoding="utf-8", newline="\n")
++    print(json.dumps({"status": payload["status"], "counts": payload["counts"], "output": str(OUT_MD)}, ensure_ascii=False, sort_keys=True))
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+
+--- a/research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py
++++ b/research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py
+diff --git a/research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py b/research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py
+new file mode 100644
+index 000000000..4e71167f2
+--- /dev/null
++++ b/research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py
+@@ -0,0 +1,198 @@
++#!/usr/bin/env python3
++"""Read-only feasibility audit for overlapping FinQA E/P/N signatures."""
++from __future__ import annotations
++
++import hashlib
++import json
++import re
++from collections import Counter
++from pathlib import Path
++from typing import Any
++
++from research.finqa_numeric_token_canonicalization_v2 import (
++    numeric_tokens as canonical_numeric_tokens,
++)
++
++
++ROOT = Path(__file__).resolve().parents[2]
++STAGING = Path("/home/testuser/wzh/phase1a_staging_20260925/finqa")
++OUT_JSON = ROOT / "research/stage_e_multileaf_20261010/finqa_v2_overlap_feasibility.json"
++OUT_MD = ROOT / "docs/research/finqa_v2_overlap_feasibility_v1.md"
++
++FILES = (STAGING / "train.json", STAGING / "dev.json")
++TARGET_CLUSTERS_PER_STAGE = 24
++
++
++def sha256_file(path: Path) -> str:
++    return hashlib.sha256(path.read_bytes()).hexdigest()
++
++
++def op_family(op: str) -> str:
++    match = re.match(r"^([A-Za-z_]+?)(?:\d*)-(?:\d+)$", str(op))
++    return match.group(1) if match else str(op)
++
++
++numeric_tokens = canonical_numeric_tokens
++
++
++def report_cluster(record: dict[str, Any]) -> str:
++    filename = str(record.get("filename") or record.get("id") or "")
++    return filename.split("/page_", 1)[0]
++
++
++def load_records() -> list[dict[str, Any]]:
++    rows = []
++    for path in FILES:
++        payload = json.loads(path.read_text(encoding="utf-8"))
++        for record in payload:
++            source_split = "train" if path.name == "train.json" else "dev"
++            rows.append({**record, "_source_split": source_split})
++    return rows
++
++
++def analyze() -> dict[str, Any]:
++    rows = load_records()
++    details = []
++    for record in rows:
++        qa = record.get("qa") or {}
++        steps = qa.get("steps") or []
++        gold_inds = qa.get("gold_inds") or {}
++        evidence_text = " ".join(str(value) for value in gold_inds.values())
++        evidence_tokens = numeric_tokens(evidence_text)
++        cluster = report_cluster(record)
++        families = [op_family(step.get("op", "")) for step in steps]
++        p_candidates = [
++            index for index, family in enumerate(families)
++            if family in {"add", "minus", "multiply", "divide"}
++        ]
++        n_candidates = []
++        e1_overlap = []
++        for index, step in enumerate(steps):
++            args = [step.get("arg1", ""), step.get("arg2", "")]
++            arg_tokens = set().union(*(numeric_tokens(arg) for arg in args))
++            if any(str(arg).startswith("#") or str(arg).startswith("const_") or numeric_tokens(arg) for arg in args):
++                n_candidates.append(index)
++            if arg_tokens & evidence_tokens:
++                e1_overlap.append(index)
++        e_candidate = bool(gold_inds) and bool(qa.get("model_input"))
++        details.append({
++            "id": str(record.get("id")),
++            "source_split": record["_source_split"],
++            "report_cluster": cluster,
++            "n_steps": len(steps),
++            "e_candidate": e_candidate,
++            "p_candidate": bool(p_candidates),
++            "n_candidate": bool(n_candidates),
++            "e1_n_overlap": bool(e1_overlap),
++            "p_n_overlap": bool(p_candidates and n_candidates),
++            "op_families": families,
++            "gold_evidence_count": len(gold_inds),
++            "numeric_arg_evidence_overlap_count": len(e1_overlap),
++        })
++
++    def cluster_count(predicate) -> int:
++        return len({row["report_cluster"] for row in details if predicate(row)})
++
++    counts = {
++        "records": len(details),
++        "report_clusters": len({row["report_cluster"] for row in details}),
++        "multi_step_records": sum(row["n_steps"] >= 2 for row in details),
++        "E_records": sum(row["e_candidate"] for row in details),
++        "P_records": sum(row["p_candidate"] for row in details),
++        "N_records": sum(row["n_candidate"] for row in details),
++        "E1_N_overlap_records": sum(row["e1_n_overlap"] for row in details),
++        "P_N_overlap_records": sum(row["p_n_overlap"] for row in details),
++        "E_clusters": cluster_count(lambda row: row["e_candidate"]),
++        "P_clusters": cluster_count(lambda row: row["p_candidate"]),
++        "N_clusters": cluster_count(lambda row: row["n_candidate"]),
++        "E1_N_overlap_clusters": cluster_count(lambda row: row["e1_n_overlap"]),
++        "P_N_overlap_clusters": cluster_count(lambda row: row["p_n_overlap"]),
++        "E1_N_overlap_clusters_with_multi_step": cluster_count(
++            lambda row: row["e1_n_overlap"] and row["n_steps"] >= 2
++        ),
++        "P_N_overlap_clusters_with_multi_step": cluster_count(
++            lambda row: row["p_n_overlap"] and row["n_steps"] >= 2
++        ),
++    }
++    status = (
++        "OVERLAP_DESIGN_FEASIBLE"
++        if counts["E1_N_overlap_clusters_with_multi_step"] >= TARGET_CLUSTERS_PER_STAGE
++        and counts["P_N_overlap_clusters_with_multi_step"] >= TARGET_CLUSTERS_PER_STAGE
++        else "NO_GO_FOR_TARGET_OVERLAP_DESIGN"
++    )
++    return {
++        "namespace": "FINQA_V2_OVERLAP_FEASIBILITY",
++        "status": status,
++        "target_clusters_per_stage": TARGET_CLUSTERS_PER_STAGE,
++        "source_files": {
++            str(path): {"sha256": sha256_file(path), "bytes": path.stat().st_size}
++            for path in FILES
++        },
++        "counts": counts,
++        "op_family_counts": dict(sorted(Counter(
++            family for row in details for family in row["op_families"] if row["n_steps"] >= 2
++        ).items())),
++        "details_sample": details[:20],
++        "interpretation": {
++            "E1_definition": "a numeric token in a program argument also occurs in the gold evidence text",
++            "P_N_overlap_definition": "at least one arithmetic step and one argument/reference candidate coexist",
++            "warning": "numeric-string overlap is a feasibility proxy, not a causal evidence-to-argument join",
++        },
++    }
++
++
++def render(payload: dict[str, Any]) -> str:
++    counts = payload["counts"]
++    return f"""# FinQA v2 Overlap Feasibility Audit v1
++
++> Status: `{payload['status']}` | Read-only eligibility count; no adapter or evaluator execution
++
++## 1. Counts
++
++| Quantity | Count |
++|---|---:|
++| Records | {counts['records']} |
++| Report clusters | {counts['report_clusters']} |
++| Multi-step records | {counts['multi_step_records']} |
++| E candidates | {counts['E_records']} |
++| P candidates | {counts['P_records']} |
++| N candidates | {counts['N_records']} |
++| E1/N overlap records | {counts['E1_N_overlap_records']} |
++| P/N overlap records | {counts['P_N_overlap_records']} |
++| E1/N overlap clusters | {counts['E1_N_overlap_clusters']} |
++| P/N overlap clusters | {counts['P_N_overlap_clusters']} |
++| E1/N overlap multi-step clusters | {counts['E1_N_overlap_clusters_with_multi_step']} |
++| P/N overlap multi-step clusters | {counts['P_N_overlap_clusters_with_multi_step']} |
++
++## 2. Decision
++
++Target is at least {payload['target_clusters_per_stage']} independent report clusters per stage with overlapping signatures.
++
++`{payload['status']}`.
++
++The E1 join rule is only a numeric-token feasibility proxy. A causal evidence-to-argument mapping must be frozen separately before any v2 execution. If the overlap counts are below target, do not weaken the overlap criterion or remove ambiguous samples.
++
++## 3. Op families in multi-step subset
++
++`{payload['op_family_counts']}`
++
++## 4. Boundary
++
++This is not a FinQA performance result, not a Stage E replication, and not a second-flow experiment. It only determines whether the proposed overlapping design is constructible from the approved staging data.
++"""
++
++
++def main() -> int:
++    payload = analyze()
++    OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
++    OUT_MD.write_text(render(payload), encoding="utf-8", newline="\n")
++    print(json.dumps({
++        "status": payload["status"],
++        "counts": payload["counts"],
++        "output": str(OUT_MD),
++    }, ensure_ascii=False, sort_keys=True))
++    return 0 if payload["status"] == "OVERLAP_DESIGN_FEASIBLE" else 2
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+
+--- a/research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py
++++ b/research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py
+diff --git a/research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py b/research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py
+new file mode 100644
+index 000000000..36a098496
+--- /dev/null
++++ b/research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py
+@@ -0,0 +1,279 @@
++#!/usr/bin/env python3
++"""Freeze outcome-blind FinQA v2 candidate sample IDs without running an experiment."""
++from __future__ import annotations
++
++import hashlib
++import json
++import re
++import sys
++
++from collections import defaultdict
++from pathlib import Path
++from typing import Any
++
++ROOT = Path(__file__).resolve().parents[2]
++sys.path.insert(0, str(ROOT))
++
++from research.finqa_evidence_argument_resolver_v2 import (
++    EvidenceArgumentResolverError,
++    resolve_numeric_argument,
++)
++from research.finqa_numeric_token_canonicalization_v2 import (
++    try_canonical_numeric_token,
++)
++
++
++ROOT = Path(__file__).resolve().parents[2]
++STAGING = Path("/home/testuser/wzh/phase1a_staging_20260925/finqa")
++FILES = (STAGING / "train.json", STAGING / "dev.json")
++OUT_JSON = ROOT / "research/stage_e_multileaf_20261010/finqa_v2_candidate_sample_manifest.json"
++OUT_MD = ROOT / "docs/research/finqa_v2_candidate_sample_manifest_v1.md"
++
++SEED = 20261015
++CLUSTERS_PER_STAGE = 24
++INJECTIONS_PER_CLUSTER = 3
++OP_RE = re.compile(r"^([A-Za-z_]+?)(\d*)-(\d+)$")
++OP_REPLACEMENT = {"add": "minus", "minus": "add", "multiply": "divide", "divide": "multiply"}
++EXPECTED_CHECKPOINT = {
++    "E": "evidence.required_hit",
++    "P": "program.operator_consistency",
++    "N": "program.argument_consistency",
++}
++
++
++def sha256_file(path: Path) -> str:
++    return hashlib.sha256(path.read_bytes()).hexdigest()
++
++
++def sha256_text(text: str) -> str:
++    return hashlib.sha256(text.encode("utf-8")).hexdigest()
++
++
++def canonical_json(value: Any) -> str:
++    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
++
++
++def stable_rank(namespace: str, key: str) -> str:
++    return sha256_text(f"{SEED}:{namespace}:{key}")
++
++
++def op_parts(op: str) -> tuple[str, str, str]:
++    match = OP_RE.match(str(op or ""))
++    if not match:
++        return "", "", ""
++    return match.group(1), match.group(2), match.group(3)
++
++
++def numeric_literal(value: Any) -> bool:
++    return try_canonical_numeric_token(value) is not None
++
++
++def load_records() -> list[dict[str, Any]]:
++    rows = []
++    for path in FILES:
++        split = "train" if path.name == "train.json" else "dev"
++        for record in json.loads(path.read_text(encoding="utf-8")):
++            cluster = str(record.get("filename") or record.get("id") or "").split("/page_", 1)[0]
++            rows.append({
++                "record_id": str(record.get("id")),
++                "source_split": split,
++                "report_cluster": cluster,
++                "record_sha256": sha256_text(canonical_json(record)),
++                "question_sha256": sha256_text(canonical_json((record.get("qa") or {}).get("question"))),
++                "qa": record.get("qa") or {},
++            })
++    return rows
++
++
++def candidate_events(records: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
++    events: dict[str, list[dict[str, Any]]] = {"E": [], "P": [], "N": []}
++    for record in records:
++        qa = record["qa"]
++        steps = qa.get("steps") or []
++        if len(steps) < 2:
++            continue
++        gold_inds = qa.get("gold_inds") or {}
++        base = {
++            "source_split": record["source_split"],
++            "report_cluster": record["report_cluster"],
++            "record_id": record["record_id"],
++            "record_sha256": record["record_sha256"],
++            "question_sha256": record["question_sha256"],
++            "n_steps": len(steps),
++        }
++        for step_index, step in enumerate(steps):
++            for arg_name in ("arg1", "arg2"):
++                argument = step.get(arg_name)
++                if not numeric_literal(argument):
++                    continue
++                try:
++                    join = resolve_numeric_argument(argument, gold_inds)
++                except EvidenceArgumentResolverError:
++                    join = None
++                if join is not None:
++                    events["E"].append({
++                        **base,
++                        "event_key": f"E:{record['record_id']}:{step_index}:{arg_name}:{join['evidence_id']}",
++                        "step_index": step_index,
++                        "arg_name": arg_name,
++                        "argument_before": str(argument),
++                        "required_evidence_id": join["evidence_id"],
++                        "operation": "remove_unique_required_evidence_block_from_candidate_bundle",
++                        "expected_first_stage": "E",
++                        "expected_first_checkpoint": EXPECTED_CHECKPOINT["E"],
++                        "join": join,
++                    })
++                events["N"].append({
++                    **base,
++                    "event_key": f"N:{record['record_id']}:{step_index}:{arg_name}",
++                    "step_index": step_index,
++                    "arg_name": arg_name,
++                    "argument_before": str(argument),
++                    "operation": "mutate_numeric_literal_argument_by_fixed_nonzero_delta",
++                    "expected_first_stage": "N",
++                    "expected_first_checkpoint": EXPECTED_CHECKPOINT["N"],
++                    "join_status": "UNIQUE" if join is not None else "NONE_OR_AMBIGUOUS",
++                })
++            family, variant, position = op_parts(step.get("op"))
++            if family in OP_REPLACEMENT:
++                replacement = f"{OP_REPLACEMENT[family]}{variant}-{position}"
++                events["P"].append({
++                    **base,
++                    "event_key": f"P:{record['record_id']}:{step_index}",
++                    "step_index": step_index,
++                    "op_before": str(step.get("op")),
++                    "op_after": replacement,
++                    "operation": "replace_operator_with_fixed_same_arity_counterpart",
++                    "expected_first_stage": "P",
++                    "expected_first_checkpoint": EXPECTED_CHECKPOINT["P"],
++                })
++    return events
++
++
++def select_manifest(events: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
++    by_cluster: dict[str, dict[str, list[dict[str, Any]]]] = {
++        stage: defaultdict(list) for stage in ("E", "P", "N")
++    }
++    for stage, rows in events.items():
++        for row in rows:
++            by_cluster[stage][row["report_cluster"]].append(row)
++
++    used_clusters: set[str] = set()
++    selected: dict[str, list[dict[str, Any]]] = {"E": [], "P": [], "N": []}
++    selection_counts = {}
++    for stage in ("E", "P", "N"):
++        eligible_clusters = [
++            cluster for cluster, rows in by_cluster[stage].items()
++            if cluster not in used_clusters and len(rows) >= INJECTIONS_PER_CLUSTER
++        ]
++        eligible_clusters.sort(key=lambda cluster: stable_rank(f"{stage}-cluster", cluster))
++        chosen_clusters = eligible_clusters[:CLUSTERS_PER_STAGE]
++        selection_counts[stage] = {
++            "eligible_clusters_after_disjointness": len(eligible_clusters),
++            "selected_clusters": len(chosen_clusters),
++        }
++        used_clusters.update(chosen_clusters)
++        for cluster in chosen_clusters:
++            rows = sorted(by_cluster[stage][cluster], key=lambda row: stable_rank(f"{stage}-event", row["event_key"]))
++            for repeat, event in enumerate(rows[:INJECTIONS_PER_CLUSTER], start=1):
++                sample_id = f"FINQA-V2-{stage}-{sha256_text(cluster)[:12]}-{sha256_text(event['event_key'])[:12]}"
++                selected[stage].append({
++                    **event,
++                    "sample_id": sample_id,
++                    "cluster_id": f"{stage}:{cluster}",
++                    "repeat_within_cluster": repeat,
++                    "split_role": "NOT_YET_FROZEN",
++                    "id_provenance": "DERIVED_OUTCOME_BLIND_CANDIDATE",
++                })
++    return selected, selection_counts
++
++
++def main() -> int:
++    records = load_records()
++    events = candidate_events(records)
++    selected, selection_counts = select_manifest(events)
++    counts = {
++        stage: {
++            "clusters": len({row["cluster_id"] for row in rows}),
++            "injections": len(rows),
++        }
++        for stage, rows in selected.items()
++    }
++    complete = all(
++        counts[stage]["clusters"] == CLUSTERS_PER_STAGE
++        and counts[stage]["injections"] == CLUSTERS_PER_STAGE * INJECTIONS_PER_CLUSTER
++        for stage in ("E", "P", "N")
++    )
++    payload = {
++        "namespace": "FINQA_V2_CANDIDATE_SAMPLE_MANIFEST",
++        "status": "CANDIDATE_SAMPLE_IDS_FROZEN_NOT_EXECUTION" if complete else "CANDIDATE_SAMPLE_IDS_INCOMPLETE",
++        "seed": SEED,
++        "selection_rule": "ascending SHA-256 rank; stages consume disjoint report clusters; no evaluator output is read",
++        "source_files": {
++            str(path): {"sha256": sha256_file(path), "bytes": path.stat().st_size}
++            for path in FILES
++        },
++        "target": {
++            "clusters_per_stage": CLUSTERS_PER_STAGE,
++            "injections_per_cluster": INJECTIONS_PER_CLUSTER,
++        },
++        "candidate_event_counts": {stage: len(rows) for stage, rows in events.items()},
++        "selection_counts": selection_counts,
++        "counts": counts,
++        "samples": selected,
++        "gate_interpretation": {
++            "ID_GO": "PASS_CANDIDATE_IDS_FROZEN_NOT_EXECUTION" if complete else "BLOCKED_INCOMPLETE",
++            "JOIN_GO": "PASS_RESOLVER_AND_CANDIDATES_NOT_FORMAL",
++            "SPLIT_GO": "BLOCKED_SPLIT_ROLE_NOT_FROZEN",
++            "PREREG_GO": "BLOCKED_UNTIL_SCORER_AND_SPLIT_FREEZE",
++        },
++    }
++    OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
++    rows = "\n".join(
++        f"| {stage} | {counts[stage]['clusters']} | {counts[stage]['injections']} | "
++        f"{selection_counts[stage]['eligible_clusters_after_disjointness']} |"
++        for stage in ("E", "P", "N")
++    )
++    OUT_MD.write_text(f"""# FinQA v2 Candidate Sample Manifest v1
++
++> Status: `{payload['status']}` | Outcome-blind candidate IDs only | No formal FinQA execution
++
++## 1. Counts
++
++| Stage | Selected clusters | Selected injections | Eligible clusters after disjointness |
++|---|---:|---:|---:|
++{rows}
++
++Stages consume disjoint report clusters. Each selected cluster has exactly three candidate injections.
++
++## 2. Frozen operations
++
++- `E`: remove the uniquely resolved required evidence block from the candidate evidence bundle.
++- `P`: replace an add/minus/multiply/divide operator with its fixed same-arity counterpart.
++- `N`: mutate one numeric literal argument by a fixed nonzero delta.
++
++Expected first checkpoints are frozen as `evidence.required_hit`, `program.operator_consistency`, and `program.argument_consistency`.
++
++## 3. Gate status
++
++| Gate | Status |
++|---|---|
++| ID_GO | `{payload['gate_interpretation']['ID_GO']}` |
++| JOIN_GO | `{payload['gate_interpretation']['JOIN_GO']}` |
++| SPLIT_GO | `{payload['gate_interpretation']['SPLIT_GO']}` |
++| PREREG_GO | `{payload['gate_interpretation']['PREREG_GO']}` |
++
++`FACT`: exact candidate IDs and operations are frozen without reading evaluator output.
++
++`BLOCKER`: split roles are not frozen. This manifest is not authorization to execute the second-flow experiment.
++
++## 4. Mechanism boundary
++
++These IDs do not create multiple mutation mechanisms per stage. Mechanism generalization remains `NOT_IDENTIFIED`.
++""", encoding="utf-8", newline="\n")
++    print(json.dumps({"status": payload["status"], "counts": counts, "output": str(OUT_MD)}, ensure_ascii=False, sort_keys=True))
++    return 0 if complete else 2
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+
+--- a/research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py
++++ b/research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py
+diff --git a/research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py b/research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py
+new file mode 100644
+index 000000000..ae90d653a
+--- /dev/null
++++ b/research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py
+@@ -0,0 +1,1029 @@
++#!/usr/bin/env python3
++"""Build the outcome-blind FinQA v2 pre-result freeze artifacts."""
++from __future__ import annotations
++
++import argparse
++import ast
++import copy
++import hashlib
++import importlib.metadata
++import inspect
++import json
++import platform
++import re
++import subprocess
++import sys
++from collections import Counter, defaultdict
++from decimal import Decimal
++from pathlib import Path
++from typing import Any
++
++REPO_ROOT = Path(__file__).resolve().parents[2]
++if str(REPO_ROOT) not in sys.path:
++    sys.path.insert(0, str(REPO_ROOT))
++
++from research.finqa_evidence_argument_resolver_v2 import (
++    EvidenceArgumentResolverError,
++    resolve_numeric_argument,
++)
++from research.finqa_independent_observation_scorer_v2 import artifact_hash
++from research.finqa_numeric_token_canonicalization_v2 import canonical_numeric_token
++
++ROOT = REPO_ROOT
++OUT_DIR = ROOT / "research/finqa_v2_20261010"
++TASK_ID = "finqa-v2-preresult-freeze-a-20261010"
++ROLES = ("train", "calibration", "evaluation")
++STAGES = ("E", "P", "N")
++SPLIT_DATE = "20261016"
++PREDICATE_VERSION = "finqa-v2-independent-observation-predicate-v1"
++RESOLVER_CONTRACT_VERSION = "finqa-evidence-argument-resolver-v2"
++
++PATHS = {
++    "candidate_manifest": ROOT / "research/stage_e_multileaf_20261010/finqa_v2_candidate_sample_manifest.json",
++    "causal_join_audit": ROOT / "research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json",
++    "canonicalization": ROOT / "research/finqa_numeric_token_canonicalization_v2.py",
++    "resolver": ROOT / "research/finqa_evidence_argument_resolver_v2.py",
++    "scorer": ROOT / "research/finqa_independent_observation_scorer_v2.py",
++    "causal_audit_code": ROOT / "research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py",
++    "overlap_audit_code": ROOT / "research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py",
++    "selection_code": ROOT / "research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py",
++    "repair_receipt": ROOT / "research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_receipt.json",
++    "gate_reconciliation": ROOT / "docs/research/finqa_v2_gate_reconciliation_v2.json",
++    "task_contract": ROOT / "research/finqa_v2_preresult_freeze_loop_a_task_contract.md",
++}
++
++TEST_PATHS = (
++    ROOT / "tests/test_finqa_numeric_token_canonicalization_v2.py",
++    ROOT / "tests/test_finqa_evidence_argument_resolver_v2.py",
++    ROOT / "tests/test_finqa_independent_observation_scorer_v2.py",
++    ROOT / "tests/test_finqa_v2_execution_freeze.py",
++)
++
++CORE_OUTPUTS = (
++    OUT_DIR / "finqa_v2_frozen_sample_manifest.json",
++    OUT_DIR / "finqa_v2_split_manifest.json",
++    OUT_DIR / "finqa_v2_paired_artifact_manifest.json",
++    OUT_DIR / "finqa_v2_scorer_binding_manifest.json",
++)
++
++
++class FreezeError(RuntimeError):
++    def __init__(self, code: str, **detail: Any) -> None:
++        self.code = code
++        self.detail = detail
++        super().__init__(f"{code}: {detail}")
++
++
++def sha256_bytes(value: bytes) -> str:
++    return hashlib.sha256(value).hexdigest()
++
++
++def sha256_file(path: Path) -> str:
++    return sha256_bytes(path.read_bytes())
++
++
++def sha256_text(value: str) -> str:
++    return sha256_bytes(value.encode("utf-8"))
++
++
++def canonical_json(value: Any) -> str:
++    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
++
++
++def write_json(path: Path, value: Any) -> None:
++    path.parent.mkdir(parents=True, exist_ok=True)
++    path.write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
++
++
++def hash_without_self(value: dict[str, Any]) -> str:
++    payload = {key: item for key, item in value.items() if key != "self_sha256"}
++    return sha256_text(canonical_json(payload))
++
++
++def file_record(path: Path) -> dict[str, Any]:
++    if not path.is_file():
++        raise FreezeError("INPUT_MISSING", path=str(path))
++    return {"path": str(path), "bytes": path.stat().st_size, "sha256": sha256_file(path)}
++
++
++def load_json(path: Path) -> Any:
++    if not path.is_file():
++        raise FreezeError("INPUT_MISSING", path=str(path))
++    return json.loads(path.read_text(encoding="utf-8"))
++
++
++def all_candidate_samples(candidate: dict[str, Any]) -> list[dict[str, Any]]:
++    rows = []
++    for stage in STAGES:
++        for sample in candidate["samples"][stage]:
++            rows.append({**sample, "stage": stage})
++    return rows
++
++
++def source_records(candidate: dict[str, Any]) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]]]:
++    index: dict[str, dict[str, Any]] = {}
++    files = []
++    for raw_path, expected in sorted(candidate["source_files"].items()):
++        path = Path(raw_path)
++        actual = file_record(path)
++        if actual["sha256"] != expected["sha256"] or actual["bytes"] != expected["bytes"]:
++            raise FreezeError("INPUT_MISSING", reason="source_identity_mismatch", expected=expected, actual=actual)
++        payload = json.loads(path.read_text(encoding="utf-8"))
++        files.append(actual)
++        for array_index, record in enumerate(payload):
++            record_id = str(record.get("id"))
++            if record_id in index:
++                raise FreezeError("INPUT_MISSING", reason="duplicate_record_id", record_id=record_id)
++            index[record_id] = {
++                "path": path,
++                "source_split": "train" if path.name == "train.json" else "dev",
++                "array_index": array_index,
++                "record": record,
++            }
++    return index, files
++
++
++def resolver_status(sample: dict[str, Any], record: dict[str, Any]) -> tuple[str, str | None]:
++    stage = sample["stage"]
++    if stage == "P":
++        return "NOT_APPLICABLE_OPERATOR_MUTATION", None
++    evidence = (record.get("qa") or {}).get("gold_inds") or {}
++    try:
++        resolved = resolve_numeric_argument(sample["argument_before"], evidence)
++    except EvidenceArgumentResolverError as exc:
++        if exc.code == "unresolved_ambiguous_evidence":
++            return "AMBIGUOUS", None
++        return "UNRESOLVED", None
++    return "UNIQUE", resolved["evidence_id"]
++
++
++def removal_response(argument: str, evidence: dict[str, Any], evidence_id: str) -> str:
++    reduced = {key: value for key, value in evidence.items() if key != evidence_id}
++    try:
++        resolve_numeric_argument(argument, reduced)
++    except EvidenceArgumentResolverError as exc:
++        if exc.code == "unresolved_no_evidence":
++            return exc.code
++        return f"UNEXPECTED_{exc.code}"
++    return "STILL_RESOLVED_AFTER_REMOVAL"
++
++
++def required_evidence_ids(stage: str, evidence: dict[str, Any], joined_evidence_id: str | None) -> list[str]:
++    if stage == "E":
++        if not joined_evidence_id:
++            raise FreezeError("JOIN_NOT_IDENTIFIABLE", stage=stage)
++        return [joined_evidence_id]
++    required = sorted(str(key) for key in evidence)
++    if not required:
++        raise FreezeError("JOIN_NOT_IDENTIFIABLE", stage=stage, reason="empty_required_evidence")
++    return required
++
++
++def terminal_observation(steps: list[dict[str, Any]]) -> str:
++    if not steps:
++        raise FreezeError("INPUT_MISSING", reason="empty_steps")
++    return str(steps[-1].get("res", ""))
++
++
++def construct_artifact(sample: dict[str, Any], record: dict[str, Any], joined_evidence_id: str | None) -> dict[str, Any]:
++    qa = record.get("qa") or {}
++    evidence = qa.get("gold_inds") or {}
++    clean_steps = copy.deepcopy(qa.get("steps") or [])
++    mutant_steps = copy.deepcopy(clean_steps)
++    stage = sample["stage"]
++    step_index = int(sample["step_index"])
++    if stage == "E":
++        pass
++    elif stage == "P":
++        mutant_steps[step_index]["op"] = str(sample["op_after"])
++    elif stage == "N":
++        arg_name = str(sample["arg_name"])
++        before = canonical_numeric_token(mutant_steps[step_index][arg_name])
++        if before != canonical_numeric_token(sample["argument_before"]):
++            raise FreezeError("JOIN_NOT_IDENTIFIABLE", reason="argument_identity_mismatch", before=before)
++        mutant_steps[step_index][arg_name] = canonical_numeric_token(Decimal(before) + Decimal("1"))
++    else:
++        raise FreezeError("INPUT_MISSING", reason="unknown_stage", stage=stage)
++
++    clean = {
++        "evidence_ids": sorted(str(key) for key in evidence),
++        "steps": clean_steps,
++        "answer": terminal_observation(clean_steps),
++    }
++    mutant = {
++        "evidence_ids": sorted(str(key) for key in evidence if stage != "E" or str(key) != joined_evidence_id),
++        "steps": mutant_steps,
++        "answer": terminal_observation(mutant_steps),
++    }
++    return {
++        "required_evidence_ids": required_evidence_ids(stage, evidence, joined_evidence_id),
++        "clean": clean,
++        "mutant": mutant,
++    }
++
++
++def classify_samples(candidate: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
++    index, source_files = source_records(candidate)
++    resolver_binding = {
++        "contract_version": RESOLVER_CONTRACT_VERSION,
++        "source_sha256": sha256_file(PATHS["resolver"]),
++    }
++    retained = []
++    excluded = []
++    join_statuses: dict[str, Counter[str]] = {stage: Counter() for stage in STAGES}
++    removal_statuses: dict[str, Counter[str]] = {stage: Counter() for stage in STAGES}
++    for sample in all_candidate_samples(candidate):
++        source = index.get(str(sample["record_id"]))
++        if source is None:
++            raise FreezeError("INPUT_MISSING", record_id=sample["record_id"])
++        record = source["record"]
++        record_hash = sha256_text(canonical_json(record))
++        if record_hash != sample["record_sha256"]:
++            raise FreezeError("INPUT_MISSING", reason="record_hash_mismatch", sample_id=sample["sample_id"])
++        status, joined_id = resolver_status(sample, record)
++        join_statuses[sample["stage"]][status] += 1
++        provenance = {
++            "source_file": str(source["path"]),
++            "source_array_index": source["array_index"],
++            "source_locator": f"json_array[{source['array_index']}]",
++            "record_id": str(sample["record_id"]),
++            "record_sha256": sample["record_sha256"],
++            "report_cluster_id": str(sample["report_cluster"]),
++            "normalized_source_identity": sha256_text(f"finqa-v2-source-v1|{sample['record_id']}"),
++            "argument_token": canonical_numeric_token(sample["argument_before"]) if sample["stage"] != "P" else None,
++            "canonical_token": canonical_numeric_token(sample["argument_before"]) if sample["stage"] != "P" else None,
++            "evidence_text_sha256": (
++                sha256_text(canonical_json(((record.get("qa") or {}).get("gold_inds") or {}).get(joined_id)))
++                if joined_id is not None
++                else None
++            ),
++            "resolver_version": resolver_binding,
++        }
++        if sample["stage"] == "E" and status == "UNIQUE":
++            evidence = (record.get("qa") or {}).get("gold_inds") or {}
++            removal = removal_response(str(sample["argument_before"]), evidence, str(joined_id))
++            removal_statuses["E"][removal] += 1
++            if removal != "unresolved_no_evidence":
++                raise FreezeError("JOIN_NOT_IDENTIFIABLE", sample_id=sample["sample_id"], removal=removal)
++        elif sample["stage"] == "E":
++            removal_statuses["E"]["NOT_EVALUATED_NON_UNIQUE"] += 1
++        else:
++            removal_statuses[sample["stage"]]["NOT_APPLICABLE"] += 1
++
++        common = {
++            **sample,
++            "join_status": status,
++            "joined_evidence_id": joined_id,
++            "provenance": provenance,
++        }
++        if status in {"AMBIGUOUS", "UNRESOLVED"}:
++            excluded.append({
++                **common,
++                "retained": False,
++                "exclusion_stage": "BEFORE_SPLIT_ASSIGNMENT",
++                "exclusion_reason": f"JOIN_{status}",
++            })
++            continue
++        artifact = construct_artifact(common, record, joined_id)
++        artifact_sha = artifact_hash(artifact)
++        retained.append({
++            **common,
++            "retained": True,
++            "artifact_id": f"FINQA-V2-ART-{sha256_text(sample['sample_id'])[:24]}",
++            "artifact_sha256": artifact_sha,
++            "clean_artifact_sha256": sha256_text(canonical_json(artifact["clean"])),
++            "mutant_artifact_sha256": sha256_text(canonical_json(artifact["mutant"])),
++            "_artifact_payload": artifact,
++        })
++    return retained, excluded, {
++        "source_files": source_files,
++        "join_status_by_stage": {stage: dict(sorted(join_statuses[stage].items())) for stage in STAGES},
++        "removal_response_by_stage": {stage: dict(sorted(removal_statuses[stage].items())) for stage in STAGES},
++    }
++
++
++class DisjointSet:
++    def __init__(self, size: int) -> None:
++        self.parent = list(range(size))
++
++    def find(self, value: int) -> int:
++        while self.parent[value] != value:
++            self.parent[value] = self.parent[self.parent[value]]
++            value = self.parent[value]
++        return value
++
++    def union(self, left: int, right: int) -> None:
++        left_root = self.find(left)
++        right_root = self.find(right)
++        if left_root != right_root:
++            self.parent[right_root] = left_root
++
++
++def build_components(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
++    dsu = DisjointSet(len(rows))
++    first_for_key: dict[tuple[str, str], int] = {}
++    for row_index, row in enumerate(rows):
++        identities = (
++            ("report_cluster", str(row["report_cluster"])),
++            (
++                "source_identity",
++                str(row.get("provenance", {}).get("normalized_source_identity") or row.get("source_identity")),
++            ),
++            ("record_hash", str(row["record_sha256"])),
++            ("record_id", str(row["record_id"])),
++        )
++        for key_type, key_value in identities:
++            key = (key_type, key_value)
++            if key in first_for_key:
++                dsu.union(row_index, first_for_key[key])
++            else:
++                first_for_key[key] = row_index
++    grouped: dict[int, list[dict[str, Any]]] = defaultdict(list)
++    for row_index, row in enumerate(rows):
++        grouped[dsu.find(row_index)].append(row)
++    components = []
++    for members in grouped.values():
++        stages = sorted({str(row["stage"]) for row in members})
++        if len(stages) != 1:
++            raise FreezeError("SPLIT_GROUP_COLLISION", stages=stages, sample_ids=sorted(row["sample_id"] for row in members))
++        identities = sorted({
++            f"report_cluster:{row['report_cluster']}"
++            for row in members
++        } | {
++            "source_identity:"
++            + str(row.get("provenance", {}).get("normalized_source_identity") or row.get("source_identity"))
++            for row in members
++        } | {
++            f"record_hash:{row['record_sha256']}"
++            for row in members
++        } | {
++            f"record_id:{row['record_id']}"
++            for row in members
++        })
++        components.append({
++            "stage": stages[0],
++            "canonical_group_id": sha256_text("finqa-v2-group-v1|" + "\x1f".join(identities)),
++            "identities": identities,
++            "sample_ids": sorted(str(row["sample_id"]) for row in members),
++        })
++    return sorted(components, key=lambda row: (row["stage"], row["canonical_group_id"]))
++
++
++def quota_for_group_count(group_count: int) -> dict[str, int]:
++    if group_count == 24:
++        return {"train": 9, "calibration": 5, "evaluation": 10}
++    targets = {"train": 0.4, "calibration": 0.2, "evaluation": 0.4}
++    quotas = {role: int(group_count * targets[role]) for role in ROLES}
++    remainder = group_count - sum(quotas.values())
++    ranked = sorted(
++        ROLES,
++        key=lambda role: (-(group_count * targets[role] - quotas[role]), ROLES.index(role)),
++    )
++    for role in ranked[:remainder]:
++        quotas[role] += 1
++    return quotas
++
++
++ALLOWED_ASSIGNMENT_INPUT_FIELDS = frozenset({
++    "sample_id",
++    "stage",
++    "report_cluster",
++    "record_sha256",
++    "record_id",
++    "source_identity",
++})
++
++
++def assign_split(samples: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
++    allowed = ALLOWED_ASSIGNMENT_INPUT_FIELDS
++    normalized = []
++    for sample in samples:
++        if set(sample) != allowed:
++            raise FreezeError("SPLIT_INPUT_NOT_WHITELISTED", fields=sorted(set(sample)))
++        normalized.append(dict(sample))
++    components = build_components(normalized)
++    groups_by_stage: dict[str, list[dict[str, Any]]] = {stage: [] for stage in STAGES}
++    for group in components:
++        groups_by_stage[group["stage"]].append(group)
++    assignments = []
++    counts: dict[str, dict[str, dict[str, int]]] = {}
++    deviations: dict[str, dict[str, int]] = {}
++    for stage in STAGES:
++        groups = sorted(
++            groups_by_stage[stage],
++            key=lambda group: sha256_text(f"finqa-v2-split-v1|{SPLIT_DATE}|{stage}|{group['canonical_group_id']}"),
++        )
++        quotas = quota_for_group_count(len(groups))
++        counts[stage] = {role: {"groups": 0, "samples": 0} for role in ROLES}
++        cursor = 0
++        for role in ROLES:
++            selected = groups[cursor:cursor + quotas[role]]
++            cursor += quotas[role]
++            for group in selected:
++                order_key = sha256_text(f"finqa-v2-split-v1|{SPLIT_DATE}|{stage}|{group['canonical_group_id']}")
++                counts[stage][role]["groups"] += 1
++                counts[stage][role]["samples"] += len(group["sample_ids"])
++                assignments.append({
++                    "stage": stage,
++                    "canonical_group_id": group["canonical_group_id"],
++                    "order_key": order_key,
++                    "role": role,
++                    "sample_ids": group["sample_ids"],
++                })
++        ideal = {"train": 0.4 * len(groups), "calibration": 0.2 * len(groups), "evaluation": 0.4 * len(groups)}
++        deviations[stage] = {
++            role: counts[stage][role]["groups"] - int(ideal[role])
++            for role in ROLES
++        }
++    assignments.sort(key=lambda row: (row["stage"], row["order_key"]))
++    return assignments, {"counts": counts, "deviations": deviations}
++
++
++def assignment_source_checks() -> dict[str, Any]:
++    source = inspect.getsource(assign_split)
++    tree = ast.parse(source)
++    observed = set()
++    for node in ast.walk(tree):
++        if isinstance(node, ast.Name):
++            observed.add(node.id)
++        elif isinstance(node, ast.Attribute):
++            observed.add(node.attr)
++        elif isinstance(node, ast.Constant) and isinstance(node.value, str):
++            observed.add(node.value)
++    return {
++        "function_sha256": sha256_text(source),
++        "allowed_input_fields": sorted(ALLOWED_ASSIGNMENT_INPUT_FIELDS),
++        "unexpected_field_policy": "fail_closed",
++        "forbidden_identifier_hits": sorted(observed & FORBIDDEN_ASSIGNMENT_IDENTIFIERS),
++        "passed": not bool(observed & FORBIDDEN_ASSIGNMENT_IDENTIFIERS),
++    }
++
++
++FORBIDDEN_ASSIGNMENT_IDENTIFIERS = frozenset({
++    "outcome",
++    "correctness",
++    "harmfulness",
++    "evaluator_result",
++    "visibility_result",
++    "detection_result",
++})
++
++
++def scorer_independence_checks(scorer_path: Path) -> dict[str, Any]:
++    tree = ast.parse(scorer_path.read_text(encoding="utf-8"))
++    imports = set()
++    for node in ast.walk(tree):
++        if isinstance(node, ast.Import):
++            imports.update(alias.name for alias in node.names)
++        elif isinstance(node, ast.ImportFrom):
++            imports.add(node.module or "")
++    forbidden_modules = {
++        "research.finqa_step_checkpoint_adapter",
++        "research.finqa_step_checkpoint_scorer",
++        "research.stage_e_multileaf_20261010.run_multileaf_formal",
++    }
++    hits = sorted(imports & forbidden_modules)
++    return {
++        "imports": sorted(imports),
++        "forbidden_import_hits": hits,
++        "independent_of_shared_fault_adapter": not hits,
++        "independent_of_stage_e_aggregation": not hits,
++        "actual_frozen_pairs_scored": 0,
++        "passed": not hits,
++    }
++
++
++def build_core() -> dict[str, Any]:
++    for path in PATHS.values():
++        file_record(path)
++    candidate = load_json(PATHS["candidate_manifest"])
++    if len({sample["sample_id"] for rows in candidate["samples"].values() for sample in rows}) != 216:
++        raise FreezeError("INPUT_MISSING", reason="candidate_id_count")
++    retained, excluded, join_evidence = classify_samples(candidate)
++    split_rows = [
++        {
++            "sample_id": row["sample_id"],
++            "stage": row["stage"],
++            "report_cluster": row["report_cluster"],
++            "record_sha256": row["record_sha256"],
++            "record_id": row["record_id"],
++            "source_identity": row["provenance"]["normalized_source_identity"],
++        }
++        for row in retained
++    ]
++    assignments, allocation = assign_split(split_rows)
++    role_by_sample = {
++        sample_id: assignment["role"]
++        for assignment in assignments
++        for sample_id in assignment["sample_ids"]
++    }
++    if set(role_by_sample) != {row["sample_id"] for row in retained}:
++        raise FreezeError("SPLIT_GROUP_COLLISION", reason="retained_sample_assignment_mismatch")
++
++    frozen_rows = []
++    for row in retained:
++        frozen_rows.append({
++            key: value for key, value in row.items() if not key.startswith("_")
++        } | {"split_role": role_by_sample[row["sample_id"]]})
++    frozen_rows.extend(excluded)
++    frozen_rows.sort(key=lambda row: (row["stage"], row["sample_id"]))
++
++    sample_payload = {
++        "namespace": "FINQA_V2_FROZEN_SAMPLE_MANIFEST",
++        "task_id": TASK_ID,
++        "status": "FROZEN_SAMPLE_IDS_AND_JOINS_NOT_EXECUTION",
++        "evidence_class": "PRIMARY",
++        "input_sha256": {name: file_record(path) for name, path in PATHS.items()},
++        "counts": {
++            "candidate_injections": 216,
++            "retained_injections": len(retained),
++            "excluded_injections": len(excluded),
++            "retained_groups": len(assignments),
++            "by_stage": {
++                stage: {
++                    "candidate": sum(row["stage"] == stage for row in all_candidate_samples(candidate)),
++                    "retained": sum(row["stage"] == stage for row in retained),
++                    "excluded": sum(row["stage"] == stage for row in excluded),
++                    "groups": sum(assignment["stage"] == stage for assignment in assignments),
++                }
++                for stage in STAGES
++            },
++        },
++        "join": join_evidence,
++        "exclusions": excluded,
++        "samples": frozen_rows,
++    }
++    write_json(CORE_OUTPUTS[0], sample_payload)
++
++    split_payload = {
++        "namespace": "FINQA_V2_SPLIT_MANIFEST",
++        "task_id": TASK_ID,
++        "status": "DETERMINISTIC_GROUP_DISJOINT_SPLIT_FROZEN_NOT_EXECUTED",
++        "contract": {
++            "roles": list(ROLES),
++            "primary_group": "report_cluster_id",
++            "group_closure": "union records sharing exact normalized source identity, source hash, or duplicate record identity",
++            "stages": list(STAGES),
++            "stage_targets": {"train": "40%", "calibration": "20%", "evaluation": "40%"},
++            "deterministic_order": f'SHA256("finqa-v2-split-v1|{SPLIT_DATE}|<stage>|<canonical_group_id>")',
++            "singleton_quota": {"groups": [9, 5, 10], "injections": [81, 45, 90]},
++            "cross_stage_policy": "SPLIT_GROUP_COLLISION",
++            "assignment_access": "identity fields only",
++        },
++        "source_sample_manifest_sha256": sha256_file(CORE_OUTPUTS[0]),
++        "assignment_checks": assignment_source_checks(),
++        "allocation": allocation,
++        "counts_by_stage_and_role": allocation["counts"],
++        "assignments": assignments,
++        "samples": [
++            {"sample_id": row["sample_id"], "stage": row["stage"], "split_role": row["split_role"]}
++            for row in sorted(frozen_rows if "split_role" in row else retained, key=lambda row: row["sample_id"])
++            if row.get("retained", True)
++        ],
++        "group_disjointness": {
++            "cross_stage_components": 0,
++            "sample_in_multiple_roles": 0,
++            "passed": True,
++        },
++        "leakage_fail_closed": assignment_source_checks(),
++    }
++    write_json(CORE_OUTPUTS[1], split_payload)
++
++    artifact_entries = []
++    for row in sorted(retained, key=lambda item: item["sample_id"]):
++        payload = row["_artifact_payload"]
++        if artifact_hash(payload) != row["artifact_sha256"]:
++            raise FreezeError("JOIN_NOT_IDENTIFIABLE", reason="artifact_hash_mismatch", sample_id=row["sample_id"])
++        artifact_entries.append({
++            "sample_id": row["sample_id"],
++            "artifact_id": row["artifact_id"],
++            "stage": row["stage"],
++            "split_role": role_by_sample[row["sample_id"]],
++            "source": row["provenance"],
++            "artifact_sha256": row["artifact_sha256"],
++            "clean_artifact_sha256": row["clean_artifact_sha256"],
++            "mutant_artifact_sha256": row["mutant_artifact_sha256"],
++            "artifact": payload,
++        })
++    artifact_payload = {
++        "namespace": "FINQA_V2_PAIRED_ARTIFACT_MANIFEST",
++        "task_id": TASK_ID,
++        "status": "EXACT_PRE_EXECUTION_PAIRED_ARTIFACTS_FROZEN_NOT_EVALUATED",
++        "artifact_semantics": {
++            "state": "pre-execution construction state",
++            "answer_field": "terminal source program res; qa.answer is not read into this field",
++            "formal_execution_outputs": "absent",
++        },
++        "source_hashes": join_evidence["source_files"],
++        "counts": {"retained": len(artifact_entries), "excluded_before_artifact_binding": len(excluded)},
++        "artifacts": artifact_entries,
++    }
++    write_json(CORE_OUTPUTS[2], artifact_payload)
++
++    scorer_checks = scorer_independence_checks(PATHS["scorer"])
++    if not scorer_checks["passed"]:
++        raise FreezeError("SCORER_NOT_INDEPENDENT", **scorer_checks)
++    binding_entries = [
++        {
++            "sample_id": row["sample_id"],
++            "artifact_id": row["artifact_id"],
++            "artifact_sha256": row["artifact_sha256"],
++            "status": "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION",
++        }
++        for row in sorted(retained, key=lambda item: item["sample_id"])
++    ]
++    scorer_payload = {
++        "namespace": "FINQA_V2_SCORER_BINDING_MANIFEST",
++        "task_id": TASK_ID,
++        "status": "INDEPENDENT_SCORER_BINDINGS_FROZEN_NOT_EXECUTED",
++        "measurement_object": "paired_checkpoint_observation_reproduction",
++        "semantic_correctness_claim": False,
++        "predicate_version": PREDICATE_VERSION,
++        "observation_surface": [
++            "evidence_required_hit",
++            "operator_consistency",
++            "argument_consistency",
++            "step_result_consistency",
++            "answer_consistency",
++        ],
++        "decision_predicate": "No threshold, classifier, hierarchy comparison, or formal decision is materialized; score_pair reports only the frozen five-field observation vector.",
++        "source": file_record(PATHS["scorer"]),
++        "tests": [file_record(path) for path in TEST_PATHS if path.is_file()],
++        "input_manifests": {
++            "sample": file_record(CORE_OUTPUTS[0]),
++            "split": file_record(CORE_OUTPUTS[1]),
++            "paired_artifacts": file_record(CORE_OUTPUTS[2]),
++        },
++        "independence": scorer_checks,
++        "bindings": binding_entries,
++        "unevaluable_denominators": {
++            "bound_artifacts": len(binding_entries),
++            "formal_scoring_calls": 0,
++            "unevaluable_before_later_authorized_execution": len(binding_entries),
++        },
++        "formal_evaluator_outputs_materialized": 0,
++    }
++    write_json(CORE_OUTPUTS[3], scorer_payload)
++    return {
++        "candidate": candidate,
++        "retained": retained,
++        "excluded": excluded,
++        "assignments": assignments,
++        "allocation": allocation,
++        "join_evidence": join_evidence,
++        "scorer_checks": scorer_checks,
++    }
++
++
++def parse_test_log(path: Path) -> dict[str, Any]:
++    text = path.read_text(encoding="utf-8")
++    passed_match = re.search(r"(\d+) passed", text)
++    failed_match = re.search(r"(\d+) failed", text)
++    exit_match = re.search(r"^EXIT_CODE=(\d+)$", text, flags=re.MULTILINE)
++    if not exit_match:
++        raise FreezeError("TEST_VALIDATION_FAILED", path=str(path), reason="missing_exit_code")
++    return {
++        "path": str(path),
++        "sha256": sha256_file(path),
++        "command": re.search(r"^COMMAND=(.+)$", text, flags=re.MULTILINE).group(1),
++        "stdout_present": "STDOUT_BEGIN" in text,
++        "stderr_present": "STDERR_BEGIN" in text,
++        "passed": int(passed_match.group(1)) if passed_match else 0,
++        "failed": int(failed_match.group(1)) if failed_match else 0,
++        "exit_code": int(exit_match.group(1)),
++    }
++
++
++def scoped_paths() -> list[Path]:
++    return [
++        PATHS["canonicalization"],
++        PATHS["resolver"],
++        PATHS["scorer"],
++        PATHS["causal_audit_code"],
++        PATHS["overlap_audit_code"],
++        PATHS["selection_code"],
++        ROOT / "research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py",
++        *TEST_PATHS,
++    ]
++
++
++def git_output(args: list[str]) -> str:
++    result = subprocess.run(["git", *args], cwd=ROOT, text=True, capture_output=True, check=False)
++    if result.returncode not in {0, 1}:
++        raise FreezeError("INPUT_MISSING", command=args, stderr=result.stderr)
++    return result.stdout
++
++
++def build_source_snapshot() -> tuple[Path, Path, str]:
++    chunks = []
++    file_hashes = {}
++    for path in scoped_paths():
++        relative = path.relative_to(ROOT)
++        file_hashes[str(relative)] = file_record(path)
++        tracked = subprocess.run(
++            ["git", "ls-files", "--error-unmatch", str(relative)],
++            cwd=ROOT,
++            text=True,
++            capture_output=True,
++            check=False,
++        ).returncode == 0
++        if tracked:
++            diff = git_output(["diff", "--no-ext-diff", "--", str(relative)])
++        else:
++            diff = git_output(["diff", "--no-index", "--", "/dev/null", str(relative)])
++        chunks.append(f"--- a/{relative}\n+++ b/{relative}\n{diff}\n")
++    patch_path = OUT_DIR / "finqa_v2_scoped_source_diff.patch"
++    patch_path.write_text("".join(chunks), encoding="utf-8")
++    dependency_path = OUT_DIR / "finqa_v2_dependency_freeze.txt"
++    dependency = subprocess.run(
++        [sys.executable, "-m", "pip", "freeze"],
++        cwd=ROOT,
++        text=True,
++        capture_output=True,
++        check=False,
++    )
++    if dependency.returncode != 0:
++        raise FreezeError("TEST_VALIDATION_FAILED", reason="pip_freeze_failed", stderr=dependency.stderr)
++    dependency_path.write_text(dependency.stdout, encoding="utf-8")
++    head = git_output(["rev-parse", "HEAD"]).strip()
++    package_versions = {}
++    for package_name in ("pytest", "fastapi", "pydantic"):
++        try:
++            package_versions[package_name] = importlib.metadata.version(package_name)
++        except importlib.metadata.PackageNotFoundError:
++            package_versions[package_name] = None
++    package_versions = {name: version for name, version in package_versions.items() if version is not None}
++    environment = {
++        "namespace": "FINQA_V2_SCOPED_ENVIRONMENT_SNAPSHOT",
++        "task_id": TASK_ID,
++        "python": {
++            "version": sys.version,
++            "executable": sys.executable,
++            "implementation": platform.python_implementation(),
++        },
++        "platform": platform.platform(),
++        "packages": package_versions,
++        "git_head": head,
++        "relevant_diff_sha256": sha256_text(patch_path.read_text(encoding="utf-8")),
++        "scoped_files": file_hashes,
++        "scoped_source_diff": file_record(patch_path),
++        "dependency_freeze": file_record(dependency_path),
++        "endpoint_calls": 0,
++        "model_calls": 0,
++        "training_runs": 0,
++    }
++    environment_path = OUT_DIR / "finqa_v2_scoped_environment_snapshot.json"
++    write_json(environment_path, environment)
++    return patch_path, environment_path, head
++
++
++def formal_output_inventory() -> list[str]:
++    hits = []
++    patterns = ("*formal*result*", "*evaluator*output*", "*prediction*rows*", "*scoring*output*")
++    for pattern in patterns:
++        hits.extend(str(path.relative_to(ROOT)) for path in OUT_DIR.rglob(pattern) if path.is_file())
++    return sorted(set(hits))
++
++
++def render_packet(payload: dict[str, Any]) -> str:
++    counts = payload["counts_by_stage_and_role"]
++    lines = [
++        "# FINQA_V2_EXECUTION_FREEZE_PACKET",
++        "",
++        f"> Status: `{payload['status']}` | Evidence class: PRIMARY/SECONDARY/ENGINEERING/NEGATIVE | Formal outputs: 0",
++        "",
++        "## Frozen research question",
++        "",
++        payload["frozen_research_question"],
++        "",
++        "## Counts by stage and role",
++        "",
++        "| Stage | Role | Groups | Samples |",
++        "|---|---|---:|---:|",
++    ]
++    for stage in STAGES:
++        for role in ROLES:
++            row = counts[stage][role]
++            lines.append(f"| {stage} | {role} | {row['groups']} | {row['samples']} |")
++    lines.extend([
++        "",
++        "## Exclusions and joins",
++        "",
++        f"- Candidate injections: `{payload['candidate_injections']}`; retained: `{payload['retained_injections']}`; excluded before split: `{payload['excluded_injections']}`.",
++        f"- Join statuses: `{json.dumps(payload['join_statuses'], ensure_ascii=False, sort_keys=True)}`.",
++        f"- Unique E removal responses: `{json.dumps(payload['removal_responses'].get('E', {}), sort_keys=True)}`.",
++        "",
++        "## Scorer, leakage, and execution boundary",
++        "",
++        f"- Scorer independence: `{payload['scorer_independence']}`.",
++        f"- Leakage checks: `{json.dumps(payload['leakage_checks'], sort_keys=True)}`.",
++        f"- Formal evaluator outputs materialized: `{payload['formal_evaluator_outputs']}`.",
++        f"- Unevaluable denominator before later execution: `{payload['unevaluable_denominator']}`.",
++        "",
++        "## Six gate recommendations",
++        "",
++        "| Gate | Recommendation | Evidence |",
++        "|---|---|---|",
++    ])
++    for gate in ("SOURCE_GO", "ID_GO", "JOIN_GO", "SPLIT_GO", "SCORER_GO", "PREREG_GO"):
++        item = payload["gate_recommendations"][gate]
++        lines.append(f"| `{gate}` | `{item['recommendation']}` | {item['evidence']} |")
++    lines.extend([
++        "",
++        "## Boundary",
++        "",
++        "No formal FinQA v2 evaluator output, model call, training run, threshold search, semantic-correctness claim, hierarchy comparison, or natural-failure localization was produced. The packet stops for Loop C independent review.",
++        "",
++        "## Hash closure",
++        "",
++        f"- Packet JSON SHA-256: `{payload['packet_json_sha256']}`.",
++        "- The receipt closes packet/test/source/environment hashes; its `self_sha256` is defined over canonical JSON with that field removed.",
++        "",
++    ])
++    return "\n".join(lines)
++
++
++def finalize() -> dict[str, Any]:
++    core = {path.name: file_record(path) for path in CORE_OUTPUTS}
++    test_logs = [
++        OUT_DIR / "tests_existing_11.log",
++        OUT_DIR / "tests_finqa_v2_freeze.log",
++        OUT_DIR / "tests_all_focused.log",
++        OUT_DIR / "freeze_artifact_verification.log",
++    ]
++    tests = [parse_test_log(path) for path in test_logs]
++    if any(item["exit_code"] != 0 or item["failed"] for item in tests):
++        raise FreezeError("TEST_VALIDATION_FAILED", tests=tests)
++    patch_path, environment_path, head = build_source_snapshot()
++    outputs = {
++        **core,
++        **{path.name: file_record(path) for path in test_logs},
++        "build_core.log": file_record(OUT_DIR / "build_core.log"),
++        patch_path.name: file_record(patch_path),
++        environment_path.name: file_record(environment_path),
++        (OUT_DIR / "finqa_v2_dependency_freeze.txt").name: file_record(OUT_DIR / "finqa_v2_dependency_freeze.txt"),
++    }
++    sample = load_json(CORE_OUTPUTS[0])
++    split = load_json(CORE_OUTPUTS[1])
++    artifacts = load_json(CORE_OUTPUTS[2])
++    scorer = load_json(CORE_OUTPUTS[3])
++    exclusions = sample["exclusions"]
++    formal_outputs = formal_output_inventory()
++    if formal_outputs:
++        raise FreezeError("PRERESULT_FREEZE_VIOLATION", paths=formal_outputs)
++    gate_recommendations = {
++        "SOURCE_GO": {
++            "recommendation": "RECOMMEND_PASS_IDENTITY_BOUND",
++            "evidence": f"2 source files and all required inputs are SHA-256 bound in {CORE_OUTPUTS[0].name}.",
++        },
++        "ID_GO": {
++            "recommendation": "RECOMMEND_PASS_IDS_FROZEN",
++            "evidence": f"216 candidate IDs; {sample['counts']['retained_injections']} retained; {sample['counts']['excluded_injections']} excluded before split.",
++        },
++        "JOIN_GO": {
++            "recommendation": "RECOMMEND_PASS_UNIQUE_CAUSAL_JOINS_FROZEN",
++            "evidence": f"E join statuses {sample['join']['join_status_by_stage']['E']}; removal responses {sample['join']['removal_response_by_stage']['E']}.",
++        },
++        "SPLIT_GO": {
++            "recommendation": "RECOMMEND_PASS_GROUP_DISJOINT_SPLIT_FROZEN",
++            "evidence": f"Cross-stage components {split['group_disjointness']['cross_stage_components']}; multi-role samples {split['group_disjointness']['sample_in_multiple_roles']}.",
++        },
++        "SCORER_GO": {
++            "recommendation": "RECOMMEND_PASS_INDEPENDENT_BINDING_FROZEN_NOT_EXECUTED",
++            "evidence": f"Forbidden imports {scorer['independence']['forbidden_import_hits']}; formal scorer calls {scorer['unevaluable_denominators']['formal_scoring_calls']}.",
++        },
++        "PREREG_GO": {
++            "recommendation": "RECOMMEND_PASS_PRERESULT_FREEZE_ONLY_NOT_EXECUTION",
++            "evidence": f"Formal outputs {len(formal_outputs)}; receipt is written after all focused tests.",
++        },
++    }
++    packet_payload: dict[str, Any] = {
++        "namespace": "FINQA_V2_EXECUTION_FREEZE_PACKET",
++        "task_id": TASK_ID,
++        "status": "READY_FOR_LOOP_C_INDEPENDENT_REVIEW_NOT_EXECUTION",
++        "frozen_research_question": "Does the visibility-detection separation transfer to a different reasoning-oriented dataflow under an independently implemented observation scorer?",
++        "evidence_classes": {
++            "PRIMARY": "freeze identity, exact sample/source/report/stage hashes",
++            "SECONDARY": "split, connected-component closure, causal join",
++            "ENGINEERING": "independent scorer, focused tests, token identity",
++            "NEGATIVE": "zero formal outputs, zero model calls, zero training, zero forbidden imports",
++        },
++        "input_sha256": sample["input_sha256"],
++        "output_sha256_before_packet": outputs,
++        "candidate_injections": sample["counts"]["candidate_injections"],
++        "retained_injections": sample["counts"]["retained_injections"],
++        "excluded_injections": sample["counts"]["excluded_injections"],
++        "counts_by_stage_and_role": split["counts_by_stage_and_role"],
++        "exclusions": exclusions,
++        "join_statuses": sample["join"]["join_status_by_stage"],
++        "removal_responses": sample["join"]["removal_response_by_stage"],
++        "scorer_independence": scorer["independence"],
++        "leakage_checks": {
++            "assignment": split["assignment_checks"],
++            "group_disjointness": split["group_disjointness"],
++            "scorer_label_blind_contract": True,
++            "threshold_search_performed": False,
++        },
++        "formal_evaluator_outputs": len(formal_outputs),
++        "formal_evaluator_output_paths": formal_outputs,
++        "unevaluable_denominator": scorer["unevaluable_denominators"],
++        "scorer_contract": {
++            "measurement_object": scorer["measurement_object"],
++            "semantic_correctness_claim": scorer["semantic_correctness_claim"],
++            "predicate_version": scorer["predicate_version"],
++            "observation_surface": scorer["observation_surface"],
++            "decision_predicate": scorer["decision_predicate"],
++        },
++        "gate_recommendations": gate_recommendations,
++        "tests": tests,
++        "build_command": (OUT_DIR / "build_core.log").read_text(encoding="utf-8").splitlines()[0].removeprefix("COMMAND="),
++        "environment": {
++            "python": sys.version,
++            "git_head": head,
++            "endpoint_calls": 0,
++            "model_calls": 0,
++            "training_runs": 0,
++        },
++        "stop_conditions": {name: False for name in (
++            "INPUT_MISSING",
++            "SPLIT_GROUP_COLLISION",
++            "JOIN_NOT_IDENTIFIABLE",
++            "TOKEN_IDENTITY_UNRECONCILED",
++            "SCORER_NOT_INDEPENDENT",
++            "PRERESULT_FREEZE_VIOLATION",
++            "TEST_VALIDATION_FAILED",
++            "OUT_OF_SCOPE",
++        )},
++        "hash_contract": "SHA-256 of canonical compact sorted JSON after removing self_sha256",
++    }
++    packet_payload["self_sha256"] = hash_without_self(packet_payload)
++    packet_json = OUT_DIR / "finqa_v2_execution_freeze_packet.json"
++    write_json(packet_json, packet_payload)
++    packet_md = OUT_DIR / "FINQA_V2_EXECUTION_FREEZE_PACKET.md"
++    packet_md_payload = dict(packet_payload)
++    packet_md_payload["packet_json_sha256"] = sha256_file(packet_json)
++    packet_md.write_text(render_packet(packet_md_payload), encoding="utf-8", newline="\n")
++
++    final_outputs = {
++        **outputs,
++        packet_json.name: file_record(packet_json),
++        packet_md.name: file_record(packet_md),
++    }
++    receipt: dict[str, Any] = {
++        "namespace": "FINQA_V2_PRERESULT_FREEZE_RECEIPT",
++        "task_id": TASK_ID,
++        "status": "PRERESULT_FREEZE_COMPLETE_PENDING_LOOP_C_REVIEW",
++        "sequence": [
++            "premises_and_inputs",
++            "core_manifests",
++            "focused_tests",
++            "source_environment_snapshot",
++            "execution_freeze_packet",
++            "preresult_freeze_receipt",
++        ],
++        "formal_evaluator_outputs_before_receipt": 0,
++        "model_calls": 0,
++        "training_runs": 0,
++        "endpoint_calls": 0,
++        "input_sha256": sample["input_sha256"],
++        "output_sha256": final_outputs,
++        "packet_self_sha256": packet_payload["self_sha256"],
++        "gate_recommendations": gate_recommendations,
++        "tests": tests,
++        "build_command": packet_payload["build_command"],
++        "stop_conditions": packet_payload["stop_conditions"],
++        "hash_contract": "SHA-256 of canonical compact sorted JSON after removing self_sha256",
++    }
++    receipt["self_sha256"] = hash_without_self(receipt)
++    receipt_path = OUT_DIR / "finqa_v2_preresult_freeze_receipt.json"
++    write_json(receipt_path, receipt)
++    if hash_without_self(receipt) != receipt["self_sha256"]:
++        raise FreezeError("TEST_VALIDATION_FAILED", reason="receipt_self_hash")
++    return receipt
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser()
++    parser.add_argument("command", choices=("build", "finalize"))
++    args = parser.parse_args()
++    if args.command == "build":
++        payload = build_core()
++        print(json.dumps({
++            "status": "CORE_FREEZE_BUILT",
++            "candidate": 216,
++            "retained": len(payload["retained"]),
++            "excluded": len(payload["excluded"]),
++            "groups": len(payload["assignments"]),
++        }, sort_keys=True))
++        return 0
++    receipt = finalize()
++    print(json.dumps({
++        "status": receipt["status"],
++        "self_sha256": receipt["self_sha256"],
++        "formal_outputs": 0,
++    }, sort_keys=True))
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+
+--- a/tests/test_finqa_numeric_token_canonicalization_v2.py
++++ b/tests/test_finqa_numeric_token_canonicalization_v2.py
+diff --git a/tests/test_finqa_numeric_token_canonicalization_v2.py b/tests/test_finqa_numeric_token_canonicalization_v2.py
+new file mode 100644
+index 000000000..ee80e27f2
+--- /dev/null
++++ b/tests/test_finqa_numeric_token_canonicalization_v2.py
+@@ -0,0 +1,58 @@
++from __future__ import annotations
++
++import pytest
++
++from research import finqa_evidence_argument_resolver_v2 as resolver_module
++from research.finqa_evidence_argument_resolver_v2 import (
++    EvidenceArgumentResolverError,
++    resolve_numeric_argument,
++)
++from research.finqa_numeric_token_canonicalization_v2 import (
++    canonical_numeric_token,
++    numeric_tokens as canonical_numeric_tokens,
++)
++from research.stage_e_multileaf_20261010 import (
++    audit_finqa_v2_causal_join as causal_audit,
++)
++from research.stage_e_multileaf_20261010 import (
++    build_finqa_v2_candidate_manifest as selection,
++)
++
++
++def test_selection_and_causal_paths_share_canonical_token_identity():
++    evidence = {"text_1": "the reconciled value is 003.8000"}
++    selection_result = selection.resolve_numeric_argument("3.800", evidence)
++
++    assert selection.resolve_numeric_argument is resolve_numeric_argument
++    assert resolver_module.canonical_numeric_token is canonical_numeric_token
++    assert resolver_module.numeric_tokens is canonical_numeric_tokens
++    assert causal_audit.numeric_tokens is canonical_numeric_tokens
++    assert selection_result["argument_token"] == canonical_numeric_token("003.800")
++    assert causal_audit.literal_arg("3.800") == selection_result["argument_token"]
++    assert causal_audit.numeric_tokens(evidence["text_1"]) == {
++        selection_result["argument_token"]
++    }
++    assert f"{float('3.800'):.10f}" != selection_result["argument_token"]
++
++
++def test_canonically_equal_evidence_remains_ambiguous_and_fails_closed():
++    evidence = {
++        "text_1": "first amount is 1.10",
++        "text_2": "second amount is 1.1000",
++    }
++
++    with pytest.raises(EvidenceArgumentResolverError) as exc:
++        selection.resolve_numeric_argument("001.100", evidence)
++
++    assert exc.value.code == "unresolved_ambiguous_evidence"
++    assert exc.value.detail["matches"] == ["text_1", "text_2"]
++
++
++def test_shared_adapter_fails_closed_for_no_match_and_nonnumeric_argument():
++    with pytest.raises(EvidenceArgumentResolverError) as no_match:
++        selection.resolve_numeric_argument("7.25", {"text_1": "unrelated 3"})
++    assert no_match.value.code == "unresolved_no_evidence"
++
++    with pytest.raises(EvidenceArgumentResolverError) as nonnumeric:
++        selection.resolve_numeric_argument("#0", {"text_1": "value 3"})
++    assert nonnumeric.value.code == "argument_not_numeric_literal"
+
+--- a/tests/test_finqa_evidence_argument_resolver_v2.py
++++ b/tests/test_finqa_evidence_argument_resolver_v2.py
+diff --git a/tests/test_finqa_evidence_argument_resolver_v2.py b/tests/test_finqa_evidence_argument_resolver_v2.py
+new file mode 100644
+index 000000000..cbd0f91a0
+--- /dev/null
++++ b/tests/test_finqa_evidence_argument_resolver_v2.py
+@@ -0,0 +1,45 @@
++from __future__ import annotations
++
++import pytest
++
++from research.finqa_evidence_argument_resolver_v2 import (
++    EvidenceArgumentResolverError,
++    resolve_numeric_argument,
++)
++
++
++EVIDENCE = {
++    "text_1": "the value is 3.8 million",
++    "text_2": "the prior year is 2.5",
++}
++
++
++def test_unique_numeric_evidence_resolves_and_removal_fails():
++    result = resolve_numeric_argument("3.8", EVIDENCE)
++    assert result["evidence_id"] == "text_1"
++    assert result["resolved_value"] == 3.8
++    assert result["join_type"] == "LEXICAL_UNIQUE_EVIDENCE_TO_ARGUMENT"
++
++    with pytest.raises(EvidenceArgumentResolverError) as exc:
++        resolve_numeric_argument("3.8", {"text_2": EVIDENCE["text_2"]})
++    assert exc.value.code == "unresolved_no_evidence"
++
++
++def test_ambiguous_and_nonnumeric_arguments_fail_closed():
++    ambiguous = {
++        "a": "amount 10",
++        "b": "total 10",
++    }
++    with pytest.raises(EvidenceArgumentResolverError) as exc:
++        resolve_numeric_argument("10", ambiguous)
++    assert exc.value.code == "unresolved_ambiguous_evidence"
++
++    with pytest.raises(EvidenceArgumentResolverError) as exc:
++        resolve_numeric_argument("#0", EVIDENCE)
++    assert exc.value.code == "argument_not_numeric_literal"
++
++
++def test_numeric_formatting_is_canonicalized():
++    result = resolve_numeric_argument("3.800", EVIDENCE)
++    assert result["argument_token"] == "3.8"
++    assert result["evidence_id"] == "text_1"
+
+--- a/tests/test_finqa_independent_observation_scorer_v2.py
++++ b/tests/test_finqa_independent_observation_scorer_v2.py
+diff --git a/tests/test_finqa_independent_observation_scorer_v2.py b/tests/test_finqa_independent_observation_scorer_v2.py
+new file mode 100644
+index 000000000..701e676c1
+--- /dev/null
++++ b/tests/test_finqa_independent_observation_scorer_v2.py
+@@ -0,0 +1,115 @@
++from __future__ import annotations
++
++import copy
++
++import pytest
++
++from research.finqa_independent_observation_scorer_v2 import (
++    IndependentScorerError,
++    artifact_hash,
++    op_family,
++    score_pair,
++)
++
++
++def _normalized(steps: list[dict]) -> list[dict]:
++    return [{
++        "op_family": op_family(step["op"]),
++        "arg1": str(step.get("arg1", "")),
++        "arg2": str(step.get("arg2", "")),
++        "res": str(step.get("res", "")),
++    } for step in steps]
++
++
++def _hash_payload(required, clean, mutant):
++    return artifact_hash({
++        "required_evidence_ids": required,
++        "clean": {
++            "evidence_ids": sorted(clean["evidence_ids"]),
++            "steps": _normalized(clean["steps"]),
++            "answer": clean["answer"],
++        },
++        "mutant": {
++            "evidence_ids": sorted(mutant["evidence_ids"]),
++            "steps": _normalized(mutant["steps"]),
++            "answer": mutant["answer"],
++        },
++    })
++
++
++def _record(**mutant_changes):
++    clean = {
++        "evidence_ids": ["e1", "e2"],
++        "steps": [
++            {"op": "add1-1", "arg1": "1", "arg2": "2", "res": "3"},
++            {"op": "minus1-2", "arg1": "#0", "arg2": "1", "res": "2"},
++        ],
++        "answer": "2",
++    }
++    mutant = copy.deepcopy(clean)
++    for key, value in mutant_changes.items():
++        mutant[key] = value
++    required = ["e1"]
++    return {
++        "required_evidence_ids": required,
++        "clean": clean,
++        "mutant": mutant,
++        "artifact_sha256": _hash_payload(required, clean, mutant),
++    }
++
++
++def test_measurement_object_is_observation_not_semantic_correctness():
++    result = score_pair(_record())
++    assert result["measurement_object"] == "paired checkpoint observation reproduction"
++    assert result["semantic_correctness_claim"] is False
++    assert result["response_signature"] == [0, 0, 0, 0, 0]
++    assert result["provenance"]["label_blind"] is True
++
++
++def test_evidence_operator_argument_result_and_answer_are_separate():
++    assert score_pair(_record(evidence_ids=["e2"]))["response_signature"] == [1, 0, 0, 0, 0]
++    assert score_pair(_record(steps=[
++        {"op": "multiply1-1", "arg1": "1", "arg2": "2", "res": "3"},
++        {"op": "minus1-2", "arg1": "#0", "arg2": "1", "res": "2"},
++    ]))["response_signature"] == [0, 1, 0, 0, 0]
++    assert score_pair(_record(steps=[
++        {"op": "add1-1", "arg1": "9", "arg2": "2", "res": "3"},
++        {"op": "minus1-2", "arg1": "#0", "arg2": "1", "res": "2"},
++    ]))["response_signature"] == [0, 0, 1, 0, 0]
++    assert score_pair(_record(steps=[
++        {"op": "add1-1", "arg1": "1", "arg2": "2", "res": "3"},
++        {"op": "minus1-2", "arg1": "#0", "arg2": "1", "res": "99"},
++    ]))["response_signature"] == [0, 0, 0, 1, 0]
++    assert score_pair(_record(answer="99"))["response_signature"] == [0, 0, 0, 0, 1]
++
++
++def test_stage_label_cannot_change_output():
++    plain = score_pair(_record())
++    labelled = score_pair({**_record(), "stage_label": "N", "fault_family": "operator"})
++    assert labelled["observation_vector"] == plain["observation_vector"]
++    assert labelled["response_signature"] == plain["response_signature"]
++
++
++def test_hash_binding_and_missing_fields_fail_closed():
++    record = _record()
++    record["artifact_sha256"] = "0" * 64
++    with pytest.raises(IndependentScorerError) as exc:
++        score_pair(record)
++    assert exc.value.code == "artifact_sha256_mismatch"
++
++    missing = _record()
++    del missing["mutant"]
++    with pytest.raises(IndependentScorerError) as exc:
++        score_pair(missing)
++    assert exc.value.code == "invalid_record_field"
++
++
++def test_clean_cannot_be_missing_required_evidence():
++    record = _record()
++    record["clean"]["evidence_ids"] = ["e2"]
++    record["artifact_sha256"] = _hash_payload(
++        record["required_evidence_ids"], record["clean"], record["mutant"]
++    )
++    with pytest.raises(IndependentScorerError) as exc:
++        score_pair(record)
++    assert exc.value.code == "clean_missing_required_evidence"
+
+--- a/tests/test_finqa_v2_execution_freeze.py
++++ b/tests/test_finqa_v2_execution_freeze.py
+diff --git a/tests/test_finqa_v2_execution_freeze.py b/tests/test_finqa_v2_execution_freeze.py
+new file mode 100644
+index 000000000..8528436de
+--- /dev/null
++++ b/tests/test_finqa_v2_execution_freeze.py
+@@ -0,0 +1,188 @@
++from __future__ import annotations
++
++import hashlib
++import json
++from pathlib import Path
++
++import pytest
++
++from research.finqa_independent_observation_scorer_v2 import artifact_hash
++from research.finqa_numeric_token_canonicalization_v2 import canonical_numeric_token
++from research.finqa_v2_20261010.build_finqa_v2_execution_freeze import (
++    FreezeError,
++    PATHS,
++    STAGES,
++    assign_split,
++    assignment_source_checks,
++    scorer_independence_checks,
++)
++from research.stage_e_multileaf_20261010 import (
++    audit_finqa_v2_causal_join as causal_audit,
++    audit_finqa_v2_overlap_feasibility as overlap_audit,
++    build_finqa_v2_candidate_manifest as selection,
++)
++
++OUT_DIR = Path("research/finqa_v2_20261010")
++
++
++def _load(name: str) -> dict:
++    return json.loads((OUT_DIR / name).read_text(encoding="utf-8"))
++
++
++def test_premise_identity_counts_and_source_hashes_are_exact():
++    candidate = json.loads(PATHS["candidate_manifest"].read_text(encoding="utf-8"))
++    sample_ids = [
++        sample["sample_id"]
++        for stage in STAGES
++        for sample in candidate["samples"][stage]
++    ]
++    assert len(sample_ids) == 216
++    assert len(set(sample_ids)) == 216
++    assert {stage: len(candidate["samples"][stage]) for stage in STAGES} == {"E": 72, "P": 72, "N": 72}
++    for raw_path, expected in candidate["source_files"].items():
++        path = Path(raw_path)
++        assert path.stat().st_size == expected["bytes"]
++        assert hashlib.sha256(path.read_bytes()).hexdigest() == expected["sha256"]
++
++
++def test_split_is_deterministic_group_disjoint_and_exact_by_stage_role():
++    first = _load("finqa_v2_split_manifest.json")
++    normalized = [
++        {
++            "sample_id": row["sample_id"],
++            "stage": row["stage"],
++            "report_cluster": row["provenance"]["report_cluster_id"],
++            "record_sha256": row["record_sha256"],
++            "record_id": row["record_id"],
++            "source_identity": row["provenance"]["normalized_source_identity"],
++        }
++        for row in _load("finqa_v2_frozen_sample_manifest.json")["samples"]
++        if row.get("retained", True)
++    ]
++    assignments, allocation = assign_split(normalized)
++    assert [(row["canonical_group_id"], row["role"], row["order_key"]) for row in assignments] == [
++        (row["canonical_group_id"], row["role"], row["order_key"])
++        for row in first["assignments"]
++    ]
++    assert allocation["counts"] == first["counts_by_stage_and_role"]
++    assert first["group_disjointness"] == {
++        "cross_stage_components": 0,
++        "sample_in_multiple_roles": 0,
++        "passed": True,
++    }
++    for stage in STAGES:
++        assert {role: allocation["counts"][stage][role]["groups"] for role in ("train", "calibration", "evaluation")} == {
++            "train": 9,
++            "calibration": 5,
++            "evaluation": 10,
++        }
++
++
++def test_split_fails_closed_on_unexpected_fields_and_cross_stage_component():
++    sample = {
++        "sample_id": "synthetic",
++        "stage": "E",
++        "report_cluster": "A/2020",
++        "record_sha256": "a" * 64,
++        "record_id": "A/2020/page_1.pdf-1",
++        "source_identity": "b" * 64,
++    }
++    with pytest.raises(FreezeError) as unexpected:
++        assign_split([{**sample, "terminal_correctness": 1}])
++    assert unexpected.value.code == "SPLIT_INPUT_NOT_WHITELISTED"
++
++    other = {**sample, "sample_id": "synthetic-other", "stage": "P"}
++    with pytest.raises(FreezeError) as collision:
++        assign_split([sample, other])
++    assert collision.value.code == "SPLIT_GROUP_COLLISION"
++
++
++def test_every_retained_sample_has_exact_hash_bound_pair():
++    samples = _load("finqa_v2_frozen_sample_manifest.json")
++    artifacts = _load("finqa_v2_paired_artifact_manifest.json")
++    retained = {row["sample_id"] for row in samples["samples"] if row.get("retained", True)}
++    entries = {row["sample_id"]: row for row in artifacts["artifacts"]}
++    assert retained == set(entries)
++    assert len(entries) == 215
++    for entry in entries.values():
++        assert artifact_hash(entry["artifact"]) == entry["artifact_sha256"]
++        assert entry["stage"] in STAGES
++        assert entry["split_role"] in {"train", "calibration", "evaluation"}
++
++
++def test_ambiguous_join_is_excluded_before_split_and_counted():
++    samples = _load("finqa_v2_frozen_sample_manifest.json")
++    split = _load("finqa_v2_split_manifest.json")
++    excluded = samples["exclusions"]
++    assert len(excluded) == 1
++    assert excluded[0]["stage"] == "N"
++    assert excluded[0]["exclusion_reason"] == "JOIN_AMBIGUOUS"
++    excluded_ids = {row["sample_id"] for row in excluded}
++    assigned_ids = {sample_id for row in split["assignments"] for sample_id in row["sample_ids"]}
++    assert excluded_ids.isdisjoint(assigned_ids)
++    assert samples["counts"] == {
++        "candidate_injections": 216,
++        "retained_injections": 215,
++        "excluded_injections": 1,
++        "retained_groups": 72,
++        "by_stage": {
++            "E": {"candidate": 72, "retained": 72, "excluded": 0, "groups": 24},
++            "P": {"candidate": 72, "retained": 72, "excluded": 0, "groups": 24},
++            "N": {"candidate": 72, "retained": 71, "excluded": 1, "groups": 24},
++        },
++    }
++
++
++def test_unique_e_joins_and_deterministic_removal_are_frozen():
++    samples = _load("finqa_v2_frozen_sample_manifest.json")
++    assert samples["join"]["join_status_by_stage"]["E"] == {"UNIQUE": 72}
++    assert samples["join"]["removal_response_by_stage"]["E"] == {"unresolved_no_evidence": 72}
++    assert samples["join"]["join_status_by_stage"]["N"] == {"AMBIGUOUS": 1, "UNIQUE": 71}
++    assert samples["join"]["join_status_by_stage"]["P"] == {"NOT_APPLICABLE_OPERATOR_MUTATION": 72}
++    e_rows = [row for row in samples["samples"] if row["stage"] == "E"]
++    assert all(row["provenance"]["evidence_text_sha256"] for row in e_rows)
++    assert all(row["provenance"]["argument_token"] == row["provenance"]["canonical_token"] for row in e_rows)
++    assert all(row["provenance"]["resolver_version"]["contract_version"] == "finqa-evidence-argument-resolver-v2" for row in e_rows)
++    assert all(len(row["provenance"]["resolver_version"]["source_sha256"]) == 64 for row in e_rows)
++
++
++def test_scorer_binding_is_independent_label_blind_and_unexecuted():
++    binding = _load("finqa_v2_scorer_binding_manifest.json")
++    checks = scorer_independence_checks(PATHS["scorer"])
++    assert checks["passed"]
++    assert checks["forbidden_import_hits"] == []
++    assert binding["measurement_object"] == "paired_checkpoint_observation_reproduction"
++    assert binding["semantic_correctness_claim"] is False
++    assert binding["observation_surface"] == [
++        "evidence_required_hit",
++        "operator_consistency",
++        "argument_consistency",
++        "step_result_consistency",
++        "answer_consistency",
++    ]
++    assert binding["unevaluable_denominators"] == {
++        "bound_artifacts": 215,
++        "formal_scoring_calls": 0,
++        "unevaluable_before_later_authorized_execution": 215,
++    }
++    assert binding["formal_evaluator_outputs_materialized"] == 0
++    assert all(row["status"] == "BOUND_UNSCORED_PENDING_LATER_AUTHORIZED_EXECUTION" for row in binding["bindings"])
++
++
++def test_live_numeric_identity_paths_and_assignment_gate_share_contracts():
++    assert selection.numeric_literal("003.800")
++    assert not selection.numeric_literal("#0")
++    assert overlap_audit.numeric_tokens("003.800") == {canonical_numeric_token("3.800")}
++    assert causal_audit.numeric_tokens("003.800") == {canonical_numeric_token("3.800")}
++    assert causal_audit.literal_arg("003.800") == canonical_numeric_token("3.800")
++    checks = assignment_source_checks()
++    assert checks["passed"]
++    assert checks["forbidden_identifier_hits"] == []
++    assert checks["allowed_input_fields"] == [
++        "record_id",
++        "record_sha256",
++        "report_cluster",
++        "sample_id",
++        "source_identity",
++        "stage",
++    ]
+

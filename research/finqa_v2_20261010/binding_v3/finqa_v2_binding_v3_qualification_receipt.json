@@ -1,0 +1,96 @@
+{
+  "artifact_hashes": {
+    "FINQA_V2_RUNTIME_BINDING_INTERFACE_V3.md": "144f45714ca2ab28de763661353bede65597ca63a673201a35a1fc952c08d7a1",
+    "finqa_v2_binding_v3_integration_tests.log": "38b37853a38a4c74c841c109a1b8bf6467b2d27015ce14d556610f89a1e61f34",
+    "finqa_v2_binding_v3_qualification.log": "26d7bfdbd1831a68501cc3681ed2971498a836dcf176f5e14ffa7f4490db27ff",
+    "finqa_v2_binding_v3_qualification_rows.jsonl": "66231e34fb80e219b50c884cf970a7086bdc1894ecdab9e7e8fc12f4390111f8",
+    "finqa_v2_binding_v3_qualification_summary.json": "ef48caa482b602e69e654dccaa942efc9f1de1e484a666fa805ac0a1555682cd",
+    "finqa_v2_runtime_binding_interface_v3.json": "ae7cc08a750177ccd0562597f465a68f3c8bedb152607eda9b65e1bda70b4ea1",
+    "finqa_v2_runtime_binding_v3.py": "997d914fc1250f82cbacf8daa9baf1027ebd6607e30a9922d6ae861602d83395",
+    "test_finqa_v2_runtime_binding_v3_integration.py": "3536a64cfbb18826f8ff8dda5b994434185a77a1a7b9059b0e2d6d4dae197bc8"
+  },
+  "frozen_input_hashes": {
+    "../finqa_independent_observation_scorer_v2.py": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5",
+    "binding_v2/finqa_v2_artifact_binding_contract_v2.json": "668f52fd5e2480155443c6e7cbe8b59a9c88c47f13e38973867366032806f204",
+    "binding_v2/finqa_v2_raw_normalized_mapping.jsonl": "4c5c1d3077038d4ca5636e2489f689ce18b784c9d3b38e987ff9220f5aef1ddd",
+    "finqa_v2_frozen_sample_manifest.json": "802798a3621fa995feddee31c02fae5bd4e30f80473ca282e3c6c3809a618b18",
+    "finqa_v2_paired_artifact_manifest.json": "693cb548be268a08ca1a12de1615f3cd67a457bfd4caa75d6fb94b43dddbae6c",
+    "finqa_v2_scorer_binding_manifest.json": "2ec7caceda048b71ade13780f97f33888122fe02b253aad380e32a7a1f949a8b",
+    "finqa_v2_split_manifest.json": "aa69ca1371922f2be0cfd44bf592ff2ace27ea9f6b46c957befe837a658573ab"
+  },
+  "hash_definition": "sha256 of file bytes for artifacts; sha256 of canonical compact sorted JSON excluding self_sha256 for this receipt",
+  "interface_contract_version": "finqa-v2-runtime-binding-interface-v3",
+  "namespace": "FINQA_V2_BINDING_V3_QUALIFICATION_RECEIPT",
+  "prior_invalid_runs": {
+    "results": {
+      "directory": "results",
+      "file_count": 12,
+      "files": {
+        "FINQA_V2_FORMAL_RESULT_REPORT.md": "70c85f81375cf0490db48080f25bbe8cdb619363223d7fcfee5a19c8ed1c592a",
+        "finqa_v2_bootstrap_replicates.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "finqa_v2_focused_preflight.log": "f1b6a75e3089a1a27e5066b8e651e12b3fe041187ffa9d9b89d09a5bf68e3c03",
+        "finqa_v2_formal_environment.log": "6029d096fec76e46432d40435f7e579e59f5f48505401228e36e288622d379b0",
+        "finqa_v2_formal_execution.log": "f7813a591203636e52871fabeba887ba4bf03c85f158ed682f1a09294cf5efce",
+        "finqa_v2_formal_execution_receipt.json": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f",
+        "finqa_v2_formal_pre_scorer_attempt_1.log": "5c4ffec1055f22d6ce45080352ab9ea636e1c1663fedead66b2500498792032d",
+        "finqa_v2_formal_pre_scorer_attempt_2.log": "14bd134b4b62d7568349cb5ef4a9dc68475f84037d5214e1cf1363ba76af718a",
+        "finqa_v2_formal_results.json": "1c6e695b6d175c1fd0227007fda893270d6ae40fa5003cee63b511bf1fb4f67b",
+        "finqa_v2_formal_sample_rows.jsonl": "1aacc2f54fe8dafe8e4e13bfbf639b32eaa35b4d8b22fed501091946984e8530",
+        "finqa_v2_formal_scorer_failures.jsonl": "e232e8ae78c48e9e9e6fdac71e4671556e5ba7c46985aea6a143cd94576fff2c",
+        "finqa_v2_frozen_hash_verification.log": "c5cf3c6a51347824948fe921c9fd575ead280511be4505de9edbaf6d07a9e829"
+      },
+      "manifest_sha256": "a14b595df597c2d3a3e4df2dc9875049288d4158f8c9226de1e87588bc5b9078",
+      "receipt_sha256": "2d94d30003f9de563402c71b34b58dc492e8e545682278ffb6f1c40d3d87320f",
+      "run_status": "FORMAL_RUN_INVALID"
+    },
+    "results_binding_v2_rerun": {
+      "directory": "results_binding_v2_rerun",
+      "file_count": 12,
+      "files": {
+        "FINQA_V2_FORMAL_RESULT_REPORT.md": "5bf45ffce1a612353d29b1d6e0762f86cb85c74dd09f14ffe03c347d67655c43",
+        "finqa_v2_binding_v2_preflight.log": "6bb6b126a9d815d1f6baa7fd6208636ff1bbbabee4f2a0f1fa352417df484945",
+        "finqa_v2_bootstrap_replicates.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "finqa_v2_focused_preflight.log": "de4d21d1f0851d8e8950d2ad56acd1aeee48d6b0b4852ce753077c0f3caf1629",
+        "finqa_v2_formal_environment.log": "b6a07ff323b363b24678d2e26845d2590d12374829051e129801084d27711de1",
+        "finqa_v2_formal_execution.log": "c857f11e4ccba5893ecf3eae38895b65e2d7b2d8982ed9bb9c2a099e6367ea4c",
+        "finqa_v2_formal_execution_receipt.json": "8a0017e1ae5f065fe73a01bb1af1a0f5033199fbe25369263d4184c27d8eb071",
+        "finqa_v2_formal_pre_scorer_attempt_1.log": "213269a3b6eb9629be70adda186d7cbadb46a86436537f2adf927c3b42c4a71f",
+        "finqa_v2_formal_results.json": "c556952e758c7b7d5c4000f0a08bfe961c23c0d61a51ce73cadf793a5d763f90",
+        "finqa_v2_formal_sample_rows.jsonl": "276fad830a87664bf1f7597096385218fd92c6b21b276f14943f88c0807d82e6",
+        "finqa_v2_formal_scorer_failures.jsonl": "3194b4715b4308163a56b20e7e575913a6a533c3d7f89df37cfa751bb9fa70fb",
+        "finqa_v2_frozen_hash_verification.log": "c5cf3c6a51347824948fe921c9fd575ead280511be4505de9edbaf6d07a9e829"
+      },
+      "manifest_sha256": "824f34bce5da3d59d48effa434e32549ffc5a633286bf74a8161f0d67ab72f8a",
+      "receipt_sha256": "8a0017e1ae5f065fe73a01bb1af1a0f5033199fbe25369263d4184c27d8eb071",
+      "run_status": "FORMAL_RUN_INVALID"
+    }
+  },
+  "qualification": {
+    "evaluation_trace_rows_match": "420/420",
+    "group_drift": 0,
+    "identity_drift": 0,
+    "leakage": 0,
+    "metadata_fields": [
+      "split_role",
+      "stage",
+      "cluster_id",
+      "report_cluster"
+    ],
+    "runtime_bindings_pass": "89/89",
+    "scientific_output_files": 0,
+    "silent_defaults": 0,
+    "split_drift": 0,
+    "stop_boundary": "BEFORE_SCIENTIFIC_SCORING"
+  },
+  "review_handoff": "STOP FOR LOOP C INDEPENDENT REVIEW",
+  "self_sha256": "d85101d6ea9cfb6a850dd68b738b4d7a29b6ecdf36739848f1e0795580b0a1a3",
+  "status": "BINDING_V3_QUALIFICATION_COMPLETE_PENDING_LOOP_C_REVIEW",
+  "task_id": "finqa-v2-binding-v3-qualification-a-20261010",
+  "zero_endpoint_counters": {
+    "endpoint_calls": 0,
+    "model_calls": 0,
+    "new_formal_scientific_runs": 0,
+    "scientific_scoring_calls": 0,
+    "training_runs": 0
+  }
+}

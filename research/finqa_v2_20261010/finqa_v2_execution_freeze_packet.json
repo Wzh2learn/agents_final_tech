@@ -1,0 +1,390 @@
+{
+  "build_command": "PYTHONPATH=src python3 research/finqa_v2_20261010/build_finqa_v2_execution_freeze.py build",
+  "candidate_injections": 216,
+  "counts_by_stage_and_role": {
+    "E": {
+      "calibration": {
+        "groups": 5,
+        "samples": 15
+      },
+      "evaluation": {
+        "groups": 10,
+        "samples": 30
+      },
+      "train": {
+        "groups": 9,
+        "samples": 27
+      }
+    },
+    "N": {
+      "calibration": {
+        "groups": 5,
+        "samples": 15
+      },
+      "evaluation": {
+        "groups": 10,
+        "samples": 29
+      },
+      "train": {
+        "groups": 9,
+        "samples": 27
+      }
+    },
+    "P": {
+      "calibration": {
+        "groups": 5,
+        "samples": 15
+      },
+      "evaluation": {
+        "groups": 10,
+        "samples": 30
+      },
+      "train": {
+        "groups": 9,
+        "samples": 27
+      }
+    }
+  },
+  "environment": {
+    "endpoint_calls": 0,
+    "git_head": "e97340387888290e69fbfff122ab163de971b37e",
+    "model_calls": 0,
+    "python": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+    "training_runs": 0
+  },
+  "evidence_classes": {
+    "ENGINEERING": "independent scorer, focused tests, token identity",
+    "NEGATIVE": "zero formal outputs, zero model calls, zero training, zero forbidden imports",
+    "PRIMARY": "freeze identity, exact sample/source/report/stage hashes",
+    "SECONDARY": "split, connected-component closure, causal join"
+  },
+  "excluded_injections": 1,
+  "exclusions": [
+    {
+      "arg_name": "arg2",
+      "argument_before": "95.7",
+      "cluster_id": "N:ZBH/2007",
+      "event_key": "N:ZBH/2007/page_80.pdf-4:0:arg2",
+      "exclusion_reason": "JOIN_AMBIGUOUS",
+      "exclusion_stage": "BEFORE_SPLIT_ASSIGNMENT",
+      "expected_first_checkpoint": "program.argument_consistency",
+      "expected_first_stage": "N",
+      "id_provenance": "DERIVED_OUTCOME_BLIND_CANDIDATE",
+      "join_status": "AMBIGUOUS",
+      "joined_evidence_id": null,
+      "n_steps": 2,
+      "operation": "mutate_numeric_literal_argument_by_fixed_nonzero_delta",
+      "provenance": {
+        "argument_token": "95.7",
+        "canonical_token": "95.7",
+        "evidence_text_sha256": null,
+        "normalized_source_identity": "53829390ba1ae2310f619b51a996988af54992ddcea399c2464b7668fa523070",
+        "record_id": "ZBH/2007/page_80.pdf-4",
+        "record_sha256": "38e88b687cb6c8f7beae807890131f35590ef1d14978fb56741bead080953420",
+        "report_cluster_id": "ZBH/2007",
+        "resolver_version": {
+          "contract_version": "finqa-evidence-argument-resolver-v2",
+          "source_sha256": "85e84a5f5296e366ec1f567ba59e5a5646e61e564d55806ad2f4f3e1747bffca"
+        },
+        "source_array_index": 2067,
+        "source_file": "/home/testuser/wzh/phase1a_staging_20260925/finqa/train.json",
+        "source_locator": "json_array[2067]"
+      },
+      "question_sha256": "4f765d7929147e67afeb0858d09abc8fe516a0c5d37fc4de2795b81b20fa7e34",
+      "record_id": "ZBH/2007/page_80.pdf-4",
+      "record_sha256": "38e88b687cb6c8f7beae807890131f35590ef1d14978fb56741bead080953420",
+      "repeat_within_cluster": 2,
+      "report_cluster": "ZBH/2007",
+      "retained": false,
+      "sample_id": "FINQA-V2-N-71dc5f1550d1-215743c06c8b",
+      "source_split": "train",
+      "split_role": "NOT_YET_FROZEN",
+      "stage": "N",
+      "step_index": 0
+    }
+  ],
+  "formal_evaluator_output_paths": [],
+  "formal_evaluator_outputs": 0,
+  "frozen_research_question": "Does the visibility-detection separation transfer to a different reasoning-oriented dataflow under an independently implemented observation scorer?",
+  "gate_recommendations": {
+    "ID_GO": {
+      "evidence": "216 candidate IDs; 215 retained; 1 excluded before split.",
+      "recommendation": "RECOMMEND_PASS_IDS_FROZEN"
+    },
+    "JOIN_GO": {
+      "evidence": "E join statuses {'UNIQUE': 72}; removal responses {'unresolved_no_evidence': 72}.",
+      "recommendation": "RECOMMEND_PASS_UNIQUE_CAUSAL_JOINS_FROZEN"
+    },
+    "PREREG_GO": {
+      "evidence": "Formal outputs 0; receipt is written after all focused tests.",
+      "recommendation": "RECOMMEND_PASS_PRERESULT_FREEZE_ONLY_NOT_EXECUTION"
+    },
+    "SCORER_GO": {
+      "evidence": "Forbidden imports []; formal scorer calls 0.",
+      "recommendation": "RECOMMEND_PASS_INDEPENDENT_BINDING_FROZEN_NOT_EXECUTED"
+    },
+    "SOURCE_GO": {
+      "evidence": "2 source files and all required inputs are SHA-256 bound in finqa_v2_frozen_sample_manifest.json.",
+      "recommendation": "RECOMMEND_PASS_IDENTITY_BOUND"
+    },
+    "SPLIT_GO": {
+      "evidence": "Cross-stage components 0; multi-role samples 0.",
+      "recommendation": "RECOMMEND_PASS_GROUP_DISJOINT_SPLIT_FROZEN"
+    }
+  },
+  "hash_contract": "SHA-256 of canonical compact sorted JSON after removing self_sha256",
+  "input_sha256": {
+    "candidate_manifest": {
+      "bytes": 217141,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/finqa_v2_candidate_sample_manifest.json",
+      "sha256": "71e6e2c4e2f59721644098cae20e1b850692edd20e0c138f87f27bedd4f25b77"
+    },
+    "canonicalization": {
+      "bytes": 2878,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_numeric_token_canonicalization_v2.py",
+      "sha256": "d4210fa9ac453a8a994827f5962d5a43c12ba589208917627dc9bce9c7a4ae3b"
+    },
+    "causal_audit_code": {
+      "bytes": 7846,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/audit_finqa_v2_causal_join.py",
+      "sha256": "6482c518995294b5eb0cc91a9cd460716947cd0ce7f1d3657edd729c20510557"
+    },
+    "causal_join_audit": {
+      "bytes": 11997,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/finqa_v2_causal_join_audit.json",
+      "sha256": "280c563c5e701cf81f75d85664f6880f8133723693ddbc63a641db804a909ca7"
+    },
+    "gate_reconciliation": {
+      "bytes": 3397,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/docs/research/finqa_v2_gate_reconciliation_v2.json",
+      "sha256": "6ad640b267e7e313e99de47afb3651d17e7bd66d3223cf9808f9dd6fdc749cc7"
+    },
+    "overlap_audit_code": {
+      "bytes": 8017,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/audit_finqa_v2_overlap_feasibility.py",
+      "sha256": "6c722b0fbea76f736a2519b0dc262e2f1edbd591a42af60685d808d239161092"
+    },
+    "repair_receipt": {
+      "bytes": 11792,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/stage_e_evidence_strengthening_repair_receipt.json",
+      "sha256": "61fbbbdbcdbf4b4ef6fac6abfe781324e9a0e069ab91c0bf9e3e6a4583c18e08"
+    },
+    "resolver": {
+      "bytes": 1461,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_evidence_argument_resolver_v2.py",
+      "sha256": "85e84a5f5296e366ec1f567ba59e5a5646e61e564d55806ad2f4f3e1747bffca"
+    },
+    "scorer": {
+      "bytes": 5428,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_independent_observation_scorer_v2.py",
+      "sha256": "b48ed17c4aae2a1d70312e9c93c113d0e45b60d2429e83627162e78337d667e5"
+    },
+    "selection_code": {
+      "bytes": 11471,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/stage_e_multileaf_20261010/build_finqa_v2_candidate_manifest.py",
+      "sha256": "dce02a42a79b373a9b9499619ab84fc0ef2a84b6b6d68d50afcc301fbb5c13ef"
+    },
+    "task_contract": {
+      "bytes": 8712,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_preresult_freeze_loop_a_task_contract.md",
+      "sha256": "19dbdfbaea7c11e91dbb01073038c57b34f549d3f07143515d2bc93cc0d32afb"
+    }
+  },
+  "join_statuses": {
+    "E": {
+      "UNIQUE": 72
+    },
+    "N": {
+      "AMBIGUOUS": 1,
+      "UNIQUE": 71
+    },
+    "P": {
+      "NOT_APPLICABLE_OPERATOR_MUTATION": 72
+    }
+  },
+  "leakage_checks": {
+    "assignment": {
+      "allowed_input_fields": [
+        "record_id",
+        "record_sha256",
+        "report_cluster",
+        "sample_id",
+        "source_identity",
+        "stage"
+      ],
+      "forbidden_identifier_hits": [],
+      "function_sha256": "8919dcc414ea341ab2a11947c0f1e30db88950ed4fcd2e31bc7f04f0e24903d5",
+      "passed": true,
+      "unexpected_field_policy": "fail_closed"
+    },
+    "group_disjointness": {
+      "cross_stage_components": 0,
+      "passed": true,
+      "sample_in_multiple_roles": 0
+    },
+    "scorer_label_blind_contract": true,
+    "threshold_search_performed": false
+  },
+  "namespace": "FINQA_V2_EXECUTION_FREEZE_PACKET",
+  "output_sha256_before_packet": {
+    "build_core.log": {
+      "bytes": 255,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/build_core.log",
+      "sha256": "afd1a6c7d09c86249c01f9128ef365096959ae3c071e0cdb59ea889c2b42063d"
+    },
+    "finqa_v2_dependency_freeze.txt": {
+      "bytes": 2434,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_dependency_freeze.txt",
+      "sha256": "6a5393a8019ad8dace07315ecc9315bb96418a8347a68d816fafc96877ca3afc"
+    },
+    "finqa_v2_frozen_sample_manifest.json": {
+      "bytes": 491607,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_frozen_sample_manifest.json",
+      "sha256": "802798a3621fa995feddee31c02fae5bd4e30f80473ca282e3c6c3809a618b18"
+    },
+    "finqa_v2_paired_artifact_manifest.json": {
+      "bytes": 522553,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_paired_artifact_manifest.json",
+      "sha256": "693cb548be268a08ca1a12de1615f3cd67a457bfd4caa75d6fb94b43dddbae6c"
+    },
+    "finqa_v2_scoped_environment_snapshot.json": {
+      "bytes": 4389,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_scoped_environment_snapshot.json",
+      "sha256": "51cbe2adbf1279ebcb58cb8906b7be2b535940527ff4bc3bc4e4e6e9d79bd5b2"
+    },
+    "finqa_v2_scoped_source_diff.patch": {
+      "bytes": 103408,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_scoped_source_diff.patch",
+      "sha256": "8ab2531427c45d7af5eebceb96872c54c842ca19d41620b26f61c16acecb1357"
+    },
+    "finqa_v2_scorer_binding_manifest.json": {
+      "bytes": 66622,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_scorer_binding_manifest.json",
+      "sha256": "2ec7caceda048b71ade13780f97f33888122fe02b253aad380e32a7a1f949a8b"
+    },
+    "finqa_v2_split_manifest.json": {
+      "bytes": 60231,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/finqa_v2_split_manifest.json",
+      "sha256": "aa69ca1371922f2be0cfd44bf592ff2ace27ea9f6b46c957befe837a658573ab"
+    },
+    "freeze_artifact_verification.log": {
+      "bytes": 795,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/freeze_artifact_verification.log",
+      "sha256": "eb952a7069bfeed97979c1edb1f9bbb3d18f51f4eb1de3fea09321dbe2d40d3a"
+    },
+    "tests_all_focused.log": {
+      "bytes": 411,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/tests_all_focused.log",
+      "sha256": "aa93fc5946cfb036ea36ae7187da703ed4e05da2f00165ab637c45cdd5cca1d1"
+    },
+    "tests_existing_11.log": {
+      "bytes": 371,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/tests_existing_11.log",
+      "sha256": "f195392fafa5a28b1841b33c4d8bd6ca89d3d03133d1b29ac093f25bbe879e1b"
+    },
+    "tests_finqa_v2_freeze.log": {
+      "bytes": 252,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/tests_finqa_v2_freeze.log",
+      "sha256": "2abb517c18b8f98ade99ad47420c433aa9f0faf24cf326e0a5bad857e2e8e1ad"
+    }
+  },
+  "removal_responses": {
+    "E": {
+      "unresolved_no_evidence": 72
+    },
+    "N": {
+      "NOT_APPLICABLE": 72
+    },
+    "P": {
+      "NOT_APPLICABLE": 72
+    }
+  },
+  "retained_injections": 215,
+  "scorer_contract": {
+    "decision_predicate": "No threshold, classifier, hierarchy comparison, or formal decision is materialized; score_pair reports only the frozen five-field observation vector.",
+    "measurement_object": "paired_checkpoint_observation_reproduction",
+    "observation_surface": [
+      "evidence_required_hit",
+      "operator_consistency",
+      "argument_consistency",
+      "step_result_consistency",
+      "answer_consistency"
+    ],
+    "predicate_version": "finqa-v2-independent-observation-predicate-v1",
+    "semantic_correctness_claim": false
+  },
+  "scorer_independence": {
+    "actual_frozen_pairs_scored": 0,
+    "forbidden_import_hits": [],
+    "imports": [
+      "__future__",
+      "hashlib",
+      "json",
+      "re",
+      "typing"
+    ],
+    "independent_of_shared_fault_adapter": true,
+    "independent_of_stage_e_aggregation": true,
+    "passed": true
+  },
+  "self_sha256": "4d9d9b2c7b373cc66aac8966f1491db56d2d2614e2fce7ad13cf5d9fe9fa7c40",
+  "status": "READY_FOR_LOOP_C_INDEPENDENT_REVIEW_NOT_EXECUTION",
+  "stop_conditions": {
+    "INPUT_MISSING": false,
+    "JOIN_NOT_IDENTIFIABLE": false,
+    "OUT_OF_SCOPE": false,
+    "PRERESULT_FREEZE_VIOLATION": false,
+    "SCORER_NOT_INDEPENDENT": false,
+    "SPLIT_GROUP_COLLISION": false,
+    "TEST_VALIDATION_FAILED": false,
+    "TOKEN_IDENTITY_UNRECONCILED": false
+  },
+  "task_id": "finqa-v2-preresult-freeze-a-20261010",
+  "tests": [
+    {
+      "command": "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_finqa_numeric_token_canonicalization_v2.py tests/test_finqa_evidence_argument_resolver_v2.py tests/test_finqa_independent_observation_scorer_v2.py -q",
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 11,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/tests_existing_11.log",
+      "sha256": "f195392fafa5a28b1841b33c4d8bd6ca89d3d03133d1b29ac093f25bbe879e1b",
+      "stderr_present": true,
+      "stdout_present": true
+    },
+    {
+      "command": "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_finqa_v2_execution_freeze.py -q",
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 8,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/tests_finqa_v2_freeze.log",
+      "sha256": "2abb517c18b8f98ade99ad47420c433aa9f0faf24cf326e0a5bad857e2e8e1ad",
+      "stderr_present": true,
+      "stdout_present": true
+    },
+    {
+      "command": "PYTHONPATH=src ./venv/bin/python -m pytest tests/test_finqa_numeric_token_canonicalization_v2.py tests/test_finqa_evidence_argument_resolver_v2.py tests/test_finqa_independent_observation_scorer_v2.py tests/test_finqa_v2_execution_freeze.py -q",
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 19,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/tests_all_focused.log",
+      "sha256": "aa93fc5946cfb036ea36ae7187da703ed4e05da2f00165ab637c45cdd5cca1d1",
+      "stderr_present": true,
+      "stdout_present": true
+    },
+    {
+      "command": "PYTHONPATH=src python3 -c import json,pathlib; b=pathlib.Path('research/finqa_v2_20261010'); fs=['finqa_v2_frozen_sample_manifest.json','finqa_v2_split_manifest.json','finqa_v2_paired_artifact_manifest.json','finqa_v2_scorer_binding_manifest.json']; [json.loads((b/f).read_text()) for f in fs]; s=json.loads((b/fs[0]).read_text()); assert s['counts']['candidate_injections']==216 and s['counts']['retained_injections']==215; assert not [p for p in b.rglob('*') if p.is_file() and any(x in p.name.lower() for x in ('evaluator_output','formal_result','prediction_rows','scoring_output'))]; print('CORE_FREEZE_VERIFIED candidate=216 retained=215 formal_outputs=0')",
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 0,
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/finqa_v2_20261010/freeze_artifact_verification.log",
+      "sha256": "eb952a7069bfeed97979c1edb1f9bbb3d18f51f4eb1de3fea09321dbe2d40d3a",
+      "stderr_present": true,
+      "stdout_present": true
+    }
+  ],
+  "unevaluable_denominator": {
+    "bound_artifacts": 215,
+    "formal_scoring_calls": 0,
+    "unevaluable_before_later_authorized_execution": 215
+  }
+}
