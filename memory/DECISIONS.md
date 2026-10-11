@@ -227,3 +227,8 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 - Invalid references: Option A reference quarantine primary; Option B whole-pair INVALID mandatory sensitivity; 146 summary preserved and 9-cluster/130-column sensitivity reported separately.
 - B0-B4: leave-one-pair-out primary; salted split sensitivity; bootstrap 2000 with seeds [42,43,44] for exploratory uncertainty only.
 - B5: dormant / NOT_RUN; metadata-only audit at most; install/run needs separate authorization.
+
+## [2026-10-09] Loop A/C Xiaomi model route convergence
+
+结论: Loop A 执行 profile 固定为 `mimo-v2.6-flash` / `Xiaomi_Token_Plan`，诊断 profile 固定为 `mimo-v2.6-pro` / `Xiaomi_Token_Plan`；Loop C (Claude Code) 固定为 `mimo-v2.6-pro`，使用 Anthropic-compatible endpoint `https://token-plan-cn.xiaomimimo.com/anthropic`。旧 `deepseek-v4.1-flash + Token_Plan_Chat` profile 和 `qwen3.8-max` Loop C 路由均为历史口径，不再作为现役默认。
+理由: 2026-10-09 实测 Xiaomi OpenAI-compatible 模型面可用；Claude Code 使用旧 token 和错误 base URL 时为零 token 中止，更新外部 token 并使用 `/anthropic` 后，默认 `claude -p` 返回 `result=OK`、`modelUsage=mimo-v2.6-pro`、`stop_reason=end_turn`。凭证仅存外部受保护配置，不进入本记录。

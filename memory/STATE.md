@@ -1,12 +1,14 @@
 # Current State
 
-> Updated: 2026-10-08 | Scope: formal negative path B, Stage E advisor review, and governance neat closeout | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
+> Updated: 2026-10-11 | Scope: SANER Route A, FinQA interpretation closure, and repository governance | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions: [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md). The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 
 ## Current objective
 
 当前 goal 的合法路径 B 已完成：正式记录 `DATA_NO_GO / RQ2 NOT_IDENTIFIED`，解释 Valentine 551 tasks 仅形成 8 个保守 origin components、无 native trajectory/checkpoint bridge，完整 Evaluate-Distill-Evolve 转为 future work；成熟 Stage E 小论文内部投稿版与大论文开题、第 1–2 章、第 3–8 章框架、Track B pilot、负结果边界和未来数据需求均已落盘。Stage E 现为 `ready for advisor review`；仅剩两个导师决策项：multi-leaf vs second dataflow、harmfulness 定义选择。此结论不等于确认性 RQ2/Stage D/Stage R/RQ4、正式外投或训练完成。
+
+- [2026-10-08] Stage E metadata-only source audit and 12-section inquiry/experiment-design report are complete as `DESIGN_ONLY_NOT_AUTHORIZED`; 94 HTTP attempts over 72 URLs exceeded the 80-attempt budget by 14 and are transparently recorded. Zero model/service/database/download/training calls occurred; `DATA_NO_GO / RQ2 NOT_IDENTIFIED` remains active and commit is `NOT_AUTHORIZED`.
 
 ## Model artifact status
 
@@ -63,18 +65,36 @@ A3, Phase 2, new data/licence, formal submission, arXiv, code release, and exter
 - Stage R has mechanism evidence only; RQ4 has no end-to-end evidence.
 
 
-## Open decisions
+## Current decisions
 
-1. Multi-leaf versus second dataflow as the next evidence priority.
-2. Harmfulness definition: canonical, reader-referent, or parallel constructs. No choice is recorded yet.
+1. Paper E Version A is `QUANTIFICATION_READY`; Version B remains a proposal until user review.
+2. Multi-leaf v1 is `POSITIVE` only for the constructed M/R/N codebook; v2 and Stage D training require separate authorization.
 
 ## Next gates
 
-1. The exact-source annex gap is formally retained as part of `DATA_NO_GO`; do not claim the 40-cluster target is available at the current revision.
-2. Any future confirmatory attempt requires a new exact source/task-definition annex and all SOURCE/LABEL/SPLIT/POWER/BASELINE/MODEL/SAFETY gates; it is outside the completed path-B goal.
-3. Recompute Stage D necessity and SOURCE/LABEL/SPLIT/POWER/BASELINE/SAFETY from real artifacts.
-4. Run A2 only after the scientific gates and signed power receipt pass; use the approved necessity criteria without post-result changes.
-5. Keep Phase 2 blocked until RQ2/RQ3 prerequisites and the approved execution window pass; duplicate JSON-key software readiness is already closed.
-6. Continue paper/thesis work only by backfilling independently accepted evidence; keep Q3/B0-B4 outside Stage E main results until their evidence level changes.
-7. Only after every conditional gate passes may S0/A0/A1/A2 proceed automatically under the frozen controls.
-8. A3, Phase 2, new data/licence, formal submission, arXiv, code release, and external release remain separately authorized.
+1. FinQA v2: freeze causal E1 evidence-to-argument join, exact IDs, label-blind extractor and role/split scope.
+2. PRM formal pilot: close train payload, data licence, native token matching, powered split and MODEL_GO/TRAINING_GO.
+3. Agent Distillation remains `NOT_SUITABLE_FOR_C2_C4` until terminal negatives and independent semantic process evidence exist.
+4. Harmfulness definition remains open; do not change frozen Stage E labels.
+5. External release, formal submission, Phase 2 and Stage R remain separately authorized.
+
+## Overnight research graph loop (2026-10-10)
+
+- Paper E matched-FPR/OCR claim boundary corrected across MD/DOCX/manifest/readiness/submission derivatives; frozen results unchanged.
+- Multi-leaf formal run: `POSITIVE`, 216/216 contracts retained, macro-F1/top-1 `1.0`; direct-codebook ablation is also `1.0` and narrows the claim.
+- PRM C2/C4 dry-run: `VALIDATED_NON_TRAINING`; reference smoke: `PIPELINE_CLOSED`, formal pilot `NO-GO`.
+- Agent Distillation: `DATA_CAPABLE_LICENCE_PENDING_NOT_PILOT_READY`; TCV smoke 1926/1928 rows, execution proxy 1792/1928.
+- Math-Shepherd-style rollout labels: constructed on 4 prefixes, 2/4 hard-positive and 2/4 human agreement; reference only.
+- Verification: full pytest `880 passed / 13 skipped / 1 deselected`; docs lint `0 fail / 6 existing warnings`; paper claims `79/79`; submission `10/10`.
+
+## Current governance and execution state (2026-10-11)
+
+- SANER `PRIMARY_ROUTE=A` owns the manuscript. Route B is `B_QUALIFICATION=NO / STOP_BRANCH`; no Route B experiment is authorized.
+- FinQA formal-v3 is `SECOND_FLOW_MIXED`; accepted interpretation is `MEASUREMENT_OBJECT_MISMATCH`, not protocol-blindness or transfer confirmation.
+- FinQA invalid run #1 and #2 remain `INVALID_BUT_PRESERVED`; binding_v2/v3, trace maps and receipts remain immutable history.
+- Binding_v3 and end-to-end preflight passed their historical qualification gates; the formal-v3 scientific outputs and autopsy are the current evidence boundary.
+- FinQA causal-exposure and causal checkpoint-selection materials remain design/qualification artifacts only; no new scientific experiment is authorized.
+- Repository governance is `PASS / CROSS_HOST_RECEIPT_VERIFIED`; direct-live GB10 plus deterministic LOCAL/GB10 receipts passed, and logical commit/push is recorded in Git history.
+- Paper package mechanical validation is current at claim `79/79` and submission `10/10 / PENDING_EXTERNAL_ITEMS`; external venue/authorship/patent/camera-ready items remain open.
+- Loop A uses approved Xiaomi mimo-v2.6 execution routes; Loop C uses the approved Claude Code audit route. Old deepseek/qwen role wording is historical.
+- Reversible session archive is retained. OpenCode session trimming and attached tmux closure require explicit cleanup confirmation; no credentials were copied into Git.

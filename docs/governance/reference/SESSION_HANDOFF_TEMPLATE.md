@@ -49,3 +49,16 @@
 - Vague status ("mostly done", "should work")
 - Missing the "notes for next agent" section (highest-leverage field)
 - JSON format (tried and abandoned — models write better prose than JSON for handoffs)
+
+## Graph Loop Contract Fields
+
+Every D -> A -> C -> D handoff must also record:
+
+- `AUTHORITY_REFS`: exact paths and SHA-256 values for the governing question, population, split, scorer, binding, analysis plan, task card and result receipt.
+- `IMMUTABLE_FIELDS` and `MUTABLE_FIELDS`: what may not change and what remains open.
+- `PASS_LEVEL`: `UNIT_PASS`, `COMPONENT_PASS`, `CONTRACT_PASS`, `INTEGRATION_PASS`, `END_TO_END_PREFLIGHT_PASS`, or `FORMAL_RUN_PASS`.
+- `PREFLIGHT_COMMAND`: exact command and exit status.
+- `STOP_STATE`: `ACTIVE`, `READY`, `BLOCKED`, `STOPPED`, `SUPERSEDED`, `INVALID_BUT_PRESERVED`, or `DONE`.
+- `EVIDENCE_CLASS` and the allowed/forbidden claim boundary.
+
+Do not treat chat text or `loop_runs/*.log` as authoritative state unless the material is copied into the applicable repo authority path and indexed.

@@ -1,6 +1,6 @@
 # memory/CORE.md — 永久事实（始终加载，<100 行）
 
-更新: 2026-09-22（文档指针治理；运行拓扑仍为 2026-08-22 最后正式记录，非实时健康声明）
+更新: 2026-10-09（Loop A/C Xiaomi 模型路由收敛；运行拓扑仍按现场服务核验）
 
 ## 系统拓扑（GB10 开发机: ssh jinrong-dev, testuser@10.129.237.26, ARM64）
 
@@ -15,12 +15,13 @@
 | :15432 | PostgreSQL + PGVector (docker) | vector_db, collection m1_parsed_statements |
 | :8090 | ZhikunCode (docker) | Multi-Agent 平台，可选扩展面 |
 
-## 模型路由（历史记录；当前任务不得据此派发）
+## 模型路由（2026-10-09 现役）
 
-- Loop A (Codex CLI): qwen3.8-max，Token Plan 直连 Responses API（~/.codex/config.toml）
-- Loop C (Claude Code): qwen3.8-max，Anthropic 兼容端点（~/.claude/settings.json）；不兼容的仅是 qwen3.8-max-preview
-- qwen_harness_tools.py: qwen3.8-max-preview（独立于 Loop 路由）
-- 禁止: 加载 72B（已删除; 硬禁 08-17 作废, 改模型准入预算门, 见 DECISIONS）；PaddleOCR（ARM64 SIGSEGV）；VLM :8007/Triton 线已关闭
+- Loop A (Codex CLI): `mimo-v2.6-flash` via `Xiaomi_Token_Plan`，执行 profile `~/.codex/loopa-exec.config.toml`；诊断 profile 使用 `mimo-v2.6-pro`。
+- Loop C (Claude Code): `mimo-v2.6-pro` via Anthropic-compatible endpoint `https://token-plan-cn.xiaomimimo.com/anthropic`（`~/.claude/settings.json`；2026-10-09 默认入口 smoke PASS）。
+- qwen_harness_tools.py: qwen3.8-max-preview（独立于 Loop 路由，仍属历史/工具线）。
+- 凭证只存外部受保护环境文件；不写入 Git、文档、日志或 prompt。
+- 禁止: 加载 72B（已删除; 硬禁 08-17 作废, 改模型准入预算门, 见 DECISIONS）；PaddleOCR（ARM64 SIGSEGV）；VLM :8007/Triton 线已关闭。
 
 ## Graph 四层 Loop
 

@@ -1,5 +1,5 @@
 # Project: JinRongAgents
-# Last updated: 2026-10-08 by Loop D governance neat and self-check closeout
+# Last updated: 2026-10-09 by Loop D configuration and session neat closeout
 
 ## Current status
 
@@ -48,12 +48,14 @@ Recorded evidence:
 
 ## Next-session handoff
 
-- Resume at metadata-only literature/dataset screening and experiment design for the Stage E evidence gap. The nine-method inquiry was applied conceptually; no new experiment, model call, dataset download, or claim upgrade was performed.
-- OpenAlex metadata API configuration is stored outside the repository at `C:\Users\王中华\.config\openalex.env` and `/home/testuser/.config/openalex.env`. The GB10 file is mode `600`; local and GB10 API loading both returned HTTP 200. The key is not recorded in Git, project docs, logs, or prompts.
-- Crossref/OpenAlex confirmed paper-level candidates include FinQA, TAT-QA, TabFact, PubTables-1M, and FeTaQA. Dataset download scope, licence, provenance, native checkpoint/action/correctness bridge, and independent origin clusters remain `UNVERIFIED` until the next session performs the exact annex audit.
+- The 2026-10-08 Stage E metadata/inquiry package is complete as `DESIGN_ONLY_NOT_AUTHORIZED`; remaining source, licence, lineage and bridge gaps stay `UNVERIFIED`.
+- Current model routes: Loop A execution uses `mimo-v2.6-flash` via `Xiaomi_Token_Plan`; Loop A diagnostics use `mimo-v2.6-pro`; Loop C uses `mimo-v2.6-pro` through `https://token-plan-cn.xiaomimimo.com/anthropic`.
+- A new user task is pending. Do not infer or start experiments, downloads, training, Phase 2, submission or external release.
 - Keep `DATA_NO_GO / RQ2 NOT_IDENTIFIED`, Stage D `PILOT_ONLY`, and the Stage E internal-submission boundary unchanged.
 ## Session rules
 
 - GB10 is the only authoritative runtime/validation environment; local synthetic tests are `DEV_ONLY / NON_AUTHORITATIVE`.
 - Do not overwrite production dirty files, restart daemon/:5050, print tokens, or send model credentials to mirrors.
 - Git history wins if this handoff and the repository disagree.
+
+> SUPERSEDED 2026-10-11: Route A owns the SANER manuscript; Route B is `NO / STOP_BRANCH`; multi-leaf is complete; FinQA formal-v3 is `SECOND_FLOW_MIXED` with accepted `MEASUREMENT_OBJECT_MISMATCH` interpretation. Historical status bullets below are retained as dated snapshots.

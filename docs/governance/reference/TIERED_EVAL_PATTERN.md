@@ -51,6 +51,19 @@ Example: `Tier 1 component checks PASS; Tier 3 replay NOT RUN` is complete and h
 
 ## Related
 
+## PASS Vocabulary
+
+Gate labels must include the exact level:
+
+- `UNIT_PASS` — isolated tests only.
+- `COMPONENT_PASS` — one module/adapter and its focused boundary tests.
+- `CONTRACT_PASS` — schema, semantic, provenance and hash-domain invariants.
+- `INTEGRATION_PASS` — the composed runner -> adapter -> scorer-input seam.
+- `END_TO_END_PREFLIGHT_PASS` — complete execution chain simulated, stopping before scientific output.
+- `FORMAL_RUN_PASS` — formal results plus independent recomputation.
+
+A lower level never implies a higher level. Reports must state covered and excluded paths.
+
 - [`../../../skills/eval-harness/`](../../../skills/eval-harness/) - evaluation and replay mechanics
 - [`FOUR_CONCEPT_SEPARATION_PATTERN.md`](FOUR_CONCEPT_SEPARATION_PATTERN.md) - execution, evidence, judgment, and approval
 - [`PROVENANCE_MAP_PATTERN.md`](PROVENANCE_MAP_PATTERN.md) - result-to-artifact traceability

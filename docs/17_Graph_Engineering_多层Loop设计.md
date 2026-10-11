@@ -85,7 +85,7 @@
                         │ 目标 + 约束 + 冻结指令
  ┌──────────────────────▼──────────────────────────────────┐
  │  Loop C: 质量审计 (慢)                                   │
- │  载体: Claude Code + qwen3.8-max (2026-08-03 起)          │
+ │  载体: Claude Code + mimo-v2.6-pro (2026-10-09 起)          │
  │  频率: 每轮执行完成后 / 每 4-6 小时                       │
  │  职责:                                                   │
  │    - 用真实甲方样本 (~/wzh/m1_samples/) 端到端验证        │
@@ -206,9 +206,9 @@
 
  ## 5. 待办事项 (Pending)
 
- ### 5.1 [P1] Codex CLI + GLM 5.2 模型配置测试
+ ### 5.1 [HISTORICAL][P1] Codex CLI + GLM 5.2 模型配置测试
 
- **状态**: 失败, 待后续排查
+ **状态**: 历史失败记录，已被 2026-10-09 Xiaomi/agent_env 路由与 loop_ac_launcher 取代
 
  之前尝试在远端 Codex CLI 中配置 GLM 5.2 模型 (通过千问平台 Token Plan),
  配置后测试失败, 模型不可用。具体表现:
@@ -267,7 +267,7 @@
  - 检查代码变更是否引入不必要的复杂度或架构漂移。
  - 检查冻结文件是否被篡改 (配合 Loop B 的 hash 校验)。
  - 你的审计报告写入 docs/experiments/, 格式: YYYY-MM-DD_audit_*.md。
- - 你的载体是 Claude Code (qwen3.8-max, Anthropic 兼容端点, 2026-08-03 起); 审计 prompt 见 scripts/graph/loop_c_audit_prompt.md。
+ - 你的载体是 Claude Code (mimo-v2.6-pro, Xiaomi Anthropic 兼容端点, 2026-10-09 smoke PASS); 审计 prompt 见 scripts/graph/loop_c_audit_prompt.md。
  - 你可以驳回 Loop A 的产出, 但不能自行修改代码。
  ```
 
@@ -325,10 +325,7 @@
  ### 从本机 (Loop D) 远程监控
 
 
-> **Loop A / Loop C 派活说明 (2026-08-04)**: Loop A 与 Loop C 均为一次性派活, 非常驻进程。
-> - Loop A: `tmux new-session -d -s loop-a-taskN "cd $PROJ && source ~/.bashrc && cat scripts/graph/loop_a_exec_constraints.md /tmp/task.md | codex exec --dangerously-bypass-approvals-and-sandbox 2>&1 | tee -a logs/graph/loop_a.log"`
-> - Loop C: `claude -p "<审计指令>"` (模型 qwen3.8-max, 2026-08-03 验证 tool_use 正常)
-> 完整口径见根 AGENTS.md 与 memory/CORE.md「分发通道」。
+> **Loop A / Loop C 派活说明 (2026-10-09)**: 两者均为一次性派活，统一入口是 `scripts/graph/loop_ac_launcher.sh`。launcher 使用 detached tmux、外层 timeout、status JSON 和日志，避免 SSH 断线或前台超时杀掉任务。先 `preflight`，再 `start a|c <task-id> <prompt-file> [timeout-seconds]`；状态用 `status`，日志用 `logs`。旧手工 tmux 命令仅作历史记录，不再是现役派发入口。完整口径见 `docs/governance/loop_ac_launcher_v1.md`。
 
  ```powershell
  # 战略层状态一览

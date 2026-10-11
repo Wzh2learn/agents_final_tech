@@ -57,3 +57,5 @@
 2. 推断装载需一句话理由; 显式装载照录卡文。
 3. 收口汇报附装载清单执行情况（装了没用 / 没用装 = 浪费信号, 记台账供路由表迭代）。
 4. 路由表每季度（或漂移事故后）复审一次, 修订需用户批（立法件纪律）。
+| formal experiment preflight | verify-before-done + audit-cycle + self-eval-bias | `FORMAL_EXPERIMENT_PREFLIGHT_V1.md`; END_TO_END_PREFLIGHT_PASS 前禁止 scientific output |
+| authority/handoff closure | neat-freak + jinrong-docs-sync | `GRAPH_LOOP_AUTHORITY_MAP_V1.md`; A/C/D handoff 必须带 authority paths + hashes + PASS level |
