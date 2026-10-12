@@ -1,4 +1,6 @@
 # Project: JinRongAgents
+> **2026-10-12 当前交接覆盖下文旧状态。** 先读 [研究治理收尾](docs/research/REPO_GOVERNANCE_FINAL_v1.md)；Paper E 按 [投稿门禁](docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md) 收尾，硕士按 [执行入口](docs/research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md) 进入 WP-0。当前稿件科学纠偏未执行、不能直接注册/投稿；G-RQ/G-M PENDING，未授权实现/实验。下文repo PASS/三端对齐、仅人工阻断、matched-FPR简写及PR恢复顺序保留为历史，不控制当前行动。未清场，未重新核验GB10/远端。
+
 # Last updated: 2026-10-12 by Loop D final neat closeout (language pass, evidence verifier, memory automation, Loop C self-audit)
 # Scope: fresh-session handoff for SANER Route A
 

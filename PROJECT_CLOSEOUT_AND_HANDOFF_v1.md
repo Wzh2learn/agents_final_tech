@@ -1,5 +1,7 @@
 # PROJECT_CLOSEOUT_AND_HANDOFF_v1.md
 
+> **2026-10-12 后续科学裁决已取代本文的当前行动建议。** 当前先读 [研究治理收尾](docs/research/REPO_GOVERNANCE_FINAL_v1.md)，Paper E 读 [投稿门禁](docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md)，硕士工作读 [执行入口](docs/research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md)。Paper E 纠偏未执行、不可按现稿投稿；G-RQ/G-M 均 PENDING，下一步仍是 WP-0 只读材料核验。下文“human-only blockers”、直接注册/投稿顺序、PR-01/04 恢复建议及三端对齐均为历史快照，不能作为当前科学签署或运行许可；旧结果、资产路径和审计痕迹保留。
+
 > date: 2026-10-12 (final neat closeout) | owner: Loop D | scope: SANER Route A submission package + Track P closeout + repo governance
 > HEAD at closeout: see `git rev-parse HEAD` (this file is committed in the same commit). LOCAL = origin/main = GB10.
 > 本文件是 fresh-session 的第一入口；细节状态见 memory/STATE.md，未决事项见 memory/THREADS.md，导航见 docs/INDEX.md。

@@ -232,3 +232,12 @@ gb10/qwen3.6-35b-a3b (配置级 <1min); 代理可 tmux kill thinking-proxy 停;
 
 结论: Loop A 执行 profile 固定为 `mimo-v2.6-flash` / `Xiaomi_Token_Plan`，诊断 profile 固定为 `mimo-v2.6-pro` / `Xiaomi_Token_Plan`；Loop C (Claude Code) 固定为 `mimo-v2.6-pro`，使用 Anthropic-compatible endpoint `https://token-plan-cn.xiaomimimo.com/anthropic`。旧 `deepseek-v4.1-flash + Token_Plan_Chat` profile 和 `qwen3.8-max` Loop C 路由均为历史口径，不再作为现役默认。
 理由: 2026-10-09 实测 Xiaomi OpenAI-compatible 模型面可用；Claude Code 使用旧 token 和错误 base URL 时为零 token 中止，更新外部 token 并使用 `/anthropic` 后，默认 `claude -p` 返回 `result=OK`、`modelUsage=mimo-v2.6-pro`、`stop_reason=end_turn`。凭证仅存外部受保护配置，不进入本记录。
+
+## [2026-10-12] 大论文研究边界冻结，方法创新与执行许可不预支
+
+结论: 用户要求根据导师/审稿压力测试冻结研究边界；当前科学裁决以 [THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md](../docs/research/THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) 为准，架构v3与蓝图v1按职责维护。RQ2仅是待验证假设，具体方法创新未识别；Paper E只提供测量约束，不认证新任务反馈资格；Memory/SFT/Adaptation是研究对象。G-RQ/G-M均PENDING，下一步仅WP-0只读核验；最小验证必要性、候选方法必要性/差异及实际贡献分开，任何实施仍需对应范围裁决与具体许可。
+理由: 已有研究覆盖通用经验反馈/记忆更新/参数蒸馏/持续退化主题；合理主线与pilot正向均不足以认证新方法。采用有条件研究路线，不恢复强制EDR，不以模块或治理复杂度代替科学价值。更新前两份原文按字节保存及哈希核验，旧闭线/NOT_RUN/稿件/证据不改；本轮无实验、代码、GB10或外发。
+## [2026-10-12] 最终研究交接收敛，投稿资格与研究执行分开
+
+结论: 以 docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md 记录当前 Paper E 科学阻断与未来作者验收，以 MASTER_RESEARCH_EXECUTION_ENTRY_v1.md 路由硕士资格核验，以 REPO_GOVERNANCE_FINAL_v1.md 限定本地文档收尾。旧 closeout/side_handoff 的 human-only、直接投稿、PR 恢复和三端 PASS 不再控制当前行动；正文保留追溯。本次未改变四份科学基线、pilot 数值或旧闭线。
+理由: 用户明确要求进入执行前 neat，而现稿尚未落实作者级裁决；文档交接可用不等于科学过门、实验获准、远端同步或物理清场。Paper E 只继承为测量约束，Agent/Memory/SFT/DPO/Adaptation 保留有条件空间，不预设贡献。后续仍须按范围取得导师/owner裁决及具体许可。本轮无实验、改稿、代码、GB10/端点、提交/推送或资产删除。

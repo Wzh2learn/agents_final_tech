@@ -1,5 +1,17 @@
 # memory/THREADS.md — 未决线索
 
+[10-12] #EXECUTION-HANDOFF-WAITING-NEXT-TASK: [执行侧状态](../docs/research/EXECUTION_HANDOFF_STATUS_v1.md) 固定后续两项：Paper E按gate进入WP-E修订流程；大论文仅WP-0只读资格核验。当前科学纠偏/材料核验未执行、两门PENDING；已有owner待办见下方FINAL条目，不新增路线或门。主入口齐备，STATE旧目标已标历史；蓝图“拟建task card”不表示应重建或资格已过。远端实际版本/文件与具体权限在下一阶段任务绑定；本轮交接完成后停止，未派活、未改稿/代码、未实验。
+
+[10-12] #FINAL-RESEARCH-HANDOFF-PENDING-ACTIONS: 当前入口为 [repo治理收尾](../docs/research/REPO_GOVERNANCE_FINAL_v1.md)。Paper E [投稿门禁](../docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md) = BLOCKED_SCIENCE：A2核心claim及其余作者裁决未落实，尚需明确改稿范围、同一最终包验收、作者签署与owner外发决定；旧“只剩人工事项”已失效。硕士 [执行入口](../docs/research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md) 下一步仍WP-0只读来源/许可/目标/经验核验，G-RQ/G-M PENDING、创新未识别；Memory/SFT/DPO/Adaptation未来空间不等于现役贡献或运行许可。Git集成/远端运行/独立GB10验收未本轮核验，工作区脏件保留；无清场或删除请求。本地skill静态0 errors/139 warnings（既有）、map 27项启发式引用候选，目录债务保留，不是新增科学阻断；未自动修复。后续Loop D按具体包与权限派活，Loop A不自动推进。
+
+[10-12] #TH3-WP0-DESIGN-QUALIFICATION-PENDING: [最小科学验证任务卡](../docs/research/thesis_experience_v1_task_card.md) 已完成设计；四臂只识别固定经验包的受限效应，不分离反馈资格的贡献，不证明Memory/SFT或方法创新。下一步仍需只读绑定确切来源/revision/文件/IDs/许可、origin/近重复、参考目标与经验可得性，交导师/owner裁决；`G-RQ=PENDING / G-M=PENDING / METHOD_NOVELTY=NOT_IDENTIFIED`。CONTINUE只支持申请必要性/既有基线比较，未授权WP-1/2。本轮零实验、代码/改稿、模型或GB10访问。
+
+[10-12] #THESIS-RESEARCH-BOUNDARY-FROZEN: 当前边界以 [研究治理基线v1](../docs/research/THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) 为准，架构v3管范围、蓝图v1管工作包与原首验参数；取代下面较早规划条目的未来推进口径。RQ2是待验证假设，具体方法创新未识别；Paper E不认证学习资格，Memory/SFT/Adaptation不预设贡献。`G-RQ=PENDING / G-M=PENDING / METHOD_NOVELTY=NOT_IDENTIFIED`；下一步仅WP-0只读核验，首验也须通过两门对最小验证范围的裁决与具体许可，pilot正向不自动进入新算法。导师待裁决任务/必要性、方法差异、资源与学位要求；历史字节快照已保留。零实验/代码/改稿/GB10/训练/外发，旧闭线与NOT_RUN不变。
+
+[10-12] #THESIS-V3-BLUEPRINT-DESIGN-ONLY: 用户要求吸收三RQ与题目反馈、调整文档并生成执行规划；当前规划入口为 [架构v3](../docs/research/THESIS_RESEARCH_ARCHITECTURE_v3.md) → [执行蓝图v1](../docs/research/THESIS_EXECUTION_BLUEPRINT_v1.md)。新TH3-RQ命名不解除旧DATA_NO_GO/RQ2 NOT_IDENTIFIED或PR03/FinQA/TAT-DQA闭线；首验参数/来源/许可/模型与预算须在未来运行前绑定，Paper E科学纠偏仍未执行。导师待确认学位要求、题目定稿与参数资源；本轮仅文档，零GB10/模型/服务/实验/训练/改稿/外发。
+
+[10-12] #STRATEGIC-REVIEW-PENDING: 新的独立战略审查见 [STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md](../docs/research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md)。新发现的 C2 操作点/ROC 区分、non-direct 部分信息及 harmfulness/FinQA 解释问题待作者独立审定；TOP 3 CONTINUE/STOP/NEW BETS 与6个未来工作包均为建议，不更改冻结结果/分支状态，不构成 GB10 实验、训练或改稿授权。本轮仅阅读/记录，零项目端点访问。
+
 
 > 归档说明（2026-10-11）：本文档只保留近期未决线索（条目日期 >= 10-03）。更早的条目（<= 09-30，共 202 条）已按块字节级原样移入 `archive/THREADS_archive_pre_2026-10-01.md`；更早的历史滚动件见 `archive/THREADS_history.md`。
 [10-09] #NEAT-CLEANUP-ACTION-COMPLETED: user confirmed deletion after full report; OpenCode sessions reduced 50->20, nine old config backups deleted, three current backups retained. Post-cleanup audit passed; attached tmux and legacy warnings remain untouched.

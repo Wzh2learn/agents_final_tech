@@ -1,6 +1,14 @@
 # Current State
 
-> Updated: 2026-10-11 (submission-completion + Track P closeout) | Scope: SANER Route A submission package, Track P closure, repository governance | Runtime: GB10 authoritative; local synthetic tests are DEV_ONLY / NON_AUTHORITATIVE
+> Updated: 2026-10-12 (final research handoff, documentation only; last runtime/closeout snapshot 2026-10-11) | Scope: thesis qualification, Paper E submission gate, Track P closure | Runtime: GB10 authoritative; not reverified this round
+
+## 2026-10-12 execution preparation (handoff only)
+
+- Latest [`execution handoff status`](../docs/research/EXECUTION_HANDOFF_STATUS_v1.md): strategy governance is finished; next tasks are Paper E WP-E revision under its gate and thesis WP-0 read-only qualification only. This round stops at review/handoff; no revision, qualification execution, implementation, experiment or dispatch occurred. Paper E remains science-blocked; G-RQ/G-M remain PENDING. The historical sections below do not control current priority or permission.
+- Final research handoff: [`REPO_GOVERNANCE_FINAL_v1.md`](../docs/research/REPO_GOVERNANCE_FINAL_v1.md). Paper E is [`SUBMISSION_BLOCKED_SCIENCE / REVISIONS_NOT_APPLIED`](../docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md), not merely waiting for human submission details. Thesis routing and inheritance boundaries are in [`MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`](../docs/research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md). Old closeout/side-handoff claims about readiness, cross-host PASS and PR recovery are historical and superseded for current action. Local documentation closure does not certify runtime, Git sync, clean workspace or experiment permission.
+- Research boundaries now follow [`THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md`](../docs/research/THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md); [`architecture v3`](../docs/research/THESIS_RESEARCH_ARCHITECTURE_v3.md) maintains scope and [`blueprint v1`](../docs/research/THESIS_EXECUTION_BLUEPRINT_v1.md) maintains work packages/unchanged pilot parameters. RQ2 is an untested hypothesis, not an established method; Paper E supplies measurement constraints only; Memory/SFT/Adaptation are research objects. `G-RQ=PENDING / G-M=PENDING / METHOD_NOVELTY=NOT_IDENTIFIED`; next entry is WP-0 read-only qualification. Pre-update originals are preserved with hashes in [`history`](../docs/research/history/2026-10-12_pre_governance/README.md). Earlier thesis/EDR sequencing is historical; no old NO_GO or closed branch is reopened.
+- This update changes documentation only. SANER claim corrections remain unexecuted; scientific adjudication is recorded in [`SANER_SCIENTIFIC_ADJUDICATION_v1.md`](../docs/research/SANER_SCIENTIFIC_ADJUDICATION_v1.md). No experiment/model/training/manuscript/submission action is authorized by the new blueprint; runtime/results and the 2026-10-11 closeout facts below are unchanged.
+- WP-0 design is recorded in the existing planned [`task card`](../docs/research/thesis_experience_v1_task_card.md): a bounded given-experience probe, four-arm identification limits, STOP/CONTINUE interpretation and WP-0/WP-1 responsibilities. `DESIGN_COMPLETE / QUALIFICATION_PENDING / EXPERIMENT_NOT_RUN`; exact sources/IDs/rights, real experience and runtime remain unverified. G-RQ/G-M stay PENDING and method novelty NOT_IDENTIFIED. Next entry remains read-only material qualification; no WP-1 implementation or WP-2 run.
 
 ## 2026-10-11 submission closeout (Loop D)
 
@@ -12,7 +20,7 @@
 
 Current snapshot. Open decisions: [`THREADS.md`](THREADS.md); durable decisions: [`DECISIONS.md`](DECISIONS.md); research entry: [`../docs/research/README.md`](../docs/research/README.md). The pre-governance snapshot remains archived at [`archive/STATE_2026-09-22_pre_governance.md`](archive/STATE_2026-09-22_pre_governance.md).
 
-## Current objective
+## Historical objective (formal negative Path B; not current execution priority)
 
 当前 goal 的合法路径 B 已完成：正式记录 `DATA_NO_GO / RQ2 NOT_IDENTIFIED`，解释 Valentine 551 tasks 仅形成 8 个保守 origin components、无 native trajectory/checkpoint bridge，完整 Evaluate-Distill-Evolve 转为 future work；成熟 Stage E 小论文内部投稿版与大论文开题、第 1–2 章、第 3–8 章框架、Track B pilot、负结果边界和未来数据需求均已落盘。Stage E 现为 `ready for advisor review`；仅剩两个导师决策项：multi-leaf vs second dataflow、harmfulness 定义选择。此结论不等于确认性 RQ2/Stage D/Stage R/RQ4、正式外投或训练完成。
 

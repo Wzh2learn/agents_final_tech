@@ -1,79 +1,80 @@
 # 科研主线与论文验收入口
 
-> 状态: 活跃 | 更新: 2026-10-08 | 取代/被取代: 不取代受保护路线文档；作为当前执行与验收入口
+> 状态: 活跃 | 更新: 2026-10-12 | 取代/被取代: 研究边界以治理基线v1为准，架构v3/蓝图v1按职责维护；受保护政策、历史证据与运行权限不变
 
 本文只回答三个问题：小论文在证明什么、大论文如何承接、下一项工作怎样验收。历史实验过程仍保留在 `docs/experiments/`，不在这里重复。
 
+**执行侧最新状态：** [EXECUTION_HANDOFF_STATUS_v1](EXECUTION_HANDOFF_STATUS_v1.md)。战略治理结束；后续仅 Paper E 的 WP-E 投稿修订流程和大论文 WP-0 只读资格核验。本轮仅交接并停止，未执行改稿/实现/实验；各 gate 与科学范围不变。
+
+**2026-10-12 最终研究交接：** Paper E 先读 [投稿门禁](PAPER_E_SUBMISSION_READINESS_GATE_v1.md)，当前科学纠偏未执行、不可按现稿投稿；硕士工作先读 [执行入口](MASTER_RESEARCH_EXECUTION_ENTRY_v1.md)，下一步仍是 WP-0 只读材料核验；repo/harness 边界见 [治理收尾](REPO_GOVERNANCE_FINAL_v1.md)。这三份文件只收敛入口，不授权改稿、实现或实验。
+
+**科学基线不变：** [治理基线v1](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) → [架构v3](THESIS_RESEARCH_ARCHITECTURE_v3.md) → [蓝图v1](THESIS_EXECUTION_BLUEPRINT_v1.md)。RQ2 为待验证假设，G-RQ/G-M 均 PENDING、方法创新未识别；Paper E 只提供测量约束。[历史快照](history/2026-10-12_pre_governance/README.md) 保留原始字节。本文 §4–§6 及末尾旧日期记录不控制当前路线、投稿资格或运行许可。
+
+**WP-0 设计入口：** [最小科学验证任务卡](thesis_experience_v1_task_card.md) 已记录最小问题、四臂识别边界、停止条件和 WP-0/WP-1 责任。`DESIGN_COMPLETE / QUALIFICATION_PENDING / EXPERIMENT_NOT_RUN`；确切来源、许可与经验仍未核验，G-RQ/G-M 不升级。下一步仍是同卡只读材料资格核验，不是 WP-1 实现或 WP-2 运行。
+
 ## 1. 权威层级与最短阅读路径
 
-“单一权威”按职责划分，不等于只留一份文件。用户 2026-09-22 的明确校准优先；下表各层不得越权替代其他层。
+“单一权威”按职责划分，不等于只留一份文件。用户最新明确指令优先；2026-10-12 更新仅改变未来规划，下表各层不得越权替代其他层。
 
 | 层 | 权威文件 | 管什么、不管什么 |
 |---|---|---|
 | 导航入口 | 本文件；全仓目录见 `docs/INDEX.md` | 指定阅读顺序与冲突裁定，不另存实验数字真值 |
 | 战略/导师政策依据 | `docs/33_导师指导吸收_科研三线升级.md`、`docs/34_专利_小论文_大论文协同研究路线.md` | 两件受保护、只读；导师要求与专利公开边界继续有效，旧小论文范围/排期不覆盖本次校准 |
-| Stage E 当前小论文 | `paper/teacher_review_draft_v1.md` | 当前正式内部投稿路线与 measurement-validity 主张边界；不含 Stage D/R/RQ4 结果 |
-| 证据与资产账本 | `paper/research_asset_map_v2.md`；Stage E 主张细账为 `paper/claim_manifest_v1.json` | 区分已成立、机制级、needs-evidence 与历史素材；数字真值仍来自原始工件 |
-| 当前执行计划 | `docs/handoff/2026-09-22-paper-research-next-phase.md` | 唯一下一阶段任务顺序、四层数据边界、阶段门与拆稿条件；不得再建平行计划 |
-| 长期研究叙事 | `paper/research_story_v2.md`、`paper/research_asset_map_v2.md` | Evaluate-Distill-Evolve 是大论文/后续研究框架；目标贡献不等于当前小论文结果 |
+| Stage E 当前小论文 | `paper/saner_rene_manuscript_v1.md`、`paper/saner_rene_claim_matrix_v1.json`；`SANER_SCIENTIFIC_ADJUDICATION_v1.md` | canonical SANER 稿与作者级纠偏边界；纠偏未执行，不含Agent学习结果。旧teacher draft不覆盖当前SANER稿 |
+| 证据与资产账本 | `paper/research_asset_map_v2.md`；原始工件；当前SANER矩阵与科学裁决 | 区分已成立、机制级与历史素材；旧解释与裁决冲突时不继承旧推断，数字真值仍来自原始工件 |
+| 当前研究边界与推进裁决 | `THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md` | RQ2假设与创新边界、已有工作风险、G-RQ/G-M允许范围、禁止事项；不授权实验或认证方法 |
+| Paper E 当前投稿资格 | `PAPER_E_SUBMISSION_READINESS_GATE_v1.md` | 科学纠偏待执行，当前不可按现稿外发；旧编译/机械PASS不覆盖作者级裁决 |
+| 硕士当前执行路由 | `MASTER_RESEARCH_EXECUTION_ENTRY_v1.md` | Paper E继承边界、已验证/待验证/探索对象与Loop A/D入口；不增加路线 |
+| 本轮repo/harness交接边界 | `REPO_GOVERNANCE_FINAL_v1.md` | 资产保留、路线冻结和局部文档收尾；不认证全库/远端/清场完成 |
+| 当前未来执行规划 | `THESIS_EXECUTION_BLUEPRINT_v1.md` | 未授权的12个月工作包、首验参数和探索性资源门；服从治理基线，不重定义科学推进门；旧09-22计划不控制新序列 |
+| WP-0 当前设计任务卡 | `thesis_experience_v1_task_card.md` | 细化最小验证与WP-0/WP-1；只完成设计，材料资格待核验，不覆盖基线/蓝图或签发许可 |
+| 长期研究叙事 | `THESIS_RESEARCH_ARCHITECTURE_v3.md` | 三个TH3-RQ与Evaluation→Evidence→Learning→Adaptation；旧research_story_v2/EDR保留历史，不强制完成 |
 | 数字真值 | `logs/graph/eval/` 下原始 JSON + 对应生成代码/冻结协议 | 原始数字优于文字摘要；历史实验只能支持原协议内的结论，不能反推新实验已经完成 |
 | 历史/已取代过程稿 | `docs/30_科研线规划.md`、`docs/superpowers/plans/2026-08-29-long-horizon-evaluation-paper.md`、评估蓝图、旧大论文骨架、多轮审稿与旧任务卡 | 保留追溯/证据价值，不再控制当前方向或排期 |
 
-冲突裁定：论文范围由用户校准及当前叙事覆盖 docs/33、docs/34 中的旧范围；公开限制不被覆盖。执行细节由当前计划覆盖旧任务卡；`docs/experiments/2026-09-22_distillation_mvp_preregistration.md` 是从属于该计划的实验口径合同，当前仍为 `DRAFT_NOT_FROZEN`，不是已授权实验。已执行实验的预注册与原始工件不可被新计划回改；数字不符先审计，不选择更有利的文字版本。审稿记录是问题来源，不自动成为新结论。
+冲突裁定：新规划取代旧未来路线和排期，不改变 docs/33、docs/34 的受保护原文或公开限制。旧预注册、DATA_NO_GO/RQ2 NOT_IDENTIFIED及闭线继续在旧命名空间有效；TH3-RQ不继承旧许可，也不回改原始工件。审稿记录是问题来源，不自动成为新结论。当前模型、训练、服务与数据运行仍需具体任务授权。
 
-**最短必读路径**：`AGENTS.md` → `memory/CORE.md` / `memory/STATE.md` / `memory/THREADS.md` 当前科研线 → 本入口 → `paper/research_story_v2.md` → `paper/research_asset_map_v2.md` → 当前执行计划 §13 当前边界，再按对应 Phase 卡执行。§10/§12 仅作历史证据。首次接手再只读 docs/33、docs/34 的政策；只在复核某条结论时打开对应实验工件或评估稿，不必重读全部旧稿。
+**最短必读路径**：`AGENTS.md` → `memory/CORE.md` / `memory/STATE.md` / `memory/THREADS.md` 相关当前条目 → 本入口 → 治理基线 → 架构v3相关RQ → 蓝图当前工作包。Paper E任务另读科学裁决与canonical稿；其余原始材料按问题加载，不重读全部旧稿。首次接手按需只读 docs/33、docs/34 的政策。
 
 历史材料不删除，也不能继续参与当前结论竞争；大规模移动、删除、改名须用户另行确认。Word/图是派生展示件，不覆盖 Markdown 权威源；`paper/research_story_v2.docx` 已按当前正文和三阶段表离线重生成，结构/口径检查通过，不等于 Office 视觉验收或可对外发布。
 
 ### 1.1 与代码资产和研发协作怎样接上
 
 - 代码在哪里、输入输出和副作用：`docs/architecture/codebase_map.md`；科研证据成熟度仍由资产账本维护，二者不互相替代。
-- 研发分工：`docs/17_Graph_Engineering_多层Loop设计.md`；工程路线/历史 backlog：`docs/29_graph_engineering_roadmap.md`。当前未决只在 `memory/THREADS.md`，科研顺序只在现有执行计划。
+- 研发分工：`docs/17_Graph_Engineering_多层Loop设计.md`；工程路线/历史 backlog：`docs/29_graph_engineering_roadmap.md`。当前未决只在 `memory/THREADS.md`，新科研顺序只在执行蓝图。
 - 任务卡用 `templates/task_card_template.md`：D 授权 → A 执行 → B 独立验证 → C 独立审计 → D 验收。业务内 `src/agents/` 不承担这套治理角色，脚本在库不等于自动化已安装。
 - 本地/GB10 分工以 `docs/governance/2026-09-07_execution_plane_boundary.md` 为准：零端点不等于可在本机创造正式实验事实，Loop B 默认检查也不是零调用。
-- 用户说明原始语料、模型和执行环境在另一台服务器，本轮不连接或补齐；本地缺件是未核验依赖，不判作研究失败。下一阶段需该依赖时再按原计划取证。
+- 原始语料、模型和执行环境在另一台服务器，本轮不连接或补齐；本地缺件是未核验依赖，不判作研究失败。后续按当前工作包和具体许可取证。
 
 ## 2. 统一科研主线
 
-### 2.1 长期研究主线（大论文/后续工作）：Evaluate-Distill-Evolve
+### 2.1 大论文当前规划：三个问题，一项核心学习研究
 
-长期目标故事见 `paper/research_story_v2.md`：大模型流程评估 → checkpoint 引导的小模型规则动作蒸馏 → 验证门控的规则自学习与版本化回滚。`research/vgmc_exp1.py` 主要记录动作事件，不是完整推理轨迹，近期只能称“动作策略蒸馏/规则候选蒸馏”。小模型负责候选提出和验证预筛，不替代最终确定性验证门。
+推荐工作题目《面向智能体的证据引导经验学习与持续适应研究》。保留Evaluation→Evidence→Learning→Adaptation作为科学依赖，不要求四模块、三阶段EDR或多篇对称论文。
 
-| 阶段 | 大论文/未来责任 | 当前资产 | 当前成熟度 |
-|---|---|---|---|
-| E 大模型流程评估 | 提供经审计的 checkpoint 信号 | 95 表、118 注入、检查点树、可见性与协议审计 | Stage E 当前小论文证据底座；不代表动作标签天然正确 |
-| D 小模型蒸馏 | 8B 主学生学习规则动作；4B 仅训练链 smoke | 零样本矩阵、文献、偏好素材、训练 readiness | `DATA_NO_GO / PILOT_ONLY`；无训练结果 |
-| R 自学习规则进化 | 把稳定经验固化为可审计规则 | gain–collateral 门、碰撞/对抗实验、静态协议 | 机制级；Stage R 未形成安全持续收益 |
+| 新命名空间 | 职责 | 当前状态 |
+|---|---|---|
+| TH3-RQ1 | 候选反馈的事实支持、测量对象与使用条件；不证明未来效用 | E只提供测量约束、纠偏待执行；新任务QUALIFICATION_PENDING |
+| TH3-RQ2 | 检验反馈能否改善未来行为与结果；Memory/SFT是研究对象 | 待验证假设，METHOD_NOVELTY=NOT_IDENTIFIED，NOT_RUN |
+| TH3-RQ3 | 存活机制的有限适应收益、错误传播、遗忘与成本 | 条件性边界检验，不预设创新，NOT_RUN |
 
-`paper/teacher_review_draft_v1.md` / `.docx` 是当前 Stage E 内部投稿路线；Evaluate-Distill-Evolve 三阶段属于大论文和 future work，不写成当前小论文已有贡献。
+下一项只读工作是 WP-0 的 G-RQ/G-M 与任务资格核验；首个拟议模型实验仍是经验复用pilot。两门对相应范围的裁决、最小验证必要性及具体许可成立后才可实施。旧D/R协议、4B/8B顺序与DATA_NO_GO保持历史身份，不绑定新实现。
 
 ### 2.2 Stage E 小论文：当前正式内部投稿路线
 
-当前题目：*Visibility Is Not Detection: Auditing Blind Spots in Long-Horizon Document AI Evaluation*。
+canonical稿与矩阵见上表；最终题目与claim尚待落实科学裁决并由作者签署，本入口不另定稿。Paper E保留受限measurement-validity audit，不支持通用Agent/long-horizon或学习收益。
 
-核心科学问题是 measurement-validity / meta-evaluation：评测协议自身有什么 observation boundary，以及为什么 visibility、detection、harmfulness 是三个不能被 aggregate score 混为一谈的 construct。
+收尾重点：C2结构等价与部署规则拆开、non-direct部分信息、OCR非响应与harm分开、异质5/8、FinQA结果字段未重算及availability。具体修改原则只在科学裁决维护；本轮不改稿、不改冻结数字。
 
-| 最终贡献 | 内容 | 证据边界 |
-|---|---|---|
-| C1 construct separation | 分离 checkpoint visibility、protocol detection、equivalence-dependent harmfulness | 只覆盖当前冻结表格语料与注入族 |
-| C2 evidence instrument | hierarchical checkpoint evidence + per-family visibility profiles | hierarchy 是 evidence instrument，不是算法创新 |
-| C3 protocol audit | threshold、matcher、seed、matched-FPR 等审计揭示 measurement confounding | `[0,0]` 是 threshold-confounding 诊断，不是理论创新 |
+### 2.3 大论文与论文出口
 
-Stage E 明确不承担 VGRM 显著效果、PSO 优越性、严格“盲锥”理论、RL/DPO/bandit 扩展、任意长流程系统的普遍外推。PSO 是 informative null；Stage R 只保留 mechanism/boundary case；完整 E-D-R 是 future work。
-### 2.3 研究生大论文：展开三阶段并验证长期闭环
-
-| 创新点 | 核心问题 | 与小论文关系 | 独立验收条件 | 成熟度 |
-|---|---|---|---|---|
-| TH-I1 判别力感知的分层评测 | 如何以可控成本获得可诊断证据？ | Stage E C2/C3 是主体证据 | 强基线、多种子、不确定性、成本口径、第二类长流程 | 中高 |
-| TH-I2 缺陷可见性与静默吸收 | 哪些缺陷为何不可见？ | Stage E C1 是主体证据 | 等价类、强度梯度、匹配器边界和跨数据流复现 | 中高 |
-| TH-I3 评估引导的小模型动作策略蒸馏 | 如何将可靠规则动作迁移到低成本学生？ | 长期扩展；当前小论文无训练结果 | 4B 仅 smoke、8B 主学生、SFT/条件 DPO、四层隔离、未见家族、质量—成本 Pareto | 低，先数据与可学性审计 |
-| TH-I4 验证门控的规则自学习 | 如何安全固化并回滚？ | Stage R 机制边界/future work；非当前小论文结果 | no-gate/gain-only/collateral-only/confidence-only/fixed-dual/gate-validation/rollback 强基线，功效分析 | 中 |
-
-大论文不是把小论文拉长。TH-I1/TH-I2 复用评估底座，TH-I3 扩展多学生/多教师和泛化，TH-I4 扩展长期安全性与学习门。视觉补盲仅作 TH-I2 的条件性实验。
+Paper E作为受限测量基础经验章；核心学习论文是争取的出口，方法贡献取决于必要性、具体差异与独立效果证据，有限适应按存活机制开展。第二篇扩展不是硕士毕业前置。博士沿经验进入记忆/参数及失效纠正深化，不补救尚未成立的硕士方法。平台是复现支持，不另计科学贡献。
 
 ## 3. 论文导向验收体系
 
-任何新测试、脚本或实验必须先绑定当前 Stage E `C1-C3`、长期大论文 `TH-I*` 或明确的历史 `SP-RQ*` 命名空间；三阶段蒸馏是 RQ2/TH-I3，不能混同 Stage E 的 measurement-validity 贡献。不能回答论文问题的“全链路通过”只算工程健康检查，不算科研验收。
+下表保留通用检查目录，不另立 TH3 推进门。当前研究问题与方法必要性裁决以治理基线 G-RQ/G-M 为准，具体分析以当前任务卡为准；不能从下表机械增加新数据流、训练、全量测试或运行预算。公开政策继续遵守受保护原文与具体许可。
+
+任何新测试、脚本或实验必须绑定当前SANER claim、`TH3-RQ1/2/3`或明确的历史命名空间；旧TH-I/SP-RQ/Phase状态不自动迁移。新工作包是否获准、是否只到软件/资格/探索或确认级分别验收。不能回答论文问题的“全链路通过”只算工程健康检查，不算科研验收。
 
 | 门 | 必须回答 | 通过证据 | 失败时处理 |
 |---|---|---|---|
@@ -86,16 +87,18 @@ Stage E 明确不承担 VGRM 显著效果、PSO 优越性、严格“盲锥”�
 | G6 外部效度门 | 结论能推广到哪里？ | 第二数据流、第二 scorer 或明确限制 | 使用预注册降级表述 |
 | G7 公开门 | 可以投稿或公开吗？ | 专利申请状态及权利要求覆盖由用户确认 | 未确认前不外发、不上传 arXiv、不公开核心代码 |
 
-### 验收结果只有四种
+### 科研结论与执行状态分开
 
 - `PASS`：预注册判据满足，可以支持指定 claim。
 - `PARTIAL`：只支持收窄后的 claim，必须同时写限制。
 - `NULL`：没有预期增益，但实验有效；保留为科研结果。
 - `INVALID`：构念、数据、执行或证据链失败；不能进入论文。
 
+新蓝图另报 `NOT_RUN / NOT_AUTHORIZED / NOT_EVALUABLE / UNDETERMINED` 等执行或未定状态，不能强塞进上述已完成结果分类。探索性继续门不是确认性PASS；宽区间未见增量不证明零效应。
+
 “服务启动成功”“pytest 全绿”不能单独得到以上任何科研结论。
 
-## 4. 当前就绪度
+## 4. 历史就绪度快照（不控制新路线）
 
 ### 小论文
 
@@ -109,7 +112,7 @@ Stage E 明确不承担 VGRM 显著效果、PSO 优越性、严格“盲锥”�
 - TH-I3 只有训练前矩阵、文献和偏好对，尚无蒸馏结果。2026-09-25 实测进一步定位了其数据路径：在已批准来源范围内**没有单一命名空间可承载 Phase 1a 动作包**，且 250-500 有效 UID 的补充目标对 schema-matching 表对类来源不可达（K = 表对数，实测 K=10）。详见 §6.3。
 - TH-I4 有机制与探索性证据，强门控基线和功效分析尚未闭合。
 
-## 5. 论文验收基线 v1
+## 5. 历史论文验收基线 v1
 
 目标不是新跑模型，而是把现有科研资产变成可审计、可投稿、可继续扩展的基线。
 
@@ -148,7 +151,7 @@ Stage E 旧评估稿的 G5 静态门已补充语义反向负控；OCR 可见性�
 
 本批不包含：生产探测、模型调用、TAT-DQA 解冻、D4 执行、专利公开状态判断或对外发送。
 
-## 6. 当前状态边界
+## 6. 历史状态边界（按日期读取）
 
 ### 6.1 2026-09-23 strict closeout status
 
@@ -183,8 +186,10 @@ What survives is the methodology plus a clean negative result: a corpus frozen b
 
 ## 7. 常用入口
 
-### 7.1 2026-10-03 current-state override
-### 7.1 2026-10-03 state override (historical; superseded by the 2026-10-04 addendum below)
+- 当前研究边界：[治理基线v1](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md)；研究范围：[架构v3](THESIS_RESEARCH_ARCHITECTURE_v3.md)；后续工作：[执行蓝图v1](THESIS_EXECUTION_BLUEPRINT_v1.md)。
+- 当前SANER稿：`paper/saner_rene_manuscript_v1.md`；claim：`paper/saner_rene_claim_matrix_v1.json`；科学纠偏：[裁决v1](SANER_SCIENTIFIC_ADJUDICATION_v1.md)。
+
+### 7.1 历史状态注记与材料入口（不控制当前路线）
 2026-10-03 historical snapshot: at that time GB10 was verified, while `DATA_NO_GO`, RQ2 `NOT_IDENTIFIED`, V2-3 closure, the assembled-but-unreviewed Q3 package, and unrotated/unready token status were current. The 2026-10-04 addendum below supersedes only the Q3 review status.
 
 2026-10-04 Q3 addendum：三位独立专家的 raw package 已封存，corrected ledger 为 `map_to=51 / skip=58 / hold=37`；旧 `52/58/36` 仅是 pre-correction 分布。R1/R2 exact agreement 119/146（81.51%），action κ≈0.727，共同 `map_to` 的 target 41/41，唯一 correction 为 line 61 `map_to|pap_curb_sec -> hold|null`。Q3 仍是 exploratory learnability evidence，不解除 `DATA_NO_GO / NOT_IDENTIFIED`。B5 保持 dormant / `NOT_RUN`。
@@ -195,12 +200,12 @@ What survives is the methodology plus a clean negative result: a corpus frozen b
 
 2026-10-05 Qwen3-8B sync/validation addendum：Qwen3-8B revision `b968826d...` 已通过 `hf-mirror.com` fallback 完成精确 15 文件同步与 GB10 真实 artifact validation。15/15 immutable identity、5 shard headers、399 tensors、tokenizer/licence、relative manifests 全过；见 `docs/experiments/2026-10-05_qwen3_8b_model_sync_and_validation.md`。readiness 现为 `model_revision_ready=true`，但科学门、stable Stage D residual 与训练窗口未全部满足，S0/A0-A2 仍不运行。
 
-- 当前内部稿：`paper/draft_v0_s1_s2_s6.md`
+- 历史内部稿：`paper/draft_v0_s1_s2_s6.md`
 - 老师审阅稿：`paper/teacher_review_draft_v1.md`
 - 老师审阅 Word：`paper/teacher_review_draft_v1.docx`
 - 方向校准说明：`paper/teacher_review_note_v2.md`
 - 内部送审验收：`paper/teacher_review_readiness_v2.md`
-- 三阶段总叙事：`paper/research_story_v2.md`
+- 旧三阶段总叙事：`paper/research_story_v2.md`
 - 三阶段方向 Word：`paper/research_story_v2.docx`
 - 三阶段架构图：`paper/figures/fig_evaluate_distill_evolve_v1.svg`
 - 三阶段资产地图：`paper/research_asset_map_v2.md`
@@ -208,7 +213,7 @@ What survives is the methodology plus a clean negative result: a corpus frozen b
 - Claim manifest：`paper/claim_manifest_v1.json`
 - 小论文蓝图：`docs/experiments/2026-08-29_long_horizon_eval_paper_blueprint.md`
 - 冻结 Claim Set v2：`docs/experiments/2026-08-30_phase_a_autopsy_and_claim_set_v2.md`
-- 最新双模型审稿：`docs/experiments/2026-09-21_loopc_review_diff_table.md`
+- 历史双模型审稿：`docs/experiments/2026-09-21_loopc_review_diff_table.md`
 - Algorithm 1 对位：`docs/experiments/2026-09-20_algorithm1_lines_vs_impl.md`
 - 大论文旧骨架（仅作素材）：`docs/experiments/2026-08-26_thesis_narrative_skeleton.md`
 - 专利与论文协同路线：`docs/34_专利_小论文_大论文协同研究路线.md`

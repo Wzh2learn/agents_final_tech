@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-10-11 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-10-12 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -16,21 +16,25 @@
 | 已确认决策 | [`../memory/DECISIONS.md`](../memory/DECISIONS.md) |
 | Skill 路由 | [`SKILL_ROUTING.md`](SKILL_ROUTING.md) |
 | 科研主线与论文验收 | [`research/README.md`](research/README.md) |
+| 执行侧最新交接（2026-10-12） | [`research/EXECUTION_HANDOFF_STATUS_v1.md`](research/EXECUTION_HANDOFF_STATUS_v1.md)；Paper E→WP-E修订流程，大论文→WP-0资格核验；本轮交接后停止，无实验/改稿/代码执行 |
+| 最终研究交接（2026-10-12） | [`research/REPO_GOVERNANCE_FINAL_v1.md`](research/REPO_GOVERNANCE_FINAL_v1.md)；Paper E科学阻断未消除，WP-0资格待核验；只完成本地文档交接 |
+| 独立战略重构（2026-10-12） | [`research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md`](research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md)；建议稿，含新论证风险、TOP 3与6个未执行工作包；不改变冻结结果或授权 |
+| 大论文研究决策基线与后续入口（2026-10-12） | [`research/THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md`](research/THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) → [`架构v3`](research/THESIS_RESEARCH_ARCHITECTURE_v3.md) → [`蓝图v1`](research/THESIS_EXECUTION_BLUEPRINT_v1.md)；RQ2假设非已成方法，G-RQ/G-M待裁决；未开放运行 |
 | 会话/侧线交接 | [`../side_handoff.md`](../side_handoff.md)；索引见 [`handoff/README.md`](handoff/README.md) |
 
 ## SANER 投稿（Route A，submission-completion）
 
 | 需要 | 权威入口 | 当前口径 |
 |---|---|---|
-| Fresh-session 第一入口 | [`../PROJECT_CLOSEOUT_AND_HANDOFF_v1.md`](../PROJECT_CLOSEOUT_AND_HANDOFF_v1.md) | 项目状态、canonical 资产、分支台账、blockers、技术债 |
+| 当前投稿资格第一入口 | [`research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md`](research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md) | BLOCKED_SCIENCE；必须先落实作者级裁决；旧closeout仅保留历史机械完成与资产导航 |
 | Venue 官方要求 | [`../paper/SANER_RENE_2027_REQUIREMENTS.md`](../paper/SANER_RENE_2027_REQUIREMENTS.md) | primary-source 核实；`RENE: NegativeResult`；10 页 + 2 页 references-only |
-| Claim 边界（唯一权威） | [`../paper/saner_rene_claim_matrix_v1.json`](../paper/saner_rene_claim_matrix_v1.json) | C1–C3 + forbidden claims |
+| 当前机器claim记录（纠偏未落实） | [`../paper/saner_rene_claim_matrix_v1.json`](../paper/saner_rene_claim_matrix_v1.json) | C1–C3 + forbidden claims；未落实之处以科学裁决/投稿门禁为准，不可直接签署 |
 | Scope lock | [`../paper/saner_rene_manuscript_scope_lock_v1.md`](../paper/saner_rene_manuscript_scope_lock_v1.md) | 标题、贡献、figure definitions |
-| Manuscript 源文件 | [`../paper/saner_rene_manuscript_v1.md`](../paper/saner_rene_manuscript_v1.md) | 科学内容为准；本阶段 FROZEN |
-| 投稿 bundle（含已编译 PDF） | [`../paper/overleaf_bundle/`](../paper/overleaf_bundle/) | tex + bib + figures + PDF（8 页） |
-| 版面/匿名审计 | [`../research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md`](../research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md) | PASS |
-| Claim↔Evidence 哈希校验器 | [`../scripts/verify_claim_evidence.py`](../scripts/verify_claim_evidence.py) | 在 GB10 上运行；当前 `CLAIM_EVIDENCE_HASH_CHECK = PASS`（15/15） |
-| Abstract 注册包 | [`../research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md`](../research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md) | READY（余 owner 两项） |
+| Manuscript 源文件 | [`../paper/saner_rene_manuscript_v1.md`](../paper/saner_rene_manuscript_v1.md) | 当前旧稿工件；科学裁决未落实，投稿资格以新门禁为准；本轮不改稿 |
+| 投稿 bundle（含已编译 PDF） | [`../paper/overleaf_bundle/`](../paper/overleaf_bundle/) | 旧包tex/bib/figures/PDF；科学修订未执行，旧8页不认证未来修订包 |
+| 版面/匿名审计 | [`../research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md`](../research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md) | 旧版本PASS；科学修订后须核验同一最终版本 |
+| Claim↔Evidence 哈希校验器 | [`../scripts/verify_claim_evidence.py`](../scripts/verify_claim_evidence.py) | 历史机械快照 `CLAIM_EVIDENCE_HASH_CHECK = PASS`（15/15）；本轮未重跑，不认证科学纠偏或新包 |
+| Abstract 注册包 | [`../research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md`](../research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md) | 历史机械准备；当前BLOCKED_SCIENCE，须同步修订并另获owner注册授权 |
 | Track P registry / 收束 | [`../research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json`](../research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json) | CLOSED；LEVEL_0；PR-03 = NEGATIVE / DECLINE_CITE |
 | PR-03 溢出审计 | [`../research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md`](../research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md) | PASS (CLEAN) |
 | 独立审计包（待交付） | [`../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md`](../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md) | READY_TO_RUN；列出 pending 的 Loop C 复核项 |
@@ -122,6 +126,18 @@
 | 文件 | 状态 | 用途 |
 |---|---|---|
 | [`research/README.md`](research/README.md) | 活跃 | 小论文、大论文、证据边界与论文导向验收的统一执行入口 |
+| [`research/EXECUTION_HANDOFF_STATUS_v1.md`](research/EXECUTION_HANDOFF_STATUS_v1.md) | 当前执行摘要 / 等待下一阶段任务 | 两项优先级、允许/禁止事项、Loop A入口、owner决策及治理阻碍检查；不新增门或路线 |
+| [`research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md`](research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md) | 当前投稿资格 / BLOCKED_SCIENCE | 最大风险、必改/可改/禁改、未来WP-E作者验收；本轮未改稿 |
+| [`research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`](research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md) | 当前执行路由 / 资格待核验 | Paper E资产与claim边界；Agent/Memory/SFT/DPO/Adaptation身份；Loop A/D入口 |
+| [`research/REPO_GOVERNANCE_FINAL_v1.md`](research/REPO_GOVERNANCE_FINAL_v1.md) | 本地研究交接完成 / 非全库PASS | 保留/冻结、现役权威和事实面边界；不认证远端运行/Git同步/清场 |
+| [`research/THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md`](research/THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) | 边界冻结 / 未授权运行 | 当前科学裁决、已有工作覆盖风险、G-RQ/G-M范围裁决、创新识别与明确禁止事项 |
+| [`research/THESIS_RESEARCH_ARCHITECTURE_v3.md`](research/THESIS_RESEARCH_ARCHITECTURE_v3.md) | 当前受限研究范围 / 未执行 | 三个 TH3-RQ；RQ2为假设、方法创新待识别；Paper E只提供测量约束；服从治理基线，不解除旧闭线 |
+| [`research/THESIS_EXECUTION_BLUEPRINT_v1.md`](research/THESIS_EXECUTION_BLUEPRINT_v1.md) | DESIGN_ONLY_NOT_AUTHORIZED | 工作包与原首验参数；从WP-0只读核验进入，推进裁决与具体许可成立后才实施 |
+| [`research/thesis_experience_v1_task_card.md`](research/thesis_experience_v1_task_card.md) | DESIGN_COMPLETE / QUALIFICATION_PENDING | WP-0最小问题、四臂识别边界、停止条件与WP-0/WP-1；材料未核验，两门未通过，无实验/实现授权 |
+| [`research/history/2026-10-12_pre_governance/README.md`](research/history/2026-10-12_pre_governance/README.md) | 只读历史 / 原始字节快照 | v3与蓝图v1本次更新前的完整副本、SHA-256与来源身份；不控制当前执行 |
+| [`research/SANER_SCIENTIFIC_ADJUDICATION_v1.md`](research/SANER_SCIENTIFIC_ADJUDICATION_v1.md) | 作者级裁决 / 纠偏待执行 | 当前稿件 claim 边界及 WP-E 收尾依据；不冒充已改稿 |
+| [`research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md`](research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md) | 战略审查来源 | 独立诊断与候选路线；未来执行优先级以架构v3/蓝图为准 |
+| [`research/THESIS_RESEARCH_ARCHITECTURE_v1.md`](research/THESIS_RESEARCH_ARCHITECTURE_v1.md)、[`v2`](research/THESIS_RESEARCH_ARCHITECTURE_v2.md)、[`OWNER_RESEARCH_DECISION_MEMO_v1.md`](research/OWNER_RESEARCH_DECISION_MEMO_v1.md) | 历史方案 / 已被v3取代 | 保留决策过程、论证与文献；不控制新RQ或排期 |
 | [`handoff/README.md`](handoff/README.md) | Handoff index | 现役 side handoff、历史计划与已消费决策件的唯一导航 |
 | [`handoff/2026-09-22-paper-research-next-phase.md`](handoff/2026-09-22-paper-research-next-phase.md) | 历史执行计划+当前注记 | 论文科研优先级、阶段任务卡、验收门与止损路线 |
 | [`handoff/2026-09-24_user_decision_packet.md`](handoff/2026-09-24_user_decision_packet.md) | 已消费决策记录 | D-A 至 D-F 裁定来源；不再作为活跃请求 |
