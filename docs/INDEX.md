@@ -44,6 +44,10 @@
 | SANER 科学裁决 | [`research/SANER_SCIENTIFIC_ADJUDICATION_v1.md`](research/SANER_SCIENTIFIC_ADJUDICATION_v1.md) | A1–A7 的权威依据（A2 = BLOCKING） |
 | A1–A7 复核（self-review） | [`research/LOOP_C_REVIEW_A1A7_REVISION_v1.md`](research/LOOP_C_REVIEW_A1A7_REVISION_v1.md) | 已落实 / 边界保持 / 包一致；独立复核仍缺 |
 | WP-0 资格报告 | [`research/WP0_QUALIFICATION_REPORT_v1.md`](research/WP0_QUALIFICATION_REPORT_v1.md) | `SOURCE_INSUFFICIENT`；G-RQ/G-M 建议 HOLD |
+| WP-0 候选分析（排序/许可/gap/最小设计） | [`research/WP0_CANDIDATE_ANALYSIS_v1.md`](research/WP0_CANDIDATE_ANALYSIS_v1.md) | 前准备件；不授权下载或运行 |
+| RENE reviewer 风险模拟 | [`research/RENE_REVIEWER_RISK_SIMULATION_v1.md`](research/RENE_REVIEWER_RISK_SIMULATION_v1.md) | 10 项风险 + 已采取的纯表达加固 |
+| 投稿前一键审计 | [`../scripts/pre_submission_audit.py`](../scripts/pre_submission_audit.py) | evidence/anonymisation/format/artifact 四组；当前 PASS |
+| 匿名 artifact 包（备而未发） | [`../research/artifact_release_2026/README.md`](../research/artifact_release_2026/README.md) | 12 项已就绪 + 2 项 GB10 数据体；发布需 owner |
 | 硕士研究执行入口 | [`research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`](research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md) | ENTRY_READY / QUALIFICATION_PENDING |
 | 执行蓝图 / 架构 v3 / WP-0 任务卡 | [`research/THESIS_EXECUTION_BLUEPRINT_v1.md`](research/THESIS_EXECUTION_BLUEPRINT_v1.md)、[`research/THESIS_RESEARCH_ARCHITECTURE_v3.md`](research/THESIS_RESEARCH_ARCHITECTURE_v3.md)、[`research/thesis_experience_v1_task_card.md`](research/thesis_experience_v1_task_card.md) | 范围与工作包权威 |
 | 实验执行前置规范 v2 | [`../research/positive_repair_20261011/execution_preflight/EXECUTION_PREFLIGHT_SPEC_v2.md`](../research/positive_repair_20261011/execution_preflight/EXECUTION_PREFLIGHT_SPEC_v2.md) | 12 项检查；check 9 改为端到端；新增 runtime-path 与 attribution |

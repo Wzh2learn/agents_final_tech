@@ -1,0 +1,77 @@
+{
+  "schema": "saner_artifact_manifest_v1",
+  "status": "PREPARED_NOT_RELEASED",
+  "note": "Assembled locally; data bodies live only on GB10 and are added by build_artifact.sh at release time. Publication is an owner decision.",
+  "files": [
+    {
+      "path": "config/eval_checkpoint_trees.json",
+      "sha256": "676d207ef7acc91c1f315e382fa03a1d1b6e69cf97c6e9c8eaadea3abf4ee0b0",
+      "bytes": 7342
+    },
+    {
+      "path": "scripts/m1_statement_parser.py",
+      "sha256": "f9f1bc92c9d2963b3f346c0557f2b6a59d22201277b2023400f6953c59ac4aee",
+      "bytes": 638
+    },
+    {
+      "path": "scripts/eval_checkpoint_aggregate.py",
+      "sha256": "b0a0c0de58ab98dd65978eec96b54f14d56a498d3d8284aa9608b9d453992326",
+      "bytes": 15709
+    },
+    {
+      "path": "scripts/research/drift_inject.py",
+      "sha256": "bbf794ba66da7ff9b5b443b4c3f368611c3957aeab8cd0510ab96c954eec6b12",
+      "bytes": 23825
+    },
+    {
+      "path": "research/k2_table_discrimination_v2.py",
+      "sha256": "23e73393cfa8f9d4251fddc76f66fcb25523b64438b207d8b38e6068a3d828e4",
+      "bytes": 16415
+    },
+    {
+      "path": "research/paper_d2_cross_matcher_det.py",
+      "sha256": "ffe62786309a02ceb664852598846eb63c19050eaa361232a0f778a270e3adc4",
+      "bytes": 56038
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/run_multileaf_formal.py",
+      "sha256": "d99e94364b3e45ce1fc2b28e6f69ed7cce3514dfbca63a735280aa534da5a4a4",
+      "bytes": 35423
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/analyze_multileaf_signature_ablation.py",
+      "sha256": "bb420363e6747172ed0b991298a03224b8237fece9f90d557ca496961266640c",
+      "bytes": 9764
+    },
+    {
+      "path": "docs/research/figures_saner/render_saner_figures.py",
+      "sha256": "dadc285c514200220e7f3700849e4d4a783f30b202be2255712650fc555c6e57",
+      "bytes": 33763
+    },
+    {
+      "path": "research/stage_e_multileaf_20261010/results/multileaf_signature_ablation.json",
+      "sha256": "0518c5bfc40bf2b4e82312887b9426bbb8833df326d4d782cd1cbe63d052571d",
+      "bytes": 20157
+    },
+    {
+      "path": "logs/graph/eval/checkpoint_discrimination_tables_v2.json",
+      "sha256": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+      "bytes": 82006
+    },
+    {
+      "path": "logs/graph/eval/t2_visibility_sensitivity.json",
+      "sha256": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5",
+      "bytes": 201665
+    }
+  ],
+  "gb10_only": [
+    {
+      "path": "data/research/drift_v0/input/tatqa_tables.json",
+      "reason": "GB10-only data body; verify licence scope before release"
+    },
+    {
+      "path": "data/research/drift_v0/output/injection_map.json",
+      "reason": "GB10-only data body; verify licence scope before release"
+    }
+  ]
+}
