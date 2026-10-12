@@ -7,27 +7,27 @@
 
 ## Tentative Title
 
-**Visibility Is Not Detection: Auditing Observation Boundaries in Long-Horizon AI Evaluation**
+**Visibility Is Not Detection: Auditing Observation Boundaries in Staged Document-Intelligence Evaluation**
 
 ## One-Sentence Thesis
 
-Long-horizon evaluation validity depends on auditing the observation surface itself: controlled perturbations expose family-specific observation boundaries, hierarchy alone does not guarantee diagnosability, and cross-dataflow transfer requires causally aligned measurement objects (stated as a design requirement, not a validated law).
+Long-horizon evaluation validity depends on auditing the observation surface itself: in a staged document-intelligence evaluator, controlled perturbations expose family-specific observation boundaries, hierarchy alone does not guarantee diagnosability, and a second dataflow's transfer requires causally aligned measurement objects (a design requirement, not a validated law).
 
 ## Frozen Contributions
 
 1. **Construct separation and observation boundaries.** Separate visibility, detection and harmfulness, quantify family-level visibility and report the OCR-like `0/13` boundary.
-2. **Structural identifiability and instrumentation.** Show that single-responsive-leaf flat/hierarchical scores are affine/rank-equivalent and that clean-only matched-FPR equality is not identifiable; show that, in a contract-derived construction, explicit stage-aligned instrumentation carries the separable controlled signature, while hierarchy alone produces no emergent localisation.
+2. **Structural identifiability and instrumentation.** Show that in the single-responsive-leaf construction the two protocols' decisions are structurally equivalent (positive affine/rank transform, identical ranks), while the registered deployment operating point remains unresolved under a degenerate clean panel; show that, in a contract-derived construction, explicit stage-aligned instrumentation carries the separable controlled signature, that the direct codebook matches the full vector, and that non-direct leaves carry partial stage information rather than none.
 3. **Measurement-object alignment and failed transfer.** Treat FinQA v2 as a failed-transfer autopsy consistent with a measurement-object mismatch, and use NIST/TEVV construct-validity language to motivate auditing observation surfaces.
 
 ## Allowed Claims
 
 - Controlled evaluator surfaces can hide some defect families while exposing others.
 - Visibility, detection and harmfulness are different constructs.
-- OCR-like injections were invisible in the frozen Stage E surface: `0/13` across `11` table clusters.
+- OCR-like injections were invisible in the frozen Stage E surface: `0/13` across `11` table clusters; the existing single judge classified all 13 as referentially equivalent, so non-response alone does not establish harmful false negatives.
 - Single-responsive-leaf flat/hierarchical scores are affine/rank-equivalent in the current construction.
-- Clean-only matched-FPR equality is not empirically identifiable when clean score support is zero.
-- Explicit stage-aligned instrumentation can produce separable controlled signatures in the contract-derived construction; non-direct leaves do not establish emergent localization.
-- FinQA v2 is consistent with a failed transfer / measurement-object mismatch; it is not evidence of protocol blindness (both terms defined in `paper/saner_rene_claim_matrix_v1.json`).
+- The registered deployment operating point remains unresolved under the zero-support clean panel; the structural equivalence of the two protocols' decisions is a separate finding and holds.
+- Explicit stage-aligned instrumentation can produce separable controlled signatures in the contract-derived construction; non-direct leaves separate mapping from retrieval/numeric but not retrieval from numeric, and do not establish emergent localization.
+- FinQA v2 is consistent with a failed transfer / measurement-object mismatch: the detection predicate is defined and the counts are reproducible, but the downstream result fields are not regenerated from the perturbed program; it is not evidence of protocol blindness (both terms defined in `paper/saner_rene_claim_matrix_v1.json`).
 - NIST motivates evaluation of metric and TEVV effectiveness; it does not certify this project's metrics.
 
 ## Forbidden Claims

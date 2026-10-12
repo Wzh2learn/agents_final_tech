@@ -4,13 +4,13 @@
   "primary_route": "A",
   "optional_route": "B - STOPPED (STOP_BRANCH as of 2026-10-11; retained as history only, not an active option)",
   "hard_freeze": "2026-10-20T18:00:00+08:00",
-  "title": "Visibility Is Not Detection: Auditing Observation Boundaries in Long-Horizon AI Evaluation",
+  "title": "Visibility Is Not Detection: Auditing Observation Boundaries in Staged Document-Intelligence Evaluation",
   "title_note": "Single active title (2026-10-11 fix). Earlier working variants used 'Blind Spots'/'Quantifying Observation Boundaries'; both are retired.",
-  "thesis": "Long-horizon evaluation validity depends on auditing the observation surface itself: controlled perturbations expose family-specific observation boundaries, hierarchy alone does not guarantee diagnosability, and cross-dataflow transfer requires causally aligned measurement objects (stated as a design requirement, not a validated law).",
+  "thesis": "Long-horizon evaluation validity depends on auditing the observation surface itself: in a staged document-intelligence evaluator, controlled perturbations expose family-specific observation boundaries, hierarchy alone does not guarantee diagnosability, and a second dataflow's transfer requires causally aligned measurement objects (a design requirement, not a validated law).",
   "claims": [
     {
       "id": "C1",
-      "claim": "Visibility, detection and harmfulness are distinct constructs and the frozen evaluator has family-specific observation boundaries.",
+      "claim": "Visibility, detection and harmfulness are distinct constructs and the frozen evaluator has family-specific observation boundaries. The OCR-like 0/13 boundary is a non-response on the frozen scored surface; it is not by itself evidence of harmful detection failure, and an existing single judge classified all 13 cases as referentially equivalent under its table-context contract.",
       "evidence": [
         "docs/research/stage_e_118_quantification_v1.md",
         "docs/research/stage_e_observability_metrics_v1.md",
@@ -21,7 +21,7 @@
     },
     {
       "id": "C2",
-      "claim": "Single-responsive-leaf flat/hierarchical scores are affine/rank-equivalent (structural diagnosis) and clean-only matched-FPR equality is not identifiable (a statement about the frozen evidence, not a ranking of the protocols); in the controlled multi-leaf construction (features contract-derived and separable by construction), stage-aligned instrumentation carries the separable signature, and hierarchical organisation alone does not produce emergent localisation.",
+      "claim": "In the single-responsive-leaf construction the unrounded flat and hierarchical scores are a positive affine/rank transform of one another and retain identical ranks, so corresponding decisions are structurally equivalent; separately, the zero-by-construction clean panel leaves the registered deployment operating point unresolved, which is a calibration degeneracy and not a general non-identifiability of matched-FPR comparisons. In the controlled multi-leaf construction, stage-aligned instrumentation carries the separable signature, the direct three-leaf codebook matches the full vector, and the non-direct leaves carry partial stage information (they separate mapping from retrieval/numeric but not retrieval from numeric) rather than none.",
       "evidence": [
         "docs/research/stage_e_matched_fpr_reanalysis_v1.md",
         "docs/research/stage_e_multileaf_result_packet_v1.md",
@@ -31,7 +31,7 @@
     },
     {
       "id": "C3",
-      "claim": "Cross-dataflow transfer requires causal alignment of measurement objects (stated as a design requirement, not a validated law). The frozen FinQA v2 second-dataflow result (formal class SECOND_FLOW_MIXED) is consistent with a failed-transfer / measurement-object mismatch; it is not evidence of protocol blindness (both terms are defined in `definitions`), because the detection predicate was undefined by construction for the perturbed object.",
+      "claim": "Cross-dataflow transfer requires causal alignment of measurement objects (stated as a design requirement, not a validated law). The frozen FinQA v2 second-dataflow result (formal class SECOND_FLOW_MIXED) is consistent with a failed-transfer / measurement-object mismatch: the detection predicate is defined and the V/D/O counts are reproducible, but the downstream result fields it consumes are not regenerated from the perturbed program, so the counts do not estimate detection ability. It is not evidence of protocol blindness (both terms are defined in `definitions`).",
       "evidence": [
         "docs/experiments/2026-10-10_loop_c_finqa_v2_formal_v3_recompute_audit.md",
         "docs/research/finqa_causal_exposure_preregistration_proposal_v1.md",
@@ -91,5 +91,20 @@
     "status": "NO",
     "decision": "STOP_BRANCH",
     "reason": "No two execution-confirmed downstream stages with source-local/downstream separation and two genuine mechanisms per stage; the C audit found M aliasing and R/N downstream non-estimability (both defined in `definitions`)."
+  },
+  "adjudication_application": {
+    "date": "2026-10-13",
+    "authority": "docs/research/SANER_SCIENTIFIC_ADJUDICATION_v1.md",
+    "gate": "docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md",
+    "items": [
+      "A1 non-direct partial information",
+      "A2 structural equivalence vs deployment point (BLOCKING)",
+      "A3 OCR benign-absorption disclosure",
+      "A4 two comparison kinds, 4/7 not 5/8",
+      "A5 predicate defined, fields not recomputed",
+      "A6 experience scope narrowed to the evaluator",
+      "A7 availability facts"
+    ],
+    "numbers_changed": "none"
   }
 }
