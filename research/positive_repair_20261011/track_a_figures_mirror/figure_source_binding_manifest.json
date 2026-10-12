@@ -21,7 +21,8 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen figure definition and caption boundary",
-          "sha256": "5ba6a30d39464291bcb7c098740b78204f40e82ed3f94c217f23f3f0f19ebedf"
+          "sha256": "d7da6e7f2501d9c801ef63a46e12a5d40d59415f9e52e7d5091046542a9ba31d",
+          "pin_semantics": "generation-time reference; re-pinned at each authorised scope-lock revision (figure definitions unchanged)"
         },
         {
           "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
@@ -657,7 +658,8 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen caption boundary",
-          "sha256": "5ba6a30d39464291bcb7c098740b78204f40e82ed3f94c217f23f3f0f19ebedf"
+          "sha256": "d7da6e7f2501d9c801ef63a46e12a5d40d59415f9e52e7d5091046542a9ba31d",
+          "pin_semantics": "generation-time reference; re-pinned at each authorised scope-lock revision (figure definitions unchanged)"
         },
         {
           "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",
@@ -792,7 +794,8 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen caption boundary",
-          "sha256": "5ba6a30d39464291bcb7c098740b78204f40e82ed3f94c217f23f3f0f19ebedf"
+          "sha256": "d7da6e7f2501d9c801ef63a46e12a5d40d59415f9e52e7d5091046542a9ba31d",
+          "pin_semantics": "generation-time reference; re-pinned at each authorised scope-lock revision (figure definitions unchanged)"
         },
         {
           "path": "research/stage_e_multileaf_20261010/loop_d_inputs/stage_e_version_b_figure_spec_v1.md",

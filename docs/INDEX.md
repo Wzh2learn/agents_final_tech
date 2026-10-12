@@ -40,6 +40,12 @@
 | 独立审计包（待交付） | [`../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md`](../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md) | READY_TO_RUN；列出 pending 的 Loop C 复核项 |
 | Loop C 审计结果（self-audit） | [`../research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md`](../research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md) | A/B/C 三项 = PASS；标注为 self-audit，non-independent |
 | 陈旧文件扫描 | [`../research/positive_repair_20261011/STALE_ARTIFACT_SCAN_v1.md`](../research/positive_repair_20261011/STALE_ARTIFACT_SCAN_v1.md) | 164 个零引用/陈旧文件；均已在约定历史位置，无需动作 |
+| Paper E 投稿门禁 | [`research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md`](research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md) | §12 为 2026-10-13 的 A1–A7 落实记录 |
+| SANER 科学裁决 | [`research/SANER_SCIENTIFIC_ADJUDICATION_v1.md`](research/SANER_SCIENTIFIC_ADJUDICATION_v1.md) | A1–A7 的权威依据（A2 = BLOCKING） |
+| A1–A7 复核（self-review） | [`research/LOOP_C_REVIEW_A1A7_REVISION_v1.md`](research/LOOP_C_REVIEW_A1A7_REVISION_v1.md) | 已落实 / 边界保持 / 包一致；独立复核仍缺 |
+| WP-0 资格报告 | [`research/WP0_QUALIFICATION_REPORT_v1.md`](research/WP0_QUALIFICATION_REPORT_v1.md) | `SOURCE_INSUFFICIENT`；G-RQ/G-M 建议 HOLD |
+| 硕士研究执行入口 | [`research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`](research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md) | ENTRY_READY / QUALIFICATION_PENDING |
+| 执行蓝图 / 架构 v3 / WP-0 任务卡 | [`research/THESIS_EXECUTION_BLUEPRINT_v1.md`](research/THESIS_EXECUTION_BLUEPRINT_v1.md)、[`research/THESIS_RESEARCH_ARCHITECTURE_v3.md`](research/THESIS_RESEARCH_ARCHITECTURE_v3.md)、[`research/thesis_experience_v1_task_card.md`](research/thesis_experience_v1_task_card.md) | 范围与工作包权威 |
 | 实验执行前置规范 v2 | [`../research/positive_repair_20261011/execution_preflight/EXECUTION_PREFLIGHT_SPEC_v2.md`](../research/positive_repair_20261011/execution_preflight/EXECUTION_PREFLIGHT_SPEC_v2.md) | 12 项检查；check 9 改为端到端；新增 runtime-path 与 attribution |
 | Camera-ready 清单 | [`handoff/CAMERA_READY_CHECKLIST_v1.md`](handoff/CAMERA_READY_CHECKLIST_v1.md) | 录用后的作者/版权/preprint/仓库义务 |
 ## 科研收口

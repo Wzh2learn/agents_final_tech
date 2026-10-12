@@ -11,7 +11,7 @@
 
 ## One-Sentence Thesis
 
-Long-horizon evaluation validity depends on auditing the observation surface itself: in a staged document-intelligence evaluator, controlled perturbations expose family-specific observation boundaries, hierarchy alone does not guarantee diagnosability, and a second dataflow's transfer requires causally aligned measurement objects (a design requirement, not a validated law).
+Evaluation validity depends on auditing the observation surface itself: in a staged document-intelligence evaluator, controlled perturbations expose family-specific observation boundaries, hierarchy alone does not guarantee diagnosability, and a second dataflow's transfer requires causally aligned measurement objects (a design requirement, not a validated law).
 
 ## Frozen Contributions
 
