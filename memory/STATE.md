@@ -1,6 +1,12 @@
 # Current State
 
 > Updated: 2026-10-12 (final research handoff, documentation only; last runtime/closeout snapshot 2026-10-11) | Scope: thesis qualification, Paper E submission gate, Track P closure | Runtime: GB10 authoritative; not reverified this round
+## 2026-10-13 evening closeout (documentation + presentation only)
+
+- Paper E presentation layer closed: removed the remaining deployment-style strings (`127.0.0.1:8004` -> `served locally`; `:8004 judge` -> `local judge`, x2); rebuild 9pp / 0 overfull; `PRE_SUBMISSION_AUDIT = PASS`; PDF text: zero `127.0.0.1`/`:8004`/`sha256`/`localhost`. Commit `078398e`. No number or claim change; the 10/20 manuscript hard freeze is unaffected.
+- Negative-result robustness closed (recompute 11/11 + byte-identical FPR rerun + independent bug-lens PASS): record in `research/negative_result_robustness_20261013/NEGATIVE_RESULT_ROBUSTNESS_AUDIT_v1.md`, including the Sec.7 circularity Q&A and Sec.8 owner text-scan.
+- Thesis WP-2 preparation ready: runbook + split dry-run receipt (DRAFT) + Loop A / Loop C pre-freeze execution cards (draft, NOT dispatched) under `research/tatqa_wp0_2026/wp2/`; next gate = owner decisions P2 feedback-right / P3 actor+MODEL_GO / P4 budget window. S0-S3 (model-free) can dispatch first.
+- Skill library round-2 merge: first absorption landed (`portfolio-triage` -> `inquiry-methods`, commit `7a6cc11`); the full round-2 scan report is still pending.
 
 ## 2026-10-12 execution preparation (handoff only)
 
