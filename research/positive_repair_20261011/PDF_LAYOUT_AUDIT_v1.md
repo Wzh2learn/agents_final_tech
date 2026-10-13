@@ -43,4 +43,4 @@ PDF_LAYOUT_AUDIT = PASS. The compiled PDF exists, page count verified, reference
 - Result: 9 pages, 0 overfull; underfull warnings remain the cosmetic class (long break-resistant tokens / short final lines) seen in the earlier build. PDF 289 KiB.
 - References 21/21 resolved; `??` = 0. Metadata Author empty; Title set; no CJK; identity-token scan clean.
 - Machine audit: `PRE_SUBMISSION_AUDIT = PASS`; `WIDE_EVIDENCE_CHECK = PASS` after the scope-lock re-pin (docs + mirror manifests byte-identical; pin = GB10 raw-byte LF hash `4c951e618ed6f5ffa8af84aeb6e55eb75b3a90b88cc36d660714f78aaa35f213`).
-- Figure 3 caption now reads "...equals the uniform-class macro-F1 baseline (0.3333); the majority-class macro-F1 reference (0.1667) is also plotted." Panels A/B (macro-F1 / top-1) unchanged from the frozen figure.
+- Figure 3 caption now reads "...equals the uniform-class macro-F1 baseline (0.3333); the majority-class macro-F1 reference (0.1667) is plotted." (the word "also" was deleted on 2026-10-13 as the Loop C v3 prescribed fix; final rebuild: 9 pages, 0 overfull, audit PASS.) Panels A/B (macro-F1 / top-1) unchanged from the frozen figure.

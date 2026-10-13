@@ -1,7 +1,7 @@
 # PROJECT FINAL STATE BEFORE SUBMISSION
 
 > date: 2026-10-13 | owner: Loop D | status: `FROZEN_FOR_SUBMISSION_PREP / PENDING_OWNER_ACTIONS`
-> 版本锚点：本文件所在提交即冻结版本；用 `git log -1 --oneline -- PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md` 取哈希。LOCAL = origin/main = GB10（tree hash 一致）。
+> 版本锚点：本文件所在提交即冻结版本；用 `git log -1 --oneline -- PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md` 取哈希。LOCAL = origin/main = GB10（tree hash 一致）。2026-10-13b：Loop C 独立复核交付；TAT-QA WP-0 A1–A6 闭合（见 `docs/research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`、`docs/research/WP0_TATQA_QUALIFICATION_APPENDIX_v1.md`）。
 
 ## 1. 当前版本（canonical）
 
@@ -15,6 +15,7 @@
 | Venue 要求 | `paper/SANER_RENE_2027_REQUIREMENTS.md` | primary-source 核实记录 |
 | 投稿清单 | `docs/research/SUBMISSION_READY_CHECKLIST_v1.md` | 10 项 PASS |
 | 机器审计 | `scripts/pre_submission_audit.py` | `PRE_SUBMISSION_AUDIT = PASS` |
+| 独立审计记录 | `docs/research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md` | v2 CONDITIONAL → 9 项修复 → v3 items/claim PASS；一处单字图注按审计裁定修复并双端复验 |
 | 匿名 artifact（备而未发） | `research/artifact_release_2026/` | 12 项就绪 + 2 项 GB10 数据体 |
 
 ## 2. 已完成事项
@@ -30,7 +31,7 @@
 
 | 缺口 | 性质 | 影响 |
 |---|---|---|
-| **真独立 Loop C 复核** | 流程缺口 | gate §4 要求；本 session 委派通道全失败，现有均为 self-audit/self-simulation |
+| 真独立 Loop C 复核 | **已交付（2026-10-13）** | 经设计 launcher：v2 CONDITIONAL → 9 项残留全修复 → v3：items PASS / claim boundary PASS；一处单字修复按裁定落实并双端机器复验（`LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`） |
 | 匿名 artifact 发布 | owner | 数据体在 GB10；许可范围未签；URL 未建立 |
 | 作者信息 | owner | 共同作者顺序/通讯作者未定；camera-ready 才恢复署名 |
 | 语言终审（native） | 未做 | 已做并美式统一与语法修正，但无母语者终审 |
@@ -52,14 +53,14 @@
 - 不恢复已关闭路线：Route B、FinQA binding、PR-03（含任何 metric/baseline/runtime 优化）。
 - 不新增实验、不新增数据采集、不启动 Memory/SFT/DPO。
 - 不改 claim 边界（`saner_rene_claim_matrix_v1.json`）除非有新的作者级裁决。
-- 不自称独立复核已通过（当前只有 self-audit）。
+- 独立复核已交付（记录：`docs/research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`）；不得超出该记录表述（一处单字修复按审计方裁定落实，无第三次模型复核）。
 - 不执行注册/投稿/上传（owner 触发）。
 
 ## 6. 入口顺序（下一位模型）
 
 1. 本文件（冻结状态与护栏）
 2. `docs/research/SUBMISSION_READY_CHECKLIST_v1.md`（投稿前 10 项）
-3. `docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md`（资格面 + §12 落实记录）
+3. `docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md`（资格面 + §12 落实与独立复核记录）
 4. `paper/saner_rene_claim_matrix_v1.json`（claim 权威）
 5. `docs/research/RENE_ADVERSARIAL_REVIEW_v1.md` + `RENE_REVIEWER_RISK_SIMULATION_v1.md`（审稿防御）
-6. WP-0：`docs/research/WP0_ENTRY_PACKAGE_v1.md` → `WP0_QUALIFICATION_REPORT_v1.md`
+6. WP-0：`docs/research/WP0_ENTRY_PACKAGE_v1.md` → `WP0_QUALIFICATION_REPORT_v1.md`（§10）→ `docs/research/WP0_TATQA_QUALIFICATION_APPENDIX_v1.md`

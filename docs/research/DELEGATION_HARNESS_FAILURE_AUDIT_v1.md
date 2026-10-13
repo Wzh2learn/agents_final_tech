@@ -51,3 +51,11 @@ Every failure mode observed is explained by that mismatch:
 ## 5. Consequence for this session
 
 The outstanding **independent Loop C audit** - the last gap blocking "signable" status - can now be dispatched through the designed launcher instead of being written off. That dispatch is part of this round.
+
+## 6. Round outcome (2026-10-13, recorded after the fact)
+
+The design-plane fix in Sec.4 was applied the same day:
+- The independent audit was dispatched through `loop_ac_launcher.sh` and delivered: v2 (`a1a7-independent-audit-20261013`, rc=0) = CONDITIONAL; the fix pass closed 9/9; the re-audit v3 (`a1a7-reaudit-v3-20261013`, rc=0) = items PASS / claim boundary PASS (one prescribed word fix; see `docs/research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`).
+- Zero app-facility dispatches were used for audit work this round; the launcher path is now exercised end-to-end twice (v2, v3).
+- Timing note for future dispatches: model-side latency through the local relay can be minutes-long (v2 ~7 min; v3 ~14 min); the log is written on completion, so `status` polling is the right progress signal, not log growth.
+- No harness change was required; the only toolchain adjustment was `pre_submission_audit.py` accepting EOL-normalised matches locally (`--report-eol`), so a CRLF checkout cannot fake a failure on a non-authority host.

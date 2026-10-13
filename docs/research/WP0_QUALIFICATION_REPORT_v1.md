@@ -1,6 +1,6 @@
 # WP0_QUALIFICATION_REPORT_v1.md
 
-> date: 2026-10-13 | author: Loop D (executing the WP-0 read-only qualification) | status: `QUALIFICATION_REPORT_ONLY / G-RQ=PENDING / G-M=PENDING / EXPERIMENT_NOT_RUN`
+> date: 2026-10-13 | author: Loop D (executing the WP-0 read-only qualification) | status: `QUALIFICATION_REPORT_ONLY / G-RQ=PENDING / G-M=PENDING / EXPERIMENT_NOT_RUN` (TAT-QA update 2026-10-13: see Sec.10; A1-A6 closed)
 > authority: [论文 E 投稿门禁](../PAPER_E_SUBMISSION_READINESS_GATE_v1.md), [SANER 科学裁决](SANER_SCIENTIFIC_ADJUDICATION_v1.md), [研究执行入口](MASTER_RESEARCH_EXECUTION_ENTRY_v1.md), [执行蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md), [WP-0 task card](thesis_experience_v1_task_card.md)
 > Rule applied: read-only material verification. No download, no data-body access, no model call, no runner, no production service. Nothing was inferred where the record is silent.
 
@@ -89,3 +89,16 @@ So the E/C construction depends on materials that do not exist. What *can* be bu
 `docs/research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`; `docs/research/THESIS_EXECUTION_BLUEPRINT_v1.md` §2-§3; `docs/research/thesis_experience_v1_task_card.md`; `docs/datasets/paper-public-source-registry-v1.json`; `docs/datasets/2026-09-24_dB_licence_evidence.md`; `docs/datasets/2026-10-05_rq2_candidate_source_screening_v1.md`; `docs/datasets/2026-10-05_model_training_go_application_v1.md`; repository `data/` inventory; `research/thesis_experience_v1/` existence check (absent).
 
 **No Git-tracked data body was opened, nothing was downloaded, no model or service was called, and no runner was created. This report does not authorise WP-1 or WP-2.**
+
+## 10. Update 2026-10-13 - TAT-QA A1-A6 executed (supersedes the TAT-QA rows above)
+
+The owner selected TAT-QA and authorised the raw fetch; items A1-A6 of `WP0_TATQA_PACKAGE_v1.md` Sec.6 are executed with receipts. Details: `WP0_TATQA_QUALIFICATION_APPENDIX_v1.md`.
+
+- Checklist item 1: SATISFIED for TAT-QA - licence verified (MIT repo + CC BY 4.0 data); raw fetched 2026-10-13T05:07:45Z (2,479 records, sha256-gated); origin rule instantiated (182 origins; 60 candidate items from 60 distinct origins).
+- Checklist item 2: CONTRACTED - adapter/checker contract filed (fixtures are WP-1 work).
+- Checklist item 3: licence cleared for TAT-QA data use; feedback-right definition still OPEN; actor revision still NOT frozen.
+- Checklist items 4-5: mechanism reading unchanged; the appendix replaces the earlier "no materials" verdict for TAT-QA only.
+
+Recommendations (owner-advisor decides): G-RQ -> QUALIFIED_CONDITIONAL (remaining bindings: feedback right; actor revision freeze; budget/window). G-M -> HOLD unchanged; `METHOD_NOVELTY = NOT_IDENTIFIED`.
+
+No WP-1/WP-2 authorisation is granted here; nothing was trained or run. Other candidate sources remain at their earlier metadata-only states.

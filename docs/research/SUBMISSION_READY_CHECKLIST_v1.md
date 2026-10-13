@@ -19,7 +19,7 @@
 
 ## What this checklist does NOT certify
 - It does not certify scientific novelty or acceptance probability.
-- It does not certify the authored revisions independently (self-audits only; the independent pass is outstanding).
+- The independent pass was delivered 2026-10-13 (Loop C v2 -> v3; item application and claim boundary PASS; one prescribed one-word caption fix applied and machine re-verified): `docs/research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`. This checklist itself remains a self-check.
 - It does not authorise registration or submission: those remain owner actions.
 
 ## Owner actions that remain (the only blockers to actual submission)

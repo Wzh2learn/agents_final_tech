@@ -1,6 +1,6 @@
 # WP-0 TAT-QA Package v1
 
-> date: 2026-10-13 | author: Loop D | status: `FEASIBILITY_ANALYSED / ORIGIN_BLOCKER_IDENTIFIED / NO_DOWNLOAD / NO_EXPERIMENT`
+> date: 2026-10-13 | author: Loop D | status: `A1-A6 EXECUTED / ORIGIN RULE INSTANTIATED (182 origins; 60 candidate items; receipts on GB10) / NO_EXPERIMENT`
 > owner decision applied: WP-0 source family = **TAT-QA**. Purpose: finish the qualification for TAT-QA and leave a Loop-A-executable entry. No method development, no Memory/SFT/DPO, no scope expansion.
 > parent: [WP0_ENTRY_PACKAGE_v1.md](WP0_ENTRY_PACKAGE_v1.md), [WP0_QUALIFICATION_REPORT_v1.md](WP0_QUALIFICATION_REPORT_v1.md), [task card](thesis_experience_v1_task_card.md)
 
@@ -42,7 +42,7 @@ Options, in preference order:
 | B | Define origin = company named in the table, where present | zero download | **rejected:** coverage 6.9% of tables and mostly false positives |
 | C | Define origin = header-signature cluster | zero download | **rejected:** a signature like `('', '2019', '2018')` occurs 155 times across different issuers; a shape cluster is not an independent origin, and the registry policy already forbids treating a namespace as a row-level cluster |
 
-**Consequence for the gates:** `G-RQ` cannot reach PASS on TAT-QA until an origin rule is bound. Every other WP-0 item is ready.
+**Resolution (2026-10-13):** Option A executed under owner authorisation. Raw records fetched (2,479 records; receipt `data/research/tatqa_raw_2026/FETCH_RECEIPT.txt` on GB10, fetch 2026-10-13T05:07:45Z); origin rule = one raw record (paragraph-context signature; near-unique 2,467/2,479); build receipt `data/research/tatqa_wp0_2026/GENERATION_RECEIPT.json`: 182 origins, 176 with >= 2 usable rows, 60 candidate items from 60 distinct origins. Frozen facts and gate recommendations: `WP0_TATQA_QUALIFICATION_APPENDIX_v1.md` Sec.3-5.
 
 ## 4. Task contract (specification only)
 
@@ -66,19 +66,24 @@ Options, in preference order:
 
 | # | Step | Deliverable | Check | Stop |
 |---|---|---|---|---|
-| A1 | Draft the TAT-QA `licence_record` (attribution text, modification note, revision binding) | `docs/datasets/tatqa_licence_record_v1.md` | CC BY obligations covered; revision pinned | if the owner narrows away from TAT-QA |
-| A2 | Request and (if authorised) fetch the raw TAT-QA records; verify the file digests against the public release | acquisition receipt with hashes | hashes resolve; no private data | **needs owner authorisation** |
-| A3 | Build the origin rule (paragraph/coincidence grouping) and emit `origin_manifest.json` with >=8 origins | designer script + manifest | >=8 origins; near-duplicate isolation demonstrated on fixtures | if <8 origins emerge, report `SOURCE_INSUFFICIENT` |
-| A4 | Instantiate the item schema on the 188-table feasible pool; produce a candidate item list (not a pilot) | `candidate_items_v1.json` | every gold recomputed by the checker, not by a model | if <16 eligible items survive, report |
-| A5 | Write the task-adapter + checker contracts (specification, no implementation) | `task_adapter_contract_v1.md`, `checker_contract_v1.md` | gold isolation; tool-consumption rule; deterministic fixture check | - |
-| A6 | Assemble the quality appendix for G-RQ / G-M | appendix in this package | unresolved dependencies listed | - |
+| A1 | Draft the TAT-QA `licence_record` (attribution text, modification note, revision binding) | `docs/datasets/tatqa_licence_record_v1.md` | CC BY obligations covered; revision pinned | if the owner narrows away from TAT-QA | **DONE** |
+| A2 | Request and (if authorised) fetch the raw TAT-QA records; verify the file digests against the public release | acquisition receipt with hashes | hashes resolve; no private data | **needs owner authorisation** | **DONE** (authorised; receipt on GB10) |
+| A3 | Build the origin rule (paragraph/coincidence grouping) and emit `origin_manifest.json` with >=8 origins | designer script + manifest | >=8 origins; near-duplicate isolation demonstrated on fixtures | if <8 origins emerge, report `SOURCE_INSUFFICIENT` | **DONE** (182 origins) |
+| A4 | Instantiate the item schema on the 188-table feasible pool; produce a candidate item list (not a pilot) | `candidate_items_v1.json` | every gold recomputed by the checker, not by a model | if <16 eligible items survive, report | **DONE** (60 items / 60 origins) |
+| A5 | Write the task-adapter + checker contracts (specification, no implementation) | `task_adapter_contract_v1.md`, `checker_contract_v1.md` | gold isolation; tool-consumption rule; deterministic fixture check | - | **DONE** (`WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md`) |
+| A6 | Assemble the quality appendix for G-RQ / G-M | appendix in this package | unresolved dependencies listed | - | **DONE** (`WP0_TATQA_QUALIFICATION_APPENDIX_v1.md`) |
 
 **Not in this package:** runner implementation (WP-1), any model call, any training, any pilot run (WP-2).
 
 ## 7. What still needs the owner
 
-1. **Authorise the raw TAT-QA acquisition** (public, CC BY 4.0) - the only blocker to the origin rule (option A).
-2. The feedback right: what historical feedback may be shown to the actor.
-3. The actor revision freeze.
+1. ~~Authorise the raw TAT-QA acquisition~~ -> **DONE** (fetch receipt 2026-10-13).
+2. The feedback right: what historical feedback may be shown to the actor. [OPEN]
+3. The actor revision freeze (MODEL_GO pending). [OPEN]
+4. Bind the budget/window at the WP-1/WP-2 gate (300 attempt cap, 0 judge calls). [OPEN]
 
-**No download, no model call, no runner, no experiment was performed. This package prepares WP-0 completion; it does not authorise WP-1 or WP-2.**
+## 8. A6 appendix
+
+See `WP0_TATQA_QUALIFICATION_APPENDIX_v1.md` for the frozen measured facts, the G-RQ/G-M recommendations, and the unresolved dependencies.
+
+**No model call, no runner, no experiment, no training was performed. The only external action was the owner-authorised raw fetch (receipt above). This package does not authorise WP-1 or WP-2.**

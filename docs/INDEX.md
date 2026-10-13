@@ -37,20 +37,22 @@
 | Abstract 注册包 | [`../research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md`](../research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md) | 历史机械准备；当前BLOCKED_SCIENCE，须同步修订并另获owner注册授权 |
 | Track P registry / 收束 | [`../research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json`](../research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json) | CLOSED；LEVEL_0；PR-03 = NEGATIVE / DECLINE_CITE |
 | PR-03 溢出审计 | [`../research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md`](../research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md) | PASS (CLEAN) |
-| 独立审计包（待交付） | [`../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md`](../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md) | READY_TO_RUN；列出 pending 的 Loop C 复核项 |
-| Loop C 审计结果（self-audit） | [`../research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md`](../research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md) | A/B/C 三项 = PASS；标注为 self-audit，non-independent |
+| 独立审计包（历史） | [`../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md`](../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md) | 其列出 pending 复核项已由独立 Loop C v2/v3 交付（见下行） |
+| 独立 Loop C 审计记录（A1–A7） | [`research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`](research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md) | v2 CONDITIONAL → 9 项修复 → v3 items/claim PASS；一处单字修复按裁定落实；双端复验 |
+| Loop C 审计结果（self-audit，历史） | [`../research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md`](../research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md) | A/B/C 三项 = PASS；标注为 self-audit，non-independent |
 | 陈旧文件扫描 | [`../research/positive_repair_20261011/STALE_ARTIFACT_SCAN_v1.md`](../research/positive_repair_20261011/STALE_ARTIFACT_SCAN_v1.md) | 164 个零引用/陈旧文件；均已在约定历史位置，无需动作 |
 | Paper E 投稿门禁 | [`research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md`](research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md) | §12 为 2026-10-13 的 A1–A7 落实记录 |
 | SANER 科学裁决 | [`research/SANER_SCIENTIFIC_ADJUDICATION_v1.md`](research/SANER_SCIENTIFIC_ADJUDICATION_v1.md) | A1–A7 的权威依据（A2 = BLOCKING） |
 | A1–A7 复核（self-review） | [`research/LOOP_C_REVIEW_A1A7_REVISION_v1.md`](research/LOOP_C_REVIEW_A1A7_REVISION_v1.md) | 已落实 / 边界保持 / 包一致；独立复核仍缺 |
-| WP-0 资格报告 | [`research/WP0_QUALIFICATION_REPORT_v1.md`](research/WP0_QUALIFICATION_REPORT_v1.md) | `SOURCE_INSUFFICIENT`；G-RQ/G-M 建议 HOLD |
+| WP-0 资格报告 | [`research/WP0_QUALIFICATION_REPORT_v1.md`](research/WP0_QUALIFICATION_REPORT_v1.md) | 历史判定 SOURCE_INSUFFICIENT；§10 更新：TAT-QA A1–A6 闭合，G-RQ 建议 QUALIFIED_CONDITIONAL（owner 待批），G-M 仍 HOLD |
 | WP-0 候选分析（排序/许可/gap/最小设计） | [`research/WP0_CANDIDATE_ANALYSIS_v1.md`](research/WP0_CANDIDATE_ANALYSIS_v1.md) | 前准备件；不授权下载或运行 |
 | RENE reviewer 风险模拟 | [`research/RENE_REVIEWER_RISK_SIMULATION_v1.md`](research/RENE_REVIEWER_RISK_SIMULATION_v1.md) | 10 项风险 + 已采取的纯表达加固 |
 | RENE adversarial review（三类 reviewer） | [`research/RENE_ADVERSARIAL_REVIEW_v1.md`](research/RENE_ADVERSARIAL_REVIEW_v1.md) | 三 persona 的 strongest reject / defence / 剩余措辞风险；W1–W3 已落实 |
 | 最终投稿清单 | [`research/SUBMISSION_READY_CHECKLIST_v1.md`](research/SUBMISSION_READY_CHECKLIST_v1.md) | 10 项 PASS；`SUBMISSION_READY (package)` |
 | **冻结包（投稿前）** | [`../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md`](../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md) | 版本/已完成/未完成/owner 决策/禁止修改 |
 | WP-0 入口包 | [`research/WP0_ENTRY_PACKAGE_v1.md`](research/WP0_ENTRY_PACKAGE_v1.md) | source landscape / ranking / gap map；Loop A 可直接开工 |
-| **WP-0 TAT-QA 包** | [`research/WP0_TATQA_PACKAGE_v1.md`](research/WP0_TATQA_PACKAGE_v1.md) | 许可已核验（MIT + CC BY 4.0）；raw 已获取（2479 条）；origin 分组完成（182 origins / 60 candidate items）；A2–A5 完成，A6 附录进行中 |
+| **WP-0 TAT-QA 包** | [`research/WP0_TATQA_PACKAGE_v1.md`](research/WP0_TATQA_PACKAGE_v1.md) | A1–A6 完成：raw 已获取（2479 条）；182 origins / 60 candidate items；G-RQ 建议 QUALIFIED_CONDITIONAL（owner 待批），G-M 仍 HOLD |
+| TAT-QA 资格附录（A6） | [`research/WP0_TATQA_QUALIFICATION_APPENDIX_v1.md`](research/WP0_TATQA_QUALIFICATION_APPENDIX_v1.md) | G-RQ/G-M 建议 + 冻结测量事实 + 未决依赖；不授权 WP-1/WP-2 |
 | **最终 handoff** | [`../FINAL_HANDOFF_v1.md`](../FINAL_HANDOFF_v1.md) | 下一 session 第一入口（owner 决策已记录） |
 | 投稿前一键审计 | [`../scripts/pre_submission_audit.py`](../scripts/pre_submission_audit.py) | evidence/anonymisation/format/artifact 四组；当前 PASS |
 | 匿名 artifact 包（备而未发） | [`../research/artifact_release_2026/README.md`](../research/artifact_release_2026/README.md) | 12 项已就绪 + 2 项 GB10 数据体；发布需 owner |
