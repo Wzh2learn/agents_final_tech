@@ -1,0 +1,205 @@
+{
+  "candidate_item_scoring": false,
+  "checker_domain": {
+    "allowed_candidate_structures": 60,
+    "candidate_gold_fields_accessed": false,
+    "candidate_scoring_called": false,
+    "checker_functions_defined": [
+      "aggregate_outcomes",
+      "apply_regression",
+      "paired_origin_differences",
+      "prepare_item",
+      "recompute_gold",
+      "score_item"
+    ],
+    "status": "PASS"
+  },
+  "checks": [
+    {
+      "evidence": {
+        "research/tatqa_wp0_2026/wp1/PREREG_DRAFT_SKELETON.md": true,
+        "research/tatqa_wp0_2026/wp1/adapter.py": true,
+        "research/tatqa_wp0_2026/wp1/checker.py": true,
+        "research/tatqa_wp0_2026/wp1/fixtures/synthetic_fixtures.json": true,
+        "research/tatqa_wp0_2026/wp1/implementation_contract.md": true,
+        "research/tatqa_wp0_2026/wp1/implementation_contract.sha256": true,
+        "research/tatqa_wp0_2026/wp1/provenance.py": true,
+        "research/tatqa_wp0_2026/wp1/run_fixtures.py": true
+      },
+      "id": "required_files_exist",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "actual": [
+          "period_early",
+          "period_late",
+          "requested_quantity",
+          "row_index",
+          "source_unit",
+          "table",
+          "target_unit"
+        ],
+        "expected": [
+          "period_early",
+          "period_late",
+          "requested_quantity",
+          "row_index",
+          "source_unit",
+          "table",
+          "target_unit"
+        ]
+      },
+      "id": "runtime_schema_field_names",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "candidate_gold_fields_accessed": false,
+        "candidate_runtime_payloads": 60,
+        "candidate_scoring_called": false
+      },
+      "id": "checker_defined_on_allowed_inputs",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "candidate_items": 60,
+        "distinct_item_ids": 60,
+        "distinct_origin_ids": 182,
+        "duplicate_origin_ids": [],
+        "origins": 182,
+        "split_mismatches": [],
+        "unresolved_origins": []
+      },
+      "id": "group_and_split_ids_resolve",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "endpoint_calls": 0,
+        "model_calls": 0,
+        "role": "Loop A / GB10 implementation",
+        "task": "tatqa_wp1_loop_a",
+        "writer": "research/tatqa_wp0_2026/wp1/provenance.py"
+      },
+      "id": "provenance_writer_attributes_task",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "fixture_only": true,
+        "scientific_results": false
+      },
+      "id": "synthetic_metric_pipeline_end_to_end",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "candidate_item_scoring": false,
+        "held_out_result_read": false,
+        "raw_outcome_scoring": false
+      },
+      "id": "no_held_out_result_read",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "counts": {
+          "candidate_item_count_field": 60,
+          "candidate_items": 60,
+          "origin_count_field": 182,
+          "origins": 182,
+          "receipt_candidate_items": 60,
+          "receipt_origins": 182
+        },
+        "hashes": {
+          "data/research/tatqa_raw_2026/tatqa_dataset_dev.json": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+          "data/research/tatqa_raw_2026/tatqa_dataset_train.json": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+          "data/research/tatqa_wp0_2026/candidate_items_v1.json": "bc55fe7a53381f32e5d84ff6c17ced18ec72fd322f98a9f80c4eccb714caac12",
+          "data/research/tatqa_wp0_2026/origin_manifest.json": "3718e6fef4d52bec0c1c29b47ba9ab60e298754b9e8527835d09c9d223d70cea"
+        },
+        "status": "PASS"
+      },
+      "id": "pinned_inputs_reverified",
+      "status": "PASS"
+    }
+  ],
+  "cost": {
+    "endpoint_calls": 0,
+    "model_calls": 0
+  },
+  "failed_checks": [],
+  "held_out_result_read": false,
+  "identifier_resolution": {
+    "candidate_items": 60,
+    "distinct_item_ids": 60,
+    "distinct_origin_ids": 182,
+    "origins": 182,
+    "status": "PASS"
+  },
+  "input_verification": {
+    "counts": {
+      "candidate_item_count_field": 60,
+      "candidate_items": 60,
+      "origin_count_field": 182,
+      "origins": 182,
+      "receipt_candidate_items": 60,
+      "receipt_origins": 182
+    },
+    "hashes": {
+      "data/research/tatqa_raw_2026/tatqa_dataset_dev.json": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+      "data/research/tatqa_raw_2026/tatqa_dataset_train.json": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+      "data/research/tatqa_wp0_2026/candidate_items_v1.json": "bc55fe7a53381f32e5d84ff6c17ced18ec72fd322f98a9f80c4eccb714caac12",
+      "data/research/tatqa_wp0_2026/origin_manifest.json": "3718e6fef4d52bec0c1c29b47ba9ab60e298754b9e8527835d09c9d223d70cea"
+    },
+    "status": "PASS"
+  },
+  "metric_pipeline": {
+    "fixture_only": true,
+    "scientific_results": false,
+    "status": "PASS"
+  },
+  "provenance": {
+    "endpoint_calls": 0,
+    "model_calls": 0,
+    "role": "Loop A / GB10 implementation",
+    "task": "tatqa_wp1_loop_a",
+    "writer": "research/tatqa_wp0_2026/wp1/provenance.py"
+  },
+  "required_files": {
+    "research/tatqa_wp0_2026/wp1/PREREG_DRAFT_SKELETON.md": true,
+    "research/tatqa_wp0_2026/wp1/adapter.py": true,
+    "research/tatqa_wp0_2026/wp1/checker.py": true,
+    "research/tatqa_wp0_2026/wp1/fixtures/synthetic_fixtures.json": true,
+    "research/tatqa_wp0_2026/wp1/implementation_contract.md": true,
+    "research/tatqa_wp0_2026/wp1/implementation_contract.sha256": true,
+    "research/tatqa_wp0_2026/wp1/provenance.py": true,
+    "research/tatqa_wp0_2026/wp1/run_fixtures.py": true
+  },
+  "run_id": "tatqa-wp1b-20261013",
+  "runtime_schema": {
+    "expected_fields": [
+      "period_early",
+      "period_late",
+      "requested_quantity",
+      "row_index",
+      "source_unit",
+      "table",
+      "target_unit"
+    ],
+    "fields": [
+      "period_early",
+      "period_late",
+      "requested_quantity",
+      "row_index",
+      "source_unit",
+      "table",
+      "target_unit"
+    ],
+    "status": "PASS"
+  },
+  "schema": "tatqa_wp1_preflight_receipt_v1",
+  "status": "PASS",
+  "task": "tatqa_wp1_loop_a"
+}

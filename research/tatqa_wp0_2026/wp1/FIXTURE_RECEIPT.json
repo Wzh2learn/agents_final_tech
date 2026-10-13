@@ -1,0 +1,593 @@
+{
+  "artifact_hashes": {
+    "adapter": "dbb5b55bbe48c36c9b5854dfe1780e3a9ca09e08ffe58331468d61ce21f52477",
+    "checker": "1dbaa0055fb235d242dc6d4d8f7adade55305c89d4c8673d328348ab21ddb723",
+    "contract": "e281248058467de32087ae2ae4138d7506960a96f862154cff1c32ccfb740d06",
+    "fixtures": "8b464f682c8ebd4004fd216b4cd69dc26bcff790c6a035fe2b2f03564d8d2345",
+    "preflight": "b6997cfdf54e25a8679abf00df3d8bc9bccd8a7cdc7b7abead89846c06491931",
+    "provenance": "75c3dea925e719fce248ee2f2a2febd88e6b44496b9bcd787117f8cab61f4cc3",
+    "run_fixtures": "303bf65ba6127c57260f4bef24c4ed60999d01921f5fdeda2bef749bd7b4c499"
+  },
+  "candidate_item_scoring": false,
+  "cost": {
+    "endpoint_calls": 0,
+    "model_calls": 0
+  },
+  "deviations": [],
+  "fixture_source": "research/tatqa_wp0_2026/wp1/fixtures/synthetic_fixtures.json",
+  "held_out_result_read": false,
+  "metric_pipeline": {
+    "aggregate": {
+      "arms": {
+        "B": {
+          "correct_count": 1,
+          "correct_rate": 0.5,
+          "origin_count": 2,
+          "outcome_counts": {
+            "correct": 1,
+            "wrong_unit": 1
+          },
+          "total": 2
+        },
+        "C": {
+          "correct_count": 1,
+          "correct_rate": 0.5,
+          "origin_count": 2,
+          "outcome_counts": {
+            "correct": 1,
+            "wrong_unit": 1
+          },
+          "total": 2
+        },
+        "E": {
+          "correct_count": 1,
+          "correct_rate": 0.5,
+          "origin_count": 2,
+          "outcome_counts": {
+            "correct": 1,
+            "wrong_unit": 1
+          },
+          "total": 2
+        },
+        "S": {
+          "correct_count": 2,
+          "correct_rate": 1.0,
+          "origin_count": 2,
+          "outcome_counts": {
+            "correct": 2
+          },
+          "total": 2
+        }
+      },
+      "record_count": 8
+    },
+    "fixture_only": true,
+    "paired_comparisons": [
+      {
+        "left_arm": "E",
+        "mean_delta_pp": 0.0,
+        "net_negative_origins": 1,
+        "net_positive_origins": 1,
+        "origin_count": 2,
+        "origin_differences": [
+          {
+            "delta_pp": -100.0,
+            "left_correct": 0,
+            "left_rate": 0.0,
+            "left_total": 1,
+            "origin_id": "synthetic_origin_1",
+            "right_correct": 1,
+            "right_rate": 1.0,
+            "right_total": 1
+          },
+          {
+            "delta_pp": 100.0,
+            "left_correct": 1,
+            "left_rate": 1.0,
+            "left_total": 1,
+            "origin_id": "synthetic_origin_3",
+            "right_correct": 0,
+            "right_rate": 0.0,
+            "right_total": 1
+          }
+        ],
+        "right_arm": "B",
+        "tied_origins": 0
+      },
+      {
+        "left_arm": "E",
+        "mean_delta_pp": 0.0,
+        "net_negative_origins": 1,
+        "net_positive_origins": 1,
+        "origin_count": 2,
+        "origin_differences": [
+          {
+            "delta_pp": -100.0,
+            "left_correct": 0,
+            "left_rate": 0.0,
+            "left_total": 1,
+            "origin_id": "synthetic_origin_1",
+            "right_correct": 1,
+            "right_rate": 1.0,
+            "right_total": 1
+          },
+          {
+            "delta_pp": 100.0,
+            "left_correct": 1,
+            "left_rate": 1.0,
+            "left_total": 1,
+            "origin_id": "synthetic_origin_3",
+            "right_correct": 0,
+            "right_rate": 0.0,
+            "right_total": 1
+          }
+        ],
+        "right_arm": "C",
+        "tied_origins": 0
+      },
+      {
+        "left_arm": "E",
+        "mean_delta_pp": -50.0,
+        "net_negative_origins": 1,
+        "net_positive_origins": 0,
+        "origin_count": 2,
+        "origin_differences": [
+          {
+            "delta_pp": -100.0,
+            "left_correct": 0,
+            "left_rate": 0.0,
+            "left_total": 1,
+            "origin_id": "synthetic_origin_1",
+            "right_correct": 1,
+            "right_rate": 1.0,
+            "right_total": 1
+          },
+          {
+            "delta_pp": 0.0,
+            "left_correct": 1,
+            "left_rate": 1.0,
+            "left_total": 1,
+            "origin_id": "synthetic_origin_3",
+            "right_correct": 1,
+            "right_rate": 1.0,
+            "right_total": 1
+          }
+        ],
+        "right_arm": "S",
+        "tied_origins": 1
+      },
+      {
+        "left_arm": "C",
+        "mean_delta_pp": 0.0,
+        "net_negative_origins": 0,
+        "net_positive_origins": 0,
+        "origin_count": 2,
+        "origin_differences": [
+          {
+            "delta_pp": 0.0,
+            "left_correct": 1,
+            "left_rate": 1.0,
+            "left_total": 1,
+            "origin_id": "synthetic_origin_1",
+            "right_correct": 1,
+            "right_rate": 1.0,
+            "right_total": 1
+          },
+          {
+            "delta_pp": 0.0,
+            "left_correct": 0,
+            "left_rate": 0.0,
+            "left_total": 1,
+            "origin_id": "synthetic_origin_3",
+            "right_correct": 0,
+            "right_rate": 0.0,
+            "right_total": 1
+          }
+        ],
+        "right_arm": "B",
+        "tied_origins": 2
+      }
+    ],
+    "status": "PASS"
+  },
+  "obligations": [
+    {
+      "evidence": {
+        "byte_equal": true,
+        "bytes": 464,
+        "first_sha256": "c4297cbe747f473a92c54893a93a528cbb6221e75b2ad68f8159f9b1eaaf2b13",
+        "fixture_id": "normal_unit",
+        "second_sha256": "c4297cbe747f473a92c54893a93a528cbb6221e75b2ad68f8159f9b1eaaf2b13"
+      },
+      "id": "prompt_byte_determinism",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "answer_fields_checked": [
+          "delta_source",
+          "delta_target"
+        ],
+        "clean": true,
+        "excluded_hidden_fields": [
+          "late_value",
+          "early_value"
+        ],
+        "fixture_count": 7,
+        "forbidden_keys_checked": [
+          "gold_delta_source_unit",
+          "gold_recompute_rule",
+          "gold_delta_target_unit",
+          "expected_gold",
+          "origin_id",
+          "item_id"
+        ],
+        "results": [
+          {
+            "answer_values": {
+              "delta_source": "60",
+              "delta_target": "60"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "normal_unit",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "-55",
+              "delta_target": "-55"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "parentheses_negative",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "1000",
+              "delta_target": "1000"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "thousands_separator",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "1.3",
+              "delta_target": "1300.0"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "thousand_to_unit",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "2.5",
+              "delta_target": "2500.0"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "million_to_thousand",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "1.7",
+              "delta_target": "1700.0"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "billion_to_million",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "3.0",
+              "delta_target": "3.0"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "percent_to_percent",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          }
+        ]
+      },
+      "id": "hidden_gold_search",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "fixture_count": 7,
+        "mandated_cases_present": [
+          "parentheses_negative",
+          "thousands_separator"
+        ],
+        "results": [
+          {
+            "delta_source": "60",
+            "delta_target": "60",
+            "early_value": "40",
+            "fixture_id": "normal_unit",
+            "late_value": "100"
+          },
+          {
+            "delta_source": "-55",
+            "delta_target": "-55",
+            "early_value": "35",
+            "fixture_id": "parentheses_negative",
+            "late_value": "-20"
+          },
+          {
+            "delta_source": "1000",
+            "delta_target": "1000",
+            "early_value": "250",
+            "fixture_id": "thousands_separator",
+            "late_value": "1250"
+          },
+          {
+            "delta_source": "1.3",
+            "delta_target": "1300.0",
+            "early_value": "1.2",
+            "fixture_id": "thousand_to_unit",
+            "late_value": "2.5"
+          },
+          {
+            "delta_source": "2.5",
+            "delta_target": "2500.0",
+            "early_value": "1.7",
+            "fixture_id": "million_to_thousand",
+            "late_value": "4.2"
+          },
+          {
+            "delta_source": "1.7",
+            "delta_target": "1700.0",
+            "early_value": "2.1",
+            "fixture_id": "billion_to_million",
+            "late_value": "3.8"
+          },
+          {
+            "delta_source": "3.0",
+            "delta_target": "3.0",
+            "early_value": "3.5",
+            "fixture_id": "percent_to_percent",
+            "late_value": "6.5"
+          }
+        ]
+      },
+      "id": "gold_recomputation",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "conversion_count": 4,
+        "required_conversions": [
+          "thousand_to_unit",
+          "million_to_thousand",
+          "billion_to_million",
+          "percent_to_percent"
+        ],
+        "results": [
+          {
+            "delta_source": "1.3",
+            "delta_target": "1300.0",
+            "factor": "1000",
+            "fixture_id": "thousand_to_unit",
+            "source_unit": "thousand",
+            "target_unit": "unit"
+          },
+          {
+            "delta_source": "2.5",
+            "delta_target": "2500.0",
+            "factor": "1000",
+            "fixture_id": "million_to_thousand",
+            "source_unit": "million",
+            "target_unit": "thousand"
+          },
+          {
+            "delta_source": "1.7",
+            "delta_target": "1700.0",
+            "factor": "1000",
+            "fixture_id": "billion_to_million",
+            "source_unit": "billion",
+            "target_unit": "million"
+          },
+          {
+            "delta_source": "3.0",
+            "delta_target": "3.0",
+            "factor": "1",
+            "fixture_id": "percent_to_percent",
+            "source_unit": "percent",
+            "target_unit": "percent"
+          }
+        ]
+      },
+      "id": "scale_conversions",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "case_count": 3,
+        "results": [
+          {
+            "actual": "unknown",
+            "answer": "UNKNOWN",
+            "case_id": "unknown",
+            "expected": "unknown"
+          },
+          {
+            "actual": "refused",
+            "answer": "REFUSED",
+            "case_id": "refused",
+            "expected": "refused"
+          },
+          {
+            "actual": "unknown",
+            "answer": "{\"row\":\"Revenue\"",
+            "case_id": "unparseable",
+            "expected": "unknown"
+          }
+        ]
+      },
+      "id": "unknown_and_refused",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "absolute_delta": 4,
+        "c_tokens": 104,
+        "e_tokens": 100,
+        "relative_delta": 0.04,
+        "relative_limit": 0.05,
+        "within_limit": true
+      },
+      "id": "ec_token_delta",
+      "status": "PASS"
+    }
+  ],
+  "provenance": {
+    "endpoint_calls": 0,
+    "model_calls": 0,
+    "role": "Loop A / GB10 implementation",
+    "task": "tatqa_wp1_loop_a",
+    "writer": "research/tatqa_wp0_2026/wp1/provenance.py"
+  },
+  "regression_check": {
+    "evidence": {
+      "case_count": 5,
+      "results": [
+        {
+          "actual": "regressed",
+          "arm_outcome": "wrong_unit",
+          "base_outcome": "correct",
+          "expected": "regressed"
+        },
+        {
+          "actual": "regressed",
+          "arm_outcome": "wrong_period",
+          "base_outcome": "correct_other_form",
+          "expected": "regressed"
+        },
+        {
+          "actual": "refused",
+          "arm_outcome": "refused",
+          "base_outcome": "correct",
+          "expected": "refused"
+        },
+        {
+          "actual": "unknown",
+          "arm_outcome": "unknown",
+          "base_outcome": "correct",
+          "expected": "unknown"
+        },
+        {
+          "actual": "correct",
+          "arm_outcome": "correct",
+          "base_outcome": "wrong_unit",
+          "expected": "correct"
+        }
+      ]
+    },
+    "id": "regression_helper",
+    "status": "PASS"
+  },
+  "run_id": "tatqa-wp1b-20261013",
+  "schema": "tatqa_wp1_fixture_receipt_v1",
+  "status": "PASS",
+  "task": "tatqa_wp1_loop_a",
+  "taxonomy_checks": {
+    "evidence": {
+      "case_count": 7,
+      "results": [
+        {
+          "actual": "correct",
+          "case_id": "correct",
+          "expected": "correct"
+        },
+        {
+          "actual": "correct_other_form",
+          "case_id": "correct_other_form",
+          "expected": "correct_other_form"
+        },
+        {
+          "actual": "wrong_unit",
+          "case_id": "wrong_unit",
+          "expected": "wrong_unit"
+        },
+        {
+          "actual": "wrong_period",
+          "case_id": "wrong_period",
+          "expected": "wrong_period"
+        },
+        {
+          "actual": "refused",
+          "case_id": "refused",
+          "expected": "refused"
+        },
+        {
+          "actual": "unknown",
+          "case_id": "unknown",
+          "expected": "unknown"
+        },
+        {
+          "actual": "unknown",
+          "case_id": "unparseable",
+          "expected": "unknown"
+        }
+      ]
+    },
+    "id": "outcome_taxonomy",
+    "status": "PASS"
+  }
+}

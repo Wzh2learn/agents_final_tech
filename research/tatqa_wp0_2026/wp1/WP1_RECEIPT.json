@@ -1,0 +1,468 @@
+{
+  "artifact_hashes": {
+    "adapter": "dbb5b55bbe48c36c9b5854dfe1780e3a9ca09e08ffe58331468d61ce21f52477",
+    "checker": "1dbaa0055fb235d242dc6d4d8f7adade55305c89d4c8673d328348ab21ddb723",
+    "contract": "e281248058467de32087ae2ae4138d7506960a96f862154cff1c32ccfb740d06",
+    "fixtures": "8b464f682c8ebd4004fd216b4cd69dc26bcff790c6a035fe2b2f03564d8d2345",
+    "preflight": "b6997cfdf54e25a8679abf00df3d8bc9bccd8a7cdc7b7abead89846c06491931",
+    "provenance": "75c3dea925e719fce248ee2f2a2febd88e6b44496b9bcd787117f8cab61f4cc3",
+    "run_fixtures": "303bf65ba6127c57260f4bef24c4ed60999d01921f5fdeda2bef749bd7b4c499"
+  },
+  "cost": {
+    "endpoint_calls": 0,
+    "model_calls": 0
+  },
+  "deviations": [],
+  "end_utc": "2026-10-13T11:08:50Z",
+  "fixture_results": [
+    {
+      "evidence": {
+        "byte_equal": true,
+        "bytes": 464,
+        "first_sha256": "c4297cbe747f473a92c54893a93a528cbb6221e75b2ad68f8159f9b1eaaf2b13",
+        "fixture_id": "normal_unit",
+        "second_sha256": "c4297cbe747f473a92c54893a93a528cbb6221e75b2ad68f8159f9b1eaaf2b13"
+      },
+      "id": "prompt_byte_determinism",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "answer_fields_checked": [
+          "delta_source",
+          "delta_target"
+        ],
+        "clean": true,
+        "excluded_hidden_fields": [
+          "late_value",
+          "early_value"
+        ],
+        "fixture_count": 7,
+        "forbidden_keys_checked": [
+          "gold_delta_source_unit",
+          "gold_recompute_rule",
+          "gold_delta_target_unit",
+          "expected_gold",
+          "origin_id",
+          "item_id"
+        ],
+        "results": [
+          {
+            "answer_values": {
+              "delta_source": "60",
+              "delta_target": "60"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "normal_unit",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "-55",
+              "delta_target": "-55"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "parentheses_negative",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "1000",
+              "delta_target": "1000"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "thousands_separator",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "1.3",
+              "delta_target": "1300.0"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "thousand_to_unit",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "2.5",
+              "delta_target": "2500.0"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "million_to_thousand",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "1.7",
+              "delta_target": "1700.0"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "billion_to_million",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          },
+          {
+            "answer_values": {
+              "delta_source": "3.0",
+              "delta_target": "3.0"
+            },
+            "clean": true,
+            "fixture_design_precondition_matches": {
+              "delta_source": [],
+              "delta_target": []
+            },
+            "fixture_id": "percent_to_percent",
+            "forbidden_found": [],
+            "projection_matches": {
+              "delta_source": [],
+              "delta_target": []
+            }
+          }
+        ]
+      },
+      "id": "hidden_gold_search",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "fixture_count": 7,
+        "mandated_cases_present": [
+          "parentheses_negative",
+          "thousands_separator"
+        ],
+        "results": [
+          {
+            "delta_source": "60",
+            "delta_target": "60",
+            "early_value": "40",
+            "fixture_id": "normal_unit",
+            "late_value": "100"
+          },
+          {
+            "delta_source": "-55",
+            "delta_target": "-55",
+            "early_value": "35",
+            "fixture_id": "parentheses_negative",
+            "late_value": "-20"
+          },
+          {
+            "delta_source": "1000",
+            "delta_target": "1000",
+            "early_value": "250",
+            "fixture_id": "thousands_separator",
+            "late_value": "1250"
+          },
+          {
+            "delta_source": "1.3",
+            "delta_target": "1300.0",
+            "early_value": "1.2",
+            "fixture_id": "thousand_to_unit",
+            "late_value": "2.5"
+          },
+          {
+            "delta_source": "2.5",
+            "delta_target": "2500.0",
+            "early_value": "1.7",
+            "fixture_id": "million_to_thousand",
+            "late_value": "4.2"
+          },
+          {
+            "delta_source": "1.7",
+            "delta_target": "1700.0",
+            "early_value": "2.1",
+            "fixture_id": "billion_to_million",
+            "late_value": "3.8"
+          },
+          {
+            "delta_source": "3.0",
+            "delta_target": "3.0",
+            "early_value": "3.5",
+            "fixture_id": "percent_to_percent",
+            "late_value": "6.5"
+          }
+        ]
+      },
+      "id": "gold_recomputation",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "conversion_count": 4,
+        "required_conversions": [
+          "thousand_to_unit",
+          "million_to_thousand",
+          "billion_to_million",
+          "percent_to_percent"
+        ],
+        "results": [
+          {
+            "delta_source": "1.3",
+            "delta_target": "1300.0",
+            "factor": "1000",
+            "fixture_id": "thousand_to_unit",
+            "source_unit": "thousand",
+            "target_unit": "unit"
+          },
+          {
+            "delta_source": "2.5",
+            "delta_target": "2500.0",
+            "factor": "1000",
+            "fixture_id": "million_to_thousand",
+            "source_unit": "million",
+            "target_unit": "thousand"
+          },
+          {
+            "delta_source": "1.7",
+            "delta_target": "1700.0",
+            "factor": "1000",
+            "fixture_id": "billion_to_million",
+            "source_unit": "billion",
+            "target_unit": "million"
+          },
+          {
+            "delta_source": "3.0",
+            "delta_target": "3.0",
+            "factor": "1",
+            "fixture_id": "percent_to_percent",
+            "source_unit": "percent",
+            "target_unit": "percent"
+          }
+        ]
+      },
+      "id": "scale_conversions",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "case_count": 3,
+        "results": [
+          {
+            "actual": "unknown",
+            "answer": "UNKNOWN",
+            "case_id": "unknown",
+            "expected": "unknown"
+          },
+          {
+            "actual": "refused",
+            "answer": "REFUSED",
+            "case_id": "refused",
+            "expected": "refused"
+          },
+          {
+            "actual": "unknown",
+            "answer": "{\"row\":\"Revenue\"",
+            "case_id": "unparseable",
+            "expected": "unknown"
+          }
+        ]
+      },
+      "id": "unknown_and_refused",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "absolute_delta": 4,
+        "c_tokens": 104,
+        "e_tokens": 100,
+        "relative_delta": 0.04,
+        "relative_limit": 0.05,
+        "within_limit": true
+      },
+      "id": "ec_token_delta",
+      "status": "PASS"
+    }
+  ],
+  "input_verification": {
+    "counts": {
+      "candidate_item_count_field": 60,
+      "candidate_items": 60,
+      "origin_count_field": 182,
+      "origins": 182,
+      "receipt_candidate_items": 60,
+      "receipt_origins": 182
+    },
+    "hashes": {
+      "data/research/tatqa_raw_2026/tatqa_dataset_dev.json": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+      "data/research/tatqa_raw_2026/tatqa_dataset_train.json": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+      "data/research/tatqa_wp0_2026/candidate_items_v1.json": "bc55fe7a53381f32e5d84ff6c17ced18ec72fd322f98a9f80c4eccb714caac12",
+      "data/research/tatqa_wp0_2026/origin_manifest.json": "3718e6fef4d52bec0c1c29b47ba9ab60e298754b9e8527835d09c9d223d70cea"
+    },
+    "status": "PASS"
+  },
+  "preflight_results": [
+    {
+      "evidence": {
+        "research/tatqa_wp0_2026/wp1/PREREG_DRAFT_SKELETON.md": true,
+        "research/tatqa_wp0_2026/wp1/adapter.py": true,
+        "research/tatqa_wp0_2026/wp1/checker.py": true,
+        "research/tatqa_wp0_2026/wp1/fixtures/synthetic_fixtures.json": true,
+        "research/tatqa_wp0_2026/wp1/implementation_contract.md": true,
+        "research/tatqa_wp0_2026/wp1/implementation_contract.sha256": true,
+        "research/tatqa_wp0_2026/wp1/provenance.py": true,
+        "research/tatqa_wp0_2026/wp1/run_fixtures.py": true
+      },
+      "id": "required_files_exist",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "actual": [
+          "period_early",
+          "period_late",
+          "requested_quantity",
+          "row_index",
+          "source_unit",
+          "table",
+          "target_unit"
+        ],
+        "expected": [
+          "period_early",
+          "period_late",
+          "requested_quantity",
+          "row_index",
+          "source_unit",
+          "table",
+          "target_unit"
+        ]
+      },
+      "id": "runtime_schema_field_names",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "candidate_gold_fields_accessed": false,
+        "candidate_runtime_payloads": 60,
+        "candidate_scoring_called": false
+      },
+      "id": "checker_defined_on_allowed_inputs",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "candidate_items": 60,
+        "distinct_item_ids": 60,
+        "distinct_origin_ids": 182,
+        "duplicate_origin_ids": [],
+        "origins": 182,
+        "split_mismatches": [],
+        "unresolved_origins": []
+      },
+      "id": "group_and_split_ids_resolve",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "endpoint_calls": 0,
+        "model_calls": 0,
+        "role": "Loop A / GB10 implementation",
+        "task": "tatqa_wp1_loop_a",
+        "writer": "research/tatqa_wp0_2026/wp1/provenance.py"
+      },
+      "id": "provenance_writer_attributes_task",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "fixture_only": true,
+        "scientific_results": false
+      },
+      "id": "synthetic_metric_pipeline_end_to_end",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "candidate_item_scoring": false,
+        "held_out_result_read": false,
+        "raw_outcome_scoring": false
+      },
+      "id": "no_held_out_result_read",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "counts": {
+          "candidate_item_count_field": 60,
+          "candidate_items": 60,
+          "origin_count_field": 182,
+          "origins": 182,
+          "receipt_candidate_items": 60,
+          "receipt_origins": 182
+        },
+        "hashes": {
+          "data/research/tatqa_raw_2026/tatqa_dataset_dev.json": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+          "data/research/tatqa_raw_2026/tatqa_dataset_train.json": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+          "data/research/tatqa_wp0_2026/candidate_items_v1.json": "bc55fe7a53381f32e5d84ff6c17ced18ec72fd322f98a9f80c4eccb714caac12",
+          "data/research/tatqa_wp0_2026/origin_manifest.json": "3718e6fef4d52bec0c1c29b47ba9ab60e298754b9e8527835d09c9d223d70cea"
+        },
+        "status": "PASS"
+      },
+      "id": "pinned_inputs_reverified",
+      "status": "PASS"
+    }
+  ],
+  "provenance": {
+    "endpoint_calls": 0,
+    "model_calls": 0,
+    "role": "Loop A / GB10 implementation",
+    "task": "tatqa_wp1_loop_a",
+    "writer": "research/tatqa_wp0_2026/wp1/provenance.py"
+  },
+  "run_id": "tatqa-wp1b-20261013",
+  "start_utc": "2026-10-13T11:08:50Z",
+  "status": "PASS",
+  "task": "tatqa_wp1_loop_a",
+  "unverified_items": [
+    "real E/C experience blocks were not constructed",
+    "actor freeze and model selection remain PENDING",
+    "origin-disjoint episode and near-duplicate receipts remain PENDING",
+    "held-out pilot and scientific outcomes remain UNVERIFIED"
+  ]
+}
