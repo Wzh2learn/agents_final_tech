@@ -28,3 +28,10 @@
 
 ## E. 边界（另一条冻结链，另行拍板）
 `paper/teacher_review_draft_v1.md`、`paper/submission_draft_arr_www_anonymous_v0.md`（Stage E ARR/WWW 旧稿）仍含 `:8004`/内嵌 sha256；被 `audit_submission_package.py` SHA256 钉死，需该链"修订 + 重钉"流程。
+## 执行状态（2026-10-13 夜，owner 授权执行）
+
+- 已执行：A 组 6 项全部落地（DR4→"the standard"；D3→"frozen clean-input set" / "earlier fixed-threshold analysis"；Stage E/R→"evaluation-track" / "reasoning-step"；SOURCE_GO/SPLIT_GO→"source-identity gate" / "split gate"；M2 judge/m2_judge→"judge pipeline (listed in the artifact manifest)"；hungarian→Hungarian）。B 组按"必要坐标保留、文件/路径收编"口径落地 6 处（checkpoint 配置、两个数据文件、matcher 脚本、QA 措辞、t2 文件名）。共 18 处替换 + 1 处句法微调；逐条"单次命中"守卫通过。
+- 保留（不动）：`Q4_K_M GGUF`、`drift-v0`、`M/R/N`、数值与公式；`(table_uid, column)` 与 fold-assignment 定义句；统计语境 `endpoints`（k/95、k/282 网格）与 `reproduction` 等词。
+- 验证：md→tex→bundle→PDF 重建（tectonic exit 0，9 页）；`PRE_SUBMISSION_AUDIT = PASS`；`WIDE_EVIDENCE_CHECK = PASS`（15/15、23/23、21/21）；PDF 文本断言：20 个禁用 token 全 0、替换词就位（`served locally`×1、`local judge`×2、`Hungarian`×3 等）、`??`=0。
+- 记录：`PDF_LAYOUT_AUDIT_v1.md` 增补 Presentation fix (2026-10-13f)；本清单状态自此为 EXECUTED（保留为审计痕迹）。
+- 边界：ARR/WWW 旧冻结链（`teacher_review_draft_v1.md`、`submission_draft_arr_www_anonymous_v0.md`）未动——SHA 钉死，需该链自修订重钉；数字/claim/证据哈希零变化。
