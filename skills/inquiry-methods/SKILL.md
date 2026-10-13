@@ -1,6 +1,6 @@
 ---
 name: inquiry-methods
-description: Use when learning an unfamiliar concept, reverse-decomposing an excellent artifact, researching a domain across history and alternatives, fact-checking a claim or plan, solving a problem through complementary expert perspectives or first principles, borrowing mechanisms from distant domains, or choosing between options with a minimal experiment. Do not use for routine implementation, final code review, or execution authorization.
+description: Use when learning an unfamiliar concept, reverse-decomposing an excellent artifact, researching a domain across history and alternatives, fact-checking a claim or plan, solving a problem through complementary expert perspectives or first principles, borrowing mechanisms from distant domains, choosing between options with a minimal experiment, or triaging a portfolio of candidate directions by compounding potential. Do not use for routine implementation, final code review, or execution authorization.
 ---
 
 # Inquiry Methods
@@ -17,14 +17,15 @@ description: Use when learning an unfamiliar concept, reverse-decomposing an exc
    - `first-principles` for a solution burdened by path dependence;
    - `cross-domain-borrowing` for a stubborn problem that may already be solved elsewhere;
    - `steelman-decision` for a choice between two defensible options;
-   - `minimal-experiment` for a decision blocked by untested assumptions.
+   - `minimal-experiment` for a decision blocked by untested assumptions;
+  - `portfolio-triage` for choosing among many candidate directions under a scarce budget, ranked by compounding potential (many small results -> one mechanism).
 2. Select one primary mode. Use a second mode only when the output of the first creates a new decision or verification requirement.
 3. Record the selected mode in the task card or review header.
 
 **Step 2: Load only the relevant method**
 1. Read `references/learning.md` for `dual-explanation`, `reverse-decomposition`, `domain-research`, or `fact-check`.
 2. Read `references/problem-solving.md` for `expert-panel`, `first-principles`, or `cross-domain-borrowing`.
-3. Read `references/decision.md` for `steelman-decision` or `minimal-experiment`.
+3. Read `references/decision.md` for `steelman-decision`, `minimal-experiment`, or `portfolio-triage`.
 4. Read `assets/output-contracts.md` before producing the final report.
 
 **Step 3: Establish the evidence boundary**

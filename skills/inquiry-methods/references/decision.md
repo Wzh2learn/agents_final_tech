@@ -78,3 +78,25 @@ Output template:
 ```
 
 Do not call a mock, dry run, or synthetic fixture a scientific result. Label it `DEV_ONLY` or `NOT_AUTHORITATIVE` when applicable.
+
+## 3. Portfolio Triage (Exhaustive -> Bottom-Up -> Compounding Gate)
+
+Use when many candidate directions, experiments, or subtasks compete for one scarce budget, and the goal is to pick the path whose many small results can compound into a qualitative step (quantity into quality) - not to pick a single big bet.
+
+1. **Exhaustive menu (scope-bounded).** List all candidates from already-recorded scope; do not open a new search frontier. Tag each with its current status (active / conditional / frozen) and its owner.
+2. **Bottom-up screen (four questions per candidate).** (a) independent target and licence? (b) what is the next cheap action? (c) how much does the nearest neighbour already cover? (d) can it stop cleanly on failure?
+3. **Compounding ranking.** Prefer candidates that (a) decompose into multiple independent small experiments, (b) whose small results can share one mechanism or effect, (c) with pre-declared stop rules. Deprioritize single-shot big bets and anything requiring irreversible commitment before evidence.
+4. **Single decision gate per stage.** One owner decision unlocks the next stage; record why, alternatives, and risk. Never batch-approve further stages; re-run the screen only when a stage produces new evidence.
+
+Output template:
+
+```markdown
+# Portfolio Triage: <decision>
+## Menu (status, owner)
+## Bottom-Up Screen (four questions per candidate)
+## Compounding Ranking
+## Stage Plan (one decision gate per stage)
+## Stop Rules
+```
+
+Boundary: this method selects work order; it does not authorize execution, change claims, or reopen frozen branches. Pair it with `decision-record` after each gate.
