@@ -54,7 +54,7 @@
 | 导师研究状态简报 | [`research/ADVISOR_RESEARCH_STATUS_BRIEF_v1.md`](research/ADVISOR_RESEARCH_STATUS_BRIEF_v1.md) | Paper E 状态 / 投稿建议 / 大论文路线 / 风险与待决（四项） |
 | 大论文方向与决策地图 | [`research/THESIS_DIRECTIONS_AND_DECISIONS_MAP_v1.md`](research/THESIS_DIRECTIONS_AND_DECISIONS_MAP_v1.md) | 方向全集/自下而上核验表/拍板清单 P1–P6；供讨论，不改边界 |
 | 大论文文档结构与状态分类 | [`research/THESIS_DOCS_STRUCTURE_v1.md`](research/THESIS_DOCS_STRUCTURE_v1.md) | 四层映射/状态分类/阅读顺序/一致性检查；入口整理，不改边界 |
-| WP-2 执行手册（四步法） | [`research/WP2_EXECUTION_RUNBOOK_v1.md`](research/WP2_EXECUTION_RUNBOOK_v1.md) | S0–S11 穷举 + 自下而上核验 + 量变排序 + 拍板点；绿灯后坐标序列 |
+| WP-2 执行手册（四步法） | [`research/WP2_EXECUTION_RUNBOOK_v1.md`](research/WP2_EXECUTION_RUNBOOK_v1.md) | S0–S11 穷举 + 自下而上核验 + 量变排序 + 拍板点；**预冻结已执行（2026-10-13/14：Loop A×3 轮 S0/S0b/S0C + S1/S2/S3/S10；Loop C×3 轮 r1 CONDITIONAL→r2 PASS→r3 复查）** |
 | **冻结包（投稿前）** | [`../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md`](../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md) | 版本/已完成/未完成/owner 决策/禁止修改 |
 | WP-0 入口包 | [`research/WP0_ENTRY_PACKAGE_v1.md`](research/WP0_ENTRY_PACKAGE_v1.md) | source landscape / ranking / gap map；Loop A 可直接开工 |
 | **WP-0 TAT-QA 包** | [`research/WP0_TATQA_PACKAGE_v1.md`](research/WP0_TATQA_PACKAGE_v1.md) | A1–A6 完成：raw 已获取（2479 条）；182 origins / 60 candidate items；G-RQ 建议 QUALIFIED_CONDITIONAL（owner 待批），G-M 仍 HOLD |
@@ -64,6 +64,14 @@
 | TAT-QA 评测协议 | [`research/WP0_TATQA_EVALUATION_PROTOCOL_v1.md`](research/WP0_TATQA_EVALUATION_PROTOCOL_v1.md) | 四臂/端点/门/预注册清单；SPEC_ONLY |
 | Loop A 执行包（WP-1） | [`research/WP0_TATQA_LOOP_A_EXECUTION_PACKAGE_v1.md`](research/WP0_TATQA_LOOP_A_EXECUTION_PACKAGE_v1.md) | W1-W5 thin implementation + fixtures; runs 1-3 executed; run3 PASS (spec rev1.2); re-audit v2 items/scope PASS; closure record filed |
 | WP-1 thin runner delivery (TAT-QA) | [`../research/tatqa_wp0_2026/wp1/WP1_RECEIPT.json`](../research/tatqa_wp0_2026/wp1/WP1_RECEIPT.json) | checker/adapter/provenance/fixtures/preflight; seven obligations PASS (run3, spec rev 1.2); audit v1 CONDITIONAL -> re-audit v2: items/scope PASS, residual filed for WP-2 freeze; closure: `WP1_COMPLETION_RECORD_v1.md` |
+| WP-2 F-5 资格闭环 | [`research/WP2_F5_ELIGIBILITY_DECISION_v1.md`](research/WP2_F5_ELIGIBILITY_DECISION_v1.md) | owner 授权默认规则；352 → 316 合格，36 generic currency fail-closed；22 origins 逐项核验，1 个 reserve shortfall 仅给替换建议、不改角色；item freeze 仍在 S7 |
+| WP-2 F-10 checker 收口 | [`../research/tatqa_wp0_2026/wp1/S0C_FIX_RECEIPT.json`](../research/tatqa_wp0_2026/wp1/S0C_FIX_RECEIPT.json) | 等价形合法期间 + 错值 + 正确单位由 `wrong_period` 严格归因到 `wrong`；S0/S0B 收据哈希钉住且不覆盖 |
+| WP-2 预冻结执行报告（Loop A×3） | [`../research/tatqa_wp0_2026/wp2/WP2_PREFREEZE_EXECUTION_REPORT.md`](../research/tatqa_wp0_2026/wp2/WP2_PREFREEZE_EXECUTION_REPORT.md) | S0/S0b/S0C 软件修复 + S1 题本 352/176（2 题/原点）+ S2 草案 + S3 字节级一致 + S10 骨架；零模型调用 |
+| WP-2 独立审计（Loop C） | [`research/WP2_PREFREEZE_LOOP_C_AUDIT_v1.md`](research/WP2_PREFREEZE_LOOP_C_AUDIT_v1.md) / [`v2`](research/WP2_PREFREEZE_LOOP_C_AUDIT_v2.md) | r1 CONDITIONAL（含 F-5 阻塞）→ S0b 修复 → r2 PASS；F-5/F-10 复查 r3（`WP2_F5F10_LOOP_C_AUDIT_v1.md`） |
+| F-10 证据补档（S0d） | [`research/F10_STRICTNESS_MATRIX_ADDENDUM_v1.md`](research/F10_STRICTNESS_MATRIX_ADDENDUM_v1.md) | **撤回** F5 报告 "24-case" 无据断言；新 16 例严格性矩阵（5 变更 = wrong_period→wrong；0 correct 翻转）见 [`../research/tatqa_wp0_2026/wp1/S0C_STRICTNESS_MATRIX_RECEIPT.json`](../research/tatqa_wp0_2026/wp1/S0C_STRICTNESS_MATRIX_RECEIPT.json)；r4 复查 PASS |
+| F-5/F-10 审计链（r3/r4） | [`research/WP2_F5F10_LOOP_C_AUDIT_v1.md`](research/WP2_F5F10_LOOP_C_AUDIT_v1.md) / [`WP2_F5D_LOOP_C_AUDIT_v1.md`](research/WP2_F5D_LOOP_C_AUDIT_v1.md) | r3 CONDITIONAL（24-case 缺口）→ S0d 补档/撤回 → r4 PASS（证据缺口闭合） |
+| WP-2 派发卡（Loop A/C 四轮） | [`../research/tatqa_wp0_2026/wp2/loop_a_prompt_prefreeze.md`](../research/tatqa_wp0_2026/wp2/loop_a_prompt_prefreeze.md) 等 | prefreeze / s0b / f5 / f5c 任务卡（已执行，逐卡留痕） |
+| 两周 commit 复盘 + inquiry 自检 | [`research/TWO_WEEK_COMMIT_REVIEW_v1.md`](research/TWO_WEEK_COMMIT_REVIEW_v1.md) | 09-29→10-13（225 commits）四幕复盘 + G1–G6 + portfolio-triage（A–D） |
 | **最终 handoff** | [`../FINAL_HANDOFF_v1.md`](../FINAL_HANDOFF_v1.md) | 下一 session 第一入口（owner 决策已记录） |
 | 投稿前一键审计 | [`../scripts/pre_submission_audit.py`](../scripts/pre_submission_audit.py) | evidence/anonymisation/format/artifact 四组；当前 PASS |
 | 匿名 artifact 包（备而未发） | [`../research/artifact_release_2026/README.md`](../research/artifact_release_2026/README.md) | 12 项已就绪 + 2 项 GB10 数据体；发布需 owner |
@@ -199,6 +207,7 @@
 | [`m1_coldstart_candidates.md`](m1_coldstart_candidates.md) | 活跃 | M1 冷启动候选列台账 |
 | [`SKILL_ROUTING.md`](SKILL_ROUTING.md) | 活跃 | Skill 选择与组合规则 |
 | [`governance/SKILL_REGISTRY.md`](governance/SKILL_REGISTRY.md) | 活跃 | Loop A/C 分发注册表 |
+| [`experiments/2026-10-13_skill_merge_round2_assessment.md`](experiments/2026-10-13_skill_merge_round2_assessment.md) | 评估稿 | Skill 第二轮合并评估：零新合并（C9/C10 保持独立）；3 个可选轻整理待批 |
 | [`governance/2026-09-07_execution_plane_boundary.md`](governance/2026-09-07_execution_plane_boundary.md) | 活跃 | 本地与 GB10 执行边界 |
 | [`governance/2026-09-10_backlog_ledger_and_loop_restart_proposal.md`](governance/2026-09-10_backlog_ledger_and_loop_restart_proposal.md) | 提案快照 | backlog 与 Loop 重启提案 |
 | [`governance/2026-09-11_serving_stack_provenance.md`](governance/2026-09-11_serving_stack_provenance.md) | 取证快照 | GB10 serving 栈来源证据 |

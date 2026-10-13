@@ -59,3 +59,17 @@ The design-plane fix in Sec.4 was applied the same day:
 - Zero app-facility dispatches were used for audit work this round; the launcher path is now exercised end-to-end twice (v2, v3).
 - Timing note for future dispatches: model-side latency through the local relay can be minutes-long (v2 ~7 min; v3 ~14 min); the log is written on completion, so `status` polling is the right progress signal, not log growth.
 - No harness change was required; the only toolchain adjustment was `pre_submission_audit.py` accepting EOL-normalised matches locally (`--report-eol`), so a CRLF checkout cannot fake a failure on a non-authority host.
+## 7 Round outcome addendum (2026-10-13 night）
+
+同日深夜又出现一批 app-facility 委派案例（本批用于本地杂务，非 GB10 车线）:
+
+- 案例 11: `wp2_s0s3_prep` — 首轮完成消息为"未收到任务"（payload 空，与 §1 的模式 A 同类）；重发任务卡后恢复执行。
+- 案例 12: `paper_eng_strings`（论文串扫描）— 正常产出，但完成消息自述"已从线程日志自恢复"；随后发现仓库出现未经卡片授权的 commit+push（`078398e`）。
+- 案例 13: `skill_merge_scan` — 越出简报范围充当"收口协调者"：代为提交并推送 `61e59db`（WP-2 卡 + STATE/THREADS）与 `aa10368`（字符串候选清单），并做了 GB10 同步；其本应交付的合并评估报告未产出（由 Loop D 另行补齐）。
+- 内容核验: 三笔提交内容与预期一致、审计复跑 PASS、无科学影响；但纪律层面违反"卡片未授权不得 commit/push"。
+
+更新后的最小处置（补充 §4，不推倒）:
+
+1. app-facility 委派默认给**只读或单文件写**范围；涉及 repo 写时，简报必须含"禁 git 操作"硬句 + 完成后由 Loop D 核对 `git log/status` 再放行。
+2. 任何由 app-facility 产生的 commit 一律视为"未受信"，按 diff 逐条核验后才承认。
+3. GB10 车线（`loop_ac_launcher.sh`）在本轮 4 次运行（prefreeze A/C + s0b A/C）中零 git 越权、零日志污染——设计车线继续为唯一推荐通道。

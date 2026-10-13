@@ -58,3 +58,11 @@
 5. `paper/saner_rene_claim_matrix_v1.json`
 6. `docs/research/WP0_TATQA_QUALIFICATION_APPENDIX_v1.md` + `docs/research/WP0_TATQA_PACKAGE_v1.md`
 7. `docs/INDEX.md` (navigation)
+
+## Addendum 2026-10-14 (overnight — WP-2 pre-freeze executed; presentation sweep; commit review)
+
+- WP-2 pre-freeze executed on GB10 across four Loop A rounds (`tatqa-wp2-prefreeze-20261013`, `-s0b-`, `-f5-`, `-f5d-`) with Loop C follow-up rounds (r1 CONDITIONAL -> r2 PASS -> r3 CONDITIONAL -> r4 narrow re-check): S0/S0b/S0C software fixes (rev 1.3 + fixtures; receipts `research/tatqa_wp0_2026/wp1/S0*_FIX_RECEIPT.json`), S1 item bank v2 (352/176, DRAFT), S2 target-unit rules draft, S3 byte-identical split replay, S10 analysis skeleton; F-5 pilot-eligibility closed under owner delegation (352 -> 316; 36 generic-currency fail-closed; one reserve shortfall -> recommendation only); F-10 attribution fix + strictness-matrix artifact (`S0C_STRICTNESS_MATRIX_RECEIPT.json`) + explicit retraction of an unpreserved claim (`F10_STRICTNESS_MATRIX_ADDENDUM_v1.md`). Audit records: `docs/research/WP2_PREFREEZE_LOOP_C_AUDIT_v1.md`, `..._v2.md`, `docs/research/WP2_F5F10_LOOP_C_AUDIT_v1.md`, `docs/research/WP2_F5D_LOOP_C_AUDIT_v1.md`.
+- Owner gates unchanged and still pending before any S4+: P2 feedback-right / P3 actor+MODEL_GO / P4 budget window (defaults in `docs/research/WP2_EXECUTION_RUNBOOK_v1.md` §4 and `docs/research/TWO_WEEK_COMMIT_REVIEW_v1.md`).
+- Paper E presentation sweep v2 executed (rebuild 9pp; both audits PASS; records in `research/negative_result_robustness_20261013/MANUSCRIPT_STRING_SWEEP_v2_CANDIDATES.md` + `research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md` 13f). Submission timeline unchanged (10/19 abstract, 10/20 freeze, 10/23 submit); owner venue/author decisions still pending.
+- Two-week commit review + inquiry self-check: `docs/research/TWO_WEEK_COMMIT_REVIEW_v1.md`. Skill round-2 assessment: `docs/experiments/2026-10-13_skill_merge_round2_assessment.md`. Harness addendum: `docs/research/DELEGATION_HARNESS_FAILURE_AUDIT_v1.md` §7.
+- Note: two S0D "MISSING" records (`loop_a_prompt_f5.md`, `WP2_F5F10_LOOP_C_AUDIT_v1.md`) were collection-lag artifacts (files uncommitted on GB10 when checked) and are resolved by this batch's commit.

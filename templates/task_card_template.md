@@ -89,6 +89,7 @@ IdleSessionTimeout, 单项验证无一捕获。教训条目: 2026-08-24_segment_
 ## 7. 红线
 
 - <本任务不可触碰项: 冻结节点 / API key / 端口 / 服务 / 数据边界。>
+- **Git 纪律（默认条款）**: 未经 owner 授权不执行 `git add/commit/push`；获授权时仅显式路径暂存，禁 `git add .` / `git add -A`；delegate 产出的任何 commit 按未受信处理（先核 diff 后承认）。
 
 ## 8. 执行节奏纪律 (全局规则, 2026-08-25 用户批准)
 
