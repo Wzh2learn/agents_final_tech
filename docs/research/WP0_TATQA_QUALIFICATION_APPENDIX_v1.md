@@ -52,7 +52,7 @@ Unchanged. Materials qualification does not create method necessity: no residual
 
 ## 6. Not authorised / stop conditions unchanged
 
-- Not authorised: WP-1 (runner/software implementation), WP-2 (pilot), any model sampling, any training (Memory/SFT/DPO), any production service.
+- Not authorised: WP-2 (pilot), any episode collection, any model sampling, any training (Memory/SFT/DPO), any production service. (WP-1 was owner-approved and executed 2026-10-13; software PASS certifies the contracts only - record: `WP1_COMPLETION_RECORD_v1.md`.)
 - Stop rules unchanged (task card Sec.4; blueprint): SOURCE_INSUFFICIENT / UNDETERMINED / CEILING / leakage checks; no new significance thresholds introduced.
 - No old closed material (Stage-E re-splits, FinQA, PR-03) is reused as the new panel.
 

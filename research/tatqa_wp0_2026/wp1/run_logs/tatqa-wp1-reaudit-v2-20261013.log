@@ -1,0 +1,95 @@
+[loop-c] start 2026-10-13T12:17:47Z
+**LOOP C — WP-1c focused re-audit (v2, read-only)**
+
+**Nature:** advisory audit report — reports, does not repair. No file was modified; no service, model, or git write was invoked.
+**Audited object / baseline:** `research/tatqa_wp0_2026/wp1/` + `data/research/tatqa_wp0_2026/wp1/` run 3 (`tatqa-wp1c-20261013`) against `docs/research/WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md` §5 (rev 1.2). Baseline = the five findings of `tatqa-wp1-audit-20261013` (CONDITIONAL); anything outside those five is new.
+**Independence:** I built none of these artifacts. Conclusions were formed from code, receipts, and recomputed hashes before reading any run-3 conclusion text. **`python3` execution was denied by my permission gate**, so the needle/regex behaviour was replicated statically with `grep -P` (identical lookbehind/lookahead semantics) and hashes with `sha256sum`/`cmp`; this is stated rather than passed off as a re-run.
+
+---
+
+## F1 — Leak-guard needle: **PASS** (one residual, out-of-mandate)
+
+Canonical form and dual-form search are both present and exercised on **real fixture gold**, not only in the synthetic control.
+
+- `canonical_plain_decimal` — `run_fixtures.py:135-143` (`format(v,'f')` → strip trailing zeros/dot; zero → `"0"`).
+- `_answer_value_needles` — `run_fixtures.py:146-157`: `[canonical, str(value), fixture exact_str]` deduped. The `1300`/`1300.0` divergence the prior audit caught is exactly what this closes.
+- Dual-form on live gold (`FIXTURE_RECEIPT` → `hidden_gold_search.evidence.results[].answer_needles`):
+
+| fixture | delta_source | delta_target |
+|---|---|---|
+| `thousand_to_unit` | `["1.3"]` | **`["1300","1300.0"]`** |
+| `million_to_thousand` | `["2.5"]` | `["2500","2500.0"]` |
+| `billion_to_million` | `["1.7"]` | `["1700","1700.0"]` |
+| `percent_to_percent` | `["3","3.0"]` | `["3","3.0"]` |
+
+- **Independent static proof that a `1300` leak is now caught** (`grep -cP '(?<![0-9.,+-])NEEDLE(?![0-9.,+-])'`, boundary set = `0-9 . , + -`, matching spec §4(b) "flanked … outside the set"):
+
+| leak text | needle `1300` | needle `1300.0` |
+|---|---|---|
+| `:1300:` | **1** | 0 |
+| `:1300.0:` | 0 | **1** |
+| `total 1300 end` | **1** | — |
+
+  Each single form misses the other rendering — which is precisely why dual-form is required, and both are now searched. The prior latent false-negative is closed.
+- Fixture-design precondition uses the **identical** needle set: `run_fixtures.py:268-278` iterates the same `answer_needles`/`needles` objects as the projection search at `:263-266`. Receipt confirms key sets and needle sets identical for all 7 fixtures (`true` for every fixture).
+
+**Residual (new, not a regression):** alternate renderings of the same number evade **both** needles — `1,300` → 0, `13e2` → 0, `1.3e3` → 0, `001300` → 0. Spec §5(a) mandates only canonical + `str(value)`, so the implementation is conformant; the guard is incomplete against comma/exponent/zero-padded forms, and the precondition inherits the same blind spot. The fixture set deliberately contains a `thousands_separator` case, so the blind spot sits next to a live data shape.
+
+## F2 — `hidden_gold_positive_control`: **PASS**
+
+- Registered at `run_fixtures.py:701-702`, implemented `:321-396`, status **PASS** in `FIXTURE_RECEIPT`.
+- Mandated cases enforced at runtime, not merely recorded — `run_fixtures.py:385-390` asserts `{"1300","1300.0","-55"}` ⊆ injected needles. Receipt: `mandatory_cases_present: ["1300","1300.0","-55"]`.
+- 23 cases, **all** `guard_fired: true`, including `thousand_to_unit_delta_target_0/1` which inject the *actual* fixture gold needles `1300` and `1300.0`.
+- Fail-closed: `run_fixtures.py:383` `_require(matches, …)` — a silent guard fails the obligation.
+
+## F3 — Byte-determinism: **PASS** (28 as expected)
+
+`FIXTURE_RECEIPT.prompt_byte_determinism`: `combination_count: 28`, `fixture_count: 7`, `arms: [B,C,E,S]`, 28 results, every `byte_equal: true`. Enforced by `run_fixtures.py:204-207` (arm set == `adapter.ARMS` == {B,E,C,S}) and `:230-233` (`len(results) == len(fixtures)*4`). Coverage is every fixture × all four arms per §5(c).
+
+## F4 — Taxonomy: **PASS**
+
+- Eight classes incl. `wrong` declared in **both** carriers: spec §5(d) L79; `checker.py:44-55` `OUTCOME_CLASSES`; prereg `PREREG_DRAFT_SKELETON.md:16`.
+- `wrong` **exercised**: taxonomy case `wrong` → `got=wrong`; `declared == observed == 8` classes.
+- `regressed` semantics correct (`checker.py:304-311`): `correct->wrong = regressed`, `correct->refused = refused`, `correct->unknown = unknown` — refusals/unknowns remain first-class per §5(d). All 6 regression cases match.
+- Deviations note present: `FIXTURE_RECEIPT.deviations[0].kind = "spec_revision_resolution"`.
+
+## F5 — Receipts: **PASS**
+
+- `WP1_RECEIPT.artifact_hashes.fixture_receipt = f862cc0accf37a5e9fff50469d782d21355cb3a96d46314472edd12753531903`; **recomputed with `sha256sum` = identical**. Also surfaced as `WP1_RECEIPT.fixture_receipt.sha256` with `canonical_path = data/research/tatqa_wp0_2026/wp1/FIXTURE_RECEIPT.json` (§5(e)).
+- Safety booleans all carry `basis ∈ {derived, "attested: true"}` in both receipts. `scoring_inputs_all_synthetic` is **derived** (`run_fixtures.py:735-762`, asserts call sites + all-synthetic). Only `write_paths_confined` is `attested: true` — permitted by §5(e); I independently derived it anyway: exactly five write sites (`run_fixtures.py:1130,1140,1222,1223,1298`), all under `research/tatqa_wp0_2026/wp1/` or `data/research/tatqa_wp0_2026/wp1/`.
+- Canonical vs mirror **byte-identical**: `cmp` clean, both `f862cc0a…`.
+- Integrity chain is sound given `.gitignore:55 = data/` (verified) makes the canonical copy untracked: spec §5(e) anticipates this by mandating the tracked mirror *and* the hash pin. (`git ls-files` was permission-gated, so I confirmed the ignore rule and the spec's stated intent rather than the tracked-file listing.)
+
+## F6 — Prereg skeleton: **PASS**
+
+- Eight-class outcomes list: `PREREG_DRAFT_SKELETON.md:16`.
+- PENDING items all present: protocol pin `:18`; item/split freeze `:19` and `:51`; actor freeze `:20`, `:33-37`; `target_unit` assignment `:21` (identity-only across 60 candidates — matching §5(f)).
+- `Spec revision: 1.2` at `:7`.
+- Hash pins `:25-29` **refreshed and recompute exactly**: checker `c919845b…`, adapter `dbb5b55b…`, fixtures `acbe79d9…`, preflight `4fe47548…`, contract `9a715c8f…`.
+
+## F7 — Regression of prior passes: **PASS**
+
+- All **8** `WP1_RECEIPT.artifact_hashes` recompute exactly via `sha256sum` (checker `c919845b`, adapter `dbb5b55b`, provenance `75c3dea9`, run_fixtures `215bae90`, fixtures `acbe79d9`, contract `9a715c8f`, preflight `4fe47548`, fixture_receipt `f862cc0a`). `implementation_contract.sha256` also verifies (`sha256sum -c` value matches).
+- Pinned inputs: 4/4 recompute exactly; **60 items / 182 origins** confirmed from primary carriers (`candidate_items_v1.json` `items`=60; `origin_manifest.json` `origins`=182) and hard-enforced by `run_fixtures.py:789-798`.
+- **No model/network/services:** import surface is stdlib-only (`hashlib, json, re, datetime, decimal, pathlib, typing, collections, dataclasses`) + local `adapter/checker/provenance`; zero hits for `requests|urllib|http|socket|subprocess|psycopg|sqlalchemy|openai|boto3`. `cost = {model_calls: 0, endpoint_calls: 0}`.
+- **Candidate items not scored:** 11 `score_item` calls, all `synthetic_item_1` / `synthetic_origin_1` / `synthetic_fixture`; unique item id set = `{synthetic_item_1}`. No candidate id appears.
+- **No commit/push by Loop A:** parsed the run log's executed commands via `jq` — only `git status`, `git diff`, `git diff --check`, `git diff --stat`. No `git commit|add|push|clone|reset|rebase`. (Earlier `grep` hits were inside embedded skill text, not commands.)
+- All five prior-audit prescriptions are closed (needle rendering, taxonomy/`regressed`, attestation labelling, receipt hash pin, deviations note). The sixth (`target_unit` absent) is correctly deferred to PENDING rather than papered over.
+
+**Python version note:** `zip(..., strict=False)` at `run_fixtures.py:334` uses a keyword added in **Python 3.10**. Declared runtime is 3.12 (`implementation_contract.md:14` "Python 3.12 standard library only"; `CLAUDE.md` "Use Python 3.12"; GB10 runs 3.12). A 3.10+ feature is valid on 3.12 and the suite is stdlib-only, so this **is consistent with the contract**. Caveat: `strict=False` is zip's default (truncate-shortest) and is therefore a silent no-op. It is benign today — `_answer_value_needles(Decimal("1300"),"1300.0")` returns exactly 2 forms, and the fixture-derived injection loop (`run_fixtures.py:348-365`) covers every needle from every fixture independently — but `strict=True` would be the fail-closed choice if that list ever grew.
+
+---
+
+## New finding (outside the baseline)
+
+**Fingerprint (recommend filing, not fixing): `correct-path-unit-gate-unequal-between-equivalent-outcome-classes`**
+severity low-medium / symptom: two answers with identical numeric correctness are scored `wrong` or `correct_other_form` depending only on period order / root cause: `checker.py:294` gates `correct` on `answer["unit"] == gold.target_unit`, while `correct_other_form` at `checker.py:282-287` has no unit conjunct / premises violated: spec §2 `correct` rule (`WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md:33`, "…row and periods match" — unit not mentioned) **and** the author's own `implementation_contract.md:74` rule 7 ("Both values correct -> `correct`") — the code diverges from both / also unrecorded in `deviations`, and untested: all 8 taxonomy answers use `"unit":"unit"`, and `normal_unit` has `target_unit: null`, so no fixture exercises correct-deltas-with-mismatched-unit / fix: either add the unit conjunct to `correct_other_form` **and** record the tightening as a deviation with a fixture case, or drop the conjunct from `correct` to match spec — never silently.
+
+Secondary, spec-level only: leak-guard needles blind to `1,300` / `1.3e3` / `001300` renderings (§5(a) does not mandate them) — fingerprint `leak-guard-needle-blind-to-alternate-numeric-renderings`, hardening opportunity for the WP-2 freeze.
+
+`LOOP_C_WP1_REAUDIT_ITEMS_VERDICT = PASS`
+`LOOP_C_WP1_REAUDIT_SPEC_VERDICT = CONDITIONAL`
+`LOOP_C_WP1_REAUDIT_SCOPE_VERDICT = PASS`
+`LOOP_C_WP1_REAUDIT_INDEPENDENT_VERDICT = CONDITIONAL`
+
+**Weakest remaining point:** `checker.py:294` gates `correct` on an answer-unit match that neither spec §2 nor `implementation_contract.md` rule 7 states — while the equivalent `correct_other_form` path at `:282-287` ignores unit entirely — leaving a frozen-code scoring divergence that is unrecorded in `deviations` and unexercised by all eight taxonomy fixtures.
