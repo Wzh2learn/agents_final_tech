@@ -1,0 +1,40 @@
+{
+  "schema": "tatqa_wp1_s0c_equivalent_form_fixtures_v2",
+  "status": "SYNTHETIC_FIXTURE_ONLY",
+  "cases": [
+    {
+      "case_id": "equivalent_form_valid_periods_wrong_delta_valid_unit",
+      "observed_pre_fix_outcome": "wrong_period",
+      "item": {
+        "item_id": "synthetic_item_s0c_equivalent_form_1",
+        "origin_id": "synthetic_origin_s0c_equivalent_form_1",
+        "table": [
+          [
+            "",
+            "2025",
+            "2024"
+          ],
+          [
+            "Revenue",
+            "2.5",
+            "1.2"
+          ]
+        ],
+        "row_index": 1,
+        "period_late": {
+          "col": 1,
+          "label": "2025"
+        },
+        "period_early": {
+          "col": 2,
+          "label": "2024"
+        },
+        "source_unit": "thousand",
+        "target_unit": "unit",
+        "requested_quantity": "increase"
+      },
+      "answer": "{\"row\":\"Revenue\",\"periods\":[\"2024\",\"2025\"],\"delta_source\":-1.0,\"delta_target\":-1000,\"unit\":\"unit\"}",
+      "expected_outcome": "wrong"
+    }
+  ]
+}

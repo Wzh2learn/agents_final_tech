@@ -1,0 +1,181 @@
+{
+  "schema": "wp2_synthetic_analysis_fixture_v1",
+  "records": [
+    {
+      "origin_id": "synthetic_origin_1",
+      "item_id": "synthetic_item_1",
+      "arm": "B",
+      "repeat": 1,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 100,
+      "completion_tokens": 20
+    },
+    {
+      "origin_id": "synthetic_origin_1",
+      "item_id": "synthetic_item_1",
+      "arm": "B",
+      "repeat": 2,
+      "outcome": "unknown",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 100,
+      "completion_tokens": 0
+    },
+    {
+      "origin_id": "synthetic_origin_1",
+      "item_id": "synthetic_item_1",
+      "arm": "E",
+      "repeat": 1,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 150,
+      "completion_tokens": 25
+    },
+    {
+      "origin_id": "synthetic_origin_1",
+      "item_id": "synthetic_item_1",
+      "arm": "E",
+      "repeat": 2,
+      "outcome": "correct_other_form",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 150,
+      "completion_tokens": 25
+    },
+    {
+      "origin_id": "synthetic_origin_1",
+      "item_id": "synthetic_item_1",
+      "arm": "C",
+      "repeat": 1,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 150,
+      "completion_tokens": 20
+    },
+    {
+      "origin_id": "synthetic_origin_1",
+      "item_id": "synthetic_item_1",
+      "arm": "C",
+      "repeat": 2,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 150,
+      "completion_tokens": 20
+    },
+    {
+      "origin_id": "synthetic_origin_1",
+      "item_id": "synthetic_item_1",
+      "arm": "S",
+      "repeat": 1,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 120,
+      "completion_tokens": 20
+    },
+    {
+      "origin_id": "synthetic_origin_1",
+      "item_id": "synthetic_item_1",
+      "arm": "S",
+      "repeat": 2,
+      "outcome": "wrong",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 120,
+      "completion_tokens": 20
+    },
+    {
+      "origin_id": "synthetic_origin_2",
+      "item_id": "synthetic_item_2",
+      "arm": "B",
+      "repeat": 1,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 110,
+      "completion_tokens": 20
+    },
+    {
+      "origin_id": "synthetic_origin_2",
+      "item_id": "synthetic_item_2",
+      "arm": "B",
+      "repeat": 2,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 110,
+      "completion_tokens": 20
+    },
+    {
+      "origin_id": "synthetic_origin_2",
+      "item_id": "synthetic_item_2",
+      "arm": "E",
+      "repeat": 1,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 160,
+      "completion_tokens": 25
+    },
+    {
+      "origin_id": "synthetic_origin_2",
+      "item_id": "synthetic_item_2",
+      "arm": "E",
+      "repeat": 2,
+      "outcome": "regressed",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 160,
+      "completion_tokens": 25
+    },
+    {
+      "origin_id": "synthetic_origin_2",
+      "item_id": "synthetic_item_2",
+      "arm": "C",
+      "repeat": 1,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 155,
+      "completion_tokens": 20
+    },
+    {
+      "origin_id": "synthetic_origin_2",
+      "item_id": "synthetic_item_2",
+      "arm": "C",
+      "repeat": 2,
+      "outcome": "wrong_unit",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 155,
+      "completion_tokens": 20
+    },
+    {
+      "origin_id": "synthetic_origin_2",
+      "item_id": "synthetic_item_2",
+      "arm": "S",
+      "repeat": 1,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 125,
+      "completion_tokens": 20
+    },
+    {
+      "origin_id": "synthetic_origin_2",
+      "item_id": "synthetic_item_2",
+      "arm": "S",
+      "repeat": 2,
+      "outcome": "correct",
+      "model_calls": 1,
+      "endpoint_calls": 1,
+      "prompt_tokens": 125,
+      "completion_tokens": 20
+    }
+  ]
+}

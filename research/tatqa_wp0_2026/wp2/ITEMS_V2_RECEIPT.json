@@ -1,0 +1,151 @@
+{
+  "schema": "wp2_items_v2_receipt_v1",
+  "status": "DRAFT_NOT_FROZEN",
+  "builder": "research/tatqa_wp0_2026/wp2/build_items_v2.py",
+  "counts": {
+    "origins_total": 182,
+    "origins_with_ge2_usable_rows": 176,
+    "candidate_items": 352,
+    "distinct_item_origins": 176,
+    "role_origins_checked": 22,
+    "role_origins_with_ge2_items": 22
+  },
+  "items_per_origin_distribution": {
+    "2": 176
+  },
+  "source_unit_distribution": {
+    "%": 2,
+    "currency": 36,
+    "million": 2,
+    "null": 312
+  },
+  "usable_rows_per_eligible_origin_distribution": {
+    "2": 19,
+    "3": 23,
+    "4": 28,
+    "5": 23,
+    "6": 13,
+    "7": 18,
+    "8": 11,
+    "9": 14,
+    "10": 10,
+    "11": 3,
+    "12": 2,
+    "13": 2,
+    "14": 1,
+    "15": 5,
+    "16": 3,
+    "21": 1
+  },
+  "role_origin_checks": {
+    "tatqa_008eaf4e-4d70-496b-aa25-b842b05a3560": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_735ba0a0-60c8-452f-96a2-c6fc50cce80d": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_f188de60-64eb-49cb-8b9d-a72f844357ef": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_e316af95-270d-4107-99d4-6f52e4d61d38": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_48eb64be-428f-429d-afd5-39cdbc4e4dde": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_334d9b85-ec0c-4783-81d7-64259a410b16": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_668a081b-e793-4d45-935d-816d2d7eba6d": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_8edfdb1c-3d22-496f-b6ba-f3ea45cf6151": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_3e4f4b3e-0aa6-4e5f-9103-5f1155d27e75": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_cfe0ee38-48b2-46d2-8920-e423fc6c91ac": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_72bfa3fa-9acd-437f-b682-0199daed6aa7": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_51c8eba0-1876-42aa-afdb-d18741b2fe7b": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_b538d340-dfca-4f89-a59f-01fc1bb35184": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_8df5c241-c68c-427a-99af-30c44214199b": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_d15a82c3-024f-4e9c-a461-59e24bd95987": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_dace18a6-701f-49d4-a16d-078e5b62fc94": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_4565ded8-5e2e-4cd7-beab-6da622434396": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_e8877535-8ade-4ba3-aae2-cd4db2b5c59c": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_b2c8ac7d-6959-4874-b9f6-e6a53a1c6dc8": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_3ab739eb-c0d7-44f5-9377-b8a02bafb361": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_97176853-a81e-422a-a8c1-e0542348d051": {
+      "items": 2,
+      "ge2_items": true
+    },
+    "tatqa_99a3fe4e-1302-42ff-b0ae-4bf7ef0b3934": {
+      "items": 2,
+      "ge2_items": true
+    }
+  },
+  "determinism": {
+    "builder_executions_compared": 2,
+    "byte_identical": true,
+    "first_output_sha256": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa",
+    "second_output_sha256": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa"
+  },
+  "input_hashes": {
+    "origin_manifest": "3718e6fef4d52bec0c1c29b47ba9ab60e298754b9e8527835d09c9d223d70cea",
+    "raw_train": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+    "raw_dev": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "draft_split_receipt": "4a95fff77d77ea86a492736864149a6013a94b031115cbaf0539f3bb3457f356"
+  },
+  "output_hashes": {
+    "candidate_items_v2": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa",
+    "builder": "fe9bec5e3a83a2a47f472435d64257af960678b03a33f103ca1b2657d14e9e1e"
+  },
+  "cost": {
+    "model_calls": 0,
+    "endpoint_calls": 0,
+    "judge_calls": 0
+  }
+}

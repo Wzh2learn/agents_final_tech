@@ -1,0 +1,403 @@
+{
+  "case_construction": {
+    "base_gold": {
+      "delta_source": "1.3",
+      "delta_target": "1300",
+      "early_period": "2024",
+      "late_period": "2025",
+      "row": "Revenue",
+      "target_unit": "unit"
+    },
+    "cardinality": "2 x 2 x 2 x 2 = 16; no target case count was assumed",
+    "dimensions": {
+      "delta_source_correct": [
+        false,
+        true
+      ],
+      "delta_target_correct": [
+        false,
+        true
+      ],
+      "periods_order": [
+        "equivalent_form",
+        "direct_form"
+      ],
+      "unit_correct": [
+        false,
+        true
+      ]
+    },
+    "space": "periods order x delta_source correctness x delta_target correctness x unit correctness",
+    "wrong_value_rule": "wrong numeric fields use delta_source=2.0 and delta_target=2000; wrong unit uses normalized label thousand"
+  },
+  "cases": [
+    {
+      "answer": "{\"delta_source\":\"2.0\",\"delta_target\":\"2000\",\"periods\":[\"2024\",\"2025\"],\"row\":\"Revenue\",\"unit\":\"thousand\"}",
+      "case_id": "equivalent_form_source_wrong_target_wrong_unit_wrong",
+      "changed": true,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": false,
+        "delta_target_correct": false,
+        "periods": [
+          "2024",
+          "2025"
+        ],
+        "unit_correct": false
+      },
+      "period_form": "equivalent_form",
+      "post_outcome": "wrong",
+      "pre_outcome": "wrong_period",
+      "role": "full_equivalent_form_branch_space",
+      "transition": "wrong_period->wrong"
+    },
+    {
+      "answer": "{\"delta_source\":\"2.0\",\"delta_target\":\"2000\",\"periods\":[\"2024\",\"2025\"],\"row\":\"Revenue\",\"unit\":\"unit\"}",
+      "case_id": "equivalent_form_source_wrong_target_wrong_unit_correct",
+      "changed": true,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": false,
+        "delta_target_correct": false,
+        "periods": [
+          "2024",
+          "2025"
+        ],
+        "unit_correct": true
+      },
+      "period_form": "equivalent_form",
+      "post_outcome": "wrong",
+      "pre_outcome": "wrong_period",
+      "role": "full_equivalent_form_branch_space",
+      "transition": "wrong_period->wrong"
+    },
+    {
+      "answer": "{\"delta_source\":\"2.0\",\"delta_target\":\"-1300\",\"periods\":[\"2024\",\"2025\"],\"row\":\"Revenue\",\"unit\":\"thousand\"}",
+      "case_id": "equivalent_form_source_wrong_target_correct_unit_wrong",
+      "changed": true,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": false,
+        "delta_target_correct": true,
+        "periods": [
+          "2024",
+          "2025"
+        ],
+        "unit_correct": false
+      },
+      "period_form": "equivalent_form",
+      "post_outcome": "wrong",
+      "pre_outcome": "wrong_period",
+      "role": "full_equivalent_form_branch_space",
+      "transition": "wrong_period->wrong"
+    },
+    {
+      "answer": "{\"delta_source\":\"2.0\",\"delta_target\":\"-1300\",\"periods\":[\"2024\",\"2025\"],\"row\":\"Revenue\",\"unit\":\"unit\"}",
+      "case_id": "equivalent_form_source_wrong_target_correct_unit_correct",
+      "changed": true,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": false,
+        "delta_target_correct": true,
+        "periods": [
+          "2024",
+          "2025"
+        ],
+        "unit_correct": true
+      },
+      "period_form": "equivalent_form",
+      "post_outcome": "wrong",
+      "pre_outcome": "wrong_period",
+      "role": "full_equivalent_form_branch_space",
+      "transition": "wrong_period->wrong"
+    },
+    {
+      "answer": "{\"delta_source\":\"-1.3\",\"delta_target\":\"2000\",\"periods\":[\"2024\",\"2025\"],\"row\":\"Revenue\",\"unit\":\"thousand\"}",
+      "case_id": "equivalent_form_source_correct_target_wrong_unit_wrong",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": true,
+        "delta_target_correct": false,
+        "periods": [
+          "2024",
+          "2025"
+        ],
+        "unit_correct": false
+      },
+      "period_form": "equivalent_form",
+      "post_outcome": "wrong_unit",
+      "pre_outcome": "wrong_unit",
+      "role": "full_equivalent_form_branch_space",
+      "transition": "unchanged"
+    },
+    {
+      "answer": "{\"delta_source\":\"-1.3\",\"delta_target\":\"2000\",\"periods\":[\"2024\",\"2025\"],\"row\":\"Revenue\",\"unit\":\"unit\"}",
+      "case_id": "equivalent_form_source_correct_target_wrong_unit_correct",
+      "changed": true,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": true,
+        "delta_target_correct": false,
+        "periods": [
+          "2024",
+          "2025"
+        ],
+        "unit_correct": true
+      },
+      "period_form": "equivalent_form",
+      "post_outcome": "wrong",
+      "pre_outcome": "wrong_period",
+      "role": "full_equivalent_form_branch_space",
+      "transition": "wrong_period->wrong"
+    },
+    {
+      "answer": "{\"delta_source\":\"-1.3\",\"delta_target\":\"-1300\",\"periods\":[\"2024\",\"2025\"],\"row\":\"Revenue\",\"unit\":\"thousand\"}",
+      "case_id": "equivalent_form_source_correct_target_correct_unit_wrong",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": true,
+        "delta_target_correct": true,
+        "periods": [
+          "2024",
+          "2025"
+        ],
+        "unit_correct": false
+      },
+      "period_form": "equivalent_form",
+      "post_outcome": "wrong_unit",
+      "pre_outcome": "wrong_unit",
+      "role": "full_equivalent_form_branch_space",
+      "transition": "unchanged"
+    },
+    {
+      "answer": "{\"delta_source\":\"-1.3\",\"delta_target\":\"-1300\",\"periods\":[\"2024\",\"2025\"],\"row\":\"Revenue\",\"unit\":\"unit\"}",
+      "case_id": "equivalent_form_source_correct_target_correct_unit_correct",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": true,
+        "delta_target_correct": true,
+        "periods": [
+          "2024",
+          "2025"
+        ],
+        "unit_correct": true
+      },
+      "period_form": "equivalent_form",
+      "post_outcome": "correct_other_form",
+      "pre_outcome": "correct_other_form",
+      "role": "full_equivalent_form_branch_space",
+      "transition": "unchanged"
+    },
+    {
+      "answer": "{\"delta_source\":\"2.0\",\"delta_target\":\"2000\",\"periods\":[\"2025\",\"2024\"],\"row\":\"Revenue\",\"unit\":\"thousand\"}",
+      "case_id": "direct_form_source_wrong_target_wrong_unit_wrong",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": false,
+        "delta_target_correct": false,
+        "periods": [
+          "2025",
+          "2024"
+        ],
+        "unit_correct": false
+      },
+      "period_form": "direct_form",
+      "post_outcome": "wrong",
+      "pre_outcome": "wrong",
+      "role": "direct_form_control",
+      "transition": "unchanged"
+    },
+    {
+      "answer": "{\"delta_source\":\"2.0\",\"delta_target\":\"2000\",\"periods\":[\"2025\",\"2024\"],\"row\":\"Revenue\",\"unit\":\"unit\"}",
+      "case_id": "direct_form_source_wrong_target_wrong_unit_correct",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": false,
+        "delta_target_correct": false,
+        "periods": [
+          "2025",
+          "2024"
+        ],
+        "unit_correct": true
+      },
+      "period_form": "direct_form",
+      "post_outcome": "wrong",
+      "pre_outcome": "wrong",
+      "role": "direct_form_control",
+      "transition": "unchanged"
+    },
+    {
+      "answer": "{\"delta_source\":\"2.0\",\"delta_target\":\"1300\",\"periods\":[\"2025\",\"2024\"],\"row\":\"Revenue\",\"unit\":\"thousand\"}",
+      "case_id": "direct_form_source_wrong_target_correct_unit_wrong",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": false,
+        "delta_target_correct": true,
+        "periods": [
+          "2025",
+          "2024"
+        ],
+        "unit_correct": false
+      },
+      "period_form": "direct_form",
+      "post_outcome": "wrong",
+      "pre_outcome": "wrong",
+      "role": "direct_form_control",
+      "transition": "unchanged"
+    },
+    {
+      "answer": "{\"delta_source\":\"2.0\",\"delta_target\":\"1300\",\"periods\":[\"2025\",\"2024\"],\"row\":\"Revenue\",\"unit\":\"unit\"}",
+      "case_id": "direct_form_source_wrong_target_correct_unit_correct",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": false,
+        "delta_target_correct": true,
+        "periods": [
+          "2025",
+          "2024"
+        ],
+        "unit_correct": true
+      },
+      "period_form": "direct_form",
+      "post_outcome": "wrong",
+      "pre_outcome": "wrong",
+      "role": "direct_form_control",
+      "transition": "unchanged"
+    },
+    {
+      "answer": "{\"delta_source\":\"1.3\",\"delta_target\":\"2000\",\"periods\":[\"2025\",\"2024\"],\"row\":\"Revenue\",\"unit\":\"thousand\"}",
+      "case_id": "direct_form_source_correct_target_wrong_unit_wrong",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": true,
+        "delta_target_correct": false,
+        "periods": [
+          "2025",
+          "2024"
+        ],
+        "unit_correct": false
+      },
+      "period_form": "direct_form",
+      "post_outcome": "wrong_unit",
+      "pre_outcome": "wrong_unit",
+      "role": "direct_form_control",
+      "transition": "unchanged"
+    },
+    {
+      "answer": "{\"delta_source\":\"1.3\",\"delta_target\":\"2000\",\"periods\":[\"2025\",\"2024\"],\"row\":\"Revenue\",\"unit\":\"unit\"}",
+      "case_id": "direct_form_source_correct_target_wrong_unit_correct",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": true,
+        "delta_target_correct": false,
+        "periods": [
+          "2025",
+          "2024"
+        ],
+        "unit_correct": true
+      },
+      "period_form": "direct_form",
+      "post_outcome": "wrong_unit",
+      "pre_outcome": "wrong_unit",
+      "role": "direct_form_control",
+      "transition": "unchanged"
+    },
+    {
+      "answer": "{\"delta_source\":\"1.3\",\"delta_target\":\"1300\",\"periods\":[\"2025\",\"2024\"],\"row\":\"Revenue\",\"unit\":\"thousand\"}",
+      "case_id": "direct_form_source_correct_target_correct_unit_wrong",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": true,
+        "delta_target_correct": true,
+        "periods": [
+          "2025",
+          "2024"
+        ],
+        "unit_correct": false
+      },
+      "period_form": "direct_form",
+      "post_outcome": "wrong_unit",
+      "pre_outcome": "wrong_unit",
+      "role": "direct_form_control",
+      "transition": "unchanged"
+    },
+    {
+      "answer": "{\"delta_source\":\"1.3\",\"delta_target\":\"1300\",\"periods\":[\"2025\",\"2024\"],\"row\":\"Revenue\",\"unit\":\"unit\"}",
+      "case_id": "direct_form_source_correct_target_correct_unit_correct",
+      "changed": false,
+      "correct_class_flip": false,
+      "input_flags": {
+        "delta_source_correct": true,
+        "delta_target_correct": true,
+        "periods": [
+          "2025",
+          "2024"
+        ],
+        "unit_correct": true
+      },
+      "period_form": "direct_form",
+      "post_outcome": "correct",
+      "pre_outcome": "correct",
+      "role": "direct_form_control",
+      "transition": "unchanged"
+    }
+  ],
+  "correct_class_flip_definition": "changed case whose pre or post outcome belongs to checker_v2.CORRECT_OUTCOMES",
+  "inputs": {
+    "base_checker_dependency_sha256": "c919845b051a7cfbebfdc782ba4c9dcbd99cac8b950b46f8bd908fcdc2cb12f1",
+    "builder_sha256": "9bf5af883a52c8d73a7abd6df80b49729d1c6549de2dc49857553d505b440aa8",
+    "item_template_sha256": "6ed1dbb72c1f5e07ddc02fc7ef2563c4443c2008471ba7a033e32ff8d17b9cb4",
+    "post_checker_v2_sha256": "aeedf62b7d44a1422ee631783c3daa47be8a3e7e8811462a23ad3c520ce4d048",
+    "temporary_pre_f10_source_sha256": "b3c7b36363386ab6a9d0be21775bd174d7a19db0e6b534347b0a2269d1194ca3"
+  },
+  "original_claim_disposition": {
+    "reason": "The original scratch matrix was not persisted and is not reproducible or independently verifiable.",
+    "withdrawn_claim": "An additional 24-case strictness matrix found five changed classifications, all wrong_period -> wrong."
+  },
+  "outputs": {
+    "cases_payload_sha256": "729c2ac3de83d732b22f1eb382947d9febd561430aa7ce65390ebbd5a5597675",
+    "matrix_payload_sha256": "01c3609682a7610240e7af9fb389213b147e9b47322126268c29c9907e13ae5d",
+    "summary_payload_sha256": "57cbf71f6fcd34bccd3afc9af931a1fb6519944a127c575b1285a241eb814f80"
+  },
+  "pre_post_definition": {
+    "post": "current checker_v2.py",
+    "pre": "temporary source reconstruction of checker_v2.py with only the F-10 branch C block removed",
+    "production_checker_modified": false,
+    "temporary_file_removed": true
+  },
+  "provenance_notice": "post-hoc reconstruction；原未落盘 scratch 检查已撤回",
+  "rerun": {
+    "byte_identical": true,
+    "comparison_runs": 2,
+    "comparison_scope": "complete deterministic receipt payload"
+  },
+  "schema": "tatqa_wp1_s0c_strictness_matrix_receipt_v1",
+  "scope": "post-hoc reconstruction of the F-10 pre/post strictness matrix",
+  "status": "PASS",
+  "summary": {
+    "case_count": 16,
+    "changed_count": 5,
+    "correct_class_flip_count": 0,
+    "non_allowed_transition_count": 0,
+    "period_form_counts": {
+      "direct_form": 8,
+      "equivalent_form": 8
+    },
+    "status": "PASS",
+    "transition_counts": {
+      "wrong_period->wrong": 5
+    },
+    "unchanged_count": 11
+  },
+  "task": "tatqa-wp2-f5d-20261014"
+}

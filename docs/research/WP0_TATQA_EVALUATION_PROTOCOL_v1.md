@@ -31,7 +31,7 @@ All arms receive the same complete task evidence; no arm-dependent table truncat
 
 ## 5. Endpoints and reporting
 
-- Primary: per-item outcome class from the checker taxonomy (`correct`, `correct_other_form`, `wrong_unit`, `wrong_period`, `regressed`, `refused`, `unknown`).
+- Primary: per-item outcome class from the checker taxonomy (`correct`, `correct_other_form`, `wrong_unit`, `wrong_period`, `wrong`, `regressed`, `refused`, `unknown`).
 - Effects: per-origin paired differences `E-B`, `E-C`, `E-S`, `C-B`; list every origin-level difference explicitly; count corrections, regressions, refusals, UNKNOWN; report token/cost accounting per arm.
 - Uncertainty: origin-level bootstrap CI (method declared in the prereg); no new significance thresholds; UNKNOWN stays a first-class state.
 - Honesty rules: no pooled success showcase; behaviour change is reported but never asserted as causal by itself; window/scale of the pilot explicitly not extrapolated.

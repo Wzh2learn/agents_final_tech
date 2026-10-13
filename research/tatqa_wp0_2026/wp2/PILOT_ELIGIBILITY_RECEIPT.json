@@ -1,0 +1,3510 @@
+{
+  "checks": {
+    "all_22_role_origins_verified": true,
+    "all_gold_delta_source_unit_values_numeric": true,
+    "all_inputs_schema_validated": true,
+    "generic_currency_fail_closed": true,
+    "no_role_assignment_changed": true,
+    "null_or_absent_source_unit_explicit_in_receipt": true,
+    "percent_result_semantics_percentage_points": true,
+    "reserve_replacement_available_for_each_shortfall": true,
+    "scale_identity_option_a": true
+  },
+  "counts": {
+    "eligible": 316,
+    "excluded_currency": 36,
+    "total": 352
+  },
+  "decision_boundary": {
+    "checker_semantics_changed": false,
+    "endpoint_calls": 0,
+    "external_network_calls": 0,
+    "item_freeze": "S7",
+    "judge_calls": 0,
+    "model_calls": 0,
+    "pilot_eligibility_only": true,
+    "role_assignments_changed": false
+  },
+  "determinism": {
+    "byte_identical_rerun_verified": true,
+    "canonical_json": "UTF-8 JSON, ensure_ascii=false, indent=2, sort_keys=true, trailing newline",
+    "output_sha256_scope": "sha256 of canonical receipt payload with the output_sha256 field omitted",
+    "reproduction_command": "PYTHONPATH=src python3 research/tatqa_wp0_2026/wp2/check_pilot_eligibility.py",
+    "timestamp_free": true
+  },
+  "excluded_currency_items": [
+    {
+      "item_id": "wp2_5f46a008_r1_p0",
+      "origin_id": "tatqa_5f46a008-12b7-4c0d-b9e5-4b8e31cb0ba8",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_5f46a008_r2_p1",
+      "origin_id": "tatqa_5f46a008-12b7-4c0d-b9e5-4b8e31cb0ba8",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_d258211e_r1_p0",
+      "origin_id": "tatqa_d258211e-01d6-477b-96f4-c059b7282c3e",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_d258211e_r3_p1",
+      "origin_id": "tatqa_d258211e-01d6-477b-96f4-c059b7282c3e",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_f5511f3c_r1_p0",
+      "origin_id": "tatqa_f5511f3c-b02d-4142-aa16-0b87cd61690f",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_f5511f3c_r2_p1",
+      "origin_id": "tatqa_f5511f3c-b02d-4142-aa16-0b87cd61690f",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_5999c164_r1_p0",
+      "origin_id": "tatqa_5999c164-eb8b-4eff-b432-bb688b8fa65f",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_5999c164_r2_p1",
+      "origin_id": "tatqa_5999c164-eb8b-4eff-b432-bb688b8fa65f",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_ab59379f_r2_p0",
+      "origin_id": "tatqa_ab59379f-ccca-409d-bc39-a48df76f6117",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_ab59379f_r3_p1",
+      "origin_id": "tatqa_ab59379f-ccca-409d-bc39-a48df76f6117",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_789bab55_r2_p0",
+      "origin_id": "tatqa_789bab55-3343-4512-b6b2-18ea66d8d79c",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_789bab55_r3_p1",
+      "origin_id": "tatqa_789bab55-3343-4512-b6b2-18ea66d8d79c",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_6082d8ef_r1_p0",
+      "origin_id": "tatqa_6082d8ef-75ae-4c52-a26d-adc6f6ae58ac",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_6082d8ef_r2_p1",
+      "origin_id": "tatqa_6082d8ef-75ae-4c52-a26d-adc6f6ae58ac",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_cdbfc2e3_r1_p0",
+      "origin_id": "tatqa_cdbfc2e3-1082-4a25-9324-2f0ba9e684e5",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_cdbfc2e3_r2_p1",
+      "origin_id": "tatqa_cdbfc2e3-1082-4a25-9324-2f0ba9e684e5",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_8e9c46ac_r1_p0",
+      "origin_id": "tatqa_8e9c46ac-9dd9-4436-9482-9a166d8ae6e8",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_8e9c46ac_r3_p1",
+      "origin_id": "tatqa_8e9c46ac-9dd9-4436-9482-9a166d8ae6e8",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_001781c6_r1_p0",
+      "origin_id": "tatqa_001781c6-0e17-4fdd-b000-011e3ed66d6e",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_001781c6_r2_p1",
+      "origin_id": "tatqa_001781c6-0e17-4fdd-b000-011e3ed66d6e",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_74fd96c1_r2_p0",
+      "origin_id": "tatqa_74fd96c1-a5f0-42ea-b5ce-9fcf1b36d1d3",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_74fd96c1_r3_p1",
+      "origin_id": "tatqa_74fd96c1-a5f0-42ea-b5ce-9fcf1b36d1d3",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_4742afee_r1_p0",
+      "origin_id": "tatqa_4742afee-a8aa-456b-85ed-446f8fa8fe36",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_4742afee_r2_p1",
+      "origin_id": "tatqa_4742afee-a8aa-456b-85ed-446f8fa8fe36",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_6aae8dee_r1_p0",
+      "origin_id": "tatqa_6aae8dee-45af-4a09-9e09-8137d6eb3dc3",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_6aae8dee_r2_p1",
+      "origin_id": "tatqa_6aae8dee-45af-4a09-9e09-8137d6eb3dc3",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_d17ec6e0_r1_p0",
+      "origin_id": "tatqa_d17ec6e0-0d83-453e-b9c9-aeb795802ef4",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_d17ec6e0_r2_p1",
+      "origin_id": "tatqa_d17ec6e0-0d83-453e-b9c9-aeb795802ef4",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_c7143215_r2_p0",
+      "origin_id": "tatqa_c7143215-25a8-44a2-b91f-4cbbfea16865",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_c7143215_r3_p1",
+      "origin_id": "tatqa_c7143215-25a8-44a2-b91f-4cbbfea16865",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_9989ca79_r2_p0",
+      "origin_id": "tatqa_9989ca79-5332-47be-a08e-85f2648cdde7",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_9989ca79_r3_p1",
+      "origin_id": "tatqa_9989ca79-5332-47be-a08e-85f2648cdde7",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_dace18a6_r1_p0",
+      "origin_id": "tatqa_dace18a6-701f-49d4-a16d-078e5b62fc94",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_dace18a6_r2_p1",
+      "origin_id": "tatqa_dace18a6-701f-49d4-a16d-078e5b62fc94",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_02a7787e_r1_p0",
+      "origin_id": "tatqa_02a7787e-92f9-4a5a-9f95-c4c9ed0f7eff",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    },
+    {
+      "item_id": "wp2_02a7787e_r2_p1",
+      "origin_id": "tatqa_02a7787e-92f9-4a5a-9f95-c4c9ed0f7eff",
+      "reason": "generic currency without explicit currency/denomination",
+      "source_unit_state": "currency"
+    }
+  ],
+  "inputs": {
+    "candidate_items_v2": {
+      "path": "data/research/tatqa_wp0_2026/candidate_items_v2.json",
+      "sha256": "5f61f2a476c220f4ed4c159030490c6dfaabcea9778820abc89d3bed859738aa"
+    },
+    "origin_manifest": {
+      "path": "data/research/tatqa_wp0_2026/origin_manifest.json",
+      "sha256": "3718e6fef4d52bec0c1c29b47ba9ab60e298754b9e8527835d09c9d223d70cea"
+    },
+    "split_rerun_receipt": {
+      "path": "research/tatqa_wp0_2026/wp2/SPLIT_RERUN_RECEIPT.json",
+      "seed": "wp2-split-dryrun-20261013",
+      "sha256": "771f209634c8a2fb4e71734ac6a14e161260de624506dd1f9a8065fbaeafc668"
+    }
+  },
+  "left_open": [
+    "The 18 excluded generic-currency origins are not assigned replacements.",
+    "The single reserve shortfall is documented but no split mutation is authorized.",
+    "Item freeze remains S7; this receipt only determines pilot eligibility."
+  ],
+  "output_sha256": {
+    "algorithm": "sha256",
+    "scope": "canonical receipt payload with the output_sha256 field omitted",
+    "value": "d42e11eb24dd6b418f91111df6e4a30df03dc2903edfdd7683b44099e8e22442"
+  },
+  "role_origin_verification": {
+    "origins_with_at_least_2_eligible": 21,
+    "replacement_recommendations": [
+      {
+        "basis": "next eligible unassigned origin under the existing sha256(seed:origin_id) rank; no role is changed",
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "origin_id": "tatqa_cb626a5c-7b30-46ef-b0a7-971bc2196678",
+        "rank": 23,
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "basis": "next eligible unassigned origin under the existing sha256(seed:origin_id) rank; no role is changed",
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "origin_id": "tatqa_989a6b20-45e6-4430-9491-98c93361e184",
+        "rank": 24,
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "basis": "next eligible unassigned origin under the existing sha256(seed:origin_id) rank; no role is changed",
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "origin_id": "tatqa_8e0e12f7-ed7e-4a32-8a9e-7eeddc77f55d",
+        "rank": 25,
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      }
+    ],
+    "required_origin_count": 22,
+    "role_assignments_changed": false,
+    "rows": [
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 1,
+        "origin_id": "tatqa_008eaf4e-4d70-496b-aa25-b842b05a3560",
+        "requirement_met": true,
+        "role": "pilot",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 2,
+        "origin_id": "tatqa_735ba0a0-60c8-452f-96a2-c6fc50cce80d",
+        "requirement_met": true,
+        "role": "pilot",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 3,
+        "origin_id": "tatqa_f188de60-64eb-49cb-8b9d-a72f844357ef",
+        "requirement_met": true,
+        "role": "pilot",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 4,
+        "origin_id": "tatqa_e316af95-270d-4107-99d4-6f52e4d61d38",
+        "requirement_met": true,
+        "role": "pilot",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 5,
+        "origin_id": "tatqa_48eb64be-428f-429d-afd5-39cdbc4e4dde",
+        "requirement_met": true,
+        "role": "pilot",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 6,
+        "origin_id": "tatqa_334d9b85-ec0c-4783-81d7-64259a410b16",
+        "requirement_met": true,
+        "role": "pilot",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 7,
+        "origin_id": "tatqa_668a081b-e793-4d45-935d-816d2d7eba6d",
+        "requirement_met": true,
+        "role": "pilot",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 8,
+        "origin_id": "tatqa_8edfdb1c-3d22-496f-b6ba-f3ea45cf6151",
+        "requirement_met": true,
+        "role": "pilot",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 9,
+        "origin_id": "tatqa_3e4f4b3e-0aa6-4e5f-9103-5f1155d27e75",
+        "requirement_met": true,
+        "role": "pilot_reserve",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 10,
+        "origin_id": "tatqa_cfe0ee38-48b2-46d2-8920-e423fc6c91ac",
+        "requirement_met": true,
+        "role": "pilot_reserve",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 11,
+        "origin_id": "tatqa_72bfa3fa-9acd-437f-b682-0199daed6aa7",
+        "requirement_met": true,
+        "role": "pilot_reserve",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 12,
+        "origin_id": "tatqa_51c8eba0-1876-42aa-afdb-d18741b2fe7b",
+        "requirement_met": true,
+        "role": "pilot_reserve",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 13,
+        "origin_id": "tatqa_b538d340-dfca-4f89-a59f-01fc1bb35184",
+        "requirement_met": true,
+        "role": "pilot_reserve",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 14,
+        "origin_id": "tatqa_8df5c241-c68c-427a-99af-30c44214199b",
+        "requirement_met": true,
+        "role": "pilot_reserve",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 15,
+        "origin_id": "tatqa_d15a82c3-024f-4e9c-a461-59e24bd95987",
+        "requirement_met": true,
+        "role": "pilot_reserve",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 0,
+        "excluded_currency_count": 2,
+        "global_rank": 16,
+        "origin_id": "tatqa_dace18a6-701f-49d4-a16d-078e5b62fc94",
+        "requirement_met": false,
+        "role": "pilot_reserve",
+        "source_unit_distribution": {
+          "absent": 0,
+          "currency": 2,
+          "null": 0
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 17,
+        "origin_id": "tatqa_4565ded8-5e2e-4cd7-beab-6da622434396",
+        "requirement_met": true,
+        "role": "development",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 18,
+        "origin_id": "tatqa_e8877535-8ade-4ba3-aae2-cd4db2b5c59c",
+        "requirement_met": true,
+        "role": "development",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 19,
+        "origin_id": "tatqa_b2c8ac7d-6959-4874-b9f6-e6a53a1c6dc8",
+        "requirement_met": true,
+        "role": "history",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 20,
+        "origin_id": "tatqa_3ab739eb-c0d7-44f5-9377-b8a02bafb361",
+        "requirement_met": true,
+        "role": "history",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 21,
+        "origin_id": "tatqa_97176853-a81e-422a-a8c1-e0542348d051",
+        "requirement_met": true,
+        "role": "history",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      },
+      {
+        "candidate_count": 2,
+        "eligible_count": 2,
+        "excluded_currency_count": 0,
+        "global_rank": 22,
+        "origin_id": "tatqa_99a3fe4e-1302-42ff-b0ae-4bf7ef0b3934",
+        "requirement_met": true,
+        "role": "history",
+        "source_unit_distribution": {
+          "absent": 0,
+          "null": 2
+        }
+      }
+    ],
+    "shortfall_count": 1,
+    "shortfall_rows": [
+      {
+        "candidate_count": 2,
+        "eligible_count": 0,
+        "excluded_currency_count": 2,
+        "global_rank": 16,
+        "origin_id": "tatqa_dace18a6-701f-49d4-a16d-078e5b62fc94",
+        "requirement_met": false,
+        "role": "pilot_reserve",
+        "source_unit_distribution": {
+          "absent": 0,
+          "currency": 2,
+          "null": 0
+        }
+      }
+    ],
+    "silent_role_change": false,
+    "verified_origin_count": 22
+  },
+  "rules": {
+    "generic_currency": "exclude fail-closed",
+    "gold_delta_source_unit": "semantic alias gold_delta_value_in_source_unit; numeric value only and never parsed as a unit",
+    "percent": "percent identity; result semantics percentage_points",
+    "source_unit_null_or_absent": "explicit identity at dimensionless unit; receipt does not rely on silent checker behavior",
+    "thousand_million_billion": "identity under Option A until a separately approved Option B assignment"
+  },
+  "schema": "wp2_pilot_eligibility_receipt_v1",
+  "source_unit_distribution": {
+    "eligible": {
+      "%": 2,
+      "absent": 0,
+      "million": 2,
+      "null": 312
+    },
+    "excluded_currency": {
+      "absent": 0,
+      "currency": 36,
+      "null": 0
+    },
+    "total": {
+      "%": 2,
+      "absent": 0,
+      "currency": 36,
+      "million": 2,
+      "null": 312
+    }
+  },
+  "status": "PASS_WITH_RESERVE_REPLACEMENT_RECOMMENDATION",
+  "target_unit_resolution": {
+    "counts": {
+      "identity_unit": 312,
+      "percent_identity": 2,
+      "scale_identity": 2
+    },
+    "eligible_item_count": 316,
+    "items": [
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e78f8b29_r2_p0",
+        "origin_id": "tatqa_e78f8b29-6085-43de-b32f-be1a68641be3",
+        "resolution_class": "percent_identity",
+        "resolved_target_unit": "percent",
+        "result_unit_semantics": "percentage_points",
+        "source_unit_state": "%"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e78f8b29_r3_p1",
+        "origin_id": "tatqa_e78f8b29-6085-43de-b32f-be1a68641be3",
+        "resolution_class": "percent_identity",
+        "resolved_target_unit": "percent",
+        "result_unit_semantics": "percentage_points",
+        "source_unit_state": "%"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_4ebf4ce6_r1_p0",
+        "origin_id": "tatqa_4ebf4ce6-2e2d-4146-850d-8c5450961dcc",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_4ebf4ce6_r3_p1",
+        "origin_id": "tatqa_4ebf4ce6-2e2d-4146-850d-8c5450961dcc",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c18bb1bc_r1_p0",
+        "origin_id": "tatqa_c18bb1bc-dc66-4586-989f-8bd13c0d77a4",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c18bb1bc_r2_p1",
+        "origin_id": "tatqa_c18bb1bc-dc66-4586-989f-8bd13c0d77a4",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_11ae619c_r3_p0",
+        "origin_id": "tatqa_11ae619c-285a-4b82-854d-2bfd5d7ec141",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_11ae619c_r4_p1",
+        "origin_id": "tatqa_11ae619c-285a-4b82-854d-2bfd5d7ec141",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_7ac100f5_r2_p0",
+        "origin_id": "tatqa_7ac100f5-8d0a-4fb1-ad1b-6e5eebb4d3fa",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_7ac100f5_r3_p1",
+        "origin_id": "tatqa_7ac100f5-8d0a-4fb1-ad1b-6e5eebb4d3fa",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_673707a3_r3_p0",
+        "origin_id": "tatqa_673707a3-c628-4ff7-be61-16ab9ff1eb7a",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_673707a3_r4_p1",
+        "origin_id": "tatqa_673707a3-c628-4ff7-be61-16ab9ff1eb7a",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9d5adcb7_r1_p0",
+        "origin_id": "tatqa_9d5adcb7-6bc0-4b86-b48e-fe9333bb6e7b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9d5adcb7_r2_p1",
+        "origin_id": "tatqa_9d5adcb7-6bc0-4b86-b48e-fe9333bb6e7b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_a5216555_r1_p0",
+        "origin_id": "tatqa_a5216555-06a1-4ec2-9afe-3db4e76b04a4",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_a5216555_r2_p1",
+        "origin_id": "tatqa_a5216555-06a1-4ec2-9afe-3db4e76b04a4",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b2c8ac7d_r2_p0",
+        "origin_id": "tatqa_b2c8ac7d-6959-4874-b9f6-e6a53a1c6dc8",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b2c8ac7d_r3_p1",
+        "origin_id": "tatqa_b2c8ac7d-6959-4874-b9f6-e6a53a1c6dc8",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_da915ccc_r1_p0",
+        "origin_id": "tatqa_da915ccc-defe-40e3-9ade-04d76be09807",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_da915ccc_r2_p1",
+        "origin_id": "tatqa_da915ccc-defe-40e3-9ade-04d76be09807",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_99e73ea1_r2_p0",
+        "origin_id": "tatqa_99e73ea1-2dd6-478d-8fef-3a71122f6f83",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_99e73ea1_r3_p1",
+        "origin_id": "tatqa_99e73ea1-2dd6-478d-8fef-3a71122f6f83",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_97dfc73a_r1_p0",
+        "origin_id": "tatqa_97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_97dfc73a_r2_p1",
+        "origin_id": "tatqa_97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_668a081b_r1_p0",
+        "origin_id": "tatqa_668a081b-e793-4d45-935d-816d2d7eba6d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_668a081b_r2_p1",
+        "origin_id": "tatqa_668a081b-e793-4d45-935d-816d2d7eba6d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_195383eb_r1_p0",
+        "origin_id": "tatqa_195383eb-3e09-4aa3-9f60-89fcc4d7ed61",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_195383eb_r3_p1",
+        "origin_id": "tatqa_195383eb-3e09-4aa3-9f60-89fcc4d7ed61",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_163c5d6d_r3_p0",
+        "origin_id": "tatqa_163c5d6d-e301-4464-a640-8fdd33a8fa18",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_163c5d6d_r4_p1",
+        "origin_id": "tatqa_163c5d6d-e301-4464-a640-8fdd33a8fa18",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_988b4303_r1_p0",
+        "origin_id": "tatqa_988b4303-d440-4b20-97d9-40f6bb22c0ed",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_988b4303_r2_p1",
+        "origin_id": "tatqa_988b4303-d440-4b20-97d9-40f6bb22c0ed",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_97a0d99a_r1_p0",
+        "origin_id": "tatqa_97a0d99a-feef-41ed-baaa-960b59d23b89",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_97a0d99a_r2_p1",
+        "origin_id": "tatqa_97a0d99a-feef-41ed-baaa-960b59d23b89",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_4ecbff45_r1_p0",
+        "origin_id": "tatqa_4ecbff45-a2f1-42dd-ae23-491846321001",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_4ecbff45_r2_p1",
+        "origin_id": "tatqa_4ecbff45-a2f1-42dd-ae23-491846321001",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_bb01e5d0_r1_p0",
+        "origin_id": "tatqa_bb01e5d0-4524-497f-a45a-03804a6cb6ba",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_bb01e5d0_r2_p1",
+        "origin_id": "tatqa_bb01e5d0-4524-497f-a45a-03804a6cb6ba",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ab938d5a_r2_p0",
+        "origin_id": "tatqa_ab938d5a-cfe5-46b0-bc90-e4f0db462a9f",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ab938d5a_r3_p1",
+        "origin_id": "tatqa_ab938d5a-cfe5-46b0-bc90-e4f0db462a9f",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e2d0f4f9_r1_p0",
+        "origin_id": "tatqa_e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e2d0f4f9_r2_p1",
+        "origin_id": "tatqa_e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_24ff90f9_r3_p0",
+        "origin_id": "tatqa_24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_24ff90f9_r5_p1",
+        "origin_id": "tatqa_24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_7ffd5216_r3_p0",
+        "origin_id": "tatqa_7ffd5216-30e1-4a4c-b548-b657d92df228",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_7ffd5216_r4_p1",
+        "origin_id": "tatqa_7ffd5216-30e1-4a4c-b548-b657d92df228",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5214bc24_r2_p0",
+        "origin_id": "tatqa_5214bc24-1d07-42be-9b21-54d688d06c4c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5214bc24_r3_p1",
+        "origin_id": "tatqa_5214bc24-1d07-42be-9b21-54d688d06c4c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_2975881e_r1_p0",
+        "origin_id": "tatqa_2975881e-3e71-435b-8500-56d668a50eb2",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_2975881e_r2_p1",
+        "origin_id": "tatqa_2975881e-3e71-435b-8500-56d668a50eb2",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_bf203086_r2_p0",
+        "origin_id": "tatqa_bf203086-ab57-4b6c-9ce6-34bf399ddd90",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_bf203086_r3_p1",
+        "origin_id": "tatqa_bf203086-ab57-4b6c-9ce6-34bf399ddd90",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_2ff661fc_r1_p0",
+        "origin_id": "tatqa_2ff661fc-b6cc-4b50-ad7b-f1cbadd003d0",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_2ff661fc_r2_p1",
+        "origin_id": "tatqa_2ff661fc-b6cc-4b50-ad7b-f1cbadd003d0",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_66b7c6dd_r2_p0",
+        "origin_id": "tatqa_66b7c6dd-a4fc-48db-a226-6ecbb174aa77",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_66b7c6dd_r3_p1",
+        "origin_id": "tatqa_66b7c6dd-a4fc-48db-a226-6ecbb174aa77",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_a784a8e4_r1_p0",
+        "origin_id": "tatqa_a784a8e4-33a3-4f22-b338-ca218f76831c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_a784a8e4_r2_p1",
+        "origin_id": "tatqa_a784a8e4-33a3-4f22-b338-ca218f76831c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_989a6b20_r2_p0",
+        "origin_id": "tatqa_989a6b20-45e6-4430-9491-98c93361e184",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_989a6b20_r3_p1",
+        "origin_id": "tatqa_989a6b20-45e6-4430-9491-98c93361e184",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e316af95_r2_p0",
+        "origin_id": "tatqa_e316af95-270d-4107-99d4-6f52e4d61d38",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e316af95_r3_p1",
+        "origin_id": "tatqa_e316af95-270d-4107-99d4-6f52e4d61d38",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_735ba0a0_r2_p0",
+        "origin_id": "tatqa_735ba0a0-60c8-452f-96a2-c6fc50cce80d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_735ba0a0_r3_p1",
+        "origin_id": "tatqa_735ba0a0-60c8-452f-96a2-c6fc50cce80d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ba7ad32a_r1_p0",
+        "origin_id": "tatqa_ba7ad32a-4f39-4eb3-a1ae-2aac19ca9325",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ba7ad32a_r2_p1",
+        "origin_id": "tatqa_ba7ad32a-4f39-4eb3-a1ae-2aac19ca9325",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_10e46d24_r1_p0",
+        "origin_id": "tatqa_10e46d24-413a-4fd1-9e96-56da277f6ba9",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_10e46d24_r2_p1",
+        "origin_id": "tatqa_10e46d24-413a-4fd1-9e96-56da277f6ba9",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_808ea5b8_r1_p0",
+        "origin_id": "tatqa_808ea5b8-f097-4094-a893-e3f4bbe56918",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_808ea5b8_r2_p1",
+        "origin_id": "tatqa_808ea5b8-f097-4094-a893-e3f4bbe56918",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c615ea13_r2_p0",
+        "origin_id": "tatqa_c615ea13-a665-42ed-8e68-41ee7e3452b2",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c615ea13_r3_p1",
+        "origin_id": "tatqa_c615ea13-a665-42ed-8e68-41ee7e3452b2",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_72bfa3fa_r3_p0",
+        "origin_id": "tatqa_72bfa3fa-9acd-437f-b682-0199daed6aa7",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_72bfa3fa_r5_p1",
+        "origin_id": "tatqa_72bfa3fa-9acd-437f-b682-0199daed6aa7",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ac6e77fe_r2_p0",
+        "origin_id": "tatqa_ac6e77fe-ba02-4764-9806-943cd8572e67",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ac6e77fe_r3_p1",
+        "origin_id": "tatqa_ac6e77fe-ba02-4764-9806-943cd8572e67",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d52fcb48_r1_p0",
+        "origin_id": "tatqa_d52fcb48-90fc-4a49-81f2-57065953f114",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d52fcb48_r2_p1",
+        "origin_id": "tatqa_d52fcb48-90fc-4a49-81f2-57065953f114",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c501a508_r1_p0",
+        "origin_id": "tatqa_c501a508-4205-4046-a1b2-bc1d0baa25e3",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c501a508_r2_p1",
+        "origin_id": "tatqa_c501a508-4205-4046-a1b2-bc1d0baa25e3",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9ca94048_r3_p0",
+        "origin_id": "tatqa_9ca94048-91be-4546-b2bc-f10fc2a0d835",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9ca94048_r4_p1",
+        "origin_id": "tatqa_9ca94048-91be-4546-b2bc-f10fc2a0d835",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_27c6ed38_r1_p0",
+        "origin_id": "tatqa_27c6ed38-b840-4835-935e-731a52d7b983",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_27c6ed38_r2_p1",
+        "origin_id": "tatqa_27c6ed38-b840-4835-935e-731a52d7b983",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8363e1b1_r1_p0",
+        "origin_id": "tatqa_8363e1b1-8e3e-4009-8df4-24f591433791",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8363e1b1_r2_p1",
+        "origin_id": "tatqa_8363e1b1-8e3e-4009-8df4-24f591433791",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_dd9f455a_r2_p0",
+        "origin_id": "tatqa_dd9f455a-73fe-43a7-bde1-41e71bf18722",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_dd9f455a_r3_p1",
+        "origin_id": "tatqa_dd9f455a-73fe-43a7-bde1-41e71bf18722",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9a214b31_r2_p0",
+        "origin_id": "tatqa_9a214b31-4dad-417d-83aa-b54692b2a785",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9a214b31_r3_p1",
+        "origin_id": "tatqa_9a214b31-4dad-417d-83aa-b54692b2a785",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_2bcc60e7_r1_p0",
+        "origin_id": "tatqa_2bcc60e7-139f-43ee-9c91-dd58f868b113",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_2bcc60e7_r2_p1",
+        "origin_id": "tatqa_2bcc60e7-139f-43ee-9c91-dd58f868b113",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c1e1d2be_r3_p0",
+        "origin_id": "tatqa_c1e1d2be-ee4f-45c7-87d8-e8d218657bcb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c1e1d2be_r4_p1",
+        "origin_id": "tatqa_c1e1d2be-ee4f-45c7-87d8-e8d218657bcb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_09dfce79_r1_p0",
+        "origin_id": "tatqa_09dfce79-6163-42a4-8fe6-a2eaf20c1435",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_09dfce79_r2_p1",
+        "origin_id": "tatqa_09dfce79-6163-42a4-8fe6-a2eaf20c1435",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_6f9e4e1d_r2_p0",
+        "origin_id": "tatqa_6f9e4e1d-c737-4a61-82e5-455457f37f40",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_6f9e4e1d_r3_p1",
+        "origin_id": "tatqa_6f9e4e1d-c737-4a61-82e5-455457f37f40",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_637d5671_r1_p0",
+        "origin_id": "tatqa_637d5671-0913-4e80-b135-2d4a516b79bb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_637d5671_r2_p1",
+        "origin_id": "tatqa_637d5671-0913-4e80-b135-2d4a516b79bb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_f188de60_r1_p0",
+        "origin_id": "tatqa_f188de60-64eb-49cb-8b9d-a72f844357ef",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_f188de60_r2_p1",
+        "origin_id": "tatqa_f188de60-64eb-49cb-8b9d-a72f844357ef",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_52cebcac_r2_p0",
+        "origin_id": "tatqa_52cebcac-ee1d-47e4-ba64-5fb783a58a5b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_52cebcac_r3_p1",
+        "origin_id": "tatqa_52cebcac-ee1d-47e4-ba64-5fb783a58a5b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_1fee6a61_r1_p0",
+        "origin_id": "tatqa_1fee6a61-d243-4e8d-b8e1-f5662f104eb5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_1fee6a61_r3_p1",
+        "origin_id": "tatqa_1fee6a61-d243-4e8d-b8e1-f5662f104eb5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_48eb64be_r1_p0",
+        "origin_id": "tatqa_48eb64be-428f-429d-afd5-39cdbc4e4dde",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_48eb64be_r2_p1",
+        "origin_id": "tatqa_48eb64be-428f-429d-afd5-39cdbc4e4dde",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_62167bd9_r1_p0",
+        "origin_id": "tatqa_62167bd9-5b0e-4942-bf9f-b19b1f1f284c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_62167bd9_r2_p1",
+        "origin_id": "tatqa_62167bd9-5b0e-4942-bf9f-b19b1f1f284c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5e2b5b29_r3_p0",
+        "origin_id": "tatqa_5e2b5b29-e0c9-4abb-935e-a3fc13d18285",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5e2b5b29_r4_p1",
+        "origin_id": "tatqa_5e2b5b29-e0c9-4abb-935e-a3fc13d18285",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ee312f2a_r2_p0",
+        "origin_id": "tatqa_ee312f2a-0b31-4f27-838d-8244e5e46ce5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ee312f2a_r3_p1",
+        "origin_id": "tatqa_ee312f2a-0b31-4f27-838d-8244e5e46ce5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5628f806_r1_p0",
+        "origin_id": "tatqa_5628f806-5eff-4b35-8951-785a2669f0db",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5628f806_r2_p1",
+        "origin_id": "tatqa_5628f806-5eff-4b35-8951-785a2669f0db",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_31b59507_r1_p0",
+        "origin_id": "tatqa_31b59507-dcb1-41cf-8752-e2bb17dd62db",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_31b59507_r2_p1",
+        "origin_id": "tatqa_31b59507-dcb1-41cf-8752-e2bb17dd62db",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d8662c4b_r3_p0",
+        "origin_id": "tatqa_d8662c4b-5f96-400b-8cd4-ff7b1f585bca",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d8662c4b_r4_p1",
+        "origin_id": "tatqa_d8662c4b-5f96-400b-8cd4-ff7b1f585bca",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_99a0fe81_r1_p0",
+        "origin_id": "tatqa_99a0fe81-7855-45b6-b157-3f9439abf3ca",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_99a0fe81_r2_p1",
+        "origin_id": "tatqa_99a0fe81-7855-45b6-b157-3f9439abf3ca",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d7990183_r2_p0",
+        "origin_id": "tatqa_d7990183-3079-4e28-975b-bd60cafdcd1d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d7990183_r4_p1",
+        "origin_id": "tatqa_d7990183-3079-4e28-975b-bd60cafdcd1d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_f47d9a01_r1_p0",
+        "origin_id": "tatqa_f47d9a01-a25d-436c-a28b-7aa04e2df491",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_f47d9a01_r2_p1",
+        "origin_id": "tatqa_f47d9a01-a25d-436c-a28b-7aa04e2df491",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_77391fcc_r1_p0",
+        "origin_id": "tatqa_77391fcc-be7b-4d28-81ab-072bc448c4e1",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_77391fcc_r2_p1",
+        "origin_id": "tatqa_77391fcc-be7b-4d28-81ab-072bc448c4e1",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ffc5e1e0_r2_p0",
+        "origin_id": "tatqa_ffc5e1e0-e7bf-4b8f-b60e-ace472695a1e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ffc5e1e0_r3_p1",
+        "origin_id": "tatqa_ffc5e1e0-e7bf-4b8f-b60e-ace472695a1e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_46557a47_r1_p0",
+        "origin_id": "tatqa_46557a47-26a7-45f2-901d-3398aa4aabdb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_46557a47_r2_p1",
+        "origin_id": "tatqa_46557a47-26a7-45f2-901d-3398aa4aabdb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d2647217_r3_p0",
+        "origin_id": "tatqa_d2647217-3696-4ec0-ad69-a3db3626c707",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d2647217_r4_p1",
+        "origin_id": "tatqa_d2647217-3696-4ec0-ad69-a3db3626c707",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_532c14a5_r2_p0",
+        "origin_id": "tatqa_532c14a5-b085-4383-9f4e-76b75969629e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_532c14a5_r3_p1",
+        "origin_id": "tatqa_532c14a5-b085-4383-9f4e-76b75969629e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8e0e12f7_r2_p0",
+        "origin_id": "tatqa_8e0e12f7-ed7e-4a32-8a9e-7eeddc77f55d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8e0e12f7_r3_p1",
+        "origin_id": "tatqa_8e0e12f7-ed7e-4a32-8a9e-7eeddc77f55d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_3e4f4b3e_r2_p0",
+        "origin_id": "tatqa_3e4f4b3e-0aa6-4e5f-9103-5f1155d27e75",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_3e4f4b3e_r3_p1",
+        "origin_id": "tatqa_3e4f4b3e-0aa6-4e5f-9103-5f1155d27e75",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_0012a118_r3_p0",
+        "origin_id": "tatqa_0012a118-070e-43bf-a23c-19fe94cee4e9",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_0012a118_r4_p1",
+        "origin_id": "tatqa_0012a118-070e-43bf-a23c-19fe94cee4e9",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_61068531_r1_p0",
+        "origin_id": "tatqa_61068531-0af5-41bd-b5ea-17bfb06c8358",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_61068531_r2_p1",
+        "origin_id": "tatqa_61068531-0af5-41bd-b5ea-17bfb06c8358",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8ee550f6_r1_p0",
+        "origin_id": "tatqa_8ee550f6-e032-47dc-928b-078b62ee9aa1",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8ee550f6_r2_p1",
+        "origin_id": "tatqa_8ee550f6-e032-47dc-928b-078b62ee9aa1",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b19757bf_r1_p0",
+        "origin_id": "tatqa_b19757bf-8a8a-428b-9dcc-8179595064ae",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b19757bf_r2_p1",
+        "origin_id": "tatqa_b19757bf-8a8a-428b-9dcc-8179595064ae",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b6d52f9f_r2_p0",
+        "origin_id": "tatqa_b6d52f9f-c989-4f47-9842-3d74c469d9cd",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b6d52f9f_r3_p1",
+        "origin_id": "tatqa_b6d52f9f-c989-4f47-9842-3d74c469d9cd",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8df5c241_r2_p0",
+        "origin_id": "tatqa_8df5c241-c68c-427a-99af-30c44214199b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8df5c241_r3_p1",
+        "origin_id": "tatqa_8df5c241-c68c-427a-99af-30c44214199b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c8be67ee_r4_p0",
+        "origin_id": "tatqa_c8be67ee-0783-4428-b9f0-0458f8725da6",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c8be67ee_r6_p1",
+        "origin_id": "tatqa_c8be67ee-0783-4428-b9f0-0458f8725da6",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9d032108_r2_p0",
+        "origin_id": "tatqa_9d032108-437d-4368-908d-214aa2f26d0e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9d032108_r4_p1",
+        "origin_id": "tatqa_9d032108-437d-4368-908d-214aa2f26d0e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_460b737c_r2_p0",
+        "origin_id": "tatqa_460b737c-4b0c-4c5a-8f73-e5b3b8d42cec",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_460b737c_r3_p1",
+        "origin_id": "tatqa_460b737c-4b0c-4c5a-8f73-e5b3b8d42cec",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_538ada9e_r3_p0",
+        "origin_id": "tatqa_538ada9e-1c28-447d-9ff7-b12995c2432d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_538ada9e_r4_p1",
+        "origin_id": "tatqa_538ada9e-1c28-447d-9ff7-b12995c2432d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_76ce05c3_r2_p0",
+        "origin_id": "tatqa_76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_76ce05c3_r4_p1",
+        "origin_id": "tatqa_76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_43155e3f_r1_p0",
+        "origin_id": "tatqa_43155e3f-2a04-47a3-8dee-0f8c63e028f1",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_43155e3f_r2_p1",
+        "origin_id": "tatqa_43155e3f-2a04-47a3-8dee-0f8c63e028f1",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ce8bc5c1_r1_p0",
+        "origin_id": "tatqa_ce8bc5c1-9b3b-458b-bd12-9d4e2ab4e2c9",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ce8bc5c1_r2_p1",
+        "origin_id": "tatqa_ce8bc5c1-9b3b-458b-bd12-9d4e2ab4e2c9",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d7ec8bf0_r1_p0",
+        "origin_id": "tatqa_d7ec8bf0-ec91-4a6d-86a1-7bcc87bd37cc",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d7ec8bf0_r2_p1",
+        "origin_id": "tatqa_d7ec8bf0-ec91-4a6d-86a1-7bcc87bd37cc",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_2889dd15_r1_p0",
+        "origin_id": "tatqa_2889dd15-8bc7-48bd-aa31-dcc40efd67f7",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_2889dd15_r2_p1",
+        "origin_id": "tatqa_2889dd15-8bc7-48bd-aa31-dcc40efd67f7",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5c088a56_r1_p0",
+        "origin_id": "tatqa_5c088a56-074d-49d0-af03-68c2d6a4c346",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5c088a56_r2_p1",
+        "origin_id": "tatqa_5c088a56-074d-49d0-af03-68c2d6a4c346",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_cb626a5c_r1_p0",
+        "origin_id": "tatqa_cb626a5c-7b30-46ef-b0a7-971bc2196678",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_cb626a5c_r2_p1",
+        "origin_id": "tatqa_cb626a5c-7b30-46ef-b0a7-971bc2196678",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_276d4eff_r2_p0",
+        "origin_id": "tatqa_276d4eff-6476-4a1a-9e2c-188a80d79445",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_276d4eff_r3_p1",
+        "origin_id": "tatqa_276d4eff-6476-4a1a-9e2c-188a80d79445",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_6b250bb5_r1_p0",
+        "origin_id": "tatqa_6b250bb5-2435-4e4a-b799-5bd331232a20",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_6b250bb5_r2_p1",
+        "origin_id": "tatqa_6b250bb5-2435-4e4a-b799-5bd331232a20",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_72b79d03_r2_p0",
+        "origin_id": "tatqa_72b79d03-72a0-42ec-8b86-eaec5b850e29",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_72b79d03_r3_p1",
+        "origin_id": "tatqa_72b79d03-72a0-42ec-8b86-eaec5b850e29",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_99a3fe4e_r1_p0",
+        "origin_id": "tatqa_99a3fe4e-1302-42ff-b0ae-4bf7ef0b3934",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_99a3fe4e_r2_p1",
+        "origin_id": "tatqa_99a3fe4e-1302-42ff-b0ae-4bf7ef0b3934",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_a3c80b34_r1_p0",
+        "origin_id": "tatqa_a3c80b34-7e97-44e3-a07e-5b6999e5113b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_a3c80b34_r2_p1",
+        "origin_id": "tatqa_a3c80b34-7e97-44e3-a07e-5b6999e5113b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_008eaf4e_r1_p0",
+        "origin_id": "tatqa_008eaf4e-4d70-496b-aa25-b842b05a3560",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_008eaf4e_r2_p1",
+        "origin_id": "tatqa_008eaf4e-4d70-496b-aa25-b842b05a3560",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_32cfcadb_r2_p0",
+        "origin_id": "tatqa_32cfcadb-add0-4cc1-9956-41ac073477c4",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_32cfcadb_r3_p1",
+        "origin_id": "tatqa_32cfcadb-add0-4cc1-9956-41ac073477c4",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_610d99f0_r2_p0",
+        "origin_id": "tatqa_610d99f0-250a-474a-b1bc-d791058d006c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_610d99f0_r3_p1",
+        "origin_id": "tatqa_610d99f0-250a-474a-b1bc-d791058d006c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9c69cfbe_r1_p0",
+        "origin_id": "tatqa_9c69cfbe-0c76-4cca-9eef-f41fee959c8a",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9c69cfbe_r2_p1",
+        "origin_id": "tatqa_9c69cfbe-0c76-4cca-9eef-f41fee959c8a",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8dd62c68_r1_p0",
+        "origin_id": "tatqa_8dd62c68-2768-48e1-b28a-9c7169fff905",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8dd62c68_r2_p1",
+        "origin_id": "tatqa_8dd62c68-2768-48e1-b28a-9c7169fff905",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_7378cf39_r3_p0",
+        "origin_id": "tatqa_7378cf39-2abb-43cd-8b03-00ddc98f9fa5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_7378cf39_r4_p1",
+        "origin_id": "tatqa_7378cf39-2abb-43cd-8b03-00ddc98f9fa5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e0689072_r1_p0",
+        "origin_id": "tatqa_e0689072-72ba-4979-962a-bb128539defb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e0689072_r3_p1",
+        "origin_id": "tatqa_e0689072-72ba-4979-962a-bb128539defb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8cbf706f_r1_p0",
+        "origin_id": "tatqa_8cbf706f-066a-46a3-a6aa-e5b1df0facd1",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8cbf706f_r5_p1",
+        "origin_id": "tatqa_8cbf706f-066a-46a3-a6aa-e5b1df0facd1",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d21abb01_r1_p0",
+        "origin_id": "tatqa_d21abb01-5bda-4a72-be49-e43a9d41c723",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d21abb01_r3_p1",
+        "origin_id": "tatqa_d21abb01-5bda-4a72-be49-e43a9d41c723",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c9ad526f_r1_p0",
+        "origin_id": "tatqa_c9ad526f-6bbf-4410-afbd-af41337b5067",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c9ad526f_r2_p1",
+        "origin_id": "tatqa_c9ad526f-6bbf-4410-afbd-af41337b5067",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_51c8eba0_r3_p0",
+        "origin_id": "tatqa_51c8eba0-1876-42aa-afdb-d18741b2fe7b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_51c8eba0_r4_p1",
+        "origin_id": "tatqa_51c8eba0-1876-42aa-afdb-d18741b2fe7b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_a824b7af_r1_p0",
+        "origin_id": "tatqa_a824b7af-61e8-4800-83c6-72e56e64a36d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_a824b7af_r2_p1",
+        "origin_id": "tatqa_a824b7af-61e8-4800-83c6-72e56e64a36d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_403e498a_r2_p0",
+        "origin_id": "tatqa_403e498a-59a2-4d4f-b560-a7ca853d6dc2",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_403e498a_r3_p1",
+        "origin_id": "tatqa_403e498a-59a2-4d4f-b560-a7ca853d6dc2",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_97176853_r2_p0",
+        "origin_id": "tatqa_97176853-a81e-422a-a8c1-e0542348d051",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_97176853_r3_p1",
+        "origin_id": "tatqa_97176853-a81e-422a-a8c1-e0542348d051",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_4565ded8_r2_p0",
+        "origin_id": "tatqa_4565ded8-5e2e-4cd7-beab-6da622434396",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_4565ded8_r3_p1",
+        "origin_id": "tatqa_4565ded8-5e2e-4cd7-beab-6da622434396",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e0fb3736_r1_p0",
+        "origin_id": "tatqa_e0fb3736-71df-4e95-a40f-77ba0cce3487",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e0fb3736_r2_p1",
+        "origin_id": "tatqa_e0fb3736-71df-4e95-a40f-77ba0cce3487",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b538d340_r2_p0",
+        "origin_id": "tatqa_b538d340-dfca-4f89-a59f-01fc1bb35184",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b538d340_r3_p1",
+        "origin_id": "tatqa_b538d340-dfca-4f89-a59f-01fc1bb35184",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_52d79de5_r1_p0",
+        "origin_id": "tatqa_52d79de5-c56a-4c91-b47d-58fb05a109bf",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_52d79de5_r2_p1",
+        "origin_id": "tatqa_52d79de5-c56a-4c91-b47d-58fb05a109bf",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_334d9b85_r2_p0",
+        "origin_id": "tatqa_334d9b85-ec0c-4783-81d7-64259a410b16",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_334d9b85_r3_p1",
+        "origin_id": "tatqa_334d9b85-ec0c-4783-81d7-64259a410b16",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_f3bb2fbf_r2_p0",
+        "origin_id": "tatqa_f3bb2fbf-7b9c-43fc-a262-2e899947bf9e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_f3bb2fbf_r3_p1",
+        "origin_id": "tatqa_f3bb2fbf-7b9c-43fc-a262-2e899947bf9e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_3ab739eb_r2_p0",
+        "origin_id": "tatqa_3ab739eb-c0d7-44f5-9377-b8a02bafb361",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_3ab739eb_r3_p1",
+        "origin_id": "tatqa_3ab739eb-c0d7-44f5-9377-b8a02bafb361",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b4129e1f_r2_p0",
+        "origin_id": "tatqa_b4129e1f-efcb-4157-9996-5389b83de63e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b4129e1f_r3_p1",
+        "origin_id": "tatqa_b4129e1f-efcb-4157-9996-5389b83de63e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_41b215e5_r1_p0",
+        "origin_id": "tatqa_41b215e5-024b-478e-bc05-5804ad02169a",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_41b215e5_r2_p1",
+        "origin_id": "tatqa_41b215e5-024b-478e-bc05-5804ad02169a",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e1754270_r1_p0",
+        "origin_id": "tatqa_e1754270-0867-4525-876e-5579322d3fa5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e1754270_r2_p1",
+        "origin_id": "tatqa_e1754270-0867-4525-876e-5579322d3fa5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b5aae4e9_r1_p0",
+        "origin_id": "tatqa_b5aae4e9-040d-4e55-a42d-39cde217978f",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_b5aae4e9_r2_p1",
+        "origin_id": "tatqa_b5aae4e9-040d-4e55-a42d-39cde217978f",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ee496e48_r1_p0",
+        "origin_id": "tatqa_ee496e48-bec3-45e2-b4d9-3986d90d98fe",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ee496e48_r2_p1",
+        "origin_id": "tatqa_ee496e48-bec3-45e2-b4d9-3986d90d98fe",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_7f675606_r2_p0",
+        "origin_id": "tatqa_7f675606-2b0b-4ddf-9d0a-a46b3fb542c5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_7f675606_r5_p1",
+        "origin_id": "tatqa_7f675606-2b0b-4ddf-9d0a-a46b3fb542c5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_24198a1c_r3_p0",
+        "origin_id": "tatqa_24198a1c-0f45-4c32-92ba-98c6cfde01fe",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_24198a1c_r4_p1",
+        "origin_id": "tatqa_24198a1c-0f45-4c32-92ba-98c6cfde01fe",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_0992660b_r1_p0",
+        "origin_id": "tatqa_0992660b-76ed-46a1-92eb-e91977f6f381",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_0992660b_r2_p1",
+        "origin_id": "tatqa_0992660b-76ed-46a1-92eb-e91977f6f381",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_cb8b0774_r3_p0",
+        "origin_id": "tatqa_cb8b0774-53b1-4e33-9cf1-a7c1dac2f224",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_cb8b0774_r4_p1",
+        "origin_id": "tatqa_cb8b0774-53b1-4e33-9cf1-a7c1dac2f224",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_805e19ed_r2_p0",
+        "origin_id": "tatqa_805e19ed-e861-4da5-a412-3e8a85aff770",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_805e19ed_r3_p1",
+        "origin_id": "tatqa_805e19ed-e861-4da5-a412-3e8a85aff770",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d15a82c3_r2_p0",
+        "origin_id": "tatqa_d15a82c3-024f-4e9c-a461-59e24bd95987",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_d15a82c3_r3_p1",
+        "origin_id": "tatqa_d15a82c3-024f-4e9c-a461-59e24bd95987",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_58567520_r1_p0",
+        "origin_id": "tatqa_58567520-c343-43fd-b803-bc078bb77c87",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_58567520_r2_p1",
+        "origin_id": "tatqa_58567520-c343-43fd-b803-bc078bb77c87",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ce09caff_r1_p0",
+        "origin_id": "tatqa_ce09caff-769d-498f-9e5d-09dc1e741d70",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ce09caff_r2_p1",
+        "origin_id": "tatqa_ce09caff-769d-498f-9e5d-09dc1e741d70",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5e94ca98_r1_p0",
+        "origin_id": "tatqa_5e94ca98-0b87-4ad5-a7ad-6bed5d3b4be2",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5e94ca98_r2_p1",
+        "origin_id": "tatqa_5e94ca98-0b87-4ad5-a7ad-6bed5d3b4be2",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_32c45a53_r1_p0",
+        "origin_id": "tatqa_32c45a53-b1b5-46b6-a519-8f7bbbddf93f",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_32c45a53_r2_p1",
+        "origin_id": "tatqa_32c45a53-b1b5-46b6-a519-8f7bbbddf93f",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_0bf3d7a7_r2_p0",
+        "origin_id": "tatqa_0bf3d7a7-f26b-497b-babe-b2361f84f6fb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_0bf3d7a7_r3_p1",
+        "origin_id": "tatqa_0bf3d7a7-f26b-497b-babe-b2361f84f6fb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_20a028a0_r1_p0",
+        "origin_id": "tatqa_20a028a0-5e02-4df0-99ba-ed59ab345e5a",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_20a028a0_r2_p1",
+        "origin_id": "tatqa_20a028a0-5e02-4df0-99ba-ed59ab345e5a",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_cfe0ee38_r1_p0",
+        "origin_id": "tatqa_cfe0ee38-48b2-46d2-8920-e423fc6c91ac",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_cfe0ee38_r2_p1",
+        "origin_id": "tatqa_cfe0ee38-48b2-46d2-8920-e423fc6c91ac",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c83c3a82_r1_p0",
+        "origin_id": "tatqa_c83c3a82-fb5e-403b-a73b-d3b1628092ef",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c83c3a82_r2_p1",
+        "origin_id": "tatqa_c83c3a82-fb5e-403b-a73b-d3b1628092ef",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_0f69ef4a_r1_p0",
+        "origin_id": "tatqa_0f69ef4a-6d23-4e5e-9781-dbd44d5b99a0",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_0f69ef4a_r2_p1",
+        "origin_id": "tatqa_0f69ef4a-6d23-4e5e-9781-dbd44d5b99a0",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_40a7da40_r3_p0",
+        "origin_id": "tatqa_40a7da40-c983-486f-9c32-8a3559c757c6",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_40a7da40_r4_p1",
+        "origin_id": "tatqa_40a7da40-c983-486f-9c32-8a3559c757c6",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_dc50b42b_r2_p0",
+        "origin_id": "tatqa_dc50b42b-1520-49c0-a9ae-49249bcc9221",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_dc50b42b_r3_p1",
+        "origin_id": "tatqa_dc50b42b-1520-49c0-a9ae-49249bcc9221",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c3a02c86_r2_p0",
+        "origin_id": "tatqa_c3a02c86-f7f6-495c-8de2-a74c48f11905",
+        "resolution_class": "scale_identity",
+        "resolved_target_unit": "million",
+        "result_unit_semantics": "million",
+        "source_unit_state": "million"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c3a02c86_r3_p1",
+        "origin_id": "tatqa_c3a02c86-f7f6-495c-8de2-a74c48f11905",
+        "resolution_class": "scale_identity",
+        "resolved_target_unit": "million",
+        "result_unit_semantics": "million",
+        "source_unit_state": "million"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_1b90541f_r3_p0",
+        "origin_id": "tatqa_1b90541f-9a34-43a2-8fab-ebd84d49dbe0",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_1b90541f_r4_p1",
+        "origin_id": "tatqa_1b90541f-9a34-43a2-8fab-ebd84d49dbe0",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_0131320a_r3_p0",
+        "origin_id": "tatqa_0131320a-1ed4-470e-90f8-7a68e9c8c766",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_0131320a_r6_p1",
+        "origin_id": "tatqa_0131320a-1ed4-470e-90f8-7a68e9c8c766",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8749fc7b_r2_p0",
+        "origin_id": "tatqa_8749fc7b-19fb-4014-8eed-f96a05da50cf",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8749fc7b_r3_p1",
+        "origin_id": "tatqa_8749fc7b-19fb-4014-8eed-f96a05da50cf",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_13bb283b_r1_p0",
+        "origin_id": "tatqa_13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_13bb283b_r2_p1",
+        "origin_id": "tatqa_13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ba26cd64_r1_p0",
+        "origin_id": "tatqa_ba26cd64-e448-4ffb-bfaa-c6ad4760fba7",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ba26cd64_r2_p1",
+        "origin_id": "tatqa_ba26cd64-e448-4ffb-bfaa-c6ad4760fba7",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_bcbd7783_r1_p0",
+        "origin_id": "tatqa_bcbd7783-86ad-430d-aa96-48808bb0426c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_bcbd7783_r2_p1",
+        "origin_id": "tatqa_bcbd7783-86ad-430d-aa96-48808bb0426c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c29582f8_r2_p0",
+        "origin_id": "tatqa_c29582f8-d95d-480c-8daf-320273546471",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_c29582f8_r3_p1",
+        "origin_id": "tatqa_c29582f8-d95d-480c-8daf-320273546471",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_1b2ca134_r2_p0",
+        "origin_id": "tatqa_1b2ca134-09ae-4936-bc3d-453699823f6e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_1b2ca134_r4_p1",
+        "origin_id": "tatqa_1b2ca134-09ae-4936-bc3d-453699823f6e",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_daf81839_r2_p0",
+        "origin_id": "tatqa_daf81839-002f-40c2-8067-b4ad7eaf1517",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_daf81839_r3_p1",
+        "origin_id": "tatqa_daf81839-002f-40c2-8067-b4ad7eaf1517",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_65cde743_r1_p0",
+        "origin_id": "tatqa_65cde743-18a6-418f-8f5a-000660a38cdf",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_65cde743_r2_p1",
+        "origin_id": "tatqa_65cde743-18a6-418f-8f5a-000660a38cdf",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_53eec737_r3_p0",
+        "origin_id": "tatqa_53eec737-630e-4915-afbb-8c20cdd01263",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_53eec737_r5_p1",
+        "origin_id": "tatqa_53eec737-630e-4915-afbb-8c20cdd01263",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e8877535_r1_p0",
+        "origin_id": "tatqa_e8877535-8ade-4ba3-aae2-cd4db2b5c59c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e8877535_r2_p1",
+        "origin_id": "tatqa_e8877535-8ade-4ba3-aae2-cd4db2b5c59c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8edfdb1c_r2_p0",
+        "origin_id": "tatqa_8edfdb1c-3d22-496f-b6ba-f3ea45cf6151",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8edfdb1c_r3_p1",
+        "origin_id": "tatqa_8edfdb1c-3d22-496f-b6ba-f3ea45cf6151",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e573a09b_r1_p0",
+        "origin_id": "tatqa_e573a09b-3053-4c6e-9766-3cce1d2c087d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_e573a09b_r2_p1",
+        "origin_id": "tatqa_e573a09b-3053-4c6e-9766-3cce1d2c087d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5e60c056_r1_p0",
+        "origin_id": "tatqa_5e60c056-5073-441d-8525-7f834deb5c64",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_5e60c056_r2_p1",
+        "origin_id": "tatqa_5e60c056-5073-441d-8525-7f834deb5c64",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_6aa15859_r4_p0",
+        "origin_id": "tatqa_6aa15859-a841-47eb-ad04-a441599cf05c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_6aa15859_r5_p1",
+        "origin_id": "tatqa_6aa15859-a841-47eb-ad04-a441599cf05c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ff281ea5_r2_p0",
+        "origin_id": "tatqa_ff281ea5-25cf-4e1d-b7f5-f0dc51a40f25",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_ff281ea5_r3_p1",
+        "origin_id": "tatqa_ff281ea5-25cf-4e1d-b7f5-f0dc51a40f25",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_6ea63cce_r1_p0",
+        "origin_id": "tatqa_6ea63cce-37b7-4210-b446-952afde67eb5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_6ea63cce_r2_p1",
+        "origin_id": "tatqa_6ea63cce-37b7-4210-b446-952afde67eb5",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_a5fb7f90_r3_p0",
+        "origin_id": "tatqa_a5fb7f90-4f37-460a-886e-13195f501f1b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_a5fb7f90_r4_p1",
+        "origin_id": "tatqa_a5fb7f90-4f37-460a-886e-13195f501f1b",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8b2c7a63_r3_p0",
+        "origin_id": "tatqa_8b2c7a63-0dc5-4a6f-83f1-6f9b27a8016c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_8b2c7a63_r4_p1",
+        "origin_id": "tatqa_8b2c7a63-0dc5-4a6f-83f1-6f9b27a8016c",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_88097457_r2_p0",
+        "origin_id": "tatqa_88097457-b056-45fb-bb8d-9106df18df0d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_88097457_r3_p1",
+        "origin_id": "tatqa_88097457-b056-45fb-bb8d-9106df18df0d",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9b0abd12_r2_p0",
+        "origin_id": "tatqa_9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      },
+      {
+        "gold_delta_source_unit_is_numeric": true,
+        "item_id": "wp2_9b0abd12_r3_p1",
+        "origin_id": "tatqa_9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+        "resolution_class": "identity_unit",
+        "resolved_target_unit": "unit",
+        "result_unit_semantics": "unit",
+        "source_unit_state": "null"
+      }
+    ]
+  },
+  "task": "tatqa-wp2-f5-20261013"
+}

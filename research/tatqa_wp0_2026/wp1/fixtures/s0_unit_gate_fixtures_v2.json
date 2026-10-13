@@ -1,0 +1,105 @@
+{
+  "schema": "tatqa_wp1_s0_unit_gate_fixtures_v2",
+  "status": "SYNTHETIC_FIXTURE_ONLY",
+  "cases": [
+    {
+      "case_id": "equivalent_form_same_scale_wrong_unit",
+      "item": {
+        "item_id": "synthetic_item_s0_unit_gate_1",
+        "origin_id": "synthetic_origin_s0_unit_gate_1",
+        "table": [
+          [
+            "",
+            "2024",
+            "2023"
+          ],
+          [
+            "Revenue",
+            "100",
+            "40"
+          ]
+        ],
+        "row_index": 1,
+        "period_late": {
+          "col": 1,
+          "label": "2024"
+        },
+        "period_early": {
+          "col": 2,
+          "label": "2023"
+        },
+        "source_unit": "unit",
+        "target_unit": "unit",
+        "requested_quantity": "increase"
+      },
+      "answer": "{\"row\":\"Revenue\",\"periods\":[\"2023\",\"2024\"],\"delta_source\":-60,\"delta_target\":-60,\"unit\":\"thousand\"}",
+      "expected_outcome": "wrong_unit"
+    },
+    {
+      "case_id": "thousand_to_unit_equivalent_form_wrong_unit",
+      "item": {
+        "item_id": "synthetic_item_s0_unit_gate_2",
+        "origin_id": "synthetic_origin_s0_unit_gate_2",
+        "table": [
+          [
+            "",
+            "2025",
+            "2024"
+          ],
+          [
+            "Revenue",
+            "2.5",
+            "1.2"
+          ]
+        ],
+        "row_index": 1,
+        "period_late": {
+          "col": 1,
+          "label": "2025"
+        },
+        "period_early": {
+          "col": 2,
+          "label": "2024"
+        },
+        "source_unit": "thousand",
+        "target_unit": "unit",
+        "requested_quantity": "increase"
+      },
+      "answer": "{\"row\":\"Revenue\",\"periods\":[\"2024\",\"2025\"],\"delta_source\":-1.3,\"delta_target\":-1300,\"unit\":\"thousand\"}",
+      "expected_outcome": "wrong_unit"
+    },
+    {
+      "case_id": "thousand_to_unit_equivalent_form_valid_unit",
+      "item": {
+        "item_id": "synthetic_item_s0_unit_gate_3",
+        "origin_id": "synthetic_origin_s0_unit_gate_3",
+        "table": [
+          [
+            "",
+            "2025",
+            "2024"
+          ],
+          [
+            "Revenue",
+            "2.5",
+            "1.2"
+          ]
+        ],
+        "row_index": 1,
+        "period_late": {
+          "col": 1,
+          "label": "2025"
+        },
+        "period_early": {
+          "col": 2,
+          "label": "2024"
+        },
+        "source_unit": "thousand",
+        "target_unit": "unit",
+        "requested_quantity": "increase"
+      },
+      "answer": "{\"row\":\"Revenue\",\"periods\":[\"2024\",\"2025\"],\"delta_source\":-1.3,\"delta_target\":-1300,\"unit\":\"unit\"}",
+      "expected_outcome": "correct_other_form"
+    }
+  ]
+}

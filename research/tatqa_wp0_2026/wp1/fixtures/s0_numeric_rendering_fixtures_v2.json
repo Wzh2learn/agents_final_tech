@@ -1,0 +1,31 @@
+{
+  "schema": "tatqa_wp1_s0_numeric_rendering_fixtures_v2",
+  "status": "SYNTHETIC_FIXTURE_ONLY",
+  "cases": [
+    {
+      "case_id": "comma_grouped_1300",
+      "needle": "1,300",
+      "must_match": true
+    },
+    {
+      "case_id": "scientific_1300",
+      "needle": "1.3e3",
+      "must_match": true
+    },
+    {
+      "case_id": "zero_padded_1300",
+      "needle": "001300",
+      "must_match": true
+    },
+    {
+      "case_id": "negative_comma_grouped_1300",
+      "needle": "-1,300",
+      "must_match": true
+    },
+    {
+      "case_id": "negative_scientific_1300",
+      "needle": "-1.3e3",
+      "must_match": true
+    }
+  ]
+}
