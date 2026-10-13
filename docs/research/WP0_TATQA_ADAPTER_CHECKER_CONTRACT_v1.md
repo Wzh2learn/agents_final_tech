@@ -1,6 +1,6 @@
 # WP-0 TAT-QA Adapter and Checker Contracts v1
 
-> date: 2026-10-13 | author: Loop D (WP-0 item A5) | status: `SPECIFICATION_ONLY - NOT IMPLEMENTED` | revision 1.1 (2026-10-13): hidden-gold search clarified (Sec.4)
+> date: 2026-10-13 | author: Loop D (WP-0 item A5) | status: `SPECIFICATION_ONLY - NOT IMPLEMENTED` | revisions 1.1-1.2 (2026-10-13): hidden-gold search clarified and canonicalized (Sec.4-5)
 > parents: [WP0_TATQA_PACKAGE_v1.md](WP0_TATQA_PACKAGE_v1.md), [task card](thesis_experience_v1_task_card.md), [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md) §2
 > These contracts describe what Loop A must implement in WP-1. Nothing here is code, and nothing here authorises a run.
 
@@ -66,3 +66,16 @@ On synthetic fixtures only, Loop A must show:
 (d) Fixture-design precondition (makes (b) informative rather than vacuous): for every fixture, the same boundary-aware search over the raw table cells and period labels alone must also find zero matches; if a collision exists, the fixture's synthetic numbers must be adjusted (keeping the arithmetic correct) - never the check.
 
 **Change control:** this revision does not weaken (a)-(d); it makes the search well-defined and extends its scope to all fixtures. Any further failure of this obligation after this revision is a genuine finding.
+
+## 5. Revision 1.2 (2026-10-13): leak-guard canonicalization + taxonomy/receipt precision
+
+**Trigger:** Loop C WP-1 audit (`tatqa-wp1-audit-20261013`, CONDITIONAL) found: (i) the hidden-gold needle rendered `1300.0` where 1.1(b) names `1300` (latent false-negative, positive-control proven); (ii) the emitted outcome vocabulary (`wrong`) is a superset of the declared taxonomy, and `regressed` excludes refused/unknown; (iii) safety booleans are recorded as literal self-attestation rather than derived evidence; (iv) `FIXTURE_RECEIPT` has no integrity pin and its canonical path needs stating; (v) `target_unit` is absent from all 60 frozen candidates (identity conversions only) and `gold_delta_source_unit` is a naming trap - both to be resolved at prereg/item-freeze.
+
+**Revision (supersedes 1.1(b),(d); extends the taxonomy; nothing is weakened):**
+
+(a) **Chosen form.** The answer-value needle is the canonical plain-decimal form of `delta_source` and `delta_target`: no trailing zeros, no exponent (for example `60`, `-55`, `1.3`, `3`, `1300`). Where the exact `str(value)` render differs (for example `1300.0`), BOTH forms are searched.
+(b) **Positive control (mandatory).** The check must include a self-test that injects each needle into a synthetic projection and asserts the guard fires; a guard that cannot catch its own injected leak fails the obligation. At minimum cover the `1300`/`1300.0` pair and one negative value.
+(c) **Coverage.** The byte-determinism obligation applies to EVERY fixture and ALL four arms (B/E/C/S), not one item and one arm.
+(d) **Outcome vocabulary (eight classes).** `correct`, `correct_other_form`, `wrong_unit`, `wrong_period`, `wrong` (answered and parseable, neither correct nor a specific wrong_* class), `regressed`, `refused`, `unknown`. `regressed` is assigned by the B-vs-arm comparison when a B-correct outcome becomes non-correct other than `refused`/`unknown`; refusals and unknowns remain first-class.
+(e) **Receipts.** Every safety boolean is either derived from executed behaviour or explicitly labelled `attested: true`; `scoring_inputs_all_synthetic` must be derived. `WP1_RECEIPT.artifact_hashes` must include the `FIXTURE_RECEIPT` hash. The canonical `FIXTURE_RECEIPT` path is `data/research/tatqa_wp0_2026/wp1/FIXTURE_RECEIPT.json`; the copy under `research/tatqa_wp0_2026/wp1/` is a byte-identical mirror for tracking.
+(f) **Known traps recorded for the prereg.** `gold_delta_source_unit` stores a delta VALUE in source units (the name is not a unit string); `target_unit` is absent from the frozen candidate items, so every conversion is currently the identity - a target-unit assignment decision is PENDING at item freeze.
