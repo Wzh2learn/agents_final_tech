@@ -19,11 +19,25 @@ DATA_OUT_DIR = REPO_ROOT / "data/research/tatqa_wp0_2026/wp1"
 FIXTURE_PATH = WORK_DIR / "fixtures/synthetic_fixtures.json"
 PREFLIGHT_PATH = WORK_DIR / "PREFLIGHT_RECEIPT.json"
 FIXTURE_RECEIPT_PATH = DATA_OUT_DIR / "FIXTURE_RECEIPT.json"
+FIXTURE_RECEIPT_MIRROR_PATH = WORK_DIR / "FIXTURE_RECEIPT.json"
 PREREG_PATH = WORK_DIR / "PREREG_DRAFT_SKELETON.md"
 WP1_RECEIPT_PATH = WORK_DIR / "WP1_RECEIPT.json"
-RUN_ID = "tatqa-wp1b-20261013"
+RUN_ID = "tatqa-wp1c-20261013"
+SPEC_REVISION = "1.2"
 START_UTC = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 BOUNDARY_CHARACTERS = frozenset("0123456789.,+-")
+SCORE_ITEM_CALL_LOG: list[dict[str, Any]] = []
+SYNTHETIC_FIXTURE_IDS = frozenset(
+    {
+        "normal_unit",
+        "parentheses_negative",
+        "thousands_separator",
+        "thousand_to_unit",
+        "million_to_thousand",
+        "billion_to_million",
+        "percent_to_percent",
+    }
+)
 PINNED_INPUTS = {
     REPO_ROOT / "data/research/tatqa_wp0_2026/candidate_items_v1.json": (
         "bc55fe7a53381f32e5d84ff6c17ced18ec72fd322f98a9f80c4eccb714caac12"
@@ -86,6 +100,14 @@ def _obligation(
     }
 
 
+def _safety_claim(value: bool, basis: str, evidence: Any) -> dict[str, Any]:
+    if basis not in {"derived", "attested: true"}:
+        raise ValueError(f"unsupported safety basis: {basis}")
+    if basis == "attested: true" and value is not True:
+        raise ValueError("attested safety claims must be true")
+    return {"basis": basis, "evidence": evidence, "value": value}
+
+
 def _boundary_aware_matches(serialized_text: str, needle: str) -> list[str]:
     pattern = re.compile(
         rf"(?<![{re.escape(''.join(sorted(BOUNDARY_CHARACTERS)))}])"
@@ -110,21 +132,110 @@ def _raw_projection_values(item: Mapping[str, Any]) -> list[str]:
     return raw_values
 
 
+def canonical_plain_decimal(value: Decimal) -> str:
+    if not isinstance(value, Decimal):
+        raise TypeError("value must be Decimal")
+    if value.is_zero():
+        return "0"
+    rendered = format(value, "f")
+    if "." in rendered:
+        rendered = rendered.rstrip("0").rstrip(".")
+    return rendered
+
+
+def _answer_value_needles(
+    value: Decimal, exact_str: str | None = None
+) -> list[str]:
+    canonical = canonical_plain_decimal(value)
+    forms = [canonical, str(value)]
+    if exact_str is not None:
+        forms.append(str(exact_str))
+    needles: list[str] = []
+    for form in forms:
+        if form not in needles:
+            needles.append(form)
+    return needles
+
+
+def _needle_search(
+    serialized_text: str, needles: list[str]
+) -> dict[str, list[str]]:
+    return {
+        needle: _boundary_aware_matches(serialized_text, needle)
+        for needle in needles
+    }
+
+
+def _score_fixture_item(
+    fixture: Mapping[str, Any], answer: str, call_site: str
+) -> dict[str, str]:
+    item = fixture_item(fixture)
+    item_id = str(item["item_id"])
+    origin_id = str(item["origin_id"])
+    _require(
+        str(fixture["fixture_id"]) in SYNTHETIC_FIXTURE_IDS
+        and fixture["origin_id"] == origin_id
+        and item_id.startswith("synthetic_item_")
+        and origin_id.startswith("synthetic_origin_"),
+        f"non-synthetic scoring input rejected: {item_id} / {origin_id}",
+    )
+    SCORE_ITEM_CALL_LOG.append(
+        {
+            "call_site": call_site,
+            "fixture_id": str(fixture["fixture_id"]),
+            "input_kind": "synthetic_fixture",
+            "item_id": item_id,
+            "origin_id": origin_id,
+        }
+    )
+    return checker.score_item(item, answer)
+
+
 def _check_prompt_byte_determinism(
     fixtures: Mapping[str, Any]
 ) -> Mapping[str, Any]:
-    fixture = fixtures["fixtures"][0]
-    item = fixture_item(fixture)
-    hook = adapter.ContextHook("E", "experience", "synthetic typed placeholder")
-    first = adapter.build_prompt(item, hook).encode("utf-8")
-    second = adapter.build_prompt(item, hook).encode("utf-8")
-    _require(first == second, "same item and arm produced different prompt bytes")
+    context_delta = fixtures["context_delta_fixture"]
+    hook_inputs = {
+        "B": ("none", ""),
+        "E": ("experience", context_delta["e_context"]),
+        "C": ("matched_experience", context_delta["c_context"]),
+        "S": ("static_rules", "Synthetic frozen static-rules placeholder."),
+    }
+    _require(
+        set(hook_inputs) == set(adapter.ARMS) == {"B", "E", "C", "S"},
+        "byte-determinism arm coverage is incomplete",
+    )
+    results = []
+    for fixture in fixtures["fixtures"]:
+        item = fixture_item(fixture)
+        for arm in sorted(hook_inputs):
+            hook_type, context_text = hook_inputs[arm]
+            hook = adapter.ContextHook(arm, hook_type, context_text)
+            first = adapter.build_prompt(item, hook).encode("utf-8")
+            second = adapter.build_prompt(item, hook).encode("utf-8")
+            _require(
+                first == second,
+                f"{fixture['fixture_id']} arm {arm} produced different prompt bytes",
+            )
+            results.append(
+                {
+                    "arm": arm,
+                    "byte_equal": True,
+                    "bytes": len(first),
+                    "first_sha256": hashlib.sha256(first).hexdigest(),
+                    "fixture_id": fixture["fixture_id"],
+                    "second_sha256": hashlib.sha256(second).hexdigest(),
+                }
+            )
+    _require(
+        len(results) == len(fixtures["fixtures"]) * 4,
+        "byte-determinism did not cover every fixture across four arms",
+    )
     return {
-        "fixture_id": fixture["fixture_id"],
-        "first_sha256": hashlib.sha256(first).hexdigest(),
-        "second_sha256": hashlib.sha256(second).hexdigest(),
-        "byte_equal": True,
-        "bytes": len(first),
+        "arms": sorted(hook_inputs),
+        "combination_count": len(results),
+        "fixture_count": len(fixtures["fixtures"]),
+        "results": results,
     }
 
 
@@ -142,38 +253,51 @@ def _check_hidden_gold_search(fixtures: Mapping[str, Any]) -> Mapping[str, Any]:
         item = fixture_item(fixture)
         prompt = adapter.build_prompt(item, adapter.ContextHook("B", "none", ""))
         gold = checker.recompute_gold(item)
-        answer_values = {
-            "delta_source": str(gold.delta_source),
-            "delta_target": str(gold.delta_target),
+        answer_needles = {
+            field: _answer_value_needles(
+                getattr(gold, field), fixture["expected_gold"][field]
+            )
+            for field in ("delta_source", "delta_target")
         }
         forbidden_found = [key for key in forbidden_keys if key in prompt]
         projection_matches = {
-            field: _boundary_aware_matches(prompt, value)
-            for field, value in answer_values.items()
+            field: _needle_search(prompt, needles)
+            for field, needles in answer_needles.items()
         }
         raw_values = _raw_projection_values(item)
         precondition_matches = {
-            field: [
-                raw_value
-                for raw_value in raw_values
-                if _boundary_aware_matches(raw_value, value)
-            ]
-            for field, value in answer_values.items()
+            field: {
+                needle: [
+                    raw_value
+                    for raw_value in raw_values
+                    if _boundary_aware_matches(raw_value, needle)
+                ]
+                for needle in needles
+            }
+            for field, needles in answer_needles.items()
         }
         _require(not forbidden_found, f"{fixture['fixture_id']} hidden keys leaked: {forbidden_found}")
         _require(
-            not any(projection_matches.values()),
+            not any(
+                needle_matches
+                for matches in projection_matches.values()
+                for needle_matches in matches.values()
+            ),
             f"{fixture['fixture_id']} derived answer leaked: {projection_matches}",
         )
         _require(
-            not any(precondition_matches.values()),
+            not any(
+                raw_matches
+                for matches in precondition_matches.values()
+                for raw_matches in matches.values()
+            ),
             f"{fixture['fixture_id']} fixture-design collision: {precondition_matches}",
         )
         results.append(
             {
                 "fixture_id": fixture["fixture_id"],
                 "forbidden_found": forbidden_found,
-                "answer_values": answer_values,
+                "answer_needles": answer_needles,
                 "projection_matches": projection_matches,
                 "fixture_design_precondition_matches": precondition_matches,
                 "clean": True,
@@ -184,8 +308,91 @@ def _check_hidden_gold_search(fixtures: Mapping[str, Any]) -> Mapping[str, Any]:
         "forbidden_keys_checked": forbidden_keys,
         "excluded_hidden_fields": ["late_value", "early_value"],
         "answer_fields_checked": ["delta_source", "delta_target"],
+        "needle_form_policy": [
+            "canonical_plain_decimal",
+            "exact_checker_decimal_str_when_different",
+            "exact_fixture_str_when_different",
+        ],
         "results": results,
         "clean": True,
+    }
+
+
+def _check_hidden_gold_positive_control(
+    fixtures: Mapping[str, Any]
+) -> Mapping[str, Any]:
+    injections: list[dict[str, str]] = [
+        {
+            "case_id": "canonical_1300",
+            "fixture_id": "synthetic_positive_control",
+            "needle": needle,
+            "value_form": form,
+        }
+        for needle, form in zip(
+            _answer_value_needles(Decimal("1300"), "1300.0"),
+            ["canonical", "exact_str"],
+            strict=False,
+        )
+    ]
+    injections.extend(
+        {
+            "case_id": "canonical_negative_55",
+            "fixture_id": "synthetic_positive_control",
+            "needle": needle,
+            "value_form": "canonical" if index == 0 else "exact_str",
+        }
+        for index, needle in enumerate(
+            _answer_value_needles(Decimal("-55"), "-55.0")
+        )
+    )
+    for fixture in fixtures["fixtures"]:
+        gold = checker.recompute_gold(fixture_item(fixture))
+        for field in ("delta_source", "delta_target"):
+            for index, needle in enumerate(
+                _answer_value_needles(
+                    getattr(gold, field), fixture["expected_gold"][field]
+                )
+            ):
+                injections.append(
+                    {
+                        "case_id": f"{fixture['fixture_id']}_{field}_{index}",
+                        "fixture_id": fixture["fixture_id"],
+                        "needle": needle,
+                        "value_form": (
+                            "canonical" if index == 0 else "exact_str"
+                        ),
+                    }
+                )
+    results = []
+    for injection in injections:
+        synthetic_projection = json.dumps(
+            {
+                "evidence": {
+                    "injected_answer_value": injection["needle"],
+                    "table": [["Injected answer value", injection["needle"]]],
+                },
+                "fixture_id": injection["fixture_id"],
+            },
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+        matches = _needle_search(
+            synthetic_projection, [injection["needle"]]
+        )[injection["needle"]]
+        _require(matches, f"silent hidden-gold guard: {injection}")
+        results.append({**injection, "guard_fired": True, "matches": matches})
+    _require(
+        {"1300", "1300.0", "-55"}.issubset(
+            {row["needle"] for row in results}
+        ),
+        "mandatory positive-control needles are missing",
+    )
+    return {
+        "case_count": len(results),
+        "mandatory_cases_present": ["1300", "1300.0", "-55"],
+        "results": results,
+        "guard_fired_for_every_needle": True,
     }
 
 
@@ -277,7 +484,6 @@ def _check_unknown_and_refused(
     fixtures: Mapping[str, Any]
 ) -> Mapping[str, Any]:
     fixture = fixtures["fixtures"][0]
-    item = fixture_item(fixture)
     cases = [
         ("unknown", "UNKNOWN", "unknown"),
         ("refused", "REFUSED", "refused"),
@@ -285,7 +491,9 @@ def _check_unknown_and_refused(
     ]
     results = []
     for case_id, answer, expected in cases:
-        actual = checker.score_item(item, answer)["outcome"]
+        actual = _score_fixture_item(
+            fixture, answer, "run_fixtures.py:_check_unknown_and_refused"
+        )["outcome"]
         _require(actual == expected, f"{case_id}: {actual} != {expected}")
         results.append(
             {
@@ -320,13 +528,18 @@ def _check_taxonomy(fixtures: Mapping[str, Any]) -> Mapping[str, Any]:
         "correct_other_form": "correct_other_form",
         "wrong_unit": "wrong_unit",
         "wrong_period": "wrong_period",
+        "wrong": "wrong",
         "refused": "refused",
         "unknown": "unknown",
         "unparseable": "unknown",
     }
     results = []
     for case_id, expected_outcome in expected.items():
-        actual = checker.score_item(item, fixture["answers"][case_id])["outcome"]
+        actual = _score_fixture_item(
+            fixture,
+            fixture["answers"][case_id],
+            "run_fixtures.py:_check_taxonomy",
+        )["outcome"]
         _require(
             actual == expected_outcome,
             f"taxonomy {case_id}: {actual} != {expected_outcome}",
@@ -338,7 +551,31 @@ def _check_taxonomy(fixtures: Mapping[str, Any]) -> Mapping[str, Any]:
                 "actual": actual,
             }
         )
-    return {"case_count": len(results), "results": results}
+    regression_outcome = checker.apply_regression("correct", "wrong")
+    _require(
+        regression_outcome == "regressed",
+        f"taxonomy regression class: {regression_outcome} != regressed",
+    )
+    results.append(
+        {
+            "actual": regression_outcome,
+            "base_outcome": "correct",
+            "case_id": "comparison_correct_to_wrong",
+            "expected": "regressed",
+            "source": "B-versus-arm comparison",
+        }
+    )
+    observed_classes = {row["actual"] for row in results}
+    _require(
+        observed_classes == set(checker.OUTCOME_CLASSES),
+        f"taxonomy coverage mismatch: {observed_classes} != {checker.OUTCOME_CLASSES}",
+    )
+    return {
+        "case_count": len(results),
+        "declared_outcome_classes": sorted(checker.OUTCOME_CLASSES),
+        "observed_outcome_classes": sorted(observed_classes),
+        "results": results,
+    }
 
 
 def _check_regression(fixtures: Mapping[str, Any]) -> Mapping[str, Any]:
@@ -347,6 +584,7 @@ def _check_regression(fixtures: Mapping[str, Any]) -> Mapping[str, Any]:
         ("correct_other_form", "wrong_period", "regressed"),
         ("correct", "refused", "refused"),
         ("correct", "unknown", "unknown"),
+        ("correct", "wrong", "regressed"),
         ("wrong_unit", "correct", "correct"),
     ]
     results = []
@@ -435,7 +673,12 @@ def _run_metric_pipeline(fixtures: Mapping[str, Any]) -> Mapping[str, Any]:
     )
     return {
         "status": "PASS",
-        "fixture_only": True,
+        "fixture_only": _safety_claim(
+            True, "derived", "records are built only from synthetic fixtures"
+        ),
+        "scientific_results": _safety_claim(
+            False, "derived", "metric pipeline never reads scientific outcomes"
+        ),
         "aggregate": aggregate,
         "paired_comparisons": comparisons,
     }
@@ -444,6 +687,7 @@ def _run_metric_pipeline(fixtures: Mapping[str, Any]) -> Mapping[str, Any]:
 def run_checks(
     fixtures: Mapping[str, Any]
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    SCORE_ITEM_CALL_LOG.clear()
     obligations = [
         _obligation(
             "prompt_byte_determinism",
@@ -452,6 +696,10 @@ def run_checks(
         _obligation(
             "hidden_gold_search",
             lambda: _check_hidden_gold_search(fixtures),
+        ),
+        _obligation(
+            "hidden_gold_positive_control",
+            lambda: _check_hidden_gold_positive_control(fixtures),
         ),
         _obligation(
             "gold_recomputation",
@@ -475,10 +723,41 @@ def run_checks(
         _obligation("regression_helper", lambda: _check_regression(fixtures)),
     ]
     metric_pipeline = _run_metric_pipeline(fixtures)
+    scoring_inputs = _derive_scoring_inputs_all_synthetic()
     return obligations, {
         "status": "PASS",
         "additional_checks": additional_checks,
         "metric_pipeline": metric_pipeline,
+        "scoring_inputs": scoring_inputs,
+    }
+
+
+def _derive_scoring_inputs_all_synthetic() -> dict[str, Any]:
+    _require(SCORE_ITEM_CALL_LOG, "no score_item call sites were exercised")
+    expected_call_sites = {
+        "run_fixtures.py:_check_unknown_and_refused",
+        "run_fixtures.py:_check_taxonomy",
+    }
+    observed_call_sites = {row["call_site"] for row in SCORE_ITEM_CALL_LOG}
+    _require(
+        observed_call_sites == expected_call_sites,
+        f"uninstrumented or missing score_item call sites: {observed_call_sites}",
+    )
+    all_synthetic = all(
+        row["input_kind"] == "synthetic_fixture"
+        and row["fixture_id"] in SYNTHETIC_FIXTURE_IDS
+        and row["item_id"].startswith("synthetic_item_")
+        and row["origin_id"].startswith("synthetic_origin_")
+        for row in SCORE_ITEM_CALL_LOG
+    )
+    _require(all_synthetic, "a non-synthetic score_item input was observed")
+    return {
+        "all_synthetic": True,
+        "basis": "derived",
+        "call_count": len(SCORE_ITEM_CALL_LOG),
+        "call_sites": sorted(observed_call_sites),
+        "calls": list(SCORE_ITEM_CALL_LOG),
+        "status": "PASS",
     }
 
 
@@ -611,8 +890,16 @@ def _preflight_checks(fixtures: Mapping[str, Any]) -> dict[str, Any]:
             "status": "PASS" if checker_domain_pass else "FAIL",
             "evidence": {
                 "candidate_runtime_payloads": len(runtime_payloads),
-                "candidate_scoring_called": False,
-                "candidate_gold_fields_accessed": False,
+                "candidate_scoring_called": _safety_claim(
+                    False,
+                    "derived",
+                    "preflight invokes adapter.runtime_payload_from_candidate only",
+                ),
+                "candidate_gold_fields_accessed": _safety_claim(
+                    False,
+                    "derived",
+                    "preflight reads no candidate gold key",
+                ),
             },
         },
         {
@@ -642,17 +929,27 @@ def _preflight_checks(fixtures: Mapping[str, Any]) -> dict[str, Any]:
                 else "FAIL"
             ),
             "evidence": {
-                "fixture_only": True,
-                "scientific_results": False,
+                "fixture_only": _safety_claim(
+                    True, "derived", "metric records originate in synthetic fixtures"
+                ),
+                "scientific_results": _safety_claim(
+                    False, "derived", "no scientific item is scored"
+                ),
             },
         },
         {
             "id": "no_held_out_result_read",
             "status": "PASS",
             "evidence": {
-                "held_out_result_read": False,
-                "raw_outcome_scoring": False,
-                "candidate_item_scoring": False,
+                "held_out_result_read": _safety_claim(
+                    False, "derived", "preflight contains no held-out result reader"
+                ),
+                "raw_outcome_scoring": _safety_claim(
+                    False, "derived", "raw outcome data is outside the read path"
+                ),
+                "candidate_item_scoring": _safety_claim(
+                    False, "derived", "only synthetic fixture scoring is executed"
+                ),
             },
         },
         {
@@ -664,6 +961,7 @@ def _preflight_checks(fixtures: Mapping[str, Any]) -> dict[str, Any]:
     failed = [check["id"] for check in checks if check["status"] != "PASS"]
     return {
         "schema": "tatqa_wp1_preflight_receipt_v1",
+        "spec_revision": SPEC_REVISION,
         "task": "tatqa_wp1_loop_a",
         "status": "PASS" if not failed else "FAIL",
         "provenance": provenance.task_provenance(),
@@ -688,8 +986,14 @@ def _preflight_checks(fixtures: Mapping[str, Any]) -> dict[str, Any]:
                 ]
                 if callable(getattr(checker, name, None))
             ),
-            "candidate_scoring_called": False,
-            "candidate_gold_fields_accessed": False,
+            "candidate_scoring_called": _safety_claim(
+                False,
+                "derived",
+                "candidate payload construction does not call score_item",
+            ),
+            "candidate_gold_fields_accessed": _safety_claim(
+                False, "derived", "candidate gold keys are never dereferenced"
+            ),
         },
         "identifier_resolution": {
             "status": "PASS" if identifier_pass else "FAIL",
@@ -700,12 +1004,33 @@ def _preflight_checks(fixtures: Mapping[str, Any]) -> dict[str, Any]:
         },
         "metric_pipeline": {
             "status": _run_metric_pipeline(fixtures)["status"],
-            "fixture_only": True,
-            "scientific_results": False,
+            "fixture_only": _safety_claim(
+                True, "derived", "the pipeline consumes synthetic metric records"
+            ),
+            "scientific_results": _safety_claim(
+                False, "derived", "no scientific outcome is produced"
+            ),
         },
+        "scoring_inputs": _derive_scoring_inputs_all_synthetic(),
         "input_verification": input_verification,
-        "held_out_result_read": False,
-        "candidate_item_scoring": False,
+        "safety": {
+            "candidate_item_scoring": _safety_claim(
+                False, "derived", "candidate score_item calls are absent"
+            ),
+            "held_out_result_read": _safety_claim(
+                False, "derived", "no held-out result path is executed"
+            ),
+            "scoring_inputs_all_synthetic": _safety_claim(
+                True,
+                "derived",
+                "run_fixtures instrumented every score_item call site",
+            ),
+            "write_paths_confined": _safety_claim(
+                True,
+                "attested: true",
+                "Run 1c writes only the authorized WP-1 research and data paths",
+            ),
+        },
         "cost": {
             "model_calls": 0,
             "endpoint_calls": 0,
@@ -734,6 +1059,8 @@ Status: `DRAFT - NOT READY - NO PILOT AUTHORIZATION`
 
 Task: `tatqa_wp1_loop_a`
 
+Spec revision: `1.2`
+
 This skeleton freezes no experiment and authorizes no model call. All actor, context, budget, window, and governance fields remain pending until owner/advisor selection and approval.
 
 ## 1. Scientific scope
@@ -741,8 +1068,12 @@ This skeleton freezes no experiment and authorizes no model call. All actor, con
 - Question: whether fixed, related real execution experience changes performance on new-origin two-period table-calculation tasks.
 - Independent unit: origin.
 - Arms: B, E, C, S as defined by the frozen evaluation protocol.
-- Primary outcomes: `correct`, `correct_other_form`, `wrong_unit`, `wrong_period`, `regressed`, `refused`, and `unknown`.
+- Outcomes: `correct`, `correct_other_form`, `wrong_unit`, `wrong_period`, `wrong`, `regressed`, `refused`, and `unknown`.
 - No training, memory write-back, pilot execution, or candidate-item scoring is authorized by WP-1.
+- Protocol revision and protocol pin: `PENDING`.
+- Item/split freeze receipt: `PENDING`.
+- Actor freeze: `PENDING`.
+- `target_unit` assignment: `PENDING` (identity-only conversion today across the 60 frozen candidates).
 
 ## 2. Frozen software pins
 
@@ -819,6 +1150,7 @@ def write_outputs(
     fixture_payload = provenance.attributed_payload(
         {
             "schema": "tatqa_wp1_fixture_receipt_v1",
+            "spec_revision": SPEC_REVISION,
             "run_id": RUN_ID,
             "task": "tatqa_wp1_loop_a",
             "status": (
@@ -845,19 +1177,66 @@ def write_outputs(
                 if row["id"] == "regression_helper"
             ),
             "metric_pipeline": metrics["metric_pipeline"],
+            "scoring_inputs": metrics["scoring_inputs"],
             "cost": {
                 "model_calls": 0,
                 "endpoint_calls": 0,
             },
-            "held_out_result_read": False,
-            "candidate_item_scoring": False,
-            "deviations": [],
+            "safety": {
+                "candidate_item_scoring": _safety_claim(
+                    False, "derived", "no candidate score_item call is present"
+                ),
+                "held_out_result_read": _safety_claim(
+                    False, "derived", "no held-out result reader is present"
+                ),
+                "scoring_inputs_all_synthetic": _safety_claim(
+                    True,
+                    "derived",
+                    "every instrumented score_item call passed a synthetic fixture",
+                ),
+                "write_paths_confined": _safety_claim(
+                    True,
+                    "attested: true",
+                    "run 1c writes only authorized WP-1 research and data paths",
+                ),
+            },
+            "receipt_paths": {
+                "canonical": str(FIXTURE_RECEIPT_PATH.relative_to(REPO_ROOT)),
+                "repo_mirror": str(
+                    FIXTURE_RECEIPT_MIRROR_PATH.relative_to(REPO_ROOT)
+                ),
+            },
+            "deviations": [
+                {
+                    "kind": "spec_revision_resolution",
+                    "note": (
+                        "Revision 1.2 blesses the `wrong` outcome class and "
+                        "narrows `regressed` to non-correct answers other "
+                        "than `refused`/`unknown`."
+                    ),
+                    "spec_revision": SPEC_REVISION,
+                }
+            ],
         }
     )
     provenance.write_json_lf(FIXTURE_RECEIPT_PATH, fixture_payload)
+    FIXTURE_RECEIPT_MIRROR_PATH.write_bytes(
+        FIXTURE_RECEIPT_PATH.read_bytes()
+    )
+    _require(
+        FIXTURE_RECEIPT_PATH.read_bytes()
+        == FIXTURE_RECEIPT_MIRROR_PATH.read_bytes(),
+        "FIXTURE_RECEIPT repo mirror is not byte-identical",
+    )
+    wp_artifact_hashes = dict(artifact_hashes)
+    wp_artifact_hashes["fixture_receipt"] = sha256_file(
+        FIXTURE_RECEIPT_PATH
+    )
     _write_prereg(fixtures, preflight)
     receipt = provenance.attributed_payload(
         {
+            "schema": "tatqa_wp1_receipt_v1",
+            "spec_revision": SPEC_REVISION,
             "run_id": RUN_ID,
             "task": "tatqa_wp1_loop_a",
             "status": (
@@ -869,12 +1248,43 @@ def write_outputs(
             "start_utc": START_UTC,
             "end_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "input_verification": _verify_pinned_inputs(),
-            "artifact_hashes": artifact_hashes,
+            "artifact_hashes": wp_artifact_hashes,
             "fixture_results": obligations,
             "preflight_results": preflight["checks"],
+            "scoring_inputs": metrics["scoring_inputs"],
             "cost": {
                 "model_calls": 0,
                 "endpoint_calls": 0,
+            },
+            "safety": {
+                "candidate_item_scoring": _safety_claim(
+                    False, "derived", "WP-1 executes synthetic fixtures only"
+                ),
+                "held_out_result_read": _safety_claim(
+                    False, "derived", "WP-1 reads no held-out result"
+                ),
+                "scoring_inputs_all_synthetic": _safety_claim(
+                    True,
+                    "derived",
+                    "instrumented score_item call log contains only synthetic ids",
+                ),
+                "write_paths_confined": _safety_claim(
+                    True,
+                    "attested: true",
+                    "run 1c writes only authorized WP-1 research and data paths",
+                ),
+            },
+            "fixture_receipt": {
+                "canonical_path": str(
+                    FIXTURE_RECEIPT_PATH.relative_to(REPO_ROOT)
+                ),
+                "repo_mirror_byte_identical": _safety_claim(
+                    True, "derived", "runner compares canonical and mirror bytes"
+                ),
+                "repo_mirror_path": str(
+                    FIXTURE_RECEIPT_MIRROR_PATH.relative_to(REPO_ROOT)
+                ),
+                "sha256": wp_artifact_hashes["fixture_receipt"],
             },
             "unverified_items": [
                 "real E/C experience blocks were not constructed",
@@ -882,7 +1292,7 @@ def write_outputs(
                 "origin-disjoint episode and near-duplicate receipts remain PENDING",
                 "held-out pilot and scientific outcomes remain UNVERIFIED",
             ],
-            "deviations": [],
+            "deviations": fixture_payload["deviations"],
         }
     )
     provenance.write_json_lf(WP1_RECEIPT_PATH, receipt)

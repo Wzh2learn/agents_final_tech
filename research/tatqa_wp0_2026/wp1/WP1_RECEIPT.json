@@ -1,27 +1,273 @@
 {
   "artifact_hashes": {
     "adapter": "dbb5b55bbe48c36c9b5854dfe1780e3a9ca09e08ffe58331468d61ce21f52477",
-    "checker": "1dbaa0055fb235d242dc6d4d8f7adade55305c89d4c8673d328348ab21ddb723",
-    "contract": "e281248058467de32087ae2ae4138d7506960a96f862154cff1c32ccfb740d06",
-    "fixtures": "8b464f682c8ebd4004fd216b4cd69dc26bcff790c6a035fe2b2f03564d8d2345",
-    "preflight": "b6997cfdf54e25a8679abf00df3d8bc9bccd8a7cdc7b7abead89846c06491931",
+    "checker": "c919845b051a7cfbebfdc782ba4c9dcbd99cac8b950b46f8bd908fcdc2cb12f1",
+    "contract": "9a715c8f5b56ec016a33e0187f4c507b5e1ad119dace5311aebc1057a705e7eb",
+    "fixture_receipt": "f862cc0accf37a5e9fff50469d782d21355cb3a96d46314472edd12753531903",
+    "fixtures": "acbe79d9c0c1123dcfcc4cbc764cd0bcc6a6359fad4530c814d546497f036a85",
+    "preflight": "4fe47548fcd6de852e16d85e3466d732ee80dec479df2214dc29e178d0f79925",
     "provenance": "75c3dea925e719fce248ee2f2a2febd88e6b44496b9bcd787117f8cab61f4cc3",
-    "run_fixtures": "303bf65ba6127c57260f4bef24c4ed60999d01921f5fdeda2bef749bd7b4c499"
+    "run_fixtures": "215bae90a01bf8e34dc0adcc8a1f5e7a22f2c4ed29e05f3b307e1556d92dca07"
   },
   "cost": {
     "endpoint_calls": 0,
     "model_calls": 0
   },
-  "deviations": [],
-  "end_utc": "2026-10-13T11:08:50Z",
+  "deviations": [
+    {
+      "kind": "spec_revision_resolution",
+      "note": "Revision 1.2 blesses the `wrong` outcome class and narrows `regressed` to non-correct answers other than `refused`/`unknown`.",
+      "spec_revision": "1.2"
+    }
+  ],
+  "end_utc": "2026-10-13T12:08:57Z",
+  "fixture_receipt": {
+    "canonical_path": "data/research/tatqa_wp0_2026/wp1/FIXTURE_RECEIPT.json",
+    "repo_mirror_byte_identical": {
+      "basis": "derived",
+      "evidence": "runner compares canonical and mirror bytes",
+      "value": true
+    },
+    "repo_mirror_path": "research/tatqa_wp0_2026/wp1/FIXTURE_RECEIPT.json",
+    "sha256": "f862cc0accf37a5e9fff50469d782d21355cb3a96d46314472edd12753531903"
+  },
   "fixture_results": [
     {
       "evidence": {
-        "byte_equal": true,
-        "bytes": 464,
-        "first_sha256": "c4297cbe747f473a92c54893a93a528cbb6221e75b2ad68f8159f9b1eaaf2b13",
-        "fixture_id": "normal_unit",
-        "second_sha256": "c4297cbe747f473a92c54893a93a528cbb6221e75b2ad68f8159f9b1eaaf2b13"
+        "arms": [
+          "B",
+          "C",
+          "E",
+          "S"
+        ],
+        "combination_count": 28,
+        "fixture_count": 7,
+        "results": [
+          {
+            "arm": "B",
+            "byte_equal": true,
+            "bytes": 431,
+            "first_sha256": "93e2d429f962bde9bd7436f37151be18bd9f7824f7ea8ff565bff0c405ea734b",
+            "fixture_id": "normal_unit",
+            "second_sha256": "93e2d429f962bde9bd7436f37151be18bd9f7824f7ea8ff565bff0c405ea734b"
+          },
+          {
+            "arm": "C",
+            "byte_equal": true,
+            "bytes": 1110,
+            "first_sha256": "b7ede661c2c9fc8fcf51dafaf0e7159944b60194dc5bcc676556b3010521b04d",
+            "fixture_id": "normal_unit",
+            "second_sha256": "b7ede661c2c9fc8fcf51dafaf0e7159944b60194dc5bcc676556b3010521b04d"
+          },
+          {
+            "arm": "E",
+            "byte_equal": true,
+            "bytes": 1075,
+            "first_sha256": "0c5f6c5e104ea3394d3484d367c46bb96ed4ef9ed6889fc47c54ee830c7f7e53",
+            "fixture_id": "normal_unit",
+            "second_sha256": "0c5f6c5e104ea3394d3484d367c46bb96ed4ef9ed6889fc47c54ee830c7f7e53"
+          },
+          {
+            "arm": "S",
+            "byte_equal": true,
+            "bytes": 481,
+            "first_sha256": "a872db4156da3052a5b81f0e00b5f9edc577b656b4b208feb58a8ffe87be5122",
+            "fixture_id": "normal_unit",
+            "second_sha256": "a872db4156da3052a5b81f0e00b5f9edc577b656b4b208feb58a8ffe87be5122"
+          },
+          {
+            "arm": "B",
+            "byte_equal": true,
+            "bytes": 450,
+            "first_sha256": "e86837437c2738ab45e3e9473076b614f54570a09c1af4ed0cd2b6f80a986af8",
+            "fixture_id": "parentheses_negative",
+            "second_sha256": "e86837437c2738ab45e3e9473076b614f54570a09c1af4ed0cd2b6f80a986af8"
+          },
+          {
+            "arm": "C",
+            "byte_equal": true,
+            "bytes": 1129,
+            "first_sha256": "f801432e35938fab2f4b9768a41bc37d703d02aebfadf9f8401c114bb4140f82",
+            "fixture_id": "parentheses_negative",
+            "second_sha256": "f801432e35938fab2f4b9768a41bc37d703d02aebfadf9f8401c114bb4140f82"
+          },
+          {
+            "arm": "E",
+            "byte_equal": true,
+            "bytes": 1094,
+            "first_sha256": "0b87f92abb631757f95d2ececcf891c8f69a4e896528ed90d72bb0f9d3758bf4",
+            "fixture_id": "parentheses_negative",
+            "second_sha256": "0b87f92abb631757f95d2ececcf891c8f69a4e896528ed90d72bb0f9d3758bf4"
+          },
+          {
+            "arm": "S",
+            "byte_equal": true,
+            "bytes": 500,
+            "first_sha256": "7bca078149eeb11e467d17ea2b991914ee2b6c633e0b02c1617c305fb2fece20",
+            "fixture_id": "parentheses_negative",
+            "second_sha256": "7bca078149eeb11e467d17ea2b991914ee2b6c633e0b02c1617c305fb2fece20"
+          },
+          {
+            "arm": "B",
+            "byte_equal": true,
+            "bytes": 434,
+            "first_sha256": "48edc3a13bab186598f8fe390bf075140993a72c5ef6d1892c538de63e2f5467",
+            "fixture_id": "thousands_separator",
+            "second_sha256": "48edc3a13bab186598f8fe390bf075140993a72c5ef6d1892c538de63e2f5467"
+          },
+          {
+            "arm": "C",
+            "byte_equal": true,
+            "bytes": 1113,
+            "first_sha256": "dc05c50e90b83f3fd8d4608d5c2a58512ddad390d032f408ccc97fb819de4202",
+            "fixture_id": "thousands_separator",
+            "second_sha256": "dc05c50e90b83f3fd8d4608d5c2a58512ddad390d032f408ccc97fb819de4202"
+          },
+          {
+            "arm": "E",
+            "byte_equal": true,
+            "bytes": 1078,
+            "first_sha256": "dfc0aa50f3ddc7e71ce971726e79943fddf80a056468c49e7de3db3b02586955",
+            "fixture_id": "thousands_separator",
+            "second_sha256": "dfc0aa50f3ddc7e71ce971726e79943fddf80a056468c49e7de3db3b02586955"
+          },
+          {
+            "arm": "S",
+            "byte_equal": true,
+            "bytes": 484,
+            "first_sha256": "a2f4da03e9a4d9fcc830f901ad261ce1f25f9e674e416aabdeedcc0abde4a2aa",
+            "fixture_id": "thousands_separator",
+            "second_sha256": "a2f4da03e9a4d9fcc830f901ad261ce1f25f9e674e416aabdeedcc0abde4a2aa"
+          },
+          {
+            "arm": "B",
+            "byte_equal": true,
+            "bytes": 436,
+            "first_sha256": "b1747d1b6165c422cc04950f5659597219c8378ac534f64fa6a4efab94cce220",
+            "fixture_id": "thousand_to_unit",
+            "second_sha256": "b1747d1b6165c422cc04950f5659597219c8378ac534f64fa6a4efab94cce220"
+          },
+          {
+            "arm": "C",
+            "byte_equal": true,
+            "bytes": 1115,
+            "first_sha256": "ae42095e7141eec69c0413480a3586cf946d146db9fac0195e9fd5491b117b0e",
+            "fixture_id": "thousand_to_unit",
+            "second_sha256": "ae42095e7141eec69c0413480a3586cf946d146db9fac0195e9fd5491b117b0e"
+          },
+          {
+            "arm": "E",
+            "byte_equal": true,
+            "bytes": 1080,
+            "first_sha256": "de281b13592dd6fadf87c9a93d9969bcd51bc021b73023395ac2cb43e1a3cd0f",
+            "fixture_id": "thousand_to_unit",
+            "second_sha256": "de281b13592dd6fadf87c9a93d9969bcd51bc021b73023395ac2cb43e1a3cd0f"
+          },
+          {
+            "arm": "S",
+            "byte_equal": true,
+            "bytes": 486,
+            "first_sha256": "54872156a87c567de36b91f2c10f0c03f12e9783cd9b0f5cd28f7a5ed8d3cc8c",
+            "fixture_id": "thousand_to_unit",
+            "second_sha256": "54872156a87c567de36b91f2c10f0c03f12e9783cd9b0f5cd28f7a5ed8d3cc8c"
+          },
+          {
+            "arm": "B",
+            "byte_equal": true,
+            "bytes": 437,
+            "first_sha256": "d1feee926298e2d6a22b5122a970d65cf7d3a5a93a4dfea104a825638c8d1875",
+            "fixture_id": "million_to_thousand",
+            "second_sha256": "d1feee926298e2d6a22b5122a970d65cf7d3a5a93a4dfea104a825638c8d1875"
+          },
+          {
+            "arm": "C",
+            "byte_equal": true,
+            "bytes": 1116,
+            "first_sha256": "903f74b9ea7d2b560bde84ed1466781fa11bf76f7cecff780ece51df5bbbeb76",
+            "fixture_id": "million_to_thousand",
+            "second_sha256": "903f74b9ea7d2b560bde84ed1466781fa11bf76f7cecff780ece51df5bbbeb76"
+          },
+          {
+            "arm": "E",
+            "byte_equal": true,
+            "bytes": 1081,
+            "first_sha256": "e12497cf0067d473f91edef20a1be6851832bccd7431d6f2331062313e07df04",
+            "fixture_id": "million_to_thousand",
+            "second_sha256": "e12497cf0067d473f91edef20a1be6851832bccd7431d6f2331062313e07df04"
+          },
+          {
+            "arm": "S",
+            "byte_equal": true,
+            "bytes": 487,
+            "first_sha256": "c32282ea0e82fe5213fc0cc066ae3c88372eb91164cbe8c269bc2829e19209b2",
+            "fixture_id": "million_to_thousand",
+            "second_sha256": "c32282ea0e82fe5213fc0cc066ae3c88372eb91164cbe8c269bc2829e19209b2"
+          },
+          {
+            "arm": "B",
+            "byte_equal": true,
+            "bytes": 438,
+            "first_sha256": "c5739c907fa6b0adfb88290fae8d0e1ebf9239817f900080af0069241f352fc3",
+            "fixture_id": "billion_to_million",
+            "second_sha256": "c5739c907fa6b0adfb88290fae8d0e1ebf9239817f900080af0069241f352fc3"
+          },
+          {
+            "arm": "C",
+            "byte_equal": true,
+            "bytes": 1117,
+            "first_sha256": "5d34b349a07fb1ead08101fb34fe901efefa5f5f28b5252857db7ced898d8bd9",
+            "fixture_id": "billion_to_million",
+            "second_sha256": "5d34b349a07fb1ead08101fb34fe901efefa5f5f28b5252857db7ced898d8bd9"
+          },
+          {
+            "arm": "E",
+            "byte_equal": true,
+            "bytes": 1082,
+            "first_sha256": "75a964a69b3e7f409b21dabd0cb7f4aa9d66b84a75ac52000df4504ac6ff6e85",
+            "fixture_id": "billion_to_million",
+            "second_sha256": "75a964a69b3e7f409b21dabd0cb7f4aa9d66b84a75ac52000df4504ac6ff6e85"
+          },
+          {
+            "arm": "S",
+            "byte_equal": true,
+            "bytes": 488,
+            "first_sha256": "dc4ff18dd6488cc74d5c925ee03c2dd7ce25638a607a34970e2b97fd11ba9cb8",
+            "fixture_id": "billion_to_million",
+            "second_sha256": "dc4ff18dd6488cc74d5c925ee03c2dd7ce25638a607a34970e2b97fd11ba9cb8"
+          },
+          {
+            "arm": "B",
+            "byte_equal": true,
+            "bytes": 436,
+            "first_sha256": "e9387a8486f58385d0526afe4b0a818e4ecce3adc4e3eb321c6395dec70a0091",
+            "fixture_id": "percent_to_percent",
+            "second_sha256": "e9387a8486f58385d0526afe4b0a818e4ecce3adc4e3eb321c6395dec70a0091"
+          },
+          {
+            "arm": "C",
+            "byte_equal": true,
+            "bytes": 1115,
+            "first_sha256": "8777b0eea852dcc0501dedaea93f726f4ea3c51bf300fa259791e915f8575fcd",
+            "fixture_id": "percent_to_percent",
+            "second_sha256": "8777b0eea852dcc0501dedaea93f726f4ea3c51bf300fa259791e915f8575fcd"
+          },
+          {
+            "arm": "E",
+            "byte_equal": true,
+            "bytes": 1080,
+            "first_sha256": "8825b9b0a4fb5e4c2274b28e9dbfb8cd1c07c5351de0e5b356db7ba27484ffae",
+            "fixture_id": "percent_to_percent",
+            "second_sha256": "8825b9b0a4fb5e4c2274b28e9dbfb8cd1c07c5351de0e5b356db7ba27484ffae"
+          },
+          {
+            "arm": "S",
+            "byte_equal": true,
+            "bytes": 486,
+            "first_sha256": "f41f2135955807c6b239ad6826b3591da9bb28eb7d7062534c5402a823cb8a2f",
+            "fixture_id": "percent_to_percent",
+            "second_sha256": "f41f2135955807c6b239ad6826b3591da9bb28eb7d7062534c5402a823cb8a2f"
+          }
+        ]
       },
       "id": "prompt_byte_determinism",
       "status": "PASS"
@@ -46,129 +292,501 @@
           "origin_id",
           "item_id"
         ],
+        "needle_form_policy": [
+          "canonical_plain_decimal",
+          "exact_checker_decimal_str_when_different",
+          "exact_fixture_str_when_different"
+        ],
         "results": [
           {
-            "answer_values": {
-              "delta_source": "60",
-              "delta_target": "60"
+            "answer_needles": {
+              "delta_source": [
+                "60"
+              ],
+              "delta_target": [
+                "60"
+              ]
             },
             "clean": true,
             "fixture_design_precondition_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "60": []
+              },
+              "delta_target": {
+                "60": []
+              }
             },
             "fixture_id": "normal_unit",
             "forbidden_found": [],
             "projection_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "60": []
+              },
+              "delta_target": {
+                "60": []
+              }
             }
           },
           {
-            "answer_values": {
-              "delta_source": "-55",
-              "delta_target": "-55"
+            "answer_needles": {
+              "delta_source": [
+                "-55"
+              ],
+              "delta_target": [
+                "-55"
+              ]
             },
             "clean": true,
             "fixture_design_precondition_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "-55": []
+              },
+              "delta_target": {
+                "-55": []
+              }
             },
             "fixture_id": "parentheses_negative",
             "forbidden_found": [],
             "projection_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "-55": []
+              },
+              "delta_target": {
+                "-55": []
+              }
             }
           },
           {
-            "answer_values": {
-              "delta_source": "1000",
-              "delta_target": "1000"
+            "answer_needles": {
+              "delta_source": [
+                "1000"
+              ],
+              "delta_target": [
+                "1000"
+              ]
             },
             "clean": true,
             "fixture_design_precondition_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "1000": []
+              },
+              "delta_target": {
+                "1000": []
+              }
             },
             "fixture_id": "thousands_separator",
             "forbidden_found": [],
             "projection_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "1000": []
+              },
+              "delta_target": {
+                "1000": []
+              }
             }
           },
           {
-            "answer_values": {
-              "delta_source": "1.3",
-              "delta_target": "1300.0"
+            "answer_needles": {
+              "delta_source": [
+                "1.3"
+              ],
+              "delta_target": [
+                "1300",
+                "1300.0"
+              ]
             },
             "clean": true,
             "fixture_design_precondition_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "1.3": []
+              },
+              "delta_target": {
+                "1300": [],
+                "1300.0": []
+              }
             },
             "fixture_id": "thousand_to_unit",
             "forbidden_found": [],
             "projection_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "1.3": []
+              },
+              "delta_target": {
+                "1300": [],
+                "1300.0": []
+              }
             }
           },
           {
-            "answer_values": {
-              "delta_source": "2.5",
-              "delta_target": "2500.0"
+            "answer_needles": {
+              "delta_source": [
+                "2.5"
+              ],
+              "delta_target": [
+                "2500",
+                "2500.0"
+              ]
             },
             "clean": true,
             "fixture_design_precondition_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "2.5": []
+              },
+              "delta_target": {
+                "2500": [],
+                "2500.0": []
+              }
             },
             "fixture_id": "million_to_thousand",
             "forbidden_found": [],
             "projection_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "2.5": []
+              },
+              "delta_target": {
+                "2500": [],
+                "2500.0": []
+              }
             }
           },
           {
-            "answer_values": {
-              "delta_source": "1.7",
-              "delta_target": "1700.0"
+            "answer_needles": {
+              "delta_source": [
+                "1.7"
+              ],
+              "delta_target": [
+                "1700",
+                "1700.0"
+              ]
             },
             "clean": true,
             "fixture_design_precondition_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "1.7": []
+              },
+              "delta_target": {
+                "1700": [],
+                "1700.0": []
+              }
             },
             "fixture_id": "billion_to_million",
             "forbidden_found": [],
             "projection_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "1.7": []
+              },
+              "delta_target": {
+                "1700": [],
+                "1700.0": []
+              }
             }
           },
           {
-            "answer_values": {
-              "delta_source": "3.0",
-              "delta_target": "3.0"
+            "answer_needles": {
+              "delta_source": [
+                "3",
+                "3.0"
+              ],
+              "delta_target": [
+                "3",
+                "3.0"
+              ]
             },
             "clean": true,
             "fixture_design_precondition_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "3": [],
+                "3.0": []
+              },
+              "delta_target": {
+                "3": [],
+                "3.0": []
+              }
             },
             "fixture_id": "percent_to_percent",
             "forbidden_found": [],
             "projection_matches": {
-              "delta_source": [],
-              "delta_target": []
+              "delta_source": {
+                "3": [],
+                "3.0": []
+              },
+              "delta_target": {
+                "3": [],
+                "3.0": []
+              }
             }
           }
         ]
       },
       "id": "hidden_gold_search",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "case_count": 23,
+        "guard_fired_for_every_needle": true,
+        "mandatory_cases_present": [
+          "1300",
+          "1300.0",
+          "-55"
+        ],
+        "results": [
+          {
+            "case_id": "canonical_1300",
+            "fixture_id": "synthetic_positive_control",
+            "guard_fired": true,
+            "matches": [
+              "1300",
+              "1300"
+            ],
+            "needle": "1300",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "canonical_1300",
+            "fixture_id": "synthetic_positive_control",
+            "guard_fired": true,
+            "matches": [
+              "1300.0",
+              "1300.0"
+            ],
+            "needle": "1300.0",
+            "value_form": "exact_str"
+          },
+          {
+            "case_id": "canonical_negative_55",
+            "fixture_id": "synthetic_positive_control",
+            "guard_fired": true,
+            "matches": [
+              "-55",
+              "-55"
+            ],
+            "needle": "-55",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "canonical_negative_55",
+            "fixture_id": "synthetic_positive_control",
+            "guard_fired": true,
+            "matches": [
+              "-55.0",
+              "-55.0"
+            ],
+            "needle": "-55.0",
+            "value_form": "exact_str"
+          },
+          {
+            "case_id": "normal_unit_delta_source_0",
+            "fixture_id": "normal_unit",
+            "guard_fired": true,
+            "matches": [
+              "60",
+              "60"
+            ],
+            "needle": "60",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "normal_unit_delta_target_0",
+            "fixture_id": "normal_unit",
+            "guard_fired": true,
+            "matches": [
+              "60",
+              "60"
+            ],
+            "needle": "60",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "parentheses_negative_delta_source_0",
+            "fixture_id": "parentheses_negative",
+            "guard_fired": true,
+            "matches": [
+              "-55",
+              "-55"
+            ],
+            "needle": "-55",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "parentheses_negative_delta_target_0",
+            "fixture_id": "parentheses_negative",
+            "guard_fired": true,
+            "matches": [
+              "-55",
+              "-55"
+            ],
+            "needle": "-55",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "thousands_separator_delta_source_0",
+            "fixture_id": "thousands_separator",
+            "guard_fired": true,
+            "matches": [
+              "1000",
+              "1000"
+            ],
+            "needle": "1000",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "thousands_separator_delta_target_0",
+            "fixture_id": "thousands_separator",
+            "guard_fired": true,
+            "matches": [
+              "1000",
+              "1000"
+            ],
+            "needle": "1000",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "thousand_to_unit_delta_source_0",
+            "fixture_id": "thousand_to_unit",
+            "guard_fired": true,
+            "matches": [
+              "1.3",
+              "1.3"
+            ],
+            "needle": "1.3",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "thousand_to_unit_delta_target_0",
+            "fixture_id": "thousand_to_unit",
+            "guard_fired": true,
+            "matches": [
+              "1300",
+              "1300"
+            ],
+            "needle": "1300",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "thousand_to_unit_delta_target_1",
+            "fixture_id": "thousand_to_unit",
+            "guard_fired": true,
+            "matches": [
+              "1300.0",
+              "1300.0"
+            ],
+            "needle": "1300.0",
+            "value_form": "exact_str"
+          },
+          {
+            "case_id": "million_to_thousand_delta_source_0",
+            "fixture_id": "million_to_thousand",
+            "guard_fired": true,
+            "matches": [
+              "2.5",
+              "2.5"
+            ],
+            "needle": "2.5",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "million_to_thousand_delta_target_0",
+            "fixture_id": "million_to_thousand",
+            "guard_fired": true,
+            "matches": [
+              "2500",
+              "2500"
+            ],
+            "needle": "2500",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "million_to_thousand_delta_target_1",
+            "fixture_id": "million_to_thousand",
+            "guard_fired": true,
+            "matches": [
+              "2500.0",
+              "2500.0"
+            ],
+            "needle": "2500.0",
+            "value_form": "exact_str"
+          },
+          {
+            "case_id": "billion_to_million_delta_source_0",
+            "fixture_id": "billion_to_million",
+            "guard_fired": true,
+            "matches": [
+              "1.7",
+              "1.7"
+            ],
+            "needle": "1.7",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "billion_to_million_delta_target_0",
+            "fixture_id": "billion_to_million",
+            "guard_fired": true,
+            "matches": [
+              "1700",
+              "1700"
+            ],
+            "needle": "1700",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "billion_to_million_delta_target_1",
+            "fixture_id": "billion_to_million",
+            "guard_fired": true,
+            "matches": [
+              "1700.0",
+              "1700.0"
+            ],
+            "needle": "1700.0",
+            "value_form": "exact_str"
+          },
+          {
+            "case_id": "percent_to_percent_delta_source_0",
+            "fixture_id": "percent_to_percent",
+            "guard_fired": true,
+            "matches": [
+              "3",
+              "3"
+            ],
+            "needle": "3",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "percent_to_percent_delta_source_1",
+            "fixture_id": "percent_to_percent",
+            "guard_fired": true,
+            "matches": [
+              "3.0",
+              "3.0"
+            ],
+            "needle": "3.0",
+            "value_form": "exact_str"
+          },
+          {
+            "case_id": "percent_to_percent_delta_target_0",
+            "fixture_id": "percent_to_percent",
+            "guard_fired": true,
+            "matches": [
+              "3",
+              "3"
+            ],
+            "needle": "3",
+            "value_form": "canonical"
+          },
+          {
+            "case_id": "percent_to_percent_delta_target_1",
+            "fixture_id": "percent_to_percent",
+            "guard_fired": true,
+            "matches": [
+              "3.0",
+              "3.0"
+            ],
+            "needle": "3.0",
+            "value_form": "exact_str"
+          }
+        ]
+      },
+      "id": "hidden_gold_positive_control",
       "status": "PASS"
     },
     {
@@ -378,9 +996,17 @@
     },
     {
       "evidence": {
-        "candidate_gold_fields_accessed": false,
+        "candidate_gold_fields_accessed": {
+          "basis": "derived",
+          "evidence": "preflight reads no candidate gold key",
+          "value": false
+        },
         "candidate_runtime_payloads": 60,
-        "candidate_scoring_called": false
+        "candidate_scoring_called": {
+          "basis": "derived",
+          "evidence": "preflight invokes adapter.runtime_payload_from_candidate only",
+          "value": false
+        }
       },
       "id": "checker_defined_on_allowed_inputs",
       "status": "PASS"
@@ -411,17 +1037,37 @@
     },
     {
       "evidence": {
-        "fixture_only": true,
-        "scientific_results": false
+        "fixture_only": {
+          "basis": "derived",
+          "evidence": "metric records originate in synthetic fixtures",
+          "value": true
+        },
+        "scientific_results": {
+          "basis": "derived",
+          "evidence": "no scientific item is scored",
+          "value": false
+        }
       },
       "id": "synthetic_metric_pipeline_end_to_end",
       "status": "PASS"
     },
     {
       "evidence": {
-        "candidate_item_scoring": false,
-        "held_out_result_read": false,
-        "raw_outcome_scoring": false
+        "candidate_item_scoring": {
+          "basis": "derived",
+          "evidence": "only synthetic fixture scoring is executed",
+          "value": false
+        },
+        "held_out_result_read": {
+          "basis": "derived",
+          "evidence": "preflight contains no held-out result reader",
+          "value": false
+        },
+        "raw_outcome_scoring": {
+          "basis": "derived",
+          "evidence": "raw outcome data is outside the read path",
+          "value": false
+        }
       },
       "id": "no_held_out_result_read",
       "status": "PASS"
@@ -455,8 +1101,121 @@
     "task": "tatqa_wp1_loop_a",
     "writer": "research/tatqa_wp0_2026/wp1/provenance.py"
   },
-  "run_id": "tatqa-wp1b-20261013",
-  "start_utc": "2026-10-13T11:08:50Z",
+  "run_id": "tatqa-wp1c-20261013",
+  "safety": {
+    "candidate_item_scoring": {
+      "basis": "derived",
+      "evidence": "WP-1 executes synthetic fixtures only",
+      "value": false
+    },
+    "held_out_result_read": {
+      "basis": "derived",
+      "evidence": "WP-1 reads no held-out result",
+      "value": false
+    },
+    "scoring_inputs_all_synthetic": {
+      "basis": "derived",
+      "evidence": "instrumented score_item call log contains only synthetic ids",
+      "value": true
+    },
+    "write_paths_confined": {
+      "basis": "attested: true",
+      "evidence": "run 1c writes only authorized WP-1 research and data paths",
+      "value": true
+    }
+  },
+  "schema": "tatqa_wp1_receipt_v1",
+  "scoring_inputs": {
+    "all_synthetic": true,
+    "basis": "derived",
+    "call_count": 11,
+    "call_sites": [
+      "run_fixtures.py:_check_taxonomy",
+      "run_fixtures.py:_check_unknown_and_refused"
+    ],
+    "calls": [
+      {
+        "call_site": "run_fixtures.py:_check_unknown_and_refused",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_unknown_and_refused",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_unknown_and_refused",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      }
+    ],
+    "status": "PASS"
+  },
+  "spec_revision": "1.2",
+  "start_utc": "2026-10-13T12:08:57Z",
   "status": "PASS",
   "task": "tatqa_wp1_loop_a",
   "unverified_items": [

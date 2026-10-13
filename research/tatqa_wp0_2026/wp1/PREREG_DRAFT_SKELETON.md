@@ -4,6 +4,8 @@ Status: `DRAFT - NOT READY - NO PILOT AUTHORIZATION`
 
 Task: `tatqa_wp1_loop_a`
 
+Spec revision: `1.2`
+
 This skeleton freezes no experiment and authorizes no model call. All actor, context, budget, window, and governance fields remain pending until owner/advisor selection and approval.
 
 ## 1. Scientific scope
@@ -11,16 +13,20 @@ This skeleton freezes no experiment and authorizes no model call. All actor, con
 - Question: whether fixed, related real execution experience changes performance on new-origin two-period table-calculation tasks.
 - Independent unit: origin.
 - Arms: B, E, C, S as defined by the frozen evaluation protocol.
-- Primary outcomes: `correct`, `correct_other_form`, `wrong_unit`, `wrong_period`, `regressed`, `refused`, and `unknown`.
+- Outcomes: `correct`, `correct_other_form`, `wrong_unit`, `wrong_period`, `wrong`, `regressed`, `refused`, and `unknown`.
 - No training, memory write-back, pilot execution, or candidate-item scoring is authorized by WP-1.
+- Protocol revision and protocol pin: `PENDING`.
+- Item/split freeze receipt: `PENDING`.
+- Actor freeze: `PENDING`.
+- `target_unit` assignment: `PENDING` (identity-only conversion today across the 60 frozen candidates).
 
 ## 2. Frozen software pins
 
-- Checker: `1dbaa0055fb235d242dc6d4d8f7adade55305c89d4c8673d328348ab21ddb723`
+- Checker: `c919845b051a7cfbebfdc782ba4c9dcbd99cac8b950b46f8bd908fcdc2cb12f1`
 - Adapter: `dbb5b55bbe48c36c9b5854dfe1780e3a9ca09e08ffe58331468d61ce21f52477`
-- Synthetic fixtures: `8b464f682c8ebd4004fd216b4cd69dc26bcff790c6a035fe2b2f03564d8d2345`
-- Preflight receipt: `b6997cfdf54e25a8679abf00df3d8bc9bccd8a7cdc7b7abead89846c06491931`
-- Implementation contract: `e281248058467de32087ae2ae4138d7506960a96f862154cff1c32ccfb740d06`
+- Synthetic fixtures: `acbe79d9c0c1123dcfcc4cbc764cd0bcc6a6359fad4530c814d546497f036a85`
+- Preflight receipt: `4fe47548fcd6de852e16d85e3466d732ee80dec479df2214dc29e178d0f79925`
+- Implementation contract: `9a715c8f5b56ec016a33e0187f4c507b5e1ad119dace5311aebc1057a705e7eb`
 
 ## 3. Actor freeze
 

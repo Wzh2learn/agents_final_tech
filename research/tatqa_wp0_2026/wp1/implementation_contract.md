@@ -24,6 +24,7 @@ Runtime and style:
 SCALES: dict[str, Decimal]
 REQUIRED_RUNTIME_FIELDS: frozenset[str]
 CORRECT_OUTCOMES: frozenset[str]
+OUTCOME_CLASSES: frozenset[str]
 
 @dataclass(frozen=True)
 class Gold:
@@ -74,6 +75,8 @@ Outcome precedence:
 8. Otherwise -> `wrong`.
 
 `regressed` is assigned only by `apply_regression` when a B outcome in `{correct, correct_other_form}` becomes a non-correct answer other than `refused` or `unknown`; refusals and unknowns remain first-class.
+
+The eight-class vocabulary is therefore `correct`, `correct_other_form`, `wrong_unit`, `wrong_period`, `wrong`, `regressed`, `refused`, and `unknown`.
 
 ### `research/tatqa_wp0_2026/wp1/adapter.py`
 
@@ -154,22 +157,25 @@ Required fixtures:
 - `billion_to_million`
 - `percent_to_percent`
 
-The first seven fixtures provide seven hand-built recomputations, including the two mandated parsing cases and all four mandated conversions. Answer fixtures cover `correct`, `correct_other_form`, `wrong_unit`, `wrong_period`, `refused`, and `unknown`.
+The first seven fixtures provide seven hand-built recomputations, including the two mandated parsing cases and all four mandated conversions. Answer fixtures exercise all eight outcome classes; `unparseable` is an input case that resolves to `unknown`.
 
 The E and C placeholder contexts are synthetic strings with a measured lexical token delta declared in the fixture file. They are not episodes and are not real experience blocks.
 
 ## 2. Fixture obligations
 
-`run_fixtures.py` must execute exactly these six obligations and emit one result object per obligation:
+`run_fixtures.py` must execute exactly these seven obligations and emit one result object per obligation:
 
-1. `prompt_byte_determinism`: build the same synthetic item plus identical hook twice and compare encoded UTF-8 bytes.
-2. `hidden_gold_search`: reject hidden key names and ensure the expected gold decimal strings are absent from the actor-visible prompt.
-3. `gold_recomputation`: compare `recompute_gold` results to at least five hand-computed expected values, including parentheses-negative and thousands-separator cases.
-4. `scale_conversions`: compare all four specified unit conversions.
-5. `unknown_and_refused`: classify literal `UNKNOWN` and `REFUSED` correctly, plus unparseable JSON as unknown.
-6. `ec_token_delta`: compute lexical token counts, absolute delta, relative delta, and pass/fail against the fixture's 5% limit.
+1. `prompt_byte_determinism`: build every fixture with an identical hook twice for each arm B/E/C/S and compare encoded UTF-8 bytes.
+2. `hidden_gold_search`: reject hidden key names; for `delta_source`/`delta_target`, search both canonical plain-decimal needles and exact `str()`/fixture-render forms when they differ, across the full projection and the raw-cell precondition.
+3. `hidden_gold_positive_control`: inject every generated needle into a synthetic projection and require the guard to fire, including `1300`/`1300.0` and negative `-55`.
+4. `gold_recomputation`: compare `recompute_gold` results to at least five hand-computed expected values, including parentheses-negative and thousands-separator cases.
+5. `scale_conversions`: compare all four specified unit conversions.
+6. `unknown_and_refused`: classify literal `UNKNOWN` and `REFUSED` correctly, plus unparseable JSON as unknown.
+7. `ec_token_delta`: compute lexical token counts, absolute delta, relative delta, and pass/fail against the fixture's 5% limit.
 
 Additional non-obligation synthetic checks are permitted only to exercise the declared checker taxonomy, regression helper, provenance writer, and metric pipeline. They must use fixture origin/item ids only.
+
+Every `score_item` call in `run_fixtures.py` is routed through one instrumented fixture wrapper. The wrapper records fixture id, item id, origin id, input kind, and call-site label, rejects non-synthetic identities, and derives `scoring_inputs_all_synthetic`.
 
 ## 3. Preflight schema
 
@@ -178,6 +184,7 @@ Additional non-obligation synthetic checks are permitted only to exercise the de
 ```json
 {
   "schema": "tatqa_wp1_preflight_receipt_v1",
+  "spec_revision": "1.2",
   "task": "tatqa_wp1_loop_a",
   "status": "PASS",
   "provenance": {},
@@ -186,16 +193,19 @@ Additional non-obligation synthetic checks are permitted only to exercise the de
   "checker_domain": {},
   "identifier_resolution": {},
   "metric_pipeline": {},
-  "held_out_result_read": false,
+  "scoring_inputs": {},
+  "safety": {},
   "checks": []
 }
 ```
 
 The preflight reads only the pinned candidate/origin metadata needed to validate structure, field names, checker-domain coverage, and identifier resolution. It does not call `recompute_gold`, `score_item`, or any metric on candidate items and does not read any candidate gold field.
 
+Every receipt safety boolean is a labelled object with `value` and `basis`; `basis` is `derived` or `attested: true`. `scoring_inputs_all_synthetic` is derived from the instrumented call log.
+
 ## 4. Generated receipt schemas
 
-`data/research/tatqa_wp0_2026/wp1/FIXTURE_RECEIPT.json` uses schema `tatqa_wp1_fixture_receipt_v1` and contains `task`, `status`, `provenance`, `obligations`, `taxonomy_checks`, `regression_check`, `metric_pipeline`, `cost`, and `deviations`.
+The canonical `FIXTURE_RECEIPT` is `data/research/tatqa_wp0_2026/wp1/FIXTURE_RECEIPT.json`. The runner writes the same LF JSON bytes to `research/tatqa_wp0_2026/wp1/FIXTURE_RECEIPT.json` as a tracked repository mirror and asserts byte identity. It uses schema `tatqa_wp1_fixture_receipt_v1` and contains `spec_revision`, `task`, `status`, `provenance`, `obligations`, `taxonomy_checks`, `regression_check`, `metric_pipeline`, `scoring_inputs`, `safety`, `receipt_paths`, `cost`, and `deviations`.
 
 `research/tatqa_wp0_2026/wp1/PREREG_DRAFT_SKELETON.md` is a draft-only Markdown file. Actor revision, model, settings, real episode context, analysis implementation, budget/window, and advisor/owner decisions remain exactly `PENDING`.
 
@@ -203,6 +213,7 @@ The preflight reads only the pinned candidate/origin metadata needed to validate
 
 ```json
 {
+  "spec_revision": "1.2",
   "task": "tatqa_wp1_loop_a",
   "status": "PASS",
   "start_utc": "YYYY-MM-DDTHH:MM:SSZ",
@@ -217,10 +228,14 @@ The preflight reads only the pinned candidate/origin metadata needed to validate
     "adapter": "",
     "fixtures": "",
     "preflight": "",
-    "contract": ""
+    "contract": "",
+    "fixture_receipt": ""
   },
   "fixture_results": [],
   "preflight_results": [],
+  "scoring_inputs": {},
+  "safety": {},
+  "fixture_receipt": {},
   "cost": {
     "model_calls": 0,
     "endpoint_calls": 0
@@ -264,7 +279,7 @@ git status --short -- research/tatqa_wp0_2026/wp1 data/research/tatqa_wp0_2026/w
 ## 6. Stop conditions
 
 - Pinned input hash mismatch: report `HASH_MISMATCH` and stop.
-- Any of the six fixture obligations fails: report `SOFTWARE_NOT_QUALIFIED` with the failed obligation and stop without changing the fixture to force a pass.
+- Any of the seven fixture obligations fails: report `SOFTWARE_NOT_QUALIFIED` with the failed obligation and stop without changing the fixture to force a pass.
 - Any required forbidden action: stop and report the blocked requirement.
 - No scientific result, pilot result, candidate-item score, or held-out outcome is permitted in any receipt.
 
@@ -289,3 +304,18 @@ Run 2 uses run id `tatqa-wp1b-20261013`. On a passing run it emits these artifac
 - `research/tatqa_wp0_2026/wp1/WP1_RECEIPT.json`
 
 The generated receipts carry zero model and endpoint calls, per-obligation results, the requested artifact hashes, unverified items, and deviations. This addendum does not change any other obligation or stop condition.
+
+## 8. Revision 1.2 completion addendum (2026-10-13)
+
+Run 3 (`tatqa-wp1c-20261013`) is the final bounded completion under specification revision 1.2:
+
+- answer-value needles use canonical plain-decimal rendering with no trailing zeros or exponent and additionally search exact checker/fixture `str()` forms when different;
+- the mandatory positive control injects every needle, including the `1300`/`1300.0` pair and negative `-55`, and fails if any injection is silent;
+- byte determinism covers all seven fixtures across all four arms B/E/C/S;
+- taxonomy exercises all eight classes including `wrong`, while `regressed` excludes only `refused`/`unknown` from otherwise non-correct answers;
+- all safety booleans in generated receipts carry `derived` or `attested: true` basis labels;
+- `scoring_inputs_all_synthetic` derives from the instrumented `score_item` call log;
+- `WP1_RECEIPT.artifact_hashes.fixture_receipt` pins the canonical data receipt, whose tracked repository mirror is byte-identical;
+- all three receipts declare `spec_revision: "1.2"`, and the preregistration skeleton lists the eight outcomes plus pending protocol/item/split/actor freezes and identity-only `target_unit` assignment.
+
+This addendum and the preceding run-2 addendum remain historical evidence for run 1/2; run 3 extends those artifacts in place without weakening the specification.

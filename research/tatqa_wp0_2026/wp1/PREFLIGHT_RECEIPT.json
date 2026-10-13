@@ -1,9 +1,16 @@
 {
-  "candidate_item_scoring": false,
   "checker_domain": {
     "allowed_candidate_structures": 60,
-    "candidate_gold_fields_accessed": false,
-    "candidate_scoring_called": false,
+    "candidate_gold_fields_accessed": {
+      "basis": "derived",
+      "evidence": "candidate gold keys are never dereferenced",
+      "value": false
+    },
+    "candidate_scoring_called": {
+      "basis": "derived",
+      "evidence": "candidate payload construction does not call score_item",
+      "value": false
+    },
     "checker_functions_defined": [
       "aggregate_outcomes",
       "apply_regression",
@@ -55,9 +62,17 @@
     },
     {
       "evidence": {
-        "candidate_gold_fields_accessed": false,
+        "candidate_gold_fields_accessed": {
+          "basis": "derived",
+          "evidence": "preflight reads no candidate gold key",
+          "value": false
+        },
         "candidate_runtime_payloads": 60,
-        "candidate_scoring_called": false
+        "candidate_scoring_called": {
+          "basis": "derived",
+          "evidence": "preflight invokes adapter.runtime_payload_from_candidate only",
+          "value": false
+        }
       },
       "id": "checker_defined_on_allowed_inputs",
       "status": "PASS"
@@ -88,17 +103,37 @@
     },
     {
       "evidence": {
-        "fixture_only": true,
-        "scientific_results": false
+        "fixture_only": {
+          "basis": "derived",
+          "evidence": "metric records originate in synthetic fixtures",
+          "value": true
+        },
+        "scientific_results": {
+          "basis": "derived",
+          "evidence": "no scientific item is scored",
+          "value": false
+        }
       },
       "id": "synthetic_metric_pipeline_end_to_end",
       "status": "PASS"
     },
     {
       "evidence": {
-        "candidate_item_scoring": false,
-        "held_out_result_read": false,
-        "raw_outcome_scoring": false
+        "candidate_item_scoring": {
+          "basis": "derived",
+          "evidence": "only synthetic fixture scoring is executed",
+          "value": false
+        },
+        "held_out_result_read": {
+          "basis": "derived",
+          "evidence": "preflight contains no held-out result reader",
+          "value": false
+        },
+        "raw_outcome_scoring": {
+          "basis": "derived",
+          "evidence": "raw outcome data is outside the read path",
+          "value": false
+        }
       },
       "id": "no_held_out_result_read",
       "status": "PASS"
@@ -130,7 +165,6 @@
     "model_calls": 0
   },
   "failed_checks": [],
-  "held_out_result_read": false,
   "identifier_resolution": {
     "candidate_items": 60,
     "distinct_item_ids": 60,
@@ -156,8 +190,16 @@
     "status": "PASS"
   },
   "metric_pipeline": {
-    "fixture_only": true,
-    "scientific_results": false,
+    "fixture_only": {
+      "basis": "derived",
+      "evidence": "the pipeline consumes synthetic metric records",
+      "value": true
+    },
+    "scientific_results": {
+      "basis": "derived",
+      "evidence": "no scientific outcome is produced",
+      "value": false
+    },
     "status": "PASS"
   },
   "provenance": {
@@ -177,7 +219,7 @@
     "research/tatqa_wp0_2026/wp1/provenance.py": true,
     "research/tatqa_wp0_2026/wp1/run_fixtures.py": true
   },
-  "run_id": "tatqa-wp1b-20261013",
+  "run_id": "tatqa-wp1c-20261013",
   "runtime_schema": {
     "expected_fields": [
       "period_early",
@@ -199,7 +241,119 @@
     ],
     "status": "PASS"
   },
+  "safety": {
+    "candidate_item_scoring": {
+      "basis": "derived",
+      "evidence": "candidate score_item calls are absent",
+      "value": false
+    },
+    "held_out_result_read": {
+      "basis": "derived",
+      "evidence": "no held-out result path is executed",
+      "value": false
+    },
+    "scoring_inputs_all_synthetic": {
+      "basis": "derived",
+      "evidence": "run_fixtures instrumented every score_item call site",
+      "value": true
+    },
+    "write_paths_confined": {
+      "basis": "attested: true",
+      "evidence": "Run 1c writes only the authorized WP-1 research and data paths",
+      "value": true
+    }
+  },
   "schema": "tatqa_wp1_preflight_receipt_v1",
+  "scoring_inputs": {
+    "all_synthetic": true,
+    "basis": "derived",
+    "call_count": 11,
+    "call_sites": [
+      "run_fixtures.py:_check_taxonomy",
+      "run_fixtures.py:_check_unknown_and_refused"
+    ],
+    "calls": [
+      {
+        "call_site": "run_fixtures.py:_check_unknown_and_refused",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_unknown_and_refused",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_unknown_and_refused",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      },
+      {
+        "call_site": "run_fixtures.py:_check_taxonomy",
+        "fixture_id": "normal_unit",
+        "input_kind": "synthetic_fixture",
+        "item_id": "synthetic_item_1",
+        "origin_id": "synthetic_origin_1"
+      }
+    ],
+    "status": "PASS"
+  },
+  "spec_revision": "1.2",
   "status": "PASS",
   "task": "tatqa_wp1_loop_a"
 }

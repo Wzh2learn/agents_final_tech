@@ -41,6 +41,18 @@ REQUIRED_RUNTIME_FIELDS: frozenset[str] = frozenset(
     }
 )
 CORRECT_OUTCOMES: frozenset[str] = frozenset({"correct", "correct_other_form"})
+OUTCOME_CLASSES: frozenset[str] = frozenset(
+    {
+        "correct",
+        "correct_other_form",
+        "wrong_unit",
+        "wrong_period",
+        "wrong",
+        "regressed",
+        "refused",
+        "unknown",
+    }
+)
 NUMERIC_CELL_PATTERN = re.compile(
     r"^\s*\(?\s*[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*%?\s*\)?$"
 )
