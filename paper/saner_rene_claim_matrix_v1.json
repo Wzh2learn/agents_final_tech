@@ -65,7 +65,7 @@
   "figures": {
     "figure_1": "NIST/long-horizon motivation -> failure -> checkpoint visibility -> protocol detection -> outcome/harm",
     "figure_2": "six defect families x visibility surface; OCR-like 0/13 across 11 clusters",
-    "figure_3": "multi-leaf full/direct/non-direct ablation plus FinQA failed-transfer measurement-object boundary"
+    "figure_3": "multi-leaf full/direct/non-direct ablation (macro-F1 and top-1 panels); the FinQA failed-transfer measurement-object boundary is carried in the manuscript text, not in this figure"
   },
   "evidence_hashes": {
     "docs/research/stage_e_118_quantification_v1.md": "39134a1359cd153175f793e0b1d5ff8ebaed5ee8df8e415a79fcfb42a9ff9084",
@@ -103,7 +103,8 @@
       "A4 two comparison kinds, 4/7 not 5/8",
       "A5 predicate defined, fields not recomputed",
       "A6 experience scope narrowed to the evaluator",
-      "A7 availability facts"
+      "A7 availability facts",
+      "residual pass 2026-10-13: A2/A7 wording completion (scope-lock row label, availability tense); figure_3 definition aligned to the built ablation figure; no number change"
     ],
     "numbers_changed": "none"
   }

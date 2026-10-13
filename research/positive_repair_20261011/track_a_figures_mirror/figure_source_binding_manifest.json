@@ -21,7 +21,7 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen figure definition and caption boundary",
-          "sha256": "d7da6e7f2501d9c801ef63a46e12a5d40d59415f9e52e7d5091046542a9ba31d",
+          "sha256": "4c951e618ed6f5ffa8af84aeb6e55eb75b3a90b88cc36d660714f78aaa35f213",
           "pin_semantics": "generation-time reference; re-pinned at each authorised scope-lock revision (figure definitions unchanged)"
         },
         {
@@ -658,7 +658,7 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen caption boundary",
-          "sha256": "d7da6e7f2501d9c801ef63a46e12a5d40d59415f9e52e7d5091046542a9ba31d",
+          "sha256": "4c951e618ed6f5ffa8af84aeb6e55eb75b3a90b88cc36d660714f78aaa35f213",
           "pin_semantics": "generation-time reference; re-pinned at each authorised scope-lock revision (figure definitions unchanged)"
         },
         {
@@ -794,7 +794,7 @@
         {
           "path": "paper/saner_rene_manuscript_scope_lock_v1.md",
           "role": "frozen caption boundary",
-          "sha256": "d7da6e7f2501d9c801ef63a46e12a5d40d59415f9e52e7d5091046542a9ba31d",
+          "sha256": "4c951e618ed6f5ffa8af84aeb6e55eb75b3a90b88cc36d660714f78aaa35f213",
           "pin_semantics": "generation-time reference; re-pinned at each authorised scope-lock revision (figure definitions unchanged)"
         },
         {
@@ -849,5 +849,5 @@
   "namespace": "SANER_FIGURE_SOURCE_BINDING",
   "schema_version": 1,
   "status": "COMPLETE",
-  "repin_note": "2026-10-11: re-pinned two SOURCE entries after a post-generation provenance review. (1) paper/saner_rene_manuscript_scope_lock_v1.md was corrected at commit ed63fff (reviewer-attack F1-F6: claim wording tightened). Its Figure Definitions section was NOT changed, so the figures still implement it; only the recorded source hash was stale. (2) docs/research/figures_saner/fig2_source.csv recorded a Windows/CRLF-era hash; the GB10 raw-byte hash is now recorded. Figure OUTPUT hashes are unchanged and still bind. | 2026-10-13: re-pinned again after the SANER adjudication A1-A7 revision updated the scope-lock text (title/contribution/allowed-claim wording). The Figure Definitions section was NOT changed and no figure output changed; figure OUTPUT hashes still bind."
+  "repin_note": "2026-10-11: re-pinned two SOURCE entries after a post-generation provenance review. (1) paper/saner_rene_manuscript_scope_lock_v1.md was corrected at commit ed63fff (reviewer-attack F1-F6: claim wording tightened). Its Figure Definitions section was NOT changed, so the figures still implement it; only the recorded source hash was stale. (2) docs/research/figures_saner/fig2_source.csv recorded a Windows/CRLF-era hash; the GB10 raw-byte hash is now recorded. Figure OUTPUT hashes are unchanged and still bind. | 2026-10-13: re-pinned again after the SANER adjudication A1-A7 revision updated the scope-lock text (title/contribution/allowed-claim wording). The Figure Definitions section was NOT changed and no figure output changed; figure OUTPUT hashes still bind. | 2026-10-13b: completed the A1-A7 residual pass (A2 scope-lock row label; Figure 3 definition aligned to the built ablation figure; A7 tense). The recorded scope-lock source hash was corrected to the GB10 raw-byte (LF) value; the previous pin came from a CRLF worktree copy and caused a cross-host verifier divergence that is now resolved. Figure OUTPUT hashes are unchanged and still bind."
 }

@@ -36,3 +36,11 @@ PDF_LAYOUT_AUDIT = PASS. The compiled PDF exists, page count verified, reference
 - Normalised spelling to US English: localisation -> localization (3), organisation -> organization (2).
 - Replaced 5 spaced-hyphen dashes with grammatical punctuation (comma/colon/clause); kept the one inside the math expression (H_orig - H_inj).
 - Rebuilt the .tex, the bundle and the PDF afterwards: still 8 pages, 0 overfull, 63 underfull, metadata anonymous, no forbidden claim introduced. All reported numbers are unchanged (spot-checked: 96/118, 0/13, 2,382, 0.375, 1.0, 0.3333, 0.6667, 0.1667, 89/89, 112/118, 75/95, 20/95).
+
+## Addendum 2026-10-13 (residual-pass rebuild)
+> scope: A1-A7 residual completion (A2/A7 wording, Figure 3 definition + caption, Section 1 scoping, Section 4.3, Section 5.1 attribution) + LF re-pin; no number change.
+- Rebuild: `python paper/_md2tex.py` -> `python paper/_to_bundle_tex.py` -> `tectonic saner_rene_manuscript_v1.tex` (portable tectonic 0.15.0); exit 0.
+- Result: 9 pages, 0 overfull; underfull warnings remain the cosmetic class (long break-resistant tokens / short final lines) seen in the earlier build. PDF 289 KiB.
+- References 21/21 resolved; `??` = 0. Metadata Author empty; Title set; no CJK; identity-token scan clean.
+- Machine audit: `PRE_SUBMISSION_AUDIT = PASS`; `WIDE_EVIDENCE_CHECK = PASS` after the scope-lock re-pin (docs + mirror manifests byte-identical; pin = GB10 raw-byte LF hash `4c951e618ed6f5ffa8af84aeb6e55eb75b3a90b88cc36d660714f78aaa35f213`).
+- Figure 3 caption now reads "...equals the uniform-class macro-F1 baseline (0.3333); the majority-class macro-F1 reference (0.1667) is also plotted." Panels A/B (macro-F1 / top-1) unchanged from the frozen figure.

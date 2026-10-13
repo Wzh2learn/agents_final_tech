@@ -125,8 +125,8 @@ while i < len(lines):
 flush_pending()
 
 header = r"""% SANER 2027 RENE submission (RENE: NegativeResult)
-% UNCOMPILED: no TeX engine exists in this build environment. Compile on Overleaf or a TeX host.
-% fig1 is SVG-only: the svg package + Inkscape (shell-escape) is required, or convert fig1 to PNG/PDF.
+% Compile with pdfLaTeX (Overleaf) or tectonic; see paper/overleaf_bundle/BUILD_README.md.
+% fig1: SVG source under docs/research/figures_saner/; the bundle uses the vector PDF re-render (paper/_to_bundle_tex.py).
 % Double-anonymous: the author block is intentionally anonymous for submission.
 \documentclass[10pt,conference]{IEEEtran}
 \usepackage{graphicx}
@@ -146,5 +146,5 @@ header = r"""% SANER 2027 RENE submission (RENE: NegativeResult)
 \maketitle
 """.replace("@@TITLE@@", inline(title))
 
-open(OUT,"w",encoding="utf-8").write(header + "\n".join(body) + "\n\\end{document}\n")
+open(OUT,"w",encoding="utf-8",newline="\n").write(header + "\n".join(body) + "\n\\end{document}\n")
 print("wrote", OUT, "figures:", fig_n, "body lines:", len(body))

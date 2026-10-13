@@ -12,7 +12,7 @@
 | 4 | **Claim matrix** | PASS | `paper/saner_rene_claim_matrix_v1.json` C1-C3 rewritten; 15 evidence hashes verify exactly; forbidden-claims list intact; adjudication application recorded. |
 | 5 | **Figures** | PASS | Three figures embedded with the revised captions; figure OUTPUT hashes verify against the binding manifest (both copies); Figure-3 caption carries the partial-information clause. |
 | 6 | **References** | PASS | 21 cited / 21 bib entries, 0 missing, 0 unused; no `??` in the compiled PDF; NIST and RENE precedents verified from primary sources; IEEEtran proper-noun casing fixed. |
-| 7 | **Anonymisation** | PASS | Source scan clean (no author/host/path/CJK strings); PDF metadata Author empty, Title set; double-anonymous compliant (no acknowledgments, third-person self-citations). |
+| 7 | **Anonymisation** | PASS | Identity-token scan clean (no author/organisation/hostname/username/email strings); PDF metadata Author empty, Title set; double-anonymous compliant (no acknowledgments, third-person self-citations). Repo-relative paths and a localhost string (`127.0.0.1:8004`) remain in the .tex and are non-identifying. |
 | 8 | **Artifact statement** | PASS (factual) | Data Availability states "prepared for release" and "planned to be made available ... not yet established"; the staged package exists at `research/artifact_release_2026/` but is NOT released. |
 | 9 | **Page limit** | PASS | Compiled PDF is 9 pages; main content including Appendix A fits within the 10-page RENE limit, references occupy about one page (limit 2 references-only). |
 | 10 | **Compile** | PASS | pdfLaTeX-equivalent build (portable tectonic 0.15.0), 0 overfull boxes, 76 cosmetic underfull boxes, bundle self-contained (no local absolute paths). |

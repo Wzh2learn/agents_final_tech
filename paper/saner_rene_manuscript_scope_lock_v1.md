@@ -49,7 +49,7 @@ Evaluation validity depends on auditing the observation surface itself: in a sta
 | 95 tables / 118 injections; 96 visible | `docs/research/stage_e_118_quantification_v1.md` | frozen |
 | OCR-like `0/13` across 11 clusters | `docs/research/stage_e_zero_event_uncertainty_note_v1.md` | frozen |
 | Family visibility profile | `logs/graph/eval/checkpoint_discrimination_tables_v2.json`, `t2_visibility_sensitivity.json` | frozen |
-| Affine/rank equivalence and matched-FPR non-identifiability | `docs/research/stage_e_matched_fpr_reanalysis_v1.md` | frozen |
+| Affine/rank equivalence and unresolved matched-FPR operating point | `docs/research/stage_e_matched_fpr_reanalysis_v1.md` | frozen |
 | Multi-leaf controlled signatures | `docs/research/stage_e_multileaf_result_packet_v1.md` | construct-sensitive |
 | Direct-codebook ablation | `docs/research/stage_e_multileaf_signature_ablation_v1.md` | negative/boundary |
 | FinQA failed transfer | `docs/experiments/2026-10-10_loop_c_finqa_v2_formal_v3_recompute_audit.md`, `docs/research/finqa_causal_exposure_preregistration_proposal_v1.md` | autopsy/design boundary |
@@ -67,10 +67,11 @@ Purpose: explain why final correctness cannot establish observation validity.
 
 Rows: six Stage E families. Columns: threshold/visibility surface. Include `0/13` OCR-like boundary and family rates.
 
-### Figure 3 — Instrumentation and measurement-object boundary
+### Figure 3 — Multi-leaf localization and ablation
 
-Panel A: multi-leaf full/direct/non-direct ablation (`1.0 / 1.0 / 0.3333`).  
-Panel B: FinQA failed-transfer boundary (`V=89/89`, `D=0/89`, `O=0/89`) labelled `MEASUREMENT_OBJECT_MISMATCH`, not protocol blindness.
+Panel A (macro-F1): full/direct/non-direct bars (`1.0 / 1.0 / 0.3333`) with the majority-class reference (`0.1667`).  
+Panel B (top-1): full/direct/non-direct bars (`1.0 / 1.0 / 0.3333`) with the chance reference (`0.3333`).  
+The FinQA failed-transfer boundary (`V=89/89`, `D=0/89`, `O=0/89`, labelled `MEASUREMENT_OBJECT_MISMATCH`) is carried in the manuscript text, not plotted in this figure.
 
 ## Role Boundaries
 

@@ -3,7 +3,7 @@
 > Purpose: compile the submission PDF with no local dependencies. All figure paths are bundle-local; there are no absolute paths.
 
 ## Status
-Compiled and verified. Build method actually used: portable tectonic 0.15.0 (user-space, single file). Command `tectonic saner_rene_manuscript_v1.tex` produced `saner_rene_manuscript_v1.pdf` (8 pages, 0 overfull boxes). See `../research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md` for the audit.
+Compiled and verified. Build method actually used: portable tectonic 0.15.0 (user-space, single file). Command `tectonic saner_rene_manuscript_v1.tex` produced `saner_rene_manuscript_v1.pdf` (9 pages, 0 overfull boxes). See `../research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md` for the audit.
 
 ## Files
 - `saner_rene_manuscript_v1.tex` - main file. IEEEtran conference format, double-anonymous (author block = "Anonymous Submission").
@@ -12,7 +12,7 @@ Compiled and verified. Build method actually used: portable tectonic 0.15.0 (use
 - `fig1_measurement_chain.png` - raster fallback for Figure 1.
 - `fig2_family_visibility_matrix.png` - bound Figure 2 raster.
 - `fig3_localization_ablation.png` - bound Figure 3 raster.
-- `saner_rene_manuscript_v1.pdf` - the compiled submission PDF (8 pages).
+- `saner_rene_manuscript_v1.pdf` - the compiled submission PDF (9 pages).
 
 ## How to compile on Overleaf
 1. Upload every file in this directory to an Overleaf project (all at the project root).
@@ -24,7 +24,13 @@ Compiled and verified. Build method actually used: portable tectonic 0.15.0 (use
 - Figure 1 is included as `fig1_measurement_chain.pdf` via `\includegraphics`. The authoritative bound asset remains the SVG `docs/research/figures_saner/fig1_measurement_chain.svg`; the PDF here is a faithful vector re-render of that SVG.
 - Figures 2 and 3 are the bound PNGs, hash-pinned in `docs/research/figures_saner/figure_source_binding_manifest.json`.
 - Before submission: replace "Anonymous Submission" with the frozen author list (H1) and wire the Data Availability statement to a real anonymized repository link.
-- Target page budget (RENE): at most 10 pages including figures and appendices, plus up to 2 references-only pages. Current build is 8 pages total.
+- Target page budget (RENE): at most 10 pages including figures and appendices, plus up to 2 references-only pages. Current build is 9 pages total.
+
+## Rebuild from source
+1. `python paper/_md2tex.py` (from the repo root) - regenerate the root .tex from `paper/saner_rene_manuscript_v1.md`.
+2. `python paper/_to_bundle_tex.py` (from the repo root) - derive this bundle's self-contained .tex (bundle-local figure paths; fig1 as vector PDF).
+3. `tectonic saner_rene_manuscript_v1.tex` (in this directory), or upload the bundle to Overleaf and compile with pdfLaTeX.
+
 ## Toolchain bootstrap (PDF build)
 The PDF was built with a portable, user-space tectonic binary (no system TeX install):
 - version: `tectonic 0.15.0`

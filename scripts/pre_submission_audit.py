@@ -2,7 +2,8 @@
 """One-shot pre-submission audit for the SANER RENE package.
 
 Groups: claim-evidence, figure binding, citations, anonymisation, format, artifact readiness.
-Run on the authority host for exact hashes (GB10); LOCAL may differ on EOL for unpinned text files.
+Run on the authority host for exact hashes (GB10); LOCAL accepts EOL-normalised matches (--report-eol)
+so a text checkout stays verifiable across platforms.
 """
 from __future__ import annotations
 import hashlib, json, pathlib, re, subprocess, sys
@@ -16,7 +17,8 @@ def group(name, ok, detail=""):
     if not ok: fails.append(name)
 
 # 1 evidence + figure binding + citations + pins: delegate to the wide verifier
-r = subprocess.run([sys.executable, str(ROOT/"scripts/verify_claim_evidence.py")],
+# --report-eol: accept EOL-normalised matches on this (non-authority) host; GB10 stays exact.
+r = subprocess.run([sys.executable, str(ROOT/"scripts/verify_claim_evidence.py"), "--report-eol"],
                    capture_output=True, text=True)
 wide_ok = "WIDE_EVIDENCE_CHECK = PASS" in r.stdout
 group("evidence_integrity", wide_ok, "(claim matrix + figure binding + citations + prereg pins)")
