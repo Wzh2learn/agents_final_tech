@@ -50,10 +50,11 @@
 | 最终投稿清单 | [`research/SUBMISSION_READY_CHECKLIST_v1.md`](research/SUBMISSION_READY_CHECKLIST_v1.md) | 10 项 PASS；`SUBMISSION_READY (package)` |
 | **冻结包（投稿前）** | [`../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md`](../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md) | 版本/已完成/未完成/owner 决策/禁止修改 |
 | WP-0 入口包 | [`research/WP0_ENTRY_PACKAGE_v1.md`](research/WP0_ENTRY_PACKAGE_v1.md) | source landscape / ranking / gap map；Loop A 可直接开工 |
-| **WP-0 TAT-QA 包** | [`research/WP0_TATQA_PACKAGE_v1.md`](research/WP0_TATQA_PACKAGE_v1.md) | 许可已核验（MIT + CC BY 4.0）；任务池 188 表；origin 分组为唯一 blocker |
+| **WP-0 TAT-QA 包** | [`research/WP0_TATQA_PACKAGE_v1.md`](research/WP0_TATQA_PACKAGE_v1.md) | 许可已核验（MIT + CC BY 4.0）；raw 已获取（2479 条）；origin 分组完成（182 origins / 60 candidate items）；A2–A5 完成，A6 附录进行中 |
 | **最终 handoff** | [`../FINAL_HANDOFF_v1.md`](../FINAL_HANDOFF_v1.md) | 下一 session 第一入口（owner 决策已记录） |
 | 投稿前一键审计 | [`../scripts/pre_submission_audit.py`](../scripts/pre_submission_audit.py) | evidence/anonymisation/format/artifact 四组；当前 PASS |
 | 匿名 artifact 包（备而未发） | [`../research/artifact_release_2026/README.md`](../research/artifact_release_2026/README.md) | 12 项已就绪 + 2 项 GB10 数据体；发布需 owner |
+| TAT-QA WP-0 执行资产 | [`../research/tatqa_wp0_2026/README.md`](../research/tatqa_wp0_2026/README.md) | origin 构建器 + p5–p9 探针 + 冻结测量事实；运行产物在 GB10（gitignored） |
 | 硕士研究执行入口 | [`research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`](research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md) | ENTRY_READY / QUALIFICATION_PENDING |
 | 执行蓝图 / 架构 v3 / WP-0 任务卡 | [`research/THESIS_EXECUTION_BLUEPRINT_v1.md`](research/THESIS_EXECUTION_BLUEPRINT_v1.md)、[`research/THESIS_RESEARCH_ARCHITECTURE_v3.md`](research/THESIS_RESEARCH_ARCHITECTURE_v3.md)、[`research/thesis_experience_v1_task_card.md`](research/thesis_experience_v1_task_card.md) | 范围与工作包权威 |
 | 实验执行前置规范 v2 | [`../research/positive_repair_20261011/execution_preflight/EXECUTION_PREFLIGHT_SPEC_v2.md`](../research/positive_repair_20261011/execution_preflight/EXECUTION_PREFLIGHT_SPEC_v2.md) | 12 项检查；check 9 改为端到端；新增 runtime-path 与 attribution |
@@ -114,6 +115,7 @@
 | [`datasets/2026-10-05_qwen3_8b_sync_receipt_v1.json`](datasets/2026-10-05_qwen3_8b_sync_receipt_v1.json) | Sync receipt | Exact 15-file Qwen3-8B mirror download; token=false |
 | [`datasets/2026-10-05_qwen3_8b_artifact_validation_receipt_v1.json`](datasets/2026-10-05_qwen3_8b_artifact_validation_receipt_v1.json) | GB10 artifact receipt | Qwen3-8B identity/shard/index/tokenizer/licence/manifest validation; not MODEL_GO |
 | [`../scripts/research/monitor_hf_snapshot.sh`](../scripts/research/monitor_hf_snapshot.sh) | Runtime monitor | exact-snapshot background download monitor and relative manifests |
+| [`../scripts/research/fetch_tatqa_raw.sh`](../scripts/research/fetch_tatqa_raw.sh) | WP-0 数据获取 | TAT-QA raw records 获取（codeload tarball + 完整性门：tar/JSON/记录数）；只写入 `data/research/tatqa_raw_2026/` |
 | [`experiments/2026-10-05_qwen_model_candidate_metadata_audit.md`](experiments/2026-10-05_qwen_model_candidate_metadata_audit.md) | Model metadata | immutable HF revisions and licence; historical official-path block record |
 | [`experiments/SUMMARY_stage_d_readiness_and_model_sync.md`](experiments/SUMMARY_stage_d_readiness_and_model_sync.md) | Current summary | Stage D readiness、dependency decision、model sync 与 canonical evidence map |
 | [`experiments/2026-10-05_model_sync_mirror_success.md`](experiments/2026-10-05_model_sync_mirror_success.md) | Sync success | Qwen3-4B exact revision via `hf-mirror.com`, `token=false`, Xet disabled; artifact ready for validation |

@@ -1,0 +1,39 @@
+[loop-c] start 2026-10-13T04:53:26Z
+I have completed the read-only audit across the authorised scope. Verdict report follows.
+
+---
+
+## Loop C independent audit — SANER Route A, 2026-10-13
+
+**Q1 — Has each of A1–A7 been applied in the manuscript *and* in the claim matrix / scope lock?**
+**FACT.** A1, A3, A4, A5, A6 are fully applied across all three authority files. Two items are **NOT fully applied**: **A2** — the withdrawn blanket phrase survives verbatim in the scope lock's Core Evidence Table (`paper/saner_rene_manuscript_scope_lock_v1.md:52`, row label "Affine/rank equivalence and **matched-FPR non-identifiability**") and as a noun in `paper/saner_rene_manuscript_v1.md:105` ("**non-identifiability is reported**"); the claim matrix C2 handles it correctly ("not a general non-identifiability"). **A7** — `paper/saner_rene_manuscript_v1.md:201` still says the FinQA flow "is reproducible from **the released scripts**", contradicting the same paragraph's "prepared for release" / "not yet established".
+
+**Q2 — Is any claim now stronger than the adjudication permits?**
+**FACT.** Yes, one precisely: `saner_rene_manuscript_scope_lock_v1.md:52` names the evidence item "**matched-FPR non-identifiability**", which is the exact unconditional total judgment A2 (BLOCKING) ordered withdrawn. Two milder clauses: Figure 3's caption "remains above the plotted majority macro-F1 baseline (0.1667)" spins a chance-level (0.3333) result as baseline-beating, against A1's "do not package the macro-F1 reference as a random-performance proof"; and `:15` states unscoped that "the observation surface cannot separate its own protocols ... and cannot observe an entire defect family", dropping the per-clause scoping the preceding sentence carries.
+
+**Q3 — Is the A2 rewrite correct?**
+**FACT.** Yes. §5.2, §6.1, the abstract, the conclusion and matrix C2 cleanly separate the positive affine/rank structural equivalence ("unrounded ... positive rescaling", "recorded scores retain identical ranks") from the clean-panel calibration degeneracy ("zero-by-construction clean panel leaves the registered deployment operating point unresolved"), explicitly deny the blanket claim ("not a general claim that matched-FPR comparisons cannot be made"), and refuse over-claiming equality ("not a newly calibrated performance estimate", "the diagnosis is deliberately narrow", "fitted slope approximately 0.375", comparator/FPR=α-vs-≤α distinctions kept, "when more than one leaf varies ... neither affine nor ranking equivalence is guaranteed"). The defect is outside the rewrite (Q2), not in it.
+
+**Q4 — Is the A4 correction numerically right?**
+**FACT.** Yes. Against `docs/experiments/2026-09-06_d3_matched_fpr_stage_b.md:122-151`: §5.1 reports seven paired judge-vs-DR4 comparisons with **four disagreeing** (source §5: 4 `disagree` / 3 `agree`) separately from the single `3789d7da#1` visibility-vs-equivalence comparison carrying **zero judge calls** (source §6 + note), and explicitly reports "neither a pooled disagreement rate nor a mechanism that would exclude case-level noise". **One wording defect:** the same sentence attributes the rejection to "an instance-level oracle ... that a type-level equivalence class had accepted" — per the autopsy taxonomy (`2026-09-08_d3_autopsy_decision_record.md:26`) DR4 *is* the instance-level oracle and D1 the type-level label, so that clause describes the D1↔DR4 axis (7/7 flip), not the judge↔DR4 axis that "four of the seven disagree" refers to. Numbers correct; actor attribution muddled.
+
+**Q5 — Does the "Long-Horizon" prefix still overstate empirical scope?**
+**FACT.** No, not in the claim-bearing set. The title is the narrowed form in manuscript, `.tex`, matrix, scope lock and registration package; the three in-body `long-horizon` mentions are motivation (abstract, §1) or explicit disclaimer ("not a measured long-horizon result"), and matrix/scope-lock figure_1 labels it "long-horizon **motivation**". **INFERRED.** The retired title "…in Long-Horizon AI Evaluation" survives only in non-authoritative side drafts (`paper/teacher_review_draft_v1.md`, `paper/submission_draft_arr_www_anonymous_v0.md`) and one archive file — outside the authority chain, but a stray worth deleting before any of those circulate.
+
+**Q6 — Is the compiled package internally consistent?**
+**FACT.** No — three inconsistencies. (a) `research/positive_repair_20261011/ABSTRACT_REGISTRATION_PACKAGE_v1.md` is **one revision stale**: its abstract ends at "…does not guarantee diagnosability." and is missing the W3 consequence clause present in manuscript and `.tex`, so the claim in `LOOP_C_REVIEW_A1A7_REVISION_v1.md:35` ("carries the manuscript's revised abstract verbatim") is false as written. (b) Figure 3 mismatch: `claim_matrix_v1.json` `figures.figure_3` and scope-lock §"Figure 3" both specify Panel A (ablation) **+ Panel B (FinQA V/D/O, `MEASUREMENT_OBJECT_MISMATCH`)**, but the manuscript/`.tex` Figure 3 is ablation-only (`fig3_localization_ablation.png`); the FinQA boundary has no figure. (c) Checklist item 7's "Source scan clean (no author/host/path/CJK strings)" is overstated: the `.tex` carries repo-relative paths (`data/research/drift_v0/...`, `scripts/m1_statement_parser.py`, `config/eval_checkpoint_trees.json`) and a host string (`127.0.0.1:8004`). Title, contributions, author block anonymity and references are consistent (21 bib entries = 21 cited keys). **UNVERIFIED:** the compiled PDF's internal text (no extraction performed); the `.tex` header still says "UNCOMPILED" while a 9-page PDF exists in the bundle.
+
+**Q7 — Single weakest point of the revision.**
+**INFERENCED.** The A2 BLOCKING fix is complete in every surface a reviewer reads but incomplete in the claim authority: `saner_rene_manuscript_scope_lock_v1.md:52` still names the finding "matched-FPR non-identifiability", and the prior self-review certified this as `0 / 0 / 0 / 0` because it scanned for the literal string `not identifiable` and so missed the `non-identifiability` variant. A claim authority that still names the withdrawn conclusion will re-seed it on the next edit pass.
+
+**Q8 — Does anything contradict a FROZEN number?**
+**FACT.** No. All twelve appear consistently in manuscript and `.tex` with matching counts, and internal arithmetic closes: 96+22=118; family sums 118/96/22; 43/47→0.915, 13/16→0.8125 ("0.81 to 1.00"); 75/95=0.7895, 20/95=0.2105, 112/118=0.9492, 85/118=0.7203, 13/118=0.1102; 219/282=0.7766, spread 0.0339; 1/6=0.1667; 1/10001≈1e-4; 44/1478=0.0298, 330/1478=0.2233; 322/1970=16.3%, 467/1970=23.7%; 20/21=0.952381, 40/67=0.597015. Appendix A.4 correctly keeps 90/111 historical-only.
+
+---
+
+LOOP_C_ITEM_APPLICATION_VERDICT = CONDITIONAL
+LOOP_C_CLAIM_BOUNDARY_VERDICT = CONDITIONAL
+LOOP_C_PACKAGE_CONSISTENCY_VERDICT = CONDITIONAL
+LOOP_C_INDEPENDENT_VERDICT = CONDITIONAL
+
+Top residual risk: the abstract registration package is one revision behind the manuscript and is the nearest irreversible external deadline (2026-10-19 AoE) — registering it as-is would fix a different abstract than the paper submits, so it must be resynced before registration rather than after.
