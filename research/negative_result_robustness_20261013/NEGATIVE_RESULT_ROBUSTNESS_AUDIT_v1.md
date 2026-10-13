@@ -138,8 +138,9 @@
    处置：已移除，改为 content hash in the artifact manifest；重建+审计 PASS。
 2. repo 相对路径（data/、scripts/、config/）——可接受；
    SE/RENE 论文报实现坐标是惯例，且非识别性（v3 审核确认）。
-3. 127.0.0.1:8004 —— 非识别但略突兀；保留（同上结论），
-   若导师偏好可一行改为 served locally。
+3. 127.0.0.1:8004 —— 原判“非识别但略突兀；保留”；2026-10-13 owner 拍板改为学术表述，已执行：
+   `served at 127.0.0.1:8004` → `served locally`、`:8004 judge` ×2 → `local judge`；重建+审计 PASS
+   （见 paper 布局审计同日条目 Presentation fix (2026-10-13e)）。
 4. Qwen3.6-35B-A3B (Q4_K_M GGUF) —— 保留（评审需要知道 judge 模型身份）。
 5. 其他机器味文本（12 calls、配置文件名等）——保留，均为可复核实现事实。
 6. 复核：修复后全文与 PDF 的 sha256 计数均为 0；两处指向句就位。

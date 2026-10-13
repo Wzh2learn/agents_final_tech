@@ -53,3 +53,8 @@ PDF_LAYOUT_AUDIT = PASS. The compiled PDF exists, page count verified, reference
 ## Presentation fix (2026-10-13d)
 - Removed the two inline sha256 strings from Section 4.1 (machine-residue reading; the hashes remain in the frozen evidence record / artifact manifest). Replacement text: "content hash in the artifact manifest" (x2).
 - Rebuild: md2tex -> bundle -> tectonic; exit 0; 9 pages; 0 overfull; `PRE_SUBMISSION_AUDIT = PASS`; `WIDE_EVIDENCE_CHECK = PASS`; PDF text contains no "sha256". No number, claim, or evidence-hash change.
+
+## Presentation fix (2026-10-13e)
+- Owner decision (following the robustness-record Sec. 8 text scan): replace the remaining deployment-style strings. Applied: `served at 127.0.0.1:8004` -> `served locally` (Sec. 4.1); `the :8004 judge` -> `the local judge` (x2; reinstatement criteria and the criterion-(ii) paragraph). Other machine-flavoured strings kept as previously adjudicated (repo-relative paths, judge model identity, call counts).
+- Rebuild: `python paper/_md2tex.py` -> `python paper/_to_bundle_tex.py` -> `tectonic saner_rene_manuscript_v1.tex`; exit 0; 9 pages; 0 overfull; PDF 289.28 KiB; `??` = 0.
+- `PRE_SUBMISSION_AUDIT = PASS`; `WIDE_EVIDENCE_CHECK = PASS`; PDF text: `127.0.0.1` = 0, `localhost` = 0, `:8004` = 0 (was 1 / 0 / 3). Diff: 3 lines in the source md, 3 lines in each regenerated .tex. No number, claim, or evidence-hash change.
