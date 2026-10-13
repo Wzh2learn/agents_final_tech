@@ -58,7 +58,8 @@
 | Feedback-right 合约草案 | [`research/WP0_TATQA_FEEDBACK_RIGHT_CONTRACT_DRAFT_v1.md`](research/WP0_TATQA_FEEDBACK_RIGHT_CONTRACT_DRAFT_v1.md) | 允许/禁止清单 + 记录 schema + 待导师决的空项；未生效 |
 | Actor revision 冻结方案 | [`research/WP0_ACTOR_REVISION_FREEZE_PLAN_v1.md`](research/WP0_ACTOR_REVISION_FREEZE_PLAN_v1.md) | 候选 Qwen3-8B/4B（均非 MODEL_GO）+ 冻结包与步骤；未执行 |
 | TAT-QA 评测协议 | [`research/WP0_TATQA_EVALUATION_PROTOCOL_v1.md`](research/WP0_TATQA_EVALUATION_PROTOCOL_v1.md) | 四臂/端点/门/预注册清单；SPEC_ONLY |
-| Loop A 执行包（WP-1） | [`research/WP0_TATQA_LOOP_A_EXECUTION_PACKAGE_v1.md`](research/WP0_TATQA_LOOP_A_EXECUTION_PACKAGE_v1.md) | W1–W5 薄实现+fixture；待批准后经 launcher 派发 |
+| Loop A 执行包（WP-1） | [`research/WP0_TATQA_LOOP_A_EXECUTION_PACKAGE_v1.md`](research/WP0_TATQA_LOOP_A_EXECUTION_PACKAGE_v1.md) | W1-W5 thin implementation + fixtures; dispatched via launcher; run1 fail-closed -> spec rev1.1 -> run2 PASS |
+| WP-1 thin runner delivery (TAT-QA) | [`../research/tatqa_wp0_2026/wp1/WP1_RECEIPT.json`](../research/tatqa_wp0_2026/wp1/WP1_RECEIPT.json) | checker/adapter/provenance/fixtures/preflight; six obligations PASS; 0 model calls; Loop C audit running |
 | **最终 handoff** | [`../FINAL_HANDOFF_v1.md`](../FINAL_HANDOFF_v1.md) | 下一 session 第一入口（owner 决策已记录） |
 | 投稿前一键审计 | [`../scripts/pre_submission_audit.py`](../scripts/pre_submission_audit.py) | evidence/anonymisation/format/artifact 四组；当前 PASS |
 | 匿名 artifact 包（备而未发） | [`../research/artifact_release_2026/README.md`](../research/artifact_release_2026/README.md) | 12 项已就绪 + 2 项 GB10 数据体；发布需 owner |

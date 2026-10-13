@@ -43,4 +43,4 @@ Prompt file must state: scope = W1-W5 only; write paths; receipts; fail-closed; 
 | Run | Task id | Window (UTC) | Result |
 |---|---|---|---|
 | 1 | `tatqa-wp1-20261013` | 10:30:27 -> 10:53:38 | `SOFTWARE_NOT_QUALIFIED: hidden_gold_search` (fail-closed; no receipts generated; root cause: the check searched actor-visible late/early cells -> false-positive class; spec clarified as revision 1.1, `WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md` Sec.4; no test weakened) |
-| 2 | `tatqa-wp1b-20261013` | dispatched 2026-10-13 | pending - bounded fix per revision 1.1 (`loop_a_prompt_fix1.md`) |
+| 2 | `tatqa-wp1b-20261013` | 10:59:26 -> 11:12:28 | **PASS** - all six obligations + preflight; receipts `WP1_RECEIPT.json` / `PREFLIGHT_RECEIPT.json` / `FIXTURE_RECEIPT.json`; model_calls=0. Loop D re-verification 2026-10-13: artifact hashes recompute; obligations re-executed PASS. Loop C audit dispatched (`tatqa-wp1-audit-20261013`). |
