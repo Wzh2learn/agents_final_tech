@@ -1,0 +1,371 @@
+{
+  "audit": "negative_result_robustness_v1",
+  "date_utc": "2026-10-13",
+  "checks": {
+    "A_injections_n": 118,
+    "A_family_visible_frozen": {
+      "alias_variant": {
+        "n": 47,
+        "visible_frozen": 43
+      },
+      "date_variant": {
+        "n": 17,
+        "visible_frozen": 15
+      },
+      "mixed_lang": {
+        "n": 20,
+        "visible_frozen": 20
+      },
+      "ocr_similar": {
+        "n": 13,
+        "visible_frozen": 0
+      },
+      "prefix_noise": {
+        "n": 16,
+        "visible_frozen": 13
+      },
+      "unit_suffix": {
+        "n": 5,
+        "visible_frozen": 5
+      }
+    },
+    "A_total_visible": 96,
+    "A_total_absorbed": 22,
+    "A_ocr_n": 13,
+    "A_ocr_clusters": 11,
+    "A_ocr_all_gamma_invisible": true,
+    "A_ocr_mapping_keys_same_full": 12,
+    "A_ocr_absorbed_full": 13,
+    "A_ocr_cases": [
+      {
+        "uid": "1fe3e1d6",
+        "col": 2,
+        "original": "Number of equity shares",
+        "injected": "Number of equty shares",
+        "single_token_diff": true,
+        "orig_token": "equity",
+        "inj_token": "equty",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "21c316d6",
+        "col": 2,
+        "original": "Dividend per Share",
+        "injected": "divdend per Share",
+        "single_token_diff": true,
+        "orig_token": "Dividend",
+        "inj_token": "divdend",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "3c609073",
+        "col": 1,
+        "original": "Vessels and capitalized dry-docking",
+        "injected": "Vessels and capitaiized dry-docking",
+        "single_token_diff": true,
+        "orig_token": "capitalized",
+        "inj_token": "capitaiized",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "3c609073",
+        "col": 3,
+        "original": "Other plant and operating equipment",
+        "injected": "Other plant and operat1ng equipment",
+        "single_token_diff": true,
+        "orig_token": "operating",
+        "inj_token": "operat1ng",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "44c7c9ef",
+        "col": 1,
+        "original": "Operating Leases",
+        "injected": "operat1ng Leases",
+        "single_token_diff": true,
+        "orig_token": "Operating",
+        "inj_token": "operat1ng",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "5fe2c49e",
+        "col": 1,
+        "original": "Operating Leases",
+        "injected": "operat1ng Leases",
+        "single_token_diff": true,
+        "orig_token": "Operating",
+        "inj_token": "operat1ng",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "5fe2c49e",
+        "col": 2,
+        "original": "Capital Leases",
+        "injected": "capitai Leases",
+        "single_token_diff": true,
+        "orig_token": "Capital",
+        "inj_token": "capitai",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "6a5e5192",
+        "col": 0,
+        "original": "Equity-settled",
+        "injected": "equty-settled",
+        "single_token_diff": true,
+        "orig_token": "Equity-settled",
+        "inj_token": "equty-settled",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "6f9a0eb1",
+        "col": 0,
+        "original": "Capital expenditures 2017–2019",
+        "injected": "capitai expenditures 2017–2019",
+        "single_token_diff": true,
+        "orig_token": "Capital",
+        "inj_token": "capitai",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "c0f66238",
+        "col": 3,
+        "original": "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))",
+        "injected": "Number of securities remaining available for future issuance under equty compensation plans (excluding securities reflected in column(a))",
+        "single_token_diff": true,
+        "orig_token": "equity",
+        "inj_token": "equty",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "d2bba753",
+        "col": 0,
+        "original": "Capital stock",
+        "injected": "capitai stock",
+        "single_token_diff": true,
+        "orig_token": "Capital",
+        "inj_token": "capitai",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "d7d65228",
+        "col": 3,
+        "original": "Cash dividend per share (NT dollars)",
+        "injected": "Cash divdend per share (NT dollars)",
+        "single_token_diff": true,
+        "orig_token": "dividend",
+        "inj_token": "divdend",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      },
+      {
+        "uid": "e11338f6",
+        "col": 0,
+        "original": "Contractual Maturities of Financial Liabilities",
+        "injected": "Contractual Maturities of Financial liabilitie5",
+        "single_token_diff": true,
+        "orig_token": "Liabilities",
+        "inj_token": "liabilitie5",
+        "casefolded_token_lev": 1,
+        "inj_token_lowercase": true
+      }
+    ],
+    "A_ocr_morphology_definition": "exactly one token differs; injected token lowercase; casefolded token-level Levenshtein distance == 1",
+    "A_ocr_morphology_all_ok": true,
+    "A_all_injections_change_text": true,
+    "A_gamma_grid_matches_injections": {
+      "0.2": true,
+      "0.3": true,
+      "0.5": true,
+      "0.7": true,
+      "0.9": true
+    },
+    "A_checkpoint_rates_match": false,
+    "A_frozen_hashes": {
+      "t2_visibility_sensitivity": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5",
+      "checkpoint_discrimination_tables_v2": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
+      "injection_map": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+      "tatqa_tables_input": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+    },
+    "A_blind_types_by_matcher": {
+      "greedy_production": [
+        "ocr_similar"
+      ],
+      "greedy_normalized": [
+        "ocr_similar"
+      ],
+      "hungarian_production": [
+        "ocr_similar"
+      ],
+      "hungarian_normalized": [
+        "ocr_similar"
+      ]
+    },
+    "A_blind_single_family_ocr_all_matchers": true,
+    "A_normalization_flips": {
+      "n_flips": 5,
+      "flip_types": {
+        "date_variant": 5
+      }
+    },
+    "B_slopes": [
+      0.3749999125,
+      0.374999925,
+      0.375,
+      0.3750000375
+    ],
+    "B_max_dev_from_0375": 8.75000000233328e-08,
+    "B_grid_differences_unique": [
+      0
+    ],
+    "B_supports": {
+      "clean_flat_support": [
+        0.0
+      ],
+      "clean_layered_support": [
+        0.0
+      ],
+      "n_clean_usable": 2382,
+      "n_harmful_H_union_HI": 111
+    },
+    "B_identification": {
+      "threshold_identifiable": false,
+      "reason_head": "No unmodified clean panel can produce nonzero support under this exact score definition; any positive threshol"
+    },
+    "B_frozen_inputs_match": {
+      "d3_matched_fpr_stage_a": true,
+      "d1_mutant_validity_audit": true
+    },
+    "B_folds": 5,
+    "C_rows": 216,
+    "C_clusters": 72,
+    "C_leaves": [
+      "parse.doc.ok",
+      "parse.doc.throughput",
+      "parse.field.hit_rate",
+      "parse.reconcile.equations",
+      "parse.table.regression",
+      "qa.citation.judge",
+      "qa.faithfulness.judge",
+      "qa.numeric.exact",
+      "qa.numeric.number_grounding",
+      "qa.refusal.deterministic",
+      "qa.refusal.judge",
+      "qa.retrieval.source_required"
+    ],
+    "C_recomputed": {
+      "full_vector": {
+        "macro_f1": 1.0,
+        "top1": 1.0,
+        "tie_rate": 0.0
+      },
+      "direct_target_codebook": {
+        "macro_f1": 1.0,
+        "top1": 1.0,
+        "tie_rate": 0.0
+      },
+      "non_direct_leaves_only": {
+        "macro_f1": 0.3333333333333333,
+        "top1": 0.3333333333333333,
+        "tie_rate": 0.6666666666666666
+      },
+      "any_response_scalar": {
+        "macro_f1": 0.0,
+        "top1": 0.0,
+        "tie_rate": 1.0
+      }
+    },
+    "C_matches_stored": {
+      "full_vector": true,
+      "direct_target_codebook": true,
+      "non_direct_leaves_only": true,
+      "any_response_scalar": true
+    },
+    "C_zero_leaf_columns": {
+      "count": 8,
+      "leaves": [
+        "parse.doc.ok",
+        "parse.doc.throughput",
+        "qa.citation.judge",
+        "qa.faithfulness.judge",
+        "qa.numeric.exact",
+        "qa.numeric.number_grounding",
+        "qa.refusal.deterministic",
+        "qa.refusal.judge"
+      ]
+    },
+    "C_patterns_per_stage_unique": {
+      "M": 1,
+      "R": 1,
+      "N": 1
+    },
+    "C_m_profile": {
+      "field_hit_rate_all_1": true,
+      "table_regression_all_1": true
+    },
+    "C_r_profile": {
+      "source_required_all_1": true
+    },
+    "C_n_profile": {
+      "reconcile_all_1": true
+    },
+    "C_leakage_audit": {
+      "detail": "{\"expected_stage_matches\": true, \"m_n_uid_disjoint\": true, \"one_stage_per_cluster\": true, \"sample_ids_unique\": true, \"three_repeated_injections_per_cluster\": true}",
+      "status": "PASS"
+    },
+    "C_primary": {
+      "bootstrap_replicates": 10000,
+      "macro_f1": 1.0,
+      "macro_f1_ci95": [
+        1.0,
+        1.0
+      ],
+      "permutation_p_macro_f1": 9.999000099990002e-05,
+      "permutation_p_top1": 9.999000099990002e-05,
+      "permutation_replicates": 10000,
+      "top1_accuracy": 1.0,
+      "top1_ci95": [
+        1.0,
+        1.0
+      ]
+    },
+    "C_baseline": {
+      "chance_top1": 0.3333333333333333,
+      "majority_macro_f1": 0.16666666666666666,
+      "majority_top1": 0.3333333333333333
+    },
+    "C_receipt_hash_checks": {
+      "predictions_sha256": true,
+      "result_json_sha256": true,
+      "formal_runner_sha256": true
+    },
+    "C_freeze_fields": {
+      "status": "FREEZE_COMPLETE",
+      "temporal_order": "FREEZE_COMPLETE -> materialize formal evaluator outputs",
+      "result_artifacts_absent_at_freeze": true
+    }
+  },
+  "summary": {
+    "A_family_counts_match_paper": true,
+    "A_total_96_match": true,
+    "A_gamma_grid_all_match": true,
+    "A_normalization_flips_all_date_variant": true,
+    "B_slopes_all_approx_0375": true,
+    "B_grid_all_zero": true,
+    "B_supports_zero": true,
+    "C_matches_stored_all": true,
+    "C_zero_columns_8": true,
+    "C_patterns_unique_1_each": true
+  }
+}
