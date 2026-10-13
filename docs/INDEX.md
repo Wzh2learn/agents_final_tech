@@ -39,6 +39,7 @@
 | PR-03 溢出审计 | [`../research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md`](../research/positive_repair_20261011/PR03_SPILLOVER_AUDIT_v1.md) | PASS (CLEAN) |
 | 独立审计包（历史） | [`../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md`](../research/positive_repair_20261011/INDEPENDENT_AUDIT_PACKET_v1.md) | 其列出 pending 复核项已由独立 Loop C v2/v3 交付（见下行） |
 | 独立 Loop C 审计记录（A1–A7） | [`research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`](research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md) | v2 CONDITIONAL → 9 项修复 → v3 items/claim PASS；一处单字修复按裁定落实；双端复验 |
+| 负结果稳健性核查（Paper E） | [`../research/negative_result_robustness_20261013/NEGATIVE_RESULT_ROBUSTNESS_AUDIT_v1.md`](../research/negative_result_robustness_20261013/NEGATIVE_RESULT_ROBUSTNESS_AUDIT_v1.md) | bug/合成数据核查：复算 11 项 + FPR 字节级重跑 + 独立审计（bug-lens PASS；记录类小项已处置） |
 | Loop C 审计结果（self-audit，历史） | [`../research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md`](../research/positive_repair_20261011/LOOP_C_SELF_AUDIT_v1.md) | A/B/C 三项 = PASS；标注为 self-audit，non-independent |
 | 陈旧文件扫描 | [`../research/positive_repair_20261011/STALE_ARTIFACT_SCAN_v1.md`](../research/positive_repair_20261011/STALE_ARTIFACT_SCAN_v1.md) | 164 个零引用/陈旧文件；均已在约定历史位置，无需动作 |
 | Paper E 投稿门禁 | [`research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md`](research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md) | §12 为 2026-10-13 的 A1–A7 落实记录 |

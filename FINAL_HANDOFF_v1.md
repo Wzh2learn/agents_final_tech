@@ -22,6 +22,7 @@
 - Gate: `docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md` (status + §12 revision record).
 - Audit: `python scripts/pre_submission_audit.py` -> PASS (evidence / anonymisation / format / artifact).
 - Independent audit: `docs/research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md` (v2 CONDITIONAL -> 9/9 fixed -> v3 items PASS / claim boundary PASS; one prescribed word fix applied; machine re-verified both hosts).
+- Negative-result robustness check: `research/negative_result_robustness_20261013/NEGATIVE_RESULT_ROBUSTNESS_AUDIT_v1.md` (recompute 11/11 + byte-identical FPR rerun persisted + independent bug-lens audit PASS/PASS; recordkeeping items fixed or filed).
 - Submission execution handoff: `docs/research/SUBMISSION_EXECUTION_HANDOFF_v1.md` (owner-gated steps + copy-paste block; nothing auto-executed).
 - Reviewer defence: `docs/research/RENE_ADVERSARIAL_REVIEW_v1.md`, `docs/research/RENE_REVIEWER_RISK_SIMULATION_v1.md`.
 

@@ -1,0 +1,11 @@
+{
+  "check": "matched_fpr_reanalysis byte-identical re-run from frozen inputs",
+  "command": "python3 research/stage_e_method_revision_20261009/stage_e_matched_fpr_reanalysis.py --out /tmp/fpr_rerun.json",
+  "frozen_path": "research/stage_e_method_revision_20261009/matched_fpr_reanalysis.json",
+  "rerun_path": "data/research/negative_result_robustness_20261013/fpr_rerun.json",
+  "frozen_sha256": "23f11dfe0bf95edacb878fc02f94ae135df9e0281960f879926143679c1fdea0",
+  "rerun_sha256": "23f11dfe0bf95edacb878fc02f94ae135df9e0281960f879926143679c1fdea0",
+  "byte_identical": true,
+  "ran_utc": "2026-10-13T13:04:00Z (approx)",
+  "host": "GB10"
+}

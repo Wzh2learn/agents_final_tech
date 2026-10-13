@@ -1,0 +1,57 @@
+[loop-c] start 2026-10-13T13:10:08Z
+## Loop C — Bug-lens audit of Paper E negative results
+
+**Method note:** `python3` execution of project scripts was denied by my gate (only `python3 --version` passed). Per instructions I replicated statically with `jq`/`grep`/`sha256sum`/`cat`, including independent jq-level arithmetic. The one check I could **not** perform is the byte-identical re-run itself (see B2).
+
+---
+
+### 1. OCR-like 0/13 — **ROBUST**
+
+**(a) No-op injections — refuted.** `t2_visibility_sensitivity.json`: 0 of 118 rows have `original == injected`; all 13 OCR rows genuinely differ. Morphology verified independently and matches the receipt: exactly one token differs, injected token lowercase, casefolded token-level Lev=1 (e.g. `equity→equty`, `Dividend→divdend`, `Operating→operat1ng`, `Liabilities→liabilitie5`). Corroborated by a *different* artifact, `d3_autopsy_recompute.json` A-06: `lev_distribution {"1":13}`, `token_count_equal` true, `n_diff_tokens` 1 for all 13. The casefold step matters — `Operating→operat1ng` is 2 raw char edits but Lev=1 casefolded; both artifacts handle this correctly.
+
+**(b) Dead instrumentation — refuted.** Other families register 96/118 (mixed_lang 20/20, unit_suffix 5/5, alias 43/47, date 15/17, prefix 13/16). `dH > 0` for other families while `dH = 0.0` for all 13 OCR. OCR is invisible at all 5 gammas while other families' rates move with γ. The blind set is exactly `[ocr_similar]` in **all four** matcher configs (`d2_cross_matcher_det.json` blind_types) — a dead path in one matcher cannot produce 4/4 agreement on the same family.
+
+**(c) Masking mechanism — supported.** `mapping_keys_same_full` true 12/13 (the 13th is `e11338f6`, `liabilitie5` — correctly reported as 12, not 13, in both the receipt and adjudication line 139); `absorbed_full_injection` 13/13. Judge 13/13 equivalent lives in `d3_autopsy_recompute.json` A-04 (`jn1_cross_tab absorption_silent/ocr_similar {n:13, equivalent:13}`), **not** in t2's `equivalent_mutation` field (false for all OCR by design — the E-type whitelist excludes ocr_similar). Mechanism given at A-13: perturbed tokens are unregistered lexicon atoms carried verbatim into the equality test, so a lexicon gap can only push toward H, never fabricate E. A-12: data values unchanged 13/13.
+
+Manuscript scoping is exactly as required — abstract, body line 126, and limitations line 183 all say "**unobserved on the frozen scored surface**", with "benign absorption remains an alternative interpretation **rather than independent ground truth**" and "non-response alone does not establish harmful false negatives". Not upgraded to harmful blindness. ✓
+
+### 2. Matched-FPR structural equivalence — **ROBUST**
+
+**(a) Construction artifact — confirmed, and correctly scoped.** `paper_d3_matched_fpr_stage_a.py:398` derives `root(h) = 6.25 + 3.75·h` ⇒ layered drop ≡ `3.75·ΔH` ≡ `0.375·drop10`, strict algebraic slope **3/8** from the 3/8 tree weight. Measured slopes deviate ≤8.75e-8 (1e-6 quantization jitter). The claim is scoped to "the **single-responsive-leaf construction**" throughout. ✓ The all-zero affine grid is a *consequence* of that identity (`theta_layered = 0.375 * theta_flat`, script line 108) — a consistency check, not independent corroboration; the manuscript does not present it as such.
+
+**(b) Byte-identical re-run — asserted, not evidenced.** Frozen input hashes verify first-hand and match (`d3_matched_fpr_stage_a` 3318ac17…, `d1_mutant_validity_audit` ef1d46ed…). But the "byte-identical rerun" claim appears only in the commit message of `1c93b86c5` and the audit prompt; that commit ships 3 files and `recompute_negative_results.py:122-141` does hash *comparison* only — there is no re-run block and no receipt field. I could not reproduce it under my gate.
+
+**(c) Clean support {0} — confirmed; no blanket non-identifiability claim.** All 5 folds: `clean_positive_support {flat:0, layered:0}`, `threshold_status UNIDENTIFIED_ZERO_CLEAN_SUPPORT`. Claims triaged cleanly: `claim_a_structural_affine_equivalence: SUPPORTED`, `claim_b_empirical_clean_matched_fpr_equality: NOT_IDENTIFIABLE`, `old_90_111_comparison: SUPPORTING_SENSITIVITY_ONLY`. C2 states it is "a calibration degeneracy and **not a general non-identifiability** of matched-FPR comparisons" — this satisfies the BLOCKING A2 requirement. ✓
+
+*Non-defect, flagged because it looks like one:* 4 slopes vs 5 folds is **not** an inconsistency — script line 166 dedups `set(round(v,10))` over 90 positive pairs.
+
+### 3. Multi-leaf — **ROBUST**
+
+**(a) Label leakage — refuted.** `run_multileaf_formal.py:635` builds `x` **only** from `row["response_vector"][leaf]`; `cluster_id` enters only as the LOCO grouping variable (lines 637, 403). Note `sample_id`/`cluster_id` *do* encode the stage prefix (`"M-481dd318…"`, `"M:481dd318…"`) but never reach the feature matrix. Frozen predictor contract (pre-result) specifies input = "binary paired response vector", seeds frozen, tie-as-incorrect, all three repeated injections held out together. `leakage_audit` PASS on 5 structural fields.
+
+**(b) Freeze-before-results — confirmed.** `status FREEZE_COMPLETE`, `temporal_order "FREEZE_COMPLETE -> materialize formal evaluator outputs"`, `result_artifacts_absent_at_freeze: true`, captured 2026-10-10T01:01:51+08:00. Strong provenance: the runner's sha256 `d99e9436…` appears in the **pre-result** manifest, in the run receipt, and in my independent `sha256sum` — three-way match. All three result hashes verify independently.
+
+**(c) LOCO numbers — confirmed, derived independently.** I reconstructed all four arithmetically from the leaf profile (8/12 leaves all-zero; M: `field_hit_rate`=`table_regression`=1; R: `source_required`=1; N: `reconcile`=1; exactly one unique pattern per stage): full/direct 1.0; non-direct 0.3333 with tie 0.6667 (only M separable via `table_regression`, R≡N all-zero ⇒ both tied); any-response 0.0/1.0 (any=1 everywhere ⇒ identical centroids ⇒ all tie). Exact match to stored.
+
+**(d) "Explicit instrumentation, not hierarchy" — consistent.** `direct_target_codebook` 1.0 == `full_vector` 1.0, and every `full_without_*` variant is also 1.0 (redundancy, not hierarchy). `formal_results.claim_forbidden` is literally "The hierarchy localizes failures"; the manuscript says "not emergent localization from hierarchy". ✓
+
+### 4. Synthetic-data framing — **ROBUST**
+
+`corpus_note`: normalized public TAT-QA base (no client data), deterministic drift-v0 injector (seed 42, ratio 0.3), 95 carrier tables / 118 injections (counts verified). Scope lock lists "synthetic controlled perturbations", "no natural-failure distribution", and puts "universal cross-system generalization" out of scope. Intro states plainly: "We claim no universal blind spots, no hierarchy-localization… the evidence comes from one frozen corpus with synthetic perturbations… and no natural-failure distribution is measured." C1–C3 are all construction/surface-bounded; none of the 10 `forbidden_claims` is violated. C1–C2 and the four cited evidence docs' sha256 all match my independent hashes.
+
+### 5. Suspected defects — 4, all recordkeeping/reporting; **none scientific**
+
+1. **Hidden `false` in the receipt.** `recompute_receipt.json:194` records `A_checkpoint_rates_match: false`, but it is omitted from the `summary` block (:359-370), so "10/10 checks PASS" never surfaces it. Cause is a tolerance artifact, not a data inconsistency: `recompute_negative_results.py:105` compares with `abs_tol=1e-9` against `visibility_rate` stored at 4dp. Counts match **exactly** (47/43, 17/15, 20/20, 13/0, 16/13, 5/5); only `43/47=0.914893…` vs `0.9149` and `15/17=0.882352…` vs `0.8824` fail. Under-reported, not wrong.
+2. **"Byte-identical rerun" has no persisted receipt** (commit `1c93b86c5` message + audit prompt). Unverifiable by me; no artifact records it.
+3. **C1's judge clause is unbound.** `paper/saner_rene_claim_matrix_v1.json:13` asserts "a single judge classified all 13 cases as referentially equivalent", but its evidence array (:15-19) cites four docs, **none of which contain that finding** — grep for judge/equivalent/referent returns nothing relevant. First-hand source is `logs/graph/eval/d3_autopsy_recompute.json` (A-04/A-12), cited only by the adjudication (O3). The number is correct and the manuscript discloses it with proper hedging; only the matrix's provenance link is missing.
+4. **Under-documented leakage guarantee.** `leakage_audit` PASS fields cover design structure, not "features exclude identifier columns". That guarantee rests on `run_multileaf_formal.py:635` plus the frozen predictor contract. Correct, but not asserted where a reader would look.
+
+*Out-of-scope observation:* `logs/graph/dispatch_log.md` is modified in the working tree with ~1270/1278 lines rewritten and historical Track P entries removed, and it carries no entry for this 2026-10-13 recompute. Not one of the three findings; flagged as recordkeeping adjacency only.
+
+---
+
+`LOOP_C_NEGRESULT_RECHECK_VERDICT = CONDITIONAL`
+`LOOP_C_NEGRESULT_BUG_LENS_VERDICT = PASS`
+`LOOP_C_NEGRESULT_SYNTHETIC_SCOPE_VERDICT = PASS`
+
+Weakest remaining point: the "byte-identical re-run of the matched-FPR reanalysis" is asserted in the commit message and audit prompt with no persisted receipt, and was the one claim my gate would not let me reproduce — the underlying numbers hold under static verification, but their deterministic re-derivation is currently an unevidenced assertion.

@@ -102,8 +102,10 @@ record(receipt, 'A_gamma_grid_matches_injections', grid_ok)
 receipt['summary']['A_gamma_grid_all_match'] = all(grid_ok.values())
 
 cd = load('logs/graph/eval/checkpoint_discrimination_tables_v2.json')
-rate_ok = all(math.isclose(cd['by_type'][t]['visibility_rate'], by[t]['visible_frozen'] / by[t]['n'], abs_tol=1e-9) for t in by)
+rate_ok = all(math.isclose(cd['by_type'][t]['visibility_rate'], by[t]['visible_frozen'] / by[t]['n'], abs_tol=1e-4) for t in by)  # stored rates rounded to 4dp
 record(receipt, 'A_checkpoint_rates_match', rate_ok)
+record(receipt, 'A_checkpoint_rates_note', 'compared against rates recorded at 4 decimal places; counts match exactly')
+receipt['summary']['A_checkpoint_rates_match'] = rate_ok
 
 record(receipt, 'A_frozen_hashes', {
     't2_visibility_sensitivity': sha('logs/graph/eval/t2_visibility_sensitivity.json'),

@@ -191,7 +191,8 @@
       "0.7": true,
       "0.9": true
     },
-    "A_checkpoint_rates_match": false,
+    "A_checkpoint_rates_match": true,
+    "A_checkpoint_rates_note": "compared against rates recorded at 4 decimal places; counts match exactly",
     "A_frozen_hashes": {
       "t2_visibility_sensitivity": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5",
       "checkpoint_discrimination_tables_v2": "7c634b8a180b87b9d565699426704f266bc79427bd64223caaa2d50e56cffb72",
@@ -360,6 +361,7 @@
     "A_family_counts_match_paper": true,
     "A_total_96_match": true,
     "A_gamma_grid_all_match": true,
+    "A_checkpoint_rates_match": true,
     "A_normalization_flips_all_date_variant": true,
     "B_slopes_all_approx_0375": true,
     "B_grid_all_zero": true,
