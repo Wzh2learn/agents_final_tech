@@ -44,3 +44,8 @@ PDF_LAYOUT_AUDIT = PASS. The compiled PDF exists, page count verified, reference
 - References 21/21 resolved; `??` = 0. Metadata Author empty; Title set; no CJK; identity-token scan clean.
 - Machine audit: `PRE_SUBMISSION_AUDIT = PASS`; `WIDE_EVIDENCE_CHECK = PASS` after the scope-lock re-pin (docs + mirror manifests byte-identical; pin = GB10 raw-byte LF hash `4c951e618ed6f5ffa8af84aeb6e55eb75b3a90b88cc36d660714f78aaa35f213`).
 - Figure 3 caption now reads "...equals the uniform-class macro-F1 baseline (0.3333); the majority-class macro-F1 reference (0.1667) is plotted." (the word "also" was deleted on 2026-10-13 as the Loop C v3 prescribed fix; final rebuild: 9 pages, 0 overfull, audit PASS.) Panels A/B (macro-F1 / top-1) unchanged from the frozen figure.
+
+## Language pass (2026-10-13, final English edit)
+- 14 expression-only edits applied to the manuscript: abstract dash clause -> colon/comma; "The same shift" -> "The same pattern"; "refine ... into" -> "decompose ... into"; "from its abstract" -> "based on its abstract"; "hypothesises" -> "hypothesizes" (US); the 'Pruned parsing-root drop' label italicized; "so that checkpoint" -> "so that the checkpoint"; score ranges "0-10"/"0-5" -> en dash; Figure 2 caption "x" -> multiplication sign; "has observed FPR zero" -> "has an observed FPR of zero"; "range contracts" -> "range shrinks"; "reported as failed" -> "this failure is reported"; the 5.5 heading restructured; plus two source blank-line fixes.
+- Abstract resynced verbatim into the registration package and the submission handoff.
+- Rebuild: md2tex -> bundle -> tectonic, exit 0; 9 pages; 0 overfull; `PRE_SUBMISSION_AUDIT = PASS`; `WIDE_EVIDENCE_CHECK = PASS`; `??` = 0; no number, claim, or evidence-hash change.

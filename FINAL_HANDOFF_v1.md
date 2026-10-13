@@ -28,7 +28,7 @@
 ### What still stands between the frozen package and a submission
 1. Owner authorisation for abstract registration and submission (owner-only).
 2. ~~A genuine independent review~~ -> **DELIVERED 2026-10-13** (v2 CONDITIONAL -> 9/9 fixed -> v3 items PASS / claim boundary PASS; one prescribed word fix applied; record: `docs/research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`).
-3. Native-speaker language pass (optional; the US-spelling and dash pass is done).
+3. ~~Native-speaker language pass~~ -> final English language edit pass applied 2026-10-13 (model-executed; 14 expression edits + 2 source blank-line fixes; rebuild + full audit PASS; abstract resynced in the package and the submission handoff). A human native-speaker read remains optional.
 
 ### Forbidden from here
 - No number, evidence-hash, split, threshold, tie-rule or weight change.

@@ -34,7 +34,7 @@
 | 真独立 Loop C 复核 | **已交付（2026-10-13）** | 经设计 launcher：v2 CONDITIONAL → 9 项残留全修复 → v3：items PASS / claim boundary PASS；一处单字修复按裁定落实并双端机器复验（`LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`） |
 | 匿名 artifact 发布 | owner | 数据体在 GB10；许可范围未签；URL 未建立 |
 | 作者信息 | owner | 共同作者顺序/通讯作者未定；camera-ready 才恢复署名 |
-| 语言终审（native） | 未做 | 已做并美式统一与语法修正，但无母语者终审 |
+| 语言终审 | **已完成（2026-10-13，模型执行终审）** | 14 处语法/习语/标点修正（纯表达层，零数字/claim 变化）；重编译 + 全量审计 PASS；人类母语通读仍可选 |
 | RENE precedent 全文 | 未做 | 仅读 abstract（IEEE 付费墙），已登记 camera-ready 待办 |
 | Stage D / Stage R | 未闭合 | 与本投稿无关，不构成前置 |
 

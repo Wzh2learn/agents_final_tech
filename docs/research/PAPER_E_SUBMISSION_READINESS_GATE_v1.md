@@ -81,6 +81,6 @@ RENE 适配性仍须作者判断：FinQA 的失配诊断不是有效执行实验
 | 格式、引用、匿名 | 本次重编译后复验：9 页（正文含附录 ≤10，references 约 1 页 ≤2）、0 overfull、引用 21/21 解析、无 `??`、metadata 匿名、禁语 0 |
 | 外部流程与权限 | `PENDING_OWNER`（作者顺序/通讯作者、venue、匿名 artifact URL、注册与提交授权） |
 
-**更新（2026-10-13）：独立 Loop C 复核已交付**（设计 launcher 通道）：v2 = CONDITIONAL（9 项残留）→ 全部修复（commit 6655201）→ v3 = item application PASS / claim boundary PASS；package 残余仅一项由审计方裁定的单字图注修复（删除 "also"），已落实并由双端机器校验复验（`PRE_SUBMISSION_AUDIT = PASS`、`WIDE_EVIDENCE_CHECK = PASS`）。完整记录：`LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`。**仍未完成：** A7 的匿名 URL 未建立；标题最终措辞仍属作者决定（本记录采用候选 T1）；native-speaker 终审未做。
+**更新（2026-10-13）：独立 Loop C 复核已交付**（设计 launcher 通道）：v2 = CONDITIONAL（9 项残留）→ 全部修复（commit 6655201）→ v3 = item application PASS / claim boundary PASS；package 残余仅一项由审计方裁定的单字图注修复（删除 "also"），已落实并由双端机器校验复验（`PRE_SUBMISSION_AUDIT = PASS`、`WIDE_EVIDENCE_CHECK = PASS`）。完整记录：`LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md`。**仍未完成：** A7 的匿名 URL 未建立；标题最终措辞仍属作者决定（本记录采用候选 T1）。native 语言终审已完成（2026-10-13 模型执行：14 处纯表达修正 + 重编译 + 审计 PASS；human native 通读可选）。
 
 **本记录不使稿件变成 ready，也不授权任何外发动作。**
