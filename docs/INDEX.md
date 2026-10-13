@@ -50,6 +50,8 @@
 | 最终投稿清单 | [`research/SUBMISSION_READY_CHECKLIST_v1.md`](research/SUBMISSION_READY_CHECKLIST_v1.md) | 10 项 PASS；`SUBMISSION_READY (package)` |
 | **冻结包（投稿前）** | [`../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md`](../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md) | 版本/已完成/未完成/owner 决策/禁止修改 |
 | WP-0 入口包 | [`research/WP0_ENTRY_PACKAGE_v1.md`](research/WP0_ENTRY_PACKAGE_v1.md) | source landscape / ranking / gap map；Loop A 可直接开工 |
+| **WP-0 TAT-QA 包** | [`research/WP0_TATQA_PACKAGE_v1.md`](research/WP0_TATQA_PACKAGE_v1.md) | 许可已核验（MIT + CC BY 4.0）；任务池 188 表；origin 分组为唯一 blocker |
+| **最终 handoff** | [`../FINAL_HANDOFF_v1.md`](../FINAL_HANDOFF_v1.md) | 下一 session 第一入口（owner 决策已记录） |
 | 投稿前一键审计 | [`../scripts/pre_submission_audit.py`](../scripts/pre_submission_audit.py) | evidence/anonymisation/format/artifact 四组；当前 PASS |
 | 匿名 artifact 包（备而未发） | [`../research/artifact_release_2026/README.md`](../research/artifact_release_2026/README.md) | 12 项已就绪 + 2 项 GB10 数据体；发布需 owner |
 | 硕士研究执行入口 | [`research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`](research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md) | ENTRY_READY / QUALIFICATION_PENDING |
