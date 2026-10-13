@@ -46,6 +46,10 @@
 | WP-0 资格报告 | [`research/WP0_QUALIFICATION_REPORT_v1.md`](research/WP0_QUALIFICATION_REPORT_v1.md) | `SOURCE_INSUFFICIENT`；G-RQ/G-M 建议 HOLD |
 | WP-0 候选分析（排序/许可/gap/最小设计） | [`research/WP0_CANDIDATE_ANALYSIS_v1.md`](research/WP0_CANDIDATE_ANALYSIS_v1.md) | 前准备件；不授权下载或运行 |
 | RENE reviewer 风险模拟 | [`research/RENE_REVIEWER_RISK_SIMULATION_v1.md`](research/RENE_REVIEWER_RISK_SIMULATION_v1.md) | 10 项风险 + 已采取的纯表达加固 |
+| RENE adversarial review（三类 reviewer） | [`research/RENE_ADVERSARIAL_REVIEW_v1.md`](research/RENE_ADVERSARIAL_REVIEW_v1.md) | 三 persona 的 strongest reject / defence / 剩余措辞风险；W1–W3 已落实 |
+| 最终投稿清单 | [`research/SUBMISSION_READY_CHECKLIST_v1.md`](research/SUBMISSION_READY_CHECKLIST_v1.md) | 10 项 PASS；`SUBMISSION_READY (package)` |
+| **冻结包（投稿前）** | [`../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md`](../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md) | 版本/已完成/未完成/owner 决策/禁止修改 |
+| WP-0 入口包 | [`research/WP0_ENTRY_PACKAGE_v1.md`](research/WP0_ENTRY_PACKAGE_v1.md) | source landscape / ranking / gap map；Loop A 可直接开工 |
 | 投稿前一键审计 | [`../scripts/pre_submission_audit.py`](../scripts/pre_submission_audit.py) | evidence/anonymisation/format/artifact 四组；当前 PASS |
 | 匿名 artifact 包（备而未发） | [`../research/artifact_release_2026/README.md`](../research/artifact_release_2026/README.md) | 12 项已就绪 + 2 项 GB10 数据体；发布需 owner |
 | 硕士研究执行入口 | [`research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`](research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md) | ENTRY_READY / QUALIFICATION_PENDING |
