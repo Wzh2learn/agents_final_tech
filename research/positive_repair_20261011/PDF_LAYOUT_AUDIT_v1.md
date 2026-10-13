@@ -49,3 +49,7 @@ PDF_LAYOUT_AUDIT = PASS. The compiled PDF exists, page count verified, reference
 - 14 expression-only edits applied to the manuscript: abstract dash clause -> colon/comma; "The same shift" -> "The same pattern"; "refine ... into" -> "decompose ... into"; "from its abstract" -> "based on its abstract"; "hypothesises" -> "hypothesizes" (US); the 'Pruned parsing-root drop' label italicized; "so that checkpoint" -> "so that the checkpoint"; score ranges "0-10"/"0-5" -> en dash; Figure 2 caption "x" -> multiplication sign; "has observed FPR zero" -> "has an observed FPR of zero"; "range contracts" -> "range shrinks"; "reported as failed" -> "this failure is reported"; the 5.5 heading restructured; plus two source blank-line fixes.
 - Abstract resynced verbatim into the registration package and the submission handoff.
 - Rebuild: md2tex -> bundle -> tectonic, exit 0; 9 pages; 0 overfull; `PRE_SUBMISSION_AUDIT = PASS`; `WIDE_EVIDENCE_CHECK = PASS`; `??` = 0; no number, claim, or evidence-hash change.
+
+## Presentation fix (2026-10-13d)
+- Removed the two inline sha256 strings from Section 4.1 (machine-residue reading; the hashes remain in the frozen evidence record / artifact manifest). Replacement text: "content hash in the artifact manifest" (x2).
+- Rebuild: md2tex -> bundle -> tectonic; exit 0; 9 pages; 0 overfull; `PRE_SUBMISSION_AUDIT = PASS`; `WIDE_EVIDENCE_CHECK = PASS`; PDF text contains no "sha256". No number, claim, or evidence-hash change.
