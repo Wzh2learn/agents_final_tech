@@ -21,7 +21,7 @@
 
 ## 3. v3 method note (disclosed by the auditor)
 
-The v3 session's permission gate denied `python3`/`pdfinfo`/`pdftotext` (Loop C runs read-only without bypass flags), so it could not execute the two scripts; it read them and replicated every assertion manually (15/15 hashes; figure bindings; 21/21 citations; prereg pins; page/anonymity/forbidden checks). Loop D then ran both scripts natively on LOCAL and GB10: `WIDE_EVIDENCE_CHECK = PASS`, `PRE_SUBMISSION_AUDIT = PASS` (including the PDF `/Author` metadata surface, which the manual replication could not read).
+The v3 session's permission gate denied `python3`/`pdfinfo`/`pdftotext` (Loop C runs read-only without bypass flags), so it could not execute the two scripts; it read them and replicated every assertion manually (15/15 hashes; figure bindings; 21/21 citations; prereg pins; page/anonymity/forbidden checks). Loop D then ran the scripts natively: `verify_claim_evidence.py` = PASS on LOCAL and on GB10 (byte-exact both hosts). `pre_submission_audit.py` = full PASS on LOCAL (evidence / anonymisation / format / artifact, including the PDF `/Author` metadata surface, which the v3 manual replication could not read); on GB10 only its evidence and artifact groups can run - the PDF-reading groups require `pypdfium2`, which is not installed on GB10, so the PDF surfaces are covered by the LOCAL run plus v3 manual replication. The GB10-side authority for this revision is the byte-exact verifier PASS.
 
 ## 4. What is claimed / not claimed
 
