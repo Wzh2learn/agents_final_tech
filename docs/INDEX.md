@@ -51,6 +51,7 @@
 | 最终投稿清单 | [`research/SUBMISSION_READY_CHECKLIST_v1.md`](research/SUBMISSION_READY_CHECKLIST_v1.md) | 10 项 PASS；`SUBMISSION_READY (package)` |
 | 提交执行交接（owner 步骤） | [`research/SUBMISSION_EXECUTION_HANDOFF_v1.md`](research/SUBMISSION_EXECUTION_HANDOFF_v1.md) | 冻结版注册/投稿逐步指引（含可粘贴摘要块）；未执行任何动作 |
 | 导师研究状态简报 | [`research/ADVISOR_RESEARCH_STATUS_BRIEF_v1.md`](research/ADVISOR_RESEARCH_STATUS_BRIEF_v1.md) | Paper E 状态 / 投稿建议 / 大论文路线 / 风险与待决（四项） |
+| 大论文方向与决策地图 | [`research/THESIS_DIRECTIONS_AND_DECISIONS_MAP_v1.md`](research/THESIS_DIRECTIONS_AND_DECISIONS_MAP_v1.md) | 方向全集/自下而上核验表/拍板清单 P1–P6；供讨论，不改边界 |
 | **冻结包（投稿前）** | [`../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md`](../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md) | 版本/已完成/未完成/owner 决策/禁止修改 |
 | WP-0 入口包 | [`research/WP0_ENTRY_PACKAGE_v1.md`](research/WP0_ENTRY_PACKAGE_v1.md) | source landscape / ranking / gap map；Loop A 可直接开工 |
 | **WP-0 TAT-QA 包** | [`research/WP0_TATQA_PACKAGE_v1.md`](research/WP0_TATQA_PACKAGE_v1.md) | A1–A6 完成：raw 已获取（2479 条）；182 origins / 60 candidate items；G-RQ 建议 QUALIFIED_CONDITIONAL（owner 待批），G-M 仍 HOLD |

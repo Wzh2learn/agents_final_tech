@@ -46,6 +46,7 @@
 - Not authorised: WP-2 (pilot), any episode collection, any training.
 - Prep drafts (reversible): `docs/research/WP0_TATQA_FEEDBACK_RIGHT_CONTRACT_DRAFT_v1.md`, `docs/research/WP0_ACTOR_REVISION_FREEZE_PLAN_v1.md`, `docs/research/WP0_TATQA_EVALUATION_PROTOCOL_v1.md`, `docs/research/WP0_TATQA_LOOP_A_EXECUTION_PACKAGE_v1.md`.
 - Advisor brief: `docs/research/ADVISOR_RESEARCH_STATUS_BRIEF_v1.md`.
+- Directions map (for owner discussion): `docs/research/THESIS_DIRECTIONS_AND_DECISIONS_MAP_v1.md`.
 
 ## Read order for the next session
 
