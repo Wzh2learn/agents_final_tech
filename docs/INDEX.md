@@ -49,10 +49,16 @@
 | RENE reviewer 风险模拟 | [`research/RENE_REVIEWER_RISK_SIMULATION_v1.md`](research/RENE_REVIEWER_RISK_SIMULATION_v1.md) | 10 项风险 + 已采取的纯表达加固 |
 | RENE adversarial review（三类 reviewer） | [`research/RENE_ADVERSARIAL_REVIEW_v1.md`](research/RENE_ADVERSARIAL_REVIEW_v1.md) | 三 persona 的 strongest reject / defence / 剩余措辞风险；W1–W3 已落实 |
 | 最终投稿清单 | [`research/SUBMISSION_READY_CHECKLIST_v1.md`](research/SUBMISSION_READY_CHECKLIST_v1.md) | 10 项 PASS；`SUBMISSION_READY (package)` |
+| 提交执行交接（owner 步骤） | [`research/SUBMISSION_EXECUTION_HANDOFF_v1.md`](research/SUBMISSION_EXECUTION_HANDOFF_v1.md) | 冻结版注册/投稿逐步指引（含可粘贴摘要块）；未执行任何动作 |
+| 导师研究状态简报 | [`research/ADVISOR_RESEARCH_STATUS_BRIEF_v1.md`](research/ADVISOR_RESEARCH_STATUS_BRIEF_v1.md) | Paper E 状态 / 投稿建议 / 大论文路线 / 风险与待决（四项） |
 | **冻结包（投稿前）** | [`../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md`](../PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md) | 版本/已完成/未完成/owner 决策/禁止修改 |
 | WP-0 入口包 | [`research/WP0_ENTRY_PACKAGE_v1.md`](research/WP0_ENTRY_PACKAGE_v1.md) | source landscape / ranking / gap map；Loop A 可直接开工 |
 | **WP-0 TAT-QA 包** | [`research/WP0_TATQA_PACKAGE_v1.md`](research/WP0_TATQA_PACKAGE_v1.md) | A1–A6 完成：raw 已获取（2479 条）；182 origins / 60 candidate items；G-RQ 建议 QUALIFIED_CONDITIONAL（owner 待批），G-M 仍 HOLD |
 | TAT-QA 资格附录（A6） | [`research/WP0_TATQA_QUALIFICATION_APPENDIX_v1.md`](research/WP0_TATQA_QUALIFICATION_APPENDIX_v1.md) | G-RQ/G-M 建议 + 冻结测量事实 + 未决依赖；不授权 WP-1/WP-2 |
+| Feedback-right 合约草案 | [`research/WP0_TATQA_FEEDBACK_RIGHT_CONTRACT_DRAFT_v1.md`](research/WP0_TATQA_FEEDBACK_RIGHT_CONTRACT_DRAFT_v1.md) | 允许/禁止清单 + 记录 schema + 待导师决的空项；未生效 |
+| Actor revision 冻结方案 | [`research/WP0_ACTOR_REVISION_FREEZE_PLAN_v1.md`](research/WP0_ACTOR_REVISION_FREEZE_PLAN_v1.md) | 候选 Qwen3-8B/4B（均非 MODEL_GO）+ 冻结包与步骤；未执行 |
+| TAT-QA 评测协议 | [`research/WP0_TATQA_EVALUATION_PROTOCOL_v1.md`](research/WP0_TATQA_EVALUATION_PROTOCOL_v1.md) | 四臂/端点/门/预注册清单；SPEC_ONLY |
+| Loop A 执行包（WP-1） | [`research/WP0_TATQA_LOOP_A_EXECUTION_PACKAGE_v1.md`](research/WP0_TATQA_LOOP_A_EXECUTION_PACKAGE_v1.md) | W1–W5 薄实现+fixture；待批准后经 launcher 派发 |
 | **最终 handoff** | [`../FINAL_HANDOFF_v1.md`](../FINAL_HANDOFF_v1.md) | 下一 session 第一入口（owner 决策已记录） |
 | 投稿前一键审计 | [`../scripts/pre_submission_audit.py`](../scripts/pre_submission_audit.py) | evidence/anonymisation/format/artifact 四组；当前 PASS |
 | 匿名 artifact 包（备而未发） | [`../research/artifact_release_2026/README.md`](../research/artifact_release_2026/README.md) | 12 项已就绪 + 2 项 GB10 数据体；发布需 owner |

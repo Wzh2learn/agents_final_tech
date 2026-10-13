@@ -22,6 +22,7 @@
 - Gate: `docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md` (status + §12 revision record).
 - Audit: `python scripts/pre_submission_audit.py` -> PASS (evidence / anonymisation / format / artifact).
 - Independent audit: `docs/research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md` (v2 CONDITIONAL -> 9/9 fixed -> v3 items PASS / claim boundary PASS; one prescribed word fix applied; machine re-verified both hosts).
+- Submission execution handoff: `docs/research/SUBMISSION_EXECUTION_HANDOFF_v1.md` (owner-gated steps + copy-paste block; nothing auto-executed).
 - Reviewer defence: `docs/research/RENE_ADVERSARIAL_REVIEW_v1.md`, `docs/research/RENE_REVIEWER_RISK_SIMULATION_v1.md`.
 
 ### What still stands between the frozen package and a submission
@@ -42,6 +43,8 @@
 - TAT-QA execution: raw fetched (owner-authorised; 2,479 records, sha256-gated; receipt on GB10); origins 182 / candidate items 60; appendix `docs/research/WP0_TATQA_QUALIFICATION_APPENDIX_v1.md`; contracts `docs/research/WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md`; scripts `research/tatqa_wp0_2026/`.
 - Gate recommendation: **G-RQ -> QUALIFIED_CONDITIONAL** (remaining bindings: feedback right; actor revision freeze; budget/window - owner/advisor decide); **G-M -> HOLD**; `METHOD_NOVELTY = NOT_IDENTIFIED`.
 - Not authorised: WP-1 (runner), WP-2 (pilot), any training.
+- Prep drafts (reversible): `docs/research/WP0_TATQA_FEEDBACK_RIGHT_CONTRACT_DRAFT_v1.md`, `docs/research/WP0_ACTOR_REVISION_FREEZE_PLAN_v1.md`, `docs/research/WP0_TATQA_EVALUATION_PROTOCOL_v1.md`, `docs/research/WP0_TATQA_LOOP_A_EXECUTION_PACKAGE_v1.md`.
+- Advisor brief: `docs/research/ADVISOR_RESEARCH_STATUS_BRIEF_v1.md`.
 
 ## Read order for the next session
 
