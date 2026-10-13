@@ -1,6 +1,6 @@
 # WP-0 TAT-QA Adapter and Checker Contracts v1
 
-> date: 2026-10-13 | author: Loop D (WP-0 item A5) | status: `SPECIFICATION_ONLY - NOT IMPLEMENTED`
+> date: 2026-10-13 | author: Loop D (WP-0 item A5) | status: `SPECIFICATION_ONLY - NOT IMPLEMENTED` | revision 1.1 (2026-10-13): hidden-gold search clarified (Sec.4)
 > parents: [WP0_TATQA_PACKAGE_v1.md](WP0_TATQA_PACKAGE_v1.md), [task card](thesis_experience_v1_task_card.md), [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md) §2
 > These contracts describe what Loop A must implement in WP-1. Nothing here is code, and nothing here authorises a run.
 
@@ -53,3 +53,16 @@ On synthetic fixtures only, Loop A must show:
 6. the arm-context token delta between E and C is computed and reported.
 
 **Stop:** if any fixture obligation cannot be met, WP-1 stops and reports `SOFTWARE_NOT_QUALIFIED`. No model is called to "try it out".
+
+## 4. Revision 1.1 (2026-10-13): hidden-gold search clarified
+
+**Trigger:** WP-1 run 1 (`tatqa-wp1-20261013`) stopped fail-closed with `SOFTWARE_NOT_QUALIFIED: hidden_gold_search`. Diagnosis: the check searched `late_value` and `early_value` (fields of the `expected_gold` object) inside the projection. Those are raw table cells that the actor must read to compute the delta, so the search necessarily hits the table itself - a false-positive class, not a leak. The fail-closed stop was correct behaviour; the check definition, as written, was over-broad and undecidable.
+
+**Revision (supersedes Sec.3 obligation 2 only; every other obligation is unchanged):**
+
+(a) Forbidden-name search: none of the hidden field names (`gold_delta_source_unit`, `gold_recompute_rule`, `gold_delta_target_unit`, `expected_gold`, `origin_id`, `item_id`) appears in the projection.
+(b) Answer-value search: the derived answer strings - `delta_source` and `delta_target` exactly as the checker renders them (for example `60`, `-55`, `1.3`, `1300`) - have ZERO boundary-aware matches in the full serialized projection. A match counts only when flanked on both sides by characters outside the set {digits, `.`, `,`, `+`, `-`} (string start/end count as a boundary). No length filter; applies to EVERY fixture.
+(c) `late_value` and `early_value` are excluded from the search set: they are actor-visible task inputs by design, not gold.
+(d) Fixture-design precondition (makes (b) informative rather than vacuous): for every fixture, the same boundary-aware search over the raw table cells and period labels alone must also find zero matches; if a collision exists, the fixture's synthetic numbers must be adjusted (keeping the arithmetic correct) - never the check.
+
+**Change control:** this revision does not weaken (a)-(d); it makes the search well-defined and extends its scope to all fixtures. Any further failure of this obligation after this revision is a genuine finding.
