@@ -3,12 +3,13 @@
     "T-1",
     "T0",
     "T1",
-    "T2"
+    "T2",
+    "T3"
   ],
   "active_versions": [],
   "closer": "loop_d session acting as closer under owner instruction 2026-10-14",
   "execution_authorized": false,
-  "next_task": "T3 (trusted execution & counting) under R-line authorization",
+  "next_task": "T4 (R adapters & baseline) under R-line authorization",
   "proposal_budgets_approved": true,
   "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
   "r_line_authorized_to": "M1 (owner decision U07=C)",
@@ -41,6 +42,13 @@
       "run_id": "20261014T145327Z_9a02a34a",
       "status": "ACCEPTED_BY_REVIEW_2026-10-14",
       "task_id": "T2",
+      "version": "v1"
+    },
+    {
+      "review": "T3R-01",
+      "run_id": "20261014T161814Z_245b86ab",
+      "status": "ACCEPTED_BY_REVIEW_2026-10-14",
+      "task_id": "T3",
       "version": "v1"
     }
   ]

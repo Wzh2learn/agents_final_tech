@@ -7,3 +7,4 @@
 [2026-10-14] T1 已验收（T1R-03 ACCEPTED；v3 run 20261014T141004Z_2647a7e1）。评审 ID 命名冲突已修复：T-1 评审恢复至 reviews/T1R-01、T1R-02；事故案例任务评审迁移至 reviews/T1I-01..03。下一步：T2（独立评价底座）。
 
 [2026-10-15] T2 已验收（T2R-01 ACCEPTED，零阻断；advisory A 系列已在 registry 登记）。评价器 34/34×2、三退化策略全失败硬门、6 fail-closed；Loop A 自检 PASS。下一步：T3（可信执行与计数）。
+[2026-10-15] T3 已验收（T3R-01 ACCEPTED，零阻断；advisory A1-A8 登记，A1 升级条件保留待 owner；审阅者 .omc 残留已按 A8 清理）。可信执行 runner：234 文件包、manifest 233/233 复算零失配、8/8 绑定三方法一致、两遍独立复跑 32/32 且归一化哈希与声明一致、14 次 mock 传输分项重算一致、零外部调用、LOCAL_DEV_HOST 标注。下一步：T4（R 适配器与基线）。
