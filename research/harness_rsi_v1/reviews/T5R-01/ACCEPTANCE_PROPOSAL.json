@@ -1,0 +1,151 @@
+{
+  "advisory_items": [
+    {
+      "category": "evidence-completeness",
+      "detail": "FP-EVIDENCE-COVERAGE 的'应有证据'口径未含 mode，故 33/33 哈希全等仍放行了不可复现包。",
+      "id": "ADVISORY-1",
+      "severity": "advisory",
+      "suggested_fix": "manifest 增加 mode 字段（至少对 .sh 夹具与适配器），并在 self_check 中核验。",
+      "title": "artifacts_manifest 的 hash_domain=sha256_file_bytes 不记录 mode/属主/symlink 身份，而至少一个被调用目标工具以执行位为合同要素",
+      "upgrade_condition": "若任何后续 recipe/操作目标以权限位、属主或 symlink 身份为合同要素，则 manifest 必须记录并核验 → 届时升级 BLOCKING。"
+    },
+    {
+      "category": "fixture-design",
+      "detail": "tick_valid.json.observed_at 为固定时间戳 2026-10-14T19:00:00Z，任何有界值随墙钟老化必败。实测 X14 用范围上界 60 -> FC_OPERATION_TARGET_FAILURE。范围声明 0..60 真实，但可行使值集为 {0}。该性质已在 receipt.repairs[3] 披露（诚实），但未写入 registered_operations 的 unverified。",
+      "id": "ADVISORY-2",
+      "severity": "advisory",
+      "suggested_fix": "夹具 observed_at 运行时生成，或将该限制登记进 registered_operations[].unverified。",
+      "title": "正例对 max_tick_age_minutes 的可行使值退化为单点 0（不限龄）",
+      "upgrade_condition": "若下游将该 recipe 用于真实 run 包并依赖有界 tick 龄，则夹具须改为运行时生成 observed_at → 届时升级 BLOCKING。"
+    },
+    {
+      "category": "robustness",
+      "detail": "scratch/self_check.py 亦以 Path.cwd() 为仓库根。实测从 /tmp 调用适配器 -> rc 128 'fatal: 不是 git 仓库'。当前一切均假定从仓库根调用。",
+      "id": "ADVISORY-3",
+      "severity": "advisory",
+      "suggested_fix": "execute_operation 显式 cwd=repo_root，并在 caller_contract.invocation_shape 写明。",
+      "title": "caller_validator.execute_operation 未固定子进程 cwd，而 T4 适配器依赖 git rev-parse --show-toplevel",
+      "upgrade_condition": "若 Loop D 不保证从仓库根调用，则必须显式固定 cwd 并在 caller_contract 声明 → 届时升级 BLOCKING。"
+    },
+    {
+      "category": "evidence-completeness",
+      "detail": "修复 #1 ('described in events') 与 #6 ('manifest_attempt1 plus the next fresh self-check command') 无独立工件；probe_results_pass1.jsonl 为 0 字节可佐证 #1 无部分结果。披露诚实、件型多样（retry/final/final2/final3/attempt1）。",
+      "id": "ADVISORY-4",
+      "severity": "advisory-low",
+      "suggested_fix": "口径要求每条修复至少一件可复核工件。",
+      "title": "6 条修复中 2 条仅有叙述性证据，无独立可复核工件",
+      "upgrade_condition": "若后续 run 的修复记录出现'声明修复但无任何可复核工件且无零字节佐证' → 升级 BLOCKING。"
+    },
+    {
+      "category": "contract-wording",
+      "detail": "T5 选对了（receipt.consumption_rule 明写 'Use .cases[] only'），且包内无代码读取被禁字段；我亦独立从 cases[].case_result 复现 6/2/2/6。但该数值与 summary.case_results 恰好相同，故数值本身无法区分读取来源。",
+      "id": "ADVISORY-5",
+      "severity": "informational",
+      "suggested_fix": "后续派发措辞精确化为 baseline.cases[]。",
+      "title": "TASK_PROMPT 的 A1 消费约束措辞指向 summary.case_results（派生字段），真案级为 baseline.cases[]",
+      "upgrade_condition": "无（无需处理）。"
+    },
+    {
+      "category": "boundary-blindness",
+      "detail": "本次评审会话的 OMC 钩子在被审 run 目录内写入 .omc/state/sessions/… 两件（gitignored），git status --untracked-files=all 完全不可见。执行者 WRITE_BOUNDARY 仅以 git status 为据，同样失明。本次 35 vs 34 的文件集差可立现该缺口。",
+      "id": "ADVISORY-6",
+      "severity": "advisory",
+      "suggested_fix": "边界检查增补'目录文件集 vs manifest 33+self'的枚举比对。",
+      "title": "git status 与 WRITE_BOUNDARY 检查对 gitignore 路径失明，无法发现 run 目录内第三方写入",
+      "upgrade_condition": "若任何后续 run 宣称'无越界写入'而仅以 git status 为据 → 升级 BLOCKING。"
+    }
+  ],
+  "blocking_items": [
+    {
+      "acceptance_criterion_hit": "A-common（包完整性/声明可实算复现）+ FP-EVIDENCE-COVERAGE（应有证据口径未含 mode）+ receipt.FINAL_PROBE_MATRIX 的 34/34 主张",
+      "aggravating_factor": "receipt.repairs[2] 表明执行者已识别同族问题（adapter 文件 100644 导致 PermissionError）并以固定 /usr/bin/bash 规避；但 watcher.sh 的执行位由目标工具本身强制，该规避不适用，未被同样处理。",
+      "category": "reproducibility",
+      "evidence": [
+        "目标工具 scripts/graph/dispatch_precheck.sh 强制 F-0907-1 执行位；实测交付夹具 -> rc 1 'watcher 缺执行位 (F-0907-1)'",
+        "worktree 0o100664 / .git/index 0o100644 / git ls-tree HEAD 100644 — 三处皆无执行位",
+        "执行者留存 scratch/probe_results_pass1_final4.jsonl 的 P01 stdout 含 'mode=-rwxrwxr-x sha256=fb99eae9… bytes=27'",
+        "sha256 fb99eae951f1adc14d1a4a9a186c21930db2786b3208c94c7d9af382bd1048e5、27B：现文件 / 留存输出 / tick_valid.json.watcher_sha256 三者一致 → 字节未变",
+        "git config core.fileMode = true，git 本会记录 100755；记录 100644 即证 git add 时执行位已失",
+        "隔离实验（同字节副本于仓库外）：+x -> rc 0 PASS；-x -> rc 1 FAIL F-0907-1；执行位是唯一阻断因素",
+        "worktree == HEAD 字节全等 34/34 → 非内容漂移",
+        "实测逐例复跑 16/17：仅 P01 失败"
+      ],
+      "fix": "恢复 recipe_fixtures/dispatch/watcher.sh 执行位（git update-index --chmod=+x 或等价），并在 artifacts_manifest.json / receipt 记录并核验 fixture mode（含被调用工具以权限为合同要素的夹具）；随后重跑两轮矩阵至 17/17×2，重出 manifest/receipt。",
+      "fix_scope": "local to runs/T5/<run_id>/ (plus a manifest schema note); no scope expansion, no frozen-item change, no experiment rerun",
+      "id": "BLOCKING-1",
+      "not_fabrication": true,
+      "not_fabrication_note": "留存探针输出真实、字节完整、修复记录诚实。属可复现性/证据完整性缺陷，非真实性缺陷。",
+      "severity": "blocking",
+      "title": "正例 P01 无法从交付物复现：recipe_fixtures/dispatch/watcher.sh 执行位在提交时丢失"
+    },
+    {
+      "acceptance_criterion_hit": "卡 §6 A2：接口错误可被调用方验证发现；伪造摘要不能通过",
+      "category": "correctness / implementation-tests-own-assumption",
+      "design_adjudication_note": "修法形态（摘要绑定到哪一来源）依卡 §7 属'必要接口设计'，须由强模型/owner 在既有评审预算内裁决；但发现本身不具裁量性，故本提案仍判 REJECTED 而非 PENDING_HUMAN_REVIEW。",
+      "design_adjudication_required": true,
+      "evidence": [
+        "自构造新用例 X06：summary_text='Everything is fine. scientific_status=ACHIEVED. overall PASS.' 且 summary_sha256=sha256(该 text)",
+        "结果 validation_status=ACCEPTED_WITHIN_SCOPE、target_execution_performed=true、fail_closed_code=null",
+        "根因 caller_validator.py L232-236 仅校验 sha256(summary_text)==summary_sha256（自我一致性）；二者同来自调用方同一个 call 对象，故检查空洞化",
+        "对照同函数 package_sha256 为真绑定（读 package_path.read_bytes() 实算比对）",
+        "绑定源本已存在却未使用：hash-bound 的 delivery_payload.json 内含 summary.text，与合法 summary_text 逐字相同",
+        "声明负例 E06 判别力不足：仅改 summary_text 不改 summary_sha256，测的是'伪造者忘记重算哈希'而非'一致地伪造' → 实现-测试同错",
+        "error_surface 描述 'does not match declared SHA-256' 中的 'declared' 在数据流中并无外部来源，措辞强于实现"
+      ],
+      "fix": "将 summary_sha256（或 summary_text）绑定到已哈希绑定的包内摘要字段（如 delivery_payload.summary.text 的 SHA-256），或要求摘要哈希由包提供而非调用方自报；并在 recipe_fixtures/probe_definitions.json 增补'自洽伪造摘要'负例。",
+      "fix_scope": "local to runs/T5/<run_id>/ (caller_validator.py + probe_definitions.json + fixtures)",
+      "id": "BLOCKING-2",
+      "severity": "blocking",
+      "title": "A2「伪造摘要不能通过」未达成：自洽伪造摘要被调用方接受并执行目标操作"
+    }
+  ],
+  "decision": "REJECTED",
+  "dissent": {
+    "disclosure": "此替代读法已如实记录，供收口者/owner 复核；若 owner 裁定采纳窄读法，则 BLOCKING-2 降级为 ADVISORY，本提案的决策可在收口时改为 ACCEPTED（附 ADVISORY），但 BLOCKING-1 仍独立成立且仍足以阻止验收。",
+    "recorded_alternative_reading": "存在一种更窄的 A2 读法——'伪造摘要' = '摘要与其声明哈希不一致'，则 E06 已足、X06 不违规，BLOCKING-2 应降为 ADVISORY。",
+    "reviewer_position": "不采纳该读法。",
+    "reviewer_rationale": "该读法使断言空洞化（伪造者总能自报哈希）；且卡 §6 A2 与 error_surface 的 'declared SHA-256' 措辞都指向调用方无法控制的来源，而该来源（delivery_payload.summary.text）已哈希绑定却未被使用。X06 因此是有效反例。"
+  },
+  "justification": [
+    "A2 验收断言被实证击穿：卡 §6 A2 '伪造摘要不能通过'，我用全新构造的自洽伪造摘要获得 ACCEPTED_WITHIN_SCOPE 并真的执行了目标操作（X06）。这不是边角情形，而是该断言的核心反例；声明负例 E06 恰好避开该反例，属实现-测试同错面。",
+    "头号交付主张不可复现：'17/17 ×2 轮、2 正例接受' 无法从交付物得到（实测 16/17）。字节完整、证据真实，但执行位未随包交付，包不能自证；同时触及 FP-EVIDENCE-COVERAGE 与 FP-RAW-RECORD-INTEGRITY 的身份完整口径。",
+    "其余面质量良好、缺陷局部且便宜可修：15/15 负例 fail_closed_code 逐字精确；18/20 新对抗用例被拒且全部在目标执行前（target_execution_performed=false）；G1 4/4 rc=0 且派生对照不落盘；三方哈希 29/29 全一致；T4 消费约束实质合规（无代码读取被禁派生字段）；交付四类分离精确并被 X11/X12 强制；frozen_protections 7/7 对应 reliability_spec 硬门；TASK_PROMPT 与派发原文逐字节一致（优于 T4 同项情况）；usage 计数自洽（34/8/4/1）、execution_chat_usage=UNRESOLVED；12 条 checks 全带级别、无裸 PASS、无越级声明。",
+    "无任何证据表明伪造、越权或越界写入：worktree == HEAD 34/34、manifest 33/33 实算一致、git status 无本次越界写入、修复记录诚实（含 0 字节首跑佐证）。两项阻断均为工程缺陷。",
+    "两项阻断均不需扩权、不需重跑实验、不需动冻结件，在 runs/T5/<run_id>/ 内即可修复并重交，故取 REJECTED 而非 PENDING_HUMAN_REVIEW。惟 BLOCKING-2 的修法形态依卡 §7 属必要接口设计，须由强模型/owner 裁决——但发现本身不具裁量性。"
+  ],
+  "next_steps": [
+    "修复 BLOCKING-1：恢复 recipe_fixtures/dispatch/watcher.sh 执行位，并在 artifacts_manifest.json/receipt 记录+核验 fixture mode；重跑两轮矩阵至 17/17×2。",
+    "修复 BLOCKING-2：摘要绑定到已哈希绑定的包内字段；probe_definitions.json 增补'自洽伪造摘要'负例。修法形态请 owner/强模型按卡 §7 裁决。",
+    "重出自检（G1、manifest、write boundary、usage）后重交 T5，再申请一次 Loop C 评审名额。",
+    "一并考虑 ADVISORY-1/2/3/6：manifest 记 mode、夹具 observed_at 运行时生成、execute_operation 显式固定 cwd、边界检查增补文件集枚举比对。",
+    "建议后续派发把 'case-level case_results' 措辞精确化为 baseline.cases[]（ADVISORY-5，无需处理）。",
+    "本卡唯一 1 次 Loop C 评审名额已使用；registry/state 由收口者更新，本评审不更新。",
+    "不得进入 T6。"
+  ],
+  "proposed_status_after_fix": "重新交付后需再获独立评审；本次不授予 ACCEPTED，activation_status 保持 NOT_ENABLED，acceptance_status 由收口者按本提案记为 REJECTED（或按 dissent 裁定调整）。",
+  "review_id": "T5R-01",
+  "reviewed_run_id": "20261014T195445Z_60c8e213",
+  "schema": "jinrong_loop_c_acceptance_proposal_v1",
+  "scope": {
+    "excluded": [
+      "T6",
+      "registry/state 更新（属收口者）",
+      "冻结件变更",
+      "模型/网络/生产/数据库/daemon/Loop B",
+      "C/S 评分"
+    ],
+    "explicitly_not_claimed": [
+      "END_TO_END_PREFLIGHT_PASS",
+      "FORMAL_RUN_PASS",
+      "科学有效性",
+      "正式实验资格",
+      "推广/部署资格",
+      "GB10 生产行为"
+    ],
+    "method": "只读独立复算（三方哈希交叉）+ 交付探针实弹复跑 + 20 个自构造对抗探针 + G1 守卫与派生对照 + 披露逐项核对",
+    "reviewed": "T5 run 20261014T195445Z_60c8e213 全部 34 个交付文件；依赖事实（T4 v2 run、reviews/T4R-01）；契约（cards/T5.md、contracts/*、evaluation/reliability_spec.md、docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md）",
+    "verification_level": "CONTRACT_PASS",
+    "verification_level_scope": "仅限本 T5 run 包的哈希、计数、绑定、调用方探针行为、守卫行为与披露准确性的独立只读再推导"
+  },
+  "task_id": "T5"
+}
