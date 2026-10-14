@@ -1,0 +1,30 @@
+markdown=TASK_PROMPT.md
+command=python3 scripts/graph/hooks/summary_recompute_guard.py check /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/TASK_PROMPT.md
+rc=0
+stdout=[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/TASK_PROMPT.md: 无 SUMMARY-GUARD 块, 跳过
+stderr=
+
+markdown=recipe_fixtures/README.md
+command=python3 scripts/graph/hooks/summary_recompute_guard.py check /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/recipe_fixtures/README.md
+rc=0
+stdout=[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/recipe_fixtures/README.md: 无 SUMMARY-GUARD 块, 跳过
+stderr=
+
+markdown=recipe_fixtures/summary/good_summary.md
+command=python3 scripts/graph/hooks/summary_recompute_guard.py check /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/recipe_fixtures/summary/good_summary.md
+rc=0
+stdout=[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/recipe_fixtures/summary/good_summary.md: 1 收据块复核通过
+stderr=
+
+markdown=summary.md
+command=python3 scripts/graph/hooks/summary_recompute_guard.py check /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/summary.md
+rc=0
+stdout=[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/summary.md: 无 SUMMARY-GUARD 块, 跳过
+stderr=
+
+markdown_count=4
+all_markdown_rc_zero=true
+command=bash /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/summary_guard_derive_check_adapter.sh /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/recipe_fixtures/summary/good_summary.md
+wrapper_exit_code=0
+target_guard_exit_code=1
+mismatch_markdown_persisted=false

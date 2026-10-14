@@ -1,0 +1,389 @@
+{
+  "schema": "jinrong_t5_recipe_interfaces_v1",
+  "version": 1,
+  "status": "DELIVERED_NOT_ENABLED",
+  "direction": "R",
+  "protocol": {
+    "protocol_id": "HARNESS-RSI-V2-DRAFT",
+    "status": "FROZEN",
+    "freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b"
+  },
+  "design_principle": {
+    "recipe_object_separation": "Exactly one recipe object per R-direction object: runtime preflight recipe and evidence delivery recipe. Neither recipe may validate the other object or a generic overall PASS.",
+    "operation_policy": "Each recipe references only OP-T4-R-* entries from registered_operations.json. Unregistered operation IDs, command strings, arbitrary paths, injected flags and parameter type drift fail closed before target execution.",
+    "caller_side_validation": "The caller validator is a separate local program invoked by the probe runner. It validates the real caller call shape before dispatching any registered read-only operation.",
+    "baseline_consumption": "T4 baseline consumption is case-level only: baseline.json .cases[] is authoritative. combination_results and failure_family_profiles are deliberately not read because T4R-01 A1 identified arithmetic defects in those derived fields.",
+    "no_scoring_implementation": "Frozen protections are declared and referenced; T5 does not implement or alter R/C/S scoring, evaluator labels, promotion or scientific judgments."
+  },
+  "contract_sources": [
+    {
+      "source_id": "REAL_PIPELINE_PREFLIGHT_SHAPE",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline_recipe.json",
+      "git_blob_id": "ebe9231afd2abc8b426b52755751f612f2353478",
+      "use": "Actual T4 command/adapter call shape for dispatch precheck and summary guard routing."
+    },
+    {
+      "source_id": "REAL_PIPELINE_TRUSTED_RUNNER",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/runner.py",
+      "git_blob_id": "3708a4e6a8296ec29bacdfc170f9f8f8132bdf8d",
+      "use": "Actual bounded CLI, fail-closed and unique-record caller discipline."
+    },
+    {
+      "source_id": "REAL_PIPELINE_EVALUATOR_INPUT",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py",
+      "git_blob_id": "3d296b0b9667d16a2bd73973bb0f1ceebfbec263",
+      "use": "Actual R evaluator caller contract: required fields, path allowlist, hash binding and fail-closed behavior."
+    },
+    {
+      "source_id": "RELIABILITY_SPEC",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "git_blob_id": "fd2c1fdfb45806cd26961aa2f3c75aaeae887921",
+      "use": "Hard-gate semantics and four-dimensional non-compression rule."
+    },
+    {
+      "source_id": "FORMAL_PREFLIGHT_LEVELS",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+      "git_blob_id": "6d23e8d95a5dd9df01196d5c7397ffb076dd1735",
+      "use": "Verification-level vocabulary and scope requirements."
+    },
+    {
+      "source_id": "T4_ADVISORY_A1",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T4R-01/ACCEPTANCE_PROPOSAL.json",
+      "git_blob_id": "6bcb78125a45475c8180f93073a82473bcdfb420",
+      "use": "Requires case-level T4 baseline consumption and forbids trusting two derived summary fields."
+    }
+  ],
+  "shared_frozen_protections": [
+    {
+      "protection_id": "FP-CRITICAL-MISS-ZERO",
+      "source": "reliability_spec.md §6.3",
+      "required_semantics": "严重缺陷漏检=0",
+      "declaration": "FROZEN. No recipe may reduce, waive or reinterpret this gate; T5 performs no scoring."
+    },
+    {
+      "protection_id": "FP-FALSE-BLOCK-CEILING",
+      "source": "reliability_spec.md §6.3",
+      "required_semantics": "合法案例误拦不高于基线",
+      "declaration": "FROZEN. Positive controls must remain accepted within their declared scope; T5 does not set or alter the baseline."
+    },
+    {
+      "protection_id": "FP-EVIDENCE-COVERAGE",
+      "source": "reliability_spec.md §6.3",
+      "required_semantics": "证据完整率=100%",
+      "declaration": "FROZEN. Required evidence is explicit; missing evidence fails closed and is never silently excluded."
+    },
+    {
+      "protection_id": "FP-CLAIM-OVERRIDE-ZERO",
+      "source": "reliability_spec.md §6.3",
+      "required_semantics": "主张越级=0",
+      "declaration": "FROZEN. Engineering CONTRACT_PASS never becomes a scientific or formal-run PASS."
+    },
+    {
+      "protection_id": "FP-RAW-RECORD-INTEGRITY",
+      "source": "reliability_spec.md §6.3",
+      "required_semantics": "原始记录缺失/覆盖/身份漂移=0",
+      "declaration": "FROZEN. Existing run files are read-only; runtime-derived mismatch text is never persisted over a matching fixture."
+    },
+    {
+      "protection_id": "FP-BUDGET-INTEGRITY",
+      "source": "reliability_spec.md §6.3",
+      "required_semantics": "许可外调用、失败请求漏计、自动重试漏计=0",
+      "declaration": "FROZEN. T5 B0 counts all local tool invocations and permits no external call or automatic retry."
+    },
+    {
+      "protection_id": "FP-COST-RECORD",
+      "source": "reliability_spec.md §6.3",
+      "required_semantics": "耗时、调用量、token 完整记录",
+      "declaration": "FROZEN. Local tool counts and durations are recorded; execution-chat token remains UNRESOLVED, never zero."
+    }
+  ],
+  "recipes": [
+    {
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "single_object_declaration": {
+        "object_id": "runtime_preflight_recipe",
+        "object_type": "call-boundary and identity precheck for one run package",
+        "only_object": true,
+        "explicitly_not_responsible_for": [
+          "evidence delivery field validation",
+          "scientific measurement",
+          "R/C/S scoring",
+          "formal experiment qualification",
+          "promotion or deployment"
+        ]
+      },
+      "operations": [
+        {
+          "op_id": "OP-T4-R-DISPATCH-PRECHECK",
+          "parameters": {
+            "tick_path": "recipe_fixtures/dispatch/tick_valid.json",
+            "watcher_path": "recipe_fixtures/dispatch/watcher.sh",
+            "max_tick_age_minutes": 0
+          },
+          "expected_target_exit_codes": {
+            "wrapper_exit_code": 0,
+            "underlying_tool_exit_code": 0
+          }
+        },
+        {
+          "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK",
+          "parameters": {
+            "markdown_path": "recipe_fixtures/summary/good_summary.md"
+          },
+          "expected_target_exit_codes": {
+            "wrapper_exit_code": 0,
+            "underlying_tool_exit_code": 0
+          }
+        }
+      ],
+      "frozen_protections": [
+        "FP-CRITICAL-MISS-ZERO",
+        "FP-FALSE-BLOCK-CEILING",
+        "FP-EVIDENCE-COVERAGE",
+        "FP-CLAIM-OVERRIDE-ZERO",
+        "FP-RAW-RECORD-INTEGRITY",
+        "FP-BUDGET-INTEGRITY",
+        "FP-COST-RECORD"
+      ],
+      "caller_contract": {
+        "source": "REAL_PIPELINE_PREFLIGHT_SHAPE + REAL_PIPELINE_TRUSTED_RUNNER",
+        "invocation_shape": "Loop D submits a structured JSON call for one run_id; the caller validator rejects before target execution when any contract field, operation id, parameter or frozen binding is invalid.",
+        "required_input_fields": [
+          "schema",
+          "recipe_id",
+          "caller_context",
+          "run_id",
+          "protocol_freeze_sha256",
+          "operations",
+          "delivery_fields"
+        ],
+        "output_contract": {
+          "validation_status": [
+            "ACCEPTED_WITHIN_SCOPE",
+            "REJECTED"
+          ],
+          "recipe_id": "string",
+          "fail_closed_code": "null or FC_* enum",
+          "operation_results": "array; empty on caller rejection",
+          "target_execution_performed": "boolean"
+        },
+        "error_surface": [
+          "FC_INPUT_NOT_JSON_OBJECT",
+          "FC_MISSING_REQUIRED_FIELD",
+          "FC_UNREGISTERED_OPERATION",
+          "FC_SHELL_OR_COMMAND_INJECTION",
+          "FC_ARBITRARY_PATH",
+          "FC_PARAMETER_OUT_OF_RANGE",
+          "FC_PARAMETER_TYPE_MISMATCH",
+          "FC_RECIPE_OBJECT_MISMATCH",
+          "FC_HASH_BINDING_MISMATCH",
+          "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+          "FC_OPERATION_TARGET_FAILURE"
+        ]
+      },
+      "delivery_fields": {
+        "qualification": {
+          "status_field": "preflight_eligibility",
+          "allowed_values": [
+            "ALLOW_WITHIN_SCOPE",
+            "BLOCK",
+            "REVIEW_REQUIRED"
+          ],
+          "scientific_or_audit_fields_mixed_in": false
+        },
+        "audit": {
+          "status_field": "verification_level",
+          "allowed_values": [
+            "UNIT_PASS",
+            "COMPONENT_PASS",
+            "CONTRACT_PASS",
+            "INTEGRATION_PASS",
+            "END_TO_END_PREFLIGHT_PASS"
+          ],
+          "required_fields": [
+            "verification_level",
+            "scope"
+          ],
+          "scientific_or_execution_fields_mixed_in": false
+        },
+        "execution": {
+          "status_field": "execution_status",
+          "allowed_values": [
+            "NOT_STARTED",
+            "COMPLETED",
+            "FAILED"
+          ],
+          "required_fields": [
+            "execution_status",
+            "operation_count"
+          ],
+          "scientific_or_qualification_fields_mixed_in": false
+        },
+        "scientific": {
+          "status_field": "scientific_status",
+          "allowed_values": [
+            "NOT_EVALUATED",
+            "REVIEW_REQUIRED"
+          ],
+          "claim_field": "claim",
+          "claim_must_be": null,
+          "qualification_or_audit_fields_mixed_in": false
+        },
+        "overall_pass_field_forbidden": true
+      },
+      "probes": [
+        "recipe_fixtures/probe_definitions.json#T5-R-RUNTIME-PREFLIGHT-V1"
+      ]
+    },
+    {
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "single_object_declaration": {
+        "object_id": "evidence_delivery_recipe",
+        "object_type": "caller-side delivery validation for one receipt/manifest evidence package",
+        "only_object": true,
+        "explicitly_not_responsible_for": [
+          "run preflight or dispatch watcher validity",
+          "scientific measurement",
+          "R/C/S scoring",
+          "formal experiment qualification",
+          "promotion or deployment"
+        ]
+      },
+      "operations": [
+        {
+          "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK",
+          "parameters": {
+            "markdown_path": "recipe_fixtures/summary/good_summary.md"
+          },
+          "expected_target_exit_codes": {
+            "wrapper_exit_code": 0,
+            "underlying_tool_exit_code": 0
+          }
+        },
+        {
+          "op_id": "OP-T4-R-SUMMARY-GUARD-DERIVE",
+          "parameters": {
+            "base_markdown_path": "recipe_fixtures/summary/good_summary.md"
+          },
+          "expected_target_exit_codes": {
+            "wrapper_exit_code": 0,
+            "underlying_tool_exit_code": 1,
+            "underlying_tool_semantics": "expected negative-control detection only"
+          }
+        }
+      ],
+      "frozen_protections": [
+        "FP-CRITICAL-MISS-ZERO",
+        "FP-FALSE-BLOCK-CEILING",
+        "FP-EVIDENCE-COVERAGE",
+        "FP-CLAIM-OVERRIDE-ZERO",
+        "FP-RAW-RECORD-INTEGRITY",
+        "FP-BUDGET-INTEGRITY",
+        "FP-COST-RECORD"
+      ],
+      "caller_contract": {
+        "source": "REAL_PIPELINE_EVALUATOR_INPUT + REAL_PIPELINE_TRUSTED_RUNNER",
+        "invocation_shape": "A delivery caller submits one structured JSON package reference with bound package SHA-256, receipt/manifest field classes, and runtime-derived summary text; the caller compares the text hash before any operation and rejects mismatches.",
+        "required_input_fields": [
+          "schema",
+          "recipe_id",
+          "caller_context",
+          "run_id",
+          "protocol_freeze_sha256",
+          "package_ref",
+          "package_sha256",
+          "summary_text",
+          "summary_sha256",
+          "operations",
+          "delivery_fields"
+        ],
+        "output_contract": {
+          "validation_status": [
+            "ACCEPTED_WITHIN_SCOPE",
+            "REJECTED"
+          ],
+          "recipe_id": "string",
+          "fail_closed_code": "null or FC_* enum",
+          "operation_results": "array; empty on caller rejection",
+          "target_execution_performed": "boolean"
+        },
+        "error_surface": [
+          "FC_INPUT_NOT_JSON_OBJECT",
+          "FC_MISSING_REQUIRED_FIELD",
+          "FC_UNREGISTERED_OPERATION",
+          "FC_SHELL_OR_COMMAND_INJECTION",
+          "FC_ARBITRARY_PATH",
+          "FC_PARAMETER_OUT_OF_RANGE",
+          "FC_PARAMETER_TYPE_MISMATCH",
+          "FC_RECIPE_OBJECT_MISMATCH",
+          "FC_HASH_BINDING_MISMATCH",
+          "FC_FORGED_SUMMARY_MISMATCH",
+          "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+          "FC_OPERATION_TARGET_FAILURE"
+        ]
+      },
+      "delivery_fields": {
+        "qualification": {
+          "status_field": "delivery_eligibility",
+          "allowed_values": [
+            "ALLOW_WITHIN_SCOPE",
+            "BLOCK",
+            "REVIEW_REQUIRED"
+          ],
+          "scientific_or_audit_fields_mixed_in": false
+        },
+        "audit": {
+          "status_field": "verification_level",
+          "allowed_values": [
+            "UNIT_PASS",
+            "COMPONENT_PASS",
+            "CONTRACT_PASS",
+            "INTEGRATION_PASS",
+            "END_TO_END_PREFLIGHT_PASS"
+          ],
+          "required_fields": [
+            "verification_level",
+            "scope"
+          ],
+          "scientific_or_execution_fields_mixed_in": false
+        },
+        "execution": {
+          "status_field": "execution_status",
+          "allowed_values": [
+            "NOT_STARTED",
+            "COMPLETED",
+            "FAILED"
+          ],
+          "required_fields": [
+            "execution_status",
+            "operation_count"
+          ],
+          "scientific_or_qualification_fields_mixed_in": false
+        },
+        "scientific": {
+          "status_field": "scientific_status",
+          "allowed_values": [
+            "NOT_ACHIEVED",
+            "REVIEW_REQUIRED"
+          ],
+          "claim_field": "claim",
+          "claim_must_be": null,
+          "qualification_or_audit_fields_mixed_in": false
+        },
+        "overall_pass_field_forbidden": true
+      },
+      "probes": [
+        "recipe_fixtures/probe_definitions.json#T5-R-EVIDENCE-DELIVERY-V1"
+      ]
+    }
+  ],
+  "verification_level": "CONTRACT_PASS",
+  "scope": "Two closed recipe interfaces, their frozen protection declarations, caller error surface and fixture probe references; no scientific measurement or formal qualification.",
+  "unverified": [
+    "Loop D production invocation against a future real run package",
+    "Independent Loop C acceptance",
+    "Sealed-set behavior and real defect rates",
+    "GB10 production services, databases, models or daemon behavior",
+    "Formal END_TO_END_PREFLIGHT_PASS and FORMAL_RUN_PASS"
+  ]
+}

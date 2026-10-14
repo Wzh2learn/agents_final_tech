@@ -1,0 +1,221 @@
+{
+  "schema": "jinrong_t5_probe_definitions_v1",
+  "version": 1,
+  "contract_sources": [
+    {
+      "source_id": "REAL_PIPELINE_PREFLIGHT_SHAPE",
+      "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline_recipe.json",
+      "git_blob_id": "ebe9231afd2abc8b426b52755751f612f2353478"
+    },
+    {
+      "source_id": "REAL_PIPELINE_TRUSTED_RUNNER",
+      "path": "research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/runner.py",
+      "git_blob_id": "3708a4e6a8296ec29bacdfc170f9f8f8132bdf8d"
+    },
+    {
+      "source_id": "REAL_PIPELINE_EVALUATOR_INPUT",
+      "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py",
+      "git_blob_id": "3d296b0b9667d16a2bd73973bb0f1ceebfbec263"
+    }
+  ],
+  "runtime_derivation_policy": {
+    "bad_summary": "Mutation is applied to in-memory summary_text only; no mismatching Markdown is persisted.",
+    "guard_negative_control": "The unchanged T4 adapter derives a temporary mismatching Markdown, the repository guard returns target_exit_code=1, and the temporary file is deleted.",
+    "wrapper_semantics": "wrapper_exit_code and target_exit_code are separate fields to prevent T4R-01 A2 field conflation."
+  },
+  "cases": [
+    {
+      "case_id": "P01-PRECHECK-VALID",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "expected": "ACCEPT",
+      "expected_fail_closed_code": null
+    },
+    {
+      "case_id": "P02-PRECHECK-UNREGISTERED-OP",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "op_id"],
+        "operation": "replace",
+        "value": "OP-ARBITRARY-SHELL"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION"
+    },
+    {
+      "case_id": "P03-PRECHECK-SHELL-INJECTION",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "watcher_path"],
+        "operation": "replace",
+        "value": "recipe_fixtures/dispatch/watcher.sh; curl http://example.invalid"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION"
+    },
+    {
+      "case_id": "P04-PRECHECK-RANGE",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "max_tick_age_minutes"],
+        "operation": "replace",
+        "value": 61
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE"
+    },
+    {
+      "case_id": "P05-PRECHECK-TYPE",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "max_tick_age_minutes"],
+        "operation": "replace",
+        "value": "2"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH"
+    },
+    {
+      "case_id": "P06-PRECHECK-MISSING-FIELD",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["delivery_fields"],
+        "operation": "delete"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD"
+    },
+    {
+      "case_id": "P07-PRECHECK-WRONG-HASH",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["protocol_freeze_sha256"],
+        "operation": "replace",
+        "value": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH"
+    },
+    {
+      "case_id": "P08-PRECHECK-ARBITRARY-PATH",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "tick_path"],
+        "operation": "replace",
+        "value": "/etc/passwd"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_ARBITRARY_PATH"
+    },
+    {
+      "case_id": "E01-DELIVERY-VALID",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "expected": "ACCEPT",
+      "expected_fail_closed_code": null
+    },
+    {
+      "case_id": "E02-DELIVERY-UNREGISTERED-OP",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["operations", 1, "op_id"],
+        "operation": "replace",
+        "value": "OP-SHELL-EVAL"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION"
+    },
+    {
+      "case_id": "E03-DELIVERY-SHELL-INJECTION",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["operations", 1, "parameters", "base_markdown_path"],
+        "operation": "replace",
+        "value": "recipe_fixtures/summary/good_summary.md && rm -rf /"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION"
+    },
+    {
+      "case_id": "E04-DELIVERY-MISSING-SCIENTIFIC",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["delivery_fields", "scientific"],
+        "operation": "delete"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD"
+    },
+    {
+      "case_id": "E05-DELIVERY-WRONG-PACKAGE-HASH",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["package_sha256"],
+        "operation": "replace",
+        "value": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH"
+    },
+    {
+      "case_id": "E06-DELIVERY-FORGED-SUMMARY",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["summary_text"],
+        "operation": "replace_runtime",
+        "value": "Fabricated delivery summary that is not bound to the evidence package."
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH"
+    },
+    {
+      "case_id": "E07-DELIVERY-SINGLE-OVERALL-PASS",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["delivery_fields"],
+        "operation": "insert",
+        "key": "overall_pass",
+        "value": true
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN"
+    },
+    {
+      "case_id": "E08-DELIVERY-PARAMETER-TYPE",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "markdown_path"],
+        "operation": "replace",
+        "value": ["recipe_fixtures/summary/good_summary.md"]
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH"
+    },
+    {
+      "case_id": "E09-DELIVERY-ARBITRARY-PATH",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["package_ref"],
+        "operation": "replace",
+        "value": "../../old_run/receipt.json"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_ARBITRARY_PATH"
+    }
+  ]
+}

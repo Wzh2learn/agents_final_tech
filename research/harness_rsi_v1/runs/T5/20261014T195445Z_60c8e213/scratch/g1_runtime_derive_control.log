@@ -1,0 +1,7 @@
+derived_md_path=/tmp/t4-v2-summary-mismatch.YIgqLB.md
+derived_md_sha256=5f6ed0c16e72fe3120f3a4ca5247efebe2ff079105b1c25e8f2ca10e943e41fe
+guard_command=python3 /home/testuser/wzh/projects/agents_final_tech/scripts/graph/hooks/summary_recompute_guard.py check /tmp/t4-v2-summary-mismatch.YIgqLB.md
+[summary-guard] FAIL 数字失配: request_count = 4 (收据声称 3)
+[summary-guard] /tmp/t4-v2-summary-mismatch.YIgqLB.md: 1 项失配 — 摘要必须与存储工件一致, 请重读复算后再提交
+guard_rc=1
+derived_md_removed=true
