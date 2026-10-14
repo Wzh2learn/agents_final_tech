@@ -141,4 +141,5 @@ skill-doctor 报 `FRONTMATTER_MISSING` 的 4 件 = `algorithm-description` / `pa
 - 本机 Loop D 工作区 `~/.codex/skills`: 本轮发现并修复 **1 error**（`subagent-fanout` 缺 `agents/openai.yaml`，由本日第二轮交叉引用更新引入本地副本）→ `skill-doctor --fix-safe` 修复 1 处；复跑 = **0 error / 125 warning**。报告: `research/skill_audit_20261014/doctor_local_harness_after_fix.txt`。
 - `skill-map`（仓库根）: 114 个被扫 / **重复安装 1 组 = `pdf`×2**（08-29 已裁定：仓库版为准，保持）；依赖边正常（figma 簇为主）；**未解析类引用 27 条**——逐条抽查全为启发式误报（占位符/目录名/示例词，如 `skill-name`、`customer-id`、目录名 `paper-writing`），**无真实断链**。报告: `research/skill_audit_20261014/map_repo.txt`。
 - 注册表↔磁盘: 与当日早先复核一致（唯一孤儿 = 已废保留的 `verification-before-completion`，合规；本轮 C9/C10 定性与两处交叉引用未产生新孤儿）。
+- harness 分发（收尾补记，2026-10-14）: skill-map 修复经 scripts/graph/sync_skills.sh --sync-one 同步至双机 harness 安装（GB10 ~/.codex/skills + 本机 ~/.codex/skills）；同步后 GB10 全量 --check = 99/99 PASS（此前唯一漂移项即 skill-map），本机 diff -rq 逐字节一致。
 - 结论: 无阻塞项；两处工具侧小修（本机 `openai.yaml`、skill-map 编码）已闭环；维持"逢 neat 收尾跑 doctor + map"节奏。
