@@ -1,0 +1,96 @@
+# Loop C 独立评审 T4R-01 — harness_rsi_v1 T4 v2「R 适配器与基线」
+
+- **评审对象**：`research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/`（T4 v2，提交 `579a8ca`，65 文件）
+- **评审者**：Loop C 独立质量审计层（GB10 / Claude Code CLI）
+- **协议**：FROZEN `282f5213…`；R 线授权至 M1；预算 B0；本卡唯一 1 次 Loop C 评审名额
+- **模式**：只读独立复算 + 篡改正控制 + 适配器/守卫实弹重跑 + 对抗反证。仓库与被审包只读；仅 stdout 输出；registry/state 由收口者更新。
+
+## 1. 范围与方法
+
+独立复算下列面，不采信被审包自述结论，逐项实跑：文件计数/哈希/manifest、input_bindings 双方法、protocol_freeze_check、依赖验收事实、守卫合规实弹（全部 9 个 `.md`）、篡改正控制（派生失配须被检出）、g2/g3 复核、11 组合×两轮回放对照 baseline、A1/A2/A3/A-common、对抗面（适配器只读性/作用域不扩张/排除清单/未验证与对照理由/usage/写入边界/repair 记录）、披露准确性。工具约束：不直接调用 git（改用**字节派生 git blob SHA-1 + `.git/index` 解析**双方法）；scratch 只经 `python3` 写仓库外 `/home/testuser/wzh/loop_runs/t4r01_recheck_a/`；`.sh` 适配器经 `python3`/`subprocess` 包装执行。
+
+## 2. 逐项结果（含命令/退出码证据）
+
+### 2.1 计数与哈希 — FACT，PASS
+- 命令：`os.walk` 全量枚举 → **恰 65 文件**（含 manifest 自身）。
+- `artifacts_manifest.json`：`artifact_count=64`，`artifacts` 64 条（自不含）。逐条实算 sha256+bytes → **64/64 一致，0 mismatch**。
+- 覆盖：磁盘未在 manifest 的仅 `artifacts_manifest.json`（自哈希豁免）；manifest 条目均在盘，无遗漏无多余。64+1=65 ✓。
+
+### 2.2 input_bindings 等 — FACT，PASS（双方法）
+- 17 条绑定逐条双方法复算（M1=字节派生 blob SHA-1；M2=`.git/index` 解析，3735 条目）：**M1==M2==declared canonical_blob_id 全部 True**；含 sha256_file 的依赖条目亦一致。task_prompt sha256 实算=declared（`9781cf79…`）。
+- `protocol_freeze_check`：receipt `protocol_freeze_sha256` == `protocol.json.freeze_sha256` == **`282f52133a68…bf36b`**，`status=FROZEN` ✓。
+- 依赖验收事实：`T1I-03` proposal=**ACCEPTED**（binding=false，附强制 advisory F12）；`T2R-01` **ACCEPTED** blocking=0；`T3R-01` **ACCEPTED** blocking=0。依赖均已独立验收。
+
+### 2.3 守卫合规实弹（核心）— FACT，PASS
+- **(a) 全部 9 个 `.md`** 逐个 `python3 scripts/graph/hooks/summary_recompute_guard.py check <path>` → **9/9 rc=0**。实测分布：**5 个含收据块者复核通过**（effect/measurement_object/negative_result/offline_proxy/stale_manifest 各 `1 收据块复核通过`）+ **4 个无块者跳过**（TASK_PROMPT / adapters/README / usage_no_block / summary）。与 g1 矩阵**逐文件、逐 rc、逐 stdout 全等**。
+  - 注：本次评审任务书曾述「7 含块/2 无块」，**实测为 5 含块/4 无块**（`usage_no_block.md` 本就设计为无块）。此为评审简报数字与实况不符，**非被审包缺陷**；关键断言「全部 rc=0」已证。
+- **(b) 篡改正控制**：复制 `effect_match.md`+`derive_case_mismatch.py` 至 scratch，跑真实派生脚本 → 生成失配版；diff **恰一行** `request_count = 4 → 3`（指导的 claim 翻转）；对派生件跑守卫 → **rc=1**（`FAIL 数字失配: request_count = 4 (收据声称 3)`）；对基底跑守卫 → rc=0。**失配被检出 ✓**。
+- **(c) g2 复核**：v2 包内 9 个 `.md` 无任何持久化失败收据块（复扫 failing=0）；5 个 SUMMARY-GUARD 块 `artifact:` 全部指向 v2 run（无 v1 路径）；派生件仅瞬态（`mktemp` + `trap rm`），`/tmp` 无残留。v1 id 仅在 TASK_PROMPT/summary **叙述文字**中（supersedes 披露），不入收据块。
+- **(d) v1 根因**：对 v1 `fixtures/summary/effect_mismatch.md` 跑守卫 → **rc=1**（`FAIL 数字失配`）✓；实测 v1 manifest sha256=`8ef43aec…48af`、receipt=`f270cab1…1dbd`，**均==v2.supersedes 锚点** ✓。
+
+### 2.4 回放实跑 — FACT，PASS
+- 用 v2 适配器（按 README/replay_all.sh 用法）独立重跑 **11 组合×2 轮**，输出落 scratch。逐项工具级退出码 vs `baseline.json`：
+
+| 组合 | 工具 | 回放 rc(p1,p2) | baseline exit | result | MATCH |
+|---|---|---|---|---|---|
+| INC-01 | dispatch | 1,1 | 1,1 | detected | ✓ |
+| INC-02 | dispatch | 1,1 | 1,1 | detected | ✓ |
+| INC-07 | summary | 0,0 | 0,0 | missed | ✓ |
+| INC-09 | summary | 0,0 | 0,0 | missed | ✓ |
+| INC-09 | frozen | 1,1 | 1,1 | detected | ✓ |
+| INC-11 | dispatch | 1,1 | 1,1 | detected | ✓ |
+| INC-12 | derive | 1,1(guard_rc) | 1,1 | detected | ✓ |
+| INC-13 | derive | 1,1(guard_rc) | 1,1 | detected | ✓ |
+| INC-14 | summary | 0,0 | 0,0 | missed | ✓ |
+| CTRL-01 | summary | 0,0 | 0,0 | not_applicable | ✓ |
+| CTRL-02 | summary | 0,0 | 0,0 | not_applicable | ✓ |
+
+  **11/11 一致，且两轮确定性（p1==p2）**。22 条证据路径**全部存在**（0 missing）。精读 INC-12/13 四份 `*_summary_derive` 日志：均 `guard_rc=1`（失配被既有守卫判 FAIL）、`derived_md_removed=true`、`derived_md_sha256` 独立于基底、派生在 `/tmp` 瞬态；g1/g2/g3 三日志与我的独立复算全等，g3 `case_result_differences=[]`、`check_result_or_exit_code_differences=[]`、`expected_fixture_path_changes` 恰 2（INC-12/13 fixture→effect_match.md + runtime_derived_mismatch）。
+
+### 2.5 A1/A2/A3/A-common — FACT，PASS
+- **A1（CONTRACT_PASS，范围：身份齐全）**：model=**NONE**/calls=0；environment（hostname/os/python/repo_head/scope）；case_set=T1 16 例 + incidents/coverage/source_groups/review **blob id 全在**（artifact_level 13/2/1）；evaluator=**T2** 绑定（`3d296b0b…`）；工具含 6 个被排除项且各有理由。
+- **A2（CONTRACT_PASS，范围：两轮一致 + 每 PASS 带级/范围）**：11/11 两轮一致；扫描 receipt.checks + self_check.g1/g2/g3/a1/a2/a3/a_common → **无裸 PASS**，全部 `CONTRACT_PASS`+scope；baseline 逐 check 亦 `verification_level(COMPONENT_PASS)`+scope 齐备；**无越级**（未出现 END_TO_END/FORMAL）。
+- **A3（CONTRACT_PASS，范围：B0 边界）**：usage 模型/网络/远程/生产/数据库/训练/daemon/Loop B=**0**，自动重试=0，`execution_chat_usage=UNRESOLVED`；events.jsonl 佐证 adapter 调用 **22**（0–43 共 22 req/resp 对；44–46 为 package_build/final_self_check 生命周期事件，非适配器调用）。
+- **A-common（CONTRACT_PASS）**：JSON 全解析；必需字段齐；路径在 allowlist；声明哈希实算一致；写入边界=仅 v2 run（git_status_scope：4 个预存脏日志 + v1/v2 两 run，余无）；未知项显式（U-T4-01..06）。
+
+### 2.6 对抗面 — FACT，PASS（除见发现）
+- **适配器只读性**：对 69 个 run 工件+目标工具前后快照，跑 `summary_guard_check`+`derive` 适配器后 **0 变更、0 新增**。
+- **不扩张旧检查器作用域**：读 5 适配器源码——均 `exec`/`python3` 路由既有入口（`dispatch_precheck.sh`/`summary_recompute_guard.py check`/`md5sum --check`/`check_skill_sync.sh`），无重实现；derive 脚本仅翻转 claim 仍调同一既有 `check`。
+- **排除清单成立**：`loop_b_verify.sh`=`EXCLUDED_HARD`（现役 daemon）；`formal_experiment_preflight.py`=`EXCLUDED_UNVERIFIED`（无获准 FinManifest，不泛化专用资格）；余 4 项各有正当理由（需改 index / 写仓库日志 / 写 receipt+sidecar）。
+- **两个合法对照无误拦**：CTRL-01/02 rc=0、`false_interception=false`、expected=ALLOW_WITHIN_SCOPE ✓。
+- **未验证/对照理由抽查**：6 unverified（INC-03 预算/INC-04 覆盖/INC-05 导入冒烟/INC-06 在线参数/INC-08 原始证据/INC-10 双哈希域）理由精确——均缺获准离线入口或需在线/改 index/双域语义，**无可离线复盘却漏标的组合**；2 not_applicable 为合法对照，处置正确。
+- **usage/调用自洽**：22 适配器调用 == events 22 req/resp == baseline `adapter_tool_invocations`。
+- **写入边界**：仅 v2 run 内落盘；mtime/porcelain（git_status_scope）无越界。
+- **6 条 repair 记录**与证据一致：含 `runner_errors/` 3 份 **rc=127** setup 失败日志（`…/adapters/…: No such file or directory`），印证 repair#3「首轮适配器路由错指仓库根→已纠正、setup 日志留存、22 次成功调用」；repair#1/#2/#6 亦经 v2 夹具/路径/g1-9-md 验证。
+
+### 2.7 披露准确性 — FACT，基本 PASS
+- `supersedes` 字段完整（run_id/原因/保留方式/manifest+receipt 锚点，锚点已实测相符）。
+- LOCAL/B0/工程范围限定：summary.md 明示「工程能力画像，不是科学实验或正式基线」、6 未验证面、`UNRESOLVED`、`UNREVIEWED`；baseline `scientific_conclusions=NONE`、`baseline_type=engineering_capability_profile`。
+- TASK_PROMPT：归档 `TASK_PROMPT.md`（sha `9781cf79…`，与 receipt 绑定相符）为派发简报 `_dispatch/loop_a_prompt_t4_v2.md` 的**忠实精简重述**（再生成 TASK_PROMPT 系派发要求之一），操作性硬约束全保留；全文留 `_dispatch/`。非失实。
+
+## 3. 反证重点结论（FACT）
+- **守卫合规是否以降级验证面换取？→ 否。** 16 案全保留、映射语义不变（g3 零结果差异）、检查未放宽（同一 `check` 入口）、证据未丢（22 日志+3 setup 日志留存）；派发简报明确禁止「删案例/放宽检查/丢证据过守卫」。G3 差异表独立重算与之一致（仅 INC-12/13 fixture 路径变更=要求项）。
+- **派生流程是否真在运行期执行？→ 是。** 我用真实 `derive_case_mismatch.py` 独立重派生：恰 `request_count 4→3`、派生 sha256 独立、守卫实时 rc=1 并输出新鲜失配消息、派生件瞬态删除。非「抄 v1 失败输出」。
+- **baseline 标签与 22 证据是否一一对应、无粉饰？→ 逐组合标签诚实**（detected=工具对缺陷 fail-close；missed=缺陷下仍放行；not_applicable=对照未拦截），exit code 与证据全复现。**唯一不精确在汇总滚动字段**（见 ADVISORY A1），非逐例标签粉饰。
+
+## 4. BLOCKING / ADVISORY 发现
+
+**BLOCKING：无。** 四项硬验收断言（A1/A2/A3/A-common）均满足；核心交付（守卫合规可提交包、适配器、基线身份、两轮确定性回放、诚实工程画像）成立且可复现。
+
+**ADVISORY：**
+
+- **A1（数据一致性；发现于 baseline.json 汇总滚动）** — `summary.combination_results` 与 `summary.failure_family_profiles` 存在算术不一致（不影响任何逐例/逐组合标签、退出码、证据或案级画像）：
+  - `combination_results={detected 6, missed 2, not_applicable 2, unverified 0}` 合计 **10**，但适用组合实为 **11**；组合级 missed 实为 **3**（INC-07、INC-09-summary、INC-14），声明 2。根因：该字段实为「10 个带检查案例的案级汇总」却命名为 combination 级，并与 `applicable_case_check_combinations=11` 并列，故呈 10-vs-11 不一致、且少计 1 个 missed 组合。
+  - `failure_family_profiles` 行「完整性与预算」错：声明 `mapped 3/detected 2/unverified 2`，实测 `mapped 2(检查)/detected 1/unverified 3`；致各列合计与全局不符（family detected Σ=7 vs 6；unverified Σ=5 vs 6；mapped Σ=12 vs 11）。其余 5 族一致。
+  - 案级画像（`case_results` detected 6/missed 2/not_applicable 2/unverified 6）**正确**且被 summary.md/g3 采用；本缺陷为派生汇总表算术滑标，非伪造检出证据，且 v1↔v2 零差异（由 v1 继承，非 v2 引入）。
+  - **升级条件**：若任何下游 R 线选择/排序或检出率计算**读取 `combination_results`/`failure_family_profiles` 作为权威**（R 选择规则「缺陷检出更好/误拦更少」即消费此类计数），则该误计为实质问题，**须在使用前更正 → 届时升级 BLOCKING**；更正为局部改两派生字段，无需重跑。
+- **A2（低；字段语义）** — 同一调用的 `exit_code(s)` 在两工件语义不同：`baseline.json` 记**目标工具/guard rc**（derive=1），`events.jsonl` 记**适配器包装 rc**（derive=0）。derive 日志同时含 `guard_rc=1` 与 `adapter_exit_code=0`，baseline_recipe 另有 `expected_guard_exit_code=1`，故非失实；但同名字段并存易误导读数者。**升级条件**：若自动校验跨读 `baseline.json.exit_codes` 与 `events.jsonl.exit_code` 且未对 derive 特判，将虚报不一致 → 建议厘清字段命名/语义。
+- **A3（信息/极低）** — 归档 `TASK_PROMPT.md` 为派发简报的精简重述而非逐字节副本（再生成系要求项，约束无损，全文留 `_dispatch/`）。无需处理，仅记录以完备披露。
+
+## 5. FACT / INFERENCE / UNVERIFIED 分离
+- **FACT（我已独立实算/实跑）**：§2 全部计数、哈希、绑定、freeze、守卫矩阵、篡改正控制、g2/g3、11 组合×2 回放与退出码、22 证据存在、A1/A2/A3/A-common、适配器只读、排除清单、对照无误拦、usage/22 调用、写入边界、6 repair、supersedes 锚点、A1/A2 汇总不一致。
+- **INFERENCE（基于证据的推断）**：A1 汇总错的根因（combination 字段实为案级汇总却命名组合级）为合理推断；A2/A3 严重度评级为评审判断。
+- **UNVERIFIED（我未/无法验证）**：任何在线/模型行为（B0 禁止）；上游 T1I-03/T2R-01/T3R-01 评审本身的再审计（仅读其 decision）；v1「两机磁盘保留」之第二机存在性；执行对话 token；`git rev-parse HEAD:path` 原生命令（以双方法替代，未跑 git）。
+
+## 6. 判定与理由
+**ACCEPTED（提案，非 binding）。** 理由：四项硬验收断言全部满足并经独立实弹复现；v2 的核心目标——在**不降级验证面**前提下使包可通过仓库收据守卫（可提交）——已达成且经篡改正控制与独立派生重跑证明；逐例/逐组合标签与 22 证据诚实对应、两轮确定性、适配器只读且不扩张旧检查器作用域、B0 边界与写入边界干净、6 repair 有据。唯一实质发现（A1）为派生汇总表算术滑标，不影响测量结论、可局部更正、且带明确升级条件；符合「工程能力画像」定位。执行者不可自行填 ACCEPTED，本判定为 Loop C 提案，registry/state 由收口者更新；不进入 T5。

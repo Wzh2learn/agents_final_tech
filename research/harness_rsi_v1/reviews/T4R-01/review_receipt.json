@@ -1,0 +1,297 @@
+{
+  "calls": {
+    "database_calls": 0,
+    "execution_chat_token_usage": "UNRESOLVED",
+    "local_recheck": {
+      "adapter_replay_invocations": 22,
+      "derive_case_mismatch_runs": 1,
+      "summary_guard_check_invocations": 22,
+      "verification_scripts_executed": 12
+    },
+    "model_calls": 0,
+    "network_calls": 0,
+    "production_calls": 0,
+    "review_session_calls": 1,
+    "services_calls": 0
+  },
+  "checks": [
+    {
+      "check_id": "A1_identity_completeness",
+      "independent": true,
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "A2_deterministic_replay",
+      "independent": true,
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "A3_budget_boundary",
+      "independent": true,
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "A_common_package_integrity",
+      "independent": true,
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "FINQA_SCOPE_PRESERVED",
+      "independent": true,
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "counter_evidence_no_degradation",
+      "independent": true,
+      "result": "PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "baseline_rollup_consistency",
+      "finding": "A1: combination_results sums 10 vs 11 combos; 完整性与预算 family row miscounted; case-level profile correct",
+      "result": "ADVISORY",
+      "verification_level": "CONTRACT_PASS"
+    }
+  ],
+  "git_substitution_note": "No git command successfully executed by reviewer. HEAD/blob identity verified via byte-derived git blob SHA-1 + .git/index parse (dual method) as instructed. git rev-parse --show-toplevel is invoked only internally by the reviewed adapters themselves.",
+  "recomputed": {
+    "a1_identity": {
+      "case_set": "T1 16 + blob ids",
+      "env": "complete",
+      "evaluator": "T2 bound",
+      "level": "CONTRACT_PASS",
+      "model": "NONE",
+      "result": "PASS",
+      "tools_incl_excluded": true
+    },
+    "a2_no_bare_pass": {
+      "all_pass_have_level_scope": true,
+      "bare_pass_count": 0,
+      "level": "CONTRACT_PASS",
+      "overreach": "none (no END_TO_END/FORMAL)",
+      "result": "PASS"
+    },
+    "a3_budget_boundary": {
+      "adapter_calls": 22,
+      "events_corroborate": true,
+      "external_calls_all_zero": true,
+      "level": "CONTRACT_PASS",
+      "result": "PASS"
+    },
+    "a_common": {
+      "hashes_recompute": true,
+      "json_parse": true,
+      "level": "CONTRACT_PASS",
+      "required_fields": true,
+      "result": "PASS",
+      "write_boundary": "only v2 run"
+    },
+    "dependency_acceptance": {
+      "T1I-03": "ACCEPTED(proposal,binding=false)+advisory F12",
+      "T2R-01": "ACCEPTED blocking=0",
+      "T3R-01": "ACCEPTED blocking=0",
+      "result": "PASS"
+    },
+    "disclosure_check": {
+      "result": "PASS_WITH_NOTE",
+      "scope_qualifiers_present": true,
+      "supersedes_anchors_match": true,
+      "task_prompt": "faithful abridged restatement of _dispatch/loop_a_prompt_t4_v2.md (regeneration requested; constraints preserved)"
+    },
+    "file_count": {
+      "actual": 65,
+      "expected": 65,
+      "note": "65 incl artifacts_manifest.json",
+      "result": "PASS"
+    },
+    "g2_recheck": {
+      "derive_transient_only": true,
+      "persisted_failing_md": 0,
+      "result": "PASS",
+      "tmp_leftovers": 0,
+      "v1_artifact_path_in_blocks": 0
+    },
+    "guard_matrix": {
+      "all_rc_zero": true,
+      "briefing_7_2_discrepancy": "actual is 5 with-block / 4 skip; briefing figure inaccurate, not an artifact defect",
+      "matches_g1": true,
+      "md_files": 9,
+      "no_block_skip": 4,
+      "result": "PASS",
+      "with_block_pass": 5
+    },
+    "input_bindings": {
+      "all_agree": true,
+      "count": 17,
+      "method": "byte-derived git blob SHA-1 + .git/index parse (dual)",
+      "result": "PASS",
+      "task_prompt_sha_match": true
+    },
+    "manifest": {
+      "coverage": "no missing, no extra (self-hash exempt)",
+      "entries": 64,
+      "mismatches": 0,
+      "result": "PASS",
+      "verified": 64
+    },
+    "protocol_freeze_check": {
+      "matches_frozen": true,
+      "result": "PASS",
+      "value": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b"
+    },
+    "replay_comparison": {
+      "combinations": 11,
+      "deterministic": "11/11",
+      "evidence_paths_exist": "22/22",
+      "passes": 2,
+      "result": "PASS",
+      "tool_exit_codes_match_baseline": "11/11"
+    },
+    "tamper_positive_control": {
+      "derived_diff": "exactly request_count 4->3 (one line)",
+      "guard_on_base_rc": 0,
+      "guard_on_derived_rc": 1,
+      "mismatch_detected": true,
+      "result": "PASS"
+    },
+    "v1_root_cause": {
+      "result": "PASS",
+      "v1_effect_mismatch_guard_rc": 1,
+      "v1_manifest_sha256_match_anchor": true,
+      "v1_receipt_sha256_match_anchor": true
+    },
+    "write_boundary": {
+      "git_status_scope": "4 pre-existing dirty logs + v1 run + v2 run only",
+      "result": "PASS"
+    }
+  },
+  "refused_commands": [
+    {
+      "cmd": "mkdir -p /home/testuser/wzh/loop_runs/t4r01_recheck_a (compound incl. git rev-parse)",
+      "reason": "sandbox: mkdir outside allowed workdir; git portion never executed"
+    },
+    {
+      "cmd": "for f in *.sh; do cat \"$f\"; done",
+      "reason": "hook: Contains simple_expansion"
+    },
+    {
+      "cmd": "two python heredocs with brace-with-quote dict comprehensions",
+      "reason": "hook: expansion obfuscation"
+    },
+    {
+      "cmd": "find \"$PWD/...\" (interpolated)",
+      "reason": "hook: runtime-determined argument"
+    },
+    {
+      "cmd": "Write tool to /home/testuser/wzh/loop_runs/.../analyze_baseline.py",
+      "reason": "sandbox: Write restricted to workdir"
+    }
+  ],
+  "review_id": "T4R-01",
+  "reviewed_artifact_sha256": {
+    "TASK_PROMPT.md": {
+      "bytes": 2270,
+      "sha256": "9781cf794cc9754c1320f4dc64910abaab43cb71f53d22f0b58fc2c05c67383e"
+    },
+    "adapters/README.md": {
+      "bytes": 3276,
+      "sha256": "431fbe31ec46e3a00688586fae073083e285500adaf2ab968663a14d833b3b63"
+    },
+    "adapters/check_skill_sync_adapter.sh": {
+      "bytes": 136,
+      "sha256": "cdeef6284846655bb961a279d2839aa2212712194dfd7e75685644c019dfd728"
+    },
+    "adapters/dispatch_precheck_adapter.sh": {
+      "bytes": 142,
+      "sha256": "4a32faceb42e600dee37edc33f02b18df1183d35e449857c99f07c2a544bb5a2"
+    },
+    "adapters/frozen_hash_check_adapter.sh": {
+      "bytes": 378,
+      "sha256": "039e0fae425b5e8eeb30955faa6eaeba5c43472d76135c8efffaaf94dec1ffe5"
+    },
+    "adapters/summary_guard_check_adapter.sh": {
+      "bytes": 524,
+      "sha256": "d7a5723ad42211eb14abdd367487f2252b5001253281e68f59a884990afc8acb"
+    },
+    "adapters/summary_guard_derive_check_adapter.sh": {
+      "bytes": 1058,
+      "sha256": "f1cc852f652f05c39e6ad59502a0925c6e9d281a615ecd517293578f015ca3e8"
+    },
+    "artifacts_manifest.json": {
+      "bytes": 19515,
+      "sha256": "373a46423ffe8b3a86fa3f5f904cc65fa08eb12f0d972d3eca4551408fa1dc48"
+    },
+    "baseline.json": {
+      "bytes": 34710,
+      "sha256": "41ff78e438aacdda246ae2b0427d4cc2be741af7689e4eca3ddcbad4619b292f"
+    },
+    "baseline_recipe.json": {
+      "bytes": 14100,
+      "sha256": "65bc93327fe63641482336cfb571a063f6e07d5f16091c4d72fb02a2f961e5c5"
+    },
+    "events.jsonl": {
+      "bytes": 17060,
+      "sha256": "15d14bd5b9249aff53e86dc0744caf45adb81c2d9507b06e48f5ee202f179e62"
+    },
+    "fixtures/summary/derive_case_mismatch.py": {
+      "bytes": 742,
+      "sha256": "7692341b7d431163c3aa242d84383c4a492f437ac4efd160fadbac29281e3780"
+    },
+    "fixtures/summary/effect_artifact.json": {
+      "bytes": 97,
+      "sha256": "a358bc7070d7546ce531a93988093b4d0302aa51ac6150395fc7d72d6f7c1b09"
+    },
+    "fixtures/summary/effect_match.md": {
+      "bytes": 418,
+      "sha256": "a40ada85c849231daf69ab6ec68185fc0852db717bdfcaecd504644e30c7ac8b"
+    },
+    "receipt.json": {
+      "bytes": 22243,
+      "sha256": "e9d4aa29cb4330933054fa8b2dbb8a9529766843ec6a996b92a352c3b18884f8"
+    },
+    "scratch/replay_all.sh": {
+      "bytes": 4536,
+      "sha256": "6d26de92cd88d7be590cd07a27f714374943ded197a4150e832f81b86bfa30e1"
+    },
+    "scratch/self_check.py": {
+      "bytes": 18451,
+      "sha256": "eb1fc97d65c4cab6c0b9829697c96960e30e6218460baac3296ee70a85dec1ec"
+    },
+    "summary.md": {
+      "bytes": 729,
+      "sha256": "67b4ad720ffe608acc92158daf55c23daa92b30b7d093f3a3073ec01f4267e25"
+    }
+  },
+  "reviewed_run_id": "20261014T184810Z_c9dcfe0e",
+  "reviewer": {
+    "hostname": "promaxgb10-0b48",
+    "layer": "Loop C independent quality audit",
+    "mode": "read-only independent recomputation + tamper positive control + adapter/guard live replay + adversarial counter-evidence",
+    "python": "3.12.3",
+    "registry_or_state_updated": false,
+    "runtime": "Claude Code CLI on GB10 (aarch64 / Linux 6.17.0-1018-nvidia)",
+    "t5_entered": false,
+    "writes_performed": "stdout only for deliverables; scratch writes outside repo; no repository artifact modified; no git write; no network/model/production/database call"
+  },
+  "reviewer_side_effects_disclosed": [
+    "Scratch (outside repo): /home/testuser/wzh/loop_runs/t4r01_recheck_a/ contains gitutil.py, effect_match.md (copy), derive_case_mismatch.py (copy), effect_DERIVED_mismatch.md (tamper-derived evidence), __pycache__/. No repo file written.",
+    "REVIEWER-SIDE POLLUTION + CLEANUP: the OMC session-state plugin wrote 2 files under runs/T4/20261014T184810Z_c9dcfe0e/.omc/state/sessions/7d8955db-.../ (pre-tool-advisory-throttle.json, last-tool-error-state.json) when the shell cwd briefly sat inside the run dir. Not part of the 65-file package. Removed the run/.omc tree to restore the package to its pristine 65-file state. No package file otherwise created/modified.",
+    "During independent replay/read-only proof, summary_guard_derive_check_adapter.sh created+removed transient /tmp/t4-v2-summary-mismatch.* files (by design: mktemp + trap rm). No /tmp leftovers remain.",
+    "No git writes, no network/services/db/model calls, no tracked-file modification (re-verified byte_blob==index for bound inputs)."
+  ],
+  "schema": "jinrong_loop_c_review_receipt_v1",
+  "task_id": "T4",
+  "unverified": [
+    "Any online/model behavior (B0 forbids); consistent with the package's own 6 unverified faces.",
+    "Independent re-audit of upstream reviews T1I-03/T2R-01/T3R-01 (only their decision/blocking fields read).",
+    "Existence of the v1 run on a second machine ('two-machine disk retention' asserted by the run; v1 verified present locally with matching anchor hashes).",
+    "execution_chat_usage (not measurable) remains UNRESOLVED.",
+    "Native 'git rev-parse HEAD:path' not executed (dual-method substitute used)."
+  ],
+  "verdict": "ACCEPTED"
+}
