@@ -1,0 +1,69 @@
+{
+  "accounting": {
+    "global_actor_requests_used_after_probe": 5,
+    "judge_calls": 0,
+    "probe_actor_requests": 2
+  },
+  "consume": {
+    "attempt_ref": "S4B-probe-history-03-consume-1",
+    "completion_sha256": "83030aba9602ef93d99b9b32a731d2fbf74ac7a82522f34ae99cc92c63f54d3d",
+    "parsed": {
+      "delta_source": "<calc result>",
+      "delta_target": "<converted calc result>",
+      "periods": [
+        "<late label>",
+        "<early label>"
+      ],
+      "row": "<exact row label>",
+      "unit": "<target unit>"
+    },
+    "raw_response_sha256": "f3632c32b982589fa57cf703df05c3dbae986fabdb4b855f754dbaefb28ff81a",
+    "route": "first_balanced_object"
+  },
+  "generated_at_utc": "2026-10-14T01:48:20Z",
+  "history_item_index": 2,
+  "history_item_ref": "item_853ac256a93f",
+  "history_origin_ref": "origin_5c4e334806b6",
+  "plan": {
+    "attempt_ref": "S4B-probe-history-03-plan-1",
+    "completion_sha256": "edd6394c0d786ed27a241be0a38e741d484aa27c24210acab1c1c89e189b5228",
+    "parsed": {
+      "params": {
+        "expression": "1972.3 - 2071.2"
+      },
+      "tool": "calc"
+    },
+    "raw_response_sha256": "8bebf78997c39a89bc59cbdaf97cb32ca786eba7d30b1a50462f27c900974411",
+    "route": "first_balanced_object"
+  },
+  "prompt_version": {
+    "automatic_third_round_repair": false,
+    "consume_protocol": "\nSTAGE=consume\nUse the supplied tool trace and the evidence.\nReturn exactly one JSON object and no other text:\n{\"row\":\"<exact row label>\",\"periods\":[\"<late label>\",\"<early label>\"],\"delta_source\":\"<calc result>\",\"delta_target\":\"<converted calc result>\",\"unit\":\"<target unit>\"}\nFORMAT_EXAMPLE={\"row\":\"Revenue\",\"periods\":[\"2019\",\"2018\"],\"delta_source\":8,\"delta_target\":8,\"unit\":\"unit\"}\nRESPONSE=",
+    "experience_cap": 600,
+    "format_examples": 1,
+    "input_token_cap": 4096,
+    "max_output_tokens": 512,
+    "parser_order": [
+      "strict_json",
+      "code_fenced_json",
+      "first_balanced_object"
+    ],
+    "plan_protocol": "\nSTAGE=plan\nReturn exactly one JSON object and no other text:\n{\"tool\":\"calc\",\"params\":{\"expression\":\"<LEFT_NUMBER> <PLUS_OR_MINUS> <RIGHT_NUMBER>\"}}\nUse the two exact numeric evidence cells for LEFT_NUMBER and RIGHT_NUMBER.\nDo not provide the final answer in this stage.\nFORMAT_EXAMPLE={\"tool\":\"calc\",\"params\":{\"expression\":\"12 - 4\"}}\nRESPONSE=",
+    "schema": "tatqa_wp2_bridge_prompt_v1",
+    "settings_unchanged": true,
+    "temperature": 0
+  },
+  "prompt_version_sha256": "373078bf3505334d26960758b00c75b4efd152f7f6dd64531ec114150b9b7c8e",
+  "safety": {
+    "database_calls": 0,
+    "external_network_calls": 0,
+    "judge_calls": 0,
+    "memory_write_back": false,
+    "production_service_calls": 0,
+    "training_calls": 0
+  },
+  "schema": "tatqa_wp2_s4b_bridge_probe_receipt_v1",
+  "stage": "S4B_bridge_probe",
+  "status": "PASS",
+  "task": "tatqa-wp2-s4b-20261014"
+}

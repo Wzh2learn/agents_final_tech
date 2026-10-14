@@ -1,0 +1,22 @@
+{
+  "accounting": {
+    "current_card_attempts": 6,
+    "global_attempts_remaining": 293,
+    "global_attempts_used": 7,
+    "judge_calls": 0,
+    "prior_card_attempts": 1,
+    "this_card_attempts_remaining": 33,
+    "transport_retries": 0
+  },
+  "completed_episodes": 0,
+  "failure": {
+    "message": "delta_source is not a decimal",
+    "same_family_repeat_rule": "A second same-family bridge failure ends this panel.",
+    "type": "ValueError"
+  },
+  "generated_at_utc": "2026-10-14T01:52:15Z",
+  "schema": "tatqa_wp2_s4b_stage_failure_receipt_v1",
+  "stage": "S4_history",
+  "status": "ENGINEERING_FAILURE",
+  "task": "tatqa-wp2-s4b-20261014"
+}
