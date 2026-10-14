@@ -1,0 +1,178 @@
+{
+  "schema": "harness_rsi_t0r01_review_receipt_v1",
+  "review_id": "T0R-01",
+  "task_id": "T0",
+  "reviewer": "loop_c_t0r01 (Claude Code on GB10)",
+  "runtime": {
+    "host": "GB10 (/home/testuser/wzh/projects/agents_final_tech)",
+    "platform": "linux",
+    "mode": "read_only_independent_review",
+    "cwd": "repo_root",
+    "git_head": "945ba19fcb80e4373272be25c2342fb337030b47",
+    "path_mapping": "D:/AIRcommend/JinRongAgents/agents_final_tech/ -> repo root (owner decision '2行' authorizes this pinning domain)"
+  },
+  "reviewed_artifact_sha256": {
+    "runs/T0/20261014T101305Z_026e6533/authority_binding_proposal.json": "361ee65615e71a352818d160054d8ecb242182badce115dbd6973e267667df99",
+    "runs/T0/20261014T101305Z_026e6533/protocol_proposal.json": "8d4c186987cb2297ac1dd347a9e2f6fc715d7ea226288bf553a4cfef608c7620",
+    "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md": "d9acdf865e2a5e0f224522c231ef445544b70a297517d5958a9b41644afbfae7",
+    "runs/T0/20261014T101305Z_026e6533/receipt.json": "c7650dc01204b9faff0c6728684fb888fccc86f8e6e8a63889e27934af05e817",
+    "runs/T0/20261014T101305Z_026e6533/summary.md": "03502af6059e2c225386991cfabece1091c61751a9774eb7ac7e734474aeb458",
+    "runs/T0/20261014T101305Z_026e6533/events.jsonl": "810db1de1edb6f9b6c087264bbd09c63ed371d9c6d5a2b404ca577e5b43b01dd",
+    "runs/T0/20261014T101305Z_026e6533/artifacts_manifest.json": "0ab302fec2088cc03a9063bd3acbd58de8e659fbac2514512ee53d6a1fb97fac",
+    "cards/T0.md": "a6309cccf5aa35691fcc7b5a0edec5b1550bd3b7a9dbc7fc11a0e7802bd80e84",
+    "contracts/protocol.json": "bfbf453def9386eb378f0370491892faf14edfc36a978d77647ba34b8baffcf6",
+    "contracts/authority_map.json": "946f952fb8a530d4001a6b047cc9c4b833ebe613bb9a3b1a40250584a0962bea",
+    "contracts/schemas.json": "a6543ce1fc4254f1f09573a928c6e0c318b5834062529ec9f0264873198a4c6d",
+    "contracts/budget_profiles.json": "1c94e40e377dd7b119c27988d845859e9d88784312c68aeb3f3649871614a8d9",
+    "contracts/execution_policy.md": "f659668ad1ddca44fcd170c328a177be201b8aaa871f2bb938681d404e9cf393",
+    "state/open_decisions.json": "9b76df94ff82752bf7344cb409f653600016ed57cdd0e3a8e2b2a2ad91c9f392",
+    "runs/T-1/20261014T085957Z_4e1698d1/receipt.json": "a2ff07db04453f91ab8178c05ff39f482298daf3aa1e35a5ddd0517cbbeb5fc9",
+    "reviews/T1R-02/ACCEPTANCE_PROPOSAL.json": "fc3dc473c7b2a9d6a6cdc4c0529003b2d7479e83c62835708e00d2c8d9698a9a",
+    "reviews/T1R-02/REVIEW.md": "f23c993a55676e935527c871aaccb65c84ebb2c4dbb833380dd324e914b0b1c4"
+  },
+  "recomputed": {
+    "artifact_manifest": {
+      "listed": 6,
+      "self_excluded": true,
+      "bytes_mismatch": [],
+      "sha256_mismatch": [],
+      "run_dir_file_count": 7,
+      "run_dir_exact": true
+    },
+    "input_bindings": {
+      "card_declared_inputs": 7,
+      "receipt_bindings": 7,
+      "all_exist": true,
+      "hash_mismatch": [],
+      "bytes_mismatch": [],
+      "extra_bindings": []
+    },
+    "authority_13": {
+      "canonical_blob_id_vs_git_rev_parse_HEAD": {"match": 13, "total": 13},
+      "local_worktree_raw_sha256_reproducible_from_repo_blob_eol_variant": {"match": 13, "total": 13},
+      "local_worktree_raw_sha256_direct_measurement_on_GB10": {"match": 7, "total": 13, "note": "the other 6 are the EOL-divergent set; value reproduced exactly by EOL-variant reconstruction, see eol_reconstruction"},
+      "gb10_worktree_raw_sha256_vs_this_machine_actual": {"match": 13, "total": 13},
+      "local_eq_authority_map_pin": {"match": 13, "total": 13},
+      "local_eq_current_declared_raw_sha256": {"match": 13, "total": 13},
+      "classification_per_entry_rule_check": "13/13 consistent",
+      "classification_counts_recomputed": {
+        "pin_matches_worktrees": 7,
+        "eol_representation_uniform_crlf": 3,
+        "eol_representation_mixed": 3
+      },
+      "classification_counts_declared": {
+        "eol_representation_mixed": 3,
+        "eol_representation_uniform_crlf": 3,
+        "pin_matches_worktrees": 7
+      },
+      "counts_match_target": true,
+      "unexplained": 0,
+      "unexplained_note": "no explicit 'unexplained' key in proposal; derived 0 because 13/13 entries fall into the three classes and none is UNEXPLAINED",
+      "eol_reconstruction_strip_crlf_identity": [
+        {"authority_id": "REPO_RULES", "path": "AGENTS.md", "construction": "all 99 line-ends CRLF", "reconstructed_sha256_eq_pin": true, "strip_crlf_eq_repo_object": true, "strip_all_cr_eq_repo_object": true},
+        {"authority_id": "SKILL_ROUTING", "path": "docs/SKILL_ROUTING.md", "construction": "all 61 line-ends CRLF", "reconstructed_sha256_eq_pin": true, "strip_crlf_eq_repo_object": true, "strip_all_cr_eq_repo_object": true},
+        {"authority_id": "SKILL_REGISTRY", "path": "docs/governance/SKILL_REGISTRY.md", "construction": "all 20 line-ends CRLF", "reconstructed_sha256_eq_pin": true, "strip_crlf_eq_repo_object": true, "strip_all_cr_eq_repo_object": true},
+        {"authority_id": "THREADS", "path": "memory/THREADS.md", "construction": "653 CRLF + bare LF at lines 1,2", "reconstructed_sha256_eq_pin": true, "strip_crlf_eq_repo_object": true, "strip_all_cr_eq_repo_object": true},
+        {"authority_id": "DECISIONS", "path": "memory/DECISIONS.md", "construction": "1 CRLF at line 243 + 242 bare LF", "reconstructed_sha256_eq_pin": true, "strip_crlf_eq_repo_object": true, "strip_all_cr_eq_repo_object": true},
+        {"authority_id": "SKILL_ALGORITHM", "path": "skills/algorithm-description/SKILL.md", "construction": "1 CRLF at line 23 + 22 bare LF", "reconstructed_sha256_eq_pin": true, "strip_crlf_eq_repo_object": true, "strip_all_cr_eq_repo_object": true}
+      ],
+      "eol_reconstruction_all_6_verified": true,
+      "authority_map_unmodified": {
+        "worktree_bytes_eq_HEAD_blob": true,
+        "proposal_applied_flag": false,
+        "base_authority_map_sha256_eq_actual": true
+      }
+    },
+    "protocol_proposal": {
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "freeze_sha256": "UNRESOLVED",
+      "approved_by": "UNRESOLVED",
+      "approved_at": "UNRESOLVED",
+      "applied": false,
+      "freeze_method": "sha256(json.dumps(proposed_protocol, ensure_ascii=False, separators=(',',':'), sort_keys=True).encode('utf-8'))",
+      "freeze_bytes": 4198,
+      "freeze_recomputed_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+      "freeze_declared_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+      "freeze_match": true,
+      "base_protocol_sha256_declared": "bfbf453def9386eb378f0370491892faf14edfc36a978d77647ba34b8baffcf6",
+      "base_protocol_sha256_actual": "bfbf453def9386eb378f0370491892faf14edfc36a978d77647ba34b8baffcf6",
+      "contracts_protocol_json_unmodified": true,
+      "key_level_diff_vs_current_protocol_json": {
+        "keys_only_in_current": [],
+        "keys_only_in_proposed": ["owner_decisions_ref"],
+        "keys_with_changed_values": []
+      },
+      "no_new_authority": true,
+      "no_fabricated_freeze": true,
+      "owner_decisions_applied_keys": ["U01", "U03", "U05", "U07", "U08", "U09"],
+      "owner_decisions_missing_from_applied": ["U02", "U04", "U06"],
+      "owner_decisions_faithful_to_record": true,
+      "decisions_1A_2x3_recorded": {"1A": true, "2行": true, "3确认": "recorded in receipt.authorization_ref and owner_decision_packet.md"}
+    },
+    "budget_reconciliation": {
+      "BR": "4/3", "BC": "66/8", "BS": "106/4", "SHADOW": "6/2", "META": "12/2",
+      "matches_budget_profiles_json": true,
+      "matches_T0_card_A2": true
+    },
+    "dependency_binding": {
+      "t1v2_receipt_sha256_declared": "a2ff07db04453f91ab8178c05ff39f482298daf3aa1e35a5ddd0517cbbeb5fc9",
+      "t1v2_receipt_sha256_actual": "a2ff07db04453f91ab8178c05ff39f482298daf3aa1e35a5ddd0517cbbeb5fc9",
+      "match": true
+    }
+  },
+  "checks": [
+    {"check_id": "R1_artifact_manifest", "result": "PASS", "note": "6/6 sha256+bytes match; self-excluded; run dir exactly 7 files"},
+    {"check_id": "R2_input_bindings", "result": "PASS", "note": "7/7 exist, hashes and bytes equal receipt.input_bindings"},
+    {"check_id": "R3a_canonical_blob_id", "result": "PASS", "note": "13/13 == git rev-parse HEAD:<path>"},
+    {"check_id": "R3b_local_worktree_raw", "result": "PASS", "note": "13/13 reproducible from repo-blob EOL variants; 7/13 additionally direct-measured on GB10; D: worktree bytes themselves not readable here"},
+    {"check_id": "R3c_gb10_raw", "result": "PASS", "note": "13/13 this machine raw == proposal gb10 column"},
+    {"check_id": "R3d_classification", "result": "PASS", "note": "counts == {7,3,3}; derived unexplained == 0"},
+    {"check_id": "R3e_strip_crlf_identity", "result": "PASS", "note": "6/6 mismatches reconstruct exactly and strip-CRLF == repo object byte-identical"},
+    {"check_id": "R3f_authority_map_not_applied", "result": "PASS", "note": "worktree == HEAD blob; applied:false; git diff clean for contracts/"},
+    {"check_id": "R4a_protocol_status", "result": "PASS", "note": "DRAFT + execution_authorized false + freeze/approved UNRESOLVED"},
+    {"check_id": "R4b_freeze_recompute", "result": "PASS", "note": "282f5213… reproduced exactly"},
+    {"check_id": "R4c_no_new_authority", "result": "PASS", "note": "0 value changes vs current protocol.json; 1 added pointer key only"},
+    {"check_id": "R4d_owner_decisions_faithful", "result": "PASS_WITH_FINDING", "note": "packet records U01-U09 + 1A/2行/3确认 faithfully; protocol_proposal.owner_decisions_applied lists only 6/9 (F1)"},
+    {"check_id": "R5_decision_packet_wording", "result": "PASS", "note": "U01 '不用担心' correct; Lo:p C and '无上限' absent from all 7 files; '3 wording fixes' maps to F8/F9/F10 and is correctly optional"},
+    {"check_id": "R6a_three_axes", "result": "PASS", "note": "DELIVERED / UNREVIEWED / NOT_ENABLED"},
+    {"check_id": "R6b_usage_no_counter_evidence", "result": "PASS", "note": "model_requests 0, network 0, ssh 0; events.jsonl consistent; no call traces"},
+    {"check_id": "R6c_write_boundary", "result": "PASS", "note": "commits d8abe0957 + 945ba19fc touch only runs/T0/<run_id>/"},
+    {"check_id": "R6d_no_fabricated_acceptance", "result": "PASS", "note": "ACCEPTED/ACTIVE only in state vocabularies; freeze/approved UNRESOLVED; applied:false"},
+    {"check_id": "R6e_receipt_schema_conformance", "result": "FAIL", "note": "F2: unresolved is object, schemas.json requires array"},
+    {"check_id": "R7_counter_evidence_sweep", "result": "PASS", "note": "no out-of-scope write, no proposal-as-effective, no historical-PASS-as-result, no fake hash"}
+  ],
+  "tooling_record": {
+    "rejected_by_guard": [
+      {"cmd": "git status --porcelain=v1", "reason": "requires approval", "equivalent_used": "git diff --name-only HEAD + git ls-files --others --exclude-standard"},
+      {"cmd": "python3 heredoc (2x)", "reason": "injection guard: brace with quote character", "equivalent_used": "string concatenation / dict() assignment; logic identical, rerun successful"}
+    ],
+    "avoided_by_design": ["find -exec", "$(...)"]
+  },
+  "calls": {
+    "self_model_sessions": 1,
+    "model_endpoint_calls": 0,
+    "network_calls": 0,
+    "production_service_calls": 0,
+    "database_calls": 0,
+    "remote_ssh_invocations": 0,
+    "training_calls": 0,
+    "local_readonly_command_invocations": "see tooling_record; all read-only (git cat-file/rev-parse/diff/ls-files/show, python3 hash+json)",
+    "execution_chat_tokens": "UNRESOLVED"
+  },
+  "unverified": [
+    "D:/AIRcommend worktree actual bytes and cleanliness at pin time (tree unreachable from GB10; value itself reproduced; provenance closed by owner decision '2行')",
+    "executor self-reported usage counters (no independent metering channel; checked for counter-evidence only)",
+    "any model-endpoint / production-service / database behaviour (zero by constraint; local doc checks do not prove GB10 runtime)",
+    "execution_chat token consumption (UNRESOLVED; not reported as 0)"
+  ],
+  "verdict": {
+    "decision": "ACCEPTED",
+    "freezable_by_owner": true,
+    "freeze_target_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+    "blocking_findings": [],
+    "non_blocking_findings": ["F1", "F2", "F3", "F5", "F6"],
+    "informational": ["F4"],
+    "note": "Proposal only. registry/state and authority_map landing remain the closer's/owner's action. No file was written by this review."
+  }
+}
