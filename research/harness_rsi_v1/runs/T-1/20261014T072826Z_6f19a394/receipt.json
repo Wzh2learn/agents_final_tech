@@ -1,0 +1,1194 @@
+{
+  "acceptance_status": "UNREVIEWED",
+  "activation_status": "NOT_ENABLED",
+  "authorization_ref": "User instruction in this conversation (2026-10-14): T-1 document review only, write scope runs/T-1/{run_id}/; supplementary: authorizer=wzh, all authorizable, budget limit lifted; all execution_authorized remain false; no T0, no git, no subagents, no network/ssh/model/service calls.",
+  "card_assertions": [
+    {
+      "assertion": "A1 required files present; 19 cards + template; JSON parseable; JSONL lines parseable",
+      "checks": [
+        "C1_manifest_presence",
+        "C6_cards_present",
+        "C4_json_parse",
+        "C5_jsonl_parse"
+      ],
+      "result": "PASS"
+    },
+    {
+      "assertion": "A2 round hashes = provenance; per-card goal/input/output/deps/budget/acceptance/stop/writeback complete",
+      "checks": [
+        "C3_provenance_rounds",
+        "C7_card_fields",
+        "C2_manifest_hash_bytes"
+      ],
+      "result": "PASS"
+    },
+    {
+      "assertion": "A3 all execution_authorized=false; no fabricated ACCEPTED/ACTIVE events; historical PASS text not used as results",
+      "checks": [
+        "C8_statuses_auth",
+        "C14_no_fabricated_events",
+        "C14b_pass_word_scan"
+      ],
+      "result": "PASS"
+    },
+    {
+      "assertion": "A4 INDEX exactly one pilot entry; unknowns carry responsibility+impact; declared unknowns not treated as defects",
+      "checks": [
+        "C13_index_single_entry",
+        "C14_no_fabricated_events"
+      ],
+      "result": "PASS"
+    },
+    {
+      "assertion": "A-common JSON/paths/hashes/allowlist/no-out-of-scope-write/unknowns listed",
+      "checks": [
+        "C9_deps_acyclic",
+        "C10_budget_totals",
+        "C11_authority_map_hashes",
+        "C12_links",
+        "C15_empty_ledgers_dirs",
+        "C16_input_bindings"
+      ],
+      "result": "PASS"
+    }
+  ],
+  "checks": [
+    {
+      "check_id": "C1_manifest_presence",
+      "description": "All FILE_MANIFEST required_files and files[] entries exist on disk",
+      "evidence": null,
+      "expected": "0 missing",
+      "method": "os.path.exists per entry",
+      "observed": {
+        "files_total": 51,
+        "missing_files_entries": [],
+        "missing_required": [],
+        "required_total": 52
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C2_manifest_hash_bytes",
+      "description": "Declared per-file bytes/sha256 equal actual values",
+      "evidence": null,
+      "expected": "0 mismatches",
+      "method": "sha256 of raw bytes per manifest entry",
+      "observed": {
+        "bytes_mismatch": [],
+        "hash_mismatch": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C2b_manifest_self_policy",
+      "description": "FILE_MANIFEST.json excluded from files[] (no self-hash)",
+      "evidence": null,
+      "expected": null,
+      "method": "membership test",
+      "observed": {
+        "in_files": false,
+        "in_required": true
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C3_provenance_rounds",
+      "description": "Both planning rounds raw UTF-8 byte SHA-256/bytes match provenance",
+      "evidence": null,
+      "expected": "both match",
+      "method": "sha256 + size of sources/*.md",
+      "observed": [
+        {
+          "actual_bytes": 26874,
+          "actual_sha256": "cc4ef2da38702fb21ae364710d0db7480a856df34d7951e6275c3cbf271b25dd",
+          "declared_bytes": 26874,
+          "declared_sha256": "cc4ef2da38702fb21ae364710d0db7480a856df34d7951e6275c3cbf271b25dd",
+          "file": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round1.md",
+          "match": true
+        },
+        {
+          "actual_bytes": 41728,
+          "actual_sha256": "ce68b925d451f134277ce80dac4c79254b656ab55c8ada639279f15925e2e38a",
+          "declared_bytes": 41728,
+          "declared_sha256": "ce68b925d451f134277ce80dac4c79254b656ab55c8ada639279f15925e2e38a",
+          "file": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round2.md",
+          "match": true
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "check_id": "C4_json_parse",
+      "description": "Every .json in package parses",
+      "evidence": null,
+      "expected": "0 errors",
+      "method": "json.loads",
+      "observed": {
+        "errors": [],
+        "json_files": 13,
+        "parsed": 13
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C5_jsonl_parse",
+      "description": "All .jsonl are empty or every non-empty line parses",
+      "evidence": null,
+      "expected": "0 bad lines",
+      "method": "per-line json.loads",
+      "observed": [
+        {
+          "bad_lines": [],
+          "bytes": 0,
+          "nonempty_lines": 0,
+          "rel": "meta/lessons.jsonl"
+        },
+        {
+          "bad_lines": [],
+          "bytes": 0,
+          "nonempty_lines": 0,
+          "rel": "meta/nogoods.jsonl"
+        },
+        {
+          "bad_lines": [],
+          "bytes": 0,
+          "nonempty_lines": 0,
+          "rel": "registry/candidate_events.jsonl"
+        },
+        {
+          "bad_lines": [],
+          "bytes": 0,
+          "nonempty_lines": 0,
+          "rel": "registry/decision_events.jsonl"
+        },
+        {
+          "bad_lines": [],
+          "bytes": 0,
+          "nonempty_lines": 0,
+          "rel": "registry/task_events.jsonl"
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "check_id": "C6_cards_present",
+      "description": "19 task cards + CARD_TEMPLATE.md exist",
+      "evidence": null,
+      "expected": "19 cards + 1 template",
+      "method": "existence check",
+      "observed": {
+        "cards_found": 19,
+        "missing": [],
+        "template": true
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C7_card_fields",
+      "description": "Each card: JSON block parses; required meta keys; sections 1..10 present",
+      "evidence": null,
+      "expected": "no card errors",
+      "method": "regex fence extract + json.loads + heading scan",
+      "observed": {
+        "cards_checked": 19,
+        "errors": [],
+        "per_card": [
+          {
+            "card": "T-1",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "READY"
+          },
+          {
+            "card": "T0",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T1",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T2",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T3",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T4",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T5",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T6",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T7",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T8",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T9",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T10",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T11",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T12",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T13",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T14",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T15",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T16",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          },
+          {
+            "card": "T17",
+            "missing_keys": [],
+            "missing_sections": [],
+            "status": "DRAFT"
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C8_statuses_auth",
+      "description": "T-1 READY, T0-T17 DRAFT, all execution_authorized false, no accepted/active",
+      "evidence": null,
+      "expected": "all false / READY+DRAFT only",
+      "method": "card JSON + matrix + contract fields",
+      "observed": {
+        "auth_import": {
+          "budget.status": "DRAFT",
+          "budget_profiles.authorized": false,
+          "protocol.execution_authorized": false,
+          "protocol.status": "DRAFT",
+          "state.accepted_tasks": [],
+          "state.active_versions": [],
+          "state.execution_authorized": false
+        },
+        "bad_auth": [],
+        "bad_status": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C9_deps_acyclic",
+      "description": "Task dependency graph acyclic; card vs matrix deps consistent",
+      "evidence": null,
+      "expected": "acyclic + consistent",
+      "method": "DFS cycle detection + set comparison",
+      "observed": {
+        "card_matrix_mismatch": [],
+        "cycles": [],
+        "edges": {
+          "T-1": [],
+          "T0": [
+            "T-1"
+          ],
+          "T1": [
+            "T0"
+          ],
+          "T10": [
+            "T0",
+            "T1"
+          ],
+          "T11": [
+            "T3",
+            "T10"
+          ],
+          "T12": [
+            "T6",
+            "T11"
+          ],
+          "T13": [
+            "T12",
+            "T10"
+          ],
+          "T14": [
+            "T0"
+          ],
+          "T15": [
+            "T3",
+            "T14"
+          ],
+          "T16": [
+            "T6",
+            "T15"
+          ],
+          "T17": [
+            "T7",
+            "T13",
+            "T16"
+          ],
+          "T2": [
+            "T1"
+          ],
+          "T3": [
+            "T2"
+          ],
+          "T4": [
+            "T3",
+            "T1"
+          ],
+          "T5": [
+            "T4"
+          ],
+          "T6": [
+            "T5"
+          ],
+          "T7": [
+            "T6"
+          ],
+          "T8": [
+            "T7"
+          ],
+          "T9": [
+            "T6"
+          ]
+        },
+        "unknown_deps": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C10_budget_totals",
+      "description": "Per-profile sums equal budget_profiles; per-card caps equal matrix",
+      "evidence": null,
+      "expected": "BR 4/3, BC 66/8, BS 106/4, SHADOW 6/2, META 12/2",
+      "method": "group-sum + join",
+      "observed": {
+        "card_checks": [
+          {
+            "card": "T-1",
+            "card_cheap": 0,
+            "card_strong": 0,
+            "match": true,
+            "matrix_cheap": 0,
+            "matrix_strong": 0,
+            "profile": "B0"
+          },
+          {
+            "card": "T0",
+            "card_cheap": 0,
+            "card_strong": 1,
+            "match": true,
+            "matrix_cheap": 0,
+            "matrix_strong": 1,
+            "profile": "BR"
+          },
+          {
+            "card": "T1",
+            "card_cheap": 0,
+            "card_strong": 0,
+            "match": true,
+            "matrix_cheap": 0,
+            "matrix_strong": 0,
+            "profile": "B0"
+          },
+          {
+            "card": "T2",
+            "card_cheap": 0,
+            "card_strong": 1,
+            "match": true,
+            "matrix_cheap": 0,
+            "matrix_strong": 1,
+            "profile": "BR"
+          },
+          {
+            "card": "T3",
+            "card_cheap": 0,
+            "card_strong": 0,
+            "match": true,
+            "matrix_cheap": 0,
+            "matrix_strong": 0,
+            "profile": "B0"
+          },
+          {
+            "card": "T4",
+            "card_cheap": 0,
+            "card_strong": 0,
+            "match": true,
+            "matrix_cheap": 0,
+            "matrix_strong": 0,
+            "profile": "B0"
+          },
+          {
+            "card": "T5",
+            "card_cheap": 0,
+            "card_strong": 0,
+            "match": true,
+            "matrix_cheap": 0,
+            "matrix_strong": 0,
+            "profile": "B0"
+          },
+          {
+            "card": "T6",
+            "card_cheap": 4,
+            "card_strong": 0,
+            "match": true,
+            "matrix_cheap": 4,
+            "matrix_strong": 0,
+            "profile": "BR"
+          },
+          {
+            "card": "T7",
+            "card_cheap": 0,
+            "card_strong": 1,
+            "match": true,
+            "matrix_cheap": 0,
+            "matrix_strong": 1,
+            "profile": "BR"
+          },
+          {
+            "card": "T8",
+            "card_cheap": 6,
+            "card_strong": 2,
+            "match": true,
+            "matrix_cheap": 6,
+            "matrix_strong": 2,
+            "profile": "SHADOW"
+          },
+          {
+            "card": "T9",
+            "card_cheap": 12,
+            "card_strong": 2,
+            "match": true,
+            "matrix_cheap": 12,
+            "matrix_strong": 2,
+            "profile": "META"
+          },
+          {
+            "card": "T10",
+            "card_cheap": 0,
+            "card_strong": 2,
+            "match": true,
+            "matrix_cheap": 0,
+            "matrix_strong": 2,
+            "profile": "BC"
+          },
+          {
+            "card": "T11",
+            "card_cheap": 24,
+            "card_strong": 0,
+            "match": true,
+            "matrix_cheap": 24,
+            "matrix_strong": 0,
+            "profile": "BC"
+          },
+          {
+            "card": "T12",
+            "card_cheap": 18,
+            "card_strong": 0,
+            "match": true,
+            "matrix_cheap": 18,
+            "matrix_strong": 0,
+            "profile": "BC"
+          },
+          {
+            "card": "T13",
+            "card_cheap": 24,
+            "card_strong": 6,
+            "match": true,
+            "matrix_cheap": 24,
+            "matrix_strong": 6,
+            "profile": "BC"
+          },
+          {
+            "card": "T14",
+            "card_cheap": 0,
+            "card_strong": 0,
+            "match": true,
+            "matrix_cheap": 0,
+            "matrix_strong": 0,
+            "profile": "B0"
+          },
+          {
+            "card": "T15",
+            "card_cheap": 48,
+            "card_strong": 0,
+            "match": true,
+            "matrix_cheap": 48,
+            "matrix_strong": 0,
+            "profile": "BS"
+          },
+          {
+            "card": "T16",
+            "card_cheap": 26,
+            "card_strong": 2,
+            "match": true,
+            "matrix_cheap": 26,
+            "matrix_strong": 2,
+            "profile": "BS"
+          },
+          {
+            "card": "T17",
+            "card_cheap": 32,
+            "card_strong": 2,
+            "match": true,
+            "matrix_cheap": 32,
+            "matrix_strong": 2,
+            "profile": "BS"
+          }
+        ],
+        "errors": [],
+        "profile_sums": [
+          {
+            "declared_cheap": 0,
+            "declared_strong": 0,
+            "match": true,
+            "profile": "B0",
+            "sum_cheap": 0,
+            "sum_strong": 0
+          },
+          {
+            "declared_cheap": 66,
+            "declared_strong": 8,
+            "match": true,
+            "profile": "BC",
+            "sum_cheap": 66,
+            "sum_strong": 8
+          },
+          {
+            "declared_cheap": 4,
+            "declared_strong": 3,
+            "match": true,
+            "profile": "BR",
+            "sum_cheap": 4,
+            "sum_strong": 3
+          },
+          {
+            "declared_cheap": 106,
+            "declared_strong": 4,
+            "match": true,
+            "profile": "BS",
+            "sum_cheap": 106,
+            "sum_strong": 4
+          },
+          {
+            "declared_cheap": 12,
+            "declared_strong": 2,
+            "match": true,
+            "profile": "META",
+            "sum_cheap": 12,
+            "sum_strong": 2
+          },
+          {
+            "declared_cheap": 6,
+            "declared_strong": 2,
+            "match": true,
+            "profile": "SHADOW",
+            "sum_cheap": 6,
+            "sum_strong": 2
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C11_authority_map_hashes",
+      "description": "Every authority_map raw_sha256 equals live file hash",
+      "evidence": null,
+      "expected": "all match",
+      "method": "sha256 per absolute_path",
+      "observed": {
+        "entries": [
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/AGENTS.md",
+            "actual_sha256": "66030be6e91bd9cca47d4e74d9e7aa3b651a998f72b56de3f4ab2cb694e15515",
+            "authority_id": "REPO_RULES",
+            "declared_sha256": "66030be6e91bd9cca47d4e74d9e7aa3b651a998f72b56de3f4ab2cb694e15515",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/memory/CORE.md",
+            "actual_sha256": "171c503d56ef807c1aa785a95706818ecd2124fb704507f4e687821bf38a283b",
+            "authority_id": "CORE",
+            "declared_sha256": "171c503d56ef807c1aa785a95706818ecd2124fb704507f4e687821bf38a283b",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/memory/STATE.md",
+            "actual_sha256": "814cfcc4b4136d186328834dd235502fd1b94120e836c83ee1349e000cb89279",
+            "authority_id": "STATE",
+            "declared_sha256": "814cfcc4b4136d186328834dd235502fd1b94120e836c83ee1349e000cb89279",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/memory/THREADS.md",
+            "actual_sha256": "0653ff3d23718d0124e2385da8ebd76d85645e0fed4d6c56b94da623bf26f214",
+            "authority_id": "THREADS",
+            "declared_sha256": "0653ff3d23718d0124e2385da8ebd76d85645e0fed4d6c56b94da623bf26f214",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/memory/DECISIONS.md",
+            "actual_sha256": "e35b24070a1b933c6c6163ebdfc71fccfabd58ec38be80a7744a4776db464966",
+            "authority_id": "DECISIONS",
+            "declared_sha256": "e35b24070a1b933c6c6163ebdfc71fccfabd58ec38be80a7744a4776db464966",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/docs/INDEX.md",
+            "actual_sha256": "bf261f8526bd05e6150a8728a27705df2f60edd825a36efc031ad8e329bdd015",
+            "authority_id": "INDEX",
+            "declared_sha256": "bf261f8526bd05e6150a8728a27705df2f60edd825a36efc031ad8e329bdd015",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/docs/SKILL_ROUTING.md",
+            "actual_sha256": "8b660cfd8c30b533541513fe7947c1f17bc948840e0d26b75d94ab6365f4cfde",
+            "authority_id": "SKILL_ROUTING",
+            "declared_sha256": "8b660cfd8c30b533541513fe7947c1f17bc948840e0d26b75d94ab6365f4cfde",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/docs/governance/SKILL_REGISTRY.md",
+            "actual_sha256": "7ba3a2076815699aada8ea2d3c0b0429fada2488dfc68e7496f67c64035c87e6",
+            "authority_id": "SKILL_REGISTRY",
+            "declared_sha256": "7ba3a2076815699aada8ea2d3c0b0429fada2488dfc68e7496f67c64035c87e6",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+            "actual_sha256": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+            "authority_id": "PREFLIGHT",
+            "declared_sha256": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/THESIS_RESEARCH_ARCHITECTURE_v3.md",
+            "actual_sha256": "7333dd2b9c2777b7c70e63903d7efce3ec8278140c84b3384c4ef10cd6a620bf",
+            "authority_id": "THESIS",
+            "declared_sha256": "7333dd2b9c2777b7c70e63903d7efce3ec8278140c84b3384c4ef10cd6a620bf",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/tatqa_wp0_2026/wp2/S4C_ONLINE_QUALIFICATION_RECEIPT.json",
+            "actual_sha256": "7f0cdc28ec05aca8a40c579e26b99e9377371e2867af3a536835abf34f608eb3",
+            "authority_id": "STOP_S4",
+            "declared_sha256": "7f0cdc28ec05aca8a40c579e26b99e9377371e2867af3a536835abf34f608eb3",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/skills/research-writing-skill/SKILL.md",
+            "actual_sha256": "127c2d0f8c00291dd3b34839d197b627e9949e1d854af74564e541555221a294",
+            "authority_id": "SKILL_WRITING",
+            "declared_sha256": "127c2d0f8c00291dd3b34839d197b627e9949e1d854af74564e541555221a294",
+            "exists": true,
+            "match": true
+          },
+          {
+            "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/skills/algorithm-description/SKILL.md",
+            "actual_sha256": "ce0a59466ae12605ce1e75803494a017f43ae06d231e48fb9e7ddb394e28ddf7",
+            "authority_id": "SKILL_ALGORITHM",
+            "declared_sha256": "ce0a59466ae12605ce1e75803494a017f43ae06d231e48fb9e7ddb394e28ddf7",
+            "exists": true,
+            "match": true
+          }
+        ],
+        "mismatched": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C12_links",
+      "description": "Local markdown links resolve (external URLs excluded)",
+      "evidence": null,
+      "expected": "0 broken local links",
+      "method": "regex + existence",
+      "observed": {
+        "broken": [],
+        "external": 12,
+        "naive_flagged": [
+          {
+            "file": "sources/planning_round1.md",
+            "target": "D:/AIRcommend/JinRongAgents/agents_final_tech/scripts/graph/formal_experiment_preflight.py:336"
+          },
+          {
+            "file": "sources/planning_round1.md",
+            "target": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/tatqa_wp0_2026/wp2/bridge_v2/offline_qualification.py:266"
+          }
+        ],
+        "refinement": "flagged targets are path:line code references inside verbatim historical sources; base files exist: {'D:/AIRcommend/JinRongAgents/agents_final_tech/scripts/graph/formal_experiment_preflight.py:336': True, 'D:/AIRcommend/JinRongAgents/agents_final_tech/research/tatqa_wp0_2026/wp2/bridge_v2/offline_qualification.py:266': True}",
+        "total": 97
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C13_index_single_entry",
+      "description": "docs/INDEX.md has exactly one harness_rsi_v1 navigation entry pointing at README",
+      "evidence": null,
+      "expected": "exactly 1 entry -> README",
+      "method": "line scan",
+      "observed": {
+        "hits": [
+          "| [`../research/harness_rsi_v1/README.md`](../research/harness_rsi_v1/README.md) | 规划草案 / 执行关闭 | RSI v2：科研可靠性、科研能力与 skill 优化；19 张独立任务卡，T−1 仅供文档核对；不授权实验或分发 |"
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C14_no_fabricated_events",
+      "description": "Registries empty; no accepted/active events; occurrence scan of ACCEPTED/ACTIVE words",
+      "evidence": null,
+      "expected": null,
+      "method": "size check + token scan",
+      "observed": {
+        "note": "ACCEPTED/ACTIVE occurrences expected only in schema/enumeration/policy vocabulary; registry/state show no events",
+        "registry_all_empty": true,
+        "word_occurrences": [
+          {
+            "ACCEPTED": 3,
+            "ACTIVE": 2,
+            "rel": "cards/T-1.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T0.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T1.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T10.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T11.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T12.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T13.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T14.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T15.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T16.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T17.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T2.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T3.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T4.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T5.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T6.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T7.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T8.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T9.md"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 1,
+            "rel": "contracts/execution_policy.md"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 2,
+            "rel": "contracts/protocol.json"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 0,
+            "rel": "contracts/schemas.json"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 1,
+            "rel": "EXECUTION_PROMPT.md"
+          },
+          {
+            "ACCEPTED": 3,
+            "ACTIVE": 2,
+            "rel": "MASTER_PLAN.md"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 0,
+            "rel": "README.md"
+          },
+          {
+            "ACCEPTED": 3,
+            "ACTIVE": 2,
+            "rel": "sources/planning_round2.md"
+          },
+          {
+            "ACCEPTED": 0,
+            "ACTIVE": 1,
+            "rel": "state/planner_brief.md"
+          }
+        ]
+      },
+      "result": "INFO"
+    },
+    {
+      "check_id": "C15_empty_ledgers_dirs",
+      "description": "Declared EMPTY_LEDGER files are 0 bytes; declared empty dirs exist and are empty",
+      "evidence": null,
+      "expected": "match",
+      "method": "size + listing",
+      "observed": {
+        "actual_empty": [
+          "meta/lessons.jsonl",
+          "meta/nogoods.jsonl",
+          "registry/candidate_events.jsonl",
+          "registry/decision_events.jsonl",
+          "registry/task_events.jsonl"
+        ],
+        "declared_empty": [
+          "meta/lessons.jsonl",
+          "meta/nogoods.jsonl",
+          "registry/candidate_events.jsonl",
+          "registry/decision_events.jsonl",
+          "registry/task_events.jsonl"
+        ],
+        "dirs": [
+          {
+            "dir": "candidates",
+            "empty": true,
+            "exists": true
+          },
+          {
+            "dir": "runs",
+            "empty": true,
+            "exists": true
+          },
+          {
+            "dir": "reviews",
+            "empty": true,
+            "exists": true
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C14b_pass_word_scan",
+      "description": "Locate PASS-word usage; confirm none is presented as an executed result",
+      "evidence": "state/current.json accepted_tasks=[] active_versions=[]; registry/*.jsonl 0 bytes",
+      "expected": "no fabricated results",
+      "method": "regex word scan",
+      "observed": {
+        "note": "occurrences limited to card self-assertions, policy/spec text and historical sources; state/current.json and registry show no events",
+        "rows": [
+          {
+            "PASS_word": 2,
+            "rel": "cards/T-1.md"
+          },
+          {
+            "PASS_word": 3,
+            "rel": "evaluation/reliability_spec.md"
+          },
+          {
+            "PASS_word": 5,
+            "rel": "MASTER_PLAN.md"
+          },
+          {
+            "PASS_word": 7,
+            "rel": "sources/planning_round1.md"
+          },
+          {
+            "PASS_word": 2,
+            "rel": "sources/planning_round2.md"
+          }
+        ],
+        "state_registry_clean": true
+      },
+      "result": "INFO"
+    },
+    {
+      "check_id": "C16_input_bindings",
+      "description": "T-1 card's 12 declared inputs exist; actual hashes recorded for the receipt",
+      "evidence": "input_bindings[]",
+      "expected": "12 inputs exist; declared hashes remain plan-time placeholders",
+      "method": "existence + sha256",
+      "observed": {
+        "all_exist": true,
+        "count": 12,
+        "declared_sha256_all": [
+          "UNRESOLVED"
+        ]
+      },
+      "result": "PASS"
+    }
+  ],
+  "execution_status": "DELIVERED",
+  "input_bindings": [
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json",
+      "actual_bytes": 5243,
+      "actual_sha256": "bfbf453def9386eb378f0370491892faf14edfc36a978d77647ba34b8baffcf6",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
+      "actual_bytes": 7270,
+      "actual_sha256": "946f952fb8a530d4001a6b047cc9c4b833ebe613bb9a3b1a40250584a0962bea",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md",
+      "actual_bytes": 2852,
+      "actual_sha256": "f659668ad1ddca44fcd170c328a177be201b8aaa871f2bb938681d404e9cf393",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+      "actual_bytes": 1689,
+      "actual_sha256": "1c94e40e377dd7b119c27988d845859e9d88784312c68aeb3f3649871614a8d9",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json",
+      "actual_bytes": 7295,
+      "actual_sha256": "a6543ce1fc4254f1f09573a928c6e0c318b5834062529ec9f0264873198a4c6d",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/README.md",
+      "actual_bytes": 1946,
+      "actual_sha256": "969a078afeb4fd02fa4777cfa5e33ca0cbb8d9d417fc6af1ac83b08b5da12479",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/MASTER_PLAN.md",
+      "actual_bytes": 57842,
+      "actual_sha256": "f663094efbf5d6fdd617a600353ba7ccba06ce0f1fcba06ec1ab20142f1253ef",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/REVISION_LOG.md",
+      "actual_bytes": 707,
+      "actual_sha256": "6bf70e0cf319facddc4b5b014d67e6e662f42719f7eaa8445716c534e3e37c5d",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round1.md",
+      "actual_bytes": 26874,
+      "actual_sha256": "cc4ef2da38702fb21ae364710d0db7480a856df34d7951e6275c3cbf271b25dd",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round2.md",
+      "actual_bytes": 41728,
+      "actual_sha256": "ce68b925d451f134277ce80dac4c79254b656ab55c8ada639279f15925e2e38a",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/provenance.json",
+      "actual_bytes": 818,
+      "actual_sha256": "97e49347f3fdc89e45c433bb1adb16f4ebd3f02d4f215675173b966c461b5151",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/FILE_MANIFEST.json",
+      "actual_bytes": 17810,
+      "actual_sha256": "1fd2e8a98e02b5f62ebe1dbe7f31e56b8a3fa403592f3543b754049c713d5a73",
+      "binding": "READ_AND_HASHED_DURING_T1_REVIEW_NOT_ACTIVATION",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    }
+  ],
+  "output_manifest": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/artifacts_manifest.json",
+  "run_id": "20261014T072826Z_6f19a394",
+  "schema": "tatqa_wp2_style_receipt_harness_rsi_receipt_v2",
+  "scope": "T-1 planning-materialization documentation review; read-only on the planning package; single write scope = runs/T-1/{run_id}/",
+  "task_id": "T-1",
+  "unresolved": {
+    "declared": 9,
+    "register": "unresolved_register.json",
+    "run_level": 4,
+    "summary": "U01-U09 registered (owner adjudication / executor evidence / future evidence); RUN-R01 unmeasurable chat usage; RUN-R02/R03 non-blocking observations; RUN-R04 future bindings"
+  },
+  "usage": {
+    "additional_model_requests": 0,
+    "automatic_retries": 0,
+    "database_calls": 0,
+    "execution_chat_usage": "UNRESOLVED",
+    "local_readonly_command_invocations": 13,
+    "network_calls": 0,
+    "note": "no model/network/remote/production/training calls; the model executing this review is the execution chat itself and cannot be metered",
+    "production_service_calls": 0,
+    "remote_calls": 0,
+    "training_calls": 0
+  },
+  "user_criteria": [
+    {
+      "criterion": "1 manifest completeness + cards + JSON/JSONL parse",
+      "result": "PASS"
+    },
+    {
+      "criterion": "2 actual byte hashes vs manifest and provenance (originals untouched)",
+      "result": "PASS"
+    },
+    {
+      "criterion": "3 only T-1 READY; T0-T17 DRAFT; protocol/cards execution authorization off",
+      "result": "PASS"
+    },
+    {
+      "criterion": "4 per-card completeness; acyclic deps; consistent budget totals",
+      "result": "PASS"
+    },
+    {
+      "criterion": "5 local links valid or UNRESOLVED; INDEX single pilot entry",
+      "result": "PASS (2 naive flags refined to path:line refs in historical sources)"
+    },
+    {
+      "criterion": "6 no draft/empty-ledger/historical-PASS treated as real case/result/signature",
+      "result": "PASS"
+    },
+    {
+      "criterion": "7 unknowns categorised (user adjudication / executor evidence / future evidence); no false failure",
+      "result": "PASS"
+    }
+  ]
+}

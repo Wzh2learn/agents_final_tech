@@ -1,0 +1,5 @@
+{"event": "run_started", "scope": "read-only documentation review of harness_rsi_v1 planning package", "task_id": "T-1", "ts_utc": "2026-10-14T07:28:26Z"}
+{"event": "inputs_read", "inputs_declared": 12, "inputs_existing": 12, "task_id": "T-1", "ts_utc": "2026-10-14T07:28:26Z"}
+{"checks_total": 18, "event": "checks_completed", "fail": 0, "info": 2, "pass": 16, "refined": {"C12_links": "PASS after path:line refinement on historical sources"}, "task_id": "T-1", "ts_utc": "2026-10-14T07:28:26Z"}
+{"event": "deliverables_written", "files": ["document_inventory.json", "unresolved_register.json", "receipt.json", "summary.md", "artifacts_manifest.json", "events.jsonl"], "task_id": "T-1", "ts_utc": "2026-10-14T07:28:26Z"}
+{"acceptance_status": "UNREVIEWED", "activation_status": "NOT_ENABLED", "additional_model_requests": 0, "automatic_retries": 0, "event": "run_finished", "execution_chat_usage": "UNRESOLVED", "execution_status": "DELIVERED", "network_calls": 0, "remote_calls": 0, "task_id": "T-1", "ts_utc": "2026-10-14T07:28:26Z"}

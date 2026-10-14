@@ -1,0 +1,20 @@
+{
+  "status": "SOURCE_COPY_ONLY_NOT_ACCEPTANCE",
+  "encoding": "UTF-8",
+  "newline_policy": "exact decoded message text, no appended newline",
+  "source_kind": "this conversation assistant final messages",
+  "sources": [
+    {
+      "file": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round1.md",
+      "message_timestamp_utc": "2026-10-14T06:19:31.257Z",
+      "sha256": "cc4ef2da38702fb21ae364710d0db7480a856df34d7951e6275c3cbf271b25dd",
+      "utf8_bytes": 26874
+    },
+    {
+      "file": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round2.md",
+      "message_timestamp_utc": "2026-10-14T06:41:54.706Z",
+      "sha256": "ce68b925d451f134277ce80dac4c79254b656ab55c8ada639279f15925e2e38a",
+      "utf8_bytes": 41728
+    }
+  ]
+}

@@ -1,0 +1,395 @@
+{
+  "schema_version": 2,
+  "status": "DRAFT",
+  "tasks": [
+    {
+      "id": "T-1",
+      "title": "规划物化复核",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T-1.md",
+      "status": "READY",
+      "execution_authorized": false,
+      "dependencies": [],
+      "budget_profile": "B0",
+      "cheap_max": 0,
+      "strong_max": 0,
+      "model": "便宜模型",
+      "complexity": "低",
+      "planned_outputs": [
+        "document_inventory.json",
+        "unresolved_register.json"
+      ]
+    },
+    {
+      "id": "T0",
+      "title": "协议与权威裁决准备",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T0.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T-1"
+      ],
+      "budget_profile": "BR",
+      "cheap_max": 0,
+      "strong_max": 1,
+      "model": "便宜整理＋强模型评审＋用户裁决",
+      "complexity": "中",
+      "planned_outputs": [
+        "protocol_proposal.json",
+        "authority_binding_proposal.json",
+        "owner_decision_packet.md"
+      ]
+    },
+    {
+      "id": "T1",
+      "title": "可靠性事故案例整理",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T1.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T0"
+      ],
+      "budget_profile": "B0",
+      "cheap_max": 0,
+      "strong_max": 0,
+      "model": "便宜模型",
+      "complexity": "中",
+      "planned_outputs": [
+        "incidents.jsonl",
+        "coverage_matrix.json",
+        "source_groups.json"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "独立评价底座",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T2.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T1"
+      ],
+      "budget_profile": "BR",
+      "cheap_max": 0,
+      "strong_max": 1,
+      "model": "便宜实施＋强模型评审",
+      "complexity": "高",
+      "planned_outputs": [
+        "evaluator_spec.json",
+        "evaluator/",
+        "qualification.json",
+        "sealed_access_proposal.json"
+      ]
+    },
+    {
+      "id": "T3",
+      "title": "可信执行与计数",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T3.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T2"
+      ],
+      "budget_profile": "B0",
+      "cheap_max": 0,
+      "strong_max": 0,
+      "model": "便宜模型",
+      "complexity": "高",
+      "planned_outputs": [
+        "runner/",
+        "permission_matrix.json",
+        "runner_qualification.json"
+      ]
+    },
+    {
+      "id": "T4",
+      "title": "R适配器与基线",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T4.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T3",
+        "T1"
+      ],
+      "budget_profile": "B0",
+      "cheap_max": 0,
+      "strong_max": 0,
+      "model": "便宜模型",
+      "complexity": "中",
+      "planned_outputs": [
+        "adapters/",
+        "baseline_recipe.json",
+        "baseline.json"
+      ]
+    },
+    {
+      "id": "T5",
+      "title": "R两个对象接口",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T5.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T4"
+      ],
+      "budget_profile": "B0",
+      "cheap_max": 0,
+      "strong_max": 0,
+      "model": "便宜模型",
+      "complexity": "中",
+      "planned_outputs": [
+        "recipe_interfaces.json",
+        "registered_operations.json",
+        "recipe_fixtures/"
+      ]
+    },
+    {
+      "id": "T6",
+      "title": "有界提案与统一档案",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T6.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T5"
+      ],
+      "budget_profile": "BR",
+      "cheap_max": 4,
+      "strong_max": 0,
+      "model": "便宜模型",
+      "complexity": "中",
+      "planned_outputs": [
+        "archive_implementation/",
+        "candidate_index.json",
+        "candidate_packages/"
+      ]
+    },
+    {
+      "id": "T7",
+      "title": "R独立验收与回滚",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T7.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T6"
+      ],
+      "budget_profile": "BR",
+      "cheap_max": 0,
+      "strong_max": 1,
+      "model": "便宜运行＋强模型评审",
+      "complexity": "中",
+      "planned_outputs": [
+        "pilot_acceptance.json",
+        "rollback_receipt.json",
+        "review_packet.md"
+      ]
+    },
+    {
+      "id": "T8",
+      "title": "受控影子与精确启用",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T8.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T7"
+      ],
+      "budget_profile": "SHADOW",
+      "cheap_max": 6,
+      "strong_max": 2,
+      "model": "便宜执行＋强评审＋D裁决",
+      "complexity": "中",
+      "planned_outputs": [
+        "shadow_comparison.json",
+        "release_proposal.json",
+        "rollback_receipt.json"
+      ]
+    },
+    {
+      "id": "T9",
+      "title": "meta策略独立比较",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T9.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T6"
+      ],
+      "budget_profile": "META",
+      "cheap_max": 12,
+      "strong_max": 2,
+      "model": "便宜提案＋强模型裁决",
+      "complexity": "高",
+      "planned_outputs": [
+        "meta_candidate.md",
+        "meta_comparison.json",
+        "meta_decision_proposal.md"
+      ]
+    },
+    {
+      "id": "T10",
+      "title": "科研标尺与资料包",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T10.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T0",
+        "T1"
+      ],
+      "budget_profile": "BC",
+      "cheap_max": 0,
+      "strong_max": 2,
+      "model": "便宜构建＋强评审＋人类确认",
+      "complexity": "高",
+      "planned_outputs": [
+        "rubric_proposal.json",
+        "packet_manifest.json",
+        "human_calibration_packet.md"
+      ]
+    },
+    {
+      "id": "T11",
+      "title": "C4能力基线",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T11.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T3",
+        "T10"
+      ],
+      "budget_profile": "BC",
+      "cheap_max": 24,
+      "strong_max": 0,
+      "model": "便宜模型",
+      "complexity": "中",
+      "planned_outputs": [
+        "baseline_outputs/",
+        "baseline_manifest.json",
+        "capability_profile.json"
+      ]
+    },
+    {
+      "id": "T12",
+      "title": "C4局部候选",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T12.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T6",
+        "T11"
+      ],
+      "budget_profile": "BC",
+      "cheap_max": 18,
+      "strong_max": 0,
+      "model": "便宜模型",
+      "complexity": "中",
+      "planned_outputs": [
+        "capability_candidates/",
+        "development_comparison.json"
+      ]
+    },
+    {
+      "id": "T13",
+      "title": "C4独立验收",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T13.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T12",
+        "T10"
+      ],
+      "budget_profile": "BC",
+      "cheap_max": 24,
+      "strong_max": 6,
+      "model": "便宜运行＋强评审＋用户裁决",
+      "complexity": "高",
+      "planned_outputs": [
+        "blind_pairwise_reviews.json",
+        "human_decision_packet.md",
+        "capability_acceptance_proposal.json"
+      ]
+    },
+    {
+      "id": "T14",
+      "title": "全库技能身份与边界盘点",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T14.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T0"
+      ],
+      "budget_profile": "B0",
+      "cheap_max": 0,
+      "strong_max": 0,
+      "model": "便宜模型",
+      "complexity": "中",
+      "planned_outputs": [
+        "skills_inventory.json",
+        "dependency_graph.json",
+        "protected_assets.json",
+        "pilot_scope.json"
+      ]
+    },
+    {
+      "id": "T15",
+      "title": "两技能装载组合消融",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T15.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T3",
+        "T14"
+      ],
+      "budget_profile": "BS",
+      "cheap_max": 48,
+      "strong_max": 0,
+      "model": "便宜模型",
+      "complexity": "中",
+      "planned_outputs": [
+        "probe_manifest.json",
+        "masking_trials/",
+        "utility_and_interactions.json"
+      ]
+    },
+    {
+      "id": "T16",
+      "title": "技能小幅更新与退出提案",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T16.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T6",
+        "T15"
+      ],
+      "budget_profile": "BS",
+      "cheap_max": 26,
+      "strong_max": 2,
+      "model": "便宜生成＋强评审",
+      "complexity": "高",
+      "planned_outputs": [
+        "skill_candidates/",
+        "dependency_closure.json",
+        "retirement_proposal.json",
+        "development_evaluation.json"
+      ]
+    },
+    {
+      "id": "T17",
+      "title": "独立组合与未见验收",
+      "card": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T17.md",
+      "status": "DRAFT",
+      "execution_authorized": false,
+      "dependencies": [
+        "T7",
+        "T13",
+        "T16"
+      ],
+      "budget_profile": "BS",
+      "cheap_max": 32,
+      "strong_max": 2,
+      "model": "便宜运行＋强评审",
+      "complexity": "高",
+      "planned_outputs": [
+        "unseen_manifest.json",
+        "joint_comparison.json",
+        "release_bundle.json",
+        "review_packet.md"
+      ]
+    }
+  ]
+}

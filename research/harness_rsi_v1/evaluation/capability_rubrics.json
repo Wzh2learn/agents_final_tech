@@ -1,0 +1,153 @@
+{
+  "schema_version": 2,
+  "status": "DRAFT",
+  "approved_by": "UNRESOLVED",
+  "first_layer": "C4",
+  "layers": [
+    {
+      "id": "C1",
+      "name": "研究问题与贡献定位",
+      "dimensions": [
+        "可反驳性",
+        "最近邻差异",
+        "证据需求对应",
+        "强简单基线"
+      ],
+      "human_reserved": [
+        "研究价值",
+        "实质创新",
+        "学位充分性"
+      ]
+    },
+    {
+      "id": "C2",
+      "name": "文献与相关工作定位",
+      "dimensions": [
+        "来源支持",
+        "关键邻居覆盖",
+        "比较维度一致",
+        "检索边界透明"
+      ],
+      "human_reserved": [
+        "最近邻选择",
+        "差异重要性"
+      ]
+    },
+    {
+      "id": "C3",
+      "name": "实验设计与统计推断",
+      "dimensions": [
+        "独立单位与划分",
+        "指标对应",
+        "基线公平",
+        "不确定性与多重比较"
+      ],
+      "human_reserved": [
+        "识别策略",
+        "对照充分性",
+        "精度是否足够"
+      ]
+    },
+    {
+      "id": "C4",
+      "name": "结果分析与解释",
+      "dimensions": [
+        "事实准确",
+        "竞争解释",
+        "因果边界",
+        "下一步判别价值"
+      ],
+      "human_reserved": [
+        "解释可信度",
+        "机制识别",
+        "投入价值"
+      ]
+    },
+    {
+      "id": "C5",
+      "name": "写作与论证结构",
+      "dimensions": [
+        "主张证据映射",
+        "术语数字一致",
+        "逻辑依赖",
+        "科学含义保持"
+      ],
+      "human_reserved": [
+        "故事与贡献表达",
+        "读者理解"
+      ]
+    },
+    {
+      "id": "C6",
+      "name": "审稿视角与研究取舍",
+      "dimensions": [
+        "重大缺陷检出",
+        "误报控制",
+        "证据定位",
+        "回应可执行性"
+      ],
+      "human_reserved": [
+        "投稿阻断",
+        "可接受局限",
+        "研究取舍"
+      ]
+    }
+  ],
+  "anchors": {
+    "0": "错误/缺失/导致错误决定",
+    "1": "提及但证据不足或不可执行",
+    "2": "基本成立、边界明确、可用于下一步",
+    "3": "成立并处理关键反例，明显改善研究判断"
+  },
+  "required_review_fields": [
+    "dimension",
+    "score",
+    "artifact_span",
+    "evidence_ref",
+    "reason",
+    "uncertainty"
+  ],
+  "forbidden_proxies": [
+    "word_count_alone",
+    "citation_count_alone",
+    "issue_count_alone",
+    "fluent_style_as_scientific_value",
+    "self_claimed_novelty"
+  ],
+  "hard_fail": [
+    "fabricated_reference",
+    "wrong_numbers",
+    "leakage",
+    "false_execution_claim",
+    "stop_violation"
+  ],
+  "planned_cases": {
+    "independent_packets": 12,
+    "development": 4,
+    "selection": 4,
+    "sealed": 4,
+    "repeats": 2,
+    "actual_packet_manifest": "UNRESOLVED"
+  },
+  "comparison": {
+    "fixed": [
+      "model",
+      "settings",
+      "source_packet",
+      "tool_budget",
+      "length_budget",
+      "evaluator"
+    ],
+    "blinding": "hide version and randomize order",
+    "repeat_aggregation_proposal": "Each packet counted once; conflicting replicate preferences => tie/review",
+    "selection": "strict majority (>2/4 independent packets) and no substantive key regression",
+    "sealed": "one winner, once; >=3/4 packet preference; human approval required"
+  },
+  "calibration": {
+    "anchors": "UNRESOLVED",
+    "human_reviewer": "UNRESOLVED",
+    "proposed_min_pass_fail_agreement": 0.8,
+    "status": "UNRESOLVED"
+  },
+  "claims": "Bounded pilot workflow improvement only; not general capability, publication guarantee or thesis evidence"
+}

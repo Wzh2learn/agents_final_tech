@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:jinrong:harness-rsi:v2",
+  "title": "Draft contracts; select a $defs schema for validation, not the root object",
+  "status": "DRAFT",
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "required": [
+        "absolute_path",
+        "sha256",
+        "status"
+      ],
+      "properties": {
+        "absolute_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^([0-9a-f]{64}|UNRESOLVED)$"
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "task": {
+      "type": "object",
+      "required": [
+        "task_id",
+        "status",
+        "execution_authorized",
+        "inputs",
+        "outputs",
+        "dependencies",
+        "budget",
+        "acceptance"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "READY"
+          ]
+        },
+        "execution_authorized": {
+          "type": "boolean"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "dependencies": {
+          "type": "array"
+        },
+        "budget": {
+          "type": "object"
+        },
+        "acceptance": {
+          "type": "array",
+          "minItems": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "candidate": {
+      "type": "object",
+      "required": [
+        "candidate_id",
+        "parent_id",
+        "direction",
+        "target",
+        "changes",
+        "input_bindings",
+        "model_identity",
+        "budget"
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direction": {
+          "enum": [
+            "R",
+            "C",
+            "S",
+            "BUNDLE"
+          ]
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "changes": {
+          "type": "array",
+          "minItems": 1
+        },
+        "input_bindings": {
+          "type": "array"
+        },
+        "model_identity": {
+          "type": "object"
+        },
+        "budget": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": true
+    },
+    "evaluation": {
+      "type": "object",
+      "required": [
+        "evaluation_id",
+        "candidate_id",
+        "candidate_sha256",
+        "case_set_id",
+        "evaluator_sha256",
+        "verification_level",
+        "results",
+        "cost",
+        "unverified"
+      ],
+      "properties": {
+        "evaluation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_set_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evaluator_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verification_level": {
+          "type": "string",
+          "minLength": 1
+        },
+        "results": {
+          "type": "array"
+        },
+        "cost": {
+          "type": "object"
+        },
+        "unverified": {
+          "type": "array"
+        }
+      },
+      "additionalProperties": true
+    },
+    "receipt": {
+      "type": "object",
+      "required": [
+        "task_id",
+        "run_id",
+        "scope",
+        "execution_status",
+        "acceptance_status",
+        "activation_status",
+        "input_bindings",
+        "output_manifest",
+        "checks",
+        "usage",
+        "unresolved",
+        "authorization_ref"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "execution_status": {
+          "enum": [
+            "DELIVERED",
+            "FAILED",
+            "STOPPED"
+          ]
+        },
+        "acceptance_status": {
+          "const": "UNREVIEWED"
+        },
+        "activation_status": {
+          "const": "NOT_ENABLED"
+        },
+        "input_bindings": {
+          "type": "array"
+        },
+        "output_manifest": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checks": {
+          "type": "array"
+        },
+        "usage": {
+          "type": "object"
+        },
+        "unresolved": {
+          "type": "array"
+        },
+        "authorization_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "decision": {
+      "type": "object",
+      "required": [
+        "decision_id",
+        "reviewed_artifact_sha256",
+        "decision",
+        "reviewer",
+        "evidence_refs",
+        "scope"
+      ],
+      "properties": {
+        "decision_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewed_artifact_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision": {
+          "enum": [
+            "ACCEPTED",
+            "REJECTED",
+            "NO_PROMOTION",
+            "PENDING_HUMAN_REVIEW"
+          ]
+        },
+        "reviewer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "lesson": {
+      "type": "object",
+      "required": [
+        "lesson_id",
+        "evidence_refs",
+        "applicable_versions",
+        "conditions",
+        "finding",
+        "status"
+      ],
+      "properties": {
+        "lesson_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1
+        },
+        "applicable_versions": {
+          "type": "array",
+          "minItems": 1
+        },
+        "conditions": {
+          "type": "string",
+          "minLength": 1
+        },
+        "finding": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "SUPPORTED_IN_SCOPE",
+            "CONTESTED",
+            "RETIRED"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "activation_invariants": [
+    "DRAFT allows UNRESOLVED; activation needs resolved bindings and real authorization",
+    "Empty results never imply a passing evaluation",
+    "No acceptance or execution data in specification phase",
+    "Evaluator implementation and qualification remain future work"
+  ]
+}

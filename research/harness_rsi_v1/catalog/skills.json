@@ -1,0 +1,11 @@
+{
+  "status": "DRAFT_NOT_AN_INVENTORY",
+  "source_of_truth": "D:/AIRcommend/JinRongAgents/agents_final_tech/skills",
+  "planned_pilot": [
+    "research-writing-skill",
+    "algorithm-description"
+  ],
+  "entries": [],
+  "installation_state": "UNRESOLVED",
+  "note": "T14 creates actual inventory; no invented counts"
+}

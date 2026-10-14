@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "status": "DRAFT",
+  "authorized": false,
+  "scope": "Additional orchestrated model request attempts only; execution-chat usage recorded separately",
+  "unknown_usage": "UNRESOLVED, never zero",
+  "counting": "Count every attempt including failed, timeout and retry; total and per-request ceilings both apply; no automatic retries beyond card cap",
+  "default_external_calls": 0,
+  "actual_budget_approval": "UNRESOLVED",
+  "profiles": {
+    "B0": {
+      "cheap_requests": 0,
+      "strong_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "BR": {
+      "cheap_requests": 4,
+      "strong_requests": 3,
+      "total_input_tokens": 120000,
+      "total_output_tokens": 24000
+    },
+    "BC": {
+      "cheap_requests": 66,
+      "strong_requests": 8,
+      "cheap_request_input_max": 16000,
+      "cheap_request_output_max": 4000,
+      "strong_request_input_max": 32000,
+      "strong_request_output_max": 6000
+    },
+    "BS": {
+      "cheap_requests": 106,
+      "strong_requests": 4,
+      "cheap_request_input_max": 16000,
+      "cheap_request_output_max": 4000,
+      "strong_request_input_max": 32000,
+      "strong_request_output_max": 6000
+    },
+    "SHADOW": {
+      "cheap_requests": 6,
+      "strong_requests": 2,
+      "cheap_request_input_max": 16000,
+      "cheap_request_output_max": 4000,
+      "strong_request_input_max": 32000,
+      "strong_request_output_max": 6000
+    },
+    "META": {
+      "cheap_requests": 12,
+      "strong_requests": 2,
+      "cheap_request_input_max": 16000,
+      "cheap_request_output_max": 4000,
+      "strong_request_input_max": 32000,
+      "strong_request_output_max": 6000
+    }
+  }
+}

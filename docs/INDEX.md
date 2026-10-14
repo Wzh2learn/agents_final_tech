@@ -169,6 +169,7 @@
 | 文件 | 状态 | 用途 |
 |---|---|---|
 | [`research/README.md`](research/README.md) | 活跃 | 小论文、大论文、证据边界与论文导向验收的统一执行入口 |
+| [`../research/harness_rsi_v1/README.md`](../research/harness_rsi_v1/README.md) | 规划草案 / 执行关闭 | RSI v2：科研可靠性、科研能力与 skill 优化；19 张独立任务卡，T−1 仅供文档核对；不授权实验或分发 |
 | [`research/EXECUTION_HANDOFF_STATUS_v1.md`](research/EXECUTION_HANDOFF_STATUS_v1.md) | 当前执行摘要 / 等待下一阶段任务 | 两项优先级、允许/禁止事项、Loop A入口、owner决策及治理阻碍检查；不新增门或路线 |
 | [`research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md`](research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md) | 当前投稿资格 / BLOCKED_SCIENCE | 最大风险、必改/可改/禁改、未来WP-E作者验收；本轮未改稿 |
 | [`research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`](research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md) | 当前执行路由 / 资格待核验 | Paper E资产与claim边界；Agent/Memory/SFT/DPO/Adaptation身份；Loop A/D入口 |

@@ -1,0 +1,10 @@
+{
+  "schema_version": 2,
+  "status": "SPECIFICATION_MATERIALIZED_NOT_TASK_ACCEPTANCE",
+  "execution_authorized": false,
+  "accepted_tasks": [],
+  "active_versions": [],
+  "tasks": [],
+  "runtime_verified": false,
+  "proposal_budgets_approved": false
+}

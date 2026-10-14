@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "status": "DRAFT_NO_CASES",
+  "actual_splits": [],
+  "planned": {
+    "R": {
+      "development": 24,
+      "selection": 24,
+      "sealed": 24
+    },
+    "C4": {
+      "development": 4,
+      "selection": 4,
+      "sealed": 4,
+      "repeats": 2
+    },
+    "S": {
+      "development_probe_tasks": 6,
+      "unseen_joint_tasks": 4,
+      "repeats": 2
+    }
+  },
+  "sealed_physical_root": "UNRESOLVED",
+  "sealed_owner": "UNRESOLVED",
+  "rules": [
+    "same origin/rewrites stay together",
+    "repetition is not independent task",
+    "discussed incidents not sealed",
+    "no hidden answers in proposal workspace",
+    "register source rights and visibility"
+  ]
+}
