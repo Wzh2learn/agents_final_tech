@@ -1,0 +1,151 @@
+{
+  "advisories_closed_this_round": [
+    {
+      "evidence": "hash_domain=sha256_file_bytes_plus_mode; 45/45 entries carry mode; required_executables declared; independently recomputed 45/45",
+      "id": "ADVISORY-1",
+      "prior": "manifest did not record mode",
+      "status": "CLOSED"
+    },
+    {
+      "evidence": "P01(30) and P09(60) ACCEPT in recorded and reviewer rounds; note its delivery form causes this round's BLOCKING-1",
+      "id": "ADVISORY-2",
+      "prior": "usable tick-age value degraded to {0}",
+      "status": "CLOSED_SUBSTANCE"
+    },
+    {
+      "evidence": "3/3 targets declare required_cwd; validator checks and passes cwd=REPOSITORY_ROOT; probes run from /tmp",
+      "id": "ADVISORY-3",
+      "prior": "operation cwd not pinned",
+      "status": "CLOSED"
+    },
+    {
+      "evidence": "7 repairs all have verifiable artifacts present and non-empty; attempt1/attempt2 standalone failure JSONs (605 B / 603 B)",
+      "id": "ADVISORY-4",
+      "prior": "two repairs narrative-only",
+      "status": "CLOSED"
+    },
+    {
+      "evidence": "banned fields appear only in prohibition prose; .py consumers=0; build_v2_receipt.py reads baseline.cases[]; independent recount 6/2/2/6",
+      "id": "ADVISORY-5",
+      "prior": "dispatch wording pointed to derived summary.case_results",
+      "status": "CLOSED"
+    },
+    {
+      "evidence": "boundary_scan walks 74348 files incl hidden+gitignored; gitignored_touched=9; unexpected_touched=10 disclosed; manifest covers gitignored run files; file-set enumeration 46 = 45 + self",
+      "id": "ADVISORY-6",
+      "prior": "git status blind to gitignored writes",
+      "status": "CLOSED"
+    }
+  ],
+  "advisory_items": [
+    {
+      "category": "trust-boundary / security",
+      "escalation_condition": "If any downstream deployment supplies registry/interfaces from the reviewed or untrusted party, or if A1 must hold under that threat -> escalate to BLOCKING.",
+      "finding": "caller_validator does not authenticate its own --interfaces/--operations inputs, and execute_operation never verifies the target file's identity although registered_operations.json declares target.git_blob_id per operation. Evidence Z01: substituting registered_operations.json's OP-T4-R-SUMMARY-GUARD-CHECK target path caused the validator to execute my decoy script (marker 'Z01 ARBITRARY TARGET EXECUTED' written) and return ACCEPTED_WITHIN_SCOPE with target_execution_performed=true.",
+      "id": "ADVISORY-NEW-1",
+      "scope_overstatement": "registered_operations.path_policy.target_rule states 'callers cannot replace a target, interpreter, argv prefix or environment' - true for a call against the delivered registry, false against a substituted registry or modified target file.",
+      "severity_rationale": "Not blocking: subverting the validator's own --operations input is equivalent to subverting the validator itself, and the intended use has the registry hash-bound in the receipt. But card A1 ('cannot execute arbitrary shell') and the closed-vocabulary guarantee rest on this, and no delivered probe covers registry substitution.",
+      "suggested_fix": "Pin SHA-256 constants for registered_operations.json and recipe_interfaces.json inside caller_validator (same technique as PROTOCOL_FREEZE); verify target.git_blob_id before execution; state A1's scope explicitly as 'against the delivered, identity-verified registry'."
+    },
+    {
+      "category": "evidence-completeness",
+      "finding": "run_probes.py returns 3 on first failure, so a failed replay produces a 1-record artifact instead of a full matrix. This amplified both the v1 and v2 diagnoses.",
+      "id": "ADVISORY-NEW-2",
+      "suggested_fix": "Collect all cases, then return non-zero if any failed."
+    },
+    {
+      "category": "fixture-design / informational",
+      "finding": "valid_delivery_call.json co-locates expected_artifact_sha256 with summary_text and sets pin == summary_sha256, so the fixtures evidence the mechanism but not independent pin provenance. Separately, probe Y15 shows an empty summary_text with a matching pin is ACCEPTED - identity binding deliberately does not judge content adequacy.",
+      "id": "ADVISORY-NEW-3",
+      "suggested_fix": "State in caller_contract that summary content quality is out of scope; if provenance evidence is wanted, add a fixture where the pin is sourced from a separate artifact."
+    },
+    {
+      "category": "artifact-polish / informational",
+      "finding": "recipe_interfaces.json error_surface array lines 319-322 (the four new FC_* codes) have inconsistent indentation; JSON parses but formatting drifts from the surrounding array.",
+      "id": "ADVISORY-NEW-4",
+      "suggested_fix": "Normalize indentation."
+    }
+  ],
+  "blocking_items": [
+    {
+      "acceptance_criterion_hit": "A-common（包完整性、声明哈希实算一致）+ FP-RAW-RECORD-INTEGRITY（原始记录缺失/覆盖/身份漂移=0）+ FP-EVIDENCE-COVERAGE + receipt.checks.FINAL_PROBE_MATRIX 的 42/42 主张",
+      "category": "reproducibility / evidence-durability",
+      "escalation_note": "This is a residual/relapse of T5R-01 BLOCKING-1's defect class (same affected claim, same failure signature), not a newly invented bar. The exec-bit cause is fully fixed; the reproducibility failure mode recurs through the time-stale tick fixture and in-place mutation of a hash-bound raw record.",
+      "facts": [
+        "Delivered entry point on delivered bytes: python3 run_probes.py --run-root <RUN> --definitions <RUN>/recipe_fixtures/probe_definitions.json -> rc=3 with exactly 1 record; P01-PRECHECK-VALID expected=ACCEPT actual=REJECT fail_closed_code=FC_OPERATION_TARGET_FAILURE (measured at tick age 59.25 min)",
+        "Cause: recipe_fixtures/valid_precheck_call.json uses max_tick_age_minutes=30 while recipe_fixtures/dispatch/tick_valid.json.observed_at is a fixed past timestamp 2026-10-14T21:56:53Z",
+        "Same chain at --max-tick-age-min 0 and 60 returns rc=0; at 30 returns rc=1 with 'FAIL 收据过期: age=59.25min > 30min'",
+        "Only path to 21/21 runs scratch/prepare_runtime_fixtures.py, which writes observed_at IN PLACE into recipe_fixtures/dispatch/tick_valid.json, a manifest-tracked SHA-256-bound artifact; scratch/current_tree/runtime_fixture_prepare.log records exactly that write against the reviewed run's own fixture path",
+        "Measured consequence on a reviewer copy: after replay, manifest mismatches = ['recipe_fixtures/dispatch/tick_valid.json']",
+        "Internal contradiction: recipe_interfaces.json FP-RAW-RECORD-INTEGRITY declares 'Existing run files are read-only; runtime-derived mismatch text is never persisted over a matching fixture'; artifacts_manifest.hash_domain = sha256_file_bytes_plus_mode is voided for that artifact by replay",
+        "Internal inconsistency: recipe_interfaces.json declares max_tick_age_minutes=0 (replay-stable) while the delivered positive fixture uses 30 (non-replay-stable); the replay-stable value was available and unused for P01",
+        "Disclosure asymmetry: receipt.unresolved and FRESH_DELIVERY_SIMULATION.scope do mention regeneration, but summary.md and the commit state '各 21/21，合计 42/42' / 'fresh-delivery 42/42' flatly, and recipe_fixtures/README.md documents no replay prerequisite",
+        "run_probes.py still early-exits on first failure (return 3), so a replay failure yields a 1-record artifact - the same failure signature that obscured the v1 diagnosis"
+      ],
+      "id": "BLOCKING-1",
+      "impact": "receipt.checks.FINAL_PROBE_MATRIX '42/42 cases passed' and the commit claim 'fresh-delivery 42/42' do not hold in the delivered state. This is T5 v2's headline delivery claim and cannot be independently reproduced from the delivered package - structurally identical to T5R-01 BLOCKING-1's stated impact.",
+      "not_an_integrity_accusation": "Recorded evidence is internally consistent (4 probe result files, all 21 passed, ACCEPT=4/REJECT=17, same 4 ACCEPT cases) and my independent regeneration-based replay reproduces 21/21 x2 exactly (42 caller processes, 16 op invocations - matching receipt usage). The claim was plausibly true when made. The defect is evidence durability / self-evidencing delivery, not fabrication.",
+      "remediation_local_cheap_no_authority_expansion": [
+        "(a) Make the delivered positive probe replay-stable: set P01 max_tick_age_minutes to 0 (matching recipe_interfaces), keeping P09 as the bounded-age positive (30 and 60); OR",
+        "(b) move tick generation off the manifest-bound path - write the runtime tick to a non-manifest runtime directory and point the call there, so replay never voids a manifest hash",
+        "(c) document the replay entry point and prerequisites in recipe_fixtures/README.md",
+        "(d) align recipe_interfaces.json and the fixture on a single max_tick_age_minutes value",
+        "(e) consider making run_probes.py collect all cases before returning non-zero, so failures yield a full matrix"
+      ],
+      "title": "Headline delivery claim still not reproducible from delivered state; replay path overwrites a manifest-hash-bound raw record"
+    }
+  ],
+  "decision": "REJECTED",
+  "dissent": [
+    {
+      "id": "dissent-1",
+      "position_recorded": "Y06/X06C (summary_text + summary_sha256 + expected_artifact_sha256 all forged and mutually consistent) is ACCEPTED and executes target operations. A stricter unconditional reading of card A2 ('forged summaries cannot pass') would treat this as a direct counterexample.",
+      "residual_caveat": "The boundary is a trust assumption rather than a mechanism: the pin travels in the same call object as the summary, so the validator cannot verify that it is genuinely 'outside the producer's control'.",
+      "topic": "Stricter reading of A2 versus the adjudicated threat boundary",
+      "why_not_blocking": "The Loop D adjudication explicitly requires only that acceptance bind to an external pin outside the producer's control and that the threat boundary ('does not defend against a caller deliberately supplying a false pin') be explicitly declared. That declaration exists and matches the implementation at recipe_interfaces.json:286, recipe_fixtures/README.md:7 and receipt.unresolved[0]; the delivered probe set further encodes this case as X06C with expected=ACCEPT. Recorded as a declared boundary fact, not a defect."
+    },
+    {
+      "id": "dissent-2",
+      "position_recorded": "recipe_fixtures/delivery_payload.json contains summary.text byte-identical to the legitimate summary_text, and that package is already truly bound via package_sha256 (validator recomputes file bytes). Binding the summary check to the package's summary.text would defeat even a caller who supplies a false pin, since forging would require changing package bytes and would trigger FC_HASH_BINDING_MISMATCH. This construction is strictly stronger than the adjudicated external-pin form and its binding source is already present in the delivered fixture.",
+      "topic": "A strictly stronger construction was already available and unused",
+      "why_not_blocking": "The Loop D adjudication accepted the external-pin form, so this is an alternative-design note rather than a defect. Recorded for owner consideration in later evolution, or as grounds to narrow the wording of unresolved[0]."
+    }
+  ],
+  "justification": "Both T5R-01 blocking items are substantively resolved and were independently reproduced with discriminating evidence: the execute bit is delivered and consistent across worktree, .git index and HEAD (the exact T5R-01 P01 chain now returns rc=0); and the external-pin three-way equality rejects a self-consistent forger that correctly recomputes its own hash (Y01 -> FC_PIN_MISMATCH before target execution), with six malformed/absent pin forms all failing closed and the threat boundary explicitly declared in three places consistent with the Loop D adjudication. All six prior advisories are closed with verifiable artifacts, 15/15 v1 negative codes are preserved exactly, four-class separation and 7/7 frozen protections hold, TASK_PROMPT is byte-identical to the v2 dispatch source, G1 is 4/4, and usage counters (42 processes / 16 operations) were reproduced independently. However the headline delivery claim remains unreproducible from the delivered package: the delivered probe entry point fails P01 as delivered because the bounded tick fixture carries a fixed past timestamp, and the only replay path overwrites a manifest-SHA-256-bound raw record - voiding the package's own hash self-evidence and directly contradicting its FP-RAW-RECORD-INTEGRITY declaration. T5R-01 established that a headline claim that cannot be independently reproduced from the delivered state is blocking; applying that same standard consistently yields REJECTED. The defect is narrow, local and cheap to fix, needs no authority expansion, no experiment rerun and no frozen-file change, so REJECTED is chosen over PENDING_HUMAN_REVIEW. No evidence of fabrication or authority violation was found.",
+  "next_steps": [
+    "Fix BLOCKING-1 (this round): make P01 replay-stable (max_tick_age_minutes=0 matching recipe_interfaces) or move tick generation off the manifest-bound path; document the replay entry point in recipe_fixtures/README.md; align max_tick_age_minutes; consider making run_probes.py non-early-exit.",
+    "Re-issue self-check (manifest, write boundary, G1, usage, two-round matrix) and resubmit T5; then request another Loop C slot.",
+    "Handle ADVISORY-NEW-1 in the same pass if convenient: pin registry/interfaces SHA-256 constants in caller_validator, verify target.git_blob_id before execution, and state A1's scope explicitly as 'against the delivered, identity-verified registry'.",
+    "Consider dissent-2: bind summary verification to the hash-bound package summary.text for a strictly stronger guarantee, or narrow unresolved[0] wording accordingly.",
+    "Do not enter T6. registry/state are not updated by this review - the closer owns those updates."
+  ],
+  "review_id": "T5R-02",
+  "reviewed_run_id": "20261014T212520Z_3acf4c1d",
+  "reviewer_authority_note": "This is a proposal only. The reviewer does not self-sign ACCEPTED, does not update registry/state, and does not grant any execution, deployment or promotion authority.",
+  "scope": {
+    "explicitly_not_claimed": [
+      "END_TO_END_PREFLIGHT_PASS",
+      "FORMAL_RUN_PASS",
+      "scientific PASS",
+      "formal experiment qualification",
+      "promotion or deployment"
+    ],
+    "not_verified": "GB10 authoritative runtime, production services, databases, model endpoints, daemon, Loop B; execution-chat token usage (UNRESOLVED); future Loop D invocation against a real run package, real evidence handoff, sealed case set; formal END_TO_END_PREFLIGHT_PASS and FORMAL_RUN_PASS; independent real-deployment provenance of the external pin; exact writers/timing of logs/ and .pytest_cache/ changes",
+    "verification_levels_claimed": [
+      "CONTRACT_PASS",
+      "COMPONENT_PASS"
+    ],
+    "verified": "T5 v2 run package bytes/SHA-256/mode (45 manifest entries + self = 46 files); delivery of the watcher execute bit across worktree/.git index/HEAD; fresh-delivery rebuild from delivered state on reviewer copies (2 rounds); delivered 21-case probe matrix and fail_closed_code exactness; 15 new BLOCKING-2 adversarial probes plus 1 registry-substitution probe; six prior advisory closures; four-class delivery field separation; 7/7 frozen_protections non-regression; TASK_PROMPT verbatim capture; G1 Markdown guard; usage counter self-consistency; write boundary including gitignored paths; T4 dependency (T4R-01 ACCEPTED); T4 case-level consumption discipline"
+  },
+  "supersedes": {
+    "decision": "REJECTED",
+    "prior_blocking_count": 2,
+    "prior_blocking_status_now": {
+      "BLOCKING_1_exec_bit": "CLOSED - watcher.sh delivered mode 100755 in worktree/.git index/HEAD; exact T5R-01 P01 chain rc=0; fresh-delivery chmod-x-then-restore reproduces",
+      "BLOCKING_2_forged_summary": "CLOSED - three-way equality enforced before target execution; discriminating probe Y01 (forged text + self-consistent forged hash + TRUE pin) rejected with FC_PIN_MISMATCH; threat boundary explicitly declared in three places"
+    },
+    "review_id": "T5R-01",
+    "superseded_run_id": "20261014T195445Z_60c8e213"
+  },
+  "task_id": "T5"
+}

@@ -1,0 +1,15 @@
+[loop-c] start 2026-10-14T22:15:33Z
+T5R-02 review complete. **Verdict: ACCEPTED** — both T5R-01 blockings are closed on independently reproduced evidence, with three new advisories.
+
+**BLOCKING-1 closed.** P01's original chain now returns rc=0 with `mode=-rwxr-xr-x`; the two-round matrix is 42/42 (ACCEPT=4/REJECT=17 each). The execute bit is consistent across four independent sources (stat / manifest / `.git/index` / byte-derived blob SHA-1 `742e13d6…`). Two things I checked beyond the ask: a discriminating-power test (strip exec bits *without* manifest restore → P01 fails, so the check isn't vacuous), and an adversarial sweep of every target tool contract — `dispatch_precheck.sh` only requires X_OK on the watcher, and the T4 adapters / guard / `baseline_recipe.json` require none, so `required_executables` is complete.
+
+**BLOCKING-2 closed** per Loop D's §7 adjudication. I replayed T5R-01's X06 counterexample verbatim (my probe Y01) — it is now `FC_PIN_MISMATCH` with `target_execution_performed=false`. 12 new pin probes and 10 separation probes all matched expectation, including 2 break attempts (integer pin, pin relocated to top level) that fail closed.
+
+**One thing worth your attention:** Y10 — forging text + hash *and* the pin together — is still accepted. That is exactly the boundary Loop D ruled on and required to be declared, and it is declared verbatim in README/summary/receipt/self_check. The guarantee actually delivered is "the summary producer cannot forge alone," not "forgery is impossible." I recorded this as dissent: if the owner reads A2 in its widest form (caller+producer collusion), Y10 is a direct counterexample and this verdict should flip to REJECTED. My position is to follow the already-issued Loop D ruling.
+
+Three new advisories, none blocking:
+- **A** — "32 modes restored" is a stale snapshot; the final manifest has 45 and re-running their own helper restores 45/45. Headline claim holds at 45.
+- **B** — `self_check.py` returns rc=3 in my session (19/20). The 5 new flagged files are all `.omc/*` from *this* review session's harness, attributable by session id; delivery-time record is 20/20. Run package untouched (46 files, git status empty).
+- **C** — the tick fixture is doubly non-portable (time bound *and* absolute watcher path), but `unresolved` discloses only the time bound. I isolated both bindings with three experiments.
+
+Scratch is confined to `/home/testuser/wzh/loop_runs/t5r02_recheck_a/` (paths itemized in the receipt). Zero writes into the repo or the reviewed run. Registry/state left for the closeout owner; T6 not entered.
