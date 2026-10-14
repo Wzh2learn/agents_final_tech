@@ -1,78 +1,105 @@
 {
-  "schema_version": 2,
-  "status": "DRAFT_REGISTER_NOT_PROJECT_AUTHORITY",
   "items": [
     {
-      "id": "U01",
-      "status": "UNRESOLVED",
-      "owner": "OWNER",
-      "description": "协议阈值、每阶段预算、人工评审安排",
       "blocks": "T0/T10",
-      "note": "本规划数值是建议，不是已签署合同"
+      "decision": "adopt recommended budgets/thresholds (BR 4/3, BC 66/8, BS 106/4, SHADOW 6/2, META 12/2); tighten-only-before-freeze",
+      "decision_date": "2026-10-14",
+      "decision_ref": "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md",
+      "description": "协议阈值、每阶段预算、人工评审安排",
+      "id": "U01",
+      "note": "本规划数值是建议，不是已签署合同",
+      "owner": "OWNER",
+      "status": "RESOLVED_BY_OWNER"
     },
     {
-      "id": "U02",
-      "status": "UNRESOLVED",
-      "owner": "EXECUTOR_THEN_REVIEW",
-      "description": "全部未来输入绑定、案例/资料包/评价器和基线哈希",
       "blocks": "T1–T17",
-      "note": "产物尚不存在；生成后实算，不让用户填写哈希"
+      "decision": "executor binds at activation; independent review re-checks; no pre-fill",
+      "decision_date": "2026-10-14",
+      "decision_ref": "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md",
+      "description": "全部未来输入绑定、案例/资料包/评价器和基线哈希",
+      "id": "U02",
+      "note": "产物尚不存在；生成后实算，不让用户填写哈希",
+      "owner": "EXECUTOR_THEN_REVIEW",
+      "status": "RESOLVED_BY_OWNER"
     },
     {
-      "id": "U03",
-      "status": "UNRESOLVED",
-      "owner": "OWNER_AND_EXECUTOR",
-      "description": "执行模型精确身份、可计量渠道与成本上限",
       "blocks": "T3/T11/T15",
-      "note": "沿用既有廉价模型的意向不等于锁定配置"
+      "decision": "execution split: cheap executor + GB10 Loop A",
+      "decision_date": "2026-10-14",
+      "decision_ref": "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md",
+      "description": "执行模型精确身份、可计量渠道与成本上限",
+      "id": "U03",
+      "note": "沿用既有廉价模型的意向不等于锁定配置",
+      "owner": "OWNER_AND_EXECUTOR",
+      "status": "RESOLVED_BY_OWNER"
     },
     {
-      "id": "U04",
-      "status": "UNRESOLVED",
-      "owner": "EXECUTOR_THEN_OWNER",
-      "description": "封存集物理位置、独立访问身份、网络与文件隔离机制",
       "blocks": "T2/T3",
-      "note": "目录隔离不足；可行方案先验证再裁决"
+      "decision": "validate isolation capability first; owner adjudicates sealed set afterwards",
+      "decision_date": "2026-10-14",
+      "decision_ref": "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md",
+      "description": "封存集物理位置、独立访问身份、网络与文件隔离机制",
+      "id": "U04",
+      "note": "目录隔离不足；可行方案先验证再裁决",
+      "owner": "EXECUTOR_THEN_OWNER",
+      "status": "RESOLVED_BY_OWNER"
     },
     {
-      "id": "U05",
-      "status": "UNRESOLVED",
-      "owner": "OWNER",
-      "description": "科研人类裁决者/导师可用性与科学评审锚点",
       "blocks": "T10/T13",
-      "note": "缺失时保持 PENDING_HUMAN_REVIEW"
-    },
-    {
-      "id": "U06",
-      "status": "UNRESOLVED",
-      "owner": "EXECUTOR_THEN_REVIEW",
-      "description": "实际运行面和依赖版本；GB10 绑定路径",
-      "blocks": "T3/T8",
-      "note": "本地检查不代表 GB10；本轮不远程查询"
-    },
-    {
-      "id": "U07",
-      "status": "UNRESOLVED",
+      "decision": "owner (wzh) as human gate; PENDING_HUMAN_REVIEW when absent",
+      "decision_date": "2026-10-14",
+      "decision_ref": "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md",
+      "description": "科研人类裁决者/导师可用性与科学评审锚点",
+      "id": "U05",
+      "note": "缺失时保持 PENDING_HUMAN_REVIEW",
       "owner": "OWNER",
-      "description": "分阶段激活、正式技能发布和全局文档/分发变更许可",
-      "blocks": "T0 onward/T8",
-      "note": "每次明确动作；不从规划认可推导运行许可"
+      "status": "RESOLVED_BY_OWNER"
     },
     {
-      "id": "U08",
-      "status": "UNRESOLVED",
-      "owner": "FUTURE_EVIDENCE",
-      "description": "三个新任务影子证据及八份独立候选档案",
-      "blocks": "T8/T9",
-      "note": "当前没有，不造结果补齐"
-    },
-    {
-      "id": "U09",
-      "status": "UNRESOLVED",
+      "blocks": "T3/T8",
+      "decision": "B: remote read-only verification performed (GB10 identity/repo/versions); deeper runtime remains for T3",
+      "decision_date": "2026-10-14",
+      "decision_ref": "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md",
+      "description": "实际运行面和依赖版本；GB10 绑定路径",
+      "id": "U06",
+      "note": "本地检查不代表 GB10；本轮不远程查询",
       "owner": "EXECUTOR_THEN_REVIEW",
-      "description": "T15 探针集、T17 未见集、科研标尺的经验可辨别性",
+      "status": "RESOLVED_BY_OWNER"
+    },
+    {
+      "blocks": "T0 onward/T8",
+      "decision": "C: R-line authorized up to M1 only",
+      "decision_date": "2026-10-14",
+      "decision_ref": "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md",
+      "description": "分阶段激活、正式技能发布和全局文档/分发变更许可",
+      "id": "U07",
+      "note": "每次明确动作；不从规划认可推导运行许可",
+      "owner": "OWNER",
+      "status": "RESOLVED_BY_OWNER"
+    },
+    {
+      "blocks": "T8/T9",
+      "decision": "future evidence from T8/T9; NO_PROMOTION if insufficient",
+      "decision_date": "2026-10-14",
+      "decision_ref": "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md",
+      "description": "三个新任务影子证据及八份独立候选档案",
+      "id": "U08",
+      "note": "当前没有，不造结果补齐",
+      "owner": "FUTURE_EVIDENCE",
+      "status": "RESOLVED_BY_OWNER"
+    },
+    {
       "blocks": "T10/T15/T17",
-      "note": "标量或 rubric 有定义不代表已验证有效"
+      "decision": "calibration/discriminability pre-check before model scoring",
+      "decision_date": "2026-10-14",
+      "decision_ref": "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md",
+      "description": "T15 探针集、T17 未见集、科研标尺的经验可辨别性",
+      "id": "U09",
+      "note": "标量或 rubric 有定义不代表已验证有效",
+      "owner": "EXECUTOR_THEN_REVIEW",
+      "status": "RESOLVED_BY_OWNER"
     }
-  ]
+  ],
+  "schema_version": 2,
+  "status": "DRAFT_REGISTER_NOT_PROJECT_AUTHORITY"
 }

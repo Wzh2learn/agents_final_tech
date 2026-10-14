@@ -1,10 +1,30 @@
 {
-  "schema_version": 2,
-  "status": "SPECIFICATION_MATERIALIZED_NOT_TASK_ACCEPTANCE",
-  "execution_authorized": false,
-  "accepted_tasks": [],
+  "accepted_tasks": [
+    "T-1",
+    "T0"
+  ],
   "active_versions": [],
-  "tasks": [],
+  "closer": "loop_d session acting as closer under owner instruction 2026-10-14",
+  "execution_authorized": false,
+  "proposal_budgets_approved": true,
+  "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+  "r_line_authorized_to": "M1 (owner decision U07=C)",
   "runtime_verified": false,
-  "proposal_budgets_approved": false
+  "schema_version": 2,
+  "status": "PROTOCOL_FROZEN_OWNER_SIGNED_2026-10-14",
+  "tasks": [
+    {
+      "review": "T1R-02",
+      "run_id": "20261014T085957Z_4e1698d1",
+      "status": "ACCEPTED_BY_OWNER_2026-10-14",
+      "task_id": "T-1",
+      "version": "v2"
+    },
+    {
+      "review": "T0R-01",
+      "run_id": "20261014T101305Z_026e6533",
+      "status": "ACCEPTED_OWNER_SIGNED_2026-10-14",
+      "task_id": "T0"
+    }
+  ]
 }

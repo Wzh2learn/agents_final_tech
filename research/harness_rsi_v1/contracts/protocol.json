@@ -1,38 +1,19 @@
 {
-  "schema_version": 2,
-  "protocol_id": "HARNESS-RSI-V2-DRAFT",
-  "status": "DRAFT",
-  "execution_authorized": false,
-  "approved_by": "UNRESOLVED",
-  "approved_at": "UNRESOLVED",
-  "freeze_sha256": "UNRESOLVED",
-  "root": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1",
+  "approved_at": "2026-10-14",
+  "approved_by": "wzh (owner)",
   "authority_map": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
   "budget_profiles": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+  "calibration_rule": "Proposed pass/fail agreement with human anchors >=0.80 before use; threshold awaits T10 human calibration review",
   "directions": {
-    "R": {
-      "objects": [
-        "runtime_preflight_recipe",
-        "evidence_delivery_recipe"
-      ],
-      "evaluation_spec": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/evaluation/reliability_spec.md",
-      "case_counts_proposed": {
-        "development": 24,
-        "selection": 24,
-        "sealed": 24
-      },
-      "hard_gates": [
-        "critical_miss=0",
-        "false_block<=baseline",
-        "evidence_coverage=1",
-        "claim_overreach=0",
-        "raw_loss_or_overwrite=0",
-        "unauthorized_or_uncounted_attempts=0"
-      ],
-      "selection": "lexicographic: hard gates, detection, false blocks, unnecessary review burden, cost",
-      "promotion": "At least two previously missed selection cases repaired and no regressions; if ceiling baseline, predeclare cost-only comparison; one selected candidate enters sealed once"
-    },
     "C": {
+      "first_active_layer_proposed": "C4",
+      "human_reserved": [
+        "research_value",
+        "novelty",
+        "identification_assumptions",
+        "publication_readiness",
+        "degree_sufficiency"
+      ],
       "layers": [
         "C1",
         "C2",
@@ -41,52 +22,48 @@
         "C5",
         "C6"
       ],
-      "first_active_layer_proposed": "C4",
       "next_layer_requires_new_batch": "C2",
       "packets_proposed": {
         "development": 4,
-        "selection": 4,
-        "sealed": 4
+        "sealed": 4,
+        "selection": 4
       },
+      "promotion": "All fact/reliability hard gates; majority preference in selection; >=3/4 sealed independent packets preferred by final review; no substantive key-dimension regression; human adjudication required",
       "repeats": 2,
       "rubric": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/evaluation/capability_rubrics.json",
-      "promotion": "All fact/reliability hard gates; majority preference in selection; >=3/4 sealed independent packets preferred by final review; no substantive key-dimension regression; human adjudication required",
-      "human_reserved": [
-        "research_value",
-        "novelty",
-        "identification_assumptions",
-        "publication_readiness",
-        "degree_sufficiency"
-      ],
       "scope": "bounded workflow performance, not thesis experiment evidence"
     },
-    "S": {
-      "catalog_scope": "D:/AIRcommend/JinRongAgents/agents_final_tech/skills",
-      "initial_candidates": [
-        "research-writing-skill",
-        "algorithm-description"
+    "R": {
+      "case_counts_proposed": {
+        "development": 24,
+        "sealed": 24,
+        "selection": 24
+      },
+      "evaluation_spec": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "hard_gates": [
+        "critical_miss=0",
+        "false_block<=baseline",
+        "evidence_coverage=1",
+        "claim_overreach=0",
+        "raw_loss_or_overwrite=0",
+        "unauthorized_or_uncounted_attempts=0"
       ],
+      "objects": [
+        "runtime_preflight_recipe",
+        "evidence_delivery_recipe"
+      ],
+      "promotion": "At least two previously missed selection cases repaired and no regressions; if ceiling baseline, predeclare cost-only comparison; one selected candidate enters sealed once",
+      "selection": "lexicographic: hard gates, detection, false blocks, unnecessary review burden, cost"
+    },
+    "S": {
       "candidate_limit": 2,
-      "max_skills_per_candidate": 2,
-      "max_semantic_edits": 3,
+      "catalog_scope": "D:/AIRcommend/JinRongAgents/agents_final_tech/skills",
       "changed_token_ratio_max": 0.15,
       "changed_tokens_max": 600,
-      "operations": [
-        "TEXT_EDIT",
-        "PATCH",
-        "RETYPE",
-        "EXTRACT",
-        "INLINE"
-      ],
       "first_phase_operations": [
         "TEXT_EDIT",
         "PATCH_PILOT_TOOL_ONLY",
         "PILOT_ROUTING"
-      ],
-      "later_operations_require_review": [
-        "RETYPE",
-        "EXTRACT",
-        "INLINE"
       ],
       "hard_gates": [
         "preserve_safety_and_frozen_reviewers",
@@ -94,27 +71,28 @@
         "no_cross_scope_quality_regression",
         "cost_accounted"
       ],
+      "initial_candidates": [
+        "research-writing-skill",
+        "algorithm-description"
+      ],
+      "later_operations_require_review": [
+        "RETYPE",
+        "EXTRACT",
+        "INLINE"
+      ],
+      "max_semantic_edits": 3,
+      "max_skills_per_candidate": 2,
+      "operations": [
+        "TEXT_EDIT",
+        "PATCH",
+        "RETYPE",
+        "EXTRACT",
+        "INLINE"
+      ],
       "promotion": "Development ablations alone insufficient; T17 unseen independent check and exact-scope review required",
       "retirement": "UNASSESSED if insufficient evidence; COLD only in tested task route; DEPRECATED requires owner and scope regression review; preserve history"
     }
   },
-  "permissions": {
-    "network": false,
-    "model_endpoints": false,
-    "production_services": false,
-    "remote_execution": false,
-    "git_write": false,
-    "skill_distribution": false,
-    "formal_experiments": false,
-    "candidate_execution": false
-  },
-  "protected": [
-    "evaluation rules and sealed labels",
-    "scientific claims/splits/estimands/stops",
-    "existing repository frozen paths",
-    "credentials",
-    "global skill routing and sync scripts"
-  ],
   "evaluation_identity": [
     "candidate_hash",
     "source_packet_hash",
@@ -124,14 +102,33 @@
     "budget",
     "repetition_id"
   ],
+  "execution_authorized": false,
+  "freeze_hash_rule": "freeze_sha256 = sha256 of the approved protocol content per T0 canonicalization (owner_decisions_ref applied; approval metadata fields excluded)",
+  "freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+  "negative_outcome": "NO_PROMOTION is valid, never report as improvement",
+  "owner_decisions_ref": "runs/T0/20261014T101305Z_026e6533/owner_decision_packet.md",
+  "permissions": {
+    "candidate_execution": false,
+    "formal_experiments": false,
+    "git_write": false,
+    "model_endpoints": false,
+    "network": false,
+    "production_services": false,
+    "remote_execution": false,
+    "skill_distribution": false
+  },
+  "protected": [
+    "evaluation rules and sealed labels",
+    "scientific claims/splits/estimands/stops",
+    "existing repository frozen paths",
+    "credentials",
+    "global skill routing and sync scripts"
+  ],
+  "protocol_id": "HARNESS-RSI-V2-DRAFT",
+  "root": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1",
+  "schema_version": 2,
+  "shared_count_rule": "One candidate_id and evaluation_id counted once; same edit => one bundle, not two independent treatments",
   "states": {
-    "execution": [
-      "PLANNED",
-      "RUNNING",
-      "DELIVERED",
-      "FAILED",
-      "STOPPED"
-    ],
     "acceptance": [
       "UNREVIEWED",
       "ACCEPTED",
@@ -143,9 +140,16 @@
       "SHADOW",
       "ACTIVE",
       "ROLLED_BACK"
+    ],
+    "execution": [
+      "PLANNED",
+      "RUNNING",
+      "DELIVERED",
+      "FAILED",
+      "STOPPED"
     ]
   },
-  "shared_count_rule": "One candidate_id and evaluation_id counted once; same edit => one bundle, not two independent treatments",
+  "status": "FROZEN",
   "stops": [
     "budget_exhausted",
     "protected_write",
@@ -154,8 +158,6 @@
     "unmeasurable_usage",
     "stale_input"
   ],
-  "negative_outcome": "NO_PROMOTION is valid, never report as improvement",
-  "calibration_rule": "Proposed pass/fail agreement with human anchors >=0.80 before use; threshold awaits T10 human calibration review",
   "unresolved_ids": [
     "U01",
     "U02",
