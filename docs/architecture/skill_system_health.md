@@ -133,3 +133,12 @@ skill-doctor 报 `FRONTMATTER_MISSING` 的 4 件 = `algorithm-description` / `pa
 - **未动 `~/.codex` 任何文件**（决策 15=A 仍生效）: 两个工具的运行只读, JSON 输出落**仓外临时目录**并已清理, 未在 `~/.codex` 下产生任何文件。
 - **修复归属**: F-1 / F-2 / F-3 全部归 **A19**（须等 A4/A5 验收通过后另批派发 Loop A）。**F-1 建议提级**——它影响的是决策 21=D 之后论文线的第一站（T7 的 Algorithm 1 占位）; 是否把「给 4 件去 BOM」从 A19 中拆出提前做, **属用户裁定, 主线程不自行提前**。
 - **与 08-04 首轮的连续性**: 首轮所列「本机安装区 19 个 POLICY 缺失项列入低优清单」在本轮为 `~/.codex` **19 条 `OPENAI_POLICY_MISSING`** ⇒ **数量逐字未变, 34 天零处置**, 该低优清单仍未消化（本轮不提升其优先级, 只记事实）。
+
+## 2026-10-14 复核快照（Loop D；round-2 整理后的定期体检）
+
+- 工具与修复: `skill-doctor` + `skill-map` 定期体检按 AGENTS.md 规则执行。**skill-map 的 Windows GBK 解码崩溃（已知平台 bug）本日已在仓内修复**——对 `skills/skill-map/scripts/skill-map.py` 的子进程读取补一行 UTF-8 兼容参数（`encoding="utf-8", errors="replace"`），修复后无需 `PYTHONUTF8=1` 亦可跑通（已验证）。
+- 仓库 `skills/`（source of truth）: **0 error / 139 warning / 0 auto-fix**。warning 仍为两类既有 catalog 约定债（`FRONTMATTER_FIELD_ORDER`、`COMPLETION_EVIDENCE_MISSING`），与 10-12 快照同量级、非新问题。处置决定: **不做全库格式性修正**（会触 90+ 文件、纯约定性、零功能影响），仅记账。原始报告: `research/skill_audit_20261014/doctor_repo.txt`。
+- 本机 Loop D 工作区 `~/.codex/skills`: 本轮发现并修复 **1 error**（`subagent-fanout` 缺 `agents/openai.yaml`，由本日第二轮交叉引用更新引入本地副本）→ `skill-doctor --fix-safe` 修复 1 处；复跑 = **0 error / 125 warning**。报告: `research/skill_audit_20261014/doctor_local_harness_after_fix.txt`。
+- `skill-map`（仓库根）: 114 个被扫 / **重复安装 1 组 = `pdf`×2**（08-29 已裁定：仓库版为准，保持）；依赖边正常（figma 簇为主）；**未解析类引用 27 条**——逐条抽查全为启发式误报（占位符/目录名/示例词，如 `skill-name`、`customer-id`、目录名 `paper-writing`），**无真实断链**。报告: `research/skill_audit_20261014/map_repo.txt`。
+- 注册表↔磁盘: 与当日早先复核一致（唯一孤儿 = 已废保留的 `verification-before-completion`，合规；本轮 C9/C10 定性与两处交叉引用未产生新孤儿）。
+- 结论: 无阻塞项；两处工具侧小修（本机 `openai.yaml`、skill-map 编码）已闭环；维持"逢 neat 收尾跑 doctor + map"节奏。

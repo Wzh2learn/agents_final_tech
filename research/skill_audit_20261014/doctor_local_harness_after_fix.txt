@@ -1,0 +1,131 @@
+skill-doctor: 0 error(s), 125 warning(s), 0 fix(es)
+
+Roots:
+- C:\Users\���л�\.codex\skills: 79 active, 105 scanned
+
+Findings:
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\.system\openai-docs\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\.system\openai-docs\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\.system\skill-creator\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\.system\skill-creator\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\.system\skill-installer\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\.system\skill-installer\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\agent-prompt-contracts\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\agent-rules\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\agent-rules\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\algorithm-description\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\authz-check\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\authz-check\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\cloudflare-deploy\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\code-pathology\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\code-pathology\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\codebase-map\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\context-budget\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\context-budget\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\data-sync\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\decision-record\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\decision-record\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\dependency-audit\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\dependency-audit\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\dream-engine\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\dream-engine\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\executing-plans\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\exp-lifecycle\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\exp-lifecycle\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\experiment-analysis\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\experiment-autopsy\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\experiment-autopsy\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\figma-code-connect-components\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\figma-generate-design\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\figma-generate-library\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\figma\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\gpu-env\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\graph-loop-rules\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\harness-stripping\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\harness-stripping\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\init-script-contract\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\init-script-contract\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\input-validation\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\input-validation\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\jinrong-docs-sync\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\m1-gap-triage\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\m2-rag-playbook\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\neat-freak\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\neat-freak\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\office-academic-skill\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\offline-eval-playbook\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\offline-eval-playbook\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\organize-logs\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\paper-polish-and-audit\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\paper-review-check\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\pdf-ingestion\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\pdf-ingestion\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\planner-spec-expand\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\planner-spec-expand\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\playwright-interactive\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\playwright\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\prompt-caching\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\prompt-caching\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\recsys-toolkit\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\recsys-toolkit\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\research-driven-design\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\research-driven-design\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\research-writing-skill\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\astropy\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\astropy\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\citation-management\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\exploratory-data-analysis\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\literature-review\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\matlab\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\matlab\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\matplotlib\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\matplotlib\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\networkx\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\networkx\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\paper-lookup\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\pdf\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\pdf\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\pymatgen\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\pymatgen\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\pymoo\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\pymoo\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\qutip\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\qutip\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\scientific-visualization\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\scientific-visualization\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\scikit-learn\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\scikit-learn\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\seaborn\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\seaborn\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\simpy\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\simpy\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\statistical-analysis\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\statsmodels\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\sympy\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\timesfm-forecasting\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\scientific-toolkit-skill\references\scientific-skills\xlsx\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\secret-scan\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\secret-scan\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\security-threat-model\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\shift-notes\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\shift-notes\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\skill-hook-trigger\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\skill-merger\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\socrates\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\socrates\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\spec-first\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\spec-first\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\sprint-contract\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\sprint-contract\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\structured-output\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\structured-output\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\subagent-fanout\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\subagent-fanout\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\systematic-debugging\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\tool-restraint\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\tool-restraint\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: C:\Users\���л�\.codex\skills\train-monitor\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\train-monitor\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\verification-before-completion\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\verify-before-done\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: C:\Users\���л�\.codex\skills\writing-plans\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract

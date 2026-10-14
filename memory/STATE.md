@@ -21,6 +21,11 @@
 - Paper E AI-flavor pass applied (14 presentation-only rewrites; rebuild 9pp; audits PASS): `docs/research/PAPER_E_AI_FLAVOR_REVIEW_v1.md`; PDF audit 13g.
 - Harness policy update (owner 2026-10-14): delegate overreach commits are acceptable when lossless (verified by diff + audits); lossy ones are reverted and recorded.
 - WP-2 S4 collection outcome: `STOP_THIS_PANEL` after a second same-family bridge failure (plan JSON parse; raw persisted, prose-only completion; 9/300 actor attempts used; probe-cap and raw-overwrite incidents disclosed in `S4B_STOP_RECEIPT.json`). Panel paused for owner decision (options: final bounded S4c with a pre-designed bridge v2; server-side constrained decoding; or close the panel). No S5-S9 ran; zero judge/training calls.
+## 2026-10-14 mid-day (bridge long-term plan; skill audit; RENE style study)
+
+- WP-2 bridge root-cause + long-term design delivered (`docs/research/WP2_BRIDGE_LONGTERM_ANALYSIS_v1.md`). Loop A built bridge v2: custom constrained decoding (outlines blocked by PEP 668 -> fallback; **zero new dependencies**), chat-format prompts with one locked example, schema validation, offline qualification PASS (processor dry-run; 9/9 synthetic; replay 7/8 disclosed overwrite) in `research/tatqa_wp0_2026/wp2/bridge_v2/`. Next: online qualification (<=3 probes) -> S4c, awaiting a one-line owner approval.
+- Skill audit snapshot appended to `docs/architecture/skill_system_health.md`: repo 0e/139w (known convention debt, no bulk fix), local harness 1e->0e (openai.yaml repaired), skill-map UTF-8 subprocess patch (verified), 27 unresolved-like references all heuristic false positives.
+- RENE accepted-paper style study delivered (`docs/research/RENE_ACCEPTED_PAPER_STYLE_STUDY_v1.md`): 2/4 full texts (arXiv) + 2 abstract-level; Paper E found style-consistent; no manuscript changes.
 ## 2026-10-12 execution preparation (handoff only)
 
 - Latest [`execution handoff status`](../docs/research/EXECUTION_HANDOFF_STATUS_v1.md): strategy governance is finished; next tasks are Paper E WP-E revision under its gate and thesis WP-0 read-only qualification only. This round stops at review/handoff; no revision, qualification execution, implementation, experiment or dispatch occurred. Paper E remains science-blocked; G-RQ/G-M remain PENDING. The historical sections below do not control current priority or permission.

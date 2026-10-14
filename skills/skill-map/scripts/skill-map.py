@@ -121,7 +121,7 @@ def fail(message: str, code: int = 2) -> None:
 
 
 def run_rg(args: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(args, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+    return subprocess.run(args, cwd=cwd, text=True, encoding="utf-8", errors="replace", stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
 
 
 def rg_base_args(root: Path, include_catalog_sources: bool) -> list[str]:

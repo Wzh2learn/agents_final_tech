@@ -1,0 +1,145 @@
+skill-doctor: 0 error(s), 139 warning(s), 0 fix(es)
+
+Roots:
+- D:\AIRcommend\JinRongAgents\agents_final_tech\skills: 93 active, 114 scanned
+
+Findings:
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\agent-prompt-contracts\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\agent-rules\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\agent-rules\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\algorithm-description\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\audit-cycle\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\authz-check\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\authz-check\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\cloudflare-deploy\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\code-pathology\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\code-pathology\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\codebase-map\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\context-budget\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\context-budget\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\data-sync\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\decision-record\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\decision-record\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\dependency-audit\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\dependency-audit\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\differential-review\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\differential-review\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\dream-engine\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\dream-engine\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\executing-plans\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\exp-lifecycle\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\exp-lifecycle\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\experiment-analysis\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\experiment-autopsy\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\experiment-autopsy\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\feature-list-json\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\feature-list-json\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\figma-code-connect-components\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\figma-generate-design\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\figma-generate-library\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\figma\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\gpu-env\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\graph-loop-rules\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\harness-stripping\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\harness-stripping\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\init-script-contract\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\init-script-contract\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\input-validation\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\input-validation\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\jinrong-docs-sync\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\m1-gap-triage\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\m2-rag-playbook\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\neat-freak\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\neat-freak\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\office-academic-skill\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\offline-eval-playbook\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\offline-eval-playbook\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\organize-logs\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\owasp-review\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\owasp-review\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\paper-polish-and-audit\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\paper-review-check\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\pdf-ingestion\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\pdf-ingestion\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\planner-spec-expand\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\planner-spec-expand\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\playwright-interactive\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\playwright\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\prompt-caching\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\prompt-caching\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\readme-audit\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\readme-audit\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\receiving-code-review\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\recsys-toolkit\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\recsys-toolkit\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\repo-audit\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\repo-audit\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\requesting-code-review\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\research-driven-design\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\research-driven-design\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\research-writing-skill\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\review-codebase\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\astropy\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\astropy\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\citation-management\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\exploratory-data-analysis\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\literature-review\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\matlab\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\matlab\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\matplotlib\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\matplotlib\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\networkx\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\networkx\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\paper-lookup\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\pdf\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\pdf\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\pymatgen\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\pymatgen\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\pymoo\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\pymoo\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\qutip\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\qutip\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\scientific-visualization\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\scientific-visualization\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\scikit-learn\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\scikit-learn\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\seaborn\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\seaborn\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\simpy\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\simpy\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\statistical-analysis\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\statsmodels\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\sympy\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\timesfm-forecasting\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\scientific-toolkit-skill\references\scientific-skills\xlsx\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\secret-scan\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\secret-scan\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\security-best-practices\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\security-threat-model\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\self-eval-bias\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\self-eval-bias\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\shift-notes\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\shift-notes\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\skill-hook-trigger\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\skill-merger\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\socrates\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\socrates\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\spec-first\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\spec-first\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\sprint-contract\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\sprint-contract\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\sql-review\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\sql-review\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\structured-output\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\structured-output\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\subagent-fanout\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\subagent-fanout\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\systematic-debugging\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\tool-restraint\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\tool-restraint\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] FRONTMATTER_FIELD_ORDER: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\train-monitor\SKILL.md:2: frontmatter fields must be alphabetized with description last
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\train-monitor\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\using-loopkit\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\verification-before-completion\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\verify-before-done\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract
+- [warning] COMPLETION_EVIDENCE_MISSING: D:\AIRcommend\JinRongAgents\agents_final_tech\skills\writing-plans\SKILL.md: skill has no explicit completion, verification, validation, output, or report contract

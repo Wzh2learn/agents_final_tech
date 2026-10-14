@@ -1,0 +1,503 @@
+
+
+===== PAGE 1/10 =====
+Can We Classify Flaky Tests Using Only
+Test Code? An LLM-Based Empirical Study
+Alexander Berndt ∗
+Heidelberg University
+alexander.berndt@uni-heidelberg.de
+Marcus Kessel
+University of Mannheim
+marcus.kessel@uni-mannheim.de
+Vekil Bekmyradov
+SAP
+vekil.bekmyradov@sap.com
+Thomas Bach
+SAP
+thomas.bach03@sap.com
+Rainer Gemulla
+University of Mannheim
+rgemulla@uni-mannheim.de
+Sebastian Baltes
+Heidelberg University
+sebastian.baltes@uni-heidelberg.de
+Abstract—Flaky tests yield inconsistent results when they are
+repeatedly executed on the same code revision. They interfere
+with automated quality assurance of code changes and hinder
+efficient software testing. Previous work evaluated approaches to
+train machine learning models to classify flaky tests based on
+identifiers in the test code. However, the resulting classifiers have
+been shown to lack generalizability, hindering their applicability
+in practical environments. Recently, pre-trained Large Language
+Models (LLMs) have shown the capability to generalize across
+various tasks. Thus, they represent a promising approach to
+address the generalizability problem of previous approaches.
+In this study, we evaluated three LLMs (two general-purpose
+models, one code-specific model) using three prompting tech￾niques on two benchmark datasets from prior studies on flaky test
+classification. Furthermore, we manually investigated 50 samples
+from the given datasets to determine whether classifying flaky
+tests based only on test code is feasible for humans.
+Our findings indicate that LLMs struggle to classify flaky
+tests given only the test code. The results of our best prompt￾model combination were only marginally better than random
+guessing. In our manual analysis, we found that the test code
+does not necessarily contain sufficient information for a flakiness
+classification. Our findings motivate future work to evaluate
+LLMs for flakiness classification with additional context, for
+example, using retrieval-augmented generation or agentic AI.
+Index Terms—software testing, flaky tests, large language
+models, classification, negative results
+I. INTRODUCTION
+Flaky tests yield inconsistent results when they are repeat￾edly executed on the same code revision [1]. They interfere
+with continuous integration pipelines, hamper efficient auto￾mated software testing, and diminish developers’ trust in the
+reliability of test results [2]. Previous work has proposed vari￾ous approaches to detect and fix flaky tests [1]–[9]. Typically,
+flaky tests can be detected by repeatedly executing a test and
+analyzing its results. However, repeatedly executing tests is
+costly with respect to computational resources.
+A common approach to detect flaky tests without repeated
+test execution is to train a machine learning model on the
+task of flakiness classification [3], [7], [9]–[18]. For example,
+∗Also affiliated with SAP.
+Pinto et al. proposed training machine learning classifiers on
+bag-of-words representations of the test code with promising
+results [13]. Additional studies evaluated various models, train￾ing approaches, and evaluation setups for the task of flakiness
+classification based on test code [7], [15]–[18]. Although the
+resulting classifiers generally achieved strong results on es￾tablished benchmarks, evaluations conducted under conditions
+resembling real-world usage indicated limited generalizability
+caused by an overfitting of the classifiers to the test code
+vocabulary in the training set [7], [15], [16].
+To gain a deeper understanding of flakiness classification
+based on the test code, in this study, we investigated the
+following research questions:
+RQ1: What is the performance of LLMs without additional
+fine-tuning in flaky test classification based on the test code...
+(1.1) ...with a zero-shot prompt?
+(1.2) ...with a zero-shot chain-of-thought prompt?
+(1.3) ...with a few-shot chain-of-thought prompt?
+RQ2: What degree of non-determinism do we observe for
+LLMs when classifying flaky tests?
+RQ3: To what degree do humans consider themselves
+capable of classifying flaky tests based on the test code?
+Our results suggest that LLMs struggle to classify flaky
+tests solely on the basis of the test code. Furthermore, even
+with greedy decoding at temperature 0, the degree of non￾determinism across repeated executions of our experiments
+complicates the deployment of such models in real-world
+scenarios for flakiness detection. Based on manual assessment,
+we conclude that test code alone is insufficient to detect certain
+types of flakiness. While there are issue types, such as the
+use of unordered collections, that may be apparent in the test
+code, we find that even humans require additional context
+information to identify more sophisticated flakiness issues. For
+example, flakiness may be caused by side effects of test utility
+functions whose functionality is not visible in the test code.
+In summary, our work provides the following contributions:
+1) Evaluation of three LLMs for flakiness classification on
+two common benchmarks.
+arXiv:2602.05465v1 [cs.SE] 5 Feb 2026
+
+===== PAGE 2/10 =====
+2) Discussion of implications for future work on flaki￾ness classification.
+The remainder of this document is structured as follows.
+Section II contains relevant information on the datasets used.
+We introduce relevant work in Section III before we pinpoint
+existing issues in one prior study in Section IV. We describe
+our methodology in Section V and present our results in
+Section VI-A. We discuss the results in Section VII and threats
+to validity in Section VIII, before concluding the paper in
+Section IX. Our code and the experimental results are available
+online as part of our supplementary material [19].
+II. DATASETS
+We used two benchmark datasets for flakiness classification
+to evaluate LLMs for flakiness classification: the International
+Dataset of Flaky Tests (IDoFT) and FlakeBench [20], [21].
+1. IDoFT: The IDoFT dataset arises from an open-source
+GitHub repository where contributors track flaky tests in open￾source Java and Python projects [20], [22]. In this study,
+we utilized a subset of IDoFT that was previously used as
+a benchmark for binary flakiness classification [12], [17].
+This subset contains 3813 samples, of which 587 (15%) were
+labeled non-flaky and 3226 (85%) were labeled flaky. Non￾flaky samples represent flaky tests that have been fixed in a pull
+request with the status “Accepted”. The samples in the dataset
+originate from 299 projects. In addition to a label indicating
+whether a test is flaky, Fatima et al. [5] have added category
+labels for the type of fix for each of the fixed tests. Labeling
+was performed using heuristics that Fatima et al. created based
+on a manual inspection of 100 samples. Table I provides an
+overview of the resulting fix labels and their prevalence in the
+given data.
+2. FlakeBench: The FlakeBench dataset originates from 97
+open-source repositories written in Java on GitHub. Rahman et
+al. [21] repeatedly executed tests in the respective repositories
+100 times to identify flaky tests. Given the results from 100
+repeated executions, they labeled a test flaky if it yielded at
+least one passing and one failing result. This labeling approach
+resulted in a dataset consisting of 8574 tests, of which 280
+were labeled flaky and 8294 non-flaky.
+III. RELATED WORK
+Prior work proposed various approaches to detect flaky tests
+based on different datasets [7], [9]–[18], [23]. In this paper,
+we focus on related work that used the test code to predict
+whether a test is flaky [7], [12]–[18], [21].
+Pinto et al. [13] introduced the idea of using the test code for
+flakiness prediction based on the assumption that the test code
+of flaky tests exhibits syntactical patterns differentiating them
+from non-flaky tests. For example, flaky tests may be more
+likely to use certain words, such as “random” in identifier
+names. To test this assumption, they trained a random forest
+classifier on a bag-of-words representation of the test code.
+They evaluated their approach using the Matthews Correla￾tion Coefficient (MCC), which ranges from -1 to 1, with 0
+representing the average performance of random guessing and
+1 representing a perfect classifier. With their approach, Pinto et
+al. achieved an MCC of 0.9 on the DeFlaker benchmark [24],
+indicating a high correlation between the predicted labels and
+the ground truth.
+The original approach of Pinto et al. was replicated and
+evaluated multiple times [7], [15], [16]. Haben et al. evaluated
+the original approach on the same dataset with a different eval￾uation setup. They evaluated the original approach with a time￾sensitive setup, in which the model was trained on code from
+older revisions and tested on newer revisions of the source
+code, resulting in a decrease in MCC of up to 21%. Camara
+et al. also investigated the performance of the approach of
+Pinto et al. [13] in a different evaluation setup, where the
+training data originated from software projects other than the
+test data. They observed a notable decrease in performance,
+achieving a prediction accuracy of only 0.48. Berndt et al. [7]
+evaluated Pinto et al.’s approach in an industrial context. They
+found that a random forest classifier achieved an F1 score of
+0.95 on an internal flakiness benchmark, which was derived
+from dedicated test executions for flakiness investigations,
+but failed to generalize to data from the production system.
+They concluded that the lack of generalizability prevented the
+classifier from being deployed in practice.
+More recent work has evaluated fine-tuning LLMs for
+flakiness detection [12], [17], [18]. Fatima et al. utilized a
+fine-tuned version of CodeBERT, a pre-trained language model
+with 125 million parameters, achieving an F1 score of 98% on
+the IDoFT dataset [18]. However, as pointed out in a follow￾up study by Rahman et al. [21], their implementation suffered
+from data leakage, resulting in distorted results. The results
+without data leakage remain unknown. Rahman et al. applied
+quantization to the fine-tuned CodeBERT model resulting from
+Fatima et al.’s study to increase the efficiency during inference.
+They achieved an F1 score of up to 94% on IDoFT while
+reducing training time and RAM usage by 25% and 48%,
+respectively. More et al. [12] evaluated a few-shot learning
+approach in an intra-project scenario, where a model is trained
+and tested with data from a single software project. Thus,
+their approach reduced training time to 10% while maintaining
+similar classification performance on the IDoFT dataset.
+In contrast to previous work on flaky test detection, we
+explore the potential of LLMs without any task-specific fine￾tuning to classify tests as flaky. Unlike previous work, our
+approach does not require task-specific training data but relies
+on the capability of recent LLMs to generalize across tasks.
+We conjecture that LLMs without additional fine-tuning could
+be a solution to overcoming the generalization issues that were
+previously mentioned [15], [16].
+IV. ISSUES OF PRIOR LLM-BASED FLAKINESS
+CLASSIFIERS
+As described in Section III, replications of previous work
+have already found that flakiness classifiers trained only on the
+test code do not generalize to new data from other projects [16]
+or future iterations of the same project [7], [15]. For example,
+in a study by Berndt et al., the authors noted that the lack
+
+===== PAGE 8/10 =====
+results than those observed in our study. Secondly, to mit￾igate the negative effects of the model’s non-determinism,
+future work could experiment with approaches such as self￾consistency, ensembles, or combinations of the two [44].
+On the labeling results. Based on our manual labeling of
+flaky tests in the IDoFT dataset, we found that classifying tests
+as flaky only based on the given test code may be infeasible
+for certain types of flakiness. Given the fix labels provided by
+previous work [5], we observed differences in the feasibility
+of classifying a test as flaky for tests with different fix labels.
+More specifically, while it may be possible to classify a test
+as flaky based on the existence of trivial test smells, such as
+the use of unordered collections or sleep statements in the
+test code, identifying the absence of proper setup or teardown
+requires further information about the code being tested.
+This finding is also in line with previous research on fixing
+flaky tests [45], [46]. When using GPT-4 to fix flaky tests only
+given the test code, Chen et al. [45] found that performance
+varies between different types of flakiness. Although their
+approach successfully repaired 58% of flaky tests, whose
+flakiness was caused by implementation errors in the test code,
+the authors pointed out that GPT-4 was not capable of repairing
+other types of flakiness in their study.
+Further research is required to identify the differences
+between test-only flakiness issues and more complex issues
+that occur in other parts of the source code. Based on
+our analysis of the IDoFT dataset, we conjecture that these
+different types of flakiness may also have varying impacts
+on testing practices. Although test-only issues can be easily
+identified and fixed by developers, more sophisticated issues
+can be challenging to debug and fix, as they often rely on
+more complex program states [47].
+VIII. THREATS TO VALIDITY
+A. Internal Validity
+In this section, we describe possible alternative explanations
+for our results [48].
+On the LLM results. We examined a limited set of prompt￾ing techniques and LLMs. Other models or prompts might
+yield different results. Furthermore, the non-determinism of
+LLMs could have affected the results of our study. To mit￾igate this threat, we used greedy decoding and repeated our
+experiments three times [49]. Furthermore, we added more
+depth to the study by manually investigating 50 samples of
+the dataset. The results of our manual investigation align with
+the findings of our experiments using LLMs.
+On the manual investigation. We manually examined 50
+samples of the IDoFT dataset. We randomly sampled these 50
+samples. Thus, the resulting sample may have suffered from
+sampling bias, which might lead to an overestimation of the
+proportion of tests in which flakiness is not apparent in the
+test code.
+B. External Validity
+We describe the extent to which our results generalize to
+other contexts [50].
+On the employed datasets. Since we only used two datasets
+with a limited number of flaky tests written only in Java, our
+results may not generalize to all types of tests. However, we
+note that the results align with our experience in real-world
+CI/CD pipelines. For example, the ticket system at SAP offers
+a dedicated tag to flag test-only issues, where the fault lies
+within the test code. However, not all flakiness-related issues
+are tagged as test-only. In fact, differentiating between test￾only issues and more complex flakiness issues is a common
+challenge.
+C. Construct Validity
+We describe the degree to which our metrics measure the
+intended properties [51].
+On the evaluation metrics for the flakiness classifica￾tion. Similar to prior studies on flakiness classification, we
+report the precision, recall, and F1 score for our prediction
+results [12], [17], [18]. Since the class distributions of the two
+datasets in this study are opposed, this results in measures that
+are hardly comparable. However, to mitigate this problem, we
+added the MCC, a common metric in the context of binary
+classification tasks, to enable a comparison of the results on
+the two datasets [52].
+IX. CONCLUSIONS
+We evaluated three LLMs without additional fine-tuning
+for flakiness classification, given only the test code. Based
+on evaluations across two benchmark datasets, our results
+show that LLMs struggle to correctly classify flaky tests.
+Our manual analysis of 50 samples suggests that this is due
+to the absence of necessary information in the test code
+for correct classification. This finding contradicts previously
+reported results from fine-tuning approaches, which suggested
+that LLM-based flakiness classification based solely on test
+code is promising.
+While related work has already identified issues in a fine￾tuning study, our examination of the replication package for
+another related study suggests that the relatively high reported
+scores are due to two reasons. On the one hand, a skewed
+evaluation setup in which simple baseline approaches already
+yield high scores. Second, we expect the high scores in the
+reported metrics to be due to overfitting to overly simple
+characteristics that differentiate flaky tests from non-flaky tests
+in the given dataset.
+Furthermore, we evaluated the non-determinism of LLMs
+for flakiness classification. Our results indicate that the non￾determinism varies between models, prompts, and datasets.
+We argue that the exhibited amount of non-determinism is
+problematic for deploying such models in practice.
+Our findings can motivate future research evaluating
+general-purpose LLMs with additional sources of information
+beyond the test code. For this, we mainly see potential in the
+use of agentic systems or RAG, inspired by previous work on
+program repair [53], [54].
+
+===== PAGE 9/10 =====
+REFERENCES
+[1] O. Parry, G. M. Kapfhammer, M. Hilton, and P. McMinn, “A Survey of
+Flaky Tests,” ACM Transactions on Software Engineering and Method￾ology (TOSEM), vol. 31, no. 1, pp. 1–74, 2021.
+[2] A. Berndt, T. Bach, and S. Baltes, “Do Test and Environmental
+Complexity Increase Flakiness? An Empirical Study of SAP HANA,”
+in Proceedings of the 18th ACM/IEEE International Symposium on
+Empirical Software Engineering and Measurement, 2024, pp. 572–581.
+[3] M. Eck, F. Palomba, M. Castelluccio, and A. Bacchelli, “Understanding
+Flaky Tests: The Developer’s Perspective,” in Proceedings of the 2019
+27th ACM Joint Meeting on European Software Engineering Conference
+and Symposium on the Foundations of Software Engineering, 2019, pp.
+830–840.
+[4] Q. Luo, F. Hariri, L. Eloussi, and D. Marinov, “An Empirical Analysis of
+Flaky Tests,” in Proceedings of the 22nd ACM SIGSOFT international
+symposium on foundations of software engineering, 2014, pp. 643–653.
+[5] S. Fatima, H. Hemmati, and L. Briand, “Flakyfix: Using Large Language
+Models for Predicting Flaky Test Fix Categories and Test Code Repair,”
+IEEE Transactions on Software Engineering, 2024.
+[6] X. Liu, Z. Song, W. Fang, W. Yang, and W. Wang, “WEFix: Intelligent
+Automatic Generation of Explicit Waits for Efficient Web End-to-End
+Flaky Tests,” in Proceedings of the ACM on Web Conference 2024,
+WWW 2024, Singapore, May 13-17, 2024, T. Chua, C. Ngo, R. Kumar,
+H. W. Lauw, and R. K. Lee, Eds. ACM, 2024, pp. 3043–3052.
+[Online]. Available: https://doi.org/10.1145/3589334.3645628
+[7] A. Berndt, Z. Nochta, and T. Bach, “The Vocabulary of Flaky Tests in the
+Context of SAP HANA,” in 2023 ACM/IEEE International Symposium
+on Empirical Software Engineering and Measurement (ESEM). IEEE,
+2023, pp. 1–9.
+[8] B. Magill and P. McMinn, “deflake.rs: Detect Flaky Tests in Rust
+Projects using Execution Data,” J. Open Source Softw., vol. 10, no. 113,
+p. 8757, 2025. [Online]. Available: https://doi.org/10.21105/joss.08757
+[9] G. Haben, S. Habchi, J. Micco, M. Harman, M. Papadakis, M. Cordy,
+and Y. Le Traon, “The Importance of Accounting for Execution Failures
+when Predicting Test Flakiness,” in Proceedings of the 39th IEEE/ACM
+International Conference on Automated Software Engineering, 2024, pp.
+1979–1989.
+[10] M. Hoang and A. Berding, “Presubmit Rescue: Automatically Ignoring
+FlakyTest Executions,” in Proceedings of the 1st International Workshop
+on Flaky Tests, 2024, pp. 1–2.
+[11] J. Lampel, S. Just, S. Apel, and A. Zeller, “When Life Gives you
+Oranges: Detecting and Diagnosing Intermittent Job Failures at Mozilla,”
+in Proceedings of the 29th ACM Joint Meeting on European Software
+Engineering Conference and Symposium on the Foundations of Software
+Engineering, 2021, pp. 1381–1392.
+[12] R. More and J. S. Bradbury, “An Analysis of LLM Fine-Tuning and
+Few-Shot Learning for Flaky Test Detection and Classification,” in IEEE
+Conference on Software Testing, Verification and Validation, ICST 2025,
+Napoli, Italy, March 31 - April 4, 2025. IEEE, 2025, pp. 349–359.
+[Online]. Available: https://doi.org/10.1109/ICST62969.2025.10988995
+[13] G. Pinto, B. Miranda, S. Dissanayake, M. d’Amorim, C. Treude, and
+A. Bertolino, “What is the Vocabulary of Flaky Tests?” in Proceedings
+of the 17th International Conference on Mining Software Repositories,
+2020, pp. 492–502.
+[14] R. Verdecchia, E. Cruciani, B. Miranda, and A. Bertolino, “Know you
+Neighbor: Fast Static Prediction of Test Flakiness,” IEEE Access, vol. 9,
+pp. 76 119–76 134, 2021.
+[15] G. Haben, S. Habchi, M. Papadakis, M. Cordy, and Y. Le Traon, “A
+Replication Study on the Usability of Code Vocabulary in Predicting
+Flaky Tests,” in 2021 IEEE/ACM 18th International Conference on
+Mining Software Repositories (MSR). IEEE, 2021, pp. 219–229.
+[16] B. H. P. Camara, M. A. G. Silva, A. T. Endo, and S. R. Vergilio, “What
+is the Vocabulary of Flaky Tests? An Extended Replication,” in 2021
+IEEE/ACM 29th International Conference on Program Comprehension
+(ICPC). IEEE, 2021, pp. 444–454.
+[17] S. Rahman, A. Baz, S. Misailovic, and A. Shi, “Quantizing Large￾Language Models for Predicting Flaky Tests,” in IEEE Conference
+on Software Testing, Verification and Validation, ICST 2024, Toronto,
+ON, Canada, May 27-31, 2024. IEEE, 2024, pp. 93–104. [Online].
+Available: https://doi.org/10.1109/ICST60714.2024.00018
+[18] S. Fatima, T. A. Ghaleb, and L. Briand, “Flakify: A Black-box, Lan￾guage Model-based Predictor for Flaky Tests,” IEEE Transactions on
+Software Engineering, vol. 49, no. 4, pp. 1912–1927, 2022.
+[19] A. Berndt, V. Bekmyradov, R. Gemulla, M. Kessel, T. Bach, and
+S. Baltes, “Can We Classify Flaky Tests Using Only Test Code?
+An Empirical Study using LLMs,” Nov. 2025. [Online]. Available:
+https://doi.org/10.5281/zenodo.18311270
+[20] W. Lam, “International Dataset of Flaky Tests (IDoFT),” 2020. [Online].
+Available: http://mir.cs.illinois.edu/flakytests
+[21] S. Rahman, S. Dutta, and A. Shi, “Understanding and Improving Flaky
+Test Classification,” Proc. ACM Program. Lang., vol. 9, no. OOPSLA2,
+Oct. 2025. [Online]. Available: https://doi.org/10.1145/3763098
+[22] W. Lam, R. Oei, A. Shi, D. Marinov, and T. Xie, “iDFlakies: A frame￾work for detecting and partially classifying flaky tests,” in ICST 2019:
+12th IEEE International Conference on Software Testing, Verification
+and Validation, Xi’an, China, April 2019, pp. 312–322.
+[23] K. Herzig and N. Nagappan, “Empirically Detecting False Test Alarms
+using Association Rules,” in 2015 IEEE/ACM 37th IEEE International
+Conference on Software Engineering, vol. 2. IEEE, 2015, pp. 39–48.
+[24] J. Bell, O. Legunsen, M. Hilton, L. Eloussi, T. Yung, and D. Marinov,
+“DeFlaker: Automatically Detecting Flaky Tests,” in Proceedings of
+the 40th International Conference on Software Engineering, ICSE
+2018, Gothenburg, Sweden, May 27 - June 03, 2018, M. Chaudron,
+I. Crnkovic, M. Chechik, and M. Harman, Eds. ACM, 2018, pp.
+433–444. [Online]. Available: https://doi.org/10.1145/3180155.3180164
+[25] R. More and J. S. Bradbury, “An Analysis of LLM Fine-Tuning
+and Few-Shot Learning for Flaky Test Detection and Classification -
+Replication Package,” 2025. [Online]. Available: https://github.com/see
+r-lab/FlakyXbert/tree/f7b7b270928dc2a1b7c8c6ce23730869db9d6bc7
+[26] ——, “An Analysis of LLM Fine-Tuning and Few-Shot Learning for
+Flaky Test Detection and Classification - Replication Package,” 2025.
+[Online]. Available: https://github.com/seer-lab/FlakyXbert/blob/main/
+src/IDoFT%20dataset%20code/FlakyXbert-IDoFT binary projectwise
+nifi.ipynb
+[27] ——, “An Analysis of LLM Fine-Tuning and Few-Shot Learning for
+Flaky Test Detection and Classification - Replication Package,” 2025.
+[Online]. Available: https://github.com/seer-lab/FlakyXbert/blob/main/
+src/IDoFT%20dataset%20code/FlakyXbert-IDoFT binary projectwise
+hadoop.ipynb
+[28] ——, “An Analysis of LLM Fine-Tuning and Few-Shot Learning for
+Flaky Test Detection and Classification - Replication Package,” 2025.
+[Online]. Available: https://github.com/seer-lab/FlakyXbert/blob/main/
+src/IDoFT%20dataset%20code/FlakyXbert-IDoFT binary projectwise
+fastjson.ipynb
+[29] ——, “An Analysis of LLM Fine-Tuning and Few-Shot Learning for
+Flaky Test Detection and Classification - Replication Package,” 2025.
+[Online]. Available: https://github.com/seer-lab/FlakyXbert/blob/main/
+src/IDoFT%20dataset%20code/FlakyXbert-IDoFT binary projectwise
+admiral.ipynb
+[30] ——, “An Analysis of LLM Fine-Tuning and Few-Shot Learning for
+Flaky Test Detection and Classification - Replication Package,” 2025.
+[Online]. Available: https://github.com/seer-lab/FlakyXbert/blob/main/
+src/IDoFT%20dataset%20code/calculate.ipynb
+[31] J. R. Landis and G. G. Koch, “The Measurement of Observer Agreement
+for Categorical Data,” biometrics, pp. 159–174, 1977.
+[32] OpenAI, “Gpt-4o system card,” arXiv preprint arXiv:2410.21276, 2024.
+[33] OpenAI, “gpt-oss-120b & gpt-oss-20b Model Card,” 2025. [Online].
+Available: https://arxiv.org/abs/2508.10925
+[34] Q. Team, “Qwen3 Technical Report,” 2025. [Online]. Available:
+https://arxiv.org/abs/2505.09388
+[35] S. Ouyang, J. M. Zhang, M. Harman, and M. Wang, “An Empirical
+Study of the Non-determinism of Chatgpt in Code Generation,” ACM
+Transactions on Software Engineering and Methodology, vol. 34, no. 2,
+pp. 1–28, 2025.
+[36] W. Kwon, Z. Li, S. Zhuang, Y. Sheng, L. Zheng, C. H. Yu, J. E.
+Gonzalez, H. Zhang, and I. Stoica, “Efficient Memory Management for
+Large Language Model Serving with PagedAttention,” in Proceedings
+of the ACM SIGOPS 29th Symposium on Operating Systems Principles,
+2023.
+[37] T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal,
+A. Neelakantan, P. Shyam, G. Sastry, A. Askell et al., “Language Models
+are Few-shot Learners,” Advances in neural information processing
+systems, vol. 33, pp. 1877–1901, 2020.
+[38] T. Kojima, S. S. Gu, M. Reid, Y. Matsuo, and Y. Iwasawa, “Large Lan￾guage Models are Zero-shot Reasoners,” Advances in neural information
+processing systems, vol. 35, pp. 22 199–22 213, 2022.
+
+===== PAGE 10/10 =====
+[39] OpenAI, “Prompt Engineering,” 2025. [Online]. Available: https:
+//platform.openai.com/docs/guides/prompt-engineering/strategy-give-m
+odels-time-to-think#tactic-use-inner-monologue-or-a-sequence-of-que
+ries-to-hide-the-model-s-reasoning-process
+[40] A. Lampinen, I. Dasgupta, S. Chan, K. Mathewson, M. Tessler,
+A. Creswell, J. McClelland, J. Wang, and F. Hill, “Can Language
+Models Learn From Explanations in Context?” in Findings of the
+Association for Computational Linguistics: EMNLP 2022, Y. Goldberg,
+Z. Kozareva, and Y. Zhang, Eds. Abu Dhabi, United Arab Emirates:
+Association for Computational Linguistics, Dec. 2022, pp. 537–563.
+[Online]. Available: https://aclanthology.org/2022.findings-emnlp.38/
+[41] Y. Sun, H. Wang, D. Li, G. Wang, and H. Zhang, “The Emperor’s
+New Clothes in Benchmarking? A Rigorous Examination of Mitigation
+Strategies for LLM Benchmark Data Contamination,” arXiv preprint
+arXiv:2503.16402, 2025.
+[42] J. Cohen, “A Coefficient of Agreement for Nominal Scales,” Educational
+and psychological measurement, vol. 20, no. 1, pp. 37–46, 1960.
+[43] S. Baltes, T. Speith, B. Chiteri, S. Mohsenimofidi, S. Chakraborty, and
+D. Buschek, “On the Need to Rethink Trust in AI Assistants for Software
+Development: A Critical Review,” arXiv preprint arXiv:2504.12461,
+2026.
+[44] X. Wang, J. Wei, D. Schuurmans, Q. V. Le, E. H. Chi, S. Narang,
+A. Chowdhery, and D. Zhou, “Self-Consistency Improves Chain
+of Thought Reasoning in Language Models,” in The Eleventh
+International Conference on Learning Representations, ICLR 2023,
+Kigali, Rwanda, May 1-5, 2023. OpenReview.net, 2023. [Online].
+Available: https://openreview.net/forum?id=1PL1NIMMrw
+[45] Y. Chen, “Flakiness Repair in the Era of Large Language Models,” in
+Proceedings of the 2024 IEEE/ACM 46th International Conference on
+Software Engineering: Companion Proceedings, 2024, pp. 441–443.
+[46] Y. Chen and R. Jabbarvand, “Neurosymbolic Repair of Test Flakiness,”
+in Proceedings of the 33rd ACM SIGSOFT International Symposium on
+Software Testing and Analysis, ISSTA 2024, Vienna, Austria, September
+16-20, 2024, M. Christakis and M. Pradel, Eds. ACM, 2024, pp. 1402–
+1414. [Online]. Available: https://doi.org/10.1145/3650212.3680369
+[47] W. Lam, S. Winter, A. Astorga, V. Stodden, and D. Marinov, “Under￾standing Reproducibility and Characteristics of Flaky Tests through Test
+Reruns in Java Projects,” in 2020 IEEE 31st International Symposium on
+Software Reliability Engineering (ISSRE). IEEE, 2020, pp. 403–413.
+[48] M. B. Brewer and W. D. Crano, “Research Design and Issues of
+Validity,” Handbook of research methods in social and personality
+psychology, pp. 3–16, 2000.
+[49] S. Baltes, F. Angermeir, C. Arora, M. M. Baron, C. Chen, L. B ´ ohme, ¨
+F. Calefato, N. Ernst, D. Falessi, B. Fitzgerald, D. Fucci, M. Kalinowski,
+S. Lambiase, D. Russo, M. Lungu, L. Prechelt, P. Ralph, R. van
+Tonder, C. Treude, and S. Wagner, “Guidelines for Empirical Studies
+in Software Engineering involving Large Language Models,” 2025.
+[Online]. Available: https://arxiv.org/abs/2508.15503
+[50] S. Baltes and P. Ralph, “Sampling in Software Engineering Research:
+A Critical Review and Guidelines,” Empirical Software Engineering,
+vol. 27, no. 4, p. 94, 2022.
+[51] P. Ralph and E. Tempero, “Construct Validity in Software Engineering
+Research and Software Metrics,” in Proceedings of the 22nd Interna￾tional Conference on Evaluation and Assessment in Software Engineer￾ing 2018. ACM, 2018, pp. 13–23.
+[52] D. Chicco and G. Jurman, “The Advantages of the Matthews Correlation
+Coefficient (MCC) over F1 score and Accuracy in Binary Classification
+Evaluation,” BMC genomics, vol. 21, no. 1, p. 6, 2020.
+[53] I. Bouzenia, P. Devanbu, and M. Pradel, “RepairAgent: An Au￾tonomous, LLM-Based Agent for Program Repair,” arXiv preprint
+arXiv:2403.17134, 2024.
+[54] P. Rondon, R. Wei, J. Cambronero, J. Cito, A. Sun, S. Sanyam,
+M. Tufano, and S. Chandra, “Evaluating agent-based program repair
+at google,” arXiv preprint arXiv:2501.07531, 2025.

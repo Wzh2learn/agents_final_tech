@@ -72,6 +72,9 @@
 | F-5/F-10 审计链（r3/r4） | [`research/WP2_F5F10_LOOP_C_AUDIT_v1.md`](research/WP2_F5F10_LOOP_C_AUDIT_v1.md) / [`WP2_F5D_LOOP_C_AUDIT_v1.md`](research/WP2_F5D_LOOP_C_AUDIT_v1.md) | r3 CONDITIONAL（24-case 缺口）→ S0d 补档/撤回 → r4 PASS（证据缺口闭合） |
 | WP-2 派发卡（Loop A/C 四轮） | [`../research/tatqa_wp0_2026/wp2/loop_a_prompt_prefreeze.md`](../research/tatqa_wp0_2026/wp2/loop_a_prompt_prefreeze.md) 等 | prefreeze / s0b / f5 / f5c 任务卡（已执行，逐卡留痕） |
 | 两周 commit 复盘 + inquiry 自检 | [`research/TWO_WEEK_COMMIT_REVIEW_v1.md`](research/TWO_WEEK_COMMIT_REVIEW_v1.md) | 09-29→10-13（225 commits）四幕复盘 + G1–G6 + portfolio-triage（A–D） |
+| WP-2 桥失败根因与长期方案 | [`research/WP2_BRIDGE_LONGTERM_ANALYSIS_v1.md`](research/WP2_BRIDGE_LONGTERM_ANALYSIS_v1.md) | structured-output/systematic-debugging 分析；L1–L5 分层设计；桥 v2 实现+离线资格见 [`../research/tatqa_wp0_2026/wp2/bridge_v2/`](../research/tatqa_wp0_2026/wp2/bridge_v2/)（零新依赖、零模型调用） |
+| SANER RENE 风格学习 | [`research/RENE_ACCEPTED_PAPER_STYLE_STUDY_v1.md`](research/RENE_ACCEPTED_PAPER_STYLE_STUDY_v1.md) | 2 篇全文 + 2 篇摘要级；跨篇规律与 Paper E 对照（只检不改）；素材 [`../research/rene_style_20261014/SOURCE_MATERIALS_v1.md`](../research/rene_style_20261014/SOURCE_MATERIALS_v1.md) |
+| Paper E AI 味审查 | [`research/PAPER_E_AI_FLAVOR_REVIEW_v1.md`](research/PAPER_E_AI_FLAVOR_REVIEW_v1.md) | 14 处表达层精修（rather than 23→16 等）；重建 9 页双审计 PASS；PDF 审计条目 13g |
 | **最终 handoff** | [`../FINAL_HANDOFF_v1.md`](../FINAL_HANDOFF_v1.md) | 下一 session 第一入口（owner 决策已记录） |
 | 投稿前一键审计 | [`../scripts/pre_submission_audit.py`](../scripts/pre_submission_audit.py) | evidence/anonymisation/format/artifact 四组；当前 PASS |
 | 匿名 artifact 包（备而未发） | [`../research/artifact_release_2026/README.md`](../research/artifact_release_2026/README.md) | 12 项已就绪 + 2 项 GB10 数据体；发布需 owner |
@@ -155,7 +158,7 @@
 | [`15_远程开发机_Codex_CLI_与_OpenCode_配置.md`](15_远程开发机_Codex_CLI_与_OpenCode_配置.md) | 历史快照 | GB10 配置过程 |
 | [`architecture/codebase_map.md`](architecture/codebase_map.md) | 活跃 | 生产/科研代码依赖、验证入口与执行边界；不声明实时健康 |
 | [`architecture/gb10_vllm_startup_sop.md`](architecture/gb10_vllm_startup_sop.md) | 活跃 | GB10 vLLM 启动 SOP |
-| [`architecture/skill_system_health.md`](architecture/skill_system_health.md) | 审计快照 | Skill 历史体检结果 |
+| [`architecture/skill_system_health.md`](architecture/skill_system_health.md) | 审计快照 | Skill 体检历史；最新 2026-10-14 快照（repo 0e/139w；本机 1e→0e；skill-map 编码修复；27 条未解析=误报） |
 | [`architecture/phase2_docs_inventory.md`](architecture/phase2_docs_inventory.md) | 历史参考 | 早期文档盘点 |
 | [`architecture/phase2_docs_inventory_2026-08-05.md`](architecture/phase2_docs_inventory_2026-08-05.md) | 历史参考 | 2026-08-05 文档盘点 |
 | [`architecture/phase2_root_md_conflicts.md`](architecture/phase2_root_md_conflicts.md) | 历史参考 | 根文档冲突处理记录 |
