@@ -1,0 +1,75 @@
+{
+  "component_hashes": {
+    "research/tatqa_wp0_2026/wp2/BRIDGE_V2_REPORT.md": "2210ed372ed42710cecebad07543ebba78dc3dc444d8dedc695d299362e53b57",
+    "research/tatqa_wp0_2026/wp2/DEPENDENCY_RECEIPT.json": "29299297ad67ef880ff5183cba1dedcee0ec880727aef958785cee4fffa06b21",
+    "research/tatqa_wp0_2026/wp2/bridge_v2/BRIDGE_SCHEMAS_v2.json": "dc144259b478fd4c3869b5d61dda86acfbe3c6b940aa5b39258c1a1981429f31",
+    "research/tatqa_wp0_2026/wp2/bridge_v2/OFFLINE_QUALIFICATION_RECEIPT.json": "8a85d1c4c1b077ab2d85ee767056c134cbfe4b6b96506bff6eef1e0da4c0e43e",
+    "research/tatqa_wp0_2026/wp2/bridge_v2/constrained_decoding_v2.py": "5ee7ab8ab7bd42c0196b0d92ef8015a95361fa4a1d49620205b9d58b3d21696a",
+    "research/tatqa_wp0_2026/wp2/bridge_v2/offline_qualification.py": "f7b82981ccaf24d17282ac2637989179a300581bcc018b4173a6a6be5f3f1b13",
+    "research/tatqa_wp0_2026/wp2/bridge_v2/prompt_v2.py": "f4b20727f3e614c13f894ad070d3df6534235191fc552311d632c09d455528e3",
+    "research/tatqa_wp0_2026/wp2/bridge_v2/serve_transformers_actor_v2.py": "f3182bd2c56279e5226b58c32270b67319b0a08d938dafa6dd29fdd434b4d752",
+    "research/tatqa_wp0_2026/wp2/bridge_v2/test_bridge_v2.py": "93439b9d5c16272216e033871dfd6f47b5a2dc8f85927b0d6da874d501a7d30a",
+    "research/tatqa_wp0_2026/wp2/bridge_v2/validate_v2.py": "c4fc4febbb8deffac10569633d35b8fe6f87e805656f18cace8330e5f691d63a"
+  },
+  "dependency_receipt": {
+    "path": "research/tatqa_wp0_2026/wp2/DEPENDENCY_RECEIPT.json",
+    "selected_fallback": "minimum_custom_prefix_constrained_logits_processor",
+    "sha256": "29299297ad67ef880ff5183cba1dedcee0ec880727aef958785cee4fffa06b21"
+  },
+  "generated_at_utc": "2026-10-14T03:17:58Z",
+  "layer_results": {
+    "L1_generation": "fallback_custom_prefix_constraints",
+    "L2_interface": "chat_system_user_one_locked_example_per_stage",
+    "L3_bridge": "three_routes_plus_flat_schema_validation_plus_one_retry",
+    "L4_offline": "synthetic_plus_replay_plus_read_only_tokenizer_dry_run"
+  },
+  "offline_receipt": {
+    "constraint_dry_run_passed": true,
+    "path": "research/tatqa_wp0_2026/wp2/bridge_v2/OFFLINE_QUALIFICATION_RECEIPT.json",
+    "replay_prose_rejected": true,
+    "sha256": "8a85d1c4c1b077ab2d85ee767056c134cbfe4b6b96506bff6eef1e0da4c0e43e",
+    "synthetic_passed": true
+  },
+  "retry_policy": {
+    "counted_in_budget": true,
+    "error_feedback": "concrete_parse_or_schema_error_verbatim",
+    "max_format_retries_per_stage": 1,
+    "requests_made_in_this_card": 0
+  },
+  "safety": {
+    "database_calls": 0,
+    "endpoint_calls": 0,
+    "git_operations": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "production_service_calls": 0,
+    "s4_runs": 0
+  },
+  "schema": "tatqa_wp2_bridge_v2_receipt_v1",
+  "schemas": {
+    "path": "research/tatqa_wp0_2026/wp2/bridge_v2/BRIDGE_SCHEMAS_v2.json",
+    "sha256": "dc144259b478fd4c3869b5d61dda86acfbe3c6b940aa5b39258c1a1981429f31"
+  },
+  "settings_unchanged": {
+    "do_sample": false,
+    "experience_cap": 600,
+    "max_input_tokens": 4096,
+    "max_output_tokens": 512,
+    "n": 1,
+    "num_beams": 1,
+    "port": 8112,
+    "temperature": 0
+  },
+  "status": "OFFLINE_QUALIFICATION_PASS_WITH_ONLINE_UNVERIFIED",
+  "task": "tatqa-wp2-bridge2-20261014",
+  "unit_tests": {
+    "command": "PYTHONPATH=src ./venv/bin/python -m pytest research/tatqa_wp0_2026/wp2/bridge_v2/test_bridge_v2.py -q",
+    "result": "6 passed"
+  },
+  "unverified_surfaces": [
+    "online GPU constrained decoding",
+    "model-weight behavior and answer correctness",
+    "S4c probes and any model/judge budget call",
+    "tokenizer migration outside the pinned local tokenizer"
+  ]
+}

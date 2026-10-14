@@ -1,0 +1,272 @@
+{
+  "constraint_dry_run": {
+    "all_passed": true,
+    "generation_calls": 0,
+    "model_weights_loaded": false,
+    "processors": [
+      {
+        "allowed_tokens_at_prompt_boundary": 2,
+        "canonical_example_accepted_by_language": true,
+        "canonical_example_sha256": "e4210aee5349c67656aad3b16bf72346a1c5ac28824a3b00c6e735565fbdb13e",
+        "first_completion_token_allowed": true,
+        "mock_prompt_tokens": 64,
+        "processor_build_ok": true,
+        "stage": "plan"
+      },
+      {
+        "allowed_tokens_at_prompt_boundary": 2,
+        "canonical_example_accepted_by_language": true,
+        "canonical_example_sha256": "91580156c0a1b6714045721c56fa15aa3896a27a6fc2ea5fed6db926455cdfab",
+        "first_completion_token_allowed": true,
+        "mock_prompt_tokens": 81,
+        "processor_build_ok": true,
+        "stage": "consume"
+      }
+    ],
+    "tokenizer": [
+      {
+        "chat_template_loaded": true,
+        "stage": "plan",
+        "vocab_size": 151669
+      },
+      {
+        "chat_template_loaded": true,
+        "stage": "consume",
+        "vocab_size": 151669
+      }
+    ],
+    "tokenizer_only": true,
+    "tokenizer_root": "/home/testuser/wzh/models/hf/Qwen3-8B"
+  },
+  "generated_at_utc": "2026-10-14T03:17:58Z",
+  "replay": {
+    "ledger_attempts": 8,
+    "prose_plan_rejected_as_expected": true,
+    "raw_files_on_disk": 7,
+    "raw_integrity_matches": 7,
+    "raw_overwrite_disclosure": "Ledger contains 8 attempts but only 7 distinct raw files remain; the duplicate logical sequence was overwritten and is not reconstructed.",
+    "records": [
+      {
+        "current_raw_sha256": "46bcb0d8fea873dba09ea33dfb30043d42f27eef058b8331fc70566420299429",
+        "envelope_error": null,
+        "ledger_raw_sha256": "46bcb0d8fea873dba09ea33dfb30043d42f27eef058b8331fc70566420299429",
+        "parse_route": "first_balanced_object",
+        "purpose": "plan",
+        "raw_integrity_ok": true,
+        "raw_replay_available": true,
+        "raw_response_path": "research/tatqa_wp0_2026/wp2/s4b_run/attempts/S4B-probe-history-01-plan-1/raw_response.txt",
+        "runner_request_id": "S4B-probe-history-01-plan-1",
+        "schema_error": "plan expression violates decimal/operator character class [0-9+\\-*/(). ]",
+        "schema_ok": false
+      },
+      {
+        "current_raw_sha256": "6fddfe25a5137b1f1e53c1008cd3ccc25bade6d4451244877e8f314a08186e03",
+        "envelope_error": null,
+        "ledger_raw_sha256": "6fddfe25a5137b1f1e53c1008cd3ccc25bade6d4451244877e8f314a08186e03",
+        "parse_route": "first_balanced_object",
+        "purpose": "plan",
+        "raw_integrity_ok": true,
+        "raw_replay_available": true,
+        "raw_response_path": "research/tatqa_wp0_2026/wp2/s4b_run/attempts/S4B-probe-history-02-plan-1/raw_response.txt",
+        "runner_request_id": "S4B-probe-history-02-plan-1",
+        "schema_error": null,
+        "schema_ok": true
+      },
+      {
+        "current_raw_sha256": "8bebf78997c39a89bc59cbdaf97cb32ca786eba7d30b1a50462f27c900974411",
+        "envelope_error": null,
+        "ledger_raw_sha256": "8bebf78997c39a89bc59cbdaf97cb32ca786eba7d30b1a50462f27c900974411",
+        "parse_route": "first_balanced_object",
+        "purpose": "plan",
+        "raw_integrity_ok": true,
+        "raw_replay_available": true,
+        "raw_response_path": "research/tatqa_wp0_2026/wp2/s4b_run/attempts/S4B-probe-history-03-plan-1/raw_response.txt",
+        "runner_request_id": "S4B-probe-history-03-plan-1",
+        "schema_error": null,
+        "schema_ok": true
+      },
+      {
+        "current_raw_sha256": "f3632c32b982589fa57cf703df05c3dbae986fabdb4b855f754dbaefb28ff81a",
+        "envelope_error": null,
+        "ledger_raw_sha256": "f3632c32b982589fa57cf703df05c3dbae986fabdb4b855f754dbaefb28ff81a",
+        "parse_route": "first_balanced_object",
+        "purpose": "consume",
+        "raw_integrity_ok": true,
+        "raw_replay_available": true,
+        "raw_response_path": "research/tatqa_wp0_2026/wp2/s4b_run/attempts/S4B-probe-history-03-consume-1/raw_response.txt",
+        "runner_request_id": "S4B-probe-history-03-consume-1",
+        "schema_error": "delta_source must be a JSON number",
+        "schema_ok": false
+      },
+      {
+        "current_raw_sha256": "58c730da8bcdbadd85ef76ffbafc0de83047c0ffab3ab27440b1fa1fe161f6e8",
+        "envelope_error": null,
+        "ledger_raw_sha256": "0e374df2a7e50a9b7aae3f2c2233e32cef2c227494c8e3d15f322cfd90d8e275",
+        "parse_route": null,
+        "purpose": "plan",
+        "raw_integrity_ok": false,
+        "raw_replay_available": true,
+        "raw_response_path": "research/tatqa_wp0_2026/wp2/s4b_run/attempts/S4_history-01-wp2_3ab739eb_r2_p0-plan-1/raw_response.txt",
+        "runner_request_id": "S4_history-01-wp2_3ab739eb_r2_p0-plan-1",
+        "schema_error": null,
+        "schema_ok": false
+      },
+      {
+        "current_raw_sha256": "f6c1e08af9684883b1ee1e0f9cdf5a29b554b74ea17d420d51b34d870a2cff3a",
+        "envelope_error": null,
+        "ledger_raw_sha256": "f6c1e08af9684883b1ee1e0f9cdf5a29b554b74ea17d420d51b34d870a2cff3a",
+        "parse_route": "first_balanced_object",
+        "purpose": "consume",
+        "raw_integrity_ok": true,
+        "raw_replay_available": true,
+        "raw_response_path": "research/tatqa_wp0_2026/wp2/s4b_run/attempts/S4_history-01-wp2_3ab739eb_r2_p0-consume-1/raw_response.txt",
+        "runner_request_id": "S4_history-01-wp2_3ab739eb_r2_p0-consume-1",
+        "schema_error": "delta_source must be a JSON number",
+        "schema_ok": false
+      },
+      {
+        "current_raw_sha256": "58c730da8bcdbadd85ef76ffbafc0de83047c0ffab3ab27440b1fa1fe161f6e8",
+        "envelope_error": null,
+        "ledger_raw_sha256": "58c730da8bcdbadd85ef76ffbafc0de83047c0ffab3ab27440b1fa1fe161f6e8",
+        "parse_route": null,
+        "purpose": "plan",
+        "raw_integrity_ok": true,
+        "raw_replay_available": true,
+        "raw_response_path": "research/tatqa_wp0_2026/wp2/s4b_run/attempts/S4_history-01-wp2_3ab739eb_r2_p0-plan-1/raw_response.txt",
+        "runner_request_id": "S4_history-01-wp2_3ab739eb_r2_p0-plan-1",
+        "schema_error": null,
+        "schema_ok": false
+      },
+      {
+        "current_raw_sha256": "28f340ca49e7903cd80479e81472eb1e40780adb9a5b5b60f4e64fd7806c63bb",
+        "envelope_error": null,
+        "ledger_raw_sha256": "28f340ca49e7903cd80479e81472eb1e40780adb9a5b5b60f4e64fd7806c63bb",
+        "parse_route": null,
+        "purpose": "plan",
+        "raw_integrity_ok": true,
+        "raw_replay_available": true,
+        "raw_response_path": "research/tatqa_wp0_2026/wp2/s4b_run/attempts/S4_history-01-wp2_3ab739eb_r2_p0-plan-3/raw_response.txt",
+        "runner_request_id": "S4_history-01-wp2_3ab739eb_r2_p0-plan-3",
+        "schema_error": null,
+        "schema_ok": false
+      }
+    ],
+    "schema_accepts": 2,
+    "schema_rejects": 6
+  },
+  "safety": {
+    "database_calls": 0,
+    "endpoint_calls": 0,
+    "judge_calls": 0,
+    "model_calls": 0,
+    "s4_runs": 0
+  },
+  "schema": "tatqa_wp2_bridge_offline_qualification_v1",
+  "synthetic": {
+    "all_passed": true,
+    "corpus_size": 9,
+    "passed": 9,
+    "records": [
+      {
+        "expected_ok": true,
+        "name": "strict_plan_valid",
+        "ok": true,
+        "passed": true,
+        "retry_error": null,
+        "route": "strict_json",
+        "schema_error": null,
+        "stage": "plan"
+      },
+      {
+        "expected_ok": true,
+        "name": "fenced_consume_valid",
+        "ok": true,
+        "passed": true,
+        "retry_error": null,
+        "route": "code_fenced_json",
+        "schema_error": null,
+        "stage": "consume"
+      },
+      {
+        "expected_ok": true,
+        "name": "embedded_plan_valid",
+        "ok": true,
+        "passed": true,
+        "retry_error": null,
+        "route": "first_balanced_object",
+        "schema_error": null,
+        "stage": "plan"
+      },
+      {
+        "expected_ok": false,
+        "name": "embedded_consume_schema_violation",
+        "ok": false,
+        "passed": true,
+        "retry_error": "consume fields must be exactly row,periods,delta_source,delta_target,unit",
+        "route": "first_balanced_object",
+        "schema_error": "consume fields must be exactly row,periods,delta_source,delta_target,unit",
+        "stage": "consume"
+      },
+      {
+        "expected_ok": false,
+        "name": "strict_consume_string_number",
+        "ok": false,
+        "passed": true,
+        "retry_error": "delta_source must be a JSON number",
+        "route": "strict_json",
+        "schema_error": "delta_source must be a JSON number",
+        "stage": "consume"
+      },
+      {
+        "expected_ok": false,
+        "name": "plan_forbidden_expression_character",
+        "ok": false,
+        "passed": true,
+        "retry_error": "plan expression violates decimal/operator character class [0-9+\\-*/(). ]",
+        "route": "strict_json",
+        "schema_error": "plan expression violates decimal/operator character class [0-9+\\-*/(). ]",
+        "stage": "plan"
+      },
+      {
+        "expected_ok": false,
+        "name": "prose_without_json",
+        "ok": false,
+        "passed": true,
+        "retry_error": "all JSON bridge parse routes failed: strict_json=JSONDecodeError: Expecting value: line 1 column 1 (char 0); code_fenced_json=code fence unavailable or body invalid; first_balanced_object=balanced object absent",
+        "route": null,
+        "schema_error": null,
+        "stage": "plan"
+      },
+      {
+        "expected_ok": false,
+        "name": "truncated_plan",
+        "ok": false,
+        "passed": true,
+        "retry_error": "all JSON bridge parse routes failed: strict_json=JSONDecodeError: Unterminated string starting at: line 1 column 39 (char 38); code_fenced_json=code fence unavailable or body invalid; first_balanced_object=balanced object absent",
+        "route": null,
+        "schema_error": null,
+        "stage": "plan"
+      },
+      {
+        "expected_ok": false,
+        "name": "consume_periods_wrong_length",
+        "ok": false,
+        "passed": true,
+        "retry_error": "consume periods must be an array of exactly two strings",
+        "route": "strict_json",
+        "schema_error": "consume periods must be an array of exactly two strings",
+        "stage": "consume"
+      }
+    ],
+    "route_counts": {
+      "code_fenced_json": 1,
+      "first_balanced_object": 2,
+      "strict_json": 4
+    }
+  },
+  "task": "tatqa-wp2-bridge2-20261014",
+  "unit_tests": {
+    "command": "PYTHONPATH=src ./venv/bin/python -m pytest research/tatqa_wp0_2026/wp2/bridge_v2/test_bridge_v2.py -q",
+    "result": "6 passed"
+  }
+}

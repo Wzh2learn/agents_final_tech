@@ -1,0 +1,34 @@
+{
+  "candidate_wheel": {
+    "license": "Apache-2.0",
+    "name": "outlines",
+    "version": "1.3.3",
+    "wheel_download_only": true,
+    "wheel_sha256": "0e185dd5a0cfeb62e0268018972d3c22bb9b7d43db3dc1f39f3b754175a82c54"
+  },
+  "fallback": {
+    "risk": "custom token-text vocabulary handling must be revalidated for every tokenizer change; it is not a general grammar engine",
+    "schema_scope": [
+      "plan",
+      "consume"
+    ],
+    "selected": "minimum_custom_prefix_constrained_logits_processor"
+  },
+  "install_output": "error: externally-managed-environment",
+  "install_status": "blocked_pep668_externally_managed_environment",
+  "requested_install_command": "python3.12 -m pip install --user outlines",
+  "resolved_environment_versions": {
+    "outlines": null,
+    "python": "3.12.3",
+    "torch": "2.13.0 (venv)",
+    "transformers": "5.14.1 (venv)"
+  },
+  "safety": {
+    "dependency_files_written_outside_tmp": 0,
+    "model_calls": 0,
+    "production_service_calls": 0,
+    "system_packages_changed": 0
+  },
+  "schema": "tatqa_wp2_bridge_dependency_receipt_v1",
+  "system_level_override_used": false
+}

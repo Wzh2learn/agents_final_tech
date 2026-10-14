@@ -1,0 +1,76 @@
+{
+  "schema": "tatqa_wp2_bridge_schemas_v2",
+  "schema_document_sha256": "53c3665fcd2679c19a5735a79e74834750cacb516f3f6d2ac995b74a45fd81c3",
+  "schemas": {
+    "consume": {
+      "$id": "tatqa_wp2_bridge_consume_v2",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "delta_source": {
+          "pattern": "^-?(?:[0-9]+(?:\\.[0-9]+)?|\\.[0-9]+)$",
+          "type": "number",
+          "x-decimal-char-class": "-0123456789."
+        },
+        "delta_target": {
+          "pattern": "^-?(?:[0-9]+(?:\\.[0-9]+)?|\\.[0-9]+)$",
+          "type": "number",
+          "x-decimal-char-class": "-0123456789."
+        },
+        "periods": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "row": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "row",
+        "periods",
+        "delta_source",
+        "delta_target",
+        "unit"
+      ],
+      "type": "object"
+    },
+    "plan": {
+      "$id": "tatqa_wp2_bridge_plan_v2",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "params": {
+          "additionalProperties": false,
+          "properties": {
+            "expression": {
+              "minLength": 1,
+              "pattern": "^[0-9+\\-*/(). ]+$",
+              "type": "string",
+              "x-char-class": "[0-9+\\\\-*/(). ]"
+            }
+          },
+          "required": [
+            "expression"
+          ],
+          "type": "object"
+        },
+        "tool": {
+          "const": "calc",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool",
+        "params"
+      ],
+      "type": "object"
+    }
+  }
+}
