@@ -11,7 +11,7 @@
 | 件 | 路径 | sha256 |
 |---|---|---|
 | 探针集 | `research/tatqa_wp0_2026/wp2/s4c_qual_run/PROBES_FROZEN.json` | `061f871f1849d84eb5c6c70275fd8ee40a7920f2a3611257f720dbd702cc3f6f` |
-| 执行器 | `research/tatqa_wp0_2026/wp2/s4c_qual_run/run_s4c_qualification.py` | `a3f9b0584f25bbbd2bc0479d117262246917bbddaf5f01c76d1af1ed0d297924` |
+| 执行器 | `research/tatqa_wp0_2026/wp2/s4c_qual_run/run_s4c_qualification.py` | `d7afa0218b751d3a050350ea250817fcd9d1fa8016d2d1b3efb24a987c8c75e4` |
 | 探针生成器（溯源） | `research/tatqa_wp0_2026/wp2/s4c_qual_run/build_probes_frozen.py` | `9a8ac83c2bde9d91f1eaea75f6857780c479b45ecfccb336a2d3b966b443897f` |
 | 校验器（bridge_v2 冻结组件） | `research/tatqa_wp0_2026/wp2/bridge_v2/validate_v2.py` | `c4fc4febbb8deffac10569633d35b8fe6f87e805656f18cace8330e5f691d63a` |
 
@@ -32,6 +32,12 @@ run 前置条件：`BRIDGE_V2_RECEIPT.json` component_hashes 5/5 复验一致（
 - **FAIL**: 任一已发送探针不满足判定（含 criterion_failure / http_error / transport_failure）→ STOP_THIS_PANEL 永久（不再第五轮）。
 - **ENGINEERING_INCOMPLETE**: 零传输类工程故障（如服务启动失败、健康检查失败）；最多允许修复后重试一次（上限 2 次启动、共 2 轮执行）；冻结组件 / prompt / schema 一律不得改动；否则停报。
 - 预算：本卡 <=3 请求（跨轮合计）；全局 9 → <=12/300；judge=0。
+
+## 修正记录（v1.1，2026-10-14）
+
+- 修正 1（零传输工程故障）: 首轮 `--mode run` 在 `load_validator()` 处因动态加载模块未注册 `sys.modules` 触发 Python 3.12 dataclasses `AttributeError`；**零请求传输**（service `model_requests` 保持 0；未写 attempts/ledger）。按上款 ENGINEERING_INCOMPLETE 条款执行一次修复重试：`load_validator()` 增加一行 `sys.modules[spec.name] = module`（执行器 v1 哈希 `a3f9b0584f25bbbd2bc0479d117262246917bbddaf5f01c76d1af1ed0d297924`）。
+- bridge_v2 冻结组件 / prompt / schema **未做任何改动**（事故后与 run 前均复核 component_hashes 5/5 一致）。
+- 修复验证: 本机 + GB10 `smoke_validator_import.py`（plan/consume 正例 + commas/占位符/散文负例）+ py_compile。事故全文: `s4c_qual_run/INCIDENT_1_runner_import_failure.txt`。
 
 ## 产物
 

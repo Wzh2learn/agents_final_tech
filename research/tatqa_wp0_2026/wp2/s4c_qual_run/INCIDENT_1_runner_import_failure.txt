@@ -1,0 +1,36 @@
+S4C qualification incident 1 - runner import failure (zero transmissions)
+=======================================================================
+date_utc_approx: 2026-10-14T04:05Z (local ~12:05 CST)
+command: ./venv/bin/python research/tatqa_wp0_2026/wp2/s4c_qual_run/run_s4c_qualification.py --mode run
+result: pre-transmission crash in load_validator() during validate_v2.py dataclass processing
+budget_impact: 0 requests attempted; 0 model responses; service model_requests remained 0;
+               no attempts/ files and no ledger file were written (crash before ledger init)
+classification (per card): ENGINEERING_INCOMPLETE (zero-transmission) -> one repair + retry allowed
+bridge_components_changed: NO (constrained_decoding_v2 / prompt_v2 / validate_v2 / BRIDGE_SCHEMAS_v2 / serve hash-reverified after incident)
+root_cause: the dynamically loaded module was not registered in sys.modules; Python 3.12 dataclasses
+            resolves cls.__module__ via sys.modules during @dataclass processing
+repair (runner v1.1): load_validator() now registers sys.modules[spec.name] = module before exec_module
+repair_verification: local smoke + GB10 smoke (smoke_validator_import.py) + py_compile
+
+traceback (verbatim):
+Traceback (most recent call last):
+  File "/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/s4c_qual_run/run_s4c_qualification.py", line 400, in <module>
+    raise SystemExit(main())
+  File "/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/s4c_qual_run/run_s4c_qualification.py", line 396, in main
+    return run(args)
+  File "/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/s4c_qual_run/run_s4c_qualification.py", line 194, in run
+    validator = load_validator()
+  File "/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/s4c_qual_run/run_s4c_qualification.py", line 64, in load_validator
+    spec.loader.exec_module(module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/bridge_v2/validate_v2.py", line 28, in <module>
+    @dataclass(frozen=True)
+     ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/dataclasses.py", line 1258, in wrap
+    return _process_class(cls, init, repr, eq, order, unsafe_hash,
+  File "/usr/lib/python3.12/dataclasses.py", line 983, in _process_class
+    and _is_type(type, cls, dataclasses, dataclasses.KW_ONLY,
+  File "/usr/lib/python3.12/dataclasses.py", line 749, in _is_type
+    ns = sys.modules.get(cls.__module__).__dict__
+AttributeError: 'NoneType' object has no attribute '__dict__'. Did you mean: '__dir__'?

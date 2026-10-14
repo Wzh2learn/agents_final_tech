@@ -61,6 +61,7 @@ def load_validator():
         "validate_v2_frozen", BRIDGE_V2 / "validate_v2.py"
     )
     module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
