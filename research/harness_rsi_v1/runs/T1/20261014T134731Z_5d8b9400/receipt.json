@@ -1,0 +1,216 @@
+{
+  "acceptance_status": "UNREVIEWED",
+  "activation_status": "NOT_ENABLED",
+  "authorization_ref": "Owner 2026-10-14: R-line to M1 (U07=C); continuation '开始，我继续授权'",
+  "checks": [
+    {
+      "check_id": "E1_inputs",
+      "description": "T1 card 7 inputs + STOP_S4/PREFLIGHT exist and hashed",
+      "method": "existence+sha256",
+      "observed": {
+        "all_exist": true,
+        "count": 9
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "E2_dependency_and_freeze",
+      "description": "T0 accepted (T0R-01 ACCEPTED) and protocol FROZEN bound",
+      "method": "field check",
+      "observed": {
+        "protocol_status": "FROZEN",
+        "t0_review": "reviews/T0R-01"
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "E3_outputs_wellformed",
+      "description": "incidents.jsonl line-parse; matrix/groups parse; fields present",
+      "method": "json parse",
+      "observed": {
+        "families": 6,
+        "groups": 7,
+        "incidents": 16
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "E4_A1_fields",
+      "description": "Each case: source refs + applicability + expected category + family; each family has legal control design",
+      "method": "field scan",
+      "observed": {
+        "families": [
+          "交付与权限",
+          "完整性与预算",
+          "数据与统计",
+          "测量对象",
+          "真实调用边界",
+          "证据身份"
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "E5_A2_grouping_sealed",
+      "description": "Single group per case; no sealed; same-origin rule encoded",
+      "method": "validation block",
+      "observed": {
+        "groups": [
+          "G-ARTIFACT",
+          "G-BRIDGE",
+          "G-CALLCONV",
+          "G-HARNESS",
+          "G-PAPERE",
+          "G-PIN",
+          "G-REPAIR"
+        ],
+        "no_sealed": true
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "E6_A3_no_copy_no_fabrication",
+      "description": "No private payload copied; no old experiment re-run; gaps declared not fabricated",
+      "method": "length guard + declared gaps",
+      "observed": {
+        "max_desc_len": 171
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "E7_refs_verified",
+      "description": "All source_refs exist; canonical hash (git_blob_id) recomputed and consistent; unverified listed",
+      "method": "existence + rev-parse HEAD:path + worktree hash",
+      "observed": {
+        "refs_missing": [],
+        "refs_total": 33,
+        "refs_untracked": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "E8_write_scope",
+      "description": "Only runs/T1/<run_id>/ written",
+      "method": "listing",
+      "observed": {
+        "run_dir": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T1/20261014T134731Z_5d8b9400"
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "E9_budget_B0",
+      "description": "B0: zero orchestrated calls; local read-only work only",
+      "method": "declaration",
+      "observed": {
+        "model_requests": 0,
+        "network_calls": 0,
+        "remote_calls": 0
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "E10_remediation_vs_T1R01",
+      "description": "T1R-01 remediation items applied (F1-F8)",
+      "method": "field mapping",
+      "observed": {
+        "F1": "INC-11 ref -> LOOP_C_S4C_QUAL_AUDIT_v1.md",
+        "F2": "INC-12/13 -> positive_repair_20261011/* ; CTRL-01 -> stage_e_matched_fpr_reanalysis_v1.md",
+        "F3": "refs now canonical git_blob_id (+worktree informational)",
+        "F4": "INC-13 fact carries 第一轮 qualifier + PR-03 v3 note",
+        "F5": "INC-07 adds offline_qualification.py+INCIDENT_2 ; CTRL-02 adds finqa autopsy",
+        "F6": "INC-12 moved to G-REPAIR",
+        "F7": "E7 description now covers hash domain",
+        "F8": "applicability field added"
+      },
+      "result": "PASS"
+    }
+  ],
+  "execution_status": "DELIVERED",
+  "input_bindings": [
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json",
+      "actual_sha256": "c695780364b5672caf90a991176232c174a85615f1df19628c813690fa3ef127",
+      "binding": "READ_AND_HASHED_DURING_T1_V2",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
+      "actual_sha256": "dd72a5497e542209451bfddc43b470d75a8c8164110a57c3642b54a955461972",
+      "binding": "READ_AND_HASHED_DURING_T1_V2",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md",
+      "actual_sha256": "f659668ad1ddca44fcd170c328a177be201b8aaa871f2bb938681d404e9cf393",
+      "binding": "READ_AND_HASHED_DURING_T1_V2",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+      "actual_sha256": "1c94e40e377dd7b119c27988d845859e9d88784312c68aeb3f3649871614a8d9",
+      "binding": "READ_AND_HASHED_DURING_T1_V2",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json",
+      "actual_sha256": "a6543ce1fc4254f1f09573a928c6e0c318b5834062529ec9f0264873198a4c6d",
+      "binding": "READ_AND_HASHED_DURING_T1_V2",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "actual_sha256": "1856da0654e0c57d2e35d395de4df8b220f8989020a6cc61de0c39cb3ad7494d",
+      "binding": "READ_AND_HASHED_DURING_T1_V2",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/evaluation/split_registry.json",
+      "actual_sha256": "15397abca0a182182d51501291933a2f42347a956a6590eaf504cd5af6eb79f4",
+      "binding": "READ_AND_HASHED_DURING_T1_V2",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\tatqa_wp0_2026\\wp2\\S4C_ONLINE_QUALIFICATION_RECEIPT.json",
+      "actual_sha256": "7f0cdc28ec05aca8a40c579e26b99e9377371e2867af3a536835abf34f608eb3",
+      "binding": "READ_AND_HASHED_DURING_T1_V2",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\docs\\governance\\FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+      "actual_sha256": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+      "binding": "READ_AND_HASHED_DURING_T1_V2",
+      "exists": true
+    }
+  ],
+  "output_manifest": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T1/20261014T134731Z_5d8b9400/artifacts_manifest.json",
+  "prior_review": {
+    "proposal": "REJECTED",
+    "review_artifact_sha256s": {
+      "ACCEPTANCE_PROPOSAL.json": "1d6a1ac2a555bec3...",
+      "REVIEW.md": "47985808fc1d98a9...",
+      "review_receipt.json": "c0f45a79a545fb3a..."
+    },
+    "review_id": "T1R-01"
+  },
+  "run_id": "20261014T134731Z_5d8b9400",
+  "schema": "harness_rsi_t1_receipt_v2",
+  "scope": "T1 v2 reliability incident case organization - remediation of T1R-01 findings (evidence pointers, canonical hash domain, wording, grouping, fields)",
+  "supersedes_run_id": "20261014T132249Z_99f3bc6b",
+  "task_id": "T1",
+  "unresolved": [
+    "sealed set (24) by independent role (T2)",
+    "execution chat token usage UNRESOLVED",
+    "T1-INC-14 unverified_inference"
+  ],
+  "usage": {
+    "automatic_retries": 0,
+    "database_calls": 0,
+    "execution_chat_usage": "UNRESOLVED",
+    "model_requests": 0,
+    "network_calls": 0,
+    "note": "B0; local read-only organization; no historical experiment re-run",
+    "production_service_calls": 0,
+    "remote_calls": 0,
+    "training_calls": 0
+  }
+}

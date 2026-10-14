@@ -1,0 +1,100 @@
+{
+  "generated_at_utc": "2026-10-14T13:47:31Z",
+  "groups": [
+    {
+      "group_id": "G-ARTIFACT",
+      "member_incidents": [
+        "T1-INC-08"
+      ],
+      "name": "证据入库与清单链",
+      "origin_rule": "同源事故及其改写必须留在同一组，不得跨组",
+      "proposed_allocation": "development_or_calibration_only",
+      "reason_not_sealed": "均为已公开复盘/已评审案例（A2：已讨论案例不得标科研封存）",
+      "sealed_eligible": false
+    },
+    {
+      "group_id": "G-BRIDGE",
+      "member_incidents": [
+        "T1-INC-01",
+        "T1-INC-02",
+        "T1-INC-03",
+        "T1-INC-04",
+        "T1-INC-05"
+      ],
+      "name": "桥 v1/v2 与 S4 采集链",
+      "origin_rule": "同源事故及其改写必须留在同一组，不得跨组",
+      "proposed_allocation": "development_or_calibration_only",
+      "reason_not_sealed": "均为已公开复盘/已评审案例（A2：已讨论案例不得标科研封存）",
+      "sealed_eligible": false
+    },
+    {
+      "group_id": "G-CALLCONV",
+      "member_incidents": [
+        "T1-INC-06",
+        "T1-INC-07"
+      ],
+      "name": "在线调用约定与资格链",
+      "origin_rule": "同源事故及其改写必须留在同一组，不得跨组",
+      "proposed_allocation": "development_or_calibration_only",
+      "reason_not_sealed": "均为已公开复盘/已评审案例（A2：已讨论案例不得标科研封存）",
+      "sealed_eligible": false
+    },
+    {
+      "group_id": "G-HARNESS",
+      "member_incidents": [
+        "T1-INC-11",
+        "T1-INC-14"
+      ],
+      "name": "harness 派发与计量链",
+      "origin_rule": "同源事故及其改写必须留在同一组，不得跨组",
+      "proposed_allocation": "development_or_calibration_only",
+      "reason_not_sealed": "均为已公开复盘/已评审案例（A2：已讨论案例不得标科研封存）",
+      "sealed_eligible": false
+    },
+    {
+      "group_id": "G-PAPERE",
+      "member_incidents": [
+        "T1-CTRL-01",
+        "T1-CTRL-02"
+      ],
+      "name": "Paper E 负结果/测量对象链",
+      "origin_rule": "同源事故及其改写必须留在同一组，不得跨组",
+      "proposed_allocation": "development_or_calibration_only",
+      "reason_not_sealed": "均为已公开复盘/已评审案例（A2：已讨论案例不得标科研封存）",
+      "sealed_eligible": false
+    },
+    {
+      "group_id": "G-PIN",
+      "member_incidents": [
+        "T1-INC-09",
+        "T1-INC-10"
+      ],
+      "name": "哈希钉定与表示域链",
+      "origin_rule": "同源事故及其改写必须留在同一组，不得跨组",
+      "proposed_allocation": "development_or_calibration_only",
+      "reason_not_sealed": "均为已公开复盘/已评审案例（A2：已讨论案例不得标科研封存）",
+      "sealed_eligible": false
+    },
+    {
+      "group_id": "G-REPAIR",
+      "member_incidents": [
+        "T1-INC-12",
+        "T1-INC-13"
+      ],
+      "name": "正修补第一轮链（含其派发失败与收口）",
+      "origin_rule": "同源事故及其改写必须留在同一组，不得跨组",
+      "proposed_allocation": "development_or_calibration_only",
+      "reason_not_sealed": "均为已公开复盘/已评审案例（A2：已讨论案例不得标科研封存）",
+      "sealed_eligible": false
+    }
+  ],
+  "rules": [
+    "same-origin incidents and rewrites never cross groups",
+    "repetition is not an independent case",
+    "publicly reviewed cases are development/calibration only",
+    "sealed set built and held by an independent role (T2)"
+  ],
+  "run_id": "20261014T134731Z_5d8b9400",
+  "schema": "harness_rsi_t1_source_groups_v2",
+  "task_id": "T1"
+}
