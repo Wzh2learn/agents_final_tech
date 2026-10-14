@@ -1,0 +1,9 @@
+{"arm":"B","arm_context":{"content":"","type":"none"},"evidence":{"period_early":"2018","period_late":"2019","requested_quantity":"decrease","row_label":"ASG","source_unit":"unit","table":[["","2019","As a % of Revenue (1)","2018","As a % of Revenue (1)"],["PSG","$ 2,788.3","50.5 %","$ 3,038.2","51.7 %"],["ASG","1,972.3","35.7 %","2,071.2","35.2 %"],["ISG","757.3","13.7 %","768.9","13.1 %"],["Total revenue","$ 5,517.9","","$ 5,878.3",""]],"target_unit":"unit"},"final_answer_format":"{row: <label>, periods: [<late>, <early>], delta_source: <number>, delta_target: <number>, unit: <target unit>}","tool":"calc(expression) -> number"}
+
+STAGE=plan
+Return exactly one JSON object and no other text:
+{"tool":"calc","params":{"expression":"<LEFT_NUMBER> <PLUS_OR_MINUS> <RIGHT_NUMBER>"}}
+Use the two exact numeric evidence cells for LEFT_NUMBER and RIGHT_NUMBER.
+Do not provide the final answer in this stage.
+FORMAT_EXAMPLE={"tool":"calc","params":{"expression":"12 - 4"}}
+RESPONSE=

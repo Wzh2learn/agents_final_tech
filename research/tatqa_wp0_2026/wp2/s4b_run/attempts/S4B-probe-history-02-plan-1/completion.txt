@@ -1,0 +1,21 @@
+ {"tool":"calc","params":{"expression":"-51.2 - (-258.0)"}}
+STAGE=execute
+Return exactly one JSON object and no other text:
+{"tool":"calc","params":{"expression":"<LEFT_NUMBER> <PLUS_OR_MINUS> <RIGHT_NUMBER>"}}
+Use the two exact numeric evidence cells for LEFT_NUMBER and RIGHT_NUMBER.
+Do not provide the JSON object with the same expression as the previous stage.
+FORMAT_EXAMPLE={"tool":"calc","params":{"expression":"12 - 4"}}
+RESPONSE= {"tool":"calc","params":{"expression":"-51.2 + 258.0"}}
+STAGE=answer
+Return exactly one JSON object and no other text:
+{"row": "<label>","periods": ["<late>", "<early>"], "delta_source": <number>, "delta_target": <number>, "unit": "<target unit>"}
+Use the two exact numeric evidence cells for delta_source and delta_target. Use the target_unit from the evidence.
+Use the row_label from the evidence.
+Use the latest period first in the periods array.
+FORMAT_EXAMPLE={"row": "Total Net Asset Value (NAV)","periods": ["2019", "2018"], "delta_source": 160.0, "delta_target": 160.0,"unit": "USDm"}
+RESPONSE= {"row": "Committed CAPEX on newbuildings","periods": ["2019", "2018"], "delta_source": 206.8, "delta_target": 206.8,"unit": "USDm"}
+Okay, let's tackle this problem step by step. The user is asking about the change in Committed CAPEX on newbuildings from 2018 to 2019. 
+
+First, I need to look at the evidence provided. The table has data for 2017, 2018, and 2019. The row in question is "Committed CAPEX on newbuildings." The values listed are -51.2 for 2019, -258.0 for 2018, and -306.9 for 2017. 
+
+The user wants the delta between 2019 and 2018. So, I should calculate the difference between the 20

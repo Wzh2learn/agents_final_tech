@@ -1,0 +1,71 @@
+{
+  "actor": {
+    "license": "apache-2.0",
+    "model_id": "Qwen/Qwen3-8B",
+    "model_root": "/home/testuser/wzh/models/hf/Qwen3-8B",
+    "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "revision_identity_source": "pinned metadata and mirror receipts; the local model root does not contain a VCS ref"
+  },
+  "checks": {
+    "all_content_sha256_match": true,
+    "all_file_sizes_match": true,
+    "all_identity_hashes_match": true,
+    "all_shards_present": true,
+    "metadata_file_count": 15,
+    "tokenizer_artifacts_verified": true,
+    "top_level_file_count": 15
+  },
+  "environment": {
+    "cpu": {
+      "logical_count": 20,
+      "model_name": null
+    },
+    "gpu": {
+      "fb_memory_note": "GB10 unified memory reports FB memory as N/A; runtime memory gates use host available memory",
+      "query": "nvidia-smi --query-gpu=name,driver_version,utilization.gpu --format=csv,noheader",
+      "raw_csv": [
+        "NVIDIA GB10, 580.159.03, 0 %"
+      ]
+    },
+    "os": {
+      "kernel": "6.17.0-1018-nvidia",
+      "machine": "aarch64",
+      "platform": "Linux-6.17.0-1018-nvidia-aarch64-with-glibc2.39"
+    },
+    "python": {
+      "executable": "/home/testuser/wzh/projects/agents_final_tech/venv/bin/python",
+      "implementation": "CPython",
+      "version": "3.12.3"
+    },
+    "torch": {
+      "cuda_available": true,
+      "cuda_version": "13.0",
+      "version": "2.13.0+cu130"
+    }
+  },
+  "generated_at_utc": "2026-10-14T00:58:34Z",
+  "inputs": {
+    "artifact_validation_receipt": {
+      "path": "docs/datasets/2026-10-05_qwen3_8b_artifact_validation_receipt_v1.json",
+      "sha256": "8c35a447d911caafb80a4f26526199b38658952cb7294ec5087600dd73c0aca8"
+    },
+    "metadata": {
+      "path": "docs/datasets/2026-10-05_qwen_model_metadata_v1.json",
+      "sha256": "83906b435b69ce8db3e8022f722bb6497d489ebb74ed341bdb9d0fb2aa75162d"
+    },
+    "sync_receipt": {
+      "path": "docs/datasets/2026-10-05_qwen3_8b_sync_receipt_v1.json",
+      "sha256": "684dfb9b6d9d91f92776ac771b975f560674a6234336ec9ebd12fce0d3d7a322"
+    }
+  },
+  "safety": {
+    "database_calls": 0,
+    "judge_calls": 0,
+    "model_load_started": false,
+    "network_calls": 0,
+    "production_service_calls": 0
+  },
+  "schema": "tatqa_wp2_actor_artifact_verification_receipt_v1",
+  "status": "PASS",
+  "task": "tatqa-wp2-s4s7-20261014"
+}

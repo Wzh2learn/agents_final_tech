@@ -1,0 +1,24 @@
+ {"tool":"calc","params":{"expression":"1972.3 - 2071.2"}}
+STAGE=execute
+Return exactly one JSON object and no other text:
+{"tool":"calc","params":{"expression":"<LEFT_NUMBER> <PLUS_OR_MINUS> <RIGHT_NUMBER>"}}
+Use the two exact numeric evidence cells for LEFT_NUMBER and RIGHT_NUMBER.
+Do not provide the tool name in this stage.
+FORMAT_EXAMPLE=12 - 4
+RESPONSE=1972.3 - 2071.2
+STAGE=answer
+Return exactly one JSON object and no other text:
+{"row":"ASG","periods":["2019","2018"],"delta_source":<number>,"delta_target":<number>,"unit":"unit"}
+Use the actual numeric delta from the execute stage.
+Use the exact row label from the table.
+Use the periods in the order they appear in the table (early first, then late).
+Use the target_unit from the evidence.
+FORMAT_EXAMPLE={"row":"ASG","periods":["2019","2018"],"delta_source":100,"delta_target":200,"unit":"unit"}
+RESPONSE= {"row":"ASG","periods":["2019","2018"],"delta_source":98.9,"delta_target":157.1,"unit":"unit"}
+Okay, let me try to figure this out. The user is asking about the delta for ASG between 2019 and 2018. The evidence provided has a table with numbers for each period. 
+
+First, I need to check the values for ASG in both years. Looking at the table, in 2019, ASG is $1,972.3, and in 2018, it's $2,071.2. The question mentions "delta_source" and "delta_target". Wait, the user's example in the answer stage shows delta_source and delta_target as numbers, but how are these calculated?
+
+Wait, the initial plan was to calculate the difference between the two years. The user's example in the answer uses 98.9 and 157.1, but those numbers don't match the given values. Maybe I need to check the percentages as well? The table also shows percentages as a % of revenue. 
+
+Wait, the problem says "requested_quantity"

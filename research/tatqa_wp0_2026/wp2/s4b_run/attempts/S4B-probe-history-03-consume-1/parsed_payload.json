@@ -1,0 +1,10 @@
+{
+  "delta_source": "<calc result>",
+  "delta_target": "<converted calc result>",
+  "periods": [
+    "<late label>",
+    "<early label>"
+  ],
+  "row": "<exact row label>",
+  "unit": "<target unit>"
+}

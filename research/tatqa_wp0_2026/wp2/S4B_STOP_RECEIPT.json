@@ -1,0 +1,99 @@
+{
+  "accounting": {
+    "current_card_attempts": 8,
+    "global_attempts_remaining": 291,
+    "global_attempts_used": 9,
+    "judge_calls": 0,
+    "prior_card_attempts": 1,
+    "probe_requests": 4,
+    "s4_completed_episodes": 0,
+    "s4_requests": 4,
+    "this_card_attempts_remaining": 31,
+    "transport_retries": 0
+  },
+  "generated_at_utc": "2026-10-14T02:08:52Z",
+  "probe_cap": {
+    "disclosure": "A probe that reached the consume stage consumed two requests; the request cap is therefore exceeded by one.",
+    "limit_requests": 3,
+    "logical_sequences": 3,
+    "status": "FAILED",
+    "used_requests": 4
+  },
+  "raw_preservation": {
+    "final_stop_raw_intact": true,
+    "incident": "The pre-fix S4 rerun reused one logical sequence id, so its later raw response overwrote that attempt directory; the old raw response is disclosed as lost and is not reconstructed.",
+    "probe_raw_intact": true
+  },
+  "safety": {
+    "database_calls": 0,
+    "external_network_calls": 0,
+    "judge_calls": 0,
+    "memory_write_back": false,
+    "production_ports_touched": false,
+    "production_service_calls": 0,
+    "publication_calls": 0,
+    "training_calls": 0
+  },
+  "schema": "tatqa_wp2_s4b_stop_receipt_v1",
+  "service": {
+    "host_available_mb_after_stop": 37090,
+    "model_id": "tatqa-wp2-qwen3-8b-b968826d",
+    "port_8112_released": true,
+    "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "service_reported_model_requests": 8,
+    "start_command": "/tmp/tatqa-wp2-actor-s4b-20261014/start_transformers_command.txt",
+    "start_command_sha256": "7240282073395d79456e96143ddc81f50c0cd3c422fe7bb22b04f9d356032004",
+    "startup_receipt": "/tmp/tatqa-wp2-actor-s4b-20261014/STARTUP_RECEIPT.json",
+    "startup_receipt_sha256": "49fabac9454668125d9f6119ea639a03a3c6a5734708a226cd66ff321d4f5aa9",
+    "stopped": true
+  },
+  "software": {
+    "actor_server": {
+      "path": "research/tatqa_wp0_2026/wp2/serve_transformers_actor.py",
+      "sha256": "efcf0c98873b9c77fefc826dedeacbc799c02640b3961d28ebbedf138500fe88"
+    },
+    "adapter": {
+      "path": "research/tatqa_wp0_2026/wp1/adapter.py",
+      "sha256": "dbb5b55bbe48c36c9b5854dfe1780e3a9ca09e08ffe58331468d61ce21f52477"
+    },
+    "bridge_receipt": {
+      "path": "research/tatqa_wp0_2026/wp2/S4B_BRIDGE_PROTOCOL_RECEIPT.json",
+      "sha256": "58d76d37acfa63faa6f34056acfa3205814fa8592aab78644b8af8381758faa7"
+    },
+    "checker": {
+      "path": "research/tatqa_wp0_2026/wp1/checker_v2.py",
+      "sha256": "aeedf62b7d44a1422ee631783c3daa47be8a3e7e8811462a23ad3c520ce4d048"
+    },
+    "feedback_contract": {
+      "path": "docs/research/WP0_TATQA_FEEDBACK_RIGHT_CONTRACT_v1.md",
+      "sha256": "c597be967a04a93f36d696614c0a1d78ef61f5afe68cf1c0f23b6fec6e9799db"
+    },
+    "ledger": {
+      "path": "research/tatqa_wp0_2026/wp2/s4b_run/ACTOR_CALL_LEDGER.json",
+      "sha256": "fdcf1ff10bfaa2c0bbff83d234cba4a55bb3e7b4a911315094798af3d2c3b675"
+    },
+    "runner_v2": {
+      "path": "research/tatqa_wp0_2026/wp2/run_wp2_episode_collection_v2.py",
+      "sha256": "2ff51f7f4416e3bdb733558e3640f379b416d3fb83fc15d5208157c2ae0a1870"
+    }
+  },
+  "stages": {
+    "S4": "STOP_THIS_PANEL_AFTER_ZERO_COMPLETED_EPISODES",
+    "S5": "NOT_STARTED",
+    "S6": "NOT_STARTED",
+    "S7": "NOT_STARTED",
+    "S9": "NOT_STARTED_AND_NOT_AUTHORISED"
+  },
+  "status": "STOP_THIS_PANEL",
+  "stop_cause": {
+    "completion_sha256": "2058323ddb428f3a6845eabfb371b7dca12fdec17a02f5bca08415341dbc801d",
+    "parse_error": "ValueError: all JSON bridge parse routes failed: strict=JSONDecodeError: Expecting value: line 1 column 1 (char 0); fenced=unavailable_or_invalid; balanced_object=absent",
+    "primary": "S4 bounded rerun failed all three bridge v1 parse routes on the first plan response",
+    "raw_response_full": "{\"actor_request_id\": \"tatqa-actor-000008\", \"choices\": [{\"finish_reason\": \"length\", \"index\": 0, \"logprobs\": null, \"text\": \"Okay, let's tackle this problem. The user wants me to plan the next steps by creating a JSON object with a calculation tool. The example given uses \\\"12 - 4\\\", so I need to figure out which two numbers and operation to use based on the provided evidence.\\n\\nFirst, I'll look at the evidence table. The user mentioned using the two exact numeric evidence cells for LEFT_NUMBER and RIGHT_NUMBER. The table has various rows and periods. The final answer format requires delta_source and delta_target, which probably refer to changes between periods. \\n\\nLooking at the \\\"Total Net Asset Value (NAV)\\\" row, the values for 2019, 2018, and 2017 are 1,016.0; 856.1; and 796.0 respectively. The question might be about the change from 2017 to 2019. So, the delta_source could be the 2017 value (796.0) and delta_target the 2019 value (1,016.0). The operation would be addition since it's an increase. \\n\\nWait, the user mentioned \\\"increase\\\" in the requested_quantity. So maybe the calculation is 796.0 + (some value) = 1,016.0. But the example uses subtraction. Alternatively, maybe the delta is the difference between 2019 and 2017. Let me check the numbers again. \\n\\nThe NAV in 2019 is 1,016.0 and in 2017 it's 796.0. The difference is 1,016.0 - 796.0 = 220.0. But the example uses \\\"12 - 4\\\", which is subtraction. However, the user's example might not directly relate. The key is to use two numbers from the table. \\n\\nLooking at the \\\"Total vessel values including newbuildings (broker values)\\\" row, the 2019 value is 1,801.5 and 2017 is 1,661.1. The difference here is 1,801.5 - 1,661.1 = 140.4. But the user's example uses subtraction. Alternatively, maybe the \\\"Committed CAPEX on\"}], \"created\": 1791943534, \"elapsed_seconds\": 46.63342931121588, \"id\": \"tatqa-actor-000008\", \"model\": \"tatqa-wp2-qwen3-8b-b968826d\", \"object\": \"text_completion\", \"usage\": {\"completion_tokens\": 512, \"prompt_tokens\": 607, \"total_tokens\": 1119}}",
+    "raw_response_path": "research/tatqa_wp0_2026/wp2/s4b_run/attempts/S4_history-01-wp2_3ab739eb_r2_p0-plan-3/raw_response.txt",
+    "raw_response_sha256": "28f340ca49e7903cd80479e81472eb1e40780adb9a5b5b60f4e64fd7806c63bb",
+    "receipt": "research/tatqa_wp0_2026/wp2/S4_HISTORY_FAILURE_FINAL_RECEIPT.json",
+    "receipt_sha256": "928ba73d1280d793c71074260199c13367e246538014af7d24d427971e3cdc31"
+  },
+  "task": "tatqa-wp2-s4b-20261014"
+}

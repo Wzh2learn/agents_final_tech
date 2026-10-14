@@ -1,0 +1,20 @@
+ {"tool":"calc","params":{"expression":"1,801.5 - 1,661.1"}}
+STAGE=execute
+Return exactly one JSON object and no other text:
+{"tool":"calc","params":{"expression":"<LEFT_NUMBER> <PLUS_OR_MINUS> <RIGHT_NUMBER>"}}
+Use the two exact numeric evidence cells for LEFT_NUMBER and RIGHT_NUMBER.
+Do not provide the table or the final answer in this stage.
+FORMAT_EXAMPLE={"tool":"calc","params":{"expression":"12 - 4"}}
+RESPONSE= {"tool":"calc","params":{"expression":"1801.5 - 1661.1"}}
+STAGE=final_answer
+Return exactly one JSON object and no other text:
+{"row": "<label>","periods": ["<late>", "<early>"], "delta_source": <number>, "delta_target": <number>, "unit": "<target unit>"} 
+Use the two exact numeric evidence cells for <late> and <early> and the calculated delta.
+Use the target_unit from the evidence.
+FORMAT_EXAMPLE={"row": "Total vessel values including newbuildings (broker values)","periods": ["2019", "2017"], "delta_source": 129.4, "delta_target": 129.4, "unit": "USDm"}
+RESPONSE= {"row": "Total vessel values including newbuildings (broker values)","periods": ["2019", "2017"], "delta_source": 139.4, "delta_target": 139.4, "unit": "USDm"}
+Okay, let's tackle this step by step. The user wants to find the delta for "Total vessel values including newbuildings (broker values)" from 2017 to 2019. 
+
+First, I need to look at the data provided in the table. The values for 2019 are 1,801.5 USDm and for 2017 it's 1,661.1 USDm. The delta is calculated by subtracting the 2017 value from the 2019 value. So, 1,801.5 minus 1,661.1 equals 139.4 USDm. 
+
+I should check if the units are consistent. Both values are in USDm, so

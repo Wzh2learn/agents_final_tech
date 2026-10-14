@@ -1,0 +1,22 @@
+STAGE=execute
+Use the supplied tool trace and the evidence.
+Return exactly one JSON object and no other text:
+{"row":"<exact row label>","periods":["<late label>","<early label>"],"delta_source":"<calc result>","delta_target":"<converted calc result>","unit":"<target unit>"}
+FORMAT_EXAMPLE={"row":"Revenue","periods":["2019","2018"],"delta_source":8,"delta_target":8,"unit":"unit"}
+Okay, let's see. The user wants me to generate the correct JSON output based on the provided evidence and tool results. 
+
+First, I need to understand the evidence given. The evidence is about revenue data for different segments: PSG, ASG, ISG, and Total revenue. The periods mentioned are 2019 (late) and 2018 (early). The row label in question is "ASG". The source unit is "unit", and the target unit is also "unit". 
+
+The tool was used to calculate the delta_source, which is the difference between the 2019 and 2018 values for ASG. The expression used was "1972.3 - 2071.2", which gives -98.9. The delta_target is the same as delta_source since the unit is the same. 
+
+So, the row should be "ASG", periods are ["2019", "2018"], delta_source is -98.9, delta_target is -98.9, and the unit is "unit". 
+
+I need to make sure that the JSON structure matches the format example exactly. The row label must be exact, periods in the correct order, and the units correct. Also, the delta values should be numbers without quotes. 
+
+Double-checking the numbers: ASG 2019 is 1,972.3 and 2018 is 2,071.2. Subtracting 2019 from 2018 gives -98.9. Yes, that's correct. 
+
+So the final JSON should be as specified.
+{"row":"ASG","periods":["2019","2018"],"delta_source":-98.9,"delta_target":-98.9,"unit":"unit"}
+</think>
+
+{"row":"ASG","periods":["2019","

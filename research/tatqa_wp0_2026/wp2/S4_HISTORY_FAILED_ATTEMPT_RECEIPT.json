@@ -1,0 +1,88 @@
+{
+  "schema": "tatqa_wp2_s4_failed_attempt_receipt_v1",
+  "task": "tatqa-wp2-s4s7-20261014",
+  "status": "BLOCKED_BRIDGE_FAILURE",
+  "generated_at_utc": "2026-10-14T01:18:08Z",
+  "stage": "S4_history",
+  "failure": {
+    "stage_index": 1,
+    "requested_stage_episodes": 8,
+    "completed_stage_episodes": 0,
+    "failure_point": "plan_response_json_parse",
+    "observed_exception": "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+    "observed_actor_response_text": null,
+    "response_text_status": "not persisted by the first runner version",
+    "bridge_result": "FAIL",
+    "stop_rule": "immediate stop on bridge failure"
+  },
+  "actor_accounting": {
+    "service_reported_model_requests": 1,
+    "runner_completed_requests": 0,
+    "counted_attempts": 1,
+    "request_id": null,
+    "tokens": null,
+    "exit": "runner_parse_failure",
+    "elapsed_seconds": null,
+    "accounting_limitation": "The first runner version accumulated accounting in memory and raised before persisting it. This is disclosed rather than reconstructed or fabricated.",
+    "transport_retries": 0,
+    "judge_calls": 0
+  },
+  "budget": {
+    "global_hard_cap": 300,
+    "card_hard_cap": 40,
+    "global_attempts_used": 1,
+    "global_attempts_remaining": 299,
+    "card_attempts_used": 1,
+    "card_attempts_remaining": 39
+  },
+  "actor_path": {
+    "service_started": true,
+    "service_ready": true,
+    "port": 8112,
+    "service_receipt": "/tmp/tatqa-wp2-actor-20261014/STARTUP_RECEIPT.json",
+    "service_receipt_sha256": "455fda13c19ace6239b346f67347e444a0b0d478a48b911f121562507f7e6d74",
+    "start_command": "/tmp/tatqa-wp2-actor-20261014/start_transformers_command.txt",
+    "start_command_sha256": "0af040c29d74e34e3af7571a0656c7617540183695d19933e74d23790d513325",
+    "service_log": "/tmp/tatqa-wp2-actor-20261014/transformers_service.log",
+    "service_log_sha256": "d7833c471f728adf49d2cbdcbaa45cac189ca8a8459c8d3d0cc175e8b4050333"
+  },
+  "software": {
+    "runner": {
+      "path": "research/tatqa_wp0_2026/wp2/run_wp2_episode_collection.py",
+      "sha256": "2507c68118fde1fd9f733d27a3c97afeb8d3deda3bd43c0f2dfeec63a8faf812"
+    },
+    "actor_server": {
+      "path": "research/tatqa_wp0_2026/wp2/serve_transformers_actor.py",
+      "sha256": "efcf0c98873b9c77fefc826dedeacbc799c02640b3961d28ebbedf138500fe88"
+    },
+    "actor_artifact_verifier": {
+      "path": "research/tatqa_wp0_2026/wp2/verify_actor_artifacts.py",
+      "sha256": "4e4040d97590a15aca7c25dbf3c950cd96f0675aac07a6de215f0e75d949db84"
+    },
+    "actor_artifact_receipt": {
+      "path": "research/tatqa_wp0_2026/wp2/ACTOR_ARTIFACT_VERIFICATION_RECEIPT.json",
+      "sha256": "f74363bda60816a5da6a47504c11e6dd9f9063e3c6dc5a870ddbc027e2f38b35"
+    },
+    "feedback_contract": {
+      "path": "docs/research/WP0_TATQA_FEEDBACK_RIGHT_CONTRACT_v1.md",
+      "sha256": "c597be967a04a93f36d696614c0a1d78ef61f5afe68cf1c0f23b6fec6e9799db"
+    }
+  },
+  "safety": {
+    "external_network_calls": 0,
+    "judge_calls": 0,
+    "database_calls": 0,
+    "production_service_calls": 0,
+    "training_calls": 0,
+    "memory_write_back": false,
+    "actor_service_stopped": true,
+    "actor_port_released": true
+  },
+  "remaining_steps": {
+    "S4": "BLOCKED",
+    "S5": "NOT_STARTED",
+    "S6": "NOT_STARTED",
+    "S7": "NOT_STARTED",
+    "S9": "NOT_STARTED_AND_NOT_AUTHORISED_BY_THIS_CARD"
+  }
+}
