@@ -9,3 +9,4 @@
 [2026-10-15] T2 已验收（T2R-01 ACCEPTED，零阻断；advisory A 系列已在 registry 登记）。评价器 34/34×2、三退化策略全失败硬门、6 fail-closed；Loop A 自检 PASS。下一步：T3（可信执行与计数）。
 [2026-10-15] T3 已验收（T3R-01 ACCEPTED，零阻断；advisory A1-A8 登记，A1 升级条件保留待 owner；审阅者 .omc 残留已按 A8 清理）。可信执行 runner：234 文件包、manifest 233/233 复算零失配、8/8 绑定三方法一致、两遍独立复跑 32/32 且归一化哈希与声明一致、14 次 mock 传输分项重算一致、零外部调用、LOCAL_DEV_HOST 标注。下一步：T4（R 适配器与基线）。
 [2026-10-15] T4 已验收（T4R-01 ACCEPTED，零阻断；advisory A1-A3 登记）。v1 因「收据守卫 vs 故意失配夹具」不可提交 → v2 返工（守卫合规化 + 运行时派生失配），提交序列 v2=579a8ca、评审=50da8e0；守卫实弹全绿、11 组合×2 回放一致、画像 6/2/2/6、零外部调用。A1 消费约束：下游读 baseline 须以 case-level 为准。下一步：T5（R 两个对象接口）。
+[2026-10-15] T5 首轮评审 T5R-01=REJECTED（2 blocking：执行位交付缺失使 17/17 主张不可复现；自洽伪造摘要 X06 穿透 A2；另 6 advisory）。Loop D 裁决：交付执行位 + manifest 记 mode + fresh-delivery 模拟；摘要接受须外部 pin（未 pin/不符即拒）。进入 T5 v2 返工，随后 T5R-02。

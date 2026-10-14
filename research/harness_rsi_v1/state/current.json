@@ -10,7 +10,7 @@
   "active_versions": [],
   "closer": "loop_d session acting as closer under owner instruction 2026-10-14",
   "execution_authorized": false,
-  "next_task": "T5 (R two objects: precheck & evidence-delivery recipe interfaces) under R-line authorization",
+  "next_task": "T5 v2 rework + T5R-02 review per T5R-01 blocking items",
   "proposal_budgets_approved": true,
   "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
   "r_line_authorized_to": "M1 (owner decision U07=C)",
