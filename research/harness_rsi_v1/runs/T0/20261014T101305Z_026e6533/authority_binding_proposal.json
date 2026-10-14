@@ -1,0 +1,205 @@
+{
+  "applied": false,
+  "base_authority_map_sha256": "946f952fb8a530d4001a6b047cc9c4b833ebe613bb9a3b1a40250584a0962bea",
+  "base_head": "e71aa713a0be91b9577f9a48663144ae43a39688",
+  "classification_counts": {
+    "eol_representation_mixed": 3,
+    "eol_representation_uniform_crlf": 3,
+    "pin_matches_worktrees": 7
+  },
+  "entries": [
+    {
+      "authority_id": "REPO_RULES",
+      "bare_lf_lines": 0,
+      "canonical_blob_id": "16e5be386bff808cec99b5b602533b813b664eee",
+      "classification": "eol_representation_uniform_crlf",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 99,
+      "current_declared_raw_sha256": "66030be6e91bd9cca47d4e74d9e7aa3b651a998f72b56de3f4ab2cb694e15515",
+      "gb10_worktree_raw_sha256": "2d9fd03d45cc5d9e0a3a96081d1727236b5b888fa7ce3d192618cee67836d4cb",
+      "local_worktree_raw_sha256": "66030be6e91bd9cca47d4e74d9e7aa3b651a998f72b56de3f4ab2cb694e15515",
+      "path": "AGENTS.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "CORE",
+      "bare_lf_lines": 55,
+      "canonical_blob_id": "af7ee5ff933f593ea01eecda5326150bc26c921a",
+      "classification": "pin_matches_worktrees",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 0,
+      "current_declared_raw_sha256": "171c503d56ef807c1aa785a95706818ecd2124fb704507f4e687821bf38a283b",
+      "gb10_worktree_raw_sha256": "171c503d56ef807c1aa785a95706818ecd2124fb704507f4e687821bf38a283b",
+      "local_worktree_raw_sha256": "171c503d56ef807c1aa785a95706818ecd2124fb704507f4e687821bf38a283b",
+      "path": "memory/CORE.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "STATE",
+      "bare_lf_lines": 156,
+      "canonical_blob_id": "c5b4680b3698112f9891952a1f34ef532e39ae6e",
+      "classification": "pin_matches_worktrees",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 0,
+      "current_declared_raw_sha256": "814cfcc4b4136d186328834dd235502fd1b94120e836c83ee1349e000cb89279",
+      "gb10_worktree_raw_sha256": "814cfcc4b4136d186328834dd235502fd1b94120e836c83ee1349e000cb89279",
+      "local_worktree_raw_sha256": "814cfcc4b4136d186328834dd235502fd1b94120e836c83ee1349e000cb89279",
+      "path": "memory/STATE.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "THREADS",
+      "bare_lf_lines": 2,
+      "canonical_blob_id": "b8fbc443383e426b06f78a40d43a63f4313e47d3",
+      "classification": "eol_representation_mixed",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 653,
+      "current_declared_raw_sha256": "0653ff3d23718d0124e2385da8ebd76d85645e0fed4d6c56b94da623bf26f214",
+      "gb10_worktree_raw_sha256": "39ba8d563839144817c23da598acb4f1ca595a5b9e77d8c7dd0623bac27ec11f",
+      "local_worktree_raw_sha256": "0653ff3d23718d0124e2385da8ebd76d85645e0fed4d6c56b94da623bf26f214",
+      "path": "memory/THREADS.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "DECISIONS",
+      "bare_lf_lines": 242,
+      "canonical_blob_id": "9744c60822f24e8f3aac9774e372a29a214108dc",
+      "classification": "eol_representation_mixed",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 1,
+      "current_declared_raw_sha256": "e35b24070a1b933c6c6163ebdfc71fccfabd58ec38be80a7744a4776db464966",
+      "gb10_worktree_raw_sha256": "83bf8fce4ab1ae2d0df8e26c31d6668c0b98db53b6387c2c0dde97c1aa2c7e08",
+      "local_worktree_raw_sha256": "e35b24070a1b933c6c6163ebdfc71fccfabd58ec38be80a7744a4776db464966",
+      "path": "memory/DECISIONS.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "INDEX",
+      "bare_lf_lines": 261,
+      "canonical_blob_id": "b1b7ad419cccebe10620dface13f61dcaafa3d9b",
+      "classification": "pin_matches_worktrees",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 0,
+      "current_declared_raw_sha256": "bf261f8526bd05e6150a8728a27705df2f60edd825a36efc031ad8e329bdd015",
+      "gb10_worktree_raw_sha256": "bf261f8526bd05e6150a8728a27705df2f60edd825a36efc031ad8e329bdd015",
+      "local_worktree_raw_sha256": "bf261f8526bd05e6150a8728a27705df2f60edd825a36efc031ad8e329bdd015",
+      "path": "docs/INDEX.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "SKILL_ROUTING",
+      "bare_lf_lines": 0,
+      "canonical_blob_id": "40acf9ef2cb0286caf6c46764cd9704a4b6a2229",
+      "classification": "eol_representation_uniform_crlf",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 61,
+      "current_declared_raw_sha256": "8b660cfd8c30b533541513fe7947c1f17bc948840e0d26b75d94ab6365f4cfde",
+      "gb10_worktree_raw_sha256": "9e72cc9f872021c20b047e7191cd967a19c56a0720be9aeaa309ca5bb4d43e56",
+      "local_worktree_raw_sha256": "8b660cfd8c30b533541513fe7947c1f17bc948840e0d26b75d94ab6365f4cfde",
+      "path": "docs/SKILL_ROUTING.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "SKILL_REGISTRY",
+      "bare_lf_lines": 0,
+      "canonical_blob_id": "a6cdabd14fe550357ddd27c847ee9f0ab12d0be4",
+      "classification": "eol_representation_uniform_crlf",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 20,
+      "current_declared_raw_sha256": "7ba3a2076815699aada8ea2d3c0b0429fada2488dfc68e7496f67c64035c87e6",
+      "gb10_worktree_raw_sha256": "3a1aa75c1d71458ad74dd740292038609df8435a4247b8f6943eccc3469706b3",
+      "local_worktree_raw_sha256": "7ba3a2076815699aada8ea2d3c0b0429fada2488dfc68e7496f67c64035c87e6",
+      "path": "docs/governance/SKILL_REGISTRY.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "PREFLIGHT",
+      "bare_lf_lines": 66,
+      "canonical_blob_id": "6d23e8d95a5dd9df01196d5c7397ffb076dd1735",
+      "classification": "pin_matches_worktrees",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 0,
+      "current_declared_raw_sha256": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+      "gb10_worktree_raw_sha256": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+      "local_worktree_raw_sha256": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+      "path": "docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "THESIS",
+      "bare_lf_lines": 129,
+      "canonical_blob_id": "cc69c5669e8215a0c1a0dc29a7deee6e7f215c94",
+      "classification": "pin_matches_worktrees",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 0,
+      "current_declared_raw_sha256": "7333dd2b9c2777b7c70e63903d7efce3ec8278140c84b3384c4ef10cd6a620bf",
+      "gb10_worktree_raw_sha256": "7333dd2b9c2777b7c70e63903d7efce3ec8278140c84b3384c4ef10cd6a620bf",
+      "local_worktree_raw_sha256": "7333dd2b9c2777b7c70e63903d7efce3ec8278140c84b3384c4ef10cd6a620bf",
+      "path": "docs/research/THESIS_RESEARCH_ARCHITECTURE_v3.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "STOP_S4",
+      "bare_lf_lines": 35,
+      "canonical_blob_id": "829cbf9b10db3bf8cffd1e0ca28666e6c5e5a2d0",
+      "classification": "pin_matches_worktrees",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 0,
+      "current_declared_raw_sha256": "7f0cdc28ec05aca8a40c579e26b99e9377371e2867af3a536835abf34f608eb3",
+      "gb10_worktree_raw_sha256": "7f0cdc28ec05aca8a40c579e26b99e9377371e2867af3a536835abf34f608eb3",
+      "local_worktree_raw_sha256": "7f0cdc28ec05aca8a40c579e26b99e9377371e2867af3a536835abf34f608eb3",
+      "path": "research/tatqa_wp0_2026/wp2/S4C_ONLINE_QUALIFICATION_RECEIPT.json",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "SKILL_WRITING",
+      "bare_lf_lines": 79,
+      "canonical_blob_id": "4ad95d9c9c5d433c3abdf91313f598bfa646d0a4",
+      "classification": "pin_matches_worktrees",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 0,
+      "current_declared_raw_sha256": "127c2d0f8c00291dd3b34839d197b627e9949e1d854af74564e541555221a294",
+      "gb10_worktree_raw_sha256": "127c2d0f8c00291dd3b34839d197b627e9949e1d854af74564e541555221a294",
+      "local_worktree_raw_sha256": "127c2d0f8c00291dd3b34839d197b627e9949e1d854af74564e541555221a294",
+      "path": "skills/research-writing-skill/SKILL.md",
+      "proposed_hash_domain": "git_blob_id"
+    },
+    {
+      "authority_id": "SKILL_ALGORITHM",
+      "bare_lf_lines": 22,
+      "canonical_blob_id": "e79925f5b6786bfc475f2bd95aaef05195dfe16b",
+      "classification": "eol_representation_mixed",
+      "content_identical_strip_crlf": true,
+      "crlf_lines": 1,
+      "current_declared_raw_sha256": "ce0a59466ae12605ce1e75803494a017f43ae06d231e48fb9e7ddb394e28ddf7",
+      "gb10_worktree_raw_sha256": "ef020f70b0079c00f53d483d1d73b99b3d430260923990cec30fafa75ae854b4",
+      "local_worktree_raw_sha256": "ce0a59466ae12605ce1e75803494a017f43ae06d231e48fb9e7ddb394e28ddf7",
+      "path": "skills/algorithm-description/SKILL.md",
+      "proposed_hash_domain": "git_blob_id"
+    }
+  ],
+  "generated_at_utc": "2026-10-14T10:13:06Z",
+  "owner_decisions": {
+    "six_hash_mismatches": {
+      "basis": "strip-CRLF(local_raw) content-identical to object bytes for all 6; 3 uniform CRLF + 3 mixed EOL",
+      "decision": "1A: worktree EOL representation; no content drift; re-bind canonical domain at T0; keep local snapshot as historical"
+    },
+    "snapshot_domain": {
+      "date": "2026-10-14",
+      "decision": "D:/AIRcommend/JinRongAgents/agents_final_tech is an authorized binding domain (owner: '2行')"
+    }
+  },
+  "proposed_change_plan": {
+    "apply_rule": "apply only inside a reviewed activation record (change_rule); NOT applied by this run",
+    "ops": [
+      "add field hash_domain_canonical = 'git_blob_id'",
+      "replace each entry raw_sha256 with canonical_blob_id (13/13)",
+      "retain previous values as local_snapshot_raw_sha256_historical",
+      "record owner decision + this proposal's reviewed activation record"
+    ],
+    "target": "research/harness_rsi_v1/contracts/authority_map.json"
+  },
+  "run_id": "20261014T101305Z_026e6533",
+  "schema": "harness_rsi_t0_authority_binding_proposal_v1",
+  "task_id": "T0"
+}

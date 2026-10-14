@@ -1,0 +1,4 @@
+{"event": "t0_run_started", "run_id": "20261014T101305Z_026e6533", "task_id": "T0", "ts_utc": "2026-10-14T10:13:06Z"}
+{"decisions": ["1A", "2行", "3确认"], "event": "owner_decisions_recorded", "task_id": "T0", "ts_utc": "2026-10-14T10:13:06Z"}
+{"event": "proposals_written", "files": ["authority_binding_proposal.json", "protocol_proposal.json", "owner_decision_packet.md"], "task_id": "T0", "ts_utc": "2026-10-14T10:13:06Z"}
+{"event": "t0_run_finished", "execution_status": "DELIVERED", "model_requests": 0, "task_id": "T0", "ts_utc": "2026-10-14T10:13:06Z"}
