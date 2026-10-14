@@ -1,0 +1,121 @@
+{
+  "schema": "harness_rsi_t2_sealed_access_proposal_v1",
+  "task_id": "T2",
+  "status": "PROPOSAL_ONLY_NOT_IMPLEMENTED",
+  "qualification_claim": "NO_SEALED_ACCESS_QUALIFICATION_CLAIM",
+  "identity_model": {
+    "sealed_case_custodian": {
+      "role": "Builds, hashes and stores sealed case bundles independently of candidate and evaluator implementers.",
+      "may_read": [
+        "sealed case bundles",
+        "sealed evidence",
+        "sealed expected categories"
+      ],
+      "must_not_write": [
+        "evaluator implementation",
+        "evaluator specification",
+        "candidate implementation",
+        "candidate-owned artifacts"
+      ]
+    },
+    "evaluation_runner": {
+      "role": "Runs the frozen evaluator against authorized sealed bundles and emits result records.",
+      "may_read": [
+        "frozen evaluator",
+        "one authorized sealed bundle",
+        "authorized sealed evidence paths"
+      ],
+      "must_not_read": [
+        "candidate scoring code",
+        "candidate-authored labels",
+        "unauthorized sealed siblings",
+        "candidate access credentials"
+      ],
+      "must_not_write": [
+        "sealed source material",
+        "evaluator implementation",
+        "candidate implementation"
+      ]
+    },
+    "candidate": {
+      "role": "Supplies only candidate artifact bytes.",
+      "may_write": [
+        "candidate artifact path explicitly named in an independently created case bundle"
+      ],
+      "must_not_write": [
+        "case bundles",
+        "expected categories",
+        "independent evidence",
+        "evaluator code or rubric",
+        "qualification expectations",
+        "sealed material"
+      ]
+    },
+    "independent_reviewer": {
+      "role": "Audits bindings, decisions and sealed-access evidence without candidate self-attestation.",
+      "may_read": [
+        "run package",
+        "access-control evidence",
+        "result records"
+      ],
+      "may_not_read": [
+        "sealed contents unless separately authorized for review"
+      ]
+    }
+  },
+  "access_flow": [
+    "Custodian creates a sealed bundle and records its canonical hash outside the candidate workspace.",
+    "Runner identity receives only the single authorized bundle path and read permission for its declared evidence paths.",
+    "Candidate identity has no read or write permission on the sealed root and no write permission on evaluator-owned paths.",
+    "Runner validates schema, expected_category, evidence non-empty set, canonical hash bindings and path allowlist before evaluation.",
+    "Result, command, exit code, bundle id and sealed bundle hash are written to a separate append-only run package.",
+    "Independent reviewer verifies that candidate identities were denied sealed and evaluator paths.",
+    "Custodian rotates access material after the run and records revocation evidence."
+  ],
+  "required_permission_tests": [
+    {
+      "test_id": "PT-01",
+      "requirement": "Candidate identity receives EACCES when reading the sealed root or any sealed bundle.",
+      "evidence": "Command, principal, target, timestamp, exit code and redacted policy reference."
+    },
+    {
+      "test_id": "PT-02",
+      "requirement": "Candidate identity receives EACCES when writing evaluator_spec.json, evaluator implementation, case bundles or expected-category files.",
+      "evidence": "Write-attempt transcript with principal, target and denied result."
+    },
+    {
+      "test_id": "PT-03",
+      "requirement": "Evaluation runner can read only the authorized sealed bundle and its declared evidence paths.",
+      "evidence": "Permission probe matrix including negative sibling-path attempts."
+    },
+    {
+      "test_id": "PT-04",
+      "requirement": "Runner cannot modify sealed source material or evaluator-owned files.",
+      "evidence": "Pre/post canonical hashes plus denied write attempts."
+    },
+    {
+      "test_id": "PT-05",
+      "requirement": "Candidate-supplied JSON labels or scoring code cannot influence evaluator decisions.",
+      "evidence": "Adversarial bundle tests rejected by ownership/hash checks and evaluator source audit."
+    },
+    {
+      "test_id": "PT-06",
+      "requirement": "Access grants are single-run, time-bounded and revoked after result emission.",
+      "evidence": "Grant ID, expiry, revocation timestamp and post-revocation denial probe."
+    }
+  ],
+  "implementation_requirements": [
+    "Separate OS principals or cryptographic execution identities for candidate, runner and custodian.",
+    "Filesystem ACLs or an equivalent service boundary with deny-by-default paths.",
+    "Read-only mounts for evaluator and sealed inputs; writable result mount separated from source mounts.",
+    "Append-only evidence log with independent hash anchoring.",
+    "No secret material in run packages, prompts or logs."
+  ],
+  "unresolved": [
+    "No filesystem identity separation or ACL implementation exists in this T2 run.",
+    "No sealed case set exists or was accessed.",
+    "PT-01 through PT-06 have not been executed.",
+    "Reviewer identity provisioning, access retention and audit-log anchoring require owner decision.",
+    "Passing these tests would establish access-control eligibility only; it would not establish scientific validity."
+  ]
+}

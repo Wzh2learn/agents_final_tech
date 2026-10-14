@@ -1,0 +1,36 @@
+{
+  "bundle_id": "FIX-EVIDENCE_IDENTITY-BLOCK",
+  "candidate_artifact": {
+    "hash_domain": "sha256_file",
+    "path": "artifacts/evidence_identity.txt",
+    "sha256": "0c570eb0d613ed14476322cde544881cb3564f69b59c27c1d252bcdaaf4ed1c7"
+  },
+  "candidate_writable_paths": [
+    "artifacts/evidence_identity.txt"
+  ],
+  "case_kind": {
+    "artifact_level": "synthetic_challenge",
+    "control_class": "BLOCK_SIGNATURE"
+  },
+  "direction": "R",
+  "expected_category": "BLOCK",
+  "failure_family": "证据身份",
+  "independent_evidence": [
+    {
+      "assertions": [
+        "MANIFEST_NOT_REPINNED"
+      ],
+      "evidence_id": "E-evidence_identity-DEFECT",
+      "hash_domain": "sha256_file",
+      "path": "artifacts/evidence_identity.txt",
+      "provenance": "synthetic_challenge",
+      "sha256": "0c570eb0d613ed14476322cde544881cb3564f69b59c27c1d252bcdaaf4ed1c7"
+    }
+  ],
+  "schema": "harness_rsi_t2_case_bundle_v1",
+  "source": {
+    "case_reference": "synthetic known-signature challenge for 证据身份",
+    "is_real_incident": false,
+    "origin": "synthetic_challenge"
+  }
+}

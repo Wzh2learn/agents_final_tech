@@ -1,0 +1,35 @@
+{
+  "bundle_id": "FIX-CALL_BOUNDARY-FAILCLOSED",
+  "candidate_artifact": {
+    "hash_domain": "sha256_file",
+    "path": "artifacts/call_boundary.txt",
+    "sha256": "fd4ba1a60e5191fa2fd83065b043f35732f01c5ab82ed5ee69ae54479749465c"
+  },
+  "candidate_writable_paths": [
+    "artifacts/call_boundary.txt"
+  ],
+  "case_kind": {
+    "artifact_level": "synthetic_challenge",
+    "control_class": "FAIL_CLOSED"
+  },
+  "expected_category": "REVIEW_REQUIRED",
+  "failure_family": "真实调用边界",
+  "independent_evidence": [
+    {
+      "assertions": [
+        "CALL_ARGUMENT_ORDER_ERROR"
+      ],
+      "evidence_id": "E-call_boundary-DEFECT",
+      "hash_domain": "sha256_file",
+      "path": "artifacts/call_boundary.txt",
+      "provenance": "synthetic_challenge",
+      "sha256": "fd4ba1a60e5191fa2fd83065b043f35732f01c5ab82ed5ee69ae54479749465c"
+    }
+  ],
+  "schema": "harness_rsi_t2_case_bundle_v1",
+  "source": {
+    "case_reference": "synthetic fail-closed control: FC_MISSING_REQUIRED_FIELD",
+    "is_real_incident": false,
+    "origin": "synthetic_challenge"
+  }
+}

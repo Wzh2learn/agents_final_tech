@@ -1,0 +1,249 @@
+{
+  "schema": "harness_rsi_t2_r_evaluator_spec_v1",
+  "task_id": "T2",
+  "version": "1.0.0",
+  "status": "UNREVIEWED",
+  "source": {
+    "protocol_id": "harness_rsi_v1",
+    "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+    "reliability_spec": "research/harness_rsi_v1/evaluation/reliability_spec.md",
+    "human_review_protocol": "research/harness_rsi_v1/evaluation/human_review_protocol.md",
+    "t1_run": "research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/",
+    "t1_independent_review": "research/harness_rsi_v1/reviews/T1I-03/"
+  },
+  "scope": {
+    "direction": "R",
+    "allowed_decisions": [
+      "ALLOW_WITHIN_SCOPE",
+      "BLOCK",
+      "REVIEW_REQUIRED"
+    ],
+    "axis_separation": "R, C and S are independent directions. This artifact evaluates only R and never produces a cross-direction aggregate score.",
+    "qualification_claim": "Engineering qualification only; no formal experiment authority and no scientific PASS."
+  },
+  "input_contract": {
+    "schema": "case_bundle",
+    "required_fields": [
+      "schema",
+      "bundle_id",
+      "direction",
+      "case_kind",
+      "failure_family",
+      "expected_category",
+      "candidate_artifact",
+      "independent_evidence",
+      "candidate_writable_paths",
+      "source"
+    ],
+    "types": {
+      "schema": "string",
+      "bundle_id": "non-empty string",
+      "direction": "constant R",
+      "case_kind": "object with artifact_level and control_class",
+      "failure_family": "one of the six frozen families",
+      "expected_category": "ALLOW_WITHIN_SCOPE | BLOCK | REVIEW_REQUIRED",
+      "candidate_artifact": "object with path, hash_domain and sha256",
+      "independent_evidence": "non-empty array of evidence objects",
+      "candidate_writable_paths": "array containing exactly the candidate artifact path",
+      "source": "object with origin and case_reference"
+    },
+    "case_kind_values": {
+      "artifact_level": [
+        "synthetic_challenge",
+        "real_incident",
+        "control_exemplar",
+        "unverified_inference"
+      ],
+      "control_class": [
+        "BLOCK_SIGNATURE",
+        "LEGAL_ALLOW",
+        "FAIL_CLOSED",
+        "REVIEW_SIGNATURE"
+      ]
+    },
+    "failure_families": [
+      "真实调用边界",
+      "证据身份",
+      "完整性与预算",
+      "数据与统计",
+      "测量对象",
+      "交付与权限"
+    ],
+    "source_origins": [
+      "synthetic_challenge",
+      "t1_v3_accepted_case_set"
+    ],
+    "hash_domains": {
+      "sha256_file": "SHA-256 of fixture bytes; only allowed for untracked synthetic fixture artifacts.",
+      "git_blob_id": "Canonical git blob id obtained read-only from HEAD:<path>; required for tracked repository evidence."
+    },
+    "evidence_contract": {
+      "required_fields": [
+        "evidence_id",
+        "path",
+        "hash_domain",
+        "sha256",
+        "assertions",
+        "provenance"
+      ],
+      "assertions": "Non-empty array of frozen assertion signatures from this specification.",
+      "provenance": "Trusted case-builder provenance; candidate-controlled evidence is not accepted."
+    },
+    "candidate_ownership": {
+      "candidate_may_write": [
+        "the bytes at candidate_artifact.path"
+      ],
+      "candidate_must_not_write": [
+        "case_bundle",
+        "expected_category",
+        "independent_evidence",
+        "evaluator_spec",
+        "evaluator implementation",
+        "qualification expectations",
+        "sealed case material"
+      ],
+      "content_read_policy": "The evaluator reads candidate artifact bytes only to compute an allowed hash. It never parses candidate scoring code, labels, decisions or self-authored rubrics."
+    }
+  },
+  "assertion_rules": {
+    "真实调用边界": {
+      "defect": [
+        "NON_JSON_NOT_PERSISTED",
+        "STRUCTURED_OUTPUT_ENFORCEMENT_MISSING",
+        "IMPORT_REGISTRATION_MISSING",
+        "CALL_ARGUMENT_ORDER_ERROR"
+      ],
+      "legal": [
+        "REAL_INTERFACE_CONTRACT_VERIFIED"
+      ]
+    },
+    "证据身份": {
+      "defect": [
+        "RAW_NORMALIZED_MIXED",
+        "STALE_RECEIPT_CURRENT_CODE",
+        "MANIFEST_NOT_REPINNED"
+      ],
+      "legal": [
+        "HASH_DOMAINS_EXPLICIT_AND_PINNED"
+      ],
+      "review": [
+        "HASH_DOMAIN_DRIFT_REVIEWED"
+      ]
+    },
+    "完整性与预算": {
+      "defect": [
+        "REQUEST_BUDGET_EXCEEDED",
+        "RAW_RECORD_OVERWRITTEN",
+        "EVIDENCE_SILENTLY_EXCLUDED"
+      ],
+      "legal": [
+        "FAILURES_COUNTED_AND_RECORDS_PRESERVED"
+      ],
+      "review": [
+        "ENGINEERING_FAILURE_PENDING_SCIENCE",
+        "USAGE_METERING_UNRESOLVED"
+      ]
+    },
+    "数据与统计": {
+      "defect": [
+        "SPLIT_LEAKAGE",
+        "DENOMINATOR_DRIFT",
+        "SILENT_EXCLUSION"
+      ],
+      "legal": [
+        "FROZEN_SPLIT_AND_EXCLUSION_APPLIED"
+      ]
+    },
+    "测量对象": {
+      "defect": [
+        "DOWNSTREAM_MEASUREMENT_NOT_RECOMPUTED"
+      ],
+      "legal": [
+        "DOWNSTREAM_MEASUREMENT_RECOMPUTED"
+      ],
+      "review": [
+        "PROXY_NOT_REAL_OBJECT"
+      ]
+    },
+    "交付与权限": {
+      "defect": [
+        "REVIEW_BRIEF_NOT_INJECTED",
+        "PARTIAL_PASS_ELEVATED",
+        "AUDIT_SOURCE_MISSING",
+        "STOP_IGNORED"
+      ],
+      "legal": [
+        "NEGATIVE_RESULT_STOPPED_AND_PENDING_REVIEW"
+      ],
+      "review": [
+        "SCIENTIFIC_STATUS_WORDING_REVIEW"
+      ]
+    }
+  },
+  "status_precedence": [
+    "FAIL",
+    "REVIEW_REQUIRED",
+    "PASS",
+    "NOT_EVALUATED"
+  ],
+  "decision_rule": {
+    "BLOCK": "At least one dimension is FAIL.",
+    "REVIEW_REQUIRED": "No dimension is FAIL and at least one dimension is REVIEW_REQUIRED or NOT_EVALUATED.",
+    "ALLOW_WITHIN_SCOPE": "All three dimensions are PASS.",
+    "fail_closed": "Invalid, incomplete, empty or mis-bound input returns REVIEW_REQUIRED, statuses NOT_EVALUATED, a fail_closed_code, and exit code 3."
+  },
+  "fail_closed_codes": [
+    "FC_MISSING_REQUIRED_FIELD",
+    "FC_INVALID_ENUM_VALUE",
+    "FC_EMPTY_EVIDENCE_SET",
+    "FC_HASH_BINDING_MISMATCH",
+    "FC_UNSUPPORTED_HASH_DOMAIN",
+    "FC_PATH_OUTSIDE_ALLOWLIST",
+    "FC_UNKNOWN_ASSERTION_SIGNATURE",
+    "FC_SIGNATURE_FAMILY_MISMATCH",
+    "FC_CANDIDATE_OWNERSHIP_VIOLATION",
+    "FC_INPUT_NOT_JSON_OBJECT"
+  ],
+  "path_allowlist": {
+    "synthetic_challenge": [
+      "<case-bundle-directory>/artifacts/"
+    ],
+    "t1_v3_accepted_case_set": [
+      "research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/",
+      "research/harness_rsi_v1/reviews/T1I-03/"
+    ]
+  },
+  "output_contract": {
+    "schema": "harness_rsi_r_evaluator_result_v1",
+    "required_fields": [
+      "schema",
+      "bundle_id",
+      "direction",
+      "decision",
+      "dimensions",
+      "reasons",
+      "fail_closed_code",
+      "validated_evidence_count",
+      "candidate_artifact_content_policy"
+    ],
+    "dimensions": {
+      "execution_integrity": "PASS | FAIL | REVIEW_REQUIRED | NOT_EVALUATED",
+      "measurement_validity": "PASS | FAIL | REVIEW_REQUIRED | NOT_EVALUATED",
+      "claim_boundary": "PASS | FAIL | REVIEW_REQUIRED | NOT_EVALUATED"
+    },
+    "reasons": "Deterministic list of evidence ids and assertion signatures supporting each dimension.",
+    "fail_closed_code": "null or one fail_closed_codes value."
+  },
+  "exit_codes": {
+    "0": "Case evaluated normally and result written.",
+    "2": "CLI usage error.",
+    "3": "Fail-closed case result written because the bundle was invalid, incomplete, empty or mis-bound."
+  },
+  "unverified": [
+    "No independent filesystem permission layer is implemented in this run.",
+    "No sealed case set was accessed or evaluated.",
+    "Synthetic fixtures demonstrate known-signature discrimination, not a real-world defect-rate estimate.",
+    "T1 bundle assertion mapping is an executor-created adapter over the independently reviewed T1 v3 records; Loop C must audit that mapping.",
+    "C and S evaluator interfaces, human agreement, production deployment and runtime performance remain unverified."
+  ]
+}

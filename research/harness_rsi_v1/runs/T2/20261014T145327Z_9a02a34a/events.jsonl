@@ -1,0 +1,16 @@
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"TASK_PROMPT_COPIED","run_id":"20261014T145327Z_9a02a34a","sha256":"6d591b2a87bffe858fac47cf60644759ad68f08b867109cfe09a59ea7bc116ad","exit_code":0}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"INPUTS_BOUND","count":7,"hash_domain":"git_blob_id","exit_code":0,"note":"Dispatch execution_policy.json differed from the card/repository execution_policy.md; card path used."}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"PROTOCOL_FREEZE_VERIFIED","declared":"282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b","match":true,"exit_code":0}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"T1_DEPENDENCIES_VERIFIED","run_receipt_blob":"9cf113e35d214c5ec6bcc93d55059f55b86e70ca","review_receipt_blob":"472dc1442dc449199857b81d40a0f7c5829dc55b","review_verdict":"ACCEPTED","exit_code":0}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"T1_NESTED_SOURCE_DRIFT_OBSERVED","count":2,"blocking":false,"note":"T1-INC-08 and T1-INC-10 each contain one nested ref whose current canonical HEAD differs from the T1 record; T2 binds unchanged T1 receipt/review artifacts instead."}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"QUALIFICATION_SMOKE_1","matched":"26/34","exit_code":1,"issue":"Legal controls did not override initial NOT_EVALUATED."}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"QUALIFICATION_FIX_1","change":"PASS now outranks NOT_EVALUATED.","smoke_2_matched":"34/34","exit_code":0}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"SPEC_JSON_FIX","issue":"fail_closed_codes initially used object braces.","fix":"Changed to JSON array; parse passed.","exit_code":0}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"FORMAL_QUALIFICATION_PASS_1","command":"python3 evaluator/run_qualification.py --pass-id PASS_1","matched":"34/34","exit_code":0}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"FORMAL_QUALIFICATION_PASS_2","command":"python3 evaluator/run_qualification.py --pass-id PASS_2","matched":"34/34","exit_code":0}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"DEGENERATE_STRATEGIES_REJECTED","strategies":["ALL_BLOCK","ALL_ALLOW","ALL_REVIEW_REQUIRED"],"hard_gate_failures":3}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"SEALED_ACCESS_PROPOSAL_WRITTEN","implemented":false,"permission_tests_executed":0}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"USAGE_RECORDED","additional_cheap_requests":0,"additional_strong_requests_by_executor":0,"strong_requests_reserved_for_loop_c":1,"orchestrated_calls":0,"execution_chat_token_usage":"UNRESOLVED"}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"FINAL_SELF_CHECK","command":"python3 evaluator/run_qualification.py --pass-id FINAL_SELF_CHECK","matched":"34/34","exit_code":0}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"OUT_OF_RUN_TEMP_REVERTED","path":"/tmp/t2_final_qualification.json","reason":"Final self-check capture used /tmp before ownership recheck.","action":"Deleted immediately; no repository file changed.","remaining_outside_run":false}
+{"recorded_at_utc":"2026-10-14T15:17:48Z","event":"PREEXISTING_DISPATCH_EXCEPTION","path":"research/harness_rsi_v1/runs/T2/_dispatch/loop_a_prompt_t2.md","birth_before_run_id":true,"modified_by_executor":false}

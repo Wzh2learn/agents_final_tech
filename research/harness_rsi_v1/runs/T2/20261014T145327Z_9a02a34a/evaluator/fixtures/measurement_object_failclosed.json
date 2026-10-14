@@ -1,0 +1,36 @@
+{
+  "bundle_id": "FIX-MEASUREMENT_OBJECT-FAILCLOSED",
+  "candidate_artifact": {
+    "hash_domain": "sha256_file",
+    "path": "artifacts/measurement_object.txt",
+    "sha256": "f9f19920d84d0f31832698984c32a69a3bfd1327c8acbfe82361ad30e944dc84"
+  },
+  "candidate_writable_paths": [
+    "artifacts/measurement_object.txt"
+  ],
+  "case_kind": {
+    "artifact_level": "synthetic_challenge",
+    "control_class": "FAIL_CLOSED"
+  },
+  "direction": "R",
+  "expected_category": "REVIEW_REQUIRED",
+  "failure_family": "测量对象",
+  "independent_evidence": [
+    {
+      "assertions": [
+        "SELF_AUTHORED_PASS_LABEL"
+      ],
+      "evidence_id": "E-measurement_object-DEFECT",
+      "hash_domain": "sha256_file",
+      "path": "artifacts/measurement_object.txt",
+      "provenance": "synthetic_challenge",
+      "sha256": "f9f19920d84d0f31832698984c32a69a3bfd1327c8acbfe82361ad30e944dc84"
+    }
+  ],
+  "schema": "harness_rsi_t2_case_bundle_v1",
+  "source": {
+    "case_reference": "synthetic fail-closed control: FC_UNKNOWN_ASSERTION_SIGNATURE",
+    "is_real_incident": false,
+    "origin": "synthetic_challenge"
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "task_id": "T2",
+  "run_id": "20261014T145327Z_9a02a34a",
+  "schema": "receipt",
+  "scope": "Bounded T2 R-axis independent evaluator: input/output contracts, deterministic Python implementation, 18 synthetic fixtures, 16 accepted T1 v3 case bundles, qualification and sealed-access proposal. No C/S aggregate, sealed access, experiment, deployment or promotion.",
+  "execution_status": "DELIVERED",
+  "acceptance_status": "UNREVIEWED",
+  "activation_status": "NOT_ENABLED",
+  "input_bindings": [
+    {
+      "role": "card_input",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "c57937c8380413708082fdc17bd4c73286cb46bf",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/protocol.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "46acca7ec01b98a5008f2851f10a86af6fe34fed",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/authority_map.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "e0569763e3221c606ebfd16c2f5d41b2b26d328d",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/execution_policy.md",
+      "exit_code": 0,
+      "note": "The dispatch text said execution_policy.json; card T2 and the repository both identify execution_policy.md, which was bound."
+    },
+    {
+      "role": "card_input",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "64634474115ac55d68ab20b254e325d87afe830e",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/budget_profiles.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "07731a300ad5d681c6ecb62269bac0531bfb3899",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/schemas.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "fd2c1fdfb45806cd26961aa2f3c75aaeae887921",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/evaluation/human_review_protocol.md",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "a426eb0ade14307df197701cb251d32b114385b8",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/evaluation/human_review_protocol.md",
+      "exit_code": 0
+    },
+    {
+      "role": "t1_accepted_run_dependency",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/receipt.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "9cf113e35d214c5ec6bcc93d55059f55b86e70ca",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/receipt.json",
+      "exit_code": 0
+    },
+    {
+      "role": "t1_independent_review_dependency",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T1I-03/review_receipt.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "472dc1442dc449199857b81d40a0f7c5829dc55b",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/reviews/T1I-03/review_receipt.json",
+      "exit_code": 0,
+      "verified_proposal": "ACCEPTED",
+      "verified_reviewed_run_id": "20261014T141004Z_2647a7e1"
+    },
+    {
+      "role": "dispatch_traceability",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/TASK_PROMPT.md",
+      "hash_domain": "sha256_file",
+      "sha256": "6d591b2a87bffe858fac47cf60644759ad68f08b867109cfe09a59ea7bc116ad",
+      "verification_command": "sha256sum TASK_PROMPT.md",
+      "exit_code": 0
+    }
+  ],
+  "protocol_freeze_check": {
+    "declared_in_protocol": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+    "dispatch_expected": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+    "match": true
+  },
+  "output_manifest": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/artifacts_manifest.json",
+  "checks": [
+    {
+      "check_id": "FORMAL_QUALIFICATION_PASS_1",
+      "status": "PASS",
+      "command": "python3 evaluator/run_qualification.py --pass-id PASS_1",
+      "exit_code": 0,
+      "count": "34/34 matched"
+    },
+    {
+      "check_id": "FORMAL_QUALIFICATION_PASS_2",
+      "status": "PASS",
+      "command": "python3 evaluator/run_qualification.py --pass-id PASS_2",
+      "exit_code": 0,
+      "count": "34/34 matched"
+    },
+    {
+      "check_id": "SYNTHETIC_DISCRIMINATION",
+      "status": "PASS",
+      "count": "6 BLOCK signatures, 6 legal ALLOW controls, 6 fail-closed controls"
+    },
+    {
+      "check_id": "T1_V3_CASE_BINDING",
+      "status": "PASS",
+      "count": "16/16 expected decisions matched in both formal passes"
+    },
+    {
+      "check_id": "JSON_AND_PYTHON_PARSE",
+      "status": "PASS",
+      "command": "python3 -m json.tool on all 39 JSON artifacts; compile() on both Python files",
+      "exit_code": 0
+    },
+    {
+      "check_id": "CANONICAL_HASH_RECOMPUTE",
+      "status": "PASS",
+      "command": "git rev-parse HEAD:<path> for all tracked inputs and T1 dependencies",
+      "exit_code": 0
+    },
+    {
+      "check_id": "WRITE_BOUNDARY",
+      "status": "PASS_WITH_PREEXISTING_EXCEPTION",
+      "command": "git status --porcelain --untracked-files=all",
+      "result": "All executor-created files are inside runs/T2/20261014T145327Z_9a02a34a. The logs/graph ledger files were already dirty, and runs/T2/_dispatch/loop_a_prompt_t2.md existed 62 seconds before this run and was not modified."
+    },
+    {
+      "check_id": "FINAL_SELF_CHECK",
+      "status": "PASS",
+      "command": "python3 evaluator/run_qualification.py --pass-id FINAL_SELF_CHECK",
+      "exit_code": 0,
+      "count": "34/34 matched"
+    }
+  ],
+  "self_check": {
+    "A1": {
+      "status": "PASS",
+      "evidence": "qualification.json proves ALL_BLOCK, ALL_ALLOW and ALL_REVIEW_REQUIRED each fail the simultaneous defect-detection/legal-control non-interception gate."
+    },
+    "A2": {
+      "status": "PASS",
+      "evidence": "All six per-family fail-closed fixtures exit 3; missing fields, wrong hash binding, empty evidence, bad path, unknown assertion and candidate-ownership violation are explicit. R is evaluated only and C/S are not aggregated."
+    },
+    "A3": {
+      "status": "PASS_WITH_EXPLICIT_UNIMPLEMENTED_SURFACE",
+      "evidence": "Candidate writable paths are restricted to artifact bytes; candidate scoring code/labels are never parsed, and an ownership-violation fixture fails closed. Sealed isolation is not implemented; sealed_access_proposal.json lists PT-01 through PT-06 permission-test requirements and makes no sealed-qualification claim."
+    },
+    "A_common": {
+      "status": "PASS",
+      "evidence": "All JSON parses; required fields are checked; synthetic and T1 paths are allowlisted; tracked hashes use canonical HEAD blob ids; executor writes are confined to the run after reverting one temporary file; pre-existing and unknown items are explicitly listed."
+    },
+    "issues_found_and_fixed": [
+      {
+        "before": "Initial synthetic legal controls returned REVIEW_REQUIRED because PASS did not outrank initial NOT_EVALUATED.",
+        "after": "Status precedence corrected; SMOKE_2 and both formal passes matched 34/34."
+      },
+      {
+        "before": "evaluator_spec.json initially used object braces for the fail_closed_codes array and failed JSON parsing.",
+        "after": "Changed to a JSON array; all JSON artifacts parse."
+      },
+      {
+        "before": "The final self-check capture briefly created /tmp/t2_final_qualification.json outside the owned run directory.",
+        "after": "The temporary file was deleted immediately; no repository file was changed and no out-of-boundary artifact remains."
+      }
+    ],
+    "unknowns_explicit": [
+      "Execution-chat token usage remains UNRESOLVED.",
+      "Loop C independent acceptance has not occurred.",
+      "No sealed permission isolation or permission tests are implemented.",
+      "C/S directions, production runtime, human agreement and real defect-rate estimates are unverified."
+    ]
+  },
+  "usage": {
+    "profile": "BR",
+    "additional_cheap_requests_max": 0,
+    "additional_strong_requests_max": 1,
+    "additional_cheap_requests_actual": 0,
+    "additional_strong_requests_actual_by_executor": 0,
+    "strong_request_reserved_for_later_loop_c": 1,
+    "orchestrated_calls_by_executor": 0,
+    "network_calls": 0,
+    "model_endpoint_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "automatic_retries": 0,
+    "execution_chat_token_usage": "UNRESOLVED"
+  },
+  "unresolved": [
+    "T1-INC-08 and T1-INC-10 each contain one nested source reference whose canonical value at the current HEAD differs from the T1 review-time value. The T1 accepted run receipt and independent review receipt remain unchanged and are the dependencies bound here; T2 bundles do not re-declare the drifted nested refs.",
+    "Sealed filesystem isolation and PT-01 through PT-06 are unimplemented.",
+    "Loop C independent review is pending and its one strong request remains unused.",
+    "C and S evaluator directions are outside this bounded R-axis artifact.",
+    "Execution-chat token usage is UNRESOLVED and is not reported as zero.",
+    "runs/T2/_dispatch/loop_a_prompt_t2.md is a pre-existing dispatch file outside this run_id; it predates the run and was not modified because ownership forbids changing other files."
+  ],
+  "authorization_ref": "继续授权，这次让loop a 执行完后自检一下，避免loop c 独立评审次数过多"
+}

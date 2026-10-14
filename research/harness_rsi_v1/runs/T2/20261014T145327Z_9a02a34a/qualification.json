@@ -1,0 +1,873 @@
+{
+  "case_counts": {
+    "all": 34,
+    "fail_closed_fixtures": 6,
+    "synthetic_fixtures": 18,
+    "t1_v3_cases": 16
+  },
+  "case_results": [
+    {
+      "case_id": "call_boundary_allow",
+      "case_path": "evaluator/fixtures/call_boundary_allow.json",
+      "expected": "ALLOW_WITHIN_SCOPE",
+      "failure_family": "真实调用边界",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/call_boundary_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/call_boundary_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "call_boundary_block",
+      "case_path": "evaluator/fixtures/call_boundary_block.json",
+      "expected": "BLOCK",
+      "failure_family": "真实调用边界",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/call_boundary_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/call_boundary_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "call_boundary_failclosed",
+      "case_path": "evaluator/fixtures/call_boundary_failclosed.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "真实调用边界",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/call_boundary_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/call_boundary_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "completeness_budget_allow",
+      "case_path": "evaluator/fixtures/completeness_budget_allow.json",
+      "expected": "ALLOW_WITHIN_SCOPE",
+      "failure_family": "完整性与预算",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/completeness_budget_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/completeness_budget_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "completeness_budget_block",
+      "case_path": "evaluator/fixtures/completeness_budget_block.json",
+      "expected": "BLOCK",
+      "failure_family": "完整性与预算",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/completeness_budget_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/completeness_budget_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "completeness_budget_failclosed",
+      "case_path": "evaluator/fixtures/completeness_budget_failclosed.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "完整性与预算",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/completeness_budget_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_EMPTY_EVIDENCE_SET",
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/completeness_budget_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_EMPTY_EVIDENCE_SET",
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "data_statistics_allow",
+      "case_path": "evaluator/fixtures/data_statistics_allow.json",
+      "expected": "ALLOW_WITHIN_SCOPE",
+      "failure_family": "数据与统计",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/data_statistics_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/data_statistics_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "data_statistics_block",
+      "case_path": "evaluator/fixtures/data_statistics_block.json",
+      "expected": "BLOCK",
+      "failure_family": "数据与统计",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/data_statistics_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/data_statistics_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "data_statistics_failclosed",
+      "case_path": "evaluator/fixtures/data_statistics_failclosed.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "数据与统计",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/data_statistics_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_PATH_OUTSIDE_ALLOWLIST",
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/data_statistics_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_PATH_OUTSIDE_ALLOWLIST",
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "delivery_permissions_allow",
+      "case_path": "evaluator/fixtures/delivery_permissions_allow.json",
+      "expected": "ALLOW_WITHIN_SCOPE",
+      "failure_family": "交付与权限",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/delivery_permissions_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/delivery_permissions_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "delivery_permissions_block",
+      "case_path": "evaluator/fixtures/delivery_permissions_block.json",
+      "expected": "BLOCK",
+      "failure_family": "交付与权限",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/delivery_permissions_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/delivery_permissions_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "delivery_permissions_failclosed",
+      "case_path": "evaluator/fixtures/delivery_permissions_failclosed.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "交付与权限",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/delivery_permissions_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_CANDIDATE_OWNERSHIP_VIOLATION",
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/delivery_permissions_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_CANDIDATE_OWNERSHIP_VIOLATION",
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "evidence_identity_allow",
+      "case_path": "evaluator/fixtures/evidence_identity_allow.json",
+      "expected": "ALLOW_WITHIN_SCOPE",
+      "failure_family": "证据身份",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/evidence_identity_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/evidence_identity_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "evidence_identity_block",
+      "case_path": "evaluator/fixtures/evidence_identity_block.json",
+      "expected": "BLOCK",
+      "failure_family": "证据身份",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/evidence_identity_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/evidence_identity_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "evidence_identity_failclosed",
+      "case_path": "evaluator/fixtures/evidence_identity_failclosed.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "证据身份",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/evidence_identity_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/evidence_identity_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "measurement_object_allow",
+      "case_path": "evaluator/fixtures/measurement_object_allow.json",
+      "expected": "ALLOW_WITHIN_SCOPE",
+      "failure_family": "测量对象",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/measurement_object_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/measurement_object_allow.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "measurement_object_block",
+      "case_path": "evaluator/fixtures/measurement_object_block.json",
+      "expected": "BLOCK",
+      "failure_family": "测量对象",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/measurement_object_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/measurement_object_block.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "measurement_object_failclosed",
+      "case_path": "evaluator/fixtures/measurement_object_failclosed.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "测量对象",
+      "origin": "synthetic_challenge",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/measurement_object_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_UNKNOWN_ASSERTION_SIGNATURE",
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case evaluator/fixtures/measurement_object_failclosed.json --out -",
+          "exit_code": 3,
+          "fail_closed_code": "FC_UNKNOWN_ASSERTION_SIGNATURE",
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "ctrl-01",
+      "case_path": "qualification_cases/t1/ctrl-01.json",
+      "expected": "ALLOW_WITHIN_SCOPE",
+      "failure_family": "数据与统计",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/ctrl-01.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/ctrl-01.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "ctrl-02",
+      "case_path": "qualification_cases/t1/ctrl-02.json",
+      "expected": "ALLOW_WITHIN_SCOPE",
+      "failure_family": "测量对象",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/ctrl-02.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "ALLOW_WITHIN_SCOPE",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/ctrl-02.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-01",
+      "case_path": "qualification_cases/t1/inc-01.json",
+      "expected": "BLOCK",
+      "failure_family": "真实调用边界",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-01.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-01.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-02",
+      "case_path": "qualification_cases/t1/inc-02.json",
+      "expected": "BLOCK",
+      "failure_family": "真实调用边界",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-02.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-02.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-03",
+      "case_path": "qualification_cases/t1/inc-03.json",
+      "expected": "BLOCK",
+      "failure_family": "完整性与预算",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-03.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-03.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-04",
+      "case_path": "qualification_cases/t1/inc-04.json",
+      "expected": "BLOCK",
+      "failure_family": "完整性与预算",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-04.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-04.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-05",
+      "case_path": "qualification_cases/t1/inc-05.json",
+      "expected": "BLOCK",
+      "failure_family": "真实调用边界",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-05.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-05.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-06",
+      "case_path": "qualification_cases/t1/inc-06.json",
+      "expected": "BLOCK",
+      "failure_family": "真实调用边界",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-06.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-06.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-07",
+      "case_path": "qualification_cases/t1/inc-07.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "测量对象",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-07.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-07.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-08",
+      "case_path": "qualification_cases/t1/inc-08.json",
+      "expected": "BLOCK",
+      "failure_family": "完整性与预算",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-08.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-08.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-09",
+      "case_path": "qualification_cases/t1/inc-09.json",
+      "expected": "BLOCK",
+      "failure_family": "证据身份",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-09.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-09.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-10",
+      "case_path": "qualification_cases/t1/inc-10.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "证据身份",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-10.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-10.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-11",
+      "case_path": "qualification_cases/t1/inc-11.json",
+      "expected": "BLOCK",
+      "failure_family": "交付与权限",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-11.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "BLOCK",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-11.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-12",
+      "case_path": "qualification_cases/t1/inc-12.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "交付与权限",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-12.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-12.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-13",
+      "case_path": "qualification_cases/t1/inc-13.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "完整性与预算",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-13.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-13.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    },
+    {
+      "case_id": "inc-14",
+      "case_path": "qualification_cases/t1/inc-14.json",
+      "expected": "REVIEW_REQUIRED",
+      "failure_family": "完整性与预算",
+      "origin": "t1_v3_accepted_case_set",
+      "passes": {
+        "PASS_1": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-14.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        },
+        "PASS_2": {
+          "actual": "REVIEW_REQUIRED",
+          "evaluator_command": "python3 evaluator/evaluate.py --case qualification_cases/t1/inc-14.json --out -",
+          "exit_code": 0,
+          "fail_closed_code": null,
+          "matched": true
+        }
+      }
+    }
+  ],
+  "degenerate_strategies": [
+    {
+      "defect_detected": "15/15",
+      "hard_gate_pass": false,
+      "legal_controls_falsely_blocked": "8/8",
+      "reason": "Simultaneous defect detection and legal-control non-interception are not satisfied.",
+      "review_cases_falsely_blocked": "11/11",
+      "strategy": "ALL_BLOCK"
+    },
+    {
+      "defects_falsely_passed": "15/15",
+      "hard_gate_pass": false,
+      "legal_controls_allowed": "8/8",
+      "reason": "Known defects are not detected.",
+      "review_cases_falsely_passed": "11/11",
+      "strategy": "ALL_ALLOW"
+    },
+    {
+      "defects_blocked": "0/15",
+      "hard_gate_pass": false,
+      "human_review_burden": "34/34",
+      "legal_controls_falsely_reviewed": "8/8",
+      "reason": "Unnecessary review is counted as misjudgment and does not satisfy defect detection.",
+      "strategy": "ALL_REVIEW_REQUIRED"
+    }
+  ],
+  "direction": "R",
+  "discrimination": {
+    "all_cases_expected_in_both_passes": true,
+    "defect_signatures_blocked": 6,
+    "fail_closed_cases_exit_3": 6,
+    "legal_controls_allowed": 6,
+    "t1_expected_matches": 16
+  },
+  "evaluator_entrypoint": "evaluator/evaluate.py",
+  "expected_distribution": {
+    "ALLOW_WITHIN_SCOPE": 8,
+    "BLOCK": 15,
+    "REVIEW_REQUIRED": 11
+  },
+  "family_coverage": {
+    "交付与权限": 5,
+    "完整性与预算": 8,
+    "数据与统计": 4,
+    "测量对象": 5,
+    "真实调用边界": 7,
+    "证据身份": 5
+  },
+  "formal_runs": [
+    {
+      "case_count": 34,
+      "exit_code": 0,
+      "matched_count": 34,
+      "pass_id": "PASS_1",
+      "runner_command": "python3 evaluator/run_qualification.py --pass-id PASS_1"
+    },
+    {
+      "case_count": 34,
+      "exit_code": 0,
+      "matched_count": 34,
+      "pass_id": "PASS_2",
+      "runner_command": "python3 evaluator/run_qualification.py --pass-id PASS_2"
+    }
+  ],
+  "promotion_rule": {
+    "all_three_degenerate_strategies_satisfy": false,
+    "requires_simultaneously": [
+      "defect detection",
+      "legal controls not falsely blocked"
+    ]
+  },
+  "qualification_id": "T2-QUALIFICATION-20261014-UNREVIEWED",
+  "qualification_runner": "evaluator/run_qualification.py",
+  "schema": "harness_rsi_t2_qualification_v1",
+  "status": "PASSED_LOCAL_UNREVIEWED",
+  "task_id": "T2",
+  "unverified": [
+    "Local deterministic qualification is not independent Loop C acceptance.",
+    "The T1 assertion adapter is executor-authored and remains for Loop C review.",
+    "No sealed cases, C/S direction, production runtime or human agreement were evaluated."
+  ]
+}

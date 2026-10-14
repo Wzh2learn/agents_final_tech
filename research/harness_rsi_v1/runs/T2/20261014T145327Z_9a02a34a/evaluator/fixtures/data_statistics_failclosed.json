@@ -1,0 +1,36 @@
+{
+  "bundle_id": "FIX-DATA_STATISTICS-FAILCLOSED",
+  "candidate_artifact": {
+    "hash_domain": "sha256_file",
+    "path": "../outside.txt",
+    "sha256": "a49f6fa27f9319dbde91ab4b51dad6ae42d598c7e39c5c07a3793800ec8b84d2"
+  },
+  "candidate_writable_paths": [
+    "../outside.txt"
+  ],
+  "case_kind": {
+    "artifact_level": "synthetic_challenge",
+    "control_class": "FAIL_CLOSED"
+  },
+  "direction": "R",
+  "expected_category": "REVIEW_REQUIRED",
+  "failure_family": "数据与统计",
+  "independent_evidence": [
+    {
+      "assertions": [
+        "SPLIT_LEAKAGE"
+      ],
+      "evidence_id": "E-data_statistics-DEFECT",
+      "hash_domain": "sha256_file",
+      "path": "artifacts/data_statistics.txt",
+      "provenance": "synthetic_challenge",
+      "sha256": "a49f6fa27f9319dbde91ab4b51dad6ae42d598c7e39c5c07a3793800ec8b84d2"
+    }
+  ],
+  "schema": "harness_rsi_t2_case_bundle_v1",
+  "source": {
+    "case_reference": "synthetic fail-closed control: FC_PATH_OUTSIDE_ALLOWLIST",
+    "is_real_incident": false,
+    "origin": "synthetic_challenge"
+  }
+}

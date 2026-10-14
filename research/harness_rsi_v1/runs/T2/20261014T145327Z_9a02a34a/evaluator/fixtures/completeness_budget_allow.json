@@ -1,0 +1,36 @@
+{
+  "bundle_id": "FIX-COMPLETENESS_BUDGET-ALLOW",
+  "candidate_artifact": {
+    "hash_domain": "sha256_file",
+    "path": "artifacts/completeness_budget.txt",
+    "sha256": "21d4bf296c73a539a674363de12e291fe3b919c96bd588f535d33b56e8c6b616"
+  },
+  "candidate_writable_paths": [
+    "artifacts/completeness_budget.txt"
+  ],
+  "case_kind": {
+    "artifact_level": "synthetic_challenge",
+    "control_class": "LEGAL_ALLOW"
+  },
+  "direction": "R",
+  "expected_category": "ALLOW_WITHIN_SCOPE",
+  "failure_family": "完整性与预算",
+  "independent_evidence": [
+    {
+      "assertions": [
+        "FAILURES_COUNTED_AND_RECORDS_PRESERVED"
+      ],
+      "evidence_id": "E-completeness_budget-LEGAL",
+      "hash_domain": "sha256_file",
+      "path": "artifacts/completeness_budget.txt",
+      "provenance": "synthetic_challenge",
+      "sha256": "21d4bf296c73a539a674363de12e291fe3b919c96bd588f535d33b56e8c6b616"
+    }
+  ],
+  "schema": "harness_rsi_t2_case_bundle_v1",
+  "source": {
+    "case_reference": "synthetic known-signature challenge for 完整性与预算",
+    "is_real_incident": false,
+    "origin": "synthetic_challenge"
+  }
+}

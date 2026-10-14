@@ -1,0 +1,47 @@
+{
+  "bundle_id": "T1-INC-07-V3",
+  "candidate_artifact": {
+    "hash_domain": "git_blob_id",
+    "path": "research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/incidents.jsonl",
+    "sha256": "c666bb35bac784591b3fd11b6975be044ce599b7"
+  },
+  "candidate_writable_paths": [
+    "research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/incidents.jsonl"
+  ],
+  "case_kind": {
+    "artifact_level": "real_incident",
+    "control_class": "REVIEW_SIGNATURE"
+  },
+  "direction": "R",
+  "expected_category": "REVIEW_REQUIRED",
+  "failure_family": "测量对象",
+  "independent_evidence": [
+    {
+      "assertions": [
+        "PROXY_NOT_REAL_OBJECT"
+      ],
+      "evidence_id": "E-T1-INC-07-T1-V3",
+      "hash_domain": "git_blob_id",
+      "path": "research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/incidents.jsonl",
+      "provenance": "accepted_t1_v3",
+      "sha256": "c666bb35bac784591b3fd11b6975be044ce599b7"
+    },
+    {
+      "assertions": [
+        "PROXY_NOT_REAL_OBJECT"
+      ],
+      "evidence_id": "E-T1-INC-07-INDEPENDENT-REVIEW",
+      "hash_domain": "git_blob_id",
+      "path": "research/harness_rsi_v1/reviews/T1I-03/review_receipt.json",
+      "provenance": "accepted_t1_v3",
+      "sha256": "472dc1442dc449199857b81d40a0f7c5829dc55b"
+    }
+  ],
+  "schema": "harness_rsi_t2_case_bundle_v1",
+  "source": {
+    "accepted_review": "T1I-03",
+    "accepted_run": "20261014T141004Z_2647a7e1",
+    "case_reference": "T1-INC-07",
+    "origin": "t1_v3_accepted_case_set"
+  }
+}
