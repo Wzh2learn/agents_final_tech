@@ -10,6 +10,7 @@
     "README.md",
     "REVISION_LOG.md",
     "UNRESOLVED.md",
+    "candidates/.gitkeep",
     "cards/CARD_TEMPLATE.md",
     "cards/T-1.md",
     "cards/T0.md",
@@ -98,6 +99,13 @@
       "bytes": 1837,
       "sha256": "4d792ad6a7276fdbcb71224a5e450657e6d8f81171679d56cbb542715f824d36",
       "kind": "SPEC_OR_SOURCE"
+    },
+    {
+      "relative_path": "candidates/.gitkeep",
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/candidates/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "DIR_PLACEHOLDER"
     },
     {
       "relative_path": "cards/CARD_TEMPLATE.md",
@@ -424,5 +432,6 @@
   "external_edit": {
     "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/docs/INDEX.md",
     "scope": "one navigation entry only"
-  }
+  },
+  "empty_directory_notes": "candidates/ is materialized via candidates/.gitkeep (added 2026-10-14 after T1R-01 review finding F2); runs/ and reviews/ are materialized by their contents."
 }
