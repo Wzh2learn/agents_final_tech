@@ -5,6 +5,7 @@ when_to_use: analyze N items, fix M files, search K sources, anything embarrassi
 ---
 # Subagent Fan-out
 One context loaded with ten jobs' worth of material is the exact shape that triggers context rot. Ten small contexts don't.
+> Complementary: `dispatching-parallel-agents` carries the general dispatch overview and trigger boundaries; this skill is its precise fresh-context fan-out practice.
 - Spawn one subagent per independent unit (one file, one source, one check). Each gets a fresh context window.
 - An **orchestrator** synthesizes their results — it never does the per-unit work itself.
 - A worker's report is a **claim, not evidence**. The orchestrator verifies findings against first-hand carriers before synthesizing; retractions, downgrades, and direction corrections from that verification are first-class outputs, not embarrassment (reference run: a six-dimension scan's findings survived verification as 1 retracted / 3 downgraded / 1 corrected — forwarded as-is, one false alarm would have shipped).

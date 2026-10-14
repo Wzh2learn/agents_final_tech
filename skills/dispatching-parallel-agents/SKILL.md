@@ -13,6 +13,8 @@ When you have multiple unrelated failures (different test files, different subsy
 
 **Core principle:** Dispatch one agent per independent problem domain. Let them work concurrently.
 
+> For the precise fan-out practice — fresh-context workers, and the rule that a worker's report is a claim, not evidence (verify before synthesizing) — see the `subagent-fanout` skill.
+
 ## When to Use
 
 ```dot

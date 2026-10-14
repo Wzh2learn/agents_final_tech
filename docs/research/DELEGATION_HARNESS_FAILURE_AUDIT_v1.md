@@ -73,3 +73,4 @@ The design-plane fix in Sec.4 was applied the same day:
 1. app-facility 委派默认给**只读或单文件写**范围；涉及 repo 写时，简报必须含"禁 git 操作"硬句 + 完成后由 Loop D 核对 `git log/status` 再放行。
 2. 任何由 app-facility 产生的 commit 一律视为"未受信"，按 diff 逐条核验后才承认。
 3. GB10 车线（`loop_ac_launcher.sh`）在本轮 4 次运行（prefreeze A/C + s0b A/C）中零 git 越权、零日志污染——设计车线继续为唯一推荐通道。
+4. **政策更新（owner 2026-10-14）**: app-facility 越权 commit/push 若**无损**（diff 逐条核验 + 审计通过、无科学/纪律副作用）**可以接受**；有损则回退并记录。

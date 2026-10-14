@@ -14,6 +14,12 @@
 - Manuscript string sweep v2 executed (owner-authorized): 18+1 replacements; rebuild 9pp; `PRE_SUBMISSION_AUDIT` / `WIDE_EVIDENCE_CHECK` PASS; PDF text: 20 forbidden tokens = 0; records in `research/negative_result_robustness_20261013/MANUSCRIPT_STRING_SWEEP_v2_CANDIDATES.md` (EXECUTED) and `research/positive_repair_20261011/PDF_LAYOUT_AUDIT_v1.md` (13f).
 - Two-week commit review + inquiry self-check delivered: `docs/research/TWO_WEEK_COMMIT_REVIEW_v1.md` (225 commits; findings G1-G6; fix order A-D).
 - Harness addendum on app-facility discipline + default Git clause added to `templates/task_card_template.md` (see `DELEGATION_HARNESS_FAILURE_AUDIT_v1.md` Sec.7).
+## 2026-10-14 morning (owner greenlight: WP-2 run; skill tidies; AI-flavor pass)
+
+- WP-2 pilot phase greenlit by owner ("按默认开跑"): P2 feedback-right (executed-only corrections; no test-source info), P3 actor = Qwen3-8B `b968826d…` with frozen settings, P4 <=300 actor request attempts / 0 judge; MODEL_GO granted. Collection+freeze (F2-F4 + S4->S7) dispatched on GB10 (`tatqa-wp2-s4s7-20261014`); S9 pilot waits for the C pre-result audit (S8).
+- Skill round-2 tidies executed: `SKILL_ROUTING.md` C9/C10 status updated to "保持独立 (2026-10-14)"; cross-reference lines added to `dispatching-parallel-agents` and `subagent-fanout`.
+- Paper E AI-flavor pass applied (14 presentation-only rewrites; rebuild 9pp; audits PASS): `docs/research/PAPER_E_AI_FLAVOR_REVIEW_v1.md`; PDF audit 13g.
+- Harness policy update (owner 2026-10-14): delegate overreach commits are acceptable when lossless (verified by diff + audits); lossy ones are reverted and recorded.
 ## 2026-10-12 execution preparation (handoff only)
 
 - Latest [`execution handoff status`](../docs/research/EXECUTION_HANDOFF_STATUS_v1.md): strategy governance is finished; next tasks are Paper E WP-E revision under its gate and thesis WP-0 read-only qualification only. This round stops at review/handoff; no revision, qualification execution, implementation, experiment or dispatch occurred. Paper E remains science-blocked; G-RQ/G-M remain PENDING. The historical sections below do not control current priority or permission.

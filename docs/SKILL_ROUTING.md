@@ -1,6 +1,6 @@
 # SKILL_ROUTING.md — skill 路由法（治理线立法, 2026-08-29）
 
-> 状态: 活跃（立法件, 修改需用户批） | 更新: 2026-10-08 | 取代/被取代: 无 | 依据: 侧线设计稿转述（用户卡 08-29）+ 注册表↔分发漂移事故（30 件, 08-29 修复）+ skill 库扩容精简化（09-18 批 #6-S: 49 件新 skill 入库、12 件旧件删除）+ **skill 语义合并（09-21 批 #8-A: 10 簇合并, 目录 108→92; 五线主装按合并后名重列, §3 裁定表逐字保留不回改）**
+> 状态: 活跃（立法件, 修改需用户批） | 更新: 2026-10-14 | 取代/被取代: 无 | 依据: 侧线设计稿转述（用户卡 08-29）+ 注册表↔分发漂移事故（30 件, 08-29 修复）+ skill 库扩容精简化（09-18 批 #6-S: 49 件新 skill 入库、12 件旧件删除）+ **skill 语义合并（09-21 批 #8-A: 10 簇合并, 目录 108→92; 五线主装按合并后名重列, §3 裁定表逐字保留不回改）+ **第二轮复核（2026-10-14 用户批准: C9/C10 保持独立、零新合并；见 experiments/2026-10-13_skill_merge_round2_assessment.md）**
 > 范围: 六线任务的 skill 装载决策; 与根 AGENTS.md 配属注册表互为表里（注册表 = 有什么, 本法 = 何时用）
 
 ## 1 六线总表（任务线 → 主装 skill）
@@ -37,7 +37,7 @@
 | subagent-fanout vs dispatching-parallel-agents vs subagent-driven-development | **分工并存**: 通用概览 / 计划内多步执行 / 新件=精确并行 fanout | 三者粒度不同, 暂不合并（skill-merger 可后续评估） |
 | owasp-review / sql-review / authz-check / input-validation / secret-scan | **分工并存（新件, 09-18 入库）** | 分别覆盖安全 diff 审查 / SQL 正确性 / 授权越权 / 边界输入 / 密钥扫描, 互不替代 |
 | 09-21 批 #8-A 的 10 簇合并 | **10 簇合并已执行（用户 09-21 裁定）** | C1 research-writing-skill(合 paper-writing-zh) / C2 experiment-analysis(合 experiment-observer) / C3 commit-and-pr-hygiene(3) / C4 code-simplification(3) / C5 git-history-ops(3) / C6 db-schema-change(2) / C7 frontend-quality(3) / C8 testing-practices(4) / C12 progress-reading-protocol(合 broken-window-check) / C13 eval-harness(合 evaluator-calibration); 目录 108→92, A 93→77, C 21→21 |
-| 09-21 批 #8-A 的四个「保持现状」 | **不合并（用户 09-21 裁定）** | C9 web-deploy 延后 / C10 codebase-review 延后 / C11 paper-audit 保持分工并存（§3 原裁定有效） / C15 dispatching-parallel-agents 保持不合并（§3 原裁定有效） |
+| 09-21 批 #8-A 的四个「保持现状」 | **不合并（用户 09-21 裁定）** | C9 web-deploy 保持独立（2026-10-14 复核） / C10 codebase-review 保持独立（2026-10-14 复核） / C11 paper-audit 保持分工并存（§3 原裁定有效） / C15 dispatching-parallel-agents 保持不合并（§3 原裁定有效） |
 | verification-before-completion 摘除 | **已执行（09-21 批 #9-B, 三步同一 commit）** | C14+A19 落地: (i) `docs_lint [5]` 跳过用途列含 DEPRECATED 的注册表行 + 输出一条 INFO 行; (ii) 从 `A_SKILLS` 摘除该件（A 77→76, 总数 98→97）; (iii) prune 安装区残留（实测仅 `~/.codex/skills` 一端有副本）。注册表行按治理规则 4 保留 |
 
 ## 4 钩链矩阵（机械强制层 × 自动装载）
