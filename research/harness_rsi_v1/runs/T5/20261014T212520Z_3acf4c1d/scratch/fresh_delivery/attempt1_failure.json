@@ -1,0 +1,8 @@
+{
+  "attempt": 1,
+  "automatic_retry": false,
+  "failure": "First fresh-copy helper recursively copied its own destination because the ignore predicate matched only the source run and not equivalent nested scratch directories; copytree stopped on recursive-path errors.",
+  "manual_repair": "Changed the ignore predicate to exclude any directory named copied_package whenever traversing a directory named scratch, then removed only the generated in-run partial copy before the single explicit repaired attempt.",
+  "schema": "jinrong_t5_manual_repair_evidence_v1",
+  "target_execution_performed": false
+}

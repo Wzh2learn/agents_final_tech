@@ -1,0 +1,7 @@
+{
+  "automatic_retry": false,
+  "error": "Local evidence-rename helper used dest before dst; no file was renamed and no target operation ran.",
+  "manual_repair": "Corrected the local variable and reran the explicit normalization step.",
+  "schema": "jinrong_t5_manual_repair_evidence_v1",
+  "target_execution_performed": false
+}

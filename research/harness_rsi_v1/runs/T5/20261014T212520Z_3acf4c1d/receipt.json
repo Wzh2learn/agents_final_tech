@@ -1,0 +1,490 @@
+{
+  "acceptance_status": "UNREVIEWED",
+  "actions": [
+    "Copied the v2 task book verbatim as the first run artifact.",
+    "Reproduced v1 P01 execute-bit failure and X06 self-consistent forged-summary acceptance once each.",
+    "Rebuilt two single-object recipes, three-operation closed registry, caller validator, probe runner and fixtures in the new run.",
+    "Implemented external summary pin, fixed operation cwd, manifest modes, runtime tick generation, ignored-path boundary scan and repair evidence.",
+    "Ran fresh-delivery simulation and current-tree probe round; both recorded 21/21 with identical normalized outcomes."
+  ],
+  "activation_status": "NOT_ENABLED",
+  "authorization_ref": "owner: continue; T5R-01 and Loop D external-pin adjudication",
+  "card_version": 2,
+  "checks": [
+    {
+      "check_id": "TASK_PROMPT_CAPTURE",
+      "result": "bytes=5288 sha256=0007a76a7e17b9e1d0030003d5f7e7000f98ec0f3882229e06698a009a5a7305 verbatim_match=True",
+      "scope": "Exact delivered TASK_PROMPT bytes and tracked dispatch source only",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "CANONICAL_INPUT_BINDINGS",
+      "result": "22/22 canonical git blob ids recomputed; file SHA-256 recorded for the five declared file-byte bindings",
+      "scope": "22 tracked card/authority/dependency/review bindings only",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "PROTOCOL_FREEZE_MATCH",
+      "result": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+      "scope": "Frozen protocol identity only; no permission expansion",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "T4_CASE_LEVEL_CONSUMPTION",
+      "result": "16 case rows: detected=6, missed=2, not_applicable=2, unverified=6; forbidden derived-field reads=0",
+      "scope": "T4 baseline.cases[] only; derived summary.case_results excluded",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "DELIVERY_MODE_MATRIX",
+      "result": "artifacts_manifest.json records mode per artifact and required_executables=[recipe_fixtures/dispatch/watcher.sh]; watcher mode=100755",
+      "scope": "Delivered file bytes and filesystem modes only",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "FRESH_DELIVERY_SIMULATION",
+      "result": "21/21 probes passed; 32 modes restored; required executable x_bit=true; helper attempts=3 with two documented implementation repairs and zero automatic retries",
+      "scope": "One copied package under this run; chmod -x all, restore only manifest modes, regenerate bounded tick timestamp, execute full probes from /tmp",
+      "status": "CONTRACT_PASS",
+      "verification_level": "COMPONENT_PASS"
+    },
+    {
+      "check_id": "CURRENT_TREE_PROBE_RECHECK",
+      "result": "21/21 probes passed from cwd=/tmp; outcomes identical to fresh-delivery round",
+      "scope": "Current delivered bytes/modes and local read-only target tools only",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "FINAL_PROBE_MATRIX",
+      "result": "42/42 cases passed; each round ACCEPT=4, REJECT=17; normalized outcomes identical",
+      "scope": "Two recorded rounds of current caller contracts; no future Loop D, sealed-case or scientific behavior claim",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "EXTERNAL_PIN_THREE_WAY_EQUALITY",
+      "result": "X06A=FC_ARTIFACT_NOT_PINNED; X06B=FC_PIN_MISMATCH; X06C=ACCEPT",
+      "scope": "Declared hash == measured hash == caller-owned external pin; false-pin caller is explicitly outside validator trust boundary",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "BOUNDED_TICK_AGE",
+      "result": "max_tick_age_minutes=30 and 60 accepted in both rounds; observed_at=2026-10-14T21:56:53Z",
+      "scope": "Runtime-generated observed_at and dispatch_precheck read-only tool only",
+      "status": "CONTRACT_PASS",
+      "verification_level": "COMPONENT_PASS"
+    },
+    {
+      "check_id": "FIXED_OPERATION_CWD",
+      "result": "registry target.required_cwd pins repository root; validator passes cwd explicitly; both probe rounds executed from /tmp",
+      "scope": "Three registered T4 read-only adapter targets; no production or daemon behavior claim",
+      "status": "CONTRACT_PASS",
+      "verification_level": "COMPONENT_PASS"
+    },
+    {
+      "check_id": "G1_MARKDOWN_GUARD",
+      "result": "4/4 Markdown checks rc=0; runtime mismatch remains temporary and is not persisted",
+      "scope": "Every .md under this run only",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "A1_RECIPE_OBJECT_AND_NO_ARBITRARY_SHELL",
+      "result": "P02/P03/P08 and E02/E03/E09 rejected with registered fail-closed codes in both rounds",
+      "scope": "Two object-isolated recipes and caller rejection before target execution",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "A2_CALLER_ERRORS_AND_EXTERNAL_PIN",
+      "result": "P06/P07 and E04/E05/E06/X06A/X06B rejected before target execution; correctly pinned X06C accepted",
+      "scope": "Missing fields, wrong hashes, inconsistent summary, unpinned and wrong-pin self-consistent summaries",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "A3_NO_CS_OR_FROZEN_MODIFICATION",
+      "result": "Executor-authored writes are confined to runs/T5/20261014T212520Z_3acf4c1d; git status pre-existing logs/T4-v1 dirt and full-scan external pre-existing/concurrent mtimes are disclosed and not attributed to the executor",
+      "scope": "B0 executor-owned write boundary including gitignored paths plus canonical frozen/dependency hashes",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "A_COMMON_PACKAGE_INTEGRITY",
+      "result": "Final self-check script revalidates the delivered package; no scientific or activation claim",
+      "scope": "Current run JSON/JSONL, required fields, bytes, modes, hashes, paths, manifest and explicit unknowns",
+      "status": "CONTRACT_PASS",
+      "verification_level": "CONTRACT_PASS"
+    }
+  ],
+  "consumption_rule": "Use baseline.cases[] only; never read or derive from baseline.summary.case_results.",
+  "dependency_acceptance": {
+    "T2": "T2 evaluator identity binding",
+    "T3": "T3R-01 identity binding",
+    "T4": "ACCEPTED via reviews/T4R-01"
+  },
+  "direction": "R",
+  "execution_status": "DELIVERED",
+  "input_bindings": [
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/cards/T5.md",
+      "canonical_blob_id": "082ff999772d66fe4b9cea5e8ccad96c87ed3174",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/cards/T5.md",
+      "hash_domain": "git_blob_id",
+      "role": "task_card",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/cards/T5.md"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json",
+      "canonical_blob_id": "c57937c8380413708082fdc17bd4c73286cb46bf",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/contracts/protocol.json",
+      "hash_domain": "git_blob_id",
+      "role": "card_input_protocol",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/protocol.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
+      "canonical_blob_id": "46acca7ec01b98a5008f2851f10a86af6fe34fed",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/contracts/authority_map.json",
+      "hash_domain": "git_blob_id",
+      "role": "card_input_authority_map",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/authority_map.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md",
+      "canonical_blob_id": "e0569763e3221c606ebfd16c2f5d41b2b26d328d",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/contracts/execution_policy.md",
+      "hash_domain": "git_blob_id",
+      "note": "Dispatch prose names execution_policy.json; T5 card and repository provide execution_policy.md, which is bound here.",
+      "role": "card_input_execution_policy",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/execution_policy.md"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+      "canonical_blob_id": "64634474115ac55d68ab20b254e325d87afe830e",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/contracts/budget_profiles.json",
+      "hash_domain": "git_blob_id",
+      "role": "card_input_budget_profiles",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/budget_profiles.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json",
+      "canonical_blob_id": "07731a300ad5d681c6ecb62269bac0531bfb3899",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/contracts/schemas.json",
+      "hash_domain": "git_blob_id",
+      "role": "card_input_schemas",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/schemas.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "canonical_blob_id": "fd2c1fdfb45806cd26961aa2f3c75aaeae887921",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "hash_domain": "git_blob_id",
+      "role": "card_input_reliability_spec",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/evaluation/reliability_spec.md"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+      "canonical_blob_id": "6d23e8d95a5dd9df01196d5c7397ffb076dd1735",
+      "exit_code": 0,
+      "git_relative_path": "docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+      "hash_domain": "git_blob_id",
+      "role": "authority_preflight",
+      "verification_command": "git rev-parse HEAD:docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json",
+      "canonical_blob_id": "14278b2a00f12984311ffa8bc53a9f14377207dd",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json",
+      "hash_domain": "git_blob_id",
+      "role": "dependency_t4_v2_receipt",
+      "sha256_file": "e9d4aa29cb4330933054fa8b2dbb8a9529766843ec6a996b92a352c3b18884f8",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline.json",
+      "canonical_blob_id": "3ea99e453ceef1d7e60aa4e098b24b8f204f36c0",
+      "consumption_rule": "Use .cases[] only; do not trust summary.combination_results or summary.failure_family_profiles.",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline.json",
+      "hash_domain": "git_blob_id",
+      "role": "dependency_t4_v2_baseline",
+      "sha256_file": "41ff78e438aacdda246ae2b0427d4cc2be741af7689e4eca3ddcbad4619b292f",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline_recipe.json",
+      "canonical_blob_id": "ebe9231afd2abc8b426b52755751f612f2353478",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline_recipe.json",
+      "hash_domain": "git_blob_id",
+      "role": "dependency_t4_v2_baseline_recipe",
+      "sha256_file": "65bc93327fe63641482336cfb571a063f6e07d5f16091c4d72fb02a2f961e5c5",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline_recipe.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T4R-01/ACCEPTANCE_PROPOSAL.json",
+      "canonical_blob_id": "6bcb78125a45475c8180f93073a82473bcdfb420",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/reviews/T4R-01/ACCEPTANCE_PROPOSAL.json",
+      "hash_domain": "git_blob_id",
+      "role": "dependency_t4r01_acceptance_proposal",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/reviews/T4R-01/ACCEPTANCE_PROPOSAL.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T4R-01/review_receipt.json",
+      "canonical_blob_id": "caebf7f131a022317f6d05a715d2143d5cdcf16a",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/reviews/T4R-01/review_receipt.json",
+      "hash_domain": "git_blob_id",
+      "role": "dependency_t4r01_review_receipt",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/reviews/T4R-01/review_receipt.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/runner.py",
+      "canonical_blob_id": "3708a4e6a8296ec29bacdfc170f9f8f8132bdf8d",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/runner.py",
+      "hash_domain": "git_blob_id",
+      "role": "identity_dependency_t3_runner",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/runner.py"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/receipt.json",
+      "canonical_blob_id": "a5f98d0d17546e303609021f80fdadbfb83269c2",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/receipt.json",
+      "hash_domain": "git_blob_id",
+      "role": "identity_dependency_t3_receipt",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/receipt.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py",
+      "canonical_blob_id": "3d296b0b9667d16a2bd73973bb0f1ceebfbec263",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py",
+      "hash_domain": "git_blob_id",
+      "role": "identity_dependency_t2_evaluator",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/receipt.json",
+      "canonical_blob_id": "891955a6c4765c8d28c9cc4578ccda0c7284b596",
+      "exit_code": 0,
+      "git_relative_path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/receipt.json",
+      "hash_domain": "git_blob_id",
+      "role": "identity_dependency_t2_receipt",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/receipt.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T5R-01/REVIEW.md",
+      "canonical_blob_id": "27de18145b4093f75ca64f77481a069c98c15dd8",
+      "git_relative_path": "research/harness_rsi_v1/reviews/T5R-01/REVIEW.md"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T5R-01/ACCEPTANCE_PROPOSAL.json",
+      "canonical_blob_id": "7c1d964b754727bc1da8a97ba030b419b553727d",
+      "git_relative_path": "research/harness_rsi_v1/reviews/T5R-01/ACCEPTANCE_PROPOSAL.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T5R-01/review_receipt.json",
+      "canonical_blob_id": "589473776ef64d85c87fa031785dffddf6ea3968",
+      "git_relative_path": "research/harness_rsi_v1/reviews/T5R-01/review_receipt.json"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/receipt.json",
+      "canonical_blob_id": "6025c2bea713a899031db30f4fdc71936cc68bac",
+      "git_relative_path": "research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/receipt.json",
+      "sha256_file": "cd84542cc0ae691429c9260af18b8979c4ac8f77cd92d1fd00c2f1546ac5d6e6"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/_dispatch/loop_a_prompt_t5_v2.md",
+      "canonical_blob_id": "ebefaf91f6b5c9e500cfd72c9a7b69e3fcbdfcdf",
+      "git_relative_path": "research/harness_rsi_v1/runs/T5/_dispatch/loop_a_prompt_t5_v2.md",
+      "sha256_file": "0007a76a7e17b9e1d0030003d5f7e7000f98ec0f3882229e06698a009a5a7305"
+    }
+  ],
+  "output_manifest": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/artifacts_manifest.json",
+  "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+  "repairs": [
+    {
+      "after": "v2 watcher.sh is delivered mode 100755; manifest records every mode plus required_executables.",
+      "before": "v1 watcher.sh was mode 100644 and P01 failed.",
+      "evidence": [
+        "scratch/reproduction/v1_p01_delivery_probe.jsonl",
+        "scratch/fresh_delivery/simulation_summary.json"
+      ],
+      "repair_id": "R1_BLOCKING1_MODE"
+    },
+    {
+      "after": "caller_context.expected_artifact_sha256 is mandatory; declared==measured==pin or fail closed.",
+      "before": "v1 accepted a self-consistent forged summary without an external identity source.",
+      "evidence": [
+        "scratch/reproduction/v1_x06_forge.jsonl",
+        "scratch/fresh_delivery/probe_results.jsonl"
+      ],
+      "repair_id": "R2_BLOCKING2_PIN"
+    },
+    {
+      "after": "observed_at is regenerated at runtime and both 30 and 60 minute positive probes pass.",
+      "before": "v1 usable tick-age value degraded to unlimited 0.",
+      "evidence": [
+        "scratch/current_tree/runtime_fixture_prepare.log",
+        "scratch/fresh_delivery/probe_results.jsonl"
+      ],
+      "repair_id": "R3_ADV2_BOUNDED_TICK"
+    },
+    {
+      "after": "registry pins required_cwd and execute_operation passes cwd explicitly; probes run from /tmp.",
+      "before": "T4 adapters depended on the caller's current directory.",
+      "evidence": [
+        "scratch/fresh_delivery/probe_results.jsonl",
+        "scratch/current_tree/probe_results.jsonl"
+      ],
+      "repair_id": "R4_ADV3_FIXED_CWD"
+    },
+    {
+      "after": "fresh-helper attempts 1 and 2 have standalone JSON failure artifacts; attempt 3 has complete simulation summary.",
+      "before": "v1 had two narrative-only repairs.",
+      "evidence": [
+        "scratch/fresh_delivery/attempt1_failure.json",
+        "scratch/fresh_delivery/attempt2_failure.json",
+        "scratch/fresh_delivery/simulation_summary.json"
+      ],
+      "repair_id": "R5_ADV4_REPAIR_EVIDENCE"
+    },
+    {
+      "after": "v2 receipt, README and evidence state baseline.cases[] only; code scan finds zero forbidden derived-field reads.",
+      "before": "v1 dispatch wording pointed to derived summary.case_results.",
+      "evidence": [
+        "scratch/t4_consumption_evidence.json"
+      ],
+      "repair_id": "R6_ADV5_T4_WORDING"
+    },
+    {
+      "after": "self-check enumerates the complete run file set and performs a full-repository mtime scan including gitignored files.",
+      "before": "git status was blind to gitignored writes.",
+      "evidence": [
+        "scratch/self_check.py",
+        "scratch/boundary_scan.json"
+      ],
+      "repair_id": "R7_ADV6_IGNORED_BOUNDARY"
+    }
+  ],
+  "run_id": "20261014T212520Z_3acf4c1d",
+  "schema": "receipt",
+  "scope": "T5 v2 rework only: repair T5R-01 BLOCKING-1/2 and fold ADVISORY-1..6 while preserving v1 interface closure, four-class separation, frozen protections, T4 consumption discipline and TASK_PROMPT verbatim capture.",
+  "self_check": {
+    "A1": {
+      "evidence": "P02/P03/P08/E02/E03/E09 in two 21-case rounds",
+      "scope": "Two single-object recipes; arbitrary shell/unknown operations rejected before target execution.",
+      "status": "CONTRACT_PASS"
+    },
+    "A2": {
+      "evidence": "E06/X06A/X06B reject; X06C accepts; all rejections precede target execution",
+      "scope": "Caller-verifiable errors and external-pin three-way equality; caller-false-pin threat boundary explicit.",
+      "status": "CONTRACT_PASS"
+    },
+    "A3": {
+      "evidence": "boundary scan, full file-set enumeration, canonical input/target bindings",
+      "scope": "Run-package write boundary including gitignored paths plus frozen/dependency hashes.",
+      "status": "CONTRACT_PASS"
+    },
+    "A_common": {
+      "evidence": "final scratch/self_check.py output and artifacts_manifest.json",
+      "scope": "JSON/required fields/bytes/modes/hashes/paths/unknown surfaces.",
+      "status": "CONTRACT_PASS"
+    },
+    "G1": {
+      "evidence": "4/4 rc=0; runtime mismatch not persisted",
+      "scope": "Every .md under this run.",
+      "status": "CONTRACT_PASS"
+    },
+    "fresh_delivery": {
+      "evidence": "21/21 passed; P01 passed; watcher x_bit=true",
+      "scope": "One copied package with modes reset and restored from manifest.",
+      "status": "CONTRACT_PASS"
+    },
+    "overall": "CONTRACT_PASS",
+    "scope": "Current T5 v2 package under B0; deterministic byte/mode/hash/probe/guard/boundary checks only.",
+    "two_round_consistency": {
+      "evidence": "42/42 passed; normalized outcomes identical",
+      "scope": "Fresh-delivery PASS_1 versus current-tree PASS_2.",
+      "status": "CONTRACT_PASS"
+    },
+    "verification_level": "CONTRACT_PASS"
+  },
+  "supersedes": {
+    "fix_checklist": [
+      "deliver watcher mode and record mode/required_executables in artifacts_manifest.json",
+      "fresh-delivery chmod -x + manifest-mode restoration + full probe simulation and current-tree recheck",
+      "require declared hash == measured hash == caller-owned external expected_artifact_sha256; fail closed when absent or mismatched",
+      "add X06A no-pin reject, X06B wrong-pin reject, X06C correct-pin accept, retain E06",
+      "fold ADVISORY-1..6 with verifiable artifacts and truthful threat/boundary scope"
+    ],
+    "reasons": [
+      "watcher.sh execute bit was not delivered, so P01 and the 17/17 claim were not reproducible",
+      "self-consistent forged summary X06 passed without an external identity pin and executed target operations"
+    ],
+    "review_decision": "REJECTED",
+    "review_id": "T5R-01",
+    "superseded_run_id": "20261014T195445Z_60c8e213"
+  },
+  "task_id": "T5",
+  "task_prompt": {
+    "bytes": 5288,
+    "dispatch_source_bytes": 5288,
+    "dispatch_source_canonical_blob_id": "ebefaf91f6b5c9e500cfd72c9a7b69e3fcbdfcdf",
+    "dispatch_source_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/_dispatch/loop_a_prompt_t5_v2.md",
+    "dispatch_source_sha256": "0007a76a7e17b9e1d0030003d5f7e7000f98ec0f3882229e06698a009a5a7305",
+    "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/TASK_PROMPT.md",
+    "sha256": "0007a76a7e17b9e1d0030003d5f7e7000f98ec0f3882229e06698a009a5a7305",
+    "verbatim_match": true
+  },
+  "unresolved": [
+    "The validator cannot protect against a caller that deliberately supplies a false external pin; pin provenance remains caller-owned.",
+    "The runtime-generated tick fixture is bounded at 60 minutes and must be regenerated before later replay.",
+    "A future Loop D invocation, real evidence handoff, sealed case set, formal experiment, scientific measurement, C/S scoring change, promotion and deployment remain unverified.",
+    "GB10 authoritative production services, databases, model endpoints, daemon and Loop B remain untouched and unverified.",
+    "Executor/reviewer execution-chat token usage remains UNRESOLVED and is not represented as zero.",
+    "The full mtime scan observed pre-existing/concurrent changes under logs/ and .pytest_cache/; their exact writers and timing are not auditable, but no executor command wrote or probed those surfaces."
+  ],
+  "usage": {
+    "additional_cheap_requests_actual": 0,
+    "additional_cheap_requests_max": 0,
+    "additional_strong_requests_actual": 0,
+    "additional_strong_requests_max": 0,
+    "automatic_retries": 0,
+    "daemon_calls": 0,
+    "database_calls": 0,
+    "execution_chat_usage": "UNRESOLVED",
+    "final_acceptance_caller_processes": 42,
+    "final_acceptance_g1_markdown_checks": 4,
+    "final_acceptance_registered_operation_invocations": 16,
+    "final_acceptance_runtime_derive_negative_controls": 2,
+    "fresh_delivery_helper_attempts": 4,
+    "loop_b_calls": 0,
+    "manual_repair_fixes": 2,
+    "network_calls": 0,
+    "orchestrated_model_requests": 0,
+    "production_calls": 0,
+    "profile": "B0",
+    "remote_calls": 0,
+    "training_calls": 0
+  }
+}

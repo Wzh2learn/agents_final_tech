@@ -1,0 +1,12 @@
+{
+  "case_result_counts": {
+    "detected": 6,
+    "missed": 2,
+    "not_applicable": 2,
+    "unverified": 6
+  },
+  "case_row_count": 16,
+  "forbidden_derived_field_read_count": 0,
+  "rule": "Use baseline.cases[] only; do not read baseline.summary.case_results.",
+  "schema": "jinrong_t5_t4_consumption_evidence_v1"
+}

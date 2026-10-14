@@ -1,0 +1,8 @@
+[summary-guard] research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/TASK_PROMPT.md: 无 SUMMARY-GUARD 块, 跳过
+rc=0 path=research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/TASK_PROMPT.md
+[summary-guard] research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/recipe_fixtures/README.md: 无 SUMMARY-GUARD 块, 跳过
+rc=0 path=research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/recipe_fixtures/README.md
+[summary-guard] research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/recipe_fixtures/summary/good_summary.md: 1 收据块复核通过
+rc=0 path=research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/recipe_fixtures/summary/good_summary.md
+[summary-guard] research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/summary.md: 1 收据块复核通过
+rc=0 path=research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/summary.md

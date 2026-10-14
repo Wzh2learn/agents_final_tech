@@ -1,0 +1,345 @@
+{
+  "actual_counts": {
+    "ACCEPT": 4,
+    "REJECT": 17
+  },
+  "all_files_chmod_x_removed": true,
+  "all_passed": true,
+  "copy_complete": true,
+  "destination": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy",
+  "expected_counts": {
+    "ACCEPT": 4,
+    "REJECT": 17
+  },
+  "mode_restoration": [
+    {
+      "declared_mode": "100664",
+      "relative_path": "TASK_PROMPT.md",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "caller_validator.py",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "recipe_fixtures/README.md",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "recipe_fixtures/delivery_payload.json",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "recipe_fixtures/dispatch/tick_valid.json",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100755",
+      "relative_path": "recipe_fixtures/dispatch/watcher.sh",
+      "restored_mode": "100755"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "recipe_fixtures/probe_definitions.json",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "recipe_fixtures/summary/effect_artifact.json",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "recipe_fixtures/summary/good_summary.md",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "recipe_fixtures/valid_delivery_call.json",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "recipe_fixtures/valid_precheck_call.json",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "recipe_interfaces.json",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "registered_operations.json",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "run_probes.py",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "scratch/build_manifest.py",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "scratch/fresh_delivery/attempt1_failure.json",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "scratch/fresh_delivery/attempt2_failure.json",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "scratch/fresh_delivery_check.py",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "scratch/prepare_runtime_fixtures.py",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "scratch/reproduction/v1_p01_delivery_probe.jsonl",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "scratch/reproduction/v1_p01_delivery_probe.stderr",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "scratch/reproduction/v1_p01_delivery_probe.stdout",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "scratch/reproduction/v1_x06_forge.jsonl",
+      "restored_mode": "100664"
+    },
+    {
+      "declared_mode": "100664",
+      "relative_path": "scratch/self_check.py",
+      "restored_mode": "100664"
+    }
+  ],
+  "normalized_outcomes": [
+    {
+      "actual": "ACCEPT",
+      "actual_fail_closed_code": null,
+      "case_id": "P01-PRECHECK-VALID",
+      "expected": "ACCEPT",
+      "operation_result_count": 2,
+      "passed": true,
+      "target_execution_performed": true
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+      "case_id": "P02-PRECHECK-UNREGISTERED-OP",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+      "case_id": "P03-PRECHECK-SHELL-INJECTION",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE",
+      "case_id": "P04-PRECHECK-RANGE",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+      "case_id": "P05-PRECHECK-TYPE",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+      "case_id": "P06-PRECHECK-MISSING-FIELD",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+      "case_id": "P07-PRECHECK-WRONG-HASH",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_ARBITRARY_PATH",
+      "case_id": "P08-PRECHECK-ARBITRARY-PATH",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "ACCEPT",
+      "actual_fail_closed_code": null,
+      "case_id": "P09-PRECHECK-BOUNDED-TICK-AGE-60",
+      "expected": "ACCEPT",
+      "operation_result_count": 2,
+      "passed": true,
+      "target_execution_performed": true
+    },
+    {
+      "actual": "ACCEPT",
+      "actual_fail_closed_code": null,
+      "case_id": "E01-DELIVERY-VALID",
+      "expected": "ACCEPT",
+      "operation_result_count": 2,
+      "passed": true,
+      "target_execution_performed": true
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+      "case_id": "E02-DELIVERY-UNREGISTERED-OP",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+      "case_id": "E03-DELIVERY-SHELL-INJECTION",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+      "case_id": "E04-DELIVERY-MISSING-SCIENTIFIC",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+      "case_id": "E05-DELIVERY-WRONG-PACKAGE-HASH",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH",
+      "case_id": "E06-DELIVERY-FORGED-SUMMARY",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+      "case_id": "X06A-SELF-CONSISTENT-FORGED-NO-PIN",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_PIN_MISMATCH",
+      "case_id": "X06B-SELF-CONSISTENT-FORGED-WRONG-PIN",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "ACCEPT",
+      "actual_fail_closed_code": null,
+      "case_id": "X06C-SELF-CONSISTENT-FORGED-CORRECT-PIN",
+      "expected": "ACCEPT",
+      "operation_result_count": 2,
+      "passed": true,
+      "target_execution_performed": true
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+      "case_id": "E07-DELIVERY-SINGLE-OVERALL-PASS",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+      "case_id": "E08-DELIVERY-PARAMETER-TYPE",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    },
+    {
+      "actual": "REJECT",
+      "actual_fail_closed_code": "FC_ARBITRARY_PATH",
+      "case_id": "E09-DELIVERY-ARBITRARY-PATH",
+      "expected": "REJECT",
+      "operation_result_count": 0,
+      "passed": true,
+      "target_execution_performed": false
+    }
+  ],
+  "probe_count": 21,
+  "probe_exit_code": 0,
+  "probe_stderr": "",
+  "probe_stdout": "",
+  "required_executables": [
+    {
+      "relative_path": "recipe_fixtures/dispatch/watcher.sh",
+      "restored_mode": "100755",
+      "x_bit": true
+    }
+  ],
+  "runtime_fixture_prepare": {
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "{\"observed_at\": \"2026-10-14T21:49:17Z\", \"tick_path\": \"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/dispatch/tick_valid.json\", \"watcher\": \"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/dispatch/watcher.sh\"}\n"
+  },
+  "schema": "jinrong_t5_fresh_delivery_simulation_v1",
+  "source_run": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d"
+}

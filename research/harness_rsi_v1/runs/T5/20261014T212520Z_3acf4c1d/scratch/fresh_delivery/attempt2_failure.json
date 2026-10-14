@@ -1,0 +1,8 @@
+{
+  "attempt": 2,
+  "automatic_retry": false,
+  "failure": "The repaired predicate still allowed a nested copy of scratch/fresh_delivery because it ignored copied_package rather than the entire destination subtree at its source-run root.",
+  "manual_repair": "Moved the simulated checkout destination to run-root/.fresh_delivery_copy and changed the source-root ignore predicate to exclude that exact destination name; removed only the generated in-run partial copy before the next explicit repaired attempt.",
+  "schema": "jinrong_t5_manual_repair_evidence_v1",
+  "target_execution_performed": false
+}

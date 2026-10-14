@@ -1,0 +1,642 @@
+{
+  "assertion_mapping": {
+    "A1": {
+      "evidence": "probe matrix P02/P03/P08/E02/E03/E09",
+      "scope": "Two single-object recipes; unregistered/shell/arbitrary-path probes reject before target execution.",
+      "status": "CONTRACT_PASS"
+    },
+    "A2": {
+      "evidence": "probe matrix P06/P07/E04/E05/E06/X06A/X06B/X06C; validator does not defend against a caller deliberately supplying a false pin",
+      "scope": "Caller-side missing field/hash/forged-summary detection and external-pin three-way equality.",
+      "status": "CONTRACT_PASS"
+    },
+    "A3": {
+      "evidence": "RUN_FILE_SET_WITH_IGNORED_PATHS, GIT_WRITE_BOUNDARY, MTIME_SCAN_INCLUDES_IGNORED, CANONICAL_INPUT_HASHES",
+      "scope": "B0 run-package write boundary including gitignored paths and canonical frozen/dependency hashes.",
+      "status": "CONTRACT_PASS"
+    },
+    "A_common": {
+      "evidence": "all self-check rows",
+      "scope": "JSON, required fields, bytes, modes, hashes, paths, unknown surfaces and package integrity.",
+      "status": "CONTRACT_PASS"
+    }
+  },
+  "check_count": 20,
+  "checks": [
+    {
+      "check_id": "JSON_PARSE",
+      "detail": {
+        "parsed": 18
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "RECEIPT_REQUIRED_FIELDS",
+      "detail": {
+        "missing": []
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "THREE_AXIS_STATUS",
+      "detail": {
+        "acceptance_status": "UNREVIEWED",
+        "activation_status": "NOT_ENABLED",
+        "execution_status": "DELIVERED"
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "SUPERSEDES",
+      "detail": {
+        "fix_checklist": [
+          "deliver watcher mode and record mode/required_executables in artifacts_manifest.json",
+          "fresh-delivery chmod -x + manifest-mode restoration + full probe simulation and current-tree recheck",
+          "require declared hash == measured hash == caller-owned external expected_artifact_sha256; fail closed when absent or mismatched",
+          "add X06A no-pin reject, X06B wrong-pin reject, X06C correct-pin accept, retain E06",
+          "fold ADVISORY-1..6 with verifiable artifacts and truthful threat/boundary scope"
+        ],
+        "reasons": [
+          "watcher.sh execute bit was not delivered, so P01 and the 17/17 claim were not reproducible",
+          "self-consistent forged summary X06 passed without an external identity pin and executed target operations"
+        ],
+        "review_decision": "REJECTED",
+        "review_id": "T5R-01",
+        "superseded_run_id": "20261014T195445Z_60c8e213"
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "TASK_PROMPT_CAPTURE",
+      "detail": {
+        "dispatch_source_sha256": "0007a76a7e17b9e1d0030003d5f7e7000f98ec0f3882229e06698a009a5a7305",
+        "sha256": "0007a76a7e17b9e1d0030003d5f7e7000f98ec0f3882229e06698a009a5a7305"
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "CANONICAL_INPUT_HASHES",
+      "detail": [
+        {
+          "actual": "082ff999772d66fe4b9cea5e8ccad96c87ed3174",
+          "actual_file_sha": "f38ee568b0f5374b239f506630f098f8c0f7305caeeeaa56d49971f0b4fcebeb",
+          "declared": "082ff999772d66fe4b9cea5e8ccad96c87ed3174",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/cards/T5.md"
+        },
+        {
+          "actual": "c57937c8380413708082fdc17bd4c73286cb46bf",
+          "actual_file_sha": "c695780364b5672caf90a991176232c174a85615f1df19628c813690fa3ef127",
+          "declared": "c57937c8380413708082fdc17bd4c73286cb46bf",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/contracts/protocol.json"
+        },
+        {
+          "actual": "46acca7ec01b98a5008f2851f10a86af6fe34fed",
+          "actual_file_sha": "dd72a5497e542209451bfddc43b470d75a8c8164110a57c3642b54a955461972",
+          "declared": "46acca7ec01b98a5008f2851f10a86af6fe34fed",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/contracts/authority_map.json"
+        },
+        {
+          "actual": "e0569763e3221c606ebfd16c2f5d41b2b26d328d",
+          "actual_file_sha": "f659668ad1ddca44fcd170c328a177be201b8aaa871f2bb938681d404e9cf393",
+          "declared": "e0569763e3221c606ebfd16c2f5d41b2b26d328d",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/contracts/execution_policy.md"
+        },
+        {
+          "actual": "64634474115ac55d68ab20b254e325d87afe830e",
+          "actual_file_sha": "1c94e40e377dd7b119c27988d845859e9d88784312c68aeb3f3649871614a8d9",
+          "declared": "64634474115ac55d68ab20b254e325d87afe830e",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/contracts/budget_profiles.json"
+        },
+        {
+          "actual": "07731a300ad5d681c6ecb62269bac0531bfb3899",
+          "actual_file_sha": "a6543ce1fc4254f1f09573a928c6e0c318b5834062529ec9f0264873198a4c6d",
+          "declared": "07731a300ad5d681c6ecb62269bac0531bfb3899",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/contracts/schemas.json"
+        },
+        {
+          "actual": "fd2c1fdfb45806cd26961aa2f3c75aaeae887921",
+          "actual_file_sha": "1856da0654e0c57d2e35d395de4df8b220f8989020a6cc61de0c39cb3ad7494d",
+          "declared": "fd2c1fdfb45806cd26961aa2f3c75aaeae887921",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/evaluation/reliability_spec.md"
+        },
+        {
+          "actual": "6d23e8d95a5dd9df01196d5c7397ffb076dd1735",
+          "actual_file_sha": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+          "declared": "6d23e8d95a5dd9df01196d5c7397ffb076dd1735",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md"
+        },
+        {
+          "actual": "14278b2a00f12984311ffa8bc53a9f14377207dd",
+          "actual_file_sha": "e9d4aa29cb4330933054fa8b2dbb8a9529766843ec6a996b92a352c3b18884f8",
+          "declared": "14278b2a00f12984311ffa8bc53a9f14377207dd",
+          "declared_file_sha": "e9d4aa29cb4330933054fa8b2dbb8a9529766843ec6a996b92a352c3b18884f8",
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json"
+        },
+        {
+          "actual": "3ea99e453ceef1d7e60aa4e098b24b8f204f36c0",
+          "actual_file_sha": "41ff78e438aacdda246ae2b0427d4cc2be741af7689e4eca3ddcbad4619b292f",
+          "declared": "3ea99e453ceef1d7e60aa4e098b24b8f204f36c0",
+          "declared_file_sha": "41ff78e438aacdda246ae2b0427d4cc2be741af7689e4eca3ddcbad4619b292f",
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline.json"
+        },
+        {
+          "actual": "ebe9231afd2abc8b426b52755751f612f2353478",
+          "actual_file_sha": "65bc93327fe63641482336cfb571a063f6e07d5f16091c4d72fb02a2f961e5c5",
+          "declared": "ebe9231afd2abc8b426b52755751f612f2353478",
+          "declared_file_sha": "65bc93327fe63641482336cfb571a063f6e07d5f16091c4d72fb02a2f961e5c5",
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline_recipe.json"
+        },
+        {
+          "actual": "6bcb78125a45475c8180f93073a82473bcdfb420",
+          "actual_file_sha": "066bb41a8cc40ad667787a333cdad81eeeb51ff64503a024dc62798914eec80c",
+          "declared": "6bcb78125a45475c8180f93073a82473bcdfb420",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/reviews/T4R-01/ACCEPTANCE_PROPOSAL.json"
+        },
+        {
+          "actual": "caebf7f131a022317f6d05a715d2143d5cdcf16a",
+          "actual_file_sha": "c8dc8f2583c0edfe1af4f9fd0887394436763f32701c35f1ec9edf821fe824d4",
+          "declared": "caebf7f131a022317f6d05a715d2143d5cdcf16a",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/reviews/T4R-01/review_receipt.json"
+        },
+        {
+          "actual": "3708a4e6a8296ec29bacdfc170f9f8f8132bdf8d",
+          "actual_file_sha": "8038b511cf0f5f4c39f9d1d27c2b117505d30f6fa764f9970caf93ab9f584dc2",
+          "declared": "3708a4e6a8296ec29bacdfc170f9f8f8132bdf8d",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/runner.py"
+        },
+        {
+          "actual": "a5f98d0d17546e303609021f80fdadbfb83269c2",
+          "actual_file_sha": "d3b976b2e5e25a477b6b51ffc87634d86ddd9a57d69d85cf057f9d577b96143f",
+          "declared": "a5f98d0d17546e303609021f80fdadbfb83269c2",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/receipt.json"
+        },
+        {
+          "actual": "3d296b0b9667d16a2bd73973bb0f1ceebfbec263",
+          "actual_file_sha": "06b077542cddecc71095d96e4d41f63f9f776208256dda1954f34ca61c5ffd5c",
+          "declared": "3d296b0b9667d16a2bd73973bb0f1ceebfbec263",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py"
+        },
+        {
+          "actual": "891955a6c4765c8d28c9cc4578ccda0c7284b596",
+          "actual_file_sha": "87dd7e356a30b2f0791fd362f577e0112c792ddab8e32b826d98e2d7bcbb8437",
+          "declared": "891955a6c4765c8d28c9cc4578ccda0c7284b596",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/receipt.json"
+        },
+        {
+          "actual": "27de18145b4093f75ca64f77481a069c98c15dd8",
+          "actual_file_sha": "f0e6f0b2b6125568fdd1c1bf4ba241f3134a4f66ed061774d62ed749e3c2014a",
+          "declared": "27de18145b4093f75ca64f77481a069c98c15dd8",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/reviews/T5R-01/REVIEW.md"
+        },
+        {
+          "actual": "7c1d964b754727bc1da8a97ba030b419b553727d",
+          "actual_file_sha": "9a2e07223e9d587e8ae6cc505a753b7895e3dcefd46e6c6c33fad53e9d44d042",
+          "declared": "7c1d964b754727bc1da8a97ba030b419b553727d",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/reviews/T5R-01/ACCEPTANCE_PROPOSAL.json"
+        },
+        {
+          "actual": "589473776ef64d85c87fa031785dffddf6ea3968",
+          "actual_file_sha": "6013b7e49be667165cd42b14050de3ac2b9ac3d098d9a54044946e8f937255cb",
+          "declared": "589473776ef64d85c87fa031785dffddf6ea3968",
+          "declared_file_sha": null,
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/reviews/T5R-01/review_receipt.json"
+        },
+        {
+          "actual": "6025c2bea713a899031db30f4fdc71936cc68bac",
+          "actual_file_sha": "cd84542cc0ae691429c9260af18b8979c4ac8f77cd92d1fd00c2f1546ac5d6e6",
+          "declared": "6025c2bea713a899031db30f4fdc71936cc68bac",
+          "declared_file_sha": "cd84542cc0ae691429c9260af18b8979c4ac8f77cd92d1fd00c2f1546ac5d6e6",
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/runs/T5/20261014T195445Z_60c8e213/receipt.json"
+        },
+        {
+          "actual": "ebefaf91f6b5c9e500cfd72c9a7b69e3fcbdfcdf",
+          "actual_file_sha": "0007a76a7e17b9e1d0030003d5f7e7000f98ec0f3882229e06698a009a5a7305",
+          "declared": "ebefaf91f6b5c9e500cfd72c9a7b69e3fcbdfcdf",
+          "declared_file_sha": "0007a76a7e17b9e1d0030003d5f7e7000f98ec0f3882229e06698a009a5a7305",
+          "file_sha_match": true,
+          "match": true,
+          "relative": "research/harness_rsi_v1/runs/T5/_dispatch/loop_a_prompt_t5_v2.md"
+        }
+      ],
+      "scope": "all tracked receipt input/dependency bindings",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "OPERATION_TARGET_BINDINGS_AND_CWD",
+      "detail": [
+        {
+          "actual": "c5045e9542d4850f63eedc82b0ea6f48c15daa23",
+          "declared": "c5045e9542d4850f63eedc82b0ea6f48c15daa23",
+          "op_id": "OP-T4-R-DISPATCH-PRECHECK",
+          "required_cwd": "/home/testuser/wzh/projects/agents_final_tech",
+          "target_exists": true
+        },
+        {
+          "actual": "9f421f69bb61a023ec62852c1e8a4672a944e3d4",
+          "declared": "9f421f69bb61a023ec62852c1e8a4672a944e3d4",
+          "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK",
+          "required_cwd": "/home/testuser/wzh/projects/agents_final_tech",
+          "target_exists": true
+        },
+        {
+          "actual": "7a3c9d1d6a79d74888c2db12c5df0b955e3d01d3",
+          "declared": "7a3c9d1d6a79d74888c2db12c5df0b955e3d01d3",
+          "op_id": "OP-T4-R-SUMMARY-GUARD-DERIVE",
+          "required_cwd": "/home/testuser/wzh/projects/agents_final_tech",
+          "target_exists": true
+        }
+      ],
+      "scope": "three T4 read-only adapter targets and fixed cwd only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "TWO_SINGLE_OBJECT_RECIPES",
+      "detail": [
+        {
+          "explicitly_not_responsible_for": [
+            "evidence delivery field validation",
+            "scientific measurement",
+            "R/C/S scoring",
+            "formal experiment qualification",
+            "promotion or deployment"
+          ],
+          "object_id": "runtime_preflight_recipe",
+          "object_type": "call-boundary and identity precheck for one run package",
+          "only_object": true
+        },
+        {
+          "explicitly_not_responsible_for": [
+            "run preflight or dispatch watcher validity",
+            "scientific measurement",
+            "R/C/S scoring",
+            "formal experiment qualification",
+            "promotion or deployment"
+          ],
+          "object_id": "evidence_delivery_recipe",
+          "object_type": "caller-side delivery validation for one receipt/manifest evidence package",
+          "only_object": true
+        }
+      ],
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "PROBE_MATRIX",
+      "detail": {
+        "actual": {
+          "ACCEPT": 4,
+          "REJECT": 17
+        },
+        "definitions": 21,
+        "expected": {
+          "ACCEPT": 4,
+          "REJECT": 17
+        },
+        "two_round_consistent": true
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "PIN_THREE_WAY_EQUALITY",
+      "detail": {
+        "X06A-SELF-CONSISTENT-FORGED-NO-PIN": {
+          "actual": "REJECT",
+          "actual_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+          "caller_exit_code": 1,
+          "caller_stderr": "",
+          "caller_stdout": "{\"error_detail\": \"delivery caller_context must provide an external expected_artifact_sha256 pin\", \"fail_closed_code\": \"FC_ARTIFACT_NOT_PINNED\", \"operation_results\": [], \"recipe_id\": null, \"scientific_claim\": null, \"scientific_status\": null, \"single_object_id\": null, \"target_execution_performed\": false, \"validation_status\": \"REJECTED\"}\n",
+          "case_id": "X06A-SELF-CONSISTENT-FORGED-NO-PIN",
+          "duration_ms": 38.884,
+          "expected": "REJECT",
+          "expected_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+          "operation_result_count": 0,
+          "passed": true,
+          "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+          "round_id": "PASS_1",
+          "schema": "jinrong_t5_probe_result_v2",
+          "target_execution_performed": false
+        },
+        "X06B-SELF-CONSISTENT-FORGED-WRONG-PIN": {
+          "actual": "REJECT",
+          "actual_fail_closed_code": "FC_PIN_MISMATCH",
+          "caller_exit_code": 1,
+          "caller_stderr": "",
+          "caller_stdout": "{\"error_detail\": \"declared/measured summary SHA-256 does not match the caller's trusted external pin\", \"fail_closed_code\": \"FC_PIN_MISMATCH\", \"operation_results\": [], \"recipe_id\": null, \"scientific_claim\": null, \"scientific_status\": null, \"single_object_id\": null, \"target_execution_performed\": false, \"validation_status\": \"REJECTED\"}\n",
+          "case_id": "X06B-SELF-CONSISTENT-FORGED-WRONG-PIN",
+          "duration_ms": 24.265,
+          "expected": "REJECT",
+          "expected_fail_closed_code": "FC_PIN_MISMATCH",
+          "operation_result_count": 0,
+          "passed": true,
+          "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+          "round_id": "PASS_1",
+          "schema": "jinrong_t5_probe_result_v2",
+          "target_execution_performed": false
+        },
+        "X06C-SELF-CONSISTENT-FORGED-CORRECT-PIN": {
+          "actual": "ACCEPT",
+          "actual_fail_closed_code": null,
+          "caller_exit_code": 0,
+          "caller_stderr": "",
+          "caller_stdout": "{\"fail_closed_code\": null, \"operation_results\": [{\"duration_ms\": 20.873, \"op_id\": \"OP-T4-R-SUMMARY-GUARD-CHECK\", \"semantic\": \"wrapper and target exit code coincide\", \"stderr\": \"\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stdout\": \"[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/summary/good_summary.md: 1 收据块复核通过\\n\", \"stdout_sha256\": \"786e02b4ffce4ba85e6443b88303775d47ffd3a2d6449a9e1130669bf5c10243\", \"target_exit_code\": 0, \"wrapper_exit_code\": 0}, {\"duration_ms\": 46.824, \"op_id\": \"OP-T4-R-SUMMARY-GUARD-DERIVE\", \"semantic\": \"target tool exit code; for derive this is guard_rc, not wrapper exit\", \"stderr\": \"\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stdout\": \"derived_md_path=/tmp/t4-v2-summary-mismatch.cIrn1O.md\\nderived_md_sha256=aa69709ee8f93b6ded04327e7be550bd50968ab4d9b1b3abf12d9fecd67abd1a\\nguard_command=python3 /home/testuser/wzh/projects/agents_final_tech/scripts/graph/hooks/summary_recompute_guard.py check /tmp/t4-v2-summary-mismatch.cIrn1O.md\\n[summary-guard] FAIL 数字失配: request_count = 4 (收据声称 3)\\n[summary-guard] /tmp/t4-v2-summary-mismatch.cIrn1O.md: 1 项失配 — 摘要必须与存储工件一致, 请重读复算后再提交\\nguard_rc=1\\nderived_md_removed=true\\n\", \"stdout_sha256\": \"c6f0d8ec785ffeee49e03ecd781234ad1f4a367581093650ea430b3b5116b1b9\", \"target_exit_code\": 1, \"wrapper_exit_code\": 0}], \"recipe_id\": \"T5-R-EVIDENCE-DELIVERY-V1\", \"scientific_claim\": null, \"scientific_status\": \"NOT_ACHIEVED\", \"single_object_id\": \"evidence_delivery_recipe\", \"target_execution_performed\": true, \"validation_status\": \"ACCEPTED_WITHIN_SCOPE\"}\n",
+          "case_id": "X06C-SELF-CONSISTENT-FORGED-CORRECT-PIN",
+          "duration_ms": 106.531,
+          "expected": "ACCEPT",
+          "expected_fail_closed_code": null,
+          "operation_result_count": 2,
+          "passed": true,
+          "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+          "round_id": "PASS_1",
+          "schema": "jinrong_t5_probe_result_v2",
+          "target_execution_performed": true
+        }
+      },
+      "scope": "declared == measured == caller-owned external pin; false-pin caller remains outside validator trust boundary",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "BOUNDED_TICK_AGE",
+      "detail": {
+        "P01-PRECHECK-VALID": {
+          "actual": "ACCEPT",
+          "actual_fail_closed_code": null,
+          "caller_exit_code": 0,
+          "caller_stderr": "",
+          "caller_stdout": "{\"fail_closed_code\": null, \"operation_results\": [{\"duration_ms\": 27.603, \"op_id\": \"OP-T4-R-DISPATCH-PRECHECK\", \"semantic\": \"wrapper and target exit code coincide\", \"stderr\": \"\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stdout\": \"=== A4w 派发前置: 双实证输入合同检查 (只读) ===\\n收据是可审计合同, 不防恶意伪造; 本预检不执行 watcher、不制造 tick。\\n[watcher] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/dispatch/watcher.sh\\n  PASS  bash -n; mode=-rwxr-xr-x sha256=fb99eae951f1adc14d1a4a9a186c21930db2786b3208c94c7d9af382bd1048e5 bytes=27\\n[tick-marker] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/dispatch/tick_valid.json\\n  PASS  执行收据合同通过: watcher=/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/dispatch/watcher.sh observed_at=2026-10-14T21:56:52Z age=0.01min\\n=== 结论: 双实证齐备 (输入合同通过), 可派发 ===\\n\", \"stdout_sha256\": \"74f9fcbe8d8572bb5b30494aedcc35467d603363e2fc5c9aadda445175bcfbcc\", \"target_exit_code\": 0, \"wrapper_exit_code\": 0}, {\"duration_ms\": 33.151, \"op_id\": \"OP-T4-R-SUMMARY-GUARD-CHECK\", \"semantic\": \"wrapper and target exit code coincide\", \"stderr\": \"\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stdout\": \"[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/summary/good_summary.md: 1 收据块复核通过\\n\", \"stdout_sha256\": \"786e02b4ffce4ba85e6443b88303775d47ffd3a2d6449a9e1130669bf5c10243\", \"target_exit_code\": 0, \"wrapper_exit_code\": 0}], \"recipe_id\": \"T5-R-RUNTIME-PREFLIGHT-V1\", \"scientific_claim\": null, \"scientific_status\": \"NOT_EVALUATED\", \"single_object_id\": \"runtime_preflight_recipe\", \"target_execution_performed\": true, \"validation_status\": \"ACCEPTED_WITHIN_SCOPE\"}\n",
+          "case_id": "P01-PRECHECK-VALID",
+          "duration_ms": 88.42,
+          "expected": "ACCEPT",
+          "expected_fail_closed_code": null,
+          "operation_result_count": 2,
+          "passed": true,
+          "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+          "round_id": "PASS_1",
+          "schema": "jinrong_t5_probe_result_v2",
+          "target_execution_performed": true
+        },
+        "P09-PRECHECK-BOUNDED-TICK-AGE-60": {
+          "actual": "ACCEPT",
+          "actual_fail_closed_code": null,
+          "caller_exit_code": 0,
+          "caller_stderr": "",
+          "caller_stdout": "{\"fail_closed_code\": null, \"operation_results\": [{\"duration_ms\": 25.046, \"op_id\": \"OP-T4-R-DISPATCH-PRECHECK\", \"semantic\": \"wrapper and target exit code coincide\", \"stderr\": \"\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stdout\": \"=== A4w 派发前置: 双实证输入合同检查 (只读) ===\\n收据是可审计合同, 不防恶意伪造; 本预检不执行 watcher、不制造 tick。\\n[watcher] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/dispatch/watcher.sh\\n  PASS  bash -n; mode=-rwxr-xr-x sha256=fb99eae951f1adc14d1a4a9a186c21930db2786b3208c94c7d9af382bd1048e5 bytes=27\\n[tick-marker] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/dispatch/tick_valid.json\\n  PASS  执行收据合同通过: watcher=/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/dispatch/watcher.sh observed_at=2026-10-14T21:56:52Z age=0.02min\\n=== 结论: 双实证齐备 (输入合同通过), 可派发 ===\\n\", \"stdout_sha256\": \"cb7b180c9038bdb92ceac08bfd4ad02579490afbc762d7a230152277ea0a43da\", \"target_exit_code\": 0, \"wrapper_exit_code\": 0}, {\"duration_ms\": 20.309, \"op_id\": \"OP-T4-R-SUMMARY-GUARD-CHECK\", \"semantic\": \"wrapper and target exit code coincide\", \"stderr\": \"\", \"stderr_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stdout\": \"[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/.fresh_delivery_copy/recipe_fixtures/summary/good_summary.md: 1 收据块复核通过\\n\", \"stdout_sha256\": \"786e02b4ffce4ba85e6443b88303775d47ffd3a2d6449a9e1130669bf5c10243\", \"target_exit_code\": 0, \"wrapper_exit_code\": 0}], \"recipe_id\": \"T5-R-RUNTIME-PREFLIGHT-V1\", \"scientific_claim\": null, \"scientific_status\": \"NOT_EVALUATED\", \"single_object_id\": \"runtime_preflight_recipe\", \"target_execution_performed\": true, \"validation_status\": \"ACCEPTED_WITHIN_SCOPE\"}\n",
+          "case_id": "P09-PRECHECK-BOUNDED-TICK-AGE-60",
+          "duration_ms": 72.256,
+          "expected": "ACCEPT",
+          "expected_fail_closed_code": null,
+          "operation_result_count": 2,
+          "passed": true,
+          "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+          "round_id": "PASS_1",
+          "schema": "jinrong_t5_probe_result_v2",
+          "target_execution_performed": true
+        }
+      },
+      "scope": "runtime-generated observed_at with max_tick_age_minutes=30 and 60",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "G1_ALL_MARKDOWN_GUARD",
+      "detail": [
+        {
+          "path": "TASK_PROMPT.md",
+          "rc": 0
+        },
+        {
+          "path": "recipe_fixtures/README.md",
+          "rc": 0
+        },
+        {
+          "path": "recipe_fixtures/summary/good_summary.md",
+          "rc": 0
+        },
+        {
+          "path": "summary.md",
+          "rc": 0
+        }
+      ],
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "MANIFEST_BYTES_AND_MODES",
+      "detail": {
+        "checked": 45,
+        "declared": 45,
+        "failures": []
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "REQUIRED_EXECUTABLES",
+      "detail": [
+        {
+          "expected_mode": "100755",
+          "mode": "100755",
+          "relative_path": "recipe_fixtures/dispatch/watcher.sh",
+          "x_bit": true
+        }
+      ],
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "RUN_FILE_SET_WITH_IGNORED_PATHS",
+      "detail": {
+        "extra": [],
+        "missing": []
+      },
+      "scope": "complete run directory enumeration; gitignored paths are not excluded",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "GIT_WRITE_BOUNDARY",
+      "detail": {
+        "allowed_preexisting": [
+          "logs/graph dirty files",
+          "T4 uncommitted v1 run"
+        ],
+        "executor_owned": "T5/20261014T212520Z_3acf4c1d",
+        "violations": []
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "MTIME_SCAN_INCLUDES_IGNORED",
+      "detail": {
+        "allowed_external_prefixes": [
+          "logs/",
+          ".pytest_cache/"
+        ],
+        "executor_owned_outside_run": [],
+        "external_touched": [
+          "logs/app.log",
+          "logs/m1_service.log",
+          "logs/graph/docs_lint_report.json",
+          "logs/graph/b4_ask_log.jsonl",
+          "logs/graph/loop_b.log",
+          "logs/graph/pytest_loopb.txt",
+          "logs/graph/canary_latest.txt",
+          "logs/graph/verify-report.json",
+          "logs/graph/eval/m2_canary_report.json",
+          ".pytest_cache/v/cache/nodeids"
+        ],
+        "ignored_touched": [
+          "logs/app.log",
+          "logs/m1_service.log",
+          "logs/graph/b4_ask_log.jsonl",
+          "logs/graph/loop_b.log",
+          "logs/graph/canary_latest.txt",
+          "logs/graph/eval/m2_canary_report.json",
+          "research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/scratch/g1_guard_matrix.log",
+          "research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/scratch/current_tree/runtime_fixture_prepare.log",
+          "research/harness_rsi_v1/runs/T5/20261014T212520Z_3acf4c1d/scratch/current_tree/attempt3_runtime_fixture_prepare.log",
+          ".pytest_cache/v/cache/nodeids"
+        ],
+        "repo_files_scanned": 74355,
+        "touched_count": 54
+      },
+      "scope": "full repository walk including gitignored files; pre-existing/concurrent external mtimes are disclosed rather than counted as executor writes",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "EVENTS_MONOTONIC",
+      "detail": {
+        "count": 13,
+        "first": 1,
+        "last": 13
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "B0_ZERO_EXTERNAL_AND_UNRESOLVED",
+      "detail": {
+        "additional_cheap_requests_actual": 0,
+        "additional_cheap_requests_max": 0,
+        "additional_strong_requests_actual": 0,
+        "additional_strong_requests_max": 0,
+        "automatic_retries": 0,
+        "daemon_calls": 0,
+        "database_calls": 0,
+        "execution_chat_usage": "UNRESOLVED",
+        "final_acceptance_caller_processes": 42,
+        "final_acceptance_g1_markdown_checks": 4,
+        "final_acceptance_registered_operation_invocations": 16,
+        "final_acceptance_runtime_derive_negative_controls": 2,
+        "fresh_delivery_helper_attempts": 4,
+        "loop_b_calls": 0,
+        "manual_repair_fixes": 2,
+        "network_calls": 0,
+        "orchestrated_model_requests": 0,
+        "production_calls": 0,
+        "profile": "B0",
+        "remote_calls": 0,
+        "training_calls": 0
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    },
+    {
+      "check_id": "NO_PERSISTED_BAD_SUMMARY",
+      "detail": {
+        "bad_markdown_receipts": []
+      },
+      "scope": "current T5 run package only",
+      "status": "OK",
+      "verification_level": "CONTRACT_PASS"
+    }
+  ],
+  "failures": [],
+  "ok_count": 20,
+  "run_id": "20261014T212520Z_3acf4c1d",
+  "schema": "jinrong_t5_self_check_result_v2",
+  "scope": "Current run package; deterministic local byte/mode/hash/probe/guard/write-boundary checks only; no scientific, GB10 production, daemon, model, database or formal-run qualification.",
+  "status": "OK",
+  "verification_level": "CONTRACT_PASS"
+}
