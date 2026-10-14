@@ -1,0 +1,98 @@
+{
+  "advisory_items": [
+    {
+      "category": "security/correctness",
+      "escalation_condition": "If the closeout authority treats permission_matrix's literal containment wording ('before any runner read or write') as a hard acceptance gate - a defensible reading of A2's 'illegal paths rejected' - escalate A1 to BLOCKING. Minimal re-review scope then required: the attempt_id/preseed path-normalisation patch plus one traversal fixture's live evidence. The 32-check qualification set, the 233-entry manifest, the 8 input bindings and the two-round hash need no re-review.",
+      "evidence": "FACT, live probes in external scratch. Fixture action attempt_id='../../escape_attempt' caused the runner to create <workspace>/escape_attempt/{request.json,response.json} OUTSIDE run_dir 20261014T161814Z_00000004, while run_dir/attempts/ stayed empty, exit 0, no policy_rejection. Fixture preseed_attempts=['../../escape_preseed'] created <workspace>/escape_preseed/preexisting.txt outside run_dir, exit 0. By contrast policy_probe targets '../../../../etc/passwd' and 'attempts/../../../escape.txt' were both correctly denied (2 policy_rejections). Static audit: ensure_path_allowed has exactly ONE call site (runner.py:147, serving only policy_probe file_path). Unguarded path joins: attempts_dir/attempt_id at L176 (mkdir), L201 (request.json), L269 (crash.json), L304 (response.json); run_dir/'attempts'/preseed at L320 (mkdir parents=True) and L321 (write_text). run_id itself is safe (regex ^\\d{8}T\\d{6}Z_[0-9a-f]{8}$ forbids separators).",
+      "id": "A1",
+      "impact": "permission_matrix.json states check_method 'resolved-path containment check before any runner read or write' for other_filesystem_paths, and for run_write_path 'attempt request/response files additionally require exclusive create mode'. The containment clause is false. A2's named condition 'illegal paths rejected' holds for the declared policy_probe mechanism, which the qualification exercises, but does not cover these two fixture-derived path components.",
+      "recommendation": "Reject path separators and '..' in attempt_id and preseed_attempts (or route both through ensure_path_allowed before any join), and add one traversal fixture to pin it.",
+      "severity": "highest",
+      "title": "attempt_id / preseed_attempts escape the run-directory allowlist, falsifying permission_matrix's containment claim",
+      "why_not_blocking": "The escaping write is driven by operator-supplied fixtures, i.e. the same trust domain as the process owner; T3's scope has no untrusted input entry point. The package discloses POLICY_ONLY / os_sandbox=false / 'actual isolation not implemented or not claimed' consistently across seven artifacts, and card T3 section 4 itself warns 'directory separation is not proof of isolation'. The failure mode cannot produce a wrong verdict, cannot inflate a score, and cannot leak sealed material. activation_status is NOT_ENABLED and T4 is not entered. Under normal fixtures all 234 run files sit inside the allowlist. Per the T2R-01 calibration discipline (loud, non-gameable, does not defeat a named acceptance condition -> advisory with escalation condition), this is recorded as ADVISORY at highest severity rather than BLOCKING."
+    },
+    {
+      "category": "test-coverage",
+      "evidence": "FACT. run_qualification.py's case_specs (7) plus the duplicate_id case all consume the seven static package fixtures; none contains '..' in attempt_id or preseed_attempts. budget_bypass.json's second action ('second_bypass_probe') is unreachable because the first action already raises BudgetExhaustedError, so truncation at a non-zero cap is never pinned by the qualification (reviewer independently verified cap=1 with two transports allows exactly one and rejects the second).",
+      "id": "A2",
+      "impact": "A 32/32 score cannot be extrapolated to untested surfaces; this is precisely why A1 passed the executor's own self-check.",
+      "recommendation": "Add fixtures for: path traversal via attempt_id and via preseed_attempts; cap=1 with two transport actions; unknown action type; invalid run_id. Fold into the 32-check set so the score actually covers the declared policy surface.",
+      "severity": "medium",
+      "title": "The 32-check qualification never exercises the traversal surface or the mid-cap budget boundary"
+    },
+    {
+      "category": "spec-fidelity",
+      "evidence": "FACT. runner.py:67-68 sets self.budget_cap = int(self.profile.get('cheap_requests', 0)); strong_requests appears nowhere else in any enforcement path. Card T3 section 8 requires 'additional cheap requests max 0, additional strong model requests max 0' and 'shared profile total and per-card limit take the stricter'.",
+      "id": "A3",
+      "impact": "The strong-model request axis has no budget gate. Untriggered today because the mock runner issues a single transport kind, but the declared two-axis constraint is not fully implemented.",
+      "recommendation": "Add an independent strong_requests counter and gate, or state explicitly in permission_matrix.json and runner/README.md that this runner only enforces the cheap axis.",
+      "severity": "medium",
+      "title": "The strong_requests budget axis is carried but never enforced"
+    },
+    {
+      "category": "evidence-reproducibility",
+      "evidence": "FACT. runner.py lines 299, 380, 384, 386 assign literal True/False. previous_counters is assigned once at L82 and never read.",
+      "id": "A4",
+      "impact": "A reader may mistake count_monotonic for a computed value. The underlying conclusion still holds: the qualification independently recomputes monotonicity from count_history.jsonl, and zero network capability is independently established by the import audit.",
+      "recommendation": "Derive count_monotonic from count_history at summary time; delete previous_counters.",
+      "severity": "low",
+      "title": "run_summary flags count_monotonic / network_used / mock_transport_only are hardcoded constants; previous_counters is dead"
+    },
+    {
+      "category": "test-coverage/assertion-strength",
+      "evidence": "FACT. run_qualification.py:123 uses duplicate.returncode != 0 while receipt/check prose says 'exit 2'. Reviewer independently measured exit code exactly 2 and empty stderr, so behaviour is correct; the assertion is merely weaker than the claim.",
+      "id": "A5",
+      "impact": "A regression to exit 6 on duplicate IDs would still pass the qualification.",
+      "recommendation": "Assert returncode == 2 exactly and add an empty-stderr assertion for every case.",
+      "severity": "low",
+      "title": "duplicate_id asserts exit_nonzero rather than the declared exit code 2, and no check asserts empty stderr"
+    },
+    {
+      "category": "correctness/error-taxonomy",
+      "evidence": "FACT, live probes. (1) overwrite_probe calls persist_attempt_request without check_budget: with cap=0 it still wrote request.json and budget_rejections stayed 0. (2) duplicate entries in preseed_attempts raise FileExistsError outside the try block, giving exit 6, no run_summary.json, and run_state.json left at execution_status=RUNNING. (3) a duplicate attempt_id inside a transport action raises OverwriteRejectedError into the generic handler, yielding exit 4 + unexpected_crash.json instead of a structured overwrite rejection. Substantive protection holds in (3): prior evidence preserved and overwrite_rejections=1.",
+      "id": "A6",
+      "impact": "Counting and rejection semantics are slightly misaligned; case (2) leaves a dangling RUNNING state record with no terminal summary.",
+      "recommendation": "Route overwrite_probe through the budget gate and record a budget rejection when exhausted; move the preseed loop inside the try block and emit a structured overwrite rejection; give OverwriteRejectedError its own handler.",
+      "severity": "low",
+      "title": "Three error-classification and gate-boundary inconsistencies (behaviour is fail-closed; semantics are not aligned)"
+    },
+    {
+      "category": "auditability",
+      "evidence": "FACT. receipt.usage.model_extra_requests = 0 denotes real B0 model extra requests, while the mock runner's internal counter of the same name totals 14 across the two qualification rounds. Correctly separated elsewhere via mock_transport_requests_across_two_formal_qualification_rounds: 14 and events.jsonl's model_extra_requests_in_mock_qualification: 14.",
+      "id": "A7",
+      "impact": "Risk of misreading 0 as contradicting 14.",
+      "recommendation": "Rename the usage field to model_extra_requests_real (or add a one-line note in receipt.usage).",
+      "severity": "low",
+      "title": "Field name model_extra_requests is reused across two different ledgers"
+    },
+    {
+      "category": "reviewer-hygiene/disclosure",
+      "evidence": "FACT. .omc/state/sessions/2f6dad8a-0f18-4838-bd29-2aaf3c38d9c2/pre-tool-advisory-throttle.json, mtime 2026-10-15 01:03:03 +0800, created by the OMC pre-tool hook after the shell CWD was moved into the run directory during this review. Contents are hook-throttle state containing this session's own advisory strings. Attribution: T3R-01 reviewer tooling, NOT Loop A.",
+      "id": "A8",
+      "impact": "The run directory now holds 235 on-disk files versus the original 234. The file is matched by the repository's .omc/ gitignore rule and is absent from both the manifest and git ls-tree -r HEAD, so the 234/233 count, the manifest hash verification, and the write-boundary conclusion are all unaffected.",
+      "recommendation": "The closeout layer may delete the .omc directory. This review did not delete it: the reviewer holds no rm and must not modify the reviewed package. Do not attribute this to Loop A.",
+      "severity": "low",
+      "title": "Reviewer tooling created one file inside the reviewed run directory"
+    }
+  ],
+  "blocking_items": [],
+  "decision": "ACCEPTED",
+  "decision_id": "T3R-01",
+  "dissent": {
+    "internal": "The runner-up disposition was REJECTED, on the grounds that permission_matrix.json makes an explicit, falsifiable enforcement claim ('resolved-path containment check before any runner read or write') that I demonstrated to be false, and that A2 of the card asserts 'illegal paths are rejected' - so a demonstrated out-of-allowlist write arguably sits inside a named acceptance condition, which distinguishes this from T2R-01's A1 where no named acceptance condition was touched. Under that reading the correct call is REJECTED, fixed with roughly three lines, and re-reviewed on the patch alone. I chose ACCEPTED instead because: (a) the escaping write requires an operator-supplied fixture, placing it in the same trust domain as the process owner, and T3 has no untrusted input entry point; (b) the package discloses POLICY_ONLY / os_sandbox=false / 'actual isolation not implemented or not claimed' in seven separate artifacts, and card T3 section 4 itself warns that directory separation is not proof of isolation, so the package never promised OS-grade containment; (c) the failure mode cannot produce a wrong verdict, cannot inflate a qualification score and cannot leak sealed material, so it is not gameable; (d) none of the qualification's named acceptance probes is defeated - the declared policy_probe rejection mechanism works, which is what A2's tested condition exercises; (e) activation_status is NOT_ENABLED and T4 is not entered, so nothing is deployed on the strength of the false claim; and (f) the fix is small and locally verifiable. I want the escalation condition preserved verbatim in the blocking_items field of this proposal: if the closeout authority treats the permission_matrix containment wording as a hard acceptance gate - a defensible reading of A2 - this decision should be revisited as BLOCKING and only the attempt_id/preseed normalisation patch plus one traversal fixture re-reviewed. A third runner-up disposition, PENDING_HUMAN_REVIEW, was considered and rejected on the grounds that the evidence is unambiguous and the owner should not be asked to adjudicate a factual claim I have already falsified; the escalation mechanism carries the discretionary question more precisely than a pending state would.",
+    "recorded_for": "closeout authority (registry/state owner) and any subsequent human adjudication"
+  },
+  "justification": "Every named acceptance condition was independently reproduced in reviewer-owned scratch rather than taken from the run's self-report: duplicate-ID rejection at exit exactly 2 with the sentinel unchanged and no summary written; crash with request.json and crash.json retained and INCOMPLETE recorded; overwrite refusal with pre-existing evidence preserved and counted; budget fail-closed at both cap=0 and the cap=1 boundary with zero transport; monotonic count_history with failure/timeout/manual_retry/success all counted; the five illegal-access families each denied with distinct evidence; split ledgers with unknown chat usage as UNRESOLVED; and persist-before-call confirmed by event ordering. The run's identity and reproducibility claims are unusually strong and held up to three independent verification methods: 234/233 file counting triangulated across find, git ls-tree and the manifest; all 8 input bindings agreeing under byte-derived blob SHA-1, .git/index and git rev-parse HEAD; and both live qualification re-runs producing a normalized hash byte-identical to the declared value and independently recomputable. Zero external calls are established negatively and positively - no contrary evidence anywhere in the package, and the runner provably has no network capability. Disclosure is honest: both self-reported fixes are corroborated verbatim by retained PASS_1 and PASS_1_RETRY failure evidence, the 58-second dispatch mtime claim measures 57.5 seconds, and the execution_policy naming divergence is real and disclosed. The three-axis status is correct and no acceptance, promotion or GB10 claim is forged. Against that, A1 is a genuine declared-claim versus implementation gap that the qualification does not cover; it is recorded at highest severity with a precise escalation condition rather than being absorbed, because accepting must not launder a false containment claim into the accepted record unchallenged.",
+  "next_steps": [
+    "Fix A1: normalise or reject path separators and '..' in attempt_id and preseed_attempts (or route both through ensure_path_allowed), and pin it with one traversal fixture. If the owner adopts the literal containment reading, treat this as BLOCKING and re-review only that patch.",
+    "Register A2-A8 at the closeout layer for the selection-set, GB10-binding and sealed-access stages.",
+    "Closeout layer may remove the reviewer-created runs/T3/20261014T161814Z_245b86ab/.omc/ directory (advisory A8); it is gitignored and outside the manifest, and must not be attributed to Loop A.",
+    "Before T4 activation, resolve whether GB10 authoritative binding and/or OS-level isolation is required; this package explicitly provides neither and must not be inferred to.",
+    "Do not automatically enter T4.",
+    "Registry and state updates remain the closeout author's responsibility."
+  ],
+  "reviewed_run_id": "20261014T161814Z_245b86ab",
+  "schema": "harness_rsi_t3_acceptance_proposal_v1",
+  "scope": "Independent Loop C review of the bounded T3 trusted-execution-and-counting run at research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/ against cards/T3.md acceptance A1/A2/A3/A-common and contracts/{protocol,authority_map,execution_policy,budget_profiles,schemas}. Independent recomputation of the 234-file run count and the 233-entry artifacts manifest (every SHA-256 and byte count), all 8 input_bindings verified by three independent methods (byte-derived git blob SHA-1, .git/index parse, and the receipt's own git rev-parse HEAD command), the protocol freeze value, two live qualification re-runs in repository-external scratch (32/32 each, exit 0, empty stderr, normalized_result_sha256 equal to the declared 0a596362...3ed2 and independently recomputed), the 14-case mock-transport breakdown, A1/A2/A3/A-common assertion reproduction, budget no-bypass static and dynamic analysis, adversarial probes (path traversal via policy_probe / attempt_id / preseed_attempts, unknown action type, unknown policy category, five invalid run_id variants, network-import audit, subprocess-not-import confirmation), disclosure consistency for the two retained fixes and the _dispatch mtime claim and the execution_policy naming divergence, a repository-wide write-boundary mtime scan, and a counter-evidence sweep for forged acceptance, hidden decision bias, and self-proving qualification. T4 not entered; registry/state not updated; sealed access, formal experiments, deployment, production/database/training/network/model calls all out of scope and all zero.",
+  "task_id": "T3"
+}
