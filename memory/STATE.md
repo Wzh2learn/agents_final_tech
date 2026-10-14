@@ -20,6 +20,7 @@
 - Skill round-2 tidies executed: `SKILL_ROUTING.md` C9/C10 status updated to "保持独立 (2026-10-14)"; cross-reference lines added to `dispatching-parallel-agents` and `subagent-fanout`.
 - Paper E AI-flavor pass applied (14 presentation-only rewrites; rebuild 9pp; audits PASS): `docs/research/PAPER_E_AI_FLAVOR_REVIEW_v1.md`; PDF audit 13g.
 - Harness policy update (owner 2026-10-14): delegate overreach commits are acceptable when lossless (verified by diff + audits); lossy ones are reverted and recorded.
+- WP-2 S4 collection outcome: `STOP_THIS_PANEL` after a second same-family bridge failure (plan JSON parse; raw persisted, prose-only completion; 9/300 actor attempts used; probe-cap and raw-overwrite incidents disclosed in `S4B_STOP_RECEIPT.json`). Panel paused for owner decision (options: final bounded S4c with a pre-designed bridge v2; server-side constrained decoding; or close the panel). No S5-S9 ran; zero judge/training calls.
 ## 2026-10-12 execution preparation (handoff only)
 
 - Latest [`execution handoff status`](../docs/research/EXECUTION_HANDOFF_STATUS_v1.md): strategy governance is finished; next tasks are Paper E WP-E revision under its gate and thesis WP-0 read-only qualification only. This round stops at review/handoff; no revision, qualification execution, implementation, experiment or dispatch occurred. Paper E remains science-blocked; G-RQ/G-M remain PENDING. The historical sections below do not control current priority or permission.
