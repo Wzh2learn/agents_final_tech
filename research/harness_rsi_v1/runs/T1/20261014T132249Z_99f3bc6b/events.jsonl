@@ -1,0 +1,3 @@
+{"event": "t1_run_started", "run_id": "20261014T132249Z_99f3bc6b", "task_id": "T1", "ts_utc": "2026-10-14T13:22:49Z"}
+{"batch": "B0", "count": 16, "event": "incidents_organized", "task_id": "T1", "ts_utc": "2026-10-14T13:22:49Z"}
+{"event": "t1_run_finished", "execution_status": "DELIVERED", "model_requests": 0, "task_id": "T1", "ts_utc": "2026-10-14T13:22:49Z"}
