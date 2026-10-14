@@ -1,0 +1,3 @@
+{"event": "t1v2_run_started", "run_id": "20261014T141004Z_2647a7e1", "supersedes": "20261014T132249Z_99f3bc6b", "task_id": "T1", "ts_utc": "2026-10-14T14:10:05Z"}
+{"event": "t1v2_remediation_applied", "items": ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"], "task_id": "T1", "ts_utc": "2026-10-14T14:10:05Z"}
+{"event": "t1v2_run_finished", "execution_status": "DELIVERED", "model_requests": 0, "task_id": "T1", "ts_utc": "2026-10-14T14:10:05Z"}

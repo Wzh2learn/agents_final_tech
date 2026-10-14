@@ -1,0 +1,143 @@
+{
+  "families": [
+    {
+      "control_exemplars": [],
+      "family": "交付与权限",
+      "gaps": [
+        "sealed 集须由独立角色构建与保管（T2），本卡不造数"
+      ],
+      "legal_control_design_present": true,
+      "planned_build": {
+        "development": 4,
+        "sealed": 4,
+        "selection": 4
+      },
+      "real_cases": [
+        "T1-INC-11",
+        "T1-INC-12"
+      ],
+      "unverified": []
+    },
+    {
+      "control_exemplars": [],
+      "family": "完整性与预算",
+      "gaps": [
+        "sealed 集须由独立角色构建与保管（T2），本卡不造数"
+      ],
+      "legal_control_design_present": true,
+      "planned_build": {
+        "development": 4,
+        "sealed": 4,
+        "selection": 4
+      },
+      "real_cases": [
+        "T1-INC-03",
+        "T1-INC-04",
+        "T1-INC-08",
+        "T1-INC-13"
+      ],
+      "unverified": [
+        "T1-INC-14"
+      ]
+    },
+    {
+      "control_exemplars": [
+        "T1-CTRL-01"
+      ],
+      "family": "数据与统计",
+      "gaps": [
+        "sealed 集须由独立角色构建与保管（T2），本卡不造数"
+      ],
+      "legal_control_design_present": true,
+      "planned_build": {
+        "development": 4,
+        "sealed": 4,
+        "selection": 4
+      },
+      "real_cases": [],
+      "unverified": []
+    },
+    {
+      "control_exemplars": [
+        "T1-CTRL-02"
+      ],
+      "family": "测量对象",
+      "gaps": [
+        "sealed 集须由独立角色构建与保管（T2），本卡不造数"
+      ],
+      "legal_control_design_present": true,
+      "planned_build": {
+        "development": 4,
+        "sealed": 4,
+        "selection": 4
+      },
+      "real_cases": [
+        "T1-INC-07"
+      ],
+      "unverified": []
+    },
+    {
+      "control_exemplars": [],
+      "family": "真实调用边界",
+      "gaps": [
+        "sealed 集须由独立角色构建与保管（T2），本卡不造数"
+      ],
+      "legal_control_design_present": true,
+      "planned_build": {
+        "development": 4,
+        "sealed": 4,
+        "selection": 4
+      },
+      "real_cases": [
+        "T1-INC-01",
+        "T1-INC-02",
+        "T1-INC-05",
+        "T1-INC-06"
+      ],
+      "unverified": []
+    },
+    {
+      "control_exemplars": [],
+      "family": "证据身份",
+      "gaps": [
+        "sealed 集须由独立角色构建与保管（T2），本卡不造数"
+      ],
+      "legal_control_design_present": true,
+      "planned_build": {
+        "development": 4,
+        "sealed": 4,
+        "selection": 4
+      },
+      "real_cases": [
+        "T1-INC-09",
+        "T1-INC-10"
+      ],
+      "unverified": []
+    }
+  ],
+  "generated_at_utc": "2026-10-14T14:10:05Z",
+  "run_id": "20261014T141004Z_2647a7e1",
+  "schema": "harness_rsi_t1_coverage_matrix_v3",
+  "supersedes_run_id": "20261014T132249Z_99f3bc6b",
+  "task_id": "T1",
+  "totals_plan": {
+    "built_now": {
+      "control_exemplars": 2,
+      "real_incidents": 13,
+      "unverified": 1
+    },
+    "development": 24,
+    "note": "24/24/24 为构建计划，不是现有案例数量；缺失素材以缺口登记，不补造",
+    "sealed": 24,
+    "selection": 24
+  },
+  "validation": {
+    "all_have_applicability": true,
+    "all_have_expected_category": true,
+    "all_have_source_refs": true,
+    "all_refs_exist": true,
+    "all_refs_tracked_with_canonical_hash": true,
+    "each_incident_single_group": true,
+    "no_sealed_flags": true
+  }
+}
