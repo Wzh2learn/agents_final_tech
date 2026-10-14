@@ -1,0 +1,40 @@
+S4C qualification incident 2 - online processor interface failure (1 request transmitted)
+=========================================================================================
+probe: S4CQ-01-plan-history-01 (chain position 1 of 3; probes 2-3 not run due to frozen early-stop)
+observed: HTTP 400 {"error": {"message": "out of range integral type conversion attempted", "type": "invalid_request_error"}}
+elapsed: 2.493 s; service request counter 0 -> 1 (request entered generate; no completion produced)
+budget_impact: 1 actor request counted (global 9 -> 10 of 300); judge calls 0; transport retries 0
+service log: zero tracebacks (the 400 handler does not log the exception; raw_response.txt is the only
+  persisted copy of the error message, sha256 432abf2e39005d9b9689550b7d3b741cb9075f95dd7b88dcb6cf87f8e26baa72)
+
+classification (per frozen card S4C_ONLINE_QUALIFICATION_CARD.md):
+  A transmitted probe did not satisfy the criterion (enum: http_error) -> FAIL -> STOP_THIS_PANEL
+  permanent (no fifth round). The zero-transmission engineering carve-out does not apply (the request
+  was transmitted and counted), and its one-repair / 2-round allowance was already consumed by
+  incident 1.
+
+root cause (confirmed by zero-model reproduction; no weights, no requests):
+  - transformers 5.14.1 invokes logits processors as processor(input_ids, scores)
+    (LogitsProcessor.__call__ signature: (self, input_ids: torch.LongTensor, scores: torch.FloatTensor);
+    generation call site: transformers/generation/utils.py:2910
+    "next_token_scores = logits_processor(input_ids, next_token_logits)").
+  - the frozen bridge-v2 SchemaConstraintProcessor.__call__(self, logits, input_ids) assumes the
+    opposite positional order, so under the real call it treated the scores tensor as token ids,
+    sliced it at the prompt boundary, and passed float values as token ids into tokenizer.decode,
+    which raises OverflowError("out of range integral type conversion attempted") (the tokenizers
+    Rust binding rejects out-of-u32 ids; micro-test: decode([-12]) and decode([10**10]) raise the
+    same OverflowError; decode([0]) is fine).
+  - reproduction: processor_interface_diagnosis_output.json (script: processor_interface_diagnosis.py);
+    the transformers-convention call raises the identical error string with the traceback ending at
+    constrained_decoding_v2.py:283 (tokenizer.decode) via allowed_token_ids -> _generated; the
+    offline dry-run convention call (processor(scores, input_ids)) does not raise.
+
+why the offline qualification was green (disclosed coverage gap):
+  offline_qualification.py line 266 ran the dry-run as "masked = processor(logits, input_ids)",
+  i.e. it re-used the component's own assumed (incorrect) convention instead of exercising the real
+  transformers call path; the offline receipt's unverified-surface list already carried
+  "online GPU constrained decoding" - which is exactly what failed here.
+
+consequence: qualification FAIL_FINAL; S4 panel permanently stopped; no component fixes applied;
+no further model requests; S4c not run. Any future re-decision is owner-level, outside this frozen
+chain.

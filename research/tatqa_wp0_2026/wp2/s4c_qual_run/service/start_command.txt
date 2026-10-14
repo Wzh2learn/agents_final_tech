@@ -1,0 +1,1 @@
+TRANSFORMERS_OFFLINE=1 HF_HUB_OFFLINE=1 ./venv/bin/python research/tatqa_wp0_2026/wp2/bridge_v2/serve_transformers_actor_v2.py --model-root /home/testuser/wzh/models/hf/Qwen3-8B --metadata docs/datasets/2026-10-05_qwen_model_metadata_v1.json --host 127.0.0.1 --port 8112 --startup-receipt research/tatqa_wp0_2026/wp2/s4c_qual_run/service/STARTUP_RECEIPT.json

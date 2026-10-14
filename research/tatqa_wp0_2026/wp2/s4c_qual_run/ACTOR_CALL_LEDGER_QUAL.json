@@ -1,0 +1,43 @@
+{
+  "accounting": {
+    "this_card_requests_attempted": 1,
+    "transport_retries": 0
+  },
+  "attempts": [
+    {
+      "counted_attempt": true,
+      "criterion_met": false,
+      "elapsed_seconds": 2.493,
+      "exit": "http_error",
+      "health_before": {
+        "decoder": "minimum_custom_prefix_constraints",
+        "http_status": 200,
+        "model": "tatqa-wp2-qwen3-8b-b968826d",
+        "model_requests": 0,
+        "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+        "status": "READY"
+      },
+      "http_status": 400,
+      "logical_request_id": "S4CQ-01-plan-history-01",
+      "probe_id": "S4CQ-01-plan-history-01",
+      "probe_index": 1,
+      "raw_response_path": "research/tatqa_wp0_2026/wp2/s4c_qual_run/attempts/S4CQ-01-plan-history-01/raw_response.txt",
+      "raw_response_sha256": "432abf2e39005d9b9689550b7d3b741cb9075f95dd7b88dcb6cf87f8e26baa72",
+      "stage": "plan",
+      "started_at_utc": "2026-10-14T04:02:29Z",
+      "transmission": "completed_http_error",
+      "transport_retries": 0
+    }
+  ],
+  "budget": {
+    "global_attempts_used_before": 9,
+    "global_hard_cap": 300,
+    "judge_calls_allowed": 0,
+    "this_card_max_requests": 3,
+    "transport_retries_allowed": 0
+  },
+  "persist_first": true,
+  "schema": "tatqa_wp2_s4c_qualification_ledger_v1",
+  "task": "tatqa-wp2-s4c-qual-20261014",
+  "updated_at_utc": "2026-10-14T04:02:31Z"
+}

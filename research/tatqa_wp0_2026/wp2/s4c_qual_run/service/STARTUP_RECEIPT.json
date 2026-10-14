@@ -1,0 +1,35 @@
+{
+  "decoder": {
+    "consume_template_sha256": "fe6708ecb9c99ecffb15b447d0b169b11688017094b0c2418fde1cecc567c925",
+    "implementation": "minimum_custom_prefix_constrained_logits_processor",
+    "outlines_installed": false,
+    "plan_template_sha256": "39cf699dfbb1c6f5494d33ec5232c2d14e4cf91313f5b6e302028e8f601b3616",
+    "reason": "python3.12 -m pip install --user outlines was blocked by PEP 668; no --break-system-packages override was used",
+    "schema_path": "/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/bridge_v2/BRIDGE_SCHEMAS_v2.json",
+    "schema_sha256": "dc144259b478fd4c3869b5d61dda86acfbe3c6b940aa5b39258c1a1981429f31"
+  },
+  "host": "127.0.0.1",
+  "model_id": "tatqa-wp2-qwen3-8b-b968826d",
+  "model_root": "/home/testuser/wzh/models/hf/Qwen3-8B",
+  "port": 8112,
+  "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "runtime": {
+    "device": "cuda:0",
+    "do_sample": false,
+    "implementation": "transformers greedy constrained completion server",
+    "max_input_tokens": 4096,
+    "max_output_tokens": 512,
+    "num_beams": 1,
+    "temperature": 0,
+    "transformers_dtype": "bfloat16"
+  },
+  "safety": {
+    "database_calls": 0,
+    "external_network_calls": 0,
+    "judge_calls": 0,
+    "production_service_calls": 0
+  },
+  "schema": "tatqa_wp2_actor_service_v2_startup_receipt",
+  "started_at_utc": "2026-10-14T03:58:25Z",
+  "status": "READY"
+}

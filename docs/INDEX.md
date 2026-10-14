@@ -73,6 +73,7 @@
 | WP-2 派发卡（Loop A/C 四轮） | [`../research/tatqa_wp0_2026/wp2/loop_a_prompt_prefreeze.md`](../research/tatqa_wp0_2026/wp2/loop_a_prompt_prefreeze.md) 等 | prefreeze / s0b / f5 / f5c 任务卡（已执行，逐卡留痕） |
 | 两周 commit 复盘 + inquiry 自检 | [`research/TWO_WEEK_COMMIT_REVIEW_v1.md`](research/TWO_WEEK_COMMIT_REVIEW_v1.md) | 09-29→10-13（225 commits）四幕复盘 + G1–G6 + portfolio-triage（A–D） |
 | WP-2 桥失败根因与长期方案 | [`research/WP2_BRIDGE_LONGTERM_ANALYSIS_v1.md`](research/WP2_BRIDGE_LONGTERM_ANALYSIS_v1.md) | structured-output/systematic-debugging 分析；L1–L5 分层设计；桥 v2 实现+离线资格见 [`../research/tatqa_wp0_2026/wp2/bridge_v2/`](../research/tatqa_wp0_2026/wp2/bridge_v2/)（零新依赖、零模型调用） |
+| WP-2 S4C 在线资格（FAIL_FINAL） | [`../research/tatqa_wp0_2026/wp2/S4C_ONLINE_QUALIFICATION_RECEIPT.json`](../research/tatqa_wp0_2026/wp2/S4C_ONLINE_QUALIFICATION_RECEIPT.json) | 冻结卡+3探针；探针1 HTTP 400（processor 调用约定错配，零模型复现）；STOP_THIS_PANEL 永久；Loop C 独立复核 PASS 无异议（[audit](../research/tatqa_wp0_2026/wp2/LOOP_C_S4C_QUAL_AUDIT_v1.md)） |
 | SANER RENE 风格学习 | [`research/RENE_ACCEPTED_PAPER_STYLE_STUDY_v1.md`](research/RENE_ACCEPTED_PAPER_STYLE_STUDY_v1.md) | 2 篇全文 + 2 篇摘要级；跨篇规律与 Paper E 对照（只检不改）；素材 [`../research/rene_style_20261014/SOURCE_MATERIALS_v1.md`](../research/rene_style_20261014/SOURCE_MATERIALS_v1.md) |
 | Paper E AI 味审查 | [`research/PAPER_E_AI_FLAVOR_REVIEW_v1.md`](research/PAPER_E_AI_FLAVOR_REVIEW_v1.md) | 14 处表达层精修（rather than 23→16 等）；重建 9 页双审计 PASS；PDF 审计条目 13g |
 | **最终 handoff** | [`../FINAL_HANDOFF_v1.md`](../FINAL_HANDOFF_v1.md) | 下一 session 第一入口（owner 决策已记录） |

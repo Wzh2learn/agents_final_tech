@@ -1,0 +1,44 @@
+{
+  "LogitsProcessor_call_signature": "(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor",
+  "call_input_ids_first__transformers_convention": {
+    "error": "OverflowError: out of range integral type conversion attempted",
+    "label": "processor(input_ids, scores)  [transformers call-site convention]",
+    "raised": true,
+    "traceback_tail": "  File \"/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/bridge_v2/constrained_decoding_v2.py\", line 303, in allowed_token_ids\n    text, is_prefix, is_complete = self._generated(row, input_ids)\n                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/bridge_v2/constrained_decoding_v2.py\", line 283, in _generated\n    self.tokenizer.decode(\n  File \"/home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/transformers/tokenization_utils_base.py\", line 2908, in decode\n    return self._decode(\n           ^^^^^^^^^^^^^\n  File \"/home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/transformers/tokenization_utils_tokenizers.py\", line 1032, in _decode\n    text = self._tokenizer.decode(token_ids, skip_special_tokens=skip_special_tokens)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nOverflowError: out of range integral type conversion attempted"
+  },
+  "call_scores_first__as_offline_dry_run_did": {
+    "error": null,
+    "label": "processor(scores, input_ids)  [offline dry-run convention]",
+    "raised": false,
+    "traceback_tail": null
+  },
+  "generation_utils_logits_processor_call_sites": [
+    "1087: def _get_logits_processor(",
+    "2660: prepared_logits_processor = self._get_logits_processor(",
+    "2910: next_token_scores = logits_processor(input_ids, next_token_logits)",
+    "3402: log_probs = logits_processor(flat_running_sequences, log_probs)",
+    "3751: new_logits[:, i, :] = logits_processor(candidate_input_ids[:, : cur_len + i], new_logits[:, i, :])"
+  ],
+  "tokenizer_decode_micro": {
+    "huge_id": {
+      "error": "OverflowError: out of range integral type conversion attempted",
+      "label": "decode(huge_id)",
+      "raised": true,
+      "traceback_tail": "  File \"/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/s4c_qual_run/processor_interface_diagnosis.py\", line 33, in attempt\n    fn()\n  File \"/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/s4c_qual_run/processor_interface_diagnosis.py\", line 77, in <lambda>\n    lambda ids=ids: tokenizer.decode(ids, skip_special_tokens=False),\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/transformers/tokenization_utils_base.py\", line 2908, in decode\n    return self._decode(\n           ^^^^^^^^^^^^^\n  File \"/home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/transformers/tokenization_utils_tokenizers.py\", line 1032, in _decode\n    text = self._tokenizer.decode(token_ids, skip_special_tokens=skip_special_tokens)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nOverflowError: out of range integral type conversion attempted"
+    },
+    "negative_id": {
+      "error": "OverflowError: out of range integral type conversion attempted",
+      "label": "decode(negative_id)",
+      "raised": true,
+      "traceback_tail": "  File \"/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/s4c_qual_run/processor_interface_diagnosis.py\", line 33, in attempt\n    fn()\n  File \"/home/testuser/wzh/projects/agents_final_tech/research/tatqa_wp0_2026/wp2/s4c_qual_run/processor_interface_diagnosis.py\", line 77, in <lambda>\n    lambda ids=ids: tokenizer.decode(ids, skip_special_tokens=False),\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/transformers/tokenization_utils_base.py\", line 2908, in decode\n    return self._decode(\n           ^^^^^^^^^^^^^\n  File \"/home/testuser/wzh/projects/agents_final_tech/venv/lib/python3.12/site-packages/transformers/tokenization_utils_tokenizers.py\", line 1032, in _decode\n    text = self._tokenizer.decode(token_ids, skip_special_tokens=skip_special_tokens)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nOverflowError: out of range integral type conversion attempted"
+    },
+    "valid_id": {
+      "error": null,
+      "label": "decode(valid_id)",
+      "raised": false,
+      "traceback_tail": null
+    }
+  },
+  "torch_version": "2.13.0+cu130",
+  "transformers_version": "5.14.1"
+}

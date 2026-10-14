@@ -1,0 +1,63 @@
+{
+  "attempts": [
+    {
+      "counted_attempt": true,
+      "criterion_met": false,
+      "elapsed_seconds": 2.493,
+      "exit": "http_error",
+      "health_before": {
+        "decoder": "minimum_custom_prefix_constraints",
+        "http_status": 200,
+        "model": "tatqa-wp2-qwen3-8b-b968826d",
+        "model_requests": 0,
+        "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+        "status": "READY"
+      },
+      "http_status": 400,
+      "logical_request_id": "S4CQ-01-plan-history-01",
+      "probe_id": "S4CQ-01-plan-history-01",
+      "probe_index": 1,
+      "raw_response_path": "research/tatqa_wp0_2026/wp2/s4c_qual_run/attempts/S4CQ-01-plan-history-01/raw_response.txt",
+      "raw_response_sha256": "432abf2e39005d9b9689550b7d3b741cb9075f95dd7b88dcb6cf87f8e26baa72",
+      "stage": "plan",
+      "started_at_utc": "2026-10-14T04:02:29Z",
+      "transmission": "completed_http_error",
+      "transport_retries": 0
+    }
+  ],
+  "criterion": {
+    "early_stop": "stop on first criterion failure; qualification FAIL -> STOP_THIS_PANEL permanent (no fifth round)",
+    "pass": "all 3 probes: HTTP 200, validate_v2 route=strict_json and ok=true (schema-legal, no prose, complete fields)",
+    "zero_transmission_startup_failures": "engineering retry allowed once (max 2 service starts); frozen components/prompts/schema must not change; requests sent count"
+  },
+  "generated_at_utc": "2026-10-14T04:02:31Z",
+  "health_after": {
+    "decoder": "minimum_custom_prefix_constraints",
+    "http_status": 200,
+    "model": "tatqa-wp2-qwen3-8b-b968826d",
+    "model_requests": 1,
+    "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "status": "READY"
+  },
+  "health_before": {
+    "decoder": "minimum_custom_prefix_constraints",
+    "http_status": 200,
+    "model": "tatqa-wp2-qwen3-8b-b968826d",
+    "model_requests": 0,
+    "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "status": "READY"
+  },
+  "probes_frozen_sha256": "061f871f1849d84eb5c6c70275fd8ee40a7920f2a3611257f720dbd702cc3f6f",
+  "probes_not_run": [
+    "S4CQ-02-plan-history-03",
+    "S4CQ-03-consume-history-03"
+  ],
+  "probes_total": 3,
+  "requests_attempted": 1,
+  "runner_sha256": "d7afa0218b751d3a050350ea250817fcd9d1fa8016d2d1b3efb24a987c8c75e4",
+  "schema": "tatqa_wp2_s4c_qualification_run_result_v1",
+  "status": "FAIL",
+  "stopped_early": true,
+  "task": "tatqa-wp2-s4c-qual-20261014",
+  "validator_sha256": "c4fc4febbb8deffac10569633d35b8fe6f87e805656f18cace8330e5f691d63a"
+}

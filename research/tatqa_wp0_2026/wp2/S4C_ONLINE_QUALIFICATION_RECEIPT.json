@@ -1,0 +1,36 @@
+{
+  "schema": "tatqa_wp2_s4c_online_qualification_receipt_v1",
+  "task": "tatqa-wp2-s4c-qual-20261014",
+  "status": "FAIL_FINAL",
+  "verdict": "STOP_THIS_PANEL_PERMANENT",
+  "verdict_basis": "frozen card: any transmitted probe not satisfying the criterion (incl. http_error) -> FAIL -> STOP_THIS_PANEL permanent (no fifth round); the zero-transmission repair allowance was already consumed by incident 1 (cap: 2 rounds reached)",
+  "owner_approval": {"date": "2026-10-14", "quote": "我批准在线资格", "scope": "online qualification, <=3 probes"},
+  "frozen_inputs": {
+    "card": {"path": "research/tatqa_wp0_2026/wp2/S4C_ONLINE_QUALIFICATION_CARD.md", "sha256": "25038c0fc5db80d745ccc4fd42c24ac5337859e68091d88fcfe0586e28993617", "freeze_commit": "6bed50c", "repair_commit": "0e429f7"},
+    "probes_frozen_sha256": "061f871f1849d84eb5c6c70275fd8ee40a7920f2a3611257f720dbd702cc3f6f",
+    "runner": {"path": "research/tatqa_wp0_2026/wp2/s4c_qual_run/run_s4c_qualification.py", "sha256": "d7afa0218b751d3a050350ea250817fcd9d1fa8016d2d1b3efb24a987c8c75e4", "version": "v1.1"},
+    "validator_sha256": "c4fc4febbb8deffac10569633d35b8fe6f87e805656f18cace8330e5f691d63a",
+    "bridge_components_sha256": {
+      "constrained_decoding_v2.py": "5ee7ab8ab7bd42c0196b0d92ef8015a95361fa4a1d49620205b9d58b3d21696a",
+      "prompt_v2.py": "f4b20727f3e614c13f894ad070d3df6534235191fc552311d632c09d455528e3",
+      "validate_v2.py": "c4fc4febbb8deffac10569633d35b8fe6f87e805656f18cace8330e5f691d63a",
+      "serve_transformers_actor_v2.py": "f3182bd2c56279e5226b58c32270b67319b0a08d938dafa6dd29fdd434b4d752",
+      "BRIDGE_SCHEMAS_v2.json": "dc144259b478fd4c3869b5d61dda86acfbe3c6b940aa5b39258c1a1981429f31"
+    },
+    "components_unchanged_post_hoc": true
+  },
+  "preflight": {"status": "PASS", "rendered_prompt_tokens": [607, 332, 406], "receipt": "s4c_qual_run/PREFLIGHT_RENDER_RECEIPT.json", "round1_archived": "s4c_qual_run/service/PREFLIGHT_RENDER_RECEIPT_round1.json"},
+  "probes": [
+    {"probe_id": "S4CQ-01-plan-history-01", "stage": "plan", "outcome": "http_error_400", "http_status": 400, "elapsed_seconds": 2.493, "raw_response_sha256": "432abf2e39005d9b9689550b7d3b741cb9075f95dd7b88dcb6cf87f8e26baa72", "error_message": "out of range integral type conversion attempted", "criterion_met": false},
+    {"probe_id": "S4CQ-02-plan-history-03", "stage": "plan", "outcome": "not_run_early_stop"},
+    {"probe_id": "S4CQ-03-consume-history-03", "stage": "consume", "outcome": "not_run_early_stop"}
+  ],
+  "accounting": {"requests_attempted_this_card": 1, "global_attempts_before": 9, "global_attempts_after": 10, "global_hard_cap": 300, "transport_retries": 0, "judge_calls": 0, "database_calls": 0, "training_calls": 0, "production_service_calls": 0},
+  "service_lifecycle": {"start_command_file": "s4c_qual_run/service/start_command.txt", "startup_receipt": "s4c_qual_run/service/STARTUP_RECEIPT.json", "stopped": true, "stop_signal": "SIGTERM", "port_8112_released": true, "production_ports_unchanged": true, "llama_server_pid": 2642808, "mem_available_after_mb": 38264, "service_log_traceback_count": 0},
+  "incidents": [
+    {"id": 1, "type": "zero_transmission_engineering", "record": "s4c_qual_run/INCIDENT_1_runner_import_failure.txt", "repair": "runner v1.1 (sys.modules registration)", "requests": 0},
+    {"id": 2, "type": "transmitted_http_error", "record": "s4c_qual_run/INCIDENT_2_online_processor_failure.txt", "root_cause": "logits-processor call convention mismatch vs transformers 5.14.1 (input_ids-first)", "diagnosis_output": "s4c_qual_run/processor_interface_diagnosis_output.json", "requests": 1}
+  ],
+  "post_result_governance": {"loop_c_audit": "research/tatqa_wp0_2026/wp2/LOOP_C_S4C_QUAL_AUDIT_v1.md", "s4c_run": false, "further_model_requests": false, "component_fixes_applied": false},
+  "generated_at_utc": "2026-10-14T04:09:34Z"
+}

@@ -1,0 +1,98 @@
+{
+  "all_within_input_cap": true,
+  "component_hashes": {
+    "all_match": true,
+    "components": {
+      "research/tatqa_wp0_2026/wp2/BRIDGE_V2_REPORT.md": {
+        "actual": "2210ed372ed42710cecebad07543ebba78dc3dc444d8dedc695d299362e53b57",
+        "expected": "2210ed372ed42710cecebad07543ebba78dc3dc444d8dedc695d299362e53b57",
+        "match": true
+      },
+      "research/tatqa_wp0_2026/wp2/DEPENDENCY_RECEIPT.json": {
+        "actual": "29299297ad67ef880ff5183cba1dedcee0ec880727aef958785cee4fffa06b21",
+        "expected": "29299297ad67ef880ff5183cba1dedcee0ec880727aef958785cee4fffa06b21",
+        "match": true
+      },
+      "research/tatqa_wp0_2026/wp2/bridge_v2/BRIDGE_SCHEMAS_v2.json": {
+        "actual": "dc144259b478fd4c3869b5d61dda86acfbe3c6b940aa5b39258c1a1981429f31",
+        "expected": "dc144259b478fd4c3869b5d61dda86acfbe3c6b940aa5b39258c1a1981429f31",
+        "match": true
+      },
+      "research/tatqa_wp0_2026/wp2/bridge_v2/OFFLINE_QUALIFICATION_RECEIPT.json": {
+        "actual": "8a85d1c4c1b077ab2d85ee767056c134cbfe4b6b96506bff6eef1e0da4c0e43e",
+        "expected": "8a85d1c4c1b077ab2d85ee767056c134cbfe4b6b96506bff6eef1e0da4c0e43e",
+        "match": true
+      },
+      "research/tatqa_wp0_2026/wp2/bridge_v2/constrained_decoding_v2.py": {
+        "actual": "5ee7ab8ab7bd42c0196b0d92ef8015a95361fa4a1d49620205b9d58b3d21696a",
+        "expected": "5ee7ab8ab7bd42c0196b0d92ef8015a95361fa4a1d49620205b9d58b3d21696a",
+        "match": true
+      },
+      "research/tatqa_wp0_2026/wp2/bridge_v2/offline_qualification.py": {
+        "actual": "f7b82981ccaf24d17282ac2637989179a300581bcc018b4173a6a6be5f3f1b13",
+        "expected": "f7b82981ccaf24d17282ac2637989179a300581bcc018b4173a6a6be5f3f1b13",
+        "match": true
+      },
+      "research/tatqa_wp0_2026/wp2/bridge_v2/prompt_v2.py": {
+        "actual": "f4b20727f3e614c13f894ad070d3df6534235191fc552311d632c09d455528e3",
+        "expected": "f4b20727f3e614c13f894ad070d3df6534235191fc552311d632c09d455528e3",
+        "match": true
+      },
+      "research/tatqa_wp0_2026/wp2/bridge_v2/serve_transformers_actor_v2.py": {
+        "actual": "f3182bd2c56279e5226b58c32270b67319b0a08d938dafa6dd29fdd434b4d752",
+        "expected": "f3182bd2c56279e5226b58c32270b67319b0a08d938dafa6dd29fdd434b4d752",
+        "match": true
+      },
+      "research/tatqa_wp0_2026/wp2/bridge_v2/test_bridge_v2.py": {
+        "actual": "93439b9d5c16272216e033871dfd6f47b5a2dc8f85927b0d6da874d501a7d30a",
+        "expected": "93439b9d5c16272216e033871dfd6f47b5a2dc8f85927b0d6da874d501a7d30a",
+        "match": true
+      },
+      "research/tatqa_wp0_2026/wp2/bridge_v2/validate_v2.py": {
+        "actual": "c4fc4febbb8deffac10569633d35b8fe6f87e805656f18cace8330e5f691d63a",
+        "expected": "c4fc4febbb8deffac10569633d35b8fe6f87e805656f18cace8330e5f691d63a",
+        "match": true
+      }
+    }
+  },
+  "preflight_at_utc": "2026-10-14T04:02:17Z",
+  "probe_source_failure_prompt_sha256_actual": "6c5be077a826a945ae845b2761cb2e4189674864142a381b1c6f317ae5774fd0",
+  "probe_source_failure_prompt_sha256_expected": "6c5be077a826a945ae845b2761cb2e4189674864142a381b1c6f317ae5774fd0",
+  "probe_source_links_ok": true,
+  "probe_source_receipt_sha256_actual": "58d76d37acfa63faa6f34056acfa3205814fa8592aab78644b8af8381758faa7",
+  "probe_source_receipt_sha256_expected": "58d76d37acfa63faa6f34056acfa3205814fa8592aab78644b8af8381758faa7",
+  "probes_frozen_sha256": "061f871f1849d84eb5c6c70275fd8ee40a7920f2a3611257f720dbd702cc3f6f",
+  "rendered_prompts": [
+    {
+      "probe_id": "S4CQ-01-plan-history-01",
+      "rendered_prompt_sha256": "c414bef705c1061a4832a87f1dbc375f1603ab3d23a05123fb8bbf8e4607e48c",
+      "rendered_prompt_tokens": 607,
+      "stage": "plan",
+      "task_prompt_sha256": "f24f86dd4c1e297c09f394b31895022e0d16a1d5763be9479bc537bc475cbbd4",
+      "within_input_cap": true
+    },
+    {
+      "probe_id": "S4CQ-02-plan-history-03",
+      "rendered_prompt_sha256": "734571759f5b0d58b5f17b1426ef3452d9809f28559a382a9bb0bc3232b59d8c",
+      "rendered_prompt_tokens": 332,
+      "stage": "plan",
+      "task_prompt_sha256": "b86ee4d25b9ef4d808cf281913103818e29c43d3dd6fad320c96be99e6221216",
+      "within_input_cap": true
+    },
+    {
+      "probe_id": "S4CQ-03-consume-history-03",
+      "rendered_prompt_sha256": "3d0ac7e36129992cea0a916aef528b393566344354c59794791d0e0e53aac9bf",
+      "rendered_prompt_tokens": 406,
+      "stage": "consume",
+      "task_prompt_sha256": "bd5a833f9637cdff030baa512db583847073ce89768cfb50c56d2e97979dda25",
+      "within_input_cap": true
+    }
+  ],
+  "runner_sha256": "d7afa0218b751d3a050350ea250817fcd9d1fa8016d2d1b3efb24a987c8c75e4",
+  "status": "PASS",
+  "template_sha256": {
+    "consume": "fe6708ecb9c99ecffb15b447d0b169b11688017094b0c2418fde1cecc567c925",
+    "plan": "39cf699dfbb1c6f5494d33ec5232c2d14e4cf91313f5b6e302028e8f601b3616"
+  },
+  "validator_sha256": "c4fc4febbb8deffac10569633d35b8fe6f87e805656f18cace8330e5f691d63a"
+}
