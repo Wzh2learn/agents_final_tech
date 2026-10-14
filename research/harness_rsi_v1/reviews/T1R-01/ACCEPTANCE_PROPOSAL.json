@@ -1,0 +1,36 @@
+{
+  "decision_id": "T1R-01-PROPOSAL",
+  "decision": "REJECTED",
+  "reviewer": "loop_c_t1r01 (Claude Code on GB10)",
+  "reviewed_artifact_sha256": [
+    "9282079334d2b51e479025b85b2bd5ecb0311af03612b674acd3c850983b3ebf",
+    "97f675dedd5c236534acdb4092d72b0e71e0a7941c3724d0a19a1d14ffba470d",
+    "39898a993cccc7ce5d080743d7e5d5e7946fe7780a79e9748b317f72ec54b5aa",
+    "9d5ce0ae48d10b8c8e376c4b5ec3b036b926c1d20cd672197c5429574b60419e",
+    "d2c19db81454c6058da3e3d369fc30d76ec72a1f70fb3628318d999dfe8adf40",
+    "69b8b08dd918415021ab73b3388d1a51c73135624047e8c08944bde32bc30bc7",
+    "a28af6a87986b64c240db23fc77332b0401573eea133203c42d0126e96f79f6d",
+    "bfbf453def9386eb378f0370491892faf14edfc36a978d77647ba34b8baffcf6"
+  ],
+  "scope": "T-1 planning-materialization documentation review run package 20261014T072826Z_6f19a394 and its conclusion '18 checks: 16 PASS + 2 INFO + 0 FAIL'; read-only independent recomputation on GB10; no acceptance of any task, no protocol freeze, no T0.",
+  "evidence_refs": [
+    "research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/receipt.json#checks[C11_authority_map_hashes]",
+    "research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/receipt.json#checks[C15_empty_ledgers_dirs]",
+    "research/harness_rsi_v1/contracts/authority_map.json",
+    "research/harness_rsi_v1/FILE_MANIFEST.json#empty_directories",
+    "research/harness_rsi_v1/FILES.md#candidates",
+    "research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/summary.md",
+    "research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/unresolved_register.json",
+    "AGENTS.md (GB10 authoritative rule)",
+    ".gitattributes (GB10 raw-bytes hash authority)"
+  ],
+  "justification": "The run's core integrity claim is not established on the authoritative GB10 tree. Independent recomputation shows 6 of 13 authority_map raw_sha256 values do not match the live bytes of their targets (AGENTS.md, memory/THREADS.md, memory/DECISIONS.md, docs/SKILL_ROUTING.md, docs/governance/SKILL_REGISTRY.md, skills/algorithm-description/SKILL.md), while the receipt's C11 records actual_sha256 equal to declared_sha256 for all 13 entries (circular evidence) and reports zero mismatches. All six mismatching files carry mtimes predating the run timestamp (2026-10-14 15:28:26+0800), so on this tree the recorded values cannot have come from a live measurement. This directly contradicts the A-common assertion 'declared hashes recomputed consistent' and the summary's 'no hash mismatch found'. Independently, C15 asserts candidates/ exists and is empty, but the directory does not exist on GB10 while FILE_MANIFEST.json empty_directories and FILES.md declare it created and empty; that check is not reproducible. Because these are two of the claimed 18 checks, the tally '16 PASS + 2 INFO + 0 FAIL' does not hold. The remaining work is sound and independently reproduced (6 run artifacts and their manifest hashes/bytes; 52/52 package file hashes and bytes; both planning-round source identities vs provenance; T-1 READY and T0-T17 DRAFT with all execution_authorized=false and protocol/budget unauthorized; clean state and empty ledgers; acyclic dependencies and card-matrix dependency agreement; budget sums BR 4/3, BC 66/8, BS 106/4, SHADOW 6/2, META 12/2; exactly one INDEX entry; 12/12 input_bindings hashes; U01-U09 register agreement) and can be reused, but it does not support ACCEPTED. Remediation: re-run C11 and C15 on GB10 with genuine measured values; register the six content-drift items as STALE_INPUT per authority_map.change_rule and have the owner adjudicate rebinding rather than silently refreshing; correct summary.md counts (16 PASS + 2 INFO, 13 authority entries) and the unresolved_register U04 category; add the missing allowlist / no-out-of-scope-write and R/C/S + human-gate check evidence required by A-common and card section 4.3.",
+  "dissent": [
+    "Executor's C12 refinement is upheld: the two flagged strings in sources/planning_round1.md are path:line code references and their base files exist; this attempt to overturn the executor failed.",
+    "The finding does not rest on empty ledgers being misused, nor on historical PASS text being promoted to results: both were checked and are clean.",
+    "No out-of-scope write was found; the planning package's 52 files are byte-identical to the pre-run FILE_MANIFEST.",
+    "Alternative root cause remains unverified: if the owner establishes that the executor measured a different authorized worktree (e.g. a D:/AIRcommend checkout), this proposal should be reopened as PENDING_HUMAN_REVIEW rather than accepted, and a GB10 re-run would still be required under AGENTS.md and .gitattributes.",
+    "F3-F6 are recorded as low-severity findings and were not load-bearing for the decision.",
+    "This is a proposal only; the closer owns registry/state updates and any acceptance decision."
+  ]
+}
