@@ -83,7 +83,7 @@
 
 ## candidates/
 
-目录已创建，当前为空；未来产物须在获准任务中产生。
+目录已创建，当前为空；未来产物须在获准任务中产生。（以 `candidates/.gitkeep` 保持目录可复现，已计入 FILE_MANIFEST）
 
 ## runs/
 
