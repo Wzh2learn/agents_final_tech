@@ -1,0 +1,4 @@
+command=/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/frozen_hash_check_adapter.sh /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/frozen/stale.md5
+observed_at=2026-10-14T19:06:10.054858435Z
+md5sum: stale.md5: no properly formatted checksum lines found
+adapter_exit_code=1

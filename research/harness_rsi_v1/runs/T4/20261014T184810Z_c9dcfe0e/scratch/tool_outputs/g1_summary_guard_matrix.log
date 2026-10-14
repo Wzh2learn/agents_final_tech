@@ -1,0 +1,56 @@
+[
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/TASK_PROMPT.md",
+    "returncode": 0,
+    "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/TASK_PROMPT.md: 无 SUMMARY-GUARD 块, 跳过",
+    "stderr": ""
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/README.md",
+    "returncode": 0,
+    "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/README.md: 无 SUMMARY-GUARD 块, 跳过",
+    "stderr": ""
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/effect_match.md",
+    "returncode": 0,
+    "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/effect_match.md: 1 收据块复核通过",
+    "stderr": ""
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/measurement_object_match.md",
+    "returncode": 0,
+    "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/measurement_object_match.md: 1 收据块复核通过",
+    "stderr": ""
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/negative_result_match.md",
+    "returncode": 0,
+    "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/negative_result_match.md: 1 收据块复核通过",
+    "stderr": ""
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/offline_proxy_match.md",
+    "returncode": 0,
+    "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/offline_proxy_match.md: 1 收据块复核通过",
+    "stderr": ""
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/stale_manifest_match.md",
+    "returncode": 0,
+    "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/stale_manifest_match.md: 1 收据块复核通过",
+    "stderr": ""
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/usage_no_block.md",
+    "returncode": 0,
+    "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/usage_no_block.md: 无 SUMMARY-GUARD 块, 跳过",
+    "stderr": ""
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/summary.md",
+    "returncode": 0,
+    "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/summary.md: 无 SUMMARY-GUARD 块, 跳过",
+    "stderr": ""
+  }
+]

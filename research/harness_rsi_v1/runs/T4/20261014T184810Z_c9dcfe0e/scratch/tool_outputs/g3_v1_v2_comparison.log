@@ -1,0 +1,52 @@
+{
+  "v1_run_id": "20261014T174628Z_2cc25c92",
+  "v2_run_id": "20261014T184810Z_c9dcfe0e",
+  "case_result_differences": [],
+  "check_result_or_exit_code_differences": [],
+  "expected_fixture_path_changes": [
+    {
+      "key": [
+        "T1-INC-12",
+        "scripts/graph/hooks/summary_recompute_guard.py"
+      ],
+      "v1": {
+        "result": "detected",
+        "exit_codes": [
+          1,
+          1
+        ],
+        "fixture": null
+      },
+      "v2": {
+        "result": "detected",
+        "exit_codes": [
+          1,
+          1
+        ],
+        "fixture": "fixtures/summary/effect_match.md"
+      }
+    },
+    {
+      "key": [
+        "T1-INC-13",
+        "scripts/graph/hooks/summary_recompute_guard.py"
+      ],
+      "v1": {
+        "result": "detected",
+        "exit_codes": [
+          1,
+          1
+        ],
+        "fixture": null
+      },
+      "v2": {
+        "result": "detected",
+        "exit_codes": [
+          1,
+          1
+        ],
+        "fixture": "fixtures/summary/effect_match.md"
+      }
+    }
+  ]
+}

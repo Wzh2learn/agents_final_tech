@@ -1,0 +1,4 @@
+command=/home/testuser/wzh/projects/agents_final_tech/adapters/dispatch_precheck_adapter.sh --watcher /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/dispatch/watcher.sh --tick-marker /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/dispatch/tick_prose.txt
+observed_at=2026-10-14T19:04:49.630161176Z
+research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/scratch/replay_all.sh: line 53: /home/testuser/wzh/projects/agents_final_tech/adapters/dispatch_precheck_adapter.sh: No such file or directory
+adapter_exit_code=127

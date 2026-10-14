@@ -1,0 +1,340 @@
+{
+  "schema": "harness_rsi_t4_baseline_recipe_v1",
+  "task_id": "T4",
+  "run_id": "20261014T184810Z_c9dcfe0e",
+  "direction": "R",
+  "budget_profile": "B0",
+  "authorization_ref": "owner: 继续…你自己设定goal去执行吧; R线 U07=C",
+  "protocol": {
+    "status": "FROZEN",
+    "freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+    "contract_path": "research/harness_rsi_v1/contracts/protocol.json",
+    "git_blob_id": "c57937c8380413708082fdc17bd4c73286cb46bf",
+    "sha256_file": "c695780364b5672caf90a991176232c174a85615f1df19628c813690fa3ef127"
+  },
+  "environment_identity": {
+    "hostname": "promaxgb10-0b48",
+    "os": "Ubuntu 24.04.4 LTS",
+    "python3": "3.12.3",
+    "repository_head": "e1dd43c621d3008c3bcdce724105622dad60a9ca",
+    "scope": "Local GB10 execution identity only.",
+    "working_tree_status": [
+      " M logs/graph/dispatch_log.md",
+      " M logs/graph/docs_lint_report.json",
+      " M logs/graph/governance_drift_latest.md",
+      " M logs/graph/verify-report.json",
+      "?? research/harness_rsi_v1/runs/T4/20261014T174628Z_2cc25c92/",
+      "?? research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/"
+    ]
+  },
+  "case_identity": {
+    "task_id": "T1",
+    "run_id": "20261014T141004Z_2647a7e1",
+    "review_ref": "research/harness_rsi_v1/reviews/T1I-03/",
+    "case_count": 16,
+    "composition": {
+      "real_incidents": 13,
+      "control_exemplars": 2,
+      "unverified_inferences": 1
+    },
+    "files": [
+      {
+        "path": "research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/incidents.jsonl",
+        "git_blob_id": "c666bb35bac784591b3fd11b6975be044ce599b7",
+        "sha256_file": "2f53f2f36f05d6eac540ef48c82ba4cade957007b5674235588615d1a334ba9b"
+      },
+      {
+        "path": "research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/coverage_matrix.json",
+        "git_blob_id": "35b558c8f5888c56c52971cba11475e653fca0d4",
+        "sha256_file": "3fa1fb67f3587f50052cdf2272ef5f1e4bd9da5217f312daaf4854730c65d8bb"
+      },
+      {
+        "path": "research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/source_groups.json",
+        "git_blob_id": "967a62cbf001fd883800af6f031ac4286d252913",
+        "sha256_file": "1dfc7ebb81cecc488f2c21e95b8958641b9fd8d2b31fc9cf6556320b3e77a6dd"
+      },
+      {
+        "path": "research/harness_rsi_v1/reviews/T1I-03/review_receipt.json",
+        "git_blob_id": "472dc1442dc449199857b81d40a0f7c5829dc55b",
+        "sha256_file": "d769ed169a1e5d3875a8e6eaf4810d76b4f85cad436dd29c95aa2f419fbe9c17"
+      }
+    ],
+    "sealed_set": "NOT_ENABLED; T1 v3 is development/calibration only.",
+    "planned_24_24_24": "Plan only; T4 creates no additional cases."
+  },
+  "trusted_execution_dependency": {
+    "task_id": "T3",
+    "run_id": "20261014T161814Z_245b86ab",
+    "receipt_path": "research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/receipt.json",
+    "receipt_git_blob_id": "a5f98d0d17546e303609021f80fdadbfb83269c2",
+    "receipt_sha256": "d3b976b2e5e25a477b6b51ffc87634d86ddd9a57d69d85cf057f9d577b96143f",
+    "review_path": "research/harness_rsi_v1/reviews/T3R-01/review_receipt.json",
+    "review_git_blob_id": "4ef2c9af3bf1b372b0df30fc9980f33b9d746777",
+    "review_sha256": "7974807ec8da48c414b23f668c39947a4f0b37f559496e8f95f2545efe0c2125",
+    "usage_boundary": "Identity binding only; T3 runner was not extended or invoked."
+  },
+  "evaluator_identity": {
+    "task_id": "T2",
+    "run_id": "20261014T145327Z_9a02a34a",
+    "evaluator_path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py",
+    "evaluator_git_blob_id": "3d296b0b9667d16a2bd73973bb0f1ceebfbec263",
+    "evaluator_sha256": "06b077542cddecc71095d96e4d41f63f9f776208256dda1954f34ca61c5ffd5c",
+    "qualification_path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/qualification.json",
+    "qualification_git_blob_id": "0600542a3d015fcff6b2090388bcf07660c97d7e",
+    "qualification_sha256": "e5bbdcd13b1ebe46bd952690c0a9ddcc03ea53a55676f0f7f42d599ef567cbfe",
+    "review_path": "research/harness_rsi_v1/reviews/T2R-01/review_receipt.json",
+    "review_git_blob_id": "ec21e3ed78318da4880cf064fdc1f5f420a33f59",
+    "review_sha256": "df17441d1629914e0dfe56a7291f7c2533cb6adb38f86d1b9f1ea931cf30cccd",
+    "role": "Frozen baseline evaluator identity; T4 does not modify or replace it."
+  },
+  "model_identity": {
+    "model": "NONE",
+    "model_calls": 0,
+    "network_calls": 0,
+    "remote_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "automatic_retries": 0,
+    "execution_chat_usage": "UNRESOLVED"
+  },
+  "card_inputs": [
+    {
+      "role": "card_input_protocol",
+      "path": "research/harness_rsi_v1/contracts/protocol.json",
+      "git_blob_id": "c57937c8380413708082fdc17bd4c73286cb46bf",
+      "sha256_file": "c695780364b5672caf90a991176232c174a85615f1df19628c813690fa3ef127"
+    },
+    {
+      "role": "card_input_authority_map",
+      "path": "research/harness_rsi_v1/contracts/authority_map.json",
+      "git_blob_id": "46acca7ec01b98a5008f2851f10a86af6fe34fed",
+      "sha256_file": "dd72a5497e542209451bfddc43b470d75a8c8164110a57c3642b54a955461972"
+    },
+    {
+      "role": "card_input_execution_policy",
+      "path": "research/harness_rsi_v1/contracts/execution_policy.md",
+      "git_blob_id": "e0569763e3221c606ebfd16c2f5d41b2b26d328d",
+      "sha256_file": "f659668ad1ddca44fcd170c328a177be201b8aaa871f2bb938681d404e9cf393",
+      "suffix_note": "The dispatch prose names execution_policy.json; the repository and T4 card provide execution_policy.md, which is the bound canonical input."
+    },
+    {
+      "role": "card_input_budget_profiles",
+      "path": "research/harness_rsi_v1/contracts/budget_profiles.json",
+      "git_blob_id": "64634474115ac55d68ab20b254e325d87afe830e",
+      "sha256_file": "1c94e40e377dd7b119c27988d845859e9d88784312c68aeb3f3649871614a8d9"
+    },
+    {
+      "role": "card_input_schemas",
+      "path": "research/harness_rsi_v1/contracts/schemas.json",
+      "git_blob_id": "07731a300ad5d681c6ecb62269bac0531bfb3899",
+      "sha256_file": "a6543ce1fc4254f1f09573a928c6e0c318b5834062529ec9f0264873198a4c6d"
+    },
+    {
+      "role": "card_input_reliability_spec",
+      "path": "research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "git_blob_id": "fd2c1fdfb45806cd26961aa2f3c75aaeae887921",
+      "sha256_file": "1856da0654e0c57d2e35d395de4df8b220f8989020a6cc61de0c39cb3ad7494d"
+    },
+    {
+      "role": "authority_preflight",
+      "path": "docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+      "git_blob_id": "6d23e8d95a5dd9df01196d5c7397ffb076dd1735",
+      "sha256_file": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7"
+    }
+  ],
+  "tool_identity_and_scope": [
+    {
+      "path": "scripts/graph/dispatch_precheck.sh",
+      "git_blob_id": "7c4b3c80ad38ce1e6bedd6d63564f18240787da6",
+      "selection": "SELECTED",
+      "reason": "Declared read-only watcher/tick contract; no watcher execution, cron scheduling, network or service call."
+    },
+    {
+      "path": "scripts/graph/hooks/summary_recompute_guard.py",
+      "git_blob_id": "bc3263bf370c8c6c5cd5df7b151e448193be31fb",
+      "selection": "SELECTED",
+      "reason": "Offline check entrypoint reads a Markdown receipt and working-tree artifact; --staged is forbidden by the adapter."
+    },
+    {
+      "path": "scripts/graph/frozen_hashes.txt",
+      "git_blob_id": "0533e054481f391bc53684db9e9607a563c09eea",
+      "selection": "SELECTED_FOR_FIXTURE_ONLY",
+      "reason": "MD5 manifest check format is offline and read-only; repository frozen files and manifest are not modified."
+    },
+    {
+      "path": "scripts/graph/check_skill_sync.sh",
+      "git_blob_id": "4aa9cebe00c9fe7bf3ab7c46f6428ce7f5377fa2",
+      "selection": "ADAPTER_ONLY_NOT_CASE_EXERCISED",
+      "reason": "Read-only but no T1 case maps to skill distribution membership."
+    },
+    {
+      "path": "scripts/graph/formal_experiment_preflight.py",
+      "git_blob_id": "a34c64e3c75095b74ee38becfb9efbf81aaa5deb",
+      "selection": "EXCLUDED_UNVERIFIED",
+      "reason": "Requires a formal FinQA manifest; no such manifest is authorized for T4 and FinQA qualification semantics must not be generalized."
+    },
+    {
+      "path": "scripts/graph/hooks/index-guard.precommit.sh",
+      "git_blob_id": "b998404bc074043af7800be50f1e7e5ce8b6188f",
+      "selection": "EXCLUDED",
+      "reason": "Requires a changed git index; T4 may not stage files."
+    },
+    {
+      "path": "scripts/graph/hooks/large-file-guard.precommit.sh",
+      "git_blob_id": "eb11a963ef36989c667f2a222715382828847079",
+      "selection": "EXCLUDED",
+      "reason": "Requires a changed git index; T4 may not stage files."
+    },
+    {
+      "path": "scripts/graph/governance_drift_scan.py",
+      "git_blob_id": "d066942c1e9e6f0b7311162d8911a90a5369ae7a",
+      "selection": "EXCLUDED",
+      "reason": "Even --cron rewrites logs/graph/governance_drift_latest.md outside the T4 run."
+    },
+    {
+      "path": "scripts/graph/generate_repository_receipt.py",
+      "git_blob_id": "48aacb7414be4ba1e25a34c84f8bc8dae0d358dd",
+      "selection": "EXCLUDED",
+      "reason": "Writes receipt and sidecar files and binds broader production-test, commit and invalid-run evidence."
+    },
+    {
+      "path": "scripts/graph/loop_b_verify.sh",
+      "git_blob_id": "0774d3a4283e19c8df8349678e21fb9cbb482f08",
+      "selection": "EXCLUDED_HARD",
+      "reason": "Active Loop B verification daemon; invokes pytest, APIs, model ports, database and writes tracked reports."
+    }
+  ],
+  "commands": [
+    {
+      "case_id": "T1-INC-01",
+      "adapter": "adapters/dispatch_precheck_adapter.sh",
+      "argv": [
+        "--watcher",
+        "<run>/fixtures/dispatch/watcher.sh",
+        "--tick-marker",
+        "<run>/fixtures/dispatch/missing_tick.json"
+      ]
+    },
+    {
+      "case_id": "T1-INC-02",
+      "adapter": "adapters/dispatch_precheck_adapter.sh",
+      "argv": [
+        "--watcher",
+        "<run>/fixtures/dispatch/watcher.sh",
+        "--tick-marker",
+        "<run>/fixtures/dispatch/tick_prose.txt"
+      ]
+    },
+    {
+      "case_id": "T1-INC-07",
+      "adapter": "adapters/summary_guard_check_adapter.sh",
+      "argv": [
+        "check",
+        "<run>/fixtures/summary/offline_proxy_match.md"
+      ]
+    },
+    {
+      "case_id": "T1-INC-09",
+      "adapter": "adapters/summary_guard_check_adapter.sh",
+      "argv": [
+        "check",
+        "<run>/fixtures/summary/stale_manifest_match.md"
+      ]
+    },
+    {
+      "case_id": "T1-INC-09",
+      "adapter": "adapters/frozen_hash_check_adapter.sh",
+      "argv": [
+        "<run>/fixtures/frozen/stale.md5"
+      ]
+    },
+    {
+      "case_id": "T1-INC-11",
+      "adapter": "adapters/dispatch_precheck_adapter.sh",
+      "argv": [
+        "--watcher",
+        "<run>/fixtures/dispatch/watcher.sh",
+        "--tick-marker",
+        "<run>/fixtures/dispatch/missing_tick.json"
+      ]
+    },
+    {
+      "case_id": "T1-INC-12",
+      "adapter": "adapters/summary_guard_derive_check_adapter.sh",
+      "argv": [
+        "<run>/fixtures/summary/effect_match.md"
+      ],
+      "expected_guard_exit_code": 1,
+      "derivation": "Temporary Markdown claim request_count changed from 4 to 3; body deleted before command completion."
+    },
+    {
+      "case_id": "T1-INC-13",
+      "adapter": "adapters/summary_guard_derive_check_adapter.sh",
+      "argv": [
+        "<run>/fixtures/summary/effect_match.md"
+      ],
+      "expected_guard_exit_code": 1,
+      "derivation": "Temporary Markdown claim request_count changed from 4 to 3; body deleted before command completion."
+    },
+    {
+      "case_id": "T1-INC-14",
+      "adapter": "adapters/summary_guard_check_adapter.sh",
+      "argv": [
+        "check",
+        "<run>/fixtures/summary/usage_no_block.md"
+      ]
+    },
+    {
+      "case_id": "T1-CTRL-01",
+      "adapter": "adapters/summary_guard_check_adapter.sh",
+      "argv": [
+        "check",
+        "<run>/fixtures/summary/negative_result_match.md"
+      ]
+    },
+    {
+      "case_id": "T1-CTRL-02",
+      "adapter": "adapters/summary_guard_check_adapter.sh",
+      "argv": [
+        "check",
+        "<run>/fixtures/summary/measurement_object_match.md"
+      ]
+    }
+  ],
+  "replay_method": {
+    "passes": 2,
+    "same_environment": true,
+    "same_inputs": true,
+    "deterministic_comparison": "Exit code and normalized decision must match across PASS_1 and PASS_2.",
+    "observed_at_policy": "Dispatch tick contains a fixed past timestamp; no max-age threshold is used.",
+    "automatic_retries": 0
+  },
+  "allowed_actions": [
+    "Read tracked repository inputs and dependency run packages.",
+    "Create and execute adapters only inside the T4 run directory.",
+    "Run selected adapters twice against T4-local fixtures.",
+    "Compute local sha256, git blob identity and file metadata."
+  ],
+  "forbidden_actions": [
+    "Network, remote, model, production, database, daemon or training calls.",
+    "Loop B execution.",
+    "Git commit, push, add, checkout, reset or index mutation.",
+    "Changes outside runs/T4/20261014T184810Z_c9dcfe0e/.",
+    "Generalizing FinQA/formal qualification semantics.",
+    "Creating the planned 24/24/24 cases or scientific results."
+  ],
+  "reproduction_notes": [
+    "Replay in the same worktree state or rebind every tracked input using git rev-parse HEAD:<path>.",
+    "The fixed dispatch observed_at timestamp only supports the no-max-age entrypoint used here.",
+    "T4-local fixture results are engineering probes, not estimates of real-world defect rates or scientific validity.",
+    "The T1 source set remains development/calibration only and is not a sealed independent test set."
+  ],
+  "rework": {
+    "supersedes": "20261014T174628Z_2cc25c92",
+    "mapping_semantics_unchanged": true,
+    "persistent_mismatch_markdown": false,
+    "runtime_derivation_evidence": "scratch/tool_outputs/*_summary_derive.log",
+    "v1_retention": "Read-only prior run left untouched on both-machine disk; not referenced by v2 artifact receipt blocks."
+  }
+}

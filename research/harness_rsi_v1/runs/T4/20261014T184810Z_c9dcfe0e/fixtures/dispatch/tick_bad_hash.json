@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "observed_at": "2026-10-14T17:56:00Z",
+  "watcher": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/dispatch/watcher.sh",
+  "watcher_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+}

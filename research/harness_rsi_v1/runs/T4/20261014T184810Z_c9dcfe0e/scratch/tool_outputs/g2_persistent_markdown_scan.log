@@ -1,0 +1,56 @@
+[
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/TASK_PROMPT.md",
+    "opener_count": 0,
+    "block_count": 0,
+    "all_persistent_blocks_match": true
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/README.md",
+    "opener_count": 0,
+    "block_count": 0,
+    "all_persistent_blocks_match": true
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/effect_match.md",
+    "opener_count": 1,
+    "block_count": 1,
+    "all_persistent_blocks_match": true
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/measurement_object_match.md",
+    "opener_count": 1,
+    "block_count": 1,
+    "all_persistent_blocks_match": true
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/negative_result_match.md",
+    "opener_count": 1,
+    "block_count": 1,
+    "all_persistent_blocks_match": true
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/offline_proxy_match.md",
+    "opener_count": 1,
+    "block_count": 1,
+    "all_persistent_blocks_match": true
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/stale_manifest_match.md",
+    "opener_count": 1,
+    "block_count": 1,
+    "all_persistent_blocks_match": true
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/usage_no_block.md",
+    "opener_count": 0,
+    "block_count": 0,
+    "all_persistent_blocks_match": true
+  },
+  {
+    "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/summary.md",
+    "opener_count": 0,
+    "block_count": 0,
+    "all_persistent_blocks_match": true
+  }
+]

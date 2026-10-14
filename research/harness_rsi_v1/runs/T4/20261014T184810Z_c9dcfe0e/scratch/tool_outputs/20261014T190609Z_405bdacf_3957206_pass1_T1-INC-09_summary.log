@@ -1,0 +1,4 @@
+command=/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/summary_guard_check_adapter.sh check /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/stale_manifest_match.md
+observed_at=2026-10-14T19:06:09.982659203Z
+[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/stale_manifest_match.md: 1 收据块复核通过
+adapter_exit_code=0
