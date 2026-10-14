@@ -1,0 +1,1055 @@
+{
+  "acceptance_status": "UNREVIEWED",
+  "activation_status": "NOT_ENABLED",
+  "adjudication": {
+    "accepted": [
+      "F2 (candidates/.gitkeep added)",
+      "F3 (summary counts corrected)",
+      "F4 (U04 category fixed)",
+      "F5 (wording scoped)",
+      "F6 (C17/C18 checks added)"
+    ],
+    "evidence": "C11_authority_three_domain rows (pin_eq_local_raw 13/13; blob identity 13/13; gb10_raw vs pin mismatch 6)",
+    "partially_accepted": [
+      "F1 core: authority pins not canonical/GB10-reproducible -> RUN-R05, re-bind at T0"
+    ],
+    "rejected_claims": [
+      "F1 'actual==declared implies echo/fabrication' (executor's C11 was a real local measurement; equality was expected because pins were taken from the same local tree; reproduced in v2)",
+      "F1 '.gitattributes GB10-raw-bytes authority' extended to these files (that rule covers only the listed -text artifacts)",
+      "F1 prescription 'register the six as STALE_INPUT content drift' (repo blobs are identical cross-tree: representation, not drift)"
+    ]
+  },
+  "authorization_ref": "Owner (wzh) decisions 2026-10-14: U01-U09 as recorded; '批准R1+R2+R3' remediation approval; Loop-C permission-layer fix approved; no protocol freeze, no T0, all execution_authorized=false",
+  "checks": [
+    {
+      "check_id": "C1_manifest_presence",
+      "description": "FILE_MANIFEST required_files and files[] all exist",
+      "evidence": null,
+      "expected": "0 missing",
+      "method": "existence",
+      "observed": {
+        "files_entries": 52,
+        "missing_entries": [],
+        "missing_required": [],
+        "required": 53
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C2_manifest_hash_bytes",
+      "description": "Per-entry bytes/sha256 equal actual",
+      "evidence": null,
+      "expected": "0 mismatches",
+      "method": "sha256 per entry",
+      "observed": {
+        "bytes_mismatch": [],
+        "hash_mismatch": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C2b_manifest_self_policy",
+      "description": "FILE_MANIFEST self-excluded from files[]",
+      "evidence": null,
+      "expected": null,
+      "method": "membership",
+      "observed": {
+        "in_files": false,
+        "in_required": true
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C3_provenance_rounds",
+      "description": "Two planning rounds match provenance",
+      "evidence": null,
+      "expected": "both match",
+      "method": "sha256+size",
+      "observed": [
+        {
+          "actual_bytes": 26874,
+          "actual_sha256": "cc4ef2da38702fb21ae364710d0db7480a856df34d7951e6275c3cbf271b25dd",
+          "declared_bytes": 26874,
+          "declared_sha256": "cc4ef2da38702fb21ae364710d0db7480a856df34d7951e6275c3cbf271b25dd",
+          "file": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round1.md",
+          "match": true
+        },
+        {
+          "actual_bytes": 41728,
+          "actual_sha256": "ce68b925d451f134277ce80dac4c79254b656ab55c8ada639279f15925e2e38a",
+          "declared_bytes": 41728,
+          "declared_sha256": "ce68b925d451f134277ce80dac4c79254b656ab55c8ada639279f15925e2e38a",
+          "file": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round2.md",
+          "match": true
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "check_id": "C4_json_parse",
+      "description": "Every .json parses",
+      "evidence": null,
+      "expected": "0 errors",
+      "method": "json.loads",
+      "observed": {
+        "count": 23,
+        "errors": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C5_jsonl_parse",
+      "description": "JSONL empty or every non-empty line parses",
+      "evidence": null,
+      "expected": "0 bad",
+      "method": "per-line json.loads",
+      "observed": [
+        {
+          "bad": [],
+          "bytes": 0,
+          "lines": 0,
+          "rel": "meta/lessons.jsonl"
+        },
+        {
+          "bad": [],
+          "bytes": 0,
+          "lines": 0,
+          "rel": "meta/nogoods.jsonl"
+        },
+        {
+          "bad": [],
+          "bytes": 0,
+          "lines": 0,
+          "rel": "registry/candidate_events.jsonl"
+        },
+        {
+          "bad": [],
+          "bytes": 0,
+          "lines": 0,
+          "rel": "registry/decision_events.jsonl"
+        },
+        {
+          "bad": [],
+          "bytes": 0,
+          "lines": 0,
+          "rel": "registry/task_events.jsonl"
+        },
+        {
+          "bad": [],
+          "bytes": 1037,
+          "lines": 5,
+          "rel": "runs/T-1/20261014T072826Z_6f19a394/events.jsonl"
+        },
+        {
+          "bad": [],
+          "bytes": 882,
+          "lines": 5,
+          "rel": "runs/T-1/20261014T085638Z_ba9297ac/events.jsonl"
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "check_id": "C6_cards_present",
+      "description": "19 cards + template exist",
+      "evidence": null,
+      "expected": null,
+      "method": "existence",
+      "observed": {
+        "missing": [],
+        "template": true
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C7_card_fields",
+      "description": "Card JSON keys + sections 1-10 present",
+      "evidence": null,
+      "expected": "no errors",
+      "method": "fence+json+heading",
+      "observed": {
+        "errors": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C8_statuses_auth",
+      "description": "T-1 READY, others DRAFT, all execution_authorized=false",
+      "evidence": null,
+      "expected": "all off",
+      "method": "card+matrix+contracts",
+      "observed": {
+        "bad_auth": [],
+        "bad_status": [],
+        "budget": false,
+        "protocol": false,
+        "state_accepted": [],
+        "state_active": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C9_deps_acyclic",
+      "description": "Deps acyclic; card-vs-matrix dependencies consistent",
+      "evidence": null,
+      "expected": "acyclic+consistent",
+      "method": "DFS+set",
+      "observed": {
+        "cycles": [],
+        "mismatch": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C10_budget_totals",
+      "description": "Profile sums equal budget_profiles",
+      "evidence": null,
+      "expected": "consistent",
+      "method": "group-sum",
+      "observed": [
+        {
+          "declared": [
+            0,
+            0
+          ],
+          "match": true,
+          "profile": "B0",
+          "sum": [
+            0,
+            0
+          ]
+        },
+        {
+          "declared": [
+            66,
+            8
+          ],
+          "match": true,
+          "profile": "BC",
+          "sum": [
+            66,
+            8
+          ]
+        },
+        {
+          "declared": [
+            4,
+            3
+          ],
+          "match": true,
+          "profile": "BR",
+          "sum": [
+            4,
+            3
+          ]
+        },
+        {
+          "declared": [
+            106,
+            4
+          ],
+          "match": true,
+          "profile": "BS",
+          "sum": [
+            106,
+            4
+          ]
+        },
+        {
+          "declared": [
+            12,
+            2
+          ],
+          "match": true,
+          "profile": "META",
+          "sum": [
+            12,
+            2
+          ]
+        },
+        {
+          "declared": [
+            6,
+            2
+          ],
+          "match": true,
+          "profile": "SHADOW",
+          "sum": [
+            6,
+            2
+          ]
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "check_id": "C11_authority_three_domain",
+      "description": "Authority pins reproducible per declared domain; content identity via repo blobs",
+      "evidence": null,
+      "expected": "pin reproducible on local; blobs identical cross-tree",
+      "method": "local raw + local blob + GB10 raw/blob",
+      "observed": {
+        "blob_identity_all": true,
+        "classification": "pins are LOCAL worktree bytes; 6/13 differ from GB10 worktree bytes by EOL/checkout representation; repo blobs identical on both trees => no content drift; hash domain should be canonicalized (repo blob) at T0 binding",
+        "entries": [
+          {
+            "authority_id": "REPO_RULES",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "66030be6e91bd9cca47d4e74d9e7aa3b651a998f72b56de3f4ab2cb694e15515",
+            "gb10_blob": "16e5be386bff808cec99b5b602533b813b664eee",
+            "gb10_raw": "2d9fd03d45cc5d9e0a3a96081d1727236b5b888fa7ce3d192618cee67836d4cb",
+            "gb10_raw_eq_pin": false,
+            "local_blob": "16e5be386bff808cec99b5b602533b813b664eee",
+            "local_raw": "66030be6e91bd9cca47d4e74d9e7aa3b651a998f72b56de3f4ab2cb694e15515",
+            "path": "AGENTS.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "CORE",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "171c503d56ef807c1aa785a95706818ecd2124fb704507f4e687821bf38a283b",
+            "gb10_blob": "af7ee5ff933f593ea01eecda5326150bc26c921a",
+            "gb10_raw": "171c503d56ef807c1aa785a95706818ecd2124fb704507f4e687821bf38a283b",
+            "gb10_raw_eq_pin": true,
+            "local_blob": "af7ee5ff933f593ea01eecda5326150bc26c921a",
+            "local_raw": "171c503d56ef807c1aa785a95706818ecd2124fb704507f4e687821bf38a283b",
+            "path": "memory/CORE.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "STATE",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "814cfcc4b4136d186328834dd235502fd1b94120e836c83ee1349e000cb89279",
+            "gb10_blob": "c5b4680b3698112f9891952a1f34ef532e39ae6e",
+            "gb10_raw": "814cfcc4b4136d186328834dd235502fd1b94120e836c83ee1349e000cb89279",
+            "gb10_raw_eq_pin": true,
+            "local_blob": "c5b4680b3698112f9891952a1f34ef532e39ae6e",
+            "local_raw": "814cfcc4b4136d186328834dd235502fd1b94120e836c83ee1349e000cb89279",
+            "path": "memory/STATE.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "THREADS",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "0653ff3d23718d0124e2385da8ebd76d85645e0fed4d6c56b94da623bf26f214",
+            "gb10_blob": "b8fbc443383e426b06f78a40d43a63f4313e47d3",
+            "gb10_raw": "39ba8d563839144817c23da598acb4f1ca595a5b9e77d8c7dd0623bac27ec11f",
+            "gb10_raw_eq_pin": false,
+            "local_blob": "b8fbc443383e426b06f78a40d43a63f4313e47d3",
+            "local_raw": "0653ff3d23718d0124e2385da8ebd76d85645e0fed4d6c56b94da623bf26f214",
+            "path": "memory/THREADS.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "DECISIONS",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "e35b24070a1b933c6c6163ebdfc71fccfabd58ec38be80a7744a4776db464966",
+            "gb10_blob": "9744c60822f24e8f3aac9774e372a29a214108dc",
+            "gb10_raw": "83bf8fce4ab1ae2d0df8e26c31d6668c0b98db53b6387c2c0dde97c1aa2c7e08",
+            "gb10_raw_eq_pin": false,
+            "local_blob": "9744c60822f24e8f3aac9774e372a29a214108dc",
+            "local_raw": "e35b24070a1b933c6c6163ebdfc71fccfabd58ec38be80a7744a4776db464966",
+            "path": "memory/DECISIONS.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "INDEX",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "bf261f8526bd05e6150a8728a27705df2f60edd825a36efc031ad8e329bdd015",
+            "gb10_blob": "b1b7ad419cccebe10620dface13f61dcaafa3d9b",
+            "gb10_raw": "bf261f8526bd05e6150a8728a27705df2f60edd825a36efc031ad8e329bdd015",
+            "gb10_raw_eq_pin": true,
+            "local_blob": "b1b7ad419cccebe10620dface13f61dcaafa3d9b",
+            "local_raw": "bf261f8526bd05e6150a8728a27705df2f60edd825a36efc031ad8e329bdd015",
+            "path": "docs/INDEX.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "SKILL_ROUTING",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "8b660cfd8c30b533541513fe7947c1f17bc948840e0d26b75d94ab6365f4cfde",
+            "gb10_blob": "40acf9ef2cb0286caf6c46764cd9704a4b6a2229",
+            "gb10_raw": "9e72cc9f872021c20b047e7191cd967a19c56a0720be9aeaa309ca5bb4d43e56",
+            "gb10_raw_eq_pin": false,
+            "local_blob": "40acf9ef2cb0286caf6c46764cd9704a4b6a2229",
+            "local_raw": "8b660cfd8c30b533541513fe7947c1f17bc948840e0d26b75d94ab6365f4cfde",
+            "path": "docs/SKILL_ROUTING.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "SKILL_REGISTRY",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "7ba3a2076815699aada8ea2d3c0b0429fada2488dfc68e7496f67c64035c87e6",
+            "gb10_blob": "a6cdabd14fe550357ddd27c847ee9f0ab12d0be4",
+            "gb10_raw": "3a1aa75c1d71458ad74dd740292038609df8435a4247b8f6943eccc3469706b3",
+            "gb10_raw_eq_pin": false,
+            "local_blob": "a6cdabd14fe550357ddd27c847ee9f0ab12d0be4",
+            "local_raw": "7ba3a2076815699aada8ea2d3c0b0429fada2488dfc68e7496f67c64035c87e6",
+            "path": "docs/governance/SKILL_REGISTRY.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "PREFLIGHT",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+            "gb10_blob": "6d23e8d95a5dd9df01196d5c7397ffb076dd1735",
+            "gb10_raw": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+            "gb10_raw_eq_pin": true,
+            "local_blob": "6d23e8d95a5dd9df01196d5c7397ffb076dd1735",
+            "local_raw": "77e43f5921bcc3a10ce06560c1b014dea694ec79281495740c1bcafd96b8fba7",
+            "path": "docs/governance/FORMAL_EXPERIMENT_PREFLIGHT_V1.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "THESIS",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "7333dd2b9c2777b7c70e63903d7efce3ec8278140c84b3384c4ef10cd6a620bf",
+            "gb10_blob": "cc69c5669e8215a0c1a0dc29a7deee6e7f215c94",
+            "gb10_raw": "7333dd2b9c2777b7c70e63903d7efce3ec8278140c84b3384c4ef10cd6a620bf",
+            "gb10_raw_eq_pin": true,
+            "local_blob": "cc69c5669e8215a0c1a0dc29a7deee6e7f215c94",
+            "local_raw": "7333dd2b9c2777b7c70e63903d7efce3ec8278140c84b3384c4ef10cd6a620bf",
+            "path": "docs/research/THESIS_RESEARCH_ARCHITECTURE_v3.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "STOP_S4",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "7f0cdc28ec05aca8a40c579e26b99e9377371e2867af3a536835abf34f608eb3",
+            "gb10_blob": "829cbf9b10db3bf8cffd1e0ca28666e6c5e5a2d0",
+            "gb10_raw": "7f0cdc28ec05aca8a40c579e26b99e9377371e2867af3a536835abf34f608eb3",
+            "gb10_raw_eq_pin": true,
+            "local_blob": "829cbf9b10db3bf8cffd1e0ca28666e6c5e5a2d0",
+            "local_raw": "7f0cdc28ec05aca8a40c579e26b99e9377371e2867af3a536835abf34f608eb3",
+            "path": "research/tatqa_wp0_2026/wp2/S4C_ONLINE_QUALIFICATION_RECEIPT.json",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "SKILL_WRITING",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "127c2d0f8c00291dd3b34839d197b627e9949e1d854af74564e541555221a294",
+            "gb10_blob": "4ad95d9c9c5d433c3abdf91313f598bfa646d0a4",
+            "gb10_raw": "127c2d0f8c00291dd3b34839d197b627e9949e1d854af74564e541555221a294",
+            "gb10_raw_eq_pin": true,
+            "local_blob": "4ad95d9c9c5d433c3abdf91313f598bfa646d0a4",
+            "local_raw": "127c2d0f8c00291dd3b34839d197b627e9949e1d854af74564e541555221a294",
+            "path": "skills/research-writing-skill/SKILL.md",
+            "pin_eq_local_raw": true
+          },
+          {
+            "authority_id": "SKILL_ALGORITHM",
+            "blob_identity_local_eq_gb10": true,
+            "declared": "ce0a59466ae12605ce1e75803494a017f43ae06d231e48fb9e7ddb394e28ddf7",
+            "gb10_blob": "e79925f5b6786bfc475f2bd95aaef05195dfe16b",
+            "gb10_raw": "ef020f70b0079c00f53d483d1d73b99b3d430260923990cec30fafa75ae854b4",
+            "gb10_raw_eq_pin": false,
+            "local_blob": "e79925f5b6786bfc475f2bd95aaef05195dfe16b",
+            "local_raw": "ce0a59466ae12605ce1e75803494a017f43ae06d231e48fb9e7ddb394e28ddf7",
+            "path": "skills/algorithm-description/SKILL.md",
+            "pin_eq_local_raw": true
+          }
+        ],
+        "gb10_raw_mismatch_ids": [
+          "REPO_RULES",
+          "THREADS",
+          "DECISIONS",
+          "SKILL_ROUTING",
+          "SKILL_REGISTRY",
+          "SKILL_ALGORITHM"
+        ],
+        "pin_matches_local_raw": 13
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C11b_authority_domain_finding",
+      "description": "Register the authority hash-domain issue as a tracked item (no STALE_INPUT content drift)",
+      "evidence": null,
+      "expected": null,
+      "method": "cross-tree blob comparison",
+      "observed": {
+        "action": "re-bind canonical blob domain at T0; keep local snapshot as historical; see unresolved_register RUN-R05",
+        "finding": "T1R-01 F1 core: cross-tree non-reproducibility of raw_sha256",
+        "mechanism": "EOL/checkout representation, not content"
+      },
+      "result": "INFO"
+    },
+    {
+      "check_id": "C12_links",
+      "description": "Local links resolve in the planning package (path:line and prose-ellipsis refs classified)",
+      "evidence": null,
+      "expected": "0 real broken",
+      "method": "regex+existence",
+      "observed": {
+        "flagged": [
+          {
+            "base_exists": true,
+            "file": "sources/planning_round1.md",
+            "prose_ellipsis": false,
+            "target": "D:/AIRcommend/JinRongAgents/agents_final_tech/scripts/graph/formal_experiment_preflight.py:336"
+          },
+          {
+            "base_exists": true,
+            "file": "sources/planning_round1.md",
+            "prose_ellipsis": false,
+            "target": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/tatqa_wp0_2026/wp2/bridge_v2/offline_qualification.py:266"
+          }
+        ],
+        "local_links_considered": 85,
+        "real_broken": []
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C13_index_single_entry",
+      "description": "docs/INDEX.md exactly one harness_rsi_v1 entry -> README",
+      "evidence": null,
+      "expected": "1 entry",
+      "method": "line scan",
+      "observed": {
+        "hits": [
+          "| [`../research/harness_rsi_v1/README.md`](../research/harness_rsi_v1/README.md) | 规划草案 / 执行关闭 | RSI v2：科研可靠性、科研能力与 skill 优化；19 张独立任务卡，T−1 仅供文档核对；不授权实验或分发 |"
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C14_no_fabricated_events",
+      "description": "Registries empty; ACCEPTED/ACTIVE occurrences are vocabulary only",
+      "evidence": null,
+      "expected": "no events",
+      "method": "size+token scan",
+      "observed": {
+        "occurrences": [
+          {
+            "ACCEPTED": 3,
+            "ACTIVE": 2,
+            "rel": "cards/T-1.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T0.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T1.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T10.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T11.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T12.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T13.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T14.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T15.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T16.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T17.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T2.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T3.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T4.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T5.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T6.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T7.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T8.md"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 0,
+            "rel": "cards/T9.md"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 1,
+            "rel": "contracts/execution_policy.md"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 1,
+            "rel": "contracts/protocol.json"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 0,
+            "rel": "contracts/schemas.json"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 1,
+            "rel": "EXECUTION_PROMPT.md"
+          },
+          {
+            "ACCEPTED": 3,
+            "ACTIVE": 2,
+            "rel": "MASTER_PLAN.md"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 0,
+            "rel": "README.md"
+          },
+          {
+            "ACCEPTED": 1,
+            "ACTIVE": 0,
+            "rel": "reviews/T1R-01/ACCEPTANCE_PROPOSAL.json"
+          },
+          {
+            "ACCEPTED": 2,
+            "ACTIVE": 2,
+            "rel": "reviews/T1R-01/REVIEW.md"
+          },
+          {
+            "ACCEPTED": 5,
+            "ACTIVE": 1,
+            "rel": "reviews/T1R-01/REVIEW_PROMPT.md"
+          },
+          {
+            "ACCEPTED": 30,
+            "ACTIVE": 30,
+            "rel": "runs/T-1/20261014T072826Z_6f19a394/receipt.json"
+          },
+          {
+            "ACCEPTED": 32,
+            "ACTIVE": 32,
+            "rel": "runs/T-1/20261014T085638Z_ba9297ac/receipt.json"
+          },
+          {
+            "ACCEPTED": 3,
+            "ACTIVE": 2,
+            "rel": "sources/planning_round2.md"
+          },
+          {
+            "ACCEPTED": 0,
+            "ACTIVE": 1,
+            "rel": "state/planner_brief.md"
+          }
+        ],
+        "registry_all_empty": true,
+        "state_accepted": []
+      },
+      "result": "INFO"
+    },
+    {
+      "check_id": "C14b_pass_word_scan",
+      "description": "PASS-word occurrences are policy/criteria text only",
+      "evidence": null,
+      "expected": "no fabricated results",
+      "method": "regex scan",
+      "observed": {
+        "rows": [
+          {
+            "PASS_word": 2,
+            "rel": "cards/T-1.md"
+          },
+          {
+            "PASS_word": 3,
+            "rel": "evaluation/reliability_spec.md"
+          },
+          {
+            "PASS_word": 5,
+            "rel": "MASTER_PLAN.md"
+          },
+          {
+            "PASS_word": 4,
+            "rel": "reviews/T1R-01/ACCEPTANCE_PROPOSAL.json"
+          },
+          {
+            "PASS_word": 26,
+            "rel": "reviews/T1R-01/REVIEW.md"
+          },
+          {
+            "PASS_word": 2,
+            "rel": "reviews/T1R-01/REVIEW_PROMPT.md"
+          },
+          {
+            "PASS_word": 14,
+            "rel": "reviews/T1R-01/review_receipt.json"
+          },
+          {
+            "PASS_word": 1,
+            "rel": "runs/T-1/20261014T072826Z_6f19a394/events.jsonl"
+          },
+          {
+            "PASS_word": 31,
+            "rel": "runs/T-1/20261014T072826Z_6f19a394/receipt.json"
+          },
+          {
+            "PASS_word": 2,
+            "rel": "runs/T-1/20261014T072826Z_6f19a394/summary.md"
+          },
+          {
+            "PASS_word": 16,
+            "rel": "runs/T-1/20261014T085638Z_ba9297ac/receipt.json"
+          },
+          {
+            "PASS_word": 1,
+            "rel": "runs/T-1/20261014T085638Z_ba9297ac/summary.md"
+          },
+          {
+            "PASS_word": 7,
+            "rel": "sources/planning_round1.md"
+          },
+          {
+            "PASS_word": 2,
+            "rel": "sources/planning_round2.md"
+          }
+        ]
+      },
+      "result": "INFO"
+    },
+    {
+      "check_id": "C15_dir_reproducibility",
+      "description": "Declared dirs exist/readable on both trees; candidates kept via .gitkeep",
+      "evidence": null,
+      "expected": "both trees",
+      "method": "local + GB10 listing",
+      "observed": {
+        "gb10": {
+          "candidates": {
+            "entries": 1,
+            "exists": true
+          },
+          "reviews": {
+            "entries": 1,
+            "exists": true
+          },
+          "runs": {
+            "entries": 1,
+            "exists": true
+          }
+        },
+        "gb10_pkg_files": 69,
+        "local": {
+          "entries": {
+            "candidates": 1,
+            "reviews": 1,
+            "runs": 1
+          },
+          "exists": {
+            "candidates": true,
+            "reviews": true,
+            "runs": true
+          },
+          "gitkeep_in_manifest": true
+        }
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C16_input_bindings",
+      "description": "12 declared inputs exist; actual hashes recorded",
+      "evidence": null,
+      "expected": "12/12",
+      "method": "existence+sha256",
+      "observed": {
+        "all_exist": true,
+        "count": 12
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C17_write_scope_conformance",
+      "description": "No out-of-scope writes: package file set (excl runs/reviews) == FILE_MANIFEST required set; run/review dirs exact; GB10 status logs-only",
+      "evidence": null,
+      "expected": "conformant",
+      "method": "file-set diff + status scan",
+      "observed": {
+        "gb10_status": [
+          " M logs/graph/dispatch_log.md",
+          " M logs/graph/docs_lint_report.json",
+          " M logs/graph/governance_drift_latest.md",
+          " M logs/graph/verify-report.json"
+        ],
+        "gb10_status_logs_only": true,
+        "manifest_entries_excl_self": 52,
+        "package_files": 70,
+        "package_set_equals_required": true,
+        "reviews_T1R_01": [
+          "ACCEPTANCE_PROPOSAL.json",
+          "LOOP_C_RAW_STDOUT.log",
+          "REVIEW.md",
+          "REVIEW_PROMPT.md",
+          "review_receipt.json"
+        ],
+        "v1_run_files": [
+          "artifacts_manifest.json",
+          "document_inventory.json",
+          "events.jsonl",
+          "receipt.json",
+          "summary.md",
+          "unresolved_register.json"
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C18_rcs_human_gates",
+      "description": "Protocol R/C/S elements complete; cards with human gates enumerated",
+      "evidence": null,
+      "expected": "complete",
+      "method": "field check + card scan",
+      "observed": {
+        "cards_with_human_gates": [
+          "T-1",
+          "T0",
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6",
+          "T7",
+          "T8",
+          "T9",
+          "T10",
+          "T11",
+          "T12",
+          "T13",
+          "T14",
+          "T15",
+          "T16",
+          "T17"
+        ],
+        "directions": [
+          {
+            "direction": "R",
+            "missing": []
+          },
+          {
+            "direction": "C",
+            "missing": []
+          },
+          {
+            "direction": "S",
+            "missing": []
+          }
+        ],
+        "human_reserved": [
+          "research_value",
+          "novelty",
+          "identification_assumptions",
+          "publication_readiness",
+          "degree_sufficiency"
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "check_id": "C19_loopc_permission_env",
+      "description": "Loop-C permission layer fixed and smoke-tested (context)",
+      "evidence": null,
+      "expected": null,
+      "method": "config change + smoke",
+      "observed": {
+        "allow_rules_added": 32,
+        "recommendation": "keep the two injection guards; reviewer prompts must avoid find -exec and command substitution",
+        "settings_backup": "~/.claude/settings.json.bak.t1r01-20261014T084810Z",
+        "smoke": "python3(-c/heredoc) OK, xargs OK; find -exec and $(...) remain hard-guarded by Claude Code injection protection"
+      },
+      "result": "INFO"
+    }
+  ],
+  "execution_status": "DELIVERED",
+  "input_bindings": [
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json",
+      "actual_bytes": 5243,
+      "actual_sha256": "bfbf453def9386eb378f0370491892faf14edfc36a978d77647ba34b8baffcf6",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
+      "actual_bytes": 7270,
+      "actual_sha256": "946f952fb8a530d4001a6b047cc9c4b833ebe613bb9a3b1a40250584a0962bea",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md",
+      "actual_bytes": 2852,
+      "actual_sha256": "f659668ad1ddca44fcd170c328a177be201b8aaa871f2bb938681d404e9cf393",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+      "actual_bytes": 1689,
+      "actual_sha256": "1c94e40e377dd7b119c27988d845859e9d88784312c68aeb3f3649871614a8d9",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json",
+      "actual_bytes": 7295,
+      "actual_sha256": "a6543ce1fc4254f1f09573a928c6e0c318b5834062529ec9f0264873198a4c6d",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/README.md",
+      "actual_bytes": 1946,
+      "actual_sha256": "969a078afeb4fd02fa4777cfa5e33ca0cbb8d9d417fc6af1ac83b08b5da12479",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/MASTER_PLAN.md",
+      "actual_bytes": 57842,
+      "actual_sha256": "f663094efbf5d6fdd617a600353ba7ccba06ce0f1fcba06ec1ab20142f1253ef",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/REVISION_LOG.md",
+      "actual_bytes": 707,
+      "actual_sha256": "6bf70e0cf319facddc4b5b014d67e6e662f42719f7eaa8445716c534e3e37c5d",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round1.md",
+      "actual_bytes": 26874,
+      "actual_sha256": "cc4ef2da38702fb21ae364710d0db7480a856df34d7951e6275c3cbf271b25dd",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round2.md",
+      "actual_bytes": 41728,
+      "actual_sha256": "ce68b925d451f134277ce80dac4c79254b656ab55c8ada639279f15925e2e38a",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/provenance.json",
+      "actual_bytes": 818,
+      "actual_sha256": "97e49347f3fdc89e45c433bb1adb16f4ebd3f02d4f215675173b966c461b5151",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/FILE_MANIFEST.json",
+      "actual_bytes": 18334,
+      "actual_sha256": "0307ed85e40f5e3b893c12401566d878f3063860016ec97a3ddc2a986d09ddbc",
+      "binding": "READ_AND_HASHED_DURING_T1_V2_REVIEW",
+      "declared_sha256": "UNRESOLVED",
+      "exists": true
+    }
+  ],
+  "output_manifest": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/artifacts_manifest.json",
+  "prior_review": {
+    "artifacts": {
+      "ACCEPTANCE_PROPOSAL.json": "579d0fdb53be63ad262ceaa8a9247a69fc62e0d1f46515fa29d070eb426dba60",
+      "LOOP_C_RAW_STDOUT.log": "051d0eda978e47ffd366cd0f023993c4aab0389f65939b151756a55bbcb10808",
+      "REVIEW.md": "2cd43d6446baadff16dccbfbb30a47bebe7f6ac73cb0bc3255a2af773fb61d1b",
+      "review_receipt.json": "dc30ad205cc99ed1ff46011424bf4af9bf6c3646573bf46c132f0538689ec11c"
+    },
+    "findings": [
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6"
+    ],
+    "path": "research/harness_rsi_v1/reviews/T1R-01/",
+    "proposal": "REJECTED",
+    "review_id": "T1R-01"
+  },
+  "run_id": "20261014T085957Z_4e1698d1",
+  "schema": "harness_rsi_t1_receipt_v2",
+  "scope": "T-1 v2 documentation review of the planning package (local primary + GB10 read-only cross-check); supersedes v1 for forensics; read-only outside runs/T-1/{run_id}/",
+  "superseded_draft_run": {
+    "reason": "builder check-logic bugs (C12 scope, C17 comparison) plus a true FILES.md manifest-pin slip it surfaced; draft retained with SUPERSEDED marker; non-authoritative",
+    "run_id": "20261014T085638Z_ba9297ac"
+  },
+  "supersedes_run_id": "20261014T072826Z_6f19a394",
+  "task_id": "T-1",
+  "unresolved": {
+    "declared": 9,
+    "register": "unresolved_register.json",
+    "run_level": 5
+  },
+  "usage": {
+    "automatic_retries": 0,
+    "database_calls": 0,
+    "execution_chat_usage": "UNRESOLVED",
+    "local_readonly_command_invocations": 3,
+    "model_requests": 0,
+    "network_calls": 0,
+    "note": "GB10 access limited to one read-only ssh batch (hashes/status/lists); no service or endpoint calls",
+    "production_service_calls": 0,
+    "remote_readonly_ssh_invocations": 1,
+    "training_calls": 0
+  }
+}

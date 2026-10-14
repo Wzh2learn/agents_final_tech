@@ -1,0 +1,442 @@
+{
+  "counts": {
+    "authority_entries": 13,
+    "cards": 19,
+    "checks_fail": 3,
+    "checks_info": 4,
+    "checks_pass": 15,
+    "checks_total": 22,
+    "manifest_files_entries": 52,
+    "manifest_required": 53,
+    "package_files": 64
+  },
+  "disk_only": [
+    "FILE_MANIFEST.json",
+    "reviews/T1R-01/ACCEPTANCE_PROPOSAL.json",
+    "reviews/T1R-01/LOOP_C_RAW_STDOUT.log",
+    "reviews/T1R-01/REVIEW.md",
+    "reviews/T1R-01/REVIEW_PROMPT.md",
+    "reviews/T1R-01/review_receipt.json",
+    "runs/T-1/20261014T072826Z_6f19a394/artifacts_manifest.json",
+    "runs/T-1/20261014T072826Z_6f19a394/document_inventory.json",
+    "runs/T-1/20261014T072826Z_6f19a394/events.jsonl",
+    "runs/T-1/20261014T072826Z_6f19a394/receipt.json",
+    "runs/T-1/20261014T072826Z_6f19a394/summary.md",
+    "runs/T-1/20261014T072826Z_6f19a394/unresolved_register.json"
+  ],
+  "files": [
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/candidates/.gitkeep",
+      "bytes": 0,
+      "relative_path": "candidates/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/CARD_TEMPLATE.md",
+      "bytes": 1074,
+      "relative_path": "cards/CARD_TEMPLATE.md",
+      "sha256": "d2f16c4ce301ed18a354c813c1189360ea61e63e6444de765ddd9b2b3e4ce5a2"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T-1.md",
+      "bytes": 9842,
+      "relative_path": "cards/T-1.md",
+      "sha256": "a28af6a87986b64c240db23fc77332b0401573eea133203c42d0126e96f79f6d"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T0.md",
+      "bytes": 8231,
+      "relative_path": "cards/T0.md",
+      "sha256": "a6309cccf5aa35691fcc7b5a0edec5b1550bd3b7a9dbc7fc11a0e7802bd80e84"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T1.md",
+      "bytes": 8377,
+      "relative_path": "cards/T1.md",
+      "sha256": "17a366f551c6157dbbea059a3819d14b6e7cd7c961b72e25bd1c9ee1be070319"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T10.md",
+      "bytes": 8803,
+      "relative_path": "cards/T10.md",
+      "sha256": "63cdca85864ba89cd4783438f975d1c7949c080addbda7f1bdd46cea31808649"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T11.md",
+      "bytes": 8078,
+      "relative_path": "cards/T11.md",
+      "sha256": "a069f59e7fc384153547dc082af99bdb99f2011f8b64a7572cc4124c6d4b370d"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T12.md",
+      "bytes": 7772,
+      "relative_path": "cards/T12.md",
+      "sha256": "e9977fa6b4ebe3a235c234b9f08878cc252e214731b439130d52bc1ba2ace189"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T13.md",
+      "bytes": 8315,
+      "relative_path": "cards/T13.md",
+      "sha256": "769ad3eb6bb5d62d8b436ac7e216a26fd88c7ff6cefaf6f921448e1829711d29"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T14.md",
+      "bytes": 9155,
+      "relative_path": "cards/T14.md",
+      "sha256": "40bfe290fb6af149339bef1ba425ab7b532315d4930a905409e4a8bb94bd2cad"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T15.md",
+      "bytes": 8183,
+      "relative_path": "cards/T15.md",
+      "sha256": "f8b89920ec8c234092ec9ff2dd89fa6fa00ac9bf5bd67967cac12ffcd7e626a8"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T16.md",
+      "bytes": 8459,
+      "relative_path": "cards/T16.md",
+      "sha256": "7e4dfe41d0226134276adbc4d2779179e8b027780fcafaf90fe2a986312a2787"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T17.md",
+      "bytes": 8633,
+      "relative_path": "cards/T17.md",
+      "sha256": "19271b0acfa86201b395910d89e57a0e7d4f4ce79814d98ff4e47da7f2af74f3"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T2.md",
+      "bytes": 8312,
+      "relative_path": "cards/T2.md",
+      "sha256": "05e8a002df26c7c6beac6a83cb3ef042739298c619629a61a414ff4ba0cfec18"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T3.md",
+      "bytes": 7407,
+      "relative_path": "cards/T3.md",
+      "sha256": "1aedd9c4c509905a057e8bfc9181860f4149ed2535bd13e8156009a395d18a7c"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T4.md",
+      "bytes": 7823,
+      "relative_path": "cards/T4.md",
+      "sha256": "6eb0549fc4626ca3c7cef3a130c883acf578c63c61cf5f0ffac11b800df60616"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T5.md",
+      "bytes": 7640,
+      "relative_path": "cards/T5.md",
+      "sha256": "f38ee568b0f5374b239f506630f098f8c0f7305caeeeaa56d49971f0b4fcebeb"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T6.md",
+      "bytes": 7624,
+      "relative_path": "cards/T6.md",
+      "sha256": "6e7ab451a7cd90a4668c3a238f380667e95155281260853636519faabcadc0bc"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T7.md",
+      "bytes": 7622,
+      "relative_path": "cards/T7.md",
+      "sha256": "3cbd7af171324e7df1f7ca0ed7796703c44523e16aa7e39e9739d8dbfe383e34"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T8.md",
+      "bytes": 7491,
+      "relative_path": "cards/T8.md",
+      "sha256": "f04a471073247ef3c77c7642bc61a21d4d7e9717b29dd43840edc377cb03b3fa"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/T9.md",
+      "bytes": 8190,
+      "relative_path": "cards/T9.md",
+      "sha256": "894c3011a11b8fc56170b8e351dda0bcc97a0e977374a9e4b666f3d4ed4a4976"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/cards/task_matrix.json",
+      "bytes": 10824,
+      "relative_path": "cards/task_matrix.json",
+      "sha256": "3e9ac0d7bb19aa5d72e8e648681dfe45a1d49aad4b1f9fa1229704c06e191afa"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/catalog/dependency_graph.json",
+      "bytes": 105,
+      "relative_path": "catalog/dependency_graph.json",
+      "sha256": "52959de644c2d37010610ce126acacddd86e2eb4a965c619c25fb3d0d4e0feb6"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/catalog/skills.json",
+      "bytes": 319,
+      "relative_path": "catalog/skills.json",
+      "sha256": "6d90a8f4f37d8d62155709cd9d4dda8c1dd51178519f77c09cc34ed4d5d3ea29"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
+      "bytes": 7270,
+      "relative_path": "contracts/authority_map.json",
+      "sha256": "946f952fb8a530d4001a6b047cc9c4b833ebe613bb9a3b1a40250584a0962bea"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+      "bytes": 1689,
+      "relative_path": "contracts/budget_profiles.json",
+      "sha256": "1c94e40e377dd7b119c27988d845859e9d88784312c68aeb3f3649871614a8d9"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md",
+      "bytes": 2852,
+      "relative_path": "contracts/execution_policy.md",
+      "sha256": "f659668ad1ddca44fcd170c328a177be201b8aaa871f2bb938681d404e9cf393"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json",
+      "bytes": 5243,
+      "relative_path": "contracts/protocol.json",
+      "sha256": "bfbf453def9386eb378f0370491892faf14edfc36a978d77647ba34b8baffcf6"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json",
+      "bytes": 7295,
+      "relative_path": "contracts/schemas.json",
+      "sha256": "a6543ce1fc4254f1f09573a928c6e0c318b5834062529ec9f0264873198a4c6d"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/evaluation/capability_rubrics.json",
+      "bytes": 3682,
+      "relative_path": "evaluation/capability_rubrics.json",
+      "sha256": "20fdaf3ee661dbe9aa14a2a7e5fdb508badd9fa7672031344938654fc7117f17"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/evaluation/human_review_protocol.md",
+      "bytes": 1326,
+      "relative_path": "evaluation/human_review_protocol.md",
+      "sha256": "46e40b84c90d1656c1f5c922d0f1b40a9fbe699e9ba491d5e89275c6157cd91c"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "bytes": 4386,
+      "relative_path": "evaluation/reliability_spec.md",
+      "sha256": "1856da0654e0c57d2e35d395de4df8b220f8989020a6cc61de0c39cb3ad7494d"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/evaluation/skill_value_spec.md",
+      "bytes": 7862,
+      "relative_path": "evaluation/skill_value_spec.md",
+      "sha256": "1e880178937b8cce3a4be653038f8eb76b1dd419febc1cca1891d08ccbf64797"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/evaluation/split_registry.json",
+      "bytes": 693,
+      "relative_path": "evaluation/split_registry.json",
+      "sha256": "15397abca0a182182d51501291933a2f42347a956a6590eaf504cd5af6eb79f4"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/EXECUTION_PROMPT.md",
+      "bytes": 4376,
+      "relative_path": "EXECUTION_PROMPT.md",
+      "sha256": "c922c3fa37da5adb8e7f1fa89c63a289be60855af289605fb4c8684c9973d721"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/FILE_MANIFEST.json",
+      "bytes": 18334,
+      "relative_path": "FILE_MANIFEST.json",
+      "sha256": "fe44ba772516d9afe48538c741fd31718d9de2c1d93d2d760c79240eb78932c3"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/FILES.md",
+      "bytes": 6800,
+      "relative_path": "FILES.md",
+      "sha256": "b0a1730060d1a4885d20409cd9c58c33a70a32a2d4fe947969d83eae12032436"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/MASTER_PLAN.md",
+      "bytes": 57842,
+      "relative_path": "MASTER_PLAN.md",
+      "sha256": "f663094efbf5d6fdd617a600353ba7ccba06ce0f1fcba06ec1ab20142f1253ef"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/meta/lessons.jsonl",
+      "bytes": 0,
+      "relative_path": "meta/lessons.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/meta/nogoods.jsonl",
+      "bytes": 0,
+      "relative_path": "meta/nogoods.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/meta/optimizer_policy.md",
+      "bytes": 435,
+      "relative_path": "meta/optimizer_policy.md",
+      "sha256": "7b0bca85601489123f7ac7614d76ef858922890bf3c5de1a46925fa214542ed1"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/README.md",
+      "bytes": 1946,
+      "relative_path": "README.md",
+      "sha256": "969a078afeb4fd02fa4777cfa5e33ca0cbb8d9d417fc6af1ac83b08b5da12479"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/registry/candidate_events.jsonl",
+      "bytes": 0,
+      "relative_path": "registry/candidate_events.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/registry/decision_events.jsonl",
+      "bytes": 0,
+      "relative_path": "registry/decision_events.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/registry/task_events.jsonl",
+      "bytes": 0,
+      "relative_path": "registry/task_events.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/reviews/T1R-01/ACCEPTANCE_PROPOSAL.json",
+      "bytes": 4876,
+      "relative_path": "reviews/T1R-01/ACCEPTANCE_PROPOSAL.json",
+      "sha256": "579d0fdb53be63ad262ceaa8a9247a69fc62e0d1f46515fa29d070eb426dba60"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/reviews/T1R-01/LOOP_C_RAW_STDOUT.log",
+      "bytes": 34614,
+      "relative_path": "reviews/T1R-01/LOOP_C_RAW_STDOUT.log",
+      "sha256": "051d0eda978e47ffd366cd0f023993c4aab0389f65939b151756a55bbcb10808"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/reviews/T1R-01/REVIEW.md",
+      "bytes": 17569,
+      "relative_path": "reviews/T1R-01/REVIEW.md",
+      "sha256": "2cd43d6446baadff16dccbfbb30a47bebe7f6ac73cb0bc3255a2af773fb61d1b"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/reviews/T1R-01/REVIEW_PROMPT.md",
+      "bytes": 5571,
+      "relative_path": "reviews/T1R-01/REVIEW_PROMPT.md",
+      "sha256": "d6c6d2564b1172b0326a5ad820c737e4e366544205399b4291d683b910da9d76"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/reviews/T1R-01/review_receipt.json",
+      "bytes": 11505,
+      "relative_path": "reviews/T1R-01/review_receipt.json",
+      "sha256": "dc30ad205cc99ed1ff46011424bf4af9bf6c3646573bf46c132f0538689ec11c"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/REVISION_LOG.md",
+      "bytes": 707,
+      "relative_path": "REVISION_LOG.md",
+      "sha256": "6bf70e0cf319facddc4b5b014d67e6e662f42719f7eaa8445716c534e3e37c5d"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/artifacts_manifest.json",
+      "bytes": 1614,
+      "relative_path": "runs/T-1/20261014T072826Z_6f19a394/artifacts_manifest.json",
+      "sha256": "d2c19db81454c6058da3e3d369fc30d76ec72a1f70fb3628318d999dfe8adf40"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/document_inventory.json",
+      "bytes": 19410,
+      "relative_path": "runs/T-1/20261014T072826Z_6f19a394/document_inventory.json",
+      "sha256": "97f675dedd5c236534acdb4092d72b0e71e0a7941c3724d0a19a1d14ffba470d"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/events.jsonl",
+      "bytes": 1037,
+      "relative_path": "runs/T-1/20261014T072826Z_6f19a394/events.jsonl",
+      "sha256": "69b8b08dd918415021ab73b3388d1a51c73135624047e8c08944bde32bc30bc7"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/receipt.json",
+      "bytes": 37872,
+      "relative_path": "runs/T-1/20261014T072826Z_6f19a394/receipt.json",
+      "sha256": "9282079334d2b51e479025b85b2bd5ecb0311af03612b674acd3c850983b3ebf"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/summary.md",
+      "bytes": 2491,
+      "relative_path": "runs/T-1/20261014T072826Z_6f19a394/summary.md",
+      "sha256": "9d5ce0ae48d10b8c8e376c4b5ec3b036b926c1d20cd672197c5429574b60419e"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T072826Z_6f19a394/unresolved_register.json",
+      "bytes": 5983,
+      "relative_path": "runs/T-1/20261014T072826Z_6f19a394/unresolved_register.json",
+      "sha256": "39898a993cccc7ce5d080743d7e5d5e7946fe7780a79e9748b317f72ec54b5aa"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round1.md",
+      "bytes": 26874,
+      "relative_path": "sources/planning_round1.md",
+      "sha256": "cc4ef2da38702fb21ae364710d0db7480a856df34d7951e6275c3cbf271b25dd"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/planning_round2.md",
+      "bytes": 41728,
+      "relative_path": "sources/planning_round2.md",
+      "sha256": "ce68b925d451f134277ce80dac4c79254b656ab55c8ada639279f15925e2e38a"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/sources/provenance.json",
+      "bytes": 818,
+      "relative_path": "sources/provenance.json",
+      "sha256": "97e49347f3fdc89e45c433bb1adb16f4ebd3f02d4f215675173b966c461b5151"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/state/current.json",
+      "bytes": 252,
+      "relative_path": "state/current.json",
+      "sha256": "a3cb3bd1623637442f5503271ce22bdba1c0b98f83731cd914db1cc98dd39b1b"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/state/open_decisions.json",
+      "bytes": 2565,
+      "relative_path": "state/open_decisions.json",
+      "sha256": "9b76df94ff82752bf7344cb409f653600016ed57cdd0e3a8e2b2a2ad91c9f392"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/state/planner_brief.md",
+      "bytes": 428,
+      "relative_path": "state/planner_brief.md",
+      "sha256": "86b26a37bfb1f339e1aa81857dbf7e3effd09cc3251568ac2d496328ea96de1c"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/UNRESOLVED.md",
+      "bytes": 1837,
+      "relative_path": "UNRESOLVED.md",
+      "sha256": "4d792ad6a7276fdbcb71224a5e450657e6d8f81171679d56cbb542715f824d36"
+    }
+  ],
+  "gb10_side": {
+    "dirs": {
+      "candidates": {
+        "entries": 1,
+        "exists": true
+      },
+      "reviews": {
+        "entries": 1,
+        "exists": true
+      },
+      "runs": {
+        "entries": 1,
+        "exists": true
+      }
+    },
+    "head": "d6f456704b53bd954278962cc28aadf56b9cd935",
+    "package_files": 69
+  },
+  "generated_at_utc": "2026-10-14T08:56:38Z",
+  "manifest_only": [],
+  "notes": [
+    "v2 of the T-1 run package; supersedes v1 for forensics, v1 remains immutable historical evidence",
+    "authority hashes now measured on three domains: local worktree raw / repo blob / GB10 worktree raw+blob"
+  ],
+  "package_root": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\harness_rsi_v1",
+  "run_id": "20261014T085638Z_ba9297ac",
+  "schema": "harness_rsi_t1_document_inventory_v2",
+  "supersedes_run_id": "20261014T072826Z_6f19a394",
+  "task_id": "T-1"
+}

@@ -1,0 +1,34 @@
+{
+  "artifacts": [
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/document_inventory.json",
+      "bytes": 22586,
+      "sha256": "db2445e70992cc6079e339cecb26746c0b103b09bf89037d00c696ccefda0c74"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/unresolved_register.json",
+      "bytes": 5962,
+      "sha256": "a292f5c48a910b5dc810e1de5189c59ba67d9e225e76e4052a3d881b00c53b6f"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/receipt.json",
+      "bytes": 35751,
+      "sha256": "a2ff07db04453f91ab8178c05ff39f482298daf3aa1e35a5ddd0517cbbeb5fc9"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/summary.md",
+      "bytes": 1637,
+      "sha256": "533ea2e3f79d9bbfec38e354498d0cbf3d325aae2a714ed8299b17c5834301e8"
+    },
+    {
+      "absolute_path": "D:/AIRcommend/JinRongAgents/agents_final_tech/research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/events.jsonl",
+      "bytes": 882,
+      "sha256": "661e27d6c20e01185c258f2c2ee22fd78db4e41af39f4e1913208268c26c5bcb"
+    }
+  ],
+  "generated_at_utc": "2026-10-14T08:59:57Z",
+  "run_id": "20261014T085957Z_4e1698d1",
+  "schema": "harness_rsi_t1_artifacts_manifest_v2",
+  "self_hash_policy": "excluded from own list",
+  "task_id": "T-1"
+}

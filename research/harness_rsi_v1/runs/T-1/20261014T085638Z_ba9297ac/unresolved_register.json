@@ -1,0 +1,189 @@
+{
+  "categories": {
+    "executor_evidence": [
+      "U02",
+      "U06",
+      "U09"
+    ],
+    "executor_evidence_then_owner": [
+      "U04"
+    ],
+    "future_evidence": [
+      "U08"
+    ],
+    "user_adjudication": [
+      "U01",
+      "U05",
+      "U07"
+    ],
+    "user_and_executor": [
+      "U03"
+    ]
+  },
+  "counts": {
+    "declared": 9,
+    "run_level": 5
+  },
+  "generated_at_utc": "2026-10-14T08:56:38Z",
+  "items": [
+    {
+      "blocks": "T0/T10",
+      "category": "user_adjudication",
+      "description": "协议阈值、每阶段预算、人工评审安排",
+      "id": "U01",
+      "note": "本规划数值是建议，不是已签署合同",
+      "owner": "OWNER",
+      "source": [
+        "UNRESOLVED.md",
+        "state/open_decisions.json"
+      ],
+      "status": "REGISTERED_UNRESOLVED"
+    },
+    {
+      "blocks": "T1–T17",
+      "category": "executor_evidence",
+      "description": "全部未来输入绑定、案例/资料包/评价器和基线哈希",
+      "id": "U02",
+      "note": "产物尚不存在；生成后实算，不让用户填写哈希",
+      "owner": "EXECUTOR_THEN_REVIEW",
+      "source": [
+        "UNRESOLVED.md",
+        "state/open_decisions.json"
+      ],
+      "status": "REGISTERED_UNRESOLVED"
+    },
+    {
+      "blocks": "T3/T11/T15",
+      "category": "user_and_executor",
+      "description": "执行模型精确身份、可计量渠道与成本上限",
+      "id": "U03",
+      "note": "沿用既有廉价模型的意向不等于锁定配置",
+      "owner": "OWNER_AND_EXECUTOR",
+      "source": [
+        "UNRESOLVED.md",
+        "state/open_decisions.json"
+      ],
+      "status": "REGISTERED_UNRESOLVED"
+    },
+    {
+      "blocks": "T2/T3",
+      "category": "executor_evidence_then_owner",
+      "description": "封存集物理位置、独立访问身份、网络与文件隔离机制",
+      "id": "U04",
+      "note": "目录隔离不足；可行方案先验证再裁决",
+      "owner": "EXECUTOR_THEN_OWNER",
+      "source": [
+        "UNRESOLVED.md",
+        "state/open_decisions.json"
+      ],
+      "status": "REGISTERED_UNRESOLVED"
+    },
+    {
+      "blocks": "T10/T13",
+      "category": "user_adjudication",
+      "description": "科研人类裁决者/导师可用性与科学评审锚点",
+      "id": "U05",
+      "note": "缺失时保持 PENDING_HUMAN_REVIEW",
+      "owner": "OWNER",
+      "source": [
+        "UNRESOLVED.md",
+        "state/open_decisions.json"
+      ],
+      "status": "REGISTERED_UNRESOLVED"
+    },
+    {
+      "blocks": "T3/T8",
+      "category": "executor_evidence",
+      "description": "实际运行面和依赖版本；GB10 绑定路径",
+      "id": "U06",
+      "note": "本地检查不代表 GB10；本轮不远程查询",
+      "owner": "EXECUTOR_THEN_REVIEW",
+      "source": [
+        "UNRESOLVED.md",
+        "state/open_decisions.json"
+      ],
+      "status": "REGISTERED_UNRESOLVED"
+    },
+    {
+      "blocks": "T0 onward/T8",
+      "category": "user_adjudication",
+      "description": "分阶段激活、正式技能发布和全局文档/分发变更许可",
+      "id": "U07",
+      "note": "每次明确动作；不从规划认可推导运行许可",
+      "owner": "OWNER",
+      "source": [
+        "UNRESOLVED.md",
+        "state/open_decisions.json"
+      ],
+      "status": "REGISTERED_UNRESOLVED"
+    },
+    {
+      "blocks": "T8/T9",
+      "category": "future_evidence",
+      "description": "三个新任务影子证据及八份独立候选档案",
+      "id": "U08",
+      "note": "当前没有，不造结果补齐",
+      "owner": "FUTURE_EVIDENCE",
+      "source": [
+        "UNRESOLVED.md",
+        "state/open_decisions.json"
+      ],
+      "status": "REGISTERED_UNRESOLVED"
+    },
+    {
+      "blocks": "T10/T15/T17",
+      "category": "executor_evidence",
+      "description": "T15 探针集、T17 未见集、科研标尺的经验可辨别性",
+      "id": "U09",
+      "note": "标量或 rubric 有定义不代表已验证有效",
+      "owner": "EXECUTOR_THEN_REVIEW",
+      "source": [
+        "UNRESOLVED.md",
+        "state/open_decisions.json"
+      ],
+      "status": "REGISTERED_UNRESOLVED"
+    }
+  ],
+  "policy": "declared unknowns registered with responsibility+impact; owner adjudications not filled; no fabricated evidence",
+  "run_id": "20261014T085638Z_ba9297ac",
+  "run_level_items": [
+    {
+      "category": "unmeasurable_metric",
+      "id": "RUN-R01",
+      "impact": "recorded UNRESOLVED, never zero",
+      "item": "execution-chat token usage not measurable",
+      "status": "UNRESOLVED"
+    },
+    {
+      "category": "observation_non_blocking",
+      "id": "RUN-R02",
+      "impact": "wording clarified in v2 summary; convention unchanged",
+      "item": "matrix planned_outputs excludes receipt.json by convention while card JSON outputs include it (T1R-01 F5)",
+      "status": "OBSERVED"
+    },
+    {
+      "category": "observation_non_blocking",
+      "id": "RUN-R03",
+      "impact": "no action",
+      "item": "two path:line strings in sources/planning_round1.md are code references, not broken links (T1R-01 dissent: executor upheld)",
+      "status": "UPHELD"
+    },
+    {
+      "category": "future_evidence",
+      "id": "RUN-R04",
+      "impact": "T0+ blocked until bound",
+      "item": "model identity, sealed root, activation permits, downstream bindings",
+      "status": "UNRESOLVED"
+    },
+    {
+      "category": "authority_hash_domain",
+      "id": "RUN-R05",
+      "impact": "re-bind canonical repo-blob domain at T0 authority binding; keep local snapshot as historical; do NOT record as STALE_INPUT content drift",
+      "item": "authority_map raw_sha256 pins are LOCAL worktree bytes; 6/13 differ on GB10 by EOL/checkout representation while repo blobs are identical both trees (no content drift; T1R-01 F1 core)",
+      "owner": "OWNER_AND_EXECUTOR",
+      "status": "OPEN_PENDING_T0"
+    }
+  ],
+  "schema": "harness_rsi_t1_unresolved_register_v2",
+  "task_id": "T-1"
+}
