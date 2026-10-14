@@ -1,0 +1,3 @@
+{"after": 1, "before": 0, "counter": "model_extra_requests", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 1, "before": 0, "counter": "transport_calls", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 1, "before": 0, "counter": "crashed_requests", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}

@@ -1,0 +1,143 @@
+{
+  "schema": "t3_runner_qualification_v1",
+  "task_id": "T3",
+  "run_id": "20261014T161814Z_245b86ab",
+  "scope": "LOCAL_DEV_HOST",
+  "scope_statement": "本机开发资格，不构成正式运行面绑定，不代表生产/训练执行；GB10 权威绑定留待后续。",
+  "python": "3.12",
+  "dependencies": "standard library only",
+  "mock_transport_only": true,
+  "rounds": [
+    {
+      "pass_id": "PASS_1_FINAL",
+      "command": "python3 runner/run_qualification.py --pass-id PASS_1_FINAL --output qualification_pass_1_final.json --scratch-root qualification_work/PASS_1_FINAL",
+      "exit_code": 0,
+      "result": "PASS",
+      "checks": {
+        "passed": 32,
+        "failed": 0,
+        "total": 32
+      },
+      "normalized_result_sha256": "0a5963625b637945eaf91610ea3505b7f9b94f4ae2039b265cd149dde8163ed2"
+    },
+    {
+      "pass_id": "PASS_2_FINAL",
+      "command": "python3 runner/run_qualification.py --pass-id PASS_2_FINAL --output qualification_pass_2_final.json --scratch-root qualification_work/PASS_2_FINAL",
+      "exit_code": 0,
+      "result": "PASS",
+      "checks": {
+        "passed": 32,
+        "failed": 0,
+        "total": 32
+      },
+      "normalized_result_sha256": "0a5963625b637945eaf91610ea3505b7f9b94f4ae2039b265cd149dde8163ed2"
+    }
+  ],
+  "two_round_consistency": {
+    "identical_normalized_results": true,
+    "comparison_method": "SHA-256 of normalized case/check/status/detail tuples; pass IDs and scratch paths excluded",
+    "normalized_result_sha256": "0a5963625b637945eaf91610ea3505b7f9b94f4ae2039b265cd149dde8163ed2"
+  },
+  "case_results": [
+    {
+      "case_id": "duplicate_id",
+      "command": "python3 runner/runner.py execute --workspace <scratch>/duplicate_workspace --run-id 20261014T161814Z_deadbeef --fixture runner/fixtures/success.json",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "result": "PASS",
+      "evidence": "explicit duplicate_run_id rejection; pre-existing sentinel preserved; no run_summary created"
+    },
+    {
+      "case_id": "crash",
+      "command": "python3 runner/runner.py execute --workspace <scratch>/crash --run-id <derived-local-id> --fixture runner/fixtures/crash.json",
+      "exit_code": 4,
+      "expected_exit_code": 4,
+      "result": "PASS",
+      "evidence": "request.json and crash.json retained; run_summary.execution_status=INCOMPLETE; crashed_requests=1"
+    },
+    {
+      "case_id": "overwrite",
+      "command": "python3 runner/runner.py execute --workspace <scratch>/overwrite --run-id <derived-local-id> --fixture runner/fixtures/overwrite.json",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "result": "PASS",
+      "evidence": "existing preexisting.txt preserved; no request.json written; overwrite_rejection.json and overwrite_rejections=1"
+    },
+    {
+      "case_id": "budget_bypass",
+      "command": "python3 runner/runner.py execute --workspace <scratch>/budget_bypass --run-id <derived-local-id> --fixture runner/fixtures/budget_bypass.json",
+      "exit_code": 5,
+      "expected_exit_code": 5,
+      "result": "PASS",
+      "evidence": "FAILED/FAIL_CLOSED; transport_calls=0; model_extra_requests=0; budget_rejections=1; budget_rejection.json retained"
+    },
+    {
+      "case_id": "monotonic_counts",
+      "command": "python3 runner/runner.py execute --workspace <scratch>/monotonic_counts --run-id <derived-local-id> --fixture runner/fixtures/monotonic_counts.json",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "result": "PASS",
+      "evidence": "failure=1; timeout=1; manual_retry=1; success=1; model_extra_requests=4; all count_history increments monotonic"
+    },
+    {
+      "case_id": "policy_denied",
+      "command": "python3 runner/runner.py execute --workspace <scratch>/policy_denied --run-id <derived-local-id> --fixture runner/fixtures/policy_denied.json",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "result": "PASS",
+      "evidence": "outside path, network, sealed, production and database each denied with five rejection records; no transport"
+    },
+    {
+      "case_id": "split_accounting",
+      "command": "python3 runner/runner.py execute --workspace <scratch>/split_accounting --run-id <derived-local-id> --fixture runner/fixtures/split_accounting.json",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "result": "PASS",
+      "evidence": "model_extra_requests=1 and execution_chat_usage=UNRESOLVED are separate fields; unknown usage is not zero"
+    },
+    {
+      "case_id": "persist_before_call",
+      "command": "python3 runner/runner.py execute --workspace <scratch>/persist_before_call --run-id <derived-local-id> --fixture runner/fixtures/success.json",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "result": "PASS",
+      "evidence": "exclusive request.json exists; response declares request_persisted_before_transport=true; event order request_persisted before transport_called"
+    }
+  ],
+  "assertion_mapping": {
+    "A1": [
+      "duplicate_id",
+      "crash",
+      "overwrite"
+    ],
+    "A2": [
+      "budget_bypass",
+      "monotonic_counts",
+      "policy_denied",
+      "split_accounting",
+      "persist_before_call"
+    ],
+    "A3": [
+      "scope=LOCAL_DEV_HOST",
+      "unverified GB10 binding"
+    ],
+    "A-common": [
+      "all JSON parse checks",
+      "runner/qualification Python compile checks",
+      "allowlist containment",
+      "canonical dependency hashes",
+      "write-boundary scan with pre-existing logs/graph and runs/T3/_dispatch exceptions",
+      "explicit unknown/unverified surfaces"
+    ]
+  },
+  "actual_qualification_command_count": 18,
+  "formal_rounds": 2,
+  "actual_checks_per_round": 32,
+  "actual_total_checks": 64,
+  "network_or_model_calls": 0,
+  "unverified_surfaces": [
+    "OS-level sandbox enforcement",
+    "GB10 authoritative runtime binding",
+    "production, database, model endpoint and network isolation at kernel level"
+  ]
+}

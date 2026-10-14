@@ -1,0 +1,103 @@
+{
+  "schema": "t3_policy_permission_matrix_v1",
+  "task_id": "T3",
+  "run_id": "20261014T161814Z_245b86ab",
+  "version": "bounded-v1",
+  "isolation_level": "POLICY_ONLY",
+  "os_sandbox": false,
+  "isolation_disclaimer": "策略级，非 OS 沙箱；实际隔离未实现/未声称。目录 allowlist 与拒绝逻辑不等同于容器、namespaces、seccomp、capabilities 或跨用户权限隔离。",
+  "runtime_scope": "LOCAL_DEV_HOST",
+  "allowed": [
+    {
+      "resource": "run_write_path",
+      "value": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab",
+      "operations": [
+        "create",
+        "read",
+        "append_run_evidence"
+      ],
+      "check_method": "Path.resolve() must equal the run directory or be below it; attempt request/response files additionally require exclusive create mode.",
+      "refusal_evidence_format": {
+        "schema": "t3_policy_rejection_v1",
+        "denial_reason": "path_outside_run_allowlist",
+        "target": "requested absolute or resolved path",
+        "counters": "nondecreasing counter snapshot"
+      }
+    }
+  ],
+  "denied": [
+    {
+      "resource": "other_filesystem_paths",
+      "value": "ALL paths outside the run directory allowlist",
+      "check_method": "resolved-path containment check before any runner read or write",
+      "refusal_evidence_format": "policy_rejections/rejection-NNNN.json with target and path_outside_run_allowlist"
+    },
+    {
+      "resource": "attempt_overwrite",
+      "value": "existing attempts/<attempt_id> directory or request.json",
+      "check_method": "exclusive mkdir plus open(..., 'x') for request evidence; never truncate an existing attempt",
+      "refusal_evidence_format": "attempts/<attempt_id>/overwrite_rejection.json and overwrite_rejections counter"
+    },
+    {
+      "resource": "network",
+      "value": "ALL sockets, remote hosts, downloads and web calls",
+      "check_method": "policy category is denied before mock transport; runner imports no networking modules",
+      "refusal_evidence_format": "policy_rejections/rejection-NNNN.json with denial_reason=network_denied and transport_called=false"
+    },
+    {
+      "resource": "sealed_material",
+      "value": "sealed://unknown-root and all sealed data",
+      "check_method": "sealed category is denied before access; authority_map sealed root remains UNRESOLVED",
+      "refusal_evidence_format": "policy_rejections/rejection-NNNN.json with denial_reason=sealed_access_denied"
+    },
+    {
+      "resource": "production_services",
+      "value": "production model endpoints, services and deployment surfaces",
+      "check_method": "production category is denied before any transport",
+      "refusal_evidence_format": "policy_rejections/rejection-NNNN.json with denial_reason=production_access_denied"
+    },
+    {
+      "resource": "database",
+      "value": "PostgreSQL, PGVector and all database connections",
+      "check_method": "database category is denied before any transport",
+      "refusal_evidence_format": "policy_rejections/rejection-NNNN.json with denial_reason=database_access_denied"
+    },
+    {
+      "resource": "training",
+      "value": "all training runs and model fitting",
+      "check_method": "training is outside the mock action vocabulary and remains disallowed by the T3 policy",
+      "refusal_evidence_format": "unknown action/category fails closed and preserves the unexpected-crash evidence"
+    },
+    {
+      "resource": "remote_execution",
+      "value": "all remote hosts and orchestration",
+      "check_method": "runner executes only locally and denies network before mock transport",
+      "refusal_evidence_format": "policy_rejections entry with network_used=false and transport_called=false"
+    }
+  ],
+  "default": "DENY",
+  "qualification": {
+    "scope": "LOCAL_DEV_HOST",
+    "evidence": [
+      "runner_qualification.json",
+      "qualification_pass_1_final.json",
+      "qualification_pass_2_final.json"
+    ],
+    "representative_cases": [
+      "outside_path=/etc/passwd denied",
+      "network endpoint denied",
+      "sealed target denied",
+      "production target denied",
+      "database target denied",
+      "existing attempt directory overwrite denied"
+    ]
+  },
+  "unverified_surfaces": [
+    "OS kernel enforcement",
+    "container or namespace isolation",
+    "seccomp, AppArmor, SELinux or capability confinement",
+    "cross-user permission isolation",
+    "GB10 authoritative runtime binding",
+    "production, training, database or real model endpoint behavior"
+  ]
+}

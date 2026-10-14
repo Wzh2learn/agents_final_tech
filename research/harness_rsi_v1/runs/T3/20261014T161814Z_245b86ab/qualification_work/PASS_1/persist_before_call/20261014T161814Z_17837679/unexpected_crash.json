@@ -1,0 +1,8 @@
+{
+  "error": "[Errno 2] No such file or directory: '/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/persist_before_call/20261014T161814Z_17837679/attempts/attempt-0001'",
+  "error_type": "FileNotFoundError",
+  "evidence_preserved": true,
+  "generated_at": "2026-10-14T16:18:14Z",
+  "schema": "t3_unexpected_crash_v1",
+  "status": "INCOMPLETE"
+}

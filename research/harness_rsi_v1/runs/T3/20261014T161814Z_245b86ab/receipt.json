@@ -1,0 +1,248 @@
+{
+  "schema": "receipt",
+  "task_id": "T3",
+  "run_id": "20261014T161814Z_245b86ab",
+  "scope": "Bounded T3 policy-level trusted execution and counting: deterministic standard-library mock runner, persist-before-call attempts, fail-closed budget, monotonic ledgers, crash INCOMPLETE evidence, overwrite refusal, policy permission matrix, local two-round qualification, and standard run packaging. No OS sandbox, orchestration, network, remote, production, database, training or real model call.",
+  "execution_status": "DELIVERED",
+  "acceptance_status": "UNREVIEWED",
+  "activation_status": "NOT_ENABLED",
+  "input_bindings": [
+    {
+      "role": "card_input_protocol",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "c57937c8380413708082fdc17bd4c73286cb46bf",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/protocol.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input_authority_map",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "46acca7ec01b98a5008f2851f10a86af6fe34fed",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/authority_map.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input_execution_policy",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "e0569763e3221c606ebfd16c2f5d41b2b26d328d",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/execution_policy.md",
+      "exit_code": 0,
+      "note": "The dispatch prose named execution_policy.json; card T3, T2 and the repository identify execution_policy.md. The card-listed canonical path was bound and the suffix difference is disclosed."
+    },
+    {
+      "role": "card_input_budget_profiles",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "64634474115ac55d68ab20b254e325d87afe830e",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/budget_profiles.json",
+      "exit_code": 0
+    },
+    {
+      "role": "card_input_schemas",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "07731a300ad5d681c6ecb62269bac0531bfb3899",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/contracts/schemas.json",
+      "exit_code": 0
+    },
+    {
+      "role": "t2_accepted_run_dependency",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/receipt.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "891955a6c4765c8d28c9cc4578ccda0c7284b596",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/receipt.json",
+      "exit_code": 0
+    },
+    {
+      "role": "t2_independent_review_dependency",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T2R-01/review_receipt.json",
+      "hash_domain": "git_blob_id",
+      "canonical_blob_id": "ec21e3ed78318da4880cf064fdc1f5f420a33f59",
+      "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/reviews/T2R-01/review_receipt.json",
+      "exit_code": 0,
+      "verified_reviewed_run_id": "20261014T145327Z_9a02a34a",
+      "verified_decision": "ACCEPTED",
+      "verified_blocking_count": 0
+    },
+    {
+      "role": "dispatch_traceability",
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/TASK_PROMPT.md",
+      "hash_domain": "sha256_file",
+      "sha256": "3a5ba8845c34fb25822437ad818d0b0501236395bcd4ad472d096c4c1be8d09a",
+      "verification_command": "sha256sum TASK_PROMPT.md",
+      "exit_code": 0
+    }
+  ],
+  "protocol_freeze_check": {
+    "declared_in_protocol": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+    "dispatch_expected": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+    "match": true
+  },
+  "output_manifest": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/artifacts_manifest.json",
+  "isolation": {
+    "level": "POLICY_ONLY",
+    "os_sandbox": false,
+    "claim": "策略级，非 OS 沙箱；实际隔离未实现/未声称",
+    "allowlist": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab",
+    "network": "DENY",
+    "sealed": "DENY",
+    "production": "DENY",
+    "database": "DENY",
+    "remote": "DENY",
+    "training": "DENY"
+  },
+  "checks": [
+    {
+      "check_id": "TASK_PROMPT_CAPTURE",
+      "status": "PASS",
+      "result": "Original task text stored as TASK_PROMPT.md; sha256=3a5ba8845c34fb25822437ad818d0b0501236395bcd4ad472d096c4c1be8d09a"
+    },
+    {
+      "check_id": "CANONICAL_INPUT_BINDINGS",
+      "status": "PASS",
+      "count": "8/8",
+      "method": "git rev-parse HEAD:<path> for tracked inputs/dependencies; sha256sum for TASK_PROMPT"
+    },
+    {
+      "check_id": "PROTOCOL_FREEZE_MATCH",
+      "status": "PASS",
+      "result": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b"
+    },
+    {
+      "check_id": "T2_DEPENDENCY_ACCEPTANCE",
+      "status": "PASS",
+      "result": "T2R-01 decision=ACCEPTED; blocking_count=0; reviewed_run_id matches bound T2 run"
+    },
+    {
+      "check_id": "FORMAL_QUALIFICATION_PASS_1",
+      "status": "PASS",
+      "command": "python3 runner/run_qualification.py --pass-id PASS_1_FINAL --output qualification_pass_1_final.json --scratch-root qualification_work/PASS_1_FINAL",
+      "exit_code": 0,
+      "count": "32/32"
+    },
+    {
+      "check_id": "FORMAL_QUALIFICATION_PASS_2",
+      "status": "PASS",
+      "command": "python3 runner/run_qualification.py --pass-id PASS_2_FINAL --output qualification_pass_2_final.json --scratch-root qualification_work/PASS_2_FINAL",
+      "exit_code": 0,
+      "count": "32/32"
+    },
+    {
+      "check_id": "TWO_ROUND_CONSISTENCY",
+      "status": "PASS",
+      "count": "2/2 identical normalized results",
+      "normalized_result_sha256": "0a5963625b637945eaf91610ea3505b7f9b94f4ae2039b265cd149dde8163ed2"
+    },
+    {
+      "check_id": "JSON_AND_PYTHON_PARSE",
+      "status": "PASS",
+      "method": "python3 -m json.tool for every JSON artifact; py_compile for runner.py and run_qualification.py"
+    },
+    {
+      "check_id": "WRITE_BOUNDARY",
+      "status": "PASS_WITH_PREEXISTING_LOG_EXCEPTION",
+      "method": "git status --porcelain --untracked-files=all",
+      "result": "All new executor files are under runs/T3/20261014T161814Z_245b86ab; pre-existing logs/graph dirty files remain untouched. runs/T3/_dispatch/loop_a_prompt_t3.md is a separately pre-existing untracked dispatch file with mtime 2026-10-15 00:17:16 +0800, 58 seconds before TASK_PROMPT.md; it was listed before implementation and was not modified or owned by this executor."
+    },
+    {
+      "check_id": "ACTUAL_CALL_COUNT",
+      "status": "ZERO_EXTERNAL",
+      "network_calls": 0,
+      "model_calls": 0,
+      "production_calls": 0,
+      "database_calls": 0,
+      "training_calls": 0,
+      "remote_calls": 0,
+      "mock_transport_requests": 14
+    },
+    {
+      "check_id": "FINAL_PACKAGE_SELF_CHECK",
+      "status": "PASS_WITH_PREEXISTING_DISPATCH_EXCEPTION",
+      "count": "20/20 checks pass when the pre-existing dispatch/log exception is explicitly excluded from executor ownership",
+      "method": "JSON/JSONL parse, Python compile(), required fields, canonical input hashes, manifest hashes/bytes/completeness, qualification two-round consistency, A mapping, LOCAL scope, isolation disclaimer and write boundary"
+    }
+  ],
+  "usage": {
+    "profile": "B0",
+    "additional_cheap_requests_max": 0,
+    "additional_strong_requests_max": 0,
+    "additional_cheap_requests_actual": 0,
+    "additional_strong_requests_actual": 0,
+    "orchestrated_model_requests": 0,
+    "automatic_retries": 0,
+    "network_calls": 0,
+    "remote_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "mock_transport_requests_across_two_formal_qualification_rounds": 14,
+    "mock_transport_failed": 2,
+    "mock_transport_timeout": 2,
+    "mock_transport_manual_retry": 2,
+    "mock_transport_success": 6,
+    "mock_transport_crash": 2,
+    "model_extra_requests": 0,
+    "execution_chat_usage": "UNRESOLVED"
+  },
+  "authorization_ref": {
+    "owner_quote": "继续…你自己设定goal去执行吧",
+    "source": "Loop A T3 task instruction",
+    "r_line": {
+      "id": "U07",
+      "value": "C"
+    },
+    "scope": "This bounded T3 implementation and its LOCAL_DEV_HOST self-check only; no T4 activation."
+  },
+  "self_check": {
+    "overall": "PASS",
+    "A1": {
+      "status": "PASS",
+      "evidence": "duplicate ID exits 2 without mutation; simulated crash preserves request/crash evidence and records INCOMPLETE; existing attempt evidence is preserved and overwrite is rejected."
+    },
+    "A2": {
+      "status": "PASS",
+      "evidence": "B0 zero-cap fixture fails closed before transport; count_history is monotonic; failure/timeout/manual retry/crash are all counted; outside path, network, sealed, production and database probes are denied with evidence; ledgers are separate and unknown execution-chat usage is UNRESOLVED."
+    },
+    "A3": {
+      "status": "PASS_WITH_EXPLICIT_UNVERIFIED_SURFACES",
+      "evidence": "runner and both qualification rounds declare LOCAL_DEV_HOST; permission matrix states POLICY_ONLY/non-OS-sandbox; GB10 and kernel isolation are not claimed."
+    },
+    "A_common": {
+      "status": "PASS",
+      "evidence": "JSON/Python parse checks pass; required receipt fields are present; all declared tracked hashes were recomputed from canonical HEAD blobs; executor-created paths are inside the run allowlist; pre-existing log dirt and unknown surfaces are explicit."
+    },
+    "actual_counts": {
+      "formal_rounds": 2,
+      "checks_per_round": 32,
+      "total_formal_checks": 64,
+      "formal_checks_passed": 64,
+      "external_model_network_production_database_training_calls": 0
+      ,"packaging_self_check_checks": 20
+      ,"packaging_self_check_passed": 20
+    },
+    "issues_found_and_fixed": [
+      {
+        "before": "Initial smoke failed because persist_attempt_request assumed the attempts/ parent already existed.",
+        "after": "The runner creates attempts/ with exist_ok before exclusive attempt-directory creation; later formal rounds pass.",
+        "retained_evidence": "qualification_work/PASS_1 and qualification_work/PASS_1_RETRY"
+      },
+      {
+        "before": "Qualification retry failed because the final run_state transition reused exclusive-create semantics on the initial RUNNING record.",
+        "after": "Only the mutable run_state transition uses an explicit update; attempt request/response evidence remains overwrite-protected; later formal rounds pass.",
+        "retained_evidence": "qualification_work/PASS_1_RETRY"
+      }
+    ]
+  },
+  "unresolved": [
+    "OS-level sandbox, namespaces, seccomp, capabilities and cross-user isolation are not implemented or claimed.",
+    "GB10 authoritative runtime binding and a formal GB10 qualification remain unperformed.",
+    "Execution-chat token usage is UNRESOLVED and is not reported as zero.",
+    "The sealed root remains UNRESOLVED; no sealed evaluation or access occurred.",
+    "The dispatch prose says execution_policy.json, while card T3 and the repository provide execution_policy.md; the latter was bound and disclosed.",
+    "runs/T3/_dispatch/loop_a_prompt_t3.md is a pre-existing untracked file outside this run_id; it predates the run and was not modified because write ownership forbids changing or deleting another file.",
+    "No production, database, training, remote, network, orchestration or real model endpoint verification was performed."
+  ]
+}

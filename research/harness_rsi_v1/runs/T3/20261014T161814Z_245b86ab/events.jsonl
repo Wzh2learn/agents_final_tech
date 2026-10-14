@@ -1,0 +1,12 @@
+{"event":"task_prompt_captured","run_id":"20261014T161814Z_245b86ab","task_id":"T3","sha256":"3a5ba8845c34fb25822437ad818d0b0501236395bcd4ad472d096c4c1be8d09a"}
+{"event":"input_contract_bound","task_id":"T3","result":"5 card inputs + 2 T2 dependencies + TASK_PROMPT","scope":"read_only"}
+{"event":"implementation_issue_found","issue":"initial attempt persistence assumed attempts/ existed","result":"caught by qualification smoke","network_or_model_calls":0}
+{"event":"implementation_fix_applied","fix":"create attempts/ with exist_ok before exclusive attempt mkdir","before_exit_code":6,"after_expected_exit_code":"case-dependent","network_or_model_calls":0}
+{"event":"implementation_issue_found","issue":"final run_state update attempted exclusive write over the initial RUNNING record","result":"caught by qualification retry","network_or_model_calls":0}
+{"event":"implementation_fix_applied","fix":"use an explicit mutable-state update only for run_state; all attempt request/response evidence remains exclusive-create","network_or_model_calls":0}
+{"event":"qualification_initial_evidence","result":"FAIL retained under qualification_work/PASS_1 and qualification_work/PASS_1_RETRY; no history deleted","network_or_model_calls":0}
+{"event":"qualification_formal_round","pass_id":"PASS_1_FINAL","command":"python3 runner/run_qualification.py --pass-id PASS_1_FINAL --output qualification_pass_1_final.json --scratch-root qualification_work/PASS_1_FINAL","exit_code":0,"checks":"32/32 PASS","network_or_model_calls":0}
+{"event":"qualification_formal_round","pass_id":"PASS_2_FINAL","command":"python3 runner/run_qualification.py --pass-id PASS_2_FINAL --output qualification_pass_2_final.json --scratch-root qualification_work/PASS_2_FINAL","exit_code":0,"checks":"32/32 PASS","network_or_model_calls":0}
+{"event":"two_round_consistency","identical_normalized_results":true,"normalized_result_sha256":"0a5963625b637945eaf91610ea3505b7f9b94f4ae2039b265cd149dde8163ed2","network_or_model_calls":0}
+{"event":"accounting","model_extra_requests_in_mock_qualification":14,"orchestrated_model_requests":0,"network_calls":0,"production_calls":0,"database_calls":0,"training_calls":0,"execution_chat_usage":"UNRESOLVED"}
+{"event":"package_self_check","checks":"20/20 PASS with pre-existing exception","pre_existing_exceptions":["logs/graph dirty files","runs/T3/_dispatch/loop_a_prompt_t3.md"],"executor_writes_outside_run":0,"network_or_model_calls":0}

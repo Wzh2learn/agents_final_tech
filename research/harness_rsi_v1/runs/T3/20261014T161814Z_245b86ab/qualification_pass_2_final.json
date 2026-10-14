@@ -1,0 +1,265 @@
+{
+  "checks": [
+    {
+      "case_id": "duplicate_id",
+      "check_id": "exit_nonzero",
+      "detail": "2",
+      "status": "PASS"
+    },
+    {
+      "case_id": "duplicate_id",
+      "check_id": "explicit_rejection",
+      "detail": "duplicate_run_id",
+      "status": "PASS"
+    },
+    {
+      "case_id": "duplicate_id",
+      "check_id": "existing_content_preserved",
+      "detail": "sentinel unchanged",
+      "status": "PASS"
+    },
+    {
+      "case_id": "duplicate_id",
+      "check_id": "no_run_summary_created",
+      "detail": "duplicate target not executed",
+      "status": "PASS"
+    },
+    {
+      "case_id": "crash",
+      "check_id": "expected_exit_code",
+      "detail": "expected=4, actual=4",
+      "status": "PASS"
+    },
+    {
+      "case_id": "overwrite",
+      "check_id": "expected_exit_code",
+      "detail": "expected=0, actual=0",
+      "status": "PASS"
+    },
+    {
+      "case_id": "budget_bypass",
+      "check_id": "expected_exit_code",
+      "detail": "expected=5, actual=5",
+      "status": "PASS"
+    },
+    {
+      "case_id": "monotonic_counts",
+      "check_id": "expected_exit_code",
+      "detail": "expected=0, actual=0",
+      "status": "PASS"
+    },
+    {
+      "case_id": "policy_denied",
+      "check_id": "expected_exit_code",
+      "detail": "expected=0, actual=0",
+      "status": "PASS"
+    },
+    {
+      "case_id": "split_accounting",
+      "check_id": "expected_exit_code",
+      "detail": "expected=0, actual=0",
+      "status": "PASS"
+    },
+    {
+      "case_id": "persist_before_call",
+      "check_id": "expected_exit_code",
+      "detail": "expected=0, actual=0",
+      "status": "PASS"
+    },
+    {
+      "case_id": "crash",
+      "check_id": "status_incomplete",
+      "detail": "INCOMPLETE",
+      "status": "PASS"
+    },
+    {
+      "case_id": "crash",
+      "check_id": "request_evidence_retained",
+      "detail": "request.json retained",
+      "status": "PASS"
+    },
+    {
+      "case_id": "crash",
+      "check_id": "crash_evidence_retained",
+      "detail": "crash.json retained",
+      "status": "PASS"
+    },
+    {
+      "case_id": "crash",
+      "check_id": "crashed_request_counted",
+      "detail": "crashed=1, model_extra_requests=1",
+      "status": "PASS"
+    },
+    {
+      "case_id": "overwrite",
+      "check_id": "existing_evidence_preserved",
+      "detail": "preexisting.txt unchanged",
+      "status": "PASS"
+    },
+    {
+      "case_id": "overwrite",
+      "check_id": "request_overwrite_rejected",
+      "detail": "no request.json; rejection evidence present",
+      "status": "PASS"
+    },
+    {
+      "case_id": "overwrite",
+      "check_id": "overwrite_rejection_counted",
+      "detail": "1",
+      "status": "PASS"
+    },
+    {
+      "case_id": "budget_bypass",
+      "check_id": "fail_closed_status",
+      "detail": "FAILED/FAIL_CLOSED",
+      "status": "PASS"
+    },
+    {
+      "case_id": "budget_bypass",
+      "check_id": "zero_transport_no_bypass",
+      "detail": "transport_calls=0, model_extra_requests=0",
+      "status": "PASS"
+    },
+    {
+      "case_id": "budget_bypass",
+      "check_id": "rejection_recorded",
+      "detail": "budget_rejections=1 and evidence exists",
+      "status": "PASS"
+    },
+    {
+      "case_id": "monotonic_counts",
+      "check_id": "all_outcomes_counted",
+      "detail": "failure=1, timeout=1, manual_retry=1, success=1, total=4",
+      "status": "PASS"
+    },
+    {
+      "case_id": "monotonic_counts",
+      "check_id": "count_history_monotonic",
+      "detail": "14 increments",
+      "status": "PASS"
+    },
+    {
+      "case_id": "monotonic_counts",
+      "check_id": "manual_retries_counted",
+      "detail": "2",
+      "status": "PASS"
+    },
+    {
+      "case_id": "policy_denied",
+      "check_id": "all_illegal_families_denied",
+      "detail": "database,file_path,network,production,sealed",
+      "status": "PASS"
+    },
+    {
+      "case_id": "policy_denied",
+      "check_id": "denial_evidence_count",
+      "detail": "5",
+      "status": "PASS"
+    },
+    {
+      "case_id": "policy_denied",
+      "check_id": "no_network_or_production_transport",
+      "detail": "network_used=false, transport_calls=0",
+      "status": "PASS"
+    },
+    {
+      "case_id": "split_accounting",
+      "check_id": "ledgers_are_distinct",
+      "detail": "both fields present",
+      "status": "PASS"
+    },
+    {
+      "case_id": "split_accounting",
+      "check_id": "unknown_usage_not_zero",
+      "detail": "UNRESOLVED",
+      "status": "PASS"
+    },
+    {
+      "case_id": "split_accounting",
+      "check_id": "orchestrated_count_separate",
+      "detail": "1",
+      "status": "PASS"
+    },
+    {
+      "case_id": "persist_before_call",
+      "check_id": "request_recorded_before_mock_result",
+      "detail": "exclusive request exists before response",
+      "status": "PASS"
+    },
+    {
+      "case_id": "persist_before_call",
+      "check_id": "event_order_verified",
+      "detail": "request_persisted->transport_called->transport_result",
+      "status": "PASS"
+    }
+  ],
+  "command_results": {
+    "budget_bypass": {
+      "command": "python3 runner/runner.py execute --workspace <scratch>/budget_bypass --run-id <derived-local-id> --fixture runner/fixtures/budget_bypass.json",
+      "exit_code": 5,
+      "stderr": "",
+      "stdout": "{\"execution_status\": \"FAILED\", \"run_dir\": \"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6\", \"run_id\": \"20261014T161814Z_e87b67d6\"}"
+    },
+    "crash": {
+      "command": "python3 runner/runner.py execute --workspace <scratch>/crash --run-id <derived-local-id> --fixture runner/fixtures/crash.json",
+      "exit_code": 4,
+      "stderr": "",
+      "stdout": "{\"execution_status\": \"INCOMPLETE\", \"run_dir\": \"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4\", \"run_id\": \"20261014T161814Z_45c3dff4\"}"
+    },
+    "duplicate_id": {
+      "command": "python3 runner/runner.py execute --workspace <scratch>/duplicate_workspace --run-id 20261014T161814Z_deadbeef --fixture runner/fixtures/success.json",
+      "exit_code": 2,
+      "stderr": "",
+      "stdout": {
+        "error": "duplicate_run_id",
+        "target": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/duplicate_workspace/20261014T161814Z_deadbeef"
+      }
+    },
+    "monotonic_counts": {
+      "command": "python3 runner/runner.py execute --workspace <scratch>/monotonic_counts --run-id <derived-local-id> --fixture runner/fixtures/monotonic_counts.json",
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"execution_status\": \"COMPLETE\", \"run_dir\": \"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb\", \"run_id\": \"20261014T161814Z_eaca61bb\"}"
+    },
+    "overwrite": {
+      "command": "python3 runner/runner.py execute --workspace <scratch>/overwrite --run-id <derived-local-id> --fixture runner/fixtures/overwrite.json",
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"execution_status\": \"COMPLETE\", \"run_dir\": \"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8\", \"run_id\": \"20261014T161814Z_406b73d8\"}"
+    },
+    "persist_before_call": {
+      "command": "python3 runner/runner.py execute --workspace <scratch>/persist_before_call --run-id <derived-local-id> --fixture runner/fixtures/success.json",
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"execution_status\": \"COMPLETE\", \"run_dir\": \"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142\", \"run_id\": \"20261014T161814Z_a63fc142\"}"
+    },
+    "policy_denied": {
+      "command": "python3 runner/runner.py execute --workspace <scratch>/policy_denied --run-id <derived-local-id> --fixture runner/fixtures/policy_denied.json",
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"execution_status\": \"COMPLETE\", \"run_dir\": \"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90\", \"run_id\": \"20261014T161814Z_091a0e90\"}"
+    },
+    "split_accounting": {
+      "command": "python3 runner/runner.py execute --workspace <scratch>/split_accounting --run-id <derived-local-id> --fixture runner/fixtures/split_accounting.json",
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"execution_status\": \"COMPLETE\", \"run_dir\": \"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51\", \"run_id\": \"20261014T161814Z_049aec51\"}"
+    }
+  },
+  "counts": {
+    "failed": 0,
+    "passed": 32,
+    "total": 32
+  },
+  "network_or_model_calls": 0,
+  "normalized_result_sha256": "0a5963625b637945eaf91610ea3505b7f9b94f4ae2039b265cd149dde8163ed2",
+  "pass_id": "PASS_2_FINAL",
+  "result": "PASS",
+  "runner_domain": "LOCAL_DEV_HOST",
+  "schema": "t3_runner_qualification_pass_v1",
+  "unverified_scope": [
+    "OS-level sandbox enforcement",
+    "GB10 authoritative runtime binding",
+    "production, database, model endpoint and network isolation at kernel level"
+  ]
+}

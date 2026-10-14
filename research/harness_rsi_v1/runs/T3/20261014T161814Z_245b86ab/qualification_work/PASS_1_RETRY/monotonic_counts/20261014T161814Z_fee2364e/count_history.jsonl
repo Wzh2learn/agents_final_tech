@@ -1,0 +1,14 @@
+{"after": 1, "before": 0, "counter": "model_extra_requests", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 1, "before": 0, "counter": "transport_calls", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 1, "before": 0, "counter": "failed_requests", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 2, "before": 1, "counter": "model_extra_requests", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 2, "before": 1, "counter": "transport_calls", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 1, "before": 0, "counter": "timeout_requests", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 3, "before": 2, "counter": "model_extra_requests", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 3, "before": 2, "counter": "transport_calls", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 1, "before": 0, "counter": "manual_retry_requests", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 1, "before": 0, "counter": "manual_retries", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 4, "before": 3, "counter": "model_extra_requests", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 4, "before": 3, "counter": "transport_calls", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 1, "before": 0, "counter": "successful_requests", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}
+{"after": 2, "before": 1, "counter": "manual_retries", "generated_at": "2026-10-14T16:18:14Z", "monotonic": true}

@@ -1,0 +1,1642 @@
+{
+  "artifact_count": 233,
+  "artifacts": [
+    {
+      "bytes": 4669,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/TASK_PROMPT.md",
+      "relative_path": "TASK_PROMPT.md",
+      "sha256": "3a5ba8845c34fb25822437ad818d0b0501236395bcd4ad472d096c4c1be8d09a"
+    },
+    {
+      "bytes": 2447,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/events.jsonl",
+      "relative_path": "events.jsonl",
+      "sha256": "5b1b9a76f498700e771bd70adfba2017d2a5451c65c7022212a8430de1fa7e2f"
+    },
+    {
+      "bytes": 4579,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/permission_matrix.json",
+      "relative_path": "permission_matrix.json",
+      "sha256": "0258460201660fd795bbcddb3086b287fdcc194a1009526a3564ca4b6cd0fa92"
+    },
+    {
+      "bytes": 9741,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_pass_1_final.json",
+      "relative_path": "qualification_pass_1_final.json",
+      "sha256": "a958c77f08ce9db427c377ca3c1e7b1bc0e4bc151c00f5ffaa3562f6016333b5"
+    },
+    {
+      "bytes": 9699,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_pass_1_retry.json",
+      "relative_path": "qualification_pass_1_retry.json",
+      "sha256": "eab2b5bce97183c166830027fc074b347ba7fdd516bfb30854363d62926329e6"
+    },
+    {
+      "bytes": 9741,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_pass_2_final.json",
+      "relative_path": "qualification_pass_2_final.json",
+      "sha256": "c1f797046d7c99044d3c52b8a253f3f44799a1a6e768cb9c99287418d7352684"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/.run_id",
+      "relative_path": "qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/.run_id",
+      "sha256": "c36c271a297a2e0db55f9284b2a514b382573202ac2f5c6547c8dc39338fcdee"
+    },
+    {
+      "bytes": 665,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/budget_rejection.json",
+      "relative_path": "qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/budget_rejection.json",
+      "sha256": "d4fd6fd0a558d5e56f63428c08510cc8270c23c4d159aed49ba882cd571885ca"
+    },
+    {
+      "bytes": 117,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/count_history.jsonl",
+      "sha256": "48abde0f69b7fb3bbc84d51f2a79f40229549eee9308f24e96e4bf3ea8215f34"
+    },
+    {
+      "bytes": 377,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/events.jsonl",
+      "relative_path": "qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/events.jsonl",
+      "sha256": "356a1e26e6a140afd9a8b8a015c340bb1ccd1819201bb6c15dc9ce40eb87c686"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/run_state.json",
+      "relative_path": "qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/run_state.json",
+      "sha256": "c1849971ef1867eb5bbae2ddec91e9729ad34e5377af37076d12703270097960"
+    },
+    {
+      "bytes": 798,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/run_summary.json",
+      "relative_path": "qualification_work/PASS_1/budget_bypass/20261014T161814Z_9ec155d5/run_summary.json",
+      "sha256": "0ab90a7adeaa7248c838c74e47e2fc2b770f93d13113e05c4e7dd8aff67bab0f"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/crash/20261014T161814Z_0dd093cf/.run_id",
+      "relative_path": "qualification_work/PASS_1/crash/20261014T161814Z_0dd093cf/.run_id",
+      "sha256": "c471526435a796362bdcb2ee3d4f1c38fb465a9bc89031e3f25b7f81a82967ba"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/crash/20261014T161814Z_0dd093cf/run_state.json",
+      "relative_path": "qualification_work/PASS_1/crash/20261014T161814Z_0dd093cf/run_state.json",
+      "sha256": "d2bc91824bdde36bba7600b5127266dc2ca680f84d29dc6bacf600258f676807"
+    },
+    {
+      "bytes": 804,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/crash/20261014T161814Z_0dd093cf/run_summary.json",
+      "relative_path": "qualification_work/PASS_1/crash/20261014T161814Z_0dd093cf/run_summary.json",
+      "sha256": "2bf89748eece9368579cb4741162283dacb36fa31e1486c6cdbe415fbdc59dbd"
+    },
+    {
+      "bytes": 413,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/crash/20261014T161814Z_0dd093cf/unexpected_crash.json",
+      "relative_path": "qualification_work/PASS_1/crash/20261014T161814Z_0dd093cf/unexpected_crash.json",
+      "sha256": "77709f3e28b6ed1d7151ab1085fd0df8df2bf7a64cae56eef02e35da23d6968b"
+    },
+    {
+      "bytes": 22,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/duplicate_workspace/20261014T161814Z_deadbeef/sentinel.txt",
+      "relative_path": "qualification_work/PASS_1/duplicate_workspace/20261014T161814Z_deadbeef/sentinel.txt",
+      "sha256": "7f09515df57386e82c3649b042fc80c26994879f47f07d74832327e59f73a4a7"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/monotonic_counts/20261014T161814Z_1d81bdbb/.run_id",
+      "relative_path": "qualification_work/PASS_1/monotonic_counts/20261014T161814Z_1d81bdbb/.run_id",
+      "sha256": "b39e3a0fd84cf0e61bacc46e503fc9c02b183db50d65a5ccf59bba56f8e5ee9e"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/monotonic_counts/20261014T161814Z_1d81bdbb/run_state.json",
+      "relative_path": "qualification_work/PASS_1/monotonic_counts/20261014T161814Z_1d81bdbb/run_state.json",
+      "sha256": "01aaa74fb4f892f6235048c1156638092d5f48ce65a576d08d2358d78d00a052"
+    },
+    {
+      "bytes": 804,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/monotonic_counts/20261014T161814Z_1d81bdbb/run_summary.json",
+      "relative_path": "qualification_work/PASS_1/monotonic_counts/20261014T161814Z_1d81bdbb/run_summary.json",
+      "sha256": "c145954558e22606f23d206c4a761d591a7b24a0b52a46ccd07618b89e02501c"
+    },
+    {
+      "bytes": 424,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/monotonic_counts/20261014T161814Z_1d81bdbb/unexpected_crash.json",
+      "relative_path": "qualification_work/PASS_1/monotonic_counts/20261014T161814Z_1d81bdbb/unexpected_crash.json",
+      "sha256": "3094fabb26bcf15a16f506ce69d13c6c317f02a096a89f2c33ebd23c59f9558c"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/.run_id",
+      "relative_path": "qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/.run_id",
+      "sha256": "5cb7aa829af5730022665bc842e4a5434c0eb9c964d77a7db23e626b480e1176"
+    },
+    {
+      "bytes": 211,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/attempts/attempt-0001/overwrite_rejection.json",
+      "relative_path": "qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/attempts/attempt-0001/overwrite_rejection.json",
+      "sha256": "e1b1991d717ddc07e9585f2ce06bf9be7d41d4faef3770182e02d49a73356ac1"
+    },
+    {
+      "bytes": 27,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/attempts/attempt-0001/preexisting.txt",
+      "relative_path": "qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/attempts/attempt-0001/preexisting.txt",
+      "sha256": "ce7736b878c0c770c62784149b542c10137670af1eb9d864f0539c1f185463da"
+    },
+    {
+      "bytes": 120,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/count_history.jsonl",
+      "sha256": "2e1d56506ce3af9cdfd5e185b10d722ee748e0e1c5761ea3a6e1b3e3b9931f59"
+    },
+    {
+      "bytes": 420,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/events.jsonl",
+      "relative_path": "qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/events.jsonl",
+      "sha256": "d39d7da3574acb79ae60b05ce40f627bc0d88bf8340159fdec0054e386059bde"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/run_state.json",
+      "relative_path": "qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/run_state.json",
+      "sha256": "754cbb5e1b35883c15f94ea5ee3ebc400b7185d9eb10b9e96382a8900c91828d"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/run_summary.json",
+      "relative_path": "qualification_work/PASS_1/overwrite/20261014T161814Z_493e67f7/run_summary.json",
+      "sha256": "a92bd293114e62f3ebae951e35a2a9044d4198152eb85dfff5dbf9f0879f85a1"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/persist_before_call/20261014T161814Z_17837679/.run_id",
+      "relative_path": "qualification_work/PASS_1/persist_before_call/20261014T161814Z_17837679/.run_id",
+      "sha256": "9f170c560c5b8cc9db9b7cf9abd9db07442e57b8296087a8aa1da64835ffbb8d"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/persist_before_call/20261014T161814Z_17837679/run_state.json",
+      "relative_path": "qualification_work/PASS_1/persist_before_call/20261014T161814Z_17837679/run_state.json",
+      "sha256": "e2d65b4f81734d82ced8024b94994de1073654f2385b643072a0f0c72d2c0fec"
+    },
+    {
+      "bytes": 804,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/persist_before_call/20261014T161814Z_17837679/run_summary.json",
+      "relative_path": "qualification_work/PASS_1/persist_before_call/20261014T161814Z_17837679/run_summary.json",
+      "sha256": "73c8bb43b1834b1f23277920f4cfdc37303f8bb9d13a65c395f3cfdffd50045f"
+    },
+    {
+      "bytes": 427,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/persist_before_call/20261014T161814Z_17837679/unexpected_crash.json",
+      "relative_path": "qualification_work/PASS_1/persist_before_call/20261014T161814Z_17837679/unexpected_crash.json",
+      "sha256": "77f4563a96a7796008d56eb7747c7c7e61fa472b3fede1be3f943fdce22c6b59"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/.run_id",
+      "relative_path": "qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/.run_id",
+      "sha256": "f74645aa3ff8a5eb64c250aebe143d947d636497f93998b5c432beaab418d489"
+    },
+    {
+      "bytes": 585,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/count_history.jsonl",
+      "sha256": "922c7434d73baf58a5880b462da2bf52d7863960a5397d76216161d04fd3dde2"
+    },
+    {
+      "bytes": 2004,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/events.jsonl",
+      "relative_path": "qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/events.jsonl",
+      "sha256": "9b2ab7714c721eb826b625624dd55a42402d5cc003290ef7ce4c1d2b3a9087bc"
+    },
+    {
+      "bytes": 662,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/policy_rejections/rejection-0001.json",
+      "relative_path": "qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/policy_rejections/rejection-0001.json",
+      "sha256": "58f45a5a52f34f7ab92d1240cde197152867172549f9665d35cb480c0a1eee9d"
+    },
+    {
+      "bytes": 672,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/policy_rejections/rejection-0002.json",
+      "relative_path": "qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/policy_rejections/rejection-0002.json",
+      "sha256": "ccfefdafb2a44d955d9a312f7809ec66b978b64d6b6acaefc890d55df9d1da2d"
+    },
+    {
+      "bytes": 667,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/policy_rejections/rejection-0003.json",
+      "relative_path": "qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/policy_rejections/rejection-0003.json",
+      "sha256": "a4ff0aaf1d21fc40b89c42b645d3efad4df6aabd0a6074404958c95c42e32986"
+    },
+    {
+      "bytes": 689,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/policy_rejections/rejection-0004.json",
+      "relative_path": "qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/policy_rejections/rejection-0004.json",
+      "sha256": "83525463e081bb52d7b664cc24e49caa55d6b472909bd82d26726d8e60cc097d"
+    },
+    {
+      "bytes": 675,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/policy_rejections/rejection-0005.json",
+      "relative_path": "qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/policy_rejections/rejection-0005.json",
+      "sha256": "410a820c55af0f0e3958c0a3b16d8cdcd941a88d8fa4b72500f1e038e19b8fad"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/run_state.json",
+      "relative_path": "qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/run_state.json",
+      "sha256": "1e13e23e87fe0e170f4f2a225a4178bbd12135e7afe85fff9888e6eaa5c1912c"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/run_summary.json",
+      "relative_path": "qualification_work/PASS_1/policy_denied/20261014T161814Z_76d04c7c/run_summary.json",
+      "sha256": "81916e64cd64693822d85dd5e9f04880441b3b9a7c5fd5961719985c324f9fa1"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/split_accounting/20261014T161814Z_057c42e9/.run_id",
+      "relative_path": "qualification_work/PASS_1/split_accounting/20261014T161814Z_057c42e9/.run_id",
+      "sha256": "8bd2046e3b2e4eece6f01514898489ae362d2d3c2cf0b49104b9e5205c373e64"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/split_accounting/20261014T161814Z_057c42e9/run_state.json",
+      "relative_path": "qualification_work/PASS_1/split_accounting/20261014T161814Z_057c42e9/run_state.json",
+      "sha256": "4a8984b9bd0d68c83109d82026001da15a34565e576f49d5eaec9d7ac92632ca"
+    },
+    {
+      "bytes": 804,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/split_accounting/20261014T161814Z_057c42e9/run_summary.json",
+      "relative_path": "qualification_work/PASS_1/split_accounting/20261014T161814Z_057c42e9/run_summary.json",
+      "sha256": "1df5b6f7fb1359db95ede2b05d16a9d72444268a4436b35b0c88ba51786ef439"
+    },
+    {
+      "bytes": 424,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1/split_accounting/20261014T161814Z_057c42e9/unexpected_crash.json",
+      "relative_path": "qualification_work/PASS_1/split_accounting/20261014T161814Z_057c42e9/unexpected_crash.json",
+      "sha256": "636eefced0aa6373cf00182eb5d0aae642df633745aa3b15767f7ca64523e2bb"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/.run_id",
+      "relative_path": "qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/.run_id",
+      "sha256": "47a51b04709a791b6a4b755e8a496cbf62e5033a7ef630fb566fe09c246b7cbf"
+    },
+    {
+      "bytes": 665,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/budget_rejection.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/budget_rejection.json",
+      "sha256": "d4fd6fd0a558d5e56f63428c08510cc8270c23c4d159aed49ba882cd571885ca"
+    },
+    {
+      "bytes": 117,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/count_history.jsonl",
+      "sha256": "48abde0f69b7fb3bbc84d51f2a79f40229549eee9308f24e96e4bf3ea8215f34"
+    },
+    {
+      "bytes": 377,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/events.jsonl",
+      "sha256": "356a1e26e6a140afd9a8b8a015c340bb1ccd1819201bb6c15dc9ce40eb87c686"
+    },
+    {
+      "bytes": 591,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/run_state.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/run_state.json",
+      "sha256": "15e01aeb7534e13b377fbd2a772503acd3bc690ef0b4778e2f4153ccfa2ad311"
+    },
+    {
+      "bytes": 798,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/budget_bypass/20261014T161814Z_64049acc/run_summary.json",
+      "sha256": "9c7c2a59523a1e800642bc2c3a67f392a0ca58b617dabc2ba8305f34d1d4080c"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/.run_id",
+      "relative_path": "qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/.run_id",
+      "sha256": "06a0f564bdd17f138c2296d5b6a66daae8e6ca867d604d8a5ceb2be8cf2270ff"
+    },
+    {
+      "bytes": 529,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/attempts/attempt-0001/crash.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/attempts/attempt-0001/crash.json",
+      "sha256": "615c61b14fb0e6ed1947cecacb388cdbc3f3d0d79a87fa3ca1fa0da5f99dd3a5"
+    },
+    {
+      "bytes": 231,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/attempts/attempt-0001/request.json",
+      "sha256": "1b396a0a7abbca85601ec7cc8a38c3b8f4e6044c4e2a4532ba9b49bcf90e3dc4"
+    },
+    {
+      "bytes": 351,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/count_history.jsonl",
+      "sha256": "ac795bdbdedc327c934fe223aa9cadbfbdd5e0edb24b6e8fd437d687d4469047"
+    },
+    {
+      "bytes": 1269,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/events.jsonl",
+      "sha256": "908857ade056d474ab67db97190be34038c77efc74877be15bdcfa1772065a30"
+    },
+    {
+      "bytes": 595,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/run_state.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/run_state.json",
+      "sha256": "04efc69194cfbbe8102251f2e3c090117cd2ff7dc36a34bcacf29e8390835949"
+    },
+    {
+      "bytes": 804,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/crash/20261014T161814Z_4aad361d/run_summary.json",
+      "sha256": "397b884c4239896a44f9dcd56c8c6a4d13409a66d4d870a3f5265e7709812576"
+    },
+    {
+      "bytes": 22,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/duplicate_workspace/20261014T161814Z_deadbeef/sentinel.txt",
+      "relative_path": "qualification_work/PASS_1_FINAL/duplicate_workspace/20261014T161814Z_deadbeef/sentinel.txt",
+      "sha256": "7f09515df57386e82c3649b042fc80c26994879f47f07d74832327e59f73a4a7"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/.run_id",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/.run_id",
+      "sha256": "51a730fc85a96fd3eb8adb05675ba75e2e86d81e3144b57035ee9dbd764b077d"
+    },
+    {
+      "bytes": 217,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0001/request.json",
+      "sha256": "89796d7ef111a7a92bda526eff08217e3d00625c004a2ebcf24a90fb38cfc56e"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0001/response.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0001/response.json",
+      "sha256": "704a4a5dd056606fb9a4d127c4d6ed41b834497dabdff2589f177171b2791490"
+    },
+    {
+      "bytes": 217,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0002/request.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0002/request.json",
+      "sha256": "7e091bd0cde7944b1cd69107b3c91c624a29f3d448db3d7548ebc39722923a7d"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0002/response.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0002/response.json",
+      "sha256": "65044e7f02d2dead03b4cf3a691fdaca42dab4f13bf5718add7d4797eb20f41a"
+    },
+    {
+      "bytes": 232,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0003/request.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0003/request.json",
+      "sha256": "0b2c115e25699136c817791d2094b32f4274ee9994a72d94a8a8fb01f1315cbc"
+    },
+    {
+      "bytes": 559,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0003/response.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0003/response.json",
+      "sha256": "d50c040ebc4a743116cd164b04e53dc3efadb3a42883fc58b58a0b8ddbf2ac92"
+    },
+    {
+      "bytes": 246,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0004/request.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0004/request.json",
+      "sha256": "45a27e7f77fd543378c5a184f29831399dcc98b587578509670817016f8f212c"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0004/response.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/attempts/attempt-0004/response.json",
+      "sha256": "ae81351d0e440082c15ab9f82fc4934b6500aca2686f245e169034f958b599a0"
+    },
+    {
+      "bytes": 1639,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/count_history.jsonl",
+      "sha256": "2137c6a4803393a51f3bb45acf08e7008ac724a773804caddfc2f5ce15adf4f3"
+    },
+    {
+      "bytes": 4982,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/events.jsonl",
+      "sha256": "76acd9edb4dce7f1035bcaa5687d4622f314b3d0cdca9c6376f08af1a50d11af"
+    },
+    {
+      "bytes": 593,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/run_state.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/run_state.json",
+      "sha256": "b0a816f74c895677ad94a0909b0c5d0fccb8a65c93d95e55c17c785c597700a1"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/monotonic_counts/20261014T161814Z_473e8c15/run_summary.json",
+      "sha256": "40d9a8e99b674a37cb68522d2636a13c30bbdf6c4afcbba752fa215b2a97faa5"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/.run_id",
+      "relative_path": "qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/.run_id",
+      "sha256": "0122edeb8e5139f08427c74b06348508451619d8107e1ff8323245514a66b45b"
+    },
+    {
+      "bytes": 211,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/attempts/attempt-0001/overwrite_rejection.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/attempts/attempt-0001/overwrite_rejection.json",
+      "sha256": "e1b1991d717ddc07e9585f2ce06bf9be7d41d4faef3770182e02d49a73356ac1"
+    },
+    {
+      "bytes": 27,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/attempts/attempt-0001/preexisting.txt",
+      "relative_path": "qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/attempts/attempt-0001/preexisting.txt",
+      "sha256": "ce7736b878c0c770c62784149b542c10137670af1eb9d864f0539c1f185463da"
+    },
+    {
+      "bytes": 120,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/count_history.jsonl",
+      "sha256": "2e1d56506ce3af9cdfd5e185b10d722ee748e0e1c5761ea3a6e1b3e3b9931f59"
+    },
+    {
+      "bytes": 420,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/events.jsonl",
+      "sha256": "d39d7da3574acb79ae60b05ce40f627bc0d88bf8340159fdec0054e386059bde"
+    },
+    {
+      "bytes": 593,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/run_state.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/run_state.json",
+      "sha256": "23a385664a748e60e9ca192b8d31576e547fe7430aedc4070137c1380fe430fe"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/overwrite/20261014T161814Z_72f388f0/run_summary.json",
+      "sha256": "aea122d7c0b82b2b96a69d9d9100daa4b153dc70aef53f9405b586e0ce7ace36"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/.run_id",
+      "relative_path": "qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/.run_id",
+      "sha256": "c1ff6ed9f3cd657d4f433d286aebb4a892796a5e54487c6eb83d6f2b2e8b88e8"
+    },
+    {
+      "bytes": 214,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/attempts/attempt-0001/request.json",
+      "sha256": "54bef719c3635b90df40012f4813599a3b95bdd578d5ad69fd695519922c61c1"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/attempts/attempt-0001/response.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/attempts/attempt-0001/response.json",
+      "sha256": "af30acf2c46e6ee862efc78dd274a9c84020ef926b8e8377a411688749561e27"
+    },
+    {
+      "bytes": 354,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/count_history.jsonl",
+      "sha256": "48c0dca495b0cf967a52d4b02791bdd5f1fc63d9d61ed9d42bb8460849e56f55"
+    },
+    {
+      "bytes": 1243,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/events.jsonl",
+      "sha256": "5872d452ee3315a33ae9e1d796b1c20c833d708df5d8d26a2b342077610db5d2"
+    },
+    {
+      "bytes": 593,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/run_state.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/run_state.json",
+      "sha256": "875ad5ff6b9f0d30580892fcd0b62a3683bd529e8e4ef7057ca02f67ddfab9c9"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/persist_before_call/20261014T161814Z_b1eb40d5/run_summary.json",
+      "sha256": "a328bf9dc0f1a7af0e8dcc08b79672b14fea4f35c83938c54ba297d1774bb5eb"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/.run_id",
+      "relative_path": "qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/.run_id",
+      "sha256": "6ebb60979159d080819934c0dc159b4135e56e80b0ea5cc396de8d6ee4bf1ccd"
+    },
+    {
+      "bytes": 585,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/count_history.jsonl",
+      "sha256": "922c7434d73baf58a5880b462da2bf52d7863960a5397d76216161d04fd3dde2"
+    },
+    {
+      "bytes": 2004,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/events.jsonl",
+      "sha256": "9b2ab7714c721eb826b625624dd55a42402d5cc003290ef7ce4c1d2b3a9087bc"
+    },
+    {
+      "bytes": 662,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/policy_rejections/rejection-0001.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/policy_rejections/rejection-0001.json",
+      "sha256": "58f45a5a52f34f7ab92d1240cde197152867172549f9665d35cb480c0a1eee9d"
+    },
+    {
+      "bytes": 672,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/policy_rejections/rejection-0002.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/policy_rejections/rejection-0002.json",
+      "sha256": "ccfefdafb2a44d955d9a312f7809ec66b978b64d6b6acaefc890d55df9d1da2d"
+    },
+    {
+      "bytes": 667,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/policy_rejections/rejection-0003.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/policy_rejections/rejection-0003.json",
+      "sha256": "a4ff0aaf1d21fc40b89c42b645d3efad4df6aabd0a6074404958c95c42e32986"
+    },
+    {
+      "bytes": 689,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/policy_rejections/rejection-0004.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/policy_rejections/rejection-0004.json",
+      "sha256": "83525463e081bb52d7b664cc24e49caa55d6b472909bd82d26726d8e60cc097d"
+    },
+    {
+      "bytes": 675,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/policy_rejections/rejection-0005.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/policy_rejections/rejection-0005.json",
+      "sha256": "410a820c55af0f0e3958c0a3b16d8cdcd941a88d8fa4b72500f1e038e19b8fad"
+    },
+    {
+      "bytes": 593,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/run_state.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/run_state.json",
+      "sha256": "61a57f3f3a50e6ca69a71bc0160a5e8367fe2326509a212d6ee2ea74a92dc8fa"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/policy_denied/20261014T161814Z_ae36e728/run_summary.json",
+      "sha256": "1f546cd514bda9a38299e655a98ebdb4db267f284c80e558979fa0c7b8082ed7"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/.run_id",
+      "relative_path": "qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/.run_id",
+      "sha256": "33330899dd5d0032e612bb256cc91e35c30714033492bf538cd58849e0dbcfc9"
+    },
+    {
+      "bytes": 218,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/attempts/attempt-0001/request.json",
+      "sha256": "823d394eec7ae0e5699587a293efb9bcc89e8b85e749dee2d873acb7c9c8421c"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/attempts/attempt-0001/response.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/attempts/attempt-0001/response.json",
+      "sha256": "af30acf2c46e6ee862efc78dd274a9c84020ef926b8e8377a411688749561e27"
+    },
+    {
+      "bytes": 354,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/count_history.jsonl",
+      "sha256": "48c0dca495b0cf967a52d4b02791bdd5f1fc63d9d61ed9d42bb8460849e56f55"
+    },
+    {
+      "bytes": 1243,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/events.jsonl",
+      "sha256": "5872d452ee3315a33ae9e1d796b1c20c833d708df5d8d26a2b342077610db5d2"
+    },
+    {
+      "bytes": 593,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/run_state.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/run_state.json",
+      "sha256": "9277d8f51e9104e6195d2a718310a4d96eb672051a93d1e5ea7303f8a2eb5e7a"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_FINAL/split_accounting/20261014T161814Z_cf892987/run_summary.json",
+      "sha256": "d110dcad888f43849c21a882202e3dc24eb9e01cd7f457002d7cbfcd0cb88403"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/.run_id",
+      "relative_path": "qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/.run_id",
+      "sha256": "a6c41f6770078b3ebbbba7e06346735465904bbb9e538d8fd0038b73e43d9c35"
+    },
+    {
+      "bytes": 665,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/budget_rejection.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/budget_rejection.json",
+      "sha256": "d4fd6fd0a558d5e56f63428c08510cc8270c23c4d159aed49ba882cd571885ca"
+    },
+    {
+      "bytes": 117,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/count_history.jsonl",
+      "sha256": "48abde0f69b7fb3bbc84d51f2a79f40229549eee9308f24e96e4bf3ea8215f34"
+    },
+    {
+      "bytes": 377,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/events.jsonl",
+      "sha256": "356a1e26e6a140afd9a8b8a015c340bb1ccd1819201bb6c15dc9ce40eb87c686"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/run_state.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/run_state.json",
+      "sha256": "acf09f817c5a251a2028d2320f34f0c39da0423ff93c946275eaf7baa9df002c"
+    },
+    {
+      "bytes": 798,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/budget_bypass/20261014T161814Z_babb15a6/run_summary.json",
+      "sha256": "5bacd5546ea3b3291aa82df0097b08d1106f60ede504503b1485e5144651970d"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/.run_id",
+      "relative_path": "qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/.run_id",
+      "sha256": "583c776c96a75e90fbd57818f588e5d9f0c6c55efe628c002dcfa2b5419b7783"
+    },
+    {
+      "bytes": 529,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/attempts/attempt-0001/crash.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/attempts/attempt-0001/crash.json",
+      "sha256": "615c61b14fb0e6ed1947cecacb388cdbc3f3d0d79a87fa3ca1fa0da5f99dd3a5"
+    },
+    {
+      "bytes": 231,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/attempts/attempt-0001/request.json",
+      "sha256": "1b396a0a7abbca85601ec7cc8a38c3b8f4e6044c4e2a4532ba9b49bcf90e3dc4"
+    },
+    {
+      "bytes": 351,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/count_history.jsonl",
+      "sha256": "ac795bdbdedc327c934fe223aa9cadbfbdd5e0edb24b6e8fd437d687d4469047"
+    },
+    {
+      "bytes": 1269,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/events.jsonl",
+      "sha256": "908857ade056d474ab67db97190be34038c77efc74877be15bdcfa1772065a30"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/run_state.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/run_state.json",
+      "sha256": "a264040cc00fdf413bf54beec0799c8ea3d4ad5a446724d515f72a1605fe99c7"
+    },
+    {
+      "bytes": 804,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/crash/20261014T161814Z_cb4f8f46/run_summary.json",
+      "sha256": "72213a3eb32de8e0786391e94fdb83d98b2c2df82761f560e5147e5055793e6f"
+    },
+    {
+      "bytes": 22,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/duplicate_workspace/20261014T161814Z_deadbeef/sentinel.txt",
+      "relative_path": "qualification_work/PASS_1_RETRY/duplicate_workspace/20261014T161814Z_deadbeef/sentinel.txt",
+      "sha256": "7f09515df57386e82c3649b042fc80c26994879f47f07d74832327e59f73a4a7"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/.run_id",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/.run_id",
+      "sha256": "b4058ffa4a0b9539c8891e2ca61b5ecdf49d3fd70e08007672d2736262032ae4"
+    },
+    {
+      "bytes": 217,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0001/request.json",
+      "sha256": "89796d7ef111a7a92bda526eff08217e3d00625c004a2ebcf24a90fb38cfc56e"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0001/response.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0001/response.json",
+      "sha256": "704a4a5dd056606fb9a4d127c4d6ed41b834497dabdff2589f177171b2791490"
+    },
+    {
+      "bytes": 217,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0002/request.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0002/request.json",
+      "sha256": "7e091bd0cde7944b1cd69107b3c91c624a29f3d448db3d7548ebc39722923a7d"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0002/response.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0002/response.json",
+      "sha256": "65044e7f02d2dead03b4cf3a691fdaca42dab4f13bf5718add7d4797eb20f41a"
+    },
+    {
+      "bytes": 232,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0003/request.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0003/request.json",
+      "sha256": "0b2c115e25699136c817791d2094b32f4274ee9994a72d94a8a8fb01f1315cbc"
+    },
+    {
+      "bytes": 559,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0003/response.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0003/response.json",
+      "sha256": "d50c040ebc4a743116cd164b04e53dc3efadb3a42883fc58b58a0b8ddbf2ac92"
+    },
+    {
+      "bytes": 246,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0004/request.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0004/request.json",
+      "sha256": "45a27e7f77fd543378c5a184f29831399dcc98b587578509670817016f8f212c"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0004/response.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/attempts/attempt-0004/response.json",
+      "sha256": "ae81351d0e440082c15ab9f82fc4934b6500aca2686f245e169034f958b599a0"
+    },
+    {
+      "bytes": 1639,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/count_history.jsonl",
+      "sha256": "2137c6a4803393a51f3bb45acf08e7008ac724a773804caddfc2f5ce15adf4f3"
+    },
+    {
+      "bytes": 4982,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/events.jsonl",
+      "sha256": "76acd9edb4dce7f1035bcaa5687d4622f314b3d0cdca9c6376f08af1a50d11af"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/run_state.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/run_state.json",
+      "sha256": "ad3fd76ce0e86dbe5dde0cb856466232c1fdf8ace4b3636e039dc5c3603e9304"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/monotonic_counts/20261014T161814Z_fee2364e/run_summary.json",
+      "sha256": "f5cb8ae56c595bb37b6cede2e1c145840b522932b6c8cf9756e925343efe6658"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/.run_id",
+      "relative_path": "qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/.run_id",
+      "sha256": "5cb686d31e49bdec77e60b91b9c2163ad743cfcd786041695a573379e6b5f26a"
+    },
+    {
+      "bytes": 211,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/attempts/attempt-0001/overwrite_rejection.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/attempts/attempt-0001/overwrite_rejection.json",
+      "sha256": "e1b1991d717ddc07e9585f2ce06bf9be7d41d4faef3770182e02d49a73356ac1"
+    },
+    {
+      "bytes": 27,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/attempts/attempt-0001/preexisting.txt",
+      "relative_path": "qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/attempts/attempt-0001/preexisting.txt",
+      "sha256": "ce7736b878c0c770c62784149b542c10137670af1eb9d864f0539c1f185463da"
+    },
+    {
+      "bytes": 120,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/count_history.jsonl",
+      "sha256": "2e1d56506ce3af9cdfd5e185b10d722ee748e0e1c5761ea3a6e1b3e3b9931f59"
+    },
+    {
+      "bytes": 420,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/events.jsonl",
+      "sha256": "d39d7da3574acb79ae60b05ce40f627bc0d88bf8340159fdec0054e386059bde"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/run_state.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/run_state.json",
+      "sha256": "22367348b48841e67eb362c36d4947f759bd977122e0aa0aef204f6e30f48001"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/overwrite/20261014T161814Z_44589635/run_summary.json",
+      "sha256": "0794c15abc5b704c6be0650a0e375cb40c216c956cf5e1303a4f6a08a8ef8524"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/.run_id",
+      "relative_path": "qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/.run_id",
+      "sha256": "4f775152b7208db7982351a89be549ec8418eec4fdf1dff4aa294cc03d22754c"
+    },
+    {
+      "bytes": 214,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/attempts/attempt-0001/request.json",
+      "sha256": "54bef719c3635b90df40012f4813599a3b95bdd578d5ad69fd695519922c61c1"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/attempts/attempt-0001/response.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/attempts/attempt-0001/response.json",
+      "sha256": "af30acf2c46e6ee862efc78dd274a9c84020ef926b8e8377a411688749561e27"
+    },
+    {
+      "bytes": 354,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/count_history.jsonl",
+      "sha256": "48c0dca495b0cf967a52d4b02791bdd5f1fc63d9d61ed9d42bb8460849e56f55"
+    },
+    {
+      "bytes": 1243,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/events.jsonl",
+      "sha256": "5872d452ee3315a33ae9e1d796b1c20c833d708df5d8d26a2b342077610db5d2"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/run_state.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/run_state.json",
+      "sha256": "0b624bb650e1cbdcc936ddb3d9d0f7c1678e17c03e1efe4cb4a958e339ea1cfa"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/persist_before_call/20261014T161814Z_9499f8f4/run_summary.json",
+      "sha256": "719038e7bd5885a4eeb7fc9e3bf4505614133ce17745b23462fd0726087201c3"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/.run_id",
+      "relative_path": "qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/.run_id",
+      "sha256": "c9a7a63599da53509c71950c7bd5089e7b4c27187e892545cc5581b194a048ae"
+    },
+    {
+      "bytes": 585,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/count_history.jsonl",
+      "sha256": "922c7434d73baf58a5880b462da2bf52d7863960a5397d76216161d04fd3dde2"
+    },
+    {
+      "bytes": 2004,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/events.jsonl",
+      "sha256": "9b2ab7714c721eb826b625624dd55a42402d5cc003290ef7ce4c1d2b3a9087bc"
+    },
+    {
+      "bytes": 662,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/policy_rejections/rejection-0001.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/policy_rejections/rejection-0001.json",
+      "sha256": "58f45a5a52f34f7ab92d1240cde197152867172549f9665d35cb480c0a1eee9d"
+    },
+    {
+      "bytes": 672,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/policy_rejections/rejection-0002.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/policy_rejections/rejection-0002.json",
+      "sha256": "ccfefdafb2a44d955d9a312f7809ec66b978b64d6b6acaefc890d55df9d1da2d"
+    },
+    {
+      "bytes": 667,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/policy_rejections/rejection-0003.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/policy_rejections/rejection-0003.json",
+      "sha256": "a4ff0aaf1d21fc40b89c42b645d3efad4df6aabd0a6074404958c95c42e32986"
+    },
+    {
+      "bytes": 689,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/policy_rejections/rejection-0004.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/policy_rejections/rejection-0004.json",
+      "sha256": "83525463e081bb52d7b664cc24e49caa55d6b472909bd82d26726d8e60cc097d"
+    },
+    {
+      "bytes": 675,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/policy_rejections/rejection-0005.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/policy_rejections/rejection-0005.json",
+      "sha256": "410a820c55af0f0e3958c0a3b16d8cdcd941a88d8fa4b72500f1e038e19b8fad"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/run_state.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/run_state.json",
+      "sha256": "122ed090f669bb62d14dfe533098055298cb36ac0a8252df5f9dccdc5a9174fd"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/policy_denied/20261014T161814Z_f7d76570/run_summary.json",
+      "sha256": "357d84291e49897d2551b4ac145c14015a272db759573d060ef133bcabea08cf"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/.run_id",
+      "relative_path": "qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/.run_id",
+      "sha256": "4b21a738711e75dd214df11c8c1d3cb61da4e2b0400687bb794639710b9dfc09"
+    },
+    {
+      "bytes": 218,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/attempts/attempt-0001/request.json",
+      "sha256": "823d394eec7ae0e5699587a293efb9bcc89e8b85e749dee2d873acb7c9c8421c"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/attempts/attempt-0001/response.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/attempts/attempt-0001/response.json",
+      "sha256": "af30acf2c46e6ee862efc78dd274a9c84020ef926b8e8377a411688749561e27"
+    },
+    {
+      "bytes": 354,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/count_history.jsonl",
+      "sha256": "48c0dca495b0cf967a52d4b02791bdd5f1fc63d9d61ed9d42bb8460849e56f55"
+    },
+    {
+      "bytes": 1243,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/events.jsonl",
+      "relative_path": "qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/events.jsonl",
+      "sha256": "5872d452ee3315a33ae9e1d796b1c20c833d708df5d8d26a2b342077610db5d2"
+    },
+    {
+      "bytes": 261,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/run_state.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/run_state.json",
+      "sha256": "b168ce886259bb3df474a51b9f4bf9edc7f314d7ce3d17173b15eb1fb1ba61ea"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/run_summary.json",
+      "relative_path": "qualification_work/PASS_1_RETRY/split_accounting/20261014T161814Z_c33c2e82/run_summary.json",
+      "sha256": "5d96ab2a59848baf307df60708b79e6b513a924fed0ce300a32b01cbd1704052"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/.run_id",
+      "relative_path": "qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/.run_id",
+      "sha256": "817683eb965166f2f1df7c1fd4fefb5c78700d5738eea0388378b0c3ab8cb61c"
+    },
+    {
+      "bytes": 665,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/budget_rejection.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/budget_rejection.json",
+      "sha256": "d4fd6fd0a558d5e56f63428c08510cc8270c23c4d159aed49ba882cd571885ca"
+    },
+    {
+      "bytes": 117,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/count_history.jsonl",
+      "sha256": "48abde0f69b7fb3bbc84d51f2a79f40229549eee9308f24e96e4bf3ea8215f34"
+    },
+    {
+      "bytes": 377,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/events.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/events.jsonl",
+      "sha256": "356a1e26e6a140afd9a8b8a015c340bb1ccd1819201bb6c15dc9ce40eb87c686"
+    },
+    {
+      "bytes": 591,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/run_state.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/run_state.json",
+      "sha256": "ef034f2ee9b028c6fa26c4ca33600be716e4d5bbc03a208157317db465799606"
+    },
+    {
+      "bytes": 798,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/run_summary.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/budget_bypass/20261014T161814Z_e87b67d6/run_summary.json",
+      "sha256": "91bc84796829dbd2b45660c43d385df117a77cc4ff471d50df72e3c57ebf67e3"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/.run_id",
+      "relative_path": "qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/.run_id",
+      "sha256": "a9112b52dff18e1f3f1b96e2f4bab6ff49facc4394511eb4b62f805939a14e85"
+    },
+    {
+      "bytes": 529,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/attempts/attempt-0001/crash.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/attempts/attempt-0001/crash.json",
+      "sha256": "615c61b14fb0e6ed1947cecacb388cdbc3f3d0d79a87fa3ca1fa0da5f99dd3a5"
+    },
+    {
+      "bytes": 231,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/attempts/attempt-0001/request.json",
+      "sha256": "1b396a0a7abbca85601ec7cc8a38c3b8f4e6044c4e2a4532ba9b49bcf90e3dc4"
+    },
+    {
+      "bytes": 351,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/count_history.jsonl",
+      "sha256": "ac795bdbdedc327c934fe223aa9cadbfbdd5e0edb24b6e8fd437d687d4469047"
+    },
+    {
+      "bytes": 1269,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/events.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/events.jsonl",
+      "sha256": "908857ade056d474ab67db97190be34038c77efc74877be15bdcfa1772065a30"
+    },
+    {
+      "bytes": 595,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/run_state.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/run_state.json",
+      "sha256": "cfc0c22ca5f860ca73a441a2eca86e05f917a8fa5cf226a176c3752d106b0251"
+    },
+    {
+      "bytes": 804,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/run_summary.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/crash/20261014T161814Z_45c3dff4/run_summary.json",
+      "sha256": "2d05d334946c6bcdd53ccfa356093135c5cbf8047a66b0c0be05306b36312929"
+    },
+    {
+      "bytes": 22,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/duplicate_workspace/20261014T161814Z_deadbeef/sentinel.txt",
+      "relative_path": "qualification_work/PASS_2_FINAL/duplicate_workspace/20261014T161814Z_deadbeef/sentinel.txt",
+      "sha256": "7f09515df57386e82c3649b042fc80c26994879f47f07d74832327e59f73a4a7"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/.run_id",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/.run_id",
+      "sha256": "eb69e3ea57dc760d6f9a6a30468570234a8f2ef2b03633dec9d376fd89ca8a30"
+    },
+    {
+      "bytes": 217,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0001/request.json",
+      "sha256": "89796d7ef111a7a92bda526eff08217e3d00625c004a2ebcf24a90fb38cfc56e"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0001/response.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0001/response.json",
+      "sha256": "704a4a5dd056606fb9a4d127c4d6ed41b834497dabdff2589f177171b2791490"
+    },
+    {
+      "bytes": 217,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0002/request.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0002/request.json",
+      "sha256": "7e091bd0cde7944b1cd69107b3c91c624a29f3d448db3d7548ebc39722923a7d"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0002/response.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0002/response.json",
+      "sha256": "65044e7f02d2dead03b4cf3a691fdaca42dab4f13bf5718add7d4797eb20f41a"
+    },
+    {
+      "bytes": 232,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0003/request.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0003/request.json",
+      "sha256": "0b2c115e25699136c817791d2094b32f4274ee9994a72d94a8a8fb01f1315cbc"
+    },
+    {
+      "bytes": 559,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0003/response.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0003/response.json",
+      "sha256": "d50c040ebc4a743116cd164b04e53dc3efadb3a42883fc58b58a0b8ddbf2ac92"
+    },
+    {
+      "bytes": 246,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0004/request.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0004/request.json",
+      "sha256": "45a27e7f77fd543378c5a184f29831399dcc98b587578509670817016f8f212c"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0004/response.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/attempts/attempt-0004/response.json",
+      "sha256": "ae81351d0e440082c15ab9f82fc4934b6500aca2686f245e169034f958b599a0"
+    },
+    {
+      "bytes": 1639,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/count_history.jsonl",
+      "sha256": "2137c6a4803393a51f3bb45acf08e7008ac724a773804caddfc2f5ce15adf4f3"
+    },
+    {
+      "bytes": 4982,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/events.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/events.jsonl",
+      "sha256": "76acd9edb4dce7f1035bcaa5687d4622f314b3d0cdca9c6376f08af1a50d11af"
+    },
+    {
+      "bytes": 593,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/run_state.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/run_state.json",
+      "sha256": "377be404f4951d7822aa5cce7298d283d87b6b475c4ba7e2890a39d12acc4d40"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/run_summary.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/monotonic_counts/20261014T161814Z_eaca61bb/run_summary.json",
+      "sha256": "8a5dd47e0638de0b06cd6d43dc58cda6b1e569cd4b50c4d6956d870dd295f7a9"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/.run_id",
+      "relative_path": "qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/.run_id",
+      "sha256": "3ee1cfa5c747cfa1797304947fd750fe15d077430022e9302b2a543e71ca5850"
+    },
+    {
+      "bytes": 211,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/attempts/attempt-0001/overwrite_rejection.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/attempts/attempt-0001/overwrite_rejection.json",
+      "sha256": "e1b1991d717ddc07e9585f2ce06bf9be7d41d4faef3770182e02d49a73356ac1"
+    },
+    {
+      "bytes": 27,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/attempts/attempt-0001/preexisting.txt",
+      "relative_path": "qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/attempts/attempt-0001/preexisting.txt",
+      "sha256": "ce7736b878c0c770c62784149b542c10137670af1eb9d864f0539c1f185463da"
+    },
+    {
+      "bytes": 120,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/count_history.jsonl",
+      "sha256": "2e1d56506ce3af9cdfd5e185b10d722ee748e0e1c5761ea3a6e1b3e3b9931f59"
+    },
+    {
+      "bytes": 420,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/events.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/events.jsonl",
+      "sha256": "d39d7da3574acb79ae60b05ce40f627bc0d88bf8340159fdec0054e386059bde"
+    },
+    {
+      "bytes": 593,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/run_state.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/run_state.json",
+      "sha256": "407088af6d2d877fe4fff30f0a8dcd8e37a28477c7c6de506a98822487e63a70"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/run_summary.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/overwrite/20261014T161814Z_406b73d8/run_summary.json",
+      "sha256": "54f45f2b22ef4826247b14087c7074898a488b88551b67c5fa0a4c04d35e84b8"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/.run_id",
+      "relative_path": "qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/.run_id",
+      "sha256": "93df9874c4bc7bcff39b8863bf81d0d3e6466c0f0296e01a3a61bfa58a7c8ffa"
+    },
+    {
+      "bytes": 214,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/attempts/attempt-0001/request.json",
+      "sha256": "54bef719c3635b90df40012f4813599a3b95bdd578d5ad69fd695519922c61c1"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/attempts/attempt-0001/response.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/attempts/attempt-0001/response.json",
+      "sha256": "af30acf2c46e6ee862efc78dd274a9c84020ef926b8e8377a411688749561e27"
+    },
+    {
+      "bytes": 354,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/count_history.jsonl",
+      "sha256": "48c0dca495b0cf967a52d4b02791bdd5f1fc63d9d61ed9d42bb8460849e56f55"
+    },
+    {
+      "bytes": 1243,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/events.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/events.jsonl",
+      "sha256": "5872d452ee3315a33ae9e1d796b1c20c833d708df5d8d26a2b342077610db5d2"
+    },
+    {
+      "bytes": 593,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/run_state.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/run_state.json",
+      "sha256": "364e881dc9dbf74a5b190bf20b972e53a5e9e937f2405036f94df9b7e72b62dc"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/run_summary.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/persist_before_call/20261014T161814Z_a63fc142/run_summary.json",
+      "sha256": "dc85655ef44c493257b6e768395a82cd2fcd3e92e4f0362ba7638e475119bf19"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/.run_id",
+      "relative_path": "qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/.run_id",
+      "sha256": "03981c88ecd8d3474250f5733e7e2090db5a8bd9e1285dedf8e360532412011b"
+    },
+    {
+      "bytes": 585,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/count_history.jsonl",
+      "sha256": "922c7434d73baf58a5880b462da2bf52d7863960a5397d76216161d04fd3dde2"
+    },
+    {
+      "bytes": 2004,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/events.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/events.jsonl",
+      "sha256": "9b2ab7714c721eb826b625624dd55a42402d5cc003290ef7ce4c1d2b3a9087bc"
+    },
+    {
+      "bytes": 662,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/policy_rejections/rejection-0001.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/policy_rejections/rejection-0001.json",
+      "sha256": "58f45a5a52f34f7ab92d1240cde197152867172549f9665d35cb480c0a1eee9d"
+    },
+    {
+      "bytes": 672,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/policy_rejections/rejection-0002.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/policy_rejections/rejection-0002.json",
+      "sha256": "ccfefdafb2a44d955d9a312f7809ec66b978b64d6b6acaefc890d55df9d1da2d"
+    },
+    {
+      "bytes": 667,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/policy_rejections/rejection-0003.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/policy_rejections/rejection-0003.json",
+      "sha256": "a4ff0aaf1d21fc40b89c42b645d3efad4df6aabd0a6074404958c95c42e32986"
+    },
+    {
+      "bytes": 689,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/policy_rejections/rejection-0004.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/policy_rejections/rejection-0004.json",
+      "sha256": "83525463e081bb52d7b664cc24e49caa55d6b472909bd82d26726d8e60cc097d"
+    },
+    {
+      "bytes": 675,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/policy_rejections/rejection-0005.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/policy_rejections/rejection-0005.json",
+      "sha256": "410a820c55af0f0e3958c0a3b16d8cdcd941a88d8fa4b72500f1e038e19b8fad"
+    },
+    {
+      "bytes": 593,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/run_state.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/run_state.json",
+      "sha256": "c169a3b95067f212b2e52bf304dd4149cafc0bc1040cb8960fd68d1ade548910"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/run_summary.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/policy_denied/20261014T161814Z_091a0e90/run_summary.json",
+      "sha256": "f2beac799803ebe8de200cd681ac9abf44fda96856b20a9e5648039fe502c232"
+    },
+    {
+      "bytes": 26,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/.run_id",
+      "relative_path": "qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/.run_id",
+      "sha256": "5fca4065c93804515ca9d48a978de65f263a0f38733cfd9cd26456b7284fbc8f"
+    },
+    {
+      "bytes": 218,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/attempts/attempt-0001/request.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/attempts/attempt-0001/request.json",
+      "sha256": "823d394eec7ae0e5699587a293efb9bcc89e8b85e749dee2d873acb7c9c8421c"
+    },
+    {
+      "bytes": 554,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/attempts/attempt-0001/response.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/attempts/attempt-0001/response.json",
+      "sha256": "af30acf2c46e6ee862efc78dd274a9c84020ef926b8e8377a411688749561e27"
+    },
+    {
+      "bytes": 354,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/count_history.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/count_history.jsonl",
+      "sha256": "48c0dca495b0cf967a52d4b02791bdd5f1fc63d9d61ed9d42bb8460849e56f55"
+    },
+    {
+      "bytes": 1243,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/events.jsonl",
+      "relative_path": "qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/events.jsonl",
+      "sha256": "5872d452ee3315a33ae9e1d796b1c20c833d708df5d8d26a2b342077610db5d2"
+    },
+    {
+      "bytes": 593,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/run_state.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/run_state.json",
+      "sha256": "bc261a390db9eb37a9276ae5ed698ce54ce45e37d712c05c014a60b7d70e2603"
+    },
+    {
+      "bytes": 802,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/run_summary.json",
+      "relative_path": "qualification_work/PASS_2_FINAL/split_accounting/20261014T161814Z_049aec51/run_summary.json",
+      "sha256": "04b2f579836961d5a398f87b58734c8c687f2ba2a0baa35573534ddbc72d4667"
+    },
+    {
+      "bytes": 12436,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/receipt.json",
+      "relative_path": "receipt.json",
+      "sha256": "d3b976b2e5e25a477b6b51ffc87634d86ddd9a57d69d85cf057f9d577b96143f"
+    },
+    {
+      "bytes": 2000,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/README.md",
+      "relative_path": "runner/README.md",
+      "sha256": "a198427869de26d119a349ee247acb3b9f9321702e1b76ac5716204fc5aec789"
+    },
+    {
+      "bytes": 444,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/fixtures/budget_bypass.json",
+      "relative_path": "runner/fixtures/budget_bypass.json",
+      "sha256": "83ce7d1bd10d5288a960862688f4e120ccd8f648fa39768b6c40b5937c13fea4"
+    },
+    {
+      "bytes": 307,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/fixtures/crash.json",
+      "relative_path": "runner/fixtures/crash.json",
+      "sha256": "a2cd37b080f558499aa5b765f32ce455055471337fdeb0885b171432fa316e0a"
+    },
+    {
+      "bytes": 779,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/fixtures/monotonic_counts.json",
+      "relative_path": "runner/fixtures/monotonic_counts.json",
+      "sha256": "2b5d867af4c199aa04fd4353c7433d3293371ee9da2e028243c65a76a95d014b"
+    },
+    {
+      "bytes": 360,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/fixtures/overwrite.json",
+      "relative_path": "runner/fixtures/overwrite.json",
+      "sha256": "aef0ac870e86268e7e8692991ab2b93cd3493c5e45fc19f32b299ab2194743e4"
+    },
+    {
+      "bytes": 976,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/fixtures/policy_denied.json",
+      "relative_path": "runner/fixtures/policy_denied.json",
+      "sha256": "23f9442aad483339994d6c1252c2f0e97e056bf59f88e1ca371ee63ab6074975"
+    },
+    {
+      "bytes": 296,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/fixtures/split_accounting.json",
+      "relative_path": "runner/fixtures/split_accounting.json",
+      "sha256": "2b0be36f8212a5535cbcbf2b25210f36444a7467ec3d8416d2b367a3ccd15b41"
+    },
+    {
+      "bytes": 292,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/fixtures/success.json",
+      "relative_path": "runner/fixtures/success.json",
+      "sha256": "48fdf0e8acbb0b471df66053df1a0851fe0f16c55b9561af8752f26e3183c5b8"
+    },
+    {
+      "bytes": 13616,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/run_qualification.py",
+      "relative_path": "runner/run_qualification.py",
+      "sha256": "3a186fd1953ad4a3050b33d883ec4ef30bf206e416e6b8235e6c1e8f7b5af64f"
+    },
+    {
+      "bytes": 16946,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/runner.py",
+      "relative_path": "runner/runner.py",
+      "sha256": "8038b511cf0f5f4c39f9d1d27c2b117505d30f6fa764f9970caf93ab9f584dc2"
+    },
+    {
+      "bytes": 5929,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner_qualification.json",
+      "relative_path": "runner_qualification.json",
+      "sha256": "cdcd646885d3e88841e98bc66f9626e6a2e80daeb488dc025fdf918ecf3d75ed"
+    },
+    {
+      "bytes": 2446,
+      "hash_domain": "sha256_file",
+      "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/summary.md",
+      "relative_path": "summary.md",
+      "sha256": "467675219f8990c12b1a622aa6028bfdb9da7aa739416ea824082afecd174659"
+    }
+  ],
+  "hash_domain": "sha256_file",
+  "manifest_scope": "all regular files inside the T3 run directory except this manifest",
+  "run_id": "20261014T161814Z_245b86ab",
+  "schema": "harness_rsi_t3_artifacts_manifest_v1",
+  "self_hash_excluded": true,
+  "task_id": "T3"
+}

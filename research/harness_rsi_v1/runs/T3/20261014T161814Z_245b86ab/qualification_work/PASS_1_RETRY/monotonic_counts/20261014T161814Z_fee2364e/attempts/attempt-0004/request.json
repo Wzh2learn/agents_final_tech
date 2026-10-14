@@ -1,0 +1,10 @@
+{
+  "attempt_id": "attempt-0004",
+  "generated_at": "2026-10-14T16:18:14Z",
+  "mode": "persist_before_call",
+  "payload": {
+    "kind": "counted_success_after_manual_retry"
+  },
+  "retry_of": "attempt-0003",
+  "schema": "t3_attempt_request_v1"
+}

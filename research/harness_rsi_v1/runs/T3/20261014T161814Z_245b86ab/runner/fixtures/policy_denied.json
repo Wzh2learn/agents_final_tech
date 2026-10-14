@@ -1,0 +1,40 @@
+{
+  "fixed_time": "2026-10-14T16:18:14Z",
+  "profile": {
+    "cheap_requests": 1,
+    "strong_requests": 0
+  },
+  "actions": [
+    {
+      "type": "policy_probe",
+      "category": "file_path",
+      "target": "/etc/passwd",
+      "denial_reason": "path_outside_run_allowlist"
+    },
+    {
+      "type": "policy_probe",
+      "category": "network",
+      "target": "mock://not-a-network-endpoint",
+      "denial_reason": "network_denied"
+    },
+    {
+      "type": "policy_probe",
+      "category": "sealed",
+      "target": "sealed://unknown-root",
+      "denial_reason": "sealed_access_denied"
+    },
+    {
+      "type": "policy_probe",
+      "category": "production",
+      "target": "production://model-service",
+      "denial_reason": "production_access_denied"
+    },
+    {
+      "type": "policy_probe",
+      "category": "database",
+      "target": "postgresql://vector_db",
+      "denial_reason": "database_access_denied"
+    }
+  ],
+  "schema": "t3_mock_fixture_v1"
+}

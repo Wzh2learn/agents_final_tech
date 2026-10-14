@@ -1,0 +1,26 @@
+{
+  "action": {
+    "category": "production",
+    "denial_reason": "production_access_denied",
+    "target": "production://model-service",
+    "type": "policy_probe"
+  },
+  "counters": {
+    "budget_rejections": 0,
+    "crashed_requests": 0,
+    "failed_requests": 0,
+    "manual_retries": 0,
+    "manual_retry_requests": 0,
+    "model_extra_requests": 0,
+    "overwrite_rejections": 0,
+    "policy_rejections": 3,
+    "successful_requests": 0,
+    "timeout_requests": 0,
+    "transport_calls": 0
+  },
+  "denial_reason": "production_access_denied",
+  "generated_at": "2026-10-14T16:18:14Z",
+  "schema": "t3_policy_rejection_v1",
+  "sequence": 4,
+  "target": "production://model-service"
+}

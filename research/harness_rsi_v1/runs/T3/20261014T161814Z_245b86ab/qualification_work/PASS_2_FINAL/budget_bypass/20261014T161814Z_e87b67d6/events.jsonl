@@ -1,0 +1,1 @@
+{"counters": {"budget_rejections": 1, "crashed_requests": 0, "failed_requests": 0, "manual_retries": 0, "manual_retry_requests": 0, "model_extra_requests": 0, "overwrite_rejections": 0, "policy_rejections": 0, "successful_requests": 0, "timeout_requests": 0, "transport_calls": 0}, "event": "budget_rejected", "generated_at": "2026-10-14T16:18:14Z", "transport_called": false}

@@ -1,0 +1,8 @@
+{
+  "attempt_id": "attempt-0001",
+  "generated_at": "2026-10-14T16:18:14Z",
+  "mode": "exclusive_create",
+  "outcome": "DENIED",
+  "reason": "attempt_directory_exists",
+  "schema": "t3_overwrite_rejection_v1"
+}
