@@ -1,0 +1,53 @@
+{
+  "decision_id": "T1R-02-PROPOSAL",
+  "decision": "PENDING_HUMAN_REVIEW",
+  "reviewer": "loop_c_t1r02 (Claude Code on GB10, promaxgb10-0b48)",
+  "reviewed_artifact_sha256": [
+    "21a4a105ad6d4bbd1c65fc917ecc26e4bd3152bbd902f1e055439b6a781f88f7",
+    "db2445e70992cc6079e339cecb26746c0b103b09bf89037d00c696ccefda0c74",
+    "661e27d6c20e01185c258f2c2ee22fd78db4e41af39f4e1913208268c26c5bcb",
+    "a2ff07db04453f91ab8178c05ff39f482298daf3aa1e35a5ddd0517cbbeb5fc9",
+    "533ea2e3f79d9bbfec38e354498d0cbf3d325aae2a714ed8299b17c5834301e8",
+    "a292f5c48a910b5dc810e1de5189c59ba67d9e225e76e4052a3d881b00c53b6f",
+    "a28af6a87986b64c240db23fc77332b0401573eea133203c42d0126e96f79f6d",
+    "bfbf453def9386eb378f0370491892faf14edfc36a978d77647ba34b8baffcf6",
+    "579d0fdb53be63ad262ceaa8a9247a69fc62e0d1f46515fa29d070eb426dba60",
+    "051d0eda978e47ffd366cd0f023993c4aab0389f65939b151756a55bbcb10808",
+    "2cd43d6446baadff16dccbfbb30a47bebe7f6ac73cb0bc3255a2af773fb61d1b",
+    "dc30ad205cc99ed1ff46011424bf4af9bf6c3646573bf46c132f0538689ec11c"
+  ],
+  "scope": "T-1 v2 documentation review run package 20261014T085957Z_4e1698d1 (six artifacts) and the remediation R1/R2 claims, plus independent adjudication of the T1R-01 F1 dispute. Read-only independent recomputation on the GB10 authoritative tree; no acceptance of any task, no protocol freeze, no T0, registry/state left to the closer.",
+  "evidence_refs": [
+    "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/receipt.json#checks[C11_authority_three_domain]",
+    "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/receipt.json#checks[C11b_authority_domain_finding]",
+    "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/unresolved_register.json#run_level_items[RUN-R05]",
+    "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/summary.md#line5",
+    "research/harness_rsi_v1/contracts/authority_map.json#entries+hash_domain+change_rule",
+    "research/harness_rsi_v1/FILE_MANIFEST.json",
+    "research/harness_rsi_v1/FILES.md",
+    ".gitattributes (scope of the GB10-raw-bytes authority comment)",
+    "research/harness_rsi_v1/reviews/T1R-01/REVIEW.md#F1",
+    "research/harness_rsi_v1/runs/T-1/20261014T085638Z_ba9297ac/SUPERSEDED.md"
+  ],
+  "justification": "The v2 package's integrity work is independently reproduced and sound: all six run artifacts match their manifest (manifest correctly self-excluded); all 52 file entries match byte-for-byte and hash-for-hash with zero mismatches; the package set excluding runs/reviews/tooling state equals required_files (53/53) including candidates/.gitkeep; both planning rounds match provenance; 27 JSON parse; 5 ledgers empty and 3 events.jsonl parse; 19 cards carry JSON plus sections 1-10 with only T-1 READY and all execution_authorized=false; dependencies are acyclic and consistent with the matrix (27 edges); budget sums reconcile on both the matrix and the cards to BR 4/3, BC 66/8, BS 106/4, SHADOW 6/2, META 12/2; docs/INDEX.md has exactly one harness_rsi_v1 entry; all 12 input_bindings recompute. F2, F3, F4 and F6 are closed and recomputable; the superseded draft carries an accurate SUPERSEDED marker and is not cited as results. The T1R-01 'core dishonesty / backfill' accusation does not survive contact with measurement: the executor's GB10 column reproduces 13/13 on this machine (positive evidence of genuine measurement), v1's actual==declared is fully explained by same-tree pinning on the D: source paths, and the T1R-01 mtime argument assumed the executor measured the GB10 tree, which is now disproven; the .gitattributes GB10-raw-bytes authority rule covers only seven listed -text artifacts and was indeed over-extended. F1 is therefore MEDIUM (hash-domain / labeling), not HIGH. However, the review cannot be accepted as written: three of the six mismatching pins (memory/THREADS.md, memory/DECISIONS.md, skills/algorithm-description/SKILL.md) match no repository content state at all - not any of 8 byte transforms of the live bytes, not any historical blob across 323/24/2 commits, and not any of 3320 tracked files raw or CRLF-converted - so v2's load-bearing mechanism claim that all six differences are EOL/checkout representation is measured false for half of them, and its disposition (record RUN-R05, do not record STALE_INPUT) is unsupported for those three. Under authority_map.change_rule the treatment of such pins is a rebind-in-reviewed-activation-record decision owned by the project owner, and the D:/AIRcommend pinning tree is unreachable from this machine, so the provenance question cannot be settled read-only. PENDING_HUMAN_REVIEW is therefore the accurate proposal: the package work is good enough that rejection is disproportionate, but accepting it would ratify a refuted mechanism claim at the exact point under dispute.",
+  "human_decision_items": [
+    "1) Accept or reject the new finding that pins 0653ff3d... (THREADS), e35b2407... (DECISIONS) and ce0a5946... (SKILL_ALGORITHM) correspond to no repository content state.",
+    "2) Rule whether those three are content drift requiring STALE_INPUT registration, or a representation/unknown-provenance case to be rebound at T0 activation under authority_map.change_rule.",
+    "3) Confirm whether the D:/AIRcommend worktree was an authorized pinning domain and whether those three files held uncommitted bytes at pin time.",
+    "4) Decide whether the hash domain for authority_map should be canonicalized to the repo blob (as RUN-R05 proposes) and whether the local raw snapshot stays as historical evidence only."
+  ],
+  "flip_conditions": {
+    "to_ACCEPTED": "owner confirms (a) the D:/AIRcommend tree was the authorized pinning domain and the three pins' bytes were legitimate, and (b) approves treating those three as representation/rebind; and the mechanism wording is corrected to '3 EOL representation + 3 unknown provenance (or reclassified per (a))' in v2 or a patch run.",
+    "to_REJECTED": "owner rules those three are content drift (STALE_INPUT) while v2's original disposition is retained, or demands reproducibility on the authoritative tree while refusing any rebind path."
+  },
+  "dissent": [
+    "Against T1R-01: the F1 'actual==declared implies echo/fabrication' inference is refuted - the executor's gb10_raw column reproduces 13/13 here, and same-tree pinning explains the v1 equality without invoking fabrication; the mtime argument rested on a disproven premise.",
+    "Against T1R-01: extending the .gitattributes 'Authority for these hashes is the GB10 raw bytes' comment to the 13 authority_map files is an over-extension; that rule covers only seven -text artifacts, and authority_map already declares hash_domain raw_bytes with status LOCAL_SNAPSHOT_NOT_RUNTIME_VERIFICATION.",
+    "Against the executor: the claim that all 6 GB10-vs-pin differences are EOL/checkout representation is accepted for REPO_RULES, SKILL_ROUTING and SKILL_REGISTRY (proven pin == CRLF of identical content) but refuted for THREADS, DECISIONS and SKILL_ALGORITHM, whose pins match no repository state whatsoever; the corresponding no-STALE_INPUT disposition is unsupported.",
+    "Against the executor: repo-blob bilateral identity is verified 13/13 but must not be generalized to the declared raw_bytes domain, which is the domain the pins are actually recorded in.",
+    "Upheld from T1R-01: the C12 path:line refinement stands - both base files exist (18544B and 19414B) and are code references, not broken links.",
+    "Upheld from T1R-01: empty ledgers were used only for negative claims and no historical PASS text is promoted to results; no out-of-scope write was found.",
+    "T1R-01's own dissent anticipated this outcome: if the executor measured a different authorized worktree the case should be reopened rather than accepted - that alternative is now established as fact for the measurement domain, while a new unresolved provenance question replaces it.",
+    "This is a proposal only; the closer owns registry/state updates and any acceptance decision. No T0, no protocol freeze, no task acceptance is granted or implied."
+  ]
+}
