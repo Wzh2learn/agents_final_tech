@@ -1,0 +1,48 @@
+{
+  "criterion": {
+    "early_stop": "stop on first criterion failure; qualification FAIL -> STOP_THIS_PANEL permanent (no fifth round)",
+    "pass": "all 3 probes: HTTP 200, validate_v2 route=strict_json and ok=true (schema-legal, no prose, complete fields)",
+    "zero_transmission_startup_failures": "engineering retry allowed once (max 2 service starts); frozen components/prompts/schema must not change; requests sent count"
+  },
+  "probes": [
+    {
+      "probe_id": "S4CQ-01-plan-history-01",
+      "provenance": {
+        "cross_check": "context verbatim-substring of final failure prompt.txt (plan-3)",
+        "evidence": "S4B_BRIDGE_PROTOCOL_RECEIPT.json probes[0] context (item_c5d72f59a7d7)"
+      },
+      "stage": "plan",
+      "task_prompt": "{\"arm\":\"B\",\"arm_context\":{\"content\":\"\",\"type\":\"none\"},\"evidence\":{\"period_early\":\"2017\",\"period_late\":\"2019\",\"requested_quantity\":\"increase\",\"row_label\":\"Total vessel values including newbuildings (broker values)\",\"source_unit\":\"unit\",\"table\":[[\"USDm\",\"2019\",\"2018\",\"2017\"],[\"Net Asset Value per share\",\"\",\"\",\"\"],[\"Total vessel values including newbuildings (broker values)\",\"1,801.5\",\"1,675.1\",\"1,661.1\"],[\"Committed CAPEX on newbuildings\",\"-51.2\",\"-258.0\",\"-306.9\"],[\"Cash position\",\"72.5\",\"127.4\",\"134.2\"],[\"Loans receivables\",\"4.6\",\"-\",\"-\"],[\"Bunkers\",\"34.8\",\"39.4\",\"33.2\"],[\"Freight receivables\",\"89.8\",\"86.0\",\"71.3\"],[\"Other receivables\",\"6.2\",\"7.5\",\"11.8\"],[\"Other plant and operating equipment\",\"4.3\",\"3.0\",\"1.9\"],[\"Land and buildings\",\"8.1\",\"-\",\"-\"],[\"Investments in joint ventures\",\"1.2\",\"0.1\",\"0.3\"],[\"Prepayments\",\"3.5\",\"2.9\",\"4.4\"],[\"Borrowings\",\"-863.4\",\"-754.7\",\"-753.9\"],[\"Trade payables\",\"-47.1\",\"-35.1\",\"-26.2\"],[\"Other liabilities\",\"-47.3\",\"-36.5\",\"-33.8\"],[\"Current tax liabilities\",\"-1.5\",\"-1.0\",\"-1.4\"],[\"Total Net Asset Value (NAV)\",\"1,016.0\",\"856.1\",\"796.0\"],[\"Total number of shares excluding treasury shares (million)\",\"74.4\",\"73.9\",\"62.0\"],[\"Total Net Asset Value per share (NAV/share) (USD)\",\"13.6\",\"11.6\",\"12.8\"]],\"target_unit\":\"unit\"},\"final_answer_format\":\"{row: <label>, periods: [<late>, <early>], delta_source: <number>, delta_target: <number>, unit: <target unit>}\",\"tool\":\"calc(expression) -> number\"}\n\nSTAGE=plan\nUse the two exact numeric evidence cells for LEFT_NUMBER and RIGHT_NUMBER.\nDo not provide the final answer in this stage.",
+      "task_prompt_sha256": "f24f86dd4c1e297c09f394b31895022e0d16a1d5763be9479bc537bc475cbbd4"
+    },
+    {
+      "probe_id": "S4CQ-02-plan-history-03",
+      "provenance": {
+        "evidence": "S4B_BRIDGE_PROTOCOL_RECEIPT.json probes[2] context (item_853ac256a93f)"
+      },
+      "stage": "plan",
+      "task_prompt": "{\"arm\":\"B\",\"arm_context\":{\"content\":\"\",\"type\":\"none\"},\"evidence\":{\"period_early\":\"2018\",\"period_late\":\"2019\",\"requested_quantity\":\"decrease\",\"row_label\":\"ASG\",\"source_unit\":\"unit\",\"table\":[[\"\",\"2019\",\"As a % of Revenue (1)\",\"2018\",\"As a % of Revenue (1)\"],[\"PSG\",\"$ 2,788.3\",\"50.5 %\",\"$ 3,038.2\",\"51.7 %\"],[\"ASG\",\"1,972.3\",\"35.7 %\",\"2,071.2\",\"35.2 %\"],[\"ISG\",\"757.3\",\"13.7 %\",\"768.9\",\"13.1 %\"],[\"Total revenue\",\"$ 5,517.9\",\"\",\"$ 5,878.3\",\"\"]],\"target_unit\":\"unit\"},\"final_answer_format\":\"{row: <label>, periods: [<late>, <early>], delta_source: <number>, delta_target: <number>, unit: <target unit>}\",\"tool\":\"calc(expression) -> number\"}\n\nSTAGE=plan\nUse the two exact numeric evidence cells for LEFT_NUMBER and RIGHT_NUMBER.\nDo not provide the final answer in this stage.",
+      "task_prompt_sha256": "b86ee4d25b9ef4d808cf281913103818e29c43d3dd6fad320c96be99e6221216"
+    },
+    {
+      "probe_id": "S4CQ-03-consume-history-03",
+      "provenance": {
+        "evidence": "S4B_BRIDGE_PROTOCOL_RECEIPT.json probes[3] context + frozen tool trace"
+      },
+      "stage": "consume",
+      "task_prompt": "{\"arm\":\"B\",\"arm_context\":{\"content\":\"\",\"type\":\"none\"},\"evidence\":{\"period_early\":\"2018\",\"period_late\":\"2019\",\"requested_quantity\":\"decrease\",\"row_label\":\"ASG\",\"source_unit\":\"unit\",\"table\":[[\"\",\"2019\",\"As a % of Revenue (1)\",\"2018\",\"As a % of Revenue (1)\"],[\"PSG\",\"$ 2,788.3\",\"50.5 %\",\"$ 3,038.2\",\"51.7 %\"],[\"ASG\",\"1,972.3\",\"35.7 %\",\"2,071.2\",\"35.2 %\"],[\"ISG\",\"757.3\",\"13.7 %\",\"768.9\",\"13.1 %\"],[\"Total revenue\",\"$ 5,517.9\",\"\",\"$ 5,878.3\",\"\"]],\"target_unit\":\"unit\"},\"final_answer_format\":\"{row: <label>, periods: [<late>, <early>], delta_source: <number>, delta_target: <number>, unit: <target unit>}\",\"tool\":\"calc(expression) -> number\"}\n\nSTAGE=consume\nUse the supplied tool trace and the evidence.\nPREVIOUS_PLAN={\"params\": {\"expression\": \"1972.3 - 2071.2\"}, \"tool\": \"calc\"}\nTOOL_RESULT={\"params\": {\"expression\": \"1972.3 - 2071.2\"}, \"returned_value\": \"-98.9\", \"tool\": \"calc\"}",
+      "task_prompt_sha256": "bd5a833f9637cdff030baa512db583847073ce89768cfb50c56d2e97979dda25"
+    }
+  ],
+  "request_settings": {
+    "max_tokens": 512,
+    "n": 1,
+    "temperature": 0,
+    "transport_retries": 0
+  },
+  "schema": "tatqa_wp2_s4c_qual_probes_v1",
+  "service_model_id": "tatqa-wp2-qwen3-8b-b968826d",
+  "source_final_failure_prompt_sha256": "6c5be077a826a945ae845b2761cb2e4189674864142a381b1c6f317ae5774fd0",
+  "source_receipt_sha256": "58d76d37acfa63faa6f34056acfa3205814fa8592aab78644b8af8381758faa7",
+  "task": "tatqa-wp2-s4c-qual-20261014"
+}
