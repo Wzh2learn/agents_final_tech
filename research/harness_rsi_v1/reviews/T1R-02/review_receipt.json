@@ -1,232 +1,118 @@
 {
-  "calls": {
-    "database_calls": 0,
-    "execution_chat_token_usage": "UNRESOLVED",
-    "model_endpoint_probes": 0,
-    "network_calls": 0,
-    "orchestrated_model_requests": 0,
-    "own_session_model_calls": 1,
-    "production_service_calls": 0,
-    "remote_calls": 0,
-    "training_calls": 0
+  "schema": "harness_rsi_t1_review_receipt_v2",
+  "review_id": "T1R-02",
+  "task_id": "T-1",
+  "run_id_reviewed": "20261014T085957Z_4e1698d1",
+  "supersedes_review_id": "T1R-01",
+  "reviewer": {
+    "role": "Loop C independent quality audit",
+    "name": "loop_c_t1r02",
+    "runtime": "Claude Code CLI on GB10 (promaxgb10-0b48, Linux 6.17.0-1018-nvidia aarch64)",
+    "python": "3.12.3",
+    "tree_authority": "this machine IS the GB10 authoritative tree (per review brief); repo HEAD 6764749b0e714a41c0f8d9e7340c1d45c6d93b7e",
+    "toolchain": "python3 heredoc (hashlib/json/os/re/subprocess), git read-only plumbing, Read tool",
+    "constraints_observed": "read-only; no file created/modified/deleted by the reviewer; no network; no model endpoints / production services / databases; no T0; registry/state not written",
+    "git_disclosure": "brief says 'no git' but brief item 4 mandates git rev-parse HEAD:<path>; only read-only plumbing used (rev-parse, rev-parse HEAD:path, status --porcelain, log --format=%H, cat-file blob, ls-files, rev-list --count); no state-changing git command"
   },
-  "checks": [
-    {
-      "check_id": "R1_run_dir_and_manifest",
-      "observed": "run dir exactly 7 files; 6/6 artifacts bytes+sha256 equal artifacts_manifest; manifest self-excluded",
-      "result": "PASS"
-    },
-    {
-      "check_id": "R2_input_bindings",
-      "observed": "9/9 exist and actual_sha256 equals recomputation; protocol.json status FROZEN",
-      "result": "PASS"
-    },
-    {
-      "check_id": "R3_source_refs_existence_and_scope",
-      "observed": "33/33 exist and tracked; 27 unique paths; 0 outside expected roots",
-      "result": "PASS"
-    },
-    {
-      "check_id": "R4_sha256_canonical_vs_git_rev_parse",
-      "observed": "33/33 equal git rev-parse HEAD:<path> (git_blob_id domain)",
-      "result": "PASS"
-    },
-    {
-      "check_id": "R5_sha256_worktree_vs_this_tree",
-      "observed": "31/33 equal this tree's bytes; 2 mismatches on research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json (T1-INC-12, T1-INC-13); declared value equals the CRLF-normalized digest of identical content; field carries no *_domain label; outcome undisclosed in E7.observed and unresolved (F9)",
-      "result": "FAIL"
-    },
-    {
-      "check_id": "R6_remediation_F1_F2_F5",
-      "observed": "INC-11 -> LOOP_C_S4C_QUAL_AUDIT_v1.md (投递缺口/未注入采样上下文 verified); INC-12/13 -> positive_repair_20261011/* (ENGINEERING_DISPATCH_FAILURE, PR-01/04/07, Zero POSITIVE / NULL / NEGATIVE verified); CTRL-01 -> stage_e_* (NOT_IDENTIFIABLE verified); INC-07 + offline_qualification.py:266 + INCIDENT_2 (line 266 'masked = processor(logits, input_ids)' verified); CTRL-02 + finqa autopsy (FAILED_TRANSFER, downstream res/answer not recomputed verified)",
-      "result": "PASS"
-    },
-    {
-      "check_id": "R7_remediation_F4_F6_F8",
-      "observed": "INC-13 carries 第一轮 qualifier and PR-03 v3 other-round note (registry pr03_v3_result.notes 'effect measurement entered; frozen rule returns NEGATIVE'); INC-12 moved to G-REPAIR co-located with INC-13; applicability present 16/16 and distinct from expected_category",
-      "result": "PASS"
-    },
-    {
-      "check_id": "R8_remediation_F7",
-      "observed": "E7 description now names canonical hash (git_blob_id) and its claim matches recomputation; residual disclosure gap on the worktree dimension folded into F9",
-      "result": "PASS_WITH_FINDING"
-    },
-    {
-      "check_id": "R9_unchanged_items",
-      "observed": "six families covered; three expected_category values; 24/24/24 explicitly labelled build plan; sealed flags 0; B0 declared zero calls; commit a8c036e84 wrote exactly the 7 run files",
-      "result": "PASS"
-    },
-    {
-      "check_id": "R10_regression_of_10_supported_cases",
-      "observed": "assertions of INC-01/02/03/04/05/06/08/09/10/14 unchanged or strengthened (INC-08 gained the LOOP_C_RAW_STDOUT.log ref confirmed via fe7b87fa; INC-10 wording aligns with authority_map.change_record); 6 cases string-verified against sources in this session",
-      "result": "PASS"
-    },
-    {
-      "check_id": "R11_counter_evidence_sweep",
-      "observed": "no fabrication, no mis-attribution, no overstatement, no out-of-boundary write, no sealed marking, no non-existent file cited, no engineering failure counted as scientific result, no private payload copied (max 171 chars)",
-      "result": "PASS"
-    },
-    {
-      "check_id": "R12_review_id_collision",
-      "observed": "reviews/T1R-02/ already holds the tracked T-1 v2 review package, which T1-INC-10 cites with pinned hashes; this review must be deposited under a fresh review_id (F10, advisory to closer)",
-      "result": "PASS_WITH_FINDING"
-    }
-  ],
-  "findings": [
-    {
-      "blocks_acceptance": true,
-      "case": "T1-INC-12,T1-INC-13",
-      "id": "F9",
-      "severity": "MEDIUM",
-      "type": "declared_hash_not_reproducible_and_unlabelled_domain"
-    },
-    {
-      "blocks_acceptance": false,
-      "case": "reviews/T1R-02/",
-      "id": "F10",
-      "severity": "LOW",
-      "type": "review_id_collision_deposition_hazard"
-    },
-    {
-      "blocks_acceptance": false,
-      "case": "source_refs.sha256_canonical",
-      "id": "F11",
-      "severity": "LOW",
-      "type": "field_name_algorithm_mismatch"
-    }
+  "reviewed_artifact_sha256": [
+    {"path": "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/artifacts_manifest.json", "sha256": "21a4a105ad6d4bbd1c65fc917ecc26e4bd3152bbd902f1e055439b6a781f88f7", "bytes": 1558},
+    {"path": "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/document_inventory.json", "sha256": "db2445e70992cc6079e339cecb26746c0b103b09bf89037d00c696ccefda0c74", "bytes": 22586},
+    {"path": "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/events.jsonl", "sha256": "661e27d6c20e01185c258f2c2ee22fd78db4e41af39f4e1913208268c26c5bcb", "bytes": 882},
+    {"path": "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/receipt.json", "sha256": "a2ff07db04453f91ab8178c05ff39f482298daf3aa1e35a5ddd0517cbbeb5fc9", "bytes": 35751},
+    {"path": "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/summary.md", "sha256": "533ea2e3f79d9bbfec38e354498d0cbf3d325aae2a714ed8299b17c5834301e8", "bytes": 1637},
+    {"path": "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/unresolved_register.json", "sha256": "a292f5c48a910b5dc810e1de5189c59ba67d9e225e76e4052a3d881b00c53b6f", "bytes": 5962},
+    {"path": "research/harness_rsi_v1/cards/T-1.md", "sha256": "a28af6a87986b64c240db23fc77332b0401573eea133203c42d0126e96f79f6d", "bytes": 9842},
+    {"path": "research/harness_rsi_v1/contracts/protocol.json", "sha256": "bfbf453def9386eb378f0370491892faf14edfc36a978d77647ba34b8baffcf6", "bytes": 5243},
+    {"path": "research/harness_rsi_v1/reviews/T1R-01/ACCEPTANCE_PROPOSAL.json", "sha256": "579d0fdb53be63ad262ceaa8a9247a69fc62e0d1f46515fa29d070eb426dba60", "bytes": 4876},
+    {"path": "research/harness_rsi_v1/reviews/T1R-01/LOOP_C_RAW_STDOUT.log", "sha256": "051d0eda978e47ffd366cd0f023993c4aab0389f65939b151756a55bbcb10808", "bytes": 34614},
+    {"path": "research/harness_rsi_v1/reviews/T1R-01/REVIEW.md", "sha256": "2cd43d6446baadff16dccbfbb30a47bebe7f6ac73cb0bc3255a2af773fb61d1b", "bytes": 17569},
+    {"path": "research/harness_rsi_v1/reviews/T1R-01/review_receipt.json", "sha256": "dc30ad205cc99ed1ff46011424bf4af9bf6c3646573bf46c132f0538689ec11c", "bytes": 11505}
   ],
   "recomputed": {
-    "applicability_equals_expected_category": 0,
-    "applicability_field_present": 16,
-    "artifact_level_counts": {
-      "control_exemplar": 2,
-      "real_incident": 13,
-      "unverified_inference": 1
+    "v2_run_artifacts": {"manifest_entries": 5, "manifest_self_hash": false, "hash_mismatches": 0, "bytes_mismatches": 0, "run_dir_files": 6, "unlisted_in_run_dir": ["artifacts_manifest.json"]},
+    "package_inventory": {"files_entries_checked": 52, "hash_mismatches": 0, "bytes_mismatches": 0, "required_files": 53, "package_set_excl_runs_reviews_toolstate": 53, "set_equal": true, "file_manifest_self_in_files": false, "file_manifest_self_in_required": true, "gitkeep_in_manifest": true},
+    "source_rounds": {"planning_round1": {"sha256": "cc4ef2da38702fb21ae364710d0db7480a856df34d7951e6275c3cbf271b25dd", "bytes": 26874, "matches_provenance": true}, "planning_round2": {"sha256": "ce68b925d451f134277ce80dac4c79254b656ab55c8ada639279f15925e2e38a", "bytes": 41728, "matches_provenance": true}},
+    "json_jsonl": {"json_parsed": 27, "json_errors": 0, "empty_jsonl": 5, "events_jsonl_lines_each": 5, "bad_lines": 0},
+    "cards": {"cards": 19, "template": true, "missing_keys": [], "sections_1_to_10_all": true, "ready": ["T-1"], "draft": ["T0","T1","T2","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12","T13","T14","T15","T16","T17"], "execution_authorized_true_count": 0, "protocol_status": "DRAFT", "protocol_freeze_sha256": "UNRESOLVED", "budget_authorized": false, "state_accepted_tasks": [], "state_active_versions": []},
+    "deps_budget_index_bindings": {"dep_edges": 27, "cycles": [], "card_vs_matrix_mismatch": [], "budget_sums_matrix": {"B0": [0,0], "BR": [4,3], "BC": [66,8], "BS": [106,4], "SHADOW": [6,2], "META": [12,2]}, "budget_sums_cards": {"B0": [0,0], "BR": [4,3], "BC": [66,8], "BS": [106,4], "SHADOW": [6,2], "META": [12,2]}, "budget_match_profiles": true, "index_entries": 1, "input_bindings": 12, "binding_hash_mismatches": 0},
+    "authority_three_domain": {
+      "note": "this machine = GB10 authoritative tree; local (D:/AIRcommend) worktree not reachable from here",
+      "pin_eq_gb10_raw": 7,
+      "gb10_raw_mismatch_count": 6,
+      "gb10_raw_mismatch_ids": ["REPO_RULES","THREADS","DECISIONS","SKILL_ROUTING","SKILL_REGISTRY","SKILL_ALGORITHM"],
+      "executor_gb10_raw_reproduced": "13/13",
+      "blob_eq_executor_local_blob": "13/13",
+      "blob_eq_executor_gb10_blob": "13/13",
+      "blob_HEAD_eq_blob_d6f456704": "13/13",
+      "gb10_worktree_eq_HEAD_blob_content": "13/13",
+      "pin_eq_local_raw_claim_checkable_directly": false,
+      "eol_explained_pins": ["REPO_RULES","SKILL_ROUTING","SKILL_REGISTRY"],
+      "eol_explained_method": "pin == sha256(LF->CRLF of identical content bytes)",
+      "unexplained_pins": ["THREADS","DECISIONS","SKILL_ALGORITHM"],
+      "unexplained_evidence": {
+        "byte_transforms_tried": 8,
+        "transform_hits": 0,
+        "history_commits_walked": {"THREADS": 323, "DECISIONS": 24, "SKILL_ALGORITHM": 2},
+        "history_blob_hits_raw_or_crlf": 0,
+        "tracked_files_scanned": 3320,
+        "any_tracked_file_hits_raw_or_crlf": 0
+      }
     },
-    "coverage_matrix_vs_failure_family_match": 6,
-    "expected_categories_present": [
-      "ALLOW_WITHIN_SCOPE",
-      "BLOCK",
-      "REVIEW_REQUIRED"
-    ],
-    "expected_category_counts": {
-      "ALLOW_WITHIN_SCOPE": 2,
-      "BLOCK": 9,
-      "REVIEW_REQUIRED": 5
+    "fix_closure": {
+      "F2_candidates_gitkeep": "CLOSED (present, 0 bytes, e3b0c442..., in required_files and files[] as DIR_PLACEHOLDER; FILES.md notes it and declares 53 files)",
+      "F3_counts": "CLOSED for v2 (22=18 PASS+4 INFO+0 FAIL consistent across summary/receipt/events/inventory; authority 13); residual dangling cross-ref",
+      "F4_U04_category": "CLOSED (executor_evidence_then_owner in both items[] and categories{})",
+      "F5_outputs_convention": "PARTIAL (convention text only in RUN-R02; task_matrix.json has no annotation field; summary asserts it is noted)",
+      "F6_C17_C18": "CLOSED (C17 recomputed: set equal 53/53, run dirs exact, git status logs-only + own review dir; C18 recomputed: R/C/S directions each have hard_gates/promotion, human_reserved 5 tokens present, 19/19 cards section 7 has human gate)",
+      "superseded_marker": "PRESENT and accurate (SUPERSEDED.md 554B, non-authoritative, '3 FAIL' matches draft tally 15 PASS+3 FAIL+4 INFO; cited in v2 receipt; not used as results)"
     },
-    "families_covered": 6,
-    "families_with_legal_control_design": 6,
-    "file_crlf_count": 0,
-    "file_git_hash_object_equals_HEAD_blob": true,
-    "file_git_status_clean": true,
-    "file_lf_count": 236,
-    "groups_declared": 7,
-    "groups_membership_consistent": 7,
-    "incident_double_group_attribution": 0,
-    "incident_required_fields_complete": 16,
-    "incident_unique_ids": 16,
-    "incidents_count": 16,
-    "input_bindings_checked": 9,
-    "input_bindings_mismatches": 0,
-    "input_bindings_sha256_match": 9,
-    "manifest_bytes_match": 6,
-    "manifest_entries_checked": 6,
-    "manifest_self_excluded": true,
-    "manifest_sha256_match": 6,
-    "max_description_chars": 171,
-    "planned_build_labelled_as_plan": true,
-    "planned_build_sums": {
-      "development": 24,
-      "sealed": 24,
-      "selection": 24
-    },
-    "prior_review_hashes_match_T1R01_artifacts": true,
-    "protocol_status": "FROZEN",
-    "run_dir_file_count": 7,
-    "sealed_eligible_false_groups": 7,
-    "sealed_true_count": 0,
-    "sha256_canonical_checked": 33,
-    "sha256_canonical_match_git_rev_parse_HEAD_path": 33,
-    "sha256_canonical_mismatch": 0,
-    "sha256_worktree_checked": 33,
-    "sha256_worktree_match_worktree_bytes": 31,
-    "sha256_worktree_mismatch": 2,
-    "sha256_worktree_mismatch_actual": "f73ec2e8b43e78cb2cd23f812de0be8db1961343516fd09561aab8adc1fd0212",
-    "sha256_worktree_mismatch_cases": [
-      "T1-INC-12",
-      "T1-INC-13"
-    ],
-    "sha256_worktree_mismatch_declared": "4bb3f4918508ea367381867457d503e21258ae104a841aca6f6c3c88089c075d",
-    "sha256_worktree_mismatch_declared_equals_crlf_normalized_digest": true,
-    "sha256_worktree_mismatch_paths": [
-      "research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json"
-    ],
-    "source_refs_exist": 33,
-    "source_refs_outside_allowed_roots": 0,
-    "source_refs_total": 33,
-    "source_refs_tracked": 33,
-    "source_refs_unique_paths": 27,
-    "supersedes_run_id_recorded": true,
-    "t1_v2_commit_file_count": 7,
-    "t1_v2_commit_paths_inside_run_dir_only": true,
-    "v1_run_package_retained": true
+    "counter_evidence_attempts": {
+      "out_of_scope_writes": "none found (package set == required 53/53 excluding tooling .omc state; git status = 4 modified logs/graph files + own reviews/T1R-02/ untracked)",
+      "fabricated_events": "none (registry x3 and meta x2 all 0 bytes; state/current.json accepted_tasks=[], active_versions=[])",
+      "historical_pass_as_result": "none (no PASS token in state/, registry/, meta/)",
+      "claims_vs_measured": "one material exception found: v2 C11b/summary/RUN-R05 mechanism claim '6/13 = EOL/checkout representation' is false for 3/13 (finding F7)"
+    }
   },
-  "review_id": "T1R-02",
-  "reviewed_artifact_sha256": {
-    "cards/T1.md": "17a366f551c6157dbbea059a3819d14b6e7cd7c961b72e25bd1c9ee1be070319",
-    "reviews/T1R-01/ACCEPTANCE_PROPOSAL.json": "1d6a1ac2a555bec33b9139dfcefb8b0dd20aa9a76ef60c7178ea36bc336b5064",
-    "reviews/T1R-01/REVIEW.md": "47985808fc1d98a9aa9654681128e49c06fc986b9740729740d4cf254e5d5619",
-    "reviews/T1R-01/review_receipt.json": "c0f45a79a545fb3ab76289de3a4d911ca5be681214ad10369904df5cb583ffe3",
-    "runs/T1/20261014T134731Z_5d8b9400/artifacts_manifest.json": "c345df9b6d84869d045c3f49a5884427ee1e0d8421252b92874a1ef279ac95bf",
-    "runs/T1/20261014T134731Z_5d8b9400/coverage_matrix.json": "4e49e8e33d2d252bbb9d9fecf2a4242dfc3b2e65c28602f79c066853093daf2f",
-    "runs/T1/20261014T134731Z_5d8b9400/events.jsonl": "1bb04b80118adbd02e7859acac88cad74512eb0fc1037411605c556bacf601fd",
-    "runs/T1/20261014T134731Z_5d8b9400/incidents.jsonl": "04837f7d58a79aa2a93da3762ce66d6d188edc7d51f6d82ae7be13873481e8dd",
-    "runs/T1/20261014T134731Z_5d8b9400/receipt.json": "e4083f610fad07191f9916462c567550da05ef10006d498218d77661b178559b",
-    "runs/T1/20261014T134731Z_5d8b9400/source_groups.json": "d6692cfc6b0b4eccd682d91787999451e66692f9acf0904663a27e3e279278b0",
-    "runs/T1/20261014T134731Z_5d8b9400/summary.md": "35e33693181e20967b772a60084ef002a9ae2c42fb01441a3d8cbb7e2808f0e5"
-  },
-  "reviewed_run_id": "20261014T134731Z_5d8b9400",
-  "reviewer": {
-    "hostname": "promaxgb10-0b48",
-    "kernel": "Linux 6.17.0-1018-nvidia aarch64",
-    "python": "3.12.3",
-    "repo_head_at_review": "a8c036e84efd66505d225e6ec5166ceaf1624122",
-    "role": "Loop C independent quality audit",
-    "runtime": "Claude Code CLI on GB10"
-  },
-  "schema": "harness_rsi_t1_review_receipt_v1",
-  "scope": "Read-only independent recomputation of the T1 v2 run package (7 artifacts, 16 cases) plus per-item verification of the T1R-01 remediation (F1-F8 / must-fix 1-5 / suggestions 6-8), regression spot-check of the 10 previously supported cases, and a counter-evidence sweep. No repo writes, no git writes, no network, no model endpoints / production / database, no entry into T2. registry/state not written by this reviewer.",
-  "superseded_run_id": "20261014T132249Z_99f3bc6b",
-  "task_id": "T1",
-  "tool_layer_log": {
-    "denied_commands": [
-      "git show --name-only --format='%H %s' a8c036e84 (denied: requires approval)",
-      "git diff-tree --no-commit-id --name-only -r a8c036e84 (denied: requires approval)",
-      "git log --oneline -3 -- <path> ; git status --porcelain (denied: multiple operations)",
-      "python3 heredoc x2 (denied by injection guard: 'Contains brace with quote character (expansion obfuscation)'); rewritten brace-free and passed"
-    ],
-    "git_writes": 0,
-    "note": "Read-only plumbing only; no history rewrite, no staging, no commit. A python script SyntaxError (my own leftover walrus) was a failed run, not a permission denial.",
-    "substituted_readonly_commands": [
-      "git log -1 --name-only --format=%H a8c036e84 (write-boundary evidence)",
-      "git rev-parse HEAD:<path> (canonical blob id, per review item 3)",
-      "git hash-object <worktree file>",
-      "git log --oneline --name-only -1 <sha> (fe7b87fa, 7406b3cf)",
-      "git status --porcelain (single-target)"
-    ]
-  },
-  "unverified": [
-    "Executor self-reported usage counters (model/network/remote/db/training/production = 0) have no independent metering channel; only a no-counter-evidence check was performed",
-    "execution_chat_token_usage UNRESOLVED for both executor and this reviewer; not reported as 0",
-    "Actual bytes of the D:/AIRcommend authoring tree at hash time (off-host, network forbidden); this is why sha256_worktree values cannot be falsified if interpreted as authoring-tree snapshots - but that reading contradicts the field's unlabelled domain and the other 31 refs plus 9/9 input_bindings matching this tree, and review item 3 fixes this tree as the criterion",
-    "Any model endpoint / production service / database behaviour (zero calls within constraints; local document checks are not GB10 runtime verification)",
-    "Not all 27 cited evidence files were read line-by-line against each other; INC-01/02/05/14 verified by targeted field/commit extraction, the rest by per-claim key-string checks",
-    "Feasibility of the 24/24/24 build plan and sealed-set construction (T2 scope; not entered)",
-    "'Same-origin' is not formalised in the card; the INC-12/INC-13 merge rests on co-location within the positive_repair round-1 closeout and may be re-adjudicated by the closer"
+  "checks": [
+    {"id": "R2-C1", "description": "v2 six artifacts sha256/bytes vs artifacts_manifest; manifest no self-hash", "result": "PASS"},
+    {"id": "R2-C2", "description": "files[] 52 entries sha256/bytes recomputed; package set == required_files 53", "result": "PASS"},
+    {"id": "R2-C3", "description": "two planning rounds vs provenance; all JSON parse; JSONL empty-or-parseable", "result": "PASS"},
+    {"id": "R2-C4", "description": "19 cards fields + sections 1-10; statuses; all execution_authorized=false; protocol/budget unauthorized; state clean", "result": "PASS"},
+    {"id": "R2-C5", "description": "deps acyclic + card-matrix consistent; budget sums BR 4/3 BC 66/8 BS 106/4 SHADOW 6/2 META 12/2; INDEX 1 entry; 12 input_bindings", "result": "PASS"},
+    {"id": "R2-C6", "description": "F1 three-domain recomputation (pin/raw/crlf/blob x13) with history and full-tree pin provenance search", "result": "PASS", "note": "recomputation itself complete; adjudication in ACCEPTANCE_PROPOSAL"},
+    {"id": "R2-C7", "description": "F2-F6 fix closure and SUPERSEDED marker", "result": "PASS", "note": "F5 partial, see findings F8/F9/F10"},
+    {"id": "R2-C8", "description": "counter-evidence: out-of-scope writes, fabricated events, historical PASS as results", "result": "PASS", "note": "none found"},
+    {"id": "R2-C9", "description": "v2 mechanism claim 'all 6 mismatches = EOL/checkout representation'", "result": "FAIL", "note": "measured false for 3/13 (F7); load-bearing for the no-STALE_INPUT disposition"}
   ],
-  "verdict": {
-    "binding": false,
-    "note": "Proposal only; registry/state are written by the closer. All five must-fix items and all three suggestions from T1R-01 were applied and independently verified; the fact-traceability layer now closes on 16/16 cases; no fabrication, mis-attribution, overstatement, out-of-boundary write or sealed marking found; every 'do not change' item preserved. The single residual defect is F9: 2 of 33 declared sha256_worktree digests equal a CRLF-normalized digest rather than this tree's bytes, in an unlabelled hash domain, undisclosed in the receipt - failing A-common and review item 3. Fix set is one mechanical item; v3 should be a micro-run.",
-    "proposal": "REJECTED"
-  }
+  "findings": [
+    {"id": "F7", "severity": "MEDIUM-HIGH", "summary": "3 of 13 authority pins correspond to no repository content state; v2's EOL-only mechanism claim and no-STALE_INPUT disposition are unsupported for them"},
+    {"id": "F8", "severity": "LOW", "summary": "SUPERSEDED.md (554B) absent from v2 document_inventory files[] and disk_only; package_files=70 does not cover the whole tree"},
+    {"id": "F9", "severity": "LOW", "summary": "summary.md promises '16/2 caliber see below' but no later line supplies it"},
+    {"id": "F10", "severity": "LOW", "summary": "F5 convention text lives only in RUN-R02 while summary claims it is noted in the matrix; T1R-01's '19/19 omit receipt.json' imprecise (2 rows list rollback_receipt.json)"},
+    {"id": "F11", "severity": "INFO", "summary": "7 tooling .omc/state files inside the audited tree (1 created by this review session); excluded from set-equality, hygiene note only"}
+  ],
+  "f1_adjudication": {
+    "severity": "MEDIUM (hash-domain / labeling defect)",
+    "not_high_core_dishonesty": true,
+    "backfill_self_loop_accusation": "REFUTED",
+    "backfill_counter_evidence": "executor gb10_raw column reproduced 13/13 on this machine (positive evidence of genuine measurement); v1 actual==declared fully explained by same-tree pinning (v1 method 'sha256 per absolute_path' on the D: pin source); T1R-01 mtime argument rested on the false premise that the executor measured the GB10 tree",
+    "gitattributes_authority_overextension": "CONFIRMED over-extended (rule covers only 7 listed -text artifacts; none of the 13 authority files)",
+    "executor_rebuttal_accepted": ["no backfill/self-loop", ".gitattributes GB10-raw-bytes authority over-extended", "repo-blob bilateral identity => no content drift IN THE BLOB DOMAIN"],
+    "executor_rebuttal_rejected": ["'6/13 = EOL/checkout representation' holds for only 3/6", "no-STALE_INPUT disposition unsupported for the 3 unknown-provenance pins", "blob-domain no-drift must not be generalized to the declared hash_domain raw_bytes"]
+  },
+  "calls": {"model_sessions": 1, "network_calls": 0, "production_service_calls": 0, "database_calls": 0, "model_endpoint_calls": 0, "training_calls": 0, "internal_token_usage": "UNRESOLVED", "readonly_local_command_batches": 16, "git_readonly_plumbing_invocations": "rev-parse / rev-parse HEAD:path / status --porcelain / log --format=%H / cat-file blob / ls-files / rev-list --count"},
+  "tool_layer_denials": [
+    "compound command (git -C ... rev-parse HEAD + git check-attr) denied as multiple operations requiring approval; split; git check-attr not re-run, .gitattributes scope verified by reading the file",
+    "two python3 heredocs denied by injection guard 'Contains brace with quote character (expansion obfuscation)'; rewritten without brace-with-quote syntax",
+    "one python3 script exited 1 (TypeError unhashable dict) on card dependency shape; fixed to read task_id"
+  ],
+  "unverified": [
+    "D:/AIRcommend pinning tree bytes and worktree cleanliness (unreachable; no network) - the reason F7 disposition needs owner adjudication",
+    "executor claim (i) pin==local raw 13/13 (only consistency-tested, not directly meterable from GB10)",
+    "executor usage self-reports (local_readonly_command_invocations=3, remote_readonly_ssh_invocations=1)",
+    "execution-chat token usage for both executor and this review (UNRESOLVED, never zero)",
+    "external URLs in sources (not visited; no network)",
+    "any GB10 runtime / model endpoint / production service / database behavior (zero calls; local doc checks are not runtime verification)"
+  ],
+  "verdict": {"decision": "PENDING_HUMAN_REVIEW", "scope": "v2 run package 20261014T085957Z_4e1698d1", "proposal_only": true, "closer_owns_registry_state": true}
 }

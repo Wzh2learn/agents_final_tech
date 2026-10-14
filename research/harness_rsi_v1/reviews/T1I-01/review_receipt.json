@@ -1,0 +1,217 @@
+{
+  "calls": {
+    "database_calls": 0,
+    "execution_chat_token_usage": "UNRESOLVED",
+    "model_endpoint_probes": 0,
+    "network_calls": 0,
+    "orchestrated_model_requests": 0,
+    "own_session_model_calls": 1,
+    "production_service_calls": 0,
+    "remote_calls": 0,
+    "training_calls": 0
+  },
+  "checks": [
+    {
+      "check_id": "R1_artifacts_vs_manifest",
+      "observed": "6/6 bytes+sha256 equal artifacts_manifest; run dir exactly 7 files; manifest self-excluded",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R2_input_bindings",
+      "observed": "9/9 (card 7 inputs + STOP_S4 + PREFLIGHT) exist and actual_sha256 equals recomputation",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R3_source_refs_existence",
+      "observed": "31/31 paths exist; 23 unique paths",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R4_source_refs_hash",
+      "observed": "29/31 match; 2 mismatch on memory/THREADS.md (declared 0653ff3d... vs actual 39ba8d56...); violates A-common 'declared hashes equal actual'",
+      "result": "FAIL"
+    },
+    {
+      "check_id": "R5_case_fact_verification",
+      "observed": "16 cases: 10 supported, 4 insufficient citation, 1 overstatement, 1 mis-attribution",
+      "result": "FAIL"
+    },
+    {
+      "check_id": "R6_A1_fields_and_controls",
+      "observed": "16/16 source+expected_category+family present; legal_control_design 16/16; 6/6 families covered; no dedicated applicability field (F8)",
+      "result": "PASS_WITH_FINDING"
+    },
+    {
+      "check_id": "R7_A2_grouping_and_sealed",
+      "observed": "7/7 group membership consistent; 0 double attribution; 0 sealed flags; all development_or_calibration_only; same-origin cluster split INC-12/INC-13 (F6)",
+      "result": "PASS_WITH_FINDING"
+    },
+    {
+      "check_id": "R8_A3_no_copy_no_rerun",
+      "observed": "max description 171 chars; no private payload copied; declared zero calls; no counter-evidence found",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R9_budget_B0_and_write_scope",
+      "observed": "B0 declared all-zero usage; T1 commit 87027f08 wrote only the 7 run artifacts; 24/24/24 explicitly labelled build plan not current counts",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R10_counter_evidence_sweep",
+      "observed": "no out-of-boundary write; no engineering failure counted as scientific result; no non-existent file cited; no publicly-reviewed case marked sealed",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R11_receipt_claim_calibration",
+      "observed": "E7 description 'All source_refs verified against the working tree' exceeds its method 'existence check per ref'; 2 hash mismatches undisclosed (F7)",
+      "result": "FAIL"
+    }
+  ],
+  "findings": [
+    {
+      "case": "T1-INC-11",
+      "id": "F1",
+      "severity": "HIGH",
+      "type": "mis_attribution"
+    },
+    {
+      "case": "T1-INC-12,T1-INC-13,T1-CTRL-01",
+      "id": "F2",
+      "severity": "HIGH",
+      "type": "insufficient_citation_ledger_only"
+    },
+    {
+      "case": "T1-INC-12,T1-INC-13",
+      "id": "F3",
+      "severity": "HIGH",
+      "type": "declared_hash_mismatch_A_common"
+    },
+    {
+      "case": "T1-INC-13",
+      "id": "F4",
+      "severity": "MEDIUM",
+      "type": "overstatement_scope"
+    },
+    {
+      "case": "T1-INC-07,T1-CTRL-02",
+      "id": "F5",
+      "severity": "MEDIUM",
+      "type": "insufficient_citation_clause"
+    },
+    {
+      "case": "T1-INC-12,T1-INC-13",
+      "id": "F6",
+      "severity": "MEDIUM",
+      "type": "same_origin_cross_group"
+    },
+    {
+      "case": "receipt.E7",
+      "id": "F7",
+      "severity": "LOW",
+      "type": "claim_overreach_in_receipt"
+    },
+    {
+      "case": "all",
+      "id": "F8",
+      "severity": "LOW",
+      "type": "A1_field_conflation"
+    }
+  ],
+  "key_evidence_sha256": {
+    "docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md": "340794d244aa29f1846c02f04237cb6d757d6f0e73dcfc229f7f2431fafedf67",
+    "docs/research/stage_e_matched_fpr_reanalysis_v1.md": "611b2c2f2e2cabf62a007e281fcd999f913df2f4e220474f7d1a31a1ce4bc1e9",
+    "memory/THREADS.md": "39ba8d563839144817c23da598acb4f1ca595a5b9e77d8c7dd0623bac27ec11f",
+    "research/harness_rsi_v1/runs/T-1/20261014T085638Z_ba9297ac/SUPERSEDED.md": "afe6374d900c4721ac4a88a84cc467918c3fb39f5300866d187e66a84add56da",
+    "research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json": "f73ec2e8b43e78cb2cd23f812de0be8db1961343516fd09561aab8adc1fd0212",
+    "research/positive_repair_20261011/ROUND1_CLOSEOUT_v1.md": "d17bf7d7db9c82ede932972a0da21ca6d85431245b30a780524f33d51be834b5",
+    "research/tatqa_wp0_2026/wp2/BRIDGE_V2_RECEIPT.json": "06884282c247da47e6486c54872748934648d77235b52368b5ad6f1886ed9fc4",
+    "research/tatqa_wp0_2026/wp2/LOOP_C_S4C_QUAL_AUDIT_v1.md": "60ff75dd0c1ec312dd65109bc6bf1b05580ea41af0d8d14125405683bcb9cf3f",
+    "research/tatqa_wp0_2026/wp2/S4B_STOP_RECEIPT.json": "a9ade4a299af89c326b8622cb88b4a174e40b9b532cbbfb348af84bf345aa153",
+    "research/tatqa_wp0_2026/wp2/S4C_ONLINE_QUALIFICATION_RECEIPT.json": "7f0cdc28ec05aca8a40c579e26b99e9377371e2867af3a536835abf34f608eb3",
+    "research/tatqa_wp0_2026/wp2/s4c_qual_run/INCIDENT_1_runner_import_failure.txt": "3971ffe626d3d5085778d5098d6893f0e70cc8e06bcb2edd342820ace4339d39",
+    "research/tatqa_wp0_2026/wp2/s4c_qual_run/INCIDENT_2_online_processor_failure.txt": "4aad1034a7dd6221a6b765ad64ba42794efbc18c836c1a1a0853f3da09a3e20e",
+    "research/tatqa_wp0_2026/wp2/s4c_qual_run/processor_interface_diagnosis_output.json": "653ca69818afb7e36d03070e73024711a94b1ec7622aad07c2c0fbb827f3163c"
+  },
+  "recomputed": {
+    "artifact_levels": {
+      "control_exemplar": 2,
+      "real_incident": 13,
+      "unverified_inference": 1
+    },
+    "coverage_matrix_vs_failure_family_match": 6,
+    "expected_categories_present": [
+      "ALLOW_WITHIN_SCOPE",
+      "BLOCK",
+      "REVIEW_REQUIRED"
+    ],
+    "families_covered": 6,
+    "families_with_legal_control_design": 6,
+    "git_commit_7406b3cf_exists": true,
+    "git_commit_fe7b87fa_exists": true,
+    "groups_declared": 7,
+    "groups_membership_consistent": 7,
+    "incident_double_group_attribution": 0,
+    "incident_required_fields_complete": 16,
+    "incident_unique_ids": 16,
+    "incidents_count": 16,
+    "input_bindings_checked": 9,
+    "input_bindings_mismatches": 0,
+    "input_bindings_sha256_match": 9,
+    "manifest_bytes_match": 6,
+    "manifest_entries_checked": 6,
+    "manifest_self_excluded": true,
+    "manifest_sha256_match": 6,
+    "max_description_chars": 171,
+    "run_dir_file_count": 7,
+    "sealed_eligible_false_groups": 7,
+    "sealed_true_count": 0,
+    "source_refs_exist": 31,
+    "source_refs_sha256_match": 29,
+    "source_refs_sha256_mismatch": 2,
+    "source_refs_total": 31,
+    "source_refs_unique_paths": 23,
+    "t1_commit_file_count": 7,
+    "t1_commit_paths_inside_run_dir_only": true
+  },
+  "review_id": "T1R-01",
+  "reviewed_artifact_sha256": {
+    "cards/T1.md": "17a366f551c6157dbbea059a3819d14b6e7cd7c961b72e25bd1c9ee1be070319",
+    "contracts/authority_map.json": "dd72a5497e542209451bfddc43b470d75a8c8164110a57c3642b54a955461972",
+    "contracts/protocol.json": "c695780364b5672caf90a991176232c174a85615f1df19628c813690fa3ef127",
+    "evaluation/reliability_spec.md": "1856da0654e0c57d2e35d395de4df8b220f8989020a6cc61de0c39cb3ad7494d",
+    "evaluation/split_registry.json": "15397abca0a182182d51501291933a2f42347a956a6590eaf504cd5af6eb79f4",
+    "runs/T1/20261014T132249Z_99f3bc6b/artifacts_manifest.json": "3751ab24ef7a3fe5235d84d4437216aac5b453eab85d91ae3c585942e3073acf",
+    "runs/T1/20261014T132249Z_99f3bc6b/coverage_matrix.json": "8679242092eeb3b11a7162f84758b5c6cee60234ac9a4bb8167a911cd9f46d57",
+    "runs/T1/20261014T132249Z_99f3bc6b/events.jsonl": "71e25441825b8ae654b36b1165d2f5796afdde818dcd48fec7fbab893b52dc12",
+    "runs/T1/20261014T132249Z_99f3bc6b/incidents.jsonl": "c60429a72c5e71ca33e613d110bd6fd583c3244c7ddbc89a1a790719c92a9888",
+    "runs/T1/20261014T132249Z_99f3bc6b/receipt.json": "71f45e3f63d04207d435bd0939df080512e6181be3fda7b88847e7009f996592",
+    "runs/T1/20261014T132249Z_99f3bc6b/source_groups.json": "d3263f1118ca176baca528368cda2e11ee2f4ff546f5ab4b85fcb2a45ea2e707",
+    "runs/T1/20261014T132249Z_99f3bc6b/summary.md": "24fb1ac5720a4402834d57e55a508dea797af9163c764f652934d3a93022bd8f"
+  },
+  "reviewed_run_id": "20261014T132249Z_99f3bc6b",
+  "reviewer": {
+    "hostname": "promaxgb10-0b48",
+    "kernel": "Linux 6.17.0-1018-nvidia aarch64",
+    "python": "3.12.3",
+    "repo_head_at_review": "87027f084f2a3664d9cb7c1eebae3ebf8f51338c",
+    "role": "Loop C independent quality audit",
+    "runtime": "Claude Code CLI on GB10"
+  },
+  "schema": "harness_rsi_t1_review_receipt_v1",
+  "scope": "Read-only independent recomputation plus per-case fact verification of the 16 T1 reliability incident cases; no repo writes, no git writes, no network, no model endpoints / production / database, no entry into T2. registry/state not written by this reviewer.",
+  "task_id": "T1",
+  "unverified": [
+    "Executor self-reported usage counters (model/network/remote/db/training/production = 0) have no independent metering channel; only no-counter-evidence check performed",
+    "execution_chat_token_usage UNRESOLVED for both executor and this reviewer; not reported as 0",
+    "Actual bytes and cleanliness of the D:/AIRcommend tree at pin time (off-host, network forbidden); does not affect the F3 mismatch finding, which is stated against this tree",
+    "Any model endpoint / production service / database behaviour (zero calls within constraints; local document checks are not GB10 runtime verification)",
+    "Not all 31 cited evidence files were read line-by-line against each other; T1-INC-01/02/08/14 verified by targeted field/commit extraction",
+    "Feasibility of the 24/24/24 build plan (T2 scope; this review does not enter T2)",
+    "'Same-origin' is not formalised in the card; F6 rests on co-location within ROUND1_CLOSEOUT_v1.md and may be re-adjudicated by the closer"
+  ],
+  "verdict": {
+    "binding": false,
+    "note": "Proposal only. registry/state are written by the closer. Package skeleton (integrity, structure, family coverage, B0, write scope) recomputed clean; the fact-traceability layer fails on 5 of 16 cases plus 2 declared hashes. No fabrication detected. Fix set is mechanical (record layer), no owner adjudication required.",
+    "proposal": "REJECTED"
+  }
+}

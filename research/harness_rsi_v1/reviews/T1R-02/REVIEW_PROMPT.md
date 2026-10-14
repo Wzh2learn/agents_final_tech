@@ -1,40 +1,33 @@
-# Loop C 复审任务 T1R-02：harness_rsi_v1 T1 v2（T1R-01 返工核验）
+# Loop C 独立复审任务 T1R-02：harness_rsi_v1 T-1 v2 运行包 + F1 争议仲裁
 
-你是在 GB10 上运行的 Loop C（独立质量审计层）。只做独立复审：不修改任何文件、不 git 写、不联网、不调模型端点/生产/数据库、不进入 T2。输出只写 stdout。
+你是在 GB10 上运行的 Loop C（独立质量审计层）。只做独立复审：不修改任何仓库文件、不 git、不通过自身运行以外的网络、不调用模型端点/生产服务/数据库、不进入 T0。全部输出只写 stdout。
 
 ## 背景
-- 你（同角色）此前对 T1 v1（run 20261014T132249Z_99f3bc6b）给出 **REJECTED**（F1–F8 + 必改①②③④⑤ / 建议⑥⑦⑧ / 不动清单）。
-- 执行者已交付 **T1 v2**：`research/harness_rsi_v1/runs/T1/20261014T134731Z_5d8b9400/`（7 件；16 例）。v1 保留不删；v2 receipt 记录 supersedes_run_id。
-- 你的职责：独立核验返工是否落实、且未破坏"不动"部分；给出提案（ACCEPTED/REJECTED/PENDING_HUMAN_REVIEW）针对 v2。
+- 你（或同角色）此前完成 T1R-01 复评，对 v1（run 20261014T072826Z_6f19a394）给出 **REJECTED** 提案与 F1–F6。
+- 执行者随后完成修复轮：R1（candidates/.gitkeep + FILE_MANIFEST/FILES.md 同步，并在后续补钉 FILES.md 条目）、R2（v2 重跑 run **20261014T085957Z_4e1698d1**，22 项 = 18 PASS + 4 INFO + 0 FAIL），并对 F1 提出**反驳与降级**仲裁（要点：pin=本地工作树字节且可复现；repo blob 双边逐字一致=无内容漂移；GB10 原始字节差异=EOL/检出表示；".gitattributes GB10-raw-bytes 权威"被扩大适用；"回填/自相循环"不成立）。另有一个被废弃的草案目录 runs/T-1/20261014T085638Z_ba9297ac/（内含 SUPERSEDED.md，勿当作结果）。
+- 你的职责：独立复审 v2 运行包与修复是否成立，并对 F1 争议给出你自己的结论；输出**提案**（ACCEPTED/REJECTED/PENDING_HUMAN_REVIEW，针对 v2）。state/registry 不由你写。
 
 ## 必读（只读）
-`cards/T1.md`、`evaluation/reliability_spec.md`、`reviews/T1R-01/{REVIEW.md, review_receipt.json, ACCEPTANCE_PROPOSAL.json}`、v1 与 v2 的 run 包、被引真源文件。
+1. 仓库 AGENTS.md；2. `research/harness_rsi_v1/README.md`、`cards/T-1.md`、`contracts/{protocol,authority_map,execution_policy,budget_profiles,schemas}.json`、`sources/provenance.json`；3. v2 run 六件全文（`runs/T-1/20261014T085957Z_4e1698d1/`）；4. v1 run 六件（`runs/T-1/20261014T072826Z_6f19a394/`）；5. `reviews/T1R-01/` 四件 + 原始 log；6. `runs/T-1/20261014T085638Z_ba9297ac/SUPERSEDED.md`。
 
-## 必须独立复算
-1. v2 六件产物 vs manifest；run 目录恰 7 件；v2 receipt 的 input_bindings（9 条）实算一致。
-2. **返工核验（逐项）**：
-   ① INC-11 的 ref 是否为 `research/tatqa_wp0_2026/wp2/LOOP_C_S4C_QUAL_AUDIT_v1.md` 且该文含"投递缺口/未注入采样上下文"关键串；
-   ② INC-12/13 的 ref 是否指向 `research/positive_repair_20261011/{POSITIVE_REPAIR_REGISTRY_v1.json, ROUND1_CLOSEOUT_v1.md}` 且含 `ENGINEERING_DISPATCH_FAILURE` 与 `PR-01/PR-04/PR-07`、`Zero POSITIVE / NULL / NEGATIVE` 等关键串；CTRL-01 是否指向 `docs/research/stage_e_matched_fpr_reanalysis_v1.md` 且含 `NOT_IDENTIFIABLE`；
-   ③ 全部 source_refs 的 `sha256_canonical`（git_blob_id）是否 = `git rev-parse HEAD:<path>` 实算（逐条）；`sha256_worktree` 是否 = 本树实算；
-   ④ INC-13 `observed_fact` 是否含"第一轮"限定与"PR-03 v3 属另一轮"说明；
-   ⑤ INC-07 是否补引 `bridge_v2/offline_qualification.py`（第 266 行 `processor(logits, input_ids)` 可验证）与 INCIDENT_2；CTRL-02 是否补引 `docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md`（含 `FAILED_TRANSFER` 与"下游 res/answer 未重算"）；
-   ⑥ INC-12 是否已并入 `G-REPAIR`（并与 INC-13 同组）；
-   ⑦ `receipt.E7` 描述是否覆盖哈希域且与 method 一致；
-   ⑧ 每例是否新增 `applicability` 字段且与 `expected_category` 分列。
-3. **不动项复核**：六族覆盖、三类 expected_category、24/24/24 仅构建计划、无 sealed、B0 零调用、写入边界（git show --name-only a8c036e84）是否仍成立。
-4. **回归核验**：v1 中被判"支撑"的 10 例（INC-01/02/03/04/05/06/08/09/10/14）在 v2 中的断言是否仍与其被引件一致（可抽验 3-5 例）。
-5. 反证尝试：是否仍有错误归因/过度陈述/声明哈希失配/越界写入/伪造。
+## 必须独立复算（记录命令与退出码；工具箱已放行 python3(含 -c/heredoc) 与 xargs；**避免 find -exec 与 $(...)（Claude Code 注入防护硬拦截）**；若某命令被拒请如实记录并改用等价写法）
+1. v2 六件产物 SHA-256/字节 vs 其 artifacts_manifest（manifest 不自哈希）。
+2. 包清单（排除 runs/、reviews/ 后）与 FILE_MANIFEST `required_files` 集合逐项一致；`files[]` 52 条逐件 bytes/sha256 实算一致（**特别复核 FILES.md 条目已被重钉**）；两轮原文与 provenance 一致；全部 JSON 解析、空 JSONL 核对。
+3. 19 卡字段/§1–§10/状态/授权；依赖无环且卡↔矩阵依赖一致；预算 BR 4/3、BC 66/8、BS 106/4、SHADOW 6/2、META 12/2；docs/INDEX.md 恰 1 条入口；12 条 input_bindings。
+4. **F1 争议的三域复算**（核心）：对 authority_map 13 条逐条计算：本地工作树 raw SHA-256（`sha256sum`）、本地 repo blob（`git rev-parse HEAD:<path>`）、GB10 工作树 raw 与 blob（本机即权威树）。检验执行者三项主张：(i) pin==本地 raw 13/13；(ii) 本地 blob==GB10 blob 13/13（=> 无内容漂移）；(iii) 恰好 6/13 GB10 raw≠pin。然后给出你对 F1 的独立结论：它是"HIGH/核心失信（含回填指控）"还是"MEDIUM 哈希域/标注缺陷"，并说明你接受/不接受执行者哪些反驳点；若你仍持"回填/自循环"判断，请给出可复核的实测证据。
+5. 修复闭合核验：F2（candidates/.gitkeep 入库且双树存在、manifest 含该条目）；F3（v2 summary 计数与机器可读产物一致）；F4（unresolved_register U04 分类口径自洽）；F5（矩阵 outputs 约定注明）；F6（C17 写入边界、C18 R/C/S+人工门检查存在且可复算）；草案目录是否有 SUPERSEDED 标记且未被当作结果。
+6. 反证尝试：v2 是否仍存在越界写入、伪造事件、历史 PASS 当结果、声称与实测不符等。
 
 ## 硬性约束
-全程只读；不 git 写；不联网；不调端点/服务/数据库；不进入 T2。避免 `find -exec` 与 `$(...)`（注入防护）；被拒命令如实记录。
+- 全程只读；不得创建/修改/删除任何文件；工作目录为仓库根；不 git；不联网；不调用端点/服务/数据库；不进入 T0。
 
-## 输出（仅 stdout；三块标记，机器逐字转写；**不要在三块之外添加多余分隔行**）
+## 输出（仅 stdout；三个标记块，机器将逐字转写）
 === FILE: REVIEW.md ===
-（Markdown：范围；逐项结果与命令；F1–F8 返工逐条裁定（已修/未修/部分）；回归结论；发现（若有）；FACT/INFERENCE/UNVERIFIED；对 v2 的判定与理由）
+（Markdown：范围；逐项检查结果与命令；对 F1 争议的独立结论；发现 Fx（含严重度/证据）；FACT/INFERENCE/UNVERIFIED 分列；未验证面；对 v2 的判定与理由）
 === FILE: review_receipt.json ===
-（JSON：reviewer/runtime；reviewed_artifact_sha256（v2 七件 + T1 卡 + T1R-01 三件）；recomputed；checks；calls（自身会话 1；network/services/db 0；token UNRESOLVED）；unverified；verdict）
+（JSON：reviewer/runtime；reviewed_artifact_sha256（v2 六件 + T-1 卡 + protocol + T1R-01 四件）；recomputed 实测（含三域表）；checks；calls（自身模型会话 1；network/services/db 0；内部 token UNRESOLVED）；unverified；verdict）
 === FILE: ACCEPTANCE_PROPOSAL.json ===
-（JSON：decision ∈ {ACCEPTED, REJECTED, PENDING_HUMAN_REVIEW}；reviewed_artifact_sha256；scope；justification；dissent）
+（JSON：decision ∈ {ACCEPTED, REJECTED, PENDING_HUMAN_REVIEW}（针对 v2）；reviewed_artifact_sha256；scope；justification；dissent）
 === END ===
 
-重申：只写提案；registry/state 由收口者更新。
+重申：只写提案；registry/state 由收口者更新。不要进入 T0。

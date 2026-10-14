@@ -1,55 +1,53 @@
 {
-  "binding": false,
-  "decision": "REJECTED",
-  "decision_id": "T1R-02",
-  "dissent": {
-    "internal": "The runner-up disposition was ACCEPTED with an advisory, on the grounds that the authoritative identity domain (sha256_canonical = git blob id, domain-labelled) is 33/33 correct and that authority_map explicitly sanctions keeping non-authoritative worktree-byte snapshots as historical values. I rejected that reading because (a) the field here is named sha256_worktree with no historical/domain qualifier, unlike authority_map's local_snapshot_raw_sha256_historical; (b) 31 of 33 values and all 9 input_bindings match this tree's raw bytes, so 'this tree raw' is the package's own operative convention and the 2 exceptions are anomalies, not a documented authoring-tree domain; (c) the controlling criterion was already written down. Had the two digests been recomputed, or had the field carried an explicit domain label with the variance disclosed, this would have been ACCEPTED.",
-    "note_on_scope": "This proposal does not assess whether the 16 cases are the right cases to build from, nor the feasibility of the 24/24/24 plan - both are T2 scope and were deliberately not entered. The v1 run package was verified retained and was not modified.",
-    "severity_note": "This rejection is materially narrower than T1R-01. There the fact layer failed on 5 of 16 cases plus 2 mismatches in the sole (identity) hash field; here the fact layer is sound and the sole defect sits in a secondary snapshot field with identical content and a correct authoritative id."
+  "decision_id": "T1R-02-PROPOSAL",
+  "decision": "PENDING_HUMAN_REVIEW",
+  "reviewer": "loop_c_t1r02 (Claude Code on GB10, promaxgb10-0b48)",
+  "reviewed_artifact_sha256": [
+    "21a4a105ad6d4bbd1c65fc917ecc26e4bd3152bbd902f1e055439b6a781f88f7",
+    "db2445e70992cc6079e339cecb26746c0b103b09bf89037d00c696ccefda0c74",
+    "661e27d6c20e01185c258f2c2ee22fd78db4e41af39f4e1913208268c26c5bcb",
+    "a2ff07db04453f91ab8178c05ff39f482298daf3aa1e35a5ddd0517cbbeb5fc9",
+    "533ea2e3f79d9bbfec38e354498d0cbf3d325aae2a714ed8299b17c5834301e8",
+    "a292f5c48a910b5dc810e1de5189c59ba67d9e225e76e4052a3d881b00c53b6f",
+    "a28af6a87986b64c240db23fc77332b0401573eea133203c42d0126e96f79f6d",
+    "bfbf453def9386eb378f0370491892faf14edfc36a978d77647ba34b8baffcf6",
+    "579d0fdb53be63ad262ceaa8a9247a69fc62e0d1f46515fa29d070eb426dba60",
+    "051d0eda978e47ffd366cd0f023993c4aab0389f65939b151756a55bbcb10808",
+    "2cd43d6446baadff16dccbfbb30a47bebe7f6ac73cb0bc3255a2af773fb61d1b",
+    "dc30ad205cc99ed1ff46011424bf4af9bf6c3646573bf46c132f0538689ec11c"
+  ],
+  "scope": "T-1 v2 documentation review run package 20261014T085957Z_4e1698d1 (six artifacts) and the remediation R1/R2 claims, plus independent adjudication of the T1R-01 F1 dispute. Read-only independent recomputation on the GB10 authoritative tree; no acceptance of any task, no protocol freeze, no T0, registry/state left to the closer.",
+  "evidence_refs": [
+    "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/receipt.json#checks[C11_authority_three_domain]",
+    "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/receipt.json#checks[C11b_authority_domain_finding]",
+    "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/unresolved_register.json#run_level_items[RUN-R05]",
+    "research/harness_rsi_v1/runs/T-1/20261014T085957Z_4e1698d1/summary.md#line5",
+    "research/harness_rsi_v1/contracts/authority_map.json#entries+hash_domain+change_rule",
+    "research/harness_rsi_v1/FILE_MANIFEST.json",
+    "research/harness_rsi_v1/FILES.md",
+    ".gitattributes (scope of the GB10-raw-bytes authority comment)",
+    "research/harness_rsi_v1/reviews/T1R-01/REVIEW.md#F1",
+    "research/harness_rsi_v1/runs/T-1/20261014T085638Z_ba9297ac/SUPERSEDED.md"
+  ],
+  "justification": "The v2 package's integrity work is independently reproduced and sound: all six run artifacts match their manifest (manifest correctly self-excluded); all 52 file entries match byte-for-byte and hash-for-hash with zero mismatches; the package set excluding runs/reviews/tooling state equals required_files (53/53) including candidates/.gitkeep; both planning rounds match provenance; 27 JSON parse; 5 ledgers empty and 3 events.jsonl parse; 19 cards carry JSON plus sections 1-10 with only T-1 READY and all execution_authorized=false; dependencies are acyclic and consistent with the matrix (27 edges); budget sums reconcile on both the matrix and the cards to BR 4/3, BC 66/8, BS 106/4, SHADOW 6/2, META 12/2; docs/INDEX.md has exactly one harness_rsi_v1 entry; all 12 input_bindings recompute. F2, F3, F4 and F6 are closed and recomputable; the superseded draft carries an accurate SUPERSEDED marker and is not cited as results. The T1R-01 'core dishonesty / backfill' accusation does not survive contact with measurement: the executor's GB10 column reproduces 13/13 on this machine (positive evidence of genuine measurement), v1's actual==declared is fully explained by same-tree pinning on the D: source paths, and the T1R-01 mtime argument assumed the executor measured the GB10 tree, which is now disproven; the .gitattributes GB10-raw-bytes authority rule covers only seven listed -text artifacts and was indeed over-extended. F1 is therefore MEDIUM (hash-domain / labeling), not HIGH. However, the review cannot be accepted as written: three of the six mismatching pins (memory/THREADS.md, memory/DECISIONS.md, skills/algorithm-description/SKILL.md) match no repository content state at all - not any of 8 byte transforms of the live bytes, not any historical blob across 323/24/2 commits, and not any of 3320 tracked files raw or CRLF-converted - so v2's load-bearing mechanism claim that all six differences are EOL/checkout representation is measured false for half of them, and its disposition (record RUN-R05, do not record STALE_INPUT) is unsupported for those three. Under authority_map.change_rule the treatment of such pins is a rebind-in-reviewed-activation-record decision owned by the project owner, and the D:/AIRcommend pinning tree is unreachable from this machine, so the provenance question cannot be settled read-only. PENDING_HUMAN_REVIEW is therefore the accurate proposal: the package work is good enough that rejection is disproportionate, but accepting it would ratify a refuted mechanism claim at the exact point under dispute.",
+  "human_decision_items": [
+    "1) Accept or reject the new finding that pins 0653ff3d... (THREADS), e35b2407... (DECISIONS) and ce0a5946... (SKILL_ALGORITHM) correspond to no repository content state.",
+    "2) Rule whether those three are content drift requiring STALE_INPUT registration, or a representation/unknown-provenance case to be rebound at T0 activation under authority_map.change_rule.",
+    "3) Confirm whether the D:/AIRcommend worktree was an authorized pinning domain and whether those three files held uncommitted bytes at pin time.",
+    "4) Decide whether the hash domain for authority_map should be canonicalized to the repo blob (as RUN-R05 proposes) and whether the local raw snapshot stays as historical evidence only."
+  ],
+  "flip_conditions": {
+    "to_ACCEPTED": "owner confirms (a) the D:/AIRcommend tree was the authorized pinning domain and the three pins' bytes were legitimate, and (b) approves treating those three as representation/rebind; and the mechanism wording is corrected to '3 EOL representation + 3 unknown provenance (or reclassified per (a))' in v2 or a patch run.",
+    "to_REJECTED": "owner rules those three are content drift (STALE_INPUT) while v2's original disposition is retained, or demands reproducibility on the authoritative tree while refusing any rebind path."
   },
-  "justification": {
-    "handoff_to_closer": "F10: reviews/T1R-02/ already contains the tracked T-1 v2 review package (REVIEW.md, review_receipt.json, ACCEPTANCE_PROPOSAL.json, LOOP_C_RAW_STDOUT.log), which T1 v2 T1-INC-10 cites with pinned hashes. Deposit THIS review under a fresh review_id (e.g. T1R-03) or another explicitly authorized location; do not overwrite or rename the existing reviews/T1R-02/* historical material (CLAUDE.md 'Ask first: deleting or renaming tracked historical material').",
-    "minimal_rework_set": [
-      "Fix F9: recompute the two sha256_worktree values for research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json against the authoritative tree (preferred, matching review item 3 and T1R-01 must-fix 3), OR add an explicit domain label to the worktree field (e.g. sha256_worktree_domain, mirroring authority_map's local_snapshot_raw_sha256_historical convention) and list non-reproducible values in receipt.unresolved; in either case report the worktree-dimension outcome in receipt E7 observed",
-      "Optional: rename sha256_canonical to a name that does not assert SHA-256 (the value is a 40-hex git blob id), per reliability_spec 6.2 'explicitly named hash domains' (F11)",
-      "Optional: restore the dropped fixture detail in T1-INC-13 legal_control_design"
-    ],
-    "not_rejected_because": "Not a fabrication, mis-attribution, overstatement or boundary case. All five must-fix items and all three suggestions landed; all 16 cases now close factually from their cited sources (v1 failed on 5); INC-13 wording is now consistent with its own evidence; same-origin cases are co-located; applicability is a proper field; six-family coverage, three expected_category values, 24/24/24 build-plan labelling, no-sealed marking, B0 zero calls and write scope all recomputed clean; the 10 previously supported cases did not regress and two of them improved (INC-08 gained the raw-stdout ref; INC-10 wording now credits the per-line mixed-EOL reconstruction and owner 1A).",
-    "preserve_unchanged": "Six-family coverage, three expected_category values, the 24/24/24 build-plan labelling, no-sealed marking, B0 declaration, write-scope compliance, and every remediation result listed above must not be altered during the v3 micro-run; the fix set is exactly the F9 item.",
-    "rejected_because": [
-      "A-common 'declared hashes equal actual' is not satisfied: 2 of 33 declared source_refs sha256_worktree values do not equal this tree's bytes (T1-INC-12, T1-INC-13, both citing research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json). Declared 4bb3f491... equals the CRLF-normalized digest of identical content; this tree holds 236 bare LF, 0 CRLF, clean git status, git hash-object equal to the HEAD blob; the actual digest is f73ec2e8..., independently recorded in T1R-01's key_evidence_sha256.",
-      "Review item 3 (must-fix from T1R-01: recompute every source_refs hash against this tree) is therefore only partially applied: the canonical half is 33/33 correct, the worktree half is 31/33.",
-      "The failing field carries no domain label (unlike its sibling sha256_canonical_domain: git_blob_id) and its outcome is disclosed neither in E7.observed nor in receipt.unresolved, while E7.method explicitly lists 'worktree hash'.",
-      "This is precisely the failure mode the package itself catalogs - INC-10 (hash domain / representation difference) and the registry's own a2 HASH_MISMATCH ('canonicalizer pinned by host-raw sha256; EOL presentation') - so a development-case set used to calibrate the evidence-integrity and raw-record-integrity hard gates should not ship self-inconsistent in that family. reliability_spec 6.2 requires hash domains to be explicitly named and correctly bound."
-    ],
-    "remediation_verified": [
-      "F1/1: T1-INC-11 now cites research/tatqa_wp0_2026/wp2/LOOP_C_S4C_QUAL_AUDIT_v1.md; key strings 投递缺口 / 未注入采样上下文 / 父线程 / 会话日志 each hit once in the same disclosure line; the old reviews/T1R-01/REVIEW.md citation removed",
-      "F2/2: T1-INC-12/13 now cite research/positive_repair_20261011/{POSITIVE_REPAIR_REGISTRY_v1.json, ROUND1_CLOSEOUT_v1.md} containing ENGINEERING_DISPATCH_FAILURE, PR-01/PR-04/PR-07, 'never INVALID/NULL/NEGATIVE' and 'Zero POSITIVE / NULL / NEGATIVE'; T1-CTRL-01 now cites docs/research/stage_e_matched_fpr_reanalysis_v1.md containing NOT_IDENTIFIABLE",
-      "F3/3 partial: sha256_canonical (git_blob_id) equals git rev-parse HEAD:<path> for 33/33 refs; sha256_worktree equals this tree for only 31/33 (residual = F9)",
-      "F4/4: T1-INC-13 observed_fact carries the 第一轮 qualifier and the explicit PR-03 v3 other-round note; both consistent with registry pr03_v3_result.notes ('Gate PASS; effect measurement entered; frozen rule returns NEGATIVE') and first_wave_result_summary.headline",
-      "F5/5: T1-INC-07 adds bridge_v2/offline_qualification.py (line 266 verbatim 'masked = processor(logits, input_ids)') and INCIDENT_2_online_processor_failure.txt; T1-CTRL-02 adds docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md (FAILED_TRANSFER; 'downstream res/answer fields are not recomputed from the mutated program semantics')",
-      "F6/6: T1-INC-12 moved to G-REPAIR, co-located with T1-INC-13; group membership consistent both ways, 0 double attribution",
-      "F7/7: receipt E7 description now names the canonical hash (git_blob_id) domain and its claim matches recomputation (residual disclosure gap folded into F9)",
-      "F8/8: applicability field present on 16/16 cases and never equal to expected_category; E4 lists both separately"
-    ],
-    "summary": "The T1R-01 remediation substantively succeeded: all five must-fix items and all three suggestions were applied and independently verified against the true sources; the fact-traceability layer now closes on 16/16 cases (v1: 10/16); no fabrication, mis-attribution, overstatement, out-of-boundary write or sealed marking was found; every 'do not change' item was preserved. One residual defect remains: 2 of 33 declared sha256_worktree digests are not recomputable on the authoritative tree and sit in an unlabelled hash domain, undisclosed in the receipt. Because that fails both the card's A-common assertion and review item 3, and because the fix is mechanical, the proposal is REJECTED (narrow) rather than ACCEPTED or PENDING_HUMAN_REVIEW.",
-    "why_not_accepted": "Accepting would silently establish that A-common does not bind secondary hash fields - a rule that would spill over into every later T card - when the controlling criterion (recompute against this tree) was already fixed by T1R-01 must-fix 3 and repeated in this review's brief. The residual costs one mechanical edit to fix, so loosening the gate is not warranted.",
-    "why_not_pending_human_review": "Everything left is record-layer mechanics (two digest values, one field name, one disclosure line) and touches no scientific conclusion, frozen conclusion or authorization boundary; both candidate remedies are mechanical. Per the disposition precedent set by T0R-01 and restated in T1R-01, record-layer defects are not escalated to a human gate. The only item needing a human/closer decision is F10, which is deposition logistics for this review, not a substantive question about the v2 package."
-  },
-  "reviewed_artifact_sha256": {
-    "cards/T1.md": "17a366f551c6157dbbea059a3819d14b6e7cd7c961b72e25bd1c9ee1be070319",
-    "reviews/T1R-01/ACCEPTANCE_PROPOSAL.json": "1d6a1ac2a555bec33b9139dfcefb8b0dd20aa9a76ef60c7178ea36bc336b5064",
-    "reviews/T1R-01/REVIEW.md": "47985808fc1d98a9aa9654681128e49c06fc986b9740729740d4cf254e5d5619",
-    "reviews/T1R-01/review_receipt.json": "c0f45a79a545fb3ab76289de3a4d911ca5be681214ad10369904df5cb583ffe3",
-    "runs/T1/20261014T134731Z_5d8b9400/artifacts_manifest.json": "c345df9b6d84869d045c3f49a5884427ee1e0d8421252b92874a1ef279ac95bf",
-    "runs/T1/20261014T134731Z_5d8b9400/coverage_matrix.json": "4e49e8e33d2d252bbb9d9fecf2a4242dfc3b2e65c28602f79c066853093daf2f",
-    "runs/T1/20261014T134731Z_5d8b9400/events.jsonl": "1bb04b80118adbd02e7859acac88cad74512eb0fc1037411605c556bacf601fd",
-    "runs/T1/20261014T134731Z_5d8b9400/incidents.jsonl": "04837f7d58a79aa2a93da3762ce66d6d188edc7d51f6d82ae7be13873481e8dd",
-    "runs/T1/20261014T134731Z_5d8b9400/receipt.json": "e4083f610fad07191f9916462c567550da05ef10006d498218d77661b178559b",
-    "runs/T1/20261014T134731Z_5d8b9400/source_groups.json": "d6692cfc6b0b4eccd682d91787999451e66692f9acf0904663a27e3e279278b0",
-    "runs/T1/20261014T134731Z_5d8b9400/summary.md": "35e33693181e20967b772a60084ef002a9ae2c42fb01441a3d8cbb7e2808f0e5"
-  },
-  "reviewer": "Loop C independent quality audit (Claude Code, GB10 promaxgb10-0b48)",
-  "schema": "harness_rsi_acceptance_proposal_v1",
-  "scope": "T1 v2 reliability incident case organization run package research/harness_rsi_v1/runs/T1/20261014T134731Z_5d8b9400/ (7 artifacts, 16 cases), reviewed as remediation of T1R-01 against cards/T1.md acceptance A1/A2/A3/A-common, evaluation/reliability_spec.md, contracts/{protocol,authority_map,execution_policy,budget_profiles,schemas}.json and evaluation/split_registry.json. Per-item verification of F1-F8, regression spot-check of the 10 previously supported cases, counter-evidence sweep. T2 not entered; registry/state not written; v1 run package left intact."
+  "dissent": [
+    "Against T1R-01: the F1 'actual==declared implies echo/fabrication' inference is refuted - the executor's gb10_raw column reproduces 13/13 here, and same-tree pinning explains the v1 equality without invoking fabrication; the mtime argument rested on a disproven premise.",
+    "Against T1R-01: extending the .gitattributes 'Authority for these hashes is the GB10 raw bytes' comment to the 13 authority_map files is an over-extension; that rule covers only seven -text artifacts, and authority_map already declares hash_domain raw_bytes with status LOCAL_SNAPSHOT_NOT_RUNTIME_VERIFICATION.",
+    "Against the executor: the claim that all 6 GB10-vs-pin differences are EOL/checkout representation is accepted for REPO_RULES, SKILL_ROUTING and SKILL_REGISTRY (proven pin == CRLF of identical content) but refuted for THREADS, DECISIONS and SKILL_ALGORITHM, whose pins match no repository state whatsoever; the corresponding no-STALE_INPUT disposition is unsupported.",
+    "Against the executor: repo-blob bilateral identity is verified 13/13 but must not be generalized to the declared raw_bytes domain, which is the domain the pins are actually recorded in.",
+    "Upheld from T1R-01: the C12 path:line refinement stands - both base files exist (18544B and 19414B) and are code references, not broken links.",
+    "Upheld from T1R-01: empty ledgers were used only for negative claims and no historical PASS text is promoted to results; no out-of-scope write was found.",
+    "T1R-01's own dissent anticipated this outcome: if the executor measured a different authorized worktree the case should be reopened rather than accepted - that alternative is now established as fact for the measurement domain, while a new unresolved provenance question replaces it.",
+    "This is a proposal only; the closer owns registry/state updates and any acceptance decision. No T0, no protocol freeze, no task acceptance is granted or implied."
+  ]
 }

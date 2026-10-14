@@ -1,0 +1,232 @@
+{
+  "calls": {
+    "database_calls": 0,
+    "execution_chat_token_usage": "UNRESOLVED",
+    "model_endpoint_probes": 0,
+    "network_calls": 0,
+    "orchestrated_model_requests": 0,
+    "own_session_model_calls": 1,
+    "production_service_calls": 0,
+    "remote_calls": 0,
+    "training_calls": 0
+  },
+  "checks": [
+    {
+      "check_id": "R1_run_dir_and_manifest",
+      "observed": "run dir exactly 7 files; 6/6 artifacts bytes+sha256 equal artifacts_manifest; manifest self-excluded",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R2_input_bindings",
+      "observed": "9/9 exist and actual_sha256 equals recomputation; protocol.json status FROZEN",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R3_source_refs_existence_and_scope",
+      "observed": "33/33 exist and tracked; 27 unique paths; 0 outside expected roots",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R4_sha256_canonical_vs_git_rev_parse",
+      "observed": "33/33 equal git rev-parse HEAD:<path> (git_blob_id domain)",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R5_sha256_worktree_vs_this_tree",
+      "observed": "31/33 equal this tree's bytes; 2 mismatches on research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json (T1-INC-12, T1-INC-13); declared value equals the CRLF-normalized digest of identical content; field carries no *_domain label; outcome undisclosed in E7.observed and unresolved (F9)",
+      "result": "FAIL"
+    },
+    {
+      "check_id": "R6_remediation_F1_F2_F5",
+      "observed": "INC-11 -> LOOP_C_S4C_QUAL_AUDIT_v1.md (投递缺口/未注入采样上下文 verified); INC-12/13 -> positive_repair_20261011/* (ENGINEERING_DISPATCH_FAILURE, PR-01/04/07, Zero POSITIVE / NULL / NEGATIVE verified); CTRL-01 -> stage_e_* (NOT_IDENTIFIABLE verified); INC-07 + offline_qualification.py:266 + INCIDENT_2 (line 266 'masked = processor(logits, input_ids)' verified); CTRL-02 + finqa autopsy (FAILED_TRANSFER, downstream res/answer not recomputed verified)",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R7_remediation_F4_F6_F8",
+      "observed": "INC-13 carries 第一轮 qualifier and PR-03 v3 other-round note (registry pr03_v3_result.notes 'effect measurement entered; frozen rule returns NEGATIVE'); INC-12 moved to G-REPAIR co-located with INC-13; applicability present 16/16 and distinct from expected_category",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R8_remediation_F7",
+      "observed": "E7 description now names canonical hash (git_blob_id) and its claim matches recomputation; residual disclosure gap on the worktree dimension folded into F9",
+      "result": "PASS_WITH_FINDING"
+    },
+    {
+      "check_id": "R9_unchanged_items",
+      "observed": "six families covered; three expected_category values; 24/24/24 explicitly labelled build plan; sealed flags 0; B0 declared zero calls; commit a8c036e84 wrote exactly the 7 run files",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R10_regression_of_10_supported_cases",
+      "observed": "assertions of INC-01/02/03/04/05/06/08/09/10/14 unchanged or strengthened (INC-08 gained the LOOP_C_RAW_STDOUT.log ref confirmed via fe7b87fa; INC-10 wording aligns with authority_map.change_record); 6 cases string-verified against sources in this session",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R11_counter_evidence_sweep",
+      "observed": "no fabrication, no mis-attribution, no overstatement, no out-of-boundary write, no sealed marking, no non-existent file cited, no engineering failure counted as scientific result, no private payload copied (max 171 chars)",
+      "result": "PASS"
+    },
+    {
+      "check_id": "R12_review_id_collision",
+      "observed": "reviews/T1R-02/ already holds the tracked T-1 v2 review package, which T1-INC-10 cites with pinned hashes; this review must be deposited under a fresh review_id (F10, advisory to closer)",
+      "result": "PASS_WITH_FINDING"
+    }
+  ],
+  "findings": [
+    {
+      "blocks_acceptance": true,
+      "case": "T1-INC-12,T1-INC-13",
+      "id": "F9",
+      "severity": "MEDIUM",
+      "type": "declared_hash_not_reproducible_and_unlabelled_domain"
+    },
+    {
+      "blocks_acceptance": false,
+      "case": "reviews/T1R-02/",
+      "id": "F10",
+      "severity": "LOW",
+      "type": "review_id_collision_deposition_hazard"
+    },
+    {
+      "blocks_acceptance": false,
+      "case": "source_refs.sha256_canonical",
+      "id": "F11",
+      "severity": "LOW",
+      "type": "field_name_algorithm_mismatch"
+    }
+  ],
+  "recomputed": {
+    "applicability_equals_expected_category": 0,
+    "applicability_field_present": 16,
+    "artifact_level_counts": {
+      "control_exemplar": 2,
+      "real_incident": 13,
+      "unverified_inference": 1
+    },
+    "coverage_matrix_vs_failure_family_match": 6,
+    "expected_categories_present": [
+      "ALLOW_WITHIN_SCOPE",
+      "BLOCK",
+      "REVIEW_REQUIRED"
+    ],
+    "expected_category_counts": {
+      "ALLOW_WITHIN_SCOPE": 2,
+      "BLOCK": 9,
+      "REVIEW_REQUIRED": 5
+    },
+    "families_covered": 6,
+    "families_with_legal_control_design": 6,
+    "file_crlf_count": 0,
+    "file_git_hash_object_equals_HEAD_blob": true,
+    "file_git_status_clean": true,
+    "file_lf_count": 236,
+    "groups_declared": 7,
+    "groups_membership_consistent": 7,
+    "incident_double_group_attribution": 0,
+    "incident_required_fields_complete": 16,
+    "incident_unique_ids": 16,
+    "incidents_count": 16,
+    "input_bindings_checked": 9,
+    "input_bindings_mismatches": 0,
+    "input_bindings_sha256_match": 9,
+    "manifest_bytes_match": 6,
+    "manifest_entries_checked": 6,
+    "manifest_self_excluded": true,
+    "manifest_sha256_match": 6,
+    "max_description_chars": 171,
+    "planned_build_labelled_as_plan": true,
+    "planned_build_sums": {
+      "development": 24,
+      "sealed": 24,
+      "selection": 24
+    },
+    "prior_review_hashes_match_T1R01_artifacts": true,
+    "protocol_status": "FROZEN",
+    "run_dir_file_count": 7,
+    "sealed_eligible_false_groups": 7,
+    "sealed_true_count": 0,
+    "sha256_canonical_checked": 33,
+    "sha256_canonical_match_git_rev_parse_HEAD_path": 33,
+    "sha256_canonical_mismatch": 0,
+    "sha256_worktree_checked": 33,
+    "sha256_worktree_match_worktree_bytes": 31,
+    "sha256_worktree_mismatch": 2,
+    "sha256_worktree_mismatch_actual": "f73ec2e8b43e78cb2cd23f812de0be8db1961343516fd09561aab8adc1fd0212",
+    "sha256_worktree_mismatch_cases": [
+      "T1-INC-12",
+      "T1-INC-13"
+    ],
+    "sha256_worktree_mismatch_declared": "4bb3f4918508ea367381867457d503e21258ae104a841aca6f6c3c88089c075d",
+    "sha256_worktree_mismatch_declared_equals_crlf_normalized_digest": true,
+    "sha256_worktree_mismatch_paths": [
+      "research/positive_repair_20261011/POSITIVE_REPAIR_REGISTRY_v1.json"
+    ],
+    "source_refs_exist": 33,
+    "source_refs_outside_allowed_roots": 0,
+    "source_refs_total": 33,
+    "source_refs_tracked": 33,
+    "source_refs_unique_paths": 27,
+    "supersedes_run_id_recorded": true,
+    "t1_v2_commit_file_count": 7,
+    "t1_v2_commit_paths_inside_run_dir_only": true,
+    "v1_run_package_retained": true
+  },
+  "review_id": "T1R-02",
+  "reviewed_artifact_sha256": {
+    "cards/T1.md": "17a366f551c6157dbbea059a3819d14b6e7cd7c961b72e25bd1c9ee1be070319",
+    "reviews/T1R-01/ACCEPTANCE_PROPOSAL.json": "1d6a1ac2a555bec33b9139dfcefb8b0dd20aa9a76ef60c7178ea36bc336b5064",
+    "reviews/T1R-01/REVIEW.md": "47985808fc1d98a9aa9654681128e49c06fc986b9740729740d4cf254e5d5619",
+    "reviews/T1R-01/review_receipt.json": "c0f45a79a545fb3ab76289de3a4d911ca5be681214ad10369904df5cb583ffe3",
+    "runs/T1/20261014T134731Z_5d8b9400/artifacts_manifest.json": "c345df9b6d84869d045c3f49a5884427ee1e0d8421252b92874a1ef279ac95bf",
+    "runs/T1/20261014T134731Z_5d8b9400/coverage_matrix.json": "4e49e8e33d2d252bbb9d9fecf2a4242dfc3b2e65c28602f79c066853093daf2f",
+    "runs/T1/20261014T134731Z_5d8b9400/events.jsonl": "1bb04b80118adbd02e7859acac88cad74512eb0fc1037411605c556bacf601fd",
+    "runs/T1/20261014T134731Z_5d8b9400/incidents.jsonl": "04837f7d58a79aa2a93da3762ce66d6d188edc7d51f6d82ae7be13873481e8dd",
+    "runs/T1/20261014T134731Z_5d8b9400/receipt.json": "e4083f610fad07191f9916462c567550da05ef10006d498218d77661b178559b",
+    "runs/T1/20261014T134731Z_5d8b9400/source_groups.json": "d6692cfc6b0b4eccd682d91787999451e66692f9acf0904663a27e3e279278b0",
+    "runs/T1/20261014T134731Z_5d8b9400/summary.md": "35e33693181e20967b772a60084ef002a9ae2c42fb01441a3d8cbb7e2808f0e5"
+  },
+  "reviewed_run_id": "20261014T134731Z_5d8b9400",
+  "reviewer": {
+    "hostname": "promaxgb10-0b48",
+    "kernel": "Linux 6.17.0-1018-nvidia aarch64",
+    "python": "3.12.3",
+    "repo_head_at_review": "a8c036e84efd66505d225e6ec5166ceaf1624122",
+    "role": "Loop C independent quality audit",
+    "runtime": "Claude Code CLI on GB10"
+  },
+  "schema": "harness_rsi_t1_review_receipt_v1",
+  "scope": "Read-only independent recomputation of the T1 v2 run package (7 artifacts, 16 cases) plus per-item verification of the T1R-01 remediation (F1-F8 / must-fix 1-5 / suggestions 6-8), regression spot-check of the 10 previously supported cases, and a counter-evidence sweep. No repo writes, no git writes, no network, no model endpoints / production / database, no entry into T2. registry/state not written by this reviewer.",
+  "superseded_run_id": "20261014T132249Z_99f3bc6b",
+  "task_id": "T1",
+  "tool_layer_log": {
+    "denied_commands": [
+      "git show --name-only --format='%H %s' a8c036e84 (denied: requires approval)",
+      "git diff-tree --no-commit-id --name-only -r a8c036e84 (denied: requires approval)",
+      "git log --oneline -3 -- <path> ; git status --porcelain (denied: multiple operations)",
+      "python3 heredoc x2 (denied by injection guard: 'Contains brace with quote character (expansion obfuscation)'); rewritten brace-free and passed"
+    ],
+    "git_writes": 0,
+    "note": "Read-only plumbing only; no history rewrite, no staging, no commit. A python script SyntaxError (my own leftover walrus) was a failed run, not a permission denial.",
+    "substituted_readonly_commands": [
+      "git log -1 --name-only --format=%H a8c036e84 (write-boundary evidence)",
+      "git rev-parse HEAD:<path> (canonical blob id, per review item 3)",
+      "git hash-object <worktree file>",
+      "git log --oneline --name-only -1 <sha> (fe7b87fa, 7406b3cf)",
+      "git status --porcelain (single-target)"
+    ]
+  },
+  "unverified": [
+    "Executor self-reported usage counters (model/network/remote/db/training/production = 0) have no independent metering channel; only a no-counter-evidence check was performed",
+    "execution_chat_token_usage UNRESOLVED for both executor and this reviewer; not reported as 0",
+    "Actual bytes of the D:/AIRcommend authoring tree at hash time (off-host, network forbidden); this is why sha256_worktree values cannot be falsified if interpreted as authoring-tree snapshots - but that reading contradicts the field's unlabelled domain and the other 31 refs plus 9/9 input_bindings matching this tree, and review item 3 fixes this tree as the criterion",
+    "Any model endpoint / production service / database behaviour (zero calls within constraints; local document checks are not GB10 runtime verification)",
+    "Not all 27 cited evidence files were read line-by-line against each other; INC-01/02/05/14 verified by targeted field/commit extraction, the rest by per-claim key-string checks",
+    "Feasibility of the 24/24/24 build plan and sealed-set construction (T2 scope; not entered)",
+    "'Same-origin' is not formalised in the card; the INC-12/INC-13 merge rests on co-location within the positive_repair round-1 closeout and may be re-adjudicated by the closer"
+  ],
+  "verdict": {
+    "binding": false,
+    "note": "Proposal only; registry/state are written by the closer. All five must-fix items and all three suggestions from T1R-01 were applied and independently verified; the fact-traceability layer now closes on 16/16 cases; no fabrication, mis-attribution, overstatement, out-of-boundary write or sealed marking found; every 'do not change' item preserved. The single residual defect is F9: 2 of 33 declared sha256_worktree digests equal a CRLF-normalized digest rather than this tree's bytes, in an unlabelled hash domain, undisclosed in the receipt - failing A-common and review item 3. Fix set is one mechanical item; v3 should be a micro-run.",
+    "proposal": "REJECTED"
+  }
+}
