@@ -1,0 +1,385 @@
+{
+  "calls": {
+    "database_calls": 0,
+    "local_read_only_evaluator_invocations": 105,
+    "local_read_only_git_subprocess_reads_via_evaluator": "performed as part of git_blob_id verification; not individually metered; all read-only (git ls-files --error-unmatch, git rev-parse HEAD:<path>)",
+    "model_endpoint_calls": 0,
+    "network_calls": 0,
+    "note": "The single BR strong-model review slot allotted to this card is consumed by this review.",
+    "production_calls": 0,
+    "review_session_calls": 1,
+    "service_calls": 0,
+    "token_usage": "UNRESOLVED"
+  },
+  "checks": [
+    {
+      "check_id": "RUN_FILE_COUNT_52",
+      "status": "PASS"
+    },
+    {
+      "check_id": "MANIFEST_51_SHA256_AND_BYTES",
+      "detail": "51/51 recomputed, 0 mismatches",
+      "status": "PASS"
+    },
+    {
+      "check_id": "INPUT_BINDINGS_10_RECOMPUTED",
+      "detail": "dual independent method agreement",
+      "status": "PASS"
+    },
+    {
+      "check_id": "PROTOCOL_FREEZE_MATCH",
+      "status": "PASS"
+    },
+    {
+      "check_id": "LIVE_QUALIFICATION_TWO_PASSES",
+      "command": "python3 evaluator/run_qualification.py --pass-id LOOPC_RECHECK_{1,2}",
+      "count": "34/34 both",
+      "exit_codes": [
+        0,
+        0
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "DECISION_AND_EXIT_CODE_CONTRACT",
+      "detail": "BLOCK/ALLOW/REVIEW exit 0 and fail-closed exit 3 verified; non-object JSON violates declared contract",
+      "status": "PASS_WITH_ADVISORY_A1"
+    },
+    {
+      "check_id": "A1_DEGENERATE_STRATEGIES",
+      "detail": "independently recomputed; all three fail simultaneous hard gate",
+      "status": "PASS"
+    },
+    {
+      "check_id": "A2_FAIL_CLOSED_AND_AXIS_SEPARATION",
+      "detail": "missing-field / wrong-binding / empty-set each have explicit fixture; direction C rejected; no cross-axis aggregation",
+      "status": "PASS"
+    },
+    {
+      "check_id": "A3_CANDIDATE_OWNERSHIP_AND_SEALED",
+      "detail": "hash-only candidate read; self-authored label rejected; sealed proposal disclaims qualification and lists PT-01..06 unexecuted",
+      "status": "PASS"
+    },
+    {
+      "check_id": "A_COMMON",
+      "status": "PASS"
+    },
+    {
+      "check_id": "T1_ADAPTER_FAITHFULNESS",
+      "detail": "16/16",
+      "status": "PASS"
+    },
+    {
+      "check_id": "NESTED_DRIFT_DISCLOSURE_ACCURACY",
+      "detail": "exactly 2, as disclosed",
+      "status": "PASS"
+    },
+    {
+      "check_id": "SELF_CHECK_ISSUES_FAITHFUL",
+      "status": "PASS"
+    },
+    {
+      "check_id": "HIDDEN_BIAS_SWEEP",
+      "detail": "no all-block/all-allow/all-review tendency; distribution 8/15/11",
+      "status": "PASS"
+    },
+    {
+      "check_id": "FORGED_ACCEPTED_FREEZE_SWEEP",
+      "status": "PASS"
+    },
+    {
+      "check_id": "WRITE_BOUNDARY",
+      "detail": "52 in-run files = full deliverable set; 11 out-of-run mtimes attributed to pre-existing Loop B daemon and M1 service plus the pre-run dispatch file (62s before run_id, unmodified)",
+      "status": "PASS_WITH_DISCLOSURE"
+    },
+    {
+      "check_id": "ADVERSARIAL_FAIL_CLOSED_NET",
+      "detail": "30 probes; 29 correct fail-closed; 5 non-object-JSON types crash exit 1",
+      "status": "PASS_WITH_ADVISORY_A1"
+    },
+    {
+      "check_id": "NETWORK_SERVICE_DB_MODEL_CALLS_BY_REVIEWER",
+      "status": "ZERO"
+    }
+  ],
+  "recomputed": {
+    "answer_leakage_into_decision": "none; flipping expected_category left decision unchanged (BLOCK)",
+    "artifacts_manifest_entries": {
+      "byte_mismatches": 0,
+      "declared": 51,
+      "extra_on_disk_at_first_enumeration": [],
+      "hash_mismatches": 0,
+      "missing_from_disk": [],
+      "recomputed_ok": 51,
+      "self_hash_excluded": true
+    },
+    "candidate_label_write_rejected": "SELF_AUTHORED_PASS_LABEL -> FC_UNKNOWN_ASSERTION_SIGNATURE exit 3",
+    "decision_distribution": {
+      "ALLOW_WITHIN_SCOPE": 8,
+      "BLOCK": 15,
+      "REVIEW_REQUIRED": 11,
+      "degenerate": false
+    },
+    "degenerate_strategies_recomputed": {
+      "ALL_ALLOW": "hard_gate_fail (15/15 defects leaked, 8/8 legal allowed)",
+      "ALL_BLOCK": "hard_gate_fail (15/15 detected but 8/8 legal falsely blocked)",
+      "ALL_REVIEW_REQUIRED": "hard_gate_fail (0/15 defects blocked, 8/8 legal falsely reviewed, 34/34 review burden)",
+      "all_three_fail_promotion_rule": true,
+      "method": "independent substitution into promotion_rule.requires_simultaneously from frozen expected distribution; not taken from qualification.json self-assertion"
+    },
+    "forged_acceptance_or_freeze": "none found",
+    "input_bindings": {
+      "declared": 10,
+      "methods": [
+        "git blob SHA-1 computed from file bytes",
+        "git index (.git/index) entry SHA parsed independently",
+        "sha256_file"
+      ],
+      "mismatches": [],
+      "recomputed_match": 10
+    },
+    "issues_found_and_fixed_faithful": true,
+    "protocol_freeze": {
+      "declared_in_protocol": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+      "dispatch_expected": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+      "match": true,
+      "source_line": "contracts/protocol.json:107"
+    },
+    "qualification_internal_consistency": {
+      "all_expected_eq_actual_and_matched": true,
+      "exit_code_per_pass": {
+        "0": 28,
+        "3": 6
+      },
+      "expected_distribution_recomputed_matches_declared": true,
+      "fail_closed_codes_distinct": 6,
+      "family_coverage_recomputed_matches_declared": true,
+      "pass_entries": 68
+    },
+    "qualification_two_rounds": {
+      "declared": "34/34 twice",
+      "match": true,
+      "recomputed": "34/34 twice (LOOPC_RECHECK_1, LOOPC_RECHECK_2)",
+      "runner_exit_codes": [
+        0,
+        0
+      ],
+      "stderr_empty": true
+    },
+    "run_directory_file_count": {
+      "declared": 52,
+      "match": true,
+      "method": "recursive enumeration at first inspection",
+      "recomputed": 52
+    },
+    "t1_adapter_mapping": {
+      "assertion_semantics_vs_source_observed_fact": "consistent",
+      "cases": 16,
+      "faithful": 16,
+      "fields_compared": [
+        "incident_id",
+        "expected_category",
+        "failure_family",
+        "artifact_level",
+        "case_kind.control_class"
+      ]
+    },
+    "t1_nested_source_refs": {
+      "drift_detail": [
+        "T1-INC-08 research/harness_rsi_v1/reviews/T1R-01/LOOP_C_RAW_STDOUT.log 62d8f5fd... -> 06d0b90f...",
+        "T1-INC-10 research/harness_rsi_v1/reviews/T1R-02/REVIEW.md cadcc0e7... -> 05e59c70..."
+      ],
+      "drift_found": 2,
+      "matches_disclosure": true,
+      "total": 33
+    },
+    "untrusted_provenance_rejected": "candidate_self_attested -> FC_CANDIDATE_OWNERSHIP_VIOLATION exit 3"
+  },
+  "refused_commands": [
+    {
+      "command": "git -C /home/testuser/wzh/projects/agents_final_tech log --oneline -8",
+      "result": "denied - requires approval"
+    },
+    {
+      "command": "git -C /home/testuser/wzh/projects/agents_final_tech show --name-only 5756984",
+      "result": "denied - requires approval"
+    },
+    {
+      "command": "git -C /home/testuser/wzh/projects/agents_final_tech status --porcelain --untracked-files=all",
+      "result": "denied - requires approval"
+    },
+    {
+      "command": "git -C /home/testuser/wzh/projects/agents_final_tech rev-parse HEAD",
+      "result": "denied - requires approval"
+    },
+    {
+      "command": "git -C /home/testuser/wzh/projects/agents_final_tech rev-parse HEAD:research/harness_rsi_v1/contracts/protocol.json",
+      "result": "denied - requires approval"
+    },
+    {
+      "command": "python3 evaluator/run_qualification.py > /tmp/loopc_q1.json",
+      "result": "denied - harness blocks writes to /tmp; rerun with in-memory stdout capture, no file written"
+    }
+  ],
+  "review_id": "T2R-01",
+  "reviewed_artifact_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/",
+  "reviewed_artifact_sha256": {
+    "artifacts": [
+      {
+        "bytes": 10832,
+        "git_blob_id_worktree_bytes": "891955a6c4765c8d28c9cc4578ccda0c7284b596",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/receipt.json",
+        "role": "t2_eight_1",
+        "sha256": "87dd7e356a30b2f0791fd362f577e0112c792ddab8e32b826d98e2d7bcbb8437"
+      },
+      {
+        "bytes": 8081,
+        "git_blob_id_worktree_bytes": "7f2107097ea0bfb559d8c44952bcb42d80d9c4ef",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator_spec.json",
+        "role": "t2_eight_2",
+        "sha256": "918e4533ccaaf55ef05c7c63d9a048d1be2c970af1505ad8fee443575d08d736"
+      },
+      {
+        "bytes": 30536,
+        "git_blob_id_worktree_bytes": "0600542a3d015fcff6b2090388bcf07660c97d7e",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/qualification.json",
+        "role": "t2_eight_3",
+        "sha256": "e5bbdcd13b1ebe46bd952690c0a9ddcc03ea53a55676f0f7f42d599ef567cbfe"
+      },
+      {
+        "bytes": 5283,
+        "git_blob_id_worktree_bytes": "2560506abe77261fcaa4fd6a2219a2172506feb3",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/sealed_access_proposal.json",
+        "role": "t2_eight_4",
+        "sha256": "25a2435aaa2441bbdee774945464b6f6c091abb715ba8a1e4e885b305efec237"
+      },
+      {
+        "bytes": 2098,
+        "git_blob_id_worktree_bytes": "5c6778933d1bcbcea9a51b1a51a0a2bd28b6046e",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/summary.md",
+        "role": "t2_eight_5",
+        "sha256": "75110526347e550fb65d418b75aea987b5d807f3c41fe33a78671d6589b88a18"
+      },
+      {
+        "bytes": 19435,
+        "git_blob_id_worktree_bytes": "80f6cec1a8cc4cdbb682b904b0838654e2605829",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/artifacts_manifest.json",
+        "role": "t2_eight_6",
+        "sha256": "1f744abda2aad35df259e0da7e12e32778d88d7ce3bc42a203e7d99091510cfc"
+      },
+      {
+        "bytes": 3240,
+        "git_blob_id_worktree_bytes": "ad9fa0ac4c22c13499849beab9ea47a42830817c",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/events.jsonl",
+        "role": "t2_eight_7",
+        "sha256": "224daeef9fc893c339af8af882430ad24abea6eab2e65e6d08eb9e1fe63f0c0e"
+      },
+      {
+        "bytes": 5563,
+        "git_blob_id_worktree_bytes": "960a887f05cfb9c033febee9dbcd9d6d574ee34f",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/TASK_PROMPT.md",
+        "role": "t2_eight_8",
+        "sha256": "6d591b2a87bffe858fac47cf60644759ad68f08b867109cfe09a59ea7bc116ad"
+      },
+      {
+        "bytes": 18427,
+        "git_blob_id_worktree_bytes": "3d296b0b9667d16a2bd73973bb0f1ceebfbec263",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py",
+        "role": "t2_evaluator_code",
+        "sha256": "06b077542cddecc71095d96e4d41f63f9f776208256dda1954f34ca61c5ffd5c"
+      },
+      {
+        "bytes": 3108,
+        "git_blob_id_worktree_bytes": "3c9187e1ca04fa92749e0214acf97b3a6a4676eb",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/run_qualification.py",
+        "role": "t2_evaluator_code",
+        "sha256": "8a5921feb1438d53bea6d45f50ed3f788927eb0a86d207a5ae69a0d156b12198"
+      },
+      {
+        "bytes": 1553,
+        "git_blob_id_worktree_bytes": "4f22b8e1f1ee208e75707dd339be39f4c744e084",
+        "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/README.md",
+        "role": "t2_evaluator_code",
+        "sha256": "fefafd8343b4c412763ee8198e824dda8682b5e8c6f384c0f227f90fbbbb033c"
+      },
+      {
+        "bytes": 8312,
+        "git_blob_id_worktree_bytes": "4da04df26e85c9a2de26f0b1f72d38794acd0cf6",
+        "path": "research/harness_rsi_v1/cards/T2.md",
+        "role": "t2_card",
+        "sha256": "05e8a002df26c7c6beac6a83cb3ef042739298c619629a61a414ff4ba0cfec18"
+      },
+      {
+        "bytes": 4386,
+        "git_blob_id_worktree_bytes": "fd2c1fdfb45806cd26961aa2f3c75aaeae887921",
+        "path": "research/harness_rsi_v1/evaluation/reliability_spec.md",
+        "role": "reliability_spec",
+        "sha256": "1856da0654e0c57d2e35d395de4df8b220f8989020a6cc61de0c39cb3ad7494d"
+      },
+      {
+        "bytes": 5556,
+        "git_blob_id_worktree_bytes": "c57937c8380413708082fdc17bd4c73286cb46bf",
+        "path": "research/harness_rsi_v1/contracts/protocol.json",
+        "role": "protocol",
+        "sha256": "c695780364b5672caf90a991176232c174a85615f1df19628c813690fa3ef127"
+      },
+      {
+        "bytes": 1326,
+        "git_blob_id_worktree_bytes": "a426eb0ade14307df197701cb251d32b114385b8",
+        "path": "research/harness_rsi_v1/evaluation/human_review_protocol.md",
+        "role": "human_review_protocol",
+        "sha256": "46e40b84c90d1656c1f5c922d0f1b40a9fbe699e9ba491d5e89275c6157cd91c"
+      },
+      {
+        "bytes": 11416,
+        "git_blob_id_worktree_bytes": "46acca7ec01b98a5008f2851f10a86af6fe34fed",
+        "path": "research/harness_rsi_v1/contracts/authority_map.json",
+        "role": "authority_map",
+        "sha256": "dd72a5497e542209451bfddc43b470d75a8c8164110a57c3642b54a955461972"
+      }
+    ],
+    "hash_domain": "sha256_file",
+    "note": "git_blob_id_worktree_bytes is included for tracked inputs as a second independent domain; T2 run files are newly created and sha256_file is authoritative for them."
+  },
+  "reviewed_run_id": "20261014T145327Z_9a02a34a",
+  "reviewer": {
+    "layer": "Loop C independent quality audit",
+    "mode": "read-only independent recomputation + live evaluator execution + counter-evidence sweep",
+    "model_tier": "BR strong model review (single allotted slot for this card)",
+    "registry_or_state_updated": false,
+    "runtime": "GB10",
+    "t3_entered": false,
+    "writes_performed": "none to repository artifacts; stdout only"
+  },
+  "reviewer_side_effects_disclosed": [
+    "Two files created by this review session's tooling under the run directory: .omc/state/sessions/ec852aef-ab77-48ad-9461-89e23a0251ea/{pre-tool-advisory-throttle.json,last-tool-error-state.json}, mtimes 23:37:32 and 23:38:40, after the 23:30 deliverables and after the initial 52-file enumeration. Not part of T2 deliverables, not in the manifest, no existing file modified. Removal requires separate authorization."
+  ],
+  "schema": "harness_rsi_t2_review_receipt_v1",
+  "task_id": "T2",
+  "unverified": [
+    "git CLI equivalence of 'git rev-parse HEAD:<path>' could not be executed (all git CLI denied); substituted dual-method recomputation (byte-derived git blob SHA-1 plus .git/index parse) which agreed with every declared value.",
+    "'git show --name-only 5756984' and 'git status --porcelain' were denied, so commit-level write-boundary was established instead by repository-wide mtime scan of the run window plus process attribution.",
+    "Sealed filesystem isolation and permission tests PT-01 through PT-06 are unimplemented and unverified (correctly disclaimed by the artifact).",
+    "C/S evaluator directions, human agreement rate, production runtime and real defect-rate estimates remain unverified.",
+    "Execution-chat token usage remains UNRESOLVED.",
+    "Synthetic fixtures demonstrate known-signature discrimination only, not population-level reliability.",
+    "A1 business impact rated 'loud failure, not gameable' is inferred from run_qualification.py counting such output as INVALID_OUTPUT/mismatch; not observed in a full failing runner round."
+  ],
+  "verdict": {
+    "advisory_count": 7,
+    "blocking_count": 0,
+    "decision": "ACCEPTED",
+    "does_not_grant": [
+      "formal experiment authority",
+      "scientific PASS",
+      "sealed-access qualification",
+      "promotion",
+      "deployment"
+    ],
+    "escalation_condition": "If the owner treats full implementation of every declared fail_closed_code for its declared input class as a hard acceptance gate, advisory A1 escalates to BLOCKING and only that one-line fix requires re-review.",
+    "grants": [
+      "none"
+    ],
+    "layer": "engineering qualification only"
+  }
+}

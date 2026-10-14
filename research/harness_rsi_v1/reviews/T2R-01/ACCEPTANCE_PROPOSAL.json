@@ -1,0 +1,87 @@
+{
+  "advisory_items": [
+    {
+      "category": "correctness",
+      "escalation_condition": "If the owner treats 'every declared fail_closed_code must be reachable with exit 3 for its declared input class' as a hard acceptance gate, escalate this item to BLOCKING; only this one-line fix then needs re-review.",
+      "evidence": "Live probes --case /dev/stdin with top-level JSON [1,2,3], \"hello\", 42, true, null all raise uncaught AttributeError ('list'/'str'/'int'/'bool'/'NoneType' object has no attribute 'get'), exit code 1, no result record written. Root cause: evaluate_bundle()'s except FailClosed handler guards bundle.get at line 386 with isinstance(bundle, dict) but line 397 'expected_category_for_qualification_only': bundle.get('expected_category', 'UNRESOLVED') has no guard. The decision logic itself is correct - line 321-322 raises FailClosed('FC_INPUT_NOT_JSON_OBJECT') properly - the error-reporting path is what crashes. evaluator_spec.json declares FC_INPUT_NOT_JSON_OBJECT and decision_rule.fail_closed promises REVIEW_REQUIRED + NOT_EVALUATED + fail_closed_code + exit 3 for invalid input; README documents exit 3.",
+      "id": "A1",
+      "impact": "Declared-contract violation on one input class. Failure mode is loud (exit 1 + traceback), produces no wrong verdict and no silent pass; run_qualification.py scores it as INVALID_OUTPUT and a mismatch, so it cannot inflate a qualification score or leak a defect. The 34-case qualification set is unaffected.",
+      "recommendation": "Add an isinstance(bundle, dict) guard at line 397 (or normalize at evaluate_bundle entry), and add one fixture with a non-object JSON top level to pin FC_INPUT_NOT_JSON_OBJECT.",
+      "severity": "highest",
+      "title": "Non-object JSON case bundles crash (exit 1) instead of fail-closing with FC_INPUT_NOT_JSON_OBJECT and exit 3",
+      "why_not_blocking": "None of acceptance assertions A1/A2/A3 or A-common is violated: A2's three named conditions (missing field / wrong binding / empty set) all fail closed explicitly with exit 3; the crash cannot produce ALLOW, BLOCK or a pass; the artifact is undeployed and unenabled."
+    },
+    {
+      "category": "evidence-reproducibility",
+      "evidence": "grep for degenerate|hard_gate|ALL_BLOCK|ALL_ALLOW|ALL_REVIEW across the run directory matches only receipt.json and qualification.json - no .py produces these fields. Independent recomputation confirms the arithmetic is correct and the conclusion holds.",
+      "id": "A2",
+      "impact": "Readers may mistake a declared table for an executed gate.",
+      "recommendation": "Derive degenerate_strategies and promotion_rule from case_results with a small script so the gate is reproducible.",
+      "severity": "medium",
+      "title": "degenerate_strategies / hard_gate_pass are hand-authored, not computed by any executed gate"
+    },
+    {
+      "category": "test-coverage",
+      "evidence": "Coverage computation over 18 fixtures + 16 T1 bundles yields 22 of 29 valid signatures used. Unused (all defect class): AUDIT_SOURCE_MISSING, DENOMINATOR_DRIFT, PARTIAL_PASS_ELEVATED, RAW_NORMALIZED_MIXED, SILENT_EXCLUSION, STALE_RECEIPT_CURRENT_CODE, STOP_IGNORED. (The only non-vocabulary assertion exercised, SELF_AUTHORED_PASS_LABEL, is the deliberate unknown-label probe in measurement_object_failclosed and is correctly rejected.)",
+      "id": "A3",
+      "impact": "Code paths for those seven defect signatures are reviewed but untested.",
+      "recommendation": "Add coverage for them in the selection set.",
+      "severity": "medium",
+      "title": "7 of 29 frozen assertion signatures are never exercised by the qualification set"
+    },
+    {
+      "category": "spec-fidelity",
+      "evidence": "qualification.json promotion_rule lists only 'defect detection' and 'legal controls not falsely blocked'; reliability_spec 6.3 additionally requires fixing at least two previously missed cases on the selection set with no new regressions, only one candidate accessing the sealed set once, and cost not increasing at equal quality.",
+      "id": "A4",
+      "impact": "Downstream readers could mistake it for the complete promotion rule.",
+      "recommendation": "Add a qualifier noting this is the hard-gate subset only.",
+      "severity": "low",
+      "title": "promotion_rule in qualification.json is a reduced form of reliability_spec section 6.3"
+    },
+    {
+      "category": "auditability",
+      "evidence": "Repository-wide mtime scan of 22:50-23:35 finds 11 files outside the run directory touched inside the window. Attribution: runs/T2/_dispatch/loop_a_prompt_t2.md at 22:52:25 is exactly 62 seconds before the run_id timestamp 22:53:27 (matching the receipt's stated figure) and unmodified; the other 10 belong to a long-running Loop B verification daemon (loop_b.log 8.4MB / 117k lines traceable to 2026-07-29, tail 'Sleeping 1800s until next check...') which ran pytest at 23:17:17 and an M2 canary against http://127.0.0.1:5050/api/m2/ask at 23:20:05, plus the local M1 service logs.",
+      "id": "A5",
+      "impact": "Executor's zero-call claim is correct (events.jsonl records no calls; the evaluator only performs local read-only git hash resolution), but 'zero orchestrated calls' could be misread as 'no model calls occurred in the environment during this run'.",
+      "recommendation": "Add one sentence to receipt.usage or WRITE_BOUNDARY disclosing concurrent background daemon activity in the same window.",
+      "severity": "low",
+      "title": "Concurrent background daemon activity in the run window is not disclosed"
+    },
+    {
+      "category": "security",
+      "evidence": "expected_category and assertions are supplied by the bundle and cannot be verified by the evaluator (no signature/MAC); ownership is declarative only. Mitigations verified live: path allowlist, provenance whitelist (synthetic_challenge / accepted_t1_v3), exact candidate_writable_paths match, and confirmed that expected_category does not feed the decision.",
+      "id": "A6",
+      "impact": "Adequate for the current non-sealed engineering qualification; insufficient once sealed evaluation begins.",
+      "recommendation": "Introduce bundle signing or custodian-held bundles before sealed evaluation.",
+      "severity": "low",
+      "title": "Case bundles carry no integrity protection against a candidate able to write bundle files"
+    },
+    {
+      "category": "test-coverage",
+      "evidence": "The 18 fixtures pin 6 codes (one per family). Unpinned: FC_INVALID_ENUM_VALUE, FC_UNSUPPORTED_HASH_DOMAIN, FC_SIGNATURE_FAMILY_MISMATCH, FC_INPUT_NOT_JSON_OBJECT. Independent adversarial probes confirmed the first three are enforced with exit 3; the fourth is subject of A1.",
+      "id": "A7",
+      "impact": "Regression risk on unpinned codes.",
+      "recommendation": "Add one fixture per unpinned code.",
+      "severity": "low",
+      "title": "4 of 10 declared fail_closed_codes lack a dedicated fixture"
+    }
+  ],
+  "blocking_items": [],
+  "decision": "ACCEPTED",
+  "decision_id": "T2R-01",
+  "dissent": {
+    "internal": "The runner-up disposition was PENDING_HUMAN_REVIEW, on the grounds that A1 is a genuine spec-versus-implementation mismatch on a declared fail_closed_code, and that in an artifact whose central value proposition is fail-closed integrity an incomplete fail-closed net is materially more serious than a cosmetic defect. I chose ACCEPTED instead because (a) the failure mode is loud rather than silent - exit 1 with a traceback and no result record, which run_qualification.py scores as INVALID_OUTPUT and a mismatch, so it cannot be used to game a score or leak a defect; (b) it touches none of the three acceptance assertions, whose named conditions were all independently verified; (c) the 34-case qualification evidence is unaffected; and (d) the fix is a single defensive guard whose correctness is locally verifiable. I want the escalation condition stated in the blocking_items field of this proposal preserved verbatim: if the owner treats complete implementation of every declared fail_closed_code for its declared input class as a hard acceptance gate - a defensible reading of A2 - then this decision should be revisited as BLOCKING and only that one-line fix re-reviewed. The alternative runner-up was REJECTED on the grounds that an evaluation base with a hole in its fail-closed net should not be accepted at all; I rejected that because it would equate a loud, non-gameable edge-path crash with a defect that threatens the verdict, which the evidence does not support.",
+    "recorded_for": "closeout authority (registry/state owner) and any subsequent human adjudication"
+  },
+  "justification": "All three card acceptance assertions and A-common were independently recomputed and hold. (1) A1: the three degenerate strategies were re-derived from the frozen expected distribution (15 defects / 8 legal / 11 review = 34) against the simultaneous 'defect detection AND legal non-interception' gate - ALL_BLOCK, ALL_ALLOW and ALL_REVIEW_REQUIRED each fail it, matching reliability_spec 6.4 which states that sending everything to review is also not success. (2) A2: missing-field, wrong-binding and empty-set each have an explicit fixture failing closed with exit 3, and axis separation is enforced (direction C rejected, no cross-axis aggregate). (3) A3: the evaluator reads candidate artifact bytes only to hash them (verified in verify_hash), a candidate self-authored 'SELF_AUTHORED_PASS_LABEL' is rejected as an unknown signature, untrusted provenance is rejected as an ownership violation, and sealed access is correctly presented as PROPOSAL_ONLY_NOT_IMPLEMENTED with PT-01..PT-06 specified and explicitly unexecuted and no sealed-qualification claim. Cross-cutting integrity: the 51-entry manifest recomputes 51/51 with zero hash or byte mismatches; all 10 input_bindings match under two independent methods (byte-derived git blob SHA-1 and an independent parse of .git/index) plus sha256_file; the protocol freeze value matches at protocol.json:107; two fresh live qualification runs both return 34/34 with exit 0; the recorded 68 pass entries are internally consistent with recomputed family coverage and expected distribution; the T1 v3 assertion adapter - the surface this review was specifically directed to audit - is faithful on all 16 cases across incident_id, expected_category, failure_family, artifact_level and control_class, with assertion semantics matching the source observed facts; the nested source_ref drift disclosure is exactly accurate (2 of 33 refs, precisely the two named); the issues_found_and_fixed ledger is corroborated by events.jsonl including the 26/34 to 34/34 arithmetic (8 legal controls); and no forged ACCEPTED, freeze, PROMOTED or SCIENTIFIC_PASS claim exists anywhere in the package. Counter-evidence sweeps found no hidden all-block/all-allow/all-review bias (actual distribution 8/15/11) and no answer leakage (flipping expected_category leaves the decision unchanged). The single substantive defect (A1) is a one-line missing guard in the fail-closed error-reporting path for a non-object JSON top level; it fails loudly, cannot produce a wrong verdict or a silent pass, cannot inflate a qualification score, and violates none of the acceptance assertions, so it is recorded as the top advisory with an explicit escalation condition rather than blocking. This matches the established convention in which T1I-03 accepted a comparable engineering artifact with documented advisories. The verdict is engineering-qualification only: it grants no formal experiment authority, no scientific PASS, no sealed-access qualification, no promotion and no deployment.",
+  "next_steps": [
+    "Fix A1: add isinstance(bundle, dict) guard at evaluate.py line 397 and pin it with a non-object-JSON fixture.",
+    "Register A2-A7 at the closeout layer for the selection-set and sealed-access stages.",
+    "Do not automatically enter T3.",
+    "Registry and state updates remain the closeout author's responsibility."
+  ],
+  "reviewed_run_id": "20261014T145327Z_9a02a34a",
+  "schema": "harness_rsi_t2_acceptance_proposal_v1",
+  "scope": "Independent Loop C review of the bounded T2 R-axis evaluation base at research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/ against cards/T2.md acceptance A1/A2/A3/A-common and evaluation/reliability_spec.md + evaluation/human_review_protocol.md + contracts/{protocol,authority_map,execution_policy,budget_profiles,schemas}. Independent recomputation of the 51-entry artifacts manifest, all 10 input_bindings (dual-method git blob identity), the protocol freeze value, two live qualification runs (34/34 each), evaluator decision/exit-code behaviour, the three degenerate strategies against the promotion rule, the T1 v3 assertion adapter (16/16, the surface explicitly designated for Loop C audit), nested source_ref hash-drift disclosure (33 refs), the self-check issues ledger, and a counter-evidence sweep for forged acceptance, hidden decision bias, answer leakage, write-boundary violations and unauthorized calls. T3 not entered; registry/state not updated; C/S directions, sealed access, formal experiments, deployment and production probes all out of scope.",
+  "task_id": "T2"
+}
