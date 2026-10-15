@@ -16,6 +16,7 @@
 | 已确认决策 | [`../memory/DECISIONS.md`](../memory/DECISIONS.md) |
 | Skill 路由 | [`SKILL_ROUTING.md`](SKILL_ROUTING.md) |
 | 科研主线与论文验收 | [`research/README.md`](research/README.md) |
+| Paper E 升级（2026-10-15） | [`research/PAPER_E_UPGRADE_DIRECTION_v1.md`](research/PAPER_E_UPGRADE_DIRECTION_v1.md)；Layer-1 `GOLD_NOT_ESTABLISHED`，审计见 [`research/PAPER_E_LAYER1_LOOP_C_AUDIT_v1.md`](research/PAPER_E_LAYER1_LOOP_C_AUDIT_v1.md)，不进入 Layer 2 |
 | 执行侧最新交接（2026-10-12） | [`research/EXECUTION_HANDOFF_STATUS_v1.md`](research/EXECUTION_HANDOFF_STATUS_v1.md)；Paper E→WP-E修订流程，大论文→WP-0资格核验；本轮交接后停止，无实验/改稿/代码执行 |
 | 最终研究交接（2026-10-12） | [`research/REPO_GOVERNANCE_FINAL_v1.md`](research/REPO_GOVERNANCE_FINAL_v1.md)；Paper E科学阻断未消除，WP-0资格待核验；只完成本地文档交接 |
 | 独立战略重构（2026-10-12） | [`research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md`](research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md)；建议稿，含新论证风险、TOP 3与6个未执行工作包；不改变冻结结果或授权 |

@@ -1,0 +1,1890 @@
+{
+  "schema": "paper_e_layer1_results_v1",
+  "status": "GOLD_NOT_ESTABLISHED",
+  "plan_sha256": "a275e55ae3485db5f37716c6c6c229f9d4efd58dfbb078af2db5768cc043e3d9",
+  "scope": {
+    "total_injections": 118,
+    "dev_cases": 59,
+    "held_out_cases": 59,
+    "held_out_injection_ids": [
+      "\"86d86884-ffec-48ae-bb29-a94cd773c029\"\u001f1\u001f\"Revenue Performance Goal(in millions)\"\u001f\"sales\"\u001f\"alias_variant\"\u001f\"sales\"\u001f108",
+      "\"ae3cbef3-f02b-4833-ba73-abb7590dc495\"\u001f0\u001f\"Financial Assets\"\u001f\"资产(assets)\"\u001f\"mixed_lang\"\u001f\"资产(assets)\"\u001f232",
+      "\"d2bba753-0df3-4a39-860b-bde563261fec\"\u001f0\u001f\"Capital stock\"\u001f\"capitai stock\"\u001f\"ocr_similar\"\u001f\"capitai\"\u001f332",
+      "\"fe416c52-0225-4a4f-9e3f-fcc1a993f8a8\"\u001f2\u001f\"Net Tangible Assets Acquired (Liabilities Assumed)\"\u001f\"assets(资产)\"\u001f\"mixed_lang\"\u001f\"assets(资产)\"\u001f497",
+      "\"fe416c52-0225-4a4f-9e3f-fcc1a993f8a8\"\u001f3\u001f\"Purchased Intangible Assets\"\u001f\"资产(元)\"\u001f\"unit_suffix\"\u001f\"资产(元)\"\u001f497",
+      "\"5fe2c49e-5b1a-479a-8df7-f9a50e5d7609\"\u001f2\u001f\"Capital Leases\"\u001f\"capitai Leases\"\u001f\"ocr_similar\"\u001f\"capitai\"\u001f514",
+      "\"6e1da895-35f8-4ac4-8b2d-491ef6b3c5f6\"\u001f3\u001f\"Additions Charged to Other Accounts\"\u001f\"account no.\"\u001f\"alias_variant\"\u001f\"account no.\"\u001f603",
+      "\"6ed697ff-9893-453a-84a4-44023fffca78\"\u001f2\u001f\"Revenue and Receipts\"\u001f\"sales\"\u001f\"alias_variant\"\u001f\"sales\"\u001f672",
+      "\"6ed697ff-9893-453a-84a4-44023fffca78\"\u001f4\u001f\"Unearned Revenue\"\u001f\"sales\"\u001f\"alias_variant\"\u001f\"sales\"\u001f672",
+      "\"abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2\"\u001f2\u001f\"Net Tangible Assets Acquired (Liabilities Assumed)\"\u001f\"资产(assets)\"\u001f\"mixed_lang\"\u001f\"资产(assets)\"\u001f718",
+      "\"abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2\"\u001f3\u001f\"Purchased Intangible Assets\"\u001f\"资产(元)\"\u001f\"unit_suffix\"\u001f\"资产(元)\"\u001f718",
+      "\"bf4ac2c0-98c9-481c-ba0c-c6728b3b3540\"\u001f2\u001f\"Revenue and Receipts\"\u001f\"turnover\"\u001f\"alias_variant\"\u001f\"turnover\"\u001f737",
+      "\"425ee1c7-fb82-4853-994a-9876c414fbd5\"\u001f2\u001f\"Office property and other tangible assets\"\u001f\"资产(assets)\"\u001f\"mixed_lang\"\u001f\"资产(assets)\"\u001f772",
+      "\"c0f66238-591a-4693-b2d2-fee0f6843420\"\u001f3\u001f\"Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))\"\u001f\"Number of securities remaining available for future issuance under equty compensation plans (excluding securities reflected in column(a))\"\u001f\"ocr_similar\"\u001f\"equty\"\u001f799",
+      "\"637d5671-0913-4e80-b135-2d4a516b79bb\"\u001f0\u001f\"£m\"\u001f\"m [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f857",
+      "\"195174fe-dd0a-40b1-9139-21fb207f382a\"\u001f1\u001f\"Percentage of Plan Assets at December\"\u001f\"assets(资产)\"\u001f\"mixed_lang\"\u001f\"assets(资产)\"\u001f955",
+      "\"5628f806-5eff-4b35-8951-785a2669f0db\"\u001f0\u001f\"£m\"\u001f\"m №\"\u001f\"prefix_noise\"\u001f\"号码前缀\"\u001f978",
+      "\"99f24ed1-6222-4707-a170-bac3de607798\"\u001f1\u001f\"Cost of revenue\"\u001f\"turnover\"\u001f\"alias_variant\"\u001f\"turnover\"\u001f1039",
+      "\"6f9a0eb1-ef23-49e3-9342-ab389b10de48\"\u001f0\u001f\"Capital expenditures 2017–2019\"\u001f\"capitai expenditures 2017–2019\"\u001f\"ocr_similar\"\u001f\"capitai\"\u001f1065",
+      "\"ed76bf6b-4d46-42b2-88ff-b2205470c8af\"\u001f5\u001f\"Deferred Revenue (long-term)\"\u001f\"营业收入\"\u001f\"alias_variant\"\u001f\"营业收入\"\u001f1148",
+      "\"ed76bf6b-4d46-42b2-88ff-b2205470c8af\"\u001f1\u001f\"Accounts Receivable\"\u001f\"账户\"\u001f\"alias_variant\"\u001f\"账户\"\u001f1148",
+      "\"3c609073-6a48-4961-84cd-de68a59fd66c\"\u001f1\u001f\"Vessels and capitalized dry-docking\"\u001f\"Vessels and capitaiized dry-docking\"\u001f\"ocr_similar\"\u001f\"capitai\"\u001f1177",
+      "\"9bce514f-3eb3-433c-85e5-2d40d116497c\"\u001f2\u001f\"WEIGHTED AVERAGE INTEREST RATE AT DECEMBER 31, 2019\"\u001f\"利息\"\u001f\"alias_variant\"\u001f\"利息\"\u001f1214",
+      "\"6a5e5192-5d37-489f-97f2-400ea965ae36\"\u001f0\u001f\"Equity-settled\"\u001f\"equty-settled\"\u001f\"ocr_similar\"\u001f\"equty\"\u001f1323",
+      "\"964a6470-3cb0-4520-b096-8176bca8ed1d\"\u001f2\u001f\"Grant Date Value ($)\"\u001f\"Grant date 2019-交易日 Value ($)\"\u001f\"date_variant\"\u001f\"交易日/1\"\u001f1351",
+      "\"fbbb1116-0ef2-4d7e-a90f-2c72e2739e22\"\u001f2\u001f\"Weighted-Average Grant-Date\"\u001f\"Weighted-Average Grant-2016年交易日\"\u001f\"date_variant\"\u001f\"交易日/0\"\u001f1546",
+      "\"32cfcadb-add0-4cc1-9956-41ac073477c4\"\u001f4\u001f\"As a % of Segment Revenue (1)\"\u001f\"营业总收入\"\u001f\"alias_variant\"\u001f\"营业总收入\"\u001f1611",
+      "\"14b78dc3-ad9c-46cd-beb0-ecb222567694\"\u001f3\u001f\"Number of accounts\"\u001f\"account no.\"\u001f\"alias_variant\"\u001f\"account no.\"\u001f1647",
+      "\"14b78dc3-ad9c-46cd-beb0-ecb222567694\"\u001f4\u001f\"Percentage to total accounts\"\u001f\"账户\"\u001f\"alias_variant\"\u001f\"账户\"\u001f1647",
+      "\"e0689072-72ba-4979-962a-bb128539defb\"\u001f0\u001f\"£m\"\u001f\"m [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f1673",
+      "\"3ec15660-9e13-4162-abb6-2462d65f07ba\"\u001f0\u001f\"Year Ended December 31, 2019 Revenues\"\u001f\"营业收入\"\u001f\"alias_variant\"\u001f\"营业收入\"\u001f1711",
+      "\"97176853-a81e-422a-a8c1-e0542348d051\"\u001f2\u001f\"As a % of Revenue (1)\"\u001f\"营业总收入\"\u001f\"alias_variant\"\u001f\"营业总收入\"\u001f1735",
+      "\"97176853-a81e-422a-a8c1-e0542348d051\"\u001f4\u001f\"As a % of Revenue (1)\"\u001f\"turnover\"\u001f\"alias_variant\"\u001f\"turnover\"\u001f1735",
+      "\"68b8d514-802c-4ebc-a754-db4a3db7f9fd\"\u001f5\u001f\"Grant Date Fair Value of Stock and Option Awards ($) (1)\"\u001f\"Grant date 2017-交易日 Fair Value of Stock and Option Awards ($) (1)\"\u001f\"date_variant\"\u001f\"交易日/1\"\u001f1748",
+      "\"2cc74a85-0524-4eda-aa35-dced125c3818\"\u001f4\u001f\"Fair Market Value\"\u001f\"market cap\"\u001f\"alias_variant\"\u001f\"market cap\"\u001f1759",
+      "\"b538d340-dfca-4f89-a59f-01fc1bb35184\"\u001f0\u001f\"£m\"\u001f\"m [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f1793",
+      "\"93339b76-1f90-4d86-8f31-bbb7bff71603\"\u001f0\u001f\"£m\"\u001f\"m [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f1885",
+      "\"e67f7bf2-fc15-4a7a-9856-febb066998fd\"\u001f4\u001f\"Free cash flow (pre-spectrum)\"\u001f\"cashflow\"\u001f\"alias_variant\"\u001f\"cashflow\"\u001f1921",
+      "\"28caffcd-e07b-4eb6-9700-2400e8e1e450\"\u001f4\u001f\"Total right-of-use assets\"\u001f\"assets(资产)\"\u001f\"mixed_lang\"\u001f\"assets(资产)\"\u001f1969",
+      "\"b5aae4e9-040d-4e55-a42d-39cde217978f\"\u001f0\u001f\"£m\"\u001f\"m【】\"\u001f\"prefix_noise\"\u001f\"全角方括号\"\u001f1995",
+      "\"16ebd25a-f23a-4182-9de0-8427a64a7fd2\"\u001f2\u001f\"Weighted Average Grant Date Fair Value\"\u001f\"Weighted Average Grant 2017期末 Fair Value\"\u001f\"date_variant\"\u001f\"期末日期/3\"\u001f2009",
+      "\"70cf5260-2124-4a26-a148-5cf3c6028813\"\u001f0\u001f\"Group Profit or Loss\"\u001f\"profit(万元)\"\u001f\"unit_suffix\"\u001f\"profit(万元)\"\u001f2033",
+      "\"0b2eba23-104c-4219-8171-104f14d52a71\"\u001f2\u001f\"Accumulated Amortization\"\u001f\"摊薄\"\u001f\"alias_variant\"\u001f\"摊薄\"\u001f2112",
+      "\"b975862d-d00d-42a5-a861-77ebcb48c55e\"\u001f1\u001f\"Remaining Amortization period\"\u001f\"摊薄\"\u001f\"alias_variant\"\u001f\"摊薄\"\u001f2126",
+      "\"ce09caff-769d-498f-9e5d-09dc1e741d70\"\u001f0\u001f\"£m\"\u001f\"m №\"\u001f\"prefix_noise\"\u001f\"号码前缀\"\u001f2150",
+      "\"567a03c7-0324-46f4-adbe-4143b60a7eff\"\u001f0\u001f\"Grant Date\"\u001f\"Grant 2020年对账日期\"\u001f\"date_variant\"\u001f\"对账日期/0\"\u001f2200",
+      "\"567a03c7-0324-46f4-adbe-4143b60a7eff\"\u001f1\u001f\"Exercise Date\"\u001f\"Exercise date 2021-期末日期\"\u001f\"date_variant\"\u001f\"期末日期/1\"\u001f2200",
+      "\"567a03c7-0324-46f4-adbe-4143b60a7eff\"\u001f2\u001f\"Expiry Date\"\u001f\"Expiry 净值日期 / date\"\u001f\"date_variant\"\u001f\"净值日期/2\"\u001f2200",
+      "\"bcbd7783-86ad-430d-aa96-48808bb0426c\"\u001f0\u001f\"OPERATING REVENUES\"\u001f\"turnover\"\u001f\"alias_variant\"\u001f\"turnover\"\u001f2274",
+      "\"5e60c056-5073-441d-8525-7f834deb5c64\"\u001f0\u001f\"£m\"\u001f\"m【】\"\u001f\"prefix_noise\"\u001f\"全角方括号\"\u001f2367",
+      "\"b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1\"\u001f1\u001f\"Accounts Receivable, Gross\"\u001f\"帐号\"\u001f\"alias_variant\"\u001f\"帐号\"\u001f2368",
+      "\"6ea63cce-37b7-4210-b446-952afde67eb5\"\u001f0\u001f\"£m\"\u001f\"m [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f2393",
+      "\"d423c6ef-50f3-4535-a74f-13cb46728627\"\u001f0\u001f\"Consolidated\"\u001f\"Consoli交易日 / dated\"\u001f\"date_variant\"\u001f\"交易日/2\"\u001f2398",
+      "\"329e3ff5-0cff-4849-8fd0-9b1e5606f6ca\"\u001f2\u001f\"Segment Assets\"\u001f\"资产(assets)\"\u001f\"mixed_lang\"\u001f\"资产(assets)\"\u001f2408",
+      "\"fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6\"\u001f0\u001f\"Consolidated\"\u001f\"Consoli2021期末d\"\u001f\"date_variant\"\u001f\"期末日期/3\"\u001f2411",
+      "\"44c7c9ef-bb9f-45c9-9ee5-e2bf465c3617\"\u001f1\u001f\"Operating Leases\"\u001f\"operat1ng Leases\"\u001f\"ocr_similar\"\u001f\"operat1ng\"\u001f2436",
+      "\"abba843f-be4e-4905-8bab-19942dbfedef\"\u001f4\u001f\"Financial assets on which no interest is earned\"\u001f\"利息\"\u001f\"alias_variant\"\u001f\"利息\"\u001f2482",
+      "\"abba843f-be4e-4905-8bab-19942dbfedef\"\u001f2\u001f\"Fixed rate financial assets\"\u001f\"assets(资产)\"\u001f\"mixed_lang\"\u001f\"assets(资产)\"\u001f2482",
+      "\"21a432eb-166c-4178-adf9-08b6ad3fde7d\"\u001f1\u001f\"Financial assets\"\u001f\"assets(资产)\"\u001f\"mixed_lang\"\u001f\"assets(资产)\"\u001f2505"
+    ],
+    "dev_split_rule": "int(sha256(injection_id).digest(), big) mod 10 < 5"
+  },
+  "label_counts": {
+    "LEGAL_VARIATION": 12,
+    "HARMFUL_ERROR": 12,
+    "INSUFFICIENT_EVIDENCE": 35
+  },
+  "case_rows": [
+    {
+      "injection_id": "\"b48bb5fb-ea46-4a44-a39e-f2554719d158\"\u001f1\u001f\"Accumulated Other Comprehensive Income (Loss)\"\u001f\"income(收入)\"\u001f\"mixed_lang\"\u001f\"income(收入)\"\u001f107",
+      "uid": "b48bb5fb-ea46-4a44-a39e-f2554719d158",
+      "col": 1,
+      "type": "mixed_lang",
+      "original": "Accumulated Other Comprehensive Income (Loss)",
+      "injected": "income(收入)",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "682ed9b7845e65251fb43cffd7c723058df36ec934113643604c01c3254beaf1",
+      "injected_column_sha256": "682ed9b7845e65251fb43cffd7c723058df36ec934113643604c01c3254beaf1",
+      "clean_value_count": 14,
+      "injected_value_count": 14,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"21c316d6-5e25-4af5-a29a-82b748175279\"\u001f2\u001f\"Dividend per Share\"\u001f\"divdend per Share\"\u001f\"ocr_similar\"\u001f\"divdend\"\u001f148",
+      "uid": "21c316d6-5e25-4af5-a29a-82b748175279",
+      "col": 2,
+      "type": "ocr_similar",
+      "original": "Dividend per Share",
+      "injected": "divdend per Share",
+      "split": "dev",
+      "original_norm": "dividend per share",
+      "injected_norm": "divdend per share",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "be10454348fd38759674aa8577ddb9206ca47347210b1221b462b61b46ad03a3",
+      "injected_column_sha256": "be10454348fd38759674aa8577ddb9206ca47347210b1221b462b61b46ad03a3",
+      "clean_value_count": 9,
+      "injected_value_count": 9,
+      "label": "LEGAL_VARIATION",
+      "binding": 2,
+      "nearest_distances": {
+        "0": 11,
+        "1": 13,
+        "2": 1,
+        "3": 16,
+        "4": 12
+      },
+      "tie": false,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"50a8d377-b36e-4a3f-a6c0-118531b1c134\"\u001f2\u001f\"Income Tax Expense (Benefit)\"\u001f\"income(收入)\"\u001f\"mixed_lang\"\u001f\"income(收入)\"\u001f161",
+      "uid": "50a8d377-b36e-4a3f-a6c0-118531b1c134",
+      "col": 2,
+      "type": "mixed_lang",
+      "original": "Income Tax Expense (Benefit)",
+      "injected": "income(收入)",
+      "split": "dev",
+      "original_norm": "income tax expense benefit",
+      "injected_norm": "income 收入",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "12c091c843b9c96e0937e5c47a093b0655ba8ec66c49a94f3fc6e5fddadc71cd",
+      "injected_column_sha256": "12c091c843b9c96e0937e5c47a093b0655ba8ec66c49a94f3fc6e5fddadc71cd",
+      "clean_value_count": 3,
+      "injected_value_count": 3,
+      "label": "HARMFUL_ERROR",
+      "binding": 0,
+      "nearest_distances": {
+        "0": 9,
+        "1": 24,
+        "2": 19,
+        "3": 46,
+        "4": 18
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"fa0ed823-f4a8-4063-b895-a517f9447dad\"\u001f3\u001f\"Medicare Part D Subsidy Receipts\"\u001f\"收款\"\u001f\"alias_variant\"\u001f\"收款\"\u001f314",
+      "uid": "fa0ed823-f4a8-4063-b895-a517f9447dad",
+      "col": 3,
+      "type": "alias_variant",
+      "original": "Medicare Part D Subsidy Receipts",
+      "injected": "收款",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "9c4ace5f512a3009225e84f34df918f96ca92cb657c4373eb85da99e1efe52ec",
+      "injected_column_sha256": "9c4ace5f512a3009225e84f34df918f96ca92cb657c4373eb85da99e1efe52ec",
+      "clean_value_count": 8,
+      "injected_value_count": 8,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"e2d0f4f9-d15b-4537-bc7a-625729013ba4\"\u001f0\u001f\"£m\"\u001f\"m [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f385",
+      "uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+      "col": 0,
+      "type": "prefix_noise",
+      "original": "£m",
+      "injected": "m [1]",
+      "split": "dev",
+      "original_norm": "£m",
+      "injected_norm": "m 1",
+      "reasons": [
+        "nearest_neighbour_tie"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "fc1823b848182dff11cf63d0fed383d59c65de222fb3c58c821bbbc534a4ddc7",
+      "injected_column_sha256": "fc1823b848182dff11cf63d0fed383d59c65de222fb3c58c821bbbc534a4ddc7",
+      "clean_value_count": 10,
+      "injected_value_count": 10,
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": {
+        "0": 3,
+        "1": 3,
+        "2": 3
+      },
+      "tie": true,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"82c8abd6-9cce-4ede-a4ee-2866ce65cda8\"\u001f2\u001f\"Accumulated Amortization\"\u001f\"摊薄\"\u001f\"alias_variant\"\u001f\"摊薄\"\u001f388",
+      "uid": "82c8abd6-9cce-4ede-a4ee-2866ce65cda8",
+      "col": 2,
+      "type": "alias_variant",
+      "original": "Accumulated Amortization",
+      "injected": "摊薄",
+      "split": "dev",
+      "original_norm": "accumulated amortization",
+      "injected_norm": "摊薄",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "b0b32069dd5c3ae9166acad10fb24032163b83b84e5c62c03bf4d22cda013104",
+      "injected_column_sha256": "b0b32069dd5c3ae9166acad10fb24032163b83b84e5c62c03bf4d22cda013104",
+      "clean_value_count": 7,
+      "injected_value_count": 7,
+      "label": "HARMFUL_ERROR",
+      "binding": 3,
+      "nearest_distances": {
+        "0": 12,
+        "1": 5,
+        "2": 24,
+        "3": 3
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b\"\u001f2\u001f\"% of associated net revenues\"\u001f\"turnover\"\u001f\"alias_variant\"\u001f\"turnover\"\u001f426",
+      "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+      "col": 2,
+      "type": "alias_variant",
+      "original": "% of associated net revenues",
+      "injected": "turnover",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "9ad45e71f65718ecd09f02a575d6395a32efcbca2b431321973877161cb7034d",
+      "injected_column_sha256": "9ad45e71f65718ecd09f02a575d6395a32efcbca2b431321973877161cb7034d",
+      "clean_value_count": 7,
+      "injected_value_count": 7,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b\"\u001f4\u001f\"% of associated net revenues\"\u001f\"营业总收入\"\u001f\"alias_variant\"\u001f\"营业总收入\"\u001f426",
+      "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+      "col": 4,
+      "type": "alias_variant",
+      "original": "% of associated net revenues",
+      "injected": "营业总收入",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "afc81817ab33fd46b9db2d77e693af54c80f7c09ce6eecc34703117662de556a",
+      "injected_column_sha256": "afc81817ab33fd46b9db2d77e693af54c80f7c09ce6eecc34703117662de556a",
+      "clean_value_count": 7,
+      "injected_value_count": 7,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"74509a86-77cf-48ee-92f4-f4cd19ad1610\"\u001f4\u001f\"Consolidated\"\u001f\"Consoli2016年交易日d\"\u001f\"date_variant\"\u001f\"交易日/0\"\u001f464",
+      "uid": "74509a86-77cf-48ee-92f4-f4cd19ad1610",
+      "col": 4,
+      "type": "date_variant",
+      "original": "Consolidated",
+      "injected": "Consoli2016年交易日d",
+      "split": "dev",
+      "original_norm": "consolidated",
+      "injected_norm": "consoli2016年交易日d",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "264769c8dfdabd7c0cb11cfb3364ece7fc88517d9cc5ed32a5352aff6b9a233c",
+      "injected_column_sha256": "264769c8dfdabd7c0cb11cfb3364ece7fc88517d9cc5ed32a5352aff6b9a233c",
+      "clean_value_count": 12,
+      "injected_value_count": 12,
+      "label": "LEGAL_VARIATION",
+      "binding": 4,
+      "nearest_distances": {
+        "0": 24,
+        "1": 24,
+        "2": 24,
+        "3": 32,
+        "4": 8
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"5fe2c49e-5b1a-479a-8df7-f9a50e5d7609\"\u001f1\u001f\"Operating Leases\"\u001f\"operat1ng Leases\"\u001f\"ocr_similar\"\u001f\"operat1ng\"\u001f514",
+      "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+      "col": 1,
+      "type": "ocr_similar",
+      "original": "Operating Leases",
+      "injected": "operat1ng Leases",
+      "split": "dev",
+      "original_norm": "operating leases",
+      "injected_norm": "operat1ng leases",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "3e3fec53acdf4672fc942a566a7f91d35e73acc6844c3e2394e0973409f196b5",
+      "injected_column_sha256": "3e3fec53acdf4672fc942a566a7f91d35e73acc6844c3e2394e0973409f196b5",
+      "clean_value_count": 7,
+      "injected_value_count": 7,
+      "label": "LEGAL_VARIATION",
+      "binding": 1,
+      "nearest_distances": {
+        "0": 12,
+        "1": 1,
+        "2": 8,
+        "3": 16
+      },
+      "tie": false,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"5bf40a9b-38a9-47db-8c83-c3a854ee71b7\"\u001f1\u001f\"CONSOLIDATED\"\u001f\"CONSOLI2016年交易日D\"\u001f\"date_variant\"\u001f\"交易日/0\"\u001f587",
+      "uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+      "col": 1,
+      "type": "date_variant",
+      "original": "CONSOLIDATED",
+      "injected": "CONSOLI2016年交易日D",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "0aeb72ccdae6b2e3ce11cbf2bd29216837912e32b10ebff351602dfd6f9d3ac2",
+      "injected_column_sha256": "0aeb72ccdae6b2e3ce11cbf2bd29216837912e32b10ebff351602dfd6f9d3ac2",
+      "clean_value_count": 6,
+      "injected_value_count": 6,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"bf4ac2c0-98c9-481c-ba0c-c6728b3b3540\"\u001f4\u001f\"Unearned Revenue\"\u001f\"营业收入\"\u001f\"alias_variant\"\u001f\"营业收入\"\u001f737",
+      "uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+      "col": 4,
+      "type": "alias_variant",
+      "original": "Unearned Revenue",
+      "injected": "营业收入",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "ebbc3e0e74708bb7ad4d36eb8dcb475c7bd55f285a379ea77dccf4fc9354af07",
+      "injected_column_sha256": "ebbc3e0e74708bb7ad4d36eb8dcb475c7bd55f285a379ea77dccf4fc9354af07",
+      "clean_value_count": 5,
+      "injected_value_count": 5,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"e9730ea3-e003-4db6-a513-9c9e6f40e371\"\u001f2\u001f\"Accumulated Amortization\"\u001f\"amort\"\u001f\"alias_variant\"\u001f\"amort\"\u001f747",
+      "uid": "e9730ea3-e003-4db6-a513-9c9e6f40e371",
+      "col": 2,
+      "type": "alias_variant",
+      "original": "Accumulated Amortization",
+      "injected": "amort",
+      "split": "dev",
+      "original_norm": "accumulated amortization",
+      "injected_norm": "amort",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "caed1b9f695f67a7b3216626fb78bc652b131cd79778a929cadd8d41068a11d9",
+      "injected_column_sha256": "caed1b9f695f67a7b3216626fb78bc652b131cd79778a929cadd8d41068a11d9",
+      "clean_value_count": 11,
+      "injected_value_count": 11,
+      "label": "HARMFUL_ERROR",
+      "binding": 3,
+      "nearest_distances": {
+        "0": 14,
+        "1": 8,
+        "2": 19,
+        "3": 6
+      },
+      "tie": false,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"425ee1c7-fb82-4853-994a-9876c414fbd5\"\u001f3\u001f\"Total tangible fixed assets\"\u001f\"资产总额(万元)\"\u001f\"unit_suffix\"\u001f\"资产总额(万元)\"\u001f772",
+      "uid": "425ee1c7-fb82-4853-994a-9876c414fbd5",
+      "col": 3,
+      "type": "unit_suffix",
+      "original": "Total tangible fixed assets",
+      "injected": "资产总额(万元)",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "23837d6f0bb44ada6f9fa87714ab66d236a78e3b8e56dd8f10ee257426405f55",
+      "injected_column_sha256": "23837d6f0bb44ada6f9fa87714ab66d236a78e3b8e56dd8f10ee257426405f55",
+      "clean_value_count": 24,
+      "injected_value_count": 24,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"2726de73-db4a-456d-8bc1-b69dfdc19c9d\"\u001f2\u001f\"Revenue Recognition Guidance\"\u001f\"营业收入\"\u001f\"alias_variant\"\u001f\"营业收入\"\u001f842",
+      "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+      "col": 2,
+      "type": "alias_variant",
+      "original": "Revenue Recognition Guidance",
+      "injected": "营业收入",
+      "split": "dev",
+      "original_norm": "revenue recognition guidance",
+      "injected_norm": "营业收入",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "1dd7bdf9a2958856f7a0dd9bb9bd9261afbcd0b43c9c754da401380f590c4c71",
+      "injected_column_sha256": "1dd7bdf9a2958856f7a0dd9bb9bd9261afbcd0b43c9c754da401380f590c4c71",
+      "clean_value_count": 10,
+      "injected_value_count": 10,
+      "label": "HARMFUL_ERROR",
+      "binding": 0,
+      "nearest_distances": {
+        "0": 11,
+        "1": 27,
+        "2": 28,
+        "3": 36,
+        "4": 35
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"2726de73-db4a-456d-8bc1-b69dfdc19c9d\"\u001f3\u001f\"Accounting for Income Taxes Guidance\"\u001f\"account no.\"\u001f\"alias_variant\"\u001f\"account no.\"\u001f842",
+      "uid": "2726de73-db4a-456d-8bc1-b69dfdc19c9d",
+      "col": 3,
+      "type": "alias_variant",
+      "original": "Accounting for Income Taxes Guidance",
+      "injected": "account no.",
+      "split": "dev",
+      "original_norm": "accounting for income taxes guidance",
+      "injected_norm": "account no",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "e43203bfd7a3801b4f88df3eea5c0b19ca798c2b6433b63251363c311f1d0908",
+      "injected_column_sha256": "e43203bfd7a3801b4f88df3eea5c0b19ca798c2b6433b63251363c311f1d0908",
+      "clean_value_count": 10,
+      "injected_value_count": 10,
+      "label": "HARMFUL_ERROR",
+      "binding": 0,
+      "nearest_distances": {
+        "0": 10,
+        "1": 23,
+        "2": 22,
+        "3": 26,
+        "4": 31
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"7c80a835-4fb2-4792-9ad8-95660da47f7e\"\u001f2\u001f\"Accumulated Amortization\"\u001f\"摊薄\"\u001f\"alias_variant\"\u001f\"摊薄\"\u001f848",
+      "uid": "7c80a835-4fb2-4792-9ad8-95660da47f7e",
+      "col": 2,
+      "type": "alias_variant",
+      "original": "Accumulated Amortization",
+      "injected": "摊薄",
+      "split": "dev",
+      "original_norm": "accumulated amortization",
+      "injected_norm": "摊薄",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "4a716767dfdbddfdb47408305943aa815ccbaf33085cd67bb552656f1da0d46d",
+      "injected_column_sha256": "4a716767dfdbddfdb47408305943aa815ccbaf33085cd67bb552656f1da0d46d",
+      "clean_value_count": 9,
+      "injected_value_count": 9,
+      "label": "HARMFUL_ERROR",
+      "binding": 0,
+      "nearest_distances": {
+        "0": 16,
+        "1": 21,
+        "2": 24,
+        "3": 19
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"e11338f6-69a0-48bb-8f07-8733f085dbb2\"\u001f4\u001f\"Total contractual cash flows\"\u001f\"现金流\"\u001f\"alias_variant\"\u001f\"现金流\"\u001f891",
+      "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+      "col": 4,
+      "type": "alias_variant",
+      "original": "Total contractual cash flows",
+      "injected": "现金流",
+      "split": "dev",
+      "original_norm": "total contractual cash flows",
+      "injected_norm": "现金流",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "26b082d1df59b681a1719ddcdd9730d7b92f636eac933d756c246713606759c3",
+      "injected_column_sha256": "26b082d1df59b681a1719ddcdd9730d7b92f636eac933d756c246713606759c3",
+      "clean_value_count": 10,
+      "injected_value_count": 10,
+      "label": "HARMFUL_ERROR",
+      "binding": 3,
+      "nearest_distances": {
+        "0": 47,
+        "1": 16,
+        "2": 21,
+        "3": 12,
+        "4": 28,
+        "5": 15
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"e11338f6-69a0-48bb-8f07-8733f085dbb2\"\u001f0\u001f\"Contractual Maturities of Financial Liabilities\"\u001f\"Contractual Maturities of Financial liabilitie5\"\u001f\"ocr_similar\"\u001f\"liabilitie5\"\u001f891",
+      "uid": "e11338f6-69a0-48bb-8f07-8733f085dbb2",
+      "col": 0,
+      "type": "ocr_similar",
+      "original": "Contractual Maturities of Financial Liabilities",
+      "injected": "Contractual Maturities of Financial liabilitie5",
+      "split": "dev",
+      "original_norm": "contractual maturities of financial liabilities",
+      "injected_norm": "contractual maturities of financial liabilitie5",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "6a206f7ab0e038c57acf0e2c7e4d8e5085654ff130c8696f64308b8292e82f5b",
+      "injected_column_sha256": "6a206f7ab0e038c57acf0e2c7e4d8e5085654ff130c8696f64308b8292e82f5b",
+      "clean_value_count": 10,
+      "injected_value_count": 10,
+      "label": "LEGAL_VARIATION",
+      "binding": 0,
+      "nearest_distances": {
+        "0": 1,
+        "1": 41,
+        "2": 39,
+        "3": 42,
+        "4": 36,
+        "5": 39
+      },
+      "tie": false,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"51cd045e-e91b-4289-9397-341538e9739b\"\u001f0\u001f\"Balance Sheet Account\"\u001f\"account no.\"\u001f\"alias_variant\"\u001f\"account no.\"\u001f901",
+      "uid": "51cd045e-e91b-4289-9397-341538e9739b",
+      "col": 0,
+      "type": "alias_variant",
+      "original": "Balance Sheet Account",
+      "injected": "account no.",
+      "split": "dev",
+      "original_norm": "balance sheet account",
+      "injected_norm": "account no",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "6ba245d6ecf75ad0aa46a7624ba424bc4fc6444e1c4d889ffd6f096d04197eab",
+      "injected_column_sha256": "6ba245d6ecf75ad0aa46a7624ba424bc4fc6444e1c4d889ffd6f096d04197eab",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "label": "HARMFUL_ERROR",
+      "binding": 3,
+      "nearest_distances": {
+        "0": 16,
+        "1": 10,
+        "2": 10,
+        "3": 8
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"f47d9a01-a25d-436c-a28b-7aa04e2df491\"\u001f0\u001f\"£m\"\u001f\"m [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f1041",
+      "uid": "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+      "col": 0,
+      "type": "prefix_noise",
+      "original": "£m",
+      "injected": "m [1]",
+      "split": "dev",
+      "original_norm": "£m",
+      "injected_norm": "m 1",
+      "reasons": [
+        "nearest_neighbour_tie"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "df8ec963d333966c9161172c7b85c6952a57b513363e9931b2893dc5adac39b8",
+      "injected_column_sha256": "df8ec963d333966c9161172c7b85c6952a57b513363e9931b2893dc5adac39b8",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": {
+        "0": 3,
+        "1": 3,
+        "2": 3
+      },
+      "tie": true,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"ea1f0fff-a213-4475-8b1c-221157649595\"\u001f2\u001f\"Accumulated Unrealised Gains or Losses on Cash Flow Hedges\"\u001f\"现金流量\"\u001f\"alias_variant\"\u001f\"现金流量\"\u001f1079",
+      "uid": "ea1f0fff-a213-4475-8b1c-221157649595",
+      "col": 2,
+      "type": "alias_variant",
+      "original": "Accumulated Unrealised Gains or Losses on Cash Flow Hedges",
+      "injected": "现金流量",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "9236db90e8cfd259176327894e934ce57b46708caa0a214b50a1c4ba8b93b787",
+      "injected_column_sha256": "9236db90e8cfd259176327894e934ce57b46708caa0a214b50a1c4ba8b93b787",
+      "clean_value_count": 7,
+      "injected_value_count": 7,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"ea031e89-1bf8-4f64-8ed5-d1d0327003cf\"\u001f0\u001f\"Right-of-Use Assets\"\u001f\"assets(资产)\"\u001f\"mixed_lang\"\u001f\"assets(资产)\"\u001f1119",
+      "uid": "ea031e89-1bf8-4f64-8ed5-d1d0327003cf",
+      "col": 0,
+      "type": "mixed_lang",
+      "original": "Right-of-Use Assets",
+      "injected": "assets(资产)",
+      "split": "dev",
+      "original_norm": "right of use assets",
+      "injected_norm": "assets 资产",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "39c65669175edc9bb78690462181124c0e2e7a66e8d9db48ae575b8161212d66",
+      "injected_column_sha256": "39c65669175edc9bb78690462181124c0e2e7a66e8d9db48ae575b8161212d66",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "label": "HARMFUL_ERROR",
+      "binding": 1,
+      "nearest_distances": {
+        "0": 16,
+        "1": 7,
+        "2": 13,
+        "3": 9,
+        "4": 8,
+        "5": 8
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"1e712660-7b78-4791-8264-e517efde2e62\"\u001f2\u001f\"Weighted Average Grant Date Fair Value\"\u001f\"Weighted Average Grant 对账日期 / date Fair Value\"\u001f\"date_variant\"\u001f\"对账日期/2\"\u001f1128",
+      "uid": "1e712660-7b78-4791-8264-e517efde2e62",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted Average Grant Date Fair Value",
+      "injected": "Weighted Average Grant 对账日期 / date Fair Value",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "9b65a87226689b4ab2cdd896fcb69f2689c3923c2e806f24edbdca6d2b6e2ebf",
+      "injected_column_sha256": "9b65a87226689b4ab2cdd896fcb69f2689c3923c2e806f24edbdca6d2b6e2ebf",
+      "clean_value_count": 5,
+      "injected_value_count": 5,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"ed76bf6b-4d46-42b2-88ff-b2205470c8af\"\u001f4\u001f\"Deferred Revenue (current)\"\u001f\"营收\"\u001f\"alias_variant\"\u001f\"营收\"\u001f1148",
+      "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+      "col": 4,
+      "type": "alias_variant",
+      "original": "Deferred Revenue (current)",
+      "injected": "营收",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "5e3c85bb494cd309d8e43a368c24949b1304f929ddd201157829c6bce3d08a13",
+      "injected_column_sha256": "5e3c85bb494cd309d8e43a368c24949b1304f929ddd201157829c6bce3d08a13",
+      "clean_value_count": 3,
+      "injected_value_count": 3,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"38eb9da5-5c73-4366-af5f-9bd01019938a\"\u001f2\u001f\"Weighted-Average Grant Date Fair Value Per Share\"\u001f\"Weighted-Average Grant date 2021-报表明细日期 Fair Value Per Share\"\u001f\"date_variant\"\u001f\"报表明细日期/1\"\u001f1167",
+      "uid": "38eb9da5-5c73-4366-af5f-9bd01019938a",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted-Average Grant Date Fair Value Per Share",
+      "injected": "Weighted-Average Grant date 2021-报表明细日期 Fair Value Per Share",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "0539c357d1594e821b806eebacb1676b579f787e732799e864a4613b444fb1ad",
+      "injected_column_sha256": "0539c357d1594e821b806eebacb1676b579f787e732799e864a4613b444fb1ad",
+      "clean_value_count": 5,
+      "injected_value_count": 5,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"3c609073-6a48-4961-84cd-de68a59fd66c\"\u001f3\u001f\"Other plant and operating equipment\"\u001f\"Other plant and operat1ng equipment\"\u001f\"ocr_similar\"\u001f\"operat1ng\"\u001f1177",
+      "uid": "3c609073-6a48-4961-84cd-de68a59fd66c",
+      "col": 3,
+      "type": "ocr_similar",
+      "original": "Other plant and operating equipment",
+      "injected": "Other plant and operat1ng equipment",
+      "split": "dev",
+      "original_norm": "other plant and operating equipment",
+      "injected_norm": "other plant and operat1ng equipment",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "7b997432fd8069d3813f3d5c9bab1d9a743ab1bcbb4313e0c4bd719fef22b743",
+      "injected_column_sha256": "7b997432fd8069d3813f3d5c9bab1d9a743ab1bcbb4313e0c4bd719fef22b743",
+      "clean_value_count": 12,
+      "injected_value_count": 12,
+      "label": "LEGAL_VARIATION",
+      "binding": 3,
+      "nearest_distances": {
+        "0": 33,
+        "1": 28,
+        "2": 25,
+        "3": 1
+      },
+      "tie": false,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"2953b803-d49b-4fbb-8dc2-d9a3bec9d67e\"\u001f0\u001f\"Allocation of GasLog Partners’ profit/(loss)(*)\"\u001f\"profit(万元)\"\u001f\"unit_suffix\"\u001f\"profit(万元)\"\u001f1195",
+      "uid": "2953b803-d49b-4fbb-8dc2-d9a3bec9d67e",
+      "col": 0,
+      "type": "unit_suffix",
+      "original": "Allocation of GasLog Partners’ profit/(loss)(*)",
+      "injected": "profit(万元)",
+      "split": "dev",
+      "original_norm": "allocation of gaslog partners profit loss",
+      "injected_norm": "profit 万元",
+      "reasons": [
+        "nearest_neighbour_tie"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "d4dc0f11668f24a6a10a6e1d0f6b0ad97a1e86dfa78cf3ebfcfaee8ffb8a35a8",
+      "injected_column_sha256": "d4dc0f11668f24a6a10a6e1d0f6b0ad97a1e86dfa78cf3ebfcfaee8ffb8a35a8",
+      "clean_value_count": 9,
+      "injected_value_count": 9,
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": {
+        "0": 34,
+        "1": 9,
+        "2": 9
+      },
+      "tie": true,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"617deeb3-f222-4172-a824-c62fc2214a89\"\u001f1\u001f\"CONSOLIDATE\"\u001f\"CONSOLI2017期末\"\u001f\"date_variant\"\u001f\"期末日期/3\"\u001f1290",
+      "uid": "617deeb3-f222-4172-a824-c62fc2214a89",
+      "col": 1,
+      "type": "date_variant",
+      "original": "CONSOLIDATE",
+      "injected": "CONSOLI2017期末",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "c8596220ae88c95444802437452e81f6735587a433caacd4009de8acb42822da",
+      "injected_column_sha256": "c8596220ae88c95444802437452e81f6735587a433caacd4009de8acb42822da",
+      "clean_value_count": 18,
+      "injected_value_count": 18,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"73a817fc-25df-494d-b0f2-79cfdab34076\"\u001f1\u001f\"Dividends Paid(1)\"\u001f\"dividend\"\u001f\"alias_variant\"\u001f\"dividend\"\u001f1327",
+      "uid": "73a817fc-25df-494d-b0f2-79cfdab34076",
+      "col": 1,
+      "type": "alias_variant",
+      "original": "Dividends Paid(1)",
+      "injected": "dividend",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "b23aeb70b14db6634d2cad4260b5ea299e48b5003c216df61b35a52d9ceb0c2c",
+      "injected_column_sha256": "b23aeb70b14db6634d2cad4260b5ea299e48b5003c216df61b35a52d9ceb0c2c",
+      "clean_value_count": 5,
+      "injected_value_count": 5,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"96d14a5f-1593-458e-a688-a6a84f80ea3e\"\u001f1\u001f\"Total Cash Dividends Paid\"\u001f\"股息\"\u001f\"alias_variant\"\u001f\"股息\"\u001f1346",
+      "uid": "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+      "col": 1,
+      "type": "alias_variant",
+      "original": "Total Cash Dividends Paid",
+      "injected": "股息",
+      "split": "dev",
+      "original_norm": "total cash dividends paid",
+      "injected_norm": "股息",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "09ce5d4d61ae6d8a6d3273577725c2e0592b17df4629f74a4657444b7ca28d61",
+      "injected_column_sha256": "09ce5d4d61ae6d8a6d3273577725c2e0592b17df4629f74a4657444b7ca28d61",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "label": "LEGAL_VARIATION",
+      "binding": 1,
+      "nearest_distances": {
+        "0": 36,
+        "1": 25,
+        "2": 42
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"96d14a5f-1593-458e-a688-a6a84f80ea3e\"\u001f2\u001f\"Total Cash Dividends Paid Per Common Share\"\u001f\"dividends(股息)\"\u001f\"mixed_lang\"\u001f\"dividends(股息)\"\u001f1346",
+      "uid": "96d14a5f-1593-458e-a688-a6a84f80ea3e",
+      "col": 2,
+      "type": "mixed_lang",
+      "original": "Total Cash Dividends Paid Per Common Share",
+      "injected": "dividends(股息)",
+      "split": "dev",
+      "original_norm": "total cash dividends paid per common share",
+      "injected_norm": "dividends 股息",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "6b22f6559792fed9b959ef959a690e02956012bbf0d04e38877fdc4246439408",
+      "injected_column_sha256": "6b22f6559792fed9b959ef959a690e02956012bbf0d04e38877fdc4246439408",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "label": "HARMFUL_ERROR",
+      "binding": 1,
+      "nearest_distances": {
+        "0": 31,
+        "1": 15,
+        "2": 32
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d\"\u001f0\u001f\"£m\"\u001f\"m①\"\u001f\"prefix_noise\"\u001f\"①②圈号\"\u001f1372",
+      "uid": "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+      "col": 0,
+      "type": "prefix_noise",
+      "original": "£m",
+      "injected": "m①",
+      "split": "dev",
+      "original_norm": "£m",
+      "injected_norm": "m1",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "ea2e0988da28b8446bb2621e0e6c7a1e35d50dc1e768520030d973ca745e175d",
+      "injected_column_sha256": "ea2e0988da28b8446bb2621e0e6c7a1e35d50dc1e768520030d973ca745e175d",
+      "clean_value_count": 7,
+      "injected_value_count": 7,
+      "label": "LEGAL_VARIATION",
+      "binding": 0,
+      "nearest_distances": {
+        "0": 2,
+        "1": 6,
+        "2": 6,
+        "3": 6
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"bdeeb701-bae6-4a36-86d6-108c8e43c5e2\"\u001f2\u001f\"Percent Expected to be Recognized as Revenue\"\u001f\"sales\"\u001f\"alias_variant\"\u001f\"sales\"\u001f1596",
+      "uid": "bdeeb701-bae6-4a36-86d6-108c8e43c5e2",
+      "col": 2,
+      "type": "alias_variant",
+      "original": "Percent Expected to be Recognized as Revenue",
+      "injected": "sales",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "bd633057a27a4d545fd8df5da2bb229172a347ff656a4ace9556f284f4cc4383",
+      "injected_column_sha256": "bd633057a27a4d545fd8df5da2bb229172a347ff656a4ace9556f284f4cc4383",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"648e1260-d160-45d2-a744-57be0fd89850\"\u001f1\u001f\"Purchased Intangible Assets\"\u001f\"assets(资产)\"\u001f\"mixed_lang\"\u001f\"assets(资产)\"\u001f1599",
+      "uid": "648e1260-d160-45d2-a744-57be0fd89850",
+      "col": 1,
+      "type": "mixed_lang",
+      "original": "Purchased Intangible Assets",
+      "injected": "assets(资产)",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "1ef4d6efbd376d01e3f44530e5cd96af5a8e637e423e38a39704748cb8025bd9",
+      "injected_column_sha256": "1ef4d6efbd376d01e3f44530e5cd96af5a8e637e423e38a39704748cb8025bd9",
+      "clean_value_count": 6,
+      "injected_value_count": 6,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"32cfcadb-add0-4cc1-9956-41ac073477c4\"\u001f2\u001f\"As a % of Segment Revenue (1)\"\u001f\"营收\"\u001f\"alias_variant\"\u001f\"营收\"\u001f1611",
+      "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+      "col": 2,
+      "type": "alias_variant",
+      "original": "As a % of Segment Revenue (1)",
+      "injected": "营收",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "98e8b2c1c006984d6b9e69c1149b5a2a5e5623e74cb8d187999591e613e55271",
+      "injected_column_sha256": "98e8b2c1c006984d6b9e69c1149b5a2a5e5623e74cb8d187999591e613e55271",
+      "clean_value_count": 6,
+      "injected_value_count": 6,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa\"\u001f2\u001f\"Weighted-average grant date fair value\"\u001f\"Weighted-average grant date 2021-对账日期 fair value\"\u001f\"date_variant\"\u001f\"对账日期/1\"\u001f1683",
+      "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+      "col": 2,
+      "type": "date_variant",
+      "original": "Weighted-average grant date fair value",
+      "injected": "Weighted-average grant date 2021-对账日期 fair value",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "610c28603dbae40f6071415136e2470145733ef95e8e09b4ffbfe2fab67142fd",
+      "injected_column_sha256": "610c28603dbae40f6071415136e2470145733ef95e8e09b4ffbfe2fab67142fd",
+      "clean_value_count": 9,
+      "injected_value_count": 9,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"50e78448-3cf5-439c-a609-ee866bd1f05a\"\u001f2\u001f\"US$\"\u001f\"US [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f1699",
+      "uid": "50e78448-3cf5-439c-a609-ee866bd1f05a",
+      "col": 2,
+      "type": "prefix_noise",
+      "original": "US$",
+      "injected": "US [1]",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "069ca904e176b8140325a79931e734e406a75a6b5cb25a8df341260daec073d5",
+      "injected_column_sha256": "069ca904e176b8140325a79931e734e406a75a6b5cb25a8df341260daec073d5",
+      "clean_value_count": 6,
+      "injected_value_count": 6,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"a824b7af-61e8-4800-83c6-72e56e64a36d\"\u001f0\u001f\"£m\"\u001f\"m №\"\u001f\"prefix_noise\"\u001f\"号码前缀\"\u001f1702",
+      "uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+      "col": 0,
+      "type": "prefix_noise",
+      "original": "£m",
+      "injected": "m №",
+      "split": "dev",
+      "original_norm": "£m",
+      "injected_norm": "m no",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "26f529c27e636e2625e95c8b2718948b0a8c318b3aa2c314670590420e549f27",
+      "injected_column_sha256": "26f529c27e636e2625e95c8b2718948b0a8c318b3aa2c314670590420e549f27",
+      "clean_value_count": 11,
+      "injected_value_count": 11,
+      "label": "LEGAL_VARIATION",
+      "binding": 0,
+      "nearest_distances": {
+        "0": 4,
+        "1": 6,
+        "2": 6,
+        "3": 5
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"fd39b5b5-7426-4db6-bbf7-d3c5111ce543\"\u001f2\u001f\"Interest Rate (per annum)\"\u001f\"利息\"\u001f\"alias_variant\"\u001f\"利息\"\u001f1744",
+      "uid": "fd39b5b5-7426-4db6-bbf7-d3c5111ce543",
+      "col": 2,
+      "type": "alias_variant",
+      "original": "Interest Rate (per annum)",
+      "injected": "利息",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "3862ad517d80f5d28e28bf3af63b3591ef905c9c9f7285cdc044c9cbe79cf212",
+      "injected_column_sha256": "3862ad517d80f5d28e28bf3af63b3591ef905c9c9f7285cdc044c9cbe79cf212",
+      "clean_value_count": 6,
+      "injected_value_count": 6,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"68b8d514-802c-4ebc-a754-db4a3db7f9fd\"\u001f1\u001f\"Grant Date\"\u001f\"Grant date 2019-报表明细日期\"\u001f\"date_variant\"\u001f\"报表明细日期/1\"\u001f1748",
+      "uid": "68b8d514-802c-4ebc-a754-db4a3db7f9fd",
+      "col": 1,
+      "type": "date_variant",
+      "original": "Grant Date",
+      "injected": "Grant date 2019-报表明细日期",
+      "split": "dev",
+      "original_norm": "grant date",
+      "injected_norm": "grant date 2019 报表明细日期",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "ecf0548cee4196766822ace2b31b6276a712ad2ea5baea8bad2a798cb9e7bfe6",
+      "injected_column_sha256": "ecf0548cee4196766822ace2b31b6276a712ad2ea5baea8bad2a798cb9e7bfe6",
+      "clean_value_count": 7,
+      "injected_value_count": 7,
+      "label": "LEGAL_VARIATION",
+      "binding": 1,
+      "nearest_distances": {
+        "0": 19,
+        "1": 12,
+        "2": 73,
+        "3": 33,
+        "4": 36,
+        "5": 38
+      },
+      "tie": false,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"6aae8dee-45af-4a09-9e09-8137d6eb3dc3\"\u001f0\u001f\"CASH FLOW SUMMARY\"\u001f\"现金流\"\u001f\"alias_variant\"\u001f\"现金流\"\u001f1883",
+      "uid": "6aae8dee-45af-4a09-9e09-8137d6eb3dc3",
+      "col": 0,
+      "type": "alias_variant",
+      "original": "CASH FLOW SUMMARY",
+      "injected": "现金流",
+      "split": "dev",
+      "original_norm": "cash flow summary",
+      "injected_norm": "现金流",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "ecfd9516b9006f70b9f27e7a3ec4ee145d8dcfd003588589f21e69cf660c15a7",
+      "injected_column_sha256": "ecfd9516b9006f70b9f27e7a3ec4ee145d8dcfd003588589f21e69cf660c15a7",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "label": "HARMFUL_ERROR",
+      "binding": 3,
+      "nearest_distances": {
+        "0": 17,
+        "1": 8,
+        "2": 17,
+        "3": 6
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"a32b9e2a-36d9-4513-963e-9b1fc36878f0\"\u001f0\u001f\"Long-lived Assets \"\u001f\"资产(assets)\"\u001f\"mixed_lang\"\u001f\"资产(assets)\"\u001f1920",
+      "uid": "a32b9e2a-36d9-4513-963e-9b1fc36878f0",
+      "col": 0,
+      "type": "mixed_lang",
+      "original": "Long-lived Assets ",
+      "injected": "资产(assets)",
+      "split": "dev",
+      "original_norm": "long lived assets",
+      "injected_norm": "资产 assets",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "ce89c8076384911c4f7d6a97b51835b67d3f5347da75226b341b0a7cbe9f268d",
+      "injected_column_sha256": "ce89c8076384911c4f7d6a97b51835b67d3f5347da75226b341b0a7cbe9f268d",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "label": "LEGAL_VARIATION",
+      "binding": 0,
+      "nearest_distances": {
+        "0": 10,
+        "1": 11,
+        "2": 11
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"aca23e3e-967d-40a9-b6bb-3c095786a3b7\"\u001f1\u001f\"Positive (Negative) Impact to Net Income\"\u001f\"net profit\"\u001f\"alias_variant\"\u001f\"net profit\"\u001f1935",
+      "uid": "aca23e3e-967d-40a9-b6bb-3c095786a3b7",
+      "col": 1,
+      "type": "alias_variant",
+      "original": "Positive (Negative) Impact to Net Income",
+      "injected": "net profit",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "40e8f2f7b7b7ac4f026a209ee029f5b82ac17dd27a9d5db30c6cc107319a56b6",
+      "injected_column_sha256": "40e8f2f7b7b7ac4f026a209ee029f5b82ac17dd27a9d5db30c6cc107319a56b6",
+      "clean_value_count": 11,
+      "injected_value_count": 11,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"7a249c43-5e24-447e-9da1-3d5982aca590\"\u001f1\u001f\"Consolidated\"\u001f\"Consoli2019期末d\"\u001f\"date_variant\"\u001f\"期末日期/3\"\u001f1970",
+      "uid": "7a249c43-5e24-447e-9da1-3d5982aca590",
+      "col": 1,
+      "type": "date_variant",
+      "original": "Consolidated",
+      "injected": "Consoli2019期末d",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "13a37398b4ab9f8febc41384c76485febecd8bb1cec62cbfc3dd1290bb7c6829",
+      "injected_column_sha256": "13a37398b4ab9f8febc41384c76485febecd8bb1cec62cbfc3dd1290bb7c6829",
+      "clean_value_count": 7,
+      "injected_value_count": 7,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"1fe3e1d6-7532-44e1-aa5d-cdbe604583bd\"\u001f2\u001f\"Number of equity shares\"\u001f\"Number of equty shares\"\u001f\"ocr_similar\"\u001f\"equty\"\u001f2132",
+      "uid": "1fe3e1d6-7532-44e1-aa5d-cdbe604583bd",
+      "col": 2,
+      "type": "ocr_similar",
+      "original": "Number of equity shares",
+      "injected": "Number of equty shares",
+      "split": "dev",
+      "original_norm": "number of equity shares",
+      "injected_norm": "number of equty shares",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "6c0bacc8488e9f3f50a1b960b6f55e33f01038219951cb4101c7285b069cd9bc",
+      "injected_column_sha256": "6c0bacc8488e9f3f50a1b960b6f55e33f01038219951cb4101c7285b069cd9bc",
+      "clean_value_count": 5,
+      "injected_value_count": 5,
+      "label": "LEGAL_VARIATION",
+      "binding": 2,
+      "nearest_distances": {
+        "0": 17,
+        "1": 11,
+        "2": 1
+      },
+      "tie": false,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"d6d9f70a-17b6-4530-b497-f73d59f0f0cb\"\u001f0\u001f\"Revenue by segment\"\u001f\"营收\"\u001f\"alias_variant\"\u001f\"营收\"\u001f2175",
+      "uid": "d6d9f70a-17b6-4530-b497-f73d59f0f0cb",
+      "col": 0,
+      "type": "alias_variant",
+      "original": "Revenue by segment",
+      "injected": "营收",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "dc957c580d61179d9fb413833ac26c8297a2bba1b9e2909d930d14f900eadabf",
+      "injected_column_sha256": "dc957c580d61179d9fb413833ac26c8297a2bba1b9e2909d930d14f900eadabf",
+      "clean_value_count": 5,
+      "injected_value_count": 5,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"d8c20406-c646-4689-b645-5260bf17499d\"\u001f0\u001f\"Financial income and expenses\"\u001f\"income(收入)\"\u001f\"mixed_lang\"\u001f\"income(收入)\"\u001f2211",
+      "uid": "d8c20406-c646-4689-b645-5260bf17499d",
+      "col": 0,
+      "type": "mixed_lang",
+      "original": "Financial income and expenses",
+      "injected": "income(收入)",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "d20fbc0a59c7d08039dd18861bfc8d87aa373130b41d205e2fe328e46700730a",
+      "injected_column_sha256": "d20fbc0a59c7d08039dd18861bfc8d87aa373130b41d205e2fe328e46700730a",
+      "clean_value_count": 11,
+      "injected_value_count": 11,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"46f3bc91-b8ca-42b8-bf03-f23e9fd70b5e\"\u001f1\u001f\"Weighted Average Amortization Period\"\u001f\"摊薄\"\u001f\"alias_variant\"\u001f\"摊薄\"\u001f2226",
+      "uid": "46f3bc91-b8ca-42b8-bf03-f23e9fd70b5e",
+      "col": 1,
+      "type": "alias_variant",
+      "original": "Weighted Average Amortization Period",
+      "injected": "摊薄",
+      "split": "dev",
+      "original_norm": "weighted average amortization period",
+      "injected_norm": "摊薄",
+      "reasons": [
+        "unique_nearest_neighbour_other_column"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "9062a6c73b274dc52f21cb20a8a434b6f84ba693b8168c502339470093f181d8",
+      "injected_column_sha256": "9062a6c73b274dc52f21cb20a8a434b6f84ba693b8168c502339470093f181d8",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "label": "HARMFUL_ERROR",
+      "binding": 4,
+      "nearest_distances": {
+        "0": 17,
+        "1": 36,
+        "2": 4,
+        "3": 24,
+        "4": 3
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"6bf238a5-0a3e-492d-91f8-7f62d3b37fba\"\u001f0\u001f\"Income statement expense\"\u001f\"收入(income)\"\u001f\"mixed_lang\"\u001f\"收入(income)\"\u001f2246",
+      "uid": "6bf238a5-0a3e-492d-91f8-7f62d3b37fba",
+      "col": 0,
+      "type": "mixed_lang",
+      "original": "Income statement expense",
+      "injected": "收入(income)",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "122522a6f0c07f9be93d041cd2797b1e5a6a41d77dc442da14bb15de00016d31",
+      "injected_column_sha256": "122522a6f0c07f9be93d041cd2797b1e5a6a41d77dc442da14bb15de00016d31",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"8692f92d-668a-452d-be7a-2b491ee27585\"\u001f0\u001f\"Income tax expense\"\u001f\"income(收入)\"\u001f\"mixed_lang\"\u001f\"income(收入)\"\u001f2265",
+      "uid": "8692f92d-668a-452d-be7a-2b491ee27585",
+      "col": 0,
+      "type": "mixed_lang",
+      "original": "Income tax expense",
+      "injected": "income(收入)",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "387f9eb32ea7c2416d3dddcbbbb6425d3bd67ef183de12bb7a4a29061267da66",
+      "injected_column_sha256": "387f9eb32ea7c2416d3dddcbbbb6425d3bd67ef183de12bb7a4a29061267da66",
+      "clean_value_count": 16,
+      "injected_value_count": 16,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"d7d65228-96c1-4890-951c-c3d7578f8031\"\u001f3\u001f\"Cash dividend per share (NT dollars)\"\u001f\"Cash divdend per share (NT dollars)\"\u001f\"ocr_similar\"\u001f\"divdend\"\u001f2284",
+      "uid": "d7d65228-96c1-4890-951c-c3d7578f8031",
+      "col": 3,
+      "type": "ocr_similar",
+      "original": "Cash dividend per share (NT dollars)",
+      "injected": "Cash divdend per share (NT dollars)",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "4c2e73e4383b4ef29727e765d8480d72d2b5bbef056d510258e77ce14b4c4379",
+      "injected_column_sha256": "4c2e73e4383b4ef29727e765d8480d72d2b5bbef056d510258e77ce14b4c4379",
+      "clean_value_count": 4,
+      "injected_value_count": 4,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"54c494f7-d731-49bf-b9cd-d494aea72e34\"\u001f2\u001f\"Accumulated Amortization\"\u001f\"amort\"\u001f\"alias_variant\"\u001f\"amort\"\u001f2325",
+      "uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+      "col": 2,
+      "type": "alias_variant",
+      "original": "Accumulated Amortization",
+      "injected": "amort",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "1b01127b0c34dae4e83369205c6620e73bfcf1518fc3a31a8c358235a555c6d0",
+      "injected_column_sha256": "1b01127b0c34dae4e83369205c6620e73bfcf1518fc3a31a8c358235a555c6d0",
+      "clean_value_count": 19,
+      "injected_value_count": 19,
+      "checker_verdict": "blind"
+    },
+    {
+      "injection_id": "\"3789d7da-dc3e-4cd7-b639-d6805211405a\"\u001f1\u001f\"Revenues\"\u001f\"sales\"\u001f\"alias_variant\"\u001f\"sales\"\u001f2345",
+      "uid": "3789d7da-dc3e-4cd7-b639-d6805211405a",
+      "col": 1,
+      "type": "alias_variant",
+      "original": "Revenues",
+      "injected": "sales",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "5371c2b2b85f5d59c788f9b7ccb3ed94f86fea625b6da497a207b92e28f1f3e7",
+      "injected_column_sha256": "5371c2b2b85f5d59c788f9b7ccb3ed94f86fea625b6da497a207b92e28f1f3e7",
+      "clean_value_count": 6,
+      "injected_value_count": 6,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"3789d7da-dc3e-4cd7-b639-d6805211405a\"\u001f3\u001f\"Income (loss) from vessel operations\"\u001f\"income(收入)\"\u001f\"mixed_lang\"\u001f\"income(收入)\"\u001f2345",
+      "uid": "3789d7da-dc3e-4cd7-b639-d6805211405a",
+      "col": 3,
+      "type": "mixed_lang",
+      "original": "Income (loss) from vessel operations",
+      "injected": "income(收入)",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "cd32d23bd1a0eb03dd850b8c42e35fd6fc2be28e6f250d8b8526783ffaadcd0a",
+      "injected_column_sha256": "cd32d23bd1a0eb03dd850b8c42e35fd6fc2be28e6f250d8b8526783ffaadcd0a",
+      "clean_value_count": 6,
+      "injected_value_count": 6,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"e573a09b-3053-4c6e-9766-3cce1d2c087d\"\u001f0\u001f\"£m\"\u001f\"m①\"\u001f\"prefix_noise\"\u001f\"①②圈号\"\u001f2360",
+      "uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+      "col": 0,
+      "type": "prefix_noise",
+      "original": "£m",
+      "injected": "m①",
+      "split": "dev",
+      "original_norm": "£m",
+      "injected_norm": "m1",
+      "reasons": [
+        "unique_nearest_neighbour_target"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "428f4fec079233011dfeddb869eebfd9a930940d80ca1c8558cc7173f4b37613",
+      "injected_column_sha256": "428f4fec079233011dfeddb869eebfd9a930940d80ca1c8558cc7173f4b37613",
+      "clean_value_count": 3,
+      "injected_value_count": 3,
+      "label": "LEGAL_VARIATION",
+      "binding": 0,
+      "nearest_distances": {
+        "0": 2,
+        "1": 3,
+        "2": 3
+      },
+      "tie": false,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1\"\u001f3\u001f\"Accounts Receivable, Net\"\u001f\"帐号\"\u001f\"alias_variant\"\u001f\"帐号\"\u001f2368",
+      "uid": "b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1",
+      "col": 3,
+      "type": "alias_variant",
+      "original": "Accounts Receivable, Net",
+      "injected": "帐号",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "9f3496bafa3f18d89e74a1ae92a648759d62dc95453079c8c001b073c75797e3",
+      "injected_column_sha256": "9f3496bafa3f18d89e74a1ae92a648759d62dc95453079c8c001b073c75797e3",
+      "clean_value_count": 8,
+      "injected_value_count": 8,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"e9d3bb25-89ab-4aed-8bec-5501d5fe7b16\"\u001f3\u001f\"31,\"\u001f\"3①\"\u001f\"prefix_noise\"\u001f\"①②圈号\"\u001f2477",
+      "uid": "e9d3bb25-89ab-4aed-8bec-5501d5fe7b16",
+      "col": 3,
+      "type": "prefix_noise",
+      "original": "31,",
+      "injected": "3①",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "debbe911befe92c49300cda75fa545251f3db0942fc6a0f202038f95624cfb30",
+      "injected_column_sha256": "debbe911befe92c49300cda75fa545251f3db0942fc6a0f202038f95624cfb30",
+      "clean_value_count": 10,
+      "injected_value_count": 10,
+      "checker_verdict": "visible"
+    },
+    {
+      "injection_id": "\"abba843f-be4e-4905-8bab-19942dbfedef\"\u001f3\u001f\"Floating rate financial assets\"\u001f\"资产(assets)\"\u001f\"mixed_lang\"\u001f\"资产(assets)\"\u001f2482",
+      "uid": "abba843f-be4e-4905-8bab-19942dbfedef",
+      "col": 3,
+      "type": "mixed_lang",
+      "original": "Floating rate financial assets",
+      "injected": "资产(assets)",
+      "split": "dev",
+      "label": "INSUFFICIENT_EVIDENCE",
+      "binding": null,
+      "nearest_distances": null,
+      "tie": null,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ],
+      "value_invariant": true,
+      "clean_column_sha256": "fb449d9f77fa199157b8063e5f0c2f4e88da5e772a337d7138e0a759e0df13d3",
+      "injected_column_sha256": "fb449d9f77fa199157b8063e5f0c2f4e88da5e772a337d7138e0a759e0df13d3",
+      "clean_value_count": 7,
+      "injected_value_count": 7,
+      "checker_verdict": "visible"
+    }
+  ],
+  "contingency": {
+    "visible": {
+      "LEGAL_VARIATION": 6,
+      "HARMFUL_ERROR": 11,
+      "INSUFFICIENT_EVIDENCE": 31
+    },
+    "blind": {
+      "LEGAL_VARIATION": 6,
+      "HARMFUL_ERROR": 1,
+      "INSUFFICIENT_EVIDENCE": 4
+    }
+  },
+  "rates": {
+    "co_miss_rate_gold_h_given_checker_blind": 0.09090909090909091,
+    "co_alarm_rate_gold_e_given_checker_visible": 0.125,
+    "u_rate_dev": 0.5932203389830508,
+    "u_rate_ceiling": 0.3,
+    "u_rate_within_ceiling": false,
+    "checker_counts": {
+      "visible": 48,
+      "blind": 11
+    },
+    "value_invariant_count": 59
+  },
+  "human_adjudication_required": [
+    {
+      "injection_id": "\"b48bb5fb-ea46-4a44-a39e-f2554719d158\"\u001f1\u001f\"Accumulated Other Comprehensive Income (Loss)\"\u001f\"income(收入)\"\u001f\"mixed_lang\"\u001f\"income(收入)\"\u001f107",
+      "uid": "b48bb5fb-ea46-4a44-a39e-f2554719d158",
+      "col": 1,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"fa0ed823-f4a8-4063-b895-a517f9447dad\"\u001f3\u001f\"Medicare Part D Subsidy Receipts\"\u001f\"收款\"\u001f\"alias_variant\"\u001f\"收款\"\u001f314",
+      "uid": "fa0ed823-f4a8-4063-b895-a517f9447dad",
+      "col": 3,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"e2d0f4f9-d15b-4537-bc7a-625729013ba4\"\u001f0\u001f\"£m\"\u001f\"m [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f385",
+      "uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+      "col": 0,
+      "reasons": [
+        "nearest_neighbour_tie"
+      ]
+    },
+    {
+      "injection_id": "\"24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b\"\u001f2\u001f\"% of associated net revenues\"\u001f\"turnover\"\u001f\"alias_variant\"\u001f\"turnover\"\u001f426",
+      "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+      "col": 2,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b\"\u001f4\u001f\"% of associated net revenues\"\u001f\"营业总收入\"\u001f\"alias_variant\"\u001f\"营业总收入\"\u001f426",
+      "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+      "col": 4,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"5bf40a9b-38a9-47db-8c83-c3a854ee71b7\"\u001f1\u001f\"CONSOLIDATED\"\u001f\"CONSOLI2016年交易日D\"\u001f\"date_variant\"\u001f\"交易日/0\"\u001f587",
+      "uid": "5bf40a9b-38a9-47db-8c83-c3a854ee71b7",
+      "col": 1,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"bf4ac2c0-98c9-481c-ba0c-c6728b3b3540\"\u001f4\u001f\"Unearned Revenue\"\u001f\"营业收入\"\u001f\"alias_variant\"\u001f\"营业收入\"\u001f737",
+      "uid": "bf4ac2c0-98c9-481c-ba0c-c6728b3b3540",
+      "col": 4,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"425ee1c7-fb82-4853-994a-9876c414fbd5\"\u001f3\u001f\"Total tangible fixed assets\"\u001f\"资产总额(万元)\"\u001f\"unit_suffix\"\u001f\"资产总额(万元)\"\u001f772",
+      "uid": "425ee1c7-fb82-4853-994a-9876c414fbd5",
+      "col": 3,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"f47d9a01-a25d-436c-a28b-7aa04e2df491\"\u001f0\u001f\"£m\"\u001f\"m [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f1041",
+      "uid": "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+      "col": 0,
+      "reasons": [
+        "nearest_neighbour_tie"
+      ]
+    },
+    {
+      "injection_id": "\"ea1f0fff-a213-4475-8b1c-221157649595\"\u001f2\u001f\"Accumulated Unrealised Gains or Losses on Cash Flow Hedges\"\u001f\"现金流量\"\u001f\"alias_variant\"\u001f\"现金流量\"\u001f1079",
+      "uid": "ea1f0fff-a213-4475-8b1c-221157649595",
+      "col": 2,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"1e712660-7b78-4791-8264-e517efde2e62\"\u001f2\u001f\"Weighted Average Grant Date Fair Value\"\u001f\"Weighted Average Grant 对账日期 / date Fair Value\"\u001f\"date_variant\"\u001f\"对账日期/2\"\u001f1128",
+      "uid": "1e712660-7b78-4791-8264-e517efde2e62",
+      "col": 2,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"ed76bf6b-4d46-42b2-88ff-b2205470c8af\"\u001f4\u001f\"Deferred Revenue (current)\"\u001f\"营收\"\u001f\"alias_variant\"\u001f\"营收\"\u001f1148",
+      "uid": "ed76bf6b-4d46-42b2-88ff-b2205470c8af",
+      "col": 4,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"38eb9da5-5c73-4366-af5f-9bd01019938a\"\u001f2\u001f\"Weighted-Average Grant Date Fair Value Per Share\"\u001f\"Weighted-Average Grant date 2021-报表明细日期 Fair Value Per Share\"\u001f\"date_variant\"\u001f\"报表明细日期/1\"\u001f1167",
+      "uid": "38eb9da5-5c73-4366-af5f-9bd01019938a",
+      "col": 2,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"2953b803-d49b-4fbb-8dc2-d9a3bec9d67e\"\u001f0\u001f\"Allocation of GasLog Partners’ profit/(loss)(*)\"\u001f\"profit(万元)\"\u001f\"unit_suffix\"\u001f\"profit(万元)\"\u001f1195",
+      "uid": "2953b803-d49b-4fbb-8dc2-d9a3bec9d67e",
+      "col": 0,
+      "reasons": [
+        "nearest_neighbour_tie"
+      ]
+    },
+    {
+      "injection_id": "\"617deeb3-f222-4172-a824-c62fc2214a89\"\u001f1\u001f\"CONSOLIDATE\"\u001f\"CONSOLI2017期末\"\u001f\"date_variant\"\u001f\"期末日期/3\"\u001f1290",
+      "uid": "617deeb3-f222-4172-a824-c62fc2214a89",
+      "col": 1,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"73a817fc-25df-494d-b0f2-79cfdab34076\"\u001f1\u001f\"Dividends Paid(1)\"\u001f\"dividend\"\u001f\"alias_variant\"\u001f\"dividend\"\u001f1327",
+      "uid": "73a817fc-25df-494d-b0f2-79cfdab34076",
+      "col": 1,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"bdeeb701-bae6-4a36-86d6-108c8e43c5e2\"\u001f2\u001f\"Percent Expected to be Recognized as Revenue\"\u001f\"sales\"\u001f\"alias_variant\"\u001f\"sales\"\u001f1596",
+      "uid": "bdeeb701-bae6-4a36-86d6-108c8e43c5e2",
+      "col": 2,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"648e1260-d160-45d2-a744-57be0fd89850\"\u001f1\u001f\"Purchased Intangible Assets\"\u001f\"assets(资产)\"\u001f\"mixed_lang\"\u001f\"assets(资产)\"\u001f1599",
+      "uid": "648e1260-d160-45d2-a744-57be0fd89850",
+      "col": 1,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"32cfcadb-add0-4cc1-9956-41ac073477c4\"\u001f2\u001f\"As a % of Segment Revenue (1)\"\u001f\"营收\"\u001f\"alias_variant\"\u001f\"营收\"\u001f1611",
+      "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+      "col": 2,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa\"\u001f2\u001f\"Weighted-average grant date fair value\"\u001f\"Weighted-average grant date 2021-对账日期 fair value\"\u001f\"date_variant\"\u001f\"对账日期/1\"\u001f1683",
+      "uid": "1860a2e9-4ce1-4f18-bd9b-f84fd2ef62aa",
+      "col": 2,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"50e78448-3cf5-439c-a609-ee866bd1f05a\"\u001f2\u001f\"US$\"\u001f\"US [1]\"\u001f\"prefix_noise\"\u001f\"序号前缀\"\u001f1699",
+      "uid": "50e78448-3cf5-439c-a609-ee866bd1f05a",
+      "col": 2,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"fd39b5b5-7426-4db6-bbf7-d3c5111ce543\"\u001f2\u001f\"Interest Rate (per annum)\"\u001f\"利息\"\u001f\"alias_variant\"\u001f\"利息\"\u001f1744",
+      "uid": "fd39b5b5-7426-4db6-bbf7-d3c5111ce543",
+      "col": 2,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"aca23e3e-967d-40a9-b6bb-3c095786a3b7\"\u001f1\u001f\"Positive (Negative) Impact to Net Income\"\u001f\"net profit\"\u001f\"alias_variant\"\u001f\"net profit\"\u001f1935",
+      "uid": "aca23e3e-967d-40a9-b6bb-3c095786a3b7",
+      "col": 1,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"7a249c43-5e24-447e-9da1-3d5982aca590\"\u001f1\u001f\"Consolidated\"\u001f\"Consoli2019期末d\"\u001f\"date_variant\"\u001f\"期末日期/3\"\u001f1970",
+      "uid": "7a249c43-5e24-447e-9da1-3d5982aca590",
+      "col": 1,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"d6d9f70a-17b6-4530-b497-f73d59f0f0cb\"\u001f0\u001f\"Revenue by segment\"\u001f\"营收\"\u001f\"alias_variant\"\u001f\"营收\"\u001f2175",
+      "uid": "d6d9f70a-17b6-4530-b497-f73d59f0f0cb",
+      "col": 0,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"d8c20406-c646-4689-b645-5260bf17499d\"\u001f0\u001f\"Financial income and expenses\"\u001f\"income(收入)\"\u001f\"mixed_lang\"\u001f\"income(收入)\"\u001f2211",
+      "uid": "d8c20406-c646-4689-b645-5260bf17499d",
+      "col": 0,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"6bf238a5-0a3e-492d-91f8-7f62d3b37fba\"\u001f0\u001f\"Income statement expense\"\u001f\"收入(income)\"\u001f\"mixed_lang\"\u001f\"收入(income)\"\u001f2246",
+      "uid": "6bf238a5-0a3e-492d-91f8-7f62d3b37fba",
+      "col": 0,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"8692f92d-668a-452d-be7a-2b491ee27585\"\u001f0\u001f\"Income tax expense\"\u001f\"income(收入)\"\u001f\"mixed_lang\"\u001f\"income(收入)\"\u001f2265",
+      "uid": "8692f92d-668a-452d-be7a-2b491ee27585",
+      "col": 0,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"d7d65228-96c1-4890-951c-c3d7578f8031\"\u001f3\u001f\"Cash dividend per share (NT dollars)\"\u001f\"Cash divdend per share (NT dollars)\"\u001f\"ocr_similar\"\u001f\"divdend\"\u001f2284",
+      "uid": "d7d65228-96c1-4890-951c-c3d7578f8031",
+      "col": 3,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"54c494f7-d731-49bf-b9cd-d494aea72e34\"\u001f2\u001f\"Accumulated Amortization\"\u001f\"amort\"\u001f\"alias_variant\"\u001f\"amort\"\u001f2325",
+      "uid": "54c494f7-d731-49bf-b9cd-d494aea72e34",
+      "col": 2,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"3789d7da-dc3e-4cd7-b639-d6805211405a\"\u001f1\u001f\"Revenues\"\u001f\"sales\"\u001f\"alias_variant\"\u001f\"sales\"\u001f2345",
+      "uid": "3789d7da-dc3e-4cd7-b639-d6805211405a",
+      "col": 1,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"3789d7da-dc3e-4cd7-b639-d6805211405a\"\u001f3\u001f\"Income (loss) from vessel operations\"\u001f\"income(收入)\"\u001f\"mixed_lang\"\u001f\"income(收入)\"\u001f2345",
+      "uid": "3789d7da-dc3e-4cd7-b639-d6805211405a",
+      "col": 3,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1\"\u001f3\u001f\"Accounts Receivable, Net\"\u001f\"帐号\"\u001f\"alias_variant\"\u001f\"帐号\"\u001f2368",
+      "uid": "b6fa85a0-a203-4ed3-8c4d-6c1b5a8b08c1",
+      "col": 3,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"e9d3bb25-89ab-4aed-8bec-5501d5fe7b16\"\u001f3\u001f\"31,\"\u001f\"3①\"\u001f\"prefix_noise\"\u001f\"①②圈号\"\u001f2477",
+      "uid": "e9d3bb25-89ab-4aed-8bec-5501d5fe7b16",
+      "col": 3,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    },
+    {
+      "injection_id": "\"abba843f-be4e-4905-8bab-19942dbfedef\"\u001f3\u001f\"Floating rate financial assets\"\u001f\"资产(assets)\"\u001f\"mixed_lang\"\u001f\"资产(assets)\"\u001f2482",
+      "uid": "abba843f-be4e-4905-8bab-19942dbfedef",
+      "col": 3,
+      "reasons": [
+        "source_header_empty_after_norm"
+      ]
+    }
+  ],
+  "self_check": true,
+  "self_checks": {
+    "input_hashes_match": true,
+    "plan_hash_matches": true,
+    "all_dev_cases_exactly_one_valid_label": true,
+    "dev_membership_count_reconciles": true,
+    "checker_join_count_reconciles": true,
+    "contingency_total_reconciles": true,
+    "all_u_remain_u": true,
+    "value_invariance_recomputed_for_every_dev_case": true,
+    "calls_zero": true
+  }
+}
