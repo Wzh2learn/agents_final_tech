@@ -1,0 +1,73 @@
+{
+  "advisory_items": [
+    {
+      "category": "evidence-quality / blind spot (carried from T5R-03, NOT escalated)",
+      "finding": "scratch/verify_replay.py:restore_modes() still force-chmods the fresh-delivery copy to 0644 and back to the manifest value before that leg's manifest check (observed mode_reset_and_restore_count=45), so the fresh leg cannot detect mode drift. I deliberately do NOT escalate this to blocking: the mode fix did not change the function's semantics; the current-tree leg is not blind (verify_manifest compares delivered modes directly - that leg is what surfaced T5R-03's defect); and no delivered claim is false, since the reset is disclosed in the same JSON via mode_reset_and_restore_count.",
+      "id": "ADVISORY-1",
+      "suggested_fix": "Remove restore_modes() so the copytree result is checked as-is, or record the pre-rewrite mismatch rather than erasing it."
+    },
+    {
+      "category": "portability / bookkeeping (carried from T5R-03, NOT escalated; quantified this round)",
+      "finding": "The manifest records umask-coupled modes: 29 entries at 100664, 11 at 100644, 5 at 100755. My scratch simulation on identical delivered bytes shows that fresh file creation under umask 022 yields 34/45 raw-mode mismatches (29 from the 100664 group plus 5 execute-bit losses) and under umask 002 yields 16/45 (11 plus 5). Normalizing to git semantics (execute bit only) removes the pure-umask component entirely. The mixed 100644/100664 recording of same-role data files is itself evidence that the recorded mode is the author's umask rendering rather than a normalized intent. Not blocking: the delivered state does match the manifest strictly in this environment; the risk is confined to environments or copy paths without mode preservation (cp without -p, tar without -p).",
+      "id": "ADVISORY-2",
+      "suggested_fix": "Record only the git-normalized mode (100644/100755), or normalize file modes before hashing."
+    },
+    {
+      "category": "error-surface contract (carried from T5R-03, NOT escalated)",
+      "finding": "caller_validator.py raises bare SystemExit for a --runtime-root inside the delivered run tree, and verify_replay.py does the same for an in-tree or pre-existing --work-root. Both emit no JSON result object, so a caller falls back to MALFORMED_RESULT/FC_INTERNAL rather than a canonical FC_ARBITRARY_PATH. Fail-closed and writes nothing, but off the declared error surface. Unchanged by the mode fix.",
+      "id": "ADVISORY-3",
+      "suggested_fix": "Emit the normal rejected JSON envelope with a canonical fail_closed_code for these guard rails."
+    },
+    {
+      "category": "write-boundary observability (carried from T5R-02/T5R-03, NOT escalated)",
+      "finding": "Files under the gitignored logs/ tree were modified at 2026-10-15T00:06-00:39Z (app.log, loop_b.log, docs_lint_report.json, verify-report.json and others). Those mtimes predate both the closer's mode patch (~00:47Z) and this review window. T5 code paths contain no write route into the repository, so these appear external (Loop B / application).",
+      "id": "ADVISORY-4",
+      "suggested_fix": "No T5 change required. Keep as an open observability item for the closer; do not attribute to T5 without evidence."
+    }
+  ],
+  "blocking_items": [],
+  "decision": "ACCEPTED",
+  "dissent": [
+    {
+      "id": "dissent-A",
+      "position_recorded": "X06C (summary_text, summary_sha256 and expected_artifact_sha256 all forged and mutually consistent) is ACCEPTED and executes target operations. An unconditional reading of card A2 would call this a counterexample.",
+      "residual_caveat": "The boundary remains a trust assumption rather than a mechanism, since the pin travels in the same call object as the summary.",
+      "topic": "Stricter reading of A2 versus the adjudicated threat boundary (X06C)",
+      "why_not_blocking": "The Loop D adjudication requires only that acceptance bind to an external pin outside the producer's control and that the boundary - 'does not defend against a caller deliberately supplying a false pin' - be explicitly declared. That declaration exists and matches the implementation at recipe_interfaces.json scope_boundary, recipe_fixtures/README.md and receipt.unresolved[0]. I concur with T5R-02 and T5R-03 and record it as a declared boundary fact, not a defect."
+    },
+    {
+      "id": "dissent-B",
+      "position_recorded": "recipe_fixtures/delivery_payload.json already carries summary.text bound via package_sha256, which the validator recomputes. Binding the summary check to that package summary.text would defeat even a caller supplying a false pin, since forging would require changing package bytes and would trigger FC_HASH_BINDING_MISMATCH.",
+      "topic": "A strictly stronger construction was available and unused (carried from T5R-02 dissent-2)",
+      "why_not_blocking": "The Loop D adjudication accepted the external-pin form, so this is an alternative-design note. v3 honestly records it in v2_v3_diff.json.not_implemented_by_instruction and receipt.unresolved[2]. I do not deduct for leaving it unimplemented and re-record it for the owner's later consideration, or as grounds to narrow the wording of unresolved[0]."
+    }
+  ],
+  "justification": "The T5R-03 blocking item was narrow - a delivery-layer mode conformance failure, not a content defect - and the closer's fix is the stronger of the two remedies T5R-03 offered. By restoring the execute bits on the four scripts rather than editing the manifest or re-emitting evidence, 115f396 made every pre-existing 45/45 assertion true while changing zero bytes, so the six evidence surfaces remain exactly the author's original record and are now reproducible. I proved this independently: 45/45 bytes and SHA-256, 45/45 modes, 45/45 three-way blob identity, the four scripts and watcher.sh at 100755 in the worktree, the .git/index and the HEAD tree, the other 41 entries with zero drift, and a direct object-store comparison showing the run tree changed only at 115f396 with zero blob content differences and exactly the four expected mode flips. The headline delivery claims now all reproduce from delivered bytes: the no-prerequisite entry point returns rc=0 with four rounds of 23/23 and identical normalized outcomes that I recomputed from the raw records rather than trusting the summary, both trees passing manifest checks with empty failure and extra sets, and my own before/after scan of sha256, bytes, mode and mtime_ns across all 46 files (gitignore view included) proving zero writes and no residue after every run I performed. Regressions are intact - watcher execute bit in three layers, X06A/X06B/Z01 and the full 23-case matrix exact, G1 5/5, usage self-consistency with execution_chat_usage honestly left UNRESOLVED, four-class separation with overall_pass_field_forbidden, 7/7 frozen protections with FP-RAW-RECORD-INTEGRITY untouched by 0 content differences, TASK_PROMPT byte-identical to its dispatch source, and embedded pins plus three target git_blob_ids all exact. The closer's disclosure is accurate on every point, including the delicate one: T5R-03's receipt records a direct import of caller_validator while its side-effect statement claims zero writes in the reviewed run or repository, so the leftover __pycache__ was indeed undisclosed, and it is now gone. I reviewed all four carried advisories specifically for escalation and kept each at advisory: the mode fix does not make any delivered claim false, ADVISORY-1's blind spot is confined to the fresh-copy leg while the current-tree leg remains the effective detector, and ADVISORY-2 is a cross-environment portability property that I quantified rather than merely restated. Because there are zero blocking items and every headline claim is independently reproducible from the delivered state by the standard T5R-01, T5R-02 and T5R-03 applied consistently, ACCEPTED is the consistent verdict.",
+  "next_steps": [
+    "T5 v3 corrected delivery state is accepted at the CONTRACT_PASS level. Do not reopen any already-verified surface: the replay-stability repair (P01 age=0, external P09 tick, no prepare path), the NEW-1 double identity layer, full-matrix collection, the independent-pin fixture and scope_boundary, watcher 100755, X06A/B/C, Z01, E10, the 15 original negative codes, four-class separation, 7/7 frozen protections, TASK_PROMPT verbatim capture and the G1 guard all stand.",
+    "ADVISORY-1 is the one item worth taking on a later non-blocking pass: drop restore_modes() from verify_replay.py so the fresh-delivery leg can actually detect mode drift instead of erasing it.",
+    "ADVISORY-2 is worth folding into the same pass: normalize recorded modes to git semantics (100644/100755) so umask drift cannot reintroduce a mismatch class that has already cost this task three review rounds.",
+    "ADVISORY-3 may be handled opportunistically by emitting a canonical fail_closed_code instead of bare SystemExit for the work-root/runtime-root guard rails.",
+    "ADVISORY-4 stays with the closer as an open observability item; do not attribute the logs/ writes to T5 without evidence.",
+    "Registry and state updates, and any T6 dispatch, are the closer's responsibility. This review does not enter T6 and makes no claim beyond CONTRACT_PASS."
+  ],
+  "review_id": "T5R-04",
+  "run_id": "20261014T233742Z_cb132ce7",
+  "schema": "jinrong_loop_c_acceptance_proposal_v1",
+  "scope": {
+    "explicitly_not_claimed": [
+      "END_TO_END_PREFLIGHT_PASS",
+      "FORMAL_RUN_PASS",
+      "scientific PASS",
+      "formal experiment qualification",
+      "promotion or deployment"
+    ],
+    "not_verified": "GB10 authoritative runtime, production services, databases, model endpoints, daemon and Loop B; execution-chat token usage (UNRESOLVED); future Loop D invocation against a real run package, real evidence handoff and sealed case set; real-deployment provenance of the external summary pin; exact writers and timing of logs/ changes; whether ADVISORY-1 would intercept a future mode regression on the fresh leg; T5R-02 dissent-2 package-summary binding.",
+    "reviewer_side_effects": "Zero writes inside the reviewed run or the repository; scratch and work roots only under /home/testuser/wzh/loop_runs/t5r04_recheck_a/ (work_replay_1 verified non-existent before the run); zero mode changes and no chmod; no git writes and no git CLI use; no model, production, database or Loop B calls; own Python run with -B/PYTHONDONTWRITEBYTECODE where importing local modules; final scan including the gitignore view shows 46 files / 52 names unchanged with no __pycache__ or .pyc; T6 not entered. registry and state are updated by the closer, not by this review.",
+    "verification_levels_claimed": [
+      "CONTRACT_PASS"
+    ],
+    "verified": "T5 v3 corrected delivery state: 46 files / 45 manifest entries; per-entry SHA-256 and byte recompute 45/45; per-entry mode recompute 45/45; three-way blob identity 45/45 via byte-derived git blob SHA-1, direct .git/index binary parse (DIRC v2, 3886 entries) and HEAD-tree object walk; the four patched scripts plus watcher.sh at 100755 in worktree, .git/index and HEAD tree; the other 41 entries with zero mode drift; proof that 115f396 is a pure mode patch (0 blob content differences, exactly 4 mode changes 100644->100755) and that fc7229dc0 does not touch the run tree; the official no-prerequisite entry point returning rc=0 with four rounds of 23/23 and identical normalized outcomes recomputed independently from the raw jsonl; both trees' manifest checks passing with failures=[] and extra=[]; an independent before/after sha256+bytes+mode+mtime_ns scan proving zero writes and no residue; consistency of all six evidence surfaces with the recomputed 45/45 and absence of contrary claims; the SUMMARY-GUARD receipt pin; two consistent run_probes.py CLI passes with P01/X06A/X06B/Z01 spot checks and 23/23 exact expected==actual across 12 distinct fail-closed codes; G1 on all 5 Markdown files; usage self-consistency; four-class separation and 7/7 frozen protections; TASK_PROMPT verbatim capture; embedded interfaces/operations/protocol pins and 3 target git_blob_ids; a re-run of the delivered adversarial checks covering NEW-1 target identity and NEW-2 full-matrix-on-failure; verification of the closer's repair disclosure including the T5R-03 pycache non-disclosure attribution; and a quantified umask 022 vs 002 portability boundary for ADVISORY-2."
+  },
+  "task_id": "T5"
+}
