@@ -11,3 +11,4 @@
 [2026-10-15] T4 已验收（T4R-01 ACCEPTED，零阻断；advisory A1-A3 登记）。v1 因「收据守卫 vs 故意失配夹具」不可提交 → v2 返工（守卫合规化 + 运行时派生失配），提交序列 v2=579a8ca、评审=50da8e0；守卫实弹全绿、11 组合×2 回放一致、画像 6/2/2/6、零外部调用。A1 消费约束：下游读 baseline 须以 case-level 为准。下一步：T5（R 两个对象接口）。
 [2026-10-15] T5 首轮评审 T5R-01=REJECTED（2 blocking：执行位交付缺失使 17/17 主张不可复现；自洽伪造摘要 X06 穿透 A2；另 6 advisory）。Loop D 裁决：交付执行位 + manifest 记 mode + fresh-delivery 模拟；摘要接受须外部 pin（未 pin/不符即拒）。进入 T5 v2 返工，随后 T5R-02。
 [2026-10-15] T5 第二轮评审 T5R-02=REJECTED（1 blocking：重放不稳定——陈旧 tick + 就地改写 manifest 绑定夹具，42/42 不可从交付字节复现；4 advisory；另有 attempt1 非合规废件）。修复方向：交付字节零写入重放 + 全矩阵收集 + registry/目标身份 pin。进入 T5 v3，随后 T5R-03。
+[2026-10-15] T5 第三轮 T5R-03=REJECTED（1 blocking：4 个 manifest 声明 755 的模式未随交付落地→入口 rc=3；T5R-02 blocking 已被独立确认闭合；另 4 advisory）。Closer 修复：115f396 模式补丁（零内容变更）+ GB10 工作树 chmod 755 + 清理评审窗口遗留 pyc（未披露，已登记）；重放 rc=0、45/45 复现。进入 T5R-04 聚焦复评。
