@@ -1,0 +1,89 @@
+{
+  "advisory_items": [
+    {
+      "assessment": "Not fabrication: repair_record.json is complete and honest (before/expected/cause/repair/evidence_lost for all four attempts), and the final self_check_result.json is consistent with the delivered manifest. The gap is event-log completeness/auditability, not a false claim.",
+      "blocks_acceptance": false,
+      "detail": "events.jsonl contains exactly one self_check event at 2026-10-15T04:32:00Z with repair_attempt_count=3, but repair_record.json documents four repairs and the fourth (attempt 4, receipt.json A-common manifest entry count 10->11) is timestamped 2026-10-15T04:37:37Z, i.e. AFTER that self_check event. No self_check event follows repair 4, yet self_check_result.json (a_common: manifest_failures=[]) and the regenerated artifacts_manifest.json both reflect post-repair-4 state. events are also emitted out of chronological order (repairs 1-3 precede events timestamped 04:24:01-04:24:04).",
+      "id": "A1",
+      "pattern": "recurring - T7R-01 advisory A2 already recorded 'repair-history inconsistency across files'",
+      "recommendation": "Emit a final self_check event after the last package mutation and keep repair_attempt_count in sync with repair_record.json; emit events in timestamp order. Future packages should treat events.jsonl as append-only monotone and regenerate it last.",
+      "severity": "advisory-medium",
+      "title": "events.jsonl self_check snapshot is stale relative to repair_record.json and the final package state"
+    },
+    {
+      "assessment": "Internally consistent and honestly declared (mode_policy=DELIVERY_FULL_SET_755; manifest/worktree/index/HEAD tree all 100755). The policy was instructed verbatim by TASK_PROMPT item 7 ('模式声明与交付一致（提交侧落实 755 全集）'), so this is a dispatch/planner-level policy choice, not an executor defect.",
+      "blocks_acceptance": false,
+      "detail": "T8 delivers all 12 regular files at 100755, including 7 JSON/JSONL data artifacts (receipt, shadow_comparison, release_proposal, rollback_receipt, self_check_result, repair_record, artifacts_manifest, events.jsonl) and 2 markdown files. T7's declared mode_policy states 'no non-script file is declared executable' and delivered 54x100644 + 3x100755 (entry scripts only). T5/T6 likewise kept data at 100644/100664.",
+      "id": "A2",
+      "recommendation": "Resolve at dispatch level: restore the T7 convention of 100755 only for actual entry scripts and 100644 for data, or explicitly document why full-set 755 is preferred. Do not blame or re-run T8 for following its dispatch.",
+      "severity": "advisory-medium",
+      "side_effects": [
+        "JSON/JSONL/MD data files carry the executable bit and are runnable as scripts by accidental invocation",
+        "mode loses its discriminating signal between entry scripts and data",
+        "diverges from the T5/T6/T7 delivery convention within the same R line"
+      ],
+      "title": "DELIVERY_FULL_SET_755 conflicts with the established T7 mode policy and makes data artifacts executable"
+    },
+    {
+      "blocks_acceptance": false,
+      "detail": "shadow_comparison.json task_results is a length-3 array of slots 1/2/3. A consumer that counts len(task_results) gets 3, not 0, and an all-null row could be misread as '3 results with missing data' rather than '0 executed'.",
+      "id": "A3",
+      "mitigation_present": [
+        "per-row status=NOT_EXECUTED_MISSING_APPROVED_WINDOW",
+        "shadow_completed=false",
+        "execution_status=NOT_EXECUTED",
+        "authorization_scope_check.authorized_new_task_window_count=0",
+        "summary.md states 0/3"
+      ],
+      "probe_origin": "required adversarial probe 8b (0/3 table misread-as-results)",
+      "recommendation": "Add an explicit executed_task_count=0 and/or null_semantics='NOT_EXECUTED' field so counting-based consumers cannot misread the table.",
+      "severity": "advisory-low",
+      "title": "task_results lacks an explicit executed-count field, leaving a skim/count misread risk"
+    },
+    {
+      "blocks_acceptance": false,
+      "detail": "technical_prerequisites.old_new_capture says 'The runner writes one immutable record per version under the same shadow_task_slot, with separate run IDs and identical material bindings', but no run directory convention, run_id format, record owner, or write-boundary is declared for shadow task records, and required_window_elements has no 'shadow record path/owner' entry.",
+      "id": "A4",
+      "impact": "The protocol is otherwise sufficient to take on a real window (9 window elements, 23 record fields, stop rule, rollback preservation, evaluation order, 8 minimum-capture items, 10-item gap list), but a real window could not be executed without first settling this.",
+      "recommendation": "Before the first real window, declare the shadow record write location, run_id naming, record owner, and the immutability/sealing rule; add them to required_window_elements.",
+      "severity": "advisory-low",
+      "title": "Shadow protocol specifies what to capture but not where or by whom shadow records are written"
+    },
+    {
+      "assessment": "Attribution verified as reviewer-side, not a T8 defect. T8's own claim of zero .omc residue was true at delivery time. Reviewer did not clean it (rm not whitelisted; reviewer does not repair the package).",
+      "blocks_acceptance": false,
+      "detail": "This review session created .omc/state/sessions/<this-session>/ inside the T8 run directory (disclosed in review_receipt.json reviewer_side_effects_disclosed). The same pattern is already on record: registry/decision_events.jsonl records 'OMC tool-state litter (.omc/state/...) created inside the T2 run dir during the review session; cleaned by the closer', and T6R-01 closer condition 1 removed '2 reviewer-induced .omc state files inside the run tree'. The repository currently holds 20 .omc/ locations, all gitignored.",
+      "id": "A5",
+      "recommendation": "Per the repository convention that a pattern recurring twice or more is escalated to an automated hook, add a pre-review/pre-commit guard that either prevents OMC session state from being written under research/**/runs/** or sweeps and reports it, so the closer stops being the cleaner of last resort.",
+      "severity": "advisory-medium",
+      "title": "Reviewer-induced .omc tool-state litter inside reviewed run trees is a third recurrence and should be automated away"
+    }
+  ],
+  "blocking_items": [],
+  "decision": "ACCEPTED",
+  "dissent": "None. No blocking defect was found. Two points were examined with the expectation of finding a defect and did not yield one: (1) the empty three-row task table is mechanically enforced to be null/unexecuted by self_check.py, so it cannot be forged into results; (2) the nearest readiness phrase in release_proposal ('technically eligible to enter a controlled shadow evaluation') is bounded by eight entry conditions, proposal_state=ADVISORY_ONLY_NOT_AN_ACTIVATION_ORDER, and shadow_candidate_status=NOT_EVALUATED_BECAUSE_NO_TASK_WINDOWS, so it does not amount to an unauthorized ready-to-enable signal. One residual gap is recorded as unverified rather than as a finding: the parent commit's research tree object is absent from the local object store, so only the top-level research subtree SHA difference could be established, not a path-level diff inside research/.",
+  "justification": "Every quantitative claim in the package was independently recomputed from first principles rather than accepted on assertion: 12 delivery files and 11 manifest entries match on sha256/bytes/mode; three-layer mode 100755 holds at 12/12 across worktree, .git/index, and HEAD tree; byte-derived blob SHA-1 matches both index and HEAD tree for all 12. The R-line composite identity group sha256:e16cde27ff239da0c7b76f35272e0950e1cb9f0878d464b0ae6629e88d4c4f86 was reproduced exactly, with T5 45/45, T6 30, and T7 57 member groups recomputed and matched against their bound commits and worktree copies with zero failures (132 members), and the T6/T7 candidate hashes match their ACCEPTED review records. The central honesty question - whether NOT_SATISFIED_NO_THREE_TASK_WINDOWS is a truthful boundary rather than a cover for unperformed work - was tested against five independent authoritative sources (card execution_authorized=false, state/current.json, open_decisions U08, registry closer note, MASTER_PLAN) and by an independent tree-wide search that found no overlooked usable window, plus four adversarially constructed window candidates that were each refuted. The package also under-claims nothing: identity binding, rollback drill, and the release proposal are all genuinely delivered, while A1 alone is marked unsatisfied for a reason that is objectively absent. Installation and loading are correctly never inferred from repository presence. The write boundary is independently corroborated: 35 of 36 top-level trees are byte-identical to the parent commit, including skills, config, scripts, src, and memory, so no skills, global-configuration, or source change occurred; 11 old-evidence snapshots and 12 input bindings are unchanged. G1 was re-executed (2/2 rc=0) and TASK_PROMPT is byte-identical to its dispatch source. Rollback PASS_SIMULATED_ONLY is semantically accurate and touches nothing shared. The release proposal stays advisory with section-7 reservation intact. The five advisories concern event-log completeness, a dispatch-level mode policy that makes data files executable, a misread-safety field, a protocol write-location gap, and a recurring reviewer-side litter pattern - none of which makes any delivered claim false.",
+  "next_steps": [
+    "Closer records T8R-01 ACCEPTED (0 blocking / 5 advisory) in registry and state; advisories A1-A5 enter the non-promoted backlog, consistent with prior R-line acceptance records.",
+    "Owner gate 1 remains open: three genuinely new approved task windows, each binding task identity, frozen material set with SHA-256 and byte count, permission window with denied-operation boundary, SHADOW budget window, and start/end time, must be supplied before any shadow run.",
+    "Owner gate 2 remains open: enablement and precise distribution stay with the user under card section 7; this package enables nothing and distributes nothing.",
+    "Before the first real window, close advisory A4 (declare shadow record write location, run_id convention, record owner, immutability rule) and advisory A3 (add executed_task_count so the 0/3 table cannot be misread).",
+    "Resolve advisory A2 at dispatch/planner level on the 755 policy rather than re-running T8; T8 followed its dispatch verbatim.",
+    "Escalate advisory A5 to an automated hook per the twice-recurrence rule so the closer stops being the cleaner of last resort for .omc litter; the reviewer-side .omc residue inside the T8 run directory is disclosed and left in place for the closer to disposition.",
+    "Do not enter T9."
+  ],
+  "review_id": "T8R-01",
+  "run_id": "20261015T041717Z_669349f1",
+  "schema": "jinrong_t8r01_acceptance_proposal_v1",
+  "scope": {
+    "authority_exercised": "read-only independent recomputation and advisory reporting only; no file in the repository or the reviewed run was created, modified, or deleted; registry/state updates are reserved for the closer",
+    "not_reviewed": [
+      "T9 and all later cards (out of scope by instruction and by card stop conditions)",
+      "production, model endpoints, databases, network, remote services",
+      "installation or loading state in any target environment",
+      "scientific validity of any future shadow comparison"
+    ],
+    "reviewed": "research/harness_rsi_v1/runs/T8/20261015T041717Z_669349f1/ (12 files) plus its declared input bindings, the T5/T6/T7 accepted identity groups, T5R-04/T6R-01/T7R-01 acceptance records, cards/T8.md, MASTER_PLAN.md, state/, and registry/ evidence"
+  },
+  "task_id": "T8"
+}
