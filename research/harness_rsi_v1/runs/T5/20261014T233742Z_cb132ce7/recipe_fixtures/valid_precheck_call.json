@@ -1,0 +1,40 @@
+{
+  "schema": "jinrong_t5_recipe_call_v1",
+  "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+  "caller_context": "LOOP_D_RUN_PACKAGE_PRECHECK",
+  "run_id": "20261014T233742Z_cb132ce7",
+  "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+  "operations": [
+    {
+      "op_id": "OP-T4-R-DISPATCH-PRECHECK",
+      "parameters": {
+        "tick_path": "recipe_fixtures/dispatch/tick_valid.json",
+        "watcher_path": "recipe_fixtures/dispatch/watcher.sh",
+        "max_tick_age_minutes": 0
+      }
+    },
+    {
+      "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK",
+      "parameters": {
+        "markdown_path": "recipe_fixtures/summary/good_summary.md"
+      }
+    }
+  ],
+  "delivery_fields": {
+    "qualification": {
+      "preflight_eligibility": "ALLOW_WITHIN_SCOPE"
+    },
+    "audit": {
+      "verification_level": "CONTRACT_PASS",
+      "scope": "Caller-boundary and identity checks for this fixture only; no formal or scientific qualification."
+    },
+    "execution": {
+      "execution_status": "COMPLETED",
+      "operation_count": 2
+    },
+    "scientific": {
+      "scientific_status": "NOT_EVALUATED",
+      "claim": null
+    }
+  }
+}

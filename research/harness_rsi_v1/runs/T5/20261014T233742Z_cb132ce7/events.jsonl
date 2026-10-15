@@ -1,0 +1,10 @@
+{"event_id":1,"event":"run_created","run_id":"20261014T233742Z_cb132ce7","task_prompt_verbatim":true}
+{"event_id":2,"event":"t5r02_review_chain_bound","decisions":["REJECTED","REJECTED"],"review_ids":["T5R-01","T5R-02"]}
+{"event_id":3,"event":"replay_stability_implemented","p01_max_tick_age_minutes":0,"p09_runtime_root":"external temporary directory","in_run_prepare_script":false}
+{"event_id":4,"event":"full_matrix_collection_implemented","probe_count":23,"failure_exit_after_collection":3}
+{"event_id":5,"event":"new1_identity_implemented","interfaces_sha256":true,"operations_sha256":true,"target_git_blob_id":true}
+{"event_id":6,"event":"new3_independent_pin_fixture_added","fixture":"recipe_fixtures/valid_delivery_call_independent_pin.json"}
+{"event_id":7,"event":"new4_formatting_normalized","error_surface":true}
+{"event_id":8,"event":"four_replay_rounds_completed","rounds":4,"cases_per_round":23,"passed":92}
+{"event_id":9,"event":"replay_zero_write_verified","delivery_tree_unchanged":true,"fresh_tree_unchanged":true,"manifest_checks":["45/45","45/45"]}
+{"event_id":10,"event":"receipt_summary_built","three_axis":["DELIVERED","UNREVIEWED","NOT_ENABLED"]}

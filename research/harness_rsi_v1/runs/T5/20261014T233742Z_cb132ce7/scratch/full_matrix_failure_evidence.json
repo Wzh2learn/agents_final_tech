@@ -1,0 +1,12 @@
+{
+  "schema": "jinrong_t5_full_matrix_failure_evidence_v1",
+  "new2_full_matrix_on_failure": {
+    "exit_code": 3,
+    "record_count": 23,
+    "first_case_failed": true,
+    "last_case_present": true,
+    "last_case_id": "Z01-IDENTITY-VERIFIED-REGISTRY-SUBSTITUTION",
+    "passed": true
+  },
+  "method": "A temporary external definition flipped P01's expected result so the first case failed; run_probes.py still wrote all 23 records before returning 3."
+}

@@ -1,0 +1,1412 @@
+{
+  "checks": [
+    {
+      "check_id": "JSON_PARSE",
+      "evidence": {
+        "checked": 26,
+        "failures": []
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "MANIFEST_45_OF_45",
+      "evidence": {
+        "checked": 45,
+        "declared": 45,
+        "extra": [],
+        "failures": [],
+        "missing": []
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "NEW1_IDENTITY_PINS",
+      "evidence": {
+        "interfaces_sha256": "52d5ec1e3f6a54629ddd83ed1787f257f560dfbb8723e8325d7c390b7680d6ef",
+        "operations_sha256": "2cc368b69c8ae1687f3e85b8eab1181625f8f6816b82e5872d78c818113c9a03",
+        "targets": [
+          {
+            "actual": "c5045e9542d4850f63eedc82b0ea6f48c15daa23",
+            "declared": "c5045e9542d4850f63eedc82b0ea6f48c15daa23",
+            "op_id": "OP-T4-R-DISPATCH-PRECHECK"
+          },
+          {
+            "actual": "9f421f69bb61a023ec62852c1e8a4672a944e3d4",
+            "declared": "9f421f69bb61a023ec62852c1e8a4672a944e3d4",
+            "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK"
+          },
+          {
+            "actual": "7a3c9d1d6a79d74888c2db12c5df0b955e3d01d3",
+            "declared": "7a3c9d1d6a79d74888c2db12c5df0b955e3d01d3",
+            "op_id": "OP-T4-R-SUMMARY-GUARD-DERIVE"
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "REPLAY_STABLE_TIME",
+      "evidence": {
+        "in_run_prepare_script": false,
+        "p01_max_tick_age_minutes": 0,
+        "p09_runtime_tick": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "EMBEDDED_REPLAY_EVIDENCE",
+      "evidence": {
+        "complete_matrix_each_round": true,
+        "current_tree": {
+          "manifest_after": {
+            "checked": 45,
+            "declared": 45,
+            "extra": [],
+            "failures": [],
+            "missing": [],
+            "passed": true
+          },
+          "manifest_before": {
+            "checked": 45,
+            "declared": 45,
+            "extra": [],
+            "failures": [],
+            "missing": [],
+            "passed": true
+          },
+          "rounds": [
+            {
+              "exit_code": 0,
+              "record_count": 23,
+              "round_id": "PASS_1",
+              "summary": {
+                "accepted": 5,
+                "normalized": [
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "P01-PRECHECK-VALID",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "case_id": "P02-PRECHECK-UNREGISTERED-OP",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "case_id": "P03-PRECHECK-SHELL-INJECTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE",
+                    "case_id": "P04-PRECHECK-RANGE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "case_id": "P05-PRECHECK-TYPE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "case_id": "P06-PRECHECK-MISSING-FIELD",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "case_id": "P07-PRECHECK-WRONG-HASH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "case_id": "P08-PRECHECK-ARBITRARY-PATH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "P09-PRECHECK-BOUNDED-TICK-AGE-60",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "E01-DELIVERY-VALID",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "case_id": "E02-DELIVERY-UNREGISTERED-OP",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "case_id": "E03-DELIVERY-SHELL-INJECTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "case_id": "E04-DELIVERY-MISSING-SCIENTIFIC",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "case_id": "E05-DELIVERY-WRONG-PACKAGE-HASH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH",
+                    "case_id": "E06-DELIVERY-FORGED-SUMMARY",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+                    "case_id": "X06A-SELF-CONSISTENT-FORGED-NO-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PIN_MISMATCH",
+                    "case_id": "X06B-SELF-CONSISTENT-FORGED-WRONG-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PIN_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "X06C-SELF-CONSISTENT-FORGED-CORRECT-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+                    "case_id": "E07-DELIVERY-SINGLE-OVERALL-PASS",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "case_id": "E08-DELIVERY-PARAMETER-TYPE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "case_id": "E09-DELIVERY-ARBITRARY-PATH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "E10-DELIVERY-INDEPENDENT-PIN-SOURCE",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_INPUT_IDENTITY_MISMATCH",
+                    "case_id": "Z01-IDENTITY-VERIFIED-REGISTRY-SUBSTITUTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_INPUT_IDENTITY_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  }
+                ],
+                "passed": 23,
+                "probe_count": 23,
+                "rejected": 18,
+                "round_id": "PASS_1"
+              }
+            },
+            {
+              "exit_code": 0,
+              "record_count": 23,
+              "round_id": "PASS_2",
+              "summary": {
+                "accepted": 5,
+                "normalized": [
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "P01-PRECHECK-VALID",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "case_id": "P02-PRECHECK-UNREGISTERED-OP",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "case_id": "P03-PRECHECK-SHELL-INJECTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE",
+                    "case_id": "P04-PRECHECK-RANGE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "case_id": "P05-PRECHECK-TYPE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "case_id": "P06-PRECHECK-MISSING-FIELD",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "case_id": "P07-PRECHECK-WRONG-HASH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "case_id": "P08-PRECHECK-ARBITRARY-PATH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "P09-PRECHECK-BOUNDED-TICK-AGE-60",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "E01-DELIVERY-VALID",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "case_id": "E02-DELIVERY-UNREGISTERED-OP",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "case_id": "E03-DELIVERY-SHELL-INJECTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "case_id": "E04-DELIVERY-MISSING-SCIENTIFIC",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "case_id": "E05-DELIVERY-WRONG-PACKAGE-HASH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH",
+                    "case_id": "E06-DELIVERY-FORGED-SUMMARY",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+                    "case_id": "X06A-SELF-CONSISTENT-FORGED-NO-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PIN_MISMATCH",
+                    "case_id": "X06B-SELF-CONSISTENT-FORGED-WRONG-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PIN_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "X06C-SELF-CONSISTENT-FORGED-CORRECT-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+                    "case_id": "E07-DELIVERY-SINGLE-OVERALL-PASS",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "case_id": "E08-DELIVERY-PARAMETER-TYPE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "case_id": "E09-DELIVERY-ARBITRARY-PATH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "E10-DELIVERY-INDEPENDENT-PIN-SOURCE",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_INPUT_IDENTITY_MISMATCH",
+                    "case_id": "Z01-IDENTITY-VERIFIED-REGISTRY-SUBSTITUTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_INPUT_IDENTITY_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  }
+                ],
+                "passed": 23,
+                "probe_count": 23,
+                "rejected": 18,
+                "round_id": "PASS_2"
+              }
+            }
+          ],
+          "tree_unchanged": true
+        },
+        "delivery_tree_read_only": true,
+        "fresh_delivery": {
+          "copy_scope": "Byte/mode copy of the delivered tree; relocation of the absolute watcher binding is generated only in an external runtime directory and no copied manifest path is rewritten.",
+          "manifest_after": {
+            "checked": 45,
+            "declared": 45,
+            "extra": [],
+            "failures": [],
+            "missing": [],
+            "passed": true
+          },
+          "manifest_before": {
+            "checked": 45,
+            "declared": 45,
+            "extra": [],
+            "failures": [],
+            "missing": [],
+            "passed": true
+          },
+          "mode_reset_and_restore_count": 45,
+          "rounds": [
+            {
+              "exit_code": 0,
+              "record_count": 23,
+              "round_id": "PASS_1",
+              "summary": {
+                "accepted": 5,
+                "normalized": [
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "P01-PRECHECK-VALID",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "case_id": "P02-PRECHECK-UNREGISTERED-OP",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "case_id": "P03-PRECHECK-SHELL-INJECTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE",
+                    "case_id": "P04-PRECHECK-RANGE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "case_id": "P05-PRECHECK-TYPE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "case_id": "P06-PRECHECK-MISSING-FIELD",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "case_id": "P07-PRECHECK-WRONG-HASH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "case_id": "P08-PRECHECK-ARBITRARY-PATH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "P09-PRECHECK-BOUNDED-TICK-AGE-60",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "E01-DELIVERY-VALID",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "case_id": "E02-DELIVERY-UNREGISTERED-OP",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "case_id": "E03-DELIVERY-SHELL-INJECTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "case_id": "E04-DELIVERY-MISSING-SCIENTIFIC",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "case_id": "E05-DELIVERY-WRONG-PACKAGE-HASH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH",
+                    "case_id": "E06-DELIVERY-FORGED-SUMMARY",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+                    "case_id": "X06A-SELF-CONSISTENT-FORGED-NO-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PIN_MISMATCH",
+                    "case_id": "X06B-SELF-CONSISTENT-FORGED-WRONG-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PIN_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "X06C-SELF-CONSISTENT-FORGED-CORRECT-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+                    "case_id": "E07-DELIVERY-SINGLE-OVERALL-PASS",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "case_id": "E08-DELIVERY-PARAMETER-TYPE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "case_id": "E09-DELIVERY-ARBITRARY-PATH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "E10-DELIVERY-INDEPENDENT-PIN-SOURCE",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_INPUT_IDENTITY_MISMATCH",
+                    "case_id": "Z01-IDENTITY-VERIFIED-REGISTRY-SUBSTITUTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_INPUT_IDENTITY_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  }
+                ],
+                "passed": 23,
+                "probe_count": 23,
+                "rejected": 18,
+                "round_id": "PASS_1"
+              }
+            },
+            {
+              "exit_code": 0,
+              "record_count": 23,
+              "round_id": "PASS_2",
+              "summary": {
+                "accepted": 5,
+                "normalized": [
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "P01-PRECHECK-VALID",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "case_id": "P02-PRECHECK-UNREGISTERED-OP",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "case_id": "P03-PRECHECK-SHELL-INJECTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE",
+                    "case_id": "P04-PRECHECK-RANGE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "case_id": "P05-PRECHECK-TYPE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "case_id": "P06-PRECHECK-MISSING-FIELD",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "case_id": "P07-PRECHECK-WRONG-HASH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "case_id": "P08-PRECHECK-ARBITRARY-PATH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "P09-PRECHECK-BOUNDED-TICK-AGE-60",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "E01-DELIVERY-VALID",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "case_id": "E02-DELIVERY-UNREGISTERED-OP",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "case_id": "E03-DELIVERY-SHELL-INJECTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "case_id": "E04-DELIVERY-MISSING-SCIENTIFIC",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "case_id": "E05-DELIVERY-WRONG-PACKAGE-HASH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH",
+                    "case_id": "E06-DELIVERY-FORGED-SUMMARY",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+                    "case_id": "X06A-SELF-CONSISTENT-FORGED-NO-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARTIFACT_NOT_PINNED",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PIN_MISMATCH",
+                    "case_id": "X06B-SELF-CONSISTENT-FORGED-WRONG-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PIN_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "X06C-SELF-CONSISTENT-FORGED-CORRECT-PIN",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+                    "case_id": "E07-DELIVERY-SINGLE-OVERALL-PASS",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "case_id": "E08-DELIVERY-PARAMETER-TYPE",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "case_id": "E09-DELIVERY-ARBITRARY-PATH",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_ARBITRARY_PATH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": false
+                  },
+                  {
+                    "actual": "ACCEPT",
+                    "actual_fail_closed_code": null,
+                    "case_id": "E10-DELIVERY-INDEPENDENT-PIN-SOURCE",
+                    "decoy_execution_performed": false,
+                    "expected": "ACCEPT",
+                    "expected_fail_closed_code": null,
+                    "operation_result_count": 2,
+                    "passed": true,
+                    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+                    "target_execution_performed": true
+                  },
+                  {
+                    "actual": "REJECT",
+                    "actual_fail_closed_code": "FC_INPUT_IDENTITY_MISMATCH",
+                    "case_id": "Z01-IDENTITY-VERIFIED-REGISTRY-SUBSTITUTION",
+                    "decoy_execution_performed": false,
+                    "expected": "REJECT",
+                    "expected_fail_closed_code": "FC_INPUT_IDENTITY_MISMATCH",
+                    "operation_result_count": 0,
+                    "passed": true,
+                    "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+                    "target_execution_performed": false
+                  }
+                ],
+                "passed": 23,
+                "probe_count": 23,
+                "rejected": 18,
+                "round_id": "PASS_2"
+              }
+            }
+          ],
+          "tree_unchanged": true
+        },
+        "normalized_outcomes_identical_across_four_rounds": true,
+        "passed": true,
+        "prerequisites": "NONE",
+        "run_id": "20261014T233742Z_cb132ce7",
+        "schema": "jinrong_t5_replay_evidence_v1"
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "ADVISORY_FOLDING",
+      "evidence": {
+        "new1": {
+          "new1_input_identity": {
+            "interfaces_sha256_match": true,
+            "operations_sha256_match": true
+          },
+          "new1_target_identity": {
+            "actual": {
+              "code": "FC_OPERATION_TARGET_IDENTITY_MISMATCH",
+              "detail": "OP-T4-R-SUMMARY-GUARD-CHECK target bytes do not match registered git_blob_id"
+            },
+            "expected_code": "FC_OPERATION_TARGET_IDENTITY_MISMATCH",
+            "passed": true
+          },
+          "passed": true,
+          "schema": "jinrong_t5_adversarial_checks_v1",
+          "scope": "Local deterministic validator checks against delivered interfaces/registry and a deliberately wrong target git_blob_id."
+        },
+        "new2": {
+          "exit_code": 3,
+          "first_case_failed": true,
+          "last_case_id": "Z01-IDENTITY-VERIFIED-REGISTRY-SUBSTITUTION",
+          "last_case_present": true,
+          "passed": true,
+          "record_count": 23
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "G1_ALL_MARKDOWN",
+      "evidence": [
+        {
+          "rc": 0,
+          "relative_path": "TASK_PROMPT.md",
+          "stderr": "",
+          "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/TASK_PROMPT.md: 无 SUMMARY-GUARD 块, 跳过\n"
+        },
+        {
+          "rc": 0,
+          "relative_path": "recipe_fixtures/README.md",
+          "stderr": "",
+          "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/recipe_fixtures/README.md: 无 SUMMARY-GUARD 块, 跳过\n"
+        },
+        {
+          "rc": 0,
+          "relative_path": "recipe_fixtures/summary/good_summary.md",
+          "stderr": "",
+          "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/recipe_fixtures/summary/good_summary.md: 1 收据块复核通过\n"
+        },
+        {
+          "rc": 0,
+          "relative_path": "repair_record.md",
+          "stderr": "",
+          "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/repair_record.md: 1 收据块复核通过\n"
+        },
+        {
+          "rc": 0,
+          "relative_path": "summary.md",
+          "stderr": "",
+          "stdout": "[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/summary.md: 1 收据块复核通过\n"
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "TASK_PROMPT_VERBATIM",
+      "evidence": {
+        "sha256": "dd77d2449945ad3fe22adb29b31cdcbb2a8e92cd62d1596821d78f8379f93e3b",
+        "source": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/_dispatch/loop_a_prompt_t5_v3.md"
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "T4_CASE_LEVEL_CONSUMPTION",
+      "evidence": {
+        "authoritative_field": "baseline.cases[]",
+        "consumption_policy": "CASE_LEVEL_ONLY",
+        "dependency_receipt": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json",
+        "dependency_verdict": "ACCEPTED",
+        "forbidden_field_occurrences": 0,
+        "schema": "jinrong_t5_t4_consumption_evidence_v1",
+        "scope": "Preserves the T5R-02 accepted T4 consumption constraint; v3 does not score or reinterpret T4 results.",
+        "t4_derived_fields_consumed": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "RECEIPT_CHAIN_AND_B0",
+      "evidence": {
+        "chain": [
+          {
+            "blocking_count": 2,
+            "decision": "REJECTED",
+            "review_id": "T5R-01",
+            "superseded_run_id": "20261014T195445Z_60c8e213"
+          },
+          {
+            "advisory_count": 4,
+            "blocking_count": 1,
+            "decision": "REJECTED",
+            "review_id": "T5R-02",
+            "superseded_run_id": "20261014T212520Z_3acf4c1d"
+          }
+        ],
+        "usage": {
+          "additional_cheap_requests_actual": 0,
+          "additional_strong_requests_actual": 0,
+          "automatic_retries": 0,
+          "daemon_calls": 0,
+          "database_calls": 0,
+          "execution_chat_usage": "UNRESOLVED",
+          "final_acceptance_caller_processes": 92,
+          "loop_b_calls": 0,
+          "network_calls": 0,
+          "orchestrated_model_requests": 0,
+          "production_calls": 0,
+          "remote_calls": 0,
+          "training_calls": 0
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "THREE_AXES",
+      "evidence": {
+        "acceptance_status": "UNREVIEWED",
+        "activation_status": "NOT_ENABLED",
+        "execution_status": "DELIVERED"
+      },
+      "status": "PASS"
+    }
+  ],
+  "overall": "CONTRACT_PASS",
+  "run_id": "20261014T233742Z_cb132ce7",
+  "schema": "jinrong_t5_self_check_result_v1",
+  "scope": "Current delivered T5 v3 run bytes only; deterministic local contract, identity, replay-evidence, G1 and B0 checks. No scientific, production, database, model, daemon, formal-run or independent-review claim."
+}

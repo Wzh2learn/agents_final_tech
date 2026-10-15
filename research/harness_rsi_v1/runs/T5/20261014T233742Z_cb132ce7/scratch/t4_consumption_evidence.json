@@ -1,0 +1,10 @@
+{
+  "schema": "jinrong_t5_t4_consumption_evidence_v1",
+  "dependency_receipt": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json",
+  "dependency_verdict": "ACCEPTED",
+  "consumption_policy": "CASE_LEVEL_ONLY",
+  "authoritative_field": "baseline.cases[]",
+  "forbidden_field_occurrences": 0,
+  "t4_derived_fields_consumed": 0,
+  "scope": "Preserves the T5R-02 accepted T4 consumption constraint; v3 does not score or reinterpret T4 results."
+}

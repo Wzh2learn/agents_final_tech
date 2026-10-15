@@ -1,0 +1,17 @@
+{
+  "schema": "jinrong_t5_adversarial_checks_v1",
+  "new1_input_identity": {
+    "interfaces_sha256_match": true,
+    "operations_sha256_match": true
+  },
+  "new1_target_identity": {
+    "expected_code": "FC_OPERATION_TARGET_IDENTITY_MISMATCH",
+    "actual": {
+      "code": "FC_OPERATION_TARGET_IDENTITY_MISMATCH",
+      "detail": "OP-T4-R-SUMMARY-GUARD-CHECK target bytes do not match registered git_blob_id"
+    },
+    "passed": true
+  },
+  "passed": true,
+  "scope": "Local deterministic validator checks against delivered interfaces/registry and a deliberately wrong target git_blob_id."
+}

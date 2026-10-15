@@ -1,0 +1,42 @@
+{
+  "schema": "jinrong_t5_v2_v3_diff_v1",
+  "from_run_id": "20261014T212520Z_3acf4c1d",
+  "to_run_id": "20261014T233742Z_cb132ce7",
+  "differences": [
+    {
+      "id": "T5R02-BLOCKING-1-REPLAY-STABILITY",
+      "v2": "P01 used max_tick_age_minutes=30 against a fixed old tick; replay required prepare_runtime_fixtures.py to overwrite a manifest-bound fixture.",
+      "v3": "P01 uses the recipe-declared unlimited mode 0 against the fixed tick; P09 generates a bounded runtime tick outside the run tree; no prepare script exists."
+    },
+    {
+      "id": "T5R02-BLOCKING-1-FULL-MATRIX",
+      "v2": "run_probes.py returned 3 on the first failed case.",
+      "v3": "run_probes.py writes all 23 records and returns 3 only after collection."
+    },
+    {
+      "id": "T5R02-ADV-NEW-1",
+      "v2": "Validator trusted caller-selected registry/interfaces bytes and did not verify target bytes.",
+      "v3": "Embedded SHA-256 pins authenticate registry/interfaces; target git_blob_id bytes are checked before execution."
+    },
+    {
+      "id": "T5R02-ADV-NEW-3",
+      "v2": "Pin and summary text were co-located; content-sufficiency scope was implicit.",
+      "v3": "E10 reads the pin from a separate delivered file at runtime; scope_boundary explicitly excludes summary content sufficiency."
+    },
+    {
+      "id": "T5R02-ADV-NEW-4",
+      "v2": "Four FC_* error-surface entries had inconsistent indentation.",
+      "v3": "error_surface indentation is normalized."
+    }
+  ],
+  "preserved_v2_surfaces": [
+    "watcher execute bit and manifest mode recording",
+    "external-pin three-way equality and all 15 prior fail-closed negative codes",
+    "four delivery field classes and seven frozen protections",
+    "T4 case-level-only consumption discipline",
+    "TASK_PROMPT verbatim capture and G1 guard"
+  ],
+  "not_implemented_by_instruction": [
+    "T5R-02 dissent-2 package-summary-text hash binding; recorded only as a later optional design."
+  ]
+}

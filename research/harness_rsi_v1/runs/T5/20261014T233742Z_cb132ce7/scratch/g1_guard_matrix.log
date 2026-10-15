@@ -1,0 +1,5 @@
+TASK_PROMPT.md	rc=0	[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/TASK_PROMPT.md: 无 SUMMARY-GUARD 块, 跳过
+recipe_fixtures/README.md	rc=0	[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/recipe_fixtures/README.md: 无 SUMMARY-GUARD 块, 跳过
+recipe_fixtures/summary/good_summary.md	rc=0	[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/recipe_fixtures/summary/good_summary.md: 1 收据块复核通过
+repair_record.md	rc=0	[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/repair_record.md: 1 收据块复核通过
+summary.md	rc=0	[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/summary.md: 1 收据块复核通过

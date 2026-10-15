@@ -1,0 +1,324 @@
+{
+  "schema": "jinrong_t5_probe_definitions_v3",
+  "version": 3,
+  "contract_sources": [
+    {
+      "source_id": "REAL_PIPELINE_PREFLIGHT_SHAPE",
+      "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline_recipe.json",
+      "git_blob_id": "ebe9231afd2abc8b426b52755751f612f2353478"
+    },
+    {
+      "source_id": "REAL_PIPELINE_TRUSTED_RUNNER",
+      "path": "research/harness_rsi_v1/runs/T3/20261014T161814Z_245b86ab/runner/runner.py",
+      "git_blob_id": "3708a4e6a8296ec29bacdfc170f9f8f8132bdf8d"
+    },
+    {
+      "source_id": "REAL_PIPELINE_EVALUATOR_INPUT",
+      "path": "research/harness_rsi_v1/runs/T2/20261014T145327Z_9a02a34a/evaluator/evaluate.py",
+      "git_blob_id": "3d296b0b9667d16a2bd73973bb0f1ceebfbec263"
+    }
+  ],
+  "runtime_derivation_policy": {
+    "bad_summary": "Mutation is applied to in-memory summary_text only; no mismatching Markdown is persisted.",
+    "guard_negative_control": "The unchanged T4 adapter derives a temporary mismatching Markdown, the repository guard returns target_exit_code=1, and the temporary file is deleted.",
+    "wrapper_semantics": "wrapper_exit_code and target_exit_code are separate fields to prevent T4R-01 A2 field conflation.",
+    "bounded_tick": "The replay-stable delivered P01 uses max_tick_age_minutes=0. P09 generates observed_at and runtime/tick_valid.json outside the delivered run tree for each invocation.",
+    "pin_provenance": "E10 injects the caller pin from a separate delivered pin-source file at runtime; this evidences file-level source separation, not production ownership.",
+    "registry_identity": "Z01 substitutes a runtime-only registry target; the embedded registry SHA-256 pin rejects it before target execution and the decoy marker must remain absent."
+  },
+  "cases": [
+    {
+      "case_id": "P01-PRECHECK-VALID",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "expected": "ACCEPT",
+      "expected_fail_closed_code": null
+    },
+    {
+      "case_id": "P02-PRECHECK-UNREGISTERED-OP",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "op_id"],
+        "operation": "replace",
+        "value": "OP-ARBITRARY-SHELL"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION"
+    },
+    {
+      "case_id": "P03-PRECHECK-SHELL-INJECTION",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "watcher_path"],
+        "operation": "replace",
+        "value": "recipe_fixtures/dispatch/watcher.sh; curl http://example.invalid"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION"
+    },
+    {
+      "case_id": "P04-PRECHECK-RANGE",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "max_tick_age_minutes"],
+        "operation": "replace",
+        "value": 61
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_PARAMETER_OUT_OF_RANGE"
+    },
+    {
+      "case_id": "P05-PRECHECK-TYPE",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "max_tick_age_minutes"],
+        "operation": "replace",
+        "value": "2"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH"
+    },
+    {
+      "case_id": "P06-PRECHECK-MISSING-FIELD",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["delivery_fields"],
+        "operation": "delete"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD"
+    },
+    {
+      "case_id": "P07-PRECHECK-WRONG-HASH",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["protocol_freeze_sha256"],
+        "operation": "replace",
+        "value": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH"
+    },
+    {
+      "case_id": "P08-PRECHECK-ARBITRARY-PATH",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "tick_path"],
+        "operation": "replace",
+        "value": "/etc/passwd"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_ARBITRARY_PATH"
+    },
+    {
+      "case_id": "P09-PRECHECK-BOUNDED-TICK-AGE-60",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "max_tick_age_minutes"],
+        "operation": "replace",
+        "value": 60
+      },
+      "runtime_tick": true,
+      "expected": "ACCEPT",
+      "expected_fail_closed_code": null
+    },
+    {
+      "case_id": "E01-DELIVERY-VALID",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "expected": "ACCEPT",
+      "expected_fail_closed_code": null
+    },
+    {
+      "case_id": "E02-DELIVERY-UNREGISTERED-OP",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["operations", 1, "op_id"],
+        "operation": "replace",
+        "value": "OP-SHELL-EVAL"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_UNREGISTERED_OPERATION"
+    },
+    {
+      "case_id": "E03-DELIVERY-SHELL-INJECTION",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["operations", 1, "parameters", "base_markdown_path"],
+        "operation": "replace",
+        "value": "recipe_fixtures/summary/good_summary.md && rm -rf /"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_SHELL_OR_COMMAND_INJECTION"
+    },
+    {
+      "case_id": "E04-DELIVERY-MISSING-SCIENTIFIC",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["delivery_fields", "scientific"],
+        "operation": "delete"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_MISSING_REQUIRED_FIELD"
+    },
+    {
+      "case_id": "E05-DELIVERY-WRONG-PACKAGE-HASH",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["package_sha256"],
+        "operation": "replace",
+        "value": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_HASH_BINDING_MISMATCH"
+    },
+    {
+      "case_id": "E06-DELIVERY-FORGED-SUMMARY",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["summary_text"],
+        "operation": "replace_runtime",
+        "value": "Fabricated delivery summary that is not bound to the evidence package."
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_FORGED_SUMMARY_MISMATCH"
+    },
+    {
+      "case_id": "X06A-SELF-CONSISTENT-FORGED-NO-PIN",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutations": [
+        {
+          "path": ["summary_text"],
+          "operation": "replace",
+          "value": "Self-consistent forged summary without an external pin."
+        },
+        {
+          "path": ["summary_sha256"],
+          "operation": "replace",
+          "value": "3cb002140cf5bd8f0f905b9bdaf282e728ae2a88d03190b0af8fbb0a5f0aa916"
+        },
+        {
+          "path": ["caller_context", "expected_artifact_sha256"],
+          "operation": "delete"
+        }
+      ],
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_ARTIFACT_NOT_PINNED"
+    },
+    {
+      "case_id": "X06B-SELF-CONSISTENT-FORGED-WRONG-PIN",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutations": [
+        {
+          "path": ["summary_text"],
+          "operation": "replace",
+          "value": "Self-consistent forged summary with a wrong external pin."
+        },
+        {
+          "path": ["summary_sha256"],
+          "operation": "replace",
+          "value": "467fa7a7f3fbcf09a51d06d7a36c341614a1b6fb70b3b718a68dfaaa63e30e42"
+        },
+        {
+          "path": ["caller_context", "expected_artifact_sha256"],
+          "operation": "replace",
+          "value": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ],
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_PIN_MISMATCH"
+    },
+    {
+      "case_id": "X06C-SELF-CONSISTENT-FORGED-CORRECT-PIN",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutations": [
+        {
+          "path": ["summary_text"],
+          "operation": "replace",
+          "value": "Correctly pinned delivery summary."
+        },
+        {
+          "path": ["summary_sha256"],
+          "operation": "replace",
+          "value": "df46497660d96453b53af72154a26ff3ca479ba2708f214010433ea139acea11"
+        },
+        {
+          "path": ["caller_context", "expected_artifact_sha256"],
+          "operation": "replace",
+          "value": "df46497660d96453b53af72154a26ff3ca479ba2708f214010433ea139acea11"
+        }
+      ],
+      "expected": "ACCEPT",
+      "expected_fail_closed_code": null
+    },
+    {
+      "case_id": "E07-DELIVERY-SINGLE-OVERALL-PASS",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["delivery_fields"],
+        "operation": "insert",
+        "key": "overall_pass",
+        "value": true
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_SINGLE_OVERALL_PASS_FORBIDDEN"
+    },
+    {
+      "case_id": "E08-DELIVERY-PARAMETER-TYPE",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["operations", 0, "parameters", "markdown_path"],
+        "operation": "replace",
+        "value": ["recipe_fixtures/summary/good_summary.md"]
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_PARAMETER_TYPE_MISMATCH"
+    },
+    {
+      "case_id": "E09-DELIVERY-ARBITRARY-PATH",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call.json",
+      "mutation": {
+        "path": ["package_ref"],
+        "operation": "replace",
+        "value": "../../old_run/receipt.json"
+      },
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_ARBITRARY_PATH"
+    },
+    {
+      "case_id": "E10-DELIVERY-INDEPENDENT-PIN-SOURCE",
+      "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+      "fixture": "valid_delivery_call_independent_pin.json",
+      "pin_source": "external_summary_pin.txt",
+      "expected": "ACCEPT",
+      "expected_fail_closed_code": null
+    },
+    {
+      "case_id": "Z01-IDENTITY-VERIFIED-REGISTRY-SUBSTITUTION",
+      "recipe_id": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "fixture": "valid_precheck_call.json",
+      "registry_substitution": true,
+      "expected": "REJECT",
+      "expected_fail_closed_code": "FC_INPUT_IDENTITY_MISMATCH"
+    }
+  ]
+}

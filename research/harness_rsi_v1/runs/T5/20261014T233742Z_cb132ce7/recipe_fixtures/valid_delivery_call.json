@@ -1,0 +1,45 @@
+{
+  "schema": "jinrong_t5_recipe_call_v1",
+  "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+  "caller_context": {
+    "context": "EVIDENCE_DELIVERY_RECEIPT_MANIFEST_VALIDATION",
+    "expected_artifact_sha256": "abe9593ef0affe5af31255467188f63f4a482898c51c98e45f5b3f0a66f3fa62"
+  },
+  "run_id": "20261014T233742Z_cb132ce7",
+  "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+  "package_ref": "recipe_fixtures/delivery_payload.json",
+  "package_sha256": "5de1857e4b25d42fea64029a73e38d381264711f81f77645796721304fb04ad8",
+  "summary_text": "Fixture evidence package is internally bound; scientific status remains NOT_ACHIEVED.",
+  "summary_sha256": "abe9593ef0affe5af31255467188f63f4a482898c51c98e45f5b3f0a66f3fa62",
+  "operations": [
+    {
+      "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK",
+      "parameters": {
+        "markdown_path": "recipe_fixtures/summary/good_summary.md"
+      }
+    },
+    {
+      "op_id": "OP-T4-R-SUMMARY-GUARD-DERIVE",
+      "parameters": {
+        "base_markdown_path": "recipe_fixtures/summary/good_summary.md"
+      }
+    }
+  ],
+  "delivery_fields": {
+    "qualification": {
+      "delivery_eligibility": "ALLOW_WITHIN_SCOPE"
+    },
+    "audit": {
+      "verification_level": "CONTRACT_PASS",
+      "scope": "Receipt/manifest delivery binding and negative-control behavior only; no scientific conclusion."
+    },
+    "execution": {
+      "execution_status": "COMPLETED",
+      "operation_count": 2
+    },
+    "scientific": {
+      "scientific_status": "NOT_ACHIEVED",
+      "claim": null
+    }
+  }
+}
