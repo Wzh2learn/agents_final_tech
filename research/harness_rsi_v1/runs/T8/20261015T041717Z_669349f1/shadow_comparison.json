@@ -1,0 +1,255 @@
+{
+  "schema": "jinrong_t8_shadow_comparison_v1",
+  "task_id": "T8",
+  "run_id": "20261015T041717Z_669349f1",
+  "direction": "R",
+  "shadow_status": "NOT_SATISFIED_NO_THREE_TASK_WINDOWS",
+  "execution_status": "NOT_EXECUTED",
+  "shadow_completed": false,
+  "candidate_enabled": false,
+  "distribution_changed": false,
+  "authorization_scope_check": {
+    "authorized_new_task_window_count": 0,
+    "required_new_task_window_count": 3,
+    "window_time": "UNRESOLVED",
+    "evidence": [
+      {
+        "path": "research/harness_rsi_v1/cards/T8.md",
+        "sha256": "f04a471073247ef3c77c7642bc61a21d4d7e9717b29dd43840edc377cb03b3fa",
+        "finding": "card execution_authorized=false, authorization_ref=UNRESOLVED, and A1 requires three real new-task evidence records"
+      },
+      {
+        "path": "research/harness_rsi_v1/runs/T8/_dispatch/loop_a_prompt_t8.md",
+        "sha256": "b9d48d82bdc70cf6e6ffa78d5eabf5819c64692a3bfa3a12fa324e5308b8d59e",
+        "finding": "the current dispatch explicitly states that no three-new-approved-task windows exist in scope and forbids fabricating tasks or evidence"
+      },
+      {
+        "path": "research/harness_rsi_v1/registry/decision_events.jsonl",
+        "sha256": "2fdf188aa56472c498cb56eb3bc9e95994d59b45bf5a4bc25f6530100918975a",
+        "finding": "the closer note records that shadow requires three new approved task windows as an owner gate and reserves enablement/distribution for the user"
+      },
+      {
+        "path": "research/harness_rsi_v1/MASTER_PLAN.md",
+        "finding": "the plan states that the three new tasks are an unsatisfied T8 prerequisite"
+      }
+    ],
+    "precise_gap_list": [
+      "No approved task identifier exists for shadow task slot 1.",
+      "No approved task identifier exists for shadow task slot 2.",
+      "No approved task identifier exists for shadow task slot 3.",
+      "No task-specific material set, material content hash, or material freeze declaration exists for any slot.",
+      "No permission window exists for any slot.",
+      "No SHADOW budget activation or per-task call window exists for any slot.",
+      "No start/end time exists for any slot; all three window times remain UNRESOLVED.",
+      "No old-version execution record exists for any slot.",
+      "No candidate-version execution record exists for any slot.",
+      "No paired comparison, regression adjudication, or stop/continue record exists for any slot."
+    ],
+    "conclusion": "The absence is an authorization-scope gap, not a failed experiment result. No slot was invented and no result was filled."
+  },
+  "shadow_protocol": {
+    "pairing_rule": "For each approved new task, run the unchanged base version and the exact candidate version on the same frozen material set, in an environment and permission window declared before either run.",
+    "order_control": "Record run order; if order can affect the task, counterbalance it or declare order as a limitation.",
+    "required_window_elements": [
+      "approved task identifier and authorization_ref",
+      "material identifier, absolute source path or opaque package reference, content SHA-256, byte count, and freeze time",
+      "base version identity and candidate version identity",
+      "environment identity, permissions granted, and permissions denied",
+      "budget profile, cheap-request allowance, strong-request allowance, and automatic-retry allowance",
+      "window start, window end, timezone, and timeout behavior",
+      "task result fields, cost fields, failure fields, and evidence paths",
+      "reviewer/adjudicator identity where required by the protocol",
+      "rollback and retained-evidence declaration"
+    ],
+    "record_fields": [
+      "shadow_task_slot",
+      "task_id",
+      "authorization_ref",
+      "materials",
+      "environment_identity",
+      "permission_window",
+      "budget_window",
+      "base_version_identity",
+      "candidate_version_identity",
+      "run_order",
+      "started_at",
+      "ended_at",
+      "usage",
+      "outputs",
+      "hard_gate_results",
+      "quality_or_accuracy_results",
+      "cost_results",
+      "regressions",
+      "severe_regression",
+      "stop_decision",
+      "rollback_state",
+      "review_status",
+      "unverified"
+    ],
+    "severe_regression_stop_rule": "Any verified severe regression, hard-gate failure attributable to the candidate, identity mismatch, budget/counting failure, or material/permission mismatch immediately disables the candidate for subsequent tasks and starts rollback. A stop is recorded; historical evidence is never deleted.",
+    "rollback_preservation": "Restore the base identity, verify byte/mode/blob identity, re-run the predeclared base behavior check, and keep every task record and failed-run evidence unchanged.",
+    "evaluation_order": "hard gates first; only after all hard gates pass compare benefit and cost."
+  },
+  "technical_prerequisites": {
+    "task_entry": "A task enters shadow only after an owner-approved authorization_ref binds the task, material hash, permission window, and SHADOW budget window before either run starts.",
+    "old_new_capture": "The runner writes one immutable record per version under the same shadow_task_slot, with separate run IDs and identical material bindings.",
+    "minimum_capture": [
+      "canonical candidate and base identities",
+      "material SHA-256 before and after each run",
+      "exact command or adapter identity without secrets",
+      "permissions and denied operations",
+      "stdout/stderr or structured result paths with SHA-256",
+      "usage counters including zero values",
+      "exit status and failure classification",
+      "review verdict and any stop/rollback event"
+    ],
+    "installation_boundary": "Repository presence does not establish installation or loading. The current installation state is NOT_ESTABLISHED and the current loading state is NOT_ESTABLISHED; neither is inferred from tracked files.",
+    "model_boundary": "No model call is permitted while a required task window is absent."
+  },
+  "candidate_identity": {
+    "direction": "R",
+    "canonical_label": "R-ACCEPTED-T5-T6-T7",
+    "composite_content_group_id": "sha256:e16cde27ff239da0c7b76f35272e0950e1cb9f0878d464b0ae6629e88d4c4f86",
+    "hash_domain": "SHA-256 of canonical JSON containing task_id, run_id, git_commit, member_count, and content_group_id for each component, sorted by task_id; component groups use sorted relative_path + file SHA-256 + git-normalized mode.",
+    "components": [
+      {
+        "task_id": "T5",
+        "version": "v3",
+        "run_id": "20261014T233742Z_cb132ce7",
+        "git_commit": "115f396af6ea461c156d91ad9148414387724eb3",
+        "member_count": 45,
+        "content_group_id": "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54",
+        "scope": "recipes, registered operations, caller validator, fixtures, and accepted run records",
+        "unchanged_at_bound_commit": true
+      },
+      {
+        "task_id": "T6",
+        "version": "v1",
+        "run_id": "20261015T012906Z_b9bb8ca6",
+        "git_commit": "ef5e84edbd4fcd35cc287316c0e994cf72f6faa4",
+        "member_count": 30,
+        "content_group_id": "sha256:a123480270ebdfc1d9ecb8bf74928676810ba2507290f5708911774c1755a1b7",
+        "scope": "archive implementation, lineage records, candidate index, and accepted run records",
+        "unchanged_at_bound_commit": true
+      },
+      {
+        "task_id": "T7",
+        "version": "v1",
+        "run_id": "20261015T025839Z_c94af776",
+        "git_commit": "0579b64bbc4423b52055d37e0f81cd0715f453bb",
+        "member_count": 57,
+        "content_group_id": "sha256:363991a2cccccc4581ecafefdb73dc569dd2ab6333bd0514927e48ed7b2f5ff7",
+        "scope": "independent acceptance, identity bindings, pilot acceptance, and rollback records",
+        "unchanged_at_bound_commit": true
+      }
+    ]
+  },
+  "candidate_hash_acceptance_consistency": {
+    "a2_status": "PASS_WITH_SCOPED_EVIDENCE",
+    "checks": [
+      {
+        "id": "T5_PARENT_GROUP",
+        "command": "python3 -B .../archive_implementation/archive.py validate-parents .../parent_versions.json",
+        "exit_code": 0,
+        "declared": "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54",
+        "actual": "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54",
+        "members": 45,
+        "anchor_mismatches": 0,
+        "manifest_sha256_mismatches": 0,
+        "mode_mismatches": 0,
+        "acceptance_binding": "T5R-04 ACCEPTED and T6R-01/T7R-01 parent binding at 115f396af"
+      },
+      {
+        "id": "T6_CANDIDATE",
+        "path": "research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6/candidate_packages/cand-d44c49dec4d95741/candidate.json",
+        "current_sha256": "ae238ec26cb285a92e91ccffb33a671d0d274113b16608fe421c5607a8c920d2",
+        "accepted_review_sha256": "ae238ec26cb285a92e91ccffb33a671d0d274113b16608fe421c5607a8c920d2",
+        "canonical_git_blob_id": "20a6ea7b859a2005bc65815df7a914c9e7ddc638",
+        "match": true,
+        "acceptance_binding": "T6R-01 ACCEPTED"
+      },
+      {
+        "id": "T7_AMENDED_CANDIDATE",
+        "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/amended_candidate.json",
+        "current_sha256": "779e3a0c56355bccbd5d9775a93d6e6369a9aadf44d7a995354fcbee1c0b4326",
+        "accepted_review_sha256": "779e3a0c56355bccbd5d9775a93d6e6369a9aadf44d7a995354fcbee1c0b4326",
+        "canonical_git_blob_id": "484468a43ff09863c5f8e890da54aaa3629deeee",
+        "match": true,
+        "acceptance_binding": "T7R-01 ACCEPTED"
+      },
+      {
+        "id": "BOUND_COMMIT_TREE_UNCHANGED",
+        "commands": [
+          "git diff --quiet 115f396af6ea461c156d91ad9148414387724eb3 research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7",
+          "git diff --quiet ef5e84edbd4fcd35cc287316c0e994cf72f6faa4 research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6",
+          "git diff --quiet 0579b64bbc4423b52055d37e0f81cd0715f453bb research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776"
+        ],
+        "exit_codes": [
+          0,
+          0,
+          0
+        ],
+        "match": true
+      }
+    ],
+    "installation_state": "NOT_ESTABLISHED_NOT_INFERRED_FROM_REPOSITORY",
+    "loading_state": "NOT_ESTABLISHED_NOT_INFERRED_FROM_REPOSITORY"
+  },
+  "task_results": [
+    {
+      "shadow_task_slot": 1,
+      "task_id": null,
+      "authorization_ref": null,
+      "materials": null,
+      "base_result": null,
+      "candidate_result": null,
+      "comparison": null,
+      "status": "NOT_EXECUTED_MISSING_APPROVED_WINDOW"
+    },
+    {
+      "shadow_task_slot": 2,
+      "task_id": null,
+      "authorization_ref": null,
+      "materials": null,
+      "base_result": null,
+      "candidate_result": null,
+      "comparison": null,
+      "status": "NOT_EXECUTED_MISSING_APPROVED_WINDOW"
+    },
+    {
+      "shadow_task_slot": 3,
+      "task_id": null,
+      "authorization_ref": null,
+      "materials": null,
+      "base_result": null,
+      "candidate_result": null,
+      "comparison": null,
+      "status": "NOT_EXECUTED_MISSING_APPROVED_WINDOW"
+    }
+  ],
+  "usage": {
+    "profile": "SHADOW",
+    "additional_cheap_requests": 0,
+    "additional_cheap_requests_max": 6,
+    "additional_strong_requests": 0,
+    "additional_strong_requests_max": 2,
+    "automatic_retries": 0,
+    "network_calls": 0,
+    "remote_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "daemon_calls": 0,
+    "loop_b_calls": 0,
+    "execution_chat_usage": "UNRESOLVED"
+  },
+  "unverified": [
+    "Any behavior of base or candidate on a real new task",
+    "Whether the three future windows use identical materials and equivalent permissions",
+    "Whether the candidate would stop on a severe regression in a real window",
+    "Installation state in any target environment",
+    "Loading or skill-invocation state in any target environment",
+    "Execution-chat token usage",
+    "Cross-machine copy behavior"
+  ]
+}

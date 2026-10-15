@@ -1,0 +1,62 @@
+{
+  "schema": "jinrong_t8_repair_record_v1",
+  "run_id": "20261015T041717Z_669349f1",
+  "task_id": "T8",
+  "status": "FOUR_REPAIRS_COMPLETED_BEFORE_FINAL_ACCEPTANCE",
+  "attempts": [
+    {
+      "attempt": 1,
+      "detected_before": "artifacts_manifest creation and final self-check",
+      "artifact": "rollback_receipt.json",
+      "field": "old_evidence_before/after T4 receipt git_blob_id",
+      "before_value": "14278b2a00cc6a996b92a352c3b18884f8",
+      "expected_value": "14278b2a00f12984311ffa8bc53a9f14377207dd",
+      "cause": "Transcription error while copying the old-evidence snapshot into this package.",
+      "repair": "Recomputed with git rev-parse HEAD:<path> and replaced both before/after copies.",
+      "evidence_lost": false,
+      "result": "CORRECTED"
+    },
+    {
+      "attempt": 4,
+      "detected_before": "post-handoff final read-only acceptance and final self-check rerun",
+      "artifact": "receipt.json",
+      "field": "A-common manifest entry count",
+      "before_value": "10",
+      "expected_value": "11",
+      "cause": "The receipt narrative retained a stale count after the manifest was regenerated to cover all 11 non-manifest artifacts.",
+      "repair": "Replaced the stale count with 11 and regenerated artifacts_manifest.json after all package edits.",
+      "evidence_lost": false,
+      "result": "CORRECTED"
+    },
+    {
+      "attempt": 2,
+      "detected_before": "final self-check",
+      "artifact": "summary.md",
+      "field": "SUMMARY-GUARD claim paths",
+      "cause": "Four claim paths omitted their authorization_scope_check or usage parent object.",
+      "repair": "Expanded all four paths to their actual JSON locations; artifact SHA-256 and claims then recomputed rc=0.",
+      "evidence_lost": false,
+      "result": "CORRECTED"
+    },
+    {
+      "attempt": 3,
+      "detected_before": "final self-check",
+      "artifacts": [
+        "shadow_comparison.json",
+        "release_proposal.json",
+        "rollback_receipt.json",
+        "summary.md",
+        "events.jsonl",
+        "self_check.py"
+      ],
+      "field": "composite content group id and write-boundary status parsing",
+      "cause": "The first draft composite included unchanged_at_bound_commit despite declaring a five-field domain, and self_check stripped git status paths before classification.",
+      "repair": "Recomputed the declared five-field composite as sha256:e16cde27ff239da0c7b76f35272e0950e1cb9f0878d464b0ae6629e88d4c4f86 and classified the original git status lines.",
+      "evidence_lost": false,
+      "result": "CORRECTED"
+    }
+  ],
+  "failures_after_repair": [],
+  "model_calls": 0,
+  "automatic_retries": 0
+}

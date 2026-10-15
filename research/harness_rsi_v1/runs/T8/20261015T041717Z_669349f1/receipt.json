@@ -1,0 +1,169 @@
+{
+  "schema": "receipt",
+  "task_id": "T8",
+  "run_id": "20261015T041717Z_669349f1",
+  "scope": "Boundary execution only: shadow protocol/plan, accepted identity binding, simulated rollback readiness, and advisory release proposal. No task windows, model calls, enablement, distribution, skills changes, or global configuration changes.",
+  "execution_status": "DELIVERED",
+  "acceptance_status": "UNREVIEWED",
+  "activation_status": "NOT_ENABLED",
+  "direction": "R",
+  "shadow_status": "NOT_SATISFIED_NO_THREE_TASK_WINDOWS",
+  "candidate_enabled": false,
+  "distribution_changed": false,
+  "input_bindings": [
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/cards/T8.md",
+      "path": "research/harness_rsi_v1/cards/T8.md",
+      "sha256": "f04a471073247ef3c77c7642bc61a21d4d7e9717b29dd43840edc377cb03b3fa",
+      "canonical_git_blob_id": "882bfd58a440011e6c640fada7105bf7e1db05ba",
+      "status": "BOUND"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T8/_dispatch/loop_a_prompt_t8.md",
+      "path": "research/harness_rsi_v1/runs/T8/_dispatch/loop_a_prompt_t8.md",
+      "sha256": "b9d48d82bdc70cf6e6ffa78d5eabf5819c64692a3bfa3a12fa324e5308b8d59e",
+      "canonical_git_blob_id": "3f8045601cf99241d9db897d8a215801520421e6",
+      "status": "BOUND"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json",
+      "path": "research/harness_rsi_v1/contracts/protocol.json",
+      "sha256": "c695780364b5672caf90a991176232c174a85615f1df19628c813690fa3ef127",
+      "canonical_git_blob_id": "c57937c8380413708082fdc17bd4c73286cb46bf",
+      "status": "BOUND"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
+      "path": "research/harness_rsi_v1/contracts/authority_map.json",
+      "sha256": "dd72a5497e542209451bfddc43b470d75a8c8164110a57c3642b54a955461972",
+      "canonical_git_blob_id": "46acca7ec01b98a5008f2851f10a86af6fe34fed",
+      "status": "BOUND"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md",
+      "path": "research/harness_rsi_v1/contracts/execution_policy.md",
+      "sha256": "f659668ad1ddca44fcd170c328a177be201b8aaa871f2bb938681d404e9cf393",
+      "canonical_git_blob_id": "e0569763e3221c606ebfd16c2f5d41b2b26d328d",
+      "status": "BOUND"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+      "path": "research/harness_rsi_v1/contracts/budget_profiles.json",
+      "sha256": "1c94e40e377dd7b119c27988d845859e9d88784312c68aeb3f3649871614a8d9",
+      "canonical_git_blob_id": "64634474115ac55d68ab20b254e325d87afe830e",
+      "status": "BOUND"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json",
+      "path": "research/harness_rsi_v1/contracts/schemas.json",
+      "sha256": "a6543ce1fc4254f1f09573a928c6e0c318b5834062529ec9f0264873198a4c6d",
+      "canonical_git_blob_id": "07731a300ad5d681c6ecb62269bac0531bfb3899",
+      "status": "BOUND"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T5R-04/ACCEPTANCE_PROPOSAL.json",
+      "path": "research/harness_rsi_v1/reviews/T5R-04/ACCEPTANCE_PROPOSAL.json",
+      "sha256": "9c714892ebe57756d7234c3fa3dd13287f151b26fdd8b61190c9e6c1e29a2205",
+      "canonical_git_blob_id": "7e4a09676c53b03d228973e2fd2c49774b9ca949",
+      "status": "BOUND_ACCEPTED"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T6R-01/ACCEPTANCE_PROPOSAL.json",
+      "path": "research/harness_rsi_v1/reviews/T6R-01/ACCEPTANCE_PROPOSAL.json",
+      "sha256": "47beca41e9c9ef72365c3c0b6cd6f745cc8ab7a3f7358090693b9e08941cf38c",
+      "canonical_git_blob_id": "15667a428fd60760db38b17157c05ce95567188c",
+      "status": "BOUND_ACCEPTED"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T7R-01/ACCEPTANCE_PROPOSAL.json",
+      "path": "research/harness_rsi_v1/reviews/T7R-01/ACCEPTANCE_PROPOSAL.json",
+      "sha256": "b38dee49c08843d9797912994502e00877b612df2c7475523bf52ba227fafe7e",
+      "canonical_git_blob_id": "48493e6c11019fc36642ff54a825c5e4a8977186",
+      "status": "BOUND_ACCEPTED"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/registry/decision_events.jsonl",
+      "path": "research/harness_rsi_v1/registry/decision_events.jsonl",
+      "sha256": "2fdf188aa56472c498cb56eb3bc9e95994d59b45bf5a4bc25f6530100918975a",
+      "canonical_git_blob_id": "2e83f3a8d138d5d327381fc93817615c4ace2298",
+      "status": "BOUND_OWNER_GATE_EVIDENCE"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/MASTER_PLAN.md",
+      "path": "research/harness_rsi_v1/MASTER_PLAN.md",
+      "sha256": "f663094efbf5d6fdd617a600353ba7ccba06ce0f1fcba06ec1ab20142f1253ef",
+      "canonical_git_blob_id": "af7a6c0aa04f0275aa33ed56657fb1be3dbe8841",
+      "status": "BOUND_UNSATISFIED_PREREQUISITE_EVIDENCE"
+    }
+  ],
+  "output_manifest": "artifacts_manifest.json",
+  "checks": [
+    {
+      "check_id": "A1_THREE_REAL_NEW_TASK_EVIDENCE",
+      "status": "NOT_SATISFIED",
+      "result": "Three real new-task windows and evidence records are absent; no shadow completion is claimed."
+    },
+    {
+      "check_id": "A2_CANDIDATE_HASH_ACCEPTANCE_CONSISTENCY",
+      "status": "CONTRACT_PASS",
+      "result": "T5 group 45/45, T6 candidate SHA-256, T7 amended candidate SHA-256, and three bound commit trees match accepted bindings; installation/loading are not inferred."
+    },
+    {
+      "check_id": "A3_OLD_EXPERIMENTS_ZERO_CHANGE_AND_NO_OUT_OF_AUTHORITY_REQUEST",
+      "status": "CONTRACT_PASS",
+      "result": "Eleven old-evidence snapshots and three component groups are unchanged; no network, remote, production, database, training, daemon, Loop B, enablement, distribution, skills, or global-configuration request occurred."
+    },
+    {
+      "check_id": "A_COMMON_JSON_REQUIRED_PATHS_HASHES_WRITE_BOUNDARY",
+      "status": "CONTRACT_PASS",
+      "result": "All JSON/JSONL parsed; required receipt fields present; 11 manifest entries recompute exactly; every artifact path is inside the T8 run allowlist; outside write boundary matches the initial allowed status; gitignore view has zero ignored run artifacts; no .omc, __pycache__, pyc, or tmp residue."
+    },
+    {
+      "check_id": "G1_EVERY_MARKDOWN_RC0",
+      "status": "CONTRACT_PASS",
+      "result": "2/2 Markdown files returned rc=0: TASK_PROMPT.md is a zero-block skip and summary.md rechecked one content-verified SUMMARY-GUARD block."
+    },
+    {
+      "check_id": "TASK_PROMPT_VERBATIM",
+      "status": "CONTRACT_PASS",
+      "result": "3087 bytes and byte-identical to research/harness_rsi_v1/runs/T8/_dispatch/loop_a_prompt_t8.md."
+    },
+    {
+      "check_id": "MODE_DECLARATION_DELIVERY_755_FULL_SET",
+      "status": "CONTRACT_PASS",
+      "result": "Every regular file in this run is mode 0755; manifest mode policy is DELIVERY_FULL_SET_755."
+    }
+  ],
+  "three_axes": {
+    "execution": "DELIVERED",
+    "review": "UNREVIEWED",
+    "activation": "NOT_ENABLED"
+  },
+  "usage": {
+    "profile": "SHADOW",
+    "additional_cheap_requests": 0,
+    "additional_cheap_requests_max": 6,
+    "additional_strong_requests": 0,
+    "additional_strong_requests_max": 2,
+    "automatic_retries": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "remote_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "daemon_calls": 0,
+    "loop_b_calls": 0,
+    "execution_chat_usage": "UNRESOLVED"
+  },
+  "unresolved": [
+    "Three new approved task windows and their times remain absent/UNRESOLVED.",
+    "No real old/new task result exists, so A1 remains NOT_SATISFIED.",
+    "Installation state and loading state remain NOT_ESTABLISHED.",
+    "Actual deployment rollback remains unverified because nothing was enabled.",
+    "Execution-chat token usage remains UNRESOLVED.",
+    "Independent review is pending; Loop A does not self-fill ACCEPTED.",
+    "No production, network, model-endpoint, database, training, daemon, remote, or Loop B verification was performed."
+  ],
+  "authorization_ref": "Explicit Loop A T8 boundary dispatch at research/harness_rsi_v1/runs/T8/_dispatch/loop_a_prompt_t8.md; owner gates remain: three approved task windows and user enablement/distribution decision under card section 7."
+}

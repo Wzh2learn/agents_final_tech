@@ -1,0 +1,117 @@
+{
+  "schema": "jinrong_t8_release_proposal_v1",
+  "task_id": "T8",
+  "run_id": "20261015T041717Z_669349f1",
+  "proposal_type": "RECOMMENDATION_ONLY",
+  "decision_authority": "USER_OWNERSHIP_GATE_SECTION_7",
+  "enabled": false,
+  "distribution_started": false,
+  "skills_modified": false,
+  "global_configuration_modified": false,
+  "recommendation": {
+    "statement": "The accepted R version is technically eligible to enter a controlled shadow evaluation. Start shadow only after three distinct new tasks have owner-approved windows binding task identity, identical material hashes, permissions, SHADOW budget, and time.",
+    "enablement_decision": "RESERVED_TO_USER_UNDER_CARD_SECTION_7",
+    "distribution_decision": "RESERVED_TO_USER_UNDER_CARD_SECTION_7",
+    "proposal_state": "ADVISORY_ONLY_NOT_AN_ACTIVATION_ORDER",
+    "current_action": "Deliver the shadow plan and rollback readiness; do not enable or distribute."
+  },
+  "candidate_identity": {
+    "direction": "R",
+    "canonical_label": "R-ACCEPTED-T5-T6-T7",
+    "composite_content_group_id": "sha256:e16cde27ff239da0c7b76f35272e0950e1cb9f0878d464b0ae6629e88d4c4f86",
+    "components": [
+      {
+        "task_id": "T5",
+        "version": "v3",
+        "git_commit": "115f396af6ea461c156d91ad9148414387724eb3",
+        "run_id": "20261014T233742Z_cb132ce7",
+        "content_group_id": "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54",
+        "member_count": 45,
+        "acceptance": "T5R-04 ACCEPTED",
+        "activation_status": "NOT_ENABLED"
+      },
+      {
+        "task_id": "T6",
+        "version": "v1",
+        "git_commit": "ef5e84edbd4fcd35cc287316c0e994cf72f6faa4",
+        "run_id": "20261015T012906Z_b9bb8ca6",
+        "content_group_id": "sha256:a123480270ebdfc1d9ecb8bf74928676810ba2507290f5708911774c1755a1b7",
+        "member_count": 30,
+        "acceptance": "T6R-01 ACCEPTED",
+        "activation_status": "NOT_ENABLED"
+      },
+      {
+        "task_id": "T7",
+        "version": "v1",
+        "git_commit": "0579b64bbc4423b52055d37e0f81cd0715f453bb",
+        "run_id": "20261015T025839Z_c94af776",
+        "content_group_id": "sha256:363991a2cccccc4581ecafefdb73dc569dd2ab6333bd0514927e48ed7b2f5ff7",
+        "member_count": 57,
+        "acceptance": "T7R-01 ACCEPTED",
+        "activation_status": "NOT_ENABLED"
+      }
+    ],
+    "selection_status": "NO_PROMOTION_FROM_T7_REMAINS_UNCHANGED",
+    "shadow_candidate_status": "NOT_EVALUATED_BECAUSE_NO_TASK_WINDOWS"
+  },
+  "entry_conditions": [
+    "Three distinct new tasks are approved with explicit authorization_ref values.",
+    "Each task has a frozen material set with SHA-256 and byte count.",
+    "Each task has a declared permission window and denied-operation boundary.",
+    "Each task has a SHADOW budget window with cheap, strong, and retry counters.",
+    "Each task has a start/end time or a separately approved unresolved-time protocol.",
+    "Base and candidate identities are bound before execution.",
+    "The severe-regression stop rule and rollback receipt are accepted before execution.",
+    "Installation and loading state are observed directly rather than inferred from repository files."
+  ],
+  "rollback_plan": {
+    "receipt": "rollback_receipt.json",
+    "drill_status": "PASS_SIMULATED_ONLY",
+    "trigger": "Any severe regression, identity drift, permission mismatch, budget-counting failure, or owner stop order.",
+    "steps": [
+      "Stop further candidate task runs while preserving all records.",
+      "Restore base state identity without deleting candidate evidence.",
+      "Verify component content groups and canonical git blobs.",
+      "Re-run the predeclared base behavior check.",
+      "Confirm old evidence SHA-256, byte count, mode, and git blob are unchanged.",
+      "Record completion and leave enablement/distribution under user control."
+    ],
+    "shared_tree_rollback_needed": false,
+    "reason_shared_rollback_not_needed": "No candidate was enabled and no shared configuration was changed in this run."
+  },
+  "risks": [
+    "Three approved task windows and their materials do not yet exist.",
+    "A severe regression may appear only on genuinely new task content.",
+    "Repository presence cannot prove installation or loading in the execution environment.",
+    "Permission or budget equivalence between paired runs may be difficult to enforce.",
+    "Execution-chat token usage is not measurable in this package.",
+    "Rollback after actual deployment has not been exercised because deployment never occurred.",
+    "The accepted package carries prior review advisories that remain non-promoted backlog."
+  ],
+  "unverified": [
+    "Base and candidate behavior on any real new task",
+    "Whether three paired windows would produce a decision under the predeclared rules",
+    "Target-environment installation and loading state",
+    "Production, database, model-endpoint, network, remote, training, daemon, or Loop B behavior",
+    "Actual deployment rollback",
+    "Any cross-machine or different-umask copy chain",
+    "Execution-chat token usage"
+  ],
+  "usage": {
+    "profile": "SHADOW",
+    "additional_cheap_requests": 0,
+    "additional_cheap_requests_max": 6,
+    "additional_strong_requests": 0,
+    "additional_strong_requests_max": 2,
+    "automatic_retries": 0,
+    "network_calls": 0,
+    "remote_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "daemon_calls": 0,
+    "loop_b_calls": 0,
+    "execution_chat_usage": "UNRESOLVED"
+  },
+  "authorization_ref": "T8 Loop A boundary dispatch; proposal only; no activation or distribution authority"
+}

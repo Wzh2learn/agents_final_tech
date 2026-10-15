@@ -1,0 +1,36 @@
+{
+  "schema": "jinrong_t8_self_check_v1",
+  "task_id": "T8",
+  "run_id": "20261015T041717Z_669349f1",
+  "overall": "CONTRACT_PASS",
+  "checks": [
+    {"id": "json_parse", "status": "PASS", "detail": "json=7 errors=[]"},
+    {"id": "receipt_contract", "status": "PASS", "detail": "required_missing=[]"},
+    {"id": "a1_three_real_new_task_evidence", "status": "PASS", "detail": "Honest contract check passed: status=NOT_SATISFIED; windows=0/3; three result rows are null and unexecuted."},
+    {"id": "a2_candidate_hash_acceptance_consistency", "status": "PASS", "detail": "T5/T6/T7 component groups all match, all bound commit trees match, composite matches, parent validation rc=0, and T6/T7 candidate hashes match ACCEPTED receipts."},
+    {"id": "a3_old_experiments_and_authority", "status": "PASS", "detail": "old_evidence_failures=[]; all declared model/network/remote/production/database/training/daemon/Loop B/retry counters are 0; candidate/distribution flags are false."},
+    {"id": "a_common_json_required_paths_hashes_write_boundary", "status": "PASS", "detail": "manifest_failures=[]; outside_ok=true; residue=[]; ignored=[]"},
+    {"id": "task_prompt_verbatim", "status": "PASS", "detail": "bytes=3087 and byte-identical to dispatch source"},
+    {"id": "g1_every_markdown_rc0", "status": "PASS", "detail": "TASK_PROMPT.md rc=0 (zero-block skip); summary.md rc=0 (one rechecked block)"},
+    {"id": "mode_full_set_755", "status": "PASS", "detail": "failures=[]"}
+  ],
+  "g1_markdown": "2/2 rc=0",
+  "usage": {
+    "profile": "SHADOW",
+    "additional_cheap_requests": 0,
+    "additional_cheap_requests_max": 6,
+    "additional_strong_requests": 0,
+    "additional_strong_requests_max": 2,
+    "automatic_retries": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "remote_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "daemon_calls": 0,
+    "loop_b_calls": 0,
+    "execution_chat_usage": "UNRESOLVED"
+  },
+  "claim_scope": "Local deterministic contract only; no experiment, scientific success, installation, loading, production, endpoint, or independent-acceptance claim."
+}
