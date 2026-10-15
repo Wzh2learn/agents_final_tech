@@ -1,0 +1,92 @@
+{
+  "advisory_items": [
+    {
+      "detail": "T1 v3 and T4 v2 both classify T1-INC-14 as title=执行对话计量缺口, failure_family=完整性与预算, expected_category=REVIEW_REQUIRED, artifact_level=unverified_inference, applicability=未核验推断项：仅登记为证据缺口，不作失败族对照使用, legal_control_design=计量通道建立前保持 UNRESOLVED（不得填 0）. cand-d44c49dec4d95741 reframes it as problem_family=SUMMARY_GUARD_ABSENT_BLOCK with six_gate_targets.severe_defect_miss='T1-INC-14 target 0/1 from measured baseline 1/1' and primary_metric='Absent-block severe miss changes from 1/1 to 0/1', and E-03 requires REJECT on an absent block. The candidate never mentions UNRESOLVED nor the legal_control_design, and uses the case as a failure-family anchor contrary to its stated applicability. Provenance itself is faithful (T4 replay logs and baseline mapping_basis reproduce exactly).",
+      "id": "ADVISORY-1",
+      "required_before_t7": "amend the evaluation plan so that 'absent receipt block' is split into (a) evidence-completeness missing-block and (b) legitimately unmeterable => keep UNRESOLVED; the severe-miss metric must not convert a legal UNRESOLVED condition into a severe defect. Either re-anchor the problem family on a case that is a genuine severe-defect miss, or explicitly justify the reclassification against T1 v3 applicability.",
+      "severity": "high",
+      "title": "T1-INC-14 case class recast; parent legal_control_design not carried into the proposal",
+      "why_not_blocking": "the package is PROPOSED_NOT_ENABLED with activation_enabled=false and is blocked behind a separately reviewed future operation extension and T7 review; nothing is activated and no claim is promoted. Per this card's review rule, a weak selection rationale is an advisory."
+    },
+    {
+      "detail": "demo mechanism_fields omits the key register_operation_selection and says 'Local read-only lesson projection' (singular) while the delivered archive.py returns '...lesson projections' (plural) plus the extra key. All other digest fields (entries, parents, evidence_ids, relevant_lesson_ids, omitted, status, object, candidate_id) match live output. Demo files also carry 'command'/'returncode' keys the CLI never emits, so they are evidence digests, not byte-reproducible CLI transcripts.",
+      "id": "ADVISORY-2",
+      "impact": "an independent reviewer cannot reproduce demo_outputs byte-for-byte by running the documented README commands; substantive values do agree.",
+      "severity": "medium",
+      "title": "demo_outputs/selective_context_export.json is a curated digest and is stale relative to the delivered export_context"
+    },
+    {
+      "detail": "candidate_id = 'cand-' + sha256(canonical_bytes(identity))[:16]; entries are excluded. Swapping entries[0].op_id to an unregistered fake keeps candidate_id_matches=true. Integrity is instead carried by the nogood failure_signature (identity + entries) and by self_check's registered-op and entry-count checks. Emptying entries entirely still yields the same candidate_id.",
+      "id": "ADVISORY-3",
+      "impact": "the 'unique ID' is not a content commitment to the change set; T7 or any consumer that trusts candidate_id alone could accept a silently altered proposal.",
+      "severity": "medium",
+      "title": "candidate_id does not bind entries"
+    },
+    {
+      "detail": "repair_attempts/ holds 8 files and repair_record.md names all 8; events.jsonl contains repair_attempt events only for attempts 1-3. Card section 5 requires events.jsonl to append actual events. Attempts 4-8 (self_check development failures) are absent from the event log.",
+      "id": "ADVISORY-4",
+      "severity": "low",
+      "title": "events.jsonl records only 3 of 8 repair attempts"
+    },
+    {
+      "detail": "failure_signature covers the full entry payload (entry_id, intent, op_id, parameterization, current_registry_support) with no normalization: appending a period to intent, or 0 -> 0.0 in parameterization, changes the signature and evades NOG-T6-DUP-001, downgrading the package to PROPOSED_NOT_ENABLED. Consistent with the documented 'rejection is not permanent' reopen semantics and never enables activation, but there is no notion of substantive vs cosmetic change.",
+      "id": "ADVISORY-5",
+      "severity": "low",
+      "title": "nogood signature evadable by cosmetic or type-only edits"
+    },
+    {
+      "detail": "references_suppressed_as_duplicates = raw - unique includes intra-candidate repeats, while duplicate_candidate_pairs only lists cross-candidate pairs (left != right filter). count_evidence reports the declared candidate_id field rather than recomputing it. Both are self-consistent but easy to misread; verified correct on a synthetic package (raw 6 / unique 3 / suppressed 3).",
+      "id": "ADVISORY-6",
+      "severity": "low",
+      "title": "evidence dedup field asymmetry and declared-ID trust"
+    },
+    {
+      "detail": "evaluate_candidate derives needs_future_authorization_entries from entry['current_registry_support'] is False. Setting the field to JSON integer 0 bypasses the flag; flipping it to true on E-03 clears the flag entirely (verified) while the status stays PROPOSED_NOT_ENABLED. A missing key raises KeyError (fail-closed crash). The vocabulary boundary is therefore self-asserted by the package author rather than derived from registered_operations.json.",
+      "id": "ADVISORY-7",
+      "severity": "medium",
+      "title": "future-authorization boundary is a declarative boolean, not a registry lookup"
+    },
+    {
+      "detail": "artifact_manifest compares RUN_ROOT.rglob('*') against the manifest set (so any gitignored file under the run root, e.g. .omc/state/... written by a hook, breaks it) and write_boundary flags any '!!' ignored entry under the run prefix. Direction is correct (fail-closed, not false green), but the check is sensitive to unrelated tool state. Equivalent .omc state already exists under runs/T1/20261014T132249Z_99f3bc6b/ and runs/T5/20261014T195445Z_60c8e213/ from earlier sessions.",
+      "id": "ADVISORY-8",
+      "severity": "low",
+      "title": "self_check.py is not hermetic against ambient gitignored tooling state"
+    },
+    {
+      "detail": "summary_recompute_guard.py reports 'no SUMMARY-GUARD block, skip' with rc=0 for TASK_PROMPT.md, archive_implementation/README.md and archive_implementation/repair_record.md; only summary.md carries a checked receipt block. This is precisely the T1-INC-14 failure family T6 proposes to fix, and it means G1 must not be read as 4/4 content-verified.",
+      "id": "ADVISORY-9",
+      "severity": "low",
+      "title": "G1 '4/4 rc=0' is 1 verified plus 3 silent skips"
+    },
+    {
+      "detail": "verify_parent does not compare descriptor['member_count'] against the recomputed member count (tampering it to 999 still yields passed=true), and self_check.py:163 contains the tautology item['actual_member_count'] == item['actual_member_count']. The 45/64 figures are nevertheless true: independently recomputed as 45 and 64, and the content_group_id is computed over the actual member set so a wrong member_count cannot produce a false PASS on the group itself.",
+      "id": "ADVISORY-10",
+      "severity": "low",
+      "title": "member_count is never mechanically asserted"
+    }
+  ],
+  "blocking_items": [],
+  "decision": "ACCEPTED",
+  "dissent": {
+    "recorded": true,
+    "text": "This review accepts the delivery but does not endorse the problem framing in ADVISORY-1. Accepting an unverified_inference / REVIEW_REQUIRED case as a 'severe defect miss' with a 1/1 -> 0/1 target risks inflating the severe-defect baseline, and E-03's 'absent block => REJECT' rule is in direct tension with the parent case's legal_control_design requiring UNRESOLVED until a metering channel exists. Acceptance is granted on the condition that this is corrected before any T7 measurement; if the closer or the owner prefers to treat the framing as a blocking misclassification of a frozen T1 v3 case, that would be a defensible stricter reading and is left to the acceptor. Second reservation: the accepted T4 v2 case record itself carries T1 v3's '不作失败族对照使用' annotation while T6 builds a new failure family on top of it, so the tension predates T6 and should be recorded in the ledger rather than silently absorbed."
+  },
+  "justification": "All headline claims of the T6 delivery reproduce independently from the delivered bytes. Counts and integrity: 31 delivered files, 30/30 manifest bytes/sha256/mode recompute, three-layer (worktree/.git/index/HEAD tree) mode agreement with exactly 2x100755 (archive.py, self_check.py) and 28x644 in the manifest set, and byte-derived git blob SHA-1 equal to both the index and the HEAD tree for all 31 files. Mechanism: parent content groups recompute as T5=45 members (declared modes 45/45, 4/4 anchors) and T4=64 members (3/3 anchors) with the exact declared content_group_ids; the deliberately duplicated package is rejected REJECTED_DUPLICATE_NOGOOD with activation_enabled=false and rejection_is_permanent=false plus three explicit reopen conditions; selective export carries only the three referenced evidence IDs, one matching lesson and minimal parent identities while explicitly omitting full parent packages and full buffers; evidence counting is raw 6 / unique 5 / duplicate pair 1 with each unique evidence_id counted exactly once (independently re-verified on a synthetic multi-reference package). Adversarial: a copied rejected candidate resubmitted under a new ID is still rejected (content addressing beats the declared ID), conditional-reopen paths only ever yield PROPOSED_NOT_ENABLED and never enable activation, and forcing status=ENABLED/activation_enabled=true on either package does not flip the mechanism output. A1 locatability holds for both candidates (parents, three entries, evaluation plan, cost) with every op_id inside the T5 closed three-operation vocabulary and exactly one entry correctly flagged as needing future authorization with no shared-file modification (meta/lessons.jsonl and meta/nogoods.jsonl remain empty and byte-identical to the index). A3 holds: the mechanism is direction-agnostic and reusable at the interface level while usage records 0/4 cheap, 0 strong and zero model/network/remote/production/database/training/daemon/Loop B calls. A-common holds: TASK_PROMPT.md is byte-identical to the dispatch source, 13 input bindings recompute on both sha256 and git blob, 8/8 repair attempts are retained and named, and the three-axis reads DELIVERED/UNREVIEWED/NOT_ENABLED with zero enabled candidates across receipt, index, packages and evaluations. The single substantive reservation is ADVISORY-1, which concerns how the proposal characterizes T1-INC-14 rather than the integrity of the delivery; it is bound as a hard precondition for T7 rather than a reason to reject the package, which is not enabled and cannot take effect without a separately reviewed operation extension and an independent T7 review. The two FAIL results obtainable from re-running the delivered self_check.py are caused entirely by this review's own ambient .omc state files and are disclosed as reviewer side effects requiring closer cleanup, not as delivery defects.",
+  "next_steps": [
+    "Closer: delete the two reviewer-induced files research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6/.omc/state/sessions/2b7c0690-fc6a-4d2e-a63a-49663672b283/pre-tool-advisory-throttle.json and research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6/archive_implementation/.omc/state/sessions/2b7c0690-fc6a-4d2e-a63a-49663672b283/pre-tool-advisory-throttle.json, then re-run python3 -B archive_implementation/self_check.py and confirm 18/18 CONTRACT_PASS and ignored T6 entries=0 before recording the acceptance.",
+    "Closer: update docs/governance registry and research/harness_rsi_v1/state/current.json for T6R-01 (this review does not write them); mark T6 acceptance_status=ACCEPTED with this review_id, leave activation_status=NOT_ENABLED for both candidates.",
+    "Record ADVISORY-1 as a precondition in the ledger: no T7 evaluation of cand-d44c49dec4d95741 until the evaluation plan separates evidence-completeness missing-block from legitimately-unmeterable UNRESOLVED, and until the use of T1-INC-14 as a failure-family anchor is either withdrawn or explicitly justified against T1 v3 applicability.",
+    "Record ADVISORY-2/3/5/6/7/10 as mechanism-hardening backlog for any future archive_implementation work (demo digest refresh, bind entries into candidate identity or document that only failure_signature binds them, signature normalization, derive future-authorization from registered_operations.json rather than a self-asserted boolean, assert descriptor member_count). Do not retrofit them into this delivered run; any change needs a new run package.",
+    "Decide separately whether the absent-block operation extension (U-T6-02) is worth a scoped authorisation; it is required before E-03 can be evaluated at all and is outside T6's authority.",
+    "Do not enter T7 from this review. No model batch, no C/S batch, no promotion, no rollback, no shared-buffer write is authorised here."
+  ],
+  "review_id": "T6R-01",
+  "reviewed_run_id": "20261015T012906Z_b9bb8ca6",
+  "schema": "jinrong_loop_c_acceptance_proposal_v1",
+  "scope": {
+    "boundaries_respected_by_reviewer": "no git writes, no network, no model/production/database/training/daemon/Loop B calls, no registry/state/meta/review modification, no repair of the package by the reviewer; only read-only recomputation plus scratch execution outside the repository",
+    "not_reviewed": "T7 (not entered), C/S batches, deployment, promotion/rollback, sealed sets, production/DB/model endpoints, cross-machine copy chains, the scientific merit of any future operation extension",
+    "reviewed": "T6 run 20261015T012906Z_b9bb8ca6: 31 delivered files (30 manifest entries + artifacts_manifest.json), archive_implementation mechanism (parent content groups, nogood duplicate rejection, selective context export, evidence dedup), 2 candidate packages, candidate_index, receipt, summary, events, TASK_PROMPT, repair record and 8 repair attempts, and their binding to T5 v3 @115f396af / T4 v2 parents, T5R-04 and T4R-01 acceptance receipts and frozen protocol 282f5213..."
+  },
+  "task_id": "T6"
+}

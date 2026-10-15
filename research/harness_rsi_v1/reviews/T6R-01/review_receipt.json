@@ -1,0 +1,547 @@
+{
+  "calls": {
+    "cheap_requests": 0,
+    "daemon_calls": 0,
+    "database_calls": 0,
+    "git_substitution": "git whitelist gaps covered by byte-derived blob SHA-1 (sha1('blob <len>\\0'+bytes)), direct parsing of .git/index v2 for mode+SHA-1, and direct unpacking of .git/objects packs to walk the HEAD commit tree for modes",
+    "git_write_operations": 0,
+    "loop_b_calls": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "production_calls": 0,
+    "remote_calls": 0,
+    "strong_requests": 0,
+    "tool_executions": [
+      {
+        "cmd": "python3 -B /tmp/t6r01_scratch/recompute_hashes.py",
+        "purpose": "31 files, 30 manifest entries bytes/sha256/mode, worktree+index+HEAD three-layer modes, byte-derived blob SHA-1",
+        "rc": 0
+      },
+      {
+        "cmd": "python3 -B /tmp/t6r01_scratch/drive_archive.py",
+        "purpose": "live re-run of verify_parent / evaluate_candidate / export_context / count_evidence / candidate_id / evaluation_id against the delivered module",
+        "rc": 0
+      },
+      {
+        "cmd": "python3 -B /tmp/t6r01_scratch/adversarial.py",
+        "purpose": "A2 attacks a/b/c/d",
+        "rc": 0
+      },
+      {
+        "cmd": "python3 -B /tmp/t6r01_scratch/probes.py",
+        "purpose": "tamper probes, fail-closed probes, identity-hash binding",
+        "rc": 0
+      },
+      {
+        "cmd": "python3 -B /tmp/t6r01_scratch/g1_and_bindings.py",
+        "purpose": "G1 guard 4 md + 3 negative controls, TASK_PROMPT byte compare, 13 input bindings",
+        "rc": 0
+      },
+      {
+        "cmd": "python3 -B /tmp/t6r01_scratch/a1_checks.py",
+        "purpose": "T5 registered op_id check, T1-INC-14 evidence logs, repair_attempts",
+        "rc": 0
+      },
+      {
+        "cmd": "python3 -B /tmp/t6r01_scratch/shared_and_policy.py",
+        "purpose": "shared buffer integrity vs .git/index, acceptance receipts, three-axis, usage",
+        "rc": 0
+      },
+      {
+        "cmd": "python3 -B /tmp/t6r01_scratch/boundary.py",
+        "purpose": "gitignore-aware write-boundary and reviewer side-effect scan",
+        "rc": 0
+      },
+      {
+        "cmd": "python3 -B /tmp/t6r01_scratch/run_selfcheck.py",
+        "module_main_returncode": 1,
+        "purpose": "independent re-run of delivered self_check.py via importlib",
+        "rc": 0
+      },
+      {
+        "cmd": "git rev-parse HEAD",
+        "output": "ef5e84edbd4fcd35cc287316c0e994cf72f6faa4",
+        "rc": 0
+      },
+      {
+        "cmd": "python3 scripts/graph/hooks/summary_recompute_guard.py check <md> (x4)",
+        "rc": "0,0,0,0"
+      },
+      {
+        "cmd": "python3 scripts/graph/hooks/summary_recompute_guard.py check <negative> (x3, temp dir)",
+        "rc": "1,1,1"
+      }
+    ],
+    "training_calls": 0
+  },
+  "card_version": 2,
+  "checks": [
+    {
+      "detail": "both packages locate parent content-addressed versions, exactly three entries, evaluation plan and cost record; all 6 entry op_ids are inside the T5 closed 3-op vocabulary; E-03 is flagged needs_future_authorization with no shared-file change",
+      "id": "A1_per_candidate_locatable",
+      "result": "PASS"
+    },
+    {
+      "detail": "T1-INC-14 provenance reproduces exactly (two T4 replay logs, baseline mapping_basis and case_result:missed); but the case class is recast from unverified_inference/REVIEW_REQUIRED/不作失败族对照使用 into severe_defect_miss and legal_control_design (keep UNRESOLVED) is not carried into the proposal -> ADVISORY-1",
+      "id": "A1_problem_selection_rationale",
+      "result": "PASS_WITH_ADVISORY"
+    },
+    {
+      "detail": "REJECTED_DUPLICATE_NOGOOD with activation_enabled=false; declared-ID resubmission still rejected (content-addressed); forcing status=ENABLED/activation_enabled=true does not flip mechanism output",
+      "id": "A2_rejected_not_enabled",
+      "result": "PASS"
+    },
+    {
+      "detail": "same evidence referenced by multiple candidates counted once (raw 6 / unique 5 / suppressed 1); synthetic multi-reference probe confirms per-id counted_once_for_global_total=1",
+      "id": "A2_cross_reference_dedup",
+      "result": "PASS"
+    },
+    {
+      "detail": "mechanism is direction-agnostic (interface-level reuse claim only); zero model/cheap/strong/network/remote/production/database/training/daemon/Loop B calls; no C/S batch executed",
+      "id": "A3_reusable_not_run",
+      "result": "PASS"
+    },
+    {
+      "detail": "all JSON/JSONL parse; required fields present; paths allowlisted; declared hashes recompute; no write beyond the run dir by the delivery itself; 6 UNRESOLVED entries explicit with reasons",
+      "id": "A_common",
+      "result": "PASS"
+    },
+    {
+      "detail": "4/4 rc=0 but 3 of 4 are silent skips (no SUMMARY-GUARD block) -> ADVISORY-9",
+      "id": "G1_summary_guard",
+      "result": "PASS_WITH_ADVISORY"
+    },
+    {
+      "detail": "identity tamper detected (candidate_id_matches=false); unknown parent/evidence fail-closed via KeyError; bad content_group_id/anchor fail-closed; entries tamper NOT detected by candidate_id; current_registry_support=0 evades `is False`; descriptor member_count never validated",
+      "id": "N0_tamper_probe",
+      "result": "PASS_WITH_ADVISORY"
+    },
+    {
+      "detail": "delivered self_check.py re-run now returns rc=1 with 2 failures (artifact_manifest file-set, write_boundary ignored T6 entries=2) caused solely by the 2 .omc files this review created; at delivery self_check_result.json recorded 18/18 CONTRACT_PASS and ignored T6 entries=0; the 30-artifact bytes/sha256/mode verification itself still recomputes clean",
+      "id": "N1_self_check_rerun",
+      "result": "FAIL_REVIEWER_INDUCED"
+    }
+  ],
+  "direction": "R",
+  "recomputed": {
+    "delivered_file_count": 31,
+    "duplicate_rejection": {
+      "activation_enabled": false,
+      "candidate_id": "cand-20a78eae4dda3ca9",
+      "failure_signature": "sha256:e2c2cc55762a2d6cc7443b2633fa896c2b8cf73bfb413f2c0d7ca2b0beb7ccf2",
+      "nogood_id": "NOG-T6-DUP-001",
+      "reason": "REPEATED_PROVEN_FAILURE_PACKAGE",
+      "rejection_is_permanent": false,
+      "status": "REJECTED_DUPLICATE_NOGOOD"
+    },
+    "evidence_counting": {
+      "duplicate_candidate_pairs": [
+        [
+          "cand-20a78eae4dda3ca9",
+          "cand-d44c49dec4d95741",
+          "E-T5-REGISTERED-OPS"
+        ]
+      ],
+      "global_unique_evidence_count": 5,
+      "raw_candidate_reference_count": 6,
+      "references_suppressed_as_duplicates": 1,
+      "rule_recheck": "each unique evidence_id counted exactly once globally - verified also on a synthetic package with 3 intra-candidate + 1 cross-candidate repeats (raw 6 / unique 3 / suppressed 3)"
+    },
+    "g1_markdown_guard": {
+      "actually_verified": 1,
+      "files": 4,
+      "negative_controls": "3/3 rc=1 (number mismatch, guard sha256 mismatch, claim value mismatch) in temp dir outside repo",
+      "rc0": 4,
+      "silent_skip_no_guard_block": 3
+    },
+    "git_blob_sha1_derived_from_bytes_matches_index_and_head": "31/31",
+    "identity_binding": {
+      "candidate_id_match": "2/2",
+      "evaluation_candidate_identity_sha256_match": "2/2",
+      "evaluation_id_match": "2/2",
+      "sha256_canonical_identity_proposed": "d44c49dec4d957415832f5de23859e9760c397a0aa0cae6da5c1301437185699",
+      "sha256_canonical_identity_rejected": "20a78eae4dda3ca968b26205155edffecc96daf39d499fc7673a70e183beaab1"
+    },
+    "input_bindings": {
+      "count": 13,
+      "git_blob_match": "13/13",
+      "path_allowlist_violations": 0,
+      "sha256_match": "13/13"
+    },
+    "manifest_artifact_count": 30,
+    "manifest_bytes_match": "30/30",
+    "manifest_file_set_match_at_delivery": true,
+    "manifest_mode_match": "30/30",
+    "manifest_mode_split": "2x100755 + 28x100644 over 30 manifest entries; artifacts_manifest.json itself 100644",
+    "manifest_sha256_match": "30/30",
+    "mode_layers_agreement": {
+      "git_index": "2x100755 + 29x100644",
+      "head_tree": "2x100755 + 29x100644",
+      "mismatches": 0,
+      "scope": "31 delivered files",
+      "worktree": "2x100755 + 29x100644"
+    },
+    "parent_content_groups": [
+      {
+        "canonical_id": "T5-v3:20261014T233742Z_cb132ce7@115f396af",
+        "content_group_id": "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54",
+        "declared_mode_conformance": "45/45",
+        "members": 45,
+        "passed": true,
+        "tracked_anchors": "4/4"
+      },
+      {
+        "canonical_id": "T4-v2:20261014T184810Z_c9dcfe0e",
+        "content_group_id": "sha256:b78bce332bd9433d44b2e79d8434949fadf773496c1c806872a103acff5e16ad",
+        "declared_mode_conformance": null,
+        "members": 64,
+        "passed": true,
+        "tracked_anchors": "3/3"
+      }
+    ],
+    "proposed_candidate": {
+      "activation_enabled": false,
+      "candidate_id": "cand-d44c49dec4d95741",
+      "candidate_id_matches": true,
+      "failure_signature": "sha256:fb5f1fd11c6ee1be5b67738573d2c1cb104d9a7531f5bf3f7bcd64b925a84827",
+      "needs_future_authorization_entries": [
+        "E-03-ABSENT-BLOCK-REJECTION"
+      ],
+      "status": "PROPOSED_NOT_ENABLED"
+    },
+    "repair_attempts": {
+      "files": 8,
+      "logged_in_events_jsonl": 3,
+      "mentioned_in_repair_record": "8/8"
+    },
+    "shared_buffers_untouched": {
+      "T5 registered_operations.json": "blob 8593d12fdc0e == index",
+      "meta/lessons.jsonl": "0 lines, blob e69de29bb2d1 == index",
+      "meta/nogoods.jsonl": "0 lines, blob e69de29bb2d1 == index",
+      "scripts/graph/frozen_hashes.txt": "blob 0533e054481f == index",
+      "state/current.json": "blob 4b1ce5178ee3 == index"
+    },
+    "task_prompt_verbatim": {
+      "byte_identical": true,
+      "bytes": 4937,
+      "sha256": "3a3c1db7ac090e01c9427331c5bfd7697a4feb9fe1468c15284aacf7d832d910",
+      "source": "research/harness_rsi_v1/runs/T6/_dispatch/loop_a_prompt_t6.md"
+    },
+    "three_axis": {
+      "acceptance_status": "UNREVIEWED",
+      "activation_status": "NOT_ENABLED",
+      "consistent_across": [
+        "receipt.json",
+        "candidate_index.json",
+        "candidate.json x2",
+        "evaluation.json x2"
+      ],
+      "enabled_candidate_count": 0,
+      "execution_status": "DELIVERED",
+      "t7_entered": false
+    },
+    "usage_recheck": {
+      "additional_cheap_requests": "0/4",
+      "additional_strong_requests": "0/0",
+      "automatic_retries": 0,
+      "daemon_calls": 0,
+      "database_calls": 0,
+      "execution_chat_usage": "UNRESOLVED (not claimed zero)",
+      "loop_b_calls": 0,
+      "model_calls": 0,
+      "network_calls": 0,
+      "production_calls": 0,
+      "remote_calls": 0,
+      "training_calls": 0
+    },
+    "write_boundary": {
+      "files_under_research_modified_after_run_start": 33,
+      "inside_run_dir": 33,
+      "note": "33 = 31 delivered + 2 reviewer-induced .omc files",
+      "outside_run_dir": 0
+    }
+  },
+  "refused_commands": [
+    {
+      "cmd": "mkdir -p /home/testuser/wzh/loop_runs/t6r01_recheck_a (and -p .../outputs, ls -la ...)",
+      "reason": "mkdir/ls not in reviewer whitelist",
+      "substitute": "python3 -B os.makedirs"
+    },
+    {
+      "cmd": "cd <repo> && git rev-parse HEAD",
+      "reason": "cd-then-git blocked (untrusted hooks guard)",
+      "substitute": "bare git rev-parse HEAD"
+    },
+    {
+      "cmd": "git -C <repo> rev-parse HEAD",
+      "reason": "requires approval",
+      "substitute": "byte-derived blob SHA-1 + .git/index"
+    },
+    {
+      "cmd": "git status --porcelain=v1 --untracked-files=all",
+      "reason": "requires approval",
+      "substitute": "filesystem walk compared against .git/index tracked set + .gitignore rules"
+    },
+    {
+      "cmd": "python3 -B research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6/archive_implementation/archive.py <subcommand> (x9: validate-parents, evaluate x2, export-context, count-evidence, candidate-id x2, evaluation-id x2)",
+      "reason": "executing a script under the reviewed path requires approval",
+      "substitute": "importlib load of the identical file and call of the same functions with the same arguments; results compared against demo_outputs"
+    },
+    {
+      "cmd": "head -c 400 <scratch file>",
+      "reason": "part of a refused compound command",
+      "substitute": "python3 print"
+    },
+    {
+      "cmd": "Write tool -> /home/testuser/wzh/loop_runs/t6r01_recheck_a/recompute_hashes.py",
+      "reason": "write outside working directory not granted",
+      "substitute": "python3 -B heredoc"
+    },
+    {
+      "cmd": "Write tool -> /tmp/t6r01_scratch/recompute_hashes.py",
+      "reason": "write outside working directory not granted",
+      "substitute": "python3 -B heredoc"
+    }
+  ],
+  "review_id": "T6R-01",
+  "reviewed_artifact_sha256": [
+    {
+      "bytes": 8942,
+      "mode": "100644",
+      "relative_path": "receipt.json",
+      "sha256": "1c6a718761edf04c14644639869a3beff1916f8e9166f05ebbbd6e2339e0c1f1"
+    },
+    {
+      "bytes": 1495,
+      "mode": "100644",
+      "relative_path": "summary.md",
+      "sha256": "78e889bc7f29de8808f6422f38a1c4af209b5327e1a33abc042ae7db5e4a4b76"
+    },
+    {
+      "bytes": 2638,
+      "mode": "100644",
+      "relative_path": "candidate_index.json",
+      "sha256": "f7ec76cd60ae1911bc7f2afd7a17934771d90ae6588f02c5ea59d58bc3a2bedd"
+    },
+    {
+      "bytes": 12342,
+      "mode": "100644",
+      "note": "self-hash policy: not self-hashed; 31st delivered file",
+      "relative_path": "artifacts_manifest.json",
+      "sha256": "ec6f889fa3c249eefc7a9e7bf4119d289e3ed8b47e2ddc8c61fc91452f6240d0"
+    },
+    {
+      "bytes": 2199,
+      "mode": "100644",
+      "relative_path": "events.jsonl",
+      "sha256": "a02ff58721e14967256005db487d5bccf77b39ccc5ac0dca58c9b09bb5d71f0f"
+    },
+    {
+      "bytes": 4937,
+      "mode": "100644",
+      "relative_path": "TASK_PROMPT.md",
+      "sha256": "3a3c1db7ac090e01c9427331c5bfd7697a4feb9fe1468c15284aacf7d832d910"
+    },
+    {
+      "bytes": 16192,
+      "mode": "100755",
+      "relative_path": "archive_implementation/archive.py",
+      "sha256": "52900925492962dc94bd31377abdccec9353876eff5dc68b1b21102d1052a0c3"
+    },
+    {
+      "bytes": 15223,
+      "mode": "100755",
+      "relative_path": "archive_implementation/self_check.py",
+      "sha256": "6631f65cd076139e6990549cf6304371e45670f51235498b939362f2a927ddb4"
+    },
+    {
+      "bytes": 3381,
+      "mode": "100644",
+      "relative_path": "archive_implementation/README.md",
+      "sha256": "835f21d7f75369d8c417d30894b81dbef1d366ee3559402558d81d0bd0c6137e"
+    },
+    {
+      "bytes": 922,
+      "mode": "100644",
+      "relative_path": "archive_implementation/self_check_result.json",
+      "sha256": "50192eaed44905de4f3717adf2b725bd8ad033405d1e1cfba342bcfcd87f001e"
+    },
+    {
+      "bytes": 2144,
+      "mode": "100644",
+      "relative_path": "archive_implementation/repair_record.md",
+      "sha256": "bc5ce1cf8ce9d86ebb7dff6287bac782b924885c9ac31d164d3953c74d6c7e33"
+    },
+    {
+      "bytes": 2991,
+      "mode": "100644",
+      "relative_path": "archive_implementation/fixtures/parent_versions.json",
+      "sha256": "ca868b752967529c603294fdc3409e9538b2989594e110aba83ce98a3d8a477f"
+    },
+    {
+      "bytes": 747,
+      "mode": "100644",
+      "relative_path": "archive_implementation/fixtures/nogoods.jsonl",
+      "sha256": "33122716c6023530a7340da9eb7fbc12955b4c26ae2c9c56f0dedc1ff486991c"
+    },
+    {
+      "bytes": 1043,
+      "mode": "100644",
+      "relative_path": "archive_implementation/fixtures/lessons.jsonl",
+      "sha256": "0b2d6e555e5623644f6d982cc3f161100df5828869468d47f671b64c8ad545d5"
+    },
+    {
+      "bytes": 2116,
+      "mode": "100644",
+      "relative_path": "archive_implementation/fixtures/evidence_registry.json",
+      "sha256": "70018ab12fca421d0398ba19bd2d12ffc6b9fe150198ab663e932e233adb04b6"
+    },
+    {
+      "bytes": 936,
+      "mode": "100644",
+      "relative_path": "archive_implementation/demo_outputs/parent_validation.json",
+      "sha256": "af6312f422b30c3f6c7a54c3cc5a9dd91f2360e78eac7c563de1c999855a2b31"
+    },
+    {
+      "bytes": 825,
+      "mode": "100644",
+      "relative_path": "archive_implementation/demo_outputs/duplicate_rejection.json",
+      "sha256": "0d7bbc1483fad2e052c26ae5b16ab18434d6239d04557d6ae3b3df1643f4359f"
+    },
+    {
+      "bytes": 1471,
+      "mode": "100644",
+      "relative_path": "archive_implementation/demo_outputs/selective_context_export.json",
+      "sha256": "b51f372142d6facd5e34576e8461982c5b823a0ec98641c96c2374ef7bd2d738"
+    },
+    {
+      "bytes": 921,
+      "mode": "100644",
+      "relative_path": "archive_implementation/demo_outputs/evidence_counts.json",
+      "sha256": "2d605f74e216bbd20452b0d16578b99bfba65375392968ec11ed6c2e97bc777f"
+    },
+    {
+      "bytes": 5253,
+      "mode": "100644",
+      "relative_path": "candidate_packages/cand-d44c49dec4d95741/candidate.json",
+      "sha256": "ae238ec26cb285a92e91ccffb33a671d0d274113b16608fe421c5607a8c920d2"
+    },
+    {
+      "bytes": 839,
+      "mode": "100644",
+      "relative_path": "candidate_packages/cand-d44c49dec4d95741/evaluation.json",
+      "sha256": "64b0bff5f3320b7508de6c2c5ab873446420675ebcf4557a89a38e45279cea16"
+    },
+    {
+      "bytes": 4241,
+      "mode": "100644",
+      "relative_path": "candidate_packages/cand-20a78eae4dda3ca9/candidate.json",
+      "sha256": "33feac0ee04d90548cf69798fa4587956cd5ebd6fb1484bb1b40ebb87262fb94"
+    },
+    {
+      "bytes": 644,
+      "mode": "100644",
+      "relative_path": "candidate_packages/cand-20a78eae4dda3ca9/evaluation.json",
+      "sha256": "a785faec07afa9cdb4a426a046838cee575dcbefc6d71584a5d5aaa192579ef3"
+    }
+  ],
+  "reviewed_commit": "ef5e84edbd4fcd35cc287316c0e994cf72f6faa4",
+  "reviewed_run_id": "20261015T012906Z_b9bb8ca6",
+  "reviewed_run_root": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6",
+  "reviewer": {
+    "role": "Loop C independent quality audit",
+    "session_independence": "no access to Loop A working memory; all claims re-derived from delivered bytes and read-only upstream artifacts",
+    "writes_in_reviewed_tree": "none intended; see reviewer_side_effects_disclosed"
+  },
+  "reviewer_side_effects_disclosed": {
+    "bytecode_residue_in_delivered_tree": "none (verified: no __pycache__, no .pyc under the run root)",
+    "consequence": "delivered self_check.py currently returns rc=1 with 2 failures (artifact_manifest file-set mismatch, write_boundary ignored T6 entries=2) purely because of these 2 files; all 30 manifest bytes/sha256/mode values still recompute clean; at delivery the same check recorded ignored T6 entries=0",
+    "inside_reviewed_run_tree": [
+      {
+        "action_required": "closer must delete this file; reviewer has no rm whitelist and must not modify the reviewed tree",
+        "bytes": 552,
+        "cause": "OMC PreToolUse hook materialized session throttle state relative to a Bash cwd inside the run dir",
+        "gitignored_by": ".omc/",
+        "mtime_utc": "2026-10-15T02:17:35Z",
+        "path": "research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6/.omc/state/sessions/2b7c0690-fc6a-4d2e-a63a-49663672b283/pre-tool-advisory-throttle.json"
+      },
+      {
+        "action_required": "closer must delete this file",
+        "bytes": 564,
+        "cause": "same, cwd = archive_implementation/",
+        "gitignored_by": ".omc/",
+        "mtime_utc": "2026-10-15T02:28:29Z",
+        "path": "research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6/archive_implementation/.omc/state/sessions/2b7c0690-fc6a-4d2e-a63a-49663672b283/pre-tool-advisory-throttle.json"
+      }
+    ],
+    "other_repo_writes": "none; no git add/commit/checkout; no registry/state/meta/review/production changes",
+    "outside_repo": [
+      "/home/testuser/wzh/loop_runs/t6r01_recheck_a/ (directory tree created, zero files written)",
+      "/tmp/t6r01_scratch/ (8 reviewer driver scripts, outputs/ 9 recomputation JSONs, attack/ 22 mutated candidates + 2 synthetic packages, probe.txt)"
+    ]
+  },
+  "runtime": {
+    "git_writes": "none",
+    "host_class": "GB10",
+    "invocation_flag": "python3 -B (PYTHONDONTWRITEBYTECODE equivalent) for every reviewer-side execution",
+    "model_endpoints": "none",
+    "network": "none",
+    "production_database": "none",
+    "python": "3.12"
+  },
+  "schema": "jinrong_loop_c_review_receipt_v1",
+  "task_id": "T6",
+  "unverified": [
+    {
+      "id": "U-T6R01-01",
+      "reason": "mechanism demonstrated only in this local git worktree; cross-machine and umask-changed copy chains not exercised",
+      "value": "cross_machine_umask_copy_chain"
+    },
+    {
+      "id": "U-T6R01-02",
+      "reason": "no real Loop D invocation, no sealed-set handling",
+      "value": "loop_d_and_sealed_sets"
+    },
+    {
+      "id": "U-T6R01-03",
+      "reason": "evaluation plans are constructed only; no T7 measurement, promotion or rollback entered",
+      "value": "t7_paired_measurement_and_promotion"
+    },
+    {
+      "id": "U-T6R01-04",
+      "reason": "C/S reuse is an interface-level statement only; no C/S model batch ran",
+      "value": "c_s_batch_execution"
+    },
+    {
+      "id": "U-T6R01-05",
+      "reason": "this batch contains only R-direction candidates; cross-candidate dedup proven, cross R/C/S dedup not exercised",
+      "value": "true_cross_direction_evidence_dedup"
+    },
+    {
+      "id": "U-T6R01-06",
+      "reason": "conversation token usage not measurable here; left UNRESOLVED, not claimed zero",
+      "value": "execution_chat_usage"
+    },
+    {
+      "id": "U-T6R01-07",
+      "reason": "closed vocabulary cannot parameterize an absent receipt block; requires a separately reviewed extension before E-03 can be evaluated",
+      "value": "absent_block_operation_extension"
+    },
+    {
+      "id": "U-T6R01-08",
+      "reason": "the documented archive.py CLI invocations were refused by the reviewer whitelist; the same module functions were driven directly instead, so CLI argument parsing / exit-code surface of main() was not exercised end-to-end (main() returns 0 whenever output has no 'passed' key, so evaluate/rejected would exit 0 - observed indirectly via demo_outputs returncode: 0)",
+      "value": "cli_entrypoint_execution"
+    }
+  ],
+  "verdict": {
+    "advisory_count": 10,
+    "blocking_count": 0,
+    "conditions": [
+      "closer must delete the 2 reviewer-induced .omc/state files inside the run tree (see reviewer_side_effects_disclosed) and re-run self_check.py to confirm 18/18 CONTRACT_PASS",
+      "ADVISORY-1 must be resolved before any T7 evaluation of cand-d44c49dec4d95741"
+    ],
+    "decision": "ACCEPTED",
+    "headline": "Every T6 headline claim reproduces independently from the delivered bytes: 31 files with 30/30 manifest bytes/sha256/mode and three-layer mode agreement (2x100755 + 28x644 in the manifest set), parent content groups T5=45 / T4=64 both PASS with 45/45 declared-mode conformance, duplicate package rejected as REJECTED_DUPLICATE_NOGOOD with activation_enabled=false, selective export confined to referenced evidence/one matching lesson/minimal parents, evidence dedup raw 6 / unique 5 / duplicate pair 1, budget 0/4 cheap and 0 strong with all external counters zero, TASK_PROMPT byte-identical to dispatch, 8/8 repair attempts retained and named, three-axis DELIVERED/UNREVIEWED/NOT_ENABLED with zero enabled candidates.",
+    "integrity_accusation": "none"
+  }
+}
