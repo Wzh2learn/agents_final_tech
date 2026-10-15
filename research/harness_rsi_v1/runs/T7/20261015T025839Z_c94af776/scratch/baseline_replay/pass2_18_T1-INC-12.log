@@ -1,0 +1,16 @@
+command=/usr/bin/bash /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/summary_guard_derive_check_adapter.sh /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/effect_match.md
+cwd=/home/testuser/wzh/projects/agents_final_tech
+started_at=2026-10-15T03:17:08.849Z
+finished_at=2026-10-15T03:17:08.904Z
+exit_code=0
+--- stdout ---
+derived_md_path=/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/scratch/tmp/t4-v2-summary-mismatch.gP29Pn.md
+derived_md_sha256=52a5865609f00dbf205b4db68e981ef588144346ebf2375d2e9695883a8c4ccd
+guard_command=python3 /home/testuser/wzh/projects/agents_final_tech/scripts/graph/hooks/summary_recompute_guard.py check /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/scratch/tmp/t4-v2-summary-mismatch.gP29Pn.md
+[summary-guard] FAIL 数字失配: request_count = 4 (收据声称 3)
+[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/scratch/tmp/t4-v2-summary-mismatch.gP29Pn.md: 1 项失配 — 摘要必须与存储工件一致, 请重读复算后再提交
+guard_rc=1
+derived_md_removed=true
+
+--- stderr ---
+

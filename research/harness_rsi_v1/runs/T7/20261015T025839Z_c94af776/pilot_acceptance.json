@@ -1,0 +1,108 @@
+{
+  "a_assertions": {
+    "A1": "FAIL",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A_common": "PASS"
+  },
+  "all_hard_gates_satisfied": false,
+  "benefit": {
+    "counted_repaired_misses": 0,
+    "detection_improvement": "NOT_ESTABLISHED",
+    "reason": "The candidate's new absence policy is not executable under the authorized T5 v3 closed registry.",
+    "regressions_counted": 0,
+    "required_two_repairs": 2
+  },
+  "candidate": {
+    "a1_amendment_status": "COMPLETED_BEFORE_EVALUATION",
+    "activation_status": "NOT_ENABLED",
+    "candidate_id": "cand-d44c49dec4d95741",
+    "evaluation_status": "NOT_EVALUABLE",
+    "source_status": "PROPOSED_NOT_ENABLED"
+  },
+  "card_version": 2,
+  "case_sets": {
+    "development_t1_v3": "BOUND_16_CASES_READ_ONLY",
+    "reason": "The proposed 24/24/24 selection and sealed sets do not exist; no sealed access is fabricated.",
+    "sealed": "NOT_APPLICABLE_UNRESOLVED",
+    "sealed_access_count": 0,
+    "selection_access": "NOT_APPLICABLE",
+    "selection_set": "NOT_BUILT"
+  },
+  "cost": {
+    "baseline_model_calls": 0,
+    "candidate_model_calls": 0,
+    "cost_comparison_available": false,
+    "cost_comparison_branch_preregistered": false,
+    "reason": "The T6 candidate contains projected zero cost but no pre-registered executable candidate-vs-baseline cost comparison; NOT_EVALUABLE cannot be treated as equal quality."
+  },
+  "direction": "R",
+  "hard_gate_order": "Executed before benefit and cost judgment.",
+  "hard_gates": [
+    {
+      "detail": "The legal T1-INC-14 UNRESOLVED is excluded. The narrowed missing-required case has baseline silent skip, but the candidate has no executable authorized operation, so no zero-miss result can be claimed.",
+      "id": "critical_or_severe_defect_miss",
+      "result": "UNRESOLVED_NOT_EVALUABLE"
+    },
+    {
+      "detail": "T5 parent positive and runtime-derived mismatch controls pass; the candidate cannot execute the absence policy, so full-candidate false-block behavior is not established.",
+      "id": "legitimate_false_block",
+      "result": "PASS_AT_PARENT_CONTROLS_ONLY"
+    },
+    {
+      "detail": "E-03 remains outside the closed T5 v3 path enums and has no authorized executable operation.",
+      "id": "evidence_completeness",
+      "result": "FAIL"
+    },
+    {
+      "detail": "No experiment, scientific success, C/S validity, deployment, or formal qualification is claimed.",
+      "id": "claim_overreach",
+      "result": "PASS"
+    },
+    {
+      "detail": "All baseline logs are retained in the T7 run; runtime-derived mismatch files are deleted after their hashes are logged and no source package is overwritten.",
+      "id": "raw_record_integrity",
+      "result": "PASS"
+    },
+    {
+      "detail": "Model, network, remote, production, database, training, daemon, Loop B and automatic-retry counters are zero.",
+      "id": "budget_integrity",
+      "result": "PASS"
+    }
+  ],
+  "rollback": {
+    "old_evidence_hashes_unchanged": true,
+    "receipt": "rollback_receipt.json",
+    "status": "PASS"
+  },
+  "run_id": "20261015T025839Z_c94af776",
+  "schema": "jinrong_t7_pilot_acceptance_v1",
+  "selection_conclusion": {
+    "basis": [
+      "Candidate evaluation status is NOT_EVALUABLE because A-1 cannot become executable without a separately reviewed operation extension.",
+      "Evidence completeness hard gate is not satisfied.",
+      "Zero counted repaired misses versus the required two.",
+      "The pre-registered equal-quality cost-comparison branch is unavailable.",
+      "Selection and sealed sets are not built, so one-selection/one-sealed-access cannot be executed."
+    ],
+    "decision": "NO_PROMOTION"
+  },
+  "self_check": {
+    "check_count": 14,
+    "failed_count": 0,
+    "overall": "CONTRACT_PASS_PRE_MANIFEST"
+  },
+  "task_id": "T7",
+  "three_axes": {
+    "activation": "NOT_ENABLED",
+    "delivery": "DELIVERED",
+    "review": "UNREVIEWED"
+  },
+  "unresolved": [
+    "Execution-chat token usage remains UNRESOLVED and is not converted to zero.",
+    "Full-candidate severe-miss and false-block behavior remains NOT_EVALUABLE without an authorized executable absence operation.",
+    "Selection and sealed behavior remain NOT_BUILT/NOT_APPLICABLE.",
+    "Execution conversation token usage is not measurable here.",
+    "Independent Loop C acceptance is pending; Loop A does not self-fill ACCEPTED."
+  ]
+}

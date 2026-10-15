@@ -1,0 +1,35 @@
+{
+  "active_candidate": null,
+  "parent_commit": "115f396af6ea461c156d91ad9148414387724eb3",
+  "restored_files": [
+    {
+      "bytes_equal": true,
+      "mode_equal": true,
+      "path": "rollback_drill/restored_parent/registered_operations.json",
+      "sha256_file": "2cc368b69c8ae1687f3e85b8eab1181625f8f6816b82e5872d78c818113c9a03",
+      "source_git_blob_id": "8593d12fdc0e69a87728bd88fd804c8f9a959efd",
+      "source_path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/registered_operations.json",
+      "source_sha256_file": "2cc368b69c8ae1687f3e85b8eab1181625f8f6816b82e5872d78c818113c9a03"
+    },
+    {
+      "bytes_equal": true,
+      "mode_equal": true,
+      "path": "rollback_drill/restored_parent/recipe_interfaces.json",
+      "sha256_file": "52d5ec1e3f6a54629ddd83ed1787f257f560dfbb8723e8325d7c390b7680d6ef",
+      "source_git_blob_id": "900661aeed482cb4c0fd1844c7f9d0b2fe54c188",
+      "source_path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/recipe_interfaces.json",
+      "source_sha256_file": "52d5ec1e3f6a54629ddd83ed1787f257f560dfbb8723e8325d7c390b7680d6ef"
+    },
+    {
+      "bytes_equal": true,
+      "mode_equal": true,
+      "path": "rollback_drill/restored_parent/caller_validator.py",
+      "sha256_file": "1840b06b9d777373874dbfc6fff88fc480eb5a1be6aa7d708de98846bb8023ae",
+      "source_git_blob_id": "49518c63592b85156df16001f60352eafb1a0172",
+      "source_path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/caller_validator.py",
+      "source_sha256_file": "1840b06b9d777373874dbfc6fff88fc480eb5a1be6aa7d708de98846bb8023ae"
+    }
+  ],
+  "shared_activation": false,
+  "state_version": "T5_V3_PARENT_RESTORED"
+}

@@ -1,0 +1,157 @@
+{
+  "activation": {
+    "enabled": false,
+    "sealed_set_accessed": false,
+    "selection_set_accessed": false,
+    "shared_registry_modified": false
+  },
+  "amendment": {
+    "amendment_id": "A-1",
+    "record": "candidate_amendment_A1.json",
+    "source_candidate_git_blob_id": "20a6ea7b859a2005bc65815df7a914c9e7ddc638",
+    "source_candidate_sha256": "ae238ec26cb285a92e91ccffb33a671d0d274113b16608fe421c5607a8c920d2"
+  },
+  "candidate_id": "cand-d44c49dec4d95741",
+  "classification_policy": [
+    {
+      "classification": "MISSING_REQUIRED_EVIDENCE",
+      "condition": "receipt block absent while the delivery contract explicitly requires it",
+      "countable_as_repair": "Only after actual paired candidate execution",
+      "expected_disposition": "BLOCK if an authorized executable check rejects it",
+      "severity_class": "SEVERE_EVIDENCE_COMPLETENESS"
+    },
+    {
+      "classification": "LEGAL_UNRESOLVED",
+      "condition": "quantity is legitimately unmeterable and the source explicitly requires UNRESOLVED",
+      "countable_as_repair": false,
+      "expected_disposition": "KEEP_UNRESOLVED; never severe defect and never automatic BLOCK",
+      "severity_class": "NONE"
+    },
+    {
+      "classification": "POSITIVE_CONTROL",
+      "condition": "receipt block present and hash matches",
+      "countable_as_repair": false,
+      "expected_disposition": "ACCEPT_WITHIN_SCOPE",
+      "severity_class": "NONE"
+    },
+    {
+      "classification": "NEGATIVE_CONTROL",
+      "condition": "receipt block present and derived hash mismatches",
+      "countable_as_repair": false,
+      "expected_disposition": "BLOCK by target guard rc=1",
+      "severity_class": "CONFIRMED_MISMATCH"
+    }
+  ],
+  "cost_record": {
+    "additional_cheap_requests": 0,
+    "additional_strong_requests": 0,
+    "automatic_retries": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "note": "T6 is offline proposal construction only; T7 cost is projected but not spent."
+  },
+  "entries": [
+    {
+      "current_registry_support": true,
+      "entry_id": "E-01-PRESENT-RECEIPT-CONTROL",
+      "intent": "Preserve the existing positive control for a Markdown receipt block whose declared artifact hash matches.",
+      "needs_future_authorization": false,
+      "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK",
+      "parameterization": {
+        "markdown_path": "recipe_fixtures/summary/good_summary.md"
+      }
+    },
+    {
+      "current_registry_support": true,
+      "entry_id": "E-02-MISMATCH-NEGATIVE-CONTROL",
+      "intent": "Preserve the runtime-only mismatch negative control and require target guard exit code 1.",
+      "needs_future_authorization": false,
+      "op_id": "OP-T4-R-SUMMARY-GUARD-DERIVE",
+      "parameterization": {
+        "base_markdown_path": "recipe_fixtures/summary/good_summary.md"
+      }
+    },
+    {
+      "current_registry_support": false,
+      "entry_id": "E-03-ABSENT-BLOCK-REJECTION",
+      "executable_under_t5_v3": false,
+      "future_authorization_note": "The closed T5 vocabulary has no no-receipt-block enum or canonical absence code. T6 does not modify the shared registry; T7 may evaluate this entry only after a separately reviewed operation extension.",
+      "intent": "Classify absence only when the contract states that a receipt block is required. Absence caused solely by a legitimately unmeterable quantity remains UNRESOLVED and must not be rejected as a severe defect.",
+      "needs_future_authorization": true,
+      "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK",
+      "parameterization": {
+        "absence_classification": "MISSING_REQUIRED_EVIDENCE_ONLY",
+        "legal_unresolved_excluded": true,
+        "markdown_path": "FUTURE_ENUM_receipt_block_absent.md",
+        "required_result": "REJECT with an explicit missing-receipt-block code"
+      }
+    }
+  ],
+  "evaluation_plan": {
+    "design": "Paired T4/T5 parent replay plus A-1 missing-required and legal-unresolved diagnostics; candidate counting requires executable registered behavior.",
+    "executor": "T7 only; not executed in T6.",
+    "frozen_inputs": [
+      "T4 v2 case-level baseline",
+      "T5 v3 registered operations",
+      "T4 summary guard and derive adapters"
+    ],
+    "primary_metric": "Paired replay must distinguish (a) missing required evidence, which is an evidence-completeness defect, from (b) legitimately unmeterable evidence, which remains UNRESOLVED. A repair is countable only for (a) when an authorized candidate operation executes.",
+    "regression_metrics": [
+      "Matching positive remains ACCEPT.",
+      "Mismatching positive remains rejected by target guard exit code 1.",
+      "No target execution occurs before fail-closed validation."
+    ],
+    "stopping_rule": "NO_PROMOTION if the required absence operation is not separately authorized/executable or any hard gate regresses."
+  },
+  "evidence_references": [
+    {
+      "evidence_id": "E-T4-INC14-PASS1",
+      "use": "First deterministic missed-case replay."
+    },
+    {
+      "evidence_id": "E-T4-INC14-PASS2",
+      "use": "Second deterministic missed-case replay."
+    },
+    {
+      "evidence_id": "E-T5-REGISTERED-OPS",
+      "use": "Closed vocabulary and future-authorization boundary."
+    }
+  ],
+  "identity": {
+    "object": "T5-R-EVIDENCE-DELIVERY-V1",
+    "object_type": "evidence_delivery_recipe",
+    "parent_canonical_ids": [
+      "T4-v2:20261014T184810Z_c9dcfe0e",
+      "T5-v3:20261014T233742Z_cb132ce7@115f396af"
+    ],
+    "parent_group_ids": [
+      "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54",
+      "sha256:b78bce332bd9433d44b2e79d8434949fadf773496c1c806872a103acff5e16ad"
+    ],
+    "problem_family": "SUMMARY_GUARD_ABSENT_REQUIRED_RECEIPT_BLOCK",
+    "problem_source": "T4 independently observes that the existing summary guard silently skips when a receipt block is absent. T7 isolates that observable guard behavior from T1-INC-14's legal execution-chat metering UNRESOLVED."
+  },
+  "schema": "jinrong_t7_candidate_package_amended_v1",
+  "selection_rationale": "A-1 separates the observable missing-required-receipt guard behavior from T1-INC-14's legal metering UNRESOLVED. The source T6 candidate and T1 incident remain unchanged; this copy is T7-local and is not enabled.",
+  "six_gate_targets": {
+    "budget_integrity": "Model/network/remote/production/database/training/daemon calls and retries remain 0.",
+    "claim_overreach": "No new scientific or runtime claim; remains COMPONENT-level evidence.",
+    "evidence_completeness": "100% only if an authorized executable operation covers missing required evidence; otherwise NOT_EVALUABLE.",
+    "legitimate_false_block": "Legal UNRESOLVED must remain UNRESOLVED; no automatic BLOCK. Positive and mismatch controls must retain parent behavior.",
+    "raw_record_integrity": "No fixture overwrite; runtime-only mismatch remains outside the package.",
+    "severe_defect_miss": "Required-receipt missing-block behavioral case may count as a repair only when an executable registered candidate operation produces explicit BLOCK. The legal T1-INC-14 UNRESOLVED is excluded from the denominator and must never be converted into a severe defect."
+  },
+  "status": "PROPOSED_NOT_ENABLED",
+  "version_applicability": {
+    "applies_to": "Evidence-delivery recipes over the unchanged T4 summary guard and the T5 closed R vocabulary.",
+    "parent_group_ids": [
+      "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54",
+      "sha256:b78bce332bd9433d44b2e79d8434949fadf773496c1c806872a103acff5e16ad"
+    ],
+    "reopen_conditions": [
+      "A separately authorized registered operation can parameterize and reject an absent receipt block.",
+      "A new parent content group changes guard entrypoint semantics.",
+      "Independent evidence shows the absence family differs from the T4 case."
+    ]
+  }
+}

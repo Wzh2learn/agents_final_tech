@@ -1,0 +1,82 @@
+{
+  "check_count": 14,
+  "checked_at": "2026-10-15T03:27:03Z",
+  "checks": [
+    {
+      "detail": "missing=[]",
+      "id": "required_files",
+      "result": "PASS"
+    },
+    {
+      "detail": "errors=[]",
+      "id": "json_parse",
+      "result": "PASS"
+    },
+    {
+      "detail": "errors=[]",
+      "id": "input_hashes",
+      "result": "PASS"
+    },
+    {
+      "detail": "A-1 precedes candidate evaluation and retains legal UNRESOLVED",
+      "id": "a1_precondition",
+      "result": "PASS"
+    },
+    {
+      "detail": "16 cases bound; baseline 22/22; candidate NOT_EVALUABLE",
+      "id": "paired_replay",
+      "result": "PASS"
+    },
+    {
+      "detail": "errors=[]",
+      "id": "rollback_and_old_hashes",
+      "result": "PASS"
+    },
+    {
+      "detail": "No experiment/scientific/C/S success claim",
+      "id": "a3_wording",
+      "result": "PASS"
+    },
+    {
+      "detail": "required_missing=[]",
+      "id": "receipt_contract",
+      "result": "PASS"
+    },
+    {
+      "detail": "logs=4 residue=[]",
+      "id": "runtime_derived_mismatch",
+      "result": "PASS"
+    },
+    {
+      "detail": "count=5 results=[{'path': 'TASK_PROMPT.md', 'rc': 0}, {'path': 'evaluation_fixtures/legal_unmeterable_usage_missing.md', 'rc': 0}, {'path': 'evaluation_fixtures/required_receipt_block_missing.md', 'rc': 0}, {'path': 'review_packet.md', 'rc': 0}, {'path': 'summary.md', 'rc': 0}]",
+      "id": "g1_markdown",
+      "result": "PASS"
+    },
+    {
+      "detail": "outside_statuses=[(' M', 'logs/graph/dispatch_log.md'), (' M', 'logs/graph/docs_lint_report.json'), (' M', 'logs/graph/governance_drift_latest.md'), (' M', 'logs/graph/verify-report.json'), ('??', 'research/harness_rsi_v1/runs/T4/20261014T174628Z_2cc25c92/')]",
+      "id": "write_boundary",
+      "result": "PASS"
+    },
+    {
+      "detail": "residue=[]",
+      "id": "temporary_residue",
+      "result": "PASS"
+    },
+    {
+      "detail": "errors=[]",
+      "id": "mode_declarations",
+      "result": "PASS"
+    },
+    {
+      "detail": "Manifest is built after this mutating self-check.",
+      "id": "artifact_manifest",
+      "result": "PENDING"
+    }
+  ],
+  "failed_count": 0,
+  "mode": "MUTATING_PRE_MANIFEST",
+  "overall": "CONTRACT_PASS_PRE_MANIFEST",
+  "passed_count": 13,
+  "run_id": "20261015T025839Z_c94af776",
+  "schema": "jinrong_t7_self_check_result_v1"
+}

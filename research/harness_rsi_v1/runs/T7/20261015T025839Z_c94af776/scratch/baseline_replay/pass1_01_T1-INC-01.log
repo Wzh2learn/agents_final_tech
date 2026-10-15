@@ -1,0 +1,16 @@
+command=/usr/bin/bash /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/dispatch_precheck_adapter.sh --watcher /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/dispatch/watcher.sh --tick-marker /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/dispatch/missing_tick.json
+cwd=/home/testuser/wzh/projects/agents_final_tech
+started_at=2026-10-15T03:17:08.400Z
+finished_at=2026-10-15T03:17:08.426Z
+exit_code=1
+--- stdout ---
+=== A4w 派发前置: 双实证输入合同检查 (只读) ===
+收据是可审计合同, 不防恶意伪造; 本预检不执行 watcher、不制造 tick。
+[watcher] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/dispatch/watcher.sh
+  FAIL  watcher 缺执行位 (F-0907-1): 修复后才可派发
+[tick-marker] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/dispatch/missing_tick.json
+  FAIL  tick 必须是含 watcher/watcher_sha256/observed_at/exit_code 的 JSON 对象
+=== 结论: 不满足 — 停下修完再派发 (不得带假设硬跑) ===
+
+--- stderr ---
+

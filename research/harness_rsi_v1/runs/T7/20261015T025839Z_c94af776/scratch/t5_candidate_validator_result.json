@@ -1,0 +1,12 @@
+{
+  "amended_candidate_sha256": "779e3a0c56355bccbd5d9775a93d6e6369a9aadf44d7a995354fcbee1c0b4326",
+  "counted_as_severe_defect_detection": false,
+  "future_operation_parameterization": "FUTURE_ENUM_receipt_block_absent.md",
+  "reason": "Fail-closed rejection proves missing registry support, not detection of the document's evidence defect.",
+  "result": {
+    "error_detail": "operation ids/order do not match recipe",
+    "fail_closed_code": "FC_RECIPE_OBJECT_MISMATCH",
+    "target_execution_performed": false,
+    "validation_status": "REJECTED"
+  }
+}

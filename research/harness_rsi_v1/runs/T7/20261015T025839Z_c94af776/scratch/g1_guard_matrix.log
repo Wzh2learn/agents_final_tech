@@ -1,0 +1,29 @@
+path=/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/TASK_PROMPT.md
+rc=0
+stdout=[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/TASK_PROMPT.md: 无 SUMMARY-GUARD 块, 跳过
+
+stderr=
+
+path=/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/evaluation_fixtures/legal_unmeterable_usage_missing.md
+rc=0
+stdout=[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/evaluation_fixtures/legal_unmeterable_usage_missing.md: 无 SUMMARY-GUARD 块, 跳过
+
+stderr=
+
+path=/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/evaluation_fixtures/required_receipt_block_missing.md
+rc=0
+stdout=[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/evaluation_fixtures/required_receipt_block_missing.md: 无 SUMMARY-GUARD 块, 跳过
+
+stderr=
+
+path=/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/review_packet.md
+rc=0
+stdout=[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/review_packet.md: 无 SUMMARY-GUARD 块, 跳过
+
+stderr=
+
+path=/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/summary.md
+rc=0
+stdout=[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/summary.md: 无 SUMMARY-GUARD 块, 跳过
+
+stderr=

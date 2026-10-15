@@ -1,0 +1,184 @@
+{
+  "schema": "jinrong_t5_registered_operations_v3",
+  "registry_version": 3,
+  "status": "DELIVERED_NOT_ENABLED",
+  "closed_vocabulary": true,
+  "direction": "R",
+  "global_constraints": {
+    "side_effect_class": "READ_ONLY",
+    "arbitrary_shell_forbidden": true,
+    "free_text_command_forbidden": true,
+    "arbitrary_path_forbidden": true,
+    "network_forbidden": true,
+    "model_forbidden": true,
+    "remote_forbidden": true,
+    "production_forbidden": true,
+    "database_forbidden": true,
+    "training_forbidden": true,
+    "git_index_mutation_forbidden": true,
+    "repository_write_forbidden": true,
+    "automatic_retry_forbidden": true
+  },
+  "path_policy": {
+    "caller_rule": "Operation parameters containing paths are relative-path enums declared per operation; the caller validator resolves them only under the current T5 run root and rejects absolute paths, traversal, symlink escapes, unknown values, shell metacharacters and type changes.",
+    "target_rule": "Targets are fixed T4 v2 adapter paths with canonical git_blob_id bindings; the caller validator authenticates the delivered registry before call validation and verifies each target's bytes against target.git_blob_id before execution. Callers cannot replace a target, interpreter, argv prefix or environment.",
+    "hash_rule": "Tracked targets use canonical git rev-parse HEAD:<path> git_blob_id values; run-local fixture bytes use SHA-256 in probe evidence."
+  },
+  "operations": [
+    {
+      "op_id": "OP-T4-R-DISPATCH-PRECHECK",
+      "target": {
+        "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/dispatch_precheck_adapter.sh",
+        "required_cwd": "/home/testuser/wzh/projects/agents_final_tech",
+        "git_blob_id": "c5045e9542d4850f63eedc82b0ea6f48c15daa23",
+        "hash_domain": "git_blob_id",
+        "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/dispatch_precheck_adapter.sh"
+      },
+      "fixed_semantics": "Invoke the existing T4 read-only adapter through the registry-fixed /usr/bin/bash interpreter with exactly --watcher WATCHER --tick-marker TICK --max-tick-age-min N; the adapter forwards only those bounded arguments to scripts/graph/dispatch_precheck.sh. Callers cannot choose or change the interpreter, and no command interpolation, cron execution or watcher execution occurs.",
+      "allowed_parameters": {
+        "tick_path": {
+          "type": "relative_path_enum",
+          "enum": [
+            "recipe_fixtures/dispatch/tick_valid.json",
+            "runtime/tick_valid.json",
+            "runtime/tick_relocated.json"
+          ],
+          "required": true,
+          "shell_forbidden": true
+        },
+        "watcher_path": {
+          "type": "relative_path_enum",
+          "enum": [
+            "recipe_fixtures/dispatch/watcher.sh"
+          ],
+          "required": true,
+          "shell_forbidden": true
+        },
+        "max_tick_age_minutes": {
+          "type": "integer_range",
+          "minimum": 0,
+          "maximum": 60,
+          "required": true,
+          "shell_forbidden": true
+        }
+      },
+      "forbidden_parameter_forms": [
+        "any value not exactly equal to a declared relative enum",
+        "absolute path",
+        "parent traversal",
+        "shell metacharacter or command text",
+        "CLI flag replacement",
+        "stringified integer",
+        "boolean or null"
+      ],
+      "side_effect_class": "READ_ONLY",
+      "verification_level": "COMPONENT_PASS",
+      "scope": "Only the current run-local fixture watcher and tick receipt input contract; no scheduling, cron, watcher execution or production readiness claim.",
+      "unverified": [
+        "Future scheduling behavior",
+        "Cron installation",
+        "Production dispatch readiness"
+      ]
+    },
+    {
+      "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK",
+      "target": {
+        "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/summary_guard_check_adapter.sh",
+        "required_cwd": "/home/testuser/wzh/projects/agents_final_tech",
+        "git_blob_id": "9f421f69bb61a023ec62852c1e8a4672a944e3d4",
+        "hash_domain": "git_blob_id",
+        "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/summary_guard_check_adapter.sh"
+      },
+      "fixed_semantics": "Invoke the existing T4 adapter through the registry-fixed /usr/bin/bash interpreter with exactly check and one run-local Markdown enum; the adapter invokes scripts/graph/hooks/summary_recompute_guard.py check and forbids --staged. Callers cannot choose or change the interpreter.",
+      "allowed_parameters": {
+        "markdown_path": {
+          "type": "relative_path_enum",
+          "enum": [
+            "recipe_fixtures/summary/good_summary.md"
+          ],
+          "required": true,
+          "shell_forbidden": true
+        }
+      },
+      "forbidden_parameter_forms": [
+        "arbitrary Markdown path",
+        "absolute path",
+        "--staged",
+        "shell metacharacter or command text",
+        "missing path",
+        "non-string type"
+      ],
+      "side_effect_class": "READ_ONLY",
+      "verification_level": "COMPONENT_PASS",
+      "scope": "Mechanical consistency of one run-local Markdown receipt block and its named JSON artifact only.",
+      "unverified": [
+        "Scientific validity",
+        "Claim provenance beyond stored fields",
+        "Documents without a receipt block beyond entrypoint semantics"
+      ]
+    },
+    {
+      "op_id": "OP-T4-R-SUMMARY-GUARD-DERIVE",
+      "target": {
+        "path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/summary_guard_derive_check_adapter.sh",
+        "required_cwd": "/home/testuser/wzh/projects/agents_final_tech",
+        "git_blob_id": "7a3c9d1d6a79d74888c2db12c5df0b955e3d01d3",
+        "hash_domain": "git_blob_id",
+        "verification_command": "git rev-parse HEAD:research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/summary_guard_derive_check_adapter.sh"
+      },
+      "fixed_semantics": "Invoke the existing T4 adapter through the registry-fixed /usr/bin/bash interpreter with exactly one matching base Markdown enum. The adapter derives a mismatching Markdown only in a temporary path, calls the unchanged guard check, expects target guard exit code 1, deletes the temporary file and exits 0 only when the negative control is detected. Callers cannot choose or change the interpreter.",
+      "expected_wrapper_exit_code": 0,
+      "expected_target_exit_code": 1,
+      "allowed_parameters": {
+        "base_markdown_path": {
+          "type": "relative_path_enum",
+          "enum": [
+            "recipe_fixtures/summary/good_summary.md"
+          ],
+          "required": true,
+          "shell_forbidden": true
+        }
+      },
+      "forbidden_parameter_forms": [
+        "persisted mismatch Markdown",
+        "arbitrary Markdown path",
+        "absolute path",
+        "shell metacharacter or command text",
+        "missing path",
+        "non-string type"
+      ],
+      "side_effect_class": "READ_ONLY",
+      "verification_level": "COMPONENT_PASS",
+      "scope": "Negative-control proof that the unchanged repository guard detects a runtime-only claim mismatch; the wrapper exit code and target guard exit code are reported as distinct fields.",
+      "unverified": [
+        "Mismatch cause",
+        "Scientific interpretation",
+        "General detection rate outside this fixture"
+      ]
+    }
+  ],
+  "excluded_operations": [
+    {
+      "name": "arbitrary shell / free text command",
+      "reason": "No operation may expose a command string, interpreter prefix, environment or arbitrary argv."
+    },
+    {
+      "name": "scripts/graph/loop_b_verify.sh",
+      "reason": "Daemon and real service/model/database checks are prohibited by B0 and T5 stop conditions."
+    },
+    {
+      "name": "scripts/graph/governance_drift_scan.py",
+      "reason": "Default mode writes outside this run; no non-cron variant is needed."
+    },
+    {
+      "name": "scripts/graph/generate_repository_receipt.py",
+      "reason": "It writes broader repository receipts outside this run."
+    },
+    {
+      "name": "production or model endpoints",
+      "reason": "B0 explicitly authorizes zero model/network/remote/production/database/training/daemon calls."
+    }
+  ],
+  "verification_level": "CONTRACT_PASS",
+  "scope": "Registry shape, delivered-registry identity, target byte identity and caller-side closed-vocabulary constraints only; this is not an END_TO_END_PREFLIGHT_PASS or FORMAL_RUN_PASS."
+}

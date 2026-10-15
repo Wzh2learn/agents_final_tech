@@ -1,0 +1,10 @@
+command=/usr/bin/bash /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/adapters/summary_guard_check_adapter.sh check /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/measurement_object_match.md
+cwd=/home/testuser/wzh/projects/agents_final_tech
+started_at=2026-10-15T03:17:08.681Z
+finished_at=2026-10-15T03:17:08.700Z
+exit_code=0
+--- stdout ---
+[summary-guard] /home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/fixtures/summary/measurement_object_match.md: 1 收据块复核通过
+
+--- stderr ---
+

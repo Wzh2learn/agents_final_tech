@@ -1,0 +1,407 @@
+{
+  "case_set": {
+    "identity_field_matches": [
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-01",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-02",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-03",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-04",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-05",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-06",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-07",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-08",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-09",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-10",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-11",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-12",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-13",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-CTRL-01",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-CTRL-02",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      },
+      {
+        "all_matched": true,
+        "case_id": "T1-INC-14",
+        "matched_fields": [
+          "title",
+          "expected_category",
+          "artifact_level",
+          "applicability",
+          "legal_control_design"
+        ],
+        "present_in_t1_v3": true
+      }
+    ],
+    "t1_v3_case_count": 16,
+    "t4_baseline_case_count": 16
+  },
+  "environment_identity": {
+    "daemon": 0,
+    "database": 0,
+    "loop_b": 0,
+    "model": 0,
+    "network": 0,
+    "production": 0,
+    "remote": 0,
+    "runtime": "GB10 local shell / Python 3.12"
+  },
+  "evaluator_identity": {
+    "baseline": "T4 v2 read-only adapters plus T5 v3 caller validator",
+    "candidate": "T6 cand-d44c49dec4d95741 plus T7 A-1 amendment; no new executable operation",
+    "independent_scientific_evaluator": "NOT_PRESENT"
+  },
+  "input_bindings": [
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/cards/T7.md",
+      "canonical_git_blob_id": "3648b0506734656447d5a2141d48fd352e105110",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/cards/T7.md",
+      "sha256_file": "3cbd7af171324e7df1f7ca0ed7796703c44523e16aa7e39e9739d8dbfe383e34"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json",
+      "canonical_git_blob_id": "c57937c8380413708082fdc17bd4c73286cb46bf",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/contracts/protocol.json",
+      "sha256_file": "c695780364b5672caf90a991176232c174a85615f1df19628c813690fa3ef127"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json",
+      "canonical_git_blob_id": "46acca7ec01b98a5008f2851f10a86af6fe34fed",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/contracts/authority_map.json",
+      "sha256_file": "dd72a5497e542209451bfddc43b470d75a8c8164110a57c3642b54a955461972"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md",
+      "canonical_git_blob_id": "e0569763e3221c606ebfd16c2f5d41b2b26d328d",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/contracts/execution_policy.md",
+      "sha256_file": "f659668ad1ddca44fcd170c328a177be201b8aaa871f2bb938681d404e9cf393"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json",
+      "canonical_git_blob_id": "64634474115ac55d68ab20b254e325d87afe830e",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/contracts/budget_profiles.json",
+      "sha256_file": "1c94e40e377dd7b119c27988d845859e9d88784312c68aeb3f3649871614a8d9"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json",
+      "canonical_git_blob_id": "07731a300ad5d681c6ecb62269bac0531bfb3899",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/contracts/schemas.json",
+      "sha256_file": "a6543ce1fc4254f1f09573a928c6e0c318b5834062529ec9f0264873198a4c6d"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "canonical_git_blob_id": "fd2c1fdfb45806cd26961aa2f3c75aaeae887921",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/evaluation/reliability_spec.md",
+      "sha256_file": "1856da0654e0c57d2e35d395de4df8b220f8989020a6cc61de0c39cb3ad7494d"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/incidents.jsonl",
+      "canonical_git_blob_id": "c666bb35bac784591b3fd11b6975be044ce599b7",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T1/20261014T141004Z_2647a7e1/incidents.jsonl",
+      "sha256_file": "2f53f2f36f05d6eac540ef48c82ba4cade957007b5674235588615d1a334ba9b"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline.json",
+      "canonical_git_blob_id": "3ea99e453ceef1d7e60aa4e098b24b8f204f36c0",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline.json",
+      "sha256_file": "41ff78e438aacdda246ae2b0427d4cc2be741af7689e4eca3ddcbad4619b292f"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline_recipe.json",
+      "canonical_git_blob_id": "ebe9231afd2abc8b426b52755751f612f2353478",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline_recipe.json",
+      "sha256_file": "65bc93327fe63641482336cfb571a063f6e07d5f16091c4d72fb02a2f961e5c5"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json",
+      "canonical_git_blob_id": "14278b2a00f12984311ffa8bc53a9f14377207dd",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json",
+      "sha256_file": "e9d4aa29cb4330933054fa8b2dbb8a9529766843ec6a996b92a352c3b18884f8"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/registered_operations.json",
+      "canonical_git_blob_id": "8593d12fdc0e69a87728bd88fd804c8f9a959efd",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/registered_operations.json",
+      "sha256_file": "2cc368b69c8ae1687f3e85b8eab1181625f8f6816b82e5872d78c818113c9a03"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/recipe_interfaces.json",
+      "canonical_git_blob_id": "900661aeed482cb4c0fd1844c7f9d0b2fe54c188",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/recipe_interfaces.json",
+      "sha256_file": "52d5ec1e3f6a54629ddd83ed1787f257f560dfbb8723e8325d7c390b7680d6ef"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/caller_validator.py",
+      "canonical_git_blob_id": "49518c63592b85156df16001f60352eafb1a0172",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/caller_validator.py",
+      "sha256_file": "1840b06b9d777373874dbfc6fff88fc480eb5a1be6aa7d708de98846bb8023ae"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/recipe_fixtures/valid_delivery_call.json",
+      "canonical_git_blob_id": "4e758dcd022e847b7b96a29bd5ebaa7192cb8fbc",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/recipe_fixtures/valid_delivery_call.json",
+      "sha256_file": "0a3d15456e61122dd3e542d8f252b3f536e4475ff9966874d8a846a56671d0a3"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/receipt.json",
+      "canonical_git_blob_id": "b9b4c46ece5771202be562fe05fbbbea16382e25",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/receipt.json",
+      "sha256_file": "285c808d1cb65c0c93f7534866e3f9550d11333a28b73d42d7bd39dea0e53a90"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6/candidate_packages/cand-d44c49dec4d95741/candidate.json",
+      "canonical_git_blob_id": "20a6ea7b859a2005bc65815df7a914c9e7ddc638",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6/candidate_packages/cand-d44c49dec4d95741/candidate.json",
+      "sha256_file": "ae238ec26cb285a92e91ccffb33a671d0d274113b16608fe421c5607a8c920d2"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6/receipt.json",
+      "canonical_git_blob_id": "43d89cdfece71a930215f2eeea2c174aba217baf",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6/receipt.json",
+      "sha256_file": "1c6a718761edf04c14644639869a3beff1916f8e9166f05ebbbd6e2339e0c1f1"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T6R-01/review_receipt.json",
+      "canonical_git_blob_id": "5c3b5431d26b0d88e4a7c67aa7fe5e251e83ddbd",
+      "git_rev_parse_exit_code": 0,
+      "hash_status": "TRACKED_AT_CURRENT_HEAD",
+      "path": "research/harness_rsi_v1/reviews/T6R-01/review_receipt.json",
+      "sha256_file": "11a3657683217ff97b773218cf7e37b14cb9c645f0ad37d910339ee2230b3b65"
+    },
+    {
+      "absolute_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/candidate_amendment_A1.json",
+      "bytes": 5654,
+      "canonical_git_blob_id": null,
+      "git_rev_parse_exit_code": null,
+      "hash_status": "RUN_LOCAL_UNTRACKED_AT_EXECUTION",
+      "note": "New T7-run artifact; canonical HEAD lookup is unavailable until a later closer commits it.",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/candidate_amendment_A1.json",
+      "sha256_file": "bf60360370c5989d6cc41c49f6f9f8e29d23e7dcd4918c0226f52b15e3de79d8"
+    }
+  ],
+  "parent_diff_checks": [
+    {
+      "commit": "579a8cae7310ed55e969a8a09ed4ee39a8f8a8cc",
+      "exit_code": 0,
+      "parent": "T4-v2",
+      "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e",
+      "unchanged_at_current_head": true
+    },
+    {
+      "commit": "115f396af6ea461c156d91ad9148414387724eb3",
+      "exit_code": 0,
+      "parent": "T5-v3",
+      "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7",
+      "unchanged_at_current_head": true
+    },
+    {
+      "commit": "ef5e84edbd4fcd35cc287316c0e994cf72f6faa4",
+      "exit_code": 0,
+      "parent": "T6-v1",
+      "path": "research/harness_rsi_v1/runs/T6/20261015T012906Z_b9bb8ca6",
+      "unchanged_at_current_head": true
+    }
+  ],
+  "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+  "run_id": "20261015T025839Z_c94af776",
+  "schema": "jinrong_t7_identity_bindings_v1",
+  "t4_baseline_content_group_sha256": "b78bce332bd9433d44b2e79d8434949fadf773496c1c806872a103acff5e16ad",
+  "t5_parent_content_group_sha256": "4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54"
+}
