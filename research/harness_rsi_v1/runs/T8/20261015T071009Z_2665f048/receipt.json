@@ -1,0 +1,80 @@
+{
+  "schema": "jinrong_t8_receipt_v1",
+  "run_id": "20261015T071009Z_2665f048",
+  "created_at_utc": "2026-10-15T07:14:13Z",
+  "task": "T8 v2 shadow execution — three real tasks",
+  "status": "COMPLETED_NOT_EVALUABLE",
+  "shadow_status": "NOT_EVALUABLE",
+  "comparison": {
+    "window_count": 3,
+    "old_completed": 3,
+    "new_evaluable": 0,
+    "parity_established": 0
+  },
+  "windows": [
+    {
+      "window": 1,
+      "old_status": "COMPLETED_WITH_FINDINGS",
+      "new_status": "NOT_EVALUABLE"
+    },
+    {
+      "window": 2,
+      "old_status": "PASS",
+      "new_status": "NOT_EVALUABLE"
+    },
+    {
+      "window": 3,
+      "old_status": "PASS",
+      "new_status": "NOT_EVALUABLE"
+    }
+  ],
+  "material_access": {
+    "policy": "READ_ONLY",
+    "frozen_count": 3,
+    "postcheck_match_count": 3,
+    "rollback_receipt": "PASS_READ_ONLY"
+  },
+  "release": {
+    "recommendation": "DO_NOT_RELEASE",
+    "decision": "HOLD"
+  },
+  "self_check": {
+    "status": "PASS",
+    "scope": "Local deterministic JSON, material hash, event sequence, status consistency, write-boundary and G1 checks for this run package only.",
+    "checks": [
+      "JSON_PARSE",
+      "EVENTS_MONOTONIC",
+      "FROZEN_MATERIAL_RECHECK",
+      "WINDOW_STATUS_CONSISTENCY",
+      "SHADOW_STATUS_CONSISTENCY",
+      "RELEASE_AND_ROLLBACK_CONSISTENCY",
+      "G1_ALL_MARKDOWN",
+      "WRITE_BOUNDARY"
+    ]
+  },
+  "usage": {
+    "profile": "B0",
+    "orchestrated_model_requests": 0,
+    "additional_cheap_requests_actual": 0,
+    "additional_strong_requests_actual": 0,
+    "automatic_retries": 0,
+    "network_calls": 0,
+    "remote_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "daemon_calls": 0,
+    "loop_b_calls": 0,
+    "model": 0,
+    "execution_chat_usage": "UNRESOLVED"
+  },
+  "unresolved": [
+    "T5 v3 has no registered recipe operation or target binding for the three real repository inputs.",
+    "Old/new parity cannot be established until target-specific recipe operations are reviewed and executed.",
+    "Independent review and GB10 runtime qualification were not executed by this local shadow package."
+  ],
+  "qualification_level": "CONTRACT_PASS",
+  "scientific_status": "NOT_ACHIEVED",
+  "overall_pass_claim": null,
+  "scope": "Current T8 v2 run package under zero model/network constraints; no production, database, model endpoint, daemon, formal experiment, or independent review claim."
+}

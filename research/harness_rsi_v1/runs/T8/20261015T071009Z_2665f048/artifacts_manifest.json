@@ -1,0 +1,22 @@
+{
+  "schema": "jinrong_t8_artifacts_manifest_v1",
+  "run_id": "20261015T071009Z_2665f048",
+  "generated_at_utc": "2026-10-15T07:16:47Z",
+  "hash_algorithm": "sha256",
+  "manifest_policy": "self-excluded",
+  "artifacts": [
+    {"path": "TASK_PROMPT.md", "bytes": 2786, "sha256": "8902fe1635e49c936eea998ab99648e7084cc213b0318876b12618ebca8efb85"},
+    {"path": "events.jsonl", "bytes": 1106, "sha256": "87489a43f8ff04e367ac34397128f7ba7a126183423b0b595eb9680676ccd0b1"},
+    {"path": "frozen_materials.json", "bytes": 758, "sha256": "1028deff3d52b39e7b32b72a0be8ec34d0aba9511d4afdee8ddc74181ec81d5f"},
+    {"path": "receipt.json", "bytes": 2441, "sha256": "0fb0d7f13372e5b387126490e9734449a1ca38548243106ce0e5cc639d50bf66"},
+    {"path": "release_proposal.json", "bytes": 1197, "sha256": "fe671325a19d96527ef9f8047fd354b5fdd93dd88245a2707d39a0d0d79caa3b"},
+    {"path": "rollback_receipt.json", "bytes": 1607, "sha256": "88c89d4072a76482ff622fc827e94d1d5c851d4df31d9cb9f60caca304052d47"},
+    {"path": "shadow_comparison.json", "bytes": 1714, "sha256": "b8d1805f6ed467895008621282bfe573efa1f420154f378875b63d84c243b029"},
+    {"path": "shadow_task_1.json", "bytes": 1825, "sha256": "edeb50ec3e2e0baa0aae11e968305553a434b46e889bb4dccb332651341845fa"},
+    {"path": "shadow_task_2.json", "bytes": 1787, "sha256": "52b1d141d25af447c778e4aa94edef1375f5169f90fe4bd53a3081ceb5cee81e"},
+    {"path": "shadow_task_3.json", "bytes": 1955, "sha256": "77c9a8be7a2c834f79c653ca8517382f0c72dc0b2f27af889124f53384487d0b"},
+    {"path": "summary.md", "bytes": 1687, "sha256": "e0159ffe228e0870457f23331f5f0c70f4dbb4f9f7e26b1c8a55b2aa43446371"}
+  ],
+  "artifact_count": 11,
+  "required_artifacts_present": true
+}

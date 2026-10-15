@@ -1,0 +1,46 @@
+{
+  "schema": "jinrong_t8_shadow_task_v1",
+  "run_id": "20261015T071009Z_2665f048",
+  "window": 2,
+  "title": "WP-1 contract hash binding check",
+  "target": {
+    "path": "research/tatqa_wp0_2026/wp1/implementation_contract.md",
+    "bytes": 15355,
+    "sha256": "9a715c8f5b56ec016a33e0187f4c507b5e1ad119dace5311aebc1057a705e7eb"
+  },
+  "old_flow": {
+    "status": "PASS",
+    "exit_code": 0,
+    "actual_sha256": "9a715c8f5b56ec016a33e0187f4c507b5e1ad119dace5311aebc1057a705e7eb",
+    "sidecar_raw": "9a715c8f5b56ec016a33e0187f4c507b5e1ad119dace5311aebc1057a705e7eb  research/tatqa_wp0_2026/wp1/implementation_contract.md",
+    "sidecar_declared_sha256": "9a715c8f5b56ec016a33e0187f4c507b5e1ad119dace5311aebc1057a705e7eb",
+    "match": true
+  },
+  "new_flow": {
+    "status": "NOT_EVALUABLE",
+    "recipe_id": "T5-R-EVIDENCE-DELIVERY-V1",
+    "caller_validator": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/caller_validator.py",
+    "exit_code": 1,
+    "result": {
+      "error_detail": "unregistered path rejected: 'research/tatqa_wp0_2026/wp1/implementation_contract.md'",
+      "fail_closed_code": "FC_ARBITRARY_PATH",
+      "operation_results": [],
+      "recipe_id": null,
+      "scientific_claim": null,
+      "scientific_status": null,
+      "single_object_id": null,
+      "target_execution_performed": false,
+      "validation_status": "REJECTED"
+    },
+    "reason": "The delivered recipe rejects the target before computing its SHA-256 because package_ref is restricted to recipe_fixtures/delivery_payload.json.",
+    "hash_binding_evaluated": false,
+    "not_a_recipe_pass": true
+  },
+  "comparison": {
+    "old_completed": true,
+    "new_completed": false,
+    "parity_established": false,
+    "window_status": "NOT_EVALUABLE",
+    "decision": "HOLD"
+  }
+}

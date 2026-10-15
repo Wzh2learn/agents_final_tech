@@ -1,0 +1,8 @@
+{"event_id":1,"at_utc":"2026-10-15T07:10:09Z","event":"RUN_CREATED","detail":"run_id generated as UTC time plus first eight UUID hex characters"}
+{"event_id":2,"at_utc":"2026-10-15T07:10:09Z","event":"MATERIALS_FROZEN","detail":"three inputs recorded with SHA-256, bytes, and UTC freeze time"}
+{"event_id":3,"at_utc":"2026-10-15T07:14:13Z","event":"WINDOW_1_RECORDED","detail":"old flow completed with findings; new flow NOT_EVALUABLE"}
+{"event_id":4,"at_utc":"2026-10-15T07:14:13Z","event":"WINDOW_2_RECORDED","detail":"old hash match PASS; new flow NOT_EVALUABLE"}
+{"event_id":5,"at_utc":"2026-10-15T07:14:13Z","event":"WINDOW_3_RECORDED","detail":"old directory audit PASS; new flow NOT_EVALUABLE"}
+{"event_id":6,"at_utc":"2026-10-15T07:14:13Z","event":"SHADOW_COMPARISON_WRITTEN","detail":"shadow_status NOT_EVALUABLE; zero-window parity"}
+{"event_id":7,"at_utc":"2026-10-15T07:14:13Z","event":"RELEASE_PROPOSAL_WRITTEN","detail":"DO_NOT_RELEASE / HOLD"}
+{"event_id":8,"at_utc":"2026-10-15T07:14:13Z","event":"ROLLBACK_RECEIPT_WRITTEN","detail":"PASS_READ_ONLY; all frozen hashes rechecked identical"}

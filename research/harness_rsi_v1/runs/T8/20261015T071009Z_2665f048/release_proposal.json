@@ -1,0 +1,33 @@
+{
+  "schema": "jinrong_t8_release_proposal_v1",
+  "run_id": "20261015T071009Z_2665f048",
+  "created_at_utc": "2026-10-15T07:14:13Z",
+  "recommendation": "DO_NOT_RELEASE",
+  "shadow_status": "NOT_EVALUABLE",
+  "release_decision": "HOLD",
+  "reason": "All three T5 v3 recipe attempts fail closed with FC_ARBITRARY_PATH because the delivered recipe only dispatches closed-enum fixtures; no target-specific parity was established.",
+  "evidence": [
+    "shadow_task_1.json",
+    "shadow_task_2.json",
+    "shadow_task_3.json",
+    "shadow_comparison.json"
+  ],
+  "old_flow_observation": {
+    "windows_completed": 3,
+    "pass": 2,
+    "completed_with_findings": 1
+  },
+  "new_flow_observation": {
+    "accepted_within_scope": 0,
+    "rejected": 3,
+    "target_execution_performed": 0
+  },
+  "required_before_release": [
+    "Provide an explicitly reviewed T5 recipe operation or target registry entry for each real task input.",
+    "Repeat all three windows with target execution evidence.",
+    "Require three-window parity and fresh G1 verification before reconsidering release."
+  ],
+  "qualification_level": "CONTRACT_PASS",
+  "scientific_status": "NOT_ACHIEVED",
+  "overall_pass_claim": null
+}
