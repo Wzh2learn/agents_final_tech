@@ -1,0 +1,40 @@
+{
+  "schema": "jinrong_t6_evidence_registry_v1",
+  "evidence": [
+    {
+      "evidence_id": "E-T4-INC14-PASS1",
+      "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/scratch/tool_outputs/20261014T190610Z_69eba8e0_3957206_pass1_T1-INC-14_summary.log",
+      "sha256": "a183ccfdbbf198b7bea9673b81f60e8593ba3fcef93c83a0917efd9e0fb1f36b",
+      "git_blob_id": "9e8bb9687102a01a1b5579c596cb1c2db9609294",
+      "anchor": "T1-INC-14 first replay: absent receipt block is silently skipped and case result is missed."
+    },
+    {
+      "evidence_id": "E-T4-INC14-PASS2",
+      "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/scratch/tool_outputs/20261014T190611Z_a9b58df3_3957206_pass2_T1-INC-14_summary.log",
+      "sha256": "18446ec30975c743cb290ad43d9e3720c05b0f56ff54fa81343602c41cfbb0bc",
+      "git_blob_id": "4aac73b54a923788e7796b03ea0e422a1c2ecad5",
+      "anchor": "T1-INC-14 second replay reproduces the same silent skip."
+    },
+    {
+      "evidence_id": "E-T5-REGISTERED-OPS",
+      "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/registered_operations.json",
+      "sha256": "2cc368b69c8ae1687f3e85b8eab1181625f8f6816b82e5872d78c818113c9a03",
+      "git_blob_id": "8593d12fdc0e69a87728bd88fd804c8f9a959efd",
+      "anchor": "Closed three-operation R vocabulary used by every entry in this batch."
+    },
+    {
+      "evidence_id": "E-T5R02-BLOCKING-1",
+      "path": "research/harness_rsi_v1/reviews/T5R-02/REVIEW.md",
+      "sha256": "a4eb62aba48d7a35410823c5596a1096521b76e6bed876c01758adf49be442f9",
+      "git_blob_id": "c7419062e62ea007611fc352344cd1892244995a",
+      "anchor": "Replay instability: stale runtime tick and in-place mutation voided the v2 claim."
+    },
+    {
+      "evidence_id": "E-T5R03-BLOCKING-1",
+      "path": "research/harness_rsi_v1/reviews/T5R-03/REVIEW.md",
+      "sha256": "eadb3e563ad095510501e9dcf77424bee6514ea666ab867ec2a4792baa270e70",
+      "git_blob_id": "6ad2ee63bbcee4ad402c85ebb3df3d3dc8ad5a88",
+      "anchor": "Delivery-layer mode mismatch rejected v3 before the pure mode patch at 115f396af."
+    }
+  ]
+}

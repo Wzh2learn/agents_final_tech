@@ -1,0 +1,102 @@
+{
+  "schema": "jinrong_t6_candidate_package_v1",
+  "candidate_id": "cand-20a78eae4dda3ca9",
+  "status": "REJECTED_DUPLICATE_NOGOOD",
+  "identity": {
+    "problem_family": "REPLAY_TIME_AND_MUTATION",
+    "problem_source": "T5R-02 and T5R-03 exposed stale-runtime-tick, delivered-tree mutation and delivery-mode failure families already repaired in T5 v3.",
+    "object": "T5-R-RUNTIME-PREFLIGHT-V1",
+    "object_type": "runtime_preflight_recipe",
+    "parent_canonical_ids": [
+      "T5-v3:20261014T233742Z_cb132ce7@115f396af"
+    ],
+    "parent_group_ids": [
+      "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54"
+    ]
+  },
+  "selection_rationale": "This candidate is deliberately retained as the duplicate rejection fixture: it reconstructs the exact P01/P09 entry set already proven by T5 v3. It must be rejected by nogoods and never reach T7.",
+  "entries": [
+    {
+      "entry_id": "R-01-FIXTURE-TICK-UNLIMITED-AGE",
+      "op_id": "OP-T4-R-DISPATCH-PRECHECK",
+      "current_registry_support": true,
+      "needs_future_authorization": false,
+      "intent": "Use the delivered tick fixture with max_tick_age_minutes=0.",
+      "parameterization": {
+        "tick_path": "recipe_fixtures/dispatch/tick_valid.json",
+        "watcher_path": "recipe_fixtures/dispatch/watcher.sh",
+        "max_tick_age_minutes": 0
+      }
+    },
+    {
+      "entry_id": "R-02-EXTERNAL-FRESH-TICK",
+      "op_id": "OP-T4-R-DISPATCH-PRECHECK",
+      "current_registry_support": true,
+      "needs_future_authorization": false,
+      "intent": "Generate a fresh runtime tick outside the delivered tree and enforce a 60-minute bound.",
+      "parameterization": {
+        "tick_path": "runtime/tick_valid.json",
+        "watcher_path": "recipe_fixtures/dispatch/watcher.sh",
+        "max_tick_age_minutes": 60
+      }
+    },
+    {
+      "entry_id": "R-03-EXTERNAL-RELOCATED-TICK",
+      "op_id": "OP-T4-R-DISPATCH-PRECHECK",
+      "current_registry_support": true,
+      "needs_future_authorization": false,
+      "intent": "Generate a fresh relocated runtime tick outside the delivered tree and enforce the same 60-minute bound.",
+      "parameterization": {
+        "tick_path": "runtime/tick_relocated.json",
+        "watcher_path": "recipe_fixtures/dispatch/watcher.sh",
+        "max_tick_age_minutes": 60
+      }
+    }
+  ],
+  "six_gate_targets": {
+    "severe_defect_miss": "No intended change; duplicate of already accepted controls.",
+    "legitimate_false_block": "No intended change.",
+    "evidence_completeness": "No intended change.",
+    "claim_overreach": "Reject any new coverage claim because this is the same family and entry set.",
+    "raw_record_integrity": "No intended change; T5 v3 already requires external runtime generation.",
+    "budget_integrity": "No calls authorized; proposal only."
+  },
+  "evaluation_plan": {
+    "executor": "T7 only; prohibited because nogoods rejects the duplicate before evaluation.",
+    "design": "No paired measurement is planned. The deterministic gate is signature equality with NOG-T6-DUP-001.",
+    "expected_result": "REJECTED_DUPLICATE_NOGOOD; activation_enabled=false.",
+    "stopping_rule": "Do not spend a T7 evaluation on an already proven duplicate."
+  },
+  "cost_record": {
+    "additional_cheap_requests": 0,
+    "additional_strong_requests": 0,
+    "automatic_retries": 0,
+    "model_calls": 0,
+    "network_calls": 0
+  },
+  "version_applicability": {
+    "parent_group_ids": [
+      "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54"
+    ],
+    "applies_to": "Exactly the T5 v3 accepted parent content group.",
+    "reopen_conditions": [
+      "A different parent content group contains a newly evidenced replay failure.",
+      "The entry set is no longer equivalent to T5 P01/P09.",
+      "Independent evidence establishes a non-equivalent measurement target."
+    ]
+  },
+  "evidence_references": [
+    {
+      "evidence_id": "E-T5R02-BLOCKING-1",
+      "use": "Stale tick and mutation failure family."
+    },
+    {
+      "evidence_id": "E-T5R03-BLOCKING-1",
+      "use": "Delivery-layer mode failure family."
+    },
+    {
+      "evidence_id": "E-T5-REGISTERED-OPS",
+      "use": "Exact three registered dispatch entries."
+    }
+  ]
+}

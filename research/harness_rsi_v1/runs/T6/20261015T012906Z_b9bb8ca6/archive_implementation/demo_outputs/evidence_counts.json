@@ -1,0 +1,19 @@
+{
+  "schema": "jinrong_t6_evidence_count_v1",
+  "command": "python3 -B archive_implementation/archive.py count-evidence candidate_packages",
+  "returncode": 0,
+  "candidate_count": 2,
+  "raw_candidate_reference_count": 6,
+  "global_unique_evidence_count": 5,
+  "references_suppressed_as_duplicates": 1,
+  "duplicate_candidate_pairs": [
+    ["cand-20a78eae4dda3ca9", "cand-d44c49dec4d95741", "E-T5-REGISTERED-OPS"]
+  ],
+  "per_evidence": {
+    "E-T4-INC14-PASS1": {"candidate_reference_count": 1, "counted_once_for_global_total": 1},
+    "E-T4-INC14-PASS2": {"candidate_reference_count": 1, "counted_once_for_global_total": 1},
+    "E-T5-REGISTERED-OPS": {"candidate_reference_count": 2, "counted_once_for_global_total": 1},
+    "E-T5R02-BLOCKING-1": {"candidate_reference_count": 1, "counted_once_for_global_total": 1},
+    "E-T5R03-BLOCKING-1": {"candidate_reference_count": 1, "counted_once_for_global_total": 1}
+  }
+}

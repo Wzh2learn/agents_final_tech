@@ -1,0 +1,10 @@
+Command:
+python3 -B archive_implementation/archive.py validate-parents
+
+Observed exit code: 1
+
+Observed failure:
+The first repair changed the artifact lookup rather than the anchor lookup, so all 109 artifacts appeared missing while anchors remained unresolved.
+
+Repair:
+Restore manifest_prefix for manifest-relative artifacts and use the repository-relative path directly only for tracked anchors.

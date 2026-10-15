@@ -1,0 +1,65 @@
+{
+  "schema": "jinrong_t6_parent_versions_v1",
+  "parents": [
+    {
+      "schema": "jinrong_t6_parent_content_group_v1",
+      "canonical_id": "T5-v3:20261014T233742Z_cb132ce7@115f396af",
+      "run_id": "20261014T233742Z_cb132ce7",
+      "task_id": "T5",
+      "version": "v3",
+      "git_commit": "115f396af6ea461c156d91ad9148414387724eb3",
+      "review_decision": "T5R-04 ACCEPTED",
+      "manifest_prefix": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/",
+      "run_root": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7",
+      "content_group_id": "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54",
+      "hash_domain": "manifest SHA-256 over sorted relative path + file SHA-256 + git-normalized mode",
+      "member_count": 45,
+      "tracked_anchors": [
+        {
+          "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/receipt.json",
+          "git_blob_id": "b9b4c46ece5771202be562fe05fbbbea16382e25"
+        },
+        {
+          "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/artifacts_manifest.json",
+          "git_blob_id": "9745caaeb0fa0d5ee04413277af3578cd61de602"
+        },
+        {
+          "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/registered_operations.json",
+          "git_blob_id": "8593d12fdc0e69a87728bd88fd804c8f9a959efd"
+        },
+        {
+          "path": "research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/recipe_interfaces.json",
+          "git_blob_id": "900661aeed482cb4c0fd1844c7f9d0b2fe54c188"
+        }
+      ]
+    },
+    {
+      "schema": "jinrong_t6_parent_content_group_v1",
+      "canonical_id": "T4-v2:20261014T184810Z_c9dcfe0e",
+      "run_id": "20261014T184810Z_c9dcfe0e",
+      "task_id": "T4",
+      "version": "v2",
+      "git_commit": "579a8cae7310ed55e969a8a09ed4ee39a8f8a8cc",
+      "review_decision": "T4R-01 ACCEPTED",
+      "manifest_prefix": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/",
+      "run_root": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e",
+      "content_group_id": "sha256:b78bce332bd9433d44b2e79d8434949fadf773496c1c806872a103acff5e16ad",
+      "hash_domain": "manifest SHA-256 over sorted relative path + file SHA-256 + git-normalized mode",
+      "member_count": 64,
+      "tracked_anchors": [
+        {
+          "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json",
+          "git_blob_id": "14278b2a00f12984311ffa8bc53a9f14377207dd"
+        },
+        {
+          "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/artifacts_manifest.json",
+          "git_blob_id": "379d44b21edd58b872d2d06126f03ddd0271f15d"
+        },
+        {
+          "path": "research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/baseline.json",
+          "git_blob_id": "3ea99e453ceef1d7e60aa4e098b24b8f204f36c0"
+        }
+      ]
+    }
+  ]
+}

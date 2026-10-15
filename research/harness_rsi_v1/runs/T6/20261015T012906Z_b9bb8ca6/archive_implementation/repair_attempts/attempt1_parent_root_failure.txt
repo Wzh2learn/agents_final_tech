@@ -1,0 +1,13 @@
+Command:
+python3 -B archive_implementation/archive.py validate-parents
+
+Observed exit code: 1
+
+Observed failure:
+RuntimeError: git -C /home/testuser/wzh/projects ls-tree -r -z 115f396af6ea461c156d91ad9148414387724eb3 failed rc=128: fatal: not a git repository (or any of the parent directories): .git
+
+Root cause:
+The implementation selected archive_root.parents[6], which resolves to /home/testuser/wzh/projects instead of the repository root /home/testuser/wzh/projects/agents_final_tech. The first attempt also exposed that T4 manifest entries use absolute_path only, requiring derivation of relative_path.
+
+Repair:
+Select archive_root.parents[5], derive relative_path from absolute_path for manifests that omit it, and retain git-normalized modes in the content-group domain.

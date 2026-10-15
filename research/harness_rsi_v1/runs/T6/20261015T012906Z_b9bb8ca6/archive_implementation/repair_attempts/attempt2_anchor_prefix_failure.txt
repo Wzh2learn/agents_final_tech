@@ -1,0 +1,10 @@
+Command:
+python3 -B archive_implementation/archive.py validate-parents
+
+Observed exit code: 1
+
+Observed failure:
+Both content-group hashes and all 109 file-byte hashes matched, but every tracked anchor returned actual=null because the implementation applied manifest_prefix a second time to already repository-relative anchor paths.
+
+Repair:
+Look up tracked anchors directly by their repository-relative path while continuing to prefix only manifest-relative artifact paths.

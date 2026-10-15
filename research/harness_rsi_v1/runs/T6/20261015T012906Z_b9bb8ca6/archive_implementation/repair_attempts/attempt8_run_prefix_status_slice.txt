@@ -1,0 +1,10 @@
+Command:
+python3 -B archive_implementation/self_check.py
+
+Observed exit code: 1 with ignored T6 entries=0 but write_boundary false.
+
+Observed failure:
+The T6 allowlist still contained the porcelain prefix "?? " while comparison used the already-sliced path.
+
+Repair:
+Use the run-directory path prefix only.

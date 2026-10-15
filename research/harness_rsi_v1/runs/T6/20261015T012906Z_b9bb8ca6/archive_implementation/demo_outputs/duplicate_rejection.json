@@ -1,0 +1,18 @@
+{
+  "schema": "jinrong_t6_nogood_demo_v1",
+  "command": "python3 -B archive_implementation/archive.py evaluate candidate_packages/cand-20a78eae4dda3ca9/candidate.json",
+  "returncode": 0,
+  "candidate_id": "cand-20a78eae4dda3ca9",
+  "candidate_id_matches": true,
+  "failure_signature": "sha256:e2c2cc55762a2d6cc7443b2633fa896c2b8cf73bfb413f2c0d7ca2b0beb7ccf2",
+  "nogood_id": "NOG-T6-DUP-001",
+  "reason": "REPEATED_PROVEN_FAILURE_PACKAGE",
+  "status": "REJECTED_DUPLICATE_NOGOOD",
+  "activation_enabled": false,
+  "rejection_is_permanent": false,
+  "reopen_conditions": [
+    "A different parent content-group ID contains a newly evidenced replay failure.",
+    "The three entries no longer duplicate the already proven P01/P09 family.",
+    "Independent T7 evidence demonstrates a non-equivalent measurement target."
+  ]
+}

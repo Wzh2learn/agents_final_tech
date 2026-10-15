@@ -1,0 +1,27 @@
+{
+  "schema": "jinrong_t6_selective_context_evidence_v1",
+  "command": "python3 -B archive_implementation/archive.py export-context candidate_packages/cand-d44c49dec4d95741/candidate.json",
+  "returncode": 0,
+  "candidate_id": "cand-d44c49dec4d95741",
+  "status": "PROPOSED_NOT_ENABLED",
+  "object": "T5-R-EVIDENCE-DELIVERY-V1",
+  "entries": [
+    {"entry_id": "E-01-PRESENT-RECEIPT-CONTROL", "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK", "needs_future_authorization": false},
+    {"entry_id": "E-02-MISMATCH-NEGATIVE-CONTROL", "op_id": "OP-T4-R-SUMMARY-GUARD-DERIVE", "needs_future_authorization": false},
+    {"entry_id": "E-03-ABSENT-BLOCK-REJECTION", "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK", "needs_future_authorization": true}
+  ],
+  "parents": [
+    "T4-v2:20261014T184810Z_c9dcfe0e",
+    "T5-v3:20261014T233742Z_cb132ce7@115f396af"
+  ],
+  "evidence_ids": ["E-T4-INC14-PASS1", "E-T4-INC14-PASS2", "E-T5-REGISTERED-OPS"],
+  "relevant_lesson_ids": ["LES-T6-001"],
+  "mechanism_fields": {
+    "candidate_status": "PROPOSAL_ONLY; activation_enabled=false",
+    "evidence_selection": "Only evidence IDs declared by this candidate.",
+    "parent_selection": "Only parent content-group IDs and canonical IDs.",
+    "rejection_is_permanent": false,
+    "shared_buffers": "Local read-only lesson projection; full shared archives are not copied."
+  },
+  "omitted": ["Full parent packages", "Full lessons/nogoods archives", "Unreferenced evidence", "Repository and runtime state"]
+}

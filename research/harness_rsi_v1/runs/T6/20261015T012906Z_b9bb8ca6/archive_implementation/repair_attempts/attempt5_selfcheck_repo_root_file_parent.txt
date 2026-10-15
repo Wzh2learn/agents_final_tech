@@ -1,0 +1,13 @@
+Command:
+python3 -B archive_implementation/self_check.py
+
+Observed exit code: 1 before any check result was emitted.
+
+Observed failure:
+FileNotFoundError for /home/testuser/wzh/projects/agents_final_tech/research/research/harness_rsi_v1/runs/T6/_dispatch/loop_a_prompt_t6.md.
+
+Root cause:
+self_check.py uses Path(__file__), whose parent index differs from archive.py's Path(__file__).parent. parents[5] resolved to research rather than the repository root.
+
+Repair:
+Use parents[6] for the file path; keep archive.py's directory-based parents[5] unchanged.

@@ -1,0 +1,22 @@
+{
+  "schema": "jinrong_t6_self_check_result_v1",
+  "command": "python3 -B archive_implementation/self_check.py",
+  "returncode": 0,
+  "overall": "CONTRACT_PASS",
+  "check_count": 18,
+  "failed_count": 0,
+  "key_results": {
+    "input_binding_drift": "13 bindings recomputed",
+    "task_prompt_verbatim": true,
+    "parent_content_groups": "T5 45 / T4 64 recompute",
+    "t5_declared_modes": "45/45",
+    "a1_candidates": "PASS",
+    "a2_rejected_not_enabled": "PASS",
+    "a2_evidence_dedup": "raw 6 / unique 5 / duplicate pair 1",
+    "a3_zero_calls": "0/4 cheap, 0 strong, all external counters zero",
+    "artifact_manifest": "30 artifacts bytes/sha256/mode/file-set verified by the final fresh run",
+    "g1_all_markdown": "4/4 rc=0",
+    "g1_runtime_negative_control": "rc=1 in temporary directory, not persisted",
+    "write_boundary": "outside-run status matches pre-existing dirty set; ignored T6 entries=0"
+  }
+}

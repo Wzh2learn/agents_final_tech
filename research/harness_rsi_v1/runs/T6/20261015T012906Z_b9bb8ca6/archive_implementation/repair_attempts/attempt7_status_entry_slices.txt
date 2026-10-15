@@ -1,0 +1,10 @@
+Command:
+python3 -B archive_implementation/self_check.py
+
+Observed exit code: 1 with ignored T6 entries=0 but write_boundary still false.
+
+Observed failure:
+The allowed-outside comparison used full porcelain status strings such as "M logs/..." while line[3:] already removes the status prefix and yields "logs/...".
+
+Repair:
+Compare allowlist entries by path only, preserving the separate porcelain-status interpretation.

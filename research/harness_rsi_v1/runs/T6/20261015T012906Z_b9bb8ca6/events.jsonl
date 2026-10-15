@@ -1,0 +1,11 @@
+{"timestamp":"2026-10-15T01:29:06Z","event":"run_started","task_id":"T6","run_id":"20261015T012906Z_b9bb8ca6","write_scope":"only this run directory"}
+{"timestamp":"2026-10-15T01:31:00Z","event":"inputs_bound","input_count":6,"task_prompt_source":"research/harness_rsi_v1/runs/T6/_dispatch/loop_a_prompt_t6.md","dependency_count":4,"note":"card, five contracts, optimizer policy, T5/T4 receipts, accepted reviews and state were read only"}
+{"timestamp":"2026-10-15T01:36:00Z","event":"parents_verified","t5_content_group_members":45,"t5_declared_mode_matches":"45/45","t4_content_group_members":64,"model_calls":0}
+{"timestamp":"2026-10-15T01:43:00Z","event":"candidate_batch_constructed","candidate_count":2,"proposed_count":1,"nogood_rejected_count":1,"enabled_count":0}
+{"timestamp":"2026-10-15T01:46:00Z","event":"repair_attempt","attempt":1,"result":"FAILED","retained":"archive_implementation/repair_attempts/attempt1_parent_root_failure.txt"}
+{"timestamp":"2026-10-15T01:47:00Z","event":"repair_attempt","attempt":2,"result":"FAILED","retained":"archive_implementation/repair_attempts/attempt2_anchor_prefix_failure.txt"}
+{"timestamp":"2026-10-15T01:48:00Z","event":"repair_attempt","attempt":3,"result":"FAILED","retained":"archive_implementation/repair_attempts/attempt3_tree_lookup_inversion.txt"}
+{"timestamp":"2026-10-15T01:49:00Z","event":"mechanism_repaired","parent_validation":"PASS","duplicate_nogood":"REJECTED_DUPLICATE_NOGOOD","evidence_raw_unique":"6/5"}
+{"timestamp":"2026-10-15T01:51:50Z","event":"usage_snapshot","additional_cheap_requests":0,"additional_strong_requests":0,"model_calls":0,"network_calls":0,"remote_calls":0,"production_calls":0,"database_calls":0,"training_calls":0,"daemon_calls":0,"automatic_retries":0,"execution_chat_usage":"UNRESOLVED"}
+{"timestamp":"2026-10-15T02:04:00Z","event":"self_check","result":"CONTRACT_PASS","check_count":18,"failed_count":0,"g1_markdown":"4/4 rc=0","g1_negative_control":"rc=1 runtime-only","write_boundary":"PASS"}
+{"timestamp":"2026-10-15T02:04:01Z","event":"final_usage_confirmation","additional_cheap_requests":0,"additional_strong_requests":0,"model_calls":0,"automatic_retries":0,"execution_chat_usage":"UNRESOLVED"}

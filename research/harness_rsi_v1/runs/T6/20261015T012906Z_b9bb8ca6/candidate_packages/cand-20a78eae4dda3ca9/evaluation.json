@@ -1,0 +1,18 @@
+{
+  "schema": "jinrong_t6_evaluation_plan_v1",
+  "evaluation_id": "eval-b9369b0799c736a8",
+  "candidate_id": "cand-20a78eae4dda3ca9",
+  "status": "BLOCKED_BY_NOGOOD",
+  "identity": {
+    "candidate_identity_sha256": "20a78eae4dda3ca968b26205155edffecc96daf39d499fc7673a70e183beaab1",
+    "evaluator_version": "No evaluator run is authorized."
+  },
+  "measurement": {
+    "baseline": "T5 v3 P01/P09 already measure the same entries.",
+    "candidate": "Duplicate reconstruction of P01/P09.",
+    "required_outcome": "REJECT_DUPLICATE_BEFORE_EVALUATION"
+  },
+  "execution_status": "NOT_EXECUTED_IN_T6",
+  "model_calls": 0,
+  "network_calls": 0
+}

@@ -1,0 +1,102 @@
+{
+  "schema": "receipt",
+  "task_id": "T6",
+  "run_id": "20261015T012906Z_b9bb8ca6",
+  "card_version": 2,
+  "direction": "R",
+  "authorization_ref": "owner: 继续…你自己设定goal去执行吧; R-line U07=C; task dispatch authorizes bounded T6 execution and forbids entering T7",
+  "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+  "scope": "Bounded local T6 archive mechanism and two proposal packages only; no T7, C/S batch, deployment, shared registry/state modification or scientific conclusion.",
+  "execution_status": "DELIVERED",
+  "acceptance_status": "UNREVIEWED",
+  "activation_status": "NOT_ENABLED",
+  "output_manifest": "artifacts_manifest.json",
+  "task_prompt": {
+    "path": "TASK_PROMPT.md",
+    "source": "research/harness_rsi_v1/runs/T6/_dispatch/loop_a_prompt_t6.md",
+    "verbatim": true
+  },
+  "dependency_acceptance": {
+    "T5": {
+      "receipt_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/receipt.json",
+      "receipt_git_blob_id": "b9b4c46ece5771202be562fe05fbbbea16382e25",
+      "review_id": "T5R-04",
+      "review_decision": "ACCEPTED",
+      "accepted_parent_commit": "115f396af6ea461c156d91ad9148414387724eb3",
+      "content_group_id": "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54"
+    },
+    "T4": {
+      "receipt_path": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json",
+      "receipt_git_blob_id": "14278b2a00f12984311ffa8bc53a9f14377207dd",
+      "review_id": "T4R-01",
+      "review_decision": "ACCEPTED",
+      "canonical_id": "T4-v2:20261014T184810Z_c9dcfe0e",
+      "content_group_id": "sha256:b78bce332bd9433d44b2e79d8434949fadf773496c1c806872a103acff5e16ad"
+    }
+  },
+  "input_bindings": [
+    {"role":"task_card","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/cards/T6.md","git_blob_id":"45a5c409bde714a069269bf4e32d0d01bed2fd6f","sha256":"6e7ab451a7cd90a4668c3a238f380667e95155281260853636519faabcadc0bc"},
+    {"role":"protocol","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/protocol.json","git_blob_id":"c57937c8380413708082fdc17bd4c73286cb46bf","sha256":"c695780364b5672caf90a991176232c174a85615f1df19628c813690fa3ef127"},
+    {"role":"authority_map","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/authority_map.json","git_blob_id":"46acca7ec01b98a5008f2851f10a86af6fe34fed","sha256":"dd72a5497e542209451bfddc43b470d75a8c8164110a57c3642b54a955461972"},
+    {"role":"execution_policy","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/execution_policy.md","git_blob_id":"e0569763e3221c606ebfd16c2f5d41b2b26d328d","sha256":"f659668ad1ddca44fcd170c328a177be201b8aaa871f2bb938681d404e9cf393"},
+    {"role":"budget_profiles","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/budget_profiles.json","git_blob_id":"64634474115ac55d68ab20b254e325d87afe830e","sha256":"1c94e40e377dd7b119c27988d845859e9d88784312c68aeb3f3649871614a8d9"},
+    {"role":"schemas","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/contracts/schemas.json","git_blob_id":"07731a300ad5d681c6ecb62269bac0531bfb3899","sha256":"a6543ce1fc4254f1f09573a928c6e0c318b5834062529ec9f0264873198a4c6d"},
+    {"role":"optimizer_policy","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/meta/optimizer_policy.md","git_blob_id":"ef102dcfc8f044c60d91800d1d03c55f1b5d60f9","sha256":"7b0bca85601489123f7ac7614d76ef858922890bf3c5de1a46925fa214542ed1"},
+    {"role":"t5_dependency","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/receipt.json","git_blob_id":"b9b4c46ece5771202be562fe05fbbbea16382e25","sha256":"285c808d1cb65c0c93f7534866e3f9550d11333a28b73d42d7bd39dea0e53a90"},
+    {"role":"t4_dependency","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T4/20261014T184810Z_c9dcfe0e/receipt.json","git_blob_id":"14278b2a00f12984311ffa8bc53a9f14377207dd","sha256":"e9d4aa29cb4330933054fa8b2dbb8a9529766843ec6a996b92a352c3b18884f8"},
+    {"role":"t5_acceptance","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T5R-04/review_receipt.json","git_blob_id":"baf43ec634d888da44e12f4ec7b38cc5e46b04bf","sha256":"e6690e46564a4f843b0f6f23cc7f953018b34063005684e70ccdf124f0321828"},
+    {"role":"t4_acceptance","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/reviews/T4R-01/review_receipt.json","git_blob_id":"caebf7f131a022317f6d05a715d2143d5cdcf16a","sha256":"c8dc8f2583c0edfe1af4f9fd0887394436763f32701c35f1ec9edf821fe824d4"},
+    {"role":"state","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/state/current.json","git_blob_id":"4b1ce5178ee3118ddb8a9bacd693167c558271f1","sha256":"b65063ba932f8770e5c6a3637a54308fe055a4ec31a02d2b10baa448be44b6b8"},
+    {"role":"task_prompt_source","path":"/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T6/_dispatch/loop_a_prompt_t6.md","git_blob_id":"297e0e3aaac01ab4cb9637d6c4939af8386ac833","sha256":"3a3c1db7ac090e01c9427331c5bfd7697a4feb9fe1468c15284aacf7d832d910"}
+  ],
+  "actions": [
+    "Implemented local deterministic parent content-group addressing for T5 v3 @115f396 and T4 v2.",
+    "Implemented candidate/evaluation identity, local lessons/nogoods projection, selective context export and evidence deduplication.",
+    "Constructed two three-entry bounded candidate packages: one proposed but blocked by a future vocabulary extension, one rejected duplicate no-good.",
+    "Did not modify shared sources, meta buffers, registry, state, reviews, production or scientific conclusions."
+  ],
+  "checks": [
+    {"id":"a1","result":"PASS","scope":"Both candidate packages locate parents, enumerate exactly three entries, state six-gate targets, retain a T7-only evaluation plan, and record zero T6 cost."},
+    {"id":"a2","result":"PASS","scope":"cand-20a78eae4dda3ca9 is REJECTED_DUPLICATE_NOGOOD with activation_enabled=false; evidence raw 6 / global unique 5 / duplicate pair 1."},
+    {"id":"a3","result":"PASS","scope":"Mechanism is locally reusable, but usage records 0/4 additional cheap, 0 strong and zero model/external calls; no C/S batch ran."},
+    {"id":"a_common","result":"PASS","scope":"All JSON parses; paths are allowlisted; declared input/parent/evidence hashes and T5 modes recompute; unknowns are explicit."},
+    {"id":"g1","result":"PASS","scope":"Every Markdown file in the final run package was checked individually with summary_recompute_guard.py check and all returned rc=0; the runtime-only mismatch returned rc=1 and was not persisted."}
+  ],
+  "checks_by_id": {
+    "a1": {"result":"PASS"},
+    "a2": {"result":"PASS"},
+    "a3": {"result":"PASS"},
+    "a_common": {"result":"PASS"},
+    "g1": {"result":"PASS"}
+  },
+  "usage": {
+    "profile": "BR",
+    "additional_cheap_requests": 0,
+    "additional_cheap_requests_max": 4,
+    "additional_strong_requests": 0,
+    "additional_strong_requests_max": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "remote_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "daemon_calls": 0,
+    "loop_b_calls": 0,
+    "automatic_retries": 0,
+    "no_model_call_evidence": ["events.jsonl", "candidate cost records", "archive_implementation README"]
+  },
+  "unresolved": [
+    {"id":"U-T6-01","value":"execution_chat_usage","reason":"Conversation token usage is not measurable in this environment and is not claimed as zero."},
+    {"id":"U-T6-02","value":"absent_block_operation_extension","reason":"The current closed operation vocabulary cannot parameterize an absent receipt block; the proposal requires a separately reviewed future extension and is not enabled."},
+    {"id":"U-T6-03","value":"c_s_reuse_without_execution","reason":"C/S reuse is a mechanism interface claim only; no C/S model batch or runtime was exercised."},
+    {"id":"U-T6-04","value":"independent_t6_acceptance","reason":"Loop A cannot self-fill ACCEPTED; package remains UNREVIEWED."},
+    {"id":"U-T6-05","value":"t7_measurement_not_executed","reason":"Evaluation plans were constructed only; T7 paired measurement, promotion and rollback were not entered."},
+    {"id":"U-T6-06","value":"card_embedded_authorization_fields","reason":"The T6 card text still contains DRAFT/UNRESOLVED placeholders; execution relies on the explicit user dispatch and frozen state/current.json without editing the card."}
+  ],
+  "shared_buffer_write_policy": {
+    "meta_lessons_jsonl": "READ_ONLY_REFERENCE; not written",
+    "meta_nogoods_jsonl": "READ_ONLY_REFERENCE; not written",
+    "local_projection": "archive_implementation/fixtures/"
+  }
+}

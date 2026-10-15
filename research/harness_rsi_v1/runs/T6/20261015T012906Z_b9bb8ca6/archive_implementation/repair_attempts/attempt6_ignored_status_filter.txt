@@ -1,0 +1,13 @@
+Command:
+python3 -B archive_implementation/self_check.py
+
+Observed exit code: 1 with one failed check: write_boundary.
+
+Observed failure:
+ignored T6 entries=27 even though normal git status showed every entry as ordinary untracked.
+
+Root cause:
+git status --ignored=matching also returns untracked entries; the filter counted every ?? line as ignored.
+
+Repair:
+Require the ignored-status prefix "!!" in addition to the T6 run path.

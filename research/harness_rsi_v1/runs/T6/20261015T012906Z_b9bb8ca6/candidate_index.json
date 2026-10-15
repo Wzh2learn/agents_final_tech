@@ -1,0 +1,67 @@
+{
+  "schema": "jinrong_t6_candidate_index_v1",
+  "batch": {
+    "task_id": "T6",
+    "run_id": "20261015T012906Z_b9bb8ca6",
+    "batch_candidate_limit": 2,
+    "card_candidate_limit": 4,
+    "candidate_count": 2,
+    "proposed_count": 1,
+    "rejected_count": 1,
+    "enabled_count": 0
+  },
+  "selection_rationale": "The batch uses one exact T4 case-level miss (T1-INC-14) and one deliberately duplicate T5 replay package as the negative control for nogoods. No candidate was manufactured to reach the batch size.",
+  "candidates": [
+    {
+      "candidate_id": "cand-d44c49dec4d95741",
+      "evaluation_id": "eval-9bd2558529699109",
+      "status": "PROPOSED_NOT_ENABLED",
+      "object": "T5-R-EVIDENCE-DELIVERY-V1",
+      "problem_family": "SUMMARY_GUARD_ABSENT_BLOCK",
+      "parent_canonical_ids": [
+        "T4-v2:20261014T184810Z_c9dcfe0e",
+        "T5-v3:20261014T233742Z_cb132ce7@115f396af"
+      ],
+      "entries": [
+        "E-01-PRESENT-RECEIPT-CONTROL / OP-T4-R-SUMMARY-GUARD-CHECK",
+        "E-02-MISMATCH-NEGATIVE-CONTROL / OP-T4-R-SUMMARY-GUARD-DERIVE",
+        "E-03-ABSENT-BLOCK-REJECTION / OP-T4-R-SUMMARY-GUARD-CHECK; 需未来授权"
+      ],
+      "package": "candidate_packages/cand-d44c49dec4d95741/"
+    },
+    {
+      "candidate_id": "cand-20a78eae4dda3ca9",
+      "evaluation_id": "eval-b9369b0799c736a8",
+      "status": "REJECTED_DUPLICATE_NOGOOD",
+      "object": "T5-R-RUNTIME-PREFLIGHT-V1",
+      "problem_family": "REPLAY_TIME_AND_MUTATION",
+      "parent_canonical_ids": ["T5-v3:20261014T233742Z_cb132ce7@115f396af"],
+      "entries": [
+        "R-01-FIXTURE-TICK-UNLIMITED-AGE / OP-T4-R-DISPATCH-PRECHECK",
+        "R-02-EXTERNAL-FRESH-TICK / OP-T4-R-DISPATCH-PRECHECK",
+        "R-03-EXTERNAL-RELOCATED-TICK / OP-T4-R-DISPATCH-PRECHECK"
+      ],
+      "nogood_id": "NOG-T6-DUP-001",
+      "package": "candidate_packages/cand-20a78eae4dda3ca9/"
+    }
+  ],
+  "evidence_counting": {
+    "raw_candidate_reference_count": 6,
+    "global_unique_evidence_count": 5,
+    "references_suppressed_as_duplicates": 1,
+    "duplicate_candidate_pairs": [
+      ["cand-20a78eae4dda3ca9", "cand-d44c49dec4d95741", "E-T5-REGISTERED-OPS"]
+    ],
+    "counting_rule": "A globally unique evidence_id contributes exactly one to the global total, regardless of candidate reference count."
+  },
+  "shared_buffer_policy": {
+    "read_only_reference": ["meta/lessons.jsonl", "meta/nogoods.jsonl"],
+    "written_in_this_run": false,
+    "local_projection": "archive_implementation/fixtures/"
+  },
+  "activation": {
+    "enabled_candidate_count": 0,
+    "t7_entered": false,
+    "all_candidates_activation_enabled": false
+  }
+}

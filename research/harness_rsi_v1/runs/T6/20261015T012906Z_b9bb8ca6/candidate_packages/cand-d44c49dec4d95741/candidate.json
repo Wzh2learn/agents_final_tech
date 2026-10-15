@@ -1,0 +1,112 @@
+{
+  "schema": "jinrong_t6_candidate_package_v1",
+  "candidate_id": "cand-d44c49dec4d95741",
+  "status": "PROPOSED_NOT_ENABLED",
+  "identity": {
+    "problem_family": "SUMMARY_GUARD_ABSENT_BLOCK",
+    "problem_source": "T4 baseline case T1-INC-14 is missed because a Markdown receipt without a SUMMARY-GUARD block skips silently.",
+    "object": "T5-R-EVIDENCE-DELIVERY-V1",
+    "object_type": "evidence_delivery_recipe",
+    "parent_canonical_ids": [
+      "T4-v2:20261014T184810Z_c9dcfe0e",
+      "T5-v3:20261014T233742Z_cb132ce7@115f396af"
+    ],
+    "parent_group_ids": [
+      "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54",
+      "sha256:b78bce332bd9433d44b2e79d8434949fadf773496c1c806872a103acff5e16ad"
+    ]
+  },
+  "selection_rationale": "This is a repeated, deterministic development miss from the T4 case-level baseline, not a manufactured improvement target. It has two identical replay logs and a precise entrypoint semantics statement.",
+  "entries": [
+    {
+      "entry_id": "E-01-PRESENT-RECEIPT-CONTROL",
+      "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK",
+      "current_registry_support": true,
+      "needs_future_authorization": false,
+      "intent": "Preserve the existing positive control for a Markdown receipt block whose declared artifact hash matches.",
+      "parameterization": {
+        "markdown_path": "recipe_fixtures/summary/good_summary.md"
+      }
+    },
+    {
+      "entry_id": "E-02-MISMATCH-NEGATIVE-CONTROL",
+      "op_id": "OP-T4-R-SUMMARY-GUARD-DERIVE",
+      "current_registry_support": true,
+      "needs_future_authorization": false,
+      "intent": "Preserve the runtime-only mismatch negative control and require target guard exit code 1.",
+      "parameterization": {
+        "base_markdown_path": "recipe_fixtures/summary/good_summary.md"
+      }
+    },
+    {
+      "entry_id": "E-03-ABSENT-BLOCK-REJECTION",
+      "op_id": "OP-T4-R-SUMMARY-GUARD-CHECK",
+      "current_registry_support": false,
+      "needs_future_authorization": true,
+      "future_authorization_note": "The closed T5 vocabulary has no no-receipt-block enum or canonical absence code. T6 does not modify the shared registry; T7 may evaluate this entry only after a separately reviewed operation extension.",
+      "intent": "Require rejection when the evidence Markdown has no receipt block, rather than silent success.",
+      "parameterization": {
+        "markdown_path": "FUTURE_ENUM_receipt_block_absent.md",
+        "required_result": "REJECT with an explicit missing-receipt-block code"
+      }
+    }
+  ],
+  "six_gate_targets": {
+    "severe_defect_miss": "T1-INC-14 target 0/1 from measured baseline 1/1 missed.",
+    "legitimate_false_block": "No target increase; positive control must remain ACCEPT.",
+    "evidence_completeness": "Target 100% for required receipt-block presence on the paired fixture.",
+    "claim_overreach": "No new scientific or runtime claim; remains COMPONENT-level evidence.",
+    "raw_record_integrity": "No fixture overwrite; runtime-only mismatch remains outside the package.",
+    "budget_integrity": "Model/network/remote/production/database/training/daemon calls and retries remain 0."
+  },
+  "evaluation_plan": {
+    "executor": "T7 only; not executed in T6.",
+    "design": "Paired baseline-versus-candidate measurement on one absent-block negative, one matching positive, and one runtime-only mismatch negative.",
+    "primary_metric": "Absent-block severe miss changes from 1/1 to 0/1.",
+    "regression_metrics": [
+      "Matching positive remains ACCEPT.",
+      "Mismatching positive remains rejected by target guard exit code 1.",
+      "No target execution occurs before fail-closed validation."
+    ],
+    "frozen_inputs": [
+      "T4 v2 case-level baseline",
+      "T5 v3 registered operations",
+      "T4 summary guard and derive adapters"
+    ],
+    "stopping_rule": "NO_ENABLED_CANDIDATE if the future operation extension is not separately authorized or any hard gate regresses."
+  },
+  "cost_record": {
+    "additional_cheap_requests": 0,
+    "additional_strong_requests": 0,
+    "automatic_retries": 0,
+    "network_calls": 0,
+    "model_calls": 0,
+    "note": "T6 is offline proposal construction only; T7 cost is projected but not spent."
+  },
+  "version_applicability": {
+    "parent_group_ids": [
+      "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54",
+      "sha256:b78bce332bd9433d44b2e79d8434949fadf773496c1c806872a103acff5e16ad"
+    ],
+    "applies_to": "Evidence-delivery recipes over the unchanged T4 summary guard and the T5 closed R vocabulary.",
+    "reopen_conditions": [
+      "A separately authorized registered operation can parameterize and reject an absent receipt block.",
+      "A new parent content group changes guard entrypoint semantics.",
+      "Independent evidence shows the absence family differs from the T4 case."
+    ]
+  },
+  "evidence_references": [
+    {
+      "evidence_id": "E-T4-INC14-PASS1",
+      "use": "First deterministic missed-case replay."
+    },
+    {
+      "evidence_id": "E-T4-INC14-PASS2",
+      "use": "Second deterministic missed-case replay."
+    },
+    {
+      "evidence_id": "E-T5-REGISTERED-OPS",
+      "use": "Closed vocabulary and future-authorization boundary."
+    }
+  ]
+}

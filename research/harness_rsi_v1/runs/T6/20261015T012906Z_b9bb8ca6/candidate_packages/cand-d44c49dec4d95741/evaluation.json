@@ -1,0 +1,27 @@
+{
+  "schema": "jinrong_t6_evaluation_plan_v1",
+  "evaluation_id": "eval-9bd2558529699109",
+  "candidate_id": "cand-d44c49dec4d95741",
+  "status": "PLANNED_NOT_EXECUTED",
+  "identity": {
+    "candidate_identity_sha256": "d44c49dec4d957415832f5de23859e9760c397a0aa0cae6da5c1301437185699",
+    "evaluator_version": "T7 evaluator must remain frozen; T6 does not instantiate it."
+  },
+  "measurement": {
+    "baseline": "T4 v2 case-level T1-INC-14 missed.",
+    "candidate": "E-03 absent-block rejection after future authorized operation extension.",
+    "paired_cases": [
+      "receipt_block_absent",
+      "receipt_block_matching",
+      "runtime_only_mismatch"
+    ],
+    "required_outcomes": [
+      "REJECT",
+      "ACCEPT",
+      "REJECT"
+    ]
+  },
+  "execution_status": "NOT_EXECUTED_IN_T6",
+  "model_calls": 0,
+  "network_calls": 0
+}
