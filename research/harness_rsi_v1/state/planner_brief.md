@@ -12,3 +12,4 @@
 [2026-10-15] T5 首轮评审 T5R-01=REJECTED（2 blocking：执行位交付缺失使 17/17 主张不可复现；自洽伪造摘要 X06 穿透 A2；另 6 advisory）。Loop D 裁决：交付执行位 + manifest 记 mode + fresh-delivery 模拟；摘要接受须外部 pin（未 pin/不符即拒）。进入 T5 v2 返工，随后 T5R-02。
 [2026-10-15] T5 第二轮评审 T5R-02=REJECTED（1 blocking：重放不稳定——陈旧 tick + 就地改写 manifest 绑定夹具，42/42 不可从交付字节复现；4 advisory；另有 attempt1 非合规废件）。修复方向：交付字节零写入重放 + 全矩阵收集 + registry/目标身份 pin。进入 T5 v3，随后 T5R-03。
 [2026-10-15] T5 第三轮 T5R-03=REJECTED（1 blocking：4 个 manifest 声明 755 的模式未随交付落地→入口 rc=3；T5R-02 blocking 已被独立确认闭合；另 4 advisory）。Closer 修复：115f396 模式补丁（零内容变更）+ GB10 工作树 chmod 755 + 清理评审窗口遗留 pyc（未披露，已登记）；重放 rc=0、45/45 复现。进入 T5R-04 聚焦复评。
+[2026-10-15] T5 已验收（T5R-04 ACCEPTED，零阻断；链条 v1→v3 三次 REJECTED + closer 模式修复 115f396 后聚焦复评通过；advisory A1-A4 登记；dissent X06C 边界记录）。两个 recipe 接口 + 23/23×4 无前置重放 + 外部 pin + 身份校验 registry。下一步：T6（有界提案与统一档案）。

@@ -5,12 +5,13 @@
     "T1",
     "T2",
     "T3",
-    "T4"
+    "T4",
+    "T5"
   ],
   "active_versions": [],
   "closer": "loop_d session acting as closer under owner instruction 2026-10-14",
   "execution_authorized": false,
-  "next_task": "T5R-04 focused re-review of corrected T5 v3 delivered state (mode conformance fixed at 115f396)",
+  "next_task": "T6 (bounded proposals & unified archive) under R-line authorization",
   "proposal_budgets_approved": true,
   "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
   "r_line_authorized_to": "M1 (owner decision U07=C)",
@@ -58,6 +59,13 @@
       "status": "ACCEPTED_BY_REVIEW_2026-10-14",
       "task_id": "T4",
       "version": "v2"
+    },
+    {
+      "review": "T5R-04",
+      "run_id": "20261014T233742Z_cb132ce7",
+      "status": "ACCEPTED_BY_REVIEW_2026-10-15",
+      "task_id": "T5",
+      "version": "v3"
     }
   ]
 }
