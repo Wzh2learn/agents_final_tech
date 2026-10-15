@@ -1,0 +1,15 @@
+{
+  "schema": "paper_e_layer1_governing_manifest_v1",
+  "generated_at_utc": "2026-10-15T10:35:20Z",
+  "governing_plan": "research/paper_e_layer1_20261015/v3/LAYER1_V3_CANONICAL_PREREG_v1.md",
+  "governing_plan_sha256": "2472751a2d21a176982a26818c17d2bae2ef79f78b6383c8ebef521b82b399f3",
+  "status": "FROZEN_BEFORE_ANY_V3_LABEL",
+  "superseded_documents": [
+    "research/paper_e_layer1_20261015/v2/LAYER1_V2_ANALYSIS_PLAN_v1.md",
+    "research/paper_e_layer1_20261015/v2/LAYER1_V2_ANALYSIS_PLAN_v2.md",
+    "research/paper_e_layer1_20261015/v2/LAYER1_V2_CANONICAL_PREREG_v1.md",
+    "research/paper_e_layer1_20261015/v2/LAYER1_V2_CANONICAL_PREREG_v2.md",
+    "paper/PAPER_E_LAYER1_V2_PREREG_DELTA_v1.md"
+  ],
+  "notes": "Superseded documents are historical only and are not governing. v1 result GOLD_NOT_ESTABLISHED remains unchanged. v3 runs held-out only."
+}
