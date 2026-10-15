@@ -15,3 +15,4 @@
 [2026-10-15] T5 已验收（T5R-04 ACCEPTED，零阻断；链条 v1→v3 三次 REJECTED + closer 模式修复 115f396 后聚焦复评通过；advisory A1-A4 登记；dissent X06C 边界记录）。两个 recipe 接口 + 23/23×4 无前置重放 + 外部 pin + 身份校验 registry。下一步：T6（有界提案与统一档案）。
 [2026-10-15] T6 已验收（T6R-01 ACCEPTED，0 blocking；10 advisory；条件：清理审阅者 .omc 已完成、self_check 18/18；ADVISORY-1 作为 T7 评估前置——评估计划须区分合法 UNRESOLVED 与真缺失）。档案机制 + 2 候选（1 提案未启用 + 1 重复被拒）。下一步：T7（配对重放 + 回滚演练；封存/选择集未构建如实记 UNRESOLVED）。
 [2026-10-15] T7 已验收（T7R-01 ACCEPTED，0 blocking；NO_PROMOTION 合法性获独立确认；7 advisory 登记，含 ADVISORY-1 账本绑定）。回滚演练 PASS；集合义务如实。下一步：T8 受控影子（边界执行）——影子需三个新获批任务窗口（owner 门），启用/分发属用户裁决。
+[2026-10-15] T8 边界执行已验收（T8R-01 ACCEPTED，0 blocking；NOT_SATISFIED 边界诚实性获独立确认；5 advisory）。R 线共享底座（T-1→T8）全部建成且经独立评审。剩余两个 OWNER 门：①三个新获批任务窗口（影子完成前提）②启用/分发裁决（§7）。T9 需新授权。
