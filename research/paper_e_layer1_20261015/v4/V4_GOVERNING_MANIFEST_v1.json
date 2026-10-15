@@ -1,0 +1,10 @@
+{
+  "schema": "paper_e_layer1_v4_governing_manifest",
+  "generated_at_utc": "2026-10-15T11:28:59Z",
+  "governing_contract": "research/paper_e_layer1_20261015/v4/LAYER1_V4_COMPACT_CONTRACT_v1.json",
+  "governing_contract_sha256": "ec72b225840546325584afdd91b7c9322bc5f3765b390a94f5e80557ae4e0c84",
+  "fixtures": "research/paper_e_layer1_20261015/v4/fixtures/SYNTHETIC_FIXTURES_v1.json",
+  "fixtures_sha256": "aca07b7ffa6ce15786da1528e57a1fec5965f453577dfe38160d3698fb7c0dd6",
+  "status": "FROZEN_BEFORE_LABELS",
+  "notes": "Single governing contract for v4. Any change creates a new manifest and requires re-audit before labels."
+}

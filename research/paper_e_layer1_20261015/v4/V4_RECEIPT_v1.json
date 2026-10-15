@@ -1,0 +1,45 @@
+{
+  "schema": "paper_e_layer1_v4_receipt",
+  "status": "GOLD_ESTABLISHED_ON_HELDOUT",
+  "contract_sha256": "322c3b380d9f36d2603e89eef49f296d86c012497b442ec9c77b36c0adbdc8aa",
+  "manifest_sha256": "b76ecd083269ab1005b7b3aa36e5bf5cd02905437bcf569cbee4454076211f7f",
+  "inputs": {
+    "injection_map": {
+      "path": "data/research/drift_v0/output/injection_map.json",
+      "sha256": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e"
+    },
+    "source_tables": {
+      "path": "data/research/drift_v0/input/tatqa_tables.json",
+      "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+    },
+    "injected_tables": {
+      "path": "data/research/drift_v0/output/injected_tables.json",
+      "sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+    },
+    "checker_target": {
+      "path": "logs/graph/eval/t2_visibility_sensitivity.json",
+      "sha256": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5"
+    },
+    "v1_results": {
+      "path": "research/paper_e_layer1_20261015/LAYER1_RESULTS_v1.json",
+      "sha256": "359c7c047b792aaa9f70437137b1bf8973bba10dad4816075cebe81edbd420c4"
+    }
+  },
+  "heldout_n": 59,
+  "labels_frozen_sha256": "c17e31af7b808161cc36102672317ed65de4d8424b31b0852ae5a7fe079d86cf",
+  "calls": {
+    "model": 0,
+    "judge": 0,
+    "network": 0,
+    "training": 0
+  },
+  "stop_conditions": [
+    "INPUT_MISSING",
+    "HASH_MISMATCH",
+    "RULE_AMBIGUOUS",
+    "UNDECIDED_CASE",
+    "ZERO_CALL_VIOLATION",
+    "POST_FREEZE_CHANGE",
+    "U_RATE_GATE_FAIL"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "paper_e_layer1_v4_governing_manifest",
+  "generated_at_utc": "2026-10-15T11:46:50Z",
+  "governing_contract": "research/paper_e_layer1_20261015/v4/LAYER1_V4_COMPACT_CONTRACT_v2.json",
+  "governing_contract_sha256": "167a2d02a3913d95125722d3069d55e23c50eaa38d84479f6f8e57e5c3fc7e65",
+  "fixtures": "research/paper_e_layer1_20261015/v4/fixtures/SYNTHETIC_FIXTURES_v2.json",
+  "fixtures_sha256": "0d3f023b04ced843355c58999af0c6d9af3e959a2a4852169da951b577555acd",
+  "status": "FROZEN_BEFORE_LABELS",
+  "notes": "v2 closes Loop C audit F-1..F-4 and preflight freeze enforcement. Any change creates a new manifest and requires re-audit before labels."
+}

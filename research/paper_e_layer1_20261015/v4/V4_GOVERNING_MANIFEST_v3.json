@@ -1,0 +1,15 @@
+{
+  "schema": "paper_e_layer1_v4_governing_manifest",
+  "generated_at_utc": "2026-10-15T12:14:24Z",
+  "governing_contract": "research/paper_e_layer1_20261015/v4/LAYER1_V4_COMPACT_CONTRACT_v3.json",
+  "governing_contract_sha256": "322c3b380d9f36d2603e89eef49f296d86c012497b442ec9c77b36c0adbdc8aa",
+  "fixtures": "research/paper_e_layer1_20261015/v4/fixtures/SYNTHETIC_FIXTURES_v3.json",
+  "fixtures_sha256": "0d3f023b04ced843355c58999af0c6d9af3e959a2a4852169da951b577555acd",
+  "runner": {
+    "path": "research/paper_e_layer1_20261015/v4/run_v4.py",
+    "sha256": "55893b65f2d4aa201f1ecdb24438a33490cc350a0311ac58d6d0f69ba86d38d4"
+  },
+  "preflight_lock_required": true,
+  "status": "FROZEN_BEFORE_LABELS",
+  "notes": "v3 closes D1-D5: reason-code closure, runner pinned, preflight lock required, self-attested booleans removed, single operative pin set."
+}

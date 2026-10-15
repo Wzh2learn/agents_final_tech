@@ -1,0 +1,183 @@
+{
+  "schema": "paper_e_layer1_v4_fixtures",
+  "fixture_version": "v2",
+  "note": "Synthetic fixtures only; no TAT-QA labels and no heldout outcomes.",
+  "fixtures": [
+    {
+      "id": "F1_direct_equal",
+      "table": [
+        [
+          "",
+          "Revenue",
+          "Cost"
+        ],
+        [
+          "x",
+          "10",
+          "3"
+        ]
+      ],
+      "col": 1,
+      "original": "Revenue",
+      "injected": "revenue",
+      "expected_label": "LEGAL_VARIATION",
+      "expected_reason": "unique_nearest_neighbour_target"
+    },
+    {
+      "id": "F2_non_target_empty_equal",
+      "table": [
+        [
+          "",
+          "Revenue",
+          "Cost"
+        ],
+        [
+          "x",
+          "10",
+          "3"
+        ]
+      ],
+      "col": 1,
+      "original": "Revenue",
+      "injected": "revenues",
+      "expected_label": "LEGAL_VARIATION",
+      "expected_reason": "unique_nearest_neighbour_target"
+    },
+    {
+      "id": "F3_harmful_other_column",
+      "table": [
+        [
+          "Revenue",
+          "Sales",
+          "Cost"
+        ],
+        [
+          "10",
+          "7",
+          "3"
+        ]
+      ],
+      "col": 0,
+      "original": "Revenue",
+      "injected": "Sales",
+      "expected_label": "HARMFUL_ERROR",
+      "expected_reason": "unique_nearest_neighbour_other_column"
+    },
+    {
+      "id": "F4_target_empty",
+      "table": [
+        [
+          "",
+          "Revenue",
+          "Cost"
+        ],
+        [
+          "x",
+          "10",
+          "3"
+        ]
+      ],
+      "col": 0,
+      "original": "",
+      "injected": "revenue",
+      "expected_label": "INSUFFICIENT_EVIDENCE",
+      "expected_reason": "source_header_empty_after_norm_column_local"
+    },
+    {
+      "id": "F5_target_collision",
+      "table": [
+        [
+          "X",
+          "B",
+          "B"
+        ],
+        [
+          "1",
+          "2",
+          "3"
+        ]
+      ],
+      "col": 1,
+      "original": "B",
+      "injected": "Z",
+      "expected_label": "INSUFFICIENT_EVIDENCE",
+      "expected_reason": "source_header_canonical_collision_column_local"
+    },
+    {
+      "id": "F6_tie",
+      "table": [
+        [
+          "Alp",
+          "Alq",
+          "Alr"
+        ],
+        [
+          "1",
+          "2",
+          "3"
+        ]
+      ],
+      "col": 0,
+      "original": "Alp",
+      "injected": "Alx",
+      "expected_label": "INSUFFICIENT_EVIDENCE",
+      "expected_reason": "nearest_neighbour_tie"
+    },
+    {
+      "id": "F7_non_target_empty_harmful",
+      "table": [
+        [
+          "",
+          "Revenue",
+          "Sales"
+        ],
+        [
+          "x",
+          "10",
+          "7"
+        ]
+      ],
+      "col": 1,
+      "original": "Revenue",
+      "injected": "Sales",
+      "expected_label": "HARMFUL_ERROR",
+      "expected_reason": "unique_nearest_neighbour_other_column"
+    },
+    {
+      "id": "F8_injected_empty",
+      "table": [
+        [
+          "Revenue",
+          "Cost"
+        ],
+        [
+          "10",
+          "3"
+        ]
+      ],
+      "col": 0,
+      "original": "Revenue",
+      "injected": "",
+      "expected_label": "INSUFFICIENT_EVIDENCE",
+      "expected_reason": "injected_header_empty_after_norm"
+    },
+    {
+      "id": "F9_equal_norm_collision",
+      "table": [
+        [
+          "Revenue",
+          "Revenue"
+        ],
+        [
+          "10",
+          "9"
+        ]
+      ],
+      "col": 0,
+      "original": "Revenue",
+      "injected": "revenue",
+      "expected_label": "INSUFFICIENT_EVIDENCE",
+      "expected_reason": "source_header_canonical_collision_column_local"
+    }
+  ]
+}

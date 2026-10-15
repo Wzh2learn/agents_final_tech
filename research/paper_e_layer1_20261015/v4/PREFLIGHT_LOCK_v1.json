@@ -1,0 +1,8 @@
+{
+  "schema": "paper_e_layer1_v4_preflight_lock",
+  "locked_at_utc": "2026-10-15T12:15:20Z",
+  "preflight_receipt_sha256": "142cf6adb5144e320d62eaf42b346cc1c8c54f15b979858f2e8107bfe049c7f1",
+  "manifest_sha256": "b76ecd083269ab1005b7b3aa36e5bf5cd02905437bcf569cbee4454076211f7f",
+  "status": "LOCKED_UNTIL_POST_RESULT_AUDIT",
+  "notes": "Preflight must not be overwritten without a fresh audit."
+}

@@ -1,0 +1,132 @@
+{
+  "schema": "paper_e_layer1_v4_contract_v3",
+  "experiment_id": "paper_e_layer1_v4",
+  "status": "FROZEN_BEFORE_LABELS",
+  "one_deliverable": "Determine whether an independent column-local binding gold exists on the untouched held-out 59 drift-v0 header-drift injections.",
+  "inputs": {
+    "injection_map": {
+      "path": "data/research/drift_v0/output/injection_map.json",
+      "sha256": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e"
+    },
+    "source_tables": {
+      "path": "data/research/drift_v0/input/tatqa_tables.json",
+      "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+    },
+    "injected_tables": {
+      "path": "data/research/drift_v0/output/injected_tables.json",
+      "sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+    },
+    "checker_target": {
+      "path": "logs/graph/eval/t2_visibility_sensitivity.json",
+      "sha256": "eff82b0b7abbb8edcb8aef24a921806a760624fc84b57b3c2e54331394f99ea5"
+    },
+    "v1_results": {
+      "path": "research/paper_e_layer1_20261015/LAYER1_RESULTS_v1.json",
+      "sha256": "359c7c047b792aaa9f70437137b1bf8973bba10dad4816075cebe81edbd420c4"
+    }
+  },
+  "sample": {
+    "split_rule": "int.from_bytes(sha256(injection_id).digest(),\"big\") mod 10 >= 5",
+    "size": 59,
+    "label_scope": "heldout_only",
+    "dev_label_policy": "not_used",
+    "heldout_labels_before_freeze": "none"
+  },
+  "norm": {
+    "steps": [
+      "Unicode NFKC",
+      "casefold",
+      "replace each char whose Unicode general category starts with P or which is in ASCII string.punctuation with one ASCII space",
+      "collapse whitespace runs to one ASCII space",
+      "strip leading/trailing ASCII spaces"
+    ],
+    "implementation": "exact"
+  },
+  "binding": {
+    "distance": "ordinary unit-cost Levenshtein over canonical header strings",
+    "rule": "after target-empty and target-collision guards, if injected_norm equals original_norm bind target; else unique nearest non-empty candidate binds; tie -> U",
+    "tie": "U",
+    "target_compare": "col",
+    "precedence": "header_non_string > injected_header_empty_after_norm > source_header_empty_after_norm_column_local > source_header_canonical_collision_column_local > (equality or unique nearest) > nearest_neighbour_tie"
+  },
+  "empty_header_rule": {
+    "empty_positions_removed_from_candidates": true,
+    "target_empty": "U",
+    "non_target_empty": "ignored_as_candidate",
+    "code_target": "source_header_empty_after_norm_column_local",
+    "code_set_empty": "source_header_set_empty"
+  },
+  "collision_rule": {
+    "scope": "target_column_only",
+    "target_collides_with_nonempty": "U",
+    "code": "source_header_canonical_collision_column_local"
+  },
+  "reason_codes": [
+    "uid_not_string",
+    "table_lookup_missing",
+    "header_row_not_zero",
+    "table_header_missing",
+    "source_header_not_list",
+    "injected_header_not_list",
+    "source_header_non_string",
+    "column_index_not_integer",
+    "column_index_out_of_range",
+    "original_header_provenance_mismatch",
+    "injected_header_provenance_mismatch",
+    "row_count_mismatch",
+    "value_serialization_failure",
+    "value_invariance_failed_bytewise",
+    "header_non_string",
+    "injected_header_empty_after_norm",
+    "nearest_neighbour_tie",
+    "source_header_empty_after_norm_column_local",
+    "source_header_canonical_collision_column_local",
+    "unique_nearest_neighbour_target",
+    "unique_nearest_neighbour_other_column"
+  ],
+  "reason_precedence": [
+    "source/provenance/serialization in v1 order",
+    "header_non_string",
+    "injected_header_empty_after_norm",
+    "source_header_empty_after_norm_column_local",
+    "source_header_canonical_collision_column_local",
+    "source_header_set_empty",
+    "nearest_neighbour_tie"
+  ],
+  "decision": {
+    "metric": "u_rate_heldout = n(U among held-out 59) / 59",
+    "gate": "u_rate_heldout <= 0.30 -> GOLD_ESTABLISHED_ON_HELDOUT",
+    "fail": "u_rate_heldout > 0.30 -> GOLD_NOT_ESTABLISHED"
+  },
+  "checker_read_policy": {
+    "when": "after heldout labels are computed and their sha256 is recorded",
+    "contingency": "2x3 visible/blind x E/H/U",
+    "rates": [
+      "co_miss = n(blind,H)/n(blind) or null",
+      "co_alarm = n(visible,E)/n(visible) or null"
+    ]
+  },
+  "stop_conditions": [
+    "INPUT_MISSING",
+    "HASH_MISMATCH",
+    "RULE_AMBIGUOUS",
+    "UNDECIDED_CASE",
+    "ZERO_CALL_VIOLATION",
+    "POST_FREEZE_CHANGE",
+    "U_RATE_GATE_FAIL"
+  ],
+  "outputs": [
+    "research/paper_e_layer1_20261015/v4/PREFLIGHT_RECEIPT_v1.json",
+    "research/paper_e_layer1_20261015/v4/V4_RESULTS_v1.json",
+    "research/paper_e_layer1_20261015/v4/V4_RECEIPT_v1.json",
+    "research/paper_e_layer1_20261015/v4/V4_SUMMARY_v1.md"
+  ],
+  "call_budget": {
+    "model_calls": 0,
+    "judge_calls": 0,
+    "network_calls": 0,
+    "training_calls": 0
+  },
+  "injection_id_definition": "if entry.injection_id is a non-empty string use it; else join json.dumps of fields uid,col,original,injected,type,variant,seed_component with U+001F in that fixed order, missing fields encoded as JSON null",
+  "freeze_enforcement": "manifest pins contract, fixtures and runner; run_heldout requires PREFLIGHT_LOCK_v1.json whose receipt and manifest hashes match current files before any label"
+}

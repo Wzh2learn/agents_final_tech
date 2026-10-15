@@ -1,0 +1,125 @@
+{
+  "schema": "paper_e_layer1_v4_preflight_receipt",
+  "status": "PASS",
+  "contract_sha256": "322c3b380d9f36d2603e89eef49f296d86c012497b442ec9c77b36c0adbdc8aa",
+  "manifest_sha256": "b76ecd083269ab1005b7b3aa36e5bf5cd02905437bcf569cbee4454076211f7f",
+  "fixtures_sha256": "0d3f023b04ced843355c58999af0c6d9af3e959a2a4852169da951b577555acd",
+  "fixture_count": 9,
+  "failures": [],
+  "results": [
+    {
+      "id": "F1_direct_equal",
+      "expected": [
+        "LEGAL_VARIATION",
+        "unique_nearest_neighbour_target"
+      ],
+      "actual": [
+        "LEGAL_VARIATION",
+        "unique_nearest_neighbour_target"
+      ],
+      "passed": true
+    },
+    {
+      "id": "F2_non_target_empty_equal",
+      "expected": [
+        "LEGAL_VARIATION",
+        "unique_nearest_neighbour_target"
+      ],
+      "actual": [
+        "LEGAL_VARIATION",
+        "unique_nearest_neighbour_target"
+      ],
+      "passed": true
+    },
+    {
+      "id": "F3_harmful_other_column",
+      "expected": [
+        "HARMFUL_ERROR",
+        "unique_nearest_neighbour_other_column"
+      ],
+      "actual": [
+        "HARMFUL_ERROR",
+        "unique_nearest_neighbour_other_column"
+      ],
+      "passed": true
+    },
+    {
+      "id": "F4_target_empty",
+      "expected": [
+        "INSUFFICIENT_EVIDENCE",
+        "source_header_empty_after_norm_column_local"
+      ],
+      "actual": [
+        "INSUFFICIENT_EVIDENCE",
+        "source_header_empty_after_norm_column_local"
+      ],
+      "passed": true
+    },
+    {
+      "id": "F5_target_collision",
+      "expected": [
+        "INSUFFICIENT_EVIDENCE",
+        "source_header_canonical_collision_column_local"
+      ],
+      "actual": [
+        "INSUFFICIENT_EVIDENCE",
+        "source_header_canonical_collision_column_local"
+      ],
+      "passed": true
+    },
+    {
+      "id": "F6_tie",
+      "expected": [
+        "INSUFFICIENT_EVIDENCE",
+        "nearest_neighbour_tie"
+      ],
+      "actual": [
+        "INSUFFICIENT_EVIDENCE",
+        "nearest_neighbour_tie"
+      ],
+      "passed": true
+    },
+    {
+      "id": "F7_non_target_empty_harmful",
+      "expected": [
+        "HARMFUL_ERROR",
+        "unique_nearest_neighbour_other_column"
+      ],
+      "actual": [
+        "HARMFUL_ERROR",
+        "unique_nearest_neighbour_other_column"
+      ],
+      "passed": true
+    },
+    {
+      "id": "F8_injected_empty",
+      "expected": [
+        "INSUFFICIENT_EVIDENCE",
+        "injected_header_empty_after_norm"
+      ],
+      "actual": [
+        "INSUFFICIENT_EVIDENCE",
+        "injected_header_empty_after_norm"
+      ],
+      "passed": true
+    },
+    {
+      "id": "F9_equal_norm_collision",
+      "expected": [
+        "INSUFFICIENT_EVIDENCE",
+        "source_header_canonical_collision_column_local"
+      ],
+      "actual": [
+        "INSUFFICIENT_EVIDENCE",
+        "source_header_canonical_collision_column_local"
+      ],
+      "passed": true
+    }
+  ],
+  "calls": {
+    "model": 0,
+    "judge": 0,
+    "network": 0,
+    "training": 0
+  }
+}
