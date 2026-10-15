@@ -1,0 +1,82 @@
+{
+  "advisory_items": [
+    {
+      "detail": "execute_t7.py:352 sets legal_unresolved_is_severe_defect = (classification == 'LEGAL_UNRESOLVED'), so both LEGAL_UNRESOLVED diagnostic records carry true while MISSING_REQUIRED_EVIDENCE records carry false. That is the literal opposite of A-1 requirement (b). Every decision and counting path is correct (six_gate_targets.severe_defect_miss excludes the legal UNRESOLVED from the denominator, counted_severe_defect_repair_count=0, legal_unresolved_counted_as_severe_defect=false, hard gate critical_or_severe_defect_miss=UNRESOLVED_NOT_EVALUABLE), so nothing is promoted on the wrong semantics; but a mechanical reader of the delivered evidence field would conclude the opposite of what A-1 requires, and the field sits in the artifact documenting the A-1 diagnostic.",
+      "id": "ADVISORY-1",
+      "impact": "downstream consumers that read paired_replay.json field-by-field can re-import the exact error A-1 was created to remove.",
+      "required_before_next_r_evaluation": "bind the field's real meaning in the ledger (class marker, not a severity assertion), or replace the record with a correctly named field in a new run package; never retrofit the delivered run.",
+      "severity": "high",
+      "title": "paired_replay.json field legal_unresolved_is_severe_defect is literally inverted for the LEGAL_UNRESOLVED records",
+      "why_not_blocking": "the candidate is NOT_EVALUABLE and the run is NO_PROMOTION; no severe-miss metric, count, or gate decision depends on the mislabeled field. Under the same rule T6R-01 applied to its ADVISORY-1 (nothing activated, nothing promoted), a mislabeled evidence field is an advisory. A stricter reading that treats it as a violation of the T7 hard precondition is defensible and left to the acceptor."
+    },
+    {
+      "detail": "repair_record.json lists 8 attempts (4 before candidate evaluation, 4 after during delivery cleanup). events.jsonl records only 4 repair_attempt events numbered 1, 2, 5, 7; the labels conflict with repair_record for those numbers (event 5 says FAILED_DURING_BASELINE_REPLAY_BEFORE_CANDIDATE_EVALUATION while repair_record attempt 5 is the post-evaluation self-check failure; event 7 says FAILED_DURING_A1_DIAGNOSTIC_BEFORE_CANDIDATE_EVALUATION while repair_record attempt 7 is FAILED_ON_MANIFEST_MODE_PARSER). review_packet.md section 6 states 'four failures' and lists only the pre-evaluation ones. Only 2 of 8 attempts have retained failure artifacts (repair_attempts/self_check_attempt1.json and self_check_attempt2_pre_manifest_rc1.json), and attempts 3-4 cite post-repair successful logs as retained_evidence.",
+      "id": "ADVISORY-2",
+      "impact": "card section 5 requires events.jsonl to append actual events; the retained repair history cannot be reconciled mechanically. Same family as T6R-01 ADVISORY-4, with added numbering/label drift.",
+      "severity": "medium",
+      "severity_note": "non-blocking: all failures are engineering retries before or after evaluation, none changed source packages, and the final state is 22/22 baseline plus NOT_EVALUABLE.",
+      "title": "repair history is inconsistent across repair_record.json, events.jsonl and review_packet.md"
+    },
+    {
+      "detail": "scratch/g1_guard_matrix.log shows every one of the 5 Markdown artifacts returning 'no SUMMARY-GUARD block, skip' with rc=0. Independently re-run by this review on summary.md and TASK_PROMPT.md (both rc=0, both silent skip). T7's own summary.md carries no SUMMARY-GUARD block, whereas T6's summary.md did. receipt.checks.g1.scope says only 'each returned rc=0' and final_self_check.g1_markdown reports count=5/rc0_count=5 without distinguishing skip from verify; the scratch log does disclose the skips honestly.",
+      "id": "ADVISORY-3",
+      "impact": "this is precisely the failure family under evaluation (absent receipt block silently passes). G1 must not be read as 5/5 content-verified.",
+      "severity": "medium",
+      "title": "G1 5/5 rc=0 is 0 content-verified plus 5 silent skips, including the run's own summary.md"
+    },
+    {
+      "detail": "For T1-INC-01, T1-INC-02 and T1-INC-11 (6 of 22 records) the T7 replay logs show an extra 'watcher missing execute bit (F-0907-1)' because T4's fixtures/dispatch/watcher.sh is now mode 0664, whereas T4's own recorded tool output shows mode=-rwxrwxr-x with a watcher PASS and a different second failure ('watcher lacks a qualified execution receipt'). Exit codes are still 1 and 1 and the intended tick-contract FAIL is present in both, so case outcomes are stable and the 22/22 claim as stated (exit-code level) is true; the reason sets differ and this is not disclosed in summary.md or review_packet.md. By contrast T1-INC-12's derive replay is byte-faithful (identical derived_md_sha256 52a58656...).",
+      "id": "ADVISORY-4",
+      "impact": "a future reader could mistake exit-code agreement for behavior-level reproduction; the dispatch family is only outcome-consistent, not transcript-consistent.",
+      "severity": "low-medium",
+      "title": "paired replay exit codes match T4 but the dispatch-family failure reason set has drifted"
+    },
+    {
+      "detail": "The rollback drill genuinely executes validate_call twice (once on the T5 validator, once on rollback_drill/restored_parent/caller_validator.py) and execute_t7.py:572 mechanically requires both to return ACCEPTED_WITHIN_SCOPE. Only the first call's full result is retained (scratch/t5_baseline_validator_result.json); the second is reduced to the status strings in rollback_receipt.json.",
+      "id": "ADVISORY-5",
+      "impact": "the before/after comparison is enforced in code but not fully re-derivable from retained bytes.",
+      "severity": "low",
+      "title": "post-restore parent validation raw output is not retained"
+    },
+    {
+      "detail": "The two evaluation fixtures state their own 'Classification target' in prose. Both are structurally identical to the guard (no SUMMARY-GUARD block, silent skip rc=0). The distinction MISSING_REQUIRED_EVIDENCE versus LEGAL_UNRESOLVED therefore depends on external knowledge of whether the delivery contract requires a receipt block, and is not computed by any executed check.",
+      "id": "ADVISORY-6",
+      "impact": "acceptable as a baseline-behavior diagnostic, but the split is not yet mechanically testable, so a future evaluation cannot yet prove the two classes are handled differently.",
+      "severity": "low",
+      "title": "A-1 a/b classification is asserted in fixture prose, not derived from the delivery contract"
+    },
+    {
+      "detail": "logs/graph/docs_lint_report.json (mtime 2026-10-15T03:23:12Z) and logs/graph/verify-report.json (03:23:13Z) fall inside the T7 execution window. verify-report.json self-identifies as loop B / independent_verification at head_commit bad4e3890. They are not T7 writes (T7 writes only under its run root and records loop_b_calls=0; self_check write_boundary lists them as outside statuses) and they were already dirty at review session start, but the delivery never says who produced them.",
+      "id": "ADVISORY-7",
+      "impact": "attribution clarity only; no integrity consequence for the T7 package.",
+      "severity": "low",
+      "title": "ambient non-T7 writes inside the T7 time window are listed but not attributed"
+    }
+  ],
+  "blocking_items": [],
+  "decision": "ACCEPTED",
+  "dissent": {
+    "recorded": true,
+    "text": "Acceptance is granted, but two reservations are recorded. First, ADVISORY-1 is not cosmetic: a delivered evidence field literally asserts that a legal UNRESOLVED condition is a severe defect, which is the exact error T6R-01 ADVISORY-1 made a hard precondition for T7. The decision and counting paths are correct, so nothing is promoted on the wrong semantics, but if the closer or the owner prefers to read 'the A-1 hard precondition must hold in every delivered record' strictly, treating this as blocking is defensible and would require a corrected record in a new run package rather than a ledger note. Second, the paired-replay claim is only exit-code level for the dispatch family; T1-INC-01/02/11 are currently detected with an additional watcher-execute-bit failure that T4 never observed, so the 22/22 figure should not be cited as behavior-level reproduction outside its stated scope. Neither reservation changes the NO_PROMOTION outcome, which is conservative and independently confirmed."
+  },
+  "justification": "Every headline claim of the T7 delivery reproduces independently from the delivered bytes. Counts and integrity: 58 delivered files with 57/57 manifest sha256/bytes/mode recomputed, the manifest self-exclusion policy holding, exactly 3x100755 (build_manifest.py, execute_t7.py, self_check.py) and 55x100644 agreeing across worktree, .git/index and the HEAD tree, and byte-derived git blob SHA-1 equal to both index and HEAD for all 58 files. NO_PROMOTION is legally founded: the T5 v3 closed vocabulary has exactly three operations whose path enums allow a single value each, so the E-03 requirement (an absent-block markdown plus REJECT with an explicit missing-receipt-block code) is unrepresentable, and the underlying guard silently skips rc=0 on an absent block (independently reproduced). Twelve alternative implementation attempts built by this review (enum substitution, parameter injection, appended/removed/reordered operations, a forged absence operation, absolute and traversal paths, and using the dispatch precheck for absence) are all fail-closed with no target execution, so no feasible path was ignored by the run. Six-gate attribution is honest: severe-miss is reported UNRESOLVED_NOT_EVALUABLE and evidence completeness FAIL for the correct reason (vocabulary boundary), and A1 is self-reported FAIL with 0/2 counted repairs and an unavailable cost branch. A-1 satisfies T6R-01 ADVISORY-1: the a/b split exists as a four-class classification policy, legal UNRESOLVED is excluded from the severe denominator and never zero-filled, and the problem family is re-anchored to SUMMARY_GUARD_ABSENT_REQUIRED_RECEIPT_BLOCK with an explicit applicability reason and unchanged T1-INC-14 status; the amendment file predates every evaluation step (03:02:45Z versus 03:17:08-09Z). The rollback drill restores three T5 v3 parent files byte-, mode- and blob-identical to source, re-executes the parent validation a second time on the restored validator with ACCEPTED_WITHIN_SCOPE both times, and leaves all 11 old-evidence bytes/sha256/git-blob/mode snapshots unchanged with before equal to after. Paired replay holds at its stated level: 16/16 case identity fields equal between T1 v3 and T4 v2, 22/22 exit codes equal to T4 declared exit_codes, four log spot checks agreeing with T4 tool output, and T1-INC-12's derive replay reproducing T4's derived markdown SHA-256 exactly. Discipline holds: zero model/network/remote/production/database/training/daemon/Loop B calls with the single strong request left for this Loop C review, execution_chat_usage kept UNRESOLVED, TASK_PROMPT.md byte-identical to the dispatch prompt, three axes DELIVERED/UNREVIEWED/NOT_ENABLED with no self-filled ACCEPTED, and only negated experiment/scientific-success phrasing. The residual defects are evidence-record quality issues (an inverted field name in paired_replay.json, a repair history that cannot be reconciled across three artifacts, G1 reported as 5/5 rc=0 when all five are silent skips, and dispatch-family failure-reason drift), none of which feeds a promotion decision, which is why the decision is ACCEPTED with advisories rather than blocking.",
+  "next_steps": [
+    "Closer: record T7R-01 as ACCEPTED with 0 blocking and 7 advisories; set T7 acceptance_status=ACCEPTED with this review_id; keep the candidate at activation_status=NOT_ENABLED and the selection conclusion at NO_PROMOTION.",
+    "Ledger: bind ADVISORY-1 explicitly - the field legal_unresolved_is_severe_defect in paired_replay.json is a class marker (true means 'this record is the LEGAL_UNRESOLVED class'), not a severity assertion; legal UNRESOLVED is never a severe defect. Do not retrofit the delivered run; any corrected record needs a new run package.",
+    "Ledger: record ADVISORY-2 as an evidence-consistency incident (repair_record 8 attempts vs events 4 events numbered 1/2/5/7 with conflicting labels vs review_packet 'four failures'), and require future run packages to emit one events.jsonl entry per attempt with the same numbering and result label as the repair record.",
+    "Treat ADVISORY-3 as the live instance of the failure family under study: G1 must report verified-versus-skipped counts separately, and a run package whose own summary.md carries no SUMMARY-GUARD block should be flagged rather than counted as rc=0.",
+    "Record ADVISORY-4 in the ledger so the 22/22 figure is always cited as exit-code level; if a future paired replay needs behavior-level reproduction, normalize the T4 fixture watcher mode explicitly and re-record the transcripts.",
+    "Carry ADVISORY-5/6/7 as backlog: retain the post-restore validation result bytes, derive the a/b classification from the delivery contract instead of fixture prose, and attribute ambient logs/graph writes in the write-boundary disclosure.",
+    "Do not enter T8 from this review. No model batch, no C/S batch, no promotion, no sealed access, no shared-registry write and no registry/state update is authorized here; those remain for the closer.",
+    "The absent-receipt-block operation extension (U-T6-02) remains a separate scoped-authorization decision; until it exists, cand-d44c49dec4d95741 stays NOT_EVALUABLE and must not be scored."
+  ],
+  "review_id": "T7R-01",
+  "reviewed_run_id": "20261015T025839Z_c94af776",
+  "schema": "jinrong_loop_c_acceptance_proposal_v1",
+  "scope": {
+    "boundaries_respected_by_reviewer": "no file modification, no git writes, no network, no model/production/database/training/daemon/Loop B calls, no registry/state/meta/review writes, no repair of the package by the reviewer; read-only recomputation plus scratch probes under /home/testuser/wzh/loop_runs/t7r01_recheck_a/ only",
+    "not_reviewed": "T8 or any later task (not entered), selection set and sealed set (not built), C/S batches, deployment, production/DB/model endpoints, cross-machine copy chains, the scientific merit of any absent-block operation extension, registry/state updates (owned by the closer)",
+    "reviewed": "T7 run 20261015T025839Z_c94af776 (58 delivered files, 57-entry artifacts_manifest.json), A-1 candidate amendment and amended candidate, six hard gates and NO_PROMOTION selection basis, paired replay of T1 v3 16 cases and T4 v2 11x2 checks, T5 v3 parent recipe validation and fail-closed candidate call, rollback drill and 11 old-evidence hashes, identity bindings (20 inputs), repair history, G1 markdown guard matrix, wording discipline, usage accounting, and their binding to T5 v3 @115f396af / T4 v2 @579a8cae / T6 @ef5e84e and T6R-01"
+  },
+  "task_id": "T7"
+}

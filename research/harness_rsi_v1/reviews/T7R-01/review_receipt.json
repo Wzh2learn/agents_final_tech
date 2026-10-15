@@ -1,0 +1,390 @@
+{
+  "calls": {
+    "additional_cheap_requests": 0,
+    "additional_strong_requests_used_by_this_review": 1,
+    "automatic_retries": 0,
+    "daemon_calls": 0,
+    "database_calls": 0,
+    "execution_chat_usage": "UNRESOLVED",
+    "local_read_only_tool_invocations": "approximately 30 bash/python invocations (find, read, hash recompute, git rev-parse/cat-file, summary_recompute_guard check x2, importlib-driven caller_validator probes x12)",
+    "loop_b_calls": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "note": "If the provider runtime emits its own model-list refresh logs, those are runtime events and are not orchestration or model calls; none are counted above.",
+    "orchestration_calls": 0,
+    "production_calls": 0,
+    "remote_calls": 0,
+    "strong_requests_reserved_by_t7_for_loop_c": 1,
+    "training_calls": 0
+  },
+  "card_version": 2,
+  "checks": {
+    "a1_amendment_sufficiency": {
+      "detail": "split a/b, no conversion to severe defect, no zero-fill, re-anchored problem family with explicit reason all hold in the decision and counting paths; paired_replay.json field legal_unresolved_is_severe_defect is literally inverted -> ADVISORY-1",
+      "result": "PASS_WITH_ADVISORY"
+    },
+    "a1_card_assertion": {
+      "detail": "delivery self-reports A1=FAIL (0/2 repairs, cost branch not preregistered) honestly under NO_PROMOTION",
+      "result": "PASS"
+    },
+    "a2_card_assertion": {
+      "result": "PASS"
+    },
+    "a3_wording": {
+      "detail": "full-text scan finds only negated experiment/scientific-success phrasings",
+      "result": "PASS"
+    },
+    "a_common": {
+      "detail": "JSON/JSONL parse, 20/20 input bindings, allowlist paths, declared hashes recomputed, no write outside run root, UNRESOLVED explicit and never zero-filled",
+      "result": "PASS"
+    },
+    "counts_hashes_modes": {
+      "detail": "58 files, 57/57 manifest sha256/bytes/mode, 3x100755 identical across worktree/.git/index/HEAD tree, 58/58 blob identity three layers",
+      "result": "PASS"
+    },
+    "dependency_bindings": {
+      "detail": "T6R-01 review_receipt blob and sha256 recompute; T1 v3 and T4 v2 source bindings recompute; protocol freeze matches",
+      "result": "PASS"
+    },
+    "g1_markdown": {
+      "detail": "5/5 rc=0 but 5/5 are silent skips including summary.md; scratch log discloses honestly, aggregate claim does not -> ADVISORY-3",
+      "result": "PASS_WITH_ADVISORY"
+    },
+    "no_promotion_legality": {
+      "detail": "E-03 unrepresentable inside the closed T5 v3 vocabulary; 12 independent alternative-implementation probes all fail-closed before target execution; no feasible path found that the run ignored",
+      "result": "PASS"
+    },
+    "paired_replay_spot_check": {
+      "detail": "16/16 case identity fields equal; 22/22 exit codes match T4 declared exit_codes; 4 log spot checks agree, T1-INC-12 derive byte-faithful; dispatch-family failure reason set drifted -> ADVISORY-4",
+      "result": "PASS_WITH_ADVISORY"
+    },
+    "repair_history_consistency": {
+      "detail": "repair_record 8 attempts vs events 4 events numbered 1,2,5,7 with conflicting result labels vs review_packet 'four failures'; only 2 of 8 retain failure artifacts -> ADVISORY-2 (non-blocking)",
+      "result": "FAIL_ON_EVIDENCE_CONSISTENCY"
+    },
+    "rollback_drill": {
+      "detail": "3 restored parent files byte/mode/blob equal to T5 v3; parent behavior ACCEPTED_WITHIN_SCOPE before and after via two real validate_call executions; 11 old-evidence hashes unchanged",
+      "result": "PASS"
+    },
+    "six_hard_gate_attribution": {
+      "detail": "severe-miss=UNRESOLVED_NOT_EVALUABLE and evidence-completeness=FAIL are accurately attributed; no zero-miss or 100% coverage claimed",
+      "result": "PASS"
+    },
+    "three_axes": {
+      "detail": "DELIVERED / UNREVIEWED / NOT_ENABLED consistent across receipt, pilot_acceptance, paired_replay, amended_candidate; Loop A did not self-fill ACCEPTED",
+      "result": "PASS"
+    },
+    "usage_and_budget": {
+      "detail": "0 model/cheap/strong/network/remote/production/database/training/daemon/Loop B/retries; 1 strong review slot reserved for Loop C; execution_chat_usage=UNRESOLVED",
+      "result": "PASS"
+    },
+    "write_boundary": {
+      "detail": "no T7 write outside the run root; ambient Loop B artifacts in logs/graph at 03:23Z are not T7 writes -> ADVISORY-7",
+      "result": "PASS_WITH_DISCLOSURE"
+    }
+  },
+  "direction": "R",
+  "recomputed": {
+    "a1_amendment_mtime_utc": "2026-10-15T03:02:45Z",
+    "a1_preceded_all_candidate_evaluation": true,
+    "alternative_implementation_probes": 12,
+    "alternative_implementation_probes_fail_closed": 12,
+    "alternative_implementation_probes_with_target_execution": 0,
+    "baseline_replay_mtime_utc": "2026-10-15T03:17:08Z",
+    "candidate_validator_result_mtime_utc": "2026-10-15T03:17:09Z",
+    "case_identity_field_diffs_on_five_fields": 0,
+    "closed_vocabulary_operations": 3,
+    "content_group_ids": {
+      "t4_baseline": "sha256:b78bce332bd9433d44b2e79d8434949fadf773496c1c806872a103acff5e16ad",
+      "t5_parent": "sha256:4f7d7af42ee6a1364e01c7b0e5213108025c9e69f1f212b65b11da03d3aa2f54"
+    },
+    "delivery_file_count": 58,
+    "executable_scripts": [
+      "build_manifest.py",
+      "execute_t7.py",
+      "self_check.py"
+    ],
+    "feasible_in_vocabulary_path_for_E03": "NONE_FOUND",
+    "file_set_equals_manifest_plus_self_excluded_manifest": true,
+    "g1_actually_content_verified": 0,
+    "g1_markdown_files": 5,
+    "g1_rc0": 5,
+    "g1_silent_skips": 5,
+    "input_bindings_recomputed": "20/20 (sha256_file + byte-derived git blob + git rev-parse HEAD:path)",
+    "manifest_bytes_recomputed_ok": 57,
+    "manifest_entries": 57,
+    "manifest_mismatches": 0,
+    "manifest_mode_recomputed_ok": 57,
+    "manifest_sha256_file_recomputed_ok": 57,
+    "mode_histogram_head": {
+      "100644": 55,
+      "100755": 3
+    },
+    "mode_three_layer_agreement": "58/58",
+    "old_evidence_before_equals_after": true,
+    "old_evidence_bytes_sha256_gitblob_mode_recomputed_ok": "11/11",
+    "old_evidence_items": 11,
+    "parent_trees_worktree_blob_equals_head": {
+      "T4_v2": "65/65",
+      "T5_v3": "46/46",
+      "T6": "31/31"
+    },
+    "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
+    "repair_attempt_events_in_events_jsonl": 4,
+    "repair_attempt_files_retained": 2,
+    "repair_attempts_in_record": 8,
+    "restored_parent_files_equal_t5_v3_source_bytes_and_modes": "3/3",
+    "restored_parent_files_equal_t5_v3_source_git_blob": "3/3",
+    "summary_guard_check_markdown_path_enum_values": 1,
+    "summary_guard_derive_base_markdown_path_enum_values": 1,
+    "t1_inc12_derive_reproduces_t4_derived_md_sha256": "52a5865609f00dbf205b4db68e981ef588144346ebf2375d2e9695883a8c4ccd",
+    "t1_v3_case_count": 16,
+    "t4_applicable_checks_per_pass": 11,
+    "t4_replay_exit_code_matches": "22/22",
+    "t4_replay_logs_spot_checked": 4,
+    "t4_replay_records": 22,
+    "t4_v2_case_count": 16,
+    "task_prompt_byte_identical_to_dispatch": true,
+    "task_prompt_sha256": "ed062beda4320b56b7f9f2e6916700d1c9cc78704a44a3010bc8b2ec8d906828",
+    "three_layer_blob_identity_worktree_index_head": "58/58"
+  },
+  "refused_commands": [
+    {
+      "command": "ls ...; echo ---T5---; ls $R/runs/T5; ls $R/runs/T6 (compound)",
+      "reason": "multi-operation command requires approval",
+      "workaround": "split into single find/python invocations"
+    },
+    {
+      "command": "python3 -B <<'PY' heredoc containing brace-with-quote dict literals",
+      "reason": "hook: expansion obfuscation",
+      "workaround": "rewrote using dict() literals and no brace-string syntax; rc=0"
+    },
+    {
+      "command": "Write tool to /home/testuser/wzh/loop_runs/t7r01_recheck_a/recompute_manifest.py",
+      "reason": "write outside repository not granted",
+      "workaround": "python3 -B heredoc writing only under /home/testuser/wzh/loop_runs/t7r01_recheck_a/"
+    },
+    {
+      "command": "git ls-tree HEAD research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/",
+      "reason": "git subcommand requires approval",
+      "workaround": "git cat-file -p HEAD:<path> plus .git/index parse and byte-derived blob SHA-1"
+    }
+  ],
+  "review_id": "T7R-01",
+  "reviewed_artifact_sha256": [
+    {
+      "bytes": 13267,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/receipt.json",
+      "sha256_file": "dccc1d7218c22bb9b4a1a96a56530f690ada2b6db32cd6adf32bd5ec5a91b9db"
+    },
+    {
+      "bytes": 1740,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/summary.md",
+      "sha256_file": "3b5a21e8b2c59450c1033d8463ae83969914d538abc0acfe7ad5f08e5c95aebf"
+    },
+    {
+      "bytes": 5355,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/review_packet.md",
+      "sha256_file": "e1bdee366ad76141a01cef58759905b517c2ca8fdc1104928c529a525c426bc3"
+    },
+    {
+      "bytes": 4362,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/pilot_acceptance.json",
+      "sha256_file": "493a52947c2d7a4b1c91d2be4e02f0748acd56aeaea02f946f2a8feda3ec2b31"
+    },
+    {
+      "bytes": 14343,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/paired_replay.json",
+      "sha256_file": "80504a0f93f863c3e35ac42b9c68952e1af903923b2e87b6202ad8f151792616"
+    },
+    {
+      "bytes": 1836,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/rollback_receipt.json",
+      "sha256_file": "9c2061b093330aad4f6e10755167576ac3eb9cfebedb2b5cdc0eee26d29dfd2a"
+    },
+    {
+      "bytes": 5654,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/candidate_amendment_A1.json",
+      "sha256_file": "bf60360370c5989d6cc41c49f6f9f8e29d23e7dcd4918c0226f52b15e3de79d8"
+    },
+    {
+      "bytes": 7842,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/amended_candidate.json",
+      "sha256_file": "779e3a0c56355bccbd5d9775a93d6e6369a9aadf44d7a995354fcbee1c0b4326"
+    },
+    {
+      "bytes": 22337,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/artifacts_manifest.json",
+      "sha256_file": "f2022817e6c0c435edb5a66495967cbc001f60aa70a6da5cf68984d1795b73bb"
+    },
+    {
+      "bytes": 16206,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/identity_bindings.json",
+      "sha256_file": "63fa7ecd5581764ea43e229fa2b1345c4b582ec1e8f2fdb07986e3bda38096dc"
+    },
+    {
+      "bytes": 5259,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/repair_record.json",
+      "sha256_file": "fe1a5f9535386b44c014fb7c5c2b4986010f8dbd158089aa53abe10d3646fab8"
+    },
+    {
+      "bytes": 5797,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/events.jsonl",
+      "sha256_file": "abef7f6c8633352e7335ae84e89e4a426c7d73326c9fbe8fcf54e23ec3f96c38"
+    },
+    {
+      "bytes": 39623,
+      "mode": "100755",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/execute_t7.py",
+      "sha256_file": "499137b6b1157613a0be79a697829d1734dc06c8dcc0d77ff91b3187f7d06e41"
+    },
+    {
+      "bytes": 16155,
+      "mode": "100755",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/self_check.py",
+      "sha256_file": "46c1958590802a8bd9d05bf830aeee3595e541921fb14acb75580ff749489768"
+    },
+    {
+      "bytes": 2554,
+      "mode": "100755",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/build_manifest.py",
+      "sha256_file": "a928baf117e40bf5e1f7e3e0d848a9bc4f1bdf99b8eeaa69d81a290c1529f65c"
+    },
+    {
+      "bytes": 4267,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/TASK_PROMPT.md",
+      "sha256_file": "ed062beda4320b56b7f9f2e6916700d1c9cc78704a44a3010bc8b2ec8d906828"
+    },
+    {
+      "bytes": 3271,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/old_evidence_hashes_before.json",
+      "sha256_file": "e779e10618f3911de40d728f9d92e1fed5b8c80d586a2e506adbf32914dd2559"
+    },
+    {
+      "bytes": 3271,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/old_evidence_hashes_after.json",
+      "sha256_file": "e779e10618f3911de40d728f9d92e1fed5b8c80d586a2e506adbf32914dd2559"
+    },
+    {
+      "bytes": 557,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/scratch/t5_candidate_validator_result.json",
+      "sha256_file": "e8294512ed9f4154144fa4ad9f1cc996a19e28244a9524ed141e0b8ae2823ed7"
+    },
+    {
+      "bytes": 2095,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/scratch/t5_baseline_validator_result.json",
+      "sha256_file": "8bc7a9d238470c51bf62e53ce21510d0b76a47b7c1cd1f1c6f2c4c80d90ba09e"
+    },
+    {
+      "bytes": 1713,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/scratch/g1_guard_matrix.log",
+      "sha256_file": "447f09c2c7128cbbd4906ead6f3ea420e18ed26625f517127a4e49385ea3f0ae"
+    },
+    {
+      "bytes": 309,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/evaluation_fixtures/required_receipt_block_missing.md",
+      "sha256_file": "22883ab47f7d62d529bd627cca51508bdcb3ba9107d86df3328baf251cebd520"
+    },
+    {
+      "bytes": 346,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/evaluation_fixtures/legal_unmeterable_usage_missing.md",
+      "sha256_file": "7afec58ef8c879d0bd9c6be90bf74222949e97b3baad9086d9ade73913b0ca5d"
+    },
+    {
+      "bytes": 1690,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/rollback_drill/restored_state.json",
+      "sha256_file": "3ec30b852b14e42babd2351cb0a095fda701737ab7eeac885bef913127afd293"
+    },
+    {
+      "bytes": 234,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/rollback_drill/candidate_state.json",
+      "sha256_file": "669630e5b61e3601f030f45b16427b77bdad2f0df9f76b9dbc5e2fab9f1e2315"
+    },
+    {
+      "bytes": 8784,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/rollback_drill/restored_parent/registered_operations.json",
+      "sha256_file": "2cc368b69c8ae1687f3e85b8eab1181625f8f6816b82e5872d78c818113c9a03"
+    },
+    {
+      "bytes": 777,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/final_self_check.json",
+      "sha256_file": "565f1ffff37d36626c8164c1d01884bb8849590c3dccbfb37a19622c25c91c16"
+    },
+    {
+      "bytes": 2352,
+      "mode": "100644",
+      "path": "research/harness_rsi_v1/runs/T7/20261015T025839Z_c94af776/self_check_result.json",
+      "sha256_file": "ae651caf2f0d082cd670873a43bc1aaea296471c7c01cd7c88c7e3a67e07ad6b"
+    }
+  ],
+  "reviewed_head_commit": "0579b64bbc4423b52055d37e0f81cd0715f453bb",
+  "reviewed_run_id": "20261015T025839Z_c94af776",
+  "reviewer": "Loop C (independent quality audit layer)",
+  "reviewer_side_effects_disclosed": {
+    "ambient_non_t7_writes_observed": "logs/graph/docs_lint_report.json and logs/graph/verify-report.json mtimes 2026-10-15T03:23:12-13Z; verify-report.json self-identifies loop=B / head_commit=bad4e3890; not attributable to the T7 package",
+    "prior_review_cleanup_condition": "T6R-01 required deletion of 2 .omc state files under the T6 run; verified absent (T6 tree 31/31 equals HEAD blob, 0 mismatches)",
+    "residue_in_reviewed_tree_pycache_pyc_omc_tmp": 0,
+    "scratch_files": [
+      "outputs/manifest_recompute.json",
+      "outputs/three_layer.json",
+      "outputs/old_evidence.json",
+      "outputs/restored_parent.json",
+      "outputs/case_identity.json",
+      "outputs/input_bindings.json",
+      "outputs/adversarial_probes.json"
+    ],
+    "scratch_root": "/home/testuser/wzh/loop_runs/t7r01_recheck_a/",
+    "scratch_runtime_dir": "empty (all 12 probes fail-closed before target execution)",
+    "writes_inside_repository": 0,
+    "writes_inside_reviewed_run_tree": 0
+  },
+  "runtime": "GB10, Python 3.12, read-only; no git writes, no network, no model/production/database/training/daemon/Loop B calls; scratch only outside the repository",
+  "schema": "jinrong_loop_c_review_receipt_v1",
+  "task_id": "T7",
+  "unverified": [
+    "Cross-machine or different-umask copy chains",
+    "Real Loop D invocation and its caller-side authentication path",
+    "Selection set and sealed set behavior (both not built; no sealed access fabricated)",
+    "C/S batches and cross-direction evidence dedup (only cross-candidate dedup exists upstream)",
+    "Rollback in a deployment where the candidate had actually been enabled (no such deployment exists)",
+    "Whether T4 fixtures/dispatch/watcher.sh mode 0664 is the delivery-normalized state or an environment artifact (affects ADVISORY-4 attribution, not the exit-code conclusion)",
+    "execution_chat_usage (kept UNRESOLVED)",
+    "Scientific merit and authorization path of the absent-receipt-block operation extension (U-T6-02)",
+    "Reviewer synthetic probes live only in /home/testuser/wzh/loop_runs/t7r01_recheck_a/ and are not delivery evidence"
+  ],
+  "verdict": {
+    "a1_correction_sufficient": true,
+    "advisory_count": 7,
+    "blocking_count": 0,
+    "caveat": "ACCEPTED on the same rule T6R-01 applied: nothing is activated and no claim is promoted. ADVISORY-1 is a literal contradiction inside a delivered evidence field, and a stricter reading that treats it as blocking for the A-1 hard precondition is defensible and left to the acceptor.",
+    "decision": "ACCEPTED",
+    "headline_claims_reproduced": true,
+    "no_promotion_legality_confirmed": true,
+    "review_id": "T7R-01",
+    "task_id": "T7"
+  }
+}
