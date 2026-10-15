@@ -1,0 +1,464 @@
+[loop-c] start 2026-10-15T00:15:19Z
+=== FILE: REVIEW.md ===
+# T5R-03 — Loop C 独立评审：harness_rsi_v1 T5 v3 返工（第三轮）
+
+- Reviewer：Loop C（独立质量审计层，GB10）
+- 被审对象：`research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7/`（46 文件，已提交 `ebd2710a1078bbfe637528fb69013c24f208b002`）
+- 前史：T5 v1 → T5R-01 REJECTED（2 blocking）；T5 v2 → T5R-02 REJECTED（1 blocking + 4 advisory）；v3 = 本轮返工对象
+- **裁决：REJECTED（1 blocking）**。T5R-02 的 replay-stability blocking **实质已闭合并被独立复现**；剩余缺陷窄、局部、廉价可修，但直接命中 A-common 与前两轮确立的「头条主张须可从交付态复现」标准。
+
+---
+
+## 1. 摘要
+
+v3 在真正的工程难点上做对了。T5R-02 的 blocking（replay 不稳定）已闭合，我用交付入口独立复现：四轮各 23/23、归一化结果逐项一致、两树重放前后不变、**并且我用自建的全量 sha256/bytes/mode/mtime_ns 扫描独立证明交付树 46 文件零写入**。run 内确无 prepare 路径，所有写路径都指向外部 root。NEW-1/2/3/4 四条 advisory 全部折叠，且我逐条对抗复验通过。T5R-01 的执行位修复（`watcher.sh` 100755）在工作树、`.git/index`、HEAD 树三处均保持。
+
+阻断点是另一个问题，且是 T5R-01 同类缺陷的复发：**`artifacts_manifest.json` 为 4 个脚本声明 `mode: "100755"`，但交付字节（工作树、`.git/index`、HEAD 树三者一致）都是非可执行位**。manifest 自称 `hash_domain = sha256_file_bytes_plus_mode`，于是 45 条里 **41 条实算一致、4 条在 `mode` 字段失配**。后果是 README 指定的唯一无前置入口 `scratch/verify_replay.py` 对交付态返回 **rc=3**，而包内三份证据（`scratch/replay/replay_summary.json`、`scratch/self_check_result.json`、`events.jsonl`）都断言 manifest 45/45、`passed: true` —— 这一头条主张无法从交付态复现。
+
+按 T5R-01/T5R-02 一致标准判定为 blocking。这不是完整性指控：交付快照记录作者当时 4 个文件确为 100755，作者当时的 45/45 很可能属实；缺陷是证据耐久性/交付自证性（mode 位在 commit 前后丢失），正是 T5R-02 用过的同一措辞。
+
+---
+
+## 2. 独立复算：计数 / 哈希 / 模式
+
+| 项 | 结果 |
+|---|---|
+| 交付文件总数 | 46（manifest 45 条 + 不自哈希的 `artifacts_manifest.json`）— 一致 |
+| manifest 条目数 / `artifact_count` | 45 / 45 — 一致 |
+| 逐条 SHA-256 + bytes 实算 | **45/45 字节与哈希全部一致**（0 字节失配） |
+| 逐条 mode 实算 | **41/45 一致，4 条失配** ← 阻断源 |
+| `missing_on_disk` / `extra_on_disk` | [] / [] |
+| `required_executables` | `["recipe_fixtures/dispatch/watcher.sh"]` — 该文件确为 100755，处置正确 |
+
+mode 失配 4 条（声明 vs 实测）：
+
+| 相对路径 | manifest 声明 | 工作树 | `.git/index` | HEAD 树(`ebd2710`) |
+|---|---|---|---|---|
+| `run_probes.py` | 100755 | 100664 | 100644 | 100644 |
+| `scratch/adversarial_checks.py` | 100755 | 100664 | 100644 | 100644 |
+| `scratch/self_check.py` | 100755 | 100664 | 100644 | 100644 |
+| `scratch/verify_replay.py` | 100755 | 100664 | 100644 | 100644 |
+| `recipe_fixtures/dispatch/watcher.sh` | 100755 | **100755** | **100755** | **100755** |
+
+其余 41 条分组核对：11 条声明 100644 全部实测 100644（0 漂移）；29 条声明 100664 全部实测 100664（0 漂移）。**仅这 4 个执行位失配。**
+
+关键判定：HEAD 树（`tree 82e1f718…` → run dir `824ae0dd…`）中 `run_probes.py` 为 `100644`。**该不一致是被提交进 `ebd2710` 的，不是脏工作树。** 被审对象即是该提交态，故包在自身 `hash_domain` 下不自证。
+
+.git 无 CLI，按任务要求替代口径：字节派生 git blob SHA-1（`sha1("blob <len>\0" + bytes)`）+ 直接解析 `.git/index` 二进制（DIRC v2，3880 entries，按路径字节定位 entry 头读 mode）+ 直接解压 `.git/objects` 走 HEAD commit→tree 递归。`watcher.sh` 派生 blob id `742e13d6…` 与 index 记录、HEAD tree 记录三者一致。
+
+---
+
+## 3. replay-stability 核心（T5R-02 blocking 闭合验证）
+
+**交付入口 `scratch/verify_replay.py --run-root <v3> --work-root <外部新路径>` → rc=3。**
+
+拆解（我的 work-root：`/home/testuser/wzh/loop_runs/t5r03_recheck_a/work_replay_1`，运行前确认不存在，位于交付树外）：
+
+| 断言 | 声称 | 我的实测 | 判定 |
+|---|---|---|---|
+| `prerequisites` | NONE | `NONE` | ✅ |
+| 四轮完整矩阵 | 23/23 ×4 | PASS_1/PASS_2 × 两树，各 `record_count=23`、`passed=23`、`exit_code=0`、accepted=5/rejected=18 | ✅ |
+| 归一化结果四轮一致 | true | `normalized_outcomes_identical_across_four_rounds: true` | ✅ |
+| 两树重放前后不变 | true | `tree_unchanged: true`（两树） | ✅ |
+| manifest 45/45 | 45/45 | current_tree **before/after 均 4 failures**；fresh_delivery 45/45 | ❌ |
+| 总 `passed` | true | **false** | ❌ |
+
+**独立二次验证（不经 verify_replay，直接用交付 CLI `run_probes.py` 跑交付树两遍）**：两遍各 23 条、逐项一致、rc=0。运行前后对交付树做全量 `sha256 + bytes + mode + mtime_ns` 扫描：**46 文件，ADDED=[]、REMOVED=[]、CHANGED_COUNT=0 → 零写入实证。**
+
+**P01 / P09 时间语义核对**：
+- `recipe_fixtures/valid_precheck_call.json` 的 `max_tick_age_minutes` 确为 **0**，与 recipe 声明一致。
+- 目标工具 `scripts/graph/dispatch_precheck.sh` 的实现：`nonnegative_integer` 文档「0 = 不限年龄」，判定式为 `if args.max_tick_age_min > 0 and age_seconds > args.max_tick_age_min * 60`。**0 = 不施加上限**，但 `if age_seconds < 0: raise "observed_at 是未来时间"` 仍生效。
+- 交付 tick `observed_at = 2026-10-14T21:56:53Z`（过去时刻）。过去时刻永远不触发未来拒绝，且 0 不做年龄上界 → **P01 严格时间可重放**。这是 v2 阻断的真正修复点，我确认其成立。
+- P09 每次由 `runtime_tick()` 以 `datetime.now(UTC)` 生成新 tick，写入 `tempfile.TemporaryDirectory(dir=output.parent)`，而 `output.parent` 被 `run_probes.py` 强制在交付树外（`if output == run_root or run_root in output.parents: SystemExit`），配合 60 分钟界 → 稳定。
+- **run 内无任何 prepare/改写路径**：全量扫描 `run_probes.py` / `caller_validator.py` / `scratch/*.py` 的写调用，目标只落在 `runtime_root`、`--output`、`work_root`、`mktemp`；`v2` 的 `prepare_runtime_fixtures.py` 已不存在；交付夹具 `dispatch/tick_valid.json` 未被改写（我的零写入扫描佐证）。
+- `verify_replay.py` 对 work-root 的两道拒绝实测：已存在 → `refuse to overwrite replay work root` rc=1；树内路径 → `work root must be outside the delivered run tree` rc=1。两者均未向交付树写入任何字节。
+
+**结论：T5R-02 BLOCKING-1 的实质缺陷（陈旧 tick + 就地改写 manifest 绑定夹具）确已闭合，且我独立复现。** 唯一未复现的是 manifest 计数主张本身（见 §5）。
+
+---
+
+## 4. NEW-1 信任边界对抗（自构造攻击）
+
+**(a) 替换 `registered_operations.json`（副本）目标路径 + 内容 → 必须 `FC_INPUT_IDENTITY_MISMATCH` 且目标零执行**
+- 复制 registry 到 scratch，把 `OP-T4-R-DISPATCH-PRECHECK` 的 `target.path` 指向外部 decoy（执行即 `touch` marker）。
+- 结果：`rc=1`，`FC_INPUT_IDENTITY_MISMATCH`，detail `operations bytes do not match the embedded SHA-256 pin`，`target_execution_performed=false`，`operation_results=[]`，**marker 不存在（decoy 零执行）**。✅
+
+**(b) 替换目标文件本身（scratch 副本 + 改字节）→ 执行前按 `git_blob_id` 复核被拒**
+- 导入交付 `caller_validator.py` 的 `execute_operation`，构造 registry entry：`target.path` 指向 scratch 改字节副本（blob id `552e2372…`），`target.git_blob_id` 仍为真目标的 `c5045e95…`。
+- 结果：抛 `FC_OPERATION_TARGET_IDENTITY_MISMATCH`，detail `… target bytes do not match registered git_blob_id`，**decoy marker 不存在 = 执行前被拒**。对照组（真目标 + 正确 blob id）正常 `wrapper=0/target=0`。✅
+- 披露：层 2 的**端到端**验证需要改写仓库内 T4 adapter 字节，越出评审者写入边界，故以交付函数直接调用验证；层 1 的端到端组合由 (a) 与 Z01 覆盖。
+
+**内嵌 pin 常量与交付文件实测比对**（全部精确一致）：
+- `INTERFACES_SHA256` `52d5ec1e…` = `recipe_interfaces.json` 实测 ✅
+- `OPERATIONS_SHA256` `2cc368b6…` = `registered_operations.json` 实测 ✅
+- `PROTOCOL_FREEZE` `282f5213…` 与 receipt/协议一致 ✅
+- `RUN_ID` = 目录名 ✅
+- 三个登记目标 `git_blob_id` 全部与字节派生值一致（`c5045e95…` / `9f421f69…` / `7a3c9d1d…`）✅
+
+**scope 措辞**：`registered_operations.json.path_policy.target_rule` 明确「verifies each target's bytes against target.git_blob_id before execution」；`registered_operations.json.scope`、`README.md`、receipt 均声明范围为 "against the delivered, identity-verified registry"。措辞与实现相符。✅
+
+---
+
+## 5. 前两轮闭合回归
+
+| 项 | 结果 |
+|---|---|
+| `watcher.sh` 交付 100755 | 工作树 / `.git/index` / HEAD 树 **三处均 100755** ✅（T5R-01 P01 链保持） |
+| X06A 无 pin | REJECT `FC_ARTIFACT_NOT_PINNED` ✅ |
+| X06B 错 pin | REJECT `FC_PIN_MISMATCH` ✅ |
+| X06C 全伪造+自洽正确 pin | ACCEPT（按 T5R-02 dissent-1 裁定边界）✅ |
+| Z01 registry 替换 | REJECT `FC_INPUT_IDENTITY_MISMATCH`，decoy 零执行 ✅ |
+| E10 异源 pin 正例 | ACCEPT，`pin_source=external_summary_pin.txt` ✅ |
+| 15 原负例码精确 | **15/15 expected == actual 逐条精确**（P02–P08、E02–E09）✅ |
+| 四类分离 | 两 recipe 均 qualification/audit/execution/scientific，`overall_pass_field_forbidden: true`；E07 → `FC_SINGLE_OVERALL_PASS_FORBIDDEN` ✅ |
+| frozen_protections | **7/7** 全在且全 FROZEN；`FP-RAW-RECORD-INTEGRITY` 本轮无就地改写，未被违反 ✅ |
+| TASK_PROMPT 逐字节 | 与 `runs/T5/_dispatch/loop_a_prompt_t5_v3.md` **字节全等**（4368 bytes，sha256 `dd77d244…`）✅ |
+| G1 每个 `.md` rc=0 | 我用 `summary_recompute_guard.py check` 独立跑 **5/5 rc=0** ✅ |
+| 无裸 PASS / 无越级 | 正文无越级断言；`self_check_result.json` 的 `"status":"PASS"` 均挂在具名 `check_id` 下；overall 仅 `CONTRACT_PASS`，未冒称科学/正式 ✅ |
+| usage 零声明与 92 自洽 | `final_acceptance_caller_processes=92` = 4 轮 × 23，与我的复现一致；其余 11 项调用计数 0；`execution_chat_usage="UNRESOLVED"`（未伪零）✅ |
+| SUMMARY-GUARD 绑定 | `receipt.json` 实测 sha256 `285c808d…` 与 summary/repair_record 声明一致 ✅ |
+| 写入边界 | run 内 Python 无任何指向交付树的写路径；`.git/*` 变更属 `ebd2710` 提交本身 |
+
+---
+
+## 6. 新对抗探针（5 负 + 2 正，全部自构造）
+
+| 探针 | 构造 | 期望 | 实测 | 判定 |
+|---|---|---|---|---|
+| NEG1 陈旧 tick | `observed_at=2020-01-01T00:00:00Z` + `max_tick_age_minutes=30` | 拒 | `FC_OPERATION_TARGET_FAILURE`，target_execution=false | ✅ |
+| NEG2 未来 tick | `observed_at=2030-01-01T00:00:00Z`，age=0 | 拒 | `FC_OPERATION_TARGET_FAILURE`，target_execution=false | ✅ |
+| NEG3 runtime symlink 逃逸 | `runtime/tick_valid.json` → 指向 runtime root 外文件 | 拒 | `FC_ARBITRARY_PATH` `runtime path escapes runtime root` | ✅ |
+| NEG4 pin 类型畸形 | `expected_artifact_sha256 = 123456`（整数） | 拒 | `FC_ARTIFACT_NOT_PINNED` | ✅ |
+| NEG5 pin 类型畸形 | `expected_artifact_sha256 = null` | 拒 | `FC_ARTIFACT_NOT_PINNED` | ✅ |
+| POS1 合法新调用 | 新鲜 runtime tick + `max_tick_age_minutes=30` | 受 | `ACCEPTED_WITHIN_SCOPE`，2 ops 执行 | ✅ |
+| POS2 异源 pin 交付 | pin 读自 `external_summary_pin.txt` | 反 | `ACCEPTED_WITHIN_SCOPE` | ✅ |
+
+**NEW-2 全矩阵独立复现**：翻转 P01 期望值后运行交付 `run_probes.py` → `rc=3`、**23 条记录全在**、首例 P01 失败、末例 `Z01-IDENTITY-VERIFIED-REGISTRY-SUBSTITUTION` 在场。与 `scratch/full_matrix_failure_evidence.json` 声称一致。✅
+
+**NEW-3 / NEW-4**：`recipe_interfaces.json:289` `caller_contract.scope_boundary` 明确「Summary content sufficiency, quality, completeness and scientific interpretation are not judged」；`error_surface` 两处缩进一致；26 个 JSON 全部解析成功。✅
+
+---
+
+## 7. 披露核对与 supersedes 链条
+
+`repair_record.md` 与 `v2_v3_diff.json` 的每条修复声明我都逐项对上实现与实测（P01=0、P09 外部 tick、无 prepare、全矩阵收集、双层身份、异源 pin、缩进、dissent-2 未实施并如实声明）。`receipt.supersedes.review_chain` 记录 T5R-01 REJECTED/2 blocking、T5R-02 REJECTED/1 blocking + 4 advisory —— 与两轮 `ACCEPTANCE_PROPOSAL.json` 实际内容一致。✅
+
+**但披露面存在一处系统性不实**：`summary.md`、`repair_record.md`、`events.jsonl`(event 9)、`scratch/self_check_result.json`(`MANIFEST_45_OF_45` → `failures: []`)、`scratch/replay/replay_summary.json`(`passed: true` + manifest 0 failures)、`receipt.json`("manifest recompute 45/45") **六处**均断言 manifest 45/45，与交付态实算 41/45 不符。
+
+---
+
+## 8. 阻断项
+
+**BLOCKING-1｜manifest mode 自证失效 4/45；无前置重放入口对交付态返回 rc=3；六处证据断言 45/45 不可复现**
+
+事实链：
+1. `artifacts_manifest.json` 为 4 个脚本声明 `mode:"100755"`，`hash_domain=sha256_file_bytes_plus_mode`。
+2. 交付字节（工作树 100664 / `.git/index` 100644 / HEAD 树 100644）三者一致为**非可执行**；不一致已被提交进 `ebd2710`，非脏工作树。
+3. 独立逐条实算：45 条中 41 条一致，4 条在 `mode` 字段失配；字节与 SHA-256 零失配。
+4. 交付唯一无前置入口 `scratch/verify_replay.py` → **rc=3**，`current_tree.manifest_before/after.passed=false`，各 4 条 mode 失配，总 `passed=false`。
+5. 包内六处断言 manifest 45/45 / `passed:true`（清单见 §7），无法从交付态复现。
+6. 卡 A-common「声明哈希实算一致」在包自身 `hash_domain` 下**不成立**。
+7. **同类复发**：T5R-01 BLOCKING-1 即执行位/mode 丢失致不可复现。v3 的 mode 纪律只覆盖了 `required_executables`（故 `watcher.sh` 三处幸存 100755），未覆盖 manifest 自身 mode 字段。
+
+影响：T5 v3 头条交付主张「manifest 45/45」与 `replay_summary.passed=true` 无法从交付字节独立复现。按 T5R-01「头条主张不可从交付态复现即 blocking」、T5R-02 同一标准一致适用 → blocking。
+
+**非完整性指控**：`scratch/replay/current_tree_snapshot_before.json` 记录作者当时 4 个文件确为 100755，作者当时的 45/45 很可能属实。缺陷是证据耐久性 / 交付自证性（mode 位在入库环节丢失），与 T5R-02 对 v2 的措辞同源。未发现伪造或越权。
+
+**廉价本地修法（不扩权、不重跑实验、不改冻结件）**：
+- (a) 要么恢复 4 个脚本执行位，要么把 manifest 的 `mode` 改为实际交付值 —— 二者取一，使 manifest 在 `sha256_file_bytes_plus_mode` 下与交付字节严格相等。
+- (b) 在最终交付字节**之后**重建 manifest，并对**该**交付态重跑 `verify_replay.py`，要求 rc=0 且四次 manifest 检查均 45/45。
+- (c) 据实重发 `scratch/replay/replay_summary.json`、`scratch/self_check_result.json`、`events.jsonl`、`summary.md`、`repair_record.md`、`receipt.json`，使全部「45/45」表述等于复算值。
+- (d) 建议把记录口径归一到 git 语义（100644/100755），避免 umask 漂移。
+
+---
+
+## 9. 建议项
+
+- **ADV-1｜fresh-delivery 腿对 mode 漂移失明**：`verify_replay.py:restore_modes()` 在 manifest 校验前把复制树 mode 强制改写（`os.chmod 0o644` → 回填 manifest 值，实测 `mode_reset_and_restore_count=45`）。这使 fresh 腿在 mode 上永远「通过」——正是本次逃逸缺陷的同类盲区。且它是重放路径中的一步 mode 改写（仅作用于外部副本、已披露）。建议移除该函数或在改写前先校验。
+- **ADV-2｜manifest 记录 umask 相关 mode**：11 条 100644 与 29 条 100664 混录，跨环境/换 umask 检出即会大面积失配。建议只记执行位。
+- **ADV-3｜非 JSON 失败面**：`--runtime-root` 落在交付树内、或 `verify_replay.py --work-root` 越界/已存在时，均 `raise SystemExit(文本)`，无 JSON 结果对象；调用方只能落入 `MALFORMED_RESULT/FC_INTERNAL`，而非规范 `FC_*`。虽 fail-closed，但错误面不在契约内。
+- **ADV-4｜gitignore 视野的外部写者**：作者窗口内 `logs/`（app.log、loop_b.log、docs_lint_report.json 等 13 个）有变更，但 T5 代码路径无任何指向该处的写口，应属 Loop B/应用等外部进程。沿 T5R-02 先例列为未验证，不归因于 T5。
+
+---
+
+## 10. 异议记录
+
+- **dissent-A（X06C / 主动假 pin）**：维持 T5R-02 dissent-1 的裁定与处置——验证器只裁决身份绑定，不裁决摘要内容；「调用方主动提供假 pin」在信任边界之外，且该边界已在三处一致声明。我同意按边界事实记录而非缺陷。
+- **dissent-B（更强构造未采用）**：T5R-02 dissent-2 提出的「把摘要校验绑定到已哈希绑定的 `delivery_payload.json` 之 `summary.text`」仍是严格更强的构造，v3 按指令未实施并如实披露。本轮不因未实施而扣分，继续作为后续可选设计。
+
+---
+
+## 11. 范围与未验证面
+
+**本次声称的验证层级**：`CONTRACT_PASS` 级别的字节/模式/哈希实算、调用边界对抗、无前置重放独立复现、G1、B0 写入边界。
+
+**明确不声称**：`END_TO_END_PREFLIGHT_PASS`、`FORMAL_RUN_PASS`、科学 PASS、正式实验资格、promotion/deployment。
+
+**未验证**：GB10 生产服务、数据库、模型端点、daemon、Loop B；执行对话 token（UNRESOLVED）；未来 Loop D 对真实 run 包的调用与真实证据交接、封闭案例集；真实部署中异源 pin 的来源归属（夹具只证明文件级分离）；`logs/` 与 `.pytest_cache/` 变更的确切写者与时点；T5R-02 dissent-2 的更强构造。
+
+**评审者副作用**：仅在仓库外 `/home/testuser/wzh/loop_runs/t5r03_recheck_a/` 建立 scratch 与 work-root；未在被审 run 或仓库内写入任何文件（已用全量 sha/mtime 扫描自证交付树零写入）；未调用模型端点、生产、数据库、Loop B；未做 git 写；未进入 T6。
+
+=== FILE: review_receipt.json ===
+{
+  "schema": "jinrong_loop_c_review_receipt_v1",
+  "review_id": "T5R-03",
+  "task_id": "T5",
+  "reviewer": "Loop C independent quality audit layer (GB10)",
+  "runtime": {
+    "platform": "linux",
+    "host_role": "GB10",
+    "python": "python3 (3.12 line)",
+    "git_cli_available": false,
+    "git_substitute_method": "byte-derived git blob SHA-1 (sha1('blob <len>\\0'+bytes)); binary parse of .git/index (DIRC v2, 3880 entries) for modes; direct zlib walk of .git/objects for HEAD commit->tree recursion",
+    "model_calls": 0,
+    "network_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "loop_b_calls": 0
+  },
+  "reviewed_artifact": {
+    "run_id": "20261014T233742Z_cb132ce7",
+    "run_root": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7",
+    "commit": "ebd2710a1078bbfe637528fb69013c24f208b002",
+    "file_count": 46,
+    "manifest_artifact_count": 45
+  },
+  "reviewed_artifact_sha256": [
+    {"path": "receipt.json", "sha256": "285c808d1cb65c0c93f7534866e3f9550d11333a28b73d42d7bd39dea0e53a90", "bytes": 9285, "mode": "100664"},
+    {"path": "summary.md", "sha256": "dfded63d731144e74f9858a7a29cb8328314189cc3581d8af6c01976b03d78b9", "bytes": 1398, "mode": "100664"},
+    {"path": "repair_record.md", "sha256": "f00b9d1c4a5559d4dbde3537b36228e5885e979aa8841dbee5d575800f8e1332", "bytes": 1332, "mode": "100664"},
+    {"path": "artifacts_manifest.json", "sha256": "42c54895efa8a79165963ddb1b46810759c1b5852f1419cb3a7e97c89575a72d", "bytes": 16767, "mode": "100664"},
+    {"path": "recipe_interfaces.json", "sha256": "52d5ec1e3f6a54629ddd83ed1787f257f560dfbb8723e8325d7c390b7680d6ef", "bytes": 16545, "mode": "100644"},
+    {"path": "registered_operations.json", "sha256": "2cc368b69c8ae1687f3e85b8eab1181625f8f6816b82e5872d78c818113c9a03", "bytes": 8784, "mode": "100644"},
+    {"path": "caller_validator.py", "sha256": "1840b06b9d777373874dbfc6fff88fc480eb5a1be6aa7d708de98846bb8023ae", "bytes": 20290, "mode": "100644"},
+    {"path": "run_probes.py", "sha256": "6347830e37e5730f8f7365c0930588072573ea6c15c210d775fd6153fd0cd558", "bytes": 9592, "mode": "100664"},
+    {"path": "events.jsonl", "sha256": "7c0ea3a62352790b716d18a6587b9de22aa262b5a4659ab0eda4d66551707a58", "bytes": 1171, "mode": "100664"},
+    {"path": "TASK_PROMPT.md", "sha256": "dd77d2449945ad3fe22adb29b31cdcbb2a8e92cd62d1596821d78f8379f93e3b", "bytes": 4368, "mode": "100664"},
+    {"path": "v2_v3_diff.json", "sha256": "eb33cbf181bac95d94c2410c5be4db7b3a969150e46b61ebc35230783390c6ea", "bytes": 1959, "mode": "100664"},
+    {"path": "recipe_fixtures/README.md", "sha256": "289536235823e5bcefd6fa174a447daa2812209810514e25631ac44bf234134a", "bytes": 2638, "mode": "100664"},
+    {"path": "recipe_fixtures/probe_definitions.json", "sha256": "399b80c1b6ccfc09b3373463fb8a9c31a1d6b7c92fad960027b6c5c46491dc14", "bytes": 11664, "mode": "100644"},
+    {"path": "recipe_fixtures/dispatch/tick_valid.json", "sha256": "8da1797b466640ac4fca4019986c210479f74d9b99a81346b514780e8a66d28d", "bytes": 306, "mode": "100644"},
+    {"path": "recipe_fixtures/dispatch/watcher.sh", "sha256": "fb99eae951f1adc14d1a4a9a186c21930db2786b3208c94c7d9af382bd1048e5", "bytes": 27, "mode": "100755"},
+    {"path": "recipe_fixtures/valid_precheck_call.json", "sha256": "6f759beb37f5e3ab2c7d91bd4fc9228eb7839e654aae7abb4bab958004c23095", "bytes": 1177, "mode": "100644"},
+    {"path": "recipe_fixtures/external_summary_pin.txt", "sha256": "5a7d629c6e743596a04da3c2d225faf800a2e52e44fbbc54c2a31f34e22bea18", "bytes": 65, "mode": "100664"},
+    {"path": "scratch/verify_replay.py", "sha256": "b46e8c1cb93302ada82172de17f5c28585fffd0a8c1d78dfd5a66e0bd85b2750", "bytes": 8645, "mode": "100664"},
+    {"path": "scratch/replay/replay_summary.json", "sha256": "dd18fbf90d11631698bb720ce0874d0982ea5921322d0f3df691768a1a80a3d3", "bytes": 49982, "mode": "100664"},
+    {"path": "scratch/self_check_result.json", "sha256": "213b70be95e8714d27712111050c61c96c01b6e66b1ba4396f79ba6152fe927d", "bytes": 64276, "mode": "100664"},
+    {"path": "scratch/new1_trust_boundary.json", "sha256": "50a2b94777f91ab95b980ba9b37eee5e3914e7d0eecd2b3750601506e7834a59", "bytes": 595, "mode": "100664"},
+    {"path": "scratch/full_matrix_failure_evidence.json", "sha256": "748d0fcb477a04000c2893c852353e68fb6770ca19df90db98cb63461483d352", "bytes": 457, "mode": "100664"}
+  ],
+  "recomputed": {
+    "file_count": {"expected": 46, "actual": 46, "match": true},
+    "manifest_declared_count": {"expected": 45, "actual": 45, "match": true},
+    "manifest_entries_len": {"expected": 45, "actual": 45, "match": true},
+    "manifest_sha256_bytes_recompute": {"checked": 45, "matched": 45, "mismatched": 0, "match": true},
+    "manifest_mode_recompute": {"checked": 45, "matched": 41, "mismatched": 4, "match": false, "mismatches": [
+      {"relative_path": "run_probes.py", "field": "mode", "declared": "100755", "worktree": "100664", "git_index": "100644", "head_tree": "100644"},
+      {"relative_path": "scratch/adversarial_checks.py", "field": "mode", "declared": "100755", "worktree": "100664", "git_index": "100644", "head_tree": "100644"},
+      {"relative_path": "scratch/self_check.py", "field": "mode", "declared": "100755", "worktree": "100664", "git_index": "100644", "head_tree": "100644"},
+      {"relative_path": "scratch/verify_replay.py", "field": "mode", "declared": "100755", "worktree": "100664", "git_index": "100644", "head_tree": "100644"}
+    ]},
+    "manifest_mode_groups_other": {"declared_100644_drift": 0, "declared_100664_drift": 0},
+    "hash_domain": "sha256_file_bytes_plus_mode",
+    "self_hash_policy": "artifacts_manifest.json does not self-hash",
+    "required_executables": {"declared": ["recipe_fixtures/dispatch/watcher.sh"], "observed_exec": true, "match": true},
+    "missing_on_disk": [],
+    "extra_on_disk": [],
+    "watcher_exec_bit": {"worktree": "100755", "git_index": "100755", "head_tree": "100755", "all_three": true},
+    "embedded_pins": {"INTERFACES_SHA256_match": true, "OPERATIONS_SHA256_match": true, "PROTOCOL_FREEZE_match": true, "RUN_ID_match": true},
+    "target_git_blob_ids": {"checked": 3, "matched": 3, "mismatched": 0},
+    "task_prompt_verbatim": {"byte_identical": true, "sha256": "dd77d2449945ad3fe22adb29b31cdcbb2a8e92cd62d1596821d78f8379f93e3b", "bytes": 4368},
+    "summary_guard_receipt_sha256": {"declared": "285c808d1cb65c0c93f7534866e3f9550d11333a28b73d42d7bd39dea0e53a90", "actual": "285c808d1cb65c0c93f7534866e3f9550d11333a28b73d42d7bd39dea0e53a90", "match": true},
+    "json_parse": {"checked": 26, "failures": 0},
+    "g1_all_markdown": {"checked": 5, "rc0": 5, "match": true},
+    "delivery_tree_zero_write": {"files_before": 46, "files_after": 46, "added": 0, "removed": 0, "changed": 0, "fields_compared": ["bytes", "sha256", "mode", "mtime_ns"], "match": true},
+    "usage_self_consistency": {"final_acceptance_caller_processes": 92, "four_rounds_x_23": 92, "match": true, "external_call_counters_all_zero": true, "execution_chat_usage": "UNRESOLVED"}
+  },
+  "checks": [
+    {"id": "REPLAY_DELIVERED_ENTRY_POINT", "status": "PARTIAL", "expected": "rc=0 and manifest 45/45", "actual": "rc=3; current_tree manifest_before/after passed=false with 4 mode failures; overall passed=false", "reproduced": true},
+    {"id": "REPLAY_FOUR_ROUNDS_23_OF_23", "status": "PASS", "expected": "23/23 x4", "actual": "PASS_1/PASS_2 x current_tree/fresh_delivery, each record_count=23 passed=23 exit_code=0 accepted=5 rejected=18", "reproduced": true},
+    {"id": "REPLAY_NORMALIZED_OUTCOMES_IDENTICAL", "status": "PASS", "actual": "normalized_outcomes_identical_across_four_rounds=true", "reproduced": true},
+    {"id": "REPLAY_TREE_UNCHANGED_BOTH", "status": "PASS", "actual": "tree_unchanged=true on current_tree and fresh_delivery; independent pre/post full scan shows 0 changes across 46 files", "reproduced": true},
+    {"id": "REPLAY_MANIFEST_45_OF_45", "status": "FAIL", "expected": "45/45 in all four manifest checks", "actual": "current_tree before/after = 41/45 (4 mode failures); fresh_delivery 45/45 only after restore_modes rewrote the copy", "reproduced": true},
+    {"id": "NO_PRECONDITION_NO_PREPARE_PATH", "status": "PASS", "actual": "prerequisites=NONE; no prepare_runtime_fixtures.py; all writes in run_probes/caller_validator/scratch target runtime_root, --output, work_root or mktemp; delivered tick fixture never rewritten", "reproduced": true},
+    {"id": "P01_MAX_TICK_AGE_ZERO_SEMANTICS", "status": "PASS", "actual": "fixture max_tick_age_minutes=0; dispatch_precheck.sh implements 'if args.max_tick_age_min > 0 and age > max*60' -> 0 imposes no upper bound; future timestamps still rejected; fixed past tick therefore replay-stable", "reproduced": true},
+    {"id": "P09_EXTERNAL_RUNTIME_TICK", "status": "PASS", "actual": "runtime_tick() writes observed_at=now into tempfile.TemporaryDirectory(dir=output.parent) outside the run tree; bound 60 min", "reproduced": true},
+    {"id": "RUN_PROBES_DIRECT_TWO_PASSES_ZERO_WRITE", "status": "PASS", "actual": "delivered CLI run_probes.py on the delivered tree twice: 23 records each, consistent; full sha256/bytes/mode/mtime_ns scan before/after = zero writes", "reproduced": true},
+    {"id": "NEW1_REGISTRY_SUBSTITUTION", "status": "PASS", "actual": "substituted registered_operations.json (target path+content swapped to decoy) -> rc=1 FC_INPUT_IDENTITY_MISMATCH, target_execution_performed=false, operation_results=0, decoy marker absent", "reproduced": true},
+    {"id": "NEW1_TARGET_GIT_BLOB_IDENTITY", "status": "PASS", "actual": "delivered execute_operation with scratch-modified target bytes and original declared git_blob_id -> FC_OPERATION_TARGET_IDENTITY_MISMATCH before subprocess; decoy marker absent; control (correct target+id) executes wrapper=0 target=0", "reproduced": true, "method_note": "end-to-end layer-2 would require mutating a repo T4 adapter, out of reviewer write bounds; verified via direct invocation of the delivered function"},
+    {"id": "NEW1_EMBEDDED_PINS_AND_SCOPE", "status": "PASS", "actual": "INTERFACES_SHA256/OPERATIONS_SHA256/PROTOCOL_FREEZE/RUN_ID all match delivered bytes; three target git_blob_ids match; scope 'against the delivered, identity-verified registry' present in path_policy.target_rule, registry.scope and README"},
+    {"id": "NEW2_FULL_MATRIX_ON_FAILURE", "status": "PASS", "actual": "flipped P01 expectation -> rc=3, 23 records collected, first case P01 failed, last case Z01 present", "reproduced": true},
+    {"id": "NEW3_INDEPENDENT_PIN_FILE", "status": "PASS", "actual": "E10 ACCEPT with pin_source=external_summary_pin.txt; recipe_interfaces.json:289 caller_contract.scope_boundary explicitly excludes summary content sufficiency"},
+    {"id": "NEW4_JSON_FORMAT", "status": "PASS", "actual": "26 JSON parse clean; error_surface indentation uniform in both recipes"},
+    {"id": "PRIOR_WATCHER_EXEC_BIT", "status": "PASS", "actual": "watcher.sh 100755 in worktree, .git/index and HEAD tree; derived blob id 742e13d6... consistent"},
+    {"id": "PRIOR_X06_ABC_AND_Z01", "status": "PASS", "actual": "X06A FC_ARTIFACT_NOT_PINNED, X06B FC_PIN_MISMATCH, X06C ACCEPT (adjudicated boundary), Z01 FC_INPUT_IDENTITY_MISMATCH with decoy_execution=false"},
+    {"id": "PRIOR_E10_POSITIVE", "status": "PASS", "actual": "E10 ACCEPT"},
+    {"id": "PRIOR_15_NEGATIVE_CODES_EXACT", "status": "PASS", "actual": "P02-P08 and E02-E09 all expected==actual==declared fail_closed_code, 15/15", "count": 15},
+    {"id": "PRIOR_FOUR_CLASS_SEPARATION", "status": "PASS", "actual": "qualification/audit/execution/scientific separated in both recipes, overall_pass_field_forbidden=true; E07 -> FC_SINGLE_OVERALL_PASS_FORBIDDEN"},
+    {"id": "PRIOR_FROZEN_PROTECTIONS", "status": "PASS", "actual": "7/7 shared_frozen_protections present and FROZEN; FP-RAW-RECORD-INTEGRITY not violated this round"},
+    {"id": "PRIOR_TASK_PROMPT_VERBATIM", "status": "PASS", "actual": "byte-identical to runs/T5/_dispatch/loop_a_prompt_t5_v3.md"},
+    {"id": "PRIOR_G1_ALL_MARKDOWN", "status": "PASS", "actual": "independently ran summary_recompute_guard.py check on all 5 .md -> 5/5 rc=0"},
+    {"id": "PRIOR_NO_BARE_PASS_NO_OVERCLAIM", "status": "PASS", "actual": "no unscoped PASS/overclaim in prose; self_check statuses anchored to named check_id; overall CONTRACT_PASS only"},
+    {"id": "PRIOR_USAGE_ZERO_CLAIM", "status": "PASS", "actual": "92 = 4x23 self-consistent; 11 external-call counters 0; execution_chat_usage UNRESOLVED (not zeroed)"},
+    {"id": "PRIOR_WRITE_BOUNDARY", "status": "PASS_WITH_NOTE", "actual": "no run code path writes into the delivered tree; .git/* changes belong to commit ebd2710 itself; logs/ gitignored files changed during the authoring window by writers outside T5 code paths (left unverified, not attributed)"},
+    {"id": "NEW_ADVERSARIAL_5_NEG_2_POS", "status": "PASS", "actual": "stale tick+bounded30 -> FC_OPERATION_TARGET_FAILURE; future tick -> FC_OPERATION_TARGET_FAILURE; runtime symlink escape -> FC_ARBITRARY_PATH; integer pin -> FC_ARTIFACT_NOT_PINNED; null pin -> FC_ARTIFACT_NOT_PINNED; legal bounded-age call -> ACCEPTED_WITHIN_SCOPE; independent-pin delivery -> ACCEPTED_WITHIN_SCOPE", "negatives": 5, "positives": 2},
+    {"id": "DISCLOSURE_REPAIR_RECORD_AND_DIFF", "status": "PARTIAL", "actual": "every repair declaration in repair_record.md and v2_v3_diff.json traces to implementation and measurement; but six delivered surfaces assert manifest 45/45 / passed:true which the delivered bytes do not reproduce"},
+    {"id": "SUPERSEDES_CHAIN", "status": "PASS", "actual": "receipt.supersedes.review_chain records T5R-01 REJECTED blocking=2 and T5R-02 REJECTED blocking=1 advisory=4, matching both prior ACCEPTANCE_PROPOSAL.json files"}
+  ],
+  "calls": {
+    "delivered_tools_invoked": [
+      {"tool": "scratch/verify_replay.py", "invocations": 3, "note": "2 refusal-path probes (rc=1 each, no writes) + 1 full run (rc=3)"},
+      {"tool": "run_probes.py", "invocations": 3, "note": "2 direct delivered-tree passes + 1 flipped-definition full-matrix reproduction"},
+      {"tool": "caller_validator.py", "invocations": 123, "note": "92 from verify_replay four rounds + 23 full-matrix reproduction + 1 NEW-1(a) substitution + 7 new adversarial (5 neg + 2 pos)"},
+      {"tool": "caller_validator.execute_operation (direct import)", "invocations": 2, "note": "NEW-1(b) attack + control"},
+      {"tool": "scripts/graph/hooks/summary_recompute_guard.py check", "invocations": 5, "note": "G1 on all 5 .md files"}
+    ],
+    "final_acceptance_caller_processes_reviewer_side": 123,
+    "model_requests": 0,
+    "network_calls": 0,
+    "remote_calls": 0,
+    "production_calls": 0,
+    "database_calls": 0,
+    "training_calls": 0,
+    "daemon_calls": 0,
+    "loop_b_calls": 0,
+    "automatic_retries": 0,
+    "execution_chat_usage": "UNRESOLVED"
+  },
+  "refused_commands": [
+    {"command": "mkdir -p /home/testuser/wzh/loop_runs/t5r03_recheck_a/_probe", "refused_by": "harness sandbox", "message": "Claude Code may only create directories in the allowed working directories for this session: '/home/testuser/wzh/projects/agents_final_tech'"},
+    {"command": "git status --short", "refused_by": "task whitelist / sandbox", "note": "git CLI denied; substituted with byte-derived git blob SHA-1 and .git/index binary parse"},
+    {"command": "chmod 644 /tmp/x", "refused_by": "task whitelist / sandbox", "note": "chmod denied; reviewer performed no mode changes anywhere"},
+    {"command": "cp /etc/hostname /tmp/y", "refused_by": "task whitelist / sandbox", "note": "cp denied; used python3 shutil/Path for scratch copies"},
+    {"command": "Write tool -> /home/testuser/wzh/loop_runs/t5r03_recheck_a/*.py", "refused_by": "harness sandbox", "message": "outside the allowed working directories for this session"},
+    {"command": "cat > /home/testuser/wzh/loop_runs/.../file << 'EOF' (output redirection)", "refused_by": "harness sandbox", "message": "Output redirection outside allowed working directories was blocked"},
+    {"command": "cd /tmp && timeout 540 python3 ... > ... 2> ...", "refused_by": "harness sandbox", "message": "multiple operations required approval; rerun without cd/redirection succeeded"},
+    {"command": "verify_replay.py --work-root <already-existing path>", "refused_by": "delivered tool", "exit_code": 1, "message": "refuse to overwrite replay work root", "note": "documented refusal reproduced; nothing written into the delivery tree"},
+    {"command": "verify_replay.py --work-root <path inside the run tree>", "refused_by": "delivered tool", "exit_code": 1, "message": "work root must be outside the delivered run tree", "note": "documented refusal reproduced; in_tree_work did not get created"}
+  ],
+  "reviewer_side_effects_disclosed": {
+    "writes_inside_reviewed_run": 0,
+    "writes_inside_repository": 0,
+    "scratch_only_outside_repo": "/home/testuser/wzh/loop_runs/t5r03_recheck_a/",
+    "work_roots_created_outside_repo": ["/home/testuser/wzh/loop_runs/t5r03_recheck_a/work_replay_1", "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_new1", "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_new1b", "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_stale", "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_future", "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_symlink", "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_pintype", "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_pos", "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_pos2", "/home/testuser/wzh/loop_runs/t5r03_recheck_a/fm"],
+    "delivery_tree_integrity_self_check": "full sha256/bytes/mode/mtime_ns scan over all 46 delivered files before and after the replay run: 0 added, 0 removed, 0 changed",
+    "mode_changes_performed_by_reviewer": 0,
+    "git_writes": 0,
+    "model_endpoint_calls": 0,
+    "production_or_database_probes": 0,
+    "entered_t6": false
+  },
+  "unverified": [
+    "GB10 production services, databases, model endpoints, daemon and Loop B remain untouched and unverified.",
+    "Executor/reviewer execution-chat token usage remains UNRESOLVED and is not represented as zero.",
+    "Future Loop D invocation against a real run package, real evidence handoff and sealed case set remain unverified.",
+    "Formal END_TO_END_PREFLIGHT_PASS and FORMAL_RUN_PASS are not claimed and not verified.",
+    "Real-deployment ownership/provenance of the external summary pin: the fixture proves file-level separation inside the package only.",
+    "Exact writers and timing of logs/ and .pytest_cache/ changes observed during the authoring window (left unverified, not attributed to T5).",
+    "End-to-end demonstration of the target git_blob_id layer against a mutated repo T4 adapter was out of reviewer write bounds; verified by direct invocation of the delivered execute_operation instead."
+  ],
+  "verdict": {
+    "decision": "REJECTED",
+    "blocking_count": 1,
+    "advisory_count": 4,
+    "headline": "Manifest mode self-evidence is void for 4 artifacts; the delivered no-prerequisite replay entry point returns rc=3 on delivered bytes and six delivered surfaces assert manifest 45/45 / passed:true, which cannot be reproduced from the delivered state.",
+    "t5r02_blocking_status": "SUBSTANTIVELY_CLOSED_AND_INDEPENDENTLY_REPRODUCED",
+    "t5r01_regressions": "PRESERVED",
+    "integrity_accusation": false
+  }
+}
+
+=== FILE: ACCEPTANCE_PROPOSAL.json ===
+{
+  "schema": "jinrong_loop_c_acceptance_proposal_v1",
+  "review_id": "T5R-03",
+  "task_id": "T5",
+  "run_id": "20261014T233742Z_cb132ce7",
+  "decision": "REJECTED",
+  "blocking_items": [
+    {
+      "id": "BLOCKING-1",
+      "title": "Manifest mode self-evidence void for 4 artifacts; delivered replay entry point returns rc=3; six surfaces assert manifest 45/45 which is not reproducible",
+      "category": "reproducibility / evidence-durability",
+      "acceptance_criterion_hit": "A-common（必需字段齐全、声明哈希实算一致）+ FP-RAW-RECORD-INTEGRITY（原始记录身份漂移=0）+ FP-EVIDENCE-COVERAGE + receipt.checks.REPLAY_* 与 summary/events 的 manifest 45/45 主张",
+      "facts": [
+        "artifacts_manifest.json declares mode='100755' for run_probes.py, scratch/adversarial_checks.py, scratch/self_check.py, scratch/verify_replay.py, under hash_domain='sha256_file_bytes_plus_mode'",
+        "Delivered bytes are non-executable for all four, consistently across worktree (100664), .git/index (100644) and the HEAD tree of ebd2710 (100644) - so the inconsistency is committed, not a dirty worktree",
+        "Independent per-entry recompute: 45 entries checked, bytes/SHA-256 45/45 match, mode 41/45 match, 4 mode mismatches; the other 41 entries show zero drift (11 declared 100644, 29 declared 100664)",
+        "Delivered entry point scratch/verify_replay.py on delivered bytes returns rc=3; current_tree manifest_before.passed=false and manifest_after.passed=false, each with exactly those 4 mode failures; overall passed=false",
+        "Six delivered surfaces assert the opposite: scratch/replay/replay_summary.json (passed:true, manifest failures:[]), scratch/self_check_result.json (MANIFEST_45_OF_45 failures:[]), events.jsonl event 9 (manifest_checks ['45/45','45/45']), receipt.json ('manifest recompute 45/45'), summary.md and repair_record.md SUMMARY-GUARD prose",
+        "Card A-common 'declared hashes recompute consistently' therefore fails under the package's own declared hash_domain",
+        "Same defect class as T5R-01 BLOCKING-1 (execute-bit/mode loss voiding reproducibility): the mode discipline was applied only to required_executables (so watcher.sh survived at 100755 in all three places) and not to the manifest's own mode field"
+      ],
+      "impact": "The T5 v3 headline delivery claim 'manifest 45/45' and replay_summary.passed=true cannot be independently reproduced from the delivered package. Applying the T5R-01 standard ('a headline claim that cannot be independently reproduced from the delivered state is blocking'), which T5R-02 applied identically to v2, yields REJECTED.",
+      "not_an_integrity_accusation": "scratch/replay/current_tree_snapshot_before.json records all four files at mode 100755 at authoring time, so the author's 45/45 was plausibly true when made and the four replay rounds were genuinely 23/23. The defect is evidence durability / self-evidencing delivery - the execute bits were lost before or at commit - using the same wording T5R-02 applied to v2. No fabrication, authority violation or frozen-file change was found.",
+      "distinct_from_t5r02_blocking": "T5R-02 BLOCKING-1 (stale tick fixture + in-place mutation of a manifest-bound fixture) is SUBSTANTIVELY CLOSED and I independently reproduced the closure: prerequisites=NONE, no prepare script, P01 max_tick_age_minutes=0 with the tool implementing 0=unlimited while still rejecting future timestamps, P09 tick generated only in an external runtime root, four rounds 23/23 with identical normalized outcomes, and an independent pre/post sha256+bytes+mode+mtime_ns scan over all 46 delivered files showing zero writes. This blocking item is a different, narrower defect.",
+      "remediation_local_cheap_no_authority_expansion": [
+        "(a) Either restore the execute bit on run_probes.py, scratch/adversarial_checks.py, scratch/self_check.py and scratch/verify_replay.py, or set their manifest mode entries to the real delivered mode - the manifest must equal delivered bytes under sha256_file_bytes_plus_mode.",
+        "(b) Rebuild artifacts_manifest.json from the final delivered bytes AFTER the commit-adjacent step, then re-run scratch/verify_replay.py against that exact delivered state and require rc=0 with manifest 45/45 in all four checks.",
+        "(c) Re-emit scratch/replay/replay_summary.json, scratch/self_check_result.json, events.jsonl, summary.md, repair_record.md and receipt.json so every '45/45' statement equals the recomputed value; no stale passed:true may remain.",
+        "(d) Recommended: normalize recorded modes to git semantics (100644/100755) so umask drift cannot reintroduce this class of mismatch."
+      ],
+      "estimated_cost": "Local byte/mode bookkeeping plus one re-run of the delivered replay entry point. No authority expansion, no experiment rerun, no frozen-file change, no model call."
+    }
+  ],
+  "advisory_items": [
+    {
+      "id": "ADVISORY-1",
+      "category": "evidence-quality / blind spot",
+      "finding": "scratch/verify_replay.py:restore_modes() forces every mode of the fresh-delivery copy to 0644 and then back to the manifest value before that leg's manifest check (observed mode_reset_and_restore_count=45). This makes the fresh-delivery leg structurally blind to mode drift - the exact class of defect that escaped in BLOCKING-1 - and is itself a mode-rewrite step in the replay path (external copy only, disclosed).",
+      "suggested_fix": "Remove restore_modes() so the copytree result is checked as-is, or verify modes before any rewrite. If a mode reset is needed to simulate a fresh delivery, record the pre-rewrite mismatch rather than erasing it."
+    },
+    {
+      "id": "ADVISORY-2",
+      "category": "portability / bookkeeping",
+      "finding": "The manifest records umask-dependent modes, mixing 11 entries of 100644 with 29 entries of 100664. A checkout or copy under a different umask would mismatch those entries even when the execute bit is correct.",
+      "suggested_fix": "Record only the git-normalized mode (100644/100755), or normalize file modes before hashing."
+    },
+    {
+      "id": "ADVISORY-3",
+      "category": "error-surface contract",
+      "finding": "caller_validator.py raises bare SystemExit for a --runtime-root inside the delivered run tree, and verify_replay.py does the same for an in-tree or pre-existing --work-root. Both emit no JSON result object, so a caller falls back to MALFORMED_RESULT/FC_INTERNAL instead of a canonical FC_ARBITRARY_PATH (or equivalent). Fail-closed, but off the declared error surface. Verified: both refusals fire correctly and write nothing.",
+      "suggested_fix": "Emit the normal rejected JSON envelope with a canonical fail_closed_code for these guard rails."
+    },
+    {
+      "id": "ADVISORY-4",
+      "category": "write-boundary observability",
+      "finding": "Files under the gitignored logs/ tree (app.log, loop_b.log, docs_lint_report.json, verify-report.json and others) were modified during the T5 v3 authoring window. T5 code paths contain no write route into the repository, so these appear to be written by an external process (Loop B / application). T5R-02 also left this unverified.",
+      "suggested_fix": "No T5 change required. Record it as an open observability item for the closer; do not attribute it to T5 without evidence."
+    }
+  ],
+  "scope": {
+    "verified": "T5 v3 run package file count (46 = 45 manifest entries + non-self-hashed manifest); per-entry SHA-256 and byte recompute (45/45); per-entry mode recompute (41/45, 4 mismatches); mode cross-check against .git/index and the HEAD tree of ebd2710 via byte-derived git blob SHA-1 and direct .git/objects walks; delivered no-prerequisite replay entry point (rc=3, four rounds 23/23, normalized outcomes identical, tree_unchanged on both trees); independent two-pass run_probes.py on the delivered tree with a full sha256/bytes/mode/mtime_ns zero-write proof; P01 max_tick_age_minutes=0 semantics and P09 external runtime tick; absence of any in-run prepare/write path; NEW-1 both layers (registry substitution and target git_blob_id) plus embedded pin and scope wording; NEW-2 full-matrix-on-failure independently reproduced; NEW-3 independent pin file and scope_boundary; NEW-4 formatting and 26/26 JSON parse; T5R-01 regressions (watcher execute bit in three places, X06A/B/C, Z01, E10, 15/15 original negative codes, four-class separation, 7/7 frozen protections); TASK_PROMPT byte-identity with the dispatch source; G1 on all 5 Markdown files (5/5 rc=0); usage self-consistency (92 = 4x23) with zero external-call counters; write boundary including gitignore-visible paths; disclosure consistency of repair_record.md and v2_v3_diff.json; receipt.supersedes chain against both prior reviews; five new negative and two new positive adversarial probes.",
+    "verification_levels_claimed": ["CONTRACT_PASS (partial)"],
+    "explicitly_not_claimed": ["END_TO_END_PREFLIGHT_PASS", "FORMAL_RUN_PASS", "scientific PASS", "formal experiment qualification", "promotion or deployment"],
+    "not_verified": "GB10 authoritative runtime, production services, databases, model endpoints, daemon, Loop B; execution-chat token usage (UNRESOLVED); future Loop D invocation against a real run package, real evidence handoff and sealed case set; real-deployment provenance of the external summary pin; exact writers and timing of logs/ and .pytest_cache/ changes; an end-to-end target-git_blob_id demonstration against a mutated repo T4 adapter (out of reviewer write bounds; verified via direct invocation of the delivered function instead).",
+    "reviewer_side_effects": "Zero writes inside the reviewed run or the repository; scratch and work roots only under /home/testuser/wzh/loop_runs/t5r03_recheck_a/; zero mode changes; no git writes; no model, production or database calls; T6 not entered."
+  },
+  "justification": "T5 v3 is a substantial and genuine improvement over v2, and its central repair holds up under independent reproduction. The T5R-02 replay-stability blocking is substantively closed: the delivered entry point runs with no prerequisites, no prepare path exists anywhere in the run, P01 uses max_tick_age_minutes=0 which the underlying tool implements as 'no upper age bound' while still rejecting future timestamps so the fixed past tick is genuinely replay-stable, P09 generates its bounded tick only in an external runtime root, all four rounds return 23/23 with identical normalized outcomes, and my own before/after scan of sha256, bytes, mode and mtime_ns over all 46 delivered files proves zero writes. All four T5R-02 advisories are folded and I re-verified each adversarially: registry substitution is rejected at FC_INPUT_IDENTITY_MISMATCH with the decoy never executing, target byte identity is enforced before execution at FC_OPERATION_TARGET_IDENTITY_MISMATCH, the full matrix is collected before a nonzero return (reproduced independently), the independent-pin fixture and scope_boundary exist, and the formatting is normalized. Every T5R-01 regression is preserved, including the watcher execute bit in the worktree, the .git index and HEAD. However the package is not self-evidencing: under its own declared hash_domain of sha256_file_bytes_plus_mode, four manifest entries declare mode 100755 for files that are non-executable in the worktree, the .git index and the HEAD tree of the delivered commit, and the delivered sole no-prerequisite entry point consequently returns rc=3 while six delivered surfaces assert manifest 45/45 and passed:true. That is a direct failure of card A-common and of FP-RAW-RECORD-INTEGRITY, and it is the same defect class as T5R-01 BLOCKING-1: the mode discipline reached required_executables but not the manifest's own mode field. T5R-01 established that a headline claim which cannot be independently reproduced from the delivered state is blocking, and T5R-02 applied that standard to v2; applying it consistently to v3 yields REJECTED. The defect is narrow, local and cheap to fix - it needs only byte/mode bookkeeping and one re-run, with no authority expansion, no experiment rerun and no frozen-file change - so REJECTED is chosen over PENDING_HUMAN_REVIEW, matching T5R-02's reasoning for the same remediation profile. No evidence of fabrication, authority violation or frozen-file modification was found; the author's recorded evidence was plausibly true when produced and the failure is evidence durability at the commit boundary.",
+  "dissent": [
+    {
+      "id": "dissent-A",
+      "topic": "Stricter reading of A2 versus the adjudicated threat boundary (X06C)",
+      "position_recorded": "X06C (summary_text, summary_sha256 and expected_artifact_sha256 all forged and mutually consistent) is ACCEPTED and executes target operations. An unconditional reading of card A2 ('forged summaries cannot pass') would call this a counterexample.",
+      "why_not_blocking": "The Loop D adjudication requires only that acceptance bind to an external pin outside the producer's control and that the boundary - 'does not defend against a caller deliberately supplying a false pin' - be explicitly declared. That declaration exists and matches the implementation at recipe_interfaces.json:289, recipe_fixtures/README.md and receipt.unresolved[0], and the delivered probe set encodes the case as X06C with expected=ACCEPT. I concur with T5R-02's treatment and record it as a declared boundary fact, not a defect.",
+      "residual_caveat": "The boundary remains a trust assumption rather than a mechanism, since the pin travels in the same call object as the summary."
+    },
+    {
+      "id": "dissent-B",
+      "topic": "A strictly stronger construction was available and unused (carried from T5R-02 dissent-2)",
+      "position_recorded": "recipe_fixtures/delivery_payload.json already carries summary.text bound via package_sha256, which the validator recomputes. Binding the summary check to that package summary.text would defeat even a caller supplying a false pin, since forging would require changing package bytes and would trigger FC_HASH_BINDING_MISMATCH.",
+      "why_not_blocking": "The Loop D adjudication accepted the external-pin form, so this is an alternative-design note. v3 honestly records it in v2_v3_diff.json.not_implemented_by_instruction and receipt.unresolved[2]. I do not deduct for leaving it unimplemented and re-record it for the owner's later consideration, or as grounds to narrow the wording of unresolved[0]."
+    }
+  ],
+  "next_steps": [
+    "Fix BLOCKING-1 this round: make artifacts_manifest.json's mode field equal the delivered bytes for run_probes.py, scratch/adversarial_checks.py, scratch/self_check.py and scratch/verify_replay.py (restore the execute bit or correct the declared mode), rebuild the manifest from the final delivered bytes, and re-run scratch/verify_replay.py against that exact state requiring rc=0 with manifest 45/45 in all four checks.",
+    "Re-emit scratch/replay/replay_summary.json, scratch/self_check_result.json, events.jsonl, summary.md, repair_record.md and receipt.json so no surface asserts a manifest count that the delivered bytes do not reproduce.",
+    "Handle ADVISORY-1 in the same pass if convenient: drop restore_modes() from verify_replay.py so the fresh-delivery leg can actually detect mode drift, and consider normalizing recorded modes to git semantics per ADVISORY-2.",
+    "Optionally emit a canonical fail_closed_code instead of bare SystemExit for the work-root/runtime-root guard rails (ADVISORY-3).",
+    "Preserve all already-verified surfaces without rework: the replay-stability repair (P01 age=0, external P09 tick, no prepare path), the NEW-1 double identity layer, full-matrix collection, the independent-pin fixture and scope_boundary, watcher 100755, X06A/B/C, Z01, E10, the 15 original negative codes, four-class separation, 7/7 frozen protections, TASK_PROMPT verbatim capture and the G1 guard. None of these need to be reopened.",
+    "Re-issue the self-check and resubmit T5, then request another Loop C slot.",
+    "Do not enter T6. registry and state are updated by the closer, not by this review."
+  ]
+}
+=== END ===

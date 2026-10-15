@@ -1,0 +1,592 @@
+{
+  "calls": {
+    "automatic_retries": 0,
+    "daemon_calls": 0,
+    "database_calls": 0,
+    "delivered_tools_invoked": [
+      {
+        "invocations": 3,
+        "note": "2 refusal-path probes (rc=1 each, no writes) + 1 full run (rc=3)",
+        "tool": "scratch/verify_replay.py"
+      },
+      {
+        "invocations": 3,
+        "note": "2 direct delivered-tree passes + 1 flipped-definition full-matrix reproduction",
+        "tool": "run_probes.py"
+      },
+      {
+        "invocations": 123,
+        "note": "92 from verify_replay four rounds + 23 full-matrix reproduction + 1 NEW-1(a) substitution + 7 new adversarial (5 neg + 2 pos)",
+        "tool": "caller_validator.py"
+      },
+      {
+        "invocations": 2,
+        "note": "NEW-1(b) attack + control",
+        "tool": "caller_validator.execute_operation (direct import)"
+      },
+      {
+        "invocations": 5,
+        "note": "G1 on all 5 .md files",
+        "tool": "scripts/graph/hooks/summary_recompute_guard.py check"
+      }
+    ],
+    "execution_chat_usage": "UNRESOLVED",
+    "final_acceptance_caller_processes_reviewer_side": 123,
+    "loop_b_calls": 0,
+    "model_requests": 0,
+    "network_calls": 0,
+    "production_calls": 0,
+    "remote_calls": 0,
+    "training_calls": 0
+  },
+  "checks": [
+    {
+      "actual": "rc=3; current_tree manifest_before/after passed=false with 4 mode failures; overall passed=false",
+      "expected": "rc=0 and manifest 45/45",
+      "id": "REPLAY_DELIVERED_ENTRY_POINT",
+      "reproduced": true,
+      "status": "PARTIAL"
+    },
+    {
+      "actual": "PASS_1/PASS_2 x current_tree/fresh_delivery, each record_count=23 passed=23 exit_code=0 accepted=5 rejected=18",
+      "expected": "23/23 x4",
+      "id": "REPLAY_FOUR_ROUNDS_23_OF_23",
+      "reproduced": true,
+      "status": "PASS"
+    },
+    {
+      "actual": "normalized_outcomes_identical_across_four_rounds=true",
+      "id": "REPLAY_NORMALIZED_OUTCOMES_IDENTICAL",
+      "reproduced": true,
+      "status": "PASS"
+    },
+    {
+      "actual": "tree_unchanged=true on current_tree and fresh_delivery; independent pre/post full scan shows 0 changes across 46 files",
+      "id": "REPLAY_TREE_UNCHANGED_BOTH",
+      "reproduced": true,
+      "status": "PASS"
+    },
+    {
+      "actual": "current_tree before/after = 41/45 (4 mode failures); fresh_delivery 45/45 only after restore_modes rewrote the copy",
+      "expected": "45/45 in all four manifest checks",
+      "id": "REPLAY_MANIFEST_45_OF_45",
+      "reproduced": true,
+      "status": "FAIL"
+    },
+    {
+      "actual": "prerequisites=NONE; no prepare_runtime_fixtures.py; all writes in run_probes/caller_validator/scratch target runtime_root, --output, work_root or mktemp; delivered tick fixture never rewritten",
+      "id": "NO_PRECONDITION_NO_PREPARE_PATH",
+      "reproduced": true,
+      "status": "PASS"
+    },
+    {
+      "actual": "fixture max_tick_age_minutes=0; dispatch_precheck.sh implements 'if args.max_tick_age_min > 0 and age > max*60' -> 0 imposes no upper bound; future timestamps still rejected; fixed past tick therefore replay-stable",
+      "id": "P01_MAX_TICK_AGE_ZERO_SEMANTICS",
+      "reproduced": true,
+      "status": "PASS"
+    },
+    {
+      "actual": "runtime_tick() writes observed_at=now into tempfile.TemporaryDirectory(dir=output.parent) outside the run tree; bound 60 min",
+      "id": "P09_EXTERNAL_RUNTIME_TICK",
+      "reproduced": true,
+      "status": "PASS"
+    },
+    {
+      "actual": "delivered CLI run_probes.py on the delivered tree twice: 23 records each, consistent; full sha256/bytes/mode/mtime_ns scan before/after = zero writes",
+      "id": "RUN_PROBES_DIRECT_TWO_PASSES_ZERO_WRITE",
+      "reproduced": true,
+      "status": "PASS"
+    },
+    {
+      "actual": "substituted registered_operations.json (target path+content swapped to decoy) -> rc=1 FC_INPUT_IDENTITY_MISMATCH, target_execution_performed=false, operation_results=0, decoy marker absent",
+      "id": "NEW1_REGISTRY_SUBSTITUTION",
+      "reproduced": true,
+      "status": "PASS"
+    },
+    {
+      "actual": "delivered execute_operation with scratch-modified target bytes and original declared git_blob_id -> FC_OPERATION_TARGET_IDENTITY_MISMATCH before subprocess; decoy marker absent; control (correct target+id) executes wrapper=0 target=0",
+      "id": "NEW1_TARGET_GIT_BLOB_IDENTITY",
+      "method_note": "end-to-end layer-2 would require mutating a repo T4 adapter, out of reviewer write bounds; verified via direct invocation of the delivered function",
+      "reproduced": true,
+      "status": "PASS"
+    },
+    {
+      "actual": "INTERFACES_SHA256/OPERATIONS_SHA256/PROTOCOL_FREEZE/RUN_ID all match delivered bytes; three target git_blob_ids match; scope 'against the delivered, identity-verified registry' present in path_policy.target_rule, registry.scope and README",
+      "id": "NEW1_EMBEDDED_PINS_AND_SCOPE",
+      "status": "PASS"
+    },
+    {
+      "actual": "flipped P01 expectation -> rc=3, 23 records collected, first case P01 failed, last case Z01 present",
+      "id": "NEW2_FULL_MATRIX_ON_FAILURE",
+      "reproduced": true,
+      "status": "PASS"
+    },
+    {
+      "actual": "E10 ACCEPT with pin_source=external_summary_pin.txt; recipe_interfaces.json:289 caller_contract.scope_boundary explicitly excludes summary content sufficiency",
+      "id": "NEW3_INDEPENDENT_PIN_FILE",
+      "status": "PASS"
+    },
+    {
+      "actual": "26 JSON parse clean; error_surface indentation uniform in both recipes",
+      "id": "NEW4_JSON_FORMAT",
+      "status": "PASS"
+    },
+    {
+      "actual": "watcher.sh 100755 in worktree, .git/index and HEAD tree; derived blob id 742e13d6... consistent",
+      "id": "PRIOR_WATCHER_EXEC_BIT",
+      "status": "PASS"
+    },
+    {
+      "actual": "X06A FC_ARTIFACT_NOT_PINNED, X06B FC_PIN_MISMATCH, X06C ACCEPT (adjudicated boundary), Z01 FC_INPUT_IDENTITY_MISMATCH with decoy_execution=false",
+      "id": "PRIOR_X06_ABC_AND_Z01",
+      "status": "PASS"
+    },
+    {
+      "actual": "E10 ACCEPT",
+      "id": "PRIOR_E10_POSITIVE",
+      "status": "PASS"
+    },
+    {
+      "actual": "P02-P08 and E02-E09 all expected==actual==declared fail_closed_code, 15/15",
+      "count": 15,
+      "id": "PRIOR_15_NEGATIVE_CODES_EXACT",
+      "status": "PASS"
+    },
+    {
+      "actual": "qualification/audit/execution/scientific separated in both recipes, overall_pass_field_forbidden=true; E07 -> FC_SINGLE_OVERALL_PASS_FORBIDDEN",
+      "id": "PRIOR_FOUR_CLASS_SEPARATION",
+      "status": "PASS"
+    },
+    {
+      "actual": "7/7 shared_frozen_protections present and FROZEN; FP-RAW-RECORD-INTEGRITY not violated this round",
+      "id": "PRIOR_FROZEN_PROTECTIONS",
+      "status": "PASS"
+    },
+    {
+      "actual": "byte-identical to runs/T5/_dispatch/loop_a_prompt_t5_v3.md",
+      "id": "PRIOR_TASK_PROMPT_VERBATIM",
+      "status": "PASS"
+    },
+    {
+      "actual": "independently ran summary_recompute_guard.py check on all 5 .md -> 5/5 rc=0",
+      "id": "PRIOR_G1_ALL_MARKDOWN",
+      "status": "PASS"
+    },
+    {
+      "actual": "no unscoped PASS/overclaim in prose; self_check statuses anchored to named check_id; overall CONTRACT_PASS only",
+      "id": "PRIOR_NO_BARE_PASS_NO_OVERCLAIM",
+      "status": "PASS"
+    },
+    {
+      "actual": "92 = 4x23 self-consistent; 11 external-call counters 0; execution_chat_usage UNRESOLVED (not zeroed)",
+      "id": "PRIOR_USAGE_ZERO_CLAIM",
+      "status": "PASS"
+    },
+    {
+      "actual": "no run code path writes into the delivered tree; .git/* changes belong to commit ebd2710 itself; logs/ gitignored files changed during the authoring window by writers outside T5 code paths (left unverified, not attributed)",
+      "id": "PRIOR_WRITE_BOUNDARY",
+      "status": "PASS_WITH_NOTE"
+    },
+    {
+      "actual": "stale tick+bounded30 -> FC_OPERATION_TARGET_FAILURE; future tick -> FC_OPERATION_TARGET_FAILURE; runtime symlink escape -> FC_ARBITRARY_PATH; integer pin -> FC_ARTIFACT_NOT_PINNED; null pin -> FC_ARTIFACT_NOT_PINNED; legal bounded-age call -> ACCEPTED_WITHIN_SCOPE; independent-pin delivery -> ACCEPTED_WITHIN_SCOPE",
+      "id": "NEW_ADVERSARIAL_5_NEG_2_POS",
+      "negatives": 5,
+      "positives": 2,
+      "status": "PASS"
+    },
+    {
+      "actual": "every repair declaration in repair_record.md and v2_v3_diff.json traces to implementation and measurement; but six delivered surfaces assert manifest 45/45 / passed:true which the delivered bytes do not reproduce",
+      "id": "DISCLOSURE_REPAIR_RECORD_AND_DIFF",
+      "status": "PARTIAL"
+    },
+    {
+      "actual": "receipt.supersedes.review_chain records T5R-01 REJECTED blocking=2 and T5R-02 REJECTED blocking=1 advisory=4, matching both prior ACCEPTANCE_PROPOSAL.json files",
+      "id": "SUPERSEDES_CHAIN",
+      "status": "PASS"
+    }
+  ],
+  "recomputed": {
+    "delivery_tree_zero_write": {
+      "added": 0,
+      "changed": 0,
+      "fields_compared": [
+        "bytes",
+        "sha256",
+        "mode",
+        "mtime_ns"
+      ],
+      "files_after": 46,
+      "files_before": 46,
+      "match": true,
+      "removed": 0
+    },
+    "embedded_pins": {
+      "INTERFACES_SHA256_match": true,
+      "OPERATIONS_SHA256_match": true,
+      "PROTOCOL_FREEZE_match": true,
+      "RUN_ID_match": true
+    },
+    "extra_on_disk": [],
+    "file_count": {
+      "actual": 46,
+      "expected": 46,
+      "match": true
+    },
+    "g1_all_markdown": {
+      "checked": 5,
+      "match": true,
+      "rc0": 5
+    },
+    "hash_domain": "sha256_file_bytes_plus_mode",
+    "json_parse": {
+      "checked": 26,
+      "failures": 0
+    },
+    "manifest_declared_count": {
+      "actual": 45,
+      "expected": 45,
+      "match": true
+    },
+    "manifest_entries_len": {
+      "actual": 45,
+      "expected": 45,
+      "match": true
+    },
+    "manifest_mode_groups_other": {
+      "declared_100644_drift": 0,
+      "declared_100664_drift": 0
+    },
+    "manifest_mode_recompute": {
+      "checked": 45,
+      "match": false,
+      "matched": 41,
+      "mismatched": 4,
+      "mismatches": [
+        {
+          "declared": "100755",
+          "field": "mode",
+          "git_index": "100644",
+          "head_tree": "100644",
+          "relative_path": "run_probes.py",
+          "worktree": "100664"
+        },
+        {
+          "declared": "100755",
+          "field": "mode",
+          "git_index": "100644",
+          "head_tree": "100644",
+          "relative_path": "scratch/adversarial_checks.py",
+          "worktree": "100664"
+        },
+        {
+          "declared": "100755",
+          "field": "mode",
+          "git_index": "100644",
+          "head_tree": "100644",
+          "relative_path": "scratch/self_check.py",
+          "worktree": "100664"
+        },
+        {
+          "declared": "100755",
+          "field": "mode",
+          "git_index": "100644",
+          "head_tree": "100644",
+          "relative_path": "scratch/verify_replay.py",
+          "worktree": "100664"
+        }
+      ]
+    },
+    "manifest_sha256_bytes_recompute": {
+      "checked": 45,
+      "match": true,
+      "matched": 45,
+      "mismatched": 0
+    },
+    "missing_on_disk": [],
+    "required_executables": {
+      "declared": [
+        "recipe_fixtures/dispatch/watcher.sh"
+      ],
+      "match": true,
+      "observed_exec": true
+    },
+    "self_hash_policy": "artifacts_manifest.json does not self-hash",
+    "summary_guard_receipt_sha256": {
+      "actual": "285c808d1cb65c0c93f7534866e3f9550d11333a28b73d42d7bd39dea0e53a90",
+      "declared": "285c808d1cb65c0c93f7534866e3f9550d11333a28b73d42d7bd39dea0e53a90",
+      "match": true
+    },
+    "target_git_blob_ids": {
+      "checked": 3,
+      "matched": 3,
+      "mismatched": 0
+    },
+    "task_prompt_verbatim": {
+      "byte_identical": true,
+      "bytes": 4368,
+      "sha256": "dd77d2449945ad3fe22adb29b31cdcbb2a8e92cd62d1596821d78f8379f93e3b"
+    },
+    "usage_self_consistency": {
+      "execution_chat_usage": "UNRESOLVED",
+      "external_call_counters_all_zero": true,
+      "final_acceptance_caller_processes": 92,
+      "four_rounds_x_23": 92,
+      "match": true
+    },
+    "watcher_exec_bit": {
+      "all_three": true,
+      "git_index": "100755",
+      "head_tree": "100755",
+      "worktree": "100755"
+    }
+  },
+  "refused_commands": [
+    {
+      "command": "mkdir -p /home/testuser/wzh/loop_runs/t5r03_recheck_a/_probe",
+      "message": "Claude Code may only create directories in the allowed working directories for this session: '/home/testuser/wzh/projects/agents_final_tech'",
+      "refused_by": "harness sandbox"
+    },
+    {
+      "command": "git status --short",
+      "note": "git CLI denied; substituted with byte-derived git blob SHA-1 and .git/index binary parse",
+      "refused_by": "task whitelist / sandbox"
+    },
+    {
+      "command": "chmod 644 /tmp/x",
+      "note": "chmod denied; reviewer performed no mode changes anywhere",
+      "refused_by": "task whitelist / sandbox"
+    },
+    {
+      "command": "cp /etc/hostname /tmp/y",
+      "note": "cp denied; used python3 shutil/Path for scratch copies",
+      "refused_by": "task whitelist / sandbox"
+    },
+    {
+      "command": "Write tool -> /home/testuser/wzh/loop_runs/t5r03_recheck_a/*.py",
+      "message": "outside the allowed working directories for this session",
+      "refused_by": "harness sandbox"
+    },
+    {
+      "command": "cat > /home/testuser/wzh/loop_runs/.../file << 'EOF' (output redirection)",
+      "message": "Output redirection outside allowed working directories was blocked",
+      "refused_by": "harness sandbox"
+    },
+    {
+      "command": "cd /tmp && timeout 540 python3 ... > ... 2> ...",
+      "message": "multiple operations required approval; rerun without cd/redirection succeeded",
+      "refused_by": "harness sandbox"
+    },
+    {
+      "command": "verify_replay.py --work-root <already-existing path>",
+      "exit_code": 1,
+      "message": "refuse to overwrite replay work root",
+      "note": "documented refusal reproduced; nothing written into the delivery tree",
+      "refused_by": "delivered tool"
+    },
+    {
+      "command": "verify_replay.py --work-root <path inside the run tree>",
+      "exit_code": 1,
+      "message": "work root must be outside the delivered run tree",
+      "note": "documented refusal reproduced; in_tree_work did not get created",
+      "refused_by": "delivered tool"
+    }
+  ],
+  "review_id": "T5R-03",
+  "reviewed_artifact": {
+    "commit": "ebd2710a1078bbfe637528fb69013c24f208b002",
+    "file_count": 46,
+    "manifest_artifact_count": 45,
+    "run_id": "20261014T233742Z_cb132ce7",
+    "run_root": "/home/testuser/wzh/projects/agents_final_tech/research/harness_rsi_v1/runs/T5/20261014T233742Z_cb132ce7"
+  },
+  "reviewed_artifact_sha256": [
+    {
+      "bytes": 9285,
+      "mode": "100664",
+      "path": "receipt.json",
+      "sha256": "285c808d1cb65c0c93f7534866e3f9550d11333a28b73d42d7bd39dea0e53a90"
+    },
+    {
+      "bytes": 1398,
+      "mode": "100664",
+      "path": "summary.md",
+      "sha256": "dfded63d731144e74f9858a7a29cb8328314189cc3581d8af6c01976b03d78b9"
+    },
+    {
+      "bytes": 1332,
+      "mode": "100664",
+      "path": "repair_record.md",
+      "sha256": "f00b9d1c4a5559d4dbde3537b36228e5885e979aa8841dbee5d575800f8e1332"
+    },
+    {
+      "bytes": 16767,
+      "mode": "100664",
+      "path": "artifacts_manifest.json",
+      "sha256": "42c54895efa8a79165963ddb1b46810759c1b5852f1419cb3a7e97c89575a72d"
+    },
+    {
+      "bytes": 16545,
+      "mode": "100644",
+      "path": "recipe_interfaces.json",
+      "sha256": "52d5ec1e3f6a54629ddd83ed1787f257f560dfbb8723e8325d7c390b7680d6ef"
+    },
+    {
+      "bytes": 8784,
+      "mode": "100644",
+      "path": "registered_operations.json",
+      "sha256": "2cc368b69c8ae1687f3e85b8eab1181625f8f6816b82e5872d78c818113c9a03"
+    },
+    {
+      "bytes": 20290,
+      "mode": "100644",
+      "path": "caller_validator.py",
+      "sha256": "1840b06b9d777373874dbfc6fff88fc480eb5a1be6aa7d708de98846bb8023ae"
+    },
+    {
+      "bytes": 9592,
+      "mode": "100664",
+      "path": "run_probes.py",
+      "sha256": "6347830e37e5730f8f7365c0930588072573ea6c15c210d775fd6153fd0cd558"
+    },
+    {
+      "bytes": 1171,
+      "mode": "100664",
+      "path": "events.jsonl",
+      "sha256": "7c0ea3a62352790b716d18a6587b9de22aa262b5a4659ab0eda4d66551707a58"
+    },
+    {
+      "bytes": 4368,
+      "mode": "100664",
+      "path": "TASK_PROMPT.md",
+      "sha256": "dd77d2449945ad3fe22adb29b31cdcbb2a8e92cd62d1596821d78f8379f93e3b"
+    },
+    {
+      "bytes": 1959,
+      "mode": "100664",
+      "path": "v2_v3_diff.json",
+      "sha256": "eb33cbf181bac95d94c2410c5be4db7b3a969150e46b61ebc35230783390c6ea"
+    },
+    {
+      "bytes": 2638,
+      "mode": "100664",
+      "path": "recipe_fixtures/README.md",
+      "sha256": "289536235823e5bcefd6fa174a447daa2812209810514e25631ac44bf234134a"
+    },
+    {
+      "bytes": 11664,
+      "mode": "100644",
+      "path": "recipe_fixtures/probe_definitions.json",
+      "sha256": "399b80c1b6ccfc09b3373463fb8a9c31a1d6b7c92fad960027b6c5c46491dc14"
+    },
+    {
+      "bytes": 306,
+      "mode": "100644",
+      "path": "recipe_fixtures/dispatch/tick_valid.json",
+      "sha256": "8da1797b466640ac4fca4019986c210479f74d9b99a81346b514780e8a66d28d"
+    },
+    {
+      "bytes": 27,
+      "mode": "100755",
+      "path": "recipe_fixtures/dispatch/watcher.sh",
+      "sha256": "fb99eae951f1adc14d1a4a9a186c21930db2786b3208c94c7d9af382bd1048e5"
+    },
+    {
+      "bytes": 1177,
+      "mode": "100644",
+      "path": "recipe_fixtures/valid_precheck_call.json",
+      "sha256": "6f759beb37f5e3ab2c7d91bd4fc9228eb7839e654aae7abb4bab958004c23095"
+    },
+    {
+      "bytes": 65,
+      "mode": "100664",
+      "path": "recipe_fixtures/external_summary_pin.txt",
+      "sha256": "5a7d629c6e743596a04da3c2d225faf800a2e52e44fbbc54c2a31f34e22bea18"
+    },
+    {
+      "bytes": 8645,
+      "mode": "100664",
+      "path": "scratch/verify_replay.py",
+      "sha256": "b46e8c1cb93302ada82172de17f5c28585fffd0a8c1d78dfd5a66e0bd85b2750"
+    },
+    {
+      "bytes": 49982,
+      "mode": "100664",
+      "path": "scratch/replay/replay_summary.json",
+      "sha256": "dd18fbf90d11631698bb720ce0874d0982ea5921322d0f3df691768a1a80a3d3"
+    },
+    {
+      "bytes": 64276,
+      "mode": "100664",
+      "path": "scratch/self_check_result.json",
+      "sha256": "213b70be95e8714d27712111050c61c96c01b6e66b1ba4396f79ba6152fe927d"
+    },
+    {
+      "bytes": 595,
+      "mode": "100664",
+      "path": "scratch/new1_trust_boundary.json",
+      "sha256": "50a2b94777f91ab95b980ba9b37eee5e3914e7d0eecd2b3750601506e7834a59"
+    },
+    {
+      "bytes": 457,
+      "mode": "100664",
+      "path": "scratch/full_matrix_failure_evidence.json",
+      "sha256": "748d0fcb477a04000c2893c852353e68fb6770ca19df90db98cb63461483d352"
+    }
+  ],
+  "reviewer": "Loop C independent quality audit layer (GB10)",
+  "reviewer_side_effects_disclosed": {
+    "delivery_tree_integrity_self_check": "full sha256/bytes/mode/mtime_ns scan over all 46 delivered files before and after the replay run: 0 added, 0 removed, 0 changed",
+    "entered_t6": false,
+    "git_writes": 0,
+    "mode_changes_performed_by_reviewer": 0,
+    "model_endpoint_calls": 0,
+    "production_or_database_probes": 0,
+    "scratch_only_outside_repo": "/home/testuser/wzh/loop_runs/t5r03_recheck_a/",
+    "work_roots_created_outside_repo": [
+      "/home/testuser/wzh/loop_runs/t5r03_recheck_a/work_replay_1",
+      "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_new1",
+      "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_new1b",
+      "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_stale",
+      "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_future",
+      "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_symlink",
+      "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_pintype",
+      "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_pos",
+      "/home/testuser/wzh/loop_runs/t5r03_recheck_a/rt_pos2",
+      "/home/testuser/wzh/loop_runs/t5r03_recheck_a/fm"
+    ],
+    "writes_inside_repository": 0,
+    "writes_inside_reviewed_run": 0
+  },
+  "runtime": {
+    "database_calls": 0,
+    "git_cli_available": false,
+    "git_substitute_method": "byte-derived git blob SHA-1 (sha1('blob <len>\\0'+bytes)); binary parse of .git/index (DIRC v2, 3880 entries) for modes; direct zlib walk of .git/objects for HEAD commit->tree recursion",
+    "host_role": "GB10",
+    "loop_b_calls": 0,
+    "model_calls": 0,
+    "network_calls": 0,
+    "platform": "linux",
+    "production_calls": 0,
+    "python": "python3 (3.12 line)"
+  },
+  "schema": "jinrong_loop_c_review_receipt_v1",
+  "task_id": "T5",
+  "unverified": [
+    "GB10 production services, databases, model endpoints, daemon and Loop B remain untouched and unverified.",
+    "Executor/reviewer execution-chat token usage remains UNRESOLVED and is not represented as zero.",
+    "Future Loop D invocation against a real run package, real evidence handoff and sealed case set remain unverified.",
+    "Formal END_TO_END_PREFLIGHT_PASS and FORMAL_RUN_PASS are not claimed and not verified.",
+    "Real-deployment ownership/provenance of the external summary pin: the fixture proves file-level separation inside the package only.",
+    "Exact writers and timing of logs/ and .pytest_cache/ changes observed during the authoring window (left unverified, not attributed to T5).",
+    "End-to-end demonstration of the target git_blob_id layer against a mutated repo T4 adapter was out of reviewer write bounds; verified by direct invocation of the delivered execute_operation instead."
+  ],
+  "verdict": {
+    "advisory_count": 4,
+    "blocking_count": 1,
+    "decision": "REJECTED",
+    "headline": "Manifest mode self-evidence is void for 4 artifacts; the delivered no-prerequisite replay entry point returns rc=3 on delivered bytes and six delivered surfaces assert manifest 45/45 / passed:true, which cannot be reproduced from the delivered state.",
+    "integrity_accusation": false,
+    "t5r01_regressions": "PRESERVED",
+    "t5r02_blocking_status": "SUBSTANTIVELY_CLOSED_AND_INDEPENDENTLY_REPRODUCED"
+  }
+}

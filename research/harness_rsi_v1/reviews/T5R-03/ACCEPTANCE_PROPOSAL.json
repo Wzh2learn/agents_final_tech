@@ -1,0 +1,100 @@
+{
+  "advisory_items": [
+    {
+      "category": "evidence-quality / blind spot",
+      "finding": "scratch/verify_replay.py:restore_modes() forces every mode of the fresh-delivery copy to 0644 and then back to the manifest value before that leg's manifest check (observed mode_reset_and_restore_count=45). This makes the fresh-delivery leg structurally blind to mode drift - the exact class of defect that escaped in BLOCKING-1 - and is itself a mode-rewrite step in the replay path (external copy only, disclosed).",
+      "id": "ADVISORY-1",
+      "suggested_fix": "Remove restore_modes() so the copytree result is checked as-is, or verify modes before any rewrite. If a mode reset is needed to simulate a fresh delivery, record the pre-rewrite mismatch rather than erasing it."
+    },
+    {
+      "category": "portability / bookkeeping",
+      "finding": "The manifest records umask-dependent modes, mixing 11 entries of 100644 with 29 entries of 100664. A checkout or copy under a different umask would mismatch those entries even when the execute bit is correct.",
+      "id": "ADVISORY-2",
+      "suggested_fix": "Record only the git-normalized mode (100644/100755), or normalize file modes before hashing."
+    },
+    {
+      "category": "error-surface contract",
+      "finding": "caller_validator.py raises bare SystemExit for a --runtime-root inside the delivered run tree, and verify_replay.py does the same for an in-tree or pre-existing --work-root. Both emit no JSON result object, so a caller falls back to MALFORMED_RESULT/FC_INTERNAL instead of a canonical FC_ARBITRARY_PATH (or equivalent). Fail-closed, but off the declared error surface. Verified: both refusals fire correctly and write nothing.",
+      "id": "ADVISORY-3",
+      "suggested_fix": "Emit the normal rejected JSON envelope with a canonical fail_closed_code for these guard rails."
+    },
+    {
+      "category": "write-boundary observability",
+      "finding": "Files under the gitignored logs/ tree (app.log, loop_b.log, docs_lint_report.json, verify-report.json and others) were modified during the T5 v3 authoring window. T5 code paths contain no write route into the repository, so these appear to be written by an external process (Loop B / application). T5R-02 also left this unverified.",
+      "id": "ADVISORY-4",
+      "suggested_fix": "No T5 change required. Record it as an open observability item for the closer; do not attribute it to T5 without evidence."
+    }
+  ],
+  "blocking_items": [
+    {
+      "acceptance_criterion_hit": "A-common（必需字段齐全、声明哈希实算一致）+ FP-RAW-RECORD-INTEGRITY（原始记录身份漂移=0）+ FP-EVIDENCE-COVERAGE + receipt.checks.REPLAY_* 与 summary/events 的 manifest 45/45 主张",
+      "category": "reproducibility / evidence-durability",
+      "distinct_from_t5r02_blocking": "T5R-02 BLOCKING-1 (stale tick fixture + in-place mutation of a manifest-bound fixture) is SUBSTANTIVELY CLOSED and I independently reproduced the closure: prerequisites=NONE, no prepare script, P01 max_tick_age_minutes=0 with the tool implementing 0=unlimited while still rejecting future timestamps, P09 tick generated only in an external runtime root, four rounds 23/23 with identical normalized outcomes, and an independent pre/post sha256+bytes+mode+mtime_ns scan over all 46 delivered files showing zero writes. This blocking item is a different, narrower defect.",
+      "estimated_cost": "Local byte/mode bookkeeping plus one re-run of the delivered replay entry point. No authority expansion, no experiment rerun, no frozen-file change, no model call.",
+      "facts": [
+        "artifacts_manifest.json declares mode='100755' for run_probes.py, scratch/adversarial_checks.py, scratch/self_check.py, scratch/verify_replay.py, under hash_domain='sha256_file_bytes_plus_mode'",
+        "Delivered bytes are non-executable for all four, consistently across worktree (100664), .git/index (100644) and the HEAD tree of ebd2710 (100644) - so the inconsistency is committed, not a dirty worktree",
+        "Independent per-entry recompute: 45 entries checked, bytes/SHA-256 45/45 match, mode 41/45 match, 4 mode mismatches; the other 41 entries show zero drift (11 declared 100644, 29 declared 100664)",
+        "Delivered entry point scratch/verify_replay.py on delivered bytes returns rc=3; current_tree manifest_before.passed=false and manifest_after.passed=false, each with exactly those 4 mode failures; overall passed=false",
+        "Six delivered surfaces assert the opposite: scratch/replay/replay_summary.json (passed:true, manifest failures:[]), scratch/self_check_result.json (MANIFEST_45_OF_45 failures:[]), events.jsonl event 9 (manifest_checks ['45/45','45/45']), receipt.json ('manifest recompute 45/45'), summary.md and repair_record.md SUMMARY-GUARD prose",
+        "Card A-common 'declared hashes recompute consistently' therefore fails under the package's own declared hash_domain",
+        "Same defect class as T5R-01 BLOCKING-1 (execute-bit/mode loss voiding reproducibility): the mode discipline was applied only to required_executables (so watcher.sh survived at 100755 in all three places) and not to the manifest's own mode field"
+      ],
+      "id": "BLOCKING-1",
+      "impact": "The T5 v3 headline delivery claim 'manifest 45/45' and replay_summary.passed=true cannot be independently reproduced from the delivered package. Applying the T5R-01 standard ('a headline claim that cannot be independently reproduced from the delivered state is blocking'), which T5R-02 applied identically to v2, yields REJECTED.",
+      "not_an_integrity_accusation": "scratch/replay/current_tree_snapshot_before.json records all four files at mode 100755 at authoring time, so the author's 45/45 was plausibly true when made and the four replay rounds were genuinely 23/23. The defect is evidence durability / self-evidencing delivery - the execute bits were lost before or at commit - using the same wording T5R-02 applied to v2. No fabrication, authority violation or frozen-file change was found.",
+      "remediation_local_cheap_no_authority_expansion": [
+        "(a) Either restore the execute bit on run_probes.py, scratch/adversarial_checks.py, scratch/self_check.py and scratch/verify_replay.py, or set their manifest mode entries to the real delivered mode - the manifest must equal delivered bytes under sha256_file_bytes_plus_mode.",
+        "(b) Rebuild artifacts_manifest.json from the final delivered bytes AFTER the commit-adjacent step, then re-run scratch/verify_replay.py against that exact delivered state and require rc=0 with manifest 45/45 in all four checks.",
+        "(c) Re-emit scratch/replay/replay_summary.json, scratch/self_check_result.json, events.jsonl, summary.md, repair_record.md and receipt.json so every '45/45' statement equals the recomputed value; no stale passed:true may remain.",
+        "(d) Recommended: normalize recorded modes to git semantics (100644/100755) so umask drift cannot reintroduce this class of mismatch."
+      ],
+      "title": "Manifest mode self-evidence void for 4 artifacts; delivered replay entry point returns rc=3; six surfaces assert manifest 45/45 which is not reproducible"
+    }
+  ],
+  "decision": "REJECTED",
+  "dissent": [
+    {
+      "id": "dissent-A",
+      "position_recorded": "X06C (summary_text, summary_sha256 and expected_artifact_sha256 all forged and mutually consistent) is ACCEPTED and executes target operations. An unconditional reading of card A2 ('forged summaries cannot pass') would call this a counterexample.",
+      "residual_caveat": "The boundary remains a trust assumption rather than a mechanism, since the pin travels in the same call object as the summary.",
+      "topic": "Stricter reading of A2 versus the adjudicated threat boundary (X06C)",
+      "why_not_blocking": "The Loop D adjudication requires only that acceptance bind to an external pin outside the producer's control and that the boundary - 'does not defend against a caller deliberately supplying a false pin' - be explicitly declared. That declaration exists and matches the implementation at recipe_interfaces.json:289, recipe_fixtures/README.md and receipt.unresolved[0], and the delivered probe set encodes the case as X06C with expected=ACCEPT. I concur with T5R-02's treatment and record it as a declared boundary fact, not a defect."
+    },
+    {
+      "id": "dissent-B",
+      "position_recorded": "recipe_fixtures/delivery_payload.json already carries summary.text bound via package_sha256, which the validator recomputes. Binding the summary check to that package summary.text would defeat even a caller supplying a false pin, since forging would require changing package bytes and would trigger FC_HASH_BINDING_MISMATCH.",
+      "topic": "A strictly stronger construction was available and unused (carried from T5R-02 dissent-2)",
+      "why_not_blocking": "The Loop D adjudication accepted the external-pin form, so this is an alternative-design note. v3 honestly records it in v2_v3_diff.json.not_implemented_by_instruction and receipt.unresolved[2]. I do not deduct for leaving it unimplemented and re-record it for the owner's later consideration, or as grounds to narrow the wording of unresolved[0]."
+    }
+  ],
+  "justification": "T5 v3 is a substantial and genuine improvement over v2, and its central repair holds up under independent reproduction. The T5R-02 replay-stability blocking is substantively closed: the delivered entry point runs with no prerequisites, no prepare path exists anywhere in the run, P01 uses max_tick_age_minutes=0 which the underlying tool implements as 'no upper age bound' while still rejecting future timestamps so the fixed past tick is genuinely replay-stable, P09 generates its bounded tick only in an external runtime root, all four rounds return 23/23 with identical normalized outcomes, and my own before/after scan of sha256, bytes, mode and mtime_ns over all 46 delivered files proves zero writes. All four T5R-02 advisories are folded and I re-verified each adversarially: registry substitution is rejected at FC_INPUT_IDENTITY_MISMATCH with the decoy never executing, target byte identity is enforced before execution at FC_OPERATION_TARGET_IDENTITY_MISMATCH, the full matrix is collected before a nonzero return (reproduced independently), the independent-pin fixture and scope_boundary exist, and the formatting is normalized. Every T5R-01 regression is preserved, including the watcher execute bit in the worktree, the .git index and HEAD. However the package is not self-evidencing: under its own declared hash_domain of sha256_file_bytes_plus_mode, four manifest entries declare mode 100755 for files that are non-executable in the worktree, the .git index and the HEAD tree of the delivered commit, and the delivered sole no-prerequisite entry point consequently returns rc=3 while six delivered surfaces assert manifest 45/45 and passed:true. That is a direct failure of card A-common and of FP-RAW-RECORD-INTEGRITY, and it is the same defect class as T5R-01 BLOCKING-1: the mode discipline reached required_executables but not the manifest's own mode field. T5R-01 established that a headline claim which cannot be independently reproduced from the delivered state is blocking, and T5R-02 applied that standard to v2; applying it consistently to v3 yields REJECTED. The defect is narrow, local and cheap to fix - it needs only byte/mode bookkeeping and one re-run, with no authority expansion, no experiment rerun and no frozen-file change - so REJECTED is chosen over PENDING_HUMAN_REVIEW, matching T5R-02's reasoning for the same remediation profile. No evidence of fabrication, authority violation or frozen-file modification was found; the author's recorded evidence was plausibly true when produced and the failure is evidence durability at the commit boundary.",
+  "next_steps": [
+    "Fix BLOCKING-1 this round: make artifacts_manifest.json's mode field equal the delivered bytes for run_probes.py, scratch/adversarial_checks.py, scratch/self_check.py and scratch/verify_replay.py (restore the execute bit or correct the declared mode), rebuild the manifest from the final delivered bytes, and re-run scratch/verify_replay.py against that exact state requiring rc=0 with manifest 45/45 in all four checks.",
+    "Re-emit scratch/replay/replay_summary.json, scratch/self_check_result.json, events.jsonl, summary.md, repair_record.md and receipt.json so no surface asserts a manifest count that the delivered bytes do not reproduce.",
+    "Handle ADVISORY-1 in the same pass if convenient: drop restore_modes() from verify_replay.py so the fresh-delivery leg can actually detect mode drift, and consider normalizing recorded modes to git semantics per ADVISORY-2.",
+    "Optionally emit a canonical fail_closed_code instead of bare SystemExit for the work-root/runtime-root guard rails (ADVISORY-3).",
+    "Preserve all already-verified surfaces without rework: the replay-stability repair (P01 age=0, external P09 tick, no prepare path), the NEW-1 double identity layer, full-matrix collection, the independent-pin fixture and scope_boundary, watcher 100755, X06A/B/C, Z01, E10, the 15 original negative codes, four-class separation, 7/7 frozen protections, TASK_PROMPT verbatim capture and the G1 guard. None of these need to be reopened.",
+    "Re-issue the self-check and resubmit T5, then request another Loop C slot.",
+    "Do not enter T6. registry and state are updated by the closer, not by this review."
+  ],
+  "review_id": "T5R-03",
+  "run_id": "20261014T233742Z_cb132ce7",
+  "schema": "jinrong_loop_c_acceptance_proposal_v1",
+  "scope": {
+    "explicitly_not_claimed": [
+      "END_TO_END_PREFLIGHT_PASS",
+      "FORMAL_RUN_PASS",
+      "scientific PASS",
+      "formal experiment qualification",
+      "promotion or deployment"
+    ],
+    "not_verified": "GB10 authoritative runtime, production services, databases, model endpoints, daemon, Loop B; execution-chat token usage (UNRESOLVED); future Loop D invocation against a real run package, real evidence handoff and sealed case set; real-deployment provenance of the external summary pin; exact writers and timing of logs/ and .pytest_cache/ changes; an end-to-end target-git_blob_id demonstration against a mutated repo T4 adapter (out of reviewer write bounds; verified via direct invocation of the delivered function instead).",
+    "reviewer_side_effects": "Zero writes inside the reviewed run or the repository; scratch and work roots only under /home/testuser/wzh/loop_runs/t5r03_recheck_a/; zero mode changes; no git writes; no model, production or database calls; T6 not entered.",
+    "verification_levels_claimed": [
+      "CONTRACT_PASS (partial)"
+    ],
+    "verified": "T5 v3 run package file count (46 = 45 manifest entries + non-self-hashed manifest); per-entry SHA-256 and byte recompute (45/45); per-entry mode recompute (41/45, 4 mismatches); mode cross-check against .git/index and the HEAD tree of ebd2710 via byte-derived git blob SHA-1 and direct .git/objects walks; delivered no-prerequisite replay entry point (rc=3, four rounds 23/23, normalized outcomes identical, tree_unchanged on both trees); independent two-pass run_probes.py on the delivered tree with a full sha256/bytes/mode/mtime_ns zero-write proof; P01 max_tick_age_minutes=0 semantics and P09 external runtime tick; absence of any in-run prepare/write path; NEW-1 both layers (registry substitution and target git_blob_id) plus embedded pin and scope wording; NEW-2 full-matrix-on-failure independently reproduced; NEW-3 independent pin file and scope_boundary; NEW-4 formatting and 26/26 JSON parse; T5R-01 regressions (watcher execute bit in three places, X06A/B/C, Z01, E10, 15/15 original negative codes, four-class separation, 7/7 frozen protections); TASK_PROMPT byte-identity with the dispatch source; G1 on all 5 Markdown files (5/5 rc=0); usage self-consistency (92 = 4x23) with zero external-call counters; write boundary including gitignore-visible paths; disclosure consistency of repair_record.md and v2_v3_diff.json; receipt.supersedes chain against both prior reviews; five new negative and two new positive adversarial probes."
+  },
+  "task_id": "T5"
+}
