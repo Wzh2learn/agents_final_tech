@@ -14,3 +14,4 @@
 [2026-10-15] T5 第三轮 T5R-03=REJECTED（1 blocking：4 个 manifest 声明 755 的模式未随交付落地→入口 rc=3；T5R-02 blocking 已被独立确认闭合；另 4 advisory）。Closer 修复：115f396 模式补丁（零内容变更）+ GB10 工作树 chmod 755 + 清理评审窗口遗留 pyc（未披露，已登记）；重放 rc=0、45/45 复现。进入 T5R-04 聚焦复评。
 [2026-10-15] T5 已验收（T5R-04 ACCEPTED，零阻断；链条 v1→v3 三次 REJECTED + closer 模式修复 115f396 后聚焦复评通过；advisory A1-A4 登记；dissent X06C 边界记录）。两个 recipe 接口 + 23/23×4 无前置重放 + 外部 pin + 身份校验 registry。下一步：T6（有界提案与统一档案）。
 [2026-10-15] T6 已验收（T6R-01 ACCEPTED，0 blocking；10 advisory；条件：清理审阅者 .omc 已完成、self_check 18/18；ADVISORY-1 作为 T7 评估前置——评估计划须区分合法 UNRESOLVED 与真缺失）。档案机制 + 2 候选（1 提案未启用 + 1 重复被拒）。下一步：T7（配对重放 + 回滚演练；封存/选择集未构建如实记 UNRESOLVED）。
+[2026-10-15] T7 已验收（T7R-01 ACCEPTED，0 blocking；NO_PROMOTION 合法性获独立确认；7 advisory 登记，含 ADVISORY-1 账本绑定）。回滚演练 PASS；集合义务如实。下一步：T8 受控影子（边界执行）——影子需三个新获批任务窗口（owner 门），启用/分发属用户裁决。

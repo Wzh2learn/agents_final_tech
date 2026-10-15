@@ -7,12 +7,13 @@
     "T3",
     "T4",
     "T5",
-    "T6"
+    "T6",
+    "T7"
   ],
   "active_versions": [],
   "closer": "loop_d session acting as closer under owner instruction 2026-10-14",
   "execution_authorized": false,
-  "next_task": "T7 (R independent acceptance & rollback) under R-line authorization; ADVISORY-1 precondition on cand-d44c49dec4d95741",
+  "next_task": "T8 (controlled shadow & precise enablement) bounded execution; shadow requires 3 new approved task windows (owner-gated); enablement/distribution reserved for user",
   "proposal_budgets_approved": true,
   "protocol_freeze_sha256": "282f52133a682e927c82b771fa103c27da34db7acbd8a12d2921f42a6d0bf36b",
   "r_line_authorized_to": "M1 (owner decision U07=C)",
@@ -73,6 +74,13 @@
       "run_id": "20261015T012906Z_b9bb8ca6",
       "status": "ACCEPTED_BY_REVIEW_2026-10-15",
       "task_id": "T6",
+      "version": "v1"
+    },
+    {
+      "review": "T7R-01",
+      "run_id": "20261015T025839Z_c94af776",
+      "status": "ACCEPTED_BY_REVIEW_2026-10-15",
+      "task_id": "T7",
       "version": "v1"
     }
   ]
