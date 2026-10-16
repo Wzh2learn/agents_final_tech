@@ -1,0 +1,35 @@
+{
+  "schema": "tq3_loopd_review_recompute_v1",
+  "run_id": "20261016T051556Z_af4c2db6",
+  "ledger": {
+    "reserves": 36,
+    "settles": 36,
+    "all_ok": true,
+    "retries": 0,
+    "settled_tokens": 33856,
+    "under_gen_cap": true,
+    "under_token_cap": true
+  },
+  "raw_files": 36,
+  "actor": {
+    "valid": 12,
+    "match": 12,
+    "a_accept": 7,
+    "a_alarm": 5,
+    "a_alarm_all_bounds": true
+  },
+  "b_counts": {
+    "accept": 12
+  },
+  "c_counts": {
+    "accept": 12
+  },
+  "comparison": {
+    "actor_match_matches": true,
+    "actor_valid_matches": true,
+    "a_counts_match": true,
+    "b_counts_match": true,
+    "c_counts_match": true
+  },
+  "all_match": true
+}

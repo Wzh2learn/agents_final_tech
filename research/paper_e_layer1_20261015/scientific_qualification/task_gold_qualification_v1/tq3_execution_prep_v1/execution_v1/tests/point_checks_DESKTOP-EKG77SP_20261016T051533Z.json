@@ -1,0 +1,184 @@
+{
+  "schema": "tq3_point_checks_v1",
+  "host": "DESKTOP-EKG77SP",
+  "generated_utc": "2026-10-16T05:15:33Z",
+  "runner_sha256": "24f30350b754eedf2e69374b9b1d876153c83c3f9d6b251a1b9b92f4436b5dde",
+  "auth_sha256": "62bf5e4a20c5e284e2a380518c302106d7a199f1ea1ebc6f2aad3b6f5d7a7506",
+  "templates_sha256": "b5d24c2aa85c90e91ff6b08fd5bf75081a745a9733b85450f863f6aa3b28491d",
+  "python": "3.9.10 (tags/v3.9.10:f2f3f53, Jan 17 2022, 15:14:21) [MSC v.1929 64 bit (AMD64)]",
+  "tests": [
+    {
+      "test": "constants_hard_budgets",
+      "passed": true,
+      "detail": {
+        "gen_cap": 40,
+        "token_cap": 400000,
+        "reserve": 10240,
+        "prompt_cap": 8192,
+        "retry_cap": 4,
+        "window_min": 90
+      }
+    },
+    {
+      "test": "ledger_reserve_settle_math",
+      "passed": true,
+      "detail": {
+        "after_reserve": 10240,
+        "after_settle": 500
+      }
+    },
+    {
+      "test": "token_cap_refusal_logic",
+      "passed": true,
+      "detail": {
+        "unsettled": 399360,
+        "would_be": 409600,
+        "cap": 400000
+      }
+    },
+    {
+      "test": "retry_cap_counter",
+      "passed": true,
+      "detail": {
+        "retries_used": 4
+      }
+    },
+    {
+      "test": "prompt_estimates_under_cap",
+      "passed": true,
+      "detail": {
+        "max_byte_bound": 4202,
+        "cap": 8192
+      }
+    },
+    {
+      "test": "isolation_actor_no_pipeline_leak",
+      "passed": true,
+      "detail": {
+        "violations": []
+      }
+    },
+    {
+      "test": "isolation_b_vs_c_evidence_exposure",
+      "passed": true,
+      "detail": {
+        "b_has_notes": true,
+        "c_has_notes": false,
+        "c_has_table_row": false,
+        "c_has_answer": true
+      }
+    },
+    {
+      "test": "template_extraction",
+      "passed": true,
+      "detail": {
+        "a": {
+          "system_len": 146,
+          "user_len": 402,
+          "system_head": "You answer financial table questions. Use onl",
+          "sha256": "ccb40a9793091209ab5553b0f74ddec793be1c41d4aef6b282076078b5bbaa34"
+        },
+        "b": {
+          "system_len": 154,
+          "user_len": 788,
+          "system_head": "You are a careful verifier of a financial tab",
+          "sha256": "cdc2589526e18dd7efa848b49e17eb50e9827c5cabf77b67f1f875158ea80887"
+        },
+        "c": {
+          "system_len": 176,
+          "user_len": 623,
+          "system_head": "You independently solve the task from the pro",
+          "sha256": "8cb47b248c8ed504d115b835bb8ac1efdb48d5a015cb28e818e44cdaf6a8f237"
+        }
+      }
+    },
+    {
+      "test": "schedule_order",
+      "passed": true,
+      "detail": {
+        "phase1_ok": true,
+        "first_four_arms": [
+          "b",
+          "c",
+          "c",
+          "b"
+        ],
+        "counts": [
+          12,
+          24
+        ]
+      }
+    },
+    {
+      "test": "anomaly_output_parsing",
+      "passed": true,
+      "detail": {
+        "bad_json_rejected": true,
+        "missing_answer_invalid": true,
+        "good_valid": true,
+        "decision_validation": true
+      }
+    },
+    {
+      "test": "crash_resume_item_state",
+      "passed": true,
+      "detail": {
+        "k1": "done",
+        "k2": "inflight",
+        "k3": "pending",
+        "gen_attempts": 2
+      }
+    },
+    {
+      "test": "scoring_entry_integration",
+      "passed": true,
+      "detail": {
+        "q03_match": {
+          "task_id": "Q03",
+          "status": "MATCH",
+          "score": 1.0
+        },
+        "q03_no_match": {
+          "task_id": "Q03",
+          "status": "NO_MATCH",
+          "score": 0.0
+        },
+        "q02_span": {
+          "task_id": "Q02",
+          "status": "MATCH",
+          "score": 1.0
+        },
+        "q05_date": {
+          "task_id": "Q05",
+          "status": "MATCH",
+          "score": 1.0
+        },
+        "unresolved": {
+          "task_id": "X",
+          "status": "BLOCKED_SCALE_UNRESOLVED",
+          "score": null
+        }
+      }
+    },
+    {
+      "test": "pin_hash_dual_channel",
+      "passed": true,
+      "detail": {
+        "gb10_lf_vs_crlf_expected": "crlf",
+        "crlf_vs_lf_expected": "lf",
+        "same_channel": "raw",
+        "wrong_hash": null
+      }
+    },
+    {
+      "test": "material_pin_check_full",
+      "passed": true,
+      "detail": {
+        "checked": 52,
+        "mismatch_count": 0,
+        "unreadable": 0
+      }
+    }
+  ],
+  "all_passed": true
+}

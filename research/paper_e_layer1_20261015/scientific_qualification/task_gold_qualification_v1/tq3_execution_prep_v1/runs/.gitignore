@@ -1,0 +1,4 @@
+# run outputs stay local on both ends; never commit generated data or logs
+*
+!.gitignore
+
