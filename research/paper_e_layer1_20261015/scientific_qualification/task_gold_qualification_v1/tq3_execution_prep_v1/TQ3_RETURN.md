@@ -108,9 +108,19 @@
 - 运行卡：`run_card/RUN_CARD_v1.md`、`run_card/prompt_templates.md`
 - 授权：`authorization/AUTHORIZATION_STATUS_v1.md`
 - Q11 来源：`source_completion/Q11_SOURCE_COMPLETION.md`、`source_completion/bce_retrieval_attempts.json`
-- 全量哈希：`MANIFEST.json`（51 个文件，自排除）
+- 全量哈希：`MANIFEST.json`（52 个文件，自排除）
 
 ## 6. 唯一下一步
 
 owner 填写 G1-G5（尤其是模型 pin 与预算）→ 实现 runner（G4）→ 按运行卡干跑
 （<=40 请求）→ 产出 runs 回执与描述性汇总 → 由 owner 决定是否需要独立复核。
+
+## 7. Git 收口记录
+
+- 本批材料首个落库提交：`6891e95`（task-gold 材料 TQ-1..TQ-3 全量落地，108 个文件；
+  raw/packets/coordinator 等数据目录按 package .gitignore 保持不入库）。
+- origin（GitHub `Wzh2learn/agents_final_tech`）：已推送至 `6891e95`。
+- gb10（jinrong-dev `~/wzh/projects/agents_final_tech`）：`git fetch + merge --ff-only`
+  后同步至 `6891e95`；其工作区原有脏文件（docs/INDEX.md、两份 paper 文档、logs/*）
+  未被触碰、未被回滚。
+- 本文件的收尾更新与 MANIFEST 重建见其后的收尾提交（`git log` 顶部即最新）。

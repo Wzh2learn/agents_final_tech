@@ -1,6 +1,6 @@
 {
   "schema": "tq3_execution_prep_manifest_v1",
-  "generated_at_utc": "2026-10-16T04:05:42Z",
+  "generated_at_utc": "2026-10-16T04:09:55Z",
   "actor": "Loop D (AI)",
   "status": "MATERIALS_PREPARED_AWAITING_RUN_AUTHORIZATION",
   "scientific_gold_validity": "NOT_ESTABLISHED",
@@ -286,8 +286,8 @@
     },
     {
       "path": "TQ3_RETURN.md",
-      "sha256": "4ff2f811fc59e6b8481adefdb1269403cb89adc22c6e25e9b18c3eb2c4bc2c65",
-      "bytes": 7776
+      "sha256": "82859d77bcb2c44d39ac19a9ce743fbc908da654afb75762a72211aa710a128f",
+      "bytes": 8531
     }
   ],
   "manifest_self_excluded": true
