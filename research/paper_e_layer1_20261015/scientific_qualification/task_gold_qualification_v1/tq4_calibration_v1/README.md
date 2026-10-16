@@ -14,5 +14,5 @@
 - `panel_v2/` - frozen materials: 4 new natural tasks (N1-N4, selection spec + log) and 12 manual
   candidates (Q02/Q03/Q04 x correct/incorrect x legal/illegal evidence).
 - `run_card_v2/` - run card v2, prompt templates v2, authorization items v2.
-- `reviews/` - focused independent review (to be recorded).
+- `reviews/` - focused independent review (delivered, delayed; see REVIEW_STATUS_v1.md) + recompute artifacts + adversarial self-review record.
 - `runs/` - future run outputs (gitignored, local only).

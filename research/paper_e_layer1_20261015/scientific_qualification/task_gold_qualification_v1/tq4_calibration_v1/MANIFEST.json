@@ -1,6 +1,6 @@
 {
   "schema": "tq4_package_manifest_v1",
-  "generated_utc": "2026-10-16T07:21:25Z",
+  "generated_utc": "2026-10-16T08:05:33Z",
   "status": "PREPARED_AWAITING_AUTHORIZATION_V2",
   "model_calls_this_round": 0,
   "inputs": {
@@ -10,7 +10,7 @@
     }
   },
   "counts": {
-    "files": 46,
+    "files": 49,
     "panel_v2_files": 26
   },
   "files": [
@@ -151,13 +151,13 @@
     },
     {
       "path": "panel_v2/PANEL_V2_MANIFEST.json",
-      "sha256": "8ab9d86e3c99e4ad3da96e9830339cef725ac5467d88c051ecf137c48d213dbf",
+      "sha256": "b6b8ab7ab09ebf6c05a382f04c085c4a7a48646e56b187af3cc93ae948624a04",
       "bytes": 4558
     },
     {
       "path": "README.md",
-      "sha256": "8fa5f9cb7e68b29c96ff04b641b248204f379edda0b76854ee698fa28936be43",
-      "bytes": 1145
+      "sha256": "5a74593cbf7cc68de43129805d357141a49fa4bc16ea338d6245efec419fa30b",
+      "bytes": 1246
     },
     {
       "path": "rescoring/rescore_results.json",
@@ -175,6 +175,21 @@
       "bytes": 3038
     },
     {
+      "path": "reviews/INDEPENDENT_REVIEW_RECOMPUTE_v1.json",
+      "sha256": "35a3963fe7ee273ae95212c1728bede4f349fe100ac33a3b5eff0eb044b20d2f",
+      "bytes": 8773
+    },
+    {
+      "path": "reviews/INDEPENDENT_REVIEW_RECOMPUTE_v1.py",
+      "sha256": "a9913622916cca577c37182cd5c5a6133bdcf5ab83a81e944872bad1af2a8f17",
+      "bytes": 15018
+    },
+    {
+      "path": "reviews/INDEPENDENT_REVIEW_v1.md",
+      "sha256": "16abde6cc5e31cbf53c689c09e3a4eff600da4d1d063004b91bc4ad4ab2cbd49",
+      "bytes": 8152
+    },
+    {
       "path": "reviews/LOOP_D_ADVERSARIAL_SELF_REVIEW_v1.json",
       "sha256": "80bacba2e23e027a16e3252f5e78df890e75134df564f9eea681c028445a6c04",
       "bytes": 4094
@@ -186,8 +201,8 @@
     },
     {
       "path": "reviews/REVIEW_STATUS_v1.md",
-      "sha256": "493036c17470ddf51230112d8bc857889ca3ac28c3486e23c6e7ff2c7cce90ea",
-      "bytes": 1789
+      "sha256": "e8178a2eb0f08e12071703895f2fba95ddb962e5c230b457b2a9e971c904d175",
+      "bytes": 2369
     },
     {
       "path": "run_card_v2/AUTHORIZATION_ITEMS_v2.md",
@@ -241,8 +256,8 @@
     },
     {
       "path": "TQ4_PACKAGE_RETURN.md",
-      "sha256": "0f27befbda05a3fe6c6fb7629a30826fae3eed053e10f15a6e9bdd34eff62ad5",
-      "bytes": 4881
+      "sha256": "0e6415679e8a2dfab64ecb05968cd126bfa3ebb8cd662632d55b4617f792b3b8",
+      "bytes": 4998
     }
   ],
   "manifest_self_excluded": true

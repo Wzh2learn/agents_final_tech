@@ -1,29 +1,37 @@
 # Independent Review Status v1 (TQ-4 focused review)
 
-> 2026-10-16, Loop D. This file records the status of the required "one focused independent review"
-> (covering: scorer fixes; old-result interpretation; new panel design).
+> 2026-10-16, Loop D. Status of the required "one focused independent review"
+> (scorer fixes; old-result interpretation; new panel design).
 
-## Delegation attempts (all failed - harness-level)
+## Outcome: DELIVERED (delayed) - independence item CLOSED
 
-1. `loopc_tq4_review` (fresh context, bounded read-only review task): spawned; ran >20 minutes with no artifact and
-   no messages; interrupt + follow-up wrap-up instructions were delivered but produced no response; no
-   `reviews/INDEPENDENT_REVIEW_v1.md` was created.
-2. `loopc_tq4_mini` (diagnostic probe: read one JSON file and reply with its `counts` field; explicitly told to do
-   nothing else): spawned after attempt 1 failed; no response within ~10 minutes; no artifact.
-3. (Previous round, same failure mode) `loopc_tq3_review` also wedged with no deliverable.
+- `reviews/INDEPENDENT_REVIEW_v1.md` + `INDEPENDENT_REVIEW_RECOMPUTE_v1.json` + `INDEPENDENT_REVIEW_RECOMPUTE_v1.py`
+  were produced by the delegated fresh-context reviewer (`loopc_tq4_review`) and landed after the orchestration
+  layer had already recorded the delegation as failed; see corrected timeline below.
+- Verdicts: A scorer-fix PASS; B old-result interpretation PASS; C candidate panel PASS; D natural panel PASS;
+  E run card PASS; F integrity PASS. One non-blocking note N-1 (bool-as-int in check_evidence_legality;
+  for a future scorer version only).
 
-Conclusion: the fresh-subagent delegation path is non-functional in this session; the failures are
-infrastructure-level (a trivial read-and-reply probe also failed), not task-specific.
+## Corrected failure characterization (message delivery, not agent execution)
 
-## Substitute performed (NOT independent - clearly labeled)
+- Original record said the two delegations "wedged with no output". Correction: both agents in fact executed and
+  delivered; the task brief / completion messages were lost in transit (bidirectional message-delivery fault of
+  the harness). Evidence:
+  1. `loopc_tq4_review` later surfaced as completed with a full independent review (files above); its own
+     analysis identifies the delivery fault and states it was online throughout.
+  2. The minimal probe `loopc_tq4_mini` also surfaced as completed with the correct payload
+     (`PROBE_COUNTS={"items":12,"v1_match":12,"v2_match":12,"changed":0}`); its completion message was not
+     received by the orchestration layer at the time.
+- (Previous round) the TQ-3 review delegation issue (recorded earlier on 2026-10-16) should likewise be read as
+  an unresolved delivery issue; no TQ-3 review artifact has been received; that round is closed and unaffected.
 
-- `LOOP_D_ADVERSARIAL_SELF_REVIEW_v1.json` / `.md`: adversarial falsify-claims pass by Loop D over the exact
-  A-E scope the independent reviewer was given. 16/16 checks pass; no issues found. This does NOT satisfy the
-  independence requirement and is not counted as an independent review.
+## Substitute recorded for the record
 
-## Status of the independence requirement
+- `LOOP_D_ADVERSARIAL_SELF_REVIEW_v1.md` / `.json`: adversarial falsify-claims pass by Loop D over the same
+  A-E scope (16/16 checks pass; labeled NON-INDEPENDENT at the time). Kept as historical record; superseded by
+  the delivered independent review above.
 
-- `INDEPENDENT_REVIEW = OPEN` (blocked by harness; not by content).
-- Suggested completion: run the same A-E checklist (see `LOOP_D_ADVERSARIAL_SELF_REVIEW_v1.md` for the exact
-  checks) via a functioning harness / the planner's side, or a fresh session; write `INDEPENDENT_REVIEW_v1.md`
-  next to this file. No content should need changing beforehand.
+## Non-blocking note carried forward
+
+- N-1 (future scorer version): reject Python `bool` for `table_row`/`table_col` (`type(x) is int`), since
+  `bool` is an `int` subclass; no impact on the frozen TQ-4 package.

@@ -48,11 +48,11 @@
 1. owner/总规划师签署 `AUTHORIZATION_ITEMS_v2.md`（G1-G5 + 窗口日期）；
 2. 授权后：实现 runner 增量（<=1 天）-> 点检 -> 单窗口执行 36 请求 -> 产出 `runs/<run_id>/` 与 `TQ4_RUN_RETURN.md`。
 
-## 6. 独立复核
+## 6. 独立复核（已完成 - 延迟交付）
 
-- 委派结果：**失败（harness 级）**。两次 fresh-context 委派（完整复核 + 最小探针）均卡死、无产物；
-  详细取证见 `reviews/REVIEW_STATUS_v1.md`。与上一轮 TQ-3 复核失败为同一故障模式。
-- 替代动作：Loop D 对抗式自审（**非独立**，明确标注）：A-E 全范围 16/16 检查通过、无发现；
-  见 `reviews/LOOP_D_ADVERSARIAL_SELF_REVIEW_v1.md` / `.json`。
-- 独立复核项状态：`OPEN`（受 harness 阻塞，非内容问题）；建议在可用 harness（总规划师侧/新会话）按同一
-  A-E 清单补做，产出 `reviews/INDEPENDENT_REVIEW_v1.md`。
+- 独立复核件已交付：`reviews/INDEPENDENT_REVIEW_v1.md`（+ `INDEPENDENT_REVIEW_RECOMPUTE_v1.json` / `.py`），
+  由委派的 fresh-context 复核代理产出；结论 **A-F 全部 PASS**、无阻断问题、1 条非阻断注记 N-1
+  （bool 作为 int 的坐标加固，供未来版本）。
+- 延迟原因更正：委派并非"代理卡死"，而是 harness **消息投递（双向）故障**——任务简报与完成回执丢失；
+  同批最小探针亦实际完成（载荷正确）而回执未达。详见 `reviews/REVIEW_STATUS_v1.md`（已按时间线更正）。
+- 历史替代件 `LOOP_D_ADVERSARIAL_SELF_REVIEW_v1.md/.json`（标注非独立）保留为过程记录，已被独立复核覆盖。

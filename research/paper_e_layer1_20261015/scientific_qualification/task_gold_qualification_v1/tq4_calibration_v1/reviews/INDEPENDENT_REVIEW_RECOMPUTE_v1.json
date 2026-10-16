@@ -1,0 +1,344 @@
+{
+  "schema": "tq4_independent_review_recompute_v1",
+  "reviewer": "loopc_tq4_review (originally delegated fresh-context reviewer; delivered late after harness message-delivery failure; see INDEPENDENT_REVIEW_v1.md section 0)",
+  "baseline_commit": "4b64d9cb600c843d4323762401bc8cdfcfbd97c9",
+  "captured_local": "2026-10-16 15:40:08 +0800",
+  "note": "All checks re-executed read-only against the frozen tree; no mutation; no model calls.",
+  "checks": {
+    "A_regression": {
+      "checks": 18,
+      "passed": 18,
+      "failed": [],
+      "v1_v2_diffs": 8,
+      "diff_cases": [
+        "R1a-percent-false-reject",
+        "R1b-percent-false-accept",
+        "R2-multi-number-cherry-pick",
+        "R3-list-no-substring",
+        "R4-no-guessing-numeric",
+        "R5-date-parse"
+      ],
+      "frozen_counts_match": true,
+      "frozen_module_hashes_ok": true,
+      "frozen_all_passed_flag": true
+    },
+    "B_rescore": {
+      "counts": {
+        "items": 12,
+        "v1_match": 12,
+        "v2_match": 12,
+        "changed": 0
+      },
+      "legality": {
+        "legal": 0,
+        "illegal": 12,
+        "issue_types": {
+          "kind_invalid": 22
+        }
+      },
+      "rowlevel_matches_frozen": true,
+      "rows": [
+        {
+          "seq": 1,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 2,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 3,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 4,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 5,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 6,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 7,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 8,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 9,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 10,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 11,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        },
+        {
+          "seq": 12,
+          "v1": "MATCH",
+          "v2": "MATCH",
+          "legal": false
+        }
+      ]
+    },
+    "C_candidates": {
+      "n": 12,
+      "order": [
+        "Q02-C1",
+        "Q02-C2",
+        "Q02-C3",
+        "Q02-C4",
+        "Q03-C1",
+        "Q03-C2",
+        "Q03-C3",
+        "Q03-C4",
+        "Q04-C1",
+        "Q04-C2",
+        "Q04-C3",
+        "Q04-C4"
+      ],
+      "matrix_exact": true,
+      "legality_recompute_ok": true,
+      "log_consistent": true,
+      "inputs_hash_ok": true,
+      "candidates_file_sha_ok": true,
+      "spec_answers_ok": true,
+      "verifications": [
+        {
+          "cid": "Q02-C1",
+          "legal": true,
+          "expected": true,
+          "ok": true
+        },
+        {
+          "cid": "Q02-C2",
+          "legal": false,
+          "expected": false,
+          "ok": true
+        },
+        {
+          "cid": "Q02-C3",
+          "legal": true,
+          "expected": true,
+          "ok": true
+        },
+        {
+          "cid": "Q02-C4",
+          "legal": false,
+          "expected": false,
+          "ok": true
+        },
+        {
+          "cid": "Q03-C1",
+          "legal": true,
+          "expected": true,
+          "ok": true
+        },
+        {
+          "cid": "Q03-C2",
+          "legal": false,
+          "expected": false,
+          "ok": true
+        },
+        {
+          "cid": "Q03-C3",
+          "legal": true,
+          "expected": true,
+          "ok": true
+        },
+        {
+          "cid": "Q03-C4",
+          "legal": false,
+          "expected": false,
+          "ok": true
+        },
+        {
+          "cid": "Q04-C1",
+          "legal": true,
+          "expected": true,
+          "ok": true
+        },
+        {
+          "cid": "Q04-C2",
+          "legal": false,
+          "expected": false,
+          "ok": true
+        },
+        {
+          "cid": "Q04-C3",
+          "legal": true,
+          "expected": true,
+          "ok": true
+        },
+        {
+          "cid": "Q04-C4",
+          "legal": false,
+          "expected": false,
+          "ok": true
+        }
+      ]
+    },
+    "D_natural": {
+      "strata_ok": true,
+      "tasks": [
+        "N1",
+        "N2",
+        "N3",
+        "N4"
+      ],
+      "corpus_hashes_ok": {
+        "raw/tatqa_tables.json": true,
+        "raw/injected_tables.json": true,
+        "raw/tatqa_dataset_train.json": true,
+        "raw/tatqa_dataset_dev.json": true,
+        "coordinator/pool_inventory.json": true
+      },
+      "files_hashes_ok": true,
+      "unit_kind": {
+        "N1": "percent",
+        "N2": "plain",
+        "N3": "percent",
+        "N4": "plain"
+      },
+      "unit_kind_matches_derivation_rule": true,
+      "tolerance_rule_ok": {
+        "N1": true,
+        "N2": true,
+        "N3": true,
+        "N4": true
+      },
+      "reference_answer_selfcheck": {
+        "N1": "MATCH",
+        "N2": "MATCH",
+        "N3": "MATCH",
+        "N4": "MATCH"
+      },
+      "joins": {
+        "195174fe-dd0a-40b1-9139-21fb207f382a": {
+          "header_original_ok": true,
+          "header_injected_ok": true,
+          "rest_rows_equal": true,
+          "input_original_matches_source": true,
+          "input_perturbed_matches_injected": true
+        },
+        "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609": {
+          "header_original_ok": true,
+          "header_injected_ok": true,
+          "rest_rows_equal": true,
+          "input_original_matches_source": true,
+          "input_perturbed_matches_injected": true
+        },
+        "9bce514f-3eb3-433c-85e5-2d40d116497c": {
+          "header_original_ok": true,
+          "header_injected_ok": true,
+          "rest_rows_equal": true,
+          "input_original_matches_source": true,
+          "input_perturbed_matches_injected": true
+        },
+        "70cf5260-2124-4a26-a148-5cf3c6028813": {
+          "header_original_ok": true,
+          "header_injected_ok": true,
+          "rest_rows_equal": true,
+          "input_original_matches_source": true,
+          "input_perturbed_matches_injected": true
+        }
+      },
+      "records": {
+        "N1": {
+          "uid_ok": true,
+          "question_found": true,
+          "answer_present": true,
+          "answer_numeric_like": true
+        },
+        "N2": {
+          "uid_ok": true,
+          "question_found": true,
+          "answer_present": true,
+          "answer_numeric_like": true
+        },
+        "N3": {
+          "uid_ok": true,
+          "question_found": true,
+          "answer_present": true,
+          "answer_numeric_like": true
+        },
+        "N4": {
+          "uid_ok": true,
+          "question_found": true,
+          "answer_present": true,
+          "answer_numeric_like": true
+        }
+      }
+    },
+    "E_run_card": {
+      "has_total36": true,
+      "has_cap40": true,
+      "has_retry_leq4": true,
+      "has_single_concurrency": true,
+      "c_label_verbatim": true,
+      "auth_g1_g5": true,
+      "auth_no_reuse": true,
+      "budget_split_stated": true
+    },
+    "F_integrity": {
+      "root_files": 46,
+      "root_bad": [],
+      "panel_files": 26,
+      "panel_bad": [],
+      "self_excluded": true,
+      "on_disk_not_in_manifest": [
+        "reviews/INDEPENDENT_REVIEW_RECOMPUTE_v1.json",
+        "reviews/INDEPENDENT_REVIEW_RECOMPUTE_v1.py",
+        "reviews/INDEPENDENT_REVIEW_v1.md"
+      ],
+      "in_manifest_not_on_disk": [],
+      "reviews_registered": [
+        "reviews/LOOP_D_ADVERSARIAL_SELF_REVIEW_v1.json",
+        "reviews/LOOP_D_ADVERSARIAL_SELF_REVIEW_v1.md",
+        "reviews/REVIEW_STATUS_v1.md"
+      ]
+    },
+    "G_probes": {
+      "bool_as_int_cell": {
+        "legal": true,
+        "issues": []
+      },
+      "percent_marker_on_plain": "UNSCORABLE_PERCENT_MARKER_ON_PLAIN_UNIT",
+      "multi_number_refusal": "UNSCORABLE_MULTIPLE_NUMBERS",
+      "list_superset": "NO_MATCH",
+      "list_reorder": "MATCH"
+    }
+  },
+  "notes": []
+}
