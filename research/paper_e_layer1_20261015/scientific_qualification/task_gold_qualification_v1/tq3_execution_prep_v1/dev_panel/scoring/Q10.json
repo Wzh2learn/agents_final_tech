@@ -1,0 +1,20 @@
+{
+  "task_id": "Q10",
+  "scoring_version": "v1",
+  "status_labels": {
+    "panel": "DEVELOPMENTAL_DRY_RUN_NOT_HELDOUT",
+    "reference_validity": "NOT_ESTABLISHED",
+    "system_outcome": "NOT_RUN"
+  },
+  "compare_mode": "numeric",
+  "expected": 0.47,
+  "expected_spans": null,
+  "expected_precise": 0.4708994708994709,
+  "abs_tolerance": 0.005,
+  "accepted_formats": null,
+  "normalization_rules": [
+    "extract numbers; percent form (value/100) is the same ratio"
+  ],
+  "unit_scale_status": "NOT_APPLICABLE",
+  "notes": "Ratio 0.47, not a percentage operation; do not conflate 0.47 with 47 percent."
+}

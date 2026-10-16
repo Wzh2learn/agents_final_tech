@@ -1,0 +1,68 @@
+{
+  "task_id": "Q04",
+  "question": "What was the change in operating leases between 2021 and 2022?",
+  "perturbed_table": [
+    [
+      "",
+      "operat1ng Leases",
+      "Finance Leases"
+    ],
+    [
+      "2021",
+      "$138",
+      "$6"
+    ],
+    [
+      "2022",
+      "135",
+      "6"
+    ],
+    [
+      "2023",
+      "120",
+      "7"
+    ],
+    [
+      "2024",
+      "94",
+      "7"
+    ],
+    [
+      "2025",
+      "70",
+      "7"
+    ],
+    [
+      "Thereafter",
+      "577",
+      "35"
+    ],
+    [
+      "Total future minimum lease payments",
+      "1,134",
+      "68"
+    ],
+    [
+      "Less: Imputed interest",
+      "(279)",
+      "(9)"
+    ],
+    [
+      "Total lease liabilities(1)",
+      "$855",
+      "$59"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "e6b86d9d-7fb2-4bb8-8fda-a486c84c851f",
+      "order": 1,
+      "text": "The following represents VMware’s future minimum lease payments under non-cancellable operating and finance leases as of January 31, 2020 (table in millions):"
+    },
+    {
+      "uid": "0824f59b-36c9-41c6-beb9-53e2edeb17e0",
+      "order": 2,
+      "text": "(1) Total lease liabilities as of January 31, 2020 excluded legally binding lease payments for leases signed but not yet commenced of $361 million."
+    }
+  ]
+}

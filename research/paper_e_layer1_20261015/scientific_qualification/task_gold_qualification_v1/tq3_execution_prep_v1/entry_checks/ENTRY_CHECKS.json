@@ -1,0 +1,90 @@
+{
+  "schema": "tq3_entry_checks_v1",
+  "date": "2026-10-16",
+  "actor": "Loop D (AI)",
+  "entry_module": "tq3_execution_prep_v1/tools/tq3_scoring_entry.py",
+  "entry_kind": "LOCAL_DETERMINISTIC_ONLY (no model, no network)",
+  "supersedes": {
+    "file": "measurement_contract_v2/tools/tq2_offline_checks.py",
+    "old_files_untouched": true,
+    "corrected_statements": [
+      "negative_changed_input_hash_rejected: old claim compared a modified copy hash to the pinned original; hash inequality alone is not an entry rejection. Now enforced by load_input raising INPUT_HASH_MISMATCH with no loaded object and no score.",
+      "negative_unresolved_scale_blocks_compare: old claim checked for the string UNRESOLVED; string presence alone is not entry-enforced blocking. Now enforced by score() returning BLOCKED_SCALE_UNRESOLVED with score=None."
+    ]
+  },
+  "checks": [
+    {
+      "check": "positive_all_inputs_load_with_pins",
+      "passed": true,
+      "detail": {
+        "loaded": 12,
+        "failures": []
+      }
+    },
+    {
+      "check": "positive_score_fixture_match",
+      "passed": true,
+      "detail": {
+        "fixture": "entry-test fixture; not an actor result",
+        "result": {
+          "task_id": "Q03",
+          "status": "MATCH",
+          "score": 1.0
+        }
+      }
+    },
+    {
+      "check": "positive_score_fixture_no_match",
+      "passed": true,
+      "detail": {
+        "fixture": "entry-test fixture; not an actor result",
+        "result": {
+          "task_id": "Q03",
+          "status": "NO_MATCH",
+          "score": 0.0
+        }
+      }
+    },
+    {
+      "check": "negative_invalid_reference_coordinate_via_entry",
+      "passed": true,
+      "detail": {
+        "rejected": true,
+        "error": "INVALID_REFERENCE_COORDINATES: r999c999"
+      }
+    },
+    {
+      "check": "negative_changed_input_hash_via_entry",
+      "passed": true,
+      "detail": {
+        "rejected": true,
+        "error": "INPUT_HASH_MISMATCH: expected d8aaf0ae1af3..., got d82b8a914deb...",
+        "loaded": false
+      }
+    },
+    {
+      "check": "negative_unresolved_scale_no_valid_score",
+      "passed": true,
+      "detail": {
+        "fixture": "synthetic scoring material for the negative test",
+        "result": {
+          "task_id": "NEG-TEST",
+          "status": "BLOCKED_SCALE_UNRESOLVED",
+          "score": null
+        }
+      }
+    },
+    {
+      "check": "negative_reference_leakage_via_entry",
+      "passed": true,
+      "detail": {
+        "rejected": true,
+        "error": "INPUT_LEAKAGE: /official_reference;/official_reference/answer"
+      }
+    }
+  ],
+  "all_passed": true,
+  "scientific_gold_validity": "NOT_ESTABLISHED",
+  "system_outcome": "NOT_RUN",
+  "layer2_authorized": false
+}

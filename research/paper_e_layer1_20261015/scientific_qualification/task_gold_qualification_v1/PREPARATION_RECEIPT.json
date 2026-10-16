@@ -1,0 +1,37 @@
+{
+  "status": "MATERIALS_PREPARED_NOT_HUMAN_VALIDATED",
+  "runtime": "Python 3.12.14 local stdlib",
+  "raw_pin_checks": 5,
+  "pool_rows": 59,
+  "pool_exact_raw_table_joins": 59,
+  "selected_cases": 12,
+  "selected_unique_tables": 12,
+  "selected_strata": {
+    "S4": 3,
+    "S1": 3,
+    "S2": 3,
+    "S3": 3
+  },
+  "source_strata": {
+    "S3": 29,
+    "S1": 6,
+    "S4": 10,
+    "S2": 5,
+    "RESERVE": 9
+  },
+  "multi_header_selected_tables": 3,
+  "human_labels_created": 0,
+  "model_calls": 0,
+  "judge_calls": 0,
+  "training_calls": 0,
+  "production_service_calls": 0,
+  "network_used": "SSH/SCP static-file retrieval only",
+  "scientific_verdict": "NOT_ASSESSED",
+  "limitations": [
+    "No human annotation yet",
+    "Input strata are not semantic labels",
+    "Existing exposed diagnostic pool",
+    "Report/document IDs and original upstream commit unresolved",
+    "No independent external audit of this package"
+  ]
+}

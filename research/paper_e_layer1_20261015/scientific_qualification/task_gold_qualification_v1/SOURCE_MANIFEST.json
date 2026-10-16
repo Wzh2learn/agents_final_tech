@@ -1,0 +1,56 @@
+{
+  "created_at": "2026-10-15T15:01:34.663708+00:00",
+  "transport": "read-only SSH/SCP from existing GB10 research files",
+  "upstream": "https://github.com/NExTplusplus/TAT-QA",
+  "upstream_ref_as_recorded": "master",
+  "upstream_commit": "UNRESOLVED",
+  "upstream_fetch_date_as_recorded": "2026-10-13T05:07:45Z",
+  "attribution": "TAT-QA dataset, Fengbin Zhu et al.; dataset CC BY 4.0 per existing project licence record; project-added header perturbations; no endorsement or public release implied",
+  "sources": [
+    {
+      "role": "injection_map",
+      "local_path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\paper_e_layer1_20261015\\scientific_qualification\\task_gold_qualification_v1\\raw\\injection_map.json",
+      "relative_path": "raw\\injection_map.json",
+      "remote_path": "/home/testuser/wzh/projects/agents_final_tech/data/research/drift_v0/output/injection_map.json",
+      "sha256": "d761240586b1597cbc02d823aa5c785a6fb6d47f112c36b705951717f64ac66e",
+      "bytes": 36004,
+      "verified_against": "frozen v4 contract"
+    },
+    {
+      "role": "source_tables",
+      "local_path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\paper_e_layer1_20261015\\scientific_qualification\\task_gold_qualification_v1\\raw\\tatqa_tables.json",
+      "relative_path": "raw\\tatqa_tables.json",
+      "remote_path": "/home/testuser/wzh/projects/agents_final_tech/data/research/drift_v0/input/tatqa_tables.json",
+      "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+      "bytes": 1442890,
+      "verified_against": "frozen v4 contract"
+    },
+    {
+      "role": "injected_tables",
+      "local_path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\paper_e_layer1_20261015\\scientific_qualification\\task_gold_qualification_v1\\raw\\injected_tables.json",
+      "relative_path": "raw\\injected_tables.json",
+      "remote_path": "/home/testuser/wzh/projects/agents_final_tech/data/research/drift_v0/output/injected_tables.json",
+      "sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9",
+      "bytes": 2568361,
+      "verified_against": "frozen v4 contract"
+    },
+    {
+      "role": "raw_qa_train",
+      "local_path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\paper_e_layer1_20261015\\scientific_qualification\\task_gold_qualification_v1\\raw\\tatqa_dataset_train.json",
+      "relative_path": "raw\\tatqa_dataset_train.json",
+      "remote_path": "/home/testuser/wzh/projects/agents_final_tech/data/research/tatqa_raw_2026/tatqa_dataset_train.json",
+      "sha256": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+      "bytes": 12845647,
+      "verified_against": "2026-10-13 FETCH_RECEIPT.sha256"
+    },
+    {
+      "role": "raw_qa_dev",
+      "local_path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\paper_e_layer1_20261015\\scientific_qualification\\task_gold_qualification_v1\\raw\\tatqa_dataset_dev.json",
+      "relative_path": "raw\\tatqa_dataset_dev.json",
+      "remote_path": "/home/testuser/wzh/projects/agents_final_tech/data/research/tatqa_raw_2026/tatqa_dataset_dev.json",
+      "sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+      "bytes": 1637431,
+      "verified_against": "2026-10-13 FETCH_RECEIPT.sha256"
+    }
+  ]
+}

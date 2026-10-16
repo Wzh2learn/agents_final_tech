@@ -1,0 +1,27 @@
+{
+  "task_id": "Q02",
+  "reference_version": "v1",
+  "source": "packets/stage2_cases.json#official_reference (frozen packet copy)",
+  "official_reference": {
+    "answer": [
+      "accounts receivable, inventories, and net property, plant, and equipment."
+    ],
+    "derivation": "",
+    "answer_type": "span",
+    "answer_from": "table-text",
+    "scale": "",
+    "rel_paragraphs": [
+      "2"
+    ],
+    "req_comparison": false
+  },
+  "applies_to_variants": [
+    "original",
+    "perturbed"
+  ],
+  "provisional_evidence_effect": "PRESERVED",
+  "caveats": [
+    "reference_validity NOT_ESTABLISHED; provisional expected answer for the developmental dry run only",
+    "perturbed-variant expectation relies on the provisional PRESERVED judgment (AI; not independent gold)"
+  ]
+}

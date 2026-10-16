@@ -1,0 +1,60 @@
+{
+  "task_id": "Q10",
+  "source": {
+    "question_uid": null,
+    "table_uid": null,
+    "source_table_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "perturbed_table_sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+  },
+  "question": "What is the proportion of equity compensation plans approved by security holders to the total number of securities to be issued upon exercise of outstanding options and rights?",
+  "task_requirements": {
+    "object": "proportion of approved-plan securities to total column(a)",
+    "period": "2019-12-31",
+    "unit_scale": "dimensionless ratio",
+    "direction": "approved divided by total",
+    "required_granularity": "two decimals",
+    "tolerance": "0.01 ratio"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "column(a) row values; row labels unchanged",
+      "where": [
+        "r2c1",
+        "r4c1"
+      ],
+      "expression": "445000/945000",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "445000 / 945000",
+  "expected": "0.47",
+  "precision": "2 decimals",
+  "semantic_assumptions": [
+    {
+      "assumption": "0.47 is a ratio, not a percentage",
+      "attribution": "DETERMINISTIC_DERIVATION",
+      "note": "no x100 requested"
+    },
+    {
+      "assumption": "column(c) equty typo is not used by this question",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "question uses column(a)"
+    }
+  ],
+  "evidence_effect_ai": "PRESERVED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "REFERENCE_REPLAY_READY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "P applies only to this column(a) ratio question."
+  ]
+}

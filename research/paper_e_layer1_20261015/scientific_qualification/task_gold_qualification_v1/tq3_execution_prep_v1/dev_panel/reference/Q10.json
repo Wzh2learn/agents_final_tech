@@ -1,0 +1,23 @@
+{
+  "task_id": "Q10",
+  "reference_version": "v1",
+  "source": "packets/stage2_cases.json#official_reference (frozen packet copy)",
+  "official_reference": {
+    "answer": 0.47,
+    "derivation": "445,000/945,000",
+    "answer_type": "arithmetic",
+    "answer_from": "table",
+    "scale": "",
+    "rel_paragraphs": [],
+    "req_comparison": false
+  },
+  "applies_to_variants": [
+    "original",
+    "perturbed"
+  ],
+  "provisional_evidence_effect": "PRESERVED",
+  "caveats": [
+    "reference_validity NOT_ESTABLISHED; provisional expected answer for the developmental dry run only",
+    "perturbed-variant expectation relies on the provisional PRESERVED judgment (AI; not independent gold)"
+  ]
+}

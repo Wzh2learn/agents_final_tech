@@ -1,0 +1,71 @@
+{
+  "schema": "ai_review_manifest_v1",
+  "date": "2026-10-16",
+  "status": "AI_PROVISIONAL_NOT_GOLD",
+  "human_signature": null,
+  "inputs": [
+    {
+      "path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\paper_e_layer1_20261015\\scientific_qualification\\task_gold_qualification_v1\\packets\\stage2_cases.json",
+      "sha256": "db70cc4d03c89e5a5c2873dd3382285f3708e94f8906e3170048590204be2ad2"
+    },
+    {
+      "path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\paper_e_layer1_20261015\\scientific_qualification\\task_gold_qualification_v1\\DECISION_AND_PROTOCOL.md",
+      "sha256": "4e018f4f7203c0db20477f663df82a7e79c2a43b19aa12ed94c52ed7c10c1526"
+    },
+    {
+      "path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\paper_e_layer1_20261015\\scientific_qualification\\task_gold_qualification_v1\\PACKAGE_MANIFEST.json",
+      "sha256": "1e4d7f40f82bd4cd504d541053f61a239d92d51e2055c217f975f80f50a9cc72"
+    },
+    {
+      "path": "D:\\AIRcommend\\JinRongAgents\\agents_final_tech\\research\\paper_e_layer1_20261015\\scientific_qualification\\task_gold_qualification_v1\\LOOP_D_RETURN.md",
+      "sha256": "a7f33e1a185a6974057a55680fb1e1bf8638ec4819bdaab93abf6c4e4950809f"
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "96a4bfc648eca757219fe88c256459d8651417c23bb9512faf5354b372c47e81",
+      "bytes": 83
+    },
+    {
+      "path": "AI_ANNOTATIONS_v1.csv",
+      "sha256": "9db8fc41e2233a3f12e61ab4e3fadcfc865d668b71b383cc312ffb2328fc6f16",
+      "bytes": 11296
+    },
+    {
+      "path": "AI_ANNOTATIONS_v1.json",
+      "sha256": "ca484c04732e44e80404b41664d13355e479ec7a2be58049287df39bf40063db",
+      "bytes": 19233
+    },
+    {
+      "path": "CASE_REVIEW.md",
+      "sha256": "b4e330cb35d0825ddb3e530254c4542dd6c75bb8b68376f5694dc631f9287af1",
+      "bytes": 14308
+    },
+    {
+      "path": "CHECK_AND_RENDER.py",
+      "sha256": "e0809b2fc8bfcc634f68d5165266779ce73afa4f921ad42b0d82b4f3d9662af9",
+      "bytes": 7621
+    },
+    {
+      "path": "LOOP_D_NEXT_PROMPT.md",
+      "sha256": "d410f81436100cc9dfee350eaf92c8667ce4618a32c0da217689635fbdffe08d",
+      "bytes": 5689
+    },
+    {
+      "path": "MECHANICAL_CHECKS.json",
+      "sha256": "384817918439d0b759e59a3fd97e9db50216366f2bfc7cbd5c4abde0670aa193",
+      "bytes": 6792
+    },
+    {
+      "path": "README.md",
+      "sha256": "34d3eb61345eb3fe7369a3c8546ef35b59475afe011386890b8dadf946aef59c",
+      "bytes": 2420
+    },
+    {
+      "path": "REVIEW_ROSTER.json",
+      "sha256": "80d3810e568664bac422fb613c642109c45aa4b0a314cc8ba2d2e2b4f9fd9c5b",
+      "bytes": 1174
+    }
+  ]
+}

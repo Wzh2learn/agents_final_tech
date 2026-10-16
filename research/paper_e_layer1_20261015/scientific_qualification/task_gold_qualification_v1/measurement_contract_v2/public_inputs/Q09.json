@@ -1,0 +1,63 @@
+{
+  "task_id": "Q09",
+  "question": "What is the percentage change in the total dividends paid from 2018 to 2019?",
+  "perturbed_table": [
+    [
+      "Consoli2021期末d",
+      "",
+      ""
+    ],
+    [
+      "",
+      "2019",
+      "2018"
+    ],
+    [
+      "",
+      "US$’000",
+      "US$’000"
+    ],
+    [
+      "Final dividend for the year ended 30 June 2018 of AU 14 cents (2017: AU 12 cents)",
+      "13,327",
+      "12,534"
+    ],
+    [
+      "Interim dividend for the half year ended 31 December 2018 of AU 16 cents (2017: AU 13 cents)",
+      "14,801",
+      "13,099"
+    ],
+    [
+      "",
+      "28,128",
+      "25,633"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "63b3fb30-8fde-4a07-9486-46fb2d356f13",
+      "order": 1,
+      "text": "Note 21. Equity - dividends"
+    },
+    {
+      "uid": "00f1791a-423c-479c-9910-79eb107071e2",
+      "order": 2,
+      "text": "Dividends paid during the financial year were as follows:"
+    },
+    {
+      "uid": "2f246b4f-c984-4142-ad2b-522411c2ba45",
+      "order": 3,
+      "text": "The Directors have declared a final dividend of AU 18 cents per share for the year ended 30 June 2019. The dividend will be paid on 25 September 2019 based on a record date of 4 September 2019. This amounts to a total dividend of US$15.9 million based on the number of shares outstanding."
+    },
+    {
+      "uid": "78048e16-91e5-4c60-9d6b-7f3598a8e2eb",
+      "order": 4,
+      "text": "Accounting policy for dividends"
+    },
+    {
+      "uid": "e33f0496-45fb-4a50-b9ee-0acf8a6120dc",
+      "order": 5,
+      "text": "Dividends are recognised when declared during the financial year and no longer at the discretion of the company."
+    }
+  ]
+}

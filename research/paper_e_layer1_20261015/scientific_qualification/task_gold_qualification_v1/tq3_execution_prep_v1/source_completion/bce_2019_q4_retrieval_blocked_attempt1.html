@@ -1,0 +1,173 @@
+  <!DOCTYPE html>
+<html lang="en_CA">
+<head>
+  <meta charset="utf-8">
+  <title>Request Rejected / Requête rejetée</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!--[if IE]>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <![endif]-->
+  <style>
+  /* Bell Slim */
+
+  body {
+    background: #fff;
+    line-height: 1.42857143;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+  }
+
+  .container {
+    margin: 0 auto;
+    max-width: 960px;
+    padding: 0 15px;
+  }
+  .container:before,
+  .container:after {
+    content: '';
+    display: table;
+  }
+  .container:after {
+    clear: both;
+  }
+
+  .rsx-page-content {
+    min-height: calc(100vh - 124px);
+  }
+
+  .rsx-txt-center {
+    text-align: center !important;
+  }
+  .rsx-block {
+    display: block !important;
+  }
+
+  h1 {
+    color: #111;
+    margin: 20px 0;
+  }
+
+  hr {
+    background-color: #e1e1e1;
+    border: none !important;
+    height: 1px;
+    margin: 40px auto 30px auto;
+    max-width: 600px;
+  }
+
+  .bell-header {
+    background: #00549A;
+    box-shadow: 0px 10px 39px 0px rgba(0,0,0,0.2);
+    display: block;
+    padding: 19px 0;
+  }
+
+  .bell-header .container {
+    margin-bottom: 0;
+  }
+
+  .bell-header-logo {
+    float: left;
+  }
+  .bell-header-logo svg {
+    border: none;
+    display: block;
+  }
+
+  @media (max-width: 519px) {
+    .bell-header {
+      padding: 10px 0;
+    }
+    .bell-header-logo svg {
+      width: 44px;
+    }
+  }
+
+  .rsx-page-content {
+    background: #fff;
+  }
+
+  .error-page .content {
+    background: none;
+    padding-top: 70px;
+    padding-bottom: 125px;
+  }
+
+  .rsx-block + .rsx-block {
+    margin-top: 10px;
+  }
+  .warning-icon {
+    display: inline-block;
+    height: 80px;
+    width: 80px;
+  }
+  .warning-icon svg {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
+  /* .bell-footer {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+  } */
+  </style>
+</head>
+<body>
+  <header class="bell-header">
+    <div class="container">
+<!--      <a href="https://www.bell.ca" class="bell-header-logo">-->
+        <a href="" class="bell-header-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="65" height="38" viewBox="0 0 65 38">
+          <defs>
+            <path id="bell-a" d="M48.298501,21.7780384 L48.298501,0.271136423 L54.5998109,0.271136423 L54.5998109,37.0656479 L48.298501,37.0656479 L48.298501,27.3333379 L31.4767924,27.3333379 C31.6465043,29.9778273 33.5461511,32.727802 37.8542327,32.7429434 C40.0514489,32.7429434 42.0073419,32.0607387 43.5288392,30.9022946 L46.5529924,34.488706 C44.4402497,36.4071648 41.3473358,37.6588968 37.0697063,37.6588968 C33.5948885,37.6588968 30.1448913,36.6256638 27.7651705,33.9824781 C26.5978364,32.6862893 25.703112,30.9780858 25.2386812,28.8816733 C23.8848796,33.5968769 19.6550142,36.7340931 13.4757912,36.9832534 C11.523444,37.0623673 9.43002948,37.0758684 7.28606986,37.0656479 C4.87700929,37.0554275 2.40474999,37.0656479 1.33226763e-15,37.0656479 L1.33226763e-15,0.0868738658 L8.4877496,0.0868738658 C12.8287168,0.0868738658 16.3528283,0.5387188 18.9382057,2.75710372 C20.7004005,4.26817446 21.7529479,6.59002568 21.7529479,9.14122723 C21.7529479,11.889225 20.5543968,14.2980553 18.2654069,15.9805604 C21.3060376,16.9359834 24.1841176,19.195839 25.259678,22.5469697 C26.4574643,17.7958473 30.5002364,13.2889223 37.0777713,13.2889223 C41.3086796,13.2889223 44.4338534,14.9117451 46.3639524,17.4827566 C47.305537,18.7341101 47.9578953,20.1137029 48.298501,21.7780384 Z M6.4747066,5.08156263 L6.4747066,14.8191301 L8.54086712,14.8191301 C9.68351966,14.8191301 10.4911285,14.7551997 11.052756,14.6398306 C14.4071556,13.9480784 15.0166166,11.418916 15.0146699,9.81127671 C15.0146699,7.90665547 14.1125758,6.38502781 12.2136242,5.64150042 C11.2519467,5.26578313 9.91636075,5.08088968 8.22591635,5.08088968 L6.4747066,5.08156263 Z M13.5986429,31.6530562 C17.1905417,31.0015129 18.7141248,28.5946174 18.7141248,25.7385267 C18.7141248,22.9796776 17.0607375,20.8961353 14.1805023,20.1344803 C13.3417459,19.9127007 11.8742005,19.7663337 10.5791479,19.7663337 L6.4747066,19.7663337 L6.4741504,31.8290751 L11.06096,31.8290751 C11.8446521,31.8290751 12.8092497,31.796437 13.5986429,31.6530562 Z M31.5925524,22.7367841 L42.3780522,22.7367841 C41.8758691,19.8401902 39.9401385,18.1023347 37.0291729,18.1023347 C34.1208493,18.1023347 32.1475749,20.0432112 31.5925524,22.7367841 Z M58.8059681,37.0656479 L58.8059681,0.26979052 L65,0.26979052 L65,37.0656479 L58.8059681,37.0656479 Z"/>
+          </defs>
+          <g fill="none" fill-rule="evenodd">
+            <mask id="bell-b" fill="#fff">
+              <use xlink:href="#bell-a"/>
+            </mask>
+            <use fill="#FFF" xlink:href="#bell-a"/>
+            <g fill="#FFF" mask="url(#bell-b)">
+              <rect width="65" height="38"/>
+            </g>
+          </g>
+        </svg>
+      </a>
+    </div>
+  </header>
+  <main class="rsx-page-content error-page">
+    <div class="container content rsx-no-margin-bottom">
+      <div class="row rsx-txt-center">
+        <span class="warning-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36" viewBox="0 0 36 36">
+            <defs>
+              <path id="icon-warning-a" d="M29.3131858,6.68586297 C23.065335,0.438012146 12.934665,0.438012146 6.68671356,6.68596356 C0.437762146,12.934915 0.437762146,23.064585 6.68671356,29.3135364 C12.934665,35.5614879 23.065335,35.5614879 29.3131858,29.313637 C35.5612714,23.0646626 35.5612714,12.9348374 29.3131858,6.68586297 Z M30.7275,5.27175 C37.7565,12.30175 37.7565,23.69775 30.7275,30.72775 C23.6985,37.75675 12.3015,37.75675 5.2725,30.72775 C-1.7575,23.69775 -1.7575,12.30175 5.2725,5.27175 C12.3015,-1.75725 23.6985,-1.75725 30.7275,5.27175 Z M17.0001,15.5566 L17.0001,26.7386 C17.0001,27.2908847 17.4478153,27.7386 18.0001,27.7386 C18.5523847,27.7386 19.0001,27.2908847 19.0001,26.7386 L19.0001,15.5566 C19.0001,15.0043153 18.5523847,14.5566 18.0001,14.5566 C17.4478153,14.5566 17.0001,15.0043153 17.0001,15.5566 Z M17.999725,11.3294406 C18.8281521,11.3294406 19.499725,10.6578677 19.499725,9.82944062 C19.499725,9.00101349 18.8281521,8.32944062 17.999725,8.32944062 C17.1712979,8.32944062 16.499725,9.00101349 16.499725,9.82944062 C16.499725,10.6578677 17.1712979,11.3294406 17.999725,11.3294406 Z"/>
+            </defs>
+            <g fill="none" fill-rule="evenodd">
+              <use fill="#F9AC28" fill-rule="nonzero" transform="rotate(-180 18 18)" xlink:href="#icon-warning-a"/>
+            </g>
+          </svg>
+        </span>
+        <h1 class="rsx-pad-v rsx-txt-bold">Oups</h1>
+        <span class="rsx-block">Votre requête ne peut être traitée en ce moment, veuillez contacter votre service à la clientèle.</span>
+        <hr />
+        <h1 class="rsx-pad-v rsx-txt-bold">Oops</h1>
+        <span class="rsx-block">Your request cannot be completed, please contact your customer service.</span>
+        <br /><br />
+        <span class="rsx-block">
+          <p>Reference Number: 123</p>
+        </span>
+      </div>
+    </div>
+  </main>
+  <footer class="bell-footer">
+    <div class="container">
+      <p>&copy; Bell Canada, 2024. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,97 @@
+{
+  "task_id": "Q04",
+  "source": {
+    "question_uid": "65026273-5d78-4e7a-b846-828ecbc809ec",
+    "table_uid": "44c7c9ef-bb9f-45c9-9ee5-e2bf465c3617",
+    "source_table_sha256": "f892ea6fbc3b1a2b713cc822194d1c181ef72d9710efb64fe7c52b3291a5c4db",
+    "perturbed_table_sha256": "27da294cdf3089968ff2173fb59e2c07eea6851e0e84f55254602dd02ef5d4d8",
+    "corpus_pins": {
+      "note": "rev1: v2 stored drift-v0 corpus-file hashes under source_table_sha256/perturbed_table_sha256 (identical across all 9 specs); rev1 relocates them here with accurate labels and restores per-case table pins.",
+      "source_tables_corpus_file": {
+        "file": "data/research/drift_v0/input/tatqa_tables.json",
+        "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+      },
+      "injected_tables_corpus_file": {
+        "file": "data/research/drift_v0/output/injected_tables.json",
+        "sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+      }
+    },
+    "raw": {
+      "raw_file": "tatqa_dataset_dev.json",
+      "raw_file_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+      "raw_record_index": 193,
+      "question_index": 3
+    }
+  },
+  "question": "What was the change in operating leases between 2021 and 2022?",
+  "task_requirements": {
+    "object": "change in operating lease payments",
+    "period": "2021 to 2022",
+    "unit_scale": "million (paragraph 1)",
+    "direction": "2022 minus 2021",
+    "required_granularity": "integer million",
+    "tolerance": "0 digits"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "operating lease row and paragraph 1 unit statement",
+      "where": [
+        "r1c1",
+        "r2c1",
+        "paragraph order 1"
+      ],
+      "expression": "135-138",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "135 - 138",
+  "expected": "-3",
+  "precision": "0 digits",
+  "semantic_assumptions": [
+    {
+      "assumption": "operat1ng Leases denotes the operating-lease column",
+      "attribution": "AI_INFERENCE",
+      "note": "Finance Leases column and paragraph 1 provide cross-check"
+    },
+    {
+      "assumption": "table is in millions per paragraph 1",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "explicit parenthetical"
+    }
+  ],
+  "evidence_effect_ai": "PRESERVED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "REFERENCE_REPLAY_READY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "OCR-like spelling recovery uses context; not a general rule."
+  ],
+  "revision": {
+    "rev": "rev1",
+    "date": "2026-10-16",
+    "actor": "Loop D (AI)",
+    "supersedes_for_execution": "measurement_contract_v2/cases/Q04.json",
+    "changes": [
+      "filled question_uid/table_uid from coordinator/case_provenance.json; both asserted against raw TAT-QA records",
+      "restored per-case source_table_sha256/perturbed_table_sha256 (v2 values were corpus-file pins, identical across all specs; moved to corpus_pins)",
+      "added raw-file pin block"
+    ]
+  },
+  "panel_plan": {
+    "role": "dev_panel_dry_run_input",
+    "variants": [
+      "original",
+      "perturbed"
+    ],
+    "in_primary_metrics": true
+  }
+}

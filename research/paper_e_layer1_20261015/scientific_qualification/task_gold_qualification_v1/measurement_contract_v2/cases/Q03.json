@@ -1,0 +1,61 @@
+{
+  "task_id": "Q03",
+  "source": {
+    "question_uid": null,
+    "table_uid": null,
+    "source_table_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "perturbed_table_sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+  },
+  "question": "What is the difference between capital stock value in class A and B shares?",
+  "task_requirements": {
+    "object": "capital stock value difference",
+    "period": "2019-12-31",
+    "unit_scale": "SEK million",
+    "direction": "Class B minus Class A",
+    "required_granularity": "integer million",
+    "tolerance": "0 digits"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "lower-level unit header and Class A/B rows",
+      "where": [
+        "r1c2",
+        "r2c2",
+        "r3c2"
+      ],
+      "expression": "15363-1309",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "15363 - 1309",
+  "expected": "14054",
+  "precision": "0 digits",
+  "semantic_assumptions": [
+    {
+      "assumption": "difference direction is Class B minus Class A",
+      "attribution": "DETERMINISTIC_DERIVATION",
+      "note": "official derivation 15,363-1,309"
+    },
+    {
+      "assumption": "unit is SEK million from unchanged r1c2 header",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "lower-level header survives perturbation"
+    }
+  ],
+  "evidence_effect_ai": "PRESERVED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "REFERENCE_REPLAY_READY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "Top-level capitai stock typo is not used by this question."
+  ]
+}

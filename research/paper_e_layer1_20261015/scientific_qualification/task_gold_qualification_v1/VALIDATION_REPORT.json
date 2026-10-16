@@ -1,0 +1,60 @@
+{
+  "status": "PASS_MATERIAL_PREPARATION_ONLY",
+  "independent_human_review": "NOT_PERFORMED",
+  "scientific_gold_validity": "NOT_ASSESSED",
+  "checks": [
+    {
+      "check": "source_bytes_still_pinned",
+      "passed": true,
+      "detail": {
+        "files": 5
+      }
+    },
+    {
+      "check": "12_unique_cases_and_tables",
+      "passed": true,
+      "detail": {
+        "cases": 12,
+        "tables": 12
+      }
+    },
+    {
+      "check": "exact_question_table_context_reference_lineage",
+      "passed": true,
+      "detail": {
+        "failed_cases": []
+      }
+    },
+    {
+      "check": "stage1_no_reference_or_proxy_fields",
+      "passed": true,
+      "detail": "Allowlisted projection; paragraphs retain authentic information, not artificially redacted."
+    },
+    {
+      "check": "stage2_no_v4_or_checker_fields",
+      "passed": true,
+      "detail": "Only official raw reference added, no inferred label."
+    },
+    {
+      "check": "four_complete_exports_and_blank_human_forms",
+      "passed": true,
+      "detail": {
+        "failures": [],
+        "blank_stage_rows": 48
+      }
+    },
+    {
+      "check": "old_layer1_and_paper_files_unchanged",
+      "passed": true,
+      "detail": {
+        "files_checked": 105,
+        "changed": []
+      }
+    },
+    {
+      "check": "no_fabricated_humans_or_qualification",
+      "passed": true,
+      "detail": "All human identity, label and signature fields remain unfilled."
+    }
+  ]
+}

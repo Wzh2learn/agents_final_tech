@@ -1,0 +1,281 @@
+{
+  "status": "PASS_OFFLINE_CHECKS_ONLY",
+  "scientific_gold_validity": "NOT_ESTABLISHED",
+  "system_outcome": "NOT_RUN",
+  "layer2_authorized": false,
+  "checks": [
+    {
+      "check": "all_reference_coordinates_exist",
+      "passed": true,
+      "detail": [
+        {
+          "task_id": "Q02",
+          "coord_valid": true,
+          "invalid_coords": []
+        },
+        {
+          "task_id": "Q03",
+          "coord_valid": true,
+          "invalid_coords": []
+        },
+        {
+          "task_id": "Q04",
+          "coord_valid": true,
+          "invalid_coords": []
+        },
+        {
+          "task_id": "Q05",
+          "coord_valid": true,
+          "invalid_coords": []
+        },
+        {
+          "task_id": "Q06",
+          "coord_valid": true,
+          "invalid_coords": []
+        },
+        {
+          "task_id": "Q08",
+          "coord_valid": true,
+          "invalid_coords": []
+        },
+        {
+          "task_id": "Q09",
+          "coord_valid": true,
+          "invalid_coords": []
+        },
+        {
+          "task_id": "Q10",
+          "coord_valid": true,
+          "invalid_coords": []
+        },
+        {
+          "task_id": "Q12",
+          "coord_valid": true,
+          "invalid_coords": []
+        }
+      ]
+    },
+    {
+      "check": "reference_replay_operations",
+      "passed": true,
+      "detail": [
+        {
+          "task_id": "Q02",
+          "reference_replay_passed": true,
+          "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+        },
+        {
+          "task_id": "Q03",
+          "reference_replay_passed": true,
+          "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+        },
+        {
+          "task_id": "Q04",
+          "reference_replay_passed": true,
+          "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+        },
+        {
+          "task_id": "Q05",
+          "reference_replay_passed": true,
+          "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+        },
+        {
+          "task_id": "Q06",
+          "reference_replay_passed": true,
+          "perturbed_evidence_path": "BLOCKED_CANDIDATE"
+        },
+        {
+          "task_id": "Q08",
+          "reference_replay_passed": true,
+          "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+        },
+        {
+          "task_id": "Q09",
+          "reference_replay_passed": true,
+          "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+        },
+        {
+          "task_id": "Q10",
+          "reference_replay_passed": true,
+          "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+        },
+        {
+          "task_id": "Q12",
+          "reference_replay_passed": true,
+          "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+        }
+      ]
+    },
+    {
+      "check": "public_inputs_whitelist_and_source",
+      "passed": true,
+      "detail": [
+        {
+          "task_id": "Q02",
+          "whitelist_exact": true,
+          "leakage_keys": []
+        },
+        {
+          "task_id": "Q03",
+          "whitelist_exact": true,
+          "leakage_keys": []
+        },
+        {
+          "task_id": "Q04",
+          "whitelist_exact": true,
+          "leakage_keys": []
+        },
+        {
+          "task_id": "Q05",
+          "whitelist_exact": true,
+          "leakage_keys": []
+        },
+        {
+          "task_id": "Q06",
+          "whitelist_exact": true,
+          "leakage_keys": []
+        },
+        {
+          "task_id": "Q08",
+          "whitelist_exact": true,
+          "leakage_keys": []
+        },
+        {
+          "task_id": "Q09",
+          "whitelist_exact": true,
+          "leakage_keys": []
+        },
+        {
+          "task_id": "Q10",
+          "whitelist_exact": true,
+          "leakage_keys": []
+        },
+        {
+          "task_id": "Q12",
+          "whitelist_exact": true,
+          "leakage_keys": []
+        }
+      ]
+    },
+    {
+      "check": "negative_invalid_coordinate_rejected",
+      "passed": true,
+      "detail": "r999c999 detected"
+    },
+    {
+      "check": "negative_changed_input_hash_rejected",
+      "passed": true,
+      "detail": "modified copy hash differs from pinned original"
+    },
+    {
+      "check": "negative_unresolved_scale_blocks_compare",
+      "passed": true,
+      "detail": "UNRESOLVED scale blocks numeric comparison"
+    },
+    {
+      "check": "negative_official_reference_leakage_rejected",
+      "passed": true,
+      "detail": "official_reference key detected"
+    }
+  ],
+  "reference_replay": [
+    {
+      "task_id": "Q02",
+      "reference_replay_passed": true,
+      "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+    },
+    {
+      "task_id": "Q03",
+      "reference_replay_passed": true,
+      "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+    },
+    {
+      "task_id": "Q04",
+      "reference_replay_passed": true,
+      "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+    },
+    {
+      "task_id": "Q05",
+      "reference_replay_passed": true,
+      "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+    },
+    {
+      "task_id": "Q06",
+      "reference_replay_passed": true,
+      "perturbed_evidence_path": "BLOCKED_CANDIDATE"
+    },
+    {
+      "task_id": "Q08",
+      "reference_replay_passed": true,
+      "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+    },
+    {
+      "task_id": "Q09",
+      "reference_replay_passed": true,
+      "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+    },
+    {
+      "task_id": "Q10",
+      "reference_replay_passed": true,
+      "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+    },
+    {
+      "task_id": "Q12",
+      "reference_replay_passed": true,
+      "perturbed_evidence_path": "NOT_EVALUATED_BY_MECHANICAL_CHECK"
+    }
+  ],
+  "public_input_audit": [
+    {
+      "task_id": "Q02",
+      "whitelist_exact": true,
+      "leakage_keys": []
+    },
+    {
+      "task_id": "Q03",
+      "whitelist_exact": true,
+      "leakage_keys": []
+    },
+    {
+      "task_id": "Q04",
+      "whitelist_exact": true,
+      "leakage_keys": []
+    },
+    {
+      "task_id": "Q05",
+      "whitelist_exact": true,
+      "leakage_keys": []
+    },
+    {
+      "task_id": "Q06",
+      "whitelist_exact": true,
+      "leakage_keys": []
+    },
+    {
+      "task_id": "Q08",
+      "whitelist_exact": true,
+      "leakage_keys": []
+    },
+    {
+      "task_id": "Q09",
+      "whitelist_exact": true,
+      "leakage_keys": []
+    },
+    {
+      "task_id": "Q10",
+      "whitelist_exact": true,
+      "leakage_keys": []
+    },
+    {
+      "task_id": "Q12",
+      "whitelist_exact": true,
+      "leakage_keys": []
+    }
+  ],
+  "negative_checks": {
+    "invalid_coordinate_rejected": true,
+    "changed_hash_rejected": true,
+    "unresolved_scale_blocked": true,
+    "official_reference_leakage_rejected": true
+  }
+}

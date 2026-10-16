@@ -1,0 +1,60 @@
+{
+  "task_id": "Q09",
+  "source": {
+    "question_uid": null,
+    "table_uid": null,
+    "source_table_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "perturbed_table_sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+  },
+  "question": "What is the percentage change in the total dividends paid from 2018 to 2019?",
+  "task_requirements": {
+    "object": "percentage change in total dividends paid",
+    "period": "2018 to 2019",
+    "unit_scale": "percent",
+    "direction": "(2019-2018)/2018 x100",
+    "required_granularity": "two decimals",
+    "tolerance": "0.01 percentage point"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "dividend total row r5 values and percent operation",
+      "where": [
+        "r5c1",
+        "r5c2"
+      ],
+      "expression": "(28128-25633)/25633*100",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "(28128 - 25633) / 25633 * 100",
+  "expected": "9.73",
+  "precision": "2 decimals",
+  "semantic_assumptions": [
+    {
+      "assumption": "values are totals for 2019 and 2018",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "year columns and row labels"
+    },
+    {
+      "assumption": "Consoli2021期末d scope qualifier does not affect this question",
+      "attribution": "UNRESOLVED",
+      "note": "no scope-word priority rule"
+    }
+  ],
+  "evidence_effect_ai": "UNDETERMINED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "PARTIAL_REFERENCE_REPLAY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "Reference replay ready; perturbed evidence effect remains UNDETERMINED."
+  ]
+}

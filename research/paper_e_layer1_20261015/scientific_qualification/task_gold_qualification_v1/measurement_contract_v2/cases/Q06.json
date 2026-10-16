@@ -1,0 +1,62 @@
+{
+  "task_id": "Q06",
+  "source": {
+    "question_uid": null,
+    "table_uid": null,
+    "source_table_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "perturbed_table_sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+  },
+  "question": "What was the difference in Purchased intangible assets between Luxtera and Others?",
+  "task_requirements": {
+    "object": "difference in purchased intangible assets",
+    "period": "fiscal 2019",
+    "unit_scale": "millions (paragraph 3); perturbed c3 adds 元",
+    "direction": "Luxtera minus Others",
+    "required_granularity": "integer million",
+    "tolerance": "0 digits"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1_original_reference_only",
+      "description": "original source columns r0c3= Purchased Intangible Assets; r2c3=319; r3c3=11; paragraph 3 gives in millions",
+      "where": [
+        "r0c3",
+        "r2c3",
+        "r3c3",
+        "paragraph order 3"
+      ],
+      "expression": "319-11",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "319 - 11",
+  "expected": "308",
+  "precision": "0 digits",
+  "semantic_assumptions": [
+    {
+      "assumption": "c3 denotes Purchased Intangible Assets in the original reference",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "true in source table only"
+    },
+    {
+      "assumption": "c3 identity and unit are recoverable from perturbed table alone",
+      "attribution": "UNRESOLVED",
+      "note": "c2/c3 become assets labels; 元 conflicts with millions; no paragraph mapping"
+    }
+  ],
+  "evidence_effect_ai": "ALTERED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "PARTIAL_REFERENCE_REPLAY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "Original reference replay is computable; perturbed evidence path is blocked. This is a column-identity/unit damage candidate, not an observed system failure and not proof of formal unrecoverability."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "task_id": "Q02",
+  "source": {
+    "question_uid": null,
+    "table_uid": null,
+    "source_table_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "perturbed_table_sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+  },
+  "question": "What are Total segment assets composed of?",
+  "task_requirements": {
+    "object": "Total segment assets composition",
+    "period": "NOT_APPLICABLE (definition)",
+    "unit_scale": "NOT_APPLICABLE",
+    "direction": "span retrieval",
+    "required_granularity": "paragraph definition",
+    "tolerance": "exact span"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "paragraph 2 direct definition",
+      "where": [
+        "paragraph order 2"
+      ],
+      "expression": "span",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "span",
+  "expected": "accounts receivable, inventories, and net property, plant, and equipment.",
+  "precision": "exact",
+  "semantic_assumptions": [
+    {
+      "assumption": "the composition definition in paragraph 2 is the task answer",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "paragraph unchanged"
+    },
+    {
+      "assumption": "changed top header Segment Assets does not affect this definition question",
+      "attribution": "AI_INFERENCE",
+      "note": "row r7c0 still names Total segment assets"
+    }
+  ],
+  "evidence_effect_ai": "PRESERVED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "REFERENCE_REPLAY_READY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "P applies only to this composition question, not to all asset values in the table."
+  ]
+}

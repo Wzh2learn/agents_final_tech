@@ -1,0 +1,63 @@
+{
+  "task_id": "Q08",
+  "source": {
+    "question_uid": null,
+    "table_uid": null,
+    "source_table_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "perturbed_table_sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+  },
+  "question": "What was the options' exercise date with the greatest number of options exercised or lapsed?",
+  "task_requirements": {
+    "object": "exercise date of maximum exercised/lapsed cohort",
+    "period": "year ended 30 June 2018",
+    "unit_scale": "calendar date",
+    "direction": "exclude Total row; argmax absolute exercised/lapsed",
+    "required_granularity": "cohort row",
+    "tolerance": "exact date"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "cohort rows r1-r3; exclude Total r6; max 405,000 at r3; r3c1=2 Jul 2017",
+      "where": [
+        "r1c5",
+        "r2c5",
+        "r3c5",
+        "r3c1",
+        "r6c5"
+      ],
+      "expression": "argmax",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "argmax(exercised_or_lapsed excluding Total)",
+  "expected": "2 Jul 2017",
+  "precision": "exact",
+  "semantic_assumptions": [
+    {
+      "assumption": "Total row is aggregate and must be excluded",
+      "attribution": "DETERMINISTIC_DERIVATION",
+      "note": "explicit operation condition"
+    },
+    {
+      "assumption": "added 2021 qualifier on Exercise date does not affect the necessary dimension",
+      "attribution": "UNRESOLVED",
+      "note": "no conflict-priority rule in contract"
+    }
+  ],
+  "evidence_effect_ai": "UNDETERMINED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "PARTIAL_REFERENCE_REPLAY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "Reference replay ready; perturbed evidence effect remains UNDETERMINED."
+  ]
+}

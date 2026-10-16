@@ -1,0 +1,71 @@
+{
+  "task_id": "Q12",
+  "question": "What was the change in Collaborative technology project receipts revenue between 2019 and 2020?",
+  "perturbed_table": [
+    [
+      "",
+      "",
+      "sales",
+      "",
+      "sales",
+      ""
+    ],
+    [
+      "",
+      "",
+      "For the Year Ended As of",
+      "",
+      "As of",
+      ""
+    ],
+    [
+      "",
+      "January 31, 2020",
+      "February 1, 2019",
+      "February 2, 2018",
+      "January 31, 2020",
+      "February 1, 2019"
+    ],
+    [
+      "Reseller revenue",
+      "$3,288",
+      "$2,355",
+      "$1,464",
+      "$3,787",
+      "$2,554"
+    ],
+    [
+      "Internal-use revenue",
+      "82",
+      "41",
+      "46",
+      "57",
+      "29"
+    ],
+    [
+      "Collaborative technology project receipts",
+      "10",
+      "4",
+      "—",
+      "n/a",
+      "n/a"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "eb159cfb-81df-4661-b56d-9fd13b029073",
+      "order": 1,
+      "text": "Dell purchases our products and services directly from us, as well as through our channel partners. Information about our revenue and receipts, and unearned revenue from such arrangements, for the periods presented consisted of the following (table in millions):"
+    },
+    {
+      "uid": "d19ebe81-10d9-4d35-9a51-3de7f1ea49c0",
+      "order": 2,
+      "text": "Sales through Dell as a distributor, which is included in reseller revenue, continues to grow rapidly."
+    },
+    {
+      "uid": "8dc703f4-9e1a-4063-97b6-3e7b86f04aa2",
+      "order": 3,
+      "text": "Customer deposits resulting from transactions with Dell were $194 million and $85 million as of January 31, 2020 and February 1, 2019, respectively."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "task_id": "Q12",
+  "scoring_version": "v1",
+  "status_labels": {
+    "panel": "DEVELOPMENTAL_DRY_RUN_NOT_HELDOUT",
+    "reference_validity": "NOT_ESTABLISHED",
+    "system_outcome": "NOT_RUN"
+  },
+  "compare_mode": "numeric",
+  "expected": 6,
+  "expected_spans": null,
+  "expected_precise": 6.0,
+  "abs_tolerance": 0.5,
+  "accepted_formats": null,
+  "normalization_rules": [
+    "extract signed numbers",
+    "strip thousands separators",
+    "percent divides by 100 when value > 1.5"
+  ],
+  "unit_scale_status": "RESOLVED_SCALE_MILLION",
+  "notes": "0-digit integer tolerance as abs diff <= 0.5; scale resolved on reference side (specs_rev1)."
+}

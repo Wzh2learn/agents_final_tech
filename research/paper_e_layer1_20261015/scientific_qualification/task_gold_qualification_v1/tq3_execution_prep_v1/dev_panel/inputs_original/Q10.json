@@ -1,0 +1,69 @@
+{
+  "task_id": "Q10",
+  "variant": "original",
+  "question": "What is the proportion of equity compensation plans approved by security holders to the total number of securities to be issued upon exercise of outstanding options and rights?",
+  "table": [
+    [
+      "",
+      "Number of securities to be issued upon exercise of outstanding options and rights",
+      "Weighted-average exercise price of outstanding options and rights",
+      "Number of securities remaining available for future issuance under equity compensation plans (excluding securities reflected in column(a))"
+    ],
+    [
+      "",
+      "(a)",
+      "(b)",
+      "(c)"
+    ],
+    [
+      "Equity compensation plans approved by security holders",
+      "445,000(1)",
+      "$2.34(3)",
+      "1,780,505"
+    ],
+    [
+      "Equity compensation plans not approved by security holders",
+      "500,000(2)",
+      "$1.19",
+      "—"
+    ],
+    [
+      "Total",
+      "945,000",
+      "$1.39(3)",
+      "1,780,505"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "b1d313f9-0ffd-4303-a562-a334092b03de",
+      "order": 1,
+      "text": "Equity Compensation Plan Information"
+    },
+    {
+      "uid": "7a5528d3-67f2-4bdb-9052-c313275245f4",
+      "order": 2,
+      "text": "The following table summarizes share and exercise price information for our equity compensation plans as of December 31, 2019."
+    },
+    {
+      "uid": "180ab02e-a39e-4284-8b8b-a0d96541aae6",
+      "order": 3,
+      "text": "(1) Includes 105,000 shares of our common stock issuable upon exercise of outstanding stock options and 340,000 shares issuable upon vesting of outstanding restricted stock units."
+    },
+    {
+      "uid": "1c0c8f29-8cc3-4594-bd07-b856b0257cc1",
+      "order": 4,
+      "text": "(2) Represents an individual option grant to our Chairman and Chief Executive Officer outside of, and prior to the establishment of, the 2013 Stock Incentive Plan in October 2013 referred to in the above table. The option agreement pertaining to such option grant contain customary anti-dilution provisions."
+    },
+    {
+      "uid": "39423118-bf86-4a20-b29a-24ccea81d86a",
+      "order": 5,
+      "text": "(3) Does not take into account outstanding restricted stock units as these awards have no exercise price."
+    },
+    {
+      "uid": "baee1b4e-f5a4-4c31-8ef9-280972f20252",
+      "order": 6,
+      "text": "Our 2013 Stock Incentive Plan (“2013 Plan”) provides for the grant of any or all of the following types of awards: (a) stock options, (b) restricted stock, (c) deferred stock, (d) stock appreciation rights, and (e) other stock-based awards including restricted stock units. Awards under the 2013 Plan may be granted singly, in combination, or in tandem. Subject to standard anti-dilution adjustments as provided in the 2013 Plan, the 2013 Plan provides for an aggregate of 2,600,000 shares of our common stock to be available for distribution pursuant to the 2013 Plan. The Compensation Committee (or the Board of Directors) will generally have the authority to administer the 2013 Plan, determine participants who will be granted awards under the 2013 Plan, the size and types of awards, the terms and conditions of awards and the form and content of the award agreements representing awards. Awards under the 2013 Plan may be granted to our employees, directors and consultants. As of December 31, 2019, there were options to purchase an aggregate of 605,000 shares of common stock outstanding and 340,000 shares issuable upon vesting of outstanding restricted stock units granted under the 2013 Plan, and a balance of 1,780,505 shares of common stock are reserved for issuance under the 2013 Plan."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "task_id": "Q04",
+  "source": {
+    "question_uid": null,
+    "table_uid": null,
+    "source_table_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "perturbed_table_sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+  },
+  "question": "What was the change in operating leases between 2021 and 2022?",
+  "task_requirements": {
+    "object": "change in operating lease payments",
+    "period": "2021 to 2022",
+    "unit_scale": "million (paragraph 1)",
+    "direction": "2022 minus 2021",
+    "required_granularity": "integer million",
+    "tolerance": "0 digits"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "operating lease row and paragraph 1 unit statement",
+      "where": [
+        "r1c1",
+        "r2c1",
+        "paragraph order 1"
+      ],
+      "expression": "135-138",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "135 - 138",
+  "expected": "-3",
+  "precision": "0 digits",
+  "semantic_assumptions": [
+    {
+      "assumption": "operat1ng Leases denotes the operating-lease column",
+      "attribution": "AI_INFERENCE",
+      "note": "Finance Leases column and paragraph 1 provide cross-check"
+    },
+    {
+      "assumption": "table is in millions per paragraph 1",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "explicit parenthetical"
+    }
+  ],
+  "evidence_effect_ai": "PRESERVED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "REFERENCE_REPLAY_READY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "OCR-like spelling recovery uses context; not a general rule."
+  ]
+}

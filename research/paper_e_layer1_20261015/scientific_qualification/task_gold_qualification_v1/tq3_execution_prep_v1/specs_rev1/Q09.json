@@ -1,0 +1,92 @@
+{
+  "task_id": "Q09",
+  "source": {
+    "question_uid": "19bf32fd-847e-4449-84cf-f2f3df81b71b",
+    "table_uid": "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6",
+    "source_table_sha256": "fea33b9cb689410f97f096eb1c9c99d25ca39f727a8ea6be2a424b020395adc0",
+    "perturbed_table_sha256": "948a9200253ac3543941b57516e0abcc11fbbf0da45bb2691646a3145e84ea14",
+    "corpus_pins": {
+      "note": "rev1: v2 stored drift-v0 corpus-file hashes under source_table_sha256/perturbed_table_sha256 (identical across all 9 specs); rev1 relocates them here with accurate labels and restores per-case table pins.",
+      "source_tables_corpus_file": {
+        "file": "data/research/drift_v0/input/tatqa_tables.json",
+        "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+      },
+      "injected_tables_corpus_file": {
+        "file": "data/research/drift_v0/output/injected_tables.json",
+        "sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+      }
+    },
+    "raw": {
+      "raw_file": "tatqa_dataset_dev.json",
+      "raw_file_sha256": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+      "raw_record_index": 168,
+      "question_index": 3
+    }
+  },
+  "question": "What is the percentage change in the total dividends paid from 2018 to 2019?",
+  "task_requirements": {
+    "object": "percentage change in total dividends paid",
+    "period": "2018 to 2019",
+    "unit_scale": "percent",
+    "direction": "(2019-2018)/2018 x100",
+    "required_granularity": "two decimals",
+    "tolerance": "0.01 percentage point"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "dividend total row r5 values and percent operation",
+      "where": [
+        "r5c1",
+        "r5c2"
+      ],
+      "expression": "(28128-25633)/25633*100",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "(28128 - 25633) / 25633 * 100",
+  "expected": "9.73",
+  "precision": "2 decimals",
+  "semantic_assumptions": [
+    {
+      "assumption": "values are totals for 2019 and 2018",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "year columns and row labels"
+    },
+    {
+      "assumption": "Consoli2021期末d scope qualifier does not affect this question",
+      "attribution": "UNRESOLVED",
+      "note": "no scope-word priority rule"
+    }
+  ],
+  "evidence_effect_ai": "UNDETERMINED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "PARTIAL_REFERENCE_REPLAY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "Reference replay ready; perturbed evidence effect remains UNDETERMINED."
+  ],
+  "revision": {
+    "rev": "rev1",
+    "date": "2026-10-16",
+    "actor": "Loop D (AI)",
+    "supersedes_for_execution": "measurement_contract_v2/cases/Q09.json",
+    "changes": [
+      "filled question_uid/table_uid from coordinator/case_provenance.json; both asserted against raw TAT-QA records",
+      "restored per-case source_table_sha256/perturbed_table_sha256 (v2 values were corpus-file pins, identical across all specs; moved to corpus_pins)",
+      "added raw-file pin block"
+    ]
+  },
+  "panel_plan": {
+    "role": "exploratory_ambiguity_side_case",
+    "in_primary_metrics": false
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "task_id": "Q05",
+  "scoring_version": "v1",
+  "status_labels": {
+    "panel": "DEVELOPMENTAL_DRY_RUN_NOT_HELDOUT",
+    "reference_validity": "NOT_ESTABLISHED",
+    "system_outcome": "NOT_RUN"
+  },
+  "compare_mode": "date",
+  "expected": "31 January 2029",
+  "expected_spans": null,
+  "expected_precise": null,
+  "abs_tolerance": null,
+  "accepted_formats": [
+    "%d %B %Y",
+    "%Y-%m-%d",
+    "%B %d, %Y"
+  ],
+  "normalization_rules": [
+    "parse with one accepted format",
+    "compare dates"
+  ],
+  "unit_scale_status": "NOT_APPLICABLE",
+  "notes": "Exact date match required."
+}

@@ -1,0 +1,96 @@
+{
+  "task_id": "Q10",
+  "source": {
+    "question_uid": "f1700743-3ddf-420f-a1b7-86ec8270a01c",
+    "table_uid": "c0f66238-591a-4693-b2d2-fee0f6843420",
+    "source_table_sha256": "3be3ee0284ce05d9447466605e959aa8fa03ded022f43ea6ce862500b7f2a34d",
+    "perturbed_table_sha256": "04901777246ee3691707c6e93fb748a07b688cd25d8256e29aaf65b864e84c54",
+    "corpus_pins": {
+      "note": "rev1: v2 stored drift-v0 corpus-file hashes under source_table_sha256/perturbed_table_sha256 (identical across all 9 specs); rev1 relocates them here with accurate labels and restores per-case table pins.",
+      "source_tables_corpus_file": {
+        "file": "data/research/drift_v0/input/tatqa_tables.json",
+        "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+      },
+      "injected_tables_corpus_file": {
+        "file": "data/research/drift_v0/output/injected_tables.json",
+        "sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+      }
+    },
+    "raw": {
+      "raw_file": "tatqa_dataset_train.json",
+      "raw_file_sha256": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+      "raw_record_index": 757,
+      "question_index": 3
+    }
+  },
+  "question": "What is the proportion of equity compensation plans approved by security holders to the total number of securities to be issued upon exercise of outstanding options and rights?",
+  "task_requirements": {
+    "object": "proportion of approved-plan securities to total column(a)",
+    "period": "2019-12-31",
+    "unit_scale": "dimensionless ratio",
+    "direction": "approved divided by total",
+    "required_granularity": "two decimals",
+    "tolerance": "0.01 ratio"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "column(a) row values; row labels unchanged",
+      "where": [
+        "r2c1",
+        "r4c1"
+      ],
+      "expression": "445000/945000",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "445000 / 945000",
+  "expected": "0.47",
+  "precision": "2 decimals",
+  "semantic_assumptions": [
+    {
+      "assumption": "0.47 is a ratio, not a percentage",
+      "attribution": "DETERMINISTIC_DERIVATION",
+      "note": "no x100 requested"
+    },
+    {
+      "assumption": "column(c) equty typo is not used by this question",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "question uses column(a)"
+    }
+  ],
+  "evidence_effect_ai": "PRESERVED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "REFERENCE_REPLAY_READY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "P applies only to this column(a) ratio question."
+  ],
+  "revision": {
+    "rev": "rev1",
+    "date": "2026-10-16",
+    "actor": "Loop D (AI)",
+    "supersedes_for_execution": "measurement_contract_v2/cases/Q10.json",
+    "changes": [
+      "filled question_uid/table_uid from coordinator/case_provenance.json; both asserted against raw TAT-QA records",
+      "restored per-case source_table_sha256/perturbed_table_sha256 (v2 values were corpus-file pins, identical across all specs; moved to corpus_pins)",
+      "added raw-file pin block"
+    ]
+  },
+  "panel_plan": {
+    "role": "dev_panel_dry_run_input",
+    "variants": [
+      "original",
+      "perturbed"
+    ],
+    "in_primary_metrics": true
+  }
+}

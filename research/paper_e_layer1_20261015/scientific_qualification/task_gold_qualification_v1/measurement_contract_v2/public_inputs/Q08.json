@@ -1,0 +1,105 @@
+{
+  "task_id": "Q08",
+  "question": "What was the options' exercise date with the greatest number of options exercised or lapsed?",
+  "perturbed_table": [
+    [
+      "Grant 2020年对账日期",
+      "Exercise date 2021-期末日期",
+      "Expiry 净值日期 / date",
+      "Exercise Price $",
+      "No. of Options at Beg. of Year",
+      "Options Exercised or Lapsed",
+      "No. of Options at End of Year"
+    ],
+    [
+      "2 Jul 2012",
+      "2 Jul 2015",
+      "2 Jul 2017",
+      "0.92",
+      "40,000",
+      "(40,000)",
+      "-"
+    ],
+    [
+      "2 Jul 2013",
+      "2 Jul 2016",
+      "30 Sept 2018 1",
+      "0.92",
+      "295,000",
+      "(220,000)",
+      "75,000"
+    ],
+    [
+      "2 Jul 2014",
+      "2 Jul 2017",
+      "2 Jul 2019",
+      "1.30",
+      "875,000",
+      "(405,000)",
+      "470,000"
+    ],
+    [
+      "2 Jul 2015",
+      "2 Jul 2018",
+      "2 Jul 2020",
+      "2.67",
+      "1,000,000",
+      "-",
+      "1,000,000"
+    ],
+    [
+      "22 Dec 2016",
+      "31 Aug 2019",
+      "22 Dec 2021",
+      "3.59",
+      "1,323,730",
+      "-",
+      "1,323,730"
+    ],
+    [
+      "Total",
+      "",
+      "",
+      "",
+      "3,533,730",
+      "(665,000)",
+      "2,868,730"
+    ],
+    [
+      "Weighted average exercise price",
+      "",
+      "",
+      "",
+      "",
+      "$1.15",
+      "$2.82"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "bd454abc-4751-4793-b626-8ec2f64f0a03",
+      "order": 1,
+      "text": "Movement of options during the year ended 30 June 2018:"
+    },
+    {
+      "uid": "6a9a360e-f274-4be0-a150-08064c37c6eb",
+      "order": 2,
+      "text": "The weighted average fair value of options granted during the year was nil (2018: nil) as there were none issued during the year."
+    },
+    {
+      "uid": "0d6af417-f736-4829-bb18-a7b76fb2f0b4",
+      "order": 3,
+      "text": "The weighted average share price for share options exercised during the period was $3.57 (2018: $3.90)."
+    },
+    {
+      "uid": "91e160a1-072b-4751-b2f4-81da25caa65b",
+      "order": 4,
+      "text": "The weighted average remaining contractual life for share options outstanding at the end of the period was 1.68 years (2018: 2.47 years)."
+    },
+    {
+      "uid": "0bb892e8-69ed-4488-9a29-0fdb6f256adf",
+      "order": 5,
+      "text": "The weighted average remaining contractual life for share options outstanding at the end of the period was 1.68 years (2018: 2.47 years)."
+    }
+  ]
+}

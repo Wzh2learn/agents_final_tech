@@ -1,0 +1,97 @@
+{
+  "task_id": "Q03",
+  "source": {
+    "question_uid": "3f11a556-dfd2-40a1-bd6a-4d106923c315",
+    "table_uid": "d2bba753-0df3-4a39-860b-bde563261fec",
+    "source_table_sha256": "1150378a22d1a70e8027d75b8fef3409577dfbd64b683c6a3643d0d2fadd0841",
+    "perturbed_table_sha256": "e76af74cbfd2b3f650973135b46b859162e53e4825095e3e69f6e8f575327a88",
+    "corpus_pins": {
+      "note": "rev1: v2 stored drift-v0 corpus-file hashes under source_table_sha256/perturbed_table_sha256 (identical across all 9 specs); rev1 relocates them here with accurate labels and restores per-case table pins.",
+      "source_tables_corpus_file": {
+        "file": "data/research/drift_v0/input/tatqa_tables.json",
+        "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+      },
+      "injected_tables_corpus_file": {
+        "file": "data/research/drift_v0/output/injected_tables.json",
+        "sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+      }
+    },
+    "raw": {
+      "raw_file": "tatqa_dataset_train.json",
+      "raw_file_sha256": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+      "raw_record_index": 290,
+      "question_index": 4
+    }
+  },
+  "question": "What is the difference between capital stock value in class A and B shares?",
+  "task_requirements": {
+    "object": "capital stock value difference",
+    "period": "2019-12-31",
+    "unit_scale": "SEK million",
+    "direction": "Class B minus Class A",
+    "required_granularity": "integer million",
+    "tolerance": "0 digits"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "lower-level unit header and Class A/B rows",
+      "where": [
+        "r1c2",
+        "r2c2",
+        "r3c2"
+      ],
+      "expression": "15363-1309",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "15363 - 1309",
+  "expected": "14054",
+  "precision": "0 digits",
+  "semantic_assumptions": [
+    {
+      "assumption": "difference direction is Class B minus Class A",
+      "attribution": "DETERMINISTIC_DERIVATION",
+      "note": "official derivation 15,363-1,309"
+    },
+    {
+      "assumption": "unit is SEK million from unchanged r1c2 header",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "lower-level header survives perturbation"
+    }
+  ],
+  "evidence_effect_ai": "PRESERVED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "REFERENCE_REPLAY_READY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "Top-level capitai stock typo is not used by this question."
+  ],
+  "revision": {
+    "rev": "rev1",
+    "date": "2026-10-16",
+    "actor": "Loop D (AI)",
+    "supersedes_for_execution": "measurement_contract_v2/cases/Q03.json",
+    "changes": [
+      "filled question_uid/table_uid from coordinator/case_provenance.json; both asserted against raw TAT-QA records",
+      "restored per-case source_table_sha256/perturbed_table_sha256 (v2 values were corpus-file pins, identical across all specs; moved to corpus_pins)",
+      "added raw-file pin block"
+    ]
+  },
+  "panel_plan": {
+    "role": "dev_panel_dry_run_input",
+    "variants": [
+      "original",
+      "perturbed"
+    ],
+    "in_primary_metrics": true
+  }
+}

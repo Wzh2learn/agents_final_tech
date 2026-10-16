@@ -1,0 +1,95 @@
+{
+  "task_id": "Q08",
+  "source": {
+    "question_uid": "b8d2129f-e9c5-4200-bca8-22de988784e2",
+    "table_uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+    "source_table_sha256": "7cc84ab2d01d58310af7588b9ac19414f95588b94a446ad6ef198682f00c0e9e",
+    "perturbed_table_sha256": "f38f4328e3d432a6d28af5a0fe05b90f66c3063783876ea915050b585b2f3ef8",
+    "corpus_pins": {
+      "note": "rev1: v2 stored drift-v0 corpus-file hashes under source_table_sha256/perturbed_table_sha256 (identical across all 9 specs); rev1 relocates them here with accurate labels and restores per-case table pins.",
+      "source_tables_corpus_file": {
+        "file": "data/research/drift_v0/input/tatqa_tables.json",
+        "sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+      },
+      "injected_tables_corpus_file": {
+        "file": "data/research/drift_v0/output/injected_tables.json",
+        "sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+      }
+    },
+    "raw": {
+      "raw_file": "tatqa_dataset_train.json",
+      "raw_file_sha256": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+      "raw_record_index": 2158,
+      "question_index": 5
+    }
+  },
+  "question": "What was the options' exercise date with the greatest number of options exercised or lapsed?",
+  "task_requirements": {
+    "object": "exercise date of maximum exercised/lapsed cohort",
+    "period": "year ended 30 June 2018",
+    "unit_scale": "calendar date",
+    "direction": "exclude Total row; argmax absolute exercised/lapsed",
+    "required_granularity": "cohort row",
+    "tolerance": "exact date"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "cohort rows r1-r3; exclude Total r6; max 405,000 at r3; r3c1=2 Jul 2017",
+      "where": [
+        "r1c5",
+        "r2c5",
+        "r3c5",
+        "r3c1",
+        "r6c5"
+      ],
+      "expression": "argmax",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "argmax(exercised_or_lapsed excluding Total)",
+  "expected": "2 Jul 2017",
+  "precision": "exact",
+  "semantic_assumptions": [
+    {
+      "assumption": "Total row is aggregate and must be excluded",
+      "attribution": "DETERMINISTIC_DERIVATION",
+      "note": "explicit operation condition"
+    },
+    {
+      "assumption": "added 2021 qualifier on Exercise date does not affect the necessary dimension",
+      "attribution": "UNRESOLVED",
+      "note": "no conflict-priority rule in contract"
+    }
+  ],
+  "evidence_effect_ai": "UNDETERMINED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "PARTIAL_REFERENCE_REPLAY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "Reference replay ready; perturbed evidence effect remains UNDETERMINED."
+  ],
+  "revision": {
+    "rev": "rev1",
+    "date": "2026-10-16",
+    "actor": "Loop D (AI)",
+    "supersedes_for_execution": "measurement_contract_v2/cases/Q08.json",
+    "changes": [
+      "filled question_uid/table_uid from coordinator/case_provenance.json; both asserted against raw TAT-QA records",
+      "restored per-case source_table_sha256/perturbed_table_sha256 (v2 values were corpus-file pins, identical across all specs; moved to corpus_pins)",
+      "added raw-file pin block"
+    ]
+  },
+  "panel_plan": {
+    "role": "exploratory_ambiguity_side_case",
+    "in_primary_metrics": false
+  }
+}

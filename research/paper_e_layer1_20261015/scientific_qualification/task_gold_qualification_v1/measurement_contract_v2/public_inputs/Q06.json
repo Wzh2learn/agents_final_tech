@@ -1,0 +1,73 @@
+{
+  "task_id": "Q06",
+  "question": "What was the difference in Purchased intangible assets between Luxtera and Others?",
+  "perturbed_table": [
+    [
+      "Fiscal 2019",
+      "Purchase Consideration",
+      "资产(assets)",
+      "资产(元)",
+      "Goodwill"
+    ],
+    [
+      "Duo",
+      "$2,025",
+      "$(57)",
+      "$342",
+      "$1,740"
+    ],
+    [
+      "Luxtera",
+      "596",
+      "(19)",
+      "319",
+      "296"
+    ],
+    [
+      "Others (three in total)",
+      "65",
+      "2",
+      "11",
+      "52"
+    ],
+    [
+      "Total",
+      "$2,686",
+      "$(74)",
+      "$672",
+      "$2,088"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "84c14062-da1d-4a2e-8957-fb5e9790f53b",
+      "order": 1,
+      "text": "4. Acquisitions and Divestitures"
+    },
+    {
+      "uid": "35456a51-dbaa-4d68-bb9e-021743c35309",
+      "order": 2,
+      "text": "(a) Acquisition Summary"
+    },
+    {
+      "uid": "9df3314e-4708-47e3-a4fc-ec7f1da0673e",
+      "order": 3,
+      "text": "We completed five acquisitions during fiscal 2019. A summary of the allocation of the total purchase consideration is presented as follows (in millions):"
+    },
+    {
+      "uid": "908e02a6-85e7-4ab4-bd93-e3ed5fbaf1f9",
+      "order": 4,
+      "text": "On September 28, 2018, we completed our acquisition of privately held Duo Security, Inc. (“Duo”), a leading provider of unified access security and multi-factor authentication delivered through the cloud. Revenue from the Duo acquisition has been included in our Security product category."
+    },
+    {
+      "uid": "fea7fc34-416c-4961-9730-1a7399cafc01",
+      "order": 5,
+      "text": "On February 6, 2019, we completed our acquisition of Luxtera, Inc. (“Luxtera”), a privately held semiconductor company. Revenue from the Luxtera acquisition has been included in our Infrastructure Platforms product category."
+    },
+    {
+      "uid": "946db2ed-43c3-467c-8a86-6431da7264ae",
+      "order": 6,
+      "text": "The total purchase consideration related to our acquisitions completed during fiscal 2019 consisted of cash consideration and vested share-based awards assumed. The total cash and cash equivalents acquired from these acquisitions was approximately $100 million."
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "schema": "tq3_specs_rev1_build_receipt_v1",
+  "date": "2026-10-16",
+  "actor": "Loop D (AI)",
+  "canonical_serialization": "canonical serialization: json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode('utf-8')",
+  "inputs": {
+    "stage2_cases": {
+      "path": "packets/stage2_cases.json",
+      "sha256": "db70cc4d03c89e5a5c2873dd3382285f3708e94f8906e3170048590204be2ad2"
+    },
+    "case_provenance": {
+      "path": "coordinator/case_provenance.json",
+      "sha256": "a74182ae44f8849ec4306f994ab465982d99e221972cf2b917331c0e5d7a138a"
+    }
+  },
+  "v2_pin_observations": {
+    "distinct_source_pin_values": [
+      "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302"
+    ],
+    "distinct_perturbed_pin_values": [
+      "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+    ],
+    "matches_corpus_files": true,
+    "defect": "v2 per-case hash fields carried corpus-level file hashes for all 9 specs; corrected in rev1"
+  },
+  "outputs": [
+    {
+      "path": "specs_rev1/Q02.json",
+      "sha256": "d25eae3754330ace25c27f558257a419d4dc9c08c810cbd6876e86c6d8c1dec5",
+      "bytes": 3479
+    },
+    {
+      "path": "specs_rev1/Q03.json",
+      "sha256": "42f7ccf50c7b0e760db45d081d78faae0b888bbefc14bb4f40d239388a80af97",
+      "bytes": 3432
+    },
+    {
+      "path": "specs_rev1/Q04.json",
+      "sha256": "6808c5d5578efbe71e6d9680839397600ed58e1e5f75f1a97212eaa514364485",
+      "bytes": 3432
+    },
+    {
+      "path": "specs_rev1/Q05.json",
+      "sha256": "fdd0420d28b90aec51a1c6765a8dc25edc025725420c01a544eb5fb5068affa8",
+      "bytes": 3405
+    },
+    {
+      "path": "specs_rev1/Q06.json",
+      "sha256": "2f857be2cc06ff0c43e8c3aa8d3b5b9ff1bfcce1f13a6f424223c4e5d7176bff",
+      "bytes": 3729
+    },
+    {
+      "path": "specs_rev1/Q08.json",
+      "sha256": "0af39190f453e475e4fa531bbb4b4ea3da35fe19bbdb79c5a5423fe026ff8f0a",
+      "bytes": 3581
+    },
+    {
+      "path": "specs_rev1/Q09.json",
+      "sha256": "22f268eb41fa2a901793a3fae66d6c48e4263e45e7d288fded6661dee369813e",
+      "bytes": 3410
+    },
+    {
+      "path": "specs_rev1/Q10.json",
+      "sha256": "2a5d622753a286383b1a787561f60884e2e53df790272245507fa7a1af2d4172",
+      "bytes": 3510
+    },
+    {
+      "path": "specs_rev1/Q12.json",
+      "sha256": "d183a4f3b20e332b8b5eaf14482e4cc8e7dc15a5356b2e3b80c70890049cd850",
+      "bytes": 3531
+    }
+  ],
+  "uid_verification": [
+    {
+      "task_id": "Q02",
+      "question_uid": "09998ed3-ee55-45ea-9093-3a0a27baa8fa",
+      "table_uid": "329e3ff5-0cff-4849-8fd0-9b1e5606f6ca",
+      "verified_against": "raw/tatqa_dataset_dev.json#/records/165"
+    },
+    {
+      "task_id": "Q03",
+      "question_uid": "3f11a556-dfd2-40a1-bd6a-4d106923c315",
+      "table_uid": "d2bba753-0df3-4a39-860b-bde563261fec",
+      "verified_against": "raw/tatqa_dataset_train.json#/records/290"
+    },
+    {
+      "task_id": "Q04",
+      "question_uid": "65026273-5d78-4e7a-b846-828ecbc809ec",
+      "table_uid": "44c7c9ef-bb9f-45c9-9ee5-e2bf465c3617",
+      "verified_against": "raw/tatqa_dataset_dev.json#/records/193"
+    },
+    {
+      "task_id": "Q05",
+      "question_uid": "89998c41-d850-4b0b-93ff-fe30409ba541",
+      "table_uid": "6a5e5192-5d37-489f-97f2-400ea965ae36",
+      "verified_against": "raw/tatqa_dataset_train.json#/records/1281"
+    },
+    {
+      "task_id": "Q06",
+      "question_uid": "7a98cc72-c31a-4d2c-9ab4-d2a2c6fe2b69",
+      "table_uid": "abc6297d-98d0-4d2e-81cc-4ad8bf2afdf2",
+      "verified_against": "raw/tatqa_dataset_train.json#/records/676"
+    },
+    {
+      "task_id": "Q08",
+      "question_uid": "b8d2129f-e9c5-4200-bca8-22de988784e2",
+      "table_uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+      "verified_against": "raw/tatqa_dataset_train.json#/records/2158"
+    },
+    {
+      "task_id": "Q09",
+      "question_uid": "19bf32fd-847e-4449-84cf-f2f3df81b71b",
+      "table_uid": "fd28a5b6-ecac-4f54-987d-e6a4b1e63bb6",
+      "verified_against": "raw/tatqa_dataset_dev.json#/records/168"
+    },
+    {
+      "task_id": "Q10",
+      "question_uid": "f1700743-3ddf-420f-a1b7-86ec8270a01c",
+      "table_uid": "c0f66238-591a-4693-b2d2-fee0f6843420",
+      "verified_against": "raw/tatqa_dataset_train.json#/records/757"
+    },
+    {
+      "task_id": "Q12",
+      "question_uid": "d9efa4d1-64e6-42d3-b4e5-9949a7bea764",
+      "table_uid": "6ed697ff-9893-453a-84a4-44023fffca78",
+      "verified_against": "raw/tatqa_dataset_train.json#/records/630"
+    }
+  ]
+}

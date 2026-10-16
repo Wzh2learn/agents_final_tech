@@ -1,0 +1,47 @@
+{
+  "schema": "tq3_bce_retrieval_attempts_v1",
+  "date": "2026-10-16",
+  "actor": "Loop D (AI)",
+  "target_url": "https://www.bce.ca/investors/financial-reporting/2019-Q4/2019-q4-supplementary-information.pdf",
+  "official_pdf_archived": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "time_utc": "2026-10-16 (exact time not recorded; before 03:49Z)",
+      "method": "curl default User-Agent",
+      "http_chain": ["302 Moved Temporarily (AkamaiGHost)", "200 OK (geo page)"],
+      "final_url": "https://www.bce.ca/geo/index.html",
+      "content_type": "text/html",
+      "bytes": 7380,
+      "sha256": "6a53e737e4671caa5c72e936d72d17a88561f8e78fa6372260fb1fbe01d05329",
+      "outcome": "RETRIEVAL_BLOCKED"
+    },
+    {
+      "attempt": 2,
+      "time_utc": "2026-10-16T03:49:53Z (response Date header)",
+      "method": "curl + browser User-Agent",
+      "http_chain": ["302 Moved Temporarily (AkamaiGHost)", "200 OK (AkamaiNetStorage)"],
+      "final_url": "https://www.bce.ca/geo/index.html",
+      "content_type": "text/html",
+      "bytes": 7380,
+      "sha256": "6a53e737e4671caa5c72e936d72d17a88561f8e78fa6372260fb1fbe01d05329",
+      "outcome": "RETRIEVAL_BLOCKED"
+    }
+  ],
+  "block_page_marker": "Request Rejected / Requete rejetee",
+  "evidence_files": [
+    "bce_2019_q4_retrieval_blocked_attempt1.html",
+    "bce_2019_q4_retrieval_blocked_attempt2.html",
+    "bce_2019_q4_retrieval_attempt2_headers.txt",
+    "Q11_SOURCE_COMPLETION.md"
+  ],
+  "owner_supplied_statement": {
+    "source": "BCE official 2019 Q4 supplementary information, page 4",
+    "facts": {
+      "bell_wireless_q4_2019": 2493,
+      "bell_wireless_q4_2018": 2407,
+      "unit": "million CAD"
+    },
+    "registration": "OWNER_SUPPLIED_SOURCE_STATEMENT (not an archived official original; not an accepted citation)"
+  }
+}

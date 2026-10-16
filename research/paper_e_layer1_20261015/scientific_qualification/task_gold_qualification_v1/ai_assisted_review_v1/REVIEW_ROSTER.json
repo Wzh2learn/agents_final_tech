@@ -1,0 +1,34 @@
+{
+  "schema": "ai_review_assignment_not_human_roster_v1",
+  "date": "2026-10-16",
+  "R1": {
+    "name": "当前 Codex/ChatGPT 助手 A1",
+    "kind": "AI",
+    "role": "逐题初标",
+    "status": "ANNOTATED_PENDING_REVIEW",
+    "blind": false,
+    "independent_human": false
+  },
+  "R2": {
+    "name": "Loop D",
+    "kind": "AI",
+    "role": "用户手动转交后的证据复核",
+    "status": "ASSIGNED_NOT_EXECUTED",
+    "independent_human": false,
+    "independence_claim": "No independent human gold; shared material/history possible"
+  },
+  "R3": {
+    "name": "当前总规划师助手（与A1同一执行者）",
+    "kind": "AI",
+    "role": "Loop D返回后的综合建议，不是独立第三人仲裁",
+    "status": "PLANNED_NOT_EXECUTED",
+    "independent_human": false,
+    "note": "角色分工不等于独立评审人数；独立最终科学资格裁决尚未发生"
+  },
+  "delivery": {
+    "channel": "本地文件 + 用户手动转交 Loop D prompt",
+    "automatic_message_sent": false
+  },
+  "old_human_roster": "Unchanged; humans remain unassigned",
+  "model_version": "Exact served model version not independently recorded; no invented version"
+}

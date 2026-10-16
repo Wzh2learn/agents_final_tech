@@ -1,0 +1,60 @@
+{
+  "task_id": "Q05",
+  "source": {
+    "question_uid": null,
+    "table_uid": null,
+    "source_table_sha256": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "perturbed_table_sha256": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9"
+  },
+  "question": "When does the term of the option granted on 31 January 2019 end?",
+  "task_requirements": {
+    "object": "end date of option term",
+    "period": "grant 2019-01-31 + 10 years",
+    "unit_scale": "calendar date",
+    "direction": "add 10 calendar years",
+    "required_granularity": "date",
+    "tolerance": "exact date"
+  },
+  "reference_paths": [
+    {
+      "path_id": "P1",
+      "description": "grant-date row and paragraph 5 term definition",
+      "where": [
+        "r12c0",
+        "paragraph order 5"
+      ],
+      "expression": "31 January 2019 + 10 years",
+      "attribution": "SOURCE_EXPLICIT"
+    }
+  ],
+  "expression": "2019-01-31 + 10 years",
+  "expected": "31 January 2029",
+  "precision": "exact",
+  "semantic_assumptions": [
+    {
+      "assumption": "term equals 10 years from grant date",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "paragraph 5 explicit"
+    },
+    {
+      "assumption": "4-year vesting is not the term",
+      "attribution": "SOURCE_EXPLICIT",
+      "note": "paragraph 3 and 5 are separate"
+    }
+  ],
+  "evidence_effect_ai": "PRESERVED",
+  "reference_status_ai": "CONFIRMED",
+  "status": "REFERENCE_REPLAY_READY",
+  "isolation": {
+    "reference_side_only": true,
+    "public_input_keys": [
+      "task_id",
+      "question",
+      "perturbed_table",
+      "paragraphs"
+    ]
+  },
+  "limitations": [
+    "equity-settled header mutation is not used for this question."
+  ]
+}

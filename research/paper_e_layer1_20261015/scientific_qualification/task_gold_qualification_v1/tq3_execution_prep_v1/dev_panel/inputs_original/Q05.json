@@ -1,0 +1,109 @@
+{
+  "task_id": "Q05",
+  "variant": "original",
+  "question": "When does the term of the option granted on 31 January 2019 end?",
+  "table": [
+    [
+      "Equity-settled",
+      "Exercise price",
+      "Fair Value at grant date"
+    ],
+    [
+      "Date of grant",
+      "US$",
+      "US$"
+    ],
+    [
+      "16 May 2016",
+      "0.07",
+      "0.0445 to 0.0463"
+    ],
+    [
+      "24 April 2017",
+      "0.07",
+      "0.0301 to 0.0315"
+    ],
+    [
+      "2 May 2017",
+      "0.07",
+      "0.0292 to 0.0313"
+    ],
+    [
+      "31 July 2017",
+      "0.07",
+      "0.0313 to 0.0315"
+    ],
+    [
+      "8 September 2017",
+      "0.07",
+      "0.0296 to 0.0298"
+    ],
+    [
+      "23 October 2017",
+      "0.07",
+      "0.0309 to 0.0320"
+    ],
+    [
+      "10 January 2018",
+      "0.07",
+      "0.0316 to 0.0318"
+    ],
+    [
+      "1 April 2018",
+      "0.07",
+      "0.0360 to 0.0366"
+    ],
+    [
+      "1 July 2018",
+      "0.07",
+      "0.0368 to 0.0373"
+    ],
+    [
+      "19 October 2018",
+      "0.07",
+      "0.0371 to 0.0374"
+    ],
+    [
+      "31 January 2019",
+      "0.07",
+      "0.0367 to 0.0369"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "4db1a2c1-06f5-4b61-bc03-a1b8ed28d73d",
+      "order": 1,
+      "text": "5.3.4 HOOQ's share options - equity-settled arrangement"
+    },
+    {
+      "uid": "6ee46642-094d-44e8-8eef-6bb34388218c",
+      "order": 2,
+      "text": "In December 2015, HOOQ Digital Pte. Ltd. (“HOOQ”), a 65%-owned subsidiary of the Company, implemented the HOOQ Digital Employee Share Option Scheme (the “Scheme”). Selected employees (including executive directors) of HOOQ and/or its subsidiaries are granted options to purchase ordinary shares of HOOQ."
+    },
+    {
+      "uid": "a9af9f8d-54d3-4596-ae39-d9c7324d136f",
+      "order": 3,
+      "text": "Options are exercisable at a price no less than 100% of the fair value of the ordinary shares of HOOQ on the date of grant, and are scheduled to be fully vested 4 years from the vesting commencement date.\nOptions are exercisable at a price no less than 100% of the fair value of the ordinary shares of HOOQ on the date of grant, and are scheduled to be fully vested 4 years from the vesting commencement date."
+    },
+    {
+      "uid": "78147c0e-9b43-40aa-961d-e6fb6f5ca711",
+      "order": 4,
+      "text": "The grant dates, exercise prices and fair values of the share options were as follows –"
+    },
+    {
+      "uid": "8e48bcb9-e260-4c7c-a6ac-46b9e1f014d5",
+      "order": 5,
+      "text": "The term of each option granted is 10 years from the date of grant."
+    },
+    {
+      "uid": "d853b23a-5b9e-4792-8732-312811913519",
+      "order": 6,
+      "text": "The fair values for the share options granted were estimated using the Black-Scholes pricing model."
+    },
+    {
+      "uid": "587e3e71-7629-45b6-9caa-ec5ed5b9858a",
+      "order": 7,
+      "text": "From 1 April 2018 to 31 March 2019, options in respect of an aggregate of 9.6 million of ordinary shares in HOOQ have been granted. As at 31 March 2019, options in respect of an aggregate of 43.3 million of ordinary shares in HOOQ are outstanding."
+    }
+  ]
+}

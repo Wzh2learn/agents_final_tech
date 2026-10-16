@@ -1,0 +1,85 @@
+{
+  "schema": "tq3_dev_panel_manifest_v1",
+  "date": "2026-10-16",
+  "actor": "Loop D (AI)",
+  "panel_name": "tq3_developmental_dry_run_panel_v1",
+  "heldout": false,
+  "confirmatory": false,
+  "purpose": "Developmental dry run for TQ-3: real system outputs plus A/B/C verification under the prepared run card. NOT heldout, NOT confirmatory.",
+  "primary_metrics_tasks": [
+    "Q02",
+    "Q03",
+    "Q04",
+    "Q05",
+    "Q10",
+    "Q12"
+  ],
+  "excluded_exploratory_ambiguity": [
+    "Q06",
+    "Q08",
+    "Q09"
+  ],
+  "quarantined": [
+    "Q01",
+    "Q07",
+    "Q11"
+  ],
+  "input_structure": {
+    "keys": [
+      "paragraphs",
+      "question",
+      "table",
+      "task_id",
+      "variant"
+    ],
+    "variants": [
+      "original",
+      "perturbed"
+    ]
+  },
+  "counts": {
+    "inputs": 12,
+    "reference_files": 6,
+    "scoring_files": 6
+  },
+  "source_packet": {
+    "path": "packets/stage2_cases.json",
+    "sha256": "db70cc4d03c89e5a5c2873dd3382285f3708e94f8906e3170048590204be2ad2"
+  },
+  "input_pins": {
+    "inputs_original/Q02.json": "13c6f1e69389cb62fd2cd4fa5ec0436805edec87799247d7587152035ab3c552",
+    "inputs_perturbed/Q02.json": "f44e9f6977ce454148c5cc8b1915ac7368c9862204dcc2cf2449626fae19bfa3",
+    "inputs_original/Q03.json": "beb65a2db163ea0c8922ee98183ba29954286a0da52c5adc6afd0cb63db648ca",
+    "inputs_perturbed/Q03.json": "d8aaf0ae1af36b3e75ac010280801b687ac72b2f961b06bde019dfb9ced7f558",
+    "inputs_original/Q04.json": "cd885e280101833b2a26bda9b52371b191e0eb697d041e5f7b92fcbfc88b4836",
+    "inputs_perturbed/Q04.json": "c0f995da8222f76f03fbfb703c9e48a087cce36edd255c36a538de20f57426eb",
+    "inputs_original/Q05.json": "63bf367986f80e831614e080f63f7789f437c85c5278e095e7861d3616a844f4",
+    "inputs_perturbed/Q05.json": "819125dd1172aeda86c89abb56698c3a637266e53e26a6bc49385185570b6c9d",
+    "inputs_original/Q10.json": "8b30a06fa9aa2c1f728c841b6ec55063cd4bddc378d73ecb65520fda041631a1",
+    "inputs_perturbed/Q10.json": "caca57077a39427af774df337b3349cc8644d56d379917bf3803131f80f16906",
+    "inputs_original/Q12.json": "3fa47801f5dd8cfcda7ace62850ced0703da13b5708e81160223341e373ef1be",
+    "inputs_perturbed/Q12.json": "4d8e4b16f037977eb517fd2e1a39d06adae1f4ccd638d0c013cecd7b237ca92d"
+  },
+  "reference_pins": {
+    "reference/Q02.json": "2f9da71d4f04485f01b7f5a893317edef0f10720fd11a3fecafa17aa472f10e9",
+    "reference/Q03.json": "1e445a4e9ef6c714f10def9e92a32aa3aa1ddb39331fc261f764612f1505d523",
+    "reference/Q04.json": "d34efec1048f9019075296f8151655c8bb61557b95f4a03f4cd9826893a84636",
+    "reference/Q05.json": "3969622ee2e4243ba22f67746ba1fa7a299c69639dc5863e0ee420a7ce702674",
+    "reference/Q10.json": "67fed65f086e00e13badefdb71bafd20d420415d70e3603d25b13515079651f9",
+    "reference/Q12.json": "f41a242c748b9d1e956d1995e491475f679c58845659129d9ba447451cd68b97"
+  },
+  "scoring_pins": {
+    "scoring/Q02.json": "a882304eb63a4663ac512482c14e4c19fd998ac88eaf7454e40ac9f100cae967",
+    "scoring/Q03.json": "bc94728d1652cd3b05ad68652446a90f9d6068b70e610b77c0045fe65d4328a4",
+    "scoring/Q04.json": "4880b895af40dcec62eab024a87165957a36cbbf447716082a6a8d1742d74eb1",
+    "scoring/Q05.json": "245566101b44659429d426b91c48fd1752f993110e6f240b25936e5968b5d2af",
+    "scoring/Q10.json": "26ba06a59e13bf88ebbe9e7d35418ac0af963790dccf6757c0a78b198a4b2eb2",
+    "scoring/Q12.json": "c7332cddf75032353db97e3db7c350fb6f88fa8e069a2393083e5b4c28f689fb"
+  },
+  "checks_performed": {
+    "inputs_same_field_structure": true,
+    "reference_scoring_consistency": true,
+    "no_forbidden_keys_in_inputs": true,
+    "reference_and_scoring_not_in_inputs": true
+  }
+}

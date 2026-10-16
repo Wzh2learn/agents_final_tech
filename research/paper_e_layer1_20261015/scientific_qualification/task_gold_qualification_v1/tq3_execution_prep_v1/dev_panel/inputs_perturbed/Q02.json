@@ -1,0 +1,85 @@
+{
+  "task_id": "Q02",
+  "variant": "perturbed",
+  "question": "What are Total segment assets composed of?",
+  "table": [
+    [
+      "",
+      "",
+      "资产(assets)",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Fiscal Year End",
+      ""
+    ],
+    [
+      "",
+      "2019",
+      "2018",
+      "2017"
+    ],
+    [
+      "",
+      "",
+      "(in millions)",
+      ""
+    ],
+    [
+      "Transportation Solutions",
+      "$ 4,781",
+      "$  4,707",
+      "$ 4,084"
+    ],
+    [
+      "Industrial Solutions",
+      "2,100",
+      "2,049",
+      "1,909"
+    ],
+    [
+      "Communications Solutions",
+      "849",
+      "959",
+      "951"
+    ],
+    [
+      "Total segment assets(1)",
+      "7,730",
+      "7,715",
+      "6,944"
+    ],
+    [
+      "Other current assets",
+      "1,398",
+      "1,981",
+      "2,141"
+    ],
+    [
+      "Other non-current assets",
+      "10,566",
+      "10,690",
+      "10,318"
+    ],
+    [
+      "Total assets",
+      "$ 19,694",
+      "$ 20,386",
+      "$ 19,403"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "6718b37b-c1dc-41b5-8f21-5cfba7daf4ca",
+      "order": 1,
+      "text": "Segment assets and a reconciliation of segment assets to total assets were as follows:"
+    },
+    {
+      "uid": "5a443fa1-ad91-4454-8ba2-9992a29bd813",
+      "order": 2,
+      "text": "(1) Segment assets are composed of accounts receivable, inventories, and net property, plant, and equipment."
+    }
+  ]
+}
