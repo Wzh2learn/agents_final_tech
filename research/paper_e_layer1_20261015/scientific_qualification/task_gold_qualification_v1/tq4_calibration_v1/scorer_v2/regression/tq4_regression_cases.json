@@ -1,0 +1,54 @@
+{
+  "schema": "tq4_regression_cases_v1",
+  "note": "Counterexample families reconstructed from the 2026-10-16 adjudication text: (1) percent-by-magnitude conversion, (2) multi-number cherry-pick, (3) substring list match; plus correct samples and no-guessing families. 'v1_diff_expected' flags are hypotheses the runner asserts against the real v1 module.",
+  "cases": [
+    {"case_id": "R1a-percent-false-reject", "family": "percent_explicit_unit",
+     "v2_config": {"compare_mode": "numeric", "unit_kind": "ratio", "expected_precise": 0.015, "abs_tolerance": 0.0005, "unit_scale_status": "RESOLVED"},
+     "v1_config": {"compare_mode": "numeric", "expected_precise": 0.015, "abs_tolerance": 0.0005, "unit_scale_status": "RESOLVED"},
+     "answers": [
+       {"answer": "1.5%", "expect_v2": "MATCH", "v1_diff_expected": true, "note": "v1 magnitude rule skips /100 when |1.5| is not strictly > 1.5 (false reject)"},
+       {"answer": "0.015", "expect_v2": "MATCH", "v1_diff_expected": false},
+       {"answer": "1.5", "expect_v2": "NO_MATCH", "v1_diff_expected": false, "note": "no percent marker: no auto division (guard)"}
+     ]},
+    {"case_id": "R1b-percent-false-accept", "family": "percent_explicit_unit",
+     "v2_config": {"compare_mode": "numeric", "unit_kind": "ratio", "expected_precise": 0.5, "abs_tolerance": 0.005, "unit_scale_status": "RESOLVED"},
+     "v1_config": {"compare_mode": "numeric", "expected_precise": 0.5, "abs_tolerance": 0.005, "unit_scale_status": "RESOLVED"},
+     "answers": [
+       {"answer": "0.5%", "expect_v2": "NO_MATCH", "v1_diff_expected": true, "note": "v1 keeps 0.5 as-is (no division) and wrongly accepts; v2 converts by explicit % to 0.005"},
+       {"answer": "50%", "expect_v2": "MATCH", "v1_diff_expected": false},
+       {"answer": "0.5", "expect_v2": "MATCH", "v1_diff_expected": false}
+     ]},
+    {"case_id": "R2-multi-number-cherry-pick", "family": "numeric_no_cherry_pick",
+     "v2_config": {"compare_mode": "numeric", "unit_kind": "plain", "expected_precise": 14054, "abs_tolerance": 0.5, "unit_scale_status": "RESOLVED"},
+     "v1_config": {"compare_mode": "numeric", "expected_precise": 14054, "abs_tolerance": 0.5, "unit_scale_status": "RESOLVED"},
+     "answers": [
+       {"answer": "14054", "expect_v2": "MATCH", "v1_diff_expected": false},
+       {"answer": "The difference is 14054, but the reverse order gives 13999.", "expect_v2": "UNSCORABLE_MULTIPLE_NUMBERS", "v1_diff_expected": true, "note": "v1 scans all numbers and accepts the matching one (cherry-pick)"},
+       {"answer": "13999", "expect_v2": "NO_MATCH", "v1_diff_expected": false}
+     ]},
+    {"case_id": "R3-list-no-substring", "family": "list_full_set",
+     "v2_config": {"compare_mode": "list_full_match", "expected_full": "accounts receivable, inventories, and net property, plant, and equipment", "expected_items": ["accounts receivable", "inventories", "net property, plant, and equipment"], "unit_scale_status": "NOT_APPLICABLE"},
+     "v1_config": {"compare_mode": "span_containment_normalized", "expected_spans": ["accounts receivable, inventories, and net property, plant, and equipment"], "unit_scale_status": "NOT_APPLICABLE"},
+     "answers": [
+       {"answer": "accounts receivable, inventories, and net property, plant, and equipment", "expect_v2": "MATCH", "v1_diff_expected": false},
+       {"answer": "net property, plant, and equipment, inventories, and accounts receivable", "expect_v2": "MATCH", "v1_diff_expected": true, "note": "full set, order-insensitive; v1 substring test fails"},
+       {"answer": "The components are accounts receivable, inventories, and net property, plant, and equipment, along with goodwill.", "expect_v2": "NO_MATCH", "v1_diff_expected": true, "note": "superset; v1 containment accepts"},
+       {"answer": "accounts receivable, inventories", "expect_v2": "NO_MATCH", "v1_diff_expected": true, "note": "subset (first two items only); v1 reverse containment accepts"}
+     ]},
+    {"case_id": "R4-no-guessing-numeric", "family": "no_guessing",
+     "v2_config": {"compare_mode": "numeric", "unit_kind": "plain", "expected_precise": 6, "abs_tolerance": 0.5, "unit_scale_status": "RESOLVED"},
+     "v1_config": {"compare_mode": "numeric", "expected_precise": 6, "abs_tolerance": 0.5, "unit_scale_status": "RESOLVED"},
+     "answers": [
+       {"answer": "unknown", "expect_v2": "UNSCORABLE_NO_NUMERIC", "v1_diff_expected": true, "note": "v1 asserts NO_MATCH for unparseable text"},
+       {"answer": "6", "expect_v2": "MATCH", "v1_diff_expected": false}
+     ]},
+    {"case_id": "R5-date-parse", "family": "no_guessing",
+     "v2_config": {"compare_mode": "date", "expected": "31 January 2029", "accepted_formats": ["%d %B %Y", "%Y-%m-%d", "%B %d, %Y"], "unit_scale_status": "NOT_APPLICABLE"},
+     "v1_config": {"compare_mode": "date", "expected": "31 January 2029", "accepted_formats": ["%d %B %Y", "%Y-%m-%d", "%B %d, %Y"], "unit_scale_status": "NOT_APPLICABLE"},
+     "answers": [
+       {"answer": "31 January 2029", "expect_v2": "MATCH", "v1_diff_expected": false},
+       {"answer": "2028-01-31", "expect_v2": "NO_MATCH", "v1_diff_expected": false},
+       {"answer": "soon", "expect_v2": "UNSCORABLE_DATE_PARSE", "v1_diff_expected": true, "note": "v1 asserts NO_MATCH for unparseable date"}
+     ]}
+  ]
+}

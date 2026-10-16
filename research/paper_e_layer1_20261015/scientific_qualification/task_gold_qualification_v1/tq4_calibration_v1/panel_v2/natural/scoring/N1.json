@@ -1,0 +1,17 @@
+{
+  "task_id": "N1",
+  "scoring_version": "v2",
+  "compare_mode": "numeric",
+  "unit_kind": "percent",
+  "expected": 1.5,
+  "expected_precise": 1.5,
+  "abs_tolerance": 0.05,
+  "tolerance_rule": "0.5 x 10^-d; d = decimal digits of recorded answer",
+  "unit_scale_status": "RESOLVED",
+  "status_labels": {
+    "reference_validity": "NOT_ESTABLISHED",
+    "system_outcome": "NOT_RUN",
+    "panel": "TQ4_PART1_NATURAL_FROZEN"
+  },
+  "notes": "unit_kind derived from recorded derivation (% -> percent); frozen pre-output"
+}

@@ -1,0 +1,200 @@
+{
+  "task_id": "N4",
+  "variant": "original",
+  "question": "What is the nominal difference of the total group basic EPS (cents) before significant items and after significant items?",
+  "table": [
+    [
+      "Group Profit or Loss",
+      "F19",
+      "F18",
+      "",
+      "CHANGE"
+    ],
+    [
+      "for the 53 weeks ended 30 June 2019",
+      "53 WEEKS",
+      "52 WEEKS",
+      "CHANGE",
+      "NORMALISED"
+    ],
+    [
+      "MARGINS – continuing operations",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Gross profit (%)",
+      "29.1",
+      "29.3",
+      "(24) bps",
+      "(23) bps"
+    ],
+    [
+      "Cost of doing business (%)",
+      "24.6",
+      "24.9",
+      "(31) bps",
+      "(30) bps"
+    ],
+    [
+      "EBIT (%)",
+      "4.5",
+      "4.5",
+      "7 bps",
+      "7 bps"
+    ],
+    [
+      "EARNINGS PER SHARE AND DIVIDENDS",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "Weighted average ordinary shares on issue (million)",
+      "1,305.7",
+      "1,300.5",
+      "0.4%",
+      ""
+    ],
+    [
+      "Total Group basic EPS (cents) before significant items",
+      "142.8",
+      "132.6",
+      "7.7%",
+      "5.8%"
+    ],
+    [
+      "Total Group basic EPS (cents) after significant items",
+      "206.2",
+      "132.6",
+      "55.5%",
+      "53.7%"
+    ],
+    [
+      "Basic EPS (cents) – from continuing operations before significant items",
+      "134.2",
+      "123.4",
+      "8.8%",
+      "6.8%"
+    ],
+    [
+      "Basic EPS (cents) – from continuing operations after significant items",
+      "114.3",
+      "123.4",
+      "(7.4)%",
+      "(9.3)%"
+    ],
+    [
+      "Diluted EPS (cents) – from continuing operations before significant items",
+      "133.4",
+      "123.1",
+      "8.4%",
+      "6.4%"
+    ],
+    [
+      "Diluted EPS (cents) – from continuing operations after significant items",
+      "113.6",
+      "123.1",
+      "(7.7)%",
+      "(9.7)%"
+    ],
+    [
+      "Interim dividend per share (cents)",
+      "45",
+      "43",
+      "4.7%",
+      ""
+    ],
+    [
+      "Final dividend per share (cents) 1",
+      "57",
+      "50",
+      "14.0%",
+      ""
+    ],
+    [
+      "Special dividend per share (cents) 1",
+      "–",
+      "10",
+      "n.m.",
+      ""
+    ],
+    [
+      "Total dividend per share (cents)",
+      "102",
+      "103",
+      "(1.0)%",
+      ""
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "dbcc184d-eaae-45a9-bb78-530f4c3f6288",
+      "order": 1,
+      "text": "Central Overheads declined by $76 million in F19 to $60 million due to a one‐off payment from Caltex of $50 million and a reversal of impairment on a property subsequently classified as held for sale of $37 million. Central Overheads are still expected to be approximately $150 million on an annual basis before taking into account any impact from the Endeavour Group transaction."
+    },
+    {
+      "uid": "5306aa86-9d90-4530-842f-dc7f5bf8a101",
+      "order": 2,
+      "text": "A small increase in inventory to $4,280 million was primarily due to higher closing inventory in New Zealand and BIG W to improve availability. Closing inventory days declined 0.9 days to 37.2 days and average inventory days from continuing operations declined by 0.2 days to 38.8 days."
+    },
+    {
+      "uid": "13aa955c-efc8-4d74-8753-54c95a8b4d86",
+      "order": 3,
+      "text": "Net investment in inventory of $939 million remained broadly consistent with prior year. Adjusting for the impact of an extra New Zealand Food payment run in the 53rd week of $153 million, net investment in inventory declined by 19%."
+    },
+    {
+      "uid": "4cec297b-1efb-4a39-8dd9-693d1fdf6ccd",
+      "order": 4,
+      "text": "Other creditors and provisions of $4,308 million decreased $40 million compared to the prior year. Excluding significant items relating to the BIG W network review and cash utilisation of F16 significant items provisions, the decrease in other creditors and provisions was primarily driven by a reduction in accruals associated with store team costs."
+    },
+    {
+      "uid": "1944845a-09d3-4a15-9c08-ea85d41f955b",
+      "order": 5,
+      "text": "Fixed assets, investments and loans to related parties of $9,710 million increased by $528 million. Additions of fixed assets of $2,040 million during the year mainly related to store refurbishments, supply chain and IT infrastructure and included $203 million related to property development activity. This was partially offset by depreciation and amortisation, disposals and an impairment of $166 million associated with the BIG W network review."
+    },
+    {
+      "uid": "2b53768d-743a-4d6b-8c42-4da3bf9fa2d7",
+      "order": 6,
+      "text": "Net assets held for sale of $225 million decreased by $575 million mainly as a result of the sale of the Petrol business to EG Group on 1 April 2019."
+    },
+    {
+      "uid": "7acbbeee-8be6-4ccc-a2ac-35cae2c59042",
+      "order": 7,
+      "text": "Intangible assets of $6,526 million increased by $61 million driven by an increase in goodwill and brand names in New Zealand due to the strengthening of the New Zealand dollar, a minor increase in goodwill associated with the acquisition of businesses partially offset by an impairment to the carrying value of Summergate of $21 million."
+    },
+    {
+      "uid": "3cadcf63-e798-401c-b44e-564bdc41c0f3",
+      "order": 8,
+      "text": "Net tax balances of $227 million increased $66 million due to an increase in deferred tax assets associated with the provisions raised as a result of the BIG W network review."
+    },
+    {
+      "uid": "0a51f7ce-e4e7-4e27-bc71-6cc2ea6c1938",
+      "order": 9,
+      "text": "Net debt of $1,599 million increased by $377 million largely due to the timing of New Zealand creditor payments, higher net capital expenditure (excluding the proceeds from the sale of the Petrol business) and an increase in dividends paid during the year."
+    },
+    {
+      "uid": "56248688-fd9b-4682-aab6-d8a8fda5e33e",
+      "order": 10,
+      "text": "Normalised Return on Funds Employed (ROFE) from continuing operations was 24.2%, 11 bps up on the prior year. Normalised AASB 16 estimated ROFE was 14.1%."
+    },
+    {
+      "uid": "6caf9549-785c-4903-9972-246c9951fb3f",
+      "order": 11,
+      "text": "Cash flow from operating activities before interest and tax was $3,858 million, an increase of 0.5% on the prior year. Excluding the impact of significant items, higher EBITDA was offset by the impact of the New Zealand payment run in week 53 and a movement in provisions and accruals. The cash flow benefit from an extra week of trading is offset by nine months of EBITDA from the Petrol business compared to a full year in F18."
+    },
+    {
+      "uid": "0b5f7471-6988-4021-8ff2-b42dedc25249",
+      "order": 12,
+      "text": "The cash realisation ratio was 74.1%. Excluding the timing of the New Zealand payment run, and charges associated with the BIG W network review and gain on sale of the Petrol business, the cash realisation ratio was 98.4%, impacted by the cash utilisation of provisions and accruals offset by trade working capital improvements."
+    },
+    {
+      "uid": "5ee7e2fc-7b01-487c-b11d-a190781127c1",
+      "order": 13,
+      "text": "Net interest paid of $166 million declined by 9.8% compared to the prior year due to the early repayment of US Private Placement Notes in the prior year reducing average borrowing costs."
+    }
+  ]
+}

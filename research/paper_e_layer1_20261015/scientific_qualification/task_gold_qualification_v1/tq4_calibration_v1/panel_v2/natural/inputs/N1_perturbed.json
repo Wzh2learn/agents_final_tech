@@ -1,0 +1,74 @@
+{
+  "task_id": "N1",
+  "variant": "perturbed",
+  "question": "What was the average investment in cash and cash equivalents?",
+  "table": [
+    [
+      "",
+      "assets(资产)",
+      ""
+    ],
+    [
+      "Asset Category",
+      "2019",
+      "2018"
+    ],
+    [
+      "Cash and cash equivalents",
+      "1%",
+      "2%"
+    ],
+    [
+      "Equity securities",
+      "24%",
+      "27%"
+    ],
+    [
+      "Government debt securities",
+      "12%",
+      "3%"
+    ],
+    [
+      "Corporate debt securities",
+      "16%",
+      "26%"
+    ],
+    [
+      "Investments in funds(a)",
+      "21%",
+      "17%"
+    ],
+    [
+      "Real estate",
+      "2%",
+      "3%"
+    ],
+    [
+      "Other (mainly insurance assets – contracts and reserves)",
+      "24%",
+      "22%"
+    ],
+    [
+      "Total",
+      "100%",
+      "100%"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "b37176ae-fee9-499b-a011-1c9b4dc2e112",
+      "order": 1,
+      "text": "The Company’s pension plan asset allocation at December 31, 2019 and at December 31, 2018 is as follows:"
+    },
+    {
+      "uid": "fcbe4f89-71d3-48d1-8148-0fe0fd01d225",
+      "order": 2,
+      "text": "As of December 31, 2019, investments in funds were composed of commingled and multi-strategy funds invested in diversified portfolios of corporate bonds (37%), government bonds (32%), equity (15%) and other instruments (16%)."
+    },
+    {
+      "uid": "a19e43fa-e0a7-4eab-98d9-6053a49fe315",
+      "order": 3,
+      "text": "As of December 31, 2018, investments in funds were composed approximately for two thirds of commingled funds mainly invested in corporate bonds (55%) and treasury bonds and notes (45%) and for one third of multi-strategy funds invested in broadly diversified portfolios of\ncorporate and government bonds, equity and derivative instruments."
+    }
+  ]
+}

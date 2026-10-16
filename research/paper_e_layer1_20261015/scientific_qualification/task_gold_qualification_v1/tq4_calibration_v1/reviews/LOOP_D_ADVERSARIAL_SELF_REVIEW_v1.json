@@ -1,0 +1,221 @@
+{
+  "schema": "tq4_loopd_adversarial_self_review_v1",
+  "label": "NON-INDEPENDENT self-review by Loop D (substitute for the failed independent delegation; see REVIEW_STATUS_v1.md)",
+  "all_ok": true,
+  "checks": [
+    {
+      "check": "A1_regression_rerun_18_18",
+      "ok": true,
+      "detail": {
+        "rc": 0,
+        "counts": {
+          "checks": 18,
+          "passed": 18,
+          "failed": 0,
+          "v1_v2_status_differences": 8
+        }
+      }
+    },
+    {
+      "check": "A2_eight_v1_v2_flips_present",
+      "ok": true,
+      "detail": {
+        "n_flips": 8,
+        "cases": [
+          "R1a-percent-false-reject",
+          "R1b-percent-false-accept",
+          "R2-multi-number-cherry-pick",
+          "R3-list-no-substring",
+          "R4-no-guessing-numeric",
+          "R5-date-parse"
+        ]
+      }
+    },
+    {
+      "check": "B1_all_12_answers_match_raw",
+      "ok": true,
+      "detail": {
+        "mismatch_seqs": []
+      }
+    },
+    {
+      "check": "B2_counts_zero_change",
+      "ok": true,
+      "detail": {
+        "items": 12,
+        "v1_match": 12,
+        "v2_match": 12,
+        "changed": 0
+      }
+    },
+    {
+      "check": "B3_legality_view_22_issues",
+      "ok": true,
+      "detail": {
+        "legal": 0,
+        "illegal": 12,
+        "issue_types": {
+          "kind_invalid": 22
+        }
+      }
+    },
+    {
+      "check": "C1_candidate_count_12",
+      "ok": true,
+      "detail": {
+        "n": 12
+      }
+    },
+    {
+      "check": "C2_log_hash_matches_file",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "C3_full_matrix",
+      "ok": true,
+      "detail": [
+        [
+          "correct",
+          "illegal"
+        ],
+        [
+          "correct",
+          "legal"
+        ],
+        [
+          "incorrect",
+          "illegal"
+        ],
+        [
+          "incorrect",
+          "legal"
+        ]
+      ]
+    },
+    {
+      "check": "C4_legality_recomputed_matches_labels",
+      "ok": true,
+      "detail": [
+        [
+          "Q02-C1",
+          true,
+          true
+        ],
+        [
+          "Q02-C2",
+          false,
+          false
+        ],
+        [
+          "Q02-C3",
+          true,
+          true
+        ],
+        [
+          "Q02-C4",
+          false,
+          false
+        ],
+        [
+          "Q03-C1",
+          true,
+          true
+        ],
+        [
+          "Q03-C2",
+          false,
+          false
+        ],
+        [
+          "Q03-C3",
+          true,
+          true
+        ],
+        [
+          "Q03-C4",
+          false,
+          false
+        ],
+        [
+          "Q04-C1",
+          true,
+          true
+        ],
+        [
+          "Q04-C2",
+          false,
+          false
+        ],
+        [
+          "Q04-C3",
+          true,
+          true
+        ],
+        [
+          "Q04-C4",
+          false,
+          false
+        ]
+      ]
+    },
+    {
+      "check": "C5_incorrect_answers_match_spec",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "D1_four_tasks_one_per_stratum",
+      "ok": true,
+      "detail": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ]
+    },
+    {
+      "check": "D2_inputs_match_corpora_and_scoring_rules",
+      "ok": true,
+      "detail": [
+        [
+          "N1",
+          true
+        ],
+        [
+          "N2",
+          true
+        ],
+        [
+          "N3",
+          true
+        ],
+        [
+          "N4",
+          true
+        ]
+      ]
+    },
+    {
+      "check": "D3_selection_log_corpus_hashes_recompute",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "E1_budget_arithmetic",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "E2_c_label",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "E3_no_reuse_of_tq3_auth",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "issues": []
+}

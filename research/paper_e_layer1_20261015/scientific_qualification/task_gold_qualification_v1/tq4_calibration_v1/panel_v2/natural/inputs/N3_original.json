@@ -1,0 +1,59 @@
+{
+  "task_id": "N3",
+  "variant": "original",
+  "question": "What is the difference in the weighted average interest rate for notes payable and loans secured by trade receivables?",
+  "table": [
+    [
+      "FOR THE YEAR ENDED DECEMBER 31",
+      "NOTE",
+      "WEIGHTED AVERAGE INTEREST RATE AT DECEMBER 31, 2019",
+      "2019",
+      "2018"
+    ],
+    [
+      "Notes payable (1)",
+      "26",
+      "2.03%",
+      "1,994",
+      "3,201"
+    ],
+    [
+      "Loans secured by trade receivables",
+      "26",
+      "2.71%",
+      "1,050",
+      "919"
+    ],
+    [
+      "Long-term debt due within one year (2)",
+      "22",
+      "4.77%",
+      "837",
+      "525"
+    ],
+    [
+      "Total debt due within one year",
+      "",
+      "",
+      "3,881",
+      "4,645"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "89bddc2b-f68b-457f-838b-a9dd989240d4",
+      "order": 1,
+      "text": "Note 21 Debt due within one year"
+    },
+    {
+      "uid": "e865f3b4-04dc-4d57-91a2-34e8da7fbe86",
+      "order": 2,
+      "text": "(1) Includes commercial paper of $1,502 million in U.S. dollars ($1,951 million in Canadian dollars) and $2,314 million in U.S. dollars ($3,156 million in Canadian dollars) as at December 31, 2019 and December 31, 2018, respectively, which were issued under our U.S. commercial paper program and have been hedged for foreign currency fluctuations through forward currency contracts. See Note 26, Financial and capital management, for additional details."
+    },
+    {
+      "uid": "2dc493b1-ca9f-4df2-a222-ab3b234a499c",
+      "order": 3,
+      "text": "(2) Included in long-term debt due within one year is the current portion of lease liabilities of $775 million as at December 31, 2019 and the current portion of finance leases of $466 million as at December 31, 2018."
+    }
+  ]
+}

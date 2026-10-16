@@ -1,0 +1,54 @@
+{
+  "task_id": "Q03",
+  "variant": "perturbed",
+  "question": "What is the difference between capital stock value in class A and B shares?",
+  "table": [
+    [
+      "capitai stock",
+      "",
+      ""
+    ],
+    [
+      "Parent Company",
+      "Number of shares",
+      "Capital stock (SEK million)"
+    ],
+    [
+      "Class A shares",
+      "261,755,983",
+      "1,309"
+    ],
+    [
+      "Class B shares",
+      "3,072,395,752",
+      "15,363"
+    ],
+    [
+      "Total",
+      "3,334,151,735",
+      "16,672"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "0450b618-62fc-4c53-b49e-057c2a07cc3f",
+      "order": 1,
+      "text": "Capital stock 2019"
+    },
+    {
+      "uid": "1ecc1e38-c8a7-4f40-a004-98d7f36c062c",
+      "order": 2,
+      "text": "Capital stock at December 31, 2019, consisted of the following:"
+    },
+    {
+      "uid": "0fab2fdd-a9c6-4ab8-9da5-daa887f27532",
+      "order": 3,
+      "text": "The capital stock of the Parent Company is divided into two classes: Class A shares (quota value SEK 5.00) and Class B shares (quota value SEK 5.00). Both classes have the same rights of participation in the net assets and earnings.Class A shares, however, are entitled to one vote per share while Class B shares are entitled to one tenth of one vote per share."
+    },
+    {
+      "uid": "1750273c-36a0-43ef-9738-ccd8c56a914b",
+      "order": 4,
+      "text": "At December 31, 2019, the total number of treasury shares was 19,853,247 (37,057,039 in 2018 and 50,265,499 in 2017) Class B shares."
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  "schema": "tq4_natural_selection_log_v1",
+  "frozen_utc": "2026-10-16T06:43:52Z",
+  "spec": "NATURAL_SELECTION_SPEC_v1.md",
+  "freeze_note": "No TQ-4 model outputs exist at freeze time; selection is structural only.",
+  "corpus_hashes": {
+    "raw/tatqa_tables.json": "3e7e056889c5207f6ab9ff0541e980393c658f044cce3dc5a22fedb976e64302",
+    "raw/injected_tables.json": "827092cf6af2212ae334a9ad5f7b9ea12122d90ff9117353baf79bb1936e4fa9",
+    "raw/tatqa_dataset_train.json": "2df6e722cdbaaa37efcbfb280f5c9a15be29a6ec18f618ef936fe63cc6d07c69",
+    "raw/tatqa_dataset_dev.json": "8da095a819af6db3c14877c6df2d4d29960e41d1a63dd1fa853507bd2a616af5",
+    "coordinator/pool_inventory.json": "4d77128f675e36100724e5b7ce45c803f8832411ece9702aa06584969774e5c0"
+  },
+  "selected": [
+    {
+      "task_id": "N1",
+      "stratum": "S1",
+      "uid": "195174fe-dd0a-40b1-9139-21fb207f382a",
+      "type": "mixed_lang",
+      "original_header": "Percentage of Plan Assets at December",
+      "injected_header": "assets(资产)",
+      "injected_col": 1,
+      "raw_file": "tatqa_dataset_train.json",
+      "raw_record_index": 913,
+      "question_uid": "6cd83a70-6cae-459e-9e40-e56af3bef0be",
+      "question_rank": [
+        0,
+        -1,
+        4,
+        "6cd83a70-6cae-459e-9e40-e56af3bef0be"
+      ],
+      "question": "What was the average investment in cash and cash equivalents?",
+      "reference_answer": 1.5,
+      "derivation": "(2% + 1%) / 2",
+      "unit_kind": "percent",
+      "abs_tolerance": 0.05,
+      "files": {
+        "inputs/N1_original.json": "88d363c402f1593865c66f3b1f87dbc1ad4824dc89ce5ab7e8fb39f9c5bd52a5",
+        "inputs/N1_perturbed.json": "4bd420cbecdbc482da22654826674305ad4ba896294add0afe21c739070c92b0",
+        "reference/N1.json": "1c491f5c11eded289b6e85024a904dc77902939616343addafe0eaee28ee6437",
+        "scoring/N1.json": "fba52847be06940512d2295046997ea55705b25452b7beb65e51f55ea9e5edb0"
+      }
+    },
+    {
+      "task_id": "N2",
+      "stratum": "S2",
+      "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+      "type": "ocr_similar",
+      "original_header": "Capital Leases",
+      "injected_header": "capitai Leases",
+      "injected_col": 2,
+      "raw_file": "tatqa_dataset_train.json",
+      "raw_record_index": 472,
+      "question_uid": "21091cb8-4e5f-46d6-afc0-1f8d57eb5194",
+      "question_rank": [
+        -2,
+        -1,
+        4,
+        "21091cb8-4e5f-46d6-afc0-1f8d57eb5194"
+      ],
+      "question": "What is the company's total operating leases and capital leases in 2020?",
+      "reference_answer": 22448,
+      "derivation": "$22,207 + $241 ",
+      "unit_kind": "plain",
+      "abs_tolerance": 0.5,
+      "files": {
+        "inputs/N2_original.json": "e42c1025b5174675d2379d959b744ed382c549320332e8bef8ff013775f04a91",
+        "inputs/N2_perturbed.json": "b71a08e63640270bfc692b51f32d37a124a04f310d6dc6346849a5ad62f20003",
+        "reference/N2.json": "17b9a60b7e952fae73462741c4feb1462e35ca42343c36cb8897f8457f56a775",
+        "scoring/N2.json": "f486581d933cf85f4c5904017458c32abbef840cd07052764c47b29daba8b252"
+      }
+    },
+    {
+      "task_id": "N3",
+      "stratum": "S3",
+      "uid": "9bce514f-3eb3-433c-85e5-2d40d116497c",
+      "type": "alias_variant",
+      "original_header": "WEIGHTED AVERAGE INTEREST RATE AT DECEMBER 31, 2019",
+      "injected_header": "利息",
+      "injected_col": 2,
+      "raw_file": "tatqa_dataset_train.json",
+      "raw_record_index": 1172,
+      "question_uid": "630ac627-a9d3-4d2c-b44b-ec2002079148",
+      "question_rank": [
+        -4,
+        -1,
+        5,
+        "630ac627-a9d3-4d2c-b44b-ec2002079148"
+      ],
+      "question": "What is the difference in the weighted average interest rate for notes payable and loans secured by trade receivables?",
+      "reference_answer": 0.68,
+      "derivation": "2.71%-2.03%",
+      "unit_kind": "percent",
+      "abs_tolerance": 0.005,
+      "files": {
+        "inputs/N3_original.json": "c4017b02890a8526bee4e9f9edf09d28a0d3df4d91778f283f2d0d9d28d26338",
+        "inputs/N3_perturbed.json": "b65a3fc8f6182855e9c93aa59d7069ecce1e4cf33cfdf79138ea32a804447cd5",
+        "reference/N3.json": "18ef32ea7bb9b86be9caecbf427939a93cb53ba87e902f8974daada426e8f159",
+        "scoring/N3.json": "2eb5c73e843f5deda0a50dee867120ba4223d5b5c6e0933a1a3787fc9ab2039a"
+      }
+    },
+    {
+      "task_id": "N4",
+      "stratum": "S4",
+      "uid": "70cf5260-2124-4a26-a148-5cf3c6028813",
+      "type": "unit_suffix",
+      "original_header": "Group Profit or Loss",
+      "injected_header": "profit(万元)",
+      "injected_col": 0,
+      "raw_file": "tatqa_dataset_train.json",
+      "raw_record_index": 1991,
+      "question_uid": "a92535f6-7da7-4c92-a556-e615450987bb",
+      "question_rank": [
+        -1,
+        -1,
+        5,
+        "a92535f6-7da7-4c92-a556-e615450987bb"
+      ],
+      "question": "What is the nominal difference of the total group basic EPS (cents) before significant items and after significant items?",
+      "reference_answer": 63.4,
+      "derivation": "206.2-142.8 ",
+      "unit_kind": "plain",
+      "abs_tolerance": 0.05,
+      "files": {
+        "inputs/N4_original.json": "3a4e78c8f05d325e61138f39712133e23398b7f953918aa8de1b914dc4463bb5",
+        "inputs/N4_perturbed.json": "5f1f5412592913236e9a8012328ce9a451cf55f5d04c8cf2a67004bb834d2e2d",
+        "reference/N4.json": "1ce70c9a8e8a0a2c6d24ef2384c3f14da30c1b8b97fcb68baccde64e130a53af",
+        "scoring/N4.json": "662da6790b8514754fd20d868f37b72181cab47a4427d5cc6a7d4e5c24efc6aa"
+      }
+    }
+  ],
+  "skips_and_attempts": [
+    {
+      "stratum": "S1",
+      "uid": "195174fe-dd0a-40b1-9139-21fb207f382a",
+      "injection_id_sha256": "a1f51d8b6689b450c73a68ac49c5d1a8c8685015f93421eb1f86b8790f66875e",
+      "checks": {
+        "join": true,
+        "questions_considered": [
+          {
+            "question_uid": "6cd83a70-6cae-459e-9e40-e56af3bef0be",
+            "answer_present": true,
+            "answer_numeric": true
+          }
+        ],
+        "picked": true
+      }
+    },
+    {
+      "stratum": "S2",
+      "uid": "5fe2c49e-5b1a-479a-8df7-f9a50e5d7609",
+      "injection_id_sha256": "9d5ad5464abb8f032856251f268695d2eda3cc3f980318d170e40d76a7ee835c",
+      "checks": {
+        "join": true,
+        "questions_considered": [
+          {
+            "question_uid": "21091cb8-4e5f-46d6-afc0-1f8d57eb5194",
+            "answer_present": true,
+            "answer_numeric": true
+          }
+        ],
+        "picked": true
+      }
+    },
+    {
+      "stratum": "S3",
+      "uid": "9bce514f-3eb3-433c-85e5-2d40d116497c",
+      "injection_id_sha256": "1593fec1cf61bb0d5245d937cd882ad5ddef90208828d57a7fd153b8255e5551",
+      "checks": {
+        "join": true,
+        "questions_considered": [
+          {
+            "question_uid": "630ac627-a9d3-4d2c-b44b-ec2002079148",
+            "answer_present": true,
+            "answer_numeric": true
+          }
+        ],
+        "picked": true
+      }
+    },
+    {
+      "stratum": "S4",
+      "uid": "567a03c7-0324-46f4-adbe-4143b60a7eff",
+      "injection_id_sha256": "6195c4a3b62289a3133f2f4fbae00f0cc002c20b10221cd631909343e92e62b7",
+      "checks": {
+        "skip": "uid_already_used"
+      }
+    },
+    {
+      "stratum": "S4",
+      "uid": "70cf5260-2124-4a26-a148-5cf3c6028813",
+      "injection_id_sha256": "6de51374c393818c9f20ee559dd4ec383e3a40300fb38686aa197bf39fa5706c",
+      "checks": {
+        "join": true,
+        "questions_considered": [
+          {
+            "question_uid": "a92535f6-7da7-4c92-a556-e615450987bb",
+            "answer_present": true,
+            "answer_numeric": true
+          }
+        ],
+        "picked": true
+      }
+    }
+  ]
+}

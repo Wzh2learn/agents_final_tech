@@ -1,0 +1,21 @@
+{
+  "task_id": "N2",
+  "reference_version": "v1",
+  "source": "raw TAT-QA record (tatqa_dataset_train.json#/472, frozen corpus)",
+  "official_reference": {
+    "answer": 22448,
+    "derivation": "$22,207 + $241 ",
+    "answer_type": "arithmetic",
+    "answer_from": "table-text",
+    "scale": "thousand",
+    "rel_paragraphs": [
+      "9"
+    ],
+    "req_comparison": false
+  },
+  "applies_to_variants": [
+    "original",
+    "perturbed"
+  ],
+  "provisional": "reference_validity NOT_ESTABLISHED; selection was structural (no model outputs); TQ-4 has not run"
+}

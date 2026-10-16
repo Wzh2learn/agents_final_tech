@@ -1,0 +1,176 @@
+{
+  "schema": "tq4_candidates_log_v1",
+  "frozen_utc": "2026-10-16T06:44:37Z",
+  "spec": "CANDIDATE_BUILD_SPEC_v1.md",
+  "freeze_note": "No TQ-4 model outputs exist at freeze time; candidates are manual constructions.",
+  "input_hashes": {
+    "inputs/Q02.json": "f44e9f6977ce454148c5cc8b1915ac7368c9862204dcc2cf2449626fae19bfa3",
+    "inputs/Q03.json": "d8aaf0ae1af36b3e75ac010280801b687ac72b2f961b06bde019dfb9ced7f558",
+    "inputs/Q04.json": "c0f995da8222f76f03fbfb703c9e48a087cce36edd255c36a538de20f57426eb"
+  },
+  "legality_verifications": [
+    {
+      "candidate_id": "Q02-C1",
+      "legality": {
+        "legal": true,
+        "issues": [],
+        "checked": 1
+      },
+      "expected_legal": true,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q02-C2",
+      "legality": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "paragraph_uid_unknown",
+            "paragraph_uid": "00000000-0000-0000-0000-000000000000"
+          }
+        ],
+        "checked": 1
+      },
+      "expected_legal": false,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q02-C3",
+      "legality": {
+        "legal": true,
+        "issues": [],
+        "checked": 1
+      },
+      "expected_legal": true,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q02-C4",
+      "legality": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "paragraph_uid_unknown",
+            "paragraph_uid": "00000000-0000-0000-0000-000000000000"
+          }
+        ],
+        "checked": 1
+      },
+      "expected_legal": false,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q03-C1",
+      "legality": {
+        "legal": true,
+        "issues": [],
+        "checked": 2
+      },
+      "expected_legal": true,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q03-C2",
+      "legality": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "cell_out_of_bounds",
+            "table_row": 99,
+            "table_col": 0
+          }
+        ],
+        "checked": 1
+      },
+      "expected_legal": false,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q03-C3",
+      "legality": {
+        "legal": true,
+        "issues": [],
+        "checked": 2
+      },
+      "expected_legal": true,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q03-C4",
+      "legality": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "cell_out_of_bounds",
+            "table_row": 99,
+            "table_col": 0
+          }
+        ],
+        "checked": 1
+      },
+      "expected_legal": false,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q04-C1",
+      "legality": {
+        "legal": true,
+        "issues": [],
+        "checked": 2
+      },
+      "expected_legal": true,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q04-C2",
+      "legality": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "cell_out_of_bounds",
+            "table_row": 1,
+            "table_col": 9
+          }
+        ],
+        "checked": 1
+      },
+      "expected_legal": false,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q04-C3",
+      "legality": {
+        "legal": true,
+        "issues": [],
+        "checked": 2
+      },
+      "expected_legal": true,
+      "ok": true
+    },
+    {
+      "candidate_id": "Q04-C4",
+      "legality": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "cell_out_of_bounds",
+            "table_row": 1,
+            "table_col": 9
+          }
+        ],
+        "checked": 1
+      },
+      "expected_legal": false,
+      "ok": true
+    }
+  ],
+  "candidate_count": 12,
+  "all_verifications_ok": true,
+  "candidates_file_sha256": "988452b6d30a9e3ef9f9706ca7196269b9faf79e4ee14b9284b4383ccc31297b"
+}

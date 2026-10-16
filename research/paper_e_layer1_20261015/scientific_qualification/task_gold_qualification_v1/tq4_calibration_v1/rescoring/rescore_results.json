@@ -1,0 +1,381 @@
+{
+  "schema": "tq4_rescore_results_v1",
+  "generated_utc": "2026-10-16T06:42:08Z",
+  "run_id": "20261016T051556Z_af4c2db6",
+  "v1_module_sha256": "370f790a62d16c295c3aba1a9b1fb3e4006c484c26e622cfe2fddd2444525051",
+  "v2_module_sha256": "929139588790aa4f23311e0526efe89ef3a1ca49f3f12a719c260129cdd2f4ff",
+  "notes": [
+    "Mapping: span_containment_normalized -> list_full_match; numeric gains frozen unit_kind (Q10 ratio; Q03/Q04/Q12 plain).",
+    "The v2 legality view of old evidence is reported for interpretation only; old outputs are not rewritten."
+  ],
+  "counts": {
+    "items": 12,
+    "v1_match": 12,
+    "v2_match": 12,
+    "changed": 0
+  },
+  "legality_v2_view_summary": {
+    "legal": 0,
+    "illegal": 12,
+    "issue_types": {
+      "kind_invalid": 22
+    }
+  },
+  "changed_rows": [],
+  "rows": [
+    {
+      "seq": 1,
+      "task_id": "Q02",
+      "variant": "original",
+      "answer": "accounts receivable, inventories, and net property, plant, and equipment",
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": {
+        "via": "normalized_full_equality"
+      },
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 1
+      }
+    },
+    {
+      "seq": 2,
+      "task_id": "Q02",
+      "variant": "perturbed",
+      "answer": "accounts receivable, inventories, and net property, plant, and equipment",
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": {
+        "via": "normalized_full_equality"
+      },
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 1
+      }
+    },
+    {
+      "seq": 3,
+      "task_id": "Q03",
+      "variant": "original",
+      "answer": 14054,
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": {
+        "answer_value": 14054.0,
+        "normalized": 14054.0,
+        "expected": 14054.0,
+        "tolerance": 0.5,
+        "percent_marker": false
+      },
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          },
+          {
+            "index": 1,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 2
+      }
+    },
+    {
+      "seq": 4,
+      "task_id": "Q03",
+      "variant": "perturbed",
+      "answer": 14054,
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": {
+        "answer_value": 14054.0,
+        "normalized": 14054.0,
+        "expected": 14054.0,
+        "tolerance": 0.5,
+        "percent_marker": false
+      },
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          },
+          {
+            "index": 1,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 2
+      }
+    },
+    {
+      "seq": 5,
+      "task_id": "Q04",
+      "variant": "original",
+      "answer": "-3",
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": {
+        "answer_value": -3.0,
+        "normalized": -3.0,
+        "expected": -3.0,
+        "tolerance": 0.5,
+        "percent_marker": false
+      },
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          },
+          {
+            "index": 1,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 2
+      }
+    },
+    {
+      "seq": 6,
+      "task_id": "Q04",
+      "variant": "perturbed",
+      "answer": "-3",
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": {
+        "answer_value": -3.0,
+        "normalized": -3.0,
+        "expected": -3.0,
+        "tolerance": 0.5,
+        "percent_marker": false
+      },
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          },
+          {
+            "index": 1,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 2
+      }
+    },
+    {
+      "seq": 7,
+      "task_id": "Q05",
+      "variant": "original",
+      "answer": "31 January 2029",
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": null,
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          },
+          {
+            "index": 1,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 2
+      }
+    },
+    {
+      "seq": 8,
+      "task_id": "Q05",
+      "variant": "perturbed",
+      "answer": "31 January 2029",
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": null,
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          },
+          {
+            "index": 1,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 2
+      }
+    },
+    {
+      "seq": 9,
+      "task_id": "Q10",
+      "variant": "original",
+      "answer": "0.4707",
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": {
+        "answer_value": 0.4707,
+        "normalized": 0.4707,
+        "expected": 0.4708994708994709,
+        "tolerance": 0.005,
+        "percent_marker": false
+      },
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          },
+          {
+            "index": 1,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 2
+      }
+    },
+    {
+      "seq": 10,
+      "task_id": "Q10",
+      "variant": "perturbed",
+      "answer": "0.47",
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": {
+        "answer_value": 0.47,
+        "normalized": 0.47,
+        "expected": 0.4708994708994709,
+        "tolerance": 0.005,
+        "percent_marker": false
+      },
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          },
+          {
+            "index": 1,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 2
+      }
+    },
+    {
+      "seq": 11,
+      "task_id": "Q12",
+      "variant": "original",
+      "answer": "6",
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": {
+        "answer_value": 6.0,
+        "normalized": 6.0,
+        "expected": 6.0,
+        "tolerance": 0.5,
+        "percent_marker": false
+      },
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          },
+          {
+            "index": 1,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 2
+      }
+    },
+    {
+      "seq": 12,
+      "task_id": "Q12",
+      "variant": "perturbed",
+      "answer": "6",
+      "v1_status": "MATCH",
+      "v2_status": "MATCH",
+      "changed": false,
+      "v2_detail": {
+        "answer_value": 6.0,
+        "normalized": 6.0,
+        "expected": 6.0,
+        "tolerance": 0.5,
+        "percent_marker": false
+      },
+      "legality_v2_view": {
+        "legal": false,
+        "issues": [
+          {
+            "index": 0,
+            "issue": "kind_invalid",
+            "kind": null
+          },
+          {
+            "index": 1,
+            "issue": "kind_invalid",
+            "kind": null
+          }
+        ],
+        "checked": 2
+      }
+    }
+  ]
+}

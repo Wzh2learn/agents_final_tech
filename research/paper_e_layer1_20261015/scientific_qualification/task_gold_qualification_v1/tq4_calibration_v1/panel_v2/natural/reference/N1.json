@@ -1,0 +1,19 @@
+{
+  "task_id": "N1",
+  "reference_version": "v1",
+  "source": "raw TAT-QA record (tatqa_dataset_train.json#/913, frozen corpus)",
+  "official_reference": {
+    "answer": 1.5,
+    "derivation": "(2% + 1%) / 2",
+    "answer_type": "arithmetic",
+    "answer_from": "table",
+    "scale": "percent",
+    "rel_paragraphs": [],
+    "req_comparison": false
+  },
+  "applies_to_variants": [
+    "original",
+    "perturbed"
+  ],
+  "provisional": "reference_validity NOT_ESTABLISHED; selection was structural (no model outputs); TQ-4 has not run"
+}
