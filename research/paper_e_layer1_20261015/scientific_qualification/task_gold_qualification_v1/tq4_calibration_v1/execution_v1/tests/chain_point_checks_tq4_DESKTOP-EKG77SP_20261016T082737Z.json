@@ -1,0 +1,163 @@
+{
+  "schema": "tq_chain_point_checks_v1",
+  "panel": "TQ-4",
+  "host": "DESKTOP-EKG77SP",
+  "generated_utc": "2026-10-16T08:27:37Z",
+  "runner_sha256": "7de636596db3c718b0f9f0bc05c7f8944ad74d478e5af0918419b0971c2b7b65",
+  "tests": [
+    {
+      "test": "config_schedule_counts",
+      "passed": true,
+      "detail": {
+        "kinds": {
+          "actor": 4,
+          "b": 16,
+          "c": 16
+        },
+        "unique_keys": 36
+      }
+    },
+    {
+      "test": "template_v2_extraction",
+      "passed": true,
+      "detail": {
+        "a_head": "You answer financial table questions. Us"
+      }
+    },
+    {
+      "test": "prompt_byte_bounds_under_cap",
+      "passed": true,
+      "detail": {
+        "max_byte_bound": 7495,
+        "cap": 8192
+      }
+    },
+    {
+      "test": "prompt_isolation_no_labels",
+      "passed": true,
+      "detail": {
+        "violations": []
+      }
+    },
+    {
+      "test": "b_sees_evidence_c_does_not",
+      "passed": true,
+      "detail": {
+        "bad": []
+      }
+    },
+    {
+      "test": "c_duplicate_stimulus_pairs_identical",
+      "passed": true,
+      "detail": {
+        "groups": [
+          [
+            "Q02-C1",
+            "Q02-C2"
+          ],
+          [
+            "Q02-C3",
+            "Q02-C4"
+          ],
+          [
+            "Q03-C1",
+            "Q03-C2"
+          ],
+          [
+            "Q03-C3",
+            "Q03-C4"
+          ],
+          [
+            "Q04-C1",
+            "Q04-C2"
+          ],
+          [
+            "Q04-C3",
+            "Q04-C4"
+          ]
+        ]
+      }
+    },
+    {
+      "test": "schedule_order_frozen",
+      "passed": true,
+      "detail": {
+        "phase1": [
+          "b",
+          "c",
+          "c",
+          "b",
+          "b",
+          "c",
+          "c",
+          "b"
+        ],
+        "phase2_head": [
+          "b",
+          "c",
+          "c",
+          "b"
+        ]
+      }
+    },
+    {
+      "test": "ledger_reserve_settle_math",
+      "passed": true,
+      "detail": {
+        "after_reserve": 10240,
+        "after_settle": 500
+      }
+    },
+    {
+      "test": "dual_ledger_mirror",
+      "passed": true,
+      "detail": {
+        "master_entries": 1
+      }
+    },
+    {
+      "test": "crash_resume_item_state",
+      "passed": true,
+      "detail": {
+        "k1": "done",
+        "k2": "inflight",
+        "k3": "pending"
+      }
+    },
+    {
+      "test": "anomaly_output_parsing",
+      "passed": true,
+      "detail": {
+        "bad_json": true,
+        "missing_answer": true,
+        "decisions": true
+      }
+    },
+    {
+      "test": "scorer_v21_scoring_identical_to_v2",
+      "passed": true,
+      "detail": {
+        "mismatches": []
+      }
+    },
+    {
+      "test": "scorer_v21_bool_hardening",
+      "passed": true,
+      "detail": {
+        "bad": []
+      }
+    },
+    {
+      "test": "material_pin_check_full",
+      "passed": true,
+      "detail": {
+        "checked": 49,
+        "mismatches": 0,
+        "channels": {
+          "raw": 49
+        }
+      }
+    }
+  ],
+  "all_passed": true
+}

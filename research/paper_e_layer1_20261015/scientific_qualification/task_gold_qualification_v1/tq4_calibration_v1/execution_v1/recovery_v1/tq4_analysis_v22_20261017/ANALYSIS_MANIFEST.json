@@ -1,0 +1,30 @@
+{
+  "schema": "tq_chain_analysis_manifest_v1",
+  "panel": "TQ-4",
+  "run_id": "20261016T082849Z_430d927a",
+  "generated_utc": "2026-10-17T07:21:46Z",
+  "files": [
+    {
+      "path": "part1_results.json",
+      "sha256": "05353154e05e55effcdf7ce6f88a6cba3c58f8e28a8ad761503059b5a116ae87",
+      "bytes": 2747
+    },
+    {
+      "path": "part2_results.json",
+      "sha256": "27b28e3639b3caf525b22c39de5e9cc7dad8468b1d51e9831bbd14d4721d0b39",
+      "bytes": 25926
+    },
+    {
+      "path": "RESULTS.json",
+      "sha256": "1f3172e44af353bf115fd9d694441bc717eabd29d757c05b039df1be4cbb998f",
+      "bytes": 30674
+    },
+    {
+      "path": "SUMMARY.md",
+      "sha256": "f33513f91c36ba2a5dc81220b5b13ef85a5ddd8004364f5271b543f72367c4da",
+      "bytes": 3412
+    }
+  ],
+  "self_excluded": true,
+  "source_run_manifest_sha256": "26dd1b54dfac7f3bec31bd95adf384728cca2645f9acbe2301787e2536d30fe6"
+}

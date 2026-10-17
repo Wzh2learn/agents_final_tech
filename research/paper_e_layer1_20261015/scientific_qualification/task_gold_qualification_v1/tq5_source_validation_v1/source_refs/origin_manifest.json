@@ -1,0 +1,4533 @@
+{
+  "schema": "wp0_tatqa_origin_manifest_v1",
+  "source": "TAT-QA raw (CC BY 4.0)",
+  "origin_definition": "one raw record (unique table + unique paragraph context)",
+  "origin_count": 182,
+  "origins": [
+    {
+      "origin_id": "tatqa_e78f8b29-6085-43de-b32f-be1a68641be3",
+      "split": "train",
+      "uid": "e78f8b29-6085-43de-b32f-be1a68641be3",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019 %",
+        "2018 %",
+        "2017 %"
+      ],
+      "unit_markers": [
+        "2019 %",
+        "2018 %",
+        "2017 %"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_5f46a008-12b7-4c0d-b9e5-4b8e31cb0ba8",
+      "split": "train",
+      "uid": "5f46a008-12b7-4c0d-b9e5-4b8e31cb0ba8",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019 €m",
+        "2018 €m",
+        "2017 €m"
+      ],
+      "unit_markers": [
+        "2019 €m",
+        "2018 €m",
+        "2017 €m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "origin_id": "tatqa_4ebf4ce6-2e2d-4146-850d-8c5450961dcc",
+      "split": "train",
+      "uid": "4ebf4ce6-2e2d-4146-850d-8c5450961dcc",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        3,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_c18bb1bc-dc66-4586-989f-8bd13c0d77a4",
+      "split": "train",
+      "uid": "c18bb1bc-dc66-4586-989f-8bd13c0d77a4",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_11ae619c-285a-4b82-854d-2bfd5d7ec141",
+      "split": "train",
+      "uid": "11ae619c-285a-4b82-854d-2bfd5d7ec141",
+      "period_columns": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017",
+        "Percentage Change 2019 Versus 2018",
+        "Percentage Change 2018 Versus 2017"
+      ],
+      "unit_markers": [
+        "(In millions, except percentages)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_7ac100f5-8d0a-4fb1-ad1b-6e5eebb4d3fa",
+      "split": "train",
+      "uid": "7ac100f5-8d0a-4fb1-ad1b-6e5eebb4d3fa",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_673707a3-c628-4ff7-be61-16ab9ff1eb7a",
+      "split": "train",
+      "uid": "673707a3-c628-4ff7-be61-16ab9ff1eb7a",
+      "period_columns": [
+        1,
+        3
+      ],
+      "period_labels": [
+        "As of November 30, 2018",
+        "As of December 1, 2018"
+      ],
+      "unit_markers": [
+        "(in thousands)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_9d5adcb7-6bc0-4b86-b48e-fe9333bb6e7b",
+      "split": "train",
+      "uid": "9d5adcb7-6bc0-4b86-b48e-fe9333bb6e7b",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_a5216555-06a1-4ec2-9afe-3db4e76b04a4",
+      "split": "train",
+      "uid": "a5216555-06a1-4ec2-9afe-3db4e76b04a4",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "$ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_b2c8ac7d-6959-4874-b9f6-e6a53a1c6dc8",
+      "split": "train",
+      "uid": "b2c8ac7d-6959-4874-b9f6-e6a53a1c6dc8",
+      "period_columns": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "period_labels": [
+        "2019\nFair\nValue",
+        "2019\nCarrying\nValue",
+        "2018\nFair\nValue",
+        "2018\nCarrying\nValue"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_da915ccc-defe-40e3-9ade-04d76be09807",
+      "split": "train",
+      "uid": "da915ccc-defe-40e3-9ade-04d76be09807",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_99e73ea1-2dd6-478d-8fef-3a71122f6f83",
+      "split": "train",
+      "uid": "99e73ea1-2dd6-478d-8fef-3a71122f6f83",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(in thousands of $)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+      "split": "train",
+      "uid": "97dfc73a-8916-4691-9eb9-87d3e258c8d1",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "30/9/2018",
+        "30/9/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_668a081b-e793-4d45-935d-816d2d7eba6d",
+      "split": "train",
+      "uid": "668a081b-e793-4d45-935d-816d2d7eba6d",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(in thousands of $)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_195383eb-3e09-4aa3-9f60-89fcc4d7ed61",
+      "split": "train",
+      "uid": "195383eb-3e09-4aa3-9f60-89fcc4d7ed61",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_b03ab1a1-50fd-4432-85e0-0ac01561739c",
+      "split": "train",
+      "uid": "b03ab1a1-50fd-4432-85e0-0ac01561739c",
+      "period_columns": [
+        2,
+        3
+      ],
+      "period_labels": [
+        "December 31, 2019",
+        "January 1, 2019 (1)"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_d258211e-01d6-477b-96f4-c059b7282c3e",
+      "split": "train",
+      "uid": "d258211e-01d6-477b-96f4-c059b7282c3e",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019 €m",
+        "2018 €m"
+      ],
+      "unit_markers": [
+        "2019 €m",
+        "2018 €m"
+      ],
+      "usable_rows": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_163c5d6d-e301-4464-a640-8fdd33a8fa18",
+      "split": "train",
+      "uid": "163c5d6d-e301-4464-a640-8fdd33a8fa18",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Dec 28, 2019",
+        "Dec 29, 2018"
+      ],
+      "unit_markers": [
+        "(In Millions)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "origin_id": "tatqa_988b4303-d440-4b20-97d9-40f6bb22c0ed",
+      "split": "train",
+      "uid": "988b4303-d440-4b20-97d9-40f6bb22c0ed",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "$ CHANGE",
+        "% CHANGE"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_97a0d99a-feef-41ed-baaa-960b59d23b89",
+      "split": "train",
+      "uid": "97a0d99a-feef-41ed-baaa-960b59d23b89",
+      "period_columns": [
+        1,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "$ million",
+        "%",
+        "%"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_f5511f3c-b02d-4142-aa16-0b87cd61690f",
+      "split": "train",
+      "uid": "f5511f3c-b02d-4142-aa16-0b87cd61690f",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019 ($)",
+        "2018 ($)"
+      ],
+      "unit_markers": [
+        "2019 ($)",
+        "2018 ($)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_4ecbff45-a2f1-42dd-ae23-491846321001",
+      "split": "train",
+      "uid": "4ecbff45-a2f1-42dd-ae23-491846321001",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_bb01e5d0-4524-497f-a45a-03804a6cb6ba",
+      "split": "train",
+      "uid": "bb01e5d0-4524-497f-a45a-03804a6cb6ba",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "$ CHANGE",
+        "% CHANGE"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_ab938d5a-cfe5-46b0-bc90-e4f0db462a9f",
+      "split": "train",
+      "uid": "ab938d5a-cfe5-46b0-bc90-e4f0db462a9f",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+      "split": "train",
+      "uid": "e2d0f4f9-d15b-4537-bc7a-625729013ba4",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+      "split": "train",
+      "uid": "24ff90f9-79ee-4e0e-a1ec-1d94abe7bc8b",
+      "period_columns": [
+        1,
+        3
+      ],
+      "period_labels": [
+        "Year Ended December 31, 2019",
+        "Year Ended December 31, 2018"
+      ],
+      "unit_markers": [
+        "% of associated net revenues",
+        "% of associated net revenues"
+      ],
+      "usable_rows": [
+        3,
+        5,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_7ffd5216-30e1-4a4c-b548-b657d92df228",
+      "split": "train",
+      "uid": "7ffd5216-30e1-4a4c-b548-b657d92df228",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        16,
+        17,
+        19,
+        20,
+        21
+      ]
+    },
+    {
+      "origin_id": "tatqa_5999c164-eb8b-4eff-b432-bb688b8fa65f",
+      "split": "train",
+      "uid": "5999c164-eb8b-4eff-b432-bb688b8fa65f",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019  $’000",
+        "2018  $’000 RESTATED"
+      ],
+      "unit_markers": [
+        "2019  $’000",
+        "2018  $’000 RESTATED"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_5214bc24-1d07-42be-9b21-54d688d06c4c",
+      "split": "train",
+      "uid": "5214bc24-1d07-42be-9b21-54d688d06c4c",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_2975881e-3e71-435b-8500-56d668a50eb2",
+      "split": "train",
+      "uid": "2975881e-3e71-435b-8500-56d668a50eb2",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Group 2019",
+        "Group 2018"
+      ],
+      "unit_markers": [
+        "£m – including Group’s share of joint ventures"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_bf203086-ab57-4b6c-9ce6-34bf399ddd90",
+      "split": "train",
+      "uid": "bf203086-ab57-4b6c-9ce6-34bf399ddd90",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In millions)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_2ff661fc-b6cc-4b50-ad7b-f1cbadd003d0",
+      "split": "train",
+      "uid": "2ff661fc-b6cc-4b50-ad7b-f1cbadd003d0",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_66b7c6dd-a4fc-48db-a226-6ecbb174aa77",
+      "split": "train",
+      "uid": "66b7c6dd-a4fc-48db-a226-6ecbb174aa77",
+      "period_columns": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017",
+        "% Change 2019 - 2018"
+      ],
+      "unit_markers": [
+        "(dollars in millions)",
+        "% Change 2019 - 2018"
+      ],
+      "usable_rows": [
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_a784a8e4-33a3-4f22-b338-ca218f76831c",
+      "split": "train",
+      "uid": "a784a8e4-33a3-4f22-b338-ca218f76831c",
+      "period_columns": [
+        2,
+        3,
+        4
+      ],
+      "period_labels": [
+        "30/9/2018 1",
+        "30/9/2018 adjusted2",
+        "30/9/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_989a6b20-45e6-4430-9491-98c93361e184",
+      "split": "train",
+      "uid": "989a6b20-45e6-4430-9491-98c93361e184",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(in thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_ad19728b-cb57-4051-863a-0979ee84ac95",
+      "split": "train",
+      "uid": "ad19728b-cb57-4051-863a-0979ee84ac95",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2
+      ]
+    },
+    {
+      "origin_id": "tatqa_e316af95-270d-4107-99d4-6f52e4d61d38",
+      "split": "train",
+      "uid": "e316af95-270d-4107-99d4-6f52e4d61d38",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_735ba0a0-60c8-452f-96a2-c6fc50cce80d",
+      "split": "train",
+      "uid": "735ba0a0-60c8-452f-96a2-c6fc50cce80d",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(in million)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_ba7ad32a-4f39-4eb3-a1ae-2aac19ca9325",
+      "split": "train",
+      "uid": "ba7ad32a-4f39-4eb3-a1ae-2aac19ca9325",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "€ thousands"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        12
+      ]
+    },
+    {
+      "origin_id": "tatqa_10e46d24-413a-4fd1-9e96-56da277f6ba9",
+      "split": "train",
+      "uid": "10e46d24-413a-4fd1-9e96-56da277f6ba9",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(in millions of €)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        5,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "origin_id": "tatqa_808ea5b8-f097-4094-a893-e3f4bbe56918",
+      "split": "train",
+      "uid": "808ea5b8-f097-4094-a893-e3f4bbe56918",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2018/19",
+        "2017/18"
+      ],
+      "unit_markers": [
+        "Adjusted earnings per share (£m)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_ab59379f-ccca-409d-bc39-a48df76f6117",
+      "split": "train",
+      "uid": "ab59379f-ccca-409d-bc39-a48df76f6117",
+      "period_columns": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "period_labels": [
+        "Actual Fiscal 2018 (1) $",
+        "Revised projections (2) Fiscal 2019 (constant currency) (3)",
+        "Actual Fiscal 2019 (constant currency) (3) $",
+        "Actual Fiscal 2019 (constant currency) (3) %",
+        "Achievement of the projections Fiscal 2019"
+      ],
+      "unit_markers": [
+        "(in millions of dollars, except percentages)",
+        "Actual Fiscal 2018 (1) $",
+        "Actual Fiscal 2019 (constant currency) (3) $",
+        "Actual Fiscal 2019 (constant currency) (3) %"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_c615ea13-a665-42ed-8e68-41ee7e3452b2",
+      "split": "train",
+      "uid": "c615ea13-a665-42ed-8e68-41ee7e3452b2",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_72bfa3fa-9acd-437f-b682-0199daed6aa7",
+      "split": "train",
+      "uid": "72bfa3fa-9acd-437f-b682-0199daed6aa7",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        3,
+        5,
+        6,
+        7,
+        9,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "origin_id": "tatqa_ac6e77fe-ba02-4764-9806-943cd8572e67",
+      "split": "train",
+      "uid": "ac6e77fe-ba02-4764-9806-943cd8572e67",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "%Change"
+      ],
+      "usable_rows": [
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_d52fcb48-90fc-4a49-81f2-57065953f114",
+      "split": "train",
+      "uid": "d52fcb48-90fc-4a49-81f2-57065953f114",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "€ thousands"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_c501a508-4205-4046-a1b2-bc1d0baa25e3",
+      "split": "train",
+      "uid": "c501a508-4205-4046-a1b2-bc1d0baa25e3",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_9ca94048-91be-4546-b2bc-f10fc2a0d835",
+      "split": "train",
+      "uid": "9ca94048-91be-4546-b2bc-f10fc2a0d835",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Fiscal 2019",
+        "Fiscal 2018"
+      ],
+      "unit_markers": [
+        "% Change"
+      ],
+      "usable_rows": [
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_27c6ed38-b840-4835-935e-731a52d7b983",
+      "split": "train",
+      "uid": "27c6ed38-b840-4835-935e-731a52d7b983",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_8363e1b1-8e3e-4009-8df4-24f591433791",
+      "split": "train",
+      "uid": "8363e1b1-8e3e-4009-8df4-24f591433791",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "% CHANGE"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "origin_id": "tatqa_dd9f455a-73fe-43a7-bde1-41e71bf18722",
+      "split": "train",
+      "uid": "dd9f455a-73fe-43a7-bde1-41e71bf18722",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_9a214b31-4dad-417d-83aa-b54692b2a785",
+      "split": "train",
+      "uid": "9a214b31-4dad-417d-83aa-b54692b2a785",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "origin_id": "tatqa_66210694-acb9-4386-b71e-930cb2ba0da0",
+      "split": "train",
+      "uid": "66210694-acb9-4386-b71e-930cb2ba0da0",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "€ millions"
+      ],
+      "usable_rows": [
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_2bcc60e7-139f-43ee-9c91-dd58f868b113",
+      "split": "train",
+      "uid": "2bcc60e7-139f-43ee-9c91-dd58f868b113",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(in thousands of $)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_c1e1d2be-ee4f-45c7-87d8-e8d218657bcb",
+      "split": "train",
+      "uid": "c1e1d2be-ee4f-45c7-87d8-e8d218657bcb",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_09dfce79-6163-42a4-8fe6-a2eaf20c1435",
+      "split": "train",
+      "uid": "09dfce79-6163-42a4-8fe6-a2eaf20c1435",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Vested on 12/31/2019",
+        "Vested on 12/31/2018"
+      ],
+      "unit_markers": [
+        "€ thousands"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_6f9e4e1d-c737-4a61-82e5-455457f37f40",
+      "split": "train",
+      "uid": "6f9e4e1d-c737-4a61-82e5-455457f37f40",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_637d5671-0913-4e80-b135-2d4a516b79bb",
+      "split": "train",
+      "uid": "637d5671-0913-4e80-b135-2d4a516b79bb",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_f188de60-64eb-49cb-8b9d-a72f844357ef",
+      "split": "train",
+      "uid": "f188de60-64eb-49cb-8b9d-a72f844357ef",
+      "period_columns": [
+        2,
+        3,
+        4
+      ],
+      "period_labels": [
+        "30/9/2018",
+        "30/9/2018 adjusted1",
+        "30/9/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_52cebcac-ee1d-47e4-ba64-5fb783a58a5b",
+      "split": "train",
+      "uid": "52cebcac-ee1d-47e4-ba64-5fb783a58a5b",
+      "period_columns": [
+        1,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(Dollars in thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_1fee6a61-d243-4e8d-b8e1-f5662f104eb5",
+      "split": "train",
+      "uid": "1fee6a61-d243-4e8d-b8e1-f5662f104eb5",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_48eb64be-428f-429d-afd5-39cdbc4e4dde",
+      "split": "train",
+      "uid": "48eb64be-428f-429d-afd5-39cdbc4e4dde",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2018/19",
+        "2017/18"
+      ],
+      "unit_markers": [
+        "Adjusted earnings per share (£m)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "origin_id": "tatqa_789bab55-3343-4512-b6b2-18ea66d8d79c",
+      "split": "train",
+      "uid": "789bab55-3343-4512-b6b2-18ea66d8d79c",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019 £m",
+        "2018 £m"
+      ],
+      "unit_markers": [
+        "2019 £m",
+        "2018 £m"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_62167bd9-5b0e-4942-bf9f-b19b1f1f284c",
+      "split": "train",
+      "uid": "62167bd9-5b0e-4942-bf9f-b19b1f1f284c",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "€ millions"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_5e2b5b29-e0c9-4abb-935e-a3fc13d18285",
+      "split": "train",
+      "uid": "5e2b5b29-e0c9-4abb-935e-a3fc13d18285",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2020",
+        "2021-2022",
+        "2023-2024"
+      ],
+      "unit_markers": [
+        "(In millions)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_ee312f2a-0b31-4f27-838d-8244e5e46ce5",
+      "split": "train",
+      "uid": "ee312f2a-0b31-4f27-838d-8244e5e46ce5",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        10,
+        11,
+        12,
+        14,
+        15
+      ]
+    },
+    {
+      "origin_id": "tatqa_6082d8ef-75ae-4c52-a26d-adc6f6ae58ac",
+      "split": "train",
+      "uid": "6082d8ef-75ae-4c52-a26d-adc6f6ae58ac",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019 €m",
+        "2018 €m",
+        "2017 €m"
+      ],
+      "unit_markers": [
+        "2019 €m",
+        "2018 €m",
+        "2017 €m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_5628f806-5eff-4b35-8951-785a2669f0db",
+      "split": "train",
+      "uid": "5628f806-5eff-4b35-8951-785a2669f0db",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2018/19",
+        "2017/18"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+        12
+      ]
+    },
+    {
+      "origin_id": "tatqa_31b59507-dcb1-41cf-8752-e2bb17dd62db",
+      "split": "train",
+      "uid": "31b59507-dcb1-41cf-8752-e2bb17dd62db",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "30/9/2018 1",
+        "30/9/2018 adjusted3",
+        "30/9/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_d8662c4b-5f96-400b-8cd4-ff7b1f585bca",
+      "split": "train",
+      "uid": "d8662c4b-5f96-400b-8cd4-ff7b1f585bca",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        14,
+        15
+      ]
+    },
+    {
+      "origin_id": "tatqa_cdbfc2e3-1082-4a25-9324-2f0ba9e684e5",
+      "split": "train",
+      "uid": "cdbfc2e3-1082-4a25-9324-2f0ba9e684e5",
+      "period_columns": [
+        2,
+        3
+      ],
+      "period_labels": [
+        "30 June 2019 $'000",
+        "30 June 2018 $'000"
+      ],
+      "unit_markers": [
+        "30 June 2019 $'000",
+        "30 June 2018 $'000"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_99a0fe81-7855-45b6-b157-3f9439abf3ca",
+      "split": "train",
+      "uid": "99a0fe81-7855-45b6-b157-3f9439abf3ca",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        5,
+        6,
+        7,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_d7990183-3079-4e28-975b-bd60cafdcd1d",
+      "split": "train",
+      "uid": "d7990183-3079-4e28-975b-bd60cafdcd1d",
+      "period_columns": [
+        1,
+        3
+      ],
+      "period_labels": [
+        "March 31, 2018",
+        "April 1, 2018"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        4,
+        5,
+        7,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_f47d9a01-a25d-436c-a28b-7aa04e2df491",
+      "split": "train",
+      "uid": "f47d9a01-a25d-436c-a28b-7aa04e2df491",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_77391fcc-be7b-4d28-81ab-072bc448c4e1",
+      "split": "train",
+      "uid": "77391fcc-be7b-4d28-81ab-072bc448c4e1",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Full year 2019",
+        "Full year 2018"
+      ],
+      "unit_markers": [
+        "SEK billion"
+      ],
+      "usable_rows": [
+        1,
+        2
+      ]
+    },
+    {
+      "origin_id": "tatqa_ffc5e1e0-e7bf-4b8f-b60e-ace472695a1e",
+      "split": "train",
+      "uid": "ffc5e1e0-e7bf-4b8f-b60e-ace472695a1e",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "Year Ended December 31, 2019",
+        "Year Ended December 31, 2018",
+        "Year Ended December 31, 2017"
+      ],
+      "unit_markers": [
+        "(in thousands of U.S. dollars)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_46557a47-26a7-45f2-901d-3398aa4aabdb",
+      "split": "train",
+      "uid": "46557a47-26a7-45f2-901d-3398aa4aabdb",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "$ CHANGE",
+        "% CHANGE"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_d2647217-3696-4ec0-ad69-a3db3626c707",
+      "split": "train",
+      "uid": "d2647217-3696-4ec0-ad69-a3db3626c707",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In millions)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        5,
+        6,
+        8,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "origin_id": "tatqa_532c14a5-b085-4383-9f4e-76b75969629e",
+      "split": "train",
+      "uid": "532c14a5-b085-4383-9f4e-76b75969629e",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(in thousands of $)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_8e0e12f7-ed7e-4a32-8a9e-7eeddc77f55d",
+      "split": "train",
+      "uid": "8e0e12f7-ed7e-4a32-8a9e-7eeddc77f55d",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_3e4f4b3e-0aa6-4e5f-9103-5f1155d27e75",
+      "split": "train",
+      "uid": "3e4f4b3e-0aa6-4e5f-9103-5f1155d27e75",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "30 March 2019",
+        "31 March 2018"
+      ],
+      "unit_markers": [
+        "Combined pensions schemes (£m)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "origin_id": "tatqa_0012a118-070e-43bf-a23c-19fe94cee4e9",
+      "split": "train",
+      "uid": "0012a118-070e-43bf-a23c-19fe94cee4e9",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        6,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_61068531-0af5-41bd-b5ea-17bfb06c8358",
+      "split": "train",
+      "uid": "61068531-0af5-41bd-b5ea-17bfb06c8358",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(in thousands)"
+      ],
+      "usable_rows": [
+        1,
+        2
+      ]
+    },
+    {
+      "origin_id": "tatqa_8ee550f6-e032-47dc-928b-078b62ee9aa1",
+      "split": "train",
+      "uid": "8ee550f6-e032-47dc-928b-078b62ee9aa1",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "$ CHANGE",
+        "% CHANGE"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_b19757bf-8a8a-428b-9dcc-8179595064ae",
+      "split": "train",
+      "uid": "b19757bf-8a8a-428b-9dcc-8179595064ae",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "30/9/2018",
+        "30/9/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_b6d52f9f-c989-4f47-9842-3d74c469d9cd",
+      "split": "train",
+      "uid": "b6d52f9f-c989-4f47-9842-3d74c469d9cd",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019 vs. 2018",
+        "2018 vs. 2017"
+      ],
+      "unit_markers": [
+        "(In millions)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_8df5c241-c68c-427a-99af-30c44214199b",
+      "split": "train",
+      "uid": "8df5c241-c68c-427a-99af-30c44214199b",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "U.S. Dollar Equivalent at June 30, 2019",
+        "U.S. Dollar Equivalent at June 30, 2018"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_c8be67ee-0783-4428-b9f0-0458f8725da6",
+      "split": "train",
+      "uid": "c8be67ee-0783-4428-b9f0-0458f8725da6",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "April 27, 2019",
+        "April 28, 2018"
+      ],
+      "unit_markers": [
+        "(Dollars in Millions)"
+      ],
+      "usable_rows": [
+        4,
+        6,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_8e9c46ac-9dd9-4436-9482-9a166d8ae6e8",
+      "split": "train",
+      "uid": "8e9c46ac-9dd9-4436-9482-9a166d8ae6e8",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019 £m",
+        "2018 £m",
+        "2017 £m"
+      ],
+      "unit_markers": [
+        "2019 £m",
+        "2018 £m",
+        "2017 £m"
+      ],
+      "usable_rows": [
+        1,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_9d032108-437d-4368-908d-214aa2f26d0e",
+      "split": "train",
+      "uid": "9d032108-437d-4368-908d-214aa2f26d0e",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_460b737c-4b0c-4c5a-8f73-e5b3b8d42cec",
+      "split": "train",
+      "uid": "460b737c-4b0c-4c5a-8f73-e5b3b8d42cec",
+      "period_columns": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017",
+        "Percentage Change 2019 Versus 2018",
+        "Percentage Change 2018 Versus 2017"
+      ],
+      "unit_markers": [
+        "(In millions, except percentages and per share amounts)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "origin_id": "tatqa_538ada9e-1c28-447d-9ff7-b12995c2432d",
+      "split": "train",
+      "uid": "538ada9e-1c28-447d-9ff7-b12995c2432d",
+      "period_columns": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017",
+        "2016",
+        "2015"
+      ],
+      "unit_markers": [
+        "(in thousands, except per share amounts)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+      "split": "train",
+      "uid": "76ce05c3-8d33-4fd8-9c6e-73c9486a8a8d",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2018/19",
+        "2017/18"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        2,
+        4,
+        5,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_001781c6-0e17-4fdd-b000-011e3ed66d6e",
+      "split": "train",
+      "uid": "001781c6-0e17-4fdd-b000-011e3ed66d6e",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2018 ($)",
+        "2019 ($)"
+      ],
+      "unit_markers": [
+        "2018 ($)",
+        "2019 ($)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_74fd96c1-a5f0-42ea-b5ce-9fcf1b36d1d3",
+      "split": "train",
+      "uid": "74fd96c1-a5f0-42ea-b5ce-9fcf1b36d1d3",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019 £m",
+        "2018 £m",
+        "2017 £m"
+      ],
+      "unit_markers": [
+        "2019 £m",
+        "2018 £m",
+        "2017 £m"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        7,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_43155e3f-2a04-47a3-8dee-0f8c63e028f1",
+      "split": "train",
+      "uid": "43155e3f-2a04-47a3-8dee-0f8c63e028f1",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(in thousands of $)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_bae4c5d0-890e-495e-8768-5b0dd2af5d21",
+      "split": "train",
+      "uid": "bae4c5d0-890e-495e-8768-5b0dd2af5d21",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "April 27, 2019",
+        "April 28, 2018"
+      ],
+      "unit_markers": [
+        "(Dollars in Millions)"
+      ],
+      "usable_rows": [
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_ce8bc5c1-9b3b-458b-bd12-9d4e2ab4e2c9",
+      "split": "train",
+      "uid": "ce8bc5c1-9b3b-458b-bd12-9d4e2ab4e2c9",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "€ millions, unless otherwise stated"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        5,
+        6,
+        8,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "origin_id": "tatqa_4742afee-a8aa-456b-85ed-446f8fa8fe36",
+      "split": "train",
+      "uid": "4742afee-a8aa-456b-85ed-446f8fa8fe36",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Fiscal Year 2019 ($)",
+        "Fiscal Year 2018 ($)"
+      ],
+      "unit_markers": [
+        "Fiscal Year 2019 ($)",
+        "Fiscal Year 2018 ($)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_d7ec8bf0-ec91-4a6d-86a1-7bcc87bd37cc",
+      "split": "train",
+      "uid": "d7ec8bf0-ec91-4a6d-86a1-7bcc87bd37cc",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "$ CHANGE",
+        "% CHANGE"
+      ],
+      "usable_rows": [
+        1,
+        2
+      ]
+    },
+    {
+      "origin_id": "tatqa_2889dd15-8bc7-48bd-aa31-dcc40efd67f7",
+      "split": "train",
+      "uid": "2889dd15-8bc7-48bd-aa31-dcc40efd67f7",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ]
+    },
+    {
+      "origin_id": "tatqa_5c088a56-074d-49d0-af03-68c2d6a4c346",
+      "split": "train",
+      "uid": "5c088a56-074d-49d0-af03-68c2d6a4c346",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "€ millions"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_cb626a5c-7b30-46ef-b0a7-971bc2196678",
+      "split": "train",
+      "uid": "cb626a5c-7b30-46ef-b0a7-971bc2196678",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_276d4eff-6476-4a1a-9e2c-188a80d79445",
+      "split": "train",
+      "uid": "276d4eff-6476-4a1a-9e2c-188a80d79445",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_6b250bb5-2435-4e4a-b799-5bd331232a20",
+      "split": "train",
+      "uid": "6b250bb5-2435-4e4a-b799-5bd331232a20",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "€ thousands"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_72b79d03-72a0-42ec-8b86-eaec5b850e29",
+      "split": "train",
+      "uid": "72b79d03-72a0-42ec-8b86-eaec5b850e29",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "April 27, 2019",
+        "April 28, 2018"
+      ],
+      "unit_markers": [
+        "(Dollars in Millions)"
+      ],
+      "usable_rows": [
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_99a3fe4e-1302-42ff-b0ae-4bf7ef0b3934",
+      "split": "train",
+      "uid": "99a3fe4e-1302-42ff-b0ae-4bf7ef0b3934",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        9,
+        10,
+        13
+      ]
+    },
+    {
+      "origin_id": "tatqa_a3c80b34-7e97-44e3-a07e-5b6999e5113b",
+      "split": "train",
+      "uid": "a3c80b34-7e97-44e3-a07e-5b6999e5113b",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(in thousands of $)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        6,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_008eaf4e-4d70-496b-aa25-b842b05a3560",
+      "split": "train",
+      "uid": "008eaf4e-4d70-496b-aa25-b842b05a3560",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(in thousands of $)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_32cfcadb-add0-4cc1-9956-41ac073477c4",
+      "split": "train",
+      "uid": "32cfcadb-add0-4cc1-9956-41ac073477c4",
+      "period_columns": [
+        1,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "As a % of Segment Revenue (1)",
+        "As a % of Segment Revenue (1)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_610d99f0-250a-474a-b1bc-d791058d006c",
+      "split": "train",
+      "uid": "610d99f0-250a-474a-b1bc-d791058d006c",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "€ millions"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "origin_id": "tatqa_9c69cfbe-0c76-4cca-9eef-f41fee959c8a",
+      "split": "train",
+      "uid": "9c69cfbe-0c76-4cca-9eef-f41fee959c8a",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "€ millions"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "origin_id": "tatqa_8dd62c68-2768-48e1-b28a-9c7169fff905",
+      "split": "train",
+      "uid": "8dd62c68-2768-48e1-b28a-9c7169fff905",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_7378cf39-2abb-43cd-8b03-00ddc98f9fa5",
+      "split": "train",
+      "uid": "7378cf39-2abb-43cd-8b03-00ddc98f9fa5",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Fiscal 2018",
+        "Fiscal 2017"
+      ],
+      "unit_markers": [
+        "% Change"
+      ],
+      "usable_rows": [
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_e0689072-72ba-4979-962a-bb128539defb",
+      "split": "train",
+      "uid": "e0689072-72ba-4979-962a-bb128539defb",
+      "period_columns": [
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "origin_id": "tatqa_8cbf706f-066a-46a3-a6aa-e5b1df0facd1",
+      "split": "train",
+      "uid": "8cbf706f-066a-46a3-a6aa-e5b1df0facd1",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "30/9/2018",
+        "30/9/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_d21abb01-5bda-4a72-be49-e43a9d41c723",
+      "split": "train",
+      "uid": "d21abb01-5bda-4a72-be49-e43a9d41c723",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_c9ad526f-6bbf-4410-afbd-af41337b5067",
+      "split": "train",
+      "uid": "c9ad526f-6bbf-4410-afbd-af41337b5067",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(in thousands of $)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_51c8eba0-1876-42aa-afdb-d18741b2fe7b",
+      "split": "train",
+      "uid": "51c8eba0-1876-42aa-afdb-d18741b2fe7b",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Fiscal 2018",
+        "Fiscal 2017"
+      ],
+      "unit_markers": [
+        "% Change"
+      ],
+      "usable_rows": [
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_a824b7af-61e8-4800-83c6-72e56e64a36d",
+      "split": "train",
+      "uid": "a824b7af-61e8-4800-83c6-72e56e64a36d",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2018/19",
+        "2017/18"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        11
+      ]
+    },
+    {
+      "origin_id": "tatqa_403e498a-59a2-4d4f-b560-a7ca853d6dc2",
+      "split": "train",
+      "uid": "403e498a-59a2-4d4f-b560-a7ca853d6dc2",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "origin_id": "tatqa_97176853-a81e-422a-a8c1-e0542348d051",
+      "split": "train",
+      "uid": "97176853-a81e-422a-a8c1-e0542348d051",
+      "period_columns": [
+        1,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "As a % of Revenue (1)",
+        "As a % of Revenue (1)"
+      ],
+      "usable_rows": [
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_4565ded8-5e2e-4cd7-beab-6da622434396",
+      "split": "train",
+      "uid": "4565ded8-5e2e-4cd7-beab-6da622434396",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "€ millions"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_e0fb3736-71df-4e95-a40f-77ba0cce3487",
+      "split": "train",
+      "uid": "e0fb3736-71df-4e95-a40f-77ba0cce3487",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "Fees (in thousands of U.S. dollars)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_b538d340-dfca-4f89-a59f-01fc1bb35184",
+      "split": "train",
+      "uid": "b538d340-dfca-4f89-a59f-01fc1bb35184",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2018/19",
+        "2017/18"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_52d79de5-c56a-4c91-b47d-58fb05a109bf",
+      "split": "train",
+      "uid": "52d79de5-c56a-4c91-b47d-58fb05a109bf",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_334d9b85-ec0c-4783-81d7-64259a410b16",
+      "split": "train",
+      "uid": "334d9b85-ec0c-4783-81d7-64259a410b16",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "origin_id": "tatqa_f3bb2fbf-7b9c-43fc-a262-2e899947bf9e",
+      "split": "train",
+      "uid": "f3bb2fbf-7b9c-43fc-a262-2e899947bf9e",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12
+      ]
+    },
+    {
+      "origin_id": "tatqa_3ab739eb-c0d7-44f5-9377-b8a02bafb361",
+      "split": "train",
+      "uid": "3ab739eb-c0d7-44f5-9377-b8a02bafb361",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "origin_id": "tatqa_6aae8dee-45af-4a09-9e09-8137d6eb3dc3",
+      "split": "train",
+      "uid": "6aae8dee-45af-4a09-9e09-8137d6eb3dc3",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019 $’000",
+        "2018 $’000 RESTATED"
+      ],
+      "unit_markers": [
+        "2019 $’000",
+        "2018 $’000 RESTATED"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_b4129e1f-efcb-4157-9996-5389b83de63e",
+      "split": "train",
+      "uid": "b4129e1f-efcb-4157-9996-5389b83de63e",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "Dec 28, 2019",
+        "Dec 29, 2018",
+        "Dec 30, 2017"
+      ],
+      "unit_markers": [
+        "Years Ended (In Millions, Except Per Share Amounts)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_41b215e5-024b-478e-bc05-5804ad02169a",
+      "split": "train",
+      "uid": "41b215e5-024b-478e-bc05-5804ad02169a",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_e1754270-0867-4525-876e-5579322d3fa5",
+      "split": "train",
+      "uid": "e1754270-0867-4525-876e-5579322d3fa5",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(in thousands of $)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_d17ec6e0-0d83-453e-b9c9-aeb795802ef4",
+      "split": "train",
+      "uid": "d17ec6e0-0d83-453e-b9c9-aeb795802ef4",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019 €m",
+        "2018 €m",
+        "2017 €m"
+      ],
+      "unit_markers": [
+        "2019 €m",
+        "2018 €m",
+        "2017 €m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_b5aae4e9-040d-4e55-a42d-39cde217978f",
+      "split": "train",
+      "uid": "b5aae4e9-040d-4e55-a42d-39cde217978f",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_ee496e48-bec3-45e2-b4d9-3986d90d98fe",
+      "split": "train",
+      "uid": "ee496e48-bec3-45e2-b4d9-3986d90d98fe",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "origin_id": "tatqa_7f675606-2b0b-4ddf-9d0a-a46b3fb542c5",
+      "split": "train",
+      "uid": "7f675606-2b0b-4ddf-9d0a-a46b3fb542c5",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "December 31, 2019",
+        "December 31, 2018"
+      ],
+      "unit_markers": [
+        "(in thousands)"
+      ],
+      "usable_rows": [
+        2,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_24198a1c-0f45-4c32-92ba-98c6cfde01fe",
+      "split": "train",
+      "uid": "24198a1c-0f45-4c32-92ba-98c6cfde01fe",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_0992660b-76ed-46a1-92eb-e91977f6f381",
+      "split": "train",
+      "uid": "0992660b-76ed-46a1-92eb-e91977f6f381",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "% CHANGE"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_cb8b0774-53b1-4e33-9cf1-a7c1dac2f224",
+      "split": "train",
+      "uid": "cb8b0774-53b1-4e33-9cf1-a7c1dac2f224",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        15,
+        16,
+        17
+      ]
+    },
+    {
+      "origin_id": "tatqa_805e19ed-e861-4da5-a412-3e8a85aff770",
+      "split": "train",
+      "uid": "805e19ed-e861-4da5-a412-3e8a85aff770",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_d15a82c3-024f-4e9c-a461-59e24bd95987",
+      "split": "train",
+      "uid": "d15a82c3-024f-4e9c-a461-59e24bd95987",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_58567520-c343-43fd-b803-bc078bb77c87",
+      "split": "train",
+      "uid": "58567520-c343-43fd-b803-bc078bb77c87",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "€ millions"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_ce09caff-769d-498f-9e5d-09dc1e741d70",
+      "split": "train",
+      "uid": "ce09caff-769d-498f-9e5d-09dc1e741d70",
+      "period_columns": [
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "origin_id": "tatqa_5e94ca98-0b87-4ad5-a7ad-6bed5d3b4be2",
+      "split": "train",
+      "uid": "5e94ca98-0b87-4ad5-a7ad-6bed5d3b4be2",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(in thousands of $)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_32c45a53-b1b5-46b6-a519-8f7bbbddf93f",
+      "split": "train",
+      "uid": "32c45a53-b1b5-46b6-a519-8f7bbbddf93f",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_0bf3d7a7-f26b-497b-babe-b2361f84f6fb",
+      "split": "train",
+      "uid": "0bf3d7a7-f26b-497b-babe-b2361f84f6fb",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "December 31, 2019",
+        "December 31, 2018"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_20a028a0-5e02-4df0-99ba-ed59ab345e5a",
+      "split": "train",
+      "uid": "20a028a0-5e02-4df0-99ba-ed59ab345e5a",
+      "period_columns": [
+        1,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "$ million",
+        "Adjusted operating margin 1, 2 %",
+        "Adjusted operating margin 1, 2 %"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "origin_id": "tatqa_cfe0ee38-48b2-46d2-8920-e423fc6c91ac",
+      "split": "train",
+      "uid": "cfe0ee38-48b2-46d2-8920-e423fc6c91ac",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_c83c3a82-fb5e-403b-a73b-d3b1628092ef",
+      "split": "train",
+      "uid": "c83c3a82-fb5e-403b-a73b-d3b1628092ef",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/18",
+        "2018/19"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_0f69ef4a-6d23-4e5e-9781-dbd44d5b99a0",
+      "split": "train",
+      "uid": "0f69ef4a-6d23-4e5e-9781-dbd44d5b99a0",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "30/9/2018",
+        "30/9/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_40a7da40-c983-486f-9c32-8a3559c757c6",
+      "split": "train",
+      "uid": "40a7da40-c983-486f-9c32-8a3559c757c6",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_dc50b42b-1520-49c0-a9ae-49249bcc9221",
+      "split": "train",
+      "uid": "dc50b42b-1520-49c0-a9ae-49249bcc9221",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "30/9/2018",
+        "30/9/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "origin_id": "tatqa_c7143215-25a8-44a2-b91f-4cbbfea16865",
+      "split": "train",
+      "uid": "c7143215-25a8-44a2-b91f-4cbbfea16865",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019 €m",
+        "Restated1 2018 €m"
+      ],
+      "unit_markers": [
+        "2019 €m",
+        "Restated1 2018 €m"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        11,
+        12,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "origin_id": "tatqa_c3a02c86-f7f6-495c-8de2-a74c48f11905",
+      "split": "train",
+      "uid": "c3a02c86-f7f6-495c-8de2-a74c48f11905",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "€ million 2019",
+        "€ million 2018"
+      ],
+      "unit_markers": [
+        "€ million 2019",
+        "€ million 2018"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "origin_id": "tatqa_1b90541f-9a34-43a2-8fab-ebd84d49dbe0",
+      "split": "train",
+      "uid": "1b90541f-9a34-43a2-8fab-ebd84d49dbe0",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Fiscal 2018",
+        "Fiscal 2017"
+      ],
+      "unit_markers": [
+        "% Change"
+      ],
+      "usable_rows": [
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_0131320a-1ed4-470e-90f8-7a68e9c8c766",
+      "split": "train",
+      "uid": "0131320a-1ed4-470e-90f8-7a68e9c8c766",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        3,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_8749fc7b-19fb-4014-8eed-f96a05da50cf",
+      "split": "dev",
+      "uid": "8749fc7b-19fb-4014-8eed-f96a05da50cf",
+      "period_columns": [
+        1,
+        5
+      ],
+      "period_labels": [
+        "Dec 29, 2018",
+        "Dec 28, 2019"
+      ],
+      "unit_markers": [
+        "(In Millions)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "origin_id": "tatqa_13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+      "split": "dev",
+      "uid": "13bb283b-4b9c-42b9-9b02-f1b2e1a87abf",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "$ million",
+        "Change (%)"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "origin_id": "tatqa_ba26cd64-e448-4ffb-bfaa-c6ad4760fba7",
+      "split": "dev",
+      "uid": "ba26cd64-e448-4ffb-bfaa-c6ad4760fba7",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_bcbd7783-86ad-430d-aa96-48808bb0426c",
+      "split": "dev",
+      "uid": "bcbd7783-86ad-430d-aa96-48808bb0426c",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Q4 2019",
+        "Q4 2018"
+      ],
+      "unit_markers": [
+        "$ CHANGE",
+        "% CHANGE"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_9989ca79-5332-47be-a08e-85f2648cdde7",
+      "split": "dev",
+      "uid": "9989ca79-5332-47be-a08e-85f2648cdde7",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019  $’000",
+        "2018 $’000 RESTATED3"
+      ],
+      "unit_markers": [
+        "2019  $’000",
+        "2018 $’000 RESTATED3"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "origin_id": "tatqa_c29582f8-d95d-480c-8daf-320273546471",
+      "split": "dev",
+      "uid": "c29582f8-d95d-480c-8daf-320273546471",
+      "period_columns": [
+        2,
+        3,
+        4
+      ],
+      "period_labels": [
+        "2020",
+        "2021-2022",
+        "2023-2024"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_1b2ca134-09ae-4936-bc3d-453699823f6e",
+      "split": "dev",
+      "uid": "1b2ca134-09ae-4936-bc3d-453699823f6e",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "January 31, 2019",
+        "January 31, 2018"
+      ],
+      "unit_markers": [
+        "(in million)"
+      ],
+      "usable_rows": [
+        2,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_daf81839-002f-40c2-8067-b4ad7eaf1517",
+      "split": "dev",
+      "uid": "daf81839-002f-40c2-8067-b4ad7eaf1517",
+      "period_columns": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017",
+        "Percentage Change 2019 Versus 2018",
+        "Percentage Change 2018 Versus 2017"
+      ],
+      "unit_markers": [
+        "(In millions, except percentages and per share amounts)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "origin_id": "tatqa_65cde743-18a6-418f-8f5a-000660a38cdf",
+      "split": "dev",
+      "uid": "65cde743-18a6-418f-8f5a-000660a38cdf",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2017/2018",
+        "2018/2019"
+      ],
+      "unit_markers": [
+        "€ million"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        7,
+        9
+      ]
+    },
+    {
+      "origin_id": "tatqa_dace18a6-701f-49d4-a16d-078e5b62fc94",
+      "split": "dev",
+      "uid": "dace18a6-701f-49d4-a16d-078e5b62fc94",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "52 weeks ended 30 Mar 2019 £m",
+        "52 weeks ended 31 Mar 2018 £m"
+      ],
+      "unit_markers": [
+        "52 weeks ended 30 Mar 2019 £m",
+        "52 weeks ended 31 Mar 2018 £m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        4,
+        7,
+        8,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "origin_id": "tatqa_53eec737-630e-4915-afbb-8c20cdd01263",
+      "split": "dev",
+      "uid": "53eec737-630e-4915-afbb-8c20cdd01263",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        14,
+        15,
+        17,
+        18,
+        21
+      ]
+    },
+    {
+      "origin_id": "tatqa_e8877535-8ade-4ba3-aae2-cd4db2b5c59c",
+      "split": "dev",
+      "uid": "e8877535-8ade-4ba3-aae2-cd4db2b5c59c",
+      "period_columns": [
+        2,
+        3
+      ],
+      "period_labels": [
+        "FY 2019 `",
+        "FY 2018 `"
+      ],
+      "unit_markers": [
+        "Weightage (%)",
+        "% Change YoY"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_8edfdb1c-3d22-496f-b6ba-f3ea45cf6151",
+      "split": "dev",
+      "uid": "8edfdb1c-3d22-496f-b6ba-f3ea45cf6151",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2018",
+        "2019"
+      ],
+      "unit_markers": [
+        "Net sales (in thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_e573a09b-3053-4c6e-9766-3cce1d2c087d",
+      "split": "dev",
+      "uid": "e573a09b-3053-4c6e-9766-3cce1d2c087d",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_02a7787e-92f9-4a5a-9f95-c4c9ed0f7eff",
+      "split": "dev",
+      "uid": "02a7787e-92f9-4a5a-9f95-c4c9ed0f7eff",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019 €m",
+        "2018 €m",
+        "2017 €m"
+      ],
+      "unit_markers": [
+        "2019 €m",
+        "2018 €m",
+        "2017 €m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_5e60c056-5073-441d-8525-7f834deb5c64",
+      "split": "dev",
+      "uid": "5e60c056-5073-441d-8525-7f834deb5c64",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_6aa15859-a841-47eb-ad04-a441599cf05c",
+      "split": "dev",
+      "uid": "6aa15859-a841-47eb-ad04-a441599cf05c",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "origin_id": "tatqa_ef1f83ac-45f8-4d92-b577-390b4d8d9473",
+      "split": "dev",
+      "uid": "ef1f83ac-45f8-4d92-b577-390b4d8d9473",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "% Change 2018 to 2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "($ in thousands)",
+        "% Change 2018 to 2019"
+      ],
+      "usable_rows": [
+        2
+      ]
+    },
+    {
+      "origin_id": "tatqa_ff281ea5-25cf-4e1d-b7f5-f0dc51a40f25",
+      "split": "dev",
+      "uid": "ff281ea5-25cf-4e1d-b7f5-f0dc51a40f25",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "April 27, 2019",
+        "April 28, 2018"
+      ],
+      "unit_markers": [
+        "(Dollars in Millions)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_6ea63cce-37b7-4210-b446-952afde67eb5",
+      "split": "dev",
+      "uid": "6ea63cce-37b7-4210-b446-952afde67eb5",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "£m"
+      ],
+      "usable_rows": [
+        1,
+        2,
+        4,
+        5
+      ]
+    },
+    {
+      "origin_id": "tatqa_a5fb7f90-4f37-460a-886e-13195f501f1b",
+      "split": "dev",
+      "uid": "a5fb7f90-4f37-460a-886e-13195f501f1b",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Fiscal 2019",
+        "Fiscal 2018"
+      ],
+      "unit_markers": [
+        "% Change"
+      ],
+      "usable_rows": [
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_8b2c7a63-0dc5-4a6f-83f1-6f9b27a8016c",
+      "split": "dev",
+      "uid": "8b2c7a63-0dc5-4a6f-83f1-6f9b27a8016c",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "Year Ended December 31, 2018",
+        "Year Ended December 31, 2017"
+      ],
+      "unit_markers": [
+        "(in thousands of U.S. dollars)"
+      ],
+      "usable_rows": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "origin_id": "tatqa_88097457-b056-45fb-bb8d-9106df18df0d",
+      "split": "dev",
+      "uid": "88097457-b056-45fb-bb8d-9106df18df0d",
+      "period_columns": [
+        1,
+        2,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018",
+        "2017"
+      ],
+      "unit_markers": [
+        "(In thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "origin_id": "tatqa_04b25f9b-a271-4b2c-86ff-3e94f9cfb6ad",
+      "split": "dev",
+      "uid": "04b25f9b-a271-4b2c-86ff-3e94f9cfb6ad",
+      "period_columns": [
+        1,
+        2
+      ],
+      "period_labels": [
+        "At December 31, 2019",
+        "At December 31, 2018"
+      ],
+      "unit_markers": [
+        "(dollars in millions)"
+      ],
+      "usable_rows": [
+        3
+      ]
+    },
+    {
+      "origin_id": "tatqa_9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+      "split": "dev",
+      "uid": "9b0abd12-8d9e-48ba-9ac2-baacfa92e7eb",
+      "period_columns": [
+        1,
+        3
+      ],
+      "period_labels": [
+        "2019",
+        "2018"
+      ],
+      "unit_markers": [
+        "(Dollars in thousands)"
+      ],
+      "usable_rows": [
+        2,
+        3,
+        4
+      ]
+    }
+  ]
+}

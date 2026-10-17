@@ -1,0 +1,54 @@
+{
+  "task_id": "T11",
+  "variant": "original",
+  "question": "What is the percentage change in the revenue from public works from 2018 to 2019?",
+  "table": [
+    [
+      "",
+      "Year Ended December 31,",
+      ""
+    ],
+    [
+      "",
+      "2019",
+      "2018"
+    ],
+    [
+      "Agricultural, Commercial, and Industrial (ACI)",
+      "$28,940",
+      "$33,193"
+    ],
+    [
+      "Public Works",
+      "12,128",
+      "17,986"
+    ],
+    [
+      "Residential",
+      "18,762",
+      "19,786"
+    ],
+    [
+      "Total",
+      "59,830",
+      "70,965"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "8d6f23f4-295c-4403-a091-0951d3080039",
+      "order": 1,
+      "text": "3. REVENUE FROM CONTRACTS WITH CUSTOMERS"
+    },
+    {
+      "uid": "189c67ff-cabb-40d1-8755-b6e5e2adb86d",
+      "order": 2,
+      "text": "Revenues and related costs on construction contracts are recognized as the performance obligations are satisfied over time in accordance with ASC 606, Revenue from Contracts with Customers. Under ASC 606, revenue and associated profit, will be recognized as the customer obtains control of the goods and services promised in the contract (i.e., performance obligations). The cost of uninstalled materials or equipment will generally be excluded from the Company’s recognition of profit, unless specifically produced or manufactured for a project, because such costs are not considered to be a measure of progress."
+    },
+    {
+      "uid": "1c6bd1a8-d44c-4bdf-8866-4eafd0edd2da",
+      "order": 3,
+      "text": "The following table represents a disaggregation of revenue by customer type from contracts with customers for the years ended December 31, 2019 and 2018:"
+    }
+  ]
+}

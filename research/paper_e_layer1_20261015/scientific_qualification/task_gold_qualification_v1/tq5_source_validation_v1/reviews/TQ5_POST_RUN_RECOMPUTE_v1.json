@@ -1,0 +1,416 @@
+{
+  "schema": "tq5_post_run_recompute_v1",
+  "identity": "Loop D focused deterministic recomputation; not an independent-review claim",
+  "run_id": "20261017T072340Z_5d8942bd",
+  "checks": {
+    "run_manifest": true,
+    "execution_snapshot": true,
+    "run_meta": true,
+    "budget_and_ledger": true,
+    "outputs": true,
+    "prompt_isolation": true,
+    "original_analysis_label_preserved": true,
+    "analysis_correction": true
+  },
+  "manifest": {
+    "run_manifest_sha256": "4a1f37ec76f431d07d4ac1eed2d862ec826dd33ff9ff6ca58259a6630b5d0171",
+    "listed_files": 83,
+    "actual_files_excluding_manifest": 83,
+    "file_mismatches": [],
+    "unexpected_files": [],
+    "missing_files": [],
+    "snapshot_manifest_sha256": "a9c1c79eb3666f7d15be115d2d84ccf760b7c7b7a96150a29051a251b3e49a38",
+    "snapshot_manifest_hash_ok": true,
+    "snapshot_files": 8,
+    "snapshot_mismatches": []
+  },
+  "run_meta": {
+    "expected": {
+      "config_sha256": "216dbb845ee03ff207301829d814e719ba2aab6b813787a3ec46798b70681f95",
+      "runner_sha256": "a7fb4ae289f1def570cdedd149d0f36180508a209beaf2fb9c495a67f4f1e94c",
+      "templates_md_sha256": "3bfd13d409eb5b95dbd1ef6f62bd1defb1272eb463fec39f32ed4f7b11f6a13b",
+      "authorization_sha256": "85702233dea077bc2fe626a8a2e2762dcfe7b50bd7643d7c6ed45cb9f9a1ee9c"
+    },
+    "actual": {
+      "config_sha256": "216dbb845ee03ff207301829d814e719ba2aab6b813787a3ec46798b70681f95",
+      "runner_sha256": "a7fb4ae289f1def570cdedd149d0f36180508a209beaf2fb9c495a67f4f1e94c",
+      "templates_md_sha256": "3bfd13d409eb5b95dbd1ef6f62bd1defb1272eb463fec39f32ed4f7b11f6a13b",
+      "authorization_sha256": "85702233dea077bc2fe626a8a2e2762dcfe7b50bd7643d7c6ed45cb9f9a1ee9c"
+    },
+    "all_match": true,
+    "resumed": false,
+    "steps_total": 36
+  },
+  "budget": {
+    "receipt": {
+      "schema": "tq_chain_receipt_v1",
+      "run_id": "20261017T072340Z_5d8942bd",
+      "panel": "TQ-5",
+      "status": "COMPLETED",
+      "stop_reason": null,
+      "generated_utc": "2026-10-17T07:27:10Z",
+      "first_request_utc": "2026-10-17T07:23:54Z",
+      "gen_attempts": 36,
+      "retries_used": 0,
+      "tokens_settled": 44867,
+      "tokens_unsettled": 44867,
+      "pin_check_before_ok": true,
+      "pin_check_after_ok": true,
+      "model_identity_ok": true,
+      "aux_ops": 72,
+      "steps_total": 36
+    },
+    "request_ledger_lines": 72,
+    "reserve_count": 36,
+    "settle_count": 36,
+    "retry_count": 0,
+    "settled_tokens_recomputed": 44867,
+    "raw_tokens_recomputed": 44867,
+    "master_entries_for_run": 72,
+    "master_reserve_count": 36,
+    "master_settle_count": 36,
+    "master_matches_run": true,
+    "master_comparison_note": "DualLedger mirror adds panel/run_id and omits per-entry utc; comparison normalizes those fields.",
+    "first_request_utc_receipt": "2026-10-17T07:23:54Z",
+    "first_response_utc_recomputed": "2026-10-17T07:23:56Z",
+    "last_response_utc_recomputed": "2026-10-17T07:27:10Z",
+    "duration_s_from_first_request": 196,
+    "aux_send_count": 72,
+    "parameter_mismatches": [],
+    "http_mismatches": [],
+    "chain_totals": {
+      "reserve_count": 72,
+      "settle_count": 72,
+      "settled_tokens": 85072
+    },
+    "within_caps": true
+  },
+  "outputs": {
+    "raw_files": 36,
+    "actor_valid": 12,
+    "score_counts": {
+      "MATCH": 7,
+      "NO_MATCH": 5
+    },
+    "score_mismatches": [],
+    "legality_mismatches": [],
+    "b_decision_counts": {
+      "abstain": 1,
+      "accept": 10,
+      "alarm": 1
+    },
+    "c_decision_counts": {
+      "accept": 9,
+      "invalid": 3
+    },
+    "parse_failures": [
+      {
+        "key": "c|T06",
+        "valid": false,
+        "parse_error": "json_parse_error"
+      },
+      {
+        "key": "c|T07",
+        "valid": false,
+        "parse_error": "json_parse_error"
+      },
+      {
+        "key": "c|T10",
+        "valid": false,
+        "parse_error": "json_parse_error"
+      }
+    ],
+    "rows": [
+      {
+        "key": "actor|T01",
+        "valid": true,
+        "parse_error": null,
+        "answer": "(2.4)pts.",
+        "scoring_status": "NO_MATCH"
+      },
+      {
+        "key": "actor|T02",
+        "valid": true,
+        "parse_error": null,
+        "answer": "394",
+        "scoring_status": "MATCH"
+      },
+      {
+        "key": "actor|T03",
+        "valid": true,
+        "parse_error": null,
+        "answer": "540",
+        "scoring_status": "MATCH"
+      },
+      {
+        "key": "actor|T04",
+        "valid": true,
+        "parse_error": null,
+        "answer": "-7,614",
+        "scoring_status": "MATCH"
+      },
+      {
+        "key": "actor|T05",
+        "valid": true,
+        "parse_error": null,
+        "answer": "1,400",
+        "scoring_status": "MATCH"
+      },
+      {
+        "key": "actor|T06",
+        "valid": true,
+        "parse_error": null,
+        "answer": "7.87%",
+        "scoring_status": "MATCH"
+      },
+      {
+        "key": "actor|T07",
+        "valid": true,
+        "parse_error": null,
+        "answer": "0.002",
+        "scoring_status": "NO_MATCH"
+      },
+      {
+        "key": "actor|T08",
+        "valid": true,
+        "parse_error": null,
+        "answer": "154.7 million",
+        "scoring_status": "NO_MATCH"
+      },
+      {
+        "key": "actor|T09",
+        "valid": true,
+        "parse_error": null,
+        "answer": "8.54%",
+        "scoring_status": "MATCH"
+      },
+      {
+        "key": "actor|T10",
+        "valid": true,
+        "parse_error": null,
+        "answer": "3%",
+        "scoring_status": "NO_MATCH"
+      },
+      {
+        "key": "actor|T11",
+        "valid": true,
+        "parse_error": null,
+        "answer": "-32.57%",
+        "scoring_status": "MATCH"
+      },
+      {
+        "key": "actor|T12",
+        "valid": true,
+        "parse_error": null,
+        "answer": "5.7%",
+        "scoring_status": "NO_MATCH"
+      },
+      {
+        "key": "b|T01",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "b|T02",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "b|T03",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "b|T04",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "b|T05",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "b|T06",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "b|T07",
+        "valid": true,
+        "parse_error": null,
+        "decision": "abstain",
+        "display_decision": "abstain",
+        "contradiction_points": []
+      },
+      {
+        "key": "b|T08",
+        "valid": true,
+        "parse_error": null,
+        "decision": "alarm",
+        "display_decision": "alarm",
+        "contradiction_points": [
+          "The candidate answer cites paragraph '93af6cb1-6058-4f72-b556-49018e175fc6' which states '154.7 million shares... as of February 21, 2020'.",
+          "The question asks for shares for 'all years', which corresponds to the table rows for 2017, 2018, and 2019.",
+          "The table does not list share counts, but the candidate answer provides a share count from 2020, which is outside the scope of the table's 'all years' data (2017-2019)."
+        ]
+      },
+      {
+        "key": "b|T09",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "b|T10",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "b|T11",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "b|T12",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "c|T01",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "c|T02",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "c|T03",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "c|T04",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "c|T05",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "c|T06",
+        "valid": false,
+        "parse_error": "json_parse_error",
+        "display_decision": "invalid"
+      },
+      {
+        "key": "c|T07",
+        "valid": false,
+        "parse_error": "json_parse_error",
+        "display_decision": "invalid"
+      },
+      {
+        "key": "c|T08",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "c|T09",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "c|T10",
+        "valid": false,
+        "parse_error": "json_parse_error",
+        "display_decision": "invalid"
+      },
+      {
+        "key": "c|T11",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      },
+      {
+        "key": "c|T12",
+        "valid": true,
+        "parse_error": null,
+        "decision": "accept",
+        "display_decision": "accept",
+        "contradiction_points": []
+      }
+    ]
+  },
+  "prompts": {
+    "prompt_files": 36,
+    "message_hash_mismatches": [],
+    "marker_mismatches": [],
+    "forbidden_hits": [],
+    "c_exposure_hits": []
+  },
+  "analysis_label_observed": "旧池新增任务的受控扰动部分（非自然失败分布；无原始版对照）",
+  "analysis_label_corrected": "TQ-5 table-disjoint developmental source-separation panel (original public tasks; not TQ-4 and not pooled with TQ-4)",
+  "analysis_label_expected": "TQ-5 table-disjoint developmental source-separation panel; not TQ-4 and not pooled with TQ-4",
+  "analysis_result_values_unchanged": true,
+  "boundaries": [
+    "No model calls, HTTP, or frozen-file modification.",
+    "Reference field equality and arithmetic recomputation do not establish human semantic gold.",
+    "Machine NO_MATCH, semantic adjudication, and checker decisions remain separate."
+  ]
+}

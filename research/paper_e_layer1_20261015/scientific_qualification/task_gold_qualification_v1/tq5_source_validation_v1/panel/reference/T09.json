@@ -1,0 +1,18 @@
+{
+  "task_id": "T09",
+  "reference_version": "v1",
+  "source": "raw TAT-QA record (dev#134)",
+  "official_reference": {
+    "answer": 8.54,
+    "derivation": "(44.5-41.0)/41.0",
+    "answer_type": "arithmetic",
+    "answer_from": "table",
+    "scale": "percent",
+    "rel_paragraphs": [],
+    "req_comparison": false
+  },
+  "applies_to_variants": [
+    "original"
+  ],
+  "provisional": "reference_validity NOT_ESTABLISHED; TQ-5 had not run at freeze time"
+}

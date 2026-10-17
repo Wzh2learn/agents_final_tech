@@ -1,6 +1,6 @@
 # Documentation Index
 
-> 状态: 活跃 | 更新: 2026-10-12 | 取代/被取代: 取代原逐实验历史台账式索引
+> 状态: 活跃 | 更新: 2026-10-17 | 取代/被取代: 取代原逐实验历史台账式索引
 
 本文件只回答“去哪里找”。当前状态以 [`../memory/STATE.md`](../memory/STATE.md) 为准，未决事项以 [`../memory/THREADS.md`](../memory/THREADS.md) 为准，历史过程进入 Git、`experiments/` 或 `archive/`。
 
@@ -16,7 +16,7 @@
 | 已确认决策 | [`../memory/DECISIONS.md`](../memory/DECISIONS.md) |
 | Skill 路由 | [`SKILL_ROUTING.md`](SKILL_ROUTING.md) |
 | 科研主线与论文验收 | [`research/README.md`](research/README.md) |
-| Paper E 升级（2026-10-15） | [`research/PAPER_E_UPGRADE_DIRECTION_v1.md`](research/PAPER_E_UPGRADE_DIRECTION_v1.md)；Layer-1 `GOLD_NOT_ESTABLISHED`，审计见 [`research/PAPER_E_LAYER1_LOOP_C_AUDIT_v1.md`](research/PAPER_E_LAYER1_LOOP_C_AUDIT_v1.md)，不进入 Layer 2 |
+| Paper E 升级（2026-10-17） | 当前交付入口：[TQ-4/TQ-5链式回执](../research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq4_calibration_v1/closeout/CHAIN_RETURN.md)；裁决：[CONTRIBUTION_RULING](../research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq4_calibration_v1/closeout/CONTRIBUTION_RULING.md)；论文增补草稿：[PAPER_E_ADDENDUM_DRAFT](../research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq4_calibration_v1/closeout/PAPER_E_ADDENDUM_DRAFT.md)。授权入口：[TQ-4至TQ-5有界连续授权](../research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq4_calibration_v1/run_card_v2/OWNER_DELEGATED_AUTHORIZATION_20261016_v1.md)。两轮开发性实验已完成，合计72计划请求/85,072 settled token；无人工gold、无确认性研究、裁决NO_PROMOTION。历史交接：[10月17日断点交接](../research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq4_calibration_v1/closeout/LOOP_D_RESTART_HANDOFF_20261017.md)。TQ-3已完成，旧[单次授权](../research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq3_execution_prep_v1/run_card/RUN_AUTHORIZATION_20261016_v1.md)不复用。历史：[TQ-2裁决](../research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/ai_assisted_review_v1/R3_NEXT_STEP_20261016.md)、[12题AI诊断](../research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/ai_assisted_review_v1/README.md)、[原人工准备包](../research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/README.md)；方向见 [`research/PAPER_E_UPGRADE_DIRECTION_v1.md`](research/PAPER_E_UPGRADE_DIRECTION_v1.md) |
 | 执行侧最新交接（2026-10-12） | [`research/EXECUTION_HANDOFF_STATUS_v1.md`](research/EXECUTION_HANDOFF_STATUS_v1.md)；Paper E→WP-E修订流程，大论文→WP-0资格核验；本轮交接后停止，无实验/改稿/代码执行 |
 | 最终研究交接（2026-10-12） | [`research/REPO_GOVERNANCE_FINAL_v1.md`](research/REPO_GOVERNANCE_FINAL_v1.md)；Paper E科学阻断未消除，WP-0资格待核验；只完成本地文档交接 |
 | 独立战略重构（2026-10-12） | [`research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md`](research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md)；建议稿，含新论证风险、TOP 3与6个未执行工作包；不改变冻结结果或授权 |

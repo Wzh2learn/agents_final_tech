@@ -1,0 +1,54 @@
+{
+  "task_id": "T08",
+  "variant": "original",
+  "question": "About how many common shares were there in total for all years?",
+  "table": [
+    [
+      "(In millions, except per share amounts)",
+      "Total Cash Dividends Paid",
+      "Total Cash Dividends Paid Per Common Share"
+    ],
+    [
+      "2017",
+      "$119.7",
+      "$0.64"
+    ],
+    [
+      "2018",
+      "102.9",
+      "0.64"
+    ],
+    [
+      "2019",
+      "99.1",
+      "0.64"
+    ],
+    [
+      "Total",
+      "$321.7",
+      ""
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "0794f4ee-480a-437f-857e-f30b9aad9248",
+      "order": 1,
+      "text": "Dividends"
+    },
+    {
+      "uid": "16edea39-24b1-412b-914c-3f0e9ffe0d7d",
+      "order": 2,
+      "text": "The following table shows our total cash dividends paid in the years ended December 31:"
+    },
+    {
+      "uid": "93af6cb1-6058-4f72-b556-49018e175fc6",
+      "order": 3,
+      "text": "On February 13, 2020, our Board of Directors declared a quarterly cash dividend of $0.16 per common share payable on March 20, 2020 to stockholders of record at the close of business on March 6, 2020. The estimated amount of this dividend payment is $24.8 million based on 154.7 million shares of our common stock issued and outstanding as of February 21, 2020."
+    },
+    {
+      "uid": "1fc4841e-a286-4724-a3d4-3705ce4fa871",
+      "order": 4,
+      "text": "The dividend payments discussed above are recorded as reductions to cash and cash equivalents and retained earnings on our Consolidated Balance Sheets. Our credit facility and our senior notes contain covenants that restrict our ability to declare or pay dividends and repurchase stock. However, we do not believe these covenants are likely to materially limit the future payment of quarterly cash dividends on our common stock. From time to time, we may consider other means of returning value to our stockholders based on our consolidated financial condition and results of operations. There is no guarantee that our Board of Directors will declare any further dividends."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "tq5_selection_log_v1",
+  "status": "NOT_RUN",
+  "frozen_utc": "2026-10-16T08:43:01Z",
+  "skip_counts": {
+    "record_excluded": 221,
+    "skip_answer_from": 3212,
+    "skip_answer_not_numeric": 4749,
+    "skip_eval_mismatch": 1774,
+    "qualified_difference": 2147,
+    "qualified_ratio": 1258,
+    "skip_layer_unclassified": 381,
+    "skip_eval_none": 32,
+    "skip_operand_missing": 2,
+    "qualified_percentage_change": 1
+  },
+  "layer_scan_traces": {
+    "difference": [
+      {
+        "uid": "1cccc413-362e-448a-b759-ec17ce9b7082",
+        "q": "6ffc75de-8fde-43b8-b73d-ef839f823f12",
+        "outcome": "selected",
+        "rank_key": "00332ff6f9946b76"
+      },
+      {
+        "uid": "fe1ea22e-46a1-4cee-ad55-a16b6e74739d",
+        "q": "f2dbce41-d7fe-4a9d-a676-e08a2207c5ed",
+        "outcome": "selected",
+        "rank_key": "0034e71a63b8b229"
+      },
+      {
+        "uid": "c13323c3-200f-4a86-8370-8877c47314d7",
+        "q": "376c787f-b495-4479-b4d2-112e84a47a59",
+        "outcome": "selected",
+        "rank_key": "005371ee5f8cfa7f"
+      },
+      {
+        "uid": "c66e5d6e-947b-4bc4-bfe2-d6015fc23bb7",
+        "q": "33ea44b6-3948-4a0a-be69-a2d9af4bb8c4",
+        "outcome": "selected",
+        "rank_key": "009191cf68833533"
+      }
+    ],
+    "ratio": [
+      {
+        "uid": "f55857e5-8bc1-4abd-8ffd-6ada965edd87",
+        "q": "669a63bd-6697-4361-a726-535e6874ef48",
+        "outcome": "selected",
+        "rank_key": "00218089420a9da7"
+      },
+      {
+        "uid": "5c055a30-1131-4e2d-bc30-c87127d7c592",
+        "q": "7c4b9b9a-29b7-4e23-9701-139c5a26b956",
+        "outcome": "selected",
+        "rank_key": "00cec9907a9c602f"
+      },
+      {
+        "uid": "b33b880b-c7ef-4f74-90f9-5cdbdac40170",
+        "q": "06b85a55-207e-4fa5-bbfe-c5363b33c953",
+        "outcome": "selected",
+        "rank_key": "00d138b4b7a55bdb"
+      },
+      {
+        "uid": "dd5eac5a-de74-4ed4-b959-e6ad134e646b",
+        "q": "f17c34b4-17e4-478a-b9a8-cc490bbfcf0e",
+        "outcome": "selected",
+        "rank_key": "011524903c47b4b2"
+      }
+    ],
+    "percentage_change": [
+      {
+        "uid": "75136344-e4e2-4618-b5c2-13fe41a2bea9",
+        "q": "ff28a9f4-39f0-431e-aac3-e840a2091761",
+        "outcome": "selected",
+        "rank_key": "cfc5e2900a10b576"
+      }
+    ]
+  }
+}

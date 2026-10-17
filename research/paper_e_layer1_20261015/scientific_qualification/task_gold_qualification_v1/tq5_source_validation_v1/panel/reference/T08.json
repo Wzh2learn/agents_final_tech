@@ -1,0 +1,18 @@
+{
+  "task_id": "T08",
+  "reference_version": "v1",
+  "source": "raw TAT-QA record (train#1304)",
+  "official_reference": {
+    "answer": 502.66,
+    "derivation": "321.7/0.64",
+    "answer_type": "arithmetic",
+    "answer_from": "table",
+    "scale": "million",
+    "rel_paragraphs": [],
+    "req_comparison": false
+  },
+  "applies_to_variants": [
+    "original"
+  ],
+  "provisional": "reference_validity NOT_ESTABLISHED; TQ-5 had not run at freeze time"
+}

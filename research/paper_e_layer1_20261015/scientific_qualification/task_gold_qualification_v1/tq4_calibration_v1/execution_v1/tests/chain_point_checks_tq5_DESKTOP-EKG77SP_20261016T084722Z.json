@@ -1,0 +1,146 @@
+{
+  "schema": "tq_chain_point_checks_v1",
+  "panel": "TQ-5",
+  "host": "DESKTOP-EKG77SP",
+  "generated_utc": "2026-10-16T08:47:22Z",
+  "runner_sha256": "a7fb4ae289f1def570cdedd149d0f36180508a209beaf2fb9c495a67f4f1e94c",
+  "tests": [
+    {
+      "test": "config_schedule_counts",
+      "passed": true,
+      "detail": {
+        "kinds": {
+          "actor": 12,
+          "b": 12,
+          "c": 12
+        },
+        "unique_keys": 36,
+        "exp_total": 36
+      }
+    },
+    {
+      "test": "template_v2_extraction",
+      "passed": true,
+      "detail": {
+        "a_head": "You answer financial table questions. Us"
+      }
+    },
+    {
+      "test": "prompt_byte_bounds_under_cap",
+      "passed": true,
+      "detail": {
+        "max_byte_bound": 6122,
+        "cap": 8192
+      }
+    },
+    {
+      "test": "prompt_isolation_no_labels",
+      "passed": true,
+      "detail": {
+        "violations": []
+      }
+    },
+    {
+      "test": "b_sees_evidence_c_does_not",
+      "passed": true,
+      "detail": {
+        "bad": []
+      }
+    },
+    {
+      "test": "c_duplicate_stimulus_pairs_identical",
+      "passed": true,
+      "detail": {
+        "groups": []
+      }
+    },
+    {
+      "test": "schedule_order_frozen",
+      "passed": true,
+      "detail": {
+        "actors": [
+          "T01",
+          "T02",
+          "T03",
+          "T04",
+          "T05",
+          "T06",
+          "T07",
+          "T08",
+          "T09",
+          "T10",
+          "T11",
+          "T12"
+        ],
+        "bc_head": [
+          "b|T01",
+          "c|T01",
+          "c|T02",
+          "b|T02",
+          "b|T03",
+          "c|T03"
+        ],
+        "candidates": 0
+      }
+    },
+    {
+      "test": "ledger_reserve_settle_math",
+      "passed": true,
+      "detail": {
+        "after_reserve": 10240,
+        "after_settle": 500
+      }
+    },
+    {
+      "test": "dual_ledger_mirror",
+      "passed": true,
+      "detail": {
+        "master_entries": 1
+      }
+    },
+    {
+      "test": "crash_resume_item_state",
+      "passed": true,
+      "detail": {
+        "k1": "done",
+        "k2": "inflight",
+        "k3": "pending"
+      }
+    },
+    {
+      "test": "anomaly_output_parsing",
+      "passed": true,
+      "detail": {
+        "bad_json": true,
+        "missing_answer": true,
+        "decisions": true
+      }
+    },
+    {
+      "test": "scorer_v21_scoring_identical_to_v2",
+      "passed": true,
+      "detail": {
+        "mismatches": []
+      }
+    },
+    {
+      "test": "scorer_v21_bool_hardening",
+      "passed": true,
+      "detail": {
+        "bad": []
+      }
+    },
+    {
+      "test": "material_pin_check_full",
+      "passed": true,
+      "detail": {
+        "checked": 49,
+        "mismatches": 0,
+        "channels": {
+          "raw": 49
+        }
+      }
+    }
+  ],
+  "all_passed": true
+}

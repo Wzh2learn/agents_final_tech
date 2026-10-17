@@ -1,0 +1,50 @@
+{
+  "schema": "wp2_split_dryrun_v1",
+  "status": "DRAFT_NOT_FROZEN",
+  "seed": "wp2-split-dryrun-20261013",
+  "rule": "sha256(seed:origin_id) ascending; [0:8]=pilot, [8:16]=pilot_reserve, [16:18]=development, [18:22]=history",
+  "counts": {
+    "origins_total": 182,
+    "origins_with_ge2_usable_rows": 176,
+    "candidate_items": 60,
+    "distinct_item_origins": 60
+  },
+  "roles": {
+    "pilot": [
+      "tatqa_008eaf4e-4d70-496b-aa25-b842b05a3560",
+      "tatqa_735ba0a0-60c8-452f-96a2-c6fc50cce80d",
+      "tatqa_f188de60-64eb-49cb-8b9d-a72f844357ef",
+      "tatqa_e316af95-270d-4107-99d4-6f52e4d61d38",
+      "tatqa_48eb64be-428f-429d-afd5-39cdbc4e4dde",
+      "tatqa_334d9b85-ec0c-4783-81d7-64259a410b16",
+      "tatqa_668a081b-e793-4d45-935d-816d2d7eba6d",
+      "tatqa_8edfdb1c-3d22-496f-b6ba-f3ea45cf6151"
+    ],
+    "pilot_reserve": [
+      "tatqa_3e4f4b3e-0aa6-4e5f-9103-5f1155d27e75",
+      "tatqa_cfe0ee38-48b2-46d2-8920-e423fc6c91ac",
+      "tatqa_72bfa3fa-9acd-437f-b682-0199daed6aa7",
+      "tatqa_51c8eba0-1876-42aa-afdb-d18741b2fe7b",
+      "tatqa_b538d340-dfca-4f89-a59f-01fc1bb35184",
+      "tatqa_8df5c241-c68c-427a-99af-30c44214199b",
+      "tatqa_d15a82c3-024f-4e9c-a461-59e24bd95987",
+      "tatqa_dace18a6-701f-49d4-a16d-078e5b62fc94"
+    ],
+    "development": [
+      "tatqa_4565ded8-5e2e-4cd7-beab-6da622434396",
+      "tatqa_e8877535-8ade-4ba3-aae2-cd4db2b5c59c"
+    ],
+    "history": [
+      "tatqa_b2c8ac7d-6959-4874-b9f6-e6a53a1c6dc8",
+      "tatqa_3ab739eb-c0d7-44f5-9377-b8a02bafb361",
+      "tatqa_97176853-a81e-422a-a8c1-e0542348d051",
+      "tatqa_99a3fe4e-1302-42ff-b0ae-4bf7ef0b3934"
+    ]
+  },
+  "checks": {
+    "roles_disjoint": true,
+    "pilot_origins_with_ge2_rows": "8/8",
+    "current_max_items_per_origin": 1,
+    "item_extension_needed": "pilot requires 2 items per origin; the current list emits 1 item per origin -> extend the item builder at freeze (176 origins have >=2 usable rows)"
+  }
+}

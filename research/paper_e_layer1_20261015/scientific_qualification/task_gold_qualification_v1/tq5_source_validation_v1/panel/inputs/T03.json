@@ -1,0 +1,132 @@
+{
+  "task_id": "T03",
+  "variant": "original",
+  "question": "What is the change in the total accumulated depreciation in 2019?",
+  "table": [
+    [
+      "FOR THE YEAR ENDED DECEMBER 31, 2019",
+      "NETWORK INFRASTRUCTURE AND EQUIPMENT",
+      "LAND AND BUILDINGS",
+      "TOTAL"
+    ],
+    [
+      "COST",
+      "",
+      "",
+      ""
+    ],
+    [
+      "January 1, 2019",
+      "3,329",
+      "2,453",
+      "5,782"
+    ],
+    [
+      "Additions",
+      "527",
+      "513",
+      "1,040"
+    ],
+    [
+      "Transfers",
+      "(233)",
+      "–",
+      "(233)"
+    ],
+    [
+      "Acquired through business combinations",
+      "–",
+      "8",
+      "8"
+    ],
+    [
+      "Lease terminations",
+      "(12)",
+      "(38)",
+      "(50)"
+    ],
+    [
+      "Impairment losses recognized in earnings",
+      "(2)",
+      "(3)",
+      "(5)"
+    ],
+    [
+      "December 31, 2019",
+      "3,609",
+      "2,933",
+      "6,542"
+    ],
+    [
+      "ACCUMULATED DEPRECIATION",
+      "",
+      "",
+      ""
+    ],
+    [
+      "January 1, 2019",
+      "1,042",
+      "536",
+      "1,578"
+    ],
+    [
+      "Depreciation",
+      "373",
+      "303",
+      "676"
+    ],
+    [
+      "Transfers",
+      "(111)",
+      "–",
+      "(111)"
+    ],
+    [
+      "Lease terminations",
+      "(3)",
+      "(22)",
+      "(25)"
+    ],
+    [
+      "December 31, 2019",
+      "1,301",
+      "817",
+      "2,118"
+    ],
+    [
+      "NET CARRYING AMOUNT",
+      "",
+      "",
+      ""
+    ],
+    [
+      "January 1, 2019",
+      "2,287",
+      "1,917",
+      "4,204"
+    ],
+    [
+      "December 31, 2019",
+      "2,308",
+      "2,116",
+      "4,424"
+    ]
+  ],
+  "paragraphs": [
+    {
+      "uid": "72098b61-deeb-402d-82dc-20877212161e",
+      "order": 1,
+      "text": "Note 15 Leases"
+    },
+    {
+      "uid": "4f2f8fba-9ecf-4a70-92b9-d8a18edc20cd",
+      "order": 2,
+      "text": "RIGHT-OF-USE ASSETS"
+    },
+    {
+      "uid": "c608b6d6-46c1-4d24-a210-07cf9d2b11e7",
+      "order": 3,
+      "text": "BCE’s significant right-of-use assets under leases are satellites, office premises, land, cellular tower sites, retail outlets and OOH advertising spaces. Right-of-use assets are presented in Property, plant and equipment in the statement of financial position."
+    }
+  ]
+}

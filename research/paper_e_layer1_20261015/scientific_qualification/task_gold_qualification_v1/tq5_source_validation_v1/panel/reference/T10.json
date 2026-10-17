@@ -1,0 +1,20 @@
+{
+  "task_id": "T10",
+  "reference_version": "v1",
+  "source": "raw TAT-QA record (train#2199)",
+  "official_reference": {
+    "answer": 2.81,
+    "derivation": "(36,709-35,705)/35,705",
+    "answer_type": "arithmetic",
+    "answer_from": "table-text",
+    "scale": "percent",
+    "rel_paragraphs": [
+      "2"
+    ],
+    "req_comparison": false
+  },
+  "applies_to_variants": [
+    "original"
+  ],
+  "provisional": "reference_validity NOT_ESTABLISHED; TQ-5 had not run at freeze time"
+}
