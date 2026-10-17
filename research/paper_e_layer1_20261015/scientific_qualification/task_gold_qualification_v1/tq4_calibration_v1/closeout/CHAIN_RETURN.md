@@ -56,6 +56,7 @@
 - 已定向镜像两套复核脚本/JSON/MD 与当时 `CHAIN_RETURN.md` 到 GB10，双端哈希一致。
 - TQ-5 snapshot 已镜像到 GB10，manifest 哈希双端为 `a9c1c79e...`；远端定点测试 4/4、材料 pin 49/49、36 步 plan 通过。
 - TQ-5 GB10 run 已镜像到本地；raw/prompts/ledger/run outputs 不推 Git。主账本为字节前缀追加镜像，不覆盖 TQ-4 旧记录。
+- `origin/main` 已接收本任务的范围明确提交；普通 `gb10/main` push 被 Git 默认 checked-out-branch 保护拒绝。GB10 是含他人未提交脏件的非裸工作树，未使用 force/reset/clean；因此 GB10 的任务载荷以逐文件 raw-hash 镜像为准，远端 Git `main` ref 仍停留在 `1c7a94a`，这是明确的同步偏差而非内容缺失。
 - 未覆盖冻结稿、旧参考、旧实验、TQ-4 原始 run 或 `RUN_META`。
 - 仓库 `docs_lint` 当前仍为 FAIL，唯一失败是既有 skill 分发漂移 2/99（`subagent-fanout`、`inquiry-methods`），另有 20 条既有警告；本任务未改技能库。项目约定提到的 `vibe-coding-quality-gate` 与 `generate-commit` 已从仓库移除，故采用现有回归、快照测试、复算门、`git diff --check`、pre-commit hooks 与逐路径提交替代。
 
