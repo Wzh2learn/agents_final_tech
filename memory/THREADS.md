@@ -9,9 +9,11 @@ preserved F1 `0.648`. The 750-record high-confidence subset reached relation
 matched relation `0.624`, collapsed handling to `0.012`, and did not decisively
 improve set F1. Stop generic feedback-ranking claims and model adjudication on
 this queue; require explicit dependency/simulator traces before another model
-study. The shared ledger is `378/378` requests and `976,910/2,000,000`
-accounting tokens with zero retries, judge, training, paid API and production
-Memory writes. The older `313/316` ledger remains isolated. Autopsy:
+study. The shared ledger is `747/747` requests and `1,564,176/2,000,000`
+accounting tokens: 746 `OK` records plus one retained
+`FAILED/request_already_exists` event with conservative 10,240-token
+accounting. Judge, training, paid API and production Memory writes are zero.
+The older `313/316` ledger remains isolated. Autopsy:
 `research/ma_cerd_independent_v1/EXPERIMENT_AUTOPSY.md`. Research routing:
 `docs/research/README.md`; per-experiment receipts remain in
 `research/ma_cerd_independent_v1/`.

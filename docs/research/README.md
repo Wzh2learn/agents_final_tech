@@ -20,11 +20,12 @@ evidence, not competing entry points.
   handling are the current default; `blocking_requirements` and
   `o1_only_disagrees` require explicit dependency/simulator evidence before
   another model study.
-- Shared research ledger: `378/378` requests and `976,910/2,000,000`
-  accounting tokens, recomputed from all 378 request records. Retries, judge,
-  training, paid research API and production Memory writes are zero. The old
-  ledger remains unchanged at `313/316` requests and `324,086/2,750,000`
-  tokens.
+- Shared research ledger: `747/747` requests and `1,564,176/2,000,000`
+  accounting tokens, recomputed from all 747 request records. The ledger has
+  746 `OK` records and one retained `FAILED/request_already_exists` event with
+  conservative 10,240-token accounting. Judge, training, paid research API and
+  production Memory writes are zero. The old ledger remains unchanged at
+  `313/316` requests and `324,086/2,750,000` tokens.
 - Current merged return:
   [`MERGED_GOAL_RETURN.md`](../../research/research_direction_sprint_20261020_v1/execution_v2/MERGED_GOAL_RETURN.md).
 - Independent review:
@@ -109,8 +110,8 @@ experience learning generally works or fails.
 - Per-experiment return files are point-in-time receipts. Aggregate request
   and token accounting comes from
   [`RESEARCH_GENERATION_LEDGER.json`](../../research/research_direction_sprint_20261020_v1/execution_v1/RESEARCH_GENERATION_LEDGER.json),
-  recomputed from its request records; its original top-level status string is
-  historical and is not the current research disposition.
+  recomputed from its 747 request records; its original top-level status string
+  is historical and is not the current research disposition.
 - Archived handoffs and superseded reports remain under `docs/archive/`.
 - A result document may state its evidence boundary, but it must link here for
   current routing instead of claiming a second project entry.

@@ -18,9 +18,11 @@
   minimal-sufficiency `7/7`, plan precision `5/7`, consume sufficiency `6/7`.
   `ESD_006` is a real sufficient-evidence abstention; `ESD_012` is a
   fixed-budget serialization failure.
-- Shared ledger: `378/378` requests and `976,910/2,000,000` accounting
-  tokens, recomputed from 378 complete request records. Retries, judge,
-  training, paid API and production Memory writes are zero.
+- Shared ledger: `747/747` requests and `1,564,176/2,000,000` accounting
+  tokens, recomputed from 747 request records. There are 746 `OK` records and
+  one retained `FAILED/request_already_exists` event with conservative
+  10,240-token accounting. Judge, training, paid API and production Memory
+  writes are zero.
 - Old ledger remains isolated at `313/316` requests and
   `324,086/2,750,000` tokens.
 
