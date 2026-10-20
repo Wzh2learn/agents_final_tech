@@ -4,7 +4,7 @@
 > Claim：当前三阶段叙事 RQ2 / RQ3 / RQ4，兼为大论文 TH-I3 提供证据；**不属于评估子稿 SP-RQ2**
 > 边界：本文件只规定待冻结的实验问题、比较、统计口径与停止条件；不启动模型、训练、端点、数据库或生产服务。
 
-本合同不是第二份执行计划。执行顺序、授权门和 GB10 命令仍以 `docs/handoff/2026-09-22-paper-research-next-phase.md` 为唯一权威；数据质量/角色以 `paper/dataset_protocol_v1.md` 为准，方法记号以 `paper/method_theory_materials_v1.md` 为准。
+本合同不是第二份执行计划。执行顺序、授权门和 GB10 命令仍以 `docs/archive/2026-10-20_entry_consolidation/2026-09-22-paper-research-next-phase.md` 为唯一权威；数据质量/角色以 `paper/dataset_protocol_v1.md` 为准，方法记号以 `paper/method_theory_materials_v1.md` 为准。
 
 ## 1. 一页决策
 

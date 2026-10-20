@@ -2,7 +2,7 @@
 status: 活跃（裁定件, 边界冻结）
 date: 2026-09-07
 source: 用户裁定 09-07（决策 3B）+ D3 阶段 B closeout 侧线角色审计
-backlog: docs/29_graph_engineering_roadmap.md A23
+backlog: docs/archive/2026-10-19_29_graph_engineering_roadmap.md A23
 relation: 收敛 side_handoff:4 与 STATE:80 先例的散见表述（原文不动, 不取代任何判据）
 endpoint_calls: 0
 ---

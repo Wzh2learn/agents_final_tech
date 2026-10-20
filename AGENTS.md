@@ -1,6 +1,6 @@
 <!-- FOR AI AGENTS - Human readability is a side effect, not a goal -->
 <!-- Managed by agent: keep this file concise and move detail to its authority -->
-<!-- Last updated: 2026-09-22 | Last verified: 2026-09-22 -->
+<!-- Last updated: 2026-10-19 | Last verified: 2026-10-19 -->
 
 # Repository Guidelines
 
@@ -13,6 +13,8 @@
 3. [`memory/THREADS.md`](memory/THREADS.md) — sole current ledger for open decisions and blockers.
 4. [`docs/INDEX.md`](docs/INDEX.md) — documentation catalog and status labels.
 5. [`docs/SKILL_ROUTING.md`](docs/SKILL_ROUTING.md) — project skill selection rules.
+6. [`../AGENTS.md`](../AGENTS.md) — workspace skill registry, including the
+   Loop A `paper-deep-reading` registration.
 
 `HANDOFF.md` and `memory/archive/` are historical evidence, not current state.
 

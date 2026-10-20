@@ -1,10 +1,10 @@
 # GB10 serving 栈取证件（台账视图）— 2026-09-11
 
 > 状态: 活跃（**取证件**, 决策 23=A 插队优先执行; 性质 = 只读证据存档, 不是配置管理件） | 更新: 2026-09-11 | 取代/被取代: 无
-> 性质: GB10（`promaxgb10-0b48`）全部 serving 端点与容器的**启动配置取证存档**——**台账视图 + 权威源声明**（承 `docs/INDEX.md` 治理规则 5 与 09-10 夜治理打包批准的标准姿势）。**权威源声明**: 本件**不是**任何服务的权威状态源, 只是**某一时刻的只读快照**; 运行时实况的权威源 = **GB10 上的 `/proc`、`ss`、`systemctl`、`docker` 本身**, 本件只做转录与指针。任何一项若与本件不一致, **以现场实测为准**, 本件按更正注记处置、不回改。未决项与后续处置的权威源 = `memory/THREADS.md`; Backlog 权威源 = `docs/29_graph_engineering_roadmap.md` A 表。
+> 性质: GB10（`promaxgb10-0b48`）全部 serving 端点与容器的**启动配置取证存档**——**台账视图 + 权威源声明**（承 `docs/INDEX.md` 治理规则 5 与 09-10 夜治理打包批准的标准姿势）。**权威源声明**: 本件**不是**任何服务的权威状态源, 只是**某一时刻的只读快照**; 运行时实况的权威源 = **GB10 上的 `/proc`、`ss`、`systemctl`、`docker` 本身**, 本件只做转录与指针。任何一项若与本件不一致, **以现场实测为准**, 本件按更正注记处置、不回改。未决项与后续处置的权威源 = `memory/THREADS.md`; Backlog 权威源 = `docs/archive/2026-10-19_29_graph_engineering_roadmap.md` A 表。
 > **取值时间与保质期（承「仓外环境面结论有保质期」规约, 见 THREADS `#LEGACY-NOTIFY-206-UPSTREAM-15A` 规约强化第 3 条）**: 本件全部数值取值于 **2026-09-11 22:5x – 23:0x CST**（`date` 实测 **2026-09-11 23:01:35 CST**）。**pid / 文件 hash / mtime / Up 时长 / ELAPSED / 监听集 会随重启与自更新漂移**, 引用本件任何数值**必须带取值时间**; 跨窗口引用前须现场复核。宿主事实: `hostname` = `promaxgb10-0b48`, `uname -a` = `Linux promaxgb10-0b48 6.17.0-1018-nvidia #18-Ubuntu SMP PREEMPT_DYNAMIC Tue May 5 21:28:33 UTC 2026 aarch64`, 本次开机 `uptime -s` = **2026-07-05 21:05:23**。
 > 边界（红线自查用）: 本件全部内容 = **纯只读取证**。**端口只列举不连接**（承 R1 卡 P5 姿势）——用 `ss -ltnp` 读监听表, **未对 `:8004`/`:8006`/`:8007`/`:8008`/`:5050` 发起任何 TCP 连接、无 canary、无 judge、无模型调用、未起任何 run、未装任何观察器**。**未进容器、未 `docker exec`、未 `stop`/`restart`/`rm` 任何容器、未 `kill` 任何进程、未 `tmux send-keys`、未改任何配置文件**。所用命令全部为读操作: `/proc/<pid>/{cmdline,cwd,exe,environ}`、`ps`、`ss -ltnp`、`systemctl list-units`/`list-unit-files`（只查询）、`docker ps`/`docker inspect`/`docker image inspect`（只读）、`crontab -l`、`tmux ls`、`stat`、`sha256sum`、`llama-server --version`（**该二进制以 `--version` 单独调用, 不绑定端口、不起服务**, 承决策 22 批同一姿势）。
-> 依据: 决策 23=A（用户 2026-09-11 裁定）/ `docs/governance/2026-09-07_execution_plane_boundary.md` 硬规则 3「收据必须可复现」/ `docs/29_graph_engineering_roadmap.md` A7 行（决策 27=C 界定两个评估对象）
+> 依据: 决策 23=A（用户 2026-09-11 裁定）/ `docs/governance/2026-09-07_execution_plane_boundary.md` 硬规则 3「收据必须可复现」/ `docs/archive/2026-10-19_29_graph_engineering_roadmap.md` A7 行（决策 27=C 界定两个评估对象）
 
 ---
 

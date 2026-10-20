@@ -11,7 +11,7 @@
 两份来源：
 
 - `docs/experiments/2026-09-23_phase1a_data_no_go.md` 的 “GB10 acceptance after connectivity is restored” 块与 “Phase 1a learnability probe after independent acceptance” 块
-- `docs/handoff/2026-09-22-paper-research-next-phase.md` §Phase 2 的命令块（该件自称「唯一下一阶段执行计划」）
+- `docs/archive/2026-10-20_entry_consolidation/2026-09-22-paper-research-next-phase.md` §Phase 2 的命令块（该件自称「唯一下一阶段执行计划」）
 
 ## 2 逐行实测结果
 
@@ -98,7 +98,7 @@ env PYTHONPATH=. venv/bin/python research/paper_result_views.py --help    -> rc=
 两份文档都属权威件，故本件只给措辞、不自行改：
 
 - `docs/experiments/2026-09-23_phase1a_data_no_go.md` — `docs/INDEX.md` :66 记 `experiments/` 为「只追加证据集」，且它是**权威门槛报告** ⇒ 建议**末尾追加更正段**（不改既有正文与 `DATA_NO_GO` 结论）。
-- `docs/handoff/2026-09-22-paper-research-next-phase.md` — 它是**活文档**而非证据集，直接修正 §Phase 2 命令块在性质上属维护而非改判据。**但本件仍不改它**，理由具体：该文件是 Loop C 队列卡 `LC-RESEARCH-001` 的 `owned_paths` 之一，Loop D 直接改会与在队列卡的归属范围冲突。建议授权后由主线程或该卡按裁定处理。
+- `docs/archive/2026-10-20_entry_consolidation/2026-09-22-paper-research-next-phase.md` — 它是**活文档**而非证据集，直接修正 §Phase 2 命令块在性质上属维护而非改判据。**但本件仍不改它**，理由具体：该文件是 Loop C 队列卡 `LC-RESEARCH-001` 的 `owned_paths` 之一，Loop D 直接改会与在队列卡的归属范围冲突。建议授权后由主线程或该卡按裁定处理。
 
 建议的统一写法（全部已实测通过）：
 

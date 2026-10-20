@@ -1,7 +1,7 @@
 # WP-0 TAT-QA Adapter and Checker Contracts v1
 
 > date: 2026-10-13 | author: Loop D (WP-0 item A5) | status: `SPECIFICATION_ONLY - NOT IMPLEMENTED` | revisions 1.1-1.2 (2026-10-13): hidden-gold search clarified and canonicalized (Sec.4-5)
-> parents: [WP0_TATQA_PACKAGE_v1.md](WP0_TATQA_PACKAGE_v1.md), [task card](thesis_experience_v1_task_card.md), [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md) §2
+> parents: [WP0_TATQA_PACKAGE_v1.md](WP0_TATQA_PACKAGE_v1.md), [task card](../archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md), [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md) §2
 > These contracts describe what Loop A must implement in WP-1. Nothing here is code, and nothing here authorises a run.
 
 ## 1. Task adapter contract

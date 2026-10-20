@@ -132,7 +132,7 @@ runner 对 precheck 报告的校验只有三条（:277-291）：`status == READY
 |---|---|---|---|
 | A | `docs/experiments/2026-09-23_phase1a_data_no_go.md` | 末尾**追加**更正段：必需角色 9 而非 8 + `learnability_feature_ledger` 九条约束 + `analysis_plan` 的 18 个逐字键名与 5 处精确 token | 否（纯更正） |
 | B | 同上 | 同段内追加：命令块解释器与环境变量更正（`.venv`→`venv`、worktree 内用绝对路径、pytest 不用裸 `python3`、删 `PYTHONPATH=src`、`PYTHONPATH=.` 只留给 `paper_result_views.py`），并注明 rc=2 属正确行为勿改 | 否（纯更正） |
-| C | `docs/handoff/2026-09-22-paper-research-next-phase.md` §Phase 2 命令块 | 同 B 的解释器更正 | 需授权：该件是 `LC-RESEARCH-001` 的 `owned_paths` |
+| C | `docs/archive/2026-10-20_entry_consolidation/2026-09-22-paper-research-next-phase.md` §Phase 2 命令块 | 同 B 的解释器更正 | 需授权：该件是 `LC-RESEARCH-001` 的 `owned_paths` |
 | D | 第 19 项 fail-open 路径 | 先在 §4.4 三条处置中择一，再落地 | **需裁定** |
 
 §7 收据与 `analysis_plan` 是「一份还是两份」（决策 5）与 `H3a_uid_any_harm` vs `H3a_cluster_any_harm` 的命名权威，仍须先裁，A 项的措辞依赖其结果 ⇒ 建议 A 与决策 5 同批处理。

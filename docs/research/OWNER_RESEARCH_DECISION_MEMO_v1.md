@@ -56,4 +56,4 @@ Paper E 仍不能独立回答：哪些非响应是合理不变性，哪些漏掉
 **本次决议：□ 采纳首选架构　□ 采用收窄备选　□ 暂缓**  
 **导师 / owner：________　日期：________；RQ3 默认不启动。**
 
-依据：[战略审查](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md) · [科学裁决](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/SANER_SCIENTIFIC_ADJUDICATION_v1.md) · [大论文架构](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/THESIS_RESEARCH_ARCHITECTURE_v1.md)。本文只压缩既有判断，未新增实验、方法或治理设计，未执行上述事项。
+依据：[战略审查](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/STRATEGIC_REVIEW_AND_NEXT_PLANS_v1.md) · [科学裁决](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/SANER_SCIENTIFIC_ADJUDICATION_v1.md) · [大论文架构历史版](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/archive/2026-10-19_THESIS_RESEARCH_ARCHITECTURE_v1.md)。本文只压缩既有判断，未新增实验、方法或治理设计，未执行上述事项。

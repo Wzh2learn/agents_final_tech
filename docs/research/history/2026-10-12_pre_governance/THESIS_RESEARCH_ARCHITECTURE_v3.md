@@ -52,7 +52,7 @@ TH3-RQ2 合并 v2 的反馈构造与学习载体问题；TH3-RQ3 对应 v2 的 R
 
 第一优先级不是 Memory 系统或 SFT，而是：**来自历史任务的经验，能否在不泄漏答案、合理控制预算的条件下，改变未来任务的相关行为并产生有用增量？** 首个验证使用朴素经验复用，不先训练模型或记忆管理器。相关经验只改变行为但没有改善结果，仍不足以进入“有用经验学习”的方法主张。
 
-[H] 核心候选假设保持不变：具有真实执行支持和适用条件的反馈，比仅终点标签或自由反思更有学习价值。它既不是已有项目结果，也不是已证明的文献空白。现有近邻覆盖和新颖性约束继承 [v2 §2](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/THESIS_RESEARCH_ARCHITECTURE_v2.md:26)，不再新增热点路线。
+[H] 核心候选假设保持不变：具有真实执行支持和适用条件的反馈，比仅终点标签或自由反思更有学习价值。它既不是已有项目结果，也不是已证明的文献空白。现有近邻覆盖和新颖性约束继承 [v2 §2](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/archive/2026-10-19_THESIS_RESEARCH_ARCHITECTURE_v2.md:26)，不再新增热点路线。
 
 通过必要性检验后，仅围绕**哪些经验可变成可复用反馈、应保留哪些适用条件**选择一个主要方法机制。控制为一个主任务、一种主 backbone 和一个主要可训练决策，不同时训练 judge、writer、retriever 与 actor。
 

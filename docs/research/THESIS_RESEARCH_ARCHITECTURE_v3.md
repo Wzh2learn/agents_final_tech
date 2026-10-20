@@ -54,7 +54,7 @@ TH3-RQ2 合并 v2 的反馈构造与学习载体问题；TH3-RQ3 对应 v2 的 R
 
 [H] 核心候选假设仍是：具有真实执行支持和适用条件的反馈，可能比仅终点标签或自由反思更有学习价值。**该假设不代表已有方法创新；具体机制与 exact novelty 尚待识别。** 方法贡献不能只凭胜过这些弱对照认定，还须面对朴素经验和合适已有方法。
 
-ACE/MemRL 已覆盖执行反馈与记忆适应，TRUSTMEM/Memory Reward Inflation 覆盖可信更新与错误反馈，PMD 覆盖程序经验到参数，Useful Memories Become Faulty 覆盖持续更新退化。主题与若干通用机制已有直接覆盖，尚不能断言具体未定义方法已被覆盖，也不能声称文献空白。近邻和 claim 约束统一见 [治理基线 §2](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md#2-已有工作风险与创新边界)；[v2 §2](THESIS_RESEARCH_ARCHITECTURE_v2.md#2-热点判断进入已有研究的核心问题而不是重新命名闭环) 保留为历史检索记录。
+ACE/MemRL 已覆盖执行反馈与记忆适应，TRUSTMEM/Memory Reward Inflation 覆盖可信更新与错误反馈，PMD 覆盖程序经验到参数，Useful Memories Become Faulty 覆盖持续更新退化。主题与若干通用机制已有直接覆盖，尚不能断言具体未定义方法已被覆盖，也不能声称文献空白。近邻和 claim 约束统一见 [治理基线 §2](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md#2-已有工作风险与创新边界)；[v2 §2](../archive/2026-10-19_THESIS_RESEARCH_ARCHITECTURE_v2.md#2-热点判断进入已有研究的核心问题而不是重新命名闭环) 保留为历史检索记录。
 
 后续先在 WP-0 完成 [G-RQ/G-M 推进裁决](THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md#3-两个推进门先裁决必要性再申请执行)。最小验证必要性不等于新方法必要性；pilot 正向不等于创新成立。只有复用机会、强基线残差和具体机制差异清楚，才申请候选方法研究。限于**哪些经验可变成可复用反馈、应保留哪些适用条件**，一个主任务、一种主 backbone 和一个主要可训练决策；不同时训练 judge、writer、retriever 与 actor。
 

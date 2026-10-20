@@ -1,6 +1,9 @@
 # Claude Code Project Guide
 
-> 状态: 活跃（Loop C 薄指针） | 更新: 2026-09-22 | 取代/被取代: 无
+> 状态: 活跃（Loop C 薄指针） | 更新: 2026-10-19 | 取代/被取代: 无
+
+2026-10-19 review: the root-rule pointer and project boundaries remain current;
+this file intentionally stays a thin pointer.
 
 Claude Code must follow the repository-wide instructions in [`../AGENTS.md`](../AGENTS.md). Current implementation status is maintained in [`../memory/STATE.md`](../memory/STATE.md); do not duplicate either source here.
 

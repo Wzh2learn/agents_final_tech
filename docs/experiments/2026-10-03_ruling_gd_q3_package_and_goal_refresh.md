@@ -24,7 +24,7 @@
 GB10 @ `31ba327` 实测：`rc=0 / 0 fail / 4 warn`。机器解析基线与 report 的“检查项 + 路径”集合：
 
 ```
-BASE   = { [2] docs/32_模型升级与多agent再思考.md,
+BASE   = { [2] docs/archive/2026-10-19_32_model_upgrade_multiagent_rethink.md,
            [2] docs/33_导师指导吸收_科研三线升级.md,
            [2] docs/34_专利_小论文_大论文协同研究路线.md,
            [2] docs/m1_coldstart_candidates.md }

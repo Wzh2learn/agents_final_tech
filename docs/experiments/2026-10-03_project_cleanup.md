@@ -8,7 +8,7 @@
 
 - `memory/STATE.md`：记录当前 head/提交链、Loop B 覆盖边界和 `DATA_NO_GO` / `NOT_IDENTIFIED` / V2-3 / 146 列未复核 / token 未就绪。
 - `docs/research/README.md`：移除“无需裁定即可执行”口径；明确 FinQA 步级路线已由 V2-3 关闭，146 列只有输入包，R1/R2/ADJ 未运行。
-- `docs/handoff/2026-09-22-paper-research-next-phase.md`：历史正文保留，新增当前状态覆盖注记；GB10 已验证，docs_lint 当前 `0 fail / 4 warn`。
+- `docs/archive/2026-10-20_entry_consolidation/2026-09-22-paper-research-next-phase.md`：历史正文保留，新增当前状态覆盖注记；GB10 已验证，docs_lint 当前 `0 fail / 4 warn`。
 - `paper/research_asset_map_v2.md`：修正 Office 视觉验收、D-C 暂存/不新增下载状态，登记 Q3 runner、输入包与“已装配未复核”边界。
 - `docs/architecture/codebase_map.md`：登记 `research/valentine_q3_review_package.py` 的输入/输出、allowlist、零 ground_truth 读取与禁止事项。
 - `docs/datasets/2026-09-24_label_review_protocol_templates.md`：补 R1/R2/ADJ 会话身份、模型身份互异且非生成者的治理硬约束；当前不派发。

@@ -7,7 +7,7 @@
 
 | 线 | 主装（按需, 单任务 ≤5） | 常备背景（不占配额） |
 |---|---|---|
-| 论文线 | research-writing-skill / algorithm-description / paper-review-check / paper-polish-and-audit / scientific-toolkit-skill | graph-loop-rules |
+| 论文线 | research-writing-skill / paper-deep-reading / algorithm-description / paper-review-check / paper-polish-and-audit / scientific-toolkit-skill | graph-loop-rules |
 | 治理线 | neat-freak / jinrong-docs-sync / code-cleanup-helper / skill-doctor / skill-map / repo-audit / readme-audit | graph-loop-rules |
 | 运维线 | systematic-debugging / m1-gap-triage / m2-rag-playbook / graph-loop-rules / experiment-autopsy / shift-notes / experiment-analysis / train-monitor / gpu-env | graph-loop-rules |
 | 前端线 | playwright / frontend-quality / verify-before-done | graph-loop-rules |

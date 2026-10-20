@@ -114,7 +114,7 @@
 
 [E] B4 residual memo记录146行、51个gold map、38个正确map、13个residual、9个harmful map；最大pair占6/13 residual，salted风险上界0.125未过原门。它是探索性证据，不是可外推效果。[S9]
 
-**[H] 下一个问题应先是：观测能否改善这13个残差上的选择性决策，并避免破坏已有正确动作？** 比起“8B能否学会”，先测“是否存在稳定、分散、可泛化且廉价规则未解决的增量”更能决定是否值得训练。当前数量和cluster结构不足以直接确认该增量。
+**[H] 下一个问题应先是：观测能否改善这13个残差上的选择性决策，并避免破坏已有正确动作？** 比起“8B能否学会”，先测“是否存在稳定、分散、可泛化且无法由廉价规则解释的增量”更能决定是否值得训练。当前数量和cluster结构不足以直接确认该增量。
 
 ### 5.3 已经有观测碰撞，却把注意力放在完美定位
 
@@ -350,7 +350,7 @@ N1是主线；N2/N3先各做小资格审查，最多择一升级。R4不分配�
 
 | 编号 | 核心来源与本轮用途 |
 |---|---|
-| S1 | [最新closeout](../../PROJECT_CLOSEOUT_AND_HANDOFF_v1.md)、[STATE](../../memory/STATE.md)、[科研README](README.md)：定位当前authority、分支终态、未成立任务与入口漂移。 |
+| S1 | [历史closeout](../archive/2026-10-19_PROJECT_CLOSEOUT_AND_HANDOFF_v1.md)、[STATE](../../memory/STATE.md)、[科研README](README.md)：定位当前authority、分支终态、未成立任务与入口漂移。 |
 | S2 | [canonical manuscript](../../paper/saner_rene_manuscript_v1.md)、[claim matrix](../../paper/saner_rene_claim_matrix_v1.json)、[scope lock](../../paper/saner_rene_manuscript_scope_lock_v1.md)：精读核心论证，不改冻结稿。 |
 | S3 | [observability metrics](stage_e_observability_metrics_v1.md)、[zero-event note](stage_e_zero_event_uncertainty_note_v1.md)：构念、分母、循环标签与零事件不确定性。 |
 | S4 | [matched-FPR说明](stage_e_matched_fpr_reanalysis_v1.md)、[既有复分析JSON](../../research/stage_e_method_revision_20261009/matched_fpr_reanalysis.json)：clean support、仿射结构及耦合阈值。 |

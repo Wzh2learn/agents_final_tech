@@ -21,14 +21,13 @@
 | paper/PAPER_E_LAYER1_INDEPENDENT_GOLD_DESIGN_v1.md | Layer-1 独立 gold 设计（权威） |
 | paper/PAPER_E_LAYER1_LOOP_A_PROMPT_v1.md | Loop A 执行 prompt |
 | paper/PAPER_E_LAYER1_LOOP_C_AUDIT_PROMPT_v1.md | Loop C 审计 prompt |
-| docs/research/PAPER_E_LAYER1_LOOP_C_AUDIT_v1.md | Layer-1 fresh-context 审计结论 |
-| research/paper_e_layer1_20261015/ | Layer-1 运行输出（已生成） |
+| research/paper_e_layer1_20261015/ | Layer-1 运行输出（待 Loop A 生成） |
 
 ## 已核事实（2026-10-15）
 - GB10 数据在 `data/research/drift_v0/`：`input/tatqa_tables.json` sha256 `3e7e0568…`、`output/injection_map.json` sha256 `d7612405…`，与 Loop A prompt 期望值逐字一致；`logs/graph/eval/t2_visibility_sensitivity.json` 存在。
 - 本地 = GB10 = origin/main。
 
 ## 下一步
-1. ~~Loop A 执行 Layer-1 独立 gold~~：已完成，`GOLD_NOT_ESTABLISHED`。
-2. ~~Loop C 独立审计~~：GB10 launcher 长时间无进展后停止；由 Loop D fresh-context 按 Loop C 清单复核，结论为 `CONDITIONAL / GOLD_NOT_ESTABLISHED`。
-3. **不进入 Layer 2**。当前 v1 independent gold 的 U 率为 59.3%，超过 30% 预设门槛；35 个 U 案例需人工裁决，或需要新的、绑定实际任务答案与下游执行的新契约。
+1. Loop A（`pe-l1-feas`）经 launcher 执行 Layer-1 独立 gold。
+2. Loop C（`pe-l1-audit`）经 launcher 独立审计。
+3. Loop D 汇总 Layer-1 verdict，决定是否进入 Layer 2。

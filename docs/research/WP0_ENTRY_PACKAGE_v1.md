@@ -3,7 +3,7 @@
 > date: 2026-10-13 | author: Loop D | status: `ENTRY_READY_FOR_LOOP_A / QUALIFICATION_PENDING / NO_EXPERIMENT_AUTHORISED`
 > 供下一位 Loop A 执行者直接开工。三块内容：source landscape、candidate ranking、literature gap map。
 > 详版：[WP0_QUALIFICATION_REPORT_v1.md](WP0_QUALIFICATION_REPORT_v1.md)（资格）、[WP0_CANDIDATE_ANALYSIS_v1.md](WP0_CANDIDATE_ANALYSIS_v1.md)（排序/许可/最小设计）。
-> 权威范围：[task card](thesis_experience_v1_task_card.md)、[blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md)、[entry](MASTER_RESEARCH_EXECUTION_ENTRY_v1.md)。
+> 权威范围：[task card](../archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md)、[blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md)、[entry](../archive/2026-10-20_entry_consolidation/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md)。
 
 ## 1. Source landscape
 

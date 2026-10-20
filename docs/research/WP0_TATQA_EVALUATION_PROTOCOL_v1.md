@@ -1,7 +1,7 @@
 # WP-0 TAT-QA Evaluation Protocol v1 (SPEC)
 
 > date: 2026-10-13 | author: Loop D | status: `SPEC_ONLY - NOT EXECUTABLE` | no experiment, no model call, no training.
-> parents: [task card](thesis_experience_v1_task_card.md) Sec.2-4, [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md) Sec.2, [package](WP0_TATQA_PACKAGE_v1.md) Sec.5, [adapter/checker contract](WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md). Numbers below are inherited, not new.
+> parents: [task card](../archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md) Sec.2-4, [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md) Sec.2, [package](WP0_TATQA_PACKAGE_v1.md) Sec.5, [adapter/checker contract](WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md). Numbers below are inherited, not new.
 
 ## 1. Question and scope
 

@@ -191,7 +191,7 @@ python3 scripts/docs_lint.py --json /tmp/loop_c_docs_lint_report.json
 
 **Test counts (fresh, this session):** binding-v3 integration **25 passed**; preflight **3 passed**; binding-v2 runtime **10 passed**; focused freeze/scorer/resolver/canonicalization **19 passed**; combined **57 passed in 0.48s** (19+10+3+25). All local — `DEV_ONLY / NON_AUTHORITATIVE`; GB10 remains authoritative.
 
-**Warning list — `docs_lint`: `PASS (0 fail / 6 warn)`**, all six pre-existing staleness warnings: `docs/29_graph_engineering_roadmap.md`, `docs/32_模型升级与多agent再思考.md`, `docs/33_导师指导吸收_科研三线升级.md`, `docs/34_专利_小论文_大论文协同研究路线.md`, `docs/CLAUDE.md`, `docs/m1_coldstart_candidates.md`. One INFO (expected `DEPRECATED` registry row). Within the known-warning ceiling.
+**Warning list — `docs_lint`: `PASS (0 fail / 6 warn)`**, all six pre-existing staleness warnings: `docs/archive/2026-10-19_29_graph_engineering_roadmap.md`, `docs/archive/2026-10-19_32_model_upgrade_multiagent_rethink.md`, `docs/33_导师指导吸收_科研三线升级.md`, `docs/34_专利_小论文_大论文协同研究路线.md`, `docs/CLAUDE.md`, `docs/m1_coldstart_candidates.md`. One INFO (expected `DEPRECATED` registry row). Within the known-warning ceiling.
 
 **Hashes (sha256, first 16):** HEAD `e97340387888290e` · authority map `a9e645b9cda647a9` · preflight doc `77e43f5921bcc3a1` · handoff template `38d490a2fa6f9456` · tiered-eval `2885416eaca36cd1` · preflight checker `766944b292db4bcb` · preflight tests `144a17033034a589` · binding-v3 receipt `fb0b3f4bad8c379d` (self `d85101d6…` OK) · binding-v3 summary `ef48caa482b602e6` · binding-v3 source `997d914fc1250f82` · STATE `237bd7295eda2c76` · THREADS `09bf6049ff6f2059` · INDEX `ce65c03ee3de73cd` · dispatch `3097710216f515c7` · analysis-plan manifest self `b9899ad304bf4a56` OK.
 

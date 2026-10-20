@@ -60,6 +60,6 @@ Notes: the RENE CFP states no abstract word limit (UNKNOWN in the requirements r
 | Venue requirements (primary-source record) | `paper/SANER_RENE_2027_REQUIREMENTS.md` |
 | Venue portability note | `research/positive_repair_20261011/VENUE_PORTABILITY_NOTE_v1.md` |
 | Independent audit record | `docs/research/LOOP_C_INDEPENDENT_AUDIT_A1A7_v1.md` |
-| Freeze guardrails | `PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md` |
+| Freeze guardrails | `docs/archive/2026-10-20_entry_consolidation/PROJECT_FINAL_STATE_BEFORE_SUBMISSION.md` |
 
 **Nothing in this handoff has been executed; registration and submission remain owner actions.**

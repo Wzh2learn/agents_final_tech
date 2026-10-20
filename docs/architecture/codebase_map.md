@@ -49,9 +49,9 @@
 
 ## 研发协作与自动化程度
 
-- 设计依据：`docs/17_Graph_Engineering_多层Loop设计.md`；工程路线：`docs/29_graph_engineering_roadmap.md`。
+- 设计依据：`docs/17_Graph_Engineering_多层Loop设计.md`；工程路线：`docs/archive/2026-10-19_29_graph_engineering_roadmap.md`。
 - 执行面权威：`docs/governance/2026-09-07_execution_plane_boundary.md`。本地做控制、分析和审计；GB10 承载获批正式实验事实。
-- D 给有界任务和授权；A 执行；B 独立验证；C 独立审计；D 验收。科研阶段顺序只来自 `docs/handoff/2026-09-22-paper-research-next-phase.md`。
+- D 给有界任务和授权；A 执行；B 独立验证；C 独立审计；D 验收。科研阶段顺序只来自 `docs/archive/2026-10-20_entry_consolidation/2026-09-22-paper-research-next-phase.md`。
 - `graph_orchestrator.sh` 有 B 启动逻辑，A/C 分支主要给派发说明；不是完整 A→B→C 自动流水线。
 - `loop_b_verify.sh` 的判分逻辑是确定性的，但默认 canary、API、QA/PG 检查会访问真实服务，不能当零调用单测执行。
 - `dispatch_precheck.sh` 校验 watcher 与运行收据合同，不执行 watcher；合成收据只用于测试，不能作为真实开窗凭证。

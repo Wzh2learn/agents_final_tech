@@ -72,7 +72,7 @@
 
 GB10 上 Loop C Lead 控制面（`~/.jinrong-loop-c`）实测：无 `STOP`、`ACTIVE.json={}`、state `IDLE`，队列 6 项 = 2 READY / 4 BLOCKED。其中 `LC-RESEARCH-001`（离线证据图 + 数据补充设计）为 READY 但从未被认领；`LC-DATA-SUPPLEMENT`、`LC-PHASE1A`、`LC-PHASE2` 均 BLOCKED。
 
-`LC-RESEARCH-001` 卡片的 owned paths 是 `docs/experiments/2026-09-23_phase1a_data_no_go.md` 与 `docs/handoff/2026-09-22-paper-research-next-phase.md`，**forbidden 含 `paper/*` 与 `research/*`**，故它按现有范围**无法**产出本件（冻结收据在预注册件内、合同在 `research/` 下）。本件与该卡互补，不重复。
+`LC-RESEARCH-001` 卡片的 owned paths 是 `docs/experiments/2026-09-23_phase1a_data_no_go.md` 与 `docs/archive/2026-10-20_entry_consolidation/2026-09-22-paper-research-next-phase.md`，**forbidden 含 `paper/*` 与 `research/*`**，故它按现有范围**无法**产出本件（冻结收据在预注册件内、合同在 `research/` 下）。本件与该卡互补，不重复。
 
 该卡另有一处自身矛盾需先解，才可派发：`Owner: Loop A (mimo-v2.6-flash)`，但 forbidden 写「no model or endpoints」、acceptance 写 `calls=0`。派发前需明确它究竟走不走模型端点，并按安全门 §4 设定调用预算与 canary。
 

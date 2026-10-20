@@ -279,6 +279,6 @@ O = answer_consistency == 1
 | Q3 | [FinQA formal runner](D:/AIRcommend/JinRongAgents/agents_final_tech/research/finqa_v2_20261010/run_finqa_v2_formal_experiment.py:540)：V/D/O 的实际定义 540–545。 |
 | Q4 | [旧 FinQA recompute audit](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/experiments/2026-10-10_loop_c_finqa_v2_formal_v3_recompute_audit.md:93)：PASS 93；旧正迁移解释 97/101，本轮不继承。 |
 | Q5 | [accepted FinQA mismatch autopsy](D:/AIRcommend/JinRongAgents/agents_final_tech/docs/research/finqa_v2_measurement_object_mismatch_autopsy_v1.md:8)：对象错配解释与 allowed/forbidden claims。 |
-| H | [closeout / handoff](D:/AIRcommend/JinRongAgents/agents_final_tech/PROJECT_CLOSEOUT_AND_HANDOFF_v1.md:59)：发布计划未执行 59；匿名 URL 待建立 65；编译完成与实际提供的区别。 |
+| H | [closeout / handoff](../archive/2026-10-19_PROJECT_CLOSEOUT_AND_HANDOFF_v1.md:59)：发布计划未执行 59；匿名 URL 待建立 65；编译完成与实际提供的区别。 |
 
 本轮只做选择性阅读、定义核对、代数审查与文档记录，没有调用模型/评审服务，没有新数据采样、统计重跑、校准实验或代码改动。本文的修订原则尚未应用到稿件、claim matrix、冻结协议或历史 audit。

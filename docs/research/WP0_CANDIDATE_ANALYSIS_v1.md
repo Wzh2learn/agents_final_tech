@@ -1,7 +1,7 @@
 # WP0 Candidate Analysis v1
 
 > date: 2026-10-13 | author: Loop D (read-only forward preparation) | status: `PREPARATION_ONLY / NO_EXPERIMENT / NO_DOWNLOAD`
-> parent: [WP0_QUALIFICATION_REPORT_v1.md](WP0_QUALIFICATION_REPORT_v1.md) | authority: [task card](thesis_experience_v1_task_card.md), [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md), [entry](MASTER_RESEARCH_EXECUTION_ENTRY_v1.md)
+> parent: [WP0_QUALIFICATION_REPORT_v1.md](WP0_QUALIFICATION_REPORT_v1.md) | authority: [task card](../archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md), [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md), [entry](../archive/2026-10-20_entry_consolidation/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md)
 > purpose: so that the next session does not start from zero. Nothing here authorises a download, a run, or a new RQ.
 
 ## 1. Candidate task-source ranking (fit to "two-period increase/decrease with unit unification")

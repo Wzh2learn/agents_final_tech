@@ -2,7 +2,7 @@
 
 > date: 2026-10-13 | author: Loop D | status: `A1-A6 EXECUTED / ORIGIN RULE INSTANTIATED (182 origins; 60 candidate items; receipts on GB10) / NO_EXPERIMENT`
 > owner decision applied: WP-0 source family = **TAT-QA**. Purpose: finish the qualification for TAT-QA and leave a Loop-A-executable entry. No method development, no Memory/SFT/DPO, no scope expansion.
-> parent: [WP0_ENTRY_PACKAGE_v1.md](WP0_ENTRY_PACKAGE_v1.md), [WP0_QUALIFICATION_REPORT_v1.md](WP0_QUALIFICATION_REPORT_v1.md), [task card](thesis_experience_v1_task_card.md)
+> parent: [WP0_ENTRY_PACKAGE_v1.md](WP0_ENTRY_PACKAGE_v1.md), [WP0_QUALIFICATION_REPORT_v1.md](WP0_QUALIFICATION_REPORT_v1.md), [task card](../archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md)
 
 ## 1. Licence / source feasibility (VERIFIED today from primary sources)
 

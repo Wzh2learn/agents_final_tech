@@ -137,7 +137,7 @@ def test_active_loop_prompts_use_current_authorities() -> None:
 
 
 def test_research_plan_binds_execution_to_existing_governance() -> None:
-    plan = REPO_ROOT / "docs/handoff/2026-09-22-paper-research-next-phase.md"
+    plan = REPO_ROOT / "docs/archive/2026-10-20_entry_consolidation/2026-09-22-paper-research-next-phase.md"
     text = plan.read_text(encoding="utf-8")
     for reference in (
         "docs/29_graph_engineering_roadmap.md",

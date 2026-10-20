@@ -1,14 +1,42 @@
 # memory/THREADS.md — 未决线索
 
+[10-20] #MERGED-FINRANK-OPEN-RESEARCH-RETURN: Completed
+`FINRANK_DEV_HEADROOM_AND_SCOPE_TRANSFER_V1` and
+`OPEN_RESEARCH_DISCOVERY_AND_MECHANISM_PROBES_V1`. Paper E remains
+`NARROW_AND_CONTINUE`. FinRank H stops on the current panel: B0 V4 is 5/7 with
+derived plan minimal-sufficiency 7/7, plan precision 5/7, and consume 6/7.
+The outcome residuals are one sufficient-evidence abstention (`ESD_006`) and
+one fixed-budget serialization failure (`ESD_012`); plan-level over-selection
+remains, but no executed task-matched correction histories exist. Open probes stop
+score-disagreement and exact-match-only feedback; continue composite feedback
+semantics using set-valued sufficiency plus scope precision. New ledger:
+56/192 requests and 458,650/2,000,000 tokens; retries/judge/training/history/
+pilot/Memory writes are zero. Return:
+`research/research_direction_sprint_20261020_v1/execution_v2/MERGED_GOAL_RETURN.md`;
+independent review:
+`research/research_direction_sprint_20261020_v1/execution_v2/INDEPENDENT_SCIENCE_REVIEW.md`;
+GB10 authoritative review:
+`research/research_direction_sprint_20261020_v1/execution_v2/GB10_LOOP_C_REVIEW.md`.
+
+[10-20] #OPEN-RESEARCH-DISCOVERY: Owner explicitly requested broader research and Loop D autonomy. New Goal `OPEN_RESEARCH_DISCOVERY_AND_MECHANISM_PROBES_V1` keeps bounded implementation/observation work while allowing independent question/task selection, thin prototypes, low-cost probes and reprioritization within the existing shared budget. Seven-task FinRank completion and the former 70/30 split are not universal discovery gates. Suggested priorities: active experience acquisition and targeted evidence acquisition, with alternative/self-proposed directions allowed. No new model run or scientific result in this planning step. Charter: `research/research_direction_sprint_20261020_v1/OPEN_RESEARCH_CHARTER.md`.
+
+[10-20] #FINRANK-AI-SEMANTIC-REVIEW: Owner-requested AI reference review completed: 13 retained for development (7 auto + 6 future energy), 9 revision/review, 2 excluded; human_confirmed=false, no online calls. Original task draft and all prior sprint results preserved. Next work: implement/freeze/verify tool runner, then development baseline under the existing owner-adopted Goal; no blanket all-24 human gate or independent validation claim. Evidence and continuation Goal: `research/research_direction_sprint_20261020_v1/execution_v1/ai_semantic_adjudication_v1/ADJUDICATION_AND_NEXT_GOAL.md`.
+
+[10-20] #PAPER_E_EXTERNAL_AUDIT_AND_EXPERIENCE_SCOPE_V1: Goal completed with conditional rulings. Paper E continues as a bounded two-case measurement audit after the documented FinRank post-hoc identity correction; the new experience-scope candidate is `GENERATION_NOT_AUTHORIZED`. The single open decision is qualified human semantic adjudication of 24 FinRank task references plus the visible scope/tool contract. Current return: `research/research_direction_sprint_20261020_v1/execution_v1/GOAL_RETURN.md`.
+
+[10-20] #DOC-ENTRY-CONSOLIDATED: duplicate current-entry, handoff, task-card and result-summary documents were consolidated. Current routing is `docs/research/README.md`; `memory/STATE.md` is the short state surface; detailed reports are evidence. Historical files are under `docs/archive/2026-10-20_entry_consolidation/`.
+
+[10-17] #NEXT-PHASE-QUALIFIED-EXPERIENCE-QUESTION: TQ-4/TQ-5 支线已收口，`NO_PROMOTION` 保留；现有 TQ 案例只作为大论文的测量设计与问题动机材料，不升级为方法优越性、经验学习有效性或通用失败率证据。下一阶段唯一议题：**证据资格筛选后的真实历史经验，在未来独立任务上是否优于通用规则、一般额外上下文和未经筛选的经验**。WP-0 只读审计已记录于 `docs/archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md` §8：TAT-QA source/origin 资格仍是 `QUALIFIED_CONDITIONAL`，但历史经验池 `NOT_ESTABLISHED`（S4/S4B `completed_episodes=0`，无完整 feedback/correction episode，且有 raw overwrite 事故）。状态 `WP0_READONLY_AUDIT_RECORDED / HISTORY_POOL_NOT_ESTABLISHED / EXPERIMENT_NOT_AUTHORIZED`：不沿用 TQ 剩余预算，不启动第三轮，不重开已停止面板，不修改冻结版 Paper E，不把 AI 复核升级为人工 gold。既有交付见 `research/paper_e_layer1_20261015/scientific_qualification/task_gold_qualification_v1/tq4_calibration_v1/closeout/scientific_revision_v1/CASE_EVIDENCE_MATRIX.md`、`CONTRIBUTION_RULING_v2.md`、`PAPER_E_UPGRADE_OUTLINE_v2.md`。
+
 [10-14] #WP2-PREFREEZE-EXECUTED-AND-SWEEP: (1) WP-2 预冻结三连轮执行+审计完毕（细节见 [10-13] 更新条目；产物见 `research/tatqa_wp0_2026/wp2/`、`docs/research/WP2_F5_ELIGIBILITY_DECISION_v1.md`、`research/tatqa_wp0_2026/wp1/S0C_FIX_RECEIPT.json`、`wp2/PILOT_ELIGIBILITY_RECEIPT.json`）。(2) Paper E 字符串清扫 v2 执行完毕（EXECUTED；重建 9 页；双审计 PASS；PDF 禁用 token 全 0；见 sweep 清单与 PDF 审计 13f）。(3) 两周 commit 复盘 + inquiry 自检交付（`docs/research/TWO_WEEK_COMMIT_REVIEW_v1.md`；含 G1–G6 与防复发条款）。(4) F-10 证据补档+撤回闭环（r4 PASS；撤回件已随批补登 INDEX）；S7 清单累积：late≠early fail-closed 断言、runner pre-fix 实跑路径、矩阵收据标签语义说明、withdrawn_claim 引文补正（O-1）。(5) owner 已按默认开跑（P2/P3/P4 落档 + MODEL_GO）：F2–F4+S4→S7 采集/冻结已派发（`tatqa-wp2-s4s7-20261014`），S9 待 C 预审；skill 轻整理已执行；Paper E AI 味精修 14 处（13g）；越权提交政策放宽（无损即可接受）；ARR 旧链维持不动。(6) S4 采集两度同类桥失败 → STOP_THIS_PANEL 暂停（9/300 已用；两项 incident 已披露）。(7) 桥失败根因+长期方案完成；桥 v2（自研约束解码、零新依赖、离线资格 PASS）已入库；**待 owner 一句话批准在线资格（≤3 探针）→ S4c**。(8) skill 体检快照 + skill-map 编码修复 + 本机 openai.yaml 修复完成。(9) RENE 录用论文风格学习完成（Paper E 对照=无必须修改项）。(10) S4C 在线资格执行：FAIL_FINAL → STOP_THIS_PANEL 永久（探针1 HTTP 400=processor 调用约定错配 vs transformers 5.14.1；零模型复现；两 incident；S4c 未跑）；Loop C 独立复核 PASS 无异议（sha 60ff75dd…）；全局预算 10/300；将来重启该线属 owner 级新决策。
 
 [10-13] #PAPER-E-PRESENTATION-CLOSED-AND-WP2-PREP: (1) Paper E 表达层收口：移除内嵌 sha256 与部署式字符串（`127.0.0.1:8004` -> `served locally`；`:8004 judge` x2 -> `local judge`），重建 9 页 / 0 overfull；`PRE_SUBMISSION_AUDIT` / `WIDE_EVIDENCE_CHECK = PASS`；PDF 文本 `127.0.0.1`/`:8004`/`sha256`/`localhost` 计数全 0；commit `078398e`（robustness Sec.8 与 PDF_LAYOUT_AUDIT 记录同步更新）；科学数字/claim 零变化，10/20 冻结不受影响。注意：`paper/teacher_review_draft_v1.md` 与 `paper/submission_draft_arr_www_anonymous_v0.md`（另一条 ARR/WWW 冻结链）仍含 `:8004`，未动，需该链自查修订+重钉、待 owner 决定。(2) 负结果稳健性核查闭环：复算 11/11 + FPR 字节级重跑 + 独立 bug-lens PASS/PASS；记录 `research/negative_result_robustness_20261013/`（含 §7 循环风险 Q&A、§8 文本扫描）。(3) 大论文 WP-2 前置就绪：runbook（S0–S11 四步法）+ split dry-run 收据入档（`7a6cc11`）；新增 Loop A / Loop C 预冻结执行卡（当晚已派发执行：Loop A×3 轮 + Loop C×3 轮；勿再按"未派发"引用）于 `research/tatqa_wp0_2026/wp2/`；待 owner 拍板 P2 feedback-right / P3 actor+MODEL_GO / P4 预算窗口；S0–S3 已执行完毕（2026-10-14 凌晨），F-5 资格按 owner 授权闭环。已记录发现：题本需“每原点 2 题”（现 1 题；176 原点有 >=2 行）。(4) skill 库第二轮合并首项已入档（`portfolio-triage` -> `inquiry-methods`，`7a6cc11`）；第二轮评估已交付：零新合并（C9/C10 保持独立）；3 个轻整理待批。
 
-[10-12] #EXECUTION-HANDOFF-WAITING-NEXT-TASK: [执行侧状态](../docs/research/EXECUTION_HANDOFF_STATUS_v1.md) 固定后续两项：Paper E按gate进入WP-E修订流程；大论文仅WP-0只读资格核验。当前科学纠偏/材料核验未执行、两门PENDING；已有owner待办见下方FINAL条目，不新增路线或门。主入口齐备，STATE旧目标已标历史；蓝图“拟建task card”不表示应重建或资格已过。远端实际版本/文件与具体权限在下一阶段任务绑定；本轮交接完成后停止，未派活、未改稿/代码、未实验。
+[10-12] #EXECUTION-HANDOFF-WAITING-NEXT-TASK: [执行侧状态](../docs/archive/2026-10-19_execution_handoff_status_v1.md) 固定后续两项：Paper E按gate进入WP-E修订流程；大论文仅WP-0只读资格核验。当前科学纠偏/材料核验未执行、两门PENDING；已有owner待办见下方FINAL条目，不新增路线或门。主入口齐备，STATE旧目标已标历史；蓝图“拟建task card”不表示应重建或资格已过。远端实际版本/文件与具体权限在下一阶段任务绑定；本轮交接完成后停止，未派活、未改稿/代码、未实验。
 
-[10-12] #FINAL-RESEARCH-HANDOFF-PENDING-ACTIONS: 当前入口为 [repo治理收尾](../docs/research/REPO_GOVERNANCE_FINAL_v1.md)。Paper E [投稿门禁](../docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md) = BLOCKED_SCIENCE：A2核心claim及其余作者裁决未落实，尚需明确改稿范围、同一最终包验收、作者签署与owner外发决定；旧“只剩人工事项”已失效。硕士 [执行入口](../docs/research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md) 下一步仍WP-0只读来源/许可/目标/经验核验，G-RQ/G-M PENDING、创新未识别；Memory/SFT/DPO/Adaptation未来空间不等于现役贡献或运行许可。Git集成/远端运行/独立GB10验收未本轮核验，工作区脏件保留；无清场或删除请求。本地skill静态0 errors/139 warnings（既有）、map 27项启发式引用候选，目录债务保留，不是新增科学阻断；未自动修复。后续Loop D按具体包与权限派活，Loop A不自动推进。
+[10-12] #FINAL-RESEARCH-HANDOFF-PENDING-ACTIONS: 当前入口为 [research README](../docs/research/README.md)；旧 repo 治理收尾、执行入口和 handoff 均为历史证据。Paper E [投稿门禁](../docs/research/PAPER_E_SUBMISSION_READINESS_GATE_v1.md) = BLOCKED_SCIENCE：A2核心claim及其余作者裁决未落实，尚需明确改稿范围、同一最终包验收、作者签署与owner外发决定；旧“只剩人工事项”已失效。历史 WP-0 任务卡已归档，当前经验复用边界见 research README。Git集成/远端运行/独立GB10验收未本轮核验，工作区脏件保留；无清场或删除请求。本地skill静态0 errors/139 warnings（既有）、map 27项启发式引用候选，目录债务保留，不是新增科学阻断；未自动修复。后续Loop D按具体包与权限派活，Loop A不自动推进。
 
-[10-12] #TH3-WP0-DESIGN-QUALIFICATION-PENDING: [最小科学验证任务卡](../docs/research/thesis_experience_v1_task_card.md) 已完成设计；四臂只识别固定经验包的受限效应，不分离反馈资格的贡献，不证明Memory/SFT或方法创新。下一步仍需只读绑定确切来源/revision/文件/IDs/许可、origin/近重复、参考目标与经验可得性，交导师/owner裁决；`G-RQ=PENDING / G-M=PENDING / METHOD_NOVELTY=NOT_IDENTIFIED`。CONTINUE只支持申请必要性/既有基线比较，未授权WP-1/2。本轮零实验、代码/改稿、模型或GB10访问。
+[10-12] #TH3-WP0-DESIGN-QUALIFICATION-PENDING: [最小科学验证任务卡](../docs/archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md) 已完成设计；四臂只识别固定经验包的受限效应，不分离反馈资格的贡献，不证明Memory/SFT或方法创新。下一步仍需只读绑定确切来源/revision/文件/IDs/许可、origin/近重复、参考目标与经验可得性，交导师/owner裁决；`G-RQ=PENDING / G-M=PENDING / METHOD_NOVELTY=NOT_IDENTIFIED`。CONTINUE只支持申请必要性/既有基线比较，未授权WP-1/2。本轮零实验、代码/改稿、模型或GB10访问。
 
 [10-12] #THESIS-RESEARCH-BOUNDARY-FROZEN: 当前边界以 [研究治理基线v1](../docs/research/THESIS_RESEARCH_GOVERNANCE_BASELINE_v1.md) 为准，架构v3管范围、蓝图v1管工作包与原首验参数；取代下面较早规划条目的未来推进口径。RQ2是待验证假设，具体方法创新未识别；Paper E不认证学习资格，Memory/SFT/Adaptation不预设贡献。`G-RQ=PENDING / G-M=PENDING / METHOD_NOVELTY=NOT_IDENTIFIED`；下一步仅WP-0只读核验，首验也须通过两门对最小验证范围的裁决与具体许可，pilot正向不自动进入新算法。导师待裁决任务/必要性、方法差异、资源与学位要求；历史字节快照已保留。零实验/代码/改稿/GB10/训练/外发，旧闭线与NOT_RUN不变。
 
@@ -63,7 +91,7 @@
 - **GB10 仍待复核**：上次已知 production 为 `e5ab809`；2026-09-23 的一次 SSH 连接超时，当前 checkout、脏件、进程、Loop B、控制队列、私有数据和 Loop C Lead 均未验证。不得使用本地缓存 `gb10/main=3dabbc7` 推断实况，不得认领 READY 卡。
 - **恢复顺序**：先只读核 GB10 状态并建立干净隔离 worktree，再只读挂载私有补充包，跑聚焦测试和两次 `strace` 预检，要求报告逐字一致、零 connect、七门全 PASS；随后由独立人员复核许可、标签身份/裁决、分析计划与 parser receipt。任何一步失败继续 `DATA_NO_GO`。
 - **仍需后续门/授权**：GB10 私有包与人工验收通过后，Phase 1a 正式可学性探针仍须按已绑定配置运行；Phase 2 数据 replay 即使已有软件骨架仍须单独批准并按 handoff 双跑验收；4B smoke、8B 主训练、模型/服务/数据库动作、正式实验数字和公开投稿均未开放。Office 视觉验收仍为独立待办；专利状态未确认前不外发。
-- **当前执行权威**：入口为 `docs/research/README.md`，叙事为 `paper/research_story_v2.md`，证据为 `paper/research_asset_map_v2.md`，唯一计划为 `docs/handoff/2026-09-22-paper-research-next-phase.md`。旧 closeout 细节留在 Git 与 handoff §10/§12，不再复制到当前台账。
+- **当前执行权威**：入口为 `docs/research/README.md`，叙事为 `paper/research_story_v2.md`，证据为 `paper/research_asset_map_v2.md`。`2026-09-22-paper-research-next-phase.md` 已归档为历史计划，不再作为当前排期入口。
 
 ## 技术未决（来自 blocked_questions.md 现存条目）
 

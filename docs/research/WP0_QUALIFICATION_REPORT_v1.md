@@ -1,7 +1,7 @@
 # WP0_QUALIFICATION_REPORT_v1.md
 
 > date: 2026-10-13 | author: Loop D (executing the WP-0 read-only qualification) | status: `QUALIFICATION_REPORT_ONLY / G-RQ=PENDING / G-M=PENDING / EXPERIMENT_NOT_RUN` (TAT-QA update 2026-10-13: see Sec.10; A1-A6 closed)
-> authority: [论文 E 投稿门禁](../PAPER_E_SUBMISSION_READINESS_GATE_v1.md), [SANER 科学裁决](SANER_SCIENTIFIC_ADJUDICATION_v1.md), [研究执行入口](MASTER_RESEARCH_EXECUTION_ENTRY_v1.md), [执行蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md), [WP-0 task card](thesis_experience_v1_task_card.md)
+> authority: [论文 E 投稿门禁](../PAPER_E_SUBMISSION_READINESS_GATE_v1.md), [SANER 科学裁决](SANER_SCIENTIFIC_ADJUDICATION_v1.md), [研究执行入口](../archive/2026-10-20_entry_consolidation/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md), [执行蓝图](THESIS_EXECUTION_BLUEPRINT_v1.md), [WP-0 task card](../archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md)
 > Rule applied: read-only material verification. No download, no data-body access, no model call, no runner, no production service. Nothing was inferred where the record is silent.
 
 ## 1. WP-0 checklist status (task card §6)
@@ -86,7 +86,7 @@ So the E/C construction depends on materials that do not exist. What *can* be bu
 
 ## 9. Traceability (what was read for this report)
 
-`docs/research/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`; `docs/research/THESIS_EXECUTION_BLUEPRINT_v1.md` §2-§3; `docs/research/thesis_experience_v1_task_card.md`; `docs/datasets/paper-public-source-registry-v1.json`; `docs/datasets/2026-09-24_dB_licence_evidence.md`; `docs/datasets/2026-10-05_rq2_candidate_source_screening_v1.md`; `docs/datasets/2026-10-05_model_training_go_application_v1.md`; repository `data/` inventory; `research/thesis_experience_v1/` existence check (absent).
+`docs/archive/2026-10-20_entry_consolidation/MASTER_RESEARCH_EXECUTION_ENTRY_v1.md`; `docs/research/THESIS_EXECUTION_BLUEPRINT_v1.md` §2-§3; `docs/archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md`; `docs/datasets/paper-public-source-registry-v1.json`; `docs/datasets/2026-09-24_dB_licence_evidence.md`; `docs/datasets/2026-10-05_rq2_candidate_source_screening_v1.md`; `docs/datasets/2026-10-05_model_training_go_application_v1.md`; repository `data/` inventory; `research/thesis_experience_v1/` existence check (absent).
 
 **No Git-tracked data body was opened, nothing was downloaded, no model or service was called, and no runner was created. This report does not authorise WP-1 or WP-2.**
 

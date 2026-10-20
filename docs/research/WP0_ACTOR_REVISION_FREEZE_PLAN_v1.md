@@ -1,7 +1,7 @@
 # WP-0 Actor Revision Freeze Plan v1 (DRAFT)
 
 > date: 2026-10-13 | author: Loop D | status: `PLAN_ONLY - NOTHING EXECUTED` | no model load, no sampling, no training.
-> parents: [task card](thesis_experience_v1_task_card.md) Sec.3.2/3.4, [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md), [qualification appendix](WP0_TATQA_QUALIFICATION_APPENDIX_v1.md) Sec.4-5.
+> parents: [task card](../archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md) Sec.3.2/3.4, [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md), [qualification appendix](WP0_TATQA_QUALIFICATION_APPENDIX_v1.md) Sec.4-5.
 
 ## 1. Purpose
 

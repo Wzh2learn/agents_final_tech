@@ -41,6 +41,7 @@ files = [
   "m1_rag_tag_doctype.py",
   "m1_scenario1_regression.py",
   "opencode_session_cleanup.py",
+  "pre_submission_audit.py",
   "qoder_settings_template.json",
   "qwen_harness_tools.py",
   "restart_m1_harness.sh",
@@ -54,6 +55,7 @@ files = [
   "smoke_test_vision_mcp_server.py",
   "smoke_test_vision_model.py",
   "switch_codex_model.sh",
+  "verify_claim_evidence.py",
   "verify_config.py",
   "vllm_probe_serve.sh",
 ]

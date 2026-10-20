@@ -1,7 +1,7 @@
 # WP-0 TAT-QA Feedback-Right Contract (DRAFT v1)
 
 > date: 2026-10-13 | author: Loop D | status: `DRAFT_FOR_ADVISOR_APPROVAL - NOT IN FORCE` | no execution, no model call. Nothing here authorises sampling, runs, or training.
-> parents: [task card](thesis_experience_v1_task_card.md) Sec.3.2, [package](WP0_TATQA_PACKAGE_v1.md) Sec.5-7, [adapter/checker contract](WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md).
+> parents: [task card](../archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md) Sec.3.2, [package](WP0_TATQA_PACKAGE_v1.md) Sec.5-7, [adapter/checker contract](WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md).
 
 ## 1. Purpose
 

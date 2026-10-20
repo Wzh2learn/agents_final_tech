@@ -1,7 +1,7 @@
 # WP-0 TAT-QA Loop A Execution Package v1 (DRAFT - NOT DISPATCHED)
 
 > date: 2026-10-13 | author: Loop D | status: `READY_TO_DISPATCH_AFTER_APPROVAL` | zero model calls; fixture-first; no training.
-> parents: [adapter/checker contract](WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md), [evaluation protocol](WP0_TATQA_EVALUATION_PROTOCOL_v1.md), [task card](thesis_experience_v1_task_card.md) Sec.3-4, [exec constraints](../../scripts/graph/loop_a_exec_constraints.md), [launcher](../governance/loop_ac_launcher_v1.md).
+> parents: [adapter/checker contract](WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md), [evaluation protocol](WP0_TATQA_EVALUATION_PROTOCOL_v1.md), [task card](../archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md) Sec.3-4, [exec constraints](../../scripts/graph/loop_a_exec_constraints.md), [launcher](../governance/loop_ac_launcher_v1.md).
 
 ## 1. Preconditions (all required before dispatch)
 

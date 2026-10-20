@@ -2,7 +2,7 @@
 
 > date: 2026-10-13 | author: Loop D | status: `APPENDIX_FILED / G-RQ: recommend QUALIFIED_CONDITIONAL (owner-advisor decision pending) / G-M: HOLD (NOT_IDENTIFIED) / EXPERIMENT_NOT_RUN`
 > scope: closes items A1-A6 of `WP0_TATQA_PACKAGE_v1.md` Sec.6. Executed: licence record, owner-authorised raw fetch, origin build, candidate-item build, contracts. Not executed: runner (WP-1), pilot (WP-2), any model call, any training, Memory/SFT/DPO.
-> owners of record: [task card](thesis_experience_v1_task_card.md) (G-RQ/G-M), [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md) (numbers), [package](WP0_TATQA_PACKAGE_v1.md) (plan), [licence record](../datasets/tatqa_licence_record_v1.md).
+> owners of record: [task card](../archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md) (G-RQ/G-M), [blueprint](THESIS_EXECUTION_BLUEPRINT_v1.md) (numbers), [package](WP0_TATQA_PACKAGE_v1.md) (plan), [licence record](../datasets/tatqa_licence_record_v1.md).
 
 ## 1. What changed since the SOURCE_INSUFFICIENT report
 
@@ -72,6 +72,6 @@ Unchanged. Materials qualification does not create method necessity: no residual
 - Build script + receipt: `research/tatqa_wp0_2026/build_origins.py`; GB10 `data/research/tatqa_wp0_2026/GENERATION_RECEIPT.json`.
 - Probes + frozen facts: `research/tatqa_wp0_2026/README.md`, `research/tatqa_wp0_2026/probes/p5-p9`.
 - Contracts: `docs/research/WP0_TATQA_ADAPTER_CHECKER_CONTRACT_v1.md`.
-- Gates: `docs/research/thesis_experience_v1_task_card.md`, `docs/research/THESIS_EXECUTION_BLUEPRINT_v1.md`, `docs/research/WP0_QUALIFICATION_REPORT_v1.md` (update Sec.10).
+- Gates: `docs/archive/2026-10-20_entry_consolidation/thesis_experience_v1_task_card.md`, `docs/research/THESIS_EXECUTION_BLUEPRINT_v1.md`, `docs/research/WP0_QUALIFICATION_REPORT_v1.md` (update Sec.10).
 
 **This appendix does not authorise WP-1 or WP-2, does not run anything, and does not certify method novelty.**
